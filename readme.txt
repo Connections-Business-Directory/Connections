@@ -8,7 +8,7 @@ Stable tag: 0.7.1.6
 Connections is a simple to use directory manager for an addressbook, business, staff or church directory.
 
 == Description ==
-Test
+
 Connections is a simple to use and versatile directory manager. You can use it for an address book, create a church directory, business directory, staff directory and even profiles pages by using templates. If none of the default templates suit your needs, you can easily create your own custom template. Want to show a list of upcoming birthdays and anniversaries, no problem, you can do that too. Take a look at the screen shots and the samples to see all Connections can do.
 
 = Requirements =

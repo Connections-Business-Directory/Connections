@@ -1,0 +1,5 @@
+div.dashboard-recent-modified { background-color:#FFFFFF; border:1px solid #E3E3E3; position: relative; }
+div.dashboard-recent-modified a { text-decoration: none; }
+div.dashboard-recent-modified div.cn-list-row { margin: 0; padding: 4px; }
+div.dashboard-recent-modified div.cn-list-row-alternate { background-color: #F9F9F9; margin: 0; padding: 4px; }
+div.dashboard-recent-modified span.cn-list-date { position: absolute; right: 4px; }

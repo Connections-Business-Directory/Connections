@@ -1,0 +1,59 @@
+/*
+ * @author:  Phill Pafford
+ * @website: http://llihp.blogspot.com
+ */
+
+#contact-info{
+    position:absolute;
+    border:1px solid #ccc;
+    background:#333;
+    padding:10px;
+    display:none;
+    color:#fff;
+    width:350px;
+    z-index:100;
+    
+    /* Rounded Corners for CSS3 */
+    -moz-border-radius-topright:20px;
+    -webkit-border-top-right-radius:20px;
+    -moz-border-radius-bottomleft:20px;
+    -webkit-border-bottom-left-radius:20px;
+}
+#close-contact{
+    color:red;   
+}
+#close-contact-footer{
+    text-align:right; 
+}
+.google-maps-link{
+    color:#33CCFF; 
+    text-decoration:none;   
+}
+.member-entry{
+    -moz-border-radius:4px; 
+    background-color:#FFFFFF; 
+    border:1px solid #E3E3E3; 
+    margin:8px 0px; 
+    padding:6px; 
+    position:relative;
+}
+.member-details{
+    font-size:14px; 
+    font-variant: small-caps;
+}
+#popup-group-name {
+    color:#33CCFF; 
+    font-size:13px;
+    text-align:center;
+    font-variant: small-caps;
+}
+#popup-group-members{
+    color:#33CCFF; 
+    font-size:15px;
+    text-align:center;
+    font-variant: small-caps;   
+}
+.m-contact{
+    font-size:14px; 
+    font-variant: small-caps;    
+}

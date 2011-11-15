@@ -1,0 +1,5 @@
+div.cn-upcoming { -moz-border-radius:4px; background-color:#FFFFFF; border:1px solid #E3E3E3; margin:8px 0px; position: relative; }
+div.cn-upcoming-title { font-size: large; font-variant: small-caps; font-weight: bold; margin: 6px 0; text-align: center; }
+div.cn-upcoming-row { margin: 0; padding: 4px; }
+div.cn-upcoming-row-alternate { background-color: #F9F9F9; margin: 0; padding: 4px; }
+span.cn-upcoming-date { position: absolute; right: 4px; }

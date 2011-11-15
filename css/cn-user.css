@@ -1,0 +1,20 @@
+span.cn-image {
+	background:url("../images/loading.gif") transparent no-repeat 50% 50%;
+	display: block;
+	position: relative;
+}
+span.cn-image img {
+	border: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	visibility: hidden;
+}
+span.cn-image-style {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	margin: 0 0 5px;
+	padding: 5px;
+}

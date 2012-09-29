@@ -17,7 +17,7 @@ function connectionsShowRolesPage()
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">You do not have sufficient permissions to access this page.</p>');
+				width:700px">' . __('You do not have sufficient permissions to access this page.', 'connections') . '</p>');
 	}
 	else
 	{
@@ -29,11 +29,9 @@ function connectionsShowRolesPage()
 		
 	?>
 		<div class="wrap cn-roles">
-			<div id="icon-connections" class="icon32">
-		        <br>
-		    </div>
+			<?php echo get_screen_icon('connections'); ?>
 			
-			<h2>Connections : Roles &amp; Capabilities</h2>
+			<h2>Connections : <?php _e('Roles &amp; Capabilities','connections'); ?></h2>
 			
 			<?php 
 				$attr = array(
@@ -49,8 +47,8 @@ function connectionsShowRolesPage()
 				
 				<div class="inner-sidebar" id="side-info-column">
 					<div id="submitdiv" class="postbox">
-						<h3 class="hndle">
-							<span>Save Changes or Reset</span>
+						<h3 class="hndle" style="cursor: auto;">
+							<span><?php _e('Save Changes or Reset', 'connections'); ?></span>
 						</h3>
 						
 						<div class="inside">
@@ -58,13 +56,13 @@ function connectionsShowRolesPage()
 							<div id="minor-publishing">
 								<label for="reset_all_roles">
 									<input type="checkbox" id="reset_all_roles" name="reset_all" value="true">
-									Reset All Role Capabilities
+									<?php _e('Reset All Role Capabilities', 'connections'); ?>
 								</label>
 							</div>
 							
 							<div id="major-publishing-actions">
 								<div id="publishing-action">
-									<input class="button-primary" type="submit" value="Update" name="save" />
+									<input class="button-primary" type="submit" value="<?php _e('Update', 'connections'); ?>" name="save" />
 								</div>
 								<div class="clear"></div>
 							</div>
@@ -89,31 +87,31 @@ function connectionsShowRolesPage()
 								
 								echo '<div class="postbox">';
 								
-								echo '<h3 class="hndle"><span>' , $name , '</span></h3>';
-								
-								echo '<div class="inside">';
-								
-								foreach ($capabilies as $capability => $capabilityName)
-								{
-									// if unregistered users are permitted to view the entry list there is no need for setting this capability
-									if ($capability == 'connections_view_public' && $connections->options->getAllowPublic() == true) continue;
+									echo '<h3 class="hndle" style="cursor: auto;"><span>' , $name , '</span></h3>';
 									
-									echo '<label for="' . $role . '_' . $capability . '">';
-									echo '<input type="hidden" name="roles[' . $role . '][capabilities][' . $capability . ']" value="false" />';
-									echo '<input type="checkbox" id="' . $role . '_' . $capability . '" name="roles[' . $role . '][capabilities][' . $capability . ']" value="true" '; 
-									
-									if ($connections->options->hasCapability($role, $capability)) echo 'CHECKED ';
-									// the admininistrator should always have all capabilities
-									if ($role == 'administrator') echo 'DISABLED ';
-									echo '/> ' . $capabilityName . '</label>' . "\n";
-									
-								}
-								
-								echo '<label for="' . $role . '_reset_capabilities">';
-								echo '<input type="checkbox" id="' . $role . '_reset_capabilities" name="reset[' . $role . ']" value="' . $name . '" ';
-								echo '/> Reset ' . $name . ' Capabilities</label>' . "\n";
-								
-								echo '</div>';
+									echo '<div class="inside">';
+										
+										foreach ($capabilies as $capability => $capabilityName)
+										{
+											// if unregistered users are permitted to view the entry list there is no need for setting this capability
+											if ($capability == 'connections_view_public' && $connections->options->getAllowPublic() == true) continue;
+											
+											echo '<span style="display: block;"><label for="' . $role . '_' . $capability . '">';
+											echo '<input type="hidden" name="roles[' . $role . '][capabilities][' . $capability . ']" value="false" />';
+											echo '<input type="checkbox" id="' . $role . '_' . $capability . '" name="roles[' . $role . '][capabilities][' . $capability . ']" value="true" '; 
+											
+											if ($connections->options->hasCapability($role, $capability)) echo 'CHECKED ';
+											// the admininistrator should always have all capabilities
+											if ($role == 'administrator') echo 'DISABLED ';
+											echo '/> ' . $capabilityName . '</label></span>' . "\n";
+											
+										}
+										
+										echo '<span style="display: block;"><label for="' . $role . '_reset_capabilities">';
+										echo '<input type="checkbox" id="' . $role . '_reset_capabilities" name="reset[' . $role . ']" value="' . $name . '" /> ';
+										echo sprintf( __('Reset %s Capabilities', 'connections') , $name ) . '</label></span>' . "\n";
+										
+									echo '</div>';
 								echo '</div>';
 							}
 						?>

@@ -17,7 +17,7 @@ function connectionsShowCategoriesPage()
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">You do not have sufficient permissions to access this page.</p>');
+				width:700px">' . __('You do not have sufficient permissions to access this page.', 'connections') . '</p>');
 	}
 	else
 	{
@@ -41,7 +41,7 @@ function connectionsShowCategoriesPage()
 			?>
 			<div class="wrap">
 				<div class="form-wrap" style="width:600px; margin: 0 auto;">
-					<h2><a name="new"></a>Edit Category</h2>
+					<h2><a name="new"></a><?php _e('Edit Category', 'connections'); ?></h2>
 			
 					<?php
 						$attr = array(
@@ -57,7 +57,7 @@ function connectionsShowCategoriesPage()
 						$categoryObjects->showForm($connections->retrieve->category($id));
 					?>
 					
-					<p class="submit"><a class="button button-warning" href="admin.php?page=connections_categories">Cancel</a> <input class="button-primary" type="submit" value="Update Category" name="update" class="button"/></p>
+					<p class="submit"><a class="button button-warning" href="admin.php?page=connections_categories"><?php _e('Cancel', 'connections'); ?></a> <input class="button-primary" type="submit" value="<?php _e('Update Category', 'connections'); ?>" name="update" class="button"/></p>
 					
 					<?php $form->close(); ?>
 			
@@ -69,8 +69,8 @@ function connectionsShowCategoriesPage()
 		{
 			?>
 				<div class="wrap nosubsub">
-					<div class="icon32" id="icon-connections"><br/></div>
-					<h2>Connections : Categories</h2>
+					<?php echo get_screen_icon('connections'); ?>
+					<h2>Connections : <?php _e('Categories','connections'); ?></h2>
 					<?php echo $connections->displayMessages(); ?>
 					<div id="col-container">
 					
@@ -89,10 +89,10 @@ function connectionsShowCategoriesPage()
 									<div class="tablenav">
 										<div class="alignleft actions">
 											<select name="action">
-												<option selected="selected" value="">Bulk Actions</option>
-												<option value="delete">Delete</option>
+												<option selected="selected" value=""><?php _e('Bulk Actions', 'connections'); ?></option>
+												<option value="delete"><?php _e('Delete', 'connections'); ?></option>
 											</select>
-											<input type="submit" class="button-secondary action" id="doaction" name="doaction" value="Apply"/>
+											<input type="submit" class="button-secondary action" id="doaction" name="doaction" value="<?php _e('Apply','connections'); ?>"/>
 										</div>
 										
 										<br class="clear"/>
@@ -104,20 +104,20 @@ function connectionsShowCategoriesPage()
 										<thead>
 											<tr>
 												<th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></th>
-												<th class="manage-column column-name" id="name" scope="col">Name</th>
-												<th class="manage-column column-description" id="description" scope="col">Description</th>
-												<th class="manage-column column-slug" id="slug" scope="col">Slug</th>
-												<th class="manage-column column-posts" id="posts" scope="col">Info</th>
+												<th class="manage-column column-name" id="name" scope="col"><?php _e('Name', 'connections'); ?></th>
+												<th class="manage-column column-description" id="description" scope="col"><?php _e('Description', 'connections'); ?></th>
+												<th class="manage-column column-slug" id="slug" scope="col"><?php _e('Slug', 'connections'); ?></th>
+												<th class="manage-column column-posts" id="posts" scope="col"><?php _e('Info', 'connections'); ?></th>
 											</tr>
 										</thead>
 									
 										<tfoot>
 											<tr>
 												<th class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></th>
-												<th class="manage-column column-name" scope="col">Name</th>
-												<th class="manage-column column-description" scope="col">Description</th>
-												<th class="manage-column column-slug" scope="col">Slug</th>
-												<th class="manage-column column-posts" scope="col">Info</th>
+												<th class="manage-column column-name" scope="col"><?php _e('Name', 'connections'); ?></th>
+												<th class="manage-column column-description" scope="col"><?php _e('Description', 'connections'); ?></th>
+												<th class="manage-column column-slug" scope="col"><?php _e('Slug', 'connections'); ?></th>
+												<th class="manage-column column-posts" scope="col"><?php _e('Info', 'connections'); ?></th>
 											</tr>
 										</tfoot>
 									
@@ -145,7 +145,7 @@ function connectionsShowCategoriesPage()
 								</script>
 								
 								<div class="form-wrap">
-								<p><strong>Note:</strong><br/>Deleting a category which has been assigned to an entry will reassign that entry as <strong>Uncategorized</strong>.</p>
+								<p><?php _e('<strong>Note:</strong><br/>Deleting a category which has been assigned to an entry will reassign that entry as <strong>Uncategorized</strong>.', 'connections'); ?></p>
 								</div>
 							
 							</div>
@@ -154,7 +154,7 @@ function connectionsShowCategoriesPage()
 						<div id="col-left">
 							<div class="col-wrap">
 								<div class="form-wrap">
-									<h3>Add Category</h3>
+									<h3><?php _e('Add New Category', 'connections'); ?></h3>
 										<?php
 											$attr = array(
 														 'action' => 'admin.php?connections_process=true&process=category&action=add',
@@ -168,7 +168,7 @@ function connectionsShowCategoriesPage()
 											
 											$categoryObjects->showForm();
 										?>
-										<p class="submit"><input type="submit" value="Save Category" name="add" class="button"/></p>
+										<p class="submit"><input type="submit" value="<?php _e('Add New Category', 'connections'); ?>" name="add" class="button"/></p>
 									<?php $form->close(); ?>
 								</div>
 							</div>

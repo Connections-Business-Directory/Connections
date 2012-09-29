@@ -208,8 +208,18 @@ class cnCategory
 	{
 		global $connections;
 		
+		/*$terms = $connections->term->getTermChildrenBy('term_id', $this->parent, 'category');
+		var_dump($this->parent);
+		var_dump($terms);die;*/
+		
 		// If the category already exists, do not let it be created.
-		if ( $connections->term->getTermBy('name', $this->name, 'category') ) return $connections->setErrorMessage('category_duplicate_name');
+		if ( $terms = $connections->term->getTermChildrenBy('term_id', $this->parent, 'category') )
+		{
+			foreach ( $terms as $term )
+			{
+				if ( $this->name == $term->name ) return $connections->setErrorMessage('category_duplicate_name');
+			}
+		}
 		
 		$attributes['slug'] = $this->slug;
 		$attributes['description'] = $this->description;
@@ -247,6 +257,15 @@ class cnCategory
 		$attributes['parent']= $this->parent;
 		$attributes['description'] = $this->description;
 		
+		// If the category already exists, do not let it be created.
+		if ( $terms = $connections->term->getTermChildrenBy('term_id', $this->parent, 'category') )
+		{
+			foreach ( $terms as $term )
+			{
+				if ( $this->name == $term->name ) return $connections->setErrorMessage('category_duplicate_name');
+			}
+		}
+		
 		// Make sure the category isn't being set to itself as a parent.
 		if ($this->id === $this->parent)
 		{
@@ -255,7 +274,7 @@ class cnCategory
 		}
 		
 		// Do not change the uncategorized category
-		if ($this->slug != 'uncategorized')
+		if ( $this->slug != 'uncategorized' )
 		{
 			if ($connections->term->updateTerm($this->id, 'category', $attributes))
 			{

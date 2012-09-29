@@ -6,169 +6,28 @@
 class cnOptions
 {
 	/**
-	 * Array of options returned from WP get_option method
+	 * Array of options returned from WP get_option method.
+	 * 
 	 * @var array
 	 */
 	private $options;
 	
 	/**
-	 * String: plugin version
-	 * @var string
+	 * String: plugin version.
+	 * 
+	 * @var float
 	 */
 	private $version;
 	
 	/**
-	 * String: plugin db version
-	 * @var string
+	 * String: plugin db version.
+	 * 
+	 * @var float
 	 */
 	private $dbVersion;
 	
-	private $defaultCapabilities = array(
-								'connections_view_dashboard' => 'View Dashboard',
-								'connections_manage' => 'View List (Manage)',
-								'connections_add_entry' => 'Add Entry',
-								'connections_add_entry_moderated' => 'Add Entry Moderated',
-								'connections_edit_entry' => 'Edit Entry',
-								'connections_edit_entry_moderated' => 'Edit Entry Moderated',
-								'connections_delete_entry' => 'Delete Entry',
-								'connections_view_public' => 'View Public Entries',
-								'connections_view_private' => 'View Private Entries',
-								'connections_view_unlisted' => 'View Unlisted Entries',
-								'connections_edit_categories' => 'Edit Categories',
-								'connections_change_settings' => 'Change Settings',
-								'connections_manage_template' => 'Manage Templates',
-								'connections_change_roles' => 'Change Role Capabilities',
-								'connections_view_help' => 'View Help'
-							);
-							
-	private $defaultFamilyRelationValues = array(
-											'' =>"Select Relation",
-											'aunt' =>"Aunt",
-											'brother' =>"Brother",
-											'brotherinlaw' =>"Brother-in-law",
-											'cousin' =>"Cousin",
-											'daughter' =>"Daughter",
-											'daughterinlaw' =>"Daughter-in-law",
-											'father' =>"Father",
-											'fatherinlaw' =>"Father-in-law",
-											'granddaughter' =>"Grand Daughter",
-											'grandfather' =>"Grand Father",
-											'grandmother' =>"Grand Mother",
-											'grandson' =>"Grand Son",
-											'greatgrandmother' =>"Great Grand Mother",
-											'greatgrandfather' =>"Great Grand Father",
-											'husband' =>"Husband",
-											'mother' =>"Mother",
-											'motherinlaw' =>"Mother-in-law",
-											'nephew' =>"Nephew",
-											'niece' =>"Niece",
-											'sister' =>"Sister",
-											'sisterinlaw' =>"Sister-in-law",
-											'son' =>"Son",
-											'soninlaw' =>"Son-in-law",
-											'stepbrother' =>"Step Brother",
-											'stepdaughter' =>"Step Daughter",
-											'stepfather' =>"Step Father",
-											'stepmother' =>"Step Mother",
-											'stepsister' =>"Step Sister",
-											'stepson' =>"Step Son",
-											'uncle' =>"Uncle",
-											'wife' =>"Wife"
-											);
-	
-	private $defaultAddressValues	=	array
-											(
-												'home'=>'Home',
-												'work'=>'Work',
-												'school'=>'School',
-												'other'=>'Other'
-											);
-	
-	private $defaultPhoneNumberValues	=	array
-											(
-												'homephone'=>'Home Phone',
-												'homefax'=>'Home Fax',
-												'cellphone'=>'Cell Phone',
-												'workphone'=>'Work Phone',
-												'workfax'=>'Work Fax'
-											);
-	
-	private $defaultSocialMediaValues = array(
-											 'delicious' => 'delicious',
-											 'cdbaby' => 'CD Baby',
-											 'facebook' => 'Facebook',
-											 'flickr' => 'Flickr',
-											 'itunes' => 'iTunes',
-											 'linked-in' => 'Linked-in',
-											 'mixcloud' => 'mixcloud',
-											 'myspace' => 'MySpace',
-											 'podcast' => 'Podcast',
-											 'reverbnation' => 'ReverbNation',
-											 'rss' => 'RSS',
-											 'technorati' => 'Technorati',
-											 'twitter' => 'Twitter',
-											 'soundcloud' => 'SoundCloud',
-											 'youtube' => 'YouTube'
-											 );
-	
-	private $defaultIMValues  =   array
-									(
-										'aim'=>'AIM',
-										'yahoo'=>'Yahoo IM',
-										'jabber'=>'Jabber / Google Talk',
-										'messenger'=>'Messenger',
-										'skype' => 'Skype'
-									);
-	
-	private $defaultEmailValues  =   array
-									(
-										'personal'=>'Personal Email',
-										'work'=>'Work Email'
-									);
-	
-	private $defaultLinkValues  =   array
-									(
-										'website'=>'Website',
-										'blog' => 'Blog'
-									);
-									
-	private $allowPublic;
-	private $allowPublicOverride;
-	
-	private $allowPrivateOverride;
-	
-	private $imgThumbQuality;
-	private $imgThumbX;
-	private $imgThumbY;
-	private $imgThumbCrop;
-	private $imgThumbRatioCrop;
-	private $imgThumbRatioFill;
-	
-	private $imgEntryQuality;
-	private $imgEntryX;
-	private $imgEntryY;
-	private $imgEntryCrop;
-	private $imgEntryRatioCrop;
-	private $imgEntryRatioFill;
-	
-	private $imgProfileQuality;
-	private $imgProfileX;
-	private $imgProfileY;
-	private $imgProfileCrop;
-	private $imgProfileRatioCrop;
-	private $imgProfileRatioFill;
-	
-	private $imgLogoQuality;
-	private $imgLogoX;
-	private $imgLogoY;
-	private $imgLogoCrop;
-	private $imgLogoRatioCrop;
-	private $imgLogoRatioFill;
-	
 	private $defaultTemplatesSet;
 	private $activeTemplates;
-	
-	private $debug;
 	
 	/**
 	 * Current time as reported by PHP in Unix timestamp format.
@@ -207,50 +66,13 @@ class cnOptions
 		global $wpdb;
 		
 		$this->options = get_option('connections_options');
-		$this->version = $this->options['version'];
-		$this->dbVersion = $this->options['db_version'];
 		
-		$this->debug = $this->options['debug'];
-		
-		//$this->entryType = $this->options[$this->currentUserID]['filter']['entry_type'];
-		//$this->visibilityType = $this->options[$this->currentUserID]['filter']['visibility_type'];
-		
-		$this->allowPublic = $this->options['settings']['allow_public'];
-		$this->allowPublicOverride = $this->options['settings']['allow_public_override'];
-		
-		$this->allowPrivateOverride = $this->options['settings']['allow_private_override'];
-		
-		$this->imgThumbQuality = $this->options['settings']['image']['thumbnail']['quality'];
-		$this->imgThumbX = $this->options['settings']['image']['thumbnail']['x'];
-		$this->imgThumbY = $this->options['settings']['image']['thumbnail']['y'];
-		$this->imgThumbCrop = $this->options['settings']['image']['thumbnail']['crop'];
-		$this->imgThumbRatioCrop = $this->options['settings']['image']['thumbnail']['ratio_crop'];
-		$this->imgThumbRatioFill = $this->options['settings']['image']['thumbnail']['ratio_fill'];
-		
-		$this->imgEntryQuality = $this->options['settings']['image']['entry']['quality'];
-		$this->imgEntryX = $this->options['settings']['image']['entry']['x'];
-		$this->imgEntryY = $this->options['settings']['image']['entry']['y'];
-		$this->imgEntryCrop = $this->options['settings']['image']['entry']['crop'];
-		$this->imgEntryRatioCrop = $this->options['settings']['image']['entry']['ratio_crop'];
-		$this->imgEntryRatioFill = $this->options['settings']['image']['entry']['ratio_fill'];
-		
-		$this->imgProfileQuality = $this->options['settings']['image']['profile']['quality'];
-		$this->imgProfileX = $this->options['settings']['image']['profile']['x'];
-		$this->imgProfileY = $this->options['settings']['image']['profile']['y'];
-		$this->imgProfileCrop = $this->options['settings']['image']['profile']['crop'];
-		$this->imgProfileRatioCrop = $this->options['settings']['image']['profile']['ratio_crop'];
-		$this->imgProfileRatioFill = $this->options['settings']['image']['profile']['ratio_fill'];
-		
-		$this->imgLogoQuality = $this->options['settings']['image']['logo']['quality'];
-		$this->imgLogoX = $this->options['settings']['image']['logo']['x'];
-		$this->imgLogoY = $this->options['settings']['image']['logo']['y'];
-		$this->imgLogoCrop = $this->options['settings']['image']['logo']['crop'];
-		$this->imgLogoRatioCrop = $this->options['settings']['image']['logo']['ratio_crop'];
-		$this->imgLogoRatioFill = $this->options['settings']['image']['logo']['ratio_fill'];
+		$this->version = ( isset( $this->options['version'] ) && ! empty( $this->options['version'] ) ) ? $this->options['version'] : CN_CURRENT_VERSION;
+		$this->dbVersion = ( isset( $this->options['db_version'] ) && ! empty( $this->options['db_version'] ) ) ? $this->options['db_version'] : CN_DB_VERSION;
 		
 		$this->defaultTemplatesSet = $this->options['settings']['template']['defaults_set'];
 		$this->activeTemplates = (array) $this->options['settings']['template']['active'];
-				
+		
 		$this->wpCurrentTime = current_time('timestamp');
 		$this->currentTime = date('U');
 		
@@ -274,44 +96,6 @@ class cnOptions
 		$this->options['version'] = $this->version;
 		$this->options['db_version'] = $this->dbVersion;
 		
-		$this->options['debug'] = $this->debug;
-		
-		//$this->options[$this->currentUserID]['filter']['entry_type'] = $this->entryType;
-		//$this->options[$this->currentUserID]['filter']['visibility_type'] = $this->visibilityType;
-		
-		$this->options['settings']['allow_public'] = $this->allowPublic;
-		$this->options['settings']['allow_public_override'] = $this->allowPublicOverride;
-		
-		$this->options['settings']['allow_private_override'] = $this->allowPrivateOverride;
-		
-		$this->options['settings']['image']['thumbnail']['quality'] = $this->imgThumbQuality;
-		$this->options['settings']['image']['thumbnail']['x'] = $this->imgThumbX;
-		$this->options['settings']['image']['thumbnail']['y'] = $this->imgThumbY;
-		$this->options['settings']['image']['thumbnail']['crop'] = $this->imgThumbCrop;
-		$this->options['settings']['image']['thumbnail']['ratio_crop'] = $this->imgThumbRatioCrop;
-		$this->options['settings']['image']['thumbnail']['ratio_fill'] = $this->imgThumbRatioFill;
-		
-		$this->options['settings']['image']['entry']['quality'] = $this->imgEntryQuality;
-		$this->options['settings']['image']['entry']['x'] = $this->imgEntryX;
-		$this->options['settings']['image']['entry']['y'] = $this->imgEntryY;
-		$this->options['settings']['image']['entry']['crop'] = $this->imgEntryCrop;
-		$this->options['settings']['image']['entry']['ratio_crop'] = $this->imgEntryRatioCrop;
-		$this->options['settings']['image']['entry']['ratio_fill'] = $this->imgEntryRatioFill;
-		
-		$this->options['settings']['image']['profile']['quality'] = $this->imgProfileQuality;
-		$this->options['settings']['image']['profile']['x'] = $this->imgProfileX;
-		$this->options['settings']['image']['profile']['y'] = $this->imgProfileY;
-		$this->options['settings']['image']['profile']['crop'] = $this->imgProfileCrop;
-		$this->options['settings']['image']['profile']['ratio_crop'] = $this->imgProfileRatioCrop;
-		$this->options['settings']['image']['profile']['ratio_fill'] = $this->imgProfileRatioFill;
-		
-		$this->options['settings']['image']['logo']['quality'] = $this->imgLogoQuality;
-		$this->options['settings']['image']['logo']['x'] = $this->imgLogoX;
-		$this->options['settings']['image']['logo']['y'] = $this->imgLogoY;
-		$this->options['settings']['image']['logo']['crop'] = $this->imgLogoCrop;
-		$this->options['settings']['image']['logo']['ratio_crop'] = $this->imgLogoRatioCrop;
-		$this->options['settings']['image']['logo']['ratio_fill'] = $this->imgLogoRatioFill;
-		
 		$this->options['settings']['template']['defaults_set'] = $this->defaultTemplatesSet;
 		$this->options['settings']['template']['active'] = $this->activeTemplates;
 		
@@ -322,81 +106,94 @@ class cnOptions
 	{
 		delete_option('connections_options');
 	}
-        
-    /**
-     * Returns $allowPublic.
-     * @see pluginOptions::$allowPublic
+    
+	/**
+     * @TODO This can likely be removed.
      */
-    public function getAllowPublic()
+    public function getOptions()
     {
-        return $this->allowPublic;
+        return $this->options;
     }
     
     /**
-     * Sets $allowPublic.
-     * @param object $allowPublic
-     * @see pluginOptions::$allowPublic
+     * @TODO This can likely be removed.
      */
-    public function setAllowPublic($allowPublic)
+    public function setOptions($options)
+    {
+        $this->options = $options;
+    }
+	
+    /**
+     * Require the user to be logged in to view the directory.
+     * 
+     * @since 0.7.3
+     * @return bool
+     */
+    public function getAllowPublic()
+    {
+        global $connections;
+		
+		$required = $connections->settings->get('connections', 'connections_login', 'required') ? FALSE : TRUE;
+		
+		return $required;
+    }
+    
+    /**
+     * Callback for the "Login Required" settings field.
+     * This ensure all roles are set to have the connections_view_public
+     * capability to ensures all roles can at least view the public entries.
+     * 
+     * @access private
+     * @since 0.7.3
+     * @return int
+     */
+    public function setAllowPublic($loginRequired)
     {
         global $wp_roles;
 		
-		if (!isset($wp_roles))
-		{
-			$wp_roles = new WP_Roles();
-		}
+		if ( ! isset($wp_roles) ) $wp_roles = new WP_Roles();
 		
 		$currentRoles = $wp_roles->get_names();
 		
-		if($allowPublic)
+		if($loginRequired)
 		{
-			$this->allowPublic = TRUE;
+			//$this->allowPublic = TRUE;
 			
 			foreach ($currentRoles as $role => $name)
 			{
 				$this->addCapability($role, 'connections_view_public');
 			}
 		}
-		else
-		{
-			$this->allowPublic = FALSE;
-			/*foreach ($currentRoles as $role => $name)
-			{
-				$this->removeCapability($role, 'connections_view_public');
-			}*/
-		}
 		
+		return $loginRequired;
     }
 
     /**
-     * Returns $allowPublicOverride.
-     * @see pluginOptions::$allowPublicOverride
+     * Disable the shortcode option - public_override.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getAllowPublicOverride()
     {
-        return $this->allowPublicOverride;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_visibility', 'allow_public_override') ? TRUE : FALSE;
     }
     
-    /**
-     * Sets $allowPublicOverride.
-     * @param object $allowPublicOverride
-     * @see pluginOptions::$allowPublicOverride
+	/**
+     * Disable the shortcode option - private_override.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
-    public function setAllowPublicOverride($value)
-    {
-        $this->allowPublicOverride = $value;
-    }
-	
 	public function getAllowPrivateOverride()
     {
-        return $this->allowPrivateOverride;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_visibility', 'allow_private_override') ? TRUE : FALSE;
     }
     
-     public function setAllowPrivateOverride($value)
-    {
-        $this->allowPrivateOverride = $value;
-    }
-	
 	public function hasCapability($role, $cap)
 	{
 		global $wp_roles;
@@ -406,10 +203,7 @@ class cnOptions
 		 * If it hasn't it is initialized. This was done because this method 
 		 * can be called before the $wp_roles has been initialized.
 		 */
-		if (!isset($wp_roles))
-		{
-			$wp_roles = new WP_Roles();
-		}
+		if ( ! isset($wp_roles) ) $wp_roles = new WP_Roles();
 		
 		$wpRoleDataArray = $wp_roles->roles;
 		$wpRoleCaps = $wpRoleDataArray[$role]['capabilities'];
@@ -427,13 +221,10 @@ class cnOptions
 		 * If it hasn't it is initialized. This was done because this method 
 		 * can be called before the $wp_roles has been initialized.
 		 */
-		if (!isset($wp_roles))
-		{
-			$wp_roles = new WP_Roles();
-		}
+		if ( ! isset($wp_roles) ) $wp_roles = new WP_Roles();
 		
 		//$wpRole = get_role($role);
-		if (!$this->hasCapability($role, $cap)) $wp_roles->add_cap($role, $cap);
+		if ( ! $this->hasCapability($role, $cap) ) $wp_roles->add_cap($role, $cap);
 	}
 	
 	public function removeCapability($role, $cap)
@@ -445,23 +236,59 @@ class cnOptions
 		 * If it hasn't it is initialized. This was done because this method 
 		 * can be called before the $wp_roles has been initialized.
 		 */
-		if (!isset($wp_roles))
-		{
-			$wp_roles = new WP_Roles();
-		}
+		if ( ! isset($wp_roles) ) $wp_roles = new WP_Roles();
 		
 		//$wpRole = get_role($role);
-		if ($this->hasCapability($role, $cap)) $wp_roles->remove_cap($role, $cap);
+		if ( $this->hasCapability($role, $cap) ) $wp_roles->remove_cap($role, $cap);
 	}
 	
+	/**
+     * Returns an array of the default capabilities.
+     *
+     * @access private
+     * @since unknown
+     * @return array
+     */
 	public function getDefaultCapabilities()
 	{
-		return $this->defaultCapabilities;
+		return array(
+			'connections_view_dashboard' => __('View Dashboard', 'connections'),
+			'connections_manage' => __('View List (Manage)', 'connections'),
+			'connections_add_entry' => __('Add Entry', 'connections'),
+			'connections_add_entry_moderated' => __('Add Entry Moderated', 'connections'),
+			'connections_edit_entry' => __('Edit Entry', 'connections'),
+			'connections_edit_entry_moderated' => __('Edit Entry Moderated', 'connections'),
+			'connections_delete_entry' => __('Delete Entry', 'connections'),
+			'connections_view_public' => __('View Public Entries', 'connections'),
+			'connections_view_private' => __('View Private Entries', 'connections'),
+			'connections_view_unlisted' => __('View Unlisted Entries', 'connections'),
+			'connections_edit_categories' => __('Edit Categories', 'connections'),
+			'connections_change_settings' => __('Change Settings', 'connections'),
+			'connections_manage_template' => __('Manage Templates', 'connections'),
+			'connections_change_roles' => __('Change Role Capabilities', 'connections')/*,
+			'connections_view_help' => __('View Help', 'connections')*/
+		);
 	}
 	
-	public function setDefaultCapabilities($rolesToReset = null)
+	/**
+     * Reset all Connections' user role capabilities back to their default.
+     * If a role has been supplied, that role will have its capabilities 
+     * reset to its defaults.
+     * 
+     * @access private
+     * @since unknown
+     * @return void
+     */
+	public function setDefaultCapabilities($rolesToReset = NULL)
 	{
 		global $wp_roles;
+		
+		/* 
+		 * Check to make sure $wp_roles has been initialized and set.
+		 * If it hasn't it is initialized. This was done because this method 
+		 * can be called before the $wp_roles has been initialized.
+		 */
+		if ( ! isset($wp_roles) ) $wp_roles = new WP_Roles();
 		
 		/**
 		 * These are the roles that will default to having full access
@@ -474,7 +301,7 @@ class cnOptions
 		 * If no roles are supplied to the method to reset; the method
 		 * will reset the capabilies of all roles defined.
 		 */
-		if (!isset($rolesToReset)) $rolesToReset = $wp_roles->get_names();
+		if ( ! isset($rolesToReset) ) $rolesToReset = $wp_roles->get_names();
 		
 		foreach ($rolesToReset as $role => $name)
 		{
@@ -482,22 +309,22 @@ class cnOptions
 			
 			if (in_array($role, $defaultRoles))
 			{
-				foreach ($this->defaultCapabilities as $cap => $name)
+				foreach ($this->getDefaultCapabilities() as $cap => $name)
 				{
 					if (!$this->hasCapability($role, $cap)) $wpRole->add_cap($cap);
 				}
 			}
 			else
 			{
-				foreach ($this->defaultCapabilities as $cap => $name)
+				foreach ($this->getDefaultCapabilities() as $cap => $name)
 				{
 					if ($this->hasCapability($role, $cap)) $wpRole->remove_cap($cap);
 				}
 			}
 		}
 		
-		// Make sure the capability to view public entries is set for the roles based on the previously saved preference.
-		$this->setAllowPublic($this->allowPublic);
+		// Make sure the capability to view public entries is set for all roles.
+		$this->setAllowPublic(TRUE);
 	}
 	
 	public function removeDefaultCapabilities()
@@ -510,7 +337,7 @@ class cnOptions
 		{
 			$wpRole = get_role($role);
 			
-			foreach ($this->defaultCapabilities as $cap => $name)
+			foreach ($this->getDefaultCapabilities() as $cap => $name)
 			{
 				if ($this->hasCapability($role, $cap)) $wpRole->remove_cap($cap);
 			}
@@ -523,14 +350,7 @@ class cnOptions
      */
     public function getVersion()
     {
-        if ( empty($this->version) )
-		{
-			return NULL;
-		}
-		else
-		{
-			return $this->version;
-		}
+        return $this->version;
     }
     
     /**
@@ -550,14 +370,7 @@ class cnOptions
      */
     public function getDBVersion()
     {
-        if ( empty($this->dbVersion) )
-		{
-			return NULL;
-		}
-		else
-		{
-			return $this->dbVersion;
-		}
+        return $this->dbVersion;
     }
     
     /**
@@ -571,471 +384,461 @@ class cnOptions
 		$this->saveOptions();
     }
 	
-	/**
-	 * Set the image default settings
-	 */
-	public function setDefaultImageSettings()
-	{
-		$this->imgThumbQuality = 80;
-		$this->imgThumbX = 80;
-		$this->imgThumbY = 54;
-		$this->imgThumbCrop = 'crop';
-		$this->imgThumbRatioCrop = true;
-		$this->imgThumbRatioFill = false;
-		
-		$this->imgEntryQuality = 80;
-		$this->imgEntryX = 225;
-		$this->imgEntryY = 150;
-		$this->imgEntryCrop = 'crop';
-		$this->imgEntryRatioCrop = true;
-		$this->imgEntryRatioFill = false;
-		
-		$this->imgProfileQuality = 80;
-		$this->imgProfileX = 300;
-		$this->imgProfileY = 225;
-		$this->imgProfileCrop = 'crop';
-		$this->imgProfileRatioCrop = true;
-		$this->imgProfileRatioFill = false;
-	}
-	
     /**
-     * Returns $imgEntryQuality.
-     * @see pluginOptions::$imgEntryQuality
+     * Medium image quality.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgEntryQuality()
     {
-        return $this->imgEntryQuality;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_medium', 'quality');
     }
     
     /**
-     * Sets $imgEntryQuality.
-     * @param object $imgEntryQuality
-     * @see pluginOptions::$imgEntryQuality
-     */
-    public function setImgEntryQuality($imgEntryQuality)
-    {
-        $this->imgEntryQuality = (integer) $imgEntryQuality;
-    }
-    
-    /**
-     * Returns $imgEntryX.
-     * @see pluginOptions::$imgEntryX
+     * Medium width.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgEntryX()
     {
-        return $this->imgEntryX;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_medium', 'width');
     }
     
     /**
-     * Sets $imgEntryX.
-     * @param object $imgEntryX
-     * @see pluginOptions::$imgEntryX
-     */
-    public function setImgEntryX($imgEntryX)
-    {
-        $this->imgEntryX = (integer) $imgEntryX;
-    }
-    
-    /**
-     * Returns $imgEntryY.
-     * @see pluginOptions::$imgEntryY
+     * Medium height.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgEntryY()
     {
-        return $this->imgEntryY;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_medium', 'height');
     }
     
     /**
-     * Sets $imgEntryY.
-     * @param object $imgEntryY
-     * @see pluginOptions::$imgEntryY
-     */
-    public function setImgEntryY($imgEntryY)
-    {
-        $this->imgEntryY = (integer) $imgEntryY;
-    }
-
-    /**
-     * Returns $imgEntryCrop.
-     * @see pluginOptions::$imgEntryCrop
+     * Medium height.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgEntryCrop()
     {
-        return $this->imgEntryCrop;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_medium', 'ratio');
     }
     
     /**
-     * Sets $imgEntryCrop.
-     * @param object $imgEntryCrop
-     * @see pluginOptions::$imgEntryCrop
-     */
-    public function setImgEntryCrop($imgEntryCrop)
-    {
-        switch ($imgEntryCrop)
-		{
-        	case 'none':
-        		$this->imgEntryRatioCrop = false;
-				$this->imgEntryRatioFill = false;
-				$this->imgEntryCrop = 'none';
-        		break;
-			
-			case 'crop':
-        		$this->imgEntryRatioCrop = true;
-				$this->imgEntryRatioFill = false;
-				$this->imgEntryCrop = 'crop';
-        		break;
-				
-			case 'fill':
-        		$this->imgEntryRatioCrop = false;
-				$this->imgEntryRatioFill = true;
-				$this->imgEntryCrop = 'fill';
-        		break;
-        	
-        	default:
-        		$this->imgEntryRatioCrop = true;
-				$this->imgEntryRatioFill = false;
-				$this->imgEntryCrop = 'crop';
-        		break;
-        }
-		
-    }
-
-    /**
-     * Returns $imgEntryRatioCrop.
-     * @see pluginOptions::$imgEntryRatioCrop
+     * Medium image ratio crop.
+     * 
+     * @access private
+     * @since unknown
+     * @return string
      */
     public function getImgEntryRatioCrop()
     {
-        return $this->imgEntryRatioCrop;
+        global $connections;
+		
+		$imgRatio = $connections->settings->get('connections', 'connections_image_medium', 'ratio');
+		
+		switch ($imgRatio)
+		{
+        	case 'none':
+        		$imgRatioCrop = false;
+        		break;
+			
+			case 'crop':
+        		$imgRatioCrop = true;
+        		break;
+				
+			case 'fill':
+        		$imgRatioCrop = false;
+        		break;
+        }
+		
+		return $imgRatioCrop;
     }
     
     /**
-     * Returns $imgEntryRatioFill.
-     * @see pluginOptions::$imgEntryRatioFill
+     * Medium image ratio fill.
+     * 
+     * @access private
+     * @since unknown
+     * @return string
      */
     public function getImgEntryRatioFill()
     {
-        return $this->imgEntryRatioFill;
+        global $connections;
+		
+		$imgRatio = $connections->settings->get('connections', 'connections_image_medium', 'ratio');
+		
+		switch ($imgRatio)
+		{
+        	case 'none':
+        		$imgRatioFill = false;
+        		break;
+			
+			case 'crop':
+        		$imgRatioFill = false;
+        		break;
+				
+			case 'fill':
+        		$imgRatioFill = true;
+        		break;
+        }
+		
+		return $imgRatioFill;
     }
     
     /**
-     * Returns $imgProfileQuality.
-     * @see pluginOptions::$imgProfileQuality
+     * Large image quality.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgProfileQuality()
     {
-        return $this->imgProfileQuality;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_large', 'quality');
     }
     
     /**
-     * Sets $imgProfileQuality.
-     * @param object $imgProfileQuality
-     * @see pluginOptions::$imgProfileQuality
-     */
-    public function setImgProfileQuality($imgProfileQuality)
-    {
-        $this->imgProfileQuality = (integer) $imgProfileQuality;
-    }
-    
-    /**
-     * Returns $imgProfileX.
-     * @see pluginOptions::$imgProfileX
+     * Large width.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgProfileX()
     {
-        return $this->imgProfileX;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_large', 'width');
     }
     
     /**
-     * Sets $imgProfileX.
-     * @param object $imgProfileX
-     * @see pluginOptions::$imgProfileX
-     */
-    public function setImgProfileX($imgProfileX)
-    {
-        $this->imgProfileX = (integer) $imgProfileX;
-    }
-    
-    /**
-     * Returns $imgProfileY.
-     * @see pluginOptions::$imgProfileY
+     * Large height.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgProfileY()
     {
-        return $this->imgProfileY;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_large', 'height');
     }
     
     /**
-     * Sets $imgProfileY.
-     * @param object $imgProfileY
-     * @see pluginOptions::$imgProfileY
-     */
-    public function setImgProfileY($imgProfileY)
-    {
-        $this->imgProfileY = (integer) $imgProfileY;
-    }
-
-    /**
-     * Returns $imgProfileCrop.
-     * @see pluginOptions::$imgProfileCrop
+     * Large height.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgProfileCrop()
     {
-        return $this->imgProfileCrop;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_large', 'ratio');
     }
     
     /**
-     * Sets $imgProfileCrop.
-     * @param object $imgProfileCrop
-     * @see pluginOptions::$imgProfileCrop
-     */
-    public function setImgProfileCrop($imgProfileCrop)
-    {
-        switch ($imgProfileCrop)
-		{
-        	case 'none':
-        		$this->imgProfileRatioCrop = false;
-				$this->imgProfileRatioFill = false;
-				$this->imgProfileCrop = 'none';
-        		break;
-			
-			case 'crop':
-        		$this->imgProfileRatioCrop = true;
-				$this->imgProfileRatioFill = false;
-				$this->imgProfileCrop = 'crop';
-        		break;
-				
-			case 'fill':
-        		$this->imgProfileRatioCrop = false;
-				$this->imgProfileRatioFill = true;
-				$this->imgProfileCrop = 'fill';
-        		break;
-        	
-        	default:
-        		$this->imgProfileRatioCrop = true;
-				$this->imgProfileRatioFill = false;
-				$this->imgProfileCrop = 'crop';
-        		break;
-        }
-    }
-	
-    /**
-     * Returns $imgProfileRatioCrop.
-     * @see pluginOptions::$imgProfileRatioCrop
+     * Large image ratio crop.
+     * 
+     * @access private
+     * @since unknown
+     * @return string
      */
     public function getImgProfileRatioCrop()
     {
-        return $this->imgProfileRatioCrop;
+        global $connections;
+		
+		$imgRatio = $connections->settings->get('connections', 'connections_image_large', 'ratio');
+		
+		switch ($imgRatio)
+		{
+        	case 'none':
+        		$imgRatioCrop = false;
+        		break;
+			
+			case 'crop':
+        		$imgRatioCrop = true;
+        		break;
+				
+			case 'fill':
+        		$imgRatioCrop = false;
+        		break;
+        }
+		
+		return $imgRatioCrop;
     }
     
     /**
-     * Returns $imgProfileRatioFill.
-     * @see pluginOptions::$imgProfileRatioFill
+     * Large image ratio fill.
+     * 
+     * @access private
+     * @since unknown
+     * @return string
      */
     public function getImgProfileRatioFill()
     {
-        return $this->imgProfileRatioFill;
+        global $connections;
+		
+		$imgRatio = $connections->settings->get('connections', 'connections_image_large', 'ratio');
+		
+		switch ($imgRatio)
+		{
+        	case 'none':
+        		$imgRatioFill = false;
+        		break;
+			
+			case 'crop':
+        		$imgRatioFill = false;
+        		break;
+				
+			case 'fill':
+        		$imgRatioFill = true;
+        		break;
+        }
+		
+		return $imgRatioFill;
     }
     
     /**
-     * Returns $imgThumbQuality.
-     * @see pluginOptions::$imgThumbQuality
+     * Thumbnail image quality.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
-    public function getImgThumbQuality()
+	public function getImgThumbQuality()
     {
-        return $this->imgThumbQuality;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_thumbnail', 'quality');
     }
     
     /**
-     * Sets $imgThumbQuality.
-     * @param object $imgThumbQuality
-     * @see pluginOptions::$imgThumbQuality
-     */
-    public function setImgThumbQuality($imgThumbQuality)
-    {
-        $this->imgThumbQuality = (integer) $imgThumbQuality;
-    }
-    
-    /**
-     * Returns $imgThumbX.
-     * @see pluginOptions::$imgThumbX
+     * Thumbnail width.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgThumbX()
     {
-        return $this->imgThumbX;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_thumbnail', 'width');
     }
     
     /**
-     * Sets $imgThumbX.
-     * @param object $imgThumbX
-     * @see pluginOptions::$imgThumbX
-     */
-    public function setImgThumbX($imgThumbX)
-    {
-        $this->imgThumbX = (integer) $imgThumbX;
-    }
-    
-    /**
-     * Returns $imgThumbY.
-     * @see pluginOptions::$imgThumbY
+     * Thumbnail height.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgThumbY()
     {
-        return $this->imgThumbY;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_thumbnail', 'height');
     }
     
     /**
-     * Sets $imgThumbY.
-     * @param object $imgThumbY
-     * @see pluginOptions::$imgThumbY
-     */
-    public function setImgThumbY($imgThumbY)
-    {
-        $this->imgThumbY = (integer) $imgThumbY;
-    }
-	
-	/**
-     * Returns $imgThumbCrop.
-     * @see pluginOptions::$imgThumbCrop
+     * Thumbnail height.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
      */
     public function getImgThumbCrop()
     {
-        return $this->imgThumbCrop;
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_thumbnail', 'ratio');
     }
     
     /**
-     * Sets $imgThumbCrop.
-     * @param object $imgThumbCrop
-     * @see pluginOptions::$imgThumbCrop
-     */
-    public function setImgThumbCrop($imgThumbCrop)
-    {
-        switch ($imgThumbCrop)
-		{
-        	case 'none':
-        		$this->imgThumbRatioCrop = false;
-				$this->imgThumbRatioFill = false;
-				$this->imgThumbCrop = 'none';
-        		break;
-			
-			case 'crop':
-        		$this->imgThumbRatioCrop = true;
-				$this->imgThumbRatioFill = false;
-				$this->imgThumbCrop = 'crop';
-        		break;
-				
-			case 'fill':
-        		$this->imgThumbRatioCrop = false;
-				$this->imgThumbRatioFill = true;
-				$this->imgThumbCrop = 'fill';
-        		break;
-        	
-        	default:
-        		$this->imgThumbRatioCrop = true;
-				$this->imgThumbRatioFill = false;
-				$this->imgThumbCrop = 'crop';
-        		break;
-        }
-		
-    }
-
-    /**
-     * Returns $imgThumbRatioCrop.
-     * @see pluginOptions::$imgThumbRatioCrop
+     * Thumbnail image ratio crop.
+     * 
+     * @access private
+     * @since unknown
+     * @return string
      */
     public function getImgThumbRatioCrop()
     {
-        return $this->imgThumbRatioCrop;
-    }
-    
-    /**
-     * Returns $imgThumbRatioFill.
-     * @see pluginOptions::$imgThumbRatioFill
-     */
-    public function getImgThumbRatioFill()
-    {
-        return $this->imgThumbRatioFill;
-    }
-    
-	
-	
-	public function getImgLogoQuality()
-    {
-        return $this->imgLogoQuality;
-    }
-    
-    public function setImgLogoQuality($imgLogoQuality)
-    {
-        $this->imgLogoQuality = (integer) $imgLogoQuality;
-    }
-    
-    public function getImgLogoX()
-    {
-        return $this->imgLogoX;
-    }
-    
-    public function setImgLogoX($imgLogoX)
-    {
-        $this->imgLogoX = (integer) $imgLogoX;
-    }
-    
-    public function getImgLogoY()
-    {
-        return $this->imgLogoY;
-    }
-    
-    public function setImgLogoY($imgLogoY)
-    {
-        $this->imgLogoY = (integer) $imgLogoY;
-    }
-	
-	public function getImgLogoCrop()
-    {
-        return $this->imgLogoCrop;
-    }
-    
-    public function setImgLogoCrop($imgLogoCrop)
-    {
-        switch ($imgLogoCrop)
+        global $connections;
+		
+		$imgRatio = $connections->settings->get('connections', 'connections_image_thumbnail', 'ratio');
+		
+		switch ($imgRatio)
 		{
         	case 'none':
-        		$this->imgLogoRatioCrop = false;
-				$this->imgLogoRatioFill = false;
-				$this->imgLogoCrop = 'none';
+        		$imgRatioCrop = false;
         		break;
 			
 			case 'crop':
-        		$this->imgLogoRatioCrop = true;
-				$this->imgLogoRatioFill = false;
-				$this->imgLogoCrop = 'crop';
+        		$imgRatioCrop = true;
         		break;
 				
 			case 'fill':
-        		$this->imgLogoRatioCrop = false;
-				$this->imgLogoRatioFill = true;
-				$this->imgLogoCrop = 'fill';
-        		break;
-        	
-        	default:
-        		$this->imgLogoRatioCrop = true;
-				$this->imgLogoRatioFill = false;
-				$this->imgLogoCrop = 'crop';
+        		$imgRatioCrop = false;
         		break;
         }
 		
-    }
-
-    public function getImgLogoRatioCrop()
-    {
-        return $this->imgLogoRatioCrop;
+		return $imgRatioCrop;
     }
     
+    /**
+     * Thumbnail image ratio fill.
+     * 
+     * @access private
+     * @since unknown
+     * @return string
+     */
+    public function getImgThumbRatioFill()
+    {
+        global $connections;
+		
+		$imgRatio = $connections->settings->get('connections', 'connections_image_thumbnail', 'ratio');
+		
+		switch ($imgRatio)
+		{
+        	case 'none':
+        		$imgRatioFill = false;
+        		break;
+			
+			case 'crop':
+        		$imgRatioFill = false;
+        		break;
+				
+			case 'fill':
+        		$imgRatioFill = true;
+        		break;
+        }
+		
+		return $imgRatioFill;
+    }
+    
+	/**
+     * Logo image quality.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
+     */
+	public function getImgLogoQuality()
+    {
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_logo', 'quality');
+    }
+    
+    /**
+     * Logo width.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
+     */
+    public function getImgLogoX()
+    {
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_logo', 'width');
+    }
+    
+    /**
+     * Logo height.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
+     */
+    public function getImgLogoY()
+    {
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_logo', 'height');
+    }
+    
+    /**
+     * Medium height.
+     * 
+     * @deprecated since 0.7.3
+     * @return int
+     */
+	public function getImgLogoCrop()
+    {
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_image_logo', 'ratio');
+    }
+    
+	/**
+     * Logo image ratio crop.
+     * 
+     * @access private
+     * @since unknown
+     * @return string
+     */
+    public function getImgLogoRatioCrop()
+    {
+        global $connections;
+		
+		$imgRatio = $connections->settings->get('connections', 'connections_image_logo', 'ratio');
+		
+		switch ($imgRatio)
+		{
+        	case 'none':
+        		$imgRatioCrop = false;
+        		break;
+			
+			case 'crop':
+        		$imgRatioCrop = true;
+        		break;
+				
+			case 'fill':
+        		$imgRatioCrop = false;
+        		break;
+        }
+		
+		return $imgRatioCrop;
+    }
+    
+	/**
+     * Logo image ratio fill.
+     * 
+     * @access private
+     * @since unknown
+     * @return string
+     */
     public function getImgLogoRatioFill()
     {
-        return $this->imgLogoRatioFill;
+        global $connections;
+		
+		$imgRatio = $connections->settings->get('connections', 'connections_image_thumbnail', 'ratio');
+		
+		switch ($imgRatio)
+		{
+        	case 'none':
+        		$imgRatioFill = false;
+        		break;
+			
+			case 'crop':
+        		$imgRatioFill = false;
+        		break;
+				
+			case 'fill':
+        		$imgRatioFill = true;
+        		break;
+        }
+		
+		return $imgRatioFill;
     }
-	
-	
 	
     /**
      * Returns $defaultTemplatesSet.
@@ -1056,9 +859,8 @@ class cnOptions
         $this->defaultTemplatesSet = $defaultTemplatesSet;
     }
     
-    
     /**
-     * Returns the active template by type.
+     * Returns the active templates by type.
      * 
      * @param string $type
      * @return object || NULL
@@ -1074,7 +876,6 @@ class cnOptions
      *
      * @param string $type
      * @param object $activeTemplate
-     * @see cnOptions::$activeTemplate
      */
     public function setActiveTemplate($type, $activeTemplate)
 	{
@@ -1099,108 +900,406 @@ class cnOptions
 		
 		$this->defaultTemplatesSet = TRUE;
 	}
-
+	
+	/**
+     * Returns an array of the default family relation types.
+     *
+     * @access private
+     * @since unknown
+     * @return array
+     */
     public function getDefaultFamilyRelationValues()
     {
-        return $this->defaultFamilyRelationValues;
+        return array(
+			'' => __('Select Relation', 'connections'),
+			'aunt' => __('Aunt', 'connections'),
+			'brother' => __('Brother', 'connections'),
+			'brotherinlaw' => __('Brother-in-law', 'connections'),
+			'cousin' => __('Cousin', 'connections'),
+			'daughter' => __('Daughter', 'connections'),
+			'daughterinlaw' => __('Daughter-in-law', 'connections'),
+			'father' => __('Father', 'connections'),
+			'fatherinlaw' => __('Father-in-law', 'connections'),
+			'granddaughter' => __('Grand Daughter', 'connections'),
+			'grandfather' => __('Grand Father', 'connections'),
+			'grandmother' => __('Grand Mother', 'connections'),
+			'grandson' => __('Grand Son', 'connections'),
+			'greatgrandmother' => __('Great Grand Mother', 'connections'),
+			'greatgrandfather' => __('Great Grand Father', 'connections'),
+			'husband' => __('Husband', 'connections'),
+			'mother' => __('Mother', 'connections'),
+			'motherinlaw' => __('Mother-in-law', 'connections'),
+			'nephew' => __('Nephew', 'connections'),
+			'niece' => __('Niece', 'connections'),
+			'sister' => __('Sister', 'connections'),
+			'sisterinlaw' => __('Sister-in-law', 'connections'),
+			'son' => __('Son', 'connections'),
+			'soninlaw' => __('Son-in-law', 'connections'),
+			'stepbrother' => __('Step Brother', 'connections'),
+			'stepdaughter' => __('Step Daughter', 'connections'),
+			'stepfather' => __('Step Father', 'connections'),
+			'stepmother' => __('Step Mother', 'connections'),
+			'stepsister' => __('Step Sister', 'connections'),
+			'stepson' => __('Step Son', 'connections'),
+			'uncle' => __('Uncle', 'connections'),
+			'wife' => __('Wife', 'connections')
+		);
     }
     
+	/**
+     * Returns the fmaily relation name based on the supplied key.
+     *
+     * @access private
+     * @since unknown
+     * @param $value string
+     * @return string
+     */
 	public function getFamilyRelation($value)
     {
-        return $this->defaultFamilyRelationValues[$value];
+        $relations = $this->getDefaultFamilyRelationValues();
+		
+		return $relations[$value];
     }
 	
     /**
-     * Returns $defaultAddressValues.
+     * Returns an array of the default address types.
      *
-     * @see cnOptions::$defaultAddressValues
+     * @access private
+     * @since unknown
+     * @return array
      */
-    public function getDefaultAddressValues() {
-        return $this->defaultAddressValues;
+    public function getDefaultAddressValues()
+	{
+        $defaultAddressValues = array(
+			'home' => __( 'Home' , 'connections' ),
+			'work' => __( 'Work' , 'connections' ),
+			'school' => __( 'School' , 'connections' ),
+			'other' => __( 'Other' , 'connections' )
+		);
+		
+		return $defaultAddressValues;
     }
-    
     
     /**
-     * Returns $defaultPhoneNumberValues.
+     * Returns an array of the default phone types.
      *
-     * @see cnOptions::$defaultPhoneNumberValues
+     * @access private
+     * @since unknown
+     * @return array
      */
-    public function getDefaultPhoneNumberValues() {
-        return $this->defaultPhoneNumberValues;
+    public function getDefaultPhoneNumberValues()
+	{
+        $defaultPhoneNumberValues = array(
+			'homephone' => __( 'Home Phone' , 'connections' ),
+			'homefax' => __( 'Home Fax' , 'connections' ),
+			'cellphone' => __( 'Cell Phone' , 'connections' ),
+			'workphone' => __( 'Work Phone' , 'connections' ),
+			'workfax' => __( 'Work Fax' , 'connections' )
+		);
+		
+		return $defaultPhoneNumberValues;
     }
     
-	
+	/**
+     * Returns an array of the default social media types.
+     *
+     * @access private
+     * @since unknown
+     * @return array
+     */
 	public function getDefaultSocialMediaValues()
     {
-        return $this->defaultSocialMediaValues;
+        return array(
+			 'delicious' => 'delicious',
+			 'cdbaby' => 'CD Baby',
+			 'facebook' => 'Facebook',
+			 'flickr' => 'Flickr',
+			 'foursquare' => 'foursquare',
+			 'googleplus' => 'Google+',
+			 'itunes' => 'iTunes',
+			 'linked-in' => 'Linked-in',
+			 'mixcloud' => 'mixcloud',
+			 'myspace' => 'MySpace',
+			 'odnoklassniki' => 'Odnoklassniki',
+			 'pinterest' => 'Pinterest',
+			 'podcast' => 'Podcast',
+			 'reverbnation' => 'ReverbNation',
+			 'rss' => 'RSS',
+			 'soundcloud' => 'SoundCloud',
+			 'technorati' => 'Technorati',
+			 'tripadvisor' => 'TripAdvisor',
+			 'twitter' => 'Twitter',
+			 'vimeo' => 'vimeo',
+			 'vk' => 'VK',
+			 'youtube' => 'YouTube'
+			 
+		);
     }
     
     /**
-     * Returns $defaultIMValues.
+     * Returns an array of the default IM types.
      *
-     * @see cnOptions::$defaultIMValues
+     * @access private
+     * @since unknown
+     * @return array
      */
-    public function getDefaultIMValues() {
-        return $this->defaultIMValues;
-    }
-    
-    /**
-     * Returns $defaultEmailValues.
-     *
-     * @see cnOptions::$defaultEmailValues
-     */
-    public function getDefaultEmailValues() {
-        return $this->defaultEmailValues;
-    }
-    
-    /**
-     * Returns $defaultLinkValues.
-     *
-     * @see cnOptions::$defaultLinkValues
-     */
-    public function getDefaultLinkValues() {
-        return $this->defaultLinkValues;
-    }
-    
-    /**
-     * Sets $defaultLinkValues.
-     *
-     * @param object $defaultLinkValues
-     * @see cnOptions::$defaultLinkValues
-     */
-    public function setDefaultLinkValues($defaultLinkValues) {
-        $this->defaultLinkValues = $defaultLinkValues;
-    }
-    
-	public function setDebug( $bool )
+    public function getDefaultIMValues()
 	{
-		$this->debug = $bool;
-	}
+        return array(
+			'aim'=>'AIM',
+			'yahoo'=>'Yahoo IM',
+			'jabber'=>'Jabber / Google Talk',
+			'messenger'=>'Messenger',
+			'skype' => 'Skype',
+			'icq' => 'ICQ'
+		);
+    }
+    
+    /**
+     * Returns an array of the default email types.
+     *
+     * @access private
+     * @since unknown
+     * @return array
+     */
+    public function getDefaultEmailValues()
+	{
+        $defaultEmailValues = array(
+			'personal' => __( 'Personal Email' , 'connections' ),
+			'work' => __( 'Work Email' , 'connections' )
+		);
+		
+		return $defaultEmailValues;
+    }
+    
+    /**
+     * Returns an array of the default link types.
+     * 
+     * @access private
+     * @since unknown
+     * @return array
+     */
+    public function getDefaultLinkValues()
+	{
+        $defaultLinkValues = array(
+			'website' => __( 'Website' , 'connections' ),
+			'blog' => __( 'Blog' , 'connections' )
+		);
+		
+		return $defaultLinkValues;
+    }
+    
+	/**
+     * Returns an array of the default date types.
+     *
+     * @access private
+     * @since 0.7.3
+     * @return array
+     */
+    public function getDateOptions()
+	{
+        $dateOptions = array(
+			'anniversary' => __( 'Anniversary' , 'connections' ),
+			'baptism' => __( 'Baptism' , 'connections' ),
+			'birthday' => __( 'Birthday' , 'connections' ),
+			'deceased' => __( 'Deceased' , 'connections' ),
+			'certification' => __( 'Certification' , 'connections' ),
+			'employment' => __( 'Employment' , 'connections' ),
+			'membership' => __( 'Membership' , 'connections' ),
+			'graduate_high_school' => __( 'Graduate High School' , 'connections' ),
+			'graduate_college' => __( 'Graduate College' , 'connections' ),
+			'ordination' => __( 'Ordination' , 'connections' )
+		);
+		
+		return $dateOptions;
+    }
 	
+	/**
+     * Return "1" if debug messages are enabled, otherwise, returns empty.
+     *
+     * @deprecated since 0.7.3
+     * @return mixed
+     */
 	public function getDebug()
 	{
-		return $this->debug;
+		global $connections;
+		
+		return $connections->settings->get('connections', 'connections_debug', 'debug_messages');
 	}
     
     /**
-     * Returns $options.
-     * @see pluginOptions::$options
+     * Return "1" if the Google Maps API is to be loaded, otherwise, returns empty.
+     *
+     * @deprecated since 0.7.3
+     * @return mixed
      */
-    public function getOptions()
-    {
-        return $this->options;
+    public function getGoogleMapsAPI()
+	{
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_compatibility', 'google_maps_api');
     }
     
     /**
-     * Sets $options.
-     * @param object $options
-     * @see pluginOptions::$options
+     * Return "1" if the javascript are to be loaded in the page footer, otherwise, returns empty.
+     *
+     * @deprecated since 0.7.3
+     * @return mixed
      */
-    public function setOptions($options)
-    {
-        $this->options = $options;
+    public function getJavaScriptFooter()
+	{
+        global $connections;
+		
+		return $connections->settings->get('connections', 'connections_compatibility', 'javascript_footer');
     }
-
+    
+    /**
+     * Return "1" if FULLTEXT support is enabled, otherwise, returns empty.
+     *
+     * @deprecated since 0.7.3
+     * @return mixed
+     */
+	public function getSearchUsingFulltext()
+	{
+		global $connections;
+		
+		return $connections->settings->get('connections', 'connections_search', 'fulltext_enabled');
+    }
+    
+    /**
+	 * Get the user's search field choices.
+	 * 
+	 * @deprecated since 0.7.3
+     * @return array
+	 */
+    public function getSearchFields()
+	{
+		global $connections;
+		
+		return $connections->settings->get('connections', 'connections_search', 'fields');;
+	}
+	
+	/**
+	 * Callback for the seetings search fields.
+	 * Saves the user's search field choices and sets up the FULLTEXT indexes.
+	 * 
+	 * @TODO this will fail on tables that do not support FULLTEXT. Should somehow check before processing
+	 * and set FULLTEXT support to FALSE
+	 * 
+	 * @access private
+	 * @since 0.7.3
+	 * @param $settings array
+	 * @return array
+	 */
+    public function setSearchFields($settings)
+	{
+		global $wpdb;
+		
+		$fields = $settings['fields'];
+		//var_dump($fields);
+		
+		//$wpdb->show_errors();
+		
+		/*
+		 * The permitted fields that are supported for FULLTEXT searching.
+		 */
+		/*$permittedFields['entry'] = array( 'family_name' ,
+										'first_name' ,
+										'middle_name' ,
+										'last_name' ,
+										'title' ,
+										'organization' ,
+										'department' ,
+										'contact_first_name' ,
+										'contact_last_name' ,
+										'bio' ,
+										'notes' );
+		$permittedFields['address'] = array( 'line_1' ,
+										'line_2' ,
+										'line_3' ,
+										'city' ,
+										'state' ,
+										'zipcode' ,
+										'country' );
+		$permittedFields['phone'] = array( 'number' );*/
+		
+		
+		/*
+		 * Build the array to store the user preferences.
+		 */
+		$search['family_name'] = in_array( 'family_name' , $fields ) ? TRUE : FALSE;
+		$search['first_name'] = in_array( 'first_name' , $fields ) ? TRUE : FALSE;
+		$search['middle_name'] = in_array( 'middle_name' , $fields ) ? TRUE : FALSE;
+		$search['last_name'] = in_array( 'last_name' , $fields ) ? TRUE : FALSE;
+		$search['title'] = in_array( 'title' , $fields ) ? TRUE : FALSE;
+		$search['organization'] = in_array( 'organization' , $fields ) ? TRUE : FALSE;
+		$search['department'] = in_array( 'department' , $fields ) ? TRUE : FALSE;
+		$search['contact_first_name'] = in_array( 'contact_first_name' , $fields ) ? TRUE : FALSE;
+		$search['contact_last_name'] = in_array( 'contact_last_name' , $fields ) ? TRUE : FALSE;
+		$search['bio'] = in_array( 'bio' , $fields ) ? TRUE : FALSE;
+		$search['notes'] = in_array( 'notes' , $fields ) ? TRUE : FALSE;
+		
+		$search['address_line_1'] = in_array( 'address_line_1' , $fields ) ? TRUE : FALSE;
+		$search['address_line_2'] = in_array( 'address_line_2' , $fields ) ? TRUE : FALSE;
+		$search['address_line_3'] = in_array( 'address_line_3' , $fields ) ? TRUE : FALSE;
+		$search['address_city'] = in_array( 'address_city' , $fields ) ? TRUE : FALSE;
+		$search['address_state'] = in_array( 'address_state' , $fields ) ? TRUE : FALSE;
+		$search['address_zipcode'] = in_array( 'address_zipcode' , $fields ) ? TRUE : FALSE;
+		$search['address_country'] = in_array( 'address_country' , $fields ) ? TRUE : FALSE;
+		
+		$search['phone_number'] = in_array( 'phone_number' , $fields ) ? TRUE : FALSE;
+		
+		//var_dump($search);
+		
+		/*
+		 * Drop the current FULLTEXT indexes.
+		 */
+		$indexExists = @$wpdb->query('SHOW INDEX FROM ' . CN_ENTRY_TABLE . ' WHERE KEY_NAME = \'search\''); //var_dump($indexExists);
+		if ( $indexExists > 0 ) @$wpdb->query('ALTER TABLE ' . CN_ENTRY_TABLE . ' DROP INDEX search');
+		
+		$indexExists = @$wpdb->query('SHOW INDEX FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE KEY_NAME = \'search\''); //var_dump($indexExists);
+		if ( $indexExists > 0 ) @$wpdb->query('ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' DROP INDEX search');
+		
+		$indexExists = @$wpdb->query('SHOW INDEX FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE KEY_NAME = \'search\''); //var_dump($indexExists);
+		if ( $indexExists > 0 ) @$wpdb->query('ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' DROP INDEX search');
+		
+		/*
+		 * Recreate the FULLTEXT indexes based on the user choices
+		 */
+		
+		// Build the arrays that will be imploded in the query statement.
+		if ( $search['family_name'] ) $column['entry'][] = 'family_name';
+		if ( $search['first_name'] ) $column['entry'][] = 'first_name';
+		if ( $search['middle_name'] ) $column['entry'][] = 'middle_name';
+		if ( $search['last_name'] ) $column['entry'][] = 'last_name';
+		if ( $search['title'] ) $column['entry'][] = 'title';
+		if ( $search['organization'] ) $column['entry'][] = 'organization';
+		if ( $search['department'] ) $column['entry'][] = 'department';
+		if ( $search['contact_first_name'] ) $column['entry'][] = 'contact_first_name';
+		if ( $search['contact_last_name'] ) $column['entry'][] = 'contact_last_name';
+		if ( $search['bio'] ) $column['entry'][] = 'bio';
+		if ( $search['notes'] ) $column['entry'][] = 'notes';
+		
+		if ( $search['address_line_1'] ) $column['address'][] = 'line_1';
+		if ( $search['address_line_2'] ) $column['address'][] = 'line_2';
+		if ( $search['address_line_3'] ) $column['address'][] = 'line_3';
+		if ( $search['address_city'] ) $column['address'][] = 'city';
+		if ( $search['address_state'] ) $column['address'][] = 'state';
+		if ( $search['address_zipcode'] ) $column['address'][] = 'zipcode';
+		if ( $search['address_country'] ) $column['address'][] = 'country';
+		
+		if ( $search['phone_number'] ) $column['phone'][] = 'number';
+		
+		// Add the FULLTEXT indexes.
+		if ( ! empty( $column['entry'] ) ) $wpdb->query('ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (' . implode(',', $column['entry']) . ')');				
+		if ( ! empty( $column['address'] ) ) $wpdb->query('ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (' . implode(',', $column['address']) . ')');				
+		if ( ! empty( $column['phone'] ) ) $wpdb->query('ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (' . implode(',', $column['phone']) . ')');
+		
+		//$wpdb->hide_errors();
+		
+		//die;
+		
+		return $settings;
+	}
 }
-
 ?>

@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Connection\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-04-23 21:02-0500\n"
+"PO-Revision-Date: 2012-04-24 19:21+0100\n"
+"Last-Translator: Iwona Sarnicka <sariwo@gmail.com>\n"
+"Language-Team:  <helpdesk@connections-pro.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../includes/class.form.php:406
+#, php-format
+msgid "Newsfeed could not be loaded.  Check the <a href=\"%s\">blog</a> to check for updates."
+msgstr "Kanał informacyjny nie może być załadowany.  Sprawdź <a href=\"%s\">blog</a>aby sprawdzić dostępność aktualizacji."
+
+#: ../includes/class.form.php:421
+msgid "Untitled"
+msgstr "Bez tytułu"
+
+#: ../includes/class.form.php:631
+msgid "Not set"
+msgstr "Nie ustawiony"
+
+#: ../includes/class.form.php:633
+#: ../includes/class.form.php:636
+msgid "On"
+msgstr "Włączony"
+
+#: ../includes/class.form.php:634
+#: ../includes/class.form.php:637
+msgid "Off"
+msgstr "Wyłączony"
+
+#: ../includes/class.form.php:640
+#: ../includes/class.form.php:643
+#: ../includes/class.form.php:646
+#: ../includes/class.form.php:649
+#: ../includes/class.form.php:652
+#: ../includes/class.form.php:655
+msgid "N/A"
+msgstr "N/A"
+
+#: ../includes/class.form.php:654
+msgid "MByte"
+msgstr "MByte"
+
+#: ../includes/class.form.php:657
+#: ../includes/class.form.php:660
+#: ../includes/class.form.php:663
+#: ../includes/class.utility.php:162
+msgid "Yes"
+msgstr "Tak"
+
+#: ../includes/class.form.php:658
+#: ../includes/class.form.php:661
+#: ../includes/class.form.php:664
+#: ../includes/class.utility.php:164
+msgid "No"
+msgstr "Nie"
+
+#: ../includes/class.form.php:708
+msgid "No GD support"
+msgstr "Brak wsparcia GD"
+
+#: ../includes/class.options.php:1115
+msgid "Home"
+msgstr "Dom"
+
+#: ../includes/class.options.php:1116
+msgid "Work"
+msgstr "Praca"
+
+#: ../includes/class.options.php:1117
+msgid "School"
+msgstr "Szkoła"
+
+#: ../includes/class.options.php:1118
+msgid "Other"
+msgstr "Inne"
+
+#: ../includes/class.options.php:1134
+msgid "Home Phone"
+msgstr "Telefon domowy"
+
+#: ../includes/class.options.php:1135
+msgid "Home Fax"
+msgstr "Fax domowy"
+
+#: ../includes/class.options.php:1136
+msgid "Cell Phone"
+msgstr "Telefon komórkowy"
+
+#: ../includes/class.options.php:1137
+msgid "Work Phone"
+msgstr "Telefon służbowy"
+
+#: ../includes/class.options.php:1138
+msgid "Work Fax"
+msgstr "Fax służbowy"
+
+#: ../includes/class.options.php:1168
+msgid "Personal Email"
+msgstr "Email prywatny"
+
+#: ../includes/class.options.php:1169
+msgid "Work Email"
+msgstr "Email służbowy"
+
+#: ../includes/class.options.php:1184
+msgid "Website"
+msgstr "Strona www"
+
+#: ../includes/class.options.php:1185
+msgid "Blog"
+msgstr "Blog"
+

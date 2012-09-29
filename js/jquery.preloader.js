@@ -4,8 +4,8 @@
  */
 (function($) {
 
-	$.fn.preloader = function(options) {
-		var settings = $.extend({}, $.fn.preloader.defaults, options);
+	$.fn.cn_preloader = function(options) {
+		var settings = $.extend({}, $.fn.cn_preloader.defaults, options);
 
 
 		return this.each(function() {
@@ -74,7 +74,7 @@
 
 
 	//Default settings
-	$.fn.preloader.defaults = {
+	$.fn.cn_preloader.defaults = {
 		delay:1000,
 		gradualDelay:true,
 		imgSelector:'img',

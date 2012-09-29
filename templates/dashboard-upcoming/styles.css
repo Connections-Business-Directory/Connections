@@ -1,5 +1,5 @@
-div.dashboard-upcoming { background-color:#FFFFFF; border:1px solid #E3E3E3; position: relative; }
-div.dashboard-upcoming a { text-decoration: none; }
-div.dashboard-upcoming div.cn-upcoming-row { margin: 0; padding: 4px; }
-div.dashboard-upcoming div.cn-upcoming-row-alternate { background-color: #F9F9F9; margin: 0; padding: 4px; }
-div.dashboard-upcoming span.cn-upcoming-date { position: absolute; right: 4px; }
+div.cn-dashboard-upcoming { background-color:#FFFFFF; border:1px solid #E3E3E3; position: relative; }
+div.cn-dashboard-upcoming a { text-decoration: none; }
+div.cn-dashboard-upcoming div.cn-upcoming-row { margin: 0; padding: 4px; }
+div.cn-dashboard-upcoming div.cn-upcoming-row-alternate { background-color: #F9F9F9; margin: 0; padding: 4px; }
+div.cn-dashboard-upcoming span.cn-upcoming-date { position: absolute; right: 4px; }

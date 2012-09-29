@@ -1,0 +1,3 @@
+.ui-tooltip, .qtip { max-width: 600px !important; }
+#cn-qtip-card {	color: #FFFFFF; }
+.cn-qtip-card a:link, .cn-qtip-card a:visited, .cn-qtip-card a:hover, .cn-qtip-card a:active, .cn-qtip-card a:focus { color: #FFFFFF; }

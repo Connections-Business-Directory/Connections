@@ -127,10 +127,12 @@ class cnvCard extends cnOutput
 		
 		if ($this->data['nickname']) { $this->card .= "NICKNAME;CHARSET=utf-8:".$this->data['nickname']."\r\n"; }
 		if ($this->data['title']) { $this->card .= "TITLE;CHARSET=utf-8:".$this->data['title']."\r\n"; }
-		if ($this->data['company']) { $this->card .= "ORG;CHARSET=utf-8:".$this->data['company']; }
-		if ($this->data['department']) { $this->card .= ";".$this->data['department']; }
-		$this->card .= "\r\n";
-			
+		if ( $this->data['company'] || $this->data['department'] )
+		{
+			$this->card .= "ORG;CHARSET=utf-8:" . ( ( empty($this->data['company'] ) ) ? '' : $this->data['company'] ) . ';' . ( ( empty( $this->data['department'] ) ) ? '' : $this->data['department'] );
+			$this->card .= "\r\n";
+		}
+		
 		if ($this->data['work_po_box']
 			|| $this->data['work_extended_address']
 			|| $this->data['work_address']
@@ -185,7 +187,7 @@ class cnvCard extends cnOutput
 		    . $this->data['other_country']."\r\n";
 		}
 		
-		if ( $this->data['latitude'] && $this->data['longitude'] )
+		if ( ( isset( $this->data['latitude'] ) && ! empty( $this->data['latitude'] ) ) && ( isset( $this->data['longitude'] ) && ! empty( $this->data['longitude'] ) ) )
 		{
 			$this->card .= "GEO:".$this->data['latitude'].";".$this->data['longitude']."\r\n";;
 		}
@@ -324,6 +326,8 @@ class cnvCard extends cnOutput
 	
 	/**
 	 * Add the latitude and longitude of the first address to the GEO property
+	 * @TODO Should use the preferred address if set and only then use the first geo on the first address.
+	 * @return void
 	 */
 	private function setvCardGEO()
 	{
@@ -336,6 +340,11 @@ class cnvCard extends cnOutput
 		}
 	}
 	
+	/**
+	 * @TODO When multple addresses of the same type is set for an entry, the last is used because it overwrites
+	 * the previous. This should use the preferred address if set and then use the intial address of the specific type.
+	 * @return void
+	 */
 	private function setvCardAddresses()
 	{
 		if ($this->getAddresses())
@@ -572,13 +581,35 @@ class cnvCard extends cnOutput
 		return $this->card;
 	}
 	
-	public function download( $atts = array('anchorText' => 'Add to Address Book', 'title' => 'Download vCard', 'return' => FALSE) )
+	/**
+	 * @access private
+	 * @since unknown
+	 * @version 1.0
+	 * @deprecated
+	 * @param array $suppliedAtts [optional]
+	 * @return string
+	 */
+	public function download( $suppliedAtts = array() )
 	{
-		extract($atts);
-		$token = wp_create_nonce('download_vcard_' . $this->getId() );
+		/*
+		 * // START -- Set the default attributes array. \\
+		 */
+		$defaultAtts = array( 'anchorText' => 'Add to Address Book',
+							  'title' => 'Download vCard',
+							  'return' => FALSE
+							);
 		
-		//echo '<a href="' . get_option('siteurl') . '/download.vCard.php?token=' . $token . '&entry=' . $this->getId() . '" rel="nofollow">' . $atts['anchorText'] . '</a>';
-		$out = '<a href="' . get_option('siteurl') . '?cntoken=' . $token . '&cnid=' . $this->getId() . '&cnvc=1" title="' . $title . '" rel="nofollow">' . $anchorText . '</a>';
+		$atts = $this->validate->attributesArray($defaultAtts, $suppliedAtts);
+		/*
+		 * // END -- Set the default attributes array if not supplied. \\
+		 */
+		
+		extract($atts);
+		
+		$out = $this->vcard( array( 'text' => $anchorText , 'title' => $title , 'return' => TRUE ) );
+		
+		//$token = wp_create_nonce('download_vcard_' . $this->getId() );
+		//$out = '<a href="' . get_site_url() . '?cntoken=' . $token . '&cnid=' . $this->getId() . '&cnvc=1" title="' . $title . '" rel="nofollow">' . $anchorText . '</a>';
 		
 		if ( $return ) return $out; else echo $out;
 	}

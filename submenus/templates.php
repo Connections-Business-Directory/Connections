@@ -17,7 +17,7 @@ function connectionsShowTemplatesPage()
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">You do not have sufficient permissions to access this page.</p>');
+				width:700px">' . __('You do not have sufficient permissions to access this page.', 'connections') . '</p>');
 	}
 	else
 	{
@@ -34,32 +34,32 @@ function connectionsShowTemplatesPage()
 		$connections->displayMessages();
 	?>
 		<div class="wrap">
-			<div id="icon-connections" class="icon32">
-		        <br>
-		    </div>
+			<?php echo get_screen_icon('connections'); ?>
 			
-			<h2>Connections : Templates <a class="button add-new-h2" href="http://connections-pro.com/?page_id=419" target="_blank">Get More</a></h2>
+			<h2>Connections : <?php _e('Templates', 'connections'); ?> <a class="button add-new-h2" href="http://connections-pro.com/templates/" target="_blank"><?php _e('Get More', 'connections'); ?></a></h2>
 			
 			<ul class="subsubsub">
-				<li><a <?php if ($type === 'all') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=all">All</a> | </li>
-				<li><a <?php if ($type === 'individual') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=individual">Individual</a> | </li>
-				<li><a <?php if ($type === 'organization') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=organization">Organization</a> | </li>
-				<li><a <?php if ($type === 'family') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=family">Family</a> | </li>
-				<li><a <?php if ($type === 'anniversary') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=anniversary">Anniversary</a> | </li>
-				<li><a <?php if ($type === 'birthday') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=birthday">Birthday</a></li>
+				<li><a <?php if ($type === 'all') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=all"><?php _e('All', 'connections'); ?></a> | </li>
+				<li><a <?php if ($type === 'individual') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=individual"><?php _e('Individual', 'connections'); ?></a> | </li>
+				<li><a <?php if ($type === 'organization') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=organization"><?php _e('Organization', 'connections'); ?></a> | </li>
+				<li><a <?php if ($type === 'family') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=family"><?php _e('Family', 'connections'); ?></a> | </li>
+				<li><a <?php if ($type === 'anniversary') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=anniversary"><?php _e('Anniversary', 'connections'); ?></a> | </li>
+				<li><a <?php if ($type === 'birthday') echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=birthday"><?php _e('Birthday', 'connections'); ?></a></li>
 			</ul>
 			
-			<table cellspacing="0" cellpadding="0" id="availablethemes">
+			<br class="clear">
+			
+			<table cellspacing="0" cellpadding="0" id="currenttheme">
 				<tbody>
 					<tr>
 						<td class="current_template">
-							<h2>Current Template</h2>
+							<h2><?php _e('Current Template', 'connections'); ?></h2>
 							
-							<div id="current-theme">
+							<div id="current-template">
 								<?php
 								$currentTemplate = $connections->options->getActiveTemplate($type);
-								
-								if ( !empty($currentTemplate) )
+								//print_r($currentTemplate);
+								if ( ! empty($currentTemplate) && is_dir( $currentTemplate->path ) )
 								{
 									$author = '';
 									
@@ -70,7 +70,7 @@ function connectionsShowTemplatesPage()
 									
 									if ( isset($currentTemplate->uri) )
 									{
-										$author = '<a title="Visit author\'s homepage." href="http://' . esc_attr($currentTemplate->uri) . '">' . esc_attr($currentTemplate->author) . '</a>';
+										$author = '<a title="' . __("Visit author's homepage.", 'connections') . '" href="' . esc_attr($currentTemplate->uri) . '">' . esc_attr($currentTemplate->author) . '</a>';
 									}
 									else
 									{
@@ -83,33 +83,42 @@ function connectionsShowTemplatesPage()
 									// Remove the current template so it does not show in the available templates.
 									unset($templates->{$currentTemplate->slug});
 								}
+								else
+								{
+									echo '<h3 class="error"> Template ' , esc_attr($currentTemplate->name) , ' can not be found.</h3>';
+									echo '<p class="theme-description error">Path ', esc_attr($currentTemplate->path), ' can not be located.</p>';
+								}
 								?>
 							</div>
 							<div class="clear"></div>
 						</td>
 						
 						<td class="template_instructions" colspan="2">
-							<p><strong>Instructions:</strong></p>
+							<p><strong><?php _e('Instructions', 'connections'); ?>:</strong></p>
 							<p>
-								By default the <code>[connections]</code> shortcode will show all entries types. To change the template
-								used when displaying all entry types, select the "All" tab and activate the template. When the <code>list_type</code>
-								shortcode attribute is used to filter the entries based on the entry type, the template for that entry type will be used.
-								To change the template used for specific entry type, select the appropriate tab and then activate the template. If multiple
-								entry types are specified in the <code>list_type</code> shortcode attribute, the template for the entry type listed first
-								will be used to display the entry list.
+								<?php _e('By default the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/">[connections]</a></code> shortcode will show all entries types. To change the template
+								used when displaying all entry types, select the "All" tab and activate the template. When the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/list_type/">list_type</a></code>
+								shortcode option is used to filter the entries based on the entry type, the template for that entry type will be used.
+								To change the template used for a specific entry type, select the appropriate tab and then activate the template. If multiple
+								entry types are specified in the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/list_type/">list_type</a></code> shortcode option, the template for the entry type listed first
+								will be used to display the entry list.', 'connections'); ?>
 							</p>
 							
 							<p>
-								The <code>[upcoming_list]</code> shortcode which displays the upcoming anniversaries and birthdays will be displayed with the template
-								that is activated under their respective tabs.
+								<?php _e('The <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-upcoming-list/">[upcoming_list]</a></code> shortcode which displays the upcoming anniversaries and birthdays will be displayed with the template
+								that is activated under their respective tabs.', 'connections'); ?>
 							</p>
 							
 							<p>
-								The current active template for each template type can be overridden by using the the <code>template</code> shortcode attribute.
+								<?php _e('The current active template for each template type can be overridden by using the the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/template/">template</a></code> shortcode option.', 'connections'); ?>
 							</p>
 						</td>
 					</tr>
-					
+				</tbody>
+			</table>
+			
+			<table cellspacing="0" cellpadding="0" id="installthemes">
+				<tbody>
 					<tr>
 						<td class="install_template" colspan="3">
 							<h2>Install Template</h2>
@@ -135,7 +144,11 @@ function connectionsShowTemplatesPage()
 							<?php $form->close(); ?>
 						</td>
 					</tr>
-					
+				</tbody>
+			</table>
+			
+			<table cellspacing="0" cellpadding="0" id="availablethemes">
+				<tbody>
 					<tr>
 						<td class="current_template" colspan="3">
 							<h2>Available Templates</h2>

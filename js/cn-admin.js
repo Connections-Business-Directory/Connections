@@ -7,20 +7,22 @@
 // See http://chrismeller.com/using-jquery-in-wordpress
 jQuery(document).ready(function($){
 	
-	jQuery('.connections').preloader({
+	/*
+	 * Hide the image loading spinner and show the image.
+	 */
+	$('.connections').cn_preloader({
 		delay:200,
 		imgSelector:'.cn-image img.photo, .cn-image img.logo',
 		beforeShow:function(){
-			jQuery(this).closest('.cn-image img').css('visibility','hidden');
+			$(this).closest('.cn-image img').css('visibility','hidden');
 		},
 		afterShow:function(){
 			//var image = $(this).closest('.cn-image');
-			//jQuery(image).spin(false);
+			//$(image).spin(false);
 		}
 	});
 	
-	jQuery(function()
-	{
+	jQuery(function() {
 		jQuery('a.detailsbutton')
 			.css("cursor","pointer")
 			.attr("title","Click to show details.")
@@ -59,6 +61,7 @@ jQuery(document).ready(function($){
 				jQuery('.namefield').slideDown();
 				jQuery('#contact_name').slideUp();
 				jQuery('.celebrate').slideDown();
+				jQuery('.celebrate-disabled').slideUp();
 			});
 	});
 	
@@ -69,6 +72,7 @@ jQuery(document).ready(function($){
 				jQuery('.namefield').slideUp();
 				jQuery('#contact_name').slideDown();
 				jQuery('.celebrate').slideUp();
+				jQuery('.celebrate-disabled').slideDown();
 			});
 	});
 	
@@ -78,6 +82,7 @@ jQuery(document).ready(function($){
 				jQuery('#family').slideDown();
 				jQuery('.namefield').slideUp();
 				jQuery('.celebrate').slideUp();
+				jQuery('.celebrate-disabled').slideDown();
 			});
 	});
 	
@@ -90,174 +95,92 @@ jQuery(document).ready(function($){
 			case 'individual':
 				jQuery('#family').slideUp();
 				jQuery('#contact_name').slideUp();
+				jQuery('.celebrate-disabled').slideUp();
 				break;
 			
 			case 'organization':
 				jQuery('#family').slideUp();
 				jQuery('.namefield').slideUp();
 				jQuery('.celebrate').slideUp();
+				jQuery('.celebrate-disabled').slideDown();
 				break;
 			
 			case 'family':
 				jQuery('.namefield').slideUp();
 				jQuery('.celebrate').slideUp();
+				jQuery('.celebrate-disabled').slideDown();
 				break;
 		}
 	
 	});
 	
-	jQuery(function() {
-		//var intCount = 0;
-		//var jRelations = (jQuery('#relation_row_base').html());
+	/*
+	 * Add relations to the family entry type.
+	 */
+	$('#add-relation').click(function() {
+		var template = (jQuery('#relation-template').text());
+		var d = new Date();
+		var token = Math.floor( Math.random() * d.getTime() );
 		
-		jQuery('#add_relation')
-			.click(function() {
-				var jRelations = (jQuery('#relation_row_base').text());
-				var d = new Date();
-				var id = Math.floor( Math.random() * d.getTime() );
-				
-				jRelations = jRelations.replace(
-					new RegExp('::FIELD::', 'gi'),
-					id
-					);
-				
-				jQuery('#relations').append( '<div id="relation_row_' + id + '" class="relation_row">' + jRelations + '<a href="#" id="remove_button_' + intCount + '" ' + 'class="button button-warning" onClick="removeEntryRow(\'#relation_row_' + intCount + '\'); return false;">Remove</a>' + '</div>' );
-				
-				//intCount++;
-			});
+		template = template.replace(
+			new RegExp('::FIELD::', 'gi'),
+			token
+			);
+		
+		$('#relations').append( '<div id="relation-row-' + token + '" class="relation" style="display: none;">' + template + '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' + token + '">Remove</a>' + '</div>' );
+		$('#relation-row-' + token).slideDown();
+		
+		/*
+		 * Add jQuery Chosen to the family name and relation fields.
+		 */
+		$('.family-member-name, .family-member-relation').chosen();
+		
+		return false
 	});
 	
-	jQuery(function() {
-		//var intCount = 0;
-		//var jRelations = (jQuery('#social_media_row_base').html());
+	/*
+	 * Add jQuery Chosen to the family name and relation fields.
+	 */
+	if ($.fn.chosen) {
+		$('.family-member-name, .family-member-relation').chosen();
+	}
+	
+	$('a.cn-add.cn-button').click(function() {
+		var $this = $(this);
+		var type = $this.attr('data-type');
+		var container = '#' + $this.attr('data-container');
+		var id = '#' + type + '-template';
+		//console.log(id);
 		
-		jQuery('#add_social_media')
-			.click(function() {
-				var jRelations = (jQuery('#social_media_row_base').text());
-				var d = new Date();
-				var id = Math.floor( Math.random() * d.getTime() );
+		var template = $(id).text();
+		//console.log(template);
 		
-				jRelations = jRelations.replace(
-					new RegExp('::FIELD::', 'gi'),
-					id
-					);
-				
-				//jQuery('#social_media').append( '<div id="social-row_' + intCount + '" class="social_media_row">' + jRelations + '<a href="#" id="remove_button_' + intCount + '" ' + 'class="button button-warning" onClick="removeEntryRow(\'#social_media_row_' + intCount + '\'); return false;">Remove</a>' + '</div>' );
-				jQuery('#social-media').append( '<div class="widget social" id="social-row-' + id + '">' + jRelations + '</div>' );
-				
-				//intCount++;
-			});
+		var d = new Date();
+		var token = Math.floor( Math.random() * d.getTime() );
+		
+		template = template.replace(
+										new RegExp('::FIELD::', 'gi'),
+										token
+									);
+		//console.log(template);
+		//console.log(container);
+		
+		$(container).append( '<div class="widget ' + type + '" id="' + type + '-row-' + token + '" style="display: none;">' + template + '</div>' );
+		$('#' + type + '-row-' + token).slideDown();
+		
+		return false;
 	});
 	
-	jQuery(function() {
-		//var intCount = 0;
-		//var jRelations = (jQuery('#address_row_base').html());
-		
-		jQuery('#add_address')
-			.click(function() {
-				var jRelations = (jQuery('#address_row_base').text());
-				var d = new Date();
-				var id = Math.floor( Math.random() * d.getTime() );
-				
-				jRelations = jRelations.replace(
-					new RegExp('::FIELD::', 'gi'),
-					id
-					);
-				
-				//jQuery('#addresses').append( '<div id="address_row_' + intCount + '" class="address_row">' + jRelations + '<br /><a href="#" id="remove_button_' + intCount + '" ' + 'class="button button-warning" onClick="removeEntryRow(\'#address_row_' + intCount + '\'); return false;">Remove</a>' + '</div>' );
-				jQuery('#addresses').append( '<div class="widget address" id="address_row_' + id + '">' + jRelations + '</div>' );
-				
-				//intCount++;
-			});
+	$('a.cn-remove.cn-button').live('click', function() {
+		var $this = $(this);
+		var token = $this.attr('data-token');
+		var type = $this.attr('data-type');
+		var id = '#' + type + '-row-' + token;
+		//alert(id);
+		$(id).slideUp('fast', function(){ $(this).remove(); });
+		return false;
 	});
 	
-	jQuery(function() {
-		//var intCount = 0;
-		//var jRelations = (jQuery('#phone_number_row_base').html());
-		
-		jQuery('#add_phone_number')
-			.click(function() {
-				var jRelations = (jQuery('#phone_number_row_base').text());
-				var d = new Date();
-				var id = Math.floor( Math.random() * d.getTime() );
-				
-				jRelations = jRelations.replace(
-					new RegExp('::FIELD::', 'gi'),
-					id
-					);
-				
-				//jQuery('#phone-numbers').append( '<div id="phone-row-' + intCount + '" class="phone-row">' + jRelations + '<a href="#" id="remove_button_' + intCount + '" ' + 'class="button button-warning" onClick="removeEntryRow(\'#phone_number_row_' + intCount + '\'); return false;">Remove</a>' + '</div>' );
-				jQuery('#phone-numbers').append( '<div class="widget phone" id="phone-row-' + id + '">' + jRelations  + '</div>' );
-				
-				//intCount++;
-			});
-	});
-	
-	jQuery(function() {
-		//var intCount = 0;
-		//var jRelations = (jQuery('#email_address_row_base').html());
-		
-		jQuery('#add_email_address')
-			.click(function() {
-				var jRelations = (jQuery('#email_address_row_base').text());
-				var d = new Date();
-				var id = Math.floor( Math.random() * d.getTime() );
-				
-				jRelations = jRelations.replace(
-					new RegExp('::FIELD::', 'gi'),
-					id
-					);
-				
-				//jQuery('#email_addresses').append( '<div id="email_address_row_' + intCount + '" class="email_address_row">' + jRelations + '<a href="#" id="remove_button_' + intCount + '" ' + 'class="button button-warning" onClick="removeEntryRow(\'#email_address_row_' + intCount + '\'); return false;">Remove</a>' + '</div>' );
-				jQuery('#email-addresses').append( '<div class="widget email" id="email-row-' + id + '">' + jRelations + '</div>' );
-				
-				//intCount++;
-			});
-	});
-	
-	jQuery(function() {
-		//var intCount = 0;
-		//var jRelations = (jQuery('#website_address_row_base').html());
-		
-		jQuery('#add_link')
-			.click(function() {
-				var jRelations = (jQuery('#link_row_base').text());
-				var d = new Date();
-				var id = Math.floor( Math.random() * d.getTime() );
-				
-				jRelations = jRelations.replace(
-					new RegExp('::FIELD::', 'gi'),
-					id
-					);
-				
-				//jQuery('#website_addresses').append( '<div id="website_address_row_' + intCount + '" class="website_address_row">' + jRelations + '<a href="#" id="remove_button_' + intCount + '" ' + 'class="button button-warning" onClick="removeEntryRow(\'#website_address_row_' + intCount + '\'); return false;">Remove</a>' + '</div>' );
-				jQuery('#links').append( '<div class="widget link" id="link-row-' + id + '">' + jRelations + '</div>' );
-				
-				//intCount++;
-			});
-	});
-	
-	jQuery(function() {
-		//var intCount = 0;
-		//var jRelations = (jQuery('#im_row_base').html());
-		
-		jQuery('#add_im_id')
-			.click(function() {
-				var jRelations = (jQuery('#im_row_base').text());
-				var d = new Date();
-				var id = Math.floor( Math.random() * d.getTime() );
-				
-				jRelations = jRelations.replace(
-					new RegExp('::FIELD::', 'gi'),
-					id
-					);
-				
-				//jQuery('#im_ids').append( '<div id="im_row_' + intCount + '" class="im_row">' + jRelations + '<a href="#" id="remove_button_' + intCount + '" ' + 'class="button button-warning" onClick="removeEntryRow(\'#im_row_' + intCount + '\'); return false;">Remove</a>' + '</div>' );
-				jQuery('#im-ids').append( '<div class="widget im" id="im-row-' + id + '">' + jRelations + '</div>' );
-				
-				//intCount++;
-			});
-	});
 	
 	/*
 	 * Switching Visual/HTML Modes With TinyMCE
@@ -292,11 +215,102 @@ jQuery(document).ready(function($){
 		}
 	);
 	
-
-});
-
-function removeEntryRow(id)
-	{
-		jQuery(id).remove();
-		//jQuery(id).slideUp('slow', function() {jQuery(id).remove});
+	
+	/*
+	 * Add the jQuery UI Datepicker to the date input fields.
+	 */
+	if ($.fn.datepicker) {
+		
+		$('.datepicker').live('focus', function() {
+			$(this).datepicker({
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				selectOtherMonths: true
+			});
+		});
 	}
+	
+	/*
+	 * Geocode the address
+	 */
+	$('a.geocode.button').live('click', function() {
+		var address = new Object();
+		var $this = $(this);
+		var lat;
+		var lng;
+		
+		var uid = $this.attr('data-uid');
+		//console.log(uid);
+		
+		address.line_1 = $('input[name=address\\[' + uid + '\\]\\[line_1\\]]').val();
+		address.line_2 = $('input[name=address\\[' + uid + '\\]\\[line_2\\]]').val();
+		address.line_3 = $('input[name=address\\[' + uid + '\\]\\[line_3\\]]').val();
+		
+		address.city = $('input[name=address\\[' + uid + '\\]\\[city\\]]').val();
+		address.state = $('input[name=address\\[' + uid + '\\]\\[state\\]]').val();
+		address.zipcode = $('input[name=address\\[' + uid + '\\]\\[zipcode\\]]').val();
+		
+		address.country = $('input[name=address\\[' + uid + '\\]\\[country\\]]').val();
+		
+		//console.log(address);
+		
+		$( '#map-' + uid ).fadeIn('slow' , function() {
+			$( '#map-' + uid ).goMap({
+				maptype: 'ROADMAP'/*,
+				latitude: 40.366502,
+				longitude: -75.887637,
+				zoom: 14*/
+			});
+			
+			$.goMap.clearMarkers();
+			
+			$.goMap.createMarker({
+				address: '\'' + address.line_1 + ', ' + address.city + ', ' + address.state + ', ' + address.zipcode + ', ' +  '\'' , id: 'baseMarker' , draggable: true
+			});
+			
+			$.goMap.setMap({ address: '\'' + address.line_1 + ', ' + address.city + ', ' + address.state + ', ' + address.zipcode + ', ' +  '\'' , zoom: 18 });
+			
+			
+			
+			$.goMap.createListener( {type:'marker', marker:'baseMarker'} , 'idle', function(event) {
+				var lat = event.latLng.lat();
+				var lng = event.latLng.lng();
+				
+				console.log(lat);
+				console.log(lng);
+				
+				$('input[name=address\\[' + uid + '\\]\\[latitude\\]]').val(lat);
+				$('input[name=address\\[' + uid + '\\]\\[longitude\\]]').val(lng);
+			});
+			
+			$.goMap.createListener( {type:'marker', marker:'baseMarker'} , 'dragend', function(event) {
+				var lat = event.latLng.lat();
+				var lng = event.latLng.lng();
+				
+				console.log(lat);
+				console.log(lng);
+				
+				$('input[name=address\\[' + uid + '\\]\\[latitude\\]]').val(lat);
+				$('input[name=address\\[' + uid + '\\]\\[longitude\\]]').val(lng);
+			});
+			
+		});
+		
+		
+		// There has to be a better way than setting a delay. I know I have to use a callback b/c the geocode is an asyn request.
+		setTimeout( function(){
+			setLatLngInfo(uid);
+		}, 1500)
+		
+		return false;
+	});
+	
+	function setLatLngInfo(uid)
+	{
+		var baseMarkerPosition = $( '#map-' + uid ).data('baseMarker').getPosition();
+		$('input[name=address\\[' + uid + '\\]\\[latitude\\]]').val( baseMarkerPosition.lat() );
+		$('input[name=address\\[' + uid + '\\]\\[longitude\\]]').val( baseMarkerPosition.lng() );
+		
+	}
+});

@@ -30,7 +30,7 @@ function processEntry($data, $action)
 			
 	if ( isset($data['entry_type']) ) $entry->setEntryType($data['entry_type']);
 	if ( isset($data['family_name']) ) $entry->setFamilyName($data['family_name']);
-	if ( isset($data['family_member']) ) $entry->setFamilyMembers($data['family_member']);
+	( isset($data['family_member']) ) ? $entry->setFamilyMembers($data['family_member']) : $entry->setFamilyMembers( array() );
 	if ( isset($data['honorific_prefix']) ) $entry->setHonorificPrefix($data['honorific_prefix']);
 	if ( isset($data['first_name']) ) $entry->setFirstName($data['first_name']);
 	if ( isset($data['middle_name']) ) $entry->setMiddleName($data['middle_name']);
@@ -48,8 +48,9 @@ function processEntry($data, $action)
 	( isset($data['social']) ) ? $entry->setSocialMedia($data['social']) : $entry->setSocialMedia( array() );
 	//( isset($data['website']) ) ? $entry->setWebsites($data['website']) : $entry->setWebsites( array() );
 	( isset($data['link']) ) ? $entry->setLinks($data['link']) : $entry->setLinks( array() );
-	if ( isset($data['birthday_day']) && isset($data['birthday_month']) ) $entry->setBirthday($data['birthday_day'], $data['birthday_month']);
-	if ( isset($data['anniversary_day']) && isset($data['anniversary_month']) ) $entry->setAnniversary($data['anniversary_day'], $data['anniversary_month']);
+	( isset($data['date']) ) ? $entry->setDates($data['date']) : $entry->setDates( array() );
+	//if ( isset($data['birthday_day']) && isset($data['birthday_month']) ) $entry->setBirthday($data['birthday_day'], $data['birthday_month']);
+	//if ( isset($data['anniversary_day']) && isset($data['anniversary_month']) ) $entry->setAnniversary($data['anniversary_day'], $data['anniversary_month']);
 	if ( isset($data['bio']) ) $entry->setBio($data['bio']);
 	if ( isset($data['notes']) ) $entry->setNotes($data['notes']);
 	if ( isset($data['visibility']) ) $entry->setVisibility($data['visibility']);
@@ -63,7 +64,7 @@ function processEntry($data, $action)
 		// If an entry is being updated and a new logo is uploaded, the old logo needs to be deleted.
 		if ($entry->getLogoName() != NULL)
 		{
-			unlink( CN_IMAGE_PATH . $entry->getLogoName() );
+			@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
 		}
 		
 		// Process the newly uploaded logo.
@@ -113,7 +114,7 @@ function processEntry($data, $action)
 				 */
 				if ( is_file( CN_IMAGE_PATH . $entry->getLogoName() ) )
 				{
-					unlink( CN_IMAGE_PATH . $entry->getLogoName() );
+					@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
 				}
 				
 				$entry->setLogoName(NULL);
@@ -143,34 +144,34 @@ function processEntry($data, $action)
 		// If an entry is being updated and a new image is uploaded, the old images need to be deleted.
 		if ($entry->getImageNameOriginal() != NULL)
 		{
-			if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) )
+			if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) )
 			{
-				unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
+				@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
 			}
 		}
 		
 		if ($entry->getImageNameThumbnail() != NULL)
 		{
-			if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) )
+			if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) )
 			{
-				unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
+				@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
 				
 			}
 		}
 		
 		if ($entry->getImageNameCard() != NULL)
 		{
-			if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) )
+			if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) )
 			{
-				unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
+				@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
 			}
 		}
 		
 		if ($entry->getImageNameProfile() != NULL)
 		{
-			if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) )
+			if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) )
 			{
-				unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
+				@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
 			}
 		}
 		
@@ -232,7 +233,7 @@ function processEntry($data, $action)
 				{
 					if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) )
 					{
-						unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
+						@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
 					}
 				}
 				
@@ -240,7 +241,7 @@ function processEntry($data, $action)
 				{
 					if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) )
 					{
-						unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
+						@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
 						
 					}
 				}
@@ -249,7 +250,7 @@ function processEntry($data, $action)
 				{
 					if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) )
 					{
-						unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
+						@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
 					}
 				}
 				
@@ -257,7 +258,7 @@ function processEntry($data, $action)
 				{
 					if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) )
 					{
-						unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
+						@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
 					}
 				}
 				
@@ -371,7 +372,7 @@ function copyImage($image)
 {
 	// Uses the upload.class.php to handle file uploading and image manipulation.
 	// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
-	require_once(WP_PLUGIN_DIR . '/connections/includes/php_class_upload/class.upload.php');
+	require_once(CN_PATH . '/includes/php_class_upload/class.upload.php');
 	
 	$source = CN_IMAGE_PATH . $image;
 	
@@ -392,7 +393,7 @@ function processImages()
 	
 	// Uses the upload.class.php to handle file uploading and image manipulation.
 	// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
-	require_once(WP_PLUGIN_DIR . '/connections/includes/php_class_upload/class.upload.php');
+	require_once(CN_PATH . '/includes/php_class_upload/class.upload.php');
 	
 	$process_image = new Upload($_FILES['original_image']);
 	$image['source'] = $process_image->file_src_name_body;
@@ -444,6 +445,13 @@ function processImages()
 				$connections->setErrorMessage('image_profile_failed');
 				//return FALSE;
 			}						
+			
+			/*var_dump($connections->options->getImgProfileQuality());
+			var_dump($connections->options->getImgProfileRatioCrop());
+			var_dump($connections->options->getImgProfileRatioFill());
+			var_dump($connections->options->getImgProfileY());
+			var_dump($connections->options->getImgProfileX());
+			die;*/
 			
 			// Creates the entry image and saves it to the wp_content/connection_images/ dir.
 			// If needed this will create the upload dir and chmod it.
@@ -523,7 +531,7 @@ function processLogo()
 	
 	// Uses the upload.class.php to handle file uploading and image manipulation.
 	// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
-	require_once(WP_PLUGIN_DIR . '/connections/includes/php_class_upload/class.upload.php');
+	require_once(CN_PATH . '/includes/php_class_upload/class.upload.php');
 	
 	$process_logo = new Upload($_FILES['original_logo']);
 		
@@ -782,121 +790,6 @@ function processDeleteEntries()
 	}
 }
 
-function updateSettings()
-{
-	global $connections;
-	$format = new cnFormatting();
-	
-	( isset($_POST['settings']['allow_public']) && $_POST['settings']['allow_public'] === 'true' ) ? $connections->options->setAllowPublic(TRUE) : $connections->options->setAllowPublic(FALSE);
-	
-	
-	
-	if ( isset($_POST['settings']['allow_public_override']) && $_POST['settings']['allow_public_override'] === 'true' && !$connections->options->getAllowPublic() )
-	{
-		$connections->options->setAllowPublicOverride(TRUE);
-	}
-	else
-	{
-		$connections->options->setAllowPublicOverride(FALSE);
-	}
-	
-	
-	( isset($_POST['settings']['allow_private_override']) && $_POST['settings']['allow_private_override'] === 'true' ) ? $connections->options->setAllowPrivateOverride(TRUE) : $connections->options->setAllowPrivateOverride(FALSE);
-	
-	
-	if ( isset($_POST['settings']['image']['thumbnail']['quality']) )
-	{
-		$connections->options->setImgThumbQuality($format->stripNonNumeric($_POST['settings']['image']['thumbnail']['quality']));
-	}
-	
-	if ( isset($_POST['settings']['image']['thumbnail']['x']) )
-	{
-		$connections->options->setImgThumbX($format->stripNonNumeric($_POST['settings']['image']['thumbnail']['x']));
-	}
-	
-	if ( isset($_POST['settings']['image']['thumbnail']['y']) )
-	{
-		$connections->options->setImgThumbY($format->stripNonNumeric($_POST['settings']['image']['thumbnail']['y']));
-	}
-	
-	if ( isset($_POST['settings']['image']['thumbnail']['crop']) )
-	{
-		$connections->options->setImgThumbCrop($_POST['settings']['image']['thumbnail']['crop']);
-	}
-	
-	if ( isset($_POST['settings']['image']['entry']['quality']) )
-	{
-		$connections->options->setImgEntryQuality($format->stripNonNumeric($_POST['settings']['image']['entry']['quality']));
-	}
-	
-	if ( isset($_POST['settings']['image']['entry']['x']) )
-	{
-		$connections->options->setImgEntryX($format->stripNonNumeric($_POST['settings']['image']['entry']['x']));
-	}
-	
-	if ( isset($_POST['settings']['image']['entry']['y']) )
-	{
-		$connections->options->setImgEntryY($format->stripNonNumeric($_POST['settings']['image']['entry']['y']));
-	}
-	
-	if ( isset($_POST['settings']['image']['entry']['crop']) )
-	{
-		$connections->options->setImgEntryCrop($_POST['settings']['image']['entry']['crop']);
-	}
-	
-	if ( isset($_POST['settings']['image']['profile']['quality']) )
-	{
-		$connections->options->setImgProfileQuality($format->stripNonNumeric($_POST['settings']['image']['profile']['quality']));
-	}
-	
-	if ( isset($_POST['settings']['image']['profile']['x']) )
-	{
-		$connections->options->setImgProfileX($format->stripNonNumeric($_POST['settings']['image']['profile']['x']));
-	}
-	
-	if ( isset($_POST['settings']['image']['profile']['y']) )
-	{
-		$connections->options->setImgProfileY($format->stripNonNumeric($_POST['settings']['image']['profile']['y']));
-	}
-	
-	if ( isset($_POST['settings']['image']['profile']['crop']) )
-	{
-		$connections->options->setImgProfileCrop($_POST['settings']['image']['profile']['crop']);
-	}
-	
-	if ( isset($_POST['settings']['image']['logo']['quality']) )
-	{
-		$connections->options->setImgLogoQuality($format->stripNonNumeric($_POST['settings']['image']['logo']['quality']));
-	}
-	
-	if ( isset($_POST['settings']['image']['logo']['x']) )
-	{
-		$connections->options->setImgLogoX($format->stripNonNumeric($_POST['settings']['image']['logo']['x']));
-	}
-	
-	if ( isset($_POST['settings']['image']['logo']['y']) )
-	{
-		$connections->options->setImgLogoY($format->stripNonNumeric($_POST['settings']['image']['logo']['y']));
-	}
-	
-	if ( isset($_POST['settings']['image']['logo']['crop']) )
-	{
-		$connections->options->setImgLogoCrop($_POST['settings']['image']['logo']['crop']);
-	}
-	
-	if ( isset($_POST['settings']['debug']) && $_POST['settings']['debug'] === 'true' )
-	{
-		$connections->options->setDebug(TRUE);
-	}
-	else
-	{
-		$connections->options->setDebug(FALSE);
-	}
-	
-	$connections->options->saveOptions();
-	$connections->setSuccessMessage('settings_updated');
-}
-
 function processAddCategory()
 {
 	$category = new cnCategory();
@@ -1015,7 +908,7 @@ function processDeleteTemplate()
 		        }
 		        else
 				{
-		            unlink( $directory . $file ) or $deleteError = TRUE;
+		            @unlink( $directory . $file ) or $deleteError = TRUE;
 				}
 				
 				if ( $deleteError ) return FALSE;

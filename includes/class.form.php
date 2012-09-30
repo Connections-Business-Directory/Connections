@@ -11,8 +11,6 @@ class cnFormObjects
 	
 	public function __construct()
 	{
-		//if ( is_admin() ) $this->registerMetaboxes();
-		
 		// Load the validation class.
 		$this->validate = new cnValidate();
 		
@@ -199,10 +197,10 @@ class cnFormObjects
 	 * @param array $value_options Associative array where the key is the name visible in the HTML output and the value is the option attribute value
 	 * @param string $selected[optional]
 	 */
-	public function buildSelect($name, $value_options, $selected=null)
+	public function buildSelect($name, $value_options, $selected=null, $class='', $id='')
 	{
 		
-		$select = "<select name='" . $name . "'> \n";
+		$select = "\n" . '<select' . ( ( empty($class) ? '' : ' class="' . $class . '"' ) ) . ( ( empty($id) ? '' : ' id="' . $id . '"' ) ) . ' name="' . $name . '">' . "\n";
 		foreach($value_options as $key=>$value)
 		{
 			$select .= "<option ";
@@ -262,7 +260,10 @@ class cnFormObjects
 	/**
 	 * Registers the entry edit form meta boxes
 	 * 
+	 * @access private
+	 * @since unknown
 	 * @param string $pageHook The page hook to add the entry edit metaboxes to.
+	 * @return void
 	 */
 	public function registerEditMetaboxes( $pageHook )
 	{
@@ -272,47 +273,49 @@ class cnFormObjects
 		 * that can not be hidden when the Screen Options tab is output via the 
 		 * meta_box_prefs function
 		 */
-		add_meta_box('submitdiv', 'Publish', array(&$this, 'metaboxPublish'), $pageHook, 'side', 'core');
-		//add_meta_box('metabox-fields', 'Fields', array(&$this, 'metaboxFields'), $pageHook, 'side', 'core');
-		add_meta_box('categorydiv', 'Categories', array(&$this, 'metaboxCategories'), $pageHook, 'side', 'core');
-		//add_meta_box('metabox-name', 'Name', array(&$this, 'metaboxName'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-image', 'Image', array(&$this, 'metaboxImage'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-logo', 'Logo', array(&$this, 'metaboxLogo'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-address', 'Addresses', array(&$this, 'metaboxAddress'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-phone', 'Phone Numbers', array(&$this, 'metaboxPhone'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-email', 'Email Addresses', array(&$this, 'metaboxEmail'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-messenger', 'Messenger IDs', array(&$this, 'metaboxMessenger'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-social-media', 'Social Media IDs', array(&$this, 'metaboxSocialMedia'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-links', 'Links', array(&$this, 'metaboxLinks'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-birthday', 'Birthday', array(&$this, 'metaboxBirthday'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-anniversary', 'Anniversary', array(&$this, 'metaboxAnniversary'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-bio', 'Biographical Info', array(&$this, 'metaboxBio'), $pageHook, 'normal', 'core');
-		add_meta_box('metabox-note', 'Notes', array(&$this, 'metaboxNotes'), $pageHook, 'normal', 'core');
+		add_meta_box('submitdiv', __('Publish', 'connections'), array(&$this, 'metaboxPublish'), $pageHook, 'side', 'core');
+		add_meta_box('categorydiv', __('Categories', 'connections'), array(&$this, 'metaboxCategories'), $pageHook, 'side', 'core');
+		add_meta_box('metabox-image', __('Image', 'connections'), array(&$this, 'metaboxImage'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-logo', __('Logo', 'connections'), array(&$this, 'metaboxLogo'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-address', __('Addresses', 'connections'), array(&$this, 'metaboxAddress'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-phone', __('Phone Numbers', 'connections'), array(&$this, 'metaboxPhone'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-email', __('Email Addresses', 'connections'), array(&$this, 'metaboxEmail'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-messenger', __('Messenger IDs', 'connections'), array(&$this, 'metaboxMessenger'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-social-media', __('Social Media IDs', 'connections'), array(&$this, 'metaboxSocialMedia'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-links', __('Links', 'connections'), array(&$this, 'metaboxLinks'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-date', __('Dates', 'connections'), array(&$this, 'metaboxDates'), $pageHook, 'normal', 'core');
+		//add_meta_box('metabox-birthday', __('Birthday', 'connections'), array(&$this, 'metaboxBirthday'), $pageHook, 'normal', 'core');
+		//add_meta_box('metabox-anniversary', __('Anniversary', 'connections'), array(&$this, 'metaboxAnniversary'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-bio', __('Biographical Info', 'connections'), array(&$this, 'metaboxBio'), $pageHook, 'normal', 'core');
+		add_meta_box('metabox-note', __('Notes', 'connections'), array(&$this, 'metaboxNotes'), $pageHook, 'normal', 'core');
 	}
 	
 	/**
 	 * Registers the Dashboard meta boxes
 	 * 
+	 * @access private
 	 * @since 0.7.1.6
+	 * @return void
 	 */
 	public function registerDashboardMetaboxes()
 	{
 		global $connections;
 		
-		add_meta_box('metabox-news', 'News', array(&$this, 'metaboxNews'), $connections->pageHook->dashboard, 'left', 'core', array('feed' => 'http://connections-pro.com/category/connections/feed/') );
-		add_meta_box('metabox-upgrade-modules', 'Pro Modules Update Notices', array(&$this, 'metaboxNews'), $connections->pageHook->dashboard, 'left', 'core', array('feed' => 'http://feeds.feedburner.com/ConnectionsProModules') );
-		add_meta_box('metabox-upgrade-templates', 'Template Update Notices', array(&$this, 'metaboxNews'), $connections->pageHook->dashboard, 'left', 'core', array('feed' => 'http://feeds.feedburner.com/ConnectionsTemplates') );
+		add_meta_box('metabox-news', __('News', 'connections'), array(&$this, 'metaboxNews'), $connections->pageHook->dashboard, 'left', 'core', array('feed' => 'http://feeds.feedburner.com/connections-pro/news') );
+		add_meta_box('metabox-upgrade-modules', __('Pro Modules Update Notices', 'connections'), array(&$this, 'metaboxNews'), $connections->pageHook->dashboard, 'left', 'core', array('feed' => 'http://feeds.feedburner.com/connections-pro-modules') );
+		add_meta_box('metabox-upgrade-templates', __('Template Update Notices', 'connections'), array(&$this, 'metaboxNews'), $connections->pageHook->dashboard, 'left', 'core', array('feed' => 'http://feeds.feedburner.com/connections-templates') );
 		
-		add_meta_box('metabox-recent-added', 'Recently Added', array(&$this, 'metaboxRecentAdded'), $connections->pageHook->dashboard, 'left', 'core');
-		add_meta_box('metabox-recent-modified', 'Recently Modified', array(&$this, 'metaboxRecentModified'), $connections->pageHook->dashboard, 'left', 'core');
+		add_meta_box('metabox-moderate', __('Awaiting Moderation', 'connections'), array(&$this, 'metaboxModerate'), $connections->pageHook->dashboard, 'left', 'core');
+		add_meta_box('metabox-recent-added', __('Recently Added', 'connections'), array(&$this, 'metaboxRecentAdded'), $connections->pageHook->dashboard, 'left', 'core');
+		add_meta_box('metabox-recent-modified', __('Recently Modified', 'connections'), array(&$this, 'metaboxRecentModified'), $connections->pageHook->dashboard, 'left', 'core');
 		
-		add_meta_box('metabox-quick-links', 'Quick Links', array(&$this, 'metaBoxButtons'), $connections->pageHook->dashboard, 'right', 'core');
-		add_meta_box('metabox-anniversary-today', 'Today\'s Anniversaries', array(&$this, 'metaboxAnniversaryToday'), $connections->pageHook->dashboard, 'right', 'core');
-		add_meta_box('metabox-birthday-today', 'Today\'s Birthdays', array(&$this, 'metaboxBirthdayToday'), $connections->pageHook->dashboard, 'right', 'core');
-		add_meta_box('metabox-anniversary-upcoming', 'Upcoming Anniversaries', array(&$this, 'metaboxAnniversaryUpcoming'), $connections->pageHook->dashboard, 'right', 'core');
-		add_meta_box('metabox-birthday-upcoming', 'Upcoming Birthdays', array(&$this, 'metaboxBirthdayUpcoming'), $connections->pageHook->dashboard, 'right', 'core');
+		add_meta_box('metabox-quick-links', __('Quick Links', 'connections'), array(&$this, 'metaBoxButtons'), $connections->pageHook->dashboard, 'right', 'core');
+		add_meta_box('metabox-anniversary-today', __('Today\'s Anniversaries', 'connections'), array(&$this, 'metaboxAnniversaryToday'), $connections->pageHook->dashboard, 'right', 'core');
+		add_meta_box('metabox-birthday-today', __('Today\'s Birthdays', 'connections'), array(&$this, 'metaboxBirthdayToday'), $connections->pageHook->dashboard, 'right', 'core');
+		add_meta_box('metabox-anniversary-upcoming', __('Upcoming Anniversaries', 'connections'), array(&$this, 'metaboxAnniversaryUpcoming'), $connections->pageHook->dashboard, 'right', 'core');
+		add_meta_box('metabox-birthday-upcoming', __('Upcoming Birthdays', 'connections'), array(&$this, 'metaboxBirthdayUpcoming'), $connections->pageHook->dashboard, 'right', 'core');
 		
-		add_meta_box('metabox-system', 'System', array(&$this, 'metaboxSystem'), $connections->pageHook->dashboard, 'right', 'core');
+		add_meta_box('metabox-system', __('System', 'connections'), array(&$this, 'metaboxSystem'), $connections->pageHook->dashboard, 'right', 'core');
 	}
 	
 	public function metaBoxButtons()
@@ -320,56 +323,67 @@ class cnFormObjects
 		?>
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/connections/connections-pro/"><span>Pro Modules</span></a>
+				<a class="button large green full" href="http://connections-pro.com/documentation/plugin/"><span><?php _e('Documentation', 'connections'); ?></span></a>
 			</p>
 		</div>
 		
 		<div class="two-third last">
-			<p>Extend Connections with the Pro Module Addons.</p>
+			<p></p>
 		</div>
 		<div class="clearboth"></div>
 		
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/connections/templates/"><span>Templates</span></a>
+				<a class="button large blue full" href="http://connections-pro.com/connections/faq/"><span><?php _e('FAQs', 'connections'); ?></span></a>
 			</p>
 		</div>
 		
 		<div class="two-third last">
-			<p>Connections comes with several templates to get you started, something, something, bla, bla.</p>
+			<p><?php _e('Have a question, maybe someone else had the same question, please check the FAQs.', 'connections'); ?></p>
 		</div>
 		<div class="clearboth"></div>
 		
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/trac/?bugcatid=16&amp;bugtypeid=74"><span>Bug Report</span></a>
+				<a class="button large blue full" href="http://connections-pro.com/connections/connections-pro/"><span><?php _e('Pro Modules', 'connections'); ?></span></a>
 			</p>
 		</div>
 		
 		<div class="two-third last">
-			<p>Dig find a bug, please take the time to report it. Thanks.</p>
+			<p><?php _e('Extend Connections with the Pro Module Addons.', 'connections'); ?></p>
 		</div>
 		<div class="clearboth"></div>
 		
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/trac/?bugcatid=16&amp;bugtypeid=75"><span>Feature Request</span></a>
+				<a class="button large blue full" href="http://connections-pro.com/connections/templates/"><span><?php _e('Templates', 'connections'); ?></span></a>
 			</p>
 		</div>
 		
 		<div class="two-third last">
-			<p>Need a feature, request the feature.</p>
+			<p><?php _e('Check out the template market.', 'connections'); ?></p>
 		</div>
 		<div class="clearboth"></div>
 		
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/connections/faq/"><span>FAQs</span></a>
+				<a class="button large blue full" href="http://connections-pro.com/trac/?bugcatid=16&amp;bugtypeid=74"><span><?php _e('Bug Report', 'connections'); ?></span></a>
 			</p>
 		</div>
 		
 		<div class="two-third last">
-			<p>Have a question, maybe someone else had the same question, please check the FAQs.</p>
+			<p><?php _e('Did you find a bug, please take the time to report it. Thanks.', 'connections'); ?></p>
+		</div>
+		<div class="clearboth"></div>
+		
+		<div class="one-third">
+			<p class="center">
+				<a class="button large blue full" href="http://connections-pro.com/trac/?bugcatid=16&amp;bugtypeid=75"><span><?php _e('Feature Request', 'connections'); ?></span></a>
+			</p>
+		</div>
+		
+		<div class="two-third last">
+			<p><?php _e('Need a feature, request a feature.', 'connections') ?></p>
 		</div>
 		<div class="clearboth"></div>
 		<?php
@@ -380,6 +394,9 @@ class cnFormObjects
 	 * 
 	 * @author Alex Rabe (http://alexrabe.de/)
 	 * @since 0.7.1.6
+	 * @param $post
+	 * @param $metabox array
+	 * @return string
 	 */
 	public function metaboxNews($post, $metabox)
 	{
@@ -407,36 +424,22 @@ class cnFormObjects
 			    		$link = esc_url(strip_tags($link));
 			    		$title = esc_attr(strip_tags($item->get_title()));
 			    		if ( empty($title) )
-			    			$title = __('Untitled');
+			    			$title = __('Untitled', 'connections');
 			    
 			    		$desc = str_replace( array("\n", "\r"), ' ', esc_attr( strip_tags( @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option('blog_charset') ) ) ) );
 			    		$desc = wp_html_excerpt( $desc, 360 );
-			    
-			    		// Append ellipsis. Change existing [...] to [&hellip;].
-			    		/*if ( '[...]' == substr( $desc, -5 ) )
-			    			$desc = substr( $desc, 0, -5 ) . '[&hellip;]';
-			    		elseif ( '[&hellip;]' != substr( $desc, -10 ) )
-			    			$desc .= ' [&hellip;]';*/
 			    
 			    		$desc = esc_html( $desc );
 			            
 						$date = $item->get_date();
 			            $diff = '';
 			            
-						if ( $date ) {
-						    
-			                $diff = human_time_diff( strtotime($date, time()) );
-			                 
-							if ( $date_stamp = strtotime( $date ) )
-								$date = ' <span class="rss-date">' . date_i18n( get_option( 'date_format' ), $date_stamp ) . '</span>';
-							else
-								$date = '';
-						}            
+						if ( $date )  $diff = human_time_diff( strtotime($date, time()) );
 			        ?>
 			          <li>
 			          	<h4 class="rss-title"><a title="" href='<?php echo $link; ?>'><?php echo $title; ?></a></h4>
 					  	<div class="rss-date"><?php echo $date; ?></div> 
-			          	<div class="rss-summary"><strong><?php echo $diff; ?> ago</strong> - <?php echo $desc; ?></div>
+			          	<div class="rss-summary"><strong><?php echo $diff; ?> <?php _e('ago', 'connections'); ?></strong> - <?php echo $desc; ?></div>
 					  </li>
 			        <?php
 			        }
@@ -444,7 +447,7 @@ class cnFormObjects
 				}
 				else
 				{
-					echo '<p>No updates at this time</p>';
+					_e('<p>No updates at this time</p>', 'connections');
 				}
 		      }
 		    ?>
@@ -455,25 +458,26 @@ class cnFormObjects
 	/**
 	 * Outputs the Dashboard Today's Birthday Widget.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.6
-	 * 
 	 * @param array $data
+	 * @return void
 	 */
 	public function metaboxBirthdayToday($data = NULL)
 	{
-		$message = create_function('', 'return "No Birthdays Today";');
+		$message = create_function('', 'return __("No Birthdays Today", "connections");');
 		add_filter( 'cn_upcoming_no_result_message', $message );
 		
 		$atts = array(
-				'list_type' => 'birthday',
-				'days' => '0',
-				'private_override' => FALSE,
-				'date_format' => 'F jS',
-				'show_lastname' => TRUE,
-				'list_title' => NULL,
-				'show_title' => FALSE,
-				'template' => 'dashboard-upcoming'
-				);
+			'list_type' => 'birthday',
+			'days' => '0',
+			'private_override' => FALSE,
+			'date_format' => 'F jS',
+			'show_lastname' => TRUE,
+			'list_title' => NULL,
+			'show_title' => FALSE,
+			'template' => 'dashboard-upcoming'
+		);
 		
 		connectionsUpcomingList($atts);
 		
@@ -483,23 +487,24 @@ class cnFormObjects
 	/**
 	 * Outputs the Dashboard Upcoming Birthdays Widget.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.6
-	 * 
 	 * @param array $data
+	 * @return string
 	 */
 	public function metaboxBirthdayUpcoming($data = NULL)
 	{
 		$atts = array(
-				'list_type' => 'birthday',
-				'days' => '30',
-				'include_today' => FALSE,
-				'private_override' => FALSE,
-				'date_format' => 'F jS',
-				'show_lastname' => TRUE,
-				'list_title' => NULL,
-				'show_title' => FALSE,
-				'template' => 'dashboard-upcoming'
-				);
+			'list_type' => 'birthday',
+			'days' => '30',
+			'include_today' => FALSE,
+			'private_override' => FALSE,
+			'date_format' => 'F jS',
+			'show_lastname' => TRUE,
+			'list_title' => NULL,
+			'show_title' => FALSE,
+			'template' => 'dashboard-upcoming'
+		);
 		
 		connectionsUpcomingList($atts);
 	}
@@ -507,25 +512,25 @@ class cnFormObjects
 	/**
 	 * Outputs the Dashboard Today's Anniversary Widget.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.6
-	 * 
 	 * @param array $data
 	 */
 	public function metaboxAnniversaryToday($data = NULL)
 	{
-		$message = create_function('', 'return "No Anniversaries Today";');
+		$message = create_function('', 'return __("No Anniversaries Today", "connections");');
 		add_filter( 'cn_upcoming_no_result_message', $message );
 		
 		$atts = array(
-				'list_type' => 'anniversary',
-				'days' => '0',
-				'private_override' => FALSE,
-				'date_format' => 'F jS',
-				'show_lastname' => TRUE,
-				'list_title' => NULL,
-				'show_title' => FALSE,
-				'template' => 'dashboard-upcoming'
-				);
+			'list_type' => 'anniversary',
+			'days' => '0',
+			'private_override' => FALSE,
+			'date_format' => 'F jS',
+			'show_lastname' => TRUE,
+			'list_title' => NULL,
+			'show_title' => FALSE,
+			'template' => 'dashboard-upcoming'
+		);
 		
 		connectionsUpcomingList($atts);
 		
@@ -535,32 +540,64 @@ class cnFormObjects
 	/**
 	 * Outputs the Dashboard Upcoming Anniversary Widget.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.6
-	 * 
 	 * @param array $data
 	 */
 	public function metaboxAnniversaryUpcoming($data = NULL)
 	{
 		$atts = array(
-				'list_type' => 'anniversary',
-				'days' => '30',
-				'include_today' => FALSE,
-				'private_override' => FALSE,
-				'date_format' => 'F jS',
-				'show_lastname' => TRUE,
-				'list_title' => NULL,
-				'show_title' => FALSE,
-				'template' => 'dashboard-upcoming'
-				);
+			'list_type' => 'anniversary',
+			'days' => '30',
+			'include_today' => FALSE,
+			'private_override' => FALSE,
+			'date_format' => 'F jS',
+			'show_lastname' => TRUE,
+			'list_title' => NULL,
+			'show_title' => FALSE,
+			'template' => 'dashboard-upcoming'
+		);
 		
 		connectionsUpcomingList($atts);
 	}
 	
 	/**
+	 * Outputs the Dashboard Awaiting Moderation Widget.
+	 * 
+	 * @author Steven A. Zahm
+	 * @since 0.7.1.6
+	 * @param array $data
+	 */
+	public function metaboxModerate($data = NULL)
+	{
+		global $connections;
+		
+		function cnMetaboxModerateAtts($atts)
+		{
+			$atts['status'] = 'pending';
+			
+			return $atts;
+		}
+		
+		add_filter( 'cn_list_atts_permitted', 'cnMetaboxModerateAtts', 9 );
+		add_filter( 'cn_list_results', array($connections->retrieve, 'removeUnknownDateAdded'), 9 );
+		
+		$atts = array(
+			'order_by' => 'date_added|SORT_ASC',
+			'template' => 'dashboard-recent-added'
+		);
+		
+		connectionsEntryList($atts);
+		
+		remove_filter( 'cn_list_atts_permitted', 'cnMetaboxModerateAtts', 9 );
+		remove_filter( 'cn_list_results', array($connections->retrieve, 'removeUnknownDateAdded'), 9 );
+	}
+	
+	/**
 	 * Outputs the Dashboard Recently Added Widget.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.6
-	 * 
 	 * @param array $data
 	 */
 	public function metaboxRecentAdded($data = NULL)
@@ -568,12 +605,12 @@ class cnFormObjects
 		global $connections;
 		
 		add_filter( 'cn_list_results', array($connections->retrieve, 'removeUnknownDateAdded'), 9 );
-		add_filter( 'cn_list_results', array($connections->retrieve, 'limitList'), 10 );
 		
 		$atts = array(
-				'order_by' => 'date_added|SORT_DESC',
-				'template' => 'dashboard-recent-added'
-				);
+			'order_by' => 'date_added|SORT_DESC',
+			'template' => 'dashboard-recent-added',
+			'limit' => 10
+		);
 		
 		connectionsEntryList($atts);
 		
@@ -583,20 +620,19 @@ class cnFormObjects
 	/**
 	 * Outputs the Dashboard Recently Modified Widget.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.6
-	 * 
 	 * @param array $data
 	 */
 	public function metaboxRecentModified($data = NULL)
 	{
 		global $connections;
 		
-		add_filter( 'cn_list_results', array($connections->retrieve, 'limitList'), 10 );
-		
 		$atts = array(
-				'order_by' => 'date_modified|SORT_DESC',
-				'template' => 'dashboard-recent-modified'
-				);
+			'order_by' => 'date_modified|SORT_DESC',
+			'template' => 'dashboard-recent-modified',
+			'limit' => 10
+		);
 		
 		connectionsEntryList($atts);
 	}
@@ -640,7 +676,7 @@ class cnFormObjects
 		if(ini_get('memory_limit')) $memory_limit = $connections->phpMemoryLimit;
 		else $memory_limit = __('N/A', 'connections');
 		// Get actual memory_get_usage
-		if (function_exists('memory_get_usage')) $memory_usage = round(memory_get_usage() / 1024 / 1024, 2) . __(' MByte', 'connections');
+		if (function_exists('memory_get_usage')) $memory_usage = round(memory_get_usage() / 1024 / 1024, 2) . ' ' . __('MByte', 'connections');
 		else $memory_usage = __('N/A', 'connections');
 		// required for EXIF read
 		if (is_callable('exif_read_data')) $exif = __('Yes', 'connections'). " ( V" . substr(phpversion('exif'),0,4) . ")" ;
@@ -653,7 +689,14 @@ class cnFormObjects
 		else $xml = __('No', 'connections');
 			
 		?>
-			<h4>Server Configuration</h4>
+			<h4><strong>Version Information</strong></h4>
+			
+			<ul class="settings">
+				<li>Connections: <?php echo $connections->options->getVersion() ?></li>
+				<li>Database: <?php echo $connections->options->getDBVersion() ?></li>
+			</ul>
+			
+			<h4><strong>Server Configuration</strong></h4>
 			
 			<ul class="settings">
 				<li><?php _e('Operating System', 'connections'); ?> : <span><?php echo PHP_OS; ?>&nbsp;(<?php echo (PHP_INT_SIZE * 8) ?>&nbsp;Bit)</span></li>
@@ -674,7 +717,7 @@ class cnFormObjects
 				<li><?php _e('PHP XML support', 'connections'); ?> : <span><?php echo $xml; ?></span></li>
 			</ul>
 			
-			<h4><strong><?php _e('Graphic Library', 'nggallery'); ?></strong></h4>
+			<h4><strong>Graphic Library</strong></h4>
             
 		<?php
 		
@@ -699,27 +742,27 @@ class cnFormObjects
 		
 		?>
 		
-		<h4>Folder Permissions</h4>
+		<h4><strong>Folder Permissions</strong></h4>
 		
 		<?php
 		
 		echo '<ul class="settings">';
-			echo '<li>Image Path Exists: ' , $convert->toYesNo( is_dir(CN_IMAGE_PATH) ) , '</li>';
-			if ( is_dir(CN_IMAGE_PATH) ) echo '<li>Image Path Writeable: ' , $convert->toYesNo( is_writeable(CN_IMAGE_PATH) ) , '</li>';
+			echo '<li>' , __('Image Path Exists', 'connections') , ': ' , $convert->toYesNo( is_dir(CN_IMAGE_PATH) ) , '</li>';
+			if ( is_dir(CN_IMAGE_PATH) ) echo __('<li>Image Path Writeable', 'connections') , ': ' , $convert->toYesNo( is_writeable(CN_IMAGE_PATH) ) , '</li>';
 			
-			echo '<li>Template Path Exists: ' , $convert->toYesNo( is_dir(CN_CUSTOM_TEMPLATE_PATH) ) , '</li>';
-			if ( is_dir(CN_CUSTOM_TEMPLATE_PATH) ) echo '<li>Template Path Writeable: ' , $convert->toYesNo( is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) , '</li>';
+			echo '<li>' , __('Template Path Exists', 'connections') , ': ' , $convert->toYesNo( is_dir(CN_CUSTOM_TEMPLATE_PATH) ) , '</li>';
+			if ( is_dir(CN_CUSTOM_TEMPLATE_PATH) ) echo '<li>' , __('Template Path Writeable', 'connections') , ': ' , $convert->toYesNo( is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) , '</li>';
 			
-			echo '<li>Cache Path Exists: ' , $convert->toYesNo( is_dir(CN_CACHE_PATH) ) , '</li>';
-			if ( is_dir(CN_CUSTOM_TEMPLATE_PATH) ) echo '<li>Cache Path Writeable: ' , $convert->toYesNo( is_writeable(CN_CACHE_PATH) ) , '</li>';
+			echo '<li>' , __('Cache Path Exists', 'connections') , ': ' , $convert->toYesNo( is_dir(CN_CACHE_PATH) ) , '</li>';
+			if ( is_dir(CN_CACHE_PATH) ) echo '<li>' , __('Cache Path Writeable', 'connections') , ': ' , $convert->toYesNo( is_writeable(CN_CACHE_PATH) ) , '</li>';
 		echo '</ul>';
 	}
 	
 	/**
 	 * Outputs the publish meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.6
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxPublish($entry = NULL)
@@ -739,13 +782,29 @@ class cnFormObjects
 		
 		echo '<div id="minor-publishing">';
 			echo '<div id="entry-type">';
-				echo $this->buildRadio("entry_type","entry_type",array("Individual"=>"individual","Organization"=>"organization","Family"=>"family"), $type);
+				echo $this->buildRadio(
+					'entry_type', 
+					'entry_type', 
+					array(
+						__('Individual', 'connections') =>'individual',
+						__('Organization', 'connections') =>'organization',
+						__('Family', 'connections') =>'family'
+					),
+					 $type);
 			echo '</div>';
 			
 			if ( current_user_can('connections_edit_entry') )
 			{
 				echo '<div id="visibility">';
-					echo '<span class="radio_group">' . $this->buildRadio('visibility','vis',array('Public'=>'public','Private'=>'private','Unlisted'=>'unlisted'), $visibility) . '</span>';
+					echo '<span class="radio_group">' . $this->buildRadio(
+						'visibility',
+						'vis',
+						array(
+							__('Public','connections') => 'public',
+							__('Private', 'connections') => 'private',
+							__('Unlisted', 'connections') => 'unlisted'
+						),
+						$visibility) . '</span>';
 					echo '<div class="clear"></div>';
 				echo '</div>';
 			}
@@ -756,15 +815,17 @@ class cnFormObjects
 			switch ($action)
 			{
 				case 'edit':
-					echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">Cancel</a></div><div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="Update" /></div>';
+					echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __('Cancel', 'connections') , '</a></div>';
+					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __('Update', 'connections') , '" /></div>';
 				break;
 				
 				case 'copy':
-					echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">Cancel</a></div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="Add Entry" /></div>';;
+					echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __('Cancel', 'connections') , '</a>';
+					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __('Add Entry', 'connections') , '" /></div>';
 				break;
 				
 				default:
-					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="Add Entry" /></div>';
+					echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __('Add Entry', 'connections') , '" /></div>';
 				break;
 			}
 									
@@ -773,25 +834,10 @@ class cnFormObjects
 	}
 	
 	/**
-	 * Outputs the add field meta box. NOT USED
-	 * 
-	 * @since 0.7.1.5
-	 */
-	public function metaboxFields()
-	{
-		echo '<p><a id="add_address" class="button">Add Address</a></p>';
-		echo '<p><a id="add_phone_number" class="button">Add Phone Number</a></p>';
-		echo '<p><a id="add_email_address" class="button">Add Email Address</a></p>';
-		echo '<p><a id="add_im_id" class="button">Add Messenger ID</a></p>';
-		echo '<p><a id="add_social_media" class="button">Add Social Media ID</a></p>';
-		echo '<p><a id="add_website_address" class="button">Add Website Address</a></p>';
-	}
-	
-	/**
 	 * Outputs the category meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxCategories($entry = NULL)
@@ -812,8 +858,8 @@ class cnFormObjects
 	/**
 	 * Outputs the name meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxName($entry = NULL)
@@ -822,16 +868,16 @@ class cnFormObjects
 		
 		echo '<div id="family" class="form-field">';
 				
-					echo '<label for="family_name">Family Name:</label>';
+					echo '<label for="family_name">' , __('Family Name', 'connections') , ':</label>';
 					echo '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
 					echo '<div id="relations">';
 							
-						// --> Start template for Connection Group <-- \\
-						echo '<textarea id="relation_row_base" style="display: none">';
-							echo $this->getEntrySelect('family_member[::FIELD::][entry_id]');
-							echo $this->buildSelect('family_member[::FIELD::][relation]', $connections->options->getDefaultFamilyRelationValues());
+						// --> Start template for Family <-- \\
+						echo '<textarea id="relation-template" style="display: none">';
+							echo $this->getEntrySelect('family_member[::FIELD::][entry_id]' , NULL , 'family-member-name'  );
+							echo $this->buildSelect('family_member[::FIELD::][relation]', $connections->options->getDefaultFamilyRelationValues() , NULL , 'family-member-relation' );
 						echo '</textarea>';
-						// --> End template for Connection Group <-- \\
+						// --> End template for Family <-- \\
 						
 						if ($entry->getFamilyMembers())
 						{
@@ -841,10 +887,10 @@ class cnFormObjects
 								$relation->set($key);
 								$token = $this->token($relation->getId());
 								
-								echo '<div id="relation_row_' . $token . '" class="relation_row">';
-									echo $this->getEntrySelect('family_member[' . $token . '][entry_id]', $key);
-									echo $this->buildSelect('family_member[' . $token . '][relation]', $connections->options->getDefaultFamilyRelationValues(), $value);
-									echo '<a href="#" id="remove_button_' . $token . '" class="button button-warning" onClick="removeEntryRow(\'#relation_row_' . $token . '\'); return false;">Remove</a>';
+								echo '<div id="relation-row-' . $token . '" class="relation">';
+									echo $this->getEntrySelect('family_member[' . $token . '][entry_id]', $key , 'family-member-name' );
+									echo $this->buildSelect('family_member[' . $token . '][relation]', $connections->options->getDefaultFamilyRelationValues(), $value  , 'family-member-relation' );
+									echo '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' , __('Remove', 'connections') , '</a>';
 								echo '</div>';
 								
 								unset($relation);
@@ -852,7 +898,7 @@ class cnFormObjects
 						}						
 						
 					echo '</div>';
-					echo '<p class="add"><a id="add_relation" class="button">Add Relation</a></p>';
+					echo '<p class="add"><a id="add-relation" class="button">' , __('Add Relation', 'connections') , '</a></p>';
 					
 				echo '
 			</div>
@@ -862,54 +908,54 @@ class cnFormObjects
 						
 						echo '
 						<div style="float: left; width: 8%">
-							<label for="honorific_prefix">Prefix:</label>
+							<label for="honorific_prefix">' , __('Prefix', 'connections') , ':</label>
 							<input type="text" name="honorific_prefix" value="' . $entry->getHonorificPrefix() . '" />
 						</div>';
 					
 						echo '
 						<div style="float: left; width: 30%">
-							<label for="first_name">First Name:</label>
+							<label for="first_name">' , __('First Name', 'connections') , ':</label>
 							<input type="text" name="first_name" value="' . $entry->getFirstName() . '" />
 						</div>
 						
 						<div style="float: left; width: 24%">
-							<label for="middle_name">Middle Name:</label>
+							<label for="middle_name">' , __('Middle Name', 'connections') , ':</label>
 							<input type="text" name="middle_name" value="' . $entry->getMiddleName() . '" />
 						</div>
 					
 						<div style="float: left; width: 30%">
-							<label for="last_name">Last Name:</label>
+							<label for="last_name">' , __('Last Name', 'connections') , ':</label>
 							<input type="text" name="last_name" value="' . $entry->getLastName() . '" />
 						</div>';
 					
 						echo '
 						<div style="float: left; width: 8%">
-							<label for="honorific_suffix">Suffix:</label>
+							<label for="honorific_suffix">' , __('Suffix', 'connections') , ':</label>
 							<input type="text" name="honorific_suffix" value="' . $entry->getHonorificSuffix() . '" />
 						</div>';
 						
 						echo '
-						<label for="title">Title:</label>
+						<label for="title">' , __('Title', 'connections') , ':</label>
 						<input type="text" name="title" value="' . $entry->getTitle() . '" />
 					</div>
 				</div>
 				
 				<div class="form-field">
 					<div class="organization">
-						<label for="organization">Organization:</label>
+						<label for="organization">' , __('Organization', 'connections') , ':</label>
 						<input type="text" name="organization" value="' . $entry->getOrganization() . '" />
 						
-						<label for="department">Department:</label>
+						<label for="department">' , __('Department', 'connections') , ':</label>
 						<input type="text" name="department" value="' . $entry->getDepartment() . '" />';
 						
 						echo '
 						<div id="contact_name">
 							<div class="input inputhalfwidth">
-								<label for="contact_first_name">Contact First Name:</label>
+								<label for="contact_first_name">' , __('Contact First Name', 'connections') , ':</label>
 								<input type="text" name="contact_first_name" value="' . $entry->getContactFirstName() . '" />
 							</div>
 							<div class="input inputhalfwidth">
-								<label for="contact_last_name">Contact Last Name:</label>
+								<label for="contact_last_name">' , __('Contact Last Name', 'connections') , ':</label>
 								<input type="text" name="contact_last_name" value="' . $entry->getContactLastName() . '" />
 							</div>
 							
@@ -923,8 +969,8 @@ class cnFormObjects
 	/**
 	 * Outputs the image meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxImage($entry = NULL)
@@ -935,22 +981,32 @@ class cnFormObjects
 			{
 				( $entry->getImageDisplay() ) ? $selected = 'show' : $selected = 'hidden';
 				
-				$imgOptions = $this->buildRadio('imgOptions', 'imgOptionID_', array('Display'=>'show', 'Not Displayed'=>'hidden', 'Remove'=>'remove'), $selected);
-				echo '<div style="text-align: center;"> <img src="' . CN_IMAGE_BASE_URL . $entry->getImageNameProfile() . '" /> <br /> <span class="radio_group">' . $imgOptions . '</span></div> <br />';
+				$options = $this->buildRadio(
+					'imgOptions',
+					'imgOptionID_',
+					array( 
+						__('Display', 'connections') => 'show',
+						__('Not Displayed', 'connections') => 'hidden',
+						__('Remove', 'connections') =>'remove'
+					),
+					$selected
+				);
+				
+				echo '<div style="text-align: center;"> <img src="' . CN_IMAGE_BASE_URL . $entry->getImageNameProfile() . '" /> <br /> <span class="radio_group">' . $options . '</span></div> <br />';
 			}
 			
 			echo '<div class="clear"></div>';
-			echo '<label for="original_image">Select Image:
-			<input type="file" value="" name="original_image" size="25" /></label>
+			echo '<label for="original_image">' , __('Select Image', 'connections') , ':';
+			echo '<input type="file" value="" name="original_image" size="25" /></label>';
 				
-		</div>';
+		echo '</div>';
 	}
 	
 	/**
 	 * Outputs the logo meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxLogo($entry = NULL)
@@ -961,40 +1017,50 @@ class cnFormObjects
 			{
 				( $entry->getLogoDisplay() ) ? $selected = 'show' : $selected = 'hidden';
 				
-				$logoOptions = $this->buildRadio('logoOptions', 'logoOptionID_', array('Display'=>'show', 'Not Displayed'=>'hidden', 'Remove'=>'remove'), $selected);
-				echo '<div style="text-align: center;"> <img src="' . CN_IMAGE_BASE_URL . $entry->getLogoName() . '" /> <br /> <span class="radio_group">' . $logoOptions . '</span></div> <br />'; 
+				$options = $this->buildRadio(
+					'logoOptions',
+					'logoOptionID_',
+					array(
+						__('Display', 'connections') => 'show',
+						__('Not Displayed', 'connections') => 'hidden',
+						__('Remove', 'connections') =>'remove'
+					),
+					$selected
+				);
+				
+				echo '<div style="text-align: center;"> <img src="' . CN_IMAGE_BASE_URL . $entry->getLogoName() . '" /> <br /> <span class="radio_group">' . $options . '</span></div> <br />'; 
 			}
 			
 			echo '<div class="clear"></div>';
-			echo '<label for="original_logo">Select Logo:
-			<input type="file" value="" name="original_logo" size="25" /></label>
+			echo '<label for="original_logo">' , __('Select Logo', 'connections') , ':';
+			echo '<input type="file" value="" name="original_logo" size="25" /></label>';
 			
-		</div>';
+		echo '</div>';
 	}
 	
 	/**
 	 * Outputs the address meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
-	public function metaboxAddress( &$entry = NULL )
+	public function metaboxAddress( $entry = NULL )
 	{
 		global $connections;
 			
 		echo  '<div class="widgets-sortables ui-sortable form-field" id="addresses">' , "\n";
 			
 			// --> Start template <-- \\
-			echo  '<textarea id="address_row_base" style="display: none;">' , "\n";
+			echo  '<textarea id="address-template" style="display: none;">' , "\n";
 				
 				echo '<div class="widget-top">' , "\n";
 					echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 					
 					echo '<div class="widget-title"><h4>' , "\n";
-						echo 'Address Type: ' , $this->buildSelect('address[::FIELD::][type]', $connections->options->getDefaultAddressValues() ) , "\n";
-						echo '<label><input type="radio" name="address[preferred]" value="::FIELD::"> Preferred</label>' , "\n";
-						echo '<span class="visibility">Visibility: ' , $this->buildRadio('address[::FIELD::][visibility]', 'address_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
+						echo __('Address Type', 'connections') , ': ' , $this->buildSelect('address[::FIELD::][type]', $connections->options->getDefaultAddressValues() ) , "\n";
+						echo '<label><input type="radio" name="address[preferred]" value="::FIELD::"> ' , __('Preferred', 'connections') , '</label>' , "\n";
+						echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('address[::FIELD::][visibility]', 'address_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
 					echo '</h4></div>'  , "\n";
 					
 				echo '</div>' , "\n";
@@ -1003,17 +1069,17 @@ class cnFormObjects
 				
 					echo '<div class="address-local">';
 						echo '<div class="address-line">';
-							echo  '<label for="address">Address Line 1:</label>';
+							echo  '<label for="address">' , __('Address Line 1', 'connections') , '</label>';
 							echo  '<input type="text" name="address[::FIELD::][line_1]" value="">';
 						echo  '</div>';
 						
 						echo '<div class="address-line">';
-							echo  '<label for="address">Address Line 2:</label>';
+							echo  '<label for="address">' , __('Address Line 2', 'connections') , '</label>';
 							echo  '<input type="text" name="address[::FIELD::][line_2]" value="">';
 						echo  '</div>';
 						
 						echo '<div class="address-line">';
-							echo  '<label for="address">Address Line 3:</label>';
+							echo  '<label for="address">' , __('Address Line 3', 'connections') , '</label>';
 							echo  '<input type="text" name="address[::FIELD::][line_3]" value="">';
 						echo  '</div>';
 						
@@ -1021,38 +1087,44 @@ class cnFormObjects
 					
 					echo '<div class="address-region">';
 						echo  '<div class="input address-city">';
-							echo  '<label for="address">City:</label>';
+							echo  '<label for="address">' , __('City', 'connections') , '</label>';
 							echo  '<input type="text" name="address[::FIELD::][city]" value="">';
 						echo  '</div>';
 						echo  '<div class="input address-state">';
-							echo  '<label for="address">State:</label>';
+							echo  '<label for="address">' , __('State', 'connections') , '</label>';
 							echo  '<input type="text" name="address[::FIELD::][state]" value="">';
 						echo  '</div>';
 						echo  '<div class="input address-zipcode">';
-							echo  '<label for="address">Zipcode:</label>';
+							echo  '<label for="address">' , __('Zipcode', 'connections') , '</label>';
 							echo  '<input type="text" name="address[::FIELD::][zipcode]" value="">';
 						echo  '</div>';
 					echo  '</div>';
 					
 					echo '<div class="address-country">';
-						echo  '<label for="address">Country</label>';
+						echo  '<label for="address">' , __('Country', 'connections') , '</label>';
 						echo  '<input type="text" name="address[::FIELD::][country]" value="">';
 					echo  '</div>';
 					
 					echo '<div class="address-geo">';
 						echo  '<div class="input address-latitude">';
-							echo  '<label for="latitude">Latitude</label>';
+							echo  '<label for="latitude">' , __('Latitude', 'connections') , '</label>';
 							echo  '<input type="text" name="address[::FIELD::][latitude]" value="">';
 						echo  '</div>';
 						echo  '<div class="input address-longitude">';
-							echo  '<label for="longitude">Longitude</label>';
+							echo  '<label for="longitude">' , __('Longitude', 'connections') , '</label>';
 							echo  '<input type="text" name="address[::FIELD::][longitude]" value="">';
 						echo  '</div>';
+						
+						echo '<a class="geocode button" data-uid="::FIELD::" href="#">' , __('Geocode', 'connections') , '</a>';
+						
 					echo  '</div>';
 					
 					echo  '<div class="clear"></div>';
+					
+					echo '<div class="map" id="map-::FIELD::" data-map-id="::FIELD::" style="display: none; height: 400px;">' , __('Geocoding Address.', 'connections') , '</div>';
+					
 					echo  '<br>';
-					echo  '<p class="remove-button"><a href="#" id="remove_button_::FIELD::" class="button button-warning" onClick="removeEntryRow(\'#address_row_::FIELD::\'); return false;">Remove</a></p>';
+					echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="::FIELD::">' , __('Remove', 'connections') , '</a></p>';
 				
 				echo  '</div>' , "\n";
 				
@@ -1071,14 +1143,14 @@ class cnFormObjects
 					$selectName = 'address['  . $token . '][type]';
 					( $address->preferred ) ? $preferredAddress = 'CHECKED' : $preferredAddress = '';
 					
-					echo '<div class="widget address" id="address_row_'  . $token . '">' , "\n";
+					echo '<div class="widget address" id="address-row-'  . $token . '">' , "\n";
 						echo '<div class="widget-top">' , "\n";
 							echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 							
 							echo '<div class="widget-title"><h4>' , "\n";
-								echo 'Address Type: ' , $this->buildSelect($selectName, $connections->options->getDefaultAddressValues(), $address->type) , "\n";
-								echo '<label><input type="radio" name="address[preferred]" value="' , $token , '" ' , $preferredAddress , '> Preferred</label>' , "\n";
-								echo '<span class="visibility">Visibility: ' , $this->buildRadio('address[' . $token . '][visibility]', 'address_visibility_'  . $token , $this->visibiltyOptions, $address->visibility) , '</span>' , "\n";
+								echo __('Address Type', 'connections') , ': ' , $this->buildSelect($selectName, $connections->options->getDefaultAddressValues(), $address->type) , "\n";
+								echo '<label><input type="radio" name="address[preferred]" value="' , $token , '" ' , $preferredAddress , '> ' , __('Preferred', 'connections') , '</label>' , "\n";
+								echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('address[' . $token . '][visibility]', 'address_visibility_'  . $token , $this->visibiltyOptions, $address->visibility) , '</span>' , "\n";
 							echo '</h4></div>'  , "\n";
 							
 						echo '</div>' , "\n";
@@ -1087,57 +1159,63 @@ class cnFormObjects
 							
 							echo '<div class="address-local">' , "\n";
 								echo '<div class="address-line">' , "\n";
-									echo  '<label for="address">Address Line 1:</label>' , "\n";
+									echo  '<label for="address">' , __('Address Line 1', 'connections') , '</label>' , "\n";
 									echo  '<input type="text" name="address[' , $token , '][line_1]" value="' , $address->line_1 , '">' , "\n";
 								echo '</div>' , "\n";
 									
 								echo '<div class="address-line">' , "\n";
-									echo  '<label for="address">Address Line 2:</label>' , "\n";
+									echo  '<label for="address">' , __('Address Line 2', 'connections') , '</label>' , "\n";
 									echo  '<input type="text" name="address[' , $token , '][line_2]" value="' , $address->line_2 , '">' , "\n";
 								echo '</div>' , "\n";
 									
 								echo '<div class="address-line">' , "\n";
-									echo  '<label for="address">Address Line 3:</label>' , "\n";
+									echo  '<label for="address">' , __('Address Line 3', 'connections') , '</label>' , "\n";
 									echo  '<input type="text" name="address[' , $token , '][line_3]" value="' , $address->line_3 , '">' , "\n";
 								echo '</div>' , "\n";
 							echo '</div>' , "\n";
 							
 							echo '<div class="address-region">' , "\n";
 								echo  '<div class="input address-city">' , "\n";
-									echo  '<label for="address">City:</label>';
+									echo  '<label for="address">' , __('City', 'connections') , '</label>';
 									echo  '<input type="text" name="address[' , $token . '][city]" value="' , $address->city , '">' , "\n";
 								echo  '</div>' , "\n";
 								echo  '<div class="input address-state">' , "\n";
-									echo  '<label for="address">State:</label>' , "\n";
+									echo  '<label for="address">' , __('State', 'connections') , '</label>' , "\n";
 									echo  '<input type="text" name="address[' , $token , '][state]" value="' , $address->state , '">' , "\n";
 								echo  '</div>' , "\n";
 								echo  '<div class="input address-zipcode">' , "\n";
-									echo  '<label for="address">Zipcode:</label>' , "\n";
+									echo  '<label for="address">' , __('Zipcode', 'connections') , '</label>' , "\n";
 									echo  '<input type="text" name="address[' , $token , '][zipcode]" value="' , $address->zipcode , '">' , "\n";
 								echo  '</div>' , "\n";
 							echo  '</div>' , "\n";
 							
 							echo '<div class="address-country">' , "\n";
-								echo  '<label for="address">Country</label>' , "\n";
+								echo  '<label for="address">' , __('Country', 'connections') , '</label>' , "\n";
 								echo  '<input type="text" name="address[' , $token , '][country]" value="' , $address->country , '">' , "\n";
 							echo  '</div>' , "\n";
 							
 							echo '<div class="address-geo">' , "\n";
 								echo  '<div class="input address-latitude">' , "\n";
-									echo  '<label for="latitude">Latitude</label>' , "\n";
+									echo  '<label for="latitude">' , __('Latitude', 'connections') , '</label>' , "\n";
 									echo  '<input type="text" name="address[' , $token , '][latitude]" value="' , $address->latitude , '">' , "\n";
 								echo  '</div>' , "\n";
 								echo  '<div class="input address-longitude">' , "\n";
-									echo  '<label for="longitude">Longitude</label>' , "\n";
+									echo  '<label for="longitude">' , __('Longitude', 'connections') , '</label>' , "\n";
 									echo  '<input type="text" name="address[' , $token , '][longitude]" value="' , $address->longitude , '">' , "\n";
 								echo  '</div>' , "\n";
+								
+								echo '<a class="geocode button" data-uid="' , $token , '" href="#">' , __('Geocode', 'connections') , '</a>';
+								
 							echo  '</div>' , "\n";
 							
 							echo  '<input type="hidden" name="address[' , $token , '][id]" value="' , $address->id , '">' , "\n";
 						
 							echo  '<div class="clear"></div>' , "\n";
 							
-							echo  '<p class="remove-button"><a href="#" id="remove_button_' , $token , '" class="button button-warning" onClick="removeEntryRow(\'#address_row_' , $token , '\'); return false;">Remove</a></p>' , "\n";
+							echo '<div class="map" id="map-' , $token , '" data-map-id="' , $token , '" style="display: none; height: 400px;">' , __('Geocoding Address.', 'connections') , '</div>';
+							
+							echo  '<br>';
+							echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="' . $token . '">' , __('Remove', 'connections') , '</a></p>' , "\n";
 							
 						echo  '</div>' , "\n";
 					echo  '</div>' , "\n";
@@ -1146,14 +1224,14 @@ class cnFormObjects
 			}
 			
 		echo  '</div>' , "\n";
-		echo  '<p class="add"><a id="add_address" class="button">Add Address</a></p>' , "\n";
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __('Add Address', 'connections') , '</a></p>' , "\n";
 	}
 	
 	/**
 	 * Outputs the phone meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxPhone($entry = NULL)
@@ -1163,23 +1241,23 @@ class cnFormObjects
 		echo  '<div class="widgets-sortables ui-sortable form-field" id="phone-numbers">';
 			
 			// --> Start template <-- \\
-			echo  '<textarea id="phone_number_row_base" style="display: none">';
+			echo  '<textarea id="phone-template" style="display: none">';
 				
 				echo '<div class="widget-top">' , "\n";
 					echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 					
 					echo '<div class="widget-title"><h4>' , "\n";
-						echo 'Phone Type: ' , $this->buildSelect('phone[::FIELD::][type]', $connections->options->getDefaultPhoneNumberValues() ) , "\n";
-						echo '<label><input type="radio" name="phone[preferred]" value="::FIELD::"> Preferred</label>' , "\n";
-						echo '<span class="visibility">Visibility: ' , $this->buildRadio('phone[::FIELD::][visibility]', 'phone_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
+						echo __('Phone Type', 'connections') , ': ' , $this->buildSelect('phone[::FIELD::][type]', $connections->options->getDefaultPhoneNumberValues() ) , "\n";
+						echo '<label><input type="radio" name="phone[preferred]" value="::FIELD::"> ' , __('Preferred', 'connections') , '</label>' , "\n";
+						echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('phone[::FIELD::][visibility]', 'phone_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
 					echo '</h4></div>'  , "\n";
 					
 				echo '</div>' , "\n";
 				
 				echo '<div class="widget-inside">' , "\n";
 				
-					echo  '<label>Phone Number</label><input type="text" name="phone[::FIELD::][number]" value="" style="width: 30%"/>' , "\n";
-					echo  '<p class="remove-button"><a href="#" id="remove_button_::FIELD::" class="button button-warning" onClick="removeEntryRow(\'#phone-row-::FIELD::\'); return false;">Remove</a></p>' , "\n";
+					echo  '<label>' , __('Phone Number', 'connections') , '</label><input type="text" name="phone[::FIELD::][number]" value="" style="width: 30%"/>' , "\n";
+					echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="phone" data-token="::FIELD::">' , __('Remove', 'connections') , '</a></p>' , "\n";
 					
 				echo '</div>' , "\n";
 				
@@ -1202,8 +1280,8 @@ class cnFormObjects
 							echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 							
 							echo '<div class="widget-title"><h4>' , "\n";
-								echo 'Phone Type: ' , $this->buildSelect($selectName, $connections->options->getDefaultPhoneNumberValues(), $phone->type) , "\n";
-								echo '<label><input type="radio" name="phone[preferred]" value="' , $token , '" ' , $preferredPhone , '> Preferred</label>' , "\n";
+								echo __('Phone Type', 'connections') , ': ' , $this->buildSelect($selectName, $connections->options->getDefaultPhoneNumberValues(), $phone->type) , "\n";
+								echo '<label><input type="radio" name="phone[preferred]" value="' , $token , '" ' , $preferredPhone , '> ' , __('Preferred', 'connections') , '</label>' , "\n";
 								echo '<span class="visibility">Visibility: ' , $this->buildRadio('phone[' . $token . '][visibility]', 'phone_visibility_'  . $token , $this->visibiltyOptions, $phone->visibility) , '</span>' , "\n";
 							echo '</h4></div>'  , "\n";
 							
@@ -1211,9 +1289,9 @@ class cnFormObjects
 					
 						echo '<div class="widget-inside">' , "\n";
 					
-							echo  '<label>Phone Number</label><input type="text" name="phone[' , $token , '][number]" value="' , $phone->number , '" style="width: 30%"/>';
+							echo  '<label>' , __('Phone Number', 'connections') , '</label><input type="text" name="phone[' , $token , '][number]" value="' , $phone->number , '" style="width: 30%"/>';
 							echo  '<input type="hidden" name="phone[' , $token , '][id]" value="' , $phone->id , '">' , "\n";
-							echo  '<p class="remove-button"><a href="#" id="remove_button_' , $token , '" class="button button-warning" onClick="removeEntryRow(\'#phone-row-' , $token , '\'); return false;">Remove</a></p>';
+							echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="phone" data-token="' . $token . '">' , __('Remove', 'connections') , '</a></p>';
 							
 						echo '</div>' , "\n";
 					echo '</div>' , "\n";
@@ -1222,14 +1300,14 @@ class cnFormObjects
 			}
 			
 		echo  '</div>';
-		echo  '<p class="add"><a id="add_phone_number" class="button">Add Phone Number</a></p>';
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">Add Phone Number</a></p>';
 	}
 	
 	/**
 	 * Outputs the email meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxEmail($entry = NULL)
@@ -1239,23 +1317,23 @@ class cnFormObjects
 		echo  '<div class="widgets-sortables ui-sortable form-field" id="email-addresses">';
 			
 			// --> Start template <-- \\
-			echo  '<textarea id="email_address_row_base" style="display: none">';
+			echo  '<textarea id="email-template" style="display: none">';
 				
 				echo '<div class="widget-top">' , "\n";
 					echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 					
 					echo '<div class="widget-title"><h4>' , "\n";
-						echo 'Email Type: ' , $this->buildSelect('email[::FIELD::][type]', $connections->options->getDefaultEmailValues() ) , "\n";
-						echo '<label><input type="radio" name="email[preferred]" value="::FIELD::"> Preferred</label>' , "\n";
-						echo '<span class="visibility">Visibility: ' , $this->buildRadio('email[::FIELD::][visibility]', 'email_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
+						echo __('Email Type', 'connections') , ': ' , $this->buildSelect('email[::FIELD::][type]', $connections->options->getDefaultEmailValues() ) , "\n";
+						echo '<label><input type="radio" name="email[preferred]" value="::FIELD::"> ' , __('Preferred', 'connections') , '</label>' , "\n";
+						echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('email[::FIELD::][visibility]', 'email_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
 					echo '</h4></div>'  , "\n";
 					
 				echo '</div>' , "\n";
 				
 				echo '<div class="widget-inside">' , "\n";
 				
-					echo  '<label>Email Address</label><input type="text" name="email[::FIELD::][address]" value="" style="width: 30%"/>' , "\n";
-					echo  '<p class="remove-button"><a href="#" id="remove_button_::FIELD::" class="button button-warning" onClick="removeEntryRow(\'#email-row-::FIELD::\'); return false;">Remove</a></p>' , "\n";
+					echo  '<label>' , __('Email Address', 'connections') , '</label><input type="text" name="email[::FIELD::][address]" value="" style="width: 30%"/>' , "\n";
+					echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="email" data-token="::FIELD::">' , __('Remove', 'connections') , '</a></p>' , "\n";
 					
 				echo '</div>' , "\n";
 				
@@ -1278,18 +1356,18 @@ class cnFormObjects
 							echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 							
 							echo '<div class="widget-title"><h4>' , "\n";
-								echo 'Email Type: ' , $this->buildSelect($selectName, $connections->options->getDefaultEmailValues(), $email->type) , "\n";
-								echo '<label><input type="radio" name="email[preferred]" value="' , $token , '" ' , $preferredEmail , '> Preferred</label>' , "\n";
-								echo '<span class="visibility">Visibility: ' , $this->buildRadio('email[' . $token . '][visibility]', 'email_visibility_'  . $token , $this->visibiltyOptions, $email->visibility) , '</span>' , "\n";
+								echo __('Email Type', 'connections') , ': ' , $this->buildSelect($selectName, $connections->options->getDefaultEmailValues(), $email->type) , "\n";
+								echo '<label><input type="radio" name="email[preferred]" value="' , $token , '" ' , $preferredEmail , '> ' , __('Preferred', 'connections') , '</label>' , "\n";
+								echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('email[' . $token . '][visibility]', 'email_visibility_'  . $token , $this->visibiltyOptions, $email->visibility) , '</span>' , "\n";
 							echo '</h4></div>'  , "\n";
 							
 						echo '</div>' , "\n";
 					
 						echo '<div class="widget-inside">' , "\n";
 					
-							echo  '<label>Email Address</label><input type="text" name="email[' , $token , '][address]" value="' , $email->address , '" style="width: 30%"/>';
+							echo  '<label>' , __('Email Address', 'connections') , '</label><input type="text" name="email[' , $token , '][address]" value="' , $email->address , '" style="width: 30%"/>';
 							echo  '<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">' , "\n";
-							echo  '<p class="remove-button"><a href="#" id="remove_button_' , $token , '" class="button button-warning" onClick="removeEntryRow(\'#email-row-' , $token , '\'); return false;">Remove</a></p>';
+							echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="email" data-token="' . $token . '">' , __('Remove', 'connections') , '</a></p>';
 							
 						echo '</div>' , "\n";
 					echo '</div>' , "\n";
@@ -1298,14 +1376,14 @@ class cnFormObjects
 			}
 			
 		echo  '</div>';
-		echo  '<p class="add"><a id="add_email_address" class="button">Add Email Address</a></p>';
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __('Add Email Address', 'connections') , '</a></p>';
 	}
 	
 	/**
 	 * Outputs the messenger meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxMessenger($entry = NULL)
@@ -1315,23 +1393,23 @@ class cnFormObjects
 		echo  '<div class="widgets-sortables ui-sortable form-field" id="im-ids">';
 			
 			// --> Start template.  <-- \\
-			echo  '<textarea id="im_row_base" style="display: none">';
+			echo  '<textarea id="im-template" style="display: none">';
 				
 				echo '<div class="widget-top">' , "\n";
 					echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 					
 					echo '<div class="widget-title"><h4>' , "\n";
-						echo 'IM Type: ' , $this->buildSelect('im[::FIELD::][type]', $connections->options->getDefaultIMValues() ) , "\n";
-						echo '<label><input type="radio" name="im[preferred]" value="::FIELD::"> Preferred</label>' , "\n";
-						echo '<span class="visibility">Visibility: ' , $this->buildRadio('im[::FIELD::][visibility]', 'im_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
+						echo __('IM Type', 'connections') , ': ' , $this->buildSelect('im[::FIELD::][type]', $connections->options->getDefaultIMValues() ) , "\n";
+						echo '<label><input type="radio" name="im[preferred]" value="::FIELD::"> ' , __('Preferred', 'connections') , '</label>' , "\n";
+						echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('im[::FIELD::][visibility]', 'im_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
 					echo '</h4></div>'  , "\n";
 					
 				echo '</div>' , "\n";
 				
 				echo '<div class="widget-inside">' , "\n";
 				
-					echo  '<label>IM Network ID</label><input type="text" name="im[::FIELD::][id]" value="" style="width: 30%"/>' , "\n";
-					echo  '<p class="remove-button"><a href="#" id="remove_button_::FIELD::" class="button button-warning" onClick="removeEntryRow(\'#im-row-::FIELD::\'); return false;">Remove</a></p>' , "\n";
+					echo  '<label>' , __('IM Network ID', 'connections') , '</label><input type="text" name="im[::FIELD::][id]" value="" style="width: 30%"/>' , "\n";
+					echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="::FIELD::">' , __('Remove', 'connections') , '</a></p>' , "\n";
 					
 				echo '</div>' , "\n";
 				
@@ -1353,18 +1431,18 @@ class cnFormObjects
 							echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 							
 							echo '<div class="widget-title"><h4>' , "\n";
-								echo 'IM Type: ' , $this->buildSelect($selectName, $connections->options->getDefaultIMValues(), $network->type) , "\n";
-								echo '<label><input type="radio" name="im[preferred]" value="' , $token , '" ' , $preferredIM , '> Preferred</label>' , "\n";
-								echo '<span class="visibility">Visibility: ' , $this->buildRadio('im[' . $token . '][visibility]', 'im_visibility_'  . $token , $this->visibiltyOptions, $network->visibility) , '</span>' , "\n";
+								echo __('IM Type', 'connections') , ': ' , $this->buildSelect($selectName, $connections->options->getDefaultIMValues(), $network->type) , "\n";
+								echo '<label><input type="radio" name="im[preferred]" value="' , $token , '" ' , $preferredIM , '> ' , __('Preferred', 'connections') , '</label>' , "\n";
+								echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('im[' . $token . '][visibility]', 'im_visibility_'  . $token , $this->visibiltyOptions, $network->visibility) , '</span>' , "\n";
 							echo '</h4></div>'  , "\n";
 							
 						echo '</div>' , "\n";
 					
 						echo '<div class="widget-inside">' , "\n";
 					
-							echo  '<label>IM Network ID</label><input type="text" name="im[' , $token , '][id]" value="' , $network->id , '" style="width: 30%"/>';
+							echo  '<label>' , __('IM Network ID', 'connections') , '</label><input type="text" name="im[' , $token , '][id]" value="' , $network->id , '" style="width: 30%"/>';
 							echo  '<input type="hidden" name="im[' , $token , '][uid]" value="' , $network->uid , '">' , "\n";
-							echo  '<p class="remove-button"><a href="#" id="remove_button_' , $token , '" class="button button-warning" onClick="removeEntryRow(\'#im-row-' , $token , '\'); return false;">Remove</a></p>';
+							echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="' . $token . '">' , __('Remove', 'connections') , '</a></p>';
 							
 						echo '</div>' , "\n";
 					echo '</div>' , "\n";
@@ -1373,14 +1451,14 @@ class cnFormObjects
 			}
 			
 		echo  '</div>';
-		echo  '<p class="add"><a id="add_im_id" class="button">Add Messenger ID</a></p>';
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __('Add Messenger ID', 'connections') , '</a></p>';
 	}
 	
 	/**
 	 * Outputs the social media meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxSocialMedia($entry = NULL)
@@ -1390,23 +1468,23 @@ class cnFormObjects
 		echo  '<div class="widgets-sortables ui-sortable form-field" id="social-media">';
 		
 		// --> Start template <-- \\
-		echo  '<textarea id="social_media_row_base" style="display: none">';
+		echo  '<textarea id="social-template" style="display: none">';
 			
 			echo '<div class="widget-top">' , "\n";
 				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 				
 				echo '<div class="widget-title"><h4>' , "\n";
-					echo 'Social Network: ' , $this->buildSelect('social[::FIELD::][type]', $connections->options->getDefaultSocialMediaValues() ) , "\n";
-					echo '<label><input type="radio" name="social[preferred]" value="::FIELD::"> Preferred</label>' , "\n";
-					echo '<span class="visibility">Visibility: ' , $this->buildRadio('social[::FIELD::][visibility]', 'social_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
+					echo __('Social Network', 'connections') , ': ' , $this->buildSelect('social[::FIELD::][type]', $connections->options->getDefaultSocialMediaValues() ) , "\n";
+					echo '<label><input type="radio" name="social[preferred]" value="::FIELD::"> ' , __('Preferred', 'connections') , '</label>' , "\n";
+					echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('social[::FIELD::][visibility]', 'social_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
 				echo '</h4></div>'  , "\n";
 				
 			echo '</div>' , "\n";
 			
 			echo '<div class="widget-inside">' , "\n";
 			
-				echo  '<label>URL</label><input type="text" name="social[::FIELD::][url]" value="http://" style="width: 30%"/>' , "\n";
-				echo  '<p class="remove-button"><a href="#" id="remove_button_::FIELD::" class="button button-warning" onClick="removeEntryRow(\'#social-row-::FIELD::\'); return false;">Remove</a></p>' , "\n";
+				echo  '<label>' , __('URL', 'connections') , '</label><input type="text" name="social[::FIELD::][url]" value="http://" style="width: 30%"/>' , "\n";
+				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="social" data-token="::FIELD::">' , __('Remove', 'connections') , '</a></p>' , "\n";
 				
 			echo '</div>' , "\n";
 			
@@ -1429,18 +1507,18 @@ class cnFormObjects
 						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 						
 						echo '<div class="widget-title"><h4>' , "\n";
-							echo 'Social Network: ' , $this->buildSelect($selectName, $connections->options->getDefaultSocialMediaValues(), $network->type) , "\n";
-							echo '<label><input type="radio" name="social[preferred]" value="' , $token , '" ' , $preferredNetwork , '> Preferred</label>' , "\n";
-							echo '<span class="visibility">Visibility: ' , $this->buildRadio('social[' . $token . '][visibility]', 'social_visibility_'  . $token , $this->visibiltyOptions, $network->visibility) , '</span>' , "\n";
+							echo __('Social Network', 'connections') , ': ' , $this->buildSelect($selectName, $connections->options->getDefaultSocialMediaValues(), $network->type) , "\n";
+							echo '<label><input type="radio" name="social[preferred]" value="' , $token , '" ' , $preferredNetwork , '> ' , __('Preferred', 'connections') , '</label>' , "\n";
+							echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('social[' . $token . '][visibility]', 'social_visibility_'  . $token , $this->visibiltyOptions, $network->visibility) , '</span>' , "\n";
 						echo '</h4></div>'  , "\n";
 						
 					echo '</div>' , "\n";
 				
 					echo '<div class="widget-inside">' , "\n";
 				
-						echo  '<label>URL</label><input type="text" name="social[' , $token , '][url]" value="' , $network->url , '" style="width: 30%"/>';
+						echo  '<label>' , __('URL', 'connections') , '</label><input type="text" name="social[' , $token , '][url]" value="' , $network->url , '" style="width: 30%"/>';
 						echo  '<input type="hidden" name="social[' , $token , '][id]" value="' , $network->id , '">' , "\n";
-						echo  '<p class="remove-button"><a href="#" id="remove_button_' , $token , '" class="button button-warning" onClick="removeEntryRow(\'#social-row-' , $token , '\'); return false;">Remove</a></p>';
+						echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="social" data-token="' . $token . '">' , __('Remove', 'connections') , '</a></p>';
 						
 					echo '</div>' , "\n";
 				echo '</div>' , "\n";
@@ -1449,14 +1527,14 @@ class cnFormObjects
 		}
 			
 		echo  '</div>';
-		echo  '<p class="add"><a id="add_social_media" class="button">Add Social Media ID</a></p>';
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">' , __('Add Social Media ID', 'connections') , '</a></p>';
 	}
 	
 	/**
-	 * Outputs the image website box.
+	 * Outputs the links meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxLinks($entry = NULL)
@@ -1466,15 +1544,15 @@ class cnFormObjects
 		echo  '<div class="widgets-sortables ui-sortable form-field" id="links">';
 		
 		// --> Start template <-- \\
-		echo  '<textarea id="link_row_base" style="display: none">';
+		echo  '<textarea id="link-template" style="display: none">';
 			
 			echo '<div class="widget-top">' , "\n";
 				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 				
 				echo '<div class="widget-title"><h4>' , "\n";
-					echo 'Type: ' , $this->buildSelect('link[::FIELD::][type]', $connections->options->getDefaultLinkValues() ) , "\n";
-					echo '<label><input type="radio" name="link[preferred]" value="::FIELD::"> Preferred</label>' , "\n";
-					echo '<span class="visibility">Visibility: ' , $this->buildRadio('link[::FIELD::][visibility]', 'website_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
+					echo __('Type', 'connections') , ': ' , $this->buildSelect('link[::FIELD::][type]', $connections->options->getDefaultLinkValues() ) , "\n";
+					echo '<label><input type="radio" name="link[preferred]" value="::FIELD::"> ' , __('Preferred', 'connections') , '</label>' , "\n";
+					echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('link[::FIELD::][visibility]', 'website_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
 				echo '</h4></div>'  , "\n";
 				
 			echo '</div>' , "\n";
@@ -1482,16 +1560,21 @@ class cnFormObjects
 			echo '<div class="widget-inside">' , "\n";
 				
 				echo '<div>' , "\n";
-					echo  '<label>Title</label><input type="text" name="link[::FIELD::][title]" value="" style="width: 30%"/>' , "\n";
-					echo  '<label>URL</label><input type="text" name="link[::FIELD::][url]" value="http://" style="width: 30%"/>' , "\n";
+					echo  '<label>' , __('Title', 'connections') , '</label><input type="text" name="link[::FIELD::][title]" value="" style="width: 30%"/>' , "\n";
+					echo  '<label>' , __('URL', 'connections') , '</label><input type="text" name="link[::FIELD::][url]" value="http://" style="width: 30%"/>' , "\n";
 				echo '</div>' , "\n";
 				
 				echo '<div>' , "\n";
-					echo '<span class="target">Target: ' , $this->buildSelect('link[::FIELD::][target]', array( 'new' => 'New Window', 'same' => 'Same Window' ), 'same' ) , '</span>' , "\n";
+					echo '<span class="target">' , __('Target', 'connections') , ': ' , $this->buildSelect('link[::FIELD::][target]', array( 'new' => __('New Window', 'connections'), 'same' => __('Same Window', 'connections') ), 'same' ) , '</span>' , "\n";
 					echo '<span class="follow">' , $this->buildSelect('link[::FIELD::][follow]', array( 'nofollow' => 'nofollow', 'dofollow' => 'dofollow' ), 'nofollow' ) , '</span>' , "\n";
 				echo '</div>' , "\n";
 				
-				echo  '<p class="remove-button"><a href="#" id="remove_button_::FIELD::" class="button button-warning" onClick="removeEntryRow(\'#link-row-::FIELD::\'); return false;">Remove</a></p>' , "\n";
+				echo '<div>' , "\n";
+					echo '<label><input type="radio" name="link[image]" value="::FIELD::"> ' , __('Assign link to the image.', 'connections') , '</label>' , "\n";
+					echo '<label><input type="radio" name="link[logo]" value="::FIELD::"> ' , __('Assign link to the logo.', 'connections') , '</label>' , "\n";
+				echo '</div>' , "\n";
+				
+				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="link" data-token="::FIELD::">' , __('Remove', 'connections') , '</a></p>' , "\n";
 				
 			echo '</div>' , "\n";
 			
@@ -1508,6 +1591,8 @@ class cnFormObjects
 				$token = $this->token( $entry->getId() );
 				$selectName = 'link['  . $token . '][type]';
 				( $link->preferred ) ? $preferredLink = 'CHECKED' : $preferredLink = '';
+				( $link->image ) ? $imageLink = 'CHECKED' : $imageLink = '';
+				( $link->logo ) ? $logoLink = 'CHECKED' : $logoLink = '';
 				//var_dump($link);
 				
 				echo '<div class="widget link" id="link-row-'  . $token . '">' , "\n";
@@ -1515,9 +1600,9 @@ class cnFormObjects
 						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
 						
 						echo '<div class="widget-title"><h4>' , "\n";
-							echo 'Type: ' , $this->buildSelect($selectName, $connections->options->getDefaultLinkValues(), $link->type) , "\n";
-							echo '<label><input type="radio" name="link[preferred]" value="' , $token , '" ' , $preferredLink , '> Preferred</label>' , "\n";
-							echo '<span class="visibility">Visibility: ' , $this->buildRadio('link[' . $token . '][visibility]', 'link_visibility_'  . $token , $this->visibiltyOptions, $link->visibility ) , '</span>' , "\n";
+							echo __('Type', 'connections') , ': ' , $this->buildSelect($selectName, $connections->options->getDefaultLinkValues(), $link->type) , "\n";
+							echo '<label><input type="radio" name="link[preferred]" value="' , $token , '" ' , $preferredLink , '> ' , __('Preferred', 'connections') , '</label>' , "\n";
+							echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('link[' . $token . '][visibility]', 'link_visibility_'  . $token , $this->visibiltyOptions, $link->visibility ) , '</span>' , "\n";
 						echo '</h4></div>'  , "\n";
 						
 					echo '</div>' , "\n";
@@ -1525,17 +1610,22 @@ class cnFormObjects
 					echo '<div class="widget-inside">' , "\n";
 				
 						echo '<div>' , "\n";
-							echo  '<label>Title</label><input type="text" name="link[' , $token , '][title]" value="' , $link->title , '" style="width: 30%"/>' , "\n";
-							echo  '<label>URL</label><input type="text" name="link[' , $token , '][url]" value="' , $link->url , '" style="width: 30%"/>';
+							echo  '<label>' , __('Title', 'connections') , '</label><input type="text" name="link[' , $token , '][title]" value="' , $link->title , '" style="width: 30%"/>' , "\n";
+							echo  '<label>' , __('URL', 'connections') , '</label><input type="text" name="link[' , $token , '][url]" value="' , $link->url , '" style="width: 30%"/>';
 						echo '</div>' , "\n";
 						
 						echo '<div>' , "\n";
-							echo '<span class="target">Target: ' , $this->buildSelect('link[' . $token . '][target]', array( 'new' => 'New Window', 'same'  => 'Same Window' ), $link->target ) , '</span>' , "\n";
+							echo '<span class="target">' , __('Target', 'connections') , ': ' , $this->buildSelect('link[' . $token . '][target]', array( '_blank' => __('New Window', 'connections'), '_self' => __('Same Window', 'connections') ), $link->target ) , '</span>' , "\n";
 							echo '<span class="follow">' , $this->buildSelect('link[' . $token . '][follow]', array( 'nofollow' => 'nofollow', 'dofollow' => 'dofollow' ), $link->followString ) , '</span>' , "\n";
 						echo '</div>' , "\n";
 						
+						echo '<div>' , "\n";
+							echo '<label><input type="radio" name="link[image]" value="' , $token , '" ' , $imageLink , '> ' , __('Assign link to the image.', 'connections') , '</label>' , "\n";
+							echo '<label><input type="radio" name="link[logo]" value="' , $token , '" ' , $logoLink , '> ' , __('Assign link to the logo.', 'connections') , '</label>' , "\n";
+						echo '</div>' , "\n";
+						
 						echo  '<input type="hidden" name="link[' , $token , '][id]" value="' , $link->id , '">' , "\n";
-						echo  '<p class="remove-button"><a href="#" id="remove_button_' , $token , '" class="button button-warning" onClick="removeEntryRow(\'#link-row-' , $token , '\'); return false;">Remove</a></p>';
+						echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="link" data-token="' . $token . '">' , __('Remove', 'connections') , '</a></p>';
 						
 					echo '</div>' , "\n";
 				echo '</div>' , "\n";
@@ -1544,48 +1634,134 @@ class cnFormObjects
 		}
 			
 		echo  '</div>';
-		echo  '<p class="add"><a id="add_link" class="button">Add Link</a></p>';
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __('Add Link', 'connections') , '</a></p>';
+	}
+	
+	/**
+	 * Outputs the dates box.
+	 * 
+	 * @author Steven A. Zahm
+	 * @since 0.7.2.7
+	 * @param array $entry
+	 */
+	public function metaboxDates( $entry = NULL )
+	{
+		global $connections;
+			
+		echo  '<div class="widgets-sortables ui-sortable form-field" id="dates">';
+		
+		// --> Start template <-- \\
+		echo  '<textarea id="date-template" style="display: none">';
+			
+			echo '<div class="widget-top">' , "\n";
+				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
+				
+				echo '<div class="widget-title"><h4>' , "\n";
+					echo __('Type', 'connections') , ': ' , $this->buildSelect('date[::FIELD::][type]', $connections->options->getDateOptions() ) , "\n";
+					echo '<label><input type="radio" name="date[preferred]" value="::FIELD::"> ' , __('Preferred', 'connections') , '</label>' , "\n";
+					echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('date[::FIELD::][visibility]', 'date_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
+				echo '</h4></div>'  , "\n";
+				
+			echo '</div>' , "\n";
+			
+			echo '<div class="widget-inside">' , "\n";
+				
+				echo '<div>' , "\n";
+					echo  '<label>' , __('Date', 'connections') , '</label><input type="text" class="datepicker" name="date[::FIELD::][date]" value="" style="padding: 2px; width: 17.5em;"/>' , "\n";
+				echo '</div>' , "\n";
+				
+				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="date" data-token="::FIELD::">' , __('Remove', 'connections') , '</a></p>' , "\n";
+				
+			echo '</div>' , "\n";
+			
+		echo  '</textarea>';
+		// --> End template <-- \\
+		
+		$dates = $entry->getDates( array(), FALSE );
+		
+		if ( ! empty($dates) )
+		{
+			
+			foreach ( $dates as $date )
+			{
+				$token = $this->token( $entry->getId() );
+				$selectName = 'date['  . $token . '][type]';
+				( $date->preferred ) ? $preferredDate = 'CHECKED' : $preferredDate = '';
+				
+				echo '<div class="widget date" id="date-row-'  . $token . '">' , "\n";
+					echo '<div class="widget-top">' , "\n";
+						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
+						
+						echo '<div class="widget-title"><h4>' , "\n";
+							echo __('Type', 'connections') , ': ' , $this->buildSelect($selectName, $connections->options->getDateOptions(), $date->type) , "\n";
+							echo '<label><input type="radio" name="date[preferred]" value="' , $token , '" ' , $preferredDate , '> ' , __('Preferred', 'connections') , '</label>' , "\n";
+							echo '<span class="visibility">' , __('Visibility', 'connections') , ': ' , $this->buildRadio('date[' . $token . '][visibility]', 'date_visibility_'  . $token , $this->visibiltyOptions, $date->visibility ) , '</span>' , "\n";
+						echo '</h4></div>'  , "\n";
+						
+					echo '</div>' , "\n";
+				
+					echo '<div class="widget-inside">' , "\n";
+				
+						echo '<div>' , "\n";
+							echo  '<label>' , __('Date', 'connections') , '</label><input type="text" name="date[' , $token , '][date]" class="datepicker" value="' , $date->date , '" style="padding: 2px; width: 17.5em;"/>' , "\n";
+						echo '</div>' , "\n";
+						
+						echo  '<input type="hidden" name="date[' , $token , '][id]" value="' , $date->id , '">' , "\n";
+						echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="date" data-token="' . $token . '">' , __('Remove', 'connections') , '</a></p>';
+						
+					echo '</div>' , "\n";
+				echo '</div>' , "\n";
+			}
+			
+		}
+			
+		echo  '</div>';
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __('Add Date', 'connections') , '</a></p>';
 	}
 	
 	/**
 	 * Outputs the birthday meta box.
 	 * 
-	 * @since 0.7.1.58
-	 * 
+	 * @author Steven A. Zahm
+	 * @since 0.7.1.5
+	 * @deprecated since 0.7.3
 	 * @param array $entry
 	 */
 	public function metaboxBirthday($entry = NULL)
 	{
 		$date = new cnDate();
 		
-		echo "<div class='form-field celebrate'>
-				<span class='selectbox'>Birthday: " . $this->buildSelect('birthday_month',$date->months,$date->getMonth($entry->getBirthday())) . "</span>
-				<span class='selectbox'>" . $this->buildSelect('birthday_day',$date->days,$date->getDay($entry->getBirthday())) . "</span>
-		</div>";
+		echo '<div class="form-field celebrate">
+				<span class="selectbox">' , __('Birthday', 'connections') , ': ' . $this->buildSelect('birthday_month',$date->months,$date->getMonth($entry->getBirthday())) . '</span>
+				<span class="selectbox">' . $this->buildSelect('birthday_day',$date->days,$date->getDay($entry->getBirthday())) . '</span>
+			</div>';
+		echo '<div class="form-field celebrate-disabled"><p>' , __('Field not available for this entry type.', 'connections') , '</p></div>';
 	}
 	
 	/**
 	 * Outputs the anniversary meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
+	 * @deprecated since 0.7.3
 	 * @param array $entry
 	 */
 	public function metaboxAnniversary($entry = NULL)
 	{
 		$date = new cnDate();
 		
-		echo "<div class='form-field celebrate'>
-				<span class='selectbox'>Anniversary: " . $this->buildSelect('anniversary_month',$date->months,$date->getMonth($entry->getAnniversary())) . "</span>
-				<span class='selectbox'>" . $this->buildSelect('anniversary_day',$date->days,$date->getDay($entry->getAnniversary())) . "</span>
-		</div>";
+		echo '<div class="form-field celebrate">
+				<span class="selectbox">' , __('Anniversary', 'connections') , ': ' . $this->buildSelect('anniversary_month',$date->months,$date->getMonth($entry->getAnniversary())) . '</span>
+				<span class="selectbox">' . $this->buildSelect('anniversary_day',$date->days,$date->getDay($entry->getAnniversary())) . '</span>
+			</div>';
+		echo '<div class="form-field celebrate-disabled"><p>' , __('Field not available for this entry type.', 'connections') , '</p></div>';
 	}
 	
 	/**
 	 * Outputs the bio meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxBio($entry = NULL)
@@ -1594,7 +1770,7 @@ class cnFormObjects
 		{
 			echo "<div class='form-field'>
 					
-					<a class='button alignright' id='toggleBioEditor'>Toggle Editor</a>
+					<a class='button alignright' id='toggleBioEditor'>' , __('Toggle Editor', 'connections') , '</a>
 					
 					<textarea class='tinymce' id='bio' name='bio' rows='15'>" . $entry->getBio() . "</textarea>
 					
@@ -1626,8 +1802,8 @@ class cnFormObjects
 	/**
 	 * Outputs the notes meta box.
 	 * 
+	 * @author Steven A. Zahm
 	 * @since 0.7.1.5
-	 * 
 	 * @param array $entry
 	 */
 	public function metaboxNotes($entry = NULL)
@@ -1636,7 +1812,7 @@ class cnFormObjects
 		{
 			echo "<div class='form-field'>
 					
-					<a class='button alignright' id='toggleNoteEditor'>Toggle Editor</a>
+					<a class='button alignright' id='toggleNoteEditor'>' , __('Toggle Editor', 'connections') , '</a>
 					
 					<textarea class='tinymce' id='note' name='notes' rows='15'>" . $entry->getNotes() . "</textarea>
 					
@@ -1664,7 +1840,7 @@ class cnFormObjects
 		}
 	}
 	
-	private function getEntrySelect($name, $selected = NULL)
+	private function getEntrySelect($name, $selected = NULL, $class = NULL , $id = NULL )
 	{
 		global $wpdb, $connections;
 		
@@ -1674,8 +1850,8 @@ class cnFormObjects
 		
 		$results = $connections->retrieve->entries($atts);
 		
-	    $out = '<select name="' . $name . '">';
-			$out .= '<option value="">Select Entry</option>';
+	    $out = '<select' . ( ( empty($class) ? '' : ' class="' . $class . '"' ) ) . ( ( empty($id) ? '' : ' id="' . $id . '"' ) ) . ' name="' . $name . '">';
+			$out .= '<option value="">' . __('Select Entry', 'connections') . '</option>';
 			foreach($results as $row)
 			{
 				$entry = new cnEntry($row);
@@ -1740,10 +1916,15 @@ class cnCategoryObjects
 				$out .= '<input type="checkbox" name="category[]" value="' . $category->getId() . '"/>';
 			$out .= '</th>';
 			$out .= '<td class="name column-name"><a class="row-title" href="' . $editToken . '">' . $pad . $category->getName() . '</a><br />';
-				$out .= '<div class="row-actions">';
-					$out .= '<span class="edit"><a href="' . $editToken . '">Edit</a> | </span>';
-					$out .= '<span class="delete"><a onclick="return confirm(\'You are about to delete this category. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteToken . '">Delete</a></span>';
-				$out .= '</div>';
+				
+				if ( $category->getSlug() !== 'uncategorized' || $category->getName() !== 'Uncategorized' )
+				{
+					$out .= '<div class="row-actions">';
+						$out .= '<span class="edit"><a href="' . $editToken . '">' . __('Edit', 'connections') . '</a> | </span>';
+						$out .= '<span class="delete"><a onclick="return confirm(\'You are about to delete this category. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteToken . '">' . __('Delete', 'connections') . '</a></span>';
+					$out .= '</div>';
+				}
+				
 			$out .= '</td>';
 			$out .= '<td class="description column-description">' . $category->getDescription() . '</td>';
 			$out .= '<td class="slug column-slug">' . $category->getSlug() . '</td>';
@@ -1755,14 +1936,14 @@ class cnCategoryObjects
 				
 				if ( (integer) $category->getCount() > 0 )
 				{
-					$out .= '<strong>Count:</strong> ' . '<a href="' . $categoryFilterURL . '">' . $category->getCount() . '</a><br />';
+					$out .= '<strong>' . __('Count', 'connections') . ':</strong> ' . '<a href="' . $categoryFilterURL . '">' . $category->getCount() . '</a><br />';
 				}
 				else
 				{
-					$out .= '<strong>Count:</strong> ' . $category->getCount() . '<br />';
+					$out .= '<strong>' . __('Count', 'connections') . ':</strong> ' . $category->getCount() . '<br />';
 				}
 				
-				$out .= '<strong>ID:</strong> ' . $category->getId();
+				$out .= '<strong>' . __('ID', 'connections') . ':</strong> ' . $category->getId();
 			$out .= '</td>';
 		$out .= '</tr>';
 		
@@ -1820,27 +2001,31 @@ class cnCategoryObjects
 		$level = NULL;
 		
 		$out = '<div class="form-field form-required connectionsform">';
-			$out .= '<label for="cat_name">Category Name</label>';
+			$out .= '<label for="cat_name">' . __('Name', 'connections') . '</label>';
 			$out .= '<input type="text" aria-required="true" size="40" value="' . $category->getName() . '" id="category_name" name="category_name"/>';
 			$out .= '<input type="hidden" value="' . $category->getID() . '" id="category_id" name="category_id"/>';
+			$out .= '<p>' . __('The name is how it appears on your site.', 'connections') . '</p>';
 		$out .= '</div>';
 		
 		$out .= '<div class="form-field connectionsform">';
-			$out .= '<label for="category_nicename">Category Slug</label>';
+			$out .= '<label for="category_nicename">' . __('Slug', 'connections') . '</label>';
 			$out .= '<input type="text" size="40" value="' . $category->getSlug() . '" id="category_slug" name="category_slug"/>';
+			$out .= '<p>' . __('The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.', 'connections') . '</p>';
 		$out .= '</div>';
 		
 		$out .= '<div class="form-field connectionsform">';
-			$out .= '<label for="category_parent">Category Parent</label>';
+			$out .= '<label for="category_parent">' . __('Parent', 'connections') . '</label>';
 			$out .= '<select class="postform" id="category_parent" name="category_parent">';
-				$out .= '<option value="0">None</option>';
+				$out .= '<option value="0">' . __('None', 'connections') . '</option>';
 				$out .= $this->buildCategoryRow('option', $connections->retrieve->categories(), $level, $parent->getID());
 			$out .= '</select>';
+			$out .= '<p>' . __('Categories can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.', 'connections') . '</p>';
 		$out .= '</div>';
 		
 		$out .= '<div class="form-field connectionsform">';
-			$out .= '<label for="category_description">Description</label>';
+			$out .= '<label for="category_description">' . __('Description', 'connections') . '</label>';
 			$out .= '<textarea cols="40" rows="5" id="category_description" name="category_description">' . $category->getDescription() . '</textarea>';
+			$out .= '<p>' . __('The description is not displayed by default; however, templates may be created or altered to show it.', 'connections') . '</p>';
 		$out .= '</div>';
 		
 		echo $out;

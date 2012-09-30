@@ -9,9 +9,9 @@ function connectionsShowViewPage( $action = NULL )
 	{
 		case 'add':
 			
-			echo '<div class="wrap">
-					<div class="icon32" id="icon-connections"><br/></div>
-					<h2>Connections : Add Entry</h2>';
+			echo '<div class="wrap">';
+			echo get_screen_icon('connections');
+			echo '<h2>Connections : ' , __('Add Entry', 'connections') , '</h2>';
 			
 			/*
 			 * Check whether current user can add an entry.
@@ -79,9 +79,9 @@ function connectionsShowViewPage( $action = NULL )
 		
 		case 'copy':
 			
-			echo '<div class="wrap">
-					<div class="icon32" id="icon-connections"><br/></div>
-					<h2>Connections : Copy Entry</h2>';
+			echo '<div class="wrap">';
+			echo get_screen_icon('connections');
+			echo '<h2>Connections : ' , __('Copy Entry', 'connections') , '</h2>';
 			
 			/*
 			 * Check whether current user can add an entry.
@@ -152,9 +152,9 @@ function connectionsShowViewPage( $action = NULL )
 		
 		case 'edit':
 			
-			echo '<div class="wrap">
-					<div class="icon32" id="icon-connections"><br/></div>
-					<h2>Connections : Edit Entry</h2>';
+			echo '<div class="wrap">';
+			echo get_screen_icon('connections');
+			echo '<h2>Connections : ' , __('Edit Entry', 'connections') , '</h2>';
 					
 			/*
 			 * Check whether the current user can edit entries.
@@ -227,14 +227,13 @@ function connectionsShowViewPage( $action = NULL )
 		default:
 			$form = new cnFormObjects();
 			$categoryObjects = new cnCategoryObjects();
-			$url = new cnURL();
 			
 			$page = $connections->currentUser->getFilterPage('manage');
 			$offset = ( $page->current - 1 ) * $page->limit;
 			
-			echo '<div class="wrap">
-					<div class="icon32" id="icon-connections"><br/></div>
-					<h2>Connections : Manage</h2>';
+			echo '<div class="wrap">';
+			echo get_screen_icon('connections');
+			echo '<h2>Connections : ' , __('Manage', 'connections') , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __('Add New', 'connections') , '</a></h2>';
 			
 			/*
 			 * Check whether user can view the entry list
@@ -252,38 +251,26 @@ function connectionsShowViewPage( $action = NULL )
 						$retrieveAttr['limit'] = $page->limit;
 						$retrieveAttr['offset'] = $offset;
 						
-						if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) )
-						{
-							$searchResults = $connections->retrieve->search( array( 'search' => $_GET['s'] ) );
-							//print_r($searchResults);
-							
-							$retrieveAttr['id'] = $searchResults;
-							
-							$results = ( ! empty($searchResults) ) ? $connections->retrieve->entries($retrieveAttr) : array();
-							//print_r($connections->lastQuery);
-						}
-						else
-						{
-							$results = $connections->retrieve->entries($retrieveAttr);
-							//print_r($connections->lastQuery);
-						}
+						if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) $retrieveAttr['search_terms'] = $_GET['s'];
 						
+						$results = $connections->retrieve->entries($retrieveAttr);
+						//print_r($connections->lastQuery);
 					?>
 						
 						<?php if ( current_user_can('connections_edit_entry') ) { ?>
 						<ul class="subsubsub">
-							<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'all' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=all">All</a> | </li>
-							<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'approved' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=approved">Approved <span class="count">(<?php echo $connections->recordCountApproved; ?>)</span></a> | </li>
-							<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'pending' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=pending">Moderate <span class="count">(<?php echo $connections->recordCountPending; ?>)</span></a></li>
+							<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'all' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=all"><?php _e('All', 'connections'); ?></a> | </li>
+							<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'approved' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=approved"><?php _e('Approved', 'connections'); ?> <span class="count">(<?php echo $connections->recordCountApproved; ?>)</span></a> | </li>
+							<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'pending' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=pending"><?php _e('Moderate', 'connections'); ?> <span class="count">(<?php echo $connections->recordCountPending; ?>)</span></a></li>
 						</ul>
 						<?php } ?>
 						
 						<form action="admin.php?connections_process=true&process=manage&action=do" method="post">
 						
 						<p class="search-box">
-							<label class="screen-reader-text" for="post-search-input">Search Entries:</label>
+							<label class="screen-reader-text" for="post-search-input"><?php _e('Search Entries', 'connections'); ?>:</label>
 							<input type="text" id="entry-search-input" name="s" value="<?php if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) echo $_GET['s'] ; ?>" />
-							<input type="submit" name="" id="search-submit" class="button" value="Search Entries"  />
+							<input type="submit" name="" id="search-submit" class="button" value="<?php _e('Search Entries', 'connections'); ?>"  />
 						</p>
 						
 						<?php $form->tokenField('bulk_action'); ?>
@@ -293,27 +280,36 @@ function connectionsShowViewPage( $action = NULL )
 							<div class="alignleft actions">
 								<?php
 									echo '<select class="postform" id="category" name="category">';
-										echo '<option value="-1">Show All Categories</option>';
+										echo '<option value="-1">' , __('Show All Categories', 'connections') , '</option>';
 										echo $categoryObjects->buildCategoryRow('option', $connections->retrieve->categories(), 0, $connections->currentUser->getFilterCategory());
 									echo '</select>';
 									
-									echo $form->buildSelect('entry_type', array('all'=>'Show All Enties', 'individual'=>'Show Individuals', 'organization'=>'Show Organizations', 'family'=>'Show Families'), $connections->currentUser->getFilterEntryType());
+									echo $form->buildSelect(
+										'entry_type', 
+										array(
+											'all' => __('Show All Enties', 'connections'), 
+											'individual' => __('Show Individuals', 'connections'), 
+											'organization' => __('Show Organizations', 'connections'), 
+											'family' => __('Show Families', 'connections')
+										), 
+										$connections->currentUser->getFilterEntryType()
+									);
 								?>
 								
 								<?php
 									/*
 									 * Builds the visibilty select list base on current user capabilities.
 									 */
-									if (current_user_can('connections_view_public') || $connections->options->getAllowPublic()) $visibilitySelect['public'] = 'Show Public';
-									if (current_user_can('connections_view_private'))	$visibilitySelect['private'] = 'Show Private';
-									if (current_user_can('connections_view_unlisted'))	$visibilitySelect['unlisted'] = 'Show Unlisted';
+									if (current_user_can('connections_view_public') || $connections->options->getAllowPublic()) $visibilitySelect['public'] = __('Show Public', 'connections');
+									if (current_user_can('connections_view_private'))	$visibilitySelect['private'] = __('Show Private', 'connections');
+									if (current_user_can('connections_view_unlisted'))	$visibilitySelect['unlisted'] = __('Show Unlisted', 'connections');
 									
 									if (isset($visibilitySelect))
 									{
 										/*
 										 * Add the 'Show All' option and echo the list.
 										 */
-										$showAll['all'] = 'Show All';
+										$showAll['all'] = __('Show All', 'connections');
 										$visibilitySelect = $showAll + $visibilitySelect;
 										echo $form->buildSelect('visibility_type', $visibilitySelect, $connections->currentUser->getFilterVisibility());
 									}
@@ -326,7 +322,7 @@ function connectionsShowViewPage( $action = NULL )
 							<div class="tablenav-pages">
 								<?php
 									
-									echo '<span class="displaying-num">Displaying ' , $connections->resultCount , ' of ' , $connections->resultCountNoLimit , ' records.</span>';
+									echo '<span class="displaying-num">' . sprintf( __('Displaying %1$d of %2$d entries.', 'connections'), $connections->resultCount, $connections->resultCountNoLimit ) . '</span>';
 									
 									/*
 									 * // START --> Pagination
@@ -358,7 +354,6 @@ function connectionsShowViewPage( $action = NULL )
 										/*
 										 * Genreate the page link token URL.
 										 */
-										//print_r( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) );
 										$pageFilterURL['first_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) , 'filter');
 										$pageFilterURL['previous_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['previous_page'] ) , $currentPageURL ) , 'filter');
 										$pageFilterURL['next_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['next_page'] ) , $currentPageURL ) , 'filter');
@@ -366,13 +361,13 @@ function connectionsShowViewPage( $action = NULL )
 										
 										echo '<span class="page-navigation" id="page-input">';
 											
-											echo '<a href="' . $pageFilterURL['first_page'] . '" title="Go to the first page" class="first-page' , $pageDisabled['first_page'] , '">«</a> ';
-											echo '<a href="' . $pageFilterURL['previous_page'] . '" title="Go to the previous page" class="prev-page' , $pageDisabled['previous_page'] , '">‹</a> ';
+											echo '<a href="' . $pageFilterURL['first_page'] . '" title="' . __('Go to the first page.', 'connections') . '" class="first-page' , $pageDisabled['first_page'] , '">&laquo;</a> ';
+											echo '<a href="' . $pageFilterURL['previous_page'] . '" title="' . __('Go to the previous page.', 'connections') . '" class="prev-page' , $pageDisabled['previous_page'] , '">&lsaquo;</a> ';
 											
-											echo '<span class="paging-input"><input type="text" size="2" value="' . $page->current . '" name="pg" title="Current page" class="current-page"> of <span class="total-pages">' . $pageCount . '</span></span> ';
+											echo '<span class="paging-input"><input type="text" size="2" value="' . $page->current . '" name="pg" title="' . __('Current page', 'connections') . '" class="current-page"> ' . __('of', 'connections') . ' <span class="total-pages">' . $pageCount . '</span></span> ';
 											
-											echo '<a href="' . $pageFilterURL['next_page'] . '" title="Go to the next page" class="next-page' , $pageDisabled['next_page'] , '">›</a> ';
-											echo '<a href="' . $pageFilterURL['last_page'] . '" title="Go to the last page" class="last-page' , $pageDisabled['last_page'] , '">»</a>';
+											echo '<a href="' . $pageFilterURL['next_page'] . '" title="' . __('Go to the next page.', 'connections') . '" class="next-page' , $pageDisabled['next_page'] , '">&rsaquo;</a> ';
+											echo '<a href="' . $pageFilterURL['last_page'] . '" title="' . __('Go to the last page.', 'connections') . '" class="last-page' , $pageDisabled['last_page'] , '">&raquo;</a>';
 											
 										echo '</span>';
 									}
@@ -393,22 +388,22 @@ function connectionsShowViewPage( $action = NULL )
 							{
 								echo '<div class="alignleft actions">';
 									echo '<select name="action">';
-										echo '<option value="" SELECTED>Bulk Actions</option>';
+										echo '<option value="" SELECTED>' , __('Bulk Actions', 'connections') , '</option>';
 											
 											$bulkActions = array();
 											
 											if ( current_user_can('connections_edit_entry')  || current_user_can('connections_edit_entry_moderated') )
 											{
-												$bulkActions['unapprove'] = 'Unapprove';
-												$bulkActions['approve'] = 'Approve';
-												$bulkActions['public'] = 'Set Public';
-												$bulkActions['private'] = 'Set Private';
-												$bulkActions['unlisted'] = 'Set Unlisted';
+												$bulkActions['unapprove'] = __('Unapprove', 'connections');
+												$bulkActions['approve'] = __('Approve', 'connections');
+												$bulkActions['public'] = __('Set Public', 'connections');
+												$bulkActions['private'] = __('Set Private', 'connections');
+												$bulkActions['unlisted'] = __('Set Unlisted', 'connections');
 											}
 											
 											if ( current_user_can('connections_delete_entry') )
 											{
-												$bulkActions['delete'] = 'Delete';
+												$bulkActions['delete'] = __('Delete', 'connections');
 											}
 											
 											$bulkActions = apply_filters('cn_manage_bulk_actions', $bulkActions);	
@@ -419,14 +414,14 @@ function connectionsShowViewPage( $action = NULL )
 											}
 																	
 									echo '</select>';
-									echo '<input id="doaction" class="button-secondary action" type="submit" name="doaction" value="Apply" />';
+									echo '<input id="doaction" class="button-secondary action" type="submit" name="doaction" value="' , __('Apply', 'connections') , '" />';
 								echo '</div>';
 							}
 							?>
 							
 							<div class="tablenav-pages">
 								<?php
-									echo '<span class="displaying-num">Jump to:</span>';
+									echo '<span class="displaying-num">' , __('Jump to', 'connections') , ':</span>';
 									
 									/*
 									 * Dynamically builds the alpha index based on the available entries.
@@ -456,18 +451,18 @@ function connectionsShowViewPage( $action = NULL )
 					            <tr>
 					                <th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></th>
 									<th class="col" style="width:10%;"></th>
-									<th scope="col" colspan="2" style="width:40%;">Name</th>
-									<th scope="col" style="width:30%;">Categories</th>
-									<th scope="col" style="width:20%;">Last Modified</th>
+									<th scope="col" colspan="2" style="width:40%;"><?php _e('Name', 'connections'); ?></th>
+									<th scope="col" style="width:30%;"><?php _e('Categories', 'connections'); ?></th>
+									<th scope="col" style="width:20%;"><?php _e('Last Modified', 'connections'); ?></th>
 					            </tr>
 							</thead>
 							<tfoot>
 					            <tr>
 					                <th class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></th>
 									<th class="col" style="width:10%;"></th>
-									<th scope="col" colspan="2" style="width:40%;">Name</th>
-									<th scope="col" style="width:30%;">Categories</th>
-									<th scope="col" style="width:20%;">Last Modified</th>
+									<th scope="col" colspan="2" style="width:40%;"><?php _e('Name', 'connections'); ?></th>
+									<th scope="col" style="width:30%;"><?php _e('Categories', 'connections'); ?></th>
+									<th scope="col" style="width:20%;"><?php _e('Last Modified', 'connections'); ?></th>
 					            </tr>
 							</tfoot>
 							<tbody>
@@ -516,12 +511,11 @@ function connectionsShowViewPage( $action = NULL )
 									echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass .'">';
 										echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='entry[]'/></th> \n";
 											echo '<td>';
-												//echo $entry->getThumbnailImage( array( 'place_holder' => TRUE ) );
-												$entry->getImage( array( 'image' => 'photo' , 'preset' => 'thumbnail' , 'height' => 54 , 'width' => 80 , 'zc' => 2 , 'fallback' => array( 'type' => 'block' , 'string' => 'No Photo Available' ) ) );
+												$entry->getImage( array( 'image' => 'photo' , 'preset' => 'thumbnail' , 'height' => 54 , 'width' => 80 , 'zc' => 2 , 'fallback' => array( 'type' => 'block' , 'string' => __('No Photo Available', 'connections') ) ) );
 											echo '</td>';
 											echo '<td  colspan="2">';
 												if ($setAnchor) echo $setAnchor;
-												echo '<div style="float:right"><a href="#wphead" title="Return to top."><img src="' . WP_PLUGIN_URL . '/connections/images/uparrow.gif" /></a></div>';
+												echo '<div style="float:right"><a href="#wphead" title="Return to top."><img src="' . CN_URL . '/images/uparrow.gif" /></a></div>';
 												
 												if ( current_user_can('connections_edit_entry') || current_user_can('connections_edit_entry_moderated') )
 												{
@@ -536,15 +530,22 @@ function connectionsShowViewPage( $action = NULL )
 													$rowActions = array();
 													$rowEditActions = array();
 													
-													$rowActions[] = '<a class="detailsbutton" id="row-' . $entry->getId() . '">Show Details</a>';
-													$rowActions[] = $vCard->download( array('anchorText' => 'vCard', 'title' => 'Download vCard', 'return' => TRUE) );
+													$rowActions[] = '<a class="detailsbutton" id="row-' . $entry->getId() . '">' . __('Show Details', 'connections') . '</a>';
+													$rowActions[] = $vCard->download( array('anchorText' => __('vCard', 'connections'), 'return' => TRUE) );
+													$rowActions[] = cnURL::permalink( array(
+														'slug' => $entry->getSlug(),
+														'title' => sprintf( __('View %s', 'connections') , $entry->getName( array( 'format' => '%first% %last%' ) ) ),
+														'text' => __('View', 'connections'),
+														'return' => TRUE
+														)
+													);
 													
-													if ( $entry->getStatus() == 'approved' && current_user_can('connections_edit_entry') ) $rowEditActions[] = '<a class="action unapprove" href="' . $unapproveTokenURL . '" title="Unapprove ' . $entry->getFullFirstLastName() . '">Unapprove</a>';
-													if ( $entry->getStatus() == 'pending' && current_user_can('connections_edit_entry') ) $rowEditActions[] = '<a class="action approve" href="' . $approvedTokenURL . '" title="Approve ' . $entry->getFullFirstLastName() . '">Approve</a>';
+													if ( $entry->getStatus() == 'approved' && current_user_can('connections_edit_entry') ) $rowEditActions[] = '<a class="action unapprove" href="' . $unapproveTokenURL . '" title="' . __('Unapprove', 'connections') . ' ' . $entry->getFullFirstLastName() . '">' . __('Unapprove', 'connections') . '</a>';
+													if ( $entry->getStatus() == 'pending' && current_user_can('connections_edit_entry') ) $rowEditActions[] = '<a class="action approve" href="' . $approvedTokenURL . '" title="' . __('Approve', 'connections') . ' ' . $entry->getFullFirstLastName() . '">' . __('Approve', 'connections') . '</a>';
 
-													if ( current_user_can('connections_edit_entry') || current_user_can('connections_edit_entry_moderated') ) $rowEditActions[] = '<a class="editbutton" href="' . $editTokenURL . '" title="Edit ' . $entry->getFullFirstLastName() . '">Edit</a>';
-													if ( current_user_can('connections_add_entry') || current_user_can('connections_add_entry_moderated') ) $rowEditActions[] = '<a class="copybutton" href="' . $copyTokenURL . '" title="Copy ' . $entry->getFullFirstLastName() . '">Copy</a>';
-													if ( current_user_can('connections_delete_entry') ) $rowEditActions[] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteTokenURL . '" title="Delete ' . $entry->getFullFirstLastName() . '">Delete</a>';
+													if ( current_user_can('connections_edit_entry') || current_user_can('connections_edit_entry_moderated') ) $rowEditActions[] = '<a class="editbutton" href="' . $editTokenURL . '" title="' . __('Edit', 'connections') . ' ' . $entry->getFullFirstLastName() . '">' . __('Edit', 'connections') . '</a>';
+													if ( current_user_can('connections_add_entry') || current_user_can('connections_add_entry_moderated') ) $rowEditActions[] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __('Copy', 'connections') . ' ' . $entry->getFullFirstLastName() . '">' . __('Copy', 'connections') . '</a>';
+													if ( current_user_can('connections_delete_entry') ) $rowEditActions[] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteTokenURL . '" title="' . __('Delete', 'connections') . ' ' . $entry->getFullFirstLastName() . '">' . __('Delete', 'connections') . '</a>';
 													
 													if ( ! empty($rowEditActions) ) echo implode(' | ', $rowEditActions) , '<br/>';
 													if ( ! empty($rowActions) ) echo implode(' | ', $rowActions);
@@ -577,9 +578,9 @@ function connectionsShowViewPage( $action = NULL )
 											
 										echo "</td> \n";											
 										echo '<td >';
-											echo '<strong>On:</strong> ' . $entry->getFormattedTimeStamp('m/d/Y g:ia') . '<br />';
-											echo '<strong>By:</strong> ' . $entry->getEditedBy(). '<br />';
-											echo '<strong>Visibility:</strong> ' . $entry->displayVisibiltyType();
+											echo '<strong>' . __('On', 'connections') . ':</strong> ' . $entry->getFormattedTimeStamp('m/d/Y g:ia') . '<br />';
+											echo '<strong>' . __('By', 'connections') . ':</strong> ' . $entry->getEditedBy(). '<br />';
+											echo '<strong>' . __('Visibility', 'connections') . ':</strong> ' . $entry->displayVisibiltyType();
 										echo "</td> \n";											
 									echo "</tr> \n";
 									
@@ -610,7 +611,7 @@ function connectionsShowViewPage( $action = NULL )
 													{
 														if (current_user_can('connections_edit_entry'))
 														{
-															echo '<strong>' . $connections->options->getFamilyRelation($value) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="Edit ' . $relation->getFullFirstLastName() . '">' . $relation->getFullFirstLastName() . '</a><br />' . "\n";
+															echo '<strong>' . $connections->options->getFamilyRelation($value) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __('Edit', 'connections') . ' ' . $relation->getFullFirstLastName() . '">' . $relation->getFullFirstLastName() . '</a><br />' . "\n";
 														}
 														else
 														{
@@ -626,10 +627,10 @@ function connectionsShowViewPage( $action = NULL )
 												unset($count);
 											}
 											
-											if ($entry->getContactFirstName() || $entry->getContactLastName()) echo '<strong>Contact:</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />';
-											if ($entry->getTitle()) echo '<strong>Title:</strong> ' . $entry->getTitle() . '<br />';
-											if ($entry->getOrganization() && $entry->getEntryType() !== 'organization' ) echo '<strong>Organization:</strong> ' . $entry->getOrganization() . '<br />';
-											if ($entry->getDepartment()) echo '<strong>Department:</strong> ' . $entry->getDepartment() . '<br />';
+											if ($entry->getContactFirstName() || $entry->getContactLastName()) echo '<strong>' . __('Contact', 'connections') . ':</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />';
+											if ($entry->getTitle()) echo '<strong>' . __('Title', 'connections') . ':</strong> ' . $entry->getTitle() . '<br />';
+											if ($entry->getOrganization() && $entry->getEntryType() !== 'organization' ) echo '<strong>' . __('Organization', 'connections') . ':</strong> ' . $entry->getOrganization() . '<br />';
+											if ($entry->getDepartment()) echo '<strong>' . __('Department', 'connections') . ':</strong> ' . $entry->getDepartment() . '<br />';
 											
 											$addresses = $entry->getAddresses();
 											//print_r($addresses);
@@ -655,7 +656,7 @@ function connectionsShowViewPage( $action = NULL )
 														if ( ! empty($outCache) ) echo '<span style="display: block">' , implode('&nbsp;', $outCache) , '</span>';
 														
 														if ( ! empty($address->country) ) echo '<span style="display: block">' , $address->country , '</span>';
-														if ( ! empty($address->latitude) && ! empty($address->longitude) ) echo '<span style="display: block">' , '<strong>Latitude:</strong>' , ' ' , $address->latitude , ' ' , '<strong>Longitude:</strong>' , ' ', $address->longitude , '</span>';
+														if ( ! empty($address->latitude) && ! empty($address->longitude) ) echo '<span style="display: block">' , '<strong>' , __('Latitude', 'connections') , ':</strong>' , ' ' , $address->latitude , ' ' , '<strong>' , __('Longitude', 'connections') , ':</strong>' , ' ', $address->longitude , '</span>';
 													echo '</div>';														
 												}
 												
@@ -748,8 +749,7 @@ function connectionsShowViewPage( $action = NULL )
 										echo "</td> \n";
 																				
 										echo "<td>";
-											if ($entry->getBirthday()) echo "<strong>Birthday:</strong><br />" . $entry->getBirthday() . "<br /><br />";
-											if ($entry->getAnniversary()) echo "<strong>Anniversary:</strong><br />" . $entry->getAnniversary();
+											$entry->getDateBlock();
 										echo "</td> \n";
 									echo "</tr> \n";
 									
@@ -757,16 +757,16 @@ function connectionsShowViewPage( $action = NULL )
 										echo "<td colspan='2'>&nbsp;</td> \n";
 										//echo "<td >&nbsp;</td> \n";
 										echo "<td colspan='3'>";
-											if ($entry->getBio()) echo "<strong>Bio:</strong> " . $entry->getBio() . "<br />"; else echo "&nbsp;";
-											if ($entry->getNotes()) echo "<strong>Notes:</strong> " . $entry->getNotes(); else echo "&nbsp;";
+											echo ( $entry->getBio() ) ? '<strong>' . __('Bio', 'connections') . ':</strong> ' . $entry->getBio() . '<br />' : '&nbsp;';
+											echo ( $entry->getNotes() ) ? '<strong>' . __('Notes', 'connections') . ':</strong> ' . $entry->getNotes() : '&nbsp;';
 										echo "</td> \n";
 										echo '<td>
-											<strong>Entry ID:</strong> ' . $entry->getId() . '<br />' . '
-											<strong>Entry Slug:</strong> ' . $entry->getSlug() . '<br />' . '
-											<strong>Date Added:</strong> ' . $entry->getDateAdded('m/d/Y g:ia') . '<br />
-											<strong>Added By:</strong> ' . $entry->getAddedBy() . '<br />';
-											if (!$entry->getImageLinked()) echo "<br /><strong>Image Linked:</strong> No"; else echo "<br /><strong>Image Linked:</strong> Yes";
-											if ($entry->getImageLinked() && $entry->getImageDisplay()) echo "<br /><strong>Display:</strong> Yes"; else echo "<br /><strong>Display:</strong> No";
+											<span style="display: block;"><strong>' . __('Entry ID', 'connections') . ':</strong> ' . $entry->getId() . '</span>' . '
+											<span style="display: block;"><strong>' . __('Entry Slug', 'connections') . ':</strong> ' . $entry->getSlug() . '</span>' . '
+											<span style="display: block;"><strong>' . __('Date Added', 'connections') . ':</strong> ' . $entry->getDateAdded('m/d/Y g:ia') . '</span>
+											<span style="display: block;"><strong>' . __('Added By', 'connections') . ':</strong> ' . $entry->getAddedBy() . '</span>';
+											echo '<span style="display: block;"><strong>' . __('Image Linked', 'connections') . ':</strong> ' . ( ( ! $entry->getImageLinked() ) ? __('No', 'connections') : __('Yes', 'connections') ) . '</span>';
+											echo '<span style="display: block;"><strong>' . __('Display', 'connections') . ':</strong> ' . ( ( $entry->getImageLinked() && $entry->getImageDisplay() ) ? __('Yes', 'connections') : __('No', 'connections') ) . '</span>';
 										echo "</td> \n";
 									echo "</tr> \n";
 																			
@@ -774,8 +774,6 @@ function connectionsShowViewPage( $action = NULL )
 							</tbody>
 				        </table>
 						</form>
-						<p style="font-size:smaller; text-align:center">This is version <?php echo $connections->options->getVersion(), '-', $connections->options->getDBVersion(); ?> of Connections.</p>
-						
 						
 				
 				<script type="text/javascript">

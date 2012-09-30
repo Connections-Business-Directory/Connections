@@ -93,7 +93,7 @@ Author URI: http://connections-pro.com/
  */
 
 
-if ( ! class_exists('connectionsLoad') )
+if ( ! class_exists( 'connectionsLoad' ) )
 {
 	class connectionsLoad
 	{
@@ -133,86 +133,86 @@ if ( ! class_exists('connectionsLoad') )
 			if ( version_compare( $this->options->getVersion() , CN_CURRENT_VERSION ) < 0 ) $this->initOptions();
 			
 			// Activation/Deactivation hooks
-			register_activation_hook( dirname(__FILE__) . '/connections.php', array(&$this, 'activate') );
-			register_deactivation_hook( dirname(__FILE__) . '/connections.php', array(&$this, 'deactivate') );
+			register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( &$this, 'activate' ) );
+			register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( &$this, 'deactivate' ) );
 			
 			//@TODO: Create uninstall method to remove options and tables.
-			// register_uninstall_hook( dirname(__FILE__) . '/connections.php', array('connectionsLoad', 'uninstall') );
+			// register_uninstall_hook( dirname( __FILE__ ) . '/connections.php', array('connectionsLoad', 'uninstall' ) );
 			
 			// Calls the method to load the admin menus.
 			//if ( is_admin() ) add_action('admin_menu', array( &$this , 'adminMenu' ) );
 			
 			// Register all valid query variables.
-			add_filter( 'query_vars', array(&$this, 'registerQueryVariables' ) );
+			add_filter( 'query_vars', array( &$this, 'registerQueryVariables' ) );
 			
 			// Add the page rewrite rules.
-			add_filter( 'page_rewrite_rules', array(&$this, 'addPageRewriteRules') );
+			add_filter( 'page_rewrite_rules', array( &$this, 'addPageRewriteRules' ) );
 			
 			// Add the redirect conical filter to rewite a query query string into a URL.
-			//add_filter('redirect_canonical', array(&$this, 'redirectCanonical') , 10, 2);
-			//add_filter('request', array(&$this, 'request'));
+			//add_filter( 'redirect_canonical', array( &$this, 'redirectCanonical' ) , 10, 2);
+			//add_filter( 'request', array( &$this, 'request' ) );
 			
 			// Start this plug-in once all other plugins are fully loaded
-			add_action( 'plugins_loaded', array(&$this, 'start') );
+			add_action( 'plugins_loaded', array( &$this, 'start' ) );
 		}
 		
 		public function start()
 		{
-			//$this->options->setDBVersion('0.1.8'); $this->options->saveOptions();
+			//$this->options->setDBVersion('0.1.8' ); $this->options->saveOptions();
 			
 			// Load the translation files.
-			load_plugin_textdomain( 'connections' , false , CN_DIR_NAME . '/lang' );
+			load_plugin_textdomain( 'connections', false, CN_DIR_NAME . '/lang' );
 			
 			/*
 			 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
 			 * Init the registered settings.
 			 * NOTE: The init method must be run after registering the tabs, sections and fields.
 			 */
-			add_filter( 'cn_register_settings_tabs' , array('cnRegisterSettings','registerSettingsTabs') , 10 , 1 );
-			add_filter( 'cn_register_settings_sections' , array('cnRegisterSettings','registerSettingsSections') , 10 , 1 );
-			add_filter( 'cn_register_settings_fields' , array('cnRegisterSettings','registerSettingsFields') , 10 , 1 );
+			add_filter( 'cn_register_settings_tabs' , array( 'cnRegisterSettings','registerSettingsTabs' ), 10, 1 );
+			add_filter( 'cn_register_settings_sections' , array( 'cnRegisterSettings','registerSettingsSections' ), 10, 1 );
+			add_filter( 'cn_register_settings_fields' , array( 'cnRegisterSettings','registerSettingsFields' ), 10, 1 );
 			$this->settings->init();
 			
 			// Setup the current user object
 			$current_user = wp_get_current_user();
-			$this->currentUser->setID($current_user->ID);
+			$this->currentUser->setID( $current_user->ID );
 			
 			// Register Common scripts
-			add_action( 'init', array(&$this, 'registerScripts' ) );
+			add_action( 'init', array( &$this, 'registerScripts' ) );
 			
 			if ( is_admin() )
 			{
 				// Store the PHP mememory limit
-				$this->phpMemoryLimit = ini_get('memory_limit');
+				$this->phpMemoryLimit = ini_get( 'memory_limit' );
 				
 				// Calls the method to load the admin menus.
 				add_action( 'admin_menu', array( &$this , 'adminMenu' ) );
 				
-				add_action( 'admin_init', array( &$this, 'adminInit') );
+				add_action( 'admin_init', array( &$this, 'adminInit' ) );
 				
 				// Parse admin queries.
-				add_action( 'admin_init', array( &$this, 'adminActions') );
+				add_action( 'admin_init', array( &$this, 'adminActions' ) );
 				
 				/*
 				 * Add the filter to update the user settings when the 'Apply" button is clicked.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 * NOTE: This filter must be init here otherwise it registers to late to be run.
 				 */
-				add_filter( 'set-screen-option', array(&$this, 'managePageLimitSave'), 10 , 3 );
+				add_filter( 'set-screen-option', array( &$this, 'managePageLimitSave' ), 10, 3 );
 			}
 			else
 			{
 				// Calls the methods to enqueue the frontend scripts and CSS.
-				add_action( 'wp_print_scripts', array(&$this, 'loadScripts' ) );
-				add_action( 'wp_print_styles', array(&$this, 'loadStyles' ) );
+				add_action( 'wp_print_scripts', array( &$this, 'loadScripts' ) );
+				add_action( 'wp_print_styles', array( &$this, 'loadStyles' ) );
 				
 				// Parse front end queries.
-				//add_action( 'parse_request', array(&$this, 'userActions') );
+				//add_action( 'parse_request', array( &$this, 'userActions' ) );
 				
 				/*
 				 * Process front end actions.
 				 */
-				add_action( 'template_redirect' , array(&$this, 'frontendActions' ) );
+				add_action( 'template_redirect', array( &$this, 'frontendActions' ) );
 			}
 			
 		}
@@ -221,10 +221,10 @@ if ( ! class_exists('connectionsLoad') )
 		{
 			global $wpdb, $blog_id;
 			
-			define('CN_LOG', FALSE);
+			define( 'CN_LOG', FALSE );
 			
-			define('CN_CURRENT_VERSION', '0.7.3');
-			define('CN_DB_VERSION', '0.1.9');
+			define( 'CN_CURRENT_VERSION', '0.7.3' );
+			define( 'CN_DB_VERSION', '0.1.9' );
 			
 			
 			/*
@@ -236,67 +236,67 @@ if ( ! class_exists('connectionsLoad') )
 			 */
 			if( is_multisite() )
 			{
-				define('CN_IMAGE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/');
-				define('CN_IMAGE_BASE_URL', network_site_url('/wp-content/blogs.dir/' . $blog_id . '/connection_images/'));
-				define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates');
-				define('CN_CUSTOM_TEMPLATE_URL', network_site_url('/wp-content/blogs.dir/' . $blog_id . '/connections_templates/'));
+				define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/' );
+				define( 'CN_IMAGE_BASE_URL', network_site_url('/wp-content/blogs.dir/' . $blog_id . '/connection_images/' ) );
+				define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates' );
+				define( 'CN_CUSTOM_TEMPLATE_URL', network_site_url('/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
 			} else {
-				define('CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/');
-				define('CN_IMAGE_BASE_URL', content_url() . '/connection_images/');
-				define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates');
-				define('CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates');
+				define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/' );
+				define( 'CN_IMAGE_BASE_URL', content_url() . '/connection_images/' );
+				define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates' );
+				define( 'CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates' );
 			}
 			
 			/*
 			 * Goal: To run Connections on a multisite as single site mode.
-			 * Add to wp-config.php: define('CN_MULTISITE_ENABLED', TRUE);
+			 * Add to wp-config.php: define( 'CN_MULTISITE_ENABLED', TRUE);
 			 * 
 			 * @credit lancelot-du-lac
 			 * @url http://wordpress.org/support/topic/plugin-connections-support-multisite-in-single-mode
 			 */
-			if ( ! defined('CN_MULTISITE_ENABLED') ) define('CN_MULTISITE_ENABLED', FALSE);
+			if ( ! defined('CN_MULTISITE_ENABLED' ) ) define( 'CN_MULTISITE_ENABLED', FALSE);
 			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->base_prefix : $wpdb->prefix;
 			
-			define('CN_ENTRY_TABLE', $prefix . 'connections');
-			define('CN_ENTRY_ADDRESS_TABLE', $prefix . 'connections_address');
-			define('CN_ENTRY_PHONE_TABLE', $prefix . 'connections_phone');
-			define('CN_ENTRY_EMAIL_TABLE', $prefix . 'connections_email');
-			define('CN_ENTRY_MESSENGER_TABLE', $prefix . 'connections_messenger');
-			define('CN_ENTRY_SOCIAL_TABLE', $prefix . 'connections_social');
-			define('CN_ENTRY_LINK_TABLE', $prefix . 'connections_link');
-			define('CN_ENTRY_DATE_TABLE', $prefix . 'connections_date');
+			define( 'CN_ENTRY_TABLE', $prefix . 'connections' );
+			define( 'CN_ENTRY_ADDRESS_TABLE', $prefix . 'connections_address' );
+			define( 'CN_ENTRY_PHONE_TABLE', $prefix . 'connections_phone' );
+			define( 'CN_ENTRY_EMAIL_TABLE', $prefix . 'connections_email' );
+			define( 'CN_ENTRY_MESSENGER_TABLE', $prefix . 'connections_messenger' );
+			define( 'CN_ENTRY_SOCIAL_TABLE', $prefix . 'connections_social' );
+			define( 'CN_ENTRY_LINK_TABLE', $prefix . 'connections_link' );
+			define( 'CN_ENTRY_DATE_TABLE', $prefix . 'connections_date' );
 			
-			define('CN_ENTRY_TABLE_META', $prefix . 'connections_meta');
-			define('CN_TERMS_TABLE', $prefix . 'connections_terms');
-			define('CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy');
-			define('CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships');
+			define( 'CN_ENTRY_TABLE_META', $prefix . 'connections_meta' );
+			define( 'CN_TERMS_TABLE', $prefix . 'connections_terms' );
+			define( 'CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy' );
+			define( 'CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships' );
 			
 			
-			//define('CN_ENTRY_TABLE', $wpdb->prefix . 'connections');
-			//define('CN_ENTRY_ADDRESS_TABLE', $wpdb->prefix . 'connections_address');
-			//define('CN_ENTRY_PHONE_TABLE', $wpdb->prefix . 'connections_phone');
-			//define('CN_ENTRY_EMAIL_TABLE', $wpdb->prefix . 'connections_email');
-			//define('CN_ENTRY_MESSENGER_TABLE', $wpdb->prefix . 'connections_messenger');
-			//define('CN_ENTRY_SOCIAL_TABLE', $wpdb->prefix . 'connections_social');
-			//define('CN_ENTRY_LINK_TABLE', $wpdb->prefix . 'connections_link');
-			//define('CN_ENTRY_DATE_TABLE', $wpdb->prefix . 'connections_date');
+			//define( 'CN_ENTRY_TABLE', $wpdb->prefix . 'connections' );
+			//define( 'CN_ENTRY_ADDRESS_TABLE', $wpdb->prefix . 'connections_address' );
+			//define( 'CN_ENTRY_PHONE_TABLE', $wpdb->prefix . 'connections_phone' );
+			//define( 'CN_ENTRY_EMAIL_TABLE', $wpdb->prefix . 'connections_email' );
+			//define( 'CN_ENTRY_MESSENGER_TABLE', $wpdb->prefix . 'connections_messenger' );
+			//define( 'CN_ENTRY_SOCIAL_TABLE', $wpdb->prefix . 'connections_social' );
+			//define( 'CN_ENTRY_LINK_TABLE', $wpdb->prefix . 'connections_link' );
+			//define( 'CN_ENTRY_DATE_TABLE', $wpdb->prefix . 'connections_date' );
 			
-			//define('CN_ENTRY_TABLE_META', $wpdb->prefix . 'connections_meta');
-			//define('CN_TERMS_TABLE', $wpdb->prefix . 'connections_terms');
-			//define('CN_TERM_TAXONOMY_TABLE', $wpdb->prefix . 'connections_term_taxonomy');
-			//define('CN_TERM_RELATIONSHIP_TABLE', $wpdb->prefix . 'connections_term_relationships');
+			//define( 'CN_ENTRY_TABLE_META', $wpdb->prefix . 'connections_meta' );
+			//define( 'CN_TERMS_TABLE', $wpdb->prefix . 'connections_terms' );
+			//define( 'CN_TERM_TAXONOMY_TABLE', $wpdb->prefix . 'connections_term_taxonomy' );
+			//define( 'CN_TERM_RELATIONSHIP_TABLE', $wpdb->prefix . 'connections_term_relationships' );
 			
-			define('CN_DIR_NAME', plugin_basename( dirname(__FILE__) ) );
-			define('CN_BASE_NAME', plugin_basename( __FILE__ ) );
-			define('CN_PATH', plugin_dir_path( __FILE__ ) );
-			define('CN_URL', plugin_dir_url( __FILE__ ) );
-			//define('CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/');
-			//define('CN_IMAGE_BASE_URL', content_url() . '/connection_images/');
-			define('CN_TEMPLATE_PATH', CN_PATH . '/templates');
-			define('CN_TEMPLATE_URL', CN_URL . '/templates');
-			//define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates');
-			//define('CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates');
-			define('CN_CACHE_PATH', CN_PATH . '/cache');
+			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
+			define( 'CN_BASE_NAME', plugin_basename( __FILE__ ) );
+			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
+			define( 'CN_URL', plugin_dir_url( __FILE__ ) );
+			//define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/' );
+			//define( 'CN_IMAGE_BASE_URL', content_url() . '/connection_images/' );
+			define( 'CN_TEMPLATE_PATH', CN_PATH . '/templates' );
+			define( 'CN_TEMPLATE_URL', CN_URL . '/templates' );
+			//define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates' );
+			//define( 'CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates' );
+			define( 'CN_CACHE_PATH', CN_PATH . '/cache' );
 			
 		}
 		
@@ -307,42 +307,42 @@ if ( ! class_exists('connectionsLoad') )
 			 * needed in the admin and frontend
 			 */
 			//Current User objects
-			require_once(CN_PATH . '/includes/class.user.php'); // Required for activation
+			require_once( CN_PATH . '/includes/class.user.php' ); // Required for activation
 			//Terms Objects
-			require_once(CN_PATH . '/includes/class.terms.php'); // Required for activation
+			require_once( CN_PATH . '/includes/class.terms.php' ); // Required for activation
 			//Category Objects
-			require_once(CN_PATH . '/includes/class.category.php'); // Required for activation, entry list
+			require_once( CN_PATH . '/includes/class.category.php' ); // Required for activation, entry list
 			//Retrieve objects from the db.
-			require_once(CN_PATH . '/includes/class.retrieve.php'); // Required for activation
+			require_once( CN_PATH . '/includes/class.retrieve.php' ); // Required for activation
 			//HTML FORM objects
-			require_once(CN_PATH . '/includes/class.form.php'); // Required for activation
+			require_once( CN_PATH . '/includes/class.form.php' ); // Required for activation
 			//date objects
-			require_once(CN_PATH . '/includes/class.date.php'); // Required for activation, entry list, add entry
+			require_once( CN_PATH . '/includes/class.date.php' ); // Required for activation, entry list, add entry
 			//entry objects
-			require_once(CN_PATH . '/includes/class.entry.php'); // Required for activation, entry list
+			require_once( CN_PATH . '/includes/class.entry.php' ); // Required for activation, entry list
 			//plugin option objects
-			require_once(CN_PATH . '/includes/class.options.php'); // Required for activation
+			require_once( CN_PATH . '/includes/class.options.php' ); // Required for activation
 			//plugin utility objects
-			require_once(CN_PATH . '/includes/class.utility.php'); // Required for activation, entry list
+			require_once( CN_PATH . '/includes/class.utility.php' ); // Required for activation, entry list
 			//plugin template objects
-			require_once(CN_PATH . '/includes/class.output.php'); // Required for activation, entry list
+			require_once( CN_PATH . '/includes/class.output.php' ); // Required for activation, entry list
 			//builds vCard
-			require_once(CN_PATH . '/includes/class.vcard.php'); // Required for front end
+			require_once( CN_PATH . '/includes/class.vcard.php' ); // Required for front end
 			
 			// geocoding
-			require_once(CN_PATH . '/includes/class.geo.php'); // Required
+			require_once( CN_PATH . '/includes/class.geo.php' ); // Required
 			
 			//shortcodes
-			require_once(CN_PATH . '/includes/inc.shortcodes.php'); // Required for front end
+			require_once( CN_PATH . '/includes/inc.shortcodes.php' ); // Required for front end
 			
 			//templates
-			require_once(CN_PATH . '/includes/class.template.php'); // Required for the front end template processing
+			require_once( CN_PATH . '/includes/class.template.php' ); // Required for the front end template processing
 			
 			// Load the Connections Settings API Wrapper Class.
-			require_once(CN_PATH . '/includes/class.settings-api.php');
+			require_once( CN_PATH . '/includes/class.settings-api.php' );
 			
 			// Load the Connections core settings admin page tabs, section and fields using the WordPress Settings API.
-			require_once(CN_PATH . '/includes/class.settings.php');
+			require_once( CN_PATH . '/includes/class.settings.php' );
 				
 			if ( is_admin() )
 			{
@@ -377,11 +377,11 @@ if ( ! class_exists('connectionsLoad') )
 			 * so they will be accessible in the structure supported by the 
 			 * Connections WordPress Settings API Wrapper Class.
 			 */
-			if ( get_option('connections_options') !== FALSE )
+			if ( get_option( 'connections_options' ) !== FALSE )
 			{
-				$options = get_option('connections_options');
+				$options = get_option( 'connections_options' );
 				
-				if ( get_option('connections_login') === FALSE )
+				if ( get_option( 'connections_login' ) === FALSE )
 				{
 					update_option( 'connections_login' , array(
 						'required' => $options['settings']['allow_public'],
@@ -390,7 +390,7 @@ if ( ! class_exists('connectionsLoad') )
 					);
 				}
 				
-				if ( get_option('connections_visibility') === FALSE )
+				if ( get_option( 'connections_visibility' ) === FALSE )
 				{
 					update_option( 'connections_visibility' , array(
 						'allow_public_override' => $options['settings']['allow_public_override'],
@@ -399,7 +399,7 @@ if ( ! class_exists('connectionsLoad') )
 					);
 				}
 				
-				if ( get_option('connections_image_thumbnail') === FALSE )
+				if ( get_option( 'connections_image_thumbnail' ) === FALSE )
 				{
 					update_option( 'connections_image_thumbnail' , array(
 						'quality' => $options['settings']['image']['thumbnail']['quality'],
@@ -409,7 +409,7 @@ if ( ! class_exists('connectionsLoad') )
 						)
 					);
 				}
-				if ( get_option('connections_image_medium') === FALSE )
+				if ( get_option( 'connections_image_medium' ) === FALSE )
 				{
 					update_option( 'connections_image_medium' , array(
 						'quality' => $options['settings']['image']['entry']['quality'],
@@ -420,7 +420,7 @@ if ( ! class_exists('connectionsLoad') )
 					);
 				}
 				
-				if ( get_option('connections_image_large') === FALSE )
+				if ( get_option( 'connections_image_large' ) === FALSE )
 				{
 					update_option( 'connections_image_large' , array(
 						'quality' => $options['settings']['image']['profile']['quality'],
@@ -431,7 +431,7 @@ if ( ! class_exists('connectionsLoad') )
 					);
 				}
 				
-				if ( get_option('connections_image_logo') === FALSE )
+				if ( get_option( 'connections_image_logo' ) === FALSE )
 				{
 					update_option( 'connections_image_logo' , array(
 						'quality' => $options['settings']['image']['logo']['quality'],
@@ -442,7 +442,7 @@ if ( ! class_exists('connectionsLoad') )
 					);
 				}
 				
-				if ( get_option('connections_compatibility') === FALSE )
+				if ( get_option( 'connections_compatibility' ) === FALSE )
 				{
 					update_option( 'connections_compatibility' , array( 
 						'google_maps_api' => $options['settings']['advanced']['load_google_maps_api'],
@@ -450,7 +450,7 @@ if ( ! class_exists('connectionsLoad') )
 					);
 				}
 				
-				if ( get_option('connections_debug') === FALSE ) update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
+				if ( get_option( 'connections_debug' ) === FALSE ) update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
 				
 			}
 			
@@ -460,7 +460,7 @@ if ( ! class_exists('connectionsLoad') )
 			$this->options->setDefaultCapabilities();
 			
 			// Increment the version number.
-			$this->options->setVersion(CN_CURRENT_VERSION);
+			$this->options->setVersion( CN_CURRENT_VERSION);
 			
 			// Save the options
 			$this->options->saveOptions();
@@ -469,7 +469,7 @@ if ( ! class_exists('connectionsLoad') )
 			 * This option is added for a check that will force a flush_rewrite() in connectionsLoad::adminInit() once.
 			 * Should save the user from having to "save" the permalink settings.
 			 */
-			update_option('connections_flush_rewrite', '1');
+			update_option( 'connections_flush_rewrite', '1' );
 		}
 		
 		public function displayMessages()
@@ -481,28 +481,28 @@ if ( ! class_exists('connectionsLoad') )
 			
 			$messages = $this->currentUser->getMessages();
 			
-			if ( !empty($messages) )
+			if ( !empty( $messages) )
 			{
-				foreach ($messages as $message)
+				foreach ( $messages as $message)
 				{
-					foreach($message as $type => $code)
+					foreach( $message as $type => $code)
 					{
-						switch ($type)
+						switch ( $type)
 						{
 							case 'error':
-								$output .= '<div id="message" class="error"><p><strong>' . __('ERROR', 'connections') . ': </strong>' . $this->message->get_error_message($code) . '</p></div>';
+								$output .= '<div id="message" class="error"><p><strong>' . __( 'ERROR:', 'connections' ) . ' </strong>' . $this->message->get_error_message( $code) . '</p></div>';
 							break;
 							
 							case 'error_runtime':
-								$output .= '<div id="message" class="error"><p><strong>' . __('ERROR', 'connections') . ': </strong>' . $code . '</p></div>';
+								$output .= '<div id="message" class="error"><p><strong>' . __( 'ERROR:', 'connections' ) . ' </strong>' . $code . '</p></div>';
 							break;
 							
 							case 'success':
-								$output .= '<div id="message" class="updated fade"><p><strong>' . __('SUCCESS', 'connections') . ': </strong>' . $this->message->get_error_message($code) . '</p></div>';
+								$output .= '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS:', 'connections' ) . ' </strong>' . $this->message->get_error_message( $code) . '</p></div>';
 							break;
 							
 							case 'success_runtime':
-								$output .= '<div id="message" class="updated fade"><p><strong>' . __('SUCCESS', 'connections') . ': </strong>' . $code . '</p></div>';
+								$output .= '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS:', 'connections' ) . ' </strong>' . $code . '</p></div>';
 							break;
 						}
 					}
@@ -526,43 +526,43 @@ if ( ! class_exists('connectionsLoad') )
 		 */
 		private function initErrorMessages()
 		{
-			$this->message->add('capability_view_entry_list', __('You are not authorized to view the entry list. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'capability_view_entry_list', __( 'You are not authorized to view the entry list. Please contact the admin if you received this message in error.', 'connections' ) );
 			
-			$this->message->add('capability_add', __('You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('capability_delete', __('You are not authorized to delete entries. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('capability_edit', __('You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('capability_categories', __('You are not authorized to edit the categories. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('capability_settings', __('You are not authorized to edit the settings. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('capability_roles', __('You are not authorized to edit role capabilities. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'capability_add', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'capability_delete', __( 'You are not authorized to delete entries. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'capability_edit', __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'capability_categories', __( 'You are not authorized to edit the categories. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'capability_settings', __( 'You are not authorized to edit the settings. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'capability_roles', __( 'You are not authorized to edit role capabilities. Please contact the admin if you received this message in error.', 'connections' ) );
 			
-			$this->message->add('category_duplicate_name', __('The category you are trying to create already exists.', 'connections' ) );
-			$this->message->add('category_self_parent', __('Category can not be a parent of itself.', 'connections' ) );
-			$this->message->add('category_delete_uncategorized', __('The Uncategorized category can not be deleted.', 'connections' ) );
-			$this->message->add('category_update_uncategorized', __('The Uncategorized category can not be altered.', 'connections' ) );
-			$this->message->add('category_add_uncategorized', __('The Uncategorized category already exists.', 'connections' ) );
-			$this->message->add('category_add_failed', __('Failed to add category.', 'connections' ) );
-			$this->message->add('category_update_failed', __('Failed to update category.', 'connections' ) );
-			$this->message->add('category_delete_failed', __('Failed to delete category.', 'connections' ) );
+			$this->message->add( 'category_duplicate_name', __( 'The category you are trying to create already exists.', 'connections' ) );
+			$this->message->add( 'category_self_parent', __( 'Category can not be a parent of itself.', 'connections' ) );
+			$this->message->add( 'category_delete_uncategorized', __( 'The Uncategorized category can not be deleted.', 'connections' ) );
+			$this->message->add( 'category_update_uncategorized', __( 'The Uncategorized category can not be altered.', 'connections' ) );
+			$this->message->add( 'category_add_uncategorized', __( 'The Uncategorized category already exists.', 'connections' ) );
+			$this->message->add( 'category_add_failed', __( 'Failed to add category.', 'connections' ) );
+			$this->message->add( 'category_update_failed', __( 'Failed to update category.', 'connections' ) );
+			$this->message->add( 'category_delete_failed', __( 'Failed to delete category.', 'connections' ) );
 			
-			$this->message->add('entry_added_failed', __('Entry could not be added.', 'connections' ) );
-			$this->message->add('entry_updated_failed', __('Entry could not be updated.', 'connections' ) );
+			$this->message->add( 'entry_added_failed', __( 'Entry could not be added.', 'connections' ) );
+			$this->message->add( 'entry_updated_failed', __( 'Entry could not be updated.', 'connections' ) );
 			
-			$this->message->add('entry_preferred_overridden_address', __('Your preferred setting for a address was overridden because another address that you are not permitted to view or edit is set as the preferred address. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('entry_preferred_overridden_phone', __('Your preferred setting for a phone was overridden because another phone number that you are not permitted to view or edit is set as the preferred phone number. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('entry_preferred_overridden_email', __('Your preferred setting for an email address was overridden because another email address that you are not permitted to view or edit is set as the preferred email address. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('entry_preferred_overridden_im', __('Your preferred setting for a IM Network was overridden because another IM Network that you are not permitted to view or edit is set as the preferred IM Network. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('entry_preferred_overridden_social', __('Your preferred setting for a social media network was overridden because another social media network that you are not permitted to view or edit is set as the preferred social media network. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('entry_preferred_overridden_link', __('Your preferred setting for a link was overridden because another link that you are not permitted to view or edit is set as the preferred link. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add('entry_preferred_overridden_date', __('Your preferred setting for a date was overridden because another date that you are not permitted to view or edit is set as the preferred date. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'entry_preferred_overridden_address', __( 'Your preferred setting for a address was overridden because another address that you are not permitted to view or edit is set as the preferred address. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'entry_preferred_overridden_phone', __( 'Your preferred setting for a phone was overridden because another phone number that you are not permitted to view or edit is set as the preferred phone number. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'entry_preferred_overridden_email', __( 'Your preferred setting for an email address was overridden because another email address that you are not permitted to view or edit is set as the preferred email address. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'entry_preferred_overridden_im', __( 'Your preferred setting for a IM Network was overridden because another IM Network that you are not permitted to view or edit is set as the preferred IM Network. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'entry_preferred_overridden_social', __( 'Your preferred setting for a social media network was overridden because another social media network that you are not permitted to view or edit is set as the preferred social media network. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'entry_preferred_overridden_link', __( 'Your preferred setting for a link was overridden because another link that you are not permitted to view or edit is set as the preferred link. Please contact the admin if you received this message in error.', 'connections' ) );
+			$this->message->add( 'entry_preferred_overridden_date', __( 'Your preferred setting for a date was overridden because another date that you are not permitted to view or edit is set as the preferred date. Please contact the admin if you received this message in error.', 'connections' ) );
 
-			$this->message->add('image_upload_failed', __('Image upload failed.', 'connections' ) );
-			$this->message->add('image_uploaded_failed', __('Uploaded image could not be saved to the destination folder.', 'connections' ) );
-			$this->message->add('image_profile_failed', __('Profile image could not be created and/or saved to the destination folder.', 'connections' ) );
-			$this->message->add('image_entry_failed', __('Entry image could not be created and/or saved to the destination folder.', 'connections' ) );
-			$this->message->add('image_thumbnail_failed', __('Thumbnail image could not be created and/or saved to the destination folder.', 'connections' ) );
+			$this->message->add( 'image_upload_failed', __( 'Image upload failed.', 'connections' ) );
+			$this->message->add( 'image_uploaded_failed', __( 'Uploaded image could not be saved to the destination folder.', 'connections' ) );
+			$this->message->add( 'image_profile_failed', __( 'Profile image could not be created and/or saved to the destination folder.', 'connections' ) );
+			$this->message->add( 'image_entry_failed', __( 'Entry image could not be created and/or saved to the destination folder.', 'connections' ) );
+			$this->message->add( 'image_thumbnail_failed', __( 'Thumbnail image could not be created and/or saved to the destination folder.', 'connections' ) );
 			
-			$this->message->add('template_install_failed', __('The template installation has failed.', 'connections' ) );
-			$this->message->add('template_delete_failed', __('The template could not be deleted.', 'connections' ) );
+			$this->message->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
+			$this->message->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
 		}
 		
 		/**
@@ -570,16 +570,16 @@ if ( ! class_exists('connectionsLoad') )
 		 * @return HTML div with error message.
 		 * @param string
 		 */
-		public function getErrorMessage($errorMessage)
+		public function getErrorMessage( $errorMessage)
 		{
-			return '<div id="message" class="error"><p><strong>' . __('ERROR', 'connections') . ': </strong>' . $this->message->get_error_message($errorMessage) . '</p></div>';
+			return '<div id="message" class="error"><p><strong>' . __( 'ERROR:', 'connections' ) . ' </strong>' . $this->message->get_error_message( $errorMessage) . '</p></div>';
 		}
 		
 		/**
 		 * Stores a predefined error messages in the user meta.
 		 * @param string
 		 */
-		public function setErrorMessage($errorMessage)
+		public function setErrorMessage( $errorMessage)
 		{
 			$messages = $this->currentUser->getMessages();
 			
@@ -592,33 +592,33 @@ if ( ! class_exists('connectionsLoad') )
 		 */
 		private function initSuccessMessages()
 		{
-			$this->message->add('form_entry_delete', __('The entry has been deleted.', 'connections' ) );
-			$this->message->add('form_entry_delete_bulk', __('Entry(ies) have been deleted.', 'connections' ) );
-			$this->message->add('form_entry_pending', __('The entry status have been set to pending.', 'connections' ) );
-			$this->message->add('form_entry_pending_bulk', __('Entry(ies) status have been set to pending.', 'connections' ) );
-			$this->message->add('form_entry_approve', __('The entry has been approved.', 'connections' ) );
-			$this->message->add('form_entry_approve_bulk', __('Entry(ies) have been approved.', 'connections' ) );
-			$this->message->add('form_entry_visibility_bulk', __('Entry(ies) visibility have been updated.', 'connections' ) );
+			$this->message->add( 'form_entry_delete', __( 'The entry has been deleted.', 'connections' ) );
+			$this->message->add( 'form_entry_delete_bulk', __( 'Entry(ies) have been deleted.', 'connections' ) );
+			$this->message->add( 'form_entry_pending', __( 'The entry status have been set to pending.', 'connections' ) );
+			$this->message->add( 'form_entry_pending_bulk', __( 'Entry(ies) status have been set to pending.', 'connections' ) );
+			$this->message->add( 'form_entry_approve', __( 'The entry has been approved.', 'connections' ) );
+			$this->message->add( 'form_entry_approve_bulk', __( 'Entry(ies) have been approved.', 'connections' ) );
+			$this->message->add( 'form_entry_visibility_bulk', __( 'Entry(ies) visibility have been updated.', 'connections' ) );
 			
-			$this->message->add('category_deleted', __('Category(ies) have been deleted.', 'connections' ) );
-			$this->message->add('category_updated', __('Category has been updated.', 'connections' ) );
-			$this->message->add('category_added', __('Category has been added.', 'connections' ) );
+			$this->message->add( 'category_deleted', __( 'Category(ies) have been deleted.', 'connections' ) );
+			$this->message->add( 'category_updated', __( 'Category has been updated.', 'connections' ) );
+			$this->message->add( 'category_added', __( 'Category has been added.', 'connections' ) );
 			
-			$this->message->add('entry_added', __('Entry has been added.', 'connections' ) );
-			$this->message->add('entry_added_moderated', __('Pending review entry will be added.', 'connections' ) );
-			$this->message->add('entry_updated', __('Entry has been updated.', 'connections' ) );
-			$this->message->add('entry_updated_moderated', __('Pending review entry will be updated.', 'connections' ) );
+			$this->message->add( 'entry_added', __( 'Entry has been added.', 'connections' ) );
+			$this->message->add( 'entry_added_moderated', __( 'Pending review entry will be added.', 'connections' ) );
+			$this->message->add( 'entry_updated', __( 'Entry has been updated.', 'connections' ) );
+			$this->message->add( 'entry_updated_moderated', __( 'Pending review entry will be updated.', 'connections' ) );
 			
-			$this->message->add('image_uploaded', __('Uploaded image saved.', 'connections' ) );
-			$this->message->add('image_profile', __('Profile image created and saved.', 'connections' ) );
-			$this->message->add('image_entry', __('Entry image created and saved.', 'connections' ) );
-			$this->message->add('image_thumbnail', __('Thumbnail image created and saved.', 'connections' ) );
+			$this->message->add( 'image_uploaded', __( 'Uploaded image saved.', 'connections' ) );
+			$this->message->add( 'image_profile', __( 'Profile image created and saved.', 'connections' ) );
+			$this->message->add( 'image_entry', __( 'Entry image created and saved.', 'connections' ) );
+			$this->message->add( 'image_thumbnail', __( 'Thumbnail image created and saved.', 'connections' ) );
 			
-			$this->message->add('role_settings_updated', __('Role capabilities have been updated.', 'connections' ) );
+			$this->message->add( 'role_settings_updated', __( 'Role capabilities have been updated.', 'connections' ) );
 			
-			$this->message->add('template_change_active', __('The default active template has been changed.', 'connections' ) );
-			$this->message->add('template_installed', __('A new template has been installed.', 'connections' ) );
-			$this->message->add('template_deleted', __('The template has been deleted.', 'connections' ) );
+			$this->message->add( 'template_change_active', __( 'The default active template has been changed.', 'connections' ) );
+			$this->message->add( 'template_installed', __( 'A new template has been installed.', 'connections' ) );
+			$this->message->add( 'template_deleted', __( 'The template has been deleted.', 'connections' ) );
 		}
 		
 		/**
@@ -626,16 +626,16 @@ if ( ! class_exists('connectionsLoad') )
 		 * @return HTML div with error message.
 		 * @param string
 		 */
-		public function getSuccessMessage($successMessage)
+		public function getSuccessMessage( $successMessage)
 		{
-			return '<div id="message" class="updated fade"><p><strong>' . __('SUCCESS', 'connections') . ': </strong>' . $this->message->get_error_message($successMessage) . '</p></div>';
+			return '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS:', 'connections' ) . ' </strong>' . $this->message->get_error_message( $successMessage) . '</p></div>';
 		}
 		
 		/**
 		 * Stores a predefined success messages in the user meta.
 		 * @param string
 		 */
-		public function setSuccessMessage($successMessage)
+		public function setSuccessMessage( $successMessage)
 		{
 			$messages = $this->currentUser->getMessages();
 			
@@ -649,15 +649,15 @@ if ( ! class_exists('connectionsLoad') )
 		public function activate()
 		{
 			global $wpdb, $connections;
-			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 			
 			$charsetCollate = '';
 			
-			if ( ! empty($wpdb->charset) ) $charsetCollate = "DEFAULT CHARACTER SET $wpdb->charset";
-			if ( ! empty($wpdb->collate) ) $charsetCollate .= " COLLATE $wpdb->collate";
+			if ( ! empty( $wpdb->charset) ) $charsetCollate = "DEFAULT CHARACTER SET $wpdb->charset";
+			if ( ! empty( $wpdb->collate) ) $charsetCollate .= " COLLATE $wpdb->collate";
 
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_TABLE . "'") != CN_ENTRY_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_TABLE . "'") != CN_ENTRY_TABLE)
 			{
 				$entryTable = "CREATE TABLE " . CN_ENTRY_TABLE . " (
 			        id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -697,16 +697,16 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTable);
+			    dbDelta( $entryTable);
 				
 				/*
 				 * Alter the table after is was created to add FULLTEXT support.
 				 * That way if the db engine doesn't support it, at least the table will be created.
 				 */
-				$wpdb->query('ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (family_name, first_name, middle_name, last_name, title, organization, department, contact_first_name, contact_last_name, bio, notes)');
+				$wpdb->query('ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (family_name, first_name, middle_name, last_name, title, organization, department, contact_first_name, contact_last_name, bio, notes)' );
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_TERMS_TABLE . "'") != CN_TERMS_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_TERMS_TABLE . "'") != CN_TERMS_TABLE)
 			{
 				$termsTable = "CREATE TABLE " . CN_TERMS_TABLE . " (
 			        term_id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -719,10 +719,10 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($termsTable);
+			    dbDelta( $termsTable);
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_TERM_TAXONOMY_TABLE . "'") != CN_TERM_TAXONOMY_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_TERM_TAXONOMY_TABLE . "'") != CN_TERM_TAXONOMY_TABLE)
 			{
 				$termTaxonomyTable = "CREATE TABLE " . CN_TERM_TAXONOMY_TABLE . " (
 			        term_taxonomy_id bigint(20) NOT NULL AUTO_INCREMENT,
@@ -737,10 +737,10 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($termTaxonomyTable);
+			    dbDelta( $termTaxonomyTable);
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_TERM_RELATIONSHIP_TABLE . "'") != CN_TERM_RELATIONSHIP_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_TERM_RELATIONSHIP_TABLE . "'") != CN_TERM_RELATIONSHIP_TABLE)
 			{
 				$termTermRelationshipTable = "CREATE TABLE " . CN_TERM_RELATIONSHIP_TABLE . " (
 			        entry_id bigint(20) NOT NULL,
@@ -751,24 +751,24 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($termTermRelationshipTable);
+			    dbDelta( $termTermRelationshipTable);
 			}
 			
 			
 			// Check if the Uncategorized term exists and if it doesn't create it.
-			$term = $connections->term->getTermBy('slug', 'uncategorized', 'category');
+			$term = $connections->term->getTermBy( 'slug', 'uncategorized', 'category' );
 			
-			if ( empty($term) )
+			if ( empty( $term) )
 			{
 				$attributes['slug'] = '';
 				$attributes['parent'] = 0;
-				$attributes['description'] = __('Entries not assigned to a category will automatically be assigned to this category and deleting a category which has been assigned to an entry will reassign that entry to this category. This category can not be edited or deleted.', 'connections' ) ;
+				$attributes['description'] = __( 'Entries not assigned to a category will automatically be assigned to this category and deleting a category which has been assigned to an entry will reassign that entry to this category. This category can not be edited or deleted.', 'connections' ) ;
 				
-				$connections->term->addTerm(__('Uncategorized', 'connections' ) , 'category', $attributes);
+				$connections->term->addTerm( __( 'Uncategorized', 'connections' ) , 'category', $attributes);
 			}
 			
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_TABLE_META . "'") != CN_ENTRY_TABLE_META)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_TABLE_META . "'") != CN_ENTRY_TABLE_META)
 			{
 				$entryTableMeta = "CREATE TABLE " . CN_ENTRY_TABLE_META . " (
 			        meta_id bigint(20) unsigned NOT NULL auto_increment,
@@ -781,12 +781,12 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTableMeta);
+			    dbDelta( $entryTableMeta);
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_ADDRESS_TABLE . "'") != CN_ENTRY_ADDRESS_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_ADDRESS_TABLE . "'") != CN_ENTRY_ADDRESS_TABLE)
 			{
-				require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				
 				$entryTableAddress = "CREATE TABLE " . CN_ENTRY_ADDRESS_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -808,18 +808,18 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTableAddress);
+			    dbDelta( $entryTableAddress);
 				
 				/*
 				 * Alter the table after is was created to add FULLTEXT support.
 				 * That way if the db engine doesn't support it, at least the table will be created.
 				 */
-				$wpdb->query('ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (line_1, line_2, line_3, city, state, zipcode, country)');
+				$wpdb->query('ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (line_1, line_2, line_3, city, state, zipcode, country)' );
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_PHONE_TABLE . "'") != CN_ENTRY_PHONE_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_PHONE_TABLE . "'") != CN_ENTRY_PHONE_TABLE)
 			{
-				require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				
 				$entryTablePhone = "CREATE TABLE " . CN_ENTRY_PHONE_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -833,18 +833,18 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTablePhone);
+			    dbDelta( $entryTablePhone);
 				
 				/*
 				 * Alter the table after is was created to add FULLTEXT support.
 				 * That way if the db engine doesn't support it, at least the table will be created.
 				 */
-				$wpdb->query('ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (number)');
+				$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (number)' );
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_EMAIL_TABLE . "'") != CN_ENTRY_EMAIL_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_EMAIL_TABLE . "'") != CN_ENTRY_EMAIL_TABLE)
 			{
-				require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				
 				$entryTableEmail = "CREATE TABLE " . CN_ENTRY_EMAIL_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -858,12 +858,12 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTableEmail);
+			    dbDelta( $entryTableEmail );
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_MESSENGER_TABLE . "'") != CN_ENTRY_MESSENGER_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_MESSENGER_TABLE . "'") != CN_ENTRY_MESSENGER_TABLE)
 			{
-				require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				
 				$entryTableMessenger = "CREATE TABLE " . CN_ENTRY_MESSENGER_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -877,12 +877,12 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTableMessenger);
+			    dbDelta( $entryTableMessenger );
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_SOCIAL_TABLE . "'") != CN_ENTRY_SOCIAL_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_SOCIAL_TABLE . "'") != CN_ENTRY_SOCIAL_TABLE)
 			{
-				require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				
 				$entryTableSocialMedia = "CREATE TABLE " . CN_ENTRY_SOCIAL_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -896,12 +896,12 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTableSocialMedia);
+			    dbDelta( $entryTableSocialMedia );
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_LINK_TABLE . "'") != CN_ENTRY_LINK_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_LINK_TABLE . "'") != CN_ENTRY_LINK_TABLE)
 			{
-				require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				
 				$entryTableLink = "CREATE TABLE " . CN_ENTRY_LINK_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -920,12 +920,12 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTableLink);
+			    dbDelta( $entryTableLink);
 			}
 			
-			if ($wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_DATE_TABLE . "'") != CN_ENTRY_DATE_TABLE)
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . CN_ENTRY_DATE_TABLE . "'") != CN_ENTRY_DATE_TABLE)
 			{
-				require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+				require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 				
 				$entryTableDate = "CREATE TABLE " . CN_ENTRY_DATE_TABLE . " (
 			        `id` bigint(20) unsigned NOT NULL auto_increment,
@@ -939,7 +939,7 @@ if ( ! class_exists('connectionsLoad') )
 			    ) $charsetCollate";
 			    
 				// Create the table
-			    dbDelta($entryTableDate);
+			    dbDelta( $entryTableDate );
 			}
 			
 			// Create the cache folder.
@@ -949,14 +949,14 @@ if ( ! class_exists('connectionsLoad') )
 			/*
 			 * Attempt to set the folder writeable per http://codex.wordpress.org/Changing_File_Permissions#Using_the_Command_Line
 			 */
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) @chmod( CN_CACHE_PATH , 0746 );
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) @chmod( CN_CACHE_PATH , 0747 );
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) @chmod( CN_CACHE_PATH , 0756 );
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) @chmod( CN_CACHE_PATH , 0757 );
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) @chmod( CN_CACHE_PATH , 0764 );
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) @chmod( CN_CACHE_PATH , 0765 );
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) @chmod( CN_CACHE_PATH , 0766 );
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) @chmod( CN_CACHE_PATH , 0767 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0746 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0747 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0756 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0757 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0764 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0765 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0766 );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) @chmod( CN_CACHE_PATH , 0767 );
 			
 			// Create the images folder.
 			wp_mkdir_p( CN_IMAGE_PATH );
@@ -964,14 +964,14 @@ if ( ! class_exists('connectionsLoad') )
 			/*
 			 * Attempt to set the folder writeable per http://codex.wordpress.org/Changing_File_Permissions#Using_the_Command_Line
 			 */
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) @chmod( CN_IMAGE_PATH , 0746 );
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) @chmod( CN_IMAGE_PATH , 0747 );
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) @chmod( CN_IMAGE_PATH , 0756 );
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) @chmod( CN_IMAGE_PATH , 0757 );
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) @chmod( CN_IMAGE_PATH , 0764 );
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) @chmod( CN_IMAGE_PATH , 0765 );
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) @chmod( CN_IMAGE_PATH , 0766 );
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) @chmod( CN_IMAGE_PATH , 0767 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0746 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0747 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0756 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0757 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0764 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0765 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0766 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0767 );
 			
 			// Create the custom template folder.
 			wp_mkdir_p( CN_CUSTOM_TEMPLATE_PATH );
@@ -979,21 +979,21 @@ if ( ! class_exists('connectionsLoad') )
 			/*
 			 * Attempt to set the folder writeable per http://codex.wordpress.org/Changing_File_Permissions#Using_the_Command_Line
 			 */
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0746 );
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0747 );
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0756 );
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0757 );
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0764 );
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0765 );
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0766 );
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0767 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0746 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0747 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0756 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0757 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0764 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0765 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0766 );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) @chmod( CN_CUSTOM_TEMPLATE_PATH , 0767 );
 			
 			$this->initOptions();
 			
 			/*
 			 * Add the page rewrite rules.
 			 */
-			add_filter( 'page_rewrite_rules', array(&$this, 'addPageRewriteRules') );
+			add_filter( 'page_rewrite_rules', array( &$this, 'addPageRewriteRules' ) );
 			
 			// Flush so they are rebuilt.
 			flush_rewrite_rules();
@@ -1008,7 +1008,7 @@ if ( ! class_exists('connectionsLoad') )
 			 * Since we're adding the rewrite rules using a filter, make sure to remove the filter
 			 * before flushing, otherwise the rules will not be removed.
 			 */
-			remove_filter( 'page_rewrite_rules', array(&$this, 'addPageRewriteRules') );
+			remove_filter( 'page_rewrite_rules', array( &$this, 'addPageRewriteRules' ) );
 			
 			// Flush so they are rebuilt.
 			flush_rewrite_rules();
@@ -1025,7 +1025,7 @@ if ( ! class_exists('connectionsLoad') )
 		
 		public function addDBUpgradeMessage()
 		{
-			echo '<div id="message" class="error"><p><strong>' . __('Connections database requires updating.', 'connections')  . '<a class="button-highlighted" href="admin.php?page=connections_manage">' . __('START', 'connections')  . '</a></strong></p></div>';
+			echo '<div id="message" class="error"><p><strong>' . __( 'Connections database requires updating.', 'connections' )  . '<a class="button-highlighted" href="admin.php?page=connections_manage">' . __( 'START', 'connections' )  . '</a></strong></p></div>';
 		}
 		
 		/**
@@ -1050,12 +1050,12 @@ if ( ! class_exists('connectionsLoad') )
 		 * @param array $page_rewrite
 		 * @return array
 		 */
-		public function addPageRewriteRules($page_rewrite)
+		public function addPageRewriteRules( $page_rewrite )
 		{
 			$rule = array();
 			
 			// Get the settings for the base of each data type to be used in the URL.
-			$base = get_option('connections_permalink');
+			$base = get_option( 'connections_permalink' );
 			
 			$category = $base['category_base'];
 			$country = $base['country_base'];
@@ -1200,10 +1200,10 @@ if ( ! class_exists('connectionsLoad') )
 			
 			
 			// Add the Connections rewite rules to before the default page rewrite rules.
-			$page_rewrite = array_merge($rule, $page_rewrite);
+			$page_rewrite = array_merge( $rule, $page_rewrite );
 			
 			
-			//var_dump($page_rewrite);
+			//var_dump( $page_rewrite);
 			return $page_rewrite;
 		}
 		
@@ -1239,7 +1239,7 @@ if ( ! class_exists('connectionsLoad') )
 		 * @param array $query
 		 * @return array
 		 */
-		public function registerQueryVariables($var)
+		public function registerQueryVariables( $var )
 		{
 			$var[] = 'cn-cat';			// category id
 			$var[] = 'cn-cat-slug';		// category slug
@@ -1281,28 +1281,28 @@ if ( ! class_exists('connectionsLoad') )
 			// Abort if not using pretty permalinks or is a feed.
 			//if( ! $wp_rewrite->using_permalinks() || is_feed() ) return $redirect_url;
 			
-			var_dump($redirect_url);
+			var_dump( $redirect_url );
 			print_r("\r");
-			var_dump($requested_url);
+			var_dump( $requested_url );
 			die;
 			
 			// If paged, apppend pagination
-			if ( get_query_var('cn-pg') )
+			if ( get_query_var( 'cn-pg' ) )
 			{
-				/*$page = (int) get_query_var('cn-pg');
+				/*$page = (int) get_query_var( 'cn-pg' );
 				
-				if ( $page > 1 ) $redirect_url .= user_trailingslashit("/pg/$page", 'page');*/
+				if ( $page > 1 ) $redirect_url .= user_trailingslashit("/pg/$page", 'page' );*/
 				
-				$redirect_url = remove_query_arg('cn-page', $redirect_url);
+				$redirect_url = remove_query_arg( 'cn-page', $redirect_url );
 			}
 			
 			return $redirect_url;
 		}
 		
 		
-		public function request($request)
+		public function request( $request )
 		{
-			//var_dump($request); die;
+			//var_dump( $request); die;
 			
 			return $request;
 		}
@@ -1322,7 +1322,7 @@ if ( ! class_exists('connectionsLoad') )
 		 */
 		public function adminInit()
 		{
-			$directoryHome = $this->settings->get('connections', 'connections_home_page', 'page_id');
+			$directoryHome = $this->settings->get( 'connections', 'connections_home_page', 'page_id' );
 			
 			// Initiate admin messages.
 			$this->message = new WP_Error();
@@ -1330,10 +1330,10 @@ if ( ! class_exists('connectionsLoad') )
 			$this->initSuccessMessages();
 			
 			// If the user changed the base slugs for the permalinks, flush the rewrite rules.
-			if ( get_option('connections_flush_rewrite') )
+			if ( get_option( 'connections_flush_rewrite' ) )
 			{
 				flush_rewrite_rules();
-				delete_option('connections_flush_rewrite');
+				delete_option( 'connections_flush_rewrite' );
 			}
 			
 			/*
@@ -1343,7 +1343,7 @@ if ( ! class_exists('connectionsLoad') )
 				'admin_notices',
 				 create_function(
 				 	'', 
-					'echo \'<div id="message" class="error"><p><strong>ERROR:</strong> The Connections directory home page has not been set. Please set it now.</p></div>\';'
+					'echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> The Connections directory home page has not been set. Please set it now.', 'connections' ) . '</p></div>\';'
 					)
 				);
 			
@@ -1353,25 +1353,25 @@ if ( ! class_exists('connectionsLoad') )
 			/*
 			 * Add admin notices if required directories are not present or not writeable.
 			 */
-			if ( ! file_exists(CN_IMAGE_PATH) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/connection_images does not seem to exist. Please try deactivating and reactivating Connections.</p></div>\';' ) );
-			if ( file_exists(CN_IMAGE_PATH) && ! is_writeable(CN_IMAGE_PATH) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/connection_images does not seem to be writeable.</p></div>\';' ) );
-			if ( ! file_exists(CN_CUSTOM_TEMPLATE_PATH) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/connections_templates does not seem to exist. Please try deactivating and reactivating Connections.</p></div>\';' ) );
-			if ( file_exists(CN_CUSTOM_TEMPLATE_PATH) && ! is_writeable(CN_CUSTOM_TEMPLATE_PATH) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/connections_templates does not seem to be writeable.</p></div>\';' ) );
-			if ( ! file_exists(CN_CACHE_PATH) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to exist. Please try deactivating and reactivating Connections.</p></div>\';' ) );
-			if ( file_exists(CN_CACHE_PATH) && ! is_writeable(CN_CACHE_PATH) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to be writeable.</p></div>\';' ) );
+			if ( ! file_exists( CN_IMAGE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/connection_images does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) . '</p></div>\';' ) );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/connection_images does not seem to be writeable.', 'connections' ) . '</p></div>\';' ) );
+			if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/connections_templates does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) . '</p></div>\';' ) );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/connections_templates does not seem to be writeable.', 'connections' ) . '</p></div>\';' ) );
+			if ( ! file_exists( CN_CACHE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) . '</p></div>\';' ) );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to be writeable.', 'connections' ) . '</p></div>\';' ) );
 			
 			// Calls the methods to load the admin scripts and CSS.
-			add_action('admin_print_scripts', array(&$this, 'loadAdminScripts') );
-			add_action('admin_print_styles', array(&$this, 'loadAdminStyles') );
+			add_action( 'admin_print_scripts', array( &$this, 'loadAdminScripts' ) );
+			add_action( 'admin_print_styles', array( &$this, 'loadAdminStyles' ) );
 			
 			// Add Settings link to the plugin actions
-			add_action('plugin_action_links_' . CN_BASE_NAME, array(&$this, 'addActionLinks'));
+			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( &$this, 'addActionLinks' ) );
 			
 			// Add FAQ, Support and Donate links
-			add_filter('plugin_row_meta', array(&$this, 'addMetaLinks'), 10, 2);
+			add_filter( 'plugin_row_meta', array( &$this, 'addMetaLinks' ), 10, 2 );
 			
 			// Add Changelog table row in the Manage Plugins admin page.
-			add_action('after_plugin_row_' . CN_BASE_NAME, array(&$this, 'displayUpgradeNotice'), 1, 0);
+			add_action( 'after_plugin_row_' . CN_BASE_NAME, array( &$this, 'displayUpgradeNotice' ), 1, 0 );
 			// Maybe should use this action hook instead: in_plugin_update_message-{$file}
 			
 			/*
@@ -1380,29 +1380,29 @@ if ( ! class_exists('connectionsLoad') )
 			 * PHP notices when attempting to access them. If the menus have been added then the 
 			 * properties will exist so it will be safe to add the actions using the properties.
 			 */
-			if ( get_object_vars($this->pageHook) )
+			if ( get_object_vars( $this->pageHook ) )
 			{
 				// Register the edit metaboxes.
-				add_action('load-' . $this->pageHook->add, array(&$this, 'registerEditMetaboxes'));
-				add_action('load-' . $this->pageHook->manage, array(&$this, 'registerEditMetaboxes'));
+				add_action( 'load-' . $this->pageHook->add, array( &$this, 'registerEditMetaboxes' ) );
+				add_action( 'load-' . $this->pageHook->manage, array( &$this, 'registerEditMetaboxes' ) );
 				
 				// Register the Dashboard metaboxes.
-				add_action('load-' . $this->pageHook->dashboard, array(&$this, 'registerDashboardMetaboxes'));
+				add_action( 'load-' . $this->pageHook->dashboard, array( &$this, 'registerDashboardMetaboxes' ) );
 				
 				// Remove the admin database message on the following pages since it's confusing to see both the message and upgrade text at the same time.
-				add_action('load-' . $this->pageHook->dashboard, array(&$this, 'removeDBUpgradeMessage'));
-				add_action('load-' . $this->pageHook->manage, array(&$this, 'removeDBUpgradeMessage'));
-				add_action('load-' . $this->pageHook->add, array(&$this, 'removeDBUpgradeMessage'));
-				add_action('load-' . $this->pageHook->categories, array(&$this, 'removeDBUpgradeMessage'));
-				add_action('load-' . $this->pageHook->templates, array(&$this, 'removeDBUpgradeMessage'));
-				add_action('load-' . $this->pageHook->settings, array(&$this, 'removeDBUpgradeMessage'));
-				add_action('load-' . $this->pageHook->roles, array(&$this, 'removeDBUpgradeMessage'));
+				add_action( 'load-' . $this->pageHook->dashboard, array( &$this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->manage, array( &$this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->add, array( &$this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->categories, array( &$this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->templates, array( &$this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->settings, array( &$this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->roles, array( &$this, 'removeDBUpgradeMessage' ) );
 				
 				/*
 				 * Add the panel to the "Screen Options" box to the manage page.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 */
-				add_screen_options_panel( 'cn-manage-page-limit' , 'Show on screen' , array(&$this, 'managePageLimit') , $this->pageHook->manage , array(&$this, 'managePageLimitSaveAJAX') , FALSE );
+				add_screen_options_panel( 'cn-manage-page-limit' , 'Show on screen' , array( &$this, 'managePageLimit' ) , $this->pageHook->manage , array( &$this, 'managePageLimitSaveAJAX' ) , FALSE );
 			}
 		}
 		
@@ -1414,11 +1414,11 @@ if ( ! class_exists('connectionsLoad') )
 		{
 			global $connections;
 			
-			$page = $connections->currentUser->getFilterPage('manage');
+			$page = $connections->currentUser->getFilterPage( 'manage' );
 			
-			$out = '<label><input type="text" class="entry-per-page" name="wp_screen_options[value]" id="edit_entry_per_page" maxlength="3" value="' . $page->limit . '" />' . __('Entries', 'connections') . '</label>';
+			$out = '<label><input type="text" class="entry-per-page" name="wp_screen_options[value]" id="edit_entry_per_page" maxlength="3" value="' . $page->limit . '" />' . __( 'Entries', 'connections' ) . '</label>';
 			$out .= '<input type="hidden" name="wp_screen_options[option]" id="edit_entry_per_page_name" value="connections" />';
-			$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="Apply"  />';
+			$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="' . __( 'Apply', 'connections' ) . '"  />';
 			return $out;
 		}
 		
@@ -1434,13 +1434,13 @@ if ( ! class_exists('connectionsLoad') )
 			processSetUserFilter();
 		}
 		
-		public function managePageLimitSave( $false = FALSE , $option , $value)
+		public function managePageLimitSave( $false = FALSE , $option , $value )
 		{
 			global $connections;
 			
-			$user_meta = get_user_meta( $connections->currentUser->getID() , $option, TRUE);
+			$user_meta = get_user_meta( $connections->currentUser->getID() , $option, TRUE );
 		
-			$user_meta['filter']['manage']['limit'] = absint($value);
+			$user_meta['filter']['manage']['limit'] = absint( $value );
 			$user_meta['filter']['manage']['current'] = 1;
 			
 			return $user_meta;
@@ -1458,11 +1458,11 @@ if ( ! class_exists('connectionsLoad') )
 		public function adminMenu()
 		{
 			// Set the capability string to be used in the add_sub_menu function per role capability assigned to the current user.		
-			if ( current_user_can('connections_add_entry_moderated') )
+			if ( current_user_can( 'connections_add_entry_moderated' ) )
 			{
 				$addEntryCapability = 'connections_add_entry_moderated';
 			}
-			elseif ( current_user_can('connections_add_entry') )
+			elseif ( current_user_can( 'connections_add_entry' ) )
 			{
 				$addEntryCapability = 'connections_add_entry';
 			}
@@ -1472,24 +1472,24 @@ if ( ! class_exists('connectionsLoad') )
 			}
 			
 			// Register the top level menu item.
-			$this->pageHook->topLevel = add_menu_page('Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array (&$this, 'showPage'), CN_URL . '/images/menu.png');
+			$this->pageHook->topLevel = add_menu_page( 'Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array (&$this, 'showPage' ), CN_URL . '/images/menu.png' );
 			
-			$submenu[0]   = array( 'hook' => 'dashboard', 'page_title' => 'Connections : ' . __('Dashboard', 'connections'), 'menu_title' => __('Dashboard', 'connections'), 'capability' => 'connections_view_dashboard', 'menu_slug' => 'connections_dashboard', 'function' => array (&$this, 'showPage') );
-			$submenu[20]  = array( 'hook' => 'manage', 'page_title' => 'Connections : ' . __('Manage', 'connections'), 'menu_title' => __('Manage', 'connections'), 'capability' => 'connections_manage', 'menu_slug' => 'connections_manage', 'function' => array (&$this, 'showPage') );
-			$submenu[40]  = array( 'hook' => 'add', 'page_title' => 'Connections : ' . __('Add Entry', 'connections'), 'menu_title' => __('Add Entry', 'connections'), 'capability' => $addEntryCapability, 'menu_slug' => 'connections_add', 'function' => array (&$this, 'showPage') );
-			$submenu[60]  = array( 'hook' => 'categories', 'page_title' => 'Connections : ' . __('Categories', 'connections'), 'menu_title' => __('Categories', 'connections'), 'capability' => 'connections_edit_categories', 'menu_slug' => 'connections_categories', 'function' => array (&$this, 'showPage') );
-			$submenu[80]  = array( 'hook' => 'templates', 'page_title' => 'Connections : ' . __('Templates', 'connections'), 'menu_title' => __('Templates', 'connections'), 'capability' => 'connections_manage_template', 'menu_slug' => 'connections_templates', 'function' => array (&$this, 'showPage') );
-			$submenu[100] = array( 'hook' => 'settings', 'page_title' => 'Connections : ' . __('Settings', 'connections'), 'menu_title' => __('Settings', 'connections'), 'capability' => 'connections_change_settings', 'menu_slug' => 'connections_settings', 'function' => array (&$this, 'showPage') );
-			$submenu[120] = array( 'hook' => 'roles', 'page_title' => 'Connections : ' . __('Roles &amp; Capabilites', 'connections'), 'menu_title' => __('Roles', 'connections'), 'capability' => 'connections_change_roles', 'menu_slug' => 'connections_roles', 'function' => array (&$this, 'showPage') );
-			//$submenu[140] = array( 'hook' => 'help', 'page_title' => 'Connections : ' . __('Help', 'connections'), 'menu_title' => __('Help', 'connections'), 'capability' => 'connections_view_help', 'menu_slug' => 'connections_help', 'function' => array (&$this, 'showPage') );
+			$submenu[0]   = array( 'hook' => 'dashboard', 'page_title' => 'Connections : ' . __( 'Dashboard', 'connections' ), 'menu_title' => __( 'Dashboard', 'connections' ), 'capability' => 'connections_view_dashboard', 'menu_slug' => 'connections_dashboard', 'function' => array (&$this, 'showPage' ) );
+			$submenu[20]  = array( 'hook' => 'manage', 'page_title' => 'Connections : ' . __( 'Manage', 'connections' ), 'menu_title' => __( 'Manage', 'connections' ), 'capability' => 'connections_manage', 'menu_slug' => 'connections_manage', 'function' => array (&$this, 'showPage' ) );
+			$submenu[40]  = array( 'hook' => 'add', 'page_title' => 'Connections : ' . __( 'Add Entry', 'connections' ), 'menu_title' => __( 'Add Entry', 'connections' ), 'capability' => $addEntryCapability, 'menu_slug' => 'connections_add', 'function' => array (&$this, 'showPage' ) );
+			$submenu[60]  = array( 'hook' => 'categories', 'page_title' => 'Connections : ' . __( 'Categories', 'connections' ), 'menu_title' => __( 'Categories', 'connections' ), 'capability' => 'connections_edit_categories', 'menu_slug' => 'connections_categories', 'function' => array (&$this, 'showPage' ) );
+			$submenu[80]  = array( 'hook' => 'templates', 'page_title' => 'Connections : ' . __( 'Templates', 'connections' ), 'menu_title' => __( 'Templates', 'connections' ), 'capability' => 'connections_manage_template', 'menu_slug' => 'connections_templates', 'function' => array (&$this, 'showPage' ) );
+			$submenu[100] = array( 'hook' => 'settings', 'page_title' => 'Connections : ' . __( 'Settings', 'connections' ), 'menu_title' => __( 'Settings', 'connections' ), 'capability' => 'connections_change_settings', 'menu_slug' => 'connections_settings', 'function' => array (&$this, 'showPage' ) );
+			$submenu[120] = array( 'hook' => 'roles', 'page_title' => 'Connections : ' . __( 'Roles &amp; Capabilites', 'connections' ), 'menu_title' => __( 'Roles', 'connections' ), 'capability' => 'connections_change_roles', 'menu_slug' => 'connections_roles', 'function' => array (&$this, 'showPage' ) );
+			//$submenu[140] = array( 'hook' => 'help', 'page_title' => 'Connections : ' . __( 'Help', 'connections' ), 'menu_title' => __( 'Help', 'connections' ), 'capability' => 'connections_view_help', 'menu_slug' => 'connections_help', 'function' => array (&$this, 'showPage' ) );
 			
-			$submenu = apply_filters('cn_submenu', $submenu);
+			$submenu = apply_filters( 'cn_submenu', $submenu );
 			
-			ksort($submenu);
+			ksort( $submenu );
 			
 			foreach ( $submenu as $menu )
 			{
-				extract($menu);
+				extract( $menu );
 				$this->pageHook->{$hook} = add_submenu_page( 'connections_dashboard', $page_title, $menu_title, $capability, $menu_slug, $function );
 			}
 			
@@ -1511,9 +1511,9 @@ if ( ! class_exists('connectionsLoad') )
 			
 			$form = new cnFormObjects();
 			
-			$form->registerEditMetaboxes( substr(current_filter(), 5) );
+			$form->registerEditMetaboxes( substr( current_filter(), 5) );
 			
-			add_filter('screen_layout_columns', array(&$this, 'screenLayout'), 10, 2);
+			add_filter( 'screen_layout_columns', array( &$this, 'screenLayout' ), 10, 2);
 		}
 		
 		/**
@@ -1530,7 +1530,7 @@ if ( ! class_exists('connectionsLoad') )
 			$form = new cnFormObjects();
 			$form->registerDashboardMetaboxes();
 			
-			add_filter('screen_layout_columns', array(&$this, 'screenLayout'), 10, 2);
+			add_filter( 'screen_layout_columns', array( &$this, 'screenLayout' ), 10, 2 );
 		}
 		
 		/**
@@ -1542,7 +1542,7 @@ if ( ! class_exists('connectionsLoad') )
 		 * @since 0.7.1.3
 		 * @return array
 		 */
-		public function screenLayout($columns, $screen)
+		public function screenLayout( $columns, $screen )
 		{
 			$columns[$this->pageHook->dashboard] = 2;
 			$columns[$this->pageHook->manage] = 2;
@@ -1567,24 +1567,24 @@ if ( ! class_exists('connectionsLoad') )
 			 */
 			if ( $this->options->getGoogleMapsAPI() ) 
 			{
-				wp_register_script('cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
-				wp_register_script('jquery-gomap-min', CN_URL . '/js/jquery.gomap-1.3.2.min.js', array('jquery' , 'cn-google-maps-api' ), '1.3.2', $this->options->getJavaScriptFooter() );
-				wp_register_script('jquery-markerclusterer-min', CN_URL . '/js/jquery.markerclusterer-2.0.10.min.js', array('jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
+				wp_register_script( 'cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-gomap-min', CN_URL . '/js/jquery.gomap-1.3.2.min.js', array('jquery' , 'cn-google-maps-api' ), '1.3.2', $this->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-markerclusterer-min', CN_URL . '/js/jquery.markerclusterer-2.0.10.min.js', array('jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
 			}
 			else
 			{
-				wp_register_script('jquery-gomap-min', CN_URL . '/js/jquery.gomap-1.3.2.min.js', array('jquery' ), '1.3.2', $this->options->getJavaScriptFooter() );
-				wp_register_script('jquery-markerclusterer-min', CN_URL . '/js/jquery.markerclusterer-2.0.10.min.js', array('jquery' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-gomap-min', CN_URL . '/js/jquery.gomap-1.3.2.min.js', array('jquery' ), '1.3.2', $this->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-markerclusterer-min', CN_URL . '/js/jquery.markerclusterer-2.0.10.min.js', array('jquery' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
 			}
 			
-			wp_register_script('jquery-qtip', CN_URL . '/js/jquery.qtip.min.js', array('jquery'), 'nightly', $this->options->getJavaScriptFooter() );
-			wp_register_script('jquery-preloader', CN_URL . '/js/jquery.preloader.js', array('jquery'), '1.1', $this->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-qtip', CN_URL . '/js/jquery.qtip.min.js', array('jquery' ), 'nightly', $this->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-preloader', CN_URL . '/js/jquery.preloader.js', array('jquery' ), '1.1', $this->options->getJavaScriptFooter() );
 			
 			// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
-			//wp_register_script('jquery-spin', CN_URL . '/js/jquery.spin.js', array('jquery'), '1.2.5', $this->options->getJavaScriptFooter() );
+			//wp_register_script( 'jquery-spin', CN_URL . '/js/jquery.spin.js', array('jquery' ), '1.2.5', $this->options->getJavaScriptFooter() );
 			
-			wp_register_script('jquery-chosen-min', CN_URL . '/js/jquery.chosen-0.9.8.min.js', array('jquery'), '0.9.8', $this->options->getJavaScriptFooter() );
-			wp_register_script('jquery-validate' , CN_URL . '/js/jquery.validate.min.js', array('jquery', 'jquery-form') , '1.9.0' , $this->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-chosen-min', CN_URL . '/js/jquery.chosen-0.9.8.min.js', array('jquery' ), '0.9.8', $this->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-validate' , CN_URL . '/js/jquery.validate.min.js', array( 'jquery', 'jquery-form' ) , '1.9.0' , $this->options->getJavaScriptFooter() );
 		}
 		
 		/**
@@ -1593,14 +1593,14 @@ if ( ! class_exists('connectionsLoad') )
 		public function loadAdminScripts()
 		{
 			// Exit the method if $_GET['page'] isn't set.
-			if ( !isset($_GET['page']) ) return;
+			if ( ! isset( $_GET['page'] ) ) return;
 			
 			$allPages = array( 'connections_dashboard', 'connections_manage',  'connections_add', 'connections_categories', 'connections_settings', 'connections_templates', 'connections_roles', 'connections_csv', 'connections_help' );
 			
-			if ( in_array($_GET['page'], $allPages) )
+			if ( in_array( $_GET['page'], $allPages ) )
 			{
-				wp_enqueue_script('cn-ui-admin', CN_URL . '/js/cn-admin.js', array('jquery'), CN_CURRENT_VERSION, TRUE);
-				wp_enqueue_script('jquery-preloader');
+				wp_enqueue_script( 'cn-ui-admin', CN_URL . '/js/cn-admin.js', array('jquery' ), CN_CURRENT_VERSION, TRUE);
+				wp_enqueue_script( 'jquery-preloader' );
 			}
 			
 			/*
@@ -1618,11 +1618,11 @@ if ( ! class_exists('connectionsLoad') )
 			{
 				global $concatenate_scripts, $compress_scripts, $compress_css;
 				
-				wp_enqueue_script('jquery-gomap-min');
-				wp_enqueue_script('jquery-ui-datepicker');
-				wp_enqueue_script('jquery-chosen-min');
+				wp_enqueue_script( 'jquery-gomap-min' );
+				wp_enqueue_script( 'jquery-ui-datepicker' );
+				wp_enqueue_script( 'jquery-chosen-min' );
 				
-				if( version_compare($GLOBALS['wp_version'], '3.2.999', '<') )
+				if( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) )
 				{
 					$compress_scripts = FALSE; // If the script are compress the TinyMCE doesn't seem to function.
 					
@@ -1646,10 +1646,10 @@ if ( ! class_exists('connectionsLoad') )
 			
 			if ( in_array( $_GET['page'], $metaBoxPages ) )
 			{
-				wp_enqueue_script('common');
-				wp_enqueue_script('wp-lists');
-				wp_enqueue_script('postbox');
-				wp_enqueue_script('cn-widget', CN_URL . '/js/widgets.js', array('jquery'), CN_CURRENT_VERSION, TRUE);
+				wp_enqueue_script( 'common' );
+				wp_enqueue_script( 'wp-lists' );
+				wp_enqueue_script( 'postbox' );
+				wp_enqueue_script( 'cn-widget', CN_URL . '/js/widgets.js', array('jquery' ), CN_CURRENT_VERSION, TRUE);
 			}
 		}
 		
@@ -1664,7 +1664,7 @@ if ( ! class_exists('connectionsLoad') )
 			 * http://scribu.net/wordpress/optimal-script-loading.html
 			 */
 			
-			wp_enqueue_script('cn-ui', CN_URL . '/js/cn-user.js', array('jquery','jquery-preloader'), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
+			wp_enqueue_script( 'cn-ui', CN_URL . '/js/cn-user.js', array( 'jquery','jquery-preloader' ), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
 		}
 		
 		/**
@@ -1673,7 +1673,7 @@ if ( ! class_exists('connectionsLoad') )
 		public function loadAdminStyles()
 		{
 			// Exit the method if $_GET['page'] isn't set.
-			if ( ! isset($_GET['page']) ) return;
+			if ( ! isset( $_GET['page'] ) ) return;
 			
 			/*
 			 * Load styles only on the Connections plug-in admin pages.
@@ -1690,23 +1690,23 @@ if ( ! class_exists('connectionsLoad') )
 				'connections_help'
 			);
 			
-			if ( in_array($_GET['page'], $adminPages) )
+			if ( in_array( $_GET['page'], $adminPages ) )
 			{
-				wp_enqueue_style('cn-admin', CN_URL . '/css/cn-admin.css', array(), CN_CURRENT_VERSION);
+				wp_enqueue_style( 'cn-admin', CN_URL . '/css/cn-admin.css', array(), CN_CURRENT_VERSION);
 				
 				$jQueryUIStyle = ( 'classic' == get_user_option( 'admin_color' ) ) ? 'classic' : 'fresh';
 				
-				wp_enqueue_style('cn-admin-jquery-ui', CN_URL . 'css/jquery-ui-' . $jQueryUIStyle . '.css', array(), CN_CURRENT_VERSION);
+				wp_enqueue_style( 'cn-admin-jquery-ui', CN_URL . 'css/jquery-ui-' . $jQueryUIStyle . '.css', array(), CN_CURRENT_VERSION);
 			}
 			
 			/*
 			 * Load the WordPress widgets styles only of these pages.
 			 */
-			$adminPageEntryEdit = array('connections_manage','connections_add');
-			if ( in_array($_GET['page'], $adminPageEntryEdit) )
+			$adminPageEntryEdit = array('connections_manage','connections_add' );
+			if ( in_array( $_GET['page'], $adminPageEntryEdit ) )
 			{
-				if( version_compare($GLOBALS['wp_version'], '3.2.999', '<') ) wp_enqueue_style( 'connections-admin-widgets', get_admin_url() . 'css/widgets.css' );
-				wp_enqueue_style('connections-chosen', CN_URL . '/css/chosen.css', array(), '0.9.8');
+				if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) wp_enqueue_style( 'connections-admin-widgets', get_admin_url() . 'css/widgets.css' );
+				wp_enqueue_style( 'connections-chosen', CN_URL . '/css/chosen.css', array(), '0.9.8' );
 			}
 		}
 		
@@ -1715,29 +1715,29 @@ if ( ! class_exists('connectionsLoad') )
 		 */
 		public function loadStyles()
 		{
-			wp_enqueue_style('connections-user', CN_URL . '/css/cn-user.css', array(), CN_CURRENT_VERSION);
-			wp_enqueue_style('connections-chosen', CN_URL . '/css/chosen.css', array(), '0.9.8');
-			wp_enqueue_style('connections-qtip', CN_URL . '/css/jquery.qtip.min.css', array(), 'nightly');
+			wp_enqueue_style( 'connections-user', CN_URL . '/css/cn-user.css', array(), CN_CURRENT_VERSION);
+			wp_enqueue_style( 'connections-chosen', CN_URL . '/css/chosen.css', array(), '0.9.8' );
+			wp_enqueue_style( 'connections-qtip', CN_URL . '/css/jquery.qtip.min.css', array(), 'nightly' );
 		}
 		
 		// Add settings option
-		public function addActionLinks($links) {
+		public function addActionLinks( $links ) {
 			$new_links = array();
 			
-			$new_links[] = '<a href="admin.php?page=connections_settings">' . __('Settings', 'connections') . '</a>';
+			$new_links[] = '<a href="admin.php?page=connections_settings">' . __( 'Settings', 'connections' ) . '</a>';
 			
-			return array_merge($new_links, $links);
+			return array_merge( $new_links, $links);
 		}
 		
 		// Add FAQ and support information
-		public function addMetaLinks($links, $file)
+		public function addMetaLinks( $links, $file)
 		{
 			if ( $file == CN_BASE_NAME )
 			{
-				$links[] = '<a href="http://connections-pro.com/?page_id=29" target="_blank">' . __('Extend', 'connections') . '</a>';
-				$links[] = '<a href="http://connections-pro.com/?page_id=419" target="_blank">' . __('Templates', 'connections') . '</a>';
-				$links[] = '<a href="http://connections-pro.com/documentation/plugin/" target="_blank">' . __('Documentation', 'connections') . '</a>';
-				$links[] = '<a href="http://connections-pro.com/help-desk" target="_blank">' . __('Support', 'connections') . '</a>';
+				$links[] = '<a href="http://connections-pro.com/?page_id=29" target="_blank">' . __( 'Extend', 'connections' ) . '</a>';
+				$links[] = '<a href="http://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';
+				$links[] = '<a href="http://connections-pro.com/documentation/plugin/" target="_blank">' . __( 'Documentation', 'connections' ) . '</a>';
+				$links[] = '<a href="http://connections-pro.com/help-desk" target="_blank">' . __( 'Support', 'connections' ) . '</a>';
 			}
 			
 			return $links;
@@ -1749,28 +1749,28 @@ if ( ! class_exists('connectionsLoad') )
 		 */
 		public function displayUpgradeNotice()
 		{
-			include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+			include_once(  ABSPATH . 'wp-admin/includes/plugin-install.php' );
 			//echo "<tr><td colspan='5'>TEST</td></tr>";
-			//$api = plugins_api('plugin_information', array('slug' => 'connections', 'fields' => array('tested' => true, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
-			//print_r($api);
+			//$api = plugins_api('plugin_information', array('slug' => 'connections', 'fields' => array('tested' => true, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ) );
+			//print_r( $api);
 			
-			if( version_compare($GLOBALS['wp_version'], '2.9.999', '>') ) // returning bool if at least WP 3.0 is running
+			if( version_compare( $GLOBALS['wp_version'], '2.9.999', '>' ) ) // returning bool if at least WP 3.0 is running
 			    $current = get_option( '_site_transient_update_plugins' );
 			
-			elseif( version_compare($GLOBALS['wp_version'], '2.7.999', '>') ) // returning bool if at least WP 2.8 is running
+			elseif( version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ) // returning bool if at least WP 2.8 is running
 			    $current = get_transient( 'update_plugins' );
 				
 			else
 			    $current = get_option( 'update_plugins' );
 				
-			//print_r($current);
+			//print_r( $current);
 			
-			if ( !isset($current->response[ CN_BASE_NAME ]) ) return NULL;
+			if ( ! isset( $current->response[ CN_BASE_NAME ]) ) return NULL;
 			
 			$r = $current->response[ CN_BASE_NAME ]; // response should contain the slug and upgrade_notice within an array.
-			//print_r($r);
+			//print_r( $r);
 			
-			if ( isset($r->upgrade_notice) )
+			if ( isset( $r->upgrade_notice ) )
 			{
 				$columns = CLOSMINWP28 ? 3 : 5;
 				
@@ -1806,13 +1806,13 @@ if ( ! class_exists('connectionsLoad') )
 		{
 			if ( $this->dbUpgrade )
 			{
-				include_once ( dirname (__FILE__) . '/includes/inc.upgrade.php' );
+				include_once ( dirname( __FILE__ ) . '/includes/inc.upgrade.php' );
 				connectionsShowUpgradePage();
 				return;
 			}
 			
 			
-			switch ($_GET['page'])
+			switch ( $_GET['page'])
 			{
 				case 'connections_dashboard':
 					include_once ( CN_PATH . '/submenus/dashboard.php' );
@@ -1867,10 +1867,10 @@ if ( ! class_exists('connectionsLoad') )
 		 * @access private
 		 * @return void
 		 */
-		public function adminActions($wp)
+		public function adminActions( $wp )
 		{
 			// Exit the method if $_GET['connections_process'] isn't set.
-			if ( !isset($_GET['connections_process']) ) return;
+			if ( ! isset( $_GET['connections_process'] ) ) return;
 			
 			global $connections;
 			
@@ -1880,7 +1880,7 @@ if ( ! class_exists('connectionsLoad') )
 			switch ( $_GET['process'] )
 			{
 				case 'manage':
-					if ( isset($_GET['action']) && ! empty( $_GET['action'] ) )
+					if ( isset( $_GET['action']) && ! empty( $_GET['action'] ) )
 					{
 						switch ( $_GET['action'] )
 						{
@@ -1888,15 +1888,15 @@ if ( ! class_exists('connectionsLoad') )
 								/*
 								 * Check whether the current user can add an entry.
 								 */
-								if ( current_user_can('connections_add_entry') || current_user_can('connections_add_entry_moderated') )
+								if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) )
 								{
-									check_admin_referer($form->getNonce('add_entry'), '_cn_wpnonce');
-									processEntry($_POST, 'add');
-									wp_redirect('admin.php?page=connections_add&display_messages=true');
+									check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
+									processEntry( $_POST, 'add' );
+									wp_redirect( 'admin.php?page=connections_add&display_messages=true' );
 								}
 								else
 								{
-									$connections->setErrorMessage('capability_add');
+									$connections->setErrorMessage( 'capability_add' );
 								}
 							break;
 							
@@ -1904,15 +1904,15 @@ if ( ! class_exists('connectionsLoad') )
 								/*
 								 * Check whether the current user can edit an entry.
 								 */
-								if ( current_user_can('connections_edit_entry') || current_user_can('connections_edit_entry_moderated') )
+								if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 								{
-									check_admin_referer($form->getNonce('update_entry'), '_cn_wpnonce');
-									processEntry($_POST, 'update');
-									wp_redirect('admin.php?page=connections_manage&display_messages=true');
+									check_admin_referer( $form->getNonce('update_entry' ), '_cn_wpnonce' );
+									processEntry( $_POST, 'update' );
+									wp_redirect('admin.php?page=connections_manage&display_messages=true' );
 								}
 								else
 								{
-									$connections->setErrorMessage('capability_edit');
+									$connections->setErrorMessage( 'capability_edit' );
 								}
 							break;
 							
@@ -1920,14 +1920,14 @@ if ( ! class_exists('connectionsLoad') )
 								/*
 								 * Check whether the current user can edit an entry.
 								 */
-								if ( current_user_can('connections_edit_entry') )
+								if ( current_user_can( 'connections_edit_entry' ) )
 								{
-									processSetEntryStatus('approved');
-									wp_redirect('admin.php?page=connections_manage&display_messages=true');
+									processSetEntryStatus( 'approved' );
+									wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
 								}
 								else
 								{
-									$connections->setErrorMessage('capability_edit');
+									$connections->setErrorMessage( 'capability_edit' );
 								}
 							break;
 							
@@ -1935,14 +1935,14 @@ if ( ! class_exists('connectionsLoad') )
 								/*
 								 * Check whether the current user can edit an entry.
 								 */
-								if ( current_user_can('connections_edit_entry') )
+								if ( current_user_can( 'connections_edit_entry' ) )
 								{
-									processSetEntryStatus('pending');
-									wp_redirect('admin.php?page=connections_manage&display_messages=true');
+									processSetEntryStatus( 'pending' );
+									wp_redirect('admin.php?page=connections_manage&display_messages=true' );
 								}
 								else
 								{
-									$connections->setErrorMessage('capability_edit');
+									$connections->setErrorMessage( 'capability_edit' );
 								}
 							break;
 							
@@ -1950,21 +1950,21 @@ if ( ! class_exists('connectionsLoad') )
 								/*
 								 * Check whether the current user delete an entry.
 								 */
-								if (current_user_can('connections_delete_entry'))
+								if ( current_user_can( 'connections_delete_entry' ))
 								{
 									processDeleteEntry();
-									wp_redirect('admin.php?page=connections_manage&display_messages=true');
+									wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
 								}
 								else
 								{
-									$connections->setErrorMessage('capability_delete');
+									$connections->setErrorMessage( 'capability_delete' );
 								}
 							break;
 							
 							case 'filter':
-								check_admin_referer('filter');
+								check_admin_referer('filter' );
 								processSetUserFilter();
-								//wp_redirect('admin.php?page=connections_manage');
+								//wp_redirect('admin.php?page=connections_manage' );
 								//wp_redirect( add_query_arg( 's' , urlencode( $_GET['s'] ) , 'admin.php?page=connections_manage' ) );
 								wp_redirect( add_query_arg( array( 's' => ( ( isset( $_POST['s'] ) ) ? urlencode( $_POST['s'] ) : '' ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
 							break;
@@ -1972,22 +1972,22 @@ if ( ! class_exists('connectionsLoad') )
 							case 'do':
 								if ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) )
 								{
-									switch ($_POST['action'])
+									switch ( $_POST['action'])
 									{
 										case 'delete':
 											/*
 											 * Check whether the current user delete an entry.
 											 */
-											if (current_user_can('connections_delete_entry'))
+											if ( current_user_can( 'connections_delete_entry' ))
 											{
-												check_admin_referer($form->getNonce('bulk_action'), '_cn_wpnonce');
+												check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 												processDeleteEntries();
-												//wp_redirect('admin.php?page=connections_manage&display_messages=true');
+												//wp_redirect('admin.php?page=connections_manage&display_messages=true' );
 												wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
 											}
 											else
 											{
-												$connections->setErrorMessage('capability_delete');
+												$connections->setErrorMessage( 'capability_delete' );
 											}
 										break;
 										
@@ -1995,16 +1995,16 @@ if ( ! class_exists('connectionsLoad') )
 											/*
 											 * Check whether the current user delete an entry.
 											 */
-											if (current_user_can('connections_edit_entry'))
+											if ( current_user_can( 'connections_edit_entry' ))
 											{
-												check_admin_referer($form->getNonce('bulk_action'), '_cn_wpnonce');
-												processSetEntryStatuses('approved');
-												//wp_redirect('admin.php?page=connections_manage&display_messages=true');
+												check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
+												processSetEntryStatuses('approved' );
+												//wp_redirect('admin.php?page=connections_manage&display_messages=true' );
 												wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
 											}
 											else
 											{
-												$connections->setErrorMessage('capability_edit');
+												$connections->setErrorMessage( 'capability_edit' );
 											}
 										break;
 										
@@ -2012,16 +2012,16 @@ if ( ! class_exists('connectionsLoad') )
 											/*
 											 * Check whether the current user delete an entry.
 											 */
-											if (current_user_can('connections_edit_entry'))
+											if ( current_user_can( 'connections_edit_entry' ))
 											{
-												check_admin_referer($form->getNonce('bulk_action'), '_cn_wpnonce');
-												processSetEntryStatuses('pending');
-												//wp_redirect('admin.php?page=connections_manage&display_messages=true');
+												check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
+												processSetEntryStatuses('pending' );
+												//wp_redirect('admin.php?page=connections_manage&display_messages=true' );
 												wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
 											}
 											else
 											{
-												$connections->setErrorMessage('capability_edit');
+												$connections->setErrorMessage( 'capability_edit' );
 											}
 										break;
 										
@@ -2029,27 +2029,27 @@ if ( ! class_exists('connectionsLoad') )
 											/*
 											 * Check whether the current user can edit entries.
 											 */
-											if (current_user_can('connections_edit_entry'))
+											if ( current_user_can( 'connections_edit_entry' ) )
 											{
-												check_admin_referer($form->getNonce('bulk_action'), '_cn_wpnonce');
+												check_admin_referer( $form->getNonce('bulk_action' ), '_cn_wpnonce' );
 												processSetEntryVisibility();
 												wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
-												//wp_redirect('admin.php?page=connections_manage&display_messages=true');
+												//wp_redirect('admin.php?page=connections_manage&display_messages=true' );
 											}
 											else
 											{
-												$connections->setErrorMessage('capability_edit');
+												$connections->setErrorMessage( 'capability_edit' );
 											}
 										break;
 										
 										default:
-											//wp_redirect('admin.php?page=connections_manage&display_messages=true');
+											//wp_redirect('admin.php?page=connections_manage&display_messages=true' );
 											wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
 										break;
 									}
 								}
 								
-								check_admin_referer($form->getNonce('bulk_action'), '_cn_wpnonce');
+								check_admin_referer( $form->getNonce('bulk_action' ), '_cn_wpnonce' );
 								processSetUserFilter();
 								wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
 								
@@ -2063,40 +2063,40 @@ if ( ! class_exists('connectionsLoad') )
 					/*
 					 * Check whether user can edit Settings
 					 */
-					if (current_user_can('connections_edit_categories'))
+					if ( current_user_can( 'connections_edit_categories' ))
 					{
-						if ($_GET['action'])
+						if ( $_GET['action'])
 						{
-							switch ($_GET['action'])
+							switch ( $_GET['action'])
 							{
 								case 'add':
-									check_admin_referer($form->getNonce('add_category'), '_cn_wpnonce');
+									check_admin_referer( $form->getNonce( 'add_category' ), '_cn_wpnonce' );
 									processAddCategory();
-									wp_redirect('admin.php?page=connections_categories&display_messages=true');
+									wp_redirect('admin.php?page=connections_categories&display_messages=true' );
 								break;
 								
 								case 'update':
-									check_admin_referer($form->getNonce('update_category'), '_cn_wpnonce');
+									check_admin_referer( $form->getNonce( 'update_category' ), '_cn_wpnonce' );
 									processUpdateCategory();
-									wp_redirect('admin.php?page=connections_categories&display_messages=true');
+									wp_redirect('admin.php?page=connections_categories&display_messages=true' );
 								break;
 								
 								case 'delete':
-									processDeleteCategory('delete');
-									wp_redirect('admin.php?page=connections_categories&display_messages=true');
+									processDeleteCategory('delete' );
+									wp_redirect('admin.php?page=connections_categories&display_messages=true' );
 								break;
 								
 								case 'bulk_delete':
-									check_admin_referer($form->getNonce('bulk_delete_category'), '_cn_wpnonce');
-									processDeleteCategory('bulk_delete');
-									wp_redirect('admin.php?page=connections_categories&display_messages=true');
+									check_admin_referer( $form->getNonce( 'bulk_delete_category' ), '_cn_wpnonce' );
+									processDeleteCategory('bulk_delete' );
+									wp_redirect('admin.php?page=connections_categories&display_messages=true' );
 								break;
 							}
 						}
 					}
 					else
 					{
-						$connections->setErrorMessage('capability_categories');
+						$connections->setErrorMessage( 'capability_categories' );
 					}
 				break;
 				
@@ -2104,32 +2104,32 @@ if ( ! class_exists('connectionsLoad') )
 					/*
 					 * Check whether user can manage Templates
 					 */
-					if (current_user_can('connections_manage_template'))
+					if ( current_user_can( 'connections_manage_template' ) )
 					{
-						if ($_GET['action'])
+						if ( $_GET['action'])
 						{
-							switch ($_GET['action'])
+							switch ( $_GET['action'])
 							{
 								case 'activate':
 									processActivateTemplate();
 									
-									( !isset($_GET['type']) ) ? $tab = 'all' : $tab = esc_attr($_GET['type']);
-									wp_redirect('admin.php?page=connections_templates&type=' . $tab . '&display_messages=true');
+									( ! isset( $_GET['type']) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type']);
+									wp_redirect('admin.php?page=connections_templates&type=' . $tab . '&display_messages=true' );
 								break;
 								
 								case 'install':
-									check_admin_referer($form->getNonce('install_template'), '_cn_wpnonce');
+									check_admin_referer( $form->getNonce('install_template' ), '_cn_wpnonce' );
 									processInstallTemplate();
 									
-									( !isset($_GET['type']) ) ? $tab = 'all' : $tab = esc_attr($_GET['type']);
-									wp_redirect('admin.php?page=connections_templates&type=' . $tab . '&display_messages=true');
+									( ! isset( $_GET['type']) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type']);
+									wp_redirect('admin.php?page=connections_templates&type=' . $tab . '&display_messages=true' );
 								break;
 								
 								case 'delete':
 									processDeleteTemplate();
 									
-									( !isset($_GET['type']) ) ? $tab = 'all' : $tab = esc_attr($_GET['type']);
-									wp_redirect('admin.php?page=connections_templates&type=' . $tab . '&display_messages=true');
+									( ! isset( $_GET['type']) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type']);
+									wp_redirect('admin.php?page=connections_templates&type=' . $tab . '&display_messages=true' );
 								break;
 							}
 						}
@@ -2137,7 +2137,7 @@ if ( ! class_exists('connectionsLoad') )
 					else
 					{
 						// @TODO: Create template specific error message.
-						$connections->setErrorMessage('capability_settings');
+						$connections->setErrorMessage( 'capability_settings' );
 					}
 				break;
 				
@@ -2146,18 +2146,18 @@ if ( ! class_exists('connectionsLoad') )
 					/*
 					 * Check whether user can edit roles
 					 */
-					if (current_user_can('connections_change_roles'))
+					if ( current_user_can( 'connections_change_roles' ))
 					{
-						if ($_GET['action'] === 'update')
+						if ( $_GET['action'] === 'update' )
 						{
-							check_admin_referer($form->getNonce('update_role_settings'), '_cn_wpnonce');
+							check_admin_referer( $form->getNonce('update_role_settings' ), '_cn_wpnonce' );
 							updateRoleSettings();
-							wp_redirect('admin.php?page=connections_roles&display_messages=true');
+							wp_redirect('admin.php?page=connections_roles&display_messages=true' );
 						}
 					}
 					else
 					{
-						$connections->setErrorMessage('capability_roles');
+						$connections->setErrorMessage( 'capability_roles' );
 					}
 				break;
 			}
@@ -2174,13 +2174,13 @@ if ( ! class_exists('connectionsLoad') )
 		public function frontendActions()
 		{
 			global $connections;
-			$process = get_query_var('cn-process');
-			$token = get_query_var('cn-token');
-			$id = (integer) get_query_var('cn-id');
+			$process = get_query_var( 'cn-process' );
+			$token = get_query_var( 'cn-token' );
+			$id = (integer) get_query_var( 'cn-id' );
 			
 			if ( $process === 'vcard' )
 			{
-				$slug = get_query_var('cn-entry-slug'); //var_dump($slug);
+				$slug = get_query_var( 'cn-entry-slug' ); //var_dump( $slug);
 				
 				global $connections;
 				
@@ -2189,39 +2189,39 @@ if ( ! class_exists('connectionsLoad') )
 				 * Check for those values and validate the token. The primary reason for this
 				 * to be able to download vCards of entries that are set to "Unlisted".
 				 */
-				if ( ! empty($id) && ! empty($token) )
+				if ( ! empty( $id ) && ! empty( $token ) )
 				{
-					if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id) ) wp_die('Invalid vCard Token');
+					if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id) ) wp_die('Invalid vCard Token' );
 					
-					$entry = $connections->retrieve->entry($id);
+					$entry = $connections->retrieve->entry( $id );
 					
 					// Die if no entry was found.
-					if ( empty($entry) ) wp_die( __('vCard not available for download.', 'connections') );
+					if ( empty( $entry ) ) wp_die( __( 'vCard not available for download.', 'connections' ) );
 					
-					$vCard = new cnvCard($entry); //var_dump($vCard);die;
+					$vCard = new cnvCard( $entry ); //var_dump( $vCard);die;
 				}
 				else
 				{
-					$entry = $connections->retrieve->entries( array('slug' => $slug) ); //var_dump($entry);die;
+					$entry = $connections->retrieve->entries( array('slug' => $slug) ); //var_dump( $entry );die;
 					
 					// Die if no entry was found.
-					if ( empty($entry) ) wp_die( __('vCard not available for download.', 'connections') );
+					if ( empty( $entry ) ) wp_die( __( 'vCard not available for download.', 'connections' ) );
 					
-					$vCard = new cnvCard($entry[0]); //var_dump($vCard);die;
+					$vCard = new cnvCard( $entry[0]); //var_dump( $vCard);die;
 				}
 				
 				
-				$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
-				$data = $vCard->getvCard(); //var_dump($data);die;
+				$filename = sanitize_file_name( $vCard->getName() ); //var_dump( $filename);
+				$data = $vCard->getvCard(); //var_dump( $data);die;
 				
 				
-				header('Content-Type: text/x-vcard; charset=utf-8');
-				header('Content-Disposition: attachment; filename=' . $filename . '.vcf');
-				header('Content-Length: ' . strlen($data) );
-				header('Pragma: public');
+				header( 'Content-Type: text/x-vcard; charset=utf-8' );
+				header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
+				header( 'Content-Length: ' . strlen( $data) );
+				header( 'Pragma: public' );
 				header("Pragma: no-cache");
 				header("Expires: 0");
-				header('Connection: close');
+				header( 'Connection: close' );
 				
 				echo $data;
 				exit;
@@ -2236,47 +2236,47 @@ if ( ! class_exists('connectionsLoad') )
 		 * @param object $wp
 		 * @return 
 		 */
-		public function userActions($wp)
+		public function userActions( $wp)
 		{
-			//print_r('<pre style="background-color: white;">'); print_r($wp->query_vars); print_r('</pre>');
+			//print_r('<pre style="background-color: white;">' ); print_r( $wp->query_vars); print_r('</pre>' );
 			
-			/*if ( array_key_exists('cn-vc', $wp->query_vars) && $wp->query_vars['cnvc'] == '1' )
+			/*if ( array_key_exists( 'cn-vc', $wp->query_vars) && $wp->query_vars['cnvc'] == '1' )
 			{
-				$token = esc_attr($_GET['cn-token']);
-				$id = (integer) esc_attr($_GET['cn-id']);
+				$token = esc_attr( $_GET['cn-token']);
+				$id = (integer) esc_attr( $_GET['cn-id']);
 				
 								
-				if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id) ) wp_die('Invalid vCard Token');
+				if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id) ) wp_die('Invalid vCard Token' );
 				
 				global $connections;
 				
-				$entry = $connections->retrieve->entry($id);
-				$vCard = new cnvCard($entry);
+				$entry = $connections->retrieve->entry( $id);
+				$vCard = new cnvCard( $entry );
 				
-				$filename = sanitize_file_name($vCard->getFullFirstLastName());
+				$filename = sanitize_file_name( $vCard->getFullFirstLastName() );
 				$data = $vCard->getvCard();
 				
-				header('Content-Type: text/x-vcard; charset=utf-8');
-				header('Content-Disposition: attachment; filename=' . $filename . '.vcf');
-				header('Content-Length: ' . strlen($data) );
-				header('Pragma: public');
+				header( 'Content-Type: text/x-vcard; charset=utf-8' );
+				header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
+				header( 'Content-Length: ' . strlen( $data) );
+				header( 'Pragma: public' );
 				header("Pragma: no-cache");
 				header("Expires: 0");
-				header('Connection: close');
+				header( 'Connection: close' );
 				
 				echo $data;
 				exit;
 			}*/
 			
-			if ( array_key_exists('cnpagename', $wp->query_vars) && $wp->query_vars['cnpagename'] == 'directory' )
+			if ( array_key_exists( 'cnpagename', $wp->query_vars ) && $wp->query_vars['cnpagename'] == 'directory' )
 			{
 				global $template, $wp_query;
 				
 				/*
 				 * Don't want WordPress applying these filters. Messes up the template with the auto P and texturize.
 				 */
-				remove_filter('the_content', 'wpautop');
-				remove_filter('the_content', 'wptexturize');
+				remove_filter( 'the_content', 'wpautop' );
+				remove_filter( 'the_content', 'wptexturize' );
 				
 				/*
 				 * Clear the query just incase there were some custom queryies being called elsewhere.
@@ -2286,8 +2286,8 @@ if ( ! class_exists('connectionsLoad') )
 				
 				$atts = array();
 				
-				//if ( array_key_exists('cnlisttype', $wp->query_vars) && $wp->query_vars['cnlisttype'] != '' ) $atts['list_type'] = $wp->query_vars['cnlisttype'];
-				//if ( array_key_exists('cnid', $wp->query_vars) && $wp->query_vars['cnid'] != '' ) $atts['id'] = $wp->query_vars['cnid'];
+				//if ( array_key_exists( 'cnlisttype', $wp->query_vars) && $wp->query_vars['cnlisttype'] != '' ) $atts['list_type'] = $wp->query_vars['cnlisttype'];
+				//if ( array_key_exists( 'cnid', $wp->query_vars) && $wp->query_vars['cnid'] != '' ) $atts['id'] = $wp->query_vars['cnid'];
 				
 				/*
 				 * Picked up this section from http://wordpress.org/extend/plugins/virtual-pages/
@@ -2298,7 +2298,7 @@ if ( ! class_exists('connectionsLoad') )
 				 */
 				
 				// Pagination -- Will definately need this later.
-				/*if(array_key_exists('paged', $wp->query_vars)) {
+				/*if(array_key_exists( 'paged', $wp->query_vars)) {
 				    $this->paged = $wp->query_vars['paged'];
 				}
 				else {
@@ -2341,8 +2341,8 @@ if ( ! class_exists('connectionsLoad') )
 				/*
 				 * When virtual pages are created in the admin, save the date created to be applied here.
 				 */
-				$wp_query->post->post_date = current_time('mysql');
-				$wp_query->post->post_date_gmt = current_time('mysql', 1);
+				$wp_query->post->post_date = current_time( 'mysql' );
+				$wp_query->post->post_date_gmt = current_time( 'mysql', 1 );
 				
 				$wp_query->post->post_content = '';
 				
@@ -2377,8 +2377,8 @@ if ( ! class_exists('connectionsLoad') )
 				/*
 				 * When virtual pages are modified in the admin, save the date modfied to be applied here.
 				 */
-				$wp_query->post->post_modified = current_time('mysql');
-				$wp_query->post->post_modified_gmt = current_time('mysql', 1);
+				$wp_query->post->post_modified = current_time( 'mysql' );
+				$wp_query->post->post_modified_gmt = current_time( 'mysql', 1 );
 				
 				$wp_query->post->post_content_filtered = '';
 				
@@ -2413,23 +2413,23 @@ if ( ! class_exists('connectionsLoad') )
 				/*
 				 * Setup the permalink.
 				 */
-				add_filter( 'page_link', array(&$this, 'createPermalink'), 10, 3 );
+				add_filter( 'page_link', array( &$this, 'createPermalink' ), 10, 3 );
 				
 				/*
 				 * Set the attributes and then populate the content.
 				 */
-				add_filter( 'cn_list_template_init', array(&$this, 'setconnectionsListAttsPre') );
-				add_filter( 'cn_list_atts', array(&$this, 'setconnectionsListAttsPre') );
+				add_filter( 'cn_list_template_init', array( &$this, 'setconnectionsListAttsPre' ) );
+				add_filter( 'cn_list_atts', array( &$this, 'setconnectionsListAttsPre' ) );
 				add_action( 'the_content', '_connections_list' );
 				
 				/*
 				 * Grab the path to the theme's page template.
 				 * @TODO Add option to the settings page to allow the selection of custom page templates.
 				 */
-				$template = get_query_template('page');
+				$template = get_query_template( 'page' );
 				
 				// Include the page template and if the $wp_query object was loaded correctly the page should 'just work'.
-				include ($template);
+				include ( $template );
 				
 				// Exit so WP doesn't continue to try to process the page.
 				exit;
@@ -2437,14 +2437,14 @@ if ( ! class_exists('connectionsLoad') )
 			
 		}
 		
-		public function setconnectionsListAttsPre($atts)
+		public function setconnectionsListAttsPre( $atts )
 		{
 			global $wp;
 			
-			if ( array_key_exists('cnlt', $wp->query_vars) && $wp->query_vars['cnlt'] != '' ) $atts['list_type'] = $wp->query_vars['cnlt'];
-			if ( array_key_exists('cncatnm', $wp->query_vars) && $wp->query_vars['cncatnm'] != '' ) $atts['category_slug'] = $wp->query_vars['cncatnm'];
-			if ( array_key_exists('cnid', $wp->query_vars) && $wp->query_vars['cnid'] != '' ) $atts['id'] = $wp->query_vars['cnid'];
-			if ( array_key_exists('cnname', $wp->query_vars) && $wp->query_vars['cnname'] != '' ) $atts['slug'] = $wp->query_vars['cnname'];
+			if ( array_key_exists( 'cnlt', $wp->query_vars ) && $wp->query_vars['cnlt'] != '' ) $atts['list_type'] = $wp->query_vars['cnlt'];
+			if ( array_key_exists( 'cncatnm', $wp->query_vars) && $wp->query_vars['cncatnm'] != '' ) $atts['category_slug'] = $wp->query_vars['cncatnm'];
+			if ( array_key_exists( 'cnid', $wp->query_vars ) && $wp->query_vars['cnid'] != '' ) $atts['id'] = $wp->query_vars['cnid'];
+			if ( array_key_exists( 'cnname', $wp->query_vars ) && $wp->query_vars['cnname'] != '' ) $atts['slug'] = $wp->query_vars['cnname'];
 			
 			return $atts;	
 		}

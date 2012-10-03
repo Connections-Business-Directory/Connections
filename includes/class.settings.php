@@ -261,10 +261,7 @@ class cnRegisterSettings
 			'tab' => 'general',
 			'section' => 'connections_visibility',
 			'title' => __('Enable public_override', 'connections'),
-			'desc' => __('By default all entry\'s whose status is "Public" will be visible to all site visitors or registered users not
-				logged in. If the option to require login has been enabled, the <em>public_override</em> shortcode option allows you to override
-				requiring the site vistor to be logged in. This setting is useful in multi author sites where those authors may have a need to 
-				display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connection'),
+			'desc' => __('By default all entry\'s whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>public_override</em> shortcode option allows you to override requiring the site vistor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connection'),
 			'help' => '',
 			'type' => 'checkbox',
 			'default' => 0
@@ -277,11 +274,7 @@ class cnRegisterSettings
 			'tab' => 'general',
 			'section' => 'connections_visibility',
 			'title' => __('Enable private_override', 'connections'),
-			'desc' => __('Entries can be set to a "Private" status which requires the user to be logged in to the site in order for them
-				to be able to view those entries.  
-				The <em>private_override</em> shortcode option allows you to override their "Private" status. This setting is useful in 
-				multi author sites where those authors may have a need to display specific private entries to the public. 
-				For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connections'),
+			'desc' => __('Entries can be set to a Private status which requires the user to be logged in to the site in order for them to be able to view those entries. The <em>private_override</em> shortcode option allows you to override their "Private" status. This setting is useful in multi author sites where those authors may have a need to display specific private entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connections'),
 			'help' => '',
 			'type' => 'checkbox',
 			'default' => 0
@@ -744,8 +737,7 @@ class cnRegisterSettings
 			'tab' => 'advanced',
 			'section' => 'connections_link',
 			'title' => __('Telephone Number', 'connections'),
-			'desc' => __('Enabling this option will turn every telephone number into a link that when clicked by the user  
-				on a mobile phone or computer with a telephony application installed will dial the number.', 'connections'),
+			'desc' => __('Enabling this option will turn every telephone number into a link that when clicked by the user on a mobile phone or computer with a telephony application installed will dial the number.', 'connections'),
 			'help' => '',
 			'type' => 'checkbox',
 			'default' => 0
@@ -759,8 +751,7 @@ class cnRegisterSettings
 			'tab' => 'advanced',
 			'section' => 'connections_compatibility',
 			'title' => __('Google Maps API v3', 'connections'),
-			'desc' => __('If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. 
-				This could prevent potential conflicts.', 'connections'),
+			'desc' => __('If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. This could prevent potential conflicts.', 'connections'),
 			'help' => '',
 			'type' => 'checkbox',
 			'default' => 1

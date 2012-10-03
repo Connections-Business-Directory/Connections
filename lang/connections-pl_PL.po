@@ -2,314 +2,314 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Connection\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-24 17:42-0500\n"
-"PO-Revision-Date: 2012-09-24 17:43-0500\n"
+"POT-Creation-Date: 2012-10-01 17:32-0500\n"
+"PO-Revision-Date: 2012-10-01 17:32-0500\n"
 "Last-Translator: Connections Pro <helpdesk@connections-pro.com>\n"
 "Language-Team:  <helpdesk@connections-pro.com>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED STATES\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../connections.php:490
-#: ../connections.php:494
-#: ../connections.php:572
+#: ../connections.php:492
+#: ../connections.php:496
+#: ../connections.php:574
 msgid "ERROR"
 msgstr ""
 
-#: ../connections.php:498
-#: ../connections.php:502
-#: ../connections.php:628
+#: ../connections.php:500
+#: ../connections.php:504
+#: ../connections.php:630
 msgid "SUCCESS"
 msgstr ""
 
-#: ../connections.php:526
+#: ../connections.php:528
 msgid "You are not authorized to view the entry list. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:528
+#: ../connections.php:530
 msgid "You are not authorized to add entries. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:529
+#: ../connections.php:531
 msgid "You are not authorized to delete entries. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:530
+#: ../connections.php:532
 msgid "You are not authorized to edit entries. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:531
+#: ../connections.php:533
 msgid "You are not authorized to edit the categories. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:532
+#: ../connections.php:534
 msgid "You are not authorized to edit the settings. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:533
+#: ../connections.php:535
 msgid "You are not authorized to edit role capabilities. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:535
+#: ../connections.php:537
 msgid "The category you are trying to create already exists."
 msgstr ""
 
-#: ../connections.php:536
+#: ../connections.php:538
 msgid "Category can not be a parent of itself."
 msgstr ""
 
-#: ../connections.php:537
+#: ../connections.php:539
 msgid "The Uncategorized category can not be deleted."
 msgstr ""
 
-#: ../connections.php:538
+#: ../connections.php:540
 msgid "The Uncategorized category can not be altered."
 msgstr ""
 
-#: ../connections.php:539
+#: ../connections.php:541
 msgid "The Uncategorized category already exists."
 msgstr ""
 
-#: ../connections.php:540
+#: ../connections.php:542
 msgid "Failed to add category."
 msgstr ""
 
-#: ../connections.php:541
+#: ../connections.php:543
 msgid "Failed to update category."
 msgstr ""
 
-#: ../connections.php:542
+#: ../connections.php:544
 msgid "Failed to delete category."
 msgstr ""
 
-#: ../connections.php:544
+#: ../connections.php:546
 msgid "Entry could not be added."
 msgstr ""
 
-#: ../connections.php:545
+#: ../connections.php:547
 msgid "Entry could not be updated."
 msgstr ""
 
-#: ../connections.php:547
+#: ../connections.php:549
 msgid "Your preferred setting for a address was overridden because another address that you are not permitted to view or edit is set as the preferred address. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:548
+#: ../connections.php:550
 msgid "Your preferred setting for a phone was overridden because another phone number that you are not permitted to view or edit is set as the preferred phone number. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:549
+#: ../connections.php:551
 msgid "Your preferred setting for an email address was overridden because another email address that you are not permitted to view or edit is set as the preferred email address. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:550
+#: ../connections.php:552
 msgid "Your preferred setting for a IM Network was overridden because another IM Network that you are not permitted to view or edit is set as the preferred IM Network. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:551
+#: ../connections.php:553
 msgid "Your preferred setting for a social media network was overridden because another social media network that you are not permitted to view or edit is set as the preferred social media network. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:552
+#: ../connections.php:554
 msgid "Your preferred setting for a link was overridden because another link that you are not permitted to view or edit is set as the preferred link. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:553
+#: ../connections.php:555
 msgid "Your preferred setting for a date was overridden because another date that you are not permitted to view or edit is set as the preferred date. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: ../connections.php:555
+#: ../connections.php:557
 msgid "Image upload failed."
 msgstr ""
 
-#: ../connections.php:556
+#: ../connections.php:558
 msgid "Uploaded image could not be saved to the destination folder."
 msgstr ""
 
-#: ../connections.php:557
+#: ../connections.php:559
 msgid "Profile image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: ../connections.php:558
+#: ../connections.php:560
 msgid "Entry image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: ../connections.php:559
+#: ../connections.php:561
 msgid "Thumbnail image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: ../connections.php:561
+#: ../connections.php:563
 msgid "The template installation has failed."
 msgstr ""
 
-#: ../connections.php:562
+#: ../connections.php:564
 msgid "The template could not be deleted."
 msgstr ""
 
-#: ../connections.php:592
+#: ../connections.php:594
 msgid "The entry has been deleted."
 msgstr ""
 
-#: ../connections.php:593
+#: ../connections.php:595
 msgid "Entry(ies) have been deleted."
 msgstr ""
 
-#: ../connections.php:594
+#: ../connections.php:596
 msgid "The entry status have been set to pending."
 msgstr ""
 
-#: ../connections.php:595
+#: ../connections.php:597
 msgid "Entry(ies) status have been set to pending."
 msgstr ""
 
-#: ../connections.php:596
+#: ../connections.php:598
 msgid "The entry has been approved."
 msgstr ""
 
-#: ../connections.php:597
+#: ../connections.php:599
 msgid "Entry(ies) have been approved."
 msgstr ""
 
-#: ../connections.php:598
+#: ../connections.php:600
 msgid "Entry(ies) visibility have been updated."
 msgstr ""
 
-#: ../connections.php:600
+#: ../connections.php:602
 msgid "Category(ies) have been deleted."
 msgstr ""
 
-#: ../connections.php:601
+#: ../connections.php:603
 msgid "Category has been updated."
 msgstr ""
 
-#: ../connections.php:602
+#: ../connections.php:604
 msgid "Category has been added."
 msgstr ""
 
-#: ../connections.php:604
+#: ../connections.php:606
 msgid "Entry has been added."
 msgstr ""
 
-#: ../connections.php:605
+#: ../connections.php:607
 msgid "Pending review entry will be added."
 msgstr ""
 
-#: ../connections.php:606
+#: ../connections.php:608
 msgid "Entry has been updated."
 msgstr ""
 
-#: ../connections.php:607
+#: ../connections.php:609
 msgid "Pending review entry will be updated."
 msgstr ""
 
-#: ../connections.php:609
+#: ../connections.php:611
 msgid "Uploaded image saved."
 msgstr ""
 
-#: ../connections.php:610
+#: ../connections.php:612
 msgid "Profile image created and saved."
 msgstr ""
 
-#: ../connections.php:611
+#: ../connections.php:613
 msgid "Entry image created and saved."
 msgstr ""
 
-#: ../connections.php:612
+#: ../connections.php:614
 msgid "Thumbnail image created and saved."
 msgstr ""
 
-#: ../connections.php:614
+#: ../connections.php:616
 msgid "Role capabilities have been updated."
 msgstr ""
 
-#: ../connections.php:616
+#: ../connections.php:618
 msgid "The default active template has been changed."
 msgstr ""
 
-#: ../connections.php:617
+#: ../connections.php:619
 msgid "A new template has been installed."
 msgstr ""
 
-#: ../connections.php:618
+#: ../connections.php:620
 msgid "The template has been deleted."
 msgstr ""
 
-#: ../connections.php:757
+#: ../connections.php:765
 msgid "Entries not assigned to a category will automatically be assigned to this category and deleting a category which has been assigned to an entry will reassign that entry to this category. This category can not be edited or deleted."
 msgstr ""
 
-#: ../connections.php:759
+#: ../connections.php:767
 msgid "Uncategorized"
 msgstr ""
 
-#: ../connections.php:1016
+#: ../connections.php:1028
 msgid "Connections database requires updating."
 msgstr ""
 
-#: ../connections.php:1016
+#: ../connections.php:1028
 msgid "START"
 msgstr ""
 
-#: ../connections.php:1392
+#: ../connections.php:1419
 msgid "Entries"
 msgstr ""
 
-#: ../connections.php:1450
+#: ../connections.php:1477
 msgid "Dashboard"
 msgstr ""
 
-#: ../connections.php:1451
+#: ../connections.php:1478
 msgid "Manage"
 msgstr ""
 
-#: ../connections.php:1452
+#: ../connections.php:1479
 msgid "Add Entry"
 msgstr ""
 
-#: ../connections.php:1453
+#: ../connections.php:1480
 msgid "Categories"
 msgstr ""
 
-#: ../connections.php:1454
-#: ../connections.php:1708
+#: ../connections.php:1481
+#: ../connections.php:1738
 msgid "Templates"
 msgstr ""
 
-#: ../connections.php:1455
-#: ../connections.php:1697
+#: ../connections.php:1482
+#: ../connections.php:1727
 msgid "Settings"
 msgstr ""
 
-#: ../connections.php:1456
+#: ../connections.php:1483
 msgid "Roles &amp; Capabilites"
 msgstr ""
 
-#: ../connections.php:1456
+#: ../connections.php:1483
 msgid "Roles"
 msgstr ""
 
-#: ../connections.php:1707
+#: ../connections.php:1737
 msgid "Extend"
 msgstr ""
 
-#: ../connections.php:1709
+#: ../connections.php:1739
 msgid "Documentation"
 msgstr ""
 
-#: ../connections.php:1710
+#: ../connections.php:1740
 #, fuzzy
 msgid "Support"
 msgstr "Brak wsparcia GD"
 
-#: ../connections.php:2169
-#: ../connections.php:2178
+#: ../connections.php:2199
+#: ../connections.php:2208
 msgid "vCard not available for download."
 msgstr ""
 
@@ -339,25 +339,25 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
-#: ../includes/class.output.php:1811
-#: ../includes/class.output.php:1818
+#: ../includes/class.output.php:1827
+#: ../includes/class.output.php:1834
 #: ../includes/class.form.php:1735
 #: ../includes/class.options.php:1104
 msgid "Birthday"
 msgstr ""
 
-#: ../includes/class.output.php:1882
-#: ../includes/class.output.php:1889
+#: ../includes/class.output.php:1898
+#: ../includes/class.output.php:1905
 #: ../includes/class.form.php:1754
 #: ../includes/class.options.php:1102
 msgid "Anniversary"
 msgstr ""
 
-#: ../includes/class.output.php:2139
+#: ../includes/class.output.php:2155
 msgid "Add to Address Book."
 msgstr ""
 
-#: ../includes/class.output.php:2140
+#: ../includes/class.output.php:2156
 msgid "Download vCard"
 msgstr ""
 
@@ -457,6 +457,42 @@ msgstr ""
 msgid "System"
 msgstr ""
 
+#: ../includes/class.form.php:337
+msgid "FAQs"
+msgstr ""
+
+#: ../includes/class.form.php:342
+msgid "Have a question, maybe someone else had the same question, please check the FAQs."
+msgstr ""
+
+#: ../includes/class.form.php:348
+msgid "Pro Modules"
+msgstr ""
+
+#: ../includes/class.form.php:353
+msgid "Extend Connections with the Pro Module Addons."
+msgstr ""
+
+#: ../includes/class.form.php:364
+msgid "Check out the template market."
+msgstr ""
+
+#: ../includes/class.form.php:370
+msgid "Bug Report"
+msgstr ""
+
+#: ../includes/class.form.php:375
+msgid "Did you find a bug, please take the time to report it. Thanks."
+msgstr ""
+
+#: ../includes/class.form.php:381
+msgid "Feature Request"
+msgstr ""
+
+#: ../includes/class.form.php:386
+msgid "Need a feature, request a feature."
+msgstr ""
+
 #: ../includes/class.form.php:412
 #, php-format
 msgid "Newsfeed could not be loaded.  Check the <a href=\"%s\">blog</a> to check for updates."
@@ -465,6 +501,14 @@ msgstr "Kanał informacyjny nie może być załadowany.  Sprawdź <a href=\"%s\"
 #: ../includes/class.form.php:427
 msgid "Untitled"
 msgstr "Bez tytułu"
+
+#: ../includes/class.form.php:442
+msgid "ago"
+msgstr ""
+
+#: ../includes/class.form.php:450
+msgid "<p>No updates at this time</p>"
+msgstr ""
 
 #: ../includes/class.form.php:656
 msgid "Not set"
@@ -506,6 +550,73 @@ msgstr "Tak"
 #: ../includes/class.utility.php:135
 msgid "No"
 msgstr "Nie"
+
+#: ../includes/class.form.php:702
+msgid "Operating System"
+msgstr ""
+
+#: ../includes/class.form.php:703
+msgid "Server"
+msgstr ""
+
+#: ../includes/class.form.php:704
+msgid "Memory usage"
+msgstr ""
+
+#: ../includes/class.form.php:705
+msgid "MYSQL Version"
+msgstr ""
+
+#: ../includes/class.form.php:706
+msgid "SQL Mode"
+msgstr ""
+
+#: ../includes/class.form.php:707
+msgid "PHP Version"
+msgstr ""
+
+#: ../includes/class.form.php:708
+msgid "PHP Safe Mode"
+msgstr ""
+
+#: ../includes/class.form.php:709
+msgid "PHP Allow URL fopen"
+msgstr ""
+
+#: ../includes/class.form.php:710
+msgid "PHP Memory Limit"
+msgstr ""
+
+#: ../includes/class.form.php:711
+msgid "PHP Max Upload Size"
+msgstr ""
+
+#: ../includes/class.form.php:712
+msgid "PHP Max Post Size"
+msgstr ""
+
+#: ../includes/class.form.php:713
+msgid "PCRE Backtracking Limit"
+msgstr ""
+
+#: ../includes/class.form.php:714
+msgid "PHP Max Script Execute Time"
+msgstr ""
+
+#: ../includes/class.form.php:715
+#, fuzzy
+msgid "PHP Exif support"
+msgstr "Brak wsparcia GD"
+
+#: ../includes/class.form.php:716
+#, fuzzy
+msgid "PHP IPTC support"
+msgstr "Brak wsparcia GD"
+
+#: ../includes/class.form.php:717
+#, fuzzy
+msgid "PHP XML support"
+msgstr "Brak wsparcia GD"
 
 #: ../includes/class.form.php:740
 msgid "No GD support"
@@ -1266,242 +1377,245 @@ msgstr ""
 msgid "Permalink"
 msgstr ""
 
-#: ../includes/class.settings.php:174
+#: ../includes/class.settings.php:183
 msgid "Compatibility"
 msgstr ""
 
-#: ../includes/class.settings.php:183
+#: ../includes/class.settings.php:192
 msgid "Debug"
 msgstr ""
 
-#: ../includes/class.settings.php:213
+#: ../includes/class.settings.php:222
 msgid "Page"
 msgstr ""
 
-#: ../includes/class.settings.php:217
+#: ../includes/class.settings.php:226
 msgid "Select Page"
 msgstr ""
 
-#: ../includes/class.settings.php:227
+#: ../includes/class.settings.php:236
 msgid "Login Required"
 msgstr ""
 
-#: ../includes/class.settings.php:228
+#: ../includes/class.settings.php:237
 msgid "Require registered users to login before showing the directory."
 msgstr ""
 
-#: ../includes/class.settings.php:241
+#: ../includes/class.settings.php:250
 msgid "Message"
 msgstr ""
 
-#: ../includes/class.settings.php:242
+#: ../includes/class.settings.php:251
 msgid "The message to display to site visitors or registered users not logged in."
 msgstr ""
 
-#: ../includes/class.settings.php:254
+#: ../includes/class.settings.php:263
 msgid "Enable public_override"
 msgstr ""
 
-#: ../includes/class.settings.php:255
-msgid ""
-"By default all entry's whose status is \"Public\" will be visible to all site visitors or registered users not\n"
-"\t\t\t\tlogged in. If the option to require login has been enabled, the <em>public_override</em> shortcode option allows you to override\n"
-"\t\t\t\trequiring the site vistor to be logged in. This setting is useful in multi author sites where those authors may have a need to \n"
-"\t\t\t\tdisplay specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option."
+#: ../includes/class.settings.php:264
+msgid "By default all entry's whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>public_override</em> shortcode option allows you to override requiring the site vistor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option."
 msgstr ""
 
-#: ../includes/class.settings.php:270
+#: ../includes/class.settings.php:276
 msgid "Enable private_override"
 msgstr ""
 
-#: ../includes/class.settings.php:271
-msgid ""
-"Entries can be set to a \"Private\" status which requires the user to be logged in to the site in order for them\n"
-"\t\t\t\tto be able to view those entries.  \n"
-"\t\t\t\tThe <em>private_override</em> shortcode option allows you to override their \"Private\" status. This setting is useful in \n"
-"\t\t\t\tmulti author sites where those authors may have a need to display specific private entries to the public. \n"
-"\t\t\t\tFor security reasons this option is disabled by default. If checked, this enables this shortcode option."
+#: ../includes/class.settings.php:277
+msgid "Entries can be set to a Private status which requires the user to be logged in to the site in order for them to be able to view those entries. The <em>private_override</em> shortcode option allows you to override their \"Private\" status. This setting is useful in multi author sites where those authors may have a need to display specific private entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option."
 msgstr ""
 
-#: ../includes/class.settings.php:291
-#: ../includes/class.settings.php:351
-#: ../includes/class.settings.php:411
-#: ../includes/class.settings.php:471
+#: ../includes/class.settings.php:293
+#: ../includes/class.settings.php:353
+#: ../includes/class.settings.php:413
+#: ../includes/class.settings.php:473
 msgid "JPEG Quality"
 msgstr ""
 
-#: ../includes/class.settings.php:305
-#: ../includes/class.settings.php:365
-#: ../includes/class.settings.php:425
-#: ../includes/class.settings.php:485
+#: ../includes/class.settings.php:307
+#: ../includes/class.settings.php:367
+#: ../includes/class.settings.php:427
+#: ../includes/class.settings.php:487
 msgid "Width"
 msgstr ""
 
-#: ../includes/class.settings.php:306
-#: ../includes/class.settings.php:320
-#: ../includes/class.settings.php:366
-#: ../includes/class.settings.php:380
-#: ../includes/class.settings.php:426
-#: ../includes/class.settings.php:440
-#: ../includes/class.settings.php:486
-#: ../includes/class.settings.php:500
+#: ../includes/class.settings.php:308
+#: ../includes/class.settings.php:322
+#: ../includes/class.settings.php:368
+#: ../includes/class.settings.php:382
+#: ../includes/class.settings.php:428
+#: ../includes/class.settings.php:442
+#: ../includes/class.settings.php:488
+#: ../includes/class.settings.php:502
 msgid "px"
 msgstr ""
 
-#: ../includes/class.settings.php:319
-#: ../includes/class.settings.php:379
-#: ../includes/class.settings.php:439
-#: ../includes/class.settings.php:499
+#: ../includes/class.settings.php:321
+#: ../includes/class.settings.php:381
+#: ../includes/class.settings.php:441
+#: ../includes/class.settings.php:501
 msgid "Height"
 msgstr ""
 
-#: ../includes/class.settings.php:333
-#: ../includes/class.settings.php:393
-#: ../includes/class.settings.php:453
-#: ../includes/class.settings.php:513
+#: ../includes/class.settings.php:335
+#: ../includes/class.settings.php:395
+#: ../includes/class.settings.php:455
+#: ../includes/class.settings.php:515
 msgid "Ratio"
-msgstr ""
-
-#: ../includes/class.settings.php:338
-#: ../includes/class.settings.php:398
-#: ../includes/class.settings.php:458
-#: ../includes/class.settings.php:518
-msgid "Crop, maintain aspect ratio."
-msgstr ""
-
-#: ../includes/class.settings.php:339
-#: ../includes/class.settings.php:399
-#: ../includes/class.settings.php:459
-#: ../includes/class.settings.php:519
-msgid "Fill, maintain aspect ratio."
 msgstr ""
 
 #: ../includes/class.settings.php:340
 #: ../includes/class.settings.php:400
 #: ../includes/class.settings.php:460
 #: ../includes/class.settings.php:520
+msgid "Crop, maintain aspect ratio."
+msgstr ""
+
+#: ../includes/class.settings.php:341
+#: ../includes/class.settings.php:401
+#: ../includes/class.settings.php:461
+#: ../includes/class.settings.php:521
+msgid "Fill, maintain aspect ratio."
+msgstr ""
+
+#: ../includes/class.settings.php:342
+#: ../includes/class.settings.php:402
+#: ../includes/class.settings.php:462
+#: ../includes/class.settings.php:522
 msgid "None, scale to fit."
 msgstr ""
 
-#: ../includes/class.settings.php:535
+#: ../includes/class.settings.php:537
 msgid "Fields"
 msgstr ""
 
-#: ../includes/class.settings.php:536
+#: ../includes/class.settings.php:538
 msgid "The selected fields will be searched."
 msgstr ""
 
-#: ../includes/class.settings.php:549
+#: ../includes/class.settings.php:551
 msgid "Biography"
 msgstr ""
 
-#: ../includes/class.settings.php:551
+#: ../includes/class.settings.php:553
 msgid "Address Line One"
 msgstr ""
 
-#: ../includes/class.settings.php:552
+#: ../includes/class.settings.php:554
 msgid "Address Line Two"
 msgstr ""
 
-#: ../includes/class.settings.php:553
+#: ../includes/class.settings.php:555
 msgid "Address Line Three"
 msgstr ""
 
-#: ../includes/class.settings.php:554
+#: ../includes/class.settings.php:556
 msgid "Address City"
 msgstr ""
 
-#: ../includes/class.settings.php:555
+#: ../includes/class.settings.php:557
 msgid "Address State"
 msgstr ""
 
-#: ../includes/class.settings.php:556
+#: ../includes/class.settings.php:558
 msgid "Address Zip Code"
 msgstr ""
 
-#: ../includes/class.settings.php:557
+#: ../includes/class.settings.php:559
 msgid "Address Country"
 msgstr ""
 
-#: ../includes/class.settings.php:591
+#: ../includes/class.settings.php:593
 msgid "FULLTEXT"
 msgstr ""
 
-#: ../includes/class.settings.php:592
+#: ../includes/class.settings.php:594
 msgid "Enable FULLTEXT query support."
 msgstr ""
 
-#: ../includes/class.settings.php:608
+#: ../includes/class.settings.php:610
 msgid "Category Base"
 msgstr ""
 
-#: ../includes/class.settings.php:609
+#: ../includes/class.settings.php:611
 msgid "Enter a custom structure for the category in the URL."
 msgstr ""
 
-#: ../includes/class.settings.php:623
+#: ../includes/class.settings.php:625
 msgid "Country Base"
 msgstr ""
 
-#: ../includes/class.settings.php:624
+#: ../includes/class.settings.php:626
 msgid "Enter a custom structure for the country in the URL."
 msgstr ""
 
-#: ../includes/class.settings.php:637
+#: ../includes/class.settings.php:639
 msgid "Region Base"
 msgstr ""
 
-#: ../includes/class.settings.php:638
+#: ../includes/class.settings.php:640
 msgid "Enter a custom structure for the region (state/province) in the URL."
 msgstr ""
 
-#: ../includes/class.settings.php:651
+#: ../includes/class.settings.php:653
 msgid "Locality Base"
 msgstr ""
 
-#: ../includes/class.settings.php:652
+#: ../includes/class.settings.php:654
 msgid "Enter a custom structure for the locality (city) in the URL."
 msgstr ""
 
-#: ../includes/class.settings.php:665
+#: ../includes/class.settings.php:667
 msgid "Postal Code Base"
 msgstr ""
 
-#: ../includes/class.settings.php:666
+#: ../includes/class.settings.php:668
 msgid "Enter a custom structure for the postal code in the URL."
 msgstr ""
 
-#: ../includes/class.settings.php:707
+#: ../includes/class.settings.php:709
 msgid "Name Base"
 msgstr ""
 
-#: ../includes/class.settings.php:708
+#: ../includes/class.settings.php:710
 msgid "Enter a custom structure for the entry slug in the URL."
 msgstr ""
 
-#: ../includes/class.settings.php:722
+#: ../includes/class.settings.php:725
+msgid ""
+"Enabling this option will turn the name of every entry into a link. \n"
+"\t\t\t\tClicking the link will take you to the page with only that entry."
+msgstr ""
+
+#: ../includes/class.settings.php:739
+msgid "Telephone Number"
+msgstr ""
+
+#: ../includes/class.settings.php:740
+msgid "Enabling this option will turn every telephone number into a link that when clicked by the user on a mobile phone or computer with a telephony application installed will dial the number."
+msgstr ""
+
+#: ../includes/class.settings.php:753
 msgid "Google Maps API v3"
 msgstr ""
 
-#: ../includes/class.settings.php:723
-msgid ""
-"If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. \n"
-"\t\t\t\tThis could prevent potential conflicts."
+#: ../includes/class.settings.php:754
+msgid "If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. This could prevent potential conflicts."
 msgstr ""
 
-#: ../includes/class.settings.php:736
+#: ../includes/class.settings.php:766
 msgid "JavaScript"
 msgstr ""
 
-#: ../includes/class.settings.php:737
+#: ../includes/class.settings.php:767
 msgid "By default Connections loads it's JavaScripts in the page footer uncheck this box to load them in the page header."
 msgstr ""
 
-#: ../includes/class.settings.php:749
+#: ../includes/class.settings.php:779
 msgid "Debug Messages"
 msgstr ""
 
-#: ../includes/class.settings.php:750
+#: ../includes/class.settings.php:780
 msgid "Display debug messages."
 msgstr ""
 
@@ -1509,8 +1623,24 @@ msgstr ""
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
+#: ../includes/inc.upgrade.php:30
+msgid "Upgrade"
+msgstr ""
+
 #: ../includes/inc.upgrade.php:44
 msgid "Upgrade Required"
+msgstr ""
+
+#: ../includes/inc.upgrade.php:45
+msgid "Your database tables are out of date and must be upgraded before you can continue."
+msgstr ""
+
+#: ../includes/inc.upgrade.php:46
+msgid "If you would like to downgrade later, please first make a complete backup of your database tables."
+msgstr ""
+
+#: ../includes/inc.upgrade.php:47
+msgid "Start Upgrade"
 msgstr ""
 
 #: ../includes/inc.upgrade.php:75
@@ -1759,12 +1889,62 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+#: ../submenus/categories.php:44
+msgid "Edit Category"
+msgstr ""
+
+#: ../submenus/categories.php:60
+msgid "Update Category"
+msgstr ""
+
+#: ../submenus/categories.php:92
+#: ../submenus/manage.php:391
+msgid "Bulk Actions"
+msgstr ""
+
+#: ../submenus/categories.php:95
+#: ../submenus/manage.php:417
+msgid "Apply"
+msgstr ""
+
+#: ../submenus/categories.php:110
+#: ../submenus/categories.php:120
+msgid "Info"
+msgstr ""
+
+#: ../submenus/categories.php:148
+msgid "<strong>Note:</strong><br/>Deleting a category which has been assigned to an entry will reassign that entry as <strong>Uncategorized</strong>."
+msgstr ""
+
+#: ../submenus/categories.php:157
+#: ../submenus/categories.php:171
+msgid "Add New Category"
+msgstr ""
+
 #: ../submenus/manage.php:84
 msgid "Copy Entry"
 msgstr ""
 
 #: ../submenus/manage.php:236
 msgid "Add New"
+msgstr ""
+
+#: ../submenus/manage.php:262
+#: ../submenus/templates.php:42
+msgid "All"
+msgstr ""
+
+#: ../submenus/manage.php:263
+msgid "Approved"
+msgstr ""
+
+#: ../submenus/manage.php:264
+msgid "Moderate"
+msgstr ""
+
+#: ../submenus/manage.php:271
+#: ../submenus/manage.php:273
+msgid "Search Entries"
 msgstr ""
 
 #: ../submenus/manage.php:290
@@ -1824,10 +2004,6 @@ msgstr ""
 msgid "Go to the last page."
 msgstr ""
 
-#: ../submenus/manage.php:391
-msgid "Bulk Actions"
-msgstr ""
-
 #: ../submenus/manage.php:397
 #: ../submenus/manage.php:543
 msgid "Unapprove"
@@ -1850,12 +2026,13 @@ msgstr ""
 msgid "Set Unlisted"
 msgstr ""
 
-#: ../submenus/manage.php:417
-msgid "Apply"
-msgstr ""
-
 #: ../submenus/manage.php:424
 msgid "Jump to"
+msgstr ""
+
+#: ../submenus/manage.php:456
+#: ../submenus/manage.php:465
+msgid "Last Modified"
 msgstr ""
 
 #: ../submenus/manage.php:514
@@ -1911,8 +2088,52 @@ msgstr ""
 msgid "Image Linked"
 msgstr ""
 
+#: ../submenus/templates.php:39
+msgid "Get More"
+msgstr ""
+
+#: ../submenus/templates.php:56
+msgid "Current Template"
+msgstr ""
+
 #: ../submenus/templates.php:73
 msgid "Visit author's homepage."
+msgstr ""
+
+#: ../submenus/templates.php:97
+msgid "Instructions"
+msgstr ""
+
+#: ../submenus/templates.php:99
+msgid ""
+"By default the <code><a href=\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/\">[connections]</a></code> shortcode will show all entries types. To change the template\n"
+"\t\t\t\t\t\t\t\tused when displaying all entry types, select the \"All\" tab and activate the template. When the <code><a href=\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/list_type/\">list_type</a></code>\n"
+"\t\t\t\t\t\t\t\tshortcode option is used to filter the entries based on the entry type, the template for that entry type will be used.\n"
+"\t\t\t\t\t\t\t\tTo change the template used for a specific entry type, select the appropriate tab and then activate the template. If multiple\n"
+"\t\t\t\t\t\t\t\tentry types are specified in the <code><a href=\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/list_type/\">list_type</a></code> shortcode option, the template for the entry type listed first\n"
+"\t\t\t\t\t\t\t\twill be used to display the entry list."
+msgstr ""
+
+#: ../submenus/templates.php:108
+msgid ""
+"The <code><a href=\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-upcoming-list/\">[upcoming_list]</a></code> shortcode which displays the upcoming anniversaries and birthdays will be displayed with the template\n"
+"\t\t\t\t\t\t\t\tthat is activated under their respective tabs."
+msgstr ""
+
+#: ../submenus/templates.php:113
+msgid "The current active template for each template type can be overridden by using the the <code><a href=\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/template/\">template</a></code> shortcode option."
+msgstr ""
+
+#: ../submenus/roles.php:34
+msgid "Roles &amp; Capabilities"
+msgstr ""
+
+#: ../submenus/roles.php:51
+msgid "Save Changes or Reset"
+msgstr ""
+
+#: ../submenus/roles.php:59
+msgid "Reset All Role Capabilities"
 msgstr ""
 
 #: ../submenus/roles.php:112

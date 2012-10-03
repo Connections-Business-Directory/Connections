@@ -3,7 +3,7 @@
 Plugin Name: Connections
 Plugin URI: http://connections-pro.com/
 Description: A business directory and address book manager.
-Version: 0.7.3
+Version: 0.7.3.1
 Author: Steven A. Zahm
 Author URI: http://connections-pro.com/
 
@@ -223,7 +223,7 @@ if ( ! class_exists('connectionsLoad') )
 			
 			define('CN_LOG', FALSE);
 			
-			define('CN_CURRENT_VERSION', '0.7.3');
+			define('CN_CURRENT_VERSION', '0.7.3.1');
 			define('CN_DB_VERSION', '0.1.9');
 			
 			
@@ -238,13 +238,13 @@ if ( ! class_exists('connectionsLoad') )
 			{
 				define('CN_IMAGE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/');
 				define('CN_IMAGE_BASE_URL', network_site_url('/wp-content/blogs.dir/' . $blog_id . '/connection_images/'));
-				define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates');
+				define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/');
 				define('CN_CUSTOM_TEMPLATE_URL', network_site_url('/wp-content/blogs.dir/' . $blog_id . '/connections_templates/'));
 			} else {
 				define('CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/');
 				define('CN_IMAGE_BASE_URL', content_url() . '/connection_images/');
-				define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates');
-				define('CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates');
+				define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates/');
+				define('CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates/');
 			}
 			
 			/*
@@ -293,11 +293,10 @@ if ( ! class_exists('connectionsLoad') )
 			//define('CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/');
 			//define('CN_IMAGE_BASE_URL', content_url() . '/connection_images/');
 			define('CN_TEMPLATE_PATH', CN_PATH . '/templates');
-			define('CN_TEMPLATE_URL', CN_URL . '/templates');
+			define('CN_TEMPLATE_URL', CN_URL . 'templates');
 			//define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates');
 			//define('CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates');
 			define('CN_CACHE_PATH', CN_PATH . '/cache');
-			
 		}
 		
 		private function loadDependencies()
@@ -683,6 +682,7 @@ if ( ! class_exists('connectionsLoad') )
 					im longtext NOT NULL,
 					social longtext NOT NULL,
 					links longtext NOT NULL,
+					dates longtext NOT NULL,
 					birthday tinytext NOT NULL,
 					anniversary tinytext NOT NULL,
 					bio longtext NOT NULL,
@@ -1472,7 +1472,7 @@ if ( ! class_exists('connectionsLoad') )
 			}
 			
 			// Register the top level menu item.
-			$this->pageHook->topLevel = add_menu_page('Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array (&$this, 'showPage'), CN_URL . '/images/menu.png');
+			$this->pageHook->topLevel = add_menu_page('Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array (&$this, 'showPage'), CN_URL . 'images/menu.png');
 			
 			$submenu[0]   = array( 'hook' => 'dashboard', 'page_title' => 'Connections : ' . __('Dashboard', 'connections'), 'menu_title' => __('Dashboard', 'connections'), 'capability' => 'connections_view_dashboard', 'menu_slug' => 'connections_dashboard', 'function' => array (&$this, 'showPage') );
 			$submenu[20]  = array( 'hook' => 'manage', 'page_title' => 'Connections : ' . __('Manage', 'connections'), 'menu_title' => __('Manage', 'connections'), 'capability' => 'connections_manage', 'menu_slug' => 'connections_manage', 'function' => array (&$this, 'showPage') );
@@ -1568,23 +1568,23 @@ if ( ! class_exists('connectionsLoad') )
 			if ( $this->options->getGoogleMapsAPI() ) 
 			{
 				wp_register_script('cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
-				wp_register_script('jquery-gomap-min', CN_URL . '/js/jquery.gomap-1.3.2.min.js', array('jquery' , 'cn-google-maps-api' ), '1.3.2', $this->options->getJavaScriptFooter() );
-				wp_register_script('jquery-markerclusterer-min', CN_URL . '/js/jquery.markerclusterer-2.0.10.min.js', array('jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
+				wp_register_script('jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array('jquery' , 'cn-google-maps-api' ), '1.3.2', $this->options->getJavaScriptFooter() );
+				wp_register_script('jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array('jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
 			}
 			else
 			{
-				wp_register_script('jquery-gomap-min', CN_URL . '/js/jquery.gomap-1.3.2.min.js', array('jquery' ), '1.3.2', $this->options->getJavaScriptFooter() );
-				wp_register_script('jquery-markerclusterer-min', CN_URL . '/js/jquery.markerclusterer-2.0.10.min.js', array('jquery' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
+				wp_register_script('jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array('jquery' ), '1.3.2', $this->options->getJavaScriptFooter() );
+				wp_register_script('jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array('jquery' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
 			}
 			
-			wp_register_script('jquery-qtip', CN_URL . '/js/jquery.qtip.min.js', array('jquery'), 'nightly', $this->options->getJavaScriptFooter() );
-			wp_register_script('jquery-preloader', CN_URL . '/js/jquery.preloader.js', array('jquery'), '1.1', $this->options->getJavaScriptFooter() );
+			wp_register_script('jquery-qtip', CN_URL . 'js/jquery.qtip.min.js', array('jquery'), 'nightly', $this->options->getJavaScriptFooter() );
+			wp_register_script('jquery-preloader', CN_URL . 'js/jquery.preloader.js', array('jquery'), '1.1', $this->options->getJavaScriptFooter() );
 			
 			// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
-			//wp_register_script('jquery-spin', CN_URL . '/js/jquery.spin.js', array('jquery'), '1.2.5', $this->options->getJavaScriptFooter() );
+			//wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $this->options->getJavaScriptFooter() );
 			
-			wp_register_script('jquery-chosen-min', CN_URL . '/js/jquery.chosen-0.9.8.min.js', array('jquery'), '0.9.8', $this->options->getJavaScriptFooter() );
-			wp_register_script('jquery-validate' , CN_URL . '/js/jquery.validate.min.js', array('jquery', 'jquery-form') , '1.9.0' , $this->options->getJavaScriptFooter() );
+			wp_register_script('jquery-chosen-min', CN_URL . 'js/jquery.chosen-0.9.8.min.js', array('jquery'), '0.9.8', $this->options->getJavaScriptFooter() );
+			wp_register_script('jquery-validate' , CN_URL . 'js/jquery.validate.min.js', array('jquery', 'jquery-form') , '1.9.0' , $this->options->getJavaScriptFooter() );
 		}
 		
 		/**
@@ -1599,7 +1599,7 @@ if ( ! class_exists('connectionsLoad') )
 			
 			if ( in_array($_GET['page'], $allPages) )
 			{
-				wp_enqueue_script('cn-ui-admin', CN_URL . '/js/cn-admin.js', array('jquery'), CN_CURRENT_VERSION, TRUE);
+				wp_enqueue_script('cn-ui-admin', CN_URL . 'js/cn-admin.js', array('jquery'), CN_CURRENT_VERSION, TRUE);
 				wp_enqueue_script('jquery-preloader');
 			}
 			
@@ -1649,7 +1649,7 @@ if ( ! class_exists('connectionsLoad') )
 				wp_enqueue_script('common');
 				wp_enqueue_script('wp-lists');
 				wp_enqueue_script('postbox');
-				wp_enqueue_script('cn-widget', CN_URL . '/js/widgets.js', array('jquery'), CN_CURRENT_VERSION, TRUE);
+				wp_enqueue_script('cn-widget', CN_URL . 'js/widgets.js', array('jquery'), CN_CURRENT_VERSION, TRUE);
 			}
 		}
 		
@@ -1664,7 +1664,7 @@ if ( ! class_exists('connectionsLoad') )
 			 * http://scribu.net/wordpress/optimal-script-loading.html
 			 */
 			
-			wp_enqueue_script('cn-ui', CN_URL . '/js/cn-user.js', array('jquery','jquery-preloader'), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
+			wp_enqueue_script('cn-ui', CN_URL . 'js/cn-user.js', array('jquery','jquery-preloader'), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
 		}
 		
 		/**
@@ -1692,7 +1692,7 @@ if ( ! class_exists('connectionsLoad') )
 			
 			if ( in_array($_GET['page'], $adminPages) )
 			{
-				wp_enqueue_style('cn-admin', CN_URL . '/css/cn-admin.css', array(), CN_CURRENT_VERSION);
+				wp_enqueue_style('cn-admin', CN_URL . 'css/cn-admin.css', array(), CN_CURRENT_VERSION);
 				
 				$jQueryUIStyle = ( 'classic' == get_user_option( 'admin_color' ) ) ? 'classic' : 'fresh';
 				
@@ -1706,7 +1706,7 @@ if ( ! class_exists('connectionsLoad') )
 			if ( in_array($_GET['page'], $adminPageEntryEdit) )
 			{
 				if( version_compare($GLOBALS['wp_version'], '3.2.999', '<') ) wp_enqueue_style( 'connections-admin-widgets', get_admin_url() . 'css/widgets.css' );
-				wp_enqueue_style('connections-chosen', CN_URL . '/css/chosen.css', array(), '0.9.8');
+				wp_enqueue_style('connections-chosen', CN_URL . 'css/chosen.css', array(), '0.9.8');
 			}
 		}
 		
@@ -1715,9 +1715,9 @@ if ( ! class_exists('connectionsLoad') )
 		 */
 		public function loadStyles()
 		{
-			wp_enqueue_style('connections-user', CN_URL . '/css/cn-user.css', array(), CN_CURRENT_VERSION);
-			wp_enqueue_style('connections-chosen', CN_URL . '/css/chosen.css', array(), '0.9.8');
-			wp_enqueue_style('connections-qtip', CN_URL . '/css/jquery.qtip.min.css', array(), 'nightly');
+			wp_enqueue_style('connections-user', CN_URL . 'css/cn-user.css', array(), CN_CURRENT_VERSION);
+			wp_enqueue_style('connections-chosen', CN_URL . 'css/chosen.css', array(), '0.9.8');
+			wp_enqueue_style('connections-qtip', CN_URL . 'css/jquery.qtip.min.css', array(), 'nightly');
 		}
 		
 		// Add settings option

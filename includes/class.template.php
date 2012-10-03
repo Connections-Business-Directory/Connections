@@ -391,7 +391,7 @@ class cnTemplate
 		
 		$atts = wp_parse_args($atts, $defaults);
 		
-		$out = '<a href="#cn-top" title="' . __('Return to top.', 'connections') . '"><img src="' . CN_URL . '/images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/></a>';
+		$out = '<a href="#cn-top" title="' . __('Return to top.', 'connections') . '"><img src="' . CN_URL . 'images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/></a>';
 		
 		if ( $atts['return']) return $out;
 		echo $out;

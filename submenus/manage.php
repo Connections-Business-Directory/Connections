@@ -515,7 +515,7 @@ function connectionsShowViewPage( $action = NULL )
 											echo '</td>';
 											echo '<td  colspan="2">';
 												if ($setAnchor) echo $setAnchor;
-												echo '<div style="float:right"><a href="#wphead" title="Return to top."><img src="' . CN_URL . '/images/uparrow.gif" /></a></div>';
+												echo '<div style="float:right"><a href="#wphead" title="Return to top."><img src="' . CN_URL . 'images/uparrow.gif" /></a></div>';
 												
 												if ( current_user_can('connections_edit_entry') || current_user_can('connections_edit_entry_moderated') )
 												{

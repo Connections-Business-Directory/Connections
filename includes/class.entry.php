@@ -2276,20 +2276,20 @@ class cnEntry
 					/*
 					 * Set the link target string
 					 */
-					switch ( $row->target )
-					{
-						case 'same':
-							$row->target = '_self';
-							break;
+					// switch ( $row->target )
+					// {
+					// 	case 'same':
+					// 		$row->target = '_self';
+					// 		break;
 							
-						case 'new':
-							$row->target = '_blank';
-							break;
+					// 	case 'new':
+					// 		$row->target = '_blank';
+					// 		break;
 							
-						default:
-							$row->target = '_blank';
-							break;
-					}
+					// 	default:
+					// 		$row->target = '_blank';
+					// 		break;
+					// }
 					
 					/*
 					 * // START -- Do not return links that do not match the supplied $atts.

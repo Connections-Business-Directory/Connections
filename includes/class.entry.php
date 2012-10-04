@@ -149,7 +149,7 @@ class cnEntry
 	 * 
 	 * @since 0.7.3.0
 	 */
-	private $date;
+	private $dates;
 	
 	/**
 	 * String: Entry notes.

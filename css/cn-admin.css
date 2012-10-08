@@ -259,7 +259,7 @@ div#metabox-address, div#metabox-phone, div#metabox-email, div#metabox-messenger
  */
 form p.submit a.button  {font-style:normal !important;}
 form p.add  {font-style:normal; padding:12px 0 0; text-align: right;}
-table.form-table td input {width:auto;}
+/*table.form-table td input {width:auto;}*/
 
 #cancel-button {float:left;}
 #cancel-button .button {display: inline-block;}

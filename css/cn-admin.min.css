@@ -26,13 +26,12 @@ div#wpcontent div.widgets-sortables{min-height:0}div#wpcontent div.widget{positi
 div#wpcontent div.widget-title h4{overflow:visible}div#wpcontent div.widget-title h4 select{height:1.75em;padding:1px;margin-top:-10px}div#wpcontent div.widget .widget-inside,.widget .widget-description{display:block;position:relative}
 div#wpcontent div.widget-title-action:hover{cursor:pointer}div#wpcontent .widget-placeholder{border-width:1px;border-style:dashed;margin:0 auto 20px;height:60px;width:100%}
 div#metabox-address,div#metabox-phone,div#metabox-email,div#metabox-messenger,div#metabox-social-media,div#metabox-links,div#metabox-date{background-color:#fcfcfc;background-image:none}
-form p.submit a.button{font-style:normal!important}form p.add{font-style:normal;padding:12px 0 0;text-align:right}table.form-table td input{width:auto}
-#cancel-button{float:left}#cancel-button .button{display:inline-block}.button-warning:hover{background:#ce0000 none repeat scroll 0 0;color:#fff}.button{margin:1px}
-.button-primary{margin:1px;padding:3px 10px}#toggleBioEditor{margin:4px 6px 0 0}#toggleNoteEditor{margin:4px 6px 0 0}form div.form-field input[type="text"]{width:100%}
-form div.form-field input[type="radio"]{vertical-align:text-top;width:auto}form div.form-field div#relations{text-align:center}
-form div.form-field div#relations select{text-align:left;width:250px}form div.form-field div#relations li{text-align:left;width:250px}form div.form-field h4 label{line-height:normal;vertical-align:text-top}
-form div.form-field h4 span.visibility{position:absolute;right:0}form div.form-field h4 span.visibility label{font-weight:normal}form div.form-field div.input{float:left}
-form div.form-field div.input.half-width{width:50%}form div.form-field .address-local input{width:80%}form div.form-field .address-region input{width:80%}
+form p.submit a.button{font-style:normal!important}form p.add{font-style:normal;padding:12px 0 0;text-align:right}#cancel-button{float:left}#cancel-button .button{display:inline-block}
+.button-warning:hover{background:#ce0000 none repeat scroll 0 0;color:#fff}.button{margin:1px}.button-primary{margin:1px;padding:3px 10px}#toggleBioEditor{margin:4px 6px 0 0}
+#toggleNoteEditor{margin:4px 6px 0 0}form div.form-field input[type="text"]{width:100%}form div.form-field input[type="radio"]{vertical-align:text-top;width:auto}
+form div.form-field div#relations{text-align:center}form div.form-field div#relations select{text-align:left;width:250px}form div.form-field div#relations li{text-align:left;width:250px}
+form div.form-field h4 label{line-height:normal;vertical-align:text-top}form div.form-field h4 span.visibility{position:absolute;right:0}form div.form-field h4 span.visibility label{font-weight:normal}
+form div.form-field div.input{float:left}form div.form-field div.input.half-width{width:50%}form div.form-field .address-local input{width:80%}form div.form-field .address-region input{width:80%}
 form div.form-field .address-city{width:28%}form div.form-field .address-city input{width:86%}form div.form-field .address-state{width:20%}form div.form-field .address-state input{width:74%}
 form div.form-field .address-zipcode{width:20%}form div.form-field .address-zipcode input{width:62%}form div.form-field .address-country{clear:both;width:52%}
 form div.form-field .address-country input{width:80%}form div.form-field .address-latitude{width:29%}form div.form-field .address-latitude input{width:75%}

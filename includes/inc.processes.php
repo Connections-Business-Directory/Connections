@@ -416,7 +416,7 @@ function processImages()
 		if ($process_image->processed)
 		{
 			$connections->setSuccessMessage('image_uploaded');
-			if ( $connections->options->getDebug() && is_admin() ) $connections->setRuntimeMessage( 'success_runtime' , $process_image->log );
+			
 			@chmod( CN_IMAGE_PATH . '/' . $process_image->file_dst_name , 0644 );
 			$image['original'] = $process_image->file_dst_name;
 			
@@ -438,7 +438,7 @@ function processImages()
 			$process_image->Process(CN_IMAGE_PATH);
 			if ($process_image->processed) {
 				$connections->setSuccessMessage('image_profile');
-				if ( $connections->options->getDebug() && is_admin() ) $connections->setRuntimeMessage( 'success_runtime' , $process_image->log );
+				
 				@chmod( CN_IMAGE_PATH . '/' . $process_image->file_dst_name , 0644 );
 				$image['profile'] = $process_image->file_dst_name;
 			} else {
@@ -471,7 +471,7 @@ function processImages()
 			$process_image->Process(CN_IMAGE_PATH);
 			if ($process_image->processed) {
 				$connections->setSuccessMessage('image_entry');
-				if ( $connections->options->getDebug() && is_admin() ) $connections->setRuntimeMessage( 'success_runtime' , $process_image->log );
+				
 				@chmod( CN_IMAGE_PATH . '/' . $process_image->file_dst_name , 0644 );
 				$image['entry'] = $process_image->file_dst_name;
 			} else {
@@ -497,7 +497,7 @@ function processImages()
 			$process_image->Process(CN_IMAGE_PATH);
 			if ($process_image->processed) {
 				$connections->setSuccessMessage('image_thumbnail');
-				if ( $connections->options->getDebug() && is_admin() ) $connections->setRuntimeMessage( 'success_runtime' , $process_image->log );
+				
 				@chmod( CN_IMAGE_PATH . '/' . $process_image->file_dst_name , 0644 );
 				$image['thumbnail'] = $process_image->file_dst_name;
 			} else {
@@ -511,6 +511,9 @@ function processImages()
 			return FALSE;
 		}
 		
+		// Output the debug log.
+		if ( $connections->options->getDebug() && is_admin() ) $connections->setRuntimeMessage( 'success_runtime' , $process_image->log );
+
 		$process_image->Clean();
 		
 	}

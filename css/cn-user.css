@@ -266,8 +266,9 @@ input#cn-submit {
 
 /*
  * Tables
+ * @todo these styles interfere with the templates that use tables.
  */
-#cn-list table { border: none; border-collapse: separate; float: none; margin: 0; width: 100%; }
+/*#cn-list table { border: none; border-collapse: separate; float: none; margin: 0; width: 100%; }
 #cn-list table tr { background: transparent; }
 #cn-list table tr.alternate { background: #F1F1F1; }
 #cn-list table td { background: transparent; border: none; line-height: normal; margin: 0; padding: 0; }
@@ -277,7 +278,7 @@ input#cn-submit {
 #cn-list table td ul ul { margin: 6px 0px 6px 16px; }
 #cn-list table td ul li:before { content: ""; }
 #cn-list table td input[type="checkbox"] { margin: 0 0 2px; padding: 0; vertical-align: middle;}
-#cn-list table td input[type="radio"] { margin: 0 0 2px; padding: 0; vertical-align: middle;}
+#cn-list table td input[type="radio"] { margin: 0 0 2px; padding: 0; vertical-align: middle;}*/
 
 /*
  * This should help to keep themes from breaking Google Maps by setting the img to max-width: 100%;

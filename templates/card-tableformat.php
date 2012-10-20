@@ -3,35 +3,35 @@
     <tr>
         <td align="left" width="50%" valign="top">
         	<?php echo $entry->getCardImage() ?>
-			
+
 			<div style="clear:both; margin: 0 5px;">
 				<div style="margin-bottom: 10px;">
 					<span style="font-size:larger;font-variant: small-caps"><strong><?php echo $entry->getFullFirstLastNameBlock() ?></strong></span><br />
-					
+
 					<?php echo $entry->getTitleBlock() ?>
 					<?php echo $entry->getOrgUnitBlock() ?>
 				</div>
-				
+
 				<?php echo $entry->getAddressBlock() ?>
 			</div>
         </td>
         <td align="right" valign="top">
         	<div style="clear:both; margin: 5px 5px;">
 	        	<?php echo $entry->getConnectionGroupBlock() ?>
-				
+
 				<?php echo $entry->getPhoneNumberBlock() ?>
 				<?php echo $entry->getEmailAddressBlock() ?>
-				
+
 				<?php echo $entry->getImBlock() ?>
 				<?php echo $entry->getSocialMediaBlock() ?>
 				<?php echo $entry->getWebsiteBlock() ?>
-				
-				<?php echo $entry->getBirthdayBlock('F j') ?>
+
+				<?php echo $entry->getBirthdayBlock( 'F j' ) ?>
 				<?php echo $entry->getAnniversaryBlock() ?>
 			</div>
         </td>
     </tr>
-    
+
     <tr>
         <td valign="bottom">
         	<?php echo $vCard->download() ?>

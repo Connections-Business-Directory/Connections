@@ -1,12 +1,10 @@
 <?php
-function connectionsShowDashboardPage()
-{
+function connectionsShowDashboardPage() {
 	/*
 	 * Check whether user can view the Dashboard
 	 */
-	if (!current_user_can('connections_view_dashboard'))
-	{
-		wp_die('<p id="error-page" style="-moz-background-clip:border;
+	if ( !current_user_can( 'connections_view_dashboard' ) ) {
+		wp_die( '<p id="error-page" style="-moz-background-clip:border;
 				-moz-border-radius:11px;
 				background:#FFFFFF none repeat scroll 0 0;
 				border:1px solid #DFDFDF;
@@ -17,55 +15,54 @@ function connectionsShowDashboardPage()
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __('You do not have sufficient permissions to access this page.', 'connections') . '</p>');
+				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
 	}
-	else
-	{
+	else {
 		global $connections;
-		
+
 		$form = new cnFormObjects();
-	?>
+?>
 		<div class="wrap">
-			<?php echo get_screen_icon('connections'); ?>
-			
-			<h2>Connections : <?php _e('Dashboard','connections'); ?></h2>
-			
+			<?php echo get_screen_icon( 'connections' ); ?>
+
+			<h2>Connections : <?php _e( 'Dashboard', 'connections' ); ?></h2>
+
 			<div id="dashboard-widgets-wrap">
-				
+
 				<div class="metabox-holder" id="dashboard-widgets">
-					
+
 					<div style="width: 49%;" class="postbox-container">
-						<?php do_meta_boxes($connections->pageHook->dashboard, 'left', NULL); ?>
+						<?php do_meta_boxes( $connections->pageHook->dashboard, 'left', NULL ); ?>
 					</div>
-					
+
 					<div style="width: 49%;" class="postbox-container">
-						<?php do_meta_boxes($connections->pageHook->dashboard, 'right', NULL); ?>
+						<?php do_meta_boxes( $connections->pageHook->dashboard, 'right', NULL ); ?>
 					</div>
-					
+
 				</div>
-				
+
 			</div>
-								
+
 		</div>
-		
+
 		<?php
-			$attr = array(
-						 'action' => '',
-						 'method' => 'get'
-						 );
-			
-			$form->open($attr);
-			
-			wp_nonce_field('howto-metaboxes-general');
-			wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false );
-			wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false );
-			
-			$form->close();
-		?>
-		
-		
+		$attr = array(
+			'action' => '',
+			'method' => 'get'
+		);
+
+		$form->open( $attr );
+
+		wp_nonce_field( 'howto-metaboxes-general' );
+		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
+		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+
+		$form->close();
+?>
+
+
 		<div class="clear"></div>
-		
+
 		<script type="text/javascript">
 		//<![CDATA[
 		jQuery(document).ready( function($) {

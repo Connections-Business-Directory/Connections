@@ -7,14 +7,14 @@
 			<?php $entry->getTitleBlock(); ?>
 			<?php $entry->getOrgUnitBlock(); ?>
 			<?php $entry->getContactNameBlock(); ?>
-			
+
 		</div>
-			
+
 			<?php $entry->getAddressBlock(); ?>
 	</div>
-		
+
 	<div align="right">
-	
+
 		<?php $entry->getFamilyMemberBlock(); ?>
 		<?php $entry->getPhoneNumberBlock(); ?>
 		<?php $entry->getEmailAddressBlock(); ?>
@@ -22,13 +22,13 @@
 		<?php $entry->getSocialMediaBlock(); ?>
 		<?php $entry->getLinkBlock(); ?>
 		<?php $entry->getDateBlock(); ?>
-		
-	</div>	
-	
+
+	</div>
+
 	<div style="clear:both"></div>
 	<div class="cn-meta" align="left" style="margin-top: 6px">
 		<span><?php echo $vCard->download(); ?></span>
 		<span style="<?php echo $entry->getLastUpdatedStyle() ?>; font-size:x-small; font-variant: small-caps; position: absolute; right: 6px; bottom: 8px;">Updated <?php echo $entry->getHumanTimeDiff() ?> ago</span><br />
 	</div>
-	
+
 </div>

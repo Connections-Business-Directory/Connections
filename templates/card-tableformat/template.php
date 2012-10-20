@@ -3,36 +3,36 @@
     <tr>
         <td align="left" width="50%" valign="top" style="vertical-align: top;">
         	<?php echo $entry->getImage(); ?>
-			
+
 			<div style="clear:both; margin: 0 5px;">
 				<div style="margin-bottom: 10px;">
 					<span style="font-size:larger;font-variant: small-caps"><strong><?php echo $entry->getNameBlock(); ?></strong></span>
-					
+
 					<?php $entry->getTitleBlock(); ?>
 					<?php $entry->getOrgUnitBlock(); ?>
 					<?php $entry->getContactNameBlock(); ?>
-					
+
 				</div>
-				
+
 				<?php $entry->getAddressBlock(); ?>
 			</div>
         </td>
         <td align="right" valign="top" style="vertical-align: top;">
         	<div style="clear:both; margin: 5px 5px;">
 	        	<?php $entry->getConnectionGroupBlock(); ?>
-				
+
 				<?php $entry->getPhoneNumberBlock(); ?>
 				<?php $entry->getEmailAddressBlock(); ?>
-				
+
 				<?php $entry->getImBlock(); ?>
 				<?php $entry->getSocialMediaBlock(); ?>
 				<?php $entry->getLinkBlock(); ?>
 				<?php $entry->getDateBlock(); ?>
-				
+
 			</div>
         </td>
     </tr>
-    
+
     <tr>
         <td valign="bottom" style="vertical-align: top;">
         	<?php echo $vCard->download(); ?>

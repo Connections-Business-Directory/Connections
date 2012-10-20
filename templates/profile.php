@@ -10,7 +10,7 @@
 			</div>
 			<?php echo $entry->getBio() ?>
 		</div>
-			
+
 	</div>
 	<div style="clear:both"></div>
 </div>

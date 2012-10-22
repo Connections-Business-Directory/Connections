@@ -866,7 +866,7 @@ class cnEntry {
 					if ( empty( $row->type ) ) $row->type = 'other';
 					$addressTypes = $connections->options->getDefaultAddressValues();
 					// Recent previous versions set the type to the Select string from the drop down, so set the type to 'other'.
-					( $addressTypes[$row->type] == 'Select' ) ? $row->name = 'Other' : $row->name = $addressTypes[$row->type];
+					( $addressTypes[ $row->type ] == 'Select' ) ? $row->name = 'Other' : $row->name = $addressTypes[ $row->type ];
 
 					/*
 					 * // START -- Compatibility for previous versions.
@@ -1065,7 +1065,7 @@ class cnEntry {
 					// If the address is preferred, it takes precedence, the user's choice is overridden.
 					if ( ! empty( $preferred ) && $address['preferred'] ) {
 
-						$addresses[$userPreferred]['preferred'] = FALSE;
+						$addresses[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
 						$connections->setErrorMessage( 'entry_preferred_overridden_address' );
@@ -1183,7 +1183,7 @@ class cnEntry {
 					 * Set the phone name based on the type.
 					 */
 					$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
-					$row->name = $phoneTypes[$row->type];
+					$row->name = $phoneTypes[ $row->type ];
 
 					/*
 					 * // START -- Do not return phone numbers that do not match the supplied $atts.
@@ -1481,7 +1481,7 @@ class cnEntry {
 				 * Set the email name based on the email type.
 				 */
 				$emailTypes = $connections->options->getDefaultEmailValues();
-				$email->name = $emailTypes[$email->type];
+				$email->name = $emailTypes[ $email->type ];
 
 				$results[] = apply_filters( 'cn_email_address', $email );
 			}
@@ -1610,7 +1610,7 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $suppliedAttr Accepted values as noted above.
+	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
 	 * @return array
 	 */
@@ -1858,7 +1858,7 @@ class cnEntry {
 					// If the network is preferred, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $preferred ) && $network['preferred'] ) {
 
-						$im[$userPreferred]['preferred'] = FALSE;
+						$im[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
 						$connections->setErrorMessage( 'entry_preferred_overridden_im' );
@@ -1902,27 +1902,27 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $suppliedAttr Accepted values as noted above.
+	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
 	 * @return array
 	 */
-	public function getSocialMedia( $suppliedAttr = array(), $cached = TRUE, $saving = FALSE ) {
+	public function getSocialMedia( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
 		global $connections;
 
 		$socialMediaIDs = array();
 		$results = array();
 
-		$suppliedAttr = apply_filters( 'cn_social_network_atts', $suppliedAttr );
+		$atts = apply_filters( 'cn_social_network_atts', $atts );
 		$cached = apply_filters( 'cn_social_network_cached' , $cached );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['preferred'] = FALSE;
-		$defaultAttr['type'] = NULL;
+		$defaults['preferred'] = FALSE;
+		$defaults['type'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1961,7 +1961,7 @@ class cnEntry {
 					 * Set the social network name based on type.
 					 */
 					$socialTypes = $connections->options->getDefaultSocialMediaValues();
-					$row->name = $socialTypes[$row->type];
+					$row->name = $socialTypes[ $row->type ];
 
 					/*
 					 * // START -- Compatibility for previous versions.
@@ -2011,7 +2011,7 @@ class cnEntry {
 				 * Set the social network name based on the network type.
 				 */
 				$networkTypes = $connections->options->getDefaultSocialMediaValues();
-				$network->name = $networkTypes [$network->type ];
+				$network->name = $networkTypes [ $network->type ];
 
 				$results[] = apply_filters( 'cn_social_network', $network );
 			}
@@ -2153,7 +2153,7 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $suppliedAttr Accepted values as noted above.
+	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached link data rather than querying the db.
 	 * @return array
 	 */
@@ -2216,7 +2216,7 @@ class cnEntry {
 					 * Set the Link name based on type.
 					 */
 					$linkTypes = $connections->options->getDefaultLinkValues();
-					( empty( $row->type ) ) ? $row->name = $linkTypes['website'] : $row->name = $linkTypes[$row->type];
+					( empty( $row->type ) ) ? $row->name = $linkTypes['website'] : $row->name = $linkTypes[ $row->type ];
 					//var_dump($row->type);
 
 					/*
@@ -2352,7 +2352,7 @@ class cnEntry {
 	 * $atts['preferred'] (bool) Retrieve the preferred website.
 	 *
 	 * @deprecated since 0.7.2.0
-	 * @param array   $suppliedAttr Accepted values as noted above.
+	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
 	 * @return array
 	 */
@@ -2542,7 +2542,7 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $suppliedAttr Accepted values as noted above.
+	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached date data rather than querying the db.
 	 * @return array
 	 */
@@ -2632,7 +2632,7 @@ class cnEntry {
 					 * Set the date name based on the type.
 					 */
 					$dateTypes = $connections->options->getDateOptions();
-					$row->name = $dateTypes[$row->type];
+					$row->name = $dateTypes[ $row->type ];
 
 					/*
 					 * // START -- Do not return dates that do not match the supplied $atts.
@@ -2848,7 +2848,7 @@ class cnEntry {
 
 					// If the date is preferred, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $preferred ) && $date['preferred'] ) {
-						$dates[$userPreferred]['preferred'] = FALSE;
+						$dates[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
 						$connections->setErrorMessage( 'entry_preferred_overridden_date' );
@@ -3371,7 +3371,7 @@ class cnEntry {
 		 * Only update the rest of the entry's data if the update to the ENTRY TABLE was successful.
 		 */
 		if ( $result !== FALSE ) {
-			
+
 			$where[] = 'WHERE 1=1';
 
 			/*

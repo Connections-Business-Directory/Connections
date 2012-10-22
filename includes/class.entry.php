@@ -226,6 +226,7 @@ class cnEntry {
 	private $updateObjectCache = FALSE;
 
 	function __construct( $entry = NULL ) {
+
 		global $connections;
 
 		if ( isset( $entry ) ) {
@@ -771,38 +772,41 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $suppliedAttr Accepted values as noted above.
+	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached address data rather than querying the db.
+	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
 	 * @return array
 	 */
-	public function getAddresses( $suppliedAttr = array(), $cached = TRUE ) {
+	public function getAddresses( $atts = array(), $cached = TRUE, $saving = TRUE ) {
 		global $connections;
+
 		$addresses = array();
 		$results = array();
 
-		$suppliedAttr = apply_filters( 'cn_address_atts', $suppliedAttr );
+		$atts = apply_filters( 'cn_address_atts', $atts );
 		$cached = apply_filters( 'cn_address_cached' , $cached );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['preferred'] = FALSE;
-		$defaultAttr['type'] = NULL;
-		$defaultAttr['city'] = NULL;
-		$defaultAttr['state'] = NULL;
-		$defaultAttr['zipcode'] = NULL;
-		$defaultAttr['country'] = NULL;
-		$defaultAttr['coordinates'] = array();
+		$defaults['preferred'] = FALSE;
+		$defaults['type'] = NULL;
+		$defaults['city'] = NULL;
+		$defaults['state'] = NULL;
+		$defaults['zipcode'] = NULL;
+		$defaults['country'] = NULL;
+		$defaults['coordinates'] = array();
 
-		$atts = $this->validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-
 		if ( $cached ) {
+
 			if ( ! empty( $this->addresses ) ) {
+
 				$addresses = unserialize( $this->addresses );
 				if ( empty( $addresses ) ) return $results;
 
@@ -818,6 +822,7 @@ class cnEntry {
 				if ( ! empty( $country ) && ! is_array( $country ) ) $country = explode( ',' , trim( $country ) );
 
 				foreach ( (array) $addresses as $key => $address ) {
+
 					if ( empty( $address ) ) continue;
 
 					/*
@@ -893,15 +898,15 @@ class cnEntry {
 					 */
 
 					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) ) continue;
+					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_address', $row );
 				}
 
 			}
 
-		}
-		else {
+		} else {
+
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -910,8 +915,8 @@ class cnEntry {
 
 			if ( empty( $addresses ) ) return $results;
 
-
 			foreach ( $addresses as $address ) {
+
 				$address->id = (int) $address->id;
 				$address->order = (int) $address->order;
 				$address->preferred = (bool) $address->preferred;
@@ -935,7 +940,7 @@ class cnEntry {
 				 * Set the address name based on the address type.
 				 */
 				$addressTypes = $connections->options->getDefaultAddressValues();
-				( ! isset( $addressTypes[$address->type] ) || $addressTypes[$address->type] === 'Select' ) ? $address->name = NULL : $address->name = $addressTypes[$address->type];
+				( ! isset( $addressTypes[ $address->type ] ) || $addressTypes[ $address->type ] === 'Select' ) ? $address->name = NULL : $address->name = $addressTypes[ $address->type ];
 
 				/*
 				 * // START -- Compatibility for previous versions.
@@ -981,12 +986,15 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setAddresses( $addresses ) {
+
 		global $connections;
+
 		$userPreferred = NULL;
 
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'line_1' => NULL, 'line_2' => NULL, 'line_3' => NULL, 'city' => NULL, 'state' => NULL, 'zipcode' => NULL, 'country' => NULL, 'latitude' => NULL, 'longitude' => NULL, 'visibility' => NULL );
 
 		if ( ! empty( $addresses ) ) {
+
 			//print_r($addresses);
 			$order = 0;
 			$preferred = '';
@@ -997,6 +1005,7 @@ class cnEntry {
 			}
 
 			foreach ( $addresses as $key => $address ) {
+
 				// Permit only the valid fields.
 				$address = $this->validate->attributesArray( $validFields, $address );
 
@@ -1008,16 +1017,16 @@ class cnEntry {
 					$result = cnGeo::address( $address );
 
 					if ( ! empty( $result ) ) {
-						$addresses[$key]['latitude'] = $result->latitude;
-						$addresses[$key]['longitude'] = $result->longitude;
+						$addresses[ $key ]['latitude'] = $result->latitude;
+						$addresses[ $key ]['longitude'] = $result->longitude;
 					}
 
 				}
 
 				// Store the order attribute as supplied in the addresses array.
-				$addresses[$key]['order'] = $order;
+				$addresses[ $key ]['order'] = $order;
 
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $addresses[$key]['preferred'] = TRUE : $addresses[$key]['preferred'] = FALSE;
+				( ( isset( $preferred ) ) && $preferred == $key ) ? $addresses[ $key ]['preferred'] = TRUE : $addresses[ $key ]['preferred'] = FALSE;
 
 				/*
 				 * If the user set a perferred address, save the $key value.
@@ -1025,7 +1034,7 @@ class cnEntry {
 				 * does not have permission to edit is set to preferred, that address
 				 * will have preference.
 				 */
-				if ( $addresses[$key]['preferred'] ) $userPreferred = $key;
+				if ( $addresses[ $key ]['preferred'] ) $userPreferred = $key;
 
 				$order++;
 			}
@@ -1038,7 +1047,9 @@ class cnEntry {
 		$cached = unserialize( $this->addresses );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $address ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */
@@ -1048,10 +1059,12 @@ class cnEntry {
 				 */
 
 				if ( ! $this->validate->userPermitted( $address['visibility'] ) ) {
+
 					$addresses[] = $address;
 
 					// If the address is preferred, it takes precedence, the user's choice is overridden.
 					if ( ! empty( $preferred ) && $address['preferred'] ) {
+
 						$addresses[$userPreferred]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
@@ -1086,33 +1099,37 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $suppliedAttr Accepted values as noted above.
+	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached phone numbers data rather than querying the db.
+	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
 	 * @return array
 	 */
-	public function getPhoneNumbers( $suppliedAttr = array(), $cached = TRUE ) {
+	public function getPhoneNumbers( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+
 		global $connections;
+
 		$phoneNumbers = array();
 		$results = array();
 
-		$suppliedAttr = apply_filters( 'cn_phone_atts', $suppliedAttr );
-		$cached = apply_filters( 'cn_phone_cached' , $cached );
+		$atts = apply_filters( 'cn_phone_atts', $atts );
+		$cached = apply_filters( 'cn_phone_cached', $cached );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['preferred'] = FALSE;
-		$defaultAttr['type'] = NULL;
+		$defaults['preferred'] = FALSE;
+		$defaults['type'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-
 		if ( $cached ) {
-			if ( !empty( $this->phoneNumbers ) ) {
+
+			if ( ! empty( $this->phoneNumbers ) ) {
+
 				$phoneNumbers = unserialize( $this->phoneNumbers );
 				if ( empty( $phoneNumbers ) ) return $results;
 
@@ -1142,18 +1159,18 @@ class cnEntry {
 					 * // START -- Compatibility for previous versions.
 					 */
 					switch ( $row->type ) {
-					case 'home':
-						$row->type = 'homephone';
-						break;
-					case 'cell':
-						$row->type = 'cellphone';
-						break;
-					case 'work':
-						$row->type = 'workphone';
-						break;
-					case 'fax':
-						$row->type = 'workfax';
-						break;
+						case 'home':
+							$row->type = 'homephone';
+							break;
+						case 'cell':
+							$row->type = 'cellphone';
+							break;
+						case 'work':
+							$row->type = 'workphone';
+							break;
+						case 'fax':
+							$row->type = 'workfax';
+							break;
 					}
 
 					if ( ! isset( $number['visibility'] ) || empty( $number['visibility'] ) ) $row->visibility = 'public';
@@ -1178,7 +1195,7 @@ class cnEntry {
 					 */
 
 					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) ) continue;
+					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 
 					$results[] = apply_filters( 'cn_phone_number', $row );
@@ -1207,29 +1224,28 @@ class cnEntry {
 				 * // START -- Compatibility for previous versions.
 				 */
 				switch ( $phone->type ) {
-				case 'home':
-					$phone->type = "homephone";
-					break;
-				case 'cell':
-					$phone->type = "cellphone";
-					break;
-				case 'work':
-					$phone->type = "workphone";
-					break;
-				case 'fax':
-					$phone->type = "workfax";
-					break;
+					case 'home':
+						$phone->type = "homephone";
+						break;
+					case 'cell':
+						$phone->type = "cellphone";
+						break;
+					case 'work':
+						$phone->type = "workphone";
+						break;
+					case 'fax':
+						$phone->type = "workfax";
+						break;
 				}
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
 
-
 				/*
 				 * Set the phone name based on the phone type.
 				 */
 				$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
-				$phone->name = $phoneTypes[$phone->type];
+				$phone->name = $phoneTypes[ $phone->type ];
 
 				$results[] = apply_filters( 'cn_phone_number', $phone );
 			}
@@ -1257,12 +1273,14 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setPhoneNumbers( $phoneNumbers ) {
+
 		global $connections;
+
 		$userPreferred = NULL;
 
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'number' => NULL, 'visibility' => NULL );
 
-		if ( !empty( $phoneNumbers ) ) {
+		if ( ! empty( $phoneNumbers ) ) {
 			$order = 0;
 			$preferred = '';
 
@@ -1277,14 +1295,14 @@ class cnEntry {
 
 				// If the number is empty, no need to store it.
 				if ( empty( $phoneNumber['number'] ) ) {
-					unset( $phoneNumbers[$key] );
+					unset( $phoneNumbers[ $key ] );
 					continue;
 				}
 
 				// Store the order attribute as supplied in the addresses array.
-				$phoneNumbers[$key]['order'] = $order;
+				$phoneNumbers[ $key ]['order'] = $order;
 
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $phoneNumbers[$key]['preferred'] = TRUE : $phoneNumbers[$key]['preferred'] = FALSE;
+				( ( isset( $preferred ) ) && $preferred == $key ) ? $phoneNumbers[ $key ]['preferred'] = TRUE : $phoneNumbers[ $key ]['preferred'] = FALSE;
 
 				/*
 				 * If the user set a perferred number, save the $key value.
@@ -1292,7 +1310,7 @@ class cnEntry {
 				 * does not have permission to edit is set to preferred, that number
 				 * will have preference.
 				 */
-				if ( $phoneNumbers[$key]['preferred'] ) $userPreferred = $key;
+				if ( $phoneNumbers[ $key ]['preferred'] ) $userPreferred = $key;
 
 				$order++;
 			}
@@ -1319,7 +1337,7 @@ class cnEntry {
 
 					// If the number is preferred, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $preferred ) && $phone['preferred'] ) {
-						$phoneNumbers[$userPreferred]['preferred'] = FALSE;
+						$phoneNumbers[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
 						$connections->setErrorMessage( 'entry_preferred_overridden_phone' );
@@ -1350,33 +1368,37 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $suppliedAttr Accepted values as noted above.
+	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
+	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
 	 * @return array
 	 */
-	public function getEmailAddresses( $suppliedAttr = array(), $cached = TRUE ) {
+	public function getEmailAddresses( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+
 		global $connections;
+
 		$emailAddresses = array();
 		$results = array();
 
-		$suppliedAttr = apply_filters( 'cn_email_atts', $suppliedAttr );
+		$atts = apply_filters( 'cn_email_atts', $atts );
 		$cached = apply_filters( 'cn_email_cached' , $cached );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['preferred'] = FALSE;
-		$defaultAttr['type'] = NULL;
+		$defaults['preferred'] = FALSE;
+		$defaults['type'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-
 		if ( $cached ) {
+
 			if ( !empty( $this->emailAddresses ) ) {
+
 				$emailAddresses = unserialize( $this->emailAddresses );
 				if ( empty( $emailAddresses ) ) return $results;
 
@@ -1388,6 +1410,7 @@ class cnEntry {
 				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
 
 				foreach ( (array) $emailAddresses as $key => $email ) {
+
 					/*
 					 * Previous versions stored empty arrays for email addresses, check for an address, continue if not found.
 					 */
@@ -1406,12 +1429,12 @@ class cnEntry {
 					 * Set the email name based on type.
 					 */
 					$emailTypes = $connections->options->getDefaultEmailValues();
-					$row->name = $emailTypes[$row->type];
+					$row->name = $emailTypes[ $row->type ];
 
 					/*
 					 * // START -- Compatibility for previous versions.
 					 */
-					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
+					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't an option before.
 					if ( ! isset( $email['visibility'] ) || empty( $email['visibility'] ) ) $row->visibility = 'public';
 					/*
 					 * // END -- Compatibility for previous versions.
@@ -1427,14 +1450,15 @@ class cnEntry {
 					 */
 
 					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) ) continue;
+					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_email_address', $row );
 				}
 
 			}
-		}
-		else {
+
+		} else {
+
 			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -1443,8 +1467,8 @@ class cnEntry {
 
 			if ( empty( $emailAddresses ) ) return $results;
 
-
 			foreach ( $emailAddresses as $email ) {
+
 				$email->id = (int) $email->id;
 				$email->order = (int) $email->order;
 				$email->preferred = (bool) $email->preferred;
@@ -1487,12 +1511,14 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setEmailAddresses( $emailAddresses ) {
-		global $connections;
-		$userPreferred = NULL;
 
+		global $connections;
+
+		$userPreferred = NULL;
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'address' => NULL, 'visibility' => NULL );
 
 		if ( ! empty( $emailAddresses ) ) {
+
 			$order = 0;
 			$preferred = '';
 
@@ -1502,19 +1528,20 @@ class cnEntry {
 			}
 
 			foreach ( $emailAddresses as $key => $email ) {
+
 				// First validate the supplied data.
 				$email = $this->validate->attributesArray( $validFields, $email );
 
 				// If the address is empty, no need to store it.
 				if ( empty( $email['address'] ) ) {
-					unset( $emailAddresses[$key] );
+					unset( $emailAddresses [ $key ] );
 					continue;
 				}
 
 				// Store the order attribute as supplied in the addresses array.
-				$emailAddresses[$key]['order'] = $order;
+				$emailAddresses[ $key ]['order'] = $order;
 
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $emailAddresses[$key]['preferred'] = TRUE : $emailAddresses[$key]['preferred'] = FALSE;
+				( ( isset( $preferred ) ) && $preferred == $key ) ? $emailAddresses[ $key ]['preferred'] = TRUE : $emailAddresses[ $key ]['preferred'] = FALSE;
 
 				/*
 				 * If the user set a perferred address, save the $key value.
@@ -1522,7 +1549,7 @@ class cnEntry {
 				 * does not have permission to edit is set to preferred, that address
 				 * will have preference.
 				 */
-				if ( $emailAddresses[$key]['preferred'] ) $userPreferred = $key;
+				if ( $emailAddresses[ $key ]['preferred'] ) $userPreferred = $key;
 
 				$order++;
 			}
@@ -1549,7 +1576,7 @@ class cnEntry {
 
 					// If the address is preferred, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $preferred ) && $email['preferred'] ) {
-						$emailAddresses[$userPreferred]['preferred'] = FALSE;
+						$emailAddresses[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
 						$connections->setErrorMessage( 'entry_preferred_overridden_email' );
@@ -1587,21 +1614,23 @@ class cnEntry {
 	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
 	 * @return array
 	 */
-	public function getIm( $suppliedAttr = array(), $cached = TRUE ) {
+	public function getIm( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+
 		global $connections;
+
 		$imIDs = array();
 		$results = array();
 
-		$suppliedAttr = apply_filters( 'cn_messenger_atts', $suppliedAttr );
+		$atts = apply_filters( 'cn_messenger_atts', $atts );
 		$cached = apply_filters( 'cn_messenger_cached' , $cached );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['preferred'] = FALSE;
-		$defaultAttr['type'] = NULL;
+		$defaults['preferred'] = FALSE;
+		$defaults['type'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1609,8 +1638,11 @@ class cnEntry {
 
 
 		if ( $cached ) {
+
 			if ( ! empty( $this->im ) ) {
+
 				$networks = unserialize( $this->im );
+
 				if ( empty( $networks ) ) return $results;
 
 				extract( $atts );
@@ -1621,6 +1653,7 @@ class cnEntry {
 				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
 
 				foreach ( (array) $networks as $key => $network ) {
+
 					/*
 					 * Previous versions stored empty arrays for IM IDs, check for an ID, continue if not found.
 					 */
@@ -1644,24 +1677,24 @@ class cnEntry {
 					 * Set the IM name based on type.
 					 */
 					$imTypes = $connections->options->getDefaultIMValues();
-					$row->name = $imTypes[$row->type];
+					$row->name = $imTypes[ $row->type ];
 
 					/*
 					 * // START -- Compatibility for previous versions.
 					 */
 					switch ( $row->type ) {
-					case 'AIM':
-						$row->type = 'aim';
-						break;
-					case 'Yahoo IM':
-						$row->type = 'yahoo';
-						break;
-					case 'Jabber / Google Talk':
-						$row->type = 'jabber';
-						break;
-					case 'Messenger':
-						$row->type = 'messenger';
-						break;
+						case 'AIM':
+							$row->type = 'aim';
+							break;
+						case 'Yahoo IM':
+							$row->type = 'yahoo';
+							break;
+						case 'Jabber / Google Talk':
+							$row->type = 'jabber';
+							break;
+						case 'Messenger':
+							$row->type = 'messenger';
+							break;
 					}
 
 					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
@@ -1680,14 +1713,15 @@ class cnEntry {
 					 */
 
 					// If the user does not have permission to view the IM ID, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) ) continue;
+					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_messenger_id', $row );
 				}
 
 			}
-		}
-		else {
+
+		} else {
+
 			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -1696,8 +1730,8 @@ class cnEntry {
 
 			if ( empty( $imIDs ) ) return $results;
 
-
 			foreach ( $imIDs as $network ) {
+
 				/*
 				 * This will probably forever give me headaches,
 				 * Previous versions stored the IM ID as id. Now that the data
@@ -1722,12 +1756,11 @@ class cnEntry {
 				$network->id = $userID;
 				$network->visibility = $this->format->sanitizeString( $network->visibility );
 
-
 				/*
 				 * Set the network name based on the network type.
 				 */
 				$imTypes = $connections->options->getDefaultIMValues();
-				$network->name = $imTypes[$network->type];
+				$network->name = $imTypes[ $network->type ];
 
 				$results[] = apply_filters( 'cn_messenger_id', $network );
 			}
@@ -1755,12 +1788,15 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setIm( $im ) {
+
 		global $connections;
+
 		$userPreferred = NULL;
 
 		$validFields = array( 'uid' => NULL, 'preferred' => NULL, 'type' => NULL, 'id' => NULL, 'visibility' => NULL );
 
-		if ( !empty( $im ) ) {
+		if ( ! empty( $im ) ) {
+
 			$order = 0;
 			$preferred = '';
 
@@ -1770,19 +1806,20 @@ class cnEntry {
 			}
 
 			foreach ( $im as $key => $network ) {
+
 				// First validate the supplied data.
 				$network = $this->validate->attributesArray( $validFields, $network );
 
 				// If the id is emty, no need to store it.
 				if ( empty( $network['id'] ) ) {
-					unset( $im[$key] );
+					unset( $im[ $key ] );
 					continue;
 				}
 
 				// Store the order attribute as supplied in the addresses array.
-				$im[$key]['order'] = $order;
+				$im[ $key ]['order'] = $order;
 
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $im[$key]['preferred'] = TRUE : $im[$key]['preferred'] = FALSE;
+				( ( isset( $preferred ) ) && $preferred == $key ) ? $im[ $key ]['preferred'] = TRUE : $im[ $key ]['preferred'] = FALSE;
 
 				/*
 				 * If the user set a perferred network, save the $key value.
@@ -1790,7 +1827,7 @@ class cnEntry {
 				 * does not have permission to edit is set to preferred that network
 				 * will have preference.
 				 */
-				if ( $im[$key]['preferred'] ) $userPreferred = $key;
+				if ( $im[ $key ]['preferred'] ) $userPreferred = $key;
 
 				$order++;
 			}
@@ -1803,7 +1840,9 @@ class cnEntry {
 		$cached = unserialize( $this->im );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $network ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */
@@ -1813,10 +1852,12 @@ class cnEntry {
 				 */
 
 				if ( ! $this->validate->userPermitted( $network['visibility'] ) ) {
+
 					$im[] = $network;
 
 					// If the network is preferred, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $preferred ) && $network['preferred'] ) {
+
 						$im[$userPreferred]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
@@ -1865,8 +1906,10 @@ class cnEntry {
 	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
 	 * @return array
 	 */
-	public function getSocialMedia( $suppliedAttr = array(), $cached = TRUE ) {
+	public function getSocialMedia( $suppliedAttr = array(), $cached = TRUE, $saving = FALSE ) {
+
 		global $connections;
+
 		$socialMediaIDs = array();
 		$results = array();
 
@@ -1886,7 +1929,9 @@ class cnEntry {
 		 */
 
 		if ( $cached ) {
+
 			if ( ! empty( $this->socialMedia ) ) {
+
 				$networks = unserialize( $this->socialMedia );
 				if ( empty( $networks ) ) return $results;
 
@@ -1937,14 +1982,15 @@ class cnEntry {
 					 */
 
 					// If the user does not have permission to view the social network, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) ) continue;
+					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_social_network', $row );
 				}
 
 			}
-		}
-		else {
+
+		} else {
+
 			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -1952,8 +1998,8 @@ class cnEntry {
 
 			if ( empty( $socialMedia ) ) return $results;
 
-
 			foreach ( $socialMedia as $network ) {
+
 				$network->id = (int) $network->id;
 				$network->order = (int) $network->order;
 				$network->preferred = (bool) $network->preferred;
@@ -1965,7 +2011,7 @@ class cnEntry {
 				 * Set the social network name based on the network type.
 				 */
 				$networkTypes = $connections->options->getDefaultSocialMediaValues();
-				$network->name = $networkTypes[$network->type];
+				$network->name = $networkTypes [$network->type ];
 
 				$results[] = apply_filters( 'cn_social_network', $network );
 			}
@@ -1995,12 +2041,15 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setSocialMedia( $socialNetworks ) {
+
 		global $connections;
+
 		$userPreferred = NULL;
 
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'url' => NULL, 'visibility' => NULL );
 
 		if ( ! empty( $socialNetworks ) ) {
+
 			$order = 0;
 			$preferred = '';
 
@@ -2010,22 +2059,25 @@ class cnEntry {
 			}
 
 			foreach ( $socialNetworks as $key => $network ) {
+
 				// First validate the supplied data.
 				$network = $this->validate->attributesArray( $validFields, $network );
 
 				// If the URL is empty, no need to save it.
 				if ( empty( $network['url'] ) || $network['url'] == 'http://' ) {
-					unset( $socialNetworks[$key] );
+
+					unset( $socialNetworks[ $key ] );
 					continue;
+
 				}
 
 				// if the http protocol is not part of the url, add it.
-				if ( preg_match( "/https?/" , $network['url'] ) == 0 ) $socialNetworks[$key]['url'] = 'http://' . $network['url'];
+				if ( preg_match( "/https?/" , $network['url'] ) == 0 ) $socialNetworks[ $key ]['url'] = 'http://' . $network['url'];
 
 				// Store the order attribute as supplied in the addresses array.
-				$socialNetworks[$key]['order'] = $order;
+				$socialNetworks[ $key ]['order'] = $order;
 
-				( ( ! empty( $preferred ) ) && $preferred == $key ) ? $socialNetworks[$key]['preferred'] = TRUE : $socialNetworks[$key]['preferred'] = FALSE;
+				( ( ! empty( $preferred ) ) && $preferred == $key ) ? $socialNetworks[ $key ]['preferred'] = TRUE : $socialNetworks[ $key ]['preferred'] = FALSE;
 
 				/*
 				 * If the user set a perferred network, save the $key value.
@@ -2033,9 +2085,10 @@ class cnEntry {
 				 * does not have permission to edit is set to preferred, that network
 				 * will have preference.
 				 */
-				if ( $socialNetworks[$key]['preferred'] ) $userPreferred = $key;
+				if ( $socialNetworks[ $key ]['preferred'] ) $userPreferred = $key;
 
 				$order++;
+
 			}
 		}
 
@@ -2046,7 +2099,9 @@ class cnEntry {
 		$cached = unserialize( $this->socialMedia );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $network ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */
@@ -2057,14 +2112,17 @@ class cnEntry {
 
 				// Add back to the data array the networks that user does not have permission to view and edit.
 				if ( ! $this->validate->userPermitted( $network['visibility'] ) ) {
+
 					$socialNetworks[] = $network;
 
 					// If the network is preferred, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $preferred ) && $network['preferred'] ) {
-						$socialNetworks[$userPreferred]['preferred'] = FALSE;
+
+						$socialNetworks[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
 						$connections->setErrorMessage( 'entry_preferred_overridden_social' );
+
 					}
 				}
 			}
@@ -2099,30 +2157,34 @@ class cnEntry {
 	 * @param bool    $cached       Returns the cached link data rather than querying the db.
 	 * @return array
 	 */
-	public function getLinks( $suppliedAttr = array(), $cached = TRUE ) {
+	public function getLinks( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+
 		global $connections;
+
 		$linkIDs = array();
 		$results = array();
 
-		$suppliedAttr = apply_filters( 'cn_link_atts', $suppliedAttr );
+		$atts = apply_filters( 'cn_link_atts', $atts );
 		$cached = apply_filters( 'cn_link_cached' , $cached );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['preferred'] = FALSE;
-		$defaultAttr['type'] = NULL;
-		$defaultAttr['image'] = FALSE;
-		$defaultAttr['logo'] = FALSE;
+		$defaults['preferred'] = FALSE;
+		$defaults['type'] = NULL;
+		$defaults['image'] = FALSE;
+		$defaults['logo'] = FALSE;
 
-		$atts = $this->validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
 		if ( $cached ) {
+
 			if ( ! empty( $this->links ) ) {
+
 				$links = unserialize( $this->links );
 				if ( empty( $links ) ) return $results;
 
@@ -2134,6 +2196,7 @@ class cnEntry {
 				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
 
 				foreach ( (array) $links as $key => $link ) {
+
 					$row = new stdClass();
 
 					( isset( $link['id'] ) ) ? $row->id = (int) $link['id'] : $row->id = 0;
@@ -2206,14 +2269,15 @@ class cnEntry {
 					 */
 
 					// If the user does not have permission to view the link, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) ) continue;
+					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_link', $row );
 				}
 
 			}
-		}
-		else {
+
+		} else {
+
 			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -2222,8 +2286,8 @@ class cnEntry {
 
 			if ( empty( $links ) ) return $results;
 
-
 			foreach ( $links as $link ) {
+
 				$link->id = (int) $link->id;
 				$link->order = (int) $link->order;
 				$link->preferred = (bool) $link->preferred;
@@ -2240,7 +2304,7 @@ class cnEntry {
 				 * Set the link name based on the link type.
 				 */
 				$linkTypes = $connections->options->getDefaultLinkValues();
-				$link->name = $linkTypes[$link->type];
+				$link->name = $linkTypes[ $link->type ];
 
 				/*
 				 * // START -- Compatibility for previous versions.
@@ -2261,17 +2325,17 @@ class cnEntry {
 				 * Set the link target string
 				 */
 				switch ( $link->target ) {
-				case 'same':
-					$row->target = '_self';
-					break;
+					case 'same':
+						$row->target = '_self';
+						break;
 
-				case 'new':
-					$row->target = '_blank';
-					break;
+					case 'new':
+						$row->target = '_blank';
+						break;
 
-				default:
-					$row->target = '_blank';
-					break;
+					default:
+						$row->target = '_blank';
+						break;
 				}
 
 				$results[] = apply_filters( 'cn_link', $link );
@@ -2292,15 +2356,16 @@ class cnEntry {
 	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
 	 * @return array
 	 */
-	public function getWebsites( $suppliedAttr = array(), $cached = TRUE ) {
+	public function getWebsites( $atts = array(), $cached = TRUE ) {
+
 		global $connections;
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['preferred'] = NULL;
+		$defaults['preferred'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
 		$atts['type'] = array( 'personal', 'website' ); // The 'personal' type is provided for legacy support. Versions 0.7.1.6 an older.
 		/*
@@ -2333,12 +2398,15 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setLinks( $links ) {
+
 		global $connections;
+
 		$userPreferred = NULL;
 
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'title' => NULL, 'url' => NULL, 'target' => NULL, 'follow' => NULL, 'visibility' => NULL );
 
 		if ( ! empty( $links ) ) {
+
 			$order = 0;
 			$preferred = FALSE;
 			$image = FALSE;
@@ -2360,29 +2428,30 @@ class cnEntry {
 			}
 
 			foreach ( $links as $key => $link ) {
+
 				// First validate the supplied data.
 				$link = $this->validate->attributesArray( $validFields, $link );
 
 				// If the URL is empty, no need to save it.
 				if ( empty( $link['url'] ) || $link['url'] == 'http://' ) {
-					unset( $links[$key] );
+					unset( $links[ $key ] );
 					continue;
 				}
 
 				// if the http protocol is not part of the url, add it.
-				if ( preg_match( "/https?/" , $link['url'] ) == 0 ) $links[$key]['url'] = 'http://' . $link['url'];
+				if ( preg_match( "/https?/" , $link['url'] ) == 0 ) $links[ $key ]['url'] = 'http://' . $link['url'];
 
 				// Store the order attribute as supplied in the addresses array.
-				$links[$key]['order'] = $order;
+				$links[ $key ]['order'] = $order;
 
 				// Convert the do/nofollow string to an (int) so it is dave properly in the db
-				( $link['follow'] == 'dofollow' ) ? $links[$key]['follow'] = 1 : $links[$key]['follow'] = 0;
+				( $link['follow'] == 'dofollow' ) ? $links[ $key ]['follow'] = 1 : $links[ $key ]['follow'] = 0;
 
-				( ( ! empty( $preferred ) ) && $preferred == $key ) ? $links[$key]['preferred'] = TRUE : $links[$key]['preferred'] = FALSE;
+				( ( ! empty( $preferred ) ) && $preferred == $key ) ? $links[ $key ]['preferred'] = TRUE : $links[ $key ]['preferred'] = FALSE;
 
-				( ( ! empty( $image ) ) && $image == $key ) ? $links[$key]['image'] = TRUE : $links[$key]['image'] = FALSE;
+				( ( ! empty( $image ) ) && $image == $key ) ? $links[ $key ]['image'] = TRUE : $links[ $key ]['image'] = FALSE;
 
-				( ( ! empty( $logo ) ) && $logo == $key ) ? $links[$key]['logo'] = TRUE : $links[$key]['logo'] = FALSE;
+				( ( ! empty( $logo ) ) && $logo == $key ) ? $links[ $key ]['logo'] = TRUE : $links[ $key ]['logo'] = FALSE;
 
 				/*
 				 * If the user set a preferred network, save the $key value.
@@ -2390,9 +2459,9 @@ class cnEntry {
 				 * does not have permission to edit is set to preferred, that network
 				 * will have preference.
 				 */
-				if ( $links[$key]['preferred'] ) $userPreferred = $key;
-				if ( $links[$key]['image'] ) $userImage = $key;
-				if ( $links[$key]['logo'] ) $userLogo = $key;
+				if ( $links[ $key ]['preferred'] ) $userPreferred = $key;
+				if ( $links[ $key ]['image'] ) $userImage = $key;
+				if ( $links[ $key ]['logo'] ) $userLogo = $key;
 
 				$order++;
 			}
@@ -2405,7 +2474,9 @@ class cnEntry {
 		$cached = unserialize( $this->links );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $link ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */
@@ -2420,7 +2491,7 @@ class cnEntry {
 
 					// If the network is preferred, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $preferred ) && $link['preferred'] ) {
-						$links[$userPreferred]['preferred'] = FALSE;
+						$links[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
 						$connections->setErrorMessage( 'entry_preferred_overridden_link' );
@@ -2428,14 +2499,14 @@ class cnEntry {
 
 					// If the link is already assigned to an image, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $image ) && $link['image'] ) {
-						$links[$userImage]['image'] = FALSE;
+						$links[ $userImage ]['image'] = FALSE;
 
 						// @TODO Create error message for the user.
 					}
 
 					// If the link is already assigned to an image, it takes precedence, so the user's choice is overriden.
 					if ( ! empty( $logo ) && $link['logo'] ) {
-						$links[$userLogo]['logo'] = FALSE;
+						$links[ $userLogo ]['logo'] = FALSE;
 
 						// @TODO Create error message for the user.
 					}
@@ -2475,21 +2546,23 @@ class cnEntry {
 	 * @param bool    $cached       Returns the cached date data rather than querying the db.
 	 * @return array
 	 */
-	public function getDates( $suppliedAttr = array(), $cached = TRUE ) {
+	public function getDates( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+
 		global $connections;
+
 		$dates = array();
 		$results = array();
 
-		$suppliedAttr = apply_filters( 'cn_date_atts', $suppliedAttr );
+		$atts = apply_filters( 'cn_date_atts', $atts );
 		$cached = apply_filters( 'cn_date_cached' , $cached );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['preferred'] = FALSE;
-		$defaultAttr['type'] = NULL;
+		$defaults['preferred'] = FALSE;
+		$defaults['type'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2500,6 +2573,7 @@ class cnEntry {
 		 * for backward compatibility with versions 0.7.2.6 and older.
 		 */
 		if ( ! empty( $this->anniversary ) ) {
+
 			$anniversary =  new stdClass();
 
 			$anniversary->id = 0;
@@ -2530,7 +2604,9 @@ class cnEntry {
 		}
 
 		if ( $cached ) {
+
 			if ( ! empty( $this->dates ) ) {
+
 				$dates = unserialize( $this->dates );
 				if ( empty( $dates ) ) return $results;
 
@@ -2542,6 +2618,7 @@ class cnEntry {
 				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
 
 				foreach ( (array) $dates as $key => $date ) {
+
 					$row = new stdClass();
 
 					( isset( $date['id'] ) ) ? $row->id = (int) $date['id'] : $row->id = 0;
@@ -2550,7 +2627,6 @@ class cnEntry {
 					( isset( $date['type'] ) ) ? $row->type = $this->format->sanitizeString( $date['type'] ) : $row->type = 'homephone';
 					( isset( $date['date'] ) ) ? $row->date = $this->format->sanitizeString( $date['date'] ) : $row->date = '';
 					( isset( $date['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $date['visibility'] ) : $row->visibility = '';
-
 
 					/*
 					 * Set the date name based on the type.
@@ -2568,7 +2644,7 @@ class cnEntry {
 					 */
 
 					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) ) continue;
+					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					/*
 					 * If the date type is anniversary or birthday and the date is equal to the date
@@ -2586,8 +2662,8 @@ class cnEntry {
 				}
 
 			}
-		}
-		else {
+		} else {
+
 			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all dates will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -2595,8 +2671,8 @@ class cnEntry {
 
 			if ( empty( $dates ) ) return $results;
 
-
 			foreach ( $dates as $date ) {
+
 				$date->id = (int) $date->id;
 				$date->order = (int) $date->order;
 				$date->preferred = (bool) $date->preferred;
@@ -2608,7 +2684,7 @@ class cnEntry {
 				 * Set the date name based on the date type.
 				 */
 				$dateTypes = $connections->options->getDateOptions();
-				$date->name = $dateTypes[$date->type];
+				$date->name = $dateTypes[ $date->type ];
 
 				/*
 				 * If the date type is anniversary or birthday and the date is equal to the date
@@ -2656,7 +2732,9 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setDates( $dates ) {
+
 		global $connections;
+
 		$userPreferred = NULL;
 
 		/*
@@ -2668,6 +2746,7 @@ class cnEntry {
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'date' => NULL, 'visibility' => NULL );
 
 		if ( !empty( $dates ) ) {
+
 			$order = 0;
 			$preferred = '';
 
@@ -2677,19 +2756,20 @@ class cnEntry {
 			}
 
 			foreach ( $dates as $key => $date ) {
+
 				// First validate the supplied data.
 				$date = $this->validate->attributesArray( $validFields, $date );
 
 				// If the date is empty, no need to store it.
 				if ( empty( $date['date'] ) ) {
-					unset( $dates[$key] );
+					unset( $dates[ $key ] );
 					continue;
 				}
 
 				// Store the order attribute as supplied in the date array.
-				$dates[$key]['order'] = $order;
+				$dates[ $key ]['order'] = $order;
 
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $dates[$key]['preferred'] = TRUE : $dates[$key]['preferred'] = FALSE;
+				( ( isset( $preferred ) ) && $preferred == $key ) ? $dates[ $key ]['preferred'] = TRUE : $dates[ $key ]['preferred'] = FALSE;
 
 				/*
 				 * If the user set a perferred date, save the $key value.
@@ -2697,13 +2777,13 @@ class cnEntry {
 				 * does not have permission to edit is set to preferred, that date
 				 * will have preference.
 				 */
-				if ( $dates[$key]['preferred'] ) $userPreferred = $key;
+				if ( $dates[ $key ]['preferred'] ) $userPreferred = $key;
 
 				/*
 				 * Format the supplied date correctly for the table column:  YYYY-MM-DD
 				 */
 				$currentDate = date_create( $date['date'] );
-				$dates[$key]['date'] = date_format( $currentDate, 'Y-m-d' );
+				$dates[ $key ]['date'] = date_format( $currentDate, 'Y-m-d' );
 
 				/*
 				 * Check to see if the date is an anniversary or birthday and store them.
@@ -2711,27 +2791,27 @@ class cnEntry {
 				 * with version 0.7.2.6 and older.
 				 */
 				switch ( $date['type'] ) {
-				case 'anniversary':
+					case 'anniversary':
 
-					if ( empty( $anniversary ) ) {
-						$anniversary['month'] = date_format( $currentDate , 'm' );
-						$anniversary['day'] = date_format( $currentDate , 'd' );
+						if ( empty( $anniversary ) ) {
+							$anniversary['month'] = date_format( $currentDate , 'm' );
+							$anniversary['day'] = date_format( $currentDate , 'd' );
 
-						$this->setAnniversary( $anniversary['day'], $anniversary['month'] );
-					}
+							$this->setAnniversary( $anniversary['day'], $anniversary['month'] );
+						}
 
-					break;
+						break;
 
-				case 'birthday':
+					case 'birthday':
 
-					if ( empty( $birthday ) ) {
-						$birthday['month'] = date_format( $currentDate , 'm' );
-						$birthday['day'] = date_format( $currentDate , 'd' );
+						if ( empty( $birthday ) ) {
+							$birthday['month'] = date_format( $currentDate , 'm' );
+							$birthday['day'] = date_format( $currentDate , 'd' );
 
-						$this->setBirthday( $birthday['day'], $birthday['month'] );
-					}
+							$this->setBirthday( $birthday['day'], $birthday['month'] );
+						}
 
-					break;
+						break;
 				}
 
 				/*
@@ -2752,7 +2832,9 @@ class cnEntry {
 		$cached = unserialize( $this->dates );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $date ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */
@@ -2779,32 +2861,41 @@ class cnEntry {
 	}
 
 	public function getAnniversary( $format = 'F jS' ) {
+
 		if ( ! empty( $this->anniversary ) ) {
 			return $this->getUpcoming( 'anniversary', $format );
 		} else {
 			return '';
 		}
+
 	}
 
 	public function setAnniversary( $day, $month ) {
+
 		//Create the anniversary with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
 		( !empty( $day ) && !empty( $month ) ) ? $this->anniversary = gmmktime( 0, 0, 1, $month, $day, 1970 ) : $this->anniversary = NULL;
+
 	}
 
 	public function getBirthday( $format = 'F jS' ) {
+
 		if ( ! empty( $this->birthday ) ) {
 			return $this->getUpcoming( 'birthday', $format );
 		} else {
 			return '';
 		}
+
 	}
 
 	public function setBirthday( $day, $month ) {
+
 		//Create the birthday with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
 		( !empty( $day ) && !empty( $month ) ) ? $this->birthday = gmmktime( 0, 0, 1, $month, $day, 1970 ) : $this->birthday = NULL;
+
 	}
 
 	public function getUpcoming( $type, $format = 'F jS' ) {
+
 		global $connections;
 
 		if ( empty( $this->$type ) ) return '';
@@ -2817,23 +2908,32 @@ class cnEntry {
 		}
 
 		return gmdate( $format, $nextUDay );
+
 	}
 
 	public function getBio() {
+
 		return $this->format->sanitizeString( $this->bio, TRUE );
+
 	}
 
 	public function setBio( $bio ) {
+
 		$this->bio = $bio;
+
 	}
 
 	public function getNotes() {
+
 		//return $this->notes;
 		return $this->format->sanitizeString( $this->notes, TRUE );
+
 	}
 
 	public function setNotes( $notes ) {
+
 		$this->notes = $notes;
+
 	}
 
 	/**
@@ -2848,6 +2948,7 @@ class cnEntry {
 	 * @return
 	 */
 	public function getExcerpt( $text = NULL ) {
+
 		if ( !isset( $text ) ) $text = $this->getBio();
 
 		$text = $this->format->sanitizeString( $text, FALSE );
@@ -2866,6 +2967,7 @@ class cnEntry {
 		}
 
 		return apply_filters( 'cn_trim_excerpt', $text );
+
 	}
 
 	/**
@@ -3269,18 +3371,19 @@ class cnEntry {
 		 * Only update the rest of the entry's data if the update to the ENTRY TABLE was successful.
 		 */
 		if ( $result !== FALSE ) {
+			
 			$where[] = 'WHERE 1=1';
 
 			/*
 			 * Retrieve entry details from the object caches
 			 */
-			$addresses = $this->getAddresses();
-			$phoneNumbers = $this->getPhoneNumbers();
-			$emailAddresses = $this->getEmailAddresses();
-			$imIDs = $this->getIm();
-			$socialNetworks = $this->getSocialMedia();
-			$links = $this->getLinks();
-			$dates = $this->getDates();
+			$addresses = $this->getAddresses( array(), TRUE, TRUE );
+			$phoneNumbers = $this->getPhoneNumbers( array(), TRUE, TRUE );
+			$emailAddresses = $this->getEmailAddresses( array(), TRUE, TRUE );
+			$imIDs = $this->getIm( array(), TRUE, TRUE );
+			$socialNetworks = $this->getSocialMedia( array(), TRUE, TRUE );
+			$links = $this->getLinks( array(), TRUE, TRUE );
+			$dates = $this->getDates( array(), TRUE, TRUE );
 
 			/*
 			 * Create a sql segment for the entry ID that can be used in the queries.
@@ -3934,13 +4037,13 @@ class cnEntry {
 		$connections->lastInsertID = $wpdb->insert_id;
 
 		if ( $result !== FALSE ) {
-			$addresses = $this->getAddresses();
-			$phoneNumbers = $this->getPhoneNumbers();
-			$emailAddresses = $this->getEmailAddresses();
-			$imIDs = $this->getIm();
-			$socialNetworks = $this->getSocialMedia();
-			$links = $this->getLinks();
-			$dates = $this->getDates();
+			$addresses = $this->getAddresses( array(), TRUE, TRUE );
+			$phoneNumbers = $this->getPhoneNumbers( array(), TRUE, TRUE );
+			$emailAddresses = $this->getEmailAddresses( array(), TRUE, TRUE );
+			$imIDs = $this->getIm( array(), TRUE, TRUE );
+			$socialNetworks = $this->getSocialMedia( array(), TRUE, TRUE );
+			$links = $this->getLinks( array(), TRUE, TRUE );
+			$dates = $this->getDates( array(), TRUE, TRUE );
 
 			if ( ! empty( $addresses ) ) {
 				foreach ( $addresses as $address ) {

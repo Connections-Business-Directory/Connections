@@ -205,6 +205,7 @@ class cnTemplate
 	public function load($slug)
 	{
 		$templatePaths = array(CN_CUSTOM_TEMPLATE_PATH, CN_TEMPLATE_PATH);
+		$template = new stdClass();
 		
 		foreach ($templatePaths as $templatePath)
 		{

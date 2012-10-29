@@ -418,7 +418,7 @@ class cnFormObjects {
 				echo '</ul>';
 			}
 			else {
-				_e( '<p>No updates at this time</p>', 'connections' );
+				'<p>' . _e( 'No updates at this time', 'connections' ) . '</p>';
 			}
 		}
 ?>
@@ -435,18 +435,18 @@ class cnFormObjects {
 	 * @return void
 	 */
 	public function metaboxBirthdayToday( $data = NULL ) {
-		$message = create_function( '', 'return __("No Birthdays Today", "connections");' );
+		$message = create_function( '', 'return "' . __( 'No Birthdays Today', 'connections' ) . '";' );
 		add_filter( 'cn_upcoming_no_result_message', $message );
 
 		$atts = array(
-			'list_type' => 'birthday',
-			'days' => '0',
+			'list_type'        => 'birthday',
+			'days'             => '0',
 			'private_override' => FALSE,
-			'date_format' => 'F jS',
-			'show_lastname' => TRUE,
-			'list_title' => NULL,
-			'show_title' => FALSE,
-			'template' => 'dashboard-upcoming'
+			'date_format'      => 'F jS',
+			'show_lastname'    => TRUE,
+			'list_title'       => NULL,
+			'show_title'       => FALSE,
+			'template'         => 'dashboard-upcoming'
 		);
 
 		connectionsUpcomingList( $atts );
@@ -464,15 +464,15 @@ class cnFormObjects {
 	 */
 	public function metaboxBirthdayUpcoming( $data = NULL ) {
 		$atts = array(
-			'list_type' => 'birthday',
-			'days' => '30',
-			'include_today' => FALSE,
+			'list_type'        => 'birthday',
+			'days'             => '30',
+			'include_today'    => FALSE,
 			'private_override' => FALSE,
-			'date_format' => 'F jS',
-			'show_lastname' => TRUE,
-			'list_title' => NULL,
-			'show_title' => FALSE,
-			'template' => 'dashboard-upcoming'
+			'date_format'      => 'F jS',
+			'show_lastname'    => TRUE,
+			'list_title'       => NULL,
+			'show_title'       => FALSE,
+			'template'         => 'dashboard-upcoming'
 		);
 
 		connectionsUpcomingList( $atts );
@@ -486,18 +486,18 @@ class cnFormObjects {
 	 * @param array   $data
 	 */
 	public function metaboxAnniversaryToday( $data = NULL ) {
-		$message = create_function( '', 'return __("No Anniversaries Today", "connections");' );
+		$message = create_function( '', 'return "' . __( 'No Anniversaries Today', 'connections' ) . '";' );
 		add_filter( 'cn_upcoming_no_result_message', $message );
 
 		$atts = array(
-			'list_type' => 'anniversary',
-			'days' => '0',
+			'list_type'        => 'anniversary',
+			'days'             => '0',
 			'private_override' => FALSE,
-			'date_format' => 'F jS',
-			'show_lastname' => TRUE,
-			'list_title' => NULL,
-			'show_title' => FALSE,
-			'template' => 'dashboard-upcoming'
+			'date_format'      => 'F jS',
+			'show_lastname'    => TRUE,
+			'list_title'       => NULL,
+			'show_title'       => FALSE,
+			'template'         => 'dashboard-upcoming'
 		);
 
 		connectionsUpcomingList( $atts );
@@ -514,15 +514,15 @@ class cnFormObjects {
 	 */
 	public function metaboxAnniversaryUpcoming( $data = NULL ) {
 		$atts = array(
-			'list_type' => 'anniversary',
-			'days' => '30',
-			'include_today' => FALSE,
+			'list_type'        => 'anniversary',
+			'days'             => '30',
+			'include_today'    => FALSE,
 			'private_override' => FALSE,
-			'date_format' => 'F jS',
-			'show_lastname' => TRUE,
-			'list_title' => NULL,
-			'show_title' => FALSE,
-			'template' => 'dashboard-upcoming'
+			'date_format'      => 'F jS',
+			'show_lastname'    => TRUE,
+			'list_title'       => NULL,
+			'show_title'       => FALSE,
+			'template'         => 'dashboard-upcoming'
 		);
 
 		connectionsUpcomingList( $atts );
@@ -651,14 +651,14 @@ class cnFormObjects {
 		else $xml = __( 'No', 'connections' );
 
 ?>
-			<h4><strong>Version Information</strong></h4>
+			<h4><strong><?php _e( 'Version Information','connections' );?></strong></h4>
 
 			<ul class="settings">
 				<li>Connections: <?php echo $connections->options->getVersion() ?></li>
 				<li>Database: <?php echo $connections->options->getDBVersion() ?></li>
 			</ul>
 
-			<h4><strong>Server Configuration</strong></h4>
+			<h4><strong><?php _e( 'Server Configuration','connections' );?></strong></h4>
 
 			<ul class="settings">
 				<li><?php _e( 'Operating System', 'connections' ); ?> : <span><?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8?>&nbsp;Bit)</span></li>
@@ -679,7 +679,7 @@ class cnFormObjects {
 				<li><?php _e( 'PHP XML support', 'connections' ); ?> : <span><?php echo $xml; ?></span></li>
 			</ul>
 
-			<h4><strong>Graphic Library</strong></h4>
+			<h4><strong><?php _e( 'Graphic Library','connections' );?></strong></h4>
 
 		<?php
 
@@ -701,19 +701,19 @@ class cnFormObjects {
 
 ?>
 
-		<h4><strong>Folder Permissions</strong></h4>
+		<h4><strong><?php _e( 'Folder Permissions','connections' );?></strong></h4>
 
 		<?php
 
 		echo '<ul class="settings">';
-		echo '<li>' , __( 'Image Path Exists', 'connections' ) , ': ' , $convert->toYesNo( is_dir( CN_IMAGE_PATH ) ) , '</li>';
-		if ( is_dir( CN_IMAGE_PATH ) ) echo __( '<li>Image Path Writeable', 'connections' ) , ': ' , $convert->toYesNo( is_writeable( CN_IMAGE_PATH ) ) , '</li>';
+		echo '<li>' , __( 'Image Path Exists:', 'connections' ) , ' ',  $convert->toYesNo( is_dir( CN_IMAGE_PATH ) ) , '</li>';
+		if ( is_dir( CN_IMAGE_PATH ) ) echo '<li>' , __( 'Image Path Writeable:', 'connections' ) , ' ', $convert->toYesNo( is_writeable( CN_IMAGE_PATH ) ) , '</li>';
 
-		echo '<li>' , __( 'Template Path Exists', 'connections' ) , ': ' , $convert->toYesNo( is_dir( CN_CUSTOM_TEMPLATE_PATH ) ) , '</li>';
-		if ( is_dir( CN_CUSTOM_TEMPLATE_PATH ) ) echo '<li>' , __( 'Template Path Writeable', 'connections' ) , ': ' , $convert->toYesNo( is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) , '</li>';
+		echo '<li>' , __( 'Template Path Exists:', 'connections' ) , ' ', $convert->toYesNo( is_dir( CN_CUSTOM_TEMPLATE_PATH ) ) , '</li>';
+		if ( is_dir( CN_CUSTOM_TEMPLATE_PATH ) ) echo '<li>' , __( 'Template Path Writeable:', 'connections' ) , ' ' , $convert->toYesNo( is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) , '</li>';
 
-		echo '<li>' , __( 'Cache Path Exists', 'connections' ) , ': ' , $convert->toYesNo( is_dir( CN_CACHE_PATH ) ) , '</li>';
-		if ( is_dir( CN_CACHE_PATH ) ) echo '<li>' , __( 'Cache Path Writeable', 'connections' ) , ': ' , $convert->toYesNo( is_writeable( CN_CACHE_PATH ) ) , '</li>';
+		echo '<li>' , __( 'Cache Path Exists:', 'connections' ) , ' ', $convert->toYesNo( is_dir( CN_CACHE_PATH ) ) , '</li>';
+		if ( is_dir( CN_CACHE_PATH ) ) echo '<li>' , __( 'Cache Path Writeable:', 'connections' ) , ' ', $convert->toYesNo( is_writeable( CN_CACHE_PATH ) ) , '</li>';
 		echo '</ul>';
 	}
 
@@ -1240,7 +1240,7 @@ class cnFormObjects {
 		}
 
 		echo  '</div>';
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">Add Phone Number</a></p>';
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">' , __( 'Add Phone Number', 'connections' ) , '</a></p>';
 	}
 
 	/**

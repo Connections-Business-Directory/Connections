@@ -223,6 +223,7 @@ input#cn-search-submit {
 	box-sizing: border-box;
 	display: inline;
 	font-size: 12px;
+	height: auto;
 	line-height: 15px;
 	margin: 1px;
 	padding: 3px;

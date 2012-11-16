@@ -1843,7 +1843,7 @@ class cnOutput extends cnEntry
 	 */
 	public function getNotesBlock( $atts = array() ) {
 		global $wp_embed;
-		$notes = $wp_embed->run_shortcode( $this->getNotes() );
+		$notes = __( $wp_embed->run_shortcode( $this->getNotes() ) );
 
 		return "\n" . '<div class="note">' . do_shortcode( $notes ) . '</div>' . "\n";
 	}
@@ -1863,7 +1863,7 @@ class cnOutput extends cnEntry
 	 */
 	public function getBioBlock( $atts = array() ) {
 		global $wp_embed;
-		$bio = $wp_embed->run_shortcode( $this->getBio() );
+		$bio = __( $wp_embed->run_shortcode( $this->getBio() ) );
 
 		return "\n" . '<div class="bio">' . do_shortcode( $bio ) . '</div>' . "\n";
 	}

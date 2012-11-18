@@ -513,7 +513,7 @@ class cnTemplate
 			$queryVars = array();
 			
 			// Get page/post permalink.
-			$permalink = get_permalink();
+			$permalink = trailingslashit( get_permalink() );
 			
 			// Get the settings for the base of each data type to be used in the URL.
 			$base = get_option('connections_permalink');

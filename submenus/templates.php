@@ -113,7 +113,7 @@ function connectionsShowTemplatesPage() {
 				<tbody>
 					<tr>
 						<td class="install_template" colspan="3">
-							<h2>Install Template</h2>
+							<h2><?php _e( 'Install Template', 'connections' ); ?></h2>
 
 							<?php
 		$formAttr = array(
@@ -143,7 +143,7 @@ function connectionsShowTemplatesPage() {
 				<tbody>
 					<tr>
 						<td class="current_template" colspan="3">
-							<h2>Available Templates</h2>
+							<h2><?php _e( 'Available Templates', 'connections' ); ?></h2>
 						</td>
 					</tr>
 
@@ -203,7 +203,7 @@ function connectionsShowTemplatesPage() {
 
 ?>
 
-										<a class="activatelink" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $templates->$slug->name ); ?>'">Activate</a>
+										<a class="activatelink" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $templates->$slug->name ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
 
 										<?php
 				if ( isset( $deleteTokenURL ) ) {

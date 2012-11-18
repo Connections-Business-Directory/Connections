@@ -2903,7 +2903,7 @@ class cnEntry {
 	 * @since unknown
 	 * @version 1.0
 	 * @uses date_i18n()
-	 * @param  string $type   The date type to get, anniversary or borthday.
+	 * @param  string $type   The date type to get, anniversary or birthday.
 	 * @param  string $format The date format to show the date in. Use PHP date formatting.
 	 * @return string         The formatted date.
 	 */

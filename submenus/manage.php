@@ -278,7 +278,7 @@ function connectionsShowViewPage( $action = NULL ) {
 			echo $form->buildSelect(
 				'entry_type',
 				array(
-					'all' => __( 'Show All Enties', 'connections' ),
+					'all' => __( 'Show All Entries', 'connections' ),
 					'individual' => __( 'Show Individuals', 'connections' ),
 					'organization' => __( 'Show Organizations', 'connections' ),
 					'family' => __( 'Show Families', 'connections' )

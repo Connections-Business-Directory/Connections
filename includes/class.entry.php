@@ -2894,6 +2894,19 @@ class cnEntry {
 
 	}
 
+	/**
+	 * Get the date of the entry's next anniversary or birthday. If the date of the anniversary or birthday has not
+	 * yet occured in the current year, the current year will be used. If the date has already passed in the current
+	 * year the next year will be used.
+	 *
+	 * @access public
+	 * @since unknown
+	 * @version 1.0
+	 * @uses date_i18n()
+	 * @param  string $type   The date type to get, anniversary or borthday.
+	 * @param  string $format The date format to show the date in. Use PHP date formatting.
+	 * @return string         The formatted date.
+	 */
 	public function getUpcoming( $type, $format = 'F jS' ) {
 
 		global $connections;
@@ -2907,7 +2920,7 @@ class cnEntry {
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $connections->options->wpCurrentTime ) );
 		}
 
-		return gmdate( $format, $nextUDay );
+		return date_i18n( $format, $nextUDay );
 
 	}
 

@@ -85,7 +85,7 @@
  */
 #cn-list span.social-media-block { display: block; margin-bottom: 10px; }
 #cn-list span.social-media-block a { margin: 0; padding: 0; }
-#cn-list span.social-media-block img { margin: 0; padding: 0; max-height: none; max-width: none; width: auto; }
+#cn-list span.social-media-block img { border: none; margin: 0; padding: 0; max-height: none; max-width: none; width: auto; }
 #cn-list span.social-media-network { display: inline-block; margin: 0 1px; }
 
 /*

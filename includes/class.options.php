@@ -241,21 +241,20 @@ class cnOptions {
 	 */
 	public function getDefaultCapabilities() {
 		return array(
-			'connections_view_dashboard' => __( 'View Dashboard', 'connections' ),
-			'connections_manage' => __( 'View List (Manage)', 'connections' ),
-			'connections_add_entry' => __( 'Add Entry', 'connections' ),
-			'connections_add_entry_moderated' => __( 'Add Entry Moderated', 'connections' ),
-			'connections_edit_entry' => __( 'Edit Entry', 'connections' ),
+			'connections_view_dashboard'       => __( 'View Dashboard', 'connections' ),
+			'connections_manage'               => __( 'View List (Manage)', 'connections' ),
+			'connections_add_entry'            => __( 'Add Entry', 'connections' ),
+			'connections_add_entry_moderated'  => __( 'Add Entry Moderated', 'connections' ),
+			'connections_edit_entry'           => __( 'Edit Entry', 'connections' ),
 			'connections_edit_entry_moderated' => __( 'Edit Entry Moderated', 'connections' ),
-			'connections_delete_entry' => __( 'Delete Entry', 'connections' ),
-			'connections_view_public' => __( 'View Public Entries', 'connections' ),
-			'connections_view_private' => __( 'View Private Entries', 'connections' ),
-			'connections_view_unlisted' => __( 'View Unlisted Entries', 'connections' ),
-			'connections_edit_categories' => __( 'Edit Categories', 'connections' ),
-			'connections_change_settings' => __( 'Change Settings', 'connections' ),
-			'connections_manage_template' => __( 'Manage Templates', 'connections' ),
-			'connections_change_roles' => __( 'Change Role Capabilities', 'connections' )/*,
-			'connections_view_help' => __('View Help', 'connections')*/
+			'connections_delete_entry'         => __( 'Delete Entry', 'connections' ),
+			'connections_view_public'          => __( 'View Public Entries', 'connections' ),
+			'connections_view_private'         => __( 'View Private Entries', 'connections' ),
+			'connections_view_unlisted'        => __( 'View Unlisted Entries', 'connections' ),
+			'connections_edit_categories'      => __( 'Edit Categories', 'connections' ),
+			'connections_change_settings'      => __( 'Change Settings', 'connections' ),
+			'connections_manage_template'      => __( 'Manage Templates', 'connections' ),
+			'connections_change_roles'         => __( 'Change Role Capabilities', 'connections' )
 		);
 	}
 
@@ -855,38 +854,38 @@ class cnOptions {
 	 */
 	public function getDefaultFamilyRelationValues() {
 		return array(
-			'' => __( 'Select Relation', 'connections' ),
-			'aunt' => __( 'Aunt', 'connections' ),
-			'brother' => __( 'Brother', 'connections' ),
-			'brotherinlaw' => __( 'Brother-in-law', 'connections' ),
-			'cousin' => __( 'Cousin', 'connections' ),
-			'daughter' => __( 'Daughter', 'connections' ),
-			'daughterinlaw' => __( 'Daughter-in-law', 'connections' ),
-			'father' => __( 'Father', 'connections' ),
-			'fatherinlaw' => __( 'Father-in-law', 'connections' ),
-			'granddaughter' => __( 'Grand Daughter', 'connections' ),
-			'grandfather' => __( 'Grand Father', 'connections' ),
-			'grandmother' => __( 'Grand Mother', 'connections' ),
-			'grandson' => __( 'Grand Son', 'connections' ),
+			''                 => __( 'Select Relation', 'connections' ),
+			'aunt'             => __( 'Aunt', 'connections' ),
+			'brother'          => __( 'Brother', 'connections' ),
+			'brotherinlaw'     => __( 'Brother-in-law', 'connections' ),
+			'cousin'           => __( 'Cousin', 'connections' ),
+			'daughter'         => __( 'Daughter', 'connections' ),
+			'daughterinlaw'    => __( 'Daughter-in-law', 'connections' ),
+			'father'           => __( 'Father', 'connections' ),
+			'fatherinlaw'      => __( 'Father-in-law', 'connections' ),
+			'granddaughter'    => __( 'Grand Daughter', 'connections' ),
+			'grandfather'      => __( 'Grand Father', 'connections' ),
+			'grandmother'      => __( 'Grand Mother', 'connections' ),
+			'grandson'         => __( 'Grand Son', 'connections' ),
 			'greatgrandmother' => __( 'Great Grand Mother', 'connections' ),
 			'greatgrandfather' => __( 'Great Grand Father', 'connections' ),
-			'husband' => __( 'Husband', 'connections' ),
-			'mother' => __( 'Mother', 'connections' ),
-			'motherinlaw' => __( 'Mother-in-law', 'connections' ),
-			'nephew' => __( 'Nephew', 'connections' ),
-			'niece' => __( 'Niece', 'connections' ),
-			'sister' => __( 'Sister', 'connections' ),
-			'sisterinlaw' => __( 'Sister-in-law', 'connections' ),
-			'son' => __( 'Son', 'connections' ),
-			'soninlaw' => __( 'Son-in-law', 'connections' ),
-			'stepbrother' => __( 'Step Brother', 'connections' ),
-			'stepdaughter' => __( 'Step Daughter', 'connections' ),
-			'stepfather' => __( 'Step Father', 'connections' ),
-			'stepmother' => __( 'Step Mother', 'connections' ),
-			'stepsister' => __( 'Step Sister', 'connections' ),
-			'stepson' => __( 'Step Son', 'connections' ),
-			'uncle' => __( 'Uncle', 'connections' ),
-			'wife' => __( 'Wife', 'connections' )
+			'husband'          => __( 'Husband', 'connections' ),
+			'mother'           => __( 'Mother', 'connections' ),
+			'motherinlaw'      => __( 'Mother-in-law', 'connections' ),
+			'nephew'           => __( 'Nephew', 'connections' ),
+			'niece'            => __( 'Niece', 'connections' ),
+			'sister'           => __( 'Sister', 'connections' ),
+			'sisterinlaw'      => __( 'Sister-in-law', 'connections' ),
+			'son'              => __( 'Son', 'connections' ),
+			'soninlaw'         => __( 'Son-in-law', 'connections' ),
+			'stepbrother'      => __( 'Step Brother', 'connections' ),
+			'stepdaughter'     => __( 'Step Daughter', 'connections' ),
+			'stepfather'       => __( 'Step Father', 'connections' ),
+			'stepmother'       => __( 'Step Mother', 'connections' ),
+			'stepsister'       => __( 'Step Sister', 'connections' ),
+			'stepson'          => __( 'Step Son', 'connections' ),
+			'uncle'            => __( 'Uncle', 'connections' ),
+			'wife'             => __( 'Wife', 'connections' )
 		);
 	}
 
@@ -913,10 +912,10 @@ class cnOptions {
 	 */
 	public function getDefaultAddressValues() {
 		$defaultAddressValues = array(
-			'home' => __( 'Home' , 'connections' ),
-			'work' => __( 'Work' , 'connections' ),
+			'home'   => __( 'Home' , 'connections' ),
+			'work'   => __( 'Work' , 'connections' ),
 			'school' => __( 'School' , 'connections' ),
-			'other' => __( 'Other' , 'connections' )
+			'other'  => __( 'Other' , 'connections' )
 		);
 
 		return $defaultAddressValues;
@@ -932,10 +931,10 @@ class cnOptions {
 	public function getDefaultPhoneNumberValues() {
 		$defaultPhoneNumberValues = array(
 			'homephone' => __( 'Home Phone' , 'connections' ),
-			'homefax' => __( 'Home Fax' , 'connections' ),
+			'homefax'   => __( 'Home Fax' , 'connections' ),
 			'cellphone' => __( 'Cell Phone' , 'connections' ),
 			'workphone' => __( 'Work Phone' , 'connections' ),
-			'workfax' => __( 'Work Fax' , 'connections' )
+			'workfax'   => __( 'Work Fax' , 'connections' )
 		);
 
 		return $defaultPhoneNumberValues;
@@ -950,29 +949,29 @@ class cnOptions {
 	 */
 	public function getDefaultSocialMediaValues() {
 		return array(
-			'delicious' => 'delicious',
-			'cdbaby' => 'CD Baby',
-			'facebook' => 'Facebook',
-			'flickr' => 'Flickr',
-			'foursquare' => 'foursquare',
-			'googleplus' => 'Google+',
-			'itunes' => 'iTunes',
-			'linked-in' => 'Linked-in',
-			'mixcloud' => 'mixcloud',
-			'myspace' => 'MySpace',
+			'delicious'     => 'delicious',
+			'cdbaby'        => 'CD Baby',
+			'facebook'      => 'Facebook',
+			'flickr'        => 'Flickr',
+			'foursquare'    => 'foursquare',
+			'googleplus'    => 'Google+',
+			'itunes'        => 'iTunes',
+			'linked-in'     => 'Linked-in',
+			'mixcloud'      => 'mixcloud',
+			'myspace'       => 'MySpace',
 			'odnoklassniki' => 'Odnoklassniki',
-			'pinterest' => 'Pinterest',
-			'podcast' => 'Podcast',
-			'reverbnation' => 'ReverbNation',
-			'rss' => 'RSS',
-			'soundcloud' => 'SoundCloud',
-			'technorati' => 'Technorati',
-			'tripadvisor' => 'TripAdvisor',
-			'twitter' => 'Twitter',
-			'vimeo' => 'vimeo',
-			'vk' => 'VK',
-			'youtube' => 'YouTube'
-
+			'pinterest'     => 'Pinterest',
+			'podcast'       => 'Podcast',
+			'reverbnation'  => 'ReverbNation',
+			'rss'           => 'RSS',
+			'soundcloud'    => 'SoundCloud',
+			'technorati'    => 'Technorati',
+			'tripadvisor'   => 'TripAdvisor',
+			'twitter'       => 'Twitter',
+			'vimeo'         => 'vimeo',
+			'vk'            => 'VK',
+			'yelp'          => 'Yelp',
+			'youtube'       => 'YouTube'
 		);
 	}
 
@@ -985,12 +984,12 @@ class cnOptions {
 	 */
 	public function getDefaultIMValues() {
 		return array(
-			'aim'=>'AIM',
-			'yahoo'=>'Yahoo IM',
-			'jabber'=>'Jabber / Google Talk',
-			'messenger'=>'Messenger',
-			'skype' => 'Skype',
-			'icq' => 'ICQ'
+			'aim'       => 'AIM',
+			'yahoo'     => 'Yahoo IM',
+			'jabber'    => 'Jabber / Google Talk',
+			'messenger' => 'Messenger',
+			'skype'     => 'Skype',
+			'icq'       => 'ICQ'
 		);
 	}
 
@@ -1004,7 +1003,7 @@ class cnOptions {
 	public function getDefaultEmailValues() {
 		$defaultEmailValues = array(
 			'personal' => __( 'Personal Email' , 'connections' ),
-			'work' => __( 'Work Email' , 'connections' )
+			'work'     => __( 'Work Email' , 'connections' )
 		);
 
 		return $defaultEmailValues;
@@ -1020,7 +1019,7 @@ class cnOptions {
 	public function getDefaultLinkValues() {
 		$defaultLinkValues = array(
 			'website' => __( 'Website' , 'connections' ),
-			'blog' => __( 'Blog' , 'connections' )
+			'blog'    => __( 'Blog' , 'connections' )
 		);
 
 		return $defaultLinkValues;
@@ -1035,16 +1034,16 @@ class cnOptions {
 	 */
 	public function getDateOptions() {
 		$dateOptions = array(
-			'anniversary' => __( 'Anniversary' , 'connections' ),
-			'baptism' => __( 'Baptism' , 'connections' ),
-			'birthday' => __( 'Birthday' , 'connections' ),
-			'deceased' => __( 'Deceased' , 'connections' ),
-			'certification' => __( 'Certification' , 'connections' ),
-			'employment' => __( 'Employment' , 'connections' ),
-			'membership' => __( 'Membership' , 'connections' ),
+			'anniversary'          => __( 'Anniversary' , 'connections' ),
+			'baptism'              => __( 'Baptism' , 'connections' ),
+			'birthday'             => __( 'Birthday' , 'connections' ),
+			'deceased'             => __( 'Deceased' , 'connections' ),
+			'certification'        => __( 'Certification' , 'connections' ),
+			'employment'           => __( 'Employment' , 'connections' ),
+			'membership'           => __( 'Membership' , 'connections' ),
 			'graduate_high_school' => __( 'Graduate High School' , 'connections' ),
-			'graduate_college' => __( 'Graduate College' , 'connections' ),
-			'ordination' => __( 'Ordination' , 'connections' )
+			'graduate_college'     => __( 'Graduate College' , 'connections' ),
+			'ordination'           => __( 'Ordination' , 'connections' )
 		);
 
 		return $dateOptions;

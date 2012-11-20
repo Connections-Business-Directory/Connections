@@ -43,8 +43,18 @@ function connectionsView( $atts , $content = NULL )
 	 */
 	if ( ( ! is_user_logged_in() && ! $connections->options->getAllowPublic() ) && ! ( $connections->options->getAllowPublicOverride() || $connections->options->getAllowPrivateOverride() ) )
 	{
-		$out = '<p>' . $connections->settings->get('connections', 'connections_login', 'message') . '</p>';
-		return $out;
+		$message = $connections->settings->get( 'connections', 'connections_login', 'message' );
+
+		// Format and texturize the message.
+		$message = wptexturize( wpautop( $message ) );
+
+		// Make any links and such clickable.
+		$message = make_clickable( $message );
+
+		// Apply the shortcodes.
+		$message = do_shortcode( $message );
+
+		return $message;
 	}
 	
 	$view = get_query_var('cn-view');

@@ -276,9 +276,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
 			define( 'CN_URL', plugin_dir_url( __FILE__ ) );
 
-			define( 'CN_TEMPLATE_PATH', CN_PATH . '/templates' );
-			define( 'CN_TEMPLATE_URL', CN_URL . 'templates' );
-			define( 'CN_CACHE_PATH', CN_PATH . '/cache' );
+			define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates/' );
+			define( 'CN_TEMPLATE_URL', CN_URL . 'templates/' );
+			define( 'CN_CACHE_PATH', CN_PATH . 'cache/' );
 		}
 
 		private function loadDependencies() {

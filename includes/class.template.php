@@ -104,61 +104,55 @@ class cnTemplate
 		$templatePaths = array( CN_TEMPLATE_PATH , CN_CUSTOM_TEMPLATE_PATH );
 		$templates = new stdClass();
 		
-		foreach ($templatePaths as $templatePath)
+		foreach ( $templatePaths as $templatePath )
 		{
-			if ( ! is_dir($templatePath . '/') && ! is_readable($templatePath . '/') ) continue;
+			if ( ! is_dir( $templatePath ) && ! is_readable( $templatePath ) ) continue;
 			
-			if ( ! $templateDirectories = @opendir($templatePath) ) continue;
+			if ( ! $templateDirectories = @opendir( $templatePath ) ) continue;
 			//var_dump($templatePath);
 			
 			//$templateDirectories = opendir($templatePath);
 						
 			while ( ( $templateDirectory = readdir($templateDirectories) ) !== FALSE )
 			{
-				if ( is_dir($templatePath . '/' . $templateDirectory) && is_readable($templatePath . '/' . $templateDirectory) )
+				if ( is_dir ( $templatePath . $templateDirectory ) && is_readable( $templatePath . $templateDirectory ) )
 				{
-					if ( file_exists($templatePath . '/' . $templateDirectory . '/meta.php') &&
-						 file_exists($templatePath . '/' . $templateDirectory . '/template.php') 
-						)
-					{
+					if ( file_exists( $templatePath . $templateDirectory . '/meta.php' ) && file_exists( $templatePath . $templateDirectory . '/template.php' ) ) {
+
 						$template = new stdClass();
-						include($templatePath . '/' . $templateDirectory . '/meta.php');
+						include( $templatePath . $templateDirectory . '/meta.php');
 						$template->slug = $templateDirectory;
 						
 						// Load the template metadate from the meta.php file
 						
-						if ( !isset($template->type) ) $template->type = 'all';
+						if ( ! isset($template->type) ) $template->type = 'all';
 						
 						$templates->{$template->type}->{$template->slug}->name = $template->name;
 						$templates->{$template->type}->{$template->slug}->version = $template->version;
 						$templates->{$template->type}->{$template->slug}->uri = 'http://' . $template->uri;
 						$templates->{$template->type}->{$template->slug}->author = $template->author;
-						( isset($template->description) ) ? $templates->{$template->type}->{$template->slug}->description = $template->description : $templates->{$template->type}->{$template->slug}->description = '';
+						( isset( $template->description ) ) ? $templates->{$template->type}->{$template->slug}->description = $template->description : $templates->{$template->type}->{$template->slug}->description = '';
 						
 						( ! isset($template->legacy) ) ? $templates->{$template->type}->{$template->slug}->legacy = TRUE : $templates->{$template->type}->{$template->slug}->legacy = $template->legacy;
 						$templates->{$template->type}->{$template->slug}->slug = $template->slug;
 						$templates->{$template->type}->{$template->slug}->custom = ( $templatePath === CN_TEMPLATE_PATH ) ? FALSE : TRUE;
-						$templates->{$template->type}->{$template->slug}->path = $templatePath . '/' . $templateDirectory;
-						$templates->{$template->type}->{$template->slug}->url = ( $templatePath === CN_TEMPLATE_PATH ) ? CN_TEMPLATE_URL . '/' . $template->slug : CN_CUSTOM_TEMPLATE_URL . '/' . $template->slug;
-						$templates->{$template->type}->{$template->slug}->file = $templatePath . '/' . $templateDirectory . '/template.php';
+						$templates->{$template->type}->{$template->slug}->path = $templatePath . $templateDirectory;
+						$templates->{$template->type}->{$template->slug}->url = ( $templatePath === CN_TEMPLATE_PATH ) ? CN_TEMPLATE_URL . $template->slug : CN_CUSTOM_TEMPLATE_URL . $template->slug;
+						$templates->{$template->type}->{$template->slug}->file = $templatePath . $templateDirectory . '/template.php';
 						
-						if ( file_exists( $templates->{$template->type}->{$template->slug}->path . '/' . 'styles.css' ) )
-						{
+						if ( file_exists( $templates->{$template->type}->{$template->slug}->path . '/' . 'styles.css' ) ) {
 							$templates->{$template->type}->{$template->slug}->cssPath = $templates->{$template->type}->{$template->slug}->path . '/' . 'styles.css';
 						}
 						
-						if ( file_exists( $templates->{$template->type}->{$template->slug}->path . '/' . 'template.js' ) )
-						{
+						if ( file_exists( $templates->{$template->type}->{$template->slug}->path . '/' . 'template.js' ) ) {
 							$templates->{$template->type}->{$template->slug}->jsPath = $templates->{$template->type}->{$template->slug}->path . '/' . 'template.js';
 						}
 						
-						if ( file_exists( $templates->{$template->type}->{$template->slug}->path . '/' . 'functions.php' ) )
-						{
+						if ( file_exists( $templates->{$template->type}->{$template->slug}->path . '/' . 'functions.php' ) ) {
 							$templates->{$template->type}->{$template->slug}->phpPath = $templates->{$template->type}->{$template->slug}->path . '/' . 'functions.php';
 						}
 						
-						if ( file_exists( $templates->{$template->type}->{$template->slug}->path . '/' . 'thumbnail.png' ) )
-						{
+						if ( file_exists( $templates->{$template->type}->{$template->slug}->path . '/' . 'thumbnail.png' ) ) {
 							$templates->{$template->type}->{$template->slug}->thumbnailPath = $templates->{$template->type}->{$template->slug}->path . '/' . 'thumbnail.png';
 							$templates->{$template->type}->{$template->slug}->thumbnailURL = $templates->{$template->type}->{$template->slug}->url . '/' . 'thumbnail.png';
 						}
@@ -185,12 +179,9 @@ class cnTemplate
 	 */
 	public function getCatalog($type)
 	{
-		if ($type !== 'all')
-		{
+		if ($type !== 'all') {
 			return (object) array_merge( (array) $this->catalog->all, (array) $this->catalog->$type);
-		}
-		else
-		{
+		} else {
 			return $this->catalog->$type;
 		}
 	}
@@ -204,20 +195,18 @@ class cnTemplate
 	 */	
 	public function load($slug)
 	{
-		$templatePaths = array(CN_CUSTOM_TEMPLATE_PATH, CN_TEMPLATE_PATH);
+		$templatePaths = array( CN_CUSTOM_TEMPLATE_PATH, CN_TEMPLATE_PATH );
 		$template = new stdClass();
 		
-		foreach ($templatePaths as $templatePath)
-		{
-			if ( is_dir($templatePath . '/' .  $slug) && is_readable($templatePath . '/' .  $slug) )
-			{
-				if ( file_exists($templatePath . '/' . $slug . '/meta.php') &&
-					 file_exists($templatePath . '/' . $slug . '/template.php' )
-					)
-				{
+		foreach ( $templatePaths as $templatePath ) {
+
+			if ( is_dir( $templatePath . $slug ) && is_readable( $templatePath . $slug ) ) {
+
+				if ( file_exists( $templatePath . $slug . '/meta.php' ) &&  file_exists( $templatePath . $slug . '/template.php' ) ) {
+
 					$this->slug = $slug;
-					$this->path = $templatePath . '/' .  $slug;
-					$this->url = ( $templatePath === CN_TEMPLATE_PATH ) ? CN_TEMPLATE_URL . '/' . $this->slug : CN_CUSTOM_TEMPLATE_URL . '/' . $this->slug;
+					$this->path = $templatePath . $slug;
+					$this->url = ( $templatePath === CN_TEMPLATE_PATH ) ? CN_TEMPLATE_URL . $this->slug : CN_CUSTOM_TEMPLATE_URL . $this->slug;
 					$this->file = $this->path . '/template.php';
 					
 					include( $this->path . '/meta.php' );
@@ -239,9 +228,7 @@ class cnTemplate
 					
 					break;
 				}
-			}
-			elseif ( is_file( $templatePath . '/' .  $slug . '.php' ) )
-			{
+			} elseif ( is_file( $templatePath . $slug . '.php' ) ) {
 				$this->slug = $slug;
 				$this->path = $templatePath;
 				$this->url = ( $templatePath === CN_TEMPLATE_PATH ) ? CN_TEMPLATE_URL : CN_CUSTOM_TEMPLATE_URL;
@@ -331,7 +318,7 @@ class cnTemplate
 	/**
 	 * Prints the template's JS in the theme's footer.
 	 * 
-	 * NOTE: As of WP3.3 simple using wp_enqueue_script() should work to print the script in the footer.
+	 * NOTE: As of WP3.3 simply using wp_enqueue_script() should work to print the script in the footer.
 	 */
 	public function printJS()
 	{
@@ -368,9 +355,8 @@ class cnTemplate
 	 */
 	private function includeFunctions()
 	{
-		if ( ! empty($this->phpPath) )
-		{
-			include_once($this->phpPath);
+		if ( ! empty( $this->phpPath ) ) {
+			include_once( $this->phpPath );
 		}
 	}
 	
@@ -390,11 +376,11 @@ class cnTemplate
 			'return' => FALSE
 		);
 		
-		$atts = wp_parse_args($atts, $defaults);
+		$atts = wp_parse_args( $atts, $defaults );
 		
 		$out = '<a href="#cn-top" title="' . __('Return to top.', 'connections') . '"><img src="' . CN_URL . 'images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/></a>';
 		
-		if ( $atts['return']) return $out;
+		if ( $atts['return'] ) return $out;
 		echo $out;
 	}
 	

@@ -1487,18 +1487,19 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @return void
 		 */
 		public function registerScripts() {
+
 			/*
 			 * If the Google Maps API is disabled, do not register it and change the dependencies of
 			 * both goMap and MarkerClusterer. Allowing the Google Maps API to be turned "off" provides
 			 * compatibility with themes and other plugins the enqueue Google Maps but do not provide a
-			 * method to disable it. So I will.
+			 * method to disable it. So I will, unless we're in the admin because the geocode function will
+			 * require it.
 			 */
-			if ( $this->options->getGoogleMapsAPI() ) {
+			if ( $this->options->getGoogleMapsAPI() || is_admin() ) {
 				wp_register_script( 'cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
 				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $this->options->getJavaScriptFooter() );
 				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
-			}
-			else {
+			} else {
 				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' ), '1.3.2', $this->options->getJavaScriptFooter() );
 				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
 			}
@@ -1507,7 +1508,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			wp_register_script( 'jquery-preloader', CN_URL . 'js/jquery.preloader.js', array( 'jquery' ), '1.1', $this->options->getJavaScriptFooter() );
 
 			// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
-			//wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $this->options->getJavaScriptFooter() );
+			// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $this->options->getJavaScriptFooter() );
 
 			wp_register_script( 'jquery-chosen-min', CN_URL . 'js/jquery.chosen-0.9.8.min.js', array( 'jquery' ), '0.9.8', $this->options->getJavaScriptFooter() );
 			wp_register_script( 'jquery-validate' , CN_URL . 'js/jquery.validate.min.js', array( 'jquery', 'jquery-form' ) , '1.9.0' , $this->options->getJavaScriptFooter() );

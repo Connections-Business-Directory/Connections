@@ -77,7 +77,10 @@ function connectionsView( $atts , $content = NULL )
 		// Show the entry detail using a template based on the entry type.
 		case 'detail':
 			
-			$results = $connections->retrieve->entries($atts);
+			// Ensure an array is passed the the cnRetrieve::entries method.
+			if ( ! is_array( $atts ) ) $atts = (array) $atts;
+
+			$results = $connections->retrieve->entries( $atts );
 			//var_dump($results);
 			
 			$atts['list_type'] = $results[0]->entry_type;

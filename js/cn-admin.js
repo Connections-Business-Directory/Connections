@@ -226,7 +226,8 @@ jQuery(document).ready(function($){
 				changeMonth: true,
 				changeYear: true,
 				showOtherMonths: true,
-				selectOtherMonths: true
+				selectOtherMonths: true,
+				yearRange: 'c-100:c+10'
 			});
 		});
 	}

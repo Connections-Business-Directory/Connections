@@ -198,7 +198,7 @@ function connectionsList($atts, $content = NULL) {
 	
 	// If no template was found, exit return an error message.
 	if ( ! isset( $template->file ) || empty( $template->file ) || ! is_file( $template->file ) )
-		return '<p style="color:red; font-weight:bold; text-align:center;">ERROR: Template "' . $preLoadAtts['template_name'] . $preLoadAtts['template'] . '" not found.</p>';
+		return '<p style="color:red; font-weight:bold; text-align:center;>' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $preLoadAtts['template_name'] . $preLoadAtts['template'] ). "</p>";
 	
 	/*
 	 * Now that the template has been loaded, Validate the user supplied shortcode atts.
@@ -516,7 +516,7 @@ function _upcoming_list( $atts, $content = NULL ) {
 	
 	// No template found retuen error message.
 	if ( ! isset( $template->file ) || empty( $template->file ) )
-		return '<p style="color:red; font-weight:bold; text-align:center;">ERROR: Template "' . $atts['template'] . '" not found.</p>'; 
+		return '<p style="color:red; font-weight:bold; text-align:center;>' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . "</p>";
 	
 	/*
 	 * Set the query vars and run query.

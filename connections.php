@@ -223,15 +223,24 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_CURRENT_VERSION', '0.7.3.1' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
+			/*
+			 * By default Connections will install and run as a single site install
+			 * on a multisite install. This requires manual activation on each sub-site.
+			 * 
+			 * To run Connections in multisite mode.
+			 * Add to wp-config.php: define('CN_MULTISITE_ENABLED', TRUE);
+			 *
+			 * @credit lancelot-du-lac
+			 * @url http://wordpress.org/support/topic/plugin-connections-support-multisite-in-single-mode
+			 */
+			if ( ! defined( 'CN_MULTISITE_ENABLED' ) ) define( 'CN_MULTISITE_ENABLED', FALSE );
+
 
 			/*
 			 * Enable support for multi-site file locations.
-			 *
-			 * @TODO The table prefixes will definitely need to be change to support the multisite db naming scheme
-			 *
-			 * NOTE: http://codex.wordpress.org/Determining_Plugin_and_Content_Directories#Available_Functions
+			 * @url http://codex.wordpress.org/Determining_Plugin_and_Content_Directories#Available_Functions
 			 */
-			if ( is_multisite() ) {
+			if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 				define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/' );
 				define( 'CN_IMAGE_BASE_URL', network_site_url( '/wp-content/blogs.dir/' . $blog_id . '/connection_images/' ) );
 				define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
@@ -244,13 +253,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/*
-			 * Goal: To run Connections on a multisite as single site mode.
-			 * Add to wp-config.php: define('CN_MULTISITE_ENABLED', TRUE);
-			 *
-			 * @credit lancelot-du-lac
-			 * @url http://wordpress.org/support/topic/plugin-connections-support-multisite-in-single-mode
+			 * Set the table prefix accordingly depedning if Connections is installed on a multisite WP installation.
 			 */
-			if ( ! defined( 'CN_MULTISITE_ENABLED' ) ) define( 'CN_MULTISITE_ENABLED', FALSE );
 			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->base_prefix : $wpdb->prefix;
 
 			define( 'CN_ENTRY_TABLE', $prefix . 'connections' );
@@ -267,31 +271,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy' );
 			define( 'CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships' );
 
-
-			//define('CN_ENTRY_TABLE', $wpdb->prefix . 'connections');
-			//define('CN_ENTRY_ADDRESS_TABLE', $wpdb->prefix . 'connections_address');
-			//define('CN_ENTRY_PHONE_TABLE', $wpdb->prefix . 'connections_phone');
-			//define('CN_ENTRY_EMAIL_TABLE', $wpdb->prefix . 'connections_email');
-			//define('CN_ENTRY_MESSENGER_TABLE', $wpdb->prefix . 'connections_messenger');
-			//define('CN_ENTRY_SOCIAL_TABLE', $wpdb->prefix . 'connections_social');
-			//define('CN_ENTRY_LINK_TABLE', $wpdb->prefix . 'connections_link');
-			//define('CN_ENTRY_DATE_TABLE', $wpdb->prefix . 'connections_date');
-
-			//define('CN_ENTRY_TABLE_META', $wpdb->prefix . 'connections_meta');
-			//define('CN_TERMS_TABLE', $wpdb->prefix . 'connections_terms');
-			//define('CN_TERM_TAXONOMY_TABLE', $wpdb->prefix . 'connections_term_taxonomy');
-			//define('CN_TERM_RELATIONSHIP_TABLE', $wpdb->prefix . 'connections_term_relationships');
-
 			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
 			define( 'CN_BASE_NAME', plugin_basename( __FILE__ ) );
 			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
 			define( 'CN_URL', plugin_dir_url( __FILE__ ) );
-			//define('CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/');
-			//define('CN_IMAGE_BASE_URL', content_url() . '/connection_images/');
+
 			define( 'CN_TEMPLATE_PATH', CN_PATH . '/templates' );
 			define( 'CN_TEMPLATE_URL', CN_URL . 'templates' );
-			//define('CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates');
-			//define('CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates');
 			define( 'CN_CACHE_PATH', CN_PATH . '/cache' );
 		}
 

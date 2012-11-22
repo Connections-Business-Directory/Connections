@@ -1284,7 +1284,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					'admin_notices',
 					create_function(
 						'',
-						'echo \'<div id="message" class="error"><p><strong>ERROR:</strong> The Connections directory home page has not been set. Please set it now on the Connections : Seetings page under the General tab.</p></div>\';'
+						'echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> The Connections directory home page has not been set. Please set it now on the Connections : Seetings page under the General tab.', 'connections' ) . '</p></div>\';'
 					)
 				);
 
@@ -1294,12 +1294,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Add admin notices if required directories are not present or not writeable.
 			 */
-			if ( ! file_exists( CN_IMAGE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/connection_images does not seem to exist. Please try deactivating and reactivating Connections.</p></div>\';' ) );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/connection_images does not seem to be writeable.</p></div>\';' ) );
-			if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/connections_templates does not seem to exist. Please try deactivating and reactivating Connections.</p></div>\';' ) );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/connections_templates does not seem to be writeable.</p></div>\';' ) );
-			if ( ! file_exists( CN_CACHE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to exist. Please try deactivating and reactivating Connections.</p></div>\';' ) );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p><strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to be writeable.</p></div>\';' ) );
+			if ( ! file_exists( CN_IMAGE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/connection_images does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) . '</p></div>\';' ) );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/connection_images does not seem to be writeable.', 'connections' ) . '</p></div>\';' ) );
+			if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/connections_templates does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) . '</p></div>\';' ) );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/connections_templates does not seem to be writeable.', 'connections' ) . '</p></div>\';' ) );
+			if ( ! file_exists( CN_CACHE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) . '</p></div>\';' ) );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to be writeable.', 'connections' ) . '</p></div>\';' ) );
 
 			// Calls the methods to load the admin scripts and CSS.
 			add_action( 'admin_print_scripts', array( &$this, 'loadAdminScripts' ) );

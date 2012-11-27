@@ -1716,56 +1716,56 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @return void
 		 */
 		public function showPage() {
+
 			if ( $this->dbUpgrade ) {
 				include_once dirname( __FILE__ ) . '/includes/inc.upgrade.php';
 				connectionsShowUpgradePage();
 				return;
 			}
 
-
 			switch ( $_GET['page'] ) {
-			case 'connections_dashboard':
-				include_once CN_PATH . '/submenus/dashboard.php';
-				connectionsShowDashboardPage();
-				break;
+				case 'connections_dashboard':
+					include_once CN_PATH . '/submenus/dashboard.php';
+					connectionsShowDashboardPage();
+					break;
 
-			case 'connections_manage':
-				include_once CN_PATH . '/submenus/manage.php';
-				( isset( $_GET['action'] ) && ! empty( $_GET['action'] ) ) ? $action = $_GET['action'] : $action = '';
+				case 'connections_manage':
+					include_once CN_PATH . '/submenus/manage.php';
+					( isset( $_GET['action'] ) && ! empty( $_GET['action'] ) ) ? $action = $_GET['action'] : $action = '';
 
-				connectionsShowViewPage( $action );
-				break;
+					connectionsShowViewPage( $action );
+					break;
 
-			case 'connections_add':
-				include_once CN_PATH . '/submenus/manage.php';
+				case 'connections_add':
+					include_once CN_PATH . '/submenus/manage.php';
 
-				connectionsShowViewPage( 'add' );
-				break;
+					connectionsShowViewPage( 'add' );
+					break;
 
-			case 'connections_categories':
-				include_once CN_PATH . '/submenus/categories.php';
-				connectionsShowCategoriesPage();
-				break;
+				case 'connections_categories':
+					include_once CN_PATH . '/submenus/categories.php';
+					connectionsShowCategoriesPage();
+					break;
 
-			case 'connections_settings':
-				include_once CN_PATH . '/submenus/settings.php';
-				connectionsShowSettingsPage();
-				break;
+				case 'connections_settings':
+					include_once CN_PATH . '/submenus/settings.php';
+					connectionsShowSettingsPage();
+					break;
 
-			case 'connections_templates':
-				include_once CN_PATH . '/submenus/templates.php';
-				connectionsShowTemplatesPage();
-				break;
+				case 'connections_templates':
+					include_once CN_PATH . '/submenus/templates.php';
+					connectionsShowTemplatesPage();
+					break;
 
-			case 'connections_roles':
-				include_once CN_PATH . '/submenus/roles.php';
-				connectionsShowRolesPage();
-				break;
+				case 'connections_roles':
+					include_once CN_PATH . '/submenus/roles.php';
+					connectionsShowRolesPage();
+					break;
 
-			case 'connections_help':
-				include_once CN_PATH . '/submenus/help.php';
-				connectionsShowHelpPage();
-				break;
+				case 'connections_help':
+					include_once CN_PATH . '/submenus/help.php';
+					connectionsShowHelpPage();
+					break;
 			}
 
 		}

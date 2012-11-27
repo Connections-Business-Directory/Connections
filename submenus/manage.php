@@ -765,4 +765,4 @@ function connectionsShowViewPage( $action = NULL ) {
 	</div>
 <?php
 }
-?>S
+?>

@@ -210,11 +210,11 @@ class cnValidate
 	    // test for IP address (IPv4)
 	    $regex = "^(https?|ftp|news|file)\:\/\/";
 	    $regex .= "([0-9]{1,3}\.[0-9]{1,3}\.)";
-	    if (eregi($regex, $url_local))
+	    if (ereg($regex, $url_local))
 	    {
 	        $regex = "^(https?|ftps)\:\/\/";
 	        $regex .= "([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})";
-	        if (!eregi($regex, $url_local)) {return false;}
+	        if (!ereg($regex, $url_local)) {return false;}
 	        $seg = preg_split('/[.\/]/', $url_local);
 	        if (($seg[2] > 255) || ($seg[3] > 255) || ($seg[4] > 255) || ($seg[5] > 255)) {return false;}
 	    }
@@ -246,7 +246,7 @@ class cnValidate
 	    $regex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?\$";
 	 
 	    // test it
-	    $is_valid = eregi($regex, $url_local) > 0;
+	    $is_valid = ereg($regex, $url_local) > 0;
 	 
 	    // final check for a TLD suffix
 	    if ($is_valid)

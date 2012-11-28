@@ -58,7 +58,7 @@ function connectionsView( $atts , $content = NULL ) {
 
 		case 'landing':
 			
-			return '<p>Future home of the landing pages, such a list of categories.</p>';
+			return '<p>' . __( 'Future home of the landing pages, such a list of categories.', 'connections' ) . '</p>';
 			
 			break;
 		

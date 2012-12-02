@@ -71,13 +71,11 @@ function processEntry( $data, $action ) {
 			$entry->setLogoLinked( TRUE );
 			$entry->setLogoDisplay( TRUE );
 			$entry->setLogoName( $logoProcessResults['name'] );
-		}
-		else {
+		} else {
 			$entry->setLogoLinked( FALSE );
 			$entry->setLogoDisplay( FALSE );
 		}
-	}
-	else {
+	} else {
 		// Don't do this if an entry is being updated.
 		if ( $action !== 'update' ) {
 			// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
@@ -94,33 +92,34 @@ function processEntry( $data, $action ) {
 	 * NOTE: This must come after the logo processing.
 	 */
 	if ( isset( $data['logoOptions'] ) ) {
+
 		switch ( $data['logoOptions'] ) {
-		case 'remove':
-			$entry->setLogoDisplay( FALSE );
-			$entry->setLogoLinked( FALSE );
+			case 'remove':
+				$entry->setLogoDisplay( FALSE );
+				$entry->setLogoLinked( FALSE );
 
-			/*
-				 * Delete logo assigned to the entry.
-				 */
-			if ( is_file( CN_IMAGE_PATH . $entry->getLogoName() ) ) {
-				@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
-			}
+				/*
+					 * Delete logo assigned to the entry.
+					 */
+				if ( is_file( CN_IMAGE_PATH . $entry->getLogoName() ) ) {
+					@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
+				}
 
-			$entry->setLogoName( NULL );
+				$entry->setLogoName( NULL );
 
-			break;
+				break;
 
-		case 'hidden':
-			$entry->setLogoDisplay( FALSE );
-			break;
+			case 'hidden':
+				$entry->setLogoDisplay( FALSE );
+				break;
 
-		case 'show':
-			$entry->setLogoDisplay( TRUE );
-			break;
+			case 'show':
+				$entry->setLogoDisplay( TRUE );
+				break;
 
-		default:
-			$entry->setLogoDisplay( FALSE );
-			break;
+			default:
+				$entry->setLogoDisplay( FALSE );
+				break;
 		}
 	}
 
@@ -166,13 +165,11 @@ function processEntry( $data, $action ) {
 			$entry->setImageNameCard( $image_proccess_results['image_names']['entry'] );
 			$entry->setImageNameProfile( $image_proccess_results['image_names']['profile'] );
 			$entry->setImageNameOriginal( $image_proccess_results['image_names']['original'] );
-		}
-		else {
+		} else {
 			$entry->setImageLinked( false );
 			$entry->setImageDisplay( false );
 		}
-	}
-	else {
+	} else {
 		// Don't do this if an entry is being updated.
 		if ( $action !== 'update' ) {
 			// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
@@ -188,121 +185,118 @@ function processEntry( $data, $action ) {
 	// If copying an entry, the image visibility property is set based on the user's choice.
 	// NOTE: This must come after the image processing.
 	if ( isset( $data['imgOptions'] ) ) {
+		
 		switch ( $data['imgOptions'] ) {
-		case 'remove':
-			$entry->setImageDisplay( false );
-			$entry->setImageLinked( false );
+			case 'remove':
+				$entry->setImageDisplay( false );
+				$entry->setImageLinked( false );
 
-			/*
-				 * Delete images assigned to the entry.
-				 *
-				 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
-				 * copying an entry so it was possible multiple entries could share the same image.
-				 * Only images created after the date that version .0.7.0.0 was released will be deleted,
-				 * plus a couple weeks for good measure.
-				 */
+				/*
+					 * Delete images assigned to the entry.
+					 *
+					 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
+					 * copying an entry so it was possible multiple entries could share the same image.
+					 * Only images created after the date that version .0.7.0.0 was released will be deleted,
+					 * plus a couple weeks for good measure.
+					 */
 
 
-			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
-				if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
+				if ( is_file( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
+					if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
+						@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
+					}
 				}
-			}
 
-			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
-				if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
+				if ( is_file( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
+					if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
+						@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
 
+					}
 				}
-			}
 
-			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
-				if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
+				if ( is_file( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
+					if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
+						@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
+					}
 				}
-			}
 
-			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
-				if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
+				if ( is_file( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
+					if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
+						@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
+					}
 				}
-			}
 
-			$entry->setImageNameOriginal( NULL );
-			$entry->setImageNameThumbnail( NULL );
-			$entry->setImageNameCard( NULL );
-			$entry->setImageNameProfile( NULL );
+				$entry->setImageNameOriginal( NULL );
+				$entry->setImageNameThumbnail( NULL );
+				$entry->setImageNameCard( NULL );
+				$entry->setImageNameProfile( NULL );
 
-			break;
+				break;
 
-		case 'hidden':
-			$entry->setImageDisplay( false );
-			break;
+			case 'hidden':
+				$entry->setImageDisplay( false );
+				break;
 
-		case 'show':
-			$entry->setImageDisplay( true );
-			break;
+			case 'show':
+				$entry->setImageDisplay( true );
+				break;
 
-		default:
-			$entry->setImageDisplay( false );
-			break;
+			default:
+				$entry->setImageDisplay( false );
+				break;
 		}
 	}
 
 	switch ( $action ) {
-	case 'add':
+		case 'add':
 
-		// Set moderation status per role capability assigned to the current user.
-		if ( current_user_can( 'connections_add_entry' ) ) {
-			$entry->setStatus( 'approved' );
-			$messageID = 'entry_added';
-		}
-		elseif ( current_user_can( 'connections_add_entry_moderated' ) ) {
-			$entry->setStatus( 'pending' );
-			$messageID = 'entry_added_moderated';
-		}
-		else {
-			$entry->setStatus( 'pending' );
-			$messageID = 'entry_added_moderated';
-		}
+			// Set moderation status per role capability assigned to the current user.
+			if ( current_user_can( 'connections_add_entry' ) ) {
+				$entry->setStatus( 'approved' );
+				$messageID = 'entry_added';
+			} elseif ( current_user_can( 'connections_add_entry_moderated' ) ) {
+				$entry->setStatus( 'pending' );
+				$messageID = 'entry_added_moderated';
+			} else {
+				$entry->setStatus( 'pending' );
+				$messageID = 'entry_added_moderated';
+			}
 
-		// Save the entry to the database. On fail store error message.
-		if ( $entry->save() == FALSE ) {
-			$connections->setErrorMessage( 'entry_added_failed' );
-			return FALSE;
-		}
-		else {
-			$connections->setSuccessMessage( $messageID );
-			$entryID = (int) $connections->lastInsertID;
-		}
-		break;
+			// Save the entry to the database. On fail store error message.
+			if ( $entry->save() == FALSE ) {
+				$connections->setErrorMessage( 'entry_added_failed' );
+				return FALSE;
+			} else {
+				$connections->setSuccessMessage( $messageID );
+				$entryID = (int) $connections->lastInsertID;
+			}
 
-	case 'update':
+			break;
 
-		// Set moderation status per role capability assigned to the current user.
-		if ( current_user_can( 'connections_edit_entry' ) ) {
-			$entry->setStatus( 'approved' );
-			$messageID = 'entry_updated';
-		}
-		elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-			$entry->setStatus( 'pending' );
-			$messageID = 'entry_updated_moderated';
-		}
-		else {
-			$entry->setStatus( 'pending' );
-			$messageID = 'entry_updated_moderated';
-		}
+		case 'update':
 
-		// Update the entry to the database. On fail store error message.
-		if ( $entry->update() == FALSE ) {
-			$connections->setErrorMessage( 'entry_updated_failed' );
-			return FALSE;
-		}
-		else {
-			$connections->setSuccessMessage( $messageID );
-			$entryID = (int) $entry->getId();
-		}
-		break;
+			// Set moderation status per role capability assigned to the current user.
+			if ( current_user_can( 'connections_edit_entry' ) ) {
+				$entry->setStatus( 'approved' );
+				$messageID = 'entry_updated';
+			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
+				$entry->setStatus( 'pending' );
+				$messageID = 'entry_updated_moderated';
+			} else {
+				$entry->setStatus( 'pending' );
+				$messageID = 'entry_updated_moderated';
+			}
+
+			// Update the entry to the database. On fail store error message.
+			if ( $entry->update() == FALSE ) {
+				$connections->setErrorMessage( 'entry_updated_failed' );
+				return FALSE;
+			} else {
+				$connections->setSuccessMessage( $messageID );
+				$entryID = (int) $entry->getId();
+			}
+
+			break;
 	}
 
 	/*
@@ -311,14 +305,13 @@ function processEntry( $data, $action ) {
 	 */
 	if ( isset( $data['entry_category'] ) ) {
 		$connections->term->setTermRelationships( $entryID, $data['entry_category'], 'category' );
-	}
-	else {
+	} else {
 		$connections->term->setTermRelationships( $entryID, array(), 'category' );
 	}
 
 	unset( $entry );
-	return TRUE;
 
+	return TRUE;
 }
 
 function copyImage( $image ) {

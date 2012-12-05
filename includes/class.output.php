@@ -1834,18 +1834,31 @@ class cnOutput extends cnEntry
 	 * Registers the global $wp_embed because the run_shortcode method needs
 	 * to run before the do_shortcode function for the [embed] shortcode to fire
 	 *
-	 * @TODO Add support for the $atts array.
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
+	 * @version 1.1
 	 * @param array
 	 * @return string
 	 */
 	public function getNotesBlock( $atts = array() ) {
 		global $wp_embed;
-		$notes = __( $wp_embed->run_shortcode( $this->getNotes() ) );
 
-		return "\n" . '<div class="note">' . do_shortcode( $notes ) . '</div>' . "\n";
+		$defaults = array(
+			'before'    => '<div class="note">',
+			'after'     => '</div>',
+			'return'    => FALSE
+		);
+
+		$defaults = apply_filters( 'cn_output_default_atts_notes' , $defaults );
+
+		$atts = $this->validate->attributesArray( $defaults, $atts );
+
+		$out = __( $wp_embed->run_shortcode( $this->getNotes() ) );
+
+		$out = do_shortcode( $out );
+
+		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
 
 	/**
@@ -1854,18 +1867,31 @@ class cnOutput extends cnEntry
 	 * Registers the global $wp_embed because the run_shortcode method needs
 	 * to run before the do_shortcode function for the [embed] shortcode to fire
 	 *
-	 * @TODO Add support for the $atts array.
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
+	 * @version 1.1
 	 * @param array
 	 * @return string
 	 */
 	public function getBioBlock( $atts = array() ) {
 		global $wp_embed;
-		$bio = __( $wp_embed->run_shortcode( $this->getBio() ) );
 
-		return "\n" . '<div class="bio">' . do_shortcode( $bio ) . '</div>' . "\n";
+		$defaults = array(
+			'before'    => '<div class="bio">',
+			'after'     => '</div>',
+			'return'    => FALSE
+		);
+
+		$defaults = apply_filters( 'cn_output_default_atts_bio' , $defaults );
+
+		$atts = $this->validate->attributesArray( $defaults, $atts );
+
+		$out = __( $wp_embed->run_shortcode( $this->getBio() ) );
+
+		$out = do_shortcode( $out );
+
+		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
 
 	/**
@@ -1889,6 +1915,7 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function getCategoryBlock( $atts = array() ) {
+
 		$defaults = array(
 			'list'      => 'unordered',
 			'separator' => NULL,
@@ -1920,8 +1947,7 @@ class cnOutput extends cnEntry
 			}
 
 			$atts['list'] === 'unordered' ? $out .= '</ul>' : $out .= '</ol>';
-		}
-		else {
+		} else {
 			$i = 0;
 
 			foreach ( $categories as $category ) {
@@ -1932,7 +1958,7 @@ class cnOutput extends cnEntry
 			}
 		}
 
-		if ( !empty( $atts['after'] ) ) $out .= $atts['after'];
+		if ( ! empty( $atts['after'] ) ) $out .= $atts['after'];
 
 		if ( $atts['return'] ) return $out;
 

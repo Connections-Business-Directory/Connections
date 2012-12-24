@@ -409,7 +409,7 @@ function connectionsList($atts, $content = NULL) {
 						$filterRegistry[] = 'cn_list_entry_before-' . $template->slug;
 						
 						ob_start();
-							include_once( $template->file );
+							include( $template->file );
 						    $out .= ob_get_contents();
 					    ob_end_clean();
 						

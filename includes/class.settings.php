@@ -163,7 +163,7 @@ class cnRegisterSettings
 			'id'        => 'connections_permalink', 
 			'position'  => 10, 
 			'title'     => __( 'Permalink' , 'connections' ), 
-			'callback'  => create_function( '', "echo '<p>' , __( 'Configure permalink support.' , 'connections' ) , '</p>';" ), 
+			'callback'  => create_function( '', "echo '<p>' , __( 'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.' , 'connections' ) , '</p>';" ), 
 			'page_hook' => $settings
 		);
 		
@@ -612,7 +612,7 @@ class cnRegisterSettings
 			'help'              => '',
 			'type'              => 'text',
 			'size'              => 'regular',
-			'default'           => 'category',
+			'default'           => 'cat',
 			'sanitize_callback' => array( 'cnRegisterSettings' , 'flushRewrite' ) // Only need to add this once, otherwise it would be run for each field.
 		);
 		$fields[] = array(

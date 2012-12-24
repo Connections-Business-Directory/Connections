@@ -160,6 +160,7 @@ span.date-name { font-weight: bold; }
 	color: #888;
 	display: inline-block;
 	font-size: 12px;
+	height: 28px;
 	line-height: 20px;
 	margin: 1px 0 1px 1px !important;
 	padding: 3px 6px;

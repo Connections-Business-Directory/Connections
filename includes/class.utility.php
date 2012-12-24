@@ -390,96 +390,107 @@ class cnValidate
 	}
 }
 
-class cnURL
-{
+class cnURL {
+
 	/**
 	 * Create a permalink.
 	 * 
 	 * @access private
 	 * @since 0.7.3
-	 * @version 1.0
 	 * @uses is_admin()
 	 * @uses wp_parse_args()
+	 * @uses get_option()
+	 * @uses in_the_loop()
+	 * @uses is_page()
+	 * @uses trailingslashit()
 	 * @uses get_permalink()
 	 * @uses add_query_arg()
+	 * @uses is_front_page()
 	 * @param array $atts
 	 * @return string
 	 */
-	public function permalink( $atts )
-	{
-		global $wp_rewrite, $connections;
+	public function permalink( $atts ) {
+		global $wp_rewrite, $post,  $connections;
 		
 		// The anchor attributes.
 		$piece = array();
 		
 		$defaults = array(
-			'class' => '',
-			'text' => '',
-			'title' => '',
+			'class'  => '',
+			'text'   => '',
+			'title'  => '',
 			'follow' => TRUE,
-			'slug' => '',
-			'type' => 'name',
+			'slug'   => '',
+			'type'   => 'name',
 			'return' => FALSE
 		);
 		
 		$atts = wp_parse_args( $atts, $defaults );
 		
 		// Get the directory home page ID.
-		$homeID = $connections->settings->get('connections', 'connections_home_page', 'page_id');
+		$homeID = $connections->settings->get( 'connections', 'connections_home_page', 'page_id' );
 		
 		// Get the settings for the base of each data type to be used in the URL.
-		$base = get_option('connections_permalink');
+		$base = get_option( 'connections_permalink' );
 		
 		// Create the permalink base based on context where the entry is being displayed.
-		if ( in_the_loop() && is_page() )
-		{
-			$permalink = trailingslashit ( get_permalink() );
+		if ( in_the_loop() && is_page() ) {
+			// Only slash it when using pretty permalinks.
+			$permalink = $wp_rewrite->using_permalinks() ? trailingslashit( get_permalink() ) : get_permalink();
 		} else {
-			$permalink = trailingslashit ( get_permalink($homeID) );
+			// If using pretty permalinks get the directory home page ID and slash it, otherwise just add the page_id to the query string.
+			if ( $wp_rewrite->using_permalinks() ) {
+				$permalink = trailingslashit( get_permalink( $homeID ) );
+			} else {
+				$permalink = add_query_arg( 'page_id' , $homeID, get_permalink() );
+			}
+			
 		}
+
+		// If on the front page, add the query var for the page ID.
+		if ( ! $wp_rewrite->using_permalinks() && is_front_page() ) $permalink = add_query_arg( 'page_id' , $post->ID, $permalink );
+
+		if ( ! empty( $atts['class'] ) ) $piece['class']   = 'class="' . $atts['class'] .'"';
+		if ( ! empty( $atts['slug'] ) ) $piece['id']       = 'id="' . $atts['slug'] .'"';
+		if ( ! empty( $atts['title'] ) ) $piece['title']   = 'title="' . $atts['title'] .'"';
+		if ( ! empty( $atts['target'] ) ) $piece['target'] = 'target="' . $atts['target'] .'"';
+		if ( ! $atts['follow'] ) $piece['follow']          = 'rel="nofollow"';
 		
-		if ( ! empty( $atts['class'] ) ) $piece[] = 'class="' . $atts['class'] .'"';
-		if ( ! empty( $atts['slug'] ) ) $piece[] = 'id="' . $atts['slug'] .'"';
-		if ( ! empty( $atts['title'] ) ) $piece[] = 'title="' . $atts['title'] .'"';
-		if ( ! empty( $atts['target'] ) ) $piece[] = 'target="' . $atts['target'] .'"';
-		if ( ! $atts['follow'] ) $piece[] = 'rel="nofollow"';
-		
-		switch ( $atts['type'] )
-		{
+		switch ( $atts['type'] ) {
+
 			case 'name':
 				
-				if ( $wp_rewrite->using_permalinks() )
-				{
-					$piece[] = 'href="' . $permalink . $base['name_base'] . '/' . $atts['slug'] . '/"';
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] );
 				} else {
-					$piece[] = 'href="' . add_query_arg('cn-entry-slug', $atts['slug'] , $permalink) . '"';
+					$permalink = add_query_arg( 'cn-entry-slug', $atts['slug'] , $permalink );
 				}
 				
 				break;
 				
 			case 'detail':
 				
-				if ( $wp_rewrite->using_permalinks() )
-				{
-					$piece[] = 'href="' . $permalink . $base['name_base'] . '/' . $atts['slug'] . '/detail/"';
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/detail' );
 				} else {
-					$piece[] = 'href="' . add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink ) . '"';
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
 				}
 				
 				break;
 				
 			case 'category':
 				
-				if ( $wp_rewrite->using_permalinks() )
-				{
-					$piece[] = 'href="' . $permalink . $base['category_base'] . '/' . $atts['slug'] . '/"';
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['category_base'] . '/' . $atts['slug'] );
 				} else {
-					$piece[] = 'href="' . add_query_arg('cn-cat', $atts['slug'] , $permalink) . '"';
+					$permalink = add_query_arg( 'cn-cat-slug', $atts['slug'] , $permalink );
 				}
 				
 				break;
 		}
 		
+		$piece['href'] = 'href="' . $permalink . '"';
+
 		$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
 		
 		if ( $atts['return'] ) return $out;

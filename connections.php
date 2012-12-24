@@ -96,7 +96,9 @@ Author URI: http://connections-pro.com/
 
 
 if ( ! class_exists( 'connectionsLoad' ) ) {
+
 	class connectionsLoad {
+
 		public $currentUser;
 		public $options;
 		public $retrieve;
@@ -126,6 +128,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		private $dbUpgrade;
 
 		public function __construct() {
+
 			$this->loadConstants();
 			$this->loadDependencies();
 			$this->initDependencies();
@@ -134,30 +137,21 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			if ( version_compare( $this->options->getVersion() , CN_CURRENT_VERSION ) < 0 ) $this->initOptions();
 
 			// Activation/Deactivation hooks
-			register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( &$this, 'activate' ) );
-			register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( &$this, 'deactivate' ) );
+			register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( $this, 'activate' ) );
+			register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( $this, 'deactivate' ) );
 
 			//@TODO: Create uninstall method to remove options and tables.
 			// register_uninstall_hook( dirname(__FILE__) . '/connections.php', array('connectionsLoad', 'uninstall') );
 
-			// Calls the method to load the admin menus.
-			//if ( is_admin() ) add_action('admin_menu', array( &$this , 'adminMenu' ) );
-
 			// Register all valid query variables.
-			add_filter( 'query_vars', array( &$this, 'registerQueryVariables' ) );
-
-			// Add the page rewrite rules.
-			add_filter( 'page_rewrite_rules', array( &$this, 'addPageRewriteRules' ) );
-
-			// Add the redirect conical filter to rewite a query query string into a URL.
-			//add_filter('redirect_canonical', array(&$this, 'redirectCanonical') , 10, 2);
-			//add_filter('request', array(&$this, 'request'));
+			cnRewrite::init();
 
 			// Start this plug-in once all other plugins are fully loaded
-			add_action( 'plugins_loaded', array( &$this, 'start' ) );
+			add_action( 'plugins_loaded', array( $this, 'start' ) );
 		}
 
 		public function start() {
+
 			//$this->options->setDBVersion('0.1.8'); $this->options->saveOptions();
 
 			// Load the translation files.
@@ -178,31 +172,33 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$this->currentUser->setID( $current_user->ID );
 
 			// Register Common scripts
-			add_action( 'init', array( &$this, 'registerScripts' ) );
+			add_action( 'init', array( $this, 'registerScripts' ) );
 
 			if ( is_admin() ) {
+
 				// Store the PHP mememory limit
 				$this->phpMemoryLimit = ini_get( 'memory_limit' );
 
 				// Calls the method to load the admin menus.
-				add_action( 'admin_menu', array( &$this , 'adminMenu' ) );
+				add_action( 'admin_menu', array( $this , 'adminMenu' ) );
 
-				add_action( 'admin_init', array( &$this, 'adminInit' ) );
+				add_action( 'admin_init', array( $this, 'adminInit' ) );
 
 				// Parse admin queries.
-				add_action( 'admin_init', array( &$this, 'adminActions' ) );
+				add_action( 'admin_init', array( $this, 'adminActions' ) );
 
 				/*
 				 * Add the filter to update the user settings when the 'Apply" button is clicked.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 * NOTE: This filter must be init here otherwise it registers to late to be run.
 				 */
-				add_filter( 'set-screen-option', array( &$this, 'managePageLimitSave' ), 10 , 3 );
-			}
-			else {
+				add_filter( 'set-screen-option', array( $this, 'managePageLimitSave' ), 10 , 3 );
+
+			} else {
+
 				// Calls the methods to enqueue the frontend scripts and CSS.
-				add_action( 'wp_print_scripts', array( &$this, 'loadScripts' ) );
-				add_action( 'wp_print_styles', array( &$this, 'loadStyles' ) );
+				add_action( 'wp_print_scripts', array( $this, 'loadScripts' ) );
+				add_action( 'wp_print_styles', array( $this, 'loadStyles' ) );
 
 				// Parse front end queries.
 				//add_action( 'parse_request', array(&$this, 'userActions') );
@@ -210,12 +206,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				/*
 				 * Process front end actions.
 				 */
-				add_action( 'template_redirect' , array( &$this, 'frontendActions' ) );
+				add_action( 'template_redirect' , array( $this, 'frontendActions' ) );
 			}
 
 		}
 
 		private function loadConstants() {
+
 			global $wpdb, $blog_id;
 
 			define( 'CN_LOG', FALSE );
@@ -319,6 +316,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			//templates
 			require_once CN_PATH . '/includes/class.template.php'; // Required for the front end template processing
+
+			// The class that inits the registered query vars, rewites reuls and canonical redirects.
+			require_once CN_PATH . '/includes/class.rewrite.php';
 
 			// Load the Connections Settings API Wrapper Class.
 			require_once CN_PATH . '/includes/class.settings-api.php';
@@ -943,7 +943,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Add the page rewrite rules.
 			 */
-			add_filter( 'page_rewrite_rules', array( &$this, 'addPageRewriteRules' ) );
+			add_filter( 'root_rewrite_rules', array( $this, 'addRootRewriteRules' ) );
+			add_filter( 'page_rewrite_rules', array( $this, 'addPageRewriteRules' ) );
 
 			// Flush so they are rebuilt.
 			flush_rewrite_rules();
@@ -957,7 +958,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * Since we're adding the rewrite rules using a filter, make sure to remove the filter
 			 * before flushing, otherwise the rules will not be removed.
 			 */
-			remove_filter( 'page_rewrite_rules', array( &$this, 'addPageRewriteRules' ) );
+			remove_filter( 'root_rewrite_rules', array( $this, 'addRootRewriteRules' ) );
+			remove_filter( 'page_rewrite_rules', array( $this, 'addPageRewriteRules' ) );
 
 			// Flush so they are rebuilt.
 			flush_rewrite_rules();
@@ -985,175 +987,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		}
 
 		/**
-		 * Add the page rewrite rules using a filter.
-		 *
-		 * NOTE: Using a filter so I can add the rules right after the default page rules.
-		 * This *should* prevent any rule conflicts.
-		 *
-		 * @access private
-		 * @since 0.7.3
-		 * @uses get_option()
-		 * @uses delete_option()
-		 * @param array   $page_rewrite
-		 * @return array
-		 */
-		public function addPageRewriteRules( $page_rewrite ) {
-			$rule = array();
-
-			// Get the settings for the base of each data type to be used in the URL.
-			$base = get_option( 'connections_permalink' );
-
-			$category = $base['category_base'];
-			$country = $base['country_base'];
-			$region = $base['region_base'];
-			$locality = $base['locality_base'];
-			$postal = $base['postal_code_base'];
-			$name = $base['name_base'];
-
-			// landing page.
-			$rule['(.?.+?)/landing/?$']
-				= 'index.php?pagename=$matches[1]&cn-view=landing';
-
-			// Category root rewrite rules.
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-postal-code=$matches[5]&cn-pg=$matches[6]&cn-view=list';
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-postal-code=$matches[5]&cn-pg=$matches[6]&cn-view=list';
-
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)/pg/([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-locality=$matches[5]&cn-pg=$matches[6]&cn-view=list';
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-locality=$matches[5]&cn-view=list';
-
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-pg=$matches[5]&cn-view=list';
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-view=list';
-
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-view=list';
-
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-region=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $region . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-region=$matches[3]&cn-view=list';
-
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-locality=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $locality . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-locality=$matches[3]&cn-view=list';
-
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-postal-code=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $category . '/(.+?)/' . $postal . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-postal-code=$matches[3]&cn-view=list';
-
-			$rule['(.?.+?)/' . $category . '/(.+?)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-pg=$matches[3]&cn-view=list';
-			$rule['(.?.+?)/' . $category . '/(.+?)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-cat-slug=$matches[2]&cn-view=list';
-
-			// Country root rewrite rules.
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-postal-code=$matches[4]&cn-pg=$matches[5]&cn-view=list';
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-postal-code=$matches[4]&cn-view=list';
-
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-locality=$matches[4]&cn-pg=$matches[5]&cn-view=list';
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-locality=$matches[4]&cn-view=list';
-
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-view=list';
-
-			$rule['(.?.+?)/' . $country . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-pg=$matches[3]&cn-view=list';
-			$rule['(.?.+?)/' . $country . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-view=list';
-
-			// Country root w/o region [state/province] rules.
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-postal-code=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-postal-code=$matches[3]&cn-view=list';
-
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-locality=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $country . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-country=$matches[2]&cn-locality=$matches[3]&cn-view=list';
-
-			// Region root rewrite rules.
-			$rule['(.?.+?)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-region=$matches[2]&cn-postal-code=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-region=$matches[2]&cn-postal-code=$matches[3]&cn-view=list';
-
-			$rule['(.?.+?)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-region=$matches[2]&cn-locality=$matches[3]&cn-pg=$matches[4]&cn-view=list';
-			$rule['(.?.+?)/' . $region . '/([^/]*)/' . $locality . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-region=$matches[2]&cn-locality=$matches[3]&cn-view=list';
-
-			$rule['(.?.+?)/' . $region . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-region=$matches[2]&cn-pg=$matches[3]&cn-view=list';
-			$rule['(.?.+?)/' . $region . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-region=$matches[2]&cn-view=list';
-
-			// Locality and postal code rewrite rules.
-			$rule['(.?.+?)/' . $postal . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-postal-code=$matches[2]&cn-pg=$matches[3]&cn-view=list';
-			$rule['(.?.+?)/' . $postal . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-postal-code=$matches[2]&cn-view=list';
-
-			$rule['(.?.+?)/' . $locality . '/([^/]*)/pg/?([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-locality=$matches[2]&cn-pg=$matches[3]&cn-view=list';
-			$rule['(.?.+?)/' . $locality . '/([^/]*)?/?$']
-				= 'index.php?pagename=$matches[1]&cn-locality=$matches[2]&cn-view=list';
-
-
-			// Edit entry.
-			$rule['(.?.+?)/' . $name . '/([^/]*)/edit/?$']
-				= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-process=edit';
-
-			// Moderate entry.
-			$rule['(.?.+?)/' . $name . '/([^/]*)/edit/?$']
-				= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-process=moderate';
-
-			// Delete entry.
-			$rule['(.?.+?)/' . $name . '/([^/]*)/delete/?$']
-				= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-process=delete';
-
-			// View entry detail / profile / bio.
-			$rule['(.?.+?)/' . $name . '/([^/]*)/detail/?$']
-				= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail';
-
-			// Download the vCard.
-			$rule['(.?.+?)/' . $name . '/([^/]*)/vcard/?$']
-				= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-process=vcard';
-
-			// Single entry.
-			$rule['(.?.+?)/' . $name . '/([^/]*)/?$']
-				= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=list';
-
-
-			// Base Pagination.
-			$rule['(.?.+?)/pg/([0-9]{1,})/?$']
-				= 'index.php?pagename=$matches[1]&cn-pg=$matches[2]&cn-view=list';
-
-
-			// Add the Connections rewite rules to before the default page rewrite rules.
-			$page_rewrite = array_merge( $rule, $page_rewrite );
-
-
-			//var_dump($page_rewrite);
-			return $page_rewrite;
-		}
-
-		/**
 		 * Add the rewrite rules.
 		 * NOTE: No action is set to call this function.
 		 *
@@ -1173,81 +1006,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//add_rewrite_rule( '(directory)/?([^/]*)/?([^/]*)$', 'index.php?cnpagename=$matches[1]&cnlisttype=$matches[2]&cnname=$matches[3]', 'top' );
 
 			/* For testing only, NEVER leave uncommented in released versions. It'll slow WP down. */
-			flush_rewrite_rules();
-		}
-
-		/**
-		 * Register the valid query variables.
-		 *
-		 * @access private
-		 * @since 0.7.3
-		 * @param array   $query
-		 * @return array
-		 */
-		public function registerQueryVariables( $var ) {
-			$var[] = 'cn-cat';   // category id
-			$var[] = 'cn-cat-slug';  // category slug
-			$var[] = 'cn-country';  // country
-			$var[] = 'cn-region';  // state
-			$var[] = 'cn-locality';  // city
-			$var[] = 'cn-postal-code'; // zipcode
-			$var[] = 'cn-s';   // search term
-			$var[] = 'cn-pg';   // page
-			$var[] = 'cn-entry-slug'; // entry slug
-			$var[] = 'cn-token';  // security token; WP nonce
-			$var[] = 'cn-id';   // entry ID
-			$var[] = 'cn-vc';   // download vCard, BOOL 1 or 0 [used only in links from the admin for unlisted entry's vCard]
-			$var[] = 'cn-process';  // various processes [ vcard || add || edit || moderate || delete ]
-			$var[] = 'cn-view';   // current view [ landing || list || detail ]
-
-			// Query vars to support showing entries within a specified radius.
-			$var[] = 'cn-near-coord'; // latitute and longitude
-			$var[] = 'cn-near-addr'; // address url encoded
-			$var[] = 'cn-radius';  // distance
-			$var[] = 'cn-unit';   // unit of distance
-
-			return $var;
-		}
-
-		/**
-		 *
-		 *
-		 * @access private
-		 * @since 0.7.3
-		 * @version 1.0
-		 * @uses get_query_var()
-		 * @param string  $redirect_url
-		 * @param string  $requested_url
-		 * @return string
-		 */
-		public function redirectCanonical( $redirect_url, $requested_url ) {
-			global $wp_rewrite;
-
-			// Abort if not using pretty permalinks or is a feed.
-			//if( ! $wp_rewrite->using_permalinks() || is_feed() ) return $redirect_url;
-
-			var_dump( $redirect_url );
-			print_r( "\r" );
-			var_dump( $requested_url );
-			die;
-
-			// If paged, apppend pagination
-			if ( get_query_var( 'cn-pg' ) ) {
-				/*$page = (int) get_query_var('cn-pg');
-
-				if ( $page > 1 ) $redirect_url .= user_trailingslashit("/pg/$page", 'page');*/
-
-				$redirect_url = remove_query_arg( 'cn-page', $redirect_url );
-			}
-
-			return $redirect_url;
-		}
-
-
-		public function request( $request ) {
-			//var_dump($request); die;
-
-			return $request;
+			// flush_rewrite_rules();
 		}
 
 		/**

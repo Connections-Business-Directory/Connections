@@ -82,6 +82,9 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 
 == Changelog ==
 
+= 0.7.3.2 xx/xx/12 =
+* 
+
 = 0.7.3.1 10/01/12 =
 * FEATURE: Spanish translation has been included.
 * BUG: Remove all occurrences of double slashing.

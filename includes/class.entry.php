@@ -2580,7 +2580,7 @@ class cnEntry {
 			$anniversary->order = 0;
 			$anniversary->preferred = FALSE;
 			$anniversary->type = 'anniversary';
-			$anniversary->name = 'Anniversary';
+			$anniversary->name = __( 'Anniversary', 'connections' );
 			$anniversary->date = $this->getAnniversary( 'Y-m-d' );
 			$anniversary->day = $this->getAnniversary( 'm-d' );
 			$anniversary->visibility = 'public';
@@ -2595,7 +2595,7 @@ class cnEntry {
 			$birthday->order = 0;
 			$birthday->preferred = FALSE;
 			$birthday->type = 'birthday';
-			$birthday->name = 'Birthday';
+			$birthday->name = __( 'Birthday', 'connections' );
 			$birthday->date = $this->getBirthday( 'Y-m-d' );
 			$birthday->day = $this->getBirthday( 'm-d' );
 			$birthday->visibility = 'public';
@@ -2624,7 +2624,7 @@ class cnEntry {
 					( isset( $date['id'] ) ) ? $row->id = (int) $date['id'] : $row->id = 0;
 					( isset( $date['order'] ) ) ? $row->order = (int) $date['order'] : $row->order = 0;
 					( isset( $date['preferred'] ) ) ? $row->preferred = (bool) $date['preferred'] : $row->preferred = FALSE;
-					( isset( $date['type'] ) ) ? $row->type = $this->format->sanitizeString( $date['type'] ) : $row->type = 'homephone';
+					( isset( $date['type'] ) ) ? $row->type = $this->format->sanitizeString( $date['type'] ) : $row->type = '';
 					( isset( $date['date'] ) ) ? $row->date = $this->format->sanitizeString( $date['date'] ) : $row->date = '';
 					( isset( $date['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $date['visibility'] ) : $row->visibility = '';
 
@@ -2692,7 +2692,7 @@ class cnEntry {
 				 * This is for compatibility with versions 0.7.2.6 and older.
 				 */
 				if ( $date->type == 'anniversary' && isset( $results['anniversary'] ) && $date->date == $results['anniversary']->date ) unset( $results['anniversary'] );
-
+				if ( $date->type == 'birthday' && isset( $results['birthday'] ) && $date->date == $results['birthday']->date ) unset( $results['birthday'] );
 
 				/*
 				 * If the date type is anniversary or birthday and the date is equal to the date

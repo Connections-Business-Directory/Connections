@@ -417,10 +417,14 @@ class cnRewrite {
 	 *
 	 * @access private
 	 * @since 0.7.3.2
+	 * @uses is_page()
+	 * @uses is_404()
 	 * @uses is_ssl()
 	 * @uses get_query_var()
+	 * @uses get_option()
 	 * @uses remove_query_arg()
 	 * @uses user_trailingslashit()
+	 * @uses add_query_arg()
 	 * @uses wp_redirect()
 	 * @return void
 	 */
@@ -429,7 +433,8 @@ class cnRewrite {
 
 		// Right now, lets only support pages. Not a page, punt...
 		if ( ! is_page() ) return FALSE;
-		
+		if ( is_404() ) return FALSE;
+
 		// The URL in the address bar
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
 		$requestedURL .= $_SERVER['HTTP_HOST'];
@@ -442,12 +447,11 @@ class cnRewrite {
 		$redirectURL = $redirectURL[0];
 
 
-		if ( FALSE === $originalURL ) return;
+		if ( FALSE === $originalURL ) return FALSE;
 		
-		if ( is_404() ) return;
 
 		// We only need to process the URL and redirect  if the user is using pretty permalinks.
-		if ( is_object($wp_rewrite) && $wp_rewrite->using_permalinks() ) {
+		if ( is_object ( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
 
 			// Get the settings for the base of each data type to be used in the URL.
 			$base = get_option( 'connections_permalink' );
@@ -474,7 +478,6 @@ class cnRewrite {
 				// var_dump( $slug ); //exit();
 
 				if ( ! empty( $slug ) && ! stripos( $redirectURL , $base['category_base'] . '/' . implode( '/', $slug ) ) ) $redirectURL .= user_trailingslashit( $base['category_base'] . '/' . implode( '/', $slug ) );
-				
 				// var_dump( $redirectURL ); //exit();
 				
 			}
@@ -486,7 +489,6 @@ class cnRewrite {
 				$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 
 				if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
-
 				// var_dump( $redirectURL ); //exit();
 
 			}
@@ -503,11 +505,8 @@ class cnRewrite {
 
 		if ( ! $redirectURL || $redirectURL == $requestedURL ) return FALSE;
 
-		// if ( ! redirect_canonical( $redirectURL, FALSE ) ) {
-			wp_redirect( $redirectURL, 301 );
-			// var_dump( $redirectURL );
-			exit();
-		// }
+		wp_redirect( $redirectURL, 301 );
+		exit();
 	}
 
 	/**
@@ -526,10 +525,6 @@ class cnRewrite {
 	 * @return string
 	 */
 	public function canonicalRedirectFilter( $redirectURL, $requestedURL ) {
-		// global $wp_rewrite;
-
-		// Abort if not using pretty permalinks or is a feed.
-		// if( ! $wp_rewrite->using_permalinks() || is_feed() ) return $redirectURL;
 		
 		$originalURL = $redirectURL;
 		$parsedURL   = @parse_url( $requestedURL );  
@@ -553,13 +548,6 @@ class cnRewrite {
 
 		}
 
-		
-		/*
-		 * If the new redirect URL is different from the original requested URL, this should indicate
-		 * that it is a URL intended for the Connections rewrite rules. Lets add back to the URL
-		 * any remaining query string arguments and redirect to the new URL.
-		 */
-		
 		// Add back on to the URL any remaining query string values.
 		$parsedURL['query'] = preg_replace( '#^\??&*?#', '', $parsedURL['query'] );
 
@@ -568,10 +556,6 @@ class cnRewrite {
 			$_parsed_query = array_map( 'rawurlencode', $_parsed_query );
 			$redirectURL = add_query_arg( $_parsed_query, $redirectURL );
 		}
-
-		// var_dump( $redirectURL );
-		// var_dump( $requestedURL );
-		// exit();
 		
 		return $redirectURL;
 	}

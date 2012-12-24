@@ -189,7 +189,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.4', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.4.' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.4.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 			echo '<li>' , __( 'Changing column name from honorable_prefix to honorific_prefix...', 'connections' ) , "</li>\n";
@@ -746,7 +746,7 @@ function cnRunDBUpgrade() {
 		}
 
 		if ( version_compare( $dbVersion, '0.1.9', '<' ) ) {
-			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.9.' ) , $connections->options->getDBVersion() ) , "</h4>\n";
+			echo '<h4>' , sprintf( __( 'Upgrade from database version %1$s to database version 0.1.9.', 'connections' ) , $connections->options->getDBVersion() ) , "</h4>\n";
 
 			echo '<ul>';
 

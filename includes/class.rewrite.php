@@ -427,6 +427,9 @@ class cnRewrite {
 	public function canonicalRedirectAction() {
 		global $wp_rewrite, $connections;
 
+		// Right now, lets only support pages. Not a page, punt...
+		if ( ! is_page() ) return FALSE;
+		
 		// The URL in the address bar
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
 		$requestedURL .= $_SERVER['HTTP_HOST'];

@@ -9,7 +9,7 @@ Author URI: http://connections-pro.com/
 Text Domain: health-check
 Domain Path: /lang
 
-	Copyright 2009  Steven A. Zahm  (email : shazahm1@hotmail.com)
+	Copyright 2009  Steven A. Zahm  (email : helpdesk@connections-pro.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as

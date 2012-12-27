@@ -337,7 +337,7 @@ class cnFormObjects {
 
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/connections/faq/"><span><?php _e( 'FAQs', 'connections' ); ?></span></a>
+				<a class="button large blue full" href="http://connections-pro.com/faq/"><span><?php _e( 'FAQs', 'connections' ); ?></span></a>
 			</p>
 		</div>
 
@@ -348,7 +348,7 @@ class cnFormObjects {
 
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/connections/connections-pro/"><span><?php _e( 'Pro Modules', 'connections' ); ?></span></a>
+				<a class="button large blue full" href="http://connections-pro.com/pro-module/"><span><?php _e( 'Pro Modules', 'connections' ); ?></span></a>
 			</p>
 		</div>
 
@@ -359,7 +359,7 @@ class cnFormObjects {
 
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/connections/templates/"><span><?php _e( 'Templates', 'connections' ); ?></span></a>
+				<a class="button large blue full" href="http://connections-pro.com/templates/"><span><?php _e( 'Templates', 'connections' ); ?></span></a>
 			</p>
 		</div>
 

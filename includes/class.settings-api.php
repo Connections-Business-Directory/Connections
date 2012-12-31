@@ -60,7 +60,7 @@ if ( ! class_exists('cnSettingsAPI') )
 		 * @since 0.7.3.0
 		 * @return void
 		 */
-		public function getInstance()
+		public static function getInstance()
 		{
 			if ( ! self::$_instance )
 			{

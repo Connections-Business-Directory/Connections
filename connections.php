@@ -150,6 +150,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Start this plug-in once all other plugins are fully loaded
 			add_action( 'plugins_loaded', array( $this, 'start' ) );
+
+			// Init the setting API.
+			add_action( 'plugins_loaded', array( 'cnSettingsAPI', 'init') );
 		}
 
 		public function start() {
@@ -162,12 +165,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
 			 * Init the registered settings.
-			 * NOTE: The init method must be run after registering the tabs, sections and fields.
 			 */
 			add_filter( 'cn_register_settings_tabs' , array( 'cnRegisterSettings', 'registerSettingsTabs' ) , 10 , 1 );
 			add_filter( 'cn_register_settings_sections' , array( 'cnRegisterSettings', 'registerSettingsSections' ) , 10 , 1 );
 			add_filter( 'cn_register_settings_fields' , array( 'cnRegisterSettings', 'registerSettingsFields' ) , 10 , 1 );
-			$this->settings->init();
 
 			// Setup the current user object
 			$current_user = wp_get_current_user();

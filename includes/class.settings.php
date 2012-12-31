@@ -843,4 +843,3 @@ class cnRegisterSettings
 		return $settings;
 	}
 }
-?>

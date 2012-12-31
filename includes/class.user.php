@@ -438,4 +438,3 @@ class cnUser
 		update_user_meta($this->ID, 'connections', $user_meta);
 	}
 }
-?>

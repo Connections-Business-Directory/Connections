@@ -627,5 +627,3 @@ class cnTerms
 		}
 	}
 }
-
-?>

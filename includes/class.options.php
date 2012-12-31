@@ -1231,4 +1231,3 @@ class cnOptions {
 		return $settings;
 	}
 }
-?>

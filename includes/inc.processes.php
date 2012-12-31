@@ -857,5 +857,3 @@ function updateRoleSettings() {
 
 	$connections->setSuccessMessage( 'role_settings_updated' );
 }
-
-?>

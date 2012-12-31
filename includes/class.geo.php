@@ -476,6 +476,3 @@ class cnGeo {
 		return $query->result();
 	}
 }
-
-
-?>

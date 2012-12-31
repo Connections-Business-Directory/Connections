@@ -614,4 +614,3 @@ class cnvCard extends cnOutput
 		if ( $return ) return $out; else echo $out;
 	}
 }
-?>

@@ -1194,4 +1194,3 @@ class cnTemplate
 		return $out;
 	}
 }
-?>

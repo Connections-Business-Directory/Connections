@@ -2229,5 +2229,3 @@ class cnRetrieve {
 	}
 
 }
-
-?>

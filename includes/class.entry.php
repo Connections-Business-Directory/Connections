@@ -4320,4 +4320,3 @@ class cnEntry {
 	}
 
 }
-?>

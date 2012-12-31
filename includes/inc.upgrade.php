@@ -832,4 +832,3 @@ function cnAddTableColumn( $tableName, $columnName, $sql ) {
 
 	return FALSE;
 }
-?>

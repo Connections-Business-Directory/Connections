@@ -681,4 +681,3 @@ function _connections_qtip( $atts , $content = NULL )
 	
 	return '<span class="cn-qtip-card">' . $content . $qTipContent . '</span>';
 }
-?>

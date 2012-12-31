@@ -882,4 +882,3 @@ if ( ! class_exists('cnSettingsAPI') )
 		}
 	}
 }
-?>

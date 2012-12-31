@@ -1958,5 +1958,3 @@ class cnCategoryObjects {
 		echo $out;
 	}
 }
-
-?>

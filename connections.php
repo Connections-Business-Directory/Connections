@@ -1410,7 +1410,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		// Add FAQ and support information
 		public function addMetaLinks( $links, $file ) {
 			if ( $file == CN_BASE_NAME ) {
-				$links[] = '<a href="http://connections-pro.com/?page_id=29" target="_blank">' . __( 'Extend', 'connections' ) . '</a>';
+				$links[] = '<a href="http://connections-pro.com/?page_id=29" target="_blank">' . __( 'Add-on Plugins', 'connections' ) . '</a>';
 				$links[] = '<a href="http://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';
 				$links[] = '<a href="http://connections-pro.com/documentation/plugin/" target="_blank">' . __( 'Documentation', 'connections' ) . '</a>';
 				$links[] = '<a href="http://connections-pro.com/support" target="_blank">' . __( 'Support Forums', 'connections' ) . '</a>';

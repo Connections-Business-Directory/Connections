@@ -370,7 +370,7 @@ class cnFormObjects {
 
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/trac/?bugcatid=16&amp;bugtypeid=74"><span><?php _e( 'Bug Report', 'connections' ); ?></span></a>
+				<a class="button large blue full" href="http://connections-pro.com/support/forum/bug-reports/"><span><?php _e( 'Bug Report', 'connections' ); ?></span></a>
 			</p>
 		</div>
 
@@ -381,7 +381,7 @@ class cnFormObjects {
 
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/trac/?bugcatid=16&amp;bugtypeid=75"><span><?php _e( 'Feature Request', 'connections' ); ?></span></a>
+				<a class="button large blue full" href="http://connections-pro.com/support/forum/feature-requests/"><span><?php _e( 'Feature Request', 'connections' ); ?></span></a>
 			</p>
 		</div>
 

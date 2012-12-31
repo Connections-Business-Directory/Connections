@@ -1413,7 +1413,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				$links[] = '<a href="http://connections-pro.com/?page_id=29" target="_blank">' . __( 'Extend', 'connections' ) . '</a>';
 				$links[] = '<a href="http://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';
 				$links[] = '<a href="http://connections-pro.com/documentation/plugin/" target="_blank">' . __( 'Documentation', 'connections' ) . '</a>';
-				$links[] = '<a href="http://connections-pro.com/help-desk" target="_blank">' . __( 'Support', 'connections' ) . '</a>';
+				$links[] = '<a href="http://connections-pro.com/support" target="_blank">' . __( 'Support Forums', 'connections' ) . '</a>';
 			}
 
 			return $links;

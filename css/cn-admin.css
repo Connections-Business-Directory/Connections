@@ -207,7 +207,7 @@ div#metabox-quick-links .button.full, .button.full span {
   display: block;
 }
 div#metabox-quick-links .button.large span {
-  font-size: 14px;
+  font-size: 1em;
   font-weight: 700;
 }
 

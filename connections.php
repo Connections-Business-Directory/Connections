@@ -145,14 +145,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//@TODO: Create uninstall method to remove options and tables.
 			// register_uninstall_hook( dirname(__FILE__) . '/connections.php', array('connectionsLoad', 'uninstall') );
 
-			// Register all valid query variables.
-			cnRewrite::init();
-
 			// Start this plug-in once all other plugins are fully loaded
 			add_action( 'plugins_loaded', array( $this, 'start' ) );
-
-			// Init the setting API.
-			add_action( 'plugins_loaded', array( 'cnSettingsAPI', 'init') );
 		}
 
 		public function start() {
@@ -164,7 +158,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			/*
 			 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
-			 * Init the registered settings.
 			 */
 			add_filter( 'cn_register_settings_tabs' , array( 'cnRegisterSettings', 'registerSettingsTabs' ) , 10 , 1 );
 			add_filter( 'cn_register_settings_sections' , array( 'cnRegisterSettings', 'registerSettingsSections' ) , 10 , 1 );
@@ -174,8 +167,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$current_user = wp_get_current_user();
 			$this->currentUser->setID( $current_user->ID );
 
-			// Register Common scripts
-			add_action( 'init', array( $this, 'registerScripts' ) );
+			// Register the JavaScript libraries.
+			add_action( 'init', array( __CLASS__, 'registerScripts' ) );
+
+			// Register the CSS.
+			add_action( 'init', array( __CLASS__, 'registerCSS' ) );
 
 			if ( is_admin() ) {
 
@@ -199,12 +195,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			} else {
 
-				// Calls the methods to enqueue the frontend scripts and CSS.
-				add_action( 'wp_print_scripts', array( $this, 'loadScripts' ) );
-				add_action( 'wp_print_styles', array( $this, 'loadStyles' ) );
+				// Enqueue the frontend scripts and CSS.
+				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
+				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueStyles' ) );
 
 				// Parse front end queries.
-				//add_action( 'parse_request', array(&$this, 'userActions') );
+				// add_action( 'parse_request', array( $this, 'userActions') );
 
 				/*
 				 * Process front end actions.
@@ -348,6 +344,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$this->term = new cnTerms();
 			$this->template = new cnTemplate();
 			$this->url = new cnURL();
+
+			// Register all valid query variables.
+			cnRewrite::init();
 		}
 
 		/**
@@ -1051,7 +1050,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				);
 
 			//Check if the db requires updating, display message if it does.
-			if ( version_compare( $this->options->getDBVersion() , CN_DB_VERSION ) < 0 ) $this->dbUpgrade = add_action( 'admin_notices' , array( &$this , 'addDBUpgradeMessage' ) );
+			if ( version_compare( $this->options->getDBVersion() , CN_DB_VERSION ) < 0 ) $this->dbUpgrade = add_action( 'admin_notices' , array( $this , 'addDBUpgradeMessage' ) );
 
 			/*
 			 * Add admin notices if required directories are not present or not writeable.
@@ -1064,17 +1063,17 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) add_action( 'admin_notices' , create_function( '' , ' echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> Path ../wp-content/plugins/connections/cache does not seem to be writeable.', 'connections' ) . '</p></div>\';' ) );
 
 			// Calls the methods to load the admin scripts and CSS.
-			add_action( 'admin_print_scripts', array( &$this, 'loadAdminScripts' ) );
-			add_action( 'admin_print_styles', array( &$this, 'loadAdminStyles' ) );
+			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueueAdminScripts' ) );
+			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueueAdminStyles' ) );
 
 			// Add Settings link to the plugin actions
-			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( &$this, 'addActionLinks' ) );
+			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( $this, 'addActionLinks' ) );
 
 			// Add FAQ, Support and Donate links
-			add_filter( 'plugin_row_meta', array( &$this, 'addMetaLinks' ), 10, 2 );
+			add_filter( 'plugin_row_meta', array( $this, 'addMetaLinks' ), 10, 2 );
 
 			// Add Changelog table row in the Manage Plugins admin page.
-			add_action( 'after_plugin_row_' . CN_BASE_NAME, array( &$this, 'displayUpgradeNotice' ), 1, 0 );
+			add_action( 'after_plugin_row_' . CN_BASE_NAME, array( $this, 'displayUpgradeNotice' ), 1, 0 );
 			// Maybe should use this action hook instead: in_plugin_update_message-{$file}
 
 			/*
@@ -1085,26 +1084,26 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 */
 			if ( get_object_vars( $this->pageHook ) ) {
 				// Register the edit metaboxes.
-				add_action( 'load-' . $this->pageHook->add, array( &$this, 'registerEditMetaboxes' ) );
-				add_action( 'load-' . $this->pageHook->manage, array( &$this, 'registerEditMetaboxes' ) );
+				add_action( 'load-' . $this->pageHook->add, array( $this, 'registerEditMetaboxes' ) );
+				add_action( 'load-' . $this->pageHook->manage, array( $this, 'registerEditMetaboxes' ) );
 
 				// Register the Dashboard metaboxes.
-				add_action( 'load-' . $this->pageHook->dashboard, array( &$this, 'registerDashboardMetaboxes' ) );
+				add_action( 'load-' . $this->pageHook->dashboard, array( $this, 'registerDashboardMetaboxes' ) );
 
 				// Remove the admin database message on the following pages since it's confusing to see both the message and upgrade text at the same time.
-				add_action( 'load-' . $this->pageHook->dashboard, array( &$this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->manage, array( &$this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->add, array( &$this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->categories, array( &$this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->templates, array( &$this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->settings, array( &$this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->roles, array( &$this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->dashboard, array( $this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->manage, array( $this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->add, array( $this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->categories, array( $this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->templates, array( $this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->settings, array( $this, 'removeDBUpgradeMessage' ) );
+				add_action( 'load-' . $this->pageHook->roles, array( $this, 'removeDBUpgradeMessage' ) );
 
 				/*
 				 * Add the panel to the "Screen Options" box to the manage page.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 */
-				add_screen_options_panel( 'cn-manage-page-limit' , 'Show on screen' , array( &$this, 'managePageLimit' ) , $this->pageHook->manage , array( &$this, 'managePageLimitSaveAJAX' ) , FALSE );
+				add_screen_options_panel( 'cn-manage-page-limit' , 'Show on screen' , array( $this, 'managePageLimit' ) , $this->pageHook->manage , array( $this, 'managePageLimitSaveAJAX' ) , FALSE );
 			}
 		}
 
@@ -1243,50 +1242,85 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		}
 
 		/**
-		 * Register the external JS libraries that may be enqueued in either the frontend or admin.
+		 * Register the external JS libraries that may be enqueued in either the admin or frontend.
 		 *
 		 * @access private
+		 * @since 0.7.3.2
+		 * @uses wp_register_script()
 		 * @return void
 		 */
-		public function registerScripts() {
+		public static function registerScripts() {
+			global $connections;
 
 			/*
 			 * If the Google Maps API is disabled, do not register it and change the dependencies of
 			 * both goMap and MarkerClusterer. Allowing the Google Maps API to be turned "off" provides
 			 * compatibility with themes and other plugins the enqueue Google Maps but do not provide a
-			 * method to disable it. So I will, unless we're in the admin because the geocode function will
+			 * method to disable it. So I will, unless we're in the admin, because the geocode function will
 			 * require it.
 			 */
-			if ( $this->options->getGoogleMapsAPI() || is_admin() ) {
-				wp_register_script( 'cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
-				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $this->options->getJavaScriptFooter() );
-				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
+			if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
+				wp_register_script( 'cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $connections->options->getJavaScriptFooter() );
 			} else {
-				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' ), '1.3.2', $this->options->getJavaScriptFooter() );
-				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'jquery-gomap-min' ), '2.0.10', $this->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'jquery-gomap-min' ), '2.0.10', $connections->options->getJavaScriptFooter() );
 			}
 
-			wp_register_script( 'jquery-qtip', CN_URL . 'js/jquery.qtip.min.js', array( 'jquery' ), 'nightly', $this->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-preloader', CN_URL . 'js/jquery.preloader.js', array( 'jquery' ), '1.1', $this->options->getJavaScriptFooter() );
+			if ( is_admin() ) {
+				wp_register_script( 'cn-ui-admin', CN_URL . 'js/cn-admin.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+				wp_register_script( 'cn-widget', CN_URL . 'js/widgets.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+			} else {
+				wp_register_script( 'cn-ui', CN_URL . 'js/cn-user.js', array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+			}
+
+			wp_register_script( 'jquery-qtip', CN_URL . 'js/jquery.qtip.min.js', array( 'jquery' ), 'nightly', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-preloader', CN_URL . 'js/jquery.preloader.js', array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
 
 			// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
-			// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $this->options->getJavaScriptFooter() );
+			// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
 
-			wp_register_script( 'jquery-chosen-min', CN_URL . 'js/jquery.chosen-0.9.8.min.js', array( 'jquery' ), '0.9.8', $this->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-validate' , CN_URL . 'js/jquery.validate.min.js', array( 'jquery', 'jquery-form' ) , '1.9.0' , $this->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-chosen-min', CN_URL . 'js/jquery.chosen-0.9.8.min.js', array( 'jquery' ), '0.9.8', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-validate' , CN_URL . 'js/jquery.validate.min.js', array( 'jquery', 'jquery-form' ) , '1.9.0' , $connections->options->getJavaScriptFooter() );
 		}
 
 		/**
-		 * Loads the Connections javascripts only on required admin pages.
+		 * Registers the CSS libraries that may be enqueued in the admin or frontend.
+		 *
+		 * @access private
+		 * @since 0.7.3.2
+		 * @uses wp_register_style()
+		 * @return void
 		 */
-		public function loadAdminScripts() {
-			// Exit the method if $_GET['page'] isn't set.
-			if ( !isset( $_GET['page'] ) ) return;
+		public static function registerCSS() {
 
-			$allPages = array( 'connections_dashboard', 'connections_manage',  'connections_add', 'connections_categories', 'connections_settings', 'connections_templates', 'connections_roles', 'connections_csv', 'connections_help' );
+			if ( is_admin() ) {
+				wp_register_style( 'cn-admin', CN_URL . 'css/cn-admin.css', array(), CN_CURRENT_VERSION );
+				wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . '.css', array(), CN_CURRENT_VERSION );
+			} else {
+				wp_register_style( 'connections-user', CN_URL . 'css/cn-user.css', array(), CN_CURRENT_VERSION );
+				wp_register_style( 'connections-qtip', CN_URL . 'css/jquery.qtip.min.css', array(), 'nightly' );
+			}
 
-			if ( in_array( $_GET['page'], $allPages ) ) {
-				wp_enqueue_script( 'cn-ui-admin', CN_URL . 'js/cn-admin.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_style( 'connections-chosen', CN_URL . 'css/chosen.css', array(), '0.9.8' );
+		}
+
+		/**
+		 * Enqueues the Connections JavaScript libraries on required admin pages.
+		 * 
+		 * @access private
+		 * @since 0.7.3.2
+		 * @uses wp_enqueue_script()
+		 * @param  string $pageHook The current admin page hook.
+		 * @return void
+		 */
+		public static function enqueueAdminScripts( $pageHook ) {
+			global $connections;
+
+			// Load on all the Connections admin pages.
+			if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
+				wp_enqueue_script( 'cn-ui-admin' );
 				wp_enqueue_script( 'jquery-preloader' );
 			}
 
@@ -1299,9 +1333,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 *
 			 * Load the tinyMCE scripts on these pages.
 			 */
-			$editorPages = array( 'connections_manage', 'connections_add' );
+			$editorPages = array( $connections->pageHook->manage, $connections->pageHook->add );
 
-			if ( in_array( $_GET['page'], $editorPages ) ) {
+			if ( in_array( $pageHook, $editorPages ) ) {
 				global $concatenate_scripts, $compress_scripts, $compress_css;
 
 				wp_enqueue_script( 'jquery-gomap-min' );
@@ -1311,92 +1345,92 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) {
 					$compress_scripts = FALSE; // If the script are compress the TinyMCE doesn't seem to function.
 
-					wp_tiny_mce(  FALSE , // true makes the editor "teeny"
-						array
-						(
-							'editor_selector' => 'tinymce',
+					wp_tiny_mce( 
+						FALSE , // true makes the editor "teeny"
+						array(
+							'editor_selector'         => 'tinymce',
 							'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
 							'theme_advanced_buttons2' => '',
-							'inline_styles' => TRUE,
-							'relative_urls' => FALSE,
-							'remove_linebreaks' => FALSE,
-							'plugins' => 'paste'
+							'inline_styles'           => TRUE,
+							'relative_urls'           => FALSE,
+							'remove_linebreaks'       => FALSE,
+							'plugins'                 => 'paste'
 						)
 					);
 				}
 			}
 
 			// Load the core JavaScripts required for meta box UI.
-			$metaBoxPages = array( 'connections_dashboard', 'connections_manage', 'connections_add' );
+			$metaBoxPages = array( $connections->pageHook->dashboard, $connections->pageHook->manage, $connections->pageHook->add );
 
-			if ( in_array( $_GET['page'], $metaBoxPages ) ) {
+			if ( in_array( $pageHook, $metaBoxPages ) ) {
 				wp_enqueue_script( 'common' );
 				wp_enqueue_script( 'wp-lists' );
 				wp_enqueue_script( 'postbox' );
-				wp_enqueue_script( 'cn-widget', CN_URL . 'js/widgets.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+				wp_enqueue_script( 'cn-widget' );
 			}
 		}
 
 		/**
-		 * Loads the Connections javascripts on the WordPress frontend.
+		 * Enqueues the Connections JavaScript libraries on the frontend.
+		 * 
+		 * @access private
+		 * @since 0.7.3.2
+		 * @uses wp_enqueue_script()
+		 * @return void
 		 */
-		public function loadScripts() {
+		public static function enqueueScripts() {
 			/*
 			 * http://beerpla.net/2010/01/13/wordpress-plugin-development-how-to-include-css-and-javascript-conditionally-and-only-when-needed-by-the-posts/
 			 * http://beerpla.net/2010/01/15/follow-up-to-loading-css-and-js-conditionally/
 			 * http://scribu.net/wordpress/optimal-script-loading.html
 			 */
 
-			wp_enqueue_script( 'cn-ui', CN_URL . 'js/cn-user.js', array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, $this->options->getJavaScriptFooter() );
+			wp_enqueue_script( 'cn-ui' );
 		}
 
 		/**
-		 * Loads the Connections CSS only on required admin pages.
+		 * Enqueues the Connections CSS on the required admin pages.
+		 * 
+		 * @access private
+		 * @since 0.7.3.2
+		 * @uses wp_enqueue_style()
+		 * @param  string $pageHook The current admin page hook.
+		 * @return void
 		 */
-		public function loadAdminStyles() {
-			// Exit the method if $_GET['page'] isn't set.
-			if ( ! isset( $_GET['page'] ) ) return;
+		public static function enqueueAdminStyles( $pageHook ) {
+			global $connections;
 
-			/*
-			 * Load styles only on the Connections plug-in admin pages.
-			 */
-			$adminPages = array(
-				'connections_dashboard',
-				'connections_manage',
-				'connections_add',
-				'connections_categories',
-				'connections_settings',
-				'connections_templates',
-				'connections_roles',
-				'connections_csv',
-				'connections_help'
-			);
-
-			if ( in_array( $_GET['page'], $adminPages ) ) {
-				wp_enqueue_style( 'cn-admin', CN_URL . 'css/cn-admin.css', array(), CN_CURRENT_VERSION );
-
-				$jQueryUIStyle = ( 'classic' == get_user_option( 'admin_color' ) ) ? 'classic' : 'fresh';
-
-				wp_enqueue_style( 'cn-admin-jquery-ui', CN_URL . 'css/jquery-ui-' . $jQueryUIStyle . '.css', array(), CN_CURRENT_VERSION );
+			// Load on all the Connections admin pages.
+			if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
+				wp_enqueue_style( 'cn-admin' );
+				wp_enqueue_style( 'cn-admin-jquery-ui' );
 			}
 
-			/*
-			 * Load the WordPress widgets styles only of these pages.
-			 */
-			$adminPageEntryEdit = array( 'connections_manage', 'connections_add' );
-			if ( in_array( $_GET['page'], $adminPageEntryEdit ) ) {
+			// Load the WordPress widgets styles only on these pages.
+			$adminPageEntryEdit = array( $connections->pageHook->manage, $connections->pageHook->add );
+
+			if ( in_array( $pageHook, $adminPageEntryEdit ) ) {
+
+				// Earlier version of WP had the widgets CSS in a seperate file.
 				if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) wp_enqueue_style( 'connections-admin-widgets', get_admin_url() . 'css/widgets.css' );
-				wp_enqueue_style( 'connections-chosen', CN_URL . 'css/chosen.css', array(), '0.9.8' );
+
+				wp_enqueue_style( 'connections-chosen' );
 			}
 		}
 
 		/**
-		 * Loads the Connections CSS on the WordPress frontend.
+		 * Enqueues the Connections CSS on the frontend.
+		 * 
+		 * @access private
+		 * @since 0.7.3.2
+		 * @uses wp_enqueue_style()
+		 * @return void
 		 */
-		public function loadStyles() {
-			wp_enqueue_style( 'connections-user', CN_URL . 'css/cn-user.css', array(), CN_CURRENT_VERSION );
-			wp_enqueue_style( 'connections-chosen', CN_URL . 'css/chosen.css', array(), '0.9.8' );
-			wp_enqueue_style( 'connections-qtip', CN_URL . 'css/jquery.qtip.min.css', array(), 'nightly' );
+		public static function enqueueStyles() {
+			wp_enqueue_style( 'connections-user' );
+			wp_enqueue_style( 'connections-chosen' );
+			wp_enqueue_style( 'connections-qtip' );
 		}
 
 		// Add settings option

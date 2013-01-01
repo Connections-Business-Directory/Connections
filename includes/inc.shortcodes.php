@@ -631,7 +631,7 @@ function _upcoming_list( $atts, $content = NULL ) {
 						
 						$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
 							ob_start();
-							include_once($template->file);
+							include($template->file);
 						    $out .= ob_get_contents();
 						    ob_end_clean();
 						$out .= '</div>' . "\n";

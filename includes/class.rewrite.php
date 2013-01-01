@@ -442,6 +442,9 @@ class cnRewrite {
 		
 		$originalURL = $requestedURL;
 		$parsedURL   = @parse_url( $requestedURL );
+
+		// Ensure array index is set, prevent PHP error notice.
+		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] ='';
 		
 		$redirectURL = explode( '?', $requestedURL );
 		$redirectURL = $redirectURL[0];

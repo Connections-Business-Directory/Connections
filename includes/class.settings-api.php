@@ -65,6 +65,7 @@ if ( ! class_exists('cnSettingsAPI') )
 			if ( ! self::$_instance )
 			{
 				self::$_instance = new cnSettingsAPI();
+				self::$_instance->init();
 			}
 			
 			return self::$_instance;

@@ -1593,7 +1593,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 						if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 							check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 							processEntry( $_POST, 'add' );
-							wp_redirect( 'admin.php?page=connections_add&display_messages=true' );
+							// wp_redirect( 'admin.php?page=connections_add&display_messages=true' );
+							wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_add&display_messages=true' ) );
+							exit();
 						}
 						else {
 							$connections->setErrorMessage( 'capability_add' );
@@ -1607,7 +1609,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 						if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 							check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
 							processEntry( $_POST, 'update' );
-							wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
+							// wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
+							wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage&display_messages=true' ) );
+							exit();
 						}
 						else {
 							$connections->setErrorMessage( 'capability_edit' );
@@ -1620,7 +1624,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 						if ( current_user_can( 'connections_edit_entry' ) ) {
 							processSetEntryStatus( 'approved' );
-							wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
+							// wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
+							wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage&display_messages=true' ) );
+							exit();
 						}
 						else {
 							$connections->setErrorMessage( 'capability_edit' );
@@ -1633,7 +1639,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 						if ( current_user_can( 'connections_edit_entry' ) ) {
 							processSetEntryStatus( 'pending' );
-							wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
+							// wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
+							wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage&display_messages=true' ) );
+							exit();
 						}
 						else {
 							$connections->setErrorMessage( 'capability_edit' );
@@ -1646,7 +1654,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 						if ( current_user_can( 'connections_delete_entry' ) ) {
 							processDeleteEntry();
-							wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
+							// wp_redirect( 'admin.php?page=connections_manage&display_messages=true' );
+							wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage&display_messages=true' ) );
+							exit();
 						}
 						else {
 							$connections->setErrorMessage( 'capability_delete' );
@@ -1658,7 +1668,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 						processSetUserFilter();
 						//wp_redirect('admin.php?page=connections_manage');
 						//wp_redirect( add_query_arg( 's' , urlencode( $_GET['s'] ) , 'admin.php?page=connections_manage' ) );
-						wp_redirect( add_query_arg( array( 's' => ( ( isset( $_POST['s'] ) ) ? urlencode( $_POST['s'] ) : '' ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+						// wp_redirect( add_query_arg( array( 's' => ( ( isset( $_POST['s'] ) ) ? urlencode( $_POST['s'] ) : '' ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+						wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => ( ( isset( $_POST['s'] ) ) ? urlencode( $_POST['s'] ) : '' ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+						exit();
 						break;
 
 					case 'do':
@@ -1672,7 +1684,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 									check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 									processDeleteEntries();
 									//wp_redirect('admin.php?page=connections_manage&display_messages=true');
-									wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+									// wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+									exit();
+							exit();
 								}
 								else {
 									$connections->setErrorMessage( 'capability_delete' );
@@ -1687,7 +1702,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 									check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 									processSetEntryStatuses( 'approved' );
 									//wp_redirect('admin.php?page=connections_manage&display_messages=true');
-									wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+									// wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+									exit();
 								}
 								else {
 									$connections->setErrorMessage( 'capability_edit' );
@@ -1702,7 +1719,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 									check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 									processSetEntryStatuses( 'pending' );
 									//wp_redirect('admin.php?page=connections_manage&display_messages=true');
-									wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+									// wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+									exit();
 								}
 								else {
 									$connections->setErrorMessage( 'capability_edit' );
@@ -1716,8 +1735,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								if ( current_user_can( 'connections_edit_entry' ) ) {
 									check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 									processSetEntryVisibility();
-									wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+									// wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
 									//wp_redirect('admin.php?page=connections_manage&display_messages=true');
+									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+									exit();
 								}
 								else {
 									$connections->setErrorMessage( 'capability_edit' );
@@ -1726,14 +1747,17 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 							default:
 								//wp_redirect('admin.php?page=connections_manage&display_messages=true');
-								wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+								// wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+								wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+								exit();
 								break;
 							}
 						}
 
 						check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 						processSetUserFilter();
-						wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+						// wp_redirect( add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) );
+						wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
 
 						break;
 					}

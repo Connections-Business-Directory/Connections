@@ -6,7 +6,7 @@ Description: A business directory and address book manager.
 Version: 0.7.3.1
 Author: Steven A. Zahm
 Author URI: http://connections-pro.com/
-Text Domain: health-check
+Text Domain: connections
 Domain Path: /lang
 
 	Copyright 2009  Steven A. Zahm  (email : helpdesk@connections-pro.com)

@@ -231,6 +231,7 @@ class cnEntry {
 
 		if ( isset( $entry ) ) {
 			if ( isset( $entry->id ) ) $this->id = (integer) $entry->id;
+			if ( isset( $entry->user ) ) $this->user = (integer) $entry->user;
 			if ( isset( $entry->ts ) ) $this->timeStamp = $entry->ts;
 			if ( isset( $entry->date_added ) ) $this->dateAdded = (integer) $entry->date_added;
 
@@ -315,8 +316,6 @@ class cnEntry {
 
 	/**
 	 * Returns $id.
-	 *
-	 * @see entry::$id
 	 */
 	public function getId() {
 		return (integer) $this->id;
@@ -325,11 +324,26 @@ class cnEntry {
 	/**
 	 * Sets $id.
 	 *
-	 * @param object  $id
-	 * @see entry::$id
+	 * @param integer $id
 	 */
 	public function setId( $id ) {
 		$this->id = $id;
+	}
+
+	/**
+	 * Returns $userID.
+	 */
+	public function getUser() {
+		return (integer) empty( $this->user ) ? 0 : $this->user;
+	}
+
+	/**
+	 * Sets $userID.
+	 *
+	 * @param integer $id
+	 */
+	public function setUser( $id ) {
+		$this->user = $id;
 	}
 
 	/**
@@ -405,11 +419,11 @@ class cnEntry {
 	 *
 	 * @return string
 	 */
-	private function getUniqueSlug() {
+	private function getUniqueSlug( $slug = NULL ) {
 		global $wpdb;
 
 		// WP function -- formatting class
-		$slug = sanitize_title( $this->getName( array( 'format' => '%first%-%last%' ) ) );
+		$slug = empty( $slug ) ? sanitize_title( $this->getName( array( 'format' => '%first%-%last%' ) ) ) : $slug;
 
 		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug = %s', $slug );
 
@@ -3268,43 +3282,43 @@ class cnEntry {
 
 		// Ensure fields that should be empty depending on the entry type.
 		switch ( $this->getEntryType() ) {
-		case 'individual':
-			$this->familyName = '';
-			$this->familyMembers = '';
-			$this->contactFirstName = '';
-			$this->contactLastName = '';
-			break;
+			case 'individual':
+				$this->familyName       = '';
+				$this->familyMembers    = '';
+				$this->contactFirstName = '';
+				$this->contactLastName  = '';
+				break;
 
-		case 'organization':
-			$this->familyName = '';
-			$this->honorificPrefix = '';
-			$this->firstName = '';
-			$this->middleName = '';
-			$this->lastName = '';
-			$this->honorific = '';
-			$this->title = '';
-			$this->familyMembers = '';
-			$this->birthday = '';
-			$this->anniversary = '';
-			break;
+			case 'organization':
+				$this->familyName      = '';
+				$this->honorificPrefix = '';
+				$this->firstName       = '';
+				$this->middleName      = '';
+				$this->lastName        = '';
+				$this->honorific       = '';
+				$this->title           = '';
+				$this->familyMembers   = '';
+				$this->birthday        = '';
+				$this->anniversary     = '';
+				break;
 
-		case 'family':
-			$this->honorificPrefix = '';
-			$this->firstName = '';
-			$this->middleName = '';
-			$this->lastName = '';
-			$this->honorificSuffix = '';
-			$this->title = '';
-			$this->contactFirstName = '';
-			$this->contactLastName = '';
-			$this->birthday = '';
-			$this->anniversary = '';
-			break;
+			case 'family':
+				$this->honorificPrefix  = '';
+				$this->firstName        = '';
+				$this->middleName       = '';
+				$this->lastName         = '';
+				$this->honorificSuffix  = '';
+				$this->title            = '';
+				$this->contactFirstName = '';
+				$this->contactLastName  = '';
+				$this->birthday         = '';
+				$this->anniversary      = '';
+				break;
 
-		default:
-			$this->entryType = 'individual';
-			$this->familyName = '';
-			break;
+			default:
+				$this->entryType  = 'individual';
+				$this->familyName = '';
+				break;
 		}
 
 		$wpdb->show_errors = true;
@@ -3314,69 +3328,72 @@ class cnEntry {
 		 */
 		if ( empty( $this->slug ) ) $this->slug = $this->getUniqueSlug();
 
-		$result = $wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET
-											ts			   		= %s,
-											entry_type			= %s,
-											visibility			= %s,
-											slug				= %s,
-											honorific_prefix	= %s,
-											first_name			= %s,
-											middle_name			= %s,
-											last_name			= %s,
-											honorific_suffix	= %s,
-											title				= %s,
-											organization		= %s,
-											department			= %s,
-											contact_first_name	= %s,
-											contact_last_name	= %s,
-											family_name			= %s,
-											birthday			= %s,
-											anniversary			= %s,
-											addresses			= %s,
-											phone_numbers		= %s,
-											email				= %s,
-											im					= %s,
-											social				= %s,
-											links				= %s,
-											dates				= %s,
-											options				= %s,
-											bio					= %s,
-											notes				= %s,
-											edited_by			= %d,
-											user				= %d,
-											status				= %s
-											WHERE id			= %d',
-				current_time( 'mysql' ),
-				$this->entryType,
-				$this->visibility,
-				$this->slug,
-				$this->honorificPrefix,
-				$this->firstName,
-				$this->middleName,
-				$this->lastName,
-				$this->honorificSuffix,
-				$this->title,
-				$this->organization,
-				$this->department,
-				$this->contactFirstName,
-				$this->contactLastName,
-				$this->familyName,
-				$this->birthday,
-				$this->anniversary,
-				$this->addresses,
-				$this->phoneNumbers,
-				$this->emailAddresses,
-				$this->im,
-				$this->socialMedia,
-				$this->links,
-				$this->dates,
-				$this->options,
-				$this->bio,
-				$this->notes,
-				$connections->currentUser->getID(),
-				0,
-				$this->status,
-				$this->id ) );
+		$result = $wpdb->query( $wpdb->prepare( 
+			'UPDATE ' . CN_ENTRY_TABLE . ' SET
+			ts                 = %s,
+			entry_type         = %s,
+			visibility         = %s,
+			slug               = %s,
+			honorific_prefix   = %s,
+			first_name         = %s,
+			middle_name        = %s,
+			last_name          = %s,
+			honorific_suffix   = %s,
+			title              = %s,
+			organization       = %s,
+			department         = %s,
+			contact_first_name = %s,
+			contact_last_name  = %s,
+			family_name        = %s,
+			birthday           = %s,
+			anniversary        = %s,
+			addresses          = %s,
+			phone_numbers      = %s,
+			email              = %s,
+			im                 = %s,
+			social             = %s,
+			links              = %s,
+			dates              = %s,
+			options            = %s,
+			bio                = %s,
+			notes              = %s,
+			edited_by          = %d,
+			user               = %d,
+			status             = %s
+			WHERE id           = %d',
+			current_time( 'mysql' ),
+			$this->entryType,
+			$this->visibility,
+			$this->slug,
+			$this->honorificPrefix,
+			$this->firstName,
+			$this->middleName,
+			$this->lastName,
+			$this->honorificSuffix,
+			$this->title,
+			$this->organization,
+			$this->department,
+			$this->contactFirstName,
+			$this->contactLastName,
+			$this->familyName,
+			$this->birthday,
+			$this->anniversary,
+			$this->addresses,
+			$this->phoneNumbers,
+			$this->emailAddresses,
+			$this->im,
+			$this->socialMedia,
+			$this->links,
+			$this->dates,
+			$this->options,
+			$this->bio,
+			$this->notes,
+			$connections->currentUser->getID(),
+			$this->getUser(),
+			$this->status,
+			$this->id
+			)
+		);
 
 		//print_r($wpdb->last_query);
 
@@ -3933,47 +3950,48 @@ class cnEntry {
 
 		// Ensure fields that should be empty depending on the entry type.
 		switch ( $this->getEntryType() ) {
-		case 'individual':
-			$this->familyName = '';
-			$this->familyMembers = '';
-			break;
+			case 'individual':
+				$this->familyName    = '';
+				$this->familyMembers = '';
+				break;
 
-		case 'organization':
-			$this->familyName = '';
-			$this->honorificPrefix = '';
-			$this->firstName = '';
-			$this->middleName = '';
-			$this->lastName = '';
-			$this->honorificSuffix = '';
-			$this->title = '';
-			$this->familyMembers = '';
-			$this->birthday = '';
-			$this->anniversary = '';
-			break;
+			case 'organization':
+				$this->familyName      = '';
+				$this->honorificPrefix = '';
+				$this->firstName       = '';
+				$this->middleName      = '';
+				$this->lastName        = '';
+				$this->honorificSuffix = '';
+				$this->title           = '';
+				$this->familyMembers   = '';
+				$this->birthday        = '';
+				$this->anniversary     = '';
+				break;
 
-		case 'family':
-			$this->honorificPrefix = '';
-			$this->firstName = '';
-			$this->middleName = '';
-			$this->lastName = '';
-			$this->honorificSuffix = '';
-			$this->title = '';
-			$this->birthday = '';
-			$this->anniversary = '';
-			break;
+			case 'family':
+				$this->honorificPrefix = '';
+				$this->firstName       = '';
+				$this->middleName      = '';
+				$this->lastName        = '';
+				$this->honorificSuffix = '';
+				$this->title           = '';
+				$this->birthday        = '';
+				$this->anniversary     = '';
+				break;
 
-		default:
-			$this->entryType = 'individual';
-			$this->familyName = '';
-			break;
+			default:
+				$this->entryType  = 'individual';
+				$this->familyName = '';
+				break;
 		}
 
 		$wpdb->show_errors = true;
 
 		/*
 		 * Check to see if there is a slug; if not go fetch one.
+		 * NOTE: When adding a new entry, a new unique slug should be created and set.
 		 */
-		if ( empty( $this->slug ) ) $this->slug = $this->getUniqueSlug();
+		/*if ( empty( $this->slug ) )*/ $this->slug = $this->getUniqueSlug();
 
 		$sql = $wpdb->prepare( 
 			'INSERT INTO ' . CN_ENTRY_TABLE . ' SET
@@ -4041,7 +4059,7 @@ class cnEntry {
 			$connections->currentUser->getID(),
 			$connections->currentUser->getID(),
 			$connections->currentUser->getID(),
-			0,
+			$this->getUser(),
 			$this->status
 		);
 

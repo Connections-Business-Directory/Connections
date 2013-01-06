@@ -447,7 +447,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		public function displayMessages() {
 			// Exit the method if $_GET['display_messages'] isn't set.
-			if ( ! isset( $_GET['display_messages'] ) ) return;
+			// if ( ! isset( $_GET['display_messages'] ) ) return;
 
 			$output = '';
 
@@ -477,7 +477,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				}
 			}
 
-			if ( $_GET['display_messages'] === 'true' ) $this->currentUser->resetMessages();
+			/*if ( $_GET['display_messages'] === 'true' )*/ $this->currentUser->resetMessages();
 
 			echo $output;
 		}
@@ -1082,7 +1082,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * PHP notices when attempting to access them. If the menus have been added then the
 			 * properties will exist so it will be safe to add the actions using the properties.
 			 */
-			if ( get_object_vars( $this->pageHook ) ) {
+			if ( get_object_vars( $this->pageHook ) && current_user_can( 'connections_view_menu') ) {
 				// Register the edit metaboxes.
 				add_action( 'load-' . $this->pageHook->add, array( $this, 'registerEditMetaboxes' ) );
 				add_action( 'load-' . $this->pageHook->manage, array( $this, 'registerEditMetaboxes' ) );
@@ -1154,6 +1154,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @return void
 		 */
 		public function adminMenu() {
+
+			if ( ! current_user_can( 'connections_view_menu') ) return;
+
 			// Set the capability string to be used in the add_sub_menu function per role capability assigned to the current user.
 			if ( current_user_can( 'connections_add_entry_moderated' ) ) {
 				$addEntryCapability = 'connections_add_entry_moderated';
@@ -1318,6 +1321,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public static function enqueueAdminScripts( $pageHook ) {
 			global $connections;
 
+			if ( ! current_user_can( 'connections_view_menu') ) return;
+
 			// Load on all the Connections admin pages.
 			if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
 				wp_enqueue_script( 'cn-ui-admin' );
@@ -1400,6 +1405,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public static function enqueueAdminStyles( $pageHook ) {
 			global $connections;
+
+			if ( ! current_user_can( 'connections_view_menu') ) return;
 
 			// Load on all the Connections admin pages.
 			if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
@@ -1592,11 +1599,30 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 								if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 									check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
+
+									/*
+									 * --> START <-- Verify this nonce if it exists to support a link with an entry and a WP user created by Connections Link.
+									 */
+									// If the current user ID nonce field is set and valid stuff the current user ID in $_POST.
+									if ( isset( $_POST['_cn_add_user_nonce'] ) && 
+										 isset( $_POST['add_user_id'] ) &&
+										 wp_verify_nonce( $_POST['_cn_add_user_nonce'], $form->getNonce( 'add_user', $_POST['add_user_id'] ) ) ) {
+										$_POST['user'] = $_POST['add_user_id'];
+									} else {
+										wp_die( __( 'Are you cheating? Please contact the admin if you received this message in error.', 'connections' ) );
+									}
+									/*
+									 * --> END <-- Verify this nonce if it exists to support a link with an entry and a WP user created by Connections Link.
+									 */
+									
+									// Setup the redirect URL.
+									$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
+
 									processEntry( $_POST, 'add' );
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_add&display_messages=true' ) );
+
+									wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
 									exit();
-								}
-								else {
+								} else {
 									$connections->setErrorMessage( 'capability_add' );
 								}
 								break;
@@ -1607,11 +1633,30 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 								if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 									check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
+									
+									/*
+									 * --> START <-- Verify this nonce if it exists to support a link with an entry and a WP user created by Connections Link.
+									 */
+									// If the current user ID nonce field is set and valid stuff the current user ID in $_POST.
+									if ( isset( $_POST['_cn_update_user_nonce'] ) && 
+										 isset( $_POST['update_user_id'] ) &&
+										 wp_verify_nonce( $_POST['_cn_update_user_nonce'], $form->getNonce( 'update_user', $_POST['update_user_id'] ) ) ) {
+										$_POST['user'] = $_POST['update_user_id'];
+									} else {
+										wp_die( __( 'You seem to be trying to edit an entry that does not belong to you. Please contact the admin if you received this message in error.', 'connections' ) );
+									}
+									/*
+									 * --> END <-- Verify this nonce if it exists to support a link with an entry and a WP user created by Connections Link.
+									 */
+									
+									// Setup the redirect URL.
+									$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_manage';
+
 									processEntry( $_POST, 'update' );
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage&display_messages=true' ) );
+									
+									wp_redirect( get_admin_url( get_current_blog_id(), $redirect ) );
 									exit();
-								}
-								else {
+								} else {
 									$connections->setErrorMessage( 'capability_edit' );
 								}
 								break;
@@ -1622,10 +1667,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 								if ( current_user_can( 'connections_edit_entry' ) ) {
 									processSetEntryStatus( 'approved' );
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage&display_messages=true' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
 									exit();
-								}
-								else {
+								} else {
 									$connections->setErrorMessage( 'capability_edit' );
 								}
 								break;
@@ -1636,10 +1680,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 								if ( current_user_can( 'connections_edit_entry' ) ) {
 									processSetEntryStatus( 'pending' );
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage&display_messages=true' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
 									exit();
-								}
-								else {
+								} else {
 									$connections->setErrorMessage( 'capability_edit' );
 								}
 								break;
@@ -1650,10 +1693,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 								if ( current_user_can( 'connections_delete_entry' ) ) {
 									processDeleteEntry();
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage&display_messages=true' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
 									exit();
-								}
-								else {
+								} else {
 									$connections->setErrorMessage( 'capability_delete' );
 								}
 								break;
@@ -1661,7 +1703,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							case 'filter':
 								check_admin_referer( 'filter' );
 								processSetUserFilter();
-								wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => ( ( isset( $_POST['s'] ) ) ? urlencode( $_POST['s'] ) : '' ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+								wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => (  isset( $_POST['s'] ) ? urlencode( $_POST['s'] ) : '' ) ) , 'admin.php?page=connections_manage' ) ) );
 								exit();
 								break;
 
@@ -1675,11 +1717,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 											if ( current_user_can( 'connections_delete_entry' ) ) {
 												check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 												processDeleteEntries();
-												wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+												wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) ) , 'admin.php?page=connections_manage' ) ) );
 												exit();
-										exit();
-											}
-											else {
+											} else {
 												$connections->setErrorMessage( 'capability_delete' );
 											}
 											break;
@@ -1691,10 +1731,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 											if ( current_user_can( 'connections_edit_entry' ) ) {
 												check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 												processSetEntryStatuses( 'approved' );
-												wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+												wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) ) , 'admin.php?page=connections_manage' ) ) );
 												exit();
-											}
-											else {
+											} else {
 												$connections->setErrorMessage( 'capability_edit' );
 											}
 											break;
@@ -1706,10 +1745,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 											if ( current_user_can( 'connections_edit_entry' ) ) {
 												check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 												processSetEntryStatuses( 'pending' );
-												wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+												wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) ) , 'admin.php?page=connections_manage' ) ) );
 												exit();
-											}
-											else {
+											} else {
 												$connections->setErrorMessage( 'capability_edit' );
 											}
 											break;
@@ -1721,16 +1759,15 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 											if ( current_user_can( 'connections_edit_entry' ) ) {
 												check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 												processSetEntryVisibility();
-												wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+												wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) ) , 'admin.php?page=connections_manage' ) ) );
 												exit();
-											}
-											else {
+											} else {
 												$connections->setErrorMessage( 'capability_edit' );
 											}
 											break;
 
 										default:
-											wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+											wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) ) , 'admin.php?page=connections_manage' ) ) );
 											exit();
 											break;
 									}
@@ -1738,7 +1775,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 								check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 								processSetUserFilter();
-								wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) , 'display_messages' => 'true' ) , 'admin.php?page=connections_manage' ) ) );
+								wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) ) , 'admin.php?page=connections_manage' ) ) );
 								exit();
 								break;
 						}
@@ -1756,27 +1793,27 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								case 'add':
 									check_admin_referer( $form->getNonce( 'add_category' ), '_cn_wpnonce' );
 									processAddCategory();
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories&display_messages=true' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 									exit();
 									break;
 
 								case 'update':
 									check_admin_referer( $form->getNonce( 'update_category' ), '_cn_wpnonce' );
 									processUpdateCategory();
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories&display_messages=true' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 									exit();
 									break;
 
 								case 'delete':
 									processDeleteCategory( 'delete' );
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories&display_messages=true' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 									exit();
 									break;
 
 								case 'bulk_delete':
 									check_admin_referer( $form->getNonce( 'bulk_delete_category' ), '_cn_wpnonce' );
 									processDeleteCategory( 'bulk_delete' );
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories&display_messages=true' ) );
+									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
 									exit();
 									break;
 							}
@@ -1797,8 +1834,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								case 'activate':
 									processActivateTemplate();
 
-									( !isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab, 'display_messages' => 'true' ) , 'admin.php?page=connections_templates' ) ) );
+									( ! isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
+									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
 									exit();
 									break;
 
@@ -1806,25 +1843,25 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 									check_admin_referer( $form->getNonce( 'install_template' ), '_cn_wpnonce' );
 									processInstallTemplate();
 
-									( !isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab, 'display_messages' => 'true' ) , 'admin.php?page=connections_templates' ) ) );
+									( ! isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
+									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
 									exit();
 									break;
 
 								case 'delete':
 									processDeleteTemplate();
 
-									( !isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab, 'display_messages' => 'true' ) , 'admin.php?page=connections_templates' ) ) );
+									( ! isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
+									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
 									exit();
 									break;
 							}
 						}
-					}
-					else {
+					} else {
 						// @TODO: Create template specific error message.
 						$connections->setErrorMessage( 'capability_settings' );
 					}
+
 					break;
 
 				case 'role':
@@ -1836,7 +1873,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 						if ( $_GET['action'] === 'update' ) {
 							check_admin_referer( $form->getNonce( 'update_role_settings' ), '_cn_wpnonce' );
 							updateRoleSettings();
-							wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_roles&display_messages=true' ) );
+							wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_roles' ) );
 							exit();
 						}
 					} else {

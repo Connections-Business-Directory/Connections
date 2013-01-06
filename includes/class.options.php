@@ -241,6 +241,7 @@ class cnOptions {
 	 */
 	public function getDefaultCapabilities() {
 		return array(
+			'connections_view_menu'            => __( 'View Admin Menu', 'connections' ),
 			'connections_view_dashboard'       => __( 'View Dashboard', 'connections' ),
 			'connections_manage'               => __( 'View List (Manage)', 'connections' ),
 			'connections_add_entry'            => __( 'Add Entry', 'connections' ),

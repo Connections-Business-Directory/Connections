@@ -53,6 +53,8 @@ function processEntry( $data, $action ) {
 	if ( isset( $data['notes'] ) ) $entry->setNotes( $data['notes'] );
 	if ( isset( $data['visibility'] ) ) $entry->setVisibility( $data['visibility'] );
 
+	( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->setUser( 0 );
+
 
 	/*
 	 * Process the logo upload --> START <--
@@ -192,13 +194,13 @@ function processEntry( $data, $action ) {
 				$entry->setImageLinked( false );
 
 				/*
-					 * Delete images assigned to the entry.
-					 *
-					 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
-					 * copying an entry so it was possible multiple entries could share the same image.
-					 * Only images created after the date that version .0.7.0.0 was released will be deleted,
-					 * plus a couple weeks for good measure.
-					 */
+				 * Delete images assigned to the entry.
+				 *
+				 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
+				 * copying an entry so it was possible multiple entries could share the same image.
+				 * Only images created after the date that version .0.7.0.0 was released will be deleted,
+				 * plus a couple weeks for good measure.
+				 */
 
 
 				if ( is_file( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {

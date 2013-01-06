@@ -117,10 +117,10 @@ class cnFormObjects {
 		$name = esc_attr( $name );
 
 		if ( $item == FALSE ) {
-			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, TRUE, FALSE );
+			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, $referer, FALSE );
 		}
 		else {
-			$token = wp_nonce_field( $this->nonceBase . '_' . $action . '_' . $item, $name, TRUE, FALSE );
+			$token = wp_nonce_field( $this->nonceBase . '_' . $action . '_' . $item, $name, $referer, FALSE );
 		}
 
 		if ( $echo ) echo $token;
@@ -752,10 +752,10 @@ class cnFormObjects {
 	 * @param array   $entry
 	 */
 	public function metaboxPublish( $entry = NULL ) {
+		
 		if ( isset( $_GET['action'] ) ) {
 			$action = esc_attr( $_GET['action'] );
-		}
-		else {
+		} else {
 			$action = NULL;
 		}
 
@@ -795,19 +795,19 @@ class cnFormObjects {
 		echo '<div id="major-publishing-actions">';
 
 		switch ( $action ) {
-		case 'edit':
-			echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
-			echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
-			break;
+			case 'edit':
+				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
+				echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
+				break;
 
-		case 'copy':
-			echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
-			echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
-			break;
+			case 'copy':
+				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
+				echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
+				break;
 
-		default:
-			echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
-			break;
+			default:
+				echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
+				break;
 		}
 
 		echo '<div class="clear"></div>';

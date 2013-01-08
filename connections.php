@@ -1600,21 +1600,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 									check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-									/*
-									 * --> START <-- Verify this nonce if it exists to support a link with an entry and a WP user created by Connections Link.
-									 */
-									// If the current user ID nonce field is set and valid stuff the current user ID in $_POST.
-									if ( isset( $_POST['_cn_add_user_nonce'] ) && 
-										 isset( $_POST['add_user_id'] ) &&
-										 wp_verify_nonce( $_POST['_cn_add_user_nonce'], $form->getNonce( 'add_user', $_POST['add_user_id'] ) ) ) {
-										$_POST['user'] = $_POST['add_user_id'];
-									} else {
-										wp_die( __( 'Are you cheating? Please contact the admin if you received this message in error.', 'connections' ) );
-									}
-									/*
-									 * --> END <-- Verify this nonce if it exists to support a link with an entry and a WP user created by Connections Link.
-									 */
-									
 									// Setup the redirect URL.
 									$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
 
@@ -1633,21 +1618,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 								if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 									check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
-									
-									/*
-									 * --> START <-- Verify this nonce if it exists to support a link with an entry and a WP user created by Connections Link.
-									 */
-									// If the current user ID nonce field is set and valid stuff the current user ID in $_POST.
-									if ( isset( $_POST['_cn_update_user_nonce'] ) && 
-										 isset( $_POST['update_user_id'] ) &&
-										 wp_verify_nonce( $_POST['_cn_update_user_nonce'], $form->getNonce( 'update_user', $_POST['update_user_id'] ) ) ) {
-										$_POST['user'] = $_POST['update_user_id'];
-									} else {
-										wp_die( __( 'You seem to be trying to edit an entry that does not belong to you. Please contact the admin if you received this message in error.', 'connections' ) );
-									}
-									/*
-									 * --> END <-- Verify this nonce if it exists to support a link with an entry and a WP user created by Connections Link.
-									 */
 									
 									// Setup the redirect URL.
 									$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_manage';

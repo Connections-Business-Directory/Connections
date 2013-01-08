@@ -56,6 +56,9 @@ function processEntry( $data, $action ) {
 	( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->setUser( 0 );
 
 
+	$entry = apply_filters( 'cn_pre_process_' . $action . '-entry', $entry );
+
+
 	/*
 	 * Process the logo upload --> START <--
 	 */

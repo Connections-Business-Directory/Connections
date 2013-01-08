@@ -165,7 +165,7 @@ span.date-name { font-weight: bold; }
 	margin: 1px 0 1px 1px !important;
 	padding: 3px 6px;
 	text-align: left;
-	vertical-align: baseline;
+	vertical-align: bottom;
 	width: 140px;
 }
 #cn-search-input:focus {
@@ -186,11 +186,12 @@ input#cn-search-submit {
 	box-sizing: border-box;
 	cursor: pointer;
 	font-size: 12px;
+	height: 28px;
 	line-height: 20px;
 	margin: 1px 1px 1px 0 !important;
 	padding: 3px;
 	text-align: left;
-	vertical-align: baseline;
+	vertical-align: bottom;
 	width: 30px;
 }
 

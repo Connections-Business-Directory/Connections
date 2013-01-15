@@ -2649,18 +2649,6 @@ class cnEntry {
 					$row->name = $dateTypes[ $row->type ];
 
 					/*
-					 * // START -- Do not return dates that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					/*
-					 * // END -- Do not return dates that do not match the supplied $atts.
-					 */
-
-					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					/*
 					 * If the date type is anniversary or birthday and the date is equal to the date
 					 * saved in the legacy fields, unset the data imported from the legacy field.
 					 * This is for compatibility with versions 0.7.2.6 and older.
@@ -2671,6 +2659,18 @@ class cnEntry {
 					 */
 					if ( ( $row->type == 'anniversary' ) && ( isset( $results['anniversary'] ) ) && ( substr( $row->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
 					if ( ( $row->type == 'birthday' ) && ( isset( $results['birthday'] ) ) && ( substr( $row->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
+
+					/*
+					 * // START -- Do not return dates that do not match the supplied $atts.
+					 */
+					if ( $preferred && ! $row->preferred ) continue;
+					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
+					/*
+					 * // END -- Do not return dates that do not match the supplied $atts.
+					 */
+
+					// If the user does not have permission to view the address, do not return it.
+					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_date', $row );
 				}
@@ -3328,7 +3328,7 @@ class cnEntry {
 		 */
 		if ( empty( $this->slug ) ) $this->slug = $this->getUniqueSlug();
 
-		$result = $wpdb->query( $wpdb->prepare( 
+		$result = $wpdb->query( $wpdb->prepare(
 			'UPDATE ' . CN_ENTRY_TABLE . ' SET
 			ts                 = %s,
 			entry_type         = %s,
@@ -3940,6 +3940,8 @@ class cnEntry {
 
 		$wpdb->show_errors = FALSE;
 
+		do_action( 'cn_update-entry', $this );
+
 		return $result;
 	}
 
@@ -3993,7 +3995,7 @@ class cnEntry {
 		 */
 		/*if ( empty( $this->slug ) )*/ $this->slug = $this->getUniqueSlug();
 
-		$sql = $wpdb->prepare( 
+		$sql = $wpdb->prepare(
 			'INSERT INTO ' . CN_ENTRY_TABLE . ' SET
 			ts                 = %s,
 			date_added         = %d,
@@ -4247,6 +4249,8 @@ class cnEntry {
 
 		$wpdb->show_errors = FALSE;
 
+		do_action( 'cn_save-entry', $this );
+
 		return $result;
 	}
 
@@ -4337,6 +4341,8 @@ class cnEntry {
 		 * @TODO Only delete the category relationships if deleting the entry was successful
 		 */
 		$connections->term->deleteTermRelationships( $id );
+
+		do_action( 'cn_delete-entry', $this );
 	}
 
 }

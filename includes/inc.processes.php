@@ -55,9 +55,9 @@ function processEntry( $data, $action ) {
 
 	( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->setUser( 0 );
 
-
-	$entry = apply_filters( 'cn_pre_process_' . $action . '-entry', $entry );
-
+	// Run any registered filters before processing, passing the $entry object.
+	// ? Should the logo, photo and category data be passed too?
+	$entry = apply_filters( 'cn_pre_process_' . $action . '-entry', $entry, ( isset( $data['entry_category'] ) ? $data['entry_category'] : array() ) );
 
 	/*
 	 * Process the logo upload --> START <--
@@ -104,14 +104,13 @@ function processEntry( $data, $action ) {
 				$entry->setLogoLinked( FALSE );
 
 				/*
-					 * Delete logo assigned to the entry.
-					 */
+				 * Delete logo assigned to the entry.
+				 */
 				if ( is_file( CN_IMAGE_PATH . $entry->getLogoName() ) ) {
 					@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
 				}
 
 				$entry->setLogoName( NULL );
-
 				break;
 
 			case 'hidden':
@@ -127,8 +126,6 @@ function processEntry( $data, $action ) {
 				break;
 		}
 	}
-
-
 
 
 	// Process the entry image upload.
@@ -274,6 +271,7 @@ function processEntry( $data, $action ) {
 			} else {
 				$connections->setSuccessMessage( $messageID );
 				$entryID = (int) $connections->lastInsertID;
+				$entry->setID( $entryID );
 			}
 
 			break;
@@ -304,6 +302,7 @@ function processEntry( $data, $action ) {
 			break;
 	}
 
+
 	/*
 	 * Save the entry category(ies). If none were checked, send an empty array
 	 * which will add the entry to the default category.
@@ -313,6 +312,9 @@ function processEntry( $data, $action ) {
 	} else {
 		$connections->term->setTermRelationships( $entryID, array(), 'category' );
 	}
+
+	// Run any registered post process actions.
+	$entry = do_action( 'cn_post_process_' . $action . '-entry', $entry );
 
 	unset( $entry );
 

@@ -3940,7 +3940,7 @@ class cnEntry {
 
 		$wpdb->show_errors = FALSE;
 
-		do_action( 'cn_update-entry', $this );
+		do_action( 'cn_process_update-entry', $this );
 
 		return $result;
 	}
@@ -4249,7 +4249,7 @@ class cnEntry {
 
 		$wpdb->show_errors = FALSE;
 
-		do_action( 'cn_save-entry', $this );
+		do_action( 'cn_process_save-entry', $this );
 
 		return $result;
 	}
@@ -4342,7 +4342,7 @@ class cnEntry {
 		 */
 		$connections->term->deleteTermRelationships( $id );
 
-		do_action( 'cn_delete-entry', $this );
+		do_action( 'cn_process_delete-entry', $this );
 	}
 
 }

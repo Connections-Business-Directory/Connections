@@ -187,7 +187,7 @@ function processEntry( $data, $action ) {
 	// If copying an entry, the image visibility property is set based on the user's choice.
 	// NOTE: This must come after the image processing.
 	if ( isset( $data['imgOptions'] ) ) {
-		
+
 		switch ( $data['imgOptions'] ) {
 			case 'remove':
 				$entry->setImageDisplay( false );
@@ -618,8 +618,7 @@ function processSetEntryVisibility() {
 		}
 
 		$connections->setSuccessMessage( 'form_entry_visibility_bulk' );
-	}
-	else {
+	} else {
 		$connections->setErrorMessage( 'capability_edit' );
 	}
 }

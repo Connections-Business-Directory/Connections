@@ -171,9 +171,9 @@ class cnFormObjects {
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
 		$requestedURL .= $_SERVER['HTTP_HOST'];
 		$requestedURL .= $_SERVER['REQUEST_URI'];
-		
+
 		$parsedURL   = @parse_url( $requestedURL );
-		
+
 		$redirectURL = explode( '?', $requestedURL );
 		$redirectURL = $redirectURL[0];
 
@@ -189,13 +189,13 @@ class cnFormObjects {
 		}
 
 		foreach ( $alphaindex as $letter ) {
-			
+
 			if ( ! empty( $parsedURL['query'] ) ) {
 				$linkindex .= '<a href="' . add_query_arg( $_parsed_query, $redirectURL . '#' . $letter ) . '">' . $letter . '</a> ';
 			} else {
 				$linkindex .= '<a href="#' . $letter . '">' . $letter . '</a> ';
 			}
-			
+
 		}
 
 		return $linkindex;
@@ -752,11 +752,22 @@ class cnFormObjects {
 	 * @param array   $entry
 	 */
 	public function metaboxPublish( $entry = NULL ) {
-		
+
+		$defaults = array(
+				'action'                            => NULL,
+				'entry_type'                        => array(
+					__( 'Individual', 'connections' )   => 'individual',
+					__( 'Organization', 'connections' ) => 'organization',
+					__( 'Family', 'connections' )       => 'family'
+				)
+			);
+
+		$atts = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $defaults ), $defaults );
+
 		if ( isset( $_GET['action'] ) ) {
 			$action = esc_attr( $_GET['action'] );
 		} else {
-			$action = NULL;
+			$action = $atts['action'];
 		}
 
 		( $entry->getVisibility() ) ? $visibility = $entry->getVisibility() : $visibility = 'unlisted';
@@ -768,11 +779,7 @@ class cnFormObjects {
 		echo $this->buildRadio(
 			'entry_type',
 			'entry_type',
-			array(
-				__( 'Individual', 'connections' ) =>'individual',
-				__( 'Organization', 'connections' ) =>'organization',
-				__( 'Family', 'connections' ) =>'family'
-			),
+			$atts['entry_type'],
 			$type );
 		echo '</div>';
 

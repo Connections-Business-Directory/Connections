@@ -222,7 +222,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * By default Connections will install and run as a single site install
 			 * on a multisite install. This requires manual activation on each sub-site.
-			 * 
+			 *
 			 * To run Connections in multisite mode.
 			 * Add to wp-config.php: define('CN_MULTISITE_ENABLED', TRUE);
 			 *
@@ -1284,7 +1284,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
 			// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
 
-			wp_register_script( 'jquery-chosen-min', CN_URL . 'js/jquery.chosen-0.9.8.min.js', array( 'jquery' ), '0.9.8', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-chosen-min', CN_URL . 'js/jquery.chosen.min.js', array( 'jquery' ), '0.9.11', $connections->options->getJavaScriptFooter() );
 			wp_register_script( 'jquery-validate' , CN_URL . 'js/jquery.validate.min.js', array( 'jquery', 'jquery-form' ) , '1.9.0' , $connections->options->getJavaScriptFooter() );
 		}
 
@@ -1311,7 +1311,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		/**
 		 * Enqueues the Connections JavaScript libraries on required admin pages.
-		 * 
+		 *
 		 * @access private
 		 * @since 0.7.3.2
 		 * @uses wp_enqueue_script()
@@ -1350,7 +1350,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) {
 					$compress_scripts = FALSE; // If the script are compress the TinyMCE doesn't seem to function.
 
-					wp_tiny_mce( 
+					wp_tiny_mce(
 						FALSE , // true makes the editor "teeny"
 						array(
 							'editor_selector'         => 'tinymce',
@@ -1378,7 +1378,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		/**
 		 * Enqueues the Connections JavaScript libraries on the frontend.
-		 * 
+		 *
 		 * @access private
 		 * @since 0.7.3.2
 		 * @uses wp_enqueue_script()
@@ -1396,7 +1396,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		/**
 		 * Enqueues the Connections CSS on the required admin pages.
-		 * 
+		 *
 		 * @access private
 		 * @since 0.7.3.2
 		 * @uses wp_enqueue_style()
@@ -1428,7 +1428,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		/**
 		 * Enqueues the Connections CSS on the frontend.
-		 * 
+		 *
 		 * @access private
 		 * @since 0.7.3.2
 		 * @uses wp_enqueue_style()
@@ -1618,12 +1618,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								 */
 								if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 									check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
-									
+
 									// Setup the redirect URL.
 									$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_manage';
 
 									processEntry( $_POST, 'update' );
-									
+
 									wp_redirect( get_admin_url( get_current_blog_id(), $redirect ) );
 									exit();
 								} else {

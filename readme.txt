@@ -37,7 +37,7 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 * Gravatar support
 * Backup
 * ...and any suggestions that I may receive...
- 
+
 
 
 
@@ -83,7 +83,74 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 == Changelog ==
 
 = 0.7.3.2 xx/xx/12 =
-* 
+* FEATURE: Danish translation added. Note, this is only partially completed.
+* FEATURE: French translation added.
+* FEATURE: Added gettext support the cnOutput::getBioBlock and cnOutput::getNotesBlock methods.
+* FEATURE: Add shortcode support to the login required message.
+* FEATURE: Added Yelp to the social media options.
+* FEATURE: Add support for canonical redirect for Connections URLs.
+* FEATURE: Added many new action and filter hooks.
+* FEATURE: Add "View Admin Menu" role capability.
+* BUG: Add the CN_MULTSITE_ENABLED global to the is_multisite() check to determine the file paths and urls to use.
+* BUG: Add trailingslashit to the permalink to ensure the it is properly slashed before adding pagination values to the permalink.
+* BUG: Ouput the formatted date using the WP date_i18n() function.
+* BUG: Fix the links taget setting.
+* BUG: Correct misnamed variable.
+* BUG: Add missing gettext domain on some strings.
+* BUG: Correct the path in the POT file.
+* BUG: Add additional kewords to the POT file.
+* BUG: Fix PHP 5.4 warning for creating a default object from empty value.
+* BUG: Correct "Show All entries" misspelling.
+* BUG: Re-enable the setAnniversary() and setBirthday() in the inc.process.php. Needed to support Form.
+* BUG: Remove double slashing in loading template files.
+* BUG: Ensure the Google Map API is loaded on the admin add/edit entry page in the admin even if the it has been disabled from loading on the front end.
+* BUG: Set the yearRange on jQuery UI datepicker to show the past 100 years in the drop down. Previously it stopped at 2002 which was limiting.
+* BUG: Ensure an array is passed to the cnRetrieve::entries method.
+* BUG: Make missing template error msg translation ready.
+* BUG: Update directory home page error message.
+* BUG: Add missing table declaration when querying by entry slug in class.retrieve.php.
+* BUG: Change the default category permalink structure tag from 'category' to 'cat' to avoid conflicting with WordPress.
+* BUG: Add rewrite rules to support Connections' use on the front page. Make the code other adjustments required to properly support Connections query on the front page by adding the page_id of the front query as needed.
+* BUG: Properly build the links for in-page anchors.
+* BUG: Add missing textdomain and path to plugin header.
+* BUG: Add missing textdomain to some strings in inc.upgrade.php.
+* BUG: Correct textdoamin in settings attribute array.
+* BUG: Correct textdomain in plugin header.
+* BUG: Update outdated URL/s on the Dashboard admin page.
+* BUG: Change help desk link to point to the new support forums.
+* BUG: Fix font-size for quicklinks dashboard buttons.
+* BUG: Remove more "Call-time pass-by-reference" for PHP 5.4
+* BUG: Correct usage of wp_redirect().
+* BUG: Fixed entry slug creation when copying an entry.
+* BUG: Fix bug in nonce form-field creation.
+* BUG: The anniversary and birthday type were injected back into the date results after filtering by type so they were always returned regardless of type being set.
+* OTHER: Normalize line endings for git.
+* OTHER: Remove new lines at end of files.
+* OTHER: Remove closing PHP tag from files.
+* OTHER: Corrected the name of the POT file.
+* OTHER: Code cleanup and alignment done throught to bring code in better alignment with WP coding standards.
+* OTHER: Create minified versions of the CSS and JS files.
+* OTHER: Correct the image processing debug message to output only once instaed of once per process.
+* OTHER: Add the CSS height attribute and set it to auto for the form inputs.
+* OTHER: Document the cnEntry::getUpcoming method.
+* OTHER: Add CSS to set no border on social media icons.
+* OTHER: Remove use of deprecated eregi() PHP function.
+* OTHER: Add option array & filter to output of bio & note.
+* OTHER: Add new class, cnRewrite in file class.rewrite.php. This class registers query vars and has the actions and filters that handles the page/root rewrite rules as well as the canonical redirect action and filter.
+* OTHER: Remove the query var registration and page rewrite rules from the core connections.php file and moved them to the new cnRewrite class.
+* OTHER: PHPdoc updates to the cnRewite class.
+* OTHER: Started to remove the pass by reference variables in function calls as this has been deprecated and will cause PHP notices.
+* OTHER: Add the height attribute to the search input CSS to help keep themes from breaking the style.
+* OTHER: Add missing text translation functions for the anniversary and birthday strings in the class.entry.php file.
+* OTHER: Add message to the configure permalink structure suggesting to avoid using the WordPress default structure names.
+* OTHER: Tested up to 3.5.
+* OTHER: Update email address in plugin header.
+* OTHER: Init the Settings API via action hook.
+* OTHER: Update the Settings API to self init.
+* OTHER: Move the cnRewrite::init() to the connectionsLoad::initDependencies().
+* OTHER: Improve JavaScript and CSS registration and enqueueing.
+* OTHER: CSS to make the search button IE compatible.
+
 
 = 0.7.3.1 10/01/12 =
 * FEATURE: Spanish translation has been included.
@@ -311,7 +378,7 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 * BUG: Fixed bug with category recursion.
 * BUG: Fixed bug where identical category names/IDs would be included in the query.
 * OTHER: Moved the shortcode entry filters to be processed right after the results query.
-* OTHER: Removed the copying of the download.vCard.php to the WP root during activation. Instead hooked into parse_request for vCard download. 
+* OTHER: Removed the copying of the download.vCard.php to the WP root during activation. Instead hooked into parse_request for vCard download.
 * OTHER: Fixed the template in the sample folder from 0.7.1.1 so it functions and renamed it to Members.
 * OTHER: Registered many query variable that can be processed via the parse_request hook.
 
@@ -579,3 +646,6 @@ This is a major update. It would be advisable to backup the Connections tables i
 
 = 0.7.3.1 =
 This is a major update. It would be advisable to backup the Connections tables in the database before upgrading.
+
+= 0.7.3.1 =
+Many bug fixes throughout. This is a highlyu recommended update.

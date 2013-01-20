@@ -1268,7 +1268,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $connections->options->getJavaScriptFooter() );
 			} else {
 				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'jquery-gomap-min' ), '2.0.10', $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer.min.js', array( 'jquery' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 			}
 
 			if ( is_admin() ) {

@@ -3245,22 +3245,30 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns $status.
+	 * Returns the entry's status.
 	 *
-	 * @see cnEntry::$status
+	 * @access public
+	 * @since unknown
+	 * @return (string)
 	 */
 	public function getStatus() {
-		return $this->status;
+		return sanitize_key( $this->status );
 	}
 
 	/**
-	 * Sets $status.
+	 * Sets the entry's status to one of the permitted values.
 	 *
-	 * @param object  $status
-	 * @see cnEntry::$status
+	 * @access public
+	 * @since unknown
+	 * @param (string) $status
+	 * @return void
 	 */
 	public function setStatus( $status ) {
-		$this->status = $status;
+
+		$permittedValues = array( 'approved', 'pending' );
+
+		$this->status = in_array( $status, $permittedValues ) ? sanitize_key( $status ) : 'pending';
+
 	}
 
 

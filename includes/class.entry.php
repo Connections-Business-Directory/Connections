@@ -2423,7 +2423,7 @@ class cnEntry {
 				// Store the order attribute as supplied in the addresses array.
 				$links[ $key ]['order'] = $order;
 
-				// Convert the do/nofollow string to an (int) so it is dave properly in the db
+				// Convert the do/nofollow string to an (int) so it is saved properly in the db
 				( $link['follow'] == 'dofollow' ) ? $links[ $key ]['follow'] = 1 : $links[ $key ]['follow'] = 0;
 
 				( ( ! empty( $preferred ) ) && $preferred == $key ) ? $links[ $key ]['preferred'] = TRUE : $links[ $key ]['preferred'] = FALSE;

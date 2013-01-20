@@ -94,7 +94,7 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 * BUG: Add the CN_MULTSITE_ENABLED global to the is_multisite() check to determine the file paths and urls to use.
 * BUG: Add trailingslashit to the permalink to ensure the it is properly slashed before adding pagination values to the permalink.
 * BUG: Ouput the formatted date using the WP date_i18n() function.
-* BUG: Fix the links taget setting.
+* BUG: Fix the links target setting.
 * BUG: Correct misnamed variable.
 * BUG: Add missing gettext domain on some strings.
 * BUG: Correct the path in the POT file.

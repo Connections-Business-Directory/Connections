@@ -3005,7 +3005,7 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getVisibility() {
-		return $this->visibility;
+		return sanitize_key( $this->visibility );
 	}
 
 	/**
@@ -3020,12 +3020,24 @@ class cnEntry {
 
 		$permittedValues = array( 'unlisted', 'public', 'private' );
 
-		$this->visibility = in_array( $visibility, $permittedValues ) ? $visibility : 'unlisted';
+		$this->visibility = in_array( $visibility, $permittedValues ) ? sanitize_key( $visibility ) : 'unlisted';
 
 	}
 
+	/**
+	 * The screen display value of the entry's visibility status.
+	 *
+	 * @access public
+	 * @since unknown
+	 * @return (string)
+	 */
 	public function displayVisibiltyType() {
-		return ucfirst( $this->getVisibility() );
+
+		$permittedValues = array( 'unlisted' => __( 'Unlisted', 'connections' ), 'public' => __( 'Public', 'connections' ), 'private' => __( 'Private', 'connections' ) );
+
+		$visibility = $this->getVisibility();
+
+		return $permittedValues[ $visibility ];
 	}
 
 	/**

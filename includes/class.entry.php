@@ -3002,7 +3002,6 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
 	 * @return string
 	 */
 	public function getVisibility() {
@@ -3010,15 +3009,19 @@ class cnEntry {
 	}
 
 	/**
-	 * Sets $visibility.
+	 * Sets the entry visibility status.
 	 *
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
-	 * @param string  $visibility
+	 * @param (string) $visibility
+	 * @return void
 	 */
 	public function setVisibility( $visibility ) {
-		$this->visibility = $visibility;
+
+		$permittedValues = array( 'unlisted', 'public', 'private' );
+
+		$this->visibility = in_array( $visibility, $permittedValues ) ? $visibility : 'unlisted';
+
 	}
 
 	public function displayVisibiltyType() {

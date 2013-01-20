@@ -2213,17 +2213,17 @@ class cnEntry {
 
 					$row = new stdClass();
 
-					( isset( $link['id'] ) ) ? $row->id = (int) $link['id'] : $row->id = 0;
-					( isset( $link['order'] ) ) ? $row->order = (int) $link['order'] : $row->order = 0;
-					( isset( $link['preferred'] ) ) ? $row->preferred = (bool) $link['preferred'] : $row->preferred = FALSE;
-					( isset( $link['type'] ) ) ? $row->type = $this->format->sanitizeString( $link['type'] ) : $row->type = 'website';
-					( isset( $link['title'] ) ) ? $row->title = $this->format->sanitizeString( $link['title'] ) : $row->title = '';
-					( isset( $link['address'] ) ) ? $row->address = $this->format->sanitizeString( $link['address'] ) : $row->address = NULL;
-					( isset( $link['url'] ) ) ? $row->url = $this->format->sanitizeString( $link['url'] ) : $row->url = '';
-					( isset( $link['target'] ) ) ? $row->target = $this->format->sanitizeString( $link['target'] ) : $row->target = '_blank';
-					( isset( $link['follow'] ) ) ? $row->follow = (bool) $link['follow'] : $row->follow = FALSE;
-					( isset( $link['image'] ) ) ? $row->image = (bool) $link['image'] : $row->image = FALSE;
-					( isset( $link['logo'] ) ) ? $row->logo = (bool) $link['logo'] : $row->logo = FALSE;
+					( isset( $link['id'] ) ) ? $row->id                 = (int) $link['id'] : $row->id = 0;
+					( isset( $link['order'] ) ) ? $row->order           = (int) $link['order'] : $row->order = 0;
+					( isset( $link['preferred'] ) ) ? $row->preferred   = (bool) $link['preferred'] : $row->preferred = FALSE;
+					( isset( $link['type'] ) ) ? $row->type             = $this->format->sanitizeString( $link['type'] ) : $row->type = 'website';
+					( isset( $link['title'] ) ) ? $row->title           = $this->format->sanitizeString( $link['title'] ) : $row->title = '';
+					( isset( $link['address'] ) ) ? $row->address       = $this->format->sanitizeString( $link['address'] ) : $row->address = NULL;
+					( isset( $link['url'] ) ) ? $row->url               = $this->format->sanitizeString( $link['url'] ) : $row->url = '';
+					( isset( $link['target'] ) ) ? $row->target         = $this->format->sanitizeString( $link['target'] ) : $row->target = '_blank';
+					( isset( $link['follow'] ) ) ? $row->follow         = (bool) $link['follow'] : $row->follow = FALSE;
+					( isset( $link['image'] ) ) ? $row->image           = (bool) $link['image'] : $row->image = FALSE;
+					( isset( $link['logo'] ) ) ? $row->logo             = (bool) $link['logo'] : $row->logo = FALSE;
 					( isset( $link['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $link['visibility'] ) : $row->visibility = '';
 
 					/*
@@ -2236,10 +2236,10 @@ class cnEntry {
 					/*
 					 * // START -- Compatibility for previous versions.
 					 */
-					if ( empty( $row->url ) ) $row->url =& $row->address;
+					if ( empty( $row->url ) ) $row->url         =& $row->address;
 					if ( empty( $row->address ) ) $row->address =& $row->url;
-					if ( empty( $row->title ) ) $row->title = $row->address;
-					if ( empty( $row->name ) ) $row->name = 'Website';
+					if ( empty( $row->title ) ) $row->title     = $row->address;
+					if ( empty( $row->name ) ) $row->name       = 'Website';
 
 					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
 					if ( ! isset( $link['visibility'] ) || empty( $link['visibility'] ) ) $row->visibility = 'public';
@@ -2252,24 +2252,6 @@ class cnEntry {
 					 * Set the dofollow/nofollow string based on the bool value.
 					 */
 					( $row->follow ) ? $row->followString = 'dofollow' : $row->followString = 'nofollow';
-
-					/*
-					 * Set the link target string
-					 */
-					// switch ( $row->target )
-					// {
-					//  case 'same':
-					//   $row->target = '_self';
-					//   break;
-
-					//  case 'new':
-					//   $row->target = '_blank';
-					//   break;
-
-					//  default:
-					//   $row->target = '_blank';
-					//   break;
-					// }
 
 					/*
 					 * // START -- Do not return links that do not match the supplied $atts.
@@ -2302,22 +2284,22 @@ class cnEntry {
 
 			foreach ( $links as $link ) {
 
-				$link->id = (int) $link->id;
-				$link->order = (int) $link->order;
-				$link->preferred = (bool) $link->preferred;
-				$link->type = $this->format->sanitizeString( $link->type );
-				$link->title = $this->format->sanitizeString( $link->title );
-				$link->url = $this->format->sanitizeString( $link->url );
-				$link->target = $this->format->sanitizeString( $link->target );
-				$link->follow = (bool) $link->follow;
-				$link->image = (bool) $link->image;
-				$link->logo = (bool) $link->logo;
+				$link->id         = (int) $link->id;
+				$link->order      = (int) $link->order;
+				$link->preferred  = (bool) $link->preferred;
+				$link->type       = $this->format->sanitizeString( $link->type );
+				$link->title      = $this->format->sanitizeString( $link->title );
+				$link->url        = $this->format->sanitizeString( $link->url );
+				$link->target     = $this->format->sanitizeString( $link->target );
+				$link->follow     = (bool) $link->follow;
+				$link->image      = (bool) $link->image;
+				$link->logo       = (bool) $link->logo;
 				$link->visibility = $this->format->sanitizeString( $link->visibility );
 
 				/*
 				 * Set the link name based on the link type.
 				 */
-				$linkTypes = $connections->options->getDefaultLinkValues();
+				$linkTypes  = $connections->options->getDefaultLinkValues();
 				$link->name = $linkTypes[ $link->type ];
 
 				/*
@@ -2325,7 +2307,7 @@ class cnEntry {
 				 */
 				if ( empty( $link->title ) ) $link->title = $link->url;
 				$link->address =& $link->url;
-				if ( empty( $row->name ) ) $row->name = 'Website';
+				if ( empty( $link->name ) ) $link->name = 'Website';
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
@@ -2334,23 +2316,6 @@ class cnEntry {
 				 * Set the dofollow/nofollow string based on the bool value.
 				 */
 				( $link->follow ) ? $link->followString = 'dofollow' : $link->followString = 'nofollow';
-
-				/*
-				 * Set the link target string
-				 */
-				switch ( $link->target ) {
-					case 'same':
-						$row->target = '_self';
-						break;
-
-					case 'new':
-						$row->target = '_blank';
-						break;
-
-					default:
-						$row->target = '_blank';
-						break;
-				}
 
 				$results[] = apply_filters( 'cn_link', $link );
 			}

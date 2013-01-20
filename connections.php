@@ -1278,7 +1278,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				wp_register_script( 'cn-ui', CN_URL . 'js/cn-user.js', array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 			}
 
-			wp_register_script( 'jquery-qtip', CN_URL . 'js/jquery.qtip.min.js', array( 'jquery' ), 'nightly', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-qtip', CN_URL . 'js/jquery.qtip.min.js', array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
 			wp_register_script( 'jquery-preloader', CN_URL . 'js/jquery.preloader.js', array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
 
 			// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.

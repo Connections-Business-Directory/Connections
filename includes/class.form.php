@@ -1662,7 +1662,7 @@ class cnFormObjects {
 				echo '<div class="widget-inside">' , "\n";
 
 				echo '<div>' , "\n";
-				echo  '<label>' , __( 'Date', 'connections' ) , '</label><input type="text" name="date[' , $token , '][date]" class="datepicker" value="' , $date->date , '" style="padding: 2px; width: 17.5em;"/>' , "\n";
+				echo  '<label>' , __( 'Date', 'connections' ) , '</label><input type="text" name="date[' , $token , '][date]" class="datepicker" value="' , date( 'm/d/Y', strtotime( $date->date ) ) , '" style="padding: 2px; width: 17.5em;"/>' , "\n";
 				echo '</div>' , "\n";
 
 				echo  '<input type="hidden" name="date[' , $token , '][id]" value="' , $date->id , '">' , "\n";

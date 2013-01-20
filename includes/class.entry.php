@@ -2828,16 +2828,16 @@ class cnEntry {
 						break;
 				}
 
-				/*
-				 * If no anniversary or birthday date types were set, ensure the dates stored are emptied
-				 * for backward compatibility with version 0.7.2.6 and older.
-				 */
-				if ( empty( $anniversary ) ) $this->anniversary = NULL;
-				if ( empty( $birthday ) ) $this->birthday = NULL;
-
 				$order++;
 			}
 		}
+
+		/*
+		 * If no anniversary or birthday date types were set, ensure the dates stored are emptied
+		 * for backward compatibility with version 0.7.2.6 and older.
+		 */
+		if ( empty( $anniversary ) ) $this->anniversary = NULL;
+		if ( empty( $birthday ) ) $this->birthday = NULL;
 
 		/*
 		 * Before storing the data, add back into the array from the cache the dates
@@ -2870,7 +2870,7 @@ class cnEntry {
 				}
 			}
 		}
-
+// var_dump( $dates ); var_dump( $this->birthday ); die();
 		( ! empty( $dates ) ) ? $this->dates = serialize( $dates ) : $this->dates = NULL;
 	}
 

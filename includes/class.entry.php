@@ -3240,7 +3240,7 @@ class cnEntry {
 			return $editedBy->display_name;
 		}
 		else {
-			return 'Unknown';
+			return __( 'Unknown', 'connections' );
 		}
 	}
 

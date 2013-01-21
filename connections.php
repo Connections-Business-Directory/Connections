@@ -945,8 +945,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Add the page rewrite rules.
 			 */
-			add_filter( 'root_rewrite_rules', array( $this, 'addRootRewriteRules' ) );
-			add_filter( 'page_rewrite_rules', array( $this, 'addPageRewriteRules' ) );
+			add_filter( 'root_rewrite_rules', array( 'cnRewrite', 'addRootRewriteRules' ) );
+			add_filter( 'page_rewrite_rules', array( 'cnRewrite', 'addPageRewriteRules' ) );
 
 			// Flush so they are rebuilt.
 			flush_rewrite_rules();
@@ -960,8 +960,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * Since we're adding the rewrite rules using a filter, make sure to remove the filter
 			 * before flushing, otherwise the rules will not be removed.
 			 */
-			remove_filter( 'root_rewrite_rules', array( $this, 'addRootRewriteRules' ) );
-			remove_filter( 'page_rewrite_rules', array( $this, 'addPageRewriteRules' ) );
+			remove_filter( 'root_rewrite_rules', array( 'cnRewrite', 'addRootRewriteRules' ) );
+			remove_filter( 'page_rewrite_rules', array( 'cnRewrite', 'addPageRewriteRules' ) );
 
 			// Flush so they are rebuilt.
 			flush_rewrite_rules();

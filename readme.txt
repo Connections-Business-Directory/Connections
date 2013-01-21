@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard
 Requires at least: 3.2
 Tested up to: 3.5
-Stable tag: 0.7.3.1
+Stable tag: 0.7.3.2
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -82,7 +82,7 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 
 == Changelog ==
 
-= 0.7.3.2 xx/xx/12 =
+= 0.7.3.2 01/20/13 =
 * FEATURE: Danish translation added. Note, this is only partially completed.
 * FEATURE: French translation added.
 * FEATURE: Added gettext support the cnOutput::getBioBlock and cnOutput::getNotesBlock methods.
@@ -124,6 +124,7 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 * BUG: Fixed entry slug creation when copying an entry.
 * BUG: Fix bug in nonce form-field creation.
 * BUG: The anniversary and birthday type were injected back into the date results after filtering by type so they were always returned regardless of type being set.
+* BUG: Fix removing the last anniversary or birthday.
 * OTHER: Normalize line endings for git.
 * OTHER: Remove new lines at end of files.
 * OTHER: Remove closing PHP tag from files.
@@ -150,6 +151,9 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 * OTHER: Move the cnRewrite::init() to the connectionsLoad::initDependencies().
 * OTHER: Improve JavaScript and CSS registration and enqueueing.
 * OTHER: CSS to make the search button IE compatible.
+* OTHER: Update all exteral libraries included with Connections.
+* OTHER: Validate and sanitize the visibility entry setting.
+8 OTHER: Validate and sanitize the status entry setting.
 
 
 = 0.7.3.1 10/01/12 =

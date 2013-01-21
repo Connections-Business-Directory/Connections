@@ -655,7 +655,7 @@ This is a major update. It would be advisable to backup the Connections tables i
 This is a major update. It would be advisable to backup the Connections tables in the database before upgrading.
 
 = 0.7.3.2 =
-Many bug fixes throughout. This is a highlyu recommended update.
+Many bug fixes throughout. This is a highly recommended update.
 
 = 0.7.3.3 =
-Many bug fixes throughout. This is a highlyu recommended update.
+Many bug fixes throughout. This is a highly recommended update.

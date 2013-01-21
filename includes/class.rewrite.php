@@ -2,7 +2,7 @@
 /**
  * Methods to be used in actions and filters to register query vars,
  * rewrite rules and canonical redirects.
- * 
+ *
  * @author Steven A. Zahm
  * @since 0.7.3.2
  */
@@ -10,7 +10,7 @@ class cnRewrite {
 
 	/**
 	 * Initialization
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function init() {
@@ -18,7 +18,7 @@ class cnRewrite {
 		// Remove the canonical redirect -- for testing.
 		// remove_filter('template_redirect', 'redirect_canonical');
 		// add_filter( 'redirect_canonical', array( __CLASS__ , 'disableFrontPagecanonicalRedirectFilter') , 10, 2 );
-		
+
 		add_filter( 'query_vars', array( __CLASS__ , 'queryVars' ) );
 		add_filter( 'root_rewrite_rules', array( __CLASS__ , 'addRootRewriteRules' ) );
 		add_filter( 'page_rewrite_rules', array( __CLASS__ , 'addPageRewriteRules' ) );
@@ -77,8 +77,8 @@ class cnRewrite {
 	public function addRootRewriteRules( $root_rewrite ) {
 
 		// If a page has not been set to be the front, exit, because these rules would not apply.
-		if ( ! get_option('page_on_front') ) return;
-		
+		if ( ! get_option('page_on_front') ) return $root_rewrite;
+
 		$rule = array();
 
 		// Get the page id of the user selected front page.
@@ -412,7 +412,7 @@ class cnRewrite {
 	/**
 	 * Check the requested URL for Connections' query vars and if found rewrites the URL
 	 * and redirects to the new URL.
-	 * 
+	 *
 	 * Hooks into the template_redirect action.
 	 *
 	 * @access private
@@ -439,19 +439,19 @@ class cnRewrite {
 		$requestedURL  = is_ssl() ? 'https://' : 'http://';
 		$requestedURL .= $_SERVER['HTTP_HOST'];
 		$requestedURL .= $_SERVER['REQUEST_URI'];
-		
+
 		$originalURL = $requestedURL;
 		$parsedURL   = @parse_url( $requestedURL );
 
 		// Ensure array index is set, prevent PHP error notice.
 		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] ='';
-		
+
 		$redirectURL = explode( '?', $requestedURL );
 		$redirectURL = $redirectURL[0];
 
 
 		if ( FALSE === $originalURL ) return FALSE;
-		
+
 
 		// We only need to process the URL and redirect  if the user is using pretty permalinks.
 		if ( is_object ( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
@@ -471,7 +471,7 @@ class cnRewrite {
 
 				// @todo This is going to create quite a few db hits. Should optimize somehow.
 				if ( ! empty( $category ) ) {
-					
+
 					do {
 						array_unshift( $slug, $category->slug );
 						$category = $connections->retrieve->category( $category->parent );
@@ -482,7 +482,7 @@ class cnRewrite {
 
 				if ( ! empty( $slug ) && ! stripos( $redirectURL , $base['category_base'] . '/' . implode( '/', $slug ) ) ) $redirectURL .= user_trailingslashit( $base['category_base'] . '/' . implode( '/', $slug ) );
 				// var_dump( $redirectURL ); //exit();
-				
+
 			}
 
 			// If paged, append pagination
@@ -515,7 +515,7 @@ class cnRewrite {
 	/**
 	 * Checks the requested URL for Connections' query vars and if found rewrites the URL
 	 * and passes the new URL back to finish being processed by the redirect_canonical() function.
-	 * 
+	 *
 	 * Hooks into the redirect_canonical filter.
 	 *
 	 * @access private
@@ -528,10 +528,10 @@ class cnRewrite {
 	 * @return string
 	 */
 	public function canonicalRedirectFilter( $redirectURL, $requestedURL ) {
-		
+
 		$originalURL = $redirectURL;
-		$parsedURL   = @parse_url( $requestedURL );  
-		
+		$parsedURL   = @parse_url( $requestedURL );
+
 
 		$redirectURL = explode( '?', $redirectURL );
 		$redirectURL = $redirectURL[0];
@@ -559,7 +559,7 @@ class cnRewrite {
 			$_parsed_query = array_map( 'rawurlencode', $_parsed_query );
 			$redirectURL = add_query_arg( $_parsed_query, $redirectURL );
 		}
-		
+
 		return $redirectURL;
 	}
 
@@ -568,7 +568,7 @@ class cnRewrite {
 	 *
 	 * NOTE: This is required to allow search queries to be properly redirected to the front page.
 	 * If this were not in place the user would receive a 404 error.
-	 * 
+	 *
 	 * @param  string $redirectURL  The URL to redirect to.
 	 * @param  string $requestedURL The original requested URL.
 	 * @return string               The original requested URL.

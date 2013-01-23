@@ -661,8 +661,16 @@ class cnTemplate {
 	 */
 	private function categorySelect( $atts ) {
 		global $connections;
+		$selected = '';
 
-		$selected = get_query_var('cn-cat-slug') ? get_query_var('cn-cat-slug') : array();
+		// $selected = get_query_var('cn-cat-slug') ? get_query_var('cn-cat-slug') : array();
+
+		if ( get_query_var( 'cn-cat' ) ) {
+			$selected = get_query_var( 'cn-cat' );
+		} elseif( get_query_var( 'cn-cat-slug' ) ) {
+			$selected = get_query_var( 'cn-cat-slug' );
+		}
+
 		$level = 1;
 		$out = '';
 
@@ -671,9 +679,9 @@ class cnTemplate {
 		$defaults = array(
 			'type'            => 'select',
 			'group'           => FALSE,
-			'default'         => __('Select Category', 'connections'),
+			'default'         => __( 'Select Category', 'connections' ),
 			'show_select_all' => TRUE,
-			'select_all'      => __('Show All Categories', 'connections'),
+			'select_all'      => __( 'Show All Categories', 'connections' ),
 			'show_empty'      => TRUE,
 			'show_count'      => FALSE,
 			'depth'           => 0,
@@ -685,7 +693,7 @@ class cnTemplate {
 
 		if ( ! is_array( $atts['parent_id'] ) ) {
 			// Trim extra whitespace.
-			$atts['parent_id'] = trim( str_replace(' ', '', $atts['parent_id'] ) );
+			$atts['parent_id'] = trim( str_replace( ' ', '', $atts['parent_id'] ) );
 
 			// Convert to array.
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
@@ -694,6 +702,7 @@ class cnTemplate {
 		$out .= "\n" . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
 
 		$out .= "\n" . '<option value=""></option>';
+
 		if ( $atts['show_select_all'] ) $out .= "\n" . '<option value="">' . esc_attr( $atts['select_all'] ) . '</option>';
 
 		foreach ( $categories as $key => $category ) {
@@ -705,7 +714,7 @@ class cnTemplate {
 				$out .= sprintf( '<optgroup label="%1$s">' , $category->name );
 
 			// Call the recursive function to build the select options.
-			$out .= $this->categorySelectOption( $category, $level, $atts['depth'], (array) $selected, $atts );
+			$out .= $this->categorySelectOption( $category, $level, $atts['depth'], $selected, $atts );
 
 			// If grouping by root parent is enabled, close the optiongroup tag.
 			if ( $atts['group'] && ! empty( $category->children ) )
@@ -735,8 +744,8 @@ class cnTemplate {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categorySelectOption( $category, $level, $depth, $selected, $atts )
-	{
+	private function categorySelectOption( $category, $level, $depth, $selected, $atts ) {
+
 		$out = '';
 
 		$defaults = array(
@@ -752,18 +761,19 @@ class cnTemplate {
 		//$pad = str_repeat($atts['pad_char'], max(0, $level));
 
 		// Set the option SELECT attribute if the category is one of the currently selected categories.
-		$selectString = ( in_array( $category->slug , $selected ) ) ? ' SELECTED ' : '';
+		$strSelected = ( ( $selected == $category->term_id ) || ( $selected == $category->slug ) ) ? ' SELECTED ' : '';
+		// $strSelected = $selected ? ' SELECTED ' : '';
 
 		// Category count to be appended to the category name.
 		$count = ( $atts['show_count'] ) ? ' (' . $category->count . ')' : '';
 
 		// If option grouping is TRUE, show only the select option if it is a descendant. The root parent was used as the option group label.
 		if ( ( $atts['group'] && $level > 1 ) && ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) ) {
-			$out .= sprintf('<option style="padding-left: %1$dpx !important" value="%2$s"%3$s>' . /*$pad .*/ $category->name . $count . '</option>' , $pad , $category->slug , $selectString );
+			$out .= sprintf('<option style="padding-left: %1$dpx !important" value="%2$s"%3$s>' . /*$pad .*/ $category->name . $count . '</option>' , $pad , $category->term_id , $strSelected );
 		}
 		// If option grouping is FALSE, show the root parent and descendant options.
 		elseif ( ! $atts['group'] && ( $atts['show_empty'] || ! empty($category->count) || ! empty($category->children) ) ) {
-			$out .= sprintf('<option style="padding-left: %1$dpx !important" value="%2$s"%3$s>' . /*$pad .*/ $category->name . $count . '</option>' , $pad , $category->slug , $selectString );
+			$out .= sprintf('<option style="padding-left: %1$dpx !important" value="%2$s"%3$s>' . /*$pad .*/ $category->name . $count . '</option>' , $pad , $category->term_id , $strSelected );
 		}
 
 		/*
@@ -805,8 +815,7 @@ class cnTemplate {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categoryInput( $atts = NULL )
-	{
+	private function categoryInput( $atts = NULL ) {
 		global $connections;
 
 		$selected = ( get_query_var('cn-cat') ) ? get_query_var('cn-cat') : array();
@@ -818,45 +827,44 @@ class cnTemplate {
 		$categories = $connections->retrieve->categories();
 
 		$defaults = array(
-			'type' => 'radio',
+			'type'       => 'radio',
 			'show_empty' => TRUE,
 			'show_count' => TRUE,
-			'depth' => 0,
-			'parent_id' => array(),
-			'layout' => 'list',
-			'columns' => 3,
-			'return' => FALSE
+			'depth'      => 0,
+			'parent_id'  => array(),
+			'layout'     => 'list',
+			'columns'    => 3,
+			'return'     => FALSE
 		);
 
-		$atts = wp_parse_args($atts, $defaults);
+		$atts = wp_parse_args( $atts, $defaults );
 
 
-		if ( ! empty( $atts['parent_id'] ) && ! is_array( $atts['parent_id'] ) )
-		{
+		if ( ! empty( $atts['parent_id'] ) && ! is_array( $atts['parent_id'] ) ) {
 			// Trim extra whitespace.
-			$atts['parent_id'] = trim( str_replace(' ', '', $atts['parent_id'] ) );
+			$atts['parent_id'] = trim( str_replace( ' ', '', $atts['parent_id'] ) );
 
 			// Convert to array.
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
 		}
 
-		foreach ( $categories as $key => $category )
-		{
+		foreach ( $categories as $key => $category ) {
 			// Remove any empty root parent categories so the table builds correctly.
-			if ( ! $atts['show_empty'] && ( empty($category->count) && empty($category->children) ) ) unset( $categories[$key] );
+			if ( ! $atts['show_empty'] && ( empty($category->count ) && empty( $category->children ) ) ) unset( $categories[ $key ] );
 
 			// Limit the category tree to only the supplied root parent categories.
-			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) unset( $categories[$key] );
+			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) unset( $categories[ $key ] );
 		}
 
-		switch ( $atts['layout'] )
-		{
+		switch ( $atts['layout'] ) {
+
 			case 'table':
 
 				// Build the table grid.
 				$table = array();
 				$rows = ceil(count( $categories ) / $atts['columns'] );
 				$keys = array_keys( $categories );
+
 				for ( $row = 1; $row <= $rows; $row++ )
 					for ( $col = 1; $col <= $atts['columns']; $col++ )
 						$table[$row][$col] = array_shift($keys);
@@ -864,14 +872,14 @@ class cnTemplate {
 				$out .= '<table cellspacing="0" cellpadding="0" class="cn-cat-table">';
 					$out .= '<tbody>';
 
-					foreach ( $table as $row => $cols )
-					{
+					foreach ( $table as $row => $cols ) {
+
 						$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
 
 						$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
 
-						foreach ( $cols as $col => $key )
-						{
+						foreach ( $cols as $col => $key ) {
+
 							// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
 							if ( $key === NULL ) continue;
 
@@ -881,11 +889,11 @@ class cnTemplate {
 							if ( $col == 1 ) $tdClass[] = '-left';
 							if ( $col == $atts['columns'] ) $tdClass[] = '-right';
 
-							$out .= '<td class="' . implode('', $tdClass) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
+							$out .= '<td class="' . implode( '', $tdClass ) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
 
 								$out .= '<ul class="cn-cat-tree">';
 
-									$out .= $this->categoryInputOption($categories[$key], $level + 1, $atts['depth'], $selected, $atts);
+									$out .= $this->categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
 
 								$out .= '</ul>';
 
@@ -904,13 +912,13 @@ class cnTemplate {
 
 				$out .= '<ul class="cn-cat-tree">';
 
-				foreach ( $categories as $key => $category )
-				{
+				foreach ( $categories as $key => $category ) {
+
 					// Limit the category tree to only the supplied root parent categories.
 					if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) continue;
 
 					// Call the recursive function to build the select options.
-					$out .= $this->categoryInputOption($categories[$key], $level + 1, $atts['depth'], $selected, $atts);
+					$out .= $this->categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
 				}
 
 				$out .= '</ul>';
@@ -938,20 +946,20 @@ class cnTemplate {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categoryInputOption($category, $level, $depth, $selected, $atts)
-	{
+	private function categoryInputOption( $category, $level, $depth, $selected, $atts ) {
+
 		$out = '';
 
 		$defaults = array(
-			'type' => 'radio',
+			'type'       => 'radio',
 			'show_empty' => TRUE,
 			'show_count' => TRUE
 		);
 
 		$atts = wp_parse_args($atts, $defaults);
 
-		if ( $atts['show_empty'] || ! empty($category->count) || ! empty($category->children) )
-		{
+		if ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) {
+
 			$count = ( $atts['show_count'] ) ? ' (' . $category->count . ')' : '';
 
 			$out .= '<li class="cn-cat-parent">';
@@ -967,13 +975,12 @@ class cnTemplate {
 			 * When descendant depth is set to 0, show all descendants.
 			 * When descendant depth is set to < $level, call the recursive function.
 			 */
-			if ( ! empty( $category->children ) && ($depth <= 0 ? -1 : $level) < $depth )
-			{
+			if ( ! empty( $category->children ) && ( $depth <= 0 ? -1 : $level ) < $depth ) {
+
 				$out .= '<ul class="cn-cat-children">';
 
-				foreach ( $category->children as $child )
-				{
-					$out .= $this->categoryInputOption($child, $level + 1, $depth, $selected, $atts);
+				foreach ( $category->children as $child ) {
+					$out .= $this->categoryInputOption( $child, $level + 1, $depth, $selected, $atts );
 				}
 
 				$out .= '</ul>';

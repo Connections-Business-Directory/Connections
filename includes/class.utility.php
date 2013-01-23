@@ -4,9 +4,9 @@ class cnFormatting
 	/**
 	 * Sanitize the input string. HTML tags can be permitted.
 	 * The permitted tags can be suppled in an array.
-	 * 
+	 *
 	 * @TODO: Finish the code needed to support the $permittedTags array.
-	 * 
+	 *
 	 * @param string $string
 	 * @param bool $allowHTML [optional]
 	 * @param array $permittedTags [optional]
@@ -19,18 +19,18 @@ class cnFormatting
 		{
 			// Ensure all tags are closed. Uses WordPress method balanceTags().
 			$balancedText = balanceTags($string, TRUE);
-			
+
 			$strippedText = strip_tags($balancedText);
-			
+
 			// Strip all script and style tags.
 			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $strippedText );
-			
+
 			// Escape text using the WordPress method and then strip slashes.
 			$escapedText = stripslashes(esc_attr($strippedText));
-			
+
 			// Remove line breaks and trim white space.
 			$escapedText = preg_replace('/[\r\n\t ]+/', ' ', $escapedText);
-			
+
 			return trim($escapedText);
 		}
 		else
@@ -38,24 +38,24 @@ class cnFormatting
 			// Strip all script and style tags.
 			$strippedText = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
 			$strippedText = preg_replace( '/&lt;(script|style).*?&gt;.*?&lt;\/\\1&gt;/si', '', stripslashes($strippedText) );
-			
+
 			/*
 			 * Use WordPress method make_clickable() to make links clickable and
 			 * use kses for filtering.
-			 * 
+			 *
 			 * http://ottopress.com/2010/wp-quickie-kses/
 			 */
 			return wptexturize( wpautop( make_clickable( wp_kses_post($strippedText) ) ) );
 		}
-		
+
 	}
-	
+
 	/**
 	 * Uses WordPress function to sanitize the input string.
-	 * 
+	 *
 	 * Limits the output to alphanumeric characters, underscore (_) and dash (-).
 	 * Whitespace becomes a dash.
-	 * 
+	 *
 	 * @param string $string
 	 * @return string
 	 */
@@ -64,10 +64,10 @@ class cnFormatting
 		$string = sanitize_title_with_dashes($string);
 		return $string;
 	}
-	
+
 	/**
 	 * Strips all numeric characters from the supplied string and returns the string.
-	 * 
+	 *
 	 * @param string $string
 	 * @return string
 	 */
@@ -75,63 +75,63 @@ class cnFormatting
 	{
 		return preg_replace('/[^0-9]/', '', $string);
 	}
-	
+
 	/**
 	 * Converts the following strings: yes/no; true/false and 0/1 to boolean values.
 	 * If the supplied string does not match one of those values the method will return NULL.
-	 * 
+	 *
 	 * @param string $value
 	 * @return boolean
 	 */
 	public function toBoolean(&$value)
 	{
-		switch ( strtolower($value) ) 
+		switch ( strtolower($value) )
 		{
 			case 'yes':
 				$value = TRUE;
 			break;
-			
+
 			case 'no':
 				$value = FALSE;
 			break;
-			
+
 			case 'true':
 				$value = TRUE;
 			break;
-			
+
 			case 'false':
 				$value = FALSE;
 			break;
-			
+
 			case '1':
 				$value = TRUE;
 			break;
-			
+
 			case '0':
 				$value = FALSE;
 			break;
-			
+
 			default:
 				$value = NULL;
 			break;
 		}
-		
+
 		return $value;
 	}
-	
+
 	/**
 	 * Return localized Yes or No.
-	 * 
+	 *
 	 * @author Alex Rabe (http://alexrabe.de/)
 	 * @since 0.7.1.6
-	 * 
+	 *
 	 * @param bool $bool
 	 * @return return 'Yes' | 'No'
 	 */
 	public function toYesNo( $bool ){
-		if($bool) 
+		if($bool)
 			return __('Yes', 'connections');
-		else 
+		else
 			return __('No', 'connections');
 	}
 }
@@ -141,19 +141,19 @@ class cnValidate
 	public function attributesArray($defaults, $untrusted)
 	{
 		//print_r($defaults);
-		
+
 		$intersect = array_intersect_key($untrusted, $defaults); // Get data for which is in the valid fields.
 		$difference = array_diff_key($defaults, $untrusted); // Get default data which is not supplied.
 		return array_merge($intersect, $difference); // Merge the results. Contains only valid fields of all defaults.
 	}
-	
+
     /**
      * Validate the supplied URL.
-     * 
+     *
      * return: 1 is returned if good (check for >0 or ==1)
      * return: 0 is returned if syntax is incorrect
      * return: -1 is returned if syntax is correct, but url/file does not exist
-     * 
+     *
      * @author Luke America
      * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
      * @param string $url
@@ -167,16 +167,16 @@ class cnValidate
 	     you can redistribute and/or modify this code under the terms of the
 	     GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
 	    **********************************************************************/
-		
+
 		 // add http:// (here AND in the referenced $url), if needed
 	    if (!$url) {return false;}
 	    if (strpos($url, ':') === false) {$url = 'http://' . $url;}
 	    // auto-correct backslashes (here AND in the referenced $url)
 	    $url = str_replace('\\', '/', $url);
-	 
+
 	    // convert multi-byte international url's by stripping multi-byte chars
 	    $url_local = urldecode($url) . ' ';
-		
+
 		if ( function_exists( 'mb_strlen' ) )
 		{
 		    $len = mb_strlen($url_local);
@@ -186,14 +186,14 @@ class cnValidate
 		        $url_local = mb_decode_numericentity($url_local, $convmap, 'UTF-8');
 		    }
 		}
-		
+
 	    $url_local = trim($url_local);
-	 
+
 	    // now, process pre-encoded MBI's
 	    $regex = '#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i';
 	    $url_test = preg_replace($regex, '$1', htmlentities($url_local, ENT_QUOTES, 'UTF-8'));
 	    if ($url_test != '') {$url_local = $url_test;}
-	 
+
 	    // test for bracket-enclosed IP address (IPv6) and modify for further testing
 	    preg_match('#(?<=\[)(.*?)(?=\])#i', $url, $matches);
 	    if ( isset($matches[0]) && $matches[0] )
@@ -206,7 +206,7 @@ class cnValidate
 	        $ip_adj = 'x' . str_replace(':', '_', $ip) . '.com';
 	        $url_local = str_replace('[' . $ip . ']', $ip_adj, $url_local);
 	    }
-	 
+
 	    // test for IP address (IPv4)
 	    $regex = "^(https?|ftp|news|file)\:\/\/";
 	    $regex .= "([0-9]{1,3}\.[0-9]{1,3}\.)";
@@ -218,7 +218,7 @@ class cnValidate
 	        $seg = preg_split('/[.\/]/', $url_local);
 	        if (($seg[2] > 255) || ($seg[3] > 255) || ($seg[4] > 255) || ($seg[5] > 255)) {return false;}
 	    }
-	 
+
 	    // patch for wikipedia which can have a 2nd colon in the url
 	    if (strpos(strtolower($url_local), 'wikipedia'))
 	    {
@@ -228,7 +228,7 @@ class cnValidate
 	        $url_right = str_replace(':', '_', $url_right);
 	        $url_local = $url_left . $url_right;
 	    }
-	 
+
 	    // construct the REGEX for standard processing
 	    // scheme
 	    $regex = "^(https?|ftp|news|file)\:\/\/";
@@ -244,10 +244,10 @@ class cnValidate
 	    $regex .= "(\?[a-z+&\$_.-][a-z0-9;:@/&%=+\$_.-]*)?";
 	    // anchor (optional)
 	    $regex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?\$";
-	 
+
 	    // test it
 	    $is_valid = ereg($regex, $url_local) > 0;
-	 
+
 	    // final check for a TLD suffix
 	    if ($is_valid)
 	    {
@@ -256,7 +256,7 @@ class cnValidate
 	        preg_match($regex, $url_test, $matches);
 	        $is_valid = preg_match('#^(.+?)\.+[0-9a-z]{2,4}$#i', $matches[2]) > 0;
 	    }
-	 
+
 	    // check if the url/file exists
 	    if (($check_exists) && ($is_valid))
 	    {
@@ -274,23 +274,23 @@ class cnValidate
 	        if ($status[1] == 200) {$is_valid = true;}
 	        else {$is_valid = -1;}
 	    }
-	 
+
 	    // exit
 	    return $is_valid;
 	}
-	
+
 	/**
 	 * Validate the supplied URL.
-     * 
+     *
      * return: 1 is returned if good (check for >0 or ==1)
      * return: 0 is returned if syntax is incorrect
      * return: -1 is returned if syntax is correct, but email address does not exist
-     * 
+     *
      * @author Luke America
      * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
 	 * @param string $email
 	 * @param bool $check_mx [optional]
-	 * @return 
+	 * @return
 	 */
 	public function email( $email , $check_mx = TRUE )
 	{
@@ -299,12 +299,12 @@ class cnValidate
 	     you can redistribute and/or modify this code under the terms of the
 	     GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
 	    **********************************************************************/
-		
+
 		// check syntax
 	    $email = trim($email);
 	    $regex = '/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
 	    $is_valid = preg_match($regex, $email, $matches);
-	 
+
 	    // NOTE: Windows servers do not offer checkdnsrr until PHP 5.3.
 	    // So we create the function, if it doesn't exist.
 	    if(!function_exists('checkdnsrr'))
@@ -315,7 +315,7 @@ class cnValidate
 	            {
 	                if(!$rec_type) {$rec_type = 'MX';}
 	                exec("nslookup -type=$rec_type $host_name", $result);
-	 
+
 	                // Check each line to find the one that starts with the host name.
 	                foreach ($result as $line)
 	                {
@@ -329,7 +329,7 @@ class cnValidate
 	            return false;
 	        }
 	    }
-	 
+
 	    // check that the server exists and is setup to handle email accounts
 	    if (($is_valid) && ($check_mx))
 	    {
@@ -340,14 +340,14 @@ class cnValidate
 	            $is_valid = -1;
 	        }
 	    }
-	 
+
 	    // exit
 	    return $is_valid;
 	}
-	
+
 	/**
 	 * Will return TRUE?FALSE based on current user capability or privacy setting if the user is not logged in to WordPress.
-	 * 
+	 *
 	 * @author Steven A. Zahm
 	 * @since 0.7.2.0
 	 * @param string $visibilty
@@ -356,7 +356,7 @@ class cnValidate
 	public function userPermitted($visibilty)
 	{
 		global $connections;
-		
+
 		if ( is_user_logged_in() )
 		{
 			if ( ! empty($visibilty) )
@@ -364,7 +364,7 @@ class cnValidate
 				if ( current_user_can('connections_view_public') && $visibilty == 'public' ) return TRUE;
 				if ( current_user_can('connections_view_private') && $visibilty == 'private' ) return TRUE;
 				if ( ( current_user_can('connections_view_unlisted') && is_admin() ) && $visibilty == 'unlisted' ) return TRUE;
-				
+
 				// If we get here, return FALSE
 				return FALSE;
 			}
@@ -376,15 +376,15 @@ class cnValidate
 		else
 		{
 			if ( $visibilty == 'unlisted' ) return FALSE;
-			
+
 			if ( $connections->options->getAllowPublic() && $visibilty == 'public' ) return TRUE;
 			if ( $connections->options->getAllowPublicOverride() && $visibilty == 'public' ) return TRUE;
 			if ( $connections->options->getAllowPrivateOverride() && $visibilty == 'private' ) return TRUE;
-			
+
 			// If we get here, return FALSE
 			return FALSE;
 		}
-		
+
 		// Shouldn't happen....
 		return FALSE;
 	}
@@ -394,7 +394,7 @@ class cnURL {
 
 	/**
 	 * Create a permalink.
-	 * 
+	 *
 	 * @access private
 	 * @since 0.7.3
 	 * @uses is_admin()
@@ -410,11 +410,11 @@ class cnURL {
 	 * @return string
 	 */
 	public function permalink( $atts ) {
-		global $wp_rewrite, $post,  $connections;
-		
+		global $wp_rewrite, $post, $connections;
+
 		// The anchor attributes.
 		$piece = array();
-		
+
 		$defaults = array(
 			'class'  => '',
 			'text'   => '',
@@ -424,15 +424,15 @@ class cnURL {
 			'type'   => 'name',
 			'return' => FALSE
 		);
-		
+
 		$atts = wp_parse_args( $atts, $defaults );
-		
+
 		// Get the directory home page ID.
 		$homeID = $connections->settings->get( 'connections', 'connections_home_page', 'page_id' );
-		
+
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
-		
+
 		// Create the permalink base based on context where the entry is being displayed.
 		if ( in_the_loop() && is_page() ) {
 			// Only slash it when using pretty permalinks.
@@ -444,7 +444,7 @@ class cnURL {
 			} else {
 				$permalink = add_query_arg( 'page_id' , $homeID, get_permalink() );
 			}
-			
+
 		}
 
 		// If on the front page, add the query var for the page ID.
@@ -455,44 +455,44 @@ class cnURL {
 		if ( ! empty( $atts['title'] ) ) $piece['title']   = 'title="' . $atts['title'] .'"';
 		if ( ! empty( $atts['target'] ) ) $piece['target'] = 'target="' . $atts['target'] .'"';
 		if ( ! $atts['follow'] ) $piece['follow']          = 'rel="nofollow"';
-		
+
 		switch ( $atts['type'] ) {
 
 			case 'name':
-				
+
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] );
 				} else {
 					$permalink = add_query_arg( 'cn-entry-slug', $atts['slug'] , $permalink );
 				}
-				
+
 				break;
-				
+
 			case 'detail':
-				
+
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/detail' );
 				} else {
 					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
 				}
-				
+
 				break;
-				
+
 			case 'category':
-				
+
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['category_base'] . '/' . $atts['slug'] );
 				} else {
 					$permalink = add_query_arg( 'cn-cat-slug', $atts['slug'] , $permalink );
 				}
-				
+
 				break;
 		}
-		
+
 		$piece['href'] = 'href="' . $permalink . '"';
 
 		$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
-		
+
 		if ( $atts['return'] ) return $out;
 		echo $out;
 	}

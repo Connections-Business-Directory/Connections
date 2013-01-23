@@ -498,6 +498,7 @@ class cnRewrite {
 
 		}
 
+		// Add back on to the URL any remaining query string values.
 		$parsedURL['query'] = preg_replace( '#^\??&*?#', '', $parsedURL['query'] );
 
 		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {

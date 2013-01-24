@@ -1265,7 +1265,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
 				wp_register_script( 'cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer-2.0.10.min.js', array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.10', $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer.min.js', array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 			} else {
 				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
 				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer.min.js', array( 'jquery' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
@@ -1303,10 +1303,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . '.css', array(), CN_CURRENT_VERSION );
 			} else {
 				wp_register_style( 'connections-user', CN_URL . 'css/cn-user.css', array(), CN_CURRENT_VERSION );
-				wp_register_style( 'connections-qtip', CN_URL . 'css/jquery.qtip.min.css', array(), 'nightly' );
+				wp_register_style( 'connections-qtip', CN_URL . 'css/jquery.qtip.min.css', array(), '2.0.1' );
 			}
 
-			wp_register_style( 'connections-chosen', CN_URL . 'css/chosen.css', array(), '0.9.8' );
+			wp_register_style( 'connections-chosen', CN_URL . 'css/chosen.css', array(), '0.9.11' );
 		}
 
 		/**

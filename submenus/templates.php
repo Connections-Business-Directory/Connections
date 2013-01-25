@@ -102,7 +102,7 @@ function connectionsShowTemplatesPage() {
 							</p>
 
 							<p>
-								<?php _e( 'The current active template for each template type can be overridden by using the the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/template/">template</a></code> shortcode option.', 'connections' ); ?>
+								<?php _e( 'The current active template for each template type can be overridden by using the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/template/">template</a></code> shortcode option.', 'connections' ); ?>
 							</p>
 						</td>
 					</tr>

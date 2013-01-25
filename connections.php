@@ -220,16 +220,19 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
-			 * By default Connections will install and run as a single site install
-			 * on a multisite install. This requires manual activation on each sub-site.
-			 *
-			 * To run Connections in multisite mode.
-			 * Add to wp-config.php: define('CN_MULTISITE_ENABLED', TRUE);
+			 * To run Connections in single site mode on multi-site.
+			 * Add to wp-config.php: define('CN_MULTISITE_ENABLED', FALSE);
 			 *
 			 * @credit lancelot-du-lac
 			 * @url http://wordpress.org/support/topic/plugin-connections-support-multisite-in-single-mode
 			 */
-			if ( ! defined( 'CN_MULTISITE_ENABLED' ) ) define( 'CN_MULTISITE_ENABLED', FALSE );
+			if ( ! defined( 'CN_MULTISITE_ENABLED' ) ) {
+				if ( is_multisite() ) {
+					define( 'CN_MULTISITE_ENABLED', TRUE );
+				} else {
+					define( 'CN_MULTISITE_ENABLED', FALSE );
+				}
+			}
 
 
 			/*

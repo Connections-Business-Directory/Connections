@@ -185,7 +185,7 @@ class cnFormObjects {
 		// Add back on to the URL any remaining query string values.
 		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
 			parse_str( $parsedURL['query'], $_parsed_query );
-			$_parsed_query = array_map( 'rawurlencode', $_parsed_query );
+			$_parsed_query = array_map( 'rawurlencode_deep',  $_parsed_query );
 		}
 
 		foreach ( $alphaindex as $letter ) {

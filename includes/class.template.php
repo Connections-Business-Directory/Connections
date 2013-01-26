@@ -761,7 +761,11 @@ class cnTemplate {
 		//$pad = str_repeat($atts['pad_char'], max(0, $level));
 
 		// Set the option SELECT attribute if the category is one of the currently selected categories.
-		$strSelected = ( ( $selected == $category->term_id ) || ( $selected == $category->slug ) ) ? ' SELECTED ' : '';
+		if ( is_array( $selected ) ) {
+			$strSelected = ( ( in_array( $category->term_id, $selected ) ) || ( in_array( $category->slug, $selected ) ) ) ? ' SELECTED ' : '';
+		} else {
+			$strSelected = ( ( $selected == $category->term_id ) || ( $selected == $category->slug ) ) ? ' SELECTED ' : '';
+		}
 		// $strSelected = $selected ? ' SELECTED ' : '';
 
 		// Category count to be appended to the category name.

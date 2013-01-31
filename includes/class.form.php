@@ -634,7 +634,8 @@ class cnFormObjects {
 	 * @since 0.7.1.6
 	 */
 	public function metaboxSystem() {
-		global $wpdb, $connections;
+		global $wpdb, $wp_version, $connections;
+
 		$convert = new cnFormatting();
 
 		// Get MYSQL Version
@@ -677,70 +678,104 @@ class cnFormObjects {
 		if ( is_callable( 'xml_parser_create' ) ) $xml = __( 'Yes', 'connections' );
 		else $xml = __( 'No', 'connections' );
 
-?>
-			<h4><strong><?php _e( 'Version Information','connections' );?></strong></h4>
+		?>
+		<h4><strong><?php _e( 'Version Information','connections' );?></strong></h4>
 
-			<ul class="settings">
-				<li>Connections: <?php echo $connections->options->getVersion() ?></li>
-				<li>Database: <?php echo $connections->options->getDBVersion() ?></li>
-			</ul>
+		<ul class="settings">
+			<li>WordPress: <?php echo $wp_version; ?></li>
+			<li>Multisite: <?php echo $convert->toYesNo( is_multisite() ); ?></li>
+			<li>Connections: <?php echo $connections->options->getVersion() ?></li>
+			<li>Database: <?php echo $connections->options->getDBVersion() ?></li>
+		</ul>
 
-			<h4><strong><?php _e( 'Server Configuration','connections' );?></strong></h4>
+		<h4><strong><?php _e( 'Constants','connections' );?></strong></h4>
 
-			<ul class="settings">
-				<li><?php _e( 'Operating System', 'connections' ); ?> : <span><?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8?>&nbsp;Bit)</span></li>
-				<li><?php _e( 'Server', 'connections' ); ?> : <span><?php echo $_SERVER["SERVER_SOFTWARE"]; ?></span></li>
-				<li><?php _e( 'Memory usage', 'connections' ); ?> : <span><?php echo $memory_usage; ?></span></li>
-				<li><?php _e( 'MYSQL Version', 'connections' ); ?> : <span><?php echo $sqlversion; ?></span></li>
-				<li><?php _e( 'SQL Mode', 'connections' ); ?> : <span><?php echo $sql_mode; ?></span></li>
-				<li><?php _e( 'PHP Version', 'connections' ); ?> : <span><?php echo PHP_VERSION; ?></span></li>
-				<li><?php _e( 'PHP Safe Mode', 'connections' ); ?> : <span><?php echo $safe_mode; ?></span></li>
-				<li><?php _e( 'PHP Allow URL fopen', 'connections' ); ?> : <span><?php echo $allow_url_fopen; ?></span></li>
-				<li><?php _e( 'PHP Memory Limit', 'connections' ); ?> : <span><?php echo $memory_limit; ?></span></li>
-				<li><?php _e( 'PHP Max Upload Size', 'connections' ); ?> : <span><?php echo $upload_max; ?></span></li>
-				<li><?php _e( 'PHP Max Post Size', 'connections' ); ?> : <span><?php echo $post_max; ?></span></li>
-				<li><?php _e( 'PCRE Backtracking Limit', 'connections' ); ?> : <span><?php echo $backtrack_limit; ?></span></li>
-				<li><?php _e( 'PHP Max Script Execute Time', 'connections' ); ?> : <span><?php echo $max_execute; ?>s</span></li>
-				<li><?php _e( 'PHP Exif support', 'connections' ); ?> : <span><?php echo $exif; ?></span></li>
-				<li><?php _e( 'PHP IPTC support', 'connections' ); ?> : <span><?php echo $iptc; ?></span></li>
-				<li><?php _e( 'PHP XML support', 'connections' ); ?> : <span><?php echo $xml; ?></span></li>
-			</ul>
+		<ul class="settings">
+			<li><strong>CN_MULTISITE_ENABLED:</strong> <?php echo CN_MULTISITE_ENABLED ? __( 'TRUE', 'connections') : __( 'FALSE', 'connections' ); ?></li>
+			<li><strong>CN_IMAGE_PATH:</strong> <?php echo CN_IMAGE_PATH ?></li>
+			<li><strong>CN_IMAGE_BASE_URL:</strong> <?php echo CN_IMAGE_BASE_URL ?></li>
+			<li><strong>CN_ENTRY_TABLE:</strong> <?php echo CN_ENTRY_TABLE ?></li>
+			<li><strong>CN_ENTRY_ADDRESS_TABLE:</strong> <?php echo CN_ENTRY_ADDRESS_TABLE ?></li>
+			<li><strong>CN_ENTRY_PHONE_TABLE:</strong> <?php echo CN_ENTRY_PHONE_TABLE ?></li>
+			<li><strong>CN_ENTRY_EMAIL_TABLE:</strong> <?php echo CN_ENTRY_EMAIL_TABLE ?></li>
+			<li><strong>CN_ENTRY_MESSENGER_TABLE:</strong> <?php echo CN_ENTRY_MESSENGER_TABLE ?></li>
+			<li><strong>CN_ENTRY_SOCIAL_TABLE:</strong> <?php echo CN_ENTRY_SOCIAL_TABLE ?></li>
+			<li><strong>CN_ENTRY_LINK_TABLE:</strong> <?php echo CN_ENTRY_LINK_TABLE ?></li>
+			<li><strong>CN_ENTRY_DATE_TABLE:</strong> <?php echo CN_ENTRY_DATE_TABLE ?></li>
+			<li><strong>CN_ENTRY_TABLE_META:</strong> <?php echo CN_ENTRY_TABLE_META ?></li>
+			<li><strong>CN_TERMS_TABLE:</strong> <?php echo CN_TERMS_TABLE ?></li>
+			<li><strong>CN_TERM_TAXONOMY_TABLE:</strong> <?php echo CN_TERM_TAXONOMY_TABLE ?></li>
+			<li><strong>CN_TERM_RELATIONSHIP_TABLE:</strong> <?php echo CN_TERM_RELATIONSHIP_TABLE ?></li>
+			<li><strong>CN_DIR_NAME:</strong> <?php echo CN_DIR_NAME ?></li>
+			<li><strong>CN_BASE_NAME:</strong> <?php echo CN_BASE_NAME ?></li>
+			<li><strong>CN_PATH:</strong> <?php echo CN_PATH ?></li>
+			<li><strong>CN_URL:</strong> <?php echo CN_URL ?></li>
+			<li><strong>CN_TEMPLATE_PATH:</strong> <?php echo CN_TEMPLATE_PATH ?></li>
+			<li><strong>CN_TEMPLATE_URL:</strong> <?php echo CN_TEMPLATE_URL ?></li>
+			<li><strong>CN_CUSTOM_TEMPLATE_PATH:</strong> <?php echo CN_CUSTOM_TEMPLATE_PATH ?></li>
+			<li><strong>CN_CUSTOM_TEMPLATE_URL:</strong> <?php echo CN_CUSTOM_TEMPLATE_URL ?></li>
+			<li><strong>CN_CACHE_PATH:</strong> <?php echo CN_CACHE_PATH ?></li>
+		</ul>
 
-			<h4><strong><?php _e( 'Graphic Library','connections' );?></strong></h4>
+		<h4><strong><?php _e( 'Server Configuration','connections' );?></strong></h4>
+
+		<ul class="settings">
+			<li><?php _e( 'Operating System', 'connections' ); ?> : <span><?php echo PHP_OS; ?>&nbsp;(<?php echo PHP_INT_SIZE * 8?>&nbsp;Bit)</span></li>
+			<li><?php _e( 'Server', 'connections' ); ?> : <span><?php echo $_SERVER["SERVER_SOFTWARE"]; ?></span></li>
+			<li><?php _e( 'Memory usage', 'connections' ); ?> : <span><?php echo $memory_usage; ?></span></li>
+			<li><?php _e( 'MYSQL Version', 'connections' ); ?> : <span><?php echo $sqlversion; ?></span></li>
+			<li><?php _e( 'SQL Mode', 'connections' ); ?> : <span><?php echo $sql_mode; ?></span></li>
+			<li><?php _e( 'PHP Version', 'connections' ); ?> : <span><?php echo PHP_VERSION; ?></span></li>
+			<li><?php _e( 'PHP Safe Mode', 'connections' ); ?> : <span><?php echo $safe_mode; ?></span></li>
+			<li><?php _e( 'PHP Allow URL fopen', 'connections' ); ?> : <span><?php echo $allow_url_fopen; ?></span></li>
+			<li><?php _e( 'PHP Memory Limit', 'connections' ); ?> : <span><?php echo $memory_limit; ?></span></li>
+			<li><?php _e( 'PHP Max Upload Size', 'connections' ); ?> : <span><?php echo $upload_max; ?></span></li>
+			<li><?php _e( 'PHP Max Post Size', 'connections' ); ?> : <span><?php echo $post_max; ?></span></li>
+			<li><?php _e( 'PCRE Backtracking Limit', 'connections' ); ?> : <span><?php echo $backtrack_limit; ?></span></li>
+			<li><?php _e( 'PHP Max Script Execute Time', 'connections' ); ?> : <span><?php echo $max_execute; ?>s</span></li>
+			<li><?php _e( 'PHP Exif support', 'connections' ); ?> : <span><?php echo $exif; ?></span></li>
+			<li><?php _e( 'PHP IPTC support', 'connections' ); ?> : <span><?php echo $iptc; ?></span></li>
+			<li><?php _e( 'PHP XML support', 'connections' ); ?> : <span><?php echo $xml; ?></span></li>
+		</ul>
+
+		<h4><strong><?php _e( 'Graphic Library','connections' );?></strong></h4>
 
 		<?php
 
 		if ( function_exists( "gd_info" ) ) {
 			$info = gd_info();
 			$keys = array_keys( $info );
+
 			echo '<ul class="settings">';
-			for ( $i=0; $i<count( $keys ); $i++ ) {
-				if ( is_bool( $info[$keys[$i]] ) )
-					echo "<li> " . $keys[$i] ." : <span>" . $convert->toYesNo( $info[$keys[$i]] ) . "</span></li>\n";
+
+			for ( $i = 0; $i < count( $keys ); $i++ ) {
+				if ( is_bool( $info[ $keys[ $i ] ] ) )
+					echo "<li> " . $keys[ $i ] ." : <span>" . $convert->toYesNo( $info[ $keys[ $i ] ] ) . "</span></li>\n";
 				else
-					echo "<li> " . $keys[$i] ." : <span>" . $info[$keys[$i]] . "</span></li>\n";
+					echo "<li> " . $keys[ $i ] ." : <span>" . $info[ $keys[ $i ] ] . "</span></li>\n";
 			}
+
 			echo '</ul>';
-		}
-		else {
-			echo '<h4>'.__( 'No GD support', 'connections' ).'!</h4>';
+
+		} else {
+			echo '<h4>' . __( 'No GD support', 'connections' ) . '!</h4>';
 		}
 
-?>
+		?>
 
 		<h4><strong><?php _e( 'Folder Permissions','connections' );?></strong></h4>
 
 		<?php
 
 		echo '<ul class="settings">';
-		echo '<li>' , __( 'Image Path Exists:', 'connections' ) , ' ',  $convert->toYesNo( is_dir( CN_IMAGE_PATH ) ) , '</li>';
-		if ( is_dir( CN_IMAGE_PATH ) ) echo '<li>' , __( 'Image Path Writeable:', 'connections' ) , ' ', $convert->toYesNo( is_writeable( CN_IMAGE_PATH ) ) , '</li>';
+			echo '<li>' , __( 'Image Path Exists:', 'connections' ) , ' ',  $convert->toYesNo( is_dir( CN_IMAGE_PATH ) ) , '</li>';
+			if ( is_dir( CN_IMAGE_PATH ) ) echo '<li>' , __( 'Image Path Writeable:', 'connections' ) , ' ', $convert->toYesNo( is_writeable( CN_IMAGE_PATH ) ) , '</li>';
 
-		echo '<li>' , __( 'Template Path Exists:', 'connections' ) , ' ', $convert->toYesNo( is_dir( CN_CUSTOM_TEMPLATE_PATH ) ) , '</li>';
-		if ( is_dir( CN_CUSTOM_TEMPLATE_PATH ) ) echo '<li>' , __( 'Template Path Writeable:', 'connections' ) , ' ' , $convert->toYesNo( is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) , '</li>';
+			echo '<li>' , __( 'Template Path Exists:', 'connections' ) , ' ', $convert->toYesNo( is_dir( CN_CUSTOM_TEMPLATE_PATH ) ) , '</li>';
+			if ( is_dir( CN_CUSTOM_TEMPLATE_PATH ) ) echo '<li>' , __( 'Template Path Writeable:', 'connections' ) , ' ' , $convert->toYesNo( is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) , '</li>';
 
-		echo '<li>' , __( 'Cache Path Exists:', 'connections' ) , ' ', $convert->toYesNo( is_dir( CN_CACHE_PATH ) ) , '</li>';
-		if ( is_dir( CN_CACHE_PATH ) ) echo '<li>' , __( 'Cache Path Writeable:', 'connections' ) , ' ', $convert->toYesNo( is_writeable( CN_CACHE_PATH ) ) , '</li>';
+			echo '<li>' , __( 'Cache Path Exists:', 'connections' ) , ' ', $convert->toYesNo( is_dir( CN_CACHE_PATH ) ) , '</li>';
+			if ( is_dir( CN_CACHE_PATH ) ) echo '<li>' , __( 'Cache Path Writeable:', 'connections' ) , ' ', $convert->toYesNo( is_writeable( CN_CACHE_PATH ) ) , '</li>';
 		echo '</ul>';
 	}
 

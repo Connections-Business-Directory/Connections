@@ -117,6 +117,7 @@ span.date-name { font-weight: bold; }
 #cn-list .chzn-container .chzn-results .active-result { background: none !important; }
 #cn-list .chzn-container .chzn-results .highlighted { background: #3875d7 !important; color: #FFFFFF; }
 #cn-list .chzn-container ul.chzn-results {
+	clear: both !important;
 	margin: 0 4px 4px 0;
 	max-height: 190px;
 	padding: 0 0 0 4px;

@@ -254,7 +254,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Set the table prefix accordingly depedning if Connections is installed on a multisite WP installation.
 			 */
-			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->base_prefix : $wpdb->prefix;
+			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->prefix : $wpdb->base_prefix;
 
 			define( 'CN_ENTRY_TABLE', $prefix . 'connections' );
 			define( 'CN_ENTRY_ADDRESS_TABLE', $prefix . 'connections_address' );

@@ -85,10 +85,10 @@ class cnOutput extends cnEntry
 			'image'    => 'photo',
 			'preset'   => 'entry',
 			'fallback' => array(
-			'type'     => 'none',
-			'string'   => '',
-			'height'   => 0,
-			'width'    => 0
+				'type'     => 'none',
+				'string'   => '',
+				'height'   => 0,
+				'width'    => 0
 			),
 			'height' => 0,
 			'width'  => 0,
@@ -123,105 +123,106 @@ class cnOutput extends cnEntry
 		( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? $customSize = TRUE : $customSize = FALSE;
 
 		switch ( $atts['image'] ) {
-		case 'photo':
-			if ( $this->getImageLinked() && $this->getImageDisplay() ) {
-				$displayImage = TRUE;
-				$atts['class'] = 'photo';
-				$atts['alt'] = __( 'Photo of', 'connections' ) . ' ' . $this->getName();
-				$atts['title'] = __( 'Photo of', 'connections' ) . ' ' . $this->getName();
+			case 'photo':
+				if ( $this->getImageLinked() && $this->getImageDisplay() ) {
+					$displayImage = TRUE;
+					$atts['class'] = 'photo';
+					$atts['alt'] = __( 'Photo of', 'connections' ) . ' ' . $this->getName();
+					$atts['title'] = __( 'Photo of', 'connections' ) . ' ' . $this->getName();
 
-				if ( $customSize ) {
-					$atts['src'] = CN_URL . 'includes/timthumb/timthumb.php?src=' .
-						CN_IMAGE_BASE_URL . $this->getImageNameOriginal() .
-						( ( empty( $atts['height'] ) ) ? '' : '&amp;h=' . $atts['height'] ) .
-						( ( empty( $atts['width'] ) ) ? '' : '&amp;w=' . $atts['width'] ) .
-						( ( empty( $atts['zc'] ) ) ? '' : '&amp;zc=' . $atts['zc'] );
-				}
-				else {
-					switch ( $atts['preset'] ) {
-					case 'entry':
-						if ( is_file( CN_IMAGE_PATH . $this->getImageNameCard() ) ) {
-							$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameCard() );
-							$atts['src'] = CN_IMAGE_BASE_URL . $this->getImageNameCard();
+					if ( $customSize ) {
+						$atts['src'] = CN_URL . 'includes/timthumb/timthumb.php?src=' .
+							CN_IMAGE_BASE_URL . $this->getImageNameOriginal() .
+							( ( empty( $atts['height'] ) ) ? '' : '&amp;h=' . $atts['height'] ) .
+							( ( empty( $atts['width'] ) ) ? '' : '&amp;w=' . $atts['width'] ) .
+							( ( empty( $atts['zc'] ) ) ? '' : '&amp;zc=' . $atts['zc'] );
+					} else {
+						switch ( $atts['preset'] ) {
+							case 'entry':
+								if ( is_file( CN_IMAGE_PATH . $this->getImageNameCard() ) ) {
+									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameCard() );
+									$atts['src'] = CN_IMAGE_BASE_URL . $this->getImageNameCard();
+								}
+								break;
+
+							case 'profile':
+								if ( is_file( CN_IMAGE_PATH . $this->getImageNameProfile() ) ) {
+									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameProfile() );
+									$atts['src'] = CN_IMAGE_BASE_URL . $this->getImageNameProfile();
+								}
+								break;
+
+							case 'thumbnail':
+								if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
+									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameThumbnail() );
+									$atts['src'] = CN_IMAGE_BASE_URL . $this->getImageNameThumbnail();
+								}
+								break;
+
+							default:
+								if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
+									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameCard() );
+									$atts['src'] = CN_IMAGE_BASE_URL . $this->getImageNameCard();
+								}
+								break;
 						}
-						break;
-					case 'profile':
-						if ( is_file( CN_IMAGE_PATH . $this->getImageNameProfile() ) ) {
-							$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameProfile() );
-							$atts['src'] = CN_IMAGE_BASE_URL . $this->getImageNameProfile();
+
+						if ( isset( $atts['image_size'] ) && $atts['image_size'] !== FALSE ) {
+							$atts['width'] = $atts['image_size'][0];
+							$atts['height'] = $atts['image_size'][1];
 						}
-						break;
-					case 'thumbnail':
-						if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
-							$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameThumbnail() );
-							$atts['src'] = CN_IMAGE_BASE_URL . $this->getImageNameThumbnail();
-						}
-						break;
-					default:
-						if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
-							$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameCard() );
-							$atts['src'] = CN_IMAGE_BASE_URL . $this->getImageNameCard();
-						}
-						break;
 					}
-
-					if ( isset( $atts['image_size'] ) && $atts['image_size'] !== FALSE ) {
-						$atts['width'] = $atts['image_size'][0];
-						$atts['height'] = $atts['image_size'][1];
-					}
 				}
-			}
 
-			/*
+				/*
 				 * Create the link for the image if one was assigned.
 				 */
-			$links = $this->getLinks( array( 'image' => TRUE ) );
+				$links = $this->getLinks( array( 'image' => TRUE ) );
 
-			if ( ! empty( $links ) ) {
-				$link = $links[0];
+				if ( ! empty( $links ) ) {
+					$link = $links[0];
 
-				$anchorStart = '<a href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>';
-			}
-
-			break;
-
-		case 'logo':
-			if ( $this->getLogoLinked() && $this->getLogoDisplay() ) {
-				$displayImage = TRUE;
-				$atts['class'] = 'logo';
-				$atts['alt'] = __( 'Logo for', 'connections' ) . ' ' . $this->getName();
-				$atts['title'] = __( 'Logo for', 'connections' ) . ' ' . $this->getName();
-
-				if ( $customSize ) {
-					$atts['src'] = CN_URL . 'includes/timthumb/timthumb.php?src=' .
-						CN_IMAGE_BASE_URL . $this->getLogoName() .
-						( ( empty( $atts['height'] ) ) ? '' : '&amp;h=' . $atts['height'] ) .
-						( ( empty( $atts['width'] ) ) ? '' : '&amp;w=' . $atts['width'] ) .
-						( ( empty( $atts['zc'] ) ) ? '' : '&amp;zc=' . $atts['zc'] );
+					$anchorStart = '<a href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>';
 				}
-				else {
-					$atts['src'] = CN_IMAGE_BASE_URL . $this->getLogoName();
-					$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getLogoName() );
 
-					if ( $atts['image_size'] !== FALSE ) {
-						$atts['width'] = $atts['image_size'][0];
-						$atts['height'] = $atts['image_size'][1];
+				break;
+
+			case 'logo':
+				if ( $this->getLogoLinked() && $this->getLogoDisplay() ) {
+					$displayImage = TRUE;
+					$atts['class'] = 'logo';
+					$atts['alt'] = __( 'Logo for', 'connections' ) . ' ' . $this->getName();
+					$atts['title'] = __( 'Logo for', 'connections' ) . ' ' . $this->getName();
+
+					if ( $customSize ) {
+						$atts['src'] = CN_URL . 'includes/timthumb/timthumb.php?src=' .
+							CN_IMAGE_BASE_URL . $this->getLogoName() .
+							( ( empty( $atts['height'] ) ) ? '' : '&amp;h=' . $atts['height'] ) .
+							( ( empty( $atts['width'] ) ) ? '' : '&amp;w=' . $atts['width'] ) .
+							( ( empty( $atts['zc'] ) ) ? '' : '&amp;zc=' . $atts['zc'] );
+					} else {
+						$atts['src'] = CN_IMAGE_BASE_URL . $this->getLogoName();
+						$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getLogoName() );
+
+						if ( $atts['image_size'] !== FALSE ) {
+							$atts['width'] = $atts['image_size'][0];
+							$atts['height'] = $atts['image_size'][1];
+						}
 					}
 				}
-			}
 
-			/*
+				/*
 				 * Create the link for the image if one was assigned.
 				 */
-			$links = $this->getLinks( array( 'logo' => TRUE ) );
+				$links = $this->getLinks( array( 'logo' => TRUE ) );
 
-			if ( ! empty( $links ) ) {
-				$link = $links[0];
+				if ( ! empty( $links ) ) {
+					$link = $links[0];
 
-				$anchorStart = '<a href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>';
-			}
+					$anchorStart = '<a href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>';
+				}
 
-			break;
+				break;
 		}
 
 		/*
@@ -240,66 +241,64 @@ class cnOutput extends cnEntry
 			if ( ! empty( $atts['width'] ) ) $style[] = 'width: ' . $atts['width'] . 'px';
 
 			$out = '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image"' . ( ( empty( $style ) ) ? '' : ' style="' . implode( '; ', $style ) . ';"' ) . '>' . ( ( empty( $anchorStart ) ) ? '' : $anchorStart ) . '<img ' . implode( ' ', $tag ) . ' />' . ( ( empty( $anchorStart ) ) ? '' : $anchorEnd ) . '</span></span>';
-		}
-		else {
+		} else {
 			if ( $customSize ) {
 				/*
 				 * Set the size to the supplied custom. The fallback custom size would take priority if it has been supplied.
 				 */
 				( empty( $atts['fallback']['height'] ) ) ? $style[] = 'height: ' . $atts['height'] . 'px' : $style[] = 'height: ' . $atts['fallback']['height'] . 'px';
 				( empty( $atts['fallback']['width'] ) ) ? $style[] = 'width: ' . $atts['width'] . 'px' : $style[] = 'width: ' . $atts['fallback']['width'] . 'px';
-			}
-			else {
+			} else {
 				/*
 				 * If a custom size was not set, use the dimensions saved in the settings.
 				 */
 				switch ( $atts['image'] ) {
-				case 'photo':
+					case 'photo':
 
-					switch ( $atts['preset'] ) {
-					case 'entry':
-						$style[] = 'height: ' . $connections->options->getImgEntryY() . 'px';
-						$style[] = 'width: ' . $connections->options->getImgEntryX() . 'px';
-						break;
-					case 'profile':
-						$style[] = 'height: ' . $connections->options->getImgProfileY() . 'px';
-						$style[] = 'width: ' . $connections->options->getImgProfileX() . 'px';
-						break;
-					case 'thumbnail':
-						$style[] = 'height: ' . $connections->options->getImgThumbY() . 'px';
-						$style[] = 'width: ' . $connections->options->getImgThumbX() . 'px';
-						break;
-					default:
-						$style[] = 'height: ' . $connections->options->getImgEntryY() . 'px';
-						$style[] = 'width: ' . $connections->options->getImgEntryX() . 'px';
-						break;
-					}
+						switch ( $atts['preset'] ) {
+							case 'entry':
+								$style[] = 'height: ' . $connections->options->getImgEntryY() . 'px';
+								$style[] = 'width: ' . $connections->options->getImgEntryX() . 'px';
+								break;
+							case 'profile':
+								$style[] = 'height: ' . $connections->options->getImgProfileY() . 'px';
+								$style[] = 'width: ' . $connections->options->getImgProfileX() . 'px';
+								break;
+							case 'thumbnail':
+								$style[] = 'height: ' . $connections->options->getImgThumbY() . 'px';
+								$style[] = 'width: ' . $connections->options->getImgThumbX() . 'px';
+								break;
+							default:
+								$style[] = 'height: ' . $connections->options->getImgEntryY() . 'px';
+								$style[] = 'width: ' . $connections->options->getImgEntryX() . 'px';
+								break;
+						}
 
-					break;
+						break;
 
-				case 'logo':
-					$style[] = 'height: ' . $connections->options->getImgLogoY() . 'px';
-					$style[] = 'width: ' . $connections->options->getImgLogoX() . 'px';
-					break;
+					case 'logo':
+						$style[] = 'height: ' . $connections->options->getImgLogoY() . 'px';
+						$style[] = 'width: ' . $connections->options->getImgLogoX() . 'px';
+						break;
 				}
 			}
 
 			switch ( $atts['fallback']['type'] ) {
-			case 'block':
-				$style[] = 'display: inline-block';
+				case 'block':
+					$style[] = 'display: inline-block';
 
-				( empty( $atts['fallback']['string'] ) ) ? $string = '' : $string = '<p>' . $atts['fallback']['string'] . '</p>';
+					( empty( $atts['fallback']['string'] ) ) ? $string = '' : $string = '<p>' . $atts['fallback']['string'] . '</p>';
 
-				$out = '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-none"' . ( ( empty( $style ) ) ? '' : ' style="' . implode( '; ', $style ) . ';"' ) . '>' . $string . '</span></span>';
+					$out = '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-none"' . ( ( empty( $style ) ) ? '' : ' style="' . implode( '; ', $style ) . ';"' ) . '>' . $string . '</span></span>';
 
-				break;
+					break;
 
-			case 'default':
-				/*
-					 * @TODO Enable support for a default image to be set.
-					 * NOTE: Use switch for image type to allow a default image for both the image and logo.
-					 */
-				break;
+				case 'default':
+					/*
+						 * @TODO Enable support for a default image to be set.
+						 * NOTE: Use switch for image type to allow a default image for both the image and logo.
+						 */
+					break;
 			}
 		}
 

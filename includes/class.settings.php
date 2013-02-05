@@ -1,7 +1,7 @@
 <?php
 /**
  * Register the tabs, settings sections and section settings.
- * 
+ *
  * @author Steven A. Zahm
  * @since 0.7.3.0
  */
@@ -9,7 +9,7 @@ class cnRegisterSettings
 {
 	/**
 	 * Register the tabs for the Connections : Settings admin page.
-	 * 
+	 *
 	 * @author Steven A. Zahm
 	 * @since 0.7.3.0
 	 * @param $tabs array
@@ -18,43 +18,43 @@ class cnRegisterSettings
 	public function registerSettingsTabs( $tabs )
 	{
 		global $connections;
-		
+
 		$settings = 'connections_page_connections_settings';
-		
+
 		// Register the core tab banks.
-		$tabs[] = array( 
-			'id'        => 'general' , 
+		$tabs[] = array(
+			'id'        => 'general' ,
 			'position'  => 10 ,
-			'title'     => __( 'General' , 'connections' ) , 
+			'title'     => __( 'General' , 'connections' ) ,
 			'page_hook' => $settings
 		);
-		
-		$tabs[] = array( 
-			'id'        => 'images' , 
+
+		$tabs[] = array(
+			'id'        => 'images' ,
 			'position'  => 20 ,
-			'title'     => __( 'Images' , 'connections' ) , 
+			'title'     => __( 'Images' , 'connections' ) ,
 			'page_hook' => $settings
 		);
-		
-		$tabs[] = array( 
-			'id'        => 'search' , 
+
+		$tabs[] = array(
+			'id'        => 'search' ,
 			'position'  => 30 ,
-			'title'     => __( 'Search' , 'connections' ) , 
+			'title'     => __( 'Search' , 'connections' ) ,
 			'page_hook' => $settings
 		);
-		$tabs[] = array( 
-			'id'        => 'advanced' , 
+		$tabs[] = array(
+			'id'        => 'advanced' ,
 			'position'  => 40 ,
-			'title'     => __( 'Advanced' , 'connections' ) , 
+			'title'     => __( 'Advanced' , 'connections' ) ,
 			'page_hook' => $settings
 		);
-		
+
 		return $tabs;
 	}
-	
+
 	/**
 	 * Register the settings sections.
-	 * 
+	 *
 	 * @author Steven A. Zahm
 	 * @since 0.7.3.0
 	 * @param array $sections
@@ -63,152 +63,152 @@ class cnRegisterSettings
 	public function registerSettingsSections( $sections )
 	{
 		global $connections;
-		
+
 		$settings = 'connections_page_connections_settings';
-		
+
 		/*
 		 * The sections registered to the General tab.
 		 */
 		$sections[] = array(
 			'tab'       => 'general',
-			'id'        => 'connections_home_page', 
-			'position'  => 5, 
-			'title'     => __( 'Home' , 'connections' ), 
-			'callback'  => create_function( '', "_e('Choose the page where your directory is located. 
-			This should be the page where you used the [connections] shortcode.', 'connections');" ), 
+			'id'        => 'connections_home_page',
+			'position'  => 5,
+			'title'     => __( 'Home' , 'connections' ),
+			'callback'  => create_function( '', "_e('Choose the page where your directory is located.
+			This should be the page where you used the [connections] shortcode.', 'connections');" ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'general',
-			'id'        => 'connections_login', 
-			'position'  => 10, 
-			'title'     => __( 'Require Login' , 'connections' ), 
-			'callback'  => '', 
+			'id'        => 'connections_login',
+			'position'  => 10,
+			'title'     => __( 'Require Login' , 'connections' ),
+			'callback'  => '',
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'general',
-			'id'        => 'connections_visibility', 
-			'position'  => 20, 
-			'title'     => __( 'Shortcode Visibility Overrides' , 'connections' ), 
-			'callback'  => create_function( '', "_e('The [connections] shortcode has two options available to show an entry or an entire directory 
-			if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, 
-			will only be applied to the current shortcode instance.', 'connections');" ), 
+			'id'        => 'connections_visibility',
+			'position'  => 20,
+			'title'     => __( 'Shortcode Visibility Overrides' , 'connections' ),
+			'callback'  => create_function( '', "_e('The [connections] shortcode has two options available to show an entry or an entire directory
+			if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used,
+			will only be applied to the current shortcode instance.', 'connections');" ),
 			'page_hook' => $settings
 		);
-		
+
 		/*
 		 * The sections registered to the Images tab.
 		 */
 		$sections[] = array(
 			'tab'       => 'images',
-			'id'        => 'connections_image_instructions', 
-			'position'  => 10, 
-			'title'     => __( 'Image and Logo Instructions' , 'connections' ), 
+			'id'        => 'connections_image_instructions',
+			'position'  => 10,
+			'title'     => __( 'Image and Logo Instructions' , 'connections' ),
 			'callback'  => create_function( '', "_e('When an image or logo is uploaded to an entry, various sizes are created and cached. This helps to reduce server load during the
 			rendering of the directory. If these settings are changed, they will only affect images uploaded after the change has been made. All previous images will remain at their
-			previously cached sizes. NOTE: the active template will determine which image(s) is used.', 'connections');" ),  
+			previously cached sizes. NOTE: the active template will determine which image(s) is used.', 'connections');" ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'images',
-			'id'        => 'connections_image_thumbnail', 
-			'position'  => 10, 
-			'title'     => __( 'Thumbnail Image' , 'connections' ), 
+			'id'        => 'connections_image_thumbnail',
+			'position'  => 10,
+			'title'     => __( 'Thumbnail Image' , 'connections' ),
 			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 80px; Height: 54px; Crop', 'connections');" ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'images',
-			'id'        => 'connections_image_medium', 
-			'position'  => 20, 
-			'title'     => __( 'Medium Image' , 'connections' ), 
-			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop', 'connections');" ), 
+			'id'        => 'connections_image_medium',
+			'position'  => 20,
+			'title'     => __( 'Medium Image' , 'connections' ),
+			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop', 'connections');" ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'images',
-			'id'        => 'connections_image_large', 
-			'position'  => 30, 
-			'title'     => __( 'Large Image' , 'connections' ), 
-			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 300px; Height: 225px; Crop', 'connections');" ),  
+			'id'        => 'connections_image_large',
+			'position'  => 30,
+			'title'     => __( 'Large Image' , 'connections' ),
+			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 300px; Height: 225px; Crop', 'connections');" ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'images',
-			'id'        => 'connections_image_logo', 
-			'position'  => 30, 
-			'title'     => __( 'Logo' , 'connections' ), 
-			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop', 'connections');" ),  
+			'id'        => 'connections_image_logo',
+			'position'  => 30,
+			'title'     => __( 'Logo' , 'connections' ),
+			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 225px; Height: 150px; Fill', 'connections');" ),
 			'page_hook' => $settings
 		);
-		
+
 		/*
 		 * The sections registered to the Search tab.
 		 */
 		$sections[] = array(
 			'tab'       => 'search',
-			'id'        => 'connections_search', 
-			'position'  => 10, 
-			'title'     => __( 'Search Fields' , 'connections' ), 
-			'callback'  => '', 
+			'id'        => 'connections_search',
+			'position'  => 10,
+			'title'     => __( 'Search Fields' , 'connections' ),
+			'callback'  => '',
 			'page_hook' => $settings
 		);
-		
+
 		/*
 		 * The sections registered to the Advance tab.
 		 */
 		$sections[] = array(
 			'tab'       => 'advanced',
-			'id'        => 'connections_permalink', 
-			'position'  => 10, 
-			'title'     => __( 'Permalink' , 'connections' ), 
-			'callback'  => create_function( '', "echo '<p>' , __( 'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.' , 'connections' ) , '</p>';" ), 
+			'id'        => 'connections_permalink',
+			'position'  => 10,
+			'title'     => __( 'Permalink' , 'connections' ),
+			'callback'  => create_function( '', "echo '<p>' , __( 'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.' , 'connections' ) , '</p>';" ),
 			'page_hook' => $settings
 		);
-		
+
 		$sections[] = array(
 			'tab'       => 'advanced',
-			'id'        => 'connections_link', 
-			'position'  => 15, 
-			'title'     => __( 'Links' , 'connections' ), 
-			'callback'  => create_function( '', "echo '<p>' , __( 'Enable certain entry data to become links.' , 'connections' ) , '</p>';" ), 
+			'id'        => 'connections_link',
+			'position'  => 15,
+			'title'     => __( 'Links' , 'connections' ),
+			'callback'  => create_function( '', "echo '<p>' , __( 'Enable certain entry data to become links.' , 'connections' ) , '</p>';" ),
 			'page_hook' => $settings
 		);
-		
+
 		$sections[] = array(
 			'tab'       => 'advanced',
-			'id'        => 'connections_compatibility', 
-			'position'  => 20, 
-			'title'     => __( 'Compatibility' , 'connections' ), 
-			'callback'  => '', 
+			'id'        => 'connections_compatibility',
+			'position'  => 20,
+			'title'     => __( 'Compatibility' , 'connections' ),
+			'callback'  => '',
 			'page_hook' => $settings
 		);
-		
+
 		$sections[] = array(
 			'tab'       => 'advanced',
-			'id'        => 'connections_debug', 
-			'position'  => 30, 
-			'title'     => __( 'Debug' , 'connections' ), 
-			'callback'  => '', 
+			'id'        => 'connections_debug',
+			'position'  => 30,
+			'title'     => __( 'Debug' , 'connections' ),
+			'callback'  => '',
 			'page_hook' => $settings
 		);
-		
+
 		return $sections;
 	}
-	
+
 	/**
 	 * Register the settings sections.
-	 * 
+	 *
 	 * @author Steven A. Zahm
 	 * @since 0.7.3.0
 	 */
 	public function registerSettingsFields( $fields )
 	{
 		global $connections;
-		
+
 		$settings = 'connections_page_connections_settings';
-		
+
 		/*
 		 * The General tab fields.
 		 */
@@ -265,7 +265,7 @@ class cnRegisterSettings
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
-		); 
+		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'allow_private_override',
@@ -279,7 +279,7 @@ class cnRegisterSettings
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
-		
+
 		/*
 		 * The Images tab fields.
 		 */
@@ -521,9 +521,9 @@ class cnRegisterSettings
 				'fill'      => __('Fill, maintain aspect ratio.', 'connections'),
 				'none'      => __('None, scale to fit.', 'connections')
 			),
-			'default'   => 'crop'
+			'default'   => 'fill'
 		);
-		
+
 		/*
 		 * The Search tab fields.
 		 */
@@ -582,7 +582,7 @@ class cnRegisterSettings
 			),
 			'sanitize_callback'  => array( &$connections->options , 'setSearchFields' )
 		);
-		
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'fulltext_enabled',
@@ -596,7 +596,7 @@ class cnRegisterSettings
 			'type'      => 'checkbox',
 			'default'   => 1
 		);
-		
+
 		/*
 		 * The Advanced tab fields
 		 */
@@ -713,7 +713,7 @@ class cnRegisterSettings
 			'size'      => 'regular',
 			'default'   => 'name'
 		);
-		
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'name',
@@ -727,7 +727,7 @@ class cnRegisterSettings
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
-		
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'phone',
@@ -741,7 +741,7 @@ class cnRegisterSettings
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
-		
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'google_maps_api',
@@ -781,13 +781,13 @@ class cnRegisterSettings
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
-		
+
 		return $fields;
 	}
-	
+
 	/**
      * Get all the pages
-     * 
+     *
      * @access private
      * @since 0.7.3
      * @uses get_pages()
@@ -797,19 +797,19 @@ class cnRegisterSettings
 
 	    $pages = get_pages();
 	    $options = array( 0 => 'Select Page' );
-	    
+
 		if ( ! empty($pages) ) {
 	        foreach ( $pages as $page ) {
 	            $options[$page->ID] = $page->post_title;
 	        }
 	    }
-	
+
 	    return $options;
 	}
-	
+
 	/**
 	 * Sanitize the slug to help prevent some unfriendly slugs that users might enter
-	 * 
+	 *
 	 * @access private
 	 * @version 1.0
 	 * @since 0.7.3
@@ -819,7 +819,7 @@ class cnRegisterSettings
 	 * @return array
 	 */
 	public static function flushRewrite($settings) {
-		
+
 		/*
 		 * Make sure there is a value saved for each permalink base.
 		 */
@@ -829,17 +829,17 @@ class cnRegisterSettings
 		if ( ! isset( $settings['locality_base'] ) || empty( $settings['locality_base'] ) ) $settings['locality_base'] = 'locality';
 		if ( ! isset( $settings['postal_code_base'] ) || empty( $settings['postal_code_base'] ) ) $settings['postal_code_base'] = 'postal_code';
 		if ( ! isset( $settings['name_base'] ) || empty( $settings['name_base'] ) ) $settings['name_base'] = 'name';
-		
+
 		function sanitize(&$item) {
 			$item = str_ireplace('%', '-', $item); // Added this because sanitize_title_with_dashes will still allow % to passthru.
 			return sanitize_title_with_dashes($item, '', 'save');
 		}
-		
+
 		$settings = array_map('sanitize', $settings);
-		
+
 		// This option is added for a check that will force a flush_rewrite() in connectionsLoad::adminInit().
 		update_option('connections_flush_rewrite', '1');
-		
+
 		return $settings;
 	}
 }

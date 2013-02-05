@@ -240,7 +240,7 @@ class cnOutput extends cnEntry
 			if ( ! empty( $atts['height'] ) ) $style[] = 'height: ' . $atts['height'] . 'px';
 			if ( ! empty( $atts['width'] ) ) $style[] = 'width: ' . $atts['width'] . 'px';
 
-			$out = '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image"' . ( ( empty( $style ) ) ? '' : ' style="' . implode( '; ', $style ) . ';"' ) . '>' . ( ( empty( $anchorStart ) ) ? '' : $anchorStart ) . '<img ' . implode( ' ', $tag ) . ' />' . ( ( empty( $anchorStart ) ) ? '' : $anchorEnd ) . '</span></span>';
+			$out = '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image' . ( $customSize ? ' cn-image-loading' : '' ) . '"' . ( ( empty( $style ) ) ? '' : ' style="' . implode( '; ', $style ) . ';"' ) . '>' . ( ( empty( $anchorStart ) ) ? '' : $anchorStart ) . '<img ' . implode( ' ', $tag ) . ' />' . ( ( empty( $anchorStart ) ) ? '' : $anchorEnd ) . '</span></span>';
 		} else {
 			if ( $customSize ) {
 				/*

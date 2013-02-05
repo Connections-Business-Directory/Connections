@@ -25,8 +25,10 @@
 	padding: 0 !important;
 	position: relative !important;
 	top: 0 !important;
-	visibility: hidden;
 	width: auto !important;
+}
+#cn-list span.cn-image-loading img {
+	visibility: hidden;
 }
 #cn-list span.cn-image-style {
 	-webkit-border-radius: 4px;

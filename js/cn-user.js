@@ -1,16 +1,16 @@
 jQuery(document).ready(function($) {
 	$('.connections-list').cn_preloader({
 		delay:200,
-		imgSelector:'.cn-image img.photo, .cn-image img.logo, .cn-image img.map, .cn-image img.screenshot',
+		imgSelector:'.cn-image-loading img.photo, .cn-image-loading img.logo, .cn-image-loading img.map, .cn-image-loading img.screenshot',
 		beforeShow:function(){
-			$(this).closest('.cn-image img').css('visibility','hidden');
+			$(this).closest('.cn-image-loading img').css('visibility','hidden');
 		},
 		afterShow:function(){
 			//var image = $(this).closest('.cn-image');
 			//jQuery(image).spin(false);
 		}
 	});
-	
+
 	/*jQuery('.cn-image').spin({
 		lines: 12, // The number of lines to draw
 		length: 7, // The length of each line
@@ -21,7 +21,7 @@ jQuery(document).ready(function($) {
 		trail: 60, // Afterglow percentage
 		shadow: true // Whether to render a shadow
 	});*/
-	
+
 	/*jQuery.preload('.cn-image img',{
 		onComplete:function (data){
 			//jQuery(".cn-image .overlay:eq("+data.index+")").removeClass('preload').addClass("image_overlay").html('');

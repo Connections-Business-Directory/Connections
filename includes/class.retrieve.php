@@ -764,6 +764,26 @@ class cnRetrieve {
 		return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id="%d"' , $id ) );
 	}
 
+	/**
+	 * Retrieve the unique initial characters of all entries in the entry table sorted by character.
+	 *
+	 * @access public
+	 * @since 0.7.4
+	 * @return (array)
+	 */
+	public static function getCharacters() {
+		global $wpdb;
+
+		$select = 'SUBSTRING( CASE `entry_type`
+					  WHEN \'individual\' THEN `last_name`
+					  WHEN \'organization\' THEN `organization`
+					  WHEN \'connection_group\' THEN `family_name`
+					  WHEN \'family\' THEN `family_name`
+					END, 1, 1 ) AS `char`';
+
+		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ORDER BY `char`' );
+	}
+
 	public function upcoming( $atts = array() ) {
 		global $wpdb, $connections;
 

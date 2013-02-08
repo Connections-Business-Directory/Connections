@@ -413,25 +413,14 @@ function connectionsShowViewPage( $action = NULL ) {
 				?>
 
 								<div class="tablenav-pages">
-									<?php
-				echo '<span class="displaying-num">' , __( 'Jump to', 'connections' ) , ':</span>';
+				<?php
 
 				/*
-										 * Dynamically builds the alpha index based on the available entries.
-										 */
-				$previousLetter = NULL;
-				$setAnchor = NULL;
+				 * Display the character filter control.
+				 */
+				echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
+				cnTemplate::character();
 
-				foreach ( $results as $row ) {
-					$entry = new cnEntry( $row );
-					$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
-					if ( $currentLetter != $previousLetter ) {
-						$setAnchor .= '<a href="#' . $currentLetter . '">' . $currentLetter . '</a> ';
-						$previousLetter = $currentLetter;
-					}
-				}
-
-				echo $setAnchor;
 				?>
 								</div>
 							</div>
@@ -458,7 +447,9 @@ function connectionsShowViewPage( $action = NULL ) {
 								</tfoot>
 								<tbody>
 
-									<?php
+				<?php
+
+				$previousLetter = '';
 
 				foreach ( $results as $row ) {
 					/**

@@ -456,6 +456,50 @@ class cnTemplate {
 	}
 
 	/**
+	 * Creates the initisl character filter control.
+	 *
+	 * Accepted option for the $atts property are:
+	 * 	return (bool) Whether or not to return or echo the result.
+	 *
+	 * @access public
+	 * @since 0.7.4
+	 * @uses add_query_arg()
+	 * @uses wp_parse_args()
+	 * @uses is_admin()
+	 * @param  (array)  $atts [description]
+	 * @return (string)
+	 */
+	public static function character( $atts = array() ) {
+		$out = '';
+		$characters = cnRetrieve::getCharacters();
+		$currentPageURL = add_query_arg( array( 'page' => FALSE , 'connections_process' => TRUE , 'process' => 'manage' , 'action' => 'filter' )  );
+
+		// If in the admin init an instance of the cnFormObjects class to be used to create the URL nonce.
+		if ( is_admin() ) $form = new cnFormObjects();
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		foreach ( $characters as $key => $char ) {
+			$char = strtoupper( $char );
+
+			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
+			if ( is_admin() ) {
+				$out .= '<a href="' . $form->tokenURL( add_query_arg( array( 'char' => urlencode( $char ) ) , $currentPageURL ) , 'filter' ) . '">' . $char . '</a> ';
+			} else {
+				$out .= '<a href="' . add_query_arg( array( 'char' => urlencode( $char ) ) , $currentPageURL ) . '">' . $char . '</a> ';
+			}
+
+		}
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
 	 * Creates the pagination controls.
 	 *
 	 * Accepted option for the $atts property are:

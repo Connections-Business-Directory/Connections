@@ -471,7 +471,14 @@ class cnTemplate {
 	 */
 	public static function character( $atts = array() ) {
 		$out = '';
-		$characters = cnRetrieve::getCharacters();
+
+		$defaults = array(
+			'status' => array( 'approved' )
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$characters = cnRetrieve::getCharacters( $atts );
 		$currentPageURL = add_query_arg( array( 'page' => FALSE , 'connections_process' => TRUE , 'process' => 'manage' , 'action' => 'filter' )  );
 
 		// If in the admin init an instance of the cnFormObjects class to be used to create the URL nonce.

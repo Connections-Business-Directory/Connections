@@ -801,6 +801,135 @@ class cnRetrieve {
 		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' '  . implode( ' ', $where ) . ' ORDER BY `char`' );
 	}
 
+	/**
+	 * Set up the query to only return the entries based on user permissions.
+	 *
+	 * @param (array) $where
+	 * @param (array) $atts
+	 *
+	 * @access private
+	 * @since 0.7.4
+	 * @uses wp_parse_args()
+	 * @uses is_user_logged_in()
+	 * @uses current_user_can()
+	 * @return (array)
+	 */
+	public static function setQueryVisibility( $where, $atts = array() ) {
+		global $connections;
+		$visibility = array();
+
+		$defaults = array(
+			'visibility'            => array(),
+			'allow_public_override' => FALSE,
+			'private_override'      => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( is_user_logged_in() ) {
+
+			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
+				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
+				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
+				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
+			} else {
+				// Convert the supplied entry statuses $atts['visibility'] to an array.
+				if ( ! is_array( $atts['visibility'] ) ) {
+					// Trim the space characters if present.
+					$atts['visibility'] = str_replace( ' ', '', $atts['visibility'] );
+
+					// Convert to array.
+					$atts['visibility'] = explode( ',', $atts['visibility'] );
+				}
+
+				$visibility[] = $atts['visibility'];
+			}
+
+		} else {
+			//var_dump( $connections->options->getAllowPublic() ); die;
+
+			// Display the 'public' entries if the user is not required to be logged in.
+			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
+
+			// Display the 'public' entries if the public override shortcode option is enabled.
+			if ( $connections->options->getAllowPublicOverride() ) {
+				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
+			}
+
+			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
+			if ( $connections->options->getAllowPrivateOverride() ) {
+				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
+				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
+				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
+			}
+
+		}
+
+		$where[] = 'AND ' . CN_ENTRY_TABLE . '.visibility IN (\'' . implode( "', '", $visibility ) . '\')';
+
+		return $where;
+	}
+
+	/**
+	 * Set up the query to only return the entries based on status.
+	 *
+	 * @param (array) $where
+	 * @param (array) $atts
+	 *
+	 * @access private
+	 * @since 0.7.4
+	 * @uses wp_parse_args()
+	 * @uses is_user_logged_in()
+	 * @uses current_user_can()
+	 * @return (array)
+	 */
+	public static function setQueryStatus( $where, $atts = array() ) {
+		$valid = array( 'approved', 'pending' );
+
+		$defaults = array(
+			'status' => array( 'approved' )
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Convert the supplied entry statuses $atts['status'] to an array.
+		if ( ! is_array( $atts['status'] ) ) {
+			// Trim the space characters if present.
+			$status = str_replace( ' ', '', $atts['status'] );
+
+			// Convert to array.
+			$status = explode( ',', $status );
+		} else {
+			$status = $atts['status'];
+		}
+
+		if ( is_user_logged_in() ) {
+			// If 'all' was supplied, set the array to all the permitted entry status types.
+			if ( in_array( 'all', $status ) ) $status = $valid;
+
+			// Limit the viewable status per role capability assigned to the current user.
+			if ( current_user_can( 'connections_edit_entry' ) ) {
+				$permitted = array( 'approved', 'pending' );
+
+				$status = array_intersect( $permitted, $status );
+
+			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
+				$permitted = array( 'approved' );
+
+				$status = array_intersect( $permitted, $status );
+
+			} else {
+				$permitted = array( 'approved' );
+
+				$status = array_intersect( $permitted, $status );
+			}
+		}
+
+		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $status ) . '\')';
+
+		return $where;
+	}
+
 	public function upcoming( $atts = array() ) {
 		global $wpdb, $connections;
 

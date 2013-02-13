@@ -771,8 +771,25 @@ class cnRetrieve {
 	 * @since 0.7.4
 	 * @return (array)
 	 */
-	public static function getCharacters() {
+	public static function getCharacters( $atts = array() ) {
 		global $wpdb;
+		$where[] = 'WHERE 1=1';
+
+		$defaults = array(
+			'status'                => array( 'approved' ),
+			'visibility'            => array(),
+			'allow_public_override' => FALSE,
+			'private_override'      => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Limit the characters that are queried based on if the current user can view public, private or unlisted entries.
+		$where = self::setQueryVisibility( $where, $atts );
+
+		// Limit the characters that are queried based on if the current user can view approved and/or pending entries.
+		$where = self::setQueryStatus( $where, $atts );
+
 
 		$select = 'SUBSTRING( CASE `entry_type`
 					  WHEN \'individual\' THEN `last_name`
@@ -781,7 +798,7 @@ class cnRetrieve {
 					  WHEN \'family\' THEN `family_name`
 					END, 1, 1 ) AS `char`';
 
-		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' ORDER BY `char`' );
+		return $wpdb->get_col( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' '  . implode( ' ', $where ) . ' ORDER BY `char`' );
 	}
 
 	public function upcoming( $atts = array() ) {

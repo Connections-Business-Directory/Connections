@@ -419,7 +419,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				 * Display the character filter control.
 				 */
 				echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
-				cnTemplate::character();
+				cnTemplate::character( array( 'status' => $connections->currentUser->getFilterStatus() ) );
 
 				?>
 								</div>

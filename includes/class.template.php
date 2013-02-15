@@ -495,9 +495,9 @@ class cnTemplate {
 
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
-				$out .= '<a href="' . $form->tokenURL( add_query_arg( array( 'char' => urlencode( $char ) ) , $currentPageURL ) , 'filter' ) . '">' . $char . '</a> ';
+				$out .= '<a href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) , $currentPageURL ) , 'filter' ) . '">' . $char . '</a> ';
 			} else {
-				$out .= '<a href="' . add_query_arg( array( 'char' => urlencode( $char ) ) , $currentPageURL ) . '">' . $char . '</a> ';
+				$out .= '<a href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) , $currentPageURL ) . '">' . $char . '</a> ';
 			}
 
 		}

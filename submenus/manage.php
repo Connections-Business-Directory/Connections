@@ -246,6 +246,8 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				$retrieveAttr['list_type'] = $connections->currentUser->getFilterEntryType();
 				$retrieveAttr['category'] = $connections->currentUser->getFilterCategory();
+
+				$retrieveAttr['char'] = isset( $_GET['cn-char'] ) && ! empty( $_GET['cn-char'] ) ? $_GET['cn-char'] : '';
 				$retrieveAttr['visibility'] = $connections->currentUser->getFilterVisibility();
 				$retrieveAttr['status'] = $connections->currentUser->getFilterStatus();
 

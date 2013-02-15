@@ -43,6 +43,7 @@ class cnRetrieve {
 		$defaults['category_name'] = NULL;
 		$defaults['category_slug'] = NULL;
 		$defaults['wp_current_category'] = FALSE;
+		$defaults['char'] = '';
 		$defaults['id'] = NULL;
 		$defaults['slug'] = NULL;
 		$defaults['family_name'] = NULL;

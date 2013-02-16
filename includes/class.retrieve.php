@@ -27,6 +27,7 @@ class cnRetrieve {
 		$from[] = CN_ENTRY_TABLE;
 		$join = array();
 		$where[] = 'WHERE 1=1';
+		$having = array();
 		$orderBy = array();
 		$visibility = array();
 
@@ -419,6 +420,10 @@ class cnRetrieve {
 			if ( ! empty( $atts['zip_code'] ) ) $where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.zipcode = %s' , $atts['zip_code'] );
 			if ( ! empty( $atts['country'] ) ) $where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.country = %s' , $atts['country'] );
 		}
+
+		if ( ! empty( $atts['char'] ) ) {
+			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s' , $atts['char'] . '%' );
+		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied filters.
 		 */
@@ -708,7 +713,7 @@ class cnRetrieve {
 		 */
 
 
-		$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . 'FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . $orderBy . ' ' . $limit . $offset;
+		$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . 'FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
 		//print_r($sql); die;
 
 		$results = $wpdb->get_results( $sql );

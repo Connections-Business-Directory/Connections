@@ -65,9 +65,8 @@ class cnFormatting {
 	 * @param string $string
 	 * @return string
 	 */
-	public function stripNonNumeric($string)
-	{
-		return preg_replace('/[^0-9]/', '', $string);
+	public function stripNonNumeric( $string ) {
+		return preg_replace( '/[^0-9]/', '', $string );
 	}
 
 	/**

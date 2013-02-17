@@ -1048,7 +1048,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					'admin_notices',
 					create_function(
 						'',
-						'echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> The Connections directory home page has not been set. Please set it now on the Connections : Seetings page under the General tab.', 'connections' ) . '</p></div>\';'
+						'echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> The Connections directory home page has not been set. Please set it now on the Connections : Settings page under the General tab.', 'connections' ) . '</p></div>\';'
 					)
 				);
 

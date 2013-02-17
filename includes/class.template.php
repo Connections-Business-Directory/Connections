@@ -557,6 +557,7 @@ class cnTemplate {
 
 			// Store the query vars
 			if ( get_query_var('cn-s') ) $queryVars['cn-s'] = get_query_var('cn-s');
+			if ( get_query_var('cn-char') ) $queryVars['cn-char'] = get_query_var('cn-char');
 			if ( get_query_var('cn-cat') ) $queryVars['cn-cat'] = get_query_var('cn-cat');
 			if ( get_query_var('cn-near-coord') ) $queryVars['cn-near-coord'] = get_query_var('cn-near-coord');
 			if ( get_query_var('cn-radius') ) $queryVars['cn-radius'] = get_query_var('cn-radius');

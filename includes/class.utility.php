@@ -54,7 +54,8 @@ class cnFormatting {
 	 * @param string $string
 	 * @return string
 	 */
-	public function sanitizeStringStrong( $string ) {
+	public static function sanitizeStringStrong( $string ) {
+		$string = str_ireplace( '%', '-', $string ); // Added this because sanitize_title_with_dashes will still allow % to passthru.
 		$string = sanitize_title_with_dashes( $string );
 		return $string;
 	}

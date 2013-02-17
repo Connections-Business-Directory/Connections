@@ -88,6 +88,7 @@ class cnRewrite {
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
 
+		$character = $base['character_base'];
 		$category = $base['category_base'];
 		$country = $base['country_base'];
 		$region = $base['region_base'];
@@ -199,6 +200,11 @@ class cnRewrite {
 		$rule[ $locality . '/([^/]*)?/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-locality=$matches[1]&cn-view=list';
 
+		// Initial character rewrite rules.
+		$rule[ $character . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-char=$matches[1]&cn-pg=$matches[2]&cn-view=list';
+		$rule[ $character . '/([^/]*)?/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-char=$matches[1]&cn-view=list';
 
 		// Edit entry.
 		$rule[ $name . '/([^/]*)/edit/?$']
@@ -260,6 +266,7 @@ class cnRewrite {
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
 
+		$character = $base['character_base'];
 		$category = $base['category_base'];
 		$country = $base['country_base'];
 		$region = $base['region_base'];
@@ -371,6 +378,11 @@ class cnRewrite {
 		$rule['(.?.+?)/' . $locality . '/([^/]*)?/?$']
 			= 'index.php?pagename=$matches[1]&cn-locality=$matches[2]&cn-view=list';
 
+		// Initial character rewrite rules.
+		$rule['(.?.+?)/' . $character . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?pagename=$matches[1]&cn-char=$matches[2]&cn-pg=$matches[3]&cn-view=list';
+		$rule['(.?.+?)/' . $character . '/([^/]*)?/?$']
+			= 'index.php?pagename=$matches[1]&cn-char=$matches[2]&cn-view=list';
 
 		// Edit entry.
 		$rule['(.?.+?)/' . $name . '/([^/]*)/edit/?$']

@@ -602,18 +602,32 @@ class cnRegisterSettings
 		 */
 		$fields[] = array(
 			'plugin_id'         => 'connections',
-			'id'                => 'category_base',
-			'position'          => 10,
+			'id'                => 'character_base',
+			'position'          => 05,
 			'page_hook'         => $settings,
 			'tab'               => 'advanced',
 			'section'           => 'connections_permalink',
-			'title'             => __('Category Base', 'connections'),
-			'desc'              => __('Enter a custom structure for the category in the URL.', 'connections'),
+			'title'             => __('Character Base', 'connections'),
+			'desc'              => __('Enter a custom structure for the initial character in the URL.', 'connections'),
 			'help'              => '',
 			'type'              => 'text',
 			'size'              => 'regular',
-			'default'           => 'cat',
+			'default'           => 'char',
 			'sanitize_callback' => array( 'cnRegisterSettings' , 'flushRewrite' ) // Only need to add this once, otherwise it would be run for each field.
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'category_base',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_permalink',
+			'title'     => __('Category Base', 'connections'),
+			'desc'      => __('Enter a custom structure for the category in the URL.', 'connections'),
+			'help'      => '',
+			'type'      => 'text',
+			'size'      => 'regular',
+			'default'   => 'cat'
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',

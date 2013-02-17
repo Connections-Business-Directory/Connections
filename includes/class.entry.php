@@ -2899,7 +2899,7 @@ class cnEntry {
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $connections->options->wpCurrentTime ) );
 		}
 
-		return date_i18n( $format, $nextUDay );
+		return gmdate( $format, $nextUDay );
 
 	}
 

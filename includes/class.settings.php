@@ -613,7 +613,7 @@ class cnRegisterSettings
 			'type'              => 'text',
 			'size'              => 'regular',
 			'default'           => 'char',
-			'sanitize_callback' => array( 'cnRegisterSettings' , 'flushRewrite' ) // Only need to add this once, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeURLBase' ) // Only need to add this once, otherwise it would be run for each field.
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -832,7 +832,7 @@ class cnRegisterSettings
 	 * @param array $settings
 	 * @return array
 	 */
-	public static function flushRewrite( $settings ) {
+	public static function sanitizeURLBase( $settings ) {
 
 		/*
 		 * Make sure there is a value saved for each permalink base.

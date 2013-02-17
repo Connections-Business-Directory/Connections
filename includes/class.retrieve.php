@@ -426,7 +426,7 @@ class cnRetrieve {
 		}
 
 		if ( ! empty( $atts['char'] ) ) {
-			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s' , $atts['char'] . '%' );
+			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s' , like_escape ( $atts['char'] ) . '%' );
 		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied filters.

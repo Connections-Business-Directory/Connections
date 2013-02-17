@@ -261,7 +261,7 @@ class cnRegisterSettings
 			'tab'       => 'general',
 			'section'   => 'connections_visibility',
 			'title'     => __('Enable public_override', 'connections'),
-			'desc'      => __('By default all entry\'s whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>public_override</em> shortcode option allows you to override requiring the site vistor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connections'),
+			'desc'      => __('By default all entries whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>public_override</em> shortcode option allows you to override requiring the site vistor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0

@@ -76,37 +76,36 @@ class cnFormatting {
 	 * @param string $value
 	 * @return boolean
 	 */
-	public function toBoolean(&$value)
-	{
-		switch ( strtolower($value) )
-		{
+	public function toBoolean( &$value ) {
+
+		switch ( strtolower( $value ) ) {
 			case 'yes':
 				$value = TRUE;
-			break;
+				break;
 
 			case 'no':
 				$value = FALSE;
-			break;
+				break;
 
 			case 'true':
 				$value = TRUE;
-			break;
+				break;
 
 			case 'false':
 				$value = FALSE;
-			break;
+				break;
 
 			case '1':
 				$value = TRUE;
-			break;
+				break;
 
 			case '0':
 				$value = FALSE;
-			break;
+				break;
 
 			default:
 				$value = NULL;
-			break;
+				break;
 		}
 
 		return $value;

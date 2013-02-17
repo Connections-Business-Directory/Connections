@@ -54,9 +54,8 @@ class cnFormatting {
 	 * @param string $string
 	 * @return string
 	 */
-	public function sanitizeStringStrong($string)
-	{
-		$string = sanitize_title_with_dashes($string);
+	public function sanitizeStringStrong( $string ) {
+		$string = sanitize_title_with_dashes( $string );
 		return $string;
 	}
 

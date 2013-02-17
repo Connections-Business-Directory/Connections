@@ -120,11 +120,12 @@ class cnFormatting {
 	 * @param bool $bool
 	 * @return return 'Yes' | 'No'
 	 */
-	public function toYesNo( $bool ){
-		if($bool)
+	public function toYesNo( $bool ) {
+		if( $bool ) {
 			return __('Yes', 'connections');
-		else
+		} else {
 			return __('No', 'connections');
+		}
 	}
 }
 

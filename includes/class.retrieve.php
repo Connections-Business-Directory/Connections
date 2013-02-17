@@ -115,6 +115,10 @@ class cnRetrieve {
 			$queryEntrySlug = get_query_var( 'cn-entry-slug' );
 			if ( ! empty( $queryEntrySlug ) ) $atts['slug'] = urldecode( $queryEntrySlug );
 
+			// Initial character.
+			$queryInitialChar = get_query_var( 'cn-char' );
+			if ( ! empty( $queryInitialChar ) ) $atts['char'] = urldecode( $queryInitialChar );
+
 			// Pagination
 			$queryPage = get_query_var( 'cn-pg' );
 			$atts['offset'] = ( ! empty( $queryPage ) ) ? ( $queryPage - 1 ) * $atts['limit'] : $atts['offset'];

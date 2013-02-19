@@ -1681,7 +1681,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 								if ( isset( $_POST['s'] ) && ! empty( $_POST['s'] ) ) $queryArgs['s'] = urlencode( $_POST['s'] );
 								if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) $queryArgs['s'] = urlencode( $_GET['s'] );
-								if ( isset( $_GET['cn-char'] ) && ! empty( $_GET['cn-char'] ) ) $queryArgs['cn-char'] = urlencode( $_GET['cn-char'] );
+								if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) $queryArgs['cn-char'] = urlencode( $_GET['cn-char'] );
 
 								wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( $queryArgs, 'admin.php?page=connections_manage' ) ) );
 								exit();
@@ -1747,15 +1747,25 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 											break;
 
 										default:
-											wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) ) , 'admin.php?page=connections_manage' ) ) );
+
+											if ( isset( $_POST['s'] ) && ! empty( $_POST['s'] ) ) $queryArgs['s'] = urlencode( $_POST['s'] );
+											if ( isset( $_POST['cn-char'] ) && 0 < strlen( $_POST['cn-char'] ) ) $queryArgs['cn-char'] = urlencode( $_POST['cn-char'] );
+
+											wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( $queryArgs , 'admin.php?page=connections_manage' ) ) );
 											exit();
 											break;
 									}
 								}
 
+								$queryArgs = array();
+
 								check_admin_referer( $form->getNonce( 'bulk_action' ), '_cn_wpnonce' );
 								processSetUserFilter();
-								wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 's' => urlencode( $_POST['s'] ) ) , 'admin.php?page=connections_manage' ) ) );
+
+								if ( isset( $_POST['s'] ) && ! empty( $_POST['s'] ) ) $queryArgs['s'] = urlencode( $_POST['s'] );
+								if ( isset( $_POST['cn-char'] ) && 0 < strlen( $_POST['cn-char'] ) ) $queryArgs['cn-char'] = urlencode( $_POST['cn-char'] );
+
+								wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( $queryArgs, 'admin.php?page=connections_manage' ) ) );
 								exit();
 								break;
 						}

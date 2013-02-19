@@ -425,7 +425,7 @@ class cnRetrieve {
 			if ( ! empty( $atts['country'] ) ) $where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.country = %s' , $atts['country'] );
 		}
 
-		if ( ! empty( $atts['char'] ) ) {
+		if ( 0 < strlen( $atts['char'] ) ) {
 			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s' , like_escape ( $atts['char'] ) . '%' );
 		}
 		/*

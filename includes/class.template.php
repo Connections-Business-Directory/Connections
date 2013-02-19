@@ -464,16 +464,19 @@ class cnTemplate {
 	 * @access public
 	 * @since 0.7.4
 	 * @uses add_query_arg()
+	 * @uses get_query_var()
 	 * @uses wp_parse_args()
 	 * @uses is_admin()
 	 * @param  (array)  $atts [description]
 	 * @return (string)
 	 */
-	public static function character( $atts = array() ) {
+	public static function index( $atts = array() ) {
 		$out = '';
+		$current = '';
 
 		$defaults = array(
-			'status' => array( 'approved' )
+			'status' => array( 'approved' ),
+			'return' => FALSE
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -484,23 +487,62 @@ class cnTemplate {
 		// If in the admin init an instance of the cnFormObjects class to be used to create the URL nonce.
 		if ( is_admin() ) $form = new cnFormObjects();
 
-		$defaults = array(
-			'return' => FALSE
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
+		// Current character
+		if ( is_admin() ) {
+			if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) $current = urldecode( $_GET['cn-char'] );
+		} else {
+			if ( get_query_var('cn-char') ) $current = urldecode( get_query_var('cn-char') );
+		}
 
 		foreach ( $characters as $key => $char ) {
 			$char = strtoupper( $char );
 
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
-				$out .= '<a href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) , $currentPageURL ) , 'filter' ) . '">' . $char . '</a> ';
+				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) , $currentPageURL ) , 'filter' ) . '">' . $char . '</a> ';
 			} else {
-				$out .= '<a href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) , $currentPageURL ) . '">' . $char . '</a> ';
+				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) , $currentPageURL ) . '">' . $char . '</a> ';
 			}
 
 		}
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * Retrieves the current character and outs a hidden form input.
+	 *
+	 * @access public
+	 * @since 0.7.4
+	 * @uses wp_parse_args()
+	 * @uses is_admin()
+	 * @uses get_query_var()
+	 * @uses esc_attr()
+	 * @param  (array)
+	 * @return (string)
+	 */
+	public static function currentCharacter( $atts = array() ) {
+		$out = '';
+		$current = '';
+
+		$defaults = array(
+			'type'   => 'input',	// Resevered for future use. Will define the type of output to render. In this case a form input.
+			'hidden' => TRUE,
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Current character
+		if ( is_admin() ) {
+			if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ) $current = urldecode( $_GET['cn-char'] );
+		} else {
+			if ( get_query_var('cn-char') ) $current = urldecode( get_query_var('cn-char') );
+		}
+
+		// Only output if there is a current character set in the query string.
+		if ( 0 < strlen( $current ) ) $out .= '<input class="cn-current-char-input" name="cn-char" title="' . __('Current Character', 'connections') . '" type="' . ( $atts['hidden'] ? 'hidden' : 'text' ) . '" size="1" value="' . esc_attr( $current ) . '">';
 
 		if ( $atts['return'] ) return $out;
 		echo $out;

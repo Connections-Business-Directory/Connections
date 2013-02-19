@@ -247,7 +247,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				$retrieveAttr['list_type'] = $connections->currentUser->getFilterEntryType();
 				$retrieveAttr['category'] = $connections->currentUser->getFilterCategory();
 
-				$retrieveAttr['char'] = isset( $_GET['cn-char'] ) && ! empty( $_GET['cn-char'] ) ? $_GET['cn-char'] : '';
+				$retrieveAttr['char'] = isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ? $_GET['cn-char'] : '';
 				$retrieveAttr['visibility'] = $connections->currentUser->getFilterVisibility();
 				$retrieveAttr['status'] = $connections->currentUser->getFilterStatus();
 
@@ -257,7 +257,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) $retrieveAttr['search_terms'] = $_GET['s'];
 
 				$results = $connections->retrieve->entries( $retrieveAttr );
-				//print_r($connections->lastQuery);
+				print_r($connections->lastQuery);
 				?>
 
 							<?php if ( current_user_can( 'connections_edit_entry' ) ) { ?>
@@ -421,8 +421,8 @@ function connectionsShowViewPage( $action = NULL ) {
 				 * Display the character filter control.
 				 */
 				echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
-				cnTemplate::character( array( 'status' => $connections->currentUser->getFilterStatus() ) );
-
+				cnTemplate::index( array( 'status' => $connections->currentUser->getFilterStatus() ) );
+				cnTemplate::currentCharacter();
 				?>
 								</div>
 							</div>

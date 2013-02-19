@@ -1263,7 +1263,31 @@ class cnTemplate {
 				$slug = array( $category->slug );
 			}
 
-			$out .= '<li class="cat-item cat-item-' . $category->term_id . ' cn-cat-parent">';
+			/*
+			 * Get tge current category from the URL / query string.
+			 */
+			if ( get_query_var( 'cn-cat-slug' ) ) {
+
+				// Category slug
+				$queryCategorySlug = get_query_var( 'cn-cat-slug' );
+				if ( ! empty( $queryCategorySlug ) ) {
+					// If the category slug is a descendant, use the last slug from the URL for the query.
+					$queryCategorySlug = explode( '/' , $queryCategorySlug );
+
+					if ( isset( $queryCategorySlug[ count( $queryCategorySlug )-1 ] ) ) $currentCategory = $queryCategorySlug[ count( $queryCategorySlug )-1 ];
+				}
+
+			} elseif ( get_query_var( 'cn-cat' ) ) {
+
+				$currentCategory = get_query_var( 'cn-cat' );
+
+			} else {
+
+				$currentCategory = '';
+
+			}
+
+			$out .= '<li class="cat-item cat-item-' . $category->term_id . ( $currentCategory == $category->slug || $currentCategory == $category->term_id ? ' current-cat' : '' ) . ' cn-cat-parent">';
 
 			// Create the permalink anchor.
 			$out .= $connections->url->permalink( array(

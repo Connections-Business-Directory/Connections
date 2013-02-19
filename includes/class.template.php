@@ -650,11 +650,11 @@ class cnTemplate {
 			$out .= '<span class="cn-page-nav" id="cn-page-nav">';
 
 			$out .= '<a href="' . $url['first'] . '" title="' . __('First Page', 'connections') . '" class="cn-first-page' . $disabled['first'] . '">&laquo;</a> ';
-			$out .= '<a href="' . $url['previous'] . '" title="' . __('Previous Page', 'connections') . '" class="cn-prev-page' . $disabled['previous'] . '">&lsaquo;</a> ';
+			$out .= '<a href="' . $url['previous'] . '" title="' . __('Previous Page', 'connections') . '" class="cn-prev-page' . $disabled['previous'] . '" rel="prev">&lsaquo;</a> ';
 
 			$out .= '<span class="cn-paging-input"><input type="text" size="1" value="' . $current . '" name="cn-pg" title="' . __('Current Page', 'connections') . '" class="current-page"> ' . __('of', 'connections') . ' <span class="total-pages">' . $pageCount . '</span></span> ';
 
-			$out .= '<a href="' . $url['next'] . '" title="' . __('Next Page', 'connections') . '" class="cn-next-page' . $disabled['next'] . '">&rsaquo;</a> ';
+			$out .= '<a href="' . $url['next'] . '" title="' . __('Next Page', 'connections') . '" class="cn-next-page' . $disabled['next'] . '" rel="next">&rsaquo;</a> ';
 			$out .= '<a href="' . $url['last'] . '" title="' . __('Last Page', 'connections') . '" class="cn-last-page' . $disabled['last'] . '">&raquo;</a>';
 
 			$out .= '</span>';

@@ -30,6 +30,13 @@ class cnRegisterSettings
 		);
 
 		$tabs[] = array(
+			'id'        => 'display' ,
+			'position'  => 15 ,
+			'title'     => __( 'Display' , 'connections' ) ,
+			'page_hook' => $settings
+		);
+
+		$tabs[] = array(
 			'id'        => 'images' ,
 			'position'  => 20 ,
 			'title'     => __( 'Images' , 'connections' ) ,

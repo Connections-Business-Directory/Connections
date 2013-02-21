@@ -228,7 +228,7 @@ class cnRewrite {
 
 		// Single entry.
 		$rule[ $name . '/([^/]*)/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-view=list';
+			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-view=detail';
 
 
 		// Base Pagination.
@@ -406,7 +406,7 @@ class cnRewrite {
 
 		// Single entry.
 		$rule['(.?.+?)/' . $name . '/([^/]*)/?$']
-			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=list';
+			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail';
 
 
 		// Base Pagination.

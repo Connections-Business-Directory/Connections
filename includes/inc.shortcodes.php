@@ -78,7 +78,12 @@ function connectionsView( $atts , $content = NULL ) {
 			$results = $connections->retrieve->entries( $atts );
 			//var_dump($results);
 
-			$atts['list_type'] = $results[0]->entry_type;
+			$atts['list_type'] = $connections->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : NULL;
+
+			// Disable the output of the following because they do no make sense to display for a single entry.
+			$atts['show_alphaindex']   = FALSE;
+			$atts['repeat_alphaindex'] = FALSE;
+			$atts['show_alphahead']    = FALSE;
 
 			return connectionsList( $atts, $content );
 

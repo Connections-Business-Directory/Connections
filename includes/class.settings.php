@@ -110,9 +110,17 @@ class cnRegisterSettings
 		$sections[] = array(
 			'tab'       => 'display',
 			'id'        => 'connections_display_results',
-			'position'  => 5,
+			'position'  => 10,
 			'title'     => __( 'Results List' , 'connections' ),
-			'callback'  => create_function( '', "_e('', 'connections');" ),
+			'callback'  => '',
+			'page_hook' => $settings
+		);
+		$sections[] = array(
+			'tab'       => 'display',
+			'id'        => 'connections_display_single',
+			'position'  => 20,
+			'title'     => __( 'Single Entry' , 'connections' ),
+			'callback'  => '',
 			'page_hook' => $settings
 		);
 
@@ -337,6 +345,22 @@ class cnRegisterSettings
 			'section'   => 'connections_display_results',
 			'title'     => '',
 			'desc'      => __('Show the current character at the beginning of each character group.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'template',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_single',
+			'title'     => __('', 'connections'),
+			'desc'      => __('Display a single entry using the active template based on entry type.
+				For example, if the entry is an organization it will be displayed using the template
+				that is activated for the "Organization" template type found on the Connections : Templates admin page.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0

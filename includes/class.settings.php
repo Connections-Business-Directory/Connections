@@ -105,6 +105,18 @@ class cnRegisterSettings
 		);
 
 		/*
+		 * The sections registered to the Display tab.
+		 */
+		$sections[] = array(
+			'tab'       => 'display',
+			'id'        => 'connections_display_results',
+			'position'  => 5,
+			'title'     => __( 'Results List' , 'connections' ),
+			'callback'  => create_function( '', "_e('', 'connections');" ),
+			'page_hook' => $settings
+		);
+
+		/*
 		 * The sections registered to the Images tab.
 		 */
 		$sections[] = array(
@@ -282,6 +294,49 @@ class cnRegisterSettings
 			'section'   => 'connections_visibility',
 			'title'     => __('Enable private_override', 'connections'),
 			'desc'      => __('Entries can be set to a Private status which requires the user to be logged in to the site in order for them to be able to view those entries. The <em>private_override</em> shortcode option allows you to override their "Private" status. This setting is useful in multi author sites where those authors may have a need to display specific private entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+
+		/*
+		 * The Display tab fields.
+		 */
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'index',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_results',
+			'title'     => __('Character Index', 'connections'),
+			'desc'      => __('Show the character index at the top of the results list.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'index_repeat',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_results',
+			'title'     => '',
+			'desc'      => __('Repeat the character index at the beginning of each character group.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'show_current_character',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_results',
+			'title'     => '',
+			'desc'      => __('Show the current character at the beginning of each character group.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0

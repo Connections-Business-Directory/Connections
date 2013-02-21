@@ -214,9 +214,9 @@ function connectionsList($atts, $content = NULL) {
 		'wp_current_category'   => 'false',
 		'allow_public_override' => 'false',
 		'private_override'      => 'false',
-		'show_alphaindex'       => 'false',
-		'repeat_alphaindex'     => 'false',
-		'show_alphahead'        => 'false',
+		'show_alphaindex'       => $connections->settings->get( 'connections', 'connections_display_results', 'index' ),
+		'repeat_alphaindex'     => $connections->settings->get( 'connections', 'connections_display_results', 'index_repeat' ),
+		'show_alphahead'        => $connections->settings->get( 'connections', 'connections_display_results', 'show_current_character' ),
 		'list_type'             => NULL,
 		'order_by'              => NULL,
 		'limit'                 => NULL,
@@ -260,7 +260,7 @@ function connectionsList($atts, $content = NULL) {
 	$convert->toBoolean( $atts['repeat_alphaindex'] );
 	$convert->toBoolean( $atts['show_alphahead'] );
 	$convert->toBoolean( $atts['wp_current_category'] );
-	//$out .= var_dump($atts);
+	// $out .= var_dump($atts);
 
 	/*
 	 * The WP post editor entity encodes the post text we have to decode it

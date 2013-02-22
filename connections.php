@@ -1258,6 +1258,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public static function registerScripts() {
 			global $connections;
 
+			// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
+			$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+
 			/*
 			 * If the Google Maps API is disabled, do not register it and change the dependencies of
 			 * both goMap and MarkerClusterer. Allowing the Google Maps API to be turned "off" provides
@@ -1267,28 +1270,28 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 */
 			if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
 				wp_register_script( 'cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
-				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer.min.js', array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-gomap-min', CN_URL . "js/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-markerclusterer', CN_URL . "js/jquery.markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 			} else {
-				wp_register_script( 'jquery-gomap-min', CN_URL . 'js/jquery.gomap-1.3.2.min.js', array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-				wp_register_script( 'jquery-markerclusterer-min', CN_URL . 'js/jquery.markerclusterer.min.js', array( 'jquery' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-gomap-min', CN_URL . "js/jquery.gomap-1.3.2$min.js", array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'jquery-markerclusterer', CN_URL . "js/jquery.markerclusterer$min.js", array( 'jquery' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 			}
 
 			if ( is_admin() ) {
-				wp_register_script( 'cn-ui-admin', CN_URL . 'js/cn-admin.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
-				wp_register_script( 'cn-widget', CN_URL . 'js/widgets.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+				wp_register_script( 'cn-ui-admin', CN_URL . "js/cn-admin$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+				wp_register_script( 'cn-widget', CN_URL . "js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 			} else {
-				wp_register_script( 'cn-ui', CN_URL . 'js/cn-user.js', array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+				wp_register_script( 'cn-ui', CN_URL . "js/cn-user$min.js", array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 			}
 
-			wp_register_script( 'jquery-qtip', CN_URL . 'js/jquery.qtip.min.js', array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-preloader', CN_URL . 'js/jquery.preloader.js', array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-qtip', CN_URL . "js/jquery.qtip$min.js", array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-preloader', CN_URL . "js/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
 
 			// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
 			// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
 
-			wp_register_script( 'jquery-chosen-min', CN_URL . 'js/jquery.chosen.min.js', array( 'jquery' ), '0.9.11', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-validate' , CN_URL . 'js/jquery.validate.min.js', array( 'jquery', 'jquery-form' ) , '1.9.0' , $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-chosen-min', CN_URL . "js/jquery.chosen$min.js", array( 'jquery' ), '0.9.11', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-validate' , CN_URL . "js/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.9.0' , $connections->options->getJavaScriptFooter() );
 		}
 
 		/**
@@ -1301,15 +1304,18 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public static function registerCSS() {
 
+			// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
+			$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+
 			if ( is_admin() ) {
-				wp_register_style( 'cn-admin', CN_URL . 'css/cn-admin.css', array(), CN_CURRENT_VERSION );
-				wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . '.css', array(), CN_CURRENT_VERSION );
+				wp_register_style( 'cn-admin', CN_URL . "css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
+				wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
 			} else {
-				wp_register_style( 'connections-user', CN_URL . 'css/cn-user.css', array(), CN_CURRENT_VERSION );
-				wp_register_style( 'connections-qtip', CN_URL . 'css/jquery.qtip.min.css', array(), '2.0.1' );
+				wp_register_style( 'connections-user', CN_URL . "css/cn-user$min.css", array(), CN_CURRENT_VERSION );
+				wp_register_style( 'connections-qtip', CN_URL . "css/jquery.qtip$min.css", array(), '2.0.1' );
 			}
 
-			wp_register_style( 'connections-chosen', CN_URL . 'css/chosen.css', array(), '0.9.11' );
+			wp_register_style( 'connections-chosen', CN_URL . "css/chosen$min.css", array(), '0.9.11' );
 		}
 
 		/**

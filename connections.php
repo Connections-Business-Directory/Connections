@@ -428,6 +428,20 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( get_option( 'connections_debug' ) === FALSE ) update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
 
+				unset( $options );
+
+			}
+
+			/*
+			 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+			 */
+			if ( version_compare( $this->options->getVersion(), '0.7.4', '<' ) ) {
+
+				$options = get_option( 'connections_search' );
+				$options['keyword_enabled'] = 1;
+
+				update_option( 'connections_search', $options );
+				unset( $options );
 			}
 
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();

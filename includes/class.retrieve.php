@@ -1921,7 +1921,7 @@ class cnRetrieve {
 		 * Perform the search on each table individually because joining the tables doesn't scale when
 		 * there are a large number of entries.
 		 */
-		if ( TRUE ) {
+		if ( $connections->settings->get( 'connections', 'connections_search', 'keyword_enabled' ) ) {
 			/*
 			 * Only search the primary records if at least one fields is selected to be searched.
 			 */

@@ -257,7 +257,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) $retrieveAttr['search_terms'] = $_GET['s'];
 
 				$results = $connections->retrieve->entries( $retrieveAttr );
-				print_r($connections->lastQuery);
+				// print_r($connections->lastQuery);
 				?>
 
 							<?php if ( current_user_can( 'connections_edit_entry' ) ) { ?>

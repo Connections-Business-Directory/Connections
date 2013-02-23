@@ -356,92 +356,98 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * During activation this will initiate the options.
 		 */
 		private function initOptions() {
-			/*
-			 * Retrieve the settings stored prior to 0.7.3 and migrate them
-			 * so they will be accessible in the structure supported by the
-			 * Connections WordPress Settings API Wrapper Class.
-			 */
-			if ( get_option( 'connections_options' ) !== FALSE ) {
-				$options = get_option( 'connections_options' );
+			$version = $this->options->getVersion();
 
-				if ( get_option( 'connections_login' ) === FALSE ) {
-					update_option( 'connections_login' , array(
-							'required' => $options['settings']['allow_public'],
-							'message' => 'Please login to view the directory.'
-						)
-					);
-				}
+			switch ( TRUE ) {
 
-				if ( get_option( 'connections_visibility' ) === FALSE ) {
-					update_option( 'connections_visibility' , array(
-							'allow_public_override' => $options['settings']['allow_public_override'],
-							'allow_private_override' => $options['settings']['allow_private_override']
-						)
-					);
-				}
+				case ( version_compare( $version, '0.7.3', '<' ) ) :
+					/*
+					 * Retrieve the settings stored prior to 0.7.3 and migrate them
+					 * so they will be accessible in the structure supported by the
+					 * Connections WordPress Settings API Wrapper Class.
+					 */
+					if ( get_option( 'connections_options' ) !== FALSE ) {
+						$options = get_option( 'connections_options' );
 
-				if ( get_option( 'connections_image_thumbnail' ) === FALSE ) {
-					update_option( 'connections_image_thumbnail' , array(
-							'quality' => $options['settings']['image']['thumbnail']['quality'],
-							'width' => $options['settings']['image']['thumbnail']['x'],
-							'height' => $options['settings']['image']['thumbnail']['y'],
-							'ratio' => $options['settings']['image']['thumbnail']['crop']
-						)
-					);
-				}
-				if ( get_option( 'connections_image_medium' ) === FALSE ) {
-					update_option( 'connections_image_medium' , array(
-							'quality' => $options['settings']['image']['entry']['quality'],
-							'width' => $options['settings']['image']['entry']['x'],
-							'height' => $options['settings']['image']['entry']['y'],
-							'ratio' => $options['settings']['image']['entry']['crop']
-						)
-					);
-				}
+						if ( get_option( 'connections_login' ) === FALSE ) {
+							update_option( 'connections_login' , array(
+									'required' => $options['settings']['allow_public'],
+									'message' => 'Please login to view the directory.'
+								)
+							);
+						}
 
-				if ( get_option( 'connections_image_large' ) === FALSE ) {
-					update_option( 'connections_image_large' , array(
-							'quality' => $options['settings']['image']['profile']['quality'],
-							'width' => $options['settings']['image']['profile']['x'],
-							'height' => $options['settings']['image']['profile']['y'],
-							'ratio' => $options['settings']['image']['profile']['crop']
-						)
-					);
-				}
+						if ( get_option( 'connections_visibility' ) === FALSE ) {
+							update_option( 'connections_visibility' , array(
+									'allow_public_override' => $options['settings']['allow_public_override'],
+									'allow_private_override' => $options['settings']['allow_private_override']
+								)
+							);
+						}
 
-				if ( get_option( 'connections_image_logo' ) === FALSE ) {
-					update_option( 'connections_image_logo' , array(
-							'quality' => $options['settings']['image']['logo']['quality'],
-							'width' => $options['settings']['image']['logo']['x'],
-							'height' => $options['settings']['image']['logo']['y'],
-							'ratio' => $options['settings']['image']['logo']['crop']
-						)
-					);
-				}
+						if ( get_option( 'connections_image_thumbnail' ) === FALSE ) {
+							update_option( 'connections_image_thumbnail' , array(
+									'quality' => $options['settings']['image']['thumbnail']['quality'],
+									'width' => $options['settings']['image']['thumbnail']['x'],
+									'height' => $options['settings']['image']['thumbnail']['y'],
+									'ratio' => $options['settings']['image']['thumbnail']['crop']
+								)
+							);
+						}
+						if ( get_option( 'connections_image_medium' ) === FALSE ) {
+							update_option( 'connections_image_medium' , array(
+									'quality' => $options['settings']['image']['entry']['quality'],
+									'width' => $options['settings']['image']['entry']['x'],
+									'height' => $options['settings']['image']['entry']['y'],
+									'ratio' => $options['settings']['image']['entry']['crop']
+								)
+							);
+						}
 
-				if ( get_option( 'connections_compatibility' ) === FALSE ) {
-					update_option( 'connections_compatibility' , array(
-							'google_maps_api' => $options['settings']['advanced']['load_google_maps_api'],
-							'javascript_footer' => $options['settings']['advanced']['load_javascript_footer'] )
-					);
-				}
+						if ( get_option( 'connections_image_large' ) === FALSE ) {
+							update_option( 'connections_image_large' , array(
+									'quality' => $options['settings']['image']['profile']['quality'],
+									'width' => $options['settings']['image']['profile']['x'],
+									'height' => $options['settings']['image']['profile']['y'],
+									'ratio' => $options['settings']['image']['profile']['crop']
+								)
+							);
+						}
 
-				if ( get_option( 'connections_debug' ) === FALSE ) update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
+						if ( get_option( 'connections_image_logo' ) === FALSE ) {
+							update_option( 'connections_image_logo' , array(
+									'quality' => $options['settings']['image']['logo']['quality'],
+									'width' => $options['settings']['image']['logo']['x'],
+									'height' => $options['settings']['image']['logo']['y'],
+									'ratio' => $options['settings']['image']['logo']['crop']
+								)
+							);
+						}
 
-				unset( $options );
+						if ( get_option( 'connections_compatibility' ) === FALSE ) {
+							update_option( 'connections_compatibility' , array(
+									'google_maps_api' => $options['settings']['advanced']['load_google_maps_api'],
+									'javascript_footer' => $options['settings']['advanced']['load_javascript_footer'] )
+							);
+						}
 
-			}
+						if ( get_option( 'connections_debug' ) === FALSE ) update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
 
-			/*
-			 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
-			 */
-			if ( version_compare( $this->options->getVersion(), '0.7.4', '<' ) ) {
+						unset( $options );
 
-				$options = get_option( 'connections_search' );
-				$options['keyword_enabled'] = 1;
+					}
 
-				update_option( 'connections_search', $options );
-				unset( $options );
+
+				case ( version_compare( $version, '0.7.4', '<' ) ) :
+					/*
+					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 */
+					$options = get_option( 'connections_search' );
+					$options['keyword_enabled'] = 1;
+
+					update_option( 'connections_search', $options );
+					unset( $options );
+
 			}
 
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();

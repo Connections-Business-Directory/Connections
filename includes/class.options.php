@@ -1107,7 +1107,7 @@ class cnOptions {
 	public function getSearchFields() {
 		global $connections;
 
-		return $connections->settings->get( 'connections', 'connections_search', 'fields' );;
+		return $connections->settings->get( 'connections', 'connections_search', 'fields' );
 	}
 
 	/**

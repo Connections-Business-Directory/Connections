@@ -1873,8 +1873,7 @@ class cnRetrieve {
 		 * 		MySQL has a default stopwords file that has a list of common words (i.e., the, that, has) which are not returned in your search. In other words, searching for the will return zero rows.
 		 * 		According to MySQL's manual, the argument to AGAINST() must be a constant string. In other words, you cannot search for values returned within the query.
 		 */
-		//var_dump( $connections->options->getSearchUsingFulltext() );
-		if ( $connections->options->getSearchUsingFulltext() ) {
+		if ( $connections->settings->get( 'connections', 'connections_search', 'fulltext_enabled' ) ) {
 			// Convert the search terms to a string adding the wild card to the end of each term to allow wider search results.
 			//$terms = implode( '* ' , $atts['terms'] ) . '*';
 			$terms = '+' . implode( ' +' , $atts['terms'] );

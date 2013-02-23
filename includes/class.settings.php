@@ -683,6 +683,21 @@ class cnRegisterSettings
 			'default'   => 1
 		);
 
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'keyword_enabled',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'search',
+			'section'   => 'connections_search',
+			'title'     => __('Keyword Search', 'connections'),
+			'desc'      => __('Enable LIKE query support. Disabling this option can improve search results if the server configuration supports FULLTEXT queries. If you disable this option and searches do not yield results, this indicates that
+				the server does not support FULLTEXT queries. If that is the case, re-enable this option and disable the FULLTEXT option. NOTE: if the FULLTEXT option is disabled, this option must be enabled.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1
+		);
+
 		/*
 		 * The Advanced tab fields
 		 */

@@ -1087,18 +1087,6 @@ class cnOptions {
 	}
 
 	/**
-	 * Return "1" if FULLTEXT support is enabled, otherwise, returns empty.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return mixed
-	 */
-	public function getSearchUsingFulltext() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_search', 'fulltext_enabled' );
-	}
-
-	/**
 	 * Get the user's search field choices.
 	 *
 	 * @deprecated since 0.7.3

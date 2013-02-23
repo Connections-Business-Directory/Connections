@@ -135,9 +135,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$this->loadDependencies();
 			$this->initDependencies();
 
-			// Init the options if there is a version change just in case there were any changes.
-			if ( version_compare( $this->options->getVersion() , CN_CURRENT_VERSION ) < 0 ) $this->initOptions();
-
 			// Activation/Deactivation hooks
 			register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( $this, 'activate' ) );
 			register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( $this, 'deactivate' ) );
@@ -350,6 +347,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Register all valid query variables.
 			cnRewrite::init();
+
+			// Init the options if there is a version change just in case there were any changes.
+			if ( version_compare( $this->options->getVersion() , CN_CURRENT_VERSION ) < 0 ) $this->initOptions();
 		}
 
 		/**

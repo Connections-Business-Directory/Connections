@@ -692,7 +692,8 @@ class cnRegisterSettings
 			'section'   => 'connections_search',
 			'title'     => __('Keyword Search', 'connections'),
 			'desc'      => __('Enable LIKE query support. Disabling this option can improve search results if the server configuration supports FULLTEXT queries. If you disable this option and searches do not yield results, this indicates that
-				the server does not support FULLTEXT queries. If that is the case, re-enable this option and disable the FULLTEXT option. NOTE: if the FULLTEXT option is disabled, this option must be enabled.', 'connections'),
+				the server does not support FULLTEXT queries. If that is the case, re-enable this option and disable the FULLTEXT option. NOTE: If the FULLTEXT option is disabled, this option must be enabled. Additionally, search terms with three characters
+				or less will be ignored. This can not be changed as this is a database limitation.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1

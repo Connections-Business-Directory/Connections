@@ -3,8 +3,8 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard
 Requires at least: 3.2
-Tested up to: 3.5
-Stable tag: 0.7.3.7
+Tested up to: 3.5.1
+Stable tag: 0.7.4
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,37 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.4 02/24/13 =
+* FEATURE: The entries can now be filtered by initial character on the Connections : Manage admin page.
+* FEATURE: Add the Display settings tab.
+* FEATURE: The character index option can now be set via a setting on the Display tab rather than having to set it via the shortcode. The shortcode option is still in place and can be used to override the setting.
+* FEATURE: Change the rewrite rule for a single entry to point to the detail page. This is to support the ability to be able to chose which template is used to render the single entry based on its type. This can be defined on the Display settings.
+* FEATURE: Minified CSS and JavaScript files will now be enqueued by default. If SCRIPT_DEBUG is set to TRUE the un-minified files will be enqueued. This matches core WordPress functionality.
+* FEATURE: Added option to disable keyword search. This will yield more accurate search results in the db tables supports FULLTEXT queries.
+* BUG: Remove use of deprecated ereg() PHP function.
+* OTHER: Add CSS to make sure themes do not float the Chosen select.
+* OTHER: Code cleanup and alignment of cnOutput::getImage().
+* OTHER: Set the logo default to ratio fill rather than crop.
+* OTHER: Image loading spinning will now only be shown for dynamically scaled images.
+* OTHER: Reduce the fade-in delay of the dynamically scaled images.
+* OTHER: Revert use of date_i18n() back to gmmdate() on cnEntry::getUpcoming() because the date/time would be offset according to the user local which would cause the actual date displayed to be incorrect.
+* OTHER: Fix misspelling of setting description.
+* OTHER: Add setting option to change the URL base for filtering by character in the front end.
+* OTHER: Code cleanup of cnFormatting::sanitizeString().
+* OTHER: Code cleanup of cnFormatting::sanitizeStringStrong().
+* OTHER: Code cleanup of cnFormatting::stipNonNumeric().
+* OTHER: Code cleanup of cnFormatting::toYesNo().
+* OTHER: Run the URL base settings thru cnFormatting::sanitizeStringStrong() to ensure only valid values are entered by the user.
+* OTHER: Add rewrite rules to support filtering by initial character.
+* OTHER: Started to breakout the main cnRetrieve::entries() method for better maintenance and easier multiple use.
+* OTHER: Add rel prev/next to the pagination links for better SEO.
+* OTHER: Add the current-cat class to the category list template part so the current category can be easily styled.
+* OTHER: Update class.upload.php to version 0.32.
+* OTHER: Add the Github link to the readme.txt file.
+* OTHER: Ensure the user can not deactivate both keyword and FULLTEXT queries.
+* OTHER: Update POT file.
+* OTHER: Update all MO/PO files.
 
 = 0.7.3.7 01/30/13 =
 * BUG: Correct the table prefix logic for multisite.
@@ -691,4 +722,7 @@ Many bug fixes throughout. This is a highly recommended update.
 Many bug fixes throughout. This is a highly recommended update.
 
 = 0.7.3.7 =
-Potentially fixes issues with mutlisite installs..
+Potentially fixes issues with mutlisite installs.
+
+= 0.7.4 =
+A lot of code cleanup and tweaking. Add new feature to be able to filter by initial character on the Connections : Manage admin page.

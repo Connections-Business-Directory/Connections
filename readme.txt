@@ -726,3 +726,4 @@ Potentially fixes issues with mutlisite installs.
 
 = 0.7.4 =
 A lot of code cleanup and tweaking. Add new feature to be able to filter by initial character on the Connections : Manage admin page.
+NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

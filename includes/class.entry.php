@@ -791,7 +791,7 @@ class cnEntry {
 	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
 	 * @return array
 	 */
-	public function getAddresses( $atts = array(), $cached = TRUE, $saving = TRUE ) {
+	public function getAddresses( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 		global $connections;
 
 		$addresses = array();

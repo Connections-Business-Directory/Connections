@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 0.7.4
+Stable tag: 0.7.4.1
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,9 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.4.1 02/26/13 =
+* BUG: The visibility setting for addresses was not being obeyed.
 
 = 0.7.4 02/24/13 =
 * FEATURE: The entries can now be filtered by initial character on the Connections : Manage admin page.
@@ -726,4 +729,8 @@ Potentially fixes issues with mutlisite installs.
 
 = 0.7.4 =
 A lot of code cleanup and tweaking. Add new feature to be able to filter by initial character on the Connections : Manage admin page.
+NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.4.1 =
+A permissions bug has been fixed.
 NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

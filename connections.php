@@ -1666,35 +1666,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @return
 		 */
 		public function userActions( $wp ) {
-			//print_r('<pre style="background-color: white;">'); print_r($wp->query_vars); print_r('</pre>');
-
-			/*if ( array_key_exists('cn-vc', $wp->query_vars) && $wp->query_vars['cnvc'] == '1' )
-			{
-				$token = esc_attr($_GET['cn-token']);
-				$id = (integer) esc_attr($_GET['cn-id']);
-
-
-				if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id) ) wp_die('Invalid vCard Token');
-
-				global $connections;
-
-				$entry = $connections->retrieve->entry($id);
-				$vCard = new cnvCard($entry);
-
-				$filename = sanitize_file_name($vCard->getFullFirstLastName());
-				$data = $vCard->getvCard();
-
-				header('Content-Type: text/x-vcard; charset=utf-8');
-				header('Content-Disposition: attachment; filename=' . $filename . '.vcf');
-				header('Content-Length: ' . strlen($data) );
-				header('Pragma: public');
-				header("Pragma: no-cache");
-				header("Expires: 0");
-				header('Connection: close');
-
-				echo $data;
-				exit;
-			}*/
 
 			if ( array_key_exists( 'cnpagename', $wp->query_vars ) && $wp->query_vars['cnpagename'] == 'directory' ) {
 				global $template, $wp_query;

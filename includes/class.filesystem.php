@@ -46,7 +46,7 @@ class cnFileSystem {
 	 * @return void
 	 */
 	public static function mkFile( $path, $name, $contents ) {
-		$path = trailingslashit( $path )
+		$path = trailingslashit( $path );
 
 		// Make the path irst if it does exist.
 		self::mkdir( $path );
@@ -65,7 +65,7 @@ class cnFileSystem {
 	 * @return void
 	 */
 	public static function makeIndex( $path ) {
-		self::mkFile( $path, 'index.php', '<?php' . PHP_EOL . '// Silence is golden.' )
+		self::mkFile( $path, 'index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class cnFileSystem {
 	 * @return void
 	 */
 	public static function noIndexes( $path ) {
-		$path = trailingslashit( $path )
+		$path = trailingslashit( $path );
 
 		$rules = 'Options -Indexes';
 

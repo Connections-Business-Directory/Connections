@@ -282,52 +282,52 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * needed in the admin and frontend
 			 */
 			//Current User objects
-			require_once CN_PATH . '/includes/class.user.php'; // Required for activation
+			require_once CN_PATH . 'includes/class.user.php'; // Required for activation
 			//Terms Objects
-			require_once CN_PATH . '/includes/class.terms.php'; // Required for activation
+			require_once CN_PATH . 'includes/class.terms.php'; // Required for activation
 			//Category Objects
-			require_once CN_PATH . '/includes/class.category.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/class.category.php'; // Required for activation, entry list
 			//Retrieve objects from the db.
-			require_once CN_PATH . '/includes/class.retrieve.php'; // Required for activation
+			require_once CN_PATH . 'includes/class.retrieve.php'; // Required for activation
 			//HTML FORM objects
-			require_once CN_PATH . '/includes/class.form.php'; // Required for activation
+			require_once CN_PATH . 'includes/class.form.php'; // Required for activation
 			//date objects
-			require_once CN_PATH . '/includes/class.date.php'; // Required for activation, entry list, add entry
+			require_once CN_PATH . 'includes/class.date.php'; // Required for activation, entry list, add entry
 			//entry objects
-			require_once CN_PATH . '/includes/class.entry.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/class.entry.php'; // Required for activation, entry list
 			//plugin option objects
-			require_once CN_PATH . '/includes/class.options.php'; // Required for activation
+			require_once CN_PATH . 'includes/class.options.php'; // Required for activation
 			//plugin utility objects
-			require_once CN_PATH . '/includes/class.utility.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/class.utility.php'; // Required for activation, entry list
 			//plugin template objects
-			require_once CN_PATH . '/includes/class.output.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/class.output.php'; // Required for activation, entry list
 			//builds vCard
-			require_once CN_PATH . '/includes/class.vcard.php'; // Required for front end
+			require_once CN_PATH . 'includes/class.vcard.php'; // Required for front end
 
 			// geocoding
-			require_once CN_PATH . '/includes/class.geo.php'; // Required
+			require_once CN_PATH . 'includes/class.geo.php'; // Required
 
 			//shortcodes
-			require_once CN_PATH . '/includes/inc.shortcodes.php'; // Required for front end
+			require_once CN_PATH . 'includes/inc.shortcodes.php'; // Required for front end
 
 			//templates
-			require_once CN_PATH . '/includes/class.template.php'; // Required for the front end template processing
+			require_once CN_PATH . 'includes/class.template.php'; // Required for the front end template processing
 
 			// The class that inits the registered query vars, rewites reuls and canonical redirects.
-			require_once CN_PATH . '/includes/class.rewrite.php';
+			require_once CN_PATH . 'includes/class.rewrite.php';
 
 			// Load the Connections Settings API Wrapper Class.
-			require_once CN_PATH . '/includes/class.settings-api.php';
+			require_once CN_PATH . 'includes/class.settings-api.php';
 
 			// Load the Connections core settings admin page tabs, section and fields using the WordPress Settings API.
-			require_once CN_PATH . '/includes/class.settings.php';
+			require_once CN_PATH . 'includes/class.settings.php';
 
 			if ( is_admin() ) {
 				/*
 				 * Include the Screen Options class by Janis Elsts
 				 * http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/
 				 */
-				include CN_PATH . '/includes/screen-options/screen-options.php';
+				include CN_PATH . 'includes/screen-options/screen-options.php';
 
 				require_once CN_PATH . 'includes/class.filesystem.php';
 			}

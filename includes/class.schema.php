@@ -233,7 +233,7 @@ class cnSchema {
 		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
 			entry_id bigint(20) unsigned NOT NULL default 0,
-			"order" tinyint unsigned NOT NULL default 0,
+			`order` tinyint unsigned NOT NULL default 0,
 			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			line_1 tinytext NOT NULL,
@@ -265,7 +265,7 @@ class cnSchema {
 		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
 			entry_id bigint(20) unsigned NOT NULL default 0,
-			"order" tinyint unsigned NOT NULL default 0,
+			`order` tinyint unsigned NOT NULL default 0,
 			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			number tinytext NOT NULL,
@@ -289,7 +289,7 @@ class cnSchema {
 		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
 			entry_id bigint(20) unsigned NOT NULL default 0,
-			"order" tinyint unsigned NOT NULL default 0,
+			`order` tinyint unsigned NOT NULL default 0,
 			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			address tinytext NOT NULL,
@@ -313,7 +313,7 @@ class cnSchema {
 		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
 			entry_id bigint(20) unsigned NOT NULL default 0,
-			"order" tinyint unsigned NOT NULL default 0,
+			`order` tinyint unsigned NOT NULL default 0,
 			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			uid tinytext NOT NULL,
@@ -337,7 +337,7 @@ class cnSchema {
 		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
 			entry_id bigint(20) unsigned NOT NULL default 0,
-			"order" tinyint unsigned NOT NULL default 0,
+			`order` tinyint unsigned NOT NULL default 0,
 			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			url tinytext NOT NULL,
@@ -361,7 +361,7 @@ class cnSchema {
 		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
 			entry_id bigint(20) unsigned NOT NULL default 0,
-			"order" tinyint unsigned NOT NULL default 0,
+			`order` tinyint unsigned NOT NULL default 0,
 			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			title tinytext NOT NULL,
@@ -390,10 +390,10 @@ class cnSchema {
 		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
 			entry_id bigint(20) unsigned NOT NULL default 0,
-			"order" tinyint unsigned NOT NULL default 0,
+			`order` tinyint unsigned NOT NULL default 0,
 			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
-			date date NOT NULL default '0000-00-00',
+			date date NOT NULL default \'0000-00-00\',
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id, entry_id)
 			)';

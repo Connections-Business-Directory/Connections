@@ -3,6 +3,8 @@
 /**
  * Class for building the custom schema for Connections and set its intial defaults.
  *
+ * @TODO Add static methods for handling db updates.
+ *
  * @package     Connections
  * @subpackage  Schema
  * @copyright   Copyright (c) 2013, Steven A. Zahm
@@ -15,8 +17,18 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnSchema {
 
+	/**
+	 * Empty contructor.
+	 */
 	private function __construct() { /* Do Nothing Here. */ }
 
+	/**
+	 * Init the default db schema. Create the required tables, populate the default values and set the FULLTEXT indexes.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	public static function create() {
 		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -57,6 +69,13 @@ class cnSchema {
 		self::addDefaultCategory();
 	}
 
+	/**
+	 * Add the default FULLTEXT indexes.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function addFULLTEXT() {
 		global $wpdb;
 
@@ -77,6 +96,13 @@ class cnSchema {
 			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (number)' );
 	}
 
+	/**
+	 * Add the "Uncategorized" category"
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function addDefaultCategory() {
 		global $connections;
 
@@ -92,6 +118,14 @@ class cnSchema {
 		}
 	}
 
+	/**
+	 * Build the query to create the main entry table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function entry() {
 		global $wpdb;
 
@@ -143,6 +177,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the entry meta table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function entryMeta() {
 		global $wpdb;
 
@@ -166,6 +208,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the terms table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function terms() {
 		global $wpdb;
 
@@ -189,6 +239,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the term taxonomy table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function termTaxonomy() {
 		global $wpdb;
 
@@ -214,6 +272,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the terms relationships table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function termRelationship() {
 		global $wpdb;
 
@@ -235,6 +301,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the addresses table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function addresses() {
 		global $wpdb;
 
@@ -267,6 +341,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the phone numbers table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function phone() {
 		global $wpdb;
 
@@ -291,6 +373,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the email addresses table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function email() {
 		global $wpdb;
 
@@ -315,6 +405,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the instant messenger table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function messenger() {
 		global $wpdb;
 
@@ -339,6 +437,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the social media links table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function socialMedia() {
 		global $wpdb;
 
@@ -363,6 +469,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the links table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function links() {
 		global $wpdb;
 
@@ -392,6 +506,14 @@ class cnSchema {
 		return implode( ' ', $sql );
 	}
 
+	/**
+	 * Build the query to create the dates table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
 	private static function dates() {
 		global $wpdb;
 

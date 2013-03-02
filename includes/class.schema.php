@@ -230,11 +230,11 @@ class cnSchema {
 
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_ENTRY_ADDRESS_TABLE;
-		$sql[] = "(
+		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
-			entry_id bigint(20) unsigned NOT NULL default '0',
-			order tinyint unsigned NOT NULL default '0',
-			preferred tinyint unsigned NOT NULL default '0',
+			entry_id bigint(20) unsigned NOT NULL default 0,
+			"order" tinyint unsigned NOT NULL default 0,
+			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			line_1 tinytext NOT NULL,
 			line_2 tinytext NOT NULL,
@@ -247,7 +247,7 @@ class cnSchema {
 			longitude decimal(15,12) default NULL,
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id,entry_id)
-			)";
+			)';
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -262,16 +262,16 @@ class cnSchema {
 
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_ENTRY_PHONE_TABLE;
-		$sql[] = "(
+		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
-			entry_id bigint(20) unsigned NOT NULL default '0',
-			order tinyint unsigned NOT NULL default '0',
-			preferred tinyint unsigned NOT NULL default '0',
+			entry_id bigint(20) unsigned NOT NULL default 0,
+			"order" tinyint unsigned NOT NULL default 0,
+			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			number tinytext NOT NULL,
 			visibility tinytext NOT NULL,
 			PRIMARY KEY (id,entry_id)
-			)";
+			)';
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -286,16 +286,16 @@ class cnSchema {
 
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_ENTRY_EMAIL_TABLE;
-		$sql[] = "(
+		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
-			entry_id bigint(20) unsigned NOT NULL default '0',
-			order tinyint unsigned NOT NULL default '0',
-			preferred tinyint unsigned NOT NULL default '0',
+			entry_id bigint(20) unsigned NOT NULL default 0,
+			"order" tinyint unsigned NOT NULL default 0,
+			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			address tinytext NOT NULL,
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id,entry_id)
-			)";
+			)';
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -310,16 +310,16 @@ class cnSchema {
 
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_ENTRY_MESSENGER_TABLE;
-		$sql[] = "(
+		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
-			entry_id bigint(20) unsigned NOT NULL default '0',
-			order tinyint unsigned NOT NULL default '0',
-			preferred tinyint unsigned NOT NULL default '0',
+			entry_id bigint(20) unsigned NOT NULL default 0,
+			"order" tinyint unsigned NOT NULL default 0,
+			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			uid tinytext NOT NULL,
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id, entry_id)
-			)";
+			)';
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -334,16 +334,16 @@ class cnSchema {
 
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_ENTRY_SOCIAL_TABLE;
-		$sql[] = "(
+		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
-			entry_id bigint(20) unsigned NOT NULL default '0',
-			order tinyint unsigned NOT NULL default '0',
-			preferred tinyint unsigned NOT NULL default '0',
+			entry_id bigint(20) unsigned NOT NULL default 0,
+			"order" tinyint unsigned NOT NULL default 0,
+			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			url tinytext NOT NULL,
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id, entry_id)
-			)";
+			)';
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -358,21 +358,21 @@ class cnSchema {
 
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_ENTRY_LINK_TABLE;
-		$sql[] = "(
+		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
-			entry_id bigint(20) unsigned NOT NULL default '0',
-			order tinyint unsigned NOT NULL default '0',
-			preferred tinyint unsigned NOT NULL default '0',
+			entry_id bigint(20) unsigned NOT NULL default 0,
+			"order" tinyint unsigned NOT NULL default 0,
+			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			title tinytext NOT NULL,
 			url tinytext NOT NULL,
 			target tinytext NOT NULL,
-			follow tinyint unsigned NOT NULL default '0',
-			image tinyint unsigned NOT NULL default '0',
-			logo tinyint unsigned NOT NULL default '0',
+			follow tinyint unsigned NOT NULL default 0,
+			image tinyint unsigned NOT NULL default 0,
+			logo tinyint unsigned NOT NULL default 0,
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id, entry_id)
-			)";
+			)';
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -387,16 +387,16 @@ class cnSchema {
 
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_ENTRY_DATE_TABLE;
-		$sql[] = "(
+		$sql[] = '(
 			id bigint(20) unsigned NOT NULL auto_increment,
-			entry_id bigint(20) unsigned NOT NULL default '0',
-			order tinyint unsigned NOT NULL default '0',
-			preferred tinyint unsigned NOT NULL default '0',
+			entry_id bigint(20) unsigned NOT NULL default 0,
+			"order" tinyint unsigned NOT NULL default 0,
+			preferred tinyint unsigned NOT NULL default 0,
 			type tinytext NOT NULL,
 			date date NOT NULL default '0000-00-00',
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id, entry_id)
-			)";
+			)';
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;

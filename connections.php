@@ -641,11 +641,21 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			require_once CN_PATH . 'includes/class.schema.php';
 
+			// Create the table structure.
 			cnSchema::create();
 
+			// Create the required directories and attempt to make them writable.
 			cnFileSystem::mkdirWritable( CN_CACHE_PATH );
 			cnFileSystem::mkdirWritable( CN_IMAGE_PATH );
 			cnFileSystem::mkdirWritable( CN_CUSTOM_TEMPLATE_PATH );
+
+			// Add a blank index.php file.
+			cnFileSystem::mkIndex( CN_IMAGE_PATH );
+			cnFileSystem::mkIndex( CN_CUSTOM_TEMPLATE_PATH );
+
+			// Add an .htaccess file, create it if one doesn't exist, and add the no indexes option.
+			cnFileSystem::noIndexes( CN_IMAGE_PATH );
+			cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
 			$this->initOptions();
 

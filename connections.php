@@ -276,10 +276,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		private function loadDependencies() {
 			/**
-			 * @TODO: I don't think that I need the beginning slash! Double check and remove.
-			 *
-			 * @TODO: Load dependencies as needed. For example load only classes
-			 * needed in the admin and frontend
+			 * @TODO: Load dependencies as needed. For example load only classes needed in the admin and frontend
 			 */
 			//Current User objects
 			require_once CN_PATH . 'includes/class.user.php'; // Required for activation

@@ -60,9 +60,21 @@ class cnSchema {
 	private static function addFULLTEXT() {
 		global $wpdb;
 
-		$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (family_name, first_name, middle_name, last_name, title, organization, department, contact_first_name, contact_last_name, bio, notes)' );
-		$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (line_1, line_2, line_3, city, state, zipcode, country)' );
-		$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (number)' );
+		/*
+		 * We'll use empty() for checking the Key_name because $wpdb->query() can return both FALSE and 0.
+		 */
+
+		$result = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_TABLE . ' WHERE Key_name = \'search\'' );
+		if ( empty( $result ) )
+			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (family_name, first_name, middle_name, last_name, title, organization, department, contact_first_name, contact_last_name, bio, notes)' );
+
+		$result = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE Key_name = \'search\'' );
+		if ( empty( $result ) )
+			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (line_1, line_2, line_3, city, state, zipcode, country)' );
+
+		$result = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE Key_name = \'search\'' );
+		if ( empty( $result ) )
+			$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (number)' );
 	}
 
 	private static function addDefaultCategory() {
@@ -71,7 +83,7 @@ class cnSchema {
 		// Check if the Uncategorized term exists and if it doesn't create it.
 		$term = $connections->term->getTermBy( 'slug', 'uncategorized', 'category' );
 
-		if ( $term ) {
+		if ( ! $term ) {
 			$attributes['slug'] = '';
 			$attributes['parent'] = 0;
 			$attributes['description'] = __( 'Entries not assigned to a category will automatically be assigned to this category and deleting a category which has been assigned to an entry will reassign that entry to this category. This category can not be edited or deleted.', 'connections' ) ;

@@ -89,6 +89,8 @@ class cnFileSystem {
 			if( false === strpos( $contents, 'Options -Indexes' ) || ! $contents ) {
 				@file_put_contents( $path . '.htaccess', $rules );
 			}
+		} else {
+			@file_put_contents( $path . '.htaccess', $rules );
 		}
 	}
 

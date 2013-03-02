@@ -64,7 +64,7 @@ class cnFileSystem {
 	 * @param (string) $path The path inwhich the file is to be created in.
 	 * @return void
 	 */
-	public static function makeIndex( $path ) {
+	public static function mkIndex( $path ) {
 		self::mkFile( $path, 'index.php', '<?php' . PHP_EOL . '// Silence is golden.' );
 	}
 

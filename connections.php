@@ -1611,8 +1611,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			if ( $process === 'vcard' ) {
 				$slug = get_query_var( 'cn-entry-slug' ); //var_dump($slug);
 
-				global $connections;
-
 				/*
 				 * If the token and id values were set, the link was likely from the admin.
 				 * Check for those values and validate the token. The primary reason for this

@@ -143,8 +143,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$this->initDependencies();
 
 			// Activation/Deactivation hooks
-			register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( $this, 'activate' ) );
-			register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( $this, 'deactivate' ) );
+			register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'activate' ) );
+			register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'deactivate' ) );
 
 			//@TODO: Create uninstall method to remove options and tables.
 			// register_uninstall_hook( dirname(__FILE__) . '/connections.php', array('connectionsLoad', 'uninstall') );
@@ -527,7 +527,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		/**
 		 * Called when activating Connections via the activation hook.
 		 */
-		public function activate() {
+		public static  function activate() {
 			global $wpdb, $connections;
 
 			require_once CN_PATH . 'includes/class.schema.php';
@@ -563,7 +563,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		/**
 		 * Called when deactivating Connections via the deactivation hook.
 		 */
-		public function deactivate() {
+		public static function deactivate() {
 			/*
 			 * Since we're adding the rewrite rules using a filter, make sure to remove the filter
 			 * before flushing, otherwise the rules will not be removed.

@@ -120,6 +120,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public $settings;
 
+		/**
+		 * An instance of the cnMessage class which extend the WP_Error class.
+		 *
+		 * @access public
+		 * @since 0.7.5
+		 * @var (object)
+		 */
 		public $message;
 
 		/**
@@ -327,6 +334,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				include CN_PATH . 'includes/screen-options/screen-options.php';
 
 				require_once CN_PATH . 'includes/class.filesystem.php';
+				require_once CN_PATH . 'includes/class.message.php';
 			}
 
 		}
@@ -464,167 +472,56 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			update_option( 'connections_flush_rewrite', '1' );
 		}
 
+		/**
+		 * Display stored action/error messages.
+		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
+		 *
+		 * @access public
+		 * @since unknown
+		 * @deprecated 0.7.5
+		 * @return (sting) Echos an action/error message using the default admin notice styleing.
+		 */
 		public function displayMessages() {
-			// Exit the method if $_GET['display_messages'] isn't set.
-			// if ( ! isset( $_GET['display_messages'] ) ) return;
-
-			$output = '';
-
-			$messages = $this->currentUser->getMessages();
-
-			if ( !empty( $messages ) ) {
-				foreach ( $messages as $message ) {
-					foreach ( $message as $type => $code ) {
-						switch ( $type ) {
-						case 'error':
-							$output .= '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $this->message->get_error_message( $code ) . '</p></div>';
-							break;
-
-						case 'error_runtime':
-							$output .= '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $code . '</p></div>';
-							break;
-
-						case 'success':
-							$output .= '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $this->message->get_error_message( $code ) . '</p></div>';
-							break;
-
-						case 'success_runtime':
-							$output .= '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $code . '</p></div>';
-							break;
-						}
-					}
-				}
-			}
-
-			/*if ( $_GET['display_messages'] === 'true' )*/ $this->currentUser->resetMessages();
-
-			echo $output;
+			$this->message->display();
 		}
 
+		/**
+		 * Set a runtime action/error message.
+		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
+		 *
+		 * @access public
+		 * @since unknown
+		 * @deprecated 0.7.5
+		 * @return void
+		 */
 		public function setRuntimeMessage( $type , $message ) {
-			$messages = $this->currentUser->getMessages();
-
-			$this->currentUser->setMessage( array( $type => $message ) );
+			cnMessage::runtime( $type, $message );
 		}
 
 		/**
-		 * Initiate the error messages for Connections using the WP_Error class.
-		 */
-		private function initErrorMessages() {
-			$this->message->add( 'capability_view_entry_list', __( 'You are not authorized to view the entry list. Please contact the admin if you received this message in error.', 'connections' ) );
-
-			$this->message->add( 'capability_add', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'capability_delete', __( 'You are not authorized to delete entries. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'capability_edit', __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'capability_categories', __( 'You are not authorized to edit the categories. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'capability_settings', __( 'You are not authorized to edit the settings. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'capability_roles', __( 'You are not authorized to edit role capabilities. Please contact the admin if you received this message in error.', 'connections' ) );
-
-			$this->message->add( 'category_duplicate_name', __( 'The category you are trying to create already exists.', 'connections' ) );
-			$this->message->add( 'category_self_parent', __( 'Category can not be a parent of itself.', 'connections' ) );
-			$this->message->add( 'category_delete_uncategorized', __( 'The Uncategorized category can not be deleted.', 'connections' ) );
-			$this->message->add( 'category_update_uncategorized', __( 'The Uncategorized category can not be altered.', 'connections' ) );
-			$this->message->add( 'category_add_uncategorized', __( 'The Uncategorized category already exists.', 'connections' ) );
-			$this->message->add( 'category_add_failed', __( 'Failed to add category.', 'connections' ) );
-			$this->message->add( 'category_update_failed', __( 'Failed to update category.', 'connections' ) );
-			$this->message->add( 'category_delete_failed', __( 'Failed to delete category.', 'connections' ) );
-
-			$this->message->add( 'entry_added_failed', __( 'Entry could not be added.', 'connections' ) );
-			$this->message->add( 'entry_updated_failed', __( 'Entry could not be updated.', 'connections' ) );
-
-			$this->message->add( 'entry_preferred_overridden_address', __( 'Your preferred setting for a address was overridden because another address that you are not permitted to view or edit is set as the preferred address. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'entry_preferred_overridden_phone', __( 'Your preferred setting for a phone was overridden because another phone number that you are not permitted to view or edit is set as the preferred phone number. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'entry_preferred_overridden_email', __( 'Your preferred setting for an email address was overridden because another email address that you are not permitted to view or edit is set as the preferred email address. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'entry_preferred_overridden_im', __( 'Your preferred setting for a IM Network was overridden because another IM Network that you are not permitted to view or edit is set as the preferred IM Network. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'entry_preferred_overridden_social', __( 'Your preferred setting for a social media network was overridden because another social media network that you are not permitted to view or edit is set as the preferred social media network. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'entry_preferred_overridden_link', __( 'Your preferred setting for a link was overridden because another link that you are not permitted to view or edit is set as the preferred link. Please contact the admin if you received this message in error.', 'connections' ) );
-			$this->message->add( 'entry_preferred_overridden_date', __( 'Your preferred setting for a date was overridden because another date that you are not permitted to view or edit is set as the preferred date. Please contact the admin if you received this message in error.', 'connections' ) );
-
-			$this->message->add( 'image_upload_failed', __( 'Image upload failed.', 'connections' ) );
-			$this->message->add( 'image_uploaded_failed', __( 'Uploaded image could not be saved to the destination folder.', 'connections' ) );
-			$this->message->add( 'image_profile_failed', __( 'Profile image could not be created and/or saved to the destination folder.', 'connections' ) );
-			$this->message->add( 'image_entry_failed', __( 'Entry image could not be created and/or saved to the destination folder.', 'connections' ) );
-			$this->message->add( 'image_thumbnail_failed', __( 'Thumbnail image could not be created and/or saved to the destination folder.', 'connections' ) );
-
-			$this->message->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
-			$this->message->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
-		}
-
-		/**
-		 * Returns one of the predefined Connections error messages.
+		 * Store an error code.
+		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
 		 *
-		 * @return HTML div with error message.
-		 * @param string
+		 * @access public
+		 * @since unknown
+		 * @deprecated 0.7.5
+		 * @return void
 		 */
-		public function getErrorMessage( $errorMessage ) {
-			return '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $this->message->get_error_message( $errorMessage ) . '</p></div>';
+		public function setErrorMessage( $code ) {
+			cnMessage::set( 'error', $code );
 		}
 
 		/**
-		 * Stores a predefined error messages in the user meta.
+		 * Store a success code.
+		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
 		 *
-		 * @param string
+		 * @access public
+		 * @since unknown
+		 * @deprecated 0.7.5
+		 * @return void
 		 */
-		public function setErrorMessage( $errorMessage ) {
-			$messages = $this->currentUser->getMessages();
-
-			// If the error message is already stored, no need to store it twice.
-			if ( ! in_array( array( 'error' => $errorMessage ) , $messages ) ) $this->currentUser->setMessage( array( 'error' => $errorMessage ) );
-		}
-
-		/**
-		 * Initiates the success messages for Connections using the WP_Error class.
-		 */
-		private function initSuccessMessages() {
-			$this->message->add( 'form_entry_delete', __( 'The entry has been deleted.', 'connections' ) );
-			$this->message->add( 'form_entry_delete_bulk', __( 'Entry(ies) have been deleted.', 'connections' ) );
-			$this->message->add( 'form_entry_pending', __( 'The entry status have been set to pending.', 'connections' ) );
-			$this->message->add( 'form_entry_pending_bulk', __( 'Entry(ies) status have been set to pending.', 'connections' ) );
-			$this->message->add( 'form_entry_approve', __( 'The entry has been approved.', 'connections' ) );
-			$this->message->add( 'form_entry_approve_bulk', __( 'Entry(ies) have been approved.', 'connections' ) );
-			$this->message->add( 'form_entry_visibility_bulk', __( 'Entry(ies) visibility have been updated.', 'connections' ) );
-
-			$this->message->add( 'category_deleted', __( 'Category(ies) have been deleted.', 'connections' ) );
-			$this->message->add( 'category_updated', __( 'Category has been updated.', 'connections' ) );
-			$this->message->add( 'category_added', __( 'Category has been added.', 'connections' ) );
-
-			$this->message->add( 'entry_added', __( 'Entry has been added.', 'connections' ) );
-			$this->message->add( 'entry_added_moderated', __( 'Pending review entry will be added.', 'connections' ) );
-			$this->message->add( 'entry_updated', __( 'Entry has been updated.', 'connections' ) );
-			$this->message->add( 'entry_updated_moderated', __( 'Pending review entry will be updated.', 'connections' ) );
-
-			$this->message->add( 'image_uploaded', __( 'Uploaded image saved.', 'connections' ) );
-			$this->message->add( 'image_profile', __( 'Profile image created and saved.', 'connections' ) );
-			$this->message->add( 'image_entry', __( 'Entry image created and saved.', 'connections' ) );
-			$this->message->add( 'image_thumbnail', __( 'Thumbnail image created and saved.', 'connections' ) );
-
-			$this->message->add( 'role_settings_updated', __( 'Role capabilities have been updated.', 'connections' ) );
-
-			$this->message->add( 'template_change_active', __( 'The default active template has been changed.', 'connections' ) );
-			$this->message->add( 'template_installed', __( 'A new template has been installed.', 'connections' ) );
-			$this->message->add( 'template_deleted', __( 'The template has been deleted.', 'connections' ) );
-		}
-
-		/**
-		 * Returns one of the predefined Connections success messages.
-		 *
-		 * @return HTML div with error message.
-		 * @param string
-		 */
-		public function getSuccessMessage( $successMessage ) {
-			return '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $this->message->get_error_message( $successMessage ) . '</p></div>';
-		}
-
-		/**
-		 * Stores a predefined success messages in the user meta.
-		 *
-		 * @param string
-		 */
-		public function setSuccessMessage( $successMessage ) {
-			$messages = $this->currentUser->getMessages();
-
-			// If the success message is slready stored, no need to store it twice.
-			if ( ! in_array( array( 'success' => $successMessage ) , $messages ) ) $this->currentUser->setMessage( array( 'success' => $successMessage ) );
+		public function setSuccessMessage( $code ) {
+			cnMessage::set( 'success', $code );
 		}
 
 		/**
@@ -716,9 +613,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$directoryHome = $this->settings->get( 'connections', 'connections_home_page', 'page_id' );
 
 			// Initiate admin messages.
-			$this->message = new WP_Error();
-			$this->initErrorMessages();
-			$this->initSuccessMessages();
+			$this->message = new cnMessage();
+			// $this->initErrorMessages();
+			// $this->initSuccessMessages();
 
 			// If the user changed the base slugs for the permalinks, flush the rewrite rules.
 			if ( get_option( 'connections_flush_rewrite' ) ) {

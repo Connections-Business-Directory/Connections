@@ -17,12 +17,46 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnMessage extends WP_Error {
 
 	/**
+	 * @access private
+	 * @since 0.7.5
+	 * @var (object) cnMessage stores an instance of this class.
+	*/
+	private static $instance;
+
+	/**
+	 * A dummy constructor to prevent class from being loaded more than once.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @see cnMessage::getInstance()
+	 * @see cnMessage();
+	 */
+	public function __construct() { /* Do nothing here */ }
+
+	/**
+	 * Main cnMessage Instance.
+	 *
+	 * Insures that only one instance of cnMessage exists at any one time.
+	 *
+	 * @access public
+	 * @since 0.7.5
+	 * @return object cnMessage
+	 */
+	public static function getInstance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self;
+			self::$instance->init();
+		}
+		return self::$instance;
+	}
+
+	/**
 	 * Add all the predefined action/error messages to the WP_Error class.
 	 *
 	 * @since 0.7.5
 	 * @return void
 	 */
-	public function __construct() {
+	public function init() {
 
 		/**
 		 * Add the error messages.

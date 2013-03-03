@@ -613,7 +613,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$directoryHome = $this->settings->get( 'connections', 'connections_home_page', 'page_id' );
 
 			// Initiate admin messages.
-			$this->message = new cnMessage();
+			$this->message = cnMessage::getInstance();
 			// $this->initErrorMessages();
 			// $this->initSuccessMessages();
 

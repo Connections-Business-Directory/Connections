@@ -141,6 +141,10 @@ class cnMessage extends WP_Error {
 		$this->add( 'template_installed', __( 'A new template has been installed.', 'connections' ) );
 		$this->add( 'template_deleted', __( 'The template has been deleted.', 'connections' ) );
 
+		/*
+		 * DB update message.
+		 */
+		$this->add( 'db_update_required', __( 'Connections database requires updating.', 'connections' ) . ' ' . '<a class=\"button\" href=\"admin.php?page=connections_manage\">' . __( 'START', 'connections' )  . '</a>' );
 	}
 
 	/**

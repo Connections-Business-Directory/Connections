@@ -134,7 +134,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 *
 		 * @var bool
 		 */
-		private $dbUpgrade;
+		private $dbUpgrade = FALSE;
 
 		public function __construct() {
 
@@ -584,18 +584,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//  DELETE FROM `nhonline_freshcnpro`.`cnpfresh_options` WHERE `cnpfresh_options`.`option_name` = 'connections_options'
 		}
 
-		public function addDBUpgradeMessage() {
-			echo '<div id="message" class="error"><p><strong>' . __( 'Connections database requires updating.', 'connections' )  . '<a class="button-highlighted" href="admin.php?page=connections_manage">' . __( 'START', 'connections' )  . '</a></strong></p></div>';
-		}
-
-		/**
-		 * Remove the admin notice since it's confusing to see both the message and upgrade text at the same time.
-		 * Called in action toplevel_page_connections_dashboard from adminInit()
-		 */
-		public function removeDBUpgradeMessage() {
-			remove_action( 'admin_notices', array( &$this , 'addDBUpgradeMessage' ) );
-		}
-
 		/**
 		 * Initialize the admin.
 		 *
@@ -626,8 +614,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$directoryHome = $this->settings->get( 'connections', 'connections_home_page', 'page_id' );
 			if ( ! $directoryHome ) cnMessage::create( 'error', 'home_page_set_failed' );
 
-			//Check if the db requires updating, display message if it does.
-			if ( version_compare( $this->options->getDBVersion() , CN_DB_VERSION ) < 0 ) $this->dbUpgrade = add_action( 'admin_notices' , array( $this , 'addDBUpgradeMessage' ) );
+			// Check if the db requires updating, display message if it does.
+			if ( version_compare( $this->options->getDBVersion(), CN_DB_VERSION, '<' ) ) {
+				$this->dbUpgrade = TRUE;
+				cnMessage::create( 'error', 'db_update_required' );
+			}
 
 			/*
 			 * Add admin notices if required directories are not present or not writeable.
@@ -668,13 +659,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				add_action( 'load-' . $this->pageHook->dashboard, array( $this, 'registerDashboardMetaboxes' ) );
 
 				// Remove the admin database message on the following pages since it's confusing to see both the message and upgrade text at the same time.
-				add_action( 'load-' . $this->pageHook->dashboard, array( $this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->manage, array( $this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->add, array( $this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->categories, array( $this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->templates, array( $this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->settings, array( $this, 'removeDBUpgradeMessage' ) );
-				add_action( 'load-' . $this->pageHook->roles, array( $this, 'removeDBUpgradeMessage' ) );
+				// add_action( 'load-' . $this->pageHook->dashboard, array( $this, 'removeDBUpgradeMessage' ) );
+				// add_action( 'load-' . $this->pageHook->manage, array( $this, 'removeDBUpgradeMessage' ) );
+				// add_action( 'load-' . $this->pageHook->add, array( $this, 'removeDBUpgradeMessage' ) );
+				// add_action( 'load-' . $this->pageHook->categories, array( $this, 'removeDBUpgradeMessage' ) );
+				// add_action( 'load-' . $this->pageHook->templates, array( $this, 'removeDBUpgradeMessage' ) );
+				// add_action( 'load-' . $this->pageHook->settings, array( $this, 'removeDBUpgradeMessage' ) );
+				// add_action( 'load-' . $this->pageHook->roles, array( $this, 'removeDBUpgradeMessage' ) );
 
 				/*
 				 * Add the panel to the "Screen Options" box to the manage page.

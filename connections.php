@@ -640,7 +640,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			add_filter( 'plugin_row_meta', array( __CLASS__, 'addMetaLinks' ), 10, 2 );
 
 			// Add Changelog table row in the Manage Plugins admin page.
-			add_action( 'after_plugin_row_' . CN_BASE_NAME, array( $this, 'displayUpgradeNotice' ), 1, 0 );
+			add_action( 'after_plugin_row_' . CN_BASE_NAME, array( __CLASS__, 'displayUpgradeNotice' ), 1, 0 );
 			// Maybe should use this action hook instead: in_plugin_update_message-{$file}
 
 			/*
@@ -1025,8 +1025,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @access private
 		 * @since unknown
 		 * @param (array) $links
+		 * @return void
 		 */
 		public static function addActionLinks( $links ) {
+
 			$new_links = array();
 
 			$new_links[] = '<a href="admin.php?page=connections_settings">' . __( 'Settings', 'connections' ) . '</a>';
@@ -1036,10 +1038,15 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		/**
 		 * Add the links for premium templates, add-on plugins and support info.
+		 *
+		 * @access private
+		 * @since unknown
 		 * @param (array) $links
 		 * @param (string) $file
+		 * @return void
 		 */
 		public static function addMetaLinks( $links, $file ) {
+
 			if ( $file == CN_BASE_NAME ) {
 				$links[] = '<a href="http://connections-pro.com/?page_id=29" target="_blank">' . __( 'Add-on Plugins', 'connections' ) . '</a>';
 				$links[] = '<a href="http://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';
@@ -1053,8 +1060,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		/**
 		 * Add the changelog as a table row on the Manage Plugin admin screen.
 		 * Code based on Changelogger.
+		 *
+		 * @access private
+		 * @since unknown
+		 * @uses get_option()
+		 * @uses get_transient()
+		 * @return (string)
 		 */
-		public function displayUpgradeNotice() {
+		public static function displayUpgradeNotice() {
 			include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 			//echo "<tr><td colspan='5'>TEST</td></tr>";
 			//$api = plugins_api('plugin_information', array('slug' => 'connections', 'fields' => array('tested' => true, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));

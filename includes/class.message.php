@@ -333,6 +333,8 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access private
 	 * @since 0.7.5
+	 * @uses get_user_meta()
+	 * @uses update_user_meta()
 	 * @param  (string) $message
 	 * @return void
 	 */
@@ -350,6 +352,7 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access private
 	 * @since 0.7.5
+	 * @uses get_user_meta()
 	 * @return (array)
 	 */
 	private static function get() {
@@ -368,6 +371,8 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access private
 	 * @since 0.7.5
+	 * @uses get_user_meta()
+	 * @uses update_user_meta()
 	 * @return void
 	 */
 	private static function reset() {

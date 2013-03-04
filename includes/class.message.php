@@ -176,21 +176,29 @@ class cnMessage extends WP_Error {
 	}
 
 	/**
-	 * Display an action/error message.
+	 * Create an admin message adding to the admin_notices action hook.
 	 *
 	 * @access public
 	 * @since 0.7.5
-	 * @return (string) The action/error message created to match the admin notices style.
+	 * @param  (string) $type The $type must be either "error" or "success".
+	 * @param  (string) $message The message to be displayed. || A message code registered in self::init().
+	 * @return void
 	 */
-	public function create( $type , $errorMessage ) {
+	public static function create( $type , $message ) {
+
+		// Bring a copy of this into scope.
+		$instance = self::getInstance();
+
+		// Check to see if $message is one of the registered message codes and if it is, set $message to the actual message rather than the message code.
+		if ( 0 < strlen( $instance->get_error_message( $message ) ) ) $message = $instance->get_error_message( $message );
 
 		switch ( $type ) {
 			case 'error':
-				echo '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $this->get_error_message( $errorMessage ) . '</p></div>';
+				add_action( 'admin_notices' , create_function( '' , 'echo "<div id=\"message\" class=\"error\"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>";' ) );
 				break;
 
 			case 'success':
-				echo '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $this->get_error_message( $successMessage ) . '</p></div>';
+				add_action( 'admin_notices' , create_function( '' , 'echo "<div id=\"message\" class=\"updated fade\"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>";' ) );
 				break;
 		}
 

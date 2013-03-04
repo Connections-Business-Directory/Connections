@@ -150,8 +150,11 @@ class cnMessage extends WP_Error {
 	 * @since 0.7.5
 	 * @return (string) The action/error message created to match the admin notices style.
 	 */
-	public function display() {
+	public static function display() {
 		global $connections;
+
+		// Bring a copy of this into scope.
+		$instance = self::getInstance();
 
 		$output = '';
 
@@ -162,7 +165,7 @@ class cnMessage extends WP_Error {
 				foreach ( $message as $type => $code ) {
 					switch ( $type ) {
 						case 'error':
-							$output .= '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $this->get_error_message( $code ) . '</p></div>';
+							$output .= '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $instance->get_error_message( $code ) . '</p></div>';
 							break;
 
 						case 'error_runtime':
@@ -170,7 +173,7 @@ class cnMessage extends WP_Error {
 							break;
 
 						case 'success':
-							$output .= '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $this->get_error_message( $code ) . '</p></div>';
+							$output .= '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $instance->get_error_message( $code ) . '</p></div>';
 							break;
 
 						case 'success_runtime':

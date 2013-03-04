@@ -482,7 +482,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @return (sting) Echos an action/error message using the default admin notice styleing.
 		 */
 		public function displayMessages() {
-			$this->message->display();
+			cnMessage::display();
 		}
 
 		/**

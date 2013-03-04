@@ -108,6 +108,8 @@ class cnMessage extends WP_Error {
 		$this->add( 'cache_path_exists_failed', __( 'Path ../wp-content/plugins/connections/cache does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) );
 		$this->add( 'cache_path_writeable_failed', __( 'Path ../wp-content/plugins/connections/cache does not seem to be writeable.', 'connections' ) );
 
+		$this->add( 'home_page_set_failed', __( 'The Connections directory home page has not been set. Please set it now on the Connections : Settings page under the General tab.', 'connections' ) );
+
 		/**
 		 * Add the success messages.
 		 */

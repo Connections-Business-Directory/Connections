@@ -613,8 +613,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Initiate admin messages.
 			$this->message = cnMessage::getInstance();
-			// $this->initErrorMessages();
-			// $this->initSuccessMessages();
 
 			// If the user changed the base slugs for the permalinks, flush the rewrite rules.
 			if ( get_option( 'connections_flush_rewrite' ) ) {

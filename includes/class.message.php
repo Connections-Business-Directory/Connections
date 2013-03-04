@@ -99,6 +99,15 @@ class cnMessage extends WP_Error {
 		$this->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
 		$this->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
 
+		$this->add( 'image_path_exists_failed', __( 'Path ../wp-content/connection_images does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) );
+		$this->add( 'image_path_writeable_failed', __( 'Path ../wp-content/connection_images does not seem to be writeable.', 'connections' ) );
+
+		$this->add( 'template_path_exists_failed', __( 'Path ../wp-content/connections_templates does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) );
+		$this->add( 'template_path_writeable_failed', __( 'Path ../wp-content/connections_templates does not seem to be writeable.', 'connections' ) );
+
+		$this->add( 'cache_path_exists_failed', __( 'Path ../wp-content/plugins/connections/cache does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) );
+		$this->add( 'cache_path_writeable_failed', __( 'Path ../wp-content/plugins/connections/cache does not seem to be writeable.', 'connections' ) );
+
 		/**
 		 * Add the success messages.
 		 */

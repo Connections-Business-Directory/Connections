@@ -473,17 +473,15 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		}
 
 		/**
-		 * Display stored action/error messages.
 		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
+		 * This purposefully is blank.
 		 *
 		 * @access public
 		 * @since unknown
 		 * @deprecated 0.7.5
-		 * @return (sting) Echos an action/error message using the default admin notice styleing.
+		 * @return void
 		 */
-		public function displayMessages() {
-			// cnMessage::display();
-		}
+		public function displayMessages() { /* Do nothing here */ }
 
 		/**
 		 * Set a runtime action/error message.

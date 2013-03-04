@@ -610,7 +610,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @return void
 		 */
 		public function adminInit() {
-			$directoryHome = $this->settings->get( 'connections', 'connections_home_page', 'page_id' );
 
 			// Initiate admin messages.
 			$this->message = cnMessage::getInstance();
@@ -626,13 +625,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * If the home page has not been set, nag the user to set it.
 			 */
-			if ( ! $directoryHome ) add_action(
-					'admin_notices',
-					create_function(
-						'',
-						'echo \'<div id="message" class="error"><p>' . __( '<strong>ERROR:</strong> The Connections directory home page has not been set. Please set it now on the Connections : Settings page under the General tab.', 'connections' ) . '</p></div>\';'
-					)
-				);
+			$directoryHome = $this->settings->get( 'connections', 'connections_home_page', 'page_id' );
+			if ( ! $directoryHome ) cnMessage::create( 'error', 'home_page_set_failed' );
 
 			//Check if the db requires updating, display message if it does.
 			if ( version_compare( $this->options->getDBVersion() , CN_DB_VERSION ) < 0 ) $this->dbUpgrade = add_action( 'admin_notices' , array( $this , 'addDBUpgradeMessage' ) );

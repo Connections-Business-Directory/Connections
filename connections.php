@@ -615,7 +615,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Check if the db requires updating, display message if it does.
 			if ( version_compare( $this->options->getDBVersion(), CN_DB_VERSION, '<' ) ) {
 				$this->dbUpgrade = TRUE;
-				cnMessage::create( 'error', 'db_update_required' );
+
+				add_action( 'current_screen', array( __CLASS__, 'displayDBUpgradeNotice' ) );
 			}
 
 			/*
@@ -656,21 +657,27 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// Register the Dashboard metaboxes.
 				add_action( 'load-' . $this->pageHook->dashboard, array( $this, 'registerDashboardMetaboxes' ) );
 
-				// Remove the admin database message on the following pages since it's confusing to see both the message and upgrade text at the same time.
-				// add_action( 'load-' . $this->pageHook->dashboard, array( $this, 'removeDBUpgradeMessage' ) );
-				// add_action( 'load-' . $this->pageHook->manage, array( $this, 'removeDBUpgradeMessage' ) );
-				// add_action( 'load-' . $this->pageHook->add, array( $this, 'removeDBUpgradeMessage' ) );
-				// add_action( 'load-' . $this->pageHook->categories, array( $this, 'removeDBUpgradeMessage' ) );
-				// add_action( 'load-' . $this->pageHook->templates, array( $this, 'removeDBUpgradeMessage' ) );
-				// add_action( 'load-' . $this->pageHook->settings, array( $this, 'removeDBUpgradeMessage' ) );
-				// add_action( 'load-' . $this->pageHook->roles, array( $this, 'removeDBUpgradeMessage' ) );
-
 				/*
 				 * Add the panel to the "Screen Options" box to the manage page.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 */
 				add_screen_options_panel( 'cn-manage-page-limit' , 'Show on screen' , array( $this, 'managePageLimit' ) , $this->pageHook->manage , array( $this, 'managePageLimitSaveAJAX' ) , FALSE );
 			}
+		}
+
+		/**
+		 * Display the database upgrade notice. This will only be shown on non-Connections pages.
+		 *
+		 * @access private
+		 * @since 0.7.5
+		 * @uses get_current_screen()
+		 * @return void
+		 */
+		public static function displayDBUpgradeNotice() {
+			global $connections;
+
+			$screen = get_current_screen();
+			if ( ! in_array( $screen->id, (array) $connections->pageHook ) ) cnMessage::create( 'notice', 'db_update_required' );
 		}
 
 		/**

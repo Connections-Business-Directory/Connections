@@ -634,7 +634,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueueAdminStyles' ) );
 
 			// Add Settings link to the plugin actions
-			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( $this, 'addActionLinks' ) );
+			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( __CLASS__, 'addActionLinks' ) );
 
 			// Add FAQ, Support and Donate links
 			add_filter( 'plugin_row_meta', array( $this, 'addMetaLinks' ), 10, 2 );
@@ -1019,8 +1019,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			wp_enqueue_style( 'connections-qtip' );
 		}
 
-		// Add settings option
-		public function addActionLinks( $links ) {
+		/**
+		 * Add the Settings link to the plugin admin page.
+		 *
+		 * @access private
+		 * @since unknown
+		 * @param (array) $links
+		 */
+		public static function addActionLinks( $links ) {
 			$new_links = array();
 
 			$new_links[] = '<a href="admin.php?page=connections_settings">' . __( 'Settings', 'connections' ) . '</a>';

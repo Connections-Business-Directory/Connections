@@ -663,7 +663,7 @@ class cnFormObjects {
 		if ( ini_get( 'max_execution_time' ) ) $max_execute = ini_get( 'max_execution_time' );
 		else $max_execute = __( 'N/A', 'connections' );
 		// Get PHP Memory Limit
-		if ( ini_get( 'memory_limit' ) ) $memory_limit = $connections->phpMemoryLimit;
+		if ( ini_get( 'memory_limit' ) ) $memory_limit = ini_get( 'memory_limit' );
 		else $memory_limit = __( 'N/A', 'connections' );
 		// Get actual memory_get_usage
 		if ( function_exists( 'memory_get_usage' ) ) $memory_usage = round( memory_get_usage() / 1024 / 1024, 2 ) . ' ' . __( 'MByte', 'connections' );

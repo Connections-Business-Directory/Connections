@@ -109,6 +109,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		/**
 		 * Stores the page hook values returned from the add_menu_page & add_submenu_page functions
 		 *
+		 * @access public
+		 * @since unknown
 		 * @var object
 		 */
 		public $pageHook;
@@ -116,6 +118,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		/**
 		 * The Connections Settings API Wrapper class.
 		 *
+		 * @access public
+		 * @since unknown
 		 * @var object
 		 */
 		public $settings;
@@ -138,7 +142,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		public function __construct() {
 
-			$this->loadConstants();
+			$this->defineConstants();
 			$this->loadDependencies();
 			$this->initDependencies();
 
@@ -150,12 +154,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// register_uninstall_hook( dirname(__FILE__) . '/connections.php', array('connectionsLoad', 'uninstall') );
 
 			// Start this plug-in once all other plugins are fully loaded
-			add_action( 'plugins_loaded', array( $this, 'start' ) );
+			add_action( 'plugins_loaded', array( __CLASS__, 'start' ) );
 		}
 
 		public function start() {
+			global $connections;
 
-			//$this->options->setDBVersion('0.1.8'); $this->options->saveOptions();
+			//$connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
 
 			// Load the translation files.
 			load_plugin_textdomain( 'connections' , false , CN_DIR_NAME . '/lang' );
@@ -169,7 +174,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Setup the current user object
 			$current_user = wp_get_current_user();
-			$this->currentUser->setID( $current_user->ID );
+			$connections->currentUser->setID( $current_user->ID );
 
 			// Register the JavaScript libraries.
 			add_action( 'init', array( __CLASS__, 'registerScripts' ) );
@@ -179,23 +184,20 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			if ( is_admin() ) {
 
-				// Store the PHP mememory limit
-				$this->phpMemoryLimit = ini_get( 'memory_limit' );
-
 				// Calls the method to load the admin menus.
-				add_action( 'admin_menu', array( $this , 'adminMenu' ) );
+				add_action( 'admin_menu', array( $connections , 'adminMenu' ) );
 
-				add_action( 'admin_init', array( $this, 'adminInit' ) );
+				add_action( 'admin_init', array( __CLASS__, 'adminInit' ) );
 
 				// Parse admin queries.
-				add_action( 'admin_init', array( $this, 'adminActions' ) );
+				add_action( 'admin_init', array( $connections, 'adminActions' ) );
 
 				/*
 				 * Add the filter to update the user settings when the 'Apply" button is clicked.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 * NOTE: This filter must be init here otherwise it registers to late to be run.
 				 */
-				add_filter( 'set-screen-option', array( $this, 'managePageLimitSave' ), 10 , 3 );
+				add_filter( 'set-screen-option', array( __CLASS__, 'managePageLimitSave' ), 10 , 3 );
 
 			} else {
 
@@ -206,13 +208,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				/*
 				 * Process front end actions.
 				 */
-				add_action( 'template_redirect' , array( $this, 'frontendActions' ) );
+				add_action( 'template_redirect' , array( $connections, 'frontendActions' ) );
 			}
 
 		}
 
-		private function loadConstants() {
-
+		private function defineConstants() {
 			global $wpdb, $blog_id;
 
 			define( 'CN_LOG', FALSE );
@@ -333,7 +334,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 */
 				include CN_PATH . 'includes/screen-options/screen-options.php';
 
+				// The class for working with the file system.
 				require_once CN_PATH . 'includes/class.filesystem.php';
+
+				// The class for handling admin notices.
 				require_once CN_PATH . 'includes/class.message.php';
 			}
 
@@ -595,10 +599,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @uses add_screen_options_panel()
 		 * @return void
 		 */
-		public function adminInit() {
+		public static function adminInit() {
+			global $connections;
 
 			// Initiate admin messages.
-			$this->message = cnMessage::getInstance();
+			$connections->message = cnMessage::getInstance();
 
 			// If the user changed the base slugs for the permalinks, flush the rewrite rules.
 			if ( get_option( 'connections_flush_rewrite' ) ) {
@@ -609,12 +614,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * If the home page has not been set, nag the user to set it.
 			 */
-			$directoryHome = $this->settings->get( 'connections', 'connections_home_page', 'page_id' );
+			$directoryHome = $connections->settings->get( 'connections', 'connections_home_page', 'page_id' );
 			if ( ! $directoryHome ) cnMessage::create( 'error', 'home_page_set_failed' );
 
 			// Check if the db requires updating, display message if it does.
-			if ( version_compare( $this->options->getDBVersion(), CN_DB_VERSION, '<' ) ) {
-				$this->dbUpgrade = TRUE;
+			if ( version_compare( $connections->options->getDBVersion(), CN_DB_VERSION, '<' ) ) {
+				$connections->dbUpgrade = TRUE;
 
 				add_action( 'current_screen', array( __CLASS__, 'displayDBUpgradeNotice' ) );
 			}
@@ -649,19 +654,19 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * PHP notices when attempting to access them. If the menus have been added then the
 			 * properties will exist so it will be safe to add the actions using the properties.
 			 */
-			if ( get_object_vars( $this->pageHook ) && current_user_can( 'connections_view_menu') ) {
+			if ( get_object_vars( $connections->pageHook ) && current_user_can( 'connections_view_menu') ) {
 				// Register the edit metaboxes.
-				add_action( 'load-' . $this->pageHook->add, array( $this, 'registerEditMetaboxes' ) );
-				add_action( 'load-' . $this->pageHook->manage, array( $this, 'registerEditMetaboxes' ) );
+				add_action( 'load-' . $connections->pageHook->add, array( __CLASS__, 'registerEditMetaboxes' ) );
+				add_action( 'load-' . $connections->pageHook->manage, array( __CLASS__, 'registerEditMetaboxes' ) );
 
 				// Register the Dashboard metaboxes.
-				add_action( 'load-' . $this->pageHook->dashboard, array( $this, 'registerDashboardMetaboxes' ) );
+				add_action( 'load-' . $connections->pageHook->dashboard, array( __CLASS__, 'registerDashboardMetaboxes' ) );
 
 				/*
 				 * Add the panel to the "Screen Options" box to the manage page.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 */
-				add_screen_options_panel( 'cn-manage-page-limit' , 'Show on screen' , array( $this, 'managePageLimit' ) , $this->pageHook->manage , array( $this, 'managePageLimitSaveAJAX' ) , FALSE );
+				add_screen_options_panel( 'cn-manage-page-limit' , 'Show on screen' , array( __CLASS__, 'managePageLimit' ) , $connections->pageHook->manage , array( __CLASS__, 'managePageLimitSaveAJAX' ) , FALSE );
 			}
 		}
 
@@ -683,8 +688,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		/**
 		 * Add the page limit panel to the screen options of the manage page.
 		 * NOTE: This relies on the the Screen Options class by Janis Elsts
+		 *
+		 * @access private
+		 * @since unknown
+		 * @return (string)
 		 */
-		public function managePageLimit() {
+		public static function managePageLimit() {
 			global $connections;
 
 			$page = $connections->currentUser->getFilterPage( 'manage' );
@@ -692,6 +701,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$out = '<label><input type="text" class="entry-per-page" name="wp_screen_options[value]" id="edit_entry_per_page" maxlength="3" value="' . $page->limit . '" />' . __( 'Entries', 'connections' ) . '</label>';
 			$out .= '<input type="hidden" name="wp_screen_options[option]" id="edit_entry_per_page_name" value="connections" />';
 			$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="Apply"  />';
+
 			return $out;
 		}
 
@@ -699,13 +709,28 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Save the user setting for the page limit on the screen options of the manage page.
 		 * NOTE: This is only run during the AJAX callback which is currently disabled.
 		 * NOTE: This relies on the the Screen Options class by Janis Elsts
+		 *
+		 * @access private
+		 * @since unknown
+		 * @return void
 		 */
-		public function managePageLimitSaveAJAX() {
+		public static  function managePageLimitSaveAJAX() {
 			include_once CN_PATH . '/includes/inc.processes.php';
 
 			processSetUserFilter();
 		}
 
+		/**
+		 * Save the user entered value for display n-number of entries on the manage admin page.
+		 *
+		 * @access private
+		 * @since unknown
+		 * @uses get_user_meta()
+		 * @param (bool) $false
+		 * @param (string) $option
+		 * @param (int) $value
+		 * @return (array)
+		 */
 		public function managePageLimitSave( $false = FALSE , $option , $value ) {
 			global $connections;
 
@@ -723,7 +748,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @access private
 		 * @since unknown
 		 * @author Steven A. Zahm
-		 * @since Undefined
 		 * @return void
 		 */
 		public function adminMenu() {
@@ -769,19 +793,22 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 *
 		 * Action added in connectionsLoad::adminInit
 		 *
+		 * @access private
 		 * @author Steven A. Zahm
 		 * @since 0.7.1.3
+		 * @uses add_filter()
+		 * @uses current_filter()
 		 * @return void
 		 */
-		public function registerEditMetaboxes() {
+		public static function registerEditMetaboxes() {
 			// The meta boxes do not need diplayed/registered if no action is being taken on an entry. Such as copy/edit.
-			if ( $_GET['page'] === 'connections_manage' &&  ! isset( $_GET['action'] ) )  return;
+			if ( $_GET['page'] === 'connections_manage' && ! isset( $_GET['action'] ) )  return;
 
 			$form = new cnFormObjects();
 
 			$form->registerEditMetaboxes( substr( current_filter(), 5 ) );
 
-			add_filter( 'screen_layout_columns', array( &$this, 'screenLayout' ), 10, 2 );
+			add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
 		}
 
 		/**
@@ -789,15 +816,17 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 *
 		 * Action added in connectionsLoad::adminInit
 		 *
+		 * @access private
 		 * @author Steven A. Zahm
 		 * @since 0.7.1.6
+		 * @uses add_filter()
 		 * @return void
 		 */
-		public function registerDashboardMetaboxes() {
+		public static function registerDashboardMetaboxes() {
 			$form = new cnFormObjects();
 			$form->registerDashboardMetaboxes();
 
-			add_filter( 'screen_layout_columns', array( &$this, 'screenLayout' ), 10, 2 );
+			add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
 		}
 
 		/**
@@ -805,14 +834,19 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 *
 		 * Filter added in connectionsLoad::registerEditMetaboxes
 		 *
+		 * @access private
 		 * @author Steven A. Zahm
 		 * @since 0.7.1.3
+		 * @param $columns (array)
+		 * @param $sceen (string)
 		 * @return array
 		 */
-		public function screenLayout( $columns, $screen ) {
-			$columns[$this->pageHook->dashboard] = 2;
-			$columns[$this->pageHook->manage] = 2;
-			$columns[$this->pageHook->add] = 2;
+		public static function screenLayout( $columns, $screen ) {
+			global $connections;
+
+			$columns[ $connections->pageHook->dashboard ] = 2;
+			$columns[ $connections->pageHook->manage ] = 2;
+			$columns[ $connections->pageHook->add ] = 2;
 
 			return $columns;
 		}

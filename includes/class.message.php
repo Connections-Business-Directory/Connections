@@ -145,16 +145,21 @@ class cnMessage extends WP_Error {
 		 * DB update message.
 		 */
 		$this->add( 'db_update_required', __( 'Connections database requires updating.', 'connections' ) . ' ' . '<a class=\"button\" href=\"admin.php?page=connections_manage\">' . __( 'START', 'connections' )  . '</a>' );
+
+		/*
+		 * Add any stored admin notices to the admin_notices action hook.
+		 */
+		self::display();
 	}
 
 	/**
 	 * Display the stored action/error messages.
 	 *
-	 * @access public
+	 * @access private
 	 * @since 0.7.5
 	 * @return (string) The action/error message created to match the admin notices style.
 	 */
-	public static function display() {
+	private static function display() {
 		global $connections;
 
 		// Bring a copy of this into scope.
@@ -165,25 +170,12 @@ class cnMessage extends WP_Error {
 		$messages = $connections->currentUser->getMessages();
 
 		if ( ! empty( $messages ) ) {
+
 			foreach ( $messages as $message ) {
+
 				foreach ( $message as $type => $code ) {
-					switch ( $type ) {
-						case 'error':
-							$output .= '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $instance->get_error_message( $code ) . '</p></div>';
-							break;
 
-						case 'error_runtime':
-							$output .= '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $code . '</p></div>';
-							break;
-
-						case 'success':
-							$output .= '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $instance->get_error_message( $code ) . '</p></div>';
-							break;
-
-						case 'success_runtime':
-							$output .= '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $code . '</p></div>';
-							break;
-					}
+					self::create( $type, $code );
 				}
 			}
 		}
@@ -198,9 +190,9 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access public
 	 * @since 0.7.5
-	 * @param  (string) $type The $type must be either "error" or "success".
+	 * @param  (string) $type The $type must be either "error" or "success" or "notice".
 	 * @param  (string) $message The message to be displayed. || A message code registered in self::init().
-	 * @return void
+	 * @return (string) The name of the lamda function.
 	 */
 	public static function create( $type , $message ) {
 
@@ -212,14 +204,25 @@ class cnMessage extends WP_Error {
 
 		switch ( $type ) {
 			case 'error':
-				add_action( 'admin_notices' , create_function( '' , 'echo "<div id=\"message\" class=\"error\"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>";' ) );
+				$lamda = create_function( '' , 'echo "<div id=\"message\" class=\"error\"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>";' );
 				break;
 
 			case 'success':
-				add_action( 'admin_notices' , create_function( '' , 'echo "<div id=\"message\" class=\"updated fade\"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>";' ) );
+				$lamda = create_function( '' , 'echo "<div id=\"message\" class=\"updated fade\"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>";' );
+				break;
+
+			case 'notice':
+				$lamda = create_function( '' , 'echo "<div id=\"message\" class=\"updated fade\"><p><strong>' . __( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>";' );
+				break;
+
+			default:
+				$lamda = create_function( '' , 'echo "<div id=\"message\" class=\"updated fade\"><p>' . $message . '</p></div>";' );
 				break;
 		}
 
+		add_action( 'admin_notices' , $lamda );
+
+		return $lamda;
 	}
 
 	/**
@@ -231,6 +234,12 @@ class cnMessage extends WP_Error {
 	 */
 	public static function render( $type, $message ) {
 
+		// Bring a copy of this into scope.
+		$instance = self::getInstance();
+
+		// Check to see if $message is one of the registered message codes and if it is, set $message to the actual message rather than the message code.
+		if ( 0 < strlen( $instance->get_error_message( $message ) ) ) $message = $instance->get_error_message( $message );
+
 		switch ( $type ) {
 			case 'error':
 				echo '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
@@ -238,6 +247,14 @@ class cnMessage extends WP_Error {
 
 			case 'success':
 				echo '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				break;
+
+			case 'notice':
+				echo '<div id="message" class="updated fade"><p><strong>' . __( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				break;
+
+			default:
+				echo '<div id="message" class="updated fade"><p>' . $message . '</p></div>';
 				break;
 		}
 
@@ -281,6 +298,11 @@ class cnMessage extends WP_Error {
 			case 'success':
 				// If the success message is slready stored, no need to store it twice.
 				if ( ! in_array( array( 'success' => $code ) , $messages ) ) $connections->currentUser->setMessage( array( 'success' => $code ) );
+				break;
+
+			case 'notice':
+				// If the notice message is slready stored, no need to store it twice.
+				if ( ! in_array( array( 'notice' => $code ) , $messages ) ) $connections->currentUser->setMessage( array( 'notice' => $code ) );
 				break;
 		}
 

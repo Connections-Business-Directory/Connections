@@ -205,6 +205,27 @@ class cnMessage extends WP_Error {
 	}
 
 	/**
+	 * Display an action/error message.
+	 *
+	 * @access public
+	 * @since 0.7.5
+	 * @return (string) The action/error message created to match the admin notices style.
+	 */
+	public static function render( $type, $message ) {
+
+		switch ( $type ) {
+			case 'error':
+				echo '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				break;
+
+			case 'success':
+				echo '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				break;
+		}
+
+	}
+
+	/**
 	 * Store a custom action/error message.
 	 *
 	 * @access public

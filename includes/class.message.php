@@ -23,6 +23,8 @@ class cnMessage extends WP_Error {
 	*/
 	private static $instance;
 
+	private static $id;
+
 	/**
 	 * A dummy constructor to prevent class from being loaded more than once.
 	 *
@@ -43,10 +45,26 @@ class cnMessage extends WP_Error {
 	 * @return object cnMessage
 	 */
 	public static function getInstance() {
+
 		if ( ! isset( self::$instance ) ) {
+
+			/*
+			 * Initiate an instance of the class.
+			 */
 			self::$instance = new self;
 			self::$instance->init();
+
+			/*
+			 * Setup the current user ID so messages can be stored to their user meta.
+			 */
+			self::setUserID();
+
+			/*
+			 * Add any stored admin notices to the admin_notices action hook.
+			 */
+			self::display();
 		}
+
 		return self::$instance;
 	}
 
@@ -146,10 +164,22 @@ class cnMessage extends WP_Error {
 		 */
 		$this->add( 'db_update_required', __( 'Connections database requires updating.', 'connections' ) . ' ' . '<a class=\"button\" href=\"admin.php?page=connections_manage\">' . __( 'START', 'connections' )  . '</a>' );
 
-		/*
-		 * Add any stored admin notices to the admin_notices action hook.
-		 */
-		self::display();
+	}
+
+	/**
+	 * Setup the current user ID.
+	 *
+	 * @return void
+	 */
+	private static function setUserID() {
+
+		if ( ! isset( self::$id ) ) {
+			// Setup the current user object
+			$current_user = wp_get_current_user();
+			self::$id = $current_user->ID;
+		}
+
+		return self::$id;
 	}
 
 	/**
@@ -160,14 +190,8 @@ class cnMessage extends WP_Error {
 	 * @return (string) The action/error message created to match the admin notices style.
 	 */
 	private static function display() {
-		global $connections;
 
-		// Bring a copy of this into scope.
-		$instance = self::getInstance();
-
-		$output = '';
-
-		$messages = $connections->currentUser->getMessages();
+		$messages = self::get();
 
 		if ( ! empty( $messages ) ) {
 
@@ -180,9 +204,7 @@ class cnMessage extends WP_Error {
 			}
 		}
 
-		$connections->currentUser->resetMessages();
-
-		echo $output;
+		self::reset();
 	}
 
 	/**
@@ -270,9 +292,8 @@ class cnMessage extends WP_Error {
 	 * @return void
 	 */
 	public static function runtime( $type , $message ) {
-		global $connections;
 
-		$connections->currentUser->setMessage( array( $type => $message ) );
+		self::store( array( $type => $message ) );
 	}
 
 	/**
@@ -280,32 +301,82 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access public
 	 * @since 0.7.5
-	 * @param (string) $type The $type must be either "error" or "success".
+	 * @param (string) $type The $type must be either "error" or "success" or "notice".
 	 * @param (string) $code The message code as registered in the constructor.
 	 * @return void
 	 */
 	public static function set( $type , $code ) {
-		global $connections;
 
-		$messages = $connections->currentUser->getMessages();
+		$messages = self::get();
 
 		switch ( $type ) {
 			case 'error':
 				// If the error message is already stored, no need to store it twice.
-				if ( ! in_array( array( 'error' => $code ) , $messages ) ) $connections->currentUser->setMessage( array( 'error' => $code ) );
+				if ( ! in_array( array( 'error' => $code ) , $messages ) ) self::store( array( 'error' => $code ) );
 				break;
 
 			case 'success':
 				// If the success message is slready stored, no need to store it twice.
-				if ( ! in_array( array( 'success' => $code ) , $messages ) ) $connections->currentUser->setMessage( array( 'success' => $code ) );
+				if ( ! in_array( array( 'success' => $code ) , $messages ) ) self::store( array( 'success' => $code ) );
 				break;
 
 			case 'notice':
 				// If the notice message is slready stored, no need to store it twice.
-				if ( ! in_array( array( 'notice' => $code ) , $messages ) ) $connections->currentUser->setMessage( array( 'notice' => $code ) );
+				if ( ! in_array( array( 'notice' => $code ) , $messages ) ) self::store( array( 'notice' => $code ) );
 				break;
 		}
 
+	}
+
+	/**
+	 * Store the message in the current user meta.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @param  (string) $message
+	 * @return void
+	 */
+	private static function store( $message ) {
+
+		$user_meta = get_user_meta( self::$id, __CLASS__, TRUE );
+
+		$user_meta['messages'][] = $message;
+
+		update_user_meta( self::$id, __CLASS__, $user_meta );
+	}
+
+	/**
+	 * Get the messages stored in the user meta.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return (array)
+	 */
+	private static function get() {
+
+		$user_meta = get_user_meta( self::$id, __CLASS__, TRUE );
+
+		if ( ! empty( $user_meta['messages'] ) ) {
+			return $user_meta['messages'];
+		} else {
+			return array();
+		}
+	}
+
+	/**
+	 * Remove any messages stored in the user meta.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @return void
+	 */
+	private static function reset() {
+
+		$user_meta = get_user_meta( self::$id, __CLASS__, TRUE );
+
+		if ( isset( $user_meta['messages']) ) unset( $user_meta['messages'] );
+
+		update_user_meta( self::$id, __CLASS__, $user_meta );
 	}
 
 }

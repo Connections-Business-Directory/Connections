@@ -637,7 +637,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			add_action( 'plugin_action_links_' . CN_BASE_NAME, array( __CLASS__, 'addActionLinks' ) );
 
 			// Add FAQ, Support and Donate links
-			add_filter( 'plugin_row_meta', array( $this, 'addMetaLinks' ), 10, 2 );
+			add_filter( 'plugin_row_meta', array( __CLASS__, 'addMetaLinks' ), 10, 2 );
 
 			// Add Changelog table row in the Manage Plugins admin page.
 			add_action( 'after_plugin_row_' . CN_BASE_NAME, array( $this, 'displayUpgradeNotice' ), 1, 0 );
@@ -1034,8 +1034,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			return array_merge( $new_links, $links );
 		}
 
-		// Add FAQ and support information
-		public function addMetaLinks( $links, $file ) {
+		/**
+		 * Add the links for premium templates, add-on plugins and support info.
+		 * @param (array) $links
+		 * @param (string) $file
+		 */
+		public static function addMetaLinks( $links, $file ) {
 			if ( $file == CN_BASE_NAME ) {
 				$links[] = '<a href="http://connections-pro.com/?page_id=29" target="_blank">' . __( 'Add-on Plugins', 'connections' ) . '</a>';
 				$links[] = '<a href="http://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';

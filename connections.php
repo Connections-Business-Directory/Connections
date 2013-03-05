@@ -618,7 +618,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * If the home page has not been set, nag the user to set it.
 			 */
 			$directoryHome = $connections->settings->get( 'connections', 'connections_home_page', 'page_id' );
-			if ( ! $directoryHome ) cnMessage::create( 'error', 'home_page_set_failed' );
+			if ( ! $directoryHome ) cnMessage::create( 'notice', 'home_page_set_failed' );
 
 			// Check if the db requires updating, display message if it does.
 			if ( version_compare( $connections->options->getDBVersion(), CN_DB_VERSION, '<' ) ) {
@@ -630,12 +630,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Add admin notices if required directories are not present or not writeable.
 			 */
-			if ( ! file_exists( CN_IMAGE_PATH ) ) cnMessage::create( 'error', 'image_path_exists_failed' );
-			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) cnMessage::create( 'error', 'image_path_writeable_failed' );
-			if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'error', 'template_path_exists_failed' );
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'error', 'template_path_writeable_failed' );
-			if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'error', 'cache_path_exists_failed' );
-			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'error', 'cache_path_writeable_failed' );
+			if ( ! file_exists( CN_IMAGE_PATH ) ) cnMessage::create( 'notice', 'image_path_exists_failed' );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) cnMessage::create( 'notice', 'image_path_writeable_failed' );
+			if ( ! file_exists( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_exists_failed' );
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && ! is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) cnMessage::create( 'notice', 'template_path_writeable_failed' );
+			if ( ! file_exists( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_exists_failed' );
+			if ( file_exists( CN_CACHE_PATH ) && ! is_writeable( CN_CACHE_PATH ) ) cnMessage::create( 'notice', 'cache_path_writeable_failed' );
 
 			// Calls the methods to load the admin scripts and CSS.
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueueAdminScripts' ) );

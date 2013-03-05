@@ -148,15 +148,15 @@ class cnOptions {
 	public function setAllowPublic( $loginRequired ) {
 		global $wp_roles;
 
-		if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
-
-		$currentRoles = $wp_roles->get_names();
-
 		if ( $loginRequired ) {
-			//$this->allowPublic = TRUE;
 
-			foreach ( $currentRoles as $role => $name ) {
-				$this->addCapability( $role, 'connections_view_public' );
+			if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
+
+			$roles = $wp_roles->get_names();
+
+			foreach ( $roles as $role => $name ) {
+
+				cnRole::add( $role, 'connections_view_public' );
 			}
 		}
 
@@ -185,143 +185,6 @@ class cnOptions {
 		global $connections;
 
 		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_private_override' ) ? TRUE : FALSE;
-	}
-
-	public function hasCapability( $role, $cap ) {
-		global $wp_roles;
-
-		/*
-		 * Check to make sure $wp_roles has been initialized and set.
-		 * If it hasn't it is initialized. This was done because this method
-		 * can be called before the $wp_roles has been initialized.
-		 */
-		if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
-
-		$wpRoleDataArray = $wp_roles->roles;
-		$wpRoleCaps = $wpRoleDataArray[$role]['capabilities'];
-		$wpRole = new WP_Role( $role, $wpRoleCaps );
-
-		return $wpRole->has_cap( $cap );
-	}
-
-	public function addCapability( $role, $cap ) {
-		global $wp_roles;
-
-		/*
-		 * Check to make sure $wp_roles has been initialized and set.
-		 * If it hasn't it is initialized. This was done because this method
-		 * can be called before the $wp_roles has been initialized.
-		 */
-		if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
-
-		//$wpRole = get_role($role);
-		if ( ! $this->hasCapability( $role, $cap ) ) $wp_roles->add_cap( $role, $cap );
-	}
-
-	public function removeCapability( $role, $cap ) {
-		global $wp_roles;
-
-		/*
-		 * Check to make sure $wp_roles has been initialized and set.
-		 * If it hasn't it is initialized. This was done because this method
-		 * can be called before the $wp_roles has been initialized.
-		 */
-		if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
-
-		//$wpRole = get_role($role);
-		if ( $this->hasCapability( $role, $cap ) ) $wp_roles->remove_cap( $role, $cap );
-	}
-
-	/**
-	 * Returns an array of the default capabilities.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return array
-	 */
-	public function getDefaultCapabilities() {
-		return array(
-			'connections_view_menu'            => __( 'View Admin Menu', 'connections' ),
-			'connections_view_dashboard'       => __( 'View Dashboard', 'connections' ),
-			'connections_manage'               => __( 'View List (Manage)', 'connections' ),
-			'connections_add_entry'            => __( 'Add Entry', 'connections' ),
-			'connections_add_entry_moderated'  => __( 'Add Entry Moderated', 'connections' ),
-			'connections_edit_entry'           => __( 'Edit Entry', 'connections' ),
-			'connections_edit_entry_moderated' => __( 'Edit Entry Moderated', 'connections' ),
-			'connections_delete_entry'         => __( 'Delete Entry', 'connections' ),
-			'connections_view_public'          => __( 'View Public Entries', 'connections' ),
-			'connections_view_private'         => __( 'View Private Entries', 'connections' ),
-			'connections_view_unlisted'        => __( 'View Unlisted Entries', 'connections' ),
-			'connections_edit_categories'      => __( 'Edit Categories', 'connections' ),
-			'connections_change_settings'      => __( 'Change Settings', 'connections' ),
-			'connections_manage_template'      => __( 'Manage Templates', 'connections' ),
-			'connections_change_roles'         => __( 'Change Role Capabilities', 'connections' )
-		);
-	}
-
-	/**
-	 * Reset all Connections' user role capabilities back to their default.
-	 * If a role has been supplied, that role will have its capabilities
-	 * reset to its defaults.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return void
-	 */
-	public function setDefaultCapabilities( $rolesToReset = NULL ) {
-		global $wp_roles;
-
-		/*
-		 * Check to make sure $wp_roles has been initialized and set.
-		 * If it hasn't it is initialized. This was done because this method
-		 * can be called before the $wp_roles has been initialized.
-		 */
-		if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
-
-		/**
-		 * These are the roles that will default to having full access
-		 * to all capabilites. This is to maintain plugin behavior that
-		 * exisited prior to adding role/capability support.
-		 */
-		$defaultRoles = array( 'administrator', 'editor', 'author' );
-
-		/**
-		 * If no roles are supplied to the method to reset; the method
-		 * will reset the capabilies of all roles defined.
-		 */
-		if ( ! isset( $rolesToReset ) ) $rolesToReset = $wp_roles->get_names();
-
-		foreach ( $rolesToReset as $role => $name ) {
-			$wpRole = get_role( $role );
-
-			if ( in_array( $role, $defaultRoles ) ) {
-				foreach ( $this->getDefaultCapabilities() as $cap => $name ) {
-					if ( !$this->hasCapability( $role, $cap ) ) $wpRole->add_cap( $cap );
-				}
-			}
-			else {
-				foreach ( $this->getDefaultCapabilities() as $cap => $name ) {
-					if ( $this->hasCapability( $role, $cap ) ) $wpRole->remove_cap( $cap );
-				}
-			}
-		}
-
-		// Make sure the capability to view public entries is set for all roles.
-		$this->setAllowPublic( TRUE );
-	}
-
-	public function removeDefaultCapabilities() {
-		global $wp_roles;
-
-		$rolesToReset = $wp_roles->get_names();
-
-		foreach ( $rolesToReset as $role => $name ) {
-			$wpRole = get_role( $role );
-
-			foreach ( $this->getDefaultCapabilities() as $cap => $name ) {
-				if ( $this->hasCapability( $role, $cap ) ) $wpRole->remove_cap( $cap );
-			}
-		}
 	}
 
 	/**

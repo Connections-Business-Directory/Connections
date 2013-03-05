@@ -79,7 +79,7 @@ function connectionsShowRolesPage() {
 			// the admininistrator should always have all capabilities
 			if ( $role == 'administrator' ) continue;
 
-			$capabilies = $connections->options->getDefaultCapabilities();
+			$capabilies = cnRole::capabilities();
 
 			echo '<div class="postbox">';
 
@@ -95,7 +95,7 @@ function connectionsShowRolesPage() {
 				echo '<input type="hidden" name="roles[' . $role . '][capabilities][' . $capability . ']" value="false" />';
 				echo '<input type="checkbox" id="' . $role . '_' . $capability . '" name="roles[' . $role . '][capabilities][' . $capability . ']" value="true" ';
 
-				if ( $connections->options->hasCapability( $role, $capability ) ) echo 'CHECKED ';
+				if ( cnRole::hasCapability( $role, $capability ) ) echo 'CHECKED ';
 				// the admininistrator should always have all capabilities
 				if ( $role == 'administrator' ) echo 'DISABLED ';
 				echo '/> ' . $capabilityName . '</label></span>' . "\n";

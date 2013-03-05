@@ -339,6 +339,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				// The class for handling admin notices.
 				require_once CN_PATH . 'includes/class.message.php';
+
+				// Class used for managing role capabilites.
+				require_once CN_PATH . 'includes/class.capabilities.php';
 			}
 
 		}
@@ -461,7 +464,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();
 
 			// @TODO: a version change should not reset the roles and capabilites.
-			$this->options->setDefaultCapabilities();
+			cnRole::reset();
 
 			// Increment the version number.
 			$this->options->setVersion( CN_CURRENT_VERSION );

@@ -547,7 +547,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			cnFileSystem::noIndexes( CN_IMAGE_PATH );
 			cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
-			$this->initOptions();
+			$connections->initOptions();
 
 			/*
 			 * Add the page rewrite rules.

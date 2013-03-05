@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 0.7.5
+Stable tag: 0.7.5.1
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,9 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.5.1 03/05/13 =
+* BUG: Removed reference to $this in a static method which would cause an error an activation.
 
 = 0.7.5 03/05/13 =
 * FEATURE: Use cnFileSystem to add a blank index.php and a .htaccess file with the no indexes option set for added security to both the images and custom templates folders.

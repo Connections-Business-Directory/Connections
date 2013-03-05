@@ -125,15 +125,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public $settings;
 
 		/**
-		 * An instance of the cnMessage class which extend the WP_Error class.
-		 *
-		 * @access public
-		 * @since 0.7.5
-		 * @var (object)
-		 */
-		public $message;
-
-		/**
 		 * Do the database upgrade.
 		 *
 		 * @var bool
@@ -608,9 +599,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public static function adminInit() {
 			global $connections;
 
-			// Initiate admin messages. @TODO I don't think I really need to init this and store it in global!!!
-			$connections->message = cnMessage::getInstance();
+			// Initiate admin messages.
+			new cnMessage();
 
+			// Initiate admin actions.
 			new cnAdminActions();
 
 			// If the user changed the base slugs for the permalinks, flush the rewrite rules.

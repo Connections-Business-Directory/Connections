@@ -42,7 +42,34 @@ class cnMessage extends WP_Error {
 	 * @see cnMessage::getInstance()
 	 * @see cnMessage();
 	 */
-	public function __construct() { /* Do nothing here */ }
+	public function __construct() {
+
+		if ( isset( self::$instance ) ) {
+
+			return self::$instance;
+
+		} else {
+
+			self::$instance = $this;
+
+		}
+
+		/*
+		 * Add the error codes and messages.
+		 */
+		self::$instance->init();
+
+		/*
+		 * Setup the current user ID so messages can be stored to their user meta.
+		 */
+		self::setUserID();
+
+		/*
+		 * Add any stored admin notices to the admin_notices action hook.
+		 */
+		self::display();
+
+	}
 
 	/**
 	 * Main cnMessage Instance.
@@ -55,25 +82,6 @@ class cnMessage extends WP_Error {
 	 */
 	public static function getInstance() {
 
-		if ( ! isset( self::$instance ) ) {
-
-			/*
-			 * Initiate an instance of the class.
-			 */
-			self::$instance = new self;
-			self::$instance->init();
-
-			/*
-			 * Setup the current user ID so messages can be stored to their user meta.
-			 */
-			self::setUserID();
-
-			/*
-			 * Add any stored admin notices to the admin_notices action hook.
-			 */
-			self::display();
-		}
-
 		return self::$instance;
 	}
 
@@ -84,7 +92,7 @@ class cnMessage extends WP_Error {
 	 * @since 0.7.5
 	 * @return void
 	 */
-	public function init() {
+	private function init() {
 
 		/**
 		 * Add the error messages.

@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 0.7.4.1
+Stable tag: 0.7.5
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,20 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.5 03/05/13 =
+* FEATURE: Use cnFileSystem to add a blank index.php and a .htaccess file with the no indexes option set for added security to both the images and custom templates folders.
+* BUG: Remove double slashing in path when including files.
+* BUG: The dashboard widgets were showing the character index and alpha head if they were turned on in the display settings.
+* OTHER: Add cnSchama class and move all table creation methods to it out of the main plugin file to reduce memory overhead.
+* OTHER: Add cnFileSystem class to handle folder and file creation.
+* OTHER: Add cnMessage class to handle all admin action/error messages. The class is initialized in the admin only to reduce user side memory overhead.
+* OTHER: Add cnRoles class to manage role capability assignments. This class is initialized in the admin only to reduce user side memory overhead.
+* OTHER: Add cnAdminAction class. This class will eventually process all admin actions such adding/editing an entry. For now it just processes any changes to the roles settings.
+* OTHER: Covert many of the core actions to static methods so the core plugin class doesn't have to be pass to actions/filters to reduces overall memory overhead.
+* OTHER: Move the sanitize methods to the cnSettings class from the cnOptions class.
+* OTHER: Code clean-up, remove unused and abandoned code to reduce memory overhead.
+* OTHER: Changed several of the admin error messages to admin notices.
 
 = 0.7.4.1 02/26/13 =
 * BUG: The visibility setting for addresses was not being obeyed.
@@ -733,4 +747,7 @@ NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrad
 
 = 0.7.4.1 =
 A permissions bug has been fixed.
+NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.5 =
 NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

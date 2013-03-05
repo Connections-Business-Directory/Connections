@@ -600,7 +600,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			global $connections;
 
 			// Initiate admin messages.
-			new cnMessage();
+			cnMessage::init();
 
 			// Initiate admin actions.
 			new cnAdminActions();

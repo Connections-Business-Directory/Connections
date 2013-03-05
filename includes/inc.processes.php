@@ -833,35 +833,3 @@ function processDeleteTemplate() {
 		$connections->setErrorMessage( 'template_delete_failed' );
 	}
 }
-
-function updateRoleSettings() {
-	global $connections, $wp_roles;
-
-	if ( isset( $_POST['roles'] ) ) {
-
-		// Cycle thru each role available because checkboxes do not report a value when not checked.
-		foreach ( $wp_roles->get_names() as $role => $name ) {
-
-			if ( ! isset( $_POST['roles'][ $role ] ) ) continue;
-
-			foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) {
-
-				// the admininistrator should always have all capabilities
-				if ( $role == 'administrator' ) continue;
-
-				if ( $grant == 'true' ) {
-					cnRole::add( $role, $capability );
-				} else {
-					cnRole::remove( $role, $capability );
-				}
-
-			}
-		}
-	}
-
-	if ( isset( $_POST['reset'] ) ) cnRole::reset( $_POST['reset'] );
-
-	if ( isset( $_POST['reset_all'] ) ) cnRole::reset();
-
-	$connections->setSuccessMessage( 'role_settings_updated' );
-}

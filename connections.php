@@ -342,6 +342,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				// Class used for managing role capabilites.
 				require_once CN_PATH . 'includes/class.capabilities.php';
+
+				// The class for processing admin actions.
+				require_once CN_PATH . 'includes/class.admin-actions.php';
 			}
 
 		}
@@ -605,8 +608,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public static function adminInit() {
 			global $connections;
 
-			// Initiate admin messages.
+			// Initiate admin messages. @TODO I don't think I really need to init this and store it in global!!!
 			$connections->message = cnMessage::getInstance();
+
+			new cnAdminActions();
 
 			// If the user changed the base slugs for the permalinks, flush the rewrite rules.
 			if ( get_option( 'connections_flush_rewrite' ) ) {
@@ -1490,23 +1495,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 					break;
 
-				case 'role':
-
-					/*
-					 * Check whether user can edit roles
-					 */
-					if ( current_user_can( 'connections_change_roles' ) ) {
-						if ( $_GET['action'] === 'update' ) {
-							check_admin_referer( $form->getNonce( 'update_role_settings' ), '_cn_wpnonce' );
-							updateRoleSettings();
-							wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_roles' ) );
-							exit();
-						}
-					} else {
-						$connections->setErrorMessage( 'capability_roles' );
-					}
-
-					break;
 			}
 		}
 

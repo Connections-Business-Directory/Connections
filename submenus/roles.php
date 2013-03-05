@@ -32,7 +32,7 @@ function connectionsShowRolesPage() {
 
 			<?php
 		$attr = array(
-			'action' => 'admin.php?connections_process=true&process=role&action=update',
+			'action' => '',
 			'method' => 'post',
 		);
 
@@ -59,6 +59,7 @@ function connectionsShowRolesPage() {
 
 							<div id="major-publishing-actions">
 								<div id="publishing-action">
+									<input type="hidden" name="cn-action" value="update_role_settings"/>
 									<input class="button-primary" type="submit" value="<?php _e( 'Update', 'connections' ); ?>" name="save" />
 								</div>
 								<div class="clear"></div>

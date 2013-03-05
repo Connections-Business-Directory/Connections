@@ -17,12 +17,21 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnMessage extends WP_Error {
 
 	/**
+	 * Stores the instance of this class.
+	 *
 	 * @access private
 	 * @since 0.7.5
-	 * @var (object) cnMessage stores an instance of this class.
+	 * @var (object)
 	*/
 	private static $instance;
 
+	/**
+	 * The current user ID.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @var (int)
+	 */
 	private static $id;
 
 	/**

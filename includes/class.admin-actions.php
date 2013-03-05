@@ -25,26 +25,33 @@ class cnAdminActions {
 	private static $instance;
 
 	/**
+	 * A dummy constructor to prevent the class from being loaded more than once.
+	 *
+	 * @access public
+	 * @since 0.7.5
+	 * @see cnAdminActions::init()
+	 * @see cnAdminActions();
+	 */
+	public function __construct() { /* Do nothing here */ }
+
+	/**
 	 * Setup the class, if it has already been initialized, return the intialized instance.
 	 *
-	 * @access private
+	 * @access public
 	 * @since 0.7.5
 	 * @see cnAdminActions()
 	 */
-	public function __construct() {
+	public static function init() {
 
-		if ( isset( self::$instance ) ) {
+		if ( ! isset( self::$instance ) ) {
 
-			return self::$instance;
+			self::$instance = new self;
 
-		} else {
-
-			self::$instance = $this;
+			self::registerActions();
+			self::doActions();
 
 		}
 
-		self::registerActions();
-		self::doActions();
 	}
 
 	/**

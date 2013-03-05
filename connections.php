@@ -603,7 +603,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			cnMessage::init();
 
 			// Initiate admin actions.
-			new cnAdminActions();
+			cnAdminActions::init();
 
 			// If the user changed the base slugs for the permalinks, flush the rewrite rules.
 			if ( get_option( 'connections_flush_rewrite' ) ) {

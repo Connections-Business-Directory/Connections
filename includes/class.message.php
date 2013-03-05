@@ -71,6 +71,7 @@ class cnMessage extends WP_Error {
 	/**
 	 * Add all the predefined action/error messages to the WP_Error class.
 	 *
+	 * @access private
 	 * @since 0.7.5
 	 * @return void
 	 */
@@ -169,6 +170,9 @@ class cnMessage extends WP_Error {
 	/**
 	 * Setup the current user ID.
 	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @uses wp_get_current_user()
 	 * @return void
 	 */
 	private static function setUserID() {
@@ -212,6 +216,7 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access public
 	 * @since 0.7.5
+	 * @uses add_action()
 	 * @param  (string) $type The $type must be either "error" or "success" or "notice".
 	 * @param  (string) $message The message to be displayed. || A message code registered in self::init().
 	 * @return (string) The name of the lamda function.

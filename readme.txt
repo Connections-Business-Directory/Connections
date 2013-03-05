@@ -83,7 +83,7 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 == Changelog ==
 
 = 0.7.5.1 03/05/13 =
-* BUG: Removed reference to $this in a static method which would cause an error an activation.
+* BUG: Removed reference to $this in a static method which would cause on error an activation.
 
 = 0.7.5 03/05/13 =
 * FEATURE: Use cnFileSystem to add a blank index.php and a .htaccess file with the no indexes option set for added security to both the images and custom templates folders.

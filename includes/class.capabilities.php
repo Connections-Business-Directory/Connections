@@ -4,7 +4,7 @@
  * Class for registering and manageing the capabilities for Connections.
  *
  * @package     Connections
- * @subpackage  Role
+ * @subpackage  Roles
  * @extends		WP_Roles
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License

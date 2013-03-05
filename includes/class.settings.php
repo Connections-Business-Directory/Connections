@@ -265,7 +265,7 @@ class cnRegisterSettings
 			'help'              => '',
 			'type'              => 'checkbox',
 			'default'           => 0,
-			'sanitize_callback' => array( &$connections->options , 'setAllowPublic' )
+			'sanitize_callback' => array( 'cnRegisterSettings' , 'setAllowPublic' ) // Only need to add this once on this tab, otherwise it would be run for each field.
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -921,6 +921,33 @@ class cnRegisterSettings
 	    }
 
 	    return $options;
+	}
+
+	/**
+	 * Callback for the "Login Required" settings field.
+	 * This ensure all roles are set to have the connections_view_public
+	 * capability to ensures all roles can at least view the public entries.
+	 *
+	 * @access private
+	 * @since 0.7.3
+	 * @return int
+	 */
+	public static function setAllowPublic( $loginRequired ) {
+		global $wp_roles;
+
+		if ( $loginRequired ) {
+
+			if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
+
+			$roles = $wp_roles->get_names();
+
+			foreach ( $roles as $role => $name ) {
+
+				cnRole::add( $role, 'connections_view_public' );
+			}
+		}
+
+		return $loginRequired;
 	}
 
 	/**

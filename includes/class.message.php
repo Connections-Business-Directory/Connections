@@ -35,7 +35,7 @@ class cnMessage extends WP_Error {
 	private static $id;
 
 	/**
-	 * A dummy constructor to prevent class from being loaded more than once.
+	 * Setup the class, if it has already been initialized, return the intialized instance.
 	 *
 	 * @access private
 	 * @since 0.7.5
@@ -72,9 +72,7 @@ class cnMessage extends WP_Error {
 	}
 
 	/**
-	 * Main cnMessage Instance.
-	 *
-	 * Insures that only one instance of cnMessage exists at any one time.
+	 * Return an instance of the class.
 	 *
 	 * @access public
 	 * @since 0.7.5

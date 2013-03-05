@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for admin action.
+ * Class for processing admin action.
  *
  * @package     Connections
  * @subpackage  Admin Actions
@@ -29,8 +29,7 @@ class cnAdminActions {
 	 *
 	 * @access private
 	 * @since 0.7.5
-	 * @see cnMessage::getInstance()
-	 * @see cnMessage();
+	 * @see cnAdminActions()
 	 */
 	public function __construct() {
 
@@ -60,10 +59,26 @@ class cnAdminActions {
 		return self::$instance;
 	}
 
+	/**
+	 * Register admin actions.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @uses add_action()
+	 * @return void
+	 */
 	private static function registerActions() {
 		add_action( 'update_role_settings', array( __CLASS__, 'updateRoleSettings' ) );
 	}
 
+	/**
+	 * Run admin actions.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @uses do_action()
+	 * @return void
+	 */
 	private static function doActions() {
 
 		if ( isset( $_POST['cn-action'] ) ) {
@@ -75,6 +90,18 @@ class cnAdminActions {
 		}
 	}
 
+	/**
+	 * Update the role settings.
+	 *
+	 * @access private
+	 * @since 0.7.5
+	 * @uses current_user_can()
+	 * @uses check_admin_referer()
+	 * @uses wp_redirect()
+	 * @uses get_admin_url()
+	 * @uses get_current_blog_id()
+	 * @return void
+	 */
 	public static function updateRoleSettings() {
 		global $wp_roles;
 

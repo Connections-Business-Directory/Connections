@@ -69,6 +69,15 @@ function connectionsView( $atts , $content = NULL ) {
 
 			break;
 
+		// Show the "View All" result list using the "Names" template.
+		case 'all':
+
+			$atts['template'] = 'names';
+
+			return connectionsList( $atts, $content );
+
+			break;
+
 		// Show the entry detail using a template based on the entry type.
 		case 'detail':
 

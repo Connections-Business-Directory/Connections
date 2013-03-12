@@ -891,7 +891,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * require it.
 			 */
 			if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
-				wp_register_script( 'cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+				if ( ! is_ssl() ) wp_register_script( 'cn-google-maps-api', 'http://maps.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+				if ( is_ssl() ) wp_register_script( 'cn-google-maps-api', 'https://maps-api-ssl.google.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+
+
 				wp_register_script( 'jquery-gomap-min', CN_URL . "js/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
 				wp_register_script( 'jquery-markerclusterer', CN_URL . "js/jquery.markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 			} else {

@@ -196,7 +196,7 @@ function connectionsShowTemplatesPage() {
 											if ( ! empty( $thumbnail['name'] ) ) {
 												echo '<div class="center-thumbnail"><img class="template-thumbnail" src="' , $thumbnail['url'] , '" width="300" height="225"></div>';
 											} else {
-												echo '<div class="center-thumbnail"><div class="template-thumbnail-none" style="width: 300px; height: 225px">' , __( 'Thumbnail Not Available', 'connections' ) , '</div></div>';
+												echo '<div class="center-thumbnail"><div class="template-thumbnail-none" style="width: 300px; height: 225px"><p>' , __( 'Thumbnail Not Available', 'connections' ) , '</p></div></div>';
 											}
 										}
 

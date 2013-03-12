@@ -333,6 +333,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Load the Connections core settings admin page tabs, section and fields using the WordPress Settings API.
 			require_once CN_PATH . 'includes/class.settings.php';
 
+			// Load the included templates that use the templates API introduced in 0.7.6
+			include_once CN_PATH . 'templates/names/names.php';
+
 			if ( is_admin() ) {
 				/*
 				 * Include the Screen Options class by Janis Elsts
@@ -370,6 +373,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Register all valid query variables.
 			cnRewrite::init();
+
+			// Init the included templates that use the API introduced in 0.7.6
+			add_action( 'plugins_loaded', array( 'cnNames', 'init' ), 11 );
 
 			// Init the options if there is a version change just in case there were any changes.
 			if ( version_compare( $this->options->getVersion() , CN_CURRENT_VERSION ) < 0 ) $this->initOptions();

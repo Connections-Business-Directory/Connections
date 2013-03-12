@@ -215,6 +215,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				add_action( 'template_redirect' , array( $connections, 'frontendActions' ) );
 			}
 
+			add_action( 'wp_print_scripts', array( __CLASS__, 'jQueryFixr' ), 9999 );
+
 		}
 
 		private function defineConstants() {
@@ -1032,6 +1034,22 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 */
 
 			wp_enqueue_script( 'cn-ui' );
+		}
+
+		/**
+		 * Attempt to re-register the bundled version of jQuery
+		 *
+		 * @access private
+		 * @since 0.7.6
+		 * @return (void)
+		 */
+		public static function jQueryFixr() {
+			global $connections;
+
+			if ( ! $connections->settings->get( 'connections', 'connections_compatibility', 'jquery' ) ) return;
+
+			wp_deregister_script( 'jquery' );
+			wp_register_script( 'jquery', '/wp-includes/js/jquery/jquery.js' );
 		}
 
 		/**

@@ -921,6 +921,19 @@ class cnRegisterSettings
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'jquery',
+			'position'  => 40,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_compatibility',
+			'title'     => 'jQuery',
+			'desc'      => __('Themes and plugins sometimes load a version of jQuery that is not bundled with WordPress. This is generally considered bad practice which can result in breaking plugins. Enabling this option will attempt to fix this issue. You should only enable this option at the direction of support.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'debug_messages',
 			'position'  => 10,
 			'page_hook' => $settings,

@@ -142,7 +142,7 @@ function connectionsList($atts, $content = NULL) {
 	$format =& $convert;
 	$filterRegistry = array();
 
-	$template =& $connections->template;
+	// $template =& $connections->template;
 
 	$previousLetter = '';
 	$alternate = '';
@@ -192,18 +192,25 @@ function connectionsList($atts, $content = NULL) {
 		$preLoadAtts['template_name'] = NULL;
 	}
 
+	/*
+	 * If a list type was specified in the shortcode, load the template based on that type.
+	 * However, if a specific template was specifed, that should preempt the template to be loaded based on the list type if it was specified..
+	 */
 	if ( ! empty( $preLoadAtts['template'] ) ) {
-		$template->load($preLoadAtts['template']);
+		$template = cnTemplateFactory::getTemplate( $preLoadAtts['template'] );
 	} else {
-		$template->init( $connections->options->getActiveTemplate( $templateType ) );
+		$templateSlug = $connections->options->getActiveTemplate( $templateType );
+		$template = cnTemplateFactory::getTemplate( $templateSlug, $templateType );
 	}
-
-
 	//$out .= '<pre style="display: none;">' . print_r($template , TRUE) . '</pre>';
 
 	// If no template was found, exit return an error message.
-	if ( ! isset( $template->file ) || empty( $template->file ) || ! is_file( $template->file ) )
+	if ( $template == FALSE )
 		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $preLoadAtts['template_name'] . $preLoadAtts['template'] ). "</p>";
+
+	do_action( 'cn_register_template_actions' );
+	do_action( 'cn_action_include_once-' . $template->getSlug() );
+	do_action( 'cn_action_js-' . $template->getSlug() );
 
 	/*
 	 * Now that the template has been loaded, Validate the user supplied shortcode atts.
@@ -246,14 +253,14 @@ function connectionsList($atts, $content = NULL) {
 	);
 
 	$permittedAtts = apply_filters( 'cn_list_atts_permitted' , $permittedAtts );
-	$permittedAtts = apply_filters( 'cn_list_atts_permitted-' . $template->slug , $permittedAtts );
+	$permittedAtts = apply_filters( 'cn_list_atts_permitted-' . $template->getSlug() , $permittedAtts );
 
 	$atts = shortcode_atts( $permittedAtts , $atts ) ;
 	//$out .= print_r($atts, TRUE);
 	//$out .= var_dump($atts);
 
 	$atts = apply_filters( 'cn_list_atts' , $atts );
-	$atts = apply_filters( 'cn_list_atts-' . $template->slug , $atts );
+	$atts = apply_filters( 'cn_list_atts-' . $template->getSlug() , $atts );
 	//$filterRegistry[] = 'cn_list_atts-' . $template->slug;
 
 	/*
@@ -283,18 +290,21 @@ function connectionsList($atts, $content = NULL) {
 	$atts['category_name'] = html_entity_decode( $atts['category_name'] );
 
 	$atts = apply_filters('cn_list_retrieve_atts' , $atts );
-	$atts = apply_filters('cn_list_retrieve_atts-' . $template->slug , $atts );
+	$atts = apply_filters('cn_list_retrieve_atts-' . $template->getSlug() , $atts );
 
 	$results = $connections->retrieve->entries( $atts );
 	//$out .= print_r($connections->lastQuery , TRUE);
 	//$out .= print_r($results , TRUE);
 
 	if ( ! empty( $results ) ) $results = apply_filters( 'cn_list_results', $results );
-	if ( ! empty( $results ) ) $results = apply_filters( 'cn_list_results-' . $template->slug , $results );
-	if ( ! empty( $results ) ) $filterRegistry[] = 'cn_list_results-' . $template->slug;
+	if ( ! empty( $results ) ) $results = apply_filters( 'cn_list_results-' . $template->getSlug() , $results );
+	if ( ! empty( $results ) ) $filterRegistry[] = 'cn_list_results-' . $template->getSlug();
 
 	// Prints the template's CSS file.
-	if ( method_exists( $template, 'printCSS' ) ) $out .= $template->printCSS();
+	ob_start();
+		do_action( 'cn_action_css-' . $template->getSlug() );
+		$out .= ob_get_contents();
+	ob_end_clean();
 
 	// The return to top anchor
 	$out .= '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>';
@@ -304,25 +314,25 @@ function connectionsList($atts, $content = NULL) {
 		$connections->options->getDBVersion() . '"' .
 		( ( empty($atts['width']) ) ? '' : ' style="width: ' . $atts['width'] . 'px;"' ) . '>' . "\n";
 
-		$out .= "\n" . '<div class="cn-template cn-' . $template->slug . '" id="cn-' . $template->slug . '" data-template-version="' . $template->version . '">' . "\n";
+		$out .= "\n" . '<div class="cn-template cn-' . $template->getSlug() . '" id="cn-' . $template->getSlug() . '" data-template-version="' . $template->getVersion() . '">' . "\n";
 
 			$out .= "\n" . '<div class="cn-list-head cn-clear" id="cn-list-head">' . "\n";
 
 				ob_start();
 					do_action( 'cn_action_list_before' , $results );
-					do_action( 'cn_action_list_before-' . $template->slug , $results );
-					$filterRegistry[] = 'cn_action_list_before-' . $template->slug;
+					do_action( 'cn_action_list_before-' . $template->getSlug() , $results );
+					$filterRegistry[] = 'cn_action_list_before-' . $template->getSlug();
 
 					do_action( 'cn_action_list_both' , $results  );
-					do_action( 'cn_action_list_both-' . $template->slug , $results );
-					$filterRegistry[] = 'cn_action_list_both-' . $template->slug;
+					do_action( 'cn_action_list_both-' . $template->getSlug() , $results );
+					$filterRegistry[] = 'cn_action_list_both-' . $template->getSlug();
 
 					$out .= ob_get_contents();
 				ob_end_clean();
 
 				$out .= apply_filters( 'cn_list_before' , '' , $results );
-				$out .= apply_filters( 'cn_list_before-' . $template->slug , '' , $results );
-				$filterRegistry[] = 'cn_list_before-' . $template->slug;
+				$out .= apply_filters( 'cn_list_before-' . $template->getSlug() , '' , $results );
+				$filterRegistry[] = 'cn_list_before-' . $template->getSlug();
 
 				/*
 				 * The alpha index is only displayed if set set to true and not set to repeat using the shortcode attributes.
@@ -331,8 +341,8 @@ function connectionsList($atts, $content = NULL) {
 				if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
 					$index = "\n" . '<div class="cn-alphaindex">' . $form->buildAlphaIndex(). '</div>' . "\n";
 					$index = apply_filters( 'cn_list_index' , $index , $results );
-					$index = apply_filters( 'cn_list_index-' . $template->slug , $index , $results );
-					$filterRegistry[] = 'cn_list_index-' . $template->slug;
+					$index = apply_filters( 'cn_list_index-' . $template->getSlug() , $index , $results );
+					$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
 
 					$out .= $index;
 				}
@@ -344,8 +354,8 @@ function connectionsList($atts, $content = NULL) {
 			// If there are no results no need to proceed and output message.
 			if ( empty( $results ) ) {
 				$noResultMessage = apply_filters( 'cn_list_no_result_message' , __('No results.', 'connections') );
-				$noResultMessage = apply_filters( 'cn_list_no_result_message-' . $template->slug , __('No results.', 'connections') );
-				$filterRegistry[] = 'cn_list_no_result_message-' . $template->slug;
+				$noResultMessage = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , __('No results.', 'connections') );
+				$filterRegistry[] = 'cn_list_no_result_message-' . $template->getSlug();
 
 				$out .=  "\n" . '<p class="cn-list-no-results">' . $noResultMessage . '</p>' . "\n";
 			} else {
@@ -388,8 +398,8 @@ function connectionsList($atts, $content = NULL) {
 
 							$repeatIndex = "\n" . '<div class="cn-alphaindex">' . $form->buildAlphaIndex() . '</div>' . "\n";
 							$repeatIndex = apply_filters( 'cn_list_index' , $repeatIndex , $results );
-							$repeatIndex = apply_filters( 'cn_list_index-' . $template->slug , $repeatIndex , $results );
-							$filterRegistry[] = 'cn_list_index-' . $template->slug;
+							$repeatIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $repeatIndex , $results );
+							$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
 						}
 
 						if ( $atts['show_alphahead'] ) $setAnchor .= "\n" . '<h4 class="cn-alphahead">' . $currentLetter . '</h4>' . "\n";
@@ -410,17 +420,17 @@ function connectionsList($atts, $content = NULL) {
 					$out .= "\n" . '<div class="cn-list-row' . $alternate . ' vcard ' . $entry->getEntryType() . ' ' . $entry->getCategoryClass(TRUE) . '" id="' . $entry->getSlug() . '">' . "\n";
 
 						$out .= apply_filters( 'cn_list_entry_before' , '' , $entry );
-						$out .= apply_filters( 'cn_list_entry_before-' . $template->slug , '' , $entry );
-						$filterRegistry[] = 'cn_list_entry_before-' . $template->slug;
+						$out .= apply_filters( 'cn_list_entry_before-' . $template->getSlug() , '' , $entry );
+						$filterRegistry[] = 'cn_list_entry_before-' . $template->getSlug();
 
 						ob_start();
-							include( $template->file );
-						    $out .= ob_get_contents();
+							do_action( 'cn_action_card-' . $template->getSlug(), $entry, $content, $template, $atts, $connections, $vCard );
+							$out .= ob_get_contents();
 					    ob_end_clean();
 
 						$out .= apply_filters( 'cn_list_entry_after' , '' , $entry );
-						$out .= apply_filters( 'cn_list_entry_after-' . $template->slug , '' , $entry );
-						$filterRegistry[] = 'cn_list_entry_after-' . $template->slug;
+						$out .= apply_filters( 'cn_list_entry_after-' . $template->getSlug() , '' , $entry );
+						$filterRegistry[] = 'cn_list_entry_after-' . $template->getSlug();
 
 					$out .= "\n" . '</div>' . "\n";
 
@@ -432,17 +442,17 @@ function connectionsList($atts, $content = NULL) {
 			$out .= "\n" . '<div class="cn-clear" id="cn-list-foot">' . "\n";
 
 				$out .= apply_filters( 'cn_list_after' , '' , $results );
-				$out .= apply_filters( 'cn_list_after-' . $template->slug , '' , $results );
-				$filterRegistry[] = 'cn_list_after-' . $template->slug;
+				$out .= apply_filters( 'cn_list_after-' . $template->getSlug() , '' , $results );
+				$filterRegistry[] = 'cn_list_after-' . $template->getSlug();
 
 				ob_start();
 					do_action( 'cn_action_list_after' , $results );
-					do_action( 'cn_action_list_after-' . $template->slug , $results );
-					$filterRegistry[] = 'cn_action_list_after-' . $template->slug;
+					do_action( 'cn_action_list_after-' . $template->getSlug() , $results );
+					$filterRegistry[] = 'cn_action_list_after-' . $template->getSlug();
 
 					do_action( 'cn_action_list_both' , $results  );
-					do_action( 'cn_action_list_both-' . $template->slug , $results );
-					$filterRegistry[] = 'cn_action_list_both-' . $template->slug;
+					do_action( 'cn_action_list_both-' . $template->getSlug() , $results );
+					$filterRegistry[] = 'cn_action_list_both-' . $template->getSlug();
 
 					$out .= ob_get_contents();
 				ob_end_clean();
@@ -453,7 +463,7 @@ function connectionsList($atts, $content = NULL) {
 
 	$out .= "\n" . '</div>' . "\n";
 
-	$template->reset();
+	// $template->reset();
 
 	/*
 	 * Remove any filters a template may have added
@@ -464,6 +474,10 @@ function connectionsList($atts, $content = NULL) {
 	foreach ( $filterRegistry as $filter ) {
 		if ( isset( $wp_filter[ $filter ] ) ) unset( $wp_filter[ $filter ] );
 	}
+
+	$search = array( "\r\n", "\r", "\n", "\t" );
+	$replace = array( '', '', '', '' );
+	$out = str_replace( $search , $replace , $out );
 
 	return $out;
 }
@@ -487,7 +501,7 @@ add_shortcode( 'upcoming_list', '_upcoming_list' );
 function _upcoming_list( $atts, $content = NULL ) {
     global $connections, $wpdb;
 
-	$template = new cnTemplate();
+	// $template =& $connections->template;
 	$convert = new cnFormatting();
 	$out = '';
 	$alternate = '';
@@ -513,15 +527,24 @@ function _upcoming_list( $atts, $content = NULL ) {
 	$convert->toBoolean( $atts['repeat_alphaindex'] );
 	$convert->toBoolean( $atts['show_title'] );
 
+	/*
+	 * If a list type was specified in the shortcode, load the template based on that type.
+	 * However, if a specific template was specifed, that should preempt the template to be loaded based on the list type if it was specified..
+	 */
 	if ( ! empty( $atts['template'] ) ) {
-		$template->load( $atts['template'] );
+		$template = cnTemplateFactory::getTemplate( $atts['template'] );
 	} else {
-		$template->init( $connections->options->getActiveTemplate( $atts['list_type'] ) );
+		$templateSlug = $connections->options->getActiveTemplate( $atts['list_type'] );
+		$template = cnTemplateFactory::getTemplate( $templateSlug, $atts['list_type'] );
 	}
 
 	// No template found retuen error message.
-	if ( ! isset( $template->file ) || empty( $template->file ) )
+	if ( $template == FALSE )
 		return '<p style="color:red; font-weight:bold; text-align:center;>' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . "</p>";
+
+	do_action( 'cn_register_template_actions' );
+	do_action( 'cn_action_include_once-' . $template->getSlug() );
+	do_action( 'cn_action_js-' . $template->getSlug() );
 
 	/*
 	 * Set the query vars and run query.
@@ -610,7 +633,7 @@ function _upcoming_list( $atts, $content = NULL ) {
 
 		$out .= '<div class="connections-list cn-upcoming cn-' . $atts['list_type'] . '" id="cn-list" data-connections-version="' . $connections->options->getVersion() . '-' . $connections->options->getDBVersion() . '">' . "\n";
 
-			$out .= "\n" . '<div class="cn-template cn-' . $template->slug . '" id="cn-' . $template->slug . '">' . "\n";
+			$out .= "\n" . '<div class="cn-template cn-' . $template->getSlug() . '" id="cn-' . $template->getSlug() . '">' . "\n";
 
 				$out .= "\n" . '<div class="cn-clear" id="cn-list-head">' . "\n";
 					if ( $atts['show_title'] ) $out .= '<div class="cn-upcoming-title">' . $list_title  . '</div>';
@@ -636,7 +659,7 @@ function _upcoming_list( $atts, $content = NULL ) {
 
 						$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
 							ob_start();
-							include($template->file);
+							do_action( 'cn_action_card-' . $template->getSlug(), $entry, $content, $template, $atts, $connections, $vCard );
 						    $out .= ob_get_contents();
 						    ob_end_clean();
 						$out .= '</div>' . "\n";

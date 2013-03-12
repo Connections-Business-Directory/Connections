@@ -111,6 +111,10 @@ function connectionsShowTemplatesPage() {
 				</tbody>
 			</table>
 
+			<?php
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+			?>
+
 			<table cellspacing="0" cellpadding="0" id="installthemes">
 				<tbody>
 					<tr>
@@ -140,6 +144,10 @@ function connectionsShowTemplatesPage() {
 					</tr>
 				</tbody>
 			</table>
+
+			<?php
+			}
+			?>
 
 			<table cellspacing="0" cellpadding="0" id="availablethemes">
 				<tbody>

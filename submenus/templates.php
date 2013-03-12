@@ -1,5 +1,6 @@
 <?php
 function connectionsShowTemplatesPage() {
+
 	/*
 	 * Check whether user can edit Settings
 	 */
@@ -16,20 +17,15 @@ function connectionsShowTemplatesPage() {
 				padding:1em 2em;
 				text-align:center;
 				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
-	}
-	else {
+	} else {
 		global $connections;
 
 		$form = new cnFormObjects();
 
-		$tmplt = new cnTemplate();
-		$tmplt->buildCatalog();
+		$type = isset( $_GET['type'] ) ? esc_attr( $_GET['type'] ) : 'all';
+		$template = cnTemplateFactory::getCatalog( $type );
 
-		( !isset( $_GET['type'] ) ) ? $type = 'all' : $type = esc_attr( $_GET['type'] );
-		$templates = $tmplt->getCatalog( $type );
-
-		$connections->displayMessages();
-?>
+	?>
 		<div class="wrap">
 			<?php echo get_screen_icon( 'connections' ); ?>
 
@@ -54,33 +50,39 @@ function connectionsShowTemplatesPage() {
 
 							<div id="current-template">
 								<?php
-		$currentTemplate = $connections->options->getActiveTemplate( $type );
-		//print_r($currentTemplate);
-		if ( ! empty( $currentTemplate ) && is_dir( $currentTemplate->path ) ) {
-			$author = '';
+									$slug = $connections->options->getActiveTemplate( $type );
 
-			if ( isset( $currentTemplate->thumbnailPath ) ) {
-				echo '<div class="current-template"><img class="template-thumbnail" src="' . $currentTemplate->thumbnailURL . '" /></div>';
-			}
+									$activeTemplate = cnTemplateFactory::getTemplate( $slug );
+									// var_dump( $activeTemplate );
 
-			if ( isset( $currentTemplate->uri ) ) {
-				$author = '<a title="' . __( "Visit author's homepage.", 'connections' ) . '" href="' . esc_attr( $currentTemplate->uri ) . '">' . esc_attr( $currentTemplate->author ) . '</a>';
-			}
-			else {
-				$author = esc_attr( $currentTemplate->author );
-			}
+									if ( $activeTemplate ) {
 
-			echo '<h3>', esc_attr( $currentTemplate->name ), ' ', esc_attr( $currentTemplate->version ), ' by ', $author, '</h3>';
-			echo '<p class="theme-description">', esc_attr( $currentTemplate->description ), '</p>';
+										if ( $activeTemplate->getThumbnail() ) {
 
-			// Remove the current template so it does not show in the available templates.
-			unset( $templates->{$currentTemplate->slug} );
-		}
-		else {
-			echo '<h3 class="error"> Template ' , esc_attr( $currentTemplate->name ) , ' can not be found.</h3>';
-			echo '<p class="theme-description error">Path ', esc_attr( $currentTemplate->path ), ' can not be located.</p>';
-		}
-?>
+											$thumbnail = $activeTemplate->getThumbnail();
+
+											if ( ! empty( $thumbnail['name'] ) ) {
+												echo '<div class="center-thumbnail"><img class="template-thumbnail" src="' , $thumbnail['url'] , '" /></div>';
+											} else {
+												echo '<div class="center-thumbnail"><div class="template-thumbnail-none">' , __( 'Thumbnail Not Available', 'connections' ) , '</div></div>';
+											}
+										}
+
+										if ( $activeTemplate->getAuthorURL() ) {
+											$author = '<a title="' . __( 'Visit author\'s homepage.', 'connections' ) . '" href="' . $activeTemplate->getAuthorURL() . '">' . $activeTemplate->getAuthor() . '</a>';
+										} else {
+											$author = $activeTemplate->getAuthor();
+										}
+
+										echo '<h3>', $activeTemplate->getName() , ' ' , $activeTemplate->getVersion() , ' by ' , $author, '</h3>';
+										echo '<p class="theme-description">', $activeTemplate->getDescription() , '</p>';
+
+										// Remove the current template so it does not show in the available templates.
+										unset( $template->{ $activeTemplate->getSlug() } );
+									} else {
+										echo '<h3 class="error"> Template ' , esc_attr( $slug ) , ' can not be found.</h3>';
+									}
+							?>
 							</div>
 							<div class="clear"></div>
 						</td>
@@ -116,21 +118,21 @@ function connectionsShowTemplatesPage() {
 							<h2><?php _e( 'Install Template', 'connections' ); ?></h2>
 
 							<?php
-		$formAttr = array(
-			'action' => 'admin.php?connections_process=true&process=template&type=' . $type . '&action=install',
-			'method' => 'post',
-			'enctype' => 'multipart/form-data'
-		);
+									$formAttr = array(
+										'action' => 'admin.php?connections_process=true&process=template&type=' . $type . '&action=install',
+										'method' => 'post',
+										'enctype' => 'multipart/form-data'
+									);
 
-		$form->open( $formAttr );
-		$form->tokenField( 'install_template' );
-?>
+									$form->open( $formAttr );
+									$form->tokenField( 'install_template' );
+							?>
 
 							<p>
-								<label for='template'>Select Template:
+								<label for='template'><?php _e( 'Select Template:', 'connections' ); ?>
 									<input type='file' value='' name='template' size='25' />
 								</label>
-								<input type="submit" value="Install Now" class="button">
+								<input type="submit" value="<?php _e( 'Install Now', 'connections' ); ?>" class="button">
 							</p>
 
 							<?php $form->close(); ?>
@@ -148,79 +150,94 @@ function connectionsShowTemplatesPage() {
 					</tr>
 
 					<?php
-		$templateNames = array_keys( (array) $templates );
-		natcasesort( $templateNames );
+						$slugs = array_keys( (array) $template );
+						natcasesort( $slugs );
 
-		$table = array();
-		$rows = ceil( count( (array) $templates ) / 3 );
-		for ( $row = 1; $row <= $rows; $row++ )
-			for ( $col = 1; $col <= 3; $col++ )
-			$table[$row][$col] = array_shift( $templateNames );
+						$table = array();
+						$rows = ceil( count( $slugs ) / 3 );
 
-		foreach ( $table as $row => $cols ) {
-?>
+						for ( $row = 1; $row <= $rows; $row++ )
+							for ( $col = 1; $col <= 3; $col++ )
+								$table[$row][$col] = array_shift( $slugs );
+
+						foreach ( $table as $row => $cols ) {
+					?>
 						<tr>
 							<?php
-			foreach ( $cols as $col => $slug ) {
-				$activateTokenURL = NULL;
-				$deleteTokenURL = NULL;
+								foreach ( $cols as $col => $slug ) {
+									$activateTokenURL = '';
+									$deleteTokenURL = '';
 
-				$class = array( 'available-theme' );
-				if ( $row == 1 ) $class[] = 'top';
-				if ( $row == $rows ) $class[] = 'bottom';
-				if ( $col == 1 ) $class[] = 'left';
-				if ( $col == 3 ) $class[] = 'right';
-?>
+									$class = array( 'available-theme' );
+									if ( $row == 1 ) $class[] = 'top';
+									if ( $row == $rows ) $class[] = 'bottom';
+									if ( $col == 1 ) $class[] = 'left';
+									if ( $col == 3 ) $class[] = 'right';
+							?>
+
 								<td class="<?php echo join( ' ', $class ); ?>">
+
 									<?php
-				if ( !isset( $templates->$slug ) ) continue;
+										if ( ! isset( $template->{ $slug } ) ) continue;
+										// var_dump( $template->{ $slug } );
 
-				$author = '';
+										if ( $template->{ $slug }->getThumbnail() ) {
 
-				if ( isset( $templates->$slug->thumbnailPath ) ) {
-					echo '<div class="center-thumbnail"><img class="template-thumbnail" src="' . $templates->$slug->thumbnailURL . '" /></div>';
-				}
+											$thumbnail = $template->{ $slug }->getThumbnail();
 
-				if ( isset( $templates->$slug->uri ) ) {
-					$author = '<a title="Visit author\'s homepage." href="' . esc_attr( $templates->$slug->uri ) . '">' . esc_attr( $templates->$slug->author ) . '</a>';
-				}
-				else {
-					$author = esc_attr( $templates->$slug->author );
-				}
+											if ( ! empty( $thumbnail['name'] ) ) {
+												echo '<div class="center-thumbnail"><img class="template-thumbnail" src="' , $thumbnail['url'] , '" width="300" height="225"></div>';
+											} else {
+												echo '<div class="center-thumbnail"><div class="template-thumbnail-none" style="width: 300px; height: 225px">' , __( 'Thumbnail Not Available', 'connections' ) , '</div></div>';
+											}
+										}
 
-				echo '<h3>', esc_attr( $templates->$slug->name ), ' ', esc_attr( $templates->$slug->version ), ' by ', $author, '</h3>';
-				echo '<p class="description">', esc_attr( $templates->$slug->description ), '</p>';
-				echo '<p>Shortcode Override: <code>template="' . $slug . '"</code></p>';
-				if ( $templates->$slug->custom === FALSE ) echo '<p>This a supplied template and can not be deleted.</p>';
-?>
+										if ( $template->{ $slug }->getAuthorURL() ) {
+											$author = '<a title="Visit author\'s homepage." href="' . $template->{ $slug }->getAuthorURL() . '">' . $template->{ $slug }->getAuthor() . '</a>';
+										} else {
+											$author = $template->{ $slug }->getAuthor();
+										}
+
+										echo '<h3>', $template->{ $slug }->getName() , ' ' , $template->{ $slug }->getVersion() , ' by ', $author , '</h3>';
+										echo '<p class="description">' , $template->{ $slug }->getDescription() , '</p>';
+										echo '<p>' , __( 'Shortcode Override:', 'connections' ) , '<code> template="' ,  $slug , '"</code></p>';
+
+										if ( $template->{ $slug }->isCustom() === FALSE && $template->{ $slug }->isLegacy() === TRUE ) {
+											echo '<p>' , __( 'This a supplied template and can not be deleted.', 'connections') , '</p>';
+										} else if ( $template->{ $slug }->isCustom() === FALSE && $template->{ $slug }->isLegacy() === FALSE ) {
+											echo '<p>' , __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections') , '</p>';
+										}
+
+									?>
+
 									<span class="action-links">
 										<?php
-				$activateTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=template&action=activate&type=' . $type . '&template=' . esc_attr( $templates->$slug->slug ), 'activate_' . esc_attr( $templates->$slug->slug ) );
+											$activateTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=template&action=activate&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'activate_' . $template->{ $slug }->getSlug() );
 
-				if ( $templates->$slug->custom === TRUE ) {
-					$deleteTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=template&action=delete&type=' . $type . '&template=' . esc_attr( $templates->$slug->slug ), 'delete_' . esc_attr( $templates->$slug->slug ) );
-				}
+											if ( $template->{ $slug }->isCustom() === TRUE && $template->{ $slug }->isLegacy() === TRUE ) {
+												$deleteTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=template&action=delete&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'delete_' .  $template->{ $slug }->getSlug() );
+											}
 
-?>
+										?>
 
-										<a class="activatelink" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $templates->$slug->name ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
+										<a class="activatelink" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $template->$slug->getName() ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
 
 										<?php
-				if ( isset( $deleteTokenURL ) ) {
-?>
-											 | <a class="deletelink" href="<?php echo esc_attr( $deleteTokenURL ); ?>" title="Delete '<?php echo esc_attr( $templates->$slug->name ); ?>'" onclick="return confirm('You are about to delete this theme \'<?php echo esc_attr( $templates->$slug->name ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">Delete</a>
+											if ( ! empty( $deleteTokenURL ) ) {
+										?>
+											 | <a class="deletelink" href="<?php echo esc_attr( $deleteTokenURL ); ?>" title="Delete '<?php echo esc_attr( $template->$slug->getName() ); ?>'" onclick="return confirm('You are about to delete this theme \'<?php echo esc_attr( $template->$slug->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">Delete</a>
 										<?php
-				}
-?>
+											}
+										?>
 									</span>
-								</td>
 							<?php
-			}
-?>
+								}
+							?>
+								</td>
 						</tr>
 					<?php
-		}
-?>
+						}
+					?>
 
 
 				</tbody>

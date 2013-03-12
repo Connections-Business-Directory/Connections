@@ -35,7 +35,7 @@
 
     <tr>
         <td valign="bottom" style="vertical-align: top;">
-        	<?php echo $vCard->download(); ?>
+        	<span><?php $entry->vcard(); ?></span>
         </td>
 		<td align="right" valign="bottom" style="vertical-align: top;">
 			<span style="<?php echo $entry->getLastUpdatedStyle() ?>; font-size:x-small; font-variant: small-caps;">Updated <?php echo $entry->getHumanTimeDiff() ?> ago</span>

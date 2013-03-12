@@ -117,6 +117,14 @@ class cnRegisterSettings
 		);
 		$sections[] = array(
 			'tab'       => 'display',
+			'id'        => 'connections_display_list_actions',
+			'position'  => 15,
+			'title'     => __( 'List Actions' , 'connections' ),
+			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions.', 'connections' ) . '\';' ),
+			'page_hook' => $settings
+		);
+		$sections[] = array(
+			'tab'       => 'display',
 			'id'        => 'connections_display_single',
 			'position'  => 20,
 			'title'     => __( 'Single Entry' , 'connections' ),
@@ -345,6 +353,20 @@ class cnRegisterSettings
 			'section'   => 'connections_display_results',
 			'title'     => '',
 			'desc'      => __('Show the current character at the beginning of each character group.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'view_all',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_list_actions',
+			'title'     => __('', 'connections'),
+			'desc'      => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0

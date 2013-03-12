@@ -644,14 +644,22 @@ class cnOptions {
 	}
 
 	/**
+	 * Returns all active templates by type.
+	 *
+	 * @return (array)
+	 */
+	public function getAllActiveTemplates( ) {
+		return $this->activeTemplates;
+	}
+
+	/**
 	 * Returns the active templates by type.
 	 *
 	 * @param string  $type
-	 * @return object || NULL
+	 * @return (array)
 	 */
 	public function getActiveTemplate( $type ) {
-		( !empty( $this->activeTemplates[$type] ) ) ? $result = (object) $this->activeTemplates[$type] : $result = NULL;
-		return $result;
+		return empty( $this->activeTemplates[ $type ]['slug'] ) ? '' : $this->activeTemplates[ $type ]['slug'];
 	}
 
 	/**
@@ -660,24 +668,18 @@ class cnOptions {
 	 * @param string  $type
 	 * @param object  $activeTemplate
 	 */
-	public function setActiveTemplate( $type, $activeTemplate ) {
-		$this->activeTemplates[$type] = (array) $activeTemplate;
+	public function setActiveTemplate( $type, $slug ) {
+		$this->activeTemplates[ $type ] = array( 'slug' => $slug );
 	}
 
 	public function setDefaultTemplates() {
-		$templates = new cnTemplate();
-		$templates->buildCatalog();
 
-		$all = $templates->getCatalog( 'all' );
-		$anniversary = $templates->getCatalog( 'anniversary' );
-		$birthday = $templates->getCatalog( 'birthday' );
-
-		$this->setActiveTemplate( 'all', $all->card );
-		$this->setActiveTemplate( 'individual', $all->card );
-		$this->setActiveTemplate( 'organization', $all->card );
-		$this->setActiveTemplate( 'family', $all->card );
-		$this->setActiveTemplate( 'anniversary', $anniversary->{'anniversary-light'} );
-		$this->setActiveTemplate( 'birthday', $birthday->{'birthday-light'} );
+		$this->setActiveTemplate( 'all', 'card' );
+		$this->setActiveTemplate( 'individual', 'card' );
+		$this->setActiveTemplate( 'organization', 'card' );
+		$this->setActiveTemplate( 'family', 'card' );
+		$this->setActiveTemplate( 'anniversary', 'anniversary-light' );
+		$this->setActiveTemplate( 'birthday', 'birthday-light' );
 
 		$this->defaultTemplatesSet = TRUE;
 	}

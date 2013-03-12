@@ -767,17 +767,15 @@ function processActivateTemplate() {
 
 	global $connections;
 
-	$tmplts = new cnTemplate();
-	$tmplts->buildCatalog();
-
 	$type = esc_attr( $_GET['type'] );
 	$slug = esc_attr( $_GET['template'] );
 
-	$template =  $tmplts->getCatalog( $type );
-	$connections->options->setActiveTemplate( $type, $template->$slug );
+	$connections->options->setActiveTemplate( $type, $slug );
 
 	$connections->options->saveOptions();
 	$connections->setSuccessMessage( 'template_change_active' );
+
+	delete_transient( 'cn_legacy_templates' );
 }
 
 function processInstallTemplate() {
@@ -791,6 +789,8 @@ function processInstallTemplate() {
 	else {
 		$connections->setErrorMessage( 'template_install_failed' );
 	}
+
+	delete_transient( 'cn_legacy_templates' );
 }
 
 function processDeleteTemplate() {
@@ -832,4 +832,6 @@ function processDeleteTemplate() {
 	else {
 		$connections->setErrorMessage( 'template_delete_failed' );
 	}
+
+	delete_transient( 'cn_legacy_templates' );
 }

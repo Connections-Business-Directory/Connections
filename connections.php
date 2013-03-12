@@ -320,7 +320,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/inc.shortcodes.php'; // Required for front end
 
 			//templates
-			require_once CN_PATH . 'includes/class.template.php'; // Required for the front end template processing
+			require_once CN_PATH . 'includes/class.template-api.php';
+			require_once CN_PATH . 'includes/class.template-parts.php';
+			require_once CN_PATH . 'includes/class.template.php';
 
 			// The class that inits the registered query vars, rewites reuls and canonical redirects.
 			require_once CN_PATH . 'includes/class.rewrite.php';

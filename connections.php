@@ -131,6 +131,19 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		private $dbUpgrade = FALSE;
 
+		/**
+		 * Stores the template parts object and any templates activated by the cnTemplateFactory object.
+		 *
+		 * NOTE: Technically not necessary to load the template parts into this opject but it's required
+		 * for backward compatibility for templates expecting to find those methods as part of this object.
+		 *
+		 * @access public
+		 * @since 0.7.6
+		 * @var (object)
+		 */
+		public $template;
+
+
 		public function __construct() {
 
 			$this->defineConstants();

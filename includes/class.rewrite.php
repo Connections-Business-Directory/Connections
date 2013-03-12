@@ -222,6 +222,10 @@ class cnRewrite {
 		$rule[ $name . '/([^/]*)/detail/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-view=detail';
 
+		// View all entries.
+		$rule[ $name . '/([^/]*)/all/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-view=all';
+
 		// Download the vCard.
 		$rule[ $name . '/([^/]*)/vcard/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-process=vcard';
@@ -399,6 +403,10 @@ class cnRewrite {
 		// View entry detail / profile / bio.
 		$rule['(.?.+?)/' . $name . '/([^/]*)/detail/?$']
 			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail';
+
+		// View all entries.
+		$rule['(.?.+?)/' . $name . '/([^/]*)/all/?$']
+			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=all';
 
 		// Download the vCard.
 		$rule['(.?.+?)/' . $name . '/([^/]*)/vcard/?$']

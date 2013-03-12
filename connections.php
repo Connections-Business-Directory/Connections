@@ -362,8 +362,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$this->currentUser = new cnUser();
 			$this->retrieve = new cnRetrieve();
 			$this->term = new cnTerms();
-			$this->template = new cnTemplate();
+			$this->template = new cnTemplatePart();
 			$this->url = new cnURL();
+
+			// Init the Template Factory API
+			cnTemplateFactory::init();
 
 			// Register all valid query variables.
 			cnRewrite::init();

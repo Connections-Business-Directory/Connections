@@ -328,7 +328,7 @@ function connectionsList($atts, $content = NULL) {
 		$out .= '<ul id="cn-action-list">';
 
 			if ( $connections->settings->get( 'connections', 'connections_display_list_actions', 'view_all' ) )
-				$out .= '<li class="cn-action-list-item">' . $connections->url->permalink( array( 'type' => 'all', 'text' => 'View All', 'return' => TRUE ) ) . '</li>';
+				$out .= '<li class="cn-action-list-item">' . $connections->url->permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => TRUE ) ) . '</li>';
 
 		$out .= '</ul>';
 

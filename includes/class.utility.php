@@ -414,6 +414,7 @@ class cnURL {
 			'text'   => '',
 			'title'  => '',
 			'follow' => TRUE,
+			'rel'    => '',
 			'slug'   => '',
 			'type'   => 'name',
 			'return' => FALSE
@@ -449,6 +450,7 @@ class cnURL {
 		if ( ! empty( $atts['title'] ) ) $piece['title']   = 'title="' . $atts['title'] .'"';
 		if ( ! empty( $atts['target'] ) ) $piece['target'] = 'target="' . $atts['target'] .'"';
 		if ( ! $atts['follow'] ) $piece['follow']          = 'rel="nofollow"';
+		if ( ! empty( $atts['rel'] ) ) $piece['rel'] = 'rel="' . $atts['rel'] .'"';
 
 		switch ( $atts['type'] ) {
 

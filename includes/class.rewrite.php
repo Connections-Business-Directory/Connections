@@ -222,10 +222,6 @@ class cnRewrite {
 		$rule[ $name . '/([^/]*)/detail/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-view=detail';
 
-		// View all entries.
-		$rule[ $name . '/([^/]*)/all/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-view=all';
-
 		// Download the vCard.
 		$rule[ $name . '/([^/]*)/vcard/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-process=vcard';
@@ -234,6 +230,9 @@ class cnRewrite {
 		$rule[ $name . '/([^/]*)/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-view=detail';
 
+		// View all entries.
+		$rule[ 'view/all/?$']
+			= 'index.php?&page_id=' . $pageID . '&cn-view=all';
 
 		// Base Pagination.
 		$rule['pg/([0-9]{1,})/?$']
@@ -404,10 +403,6 @@ class cnRewrite {
 		$rule['(.?.+?)/' . $name . '/([^/]*)/detail/?$']
 			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail';
 
-		// View all entries.
-		$rule['(.?.+?)/' . $name . '/([^/]*)/all/?$']
-			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=all';
-
 		// Download the vCard.
 		$rule['(.?.+?)/' . $name . '/([^/]*)/vcard/?$']
 			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-process=vcard';
@@ -416,6 +411,9 @@ class cnRewrite {
 		$rule['(.?.+?)/' . $name . '/([^/]*)/?$']
 			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail';
 
+		// View all entries.
+		$rule['(.?.+?)/view/all/?$']
+			= 'index.php?pagename=$matches[1]&cn-view=all';
 
 		// Base Pagination.
 		$rule['(.?.+?)/pg/([0-9]{1,})/?$']

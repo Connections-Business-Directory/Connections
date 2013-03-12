@@ -491,9 +491,11 @@ function connectionsList($atts, $content = NULL) {
 		if ( isset( $wp_filter[ $filter ] ) ) unset( $wp_filter[ $filter ] );
 	}
 
-	$search = array( "\r\n", "\r", "\n", "\t" );
-	$replace = array( '', '', '', '' );
-	$out = str_replace( $search , $replace , $out );
+	if ( $connections->settings->get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
+		$search = array( "\r\n", "\r", "\n", "\t" );
+		$replace = array( '', '', '', '' );
+		$out = str_replace( $search , $replace , $out );
+	}
 
 	return $out;
 }
@@ -691,6 +693,12 @@ function _upcoming_list( $atts, $content = NULL ) {
 
 		$out .= "\n" . '</div>' . "\n";
 
+	}
+
+	if ( $connections->settings->get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
+		$search = array( "\r\n", "\r", "\n", "\t" );
+		$replace = array( '', '', '', '' );
+		$out = str_replace( $search , $replace , $out );
 	}
 
 	return $out;

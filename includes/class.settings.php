@@ -908,6 +908,19 @@ class cnRegisterSettings
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'strip_rnt',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_compatibility',
+			'title'     => __('Templates', 'connections'),
+			'desc'      => __('Themes can break plugin shortcodes that output content on the page causing the content not to render correctly. If the templates do not display as expected try enabling this option.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'debug_messages',
 			'position'  => 10,
 			'page_hook' => $settings,

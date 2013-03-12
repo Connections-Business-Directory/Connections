@@ -452,6 +452,16 @@ class cnURL {
 
 		switch ( $atts['type'] ) {
 
+			case 'all':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . 'view/all/' );
+				} else {
+					$permalink = add_query_arg( 'cn-view', 'all' , $permalink );
+				}
+
+				break;
+
 			case 'name':
 
 				if ( $wp_rewrite->using_permalinks() ) {

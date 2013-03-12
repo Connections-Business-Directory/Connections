@@ -483,7 +483,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();
 
+			// Class used for managing role capabilites.
 			// @TODO: a version change should not reset the roles and capabilites.
+			// if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/class.capabilities.php';
 			cnRole::reset();
 
 			// Increment the version number.

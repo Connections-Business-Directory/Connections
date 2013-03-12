@@ -53,7 +53,7 @@ class cnSchema {
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_DATE_TABLE . "'" ) != CN_ENTRY_DATE_TABLE ) $sql[] = self::dates();
 
 		// Create the tables.
-		dbDelta( implode( ';', $sql ) );
+		if ( ! empty( $sql ) ) dbDelta( implode( ';', $sql ) );
 
 		/*
 		 * Alter the tables after they are created to add FULLTEXT support.

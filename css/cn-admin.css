@@ -16,6 +16,7 @@
 /*
  * Manage Page Styles
  */
+.tablenav .tablenav-pages a.cn-char-current { padding: 8px; }
 table.connections tr.unapproved { background-color: #FFFFE0; }
 table.connections tr.entrydetails td {border-color:transparent #DFDFDF;}
 table.connections tr.entrynotes td {border-color:transparent #DFDFDF #DFDFDF;}

@@ -407,13 +407,13 @@ class cnMessage extends WP_Error {
 	/**
 	 * Remove any messages stored in the user meta.
 	 *
-	 * @access private
+	 * @access public
 	 * @since 0.7.5
 	 * @uses get_user_meta()
 	 * @uses update_user_meta()
 	 * @return void
 	 */
-	private static function reset() {
+	public static function reset() {
 
 		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
 

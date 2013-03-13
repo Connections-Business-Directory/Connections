@@ -863,7 +863,7 @@ class cnRegisterSettings
 			'desc'      => __('Enabling this option will turn the name of every entry into a link. Clicking the link will take you to the page with only that entry.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 1
 		);
 
 		$fields[] = array(

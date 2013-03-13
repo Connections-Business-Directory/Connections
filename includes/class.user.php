@@ -333,4 +333,17 @@ class cnUser
 
 		$this->setFilterPage( $page );
 	}
+
+	/**
+	 * Reset any messages stored in the user's meta.
+	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
+	 *
+	 * @access public
+	 * @since unknown
+	 * @deprecated 0.7.6
+	 * @return (void)
+	 */
+	public function resetMessages() {
+		cnMessage::reset();
+	}
 }

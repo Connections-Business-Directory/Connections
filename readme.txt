@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 0.7.5.1
+Stable tag: 0.7.6
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,20 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.6 03/12/13 =
+* NOTICE: Requires WordPress 3.3 or newer.
+* FEATURE: Introducing the "Names" template. A simple responsive template which outputs a list of every name within the directory in a column format if the browser supports it.
+* FEATURE: Add a view all link option that can be turned on. When on, it'll show a link at the beginning of the list which will take you to a list of every entry utilizing the Names template.
+* FEATURE: Add option to strip \r\n, \r, \n, \t from the shortcode output to help prevent themes that insist on messing with the wpautop filter from corrupting the shortcode output.
+* FEATURE: Add an option that attempts to restore the use of the WordPress bundled version of jQuery instead of alternate versions that themes insist on using.
+* FEATURE: Name linking is now turned on by default.
+* OTHER: Add CSS block placeholder on the templates admin page when a template does not have a thumbnail image.
+* OTHER: Add cnTemplatePart static class.
+* OTHER: Refactor cnTemplate to be a reusable object that defines a template and its parts.
+* OTHER: Load the Google Maps API using SSL when required.
+* OTHER: If the custom templates folder does not exist or is not writable the install template option will not be visible.
+
 
 = 0.7.5.1 03/05/13 =
 * BUG: Removed reference to $this in a static method which would cause on error an activation.
@@ -754,3 +768,9 @@ NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrad
 
 = 0.7.5 =
 NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.5.1 =
+NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.6 =
+Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

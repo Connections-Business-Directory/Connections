@@ -179,7 +179,7 @@ function connectionsList($atts, $content = NULL) {
 		$preLoadAtts['list_type'] = explode( ',' , str_replace(' ', '', $preLoadAtts['list_type']) );
 
 		// Set the template type to the first in the entry type from the supplied if multiple list types are provided.
-		if ( (bool) array_intersect( (array) $preLoadAtts['list_type'], $permittedListTypes) ) {
+		if ( (bool) array_intersect( (array) $preLoadAtts['list_type'], $permittedListTypes ) ) {
 
 			$templateType = $preLoadAtts['list_type'][0];
 
@@ -209,7 +209,7 @@ function connectionsList($atts, $content = NULL) {
 		$template = cnTemplateFactory::getTemplate( $preLoadAtts['template'] );
 	} else {
 		$templateSlug = $connections->options->getActiveTemplate( $templateType );
-		$template = cnTemplateFactory::getTemplate( $templateSlug, $templateType );
+		$template = cnTemplateFactory::getTemplate( $templateSlug );
 	}
 	//$out .= '<pre style="display: none;">' . print_r($template , TRUE) . '</pre>';
 

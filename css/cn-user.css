@@ -98,6 +98,13 @@
 #cn-list span.link span.link-name { font-weight: bold; }
 
 /*
+ * Date Styles
+ */
+#cn-list span.date-block { display: block; margin-bottom: 10px; }
+#cn-list span.date { display: block; }
+#cn-list span.date span.date-name { font-weight: bold; }
+
+/*
  * Anniversary/Birthday vEvent Styles
  */
 #cn-list div.vevent abbr{ border: 0; cursor: default; text-transform: none; letter-spacing: normal; }

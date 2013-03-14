@@ -462,13 +462,13 @@ function connectionsList($atts, $content = NULL) {
 				$filterRegistry[] = 'cn_list_after-' . $template->getSlug();
 
 				ob_start();
-					do_action( 'cn_action_list_after' , $results );
-					do_action( 'cn_action_list_after-' . $template->getSlug() , $results );
-					$filterRegistry[] = 'cn_action_list_after-' . $template->getSlug();
-
 					do_action( 'cn_action_list_both' , $results  );
 					do_action( 'cn_action_list_both-' . $template->getSlug() , $results );
 					$filterRegistry[] = 'cn_action_list_both-' . $template->getSlug();
+
+					do_action( 'cn_action_list_after' , $results );
+					do_action( 'cn_action_list_after-' . $template->getSlug() , $results );
+					$filterRegistry[] = 'cn_action_list_after-' . $template->getSlug();
 
 					$out .= ob_get_contents();
 				ob_end_clean();

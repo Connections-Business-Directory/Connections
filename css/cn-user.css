@@ -295,6 +295,7 @@ input#cn-submit {
  * This should help to keep themes from breaking Google Maps by setting the img to max-width: 100%;
  */
 .cn-gmap img {
+	background-color: transparent;
 	max-width: none;
 }
 

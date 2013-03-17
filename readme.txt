@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 0.7.6.1
+Stable tag: 0.7.6.2
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,21 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.6.2 03/17/13 =
+* NOTICE: Requires WordPress 3.3 or newer.
+* FEATURE: Add new relationship types; Friend, Partner, Significant Other and Spouse.
+* FEATURE: Add CSS to highlight the current character the list is being filtered by.
+* BUG: Fix "Template not found." error when the list_type shortcode is used.
+* BUG: Add a check in the activation hook for the cnRole class and if it isn't found explicitly load it. This should prevent rare upgrade errors users have been encountering.
+* BUG: Correct the execution order of a couple actions in the [connections] shortcode.
+* BUG: Add the missing default skeleton CSS for the date block and elements.
+* BUG: When updating an entry pull the entry details from the db rather than the local class cache objects. This is to prevent duplicate data from being inserted when Link links WP user and a Connections entry.
+* BUG: Fix a logic bug when scaling logos.
+* OTHER: Convert most of the methods in the cnSettingsAPI class for reduced memory overhead when calling in actions/filters.
+* OTHER: Add additional tags to the readme.txt.
+* OTHER: Update the URL for the Google Maps API.
+* OTHER: Force the background to be transparent in Google Map div to prevent theme's from messing with the map display with poor CSS.
 
 = 0.7.6.1 03/12/13 =
 * NOTICE: Requires WordPress 3.3 or newer.
@@ -773,4 +788,7 @@ NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrad
 NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
 = 0.7.6.1 =
+Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.6.2 =
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

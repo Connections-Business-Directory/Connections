@@ -750,7 +750,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @param string $option [optional] The settings field id that was used to register the option.
 		 * @return mixed
 		 */
-		public function get( $pluginID , $section = '' , $option = '' )
+		public static function get( $pluginID , $section = '' , $option = '' )
 		{
 			$settings = array();
 			//var_dump($this->registry[$pluginID]);
@@ -835,7 +835,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @param string $pluginID
 		 * @return mixed
 		 */
-		public function reset( $pluginID )
+		public static function reset( $pluginID )
 		{
 			if ( array_key_exists( $pluginID, self::$registry ) )
 			{
@@ -858,7 +858,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @param string $pluginID
 		 * @return mixed
 		 */
-		public function delete( $pluginID )
+		public static function delete( $pluginID )
 		{
 			if ( array_key_exists( $pluginID, self::$registry ) )
 			{

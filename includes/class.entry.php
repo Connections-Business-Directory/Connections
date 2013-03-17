@@ -3422,8 +3422,7 @@ class cnEntry {
 			/*
 			 * Create a sql segment for the visibility that can be used in the queries.
 			 */
-			( ! empty( $notPermitted ) ) ? $sqlVisibility = 'AND `visibility` NOT IN (\'' . implode( "', '", (array) $notPermitted ) . '\')' : $sqlVisibility = '';
-			$where[] = $sqlVisibility;
+			$where['visibility'] = ! empty( $notPermitted ) ? 'AND `visibility` NOT IN (\'' . implode( "', '", $notPermitted ) . '\')' : '';
 
 			/*
 			 * Update and add addresses as necessary and removing the rest unless the current user does not have permission to view/edit.

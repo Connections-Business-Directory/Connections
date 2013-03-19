@@ -236,10 +236,11 @@ class cnCategory {
     /**
      * Updates the category to the database via the cnTerm class.
      *
-     * @return The success or error message.
+     * @return (bool)
      */
     public function update() {
         global $connections;
+        $duplicate = FALSE;
 
         $attributes['name'] = $this->name;
         $attributes['slug'] = $this->slug;
@@ -248,29 +249,49 @@ class cnCategory {
 
         // If the category already exists, do not let it be created.
         if ( $terms = $connections->term->getTermChildrenBy( 'term_id', $this->parent, 'category' ) ) {
+
             foreach ( $terms as $term ) {
-                if ( $this->name == $term->name ) return $connections->setErrorMessage( 'category_duplicate_name' );
+
+                if ( $this->name == $term->name ) {
+                	if ( $this->id != $term->term_id ) $duplicate = TRUE;
+                	break;
+                }
+            }
+
+            if ( $duplicate ) {
+            	$connections->setErrorMessage( 'category_duplicate_name' );
+            	return FALSE;
             }
         }
 
         // Make sure the category isn't being set to itself as a parent.
         if ( $this->id === $this->parent ) {
+
             $connections->setErrorMessage( 'category_self_parent' );
-            return;
+            return FALSE;
         }
 
         // Do not change the uncategorized category
         if ( $this->slug != 'uncategorized' ) {
+
             if ( $connections->term->updateTerm( $this->id, 'category', $attributes ) ) {
+
                 $connections->setSuccessMessage( 'category_updated' );
-            }
-            else {
+                return TRUE;
+
+            } else {
+
                 $connections->setErrorMessage( 'category_update_failed' );
+                return FALSE;
             }
-        }
-        else {
+
+        } else {
             $connections->setErrorMessage( 'category_update_uncategorized' );
+            return FALSE;
         }
+
+        // Shouldn't get here...
+        return FALSE;
     }
 
     /**

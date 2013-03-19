@@ -3393,17 +3393,15 @@ class cnEntry {
 			$where[] = 'WHERE 1=1';
 
 			/*
-			 * Retrieve entry details.
-			 * NOTE: Entries details can not be pulled from the object caches and must be pulled from the DB
-			 * 	because the id for data item is needed to determine whether the item is to be updated or inserted.
+			 * Retrieve entry details from the object caches
 			 */
-			$addresses = $this->getAddresses( array(), FALSE, TRUE );
-			$phoneNumbers = $this->getPhoneNumbers( array(), FALSE, TRUE );
-			$emailAddresses = $this->getEmailAddresses( array(), FALSE, TRUE );
-			$imIDs = $this->getIm( array(), FALSE, TRUE );
-			$socialNetworks = $this->getSocialMedia( array(), FALSE, TRUE );
-			$links = $this->getLinks( array(), FALSE, TRUE );
-			$dates = $this->getDates( array(), FALSE, TRUE );
+			$addresses = $this->getAddresses( array(), TRUE, TRUE );
+			$phoneNumbers = $this->getPhoneNumbers( array(), TRUE, TRUE );
+			$emailAddresses = $this->getEmailAddresses( array(), TRUE, TRUE );
+			$imIDs = $this->getIm( array(), TRUE, TRUE );
+			$socialNetworks = $this->getSocialMedia( array(), TRUE, TRUE );
+			$links = $this->getLinks( array(), TRUE, TRUE );
+			$dates = $this->getDates( array(), TRUE, TRUE );
 
 			/*
 			 * Create a sql segment for the entry ID that can be used in the queries.

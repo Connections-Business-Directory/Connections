@@ -403,7 +403,7 @@ class cnURL {
 	 * @param array $atts
 	 * @return string
 	 */
-	public function permalink( $atts ) {
+	public static function permalink( $atts ) {
 		global $wp_rewrite, $post, $connections;
 
 		// The anchor attributes.

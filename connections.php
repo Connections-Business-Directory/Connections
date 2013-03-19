@@ -3,7 +3,7 @@
 Plugin Name: Connections
 Plugin URI: http://connections-pro.com/
 Description: A business directory and address book manager.
-Version: 0.7.6.2
+Version: 0.7.6.3
 Author: Steven A. Zahm
 Author URI: http://connections-pro.com/
 Text Domain: connections
@@ -224,7 +224,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			define( 'CN_LOG', FALSE );
 
-			define( 'CN_CURRENT_VERSION', '0.7.6.2' );
+			define( 'CN_CURRENT_VERSION', '0.7.6.3' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*

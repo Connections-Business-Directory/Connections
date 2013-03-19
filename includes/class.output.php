@@ -349,7 +349,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults = array(
 			'format' => '%prefix% %first% %middle% %last% %suffix%',
-			'link'   => FALSE,
+			'link'   => TRUE,
 			'target' => 'name',
 			'before' => '',
 			'after'  => '',
@@ -372,44 +372,44 @@ class cnOutput extends cnEntry
 		$honorificSuffix = $this->getHonorificSuffix();
 
 		switch ( $this->getEntryType() ) {
-		case 'individual':
-			( empty( $honorificPrefix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
+			case 'individual':
+				( empty( $honorificPrefix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
-			( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="given-name">' . $first . '</span>';
+				( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="given-name">' . $first . '</span>';
 
-			( empty( $middle ) ) ? $replace[] = '' : $replace[] = '<span class="additional-name">' . $middle . '</span>';
+				( empty( $middle ) ) ? $replace[] = '' : $replace[] = '<span class="additional-name">' . $middle . '</span>';
 
-			( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="family-name">' . $last . '</span>';
+				( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="family-name">' . $last . '</span>';
 
-			( empty( $honorificSuffix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+				( empty( $honorificSuffix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
-			$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
-			break;
+				$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+				break;
 
-		case 'organization':
-			$out = '<span class="org fn">' . $this->getOrganization() . '</span>';
-			break;
+			case 'organization':
+				$out = '<span class="org fn">' . $this->getOrganization() . '</span>';
+				break;
 
-		case 'family':
-			$out = '<span class="fn n"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
-			break;
+			case 'family':
+				$out = '<span class="fn n"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
+				break;
 
-		default:
-			( empty( $honorificPrefix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
+			default:
+				( empty( $honorificPrefix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
-			( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="given-name">' . $first . '</span>';
+				( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="given-name">' . $first . '</span>';
 
-			( empty( $middle ) ) ? $replace[] = '' : $replace[] = '<span class="additional-name">' . $middle . '</span>';
+				( empty( $middle ) ) ? $replace[] = '' : $replace[] = '<span class="additional-name">' . $middle . '</span>';
 
-			( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="family-name">' . $last . '</span>';
+				( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="family-name">' . $last . '</span>';
 
-			( empty( $honorificSuffix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+				( empty( $honorificSuffix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
-			$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
-			break;
+				$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+				break;
 		}
 
-		if ( $connections->settings->get( 'connections', 'connections_link', 'name' ) ) {
+		if ( $atts['link'] && $connections->settings->get( 'connections', 'connections_link', 'name' ) ) {
 			$out = $connections->url->permalink( array(
 					'type' => $atts['target'],
 					'slug' => $this->getSlug(),

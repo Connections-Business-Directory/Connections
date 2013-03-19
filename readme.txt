@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 0.7.6.2
+Stable tag: 0.7.6.3
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,15 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.6.3 03/19/13 =
+* NOTICE: Requires WordPress 3.3 or newer.
+* BUG: Revert change applied in 0.7.6.2 for updating entries which caused data loss. Rolled back to 0.7.6.1 immediately after discovering the bug.
+* BUG: Fixed logic that prevented the editing of categories.
+* OTHER: Add support in the shortcode for the card_single template part.
+* OTHER: Convert cnURL::permalink() to be a static method.
+* OTHER: Update phpDoc for cnURL::permalink().
+* OTHER: Add support for overriding the name link setting in cnOutput::getNameBlock().
 
 = 0.7.6.2 03/17/13 =
 * NOTICE: Requires WordPress 3.3 or newer.
@@ -791,4 +800,7 @@ NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrad
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
 = 0.7.6.2 =
+Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.6.3 =
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

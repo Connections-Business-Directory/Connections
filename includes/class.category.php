@@ -236,6 +236,8 @@ class cnCategory {
     /**
      * Updates the category to the database via the cnTerm class.
      *
+     * @access public
+     * @since unknown
      * @return (bool)
      */
     public function update() {

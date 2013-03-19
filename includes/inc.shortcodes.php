@@ -440,7 +440,16 @@ function connectionsList($atts, $content = NULL) {
 						$filterRegistry[] = 'cn_list_entry_before-' . $template->getSlug();
 
 						ob_start();
-							do_action( 'cn_action_card-' . $template->getSlug(), $entry, $content, $template, $atts, $connections, $vCard );
+
+							if ( get_query_var( 'cn-entry-slug' ) && has_action( 'cn_action_card_single-' . $template->getSlug() ) ) {
+
+								do_action( 'cn_action_card_single-' . $template->getSlug(), $entry, $content, $template, $atts, $connections, $vCard );
+
+							} else {
+
+								do_action( 'cn_action_card-' . $template->getSlug(), $entry, $content, $template, $atts, $connections, $vCard );
+							}
+
 							$out .= ob_get_contents();
 					    ob_end_clean();
 

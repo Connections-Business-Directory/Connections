@@ -318,5 +318,6 @@ div#cn-list span.cn-return-to-top img {
 	display: inline-block;
 	float: none;
 	margin: 0 0 -6px;
+	max-width: none;
 	padding: 5px;
 }

@@ -303,7 +303,7 @@ input#cn-submit {
  */
 .cn-gmap img {
 	background-color: transparent;
-	max-width: none;
+	max-width: none !important;
 }
 
 /*

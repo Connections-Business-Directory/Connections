@@ -15,7 +15,7 @@ class cnRegisterSettings
 	 * @param $tabs array
 	 * @return array
 	 */
-	public function registerSettingsTabs( $tabs )
+	public static function registerSettingsTabs( $tabs )
 	{
 		global $connections;
 
@@ -67,7 +67,7 @@ class cnRegisterSettings
 	 * @param array $sections
 	 * @return array
 	 */
-	public function registerSettingsSections( $sections )
+	public static function registerSettingsSections( $sections )
 	{
 		global $connections;
 
@@ -238,7 +238,7 @@ class cnRegisterSettings
 	 * @author Steven A. Zahm
 	 * @since 0.7.3.0
 	 */
-	public function registerSettingsFields( $fields )
+	public static function registerSettingsFields( $fields )
 	{
 		global $connections;
 

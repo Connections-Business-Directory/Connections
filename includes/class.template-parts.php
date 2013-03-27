@@ -404,7 +404,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categorySelect( $atts ) {
+	private static function categorySelect( $atts ) {
 		global $connections;
 		$selected = '';
 
@@ -489,7 +489,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categorySelectOption( $category, $level, $depth, $selected, $atts ) {
+	private static function categorySelectOption( $category, $level, $depth, $selected, $atts ) {
 
 		$out = '';
 

@@ -161,7 +161,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			add_action( 'plugins_loaded', array( __CLASS__, 'start' ) );
 		}
 
-		public function start() {
+		public static function start() {
 			global $connections;
 
 			//$connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();

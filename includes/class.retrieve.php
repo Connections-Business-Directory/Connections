@@ -754,11 +754,25 @@ class cnRetrieve {
 		 * Reset the pagination filter for the current user, remove the offset from the query and re-run the
 		 * query if the offset for the query is greater than the record count with no limit set in the query.
 		 *
-		 * @TODO This will have to be down for the front end too, how, I'll have to give it some though.
 		 */
 		if ( is_admin() && $atts['offset'] > $connections->resultCountNoLimit ) {
+
 			$connections->currentUser->resetFilterPage( 'manage' );
 			unset( $atts['offset'] );
+			$results = $this->entries( $atts );
+
+		} elseif ( $atts['offset'] > $connections->resultCountNoLimit ) {
+
+			/*
+			 * This is for the front end, reset the page and offset and re-run the query if the offset
+			 * is greater than the record count with no limit.
+			 *
+			 * @TODO  this should somehow be precessed in the parse_request action hook so the URL
+			 * permlink and query vars can be properly updated.
+			 */
+
+			set_query_var( 'cn-pg', 0 );
+			$atts['offset'] = 0;
 			$results = $this->entries( $atts );
 		}
 

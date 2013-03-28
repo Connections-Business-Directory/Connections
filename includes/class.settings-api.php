@@ -588,7 +588,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @param array $field
 		 * @return string
 		 */
-		public function field( $field )
+		public static function field( $field )
 		{
 			global $wp_version;
 			$out = '';

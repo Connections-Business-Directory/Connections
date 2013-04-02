@@ -1920,7 +1920,7 @@ class cnOutput extends cnEntry
 			'separator' => NULL,
 			'before'    => NULL,
 			'after'     => NULL,
-			'label'     => 'Categories: ',
+			'label'     => __( 'Categories:', 'connections') . ' ',
 			'parents'   => FALSE,
 			'return'    => FALSE
 		);

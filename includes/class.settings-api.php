@@ -620,7 +620,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					foreach ( $field['options'] as $key => $label )
 					{
-						$checked = checked( TRUE , in_array($key, $value) , FALSE );
+						$checked = checked( TRUE , in_array($key, (array) $value) , FALSE );
 
 						$out .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>', $name, $key, $checked );
 						$out .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label><br />', $name, $key, $label );

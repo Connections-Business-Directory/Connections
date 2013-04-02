@@ -1821,6 +1821,9 @@ class cnRetrieve {
 		$like = array();
 		$search = $connections->options->getSearchFields();
 
+		// If no search search fields are set, return an empty array.
+		if ( empty( $search ) ) return array();
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */

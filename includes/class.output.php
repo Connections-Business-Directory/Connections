@@ -349,7 +349,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults = array(
 			'format' => '%prefix% %first% %middle% %last% %suffix%',
-			'link'   => TRUE,
+			'link'   => cnSettingsAPI::get( 'connections', 'connections_link', 'name' ),
 			'target' => 'name',
 			'before' => '',
 			'after'  => '',
@@ -409,7 +409,7 @@ class cnOutput extends cnEntry
 				break;
 		}
 
-		if ( $atts['link'] && $connections->settings->get( 'connections', 'connections_link', 'name' ) ) {
+		if ( $atts['link'] ) {
 			$out = $connections->url->permalink( array(
 					'type' => $atts['target'],
 					'slug' => $this->getSlug(),

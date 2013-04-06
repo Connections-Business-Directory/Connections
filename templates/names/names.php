@@ -33,7 +33,7 @@ if ( ! class_exists( 'cnNames' ) ) {
 		}
 
 		public function card( $entry ) {
-			$entry->getNameBlock();
+			$entry->getNameBlock( array( 'link' => TRUE ) );
 		}
 
 	}

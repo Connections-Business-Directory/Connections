@@ -17,7 +17,7 @@ class cnRewrite {
 
 		// Remove the canonical redirect -- for testing.
 		// remove_filter('template_redirect', 'redirect_canonical');
-		// add_filter( 'redirect_canonical', array( __CLASS__ , 'disableFrontPagecanonicalRedirectFilter') , 10, 2 );
+		add_filter( 'redirect_canonical', array( __CLASS__ , 'frontPageCanonicalRedirect') , 10, 2 );
 
 		add_filter( 'query_vars', array( __CLASS__ , 'queryVars' ) );
 		add_filter( 'root_rewrite_rules', array( __CLASS__ , 'addRootRewriteRules' ) );
@@ -75,7 +75,7 @@ class cnRewrite {
 	 * @param array   $page_rewrite
 	 * @return array
 	 */
-	public function addRootRewriteRules( $root_rewrite ) {
+	public static function addRootRewriteRules( $root_rewrite ) {
 
 		// If a page has not been set to be the front, exit, because these rules would not apply.
 		if ( ! get_option('page_on_front') ) return $root_rewrite;
@@ -262,7 +262,7 @@ class cnRewrite {
 	 * @param array   $page_rewrite
 	 * @return array
 	 */
-	public function addPageRewriteRules( $page_rewrite ) {
+	public static function addPageRewriteRules( $page_rewrite ) {
 
 		$rule = array();
 
@@ -587,19 +587,31 @@ class cnRewrite {
 	 * Disable the canonical redirect when on the front page.
 	 *
 	 * NOTE: This is required to allow search queries to be properly redirected to the front page.
-	 * If this were not in place the user would receive a 404 error.
+	 * If this were not in place the user would be redirected to the blog home page.
 	 *
-	 * @param  string $redirectURL  The URL to redirect to.
-	 * @param  string $requestedURL The original requested URL.
-	 * @return string               The original requested URL.
+	 * Reference:
+	 * http://wordpress.stackexchange.com/questions/51530/rewrite-rules-problem-when-rule-includes-homepage-slug
+	 *
+	 * @TODO  Perhaps I should check for the existance of any of the Connections query vars before
+	 * removing canonical redirect of the front page.
+	 *
+	 * @access private
+	 * @since 0.7.6.4
+	 * @param (string) $redirectURL  The URL to redirect to.
+	 * @param (string) $requestedURL The original requested URL.
+	 * @return (string)              URL
 	 */
-	public function disableFrontPagecanonicalRedirectFilter( $redirectURL, $requestedURL ) {
+	public static function frontPageCanonicalRedirect( $redirectURL, $requestedURL ) {
 
-		if( is_front_page() ) {
+		// $homeID = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' );
+
+		if ( is_front_page() && get_option( 'show_on_front' ) == 'page' ) {
+
 			return $requestedURL;
-		} else {
-			return $redirectURL;
+
 		}
+
+		return $redirectURL;
 
 	}
 }

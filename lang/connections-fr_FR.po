@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
-"POT-Creation-Date: 2013-03-25 17:43+0100\n"
-"PO-Revision-Date: 2013-03-25 17:58+0100\n"
-"Last-Translator: FxB <traductions@fxbenard.com>\n"
+"POT-Creation-Date: 2013-04-06 18:37-0500\n"
+"PO-Revision-Date: 2013-04-06 18:39-0500\n"
+"Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
@@ -17,60 +17,60 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: connections.php:729
+#: connections.php:719
 msgid "Entries"
 msgstr "Entrées"
 
-#: connections.php:799 submenus/dashboard.php:28
+#: connections.php:789 submenus/dashboard.php:28
 msgid "Dashboard"
 msgstr "Tableau de bord"
 
-#: connections.php:800 submenus/manage.php:240
+#: connections.php:790 submenus/manage.php:240
 msgid "Manage"
 msgstr "Gérer"
 
-#: connections.php:801 includes/class.capabilities.php:61
+#: connections.php:791 includes/class.capabilities.php:61
 #: includes/class.form.php:853 includes/class.form.php:857
 #: submenus/manage.php:12
 msgid "Add Entry"
 msgstr "Ajouter une entrée"
 
-#: connections.php:802 includes/class.form.php:282 submenus/categories.php:66
+#: connections.php:792 includes/class.form.php:282 submenus/categories.php:66
 #: submenus/manage.php:437 submenus/manage.php:446
 msgid "Categories"
 msgstr "Catégories"
 
-#: connections.php:803 connections.php:1133 includes/class.form.php:362
+#: connections.php:793 connections.php:902 includes/class.form.php:362
 #: includes/class.settings.php:916 submenus/templates.php:32
 msgid "Templates"
 msgstr "Modèles"
 
-#: connections.php:804 connections.php:1115 submenus/settings.php:30
+#: connections.php:794 connections.php:884 submenus/settings.php:30
 msgid "Settings"
 msgstr "Paramètres"
 
-#: connections.php:805
+#: connections.php:795
 msgid "Roles &amp; Capabilites"
 msgstr "Rôle &amp; permissions"
 
-#: connections.php:805
+#: connections.php:795
 msgid "Roles"
 msgstr "Rôles"
 
-#: connections.php:1132
+#: connections.php:901
 #, fuzzy
 msgid "Add-on Plugins"
 msgstr "Modules complémentaires"
 
-#: connections.php:1134 includes/class.form.php:329
+#: connections.php:903 includes/class.form.php:329
 msgid "Documentation"
 msgstr "Documentation"
 
-#: connections.php:1135
+#: connections.php:904
 msgid "Support Forums"
 msgstr "Forums d'aide"
 
-#: connections.php:1568 connections.php:1576
+#: connections.php:1337 connections.php:1345
 msgid "vCard not available for download."
 msgstr "La vCard n'est pas disponible pour téléchargement."
 
@@ -1468,6 +1468,11 @@ msgstr "Logo pour"
 msgid "Contact"
 msgstr "Contact"
 
+#: includes/class.output.php:1923
+#, fuzzy
+msgid "Categories:"
+msgstr "Catégories"
+
 #: includes/class.output.php:2090
 msgid "Add to Address Book."
 msgstr "Ajouter au carnet d'adresse."
@@ -1879,7 +1884,8 @@ msgstr "Google Maps API v3"
 msgid ""
 "If the current active theme or another plugin loads the Google Maps API v3 "
 "uncheck this to prevent Connections from loading the Google Maps API. This "
-"could prevent potential conflicts."
+"could prevent potential conflicts. NOTE: This only applies to templates that "
+"utilize Google Maps."
 msgstr ""
 "Si le thème actuellement actif ou d'une autre extension charge l'API Google "
 "Maps v3 decochez cette case pour empêcher Connections de charger API Google. "
@@ -1970,17 +1976,17 @@ msgstr "Voir toutes les catégories"
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/inc.shortcodes.php:218 includes/inc.shortcodes.php:570
+#: includes/inc.shortcodes.php:216 includes/inc.shortcodes.php:566
 #, php-format
 msgid "ERROR: Template %1$s not found."
 msgstr "ERREUR&nbsp;! Le modèle %1$s est introuvable."
 
-#: includes/inc.shortcodes.php:331
+#: includes/inc.shortcodes.php:329
 msgid "View All"
 msgstr "Afficher tout"
 
-#: includes/inc.shortcodes.php:372 includes/inc.shortcodes.php:373
-#: includes/inc.shortcodes.php:611
+#: includes/inc.shortcodes.php:370 includes/inc.shortcodes.php:371
+#: includes/inc.shortcodes.php:607
 msgid "No results."
 msgstr "Aucun résultat"
 

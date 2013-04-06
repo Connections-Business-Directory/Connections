@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
-"POT-Creation-Date: 2013-03-12 21:07-0500\n"
-"PO-Revision-Date: 2013-03-12 21:07-0500\n"
+"POT-Creation-Date: 2013-04-06 18:37-0500\n"
+"PO-Revision-Date: 2013-04-06 18:38-0500\n"
 "Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -17,60 +17,60 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: connections.php:729
+#: connections.php:719
 msgid "Entries"
 msgstr "Poster"
 
-#: connections.php:799 submenus/dashboard.php:28
+#: connections.php:789 submenus/dashboard.php:28
 msgid "Dashboard"
 msgstr "Betjeningspanel"
 
-#: connections.php:800 submenus/manage.php:240
+#: connections.php:790 submenus/manage.php:240
 msgid "Manage"
 msgstr "Administrer"
 
-#: connections.php:801 includes/class.capabilities.php:61
+#: connections.php:791 includes/class.capabilities.php:61
 #: includes/class.form.php:853 includes/class.form.php:857
 #: submenus/manage.php:12
 msgid "Add Entry"
 msgstr "Tilføj Post"
 
-#: connections.php:802 includes/class.form.php:282 submenus/categories.php:66
+#: connections.php:792 includes/class.form.php:282 submenus/categories.php:66
 #: submenus/manage.php:437 submenus/manage.php:446
 msgid "Categories"
 msgstr "Kategorier"
 
-#: connections.php:803 connections.php:1133 includes/class.form.php:362
+#: connections.php:793 connections.php:902 includes/class.form.php:362
 #: includes/class.settings.php:916 submenus/templates.php:32
 msgid "Templates"
 msgstr "Designs"
 
-#: connections.php:804 connections.php:1115 submenus/settings.php:30
+#: connections.php:794 connections.php:884 submenus/settings.php:30
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: connections.php:805
+#: connections.php:795
 msgid "Roles &amp; Capabilites"
 msgstr "Roller &amp; Kapaciteter"
 
-#: connections.php:805
+#: connections.php:795
 msgid "Roles"
 msgstr "Roller"
 
-#: connections.php:1132
+#: connections.php:901
 msgid "Add-on Plugins"
 msgstr ""
 
-#: connections.php:1134 includes/class.form.php:329
+#: connections.php:903 includes/class.form.php:329
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: connections.php:1135
+#: connections.php:904
 #, fuzzy
 msgid "Support Forums"
 msgstr "Support"
 
-#: connections.php:1568 connections.php:1576
+#: connections.php:1337 connections.php:1345
 msgid "vCard not available for download."
 msgstr "vCard er ikke tilgængelig at downloade."
 
@@ -137,13 +137,13 @@ msgid "Change Role Capabilities"
 msgstr "Skift rolle kapaciteter"
 
 #: includes/class.entry.php:2562 includes/class.form.php:1752
-#: includes/class.options.php:876 includes/class.output.php:1815
+#: includes/class.options.php:880 includes/class.output.php:1815
 #: includes/class.output.php:1822 submenus/templates.php:39
 msgid "Anniversary"
 msgstr "Årsdag"
 
 #: includes/class.entry.php:2577 includes/class.form.php:1734
-#: includes/class.options.php:878 includes/class.output.php:1745
+#: includes/class.options.php:882 includes/class.output.php:1745
 #: includes/class.output.php:1752 submenus/templates.php:40
 msgid "Birthday"
 msgstr "Fødselsdag"
@@ -1196,178 +1196,194 @@ msgid "Father-in-law"
 msgstr ""
 
 #: includes/class.options.php:705
+msgid "Friend"
+msgstr ""
+
+#: includes/class.options.php:706
 msgid "Grand Daughter"
 msgstr "Barnebarn"
 
-#: includes/class.options.php:706
+#: includes/class.options.php:707
 msgid "Grand Father"
 msgstr "Bedstefar"
 
-#: includes/class.options.php:707
+#: includes/class.options.php:708
 msgid "Grand Mother"
 msgstr "Bedstemor"
 
-#: includes/class.options.php:708
+#: includes/class.options.php:709
 msgid "Grand Son"
 msgstr "Barnebarn"
 
-#: includes/class.options.php:709
+#: includes/class.options.php:710
 msgid "Great Grand Mother"
 msgstr "Oldemor"
 
-#: includes/class.options.php:710
+#: includes/class.options.php:711
 msgid "Great Grand Father"
 msgstr "Oldefar"
 
-#: includes/class.options.php:711
+#: includes/class.options.php:712
 msgid "Husband"
 msgstr "Mand"
 
-#: includes/class.options.php:712
+#: includes/class.options.php:713
 msgid "Mother"
 msgstr "Mor"
 
-#: includes/class.options.php:713
+#: includes/class.options.php:714
 msgid "Mother-in-law"
 msgstr ""
 
-#: includes/class.options.php:714
+#: includes/class.options.php:715
 msgid "Nephew"
 msgstr "Nevø"
 
-#: includes/class.options.php:715
+#: includes/class.options.php:716
 msgid "Niece"
 msgstr "Niece"
 
-#: includes/class.options.php:716
-msgid "Sister"
-msgstr "Søster"
-
 #: includes/class.options.php:717
-msgid "Sister-in-law"
+msgid "Partner"
 msgstr ""
 
 #: includes/class.options.php:718
+msgid "Significant Other"
+msgstr ""
+
+#: includes/class.options.php:719
+msgid "Sister"
+msgstr "Søster"
+
+#: includes/class.options.php:720
+msgid "Sister-in-law"
+msgstr ""
+
+#: includes/class.options.php:721
+msgid "Spouse"
+msgstr ""
+
+#: includes/class.options.php:722
 msgid "Son"
 msgstr "Søn"
 
-#: includes/class.options.php:719
+#: includes/class.options.php:723
 msgid "Son-in-law"
 msgstr ""
 
-#: includes/class.options.php:720
+#: includes/class.options.php:724
 msgid "Step Brother"
 msgstr "Stedbror"
 
-#: includes/class.options.php:721
+#: includes/class.options.php:725
 msgid "Step Daughter"
 msgstr "Steddatter"
 
-#: includes/class.options.php:722
+#: includes/class.options.php:726
 msgid "Step Father"
 msgstr "Stedfar"
 
-#: includes/class.options.php:723
+#: includes/class.options.php:727
 msgid "Step Mother"
 msgstr "Stedmor"
 
-#: includes/class.options.php:724
+#: includes/class.options.php:728
 msgid "Step Sister"
 msgstr "Stedsøster"
 
-#: includes/class.options.php:725
+#: includes/class.options.php:729
 msgid "Step Son"
 msgstr "Stedsøn"
 
-#: includes/class.options.php:726
+#: includes/class.options.php:730
 msgid "Uncle"
 msgstr "Onkel"
 
-#: includes/class.options.php:727
+#: includes/class.options.php:731
 msgid "Wife"
 msgstr "Kone"
 
-#: includes/class.options.php:754 includes/class.settings.php:83
+#: includes/class.options.php:758 includes/class.settings.php:83
 msgid "Home"
 msgstr "Hjemme"
 
-#: includes/class.options.php:755
+#: includes/class.options.php:759
 msgid "Work"
 msgstr "Arbejde"
 
-#: includes/class.options.php:756
+#: includes/class.options.php:760
 msgid "School"
 msgstr "Skole"
 
-#: includes/class.options.php:757
+#: includes/class.options.php:761
 msgid "Other"
 msgstr "Andet"
 
-#: includes/class.options.php:772
+#: includes/class.options.php:776
 msgid "Home Phone"
 msgstr "Telefon Hjemme"
 
-#: includes/class.options.php:773
+#: includes/class.options.php:777
 msgid "Home Fax"
 msgstr "Fax Hjemme"
 
-#: includes/class.options.php:774
+#: includes/class.options.php:778
 msgid "Cell Phone"
 msgstr "Mobiltelefon"
 
-#: includes/class.options.php:775
+#: includes/class.options.php:779
 msgid "Work Phone"
 msgstr "Telefon Arbejde"
 
-#: includes/class.options.php:776
+#: includes/class.options.php:780
 msgid "Work Fax"
 msgstr "Fax Arbejde"
 
-#: includes/class.options.php:844
+#: includes/class.options.php:848
 msgid "Personal Email"
 msgstr "Personlig Email"
 
-#: includes/class.options.php:845
+#: includes/class.options.php:849
 msgid "Work Email"
 msgstr "Email Arbejde"
 
-#: includes/class.options.php:860
+#: includes/class.options.php:864
 msgid "Website"
 msgstr "Webside"
 
-#: includes/class.options.php:861
+#: includes/class.options.php:865
 msgid "Blog"
 msgstr "Blog"
 
-#: includes/class.options.php:877
+#: includes/class.options.php:881
 msgid "Baptism"
 msgstr ""
 
-#: includes/class.options.php:879
+#: includes/class.options.php:883
 msgid "Deceased"
 msgstr "Afdød"
 
-#: includes/class.options.php:880
+#: includes/class.options.php:884
 msgid "Certification"
 msgstr "Certificering"
 
-#: includes/class.options.php:881
+#: includes/class.options.php:885
 msgid "Employment"
 msgstr "Beskæftigelse"
 
-#: includes/class.options.php:882
+#: includes/class.options.php:886
 msgid "Membership"
 msgstr "Medlemsskab"
 
-#: includes/class.options.php:883
+#: includes/class.options.php:887
 msgid "Graduate High School"
 msgstr ""
 
-#: includes/class.options.php:884
+#: includes/class.options.php:888
 msgid "Graduate College"
 msgstr ""
 
-#: includes/class.options.php:885
+#: includes/class.options.php:889
 msgid "Ordination"
 msgstr "Ordination"
 
@@ -1382,6 +1398,11 @@ msgstr "Logo for"
 #: includes/class.output.php:646 submenus/manage.php:606
 msgid "Contact"
 msgstr "Kontakt"
+
+#: includes/class.output.php:1923
+#, fuzzy
+msgid "Categories:"
+msgstr "Kategorier"
 
 #: includes/class.output.php:2090
 msgid "Add to Address Book."
@@ -1754,7 +1775,8 @@ msgstr "Google Maps API v3"
 msgid ""
 "If the current active theme or another plugin loads the Google Maps API v3 "
 "uncheck this to prevent Connections from loading the Google Maps API. This "
-"could prevent potential conflicts."
+"could prevent potential conflicts. NOTE: This only applies to templates that "
+"utilize Google Maps."
 msgstr ""
 
 #: includes/class.settings.php:903
@@ -1840,18 +1862,18 @@ msgstr "Vis alle kategorier"
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/inc.shortcodes.php:218 includes/inc.shortcodes.php:561
+#: includes/inc.shortcodes.php:216 includes/inc.shortcodes.php:566
 #, php-format
 msgid "ERROR: Template %1$s not found."
 msgstr ""
 
-#: includes/inc.shortcodes.php:331
+#: includes/inc.shortcodes.php:329
 #, fuzzy
 msgid "View All"
 msgstr "Se %s"
 
-#: includes/inc.shortcodes.php:372 includes/inc.shortcodes.php:373
-#: includes/inc.shortcodes.php:602
+#: includes/inc.shortcodes.php:370 includes/inc.shortcodes.php:371
+#: includes/inc.shortcodes.php:607
 msgid "No results."
 msgstr "Ingen resultater"
 

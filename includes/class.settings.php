@@ -888,7 +888,7 @@ class cnRegisterSettings
 			'tab'       => 'advanced',
 			'section'   => 'connections_compatibility',
 			'title'     => __('Google Maps API v3', 'connections'),
-			'desc'      => __('If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. This could prevent potential conflicts.', 'connections'),
+			'desc'      => __('If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. This could prevent potential conflicts. NOTE: This only applies to templates that utilize Google Maps.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1

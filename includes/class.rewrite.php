@@ -466,7 +466,7 @@ class cnRewrite {
 		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] ='';
 
 		$redirectURL = explode( '?', $requestedURL );
-		$redirectURL = $redirectURL[0];
+		$redirectURL = trailingslashit( $redirectURL[0] );
 
 
 		if ( FALSE === $originalURL ) return FALSE;

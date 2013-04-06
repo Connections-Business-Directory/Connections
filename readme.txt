@@ -3,8 +3,8 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.3
-Tested up to: 3.5.1
-Stable tag: 0.7.6.3
+Tested up to: 3.6
+Stable tag: 0.7.6.4
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,26 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.6.4 04/06/13 =
+* NOTICE: Requires WordPress 3.3 or newer.
+* FEATURE: Add new cnScript class to manage all registration and enqueueing of the CSS and JS libraries.
+* BUG: Remove the canonical redirect filter from the front page so Connections queries will be properly handled on the site front page.
+* BUG: Add missing text domain to allow "Categories:" to be translated.
+* BUG: Reset the offset and cn-page query var if the results returned are less than current page offset.
+* BUG: Ensure array is returned even if no search fields were chosen to prevent PHP argument error.
+* BUG: Set all methods in the cnRegisterSettings class to be static.
+* BUG: connectionsLoad::start() stated as a static method.
+* OTHER: Update pot file and sync all lang po files.
+* OTHER: Change cnTemplatePart::categorySelect() to a static method.
+* OTHER: Change cnTemplatePart::categorySelectOption() to a static method.
+* OTHER: Change cnSettingsAPI::field() to a static method.
+* OTHER: Updated French translation. Props to Fx Benard.
+* OTHER: Set max-width: none CSS attribute on the return to top image.
+* OTHER: Set max-width: none !important; on the img tag for Google Maps to prevent themes from rendering the map controls and pin useless.
+* OTHER: Rename an action hook for better clarity for its purpose.
+* OTHER: Some code alignment cleanup in the shortcode function.
+* OTHER: Add additional verbiage to explain the Google Maps API setting.
 
 = 0.7.6.3 03/19/13 =
 * NOTICE: Requires WordPress 3.3 or newer.
@@ -803,4 +823,7 @@ Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTIC
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
 = 0.7.6.3 =
+Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.6.4 =
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

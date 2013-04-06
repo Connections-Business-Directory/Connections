@@ -217,7 +217,7 @@ function connectionsList($atts, $content = NULL) {
 	if ( $template == FALSE )
 		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $preLoadAtts['template_name'] . $preLoadAtts['template'] ). "</p>";
 
-	do_action( 'cn_register_template_actions' );
+	do_action( 'cn_register_legacy_template_parts' );
 	do_action( 'cn_action_include_once-' . $template->getSlug() );
 	do_action( 'cn_action_js-' . $template->getSlug() );
 
@@ -569,7 +569,7 @@ function _upcoming_list( $atts, $content = NULL ) {
 	if ( $template == FALSE )
 		return '<p style="color:red; font-weight:bold; text-align:center;>' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . "</p>";
 
-	do_action( 'cn_register_template_actions' );
+	do_action( 'cn_register_legacy_template_parts' );
 	do_action( 'cn_action_include_once-' . $template->getSlug() );
 	do_action( 'cn_action_js-' . $template->getSlug() );
 

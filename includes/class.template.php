@@ -170,7 +170,7 @@ class cnTemplate {
 
 		// Add action that registers the template parts.
 		// The do_action() will be run connectionsList() after cnTemplateFactory returns the cnTemplate object.
-		add_action( 'cn_register_template_actions', array( $this, 'registerLegacyParts' ) );
+		if ( $this->legacy ) add_action( 'cn_register_legacy_template_parts', array( $this, 'registerLegacyParts' ) );
 
 		return $this;
 	}

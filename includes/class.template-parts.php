@@ -16,6 +16,79 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnTemplatePart {
 
 	/**
+	 * Register the default template actions.
+	 *
+	 * @access private
+	 * @since 0.7.6.5
+	 * @uses add_action()
+	 * @return (void)
+	 */
+	public static function init() {
+		add_action( 'cn_action_list_actions', array( __CLASS__, 'listActions' ) );
+		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
+	}
+
+	/**
+	 * Output the entry list actions.
+	 *
+	 * @access public
+	 * @since 0.7.6.5
+	 * @param  (array)  $atts [optional]
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @return (string)
+	 */
+	public static function listActions( $atts = array() ) {
+		$out = '';
+
+		$defaults = array(
+			'before'      => '<ul id="cn-list-actions">',
+			'before-item' => '<li class="cn-list-action-item">',
+			'after-item'  => '</li>',
+			'after'       => '</ul>',
+			'return'      => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( cnSettingsAPI::get( 'connections', 'connections_display_list_actions', 'view_all' ) && get_query_var( 'cn-view' ) !== 'all' )
+			$actions['view_all'] = cnURL::permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => TRUE ) );
+
+		$actions = apply_filters( 'cn_filter_list_actions', $actions );
+
+		foreach ( $actions as $key => $action ) {
+			$out .= "\n" . ( empty( $atts['before-item'] ) ? '' : $atts['before-item'] ) . $action . ( empty( $atts['after-item'] ) ? '' : $atts['after-item'] ) . "\n";
+		}
+
+		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+	}
+
+	/**
+	 * Output the return to top div.
+	 *
+	 * @access public
+	 * @since 0.7.6.5
+	 * @param  (array)  $atts [optional]
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @return (string)
+	 */
+	public static function returnToTopTarget( $atts = array() ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = apply_filters( 'cn_filter_return_to_top_target', '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>' );
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
 	 * The return to top anchor.
 	 *
 	 * @access public

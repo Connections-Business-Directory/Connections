@@ -307,28 +307,36 @@ function connectionsList($atts, $content = NULL) {
 	if ( ! empty( $results ) ) $results = apply_filters( 'cn_list_results-' . $template->getSlug() , $results );
 	if ( ! empty( $results ) ) $filterRegistry[] = 'cn_list_results-' . $template->getSlug();
 
-	// Prints the template's CSS file.
+
 	ob_start();
+
+		// Prints the template's CSS file.
 		do_action( 'cn_action_css-' . $template->getSlug() );
+
+		// The return to top anchor
+		do_action( 'cn_action_return_to_target' );
+
 		$out .= ob_get_contents();
 	ob_end_clean();
 
-	// The return to top anchor
-	$out .= '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>';
 
-	$out .= '<div class="cn-list" id="cn-list" data-connections-version="' .
-		$connections->options->getVersion() . '-' .
-		$connections->options->getDBVersion() . '"' .
-		( ( empty($atts['width']) ) ? '' : ' style="width: ' . $atts['width'] . 'px;"' ) . '>' . "\n";
+	$out .= sprintf( '<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s"%3$s>',
+				$connections->options->getVersion(),
+				$connections->options->getDBVersion(),
+				empty( $atts['width'] ) ? '' : ' style="width: ' . $atts['width'] . 'px;"'
+			);
 
-		$out .= "\n" . '<div class="cn-template cn-' . $template->getSlug() . '" id="cn-' . $template->getSlug() . '" data-template-version="' . $template->getVersion() . '">' . "\n";
+		$out .= sprintf( '<div class="cn-template cn-%1$s" id="cn-%1$s" data-template-version="%2$s">',
+					$template->getSlug(),
+					$template->getVersion()
+				);
 
-		$out .= '<ul id="cn-action-list">';
+			ob_start();
 
-			if ( $connections->settings->get( 'connections', 'connections_display_list_actions', 'view_all' ) && get_query_var( 'cn-view' ) !== 'all' )
-				$out .= '<li class="cn-action-list-item">' . $connections->url->permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => TRUE ) ) . '</li>';
-
-		$out .= '</ul>';
+				// List actions.
+				do_action( 'cn_action_list_actions' );
+				$out .= ob_get_contents();
+			ob_end_clean();
 
 			$out .= "\n" . '<div class="cn-list-head cn-clear" id="cn-list-head">' . "\n";
 

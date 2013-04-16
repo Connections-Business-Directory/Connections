@@ -117,6 +117,13 @@ span.date-name { font-weight: bold; }
  */
 #cn-list div.bio, div#cn-list div.note { text-align: left; }
 
+/*
+ * Why o` why do theme's insist on floating and setting form widths globally???
+ */
+#cn-list input {
+	float: none;
+	width: auto;
+}
 
 /*
  * A few style style from Chosen with the selectors more specific so the theme's don't
@@ -172,6 +179,7 @@ span.date-name { font-weight: bold; }
 	color: #888;
 	display: inline-block;
 	font-size: 12px;
+	float: none;
 	height: 28px;
 	line-height: 20px;
 	margin: 1px 0 1px 1px !important;
@@ -200,6 +208,7 @@ input#cn-search-submit {
 	-webkit-box-sizing: border-box;
 	cursor: pointer;
 	font-size: 12px;
+	float: none;
 	height: 28px;
 	line-height: 20px;
 	margin: 1px 1px 1px 0 !important;
@@ -238,7 +247,9 @@ input#cn-search-submit {
 	border-color: #DFDFDF;
 	border-radius: 3px;
 	box-sizing: border-box;
+	color: #888;
 	display: inline;
+	float: none;
 	font-size: 12px;
 	height: auto;
 	line-height: 15px;

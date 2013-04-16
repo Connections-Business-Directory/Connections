@@ -364,6 +364,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Init the Template Factory API
 			cnTemplateFactory::init();
 
+			// Init the Template Parts API
+			cnTemplatePart::init();
+
 			// Register all valid query variables.
 			cnRewrite::init();
 

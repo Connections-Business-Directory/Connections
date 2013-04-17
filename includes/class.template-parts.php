@@ -40,6 +40,7 @@ class cnTemplatePart {
 	 */
 	public static function listActions( $atts = array() ) {
 		$out = '';
+		$actions = array();
 
 		$defaults = array(
 			'before'      => '<ul id="cn-list-actions">',

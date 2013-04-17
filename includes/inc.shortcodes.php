@@ -107,7 +107,8 @@ function connectionsView( $atts , $content = NULL ) {
 	}
 }
 
-add_shortcode('connections', 'connectionsView');
+add_shortcode( 'connections', 'connectionsView' );
+add_shortcode( 'connections_list', 'connectionsView' ); /** @deprecated since version 0.7.0.4 */
 
 /**
  * Register the [connections] shortcode
@@ -134,15 +135,14 @@ add_shortcode('connections', 'connectionsView');
  * 		cn_list_index					=> Can be used to modify the index before the output of the list.
  * 										   The entry list results are passed. Return string.
  *
- * @access private
+ * @access public
  * @since unknown
- * @param array $atts
- * @param string $content [optional]
- * @return string
+ * @param (array) $atts
+ * @param (string) $content [optional]
+ * @param (string) $tag [optional] When called as the callback for add_shortcode, the shortcode tag is passed automatically. Manually setting the shortcode tag so the function can be called independently.
+ * @return (string)
  */
-add_shortcode('connections_list', 'connectionsView'); /** @deprecated since version 0.7.0.4 */
-
-function connectionsList($atts, $content = NULL) {
+function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	global $wpdb, $wp_filter, $current_user, $connections;
 
 	$out            = '';
@@ -166,7 +166,8 @@ function connectionsList($atts, $content = NULL) {
 			'list_type'     => NULL,
 			'template'      => NULL, /** @since version 0.7.1.0 */
 			'template_name' => NULL /** @deprecated since version 0.7.0.4 */
-		), $preLoadAtts );
+		),
+		$preLoadAtts );
 
 
 	if ( ! empty( $preLoadAtts['list_type'] ) ) {
@@ -262,7 +263,7 @@ function connectionsList($atts, $content = NULL) {
 	$permittedAtts = apply_filters( 'cn_list_atts_permitted' , $permittedAtts );
 	$permittedAtts = apply_filters( 'cn_list_atts_permitted-' . $template->getSlug() , $permittedAtts );
 
-	$atts = shortcode_atts( $permittedAtts , $atts ) ;
+	$atts = shortcode_atts( $permittedAtts , $atts, $tag ) ;
 	//$out .= print_r($atts, TRUE);
 	//$out .= var_dump($atts);
 
@@ -529,7 +530,17 @@ function connectionsUpcomingList( $atts ) {
 
 add_shortcode( 'upcoming_list', '_upcoming_list' );
 
-function _upcoming_list( $atts, $content = NULL ) {
+/**
+ * Display the upcoming list.
+ *
+ * @access public
+ * @since unknown
+ * @param (array) $atts
+ * @param (string) $content [optional]
+ * @param (string) $tag [optional] When called as the callback for add_shortcode, the shortcode tag is passed automatically. Manually setting the shortcode tag so the function can be called independently.
+ * @return (string)
+ */
+function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
     global $connections, $wpdb;
 
 	// $template =& $connections->template;
@@ -547,7 +558,10 @@ function _upcoming_list( $atts, $content = NULL ) {
 			'show_title'       => TRUE,
 			'list_title'       => NULL,
 			'template'         => NULL
-		), $atts ) ;
+		),
+		$atts,
+		$tag
+	);
 
 	/*
 	 * Convert some of the $atts values in the array to boolean.
@@ -719,11 +733,14 @@ function _upcoming_list( $atts, $content = NULL ) {
 
 add_shortcode( 'connections_vcard', '_connections_vcard' );
 
-function _connections_vcard( $atts , $content = NULL ) {
+function _connections_vcard( $atts , $content = NULL, $tag ) {
 
 	$atts = shortcode_atts( array(
 			'id' => NULL
-		), $atts ) ;
+		),
+		$atts,
+		$tag
+	);
 
 	if ( empty( $atts['id'] ) || ! is_numeric( $atts['id'] ) || empty( $content ) ) return '';
 
@@ -734,11 +751,14 @@ function _connections_vcard( $atts , $content = NULL ) {
 
 add_shortcode( 'connections_qtip', '_connections_qtip' );
 
-function _connections_qtip( $atts , $content = NULL )
+function _connections_qtip( $atts , $content = NULL, $tag )
 {
 	$atts = shortcode_atts( array(
 			'id' => NULL
-		), $atts ) ;
+		),
+		$atts,
+		$tag
+	);
 
 	if ( empty( $atts['id'] ) || ! is_numeric ($atts['id'] ) || empty( $content ) ) return '';
 

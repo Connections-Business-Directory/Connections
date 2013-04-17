@@ -332,12 +332,27 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					$template->getVersion()
 				);
 
-			ob_start();
+			// Display the List/Entry actions bases on view [single or list].
+			if ( get_query_var( 'cn-entry-slug' ) ) {
 
-				// List actions.
-				do_action( 'cn_action_list_actions' );
-				$out .= ob_get_contents();
-			ob_end_clean();
+				ob_start();
+
+					// List actions.
+					do_action( 'cn_action_entry_actions' );
+					$out .= ob_get_contents();
+				ob_end_clean();
+
+			} else {
+
+				ob_start();
+
+					// List actions.
+					do_action( 'cn_action_list_actions' );
+					$out .= ob_get_contents();
+				ob_end_clean();
+
+			}
+
 
 			$out .= "\n" . '<div class="cn-list-head cn-clear" id="cn-list-head">' . "\n";
 

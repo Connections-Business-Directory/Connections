@@ -574,6 +574,8 @@ class cnFormObjects {
 		add_filter( 'cn_list_atts_permitted', 'cnMetaboxModerateAtts', 9 );
 		add_filter( 'cn_list_results', array( $connections->retrieve, 'removeUnknownDateAdded' ), 9 );
 
+		remove_action( 'cn_action_list_actions', array( 'cnTemplatePart', 'listActions' ) );
+
 		$atts = array(
 			'order_by'        => 'date_added|SORT_ASC',
 			'template'        => 'dashboard-recent-added',
@@ -599,6 +601,8 @@ class cnFormObjects {
 
 		add_filter( 'cn_list_results', array( $connections->retrieve, 'removeUnknownDateAdded' ), 9 );
 
+		remove_action( 'cn_action_list_actions', array( 'cnTemplatePart', 'listActions' ) );
+
 		$atts = array(
 			'order_by'        => 'date_added|SORT_DESC',
 			'template'        => 'dashboard-recent-added',
@@ -621,6 +625,8 @@ class cnFormObjects {
 	 */
 	public function metaboxRecentModified( $data = NULL ) {
 		global $connections;
+
+		remove_action( 'cn_action_list_actions', array( 'cnTemplatePart', 'listActions' ) );
 
 		$atts = array(
 			'order_by'        => 'date_modified|SORT_DESC',

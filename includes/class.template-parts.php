@@ -26,6 +26,7 @@ class cnTemplatePart {
 	public static function init() {
 		add_action( 'cn_action_list_actions', array( __CLASS__, 'listActions' ) );
 		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
+		add_action( 'cn_action_character_index', array( __CLASS__, 'characterIndex' ) );
 	}
 
 	/**

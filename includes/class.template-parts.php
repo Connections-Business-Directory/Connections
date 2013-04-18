@@ -114,6 +114,77 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Outputs the legacy character index. This is being deprecated in favor of cnTemplatePart::index().
+	 * This was added for backward compatibility only for the legacy templates.
+	 *
+	 * @access public
+	 * @since 0.7.6.5
+	 * @deprecated since 0.7.6.5
+	 * @uses wp_parse_args()
+	 * @uses is_ssl()
+	 * @uses add_query_arg()
+	 * @param  (array) $atts [optional]
+	 * @return (string)
+	 */
+	public static function characterIndex( $atts = array() ) {
+		static $out = '';
+		$links = array();
+		$alphaindex = range( "A", "Z" );
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		/*
+		 * $out is a static variable so if is not empty, this method was already run,
+		 * so there is no need to rebuild the chracter index.
+		 */
+		if ( ! empty( $out ) ) {
+			if ( $atts['return'] ) return $out;
+			echo $out;
+			return;
+		}
+
+		// The URL in the address bar
+		$requestedURL  = is_ssl() ? 'https://' : 'http://';
+		$requestedURL .= $_SERVER['HTTP_HOST'];
+		$requestedURL .= $_SERVER['REQUEST_URI'];
+
+		$parsedURL   = @parse_url( $requestedURL );
+
+		$redirectURL = explode( '?', $requestedURL );
+		$redirectURL = $redirectURL[0];
+
+		// Ensure array index is set, prevent PHP error notice.
+		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] = array();
+
+		$parsedURL['query'] = preg_replace( '#^\??&*?#', '', $parsedURL['query'] );
+
+		// Add back on to the URL any remaining query string values.
+		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
+			parse_str( $parsedURL['query'], $_parsed_query );
+			$_parsed_query = array_map( 'rawurlencode_deep',  $_parsed_query );
+		}
+
+		foreach ( $alphaindex as $letter ) {
+
+			if ( empty( $parsedURL['query'] ) ) {
+				$links[] = '<a href="#cn-char-' . $letter . '">' . $letter . '</a>';
+			} else {
+				$links[] = '<a href="' . add_query_arg( $_parsed_query, $redirectURL . '#cn-char-' . $letter ) . '">' . $letter . '</a>';
+			}
+
+		}
+
+		$out = "\n" . '<div class="cn-alphaindex">' . implode( ' ', $links ). '</div>' . "\n";
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
 	 * Create the search input.
 	 *
 	 * Accepted option for the $atts property are:

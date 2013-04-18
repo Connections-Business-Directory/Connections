@@ -353,7 +353,6 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 			}
 
-
 			$out .= "\n" . '<div class="cn-list-head cn-clear" id="cn-list-head">' . "\n";
 
 				ob_start();
@@ -373,16 +372,22 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				$filterRegistry[] = 'cn_list_before-' . $template->getSlug();
 
 				/*
-				 * The alpha index is only displayed if set set to true and not set to repeat using the shortcode attributes.
+				 * The alpha index is only displayed if set to true and not set to repeat.
 				 * If alpha index is set to repeat, that is handled separately.
 				 */
 				if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
-					$index = "\n" . '<div class="cn-alphaindex">' . $form->buildAlphaIndex(). '</div>' . "\n";
-					$index = apply_filters( 'cn_list_index' , $index , $results );
-					$index = apply_filters( 'cn_list_index-' . $template->getSlug() , $index , $results );
+
+					ob_start();
+
+						do_action( 'cn_action_character_index' );
+						$charIndex = ob_get_contents();
+					ob_end_clean();
+
+					$charIndex = apply_filters( 'cn_list_index' , $charIndex , $results );
+					$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $charIndex , $results );
 					$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
 
-					$out .= $index;
+					$out .= $charIndex;
 				}
 
 			$out .= "\n" . '</div>' . "\n";
@@ -391,11 +396,13 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 			// If there are no results no need to proceed and output message.
 			if ( empty( $results ) ) {
+
 				$noResultMessage = apply_filters( 'cn_list_no_result_message' , __('No results.', 'connections') );
 				$noResultMessage = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , __('No results.', 'connections') );
 				$filterRegistry[] = 'cn_list_no_result_message-' . $template->getSlug();
 
 				$out .=  "\n" . '<p class="cn-list-no-results">' . $noResultMessage . '</p>' . "\n";
+
 			} else {
 				/*
 				 * When an entry is assigned multiple categories and the RANDOM order_by shortcode attribute
@@ -406,46 +413,36 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				 */
 				$skipEntry = array();
 
-				foreach ( (array) $results as $row ) {
-
+				foreach ( $results as $row ) {
 					$entry       = new cnvCard( $row );
 					$vCard       =& $entry;
-					$repeatIndex = '';
-					$setAnchor   = '';
 
 					// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
 					if ( in_array( $entry->getId() , $skipEntry ) ) continue;
 					$skipEntry[] = $entry->getId();
 
-					/*
-					 * Checks the first letter of the last name to see if it is the next
-					 * letter in the alpha array and sets the anchor.
-					 *
-					 * If the alpha index is set to repeat it will append to the anchor.
-					 *
-					 * If the alpha head set to true it will append the alpha head to the anchor.
-					 */
 					$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
-
 
 					if ( $currentLetter != $previousLetter ) {
 
-						$out .= "\n" . '<div class="cn-list-section-head cn-clear" id="' . $currentLetter . '">' . "\n";
+						$out .= "\n" . '<div class="cn-list-section-head cn-clear" id="cn-char-' . $currentLetter . '">' . "\n";
 
 						if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
 
-							$repeatIndex = "\n" . '<div class="cn-alphaindex">' . $form->buildAlphaIndex() . '</div>' . "\n";
-							$repeatIndex = apply_filters( 'cn_list_index' , $repeatIndex , $results );
-							$repeatIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $repeatIndex , $results );
+							ob_start();
+
+								do_action( 'cn_action_character_index' );
+								$charIndex = ob_get_contents();
+							ob_end_clean();
+
+							$charIndex = apply_filters( 'cn_list_index' , $charIndex , $results );
+							$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $charIndex , $results );
 							$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
+
+							$out .= $charIndex;
 						}
 
-						if ( $atts['show_alphahead'] ) $setAnchor .= "\n" . '<h4 class="cn-alphahead">' . $currentLetter . '</h4>' . "\n";
-
-						/*
-						 * The anchor and/or the alpha head is displayed if set to true using the shortcode attributes.
-						 */
-						if ( $atts['show_alphaindex'] || $atts['show_alphahead'] ) $out .= $repeatIndex . $setAnchor;
+						if ( $atts['show_alphahead'] ) $out .= "\n" . '<h4 class="cn-alphahead">' . $currentLetter . '</h4>' . "\n";
 
 						$out .= "\n" . '</div>' . "\n";
 
@@ -515,7 +512,6 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	 * so it is not run again if more than one template
 	 * is in use on the same page.
 	 */
-
 	foreach ( $filterRegistry as $filter ) {
 		if ( isset( $wp_filter[ $filter ] ) ) unset( $wp_filter[ $filter ] );
 	}

@@ -159,49 +159,6 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Builds an alpha index.
-	 *
-	 * @return string
-	 */
-	public function buildAlphaIndex() {
-		$linkindex = '';
-		$alphaindex = range( "A", "Z" );
-
-		// The URL in the address bar
-		$requestedURL  = is_ssl() ? 'https://' : 'http://';
-		$requestedURL .= $_SERVER['HTTP_HOST'];
-		$requestedURL .= $_SERVER['REQUEST_URI'];
-
-		$parsedURL   = @parse_url( $requestedURL );
-
-		$redirectURL = explode( '?', $requestedURL );
-		$redirectURL = $redirectURL[0];
-
-		// Ensure array index is set, prevent PHP error notice.
-		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] = array();
-
-		$parsedURL['query'] = preg_replace( '#^\??&*?#', '', $parsedURL['query'] );
-
-		// Add back on to the URL any remaining query string values.
-		if ( $redirectURL && ! empty( $parsedURL['query'] ) ) {
-			parse_str( $parsedURL['query'], $_parsed_query );
-			$_parsed_query = array_map( 'rawurlencode_deep',  $_parsed_query );
-		}
-
-		foreach ( $alphaindex as $letter ) {
-
-			if ( ! empty( $parsedURL['query'] ) ) {
-				$linkindex .= '<a href="' . add_query_arg( $_parsed_query, $redirectURL . '#' . $letter ) . '">' . $letter . '</a> ';
-			} else {
-				$linkindex .= '<a href="#' . $letter . '">' . $letter . '</a> ';
-			}
-
-		}
-
-		return $linkindex;
-	}
-
-	/**
 	 * Builds a form select list
 	 *
 	 * @return HTML form select

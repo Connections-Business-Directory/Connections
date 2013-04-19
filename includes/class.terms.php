@@ -13,6 +13,8 @@ class cnTerms
 
 	private $termChildrenIDs = array();
 
+	private $terms = array();
+
 	/**
 	 * Returns all the terms under a taxonomy type.
 	 *
@@ -27,6 +29,9 @@ class cnTerms
 	public function getTerms($taxonomies, $arguments = NULL)
 	{
 		global $wpdb;
+
+		// If the term query has alread been run and the parent/child relationship built, return the stored version rather than quering/building again and again.
+		if ( ! empty( $this->terms ) ) return $this->terms;
 
 		$query = "SELECT t.*, tt.* from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('$taxonomies') ORDER BY name";
 
@@ -61,6 +66,8 @@ class cnTerms
 		{
 			if ($this->isChild($term->term_id)) unset($terms[$key]);
 		}
+
+		$this->terms = $terms;
 
 		//return $this->termChildren;
 		return $terms;

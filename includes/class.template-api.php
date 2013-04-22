@@ -245,27 +245,28 @@ class cnTemplateFactory {
 
 			foreach ( $meta as $template ) {
 
-				$atts['class'] = '';
-				$atts['name'] = $template->name;
-				$atts['slug'] = $template->slug;
-				$atts['type'] = $type;
-				$atts['version'] = $template->version;
-				$atts['author'] = $template->author;
-				$atts['authorURL'] = $template->uri;
+				$atts['class']       = '';
+				$atts['name']        = $template->name;
+				$atts['slug']        = $template->slug;
+				$atts['type']        = $type;
+				$atts['version']     = $template->version;
+				$atts['author']      = $template->author;
+				$atts['authorURL']   = $template->uri;
 				$atts['description'] = $template->description;
-				$atts['custom'] = $template->custom;
-				$atts['legacy'] = TRUE;
-				$atts['path'] = trailingslashit( $template->path );
-				$atts['url'] = trailingslashit( $template->url );
+				$atts['custom']      = $template->custom;
+				$atts['legacy']      = TRUE;
 
-				$atts['thumbnail'] = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
-				$atts['functions'] = isset( $template->phpPath ) ? 'functions.php' : '';
+				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . '/' . $template->slug );
+				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . '/' . $template->slug );
 
-				$parts['css'] = isset( $template->cssPath ) ? 'styles.css' : '';
-				$parts['js'] = isset( $template->jsPath ) ? 'template.js' : '';
-				$parts['card'] = isset( $template->file ) ? 'template.php' : '';
+				$atts['thumbnail']   = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
+				$atts['functions']   = isset( $template->phpPath ) ? 'functions.php' : '';
 
-				$atts['parts'] = $parts;
+				$parts['css']        = isset( $template->cssPath ) ? 'styles.css' : '';
+				$parts['js']         = isset( $template->jsPath ) ? 'template.js' : '';
+				$parts['card']       = isset( $template->file ) ? 'template.php' : '';
+
+				$atts['parts']       = $parts;
 
 				self::register( $atts );
 			}
@@ -307,41 +308,37 @@ class cnTemplateFactory {
 						include( $templatePath . $templateDirectory . '/meta.php');
 						$template->slug = $templateDirectory;
 
-						// Load the template metadate from the meta.php file
-
 						if ( ! isset( $template->type ) ) $template->type = 'all';
 
 						// PHP 5.4 warning fix.
 						if ( ! isset( $templates->{ $template->type } ) ) $templates->{ $template->type } = new stdClass();
 						if ( ! isset( $templates->{ $template->type }->{ $template->slug } ) ) $templates->{ $template->type }->{ $template->slug } = new stdClass();
 
+						// Load the template metadate from the meta.php file
 						$templates->{ $template->type }->{ $template->slug }->name = $template->name;
 						$templates->{ $template->type }->{ $template->slug }->version = $template->version;
 						$templates->{ $template->type }->{ $template->slug }->uri = 'http://' . $template->uri;
 						$templates->{ $template->type }->{ $template->slug }->author = $template->author;
 						$templates->{ $template->type }->{ $template->slug }->description = isset( $template->description ) ? $template->description : '';
 
-						// ( ! isset( $template->legacy ) ) ? $templates->{ $template->type }->{ $template->slug }->legacy = TRUE : $templates->{ $template->type }->{ $template->slug }->legacy = $template->legacy;
 						$templates->{ $template->type }->{ $template->slug }->slug = $template->slug ;
-						$templates->{ $template->type }->{ $template->slug }->custom = ( $templatePath === CN_TEMPLATE_PATH ) ? FALSE : TRUE;
-						$templates->{ $template->type }->{ $template->slug }->path = $templatePath . $templateDirectory;
-						$templates->{ $template->type }->{ $template->slug }->url = ( $templatePath === CN_TEMPLATE_PATH ) ? CN_TEMPLATE_URL . $template->slug : CN_CUSTOM_TEMPLATE_URL . $template->slug;
-						$templates->{ $template->type }->{ $template->slug }->file = $templatePath . $templateDirectory . '/template.php';
+						$templates->{ $template->type }->{ $template->slug }->custom = ( $templatePath === CN_CUSTOM_TEMPLATE_PATH ) ? TRUE : FALSE;
+						$templates->{ $template->type }->{ $template->slug }->file = TRUE;
 
 						if ( file_exists( $templates->{ $template->type }->{ $template->slug }->path . '/' . 'styles.css' ) ) {
-							$templates->{ $template->type }->{ $template->slug }->cssPath = $templates->{ $template->type }->{ $template->slug }->path . '/' . 'styles.css';
+							$templates->{ $template->type }->{ $template->slug }->cssPath = TRUE;
 						}
 
 						if ( file_exists( $templates->{ $template->type }->{ $template->slug }->path . '/' . 'template.js' ) ) {
-							$templates->{ $template->type }->{ $template->slug }->jsPath = $templates->{ $template->type }->{ $template->slug }->path . '/' . 'template.js';
+							$templates->{ $template->type }->{ $template->slug }->jsPath = TRUE;
 						}
 
 						if ( file_exists( $templates->{ $template->type }->{ $template->slug }->path . '/' . 'functions.php' ) ) {
-							$templates->{ $template->type }->{ $template->slug }->phpPath = $templates->{ $template->type }->{ $template->slug }->path . '/' . 'functions.php';
+							$templates->{ $template->type }->{ $template->slug }->phpPath = TRUE;
 						}
 
 						if ( file_exists( $templates->{ $template->type }->{ $template->slug }->path . '/' . 'thumbnail.png' ) ) {
-							$templates->{ $template->type }->{ $template->slug }->thumbnailURL = $templates->{ $template->type }->{ $template->slug }->url . '/' . 'thumbnail.png';
+							$templates->{ $template->type }->{ $template->slug }->thumbnailURL = TRUE;
 						}
 					}
 				}

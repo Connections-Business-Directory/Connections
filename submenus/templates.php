@@ -25,6 +25,9 @@ function connectionsShowTemplatesPage() {
 		$type = isset( $_GET['type'] ) ? esc_attr( $_GET['type'] ) : 'all';
 		$template = cnTemplateFactory::getCatalog( $type );
 
+		// Purge the transient so the page is freshly scanned by the template API.
+		delete_transient( 'cn_legacy_templates' );
+
 	?>
 		<div class="wrap">
 			<?php echo get_screen_icon( 'connections' ); ?>

@@ -569,7 +569,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			cnFileSystem::mkIndex( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Add an .htaccess file, create it if one doesn't exist, and add the no indexes option.
-			cnFileSystem::noIndexes( CN_IMAGE_PATH );
+			// cnFileSystem::noIndexes( CN_IMAGE_PATH ); // Causes some servers to respond w/ 403 when servering images.
 			cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
 			$connections->initOptions();

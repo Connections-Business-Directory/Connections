@@ -29,7 +29,7 @@
 		<span style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></span>
 		<span><?php $entry->vcard(); ?></span>
 		<?php cnTemplatePart::updated( array( 'timestamp' => $entry->getUnixTimeStamp() ) ); ?>
-		<span style="position: absolute; right: 3px; bottom: 5px;"><?php echo $entry->returnToTopAnchor() ?></span><br />
+		<?php cnTemplatePart::returnToTop(); ?>
 	</div>
 
 </div>

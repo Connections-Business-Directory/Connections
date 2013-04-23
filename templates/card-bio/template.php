@@ -34,7 +34,7 @@
 	<div class="cn-meta" align="left" style="margin-top: 6px">
 		<span><?php $entry->vcard(); ?></span>
 		<?php cnTemplatePart::updated( array( 'timestamp' => $entry->getUnixTimeStamp() ) ); ?>
-		<span style="position: absolute; right: 3px; bottom: 5px;"><?php echo $entry->returnToTopAnchor() ?></span><br />
+		<?php cnTemplatePart::returnToTop(); ?>
 	</div>
 
 </div>

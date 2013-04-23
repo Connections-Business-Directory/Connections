@@ -28,7 +28,7 @@
 	<div style="clear:both"></div>
 	<div class="cn-meta" align="left" style="margin-top: 6px">
 		<span><?php $entry->vcard(); ?></span>
-		<span style="<?php echo $entry->getLastUpdatedStyle() ?>; font-size:x-small; font-variant: small-caps; position: absolute; right: 6px; bottom: 8px;">Updated <?php echo $entry->getHumanTimeDiff() ?> ago</span><br />
+		<?php cnTemplatePart::updated( array( 'timestamp' => $entry->getUnixTimeStamp() ) ); ?><br />
 	</div>
 
 </div>

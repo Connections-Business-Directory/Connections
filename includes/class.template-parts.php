@@ -115,6 +115,76 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * The last updated messagefor an entry.
+	 *
+	 * @access public
+	 * @since 0.7.6.5
+	 * @uses wp_parse_args()
+	 * @uses human_time_diff()
+	 * @uses current_time()
+	 * @param (array) $atts [optional]
+	 * @return (string)
+	 */
+	public static function updated( $atts = array() ) {
+		$out = '';
+		$styles = '';
+
+		$defaults = array(
+			'timestamp'   => '',
+			'tag'         => 'span',
+			'style'       => array(
+				'font-size'    => 'x-small',
+				'font-variant' => 'small-caps',
+				'position'     => 'absolute',
+				'right'        => '26px',
+				'bottom'       => '8px'
+				),
+			'before'      => '',
+			'after'       => '',
+			'return'      => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// No need to continue if the timestamp was not supplied.
+		if ( ! isset( $atts['timestamp'] ) || empty( $atts['timestamp'] ) ) {
+
+			if ( $atts['return'] ) return $out;
+			echo $out;
+		}
+
+		$age = (int) abs( time() - strtotime( $atts['timestamp'] ) );
+
+		if ( $age < 657000 ) // less than one week: red
+			$atts['style']['color'] = 'red';
+		elseif ( $age < 1314000 ) // one-two weeks: maroon
+			$atts['style']['color'] = 'maroon';
+		elseif ( $age < 2628000 ) // two weeks to one month: green
+			$atts['style']['color'] = 'green';
+		elseif ( $age < 7884000 ) // one - three months: blue
+			$atts['style']['color'] = 'blue';
+		elseif ( $age < 15768000 ) // three to six months: navy
+			$atts['style']['color'] = 'navy';
+		elseif ( $age < 31536000 ) // six months to a year: black
+			$atts['style']['color'] = 'black';
+		else      // more than one year: don't show the update age
+			$atts['style']['display'] = 'none';
+
+		if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
+
+			array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
+			$styles = implode( $atts['style'], '; ' );
+		}
+
+		$updated = sprintf( __( 'Updated %1$s ago.' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp' ) ) );
+
+		$out = '<' . $atts['tag'] . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $updated . '</' . $atts['tag'] . '>';
+
+		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+	}
+
+	/**
 	 * Outputs the legacy character index. This is being deprecated in favor of cnTemplatePart::index().
 	 * This was added for backward compatibility only for the legacy templates.
 	 *

@@ -2037,9 +2037,8 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function returnToTopAnchor() {
-		global $connections;
 
-		$connections->template->returnToTop();
+		cnTemplatePart::returnToTop();
 	}
 
 	/**

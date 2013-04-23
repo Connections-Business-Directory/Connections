@@ -101,17 +101,34 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function returnToTop( $atts = array() ) {
+		$styles = '';
 
 		$defaults = array(
-			'return' => FALSE
+			'tag'         => 'span',
+			'style'       => array(
+				'position'     => 'absolute',
+				'right'        => '8px',
+				'bottom'       => '5px'
+				),
+			'before'      => '',
+			'after'       => '',
+			'return'      => FALSE
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '<a href="#cn-top" title="' . __('Return to top.', 'connections') . '"><img src="' . CN_URL . 'images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/></a>';
+		if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+			array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
+			$styles = implode( $atts['style'], '; ' );
+		}
+
+		$anchor = '<a href="#cn-top" title="' . __('Return to top.', 'connections') . '"><img src="' . CN_URL . 'images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/></a>';
+
+		$out = '<' . $atts['tag'] . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $anchor . '</' . $atts['tag'] . '>';
+
+		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 	}
 
 	/**

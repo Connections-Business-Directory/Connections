@@ -39,7 +39,7 @@
         </td>
 		<td align="right" valign="bottom" style="vertical-align: top;">
 			<?php cnTemplatePart::updated( array( 'timestamp' => $entry->getUnixTimeStamp() ) ); ?>
-			<?php cnTemplatePart::returnToTop(); ?>
+			<?php cnTemplatePart::returnToTop( array( 'style' => array( 'position' => 'absolute', 'right' => '8px', 'bottom' => '5px' ) ) ); ?>
         </td>
     </tr>
 </table>

@@ -296,6 +296,8 @@ class cnRetrieve {
 
 			if ( ! empty( $results ) ) {
 				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (\'' . implode( "', '", $results ) . '\')';
+			} else {
+				$where[] = 'AND 1=2';
 			}
 
 			/*

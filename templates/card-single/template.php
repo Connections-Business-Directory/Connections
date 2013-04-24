@@ -28,7 +28,24 @@
 	<div style="clear:both"></div>
 	<div class="cn-meta" align="left" style="margin-top: 6px">
 		<span><?php $entry->vcard(); ?></span>
-		<?php cnTemplatePart::updated( array( 'timestamp' => $entry->getUnixTimeStamp() ) ); ?><br />
+
+		<?php
+
+		cnTemplatePart::updated(
+			array(
+				'timestamp' => $entry->getUnixTimeStamp(),
+				'style' => array(
+					'font-size'    => 'x-small',
+					'font-variant' => 'small-caps',
+					'position'     => 'absolute',
+					'right'        => '10px',
+					'bottom'       => '8px'
+				)
+			)
+		);
+
+		?>
+
 	</div>
 
 </div>

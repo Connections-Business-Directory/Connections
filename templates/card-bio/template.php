@@ -33,8 +33,26 @@
 
 	<div class="cn-meta" align="left" style="margin-top: 6px">
 		<span><?php $entry->vcard(); ?></span>
-		<?php cnTemplatePart::updated( array( 'timestamp' => $entry->getUnixTimeStamp() ) ); ?>
-		<?php cnTemplatePart::returnToTop( array( 'style' => array( 'position' => 'absolute', 'right' => '8px', 'bottom' => '5px' ) ) ); ?>
+
+		<?php
+
+		cnTemplatePart::updated(
+			array(
+				'timestamp' => $entry->getUnixTimeStamp(),
+				'style' => array(
+					'font-size'    => 'x-small',
+					'font-variant' => 'small-caps',
+					'position'     => 'absolute',
+					'right'        => '36px',
+					'bottom'       => '8px'
+				)
+			)
+		);
+
+		cnTemplatePart::returnToTop( array( 'style' => array( 'position' => 'absolute', 'right' => '8px', 'bottom' => '5px' ) ) );
+
+		?>
+
 	</div>
 
 </div>

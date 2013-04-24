@@ -124,7 +124,7 @@ class cnTemplatePart {
 
 		$anchor = '<a href="' . $atts['href'] . '" title="' . $atts['title'] . '">' . $atts['text'] . '</a>';
 
-		$out = '<' . $atts['tag'] . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $anchor . '</' . $atts['tag'] . '>';
+		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $anchor . '</' . $atts['tag'] . '>';
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";

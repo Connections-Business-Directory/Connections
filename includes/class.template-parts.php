@@ -152,7 +152,7 @@ class cnTemplatePart {
 				'font-size'    => 'x-small',
 				'font-variant' => 'small-caps',
 				'position'     => 'absolute',
-				'right'        => '26px',
+				'right'        => '36px',
 				'bottom'       => '8px'
 				),
 			'before'      => '',
@@ -194,7 +194,7 @@ class cnTemplatePart {
 
 		$updated = sprintf( __( 'Updated %1$s ago.' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp' ) ) );
 
-		$out = '<' . $atts['tag'] . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $updated . '</' . $atts['tag'] . '>';
+		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $updated . '</' . $atts['tag'] . '>';
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";

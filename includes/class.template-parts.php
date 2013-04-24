@@ -122,7 +122,7 @@ class cnTemplatePart {
 			$styles = implode( $atts['style'], '; ' );
 		}
 
-		$anchor = '<a href="#cn-top" title="' . __('Return to top.', 'connections') . '"><img src="' . CN_URL . 'images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/></a>';
+		$anchor = '<a href="' . $atts['href'] . '" title="' . $atts['title'] . '">' . $atts['text'] . '</a>';
 
 		$out = '<' . $atts['tag'] . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $anchor . '</' . $atts['tag'] . '>';
 

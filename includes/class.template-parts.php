@@ -148,13 +148,7 @@ class cnTemplatePart {
 		$defaults = array(
 			'timestamp'   => '',
 			'tag'         => 'span',
-			'style'       => array(
-				'font-size'    => 'x-small',
-				'font-variant' => 'small-caps',
-				'position'     => 'absolute',
-				'right'        => '36px',
-				'bottom'       => '8px'
-				),
+			'style'       => array(),
 			'before'      => '',
 			'after'       => '',
 			'return'      => FALSE

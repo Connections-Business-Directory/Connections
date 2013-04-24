@@ -104,15 +104,14 @@ class cnTemplatePart {
 		$styles = '';
 
 		$defaults = array(
-			'tag'         => 'span',
-			'style'       => array(
-				'position'     => 'absolute',
-				'right'        => '8px',
-				'bottom'       => '5px'
-				),
-			'before'      => '',
-			'after'       => '',
-			'return'      => FALSE
+			'tag'    => 'span',
+			'href'   => '#cn-top',
+			'style'  => array(),
+			'title'  => __('Return to top.', 'connections'),
+			'text'   => '<img src="' . CN_URL . 'images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/>',
+			'before' => '',
+			'after'  => '',
+			'return' => FALSE
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

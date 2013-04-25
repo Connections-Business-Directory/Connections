@@ -332,28 +332,18 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					$template->getVersion()
 				);
 
-			// Display the List/Entry actions bases on view [single or list].
-			if ( get_query_var( 'cn-entry-slug' ) ) {
-
-				ob_start();
-
-					// List actions.
-					do_action( 'cn_action_entry_actions' );
-					$out .= ob_get_contents();
-				ob_end_clean();
-
-			} else {
-
-				ob_start();
-
-					// List actions.
-					do_action( 'cn_action_list_actions' );
-					$out .= ob_get_contents();
-				ob_end_clean();
-
-			}
-
 			$out .= "\n" . '<div class="cn-list-head cn-clear" id="cn-list-head">' . "\n";
+
+				// Display the List Actions.
+				if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+					// List actions.
+					ob_start();
+						do_action( 'cn_action_list_actions' );
+						$out .= ob_get_contents();
+					ob_end_clean();
+
+				}
 
 				ob_start();
 					do_action( 'cn_action_list_before' , $results );
@@ -377,8 +367,8 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				 */
 				if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
 
+					// The character index template part.
 					ob_start();
-
 						do_action( 'cn_action_character_index' );
 						$charIndex = ob_get_contents();
 					ob_end_clean();
@@ -421,6 +411,17 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					if ( in_array( $entry->getId() , $skipEntry ) ) continue;
 					$skipEntry[] = $entry->getId();
 
+					// Display the Entry Actions.
+					if ( get_query_var( 'cn-entry-slug' ) ) {
+
+						// List actions template part.
+						ob_start();
+							do_action( 'cn_action_entry_actions', array(), $entry );
+							$out .= ob_get_contents();
+						ob_end_clean();
+
+					}
+
 					$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 
 					if ( $currentLetter != $previousLetter ) {
@@ -429,8 +430,8 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 						if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
 
+							// The character index template part.
 							ob_start();
-
 								do_action( 'cn_action_character_index' );
 								$charIndex = ob_get_contents();
 							ob_end_clean();

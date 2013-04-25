@@ -25,12 +25,13 @@ class cnTemplatePart {
 	 */
 	public static function init() {
 		add_action( 'cn_action_list_actions', array( __CLASS__, 'listActions' ) );
+		add_action( 'cn_action_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
 		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
 		add_action( 'cn_action_character_index', array( __CLASS__, 'characterIndex' ) );
 	}
 
 	/**
-	 * Output the entry list actions.
+	 * Output the result list actions.
 	 *
 	 * @access public
 	 * @since 0.7.6.5
@@ -57,6 +58,45 @@ class cnTemplatePart {
 			$actions['view_all'] = cnURL::permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => TRUE ) );
 
 		$actions = apply_filters( 'cn_filter_list_actions', $actions );
+
+		foreach ( $actions as $key => $action ) {
+			$out .= "\n" . ( empty( $atts['before-item'] ) ? '' : $atts['before-item'] ) . $action . ( empty( $atts['after-item'] ) ? '' : $atts['after-item'] ) . "\n";
+		}
+
+		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+	}
+
+	/**
+	 * Output the entry list actions.
+	 *
+	 * @access public
+	 * @since 0.7.6.5
+	 * @param (array)  $atts [optional]
+	 * @param (object) $entry Instance of the cnEntry class.
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @return (string)
+	 */
+	public static function entryActions( $atts = array(), $entry ) {
+		$out = '';
+		$actions = array();
+
+		$defaults = array(
+			'before'      => '<ul id="cn-entry-actions">',
+			'before-item' => '<li class="cn-entry-action-item">',
+			'after-item'  => '</li>',
+			'after'       => '</ul>',
+			'return'      => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// if ( cnSettingsAPI::get( 'connections', 'connections_display_list_actions', 'view_all' ) && get_query_var( 'cn-view' ) !== 'all' )
+			$actions['back'] = cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => TRUE ) );
+			$actions['vcard'] = $entry->vcard( array( 'return' => TRUE ) );
+
+		$actions = apply_filters( 'cn_filter_entry_actions', $actions );
 
 		foreach ( $actions as $key => $action ) {
 			$out .= "\n" . ( empty( $atts['before-item'] ) ? '' : $atts['before-item'] ) . $action . ( empty( $atts['after-item'] ) ? '' : $atts['after-item'] ) . "\n";

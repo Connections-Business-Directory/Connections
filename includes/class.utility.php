@@ -410,14 +410,15 @@ class cnURL {
 		$piece = array();
 
 		$defaults = array(
-			'class'  => '',
-			'text'   => '',
-			'title'  => '',
-			'follow' => TRUE,
-			'rel'    => '',
-			'slug'   => '',
-			'type'   => 'name',
-			'return' => FALSE
+			'class'    => '',
+			'text'     => '',
+			'title'    => '',
+			'follow'   => TRUE,
+			'rel'      => '',
+			'slug'     => '',
+			'on_click' => '',
+			'type'     => 'name',
+			'return'   => FALSE
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -451,6 +452,7 @@ class cnURL {
 		if ( ! empty( $atts['target'] ) ) $piece['target'] = 'target="' . $atts['target'] .'"';
 		if ( ! $atts['follow'] ) $piece['follow']          = 'rel="nofollow"';
 		if ( ! empty( $atts['rel'] ) ) $piece['rel'] = 'rel="' . $atts['rel'] .'"';
+		if ( ! empty( $atts['on_click'] ) ) $piece['on_click'] = 'onClick="' . $atts['on_click'] .'"';
 
 		switch ( $atts['type'] ) {
 

@@ -632,14 +632,27 @@ class cnTemplatePart {
 	 */
 	private static function categorySelect( $atts ) {
 		global $connections;
-		$selected = '';
-
-		// $selected = get_query_var('cn-cat-slug') ? get_query_var('cn-cat-slug') : array();
+		$selected = array();
 
 		if ( get_query_var( 'cn-cat' ) ) {
+
 			$selected = get_query_var( 'cn-cat' );
-		} elseif( get_query_var( 'cn-cat-slug' ) ) {
-			$selected = get_query_var( 'cn-cat-slug' );
+
+
+		} elseif ( get_query_var( 'cn-cat-slug' ) ) {
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$queryCategorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+
+			if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) $selected = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];
+		}
+
+		// If value is a string, strip the white space and covert to an array.
+		if ( ! is_array( $selected ) ) {
+
+			$selected = str_replace( ' ', '', $selected );
+
+			$selected = explode( ',', $selected );
 		}
 
 		$level = 1;
@@ -711,7 +724,7 @@ class cnTemplatePart {
 	 * @param object $category A category object.
 	 * @param int $level The current category level.
 	 * @param int $depth The depth limit.
-	 * @param array $selected An array of the selected category IDs.
+	 * @param array $selected An array of the selected category IDs / slugs.
 	 * @param array $atts
 	 * @return string
 	 */
@@ -790,7 +803,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categoryInput( $atts = NULL ) {
+	private static function categoryInput( $atts = NULL ) {
 		global $connections;
 
 		$selected = ( get_query_var('cn-cat') ) ? get_query_var('cn-cat') : array();
@@ -921,7 +934,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categoryInputOption( $category, $level, $depth, $selected, $atts ) {
+	private static function categoryInputOption( $category, $level, $depth, $selected, $atts ) {
 
 		$out = '';
 
@@ -989,7 +1002,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categoryLink( $atts = NULL ) {
+	private static function categoryLink( $atts = NULL ) {
 		global $connections;
 
 		$categories = array();
@@ -1113,7 +1126,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private function categoryLinkDescendant ( $category, $level, $depth, $slug, $atts ) {
+	private static function categoryLinkDescendant ( $category, $level, $depth, $slug, $atts ) {
 		global $wp_rewrite, $connections;
 
 		$out = '';

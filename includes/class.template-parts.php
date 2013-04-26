@@ -112,6 +112,17 @@ class cnTemplatePart {
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 	}
 
+	/**
+	 * Outputs the "No Results" meesage.
+	 *
+	 * @access public
+	 * @since 0.7.6.5
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @param  (array) $atts [optional]
+	 * @param  (string) $slug The template slug.
+	 * @return (string)
+	 */
 	public static function noResults( $atts = array(), $slug ) {
 		$out = '';
 		$actions = array();

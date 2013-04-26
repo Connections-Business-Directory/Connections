@@ -264,7 +264,7 @@ class cnTemplateFactory {
 
 				$parts['css']        = isset( $template->cssPath ) ? 'styles.css' : '';
 				$parts['js']         = isset( $template->jsPath ) ? 'template.js' : '';
-				$parts['card']       = isset( $template->file ) ? 'template.php' : '';
+				$parts['card']       = 'template.php';
 
 				$atts['parts']       = $parts;
 
@@ -300,12 +300,14 @@ class cnTemplateFactory {
 
 			while ( ( $templateDirectory = readdir( $templateDirectories ) ) !== FALSE ) {
 
-				if ( is_dir ( $templatePath . $templateDirectory ) && is_readable( $templatePath . $templateDirectory ) ) {
+				$path = $templatePath . $templateDirectory;
 
-					if ( file_exists( $templatePath . $templateDirectory . '/meta.php' ) && file_exists( $templatePath . $templateDirectory . '/template.php' ) ) {
+				if ( is_dir ( $templatePath . $templateDirectory ) && is_readable( $path ) ) {
+
+					if ( file_exists( $path . '/meta.php' ) && file_exists( $path . '/template.php' ) ) {
 
 						$template = new stdClass();
-						include( $templatePath . $templateDirectory . '/meta.php');
+						include( $path . '/meta.php');
 						$template->slug = $templateDirectory;
 
 						if ( ! isset( $template->type ) ) $template->type = 'all';
@@ -315,31 +317,20 @@ class cnTemplateFactory {
 						if ( ! isset( $templates->{ $template->type }->{ $template->slug } ) ) $templates->{ $template->type }->{ $template->slug } = new stdClass();
 
 						// Load the template metadate from the meta.php file
-						$templates->{ $template->type }->{ $template->slug }->name = $template->name;
-						$templates->{ $template->type }->{ $template->slug }->version = $template->version;
-						$templates->{ $template->type }->{ $template->slug }->uri = 'http://' . $template->uri;
-						$templates->{ $template->type }->{ $template->slug }->author = $template->author;
+						$templates->{ $template->type }->{ $template->slug }->name        = $template->name;
+						$templates->{ $template->type }->{ $template->slug }->version     = $template->version;
+						$templates->{ $template->type }->{ $template->slug }->uri         = 'http://' . $template->uri;
+						$templates->{ $template->type }->{ $template->slug }->author      = $template->author;
 						$templates->{ $template->type }->{ $template->slug }->description = isset( $template->description ) ? $template->description : '';
 
-						$templates->{ $template->type }->{ $template->slug }->slug = $template->slug ;
-						$templates->{ $template->type }->{ $template->slug }->custom = ( $templatePath === CN_CUSTOM_TEMPLATE_PATH ) ? TRUE : FALSE;
-						$templates->{ $template->type }->{ $template->slug }->file = TRUE;
+						$templates->{ $template->type }->{ $template->slug }->path        = $path;
+						$templates->{ $template->type }->{ $template->slug }->slug        = $template->slug ;
+						$templates->{ $template->type }->{ $template->slug }->custom      = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? TRUE : FALSE;
 
-						if ( file_exists( $templates->{ $template->type }->{ $template->slug }->path . '/' . 'styles.css' ) ) {
-							$templates->{ $template->type }->{ $template->slug }->cssPath = TRUE;
-						}
-
-						if ( file_exists( $templates->{ $template->type }->{ $template->slug }->path . '/' . 'template.js' ) ) {
-							$templates->{ $template->type }->{ $template->slug }->jsPath = TRUE;
-						}
-
-						if ( file_exists( $templates->{ $template->type }->{ $template->slug }->path . '/' . 'functions.php' ) ) {
-							$templates->{ $template->type }->{ $template->slug }->phpPath = TRUE;
-						}
-
-						if ( file_exists( $templates->{ $template->type }->{ $template->slug }->path . '/' . 'thumbnail.png' ) ) {
-							$templates->{ $template->type }->{ $template->slug }->thumbnailURL = TRUE;
-						}
+						if ( file_exists( $path . '/' . 'styles.css' ) ) $templates->{ $template->type }->{ $template->slug }->cssPath         = TRUE;
+						if ( file_exists( $path . '/' . 'template.js' ) ) $templates->{ $template->type }->{ $template->slug }->jsPath         = TRUE;
+						if ( file_exists( $path . '/' . 'functions.php' ) ) $templates->{ $template->type }->{ $template->slug }->phpPath      = TRUE;
+						if ( file_exists( $path . '/' . 'thumbnail.png' ) ) $templates->{ $template->type }->{ $template->slug }->thumbnailURL = TRUE;
 					}
 				}
 			}

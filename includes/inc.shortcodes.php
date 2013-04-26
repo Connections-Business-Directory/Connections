@@ -387,11 +387,13 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 			// If there are no results no need to proceed and output message.
 			if ( empty( $results ) ) {
 
-				$noResultMessage = apply_filters( 'cn_list_no_result_message' , __('No results.', 'connections') );
-				$noResultMessage = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , __('No results.', 'connections') );
-				$filterRegistry[] = 'cn_list_no_result_message-' . $template->getSlug();
+				// The no results message.
+				ob_start();
+					do_action( 'cn_action_no_results', array(), $template->getSlug() );
+					$out .= ob_get_contents();
+				ob_end_clean();
 
-				$out .=  "\n" . '<p class="cn-list-no-results">' . $noResultMessage . '</p>' . "\n";
+				$filterRegistry[] = 'cn_list_no_result_message-' . $template->getSlug();
 
 			} else {
 				/*

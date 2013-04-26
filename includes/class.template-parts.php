@@ -24,10 +24,14 @@ class cnTemplatePart {
 	 * @return (void)
 	 */
 	public static function init() {
+
 		add_action( 'cn_action_list_actions', array( __CLASS__, 'listActions' ) );
 		add_action( 'cn_action_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
-		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
+
+		add_action( 'cn_action_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
+
 		add_action( 'cn_action_character_index', array( __CLASS__, 'characterIndex' ) );
+		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
 	}
 
 	/**
@@ -103,6 +107,29 @@ class cnTemplatePart {
 		foreach ( $actions as $key => $action ) {
 			$out .= "\n" . ( empty( $atts['before-item'] ) ? '' : $atts['before-item'] ) . $action . ( empty( $atts['after-item'] ) ? '' : $atts['after-item'] ) . "\n";
 		}
+
+		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+	}
+
+	public static function noResults( $atts = array(), $slug ) {
+		$out = '';
+		$actions = array();
+
+		$defaults = array(
+			'tag'     => 'p',
+			'message' => __('No results.', 'connections'),
+			'before'  => '',
+			'after'   => '',
+			'return'  => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$atts['message'] = apply_filters( 'cn_list_no_result_message' , $atts['message'] );
+		$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $slug , $atts['message'] );
+
+		$out .=  "\n" . '<' . $atts['tag'] . ' class="cn-list-no-results">' . $atts['message'] . '</' . $atts['tag'] . '>' . "\n";
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";

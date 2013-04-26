@@ -151,9 +151,6 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	$format         =& $convert;
 	$filterRegistry = array();
 
-	$previousLetter = '';
-	$alternate      = '';
-
 	/*
 	 * Parse the user supplied shortcode atts for the values only required to load the template.
 	 * This will permit templates to apply a filter to alter the permitted shortcode atts.
@@ -361,24 +358,21 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				$out .= apply_filters( 'cn_list_before-' . $template->getSlug() , '' , $results );
 				$filterRegistry[] = 'cn_list_before-' . $template->getSlug();
 
+				// The character index template part.
+				ob_start();
+					do_action( 'cn_action_character_index' );
+					$charIndex = ob_get_contents();
+				ob_end_clean();
+
+				$charIndex = apply_filters( 'cn_list_index' , $charIndex , $results );
+				$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $charIndex , $results );
+				$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
+
 				/*
 				 * The alpha index is only displayed if set to true and not set to repeat.
 				 * If alpha index is set to repeat, that is handled separately.
 				 */
-				if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
-
-					// The character index template part.
-					ob_start();
-						do_action( 'cn_action_character_index' );
-						$charIndex = ob_get_contents();
-					ob_end_clean();
-
-					$charIndex = apply_filters( 'cn_list_index' , $charIndex , $results );
-					$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $charIndex , $results );
-					$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
-
-					$out .= $charIndex;
-				}
+				if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) $out .= $charIndex;
 
 			$out .= "\n" . '</div>' . "\n";
 
@@ -396,6 +390,10 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				$filterRegistry[] = 'cn_list_no_result_message-' . $template->getSlug();
 
 			} else {
+
+				$previousLetter = '';
+				$alternate      = '';
+
 				/*
 				 * When an entry is assigned multiple categories and the RANDOM order_by shortcode attribute
 				 * is used, this will cause the entry to show once for every category it is assigned.
@@ -430,22 +428,9 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 						$out .= "\n" . '<div class="cn-list-section-head cn-clear" id="cn-char-' . $currentLetter . '">' . "\n";
 
-						if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
+							if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) $out .= $charIndex;
 
-							// The character index template part.
-							ob_start();
-								do_action( 'cn_action_character_index' );
-								$charIndex = ob_get_contents();
-							ob_end_clean();
-
-							$charIndex = apply_filters( 'cn_list_index' , $charIndex , $results );
-							$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $charIndex , $results );
-							$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
-
-							$out .= $charIndex;
-						}
-
-						if ( $atts['show_alphahead'] ) $out .= "\n" . '<h4 class="cn-alphahead">' . $currentLetter . '</h4>' . "\n";
+							if ( $atts['show_alphahead'] ) $out .= "\n" . '<h4 class="cn-alphahead">' . $currentLetter . '</h4>' . "\n";
 
 						$out .= "\n" . '</div>' . "\n";
 

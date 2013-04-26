@@ -120,13 +120,21 @@ class cnRegisterSettings
 			'id'        => 'connections_display_list_actions',
 			'position'  => 15,
 			'title'     => __( 'List Actions' , 'connections' ),
-			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions.', 'connections' ) . '\';' ),
+			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are displayed above the result list.', 'connections' ) . '\';' ),
+			'page_hook' => $settings
+		);
+		$sections[] = array(
+			'tab'       => 'display',
+			'id'        => 'connections_display_entry_actions',
+			'position'  => 20,
+			'title'     => __( 'Entry Actions' , 'connections' ),
+			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are shown above the single entry.', 'connections' ) . '\';' ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'display',
 			'id'        => 'connections_display_single',
-			'position'  => 20,
+			'position'  => 25,
 			'title'     => __( 'Single Entry' , 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings
@@ -370,6 +378,33 @@ class cnRegisterSettings
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'back',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_entry_actions',
+			'title'     => __( '', 'connections' ),
+			'desc'      => __( 'Show the "Back to Directory" link.', 'connections' ),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'vcard',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_entry_actions',
+			'title'     => __( '', 'connections' ),
+			'desc'      => __( 'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.', 'connections' ),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1
 		);
 
 		$fields[] = array(

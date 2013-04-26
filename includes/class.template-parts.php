@@ -92,8 +92,10 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// if ( cnSettingsAPI::get( 'connections', 'connections_display_list_actions', 'view_all' ) && get_query_var( 'cn-view' ) !== 'all' )
+		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'back' ) )
 			$actions['back'] = cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => TRUE ) );
+
+		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) )
 			$actions['vcard'] = $entry->vcard( array( 'return' => TRUE ) );
 
 		$actions = apply_filters( 'cn_filter_entry_actions', $actions );

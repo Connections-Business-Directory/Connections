@@ -447,6 +447,9 @@ class cnFormObjects {
 	 * @return string
 	 */
 	public function metaboxBirthdayUpcoming( $data = NULL ) {
+		$message = create_function( '', 'return "' . __( 'No Upcoming Birthdays.', 'connections' ) . '";' );
+		add_filter( 'cn_upcoming_no_result_message', $message );
+
 		$atts = array(
 			'list_type'        => 'birthday',
 			'days'             => '30',
@@ -460,6 +463,8 @@ class cnFormObjects {
 		);
 
 		connectionsUpcomingList( $atts );
+
+		remove_filter( 'cn_upcoming_no_result_message', $message );
 	}
 
 	/**
@@ -497,6 +502,9 @@ class cnFormObjects {
 	 * @param array   $data
 	 */
 	public function metaboxAnniversaryUpcoming( $data = NULL ) {
+		$message = create_function( '', 'return "' . __( 'No Upcoming Anniversaries.', 'connections' ) . '";' );
+		add_filter( 'cn_upcoming_no_result_message', $message );
+
 		$atts = array(
 			'list_type'        => 'anniversary',
 			'days'             => '30',
@@ -510,6 +518,8 @@ class cnFormObjects {
 		);
 
 		connectionsUpcomingList( $atts );
+
+		remove_filter( 'cn_upcoming_no_result_message', $message );
 	}
 
 	/**

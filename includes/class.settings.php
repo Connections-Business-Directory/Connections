@@ -414,10 +414,15 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'display',
 			'section'   => 'connections_display_single',
+<<<<<<< HEAD
 			'title'     => '',
 			'desc'      => __('Display a single entry using the active template based on entry type.
 				For example, if the entry is an organization it will be displayed using the template
 				that is activated for the "Organization" template type found on the Connections : Templates admin page.', 'connections'),
+=======
+			'title'     => __( '', 'connections' ),
+			'desc'      => __( 'Display a single entry using the active template based on entry type. For example, if the entry is an organization it will be displayed using the template that is activated for the "Organization" template type found on the Connections : Templates admin page.', 'connections' ),
+>>>>>>> fxbenard-develop
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
@@ -748,9 +753,7 @@ class cnRegisterSettings
 			'tab'       => 'search',
 			'section'   => 'connections_search',
 			'title'     => __('Keyword Search', 'connections'),
-			'desc'      => __('Enable LIKE query support. Disabling this option can improve search results if the server configuration supports FULLTEXT queries. If you disable this option and searches do not yield results, this indicates that
-				the server does not support FULLTEXT queries. If that is the case, re-enable this option and disable the FULLTEXT option. NOTE: If the FULLTEXT option is disabled, this option must be enabled. Additionally, search terms with three characters
-				or less will be ignored. This can not be changed as this is a database limitation.', 'connections'),
+			'desc'      => __( 'Enable LIKE query support. Disabling this option can improve search results if the server configuration supports FULLTEXT queries. If you disable this option and searches do not yield results, this indicates that the server does not support FULLTEXT queries. If that is the case, re-enable this option and disable the FULLTEXT option. NOTE: If the FULLTEXT option is disabled, this option must be enabled. Additionally, search terms with three characters or less will be ignored. This can not be changed as this is a database limitation.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1

@@ -108,44 +108,6 @@ function connectionsShowTemplatesPage() {
 				</tbody>
 			</table>
 
-			<?php
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
-			?>
-
-			<table cellspacing="0" cellpadding="0" id="installthemes">
-				<tbody>
-					<tr>
-						<td class="install_template" colspan="3">
-							<h2><?php _e( 'Install Template', 'connections' ); ?></h2>
-
-							<?php
-									$formAttr = array(
-										'action' => 'admin.php?connections_process=true&process=template&type=' . $type . '&action=install',
-										'method' => 'post',
-										'enctype' => 'multipart/form-data'
-									);
-
-									$form->open( $formAttr );
-									$form->tokenField( 'install_template' );
-							?>
-
-							<p>
-								<label for='template'><?php _e( 'Select Template:', 'connections' ); ?>
-									<input type='file' value='' name='template' size='25' />
-								</label>
-								<input type="submit" value="<?php _e( 'Install Now', 'connections' ); ?>" class="button">
-							</p>
-
-							<?php $form->close(); ?>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<?php
-			}
-			?>
-
 			<table cellspacing="0" cellpadding="0" id="availablethemes">
 				<tbody>
 					<tr>
@@ -247,6 +209,44 @@ function connectionsShowTemplatesPage() {
 
 				</tbody>
 			</table>
+
+			<?php
+			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
+			?>
+
+			<table cellspacing="0" cellpadding="0" id="installthemes">
+				<tbody>
+					<tr>
+						<td class="install_template" colspan="3">
+							<h2><?php _e( 'Install Template', 'connections' ); ?></h2>
+
+							<?php
+									$formAttr = array(
+										'action' => 'admin.php?connections_process=true&process=template&type=' . $type . '&action=install',
+										'method' => 'post',
+										'enctype' => 'multipart/form-data'
+									);
+
+									$form->open( $formAttr );
+									$form->tokenField( 'install_template' );
+							?>
+
+							<p>
+								<label for='template'><?php _e( 'Select Template:', 'connections' ); ?>
+									<input type='file' value='' name='template' size='25' />
+								</label>
+								<input type="submit" value="<?php _e( 'Install Now', 'connections' ); ?>" class="button">
+							</p>
+
+							<?php $form->close(); ?>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<?php
+			}
+			?>
 
 		</div>
 	<?php

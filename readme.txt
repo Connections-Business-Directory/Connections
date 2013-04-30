@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 0.7.6.5
+Stable tag: 0.7.6.6
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -82,7 +82,11 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 
 == Changelog ==
 
-= 0.7.6.4 04/29/13 =
+= 0.7.6.6 04/30/13 =
+* NOTICE: Requires WordPress 3.3 or newer.
+* BUG: Remove merge confict markers in class.settings.php. Why the heck didn't git throw a merge conflict error!
+
+= 0.7.6.5 04/29/13 =
 * NOTICE: Requires WordPress 3.3 or newer.
 * FEATURE: New entry actions, return to directory link and download vCard link.
 * BUG: Removed the list actions in the dashboard widgets.
@@ -860,4 +864,7 @@ Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTIC
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
 = 0.7.6.5 =
+Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.6.6 =
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

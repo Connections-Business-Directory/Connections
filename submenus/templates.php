@@ -218,7 +218,9 @@ function connectionsShowTemplatesPage() {
 				<tbody>
 					<tr>
 						<td class="install_template" colspan="3">
-							<h2><?php _e( 'Install Template', 'connections' ); ?></h2>
+							<h2><?php _e( 'Install Legacy Template', 'connections' ); ?></h2>
+
+							<p><?php _e( 'If you puchased your template after 3.25.2013, please follow these <a href="http://connections-pro.com/documentation/plugin/install/templates/">installation instructions</a>. If you are upgrading your template purchased prior to 3.25.2013, please take note of the special upgrade instructions found on the same page.' , 'connections' ); ?></p>
 
 							<?php
 									$formAttr = array(

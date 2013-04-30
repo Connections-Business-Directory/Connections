@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 0.7.6.4
+Stable tag: 0.7.6.5
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -81,6 +81,37 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.6.4 04/29/13 =
+* NOTICE: Requires WordPress 3.3 or newer.
+* FEATURE: New entry actions, return to directory link and download vCard link.
+* BUG: Removed the list actions in the dashboard widgets.
+* BUG: Use %f when inserting/updating entries for lat/long so wpdb->prepare() properly sanitizes the float values.
+* BUG: Fix the category_in shortcode option so it returns only entries that are in all the specified categories as it should have been doing.
+* BUG: Fix logic in cnTemplatePart::categorySelect() to properly set the selected categories in the drop down when being determined from the URL.
+* BUG: Remove empty string from gettext calls. This was causing Poedit errors.
+* TWEAK: Add the new $tag attribute to the shortcodes.
+* TWEAK: Small optimization when requesting the category tree.
+* TWEAK: Cleanup and improve the legacy template scanning logic.
+* TWEAK: Don't put a .htaccess file in the connection_images folder. Some servers prevent showing the images.
+* TWEAK: Add support for onClick to cnURL::permalink().
+* TWEAK: Add cnTemplatePart::entryActions() and add support for it in the shortcode.
+* TWEAK: Add filters to tweak the no results message for the upcoming anniversary and birthday dashboard widgets.
+* OTHER: Update the minified CSS file.
+* OTHER: Move list actions from the shortcode to the templates parts API.
+* OTHER: Move the return to top target from the shortcode to the template parts API.
+* OTHER: Update the shortcode to use the list action and return to top template parts.
+* OTHER: Add some more CSS to help prevent themes from breaking form inputs ... unfloat them within Connections.
+* OTHER: Moved the character index from the shortcode to the template parts API.
+* OTHER: Update the shortcode to use the character index from the template parts API.
+* OTHER: Remove the cnForm::buildAlphaIndex() method as it no longer used.
+* OTHER: Add error suppression to ini_set() used in class.upload.php.
+* OTHER: Add cnTemplatePart::updated().
+* OTHER: Update all supplied templates to use Add cnTemplatePart::updated().
+* OTHER: Update all supplied templates to use Add cnTemplatePart::returnToTop()
+* OTHER: Add cnTemplatePart::noResult() and update the shortcode to use it.
+* OTHER: Update French translation. Props fxbernard!
+* OTHER: Move the legacy template installer on the Connections : Templates admin page to the bottom of the page so it is out of site. Added a link to the installation/upgrade instructions.
 
 = 0.7.6.4 04/06/13 =
 * NOTICE: Requires WordPress 3.3 or newer.
@@ -826,4 +857,7 @@ Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTIC
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
 = 0.7.6.4 =
+Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.6.5 =
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

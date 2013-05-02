@@ -179,10 +179,10 @@ function connectionsShowTemplatesPage() {
 
 									<span class="action-links">
 										<?php
-											$activateTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=template&action=activate&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'activate_' . $template->{ $slug }->getSlug() );
+											$activateTokenURL = $form->tokenURL( 'admin.php?cn-action=activate_template&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'activate_' . $template->{ $slug }->getSlug() );
 
 											if ( $template->{ $slug }->isCustom() === TRUE && $template->{ $slug }->isLegacy() === TRUE ) {
-												$deleteTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=template&action=delete&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'delete_' .  $template->{ $slug }->getSlug() );
+												$deleteTokenURL = $form->tokenURL( 'admin.php?cn-action=delete_template&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'delete_' .  $template->{ $slug }->getSlug() );
 											}
 
 										?>
@@ -224,7 +224,7 @@ function connectionsShowTemplatesPage() {
 
 							<?php
 									$formAttr = array(
-										'action' => 'admin.php?connections_process=true&process=template&type=' . $type . '&action=install',
+										'action' => '',
 										'method' => 'post',
 										'enctype' => 'multipart/form-data'
 									);
@@ -234,6 +234,8 @@ function connectionsShowTemplatesPage() {
 							?>
 
 							<p>
+								<input type="hidden" name="cn-action" value="install_template"/>
+
 								<label for='template'><?php _e( 'Select Template:', 'connections' ); ?>
 									<input type='file' value='' name='template' size='25' />
 								</label>

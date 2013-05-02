@@ -1266,46 +1266,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					}
 					break;
 
-				case 'template':
-					/*
-					 * Check whether user can manage Templates
-					 */
-					if ( current_user_can( 'connections_manage_template' ) ) {
-						if ( $_GET['action'] ) {
-							switch ( $_GET['action'] ) {
-								case 'activate':
-									processActivateTemplate();
-
-									( ! isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
-									exit();
-									break;
-
-								case 'install':
-									check_admin_referer( $form->getNonce( 'install_template' ), '_cn_wpnonce' );
-									processInstallTemplate();
-
-									( ! isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
-									exit();
-									break;
-
-								case 'delete':
-									processDeleteTemplate();
-
-									( ! isset( $_GET['type'] ) ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-									wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
-									exit();
-									break;
-							}
-						}
-					} else {
-						// @TODO: Create template specific error message.
-						$connections->setErrorMessage( 'capability_settings' );
-					}
-
-					break;
-
 			}
 		}
 

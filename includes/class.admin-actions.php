@@ -86,9 +86,9 @@ class cnAdminActions {
 		add_action( 'cn_category', array( __CLASS__, 'categoryActions' ) );
 
 		// Template Actions
-		add_action( 'activate_template', array( __CLASS__, 'activateTemplate' ) );
-		add_action( 'install_template', array( __CLASS__, 'installTemplate' ) );
-		add_action( 'delete_template', array( __CLASS__, 'deleteTemplate' ) );
+		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
+		add_action( 'cn_install_template', array( __CLASS__, 'installTemplate' ) );
+		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
 	}
 
 	/**

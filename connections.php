@@ -1225,47 +1225,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 					break;
 
-				case 'category':
-					/*
-					 * Check whether user can edit Settings
-					 */
-					if ( current_user_can( 'connections_edit_categories' ) ) {
-						if ( $_GET['action'] ) {
-							switch ( $_GET['action'] ) {
-								case 'add':
-									check_admin_referer( $form->getNonce( 'add_category' ), '_cn_wpnonce' );
-									processAddCategory();
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
-									exit();
-									break;
-
-								case 'update':
-									check_admin_referer( $form->getNonce( 'update_category' ), '_cn_wpnonce' );
-									processUpdateCategory();
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
-									exit();
-									break;
-
-								case 'delete':
-									processDeleteCategory( 'delete' );
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
-									exit();
-									break;
-
-								case 'bulk_delete':
-									check_admin_referer( $form->getNonce( 'bulk_delete_category' ), '_cn_wpnonce' );
-									processDeleteCategory( 'bulk_delete' );
-									wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
-									exit();
-									break;
-							}
-						}
-					}
-					else {
-						$connections->setErrorMessage( 'capability_categories' );
-					}
-					break;
-
 			}
 		}
 

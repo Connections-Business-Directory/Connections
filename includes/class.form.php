@@ -1866,8 +1866,8 @@ class cnCategoryObjects {
 		/*
 		 * Genreate the edit & delete tokens.
 		 */
-		$editToken = $form->tokenURL( 'admin.php?page=connections_categories&action=edit&id=' . $category->getId(), 'category_edit_' . $category->getId() );
-		$deleteToken = $form->tokenURL( 'admin.php?connections_process=true&process=category&action=delete&id=' . $category->getId(), 'category_delete_' . $category->getId() );
+		$editToken = $form->tokenURL( 'admin.php?page=connections_categories&action=cn-edit_category&id=' . $category->getId(), 'category_edit_' . $category->getId() );
+		$deleteToken = $form->tokenURL( 'admin.php?cn-action=cn-delete_category&id=' . $category->getId(), 'category_delete_' . $category->getId() );
 
 		$out = '<tr id="cat-' . $category->getId() . '" class="' . $this->rowClass . '">';
 		$out .= '<th class="check-column">';

@@ -59,7 +59,7 @@ function connectionsShowRolesPage() {
 
 							<div id="major-publishing-actions">
 								<div id="publishing-action">
-									<input type="hidden" name="cn-action" value="update_role_settings"/>
+									<input type="hidden" name="cn-action" value="cn_update_role_settings"/>
 									<input class="button-primary" type="submit" value="<?php _e( 'Update', 'connections' ); ?>" name="save" />
 								</div>
 								<div class="clear"></div>

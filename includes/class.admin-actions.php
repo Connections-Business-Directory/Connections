@@ -77,7 +77,7 @@ class cnAdminActions {
 	private static function registerActions() {
 
 		// Role Actions
-		add_action( 'update_role_settings', array( __CLASS__, 'updateRoleSettings' ) );
+		add_action( 'cn_update_role_settings', array( __CLASS__, 'updateRoleSettings' ) );
 
 		// Category Actions
 		add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );

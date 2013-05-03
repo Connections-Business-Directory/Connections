@@ -80,10 +80,10 @@ class cnAdminActions {
 		add_action( 'update_role_settings', array( __CLASS__, 'updateRoleSettings' ) );
 
 		// Category Actions
-		add_action( 'add_category', array( __CLASS__, 'addCategory' ) );
-		add_action( 'update_category', array( __CLASS__, 'updateCategory' ) );
-		add_action( 'cn-delete_category', array( __CLASS__, 'deleteCategory' ) );
-		add_action( 'cn-category', array( __CLASS__, 'categoryActions' ) );
+		add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
+		add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
+		add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
+		add_action( 'cn_category', array( __CLASS__, 'categoryActions' ) );
 
 		// Template Actions
 		add_action( 'activate_template', array( __CLASS__, 'activateTemplate' ) );

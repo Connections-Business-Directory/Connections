@@ -31,7 +31,7 @@ function connectionsShowCategoriesPage() {
 			$action = NULL;
 		}
 
-		if ( $action === 'cn-edit_category' ) {
+		if ( $action === 'cn_edit_category' ) {
 
 			$id = esc_attr( $_GET['id'] );
 			check_admin_referer( 'category_edit_' . $id );
@@ -56,7 +56,7 @@ function connectionsShowCategoriesPage() {
 					$categoryObjects->showForm( $connections->retrieve->category( $id ) );
 					?>
 
-					<input type="hidden" name="cn-action" value="update_category"/>
+					<input type="hidden" name="cn-action" value="cn_update_category"/>
 
 					<p class="submit"><a class="button button-warning" href="admin.php?page=connections_categories"><?php _e( 'Cancel', 'connections' ); ?></a> <input class="button-primary" type="submit" value="<?php _e( 'Update Category', 'connections' ); ?>" name="update" class="button"/></p>
 
@@ -130,7 +130,7 @@ function connectionsShowCategoriesPage() {
 									</tbody>
 								</table>
 
-								<input type="hidden" name="cn-action" value="cn-category"/>
+								<input type="hidden" name="cn-action" value="cn_category"/>
 
 							<?php $form->close(); ?>
 
@@ -173,7 +173,7 @@ function connectionsShowCategoriesPage() {
 								$categoryObjects->showForm();
 								?>
 
-								<input type="hidden" name="cn-action" value="add_category"/>
+								<input type="hidden" name="cn-action" value="cn_add_category"/>
 								<p class="submit"><input type="submit" value="<?php _e( 'Add New Category', 'connections' ); ?>" name="add" class="button"/></p>
 
 								<?php $form->close(); ?>

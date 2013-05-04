@@ -42,7 +42,7 @@ class cnTemplatePart {
 	 * @param  (array)  $atts [optional]
 	 * @uses wp_parse_args()
 	 * @uses apply_filters()
-	 * @return (string)
+	 * @return string | void
 	 */
 	public static function listActions( $atts = array() ) {
 		$out = '';
@@ -63,6 +63,8 @@ class cnTemplatePart {
 
 		$actions = apply_filters( 'cn_filter_list_actions', $actions );
 
+		if ( empty( $actions ) ) return;
+
 		foreach ( $actions as $key => $action ) {
 			$out .= "\n" . ( empty( $atts['before-item'] ) ? '' : $atts['before-item'] ) . $action . ( empty( $atts['after-item'] ) ? '' : $atts['after-item'] ) . "\n";
 		}
@@ -80,7 +82,7 @@ class cnTemplatePart {
 	 * @param (object) $entry Instance of the cnEntry class.
 	 * @uses wp_parse_args()
 	 * @uses apply_filters()
-	 * @return (string)
+	 * @return string | void
 	 */
 	public static function entryActions( $atts = array(), $entry ) {
 		$out = '';
@@ -103,6 +105,8 @@ class cnTemplatePart {
 			$actions['vcard'] = $entry->vcard( array( 'return' => TRUE ) );
 
 		$actions = apply_filters( 'cn_filter_entry_actions', $actions );
+
+		if ( empty( $actions ) ) return;
 
 		foreach ( $actions as $key => $action ) {
 			$out .= "\n" . ( empty( $atts['before-item'] ) ? '' : $atts['before-item'] ) . $action . ( empty( $atts['after-item'] ) ? '' : $atts['after-item'] ) . "\n";

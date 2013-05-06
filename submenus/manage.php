@@ -383,47 +383,47 @@ function connectionsShowViewPage( $action = NULL ) {
 
 								<?php
 
-				if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_delete_entry' ) ) {
-					echo '<div class="alignleft actions">';
-					echo '<select name="action">';
-					echo '<option value="" SELECTED>' , __( 'Bulk Actions', 'connections' ) , '</option>';
+								if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_delete_entry' ) ) {
+									echo '<div class="alignleft actions">';
+									echo '<select name="action">';
+									echo '<option value="" SELECTED>' , __( 'Bulk Actions', 'connections' ) , '</option>';
 
-					$bulkActions = array();
+									$bulkActions = array();
 
-					if ( current_user_can( 'connections_edit_entry' )  || current_user_can( 'connections_edit_entry_moderated' ) ) {
-						$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
-						$bulkActions['approve'] = __( 'Approve', 'connections' );
-						$bulkActions['public'] = __( 'Set Public', 'connections' );
-						$bulkActions['private'] = __( 'Set Private', 'connections' );
-						$bulkActions['unlisted'] = __( 'Set Unlisted', 'connections' );
-					}
+									if ( current_user_can( 'connections_edit_entry' )  || current_user_can( 'connections_edit_entry_moderated' ) ) {
+										$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
+										$bulkActions['approve'] = __( 'Approve', 'connections' );
+										$bulkActions['public'] = __( 'Set Public', 'connections' );
+										$bulkActions['private'] = __( 'Set Private', 'connections' );
+										$bulkActions['unlisted'] = __( 'Set Unlisted', 'connections' );
+									}
 
-					if ( current_user_can( 'connections_delete_entry' ) ) {
-						$bulkActions['delete'] = __( 'Delete', 'connections' );
-					}
+									if ( current_user_can( 'connections_delete_entry' ) ) {
+										$bulkActions['delete'] = __( 'Delete', 'connections' );
+									}
 
-					$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );
+									$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );
 
-					foreach ( $bulkActions as $action => $string ) {
-						echo '<option value="', $action, '">', $string, '</option>';
-					}
+									foreach ( $bulkActions as $action => $string ) {
+										echo '<option value="', $action, '">', $string, '</option>';
+									}
 
-					echo '</select>';
-					echo '<input id="doaction" class="button-secondary action" type="submit" name="doaction" value="' , __( 'Apply', 'connections' ) , '" />';
-					echo '</div>';
-				}
-				?>
+									echo '</select>';
+									echo '<input id="doaction" class="button-secondary action" type="submit" name="doaction" value="' , __( 'Apply', 'connections' ) , '" />';
+									echo '</div>';
+								}
+								?>
 
 								<div class="tablenav-pages">
-				<?php
+									<?php
 
-				/*
-				 * Display the character filter control.
-				 */
-				echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
-				cnTemplatePart::index( array( 'status' => $connections->currentUser->getFilterStatus() ) );
-				cnTemplatePart::currentCharacter();
-				?>
+									/*
+									 * Display the character filter control.
+									 */
+									echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
+									cnTemplatePart::index( array( 'status' => $connections->currentUser->getFilterStatus() ) );
+									cnTemplatePart::currentCharacter();
+									?>
 								</div>
 							</div>
 							<div class="clear"></div>
@@ -559,9 +559,26 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					echo "</td> \n";
 					echo '<td >';
-					echo '<strong>' . __( 'On', 'connections' ) . ':</strong> ' . $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) . '<br />';
-					echo '<strong>' . __( 'By', 'connections' ) . ':</strong> ' . $entry->getEditedBy(). '<br />';
-					echo '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibiltyType();
+						echo '<strong>' . __( 'On', 'connections' ) . ':</strong> ' . $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) . '<br />';
+						echo '<strong>' . __( 'By', 'connections' ) . ':</strong> ' . $entry->getEditedBy() . '<br />';
+						echo '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibiltyType() . '<br />';
+
+						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : FALSE;
+
+						if ( $user ) {
+
+							if ( get_current_user_id() == $user->ID ) {
+
+								$editUserLink = get_edit_profile_url( $user->ID );
+
+							} else {
+
+								$editUserLink = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
+							}
+
+							echo '<strong>' . __( 'Linked to:', 'connections' ) . '</strong> ' . '<a href="'. $editUserLink .'">'. esc_attr( $user->display_name ) .'</a>';
+						}
+
 					echo "</td> \n";
 					echo "</tr> \n";
 

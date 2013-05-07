@@ -896,6 +896,58 @@ class cnRegisterSettings
 			'type'      => 'checkbox',
 			'default'   => 1
 		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'locality',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_link',
+			'title'     => __('Locality', 'connections'),
+			'desc'      => __('Enabling this option will turn the name of locality (city) into a link. Clicking the link will take you to the page filtered by that locality.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'region',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_link',
+			'title'     => __('Region', 'connections'),
+			'desc'      => __('Enabling this option will turn the name of region (state/province) into a link. Clicking the link will take you to the page filtered by that region.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'postal_code',
+			'position'  => 40,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_link',
+			'title'     => __('Postal Code', 'connections'),
+			'desc'      => __('Enabling this option will turn the postal code into a link. Clicking the link will take you to the page filtered by that postal code.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'country',
+			'position'  => 50,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_link',
+			'title'     => __('Country', 'connections'),
+			'desc'      => __('Enabling this option will turn the name of country into a link. Clicking the link will take you to the page filtered by that country.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
 
 		$fields[] = array(
 			'plugin_id' => 'connections',

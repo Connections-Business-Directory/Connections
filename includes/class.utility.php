@@ -495,6 +495,46 @@ class cnURL {
 				}
 
 				break;
+
+			case 'postal_code':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . $atts['cn-postal-code'] );
+				} else {
+					$permalink = add_query_arg( 'postal_code_base', $atts['cn-postal-code'] , $permalink );
+				}
+
+				break;
+
+			case 'locality':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . $atts['cn-locality'] );
+				} else {
+					$permalink = add_query_arg( 'locality_base', $atts['cn-locality'] , $permalink );
+				}
+
+				break;
+
+			case 'region':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . $atts['cn-region'] );
+				} else {
+					$permalink = add_query_arg( 'region_base', $atts['cn-region'] , $permalink );
+				}
+
+				break;
+
+			case 'country':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . $atts['cn-country'] );
+				} else {
+					$permalink = add_query_arg( 'country_base', $atts['cn-country'] , $permalink );
+				}
+
+				break;
 		}
 
 		$piece['href'] = 'href="' . $permalink . '"';

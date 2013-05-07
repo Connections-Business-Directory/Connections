@@ -565,6 +565,12 @@ function connectionsShowViewPage( $action = NULL ) {
 
 						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : FALSE;
 
+						/**
+						 * NOTE: WP 3.5 introduced get_edit_user_link()
+						 * REF:  http://codex.wordpress.org/Function_Reference/get_edit_user_link
+						 *
+						 * @TODO Use get_edit_user_link() to simplify this code when WP hits >= 3.9.
+						 */
 						if ( $user ) {
 
 							if ( get_current_user_id() == $user->ID ) {

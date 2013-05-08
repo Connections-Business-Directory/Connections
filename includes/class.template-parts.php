@@ -589,6 +589,18 @@ class cnTemplatePart {
 				// Add the category base and path if paging thru a category.
 				if ( get_query_var('cn-cat-slug') ) $permalink = trailingslashit( $permalink . $base['category_base'] . '/' . get_query_var('cn-cat-slug') );
 
+				// Add the locality base and path if paging thru a locality.
+				if ( get_query_var('cn-locality') ) $permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . get_query_var('cn-locality') );
+
+				// Add the region base and path if paging thru a region.
+				if ( get_query_var('cn-region') ) $permalink = trailingslashit( $permalink . $base['region_base'] . '/' . get_query_var('cn-region') );
+
+				// Add the postal code base and path if paging thru a postal code.
+				if ( get_query_var('cn-postal-code') ) $permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . get_query_var('cn-postal-code') );
+
+				// Add the country base and path if paging thru a country.
+				if ( get_query_var('cn-country') ) $permalink = trailingslashit( $permalink . $base['country_base'] . '/' . get_query_var('cn-country') );
+
 				$url['first'] = add_query_arg( $queryVars , $permalink . 'pg/' . $page['first'] );
 				$url['previous'] = add_query_arg( $queryVars , $permalink . 'pg/' . $page['previous'] );
 				$url['next'] = add_query_arg( $queryVars , $permalink . 'pg/' . $page['next'] );

@@ -725,22 +725,27 @@ class cnOutput extends cnEntry
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['city'] = NULL;
-		$defaults['state'] = NULL;
-		$defaults['zipcode'] = NULL;
-		$defaults['country'] = NULL;
-		$defaults['coordinates'] = array();
-		$defaults['format'] = '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%';
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults['preferred']           = NULL;
+		$defaults['type']                = NULL;
+		$defaults['city']                = NULL;
+		$defaults['state']               = NULL;
+		$defaults['zipcode']             = NULL;
+		$defaults['country']             = NULL;
+		$defaults['coordinates']         = array();
+		$defaults['format']              = '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%';
+		$defaults['link']['locality']    = cnSettingsAPI::get( 'connections', 'connections_link', 'locality' );
+		$defaults['link']['region']      = cnSettingsAPI::get( 'connections', 'connections_link', 'region' );
+		$defaults['link']['postal_code'] = cnSettingsAPI::get( 'connections', 'connections_link', 'postal_code' );
+		$defaults['link']['country']     = cnSettingsAPI::get( 'connections', 'connections_link', 'country' );
+		$defaults['separator']           = ':';
+		$defaults['before']              = '';
+		$defaults['after']               = '';
+		$defaults['return']              = FALSE;
 
 		$defaults = apply_filters( 'cn_output_default_atts_address' , $defaults );
 
 		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts['link'] = $this->validate->attributesArray( $defaults['link'], $atts['link'] );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -764,11 +769,109 @@ class cnOutput extends cnEntry
 			( empty( $address->line_2 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address">' . $address->line_2 . '</span>';
 			( empty( $address->line_3 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address">' . $address->line_3 . '</span>';
 
-			( empty( $address->city ) ) ? $replace[] = '' : $replace[] = '<span class="locality">' . $address->city . '</span>';
-			( empty( $address->state ) ) ? $replace[] = '' : $replace[] = '<span class="region">' . $address->state . '</span>';
-			( empty( $address->zipcode ) ) ? $replace[] = '' : $replace[] = '<span class="postal-code">' . $address->zipcode . '</span>';
+			if ( empty( $address->city ) ) {
 
-			( empty( $address->country ) ) ? $replace[] = '' : $replace[] = '<span class="country-name">' . $address->country . '</span>';
+				$replace[] = '';
+
+			} else {
+
+				if ( $atts['link']['locality'] ) {
+
+					$locality = cnURL::permalink( array(
+							'type'   => 'locality',
+							'slug'   => $address->city,
+							'title'  => $address->city,
+							'text'   => $address->city,
+							'return' => TRUE
+						)
+					);
+
+				} else {
+
+					$locality = $address->city;
+				}
+
+				$replace[] = '<span class="locality">' . $locality . '</span>';
+
+			}
+
+			if ( empty( $address->state ) ) {
+
+				$replace[] = '';
+
+			} else {
+
+				if ( $atts['link']['region'] ) {
+
+					$region = cnURL::permalink( array(
+							'type'   => 'region',
+							'slug'   => $address->state,
+							'title'  => $address->state,
+							'text'   => $address->state,
+							'return' => TRUE
+						)
+					);
+
+				} else {
+
+					$region = $address->state;
+				}
+
+				$replace[] = '<span class="region">' . $region . '</span>';
+
+			}
+
+			if ( empty( $address->zipcode ) ) {
+
+				$replace[] = '';
+
+			} else {
+
+				if ( $atts['link']['postal_code'] ) {
+
+					$postal = cnURL::permalink( array(
+							'type'   => 'postal_code',
+							'slug'   => $address->zipcode,
+							'title'  => $address->zipcode,
+							'text'   => $address->zipcode,
+							'return' => TRUE
+						)
+					);
+
+				} else {
+
+					$postal = $address->zipcode;
+				}
+
+				$replace[] = '<span class="postal-code">' . $postal . '</span>';
+
+			}
+
+			if ( empty( $address->country ) ) {
+
+				$replace[] = '';
+
+			} else {
+
+				if ( $atts['link']['country'] ) {
+
+					$country = cnURL::permalink( array(
+							'type'   => 'country',
+							'slug'   => $address->country,
+							'title'  => $address->country,
+							'text'   => $address->country,
+							'return' => TRUE
+						)
+					);
+
+				} else {
+
+					$country = $address->country;
+				}
+
+				$replace[] = '<span class="country-name">' . $country . '</span>';
+
+			}
 
 			if ( ! empty( $address->latitude ) || ! empty( $address->longitude ) ) {
 				$replace[] = '<span class="geo">' .

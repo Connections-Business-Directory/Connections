@@ -414,7 +414,7 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'display',
 			'section'   => 'connections_display_single',
-			'title'     => __( '', 'connections' ),
+			'title'     => '',
 			'desc'      => __( 'Display a single entry using the active template based on entry type. For example, if the entry is an organization it will be displayed using the template that is activated for the "Organization" template type found on the Connections : Templates admin page.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',

@@ -231,9 +231,9 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		'wp_current_category'   => 'false',
 		'allow_public_override' => 'false',
 		'private_override'      => 'false',
-		'show_alphaindex'       => $connections->settings->get( 'connections', 'connections_display_results', 'index' ),
-		'repeat_alphaindex'     => $connections->settings->get( 'connections', 'connections_display_results', 'index_repeat' ),
-		'show_alphahead'        => $connections->settings->get( 'connections', 'connections_display_results', 'show_current_character' ),
+		'show_alphaindex'       => cnSettingsAPI::get( 'connections', 'connections_display_results', 'index' ),
+		'repeat_alphaindex'     => cnSettingsAPI::get( 'connections', 'connections_display_results', 'index_repeat' ),
+		'show_alphahead'        => cnSettingsAPI::get( 'connections', 'connections_display_results', 'show_current_character' ),
 		'list_type'             => NULL,
 		'order_by'              => NULL,
 		'limit'                 => NULL,
@@ -386,11 +386,11 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 				// The no results message.
 				ob_start();
-					do_action( 'cn_action_no_results', array(), $template->getSlug() );
+					do_action( 'cn_action_no_results', $atts , $template->getSlug() );
+					$filterRegistry[] = 'cn_list_no_result_message-' . $template->getSlug();
+
 					$out .= ob_get_contents();
 				ob_end_clean();
-
-				$filterRegistry[] = 'cn_list_no_result_message-' . $template->getSlug();
 
 			} else {
 
@@ -407,8 +407,8 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				$skipEntry = array();
 
 				foreach ( $results as $row ) {
-					$entry       = new cnvCard( $row );
-					$vCard       =& $entry;
+					$entry = new cnvCard( $row );
+					$vCard =& $entry;
 
 					// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
 					if ( in_array( $entry->getId() , $skipEntry ) ) continue;
@@ -419,7 +419,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 						// List actions template part.
 						ob_start();
-							do_action( 'cn_action_entry_actions', array(), $entry );
+							do_action( 'cn_action_entry_actions', $atts , $entry );
 							$out .= ob_get_contents();
 						ob_end_clean();
 
@@ -442,12 +442,12 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 					// Before entry actions.
 					ob_start();
-						do_action( 'cn_action_entry_before' , $entry );
-						do_action( 'cn_action_entry_before-' . $template->getSlug() , $entry );
+						do_action( 'cn_action_entry_before' , $atts , $entry );
+						do_action( 'cn_action_entry_before-' . $template->getSlug() , $atts , $entry );
 						$filterRegistry[] = 'cn_action_entry_before-' . $template->getSlug();
 
-						do_action( 'cn_action_entry_both' , $entry  );
-						do_action( 'cn_action_entry_both-' . $template->getSlug() , $entry );
+						do_action( 'cn_action_entry_both' , $atts , $entry  );
+						do_action( 'cn_action_entry_both-' . $template->getSlug() , $atts , $entry );
 						$filterRegistry[] = 'cn_action_entry_both-' . $template->getSlug();
 
 						$out .= ob_get_contents();
@@ -486,12 +486,12 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 					// After entry actions.
 					ob_start();
-						do_action( 'cn_action_entry_after' , $entry );
-						do_action( 'cn_action_entry_after-' . $template->getSlug() , $entry );
+						do_action( 'cn_action_entry_after' , $atts , $entry );
+						do_action( 'cn_action_entry_after-' . $template->getSlug() , $atts , $entry );
 						$filterRegistry[] = 'cn_action_entry_after-' . $template->getSlug();
 
-						do_action( 'cn_action_entry_both' , $entry  );
-						do_action( 'cn_action_entry_both-' . $template->getSlug() , $entry );
+						do_action( 'cn_action_entry_both' , $atts , $entry  );
+						do_action( 'cn_action_entry_both-' . $template->getSlug() , $atts ,$entry );
 						$filterRegistry[] = 'cn_action_entry_both-' . $template->getSlug();
 
 						$out .= ob_get_contents();
@@ -535,7 +535,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		if ( isset( $wp_filter[ $filter ] ) ) unset( $wp_filter[ $filter ] );
 	}
 
-	if ( $connections->settings->get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
+	if ( cnSettingsAPI::get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
 		$search = array( "\r\n", "\r", "\n", "\t" );
 		$replace = array( '', '', '', '' );
 		$out = str_replace( $search , $replace , $out );
@@ -752,7 +752,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 	}
 
-	if ( $connections->settings->get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
+	if ( cnSettingsAPI::get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
 		$search = array( "\r\n", "\r", "\n", "\t" );
 		$replace = array( '', '', '', '' );
 		$out = str_replace( $search , $replace , $out );

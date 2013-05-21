@@ -437,6 +437,19 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						$previousLetter = $currentLetter;
 					}
 
+					// Before entry actions.
+					ob_start();
+						do_action( 'cn_action_entry_before' , $entry );
+						do_action( 'cn_action_entry_before-' . $template->getSlug() , $entry );
+						$filterRegistry[] = 'cn_action_entry_before-' . $template->getSlug();
+
+						do_action( 'cn_action_entry_both' , $entry  );
+						do_action( 'cn_action_entry_both-' . $template->getSlug() , $entry );
+						$filterRegistry[] = 'cn_action_entry_both-' . $template->getSlug();
+
+						$out .= ob_get_contents();
+					ob_end_clean();
+
 					$alternate = $alternate == '' ? '-alternate' : '';
 
 					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %2$s" id="%4$s">',
@@ -469,6 +482,19 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						$filterRegistry[] = 'cn_list_entry_after-' . $template->getSlug();
 
 					$out .= "\n" . '</div>' . "\n";
+
+					// After entry actions.
+					ob_start();
+						do_action( 'cn_action_entry_after' , $entry );
+						do_action( 'cn_action_entry_after-' . $template->getSlug() , $entry );
+						$filterRegistry[] = 'cn_action_entry_after-' . $template->getSlug();
+
+						do_action( 'cn_action_entry_both' , $entry  );
+						do_action( 'cn_action_entry_both-' . $template->getSlug() , $entry );
+						$filterRegistry[] = 'cn_action_entry_both-' . $template->getSlug();
+
+						$out .= ob_get_contents();
+					ob_end_clean();
 
 				}
 			}

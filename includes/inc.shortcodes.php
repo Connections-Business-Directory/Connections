@@ -211,7 +211,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 	// If no template was found, exit return an error message.
 	if ( $template == FALSE )
-		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $preLoadAtts['template_name'] . $preLoadAtts['template'] ). "</p>";
+		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $preLoadAtts['template_name'] . $preLoadAtts['template'] ) . '</p>';
 
 	do_action( 'cn_register_legacy_template_parts' );
 	do_action( 'cn_action_include_once-' . $template->getSlug() );
@@ -426,21 +426,25 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 					if ( $currentLetter != $previousLetter ) {
 
-						$out .= "\n" . '<div class="cn-list-section-head cn-clear" id="cn-char-' . $currentLetter . '">' . "\n";
+						$out .= sprintf( '<div class="cn-list-section-head cn-clear" id="cn-char-%1$s">', $currentLetter );
 
 							if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) $out .= $charIndex;
 
-							if ( $atts['show_alphahead'] ) $out .= "\n" . '<h4 class="cn-alphahead">' . $currentLetter . '</h4>' . "\n";
+							if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
 
-						$out .= "\n" . '</div>' . "\n";
+						$out .= '</div>';
 
 						$previousLetter = $currentLetter;
 					}
 
+					$alternate = $alternate == '' ? '-alternate' : '';
 
-					$alternate == '' ? $alternate = '-alternate' : $alternate = '';
-
-					$out .= "\n" . '<div class="cn-list-row' . $alternate . ' vcard ' . $entry->getEntryType() . ' ' . $entry->getCategoryClass(TRUE) . '" id="' . $entry->getSlug() . '">' . "\n";
+					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %2$s" id="%4$s">',
+							$alternate,
+							$entry->getEntryType(),
+							$entry->getCategoryClass(TRUE),
+							$entry->getSlug()
+						);
 
 						$out .= apply_filters( 'cn_list_entry_before' , '' , $entry );
 						$out .= apply_filters( 'cn_list_entry_before-' . $template->getSlug() , '' , $entry );

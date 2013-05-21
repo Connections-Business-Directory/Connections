@@ -1233,7 +1233,7 @@ class cnRegisterSettings
 		//die;
 
 		// Ensure at least keyword search enabled if user decides to try to disable both keyword and FULLTEXT searching.
-		if ( ! $settings['fulltext_enabled'] && ! $settings['keyword_enabled'] ) $settings['keyword_enabled'] = 1;
+		if ( empty( $settings['fulltext_enabled'] ) && empty( $settings['keyword_enabled'] ) ) $settings['keyword_enabled'] = 1;
 
 		return $settings;
 	}

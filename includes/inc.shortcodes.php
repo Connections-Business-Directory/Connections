@@ -301,10 +301,13 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	//$out .= print_r($connections->lastQuery , TRUE);
 	//$out .= print_r($results , TRUE);
 
-	if ( ! empty( $results ) ) $results = apply_filters( 'cn_list_results', $results );
-	if ( ! empty( $results ) ) $results = apply_filters( 'cn_list_results-' . $template->getSlug() , $results );
-	if ( ! empty( $results ) ) $filterRegistry[] = 'cn_list_results-' . $template->getSlug();
+	// Apply any registered filters to the results.
+	if ( ! empty( $results ) ) {
 
+		$results = apply_filters( 'cn_list_results', $results );
+		$results = apply_filters( 'cn_list_results-' . $template->getSlug() , $results );
+		$filterRegistry[] = 'cn_list_results-' . $template->getSlug();
+	}
 
 	ob_start();
 

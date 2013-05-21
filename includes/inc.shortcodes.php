@@ -312,10 +312,10 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	ob_start();
 
 		// Prints the template's CSS file.
-		do_action( 'cn_action_css-' . $template->getSlug() );
+		do_action( 'cn_action_css-' . $template->getSlug() , $atts );
 
 		// The return to top anchor
-		do_action( 'cn_action_return_to_target' );
+		do_action( 'cn_action_return_to_target', $atts );
 
 		$out .= ob_get_contents();
 	ob_end_clean();
@@ -339,19 +339,19 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 					// List actions.
 					ob_start();
-						do_action( 'cn_action_list_actions' );
+						do_action( 'cn_action_list_actions', $atts );
 						$out .= ob_get_contents();
 					ob_end_clean();
 
 				}
 
 				ob_start();
-					do_action( 'cn_action_list_before' , $results );
-					do_action( 'cn_action_list_before-' . $template->getSlug() , $results );
+					do_action( 'cn_action_list_before' , $atts , $results );
+					do_action( 'cn_action_list_before-' . $template->getSlug() , $atts , $results );
 					$filterRegistry[] = 'cn_action_list_before-' . $template->getSlug();
 
-					do_action( 'cn_action_list_both' , $results  );
-					do_action( 'cn_action_list_both-' . $template->getSlug() , $results );
+					do_action( 'cn_action_list_both' , $atts , $results  );
+					do_action( 'cn_action_list_both-' . $template->getSlug() , $atts , $results );
 					$filterRegistry[] = 'cn_action_list_both-' . $template->getSlug();
 
 					$out .= ob_get_contents();
@@ -363,7 +363,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 				// The character index template part.
 				ob_start();
-					do_action( 'cn_action_character_index' );
+					do_action( 'cn_action_character_index' , $atts );
 					$charIndex = ob_get_contents();
 				ob_end_clean();
 
@@ -509,12 +509,12 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				$filterRegistry[] = 'cn_list_after-' . $template->getSlug();
 
 				ob_start();
-					do_action( 'cn_action_list_both' , $results  );
-					do_action( 'cn_action_list_both-' . $template->getSlug() , $results );
+					do_action( 'cn_action_list_both' , $atts , $results  );
+					do_action( 'cn_action_list_both-' . $template->getSlug() , $atts , $results );
 					$filterRegistry[] = 'cn_action_list_both-' . $template->getSlug();
 
-					do_action( 'cn_action_list_after' , $results );
-					do_action( 'cn_action_list_after-' . $template->getSlug() , $results );
+					do_action( 'cn_action_list_after' , $atts , $results );
+					do_action( 'cn_action_list_after-' . $template->getSlug() , $atts , $results );
 					$filterRegistry[] = 'cn_action_list_after-' . $template->getSlug();
 
 					$out .= ob_get_contents();

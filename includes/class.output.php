@@ -1744,7 +1744,7 @@ class cnOutput extends cnEntry
 		$defaults['type'] = NULL;
 		$defaults['format'] = '%label%%separator% %date%';
 		$defaults['name_format'] = '%prefix% %first% %middle% %last% %suffix%';
-		$defaults['date_format'] = 'F jS Y';
+		$defaults['date_format'] = cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' );
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
 		$defaults['after'] = '';

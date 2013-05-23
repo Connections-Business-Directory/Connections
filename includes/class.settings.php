@@ -109,6 +109,14 @@ class cnRegisterSettings
 		 */
 		$sections[] = array(
 			'tab'       => 'display',
+			'id'        => 'connections_display_general',
+			'position'  => 5,
+			'title'     => __( 'General' , 'connections' ),
+			'callback'  => '',
+			'page_hook' => $settings
+		);
+		$sections[] = array(
+			'tab'       => 'display',
 			'id'        => 'connections_display_results',
 			'position'  => 10,
 			'title'     => __( 'Results List' , 'connections' ),
@@ -326,6 +334,21 @@ class cnRegisterSettings
 		/*
 		 * The Display tab fields.
 		 */
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'date_format',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_general',
+			'title'     => __('Date Format', 'connections'),
+			'desc'      => __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time" target="_blank">Documentation on date and time formatting</a>.', 'connections'),
+			'help'      => '',
+			'type'      => 'text',
+			'size'      => 'small',
+			'default'   => esc_attr( get_option('date_format') )
+		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'index',

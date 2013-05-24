@@ -2886,11 +2886,13 @@ class cnEntry {
 	 * @param  string $format The date format to show the date in. Use PHP date formatting.
 	 * @return string         The formatted date.
 	 */
-	public function getUpcoming( $type, $format = 'F jS' ) {
+	public function getUpcoming( $type, $format = '' ) {
 
 		global $connections;
 
 		if ( empty( $this->$type ) ) return '';
+
+		if ( empty( $format ) ) $format = cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' );
 
 		if ( gmmktime( 23, 59, 59, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $connections->options->wpCurrentTime ) ) < $connections->options->wpCurrentTime ) {
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $connections->options->wpCurrentTime ) + 1 );
@@ -2899,7 +2901,9 @@ class cnEntry {
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $connections->options->wpCurrentTime ) );
 		}
 
-		return gmdate( $format, $nextUDay );
+		// Convert the date to a string to convert to a sting again. Why? Because doing it this way should keep PHP from timezone adjusting the output.
+		// date_default_timezone_set('UTC')
+		return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ) );
 
 	}
 

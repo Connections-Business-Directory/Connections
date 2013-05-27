@@ -283,7 +283,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	 * The WP post editor entity encodes the post text we have to decode it
 	 * so a match can be made when the query is run.
 	 */
-	$atts['family_name']   = html_entity_decode ($atts['family_name'] );
+	$atts['family_name']   = html_entity_decode( $atts['family_name'] );
 	$atts['last_name']     = html_entity_decode( $atts['last_name'] );
 	$atts['title']         = html_entity_decode( $atts['title'] );
 	$atts['organization']  = html_entity_decode( $atts['organization'] );

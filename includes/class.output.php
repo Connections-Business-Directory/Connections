@@ -337,7 +337,7 @@ class cnOutput extends cnEntry
 			}
 		}
 
-		$out = apply_filters( 'cn_output_image', $out, $atts );
+		$out = apply_filters( 'cn_output_image', $out, $atts, $this );
 
 		/*
 		 * Return or echo the string.

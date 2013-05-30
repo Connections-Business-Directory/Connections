@@ -589,6 +589,12 @@ class cnTemplatePart {
 				// Add the category base and path if paging thru a category.
 				if ( get_query_var('cn-cat-slug') ) $permalink = trailingslashit( $permalink . $base['category_base'] . '/' . get_query_var('cn-cat-slug') );
 
+				// Add the organization base and path if paging thru a organization.
+				if ( get_query_var('cn-organization') ) $permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . get_query_var('cn-organization') );
+
+				// Add the department base and path if paging thru a department.
+				if ( get_query_var('cn-department') ) $permalink = trailingslashit( $permalink . $base['department_base'] . '/' . get_query_var('cn-department') );
+
 				// Add the locality base and path if paging thru a locality.
 				if ( get_query_var('cn-locality') ) $permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . get_query_var('cn-locality') );
 

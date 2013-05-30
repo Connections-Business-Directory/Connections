@@ -607,6 +607,10 @@ class cnOutput extends cnEntry
 		$defaults = array(
 			'before' => '',
 			'after'  => '',
+			'link'   => array(
+				'organization'  => cnSettingsAPI::get( 'connections', 'connections_link', 'organization' ),
+				'department' => cnSettingsAPI::get( 'connections', 'connections_link', 'department' )
+				),
 			'return' => FALSE
 		);
 
@@ -618,12 +622,61 @@ class cnOutput extends cnEntry
 		 */
 
 		if ( ! empty( $org ) || ! empty( $dept ) ) {
+
 			$out .= '<span class="org">';
-			if ( ! empty( $org ) ) $out .= '<span class="organization-name"' . ( ( $this->getEntryType() == 'organization' ) ? ' style="display: none;"' : '' ) . '>' . $org . '</span>';
-			if ( ! empty( $dept ) ) $out .= '<span class="organization-unit">' . $dept . '</span>';
+
+			// if ( ! empty( $org ) ) $out .= '<span class="organization-name"' . ( ( $this->getEntryType() == 'organization' ) ? ' style="display: none;"' : '' ) . '>' . $org . '</span>';
+
+			if ( ! empty( $org ) ) {
+
+				if ( $atts['link']['organization'] ) {
+
+					$organization = cnURL::permalink( array(
+							'type'   => 'organization',
+							'slug'   => $org,
+							'title'  => $org,
+							'text'   => $org,
+							'return' => TRUE
+						)
+					);
+
+				} else {
+
+					$organization = $org;
+				}
+
+				$out .= '<span class="organization-name"' . ( $this->getEntryType() == 'organization' ? ' style="display: none;"' : '' ) . '>' . $organization . '</span>';
+
+			}
+
+			// if ( ! empty( $dept ) ) $out .= '<span class="organization-unit">' . $dept . '</span>';
+
+			if ( ! empty( $dept ) ) {
+
+				if ( $atts['link']['department'] ) {
+
+					$department = cnURL::permalink( array(
+							'type'   => 'department',
+							'slug'   => $dept,
+							'title'  => $dept,
+							'text'   => $dept,
+							'return' => TRUE
+						)
+					);
+
+				} else {
+
+					$department = $dept;
+				}
+
+				$out .= '<span class="organization-unit">' . $department . '</span>';
+
+			}
+
 			$out .= '</span>';
-		}
-		else {
+
+		} else {
+
 			return '';
 		}
 

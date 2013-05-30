@@ -90,13 +90,15 @@ class cnRewrite {
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
 
-		$character = $base['character_base'];
-		$category = $base['category_base'];
-		$country = $base['country_base'];
-		$region = $base['region_base'];
-		$locality = $base['locality_base'];
-		$postal = $base['postal_code_base'];
-		$name = $base['name_base'];
+		$character    = $base['character_base'];
+		$category     = $base['category_base'];
+		$country      = $base['country_base'];
+		$region       = $base['region_base'];
+		$locality     = $base['locality_base'];
+		$postal       = $base['postal_code_base'];
+		$organization = $base['organization_base'];
+		$department   = $base['department_base'];
+		$name         = $base['name_base'];
 
 		// landing page.
 		$rule['landing/?$']
@@ -202,6 +204,18 @@ class cnRewrite {
 		$rule[ $locality . '/([^/]*)?/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-locality=$matches[1]&cn-view=list';
 
+		// Organization rewrite rules.
+		$rule[ $organization . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-organization=$matches[1]&cn-pg=$matches[2]&cn-view=list';
+		$rule[ $organization . '/([^/]*)?/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-organization=$matches[1]&cn-view=list';
+
+		// Department rewrite rules.
+		$rule[ $department . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-department=$matches[1]&cn-pg=$matches[2]&cn-view=list';
+		$rule[ $department . '/([^/]*)?/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-department=$matches[1]&cn-view=list';
+
 		// Initial character rewrite rules.
 		$rule[ $character . '/([^/]*)/pg/?([0-9]{1,})/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-char=$matches[1]&cn-pg=$matches[2]&cn-view=list';
@@ -271,13 +285,15 @@ class cnRewrite {
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
 
-		$character = $base['character_base'];
-		$category = $base['category_base'];
-		$country = $base['country_base'];
-		$region = $base['region_base'];
-		$locality = $base['locality_base'];
-		$postal = $base['postal_code_base'];
-		$name = $base['name_base'];
+		$character    = $base['character_base'];
+		$category     = $base['category_base'];
+		$country      = $base['country_base'];
+		$region       = $base['region_base'];
+		$locality     = $base['locality_base'];
+		$postal       = $base['postal_code_base'];
+		$organization = $base['organization_base'];
+		$department   = $base['department_base'];
+		$name         = $base['name_base'];
 
 		// landing page.
 		$rule['(.?.+?)/landing/?$']
@@ -382,6 +398,18 @@ class cnRewrite {
 			= 'index.php?pagename=$matches[1]&cn-locality=$matches[2]&cn-pg=$matches[3]&cn-view=list';
 		$rule['(.?.+?)/' . $locality . '/([^/]*)?/?$']
 			= 'index.php?pagename=$matches[1]&cn-locality=$matches[2]&cn-view=list';
+
+		// Organization rewrite rules.
+		$rule['(.?.+?)/' . $organization . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?pagename=$matches[1]&cn-organization=$matches[2]&cn-pg=$matches[3]&cn-view=list';
+		$rule['(.?.+?)/' . $organization . '/([^/]*)?/?$']
+			= 'index.php?pagename=$matches[1]&cn-organization=$matches[2]&cn-view=list';
+
+		// Deparment rewrite rules.
+		$rule['(.?.+?)/' . $department . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?pagename=$matches[1]&cn-department=$matches[2]&cn-pg=$matches[3]&cn-view=list';
+		$rule['(.?.+?)/' . $department . '/([^/]*)?/?$']
+			= 'index.php?pagename=$matches[1]&cn-department=$matches[2]&cn-view=list';
 
 		// Initial character rewrite rules.
 		$rule['(.?.+?)/' . $character . '/([^/]*)/pg/?([0-9]{1,})/?$']

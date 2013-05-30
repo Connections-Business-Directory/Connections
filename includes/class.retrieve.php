@@ -99,6 +99,10 @@ class cnRetrieve {
 			$queryCountry = get_query_var( 'cn-country' );
 			if ( ! empty( $queryCountry ) ) $atts['country'] = urldecode( $queryCountry );
 
+			// Postal Code
+			$queryPostalCode = get_query_var( 'cn-postal-code' );
+			if ( ! empty( $queryPostalCode ) ) $atts['zip_code'] = urldecode( $queryPostalCode );
+
 			// Region [State]
 			$queryRegion = get_query_var( 'cn-region' );
 			if ( ! empty( $queryRegion ) ) $atts['state'] = urldecode( $queryRegion );
@@ -107,9 +111,13 @@ class cnRetrieve {
 			$queryLocality = get_query_var( 'cn-locality' );
 			if ( ! empty( $queryLocality ) ) $atts['city'] = urldecode( $queryLocality );
 
-			// Postal Code
-			$queryPostalCode = get_query_var( 'cn-postal-code' );
-			if ( ! empty( $queryPostalCode ) ) $atts['zip_code'] = urldecode( $queryPostalCode );
+			// Organization
+			$queryOrganization = get_query_var( 'cn-organization' );
+			if ( ! empty( $queryOrganization ) ) $atts['organization'] = urldecode( $queryOrganization );
+
+			// Department
+			$queryDeparment = get_query_var( 'cn-department' );
+			if ( ! empty( $queryDeparment ) ) $atts['department'] = urldecode( $queryDeparment );
 
 			// Entry slug
 			$queryEntrySlug = get_query_var( 'cn-entry-slug' );
@@ -720,7 +728,7 @@ class cnRetrieve {
 
 
 		$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . 'FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
-		//print_r($sql); die;
+		// print_r($sql); die;
 
 		$results = $wpdb->get_results( $sql );
 

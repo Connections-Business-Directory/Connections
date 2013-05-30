@@ -863,34 +863,34 @@ class cnRegisterSettings
 			'size'      => 'regular',
 			'default'   => 'postal-code'
 		);
-		/*$fields[] = array(
+		$fields[] = array(
 			'plugin_id' => 'connections',
-			'id' => 'organization_base',
-			'position' => 60,
+			'id'        => 'organization_base',
+			'position'  => 60,
 			'page_hook' => $settings,
-			'tab' => 'advanced',
-			'section' => 'connections_permalink',
-			'title' => __('Organization Base', 'connections'),
-			'desc' => __('Enter a custom structure for the organization in the URL.', 'connections'),
-			'help' => '',
-			'type' => 'text',
-			'size' => 'regular',
-			'default' => 'organization'
+			'tab'       => 'advanced',
+			'section'   => 'connections_permalink',
+			'title'     => __('Organization Base', 'connections'),
+			'desc'      => __('Enter a custom structure for the organization in the URL.', 'connections'),
+			'help'      => '',
+			'type'      => 'text',
+			'size'      => 'regular',
+			'default'   => 'organization'
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
-			'id' => 'department_base',
-			'position' => 70,
+			'id'        => 'department_base',
+			'position'  => 70,
 			'page_hook' => $settings,
-			'tab' => 'advanced',
-			'section' => 'connections_permalink',
-			'title' => __('Department Base', 'connections'),
-			'desc' => __('Enter a custom structure for the department in the URL.', 'connections'),
-			'help' => '',
-			'type' => 'text',
-			'size' => 'regular',
-			'default' => 'department'
-		);*/
+			'tab'       => 'advanced',
+			'section'   => 'connections_permalink',
+			'title'     => __('Department Base', 'connections'),
+			'desc'      => __('Enter a custom structure for the department in the URL.', 'connections'),
+			'help'      => '',
+			'type'      => 'text',
+			'size'      => 'regular',
+			'default'   => 'department'
+		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'name_base',
@@ -918,6 +918,32 @@ class cnRegisterSettings
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'organization',
+			'position'  => 13,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_link',
+			'title'     => __('Organization', 'connections'),
+			'desc'      => __('Enabling this option will turn the name of organization into a link. Clicking the link will take you to the page filtered by that organization.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'department',
+			'position'  => 16,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_link',
+			'title'     => __('Department', 'connections'),
+			'desc'      => __('Enabling this option will turn the name of department into a link. Clicking the link will take you to the page filtered by that department.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',

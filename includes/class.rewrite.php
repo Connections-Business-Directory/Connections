@@ -43,6 +43,8 @@ class cnRewrite {
 		$var[] = 'cn-region';  // state
 		$var[] = 'cn-locality';  // city
 		$var[] = 'cn-postal-code'; // zipcode
+		$var[] = 'cn-organization'; // organization
+		$var[] = 'cn-department'; // department
 		$var[] = 'cn-char'; // initial character
 		$var[] = 'cn-s';   // search term
 		$var[] = 'cn-pg';   // page

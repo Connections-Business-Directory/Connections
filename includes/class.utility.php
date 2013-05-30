@@ -486,6 +486,26 @@ class cnURL {
 
 				break;
 
+			case 'department':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['department_base'] . '/' . urlencode( $atts['slug'] ) );
+				} else {
+					$permalink = add_query_arg( 'department_base', $atts['cn-department'] , $permalink );
+				}
+
+				break;
+
+			case 'organization':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . urlencode( $atts['slug'] ) );
+				} else {
+					$permalink = add_query_arg( 'organization_base', $atts['cn-organization'] , $permalink );
+				}
+
+				break;
+
 			case 'category':
 
 				if ( $wp_rewrite->using_permalinks() ) {

@@ -1211,27 +1211,27 @@ class cnRegisterSettings
 		/*
 		 * Build the array to store the user preferences.
 		 */
-		$search['family_name'] = in_array( 'family_name' , $fields ) ? TRUE : FALSE;
-		$search['first_name'] = in_array( 'first_name' , $fields ) ? TRUE : FALSE;
-		$search['middle_name'] = in_array( 'middle_name' , $fields ) ? TRUE : FALSE;
-		$search['last_name'] = in_array( 'last_name' , $fields ) ? TRUE : FALSE;
-		$search['title'] = in_array( 'title' , $fields ) ? TRUE : FALSE;
-		$search['organization'] = in_array( 'organization' , $fields ) ? TRUE : FALSE;
-		$search['department'] = in_array( 'department' , $fields ) ? TRUE : FALSE;
+		$search['family_name']        = in_array( 'family_name' , $fields ) ? TRUE : FALSE;
+		$search['first_name']         = in_array( 'first_name' , $fields ) ? TRUE : FALSE;
+		$search['middle_name']        = in_array( 'middle_name' , $fields ) ? TRUE : FALSE;
+		$search['last_name']          = in_array( 'last_name' , $fields ) ? TRUE : FALSE;
+		$search['title']              = in_array( 'title' , $fields ) ? TRUE : FALSE;
+		$search['organization']       = in_array( 'organization' , $fields ) ? TRUE : FALSE;
+		$search['department']         = in_array( 'department' , $fields ) ? TRUE : FALSE;
 		$search['contact_first_name'] = in_array( 'contact_first_name' , $fields ) ? TRUE : FALSE;
-		$search['contact_last_name'] = in_array( 'contact_last_name' , $fields ) ? TRUE : FALSE;
-		$search['bio'] = in_array( 'bio' , $fields ) ? TRUE : FALSE;
-		$search['notes'] = in_array( 'notes' , $fields ) ? TRUE : FALSE;
+		$search['contact_last_name']  = in_array( 'contact_last_name' , $fields ) ? TRUE : FALSE;
+		$search['bio']                = in_array( 'bio' , $fields ) ? TRUE : FALSE;
+		$search['notes']              = in_array( 'notes' , $fields ) ? TRUE : FALSE;
 
-		$search['address_line_1'] = in_array( 'address_line_1' , $fields ) ? TRUE : FALSE;
-		$search['address_line_2'] = in_array( 'address_line_2' , $fields ) ? TRUE : FALSE;
-		$search['address_line_3'] = in_array( 'address_line_3' , $fields ) ? TRUE : FALSE;
-		$search['address_city'] = in_array( 'address_city' , $fields ) ? TRUE : FALSE;
-		$search['address_state'] = in_array( 'address_state' , $fields ) ? TRUE : FALSE;
-		$search['address_zipcode'] = in_array( 'address_zipcode' , $fields ) ? TRUE : FALSE;
-		$search['address_country'] = in_array( 'address_country' , $fields ) ? TRUE : FALSE;
+		$search['address_line_1']     = in_array( 'address_line_1' , $fields ) ? TRUE : FALSE;
+		$search['address_line_2']     = in_array( 'address_line_2' , $fields ) ? TRUE : FALSE;
+		$search['address_line_3']     = in_array( 'address_line_3' , $fields ) ? TRUE : FALSE;
+		$search['address_city']       = in_array( 'address_city' , $fields ) ? TRUE : FALSE;
+		$search['address_state']      = in_array( 'address_state' , $fields ) ? TRUE : FALSE;
+		$search['address_zipcode']    = in_array( 'address_zipcode' , $fields ) ? TRUE : FALSE;
+		$search['address_country']    = in_array( 'address_country' , $fields ) ? TRUE : FALSE;
 
-		$search['phone_number'] = in_array( 'phone_number' , $fields ) ? TRUE : FALSE;
+		$search['phone_number']       = in_array( 'phone_number' , $fields ) ? TRUE : FALSE;
 
 		//var_dump($search);
 
@@ -1252,27 +1252,27 @@ class cnRegisterSettings
 		 */
 
 		// Build the arrays that will be imploded in the query statement.
-		if ( $search['family_name'] ) $column['entry'][] = 'family_name';
-		if ( $search['first_name'] ) $column['entry'][] = 'first_name';
-		if ( $search['middle_name'] ) $column['entry'][] = 'middle_name';
-		if ( $search['last_name'] ) $column['entry'][] = 'last_name';
-		if ( $search['title'] ) $column['entry'][] = 'title';
-		if ( $search['organization'] ) $column['entry'][] = 'organization';
-		if ( $search['department'] ) $column['entry'][] = 'department';
+		if ( $search['family_name'] ) $column['entry'][]        = 'family_name';
+		if ( $search['first_name'] ) $column['entry'][]         = 'first_name';
+		if ( $search['middle_name'] ) $column['entry'][]        = 'middle_name';
+		if ( $search['last_name'] ) $column['entry'][]          = 'last_name';
+		if ( $search['title'] ) $column['entry'][]              = 'title';
+		if ( $search['organization'] ) $column['entry'][]       = 'organization';
+		if ( $search['department'] ) $column['entry'][]         = 'department';
 		if ( $search['contact_first_name'] ) $column['entry'][] = 'contact_first_name';
-		if ( $search['contact_last_name'] ) $column['entry'][] = 'contact_last_name';
-		if ( $search['bio'] ) $column['entry'][] = 'bio';
-		if ( $search['notes'] ) $column['entry'][] = 'notes';
+		if ( $search['contact_last_name'] ) $column['entry'][]  = 'contact_last_name';
+		if ( $search['bio'] ) $column['entry'][]                = 'bio';
+		if ( $search['notes'] ) $column['entry'][]              = 'notes';
 
-		if ( $search['address_line_1'] ) $column['address'][] = 'line_1';
-		if ( $search['address_line_2'] ) $column['address'][] = 'line_2';
-		if ( $search['address_line_3'] ) $column['address'][] = 'line_3';
-		if ( $search['address_city'] ) $column['address'][] = 'city';
-		if ( $search['address_state'] ) $column['address'][] = 'state';
-		if ( $search['address_zipcode'] ) $column['address'][] = 'zipcode';
-		if ( $search['address_country'] ) $column['address'][] = 'country';
+		if ( $search['address_line_1'] ) $column['address'][]   = 'line_1';
+		if ( $search['address_line_2'] ) $column['address'][]   = 'line_2';
+		if ( $search['address_line_3'] ) $column['address'][]   = 'line_3';
+		if ( $search['address_city'] ) $column['address'][]     = 'city';
+		if ( $search['address_state'] ) $column['address'][]    = 'state';
+		if ( $search['address_zipcode'] ) $column['address'][]  = 'zipcode';
+		if ( $search['address_country'] ) $column['address'][]  = 'country';
 
-		if ( $search['phone_number'] ) $column['phone'][] = 'number';
+		if ( $search['phone_number'] ) $column['phone'][]       = 'number';
 
 		// Add the FULLTEXT indexes.
 		if ( ! empty( $column['entry'] ) ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['entry'] ) . ')' );

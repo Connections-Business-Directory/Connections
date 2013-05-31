@@ -448,18 +448,19 @@ class cnRegisterSettings
 		 * The Images tab fields.
 		 */
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'quality',
-			'position'  => 10,
-			'page_hook' => $settings,
-			'tab'       => 'images',
-			'section'   => 'connections_image_thumbnail',
-			'title'     => __('JPEG Quality', 'connections'),
-			'desc'      => '%',
-			'help'      => '',
-			'type'      => 'text',
-			'size'      => 'small',
-			'default'   => 80
+			'plugin_id'         => 'connections',
+			'id'                => 'quality',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'images',
+			'section'           => 'connections_image_thumbnail',
+			'title'             => __('JPEG Quality', 'connections'),
+			'desc'              => '%',
+			'help'              => '',
+			'type'              => 'text',
+			'size'              => 'small',
+			'default'           => 80,
+			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeImageSettings' ) // Only need to add this once per image size, otherwise it would be run for each field.
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -508,18 +509,19 @@ class cnRegisterSettings
 			'default'   => 'crop'
 		);
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'quality',
-			'position'  => 10,
-			'page_hook' => $settings,
-			'tab'       => 'images',
-			'section'   => 'connections_image_medium',
-			'title'     => __('JPEG Quality', 'connections'),
-			'desc'      => '%',
-			'help'      => '',
-			'type'      => 'text',
-			'size'      => 'small',
-			'default'   => 80
+			'plugin_id'         => 'connections',
+			'id'                => 'quality',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'images',
+			'section'           => 'connections_image_medium',
+			'title'             => __('JPEG Quality', 'connections'),
+			'desc'              => '%',
+			'help'              => '',
+			'type'              => 'text',
+			'size'              => 'small',
+			'default'           => 80,
+			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeImageSettings' ) // Only need to add this once per image size, otherwise it would be run for each field.
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -568,18 +570,19 @@ class cnRegisterSettings
 			'default'   => 'crop'
 		);
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'quality',
-			'position'  => 10,
-			'page_hook' => $settings,
-			'tab'       => 'images',
-			'section'   => 'connections_image_large',
-			'title'     => __('JPEG Quality', 'connections'),
-			'desc'      => '%',
-			'help'      => '',
-			'type'      => 'text',
-			'size'      => 'small',
-			'default'   => 80
+			'plugin_id'         => 'connections',
+			'id'                => 'quality',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'images',
+			'section'           => 'connections_image_large',
+			'title'             => __('JPEG Quality', 'connections'),
+			'desc'              => '%',
+			'help'              => '',
+			'type'              => 'text',
+			'size'              => 'small',
+			'default'           => 80,
+			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeImageSettings' ) // Only need to add this once per image size, otherwise it would be run for each field.
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -628,18 +631,19 @@ class cnRegisterSettings
 			'default'   => 'crop'
 		);
 		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'quality',
-			'position'  => 10,
-			'page_hook' => $settings,
-			'tab'       => 'images',
-			'section'   => 'connections_image_logo',
-			'title'     => __('JPEG Quality', 'connections'),
-			'desc'      => '%',
-			'help'      => '',
-			'type'      => 'text',
-			'size'      => 'small',
-			'default'   => 80
+			'plugin_id'         => 'connections',
+			'id'                => 'quality',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'images',
+			'section'           => 'connections_image_logo',
+			'title'             => __('JPEG Quality', 'connections'),
+			'desc'              => '%',
+			'help'              => '',
+			'type'              => 'text',
+			'size'              => 'small',
+			'default'           => 80,
+			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeImageSettings' ) // Only need to add this once per image size, otherwise it would be run for each field.
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -744,7 +748,7 @@ class cnRegisterSettings
 				'address_country',
 				'phone_number'
 			),
-			'sanitize_callback'  => array( 'cnRegisterSettings' , 'setSearchFields' )
+			'sanitize_callback'  => array( 'cnRegisterSettings' , 'setSearchFields' ) // Only need to add this once, otherwise it would be run for each field.
 		);
 
 		$fields[] = array(
@@ -1128,6 +1132,39 @@ class cnRegisterSettings
 		}
 
 		return $loginRequired;
+	}
+
+	public static function sanitizeImageSettings( $settings ) {
+
+		$validate = new cnValidate();
+
+		$defaults = array(
+			'quality' => 80,
+			'height'  => 150,
+			'width'   => 225,
+			'ratio'   => 'crop'
+			);
+
+		// Use this instead of wp_parse_args since it doesn't drop invalid atts. NOTE: could use shortcode_atts() instead, I suppose.
+		$settings = $validate->attributesArray( $defaults, $settings );
+
+		// Ensure positive int values
+		$settings['quality'] = absint( $settings['quality'] );
+		$settings['height']  = absint( $settings['height'] );
+		$settings['width']   = absint( $settings['width'] );
+
+		// If the values is empty, set a default.
+		$settings['quality'] = empty( $settings['quality'] ) ? 80 : $settings['quality'];
+		$settings['height']  = empty( $settings['height'] ) ? 150 : $settings['height'];
+		$settings['width']   = empty( $settings['width'] ) ? 225 : $settings['width'];
+
+		// The valid ratio options
+		$ratio = array( 'crop', 'fill', 'none' );
+
+		// Make sure the value is one of the permitted options and if it is not, set it to the 'crop' value.
+		$settings['ratio'] = in_array( $settings['ratio'], $ratio ) ? $settings['ratio'] : 'crop';
+
+		return $settings;
 	}
 
 	/**

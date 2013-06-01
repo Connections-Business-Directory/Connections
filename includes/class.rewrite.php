@@ -100,6 +100,19 @@ class cnRewrite {
 		$department   = $base['department_base'];
 		$name         = $base['name_base'];
 
+		/*
+		 * Make sure there is a value saved for each permalink base.
+		 */
+		if ( ! isset( $character ) || empty( $character ) ) $character          = 'char';
+		if ( ! isset( $category ) || empty( $category ) ) $category             = 'cat';
+		if ( ! isset( $country ) || empty( $country ) ) $country                = 'country';
+		if ( ! isset( $region ) || empty( $region ) ) $region                   = 'region';
+		if ( ! isset( $locality ) || empty( $locality ) ) $locality             = 'locality';
+		if ( ! isset( $postal ) || empty( $postal ) ) $postal                   = 'postal_code';
+		if ( ! isset( $organization ) || empty( $organization ) ) $organization = 'organization';
+		if ( ! isset( $department ) || empty( $department ) ) $department       = 'department';
+		if ( ! isset( $name ) || empty( $name ) ) $name                         = 'name';
+
 		// landing page.
 		$rule['landing/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-view=landing';
@@ -294,6 +307,19 @@ class cnRewrite {
 		$organization = $base['organization_base'];
 		$department   = $base['department_base'];
 		$name         = $base['name_base'];
+
+		/*
+		 * Make sure there is a value saved for each permalink base.
+		 */
+		if ( ! isset( $character ) || empty( $character ) ) $character          = 'char';
+		if ( ! isset( $category ) || empty( $category ) ) $category             = 'cat';
+		if ( ! isset( $country ) || empty( $country ) ) $country                = 'country';
+		if ( ! isset( $region ) || empty( $region ) ) $region                   = 'region';
+		if ( ! isset( $locality ) || empty( $locality ) ) $locality             = 'locality';
+		if ( ! isset( $postal ) || empty( $postal ) ) $postal                   = 'postal_code';
+		if ( ! isset( $organization ) || empty( $organization ) ) $organization = 'organization';
+		if ( ! isset( $department ) || empty( $department ) ) $department       = 'department';
+		if ( ! isset( $name ) || empty( $name ) ) $name                         = 'name';
 
 		// landing page.
 		$rule['(.?.+?)/landing/?$']

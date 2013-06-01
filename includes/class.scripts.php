@@ -16,6 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnScript {
 
 	/**
+	 * Used to store the values of core jQuery.
+	 *
+	 * @access private
+	 * @since 0.7.7
+	 * @var array
+	 */
+	private static $corejQuery = array();
+
+	/**
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
 	 * @access public
@@ -45,8 +54,8 @@ class cnScript {
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminScripts' ) );
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminStyles' ) );
 
-		add_action( 'wp_print_scripts', array( 'cnScript', 'jQueryFixr' ), 9999 );
-
+		add_action( 'wp_print_scripts', array( __CLASS__, 'jQueryFixr' ), 999 );
+		add_action( 'wp_default_scripts', array( __CLASS__, 'storeCorejQuery'), 999 );
 	}
 
 	/**
@@ -215,18 +224,44 @@ class cnScript {
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @global $connections
 	 * @uses wp_deregister_script()
 	 * @uses wp_register_script()
 	 * @return (void)
 	 */
 	public static function jQueryFixr() {
-		global $connections;
 
-		if ( ! $connections->settings->get( 'connections', 'connections_compatibility', 'jquery' ) ) return;
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_compatibility', 'jquery' ) ) return;
 
 		wp_deregister_script( 'jquery' );
-		wp_register_script( 'jquery', '/wp-includes/js/jquery/jquery.js' );
+
+		if ( self::$corejQuery['jquery-core'] && self::$corejQuery['jquery-migrate'] ) {
+
+			wp_register_script( 'jquery', FALSE, array( 'jquery-core', 'jquery-migrate' ), self::$corejQuery['jquery-core']->ver );
+			wp_register_script( 'jquery-core', '/wp-includes/js/jquery/jquery.js', array(), self::$corejQuery['jquery-core']->ver );
+			wp_register_script( 'jquery-migrate', '/wp-includes/js/jquery/jquery-migrate.js', array(), self::$corejQuery['jquery-migrate']->ver );
+
+		} else {
+
+			wp_register_script( 'jquery', '/wp-includes/js/jquery/jquery.js', array(), self::$corejQuery['jquery']->ver );
+
+		}
+
+	}
+
+	/**
+	 * Store the values of core jQuery.
+	 *
+	 * @access private
+	 * @since 0.7.7
+	 * @uses WP_Scripts
+	 * @param  (object) $scripts WP_Scripts
+	 * @return (void)
+	 */
+	public static function storeCorejQuery( &$scripts ) {
+
+		self::$corejQuery['jquery'] = $scripts->registered['jquery'];
+		self::$corejQuery['jquery-core'] = $scripts->registered['jquery-core'] ? $scripts->registered['jquery-core'] : FALSE;
+		self::$corejQuery['jquery-migrate'] = $scripts->registered['jquery-migrate'] ? $scripts->registered['jquery-migrate'] : FALSE;
 	}
 
 	/**

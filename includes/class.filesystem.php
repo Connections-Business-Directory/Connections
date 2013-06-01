@@ -69,7 +69,7 @@ class cnFileSystem {
 	}
 
 	/**
-	 * Will add Options -Indexes to an existing .htaccess file in the supplied path. If the .htaccess file does not exist, it create the file and add the rule.
+	 * Will overwrite an .htaccess an add "Options -Indexes" in the supplied path. If the .htaccess file does not exist, it create the file and add the rule.
 	 *
 	 * @access public
 	 * @since 0.7.5
@@ -86,12 +86,50 @@ class cnFileSystem {
 
 			$contents = @file_get_contents( $path . '.htaccess' );
 
-			if( false === strpos( $contents, 'Options -Indexes' ) || ! $contents ) {
+			if ( FALSE === strpos( $contents, 'Options -Indexes' ) || ! $contents ) {
+
 				@file_put_contents( $path . '.htaccess', $rules );
 			}
+
 		} else {
+
 			@file_put_contents( $path . '.htaccess', $rules );
 		}
+	}
+
+	/**
+	 * Create a .htaccess file in the timthumb folder to allow it to be called directly.
+	 *
+	 * This will ensure TimThumb is allowed to run if the .htaccess file added in: ../wp-content/ by Sucuri WP Plugin which contains:
+	 *
+	 * <Files *.php>
+	 * deny from all
+	 * </Files>
+	 *
+	 * @access public
+	 * @since 0.7.7
+	 * @uses trailingslashit()
+	 * @param (string) $path The path inwhich the file is to be created in.
+	 * @return void
+	 */
+	public static function permitTimThumb( $path ) {
+		$path = trailingslashit( $path );
+
+		$rules = array(
+			'<Files *.php>',
+			'Order Deny,Allow',
+			'Deny from all',
+			'Allow from 127.0.0.1',
+			'</Files>',
+			'',
+			'<Files timthumb.php>',
+			'Order Allow,Deny',
+			'Allow from all',
+			'</Files>'
+			);
+
+		@file_put_contents( $path . '.htaccess', implode( PHP_EOL, $rules ) );
+
 	}
 
 	/**

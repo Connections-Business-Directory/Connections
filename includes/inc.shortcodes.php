@@ -254,7 +254,8 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		'unit'                  => 'mi',
 		'template'              => NULL, /** @since version 0.7.1.0 */
 		'template_name'         => NULL /** @deprecated since version 0.7.0.4 */,
-		'width'                 => NULL
+		'width'                 => NULL,
+		'lock'                  => FALSE
 	);
 
 	$permittedAtts = apply_filters( 'cn_list_atts_permitted' , $permittedAtts );
@@ -277,6 +278,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	$convert->toBoolean( $atts['repeat_alphaindex'] );
 	$convert->toBoolean( $atts['show_alphahead'] );
 	$convert->toBoolean( $atts['wp_current_category'] );
+	$convert->toBoolean( $atts['lock'] );
 	// $out .= var_dump($atts);
 
 	/*

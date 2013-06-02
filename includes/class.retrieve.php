@@ -72,6 +72,8 @@ class cnRetrieve {
 		$defaults['radius'] = 10;
 		$defaults['unit'] = 'mi';
 
+		$defaults['lock'] = TRUE;
+
 		$atts = $validate->attributesArray( $defaults, $atts );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -81,7 +83,7 @@ class cnRetrieve {
 		 * // START -- Process the query vars. \\
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
-		if ( ! is_admin() ) {
+		if ( ! is_admin() && ! $atts['lock'] ) {
 			// Category slug
 			$queryCategorySlug = get_query_var( 'cn-cat-slug' );
 			if ( ! empty( $queryCategorySlug ) ) {

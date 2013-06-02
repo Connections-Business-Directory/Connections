@@ -82,6 +82,39 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 
 == Changelog ==
 
+= 0.7.7 06/02/13 =
+* FEATURE: The organization field can now be set to show as a link and when a user clicks the link, the list will be filtered by that organization.
+* FEATURE: The department field can now be set to show as a link and when a user clicks the link, the list will be filtered by that department.
+* FEATURE: The city field can now be set to show as a link and when a user clicks the link, the list will be filtered by that city.
+* FEATURE: The state field can now be set to show as a link and when a user clicks the link, the list will be filtered by that state.
+* FEATURE: The zip code field can now be set to show as a link and when a user clicks the link, the list will be filtered by that zip code.
+* FEATURE: The country field can now be set to show as a link and when a user clicks the link, the list will be filtered by that country.
+* FEATURE: Add a date format option which will default to the current WP setting.
+* FEATURE: Add a "lock" shortcode option. When set to true, that shortcode instance will be unaffected for queries.
+* TWEAK: If an entry is linked to a user, show the user's name and link it to their profile.
+* TWEAK: Dates will now output localized.
+* TWEAK: Add before and after entry action hooks.
+* TWEAK: Minor optimization in the alternate row CSS logic in the shortcode output.
+* TWEAK: Pass the shortcode $atts to all action hooks.
+* TWEAK: Output dates using the new dateformat option.
+* TWEAK: Add filter hook to cnOutput::getImage().
+* TWEAK: Remove the !important statement from width in the CSS #cn-list span.cn-image img.
+* TWEAK: Validate and sanitize the image settings.
+* BUG: Do not output an empty <ul> container if there are no registered list actions.
+* BUG: Fixed undefined index error: fulltext_enabled.
+* OTHER: Moved all admin actions for template administration to cnAdminAction().
+* OTHER: Moved all admin actions for category administration to cnAdminAction().
+* OTHER: Prefix all category admin fields to avoid plugin conflicts when processing admin actions.
+* OTHER: Prefix all role/capability admin fields to avoid plugin conflicts when processing admin actions.
+* OTHER: Prefix all template admin fields to avoid plugin conflicts when processing admin actions.
+* OTHER: Spanish translation has been updated.
+* OTHER: Convert much of the shortcode output to be run thru sprintf() for easier code reading/processing.
+* OTHER: Removed unused code in the shortcode.
+* OTHER: Code cleanup of cnOutput::getImage().
+* OTHER: Ensure default values are in place for the rewrite rules.
+* OTHER: Add a .htaccess file to the TimThumb folder to ensure it can be called directly.
+* OTHER: Update the jQuery Fixr option to support the upcoming WP 3.6.
+
 = 0.7.6.6 04/30/13 =
 * NOTICE: Requires WordPress 3.3 or newer.
 * BUG: Remove merge confict markers in class.settings.php. Why the heck didn't git throw a merge conflict error!

@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
-"POT-Creation-Date: 2013-04-06 18:37-0500\n"
-"PO-Revision-Date: 2013-04-06 18:38-0500\n"
+"POT-Creation-Date: 2013-06-02 20:09-0500\n"
+"PO-Revision-Date: 2013-06-02 20:09-0500\n"
 "Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
 "Language-Team: \n"
 "Language: da_DK\n"
@@ -17,64 +17,64 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: connections.php:719
+#: connections.php:725
 msgid "Entries"
 msgstr "Poster"
 
-#: connections.php:789 submenus/dashboard.php:28
+#: connections.php:795 submenus/dashboard.php:28
 msgid "Dashboard"
 msgstr "Betjeningspanel"
 
-#: connections.php:790 submenus/manage.php:240
+#: connections.php:796 submenus/manage.php:240
 msgid "Manage"
 msgstr "Administrer"
 
-#: connections.php:791 includes/class.capabilities.php:61
-#: includes/class.form.php:853 includes/class.form.php:857
+#: connections.php:797 includes/class.capabilities.php:61
+#: includes/class.form.php:826 includes/class.form.php:830
 #: submenus/manage.php:12
 msgid "Add Entry"
 msgstr "Tilføj Post"
 
-#: connections.php:792 includes/class.form.php:282 submenus/categories.php:66
+#: connections.php:798 includes/class.form.php:239 submenus/categories.php:74
 #: submenus/manage.php:437 submenus/manage.php:446
 msgid "Categories"
 msgstr "Kategorier"
 
-#: connections.php:793 connections.php:902 includes/class.form.php:362
-#: includes/class.settings.php:916 submenus/templates.php:32
+#: connections.php:799 connections.php:908 includes/class.form.php:319
+#: includes/class.settings.php:1052 submenus/templates.php:35
 msgid "Templates"
 msgstr "Designs"
 
-#: connections.php:794 connections.php:884 submenus/settings.php:30
+#: connections.php:800 connections.php:890 submenus/settings.php:30
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: connections.php:795
+#: connections.php:801
 msgid "Roles &amp; Capabilites"
 msgstr "Roller &amp; Kapaciteter"
 
-#: connections.php:795
+#: connections.php:801
 msgid "Roles"
 msgstr "Roller"
 
-#: connections.php:901
+#: connections.php:907
 msgid "Add-on Plugins"
 msgstr ""
 
-#: connections.php:903 includes/class.form.php:329
+#: connections.php:909 includes/class.form.php:286
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: connections.php:904
+#: connections.php:910
 #, fuzzy
 msgid "Support Forums"
 msgstr "Support"
 
-#: connections.php:1337 connections.php:1345
+#: connections.php:1262 connections.php:1270
 msgid "vCard not available for download."
 msgstr "vCard er ikke tilgængelig at downloade."
 
-#: cache/index.php:14 includes/inc.upgrade.php:18 submenus/categories.php:18
+#: cache/index.php:14 includes/inc.upgrade.php:18 submenus/categories.php:19
 #: submenus/dashboard.php:18 submenus/roles.php:18 submenus/settings.php:18
 #: submenus/templates.php:19
 msgid "You do not have sufficient permissions to access this page."
@@ -136,689 +136,700 @@ msgstr "Håndtér skabeloner"
 msgid "Change Role Capabilities"
 msgstr "Skift rolle kapaciteter"
 
-#: includes/class.entry.php:2562 includes/class.form.php:1752
-#: includes/class.options.php:880 includes/class.output.php:1815
-#: includes/class.output.php:1822 submenus/templates.php:39
+#: includes/class.entry.php:2562 includes/class.form.php:1725
+#: includes/class.options.php:880 includes/class.output.php:2008
+#: includes/class.output.php:2015 submenus/templates.php:42
 msgid "Anniversary"
 msgstr "Årsdag"
 
-#: includes/class.entry.php:2577 includes/class.form.php:1734
-#: includes/class.options.php:882 includes/class.output.php:1745
-#: includes/class.output.php:1752 submenus/templates.php:40
+#: includes/class.entry.php:2577 includes/class.form.php:1707
+#: includes/class.options.php:882 includes/class.output.php:1938
+#: includes/class.output.php:1945 submenus/templates.php:43
 msgid "Birthday"
 msgstr "Fødselsdag"
 
-#: includes/class.entry.php:3001 includes/class.form.php:835
+#: includes/class.entry.php:3005 includes/class.form.php:808
 msgid "Unlisted"
 msgstr ""
 
-#: includes/class.entry.php:3001 includes/class.form.php:833
+#: includes/class.entry.php:3005 includes/class.form.php:806
 msgid "Public"
 msgstr "Offentlig"
 
-#: includes/class.entry.php:3001 includes/class.form.php:834
+#: includes/class.entry.php:3005 includes/class.form.php:807
 msgid "Private"
 msgstr "Privat"
 
-#: includes/class.entry.php:3208
+#: includes/class.entry.php:3212
 msgid "Unknown"
 msgstr ""
 
-#: includes/class.form.php:281
+#: includes/class.form.php:238
 msgid "Publish"
 msgstr "Udgiv"
 
-#: includes/class.form.php:283
+#: includes/class.form.php:240
 msgid "Image"
 msgstr "Billede"
 
-#: includes/class.form.php:284 includes/class.settings.php:176
+#: includes/class.form.php:241 includes/class.settings.php:192
 msgid "Logo"
 msgstr "Logo"
 
-#: includes/class.form.php:285
+#: includes/class.form.php:242
 msgid "Addresses"
 msgstr "Adresser"
 
-#: includes/class.form.php:286
+#: includes/class.form.php:243
 msgid "Phone Numbers"
 msgstr "Telefonnumre"
 
-#: includes/class.form.php:287
+#: includes/class.form.php:244
 msgid "Email Addresses"
 msgstr "Email-adresser"
 
-#: includes/class.form.php:288
+#: includes/class.form.php:245
 msgid "Messenger IDs"
 msgstr "Messenger ID´er"
 
-#: includes/class.form.php:289
+#: includes/class.form.php:246
 msgid "Social Media IDs"
 msgstr "Sociale Netværks ID"
 
-#: includes/class.form.php:290 includes/class.settings.php:209
+#: includes/class.form.php:247 includes/class.settings.php:225
 msgid "Links"
 msgstr "Links"
 
-#: includes/class.form.php:291
+#: includes/class.form.php:248
 msgid "Dates"
 msgstr "Datoer"
 
-#: includes/class.form.php:294
+#: includes/class.form.php:251
 msgid "Biographical Info"
 msgstr "Biografiske Oplysninger"
 
-#: includes/class.form.php:295 includes/class.settings.php:660
-#: submenus/manage.php:725
+#: includes/class.form.php:252 includes/class.settings.php:720
+#: submenus/manage.php:748
 msgid "Notes"
 msgstr "Noter"
 
-#: includes/class.form.php:308
+#: includes/class.form.php:265
 msgid "News"
 msgstr "Nyheder"
 
-#: includes/class.form.php:309
+#: includes/class.form.php:266
 msgid "Pro Modules Update Notices"
 msgstr ""
 
-#: includes/class.form.php:310
+#: includes/class.form.php:267
 msgid "Template Update Notices"
 msgstr ""
 
-#: includes/class.form.php:312
+#: includes/class.form.php:269
 msgid "Awaiting Moderation"
 msgstr "Venter på moderation"
 
-#: includes/class.form.php:313
+#: includes/class.form.php:270
 msgid "Recently Added"
 msgstr "Seneste tilføjede"
 
-#: includes/class.form.php:314
+#: includes/class.form.php:271
 msgid "Recently Modified"
 msgstr "Senest ændrede"
 
-#: includes/class.form.php:316
+#: includes/class.form.php:273
 msgid "Quick Links"
 msgstr ""
 
-#: includes/class.form.php:317
+#: includes/class.form.php:274
 msgid "Today's Anniversaries"
 msgstr ""
 
-#: includes/class.form.php:318
+#: includes/class.form.php:275
 msgid "Today's Birthdays"
 msgstr "Fødselsdage i dag"
 
-#: includes/class.form.php:319
+#: includes/class.form.php:276
 msgid "Upcoming Anniversaries"
 msgstr "Kommende mærkedage"
 
-#: includes/class.form.php:320
+#: includes/class.form.php:277
 msgid "Upcoming Birthdays"
 msgstr "Kommende Fødselsdage"
 
-#: includes/class.form.php:322
+#: includes/class.form.php:279
 msgid "System"
 msgstr "System"
 
-#: includes/class.form.php:340
+#: includes/class.form.php:297
 msgid "FAQs"
 msgstr ""
 
-#: includes/class.form.php:345
+#: includes/class.form.php:302
 msgid ""
 "Have a question, maybe someone else had the same question, please check the "
 "FAQs."
 msgstr ""
 
-#: includes/class.form.php:351
+#: includes/class.form.php:308
 msgid "Pro Modules"
 msgstr ""
 
-#: includes/class.form.php:356
+#: includes/class.form.php:313
 msgid "Extend Connections with the Pro Module Addons."
 msgstr ""
 
-#: includes/class.form.php:367
+#: includes/class.form.php:324
 msgid "Check out the template market."
 msgstr ""
 
-#: includes/class.form.php:373
+#: includes/class.form.php:330
 msgid "Bug Report"
 msgstr ""
 
-#: includes/class.form.php:378
+#: includes/class.form.php:335
 msgid "Did you find a bug, please take the time to report it. Thanks."
 msgstr ""
 
-#: includes/class.form.php:384
+#: includes/class.form.php:341
 msgid "Feature Request"
 msgstr ""
 
-#: includes/class.form.php:389
+#: includes/class.form.php:346
 msgid "Need a feature, request a feature."
 msgstr ""
 
-#: includes/class.form.php:413
+#: includes/class.form.php:370
 #, php-format
 msgid ""
 "Newsfeed could not be loaded.  Check the <a href=\"%s\">blog</a> to check "
 "for updates."
 msgstr ""
 
-#: includes/class.form.php:426
+#: includes/class.form.php:383
 msgid "Untitled"
 msgstr "Unavngivet"
 
-#: includes/class.form.php:441
+#: includes/class.form.php:398
 msgid "ago"
 msgstr ""
 
-#: includes/class.form.php:448
+#: includes/class.form.php:405
 msgid "No updates at this time"
 msgstr ""
 
-#: includes/class.form.php:465
+#: includes/class.form.php:422
 #, fuzzy
 msgid "No Birthdays Today"
 msgstr "Fødselsdage i dag"
 
-#: includes/class.form.php:516
+#: includes/class.form.php:450
+#, fuzzy
+msgid "No Upcoming Birthdays."
+msgstr "Kommende Fødselsdage"
+
+#: includes/class.form.php:478
 #, fuzzy
 msgid "No Anniversaries Today"
 msgstr "Kommende mærkedage"
 
-#: includes/class.form.php:652
+#: includes/class.form.php:505
+#, fuzzy
+msgid "No Upcoming Anniversaries."
+msgstr "Kommende mærkedage"
+
+#: includes/class.form.php:625
 msgid "Not set"
 msgstr "Ikke Valgt"
 
-#: includes/class.form.php:654 includes/class.form.php:657
+#: includes/class.form.php:627 includes/class.form.php:630
 #: submenus/manage.php:562
 msgid "On"
 msgstr "Til"
 
-#: includes/class.form.php:655 includes/class.form.php:658
+#: includes/class.form.php:628 includes/class.form.php:631
 msgid "Off"
 msgstr "Fra"
 
-#: includes/class.form.php:661 includes/class.form.php:664
-#: includes/class.form.php:667 includes/class.form.php:670
-#: includes/class.form.php:673 includes/class.form.php:676
+#: includes/class.form.php:634 includes/class.form.php:637
+#: includes/class.form.php:640 includes/class.form.php:643
+#: includes/class.form.php:646 includes/class.form.php:649
 msgid "N/A"
 msgstr "N/A"
 
-#: includes/class.form.php:675
+#: includes/class.form.php:648
 msgid "MByte"
 msgstr "MByte"
 
-#: includes/class.form.php:678 includes/class.form.php:681
-#: includes/class.form.php:684 includes/class.utility.php:126
-#: submenus/manage.php:732 submenus/manage.php:733
+#: includes/class.form.php:651 includes/class.form.php:654
+#: includes/class.form.php:657 includes/class.utility.php:126
+#: submenus/manage.php:755 submenus/manage.php:756
 msgid "Yes"
 msgstr "Ja"
 
-#: includes/class.form.php:679 includes/class.form.php:682
-#: includes/class.form.php:685 includes/class.utility.php:128
-#: submenus/manage.php:732 submenus/manage.php:733
+#: includes/class.form.php:652 includes/class.form.php:655
+#: includes/class.form.php:658 includes/class.utility.php:128
+#: submenus/manage.php:755 submenus/manage.php:756
 msgid "No"
 msgstr "Nej"
 
-#: includes/class.form.php:688
+#: includes/class.form.php:661
 msgid "Version Information"
 msgstr ""
 
-#: includes/class.form.php:697
+#: includes/class.form.php:670
 msgid "Constants"
 msgstr ""
 
-#: includes/class.form.php:700
+#: includes/class.form.php:673
 msgid "TRUE"
 msgstr ""
 
-#: includes/class.form.php:700
+#: includes/class.form.php:673
 msgid "FALSE"
 msgstr ""
 
-#: includes/class.form.php:726
+#: includes/class.form.php:699
 msgid "Server Configuration"
 msgstr ""
 
-#: includes/class.form.php:729
+#: includes/class.form.php:702
 msgid "Operating System"
 msgstr ""
 
-#: includes/class.form.php:730
+#: includes/class.form.php:703
 msgid "Server"
 msgstr ""
 
-#: includes/class.form.php:731
+#: includes/class.form.php:704
 #, fuzzy
 msgid "Memory usage"
 msgstr "Besked"
 
-#: includes/class.form.php:732
+#: includes/class.form.php:705
 msgid "MYSQL Version"
 msgstr ""
 
-#: includes/class.form.php:733
+#: includes/class.form.php:706
 msgid "SQL Mode"
 msgstr ""
 
-#: includes/class.form.php:734
+#: includes/class.form.php:707
 msgid "PHP Version"
 msgstr ""
 
-#: includes/class.form.php:735
+#: includes/class.form.php:708
 msgid "PHP Safe Mode"
 msgstr ""
 
-#: includes/class.form.php:736
+#: includes/class.form.php:709
 msgid "PHP Allow URL fopen"
 msgstr ""
 
-#: includes/class.form.php:737
+#: includes/class.form.php:710
 msgid "PHP Memory Limit"
 msgstr ""
 
-#: includes/class.form.php:738
+#: includes/class.form.php:711
 msgid "PHP Max Upload Size"
 msgstr ""
 
-#: includes/class.form.php:739
+#: includes/class.form.php:712
 msgid "PHP Max Post Size"
 msgstr ""
 
-#: includes/class.form.php:740
+#: includes/class.form.php:713
 msgid "PCRE Backtracking Limit"
 msgstr ""
 
-#: includes/class.form.php:741
+#: includes/class.form.php:714
 msgid "PHP Max Script Execute Time"
 msgstr ""
 
-#: includes/class.form.php:742
+#: includes/class.form.php:715
 #, fuzzy
 msgid "PHP Exif support"
 msgstr "Ingen GD support"
 
-#: includes/class.form.php:743
+#: includes/class.form.php:716
 #, fuzzy
 msgid "PHP IPTC support"
 msgstr "Ingen GD support"
 
-#: includes/class.form.php:744
+#: includes/class.form.php:717
 #, fuzzy
 msgid "PHP XML support"
 msgstr "Ingen GD support"
 
-#: includes/class.form.php:747
+#: includes/class.form.php:720
 msgid "Graphic Library"
 msgstr ""
 
-#: includes/class.form.php:767
+#: includes/class.form.php:740
 msgid "No GD support"
 msgstr "Ingen GD support"
 
-#: includes/class.form.php:772
+#: includes/class.form.php:745
 msgid "Folder Permissions"
 msgstr ""
 
-#: includes/class.form.php:777
+#: includes/class.form.php:750
 #, fuzzy
 msgid "Image Path Exists:"
 msgstr "Billede sti eksisterer"
 
-#: includes/class.form.php:778
+#: includes/class.form.php:751
 #, fuzzy
 msgid "Image Path Writeable:"
 msgstr "Billede sti eksisterer"
 
-#: includes/class.form.php:780
+#: includes/class.form.php:753
 #, fuzzy
 msgid "Template Path Exists:"
 msgstr "Billede sti eksisterer"
 
-#: includes/class.form.php:781
+#: includes/class.form.php:754
 msgid "Template Path Writeable:"
 msgstr ""
 
-#: includes/class.form.php:783
+#: includes/class.form.php:756
 #, fuzzy
 msgid "Cache Path Exists:"
 msgstr "Billede sti eksisterer"
 
-#: includes/class.form.php:784
+#: includes/class.form.php:757
 msgid "Cache Path Writeable:"
 msgstr ""
 
-#: includes/class.form.php:800 submenus/templates.php:36
+#: includes/class.form.php:773 submenus/templates.php:39
 msgid "Individual"
 msgstr "Individuel"
 
-#: includes/class.form.php:801 includes/class.form.php:970
-#: includes/class.settings.php:655 submenus/manage.php:608
-#: submenus/templates.php:37
+#: includes/class.form.php:774 includes/class.form.php:943
+#: includes/class.settings.php:715 includes/class.settings.php:933
+#: submenus/manage.php:631 submenus/templates.php:40
 msgid "Organization"
 msgstr "Organisation"
 
-#: includes/class.form.php:802 submenus/templates.php:38
+#: includes/class.form.php:775 submenus/templates.php:41
 msgid "Family"
 msgstr "Familie"
 
-#: includes/class.form.php:847 includes/class.form.php:852
-#: submenus/categories.php:54
+#: includes/class.form.php:820 includes/class.form.php:825
+#: submenus/categories.php:61
 msgid "Cancel"
 msgstr "Annuller"
 
-#: includes/class.form.php:848 submenus/roles.php:63
+#: includes/class.form.php:821 submenus/roles.php:63
 msgid "Update"
 msgstr "Opdater"
 
-#: includes/class.form.php:898 includes/class.settings.php:650
+#: includes/class.form.php:871 includes/class.settings.php:710
 msgid "Family Name"
 msgstr "Familienavn"
 
-#: includes/class.form.php:918 includes/class.form.php:1013
-#: includes/class.form.php:1047 includes/class.form.php:1147
-#: includes/class.form.php:1236 includes/class.form.php:1277
-#: includes/class.form.php:1309 includes/class.form.php:1350
-#: includes/class.form.php:1382 includes/class.form.php:1423
-#: includes/class.form.php:1454 includes/class.form.php:1495
-#: includes/class.form.php:1527 includes/class.form.php:1582
-#: includes/class.form.php:1631 includes/class.form.php:1675
-#: includes/class.form.php:1710
+#: includes/class.form.php:891 includes/class.form.php:986
+#: includes/class.form.php:1020 includes/class.form.php:1120
+#: includes/class.form.php:1209 includes/class.form.php:1250
+#: includes/class.form.php:1282 includes/class.form.php:1323
+#: includes/class.form.php:1355 includes/class.form.php:1396
+#: includes/class.form.php:1427 includes/class.form.php:1468
+#: includes/class.form.php:1500 includes/class.form.php:1555
+#: includes/class.form.php:1604 includes/class.form.php:1648
+#: includes/class.form.php:1683
 msgid "Remove"
 msgstr "Fjern"
 
-#: includes/class.form.php:926
+#: includes/class.form.php:899
 msgid "Add Relation"
 msgstr "Tilføj Relation"
 
-#: includes/class.form.php:936
+#: includes/class.form.php:909
 msgid "Prefix"
 msgstr ""
 
-#: includes/class.form.php:942 includes/class.settings.php:651
+#: includes/class.form.php:915 includes/class.settings.php:711
 msgid "First Name"
 msgstr "Fornavn"
 
-#: includes/class.form.php:947 includes/class.settings.php:652
+#: includes/class.form.php:920 includes/class.settings.php:712
 msgid "Middle Name"
 msgstr "Mellemnavn"
 
-#: includes/class.form.php:952 includes/class.settings.php:653
+#: includes/class.form.php:925 includes/class.settings.php:713
 msgid "Last Name"
 msgstr "Efternavn"
 
-#: includes/class.form.php:958
+#: includes/class.form.php:931
 msgid "Suffix"
 msgstr ""
 
-#: includes/class.form.php:963 includes/class.form.php:1568
-#: includes/class.form.php:1616 includes/class.settings.php:654
-#: submenus/manage.php:607
+#: includes/class.form.php:936 includes/class.form.php:1541
+#: includes/class.form.php:1589 includes/class.settings.php:714
+#: submenus/manage.php:630
 msgid "Title"
 msgstr "Titel"
 
-#: includes/class.form.php:973 includes/class.settings.php:656
-#: submenus/manage.php:609
+#: includes/class.form.php:946 includes/class.settings.php:716
+#: includes/class.settings.php:946 submenus/manage.php:632
 msgid "Department"
 msgstr "Afdeling"
 
-#: includes/class.form.php:979 includes/class.settings.php:657
+#: includes/class.form.php:952 includes/class.settings.php:717
 msgid "Contact First Name"
 msgstr ""
 
-#: includes/class.form.php:983 includes/class.settings.php:658
+#: includes/class.form.php:956 includes/class.settings.php:718
 msgid "Contact Last Name"
 msgstr ""
 
-#: includes/class.form.php:1011 includes/class.form.php:1045
-#: includes/class.settings.php:35 submenus/manage.php:733
+#: includes/class.form.php:984 includes/class.form.php:1018
+#: includes/class.settings.php:35 submenus/manage.php:756
 msgid "Display"
 msgstr "Vis"
 
-#: includes/class.form.php:1012 includes/class.form.php:1046
+#: includes/class.form.php:985 includes/class.form.php:1019
 msgid "Not Displayed"
 msgstr "Ikke Vist"
 
-#: includes/class.form.php:1022
+#: includes/class.form.php:995
 msgid "Select Image"
 msgstr "Vælg Billede"
 
-#: includes/class.form.php:1056
+#: includes/class.form.php:1029
 msgid "Select Logo"
 msgstr "Vælg Logo"
 
-#: includes/class.form.php:1081 includes/class.form.php:1169
+#: includes/class.form.php:1054 includes/class.form.php:1142
 msgid "Address Type"
 msgstr "Adressetype"
 
-#: includes/class.form.php:1082 includes/class.form.php:1170
-#: includes/class.form.php:1268 includes/class.form.php:1299
-#: includes/class.form.php:1341 includes/class.form.php:1372
-#: includes/class.form.php:1414 includes/class.form.php:1444
-#: includes/class.form.php:1486 includes/class.form.php:1517
-#: includes/class.form.php:1559 includes/class.form.php:1607
-#: includes/class.form.php:1663 includes/class.form.php:1697
+#: includes/class.form.php:1055 includes/class.form.php:1143
+#: includes/class.form.php:1241 includes/class.form.php:1272
+#: includes/class.form.php:1314 includes/class.form.php:1345
+#: includes/class.form.php:1387 includes/class.form.php:1417
+#: includes/class.form.php:1459 includes/class.form.php:1490
+#: includes/class.form.php:1532 includes/class.form.php:1580
+#: includes/class.form.php:1636 includes/class.form.php:1670
 msgid "Preferred"
 msgstr "Foretrukne"
 
-#: includes/class.form.php:1083 includes/class.form.php:1171
-#: includes/class.form.php:1269 includes/class.form.php:1342
-#: includes/class.form.php:1373 includes/class.form.php:1415
-#: includes/class.form.php:1445 includes/class.form.php:1487
-#: includes/class.form.php:1518 includes/class.form.php:1560
-#: includes/class.form.php:1608 includes/class.form.php:1664
-#: includes/class.form.php:1698 submenus/manage.php:564
+#: includes/class.form.php:1056 includes/class.form.php:1144
+#: includes/class.form.php:1242 includes/class.form.php:1315
+#: includes/class.form.php:1346 includes/class.form.php:1388
+#: includes/class.form.php:1418 includes/class.form.php:1460
+#: includes/class.form.php:1491 includes/class.form.php:1533
+#: includes/class.form.php:1581 includes/class.form.php:1637
+#: includes/class.form.php:1671 submenus/manage.php:564
 msgid "Visibility"
 msgstr "Synlighed"
 
-#: includes/class.form.php:1092 includes/class.form.php:1180
+#: includes/class.form.php:1065 includes/class.form.php:1153
 msgid "Address Line 1"
 msgstr "Adresselinie 1"
 
-#: includes/class.form.php:1097 includes/class.form.php:1185
+#: includes/class.form.php:1070 includes/class.form.php:1158
 msgid "Address Line 2"
 msgstr "Adresselinie 2"
 
-#: includes/class.form.php:1102 includes/class.form.php:1190
+#: includes/class.form.php:1075 includes/class.form.php:1163
 msgid "Address Line 3"
 msgstr "Adresselinie 3"
 
-#: includes/class.form.php:1110 includes/class.form.php:1197
+#: includes/class.form.php:1083 includes/class.form.php:1170
 msgid "City"
 msgstr "By"
 
-#: includes/class.form.php:1114 includes/class.form.php:1201
+#: includes/class.form.php:1087 includes/class.form.php:1174
 msgid "State"
 msgstr "Stat / Region"
 
-#: includes/class.form.php:1118 includes/class.form.php:1205
+#: includes/class.form.php:1091 includes/class.form.php:1178
 msgid "Zipcode"
 msgstr "Postnummer"
 
-#: includes/class.form.php:1124 includes/class.form.php:1211
+#: includes/class.form.php:1097 includes/class.form.php:1184
+#: includes/class.settings.php:998
 msgid "Country"
 msgstr "Land"
 
-#: includes/class.form.php:1130 includes/class.form.php:1217
-#: includes/class.output.php:775 submenus/manage.php:633
+#: includes/class.form.php:1103 includes/class.form.php:1190
+#: includes/class.output.php:968 submenus/manage.php:656
 msgid "Latitude"
 msgstr "Latitudee"
 
-#: includes/class.form.php:1134 includes/class.form.php:1221
-#: includes/class.output.php:776 submenus/manage.php:633
+#: includes/class.form.php:1107 includes/class.form.php:1194
+#: includes/class.output.php:969 submenus/manage.php:656
 msgid "Longitude"
 msgstr "Longitude"
 
-#: includes/class.form.php:1138 includes/class.form.php:1225
+#: includes/class.form.php:1111 includes/class.form.php:1198
 msgid "Geocode"
 msgstr ""
 
-#: includes/class.form.php:1144 includes/class.form.php:1233
+#: includes/class.form.php:1117 includes/class.form.php:1206
 msgid "Geocoding Address."
 msgstr ""
 
-#: includes/class.form.php:1245
+#: includes/class.form.php:1218
 msgid "Add Address"
 msgstr "Tilføj Adresse"
 
-#: includes/class.form.php:1267 includes/class.form.php:1298
+#: includes/class.form.php:1240 includes/class.form.php:1271
 msgid "Phone Type"
 msgstr "Telefontype"
 
-#: includes/class.form.php:1276 includes/class.form.php:1307
-#: includes/class.settings.php:668
+#: includes/class.form.php:1249 includes/class.form.php:1280
+#: includes/class.settings.php:728
 msgid "Phone Number"
 msgstr "Telefonnummer"
 
-#: includes/class.form.php:1318
+#: includes/class.form.php:1291
 #, fuzzy
 msgid "Add Phone Number"
 msgstr "Telefonnummer"
 
-#: includes/class.form.php:1340 includes/class.form.php:1371
+#: includes/class.form.php:1313 includes/class.form.php:1344
 msgid "Email Type"
 msgstr "Emailtype"
 
-#: includes/class.form.php:1349 includes/class.form.php:1380
+#: includes/class.form.php:1322 includes/class.form.php:1353
 msgid "Email Address"
 msgstr "Emailadresse"
 
-#: includes/class.form.php:1391
+#: includes/class.form.php:1364
 msgid "Add Email Address"
 msgstr "Tilføj Emailadresse"
 
-#: includes/class.form.php:1413 includes/class.form.php:1443
+#: includes/class.form.php:1386 includes/class.form.php:1416
 msgid "IM Type"
 msgstr "IM Type"
 
-#: includes/class.form.php:1422 includes/class.form.php:1452
+#: includes/class.form.php:1395 includes/class.form.php:1425
 msgid "IM Network ID"
 msgstr "IM Netværks ID"
 
-#: includes/class.form.php:1463
+#: includes/class.form.php:1436
 msgid "Add Messenger ID"
 msgstr "Tilføj Messenger ID"
 
-#: includes/class.form.php:1485 includes/class.form.php:1516
+#: includes/class.form.php:1458 includes/class.form.php:1489
 msgid "Social Network"
 msgstr "Socialt Netværk"
 
-#: includes/class.form.php:1494 includes/class.form.php:1525
-#: includes/class.form.php:1569 includes/class.form.php:1617
+#: includes/class.form.php:1467 includes/class.form.php:1498
+#: includes/class.form.php:1542 includes/class.form.php:1590
 msgid "URL"
 msgstr "URL"
 
-#: includes/class.form.php:1536
+#: includes/class.form.php:1509
 msgid "Add Social Media ID"
 msgstr "Tilføj Social Medie ID"
 
-#: includes/class.form.php:1558 includes/class.form.php:1606
-#: includes/class.form.php:1662 includes/class.form.php:1696
+#: includes/class.form.php:1531 includes/class.form.php:1579
+#: includes/class.form.php:1635 includes/class.form.php:1669
 msgid "Type"
 msgstr "Tyoe"
 
-#: includes/class.form.php:1573 includes/class.form.php:1621
+#: includes/class.form.php:1546 includes/class.form.php:1594
 msgid "Target"
 msgstr "Mål"
 
-#: includes/class.form.php:1573 includes/class.form.php:1621
+#: includes/class.form.php:1546 includes/class.form.php:1594
 msgid "New Window"
 msgstr "Nyt vindue"
 
-#: includes/class.form.php:1573 includes/class.form.php:1621
+#: includes/class.form.php:1546 includes/class.form.php:1594
 msgid "Same Window"
 msgstr "Samme vindue"
 
-#: includes/class.form.php:1578 includes/class.form.php:1626
+#: includes/class.form.php:1551 includes/class.form.php:1599
 msgid "Assign link to the image."
 msgstr ""
 
-#: includes/class.form.php:1579 includes/class.form.php:1627
+#: includes/class.form.php:1552 includes/class.form.php:1600
 msgid "Assign link to the logo."
 msgstr ""
 
-#: includes/class.form.php:1640
+#: includes/class.form.php:1613
 msgid "Add Link"
 msgstr "Tilføj link"
 
-#: includes/class.form.php:1672 includes/class.form.php:1706
+#: includes/class.form.php:1645 includes/class.form.php:1679
 msgid "Date"
 msgstr "Dato"
 
-#: includes/class.form.php:1719
+#: includes/class.form.php:1692
 msgid "Add Date"
 msgstr "Tilføj Dato"
 
-#: includes/class.form.php:1737 includes/class.form.php:1755
+#: includes/class.form.php:1710 includes/class.form.php:1728
 msgid "Field not available for this entry type."
 msgstr ""
 
-#: includes/class.form.php:1845
+#: includes/class.form.php:1818
 msgid "Select Entry"
 msgstr "Vælg Post"
 
-#: includes/class.form.php:1907 submenus/manage.php:529
-#: submenus/manage.php:591
+#: includes/class.form.php:1880 submenus/manage.php:529
+#: submenus/manage.php:614
 msgid "Edit"
 msgstr "Rediger"
 
-#: includes/class.form.php:1908 submenus/categories.php:86
+#: includes/class.form.php:1881 submenus/categories.php:95
 #: submenus/manage.php:402 submenus/manage.php:531
 msgid "Delete"
 msgstr "Slet"
 
-#: includes/class.form.php:1922 includes/class.form.php:1925
+#: includes/class.form.php:1895 includes/class.form.php:1898
 msgid "Count"
 msgstr "Tæller"
 
-#: includes/class.form.php:1928
+#: includes/class.form.php:1901
 msgid "ID"
 msgstr "ID"
 
-#: includes/class.form.php:1979 includes/class.settings.php:862
-#: submenus/categories.php:100 submenus/categories.php:110
+#: includes/class.form.php:1952 includes/class.settings.php:920
+#: submenus/categories.php:109 submenus/categories.php:119
 #: submenus/manage.php:436 submenus/manage.php:445
 msgid "Name"
 msgstr "Navn"
 
-#: includes/class.form.php:1982
+#: includes/class.form.php:1955
 msgid "The name is how it appears on your site."
 msgstr ""
 
-#: includes/class.form.php:1986 submenus/categories.php:102
-#: submenus/categories.php:112
+#: includes/class.form.php:1959 submenus/categories.php:111
+#: submenus/categories.php:121
 msgid "Slug"
 msgstr "Slug"
 
-#: includes/class.form.php:1988
+#: includes/class.form.php:1961
 msgid ""
 "The “slug” is the URL-friendly version of the name. It is usually all "
 "lowercase and contains only letters, numbers, and hyphens."
 msgstr ""
 
-#: includes/class.form.php:1992
+#: includes/class.form.php:1965
 msgid "Parent"
 msgstr "Forælder"
 
-#: includes/class.form.php:1994
+#: includes/class.form.php:1967
 msgid "None"
 msgstr "Ingen"
 
-#: includes/class.form.php:1997
+#: includes/class.form.php:1970
 msgid ""
 "Categories can have a hierarchy. You might have a Jazz category, and under "
 "that have children categories for Bebop and Big Band. Totally optional."
 msgstr ""
 
-#: includes/class.form.php:2001 submenus/categories.php:101
-#: submenus/categories.php:111
+#: includes/class.form.php:1974 submenus/categories.php:110
+#: submenus/categories.php:120
 msgid "Description"
 msgstr "Beskrivelse"
 
-#: includes/class.form.php:2003
+#: includes/class.form.php:1976
 msgid ""
 "The description is not displayed by default; however, templates may be "
 "created or altered to show it."
@@ -1387,28 +1398,28 @@ msgstr ""
 msgid "Ordination"
 msgstr "Ordination"
 
-#: includes/class.output.php:130 includes/class.output.php:131
+#: includes/class.output.php:132 includes/class.output.php:133
 msgid "Photo of"
 msgstr "Billede af"
 
-#: includes/class.output.php:194 includes/class.output.php:195
+#: includes/class.output.php:205 includes/class.output.php:206
 msgid "Logo for"
 msgstr "Logo for"
 
-#: includes/class.output.php:646 submenus/manage.php:606
+#: includes/class.output.php:736 submenus/manage.php:629
 msgid "Contact"
 msgstr "Kontakt"
 
-#: includes/class.output.php:1923
+#: includes/class.output.php:2116
 #, fuzzy
 msgid "Categories:"
 msgstr "Kategorier"
 
-#: includes/class.output.php:2090
+#: includes/class.output.php:2282
 msgid "Add to Address Book."
 msgstr "Tilføj til kontaktlisten"
 
-#: includes/class.output.php:2091
+#: includes/class.output.php:2283
 msgid "Download vCard"
 msgstr "Download vCard"
 
@@ -1424,7 +1435,7 @@ msgstr ""
 msgid "Uncategorized"
 msgstr "Ikke kategoriseret"
 
-#: includes/class.settings.php:28
+#: includes/class.settings.php:28 includes/class.settings.php:114
 msgid "General"
 msgstr "General"
 
@@ -1432,7 +1443,7 @@ msgstr "General"
 msgid "Images"
 msgstr "Billeder"
 
-#: includes/class.settings.php:49 includes/class.template-parts.php:70
+#: includes/class.settings.php:49 includes/class.template-parts.php:409
 msgid "Search"
 msgstr "Søg"
 
@@ -1448,86 +1459,97 @@ msgstr ""
 msgid "Shortcode Visibility Overrides"
 msgstr ""
 
-#: includes/class.settings.php:114
-msgid "Results List"
-msgstr ""
-
 #: includes/class.settings.php:122
-#, fuzzy
-msgid "List Actions"
-msgstr "Masseredigeringer"
-
-#: includes/class.settings.php:123
-msgid "Enable or disable various actions."
+msgid "Results List"
 msgstr ""
 
 #: includes/class.settings.php:130
 #, fuzzy
+msgid "List Actions"
+msgstr "Masseredigeringer"
+
+#: includes/class.settings.php:131
+msgid ""
+"Enable or disable various actions that are displayed above the result list."
+msgstr ""
+
+#: includes/class.settings.php:138
+#, fuzzy
+msgid "Entry Actions"
+msgstr "Masseredigeringer"
+
+#: includes/class.settings.php:139
+msgid ""
+"Enable or disable various actions that are shown above the single entry."
+msgstr ""
+
+#: includes/class.settings.php:146
+#, fuzzy
 msgid "Single Entry"
 msgstr "Vælg Post"
 
-#: includes/class.settings.php:142
+#: includes/class.settings.php:158
 msgid "Image and Logo Instructions"
 msgstr "Billede og Logoinstrukstioner"
 
-#: includes/class.settings.php:152
+#: includes/class.settings.php:168
 msgid "Thumbnail Image"
 msgstr "Thumbnail billede"
 
-#: includes/class.settings.php:160
+#: includes/class.settings.php:176
 msgid "Medium Image"
 msgstr "Mellem billede"
 
-#: includes/class.settings.php:168
+#: includes/class.settings.php:184
 msgid "Large Image"
 msgstr "Stort billede"
 
-#: includes/class.settings.php:188
+#: includes/class.settings.php:204
 msgid "Search Fields"
 msgstr "Søgefelter"
 
-#: includes/class.settings.php:200
+#: includes/class.settings.php:216
 msgid "Permalink"
 msgstr "Permalink"
 
-#: includes/class.settings.php:218
+#: includes/class.settings.php:234
 msgid "Compatibility"
 msgstr "Kompatibilitet"
 
-#: includes/class.settings.php:227
+#: includes/class.settings.php:243
 msgid "Debug"
 msgstr "Fejlsøg"
 
-#: includes/class.settings.php:257
+#: includes/class.settings.php:273
 msgid "Page"
 msgstr "Side"
 
-#: includes/class.settings.php:261
+#: includes/class.settings.php:277
 msgid "Select Page"
 msgstr "Vælg side"
 
-#: includes/class.settings.php:271
+#: includes/class.settings.php:287
 msgid "Login Required"
 msgstr "Login Påkrævet"
 
-#: includes/class.settings.php:272
+#: includes/class.settings.php:288
 msgid "Require registered users to login before showing the directory."
 msgstr ""
 
-#: includes/class.settings.php:285
+#: includes/class.settings.php:301
 msgid "Message"
 msgstr "Besked"
 
-#: includes/class.settings.php:286
+#: includes/class.settings.php:302
 msgid ""
 "The message to display to site visitors or registered users not logged in."
 msgstr ""
 
-#: includes/class.settings.php:298
+#: includes/class.settings.php:314
 msgid "Enable public_override"
 msgstr "Aktiver public_override"
 
-#: includes/class.settings.php:299
+#: includes/class.settings.php:315
 msgid ""
 "By default all entries whose status is Public will be visible to all site "
 "visitors or registered users not logged in. If the option to require login "
@@ -1538,11 +1560,11 @@ msgid ""
 "by default. If checked, this enables this shortcode option."
 msgstr ""
 
-#: includes/class.settings.php:311
+#: includes/class.settings.php:327
 msgid "Enable private_override"
 msgstr "Aktiver private_override"
 
-#: includes/class.settings.php:312
+#: includes/class.settings.php:328
 msgid ""
 "Entries can be set to a Private status which requires the user to be logged "
 "in to the site in order for them to be able to view those entries. The "
@@ -1553,225 +1575,311 @@ msgid ""
 "enables this shortcode option."
 msgstr ""
 
-#: includes/class.settings.php:328
+#: includes/class.settings.php:344
+msgid "Date Format"
+msgstr ""
+
+#: includes/class.settings.php:345
+msgid ""
+"<a href=\"http://codex.wordpress.org/Formatting_Date_and_Time\" target="
+"\"_blank\">Documentation on date and time formatting</a>."
+msgstr ""
+
+#: includes/class.settings.php:359
 msgid "Character Index"
 msgstr ""
 
-#: includes/class.settings.php:329
+#: includes/class.settings.php:360
 msgid "Show the character index at the top of the results list."
 msgstr ""
 
-#: includes/class.settings.php:342
+#: includes/class.settings.php:373
 msgid "Repeat the character index at the beginning of each character group."
 msgstr ""
 
-#: includes/class.settings.php:355
+#: includes/class.settings.php:386
 msgid "Show the current character at the beginning of each character group."
 msgstr ""
 
-#: includes/class.settings.php:369
+#: includes/class.settings.php:400
 msgid ""
 "Show a \"View All\" link. When this option is enabled a \"View All\" link "
 "will be displayed."
 msgstr ""
 
-#: includes/class.settings.php:383
+#: includes/class.settings.php:414
+msgid "Show the \"Back to Directory\" link."
+msgstr ""
+
+#: includes/class.settings.php:427
 msgid ""
-"Display a single entry using the active template based on entry type.\n"
-"\t\t\t\tFor example, if the entry is an organization it will be displayed "
-"using the template\n"
-"\t\t\t\tthat is activated for the \"Organization\" template type found on "
+"Show the \"Add to Address Book\" link. This link allows the download of the "
+"entry's vCard."
+msgstr ""
+
+#: includes/class.settings.php:441
+msgid ""
+"Display a single entry using the active template based on entry type. For "
+"example, if the entry is an organization it will be displayed using the "
+"template that is activated for the \"Organization\" template type found on "
 "the Connections : Templates admin page."
 msgstr ""
 
-#: includes/class.settings.php:401 includes/class.settings.php:461
-#: includes/class.settings.php:521 includes/class.settings.php:581
+#: includes/class.settings.php:457 includes/class.settings.php:518
+#: includes/class.settings.php:579 includes/class.settings.php:640
 msgid "JPEG Quality"
 msgstr "JPEG Kvalitet"
 
-#: includes/class.settings.php:415 includes/class.settings.php:475
-#: includes/class.settings.php:535 includes/class.settings.php:595
+#: includes/class.settings.php:472 includes/class.settings.php:533
+#: includes/class.settings.php:594 includes/class.settings.php:655
 msgid "Width"
 msgstr "Bredde"
 
-#: includes/class.settings.php:416 includes/class.settings.php:430
-#: includes/class.settings.php:476 includes/class.settings.php:490
-#: includes/class.settings.php:536 includes/class.settings.php:550
-#: includes/class.settings.php:596 includes/class.settings.php:610
+#: includes/class.settings.php:473 includes/class.settings.php:487
+#: includes/class.settings.php:534 includes/class.settings.php:548
+#: includes/class.settings.php:595 includes/class.settings.php:609
+#: includes/class.settings.php:656 includes/class.settings.php:670
 msgid "px"
 msgstr "px"
 
-#: includes/class.settings.php:429 includes/class.settings.php:489
-#: includes/class.settings.php:549 includes/class.settings.php:609
+#: includes/class.settings.php:486 includes/class.settings.php:547
+#: includes/class.settings.php:608 includes/class.settings.php:669
 msgid "Height"
 msgstr "Højde"
 
-#: includes/class.settings.php:443 includes/class.settings.php:503
-#: includes/class.settings.php:563 includes/class.settings.php:623
+#: includes/class.settings.php:500 includes/class.settings.php:561
+#: includes/class.settings.php:622 includes/class.settings.php:683
 msgid "Ratio"
 msgstr ""
 
-#: includes/class.settings.php:448 includes/class.settings.php:508
-#: includes/class.settings.php:568 includes/class.settings.php:628
+#: includes/class.settings.php:505 includes/class.settings.php:566
+#: includes/class.settings.php:627 includes/class.settings.php:688
 msgid "Crop, maintain aspect ratio."
 msgstr ""
 
-#: includes/class.settings.php:449 includes/class.settings.php:509
-#: includes/class.settings.php:569 includes/class.settings.php:629
+#: includes/class.settings.php:506 includes/class.settings.php:567
+#: includes/class.settings.php:628 includes/class.settings.php:689
 msgid "Fill, maintain aspect ratio."
 msgstr ""
 
-#: includes/class.settings.php:450 includes/class.settings.php:510
-#: includes/class.settings.php:570 includes/class.settings.php:630
+#: includes/class.settings.php:507 includes/class.settings.php:568
+#: includes/class.settings.php:629 includes/class.settings.php:690
 msgid "None, scale to fit."
 msgstr ""
 
-#: includes/class.settings.php:645
+#: includes/class.settings.php:705
 msgid "Fields"
 msgstr "Felter"
 
-#: includes/class.settings.php:646
+#: includes/class.settings.php:706
 msgid "The selected fields will be searched."
 msgstr "De udvalgte felter vil blive gennemsøgt."
 
-#: includes/class.settings.php:659
+#: includes/class.settings.php:719
 msgid "Biography"
 msgstr "Biografi"
 
-#: includes/class.settings.php:661
+#: includes/class.settings.php:721
 msgid "Address Line One"
 msgstr "Adresselinie Et"
 
-#: includes/class.settings.php:662
+#: includes/class.settings.php:722
 msgid "Address Line Two"
 msgstr "Adresselinie To"
 
-#: includes/class.settings.php:663
+#: includes/class.settings.php:723
 msgid "Address Line Three"
 msgstr "Adresselinie Tre"
 
-#: includes/class.settings.php:664
+#: includes/class.settings.php:724
 msgid "Address City"
 msgstr "Adresse By"
 
-#: includes/class.settings.php:665
+#: includes/class.settings.php:725
 msgid "Address State"
 msgstr "Adresse Stat"
 
-#: includes/class.settings.php:666
+#: includes/class.settings.php:726
 msgid "Address Zip Code"
 msgstr "Adresse Porstnummer"
 
-#: includes/class.settings.php:667
+#: includes/class.settings.php:727
 msgid "Address Country"
 msgstr "Adresse Land"
 
-#: includes/class.settings.php:701
+#: includes/class.settings.php:761
 msgid "FULLTEXT"
 msgstr ""
 
-#: includes/class.settings.php:702
+#: includes/class.settings.php:762
 msgid "Enable FULLTEXT query support."
 msgstr ""
 
-#: includes/class.settings.php:715
+#: includes/class.settings.php:775
 #, fuzzy
 msgid "Keyword Search"
 msgstr "Søg"
 
-#: includes/class.settings.php:716
+#: includes/class.settings.php:776
 msgid ""
 "Enable LIKE query support. Disabling this option can improve search results "
 "if the server configuration supports FULLTEXT queries. If you disable this "
-"option and searches do not yield results, this indicates that\n"
-"\t\t\t\tthe server does not support FULLTEXT queries. If that is the case, "
-"re-enable this option and disable the FULLTEXT option. NOTE: If the FULLTEXT "
-"option is disabled, this option must be enabled. Additionally, search terms "
-"with three characters\n"
-"\t\t\t\tor less will be ignored. This can not be changed as this is a "
+"option and searches do not yield results, this indicates that the server "
+"does not support FULLTEXT queries. If that is the case, re-enable this "
+"option and disable the FULLTEXT option. NOTE: If the FULLTEXT option is "
+"disabled, this option must be enabled. Additionally, search terms with three "
+"characters or less will be ignored. This can not be changed as this is a "
 "database limitation."
 msgstr ""
 
-#: includes/class.settings.php:734
+#: includes/class.settings.php:792
 #, fuzzy
 msgid "Character Base"
 msgstr "Kategori Base"
 
-#: includes/class.settings.php:735
+#: includes/class.settings.php:793
 msgid "Enter a custom structure for the initial character in the URL."
 msgstr ""
 
-#: includes/class.settings.php:749
+#: includes/class.settings.php:807
 msgid "Category Base"
 msgstr "Kategori Base"
 
-#: includes/class.settings.php:750
+#: includes/class.settings.php:808
 msgid "Enter a custom structure for the category in the URL."
 msgstr ""
 
-#: includes/class.settings.php:763
+#: includes/class.settings.php:821
 msgid "Country Base"
 msgstr "Land Base"
 
-#: includes/class.settings.php:764
+#: includes/class.settings.php:822
 msgid "Enter a custom structure for the country in the URL."
 msgstr ""
 
-#: includes/class.settings.php:777
+#: includes/class.settings.php:835
 msgid "Region Base"
 msgstr "Region Base"
 
-#: includes/class.settings.php:778
+#: includes/class.settings.php:836
 msgid "Enter a custom structure for the region (state/province) in the URL."
 msgstr ""
 
-#: includes/class.settings.php:791
+#: includes/class.settings.php:849
 msgid "Locality Base"
 msgstr ""
 
-#: includes/class.settings.php:792
+#: includes/class.settings.php:850
 msgid "Enter a custom structure for the locality (city) in the URL."
 msgstr ""
 
-#: includes/class.settings.php:805
+#: includes/class.settings.php:863
 msgid "Postal Code Base"
 msgstr "Postnummer Base"
 
-#: includes/class.settings.php:806
+#: includes/class.settings.php:864
 msgid "Enter a custom structure for the postal code in the URL."
 msgstr ""
 
-#: includes/class.settings.php:847
+#: includes/class.settings.php:877
+#, fuzzy
+msgid "Organization Base"
+msgstr "Organisation"
+
+#: includes/class.settings.php:878
+msgid "Enter a custom structure for the organization in the URL."
+msgstr ""
+
+#: includes/class.settings.php:891
+#, fuzzy
+msgid "Department Base"
+msgstr "Afdeling"
+
+#: includes/class.settings.php:892
+msgid "Enter a custom structure for the department in the URL."
+msgstr ""
+
+#: includes/class.settings.php:905
 msgid "Name Base"
 msgstr "Navn Base"
 
-#: includes/class.settings.php:848
+#: includes/class.settings.php:906
 msgid "Enter a custom structure for the entry slug in the URL."
 msgstr ""
 
-#: includes/class.settings.php:863
+#: includes/class.settings.php:921
 msgid ""
 "Enabling this option will turn the name of every entry into a link. Clicking "
 "the link will take you to the page with only that entry."
 msgstr ""
 
-#: includes/class.settings.php:876
+#: includes/class.settings.php:934
+msgid ""
+"Enabling this option will turn the name of organization into a link. "
+"Clicking the link will take you to the page filtered by that organization."
+msgstr ""
+
+#: includes/class.settings.php:947
+msgid ""
+"Enabling this option will turn the name of department into a link. Clicking "
+"the link will take you to the page filtered by that department."
+msgstr ""
+
+#: includes/class.settings.php:959
+msgid "Locality"
+msgstr ""
+
+#: includes/class.settings.php:960
+msgid ""
+"Enabling this option will turn the name of locality (city) into a link. "
+"Clicking the link will take you to the page filtered by that locality."
+msgstr ""
+
+#: includes/class.settings.php:972
+#, fuzzy
+msgid "Region"
+msgstr "Region Base"
+
+#: includes/class.settings.php:973
+msgid ""
+"Enabling this option will turn the name of region (state/province) into a "
+"link. Clicking the link will take you to the page filtered by that region."
+msgstr ""
+
+#: includes/class.settings.php:985
+#, fuzzy
+msgid "Postal Code"
+msgstr "Postnummer Base"
+
+#: includes/class.settings.php:986
+msgid ""
+"Enabling this option will turn the postal code into a link. Clicking the "
+"link will take you to the page filtered by that postal code."
+msgstr ""
+
+#: includes/class.settings.php:999
+msgid ""
+"Enabling this option will turn the name of country into a link. Clicking the "
+"link will take you to the page filtered by that country."
+msgstr ""
+
+#: includes/class.settings.php:1012
 #, fuzzy
 msgid "Telephone Number"
 msgstr "Telefonnummer"
 
-#: includes/class.settings.php:877
+#: includes/class.settings.php:1013
 msgid ""
 "Enabling this option will turn every telephone number into a link that when "
 "clicked by the user on a mobile phone or computer with a telephony "
 "application installed will dial the number."
 msgstr ""
 
-#: includes/class.settings.php:890
+#: includes/class.settings.php:1026
 msgid "Google Maps API v3"
 msgstr "Google Maps API v3"
 
-#: includes/class.settings.php:891
+#: includes/class.settings.php:1027
 msgid ""
 "If the current active theme or another plugin loads the Google Maps API v3 "
 "uncheck this to prevent Connections from loading the Google Maps API. This "
@@ -1779,24 +1887,24 @@ msgid ""
 "utilize Google Maps."
 msgstr ""
 
-#: includes/class.settings.php:903
+#: includes/class.settings.php:1039
 msgid "JavaScript"
 msgstr "JavaScript"
 
-#: includes/class.settings.php:904
+#: includes/class.settings.php:1040
 msgid ""
 "By default Connections loads it's JavaScripts in the page footer uncheck "
 "this box to load them in the page header."
 msgstr ""
 
-#: includes/class.settings.php:917
+#: includes/class.settings.php:1053
 msgid ""
 "Themes can break plugin shortcodes that output content on the page causing "
 "the content not to render correctly. If the templates do not display as "
 "expected try enabling this option."
 msgstr ""
 
-#: includes/class.settings.php:930
+#: includes/class.settings.php:1066
 msgid ""
 "Themes and plugins sometimes load a version of jQuery that is not bundled "
 "with WordPress. This is generally considered bad practice which can result "
@@ -1804,56 +1912,74 @@ msgid ""
 "You should only enable this option at the direction of support."
 msgstr ""
 
-#: includes/class.settings.php:942
+#: includes/class.settings.php:1078
 msgid "Debug Messages"
 msgstr "Fejlfindningsbeskeder"
 
-#: includes/class.settings.php:943
+#: includes/class.settings.php:1079
 msgid "Display debug messages."
 msgstr "Vis Fejlfindingsbeskeder"
 
-#: includes/class.template-parts.php:36
+#: includes/class.template-parts.php:64
+#, fuzzy
+msgid "View All"
+msgstr "Se %s"
+
+#: includes/class.template-parts.php:117
+msgid "Go back to directory."
+msgstr ""
+
+#: includes/class.template-parts.php:162 includes/inc.shortcodes.php:661
+msgid "No results."
+msgstr "Ingen resultater"
+
+#: includes/class.template-parts.php:223 includes/class.template-parts.php:224
 msgid "Return to top."
 msgstr "Gå til toppen af siden"
 
-#: includes/class.template-parts.php:99
+#: includes/class.template-parts.php:302
+#, fuzzy, php-format
+msgid "Updated %1$s ago."
+msgstr "Vælg kategori"
+
+#: includes/class.template-parts.php:438
 msgid "Submit"
 msgstr "Indsend"
 
-#: includes/class.template-parts.php:199
+#: includes/class.template-parts.php:538
 #, fuzzy
 msgid "Current Character"
 msgstr "Nuværende side"
 
-#: includes/class.template-parts.php:304
+#: includes/class.template-parts.php:661
 msgid "First Page"
 msgstr "Første side"
 
-#: includes/class.template-parts.php:305
+#: includes/class.template-parts.php:662
 msgid "Previous Page"
 msgstr "Forrige side"
 
-#: includes/class.template-parts.php:307
+#: includes/class.template-parts.php:664
 msgid "Current Page"
 msgstr "Nuværende side"
 
-#: includes/class.template-parts.php:307 submenus/manage.php:366
+#: includes/class.template-parts.php:664 submenus/manage.php:366
 msgid "of"
 msgstr "af"
 
-#: includes/class.template-parts.php:309
+#: includes/class.template-parts.php:666
 msgid "Next Page"
 msgstr "Næste side"
 
-#: includes/class.template-parts.php:310
+#: includes/class.template-parts.php:667
 msgid "Last Page"
 msgstr "Sidste side"
 
-#: includes/class.template-parts.php:349 includes/class.template-parts.php:427
+#: includes/class.template-parts.php:706 includes/class.template-parts.php:797
 msgid "Select Category"
 msgstr "Vælg kategori"
 
-#: includes/class.template-parts.php:351 includes/class.template-parts.php:429
+#: includes/class.template-parts.php:708 includes/class.template-parts.php:799
 #: submenus/manage.php:286
 msgid "Show All Categories"
 msgstr "Vis alle kategorier"
@@ -1862,20 +1988,10 @@ msgstr "Vis alle kategorier"
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/inc.shortcodes.php:216 includes/inc.shortcodes.php:566
+#: includes/inc.shortcodes.php:214 includes/inc.shortcodes.php:620
 #, php-format
 msgid "ERROR: Template %1$s not found."
 msgstr ""
-
-#: includes/inc.shortcodes.php:329
-#, fuzzy
-msgid "View All"
-msgstr "Se %s"
-
-#: includes/inc.shortcodes.php:370 includes/inc.shortcodes.php:371
-#: includes/inc.shortcodes.php:607
-msgid "No results."
-msgstr "Ingen resultater"
 
 #: includes/inc.upgrade.php:27
 #, fuzzy
@@ -2157,35 +2273,35 @@ msgstr "Fortsæt"
 msgid "Could not add column %1$s in table %2$s."
 msgstr ""
 
-#: submenus/categories.php:38
+#: submenus/categories.php:43
 #, fuzzy
 msgid "Edit Category"
 msgstr "Rediger Kategorier"
 
-#: submenus/categories.php:54
+#: submenus/categories.php:61
 #, fuzzy
 msgid "Update Category"
 msgstr "Vælg kategori"
 
-#: submenus/categories.php:85 submenus/manage.php:389
+#: submenus/categories.php:94 submenus/manage.php:389
 msgid "Bulk Actions"
 msgstr "Masseredigeringer"
 
-#: submenus/categories.php:88 submenus/manage.php:412
+#: submenus/categories.php:97 submenus/manage.php:412
 msgid "Apply"
 msgstr "Anvend"
 
-#: submenus/categories.php:103 submenus/categories.php:113
+#: submenus/categories.php:112 submenus/categories.php:122
 msgid "Info"
 msgstr ""
 
-#: submenus/categories.php:141
+#: submenus/categories.php:153
 msgid ""
 "<strong>Note:</strong><br/>Deleting a category which has been assigned to an "
 "entry will reassign that entry as <strong>Uncategorized</strong>."
 msgstr ""
 
-#: submenus/categories.php:150 submenus/categories.php:164
+#: submenus/categories.php:162 submenus/categories.php:177
 #, fuzzy
 msgid "Add New Category"
 msgstr "Vælg kategori"
@@ -2216,7 +2332,7 @@ msgstr ""
 msgid "Add New"
 msgstr "Tilføj ny"
 
-#: submenus/manage.php:265 submenus/templates.php:35
+#: submenus/manage.php:265 submenus/templates.php:38
 msgid "All"
 msgstr ""
 
@@ -2350,27 +2466,31 @@ msgstr "Kopiér"
 msgid "By"
 msgstr "af"
 
-#: submenus/manage.php:724
+#: submenus/manage.php:585
+msgid "Linked to:"
+msgstr ""
+
+#: submenus/manage.php:747
 msgid "Bio"
 msgstr "Bio"
 
-#: submenus/manage.php:728
+#: submenus/manage.php:751
 msgid "Entry ID"
 msgstr "Post-id"
 
-#: submenus/manage.php:729
+#: submenus/manage.php:752
 msgid "Entry Slug"
 msgstr "Post Slug"
 
-#: submenus/manage.php:730
+#: submenus/manage.php:753
 msgid "Date Added"
 msgstr "Tilføjelsesdato"
 
-#: submenus/manage.php:731
+#: submenus/manage.php:754
 msgid "Added By"
 msgstr "Tilføjet af"
 
-#: submenus/manage.php:732
+#: submenus/manage.php:755
 msgid "Image Linked"
 msgstr "Billede linket"
 
@@ -2393,59 +2513,55 @@ msgstr "Nulstil %s Kapaciteter"
 msgid "Reset %s Capabilities"
 msgstr "Nulstil %s Kapaciteter"
 
-#: submenus/templates.php:32
+#: submenus/templates.php:35
 msgid "Get More"
 msgstr ""
 
-#: submenus/templates.php:49
+#: submenus/templates.php:52
 #, fuzzy
 msgid "Current Template"
 msgstr "Nuværende side"
 
-#: submenus/templates.php:67 submenus/templates.php:199
+#: submenus/templates.php:70 submenus/templates.php:158
 #, fuzzy
 msgid "Thumbnail Not Available"
 msgstr "Intet billede tilgængeligt"
 
-#: submenus/templates.php:72
+#: submenus/templates.php:75
 msgid "Visit author's homepage."
 msgstr "Besøg forfatterens hjemmeside."
 
-#: submenus/templates.php:91
+#: submenus/templates.php:94
 #, fuzzy
 msgid "Instructions"
 msgstr "Billede og Logoinstrukstioner"
 
-#: submenus/templates.php:93
+#: submenus/templates.php:96
 msgid ""
 "By default the <code><a href=\"http://connections-pro.com/documentation/"
 "plugin/shortcodes/shortcode-connections/\">[connections]</a></code> "
-"shortcode will show all entries types. To change the template\n"
-"\t\t\t\t\t\t\t\tused when displaying all entry types, select the \"All\" tab "
-"and activate the template. When the <code><a href=\"http://connections-pro."
-"com/documentation/plugin/shortcodes/shortcode-connections/list_type/"
-"\">list_type</a></code>\n"
-"\t\t\t\t\t\t\t\tshortcode option is used to filter the entries based on the "
-"entry type, the template for that entry type will be used.\n"
-"\t\t\t\t\t\t\t\tTo change the template used for a specific entry type, "
-"select the appropriate tab and then activate the template. If multiple\n"
-"\t\t\t\t\t\t\t\tentry types are specified in the <code><a href=\"http://"
-"connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/"
-"list_type/\">list_type</a></code> shortcode option, the template for the "
-"entry type listed first\n"
-"\t\t\t\t\t\t\t\twill be used to display the entry list."
+"shortcode will show all entries types. To change the template used when "
+"displaying all entry types, select the \"All\" tab and activate the "
+"template. When the <code><a href=\"http://connections-pro.com/documentation/"
+"plugin/shortcodes/shortcode-connections/list_type/\">list_type</a></"
+"code>shortcode option is used to filter the entries based on the entry type, "
+"the template for that entry type will be used. To change the template used "
+"for a specific entry type, select the appropriate tab and then activate the "
+"template. If multiple entry types are specified in the <code><a href="
+"\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-"
+"connections/list_type/\">list_type</a></code> shortcode option, the template "
+"for the entry type listed first will be used to display the entry list."
 msgstr ""
 
-#: submenus/templates.php:102
+#: submenus/templates.php:100
 msgid ""
 "The <code><a href=\"http://connections-pro.com/documentation/plugin/"
 "shortcodes/shortcode-upcoming-list/\">[upcoming_list]</a></code> shortcode "
 "which displays the upcoming anniversaries and birthdays will be displayed "
-"with the template\n"
-"\t\t\t\t\t\t\t\tthat is activated under their respective tabs."
+"with the template that is activated under their respective tabs."
 msgstr ""
 
-#: submenus/templates.php:107
+#: submenus/templates.php:104
 msgid ""
 "The current active template for each template type can be overridden by "
 "using the <code><a href=\"http://connections-pro.com/documentation/plugin/"
@@ -2453,44 +2569,53 @@ msgid ""
 "option."
 msgstr ""
 
-#: submenus/templates.php:122
-#, fuzzy
-msgid "Install Template"
-msgstr "Håndtér skabeloner"
-
-#: submenus/templates.php:136
-#, fuzzy
-msgid "Select Template:"
-msgstr "Vælg Billede"
-
-#: submenus/templates.php:139
-msgid "Install Now"
-msgstr ""
-
-#: submenus/templates.php:156
+#: submenus/templates.php:115
 #, fuzzy
 msgid "Available Templates"
 msgstr "Håndtér skabeloner"
 
-#: submenus/templates.php:211
+#: submenus/templates.php:170
 msgid "Shortcode Override:"
 msgstr ""
 
-#: submenus/templates.php:214
+#: submenus/templates.php:173
 #, fuzzy
 msgid "This a supplied template and can not be deleted."
 msgstr "Skabelonen kunne ikke slettes."
 
-#: submenus/templates.php:216
+#: submenus/templates.php:175
 msgid ""
 "This template is a plugin. You can deactivate and delete the template from "
 "the Plugins admin page."
 msgstr ""
 
-#: submenus/templates.php:231
+#: submenus/templates.php:190
 #, fuzzy
 msgid "Activate"
 msgstr "Privat"
+
+#: submenus/templates.php:221
+#, fuzzy
+msgid "Install Legacy Template"
+msgstr "Håndtér skabeloner"
+
+#: submenus/templates.php:223
+msgid ""
+"If you puchased your template after 3.25.2013, please follow these <a href="
+"\"http://connections-pro.com/documentation/plugin/install/templates/"
+"\">installation instructions</a>. If you are upgrading your template "
+"purchased prior to 3.25.2013, please take note of the special upgrade "
+"instructions found on the same page."
+msgstr ""
+
+#: submenus/templates.php:239
+#, fuzzy
+msgid "Select Template:"
+msgstr "Vælg Billede"
+
+#: submenus/templates.php:242
+msgid "Install Now"
+msgstr ""
 
 #~ msgid "Jump to"
 #~ msgstr "Gå til"

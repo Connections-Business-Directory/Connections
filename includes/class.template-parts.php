@@ -49,11 +49,13 @@ class cnTemplatePart {
 		$actions = array();
 
 		$defaults = array(
-			'before'      => '<ul id="cn-list-actions">',
-			'before-item' => '<li class="cn-list-action-item">',
-			'after-item'  => '</li>',
-			'after'       => '</ul>',
-			'return'      => FALSE
+			'container_tag' => 'ul',
+			'item_tag'      => 'li',
+			'before'        => '',
+			'before-item'   => '',
+			'after-item'    => '',
+			'after'         => '',
+			'return'        => FALSE
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -66,8 +68,19 @@ class cnTemplatePart {
 		if ( empty( $actions ) ) return;
 
 		foreach ( $actions as $key => $action ) {
-			$out .= "\n" . ( empty( $atts['before-item'] ) ? '' : $atts['before-item'] ) . $action . ( empty( $atts['after-item'] ) ? '' : $atts['after-item'] ) . "\n";
+
+			$out .= sprintf( '%1$s<%2$s class="cn-list-action-item">%3$s</%2$s>%4$s',
+				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
+				$atts['item_tag'],
+				$action,
+				empty( $atts['after-item'] ) ? '' : $atts['after-item']
+			 );
 		}
+
+		$out = sprintf( '<%1$s id="cn-list-actions">%2$s</%1$s>',
+				$atts['container_tag'],
+				$out
+			);
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
@@ -89,11 +102,13 @@ class cnTemplatePart {
 		$actions = array();
 
 		$defaults = array(
-			'before'      => '<ul id="cn-entry-actions">',
-			'before-item' => '<li class="cn-entry-action-item">',
-			'after-item'  => '</li>',
-			'after'       => '</ul>',
-			'return'      => FALSE
+			'container_tag' => 'ul',
+			'item_tag'      => 'li',
+			'before'        => '',
+			'before-item'   => '',
+			'after-item'    => '',
+			'after'         => '',
+			'return'        => FALSE
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -109,8 +124,19 @@ class cnTemplatePart {
 		if ( empty( $actions ) ) return;
 
 		foreach ( $actions as $key => $action ) {
-			$out .= "\n" . ( empty( $atts['before-item'] ) ? '' : $atts['before-item'] ) . $action . ( empty( $atts['after-item'] ) ? '' : $atts['after-item'] ) . "\n";
+
+			$out .= sprintf( '%1$s<%2$s class="cn-entry-action-item">%3$s</%2$s>%4$s',
+				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
+				$atts['item_tag'],
+				$action,
+				empty( $atts['after-item'] ) ? '' : $atts['after-item']
+			 );
 		}
+
+		$out = sprintf( '<%1$s id="cn-entry-actions">%2$s</%1$s>',
+				$atts['container_tag'],
+				$out
+			);
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
@@ -144,7 +170,10 @@ class cnTemplatePart {
 		$atts['message'] = apply_filters( 'cn_list_no_result_message' , $atts['message'] );
 		$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $slug , $atts['message'] );
 
-		$out .=  "\n" . '<' . $atts['tag'] . ' class="cn-list-no-results">' . $atts['message'] . '</' . $atts['tag'] . '>' . "\n";
+		$out .=  sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
+				$atts['tag'],
+				$atts['message']
+			);
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";

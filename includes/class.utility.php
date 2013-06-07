@@ -509,7 +509,7 @@ class cnURL {
 			case 'category':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['category_base'] . '/' . urlencode( $atts['slug'] ) );
+					$permalink = trailingslashit( $permalink . $base['category_base'] . '/' . $atts['slug'] );
 				} else {
 					$permalink = add_query_arg( 'cn-cat-slug', $atts['slug'] , $permalink );
 				}

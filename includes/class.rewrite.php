@@ -90,28 +90,15 @@ class cnRewrite {
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
 
-		$character    = $base['character_base'];
-		$category     = $base['category_base'];
-		$country      = $base['country_base'];
-		$region       = $base['region_base'];
-		$locality     = $base['locality_base'];
-		$postal       = $base['postal_code_base'];
-		$organization = $base['organization_base'];
-		$department   = $base['department_base'];
-		$name         = $base['name_base'];
-
-		/*
-		 * Make sure there is a value saved for each permalink base.
-		 */
-		if ( ! isset( $character ) || empty( $character ) ) $character          = 'char';
-		if ( ! isset( $category ) || empty( $category ) ) $category             = 'cat';
-		if ( ! isset( $country ) || empty( $country ) ) $country                = 'country';
-		if ( ! isset( $region ) || empty( $region ) ) $region                   = 'region';
-		if ( ! isset( $locality ) || empty( $locality ) ) $locality             = 'locality';
-		if ( ! isset( $postal ) || empty( $postal ) ) $postal                   = 'postal_code';
-		if ( ! isset( $organization ) || empty( $organization ) ) $organization = 'organization';
-		if ( ! isset( $department ) || empty( $department ) ) $department       = 'department';
-		if ( ! isset( $name ) || empty( $name ) ) $name                         = 'name';
+		$character    = isset( $base['character_base'] ) && $base['character_base'] ? $base['character_base'] : 'char';
+		$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
+		$country      = isset( $base['country_base'] ) && $base['country_base'] ? $base['country_base'] : 'country';
+		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
+		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
+		$postal       = isset( $base['postal_code_base'] ) && $base['postal_code_base'] ? $base['postal_code_base'] : 'postal_code';
+		$organization = isset( $base['organization_base'] ) && $base['organization_base'] ? $base['organization_base'] : 'organization';
+		$department   = isset( $base['department_base'] ) && $base['department_base'] ? $base['department_base'] : 'department';
+		$name         = isset( $base['name_base'] ) && $base['name_base'] ? $base['name_base'] : 'name';
 
 		// landing page.
 		$rule['landing/?$']
@@ -298,28 +285,15 @@ class cnRewrite {
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
 
-		$character    = $base['character_base'];
-		$category     = $base['category_base'];
-		$country      = $base['country_base'];
-		$region       = $base['region_base'];
-		$locality     = $base['locality_base'];
-		$postal       = $base['postal_code_base'];
-		$organization = $base['organization_base'];
-		$department   = $base['department_base'];
-		$name         = $base['name_base'];
-
-		/*
-		 * Make sure there is a value saved for each permalink base.
-		 */
-		if ( ! isset( $character ) || empty( $character ) ) $character          = 'char';
-		if ( ! isset( $category ) || empty( $category ) ) $category             = 'cat';
-		if ( ! isset( $country ) || empty( $country ) ) $country                = 'country';
-		if ( ! isset( $region ) || empty( $region ) ) $region                   = 'region';
-		if ( ! isset( $locality ) || empty( $locality ) ) $locality             = 'locality';
-		if ( ! isset( $postal ) || empty( $postal ) ) $postal                   = 'postal_code';
-		if ( ! isset( $organization ) || empty( $organization ) ) $organization = 'organization';
-		if ( ! isset( $department ) || empty( $department ) ) $department       = 'department';
-		if ( ! isset( $name ) || empty( $name ) ) $name                         = 'name';
+		$character    = isset( $base['character_base'] ) && $base['character_base'] ? $base['character_base'] : 'char';
+		$category     = isset( $base['category_base'] ) && $base['category_base'] ? $base['category_base'] : 'cat';
+		$country      = isset( $base['country_base'] ) && $base['country_base'] ? $base['country_base'] : 'country';
+		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
+		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
+		$postal       = isset( $base['postal_code_base'] ) && $base['postal_code_base'] ? $base['postal_code_base'] : 'postal_code';
+		$organization = isset( $base['organization_base'] ) && $base['organization_base'] ? $base['organization_base'] : 'organization';
+		$department   = isset( $base['department_base'] ) && $base['department_base'] ? $base['department_base'] : 'department';
+		$name         = isset( $base['name_base'] ) && $base['name_base'] ? $base['name_base'] : 'name';
 
 		// landing page.
 		$rule['(.?.+?)/landing/?$']

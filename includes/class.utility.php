@@ -406,6 +406,8 @@ class cnURL {
 	public static function permalink( $atts ) {
 		global $wp_rewrite, $post, $connections;
 
+		remove_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ) );
+
 		// The anchor attributes.
 		$piece = array();
 
@@ -560,6 +562,8 @@ class cnURL {
 		$piece['href'] = 'href="' . esc_url( $permalink ) . '"';
 
 		$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
+
+		add_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ), 10, 3 );
 
 		if ( $atts['return'] ) return $out;
 		echo $out;

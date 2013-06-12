@@ -347,6 +347,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				// The class for processing admin actions.
 				require_once CN_PATH . 'includes/class.admin-actions.php';
+
+			} else {
+
+				// Class for SEO
+				require_once CN_PATH . 'includes/class.seo.php';
+
 			}
 
 		}
@@ -369,6 +375,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Register all valid query variables.
 			cnRewrite::init();
+
+			// Init the SEP class.
+			if ( ! is_admin() ) cnSEO::init();
 
 			// Init the included templates that use the API introduced in 0.7.6
 			add_action( 'plugins_loaded', array( 'cnNames', 'init' ), 11 );

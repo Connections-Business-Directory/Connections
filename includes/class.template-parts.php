@@ -563,6 +563,8 @@ class cnTemplatePart {
 	public static function pagination( $atts = array() ) {
 		global $wp_rewrite, $post,  $connections;
 
+		remove_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ) );
+
 		$out = '';
 
 		$defaults = array(
@@ -668,6 +670,8 @@ class cnTemplatePart {
 
 			$out .= '</span>';
 		}
+
+		add_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ), 10, 3 );
 
 		// Output the page nav.
 		if ( $atts['return']) return $out;

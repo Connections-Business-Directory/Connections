@@ -27,6 +27,17 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 * Even a bit of SEO was sprinkled in. Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec.
 * One last item. [Extensibility](http://connections-pro.com/pro-module/).
 
+= Languages =
+
+Connections has been translated in the following languages.
+
+* French [97% Completed]
+* Hungarian [96% Completed]
+* Spanish [95% Completed]
+* Dutch [80% Completed]
+* Danish [50% Completed]
+* Polish [8% Completed]
+
 == Credits: ==
 * This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
 * vCard class is a modified version by [Troy Wolf](http://www.troywolf.com/articles/php/class_vcard/)
@@ -65,6 +76,18 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.7.1 06/16/13 =
+* FEATURE: Add Hungarian translation.
+* FEATURE: Add Dutch translation.
+* BUG: Remove urlencode from category slug. This was causing malformed URLs.
+* BUG: Fixed a couple index undefined errors.
+* OTHER: Update Danish translation.
+* OTHER: Update German translation.
+* OTHER: Update Spanish translation.
+* OTHER: Update French translation.
+* OTHER: Update Polish translation.
+
 
 = 0.7.7 06/02/13 =
 * FEATURE: The organization field can now be set to show as a link and when a user clicks the link, the list will be filtered by that organization.
@@ -885,3 +908,6 @@ Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTIC
 
 = 0.7.6.6 =
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.7.1 =
+Minor bug fixes and language updates. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

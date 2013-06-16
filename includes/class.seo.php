@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnSEO {
 
+	private static $doingNav = FALSE;
+
 	/**
 	 * Register the default template actions.
 	 *
@@ -26,11 +28,19 @@ class cnSEO {
 	 */
 	public static function init() {
 
+		// These filters are a hack. Used to add/remove the permalink/title filters so they do not not affect the nav menu.
+		add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );
+		add_filter( 'wp_page_menu', array( __CLASS__, 'endNav' ), 10, 2 );
+		add_filter( 'wp_nav_menu', array( __CLASS__, 'endNav' ), 10, 2 );
+
+		// Filter the get_parmalink() function to append the Connections related items to the URL.
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
-		// These two filters are an ugly hack. Used to add/remove the permalink filter so it does not affect the nav menu
-		add_filter( 'wp_nav_menu_args', array( __CLASS__, 'donotFilterPermalink' ) );
-		add_filter( 'wp_nav_menu', array( __CLASS__, 'donotFilterPermalink' ), 10, 2 );
+		// Filter the meta title to reflect the current Connections filter.
+		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 10, 2 );
+
+		// Filter the page title to reflect the current Connection filter.
+		add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );
 
 		// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
 		// remove_action( 'wp_head', 'parent_post_rel_link'); // Removes the prev link
@@ -40,10 +50,10 @@ class cnSEO {
 	}
 
 	public static function filterPermalink( $link, $ID, $sample ) {
-		global $wp_rewrite, $post, $connections;
+		global $wp_rewrite, $post/*, $connections*/;
 
 		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are process too, which we don't want.
-		if ( $post->ID != $ID ) return $link;
+		if ( $post->ID != $ID || self::$doingNav ) return $link;
 
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
@@ -115,18 +125,35 @@ class cnSEO {
 		return $link;
 	}
 
-	public static function donotFilterPermalink( $args ) {
+	public static function filterMetaTitle( $title, $sep ) {
 
-		remove_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ) );
+
+
+		return $title;
+	}
+
+	public static function filterPostTitle( $title, $id ) {
+		global $post;
+
+		if ( $post->ID != $id || self::$doingNav ) return $title;
+
+		$title = $title . ' > Connections';
+
+		return $title;
+	}
+
+	public static function startNav( $args ) {
+
+		self::$doingNav = TRUE;
 
 		return $args;
 	}
 
-	public static function doFilterPermalink( $nav_menu ) {
+	public static function endNav( $menu, $args ) {
 
-		add_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ), 10, 3 );
+		self::$doingNav = FALSE;
 
-		return $nav_menu;
+		return $menu;
 	}
 
 }

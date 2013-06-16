@@ -1,20 +1,24 @@
+#
+# Translators:
+# shazahm1 <shazahm1@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
 "POT-Creation-Date: 2013-06-02 20:09-0500\n"
-"PO-Revision-Date: 2013-06-02 20:09-0500\n"
+"PO-Revision-Date: 2013-06-16 16:04-0500\n"
 "Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
-"Language-Team:  <sandygaffney@gmail.com>\n"
-"Language: es_ES\n"
+"Language-Team: Spanish (Spain) (http://www.transifex.com/projects/p/"
+"connections/language/es_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.5\n"
+"X-Poedit-Basepath: ../\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
 "esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c\n"
-"X-Poedit-Basepath: ../\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: connections.php:725
@@ -1401,7 +1405,7 @@ msgstr "Email Trabajo"
 
 #: includes/class.options.php:864
 msgid "Website"
-msgstr "Págna web"
+msgstr "Página web"
 
 #: includes/class.options.php:865
 msgid "Blog"
@@ -1508,9 +1512,8 @@ msgid "Results List"
 msgstr "Lista Resultados"
 
 #: includes/class.settings.php:130
-#, fuzzy
 msgid "List Actions"
-msgstr "Acciones en bloque"
+msgstr ""
 
 #: includes/class.settings.php:131
 msgid ""
@@ -1520,9 +1523,8 @@ msgstr ""
 "lista de resultados."
 
 #: includes/class.settings.php:138
-#, fuzzy
 msgid "Entry Actions"
-msgstr "Acciones en bloque"
+msgstr ""
 
 #: includes/class.settings.php:139
 msgid ""
@@ -1856,25 +1858,20 @@ msgstr ""
 "dirección URL"
 
 #: includes/class.settings.php:877
-#, fuzzy
 msgid "Organization Base"
-msgstr "Organización"
+msgstr ""
 
 #: includes/class.settings.php:878
-#, fuzzy
 msgid "Enter a custom structure for the organization in the URL."
 msgstr ""
-"Introduzca una estructura personalizada para el país en la dirección URL."
 
 #: includes/class.settings.php:891
-#, fuzzy
 msgid "Department Base"
-msgstr "Departamento"
+msgstr ""
 
 #: includes/class.settings.php:892
-#, fuzzy
 msgid "Enter a custom structure for the department in the URL."
-msgstr "Introduzca una estructura personalizada para la categoría en la URL."
+msgstr ""
 
 #: includes/class.settings.php:905
 msgid "Name Base"
@@ -1895,79 +1892,52 @@ msgstr ""
 "entrada."
 
 #: includes/class.settings.php:934
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of organization into a link. "
 "Clicking the link will take you to the page filtered by that organization."
 msgstr ""
-"Al habilitar esta opción se convertirá el nombre de cada entrada en un "
-"enlace. Haciendo clic en el enlace lo llevará a la página con sólo esa "
-"entrada."
 
 #: includes/class.settings.php:947
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of department into a link. Clicking "
 "the link will take you to the page filtered by that department."
 msgstr ""
-"Al habilitar esta opción se convertirá el nombre de cada entrada en un "
-"enlace. Haciendo clic en el enlace lo llevará a la página con sólo esa "
-"entrada."
 
 #: includes/class.settings.php:959
-#, fuzzy
 msgid "Locality"
-msgstr "Base Localización"
+msgstr ""
 
 #: includes/class.settings.php:960
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of locality (city) into a link. "
 "Clicking the link will take you to the page filtered by that locality."
 msgstr ""
-"Al habilitar esta opción se convertirá el nombre de cada entrada en un "
-"enlace. Haciendo clic en el enlace lo llevará a la página con sólo esa "
-"entrada."
 
 #: includes/class.settings.php:972
-#, fuzzy
 msgid "Region"
-msgstr "Región Base"
+msgstr ""
 
 #: includes/class.settings.php:973
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of region (state/province) into a "
 "link. Clicking the link will take you to the page filtered by that region."
 msgstr ""
-"Al habilitar esta opción se convertirá el nombre de cada entrada en un "
-"enlace. Haciendo clic en el enlace lo llevará a la página con sólo esa "
-"entrada."
 
 #: includes/class.settings.php:985
-#, fuzzy
 msgid "Postal Code"
-msgstr "Base Código Postal"
+msgstr ""
 
 #: includes/class.settings.php:986
-#, fuzzy
 msgid ""
 "Enabling this option will turn the postal code into a link. Clicking the "
 "link will take you to the page filtered by that postal code."
 msgstr ""
-"Al habilitar esta opción se convertirá el nombre de cada entrada en un "
-"enlace. Haciendo clic en el enlace lo llevará a la página con sólo esa "
-"entrada."
 
 #: includes/class.settings.php:999
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of country into a link. Clicking the "
 "link will take you to the page filtered by that country."
 msgstr ""
-"Al habilitar esta opción se convertirá el nombre de cada entrada en un "
-"enlace. Haciendo clic en el enlace lo llevará a la página con sólo esa "
-"entrada."
 
 #: includes/class.settings.php:1012
 msgid "Telephone Number"
@@ -2680,7 +2650,6 @@ msgid "Instructions"
 msgstr "Instrucciones"
 
 #: submenus/templates.php:96
-#, fuzzy
 msgid ""
 "By default the <code><a href=\"http://connections-pro.com/documentation/"
 "plugin/shortcodes/shortcode-connections/\">[connections]</a></code> "
@@ -2696,23 +2665,6 @@ msgid ""
 "connections/list_type/\">list_type</a></code> shortcode option, the template "
 "for the entry type listed first will be used to display the entry list."
 msgstr ""
-"Por defecto el <code><a href=\"http://connections-pro.com/documentation/"
-"plugin/shortcodes/shortcode-connections/\">[connections]</a></code> "
-"abreviado mostrara todos los tipos de entradas. Para cambiar la plantillae\n"
-"\t\t\t\t\t\t\t\tusada cuando muestra todos los tipos de entradas, seleccione "
-"la pestaña \"Todos\" y active la plantilla. Cuando <code><a href=\"http://"
-"connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/"
-"list_type/\">list_type</a></code>\n"
-"\t\t\t\t\t\t\t\tse us la opción abreviada para filtrar las entradas basadas "
-"eb ek tuoi de ntrada, se usara la plantilla para esa entrada se usara.\n"
-"\t\t\t\t\t\t\t\tPara cambiar la plantilla utilizada para un tipo específico "
-"de entrada, seleccione la pestaña correspondiente y luego active la "
-"plantilla. Si múltiple.\n"
-"\t\t\t\t\t\t\t\ttipos de entrada  se especifican en la <code><a href="
-"\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-"
-"connections/list_type/\">list_type</a></code> opción abreviada,a plantilla "
-"para el tipo de entrada aparece en primer lugar\n"
-"\t\t\t\t\t\t\t\tSe utiliza para mostrar la lista de entradas."
 
 #: submenus/templates.php:100
 msgid ""
@@ -2764,7 +2716,7 @@ msgstr "Activar"
 
 #: submenus/templates.php:221
 msgid "Install Legacy Template"
-msgstr "Administrar Plantillas"
+msgstr ""
 
 #: submenus/templates.php:223
 msgid ""
@@ -2774,11 +2726,6 @@ msgid ""
 "purchased prior to 3.25.2013, please take note of the special upgrade "
 "instructions found on the same page."
 msgstr ""
-"Si compró su plantilla después de 3.25.2013, favor de ver <a href=\"http://"
-"connections-pro.com/documentation/plugin/install/templates/\">instrucciones "
-"instalación</a>. Si está actualizando su plantilla que compró antes de  "
-"3.25.2013, favor de leer las instrucciones para actualizarla en la misma "
-"hoja."
 
 #: submenus/templates.php:239
 msgid "Select Template:"
@@ -2787,9 +2734,3 @@ msgstr "Seleccionar Plantilla:"
 #: submenus/templates.php:242
 msgid "Install Now"
 msgstr "Instalar Ahora"
-
-#~ msgid "Jump to"
-#~ msgstr "Ir a"
-
-#~ msgid "Extend"
-#~ msgstr "Ampliar"

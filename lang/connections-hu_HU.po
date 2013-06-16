@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
 "POT-Creation-Date: 2013-06-02 20:09-0500\n"
-"PO-Revision-Date: 2013-06-16 16:03-0500\n"
+"PO-Revision-Date: 2013-06-16 16:04-0500\n"
 "Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
-"Language-Team: Danish (Denmark) (http://www.transifex.com/projects/p/"
-"connections/language/da_DK/)\n"
+"Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/"
+"connections/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da_DK\n"
+"Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-Basepath: ../\n"
@@ -22,284 +22,284 @@ msgstr ""
 
 #: connections.php:725
 msgid "Entries"
-msgstr "Poster"
+msgstr "Bejegyzések"
 
 #: connections.php:795 submenus/dashboard.php:28
 msgid "Dashboard"
-msgstr "Betjeningspanel"
+msgstr "Vezérlőpult"
 
 #: connections.php:796 submenus/manage.php:240
 msgid "Manage"
-msgstr "Administrer"
+msgstr "Bejegyzések"
 
 #: connections.php:797 includes/class.capabilities.php:61
 #: includes/class.form.php:826 includes/class.form.php:830
 #: submenus/manage.php:12
 msgid "Add Entry"
-msgstr "Tilføj Post"
+msgstr "Új bejegyzés"
 
 #: connections.php:798 includes/class.form.php:239 submenus/categories.php:74
 #: submenus/manage.php:437 submenus/manage.php:446
 msgid "Categories"
-msgstr "Kategorier"
+msgstr "Kategóriák"
 
 #: connections.php:799 connections.php:908 includes/class.form.php:319
 #: includes/class.settings.php:1052 submenus/templates.php:35
 msgid "Templates"
-msgstr "Designs"
+msgstr "Sablonok"
 
 #: connections.php:800 connections.php:890 submenus/settings.php:30
 msgid "Settings"
-msgstr "Indstillinger"
+msgstr "Beállítások"
 
 #: connections.php:801
 msgid "Roles &amp; Capabilites"
-msgstr "Roller &amp; Kapaciteter"
+msgstr "Szerepek és engedélyek"
 
 #: connections.php:801
 msgid "Roles"
-msgstr "Roller"
+msgstr "Szerepek"
 
 #: connections.php:907
 msgid "Add-on Plugins"
-msgstr ""
+msgstr "Kiegészítő bővítmények"
 
 #: connections.php:909 includes/class.form.php:286
 msgid "Documentation"
-msgstr "Dokumentation"
+msgstr "Dokumentáció"
 
 #: connections.php:910
 msgid "Support Forums"
-msgstr "Forum ondersteuning"
+msgstr "Segítő fórumok"
 
 #: connections.php:1262 connections.php:1270
 msgid "vCard not available for download."
-msgstr "vCard er ikke tilgængelig at downloade."
+msgstr "Nem érhető el a vCard letöltéshez."
 
 #: cache/index.php:14 includes/inc.upgrade.php:18 submenus/categories.php:19
 #: submenus/dashboard.php:18 submenus/roles.php:18 submenus/settings.php:18
 #: submenus/templates.php:19
 msgid "You do not have sufficient permissions to access this page."
-msgstr ""
+msgstr "Nincs megfelelő jogosultséga az oldal eléréséhez."
 
 #: includes/class.capabilities.php:58
 msgid "View Admin Menu"
-msgstr ""
+msgstr "Admin menü megtekintése"
 
 #: includes/class.capabilities.php:59
 msgid "View Dashboard"
-msgstr "Se Betjeningspanel"
+msgstr "Vezérlőpult megtekintése"
 
 #: includes/class.capabilities.php:60
 msgid "View List (Manage)"
-msgstr "Vis liste (Administrer)"
+msgstr "Lista megtekintése"
 
 #: includes/class.capabilities.php:62
 msgid "Add Entry Moderated"
-msgstr ""
+msgstr "Új bejegyzés moderálva"
 
 #: includes/class.capabilities.php:63 submenus/manage.php:159
 msgid "Edit Entry"
-msgstr "Rediger Post"
+msgstr "Bejegyzés szerkesztése"
 
 #: includes/class.capabilities.php:64
 msgid "Edit Entry Moderated"
-msgstr ""
+msgstr "Bejgyzés szerkesztése moderálva"
 
 #: includes/class.capabilities.php:65
 msgid "Delete Entry"
-msgstr "Slet Post"
+msgstr "Bejegyzés törlése"
 
 #: includes/class.capabilities.php:66
 msgid "View Public Entries"
-msgstr ""
+msgstr "Publikus bejegyzések megtekintése"
 
 #: includes/class.capabilities.php:67
 msgid "View Private Entries"
-msgstr ""
+msgstr "Privát bejegyzések megtekintése"
 
 #: includes/class.capabilities.php:68
 msgid "View Unlisted Entries"
-msgstr ""
+msgstr "Nem-listázott bejegyzések megtekintése"
 
 #: includes/class.capabilities.php:69
 msgid "Edit Categories"
-msgstr "Rediger Kategorier"
+msgstr "Kategóriák szerkesztése"
 
 #: includes/class.capabilities.php:70
 msgid "Change Settings"
-msgstr "Ændre Indstillinger"
+msgstr "Beállítások módosítása"
 
 #: includes/class.capabilities.php:71
 msgid "Manage Templates"
-msgstr "Håndtér skabeloner"
+msgstr "Sablonok kezelése"
 
 #: includes/class.capabilities.php:72
 msgid "Change Role Capabilities"
-msgstr "Skift rolle kapaciteter"
+msgstr "Hozzáférések módosítása"
 
 #: includes/class.entry.php:2562 includes/class.form.php:1725
 #: includes/class.options.php:880 includes/class.output.php:2008
 #: includes/class.output.php:2015 submenus/templates.php:42
 msgid "Anniversary"
-msgstr "Årsdag"
+msgstr "Évforduló"
 
 #: includes/class.entry.php:2577 includes/class.form.php:1707
 #: includes/class.options.php:882 includes/class.output.php:1938
 #: includes/class.output.php:1945 submenus/templates.php:43
 msgid "Birthday"
-msgstr "Fødselsdag"
+msgstr "Születésnap"
 
 #: includes/class.entry.php:3005 includes/class.form.php:808
 msgid "Unlisted"
-msgstr ""
+msgstr "Nem-listázott"
 
 #: includes/class.entry.php:3005 includes/class.form.php:806
 msgid "Public"
-msgstr "Offentlig"
+msgstr "Publikus"
 
 #: includes/class.entry.php:3005 includes/class.form.php:807
 msgid "Private"
-msgstr "Privat"
+msgstr "Privát"
 
 #: includes/class.entry.php:3212
 msgid "Unknown"
-msgstr ""
+msgstr "Ismeretlen"
 
 #: includes/class.form.php:238
 msgid "Publish"
-msgstr "Udgiv"
+msgstr "Publikál"
 
 #: includes/class.form.php:240
 msgid "Image"
-msgstr "Billede"
+msgstr "Kép"
 
 #: includes/class.form.php:241 includes/class.settings.php:192
 msgid "Logo"
-msgstr "Logo"
+msgstr "Logó"
 
 #: includes/class.form.php:242
 msgid "Addresses"
-msgstr "Adresser"
+msgstr "Cím"
 
 #: includes/class.form.php:243
 msgid "Phone Numbers"
-msgstr "Telefonnumre"
+msgstr "Telefonszámok"
 
 #: includes/class.form.php:244
 msgid "Email Addresses"
-msgstr "Email-adresser"
+msgstr "E-levélcímek"
 
 #: includes/class.form.php:245
 msgid "Messenger IDs"
-msgstr "Messenger ID´er"
+msgstr "Messenger azonosítók"
 
 #: includes/class.form.php:246
 msgid "Social Media IDs"
-msgstr "Sociale Netværks ID"
+msgstr "Szoc. média azonosítók"
 
 #: includes/class.form.php:247 includes/class.settings.php:225
 msgid "Links"
-msgstr "Links"
+msgstr "Hivítkozások"
 
 #: includes/class.form.php:248
 msgid "Dates"
-msgstr "Datoer"
+msgstr "Dátumok"
 
 #: includes/class.form.php:251
 msgid "Biographical Info"
-msgstr "Biografiske Oplysninger"
+msgstr "Életrajzi infó"
 
 #: includes/class.form.php:252 includes/class.settings.php:720
 #: submenus/manage.php:748
 msgid "Notes"
-msgstr "Noter"
+msgstr "Megjegyzések"
 
 #: includes/class.form.php:265
 msgid "News"
-msgstr "Nyheder"
+msgstr "Hírek"
 
 #: includes/class.form.php:266
 msgid "Pro Modules Update Notices"
-msgstr ""
+msgstr "Pro modulok frissítései"
 
 #: includes/class.form.php:267
 msgid "Template Update Notices"
-msgstr ""
+msgstr "Sablon frissítések"
 
 #: includes/class.form.php:269
 msgid "Awaiting Moderation"
-msgstr "Venter på moderation"
+msgstr "Moderációra vár"
 
 #: includes/class.form.php:270
 msgid "Recently Added"
-msgstr "Seneste tilføjede"
+msgstr "Nemrégen hozzáadva"
 
 #: includes/class.form.php:271
 msgid "Recently Modified"
-msgstr "Senest ændrede"
+msgstr "Nemrégen módosítva"
 
 #: includes/class.form.php:273
 msgid "Quick Links"
-msgstr ""
+msgstr "Gyorslinkek"
 
 #: includes/class.form.php:274
 msgid "Today's Anniversaries"
-msgstr ""
+msgstr "Mai évfordulók"
 
 #: includes/class.form.php:275
 msgid "Today's Birthdays"
-msgstr "Fødselsdage i dag"
+msgstr "Mai születésnapok"
 
 #: includes/class.form.php:276
 msgid "Upcoming Anniversaries"
-msgstr "Kommende mærkedage"
+msgstr "Közelgő évfordulók"
 
 #: includes/class.form.php:277
 msgid "Upcoming Birthdays"
-msgstr "Kommende Fødselsdage"
+msgstr "Közelgő születésnapok"
 
 #: includes/class.form.php:279
 msgid "System"
-msgstr "System"
+msgstr "Rendszer"
 
 #: includes/class.form.php:297
 msgid "FAQs"
-msgstr ""
+msgstr "GYIK"
 
 #: includes/class.form.php:302
 msgid ""
 "Have a question, maybe someone else had the same question, please check the "
 "FAQs."
-msgstr ""
+msgstr "Kérdése van? Talán már valaki feltette a GYIK-ben."
 
 #: includes/class.form.php:308
 msgid "Pro Modules"
-msgstr ""
+msgstr "Pro modulok"
 
 #: includes/class.form.php:313
 msgid "Extend Connections with the Pro Module Addons."
-msgstr ""
+msgstr "Bővítse a Connections-t kiegészítő Pro modulokkal."
 
 #: includes/class.form.php:324
 msgid "Check out the template market."
-msgstr ""
+msgstr "Tekintse meg a Sablon piacteret."
 
 #: includes/class.form.php:330
 msgid "Bug Report"
-msgstr ""
+msgstr "Hiba bejelentés"
 
 #: includes/class.form.php:335
 msgid "Did you find a bug, please take the time to report it. Thanks."
-msgstr ""
+msgstr "Hibát talált? Kérjük jelentse be. Köszönjük."
 
 #: includes/class.form.php:341
 msgid "Feature Request"
-msgstr ""
+msgstr "Fejlesztés kérése"
 
 #: includes/class.form.php:346
 msgid "Need a feature, request a feature."
-msgstr ""
+msgstr "Szüksége van egy új funkcióra? Itt kérheti."
 
 #: includes/class.form.php:370
 #, php-format
@@ -307,47 +307,49 @@ msgid ""
 "Newsfeed could not be loaded.  Check the <a href=\"%s\">blog</a> to check "
 "for updates."
 msgstr ""
+"A híreket nem sikerült betölteni.  Nézze meg a <a href=\"%s\">blog</a>ot az "
+"újdonságokért."
 
 #: includes/class.form.php:383
 msgid "Untitled"
-msgstr "Unavngivet"
+msgstr "Cím nélkül"
 
 #: includes/class.form.php:398
 msgid "ago"
-msgstr ""
+msgstr "ezelőtt"
 
 #: includes/class.form.php:405
 msgid "No updates at this time"
-msgstr ""
+msgstr "Most nincsenek frissítések."
 
 #: includes/class.form.php:422
 msgid "No Birthdays Today"
-msgstr ""
+msgstr "Ma nincsen születésnap."
 
 #: includes/class.form.php:450
 msgid "No Upcoming Birthdays."
-msgstr ""
+msgstr "Nincsenek közelgő születésnapok."
 
 #: includes/class.form.php:478
 msgid "No Anniversaries Today"
-msgstr ""
+msgstr "Ma nincsen évforduló."
 
 #: includes/class.form.php:505
 msgid "No Upcoming Anniversaries."
-msgstr ""
+msgstr "Nincsenek közelgő évfordulók."
 
 #: includes/class.form.php:625
 msgid "Not set"
-msgstr "Ikke Valgt"
+msgstr "Nincs megadva"
 
 #: includes/class.form.php:627 includes/class.form.php:630
 #: submenus/manage.php:562
 msgid "On"
-msgstr "Til"
+msgstr "Be"
 
 #: includes/class.form.php:628 includes/class.form.php:631
 msgid "Off"
-msgstr "Fra"
+msgstr "Ki"
 
 #: includes/class.form.php:634 includes/class.form.php:637
 #: includes/class.form.php:640 includes/class.form.php:643
@@ -357,166 +359,166 @@ msgstr "N/A"
 
 #: includes/class.form.php:648
 msgid "MByte"
-msgstr "MByte"
+msgstr "MiB"
 
 #: includes/class.form.php:651 includes/class.form.php:654
 #: includes/class.form.php:657 includes/class.utility.php:126
 #: submenus/manage.php:755 submenus/manage.php:756
 msgid "Yes"
-msgstr "Ja"
+msgstr "Igen"
 
 #: includes/class.form.php:652 includes/class.form.php:655
 #: includes/class.form.php:658 includes/class.utility.php:128
 #: submenus/manage.php:755 submenus/manage.php:756
 msgid "No"
-msgstr "Nej"
+msgstr "Nem"
 
 #: includes/class.form.php:661
 msgid "Version Information"
-msgstr ""
+msgstr "Verzió információ"
 
 #: includes/class.form.php:670
 msgid "Constants"
-msgstr ""
+msgstr "Állandók"
 
 #: includes/class.form.php:673
 msgid "TRUE"
-msgstr ""
+msgstr "igaz"
 
 #: includes/class.form.php:673
 msgid "FALSE"
-msgstr ""
+msgstr "hamis"
 
 #: includes/class.form.php:699
 msgid "Server Configuration"
-msgstr ""
+msgstr "Kiszolgáló tulajdonságok"
 
 #: includes/class.form.php:702
 msgid "Operating System"
-msgstr ""
+msgstr "Operációs rendszer"
 
 #: includes/class.form.php:703
 msgid "Server"
-msgstr ""
+msgstr "Kiszolgáló"
 
 #: includes/class.form.php:704
 msgid "Memory usage"
-msgstr ""
+msgstr "Memória használat"
 
 #: includes/class.form.php:705
 msgid "MYSQL Version"
-msgstr ""
+msgstr "MYSQL verzió"
 
 #: includes/class.form.php:706
 msgid "SQL Mode"
-msgstr ""
+msgstr "SQL mód"
 
 #: includes/class.form.php:707
 msgid "PHP Version"
-msgstr ""
+msgstr "PHP verzió"
 
 #: includes/class.form.php:708
 msgid "PHP Safe Mode"
-msgstr ""
+msgstr "PHP biztonságos mód"
 
 #: includes/class.form.php:709
 msgid "PHP Allow URL fopen"
-msgstr ""
+msgstr "PHP URL fopen"
 
 #: includes/class.form.php:710
 msgid "PHP Memory Limit"
-msgstr ""
+msgstr "PHP max memória"
 
 #: includes/class.form.php:711
 msgid "PHP Max Upload Size"
-msgstr ""
+msgstr "PHP max feltöltési méret"
 
 #: includes/class.form.php:712
 msgid "PHP Max Post Size"
-msgstr ""
+msgstr "PHP max űrlap adat (post) méret"
 
 #: includes/class.form.php:713
 msgid "PCRE Backtracking Limit"
-msgstr ""
+msgstr "PCRE visszakövetési limit"
 
 #: includes/class.form.php:714
 msgid "PHP Max Script Execute Time"
-msgstr ""
+msgstr "PHP max végrehajtási idő"
 
 #: includes/class.form.php:715
 msgid "PHP Exif support"
-msgstr ""
+msgstr "PHP exif támogatás"
 
 #: includes/class.form.php:716
 msgid "PHP IPTC support"
-msgstr ""
+msgstr "PHP IPTC támogatás"
 
 #: includes/class.form.php:717
 msgid "PHP XML support"
-msgstr ""
+msgstr "PHP XML támogatás"
 
 #: includes/class.form.php:720
 msgid "Graphic Library"
-msgstr ""
+msgstr "Grafikus könyvtár"
 
 #: includes/class.form.php:740
 msgid "No GD support"
-msgstr "Ingen GD support"
+msgstr "Nincs GD támogatás"
 
 #: includes/class.form.php:745
 msgid "Folder Permissions"
-msgstr ""
+msgstr "Könyvtár jogok"
 
 #: includes/class.form.php:750
 msgid "Image Path Exists:"
-msgstr ""
+msgstr "Kép útvonal létezik:"
 
 #: includes/class.form.php:751
 msgid "Image Path Writeable:"
-msgstr ""
+msgstr "Kép útvonak írható:"
 
 #: includes/class.form.php:753
 msgid "Template Path Exists:"
-msgstr ""
+msgstr "Sablonok útvonal létezik:"
 
 #: includes/class.form.php:754
 msgid "Template Path Writeable:"
-msgstr ""
+msgstr "Sablonok útvonal írható:"
 
 #: includes/class.form.php:756
 msgid "Cache Path Exists:"
-msgstr ""
+msgstr "Gyorstár útvonal létezik:"
 
 #: includes/class.form.php:757
 msgid "Cache Path Writeable:"
-msgstr ""
+msgstr "Gyorstár útvonal írható:"
 
 #: includes/class.form.php:773 submenus/templates.php:39
 msgid "Individual"
-msgstr "Individuel"
+msgstr "Személy"
 
 #: includes/class.form.php:774 includes/class.form.php:943
 #: includes/class.settings.php:715 includes/class.settings.php:933
 #: submenus/manage.php:631 submenus/templates.php:40
 msgid "Organization"
-msgstr "Organisation"
+msgstr "Szervezet"
 
 #: includes/class.form.php:775 submenus/templates.php:41
 msgid "Family"
-msgstr "Familie"
+msgstr "Család"
 
 #: includes/class.form.php:820 includes/class.form.php:825
 #: submenus/categories.php:61
 msgid "Cancel"
-msgstr "Annuller"
+msgstr "Mégsem"
 
 #: includes/class.form.php:821 submenus/roles.php:63
 msgid "Update"
-msgstr "Opdater"
+msgstr "Frissítés"
 
 #: includes/class.form.php:871 includes/class.settings.php:710
 msgid "Family Name"
-msgstr "Familienavn"
+msgstr "Családnév"
 
 #: includes/class.form.php:891 includes/class.form.php:986
 #: includes/class.form.php:1020 includes/class.form.php:1120
@@ -528,71 +530,71 @@ msgstr "Familienavn"
 #: includes/class.form.php:1604 includes/class.form.php:1648
 #: includes/class.form.php:1683
 msgid "Remove"
-msgstr "Fjern"
+msgstr "Eltávolít"
 
 #: includes/class.form.php:899
 msgid "Add Relation"
-msgstr "Tilføj Relation"
+msgstr "Kapcsolat hozzáadása"
 
 #: includes/class.form.php:909
 msgid "Prefix"
-msgstr ""
+msgstr "Előtag"
 
 #: includes/class.form.php:915 includes/class.settings.php:711
 msgid "First Name"
-msgstr "Fornavn"
+msgstr "Keresztnév"
 
 #: includes/class.form.php:920 includes/class.settings.php:712
 msgid "Middle Name"
-msgstr "Mellemnavn"
+msgstr "Középső név"
 
 #: includes/class.form.php:925 includes/class.settings.php:713
 msgid "Last Name"
-msgstr "Efternavn"
+msgstr "Családnév"
 
 #: includes/class.form.php:931
 msgid "Suffix"
-msgstr ""
+msgstr "Utótag"
 
 #: includes/class.form.php:936 includes/class.form.php:1541
 #: includes/class.form.php:1589 includes/class.settings.php:714
 #: submenus/manage.php:630
 msgid "Title"
-msgstr "Titel"
+msgstr "Cím"
 
 #: includes/class.form.php:946 includes/class.settings.php:716
 #: includes/class.settings.php:946 submenus/manage.php:632
 msgid "Department"
-msgstr "Afdeling"
+msgstr "Részleg"
 
 #: includes/class.form.php:952 includes/class.settings.php:717
 msgid "Contact First Name"
-msgstr ""
+msgstr "Kapcsolat családnév"
 
 #: includes/class.form.php:956 includes/class.settings.php:718
 msgid "Contact Last Name"
-msgstr ""
+msgstr "Kapcsolat keresztnév"
 
 #: includes/class.form.php:984 includes/class.form.php:1018
 #: includes/class.settings.php:35 submenus/manage.php:756
 msgid "Display"
-msgstr "Vis"
+msgstr "Megjelenítés"
 
 #: includes/class.form.php:985 includes/class.form.php:1019
 msgid "Not Displayed"
-msgstr "Ikke Vist"
+msgstr "Nincs megjelenítve"
 
 #: includes/class.form.php:995
 msgid "Select Image"
-msgstr "Vælg Billede"
+msgstr "Kép kiválasztása"
 
 #: includes/class.form.php:1029
 msgid "Select Logo"
-msgstr "Vælg Logo"
+msgstr "Logó kiválasztása"
 
 #: includes/class.form.php:1054 includes/class.form.php:1142
 msgid "Address Type"
-msgstr "Adressetype"
+msgstr "Címtípus"
 
 #: includes/class.form.php:1055 includes/class.form.php:1143
 #: includes/class.form.php:1241 includes/class.form.php:1272
@@ -602,7 +604,7 @@ msgstr "Adressetype"
 #: includes/class.form.php:1532 includes/class.form.php:1580
 #: includes/class.form.php:1636 includes/class.form.php:1670
 msgid "Preferred"
-msgstr "Foretrukne"
+msgstr "Előnyben részesített"
 
 #: includes/class.form.php:1056 includes/class.form.php:1144
 #: includes/class.form.php:1242 includes/class.form.php:1315
@@ -612,41 +614,41 @@ msgstr "Foretrukne"
 #: includes/class.form.php:1581 includes/class.form.php:1637
 #: includes/class.form.php:1671 submenus/manage.php:564
 msgid "Visibility"
-msgstr "Synlighed"
+msgstr "Láthatóság"
 
 #: includes/class.form.php:1065 includes/class.form.php:1153
 msgid "Address Line 1"
-msgstr "Adresselinie 1"
+msgstr "Cím 1. sor"
 
 #: includes/class.form.php:1070 includes/class.form.php:1158
 msgid "Address Line 2"
-msgstr "Adresselinie 2"
+msgstr "Cím 2. sor"
 
 #: includes/class.form.php:1075 includes/class.form.php:1163
 msgid "Address Line 3"
-msgstr "Adresselinie 3"
+msgstr "Cím 3. sor"
 
 #: includes/class.form.php:1083 includes/class.form.php:1170
 msgid "City"
-msgstr "By"
+msgstr "Város"
 
 #: includes/class.form.php:1087 includes/class.form.php:1174
 msgid "State"
-msgstr "Stat / Region"
+msgstr "Megye"
 
 #: includes/class.form.php:1091 includes/class.form.php:1178
 msgid "Zipcode"
-msgstr "Postnummer"
+msgstr "Irányítószám"
 
 #: includes/class.form.php:1097 includes/class.form.php:1184
 #: includes/class.settings.php:998
 msgid "Country"
-msgstr "Land"
+msgstr "Ország"
 
 #: includes/class.form.php:1103 includes/class.form.php:1190
 #: includes/class.output.php:968 submenus/manage.php:656
 msgid "Latitude"
-msgstr "Latitudee"
+msgstr "Latitude"
 
 #: includes/class.form.php:1107 includes/class.form.php:1194
 #: includes/class.output.php:969 submenus/manage.php:656
@@ -655,56 +657,56 @@ msgstr "Longitude"
 
 #: includes/class.form.php:1111 includes/class.form.php:1198
 msgid "Geocode"
-msgstr ""
+msgstr "Koordináták megállapítása"
 
 #: includes/class.form.php:1117 includes/class.form.php:1206
 msgid "Geocoding Address."
-msgstr ""
+msgstr "Cím koordinátáinak megállapítása"
 
 #: includes/class.form.php:1218
 msgid "Add Address"
-msgstr "Tilføj Adresse"
+msgstr "Cím hozzáadása"
 
 #: includes/class.form.php:1240 includes/class.form.php:1271
 msgid "Phone Type"
-msgstr "Telefontype"
+msgstr "Telefon típus"
 
 #: includes/class.form.php:1249 includes/class.form.php:1280
 #: includes/class.settings.php:728
 msgid "Phone Number"
-msgstr "Telefonnummer"
+msgstr "Telefonszám"
 
 #: includes/class.form.php:1291
 msgid "Add Phone Number"
-msgstr ""
+msgstr "Telefonszám hozzáadása"
 
 #: includes/class.form.php:1313 includes/class.form.php:1344
 msgid "Email Type"
-msgstr "Emailtype"
+msgstr "E-levél típusa"
 
 #: includes/class.form.php:1322 includes/class.form.php:1353
 msgid "Email Address"
-msgstr "Emailadresse"
+msgstr "E-levélcím"
 
 #: includes/class.form.php:1364
 msgid "Add Email Address"
-msgstr "Tilføj Emailadresse"
+msgstr "E-levél hozzáadása"
 
 #: includes/class.form.php:1386 includes/class.form.php:1416
 msgid "IM Type"
-msgstr "IM Type"
+msgstr "IM típusa"
 
 #: includes/class.form.php:1395 includes/class.form.php:1425
 msgid "IM Network ID"
-msgstr "IM Netværks ID"
+msgstr "IM hálózati azonosító"
 
 #: includes/class.form.php:1436
 msgid "Add Messenger ID"
-msgstr "Tilføj Messenger ID"
+msgstr "Messenger azonosító hozzáadása"
 
 #: includes/class.form.php:1458 includes/class.form.php:1489
 msgid "Social Network"
-msgstr "Socialt Netværk"
+msgstr "Szociális hálózat"
 
 #: includes/class.form.php:1467 includes/class.form.php:1498
 #: includes/class.form.php:1542 includes/class.form.php:1590
@@ -713,80 +715,80 @@ msgstr "URL"
 
 #: includes/class.form.php:1509
 msgid "Add Social Media ID"
-msgstr "Tilføj Social Medie ID"
+msgstr "Szociális mádia azonosító hozzáadása"
 
 #: includes/class.form.php:1531 includes/class.form.php:1579
 #: includes/class.form.php:1635 includes/class.form.php:1669
 msgid "Type"
-msgstr "Tyoe"
+msgstr "Típus"
 
 #: includes/class.form.php:1546 includes/class.form.php:1594
 msgid "Target"
-msgstr "Mål"
+msgstr "Cél"
 
 #: includes/class.form.php:1546 includes/class.form.php:1594
 msgid "New Window"
-msgstr "Nyt vindue"
+msgstr "Új ablak"
 
 #: includes/class.form.php:1546 includes/class.form.php:1594
 msgid "Same Window"
-msgstr "Samme vindue"
+msgstr "Azonos ablak"
 
 #: includes/class.form.php:1551 includes/class.form.php:1599
 msgid "Assign link to the image."
-msgstr ""
+msgstr "Hivatkozás hozzárendelése a képhez."
 
 #: includes/class.form.php:1552 includes/class.form.php:1600
 msgid "Assign link to the logo."
-msgstr ""
+msgstr "Hivatkozás hozzárendelése a logóhoz."
 
 #: includes/class.form.php:1613
 msgid "Add Link"
-msgstr "Tilføj link"
+msgstr "Új hivatkozás"
 
 #: includes/class.form.php:1645 includes/class.form.php:1679
 msgid "Date"
-msgstr "Dato"
+msgstr "Dátum"
 
 #: includes/class.form.php:1692
 msgid "Add Date"
-msgstr "Tilføj Dato"
+msgstr "Új dátum"
 
 #: includes/class.form.php:1710 includes/class.form.php:1728
 msgid "Field not available for this entry type."
-msgstr ""
+msgstr "A mező nem érhető el ehhez a bejegyzéstípushoz."
 
 #: includes/class.form.php:1818
 msgid "Select Entry"
-msgstr "Vælg Post"
+msgstr "Válasszon bejegyzést"
 
 #: includes/class.form.php:1880 submenus/manage.php:529
 #: submenus/manage.php:614
 msgid "Edit"
-msgstr "Rediger"
+msgstr "Szerkeszt"
 
 #: includes/class.form.php:1881 submenus/categories.php:95
 #: submenus/manage.php:402 submenus/manage.php:531
 msgid "Delete"
-msgstr "Slet"
+msgstr "Töröl"
 
 #: includes/class.form.php:1895 includes/class.form.php:1898
 msgid "Count"
-msgstr "Tæller"
+msgstr "Darab"
 
 #: includes/class.form.php:1901
 msgid "ID"
-msgstr "ID"
+msgstr "Azonosító"
 
 #: includes/class.form.php:1952 includes/class.settings.php:920
 #: submenus/categories.php:109 submenus/categories.php:119
 #: submenus/manage.php:436 submenus/manage.php:445
 msgid "Name"
-msgstr "Navn"
+msgstr "Név"
 
 #: includes/class.form.php:1955
 msgid "The name is how it appears on your site."
-msgstr ""
+msgstr "A név ugyanígy jelenik meg a weboldalon."
 
 #: includes/class.form.php:1959 submenus/categories.php:111
 #: submenus/categories.php:121
@@ -798,127 +800,133 @@ msgid ""
 "The “slug” is the URL-friendly version of the name. It is usually all "
 "lowercase and contains only letters, numbers, and hyphens."
 msgstr ""
+"A „slug” a név URL-barát változata. Általában csak kicsi betűkből, számokból "
+"és kötőjelekből áll."
 
 #: includes/class.form.php:1965
 msgid "Parent"
-msgstr "Forælder"
+msgstr "Szülő"
 
 #: includes/class.form.php:1967
 msgid "None"
-msgstr "Ingen"
+msgstr "Nincs"
 
 #: includes/class.form.php:1970
 msgid ""
 "Categories can have a hierarchy. You might have a Jazz category, and under "
 "that have children categories for Bebop and Big Band. Totally optional."
 msgstr ""
+"A kategóriáknak lehet hierarchiája. Lehet egy Jazz kategória és azon belül "
+"pedig gyerek kategóriák, pl.: Bebop és Big Band. Teljesen opcionális."
 
 #: includes/class.form.php:1974 submenus/categories.php:110
 #: submenus/categories.php:120
 msgid "Description"
-msgstr "Beskrivelse"
+msgstr "Leírás"
 
 #: includes/class.form.php:1976
 msgid ""
 "The description is not displayed by default; however, templates may be "
 "created or altered to show it."
 msgstr ""
+"A leírás alaphelyzetben nem jelenik meg, de a sablonok segítségével ez "
+"módosítható."
 
 #: includes/class.message.php:116
 msgid ""
 "You are not authorized to view the entry list. Please contact the admin if "
 "you received this message in error."
 msgstr ""
-"Du ikke har rettigheder til at se posteringslisten. Kontakt venligst "
-"administratoren, hvis du har modtaget denne meddelelse ved en fejl."
+"Nincs megfelelő jogosultsága a lista megtekintéséhez. Ha ez nem így van, "
+"akkor lépjen kapcsolatba az adminnal."
 
 #: includes/class.message.php:118
 msgid ""
 "You are not authorized to add entries. Please contact the admin if you "
 "received this message in error."
 msgstr ""
-"Du har ikke tilladelse til at tilføje poster. Kontakt venligst "
-"administratoren, hvis du har modtaget denne meddelelse ved en fejl."
+"Nincs jogosultsága új bejegyzést létrehozni. Ha ez nem így van, akkor lépjen "
+"kapcsolatba az adminnal."
 
 #: includes/class.message.php:119
 msgid ""
 "You are not authorized to delete entries. Please contact the admin if you "
 "received this message in error."
 msgstr ""
-"Du har ikke tilladelse til at slette poster. Kontakt venligst "
-"administratoren, hvis du har modtaget denne meddelelse ved en fejl."
+"Nincs jogosultsága bejegyzést törölni. Ha ez nem így van, akkor lépjen "
+"kapcsolatba az adminnal."
 
 #: includes/class.message.php:120
 msgid ""
 "You are not authorized to edit entries. Please contact the admin if you "
 "received this message in error."
 msgstr ""
-"Du har ikke tilladelse til at redigere poster. Kontakt venligst "
-"administratoren, hvis du har modtaget denne meddelelse ved en fejl."
+"Nincs jogosultsága bejegyzést szerkeszteni. Ha ez nem így van, akkor lépjen "
+"kapcsolatba az adminnal."
 
 #: includes/class.message.php:121
 msgid ""
 "You are not authorized to edit the categories. Please contact the admin if "
 "you received this message in error."
 msgstr ""
-"Du har ikke tilladelse til at redigere kategorierne. Kontakt venligst "
-"administratoren, hvis du har modtaget denne meddelelse ved en fejl."
+"Nincs jogosultsága kategóriát szerkeszteni. Ha ez nem így van, akkor lépjen "
+"kapcsolatba az adminnal."
 
 #: includes/class.message.php:122
 msgid ""
 "You are not authorized to edit the settings. Please contact the admin if you "
 "received this message in error."
 msgstr ""
-"Du har ikke tilladelse til at redigere indstillingerne. Kontakt venligst "
-"administratoren, hvis du har modtaget denne meddelelse ved en fejl."
+"Nincs jogosultsága a beállításokat módosítani. Ha ez nem így van, akkor "
+"lépjen kapcsolatba az adminnal."
 
 #: includes/class.message.php:123
 msgid ""
 "You are not authorized to edit role capabilities. Please contact the admin "
 "if you received this message in error."
 msgstr ""
-"Du har ikke tilladelse til at redigere rolle kapaciteter. Kontakt venligst "
-"administratoren, hvis du har modtaget denne meddelelse ved en fejl."
+"Nincs jogosultsága a hozzáférések módosításához. Ha ez nem így van, akkor "
+"lépjen kapcsolatba az adminnal."
 
 #: includes/class.message.php:125
 msgid "The category you are trying to create already exists."
-msgstr "Den kategori du forsøger at skabe eksisterer allerede."
+msgstr "A kategória, amit létre kíván hozni, már létezik."
 
 #: includes/class.message.php:126
 msgid "Category can not be a parent of itself."
-msgstr "Kategori kan ikke være forælder til sig selv."
+msgstr "Egy kategória nem lehet önmaga szülője."
 
 #: includes/class.message.php:127
 msgid "The Uncategorized category can not be deleted."
-msgstr "Den ikke-kategoriseret kategori kan ikke slettes."
+msgstr "A „Nincs kategorizálva” kategóriát nem lehet törölni."
 
 #: includes/class.message.php:128
 msgid "The Uncategorized category can not be altered."
-msgstr ""
+msgstr "A „Nincs kategorizálva” kategóriát nem lehet módosítani."
 
 #: includes/class.message.php:129
 msgid "The Uncategorized category already exists."
-msgstr ""
+msgstr "A „Nincs kategorizálva” kategória már létezik."
 
 #: includes/class.message.php:130
 msgid "Failed to add category."
-msgstr "Kunne ikke tilføje kategori."
+msgstr "Kategória hozzáadása sikertelen."
 
 #: includes/class.message.php:131
 msgid "Failed to update category."
-msgstr "Kunne ikke opdatere kategori."
+msgstr "Kategória frissítése sikertelen."
 
 #: includes/class.message.php:132
 msgid "Failed to delete category."
-msgstr "Kunne ikke slette kategorien."
+msgstr "Kategória törlése sikertelen."
 
 #: includes/class.message.php:134
 msgid "Entry could not be added."
-msgstr "Post kunne ikke tilføjes."
+msgstr "Bejegyzés hozzáadása sikertelen."
 
 #: includes/class.message.php:135
 msgid "Entry could not be updated."
-msgstr "Post kunne ikke opdateres."
+msgstr "Bejegyzés frissítése sikertelen."
 
 #: includes/class.message.php:137
 msgid ""
@@ -926,6 +934,9 @@ msgid ""
 "that you are not permitted to view or edit is set as the preferred address. "
 "Please contact the admin if you received this message in error."
 msgstr ""
+"Az előnyben részesített címe felül lett írva egy olyan címmel, amit nem "
+"láthat vagy szerkeszthet. Ha ez hiba, akkor lépjen kapcsolatba az "
+"adminisztrátorral!"
 
 #: includes/class.message.php:138
 msgid ""
@@ -933,6 +944,9 @@ msgid ""
 "number that you are not permitted to view or edit is set as the preferred "
 "phone number. Please contact the admin if you received this message in error."
 msgstr ""
+"Az előnyben részesített telefonszáma felül lett írva egy olyannal, amit nem "
+"láthat vagy szerkeszthet. Ha ez hiba, akkor lépjen kapcsolatba az "
+"adminisztrátorral!"
 
 #: includes/class.message.php:139
 msgid ""
@@ -941,6 +955,9 @@ msgid ""
 "preferred email address. Please contact the admin if you received this "
 "message in error."
 msgstr ""
+"Az előnyben részesített e-levélcíme felül lett írva egy olyannal, amit nem "
+"láthat vagy szerkeszthet. Ha ez hiba, akkor lépjen kapcsolatba az "
+"adminisztrátorral!"
 
 #: includes/class.message.php:140
 msgid ""
@@ -948,6 +965,9 @@ msgid ""
 "Network that you are not permitted to view or edit is set as the preferred "
 "IM Network. Please contact the admin if you received this message in error."
 msgstr ""
+"Az előnyben részesített IM hálózata felül lett írva egy olyannal, amit nem "
+"láthat vagy szerkeszthet. Ha ez hiba, akkor lépjen kapcsolatba az "
+"adminisztrátorral!"
 
 #: includes/class.message.php:141
 msgid ""
@@ -956,6 +976,9 @@ msgid ""
 "set as the preferred social media network. Please contact the admin if you "
 "received this message in error."
 msgstr ""
+"Az előnyben részesített szociális média beállítása felül lett írva egy "
+"olyannal, amit nem láthat vagy szerkeszthet. Ha ez hiba, akkor lépjen "
+"kapcsolatba az adminisztrátorral!"
 
 #: includes/class.message.php:142
 msgid ""
@@ -963,6 +986,9 @@ msgid ""
 "you are not permitted to view or edit is set as the preferred link. Please "
 "contact the admin if you received this message in error."
 msgstr ""
+"Az előnyben részesített hivatkozása felül lett írva egy olyannal, amit nem "
+"láthat vagy szerkeszthet. Ha ez hiba, akkor lépjen kapcsolatba az "
+"adminisztrátorral!"
 
 #: includes/class.message.php:143
 msgid ""
@@ -970,166 +996,176 @@ msgid ""
 "you are not permitted to view or edit is set as the preferred date. Please "
 "contact the admin if you received this message in error."
 msgstr ""
+"Az előnyben részesített dátuma felül lett írva egy olyannal, amit nem láthat "
+"vagy szerkeszthet. Ha ez hiba, akkor lépjen kapcsolatba az adminisztrátorral!"
 
 #: includes/class.message.php:145
 msgid "Image upload failed."
-msgstr "Upload af billede blev ikke gemmenført"
+msgstr "Kép feltöltés sikertelen."
 
 #: includes/class.message.php:146
 msgid "Uploaded image could not be saved to the destination folder."
-msgstr ""
+msgstr "A feltöltött képet nem sikerült a célkönyvtárba mozgatni."
 
 #: includes/class.message.php:147
 msgid ""
 "Profile image could not be created and/or saved to the destination folder."
-msgstr ""
+msgstr "A profilképet nem sikerült a célkönyvtárba menteni."
 
 #: includes/class.message.php:148
 msgid ""
 "Entry image could not be created and/or saved to the destination folder."
-msgstr ""
+msgstr "A bejgyzés képét nem sikerült a célkönyvtárba menteni."
 
 #: includes/class.message.php:149
 msgid ""
 "Thumbnail image could not be created and/or saved to the destination folder."
-msgstr ""
+msgstr "A bélyegképet nem sikerült a célkönyvtárba menteni."
 
 #: includes/class.message.php:151
 msgid "The template installation has failed."
-msgstr "Skabelon installationen mislykkedes."
+msgstr "A sablon telepítése nem sikerült."
 
 #: includes/class.message.php:152
 msgid "The template could not be deleted."
-msgstr "Skabelonen kunne ikke slettes."
+msgstr "A sablont nem sikerült törölni."
 
 #: includes/class.message.php:154
 msgid ""
 "Path ../wp-content/connection_images does not seem to exist. Please try "
 "deactivating and reactivating Connections."
 msgstr ""
+"Az elérési út ../wp-content/connection_images nem létezik. Kérjük kapcsolja "
+"ki és be a Connections bővítményt."
 
 #: includes/class.message.php:155
 msgid "Path ../wp-content/connection_images does not seem to be writeable."
-msgstr ""
+msgstr "Az elérési út ../wp-content/connection_images nem írható."
 
 #: includes/class.message.php:157
 msgid ""
 "Path ../wp-content/connections_templates does not seem to exist. Please try "
 "deactivating and reactivating Connections."
 msgstr ""
+"Az elérési út ../wp-content/connection_templates nem létezik. Kérjük "
+"kapcsolja ki és be a Connections bővítményt."
 
 #: includes/class.message.php:158
 msgid "Path ../wp-content/connections_templates does not seem to be writeable."
-msgstr ""
+msgstr "Az elérési út ../wp-content/connection_templates nem írható."
 
 #: includes/class.message.php:160
 msgid ""
 "Path ../wp-content/plugins/connections/cache does not seem to exist. Please "
 "try deactivating and reactivating Connections."
 msgstr ""
+"Az elérési út ../wp-content/plugins/connections/cache nem létezik. Kérjük "
+"kapcsolja ki és be a Connections bővítményt."
 
 #: includes/class.message.php:161
 msgid ""
 "Path ../wp-content/plugins/connections/cache does not seem to be writeable."
-msgstr ""
+msgstr "Az elérési út ../wp-content/plugins/connections/cache nem írható."
 
 #: includes/class.message.php:163
 msgid ""
 "The Connections directory home page has not been set. Please set it now on "
 "the Connections : Settings page under the General tab."
 msgstr ""
+"A Connections fő oldala nem lett beállítva. Kérjük állítsa be a Connections "
+"beállítások oldalon az Általános fülön."
 
 #: includes/class.message.php:168
 msgid "The entry has been deleted."
-msgstr "Post er blevet slettet."
+msgstr "A bejegyzés törölve lett."
 
 #: includes/class.message.php:169
 msgid "Entry(ies) have been deleted."
-msgstr "Post(er) er blevet slettet."
+msgstr "A bejegyzés(ek) törölve lett(ek)."
 
 #: includes/class.message.php:170
 msgid "The entry status have been set to pending."
-msgstr ""
+msgstr "A bejegyzés állapota „Függőben”-re lett állítva."
 
 #: includes/class.message.php:171
 msgid "Entry(ies) status have been set to pending."
-msgstr ""
+msgstr "A bejegyzés(ek) állapota(i) „Függőben”-re lett(ek) állítva."
 
 #: includes/class.message.php:172
 msgid "The entry has been approved."
-msgstr ""
+msgstr "A bejegyzés jóvá lett hagyva."
 
 #: includes/class.message.php:173
 msgid "Entry(ies) have been approved."
-msgstr ""
+msgstr "A bejegyzés(ek) jóvá lett(ek) hagyva."
 
 #: includes/class.message.php:174
 msgid "Entry(ies) visibility have been updated."
-msgstr ""
+msgstr "A bejegyzés(ek) láthatósága módosítva lett."
 
 #: includes/class.message.php:176
 msgid "Category(ies) have been deleted."
-msgstr "Kategori(er) er blevet slettet."
+msgstr "A kategória(k) törölve lett(ek)."
 
 #: includes/class.message.php:177
 msgid "Category has been updated."
-msgstr "Kategori er blevet opdateret."
+msgstr "A kategória frissítve lett."
 
 #: includes/class.message.php:178
 msgid "Category has been added."
-msgstr "Kategori er blevet tilføjet."
+msgstr "A kategória létre lett hozva."
 
 #: includes/class.message.php:180
 msgid "Entry has been added."
-msgstr "Post er blevet tilføjet."
+msgstr "A bejegyzés hozzá lett adva."
 
 #: includes/class.message.php:181
 msgid "Pending review entry will be added."
-msgstr ""
+msgstr "Egy áttekintés függőben bejegyzés jön létre."
 
 #: includes/class.message.php:182
 msgid "Entry has been updated."
-msgstr "Post er blevet opdateret."
+msgstr "A bejegyzés frissítve lett."
 
 #: includes/class.message.php:183
 msgid "Pending review entry will be updated."
-msgstr ""
+msgstr "Az áttekintés függőben bejegyzés frissítve lesz."
 
 #: includes/class.message.php:185
 msgid "Uploaded image saved."
-msgstr "Uploadet billede gemt."
+msgstr "Feltöltött kép mentve."
 
 #: includes/class.message.php:186
 msgid "Profile image created and saved."
-msgstr "Profilbillede oprettet og gemt."
+msgstr "Profil kép létrehozva és mentve."
 
 #: includes/class.message.php:187
 msgid "Entry image created and saved."
-msgstr "Post billede oprettet og gemt."
+msgstr "Bejegyzés kép létrehozva és mentve."
 
 #: includes/class.message.php:188
 msgid "Thumbnail image created and saved."
-msgstr "Miniaturebillede oprettet og gemt."
+msgstr "Bélyegkép létrehozva és mentve."
 
 #: includes/class.message.php:190
 msgid "Role capabilities have been updated."
-msgstr "Rollekapaciteter er blevet opdateret."
+msgstr "A szerep jogosultságok frissítve lettek."
 
 #: includes/class.message.php:192
 msgid "The default active template has been changed."
-msgstr "Standardskabelon er blevet ændret."
+msgstr "Az alap aktív sablon módosítva lett."
 
 #: includes/class.message.php:193
 msgid "A new template has been installed."
-msgstr "En ny skabelon er blevet installeret."
+msgstr "Egy új sablon telepítve lett."
 
 #: includes/class.message.php:194
 msgid "The template has been deleted."
-msgstr "Skabelonen er blevet slettet."
+msgstr "A sablon törölve lett."
 
 #: includes/class.message.php:199
 msgid "Connections database requires updating."
-msgstr "Connections database kræver opdatering."
+msgstr "A Connections adatbázisát frissíteni kell."
 
 #: includes/class.message.php:199
 msgid "START"
@@ -1137,7 +1173,7 @@ msgstr "START"
 
 #: includes/class.message.php:267 includes/class.message.php:305
 msgid "ERROR"
-msgstr "FEJL"
+msgstr "HIBA"
 
 #: includes/class.message.php:271 includes/class.message.php:309
 #: includes/inc.upgrade.php:79 includes/inc.upgrade.php:82
@@ -1153,203 +1189,203 @@ msgstr "FEJL"
 #: includes/inc.upgrade.php:735 includes/inc.upgrade.php:738
 #: includes/inc.upgrade.php:772 includes/inc.upgrade.php:775
 msgid "SUCCESS"
-msgstr "GENNEMFØRT"
+msgstr "SIKER"
 
 #: includes/class.message.php:275 includes/class.message.php:313
 msgid "NOTICE"
-msgstr ""
+msgstr "MEGJEGYZÉS"
 
 #: includes/class.options.php:696
 msgid "Select Relation"
-msgstr "Vælg Relation"
+msgstr "Válassza ki a viszonyt"
 
 #: includes/class.options.php:697
 msgid "Aunt"
-msgstr "Tante"
+msgstr "Nagynéni"
 
 #: includes/class.options.php:698
 msgid "Brother"
-msgstr "Bror"
+msgstr "Testvér"
 
 #: includes/class.options.php:699
 msgid "Brother-in-law"
-msgstr ""
+msgstr "Sógor"
 
 #: includes/class.options.php:700
 msgid "Cousin"
-msgstr "Kusine / Fætter"
+msgstr "Unokatestvér"
 
 #: includes/class.options.php:701
 msgid "Daughter"
-msgstr "Datter"
+msgstr "Lány"
 
 #: includes/class.options.php:702
 msgid "Daughter-in-law"
-msgstr ""
+msgstr "Meny"
 
 #: includes/class.options.php:703
 msgid "Father"
-msgstr "Far"
+msgstr "Apa"
 
 #: includes/class.options.php:704
 msgid "Father-in-law"
-msgstr ""
+msgstr "Após"
 
 #: includes/class.options.php:705
 msgid "Friend"
-msgstr ""
+msgstr "Barát"
 
 #: includes/class.options.php:706
 msgid "Grand Daughter"
-msgstr "Barnebarn"
+msgstr "Lány unoka"
 
 #: includes/class.options.php:707
 msgid "Grand Father"
-msgstr "Bedstefar"
+msgstr "Nagyapa"
 
 #: includes/class.options.php:708
 msgid "Grand Mother"
-msgstr "Bedstemor"
+msgstr "Nagyanya"
 
 #: includes/class.options.php:709
 msgid "Grand Son"
-msgstr "Barnebarn"
+msgstr "Fiú unoka"
 
 #: includes/class.options.php:710
 msgid "Great Grand Mother"
-msgstr "Oldemor"
+msgstr "Üknagyanya"
 
 #: includes/class.options.php:711
 msgid "Great Grand Father"
-msgstr "Oldefar"
+msgstr "Üknagyapa"
 
 #: includes/class.options.php:712
 msgid "Husband"
-msgstr "Mand"
+msgstr "Férj"
 
 #: includes/class.options.php:713
 msgid "Mother"
-msgstr "Mor"
+msgstr "Anya"
 
 #: includes/class.options.php:714
 msgid "Mother-in-law"
-msgstr ""
+msgstr "Anyós"
 
 #: includes/class.options.php:715
 msgid "Nephew"
-msgstr "Nevø"
+msgstr "Unokaöcs"
 
 #: includes/class.options.php:716
 msgid "Niece"
-msgstr "Niece"
+msgstr "Unokahúg"
 
 #: includes/class.options.php:717
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #: includes/class.options.php:718
 msgid "Significant Other"
-msgstr ""
+msgstr "Más jelentős"
 
 #: includes/class.options.php:719
 msgid "Sister"
-msgstr "Søster"
+msgstr "Lánytestvér"
 
 #: includes/class.options.php:720
 msgid "Sister-in-law"
-msgstr ""
+msgstr "Sógornő"
 
 #: includes/class.options.php:721
 msgid "Spouse"
-msgstr ""
+msgstr "Hitves"
 
 #: includes/class.options.php:722
 msgid "Son"
-msgstr "Søn"
+msgstr "Fiú"
 
 #: includes/class.options.php:723
 msgid "Son-in-law"
-msgstr ""
+msgstr "Vő"
 
 #: includes/class.options.php:724
 msgid "Step Brother"
-msgstr "Stedbror"
+msgstr "Mostoha fiútestvér"
 
 #: includes/class.options.php:725
 msgid "Step Daughter"
-msgstr "Steddatter"
+msgstr "Mostoha lány"
 
 #: includes/class.options.php:726
 msgid "Step Father"
-msgstr "Stedfar"
+msgstr "Mostoha apa"
 
 #: includes/class.options.php:727
 msgid "Step Mother"
-msgstr "Stedmor"
+msgstr "Mostoha anya"
 
 #: includes/class.options.php:728
 msgid "Step Sister"
-msgstr "Stedsøster"
+msgstr "Mostoha lánytestvér"
 
 #: includes/class.options.php:729
 msgid "Step Son"
-msgstr "Stedsøn"
+msgstr "Mostoha fiú"
 
 #: includes/class.options.php:730
 msgid "Uncle"
-msgstr "Onkel"
+msgstr "Nagybácsi"
 
 #: includes/class.options.php:731
 msgid "Wife"
-msgstr "Kone"
+msgstr "Feleség"
 
 #: includes/class.options.php:758 includes/class.settings.php:83
 msgid "Home"
-msgstr "Hjemme"
+msgstr "Otthon"
 
 #: includes/class.options.php:759
 msgid "Work"
-msgstr "Arbejde"
+msgstr "Munka"
 
 #: includes/class.options.php:760
 msgid "School"
-msgstr "Skole"
+msgstr "Iskola"
 
 #: includes/class.options.php:761
 msgid "Other"
-msgstr "Andet"
+msgstr "Egyéb"
 
 #: includes/class.options.php:776
 msgid "Home Phone"
-msgstr "Telefon Hjemme"
+msgstr "Otthoni telefon"
 
 #: includes/class.options.php:777
 msgid "Home Fax"
-msgstr "Fax Hjemme"
+msgstr "Otthoni fax"
 
 #: includes/class.options.php:778
 msgid "Cell Phone"
-msgstr "Mobiltelefon"
+msgstr "Mobil telefon"
 
 #: includes/class.options.php:779
 msgid "Work Phone"
-msgstr "Telefon Arbejde"
+msgstr "Munkahelyi telefon"
 
 #: includes/class.options.php:780
 msgid "Work Fax"
-msgstr "Fax Arbejde"
+msgstr "Munkahelyi fax"
 
 #: includes/class.options.php:848
 msgid "Personal Email"
-msgstr "Personlig Email"
+msgstr "Személyes e-levélcím"
 
 #: includes/class.options.php:849
 msgid "Work Email"
-msgstr "Email Arbejde"
+msgstr "Munkahelyi e-levélcím"
 
 #: includes/class.options.php:864
 msgid "Website"
-msgstr "Webside"
+msgstr "Weboldal"
 
 #: includes/class.options.php:865
 msgid "Blog"
@@ -1357,59 +1393,59 @@ msgstr "Blog"
 
 #: includes/class.options.php:881
 msgid "Baptism"
-msgstr ""
+msgstr "Keresztség"
 
 #: includes/class.options.php:883
 msgid "Deceased"
-msgstr "Afdød"
+msgstr "Elhunyt"
 
 #: includes/class.options.php:884
 msgid "Certification"
-msgstr "Certificering"
+msgstr "Igazolás"
 
 #: includes/class.options.php:885
 msgid "Employment"
-msgstr "Beskæftigelse"
+msgstr "Foglalkozás"
 
 #: includes/class.options.php:886
 msgid "Membership"
-msgstr "Medlemsskab"
+msgstr "Tagság"
 
 #: includes/class.options.php:887
 msgid "Graduate High School"
-msgstr ""
+msgstr "Diplomás főiskola"
 
 #: includes/class.options.php:888
 msgid "Graduate College"
-msgstr ""
+msgstr "Diplomás iskola"
 
 #: includes/class.options.php:889
 msgid "Ordination"
-msgstr "Ordination"
+msgstr "Intézkedés"
 
 #: includes/class.output.php:132 includes/class.output.php:133
 msgid "Photo of"
-msgstr "Billede af"
+msgstr "fényképe"
 
 #: includes/class.output.php:205 includes/class.output.php:206
 msgid "Logo for"
-msgstr "Logo for"
+msgstr "Logója"
 
 #: includes/class.output.php:736 submenus/manage.php:629
 msgid "Contact"
-msgstr "Kontakt"
+msgstr "Kapcsolat"
 
 #: includes/class.output.php:2116
 msgid "Categories:"
-msgstr ""
+msgstr "Kategóriák:"
 
 #: includes/class.output.php:2282
 msgid "Add to Address Book."
-msgstr "Tilføj til kontaktlisten"
+msgstr "Címjegyzékhez ad."
 
 #: includes/class.output.php:2283
 msgid "Download vCard"
-msgstr "Download vCard"
+msgstr "vCard letöltése"
 
 #: includes/class.schema.php:115
 msgid ""
@@ -1418,121 +1454,128 @@ msgid ""
 "reassign that entry to this category. This category can not be edited or "
 "deleted."
 msgstr ""
+"A kategóriába nem sorolt bejegyzések automatikusan ide kerülnek. Kategória "
+"törlésekor az abban lévő bejegyzések is ide kerülnek. Ezt a kategóriát nem "
+"lehet törölni."
 
 #: includes/class.schema.php:117
 msgid "Uncategorized"
-msgstr "Ikke kategoriseret"
+msgstr "Nincs kategorizálva"
 
 #: includes/class.settings.php:28 includes/class.settings.php:114
 msgid "General"
-msgstr "General"
+msgstr "Általános"
 
 #: includes/class.settings.php:42
 msgid "Images"
-msgstr "Billeder"
+msgstr "Képek"
 
 #: includes/class.settings.php:49 includes/class.template-parts.php:409
 msgid "Search"
-msgstr "Søg"
+msgstr "Keresés"
 
 #: includes/class.settings.php:55
 msgid "Advanced"
-msgstr "Advanceret"
+msgstr "Haladó"
 
 #: includes/class.settings.php:92
 msgid "Require Login"
-msgstr ""
+msgstr "Bejelenetkezés szükséges"
 
 #: includes/class.settings.php:100
 msgid "Shortcode Visibility Overrides"
-msgstr ""
+msgstr "Gyorskód láthatósági felülbírálások"
 
 #: includes/class.settings.php:122
 msgid "Results List"
-msgstr ""
+msgstr "Eredménylista"
 
 #: includes/class.settings.php:130
 msgid "List Actions"
-msgstr ""
+msgstr "Lista műveletek"
 
 #: includes/class.settings.php:131
 msgid ""
 "Enable or disable various actions that are displayed above the result list."
 msgstr ""
+"Műveletek engedélyezése vagy letiltása, amik a találati lista fölött "
+"jelennek meg."
 
 #: includes/class.settings.php:138
 msgid "Entry Actions"
-msgstr ""
+msgstr "Bejegyzés műveletek"
 
 #: includes/class.settings.php:139
 msgid ""
 "Enable or disable various actions that are shown above the single entry."
 msgstr ""
+"Műveletek engedélyezése vagy letiltása, amik az egyes bejegyzések fölött "
+"jelennek meg."
 
 #: includes/class.settings.php:146
 msgid "Single Entry"
-msgstr ""
+msgstr "Egy bejegyzés"
 
 #: includes/class.settings.php:158
 msgid "Image and Logo Instructions"
-msgstr "Billede og Logoinstrukstioner"
+msgstr "Kép és logó utasítások"
 
 #: includes/class.settings.php:168
 msgid "Thumbnail Image"
-msgstr "Thumbnail billede"
+msgstr "Bélyegkép"
 
 #: includes/class.settings.php:176
 msgid "Medium Image"
-msgstr "Mellem billede"
+msgstr "Közepes kép"
 
 #: includes/class.settings.php:184
 msgid "Large Image"
-msgstr "Stort billede"
+msgstr "Nagy kép"
 
 #: includes/class.settings.php:204
 msgid "Search Fields"
-msgstr "Søgefelter"
+msgstr "Kereső mezők"
 
 #: includes/class.settings.php:216
 msgid "Permalink"
-msgstr "Permalink"
+msgstr "Közvetlen link"
 
 #: includes/class.settings.php:234
 msgid "Compatibility"
-msgstr "Kompatibilitet"
+msgstr "Kompatibilitás"
 
 #: includes/class.settings.php:243
 msgid "Debug"
-msgstr "Fejlsøg"
+msgstr "Hibakereső mód"
 
 #: includes/class.settings.php:273
 msgid "Page"
-msgstr "Side"
+msgstr "Oldal"
 
 #: includes/class.settings.php:277
 msgid "Select Page"
-msgstr "Vælg side"
+msgstr "Oldal kiválasztása"
 
 #: includes/class.settings.php:287
 msgid "Login Required"
-msgstr "Login Påkrævet"
+msgstr "Belépés szükséges"
 
 #: includes/class.settings.php:288
 msgid "Require registered users to login before showing the directory."
-msgstr ""
+msgstr "A felhasználóknak be kell lépniük a lista megtekintéséhez."
 
 #: includes/class.settings.php:301
 msgid "Message"
-msgstr "Besked"
+msgstr "Üzenet"
 
 #: includes/class.settings.php:302
 msgid ""
 "The message to display to site visitors or registered users not logged in."
-msgstr ""
+msgstr "A be nem lépett látogatóknak megjelenítendő üzenet."
 
 #: includes/class.settings.php:314
 msgid "Enable public_override"
-msgstr "Aktiver public_override"
+msgstr "public_override engedélyezése"
 
 #: includes/class.settings.php:315
 msgid ""
@@ -1544,10 +1587,15 @@ msgid ""
 "specific entries to the public. For security reasons this option is disabled "
 "by default. If checked, this enables this shortcode option."
 msgstr ""
+"Alapból minden publikus bejegyzése látható minden weboldal látogató, akkor "
+"is ha nincs belépve. Ha a „Belépés szükséges” opció engedélyezve van, akkor "
+"a <em>public_override</em> gyorskód opcióval lehet egy listázást publikussá "
+"tenni. Ez csak a megadott listázásra vonatkozik. Biztonsági okokból ez a "
+"gyorskód opció alapból nem engedélyezett."
 
 #: includes/class.settings.php:327
 msgid "Enable private_override"
-msgstr "Aktiver private_override"
+msgstr "private_override engedélyezése"
 
 #: includes/class.settings.php:328
 msgid ""
@@ -1559,6 +1607,9 @@ msgid ""
 "For security reasons this option is disabled by default. If checked, this "
 "enables this shortcode option."
 msgstr ""
+"A privát bejegyzéseket csak a belépett felhasználók láthatják. A "
+"<em>private_override</em> gyorskód opcióval felülbírálható a privát "
+"állapotuk. Biztonsági okoból ez a gyorskód opció alapból nincs engedélyezve."
 
 #: includes/class.settings.php:344
 msgid "Date Format"
@@ -1572,35 +1623,39 @@ msgstr ""
 
 #: includes/class.settings.php:359
 msgid "Character Index"
-msgstr ""
+msgstr "Karakter jegyzék"
 
 #: includes/class.settings.php:360
 msgid "Show the character index at the top of the results list."
-msgstr ""
+msgstr "Karakter jegyék megjelenítése a találati lista fölött."
 
 #: includes/class.settings.php:373
 msgid "Repeat the character index at the beginning of each character group."
-msgstr ""
+msgstr "Karakter jegyzés megismétlése minden karaktercsoport elején."
 
 #: includes/class.settings.php:386
 msgid "Show the current character at the beginning of each character group."
-msgstr ""
+msgstr "Az aktuális karakter megjelenítése minden karaktercsoport elején."
 
 #: includes/class.settings.php:400
 msgid ""
 "Show a \"View All\" link. When this option is enabled a \"View All\" link "
 "will be displayed."
 msgstr ""
+"„Mutasd mindet” hivatkozás megjelenítése. Ha engedélyezve van, akkor "
+"megjelenik a hivatkozás."
 
 #: includes/class.settings.php:414
 msgid "Show the \"Back to Directory\" link."
-msgstr ""
+msgstr "„Vissza a listához” hivatkozás megjelenítése."
 
 #: includes/class.settings.php:427
 msgid ""
 "Show the \"Add to Address Book\" link. This link allows the download of the "
 "entry's vCard."
 msgstr ""
+"„Címjegyzékhez ad” hivatkozás megjelenítése. Ezzel a hivatkozással lehet "
+"letölteni a bejegyzés vCard-ját."
 
 #: includes/class.settings.php:441
 msgid ""
@@ -1609,100 +1664,103 @@ msgid ""
 "template that is activated for the \"Organization\" template type found on "
 "the Connections : Templates admin page."
 msgstr ""
+"Egy bejegyzés megjelenítése az aktív sablon és a bejegyzés típusa alapján. "
+"Például, ha a bejegyzés szervezet, akkor a Connections: Sablonok admin "
+"oldalon a szervezetekhez kiválaszott sablon lesz használva."
 
 #: includes/class.settings.php:457 includes/class.settings.php:518
 #: includes/class.settings.php:579 includes/class.settings.php:640
 msgid "JPEG Quality"
-msgstr "JPEG Kvalitet"
+msgstr "JPEG minőség"
 
 #: includes/class.settings.php:472 includes/class.settings.php:533
 #: includes/class.settings.php:594 includes/class.settings.php:655
 msgid "Width"
-msgstr "Bredde"
+msgstr "Szélesség"
 
 #: includes/class.settings.php:473 includes/class.settings.php:487
 #: includes/class.settings.php:534 includes/class.settings.php:548
 #: includes/class.settings.php:595 includes/class.settings.php:609
 #: includes/class.settings.php:656 includes/class.settings.php:670
 msgid "px"
-msgstr "px"
+msgstr "képpont"
 
 #: includes/class.settings.php:486 includes/class.settings.php:547
 #: includes/class.settings.php:608 includes/class.settings.php:669
 msgid "Height"
-msgstr "Højde"
+msgstr "Magasság"
 
 #: includes/class.settings.php:500 includes/class.settings.php:561
 #: includes/class.settings.php:622 includes/class.settings.php:683
 msgid "Ratio"
-msgstr ""
+msgstr "Arány"
 
 #: includes/class.settings.php:505 includes/class.settings.php:566
 #: includes/class.settings.php:627 includes/class.settings.php:688
 msgid "Crop, maintain aspect ratio."
-msgstr ""
+msgstr "Levágás, arány megtartásával."
 
 #: includes/class.settings.php:506 includes/class.settings.php:567
 #: includes/class.settings.php:628 includes/class.settings.php:689
 msgid "Fill, maintain aspect ratio."
-msgstr ""
+msgstr "Kitöltés, arány megtartásával."
 
 #: includes/class.settings.php:507 includes/class.settings.php:568
 #: includes/class.settings.php:629 includes/class.settings.php:690
 msgid "None, scale to fit."
-msgstr ""
+msgstr "Nincs, nyújtás a kitöltéshez."
 
 #: includes/class.settings.php:705
 msgid "Fields"
-msgstr "Felter"
+msgstr "Mezők"
 
 #: includes/class.settings.php:706
 msgid "The selected fields will be searched."
-msgstr "De udvalgte felter vil blive gennemsøgt."
+msgstr "A kijelölt mezőkben lesz keresve."
 
 #: includes/class.settings.php:719
 msgid "Biography"
-msgstr "Biografi"
+msgstr "Életrajz"
 
 #: includes/class.settings.php:721
 msgid "Address Line One"
-msgstr "Adresselinie Et"
+msgstr "Cím 1. sor"
 
 #: includes/class.settings.php:722
 msgid "Address Line Two"
-msgstr "Adresselinie To"
+msgstr "Cím 2. sor"
 
 #: includes/class.settings.php:723
 msgid "Address Line Three"
-msgstr "Adresselinie Tre"
+msgstr "Cím 3. sor"
 
 #: includes/class.settings.php:724
 msgid "Address City"
-msgstr "Adresse By"
+msgstr "Cím település"
 
 #: includes/class.settings.php:725
 msgid "Address State"
-msgstr "Adresse Stat"
+msgstr "Cím állam/megye"
 
 #: includes/class.settings.php:726
 msgid "Address Zip Code"
-msgstr "Adresse Porstnummer"
+msgstr "Cím irányítószám"
 
 #: includes/class.settings.php:727
 msgid "Address Country"
-msgstr "Adresse Land"
+msgstr "Cím ország"
 
 #: includes/class.settings.php:761
 msgid "FULLTEXT"
-msgstr ""
+msgstr "FULLTEXT"
 
 #: includes/class.settings.php:762
 msgid "Enable FULLTEXT query support."
-msgstr ""
+msgstr "FULLTEXT támogatása a lekérdezésekben."
 
 #: includes/class.settings.php:775
 msgid "Keyword Search"
-msgstr "Zoeken"
+msgstr "Kulcsszavas keresés"
 
 #: includes/class.settings.php:776
 msgid ""
@@ -1715,54 +1773,62 @@ msgid ""
 "characters or less will be ignored. This can not be changed as this is a "
 "database limitation."
 msgstr ""
+"Keresés LIKE módszerrel. Ezen opció letiltásával javulhat a keresési "
+"eredmény, ha a kiszolgáló támogatja a FULLTEXT lekérdezéseket. Ha letiltja "
+"ezt az opciót, és a keresések eredménytelenek lesznek, az azt jelzni, hogy a "
+"kiszolgáló nem támogatja a FULLTEXT lekérdezéseket. Ebben az esetben "
+"engedélyezze ezt az opcót, és tiltsa le a FULLTEXT opciót. MEGJEGYZÉS: ha a "
+"FULLTEXT opció le van tiltva, akkor ennek engedélyezve kell lennie. Továbbá "
+"a három vagy kevesebb karakterből álló kifejezéseket a keresés nem veszi "
+"figyelembe. Ezt nem lehet módosítani, mert ez egy adatbázis korlát."
 
 #: includes/class.settings.php:792
 msgid "Character Base"
-msgstr ""
+msgstr "Karakter bázis"
 
 #: includes/class.settings.php:793
 msgid "Enter a custom structure for the initial character in the URL."
-msgstr ""
+msgstr "Adjon meg egyedi struktúrát az URL kezdő karakteréhez."
 
 #: includes/class.settings.php:807
 msgid "Category Base"
-msgstr "Kategori Base"
+msgstr "Kategória alap"
 
 #: includes/class.settings.php:808
 msgid "Enter a custom structure for the category in the URL."
-msgstr ""
+msgstr "Adjon meg egyedi struktúrát az URL-ben lévő kategóriához."
 
 #: includes/class.settings.php:821
 msgid "Country Base"
-msgstr "Land Base"
+msgstr "Ország alap"
 
 #: includes/class.settings.php:822
 msgid "Enter a custom structure for the country in the URL."
-msgstr ""
+msgstr "Adjon meg egyedi struktúrát az URL-ben lévő országhoz."
 
 #: includes/class.settings.php:835
 msgid "Region Base"
-msgstr "Region Base"
+msgstr "Régió alap"
 
 #: includes/class.settings.php:836
 msgid "Enter a custom structure for the region (state/province) in the URL."
-msgstr ""
+msgstr "Adjon meg egyedi struktúrát az URL-ben lévő régióhoz (állam/megye)."
 
 #: includes/class.settings.php:849
 msgid "Locality Base"
-msgstr ""
+msgstr "Helyzet alap"
 
 #: includes/class.settings.php:850
 msgid "Enter a custom structure for the locality (city) in the URL."
-msgstr ""
+msgstr "Adjon meg egyedi struktúrát az URL-ben lévő helyzethez (település)."
 
 #: includes/class.settings.php:863
 msgid "Postal Code Base"
-msgstr "Postnummer Base"
+msgstr "Irányítószám alap"
 
 #: includes/class.settings.php:864
 msgid "Enter a custom structure for the postal code in the URL."
-msgstr ""
+msgstr "Adjon meg egyedi struktúrát az URL-ben lévő irányítószámhoz."
 
 #: includes/class.settings.php:877
 msgid "Organization Base"
@@ -1782,17 +1848,20 @@ msgstr ""
 
 #: includes/class.settings.php:905
 msgid "Name Base"
-msgstr "Navn Base"
+msgstr "Név alap"
 
 #: includes/class.settings.php:906
 msgid "Enter a custom structure for the entry slug in the URL."
-msgstr ""
+msgstr "Adjon meg egyedi struktúrát az URL-ben lévő bejegyzés slug-hoz."
 
 #: includes/class.settings.php:921
 msgid ""
 "Enabling this option will turn the name of every entry into a link. Clicking "
 "the link will take you to the page with only that entry."
 msgstr ""
+"Az opció engedélyezésével minden bejegyzés neve hivatkozás lesz. A "
+"hivatkozásra kattintva egy olyan oldalra jut, ahol csak az a bejegyzés "
+"szerepel."
 
 #: includes/class.settings.php:934
 msgid ""
@@ -1844,7 +1913,7 @@ msgstr ""
 
 #: includes/class.settings.php:1012
 msgid "Telephone Number"
-msgstr ""
+msgstr "Telefonszám"
 
 #: includes/class.settings.php:1013
 msgid ""
@@ -1852,6 +1921,9 @@ msgid ""
 "clicked by the user on a mobile phone or computer with a telephony "
 "application installed will dial the number."
 msgstr ""
+"Az opció engedélyezésével minden telefonszámból hivatkozás lesz, amire "
+"mobilon (vagy telefon alkalmazást tartalmazó PC-n) kattintva az adott szám "
+"hívása kezdődik."
 
 #: includes/class.settings.php:1026
 msgid "Google Maps API v3"
@@ -1864,6 +1936,10 @@ msgid ""
 "could prevent potential conflicts. NOTE: This only applies to templates that "
 "utilize Google Maps."
 msgstr ""
+"Ha az aktív sablon vagy egy másik bővítmény betölti a v3-as Google Maps API-"
+"t, akkor itt letilthatja, hogy a Connections is betöltse azt. Ezzel "
+"esetleges ütközések kerülhetők el. MEGJEGYZÉS: ez csak azokra a sablonokra "
+"vonatkozik, amik használják a Google térképet."
 
 #: includes/class.settings.php:1039
 msgid "JavaScript"
@@ -1874,6 +1950,8 @@ msgid ""
 "By default Connections loads it's JavaScripts in the page footer uncheck "
 "this box to load them in the page header."
 msgstr ""
+"Alapból a Connections az oldalak végén tölti be a javascriptjét. Ha nincs "
+"bejelölve ez az opció, akkor az elején fogja."
 
 #: includes/class.settings.php:1053
 msgid ""
@@ -1881,6 +1959,9 @@ msgid ""
 "the content not to render correctly. If the templates do not display as "
 "expected try enabling this option."
 msgstr ""
+"Egyes sablonok elronthatják a bővítmények gyorskódjait (shortcode), így nem "
+"megfelelően jelenik meg a tartalom. Ha nem jól jelennek meg a sablonok, "
+"akkor meg lehet próbálni engedélyezni ezt az opciót."
 
 #: includes/class.settings.php:1066
 msgid ""
@@ -1889,312 +1970,322 @@ msgid ""
 "in breaking plugins. Enabling this option will attempt to fix this issue. "
 "You should only enable this option at the direction of support."
 msgstr ""
+"A sablonok és a bővítmények néha betöltenek a WordPress-től független jQuery "
+"verziót. Ez általában rossz kódolásnak minősül, és akadályozhatja a "
+"bővítmények működését. Ezen opció engedélyezésével megpróbálhatja "
+"megszüntetni ezt a problémát. Csak a támogató technikus utasítására "
+"kapcsolja be ezt az opciót."
 
 #: includes/class.settings.php:1078
 msgid "Debug Messages"
-msgstr "Fejlfindningsbeskeder"
+msgstr "Hibakereső üzenetek"
 
 #: includes/class.settings.php:1079
 msgid "Display debug messages."
-msgstr "Vis Fejlfindingsbeskeder"
+msgstr "Hibakereső üzenetek megjelenítése."
 
 #: includes/class.template-parts.php:64
 msgid "View All"
-msgstr "Bekijk alles"
+msgstr "Összes megtekintése"
 
 #: includes/class.template-parts.php:117
 msgid "Go back to directory."
-msgstr ""
+msgstr "Vissza a listához."
 
 #: includes/class.template-parts.php:162 includes/inc.shortcodes.php:661
 msgid "No results."
-msgstr "Ingen resultater"
+msgstr "Nincsenek találatok."
 
 #: includes/class.template-parts.php:223 includes/class.template-parts.php:224
 msgid "Return to top."
-msgstr "Gå til toppen af siden"
+msgstr "Vissza a felső szintre."
 
 #: includes/class.template-parts.php:302
 #, php-format
 msgid "Updated %1$s ago."
-msgstr ""
+msgstr "Frissítve %1$s ezelőtt."
 
 #: includes/class.template-parts.php:438
 msgid "Submit"
-msgstr "Indsend"
+msgstr "Elküldés"
 
 #: includes/class.template-parts.php:538
 msgid "Current Character"
-msgstr ""
+msgstr "Aktuális karakter"
 
 #: includes/class.template-parts.php:661
 msgid "First Page"
-msgstr "Første side"
+msgstr "Első oldal"
 
 #: includes/class.template-parts.php:662
 msgid "Previous Page"
-msgstr "Forrige side"
+msgstr "Előző oldal"
 
 #: includes/class.template-parts.php:664
 msgid "Current Page"
-msgstr "Nuværende side"
+msgstr "Aktuális oldal"
 
 #: includes/class.template-parts.php:664 submenus/manage.php:366
 msgid "of"
-msgstr "af"
+msgstr "/"
 
 #: includes/class.template-parts.php:666
 msgid "Next Page"
-msgstr "Næste side"
+msgstr "Következő oldal"
 
 #: includes/class.template-parts.php:667
 msgid "Last Page"
-msgstr "Sidste side"
+msgstr "Utolsó oldal"
 
 #: includes/class.template-parts.php:706 includes/class.template-parts.php:797
 msgid "Select Category"
-msgstr "Vælg kategori"
+msgstr "Kategóriaválasztás"
 
 #: includes/class.template-parts.php:708 includes/class.template-parts.php:799
 #: submenus/manage.php:286
 msgid "Show All Categories"
-msgstr "Vis alle kategorier"
+msgstr "Mutasd az összes kategóriát"
 
 #: includes/inc.shortcodes.php:61
 msgid "Future home of the landing pages, such a list of categories."
-msgstr ""
+msgstr "A landing oldalak leendő főoldala, például kategóriák listája."
 
 #: includes/inc.shortcodes.php:214 includes/inc.shortcodes.php:620
 #, php-format
 msgid "ERROR: Template %1$s not found."
-msgstr ""
+msgstr "HIBA: %1$s sablon nem található."
 
 #: includes/inc.upgrade.php:27
 msgid "Upgrade"
-msgstr ""
+msgstr "Frissítés"
 
 #: includes/inc.upgrade.php:39
 msgid "Upgrade Required"
-msgstr "Opgradering Påkrævet"
+msgstr "Frissítés szükséges"
 
 #: includes/inc.upgrade.php:40
 msgid ""
 "Your database tables are out of date and must be upgraded before you can "
 "continue."
 msgstr ""
+"Az adatbázis táblák szerkezete nem aktuális, és a folytatáshoz frissíteni "
+"kell őket."
 
 #: includes/inc.upgrade.php:41
 msgid ""
 "If you would like to downgrade later, please first make a complete backup of "
 "your database tables."
 msgstr ""
+"Ha később vissza szeretne térni a bővítmény egy korábbi verziójára, akkor "
+"most készítsen mentést az adatbázis táblákról."
 
 #: includes/inc.upgrade.php:42
 msgid "Start Upgrade"
-msgstr ""
+msgstr "Frissítés indítása"
 
 #: includes/inc.upgrade.php:68
 msgid "Upgrade the database structure..."
-msgstr "Opgrader databasestrukturen"
+msgstr "Adatbázis szerkezet frissítése..."
 
 #: includes/inc.upgrade.php:74
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.0."
-msgstr "Opgrader fra database version %1$s til database version 0.1.0."
+msgstr "Frissítés %1$s adatbázis verzióról, 0.1.0 adatbázis verzióra ."
 
 #: includes/inc.upgrade.php:78
 msgid "Changing \"id\" type-length/values to BIGINT(20)"
-msgstr ""
+msgstr "Az „id” típusú mezők új hossza BIGINT(20)"
 
 #: includes/inc.upgrade.php:81
 msgid "Adding Column... \"date_added\""
-msgstr ""
+msgstr "Új oszlop... „date_added”"
 
 #: includes/inc.upgrade.php:84
 msgid "Adding Column... \"entry_type\""
-msgstr ""
+msgstr "Új oszlop... „entry_type”"
 
 #: includes/inc.upgrade.php:87
 msgid "Adding Column... \"honorable_prefix\""
-msgstr ""
+msgstr "Új oszlop... „honorable_prefix”"
 
 #: includes/inc.upgrade.php:90
 msgid "Adding Column... \"middle_name\""
-msgstr ""
+msgstr "Új oszlop... „middle_name”"
 
 #: includes/inc.upgrade.php:93
 msgid "Adding Column... \"honorable_suffix\""
-msgstr ""
+msgstr "Új oszlop... „honorable_suffix”"
 
 #: includes/inc.upgrade.php:96
 msgid "Adding Column... \"social\""
-msgstr ""
+msgstr "Új oszlop... „social”"
 
 #: includes/inc.upgrade.php:99
 msgid "Adding Column... \"added_by\""
-msgstr ""
+msgstr "Új oszlop... „added_by”"
 
 #: includes/inc.upgrade.php:102
 msgid "Adding Column... \"edited_by\""
-msgstr ""
+msgstr "Új oszlop... „edited_by”"
 
 #: includes/inc.upgrade.php:105
 msgid "Adding Column... \"owner\""
-msgstr ""
+msgstr "Új oszlop... „owner”"
 
 #: includes/inc.upgrade.php:108
 msgid "Adding Column... \"status\""
-msgstr ""
+msgstr "Új oszlop... „status”"
 
 #: includes/inc.upgrade.php:111
 msgid "Adding Column... \"contact_first_name\""
-msgstr ""
+msgstr "Új oszlop... „contact_first_name”"
 
 #: includes/inc.upgrade.php:114
 msgid "Adding Column... \"contact_last_name\""
-msgstr ""
+msgstr "Új oszlop... „contact_last_name”"
 
 #: includes/inc.upgrade.php:118
 msgid "Adding default term relationship."
-msgstr ""
+msgstr "Alap term hozzárendelés megadása."
 
 #: includes/inc.upgrade.php:138
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.1."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.1 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:140
 msgid "Setting all current entries to the \"approved\" status."
-msgstr ""
+msgstr "Minden bejegyzés állapotának beállítása „jóváhagyott”-ra"
 
 #: includes/inc.upgrade.php:151
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.2."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.2 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:153
 msgid "Setting all current entries `entry_type` column."
-msgstr ""
+msgstr "MInden bejegyzés `entry_type` oszlopának megadása."
 
 #: includes/inc.upgrade.php:180
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.3."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.3 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:183
 msgid "Changing column name from group_name to family_name..."
-msgstr ""
+msgstr "Oszlop átnevezése `group_name`-ről `family_name`-re..."
 
 #: includes/inc.upgrade.php:192
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.4."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.4 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:195
 msgid "Changing column name from honorable_prefix to honorific_prefix..."
-msgstr ""
+msgstr "Oszlop átnevezése `honorable_prefix`-ről `honorific_prefix`-re..."
 
 #: includes/inc.upgrade.php:198
 msgid "Changing column name from honorable_suffix to honorific_suffix..."
-msgstr ""
+msgstr "Oszlop átnevezése `honorable_suffix`-ről `honorific_suffix`-re..."
 
 #: includes/inc.upgrade.php:210
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.5."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.5 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:215
 msgid "Add the entry meta table."
-msgstr ""
+msgstr "Bejegyzés meta tábla létrehozása."
 
 #: includes/inc.upgrade.php:239
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.6."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.6 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:244
 msgid "Add the entry address table."
-msgstr ""
+msgstr "Bejegyzés címek tábla létrehozása."
 
 #: includes/inc.upgrade.php:268
 msgid "Porting addresses..."
-msgstr ""
+msgstr "Címek áthozása..."
 
 #: includes/inc.upgrade.php:335
 msgid "Porting phone numbers..."
-msgstr ""
+msgstr "Telefonszámok áthozása..."
 
 #: includes/inc.upgrade.php:372
 msgid "Add the entry email table."
-msgstr ""
+msgstr "Bejegyzés e-levélcímek tábla létrehozása."
 
 #: includes/inc.upgrade.php:388
 msgid "Porting email addresses..."
-msgstr ""
+msgstr "E-levélcímek "
 
 #: includes/inc.upgrade.php:425
 msgid "Add the entry messenger table."
-msgstr ""
+msgstr "Bejegyzés üzenetküldők tábla létrehozása."
 
 #: includes/inc.upgrade.php:441
 msgid "Porting IM IDs..."
-msgstr ""
+msgstr "IM azonosítók áthozása..."
 
 #: includes/inc.upgrade.php:476
 msgid "Add the entry social media table."
-msgstr ""
+msgstr "Bejegyzés szociális média tábla létrehozása."
 
 #: includes/inc.upgrade.php:492
 msgid "Porting Social Media IDs..."
-msgstr ""
+msgstr "Szociális média azonosítók áthozása..."
 
 #: includes/inc.upgrade.php:527
 msgid "Add the entry link table."
-msgstr ""
+msgstr "Bejegyzés hivatkozások tábla létrehozása."
 
 #: includes/inc.upgrade.php:546
 msgid "Porting websites..."
-msgstr ""
+msgstr "Webcímek áthozása..."
 
 #: includes/inc.upgrade.php:586
 msgid "Changing column name from websites to links..."
-msgstr ""
+msgstr "Oszlop átnevezése `websites`-ről `links`-re..."
 
 #: includes/inc.upgrade.php:589
 msgid "Adding column... \"slug\""
-msgstr ""
+msgstr "Új oszlop... „slug”"
 
 #: includes/inc.upgrade.php:592
 msgid "Adding entry slugs..."
-msgstr ""
+msgstr "Bejegyzés slug-ok kitöltése..."
 
 #: includes/inc.upgrade.php:674
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.7."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.7 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:678
 msgid "Adding column \"image\" to the links table."
-msgstr ""
+msgstr "„image” oszlop hozzáadása a `links` táblához."
 
 #: includes/inc.upgrade.php:681
 msgid "Adding column \"logo\" to the links table."
-msgstr ""
+msgstr "„logo” oszlop hozzáadása a `links` táblához."
 
 #: includes/inc.upgrade.php:713
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.8."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.8 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:715
 msgid "NOTE"
-msgstr "NOTE"
+msgstr "MEGJEGYZÉS"
 
 #: includes/inc.upgrade.php:715
 msgid ""
 "You might receive this error: \"The used table type doesn't support FULLTEXT "
 "indexes\"."
 msgstr ""
+"Ez a hibaüzenet megjelenhet: „A tábla nem támogatja a FULLTEXT indexelést.”."
 
 #: includes/inc.upgrade.php:717
 msgid ""
@@ -2202,6 +2293,9 @@ msgid ""
 "support FULLTEXT query statments. Connections will perform a secondary "
 "search query in order to return search results."
 msgstr ""
+"Ez nem kritikus hiba. Csak annyit jelent, hogy az adatbázis nem támogatja a "
+"FULLTEXT lekérdezéseket. A Connections egy második lekérdezést futtat, hogy "
+"tudjon visszaadni eredményeket."
 
 #: includes/inc.upgrade.php:731
 msgid ""
@@ -2209,203 +2303,212 @@ msgid ""
 "created a fatal bug for new installations of Connections. Checking for the "
 "missing table columns in the Links table and add them, if missing."
 msgstr ""
+"A Connections 0.7.2.2 aktiválása nem volt hibátlan, így a Connections "
+"későbbi verzió nem tudnak működni. Ennek javítására most újra kiegészítjük a "
+"`links` táblát, ha szükséges."
 
 #: includes/inc.upgrade.php:734
 msgid "Adding, if missing, column \"image\" to the links table."
-msgstr ""
+msgstr "„image” oszlop hozzáadása a `links` táblához, ha még nem létezik."
 
 #: includes/inc.upgrade.php:737
 msgid "Adding, if missing, column \"logo\" to the links table."
-msgstr ""
+msgstr "„logo” oszlop hozzáadása a `links` táblához, ha még nem létezik."
 
 #: includes/inc.upgrade.php:749
 #, php-format
 msgid "Upgrade from database version %1$s to database version 0.1.9."
-msgstr ""
+msgstr "Frissítés %1$s adatbázis verzióról 0.1.9 adatbázis verzióra."
 
 #: includes/inc.upgrade.php:754
 msgid "Add the date table."
-msgstr ""
+msgstr "Dátumok tábla létrehozása."
 
 #: includes/inc.upgrade.php:771
 msgid "Adding column... \"user\""
-msgstr ""
+msgstr "Új oszlop... „user”"
 
 #: includes/inc.upgrade.php:774
 msgid "Adding column... \"dates\""
-msgstr ""
+msgstr "Új oszlop... „dates”"
 
 #: includes/inc.upgrade.php:787
 msgid "Upgrade completed."
-msgstr "Opgradering gennemført"
+msgstr "Frissítés kész."
 
 #: includes/inc.upgrade.php:788
 msgid "Continue"
-msgstr "Fortsæt"
+msgstr "Folytatás"
 
 #: includes/inc.upgrade.php:831
 #, php-format
 msgid "Could not add column %1$s in table %2$s."
-msgstr ""
+msgstr "Nem sikerült a „%1$s” oszlop hozzáadása a `%2$s` táblához."
 
 #: submenus/categories.php:43
 msgid "Edit Category"
-msgstr ""
+msgstr "Kategória szerkesztése"
 
 #: submenus/categories.php:61
 msgid "Update Category"
-msgstr ""
+msgstr "Kategória frissítése"
 
 #: submenus/categories.php:94 submenus/manage.php:389
 msgid "Bulk Actions"
-msgstr "Masseredigeringer"
+msgstr "Csoportos műveletek"
 
 #: submenus/categories.php:97 submenus/manage.php:412
 msgid "Apply"
-msgstr "Anvend"
+msgstr "Alkalmaz"
 
 #: submenus/categories.php:112 submenus/categories.php:122
 msgid "Info"
-msgstr ""
+msgstr "Infó"
 
 #: submenus/categories.php:153
 msgid ""
 "<strong>Note:</strong><br/>Deleting a category which has been assigned to an "
 "entry will reassign that entry as <strong>Uncategorized</strong>."
 msgstr ""
+"<strong>Megjegyzés:</strong><br/>Kategória törlésekor a benne lévő "
+"bejegyzések a „Nincs kategorizálva” kategóriába kerülnek át."
 
 #: submenus/categories.php:162 submenus/categories.php:177
 msgid "Add New Category"
-msgstr ""
+msgstr "Új kategória hozzáadása"
 
 #: submenus/manage.php:76 submenus/manage.php:151
 msgid ""
 "<strong>ERROR:</strong> You are not authorized to add entries. Please "
 "contact the admin if you received this message in error."
 msgstr ""
+"<strong>HIBA:</strong> Nincs jogosultsága bejegyzések létrehozásához. Ha ez "
+"hiba, akkor lépjen kapcsolatba az adminisztrátorral."
 
 #: submenus/manage.php:84
 msgid "Copy Entry"
-msgstr "Kopier Post"
+msgstr "Bejegyzés másolása"
 
 #: submenus/manage.php:227
 msgid ""
 "<strong>ERROR:</strong> You are not authorized to edit entries. Please "
 "contact the admin if you received this message in error."
 msgstr ""
+"<strong>HIBA:</strong> Nincs jogosultsága bejegyzések szerkesztéséhez. Ha ez "
+"hiba, akkor lépjen kapcsolatba az adminisztrátorral."
 
 #: submenus/manage.php:240
 msgid "Add New"
-msgstr "Tilføj ny"
+msgstr "Új"
 
 #: submenus/manage.php:265 submenus/templates.php:38
 msgid "All"
-msgstr ""
+msgstr "Mind"
 
 #: submenus/manage.php:266
 msgid "Approved"
-msgstr ""
+msgstr "Jóváhagyott"
 
 #: submenus/manage.php:267
 msgid "Moderate"
-msgstr ""
+msgstr "Moderál"
 
 #: submenus/manage.php:274 submenus/manage.php:276
 msgid "Search Entries"
-msgstr ""
+msgstr "Bejegyzések keresése"
 
 #: submenus/manage.php:293
 msgid "Show All Entries"
-msgstr ""
+msgstr "Minden bejegyzés mutatása"
 
 #: submenus/manage.php:294
 msgid "Show Individuals"
-msgstr "Vis Enkeltpersoner"
+msgstr "Személyek mutatása"
 
 #: submenus/manage.php:295
 msgid "Show Organizations"
-msgstr "Vis Organisationer"
+msgstr "Szervezetek mutatása"
 
 #: submenus/manage.php:296
 msgid "Show Families"
-msgstr "Vis Familier"
+msgstr "Családok mutatása"
 
 #: submenus/manage.php:304
 msgid "Show Public"
-msgstr "Vis Offentlige"
+msgstr "Nyilvánosak mutatása"
 
 #: submenus/manage.php:305
 msgid "Show Private"
-msgstr "Vis Private"
+msgstr "Privátok mutatása"
 
 #: submenus/manage.php:306
 msgid "Show Unlisted"
-msgstr "Vis ikke-listede"
+msgstr "Nem-listázottak mutatása"
 
 #: submenus/manage.php:312
 msgid "Show All"
-msgstr "Vis alle"
+msgstr "Mindent mutat"
 
 #: submenus/manage.php:325
 #, php-format
 msgid "Displaying %1$d of %2$d entries."
-msgstr "Viser %1$d af %2$d poster."
+msgstr "%1$d / %2$d bejegyzés megjelnítve."
 
 #: submenus/manage.php:363
 msgid "Go to the first page."
-msgstr "Gå til første side."
+msgstr "Ugorj az első oldalra."
 
 #: submenus/manage.php:364
 msgid "Go to the previous page."
-msgstr "Gå til den forrige side."
+msgstr "Ugorj az előző oldalra."
 
 #: submenus/manage.php:366
 msgid "Current page"
-msgstr "Nuværende side"
+msgstr "Aktuális oldal"
 
 #: submenus/manage.php:368
 msgid "Go to the next page."
-msgstr "Gå til næste side."
+msgstr "Ugorj a következő oldalra."
 
 #: submenus/manage.php:369
 msgid "Go to the last page."
-msgstr "Gå til den sidste side."
+msgstr "Ugorj az utolsó oldalra."
 
 #: submenus/manage.php:394 submenus/manage.php:526
 msgid "Unapprove"
-msgstr "Godkend Ikke"
+msgstr "Jóváhagyás visszavonása"
 
 #: submenus/manage.php:395 submenus/manage.php:527
 msgid "Approve"
-msgstr "Godkend"
+msgstr "Jóváhagy"
 
 #: submenus/manage.php:396
 msgid "Set Public"
-msgstr "Gør offentligt"
+msgstr "Publikussá tesz"
 
 #: submenus/manage.php:397
 msgid "Set Private"
-msgstr "Gør privat"
+msgstr "Priváttá tesz"
 
 #: submenus/manage.php:398
 msgid "Set Unlisted"
-msgstr "Angiv ulistet"
+msgstr "Nem-listázottá tesz"
 
 #: submenus/manage.php:423
 msgid "Filter by character:"
-msgstr ""
+msgstr "Szűrés karakter alapján:"
 
 #: submenus/manage.php:438 submenus/manage.php:447
 msgid "Last Modified"
-msgstr ""
+msgstr "Utoljára módosítva"
 
 #: submenus/manage.php:499
 msgid "No Photo Available"
-msgstr "Intet billede tilgængeligt"
+msgstr "Nincs kép megadva"
 
 #: submenus/manage.php:516
 msgid "Show Details"
-msgstr "Vis detaljer"
+msgstr "Részletek mutatása"
 
 #: submenus/manage.php:517
 msgid "vCard"
@@ -2414,19 +2517,19 @@ msgstr "vCard"
 #: submenus/manage.php:520
 #, php-format
 msgid "View %s"
-msgstr "Se %s"
+msgstr "Megnéz %s"
 
 #: submenus/manage.php:521
 msgid "View"
-msgstr "Vis"
+msgstr "Megnéz"
 
 #: submenus/manage.php:530
 msgid "Copy"
-msgstr "Kopiér"
+msgstr "Másol"
 
 #: submenus/manage.php:563
 msgid "By"
-msgstr "af"
+msgstr "Szerző:"
 
 #: submenus/manage.php:585
 msgid "Linked to:"
@@ -2434,64 +2537,64 @@ msgstr ""
 
 #: submenus/manage.php:747
 msgid "Bio"
-msgstr "Bio"
+msgstr "Életrajz"
 
 #: submenus/manage.php:751
 msgid "Entry ID"
-msgstr "Post-id"
+msgstr "Bejegyzés ID"
 
 #: submenus/manage.php:752
 msgid "Entry Slug"
-msgstr "Post Slug"
+msgstr "Bejegyzés slug"
 
 #: submenus/manage.php:753
 msgid "Date Added"
-msgstr "Tilføjelsesdato"
+msgstr "Létrehozás dátuma"
 
 #: submenus/manage.php:754
 msgid "Added By"
-msgstr "Tilføjet af"
+msgstr "Létrehozta"
 
 #: submenus/manage.php:755
 msgid "Image Linked"
-msgstr "Billede linket"
+msgstr "Kép csatolva"
 
 #: submenus/roles.php:31
 msgid "Roles &amp; Capabilities"
-msgstr ""
+msgstr "Szerepek és jogosultságok"
 
 #: submenus/roles.php:48
 msgid "Save Changes or Reset"
-msgstr ""
+msgstr "Változások mentése és visszaállítása"
 
 #: submenus/roles.php:56
 msgid "Reset All Role Capabilities"
-msgstr ""
+msgstr "Minden szerep jogosultságát állítsa alaphelyzetbe"
 
 #: submenus/roles.php:108
 #, php-format
 msgid "Reset %s Capabilities"
-msgstr "Nulstil %s Kapaciteter"
+msgstr "%s jogosultságait alaphelyzetbe állítani"
 
 #: submenus/templates.php:35
 msgid "Get More"
-msgstr ""
+msgstr "Több beszerzése"
 
 #: submenus/templates.php:52
 msgid "Current Template"
-msgstr ""
+msgstr "Aktuális sablon"
 
 #: submenus/templates.php:70 submenus/templates.php:158
 msgid "Thumbnail Not Available"
-msgstr ""
+msgstr "Bélyegkép nem érhető el"
 
 #: submenus/templates.php:75
 msgid "Visit author's homepage."
-msgstr "Besøg forfatterens hjemmeside."
+msgstr "Szerző weboldalának meglátogatása."
 
 #: submenus/templates.php:94
 msgid "Instructions"
-msgstr "Instructies"
+msgstr "Utasítások"
 
 #: submenus/templates.php:96
 msgid ""
@@ -2509,6 +2612,18 @@ msgid ""
 "connections/list_type/\">list_type</a></code> shortcode option, the template "
 "for the entry type listed first will be used to display the entry list."
 msgstr ""
+"Alaphelyzetben a <code><a href=\"http://connections-pro.com/documentation/"
+"plugin/shortcodes/shortcode-connections/\">[connections]</a></code> gyorskód "
+"minden bejegyzéstípust megjelenít. Az összes bejegyzéstípushoz használt "
+"sablon megadásához válassza az „Összes” fület és vállassza ki a sablont. Ha "
+"a <code><a href=\"http://connections-pro.com/documentation/plugin/shortcodes/"
+"shortcode-connections/list_type/\">list_type</a></code> gyorskód opciót "
+"használjuk a találati lista típus szerinti szűréséhez, akkor az ebben "
+"megadott sablon lesz használva. A bejegyzéstípusokhoz tartozó sablonok "
+"megadásához válassza megfelelő fület, és válassza ki a kívánt sablont. Ha "
+"több bejegyzéstípus is meg van adva a <code>list_type</code> gyorskód "
+"opcióban, akkor az elsőként megadott típushoz tartozó sablon lesz használva "
+"az egész listában."
 
 #: submenus/templates.php:100
 msgid ""
@@ -2517,6 +2632,10 @@ msgid ""
 "which displays the upcoming anniversaries and birthdays will be displayed "
 "with the template that is activated under their respective tabs."
 msgstr ""
+"A <code><a href=\"http://connections-pro.com/documentation/plugin/shortcodes/"
+"shortcode-upcoming-list/\">[upcoming_list]</a></code> gyorskód, ami a "
+"közelgő évfordulókat és születésnapokat jeleníti meg, a típusokhoz "
+"kiválasztott sablonokat fogja használni."
 
 #: submenus/templates.php:104
 msgid ""
@@ -2525,28 +2644,33 @@ msgid ""
 "shortcodes/shortcode-connections/template/\">template</a></code> shortcode "
 "option."
 msgstr ""
+"Minden típushoz az használt sablon felülírható a <code><a href=\"http://"
+"connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/"
+"template/\">template</a></code> gyorskód opcióval."
 
 #: submenus/templates.php:115
 msgid "Available Templates"
-msgstr ""
+msgstr "Elérhető sablonok"
 
 #: submenus/templates.php:170
 msgid "Shortcode Override:"
-msgstr ""
+msgstr "Gyorskód felülbírálás:"
 
 #: submenus/templates.php:173
 msgid "This a supplied template and can not be deleted."
-msgstr ""
+msgstr "Ez egy alap sablon, és nem lehet törölni."
 
 #: submenus/templates.php:175
 msgid ""
 "This template is a plugin. You can deactivate and delete the template from "
 "the Plugins admin page."
 msgstr ""
+"Ez a sablon egy bővítmény. A bővítmények oldalon lehet kikapcsolni és "
+"törölni."
 
 #: submenus/templates.php:190
 msgid "Activate"
-msgstr "Activeren"
+msgstr "Aktív"
 
 #: submenus/templates.php:221
 msgid "Install Legacy Template"
@@ -2563,8 +2687,8 @@ msgstr ""
 
 #: submenus/templates.php:239
 msgid "Select Template:"
-msgstr ""
+msgstr "Sablon kiválasztása:"
 
 #: submenus/templates.php:242
 msgid "Install Now"
-msgstr "Nu installeren"
+msgstr "Telepítés most"

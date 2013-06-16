@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 0.7.7
+Stable tag: 0.7.7.1
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -26,6 +26,17 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 * Displaying your entries on the front end is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The Connections shortcode provides almost a dizzying array of options that are just too numerous to list. But if you want to know more, you can find it [here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * Even a bit of SEO was sprinkled in. Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec.
 * One last item. [Extensibility](http://connections-pro.com/pro-module/).
+
+= Languages =
+
+Connections has been translated in the following languages.
+
+* French [97% Completed]
+* Hungarian [96% Completed]
+* Spanish [95% Completed]
+* Dutch [80% Completed]
+* Danish [50% Completed]
+* Polish [8% Completed]
 
 == Credits: ==
 * This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
@@ -65,6 +76,18 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.7.1 06/16/13 =
+* FEATURE: Add Hungarian translation.
+* FEATURE: Add Dutch translation.
+* BUG: Remove urlencode from category slug. This was causing malformed URLs.
+* BUG: Fixed a couple index undefined errors.
+* OTHER: Update Danish translation.
+* OTHER: Update German translation.
+* OTHER: Update Spanish translation.
+* OTHER: Update French translation.
+* OTHER: Update Polish translation.
+
 
 = 0.7.7 06/02/13 =
 * FEATURE: The organization field can now be set to show as a link and when a user clicks the link, the list will be filtered by that organization.
@@ -885,3 +908,6 @@ Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTIC
 
 = 0.7.6.6 =
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.7.1 =
+Minor bug fixes and language updates. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.

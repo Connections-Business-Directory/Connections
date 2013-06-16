@@ -1,20 +1,23 @@
+#
+# Translators:
 msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
 "POT-Creation-Date: 2013-06-02 20:09-0500\n"
-"PO-Revision-Date: 2013-06-02 20:09-0500\n"
+"PO-Revision-Date: 2013-06-16 16:04-0500\n"
 "Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
-"Language-Team: \n"
-"Language: de_DE\n"
+"Language-Team: German (Germany) (http://www.transifex.com/projects/p/"
+"connections/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.5\n"
+"X-Poedit-Basepath: ../\n"
 "X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
 "esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c\n"
-"X-Poedit-Basepath: ../\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: connections.php:725
@@ -66,9 +69,8 @@ msgid "Documentation"
 msgstr "Dokumentation"
 
 #: connections.php:910
-#, fuzzy
 msgid "Support Forums"
-msgstr "Support"
+msgstr ""
 
 #: connections.php:1262 connections.php:1270
 msgid "vCard not available for download."
@@ -320,29 +322,24 @@ msgid "ago"
 msgstr "zuvor"
 
 #: includes/class.form.php:405
-#, fuzzy
 msgid "No updates at this time"
-msgstr "<p>Zur Zeit sind keine Updates verfügbar</p>"
+msgstr ""
 
 #: includes/class.form.php:422
-#, fuzzy
 msgid "No Birthdays Today"
-msgstr "Heutige Geburtstage"
+msgstr ""
 
 #: includes/class.form.php:450
-#, fuzzy
 msgid "No Upcoming Birthdays."
-msgstr "Kommende Geburtstage"
+msgstr ""
 
 #: includes/class.form.php:478
-#, fuzzy
 msgid "No Anniversaries Today"
-msgstr "Heutige Jahrestage"
+msgstr ""
 
 #: includes/class.form.php:505
-#, fuzzy
 msgid "No Upcoming Anniversaries."
-msgstr "Kommende Jahrestage"
+msgstr ""
 
 #: includes/class.form.php:625
 msgid "Not set"
@@ -484,9 +481,8 @@ msgid "Image Path Writeable:"
 msgstr "Bild-Pfad beschreibbar:"
 
 #: includes/class.form.php:753
-#, fuzzy
 msgid "Template Path Exists:"
-msgstr "Template Update Hinweise"
+msgstr ""
 
 #: includes/class.form.php:754
 msgid "Template Path Writeable:"
@@ -684,9 +680,8 @@ msgid "Phone Number"
 msgstr "Telefonnummer"
 
 #: includes/class.form.php:1291
-#, fuzzy
 msgid "Add Phone Number"
-msgstr "Telefonnummer"
+msgstr ""
 
 #: includes/class.form.php:1313 includes/class.form.php:1344
 msgid "Email Type"
@@ -1355,14 +1350,9 @@ msgstr "Onkel"
 msgid "Wife"
 msgstr "Ehefrau"
 
-# The paragraph after this one is missing in the .po-file
-# "Choose the page where your directory is located. This should be the page where you used the [connections] shortcode."
-# This translates to
-# "Wählen Sie die Seite für Ihr Adressverzeichnisl. Das solte die Seite sein auf der Sie den [connections] shortcode benutzen."
 #: includes/class.options.php:758 includes/class.settings.php:83
-#, fuzzy
 msgid "Home"
-msgstr "Startseite"
+msgstr ""
 
 #: includes/class.options.php:759
 msgid "Work"
@@ -1440,11 +1430,9 @@ msgstr "Abitur"
 msgid "Graduate College"
 msgstr "Hochschulabschluss"
 
-# "Ordination" in german is the act of becoming a priest.  Is that what is meant here???
 #: includes/class.options.php:889
-#, fuzzy
 msgid "Ordination"
-msgstr "Ordination"
+msgstr ""
 
 #: includes/class.output.php:132 includes/class.output.php:133
 msgid "Photo of"
@@ -1459,9 +1447,8 @@ msgid "Contact"
 msgstr "Kontakt"
 
 #: includes/class.output.php:2116
-#, fuzzy
 msgid "Categories:"
-msgstr "Kategorien"
+msgstr ""
 
 #: includes/class.output.php:2282
 msgid "Add to Address Book."
@@ -1471,25 +1458,17 @@ msgstr "Zum Adressbuch hinzufügen"
 msgid "Download vCard"
 msgstr "vCard downloaden"
 
-# Translation does not appear on "Categories"
 #: includes/class.schema.php:115
-#, fuzzy
 msgid ""
 "Entries not assigned to a category will automatically be assigned to this "
 "category and deleting a category which has been assigned to an entry will "
 "reassign that entry to this category. This category can not be edited or "
 "deleted."
 msgstr ""
-"Einträge die keiner Kategorie zugeordnet sind werden automatisch dieser "
-"Kategorie zugeordnet. Wird eine Kategorie gelöscht, der bereits Einträge "
-"zugewiesen sind, dann werden die Einträge an diese Kategorie neu zugewiesen. "
-"Diese Kategorie kann nicht geändert oder gelöscht werden."
 
-# Maybe this should not be translated?
 #: includes/class.schema.php:117
-#, fuzzy
 msgid "Uncategorized"
-msgstr "Nicht zugeordnet"
+msgstr ""
 
 #: includes/class.settings.php:28 includes/class.settings.php:114
 msgid "General"
@@ -1520,9 +1499,8 @@ msgid "Results List"
 msgstr ""
 
 #: includes/class.settings.php:130
-#, fuzzy
 msgid "List Actions"
-msgstr "Aktion wählen"
+msgstr ""
 
 #: includes/class.settings.php:131
 msgid ""
@@ -1530,9 +1508,8 @@ msgid ""
 msgstr ""
 
 #: includes/class.settings.php:138
-#, fuzzy
 msgid "Entry Actions"
-msgstr "Aktion wählen"
+msgstr ""
 
 #: includes/class.settings.php:139
 msgid ""
@@ -1540,9 +1517,8 @@ msgid ""
 msgstr ""
 
 #: includes/class.settings.php:146
-#, fuzzy
 msgid "Single Entry"
-msgstr "Eintrag auswählen"
+msgstr ""
 
 #: includes/class.settings.php:158
 msgid "Image and Logo Instructions"
@@ -1603,15 +1579,11 @@ msgid ""
 "The message to display to site visitors or registered users not logged in."
 msgstr "Hinweis an Besucher der Website und Nutzer die nicht eingeloggt sind."
 
-# The paragraph directly before this one is missing in the .po-file
 #: includes/class.settings.php:314
-#, fuzzy
 msgid "Enable public_override"
-msgstr "public_override aktivieren"
+msgstr ""
 
-# Translation doesn't show for some reason.
 #: includes/class.settings.php:315
-#, fuzzy
 msgid ""
 "By default all entries whose status is Public will be visible to all site "
 "visitors or registered users not logged in. If the option to require login "
@@ -1621,13 +1593,6 @@ msgid ""
 "specific entries to the public. For security reasons this option is disabled "
 "by default. If checked, this enables this shortcode option."
 msgstr ""
-"Normalerweise sind Einträge mit dem Status Öffentlich für Besucher und nicht "
-"eingeloggte Nutzer sichtbar. Wenn die option die Anmeldung zu erfordern für "
-"gesetzt ist, erlaubt die <em>public_override</em> shortcode option das "
-"anzeigen des Eintrages ohne Login. Das kann nützlich sein wenn eine site von "
-"mehreren Autoren bearbeitet wird und die Autoren einzelne Einträge "
-"veröffentlichen wollen. Aus Sicherheitsgründen ist diese Option "
-"normalerweise deaktiviert. Um diese Option zu aktivieren auswählen."
 
 #: includes/class.settings.php:327
 msgid "Enable private_override"
@@ -1791,9 +1756,8 @@ msgid "Enable FULLTEXT query support."
 msgstr "Volltextsuche einschalten"
 
 #: includes/class.settings.php:775
-#, fuzzy
 msgid "Keyword Search"
-msgstr "Suche"
+msgstr ""
 
 #: includes/class.settings.php:776
 msgid ""
@@ -1808,14 +1772,12 @@ msgid ""
 msgstr ""
 
 #: includes/class.settings.php:792
-#, fuzzy
 msgid "Character Base"
-msgstr "Kategorie-Basis"
+msgstr ""
 
 #: includes/class.settings.php:793
-#, fuzzy
 msgid "Enter a custom structure for the initial character in the URL."
-msgstr "Benutzerdefinierte Struktur für Kategorien in der URL anlegen."
+msgstr ""
 
 #: includes/class.settings.php:807
 msgid "Category Base"
@@ -1860,24 +1822,20 @@ msgid "Enter a custom structure for the postal code in the URL."
 msgstr "Benutzerdefinierte Struktur für Postleitzahlen in der URL anlegen."
 
 #: includes/class.settings.php:877
-#, fuzzy
 msgid "Organization Base"
-msgstr "Organisation"
+msgstr ""
 
 #: includes/class.settings.php:878
-#, fuzzy
 msgid "Enter a custom structure for the organization in the URL."
-msgstr "Benutzerdefinierte Struktur für Länder in der URL anlegen."
+msgstr ""
 
 #: includes/class.settings.php:891
-#, fuzzy
 msgid "Department Base"
-msgstr "Abteilung"
+msgstr ""
 
 #: includes/class.settings.php:892
-#, fuzzy
 msgid "Enter a custom structure for the department in the URL."
-msgstr "Benutzerdefinierte Struktur für Kategorien in der URL anlegen."
+msgstr ""
 
 #: includes/class.settings.php:905
 msgid "Name Base"
@@ -1888,89 +1846,58 @@ msgid "Enter a custom structure for the entry slug in the URL."
 msgstr "Benutzerdefinierte Struktur für Einträge in der URL anlegen."
 
 #: includes/class.settings.php:921
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of every entry into a link. Clicking "
 "the link will take you to the page with only that entry."
 msgstr ""
-"Wenn diese Option aktiviert ist wird der Name jedes Eintrages zu einem "
-"Link.\n"
-"\t\t\t\tDer Link führt zu einer Seite der nur diesen Eintrag anzeigt."
 
 #: includes/class.settings.php:934
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of organization into a link. "
 "Clicking the link will take you to the page filtered by that organization."
 msgstr ""
-"Wenn diese Option aktiviert ist wird der Name jedes Eintrages zu einem "
-"Link.\n"
-"\t\t\t\tDer Link führt zu einer Seite der nur diesen Eintrag anzeigt."
 
 #: includes/class.settings.php:947
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of department into a link. Clicking "
 "the link will take you to the page filtered by that department."
 msgstr ""
-"Wenn diese Option aktiviert ist wird der Name jedes Eintrages zu einem "
-"Link.\n"
-"\t\t\t\tDer Link führt zu einer Seite der nur diesen Eintrag anzeigt."
 
 #: includes/class.settings.php:959
-#, fuzzy
 msgid "Locality"
-msgstr "Orts-Basis"
+msgstr ""
 
 #: includes/class.settings.php:960
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of locality (city) into a link. "
 "Clicking the link will take you to the page filtered by that locality."
 msgstr ""
-"Wenn diese Option aktiviert ist wird der Name jedes Eintrages zu einem "
-"Link.\n"
-"\t\t\t\tDer Link führt zu einer Seite der nur diesen Eintrag anzeigt."
 
 #: includes/class.settings.php:972
-#, fuzzy
 msgid "Region"
-msgstr "Regionen-Basis"
+msgstr ""
 
 #: includes/class.settings.php:973
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of region (state/province) into a "
 "link. Clicking the link will take you to the page filtered by that region."
 msgstr ""
-"Wenn diese Option aktiviert ist wird der Name jedes Eintrages zu einem "
-"Link.\n"
-"\t\t\t\tDer Link führt zu einer Seite der nur diesen Eintrag anzeigt."
 
 #: includes/class.settings.php:985
-#, fuzzy
 msgid "Postal Code"
-msgstr "Postleitzahl-Basis"
+msgstr ""
 
 #: includes/class.settings.php:986
-#, fuzzy
 msgid ""
 "Enabling this option will turn the postal code into a link. Clicking the "
 "link will take you to the page filtered by that postal code."
 msgstr ""
-"Wenn diese Option aktiviert ist wird der Name jedes Eintrages zu einem "
-"Link.\n"
-"\t\t\t\tDer Link führt zu einer Seite der nur diesen Eintrag anzeigt."
 
 #: includes/class.settings.php:999
-#, fuzzy
 msgid ""
 "Enabling this option will turn the name of country into a link. Clicking the "
 "link will take you to the page filtered by that country."
 msgstr ""
-"Wenn diese Option aktiviert ist wird der Name jedes Eintrages zu einem "
-"Link.\n"
-"\t\t\t\tDer Link führt zu einer Seite der nur diesen Eintrag anzeigt."
 
 #: includes/class.settings.php:1012
 msgid "Telephone Number"
@@ -1991,16 +1918,12 @@ msgid "Google Maps API v3"
 msgstr "Google Maps API v3"
 
 #: includes/class.settings.php:1027
-#, fuzzy
 msgid ""
 "If the current active theme or another plugin loads the Google Maps API v3 "
 "uncheck this to prevent Connections from loading the Google Maps API. This "
 "could prevent potential conflicts. NOTE: This only applies to templates that "
 "utilize Google Maps."
 msgstr ""
-"Wenn das aktuelle Theme oder ein anderes Plugin die Google Maps API v3 lädt, "
-"entfernen Sie den Haken aus dem Kästchen damit Connections nicht ebenfalls "
-"die Google Maps API lädt. Dadurch lassen sich mögliche Konflikte vermeiden."
 
 #: includes/class.settings.php:1039
 msgid "JavaScript"
@@ -2039,9 +1962,8 @@ msgid "Display debug messages."
 msgstr "Debugmeldungen anzeigen"
 
 #: includes/class.template-parts.php:64
-#, fuzzy
 msgid "View All"
-msgstr "Zeige %s"
+msgstr ""
 
 #: includes/class.template-parts.php:117
 msgid "Go back to directory."
@@ -2056,18 +1978,17 @@ msgid "Return to top."
 msgstr "Zurück zum Anfang."
 
 #: includes/class.template-parts.php:302
-#, fuzzy, php-format
+#, php-format
 msgid "Updated %1$s ago."
-msgstr "Kategorien aktualisieren."
+msgstr ""
 
 #: includes/class.template-parts.php:438
 msgid "Submit"
 msgstr "Absenden"
 
 #: includes/class.template-parts.php:538
-#, fuzzy
 msgid "Current Character"
-msgstr "aktuelle Seite"
+msgstr ""
 
 #: includes/class.template-parts.php:661
 msgid "First Page"
@@ -2152,62 +2073,50 @@ msgstr "Aktualisiere von Datenbank-Version %1$s zu Version 0.1.0"
 msgid "Changing \"id\" type-length/values to BIGINT(20)"
 msgstr "Ändere \"id\"  zu BIGINT(20)"
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:81
 msgid "Adding Column... \"date_added\""
 msgstr "Füge Spalte hinzu... \"date_added\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:84
 msgid "Adding Column... \"entry_type\""
 msgstr "Füge Spalte hinzu... \"entry_type\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:87
 msgid "Adding Column... \"honorable_prefix\""
 msgstr "Füge Spalte hinzu... \"honorable_prefix\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:90
 msgid "Adding Column... \"middle_name\""
 msgstr "Füge Spalte hinzu... \"middle_name\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:93
 msgid "Adding Column... \"honorable_suffix\""
 msgstr "Füge Spalte hinzu... \"honorable_suffix\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:96
 msgid "Adding Column... \"social\""
 msgstr "Füge Spalte hinzu... \"social\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:99
 msgid "Adding Column... \"added_by\""
 msgstr "Füge Spalte hinzu... \"added_by\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:102
 msgid "Adding Column... \"edited_by\""
 msgstr "Füge Spalte hinzu... \"edited_by\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:105
 msgid "Adding Column... \"owner\""
 msgstr "Füge Spalte hinzu... \"owner\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:108
 msgid "Adding Column... \"status\""
 msgstr "Füge Spalte hinzu... \"status\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:111
 msgid "Adding Column... \"contact_first_name\""
 msgstr "Füge Spalte hinzu... \"contact_first_name\""
 
-# I think it is wise not to translate the names of db-fields...
 #: includes/inc.upgrade.php:114
 msgid "Adding Column... \"contact_last_name\""
 msgstr "Füge Spalte hinzu... \"contact_last_name\""
@@ -2449,32 +2358,24 @@ msgid "Add New Category"
 msgstr "Neue Kategorie hinzufügen"
 
 #: submenus/manage.php:76 submenus/manage.php:151
-#, fuzzy
 msgid ""
 "<strong>ERROR:</strong> You are not authorized to add entries. Please "
 "contact the admin if you received this message in error."
 msgstr ""
-"Sie sind nicht berechtigt Einträge hinzuzufügen. Wenn Sie diese Meldung "
-"irrtümlicherweise erhalten wenden Sie sich bitte an den Administrator."
 
 #: submenus/manage.php:84
 msgid "Copy Entry"
 msgstr "Eintrag kopieren"
 
 #: submenus/manage.php:227
-#, fuzzy
 msgid ""
 "<strong>ERROR:</strong> You are not authorized to edit entries. Please "
 "contact the admin if you received this message in error."
 msgstr ""
-"Sie sind nicht berechtigt Einträge zu bearbeiten. Wenn Sie diese Meldung "
-"irrtümlicherweise erhalten wenden Sie sich bitte an den Administrator."
 
-# Shouldn't this link be blue?
 #: submenus/manage.php:240
-#, fuzzy
 msgid "Add New"
-msgstr "Neuer Eintrag"
+msgstr ""
 
 #: submenus/manage.php:265 submenus/templates.php:38
 msgid "All"
@@ -2492,12 +2393,9 @@ msgstr "zur Moderation"
 msgid "Search Entries"
 msgstr "Einträge durchsuchen"
 
-# Typo: "Show all Enties" instead of Entries
-# and I think I saw Entrys somewhere...
 #: submenus/manage.php:293
-#, fuzzy
 msgid "Show All Entries"
-msgstr "Zeige alle"
+msgstr ""
 
 #: submenus/manage.php:294
 msgid "Show Individuals"
@@ -2663,9 +2561,8 @@ msgid "Current Template"
 msgstr "Aktuelle Vorlage"
 
 #: submenus/templates.php:70 submenus/templates.php:158
-#, fuzzy
 msgid "Thumbnail Not Available"
-msgstr "Kein Bild verfügbar"
+msgstr ""
 
 #: submenus/templates.php:75
 msgid "Visit author's homepage."
@@ -2676,7 +2573,6 @@ msgid "Instructions"
 msgstr "Anleitung"
 
 #: submenus/templates.php:96
-#, fuzzy
 msgid ""
 "By default the <code><a href=\"http://connections-pro.com/documentation/"
 "plugin/shortcodes/shortcode-connections/\">[connections]</a></code> "
@@ -2692,64 +2588,34 @@ msgid ""
 "connections/list_type/\">list_type</a></code> shortcode option, the template "
 "for the entry type listed first will be used to display the entry list."
 msgstr ""
-"Normalerweise zeigt der <code><a href=\"http://connections-pro.com/"
-"documentation/plugin/shortcodes/shortcode-connections/\">[connections]</a></"
-"code> shortcode alle Eintragstypen. Um die Vorlage\n"
-"\t\t\t\t\t\t\t\tder Anzeige zu ändern, wählen Sie den select the \"Alle\"-"
-"Reiter und aktivieren die Vorlage Ihrer Wahl. Falls die<code><a href="
-"\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-"
-"connections/list_type/\">list_type</a></code>\n"
-"\t\t\t\t\t\t\t\tshortcode option zum Filtern der Einträge nach ihrem Typ "
-"genutzt wird, wird die Vorlage für den Typ des Eintrages genutzt.\n"
-"\t\t\t\t\t\t\t\tUm die Vorlage für einen bestimmten Eintrags-Typ zu ändern, "
-"wählen Sie den entsprechenden Reiter und aktivieren die Vorlage.\n"
-"\t\t\t\t\t\t\t\t Falls mehrere Typen in der<code><a href=\"http://"
-"connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/"
-"list_type/\">list_type</a></code> shortcode option spezifiziert sind,wird "
-"die Vorlage für den\n"
-"\t\t\t\t\t\t\t\tersten Eintrags-Typ benutzt um die Liste anzuzeigen."
 
 #: submenus/templates.php:100
-#, fuzzy
 msgid ""
 "The <code><a href=\"http://connections-pro.com/documentation/plugin/"
 "shortcodes/shortcode-upcoming-list/\">[upcoming_list]</a></code> shortcode "
 "which displays the upcoming anniversaries and birthdays will be displayed "
 "with the template that is activated under their respective tabs."
 msgstr ""
-"Der <code><a href=\"http://connections-pro.com/documentation/plugin/"
-"shortcodes/shortcode-upcoming-list/\">[upcoming_list]</a></code> shortcode, "
-"der kommende Jahrestage und Geburtstage anzeigt nutzt die Vorlage\n"
-"\t\t\t\t\t\t\t\tdie im entsprechenden Reiter aktiviert ist."
 
-# This should be "entry type" i suppose. Also typo: "the the"
 #: submenus/templates.php:104
-#, fuzzy
 msgid ""
 "The current active template for each template type can be overridden by "
 "using the <code><a href=\"http://connections-pro.com/documentation/plugin/"
 "shortcodes/shortcode-connections/template/\">template</a></code> shortcode "
 "option."
 msgstr ""
-"Die aktuelle Vorlage für jeden Eintragstyp kann mittels der <code><a href="
-"\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-"
-"connections/template/\">template</a></code> shortcode option überschrieben "
-"werden."
 
 #: submenus/templates.php:115
-#, fuzzy
 msgid "Available Templates"
-msgstr "Vorlagen verwalten"
+msgstr ""
 
 #: submenus/templates.php:170
-#, fuzzy
 msgid "Shortcode Override:"
-msgstr "Shortcode Sichtbarkeit überschreiben"
+msgstr ""
 
 #: submenus/templates.php:173
-#, fuzzy
 msgid "This a supplied template and can not be deleted."
-msgstr "Die Vorlage konnte nicht gelöscht werden."
+msgstr ""
 
 #: submenus/templates.php:175
 msgid ""
@@ -2758,14 +2624,12 @@ msgid ""
 msgstr ""
 
 #: submenus/templates.php:190
-#, fuzzy
 msgid "Activate"
-msgstr "Privat"
+msgstr ""
 
 #: submenus/templates.php:221
-#, fuzzy
 msgid "Install Legacy Template"
-msgstr "Vorlagen verwalten"
+msgstr ""
 
 #: submenus/templates.php:223
 msgid ""
@@ -2777,16 +2641,9 @@ msgid ""
 msgstr ""
 
 #: submenus/templates.php:239
-#, fuzzy
 msgid "Select Template:"
-msgstr "Bild wählen"
+msgstr ""
 
 #: submenus/templates.php:242
 msgid "Install Now"
 msgstr ""
-
-#~ msgid "Jump to"
-#~ msgstr "Springe zu"
-
-#~ msgid "Extend"
-#~ msgstr "Erweitert"

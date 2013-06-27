@@ -406,7 +406,9 @@ class cnURL {
 	public static function permalink( $atts ) {
 		global $wp_rewrite, $post, $connections;
 
-		remove_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ) );
+		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
+		// otherwise it'll cause an error.
+		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
 
 		// The anchor attributes.
 		$piece = array();
@@ -563,7 +565,9 @@ class cnURL {
 
 		$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
 
-		add_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ), 10, 3 );
+		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
+		// otherwise it'll cause an error.
+		if ( ! is_admin() ) cnSEO::doFilterPermalink( TRUE );
 
 		if ( $atts['return'] ) return $out;
 		echo $out;

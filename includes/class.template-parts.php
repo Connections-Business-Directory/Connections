@@ -563,7 +563,9 @@ class cnTemplatePart {
 	public static function pagination( $atts = array() ) {
 		global $wp_rewrite, $post,  $connections;
 
-		remove_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ) );
+		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
+		// otherwise it'll cause an error.
+		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
 
 		$out = '';
 
@@ -671,8 +673,9 @@ class cnTemplatePart {
 			$out .= '</span>';
 		}
 
-		add_filter( 'page_link', array( 'cnSEO', 'filterPermalink' ), 10, 3 );
-
+		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
+		// otherwise it'll cause an error.
+		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 		// Output the page nav.
 		if ( $atts['return']) return $out;
 		echo $out;

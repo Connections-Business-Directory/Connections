@@ -376,7 +376,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Register all valid query variables.
 			cnRewrite::init();
 
-			// Init the SEP class.
+			// Init the SEO class.
 			if ( ! is_admin() ) cnSEO::init();
 
 			// Init the included templates that use the API introduced in 0.7.6

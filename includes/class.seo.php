@@ -5,10 +5,10 @@
  * adding page/page meta descriptions.
  *
  * @package     Connections
- * @subpackage  Template Parts
+ * @subpackage  SEO
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.7.6
+ * @since       0.7.8
  */
 
 // Exit if accessed directly
@@ -16,7 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnSEO {
 
-	private static $doingNav = FALSE;
+	/**
+	 * Whether or not to filter the permalink.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @var boolean
+	 */
+	private static $filterPermalink = TRUE;
 
 	/**
 	 * Register the default template actions.
@@ -37,7 +44,7 @@ class cnSEO {
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
 		// Filter the meta title to reflect the current Connections filter.
-		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 10, 2 );
+		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 10, 3 );
 
 		// Filter the page title to reflect the current Connection filter.
 		add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );
@@ -49,66 +56,80 @@ class cnSEO {
 		// remove_action( 'wp_head', 'rel_canonical'); // Remove the canonical link
 	}
 
+	/**
+	 * This can be called to turn on/off the filters applied in cnSEO.
+	 *
+	 * @access public
+	 * @since 0.7.8
+	 * @param  (bool) $do [optional]
+	 * @return (void)
+	 */
+	public static function doFilterPermalink( $do = TRUE ) {
+
+		self::$filterPermalink = $do;
+	}
+
+	/**
+	 * Add the Connections URL segments to the page permalink.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @uses get_option()
+	 * @uses trailingslashit()
+	 * @uses get_query_var()
+	 * @uses user_trailingslashit()
+	 * @uses esc_url()
+	 * @param  (string) $link The permalink.
+	 * @param  (int) $ID Page ID.
+	 * @param  (bool) $sample Is it a sample permalink.
+	 * @return (string)
+	 */
 	public static function filterPermalink( $link, $ID, $sample ) {
 		global $wp_rewrite, $post/*, $connections*/;
 
-		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are process too, which we don't want.
-		if ( $post->ID != $ID || self::$doingNav ) return $link;
+		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
+		// Same for the links in the nav, do not change those.
+		if ( $post->ID != $ID || ! self::$filterPermalink ) return $link;
 
-		// Get the settings for the base of each data type to be used in the URL.
-		$base = get_option( 'connections_permalink' );
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
+			// Get the settings for the base of each data type to be used in the URL.
+			$base = get_option( 'connections_permalink' );
+
 			$link = trailingslashit( $link );
 
-			if ( get_query_var( 'cn-cat-slug' ) ) {
-
+			if ( get_query_var( 'cn-cat-slug' ) )
 				$link = esc_url( trailingslashit( $link . $base['category_base'] . '/' . get_query_var( 'cn-cat-slug' ) ) );
 
-			}
 
-			if ( get_query_var( 'cn-country' ) ) {
-
+			if ( get_query_var( 'cn-country' ) )
 				$link = esc_url( trailingslashit( $link . $base['country_base'] . '/' . urlencode( get_query_var( 'cn-country' ) ) ) );
 
-			}
 
-			if ( get_query_var( 'cn-region' ) ) {
-
+			if ( get_query_var( 'cn-region' ) )
 				$link = esc_url( trailingslashit( $link . $base['region_base'] . '/' . urlencode( get_query_var( 'cn-region' ) ) ) );
 
-			}
 
-			if ( get_query_var( 'cn-locality' ) ) {
-
+			if ( get_query_var( 'cn-locality' ) )
 				$link = esc_url( trailingslashit( $link . $base['locality_base'] . '/' . urlencode( get_query_var( 'cn-locality' ) ) ) );
 
-			}
 
-			if ( get_query_var( 'cn-postal-code' ) ) {
-
+			if ( get_query_var( 'cn-postal-code' ) )
 				$link = esc_url( trailingslashit( $link . $base['postal_code_base'] . '/' . urlencode( get_query_var( 'cn-postal-code' ) ) ) );
 
-			}
 
-			if ( get_query_var( 'cn-organization' ) ) {
-
+			if ( get_query_var( 'cn-organization' ) )
 				$link = esc_url( trailingslashit( $link . $base['organization_base'] . '/' . urlencode( get_query_var( 'cn-organization' ) ) ) );
 
-			}
 
-			if ( get_query_var( 'cn-department' ) ) {
-
+			if ( get_query_var( 'cn-department' ) )
 				$link = esc_url( trailingslashit( $link . $base['department_base'] . '/' . urlencode( get_query_var( 'cn-department' ) ) ) );
 
-			}
 
-			if ( get_query_var( 'cn-entry-slug' ) ) {
-
+			if ( get_query_var( 'cn-entry-slug' ) )
 				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( get_query_var( 'cn-entry-slug' ) ) ) );
 
-			}
 
 			$link = user_trailingslashit( $link, 'page' );
 
@@ -116,6 +137,31 @@ class cnSEO {
 
 			if ( get_query_var( 'cn-cat-slug' ) )
 				$link = esc_url( add_query_arg( array( 'cn-cat-slug' => get_query_var( 'cn-cat-slug' ) ) , $link ) );
+
+
+			if ( get_query_var( 'cn-country' ) )
+				$link = esc_url( add_query_arg( array( 'cn-country' => get_query_var( 'cn-country' ) ) , $link ) );
+
+
+			if ( get_query_var( 'cn-region' ) )
+				$link = esc_url( add_query_arg( array( 'cn-region' => get_query_var( 'cn-region' ) ) , $link ) );
+
+
+			if ( get_query_var( 'cn-locality' ) )
+				$link = esc_url( add_query_arg( array( 'cn-locality' => get_query_var( 'cn-locality' ) ) , $link ) );
+
+
+			if ( get_query_var( 'cn-postal-code' ) )
+				$link = esc_url( add_query_arg( array( 'cn-postal-code' => get_query_var( 'cn-postal-code' ) ) , $link ) );
+
+
+			if ( get_query_var( 'cn-organization' ) )
+				$link = esc_url( add_query_arg( array( 'cn-organization' => get_query_var( 'cn-organization' ) ) , $link ) );
+
+
+			if ( get_query_var( 'cn-department' ) )
+				$link = esc_url( add_query_arg( array( 'cn-department' => get_query_var( 'cn-department' ) ) , $link ) );
+
 
 			if ( get_query_var( 'cn-entry-slug' ) )
 				$link = esc_url( add_query_arg( array( 'cn-entry-slug' => get_query_var( 'cn-entry-slug' ) ) , $link ) );
@@ -125,33 +171,190 @@ class cnSEO {
 		return $link;
 	}
 
-	public static function filterMetaTitle( $title, $sep ) {
+	/**
+	 * Add the the current Connections directory location/query to the page meta title.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @uses get_query_var()
+	 * @param  (string) $title The browser tab/window title.
+	 * @param  (string) $sep The title separator.
+	 * @param  (string) $seplocation
+	 * @return (string)
+	 */
+	public static function filterMetaTitle( $title, $sep, $seplocation ) {
+		global $connections;
 
+		// Coerce $title to be an array.
+		$title = (array) $title;
 
+		if ( get_query_var( 'cn-cat-slug' ) ) {
 
-		return $title;
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$categorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+
+			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+
+			$category = new cnCategory( $term );
+
+			array_unshift( $title, $category->getName() );
+		}
+
+		if ( get_query_var( 'cn-cat' ) ) {
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$categorySlug = explode( '/' , get_query_var( 'cn-cat' ) );
+
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+
+			$term = $connections->term->getTermBy( 'id', $categorySlug, 'category' );
+
+			$category = new cnCategory( $term );
+
+			array_unshift( $title, $category->getName() );
+		}
+
+		if ( get_query_var( 'cn-country' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-country' ) ) );
+
+		if ( get_query_var( 'cn-postal-code' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-postal-code' ) ) );
+
+		if ( get_query_var( 'cn-region' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-region' ) ) );
+
+		if ( get_query_var( 'cn-locality' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-locality' ) ) );
+
+		if ( get_query_var( 'cn-organization' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-organization' ) ) );
+
+		if ( get_query_var( 'cn-department' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-department' ) ) );
+
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			$result = $connections->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			$entry = new cnEntry( $result[0] );
+
+			array_unshift( $title, $entry->getName() );
+		}
+
+		return implode( " $sep ", $title );
 	}
 
+	/**
+	 * Add the the current Connections directory location/query to the page title.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @uses get_query_var()
+	 * @param  (string) $title The browser tab/window title.
+	 * @param  (int) $sep The page ID.
+	 * @return (string)
+	 */
 	public static function filterPostTitle( $title, $id ) {
-		global $post;
+		global $post, $connections;
 
-		if ( $post->ID != $id || self::$doingNav ) return $title;
+		if ( $post->ID != $id || ! self::$filterPermalink ) return $title;
 
-		$title = $title . ' > Connections';
+		// Coerce $title to be an array.
+		$title = (array) $title;
 
-		return $title;
+		if ( get_query_var( 'cn-cat-slug' ) ) {
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$categorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+
+			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+
+			$category = new cnCategory( $term );
+
+			array_unshift( $title, $category->getName() );
+		}
+
+		if ( get_query_var( 'cn-cat' ) ) {
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$categorySlug = explode( '/' , get_query_var( 'cn-cat' ) );
+
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+
+			$term = $connections->term->getTermBy( 'id', $categorySlug, 'category' );
+
+			$category = new cnCategory( $term );
+
+			array_unshift( $title, $category->getName() );
+		}
+
+		if ( get_query_var( 'cn-country' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-country' ) ) );
+
+		if ( get_query_var( 'cn-postal-code' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-postal-code' ) ) );
+
+		if ( get_query_var( 'cn-region' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-region' ) ) );
+
+		if ( get_query_var( 'cn-locality' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-locality' ) ) );
+
+		if ( get_query_var( 'cn-organization' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-organization' ) ) );
+
+		if ( get_query_var( 'cn-department' ) )
+			array_unshift( $title, urldecode( get_query_var( 'cn-department' ) ) );
+
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			$result = $connections->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			$entry = new cnEntry( $result[0] );
+
+			array_unshift( $title, $entry->getName() );
+		}
+
+		return implode( ' &raquo; ', $title );
 	}
 
+	/**
+	 * This method is run during the wp_nav_menu_args filter.
+	 * The only purpose is to set self::doFilterPermalink to FALSE.
+	 * This is set to ensure the permalinks and titles in the nav are
+	 * not run thru the cnSEO filters.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @param  (array) $args The arguments passed to wp_nav_menu().
+	 * @return (array)
+	 */
 	public static function startNav( $args ) {
 
-		self::$doingNav = TRUE;
+		self::doFilterPermalink( FALSE );
 
 		return $args;
 	}
 
+	/**
+	 * This method is run during the wp_page_menu & wp_nav_menu filters.
+	 * The only purpose is to set self::doFilterPermalink to TRUE.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @see self::startNav()
+	 * @see self::doFilterPermalink()
+	 * @param  (string) $menu
+	 * @param  (array) $args $args The arguments passed to wp_nav_menu().
+	 * @return (string)
+	 */
 	public static function endNav( $menu, $args ) {
 
-		self::$doingNav = FALSE;
+		self::doFilterPermalink();
 
 		return $menu;
 	}

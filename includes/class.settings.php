@@ -49,6 +49,14 @@ class cnRegisterSettings
 			'title'     => __( 'Search' , 'connections' ) ,
 			'page_hook' => $settings
 		);
+
+		$tabs[] = array(
+			'id'        => 'seo' ,
+			'position'  => 31 ,
+			'title'     => __( 'SEO' , 'connections' ) ,
+			'page_hook' => $settings
+		);
+
 		$tabs[] = array(
 			'id'        => 'advanced' ,
 			'position'  => 40 ,
@@ -202,6 +210,26 @@ class cnRegisterSettings
 			'id'        => 'connections_search',
 			'position'  => 10,
 			'title'     => __( 'Search Fields' , 'connections' ),
+			'callback'  => '',
+			'page_hook' => $settings
+		);
+
+		/*
+		 * The sections registered to the SEO tab.
+		 */
+		$sections[] = array(
+			'tab'       => 'seo',
+			'id'        => 'connections_seo_meta',
+			'position'  => 10,
+			'title'     => __( 'Page Meta' , 'connections' ),
+			'callback'  => '',
+			'page_hook' => $settings
+		);
+		$sections[] = array(
+			'tab'       => 'seo',
+			'id'        => 'connections_seo',
+			'position'  => 20,
+			'title'     => __( 'Page Display' , 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings
 		);
@@ -774,6 +802,50 @@ class cnRegisterSettings
 			'section'   => 'connections_search',
 			'title'     => __('Keyword Search', 'connections'),
 			'desc'      => __( 'Enable LIKE query support. Disabling this option can improve search results if the server configuration supports FULLTEXT queries. If you disable this option and searches do not yield results, this indicates that the server does not support FULLTEXT queries. If that is the case, re-enable this option and disable the FULLTEXT option. NOTE: If the FULLTEXT option is disabled, this option must be enabled. Additionally, search terms with three characters or less will be ignored. This can not be changed as this is a database limitation.', 'connections' ),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1
+		);
+
+		/*
+		 * The SEO Tab fields.
+		 */
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'page_title',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'seo',
+			'section'   => 'connections_seo_meta',
+			'title'     => __('Page Title', 'connections'),
+			'desc'      => __( 'Update the browser tab/window title to refect the current location being viewed in the directory. For example, the current category name.', 'connections' ),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'page_desc',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'seo',
+			'section'   => 'connections_seo_meta',
+			'title'     => __('Page Description', 'connections'),
+			'desc'      => __( 'Use an excert of the current category description or current entry bio.', 'connections' ),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'page_title',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'seo',
+			'section'   => 'connections_seo',
+			'title'     => __('Page Title', 'connections'),
+			'desc'      => __( 'Update the page title to refect the current location being viewed in the directory. For example, the current entry name.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1

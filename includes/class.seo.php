@@ -185,6 +185,9 @@ class cnSEO {
 	public static function filterMetaTitle( $title, $sep, $seplocation ) {
 		global $connections;
 
+		// Whether or not to filter the page meta title with the current directory location.
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo_meta', 'page_title' ) ) return $title;
+
 		// Coerce $title to be an array.
 		$title = (array) $title;
 
@@ -258,6 +261,9 @@ class cnSEO {
 	 */
 	public static function filterPostTitle( $title, $id ) {
 		global $post, $connections;
+
+		// Whether or not to filter the page title with the current directory location.
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo', 'page_title' ) ) return $title;
 
 		if ( $post->ID != $id || ! self::$filterPermalink ) return $title;
 

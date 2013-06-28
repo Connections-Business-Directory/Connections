@@ -72,6 +72,8 @@ class cnOptions {
 		$this->defaultTemplatesSet = $this->options['settings']['template']['defaults_set'];
 		$this->activeTemplates = (array) $this->options['settings']['template']['active'];
 
+		$this->defaultRolesSet = isset( $this->options['settings']['roles']['defaults_set'] ) && ! empty( $this->options['settings']['roles']['defaults_set'] ) ? $this->options['settings']['roles']['defaults_set'] : FALSE;
+
 		$this->wpCurrentTime = current_time( 'timestamp' );
 		$this->currentTime = date( 'U' );
 
@@ -96,6 +98,8 @@ class cnOptions {
 
 		$this->options['settings']['template']['defaults_set'] = $this->defaultTemplatesSet;
 		$this->options['settings']['template']['active'] = $this->activeTemplates;
+
+		$this->options['settings']['roles']['defaults_set'] = $this->defaultRolesSet;
 
 		update_option( 'connections_options', $this->options );
 	}
@@ -641,6 +645,14 @@ class cnOptions {
 	 */
 	public function setDefaultTemplatesSet( $defaultTemplatesSet ) {
 		$this->defaultTemplatesSet = $defaultTemplatesSet;
+	}
+
+	public function getCapabilitiesSet() {
+		return $this->defaultRolesSet;
+	}
+
+	public function defaultCapabilitiesSet( $defaultRolesSet ) {
+		$this->defaultRolesSet = $defaultRolesSet;
 	}
 
 	/**

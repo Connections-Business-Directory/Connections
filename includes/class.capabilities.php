@@ -139,6 +139,7 @@ class cnRole extends WP_Roles {
 	 * @return void
 	 */
 	public static function reset( $roles = array() ) {
+		global $connections;
 
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
@@ -183,6 +184,8 @@ class cnRole extends WP_Roles {
 			// Ensure all roles can view public entries.
 			$instance->add_cap( $role, 'connections_view_public', TRUE );
 		}
+
+		$connections->options->defaultCapabilitiesSet( TRUE );
 	}
 
 	/**

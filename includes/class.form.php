@@ -1970,11 +1970,31 @@ class cnCategoryObjects {
 		$out .= '<p>' . __( 'Categories can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.', 'connections' ) . '</p>';
 		$out .= '</div>';
 
-		$out .= '<div class="form-field connectionsform">';
-		$out .= '<label for="category_description">' . __( 'Description', 'connections' ) . '</label>';
-		$out .= '<textarea cols="40" rows="5" id="category_description" name="category_description">' . $category->getDescription() . '</textarea>';
-		$out .= '<p>' . __( 'The description is not displayed by default; however, templates may be created or altered to show it.', 'connections' ) . '</p>';
-		$out .= '</div>';
+		// $out .= '<div class="form-field connectionsform">';
+		// $out .= '<label for="category_description">' . __( 'Description', 'connections' ) . '</label>';
+		// $out .= '<textarea cols="40" rows="5" id="category_description" name="category_description">' . $category->getDescription() . '</textarea>';
+		// $out .= '<p>' . __( 'The description is not displayed by default; however, templates may be created or altered to show it.', 'connections' ) . '</p>';
+		// $out .= '</div>';
+
+		ob_start();
+
+		wp_editor( $category->getDescription(),
+			'category_description',
+			array(
+				'media_buttons' => FALSE,
+				'tinymce' => array(
+					'editor_selector' => 'tinymce',
+					'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
+					'theme_advanced_buttons2' => '',
+					'inline_styles' => TRUE,
+					'relative_urls' => FALSE,
+					'remove_linebreaks' => FALSE,
+					'plugins' => 'inlinepopups,spellchecker,tabfocus,paste,wordpress,wpdialogs'
+				)
+			)
+		);
+
+		$out .= ob_get_clean();
 
 		echo $out;
 	}

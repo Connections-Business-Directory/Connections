@@ -30,6 +30,8 @@ class cnTemplatePart {
 
 		add_action( 'cn_action_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
 
+		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription'), 10, 2 );
+
 		add_action( 'cn_action_character_index', array( __CLASS__, 'characterIndex' ) );
 		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
 	}
@@ -81,6 +83,61 @@ class cnTemplatePart {
 				$atts['container_tag'],
 				$out
 			);
+
+		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+	}
+
+	/**
+	 * Output the current category description.
+	 *
+	 * @access public
+	 * @since 0.7.8
+	 * @param  (array)  $atts [optional]
+	 * @param  (array)  $results [optional]
+	 * @uses get_query_var()
+	 * @return (string) | (void)
+	 */
+	public static function categoryDescription( $atts = array(), $results = array() ) {
+		global $connections;
+
+		$out = '';
+
+		$defaults = array(
+			'before'        => '',
+			'after'         => '',
+			'return'        => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( get_query_var( 'cn-cat-slug' ) ) {
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$categorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+
+			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+
+			$category = new cnCategory( $term );
+
+			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
+		}
+
+		if ( get_query_var( 'cn-cat' ) ) {
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$categorySlug = explode( '/' , get_query_var( 'cn-cat' ) );
+
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+
+			$term = $connections->term->getTermBy( 'id', $categorySlug, 'category' );
+
+			$category = new cnCategory( $term );
+
+			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
+		}
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";

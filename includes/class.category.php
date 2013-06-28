@@ -11,6 +11,18 @@ class cnCategory {
 	private $count;
 	private $children;
 
+	/**
+	 * The cnFormmatting class.
+	 * @var (object)
+	 */
+	private $format;
+
+	/**
+	 * The cnValidate class.
+	 * @var (object)
+	 */
+	private $validate;
+
 	function __construct( $data = NULL ) {
 		if ( isset( $data ) ) {
 			if ( isset( $data->term_id ) ) $this->id = $data->term_id;
@@ -23,6 +35,12 @@ class cnCategory {
 			if ( isset( $data->count ) ) $this->count = $data->count;
 			if ( isset( $data->children ) ) $this->children = $data->children;
 		}
+
+		// Load the validation class.
+		$this->validate = new cnValidate();
+
+		// Load the formatting class for sanitizing the get methods.
+		$this->format = new cnFormatting();
 	}
 
 	/**
@@ -69,7 +87,7 @@ class cnCategory {
 	 * @see cnCategory::$description
 	 */
 	public function getDescription() {
-		return $this->description;
+		return $this->format->sanitizeString( $this->description, TRUE );
 	}
 
 	/**
@@ -80,6 +98,90 @@ class cnCategory {
 	 */
 	public function setDescription( $description ) {
 		$this->description = $description;
+	}
+
+	/**
+	 * Echo or returns the category description.
+	 *
+	 * Registers the global $wp_embed because the run_shortcode method needs
+	 * to run before the do_shortcode function for the [embed] shortcode to fire.
+	 *
+	 * Filters:
+	 *   cn_output_default_atts_cat_desc
+	 *
+	 * @access public
+	 * @since 0.7.8
+	 * @uses apply_filters()
+	 * @uses run_shortcode()
+	 * @uses do_shortcode()
+	 * @param array $atts [optional]
+	 * @return (string)
+	 */
+	public function getDescriptionBlock( $atts = array() ) {
+		global $wp_embed;
+
+		$defaults = array(
+			'container_tag' => 'div',
+			'before'        => '',
+			'after'         => '',
+			'return'        => FALSE
+		);
+
+		$defaults = apply_filters( 'cn_output_default_atts_cat_desc' , $defaults );
+
+		$atts = $this->validate->attributesArray( $defaults, $atts );
+
+		$out = __( $wp_embed->run_shortcode( $this->getDescription() ) );
+
+		$out = do_shortcode( $out );
+
+		$out = sprintf( '<%1$s class="cn-cat-description">%2$s</%1$s>',
+				$atts['container_tag'],
+				$out
+			);
+
+		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+	}
+
+	/**
+	 * Create excerpt from the supplied text. Default is the description.
+	 *
+	 * Filters:
+	 *   cn_cat_excerpt_length => change the default excerpt length of 55 words.
+	 *   cn_cat_excerpt_more  => change the default more string of &hellip;
+	 *   cn_trim_cat_excerpt  => change returned string
+	 *
+	 * @access public
+	 * @since 0.7.8
+	 * @param (string)  $atts [optional]
+	 * @param (string)  $text [optional]
+	 * @return (string)
+	 */
+	public function getExcerpt( $atts = array(), $text = NULL ) {
+
+		$defaults = array(
+			'length' => apply_filters( 'cn_cat_excerpt_length', 55 ),
+			'more'   => apply_filters( 'cn_cat_excerpt_more', '&hellip;' )
+		);
+
+		$atts = $this->validate->attributesArray( $defaults, $atts );
+
+		$text = empty( $text ) ? $this->getDescription() : $this->format->sanitizeString( $text, FALSE );
+
+		$words = preg_split( "/[\n\r\t ]+/", $text, $atts['length'] + 1, PREG_SPLIT_NO_EMPTY );
+
+		if ( count( $words ) > $atts['length'] ) {
+
+			array_pop( $words );
+			$text = implode( ' ', $words ) . $atts['more'];
+
+		} else {
+
+			$text = implode( ' ', $words );
+		}
+
+		return apply_filters( 'cn_trim_cat_excerpt', $text );
 	}
 
 	/**

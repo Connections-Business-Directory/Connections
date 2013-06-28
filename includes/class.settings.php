@@ -379,6 +379,19 @@ class cnRegisterSettings
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'cat_desc',
+			'position'  => 5,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_results',
+			'title'     => __('Category Description', 'connections'),
+			'desc'      => __('Display the current category description before the results list.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'index',
 			'position'  => 10,
 			'page_hook' => $settings,
@@ -831,7 +844,7 @@ class cnRegisterSettings
 			'tab'       => 'seo',
 			'section'   => 'connections_seo_meta',
 			'title'     => __('Page Description', 'connections'),
-			'desc'      => __( 'Use an excert of the current category description or current entry bio.', 'connections' ),
+			'desc'      => __( 'Use an excerpt of the current category description or current entry bio.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1

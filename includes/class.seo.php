@@ -35,6 +35,9 @@ class cnSEO {
 	 */
 	public static function init() {
 
+		// Add the page meta description.
+		add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 10 );
+
 		// These filters are a hack. Used to add/remove the permalink/title filters so they do not not affect the nav menu.
 		add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );
 		add_filter( 'wp_page_menu', array( __CLASS__, 'endNav' ), 10, 2 );
@@ -326,6 +329,65 @@ class cnSEO {
 		}
 
 		return implode( ' &raquo; ', $title );
+	}
+
+	/**
+	 * Add the the current Connections category description or entry bio excerpt  as the page meta description.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @uses get_query_var()
+	 * @uses esc_attr()
+	 * @uses strip_shortcodes()
+	 * @return (string) | (void)
+	 */
+	public static function metaDesc() {
+		global $connections;
+
+		// Whether or not to filter the page title with the current directory location.
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo_meta', 'page_desc' ) ) return;
+
+		if ( get_query_var( 'cn-cat-slug' ) ) {
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$categorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+
+			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+
+			$category = new cnCategory( $term );
+
+			$desciption = $category->getExcerpt( array( 'length' => 160 ) );
+		}
+
+		if ( get_query_var( 'cn-cat' ) ) {
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$categorySlug = explode( '/' , get_query_var( 'cn-cat' ) );
+
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+
+			$term = $connections->term->getTermBy( 'id', $categorySlug, 'category' );
+
+			$category = new cnCategory( $term );
+
+			$desciption = $category->getExcerpt( array( 'length' => 160 ) );
+		}
+
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			$result = $connections->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			$entry = new cnEntry( $result[0] );
+
+			$desciption = $entry->getExcerpt( array( 'length' => 160 ) );
+		}
+
+		if ( empty( $desciption ) ) return;
+
+		echo '<meta name="description" content="' . esc_attr( trim( strip_shortcodes( strip_tags( stripslashes( $desciption ) ) ) ) ) . '"/>' . "\n";
+
 	}
 
 	/**

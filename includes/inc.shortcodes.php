@@ -352,7 +352,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					do_action( 'cn_action_list_before-' . $template->getSlug() , $atts , $results );
 					$filterRegistry[] = 'cn_action_list_before-' . $template->getSlug();
 
-					do_action( 'cn_action_list_both' , $atts , $results  );
+					do_action( 'cn_action_list_both' , $atts , $results );
 					do_action( 'cn_action_list_both-' . $template->getSlug() , $atts , $results );
 					$filterRegistry[] = 'cn_action_list_both-' . $template->getSlug();
 

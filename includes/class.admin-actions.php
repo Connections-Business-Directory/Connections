@@ -138,7 +138,7 @@ class cnAdminActions {
 			$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
 			$category->setSlug( $format->sanitizeString( $_POST['category_slug'] ) );
 			$category->setParent( $format->sanitizeString( $_POST['category_parent'] ) );
-			$category->setDescription( $format->sanitizeString( $_POST['category_description'] ) );
+			$category->setDescription( $format->sanitizeString( $_POST['category_description'], TRUE ) );
 
 			$category->save();
 
@@ -182,7 +182,7 @@ class cnAdminActions {
 			$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
 			$category->setParent( $format->sanitizeString( $_POST['category_parent'] ) );
 			$category->setSlug( $format->sanitizeString( $_POST['category_slug'] ) );
-			$category->setDescription( $format->sanitizeString( $_POST['category_description'] ) );
+			$category->setDescription( $format->sanitizeString( $_POST['category_description'], TRUE ) );
 
 			$category->update();
 

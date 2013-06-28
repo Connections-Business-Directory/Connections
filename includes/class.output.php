@@ -2262,6 +2262,10 @@ class cnOutput extends cnEntry
 	public function vcard( $atts = array() ) {
 		global $wp_rewrite, $connections;
 
+		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
+		// otherwise it'll cause an error.
+		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
+
 		$base = get_option( 'connections_permalink' );
 		$name = $base['name_base'];
 		$homeID = $connections->settings->get( 'connections', 'connections_home_page', 'page_id' ); // Get the directory home page ID.
@@ -2329,6 +2333,9 @@ class cnOutput extends cnEntry
 
 		$out .= '</span>';
 
+		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
+		// otherwise it'll cause an error.
+		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";

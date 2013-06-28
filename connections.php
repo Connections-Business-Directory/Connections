@@ -1291,7 +1291,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				header( 'Content-Length: ' . strlen( $data ) );
 				header( 'Pragma: public' );
 				header( "Pragma: no-cache" );
-				header( "Expires: 0" );
+				//header( "Expires: 0" );
+				header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
+				header( 'Cache-Control: private' );
 				header( 'Connection: close' );
 
 				echo $data;

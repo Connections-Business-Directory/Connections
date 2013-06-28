@@ -125,7 +125,14 @@ class cnFileSystem {
 			'<Files timthumb.php>',
 			'Order Allow,Deny',
 			'Allow from all',
-			'</Files>'
+			'</Files>',
+			'',
+			'<ifmodule mod_security.c>',
+			'<files timthumb.php>',
+			'SecFilterEngine Off',
+			'SecFilterScanPOST Off',
+			'</files>',
+			'</ifmodule>'
 			);
 
 		@file_put_contents( $path . '.htaccess', implode( PHP_EOL, $rules ) );

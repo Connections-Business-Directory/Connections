@@ -99,7 +99,7 @@ class cnOutput extends cnEntry
 			),
 			'height' => 0,
 			'width'  => 0,
-			'zc'     => 2,
+			'zc'     => 1,
 			'before' => '',
 			'after'  => '',
 			'style'  => array(),

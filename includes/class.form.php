@@ -1550,6 +1550,7 @@ class cnFormObjects {
 		echo '<div>' , "\n";
 		echo '<label><input type="radio" name="link[image]" value="::FIELD::"> ' , __( 'Assign link to the image.', 'connections' ) , '</label>' , "\n";
 		echo '<label><input type="radio" name="link[logo]" value="::FIELD::"> ' , __( 'Assign link to the logo.', 'connections' ) , '</label>' , "\n";
+		// echo '<label><input type="checkbox" name="link[none]" value="::FIELD::"> ' , __( 'None', 'connections' ) , '</label>' , "\n";
 		echo '</div>' , "\n";
 
 		echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="link" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>' , "\n";
@@ -1564,11 +1565,12 @@ class cnFormObjects {
 		if ( ! empty( $links ) ) {
 
 			foreach ( $links as $link ) {
-				$token = $this->token( $entry->getId() );
-				$selectName = 'link['  . $token . '][type]';
-				( $link->preferred ) ? $preferredLink = 'CHECKED' : $preferredLink = '';
-				( $link->image ) ? $imageLink = 'CHECKED' : $imageLink = '';
-				( $link->logo ) ? $logoLink = 'CHECKED' : $logoLink = '';
+				$token         = $this->token( $entry->getId() );
+				$selectName    = 'link['  . $token . '][type]';
+				$preferredLink = ( $link->preferred ) ? 'CHECKED' : '';
+				$imageLink     = ( $link->image ) ? 'CHECKED' : '';
+				$logoLink      = ( $link->logo ) ? 'CHECKED' : '';
+				// $noneLink      = ( empty( $imageLink ) && empty( $logoLink ) ) ? 'CHECKED' : '';
 				//var_dump($link);
 
 				echo '<div class="widget link" id="link-row-'  . $token . '">' , "\n";
@@ -1598,6 +1600,7 @@ class cnFormObjects {
 				echo '<div>' , "\n";
 				echo '<label><input type="radio" name="link[image]" value="' , $token , '" ' , $imageLink , '> ' , __( 'Assign link to the image.', 'connections' ) , '</label>' , "\n";
 				echo '<label><input type="radio" name="link[logo]" value="' , $token , '" ' , $logoLink , '> ' , __( 'Assign link to the logo.', 'connections' ) , '</label>' , "\n";
+				// echo '<label><input type="checkbox" name="link[none]" value="' , $token , '" ' , $noneLink , '> ' , __( 'None', 'connections' ) , '</label>' , "\n";
 				echo '</div>' , "\n";
 
 				echo  '<input type="hidden" name="link[' , $token , '][id]" value="' , $link->id , '">' , "\n";

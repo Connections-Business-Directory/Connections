@@ -337,7 +337,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				require_once CN_PATH . 'includes/class.filesystem.php';
 
 				// The class for handling admin notices.
-				require_once CN_PATH . 'includes/class.message.php';
+				require_once CN_PATH . 'includes/admin/class.message.php';
 
 				// Class used for managing role capabilites.
 				require_once CN_PATH . 'includes/class.capabilities.php';

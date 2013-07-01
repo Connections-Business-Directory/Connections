@@ -349,7 +349,7 @@ class cnAdminActions {
 				@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
 			}
 
-			include_once CN_PATH . '/includes/inc.processes.php';
+			include_once CN_PATH . 'includes/admin/inc.processes.php';
 
 			// Process the newly uploaded logo.
 			$logoProcessResults = processLogo();
@@ -440,7 +440,7 @@ class cnAdminActions {
 				}
 			}
 
-			include_once CN_PATH . '/includes/inc.processes.php';
+			include_once CN_PATH . 'includes/admin/inc.processes.php';
 
 			// Process the newly uploaded image.
 			$image_proccess_results = processImages();
@@ -459,7 +459,7 @@ class cnAdminActions {
 			}
 		} else {
 
-			include_once CN_PATH . '/includes/inc.processes.php';
+			include_once CN_PATH . 'includes/admin/inc.processes.php';
 
 			// Don't do this if an entry is being updated.
 			if ( $action !== 'update' ) {

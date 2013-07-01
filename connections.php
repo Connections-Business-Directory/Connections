@@ -745,7 +745,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @return void
 		 */
 		public static  function managePageLimitSaveAJAX() {
-			include_once CN_PATH . '/includes/inc.processes.php';
+			include_once CN_PATH . 'includes/admin/inc.processes.php';
 
 			processSetUserFilter();
 		}

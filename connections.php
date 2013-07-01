@@ -334,7 +334,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				include CN_PATH . 'includes/screen-options/screen-options.php';
 
 				// The class for working with the file system.
-				require_once CN_PATH . 'includes/class.filesystem.php';
+				require_once CN_PATH . 'includes/admin/class.filesystem.php';
 
 				// The class for handling admin notices.
 				require_once CN_PATH . 'includes/admin/class.message.php';

@@ -3,7 +3,7 @@
 function copyImage( $image ) {
 	// Uses the upload.class.php to handle file uploading and image manipulation.
 	// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
-	require_once CN_PATH . '/includes/php_class_upload/class.upload.php';
+	require_once CN_PATH . '/includes/libraries/php_class_upload/class.upload.php';
 
 	$source = CN_IMAGE_PATH . $image;
 
@@ -23,7 +23,7 @@ function processImages() {
 
 	// Uses the upload.class.php to handle file uploading and image manipulation.
 	// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
-	require_once CN_PATH . '/includes/php_class_upload/class.upload.php';
+	require_once CN_PATH . '/includes/libraries/php_class_upload/class.upload.php';
 
 	$process_image = new Upload( $_FILES['original_image'] );
 	$image['source'] = $process_image->file_src_name_body;
@@ -159,7 +159,7 @@ function processLogo() {
 
 	// Uses the upload.class.php to handle file uploading and image manipulation.
 	// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
-	require_once CN_PATH . '/includes/php_class_upload/class.upload.php';
+	require_once CN_PATH . '/includes/libraries/php_class_upload/class.upload.php';
 
 	$process_logo = new Upload( $_FILES['original_logo'] );
 

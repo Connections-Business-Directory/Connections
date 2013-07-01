@@ -134,7 +134,7 @@ class cnOutput extends cnEntry
 
 					if ( $customSize ) {
 
-						$atts['src'] = CN_URL . 'includes/timthumb/timthumb.php?src=' .
+						$atts['src'] = CN_URL . 'includes/libraries/timthumb/timthumb.php?src=' .
 							CN_IMAGE_BASE_URL . $this->getImageNameOriginal() .
 							( empty( $atts['height'] ) ? '' : '&amp;h=' . $atts['height'] ) .
 							( empty( $atts['width'] ) ? '' : '&amp;w=' . $atts['width'] ) .
@@ -207,7 +207,7 @@ class cnOutput extends cnEntry
 
 					if ( $customSize ) {
 
-						$atts['src'] = CN_URL . 'includes/timthumb/timthumb.php?src=' .
+						$atts['src'] = CN_URL . 'includes/libraries/timthumb/timthumb.php?src=' .
 							CN_IMAGE_BASE_URL . $this->getLogoName() .
 							( empty( $atts['height'] ) ? '' : '&amp;h=' . $atts['height'] ) .
 							( empty( $atts['width'] ) ? '' : '&amp;w=' . $atts['width'] ) .

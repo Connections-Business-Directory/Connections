@@ -340,7 +340,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				require_once CN_PATH . 'includes/admin/class.message.php';
 
 				// Class used for managing role capabilites.
-				require_once CN_PATH . 'includes/class.capabilities.php';
+				require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
 				// The class for processing admin actions.
 				require_once CN_PATH . 'includes/class.admin-actions.php';
@@ -488,7 +488,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Class used for managing role capabilites.
 			// @TODO: a version change should not reset the roles and capabilites.
-			if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/class.capabilities.php';
+			if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
 			if ( $this->options->getCapabilitiesSet() != TRUE ) cnRole::reset();
 
 			// Increment the version number.

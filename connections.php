@@ -7,7 +7,7 @@ Version: 0.7.7.1
 Author: Steven A. Zahm
 Author URI: http://connections-pro.com/
 Text Domain: connections
-Domain Path: /lang
+Domain Path: /languages
 
 	Copyright 2009  Steven A. Zahm  (email : helpdesk@connections-pro.com)
 
@@ -167,8 +167,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//$connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
 
 			// Load the translation files.
-			load_plugin_textdomain( 'connections' , false , CN_DIR_NAME . '/lang' );
-
+			load_plugin_textdomain( 'connections' , FALSE , CN_DIR_NAME . '/languages' );
+=
 			/*
 			 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
 			 */

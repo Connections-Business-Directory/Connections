@@ -168,7 +168,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Load the translation files.
 			load_plugin_textdomain( 'connections' , FALSE , CN_DIR_NAME . '/languages' );
-=
+
 			/*
 			 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
 			 */
@@ -992,45 +992,45 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			switch ( $_GET['page'] ) {
 				case 'connections_dashboard':
-					include_once CN_PATH . '/submenus/dashboard.php';
+					include_once CN_PATH . '/includes/admin/pages/dashboard.php';
 					connectionsShowDashboardPage();
 					break;
 
 				case 'connections_manage':
-					include_once CN_PATH . '/submenus/manage.php';
+					include_once CN_PATH . '/includes/admin/pages/manage.php';
 					( isset( $_GET['action'] ) && ! empty( $_GET['action'] ) ) ? $action = $_GET['action'] : $action = '';
 
 					connectionsShowViewPage( $action );
 					break;
 
 				case 'connections_add':
-					include_once CN_PATH . '/submenus/manage.php';
+					include_once CN_PATH . '/includes/admin/pages/manage.php';
 
 					connectionsShowViewPage( 'add' );
 					break;
 
 				case 'connections_categories':
-					include_once CN_PATH . '/submenus/categories.php';
+					include_once CN_PATH . '/includes/admin/pages/categories.php';
 					connectionsShowCategoriesPage();
 					break;
 
 				case 'connections_settings':
-					include_once CN_PATH . '/submenus/settings.php';
+					include_once CN_PATH . '/includes/admin/pages/settings.php';
 					connectionsShowSettingsPage();
 					break;
 
 				case 'connections_templates':
-					include_once CN_PATH . '/submenus/templates.php';
+					include_once CN_PATH . '/includes/admin/pages/templates.php';
 					connectionsShowTemplatesPage();
 					break;
 
 				case 'connections_roles':
-					include_once CN_PATH . '/submenus/roles.php';
+					include_once CN_PATH . '/includes/admin/pages/roles.php';
 					connectionsShowRolesPage();
 					break;
 
 				case 'connections_help':
-					include_once CN_PATH . '/submenus/help.php';
+					include_once CN_PATH . '/includes/admin/pages/help.php';
 					connectionsShowHelpPage();
 					break;
 			}

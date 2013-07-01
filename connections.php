@@ -331,7 +331,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * Include the Screen Options class by Janis Elsts
 				 * http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/
 				 */
-				include CN_PATH . 'includes/screen-options/screen-options.php';
+				include CN_PATH . 'includes/libraries/screen-options/screen-options.php';
 
 				// The class for working with the file system.
 				require_once CN_PATH . 'includes/admin/class.filesystem.php';

@@ -110,21 +110,23 @@ class cnFormObjects {
 	 * @param string  $name    [optional] Nonce name.
 	 * @param bool    $referer [optional] Whether to set and display the refer field for validation.
 	 * @param bool    $echo    [optional] Whether to display or return the hidden form field.
-	 *
 	 * @return string
 	 */
 	public function tokenField( $action, $item = FALSE, $name = '_cn_wpnonce', $referer = TRUE, $echo = TRUE ) {
 		$name = esc_attr( $name );
 
 		if ( $item == FALSE ) {
+
 			$token = wp_nonce_field( $this->nonceBase . '_' . $action, $name, $referer, FALSE );
-		}
-		else {
+
+		} else {
+
 			$token = wp_nonce_field( $this->nonceBase . '_' . $action . '_' . $item, $name, $referer, FALSE );
 		}
 
 		if ( $echo ) echo $token;
-		if ( $referer ) wp_referer_field( $echo, 'previous' );
+
+		// if ( $referer ) wp_referer_field( $echo, 'previous' );
 
 		return $token;
 	}
@@ -137,6 +139,7 @@ class cnFormObjects {
 	 * @return string
 	 */
 	public function tokenURL( $actionURL, $item ) {
+
 		return wp_nonce_url( $actionURL, $item );
 	}
 
@@ -148,10 +151,13 @@ class cnFormObjects {
 	 * @return string
 	 */
 	public function getNonce( $action, $item = FALSE ) {
+
 		if ( $item == FALSE ) {
+
 			$nonce = $this->nonceBase . '_' . $action;
-		}
-		else {
+
+		} else {
+
 			$nonce = $this->nonceBase . '_' . $action . '_' . $item;
 		}
 
@@ -817,16 +823,19 @@ class cnFormObjects {
 
 		switch ( $action ) {
 			case 'edit':
+				echo '<input type="hidden" name="cn-action" value="cn_update_entry"/>';
 				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
 				echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
 				break;
 
 			case 'copy':
+				echo '<input type="hidden" name="cn-action" value="cn_copy_entry"/>';
 				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
 				echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
 				break;
 
 			default:
+				echo '<input type="hidden" name="cn-action" value="cn_add_entry"/>';
 				echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
 				break;
 		}
@@ -1892,7 +1901,8 @@ class cnCategoryObjects {
 		/*
 				 * Genreate the category link token URL.
 				 */
-		$categoryFilterURL = $form->tokenURL( 'admin.php?connections_process=true&process=manage&action=filter&category_id=' . $category->getId(), 'filter' );
+		// $categoryFilterURL = $form->tokenURL( 'admin.php?connections_process=true&process=manage&action=filter&category_id=' . $category->getId(), 'filter' );
+		$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=cn_filter&category=' . $category->getId(), 'filter' );
 
 		if ( (integer) $category->getCount() > 0 ) {
 			$out .= '<strong>' . __( 'Count', 'connections' ) . ':</strong> ' . '<a href="' . $categoryFilterURL . '">' . $category->getCount() . '</a><br />';

@@ -240,8 +240,8 @@ function connectionsShowViewPage( $action = NULL ) {
 			echo '<h2>Connections : ' , __( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __( 'Add New', 'connections' ) , '</a></h2>';
 
 			/*
-				 * Check whether user can view the entry list
-				 */
+			 * Check whether user can view the entry list
+			 */
 			if ( current_user_can( 'connections_manage' ) ) {
 
 				$retrieveAttr['list_type'] = $connections->currentUser->getFilterEntryType();
@@ -260,194 +260,201 @@ function connectionsShowViewPage( $action = NULL ) {
 				// print_r($connections->lastQuery);
 				?>
 
-							<?php if ( current_user_can( 'connections_edit_entry' ) ) { ?>
-							<ul class="subsubsub">
-								<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'all' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=all"><?php _e( 'All', 'connections' ); ?></a> | </li>
-								<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'approved' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=approved"><?php _e( 'Approved', 'connections' ); ?> <span class="count">(<?php echo $connections->recordCountApproved; ?>)</span></a> | </li>
-								<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'pending' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=pending"><?php _e( 'Moderate', 'connections' ); ?> <span class="count">(<?php echo $connections->recordCountPending; ?>)</span></a></li>
-							</ul>
-							<?php } ?>
+				<?php if ( current_user_can( 'connections_edit_entry' ) ) { ?>
 
-							<form action="admin.php?connections_process=true&process=manage&action=do" method="post">
+				<ul class="subsubsub">
+					<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'all' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=all"><?php _e( 'All', 'connections' ); ?></a> | </li>
+					<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'approved' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=approved"><?php _e( 'Approved', 'connections' ); ?> <span class="count">(<?php echo $connections->recordCountApproved; ?>)</span></a> | </li>
+					<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'pending' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=pending"><?php _e( 'Moderate', 'connections' ); ?> <span class="count">(<?php echo $connections->recordCountPending; ?>)</span></a></li>
+				</ul>
 
-							<p class="search-box">
-								<label class="screen-reader-text" for="post-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
-								<input type="text" id="entry-search-input" name="s" value="<?php if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) echo $_GET['s'] ; ?>" />
-								<input type="submit" name="" id="search-submit" class="button" value="<?php _e( 'Search Entries', 'connections' ); ?>"  />
-							</p>
+				<?php } ?>
 
-							<?php $form->tokenField( 'bulk_action' ); ?>
+				<form method="post">
 
-							<div class="tablenav">
+					<p class="search-box">
+						<label class="screen-reader-text" for="post-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
+						<input type="text" id="entry-search-input" name="s" value="<?php if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) echo $_GET['s'] ; ?>" />
+						<input type="submit" name="" id="search-submit" class="button" value="<?php _e( 'Search Entries', 'connections' ); ?>"  />
+					</p>
 
-								<div class="alignleft actions">
-									<?php
-				echo '<select class="postform" id="category" name="category">';
-				echo '<option value="-1">' , __( 'Show All Categories', 'connections' ) , '</option>';
-				echo $categoryObjects->buildCategoryRow( 'option', $connections->retrieve->categories(), 0, $connections->currentUser->getFilterCategory() );
-				echo '</select>';
+					<?php $form->tokenField( 'cn_manage_actions' ); ?>
 
-				echo $form->buildSelect(
-					'entry_type',
-					array(
-						'all' => __( 'Show All Entries', 'connections' ),
-						'individual' => __( 'Show Individuals', 'connections' ),
-						'organization' => __( 'Show Organizations', 'connections' ),
-						'family' => __( 'Show Families', 'connections' )
-					),
-					$connections->currentUser->getFilterEntryType()
-				);
+					<input type="hidden" name="cn-action" value="cn_manage_actions"/>
 
-				/*
-				 * Builds the visibilty select list base on current user capabilities.
-				 */
-				if ( current_user_can( 'connections_view_public' ) || $connections->options->getAllowPublic() ) $visibilitySelect['public'] = __( 'Show Public', 'connections' );
-				if ( current_user_can( 'connections_view_private' ) ) $visibilitySelect['private'] = __( 'Show Private', 'connections' );
-				if ( current_user_can( 'connections_view_unlisted' ) ) $visibilitySelect['unlisted'] = __( 'Show Unlisted', 'connections' );
+					<div class="tablenav">
 
-				if ( isset( $visibilitySelect ) ) {
-					/*
-											 * Add the 'Show All' option and echo the list.
-											 */
-					$showAll['all'] = __( 'Show All', 'connections' );
-					$visibilitySelect = $showAll + $visibilitySelect;
-					echo $form->buildSelect( 'visibility_type', $visibilitySelect, $connections->currentUser->getFilterVisibility() );
-				}
-				?>
-									<input id="doaction" class="button-secondary action" type="submit" name="filter" value="Filter" />
-									<input type="hidden" name="formId" value="do_action" />
-									<input type="hidden" name="token" value="<?php echo $form->token( "do_action" ); ?>" />
-								</div>
+						<div class="alignleft actions">
+							<?php
+							echo '<select class="postform" id="category" name="category">';
+							echo '<option value="-1">' , __( 'Show All Categories', 'connections' ) , '</option>';
+							echo $categoryObjects->buildCategoryRow( 'option', $connections->retrieve->categories(), 0, $connections->currentUser->getFilterCategory() );
+							echo '</select>';
 
-								<div class="tablenav-pages">
-									<?php
+							echo $form->buildSelect(
+								'entry_type',
+								array(
+									'all' => __( 'Show All Entries', 'connections' ),
+									'individual' => __( 'Show Individuals', 'connections' ),
+									'organization' => __( 'Show Organizations', 'connections' ),
+									'family' => __( 'Show Families', 'connections' )
+								),
+								$connections->currentUser->getFilterEntryType()
+							);
 
-				echo '<span class="displaying-num">' . sprintf( __( 'Displaying %1$d of %2$d entries.', 'connections' ), $connections->resultCount, $connections->resultCountNoLimit ) . '</span>';
+							/*
+							 * Builds the visibilty select list base on current user capabilities.
+							 */
+							if ( current_user_can( 'connections_view_public' ) || $connections->options->getAllowPublic() ) $visibilitySelect['public'] = __( 'Show Public', 'connections' );
+							if ( current_user_can( 'connections_view_private' ) ) $visibilitySelect['private'] = __( 'Show Private', 'connections' );
+							if ( current_user_can( 'connections_view_unlisted' ) ) $visibilitySelect['unlisted'] = __( 'Show Unlisted', 'connections' );
 
-				/*
-				 * // START --> Pagination
-				 *
-				 * Grab the pagination data again incase a filter reset the values
-				 * or the user input an invalid number which the retrieve query would have reset.
-				 */
-				$page = $connections->currentUser->getFilterPage( 'manage' );
+							if ( isset( $visibilitySelect ) ) {
 
-				$pageCount = ceil( $connections->resultCountNoLimit / $page->limit );
+								/*
+								 * Add the 'Show All' option and echo the list.
+								 */
+								$showAll['all'] = __( 'Show All', 'connections' );
+								$visibilitySelect = $showAll + $visibilitySelect;
+								echo $form->buildSelect( 'visibility_type', $visibilitySelect, $connections->currentUser->getFilterVisibility() );
+							}
 
-				if ( $pageCount > 1 ) {
-					$pageDisabled = array();
-					$pageFilterURL = array();
-					$pageValue = array();
-					$currentPageURL = add_query_arg( array( 'page' => FALSE , 'connections_process' => TRUE , 'process' => 'manage' , 'action' => 'filter' )  );
+							?>
 
-					$pageValue['first_page'] = 1;
-					$pageValue['previous_page'] = ( $page->current - 1 >= 1 ) ? $page->current - 1 : 1;
-					$pageValue['next_page'] = ( $page->current + 1 <= $pageCount ) ? $page->current + 1 : $pageCount;
-					$pageValue['last_page'] = $pageCount;
+							<input class="button-secondary action" type="submit" name="filter" value="Filter"/>
 
-					( $page->current > 1 ) ? $pageDisabled['first_page'] = '' : $pageDisabled['first_page'] = ' disabled';
-					( $page->current - 1 >= 1 ) ? $pageDisabled['previous_page'] = '' : $pageDisabled['previous_page'] = ' disabled';
-					( $page->current + 1 <= $pageCount ) ? $pageDisabled['next_page'] = '' : $pageDisabled['next_page'] = ' disabled';
-					( $page->current < $pageCount ) ? $pageDisabled['last_page'] = '' : $pageDisabled['last_page'] = ' disabled';
+						</div>
 
-					/*
-											 * Genreate the page link token URL.
-											 */
-					$pageFilterURL['first_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) , 'filter' );
-					$pageFilterURL['previous_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['previous_page'] ) , $currentPageURL ) , 'filter' );
-					$pageFilterURL['next_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['next_page'] ) , $currentPageURL ) , 'filter' );
-					$pageFilterURL['last_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['last_page'] ) , $currentPageURL ) , 'filter' );
+						<div class="tablenav-pages">
+							<?php
 
-					echo '<span class="page-navigation" id="page-input">';
+							echo '<span class="displaying-num">' . sprintf( __( 'Displaying %1$d of %2$d entries.', 'connections' ), $connections->resultCount, $connections->resultCountNoLimit ) . '</span>';
 
-					echo '<a href="' . $pageFilterURL['first_page'] . '" title="' . __( 'Go to the first page.', 'connections' ) . '" class="first-page' , $pageDisabled['first_page'] , '">&laquo;</a> ';
-					echo '<a href="' . $pageFilterURL['previous_page'] . '" title="' . __( 'Go to the previous page.', 'connections' ) . '" class="prev-page' , $pageDisabled['previous_page'] , '">&lsaquo;</a> ';
+							/*
+							 * // START --> Pagination
+							 *
+							 * Grab the pagination data again incase a filter reset the values
+							 * or the user input an invalid number which the retrieve query would have reset.
+							 */
+							$page = $connections->currentUser->getFilterPage( 'manage' );
 
-					echo '<span class="paging-input"><input type="text" size="2" value="' . $page->current . '" name="pg" title="' . __( 'Current page', 'connections' ) . '" class="current-page"> ' . __( 'of', 'connections' ) . ' <span class="total-pages">' . $pageCount . '</span></span> ';
+							$pageCount = ceil( $connections->resultCountNoLimit / $page->limit );
 
-					echo '<a href="' . $pageFilterURL['next_page'] . '" title="' . __( 'Go to the next page.', 'connections' ) . '" class="next-page' , $pageDisabled['next_page'] , '">&rsaquo;</a> ';
-					echo '<a href="' . $pageFilterURL['last_page'] . '" title="' . __( 'Go to the last page.', 'connections' ) . '" class="last-page' , $pageDisabled['last_page'] , '">&raquo;</a>';
+							if ( $pageCount > 1 ) {
 
-					echo '</span>';
-				}
+								$pageDisabled   = array();
+								$pageFilterURL  = array();
+								$pageValue      = array();
+								$currentPageURL = add_query_arg( array( 'page' => FALSE , 'connections_process' => TRUE , 'process' => 'manage' , 'action' => 'filter' )  );
 
-				/*
-				 * // END --> Pagination
-				 */
-				?>
-								</div>
+								$pageValue['first_page']    = 1;
+								$pageValue['previous_page'] = ( $page->current - 1 >= 1 ) ? $page->current - 1 : 1;
+								$pageValue['next_page']     = ( $page->current + 1 <= $pageCount ) ? $page->current + 1 : $pageCount;
+								$pageValue['last_page']     = $pageCount;
 
-							</div>
-							<div class="clear"></div>
-							<div class="tablenav">
+								( $page->current > 1 ) ? $pageDisabled['first_page'] = '' : $pageDisabled['first_page'] = ' disabled';
+								( $page->current - 1 >= 1 ) ? $pageDisabled['previous_page'] = '' : $pageDisabled['previous_page'] = ' disabled';
+								( $page->current + 1 <= $pageCount ) ? $pageDisabled['next_page'] = '' : $pageDisabled['next_page'] = ' disabled';
+								( $page->current < $pageCount ) ? $pageDisabled['last_page'] = '' : $pageDisabled['last_page'] = ' disabled';
 
-								<?php
+								/*
+								 * Genreate the page link token URL.
+								 */
+								$pageFilterURL['first_page']    = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) , 'filter' );
+								$pageFilterURL['previous_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['previous_page'] ) , $currentPageURL ) , 'filter' );
+								$pageFilterURL['next_page']     = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['next_page'] ) , $currentPageURL ) , 'filter' );
+								$pageFilterURL['last_page']     = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['last_page'] ) , $currentPageURL ) , 'filter' );
 
-								if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_delete_entry' ) ) {
-									echo '<div class="alignleft actions">';
-									echo '<select name="action">';
-									echo '<option value="" SELECTED>' , __( 'Bulk Actions', 'connections' ) , '</option>';
+								echo '<span class="page-navigation" id="page-input">';
 
-									$bulkActions = array();
+								echo '<a href="' . $pageFilterURL['first_page'] . '" title="' . __( 'Go to the first page.', 'connections' ) . '" class="first-page' , $pageDisabled['first_page'] , '">&laquo;</a> ';
+								echo '<a href="' . $pageFilterURL['previous_page'] . '" title="' . __( 'Go to the previous page.', 'connections' ) . '" class="prev-page' , $pageDisabled['previous_page'] , '">&lsaquo;</a> ';
 
-									if ( current_user_can( 'connections_edit_entry' )  || current_user_can( 'connections_edit_entry_moderated' ) ) {
-										$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
-										$bulkActions['approve'] = __( 'Approve', 'connections' );
-										$bulkActions['public'] = __( 'Set Public', 'connections' );
-										$bulkActions['private'] = __( 'Set Private', 'connections' );
-										$bulkActions['unlisted'] = __( 'Set Unlisted', 'connections' );
-									}
+								echo '<span class="paging-input"><input type="text" size="2" value="' . $page->current . '" name="pg" title="' . __( 'Current page', 'connections' ) . '" class="current-page"> ' . __( 'of', 'connections' ) . ' <span class="total-pages">' . $pageCount . '</span></span> ';
 
-									if ( current_user_can( 'connections_delete_entry' ) ) {
-										$bulkActions['delete'] = __( 'Delete', 'connections' );
-									}
+								echo '<a href="' . $pageFilterURL['next_page'] . '" title="' . __( 'Go to the next page.', 'connections' ) . '" class="next-page' , $pageDisabled['next_page'] , '">&rsaquo;</a> ';
+								echo '<a href="' . $pageFilterURL['last_page'] . '" title="' . __( 'Go to the last page.', 'connections' ) . '" class="last-page' , $pageDisabled['last_page'] , '">&raquo;</a>';
 
-									$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );
+								echo '</span>';
+							}
 
-									foreach ( $bulkActions as $action => $string ) {
-										echo '<option value="', $action, '">', $string, '</option>';
-									}
+							/*
+							 * // END --> Pagination
+							 */
+							?>
+						</div>
 
-									echo '</select>';
-									echo '<input id="doaction" class="button-secondary action" type="submit" name="doaction" value="' , __( 'Apply', 'connections' ) , '" />';
-									echo '</div>';
-								}
-								?>
+					</div>
+					<div class="clear"></div>
+					<div class="tablenav">
 
-								<div class="tablenav-pages">
-									<?php
+						<?php
 
-									/*
-									 * Display the character filter control.
-									 */
-									echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
-									cnTemplatePart::index( array( 'status' => $connections->currentUser->getFilterStatus() ) );
-									cnTemplatePart::currentCharacter();
-									?>
-								</div>
-							</div>
-							<div class="clear"></div>
+						if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_delete_entry' ) ) {
+							echo '<div class="alignleft actions">';
+							echo '<select name="action">';
+							echo '<option value="" SELECTED>' , __( 'Bulk Actions', 'connections' ) , '</option>';
 
-					       	<table cellspacing="0" class="widefat connections">
-								<thead>
-						            <tr>
-						                <th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></th>
-										<th class="col" style="width:10%;"></th>
-										<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
-										<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
-										<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
-						            </tr>
-								</thead>
-								<tfoot>
-						            <tr>
-						                <th class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></th>
-										<th class="col" style="width:10%;"></th>
-										<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
-										<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
-										<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
-						            </tr>
-								</tfoot>
-								<tbody>
+							$bulkActions = array();
+
+							if ( current_user_can( 'connections_edit_entry' )  || current_user_can( 'connections_edit_entry_moderated' ) ) {
+								$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
+								$bulkActions['approve'] = __( 'Approve', 'connections' );
+								$bulkActions['public'] = __( 'Set Public', 'connections' );
+								$bulkActions['private'] = __( 'Set Private', 'connections' );
+								$bulkActions['unlisted'] = __( 'Set Unlisted', 'connections' );
+							}
+
+							if ( current_user_can( 'connections_delete_entry' ) ) {
+								$bulkActions['delete'] = __( 'Delete', 'connections' );
+							}
+
+							$bulkActions = apply_filters( 'cn_manage_bulk_actions', $bulkActions );
+
+							foreach ( $bulkActions as $action => $string ) {
+								echo '<option value="', $action, '">', $string, '</option>';
+							}
+
+							echo '</select>';
+							echo '<input class="button-secondary action" type="submit" name="bulk_action" value="' , __( 'Apply', 'connections' ) , '" />';
+							echo '</div>';
+						}
+						?>
+
+						<div class="tablenav-pages">
+							<?php
+
+							/*
+							 * Display the character filter control.
+							 */
+							echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
+							cnTemplatePart::index( array( 'status' => $connections->currentUser->getFilterStatus() ) );
+							cnTemplatePart::currentCharacter();
+							?>
+						</div>
+					</div>
+					<div class="clear"></div>
+
+			       	<table cellspacing="0" class="widefat connections">
+						<thead>
+				            <tr>
+				                <th class="manage-column column-cb check-column" id="cb" scope="col"><input type="checkbox"/></th>
+								<th class="col" style="width:10%;"></th>
+								<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
+								<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
+								<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
+				            </tr>
+						</thead>
+						<tfoot>
+				            <tr>
+				                <th class="manage-column column-cb check-column" scope="col"><input type="checkbox"/></th>
+								<th class="col" style="width:10%;"></th>
+								<th scope="col" colspan="2" style="width:40%;"><?php _e( 'Name', 'connections' ); ?></th>
+								<th scope="col" style="width:30%;"><?php _e( 'Categories', 'connections' ); ?></th>
+								<th scope="col" style="width:20%;"><?php _e( 'Last Modified', 'connections' ); ?></th>
+				            </tr>
+						</tfoot>
+						<tbody>
 
 				<?php
 
@@ -473,11 +480,11 @@ function connectionsShowViewPage( $action = NULL ) {
 					/*
 					 * Genreate the edit, copy and delete URLs with nonce tokens.
 					 */
-					$editTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&action=edit&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
-					$copyTokenURL = $form->tokenURL( 'admin.php?page=connections_manage&action=copy&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
-					$deleteTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=manage&action=delete&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
-					$approvedTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=manage&action=approve&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
-					$unapproveTokenURL = $form->tokenURL( 'admin.php?connections_process=true&process=manage&action=unapprove&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$editTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&action=edit&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
+					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&action=copy&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
+					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=cn_delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
+					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=cn_set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=cn_set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
 
 					switch ( $entry->getStatus() ) {
 					case 'pending' :
@@ -494,7 +501,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					}
 
 					echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass .'">';
-					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='entry[]'/></th> \n";
+					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='id[]'/></th> \n";
 					echo '<td>';
 					$entry->getImage( array( 'image' => 'photo' , 'preset' => 'thumbnail' , 'height' => 54 , 'width' => 80 , 'zc' => 2 , 'fallback' => array( 'type' => 'block' , 'string' => __( 'No Photo Available', 'connections' ) ) ) );
 					echo '</td>';
@@ -546,7 +553,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							/*
 							 * Genreate the category link token URL.
 							 */
-							$categoryFilterURL = $form->tokenURL( 'admin.php?connections_process=true&process=manage&action=filter&category_id=' . $category->term_id, 'filter' );
+							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=cn_filter&category=' . $category->term_id, 'filter' );
 
 							echo '<a href="' . $categoryFilterURL . '">' . $category->name . '</a>';
 

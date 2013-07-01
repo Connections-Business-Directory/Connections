@@ -343,7 +343,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
 				// The class for processing admin actions.
-				require_once CN_PATH . 'includes/class.admin-actions.php';
+				require_once CN_PATH . 'includes/admin/class.actions.php';
 
 			} else {
 

@@ -854,11 +854,30 @@ class cnAdminActions {
 	 */
 	public static function userFilter() {
 
+		$queryVar = array();
+
 		check_admin_referer( 'filter' );
 
 		self::saveUserFilters();
 
-		wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_manage' ) );
+		/*
+		 * Setup the redirect.
+		 */
+
+		if ( isset( $_POST['s'] ) && ! empty( $_POST['s'] ) )
+			$queryVar['s'] = urlencode( $_POST['s'] );
+
+		// if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) )
+		// 	$queryVar['s'] = urlencode( $_GET['s'] );
+
+		if ( isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) )
+			$queryVar['cn-char'] = urlencode( $_GET['cn-char'] );
+
+		/*
+		 * Do the redirect.
+		 */
+
+		wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( $queryVar, 'admin.php?page=connections_manage' ) ) );
 
 		exit();
 	}

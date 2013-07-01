@@ -345,7 +345,7 @@ function connectionsShowViewPage( $action = NULL ) {
 								$pageDisabled   = array();
 								$pageFilterURL  = array();
 								$pageValue      = array();
-								$currentPageURL = add_query_arg( array( 'page' => FALSE , 'connections_process' => TRUE , 'process' => 'manage' , 'action' => 'filter' )  );
+								$currentPageURL = add_query_arg( array( 'page' => FALSE , /*'connections_process' => TRUE , 'process' => 'manage' ,*/ 'cn-action' => 'cn_filter' )  );
 
 								$pageValue['first_page']    = 1;
 								$pageValue['previous_page'] = ( $page->current - 1 >= 1 ) ? $page->current - 1 : 1;
@@ -399,10 +399,10 @@ function connectionsShowViewPage( $action = NULL ) {
 
 							if ( current_user_can( 'connections_edit_entry' )  || current_user_can( 'connections_edit_entry_moderated' ) ) {
 								$bulkActions['unapprove'] = __( 'Unapprove', 'connections' );
-								$bulkActions['approve'] = __( 'Approve', 'connections' );
-								$bulkActions['public'] = __( 'Set Public', 'connections' );
-								$bulkActions['private'] = __( 'Set Private', 'connections' );
-								$bulkActions['unlisted'] = __( 'Set Unlisted', 'connections' );
+								$bulkActions['approve']   = __( 'Approve', 'connections' );
+								$bulkActions['public']    = __( 'Set Public', 'connections' );
+								$bulkActions['private']   = __( 'Set Private', 'connections' );
+								$bulkActions['unlisted']  = __( 'Set Unlisted', 'connections' );
 							}
 
 							if ( current_user_can( 'connections_delete_entry' ) ) {

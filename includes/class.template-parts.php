@@ -532,7 +532,7 @@ class cnTemplatePart {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		$characters = cnRetrieve::getCharacters( $atts );
-		$currentPageURL = add_query_arg( array( 'page' => FALSE , 'connections_process' => TRUE , 'process' => 'manage' , 'action' => 'filter' )  );
+		// $currentPageURL = add_query_arg( array( 'page' => FALSE , 'cn-action' => 'cn_filter' )  );
 
 		// If in the admin init an instance of the cnFormObjects class to be used to create the URL nonce.
 		if ( is_admin() ) $form = new cnFormObjects();
@@ -549,9 +549,9 @@ class cnTemplatePart {
 
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
-				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) , $currentPageURL ) , 'filter' ) . '">' . $char . '</a> ';
+				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) , 'filter' ) . '">' . $char . '</a> ';
 			} else {
-				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) , $currentPageURL ) . '">' . $char . '</a> ';
+				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) . '">' . $char . '</a> ';
 			}
 
 		}

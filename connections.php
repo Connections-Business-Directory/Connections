@@ -796,7 +796,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			// Register the top level menu item.
-			$this->pageHook->topLevel = add_menu_page( 'Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array ( &$this, 'showPage' ), CN_URL . 'images/menu.png' );
+			$this->pageHook->topLevel = add_menu_page( 'Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array ( &$this, 'showPage' ), CN_URL . 'assets/images/menu.png' );
 
 			$submenu[0]   = array( 'hook' => 'dashboard', 'page_title' => 'Connections : ' . __( 'Dashboard', 'connections' ), 'menu_title' => __( 'Dashboard', 'connections' ), 'capability' => 'connections_view_dashboard', 'menu_slug' => 'connections_dashboard', 'function' => array ( &$this, 'showPage' ) );
 			$submenu[20]  = array( 'hook' => 'manage', 'page_title' => 'Connections : ' . __( 'Manage', 'connections' ), 'menu_title' => __( 'Manage', 'connections' ), 'capability' => 'connections_manage', 'menu_slug' => 'connections_manage', 'function' => array ( &$this, 'showPage' ) );

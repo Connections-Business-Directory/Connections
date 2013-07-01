@@ -278,7 +278,7 @@ class cnTemplatePart {
 			'href'   => '#cn-top',
 			'style'  => array(),
 			'title'  => __('Return to top.', 'connections'),
-			'text'   => '<img src="' . CN_URL . 'images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/>',
+			'text'   => '<img src="' . CN_URL . 'assets/images/uparrow.gif" alt="' . __('Return to top.', 'connections') . '"/>',
 			'before' => '',
 			'after'  => '',
 			'return' => FALSE

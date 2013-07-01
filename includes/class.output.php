@@ -1374,7 +1374,7 @@ class cnOutput extends cnEntry
 
 			$replace[] = ( empty( $email->name ) ) ? '' : '<span class="email-name">' . $email->name . '</span>';
 			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-address"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '">' . $email->address . '</a></span>';
-			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><image src="' . CN_URL . 'images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a></span>';
+			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><image src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a></span>';
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 			$out .= str_ireplace( $search , $replace , $atts['format'] );
@@ -1616,7 +1616,7 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->url . '</a>';
 
-			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><image class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;"/></a>';
+			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><image class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;"/></a>';
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
@@ -2326,7 +2326,7 @@ class cnOutput extends cnEntry
 
 		$replace[] = '<a ' . implode( ' ', $piece ) . '>' . $atts['text'] . '</a>';
 
-		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . CN_URL . 'images/icons/vcard/vcard_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
+		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 
 
 		$out .= str_ireplace( $search , $replace , $atts['format'] );

@@ -326,6 +326,15 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Load the included templates that use the templates API introduced in 0.7.6
 			include_once CN_PATH . 'templates/names/names.php';
 
+			// Class for processing email.
+			require_once CN_PATH . 'includes/email/class.email.php';
+
+			// Class for handling email template registration and management.
+			require_once CN_PATH . 'includes/email/class.email-template-api.php';
+
+			// Class for registering the default email templates.
+			require_once CN_PATH . 'includes/email/class.default-template.php';
+
 			if ( is_admin() ) {
 				/*
 				 * Include the Screen Options class by Janis Elsts
@@ -375,6 +384,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Init the SEO class.
 			if ( ! is_admin() ) cnSEO::init();
+
+			// Init the email template API.
+			cnEmail_Template::init();
+
+			// Register the default email templates.
+			cnEmail_DefaultTemplates::init();
 
 			// Init the included templates that use the API introduced in 0.7.6
 			add_action( 'plugins_loaded', array( 'cnNames', 'init' ), 11 );

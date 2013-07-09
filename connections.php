@@ -291,8 +291,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/class.date.php'; // Required for activation, entry list, add entry
 			//entry objects
 			require_once CN_PATH . 'includes/class.entry.php'; // Required for activation, entry list
-			//plugin option objects
-			require_once CN_PATH . 'includes/class.options.php'; // Required for activation
+
 			//plugin utility objects
 			require_once CN_PATH . 'includes/class.utility.php'; // Required for activation, entry list
 			//plugin template objects
@@ -315,10 +314,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/class.rewrite.php';
 
 			// Load the Connections Settings API Wrapper Class.
-			require_once CN_PATH . 'includes/class.settings-api.php';
+			require_once CN_PATH . 'includes/settings/class.settings-api.php';
+
+			// plugin option objects
+			require_once CN_PATH . 'includes/settings/class.options.php'; // Required for activation
 
 			// Load the Connections core settings admin page tabs, section and fields using the WordPress Settings API.
-			require_once CN_PATH . 'includes/class.settings.php';
+			require_once CN_PATH . 'includes/settings/class.settings.php';
 
 			// Load the class that manages the registration and enqueueing of CSS and JS files.
 			require_once CN_PATH . 'includes/class.scripts.php';

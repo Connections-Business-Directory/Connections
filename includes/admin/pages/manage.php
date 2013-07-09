@@ -1,8 +1,20 @@
 <?php
+
+/**
+ * The manage admin page.
+ *
+ * @package     Connections
+ * @subpackage  The manage admin page.
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function connectionsShowViewPage( $action = NULL ) {
 	global $wpdb, $connections;
-
-	$connections->displayMessages();
 
 	switch ( $action ) {
 		case 'add':
@@ -280,7 +292,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					<?php $form->tokenField( 'cn_manage_actions' ); ?>
 
-					<input type="hidden" name="cn-action" value="cn_manage_actions"/>
+					<input type="hidden" name="cn-action" value="manage_actions"/>
 
 					<div class="tablenav">
 
@@ -345,7 +357,7 @@ function connectionsShowViewPage( $action = NULL ) {
 								$pageDisabled   = array();
 								$pageFilterURL  = array();
 								$pageValue      = array();
-								$currentPageURL = add_query_arg( array( 'page' => FALSE , /*'connections_process' => TRUE , 'process' => 'manage' ,*/ 'cn-action' => 'cn_filter' )  );
+								$currentPageURL = add_query_arg( array( 'page' => FALSE , /*'connections_process' => TRUE , 'process' => 'manage' ,*/ 'cn-action' => 'filter' )  );
 
 								$pageValue['first_page']    = 1;
 								$pageValue['previous_page'] = ( $page->current - 1 >= 1 ) ? $page->current - 1 : 1;
@@ -482,9 +494,9 @@ function connectionsShowViewPage( $action = NULL ) {
 					 */
 					$editTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&action=edit&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
 					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&action=copy&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
-					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=cn_delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
-					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=cn_set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
-					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=cn_set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
+					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
 
 					switch ( $entry->getStatus() ) {
 					case 'pending' :
@@ -553,7 +565,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							/*
 							 * Genreate the category link token URL.
 							 */
-							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=cn_filter&category=' . $category->term_id, 'filter' );
+							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' );
 
 							echo '<a href="' . $categoryFilterURL . '">' . $category->name . '</a>';
 

@@ -88,13 +88,13 @@ class cnAdminActions {
 		add_action( 'cn_filter', array( __CLASS__, 'userFilter' ) );
 
 		// Role Actions
-		add_action( 'cn_update_role_settings', array( __CLASS__, 'updateRoleSettings' ) );
+		add_action( 'cn_update_role_capabilities', array( __CLASS__, 'updateRoleCapabilities' ) );
 
 		// Category Actions
 		add_action( 'cn_add_category', array( __CLASS__, 'addCategory' ) );
 		add_action( 'cn_update_category', array( __CLASS__, 'updateCategory' ) );
 		add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
-		add_action( 'cn_category', array( __CLASS__, 'categoryActions' ) );
+		add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
 
 		// Template Actions
 		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
@@ -113,11 +113,13 @@ class cnAdminActions {
 	private static function doActions() {
 
 		if ( isset( $_POST['cn-action'] ) ) {
-			do_action( $_POST['cn-action'] );
+
+			do_action( 'cn_' . $_POST['cn-action'] );
 		}
 
 		if ( isset( $_GET['cn-action'] ) ) {
-			do_action( $_GET['cn-action'] );
+
+			do_action( 'cn_' . $_GET['cn-action'] );
 		}
 	}
 
@@ -1064,7 +1066,7 @@ class cnAdminActions {
 	 * @uses get_current_blog_id()
 	 * @return void
 	 */
-	public static function categoryActions() {
+	public static function categoryManagement() {
 		global $connections;
 
 		/*
@@ -1290,7 +1292,7 @@ class cnAdminActions {
 	 * @uses get_current_blog_id()
 	 * @return void
 	 */
-	public static function updateRoleSettings() {
+	public static function updateRoleCapabilities() {
 		global $wp_roles;
 
 		$form = new cnFormObjects();

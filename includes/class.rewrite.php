@@ -1,11 +1,19 @@
 <?php
+
 /**
  * Methods to be used in actions and filters to register query vars,
  * rewrite rules and canonical redirects.
  *
- * @author Steven A. Zahm
- * @since 0.7.3.2
+ * @package     Connections
+ * @subpackage  Rewrite Rules and Registered Query Vars
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.7.3.2
  */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class cnRewrite {
 
 	/**

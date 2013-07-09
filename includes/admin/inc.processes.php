@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * Entry management functions.
+ *
+ * @package     Connections
+ * @subpackage  Entry management functions.
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function copyImage( $image ) {
 	// Uses the upload.class.php to handle file uploading and image manipulation.
 	// GPL PHP upload class from http://www.verot.net/php_class_upload.htm

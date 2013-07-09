@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * Functions for used by the shortcode callbacks.
+ *
+ * @package     Connections
+ * @subpackage  Shortcodes
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Template tag to call the entry list. All options can be passed as an
  * associative array. The options are identical to those available to the

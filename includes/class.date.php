@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * Class for working with a dates and date ranges.
+ *
+ * @package     Connections
+ * @subpackage  Dates
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class cnDate {
 	/**
 	 * Returns an associative array containing days 1 thru 31

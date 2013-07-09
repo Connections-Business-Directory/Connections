@@ -1,6 +1,21 @@
 <?php
 
 /**
+ * Class to manage options using the Options API.
+ *
+ * @todo This really needs some cleaning up.
+ *
+ * @package     Connections
+ * @subpackage  Manage the plugins options.
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
  * Get and Set the plugin options
  */
 class cnOptions {

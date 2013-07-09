@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * String sanitation and validation.
+ *
+ * @package     Connections
+ * @subpackage  Sanitation and Validation
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class cnFormatting {
 	/**
 	 * Sanitize the input string. HTML tags can be permitted.

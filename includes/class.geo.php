@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * Class to geocode addresses.
+ *
+ * @package     Connections
+ * @subpackage  Geocode
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.7.3
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * This Geocoding API is still a work in progress.
  * It is not recommended to be used in production

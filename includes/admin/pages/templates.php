@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * The templates admin page.
+ *
+ * @package     Connections
+ * @subpackage  The templates admin page.
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function connectionsShowTemplatesPage() {
 
 	/*
@@ -179,10 +193,10 @@ function connectionsShowTemplatesPage() {
 
 									<span class="action-links">
 										<?php
-											$activateTokenURL = $form->tokenURL( 'admin.php?cn-action=cn_activate_template&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'activate_' . $template->{ $slug }->getSlug() );
+											$activateTokenURL = $form->tokenURL( 'admin.php?cn-action=activate_template&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'activate_' . $template->{ $slug }->getSlug() );
 
 											if ( $template->{ $slug }->isCustom() === TRUE && $template->{ $slug }->isLegacy() === TRUE ) {
-												$deleteTokenURL = $form->tokenURL( 'admin.php?cn-action=cn_delete_template&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'delete_' .  $template->{ $slug }->getSlug() );
+												$deleteTokenURL = $form->tokenURL( 'admin.php?cn-action=delete_template&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'delete_' .  $template->{ $slug }->getSlug() );
 											}
 
 										?>
@@ -234,7 +248,7 @@ function connectionsShowTemplatesPage() {
 							?>
 
 							<p>
-								<input type="hidden" name="cn-action" value="cn_install_template"/>
+								<input type="hidden" name="cn-action" value="install_template"/>
 
 								<label for='template'><?php _e( 'Select Template:', 'connections' ); ?>
 									<input type='file' value='' name='template' size='25' />

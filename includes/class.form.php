@@ -1,6 +1,21 @@
 <?php
 
 /**
+ * Class for creating various form HTML elements.
+ *
+ * @todo This class is an absolute mess, clean and optimize.
+ *
+ * @package     Connections
+ * @subpackage  HTML Form Elements
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
  * Create custom HTML forms.
  */
 class cnFormObjects {
@@ -823,19 +838,19 @@ class cnFormObjects {
 
 		switch ( $action ) {
 			case 'edit':
-				echo '<input type="hidden" name="cn-action" value="cn_update_entry"/>';
+				echo '<input type="hidden" name="cn-action" value="update_entry"/>';
 				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
 				echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
 				break;
 
 			case 'copy':
-				echo '<input type="hidden" name="cn-action" value="cn_copy_entry"/>';
+				echo '<input type="hidden" name="cn-action" value="copy_entry"/>';
 				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
 				echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
 				break;
 
 			default:
-				echo '<input type="hidden" name="cn-action" value="cn_add_entry"/>';
+				echo '<input type="hidden" name="cn-action" value="add_entry"/>';
 				echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
 				break;
 		}
@@ -1878,8 +1893,8 @@ class cnCategoryObjects {
 		/*
 		 * Genreate the edit & delete tokens.
 		 */
-		$editToken = $form->tokenURL( 'admin.php?page=connections_categories&action=cn_edit_category&id=' . $category->getId(), 'category_edit_' . $category->getId() );
-		$deleteToken = $form->tokenURL( 'admin.php?cn-action=cn_delete_category&id=' . $category->getId(), 'category_delete_' . $category->getId() );
+		$editToken = $form->tokenURL( 'admin.php?page=connections_categories&cn-action=edit_category&id=' . $category->getId(), 'category_edit_' . $category->getId() );
+		$deleteToken = $form->tokenURL( 'admin.php?cn-action=delete_category&id=' . $category->getId(), 'category_delete_' . $category->getId() );
 
 		$out = '<tr id="cat-' . $category->getId() . '" class="' . $this->rowClass . '">';
 		$out .= '<th class="check-column">';
@@ -1902,7 +1917,7 @@ class cnCategoryObjects {
 				 * Genreate the category link token URL.
 				 */
 		// $categoryFilterURL = $form->tokenURL( 'admin.php?connections_process=true&process=manage&action=filter&category_id=' . $category->getId(), 'filter' );
-		$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=cn_filter&category=' . $category->getId(), 'filter' );
+		$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $category->getId(), 'filter' );
 
 		if ( (integer) $category->getCount() > 0 ) {
 			$out .= '<strong>' . __( 'Count', 'connections' ) . ':</strong> ' . '<a href="' . $categoryFilterURL . '">' . $category->getCount() . '</a><br />';

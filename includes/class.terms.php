@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * Taxonomy management.
+ *
+ * @package     Connections
+ * @subpackage  Taxonomy
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 class cnTerms
 {
 	/**
@@ -20,7 +33,7 @@ class cnTerms
 	 *
 	 * $taxonomies currently this will only accept a string of the specified taxonomy
 	 * @TODO: Add the code necessary to accept arrays for requesting multiple taxonomy types
-	 * $TODO: Add default arguments see /wp-includes/taxonomy.php ->  line 515 to get terms specific to a type
+	 * @TODO: Add default arguments see /wp-includes/taxonomy.php ->  line 515 to get terms specific to a type
 	 *
 	 * @param array $taxonomies
 	 * @param array $arguments [optional]

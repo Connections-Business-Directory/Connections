@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * The categories admin page.
+ *
+ * @package     Connections
+ * @subpackage  The categories admin page.
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function connectionsShowCategoriesPage() {
 	/*
 	 * Check whether user can edit catgories.
@@ -25,13 +39,13 @@ function connectionsShowCategoriesPage() {
 		$form = new cnFormObjects();
 		$categoryObjects = new cnCategoryObjects();
 
-		if ( isset( $_GET['action'] ) ) {
-			$action = $_GET['action'];
+		if ( isset( $_GET['cn-action'] ) ) {
+			$action = $_GET['cn-action'];
 		} else {
 			$action = NULL;
 		}
 
-		if ( $action === 'cn_edit_category' ) {
+		if ( $action === 'edit_category' ) {
 
 			$id = esc_attr( $_GET['id'] );
 			check_admin_referer( 'category_edit_' . $id );
@@ -56,7 +70,7 @@ function connectionsShowCategoriesPage() {
 					$categoryObjects->showForm( $connections->retrieve->category( $id ) );
 					?>
 
-					<input type="hidden" name="cn-action" value="cn_update_category"/>
+					<input type="hidden" name="cn-action" value="update_category"/>
 
 					<p class="submit"><a class="button button-warning" href="admin.php?page=connections_categories"><?php _e( 'Cancel', 'connections' ); ?></a> <input class="button-primary" type="submit" value="<?php _e( 'Update Category', 'connections' ); ?>" name="update" class="button"/></p>
 
@@ -94,7 +108,8 @@ function connectionsShowCategoriesPage() {
 											<option selected="selected" value=""><?php _e( 'Bulk Actions', 'connections' ); ?></option>
 											<option value="delete"><?php _e( 'Delete', 'connections' ); ?></option>
 										</select>
-										<input type="submit" class="button-secondary action" id="doaction" name="doaction" value="<?php _e( 'Apply', 'connections' ); ?>"/>
+										<input type="hidden" name="cn-action" value="category_bulk_actions"/>
+										<input type="submit" class="button-secondary action" value="<?php _e( 'Apply', 'connections' ); ?>"/>
 									</div>
 
 									<br class="clear"/>
@@ -129,8 +144,6 @@ function connectionsShowCategoriesPage() {
 
 									</tbody>
 								</table>
-
-								<input type="hidden" name="cn-action" value="cn_category"/>
 
 							<?php $form->close(); ?>
 
@@ -173,7 +186,7 @@ function connectionsShowCategoriesPage() {
 								$categoryObjects->showForm();
 								?>
 
-								<input type="hidden" name="cn-action" value="cn_add_category"/>
+								<input type="hidden" name="cn-action" value="add_category"/>
 								<p class="submit"><input type="submit" value="<?php _e( 'Add New Category', 'connections' ); ?>" name="add" class="button"/></p>
 
 								<?php $form->close(); ?>

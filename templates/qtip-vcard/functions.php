@@ -1,4 +1,20 @@
 <?php
+
+<?php
+
+/**
+ * Template functions.
+ *
+ * @package     Connections
+ * @subpackage  Template Functions
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 if ( ! class_exists( 'qTipvCard' ) ) {
 	class qTipvCard {
 		/**

@@ -1,4 +1,18 @@
 <?php
+
+/**
+ * The role capability admin page.
+ *
+ * @package     Connections
+ * @subpackage  The role capability admin page.
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       unknown
+ */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 function connectionsShowRolesPage() {
 	/*
 	 * Check whether user can edit roles
@@ -21,8 +35,6 @@ function connectionsShowRolesPage() {
 		global $connections, $wp_roles;
 
 		$form = new cnFormObjects();
-
-		$connections->displayMessages();
 
 ?>
 		<div class="wrap cn-roles">
@@ -59,7 +71,7 @@ function connectionsShowRolesPage() {
 
 							<div id="major-publishing-actions">
 								<div id="publishing-action">
-									<input type="hidden" name="cn-action" value="cn_update_role_settings"/>
+									<input type="hidden" name="cn-action" value="update_role_capabilities"/>
 									<input class="button-primary" type="submit" value="<?php _e( 'Update', 'connections' ); ?>" name="save" />
 								</div>
 								<div class="clear"></div>

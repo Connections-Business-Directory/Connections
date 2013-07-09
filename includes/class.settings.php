@@ -206,8 +206,8 @@ class cnRegisterSettings
 		 * The sections registered to the Search tab.
 		 */
 		$sections[] = array(
-			'tab'       => 'images',
-			'id'        => 'connections_image_instructions',
+			'tab'       => 'search',
+			'id'        => 'connections_search_instructions',
 			'position'  => 10,
 			'title'     => __( 'Search Instructions' , 'connections' ),
 			'callback'  => create_function( '', "_e('Search on the front end of the website is enabled in select premium templates only.

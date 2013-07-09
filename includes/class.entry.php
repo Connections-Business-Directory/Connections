@@ -2903,7 +2903,7 @@ class cnEntry {
 
 		// Convert the date to a string to convert to a sting again. Why? Because doing it this way should keep PHP from timezone adjusting the output.
 		// date_default_timezone_set('UTC')
-		return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ) );
+		return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );
 
 	}
 

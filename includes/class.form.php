@@ -799,8 +799,8 @@ class cnFormObjects {
 
 		$atts = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $defaults ), $defaults );
 
-		if ( isset( $_GET['action'] ) ) {
-			$action = esc_attr( $_GET['action'] );
+		if ( isset( $_GET['cn-action'] ) ) {
+			$action = esc_attr( $_GET['cn-action'] );
 		} else {
 			$action = $atts['action'];
 		}
@@ -837,13 +837,13 @@ class cnFormObjects {
 		echo '<div id="major-publishing-actions">';
 
 		switch ( $action ) {
-			case 'edit':
+			case 'edit_entry' || 'edit':
 				echo '<input type="hidden" name="cn-action" value="update_entry"/>';
 				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
 				echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
 				break;
 
-			case 'copy':
+			case 'copy_entry' || 'copy':
 				echo '<input type="hidden" name="cn-action" value="copy_entry"/>';
 				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
 				echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';

@@ -17,7 +17,8 @@ function connectionsShowViewPage( $action = NULL ) {
 	global $wpdb, $connections;
 
 	switch ( $action ) {
-		case 'add':
+
+		case 'add_entry':
 
 			echo '<div class="wrap">';
 			echo get_screen_icon( 'connections' );
@@ -83,21 +84,23 @@ function connectionsShowViewPage( $action = NULL ) {
 					<?php
 
 				unset( $entry );
-			}
-			else {
+
+			} else {
+
 				echo '<div id="message" class="error"><p>' , __( '<strong>ERROR:</strong> You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) , '</p></div>';
 			}
+
 			break;
 
-		case 'copy':
+		case 'copy_entry':
 
 			echo '<div class="wrap">';
 			echo get_screen_icon( 'connections' );
 			echo '<h2>Connections : ' , __( 'Copy Entry', 'connections' ) , '</h2>';
 
 			/*
-				 * Check whether current user can add an entry.
-				 */
+			 * Check whether current user can add an entry.
+			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
 				$id = esc_attr( $_GET['id'] );
 				check_admin_referer( 'entry_copy_' . $id );
@@ -164,15 +167,15 @@ function connectionsShowViewPage( $action = NULL ) {
 			}
 			break;
 
-		case 'edit':
+		case 'edit_entry':
 
 			echo '<div class="wrap">';
 			echo get_screen_icon( 'connections' );
 			echo '<h2>Connections : ' , __( 'Edit Entry', 'connections' ) , '</h2>';
 
 			/*
-				 * Check whether the current user can edit entries.
-				 */
+			 * Check whether the current user can edit entries.
+			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
 				$id = esc_attr( $_GET['id'] );
 				check_admin_referer( 'entry_edit_' . $id );
@@ -492,24 +495,24 @@ function connectionsShowViewPage( $action = NULL ) {
 					/*
 					 * Genreate the edit, copy and delete URLs with nonce tokens.
 					 */
-					$editTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&action=edit&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
-					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&action=copy&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
+					$editTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
+					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
 					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
 					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
 					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
 
 					switch ( $entry->getStatus() ) {
-					case 'pending' :
-						$statusClass = ' unapproved';
-						break;
+						case 'pending' :
+							$statusClass = ' unapproved';
+							break;
 
-					case 'approved' :
-						$statusClass = ' approved';
-						break;
+						case 'approved' :
+							$statusClass = ' approved';
+							break;
 
-					default:
-						$statusClass = '';
-						break;
+						default:
+							$statusClass = '';
+							break;
 					}
 
 					echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass .'">';

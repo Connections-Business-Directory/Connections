@@ -849,7 +849,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public static function registerEditMetaboxes() {
 			// The meta boxes do not need diplayed/registered if no action is being taken on an entry. Such as copy/edit.
-			if ( $_GET['page'] === 'connections_manage' && ! isset( $_GET['action'] ) )  return;
+			if ( $_GET['page'] === 'connections_manage' && ! isset( $_GET['cn-action'] ) )  return;
 
 			$form = new cnFormObjects();
 
@@ -1015,7 +1015,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				case 'connections_manage':
 					include_once CN_PATH . '/includes/admin/pages/manage.php';
-					( isset( $_GET['action'] ) && ! empty( $_GET['action'] ) ) ? $action = $_GET['action'] : $action = '';
+					$action = ( isset( $_GET['cn-action'] ) && ! empty( $_GET['cn-action'] ) ) ? $_GET['cn-action'] : '';
 
 					connectionsShowViewPage( $action );
 					break;
@@ -1023,7 +1023,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				case 'connections_add':
 					include_once CN_PATH . '/includes/admin/pages/manage.php';
 
-					connectionsShowViewPage( 'add' );
+					connectionsShowViewPage( 'add_entry' );
 					break;
 
 				case 'connections_categories':

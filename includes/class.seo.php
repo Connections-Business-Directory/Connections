@@ -255,14 +255,17 @@ class cnSEO {
 	/**
 	 * Add the the current Connections directory location/query to the page title.
 	 *
+	 * NOTE: $id really isn't optionaly, some plugins fail to use the `the_title` filter correctly,
+	 * ie. "Display Posts Shortcode", causes Connections to crash an burn if not supplied.
+	 *
 	 * @access private
 	 * @since 0.7.8
 	 * @uses get_query_var()
 	 * @param  (string) $title The browser tab/window title.
-	 * @param  (int) $sep The page ID.
+	 * @param  (int) $id [optional] The page/post ID.
 	 * @return (string)
 	 */
-	public static function filterPostTitle( $title, $id ) {
+	public static function filterPostTitle( $title, $id = 0 ) {
 		global $post, $connections;
 
 		// Whether or not to filter the page title with the current directory location.

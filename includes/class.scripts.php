@@ -130,7 +130,7 @@ class cnScript {
 			wp_register_style( 'connections-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
 		}
 
-		wp_register_style( 'connections-chosen', CN_URL . "css/chosen$min.css", array(), '0.9.11' );
+		wp_register_style( 'connections-chosen', CN_URL . "assets/css/chosen$min.css", array(), '0.9.11' );
 	}
 
 	/**

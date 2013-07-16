@@ -742,7 +742,7 @@ class cnRetrieve {
 		 */
 
 
-		$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . 'FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
+		$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
 		// print_r($sql); die;
 
 		$results = $wpdb->get_results( $sql );

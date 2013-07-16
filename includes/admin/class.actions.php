@@ -79,7 +79,7 @@ class cnAdminActions {
 		// Entry Actions
 		add_action( 'cn_add_entry', array( __CLASS__, 'processEntry' ) );
 		add_action( 'cn_update_entry', array( __CLASS__, 'processEntry' ) );
-		add_action( 'cn_copy_entry', array( __CLASS__, 'processEntry' ) );
+		add_action( 'cn_duplicate_entry', array( __CLASS__, 'processEntry' ) );
 		add_action( 'cn_delete_entry', array( __CLASS__, 'deleteEntry' ) );
 		add_action( 'cn_set_status', array( __CLASS__, 'setEntryStatus' ) );
 
@@ -227,22 +227,21 @@ class cnAdminActions {
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void) | (bool)
+	 * @return (void)
 	 */
-	public static function processEntry( $data = array(), $action = '' ) {
+	public static function processEntry() {
 		global $wpdb, $connections;
 		$entry = new cnEntry();
 		$form = new cnFormObjects();
 
-		// Set $action. The only valid options are `add` and `update`.
-		if ( isset( $_GET['action'] ) && ! empty( $_GET['action'] ) ) $action = $_GET['action'];
+		$action = $_GET['cn-action'] ? $_GET['cn-action'] : $_POST['cn-action'];
+
+		// Setup the redirect URL.
+		$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
 
 		switch ( $action ) {
 
-			case 'add':
-
-				// Setup the redirect URL.
-				$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
+			case 'add_entry':
 
 				/*
 				 * Check whether the current user can add an entry.
@@ -251,18 +250,34 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
+					cnEntry_Action::add( $_POST );
+
 				} else {
 
 					cnMessage::set( 'error', 'capability_add' );
-
-					wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
-
-					exit();
 				}
 
 				break;
 
-			case 'update':
+			case 'duplicate_entry':
+
+				/*
+				 * Check whether the current user can add an entry.
+				 */
+				if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
+
+					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
+
+					cnEntry_Action::copy( $_GET['id'], $_POST );
+
+				} else {
+
+					cnMessage::set( 'error', 'capability_add' );
+				}
+
+				break;
+
+			case 'update_entry':
 
 				// Setup the redirect URL.
 				$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_manage';
@@ -274,346 +289,19 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
 
+					cnEntry_Action::update( $_GET['id'], $_POST );
+
 				} else {
 
 					cnMessage::set( 'error', 'capability_edit' );
-
-					wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
-
-					exit();
-				}
-
-				break;
-
-			default:
-
-				// Shouldn't end up here, but lets bail, just in case.
-				return FALSE;
-
-				break;
-		}
-
-		// If $data is empty, assume, data was sent via $_POST.
-		if ( empty( $data ) ) $data = $_POST;
-
-		// The modification file date that image will be deleted. to maintain compatibility with 0.6.2.1 and older.
-		$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
-
-		// If copying/editing an entry, the entry data is loaded into the class
-		// properties and then properties are overwritten by the POST data as needed.
-		if ( isset( $_GET['id'] ) ) {
-			$entry->set( absint( $_GET['id'] ) );
-		}
-
-		// Set the default visibility.
-		$entry->setVisibility( 'unlisted' );
-
-
-		if ( isset( $data['entry_type'] ) ) $entry->setEntryType( $data['entry_type'] );
-		if ( isset( $data['family_name'] ) ) $entry->setFamilyName( $data['family_name'] );
-		( isset( $data['family_member'] ) ) ? $entry->setFamilyMembers( $data['family_member'] ) : $entry->setFamilyMembers( array() );
-		if ( isset( $data['honorific_prefix'] ) ) $entry->setHonorificPrefix( $data['honorific_prefix'] );
-		if ( isset( $data['first_name'] ) ) $entry->setFirstName( $data['first_name'] );
-		if ( isset( $data['middle_name'] ) ) $entry->setMiddleName( $data['middle_name'] );
-		if ( isset( $data['last_name'] ) ) $entry->setLastName( $data['last_name'] );
-		if ( isset( $data['honorific_suffix'] ) ) $entry->setHonorificSuffix( $data['honorific_suffix'] );
-		if ( isset( $data['title'] ) ) $entry->setTitle( $data['title'] );
-		if ( isset( $data['organization'] ) ) $entry->setOrganization( $data['organization'] );
-		if ( isset( $data['department'] ) ) $entry->setDepartment( $data['department'] );
-		if ( isset( $data['contact_first_name'] ) ) $entry->setContactFirstName( $data['contact_first_name'] );
-		if ( isset( $data['contact_last_name'] ) ) $entry->setContactLastName( $data['contact_last_name'] );
-		( isset( $data['address'] ) ) ? $entry->setAddresses( $data['address'] ) : $entry->setAddresses( array() );
-		( isset( $data['phone'] ) ) ? $entry->setPhoneNumbers( $data['phone'] ) : $entry->setPhoneNumbers( array() );
-		( isset( $data['email'] ) ) ? $entry->setEmailAddresses( $data['email'] ) : $entry->setEmailAddresses( array() );
-		( isset( $data['im'] ) ) ? $entry->setIm( $data['im'] ) : $entry->setIm( array() );
-		( isset( $data['social'] ) ) ? $entry->setSocialMedia( $data['social'] ) : $entry->setSocialMedia( array() );
-		//( isset($data['website']) ) ? $entry->setWebsites($data['website']) : $entry->setWebsites( array() );
-		( isset( $data['link'] ) ) ? $entry->setLinks( $data['link'] ) : $entry->setLinks( array() );
-		( isset( $data['date'] ) ) ? $entry->setDates( $data['date'] ) : $entry->setDates( array() );
-		if ( isset( $data['birthday_day'] ) && isset( $data['birthday_month'] ) ) $entry->setBirthday( $data['birthday_day'], $data['birthday_month'] );
-		if ( isset( $data['anniversary_day'] ) && isset( $data['anniversary_month'] ) ) $entry->setAnniversary( $data['anniversary_day'], $data['anniversary_month'] );
-		if ( isset( $data['bio'] ) ) $entry->setBio( $data['bio'] );
-		if ( isset( $data['notes'] ) ) $entry->setNotes( $data['notes'] );
-		if ( isset( $data['visibility'] ) ) $entry->setVisibility( $data['visibility'] );
-
-		( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->setUser( 0 );
-
-		// Run any registered filters before processing, passing the $entry object.
-		// ? Should the logo, photo and category data be passed too?
-		$entry = apply_filters( 'cn_pre_process_' . $action . '-entry', $entry, ( isset( $data['entry_category'] ) ? $data['entry_category'] : array() ) );
-
-		/*
-		 * Process the logo upload --> START <--
-		 */
-		if ( $_FILES['original_logo']['error'] != 4 ) {
-			// If an entry is being updated and a new logo is uploaded, the old logo needs to be deleted.
-			if ( $entry->getLogoName() != NULL ) {
-				@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
-			}
-
-			include_once CN_PATH . 'includes/admin/inc.processes.php';
-
-			// Process the newly uploaded logo.
-			$logoProcessResults = processLogo();
-
-			// If there were no errors processing the logo, set the values.
-			if ( $logoProcessResults ) {
-				$entry->setLogoLinked( TRUE );
-				$entry->setLogoDisplay( TRUE );
-				$entry->setLogoName( $logoProcessResults['name'] );
-			} else {
-				$entry->setLogoLinked( FALSE );
-				$entry->setLogoDisplay( FALSE );
-			}
-		} else {
-			// Don't do this if an entry is being updated.
-			if ( $action !== 'update' ) {
-				// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
-				// That way if an entry is deleted, only the entry specific logo will be deleted.
-				if ( $entry->getLogoName() != NULL ) $entry->setLogoName( copyImage( $entry->getLogoName() ) );
-			}
-		}
-		/*
-		 * Process the logo upload --> END <--
-		 */
-
-		/*
-		 * If copying an entry, the logo visibility property is set based on the user's choice.
-		 * NOTE: This must come after the logo processing.
-		 */
-		if ( isset( $data['logoOptions'] ) ) {
-
-			switch ( $data['logoOptions'] ) {
-
-				case 'remove':
-					$entry->setLogoDisplay( FALSE );
-					$entry->setLogoLinked( FALSE );
-
-					/*
-					 * Delete logo assigned to the entry.
-					 */
-					if ( is_file( CN_IMAGE_PATH . $entry->getLogoName() ) ) {
-						@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
-					}
-
-					$entry->setLogoName( NULL );
-					break;
-
-				case 'hidden':
-					$entry->setLogoDisplay( FALSE );
-					break;
-
-				case 'show':
-					$entry->setLogoDisplay( TRUE );
-					break;
-
-				default:
-					$entry->setLogoDisplay( FALSE );
-					break;
-			}
-		}
-
-
-		// Process the entry image upload.
-		if ( $_FILES['original_image']['error'] != 4 ) {
-			// If an entry is being updated and a new image is uploaded, the old images need to be deleted.
-			if ( $entry->getImageNameOriginal() != NULL ) {
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
-				}
-			}
-
-			if ( $entry->getImageNameThumbnail() != NULL ) {
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
-
-				}
-			}
-
-			if ( $entry->getImageNameCard() != NULL ) {
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
-				}
-			}
-
-			if ( $entry->getImageNameProfile() != NULL ) {
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
-				}
-			}
-
-			include_once CN_PATH . 'includes/admin/inc.processes.php';
-
-			// Process the newly uploaded image.
-			$image_proccess_results = processImages();
-
-			// If there were no errors processing the image, set the values.
-			if ( $image_proccess_results ) {
-				$entry->setImageLinked( true );
-				$entry->setImageDisplay( true );
-				$entry->setImageNameThumbnail( $image_proccess_results['image_names']['thumbnail'] );
-				$entry->setImageNameCard( $image_proccess_results['image_names']['entry'] );
-				$entry->setImageNameProfile( $image_proccess_results['image_names']['profile'] );
-				$entry->setImageNameOriginal( $image_proccess_results['image_names']['original'] );
-			} else {
-				$entry->setImageLinked( false );
-				$entry->setImageDisplay( false );
-			}
-		} else {
-
-			include_once CN_PATH . 'includes/admin/inc.processes.php';
-
-			// Don't do this if an entry is being updated.
-			if ( $action !== 'update' ) {
-				// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
-				// That way if an entry is deleted, only the entry specific images will be deleted.
-				if ( $entry->getImageNameOriginal() != NULL ) $entry->setImageNameOriginal( copyImage( $entry->getImageNameOriginal() ) );
-				if ( $entry->getImageNameThumbnail() != NULL ) $entry->setImageNameThumbnail( copyImage( $entry->getImageNameThumbnail() ) );
-				if ( $entry->getImageNameCard() != NULL ) $entry->setImageNameCard( copyImage( $entry->getImageNameCard() ) );
-				if ( $entry->getImageNameProfile() != NULL ) $entry->setImageNameProfile( copyImage( $entry->getImageNameProfile() ) );
-			}
-		}
-
-
-		// If copying an entry, the image visibility property is set based on the user's choice.
-		// NOTE: This must come after the image processing.
-		if ( isset( $data['imgOptions'] ) ) {
-
-			switch ( $data['imgOptions'] ) {
-				case 'remove':
-					$entry->setImageDisplay( false );
-					$entry->setImageLinked( false );
-
-					/*
-					 * Delete images assigned to the entry.
-					 *
-					 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
-					 * copying an entry so it was possible multiple entries could share the same image.
-					 * Only images created after the date that version .0.7.0.0 was released will be deleted,
-					 * plus a couple weeks for good measure.
-					 */
-
-
-					if ( is_file( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
-						if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
-							@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
-						}
-					}
-
-					if ( is_file( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
-						if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
-							@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
-
-						}
-					}
-
-					if ( is_file( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
-						if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
-							@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
-						}
-					}
-
-					if ( is_file( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
-						if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
-							@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
-						}
-					}
-
-					$entry->setImageNameOriginal( NULL );
-					$entry->setImageNameThumbnail( NULL );
-					$entry->setImageNameCard( NULL );
-					$entry->setImageNameProfile( NULL );
-
-					break;
-
-				case 'hidden':
-					$entry->setImageDisplay( false );
-					break;
-
-				case 'show':
-					$entry->setImageDisplay( true );
-					break;
-
-				default:
-					$entry->setImageDisplay( false );
-					break;
-			}
-		}
-
-		switch ( $action ) {
-
-			case 'add':
-
-				// Set moderation status per role capability assigned to the current user.
-				if ( current_user_can( 'connections_add_entry' ) ) {
-					$entry->setStatus( 'approved' );
-					$messageID = 'entry_added';
-				} elseif ( current_user_can( 'connections_add_entry_moderated' ) ) {
-					$entry->setStatus( 'pending' );
-					$messageID = 'entry_added_moderated';
-				} else {
-					$entry->setStatus( 'pending' );
-					$messageID = 'entry_added_moderated';
-				}
-
-				// Save the entry to the database. On fail store error message.
-				if ( $entry->save() == FALSE ) {
-					cnMessage::set( 'error', 'entry_added_failed' );
-					// return FALSE;
-				} else {
-					cnMessage::set( 'success', $messageID );
-					$entryID = (int) $connections->lastInsertID;
-					$entry->setID( $entryID );
-				}
-
-				break;
-
-			case 'update':
-
-				// Set moderation status per role capability assigned to the current user.
-				if ( current_user_can( 'connections_edit_entry' ) ) {
-					$entry->setStatus( 'approved' );
-					$messageID = 'entry_updated';
-				} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-					$entry->setStatus( 'pending' );
-					$messageID = 'entry_updated_moderated';
-				} else {
-					$entry->setStatus( 'pending' );
-					$messageID = 'entry_updated_moderated';
-				}
-
-				// Update the entry to the database. On fail store error message.
-				if ( $entry->update() == FALSE ) {
-					cnMessage::set( 'error', 'entry_updated_failed' );
-					// return FALSE;
-				} else {
-					cnMessage::set( 'success', $messageID );
-					$entryID = (int) $entry->getId();
 				}
 
 				break;
 		}
-
-
-		/*
-		 * Save the entry category(ies). If none were checked, send an empty array
-		 * which will add the entry to the default category.
-		 */
-		if ( isset( $data['entry_category'] ) ) {
-			$connections->term->setTermRelationships( $entryID, $data['entry_category'], 'category' );
-		} else {
-			$connections->term->setTermRelationships( $entryID, array(), 'category' );
-		}
-
-		// Run any registered post process actions.
-		$entry = do_action( 'cn_post_process_' . $action . '-entry', $entry );
-
-		// return TRUE;
 
 		wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
 
 		exit();
-
 	}
 
 	/**

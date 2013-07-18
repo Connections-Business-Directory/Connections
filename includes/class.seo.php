@@ -181,11 +181,11 @@ class cnSEO {
 	 * @since 0.7.8
 	 * @uses get_query_var()
 	 * @param  (string) $title The browser tab/window title.
-	 * @param  (string) $sep The title separator.
-	 * @param  (string) $seplocation
+	 * @param  (string) $sep [optional] The title separator.
+	 * @param  (string) $seplocation [optional] The separator location.
 	 * @return (string)
 	 */
-	public static function filterMetaTitle( $title, $sep, $seplocation ) {
+	public static function filterMetaTitle( $title, $sep = '&raquo;', $seplocation = '' ) {
 		global $connections;
 
 		// Whether or not to filter the page meta title with the current directory location.

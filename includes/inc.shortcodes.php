@@ -469,7 +469,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						$out .= ob_get_contents();
 					ob_end_clean();
 
-					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %2$s" id="%4$s">',
+					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s">',
 							$alternate = $alternate == '' ? '-alternate' : '',
 							$entry->getEntryType(),
 							$entry->getCategoryClass(TRUE),

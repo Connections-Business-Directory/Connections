@@ -1949,7 +1949,7 @@ class cnOutput extends cnEntry
 		$out .= '<div class="vevent"><span class="birthday">';
 
 		$replace[] = '<span class="date-name">' . __( 'Birthday', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . $this->getBirthday( $atts['date_format'] ) . '</abbr>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace( $search , $replace , $atts['format'] );
@@ -2019,7 +2019,7 @@ class cnOutput extends cnEntry
 		$out .= '<div class="vevent"><span class="anniversary">';
 
 		$replace[] = '<span class="date-name">' . __( 'Anniversary', 'connections' ) . '</span>';
-		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . $this->getAnniversary( $atts['date_format'] ) . '</abbr>';
+		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 		$out .= str_ireplace( $search , $replace , $atts['format'] );

@@ -1050,31 +1050,56 @@ class cnRetrieve {
 		 */
 
 		// Only select the entries with a date.
-		$where[] = "AND (`".$atts['type']."` != '')";
+		$where[] = "AND ( `".$atts['type']."` != '' )";
 
 		// Get the current date from WP which should have the current time zone offset.
-		$wpCurrentDate = date( 'Y-m-d', $connections->options->wpCurrentTime );
+		// $wpCurrentDate = date( 'Y-m-d', $connections->options->wpCurrentTime );
+
+		// Get todays date, formatted for use in the query.
+		$date = gmdate( 'Y-m-d', current_time( 'timestamp' ) );
 
 		// FROM_UNIXTIME automatically adjusts for the local time. Offset is applied in query to ensure event is returned in current WP set timezone.
-		$sqlTimeOffset = $connections->options->sqlTimeOffset;
+		// $sqlTimeOffset = $connections->options->sqlTimeOffset;
+		// $results       = $wpdb->get_results( 'SELECT TIME_FORMAT( TIMEDIFF(NOW(), UTC_TIMESTAMP), \'%H:%i‌​\' ) AS offset' );
+		// $offset        = preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $results[0]->offset ); // The result from SQL seems to have some non-printing control characters, remove them.
+		// $offset = (int) $offset >= 0 ? '+' . $offset : $offset;
+		// var_dump( $offset );
 
 		// Whether or not to include the event occurring today or not.
 		$includeToday = ( $atts['today'] ) ? '<=' : '<';
 
-		$sql = "SELECT * FROM ".CN_ENTRY_TABLE." WHERE"
-			. "  (YEAR(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY))"
-			. " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND)) )"
-			. " - ( MID(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY),5,6)"
-			. " < MID(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND),5,6) )"
-			. " > ( YEAR('$wpCurrentDate')"
-			. " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND)) )"
-			. " - ( MID('$wpCurrentDate',5,6)"
-			. " ".$includeToday." MID(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND),5,6) )"
-			. " ".implode( ' ', $where );
-		//print_r($sql);
+		// $sql = "SELECT * FROM ".CN_ENTRY_TABLE." WHERE"
+		// 	. "  (YEAR(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY))"
+		// 	. " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND)) )"
+		// 	. " - ( MID(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY),5,6)"
+		// 	. " < MID(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND),5,6) )"
+		// 	. " > ( YEAR('$wpCurrentDate')"
+		// 	. " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND)) )"
+		// 	. " - ( MID('$wpCurrentDate',5,6)"
+		// 	. " ".$includeToday." MID(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND),5,6) )"
+		// 	. " ".implode( ' ', $where );
+		// print_r($sql);
+
+		/*
+		 * The FROM_UNIXTIME function will return the date offset to the local system timezone.
+		 * The dates were not saved in GMT time and since FROM_UNIXTIME is adjusting for the local system timezone
+		 * it could cause dates to shift days. The solution is to take the timezone shifted date from FROM_UNIXTIME
+		 * and convert it using CONVERT_TZ from the local system timezone to GMT.
+		 */
+		$sql = 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE '
+			. '  ( YEAR( DATE_ADD( \'' . $date . '\', INTERVAL ' . absint( $atts['days'] ) . ' DAY ) )'
+			. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
+			. ' - ( MID( DATE_ADD( \'' . $date . '\' , INTERVAL ' . absint( $atts['days'] ) . ' DAY ), 5, 6 )'
+			. ' < MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+			. ' > ( YEAR( \'' . $date . '\' )'
+			. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
+			. ' - ( MID( \'' . $date . '\', 5, 6 )'
+			. ' ' . $includeToday . ' MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+			. ' ' . implode( ' ', $where );
+		// print_r($sql);
 
 		$results = $wpdb->get_results( $sql );
-		//print_r($results);
+		// print_r($results);
 
 
 		if ( ! empty( $results ) ) {

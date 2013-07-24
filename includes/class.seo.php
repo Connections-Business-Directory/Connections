@@ -92,7 +92,7 @@ class cnSEO {
 
 		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
 		// Same for the links in the nav, do not change those.
-		if ( $post->ID != $ID || ! self::$filterPermalink ) return $link;
+		if ( ( isset( $post->ID ) &&  $post->ID != $ID ) || ! self::$filterPermalink ) return $link;
 
 
 		if ( $wp_rewrite->using_permalinks() ) {

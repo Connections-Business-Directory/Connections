@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 0.7.8
+Stable tag: 0.7.8.1
 Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
@@ -45,7 +45,7 @@ Connections has been translated in the following languages.
 * vCard class is a modified version by [Troy Wolf](http://www.troywolf.com/articles/php/class_vcard/).
 * Image uploading and processing done by the class.upload.php by [Colin Verot](http://www.verot.net/php_class_upload.htm).
 * Update Notice in plugin admin inspired by Changelogger 1.2.8 by [Oliver Schlöbe](http://wordpress.org/extend/plugins/changelogger/).
-* Tim/Thumb by [Ben Gillbanks and Mark Maunder](http://code.google.com/p/timthumb/).
+* TimThumb by [Ben Gillbanks and Mark Maunder](http://code.google.com/p/timthumb/).
 * Screen Options class by [Janis Elsts](http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/).
 * spin.js by [Felix Gnass](http://fgnass.github.com/spin.js/).
 * $.goMap() jQuery Google Maps Plugin by [Jevgenijs Shtrauss](http://www.pittss.lv/jquery/gomap/).
@@ -77,6 +77,15 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.8.1 07/25/13 =
+* TWEAK: Properly adjust the anniversary and birthday dates t the local timezone when doing the upcoming query.
+* TWEAK: Use date_i18n() in the getAnniversaryBlock and getBirthdayBlock functions for proper internationalization.
+* BUG: Fix the sprintf error that prevent the entry categories to be output as classes for custom CSS.
+* BUG: Fix a couple broken paths from moving files around.
+* OTHER: Move the role capability check to the activation function to prevent an activate failure.
+* OTHER: Make the $sep and $seplocation vars optional to prevent other plugins from breaking Connections.
+* OTHER: Update the page link to the Extensions on the Dashboard.
 
 = 0.7.8 07/16/13 =
 * FEATURE: Add SEO features.
@@ -938,3 +947,6 @@ Minor bug fixes and language updates. NOTICE: Your roles settings for Connection
 
 = 0.7.8 =
 Some new features, minor bug fixes and language updates. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
+
+= 0.7.8.1 =
+Minor bug fixes.

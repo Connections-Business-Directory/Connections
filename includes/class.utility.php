@@ -464,12 +464,12 @@ class cnURL {
 		// If on the front page, add the query var for the page ID.
 		if ( ! $wp_rewrite->using_permalinks() && is_front_page() ) $permalink = add_query_arg( 'page_id' , $post->ID, $permalink );
 
-		if ( ! empty( $atts['class'] ) ) $piece['class']   = 'class="' . $atts['class'] .'"';
-		if ( ! empty( $atts['slug'] ) ) $piece['id']       = 'id="' . $atts['slug'] .'"';
-		if ( ! empty( $atts['title'] ) ) $piece['title']   = 'title="' . $atts['title'] .'"';
-		if ( ! empty( $atts['target'] ) ) $piece['target'] = 'target="' . $atts['target'] .'"';
-		if ( ! $atts['follow'] ) $piece['follow']          = 'rel="nofollow"';
-		if ( ! empty( $atts['rel'] ) ) $piece['rel'] = 'rel="' . $atts['rel'] .'"';
+		if ( ! empty( $atts['class'] ) ) $piece['class']       = 'class="' . $atts['class'] .'"';
+		// if ( ! empty( $atts['slug'] ) ) $piece['id']        = 'id="' . $atts['slug'] .'"';
+		if ( ! empty( $atts['title'] ) ) $piece['title']       = 'title="' . $atts['title'] .'"';
+		if ( ! empty( $atts['target'] ) ) $piece['target']     = 'target="' . $atts['target'] .'"';
+		if ( ! $atts['follow'] ) $piece['follow']              = 'rel="nofollow"';
+		if ( ! empty( $atts['rel'] ) ) $piece['rel']           = 'rel="' . $atts['rel'] .'"';
 		if ( ! empty( $atts['on_click'] ) ) $piece['on_click'] = 'onClick="' . $atts['on_click'] .'"';
 
 		switch ( $atts['type'] ) {

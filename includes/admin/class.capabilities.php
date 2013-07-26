@@ -185,7 +185,6 @@ class cnRole extends WP_Roles {
 			$instance->add_cap( $role, 'connections_view_public', TRUE );
 		}
 
-		$connections->options->defaultCapabilitiesSet( TRUE );
 	}
 
 	/**

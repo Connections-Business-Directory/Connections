@@ -393,7 +393,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				 */
 				if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) $out .= $charIndex;
 
-			$out .= "\n" . '</div>' . "\n";
+			$out .= "\n" . '</div> <!-- END #cn-list-head -->' . "\n";
 
 			$out .= '<div class="connections-list cn-clear" id="cn-list-body">' . "\n";
 
@@ -451,7 +451,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 							if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
 
-						$out .= '</div>';
+						$out .= '</div> <!-- END #cn-char-' . $currentLetter . ' -->';
 
 						$previousLetter = $currentLetter;
 					}
@@ -469,7 +469,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						$out .= ob_get_contents();
 					ob_end_clean();
 
-					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %2$s" id="%4$s">',
+					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s">',
 							$alternate = $alternate == '' ? '-alternate' : '',
 							$entry->getEntryType(),
 							$entry->getCategoryClass(TRUE),
@@ -498,7 +498,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						$out .= apply_filters( 'cn_list_entry_after-' . $template->getSlug() , '' , $entry );
 						$filterRegistry[] = 'cn_list_entry_after-' . $template->getSlug();
 
-					$out .= "\n" . '</div>' . "\n";
+					$out .= "\n" . '</div>  <!-- END #' . $entry->getSlug() . ' -->' . "\n";
 
 					// After entry actions.
 					ob_start();
@@ -516,7 +516,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				}
 			}
 
-			$out .= "\n" . '</div>' . "\n";
+			$out .= "\n" . '</div> <!-- END #cn-list-body -->' . "\n";
 
 			$out .= "\n" . '<div class="cn-clear" id="cn-list-foot">' . "\n";
 
@@ -536,11 +536,11 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					$out .= ob_get_contents();
 				ob_end_clean();
 
-			$out .= "\n" . '</div>' . "\n";
+			$out .= "\n" . '</div> <!-- END #cn-list-foot -->' . "\n";
 
-		$out .= "\n" . '</div>' . "\n";
+		$out .= "\n" . '</div> <!-- END #cn-' . $template->getSlug() . ' -->' . "\n";
 
-	$out .= "\n" . '</div>' . "\n";
+	$out .= "\n" . '</div> <!-- END #cn-list -->' . "\n";
 
 	/*
 	 * Remove any filters a template may have added

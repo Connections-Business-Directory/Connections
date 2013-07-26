@@ -3,7 +3,7 @@
 Plugin Name: Connections
 Plugin URI: http://connections-pro.com/
 Description: A business directory and address book manager.
-Version: 0.7.8
+Version: 0.7.8.1
 Author: Steven A. Zahm
 Author URI: http://connections-pro.com/
 Text Domain: connections
@@ -209,7 +209,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			define( 'CN_LOG', FALSE );
 
-			define( 'CN_CURRENT_VERSION', '0.7.8' );
+			define( 'CN_CURRENT_VERSION', '0.7.8.1' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
@@ -506,9 +506,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();
 
 			// Class used for managing role capabilites.
-			// @TODO: a version change should not reset the roles and capabilites.
 			if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
-			if ( $this->options->getCapabilitiesSet() != TRUE ) cnRole::reset();
+
+			if ( $this->options->getCapabilitiesSet() != TRUE ) {
+
+				cnRole::reset();
+				$this->options->defaultCapabilitiesSet( TRUE );
+			}
 
 			// Increment the version number.
 			$this->options->setVersion( CN_CURRENT_VERSION );
@@ -598,7 +602,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Create a .htaccess file in the timthumb folder to allow it to be called directly.
-			cnFileSystem::permitTimThumb( CN_PATH . 'includes/timthumb' );
+			cnFileSystem::permitTimThumb( CN_PATH . 'includes/libraries/timthumb' );
 
 			$connections->initOptions();
 

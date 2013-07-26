@@ -326,7 +326,7 @@ class cnFormObjects {
 
 		<div class="one-third">
 			<p class="center">
-				<a class="button large blue full" href="http://connections-pro.com/pro-module/"><span><?php _e( 'Pro Modules', 'connections' ); ?></span></a>
+				<a class="button large blue full" href="http://connections-pro.com/extensions/"><span><?php _e( 'Pro Modules', 'connections' ); ?></span></a>
 			</p>
 		</div>
 

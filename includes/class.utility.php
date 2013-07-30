@@ -489,7 +489,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-entry-slug', $atts['slug'] , $permalink );
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
 				}
 
 				break;
@@ -509,7 +509,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['department_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'department_base', $atts['cn-department'] , $permalink );
+					$permalink = add_query_arg( 'cn-department', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -519,7 +519,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'organization_base', $atts['cn-organization'] , $permalink );
+					$permalink = add_query_arg( 'cn-organization', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -539,7 +539,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'locality_base', $atts['cn-locality'] , $permalink );
+					$permalink = add_query_arg( 'cn-locality', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -549,7 +549,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'region_base', $atts['cn-region'] , $permalink );
+					$permalink = add_query_arg( 'cn-region', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -559,7 +559,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'postal_code_base', $atts['cn-postal-code'] , $permalink );
+					$permalink = add_query_arg( 'cn-postal-code', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -569,7 +569,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'country_base', $atts['cn-country'] , $permalink );
+					$permalink = add_query_arg( 'cn-country', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;

@@ -653,12 +653,18 @@ class cnTemplatePart {
 			$base = get_option('connections_permalink');
 
 			// Store the query vars
-			if ( get_query_var('cn-s') ) $queryVars['cn-s'] = get_query_var('cn-s');
-			if ( get_query_var('cn-char') ) $queryVars['cn-char'] = get_query_var('cn-char');
-			if ( get_query_var('cn-cat') ) $queryVars['cn-cat'] = get_query_var('cn-cat');
-			if ( get_query_var('cn-near-coord') ) $queryVars['cn-near-coord'] = get_query_var('cn-near-coord');
-			if ( get_query_var('cn-radius') ) $queryVars['cn-radius'] = get_query_var('cn-radius');
-			if ( get_query_var('cn-unit') ) $queryVars['cn-unit'] = get_query_var('cn-unit');
+			if ( get_query_var('cn-s') ) $queryVars['cn-s']                       = get_query_var('cn-s');
+			if ( get_query_var('cn-char') ) $queryVars['cn-char']                 = get_query_var('cn-char');
+			if ( get_query_var('cn-cat') ) $queryVars['cn-cat']                   = get_query_var('cn-cat');
+			if ( get_query_var('cn-organization') ) $queryVars['cn-organization'] = get_query_var('cn-organization');
+			if ( get_query_var('cn-department') ) $queryVars['cn-department']     = get_query_var('cn-department');
+			if ( get_query_var('cn-locality') ) $queryVars['cn-locality']         = get_query_var('cn-locality');
+			if ( get_query_var('cn-region') ) $queryVars['cn-region']             = get_query_var('cn-region');
+			if ( get_query_var('cn-postal-code') ) $queryVars['cn-postal-code']   = get_query_var('cn-postal-code');
+			if ( get_query_var('cn-country') ) $queryVars['cn-country']           = get_query_var('cn-country');
+			if ( get_query_var('cn-near-coord') ) $queryVars['cn-near-coord']     = get_query_var('cn-near-coord');
+			if ( get_query_var('cn-radius') ) $queryVars['cn-radius']             = get_query_var('cn-radius');
+			if ( get_query_var('cn-unit') ) $queryVars['cn-unit']                 = get_query_var('cn-unit');
 
 			// Current page
 			if ( get_query_var('cn-pg') ) $current = absint( get_query_var('cn-pg') );

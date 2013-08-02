@@ -166,8 +166,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			//$connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
 
-			// Load the translation files.
-			load_plugin_textdomain( 'connections' , FALSE , CN_DIR_NAME . '/languages' );
+			/*
+			 * Load translation. NOTE: This should be ran on the init action hook because
+			 * function calls for translatable strings, like __() or _e(), execute before
+			 * the language files are loaded will not be loaded.
+			 *
+			 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the init action hook or later.
+			 */
+			add_action( 'init', array( __CLASS__ , 'loadTextdomain' ) );
 
 			/*
 			 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
@@ -525,6 +531,43 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * Should save the user from having to "save" the permalink settings.
 			 */
 			update_option( 'connections_flush_rewrite', '1' );
+		}
+
+		/**
+		 * Load the plugin translation.
+		 *
+		 * Credit: Adapted from Ninja Forms / Easy Digital Downloads.
+		 *
+		 * @access private
+		 * @since 0.7.9
+		 * @uses apply_filters()
+		 * @uses get_locale()
+		 * @uses load_textdomain()
+		 * @uses load_plugin_textdomain()
+		 * @return (void)
+		 */
+		public static function loadTextdomain() {
+
+			// Plugin's unique textdomain string.
+			$textdomain = 'connections';
+
+			// Filter for the plugin languages folder.
+			$languagesDirectory = apply_filters( 'connections_lang_dir', CN_DIR_NAME . '/languages/' );
+
+			// The 'plugin_locale' filter is also used by default in load_plugin_textdomain().
+			$locale = apply_filters( 'plugin_locale', get_locale(), $textdomain );
+
+			// Filter for WordPress languages directory.
+			$wpLanguagesDirectory = apply_filters(
+				'connections_wp_lang_dir',
+				WP_LANG_DIR . '/connections/' . sprintf( '%1$s-%2$s.mo', $textdomain, $locale )
+			);
+
+			// Translations: First, look in WordPress' "languages" folder = custom & update-secure!
+			load_textdomain( $textdomain, $wpLanguagesDirectory );
+
+			// Translations: Secondly, look in plugin's "languages" folder = default.
+			load_plugin_textdomain( $textdomain, FALSE, $languagesDirectory );
 		}
 
 		/**

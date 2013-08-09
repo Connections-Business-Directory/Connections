@@ -629,9 +629,9 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		$template = cnTemplateFactory::getTemplate( $templateSlug, $atts['list_type'] );
 	}
 
-	// No template found retuen error message.
+	// No template found return error message.
 	if ( $template == FALSE )
-		return '<p style="color:red; font-weight:bold; text-align:center;>' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . "</p>";
+		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
 
 	do_action( 'cn_register_legacy_template_parts' );
 	do_action( 'cn_action_include_once-' . $template->getSlug() );

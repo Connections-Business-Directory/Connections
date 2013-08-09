@@ -418,11 +418,13 @@ class cnTemplateFactory {
 				}
 			}
 
-			return isset( $template ) ? $template : FALSE;
+			return isset( $template ) && ( is_dir ( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
 
 		} else {
 
-			return isset( self::$templates->{ $type }->{ $slug } ) ? new cnTemplate( self::$templates->{ $type }->{ $slug } ) : FALSE;
+			$template = new cnTemplate( self::$templates->{ $type }->{ $slug } );
+
+			return isset( $template ) && ( is_dir ( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
 		}
 
 	}

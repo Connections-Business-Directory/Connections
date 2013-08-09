@@ -256,8 +256,8 @@ class cnTemplateFactory {
 				$atts['custom']      = $template->custom;
 				$atts['legacy']      = TRUE;
 
-				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
-				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
+				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
+				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
 
 				$atts['thumbnail']   = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
 				$atts['functions']   = isset( $template->phpPath ) ? 'functions.php' : '';
@@ -294,20 +294,20 @@ class cnTemplateFactory {
 			if ( ! is_dir( $templatePath ) && ! is_readable( $templatePath ) ) continue;
 
 			if ( ! $templateDirectories = @opendir( $templatePath ) ) continue;
-			//var_dump($templatePath);
+			// var_dump($templatePath);
 
 			//$templateDirectories = opendir($templatePath);
 
 			while ( ( $templateDirectory = readdir( $templateDirectories ) ) !== FALSE ) {
 
-				$path = $templatePath . $templateDirectory;
+				$path = trailingslashit( $templatePath . $templateDirectory );
 
-				if ( is_dir ( $templatePath . $templateDirectory ) && is_readable( $path ) ) {
+				if ( is_dir ( $path ) && is_readable( $path ) ) {
 
-					if ( file_exists( $path . '/meta.php' ) && file_exists( $path . '/template.php' ) ) {
+					if ( file_exists( $path . 'meta.php' ) && file_exists( $path . 'template.php' ) ) {
 
 						$template = new stdClass();
-						include( $path . '/meta.php');
+						include( $path . 'meta.php');
 						$template->slug = $templateDirectory;
 
 						if ( ! isset( $template->type ) ) $template->type = 'all';
@@ -327,16 +327,16 @@ class cnTemplateFactory {
 						$templates->{ $template->type }->{ $template->slug }->slug        = $template->slug ;
 						$templates->{ $template->type }->{ $template->slug }->custom      = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? TRUE : FALSE;
 
-						if ( file_exists( $path . '/' . 'styles.css' ) ) $templates->{ $template->type }->{ $template->slug }->cssPath         = TRUE;
-						if ( file_exists( $path . '/' . 'template.js' ) ) $templates->{ $template->type }->{ $template->slug }->jsPath         = TRUE;
-						if ( file_exists( $path . '/' . 'functions.php' ) ) $templates->{ $template->type }->{ $template->slug }->phpPath      = TRUE;
-						if ( file_exists( $path . '/' . 'thumbnail.png' ) ) $templates->{ $template->type }->{ $template->slug }->thumbnailURL = TRUE;
+						if ( file_exists( $path . 'styles.css' ) ) $templates->{ $template->type }->{ $template->slug }->cssPath         = TRUE;
+						if ( file_exists( $path . 'template.js' ) ) $templates->{ $template->type }->{ $template->slug }->jsPath         = TRUE;
+						if ( file_exists( $path . 'functions.php' ) ) $templates->{ $template->type }->{ $template->slug }->phpPath      = TRUE;
+						if ( file_exists( $path . 'thumbnail.png' ) ) $templates->{ $template->type }->{ $template->slug }->thumbnailURL = TRUE;
 					}
 				}
 			}
 
 			//var_dump($templateDirectories);
-			@closedir($templateDirectories);
+			@closedir( $templateDirectories );
 		}
 		/**
 		 * --> END <-- Find the available templates

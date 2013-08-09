@@ -692,8 +692,6 @@ class cnFormObjects {
 
 		<ul class="settings">
 			<li><strong>CN_MULTISITE_ENABLED:</strong> <?php echo CN_MULTISITE_ENABLED ? __( 'TRUE', 'connections') : __( 'FALSE', 'connections' ); ?></li>
-			<li><strong>CN_IMAGE_PATH:</strong> <?php echo CN_IMAGE_PATH ?></li>
-			<li><strong>CN_IMAGE_BASE_URL:</strong> <?php echo CN_IMAGE_BASE_URL ?></li>
 			<li><strong>CN_ENTRY_TABLE:</strong> <?php echo CN_ENTRY_TABLE ?></li>
 			<li><strong>CN_ENTRY_ADDRESS_TABLE:</strong> <?php echo CN_ENTRY_ADDRESS_TABLE ?></li>
 			<li><strong>CN_ENTRY_PHONE_TABLE:</strong> <?php echo CN_ENTRY_PHONE_TABLE ?></li>
@@ -710,10 +708,16 @@ class cnFormObjects {
 			<li><strong>CN_BASE_NAME:</strong> <?php echo CN_BASE_NAME ?></li>
 			<li><strong>CN_PATH:</strong> <?php echo CN_PATH ?></li>
 			<li><strong>CN_URL:</strong> <?php echo CN_URL ?></li>
+			<li><strong>CN_RELATIVE_URL:</strong> <?php echo CN_RELATIVE_URL ?></li>
+			<li><strong>CN_IMAGE_PATH:</strong> <?php echo CN_IMAGE_PATH ?></li>
+			<li><strong>CN_IMAGE_BASE_URL:</strong> <?php echo CN_IMAGE_BASE_URL ?></li>
+			<li><strong>CN_IMAGE_RELATIVE_URL:</strong> <?php echo CN_IMAGE_RELATIVE_URL ?></li>
 			<li><strong>CN_TEMPLATE_PATH:</strong> <?php echo CN_TEMPLATE_PATH ?></li>
 			<li><strong>CN_TEMPLATE_URL:</strong> <?php echo CN_TEMPLATE_URL ?></li>
+			<li><strong>CN_TEMPLATE_RELATIVE_URL:</strong> <?php echo CN_TEMPLATE_RELATIVE_URL ?></li>
 			<li><strong>CN_CUSTOM_TEMPLATE_PATH:</strong> <?php echo CN_CUSTOM_TEMPLATE_PATH ?></li>
 			<li><strong>CN_CUSTOM_TEMPLATE_URL:</strong> <?php echo CN_CUSTOM_TEMPLATE_URL ?></li>
+			<li><strong>CN_CUSTOM_TEMPLATE_RELATIVE_URL:</strong> <?php echo CN_CUSTOM_TEMPLATE_RELATIVE_URL ?></li>
 			<li><strong>CN_CACHE_PATH:</strong> <?php echo CN_CACHE_PATH ?></li>
 		</ul>
 

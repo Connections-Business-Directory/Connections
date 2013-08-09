@@ -151,14 +151,14 @@ class cnMessage extends WP_Error {
 		$instance->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
 		$instance->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
 
-		$instance->add( 'image_path_exists_failed', __( 'Path ../wp-content/connection_images does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) );
-		$instance->add( 'image_path_writeable_failed', __( 'Path ../wp-content/connection_images does not seem to be writeable.', 'connections' ) );
+		$instance->add( 'image_path_exists_failed', sprintf( __( 'The connection_images folder does not exist. <a class=\"button-primary\" href=\"%1$s\">Read more.</a>', 'connections' ), 'http://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/'  ) );
+		$instance->add( 'image_path_writeable_failed', sprintf( __( 'The connection_images folder is not writable. <a class=\"button-primary\" href=\"%1$s\">Read more.</a>', 'connections' ), 'http://connections-pro.com/faqs/the-connection_images-folder-is-not-writable/' ) );
 
-		$instance->add( 'template_path_exists_failed', __( 'Path ../wp-content/connections_templates does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) );
-		$instance->add( 'template_path_writeable_failed', __( 'Path ../wp-content/connections_templates does not seem to be writeable.', 'connections' ) );
+		$instance->add( 'template_path_exists_failed', sprintf( __( 'The connections_templates folder does not exist. <a class=\"button-primary\" href=\"%1$s\">Read more.</a>', 'connections' ), 'http://connections-pro.com/faqs/the-connections_templates-folder-does-not-exist/' ) );
+		$instance->add( 'template_path_writeable_failed', sprintf( __( 'The connections_templates folder is not writable. <a class=\"button-primary\" href=\"%1$s\">Read more.</a>', 'connections' ), 'http://connections-pro.com/faqs/the-connections_templates-folder-is-not-writable/' ) );
 
-		$instance->add( 'cache_path_exists_failed', __( 'Path ../wp-content/plugins/connections/cache does not seem to exist. Please try deactivating and reactivating Connections.', 'connections' ) );
-		$instance->add( 'cache_path_writeable_failed', __( 'Path ../wp-content/plugins/connections/cache does not seem to be writeable.', 'connections' ) );
+		$instance->add( 'cache_path_exists_failed', sprintf( __( 'The cache folder does not exist. <a class=\"button-primary\" href=\"%1$s\">Read more.</a>', 'connections' ), 'http://connections-pro.com/faqs/the-cache-folder-does-not-exist/' ) );
+		$instance->add( 'cache_path_writeable_failed', sprintf( __( 'The cache folder is not writable. <a class=\"button-primary\" href=\"%1$s\">Read more.</a>', 'connections' ), 'http://connections-pro.com/faqs/the-cache-folder-is-not-writable/' ) );
 
 		$instance->add( 'home_page_set_failed', __( 'The Connections directory home page has not been set. Please set it now on the Connections : Settings page under the General tab.', 'connections' ) );
 

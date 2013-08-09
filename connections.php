@@ -146,7 +146,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		public function __construct() {
 
-			$this->defineConstants();
+			self::defineConstants();
 			$this->loadDependencies();
 			$this->initDependencies();
 
@@ -210,13 +210,45 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		}
 
-		private function defineConstants() {
+		/**
+		 * Define the core constants.
+		 *
+		 * @access private
+		 * @since unknown
+		 * @return (void)
+		 */
+		private static function defineConstants() {
 			global $wpdb, $blog_id;
 
 			define( 'CN_LOG', FALSE );
 
+			/*
+			 * Version Constants
+			 */
 			define( 'CN_CURRENT_VERSION', '0.7.8.1' );
 			define( 'CN_DB_VERSION', '0.1.9' );
+
+			/*
+			 * Core Constants
+			 */
+			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
+			define( 'CN_BASE_NAME', plugin_basename( __FILE__ ) );
+			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
+			define( 'CN_URL', plugin_dir_url( __FILE__ ) );
+
+			/*
+			 * Core constants that can be overridden by setting in wp-config.php.
+			 *
+			 * NOTE: If CN_CACHE_PATH is overridden, the path will need updated in timthumb-config.php also.
+			 */
+			if ( ! defined( 'CN_TEMPLATE_PATH' ) )
+				define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates/' );
+
+			if ( ! defined( 'CN_TEMPLATE_URL' ) )
+				define( 'CN_TEMPLATE_URL', CN_URL . 'templates/' );
+
+			if ( ! defined( 'CN_CACHE_PATH' ) )
+				define( 'CN_CACHE_PATH', CN_PATH . 'cache/' );
 
 			/*
 			 * To run Connections in single site mode on multi-site.
@@ -226,28 +258,61 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * @url http://wordpress.org/support/topic/plugin-connections-support-multisite-in-single-mode
 			 */
 			if ( ! defined( 'CN_MULTISITE_ENABLED' ) ) {
+
 				if ( is_multisite() ) {
+
 					define( 'CN_MULTISITE_ENABLED', TRUE );
+
 				} else {
+
 					define( 'CN_MULTISITE_ENABLED', FALSE );
 				}
 			}
 
 
 			/*
-			 * Enable support for multi-site file locations.
-			 * @url http://codex.wordpress.org/Determining_Plugin_and_Content_Directories#Available_Functions
+			 * Core constants that can be overrideen in wp-config.php
+			 * which enable support for multi-site file locations.
 			 */
 			if ( is_multisite() && CN_MULTISITE_ENABLED ) {
-				define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/' );
-				define( 'CN_IMAGE_BASE_URL', network_site_url( '/wp-content/blogs.dir/' . $blog_id . '/connection_images/' ) );
-				define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
-				define( 'CN_CUSTOM_TEMPLATE_URL', network_site_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
+
+				if ( ! defined( 'CN_IMAGE_PATH' ) )
+					define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/' );
+
+				if ( ! defined( 'CN_IMAGE_BASE_URL' ) )
+					define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connection_images/' ) );
+
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
+
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
+					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
+
+				// Define the relative URL/s.
+				define( 'CN_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL ) );
+				define( 'CN_TEMPLATE_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL . 'templates/' ) );
+				define( 'CN_IMAGE_RELATIVE_URL', str_replace( network_home_url(), '', CN_IMAGE_BASE_URL ) );
+				define( 'CN_CUSTOM_TEMPLATE_RELATIVE_URL', str_replace( network_home_url(), '', CN_CUSTOM_TEMPLATE_URL ) );
+
 			} else {
-				define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/' );
-				define( 'CN_IMAGE_BASE_URL', content_url() . '/connection_images/' );
-				define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates/' );
-				define( 'CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates/' );
+
+				if ( ! defined( 'CN_IMAGE_PATH' ) )
+					define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/' );
+
+				if ( ! defined( 'CN_IMAGE_BASE_URL' ) )
+					define( 'CN_IMAGE_BASE_URL', content_url() . '/connection_images/' );
+
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates/' );
+
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
+					define( 'CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates/' );
+
+				// Define the relative URL/s.
+				define( 'CN_RELATIVE_URL', str_replace( home_url(), '', CN_URL ) );
+				define( 'CN_TEMPLATE_RELATIVE_URL', str_replace( home_url(), '', CN_URL . 'templates/' ) );
+				define( 'CN_IMAGE_RELATIVE_URL', str_replace( home_url(), '', CN_IMAGE_BASE_URL ) );
+				define( 'CN_CUSTOM_TEMPLATE_RELATIVE_URL', str_replace( home_url(), '', CN_CUSTOM_TEMPLATE_URL ) );
 			}
 
 			/*
@@ -255,6 +320,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 */
 			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->prefix : $wpdb->base_prefix;
 
+			/*
+			 * Define the constants that can be used to reference the custom tables
+			 */
 			define( 'CN_ENTRY_TABLE', $prefix . 'connections' );
 			define( 'CN_ENTRY_ADDRESS_TABLE', $prefix . 'connections_address' );
 			define( 'CN_ENTRY_PHONE_TABLE', $prefix . 'connections_phone' );
@@ -269,14 +337,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy' );
 			define( 'CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships' );
 
-			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
-			define( 'CN_BASE_NAME', plugin_basename( __FILE__ ) );
-			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
-			define( 'CN_URL', plugin_dir_url( __FILE__ ) );
-
-			define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates/' );
-			define( 'CN_TEMPLATE_URL', CN_URL . 'templates/' );
-			define( 'CN_CACHE_PATH', CN_PATH . 'cache/' );
 		}
 
 		private function loadDependencies() {

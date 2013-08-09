@@ -256,8 +256,8 @@ class cnTemplateFactory {
 				$atts['custom']      = $template->custom;
 				$atts['legacy']      = TRUE;
 
-				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . '/' . $template->slug );
-				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . '/' . $template->slug );
+				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
+				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
 
 				$atts['thumbnail']   = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
 				$atts['functions']   = isset( $template->phpPath ) ? 'functions.php' : '';

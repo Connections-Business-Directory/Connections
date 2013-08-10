@@ -52,7 +52,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
     <tr>
         <td valign="bottom" style="vertical-align: top;">
-        	<span><?php $entry->vcard(); ?></span>
+        	<?php if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) ) $entry->vcard( array( 'before' => '<span>', 'after' => '</span>' ) ); ?>
         </td>
 		<td align="right" valign="bottom" style="vertical-align: top;">
 

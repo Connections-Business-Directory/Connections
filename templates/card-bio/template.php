@@ -49,7 +49,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 	<div style="clear:both"></div>
 
 	<div class="cn-meta" align="left" style="margin-top: 6px">
-		<span><?php $entry->vcard(); ?></span>
+		<?php if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) ) $entry->vcard( array( 'before' => '<span>', 'after' => '</span>' ) ); ?>
 
 		<?php
 

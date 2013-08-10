@@ -396,8 +396,6 @@ class cnEntry_Action {
 	/**
 	 * Set the status of one or more entries.
 	 *
-	 * @todo Complete this method.
-	 *
 	 * @access private
 	 * @since 0.7.8
 	 * @param (string) $status 		The status to set. Valid options are: approved | pending
@@ -438,8 +436,6 @@ class cnEntry_Action {
 
 	/**
 	 * Set the visibility of one or more entries.
-	 *
-	 * @todo Complete this method.
 	 *
 	 * @access private
 	 * @since 0.7.8
@@ -482,11 +478,9 @@ class cnEntry_Action {
 	/**
 	 * Delete one or more entries.
 	 *
-	 * @todo Complete this method.
-	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @param (array | int) $id 	The entry IDs to delete.
+	 * @param (array | int) $ids 	The entry IDs to delete.
 	 * @return (bool)
 	 */
 	public static function delete( $ids ) {

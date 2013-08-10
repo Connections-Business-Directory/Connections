@@ -356,6 +356,8 @@ class cnAdminFunction {
 	 */
 	public static function managePageLimitSave( $false = FALSE , $option , $value ) {
 
+		if ( $option !== 'connections' ) return $false;
+
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 

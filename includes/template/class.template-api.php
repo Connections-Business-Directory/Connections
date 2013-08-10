@@ -302,7 +302,7 @@ class cnTemplateFactory {
 
 				$path = trailingslashit( $templatePath . $templateDirectory );
 
-				if ( is_dir ( $path ) && is_readable( $path ) ) {
+				if ( is_dir( $path ) && is_readable( $path ) ) {
 
 					if ( file_exists( $path . 'meta.php' ) && file_exists( $path . 'template.php' ) ) {
 
@@ -367,7 +367,20 @@ class cnTemplateFactory {
 			// Return all template types.
 			foreach ( self::$templates as $template ) {
 
-				$templates->{ $template->slug } = new cnTemplate( $template );
+				/*
+				 * If the template is a legacy template, lets check that the path is still valid before
+				 * returning it because it is possible the cached path no longer exists because the
+				 * WP install was moved; for example, a  server migration or a site migration.
+				 */
+				if ( $template->legacy && is_dir( $template->path ) && is_readable( $template->path ) ) {
+
+					$templates->{ $template->slug } = new cnTemplate( $template );
+
+				} else if ( ! $template->legacy ) {
+
+					$templates->{ $template->slug } = new cnTemplate( $template );
+				}
+
 			}
 
 		} else {
@@ -384,7 +397,20 @@ class cnTemplateFactory {
 
 				foreach ( self::$templates->$type as $template ) {
 
-					$templates->{ $template->slug } = new cnTemplate( $template );
+					/*
+					 * If the template is a legacy template, lets check that the path is still valid before
+					 * returning it because it is possible the cached path no longer exists because the
+					 * WP install was moved; for example, a  server migration or a site migration.
+					 */
+					if ( $template->legacy && is_dir( $template->path ) && is_readable( $template->path ) ) {
+
+						$templates->{ $template->slug } = new cnTemplate( $template );
+
+					} else if ( ! $template->legacy ) {
+
+						$templates->{ $template->slug } = new cnTemplate( $template );
+					}
+
 				}
 
 			}
@@ -418,13 +444,25 @@ class cnTemplateFactory {
 				}
 			}
 
-			return isset( $template ) && ( is_dir ( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
+			$template = isset( $template ) ? $template : FALSE;
 
 		} else {
 
-			$template = new cnTemplate( self::$templates->{ $type }->{ $slug } );
+			$template = isset( self::$templates->{ $type }->{ $slug } ) ? new cnTemplate( self::$templates->{ $type }->{ $slug } ) : FALSE;
+		}
 
-			return isset( $template ) && ( is_dir ( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
+		/*
+		 * If the template is a legacy template, lets check that the path is still valid before
+		 * returning it because it is possible the cached path no longer exists because the
+		 * WP install was moved; for example, a  server migration or a site migration.
+		 */
+		if ( $template && $template->isLegacy() ) {
+
+			return isset( $template ) && ( is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
+
+		} else {
+
+			return $template;
 		}
 
 	}

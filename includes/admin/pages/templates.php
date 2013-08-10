@@ -36,7 +36,7 @@ function connectionsShowTemplatesPage() {
 
 		// Purge the transient so the page is freshly scanned by the template API.
 		delete_transient( 'cn_legacy_templates' );
-		cnTemplateFactory::$templates = new stdClass();
+		// cnTemplateFactory::$templates = new stdClass();
 		cnTemplateFactory::registerLegacy();
 
 		$form = new cnFormObjects();
@@ -185,11 +185,7 @@ function connectionsShowTemplatesPage() {
 										echo '<p class="description">' , $template->{ $slug }->getDescription() , '</p>';
 										echo '<p>' , __( 'Shortcode Override:', 'connections' ) , '<code> template="' ,  $slug , '"</code></p>';
 
-										if ( $template->{ $slug }->isCustom() === FALSE && $template->{ $slug }->isLegacy() === TRUE ) {
-											echo '<p>' , __( 'This a supplied template and can not be deleted.', 'connections') , '</p>';
-										} else if ( $template->{ $slug }->isCustom() === FALSE && $template->{ $slug }->isLegacy() === FALSE ) {
-											echo '<p>' , __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections') , '</p>';
-										}
+
 
 									?>
 
@@ -203,17 +199,22 @@ function connectionsShowTemplatesPage() {
 
 										?>
 
-										<a class="activatelink" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $template->$slug->getName() ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
+										<a class="button-primary" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $template->$slug->getName() ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
 
 										<?php
 											if ( ! empty( $deleteTokenURL ) ) {
 										?>
-											 | <a class="deletelink" href="<?php echo esc_attr( $deleteTokenURL ); ?>" title="Delete '<?php echo esc_attr( $template->$slug->getName() ); ?>'" onclick="return confirm('You are about to delete this theme \'<?php echo esc_attr( $template->$slug->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">Delete</a>
+											 | <a class="button button-warning" href="<?php echo esc_attr( $deleteTokenURL ); ?>" title="Delete '<?php echo esc_attr( $template->$slug->getName() ); ?>'" onclick="return confirm('You are about to delete this theme \'<?php echo esc_attr( $template->$slug->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">Delete</a>
 										<?php
 											}
 										?>
 									</span>
 							<?php
+									if ( $template->{ $slug }->isCustom() === FALSE && $template->{ $slug }->isLegacy() === TRUE ) {
+										echo '<p class="description">' , __( 'This a supplied template and can not be deleted.', 'connections') , '</p>';
+									} else if ( $template->{ $slug }->isCustom() === TRUE && $template->{ $slug }->isLegacy() === FALSE ) {
+										echo '<p class="description">' , __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections') , '</p>';
+									}
 								}
 							?>
 								</td>

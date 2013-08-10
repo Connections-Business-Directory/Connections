@@ -394,21 +394,6 @@ class cnEntry_Action {
 	}
 
 	/**
-	 * Delete one or more entries.
-	 *
-	 * @todo Complete this method.
-	 *
-	 * @access private
-	 * @since 0.7.8
-	 * @param (array | int) $id 	The entry IDs to delete.
-	 * @return (bool)
-	 */
-	public static function delete( $id ) {
-
-		return FALSE;
-	}
-
-	/**
 	 * Set the status of one or more entries.
 	 *
 	 * @todo Complete this method.
@@ -492,6 +477,42 @@ class cnEntry_Action {
 		$result = $wpdb->query( $sql );
 
 		return $result !== FALSE ? TRUE : FALSE;
+	}
+
+	/**
+	 * Delete one or more entries.
+	 *
+	 * @todo Complete this method.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @param (array | int) $id 	The entry IDs to delete.
+	 * @return (bool)
+	 */
+	public static function delete( $ids ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Make sure $id is not empty.
+		if ( empty( $ids ) ) return FALSE;
+
+		// Check for and convert to an array.
+		if ( ! is_array( $ids ) ) {
+
+			// Remove whitespace.
+			$ids = trim( str_replace( ' ', '', $ids ) );
+
+			$ids = explode( ',', $ids );
+		}
+
+		foreach ( $ids as $id ) {
+
+			$entry = new cnEntry( $instance->retrieve->entry( $id ) );
+			$entry->delete( $id );
+		}
+
+		return TRUE;
 	}
 
 }

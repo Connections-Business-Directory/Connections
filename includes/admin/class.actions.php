@@ -463,8 +463,7 @@ class cnAdminActions {
 		 */
 		if ( current_user_can( 'connections_delete_entry' ) ) {
 
-			$entry = new cnEntry( $connections->retrieve->entry( $id ) );
-			$entry->delete( $id );
+			cnEntry_Action::delete( $id );
 
 			cnMessage::set( 'success', 'form_entry_delete' );
 
@@ -496,11 +495,7 @@ class cnAdminActions {
 			// @TODO $POST['id'] should be passed to the method as an attribute.
 			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) return;
 
-			foreach ( $_POST['id'] as $id ) {
-
-				$entry = new cnEntry( $connections->retrieve->entry( $id ) );
-				$entry->delete( $id );
-			}
+			cnEntry_Action::delete( $_POST['id'] );
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 

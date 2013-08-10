@@ -419,9 +419,36 @@ class cnEntry_Action {
 	 * @param (array | int) $id 	The entry IDs to set the status.
 	 * @return (bool)
 	 */
-	public static function setStatus( $status, $id ) {
+	public static function status( $status, $id ) {
+		global $wpdb;
 
-		return FALSE;
+		$permitted = array( 'pending', 'approved' );
+
+		// Ensure the status being set is permitted.
+		if ( ! in_array( $status, $permitted ) ) return FALSE;
+
+		// Make sure $id is not empty.
+		if ( empty( $id ) ) return FALSE;
+
+		// Check for and convert to an array.
+		if ( ! is_array( $id ) ) {
+
+			// Remove whitespace.
+			$id = trim( str_replace( ' ', '', $id ) );
+
+			$id = explode( ',', $id );
+		}
+
+		// Create the placeholders for the $id values to be used in $wpdb->prepare().
+		$d = implode( ',', array_fill( 0, count( $id ), '%d' ) );
+
+		// Sanitize the query, passing values to be sanitized as an array.
+		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET status = %s WHERE id IN (' . $d . ')', array_merge( (array) $status, $id ) );
+
+		// Run the query.
+		$result = $wpdb->query( $sql );
+
+		return $result !== FALSE ? TRUE : FALSE;
 	}
 
 	/**
@@ -435,9 +462,36 @@ class cnEntry_Action {
 	 * @param (array | int) $id 	The entry IDs to set the visibility.
 	 * @return (bool)
 	 */
-	public static function setVisibility( $status, $id ) {
+	public static function visibility( $visibility, $id ) {
+		global $wpdb;
 
-		return FALSE;
+		$permitted = array( 'public', 'private', 'unlisted' );
+
+		// Ensure the status being set is permitted.
+		if ( ! in_array( $visibility, $permitted ) ) return FALSE;
+
+		// Make sure $id is not empty.
+		if ( empty( $id ) ) return FALSE;
+
+		// Check for and convert to an array.
+		if ( ! is_array( $id ) ) {
+
+			// Remove whitespace.
+			$id = trim( str_replace( ' ', '', $id ) );
+
+			$id = explode( ',', $id );
+		}
+
+		// Create the placeholders for the $id values to be used in $wpdb->prepare().
+		$d = implode( ',', array_fill( 0, count( $id ), '%d' ) );
+
+		// Sanitize the query, passing values to be sanitized as an array.
+		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET visibility = %s WHERE id IN (' . $d . ')', array_merge( (array) $visibility, $id ) );
+
+		// Run the query.
+		$result = $wpdb->query( $sql );
+
+		return $result !== FALSE ? TRUE : FALSE;
 	}
 
 }

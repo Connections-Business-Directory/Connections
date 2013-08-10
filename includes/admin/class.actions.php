@@ -343,11 +343,7 @@ class cnAdminActions {
 			// If no `status` was supplied, this will default `status` to `pending`.
 			$status = in_array( $status, $permitted ) ? $status : 'pending';
 
-			$entry = new cnEntry();
-			$entry->set( $id );
-
-			$entry->setStatus( $status );
-			$entry->update();
+			cnEntry_Action::status( $status, $id );
 
 			switch ( $status ) {
 
@@ -392,15 +388,7 @@ class cnAdminActions {
 
 			if ( ! in_array( $status, $permitted ) ) return;
 
-			// @TODO $_POST['id'] should be a supplied attribute.
-			foreach ( $_POST['id'] as $id ) {
-
-				$entry = new cnEntry();
-
-				$entry->set( $id );
-				$entry->setStatus( $status );
-				$entry->update();
-			}
+			cnEntry_Action::status( $status, $_POST['id'] );
 
 			switch ( $status ) {
 
@@ -440,15 +428,7 @@ class cnAdminActions {
 
 			if ( ! in_array( $visibility, $permitted ) ) return;
 
-			// @TODO $_POST['id'] should be a supplied attribute.
-			foreach ( $_POST['id'] as $id ) {
-
-				$entry = new cnEntry();
-
-				$entry->set( $id );
-				$entry->setVisibility( $visibility );
-				$entry->update();
-			}
+			cnEntry_Action::visibility( $visibility, $_POST['id'] );
 
 			cnMessage::set( 'success', 'form_entry_visibility_bulk' );
 

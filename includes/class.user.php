@@ -197,8 +197,6 @@ class cnUser
 	 * @return string
 	 */
 	public function getFilterStatus() {
-		// Set the moderation filter for the current user if set in the query string.
-		if ( isset( $_GET['status'] ) ) $this->setFilterStatus( $_GET['status'] );
 
 		/*
 		 * Use get_user_meta() used in WP 3.0 and newer

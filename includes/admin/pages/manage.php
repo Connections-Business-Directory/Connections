@@ -16,6 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function connectionsShowViewPage( $action = NULL ) {
 	global $wpdb, $connections;
 
+	// Grab an instance of the Connections object.
+	$instance = Connections_Directory();
+
+	$queryVars = array();
+
 	switch ( $action ) {
 
 		case 'add_entry':
@@ -259,15 +264,15 @@ function connectionsShowViewPage( $action = NULL ) {
 			 */
 			if ( current_user_can( 'connections_manage' ) ) {
 
-				$retrieveAttr['list_type'] = $connections->currentUser->getFilterEntryType();
-				$retrieveAttr['category'] = $connections->currentUser->getFilterCategory();
+				$retrieveAttr['list_type']  = $connections->currentUser->getFilterEntryType();
+				$retrieveAttr['category']   = $connections->currentUser->getFilterCategory();
 
-				$retrieveAttr['char'] = isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ? $_GET['cn-char'] : '';
+				$retrieveAttr['char']       = isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ? $_GET['cn-char'] : '';
 				$retrieveAttr['visibility'] = $connections->currentUser->getFilterVisibility();
-				$retrieveAttr['status'] = $connections->currentUser->getFilterStatus();
+				$retrieveAttr['status']     = $connections->currentUser->getFilterStatus();
 
-				$retrieveAttr['limit'] = $page->limit;
-				$retrieveAttr['offset'] = $offset;
+				$retrieveAttr['limit']      = $page->limit;
+				$retrieveAttr['offset']     = $offset;
 
 				if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) $retrieveAttr['search_terms'] = $_GET['s'];
 
@@ -278,9 +283,29 @@ function connectionsShowViewPage( $action = NULL ) {
 				<?php if ( current_user_can( 'connections_edit_entry' ) ) { ?>
 
 				<ul class="subsubsub">
-					<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'all' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=all"><?php _e( 'All', 'connections' ); ?></a> | </li>
-					<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'approved' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=approved"><?php _e( 'Approved', 'connections' ); ?> <span class="count">(<?php echo $connections->recordCountApproved; ?>)</span></a> | </li>
-					<li><a <?php if ( $connections->currentUser->getFilterStatus() == 'pending' ) echo 'class="current" ' ?> href="admin.php?page=connections_manage&status=pending"><?php _e( 'Moderate', 'connections' ); ?> <span class="count">(<?php echo $connections->recordCountPending; ?>)</span></a></li>
+
+					<?php
+
+					$statuses = array(
+						'all'      => __( 'All', 'connections' ),
+						'approved' => __( 'Approved', 'connections' ),
+						'pending'  => __( 'Moderate', 'connections' ),
+					);
+
+					foreach ( $statuses as $key => $status ) {
+
+						$subsubsub[] = sprintf( '<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
+							$instance->currentUser->getFilterStatus() == $key ? ' class="current" ' : ' ',
+							$form->tokenURL( add_query_arg( array( 'page' => 'connections_manage', 'cn-action' => 'filter', 'status' => $key ) ), 'filter' ),
+							$status,
+							cnRetrieve::recordCount( array( 'status' => $key ) )
+						 );
+					}
+
+					echo implode( ' | ', $subsubsub );
+
+					?>
+
 				</ul>
 
 				<?php } ?>

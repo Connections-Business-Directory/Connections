@@ -416,7 +416,7 @@ class cnTemplate {
 	public function printCSS() {
 		$out = '';
 		$search = array( "\r\n", "\r", "\n", "\t", '%%PATH%%' );
-		$replace = array( '', '', '', '', $this->url );
+		$replace = array( ' ', ' ', ' ', ' ', $this->url );
 
 		/**
 		 * @TODO Create a page pre-process function so the CSS outputs only once in the page head.

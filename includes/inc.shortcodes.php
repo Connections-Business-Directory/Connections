@@ -553,7 +553,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 	if ( cnSettingsAPI::get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
 		$search = array( "\r\n", "\r", "\n", "\t" );
-		$replace = array( '', '', '', '' );
+		$replace = array( ' ', ' ', ' ', ' ' );
 		$out = str_replace( $search , $replace , $out );
 	}
 

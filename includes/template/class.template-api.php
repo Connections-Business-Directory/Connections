@@ -77,6 +77,9 @@ class cnTemplateFactory {
 
 			// Initiate the active template classes.
 			add_action( 'plugins_loaded', array( __CLASS__, 'activate' ), 100 );
+
+			// Plugins can hook into this action to register templates.
+			do_action( 'cn_register_template' );
 		}
 
 	}

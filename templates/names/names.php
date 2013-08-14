@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Template functions.
+ * Names Template.
  *
  * @package     Connections
- * @subpackage  Template Functions
+ * @subpackage  Template : Names
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       unknown
@@ -47,6 +47,7 @@ if ( ! class_exists( 'cnNames' ) ) {
 		}
 
 		public function card( $entry ) {
+
 			$entry->getNameBlock( array( 'link' => TRUE ) );
 		}
 

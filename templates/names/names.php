@@ -53,3 +53,5 @@ if ( ! class_exists( 'cnNames' ) ) {
 	}
 
 }
+
+add_action( 'cn_register_template', array( 'cnNames', 'init' ) );

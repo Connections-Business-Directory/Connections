@@ -153,9 +153,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// Register the default email templates.
 				cnEmail_DefaultTemplates::init();
 
-				// Init the included templates that use the API introduced in 0.7.6
-				add_action( 'plugins_loaded', array( 'cnNames', 'init' ), 11 );
-
 				// Register and Enqueue the CSS and JavaScript libraries.
 				cnScript::init();
 

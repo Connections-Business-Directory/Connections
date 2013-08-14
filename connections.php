@@ -381,6 +381,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Load the included templates that use the templates API introduced in 0.7.6
 			include_once CN_PATH . 'templates/names/names.php';
+			include_once CN_PATH . 'templates/card/card.php';
 
 			// Class for processing email.
 			require_once CN_PATH . 'includes/email/class.email.php';

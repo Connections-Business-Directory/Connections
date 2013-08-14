@@ -7,21 +7,22 @@
  * @subpackage  Template : Names
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       unknown
+ * @since       0.7.6.1
  */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'cnNames' ) ) {
+if ( ! class_exists( 'CN_Names_Template' ) ) {
 
-	class cnNames {
+	class CN_Names_Template {
 
 		public static function init() {
 
 			$atts = array(
-				'class'       => 'CN_Names',
+				'class'       => 'CN_Names_Template',
 				'name'        => 'Names',
+				'slug'        => 'names',
 				'type'        => 'all',
 				'version'     => '1.0',
 				'author'      => 'Steven A. Zahm',
@@ -33,10 +34,6 @@ if ( ! class_exists( 'cnNames' ) ) {
 
 			cnTemplateFactory::register( $atts );
 		}
-
-	}
-
-	class CN_Names {
 
 		public function __construct( $template ) {
 
@@ -53,6 +50,5 @@ if ( ! class_exists( 'cnNames' ) ) {
 
 	}
 
+	add_action( 'cn_register_template', array( 'CN_Names_Template', 'init' ) );
 }
-
-add_action( 'cn_register_template', array( 'cnNames', 'init' ) );

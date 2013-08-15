@@ -423,7 +423,9 @@ class cnTemplate {
 		 */
 
 		// Loads the CSS style in the body, valid HTML5 when set with the 'scoped' attribute.
-		$out .= '<style type="text/css" scoped>';
+		// However, if the sever is running the pagespeed mod, the scoped setting will cause the CSS
+		// not to be applied because it is moved to the page head where it belongs.
+		$out .= '<style type="text/css">';
 		$out .= str_replace( $search , $replace , @file_get_contents( $this->path . $this->parts['css'] ) );
 		$out .= '</style>';
 

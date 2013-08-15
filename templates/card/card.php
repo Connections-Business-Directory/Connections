@@ -17,7 +17,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 
 	class CN_Card_Template {
 
-		public static function init() {
+		public static function register() {
 
 			$atts = array(
 				'class'       => 'CN_Card_Template',
@@ -107,5 +107,5 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 
 	}
 
-	add_action( 'cn_register_template', array( 'CN_Card_Template', 'init' ) );
+	add_action( 'cn_register_template', array( 'CN_Card_Template', 'register' ) );
 }

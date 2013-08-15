@@ -17,7 +17,7 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 
 	class CN_Names_Template {
 
-		public static function init() {
+		public static function register() {
 
 			$atts = array(
 				'class'       => 'CN_Names_Template',
@@ -50,5 +50,5 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 
 	}
 
-	add_action( 'cn_register_template', array( 'CN_Names_Template', 'init' ) );
+	add_action( 'cn_register_template', array( 'CN_Names_Template', 'register' ) );
 }

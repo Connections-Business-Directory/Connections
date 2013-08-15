@@ -719,8 +719,13 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		}
 
 
-		// Prints the template's CSS file.
-		if ( method_exists( $template, 'printCSS' ) ) $out .= $template->printCSS();
+		ob_start();
+
+			// Prints the template's CSS file.
+			do_action( 'cn_action_css-' . $template->getSlug() , $atts );
+
+			$out .= ob_get_contents();
+		ob_end_clean();
 
 		$out .= '<div class="connections-list cn-upcoming cn-' . $atts['list_type'] . '" id="cn-list" data-connections-version="' . $connections->options->getVersion() . '-' . $connections->options->getDBVersion() . '">' . "\n";
 

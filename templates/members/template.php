@@ -236,11 +236,10 @@ $member_listing .= '</div><div style="clear:both;"></div></div>';
 $mobile_member_info .= '</div><div style="clear:both;"></div></div><hr />';
 
 // This works for the mobile browser check with the MobilePress plugin
-if ($_SESSION['SESS_MOBILE_ACTIVE'] == TRUE) {
+if (isset($_SESSION['SESS_MOBILE_ACTIVE']) && $_SESSION['SESS_MOBILE_ACTIVE'] == TRUE) {
     echo $mobile_member_info;
 } else {
     // Display Family Listing
     echo $member_listing;
 }
 unset($member_listing, $mobile_member_info);
-?>

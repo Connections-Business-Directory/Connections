@@ -308,7 +308,7 @@ class cnScript {
 	public static function enqueueStyles() {
 		wp_enqueue_style( 'connections-user' );
 		wp_enqueue_style( 'connections-chosen' );
-		wp_enqueue_style( 'connections-qtip' );
+		// wp_enqueue_style( 'connections-qtip' );
 	}
 
 }

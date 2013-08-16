@@ -240,7 +240,7 @@ class cnTemplate {
 	public function getAuthorURL() {
 
 		// if the http protocol is not part of the url, add it.
-		if ( ! empty( $this->authorURL ) && preg_match( "/https?/" , $this->authorURL ) == 0 ) $this->authorURL = 'http://' . $this->authorURL;
+		$this->authorURL = ( ! empty( $this->authorURL ) && preg_match( "/https?/" , $this->authorURL ) == 0 ) ? 'http://' . $this->authorURL : '';
 
 		return $this->authorURL;
 	}

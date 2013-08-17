@@ -41,8 +41,8 @@ function connectionsShowViewPage( $action = NULL ) {
 				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
 
 				$attr = array(
-					'action' => 'admin.php?connections_process=true&process=manage&action=add',
-					'method' => 'post',
+					// 'action'  => 'admin.php?connections_process=true&process=manage&action=add',
+					'method'  => 'post',
 					'enctype' => 'multipart/form-data',
 				);
 
@@ -118,8 +118,8 @@ function connectionsShowViewPage( $action = NULL ) {
 				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
 
 				$attr = array(
-					'action' => 'admin.php?connections_process=true&process=manage&action=add&id=' . $id,
-					'method' => 'post',
+					// 'action'  => 'admin.php?connections_process=true&process=manage&action=add&id=' . $id,
+					'method'  => 'post',
 					'enctype' => 'multipart/form-data',
 				);
 

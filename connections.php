@@ -386,6 +386,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			include_once CN_PATH . 'templates/card-single/card-single.php';
 			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
 			include_once CN_PATH . 'templates/profile/profile.php';
+			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
+			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
 
 			// Class for processing email.
 			require_once CN_PATH . 'includes/email/class.email.php';

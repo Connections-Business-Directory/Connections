@@ -456,7 +456,7 @@ class cnURL {
 			if ( $wp_rewrite->using_permalinks() ) {
 				$permalink = trailingslashit( get_permalink( $homeID ) );
 			} else {
-				$permalink = add_query_arg( 'page_id' , $homeID, get_permalink() );
+				$permalink = add_query_arg( array( 'page_id' => $homeID, 'p' => FALSE  ), get_permalink() );
 			}
 
 		}

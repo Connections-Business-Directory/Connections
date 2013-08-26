@@ -783,7 +783,8 @@ class cnTemplatePart {
 			'show_count'      => FALSE,
 			'depth'           => 0,
 			'parent_id'       => array(),
-			'return'          => FALSE
+			'exclude'         => array(),
+			'return'          => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -874,7 +875,8 @@ class cnTemplatePart {
 			'show_count'      => FALSE,
 			'depth'           => 0,
 			'parent_id'       => array(),
-			'return'          => FALSE
+			'exclude'         => array(),
+			'return'          => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -887,6 +889,14 @@ class cnTemplatePart {
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
 		}
 
+		if ( ! is_array( $atts['exclude'] ) ) {
+			// Trim extra whitespace.
+			$atts['exclude'] = trim( str_replace( ' ', '', $atts['exclude'] ) );
+
+			// Convert to array.
+			$atts['exclude'] = explode( ',', $atts['exclude'] );
+		}
+
 		$out .= "\n" . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
 
 		$out .= "\n" . '<option value=""></option>';
@@ -896,6 +906,9 @@ class cnTemplatePart {
 		foreach ( $categories as $key => $category ) {
 			// Limit the category tree to only the supplied root parent categories.
 			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) continue;
+
+			// Do not show the excluded category as options.
+			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) continue;
 
 			// If grouping by root parent is enabled, open the optiongroup tag.
 			if ( $atts['group'] && ! empty( $category->children ) )
@@ -939,10 +952,14 @@ class cnTemplatePart {
 		$defaults = array(
 			'group'      => FALSE,
 			'show_empty' => TRUE,
-			'show_count' => TRUE
+			'show_count' => TRUE,
+			'exclude'    => array(),
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		// Do not show the excluded category as options.
+		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
 
 		// The padding in px to indent descendant categories. The 7px is the default pad applied in the CSS which must be taken in to account.
 		$pad = ( $level > 1 ) ? $level * 12 + 7 : 7;
@@ -1024,6 +1041,7 @@ class cnTemplatePart {
 			'show_count' => TRUE,
 			'depth'      => 0,
 			'parent_id'  => array(),
+			'exclude'    => array(),
 			'layout'     => 'list',
 			'columns'    => 3,
 			'return'     => FALSE
@@ -1040,12 +1058,23 @@ class cnTemplatePart {
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
 		}
 
+		if ( ! is_array( $atts['exclude'] ) ) {
+			// Trim extra whitespace.
+			$atts['exclude'] = trim( str_replace( ' ', '', $atts['exclude'] ) );
+
+			// Convert to array.
+			$atts['exclude'] = explode( ',', $atts['exclude'] );
+		}
+
 		foreach ( $categories as $key => $category ) {
 			// Remove any empty root parent categories so the table builds correctly.
 			if ( ! $atts['show_empty'] && ( empty($category->count ) && empty( $category->children ) ) ) unset( $categories[ $key ] );
 
 			// Limit the category tree to only the supplied root parent categories.
 			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) unset( $categories[ $key ] );
+
+			// Do not show the excluded category as options.
+			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) unset( $categories[ $key ] );
 		}
 
 		switch ( $atts['layout'] ) {
@@ -1145,10 +1174,14 @@ class cnTemplatePart {
 		$defaults = array(
 			'type'       => 'radio',
 			'show_empty' => TRUE,
-			'show_count' => TRUE
+			'show_count' => TRUE,
+			'exclude'    => array(),
 		);
 
 		$atts = wp_parse_args($atts, $defaults);
+
+		// Do not show the excluded category as options.
+		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
 
 		if ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) {
 
@@ -1221,6 +1254,7 @@ class cnTemplatePart {
 			'show_count' => TRUE,
 			'depth'      => 0,
 			'parent_id'  => array(),
+			'exclude'    => array(),
 			'layout'     => 'list',
 			'columns'    => 3,
 			'return'     => FALSE
@@ -1236,12 +1270,23 @@ class cnTemplatePart {
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
 		}
 
+		if ( ! is_array( $atts['exclude'] ) ) {
+			// Trim extra whitespace.
+			$atts['exclude'] = trim( str_replace( ' ', '', $atts['exclude'] ) );
+
+			// Convert to array.
+			$atts['exclude'] = explode( ',', $atts['exclude'] );
+		}
+
 		foreach ( $categories as $key => $category ) {
 			// Remove any empty root parent categories so the table builds correctly.
 			if ( ! $atts['show_empty'] && ( empty( $category->count ) && empty( $category->children ) ) ) unset( $categories[ $key ] );
 
 			// Limit the category tree to only the supplied root parent categories.
 			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) unset( $categories[ $key ] );
+
+			// Do not show the excluded category as options.
+			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) unset( $categories[ $key ] );
 		}
 
 		switch ( $atts['layout'] ) {
@@ -1337,10 +1382,14 @@ class cnTemplatePart {
 
 		$defaults = array(
 			'show_empty' => TRUE,
-			'show_count' => TRUE
+			'show_count' => TRUE,
+			'exclude'    => array(),
 		);
 
 		$atts = wp_parse_args($atts, $defaults);
+
+		// Do not show the excluded category as options.
+		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
 
 		if ( $atts['show_empty'] || ! empty( $category->count ) || ! empty ( $category->children ) ) {
 

@@ -259,9 +259,9 @@ class cnRetrieve {
 		/*
 		 * Build an array of all the categories and their children based on the supplied category IDs.
 		 */
-		if ( !empty( $atts['category'] ) ) {
+		if ( ! empty( $atts['category'] ) ) {
 			// If value is a string, string the white space and covert to an array.
-			if ( !is_array( $atts['category'] ) ) {
+			if ( ! is_array( $atts['category'] ) ) {
 				$atts['category'] = str_replace( ' ', '', $atts['category'] );
 
 				$atts['category'] = explode( ',', $atts['category'] );
@@ -276,7 +276,7 @@ class cnRetrieve {
 				//print_r($results);
 
 				foreach ( (array) $results as $term ) {
-					if ( !in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = $term->term_id;
+					if ( ! in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = $term->term_id;
 				}
 			}
 		}
@@ -285,6 +285,7 @@ class cnRetrieve {
 		 * Exclude the specified categories by ID.
 		 */
 		if ( ! empty( $atts['exclude_category'] ) ) {
+
 			// If value is a string, string the white space and covert to an array.
 			if ( ! is_array( $atts['exclude_category'] ) ) {
 				$atts['exclude_category'] = str_replace( ' ', '', $atts['exclude_category'] );
@@ -293,6 +294,21 @@ class cnRetrieve {
 			}
 
 			$categoryIDs = array_diff( (array) $categoryIDs, $atts['exclude_category'] );
+
+			foreach ( $atts['exclude_category'] as $categoryID ) {
+
+				// Add the parent category ID to the array.
+				$categoryExcludeIDs[] = $categoryID;
+
+				// Retrieve the children categories
+				$results = $this->categoryChildren( 'term_id', $categoryID );
+				//print_r($results);
+
+				foreach ( (array) $results as $term ) {
+
+					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = $term->term_id;
+				}
+			}
 		}
 
 		// Convert the supplied category IDs $atts['category_in'] to an array.
@@ -344,6 +360,12 @@ class cnRetrieve {
 
 			if ( ! empty( $categoryIDs ) ) {
 				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (\'' . implode( "', '", $categoryIDs ) . '\')';
+
+				unset( $categoryIDs );
+			}
+
+			if ( ! empty( $categoryExcludeIDs ) ) {
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (\'' . implode( "', '", $categoryExcludeIDs ) . '\')';
 
 				unset( $categoryIDs );
 			}

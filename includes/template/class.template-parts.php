@@ -32,7 +32,7 @@ class cnTemplatePart {
 
 		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription'), 10, 2 );
 
-		add_action( 'cn_action_character_index', array( __CLASS__, 'characterIndex' ) );
+		add_action( 'cn_action_character_index', array( __CLASS__, 'index' ) );
 		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
 	}
 
@@ -524,12 +524,16 @@ class cnTemplatePart {
 	 * @return (string)
 	 */
 	public static function index( $atts = array() ) {
-		$out = '';
+		$out     = '';
+		$links   = array();
 		$current = '';
+		$styles  = '';
 
 		$defaults = array(
 			'status' => array( 'approved' ),
-			'return' => FALSE
+			'tag'    => 'div',
+			'style'  => array(),
+			'return' => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -547,17 +551,26 @@ class cnTemplatePart {
 			if ( get_query_var('cn-char') ) $current = urldecode( get_query_var('cn-char') );
 		}
 
+		if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
+
+			array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
+			$styles = implode( $atts['style'], '; ' );
+		}
+
 		foreach ( $characters as $key => $char ) {
 			$char = strtoupper( $char );
 
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
-				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) , 'filter' ) . '">' . $char . '</a> ';
+				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) , 'filter' ) . '">' . $char . '</a> ';
 			} else {
-				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) . '">' . $char . '</a> ';
+				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) . '">' . $char . '</a> ';
 			}
 
 		}
+
+		// $out = '<div class="">' . . '</div>';
+		$out = "\n" . '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . "\n";
 
 		if ( $atts['return'] ) return $out;
 		echo $out;

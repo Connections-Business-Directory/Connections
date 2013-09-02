@@ -266,10 +266,12 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		'longitude'             => NULL,
 		'radius'                => 10,
 		'unit'                  => 'mi',
-		'template'              => NULL, /** @since version 0.7.1.0 */
-		'template_name'         => NULL /** @deprecated since version 0.7.0.4 */,
+		'template'              => NULL, /* @since version 0.7.1.0 */
+		'template_name'         => NULL, /* @deprecated since version 0.7.0.4 */
 		'width'                 => NULL,
-		'lock'                  => FALSE
+		'lock'                  => FALSE,
+		'force_home'            => FALSE,
+		'home_id'               => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 	);
 
 	$permittedAtts = apply_filters( 'cn_list_atts_permitted' , $permittedAtts );
@@ -293,6 +295,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	$convert->toBoolean( $atts['show_alphahead'] );
 	$convert->toBoolean( $atts['wp_current_category'] );
 	$convert->toBoolean( $atts['lock'] );
+	$convert->toBoolean( $atts['force_home'] );
 	// $out .= var_dump($atts);
 
 	/*
@@ -425,6 +428,9 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				foreach ( $results as $row ) {
 					$entry = new cnvCard( $row );
 					$vCard =& $entry;
+
+					// Configure the page where the entry link to.
+					$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
 
 					// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
 					if ( in_array( $entry->getId() , $skipEntry ) ) continue;

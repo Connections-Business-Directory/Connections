@@ -28,6 +28,7 @@ if ( ! class_exists( 'CN_Bio_Card_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This is a variation of the default template which shows the bio field for an entry.',
+				'custom'      => FALSE,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',

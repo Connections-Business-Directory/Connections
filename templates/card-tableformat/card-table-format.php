@@ -28,6 +28,7 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This is a variation of the default template which is formatted using a table. This template is recommended when compatibility with Internet Explorer 6 is required.',
+				'custom'      => FALSE,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',

@@ -28,6 +28,7 @@ if ( ! class_exists( 'CN_Single_Card_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This is a variation of the default template does not show the return to top anchor.',
+				'custom'      => FALSE,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',

@@ -388,6 +388,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			include_once CN_PATH . 'templates/profile/profile.php';
 			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
 			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
+			include_once CN_PATH . 'templates/birthday-dark/birthday-dark.php';
+			include_once CN_PATH . 'templates/birthday-light/birthday-light.php';
+			include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
+			include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';
+			include_once CN_PATH . 'templates/dashboard-upcoming/dashboard-upcoming.php';
 
 			// Class for processing email.
 			require_once CN_PATH . 'includes/email/class.email.php';

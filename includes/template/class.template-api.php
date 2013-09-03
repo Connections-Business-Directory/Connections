@@ -73,7 +73,7 @@ class cnTemplateFactory {
 			self::$templates = new stdClass();
 
 			// Add all the legacy templates found, including the default templates.
-			add_action( 'plugins_loaded', array( __CLASS__, 'registerLegacy' ), 99 );
+			add_action( 'plugins_loaded', array( __CLASS__, 'registerLegacy' ), 10.5 );
 
 			// Initiate the active template classes.
 			add_action( 'plugins_loaded', array( __CLASS__, 'activate' ), 100 );
@@ -100,7 +100,7 @@ class cnTemplateFactory {
 	 * Register a template.
 	 *
 	 * Accepted options for the $atts property are:
-	 *  class (string) [required] The name of the class o initialize which contains the templates methods and properties..
+	 *  class (string) [required] The name of the class o initialize which contains the templates methods and properties.
 	 *  name (string) [required] The template name.
 	 *  slug (string) [optional] The template slug.
 	 *  type (string) [required] The template type.
@@ -155,7 +155,9 @@ class cnTemplateFactory {
 
 		// PHP 5.4 warning fix.
 		if ( ! isset( self::$templates->{ $type } ) ) self::$templates->{ $type } = new stdClass();
-		if ( ! isset( self::$templates->{ $type }->{ $slug } ) ) self::$templates->{ $type }->{ $slug } = new stdClass();
+		// if ( ! isset( self::$templates->{ $type }->{ $slug } ) ) self::$templates->{ $type }->{ $slug } = new stdClass();
+		// self::$templates->{ $type } = new stdClass();
+		self::$templates->{ $type }->{ $slug } = new stdClass();
 
 		self::$templates->{ $type }->{ $slug } = (object) $atts;
 	}

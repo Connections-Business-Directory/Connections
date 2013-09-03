@@ -28,6 +28,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This will show the entries in a profile format.',
+				'custom'      => FALSE,
 				'path'        => plugin_dir_path( __FILE__ ),
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',

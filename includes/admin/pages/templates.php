@@ -210,8 +210,8 @@ function connectionsShowTemplatesPage() {
 										?>
 									</span>
 							<?php
-									if ( $template->{ $slug }->isCustom() === FALSE && $template->{ $slug }->isLegacy() === TRUE ) {
-										echo '<p class="description">' , __( 'This a supplied template and can not be deleted.', 'connections') , '</p>';
+									if ( $template->{ $slug }->isCustom() === FALSE ) {
+										echo '<p class="description">' , __( 'This a core template and can not be deleted.', 'connections') , '</p>';
 									} else if ( $template->{ $slug }->isCustom() === TRUE && $template->{ $slug }->isLegacy() === FALSE ) {
 										echo '<p class="description">' , __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections') , '</p>';
 									}

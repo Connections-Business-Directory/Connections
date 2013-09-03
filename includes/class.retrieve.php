@@ -35,57 +35,57 @@ class cnRetrieve {
 
 		get_currentuserinfo();
 
-		$validate = new cnValidate();
-		$select[] = CN_ENTRY_TABLE . '.*';
-		$from[] = CN_ENTRY_TABLE;
-		$join = array();
-		$where[] = 'WHERE 1=1';
-		$having = array();
-		$orderBy = array();
-		$visibility = array();
+		$validate             = new cnValidate();
+		$select[]             = CN_ENTRY_TABLE . '.*';
+		$from[]               = CN_ENTRY_TABLE;
+		$join                 = array();
+		$where[]              = 'WHERE 1=1';
+		$having               = array();
+		$orderBy              = array();
+		$visibility           = array();
 
-		$permittedEntryTypes = array( 'individual', 'organization', 'family', 'connection_group' );
+		$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
 		$permittedEntryStatus = array( 'approved', 'pending' );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['list_type'] = NULL;
-		$defaults['category'] = NULL;
-		$defaults['category_in'] = NULL;
-		$defaults['exclude_category'] = NULL;
-		$defaults['category_name'] = NULL;
-		$defaults['category_slug'] = NULL;
-		$defaults['wp_current_category'] = FALSE;
-		$defaults['char'] = '';
-		$defaults['id'] = NULL;
-		$defaults['slug'] = NULL;
-		$defaults['family_name'] = NULL;
-		$defaults['last_name'] = NULL;
-		$defaults['title'] = NULL;
-		$defaults['organization'] = NULL;
-		$defaults['department'] = NULL;
-		$defaults['city'] = NULL;
-		$defaults['state'] = NULL;
-		$defaults['zip_code'] = NULL;
-		$defaults['country'] = NULL;
-		$defaults['visibility'] = NULL;
-		$defaults['status'] = array( 'approved' );
-		$defaults['order_by'] = array( 'sort_column', 'last_name', 'first_name' );
-		$defaults['limit'] = NULL;
-		$defaults['offset'] = 0;
+		$defaults['list_type']             = NULL;
+		$defaults['category']              = NULL;
+		$defaults['category_in']           = NULL;
+		$defaults['exclude_category']      = NULL;
+		$defaults['category_name']         = NULL;
+		$defaults['category_slug']         = NULL;
+		$defaults['wp_current_category']   = FALSE;
+		$defaults['char']                  = '';
+		$defaults['id']                    = NULL;
+		$defaults['slug']                  = NULL;
+		$defaults['family_name']           = NULL;
+		$defaults['last_name']             = NULL;
+		$defaults['title']                 = NULL;
+		$defaults['organization']          = NULL;
+		$defaults['department']            = NULL;
+		$defaults['city']                  = NULL;
+		$defaults['state']                 = NULL;
+		$defaults['zip_code']              = NULL;
+		$defaults['country']               = NULL;
+		$defaults['visibility']            = NULL;
+		$defaults['status']                = array( 'approved' );
+		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
+		$defaults['limit']                 = NULL;
+		$defaults['offset']                = 0;
 		$defaults['allow_public_override'] = FALSE;
-		$defaults['private_override'] = FALSE;
-		$defaults['search_terms'] = NULL;
+		$defaults['private_override']      = FALSE;
+		$defaults['search_terms']          = NULL;
 
 		// $atts vars to support showing entries within a specified radius.
-		$defaults['near_addr'] = NULL;
-		$defaults['latitude'] = NULL;
-		$defaults['longitude'] = NULL;
-		$defaults['radius'] = 10;
-		$defaults['unit'] = 'mi';
+		$defaults['near_addr']             = NULL;
+		$defaults['latitude']              = NULL;
+		$defaults['longitude']             = NULL;
+		$defaults['radius']                = 10;
+		$defaults['unit']                  = 'mi';
 
-		$defaults['lock'] = TRUE;
+		$defaults['lock']                  = TRUE;
 
 		$atts = $validate->attributesArray( $defaults, $atts );
 		/*

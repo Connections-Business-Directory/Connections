@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
-"POT-Creation-Date: 2013-07-15 20:27-0500\n"
-"PO-Revision-Date: 2013-07-15 20:28-0500\n"
+"POT-Creation-Date: 2013-09-09 20:52-0500\n"
+"PO-Revision-Date: 2013-09-09 20:53-0500\n"
 "Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -17,61 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: connections.php:750
-msgid "Entries"
-msgstr ""
-
-#: connections.php:820 includes/admin/pages/dashboard.php:42
-msgid "Dashboard"
-msgstr ""
-
-#: connections.php:821 includes/admin/pages/manage.php:255
-msgid "Manage"
-msgstr ""
-
-#: connections.php:822 includes/class.form.php:849 includes/class.form.php:854
-#: includes/admin/class.capabilities.php:61 includes/admin/pages/manage.php:25
-msgid "Add Entry"
-msgstr ""
-
-#: connections.php:823 includes/class.form.php:260
-#: includes/admin/pages/categories.php:88 includes/admin/pages/manage.php:459
-#: includes/admin/pages/manage.php:468
-msgid "Categories"
-msgstr ""
-
-#: connections.php:824 connections.php:933 includes/class.form.php:340
-#: includes/admin/pages/templates.php:49
-#: includes/settings/class.settings.php:1155
-msgid "Templates"
-msgstr ""
-
-#: connections.php:825 connections.php:915
-#: includes/admin/pages/settings.php:47
-msgid "Settings"
-msgstr ""
-
-#: connections.php:826
-msgid "Roles &amp; Capabilites"
-msgstr ""
-
-#: connections.php:826
-msgid "Roles"
-msgstr ""
-
-#: connections.php:932
-msgid "Add-on Plugins"
-msgstr ""
-
-#: connections.php:934 includes/class.form.php:307
-msgid "Documentation"
-msgstr ""
-
-#: connections.php:935
-msgid "Support Forums"
-msgstr ""
-
-#: connections.php:1087 connections.php:1095
+#: connections.php:746 connections.php:755
 msgid "vCard not available for download."
 msgstr ""
 
@@ -82,29 +28,29 @@ msgstr ""
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: includes/class.entry.php:2575 includes/class.form.php:1752
-#: includes/class.output.php:2021 includes/class.output.php:2028
-#: includes/admin/pages/templates.php:56
+#: includes/class.entry.php:2575 includes/class.form.php:1756
+#: includes/class.output.php:2065 includes/class.output.php:2072
+#: includes/admin/pages/templates.php:58
 #: includes/settings/class.options.php:907
 msgid "Anniversary"
 msgstr ""
 
-#: includes/class.entry.php:2590 includes/class.form.php:1734
-#: includes/class.output.php:1951 includes/class.output.php:1958
-#: includes/admin/pages/templates.php:57
+#: includes/class.entry.php:2590 includes/class.form.php:1738
+#: includes/class.output.php:1995 includes/class.output.php:2002
+#: includes/admin/pages/templates.php:59
 #: includes/settings/class.options.php:909
 msgid "Birthday"
 msgstr ""
 
-#: includes/class.entry.php:3022 includes/class.form.php:829
+#: includes/class.entry.php:3022 includes/class.form.php:833
 msgid "Unlisted"
 msgstr ""
 
-#: includes/class.entry.php:3022 includes/class.form.php:827
+#: includes/class.entry.php:3022 includes/class.form.php:831
 msgid "Public"
 msgstr ""
 
-#: includes/class.entry.php:3022 includes/class.form.php:828
+#: includes/class.entry.php:3022 includes/class.form.php:832
 msgid "Private"
 msgstr ""
 
@@ -114,6 +60,12 @@ msgstr ""
 
 #: includes/class.form.php:259
 msgid "Publish"
+msgstr ""
+
+#: includes/class.form.php:260 includes/admin/class.menu.php:89
+#: includes/admin/pages/categories.php:88 includes/admin/pages/manage.php:484
+#: includes/admin/pages/manage.php:493
+msgid "Categories"
 msgstr ""
 
 #: includes/class.form.php:261
@@ -156,7 +108,7 @@ msgstr ""
 msgid "Biographical Info"
 msgstr ""
 
-#: includes/class.form.php:273 includes/admin/pages/manage.php:770
+#: includes/class.form.php:273 includes/admin/pages/manage.php:795
 #: includes/settings/class.settings.php:779
 msgid "Notes"
 msgstr ""
@@ -209,6 +161,10 @@ msgstr ""
 msgid "System"
 msgstr ""
 
+#: includes/class.form.php:307 includes/admin/class.functions.php:186
+msgid "Documentation"
+msgstr ""
+
 #: includes/class.form.php:318
 msgid "FAQs"
 msgstr ""
@@ -225,6 +181,12 @@ msgstr ""
 
 #: includes/class.form.php:334
 msgid "Extend Connections with the Pro Module Addons."
+msgstr ""
+
+#: includes/class.form.php:340 includes/admin/class.functions.php:185
+#: includes/admin/class.menu.php:90 includes/admin/pages/templates.php:51
+#: includes/settings/class.settings.php:1155
+msgid "Templates"
 msgstr ""
 
 #: includes/class.form.php:345
@@ -287,7 +249,7 @@ msgid "Not set"
 msgstr ""
 
 #: includes/class.form.php:648 includes/class.form.php:651
-#: includes/admin/pages/manage.php:584
+#: includes/admin/pages/manage.php:609
 msgid "On"
 msgstr ""
 
@@ -307,13 +269,13 @@ msgstr ""
 
 #: includes/class.form.php:672 includes/class.form.php:675
 #: includes/class.form.php:678 includes/class.utility.php:140
-#: includes/admin/pages/manage.php:777 includes/admin/pages/manage.php:778
+#: includes/admin/pages/manage.php:802 includes/admin/pages/manage.php:803
 msgid "Yes"
 msgstr ""
 
 #: includes/class.form.php:673 includes/class.form.php:676
 #: includes/class.form.php:679 includes/class.utility.php:142
-#: includes/admin/pages/manage.php:777 includes/admin/pages/manage.php:778
+#: includes/admin/pages/manage.php:802 includes/admin/pages/manage.php:803
 msgid "No"
 msgstr ""
 
@@ -333,430 +295,436 @@ msgstr ""
 msgid "FALSE"
 msgstr ""
 
-#: includes/class.form.php:720
+#: includes/class.form.php:724
 msgid "Server Configuration"
 msgstr ""
 
-#: includes/class.form.php:723
+#: includes/class.form.php:727
 msgid "Operating System"
 msgstr ""
 
-#: includes/class.form.php:724
+#: includes/class.form.php:728
 msgid "Server"
 msgstr ""
 
-#: includes/class.form.php:725
+#: includes/class.form.php:729
 msgid "Memory usage"
 msgstr ""
 
-#: includes/class.form.php:726
+#: includes/class.form.php:730
 msgid "MYSQL Version"
 msgstr ""
 
-#: includes/class.form.php:727
+#: includes/class.form.php:731
 msgid "SQL Mode"
 msgstr ""
 
-#: includes/class.form.php:728
+#: includes/class.form.php:732
 msgid "PHP Version"
 msgstr ""
 
-#: includes/class.form.php:729
+#: includes/class.form.php:733
 msgid "PHP Safe Mode"
 msgstr ""
 
-#: includes/class.form.php:730
+#: includes/class.form.php:734
 msgid "PHP Allow URL fopen"
 msgstr ""
 
-#: includes/class.form.php:731
+#: includes/class.form.php:735
 msgid "PHP Memory Limit"
 msgstr ""
 
-#: includes/class.form.php:732
+#: includes/class.form.php:736
 msgid "PHP Max Upload Size"
 msgstr ""
 
-#: includes/class.form.php:733
+#: includes/class.form.php:737
 msgid "PHP Max Post Size"
 msgstr ""
 
-#: includes/class.form.php:734
+#: includes/class.form.php:738
 msgid "PCRE Backtracking Limit"
 msgstr ""
 
-#: includes/class.form.php:735
+#: includes/class.form.php:739
 msgid "PHP Max Script Execute Time"
 msgstr ""
 
-#: includes/class.form.php:736
+#: includes/class.form.php:740
 msgid "PHP Exif support"
 msgstr ""
 
-#: includes/class.form.php:737
+#: includes/class.form.php:741
 msgid "PHP IPTC support"
 msgstr ""
 
-#: includes/class.form.php:738
+#: includes/class.form.php:742
 msgid "PHP XML support"
 msgstr ""
 
-#: includes/class.form.php:741
+#: includes/class.form.php:745
 msgid "Graphic Library"
 msgstr ""
 
-#: includes/class.form.php:761
+#: includes/class.form.php:765
 msgid "No GD support"
 msgstr ""
 
-#: includes/class.form.php:766
+#: includes/class.form.php:770
 msgid "Folder Permissions"
 msgstr ""
 
-#: includes/class.form.php:771
+#: includes/class.form.php:775
 msgid "Image Path Exists:"
 msgstr ""
 
-#: includes/class.form.php:772
+#: includes/class.form.php:776
 msgid "Image Path Writeable:"
 msgstr ""
 
-#: includes/class.form.php:774
+#: includes/class.form.php:778
 msgid "Template Path Exists:"
 msgstr ""
 
-#: includes/class.form.php:775
+#: includes/class.form.php:779
 msgid "Template Path Writeable:"
 msgstr ""
 
-#: includes/class.form.php:777
+#: includes/class.form.php:781
 msgid "Cache Path Exists:"
 msgstr ""
 
-#: includes/class.form.php:778
+#: includes/class.form.php:782
 msgid "Cache Path Writeable:"
 msgstr ""
 
-#: includes/class.form.php:794 includes/admin/pages/templates.php:53
+#: includes/class.form.php:798 includes/admin/pages/templates.php:55
 msgid "Individual"
 msgstr ""
 
-#: includes/class.form.php:795 includes/class.form.php:967
-#: includes/admin/pages/manage.php:653 includes/admin/pages/templates.php:54
+#: includes/class.form.php:799 includes/class.form.php:971
+#: includes/admin/pages/manage.php:678 includes/admin/pages/templates.php:56
 #: includes/settings/class.settings.php:774
 #: includes/settings/class.settings.php:1036
 msgid "Organization"
 msgstr ""
 
-#: includes/class.form.php:796 includes/admin/pages/templates.php:55
+#: includes/class.form.php:800 includes/admin/pages/templates.php:57
 msgid "Family"
 msgstr ""
 
-#: includes/class.form.php:842 includes/class.form.php:848
+#: includes/class.form.php:846 includes/class.form.php:852
 #: includes/admin/pages/categories.php:75
 msgid "Cancel"
 msgstr ""
 
-#: includes/class.form.php:843 includes/admin/pages/roles.php:75
+#: includes/class.form.php:847 includes/admin/pages/roles.php:75
 msgid "Update"
 msgstr ""
 
-#: includes/class.form.php:895 includes/settings/class.settings.php:769
+#: includes/class.form.php:853 includes/class.form.php:858
+#: includes/admin/class.capabilities.php:61 includes/admin/class.menu.php:88
+#: includes/admin/pages/manage.php:30
+msgid "Add Entry"
+msgstr ""
+
+#: includes/class.form.php:899 includes/settings/class.settings.php:769
 msgid "Family Name"
 msgstr ""
 
-#: includes/class.form.php:915 includes/class.form.php:1010
-#: includes/class.form.php:1044 includes/class.form.php:1144
-#: includes/class.form.php:1233 includes/class.form.php:1274
-#: includes/class.form.php:1306 includes/class.form.php:1347
-#: includes/class.form.php:1379 includes/class.form.php:1420
-#: includes/class.form.php:1451 includes/class.form.php:1492
-#: includes/class.form.php:1524 includes/class.form.php:1580
-#: includes/class.form.php:1631 includes/class.form.php:1675
-#: includes/class.form.php:1710
+#: includes/class.form.php:919 includes/class.form.php:1014
+#: includes/class.form.php:1048 includes/class.form.php:1148
+#: includes/class.form.php:1237 includes/class.form.php:1278
+#: includes/class.form.php:1310 includes/class.form.php:1351
+#: includes/class.form.php:1383 includes/class.form.php:1424
+#: includes/class.form.php:1455 includes/class.form.php:1496
+#: includes/class.form.php:1528 includes/class.form.php:1584
+#: includes/class.form.php:1635 includes/class.form.php:1679
+#: includes/class.form.php:1714
 msgid "Remove"
 msgstr ""
 
-#: includes/class.form.php:923
+#: includes/class.form.php:927
 msgid "Add Relation"
 msgstr ""
 
-#: includes/class.form.php:933
+#: includes/class.form.php:937
 msgid "Prefix"
 msgstr ""
 
-#: includes/class.form.php:939 includes/settings/class.settings.php:770
+#: includes/class.form.php:943 includes/settings/class.settings.php:770
 msgid "First Name"
 msgstr ""
 
-#: includes/class.form.php:944 includes/settings/class.settings.php:771
+#: includes/class.form.php:948 includes/settings/class.settings.php:771
 msgid "Middle Name"
 msgstr ""
 
-#: includes/class.form.php:949 includes/settings/class.settings.php:772
+#: includes/class.form.php:953 includes/settings/class.settings.php:772
 msgid "Last Name"
 msgstr ""
 
-#: includes/class.form.php:955
+#: includes/class.form.php:959
 msgid "Suffix"
 msgstr ""
 
-#: includes/class.form.php:960 includes/class.form.php:1565
-#: includes/class.form.php:1615 includes/admin/pages/manage.php:652
+#: includes/class.form.php:964 includes/class.form.php:1569
+#: includes/class.form.php:1619 includes/admin/pages/manage.php:677
 #: includes/settings/class.settings.php:773
 msgid "Title"
 msgstr ""
 
-#: includes/class.form.php:970 includes/admin/pages/manage.php:654
+#: includes/class.form.php:974 includes/admin/pages/manage.php:679
 #: includes/settings/class.settings.php:775
 #: includes/settings/class.settings.php:1049
 msgid "Department"
 msgstr ""
 
-#: includes/class.form.php:976 includes/settings/class.settings.php:776
+#: includes/class.form.php:980 includes/settings/class.settings.php:776
 msgid "Contact First Name"
 msgstr ""
 
-#: includes/class.form.php:980 includes/settings/class.settings.php:777
+#: includes/class.form.php:984 includes/settings/class.settings.php:777
 msgid "Contact Last Name"
 msgstr ""
 
-#: includes/class.form.php:1008 includes/class.form.php:1042
-#: includes/admin/pages/manage.php:778 includes/settings/class.settings.php:43
+#: includes/class.form.php:1012 includes/class.form.php:1046
+#: includes/admin/pages/manage.php:803 includes/settings/class.settings.php:43
 msgid "Display"
 msgstr ""
 
-#: includes/class.form.php:1009 includes/class.form.php:1043
+#: includes/class.form.php:1013 includes/class.form.php:1047
 msgid "Not Displayed"
 msgstr ""
 
-#: includes/class.form.php:1019
+#: includes/class.form.php:1023
 msgid "Select Image"
 msgstr ""
 
-#: includes/class.form.php:1053
+#: includes/class.form.php:1057
 msgid "Select Logo"
 msgstr ""
 
-#: includes/class.form.php:1078 includes/class.form.php:1166
+#: includes/class.form.php:1082 includes/class.form.php:1170
 msgid "Address Type"
 msgstr ""
 
-#: includes/class.form.php:1079 includes/class.form.php:1167
-#: includes/class.form.php:1265 includes/class.form.php:1296
-#: includes/class.form.php:1338 includes/class.form.php:1369
-#: includes/class.form.php:1411 includes/class.form.php:1441
-#: includes/class.form.php:1483 includes/class.form.php:1514
-#: includes/class.form.php:1556 includes/class.form.php:1606
-#: includes/class.form.php:1663 includes/class.form.php:1697
+#: includes/class.form.php:1083 includes/class.form.php:1171
+#: includes/class.form.php:1269 includes/class.form.php:1300
+#: includes/class.form.php:1342 includes/class.form.php:1373
+#: includes/class.form.php:1415 includes/class.form.php:1445
+#: includes/class.form.php:1487 includes/class.form.php:1518
+#: includes/class.form.php:1560 includes/class.form.php:1610
+#: includes/class.form.php:1667 includes/class.form.php:1701
 msgid "Preferred"
 msgstr ""
 
-#: includes/class.form.php:1080 includes/class.form.php:1168
-#: includes/class.form.php:1266 includes/class.form.php:1339
-#: includes/class.form.php:1370 includes/class.form.php:1412
-#: includes/class.form.php:1442 includes/class.form.php:1484
-#: includes/class.form.php:1515 includes/class.form.php:1557
-#: includes/class.form.php:1607 includes/class.form.php:1664
-#: includes/class.form.php:1698 includes/admin/pages/manage.php:586
+#: includes/class.form.php:1084 includes/class.form.php:1172
+#: includes/class.form.php:1270 includes/class.form.php:1343
+#: includes/class.form.php:1374 includes/class.form.php:1416
+#: includes/class.form.php:1446 includes/class.form.php:1488
+#: includes/class.form.php:1519 includes/class.form.php:1561
+#: includes/class.form.php:1611 includes/class.form.php:1668
+#: includes/class.form.php:1702 includes/admin/pages/manage.php:611
 msgid "Visibility"
 msgstr ""
 
-#: includes/class.form.php:1089 includes/class.form.php:1177
+#: includes/class.form.php:1093 includes/class.form.php:1181
 msgid "Address Line 1"
 msgstr ""
 
-#: includes/class.form.php:1094 includes/class.form.php:1182
+#: includes/class.form.php:1098 includes/class.form.php:1186
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class.form.php:1099 includes/class.form.php:1187
+#: includes/class.form.php:1103 includes/class.form.php:1191
 msgid "Address Line 3"
 msgstr ""
 
-#: includes/class.form.php:1107 includes/class.form.php:1194
+#: includes/class.form.php:1111 includes/class.form.php:1198
 msgid "City"
 msgstr ""
 
-#: includes/class.form.php:1111 includes/class.form.php:1198
+#: includes/class.form.php:1115 includes/class.form.php:1202
 msgid "State"
 msgstr ""
 
-#: includes/class.form.php:1115 includes/class.form.php:1202
+#: includes/class.form.php:1119 includes/class.form.php:1206
 msgid "Zipcode"
 msgstr ""
 
-#: includes/class.form.php:1121 includes/class.form.php:1208
+#: includes/class.form.php:1125 includes/class.form.php:1212
 #: includes/settings/class.settings.php:1101
 msgid "Country"
 msgstr ""
 
-#: includes/class.form.php:1127 includes/class.form.php:1214
-#: includes/class.output.php:981 includes/admin/pages/manage.php:678
+#: includes/class.form.php:1131 includes/class.form.php:1218
+#: includes/class.output.php:1025 includes/admin/pages/manage.php:703
 msgid "Latitude"
 msgstr ""
 
-#: includes/class.form.php:1131 includes/class.form.php:1218
-#: includes/class.output.php:982 includes/admin/pages/manage.php:678
+#: includes/class.form.php:1135 includes/class.form.php:1222
+#: includes/class.output.php:1026 includes/admin/pages/manage.php:703
 msgid "Longitude"
 msgstr ""
 
-#: includes/class.form.php:1135 includes/class.form.php:1222
+#: includes/class.form.php:1139 includes/class.form.php:1226
 msgid "Geocode"
 msgstr ""
 
-#: includes/class.form.php:1141 includes/class.form.php:1230
+#: includes/class.form.php:1145 includes/class.form.php:1234
 msgid "Geocoding Address."
 msgstr ""
 
-#: includes/class.form.php:1242
+#: includes/class.form.php:1246
 msgid "Add Address"
 msgstr ""
 
-#: includes/class.form.php:1264 includes/class.form.php:1295
+#: includes/class.form.php:1268 includes/class.form.php:1299
 msgid "Phone Type"
 msgstr ""
 
-#: includes/class.form.php:1273 includes/class.form.php:1304
+#: includes/class.form.php:1277 includes/class.form.php:1308
 #: includes/settings/class.settings.php:787
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class.form.php:1315
+#: includes/class.form.php:1319
 msgid "Add Phone Number"
 msgstr ""
 
-#: includes/class.form.php:1337 includes/class.form.php:1368
+#: includes/class.form.php:1341 includes/class.form.php:1372
 msgid "Email Type"
 msgstr ""
 
-#: includes/class.form.php:1346 includes/class.form.php:1377
+#: includes/class.form.php:1350 includes/class.form.php:1381
 msgid "Email Address"
 msgstr ""
 
-#: includes/class.form.php:1388
+#: includes/class.form.php:1392
 msgid "Add Email Address"
 msgstr ""
 
-#: includes/class.form.php:1410 includes/class.form.php:1440
+#: includes/class.form.php:1414 includes/class.form.php:1444
 msgid "IM Type"
 msgstr ""
 
-#: includes/class.form.php:1419 includes/class.form.php:1449
+#: includes/class.form.php:1423 includes/class.form.php:1453
 msgid "IM Network ID"
 msgstr ""
 
-#: includes/class.form.php:1460
+#: includes/class.form.php:1464
 msgid "Add Messenger ID"
 msgstr ""
 
-#: includes/class.form.php:1482 includes/class.form.php:1513
+#: includes/class.form.php:1486 includes/class.form.php:1517
 msgid "Social Network"
 msgstr ""
 
-#: includes/class.form.php:1491 includes/class.form.php:1522
-#: includes/class.form.php:1566 includes/class.form.php:1616
+#: includes/class.form.php:1495 includes/class.form.php:1526
+#: includes/class.form.php:1570 includes/class.form.php:1620
 msgid "URL"
 msgstr ""
 
-#: includes/class.form.php:1533
+#: includes/class.form.php:1537
 msgid "Add Social Media ID"
 msgstr ""
 
-#: includes/class.form.php:1555 includes/class.form.php:1605
-#: includes/class.form.php:1662 includes/class.form.php:1696
+#: includes/class.form.php:1559 includes/class.form.php:1609
+#: includes/class.form.php:1666 includes/class.form.php:1700
 msgid "Type"
 msgstr ""
 
-#: includes/class.form.php:1570 includes/class.form.php:1620
+#: includes/class.form.php:1574 includes/class.form.php:1624
 msgid "Target"
 msgstr ""
 
-#: includes/class.form.php:1570 includes/class.form.php:1620
+#: includes/class.form.php:1574 includes/class.form.php:1624
 msgid "New Window"
 msgstr ""
 
-#: includes/class.form.php:1570 includes/class.form.php:1620
+#: includes/class.form.php:1574 includes/class.form.php:1624
 msgid "Same Window"
 msgstr ""
 
-#: includes/class.form.php:1575 includes/class.form.php:1625
+#: includes/class.form.php:1579 includes/class.form.php:1629
 msgid "Assign link to the image."
 msgstr ""
 
-#: includes/class.form.php:1576 includes/class.form.php:1626
+#: includes/class.form.php:1580 includes/class.form.php:1630
 msgid "Assign link to the logo."
 msgstr ""
 
-#: includes/class.form.php:1640
+#: includes/class.form.php:1644
 msgid "Add Link"
 msgstr ""
 
-#: includes/class.form.php:1672 includes/class.form.php:1706
+#: includes/class.form.php:1676 includes/class.form.php:1710
 msgid "Date"
 msgstr ""
 
-#: includes/class.form.php:1719
+#: includes/class.form.php:1723
 msgid "Add Date"
 msgstr ""
 
-#: includes/class.form.php:1737 includes/class.form.php:1755
+#: includes/class.form.php:1741 includes/class.form.php:1759
 msgid "Field not available for this entry type."
 msgstr ""
 
-#: includes/class.form.php:1845
+#: includes/class.form.php:1849
 msgid "Select Entry"
 msgstr ""
 
-#: includes/class.form.php:1907 includes/admin/pages/manage.php:551
-#: includes/admin/pages/manage.php:636
+#: includes/class.form.php:1911 includes/admin/pages/manage.php:576
+#: includes/admin/pages/manage.php:661
 msgid "Edit"
 msgstr ""
 
-#: includes/class.form.php:1908 includes/admin/pages/categories.php:109
-#: includes/admin/pages/manage.php:424 includes/admin/pages/manage.php:553
+#: includes/class.form.php:1912 includes/admin/pages/categories.php:109
+#: includes/admin/pages/manage.php:449 includes/admin/pages/manage.php:578
 msgid "Delete"
 msgstr ""
 
-#: includes/class.form.php:1923 includes/class.form.php:1926
+#: includes/class.form.php:1927 includes/class.form.php:1930
 msgid "Count"
 msgstr ""
 
-#: includes/class.form.php:1929
+#: includes/class.form.php:1933
 msgid "ID"
 msgstr ""
 
-#: includes/class.form.php:1980 includes/admin/pages/categories.php:124
-#: includes/admin/pages/categories.php:134 includes/admin/pages/manage.php:458
-#: includes/admin/pages/manage.php:467
+#: includes/class.form.php:1984 includes/admin/pages/categories.php:124
+#: includes/admin/pages/categories.php:134 includes/admin/pages/manage.php:483
+#: includes/admin/pages/manage.php:492
 #: includes/settings/class.settings.php:1023
 msgid "Name"
 msgstr ""
 
-#: includes/class.form.php:1983
+#: includes/class.form.php:1987
 msgid "The name is how it appears on your site."
 msgstr ""
 
-#: includes/class.form.php:1987 includes/admin/pages/categories.php:126
+#: includes/class.form.php:1991 includes/admin/pages/categories.php:126
 #: includes/admin/pages/categories.php:136
 msgid "Slug"
 msgstr ""
 
-#: includes/class.form.php:1989
+#: includes/class.form.php:1993
 msgid ""
 "The “slug” is the URL-friendly version of the name. It is usually all "
 "lowercase and contains only letters, numbers, and hyphens."
 msgstr ""
 
-#: includes/class.form.php:1993
+#: includes/class.form.php:1997
 msgid "Parent"
 msgstr ""
 
-#: includes/class.form.php:1995
+#: includes/class.form.php:1999
 msgid "None"
 msgstr ""
 
-#: includes/class.form.php:1998
+#: includes/class.form.php:2002
 msgid ""
 "Categories can have a hierarchy. You might have a Jazz category, and under "
 "that have children categories for Bebop and Big Band. Totally optional."
@@ -770,19 +738,19 @@ msgstr ""
 msgid "Logo for"
 msgstr ""
 
-#: includes/class.output.php:749 includes/admin/pages/manage.php:651
+#: includes/class.output.php:785 includes/admin/pages/manage.php:676
 msgid "Contact"
 msgstr ""
 
-#: includes/class.output.php:2129
+#: includes/class.output.php:2173
 msgid "Categories:"
 msgstr ""
 
-#: includes/class.output.php:2299
+#: includes/class.output.php:2343
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/class.output.php:2300
+#: includes/class.output.php:2344
 msgid "Download vCard"
 msgstr ""
 
@@ -802,12 +770,12 @@ msgstr ""
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/inc.shortcodes.php:228 includes/inc.shortcodes.php:634
+#: includes/inc.shortcodes.php:228 includes/inc.shortcodes.php:640
 #, php-format
 msgid "ERROR: Template %1$s not found."
 msgstr ""
 
-#: includes/inc.shortcodes.php:675
+#: includes/inc.shortcodes.php:681
 #: includes/template/class.template-parts.php:222
 msgid "No results."
 msgstr ""
@@ -1124,7 +1092,7 @@ msgid "Add Entry Moderated"
 msgstr ""
 
 #: includes/admin/class.capabilities.php:63
-#: includes/admin/pages/manage.php:174
+#: includes/admin/pages/manage.php:179
 msgid "Edit Entry"
 msgstr ""
 
@@ -1162,6 +1130,39 @@ msgstr ""
 
 #: includes/admin/class.capabilities.php:72
 msgid "Change Role Capabilities"
+msgstr ""
+
+#: includes/admin/class.functions.php:166 includes/admin/class.menu.php:91
+#: includes/admin/pages/settings.php:47
+msgid "Settings"
+msgstr ""
+
+#: includes/admin/class.functions.php:184
+msgid "Extensions"
+msgstr ""
+
+#: includes/admin/class.functions.php:187
+msgid "Support Forums"
+msgstr ""
+
+#: includes/admin/class.functions.php:323
+msgid "Entries"
+msgstr ""
+
+#: includes/admin/class.menu.php:86 includes/admin/pages/dashboard.php:42
+msgid "Dashboard"
+msgstr ""
+
+#: includes/admin/class.menu.php:87 includes/admin/pages/manage.php:260
+msgid "Manage"
+msgstr ""
+
+#: includes/admin/class.menu.php:92
+msgid "Roles &amp; Capabilites"
+msgstr ""
+
+#: includes/admin/class.menu.php:92
+msgid "Roles"
 msgstr ""
 
 #: includes/admin/class.message.php:116
@@ -1329,34 +1330,45 @@ msgid "The template could not be deleted."
 msgstr ""
 
 #: includes/admin/class.message.php:154
+#, php-format
 msgid ""
-"Path ../wp-content/connection_images does not seem to exist. Please try "
-"deactivating and reactivating Connections."
+"The connection_images folder does not exist. <a class=\\\"button-primary\\\" "
+"href=\\\"%1$s\\\">Read more.</a>"
 msgstr ""
 
 #: includes/admin/class.message.php:155
-msgid "Path ../wp-content/connection_images does not seem to be writeable."
+#, php-format
+msgid ""
+"The connection_images folder is not writable. <a class=\\\"button-primary\\"
+"\" href=\\\"%1$s\\\">Read more.</a>"
 msgstr ""
 
 #: includes/admin/class.message.php:157
+#, php-format
 msgid ""
-"Path ../wp-content/connections_templates does not seem to exist. Please try "
-"deactivating and reactivating Connections."
+"The connections_templates folder does not exist. <a class=\\\"button-primary"
+"\\\" href=\\\"%1$s\\\">Read more.</a>"
 msgstr ""
 
 #: includes/admin/class.message.php:158
-msgid "Path ../wp-content/connections_templates does not seem to be writeable."
+#, php-format
+msgid ""
+"The connections_templates folder is not writable. <a class=\\\"button-primary"
+"\\\" href=\\\"%1$s\\\">Read more.</a>"
 msgstr ""
 
 #: includes/admin/class.message.php:160
+#, php-format
 msgid ""
-"Path ../wp-content/plugins/connections/cache does not seem to exist. Please "
-"try deactivating and reactivating Connections."
+"The cache folder does not exist. <a class=\\\"button-primary\\\" href=\\"
+"\"%1$s\\\">Read more.</a>"
 msgstr ""
 
 #: includes/admin/class.message.php:161
+#, php-format
 msgid ""
-"Path ../wp-content/plugins/connections/cache does not seem to be writeable."
+"The cache folder is not writable. <a class=\\\"button-primary\\\" href=\\"
+"\"%1$s\\\">Read more.</a>"
 msgstr ""
 
 #: includes/admin/class.message.php:163
@@ -1477,11 +1489,11 @@ msgstr ""
 msgid "Update Category"
 msgstr ""
 
-#: includes/admin/pages/categories.php:108 includes/admin/pages/manage.php:411
+#: includes/admin/pages/categories.php:108 includes/admin/pages/manage.php:436
 msgid "Bulk Actions"
 msgstr ""
 
-#: includes/admin/pages/categories.php:112 includes/admin/pages/manage.php:434
+#: includes/admin/pages/categories.php:112 includes/admin/pages/manage.php:459
 msgid "Apply"
 msgstr ""
 
@@ -1506,192 +1518,192 @@ msgstr ""
 msgid "Add New Category"
 msgstr ""
 
-#: includes/admin/pages/manage.php:90 includes/admin/pages/manage.php:166
+#: includes/admin/pages/manage.php:95 includes/admin/pages/manage.php:171
 msgid ""
 "<strong>ERROR:</strong> You are not authorized to add entries. Please "
 "contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/pages/manage.php:99
+#: includes/admin/pages/manage.php:104
 msgid "Copy Entry"
 msgstr ""
 
-#: includes/admin/pages/manage.php:242
+#: includes/admin/pages/manage.php:247
 msgid ""
 "<strong>ERROR:</strong> You are not authorized to edit entries. Please "
 "contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/pages/manage.php:255
+#: includes/admin/pages/manage.php:260
 msgid "Add New"
 msgstr ""
 
-#: includes/admin/pages/manage.php:281 includes/admin/pages/templates.php:52
+#: includes/admin/pages/manage.php:290 includes/admin/pages/templates.php:54
 msgid "All"
 msgstr ""
 
-#: includes/admin/pages/manage.php:282
+#: includes/admin/pages/manage.php:291
 msgid "Approved"
 msgstr ""
 
-#: includes/admin/pages/manage.php:283
+#: includes/admin/pages/manage.php:292
 msgid "Moderate"
 msgstr ""
 
-#: includes/admin/pages/manage.php:291 includes/admin/pages/manage.php:293
+#: includes/admin/pages/manage.php:316 includes/admin/pages/manage.php:318
 msgid "Search Entries"
 msgstr ""
 
-#: includes/admin/pages/manage.php:305
-#: includes/template/class.template-parts.php:775
-#: includes/template/class.template-parts.php:866
+#: includes/admin/pages/manage.php:330
+#: includes/template/class.template-parts.php:794
+#: includes/template/class.template-parts.php:886
 msgid "Show All Categories"
 msgstr ""
 
-#: includes/admin/pages/manage.php:312
+#: includes/admin/pages/manage.php:337
 msgid "Show All Entries"
 msgstr ""
 
-#: includes/admin/pages/manage.php:313
+#: includes/admin/pages/manage.php:338
 msgid "Show Individuals"
 msgstr ""
 
-#: includes/admin/pages/manage.php:314
+#: includes/admin/pages/manage.php:339
 msgid "Show Organizations"
 msgstr ""
 
-#: includes/admin/pages/manage.php:315
+#: includes/admin/pages/manage.php:340
 msgid "Show Families"
 msgstr ""
 
-#: includes/admin/pages/manage.php:323
+#: includes/admin/pages/manage.php:348
 msgid "Show Public"
 msgstr ""
 
-#: includes/admin/pages/manage.php:324
+#: includes/admin/pages/manage.php:349
 msgid "Show Private"
 msgstr ""
 
-#: includes/admin/pages/manage.php:325
+#: includes/admin/pages/manage.php:350
 msgid "Show Unlisted"
 msgstr ""
 
-#: includes/admin/pages/manage.php:332
+#: includes/admin/pages/manage.php:357
 msgid "Show All"
 msgstr ""
 
-#: includes/admin/pages/manage.php:346
+#: includes/admin/pages/manage.php:371
 #, php-format
 msgid "Displaying %1$d of %2$d entries."
 msgstr ""
 
-#: includes/admin/pages/manage.php:385
+#: includes/admin/pages/manage.php:410
 msgid "Go to the first page."
 msgstr ""
 
-#: includes/admin/pages/manage.php:386
+#: includes/admin/pages/manage.php:411
 msgid "Go to the previous page."
 msgstr ""
 
-#: includes/admin/pages/manage.php:388
+#: includes/admin/pages/manage.php:413
 msgid "Current page"
 msgstr ""
 
-#: includes/admin/pages/manage.php:388
-#: includes/template/class.template-parts.php:728
+#: includes/admin/pages/manage.php:413
+#: includes/template/class.template-parts.php:747
 msgid "of"
 msgstr ""
 
-#: includes/admin/pages/manage.php:390
+#: includes/admin/pages/manage.php:415
 msgid "Go to the next page."
 msgstr ""
 
-#: includes/admin/pages/manage.php:391
+#: includes/admin/pages/manage.php:416
 msgid "Go to the last page."
 msgstr ""
 
-#: includes/admin/pages/manage.php:416 includes/admin/pages/manage.php:548
+#: includes/admin/pages/manage.php:441 includes/admin/pages/manage.php:573
 msgid "Unapprove"
 msgstr ""
 
-#: includes/admin/pages/manage.php:417 includes/admin/pages/manage.php:549
+#: includes/admin/pages/manage.php:442 includes/admin/pages/manage.php:574
 msgid "Approve"
 msgstr ""
 
-#: includes/admin/pages/manage.php:418
+#: includes/admin/pages/manage.php:443
 msgid "Set Public"
 msgstr ""
 
-#: includes/admin/pages/manage.php:419
+#: includes/admin/pages/manage.php:444
 msgid "Set Private"
 msgstr ""
 
-#: includes/admin/pages/manage.php:420
+#: includes/admin/pages/manage.php:445
 msgid "Set Unlisted"
 msgstr ""
 
-#: includes/admin/pages/manage.php:445
+#: includes/admin/pages/manage.php:470
 msgid "Filter by character:"
 msgstr ""
 
-#: includes/admin/pages/manage.php:460 includes/admin/pages/manage.php:469
+#: includes/admin/pages/manage.php:485 includes/admin/pages/manage.php:494
 msgid "Last Modified"
 msgstr ""
 
-#: includes/admin/pages/manage.php:521
+#: includes/admin/pages/manage.php:546
 msgid "No Photo Available"
 msgstr ""
 
-#: includes/admin/pages/manage.php:538
+#: includes/admin/pages/manage.php:563
 msgid "Show Details"
 msgstr ""
 
-#: includes/admin/pages/manage.php:539
+#: includes/admin/pages/manage.php:564
 msgid "vCard"
 msgstr ""
 
-#: includes/admin/pages/manage.php:542
+#: includes/admin/pages/manage.php:567
 #, php-format
 msgid "View %s"
 msgstr ""
 
-#: includes/admin/pages/manage.php:543
+#: includes/admin/pages/manage.php:568
 msgid "View"
 msgstr ""
 
-#: includes/admin/pages/manage.php:552
+#: includes/admin/pages/manage.php:577
 msgid "Copy"
 msgstr ""
 
-#: includes/admin/pages/manage.php:585
+#: includes/admin/pages/manage.php:610
 msgid "By"
 msgstr ""
 
-#: includes/admin/pages/manage.php:607
+#: includes/admin/pages/manage.php:632
 msgid "Linked to:"
 msgstr ""
 
-#: includes/admin/pages/manage.php:769
+#: includes/admin/pages/manage.php:794
 msgid "Bio"
 msgstr ""
 
-#: includes/admin/pages/manage.php:773
+#: includes/admin/pages/manage.php:798
 msgid "Entry ID"
 msgstr ""
 
-#: includes/admin/pages/manage.php:774
+#: includes/admin/pages/manage.php:799
 msgid "Entry Slug"
 msgstr ""
 
-#: includes/admin/pages/manage.php:775
+#: includes/admin/pages/manage.php:800
 msgid "Date Added"
 msgstr ""
 
-#: includes/admin/pages/manage.php:776
+#: includes/admin/pages/manage.php:801
 msgid "Added By"
 msgstr ""
 
-#: includes/admin/pages/manage.php:777
+#: includes/admin/pages/manage.php:802
 msgid "Image Linked"
 msgstr ""
 
@@ -1712,87 +1724,87 @@ msgstr ""
 msgid "Reset %s Capabilities"
 msgstr ""
 
-#: includes/admin/pages/templates.php:49
+#: includes/admin/pages/templates.php:51
 msgid "Get More"
 msgstr ""
 
-#: includes/admin/pages/templates.php:66
+#: includes/admin/pages/templates.php:68
 msgid "Current Template"
 msgstr ""
 
-#: includes/admin/pages/templates.php:84
-#: includes/admin/pages/templates.php:172
+#: includes/admin/pages/templates.php:86
+#: includes/admin/pages/templates.php:174
 msgid "Thumbnail Not Available"
 msgstr ""
 
-#: includes/admin/pages/templates.php:89
+#: includes/admin/pages/templates.php:91
 msgid "Visit author's homepage."
 msgstr ""
 
-#: includes/admin/pages/templates.php:108
+#: includes/admin/pages/templates.php:110
 msgid "Instructions"
 msgstr ""
 
-#: includes/admin/pages/templates.php:110
+#: includes/admin/pages/templates.php:112
 msgid ""
 "By default the <code><a href=\"http://connections-pro.com/documentation/"
-"plugin/shortcodes/shortcode-connections/\">[connections]</a></code> "
+"connections/shortcodes/shortcode-connections/\">[connections]</a></code> "
 "shortcode will show all entries types. To change the template used when "
 "displaying all entry types, select the \"All\" tab and activate the "
 "template. When the <code><a href=\"http://connections-pro.com/documentation/"
-"plugin/shortcodes/shortcode-connections/list_type/\">list_type</a></"
+"connections/shortcodes/shortcode-connections/list_type/\">list_type</a></"
 "code>shortcode option is used to filter the entries based on the entry type, "
 "the template for that entry type will be used. To change the template used "
 "for a specific entry type, select the appropriate tab and then activate the "
 "template. If multiple entry types are specified in the <code><a href="
-"\"http://connections-pro.com/documentation/plugin/shortcodes/shortcode-"
+"\"http://connections-pro.com/documentation/connections/shortcodes/shortcode-"
 "connections/list_type/\">list_type</a></code> shortcode option, the template "
 "for the entry type listed first will be used to display the entry list."
 msgstr ""
 
-#: includes/admin/pages/templates.php:114
+#: includes/admin/pages/templates.php:116
 msgid ""
-"The <code><a href=\"http://connections-pro.com/documentation/plugin/"
+"The <code><a href=\"http://connections-pro.com/documentation/connections/"
 "shortcodes/shortcode-upcoming-list/\">[upcoming_list]</a></code> shortcode "
 "which displays the upcoming anniversaries and birthdays will be displayed "
 "with the template that is activated under their respective tabs."
 msgstr ""
 
-#: includes/admin/pages/templates.php:118
+#: includes/admin/pages/templates.php:120
 msgid ""
 "The current active template for each template type can be overridden by "
-"using the <code><a href=\"http://connections-pro.com/documentation/plugin/"
-"shortcodes/shortcode-connections/template/\">template</a></code> shortcode "
-"option."
+"using the <code><a href=\"http://connections-pro.com/documentation/"
+"connections/shortcodes/shortcode-connections/template-option/\">template</"
+"a></code> shortcode option."
 msgstr ""
 
-#: includes/admin/pages/templates.php:129
+#: includes/admin/pages/templates.php:131
 msgid "Available Templates"
 msgstr ""
 
-#: includes/admin/pages/templates.php:184
+#: includes/admin/pages/templates.php:186
 msgid "Shortcode Override:"
 msgstr ""
 
-#: includes/admin/pages/templates.php:187
-msgid "This a supplied template and can not be deleted."
+#: includes/admin/pages/templates.php:202
+msgid "Activate"
 msgstr ""
 
-#: includes/admin/pages/templates.php:189
+#: includes/admin/pages/templates.php:214
+msgid "This a core template and can not be deleted."
+msgstr ""
+
+#: includes/admin/pages/templates.php:216
 msgid ""
 "This template is a plugin. You can deactivate and delete the template from "
 "the Plugins admin page."
 msgstr ""
 
-#: includes/admin/pages/templates.php:204
-msgid "Activate"
-msgstr ""
-
-#: includes/admin/pages/templates.php:235
+#: includes/admin/pages/templates.php:238
 msgid "Install Legacy Template"
 msgstr ""
 
-#: includes/admin/pages/templates.php:237
+#: includes/admin/pages/templates.php:240
 msgid ""
 "If you puchased your template after 3.25.2013, please follow these <a href="
 "\"http://connections-pro.com/documentation/plugin/install/templates/"
@@ -1801,11 +1813,11 @@ msgid ""
 "instructions found on the same page."
 msgstr ""
 
-#: includes/admin/pages/templates.php:253
+#: includes/admin/pages/templates.php:256
 msgid "Select Template:"
 msgstr ""
 
-#: includes/admin/pages/templates.php:256
+#: includes/admin/pages/templates.php:259
 msgid "Install Now"
 msgstr ""
 
@@ -2382,7 +2394,7 @@ msgstr ""
 
 #: includes/settings/class.settings.php:852
 msgid ""
-"Update the browser tab/window title to refect the current location being "
+"Update the browser tab/window title to reflect the current location being "
 "viewed in the directory. For example, the current category name."
 msgstr ""
 
@@ -2397,7 +2409,7 @@ msgstr ""
 
 #: includes/settings/class.settings.php:879
 msgid ""
-"Update the page title to refect the current location being viewed in the "
+"Update the page title to reflect the current location being viewed in the "
 "directory. For example, the current entry name."
 msgstr ""
 
@@ -2605,31 +2617,31 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:598
+#: includes/template/class.template-parts.php:611
 msgid "Current Character"
 msgstr ""
 
-#: includes/template/class.template-parts.php:725
+#: includes/template/class.template-parts.php:744
 msgid "First Page"
 msgstr ""
 
-#: includes/template/class.template-parts.php:726
+#: includes/template/class.template-parts.php:745
 msgid "Previous Page"
 msgstr ""
 
-#: includes/template/class.template-parts.php:728
+#: includes/template/class.template-parts.php:747
 msgid "Current Page"
 msgstr ""
 
-#: includes/template/class.template-parts.php:730
+#: includes/template/class.template-parts.php:749
 msgid "Next Page"
 msgstr ""
 
-#: includes/template/class.template-parts.php:731
+#: includes/template/class.template-parts.php:750
 msgid "Last Page"
 msgstr ""
 
-#: includes/template/class.template-parts.php:773
-#: includes/template/class.template-parts.php:864
+#: includes/template/class.template-parts.php:792
+#: includes/template/class.template-parts.php:884
 msgid "Select Category"
 msgstr ""

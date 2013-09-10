@@ -324,7 +324,7 @@ class cnTemplateFactory {
 						// Load the template metadate from the meta.php file
 						$templates->{ $template->type }->{ $template->slug }->name        = $template->name;
 						$templates->{ $template->type }->{ $template->slug }->version     = $template->version;
-						$templates->{ $template->type }->{ $template->slug }->uri         = isset( $template->uri ) 'http://' . $template->uri : '';
+						$templates->{ $template->type }->{ $template->slug }->uri         = isset( $template->uri ) ? 'http://' . $template->uri : '';
 						$templates->{ $template->type }->{ $template->slug }->author      = $template->author;
 						$templates->{ $template->type }->{ $template->slug }->description = isset( $template->description ) ? $template->description : '';
 

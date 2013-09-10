@@ -276,7 +276,7 @@ class cnSEO {
 		// Whether or not to filter the page title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo', 'page_title' ) ) return $title;
 
-		if ( $post->ID != $id || ! self::$filterPermalink ) return $title;
+		if ( ! is_object( $post ) || $post->ID != $id || ! self::$filterPermalink ) return $title;
 
 		// Coerce $title to be an array.
 		$title = (array) $title;

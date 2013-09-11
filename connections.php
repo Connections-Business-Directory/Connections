@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. ZAhm
- * @version 0.7.8.1
+ * @version 0.7.9
  */
 
 // Exit if accessed directly
@@ -208,7 +208,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Version Constants
 			 */
-			define( 'CN_CURRENT_VERSION', '0.7.8.1' );
+			define( 'CN_CURRENT_VERSION', '0.7.9' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*

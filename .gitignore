@@ -37,6 +37,10 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
+# PO File  #
+############
+*.po
+
 # Sublime Text 2 #
 ##################
 sftp-config.json

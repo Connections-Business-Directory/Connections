@@ -35,57 +35,57 @@ class cnRetrieve {
 
 		get_currentuserinfo();
 
-		$validate = new cnValidate();
-		$select[] = CN_ENTRY_TABLE . '.*';
-		$from[] = CN_ENTRY_TABLE;
-		$join = array();
-		$where[] = 'WHERE 1=1';
-		$having = array();
-		$orderBy = array();
-		$visibility = array();
+		$validate             = new cnValidate();
+		$select[]             = CN_ENTRY_TABLE . '.*';
+		$from[]               = CN_ENTRY_TABLE;
+		$join                 = array();
+		$where[]              = 'WHERE 1=1';
+		$having               = array();
+		$orderBy              = array();
+		$visibility           = array();
 
-		$permittedEntryTypes = array( 'individual', 'organization', 'family', 'connection_group' );
+		$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
 		$permittedEntryStatus = array( 'approved', 'pending' );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['list_type'] = NULL;
-		$defaults['category'] = NULL;
-		$defaults['category_in'] = NULL;
-		$defaults['exclude_category'] = NULL;
-		$defaults['category_name'] = NULL;
-		$defaults['category_slug'] = NULL;
-		$defaults['wp_current_category'] = FALSE;
-		$defaults['char'] = '';
-		$defaults['id'] = NULL;
-		$defaults['slug'] = NULL;
-		$defaults['family_name'] = NULL;
-		$defaults['last_name'] = NULL;
-		$defaults['title'] = NULL;
-		$defaults['organization'] = NULL;
-		$defaults['department'] = NULL;
-		$defaults['city'] = NULL;
-		$defaults['state'] = NULL;
-		$defaults['zip_code'] = NULL;
-		$defaults['country'] = NULL;
-		$defaults['visibility'] = NULL;
-		$defaults['status'] = array( 'approved' );
-		$defaults['order_by'] = array( 'sort_column', 'last_name', 'first_name' );
-		$defaults['limit'] = NULL;
-		$defaults['offset'] = 0;
+		$defaults['list_type']             = NULL;
+		$defaults['category']              = NULL;
+		$defaults['category_in']           = NULL;
+		$defaults['exclude_category']      = NULL;
+		$defaults['category_name']         = NULL;
+		$defaults['category_slug']         = NULL;
+		$defaults['wp_current_category']   = FALSE;
+		$defaults['char']                  = '';
+		$defaults['id']                    = NULL;
+		$defaults['slug']                  = NULL;
+		$defaults['family_name']           = NULL;
+		$defaults['last_name']             = NULL;
+		$defaults['title']                 = NULL;
+		$defaults['organization']          = NULL;
+		$defaults['department']            = NULL;
+		$defaults['city']                  = NULL;
+		$defaults['state']                 = NULL;
+		$defaults['zip_code']              = NULL;
+		$defaults['country']               = NULL;
+		$defaults['visibility']            = NULL;
+		$defaults['status']                = array( 'approved' );
+		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
+		$defaults['limit']                 = NULL;
+		$defaults['offset']                = 0;
 		$defaults['allow_public_override'] = FALSE;
-		$defaults['private_override'] = FALSE;
-		$defaults['search_terms'] = NULL;
+		$defaults['private_override']      = FALSE;
+		$defaults['search_terms']          = NULL;
 
 		// $atts vars to support showing entries within a specified radius.
-		$defaults['near_addr'] = NULL;
-		$defaults['latitude'] = NULL;
-		$defaults['longitude'] = NULL;
-		$defaults['radius'] = 10;
-		$defaults['unit'] = 'mi';
+		$defaults['near_addr']             = NULL;
+		$defaults['latitude']              = NULL;
+		$defaults['longitude']             = NULL;
+		$defaults['radius']                = 10;
+		$defaults['unit']                  = 'mi';
 
-		$defaults['lock'] = TRUE;
+		$defaults['lock']                  = TRUE;
 
 		$atts = $validate->attributesArray( $defaults, $atts );
 		/*
@@ -259,9 +259,9 @@ class cnRetrieve {
 		/*
 		 * Build an array of all the categories and their children based on the supplied category IDs.
 		 */
-		if ( !empty( $atts['category'] ) ) {
+		if ( ! empty( $atts['category'] ) ) {
 			// If value is a string, string the white space and covert to an array.
-			if ( !is_array( $atts['category'] ) ) {
+			if ( ! is_array( $atts['category'] ) ) {
 				$atts['category'] = str_replace( ' ', '', $atts['category'] );
 
 				$atts['category'] = explode( ',', $atts['category'] );
@@ -276,7 +276,7 @@ class cnRetrieve {
 				//print_r($results);
 
 				foreach ( (array) $results as $term ) {
-					if ( !in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = $term->term_id;
+					if ( ! in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = $term->term_id;
 				}
 			}
 		}
@@ -285,6 +285,7 @@ class cnRetrieve {
 		 * Exclude the specified categories by ID.
 		 */
 		if ( ! empty( $atts['exclude_category'] ) ) {
+
 			// If value is a string, string the white space and covert to an array.
 			if ( ! is_array( $atts['exclude_category'] ) ) {
 				$atts['exclude_category'] = str_replace( ' ', '', $atts['exclude_category'] );
@@ -293,6 +294,21 @@ class cnRetrieve {
 			}
 
 			$categoryIDs = array_diff( (array) $categoryIDs, $atts['exclude_category'] );
+
+			foreach ( $atts['exclude_category'] as $categoryID ) {
+
+				// Add the parent category ID to the array.
+				$categoryExcludeIDs[] = $categoryID;
+
+				// Retrieve the children categories
+				$results = $this->categoryChildren( 'term_id', $categoryID );
+				//print_r($results);
+
+				foreach ( (array) $results as $term ) {
+
+					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = $term->term_id;
+				}
+			}
 		}
 
 		// Convert the supplied category IDs $atts['category_in'] to an array.
@@ -344,6 +360,12 @@ class cnRetrieve {
 
 			if ( ! empty( $categoryIDs ) ) {
 				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (\'' . implode( "', '", $categoryIDs ) . '\')';
+
+				unset( $categoryIDs );
+			}
+
+			if ( ! empty( $categoryExcludeIDs ) ) {
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (\'' . implode( "', '", $categoryExcludeIDs ) . '\')';
 
 				unset( $categoryIDs );
 			}
@@ -748,30 +770,30 @@ class cnRetrieve {
 		$results = $wpdb->get_results( $sql );
 
 		// The most recent query to have been executed by cnRetrieve::entries
-		$connections->lastQuery = $wpdb->last_query;
+		$connections->lastQuery      = $wpdb->last_query;
 
 		// The most recent query error to have been generated by cnRetrieve::entries
 		$connections->lastQueryError = $wpdb->last_error;
 
 		// ID generated for an AUTO_INCREMENT column by the most recent INSERT query.
-		$connections->lastInsertID = $wpdb->insert_id;
+		$connections->lastInsertID   = $wpdb->insert_id;
 
 		// The number of rows returned by the last query.
-		$connections->resultCount = $wpdb->num_rows;
+		$connections->resultCount    = $wpdb->num_rows;
 
 		// The number of rows returned by the last query without the limit clause set
-		$foundRows = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
+		$foundRows                       = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
 		$connections->resultCountNoLimit = $foundRows[0]->{'FOUND_ROWS()'};
-		$this->resultCountNoLimit = $foundRows[0]->{'FOUND_ROWS()'};
+		$this->resultCountNoLimit        = $foundRows[0]->{'FOUND_ROWS()'};
 
 		// The total number of entries based on user permissions.
-		$connections->recordCount = $this->recordCount( $atts['allow_public_override'], $atts['private_override'] );
+		// $connections->recordCount         = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'] ) );
 
 		// The total number of entries based on user permissions with the status set to 'pending'
-		$connections->recordCountPending = $this->recordCount( $atts['allow_public_override'], $atts['private_override'], array( 'pending' ) );
+		// $connections->recordCountPending  = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'], 'status' => array( 'pending' ) ) );
 
 		// The total number of entries based on user permissions with the status set to 'approved'
-		$connections->recordCountApproved = $this->recordCount( $atts['allow_public_override'], $atts['private_override'], array( 'approved' ) );
+		// $connections->recordCountApproved = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'], 'status' => array( 'approved' ) ) );
 
 		/*
 		 * ONLY in the admin.
@@ -2348,55 +2370,89 @@ class cnRetrieve {
 	/**
 	 * Total record count based on current user permissions.
 	 *
-	 * @param bool    $allowPublicOverride
-	 * @param bool    $allowPrivateOverride
-	 * @param string  $status
-	 * @return integer
+	 * @access public
+	 * @since unknown
+	 * @global $wpdb
+	 * @global $connections
+	 * @uses wp_parse_args()
+	 * @uses is_user_logged_in()
+	 * @uses current_user_can()
+	 * @uses $wpdb->get_var()
+	 * @param (array)
+	 * @return (integer)
 	 */
-	private function recordCount( $allowPublicOverride, $allowPrivateOverride, $status = array() ) {
+	public static function recordCount( $atts ) {
 		global $wpdb, $connections;
 
-		$where[] = 'WHERE 1=1';
+		$where[]    = 'WHERE 1=1';
 		$visibility = array();
+		$permitted  = array( 'approved', 'pending' );
+
+		$defaults = array(
+			'public_override'  => TRUE,
+			'private_override' => TRUE,
+			'status'           => array(),
+			 );
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Convert the supplied statuses into an array.
+		if ( ! is_array( $atts['status'] ) ) {
+
+			// Remove whitespace.
+			$atts['status'] = trim( str_replace( ' ', '', $atts['status'] ) );
+
+			$atts['status'] = explode( ',', $atts['status'] );
+		}
+
+		// Permit only the support status to be queried.
+		$atts['status'] = array_intersect( $atts['status'], $permitted );
 
 		if ( is_user_logged_in() ) {
-			if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-			if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
+
+			if ( current_user_can( 'connections_view_public' ) ) $visibility[]                 = 'public';
+			if ( current_user_can( 'connections_view_private' ) ) $visibility[]                = 'private';
 			if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
 
 			// Set query status per role capability assigned to the current user.
 			if ( current_user_can( 'connections_edit_entry' ) ) {
+
 				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermittedEntryStatus = array( 'approved', 'pending' );
+				$userPermitted = array( 'approved', 'pending' );
 
-				$status = array_intersect( $userPermittedEntryStatus, $status );
-			}
-			elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
+				$status = array_intersect( $userPermitted, $atts['status'] );
+
+			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
+
 				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermittedEntryStatus = array( 'approved' );
+				$userPermitted = array( 'approved' );
 
-				$status = array_intersect( $userPermittedEntryStatus, $status );
-			}
-			else {
+				$status = array_intersect( $userPermitted, $atts['status'] );
+
+			} else {
+
 				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermittedEntryStatus = array( 'approved' );
+				$userPermitted = array( 'approved' );
 
-				$status = array_intersect( $userPermittedEntryStatus, $status );
+				$status = array_intersect( $userPermitted, $atts['status'] );
 			}
 
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $allowPublicOverride == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $allowPrivateOverride == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		} else {
+
+			if ( $connections->options->getAllowPublic() )                                               $visibility[] = 'public';
+			if ( $atts['public_override'] == TRUE && $connections->options->getAllowPublicOverride() )   $visibility[] = 'public';
+			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
 
 			$status = array( 'approved' );
 		}
 
-		$where[] = 'AND `status` IN (\'' . implode( "', '", $status ) . '\')';
+		if ( ! empty( $status ) )     $where[] = 'AND `status` IN (\'' . implode( "', '", $status ) . '\')';
+
 		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", $visibility ) . '\')';
 
-		return $wpdb->get_var( 'SELECT COUNT(`id`) FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) );
+		$results = $wpdb->get_var( 'SELECT COUNT(`id`) FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) );
+
+		return ! empty( $results ) ? $results : 0;
 	}
 
 	/**

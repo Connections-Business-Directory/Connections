@@ -849,7 +849,7 @@ class cnRegisterSettings
 			'tab'       => 'seo',
 			'section'   => 'connections_seo_meta',
 			'title'     => __('Page Title', 'connections'),
-			'desc'      => __( 'Update the browser tab/window title to refect the current location being viewed in the directory. For example, the current category name.', 'connections' ),
+			'desc'      => __( 'Update the browser tab/window title to reflect the current location being viewed in the directory. For example, the current category name.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
@@ -876,7 +876,7 @@ class cnRegisterSettings
 			'tab'       => 'seo',
 			'section'   => 'connections_seo',
 			'title'     => __('Page Title', 'connections'),
-			'desc'      => __( 'Update the page title to refect the current location being viewed in the directory. For example, the current entry name.', 'connections' ),
+			'desc'      => __( 'Update the page title to reflect the current location being viewed in the directory. For example, the current entry name.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1

@@ -405,6 +405,8 @@ class cnURL {
 	 *
 	 * @access private
 	 * @since 0.7.3
+	 * @global $wp_rewrite
+	 * @global $post
 	 * @uses is_admin()
 	 * @uses wp_parse_args()
 	 * @uses get_option()
@@ -418,7 +420,7 @@ class cnURL {
 	 * @return string
 	 */
 	public static function permalink( $atts ) {
-		global $wp_rewrite, $post, $connections;
+		global $wp_rewrite, $post;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
@@ -428,35 +430,43 @@ class cnURL {
 		$piece = array();
 
 		$defaults = array(
-			'class'    => '',
-			'text'     => '',
-			'title'    => '',
-			'follow'   => TRUE,
-			'rel'      => '',
-			'slug'     => '',
-			'on_click' => '',
-			'type'     => 'name',
-			'return'   => FALSE
+			'class'      => '',
+			'text'       => '',
+			'title'      => '',
+			'follow'     => TRUE,
+			'rel'        => '',
+			'slug'       => '',
+			'on_click'   => '',
+			'type'       => 'name',
+			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+			'force_home' => FALSE,
+			'return'     => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// Get the directory home page ID.
-		$homeID = $connections->settings->get( 'connections', 'connections_home_page', 'page_id' );
+		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
 
 		// Get the settings for the base of each data type to be used in the URL.
 		$base = get_option( 'connections_permalink' );
 
 		// Create the permalink base based on context where the entry is being displayed.
 		if ( in_the_loop() && is_page() ) {
+
 			// Only slash it when using pretty permalinks.
-			$permalink = $wp_rewrite->using_permalinks() ? trailingslashit( get_permalink() ) : get_permalink();
+			$permalink = $wp_rewrite->using_permalinks() ? trailingslashit( get_permalink( $homeID ) ) : get_permalink( $homeID );
+
 		} else {
+
 			// If using pretty permalinks get the directory home page ID and slash it, otherwise just add the page_id to the query string.
 			if ( $wp_rewrite->using_permalinks() ) {
+
 				$permalink = trailingslashit( get_permalink( $homeID ) );
+
 			} else {
-				$permalink = add_query_arg( 'page_id' , $homeID, get_permalink() );
+
+				$permalink = add_query_arg( array( 'page_id' => $homeID, 'p' => FALSE  ), get_permalink() );
 			}
 
 		}
@@ -489,7 +499,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'cn-entry-slug', $atts['slug'] , $permalink );
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
 				}
 
 				break;
@@ -509,7 +519,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['department_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'department_base', $atts['cn-department'] , $permalink );
+					$permalink = add_query_arg( 'cn-department', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -519,7 +529,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['organization_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'organization_base', $atts['cn-organization'] , $permalink );
+					$permalink = add_query_arg( 'cn-organization', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -539,7 +549,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['locality_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'locality_base', $atts['cn-locality'] , $permalink );
+					$permalink = add_query_arg( 'cn-locality', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -549,7 +559,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['region_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'region_base', $atts['cn-region'] , $permalink );
+					$permalink = add_query_arg( 'cn-region', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -559,7 +569,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['postal_code_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'postal_code_base', $atts['cn-postal-code'] , $permalink );
+					$permalink = add_query_arg( 'cn-postal-code', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -569,7 +579,7 @@ class cnURL {
 				if ( $wp_rewrite->using_permalinks() ) {
 					$permalink = trailingslashit( $permalink . $base['country_base'] . '/' . urlencode( $atts['slug'] ) );
 				} else {
-					$permalink = add_query_arg( 'country_base', $atts['cn-country'] , $permalink );
+					$permalink = add_query_arg( 'cn-country', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;

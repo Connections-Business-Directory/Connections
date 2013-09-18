@@ -266,10 +266,12 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		'longitude'             => NULL,
 		'radius'                => 10,
 		'unit'                  => 'mi',
-		'template'              => NULL, /** @since version 0.7.1.0 */
-		'template_name'         => NULL /** @deprecated since version 0.7.0.4 */,
+		'template'              => NULL, /* @since version 0.7.1.0 */
+		'template_name'         => NULL, /* @deprecated since version 0.7.0.4 */
 		'width'                 => NULL,
-		'lock'                  => FALSE
+		'lock'                  => FALSE,
+		'force_home'            => FALSE,
+		'home_id'               => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 	);
 
 	$permittedAtts = apply_filters( 'cn_list_atts_permitted' , $permittedAtts );
@@ -293,6 +295,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	$convert->toBoolean( $atts['show_alphahead'] );
 	$convert->toBoolean( $atts['wp_current_category'] );
 	$convert->toBoolean( $atts['lock'] );
+	$convert->toBoolean( $atts['force_home'] );
 	// $out .= var_dump($atts);
 
 	/*
@@ -393,7 +396,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				 */
 				if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) $out .= $charIndex;
 
-			$out .= "\n" . '</div> <!-- END #cn-list-head -->' . "\n";
+			$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . "\n";
 
 			$out .= '<div class="connections-list cn-clear" id="cn-list-body">' . "\n";
 
@@ -426,6 +429,9 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					$entry = new cnvCard( $row );
 					$vCard =& $entry;
 
+					// Configure the page where the entry link to.
+					$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
+
 					// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
 					if ( in_array( $entry->getId() , $skipEntry ) ) continue;
 					$skipEntry[] = $entry->getId();
@@ -451,7 +457,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 							if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
 
-						$out .= '</div> <!-- END #cn-char-' . $currentLetter . ' -->';
+						$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
 
 						$previousLetter = $currentLetter;
 					}
@@ -498,7 +504,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						$out .= apply_filters( 'cn_list_entry_after-' . $template->getSlug() , '' , $entry );
 						$filterRegistry[] = 'cn_list_entry_after-' . $template->getSlug();
 
-					$out .= "\n" . '</div>  <!-- END #' . $entry->getSlug() . ' -->' . "\n";
+					$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . "\n";
 
 					// After entry actions.
 					ob_start();
@@ -516,7 +522,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				}
 			}
 
-			$out .= "\n" . '</div> <!-- END #cn-list-body -->' . "\n";
+			$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . "\n";
 
 			$out .= "\n" . '<div class="cn-clear" id="cn-list-foot">' . "\n";
 
@@ -536,11 +542,11 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					$out .= ob_get_contents();
 				ob_end_clean();
 
-			$out .= "\n" . '</div> <!-- END #cn-list-foot -->' . "\n";
+			$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . "\n";
 
-		$out .= "\n" . '</div> <!-- END #cn-' . $template->getSlug() . ' -->' . "\n";
+		$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $template->getSlug() . ' -->' : '' ) . "\n";
 
-	$out .= "\n" . '</div> <!-- END #cn-list -->' . "\n";
+	$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . "\n";
 
 	/*
 	 * Remove any filters a template may have added
@@ -553,7 +559,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 	if ( cnSettingsAPI::get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
 		$search = array( "\r\n", "\r", "\n", "\t" );
-		$replace = array( '', '', '', '' );
+		$replace = array( ' ', ' ', ' ', ' ' );
 		$out = str_replace( $search , $replace , $out );
 	}
 
@@ -629,9 +635,9 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		$template = cnTemplateFactory::getTemplate( $templateSlug, $atts['list_type'] );
 	}
 
-	// No template found retuen error message.
+	// No template found return error message.
 	if ( $template == FALSE )
-		return '<p style="color:red; font-weight:bold; text-align:center;>' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . "</p>";
+		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
 
 	do_action( 'cn_register_legacy_template_parts' );
 	do_action( 'cn_action_include_once-' . $template->getSlug() );
@@ -719,8 +725,13 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		}
 
 
-		// Prints the template's CSS file.
-		if ( method_exists( $template, 'printCSS' ) ) $out .= $template->printCSS();
+		ob_start();
+
+			// Prints the template's CSS file.
+			do_action( 'cn_action_css-' . $template->getSlug() , $atts );
+
+			$out .= ob_get_contents();
+		ob_end_clean();
 
 		$out .= '<div class="connections-list cn-upcoming cn-' . $atts['list_type'] . '" id="cn-list" data-connections-version="' . $connections->options->getVersion() . '-' . $connections->options->getDBVersion() . '">' . "\n";
 
@@ -790,7 +801,7 @@ function _connections_vcard( $atts , $content = NULL, $tag ) {
 
 	if ( empty( $atts['id'] ) || ! is_numeric( $atts['id'] ) || empty( $content ) ) return '';
 
-	$qTipContent = '<span class="cn-qtip-content-vcard" style="display: none">' . _connections_list( array( 'id' => $atts['id'] , 'template' => 'qtip-vcard' ) ) . '</span>';
+	$qTipContent = '<span class="cn-qtip-content-vcard" style="display: none">' . connectionsList( array( 'id' => $atts['id'] , 'template' => 'qtip-vcard' ) ) . '</span>';
 
 	return '<span class="cn-qtip-vcard">' . $content . $qTipContent . '</span>';
 }
@@ -808,7 +819,7 @@ function _connections_qtip( $atts , $content = NULL, $tag )
 
 	if ( empty( $atts['id'] ) || ! is_numeric ($atts['id'] ) || empty( $content ) ) return '';
 
-	$qTipContent = '<span class="cn-qtip-content-card" style="display: none">' . _connections_list( array( 'id' => $atts['id'] , 'template' => 'qtip-card' ) ) . '</span>';
+	$qTipContent = '<span class="cn-qtip-content-card" style="display: none">' . connectionsList( array( 'id' => $atts['id'] , 'template' => 'qtip-card' ) ) . '</span>';
 
 	return '<span class="cn-qtip-card">' . $content . $qTipContent . '</span>';
 }

@@ -20,4 +20,3 @@ $template->author = 'Steven A. Zahm';
 $template->description = 'Used to display the vCard download tooltips utilizing the qTip jQuery Plugin .';
 $template->legacy = FALSE;
 $template->type = 'qtip';
-?>

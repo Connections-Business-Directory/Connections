@@ -394,24 +394,7 @@ class cnEntry_Action {
 	}
 
 	/**
-	 * Delete one or more entries.
-	 *
-	 * @todo Complete this method.
-	 *
-	 * @access private
-	 * @since 0.7.8
-	 * @param (array | int) $id 	The entry IDs to delete.
-	 * @return (bool)
-	 */
-	public static function delete( $id ) {
-
-		return FALSE;
-	}
-
-	/**
 	 * Set the status of one or more entries.
-	 *
-	 * @todo Complete this method.
 	 *
 	 * @access private
 	 * @since 0.7.8
@@ -419,15 +402,40 @@ class cnEntry_Action {
 	 * @param (array | int) $id 	The entry IDs to set the status.
 	 * @return (bool)
 	 */
-	public static function setStatus( $status, $id ) {
+	public static function status( $status, $id ) {
+		global $wpdb;
 
-		return FALSE;
+		$permitted = array( 'pending', 'approved' );
+
+		// Ensure the status being set is permitted.
+		if ( ! in_array( $status, $permitted ) ) return FALSE;
+
+		// Make sure $id is not empty.
+		if ( empty( $id ) ) return FALSE;
+
+		// Check for and convert to an array.
+		if ( ! is_array( $id ) ) {
+
+			// Remove whitespace.
+			$id = trim( str_replace( ' ', '', $id ) );
+
+			$id = explode( ',', $id );
+		}
+
+		// Create the placeholders for the $id values to be used in $wpdb->prepare().
+		$d = implode( ',', array_fill( 0, count( $id ), '%d' ) );
+
+		// Sanitize the query, passing values to be sanitized as an array.
+		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET status = %s WHERE id IN (' . $d . ')', array_merge( (array) $status, $id ) );
+
+		// Run the query.
+		$result = $wpdb->query( $sql );
+
+		return $result !== FALSE ? TRUE : FALSE;
 	}
 
 	/**
 	 * Set the visibility of one or more entries.
-	 *
-	 * @todo Complete this method.
 	 *
 	 * @access private
 	 * @since 0.7.8
@@ -435,9 +443,70 @@ class cnEntry_Action {
 	 * @param (array | int) $id 	The entry IDs to set the visibility.
 	 * @return (bool)
 	 */
-	public static function setVisibility( $status, $id ) {
+	public static function visibility( $visibility, $id ) {
+		global $wpdb;
 
-		return FALSE;
+		$permitted = array( 'public', 'private', 'unlisted' );
+
+		// Ensure the status being set is permitted.
+		if ( ! in_array( $visibility, $permitted ) ) return FALSE;
+
+		// Make sure $id is not empty.
+		if ( empty( $id ) ) return FALSE;
+
+		// Check for and convert to an array.
+		if ( ! is_array( $id ) ) {
+
+			// Remove whitespace.
+			$id = trim( str_replace( ' ', '', $id ) );
+
+			$id = explode( ',', $id );
+		}
+
+		// Create the placeholders for the $id values to be used in $wpdb->prepare().
+		$d = implode( ',', array_fill( 0, count( $id ), '%d' ) );
+
+		// Sanitize the query, passing values to be sanitized as an array.
+		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET visibility = %s WHERE id IN (' . $d . ')', array_merge( (array) $visibility, $id ) );
+
+		// Run the query.
+		$result = $wpdb->query( $sql );
+
+		return $result !== FALSE ? TRUE : FALSE;
+	}
+
+	/**
+	 * Delete one or more entries.
+	 *
+	 * @access private
+	 * @since 0.7.8
+	 * @param (array | int) $ids 	The entry IDs to delete.
+	 * @return (bool)
+	 */
+	public static function delete( $ids ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Make sure $id is not empty.
+		if ( empty( $ids ) ) return FALSE;
+
+		// Check for and convert to an array.
+		if ( ! is_array( $ids ) ) {
+
+			// Remove whitespace.
+			$ids = trim( str_replace( ' ', '', $ids ) );
+
+			$ids = explode( ',', $ids );
+		}
+
+		foreach ( $ids as $id ) {
+
+			$entry = new cnEntry( $instance->retrieve->entry( $id ) );
+			$entry->delete( $id );
+		}
+
+		return TRUE;
 	}
 
 }

@@ -1,42 +1,40 @@
 <?php
 
 /**
- * Template functions.
+ * Names Template.
  *
  * @package     Connections
- * @subpackage  Template Functions
+ * @subpackage  Template : Names
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       unknown
+ * @since       0.7.6.1
  */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! class_exists( 'cnNames' ) ) {
+if ( ! class_exists( 'CN_Names_Template' ) ) {
 
-	class cnNames {
+	class CN_Names_Template {
 
-		public static function init() {
+		public static function register() {
 
 			$atts = array(
-				'class'       => 'CN_Names',
+				'class'       => 'CN_Names_Template',
 				'name'        => 'Names',
+				'slug'        => 'names',
 				'type'        => 'all',
 				'version'     => '1.0',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'A simple responsive template which outputs a list of every name within the directory in a column format if the browser supports it. This template is not recommended for very large directories.',
+				'custom'      => FALSE,
 				'path'        => plugin_dir_path( __FILE__ ),
-				'parts'       => array( 'css' => 'style.css' )
+				'parts'       => array( 'css' => 'style.css' ),
 				);
 
 			cnTemplateFactory::register( $atts );
 		}
-
-	}
-
-	class CN_Names {
 
 		public function __construct( $template ) {
 
@@ -47,9 +45,11 @@ if ( ! class_exists( 'cnNames' ) ) {
 		}
 
 		public function card( $entry ) {
+
 			$entry->getNameBlock( array( 'link' => TRUE ) );
 		}
 
 	}
 
+	add_action( 'cn_register_template', array( 'CN_Names_Template', 'register' ) );
 }

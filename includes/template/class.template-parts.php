@@ -32,7 +32,7 @@ class cnTemplatePart {
 
 		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription'), 10, 2 );
 
-		add_action( 'cn_action_character_index', array( __CLASS__, 'characterIndex' ) );
+		add_action( 'cn_action_character_index', array( __CLASS__, 'index' ) );
 		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
 	}
 
@@ -524,12 +524,16 @@ class cnTemplatePart {
 	 * @return (string)
 	 */
 	public static function index( $atts = array() ) {
-		$out = '';
+		$out     = '';
+		$links   = array();
 		$current = '';
+		$styles  = '';
 
 		$defaults = array(
 			'status' => array( 'approved' ),
-			'return' => FALSE
+			'tag'    => 'div',
+			'style'  => array(),
+			'return' => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -547,17 +551,26 @@ class cnTemplatePart {
 			if ( get_query_var('cn-char') ) $current = urldecode( get_query_var('cn-char') );
 		}
 
+		if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
+
+			array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
+			$styles = implode( $atts['style'], '; ' );
+		}
+
 		foreach ( $characters as $key => $char ) {
 			$char = strtoupper( $char );
 
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
-				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) , 'filter' ) . '">' . $char . '</a> ';
+				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) , 'filter' ) . '">' . $char . '</a> ';
 			} else {
-				$out .= '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) . '">' . $char . '</a> ';
+				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) . '">' . $char . '</a> ';
 			}
 
 		}
+
+		// $out = '<div class="">' . . '</div>';
+		$out = "\n" . '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . "\n";
 
 		if ( $atts['return'] ) return $out;
 		echo $out;
@@ -653,12 +666,18 @@ class cnTemplatePart {
 			$base = get_option('connections_permalink');
 
 			// Store the query vars
-			if ( get_query_var('cn-s') ) $queryVars['cn-s'] = get_query_var('cn-s');
-			if ( get_query_var('cn-char') ) $queryVars['cn-char'] = get_query_var('cn-char');
-			if ( get_query_var('cn-cat') ) $queryVars['cn-cat'] = get_query_var('cn-cat');
-			if ( get_query_var('cn-near-coord') ) $queryVars['cn-near-coord'] = get_query_var('cn-near-coord');
-			if ( get_query_var('cn-radius') ) $queryVars['cn-radius'] = get_query_var('cn-radius');
-			if ( get_query_var('cn-unit') ) $queryVars['cn-unit'] = get_query_var('cn-unit');
+			if ( get_query_var('cn-s') ) $queryVars['cn-s']                       = get_query_var('cn-s');
+			if ( get_query_var('cn-char') ) $queryVars['cn-char']                 = get_query_var('cn-char');
+			if ( get_query_var('cn-cat') ) $queryVars['cn-cat']                   = get_query_var('cn-cat');
+			if ( get_query_var('cn-organization') ) $queryVars['cn-organization'] = get_query_var('cn-organization');
+			if ( get_query_var('cn-department') ) $queryVars['cn-department']     = get_query_var('cn-department');
+			if ( get_query_var('cn-locality') ) $queryVars['cn-locality']         = get_query_var('cn-locality');
+			if ( get_query_var('cn-region') ) $queryVars['cn-region']             = get_query_var('cn-region');
+			if ( get_query_var('cn-postal-code') ) $queryVars['cn-postal-code']   = get_query_var('cn-postal-code');
+			if ( get_query_var('cn-country') ) $queryVars['cn-country']           = get_query_var('cn-country');
+			if ( get_query_var('cn-near-coord') ) $queryVars['cn-near-coord']     = get_query_var('cn-near-coord');
+			if ( get_query_var('cn-radius') ) $queryVars['cn-radius']             = get_query_var('cn-radius');
+			if ( get_query_var('cn-unit') ) $queryVars['cn-unit']                 = get_query_var('cn-unit');
 
 			// Current page
 			if ( get_query_var('cn-pg') ) $current = absint( get_query_var('cn-pg') );
@@ -777,7 +796,8 @@ class cnTemplatePart {
 			'show_count'      => FALSE,
 			'depth'           => 0,
 			'parent_id'       => array(),
-			'return'          => FALSE
+			'exclude'         => array(),
+			'return'          => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -868,7 +888,8 @@ class cnTemplatePart {
 			'show_count'      => FALSE,
 			'depth'           => 0,
 			'parent_id'       => array(),
-			'return'          => FALSE
+			'exclude'         => array(),
+			'return'          => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -881,6 +902,14 @@ class cnTemplatePart {
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
 		}
 
+		if ( ! is_array( $atts['exclude'] ) ) {
+			// Trim extra whitespace.
+			$atts['exclude'] = trim( str_replace( ' ', '', $atts['exclude'] ) );
+
+			// Convert to array.
+			$atts['exclude'] = explode( ',', $atts['exclude'] );
+		}
+
 		$out .= "\n" . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
 
 		$out .= "\n" . '<option value=""></option>';
@@ -890,6 +919,9 @@ class cnTemplatePart {
 		foreach ( $categories as $key => $category ) {
 			// Limit the category tree to only the supplied root parent categories.
 			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) continue;
+
+			// Do not show the excluded category as options.
+			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) continue;
 
 			// If grouping by root parent is enabled, open the optiongroup tag.
 			if ( $atts['group'] && ! empty( $category->children ) )
@@ -933,10 +965,14 @@ class cnTemplatePart {
 		$defaults = array(
 			'group'      => FALSE,
 			'show_empty' => TRUE,
-			'show_count' => TRUE
+			'show_count' => TRUE,
+			'exclude'    => array(),
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		// Do not show the excluded category as options.
+		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
 
 		// The padding in px to indent descendant categories. The 7px is the default pad applied in the CSS which must be taken in to account.
 		$pad = ( $level > 1 ) ? $level * 12 + 7 : 7;
@@ -1018,6 +1054,7 @@ class cnTemplatePart {
 			'show_count' => TRUE,
 			'depth'      => 0,
 			'parent_id'  => array(),
+			'exclude'    => array(),
 			'layout'     => 'list',
 			'columns'    => 3,
 			'return'     => FALSE
@@ -1034,12 +1071,23 @@ class cnTemplatePart {
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
 		}
 
+		if ( ! is_array( $atts['exclude'] ) ) {
+			// Trim extra whitespace.
+			$atts['exclude'] = trim( str_replace( ' ', '', $atts['exclude'] ) );
+
+			// Convert to array.
+			$atts['exclude'] = explode( ',', $atts['exclude'] );
+		}
+
 		foreach ( $categories as $key => $category ) {
 			// Remove any empty root parent categories so the table builds correctly.
 			if ( ! $atts['show_empty'] && ( empty($category->count ) && empty( $category->children ) ) ) unset( $categories[ $key ] );
 
 			// Limit the category tree to only the supplied root parent categories.
 			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) unset( $categories[ $key ] );
+
+			// Do not show the excluded category as options.
+			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) unset( $categories[ $key ] );
 		}
 
 		switch ( $atts['layout'] ) {
@@ -1139,10 +1187,14 @@ class cnTemplatePart {
 		$defaults = array(
 			'type'       => 'radio',
 			'show_empty' => TRUE,
-			'show_count' => TRUE
+			'show_count' => TRUE,
+			'exclude'    => array(),
 		);
 
 		$atts = wp_parse_args($atts, $defaults);
+
+		// Do not show the excluded category as options.
+		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
 
 		if ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) {
 
@@ -1215,6 +1267,7 @@ class cnTemplatePart {
 			'show_count' => TRUE,
 			'depth'      => 0,
 			'parent_id'  => array(),
+			'exclude'    => array(),
 			'layout'     => 'list',
 			'columns'    => 3,
 			'return'     => FALSE
@@ -1230,12 +1283,23 @@ class cnTemplatePart {
 			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
 		}
 
+		if ( ! is_array( $atts['exclude'] ) ) {
+			// Trim extra whitespace.
+			$atts['exclude'] = trim( str_replace( ' ', '', $atts['exclude'] ) );
+
+			// Convert to array.
+			$atts['exclude'] = explode( ',', $atts['exclude'] );
+		}
+
 		foreach ( $categories as $key => $category ) {
 			// Remove any empty root parent categories so the table builds correctly.
 			if ( ! $atts['show_empty'] && ( empty( $category->count ) && empty( $category->children ) ) ) unset( $categories[ $key ] );
 
 			// Limit the category tree to only the supplied root parent categories.
 			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) unset( $categories[ $key ] );
+
+			// Do not show the excluded category as options.
+			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) unset( $categories[ $key ] );
 		}
 
 		switch ( $atts['layout'] ) {
@@ -1331,10 +1395,14 @@ class cnTemplatePart {
 
 		$defaults = array(
 			'show_empty' => TRUE,
-			'show_count' => TRUE
+			'show_count' => TRUE,
+			'exclude'    => array(),
 		);
 
 		$atts = wp_parse_args($atts, $defaults);
+
+		// Do not show the excluded category as options.
+		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
 
 		if ( $atts['show_empty'] || ! empty( $category->count ) || ! empty ( $category->children ) ) {
 

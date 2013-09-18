@@ -148,7 +148,7 @@ class cnOutput extends cnEntry
 					if ( $customSize ) {
 
 						$atts['src'] = CN_URL . 'includes/libraries/timthumb/timthumb.php?src=' .
-							CN_IMAGE_BASE_URL . $this->getImageNameOriginal() .
+							CN_IMAGE_RELATIVE_URL . $this->getImageNameOriginal() .
 							( empty( $atts['height'] ) ? '' : '&amp;h=' . $atts['height'] ) .
 							( empty( $atts['width'] ) ? '' : '&amp;w=' . $atts['width'] ) .
 							( empty( $atts['zc'] ) ? '' : '&amp;zc=' . $atts['zc'] );
@@ -221,7 +221,7 @@ class cnOutput extends cnEntry
 					if ( $customSize ) {
 
 						$atts['src'] = CN_URL . 'includes/libraries/timthumb/timthumb.php?src=' .
-							CN_IMAGE_BASE_URL . $this->getLogoName() .
+							CN_IMAGE_RELATIVE_URL . $this->getLogoName() .
 							( empty( $atts['height'] ) ? '' : '&amp;h=' . $atts['height'] ) .
 							( empty( $atts['width'] ) ? '' : '&amp;w=' . $atts['width'] ) .
 							( empty( $atts['zc'] ) ? '' : '&amp;zc=' . $atts['zc'] );
@@ -360,6 +360,24 @@ class cnOutput extends cnEntry
 	}
 
 	/**
+	 * Set the values to be used to determine the page ID to be used for the directory links.
+	 *
+	 * @access public
+	 * @since 0.7.9
+	 * @param  (array)  $atts [optional]
+	 * @return (void)
+	 */
+	public function directoryHome( $atts = array() ) {
+
+		$defaults = array(
+			'page_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+			'force_home' => FALSE,
+			);
+
+		$this->directoryHome = $this->validate->attributesArray( $defaults, $atts );
+	}
+
+	/**
 	 * Echo or return the entry name in a HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
@@ -413,59 +431,71 @@ class cnOutput extends cnEntry
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$search = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
-		$replace = array();
+		$search          = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
+		$replace         = array();
 		$honorificPrefix = $this->getHonorificPrefix();
-		$first = $this->getFirstName();
-		$middle = $this->getMiddleName();
-		$last = $this->getLastName();
+		$first           = $this->getFirstName();
+		$middle          = $this->getMiddleName();
+		$last            = $this->getLastName();
 		$honorificSuffix = $this->getHonorificSuffix();
 
 		switch ( $this->getEntryType() ) {
+
 			case 'individual':
-				( empty( $honorificPrefix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
-				( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="given-name">' . $first . '</span>';
+				$replace[] = empty( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
-				( empty( $middle ) ) ? $replace[] = '' : $replace[] = '<span class="additional-name">' . $middle . '</span>';
+				$replace[] = empty( $first ) ? '' : '<span class="given-name">' . $first . '</span>';
 
-				( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="family-name">' . $last . '</span>';
+				$replace[] = empty( $middle ) ? '' : '<span class="additional-name">' . $middle . '</span>';
 
-				( empty( $honorificSuffix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+				$replace[] = empty( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
+
+				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
 				$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+
 				break;
 
 			case 'organization':
+
 				$out = '<span class="org fn">' . $this->getOrganization() . '</span>';
+
 				break;
 
 			case 'family':
+
 				$out = '<span class="fn n"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
+
 				break;
 
 			default:
-				( empty( $honorificPrefix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
-				( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="given-name">' . $first . '</span>';
+				$replace[] = empty( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
-				( empty( $middle ) ) ? $replace[] = '' : $replace[] = '<span class="additional-name">' . $middle . '</span>';
+				$replace[] = empty( $first ) ? '' : '<span class="given-name">' . $first . '</span>';
 
-				( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="family-name">' . $last . '</span>';
+				$replace[] = empty( $middle ) ? '' : '<span class="additional-name">' . $middle . '</span>';
 
-				( empty( $honorificSuffix ) ) ? $replace[] = '' : $replace[] = '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+				$replace[] = empty( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
+
+				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
 				$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+
 				break;
 		}
 
 		if ( $atts['link'] ) {
-			$out = $connections->url->permalink( array(
-					'type' => $atts['target'],
-					'slug' => $this->getSlug(),
-					'title' => $this->getName( $atts ),
-					'text' => $out,
-					'return' => TRUE
+
+			$out = cnURL::permalink( array(
+					'type'       => $atts['target'],
+					'slug'       => $this->getSlug(),
+					'title'      => $this->getName( $atts ),
+					'text'       => $out,
+					'home_id'    => $this->directoryHome['page_id'],
+					'force_home' => $this->directoryHome['force_home'],
+					'return'     => TRUE,
 				)
 			);
 		}
@@ -530,11 +560,13 @@ class cnOutput extends cnEntry
 				$relationType = $connections->options->getFamilyRelation( $value );
 
 				$relationName = cnURL::permalink( array(
-						'type'   => 'name',
-						'slug'   => $relation->getSlug(),
-						'title'  => $relation->getName(),
-						'text'   => $relation->getName(),
-						'return' => TRUE
+						'type'       => 'name',
+						'slug'       => $relation->getSlug(),
+						'title'      => $relation->getName(),
+						'text'       => $relation->getName(),
+						'home_id'    => $this->directoryHome['page_id'],
+						'force_home' => $this->directoryHome['force_home'],
+						'return'     => TRUE
 					)
 				);
 
@@ -621,8 +653,8 @@ class cnOutput extends cnEntry
 			'before' => '',
 			'after'  => '',
 			'link'   => array(
-				'organization'  => cnSettingsAPI::get( 'connections', 'connections_link', 'organization' ),
-				'department' => cnSettingsAPI::get( 'connections', 'connections_link', 'department' )
+				'organization' => cnSettingsAPI::get( 'connections', 'connections_link', 'organization' ),
+				'department'   => cnSettingsAPI::get( 'connections', 'connections_link', 'department' )
 				),
 			'return' => FALSE
 		);
@@ -645,11 +677,13 @@ class cnOutput extends cnEntry
 				if ( $atts['link']['organization'] ) {
 
 					$organization = cnURL::permalink( array(
-							'type'   => 'organization',
-							'slug'   => $org,
-							'title'  => $org,
-							'text'   => $org,
-							'return' => TRUE
+							'type'       => 'organization',
+							'slug'       => $org,
+							'title'      => $org,
+							'text'       => $org,
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE
 						)
 					);
 
@@ -669,11 +703,13 @@ class cnOutput extends cnEntry
 				if ( $atts['link']['department'] ) {
 
 					$department = cnURL::permalink( array(
-							'type'   => 'department',
-							'slug'   => $dept,
-							'title'  => $dept,
-							'text'   => $dept,
-							'return' => TRUE
+							'type'       => 'department',
+							'slug'       => $dept,
+							'title'      => $dept,
+							'text'       => $dept,
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE
 						)
 					);
 
@@ -881,11 +917,13 @@ class cnOutput extends cnEntry
 				if ( $atts['link']['locality'] ) {
 
 					$locality = cnURL::permalink( array(
-							'type'   => 'locality',
-							'slug'   => $address->city,
-							'title'  => $address->city,
-							'text'   => $address->city,
-							'return' => TRUE
+							'type'       => 'locality',
+							'slug'       => $address->city,
+							'title'      => $address->city,
+							'text'       => $address->city,
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE
 						)
 					);
 
@@ -907,11 +945,13 @@ class cnOutput extends cnEntry
 				if ( $atts['link']['region'] ) {
 
 					$region = cnURL::permalink( array(
-							'type'   => 'region',
-							'slug'   => $address->state,
-							'title'  => $address->state,
-							'text'   => $address->state,
-							'return' => TRUE
+							'type'       => 'region',
+							'slug'       => $address->state,
+							'title'      => $address->state,
+							'text'       => $address->state,
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE
 						)
 					);
 
@@ -933,11 +973,13 @@ class cnOutput extends cnEntry
 				if ( $atts['link']['postal_code'] ) {
 
 					$postal = cnURL::permalink( array(
-							'type'   => 'postal_code',
-							'slug'   => $address->zipcode,
-							'title'  => $address->zipcode,
-							'text'   => $address->zipcode,
-							'return' => TRUE
+							'type'       => 'postal_code',
+							'slug'       => $address->zipcode,
+							'title'      => $address->zipcode,
+							'text'       => $address->zipcode,
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE
 						)
 					);
 
@@ -959,11 +1001,13 @@ class cnOutput extends cnEntry
 				if ( $atts['link']['country'] ) {
 
 					$country = cnURL::permalink( array(
-							'type'   => 'country',
-							'slug'   => $address->country,
-							'title'  => $address->country,
-							'text'   => $address->country,
-							'return' => TRUE
+							'type'       => 'country',
+							'slug'       => $address->country,
+							'title'      => $address->country,
+							'text'       => $address->country,
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE
 						)
 					);
 

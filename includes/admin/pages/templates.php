@@ -34,13 +34,15 @@ function connectionsShowTemplatesPage() {
 	} else {
 		global $connections;
 
+		// Purge the transient so the page is freshly scanned by the template API.
+		delete_transient( 'cn_legacy_templates' );
+		// cnTemplateFactory::$templates = new stdClass();
+		cnTemplateFactory::registerLegacy();
+
 		$form = new cnFormObjects();
 
 		$type = isset( $_GET['type'] ) ? esc_attr( $_GET['type'] ) : 'all';
 		$template = cnTemplateFactory::getCatalog( $type );
-
-		// Purge the transient so the page is freshly scanned by the template API.
-		delete_transient( 'cn_legacy_templates' );
 
 	?>
 		<div class="wrap">
@@ -107,15 +109,15 @@ function connectionsShowTemplatesPage() {
 						<td class="template_instructions" colspan="2">
 							<p><strong><?php _e( 'Instructions', 'connections' ); ?>:</strong></p>
 							<p>
-								<?php _e( 'By default the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/">[connections]</a></code> shortcode will show all entries types. To change the template used when displaying all entry types, select the "All" tab and activate the template. When the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/list_type/">list_type</a></code>shortcode option is used to filter the entries based on the entry type, the template for that entry type will be used. To change the template used for a specific entry type, select the appropriate tab and then activate the template. If multiple entry types are specified in the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/list_type/">list_type</a></code> shortcode option, the template for the entry type listed first will be used to display the entry list.', 'connections' ); ?>
+								<?php _e( 'By default the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/">[connections]</a></code> shortcode will show all entries types. To change the template used when displaying all entry types, select the "All" tab and activate the template. When the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/list_type/">list_type</a></code>shortcode option is used to filter the entries based on the entry type, the template for that entry type will be used. To change the template used for a specific entry type, select the appropriate tab and then activate the template. If multiple entry types are specified in the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/list_type/">list_type</a></code> shortcode option, the template for the entry type listed first will be used to display the entry list.', 'connections' ); ?>
 							</p>
 
 							<p>
-								<?php _e( 'The <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-upcoming-list/">[upcoming_list]</a></code> shortcode which displays the upcoming anniversaries and birthdays will be displayed with the template that is activated under their respective tabs.', 'connections' ); ?>
+								<?php _e( 'The <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-upcoming-list/">[upcoming_list]</a></code> shortcode which displays the upcoming anniversaries and birthdays will be displayed with the template that is activated under their respective tabs.', 'connections' ); ?>
 							</p>
 
 							<p>
-								<?php _e( 'The current active template for each template type can be overridden by using the <code><a href="http://connections-pro.com/documentation/plugin/shortcodes/shortcode-connections/template/">template</a></code> shortcode option.', 'connections' ); ?>
+								<?php _e( 'The current active template for each template type can be overridden by using the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/template-option/">template</a></code> shortcode option.', 'connections' ); ?>
 							</p>
 						</td>
 					</tr>
@@ -183,11 +185,7 @@ function connectionsShowTemplatesPage() {
 										echo '<p class="description">' , $template->{ $slug }->getDescription() , '</p>';
 										echo '<p>' , __( 'Shortcode Override:', 'connections' ) , '<code> template="' ,  $slug , '"</code></p>';
 
-										if ( $template->{ $slug }->isCustom() === FALSE && $template->{ $slug }->isLegacy() === TRUE ) {
-											echo '<p>' , __( 'This a supplied template and can not be deleted.', 'connections') , '</p>';
-										} else if ( $template->{ $slug }->isCustom() === FALSE && $template->{ $slug }->isLegacy() === FALSE ) {
-											echo '<p>' , __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections') , '</p>';
-										}
+
 
 									?>
 
@@ -201,17 +199,22 @@ function connectionsShowTemplatesPage() {
 
 										?>
 
-										<a class="activatelink" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $template->$slug->getName() ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
+										<a class="button-primary" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $template->$slug->getName() ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
 
 										<?php
 											if ( ! empty( $deleteTokenURL ) ) {
 										?>
-											 | <a class="deletelink" href="<?php echo esc_attr( $deleteTokenURL ); ?>" title="Delete '<?php echo esc_attr( $template->$slug->getName() ); ?>'" onclick="return confirm('You are about to delete this theme \'<?php echo esc_attr( $template->$slug->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">Delete</a>
+											 | <a class="button button-warning" href="<?php echo esc_attr( $deleteTokenURL ); ?>" title="Delete '<?php echo esc_attr( $template->$slug->getName() ); ?>'" onclick="return confirm('You are about to delete this theme \'<?php echo esc_attr( $template->$slug->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">Delete</a>
 										<?php
 											}
 										?>
 									</span>
 							<?php
+									if ( $template->{ $slug }->isCustom() === FALSE ) {
+										echo '<p class="description">' , __( 'This a core template and can not be deleted.', 'connections') , '</p>';
+									} else if ( $template->{ $slug }->isCustom() === TRUE && $template->{ $slug }->isLegacy() === FALSE ) {
+										echo '<p class="description">' , __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections') , '</p>';
+									}
 								}
 							?>
 								</td>

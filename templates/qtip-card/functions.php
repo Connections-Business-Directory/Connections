@@ -14,6 +14,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'qTipCard' ) ) {
+
 	class qTipCard {
 		/**
 		 * Load the template filters.
@@ -22,6 +23,9 @@ if ( ! class_exists( 'qTipCard' ) ) {
 		 * @version 1.0
 		 */
 		public function __construct() {
+
+			wp_enqueue_style( 'connections-qtip' );
+
 			//Update the permitted shortcode attribute the user may use and overrride the template defaults as needed.
 			add_filter( 'cn_list_atts_permitted-qtip-card' , array( &$this, 'initShortcodeAtts' ) );
 			add_filter( 'cn_list_atts-qtip-card' , array( &$this, 'initTemplateOptions' ) );
@@ -58,4 +62,3 @@ if ( ! class_exists( 'qTipCard' ) ) {
 	//print_r($this);
 	$this->qTipCard = new qTipCard();
 }
-?>

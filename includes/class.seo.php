@@ -52,11 +52,16 @@ class cnSEO {
 		// Filter the page title to reflect the current Connection filter.
 		add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );
 
+		// Remove the page/post specific comments feed w/ registered query vars.
+		add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
+
 		// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
 		// remove_action( 'wp_head', 'parent_post_rel_link'); // Removes the prev link
 		// remove_action( 'wp_head', 'start_post_rel_link'); // Removes the start link
 		// remove_action( 'wp_head', 'adjacent_posts_rel_link'); // Removes the relational links for the posts adjacent to the current post.
 		// remove_action( 'wp_head', 'rel_canonical'); // Remove the canonical link
+		// remove_action( 'wp_head', 'feed_links', 2 ); // Remove the feed links.
+		// remove_action( 'wp_head', 'feed_links_extra', 3 ); // Remove page/post specific comments feed.
 	}
 
 	/**
@@ -271,7 +276,7 @@ class cnSEO {
 		// Whether or not to filter the page title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo', 'page_title' ) ) return $title;
 
-		if ( $post->ID != $id || ! self::$filterPermalink ) return $title;
+		if ( ! is_object( $post ) || $post->ID != $id || ! self::$filterPermalink ) return $title;
 
 		// Coerce $title to be an array.
 		$title = (array) $title;
@@ -428,6 +433,27 @@ class cnSEO {
 		self::doFilterPermalink();
 
 		return $menu;
+	}
+
+	/**
+	 * Remove the comment feeds from th directory subpages.
+	 * This is to prevent search engine crawl errors / 404s.
+	 *
+	 * @access private
+	 * @since 0.7.9
+	 * @global $wp_query
+	 * @return (void)
+	 */
+	public static function removeCommentFeed() {
+		global $wp_query;
+
+		$registeredQueryVars = cnRewrite::queryVars( array() );
+
+		// var_dump($registeredQueryVars);var_dump($wp_query->query_vars);
+		// var_dump( array_intersect( $registeredQueryVars, $wp_query->query_vars ) );
+		// var_dump( array_keys( $wp_query->query_vars ) );
+
+		if ( (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wp_query->query_vars ) ) ) remove_action( 'wp_head', 'feed_links_extra', 3 );
 	}
 
 }

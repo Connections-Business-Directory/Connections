@@ -73,10 +73,13 @@ class cnTemplateFactory {
 			self::$templates = new stdClass();
 
 			// Add all the legacy templates found, including the default templates.
-			add_action( 'plugins_loaded', array( __CLASS__, 'registerLegacy' ), 99 );
+			add_action( 'plugins_loaded', array( __CLASS__, 'registerLegacy' ), 10.5 );
 
 			// Initiate the active template classes.
 			add_action( 'plugins_loaded', array( __CLASS__, 'activate' ), 100 );
+
+			// Plugins can hook into this action to register templates.
+			do_action( 'cn_register_template' );
 		}
 
 	}
@@ -97,7 +100,7 @@ class cnTemplateFactory {
 	 * Register a template.
 	 *
 	 * Accepted options for the $atts property are:
-	 *  class (string) [required] The name of the class o initialize which contains the templates methods and properties..
+	 *  class (string) [required] The name of the class o initialize which contains the templates methods and properties.
 	 *  name (string) [required] The template name.
 	 *  slug (string) [optional] The template slug.
 	 *  type (string) [required] The template type.
@@ -152,7 +155,9 @@ class cnTemplateFactory {
 
 		// PHP 5.4 warning fix.
 		if ( ! isset( self::$templates->{ $type } ) ) self::$templates->{ $type } = new stdClass();
-		if ( ! isset( self::$templates->{ $type }->{ $slug } ) ) self::$templates->{ $type }->{ $slug } = new stdClass();
+		// if ( ! isset( self::$templates->{ $type }->{ $slug } ) ) self::$templates->{ $type }->{ $slug } = new stdClass();
+		// self::$templates->{ $type } = new stdClass();
+		self::$templates->{ $type }->{ $slug } = new stdClass();
 
 		self::$templates->{ $type }->{ $slug } = (object) $atts;
 	}
@@ -256,8 +261,8 @@ class cnTemplateFactory {
 				$atts['custom']      = $template->custom;
 				$atts['legacy']      = TRUE;
 
-				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . '/' . $template->slug );
-				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . '/' . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . '/' . $template->slug );
+				$atts['path']        = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_PATH . $template->slug ) : trailingslashit( CN_TEMPLATE_PATH . $template->slug );
+				$atts['url']         = ( $template->custom ) ? trailingslashit( CN_CUSTOM_TEMPLATE_URL . $template->slug ) : trailingslashit( CN_TEMPLATE_URL . $template->slug );
 
 				$atts['thumbnail']   = isset( $template->thumbnailURL ) ? 'thumbnail.png' : '';
 				$atts['functions']   = isset( $template->phpPath ) ? 'functions.php' : '';
@@ -294,20 +299,20 @@ class cnTemplateFactory {
 			if ( ! is_dir( $templatePath ) && ! is_readable( $templatePath ) ) continue;
 
 			if ( ! $templateDirectories = @opendir( $templatePath ) ) continue;
-			//var_dump($templatePath);
+			// var_dump($templatePath);
 
 			//$templateDirectories = opendir($templatePath);
 
 			while ( ( $templateDirectory = readdir( $templateDirectories ) ) !== FALSE ) {
 
-				$path = $templatePath . $templateDirectory;
+				$path = trailingslashit( $templatePath . $templateDirectory );
 
-				if ( is_dir ( $templatePath . $templateDirectory ) && is_readable( $path ) ) {
+				if ( is_dir( $path ) && is_readable( $path ) ) {
 
-					if ( file_exists( $path . '/meta.php' ) && file_exists( $path . '/template.php' ) ) {
+					if ( file_exists( $path . 'meta.php' ) && file_exists( $path . 'template.php' ) ) {
 
 						$template = new stdClass();
-						include( $path . '/meta.php');
+						include( $path . 'meta.php');
 						$template->slug = $templateDirectory;
 
 						if ( ! isset( $template->type ) ) $template->type = 'all';
@@ -319,7 +324,7 @@ class cnTemplateFactory {
 						// Load the template metadate from the meta.php file
 						$templates->{ $template->type }->{ $template->slug }->name        = $template->name;
 						$templates->{ $template->type }->{ $template->slug }->version     = $template->version;
-						$templates->{ $template->type }->{ $template->slug }->uri         = 'http://' . $template->uri;
+						$templates->{ $template->type }->{ $template->slug }->uri         = isset( $template->uri ) ? 'http://' . $template->uri : '';
 						$templates->{ $template->type }->{ $template->slug }->author      = $template->author;
 						$templates->{ $template->type }->{ $template->slug }->description = isset( $template->description ) ? $template->description : '';
 
@@ -327,16 +332,16 @@ class cnTemplateFactory {
 						$templates->{ $template->type }->{ $template->slug }->slug        = $template->slug ;
 						$templates->{ $template->type }->{ $template->slug }->custom      = ( CN_CUSTOM_TEMPLATE_PATH === $templatePath ) ? TRUE : FALSE;
 
-						if ( file_exists( $path . '/' . 'styles.css' ) ) $templates->{ $template->type }->{ $template->slug }->cssPath         = TRUE;
-						if ( file_exists( $path . '/' . 'template.js' ) ) $templates->{ $template->type }->{ $template->slug }->jsPath         = TRUE;
-						if ( file_exists( $path . '/' . 'functions.php' ) ) $templates->{ $template->type }->{ $template->slug }->phpPath      = TRUE;
-						if ( file_exists( $path . '/' . 'thumbnail.png' ) ) $templates->{ $template->type }->{ $template->slug }->thumbnailURL = TRUE;
+						if ( file_exists( $path . 'styles.css' ) ) $templates->{ $template->type }->{ $template->slug }->cssPath         = TRUE;
+						if ( file_exists( $path . 'template.js' ) ) $templates->{ $template->type }->{ $template->slug }->jsPath         = TRUE;
+						if ( file_exists( $path . 'functions.php' ) ) $templates->{ $template->type }->{ $template->slug }->phpPath      = TRUE;
+						if ( file_exists( $path . 'thumbnail.png' ) ) $templates->{ $template->type }->{ $template->slug }->thumbnailURL = TRUE;
 					}
 				}
 			}
 
 			//var_dump($templateDirectories);
-			@closedir($templateDirectories);
+			@closedir( $templateDirectories );
 		}
 		/**
 		 * --> END <-- Find the available templates
@@ -367,7 +372,20 @@ class cnTemplateFactory {
 			// Return all template types.
 			foreach ( self::$templates as $template ) {
 
-				$templates->{ $template->slug } = new cnTemplate( $template );
+				/*
+				 * If the template is a legacy template, lets check that the path is still valid before
+				 * returning it because it is possible the cached path no longer exists because the
+				 * WP install was moved; for example, a  server migration or a site migration.
+				 */
+				if ( $template->legacy && is_dir( $template->path ) && is_readable( $template->path ) ) {
+
+					$templates->{ $template->slug } = new cnTemplate( $template );
+
+				} else if ( ! $template->legacy ) {
+
+					$templates->{ $template->slug } = new cnTemplate( $template );
+				}
+
 			}
 
 		} else {
@@ -384,7 +402,20 @@ class cnTemplateFactory {
 
 				foreach ( self::$templates->$type as $template ) {
 
-					$templates->{ $template->slug } = new cnTemplate( $template );
+					/*
+					 * If the template is a legacy template, lets check that the path is still valid before
+					 * returning it because it is possible the cached path no longer exists because the
+					 * WP install was moved; for example, a  server migration or a site migration.
+					 */
+					if ( $template->legacy && is_dir( $template->path ) && is_readable( $template->path ) ) {
+
+						$templates->{ $template->slug } = new cnTemplate( $template );
+
+					} else if ( ! $template->legacy ) {
+
+						$templates->{ $template->slug } = new cnTemplate( $template );
+					}
+
 				}
 
 			}
@@ -418,11 +449,25 @@ class cnTemplateFactory {
 				}
 			}
 
-			return isset( $template ) ? $template : FALSE;
+			$template = isset( $template ) ? $template : FALSE;
 
 		} else {
 
-			return isset( self::$templates->{ $type }->{ $slug } ) ? new cnTemplate( self::$templates->{ $type }->{ $slug } ) : FALSE;
+			$template = isset( self::$templates->{ $type }->{ $slug } ) ? new cnTemplate( self::$templates->{ $type }->{ $slug } ) : FALSE;
+		}
+
+		/*
+		 * If the template is a legacy template, lets check that the path is still valid before
+		 * returning it because it is possible the cached path no longer exists because the
+		 * WP install was moved; for example, a  server migration or a site migration.
+		 */
+		if ( $template && $template->isLegacy() ) {
+
+			return isset( $template ) && ( is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
+
+		} else {
+
+			return $template;
 		}
 
 	}

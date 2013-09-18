@@ -240,7 +240,7 @@ class cnTemplate {
 	public function getAuthorURL() {
 
 		// if the http protocol is not part of the url, add it.
-		if ( ! empty( $this->authorURL ) && preg_match( "/https?/" , $this->authorURL ) == 0 ) $this->authorURL = 'http://' . $this->authorURL;
+		$this->authorURL = ( ! empty( $this->authorURL ) && preg_match( "/https?/" , $this->authorURL ) == 0 ) ? 'http://' . $this->authorURL : '';
 
 		return $this->authorURL;
 	}
@@ -416,14 +416,16 @@ class cnTemplate {
 	public function printCSS() {
 		$out = '';
 		$search = array( "\r\n", "\r", "\n", "\t", '%%PATH%%' );
-		$replace = array( '', '', '', '', $this->url );
+		$replace = array( ' ', ' ', ' ', ' ', $this->url );
 
 		/**
 		 * @TODO Create a page pre-process function so the CSS outputs only once in the page head.
 		 */
 
 		// Loads the CSS style in the body, valid HTML5 when set with the 'scoped' attribute.
-		$out .= '<style type="text/css" scoped>';
+		// However, if the sever is running the pagespeed mod, the scoped setting will cause the CSS
+		// not to be applied because it is moved to the page head where it belongs.
+		$out .= '<style type="text/css">';
 		$out .= str_replace( $search , $replace , @file_get_contents( $this->path . $this->parts['css'] ) );
 		$out .= '</style>';
 

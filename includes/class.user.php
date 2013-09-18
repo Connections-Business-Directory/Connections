@@ -39,12 +39,18 @@ class cnUser
 	 */
 	private $filterVisibility;
 
+	public function __construct() {
+
+		add_action( 'plugins_loaded', array( $this, 'setID' ) );
+	}
+
 	public function getID() {
         return $this->ID;
     }
 
-	public function setID($id) {
-		$this->ID = $id;
+	public function setID() {
+		$current_user = wp_get_current_user();
+		$this->ID = $current_user->ID;
 	}
 
 	public function getFilterEntryType()  {
@@ -191,8 +197,6 @@ class cnUser
 	 * @return string
 	 */
 	public function getFilterStatus() {
-		// Set the moderation filter for the current user if set in the query string.
-		if ( isset( $_GET['status'] ) ) $this->setFilterStatus( $_GET['status'] );
 
 		/*
 		 * Use get_user_meta() used in WP 3.0 and newer

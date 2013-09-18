@@ -343,11 +343,7 @@ class cnAdminActions {
 			// If no `status` was supplied, this will default `status` to `pending`.
 			$status = in_array( $status, $permitted ) ? $status : 'pending';
 
-			$entry = new cnEntry();
-			$entry->set( $id );
-
-			$entry->setStatus( $status );
-			$entry->update();
+			cnEntry_Action::status( $status, $id );
 
 			switch ( $status ) {
 
@@ -392,15 +388,7 @@ class cnAdminActions {
 
 			if ( ! in_array( $status, $permitted ) ) return;
 
-			// @TODO $_POST['id'] should be a supplied attribute.
-			foreach ( $_POST['id'] as $id ) {
-
-				$entry = new cnEntry();
-
-				$entry->set( $id );
-				$entry->setStatus( $status );
-				$entry->update();
-			}
+			cnEntry_Action::status( $status, $_POST['id'] );
 
 			switch ( $status ) {
 
@@ -440,15 +428,7 @@ class cnAdminActions {
 
 			if ( ! in_array( $visibility, $permitted ) ) return;
 
-			// @TODO $_POST['id'] should be a supplied attribute.
-			foreach ( $_POST['id'] as $id ) {
-
-				$entry = new cnEntry();
-
-				$entry->set( $id );
-				$entry->setVisibility( $visibility );
-				$entry->update();
-			}
+			cnEntry_Action::visibility( $visibility, $_POST['id'] );
 
 			cnMessage::set( 'success', 'form_entry_visibility_bulk' );
 
@@ -483,8 +463,7 @@ class cnAdminActions {
 		 */
 		if ( current_user_can( 'connections_delete_entry' ) ) {
 
-			$entry = new cnEntry( $connections->retrieve->entry( $id ) );
-			$entry->delete( $id );
+			cnEntry_Action::delete( $id );
 
 			cnMessage::set( 'success', 'form_entry_delete' );
 
@@ -516,11 +495,7 @@ class cnAdminActions {
 			// @TODO $POST['id'] should be passed to the method as an attribute.
 			if ( ! isset( $_POST['id'] ) || empty( $_POST['id'] ) ) return;
 
-			foreach ( $_POST['id'] as $id ) {
-
-				$entry = new cnEntry( $connections->retrieve->entry( $id ) );
-				$entry->delete( $id );
-			}
+			cnEntry_Action::delete( $_POST['id'] );
 
 			cnMessage::set( 'success', 'form_entry_delete_bulk' );
 
@@ -581,6 +556,9 @@ class cnAdminActions {
 	 */
 	public static function saveUserFilters() {
 		global $connections;
+
+		// Set the moderation filter for the current user if set in the query string.
+		if ( isset( $_GET['status'] ) ) $connections->currentUser->setFilterStatus( $_GET['status'] );
 
 		if ( isset( $_POST['entry_type'] ) ) $connections->currentUser->setFilterEntryType( esc_attr( $_POST['entry_type'] ) );
 		if ( isset( $_POST['visibility_type'] ) ) $connections->currentUser->setFilterVisibility( esc_attr( $_POST['visibility_type'] ) );

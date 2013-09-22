@@ -346,3 +346,46 @@ form div.form-field div.map {
 	border-radius: 3px;
 	margin: 10px 0px 20px;
 }
+
+/**
+ * Metabox default styling. This is to support the new metabox API for custom fields.
+ */
+.cn-metabox-section { border-bottom: 1px solid #E9E9E9; }
+.cn-metabox-section:last-child { border-bottom: none; }
+table.cn-metabox .cn-metabox-title { margin: 0 0 5px 0; }
+table.cn-metabox th label { display: inline-block;}
+table.cn-metabox .mceIframeContainer { background: #FFF; }
+table.cn-metabox .cn-radio-inline { padding: 4px 0 0 0;}
+table.cn-metabox .cn-radio-inline-option { display: inline-block; padding-right: 18px; }
+table.cn-metabox .cn-datepicker { padding: 2px; width: 17.5em; }
+table.cn-metabox .cn-slider-container { width: 25em; }
+
+
+/*table.cn_metabox textarea.cn_textarea_code { font-family: Consolas,Monaco,monospace; line-height: 16px; }
+table.cn_metabox input.cn_text_small { width: 100px; margin-right: 15px;}
+table.cn_metabox input.cn_timepicker { width: 100px; margin-right: 15px;}
+table.cn_metabox input.cn_text_money { width: 90px; margin-right: 15px;}
+table.cn_metabox input.cn_text_medium { width: 230px; margin-right: 15px;}
+table.cn_metabox input.cn_upload_file { width: 65%; }
+table.cn_metabox li { font-size:12px; margin: 1px 0 5px 0; line-height: 16px; }
+table.cn_metabox ul { padding-top:5px; margin: 0; }
+table.cn_metabox select { font-size:12px; margin-top: 3px;}
+
+
+.cn_radio_inline { padding: 4px 0 0 0;}
+.cn_radio_inline_option {display: inline; padding-right: 18px;}
+table.cn_metabox input[type="radio"] { margin: 0 5px 0 0; padding: 0;}
+table.cn_metabox input[type="checkbox"] { margin: 0 5px 0 0; padding: 0;}
+table.cn_metabox .mceLayout {border:1px solid #DFDFDF !important;}
+table.cn_metabox .mceIframeContainer {background:#FFF;}
+table.cn_metabox .meta_mce {width:97%;}
+table.cn_metabox .meta_mce textarea {width:100%;}
+table.cn_metabox .cn_media_status {  margin: 10px 0 0 0;}
+table.cn_metabox .cn_media_status .img_status, table.cn_metabox .cn_media_status .embed_status {  position: relative; }
+table.cn_metabox .cn_media_status .img_status img, table.cn_metabox .cn_media_status .embed_status { border:1px solid #DFDFDF; background: #FAFAFA; max-width:350px; padding: 5px; -moz-border-radius: 2px; border-radius: 2px;}
+table.cn_metabox .cn_media_status .embed_status { float: left; max-width:800px;}
+table.cn_metabox .cn_media_status .img_status .cn_remove_file_button, table.cn_metabox .cn_media_status .embed_status .cn_remove_file_button { text-indent: -9999px; background: url(images/ico-delete.png); width: 16px; height: 16px; position: absolute; top: -5px; left: -5px;}*/
+/* Sidebar placement adjustments */
+/*.inner-sidebar table.cn_metabox input[type=text], #side-sortables table.cn_metabox input[type=text], table.cn_metabox textarea { width: 95%; }
+.inner-sidebar table.cn_metabox .cn_media_status .img_status img, #side-sortables table.cn_metabox .cn_media_status .img_status img, .inner-sidebar table.cn_metabox .cn_media_status .embed_status img, #side-sortables table.cn_metabox .cn_media_status .embed_status img { width: 90%; }
+.postbox table.cn_metabox .cn-spinner { float: left; }*/

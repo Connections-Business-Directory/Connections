@@ -161,6 +161,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 */
 				add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );
 				add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
+				add_action( 'admin_init', array( 'cnMetabox', 'init' ) );
 
 				/*
 				 * Add the filter to update the user settings when the "Apply" button is clicked.
@@ -428,6 +429,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				// The class for registering general admin actions.
 				require_once CN_PATH . 'includes/admin/class.functions.php';
+
+				// The class for adding the metaboxes.
+				require_once CN_PATH . 'includes/admin/class.metabox.php';
 
 			} else {
 

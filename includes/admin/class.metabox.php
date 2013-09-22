@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class registering and creating the metabox for add/edit an entry.
+ * Class registering the metaboxes for add/edit an entry.
  *
  * @package     Connections
  * @subpackage  Metabox
@@ -25,6 +25,12 @@ class cnMetabox {
 	private static $instance;
 
 	/**
+	 * The metaboxes.
+	 * @var (array)
+	 */
+	private static $metaboxes =array();
+
+	/**
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
 	 * @access public
@@ -46,10 +52,20 @@ class cnMetabox {
 		if ( ! isset( self::$instance ) ) {
 
 			self::$instance = new self;
+			self::registerCore();
 
+			// Action for extensions to hook into to add custom metaboxes/fields.
+			do_action( 'cn_metabox', self::$instance );
 
+			// Add the actions to show the meatboxes on the registered pages.
+			foreach ( self::$metaboxes as $id => $metabox ) {
+
+				foreach ( $metabox['pages'] as $page ){
+
+					add_action( 'load-' . $page, array( __CLASS__, 'register' ) );
+				}
+			}
 		}
-
 	}
 
 	/**
@@ -62,6 +78,623 @@ class cnMetabox {
 	public static function getInstance() {
 
 		return self::$instance;
+	}
+
+	/**
+	 * Public method to add metaboxes.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param (array) $metabox
+	 */
+	public static function add( array $metaboxes ) {
+
+		// Grab an instance of Connections.
+		$instance = Connections_Directory();
+
+		foreach ( $metaboxes as $metabox ) {
+
+			$metabox['pages']    = empty( $metabox['pages'] ) ? array( $instance->pageHook->add, $instance->pageHook->manage ) : $metabox['pages'];
+			$metabox['context']  = empty( $metabox['context'] ) ? 'normal' : $metabox['context'];
+			$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
+
+			self::$metaboxes[ $metabox['id'] ] = $metabox;
+		}
+	}
+
+	/**
+	 * Remove a registered metabox.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  (string) $id The metabox id to remove.
+	 * @return (bool)
+	 */
+	public static function remove( string $id ) {
+
+		if ( isset( self::$metaboxes[ $id ] ) ) {
+
+			unset( self::$metaboxes[ $id ] );
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	/**
+	 * Register the metaboxes.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @return (void)
+	 */
+	public static function register() {
+
+		global $hook_suffix;
+
+		foreach ( self::$metaboxes as $metabox ) {
+
+			if ( in_array( $hook_suffix, $metabox['pages'] ) ) new cnMetabox_Render( $hook_suffix, $metabox );
+		}
+	}
+
+	/**
+	 * Register the core metaboxes and fields.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @return (void)
+	 */
+	private static function registerCore(){
+
+
+	}
+
+}
+
+/**
+ * Class rendering the metaboxes for add/edit an entry.
+ *
+ * NOTE: This is a private class and should not be accessed directly.
+ *
+ * @package     Connections
+ * @subpackage  Metabox
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.8
+ */
+
+class cnMetabox_Render {
+
+	/**
+	 * The array containing the registered metaboxes.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var array
+	 */
+	private $metabox = array();
+
+	/**
+	 * The array containing the current metabox sections.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var array
+	 */
+	private $sections = array();
+
+	/**
+	 * The array of all registerd quicktag textareas.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var array
+	 */
+	private static $quickTagIDs = array();
+
+	/**
+	 * The array of all registerd slider settings.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var array
+	 */
+	private static $slider = array();
+
+	/**
+	 * Register the metaboxes with WordPress.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @uses add_meta_box()
+	 * @param string $pageHook The page hood / post type in which to add the metabox.
+	 * @param array  $metabox  The array of metaboxes to add.
+	 */
+	public function __construct( $pageHook, array $metabox ) {
+
+		$this->metabox  = $metabox;
+		$this->sections = $metabox['sections'];
+
+		add_meta_box( $metabox['id'] , $metabox['title'], array( $this, 'render' ), $pageHook, $metabox['context'], $metabox['priority'] );
+	}
+
+
+	/**
+	 * Render the metabox.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @return void
+	 */
+	public function render() {
+
+		// Use nonce for verification
+		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
+
+		foreach ( $this->sections as $section ) {
+
+			$this->section( $section );
+		}
+	}
+
+	/**
+	 * Render the metabox sections.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @param  array $section An array containing the sections of the metabox.
+	 * @return string
+	 */
+	private function section( $section ) {
+
+		echo '<div class="cn-metabox-section">';
+
+		printf( '<h4 class="cn_metabox_section_name">%1$s</h4>',
+			esc_html( $section['name'] )
+		);
+
+		if ( isset( $section['desc'] ) && ! empty( $section['desc'] ) ) {
+
+			printf( '<p>%1$s</p>',
+				esc_html( $section['desc'] )
+			);
+		}
+
+		if ( isset( $section['fields'] ) && ! empty( $section['fields'] ) )
+			$this->fields( $section['fields'] );
+
+		echo '</div>';
+	}
+
+	/**
+	 * Render the fields registered to the metabox.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @global $wp_version
+	 * @param $fields	array 	Render the metabox section fields.
+	 * @return string
+	 */
+	private function fields( $fields ) {
+		global $wp_version;
+
+		// do_action( 'cn_metabox_table_before', $entry, $meta, $this->metabox );
+
+		echo '<table class="form-table cn-metabox"><tbody>';
+
+		foreach ( $fields as $field ) {
+
+			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .' cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';
+
+			if ( $field['show_label'] == TRUE ) {
+
+				printf( '<th><label for="%1$s">%2$s</label></th>',
+					esc_attr( $field['id'] ),
+					esc_html( $field['name'] )
+				);
+
+			} else {
+
+				printf( '<td><label style="display:none;" for="%1$s">%2$s</label></td>',
+					esc_attr( $field['id'] ),
+					esc_html( $field['name'] )
+				);
+			}
+
+			echo '<td>';
+
+			echo empty( $field['before'] ) ? '' : $field['before'];
+
+			switch ( $field['type'] ) {
+
+				case 'checkbox':
+
+					$value = 1;
+
+					printf( '<input type="checkbox" class="checkbox" id="%1$s" name="%1$s" value="1" %2$s/>',
+						esc_attr( $field['id'] ),
+						$checked = isset( $value ) ? checked( 1, $value, FALSE ) : ''
+					);
+
+					break;
+
+				case 'checkboxgroup':
+
+					// For input groups we want to render the description before the field.
+					// Lets render it and unset it so it does not render twice.
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<span class="description"> %1$s</span><br />',
+							esc_html( $field['desc'] )
+						);
+
+						unset( $field['desc'] );
+					}
+
+					foreach ( $field['options'] as $key => $label ) {
+
+						printf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
+							esc_attr( $field['id'] ),
+							esc_attr( $key ),
+							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
+						);
+
+						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
+							esc_attr( $field['id'] ),
+							esc_attr( $key ),
+							esc_html( $label )
+						);
+					}
+
+					break;
+
+				case 'radio':
+
+					// For input groups we want to render the description before the field.
+					// Lets render it and unset it so it does not render twice.
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<span class="description"> %1$s</span><br />',
+							esc_html( $field['desc'] )
+						);
+
+						unset( $field['desc'] );
+					}
+
+					foreach ( $field['options'] as $key => $label ) {
+
+						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
+							esc_attr( $field['id'] ),
+							esc_attr( $key ),
+							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
+						);
+
+						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
+							esc_attr( $field['id'] ),
+							esc_attr( $key ),
+							esc_html( $label )
+						);
+					}
+
+					break;
+
+				case 'radio_inline':
+
+					// For input groups we want to render the description before the field.
+					// Lets render it and unset it so it does not render twice.
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<span class="description"> %1$s</span><br />',
+							esc_html( $field['desc'] )
+						);
+
+						unset( $field['desc'] );
+					}
+
+					echo '<div class="cn-radio-inline">';
+
+					foreach ( $field['options'] as $key => $label ) {
+
+						echo '<div class="cn-radio-inline-option">';
+
+						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
+							esc_attr( $field['id'] ),
+							esc_attr( $key ),
+							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
+						);
+
+						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
+							esc_attr( $field['id'] ),
+							esc_attr( $key ),
+							esc_html( $label )
+						);
+
+						echo '</div>';
+					}
+
+					break;
+
+				case 'text':
+
+					$sizes = array( 'small', 'regular', 'large' );
+
+					printf( '<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>',
+						isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) : 'large',
+						esc_attr( $field['id'] ),
+						sanitize_text_field( '$value' )
+					);
+
+					break;
+
+				case 'textarea':
+
+					$sizes = array( 'small', 'large' );
+
+					// For text areas we want to render the description before the field.
+					// Lets render it and unset it so it does not render twice.
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<span class="description"> %1$s</span><br />',
+							esc_html( $field['desc'] )
+						);
+
+						unset( $field['desc'] );
+					}
+
+					printf( '<textarea rows="10" cols="50" class="%1$s-text" id="%2$s" name="%2$s">%3$s</textarea>',
+						isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) : 'large',
+						esc_attr( $field['id'] ),
+						esc_textarea( '$value' )
+					);
+
+					break;
+
+				case 'datepicker':
+
+					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"/>',
+						esc_attr( $field['id'] ),
+						date( 'm/d/Y', strtotime( 'August 22, 2013' ) )
+					);
+
+					wp_enqueue_script('jquery-ui-datepicker');
+					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
+
+					break;
+
+				case 'colorpicker':
+
+
+					break;
+
+				case 'slider':
+
+					$value = 10;
+
+					// Set the slider defaults.
+					$defaults = array(
+						'min'   => 0,
+						'max'   => 100,
+						'step'  => 1,
+						'value' => 0
+					);
+
+					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
+
+					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"/>',
+						esc_attr( $field['id'] ),
+						absint( $value )
+					);
+
+					$field['options']['value'] = absint( $value );
+
+					self::$slider[ $field['id'] ] = $field['options'];
+
+					wp_enqueue_script('jquery-ui-slider');
+					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sliderJS' ) );
+
+					break;
+
+				case 'quicktag':
+
+					// For text areas we want to render the description before the field.
+					// Lets render it and unset it so it does not render twice.
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<span class="description"> %1$s</span><br />',
+							esc_html( $field['desc'] )
+						);
+
+						unset( $field['desc'] );
+					}
+
+					echo '<div class="wp-editor-container">';
+
+					printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
+						esc_attr( $field['id'] ),
+						wp_kses_data( '$value ')
+					);
+
+					echo '</div>';
+
+					self::$quickTagIDs[] = esc_attr( $field['id'] );
+
+					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
+
+					break;
+
+				case 'rte':
+
+					$size = isset( $field['size'] ) && $field['size'] != 'regular' ? $field['size'] : 'regular';
+
+					// For text areas we want to render the description before the field.
+					// Lets render it and unset it so it does not render twice.
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<span class="description"> %1$s</span><br />',
+							esc_html( $field['desc'] )
+						);
+
+						unset( $field['desc'] );
+					}
+
+					if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
+
+						// Set the rte defaults.
+						$defaults = array(
+							'textarea_name' => sprintf( '%1$s' , $field['id'] ),
+						);
+
+						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
+
+						wp_editor(
+							wp_kses_post( '$value' ),
+							sprintf( '%1$s' , $field['id'] ),
+							$atts
+						);
+
+					} else {
+
+						/*
+						 * If this is pre WP 3.3, lets drop in the quick tag editor instead.
+						 */
+
+						echo '<div class="wp-editor-container">';
+
+						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
+							esc_attr( $field['id'] ),
+							wp_kses_data( '$value ')
+						);
+
+						echo '</div>';
+
+						self::$quickTagIDs[] = esc_attr( $field['id'] );
+
+						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
+					}
+
+					break;
+
+				default:
+
+					// do_action('cn_metabox_render_' . $field['type'] , $field, $meta );
+
+					break;
+			}
+
+			if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+				printf( '<span class="description"> %1$s</span>',
+					esc_html( $field['desc'] )
+				);
+			}
+
+
+			echo empty( $field['after'] ) ? '' : $field['after'];
+
+			echo '</td>' , '</tr>';
+		}
+
+		echo '</tbody></table>';
+
+		// do_action( 'cn_metabox_table_after', $entry, $meta, $this->metabox );
+	}
+
+	/**
+	 * Outputs the JS necessary to support the quicktag textareas.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @return void
+	 */
+	public static function quickTagJS() {
+		echo '<script type="text/javascript">/* <![CDATA[ */';
+
+		foreach ( self::$quickTagIDs as $id ) echo 'quicktags("' . $id . '");';
+
+	    echo '/* ]]> */</script>';
+	}
+
+	/**
+	 * Outputs the JS necessary to support the datepicker.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @return void
+	 */
+	public static function datepickerJS() {
+
+?>
+
+<script type="text/javascript">/* <![CDATA[ */
+/*
+ * Add the jQuery UI Datepicker to the date input fields.
+ */
+;jQuery(document).ready( function($){
+
+	if ($.fn.datepicker) {
+
+		$('.cn-datepicker').live('focus', function() {
+			$(this).datepicker({
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				selectOtherMonths: true,
+				yearRange: 'c-100:c+10'
+			});
+		});
+	};
+});
+/* ]]> */</script>
+
+<?php
+
+	}
+
+	/**
+	 * Outputs the JS necessary to support the sliders.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @return void
+	 */
+	public static function sliderJS() {
+
+?>
+
+<script type="text/javascript">/* <![CDATA[ */
+/*
+ * Add the jQuery UI Datepicker to the date input fields.
+ */
+;jQuery(document).ready( function($){
+
+<?php
+foreach ( self::$slider as $id => $option ) {
+
+	printf(
+	'$( "#cn-slider-%1$s" ).slider({
+		value: %2$d,
+		min: %3$d,
+		max: %4$d,
+		step: %5$d,
+		slide: function( event, ui ) {
+			$( "#%1$s" ).val( ui.value );
+		}
+	});',
+	$id,
+	$option['value'],
+	$option['min'],
+	$option['max'],
+	$option['step']
+	);
+
+}
+?>
+});
+/* ]]> */</script>
+
+<?php
+
 	}
 
 }

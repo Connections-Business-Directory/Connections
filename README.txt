@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.3
 Tested up to: 3.6
-Stable tag: 0.7.8.1
+Stable tag: 0.7.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,9 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.7.9.1 09/23/13 =
+* BUG: Critical fix that fixes the path to the inc.upgrade.php file.
 
 = 0.7.9 09/15/13 =
 * FEATURE: Added an exclude_category shortcode option.
@@ -234,3 +237,6 @@ Minor bug fixes.
 
 = 0.7.9 =
 Some new features, minor bug fixes and language updates.
+
+= 0.7.9.1 =
+Critical fix that fixes the path to the inc.upgrade.php file.

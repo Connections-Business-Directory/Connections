@@ -119,7 +119,7 @@ class cnAdminMenu {
 
 		if ( $instance->dbUpgrade ) {
 
-			include_once dirname( __FILE__ ) . '/includes/inc.upgrade.php';
+			include_once CN_PATH . 'includes/inc.upgrade.php';
 			connectionsShowUpgradePage();
 			return;
 		}

@@ -1,5 +1,8 @@
 == Changelog ==
 
+= 0.7.9.2 09/30/13 =
+* BUG: Fix bug preventing the copying of an entry.
+
 = 0.7.9.1 09/23/13 =
 * BUG: Critical fix that fixes the path to the inc.upgrade.php file.
 

@@ -259,7 +259,7 @@ class cnAdminActions {
 
 				break;
 
-			case 'duplicate_entry':
+			case 'copy_entry':
 
 				/*
 				 * Check whether the current user can add an entry.

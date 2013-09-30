@@ -86,6 +86,9 @@ Connections has been translated in the following languages.
 
 == Changelog ==
 
+= 0.7.9.2 09/30/13 =
+* BUG: Fix bug preventing the copying of an entry.
+
 = 0.7.9.1 09/23/13 =
 * BUG: Critical fix that fixes the path to the inc.upgrade.php file.
 
@@ -240,3 +243,6 @@ Some new features, minor bug fixes and language updates.
 
 = 0.7.9.1 =
 Critical fix that fixes the path to the inc.upgrade.php file.
+
+= 0.7.9.2 =
+Fix bug preventing the copying of an entry.

@@ -583,6 +583,16 @@ class cnURL {
 				}
 
 				break;
+
+			case 'character':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['character_base'] . '/' . urlencode( $atts['slug'] ) );
+				} else {
+					$permalink = add_query_arg( array( 'cn-char' => urlencode( $atts['slug'] ) ), $permalink );
+				}
+
+				break;
 		}
 
 		$piece['href'] = 'href="' . esc_url( $permalink ) . '"';

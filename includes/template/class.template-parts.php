@@ -562,9 +562,25 @@ class cnTemplatePart {
 
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
+
 				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) , 'filter' ) . '">' . $char . '</a> ';
+
 			} else {
-				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) . '">' . $char . '</a> ';
+
+				$url = cnURL::permalink( array(
+					'type'       => 'character',
+					'slug'       => $char,
+					'title'      => $char,
+					'class'      => ( $current == $char ? 'cn-char-current' : 'cn-char' ),
+					'text'       => $char,
+					'home_id'    => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+					'force_home' => FALSE,
+					'return'     => TRUE,
+					)
+				);
+
+				// $links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) . '">' . $char . '</a> ';
+				$links[] = $url;
 			}
 
 		}

@@ -86,6 +86,10 @@ Connections has been translated in the following languages.
 
 == Changelog ==
 
+= 0.7.9.3 10/15/13 =
+* FEATURE: The character filter now uses a permalink structure which is more SEO friendly.
+* BUG: Fixed the character filter when the directory is used on the front page.
+
 = 0.7.9.2 09/30/13 =
 * BUG: Fix bug preventing the copying of an entry.
 
@@ -246,3 +250,6 @@ Critical fix that fixes the path to the inc.upgrade.php file.
 
 = 0.7.9.2 =
 Fix bug preventing the copying of an entry.
+
+= 0.7.9.3 =
+The character filter now uses a permalink structure for better SEO. Fix minor bug preventing the character filter from working on the front page.

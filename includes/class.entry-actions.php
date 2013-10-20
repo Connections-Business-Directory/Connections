@@ -388,9 +388,9 @@ class cnEntry_Action {
 		}
 
 		// Run any registered post process actions.
-		$entry = do_action( 'cn_post_process_' . $action . '-entry', $entry );
+		do_action( "cn_post_process_{ $action }-entry", $entry );
 
-		return TRUE;
+		return $entryID;
 	}
 
 	/**
@@ -504,9 +504,71 @@ class cnEntry_Action {
 
 			$entry = new cnEntry( $instance->retrieve->entry( $id ) );
 			$entry->delete( $id );
+
+			// Delete any meta data associated with the entry.
+			self::meta( 'delete', $id );
 		}
 
 		return TRUE;
+	}
+
+	/**
+	 * Add, update or delete the meta of the specified entry ID.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  string $action The action to be performed.
+	 * @param  int    $id     The entry ID.
+	 * @param  array  $meta   [optional] An array of meta data the action is to be performed on.
+	 *
+	 * @return array          The meta IDs of the meta data the action was performed on.
+	 */
+	public static function meta( $action, $id, $meta = array() ) {
+
+		$metaIDs = array();
+
+		switch ( $action ) {
+
+			case 'add':
+
+				foreach ( $meta as $row ) {
+
+					$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+				}
+
+				break;
+
+			case 'update':
+
+				foreach ( $meta as $metaID => $row ) {
+
+					cnMeta::update( 'entry', $id, $metaID, $row['key'], $row['value'] );
+
+					$metaIDs[] = $metaID;
+				}
+
+				break;
+
+			case 'delete':
+
+				if ( empty( $meta ) ) {
+
+					cnMeta::delete( 'entry', $id );
+
+				} else {
+
+					foreach ( $meta as $metaID => $row ) {
+
+						cnMeta::delete( 'entry', $id, $metaID, $row['key'], $row['value'] );
+
+						$metaIDs[] = $metaID;
+					}
+				}
+
+				break;
+		}
+
+		return $metaIDs;
 	}
 
 }

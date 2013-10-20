@@ -286,8 +286,11 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['exclude_category'] ) ) {
 
+			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
+
 			// If value is a string, string the white space and covert to an array.
 			if ( ! is_array( $atts['exclude_category'] ) ) {
+
 				$atts['exclude_category'] = str_replace( ' ', '', $atts['exclude_category'] );
 
 				$atts['exclude_category'] = explode( ',', $atts['exclude_category'] );
@@ -302,7 +305,7 @@ class cnRetrieve {
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'term_id', $categoryID );
-				//print_r($results);
+				// var_dump($results);
 
 				foreach ( (array) $results as $term ) {
 
@@ -349,7 +352,7 @@ class cnRetrieve {
 			 */
 		}
 
-		if ( ! empty( $categoryIDs ) || ! empty( $categoryNames ) || ! empty( $categorySlugs ) ) {
+		if ( ! empty( $categoryIDs ) || ! empty( $categoryExcludeIDs ) || ! empty( $categoryNames ) || ! empty( $categorySlugs ) ) {
 			// Set the query string to INNER JOIN the term relationship and taxonomy tables.
 			$join[] = 'INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_TERM_RELATIONSHIP_TABLE . '.entry_id )';
 			$join[] = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' ON ( ' . CN_TERM_RELATIONSHIP_TABLE . '.term_taxonomy_id = ' . CN_TERM_TAXONOMY_TABLE . '.term_taxonomy_id )';
@@ -367,7 +370,7 @@ class cnRetrieve {
 			if ( ! empty( $categoryExcludeIDs ) ) {
 				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (\'' . implode( "', '", $categoryExcludeIDs ) . '\')';
 
-				unset( $categoryIDs );
+				unset( $categoryExcludeIDs );
 			}
 
 			if ( ! empty( $categoryNames ) ) {

@@ -346,3 +346,259 @@ form div.form-field div.map {
 	border-radius: 3px;
 	margin: 10px 0px 20px;
 }
+
+/**
+ * Metabox default styling. This is to support the new metabox API for custom fields.
+ */
+.cn-metabox-section { border-bottom: 1px solid #E9E9E9; }
+.cn-metabox-section:last-child { border-bottom: none; }
+table.cn-metabox .cn-metabox-title { margin: 0 0 5px 0; }
+table.cn-metabox th label { display: inline-block;}
+table.cn-metabox .mceIframeContainer { background: #FFF; }
+table.cn-metabox .cn-radio-inline { padding: 4px 0 0 0;}
+table.cn-metabox .cn-radio-inline-option { display: inline-block; padding-right: 18px; }
+table.cn-metabox .cn-datepicker { padding: 2px; width: 17.5em; }
+table.cn-metabox .cn-slider-container { width: 25em; }
+
+
+/*------------------------------------------------------------------------------
+  11.1 - Custom Fields
+------------------------------------------------------------------------------*/
+
+#meta-fields thead th {
+	padding: 5px 8px 8px;
+}
+
+#meta #meta-fields .submit {
+	border: 0 none;
+	float: none;
+	padding: 0 8px 8px;
+}
+
+#side-sortables #meta #meta-fields .submit {
+	margin: 0;
+	padding: 0;
+}
+
+#side-sortables #meta #meta-fields #the-list textarea {
+	height: 85px;
+}
+
+#side-sortables #meta #meta-fields td.left input,
+#side-sortables #meta #meta-fields td.left select,
+#side-sortables #meta-fields #newmetaleft a {
+	margin: 3px 3px 0;
+}
+
+#meta-fields table {
+	margin: 0;
+	width: 100%;
+	border-width: 1px;
+	border-style: solid;
+	border-spacing: 0;
+}
+
+#meta-fields tr {
+	vertical-align: top;
+}
+
+#meta-fields table input,
+#meta-fields table select,
+#meta-fields table textarea {
+	width: 96%;
+	margin: 8px;
+}
+
+#side-sortables #meta-fields table input,
+#side-sortables #meta-fields table select,
+#side-sortables #meta-fields table textarea {
+	margin: 3px;
+}
+
+#meta-fields th.left,
+#meta-fields td.left {
+	width: 38%;
+}
+
+#meta-fields .submit input {
+	margin: 0;
+	width: auto;
+}
+
+#meta-fields #newmetaleft a {
+	display: inline-block;
+	margin: 0 8px 8px;
+	text-decoration: none;
+}
+
+.no-js #meta-fields #enternew {
+	display: none;
+}
+
+#post-body-content .compat-attachment-fields {
+	margin-bottom: 20px;
+}
+
+.compat-attachment-fields th {
+	padding-top: 5px;
+	padding-right: 10px;
+}
+
+/*
+From colors-fresh.css -- Custom Fields
+ */
+#meta .inside label.spam,
+#meta .inside label.deleted {
+	color: red;
+}
+
+#meta .inside label.waiting {
+	color: orange;
+}
+
+#meta .inside label.approved {
+	color: green;
+}
+
+#meta-fields table {
+	border-color: #dfdfdf;
+	background-color: #f9f9f9;
+}
+
+#meta-fields thead th {
+	background-color: #f1f1f1;
+}
+
+/* START => repeatable */
+.form-table.cn-metabox .meta_box_repeatable {
+	width:510px;
+}
+.form-table.cn-metabox .meta_box_repeatable th {
+	width:auto !important;
+	padding:5px 10px;
+	border-bottom:1px dashed #ccc;
+	text-transform:uppercase;
+	font-size:10px;
+	text-shadow:none;
+}
+
+.form-table.cn-metabox .meta_box_repeatable tfoot th {
+	border-bottom:none;
+}
+
+.form-table.cn-metabox .meta_box_repeatable td {
+	width:auto !important;
+	vertical-align:top;
+	padding:10px;
+	border-bottom:1px dashed #ccc;
+	background:#eee;
+}
+
+.form-table.cn-metabox .meta_box_repeatable tr:nth-child(even) td {
+	background:none;
+}
+
+	.form-table.cn-metabox .meta_box_repeatable td * {
+		display:block;
+		margin-bottom:3px;
+	}
+
+		.form-table.cn-metabox .meta_box_repeatable td .meta_box_upload_image_button,
+		.form-table.cn-metabox .meta_box_repeatable td small,
+		.form-table.cn-metabox .meta_box_repeatable td small a {
+			display:inline-block;
+		}
+
+	.form-table.cn-metabox .meta_box_repeatable td label {
+		display:block;
+		float:left;
+		width:100px;
+		font-weight:bold;
+		line-height:30px;
+		clear:left;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable td p {
+		margin:0;
+		float:left;
+		padding-bottom:5px;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable td textarea {
+		width: 300px;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable .repeatable_id {
+		background:#ccc;
+		width:30px;
+		text-align:center;
+	}
+
+.meta_box_repeatable .sort_label {
+	display:block;
+	width:20px;
+	height:17px;
+	background:url("../images/sprite-repeatable-field.png") no-repeat -68px -100px;
+}
+
+.meta_box_repeatable .sort {
+	display:block;
+	width:20px;
+	height:15px;
+	background:url("../images/sprite-repeatable-field.png") 0 -100px;
+	margin-top:6px;
+	cursor:move;
+}
+
+.meta_box_repeatable_add,
+.meta_box_repeatable_remove {
+	display:block;
+	width:18px;
+	height:16px;
+	background:url("../images/sprite-repeatable-field.png");
+	margin-top:5px;
+}
+
+.meta_box_repeatable_add {
+	background-position:-30px -100px;
+}
+
+.meta_box_repeatable_remove {
+	background-position:-50px -100px;
+}
+
+.meta_box_repeatable tr:first-child .meta_box_repeatable_remove,
+.meta_box_repeatable tr:first-child > td > .sort {
+	display:none;
+}
+/* START => repeatable */
+
+
+/*table.cn_metabox textarea.cn_textarea_code { font-family: Consolas,Monaco,monospace; line-height: 16px; }
+table.cn_metabox input.cn_text_small { width: 100px; margin-right: 15px;}
+table.cn_metabox input.cn_timepicker { width: 100px; margin-right: 15px;}
+table.cn_metabox input.cn_text_money { width: 90px; margin-right: 15px;}
+table.cn_metabox input.cn_text_medium { width: 230px; margin-right: 15px;}
+table.cn_metabox input.cn_upload_file { width: 65%; }
+table.cn_metabox li { font-size:12px; margin: 1px 0 5px 0; line-height: 16px; }
+table.cn_metabox ul { padding-top:5px; margin: 0; }
+table.cn_metabox select { font-size:12px; margin-top: 3px;}
+
+
+.cn_radio_inline { padding: 4px 0 0 0;}
+.cn_radio_inline_option {display: inline; padding-right: 18px;}
+table.cn_metabox input[type="radio"] { margin: 0 5px 0 0; padding: 0;}
+table.cn_metabox input[type="checkbox"] { margin: 0 5px 0 0; padding: 0;}
+table.cn_metabox .mceLayout {border:1px solid #DFDFDF !important;}
+table.cn_metabox .mceIframeContainer {background:#FFF;}
+table.cn_metabox .meta_mce {width:97%;}
+table.cn_metabox .meta_mce textarea {width:100%;}
+table.cn_metabox .cn_media_status {  margin: 10px 0 0 0;}
+table.cn_metabox .cn_media_status .img_status, table.cn_metabox .cn_media_status .embed_status {  position: relative; }
+table.cn_metabox .cn_media_status .img_status img, table.cn_metabox .cn_media_status .embed_status { border:1px solid #DFDFDF; background: #FAFAFA; max-width:350px; padding: 5px; -moz-border-radius: 2px; border-radius: 2px;}
+table.cn_metabox .cn_media_status .embed_status { float: left; max-width:800px;}
+table.cn_metabox .cn_media_status .img_status .cn_remove_file_button, table.cn_metabox .cn_media_status .embed_status .cn_remove_file_button { text-indent: -9999px; background: url(images/ico-delete.png); width: 16px; height: 16px; position: absolute; top: -5px; left: -5px;}*/
+/* Sidebar placement adjustments */
+/*.inner-sidebar table.cn_metabox input[type=text], #side-sortables table.cn_metabox input[type=text], table.cn_metabox textarea { width: 95%; }
+.inner-sidebar table.cn_metabox .cn_media_status .img_status img, #side-sortables table.cn_metabox .cn_media_status .img_status img, .inner-sidebar table.cn_metabox .cn_media_status .embed_status img, #side-sortables table.cn_metabox .cn_media_status .embed_status img { width: 90%; }
+.postbox table.cn_metabox .cn-spinner { float: left; }*/

@@ -43,3 +43,6 @@ form div.form-field span.radio_group input{height:13px;margin:0 5px 0 2px;width:
 form div#metabox-image div.form-field img{-moz-border-radius:4px;background-color:#fff;border:1px solid #e3e3e3;margin-bottom:10px;padding:5px}form div.form-field div.relation{margin:6px 0}
 form div.form-field div.websites label{display:inline}form div.form-field p.remove-button{bottom:0;display:inline-block;position:absolute;right:10px}form div.form-field a.geocode.button{display:inline-block}
 form div.inside span.radio_group label{float:left;line-height:30px;margin:6px;padding-right:12px;white-space:nowrap}form div.form-field div.map{border:solid 1px #dfdfdf;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:10px 0 20px}
+.cn-metabox-section{border-bottom:1px solid #e9e9e9}.cn-metabox-section:last-child{border-bottom:0}table.cn-metabox .cn-metabox-title{margin:0 0 5px 0}
+table.cn-metabox th label{display:inline-block}table.cn-metabox .mceIframeContainer{background:#FFF}table.cn-metabox .cn-radio-inline{padding:4px 0 0 0}
+table.cn-metabox .cn-radio-inline-option{display:inline-block;padding-right:18px}table.cn-metabox .cn-datepicker{padding:2px;width:17.5em}table.cn-metabox .cn-slider-container{width:25em}

@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Class registering the metaboxes for add/edit an entry.
+ * Class registering the core metaboxes for add/edit an entry.
  *
  * @package     Connections
- * @subpackage  Metabox
+ * @subpackage  Core Metaboxes
  * @copyright   Copyright (c) 2013, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.8
@@ -15,685 +15,172 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnMetabox {
 
-	/**
-	 * Stores the instance of this class.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @var (object)
-	*/
-	private static $instance;
+	private static $metaboxes = array();
 
-	/**
-	 * The metaboxes.
-	 * @var (array)
-	 */
-	private static $metaboxes =array();
+	public static function init( $metabox ) {
 
-	/**
-	 * A dummy constructor to prevent the class from being loaded more than once.
-	 *
-	 * @access public
-	 * @since 0.8
-	 * @see cnMetabox::init()
-	 * @see cnMetabox();
-	 */
-	public function __construct() { /* Do nothing here */ }
+		// Build the array that defines the core metaboxes.
+		self::register();
 
-	/**
-	 * Setup the class, if it has already been initialized, return the intialized instance.
-	 *
-	 * @access public
-	 * @since 0.8
-	 * @see cnMetabox()
-	 */
-	public static function init() {
-
-		if ( ! isset( self::$instance ) ) {
-
-			self::$instance = new self;
-			self::registerCore();
-
-			// Action for extensions to hook into to add custom metaboxes/fields.
-			do_action( 'cn_metabox', self::$instance );
-
-			// Add the actions to show the meatboxes on the registered pages.
-			foreach ( self::$metaboxes as $id => $metabox ) {
-
-				foreach ( $metabox['pages'] as $page ){
-
-					add_action( 'load-' . $page, array( __CLASS__, 'register' ) );
-				}
-			}
-		}
+		// Register the core metaboxes the Metabox API.
+		$metabox::add( self::$metaboxes );
 	}
 
-	/**
-	 * Return an instance of the class.
-	 *
-	 * @access public
-	 * @since 0.8
-	 * @return (object) cnMetabox
-	 */
-	public static function getInstance() {
+	private static function register() {
 
-		return self::$instance;
-	}
-
-	/**
-	 * Public method to add metaboxes.
-	 *
-	 * @access public
-	 * @since 0.8
-	 * @param (array) $metabox
-	 */
-	public static function add( array $metaboxes ) {
-
-		// Grab an instance of Connections.
-		$instance = Connections_Directory();
-
-		foreach ( $metaboxes as $metabox ) {
-
-			$metabox['pages']    = empty( $metabox['pages'] ) ? array( $instance->pageHook->add, $instance->pageHook->manage ) : $metabox['pages'];
-			$metabox['context']  = empty( $metabox['context'] ) ? 'normal' : $metabox['context'];
-			$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
-
-			self::$metaboxes[ $metabox['id'] ] = $metabox;
-		}
-	}
-
-	/**
-	 * Remove a registered metabox.
-	 *
-	 * @access public
-	 * @since 0.8
-	 * @param  (string) $id The metabox id to remove.
-	 * @return (bool)
-	 */
-	public static function remove( string $id ) {
-
-		if ( isset( self::$metaboxes[ $id ] ) ) {
-
-			unset( self::$metaboxes[ $id ] );
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
-	/**
-	 * Register the metaboxes.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @return (void)
-	 */
-	public static function register() {
-
-		global $hook_suffix;
-
-		foreach ( self::$metaboxes as $metabox ) {
-
-			if ( in_array( $hook_suffix, $metabox['pages'] ) ) new cnMetabox_Render( $hook_suffix, $metabox );
-		}
-	}
-
-	/**
-	 * Register the core metaboxes and fields.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @return (void)
-	 */
-	private static function registerCore(){
-
-
-	}
-
-}
-
-/**
- * Class rendering the metaboxes for add/edit an entry.
- *
- * NOTE: This is a private class and should not be accessed directly.
- *
- * @package     Connections
- * @subpackage  Metabox
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.8
- */
-
-class cnMetabox_Render {
-
-	/**
-	 * The array containing the registered metaboxes.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @var array
-	 */
-	private $metabox = array();
-
-	/**
-	 * The array containing the current metabox sections.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @var array
-	 */
-	private $sections = array();
-
-	/**
-	 * The array of all registerd quicktag textareas.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @var array
-	 */
-	private static $quickTagIDs = array();
-
-	/**
-	 * The array of all registerd slider settings.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @var array
-	 */
-	private static $slider = array();
-
-	/**
-	 * Register the metaboxes with WordPress.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @uses add_meta_box()
-	 * @param string $pageHook The page hood / post type in which to add the metabox.
-	 * @param array  $metabox  The array of metaboxes to add.
-	 */
-	public function __construct( $pageHook, array $metabox ) {
-
-		$this->metabox  = $metabox;
-		$this->sections = $metabox['sections'];
-
-		add_meta_box( $metabox['id'] , $metabox['title'], array( $this, 'render' ), $pageHook, $metabox['context'], $metabox['priority'] );
-	}
-
-
-	/**
-	 * Render the metabox.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @return void
-	 */
-	public function render() {
-
-		// Use nonce for verification
-		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
-
-		foreach ( $this->sections as $section ) {
-
-			$this->section( $section );
-		}
-	}
-
-	/**
-	 * Render the metabox sections.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @param  array $section An array containing the sections of the metabox.
-	 * @return string
-	 */
-	private function section( $section ) {
-
-		echo '<div class="cn-metabox-section">';
-
-		printf( '<h4 class="cn_metabox_section_name">%1$s</h4>',
-			esc_html( $section['name'] )
+		self::$metaboxes[] = array(
+			'id'       => 'meta',
+			'title'    => __( 'Custom Fields', 'connection' ),
+			'name'     => 'Meta',
+			'desc'     => __( 'Custom fields can be used to add extra metadata to an entry that you can use in your template.', 'connections' ),
+			'context'  => 'normal',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'meta' ),
 		);
 
-		if ( isset( $section['desc'] ) && ! empty( $section['desc'] ) ) {
+	}
+
+	public static function meta( $entry, $metabox ) {
+
+		// Only need the data from $metabox['args'].
+		$value   = $entry->getMeta( 'meta', TRUE );
+		$results = $entry->getMeta();
+		$metabox = $metabox['args'];
+		$keys    = cnMeta::key( 'entry' );
+
+		// Build the meta key select drop down options.
+		array_walk( $keys, create_function( '&$key', '$key = "<option value=\"$key\">$key</option>";' ) );
+		array_unshift( $keys, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
+		$options = implode( $keys, PHP_EOL );
+
+		// echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
+
+		echo '<div class="cn-metabox-section" id="meta-fields">';
+
+		?>
+
+		<table id="list-table" style="<?php echo ( empty( $results ) ? 'display: none;' : 'display: table;' ) ?>">
+			<thead>
+				<tr>
+					<th class="left"><?php _e( 'Name', 'connections' ); ?></th>
+					<th><?php _e( 'Value', 'connections' ); ?></th>
+				</tr>
+			</thead>
+
+			<tbody id="the-list">
+
+			<?php
+
+			if ( ! empty( $results ) ) {
+
+				foreach ( $results as $metaID => $meta ) {
+
+					// Class added to alternate tr rows for CSS styling.
+					$alternate = ! isset( $alternate ) || $alternate == '' ? 'alternate' : '';
+
+					?>
+
+					<tr id="meta-<?php echo $metaID; ?>" class="<?php echo $alternate; ?>">
+
+						<td class="left">
+							<label class="screen-reader-text" for='meta[<?php echo $metaID; ?>][key]'><?php _e( 'Key', 'connections' ); ?></label>
+							<input name='meta[<?php echo $metaID; ?>][key]' id='meta[<?php echo $metaID; ?>][key]' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ) ?>" />
+							<div class="submit">
+								<input type="submit" name="deletemeta[<?php echo $metaID; ?>]" id="deletemeta[<?php echo $metaID; ?>]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
+								<!-- <input type="submit" name="meta-<?php echo $metaID; ?>-submit" id="meta-<?php echo $metaID; ?>-submit" class="button updatemeta button-small" value="Update" /> -->
+							</div>
+							<!-- <input type="hidden" id="_ajax_nonce" name="_ajax_nonce" value="0db0125bba" /> -->
+						</td>
+						<td>
+							<label class="screen-reader-text" for='meta[<?php echo $metaID; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
+							<textarea name='meta[<?php echo $metaID; ?>][value]' id='meta[<?php echo $metaID; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( $meta['meta_value'] ) ?></textarea>
+						</td>
+
+					</tr>
+
+					<?php
+				}
+
+				?>
+
+			<?php
+
+			}
+
+			?>
+
+			<!-- This is the row that will be cloned via JS when adding a new Custom Field. -->
+			<tr style="display: none;">
+
+				<td class="left">
+					<label class="screen-reader-text" for='newmeta[0][key]'><?php _e( 'Key', 'connections' ); ?></label>
+					<input name='newmeta[0][key]' id='newmeta[0][key]' type="text" size="20" value=""/>
+					<div class="submit">
+						<input type="submit" name="deletemeta[0]" id="deletemeta[0]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
+						<!-- <input type="submit" name="newmeta-0-submit" id="newmeta-0-submit" class="button updatemeta button-small" value="Update" /> -->
+					</div>
+					<!-- <input type="hidden" id="_ajax_nonce" name="_ajax_nonce" value="0db0025bba" /> -->
+				</td>
+				<td>
+					<label class="screen-reader-text" for='newmeta[0][value]'><?php _e( 'Value', 'connections' ); ?></label>
+					<textarea name='newmeta[0][value]' id='newmeta[0][value]' rows="2" cols="30"></textarea>
+				</td>
+
+			</tr>
+
+			</tbody>
+		</table>
+
+		<p><strong><?php _e( 'Add New Custom Field:', 'connections' ); ?></strong></p>
+
+		<table id="newmeta">
+			<thead>
+				<tr>
+					<th class="left"><label for="metakeyselect"><?php _e( 'Name', 'connections' ); ?></label></th>
+					<th><label for="metavalue"><?php _e( 'Value', 'connections' ); ?></label></th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr>
+
+					<td id="newmetaleft" class="left">
+						<select id="metakeyselect" name="metakeyselect">
+							<?php echo $options; ?>
+						</select>
+						<input class="hide-if-js" type=text id="metakeyinput" name="newmeta[0][key]" value=""/>
+						<a href="#postcustomstuff" class="postcustomstuff hide-if-no-js"> <span id="enternew"><?php _e( 'Enter New', 'connections' ); ?></span> <span id="cancelnew" class="hidden"><?php _e( 'Cancel', 'connections' ); ?></span></a>
+					</td>
+
+					<td>
+						<textarea id="metavalue" name="newmeta[0][value]" rows="2" cols="25"></textarea>
+					</td>
+
+				</tr>
+
+
+
+			</tbody>
+			<tfoot>
+				<td colspan="2">
+					<div class="submit">
+						<input type="submit" name="addmeta" id="newmeta-submit" class="button" value="<?php _e( 'Add Custom Field', 'connections' ); ?>" />
+					</div>
+					<!-- <input type="hidden" id="_ajax_nonce-add-meta" name="_ajax_nonce-add-meta" value="a7f70d2878" /> -->
+				</td>
+			</tfoot>
+		</table>
+
+		<?php
+
+		if ( isset( $metabox['desc'] ) && ! empty( $metabox['desc'] ) ) {
 
 			printf( '<p>%1$s</p>',
-				esc_html( $section['desc'] )
+				esc_html( $metabox['desc'] )
 			);
 		}
 
-		if ( isset( $section['fields'] ) && ! empty( $section['fields'] ) )
-			$this->fields( $section['fields'] );
-
 		echo '</div>';
-	}
-
-	/**
-	 * Render the fields registered to the metabox.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @global $wp_version
-	 * @param $fields	array 	Render the metabox section fields.
-	 * @return string
-	 */
-	private function fields( $fields ) {
-		global $wp_version;
-
-		// do_action( 'cn_metabox_table_before', $entry, $meta, $this->metabox );
-
-		echo '<table class="form-table cn-metabox"><tbody>';
-
-		foreach ( $fields as $field ) {
-
-			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .' cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';
-
-			if ( $field['show_label'] == TRUE ) {
-
-				printf( '<th><label for="%1$s">%2$s</label></th>',
-					esc_attr( $field['id'] ),
-					esc_html( $field['name'] )
-				);
-
-			} else {
-
-				printf( '<td><label style="display:none;" for="%1$s">%2$s</label></td>',
-					esc_attr( $field['id'] ),
-					esc_html( $field['name'] )
-				);
-			}
-
-			echo '<td>';
-
-			echo empty( $field['before'] ) ? '' : $field['before'];
-
-			switch ( $field['type'] ) {
-
-				case 'checkbox':
-
-					$value = 1;
-
-					printf( '<input type="checkbox" class="checkbox" id="%1$s" name="%1$s" value="1" %2$s/>',
-						esc_attr( $field['id'] ),
-						$checked = isset( $value ) ? checked( 1, $value, FALSE ) : ''
-					);
-
-					break;
-
-				case 'checkboxgroup':
-
-					// For input groups we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<span class="description"> %1$s</span><br />',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					foreach ( $field['options'] as $key => $label ) {
-
-						printf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
-						);
-
-						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							esc_html( $label )
-						);
-					}
-
-					break;
-
-				case 'radio':
-
-					// For input groups we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<span class="description"> %1$s</span><br />',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					foreach ( $field['options'] as $key => $label ) {
-
-						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
-						);
-
-						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							esc_html( $label )
-						);
-					}
-
-					break;
-
-				case 'radio_inline':
-
-					// For input groups we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<span class="description"> %1$s</span><br />',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					echo '<div class="cn-radio-inline">';
-
-					foreach ( $field['options'] as $key => $label ) {
-
-						echo '<div class="cn-radio-inline-option">';
-
-						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
-						);
-
-						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							esc_html( $label )
-						);
-
-						echo '</div>';
-					}
-
-					break;
-
-				case 'text':
-
-					$sizes = array( 'small', 'regular', 'large' );
-
-					printf( '<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>',
-						isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) : 'large',
-						esc_attr( $field['id'] ),
-						sanitize_text_field( '$value' )
-					);
-
-					break;
-
-				case 'textarea':
-
-					$sizes = array( 'small', 'large' );
-
-					// For text areas we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<span class="description"> %1$s</span><br />',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					printf( '<textarea rows="10" cols="50" class="%1$s-text" id="%2$s" name="%2$s">%3$s</textarea>',
-						isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) : 'large',
-						esc_attr( $field['id'] ),
-						esc_textarea( '$value' )
-					);
-
-					break;
-
-				case 'datepicker':
-
-					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"/>',
-						esc_attr( $field['id'] ),
-						date( 'm/d/Y', strtotime( 'August 22, 2013' ) )
-					);
-
-					wp_enqueue_script('jquery-ui-datepicker');
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
-
-					break;
-
-				case 'colorpicker':
-
-
-					break;
-
-				case 'slider':
-
-					$value = 10;
-
-					// Set the slider defaults.
-					$defaults = array(
-						'min'   => 0,
-						'max'   => 100,
-						'step'  => 1,
-						'value' => 0
-					);
-
-					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
-
-					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"/>',
-						esc_attr( $field['id'] ),
-						absint( $value )
-					);
-
-					$field['options']['value'] = absint( $value );
-
-					self::$slider[ $field['id'] ] = $field['options'];
-
-					wp_enqueue_script('jquery-ui-slider');
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sliderJS' ) );
-
-					break;
-
-				case 'quicktag':
-
-					// For text areas we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<span class="description"> %1$s</span><br />',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					echo '<div class="wp-editor-container">';
-
-					printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
-						esc_attr( $field['id'] ),
-						wp_kses_data( '$value ')
-					);
-
-					echo '</div>';
-
-					self::$quickTagIDs[] = esc_attr( $field['id'] );
-
-					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-
-					break;
-
-				case 'rte':
-
-					$size = isset( $field['size'] ) && $field['size'] != 'regular' ? $field['size'] : 'regular';
-
-					// For text areas we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<span class="description"> %1$s</span><br />',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
-
-						// Set the rte defaults.
-						$defaults = array(
-							'textarea_name' => sprintf( '%1$s' , $field['id'] ),
-						);
-
-						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
-
-						wp_editor(
-							wp_kses_post( '$value' ),
-							sprintf( '%1$s' , $field['id'] ),
-							$atts
-						);
-
-					} else {
-
-						/*
-						 * If this is pre WP 3.3, lets drop in the quick tag editor instead.
-						 */
-
-						echo '<div class="wp-editor-container">';
-
-						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
-							esc_attr( $field['id'] ),
-							wp_kses_data( '$value ')
-						);
-
-						echo '</div>';
-
-						self::$quickTagIDs[] = esc_attr( $field['id'] );
-
-						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-					}
-
-					break;
-
-				default:
-
-					// do_action('cn_metabox_render_' . $field['type'] , $field, $meta );
-
-					break;
-			}
-
-			if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-				printf( '<span class="description"> %1$s</span>',
-					esc_html( $field['desc'] )
-				);
-			}
-
-
-			echo empty( $field['after'] ) ? '' : $field['after'];
-
-			echo '</td>' , '</tr>';
-		}
-
-		echo '</tbody></table>';
-
-		// do_action( 'cn_metabox_table_after', $entry, $meta, $this->metabox );
-	}
-
-	/**
-	 * Outputs the JS necessary to support the quicktag textareas.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @return void
-	 */
-	public static function quickTagJS() {
-		echo '<script type="text/javascript">/* <![CDATA[ */';
-
-		foreach ( self::$quickTagIDs as $id ) echo 'quicktags("' . $id . '");';
-
-	    echo '/* ]]> */</script>';
-	}
-
-	/**
-	 * Outputs the JS necessary to support the datepicker.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @return void
-	 */
-	public static function datepickerJS() {
-
-?>
-
-<script type="text/javascript">/* <![CDATA[ */
-/*
- * Add the jQuery UI Datepicker to the date input fields.
- */
-;jQuery(document).ready( function($){
-
-	if ($.fn.datepicker) {
-
-		$('.cn-datepicker').live('focus', function() {
-			$(this).datepicker({
-				changeMonth: true,
-				changeYear: true,
-				showOtherMonths: true,
-				selectOtherMonths: true,
-				yearRange: 'c-100:c+10'
-			});
-		});
-	};
-});
-/* ]]> */</script>
-
-<?php
-
-	}
-
-	/**
-	 * Outputs the JS necessary to support the sliders.
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @return void
-	 */
-	public static function sliderJS() {
-
-?>
-
-<script type="text/javascript">/* <![CDATA[ */
-/*
- * Add the jQuery UI Datepicker to the date input fields.
- */
-;jQuery(document).ready( function($){
-
-<?php
-foreach ( self::$slider as $id => $option ) {
-
-	printf(
-	'$( "#cn-slider-%1$s" ).slider({
-		value: %2$d,
-		min: %3$d,
-		max: %4$d,
-		step: %5$d,
-		slide: function( event, ui ) {
-			$( "#%1$s" ).val( ui.value );
-		}
-	});',
-	$id,
-	$option['value'],
-	$option['min'],
-	$option['max'],
-	$option['step']
-	);
-
-}
-?>
-});
-/* ]]> */</script>
-
-<?php
 
 	}
 

@@ -361,6 +361,219 @@ table.cn-metabox .cn-datepicker { padding: 2px; width: 17.5em; }
 table.cn-metabox .cn-slider-container { width: 25em; }
 
 
+/*------------------------------------------------------------------------------
+  11.1 - Custom Fields
+------------------------------------------------------------------------------*/
+
+#meta-fields thead th {
+	padding: 5px 8px 8px;
+}
+
+#meta #meta-fields .submit {
+	border: 0 none;
+	float: none;
+	padding: 0 8px 8px;
+}
+
+#side-sortables #meta #meta-fields .submit {
+	margin: 0;
+	padding: 0;
+}
+
+#side-sortables #meta #meta-fields #the-list textarea {
+	height: 85px;
+}
+
+#side-sortables #meta #meta-fields td.left input,
+#side-sortables #meta #meta-fields td.left select,
+#side-sortables #meta-fields #newmetaleft a {
+	margin: 3px 3px 0;
+}
+
+#meta-fields table {
+	margin: 0;
+	width: 100%;
+	border-width: 1px;
+	border-style: solid;
+	border-spacing: 0;
+}
+
+#meta-fields tr {
+	vertical-align: top;
+}
+
+#meta-fields table input,
+#meta-fields table select,
+#meta-fields table textarea {
+	width: 96%;
+	margin: 8px;
+}
+
+#side-sortables #meta-fields table input,
+#side-sortables #meta-fields table select,
+#side-sortables #meta-fields table textarea {
+	margin: 3px;
+}
+
+#meta-fields th.left,
+#meta-fields td.left {
+	width: 38%;
+}
+
+#meta-fields .submit input {
+	margin: 0;
+	width: auto;
+}
+
+#meta-fields #newmetaleft a {
+	display: inline-block;
+	margin: 0 8px 8px;
+	text-decoration: none;
+}
+
+.no-js #meta-fields #enternew {
+	display: none;
+}
+
+#post-body-content .compat-attachment-fields {
+	margin-bottom: 20px;
+}
+
+.compat-attachment-fields th {
+	padding-top: 5px;
+	padding-right: 10px;
+}
+
+/*
+From colors-fresh.css -- Custom Fields
+ */
+#meta .inside label.spam,
+#meta .inside label.deleted {
+	color: red;
+}
+
+#meta .inside label.waiting {
+	color: orange;
+}
+
+#meta .inside label.approved {
+	color: green;
+}
+
+#meta-fields table {
+	border-color: #dfdfdf;
+	background-color: #f9f9f9;
+}
+
+#meta-fields thead th {
+	background-color: #f1f1f1;
+}
+
+/* START => repeatable */
+.form-table.cn-metabox .meta_box_repeatable {
+	width:510px;
+}
+.form-table.cn-metabox .meta_box_repeatable th {
+	width:auto !important;
+	padding:5px 10px;
+	border-bottom:1px dashed #ccc;
+	text-transform:uppercase;
+	font-size:10px;
+	text-shadow:none;
+}
+
+.form-table.cn-metabox .meta_box_repeatable tfoot th {
+	border-bottom:none;
+}
+
+.form-table.cn-metabox .meta_box_repeatable td {
+	width:auto !important;
+	vertical-align:top;
+	padding:10px;
+	border-bottom:1px dashed #ccc;
+	background:#eee;
+}
+
+.form-table.cn-metabox .meta_box_repeatable tr:nth-child(even) td {
+	background:none;
+}
+
+	.form-table.cn-metabox .meta_box_repeatable td * {
+		display:block;
+		margin-bottom:3px;
+	}
+
+		.form-table.cn-metabox .meta_box_repeatable td .meta_box_upload_image_button,
+		.form-table.cn-metabox .meta_box_repeatable td small,
+		.form-table.cn-metabox .meta_box_repeatable td small a {
+			display:inline-block;
+		}
+
+	.form-table.cn-metabox .meta_box_repeatable td label {
+		display:block;
+		float:left;
+		width:100px;
+		font-weight:bold;
+		line-height:30px;
+		clear:left;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable td p {
+		margin:0;
+		float:left;
+		padding-bottom:5px;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable td textarea {
+		width: 300px;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable .repeatable_id {
+		background:#ccc;
+		width:30px;
+		text-align:center;
+	}
+
+.meta_box_repeatable .sort_label {
+	display:block;
+	width:20px;
+	height:17px;
+	background:url("../images/sprite-repeatable-field.png") no-repeat -68px -100px;
+}
+
+.meta_box_repeatable .sort {
+	display:block;
+	width:20px;
+	height:15px;
+	background:url("../images/sprite-repeatable-field.png") 0 -100px;
+	margin-top:6px;
+	cursor:move;
+}
+
+.meta_box_repeatable_add,
+.meta_box_repeatable_remove {
+	display:block;
+	width:18px;
+	height:16px;
+	background:url("../images/sprite-repeatable-field.png");
+	margin-top:5px;
+}
+
+.meta_box_repeatable_add {
+	background-position:-30px -100px;
+}
+
+.meta_box_repeatable_remove {
+	background-position:-50px -100px;
+}
+
+.meta_box_repeatable tr:first-child .meta_box_repeatable_remove,
+.meta_box_repeatable tr:first-child > td > .sort {
+	display:none;
+}
+/* START => repeatable */
+
+
 /*table.cn_metabox textarea.cn_textarea_code { font-family: Consolas,Monaco,monospace; line-height: 16px; }
 table.cn_metabox input.cn_text_small { width: 100px; margin-right: 15px;}
 table.cn_metabox input.cn_timepicker { width: 100px; margin-right: 15px;}

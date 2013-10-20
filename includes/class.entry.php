@@ -3035,6 +3035,37 @@ class cnEntry {
 		return $this->categories;
 	}
 
+	public function getMeta( $key = '', $single = FALSE ) {
+
+		$out = $single ? '' : array();
+
+		$results = cnMeta::get( 'entry', $this->getId() );
+
+		if ( ! empty( $results ) ) {
+
+			if ( empty( $key ) ) return $results;
+
+			foreach ( $results as $metaID => $meta ) {
+
+				if ( $meta['meta_key'] === $key ) {
+
+					if ( $single ) {
+
+						return $meta['meta_value'];
+
+					} else {
+
+						$out[ $metaID ] = $meta['meta_value'];
+					}
+				}
+			}
+
+			return $out;
+		}
+
+		return $single ? '' : array();
+	}
+
 	/**
 	 * Returns the entry type.
 	 *
@@ -3329,6 +3360,8 @@ class cnEntry {
 				$this->familyName = '';
 				break;
 		}
+
+		do_action( 'cn_update-entry', $this );
 
 		$wpdb->show_errors = true;
 
@@ -3948,7 +3981,7 @@ class cnEntry {
 
 		$wpdb->show_errors = FALSE;
 
-		do_action( 'cn_process_update-entry', $this );
+		do_action( 'cn_updated-entry', $this );
 
 		return $result;
 	}
@@ -3994,6 +4027,8 @@ class cnEntry {
 				$this->familyName = '';
 				break;
 		}
+
+		do_action( 'cn_save-entry', $this );
 
 		$wpdb->show_errors = true;
 
@@ -4257,13 +4292,15 @@ class cnEntry {
 
 		$wpdb->show_errors = FALSE;
 
-		do_action( 'cn_process_save-entry', $this );
+		do_action( 'cn_saved-entry', $this );
 
 		return $result;
 	}
 
 	public function delete( $id ) {
 		global $wpdb, $connections;
+
+		do_action( 'cn_delete-entry', $this );
 
 		/*
 		 * Delete images assigned to the entry.
@@ -4350,7 +4387,7 @@ class cnEntry {
 		 */
 		$connections->term->deleteTermRelationships( $id );
 
-		do_action( 'cn_process_delete-entry', $this );
+		do_action( 'cn_deleted-entry', $this );
 	}
 
 }

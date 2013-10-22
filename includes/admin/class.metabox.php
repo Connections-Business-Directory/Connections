@@ -15,8 +15,24 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnMetabox {
 
+	/**
+	 * The core metabox options array.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var array
+	 */
 	private static $metaboxes = array();
 
+	/**
+	 * Initiate the core metaboxes and fields.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @param  object $metabox Instance of the cmMetaboxAPI.
+	 *
+	 * @return void
+	 */
 	public static function init( $metabox ) {
 
 		// Build the array that defines the core metaboxes.
@@ -26,6 +42,14 @@ class cnMetabox {
 		$metabox::add( self::$metaboxes );
 	}
 
+	/**
+	 * Register the core metabox and fields.
+	 *
+	 * @access private
+	 * @since 0.8
+	 *
+	 * @return void
+	 */
 	private static function register() {
 
 		self::$metaboxes[] = array(
@@ -40,6 +64,15 @@ class cnMetabox {
 
 	}
 
+	/**
+	 * Call back to render the "Custom Fields" metabox.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox attributes array set in self::register().
+	 * @return void
+	 */
 	public static function meta( $entry, $metabox ) {
 
 		// Only need the data from $metabox['args'].

@@ -77,7 +77,7 @@ class cnFormObjects {
 	 *
 	 * @return string
 	 */
-	public function token( $formId ) {
+	public function token( $formId = NULL ) {
 		$token = md5( uniqid( rand(), true ) );
 
 		return $token;
@@ -256,21 +256,18 @@ class cnFormObjects {
 		 * that can not be hidden when the Screen Options tab is output via the
 		 * meta_box_prefs function
 		 */
-		add_meta_box( 'submitdiv', __( 'Publish', 'connections' ), array( &$this, 'metaboxPublish' ), $pageHook, 'side', 'core' );
-		add_meta_box( 'categorydiv', __( 'Categories', 'connections' ), array( &$this, 'metaboxCategories' ), $pageHook, 'side', 'core' );
-		add_meta_box( 'metabox-image', __( 'Image', 'connections' ), array( &$this, 'metaboxImage' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-logo', __( 'Logo', 'connections' ), array( &$this, 'metaboxLogo' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-address', __( 'Addresses', 'connections' ), array( &$this, 'metaboxAddress' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-phone', __( 'Phone Numbers', 'connections' ), array( &$this, 'metaboxPhone' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-email', __( 'Email Addresses', 'connections' ), array( &$this, 'metaboxEmail' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-messenger', __( 'Messenger IDs', 'connections' ), array( &$this, 'metaboxMessenger' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-social-media', __( 'Social Media IDs', 'connections' ), array( &$this, 'metaboxSocialMedia' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-links', __( 'Links', 'connections' ), array( &$this, 'metaboxLinks' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-date', __( 'Dates', 'connections' ), array( &$this, 'metaboxDates' ), $pageHook, 'normal', 'core' );
-		//add_meta_box('metabox-birthday', __('Birthday', 'connections'), array(&$this, 'metaboxBirthday'), $pageHook, 'normal', 'core');
-		//add_meta_box('metabox-anniversary', __('Anniversary', 'connections'), array(&$this, 'metaboxAnniversary'), $pageHook, 'normal', 'core');
-		add_meta_box( 'metabox-bio', __( 'Biographical Info', 'connections' ), array( &$this, 'metaboxBio' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-note', __( 'Notes', 'connections' ), array( &$this, 'metaboxNotes' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'categorydiv', __( 'Categories', 'connections' ), array( $this, 'metaboxCategories' ), $pageHook, 'side', 'core' );
+		add_meta_box( 'metabox-image', __( 'Image', 'connections' ), array( $this, 'metaboxImage' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-logo', __( 'Logo', 'connections' ), array( $this, 'metaboxLogo' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-address', __( 'Addresses', 'connections' ), array( $this, 'metaboxAddress' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-phone', __( 'Phone Numbers', 'connections' ), array( $this, 'metaboxPhone' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-email', __( 'Email Addresses', 'connections' ), array( $this, 'metaboxEmail' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-messenger', __( 'Messenger IDs', 'connections' ), array( $this, 'metaboxMessenger' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-social-media', __( 'Social Media IDs', 'connections' ), array( $this, 'metaboxSocialMedia' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-links', __( 'Links', 'connections' ), array( $this, 'metaboxLinks' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-date', __( 'Dates', 'connections' ), array( $this, 'metaboxDates' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-bio', __( 'Biographical Info', 'connections' ), array( $this, 'metaboxBio' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-note', __( 'Notes', 'connections' ), array( $this, 'metaboxNotes' ), $pageHook, 'normal', 'core' );
 	}
 
 	/**
@@ -784,83 +781,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the publish meta box.
+	 * Renders the publish meta box.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.6
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instance of the cnEntry object.
 	 */
-	public function metaboxPublish( $entry = NULL ) {
+	public function metaboxPublish( $entry ) {
 
-		$defaults = array(
-				'action'                            => NULL,
-				'entry_type'                        => array(
-					__( 'Individual', 'connections' )   => 'individual',
-					__( 'Organization', 'connections' ) => 'organization',
-					__( 'Family', 'connections' )       => 'family'
-				)
-			);
-
-		$atts = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $defaults ), $defaults );
-
-		if ( isset( $_GET['cn-action'] ) ) {
-			$action = esc_attr( $_GET['cn-action'] );
-		} else {
-			$action = $atts['action'];
-		}
-
-		( $entry->getVisibility() ) ? $visibility = $entry->getVisibility() : $visibility = 'unlisted';
-		( $entry->getEntryType() ) ? $type = $entry->getEntryType() : $type = 'individual';
-
-
-		echo '<div id="minor-publishing">';
-		echo '<div id="entry-type">';
-		echo $this->buildRadio(
-			'entry_type',
-			'entry_type',
-			$atts['entry_type'],
-			$type );
-		echo '</div>';
-
-		if ( current_user_can( 'connections_edit_entry' ) ) {
-			echo '<div id="visibility">';
-			echo '<span class="radio_group">' . $this->buildRadio(
-				'visibility',
-				'vis',
-				array(
-					__( 'Public', 'connections' ) => 'public',
-					__( 'Private', 'connections' ) => 'private',
-					__( 'Unlisted', 'connections' ) => 'unlisted'
-				),
-				$visibility ) . '</span>';
-			echo '<div class="clear"></div>';
-			echo '</div>';
-		}
-		echo '</div>';
-
-		echo '<div id="major-publishing-actions">';
-
-		switch ( TRUE ) {
-			case ( $action ==  'edit_entry' || $action == 'edit' ):
-				echo '<input type="hidden" name="cn-action" value="update_entry"/>';
-				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
-				echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
-				break;
-
-			case ( $action == 'copy_entry' || $action == 'copy' ):
-				echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
-				echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
-				echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
-				break;
-
-			default:
-				echo '<input type="hidden" name="cn-action" value="add_entry"/>';
-				echo '<div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
-				break;
-		}
-
-		echo '<div class="clear"></div>';
-		echo '</div>';
+		cnMetabox::publish( $entry, $metabox = array() );
 	}
 
 	/**
@@ -885,179 +817,48 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the name meta box.
+	 * Renders the name metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
-	public function metaboxName( $entry = NULL ) {
-		global $connections;
+	public function metaboxName( $entry ) {
 
-		echo '<div id="family" class="form-field">';
-
-		echo '<label for="family_name">' , __( 'Family Name', 'connections' ) , ':</label>';
-		echo '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
-		echo '<div id="relations">';
-
-		// --> Start template for Family <-- \\
-		echo '<textarea id="relation-template" style="display: none">';
-		echo $this->getEntrySelect( 'family_member[::FIELD::][entry_id]' , NULL , 'family-member-name'  );
-		echo $this->buildSelect( 'family_member[::FIELD::][relation]', $connections->options->getDefaultFamilyRelationValues() , NULL , 'family-member-relation' );
-		echo '</textarea>';
-		// --> End template for Family <-- \\
-
-		if ( $entry->getFamilyMembers() ) {
-			foreach ( $entry->getFamilyMembers() as $key => $value ) {
-				$relation = new cnEntry();
-				$relation->set( $key );
-				$token = $this->token( $relation->getId() );
-
-				echo '<div id="relation-row-' . $token . '" class="relation">';
-				echo $this->getEntrySelect( 'family_member[' . $token . '][entry_id]', $key , 'family-member-name' );
-				echo $this->buildSelect( 'family_member[' . $token . '][relation]', $connections->options->getDefaultFamilyRelationValues(), $value  , 'family-member-relation' );
-				echo '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a>';
-				echo '</div>';
-
-				unset( $relation );
-			}
-		}
-
-		echo '</div>';
-		echo '<p class="add"><a id="add-relation" class="button">' , __( 'Add Relation', 'connections' ) , '</a></p>';
-
-		echo '
-			</div>
-
-			<div class="form-field namefield">
-					<div class="">';
-
-		echo '
-						<div style="float: left; width: 8%">
-							<label for="honorific_prefix">' , __( 'Prefix', 'connections' ) , ':</label>
-							<input type="text" name="honorific_prefix" value="' . $entry->getHonorificPrefix() . '" />
-						</div>';
-
-		echo '
-						<div style="float: left; width: 30%">
-							<label for="first_name">' , __( 'First Name', 'connections' ) , ':</label>
-							<input type="text" name="first_name" value="' . $entry->getFirstName() . '" />
-						</div>
-
-						<div style="float: left; width: 24%">
-							<label for="middle_name">' , __( 'Middle Name', 'connections' ) , ':</label>
-							<input type="text" name="middle_name" value="' . $entry->getMiddleName() . '" />
-						</div>
-
-						<div style="float: left; width: 30%">
-							<label for="last_name">' , __( 'Last Name', 'connections' ) , ':</label>
-							<input type="text" name="last_name" value="' . $entry->getLastName() . '" />
-						</div>';
-
-		echo '
-						<div style="float: left; width: 8%">
-							<label for="honorific_suffix">' , __( 'Suffix', 'connections' ) , ':</label>
-							<input type="text" name="honorific_suffix" value="' . $entry->getHonorificSuffix() . '" />
-						</div>';
-
-		echo '
-						<label for="title">' , __( 'Title', 'connections' ) , ':</label>
-						<input type="text" name="title" value="' . $entry->getTitle() . '" />
-					</div>
-				</div>
-
-				<div class="form-field">
-					<div class="organization">
-						<label for="organization">' , __( 'Organization', 'connections' ) , ':</label>
-						<input type="text" name="organization" value="' . $entry->getOrganization() . '" />
-
-						<label for="department">' , __( 'Department', 'connections' ) , ':</label>
-						<input type="text" name="department" value="' . $entry->getDepartment() . '" />';
-
-		echo '
-						<div id="contact_name">
-							<div class="input inputhalfwidth">
-								<label for="contact_first_name">' , __( 'Contact First Name', 'connections' ) , ':</label>
-								<input type="text" name="contact_first_name" value="' . $entry->getContactFirstName() . '" />
-							</div>
-							<div class="input inputhalfwidth">
-								<label for="contact_last_name">' , __( 'Contact Last Name', 'connections' ) , ':</label>
-								<input type="text" name="contact_last_name" value="' . $entry->getContactLastName() . '" />
-							</div>
-
-							<div class="clear"></div>
-						</div>';
-		echo '
-					</div>
-			</div>';
+		cnMetabox::name( $entry, $metabox = array() );
 	}
 
 	/**
-	 * Outputs the image meta box.
+	 * Renders the image metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
-	public function metaboxImage( $entry = NULL ) {
-		echo '<div class="form-field">';
+	public function metaboxImage( $entry ) {
 
-		if ( $entry->getImageLinked() ) {
-			( $entry->getImageDisplay() ) ? $selected = 'show' : $selected = 'hidden';
-
-			$options = $this->buildRadio(
-				'imgOptions',
-				'imgOptionID_',
-				array(
-					__( 'Display', 'connections' ) => 'show',
-					__( 'Not Displayed', 'connections' ) => 'hidden',
-					__( 'Remove', 'connections' ) =>'remove'
-				),
-				$selected
-			);
-
-			echo '<div style="text-align: center;"> <img src="' . CN_IMAGE_BASE_URL . $entry->getImageNameProfile() . '" /> <br /> <span class="radio_group">' . $options . '</span></div> <br />';
-		}
-
-		echo '<div class="clear"></div>';
-		echo '<label for="original_image">' , __( 'Select Image', 'connections' ) , ':';
-		echo '<input type="file" value="" name="original_image" size="25" /></label>';
-
-		echo '</div>';
+		cnMetabox::image( $entry, $metabox = array() );
 	}
 
 	/**
-	 * Outputs the logo meta box.
+	 * Renders the logo metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
-	public function metaboxLogo( $entry = NULL ) {
-		echo '<div class="form-field">';
+	public function metaboxLogo( $entry ) {
 
-		if ( $entry->getLogoLinked() ) {
-			( $entry->getLogoDisplay() ) ? $selected = 'show' : $selected = 'hidden';
-
-			$options = $this->buildRadio(
-				'logoOptions',
-				'logoOptionID_',
-				array(
-					__( 'Display', 'connections' ) => 'show',
-					__( 'Not Displayed', 'connections' ) => 'hidden',
-					__( 'Remove', 'connections' ) =>'remove'
-				),
-				$selected
-			);
-
-			echo '<div style="text-align: center;"> <img src="' . CN_IMAGE_BASE_URL . $entry->getLogoName() . '" /> <br /> <span class="radio_group">' . $options . '</span></div> <br />';
-		}
-
-		echo '<div class="clear"></div>';
-		echo '<label for="original_logo">' , __( 'Select Logo', 'connections' ) , ':';
-		echo '<input type="file" value="" name="original_logo" size="25" /></label>';
-
-		echo '</div>';
+		cnMetabox::logo( $entry, $metabox = array() );
 	}
 
 	/**
@@ -1724,116 +1525,69 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the birthday meta box.
+	 * Renders the bio metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @deprecated since 0.7.3
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
-	public function metaboxBirthday( $entry = NULL ) {
-		$date = new cnDate();
+	public function metaboxBio( $entry ) {
 
-		echo '<div class="form-field celebrate">
-				<span class="selectbox">' , __( 'Birthday', 'connections' ) , ': ' . $this->buildSelect( 'birthday_month', $date->months, $date->getMonth( $entry->getBirthday() ) ) . '</span>
-				<span class="selectbox">' . $this->buildSelect( 'birthday_day', $date->days, $date->getDay( $entry->getBirthday() ) ) . '</span>
-			</div>';
-		echo '<div class="form-field celebrate-disabled"><p>' , __( 'Field not available for this entry type.', 'connections' ) , '</p></div>';
+		$metabox = new cnMetabox_Render();
+
+		$field = array(
+			'args' => array(
+				'id'       => 'metabox-bio',
+				'title'    => __( 'Biographical Info', 'connections' ),
+				'context'  => 'normal',
+				'priority' => 'core',
+				'fields' => array(
+					array(
+						'id'         => 'bio',
+						'type'       => 'rte',
+						'value'      => 'getBio',
+					),
+				),
+			),
+		);
+
+		$metabox->render( $entry, $field );
 	}
 
 	/**
-	 * Outputs the anniversary meta box.
+	 * Renders the notes metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @deprecated since 0.7.3
-	 * @param array   $entry
-	 */
-	public function metaboxAnniversary( $entry = NULL ) {
-		$date = new cnDate();
-
-		echo '<div class="form-field celebrate">
-				<span class="selectbox">' , __( 'Anniversary', 'connections' ) , ': ' . $this->buildSelect( 'anniversary_month', $date->months, $date->getMonth( $entry->getAnniversary() ) ) . '</span>
-				<span class="selectbox">' . $this->buildSelect( 'anniversary_day', $date->days, $date->getDay( $entry->getAnniversary() ) ) . '</span>
-			</div>';
-		echo '<div class="form-field celebrate-disabled"><p>' , __( 'Field not available for this entry type.', 'connections' ) , '</p></div>';
-	}
-
-	/**
-	 * Outputs the bio meta box.
+	 * This is deprecated method, left in place for backward compatility only.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
-	public function metaboxBio( $entry = NULL ) {
-		if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) {
-			echo "<div class='form-field'>
+	public function metaboxNotes( $entry ) {
 
-					<a class='button alignright' id='toggleBioEditor'>' , __('Toggle Editor', 'connections') , '</a>
+		$metabox = new cnMetabox_Render();
 
-					<textarea class='tinymce' id='bio' name='bio' rows='15'>" . $entry->getBio() . "</textarea>
+		$field = array(
+			'args' => array(
+				'id'       => 'metabox-note',
+				'title'    => __( 'Notes', 'connections' ),
+				'context'  => 'normal',
+				'priority' => 'core',
+				'fields' => array(
+					array(
+						'id'         => 'notes',
+						'type'       => 'rte',
+						'value'      => 'getNotes',
+					),
+				),
+			),
+		);
 
-			</div>";
-		}
-		else {
-			wp_editor( $entry->getBio(),
-				'bio',
-				array
-				(
-					'media_buttons' => FALSE,
-					'tinymce' => array
-					(
-						'editor_selector' => 'tinymce',
-						'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
-						'theme_advanced_buttons2' => '',
-						'inline_styles' => TRUE,
-						'relative_urls' => FALSE,
-						'remove_linebreaks' => FALSE,
-						'plugins' => 'inlinepopups,spellchecker,tabfocus,paste,wordpress,wpdialogs'
-					)
-				)
-			);
-		}
-
-	}
-
-	/**
-	 * Outputs the notes meta box.
-	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
-	 */
-	public function metaboxNotes( $entry = NULL ) {
-		if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) {
-			echo "<div class='form-field'>
-
-					<a class='button alignright' id='toggleNoteEditor'>' , __('Toggle Editor', 'connections') , '</a>
-
-					<textarea class='tinymce' id='note' name='notes' rows='15'>" . $entry->getNotes() . "</textarea>
-
-			</div>";
-		}
-		else {
-			wp_editor( $entry->getNotes(),
-				'notes',
-				array
-				(
-					'media_buttons' => FALSE,
-					'tinymce' => array
-					(
-						'editor_selector' => 'tinymce',
-						'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
-						'theme_advanced_buttons2' => '',
-						'inline_styles' => TRUE,
-						'relative_urls' => FALSE,
-						'remove_linebreaks' => FALSE,
-						'plugins' => 'inlinepopups,spellchecker,tabfocus,paste,wordpress,wpdialogs'
-					)
-				)
-			);
-		}
+		$metabox->render( $entry, $field );
 	}
 
 	private function getEntrySelect( $name, $selected = NULL, $class = NULL , $id = NULL ) {

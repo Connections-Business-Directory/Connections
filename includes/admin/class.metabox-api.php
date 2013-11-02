@@ -93,7 +93,7 @@ class cnMetaboxAPI {
 
 		foreach ( $metaboxes as $metabox ) {
 
-			$metabox['pages']    = empty( $metabox['pages'] ) ? array( $instance->pageHook->add, $instance->pageHook->manage, 'users_page_connections_link' ) : $metabox['pages'];
+			$metabox['pages']    = empty( $metabox['pages'] ) ? array( $instance->pageHook->add, $instance->pageHook->manage ) : $metabox['pages'];
 			$metabox['context']  = empty( $metabox['context'] ) ? 'normal' : $metabox['context'];
 			$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
 

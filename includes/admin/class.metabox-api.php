@@ -133,7 +133,7 @@ class cnMetaboxAPI {
 
 		foreach ( self::$metaboxes as $metabox ) {
 
-			if ( in_array( $hook_suffix, $metabox['pages'] ) ) new cnMetabox_Render( $hook_suffix, $metabox );
+			if ( in_array( $hook_suffix, $metabox['pages'] ) ) cnMetabox_Render::add( $hook_suffix, $metabox );
 		}
 	}
 
@@ -207,6 +207,11 @@ class cnMetabox_Render {
 	 */
 	private static $slider = array();
 
+	public function __construct() {
+
+		/* Intentially left blank. */
+	}
+
 	/**
 	 * Register the metaboxes with WordPress.
 	 *
@@ -216,24 +221,24 @@ class cnMetabox_Render {
 	 * @param string $pageHook The page hood / post type in which to add the metabox.
 	 * @param array  $metabox  The array of metaboxes to add.
 	 */
-	public function __construct( $pageHook, array $metabox ) {
+	public static function add( $pageHook = '', array $metabox = array() ) {
 
-		// $this->metabox  = $metabox;
-		// $this->sections = isset( $metabox['sections'] ) && ! empty( $metabox['sections'] ) ? $metabox['sections'] : array();
+		if ( ! empty( $pageHook) && ! empty( $metabox ) ) {
 
-		$callback = isset( $metabox['callback'] ) && ! empty( $metabox['callback'] ) ? $metabox['callback'] : array( $this, 'render' );
+			$callback = isset( $metabox['callback'] ) && ! empty( $metabox['callback'] ) ? $metabox['callback'] : array( new cnMetabox_Render(), 'render' );
 
-		add_meta_box(
-			$metabox['id'],
-			$metabox['title'],
-			$callback,
-			$pageHook,
-			$metabox['context'],
-			$metabox['priority'],
-			$metabox
-		);
+			add_meta_box(
+				$metabox['id'],
+				$metabox['title'],
+				$callback,
+				$pageHook,
+				$metabox['context'],
+				$metabox['priority'],
+				$metabox
+			);
+
+		}
 	}
-
 
 	/**
 	 * Render the metabox.
@@ -247,13 +252,32 @@ class cnMetabox_Render {
 		$this->object  = $object;
 		$this->metabox = $metabox['args'];
 		$sections      = isset( $metabox['args']['sections'] ) && ! empty( $metabox['args']['sections'] ) ? $metabox['args']['sections'] : array();
+		$fields        = isset( $metabox['args']['fields'] )   && ! empty( $metabox['args']['fields'] )   ? $metabox['args']['fields'] : array();
 
 		// Use nonce for verification
 		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
 
-		foreach ( $sections as $section ) {
+		// If metabox sections have be registered, loop thru them.
+		if ( ! empty( $sections ) ) {
 
-			$this->section( $section );
+			foreach ( $sections as $section ) {
+
+				$this->section( $section );
+			}
+		}
+
+		// If metabox fields have been supplied, loop thru them.
+		if ( ! empty( $fields ) ) {
+
+			echo '<div class="cn-metabox-section">';
+
+			echo '<table class="form-table cn-metabox"><tbody>';
+
+				$this->fields( $fields );
+
+			echo '</tbody></table>';
+
+			echo '</div>';
 		}
 	}
 
@@ -269,9 +293,12 @@ class cnMetabox_Render {
 
 		echo '<div class="cn-metabox-section">';
 
-		printf( '<h4 class="cn_metabox_section_name">%1$s</h4>',
-			esc_html( $section['name'] )
-		);
+		if ( isset( $section['name'] ) && ! empty( $section['name'] ) ) {
+
+			printf( '<h4 class="cn_metabox_section_name">%1$s</h4>',
+				esc_html( $section['name'] )
+			);
+		}
 
 		if ( isset( $section['desc'] ) && ! empty( $section['desc'] ) ) {
 
@@ -311,7 +338,16 @@ class cnMetabox_Render {
 
 		foreach ( $fields as $field ) {
 
-			$value = $this->object->getMeta( $field['id'], TRUE );
+			// If the meta field has a specific method defined call the method  and set the field value.
+			// Otherwise, assume pulling from the meta table of the supplied object.
+			if ( isset( $field['value'] ) && ! empty( $field['value'] ) ) {
+
+				$value = call_user_func( array( $this->object, $field['value'] ) );
+
+			} else {
+
+				$value = $this->object->getMeta( $field['id'], TRUE );
+			}
 
 			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .' cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';
 
@@ -325,12 +361,16 @@ class cnMetabox_Render {
 					esc_html( $field['name'] )
 				);
 
-			} else {
+			} elseif ( isset( $field['name'] ) && ! empty( $field['name'] ) ) {
 
-				printf( '<td><label style="display:none;" for="%1$s">%2$s</label></td>',
+				printf( '<td><label for="%1$s">%2$s</label></td>',
 					esc_attr( $field['id'] ),
 					esc_html( $field['name'] )
 				);
+
+			} else {
+
+				echo '<td style="display:none;">&nbsp;</td>';
 			}
 
 			echo '<td>';
@@ -356,14 +396,18 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<span class="description"> %1$s</span><br />',
+						printf( '<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
 						unset( $field['desc'] );
 					}
 
+					echo '<div class="cn-checkbox-group">';
+
 					foreach ( $field['options'] as $key => $label ) {
+
+						echo '<div class="cn-checkbox-option">';
 
 						printf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
 							esc_attr( $field['id'] ),
@@ -371,12 +415,16 @@ class cnMetabox_Render {
 							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
 						);
 
-						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
+						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
 							esc_attr( $field['id'] ),
 							esc_attr( $key ),
 							esc_html( $label )
 						);
+
+						echo '</div>';
 					}
+
+					echo '</div>';
 
 					break;
 
@@ -386,14 +434,18 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<span class="description"> %1$s</span><br />',
+						printf( '<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
 						unset( $field['desc'] );
 					}
 
+					echo '<div class="cn-radio-group">';
+
 					foreach ( $field['options'] as $key => $label ) {
+
+						echo '<div class="cn-radio-option">';
 
 						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
 							esc_attr( $field['id'] ),
@@ -401,12 +453,16 @@ class cnMetabox_Render {
 							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
 						);
 
-						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
+						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
 							esc_attr( $field['id'] ),
 							esc_attr( $key ),
 							esc_html( $label )
 						);
+
+						echo '</div>';
 					}
+
+					echo '</div>';
 
 					break;
 
@@ -416,18 +472,18 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<span class="description"> %1$s</span><br />',
+						printf( '<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
 						unset( $field['desc'] );
 					}
 
-					echo '<div class="cn-radio-inline">';
+					echo '<div class="cn-radio-group">';
 
 					foreach ( $field['options'] as $key => $label ) {
 
-						echo '<div class="cn-radio-inline-option">';
+						echo '<span class="cn-radio-option">';
 
 						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
 							esc_attr( $field['id'] ),
@@ -435,14 +491,16 @@ class cnMetabox_Render {
 							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
 						);
 
-						printf( '<label for="%1$s[%2$s]"> %3$s</label><br />',
+						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
 							esc_attr( $field['id'] ),
 							esc_attr( $key ),
 							esc_html( $label )
 						);
 
-						echo '</div>';
+						echo '</span>';
 					}
+
+					echo '</div>';
 
 					break;
 
@@ -466,7 +524,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<span class="description"> %1$s</span><br />',
+						printf( '<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
@@ -532,7 +590,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<span class="description"> %1$s</span><br />',
+						printf( '<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
@@ -562,7 +620,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<span class="description"> %1$s</span><br />',
+						printf( '<div class="description"> %1$s</div>',
 							esc_html( $field['desc'] )
 						);
 
@@ -579,7 +637,7 @@ class cnMetabox_Render {
 						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
 						wp_editor(
-							wp_kses_post( '$value' ),
+							wp_kses_post( $value ),
 							sprintf( '%1$s' , $field['id'] ),
 							$atts
 						);

@@ -348,6 +348,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/class.entry.php'; // Required for activation, entry list
 			require_once CN_PATH . 'includes/class.entry-actions.php';
 
+			// HTML elements class.
+			require_once CN_PATH . 'includes/class.html.php';
+
 			// meta API
 			require_once CN_PATH . 'includes/class.meta.php';
 

@@ -54,61 +54,47 @@ jQuery(document).ready( function($) {
 	});
 
 
-	jQuery(function() {
-		jQuery('input#entry_type_0')
-			.click(function(){
-				jQuery('#family').slideUp();
-				jQuery('.namefield').slideDown();
-				jQuery('#contact_name').slideUp();
-				jQuery('.celebrate').slideDown();
-				jQuery('.celebrate-disabled').slideUp();
+	$(function() {
+		$('input[name^=entry_type][value=individual]').click( function() {
+				$('#cn-metabox-section-family, #cn-metabox-section-contact').slideUp( 'fast', function() {
+					$('#cn-metabox-section-name, #cn-metabox-section-title, #cn-metabox-section-organization, #cn-metabox-section-department').slideDown();
+				});
 			});
 	});
 
-	jQuery(function() {
-		jQuery('input#entry_type_1')
-			.click(function(){
-				jQuery('#family').slideUp();
-				jQuery('.namefield').slideUp();
-				jQuery('#contact_name').slideDown();
-				jQuery('.celebrate').slideUp();
-				jQuery('.celebrate-disabled').slideDown();
+	$(function() {
+		$('input[name^=entry_type][value=organization]').click( function() {
+				$('#cn-metabox-section-family, #cn-metabox-section-name, #cn-metabox-section-title').slideUp( 'fast', function() {
+					$('#cn-metabox-section-organization, #cn-metabox-section-department, #cn-metabox-section-contact').slideDown();
+				});
 			});
 	});
 
-	jQuery(function() {
-		jQuery('input#entry_type_2')
-			.click(function(){
-				jQuery('#family').slideDown();
-				jQuery('.namefield').slideUp();
-				jQuery('.celebrate').slideUp();
-				jQuery('.celebrate-disabled').slideDown();
+	$(function() {
+		$('input[name^=entry_type][value=family]').click( function() {
+				$('#cn-metabox-section-name, #cn-metabox-section-title, #cn-metabox-section-organization, #cn-metabox-section-department, #cn-metabox-section-contact').slideUp( 'fast', function() {
+					$('#cn-metabox-section-family').slideDown();
+				});
 			});
 	});
 
 
-	jQuery(function() {
-		var $entryType = (jQuery('input[name^=entry_type]:checked').val());
+	$(function() {
 
-		switch ($entryType)
-		{
+		var $entryType = $('input[name^=entry_type]:checked').val();
+
+		switch ( $entryType ) {
+
 			case 'individual':
-				jQuery('#family').slideUp();
-				jQuery('#contact_name').slideUp();
-				jQuery('.celebrate-disabled').slideUp();
+				$('#cn-metabox-section-family, #cn-metabox-section-contact').slideUp();
 				break;
 
 			case 'organization':
-				jQuery('#family').slideUp();
-				jQuery('.namefield').slideUp();
-				jQuery('.celebrate').slideUp();
-				jQuery('.celebrate-disabled').slideDown();
+				$('#cn-metabox-section-family, #cn-metabox-section-name, #cn-metabox-section-title').slideUp();
 				break;
 
 			case 'family':
-				jQuery('.namefield').slideUp();
-				jQuery('.celebrate').slideUp();
-				jQuery('.celebrate-disabled').slideDown();
+				$('#cn-metabox-section-name, #cn-metabox-section-title, #cn-metabox-section-organization, #cn-metabox-section-department, #cn-metabox-section-contact').slideUp();
 				break;
 		}
 
@@ -118,7 +104,7 @@ jQuery(document).ready( function($) {
 	 * Add relations to the family entry type.
 	 */
 	$('#add-relation').click(function() {
-		var template = (jQuery('#relation-template').text());
+		var template = ($('#cn-relation-template').text());
 		var d = new Date();
 		var token = Math.floor( Math.random() * d.getTime() );
 
@@ -127,13 +113,13 @@ jQuery(document).ready( function($) {
 			token
 			);
 
-		$('#relations').append( '<div id="relation-row-' + token + '" class="relation" style="display: none;">' + template + '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' + token + '">Remove</a>' + '</div>' );
+		$('#cn-relations').append( '<div id="relation-row-' + token + '" class="relation" style="display: none;">' + template + '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' + token + '">Remove</a>' + '</div>' );
 		$('#relation-row-' + token).slideDown();
 
 		/*
 		 * Add jQuery Chosen to the family name and relation fields.
 		 */
-		$('.family-member-name, .family-member-relation').chosen();
+		$('.cn-enhanced-select').chosen();
 
 		return false
 	});
@@ -180,41 +166,6 @@ jQuery(document).ready( function($) {
 		$(id).slideUp('fast', function(){ $(this).remove(); });
 		return false;
 	});
-
-
-	/*
-	 * Switching Visual/HTML Modes With TinyMCE
-	 * http://www.keighl.com/2010/04/switching-visualhtml-modes-with-tinymce/
-	 */
-
-	jQuery('a#toggleBioEditor').click(
-		function() {
-			id = 'bio';
-			if (tinyMCE.get(id))
-			{
-				tinyMCE.execCommand('mceRemoveControl', false, id);
-			}
-			else
-			{
-				tinyMCE.execCommand('mceAddControl', false, id);
-			}
-		}
-	);
-
-	jQuery('a#toggleNoteEditor').click(
-		function() {
-			id = 'note';
-			if (tinyMCE.get(id))
-			{
-				tinyMCE.execCommand('mceRemoveControl', false, id);
-			}
-			else
-			{
-				tinyMCE.execCommand('mceAddControl', false, id);
-			}
-		}
-	);
-
 
 	/*
 	 * Add the jQuery UI Datepicker to the date input fields.

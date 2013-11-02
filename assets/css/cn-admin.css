@@ -1,6 +1,6 @@
-/*
- * The Connections page icon.
- */
+/*------------------------------------------------------------------------------
+  The Connections icon.
+------------------------------------------------------------------------------*/
 #icon-connections {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
@@ -8,14 +8,30 @@
 	background: transparent url(../images/icon.png) no-repeat;
 }
 
-/*
- * Screen options
- */
+/*------------------------------------------------------------------------------
+  Screen Options Tab
+------------------------------------------------------------------------------*/
 .entry-per-page { width: 3em }
 
-/*
- * Manage Page Styles
- */
+/*------------------------------------------------------------------------------
+  Common across all pages.
+------------------------------------------------------------------------------*/
+.cn-float-left { float: left; }
+.cn-clear { clear: both; }
+.cn-center { text-align: center; }
+input[type="radio"] { vertical-align: text-top; width: auto; }
+/*.cn-half-width { width: 50%; }*/
+
+/*------------------------------------------------------------------------------
+  jQuery Plugin Chosen
+------------------------------------------------------------------------------*/
+.chzn-container {
+	vertical-align: bottom;
+}
+
+/*------------------------------------------------------------------------------
+  Manage page.
+------------------------------------------------------------------------------*/
 .tablenav .tablenav-pages a.cn-char-current { padding: 8px; }
 table.connections tr.unapproved { background-color: #FFFFE0; }
 table.connections tr.entrydetails td {border-color:transparent #DFDFDF;}
@@ -72,19 +88,15 @@ table.connections span.social-network { display: block; }
 table.connections div.links { margin-bottom: 6px; }
 table.connections span.link { display: block; }
 
+ /* Date */
 table.connections span.date-name { font-weight: bold; }
-
-
-/*
- * Phone Styles
- */
 table.connections  span.date-block { display: block; margin-bottom: 10px; }
 table.connections  span.vevent { display: block; }
 table.connections  span.vevent span.summary { font-weight: bold; }
 
-/*
- * Template Page Styles
- */
+/*------------------------------------------------------------------------------
+  Template page.
+------------------------------------------------------------------------------*/
 table#currenttheme, table#installthemes {
 	border-color: #DDD;
 	border-spacing: 0;
@@ -148,19 +160,9 @@ table#availablethemes .template-thumbnail-none p {
 	padding: 5px;
 }
 
-
-/* Publish Styles */
-#entry-type {border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px;}
-#visibility {border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px;}
-#minor-publishing label {display: block; margin:10px 6px;}
-
-/* Field Styles */
-#fieldsdiv a {display: block; font-style: normal; text-align: center; width: 230px}
-
-/* Upgrade Page Styles */
-div#connections-upgrade ul {padding-left: 20px !important; list-style-type: disc !important;}
-
-/* Dashboard */
+/*------------------------------------------------------------------------------
+  Dashboard page.
+------------------------------------------------------------------------------*/
 div.postbox div.inside { margin: 10px; }
 
 div.rss-widget li { margin-bottom: 14px; }
@@ -197,7 +199,7 @@ div#metabox-quick-links .button {
 	position: relative;
 	white-space: nowrap;
 }
-div#metabox-quick-links .button:hover, div#metabox-quick-links .button.hover {
+#metabox-quick-links .button:hover {
 	background: -moz-linear-gradient(top, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.1))); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.1) 100%); /* Chrome10+,Safari5.1+ */
@@ -206,7 +208,7 @@ div#metabox-quick-links .button:hover, div#metabox-quick-links .button.hover {
 	background: linear-gradient(top, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33ffffff', endColorstr='#1affffff',GradientType=0 ); /* IE6-9 */
 }
-div#metabox-quick-links .button:active, div#metabox-quick-links .button.active {
+#metabox-quick-links .button:active {
 	background: -moz-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(100%,rgba(255,255,255,0.1))); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, rgba(0,0,0,0.2) 0%,rgba(255,255,255,0.1) 100%); /* Chrome10+,Safari5.1+ */
@@ -242,72 +244,105 @@ div#metabox-quick-links .button.large span {
 
 div.clearboth { clear:both; }
 
+/*------------------------------------------------------------------------------
+  Add/Edit page.
+------------------------------------------------------------------------------*/
 
-/*
- * Entry Form Widget Styles
- */
-div#wpcontent div.widgets-sortables {
+/* EWidget Styles */
+#wpcontent .widgets-sortables {
 	min-height: 0;
 }
-div#wpcontent div.widget {
+
+#wpcontent .widget {
 	position: relative;
 }
-div#wpcontent div.widget-top .widget-title {
+
+#wpcontent .widget-top .widget-title {
 	padding: 6px 9px;
 	overflow: hidden;
 	position: relative;
 }
-div#wpcontent div.widget-title h4 {
+
+#wpcontent .widget-title h4 {
 	overflow: visible;
 }
-div#wpcontent div.widget-title h4 select {
+
+#wpcontent .widget-title h4 select {
 	height: 1.75em;
 	padding: 1px;
 	margin-top: -10px;
 }
-div#wpcontent div.widget .widget-inside, .widget .widget-description {
+
+#wpcontent .widget .widget-inside, .widget .widget-description {
 	display: block;
 	position: relative;
 }
-div#wpcontent div.widget-title-action:hover {
+
+#wpcontent .widget-title-action:hover {
 	cursor: pointer;
 }
-div#wpcontent .widget-placeholder {
+
+#wpcontent .widget-placeholder {
 	border-width: 1px;
 	border-style: dashed;
 	margin: 0 auto 20px;
 	height: 60px;
 	width: 100%;
 }
-div#metabox-address, div#metabox-phone, div#metabox-email, div#metabox-messenger, div#metabox-social-media, div#metabox-links, div#metabox-date {
+
+#metabox-address,
+#metabox-phone,
+#metabox-email,
+#metabox-messenger,
+#metabox-social-media,
+#metabox-links,
+#metabox-date {
 	background-color: #FCFCFC;
 	background-image: none;
 }
-/*
- * Entry Form Input Styles
- */
-form p.submit a.button  {font-style:normal !important;}
-form p.add  {font-style:normal; padding:12px 0 0; text-align: right;}
-/*table.form-table td input {width:auto;}*/
+
+/* The "Publish" metabox styles. */
+#entry-type { border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px; padding: 10px; }
+#visibility { border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px; padding: 10px; }
+#minor-publishing label { display: block; margin:10px 6px; }
+
+/* Upgrade Page Styles */
+#connections-upgrade ul {padding-left: 20px !important; list-style-type: disc !important;}
+form p.add {font-style:normal; padding:12px 0 0; text-align: right;}
 
 #cancel-button {float:left;}
 #cancel-button .button {display: inline-block;}
 .button-warning:hover {background:#CE0000 none repeat scroll 0 0; color:#FFFFFF;}
 .button {margin: 1px;}
 .button-primary  {margin: 1px ; padding: 3px 10px; }
-#toggleBioEditor { margin: 4px 6px 0 0; }
-#toggleNoteEditor { margin: 4px 6px 0 0; }
 
-form div.form-field input[type="text"] { width: 100%; }
-form div.form-field input[type="radio"] { vertical-align: text-top; width: auto; }
-form div.form-field div#relations { text-align: center }
-form div.form-field div#relations select { text-align: left; width: 250px; }
-form div.form-field div#relations li { text-align: left; width: 250px; }
+#metabox-name input[type="text"] { width: 100%; }
+
+/* The "Name" metabox styles. */
+#cn-name-prefix { display: inline-block; width: 12.5%; }
+#cn-name-prefix input { width: 100%; }
+#cn-name-first { display: inline-block; width: 25%; }
+#cn-name-first input { width: 100%; }
+#cn-name-middle { display: inline-block; width: 25%; }
+#cn-name-middle input { width: 100%; }
+#cn-name-last { display: inline-block; width: 25%; }
+#cn-name-last input { width: 100%; }
+#cn-name-suffix { display: inline-block; width: 12.5%; }
+#cn-name-suffix input { width: 100%; }
+#cn-contact-first-name { display: inline-block; width: 50%; }
+#cn-contact-first-name input { width: 100%; }
+#cn-contact-last-name { display: inline-block; width: 50%; }
+#cn-contact-last-name input { width: 100%; }
+
+/* Family entry/relations. */
+#cn-relations { text-align: center }
+#cn-relations select { text-align: left; width: 250px; }
+#cn-relations li { text-align: left; width: 250px; }
+
 form div.form-field h4 label { line-height: normal; vertical-align: text-top; }
 form div.form-field h4 span.visibility { position: absolute; right: 0; }
 form div.form-field h4 span.visibility label { font-weight: normal; }
 form div.form-field div.input { float: left; }
-form div.form-field div.input.half-width { width: 50%; }
 form div.form-field .address-local input { width: 80%; }
 form div.form-field .address-region input { width: 80%; }
 form div.form-field .address-city { width: 28%; }
@@ -324,21 +359,25 @@ form div.form-field .address-longitude { width: 29%; }
 form div.form-field .address-longitude input { width: 70%; }
 
 form div.form-field label {font-size: 12px; line-height: 1.6; padding: 0 2px;}
-form div.form-field span.checkbox {background-color:transparent;float:right;font-size:11px;font-weight:bold;}
-form div.form-field span.checkbox input {width:16px;}
-form div.form-field span.selectbox {font-size:11px;font-weight:bold;}
-form div.form-field span.selectbox select {padding:1px !important;vertical-align:middle !important;}
-form div.form-field span.radio_group input {height: 13px; margin: 0px 5px 0px 2px; width:13px;}
-form div.form-field span.radio_group label {float: left; line-height: 30px; padding-right: 15px; white-space: nowrap;}
+/*form div.form-field span.checkbox {background-color:transparent;float:right;font-size:11px;font-weight:bold;}*/
+/*form div.form-field span.checkbox input {width:16px;}*/
+/*form div.form-field span.selectbox {font-size:11px;font-weight:bold;}*/
+/*form div.form-field span.selectbox select {padding:1px !important;vertical-align:middle !important;}*/
+/*form div.form-field span.radio_group input {height: 13px; margin: 0px 5px 0px 2px; width:13px;}*/
+/*form div.form-field span.radio_group label {float: left; line-height: 30px; padding-right: 15px; white-space: nowrap;}*/
 
+/* The "image" metabox styles. */
 /* Be very specific with this selector or the images used in rendering the Google Map will be affected, */
-form div#metabox-image div.form-field img {-moz-border-radius:4px; background-color: #FFFFFF; border:1px solid #E3E3E3; margin-bottom:10px; padding:5px;}
+#metabox-image img { border-radius:4px; background-color: #FFFFFF; border:1px solid #E3E3E3; margin-bottom:10px; padding:5px; }
+#metabox-image .cn-radio-group { margin-bottom:10px; }
+#metabox-logo img { border-radius:4px; background-color: #FFFFFF; border:1px solid #E3E3E3; margin-bottom:10px; padding:5px; }
+#metabox-logo .cn-radio-group { margin-bottom:10px; }
 
-form div.form-field div.relation {margin: 6px 0px}
-form div.form-field div.websites label {display: inline;}
+/*form div.form-field div.relation {margin: 6px 0px}*/
+/*form div.form-field div.websites label {display: inline;}*/
 form div.form-field p.remove-button { bottom: 0px; display:inline-block; position: absolute; right: 10px; }
 form div.form-field a.geocode.button { display: inline-block; }
-form div.inside	span.radio_group label {float: left; line-height: 30px; margin: 6px; padding-right: 12px; white-space: nowrap;}
+/*form div.inside	span.radio_group label {float: left; line-height: 30px; margin: 6px; padding-right: 12px; white-space: nowrap;}*/
 form div.form-field div.map {
 	border: solid 1px #DFDFDF;
 	-webkit-border-radius: 3px;
@@ -347,22 +386,23 @@ form div.form-field div.map {
 	margin: 10px 0px 20px;
 }
 
-/**
- * Metabox default styling. This is to support the new metabox API for custom fields.
- */
+/*------------------------------------------------------------------------------
+  Metabox default styling. This is to support the new metabox API for custom fields.
+------------------------------------------------------------------------------*/
 .cn-metabox-section { border-bottom: 1px solid #E9E9E9; }
 .cn-metabox-section:last-child { border-bottom: none; }
-table.cn-metabox .cn-metabox-title { margin: 0 0 5px 0; }
+/*table.cn-metabox .cn-metabox-title { margin: 0 0 5px 0; }*/
 table.cn-metabox th label { display: inline-block;}
-table.cn-metabox .mceIframeContainer { background: #FFF; }
-table.cn-metabox .cn-radio-inline { padding: 4px 0 0 0;}
-table.cn-metabox .cn-radio-inline-option { display: inline-block; padding-right: 18px; }
-table.cn-metabox .cn-datepicker { padding: 2px; width: 17.5em; }
-table.cn-metabox .cn-slider-container { width: 25em; }
+.mceIframeContainer { background: #FFF; }
+.cn-radio-option { margin-bottom: 6px; }
+.cn-radio-option:last-child { margin-bottom: auto; }
+span.cn-radio-option { padding-right: 18px; }
+.cn-datepicker { padding: 2px; width: 17.5em; }
+.cn-slider-container { width: 25em; }
 
 
 /*------------------------------------------------------------------------------
-  11.1 - Custom Fields
+  Custom Fields [ Since most of these were lifted from core WP these will have to be verified and remove unused rules. ]
 ------------------------------------------------------------------------------*/
 
 #meta-fields thead th {
@@ -571,7 +611,7 @@ From colors-fresh.css -- Custom Fields
 .meta_box_repeatable tr:first-child > td > .sort {
 	display:none;
 }
-/* START => repeatable */
+/* END => repeatable */
 
 
 /*table.cn_metabox textarea.cn_textarea_code { font-family: Consolas,Monaco,monospace; line-height: 16px; }

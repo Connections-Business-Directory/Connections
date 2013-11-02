@@ -33,10 +33,19 @@ function connectionsShowViewPage( $action = NULL ) {
 			 * Check whether current user can add an entry.
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
-				add_meta_box( 'metabox-name', 'Name', array( &$form, 'metaboxName' ), $connections->pageHook->add, 'normal', 'high' );
+
+				$field = array(
+					'id'       => 'metabox-name',
+					'title'    => __( 'Name', 'connection' ),
+					'context'  => 'normal',
+					'priority' => 'high',
+					'callback' => array( 'cnMetabox', 'name' ),
+				);
+
+				cnMetabox_Render::add( $instance->pageHook->add, $field );
 
 				$form = new cnFormObjects();
-				$entry = new cnEntry();
+				$entry = new cnOutput();
 
 				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
 
@@ -110,10 +119,18 @@ function connectionsShowViewPage( $action = NULL ) {
 				$id = esc_attr( $_GET['id'] );
 				check_admin_referer( 'entry_copy_' . $id );
 
-				add_meta_box( 'metabox-name', 'Name', array( &$form, 'metaboxName' ), $connections->pageHook->manage, 'normal', 'high' );
+				$field = array(
+					'id'       => 'metabox-name',
+					'title'    => __( 'Name', 'connection' ),
+					'context'  => 'normal',
+					'priority' => 'high',
+					'callback' => array( 'cnMetabox', 'name' ),
+				);
+
+				cnMetabox_Render::add( $instance->pageHook->manage, $field );
 
 				$form = new cnFormObjects();
-				$entry = new cnEntry( $connections->retrieve->entry( $id ) );
+				$entry = new cnOutput( $connections->retrieve->entry( $id ) );
 
 				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
 
@@ -185,10 +202,18 @@ function connectionsShowViewPage( $action = NULL ) {
 				$id = esc_attr( $_GET['id'] );
 				check_admin_referer( 'entry_edit_' . $id );
 
-				add_meta_box( 'metabox-name', 'Name', array( &$form, 'metaboxName' ), $connections->pageHook->manage, 'normal', 'high' );
+				$field = array(
+					'id'       => 'metabox-name',
+					'title'    => __( 'Name', 'connection' ),
+					'context'  => 'normal',
+					'priority' => 'high',
+					'callback' => array( 'cnMetabox', 'name' ),
+				);
+
+				cnMetabox_Render::add( $instance->pageHook->manage, $field );
 
 				$form = new cnFormObjects();
-				$entry = new cnEntry( $connections->retrieve->entry( $id ) );
+				$entry = new cnOutput( $connections->retrieve->entry( $id ) );
 
 				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
 

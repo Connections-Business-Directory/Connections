@@ -63,7 +63,7 @@ class cnMeta {
 
 		} else {
 
-			if ( !  isset( self::$cache[ $ids ] ) ) $query[] = $ids;
+			if ( ! isset( self::$cache[ $ids ] ) ) $query[] = $ids;
 		}
 
 		// Query the meta data for the objects IDs not in the cache.
@@ -98,6 +98,21 @@ class cnMeta {
 
 				self::$cache[ $entryID ][ $metaID ] = array( 'meta_key' => $metaKey, 'meta_value' => $metaValue );
 			}
+
+		} else {
+
+			if ( is_array( $ids ) ) {
+
+				foreach ( $ids as $id ) {
+
+					if ( ! isset( self::$cache[ $id ] ) ) self::$cache[ $ids ] = NULL;
+				}
+
+			} else {
+
+				if ( ! isset( self::$cache[ $ids ] ) ) self::$cache[ $ids ] = NULL;
+			}
+
 		}
 
 		// Return the requested meta data from the cache.

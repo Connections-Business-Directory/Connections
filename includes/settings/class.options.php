@@ -720,7 +720,6 @@ class cnOptions {
 	 */
 	public function getDefaultFamilyRelationValues() {
 		return array(
-			''                 => __( 'Select Relation', 'connections' ),
 			'aunt'             => __( 'Aunt', 'connections' ),
 			'brother'          => __( 'Brother', 'connections' ),
 			'brotherinlaw'     => __( 'Brother-in-law', 'connections' ),

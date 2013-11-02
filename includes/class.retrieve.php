@@ -838,6 +838,43 @@ class cnRetrieve {
 		return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id="%d"' , $id ) );
 	}
 
+	public static function individuals( $atts = array() ) {
+		global $wpdb;
+
+		$out = array();
+		$where[] = 'WHERE 1=1';
+
+		$defaults = array(
+			'status'                => array( 'approved' ),
+			'visibility'            => array(),
+			'allow_public_override' => FALSE,
+			'private_override'      => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Limit the results to the "individual" entry type.
+		$where[] = 'AND `entry_type` = \'individual\'';
+
+		// Limit the characters that are queried based on if the current user can view public, private or unlisted entries.
+		$where = self::setQueryVisibility( $where, $atts );
+
+		// Limit the characters that are queried based on if the current user can view approved and/or pending entries.
+		$where = self::setQueryStatus( $where, $atts );
+
+		// Create the "Last Name, First Name".
+		$select = '`id`, CONCAT( `last_name`, \', \', `first_name` ) as name';
+
+		$results = $wpdb->get_results( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' '  . implode( ' ', $where ) . ' ORDER BY `last_name`' );
+
+		foreach ( $results as $row ) {
+
+			$out[ $row->id ] = $row->name;
+		}
+
+		return $out;
+	}
+
 	/**
 	 * Retrieve the unique initial characters of all entries in the entry table sorted by character.
 	 *

@@ -256,6 +256,7 @@ class cnFormObjects {
 		 * that can not be hidden when the Screen Options tab is output via the
 		 * meta_box_prefs function
 		 */
+		add_meta_box( 'submitdiv', __( 'Publish', 'connections' ), array( $this, 'metaboxPublish' ), $pageHook, 'side', 'core' );
 		add_meta_box( 'categorydiv', __( 'Categories', 'connections' ), array( $this, 'metaboxCategories' ), $pageHook, 'side', 'core' );
 		add_meta_box( 'metabox-image', __( 'Image', 'connections' ), array( $this, 'metaboxImage' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-logo', __( 'Logo', 'connections' ), array( $this, 'metaboxLogo' ), $pageHook, 'normal', 'core' );

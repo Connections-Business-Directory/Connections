@@ -260,7 +260,7 @@ class cnFormObjects {
 		add_meta_box( 'categorydiv', __( 'Categories', 'connections' ), array( $this, 'metaboxCategories' ), $pageHook, 'side', 'core' );
 		add_meta_box( 'metabox-image', __( 'Image', 'connections' ), array( $this, 'metaboxImage' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-logo', __( 'Logo', 'connections' ), array( $this, 'metaboxLogo' ), $pageHook, 'normal', 'core' );
-		add_meta_box( 'metabox-address', __( 'Addresses', 'connections' ), array( $this, 'metaboxAddress' ), $pageHook, 'normal', 'core' );
+		// add_meta_box( 'metabox-address', __( 'Addresses', 'connections' ), array( $this, 'metaboxAddress' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-phone', __( 'Phone Numbers', 'connections' ), array( $this, 'metaboxPhone' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-email', __( 'Email Addresses', 'connections' ), array( $this, 'metaboxEmail' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-messenger', __( 'Messenger IDs', 'connections' ), array( $this, 'metaboxMessenger' ), $pageHook, 'normal', 'core' );
@@ -863,189 +863,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the address meta box.
+	 * Renders the address metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
-	public function metaboxAddress( $entry = NULL ) {
-		global $connections;
+	public function metaboxAddress( $entry ) {
 
-		echo  '<div class="widgets-sortables ui-sortable form-field" id="addresses">' , "\n";
-
-		// --> Start template <-- \\
-		echo  '<textarea id="address-template" style="display: none;">' , "\n";
-
-		echo '<div class="widget-top">' , "\n";
-		echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-		echo '<div class="widget-title"><h4>' , "\n";
-		echo __( 'Address Type', 'connections' ) , ': ' , $this->buildSelect( 'address[::FIELD::][type]', $connections->options->getDefaultAddressValues() ) , "\n";
-		echo '<label><input type="radio" name="address[preferred]" value="::FIELD::"> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-		echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'address[::FIELD::][visibility]', 'address_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
-		echo '</h4></div>'  , "\n";
-
-		echo '</div>' , "\n";
-
-		echo '<div class="widget-inside">';
-
-		echo '<div class="address-local">';
-		echo '<div class="address-line">';
-		echo  '<label for="address">' , __( 'Address Line 1', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][line_1]" value="">';
-		echo  '</div>';
-
-		echo '<div class="address-line">';
-		echo  '<label for="address">' , __( 'Address Line 2', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][line_2]" value="">';
-		echo  '</div>';
-
-		echo '<div class="address-line">';
-		echo  '<label for="address">' , __( 'Address Line 3', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][line_3]" value="">';
-		echo  '</div>';
-
-		echo  '</div>';
-
-		echo '<div class="address-region">';
-		echo  '<div class="input address-city">';
-		echo  '<label for="address">' , __( 'City', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][city]" value="">';
-		echo  '</div>';
-		echo  '<div class="input address-state">';
-		echo  '<label for="address">' , __( 'State', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][state]" value="">';
-		echo  '</div>';
-		echo  '<div class="input address-zipcode">';
-		echo  '<label for="address">' , __( 'Zipcode', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][zipcode]" value="">';
-		echo  '</div>';
-		echo  '</div>';
-
-		echo '<div class="address-country">';
-		echo  '<label for="address">' , __( 'Country', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][country]" value="">';
-		echo  '</div>';
-
-		echo '<div class="address-geo">';
-		echo  '<div class="input address-latitude">';
-		echo  '<label for="latitude">' , __( 'Latitude', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][latitude]" value="">';
-		echo  '</div>';
-		echo  '<div class="input address-longitude">';
-		echo  '<label for="longitude">' , __( 'Longitude', 'connections' ) , '</label>';
-		echo  '<input type="text" name="address[::FIELD::][longitude]" value="">';
-		echo  '</div>';
-
-		echo '<a class="geocode button" data-uid="::FIELD::" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
-
-		echo  '</div>';
-
-		echo  '<div class="clear"></div>';
-
-		echo '<div class="map" id="map-::FIELD::" data-map-id="::FIELD::" style="display: none; height: 400px;">' , __( 'Geocoding Address.', 'connections' ) , '</div>';
-
-		echo  '<br>';
-		echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-		echo  '</div>' , "\n";
-
-		echo  '</textarea>' , "\n";
-		// --> End template <-- \\
-
-
-		$addresses = $entry->getAddresses( array(), FALSE );
-		//print_r($addresses);
-
-		if ( ! empty( $addresses ) ) {
-			foreach ( $addresses as $address ) {
-				$token = $this->token( $entry->getId() );
-				$selectName = 'address['  . $token . '][type]';
-				( $address->preferred ) ? $preferredAddress = 'CHECKED' : $preferredAddress = '';
-
-				echo '<div class="widget address" id="address-row-'  . $token . '">' , "\n";
-				echo '<div class="widget-top">' , "\n";
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-				echo '<div class="widget-title"><h4>' , "\n";
-				echo __( 'Address Type', 'connections' ) , ': ' , $this->buildSelect( $selectName, $connections->options->getDefaultAddressValues(), $address->type ) , "\n";
-				echo '<label><input type="radio" name="address[preferred]" value="' , $token , '" ' , $preferredAddress , '> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-				echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'address[' . $token . '][visibility]', 'address_visibility_'  . $token , $this->visibiltyOptions, $address->visibility ) , '</span>' , "\n";
-				echo '</h4></div>'  , "\n";
-
-				echo '</div>' , "\n";
-
-				echo '<div class="widget-inside">' , "\n";
-
-				echo '<div class="address-local">' , "\n";
-				echo '<div class="address-line">' , "\n";
-				echo  '<label for="address">' , __( 'Address Line 1', 'connections' ) , '</label>' , "\n";
-				echo  '<input type="text" name="address[' , $token , '][line_1]" value="' , $address->line_1 , '">' , "\n";
-				echo '</div>' , "\n";
-
-				echo '<div class="address-line">' , "\n";
-				echo  '<label for="address">' , __( 'Address Line 2', 'connections' ) , '</label>' , "\n";
-				echo  '<input type="text" name="address[' , $token , '][line_2]" value="' , $address->line_2 , '">' , "\n";
-				echo '</div>' , "\n";
-
-				echo '<div class="address-line">' , "\n";
-				echo  '<label for="address">' , __( 'Address Line 3', 'connections' ) , '</label>' , "\n";
-				echo  '<input type="text" name="address[' , $token , '][line_3]" value="' , $address->line_3 , '">' , "\n";
-				echo '</div>' , "\n";
-				echo '</div>' , "\n";
-
-				echo '<div class="address-region">' , "\n";
-				echo  '<div class="input address-city">' , "\n";
-				echo  '<label for="address">' , __( 'City', 'connections' ) , '</label>';
-				echo  '<input type="text" name="address[' , $token . '][city]" value="' , $address->city , '">' , "\n";
-				echo  '</div>' , "\n";
-				echo  '<div class="input address-state">' , "\n";
-				echo  '<label for="address">' , __( 'State', 'connections' ) , '</label>' , "\n";
-				echo  '<input type="text" name="address[' , $token , '][state]" value="' , $address->state , '">' , "\n";
-				echo  '</div>' , "\n";
-				echo  '<div class="input address-zipcode">' , "\n";
-				echo  '<label for="address">' , __( 'Zipcode', 'connections' ) , '</label>' , "\n";
-				echo  '<input type="text" name="address[' , $token , '][zipcode]" value="' , $address->zipcode , '">' , "\n";
-				echo  '</div>' , "\n";
-				echo  '</div>' , "\n";
-
-				echo '<div class="address-country">' , "\n";
-				echo  '<label for="address">' , __( 'Country', 'connections' ) , '</label>' , "\n";
-				echo  '<input type="text" name="address[' , $token , '][country]" value="' , $address->country , '">' , "\n";
-				echo  '</div>' , "\n";
-
-				echo '<div class="address-geo">' , "\n";
-				echo  '<div class="input address-latitude">' , "\n";
-				echo  '<label for="latitude">' , __( 'Latitude', 'connections' ) , '</label>' , "\n";
-				echo  '<input type="text" name="address[' , $token , '][latitude]" value="' , $address->latitude , '">' , "\n";
-				echo  '</div>' , "\n";
-				echo  '<div class="input address-longitude">' , "\n";
-				echo  '<label for="longitude">' , __( 'Longitude', 'connections' ) , '</label>' , "\n";
-				echo  '<input type="text" name="address[' , $token , '][longitude]" value="' , $address->longitude , '">' , "\n";
-				echo  '</div>' , "\n";
-
-				echo '<a class="geocode button" data-uid="' , $token , '" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
-
-				echo  '</div>' , "\n";
-
-				echo  '<input type="hidden" name="address[' , $token , '][id]" value="' , $address->id , '">' , "\n";
-
-				echo  '<div class="clear"></div>' , "\n";
-
-				echo '<div class="map" id="map-' , $token , '" data-map-id="' , $token , '" style="display: none; height: 400px;">' , __( 'Geocoding Address.', 'connections' ) , '</div>';
-
-				echo  '<br>';
-				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , "\n";
-
-				echo  '</div>' , "\n";
-				echo  '</div>' , "\n";
-
-			}
-		}
-
-		echo  '</div>' , "\n";
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , "\n";
+		cnMetabox::address( $entry, $metabox = array() );
 	}
 
 	/**

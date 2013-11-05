@@ -128,7 +128,7 @@ jQuery(document).ready( function($) {
 	 * Add jQuery Chosen to the family name and relation fields.
 	 */
 	if ($.fn.chosen) {
-		$('.family-member-name, .family-member-relation').chosen();
+		$('.cn-enhanced-select').chosen();
 	}
 
 	$('a.cn-add.cn-button').click(function() {

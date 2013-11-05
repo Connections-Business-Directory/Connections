@@ -61,6 +61,14 @@ class cnMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-address',
+			'title'    => __( 'Addresses', 'connection' ),
+			'context'  => 'normal',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'address' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
 			'title'    => __( 'Image', 'connection' ),
 			'context'  => 'normal',
@@ -514,6 +522,451 @@ class cnMetabox {
 				echo $out;
 			}
 		}
+	}
+
+	public static function address( $entry, $atts ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the address types.
+		$addressTypes = $instance->options->getDefaultAddressValues();
+
+		// Visibility options.
+		$visibiltyOptions = array(
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' ),
+			'unlisted' => __( 'Unlisted', 'connections' )
+			);
+
+		echo '<div class="widgets-sortables ui-sortable form-field" id="addresses">' , PHP_EOL;
+
+		// --> Start template <-- \\
+		echo '<textarea id="address-template" style="display: block;">' , PHP_EOL;
+
+			echo '<div class="widget-top">' , PHP_EOL;
+
+				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+				echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][type]',
+							'options'  => $addressTypes,
+							'required' => FALSE,
+							'label'    => __( 'Address Type', 'connections' ),
+							'return'   => FALSE,
+						),
+						'work'
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'address[preferred]',
+							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][visibility]',
+							'options'  => $visibiltyOptions,
+							'required' => FALSE,
+							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						),
+						'public'
+					);
+
+				echo '</h4></div>'  , PHP_EOL;
+
+			echo '</div>' , PHP_EOL;
+
+			echo '<div class="widget-inside">';
+
+				echo '<div class="address-local">';
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][line_1]',
+							'required' => FALSE,
+							'label'    => __( 'Address Line 1', 'connections' ),
+							'before'   => '<div class="address-line">',
+							'after'    => '</div>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][line_2]',
+							'required' => FALSE,
+							'label'    => __( 'Address Line 2', 'connections' ),
+							'before'   => '<div class="address-line">',
+							'after'    => '</div>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][line_3]',
+							'required' => FALSE,
+							'label'    => __( 'Address Line 3', 'connections' ),
+							'before'   => '<div class="address-line">',
+							'after'    => '</div>',
+							'return'   => FALSE,
+						)
+					);
+
+				echo  '</div>';
+
+				echo '<div class="address-region">';
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][city]',
+							'required' => FALSE,
+							'label'    => __( 'City', 'connections' ),
+							'before'   => '<div class="address-city">',
+							'after'    => '</div>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][state]',
+							'required' => FALSE,
+							'label'    => __( 'State', 'connections' ),
+							'before'   => '<div class="address-state">',
+							'after'    => '</div>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][zipcode]',
+							'required' => FALSE,
+							'label'    => __( 'Zipcode', 'connections' ),
+							'before'   => '<div class="address-zipcode">',
+							'after'    => '</div>',
+							'return'   => FALSE,
+						)
+					);
+
+				echo '</div>';
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'address[::FIELD::][country]',
+						'required' => FALSE,
+						'label'    => __( 'Country', 'connections' ),
+						'before'   => '<div class="address-country">',
+						'after'    => '</div>',
+						'return'   => FALSE,
+					)
+				);
+
+				echo '<div class="address-geo">';
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][latitude]',
+							'required' => FALSE,
+							'label'    => __( 'Latitude', 'connections' ),
+							'before'   => '<div class="address-latitude">',
+							'after'    => '</div>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'address[::FIELD::][longitude]',
+							'required' => FALSE,
+							'label'    => __( 'Longitude', 'connections' ),
+							'before'   => '<div class="address-longitude">',
+							'after'    => '</div>',
+							'return'   => FALSE,
+						)
+					);
+
+				echo '</div>' , PHP_EOL;
+
+				echo '<a class="geocode button" data-uid="::FIELD::" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
+
+				echo '<div class="clear"></div>';
+
+				echo '<div class="map" id="map-::FIELD::" data-map-id="::FIELD::" style="display: none; height: 400px;">' , __( 'Geocoding Address.', 'connections' ) , '</div>';
+
+				echo '<br>';
+				echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+
+			echo '</div>' , PHP_EOL;
+
+		echo '</textarea>' , PHP_EOL;
+		// --> End template <-- \\
+
+		$addresses = $entry->getAddresses( array(), FALSE );
+		//print_r($addresses);
+
+		if ( ! empty( $addresses ) ) {
+
+			foreach ( $addresses as $address ) {
+
+				$token = md5( uniqid( rand(), TRUE ) );
+
+				$selectName = 'address['  . $token . '][type]';
+				$preferred  = $address->preferred ? $token : '';
+
+				echo '<div class="widget address" id="address-row-'  . $token . '">' , PHP_EOL;
+
+					echo '<div class="widget-top">' , PHP_EOL;
+						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+						echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => $selectName,
+								'options'  => $addressTypes,
+								'required' => FALSE,
+								'label'    => __( 'Address Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							$address->type
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'address[preferred]',
+								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+								'required' => FALSE,
+								'before'   => '<span class="preferred">',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$preferred
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'address[' . $token . '][visibility]',
+								'options'  => $visibiltyOptions,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$address->visibility
+						);
+
+						echo '</h4></div>'  , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+					echo '<div class="widget-inside">' , PHP_EOL;
+
+						echo '<div class="address-local">' , PHP_EOL;
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][line_1]',
+									'required' => FALSE,
+									'label'    => __( 'Address Line 1', 'connections' ),
+									'before'   => '<div class="address-line">',
+									'after'    => '</div>',
+									'return'   => FALSE,
+								),
+								$address->line_1
+							);
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][line_2]',
+									'required' => FALSE,
+									'label'    => __( 'Address Line 2', 'connections' ),
+									'before'   => '<div class="address-line">',
+									'after'    => '</div>',
+									'return'   => FALSE,
+								),
+								$address->line_2
+							);
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][line_3]',
+									'required' => FALSE,
+									'label'    => __( 'Address Line 3', 'connections' ),
+									'before'   => '<div class="address-line">',
+									'after'    => '</div>',
+									'return'   => FALSE,
+								),
+								$address->line_3
+							);
+
+						echo '</div>' , PHP_EOL;
+
+						echo '<div class="address-region">' , PHP_EOL;
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][city]',
+									'required' => FALSE,
+									'label'    => __( 'City', 'connections' ),
+									'before'   => '<div class="address-city">',
+									'after'    => '</div>',
+									'return'   => FALSE,
+								),
+								$address->city
+							);
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][state]',
+									'required' => FALSE,
+									'label'    => __( 'State', 'connections' ),
+									'before'   => '<div class="address-state">',
+									'after'    => '</div>',
+									'return'   => FALSE,
+								),
+								$address->state
+							);
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][zipcode]',
+									'required' => FALSE,
+									'label'    => __( 'Zipcode', 'connections' ),
+									'before'   => '<div class="address-zipcode">',
+									'after'    => '</div>',
+									'return'   => FALSE,
+								),
+								$address->zipcode
+							);
+
+						echo  '</div>' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'text',
+								'class'    => '',
+								'id'       => 'address[' . $token . '][country]',
+								'required' => FALSE,
+								'label'    => __( 'Country', 'connections' ),
+								'before'   => '<div class="address-country">',
+								'after'    => '</div>',
+								'return'   => FALSE,
+							),
+							$address->country
+						);
+
+						echo '<div class="address-geo">' , PHP_EOL;
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][latitude]',
+									'required' => FALSE,
+									'label'    => __( 'Latitude', 'connections' ),
+									'before'   => '<div class="address-latitude">',
+									'after'    => '</div>',
+									'return'   => FALSE,
+								),
+								$address->latitude
+							);
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][longitude]',
+									'required' => FALSE,
+									'label'    => __( 'Longitude', 'connections' ),
+									'before'   => '<div class="address-longitude">',
+									'after'    => '</div>',
+									'return'   => FALSE,
+								),
+								$address->longitude
+							);
+
+						echo '</div>' , PHP_EOL;
+
+						echo '<a class="geocode button" data-uid="' , $token , '" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
+
+						echo '<div class="clear"></div>' , PHP_EOL;
+
+						echo '<div class="map" id="map-' , $token , '" data-map-id="' , $token , '" style="display: none; height: 400px;">' , __( 'Geocoding Address.', 'connections' ) , '</div>' , PHP_EOL;
+
+						echo '<input type="hidden" name="address[' , $token , '][id]" value="' , $address->id , '">' , PHP_EOL;
+
+						echo '<br>';
+						echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+				echo '</div>' , PHP_EOL;
+			}
+		}
+
+		echo  '</div>' , PHP_EOL;
+
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	/**

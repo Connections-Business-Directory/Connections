@@ -180,63 +180,68 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Builds a form select list
+	 * Renders a select drop down.
 	 *
-	 * @return HTML form select
-	 * @param string  $name
-	 * @param array   $value_options      Associative array where the key is the name visible in the HTML output and the value is the option attribute value
-	 * @param string  $selected[optional]
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param string  $name    The input option id/name value.
+	 * @param array   $options An associative array. Key is the option value and the value is the option name.
+	 * @param string  $value   [optional] The selected option.
+	 * @param string  $class   The class applied to the select.
+	 * @param string  $id      UNUSED
+	 *
+	 * @return string
 	 */
-	public function buildSelect( $name, $value_options, $selected=null, $class='', $id='' ) {
+	public function buildSelect( $name, $options, $value = '', $class='', $id='' ) {
 
-		$select = "\n" . '<select' . ( ( empty( $class ) ? '' : ' class="' . $class . '"' ) ) . ( ( empty( $id ) ? '' : ' id="' . $id . '"' ) ) . ' name="' . $name . '">' . "\n";
-		foreach ( $value_options as $key=>$value ) {
-			$select .= "<option ";
-			if ( $value != null ) {
-				$select .= "value='" . $key . "'";
-			}
-			else {
-				$select .= "value=''";
-			}
-			if ( $selected == $key ) $select .= " SELECTED";
-
-			$select .= ">";
-			$select .= $value;
-			$select .= "</option> \n";
-		}
-		$select .= "</select> \n";
+		$select = cnHTML::field(
+			array(
+				'type'     => 'select',
+				'class'    => $class,
+				'id'       => $name,
+				'options'  => $options,
+				'required' => FALSE,
+				'label'    => '',
+				'return'   => TRUE,
+			),
+			$value
+		);
 
 		return $select;
 	}
 
 	/**
-	 * Builds and returns radio groups.
+	 * Renders a radio group.
 	 *
-	 * @param object  $name
-	 * @param object  $id
-	 * @param object  $value_labels      associative string array label name [key] and value [value]
-	 * @param object  $checked[optional] value to be selected by default
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param string  $name    The input option id/name value.
+	 * @param string  $id      UNUSED
+	 * @param array   $options An associative array. Key is the option name and the value is the option value.
+	 * @param string  $value   [optional] The selected option.
 	 *
 	 * @return string
 	 */
-	public function buildRadio( $name, $id, $value_labels, $checked=null ) {
-		$selected = NULL;
-		$radio = NULL;
-		$count = 0;
+	public function buildRadio( $name, $id, $options, $value = '' ) {
 
-		foreach ( $value_labels as $label => $value ) {
-			$idplus = $id . '_' . $count;
-
-			if ( $checked == $value ) $selected = 'CHECKED';
-
-			$radio .= '<label for="' . $idplus . '">';
-			$radio .= '<input id="' . $idplus . '" type="radio" name="' . $name . '" value="' . $value . '" ' . $selected . '>';
-			$radio .= $label . '</label>';
-
-			$selected = null;
-			$idplus = null;
-			$count = $count + 1;
-		}
+		$radio = cnHTML::field(
+			array(
+				'type'     => 'radio',
+				'format'   => 'block',
+				'class'    => '',
+				'id'       => $name,
+				'options'  => array_flip( $options ), // The options array is flipped to preserve backward compatibility.
+				'required' => FALSE,
+				'return'   => TRUE,
+			),
+			$value
+		);
 
 		return $radio;
 	}

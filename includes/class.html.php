@@ -104,13 +104,13 @@ class cnHTML {
 
 			case 'radio':
 
-				return self::input( $atts, $value );
+				return self::radio( $atts, $value );
 
 				break;
 
 			case 'select':
 
-				return self::input( $atts, $value );
+				return self::select( $atts, $value );
 
 				break;
 
@@ -185,6 +185,7 @@ class cnHTML {
 			'label'    => '',
 			'before'   => '',
 			'after'    => '',
+			'parts'    => array( '%label%', '%field%' ),
 			'layout'   => '%label%%field%',
 			'return'   => FALSE,
 			);
@@ -198,9 +199,9 @@ class cnHTML {
 		$name = $atts['id'];
 
 		// The field parts to be searched for in $atts['layout'].
-		$search  = array( '%label%', '%field%' );
+		$search = $atts['parts'];
 
-		// An array to store the  replacement strings for the label and field.
+		// An array to store the replacement strings for the label and field.
 		$replace = array();
 
 		// Prefix the `class` and `id` attribute.
@@ -283,7 +284,7 @@ class cnHTML {
 
 			case 'inline':
 
-				$out .= '<div class="cn-radio-group">';
+				$out .= '<span class="cn-radio-group">';
 
 				foreach ( $atts['options'] as $key => $label ) {
 
@@ -304,7 +305,7 @@ class cnHTML {
 					$out .= '</span>' . PHP_EOL;
 				}
 
-				$out .= '</div>';
+				$out .= '</span>';
 
 				break;
 		}
@@ -321,27 +322,54 @@ class cnHTML {
 		$out = '';
 
 		$defaults = array(
-			'class'   => array(),
-			'id'      => '',
-			'style'   => array(),
-			'default' => array(),
-			'options' => array(),
-			'enhanced'=> FALSE,
-			'before'  => '',
-			'after'   => '',
-			'return'  => FALSE,
+			'prefix'   => 'cn-',
+			'class'    => array(),
+			'id'       => '',
+			'style'    => array(),
+			'default'  => array(),
+			'options'  => array(),
+			'enhanced' => FALSE,
+			'label'    => '',
+			'before'   => '',
+			'after'    => '',
+			'parts'    => array( '%label%', '%field%' ),
+			'layout'   => '%label%%field%',
+			'return'   => FALSE,
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		// If no `id` was supplied, bail.
+		if ( empty( $atts['id'] ) ) return '';
+
+		// The field name.
+		$name = $atts['id'];
+
+		// The field parts to be searched for in $atts['layout'].
+		$search = $atts['parts'];
+
+		// An array to store the replacement strings for the label and field.
+		$replace = array();
+
 		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
-		if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('cn-enhanced-select') );
+		if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('enhanced-select') );
+
+		// Prefix the `class` and `id` attribute.
+		if ( ! empty( $atts['prefix'] ) ) {
+
+			$atts['class'] = self::prefix( $atts['class'] );
+			$atts['id']    = self::prefix( $atts['id'] );
+		}
+
+		// Create the field label, if supplied.
+		$replace['label'] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
 
 		// Open the select.
-		$out .= sprintf( '<select%1$sname="%2$s" id="%2$s"%3$s%4$s>',
-			$atts['class'] ? self::attribute( 'class', $atts['class'] ) : '',
-			esc_attr( $atts['id'] ),
-			$atts['style'] ? self::attribute( 'style', $atts['style'] ) : '',
+		$replace['field'] = sprintf( '<select %1$s %2$s %3$s %4$s %5$s>',
+			self::attribute( 'class', $atts['class'] ),
+			self::attribute( 'id', $atts['id'] ),
+			self::attribute( 'name', $name ),
+			self::attribute( 'style', $atts['style'] ),
 			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( (string) reset( $atts['default'] ) ) . '"' : ''
 			);
 
@@ -363,7 +391,7 @@ class cnHTML {
 
 		foreach ( $atts['options'] as $key => $label )	{
 
-			$out .= sprintf( '<option value="%1$s" %2$s>%3$s</option>',
+			$replace['field'] .= sprintf( '<option value="%1$s" %2$s>%3$s</option>',
 				esc_attr( $key ),
 				selected( $value, $key, FALSE ),
 				esc_html( $label )
@@ -371,7 +399,9 @@ class cnHTML {
 		}
 
 		// Close the select.
-		$out .= '</select>';
+		$replace['field'] .= '</select>';
+
+		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
 		/*
 		 * Return or echo the string.

@@ -1924,7 +1924,6 @@ class cnRetrieve {
 		if ( in_array( 'phone_number' , $search ) ) $defaultAttr['fields_phone'][] = 'number';
 
 		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		//print_r($atts);
 
 		// @todo Validate each fiels array to ensure only permitted fields will be used.
 		/*
@@ -2082,6 +2081,17 @@ class cnRetrieve {
 				$results = array_merge( $results, $wpdb->get_col( $sql ) );
 				//print_r($results);
 			}
+
+			/*Category Search Modification*/
+			$like = implode("%' OR name like '%", $atts['terms']);
+			$Terms = $wpdb->get_results("SELECT name, term_id from " . CN_TERMS_TABLE . " WHERE name like '%" . $like . "%'");
+			foreach ($Terms as $Term) {
+				$results = array_merge($results, $wpdb->get_col( 'SELECT ' . CN_TERM_RELATIONSHIP_TABLE . '.entry_id
+							FROM ' . CN_TERM_RELATIONSHIP_TABLE . '
+							WHERE term_taxonomy_id='.$Term->term_id ));
+			}
+
+
 
 		}
 

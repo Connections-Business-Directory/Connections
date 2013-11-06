@@ -265,7 +265,7 @@ class cnFormObjects {
 		add_meta_box( 'categorydiv', __( 'Categories', 'connections' ), array( $this, 'metaboxCategories' ), $pageHook, 'side', 'core' );
 		add_meta_box( 'metabox-image', __( 'Image', 'connections' ), array( $this, 'metaboxImage' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-logo', __( 'Logo', 'connections' ), array( $this, 'metaboxLogo' ), $pageHook, 'normal', 'core' );
-		// add_meta_box( 'metabox-address', __( 'Addresses', 'connections' ), array( $this, 'metaboxAddress' ), $pageHook, 'normal', 'core' );
+		add_meta_box( 'metabox-address', __( 'Addresses', 'connections' ), array( $this, 'metaboxAddress' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-phone', __( 'Phone Numbers', 'connections' ), array( $this, 'metaboxPhone' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-email', __( 'Email Addresses', 'connections' ), array( $this, 'metaboxEmail' ), $pageHook, 'normal', 'core' );
 		add_meta_box( 'metabox-messenger', __( 'Messenger IDs', 'connections' ), array( $this, 'metaboxMessenger' ), $pageHook, 'normal', 'core' );

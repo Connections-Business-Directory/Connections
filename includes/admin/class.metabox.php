@@ -529,6 +529,16 @@ class cnMetabox {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
+		// This array will store field group IDs as the fields are registered.
+		// This array will be checked for an existing ID before rendering
+		// a field to prevent multiple field group IDs from being rendered.
+		$groupIDs = array();
+
+		// This array will store field IDs as the fields are registered.
+		// This array will be checked for an existing ID before rendering
+		// a field to prevent multiple field IDs from being rendered.
+		$fieldIDs = array();
+
 		// Grab the address types.
 		$addressTypes = $instance->options->getDefaultAddressValues();
 
@@ -539,10 +549,170 @@ class cnMetabox {
 			'unlisted' => __( 'Unlisted', 'connections' )
 			);
 
+		// $defaults = array(
+		// 	// Define the entry type so the correct fields will be rendered. If an entry type is all registered entry types, render all fields assuming this is new entry.
+		// 	'type'  => $entry->getEntryType() ? $entry->getEntryType() : array( 'individual', 'organization', 'family'),
+		// 	// The entry type to which the meta fields are being registered.
+		// 	'individual' => array(
+		// 		'type'          => $addressTypes,
+		// 		'preferred'     => TRUE,
+		// 		'visibility'    => $visibiltyOptions,
+		// 		// The entry type field meta. Contains the arrays that define the field groups and their respective fields.
+		// 		'meta'   => array(
+		// 			// This key is the field group ID and it must be unique. Duplicates will be discarded.
+		// 			'address-local' => array(
+		// 				// Whether or not to render the field group.
+		// 				'show'  => TRUE,
+		// 				// The fields within the field group.
+		// 				'field' => array(
+		// 					// This key is the field ID.
+		// 					'line_1' => array(
+		// 						// Each field must have an unique ID. Duplicates will be discarded.
+		// 						'id'        => 'line_1',
+		// 						// Whether or not to render the field.
+		// 						'show'      => TRUE,
+		// 						// The field label if supplied.
+		// 						'label'     => __( 'Address Line 1', 'connections' ),
+		// 						// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+		// 						// This will be used by jQuery Validate.
+		// 						'required'  => FALSE,
+		// 						// The field type.
+		// 						'type'      => 'text',
+		// 						// The field value.
+		// 						'value'     => 'line_1',
+		// 						'before'    => '<div class="address-line">',
+		// 						'after'     => '</div>',
+		// 						),
+		// 					'line_2' => array(
+		// 						// Each field must have an unique ID. Duplicates will be discarded.
+		// 						'id'        => 'line_2',
+		// 						// Whether or not to render the field.
+		// 						'show'      => TRUE,
+		// 						// The field label if supplied.
+		// 						'label'     => __( 'Address Line 2', 'connections' ),
+		// 						// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+		// 						// This will be used by jQuery Validate.
+		// 						'required'  => FALSE,
+		// 						// The field type.
+		// 						'type'      => 'text',
+		// 						// The field value.
+		// 						'value'     => 'line_2',
+		// 						'before'    => '<div class="address-line">',
+		// 						'after'     => '</div>',
+		// 						),
+		// 					'line_3' => array(
+		// 						// Each field must have an unique ID. Duplicates will be discarded.
+		// 						'id'        => 'line_3',
+		// 						// Whether or not to render the field.
+		// 						'show'      => TRUE,
+		// 						// The field label if supplied.
+		// 						'label'     => __( 'Address Line 3', 'connections' ),
+		// 						// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+		// 						// This will be used by jQuery Validate.
+		// 						'required'  => FALSE,
+		// 						// The field type.
+		// 						'type'      => 'text',
+		// 						// The field value.
+		// 						'value'     => 'line_3',
+		// 						'before'    => '<div class="address-line">',
+		// 						'after'     => '</div>',
+		// 						),
+		// 					),
+		// 				),
+		// 			'address-region' => array(
+		// 				// Whether or not to render the field group.
+		// 				'show'  => TRUE,
+		// 				// The fields within the field group.
+		// 				'field' => array(
+		// 					// This key is the field ID.
+		// 					'city' => array(
+		// 						// Each field must have an unique ID. Duplicates will be discarded.
+		// 						'id'        => 'city',
+		// 						// Whether or not to render the field.
+		// 						'show'      => TRUE,
+		// 						// The field label if supplied.
+		// 						'label'     => __( 'City', 'connections' ),
+		// 						// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+		// 						// This will be used by jQuery Validate.
+		// 						'required'  => FALSE,
+		// 						// The field type.
+		// 						'type'      => 'text',
+		// 						// The field value.
+		// 						'value'     => 'city',
+		// 						'before'    => '<span class="address-city">',
+		// 						'after'     => '</span>',
+		// 						),
+		// 					'state' => array(
+		// 						// Each field must have an unique ID. Duplicates will be discarded.
+		// 						'id'        => 'state',
+		// 						// Whether or not to render the field.
+		// 						'show'      => TRUE,
+		// 						// The field label if supplied.
+		// 						'label'     => __( 'State', 'connections' ),
+		// 						// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+		// 						// This will be used by jQuery Validate.
+		// 						'required'  => FALSE,
+		// 						// The field type.
+		// 						'type'      => 'text',
+		// 						// The field value.
+		// 						'value'     => 'state',
+		// 						'before'    => '<span class="address-state">',
+		// 						'after'     => '</span>',
+		// 						),
+		// 					'zipcode' => array(
+		// 						// Each field must have an unique ID. Duplicates will be discarded.
+		// 						'id'        => 'zipcode',
+		// 						// Whether or not to render the field.
+		// 						'show'      => TRUE,
+		// 						// The field label if supplied.
+		// 						'label'     => __( 'Zipcode', 'connections' ),
+		// 						// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+		// 						// This will be used by jQuery Validate.
+		// 						'required'  => FALSE,
+		// 						// The field type.
+		// 						'type'      => 'text',
+		// 						// The field value.
+		// 						'value'     => 'zipcode',
+		// 						'before'    => '<span class="address-zipcode">',
+		// 						'after'     => '</span>',
+		// 						),
+		// 					),
+		// 				),
+		// 			'address-country' => array(
+		// 				// Whether or not to render the field group.
+		// 				'show'  => TRUE,
+		// 				// The fields within the field group.
+		// 				'field' => array(
+		// 					// This key is the field ID.
+		// 					'country' => array(
+		// 						// Each field must have an unique ID. Duplicates will be discarded.
+		// 						'id'        => 'country',
+		// 						// Whether or not to render the field.
+		// 						'show'      => TRUE,
+		// 						// The field label if supplied.
+		// 						'label'     => __( 'Country', 'connections' ),
+		// 						// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+		// 						// This will be used by jQuery Validate.
+		// 						'required'  => FALSE,
+		// 						// The field type.
+		// 						'type'      => 'text',
+		// 						// The field value.
+		// 						'value'     => 'country',
+		// 						'before'    => '<span class="address-country">',
+		// 						'after'     => '</span>',
+		// 						),
+		// 					),
+		// 				),
+		// 			),
+		// 		),
+		// 	);
+
+		// $atts = wp_parse_args( apply_filters( 'cn_admin_metabox_name_atts', $atts ), $defaults );
+
 		echo '<div class="widgets-sortables ui-sortable form-field" id="addresses">' , PHP_EOL;
 
 		// --> Start template <-- \\
-		echo '<textarea id="address-template" style="display: block;">' , PHP_EOL;
+		echo '<textarea id="address-template" style="display: none;">' , PHP_EOL;
 
 			echo '<div class="widget-top">' , PHP_EOL;
 
@@ -963,6 +1133,163 @@ class cnMetabox {
 				echo '</div>' , PHP_EOL;
 			}
 		}
+
+		// foreach ( (array) $atts['type'] as $entryType ) {
+
+		// 	if ( array_key_exists( $entryType, $atts ) ) {
+
+		// 		if ( isset( $atts[ $entryType ]['callback'] ) ) {
+
+		// 			call_user_func( $atts[ $entryType ]['callback'], $entry, $atts[ $entryType ]['meta'] );
+		// 			continue;
+		// 		}
+
+		// 		$selectName = 'address['  . $token . '][type]';
+
+		// 		echo '<div class="widget address" id="address-row-'  . $token . '">' , PHP_EOL;
+
+		// 			echo '<div class="widget-top">' , PHP_EOL;
+
+		// 				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+		// 				echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+		// 					if ( isset( $atts[ $entryType ]['type'] ) ) {
+
+		// 						cnHTML::field(
+		// 							array(
+		// 								'type'     => 'select',
+		// 								'class'    => '',
+		// 								'id'       => $selectName,
+		// 								'options'  => $addressTypes,
+		// 								'required' => FALSE,
+		// 								'label'    => __( 'Address Type', 'connections' ),
+		// 								'return'   => FALSE,
+		// 							),
+		// 							$address->type
+		// 						);
+		// 					}
+
+		// 					if ( isset( $atts[ $entryType ]['preferred'] ) ) {
+
+		// 						cnHTML::field(
+		// 							array(
+		// 								'type'     => 'radio',
+		// 								'format'   => 'inline',
+		// 								'class'    => '',
+		// 								'id'       => 'address[preferred]',
+		// 								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+		// 								'required' => FALSE,
+		// 								'before'   => '<span class="preferred">',
+		// 								'after'    => '</span>',
+		// 								'return'   => FALSE,
+		// 							),
+		// 							$preferred
+		// 						);
+		// 					}
+
+		// 					if ( isset( $atts[ $entryType ]['visibility'] ) ) {
+
+		// 						cnHTML::field(
+		// 							array(
+		// 								'type'     => 'radio',
+		// 								'format'   => 'inline',
+		// 								'class'    => '',
+		// 								'id'       => 'address[' . $token . '][visibility]',
+		// 								'options'  => $visibiltyOptions,
+		// 								'required' => FALSE,
+		// 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+		// 								'after'    => '</span>',
+		// 								'return'   => FALSE,
+		// 							),
+		// 							'public'
+		// 						);
+		// 					}
+
+		// 				echo '</h4></div>'  , PHP_EOL; // END .widget-title
+
+		// 			echo '</div>' , PHP_EOL; // END .widget-top
+
+		// 			echo '<div class="widget-inside">';
+
+		// 				/*
+		// 				 * Dump the output in a var that way it can mre more easily broke up and filters added later.
+		// 				 */
+		// 				$out = '';
+
+		// 				foreach ( $atts[ $entryType ]['meta'] as $type => $meta ) {
+
+		// 					if ( in_array( $type, $groupIDs ) ) {
+
+		// 						continue;
+
+		// 					} else {
+
+		// 						$groupIDs[] = $type;
+		// 					}
+
+		// 					$out .= '<div class="cn-metabox" id="cn-metabox-section-' . $type . '">' . PHP_EOL;
+
+		// 					if ( $meta['show'] == TRUE ) {
+
+		// 						foreach( $meta['field'] as $field ) {
+
+		// 							if ( in_array( $field['id'], $fieldIDs ) ) {
+
+		// 								continue;
+
+		// 							} else {
+
+		// 								$fieldIDs[] = $field['id'];
+		// 							}
+
+		// 							if ( $field['show'] ) {
+
+		// 								$defaults = array(
+		// 									'type'     => '',
+		// 									'class'    => array(),
+		// 									'id'       => '',
+		// 									'style'    => array(),
+		// 									'options'  => array(),
+		// 									'value'    => '',
+		// 									'required' => FALSE,
+		// 									'label'    => '',
+		// 									'before'   => '',
+		// 									'after'    => '',
+		// 									'return'   => TRUE,
+		// 									);
+
+		// 								$field = wp_parse_args( $field, $defaults );
+
+		// 								$out .= cnHTML::field(
+		// 									array(
+		// 										'type'     => $field['type'],
+		// 										'class'    => $field['class'],
+		// 										'id'       => $field['id'],
+		// 										'style'    => $field['style'],
+		// 										'options'  => $field['options'],
+		// 										'required' => $field['required'],
+		// 										'label'    => $field['label'],
+		// 										'before'   => $field['before'],
+		// 										'after'    => $field['after'],
+		// 										'return'   => TRUE,
+		// 									),
+		// 									$field['value']
+		// 								);
+		// 							}
+		// 						}
+		// 					}
+
+		// 					$out .= '</div>' . PHP_EOL;
+		// 				}
+
+		// 				echo $out;
+
+		// 			echo '</div>' , PHP_EOL; // END .widget-inside
+
+		// 		echo '</div>' , PHP_EOL; // END .widget
+		// 	}
+		// }
 
 		echo  '</div>' , PHP_EOL;
 

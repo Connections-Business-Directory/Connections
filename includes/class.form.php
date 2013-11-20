@@ -883,76 +883,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the phone meta box.
+	 * Renders the phone metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
 	public function metaboxPhone( $entry = NULL ) {
-		global $connections;
 
-		echo  '<div class="widgets-sortables ui-sortable form-field" id="phone-numbers">';
-
-		// --> Start template <-- \\
-		echo  '<textarea id="phone-template" style="display: none">';
-
-		echo '<div class="widget-top">' , "\n";
-		echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-		echo '<div class="widget-title"><h4>' , "\n";
-		echo __( 'Phone Type', 'connections' ) , ': ' , $this->buildSelect( 'phone[::FIELD::][type]', $connections->options->getDefaultPhoneNumberValues() ) , "\n";
-		echo '<label><input type="radio" name="phone[preferred]" value="::FIELD::"> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-		echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'phone[::FIELD::][visibility]', 'phone_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
-		echo '</h4></div>'  , "\n";
-
-		echo '</div>' , "\n";
-
-		echo '<div class="widget-inside">' , "\n";
-
-		echo  '<label>' , __( 'Phone Number', 'connections' ) , '</label><input type="text" name="phone[::FIELD::][number]" value="" style="width: 30%"/>' , "\n";
-		echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="phone" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>' , "\n";
-
-		echo '</div>' , "\n";
-
-		echo  '</textarea>';
-		// --> End template <-- \\
-
-		$phoneNumbers = $entry->getPhoneNumbers( array(), FALSE );
-
-		if ( ! empty( $phoneNumbers ) ) {
-
-			foreach ( $phoneNumbers as $phone ) {
-				$token = $this->token( $entry->getId() );
-				$selectName = 'phone['  . $token . '][type]';
-				( $phone->preferred ) ? $preferredPhone = 'CHECKED' : $preferredPhone = '';
-
-				echo '<div class="widget phone" id="phone-row-'  . $token . '">' , "\n";
-				echo '<div class="widget-top">' , "\n";
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-				echo '<div class="widget-title"><h4>' , "\n";
-				echo __( 'Phone Type', 'connections' ) , ': ' , $this->buildSelect( $selectName, $connections->options->getDefaultPhoneNumberValues(), $phone->type ) , "\n";
-				echo '<label><input type="radio" name="phone[preferred]" value="' , $token , '" ' , $preferredPhone , '> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-				echo '<span class="visibility">Visibility: ' , $this->buildRadio( 'phone[' . $token . '][visibility]', 'phone_visibility_'  . $token , $this->visibiltyOptions, $phone->visibility ) , '</span>' , "\n";
-				echo '</h4></div>'  , "\n";
-
-				echo '</div>' , "\n";
-
-				echo '<div class="widget-inside">' , "\n";
-
-				echo  '<label>' , __( 'Phone Number', 'connections' ) , '</label><input type="text" name="phone[' , $token , '][number]" value="' , $phone->number , '" style="width: 30%"/>';
-				echo  '<input type="hidden" name="phone[' , $token , '][id]" value="' , $phone->id , '">' , "\n";
-				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="phone" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-				echo '</div>' , "\n";
-				echo '</div>' , "\n";
-			}
-
-		}
-
-		echo  '</div>';
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">' , __( 'Add Phone Number', 'connections' ) , '</a></p>';
+		cnMetabox::phone( $entry, $metabox = array() );
 	}
 
 	/**

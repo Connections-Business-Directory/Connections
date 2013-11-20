@@ -69,6 +69,14 @@ class cnMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-phone',
+			'title'    => __( 'Phone Numbers', 'connections' ),
+			'context'  => 'normal',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'phone' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
 			'title'    => __( 'Image', 'connection' ),
 			'context'  => 'normal',
@@ -1405,6 +1413,197 @@ class cnMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	public static function phone( $entry, $metabox ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the address types.
+		$phoneTypes = $instance->options->getDefaultPhoneNumberValues();
+
+		// Visibility options.
+		$visibiltyOptions = array(
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' ),
+			'unlisted' => __( 'Unlisted', 'connections' )
+			);
+
+		echo '<div class="widgets-sortables ui-sortable form-field" id="phone-numbers">' , PHP_EOL;
+
+		// --> Start template <-- \\
+		echo '<textarea id="phone-template" style="display: none;">' , PHP_EOL;
+
+			echo '<div class="widget-top">' , PHP_EOL;
+
+				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+				echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'phone[::FIELD::][type]',
+							'options'  => $phoneTypes,
+							'required' => FALSE,
+							'label'    => __( 'Phone Type', 'connections' ),
+							'return'   => FALSE,
+						),
+						'work'
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'phone[preferred]',
+							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'phone[::FIELD::][visibility]',
+							'options'  => $visibiltyOptions,
+							'required' => FALSE,
+							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						),
+						'public'
+					);
+
+				echo '</h4></div>'  , PHP_EOL;
+
+			echo '</div>' , PHP_EOL;
+
+			echo '<div class="widget-inside">';
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'phone[::FIELD::][number]',
+						'required' => FALSE,
+						'label'    => __( 'Phone Number', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					)
+				);
+
+				echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="phone" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+
+			echo '</div>' , PHP_EOL;
+
+		echo '</textarea>' , PHP_EOL;
+		// --> End template <-- \\
+
+		$phoneNumbers = $entry->getPhoneNumbers( array(), FALSE );
+		//print_r($phoneNumbers);
+
+		if ( ! empty( $phoneNumbers ) ) {
+
+			foreach ( $phoneNumbers as $phone ) {
+
+				$token = md5( uniqid( rand(), TRUE ) );
+
+				$selectName = 'phone['  . $token . '][type]';
+				$preferred  = $phone->preferred ? $token : '';
+
+				echo '<div class="widget phone" id="phone-row-'  . $token . '">' , PHP_EOL;
+
+					echo '<div class="widget-top">' , PHP_EOL;
+						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+						echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'phone[' . $token . '][type]',
+								'options'  => $phoneTypes,
+								'required' => FALSE,
+								'label'    => __( 'Phone Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							$phone->type
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'phone[preferred]',
+								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+								'required' => FALSE,
+								'before'   => '<span class="preferred">',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$preferred
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'phone[' . $token . '][visibility]',
+								'options'  => $visibiltyOptions,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$phone->visibility
+						);
+
+						echo '</h4></div>'  , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+					echo '<div class="widget-inside">' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'text',
+								'class'    => '',
+								'id'       => 'phone[' . $token . '][number]',
+								'required' => FALSE,
+								'label'    => __( 'Phone Number', 'connections' ),
+								'before'   => '',
+								'after'    => '',
+								'return'   => FALSE,
+							),
+							$phone->number
+						);
+
+						echo '<input type="hidden" name="phone[' , $token , '][id]" value="' , $phone->id , '">' , PHP_EOL;
+
+						echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="phone" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+				echo '</div>' , PHP_EOL;
+			}
+		}
+
+		echo  '</div>' , PHP_EOL;
+
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">' , __( 'Add Phone Number', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	public static function image( $entry, $metabox ) {

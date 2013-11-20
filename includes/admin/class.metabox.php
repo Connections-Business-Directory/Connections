@@ -524,6 +524,117 @@ class cnMetabox {
 		}
 	}
 
+	/**
+	 * Callback to render the 'family' entry type part of the 'Name' metabox.
+	 * Called from self::name()
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox attributes array set in self::register(). Passed from self::name().
+	 * @return void
+	 */
+	public static function family( $entry, $atts ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		/*
+		 * Dump the output in a var that way it can mre more easily broke up and filters added later.
+		 */
+		$family = '';
+
+		// Retrieve all the entries of the "individual" entry type that the user is permitted to view and is approved.
+		$individuals = cnRetrieve::individuals();
+
+		// Get the core entry relations.
+		$relations   = $instance->options->getDefaultFamilyRelationValues();
+
+		$family .= '<div class="cn-metabox" id="cn-metabox-section-family">';
+
+			$family .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
+			$family .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
+
+			$family .= '<div id="cn-relations">';
+
+			// --> Start template for Family <-- \\
+			$family .= '<textarea id="cn-relation-template" style="display: none">';
+
+				$family .= cnHTML::select(
+						array(
+							'class'    => 'family-member-name',
+							'id'       => 'family_member[::FIELD::][entry_id]',
+							'default'  => array( '' => __( 'Select Entry', 'connections' ) ),
+							'options'  => $individuals,
+							'enhanced' => TRUE,
+							'return'   => TRUE,
+							)
+						);
+
+				$family .= cnHTML::select(
+						array(
+							'class'    => 'family-member-relation',
+							'id'       => 'family_member[::FIELD::][relation]',
+							'default'  => array( '' => __( 'Select Relation', 'connections' ) ),
+							'options'  => $relations,
+							'enhanced' => TRUE,
+							'return'   => TRUE,
+							)
+						);
+
+			$family .= '</textarea>';
+			// --> End template for Family <-- \\
+
+			if ( $entry->getFamilyMembers() ) {
+
+				foreach ( $entry->getFamilyMembers() as $key => $value ) {
+
+					$token = md5( uniqid( rand(), TRUE ) );
+
+					if ( array_key_exists( $key, $individuals ) ) {
+
+						$family .= '<div id="relation-row-' . $token . '" class="relation">';
+
+							$family .= cnHTML::select(
+								array(
+									'class'    => 'family-member-name',
+									'id'       => 'family_member[' . $token . '][entry_id]',
+									'default'  => array( '' => __( 'Select Entry', 'connections' ) ),
+									'options'  => $individuals,
+									'enhanced' => TRUE,
+									'return'   => TRUE,
+									),
+									$key
+								);
+
+							$family .= cnHTML::select(
+								array(
+									'class'   => 'family-member-relation',
+									'id'      => 'family_member[' . $token . '][relation]',
+									'default'  => array( '' => __( 'Select Relation', 'connections' ) ),
+									'options' => $relations,
+									'enhanced' => TRUE,
+									'return'   => TRUE,
+									),
+									$value
+								);
+
+							$family .= '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
+
+						$family .= '</div>';
+					}
+				}
+			}
+
+			$family .= '</div>';
+
+			$family .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
+
+		$family .= '</div>';
+
+		echo $family;
+	}
+
 	public static function address( $entry, $atts ) {
 
 		// Grab an instance of the Connections object.
@@ -1294,117 +1405,6 @@ class cnMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
-	}
-
-	/**
-	 * Callback to render the 'family' entry type part of the 'Name' metabox.
-	 * Called from self::name()
-	 *
-	 * @access private
-	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox attributes array set in self::register(). Passed from self::name().
-	 * @return void
-	 */
-	public static function family( $entry, $atts ) {
-
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		/*
-		 * Dump the output in a var that way it can mre more easily broke up and filters added later.
-		 */
-		$family = '';
-
-		// Retrieve all the entries of the "individual" entry type that the user is permitted to view and is approved.
-		$individuals = cnRetrieve::individuals();
-
-		// Get the core entry relations.
-		$relations   = $instance->options->getDefaultFamilyRelationValues();
-
-		$family .= '<div class="cn-metabox" id="cn-metabox-section-family">';
-
-			$family .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
-			$family .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
-
-			$family .= '<div id="cn-relations">';
-
-			// --> Start template for Family <-- \\
-			$family .= '<textarea id="cn-relation-template" style="display: none">';
-
-				$family .= cnHTML::select(
-						array(
-							'class'    => 'family-member-name',
-							'id'       => 'family_member[::FIELD::][entry_id]',
-							'default'  => array( '' => __( 'Select Entry', 'connections' ) ),
-							'options'  => $individuals,
-							'enhanced' => TRUE,
-							'return'   => TRUE,
-							)
-						);
-
-				$family .= cnHTML::select(
-						array(
-							'class'    => 'family-member-relation',
-							'id'       => 'family_member[::FIELD::][relation]',
-							'default'  => array( '' => __( 'Select Relation', 'connections' ) ),
-							'options'  => $relations,
-							'enhanced' => TRUE,
-							'return'   => TRUE,
-							)
-						);
-
-			$family .= '</textarea>';
-			// --> End template for Family <-- \\
-
-			if ( $entry->getFamilyMembers() ) {
-
-				foreach ( $entry->getFamilyMembers() as $key => $value ) {
-
-					$token = md5( uniqid( rand(), TRUE ) );
-
-					if ( array_key_exists( $key, $individuals ) ) {
-
-						$family .= '<div id="relation-row-' . $token . '" class="relation">';
-
-							$family .= cnHTML::select(
-								array(
-									'class'    => 'family-member-name',
-									'id'       => 'family_member[' . $token . '][entry_id]',
-									'default'  => array( '' => __( 'Select Entry', 'connections' ) ),
-									'options'  => $individuals,
-									'enhanced' => TRUE,
-									'return'   => TRUE,
-									),
-									$key
-								);
-
-							$family .= cnHTML::select(
-								array(
-									'class'   => 'family-member-relation',
-									'id'      => 'family_member[' . $token . '][relation]',
-									'default'  => array( '' => __( 'Select Relation', 'connections' ) ),
-									'options' => $relations,
-									'enhanced' => TRUE,
-									'return'   => TRUE,
-									),
-									$value
-								);
-
-							$family .= '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
-
-						$family .= '</div>';
-					}
-				}
-			}
-
-			$family .= '</div>';
-
-			$family .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
-
-		$family .= '</div>';
-
-		echo $family;
 	}
 
 	public static function image( $entry, $metabox ) {

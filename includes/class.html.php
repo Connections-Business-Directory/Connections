@@ -263,7 +263,7 @@ class cnHTML {
 
 					$out .= '<div class="cn-radio-option">';
 
-					$out .= sprintf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
+					$out .= sprintf( '<input type="radio" class="radio" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $atts['id'] ),
 						esc_attr( $key ),
 						checked( TRUE , in_array( $key, (array) $value ) , FALSE )

@@ -820,25 +820,27 @@ class cnTemplatePart {
 
 		switch ( $atts['type'] ) {
 			case 'select':
-				self::categorySelect( $atts );
+				$out = self::categorySelect( $atts );
 				break;
 
 			case 'multiselect':
-				self::categorySelect( $atts );
+				$out = self::categorySelect( $atts );
 				break;
 
 			case 'radio':
-				self::categoryInput( $atts );
+				$out = self::categoryInput( $atts );
 				break;
 
 			case 'checkbox':
-				self::categoryInput( $atts );
+				$out = self::categoryInput( $atts );
 				break;
 
 			case 'link':
-				self::categoryLink( $atts );
+				$out = self::categoryLink( $atts );
 				break;
 		}
+
+		if ( $atts['return'] ) return $out;
 	}
 
 	/**

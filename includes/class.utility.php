@@ -401,6 +401,25 @@ class cnValidate
 class cnURL {
 
 	/**
+	 * Take a URL and see if it's prefixed with a protocol, if it's not then it will add the default prefix to the start of the string.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  string $url
+	 * @param  string $protocal
+	 * @return string
+	 */
+	public static function prefix( $url, $protocal = 'http://' ) {
+
+		if ( ! preg_match( "~^(?:f|ht)tps?://~i", $url ) ) {
+
+			$url = $protocal . $url;
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Create a permalink.
 	 *
 	 * @access private

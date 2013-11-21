@@ -898,76 +898,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the email meta box.
+	 * Renders the email metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
 	public function metaboxEmail( $entry = NULL ) {
-		global $connections;
 
-		echo  '<div class="widgets-sortables ui-sortable form-field" id="email-addresses">';
-
-		// --> Start template <-- \\
-		echo  '<textarea id="email-template" style="display: none">';
-
-		echo '<div class="widget-top">' , "\n";
-		echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-		echo '<div class="widget-title"><h4>' , "\n";
-		echo __( 'Email Type', 'connections' ) , ': ' , $this->buildSelect( 'email[::FIELD::][type]', $connections->options->getDefaultEmailValues() ) , "\n";
-		echo '<label><input type="radio" name="email[preferred]" value="::FIELD::"> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-		echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'email[::FIELD::][visibility]', 'email_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
-		echo '</h4></div>'  , "\n";
-
-		echo '</div>' , "\n";
-
-		echo '<div class="widget-inside">' , "\n";
-
-		echo  '<label>' , __( 'Email Address', 'connections' ) , '</label><input type="text" name="email[::FIELD::][address]" value="" style="width: 30%"/>' , "\n";
-		echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="email" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>' , "\n";
-
-		echo '</div>' , "\n";
-
-		echo  '</textarea>';
-		// --> End template <-- \\
-
-		$emailAddresses = $entry->getEmailAddresses( array(), FALSE );
-
-		if ( ! empty( $emailAddresses ) ) {
-
-			foreach ( $emailAddresses as $email ) {
-				$token = $this->token( $entry->getId() );
-				$selectName = 'email['  . $token . '][type]';
-				( $email->preferred ) ? $preferredEmail = 'CHECKED' : $preferredEmail = '';
-
-				echo '<div class="widget email" id="email-row-'  . $token . '">' , "\n";
-				echo '<div class="widget-top">' , "\n";
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-				echo '<div class="widget-title"><h4>' , "\n";
-				echo __( 'Email Type', 'connections' ) , ': ' , $this->buildSelect( $selectName, $connections->options->getDefaultEmailValues(), $email->type ) , "\n";
-				echo '<label><input type="radio" name="email[preferred]" value="' , $token , '" ' , $preferredEmail , '> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-				echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'email[' . $token . '][visibility]', 'email_visibility_'  . $token , $this->visibiltyOptions, $email->visibility ) , '</span>' , "\n";
-				echo '</h4></div>'  , "\n";
-
-				echo '</div>' , "\n";
-
-				echo '<div class="widget-inside">' , "\n";
-
-				echo  '<label>' , __( 'Email Address', 'connections' ) , '</label><input type="text" name="email[' , $token , '][address]" value="' , $email->address , '" style="width: 30%"/>';
-				echo  '<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">' , "\n";
-				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="email" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-				echo '</div>' , "\n";
-				echo '</div>' , "\n";
-			}
-
-		}
-
-		echo  '</div>';
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>';
+		cnMetabox::email( $entry, $metabox = array() );
 	}
 
 	/**

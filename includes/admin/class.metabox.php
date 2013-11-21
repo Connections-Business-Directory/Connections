@@ -77,6 +77,14 @@ class cnMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-email',
+			'title'    => __( 'Email Addresses', 'connections' ),
+			'context'  => 'normal',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'email' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
 			'title'    => __( 'Image', 'connection' ),
 			'context'  => 'normal',
@@ -1420,7 +1428,7 @@ class cnMetabox {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		// Grab the address types.
+		// Grab the phone types.
 		$phoneTypes = $instance->options->getDefaultPhoneNumberValues();
 
 		// Visibility options.
@@ -1604,6 +1612,197 @@ class cnMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">' , __( 'Add Phone Number', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	public static function email( $entry, $metabox ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the email types.
+		$emailTypes = $instance->options->getDefaultEmailValues();
+
+		// Visibility options.
+		$visibiltyOptions = array(
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' ),
+			'unlisted' => __( 'Unlisted', 'connections' )
+			);
+
+		echo '<div class="widgets-sortables ui-sortable form-field" id="email-addresses">' , PHP_EOL;
+
+		// --> Start template <-- \\
+		echo '<textarea id="email-template" style="display: none;">' , PHP_EOL;
+
+			echo '<div class="widget-top">' , PHP_EOL;
+
+				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+				echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'email[::FIELD::][type]',
+							'options'  => $emailTypes,
+							'required' => FALSE,
+							'label'    => __( 'Email Type', 'connections' ),
+							'return'   => FALSE,
+						),
+						'work'
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'email[preferred]',
+							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'email[::FIELD::][visibility]',
+							'options'  => $visibiltyOptions,
+							'required' => FALSE,
+							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						),
+						'public'
+					);
+
+				echo '</h4></div>'  , PHP_EOL;
+
+			echo '</div>' , PHP_EOL;
+
+			echo '<div class="widget-inside">';
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'email[::FIELD::][address]',
+						'required' => FALSE,
+						'label'    => __( 'Email Address', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					)
+				);
+
+				echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="email" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+
+			echo '</div>' , PHP_EOL;
+
+		echo '</textarea>' , PHP_EOL;
+		// --> End template <-- \\
+
+		$emailAddresses = $entry->getEmailAddresses( array(), FALSE );
+		//print_r($emailAddresses);
+
+		if ( ! empty( $emailAddresses ) ) {
+
+			foreach ( $emailAddresses as $email ) {
+
+				$token = md5( uniqid( rand(), TRUE ) );
+
+				$selectName = 'email['  . $token . '][type]';
+				$preferred  = $email->preferred ? $token : '';
+
+				echo '<div class="widget phone" id="email-row-'  . $token . '">' , PHP_EOL;
+
+					echo '<div class="widget-top">' , PHP_EOL;
+						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+						echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'email[' . $token . '][type]',
+								'options'  => $emailTypes,
+								'required' => FALSE,
+								'label'    => __( 'Email Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							$email->type
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'email[preferred]',
+								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+								'required' => FALSE,
+								'before'   => '<span class="preferred">',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$preferred
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'email[' . $token . '][visibility]',
+								'options'  => $visibiltyOptions,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$email->visibility
+						);
+
+						echo '</h4></div>'  , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+					echo '<div class="widget-inside">' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'text',
+								'class'    => '',
+								'id'       => 'email[' . $token . '][adddress]',
+								'required' => FALSE,
+								'label'    => __( 'Email Address', 'connections' ),
+								'before'   => '',
+								'after'    => '',
+								'return'   => FALSE,
+							),
+							$email->address
+						);
+
+						echo '<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">' , PHP_EOL;
+
+						echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="email" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+				echo '</div>' , PHP_EOL;
+			}
+		}
+
+		echo  '</div>' , PHP_EOL;
+
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	public static function image( $entry, $metabox ) {

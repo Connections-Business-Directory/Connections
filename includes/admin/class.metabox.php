@@ -85,6 +85,14 @@ class cnMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-messenger',
+			'title'    => __( 'Messenger IDs', 'connections' ),
+			'context'  => 'normal',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'messenger' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
 			'title'    => __( 'Image', 'connection' ),
 			'context'  => 'normal',
@@ -1803,6 +1811,197 @@ class cnMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	public static function messenger( $entry, $metabox ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the email types.
+		$messengerTypes = $instance->options->getDefaultIMValues();
+
+		// Visibility options.
+		$visibiltyOptions = array(
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' ),
+			'unlisted' => __( 'Unlisted', 'connections' )
+			);
+
+		echo '<div class="widgets-sortables ui-sortable form-field" id="im-ids">' , PHP_EOL;
+
+		// --> Start template <-- \\
+		echo '<textarea id="im-template" style="display: none;">' , PHP_EOL;
+
+			echo '<div class="widget-top">' , PHP_EOL;
+
+				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+				echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'im[::FIELD::][type]',
+							'options'  => $messengerTypes,
+							'required' => FALSE,
+							'label'    => __( 'IM Type', 'connections' ),
+							'return'   => FALSE,
+						),
+						'work'
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'im[preferred]',
+							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'im[::FIELD::][visibility]',
+							'options'  => $visibiltyOptions,
+							'required' => FALSE,
+							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						),
+						'public'
+					);
+
+				echo '</h4></div>'  , PHP_EOL;
+
+			echo '</div>' , PHP_EOL;
+
+			echo '<div class="widget-inside">';
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'im[::FIELD::][id]',
+						'required' => FALSE,
+						'label'    => __( 'IM Network ID', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					)
+				);
+
+				echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+
+			echo '</div>' , PHP_EOL;
+
+		echo '</textarea>' , PHP_EOL;
+		// --> End template <-- \\
+
+		$imIDs = $entry->getIm( array(), FALSE );
+		//print_r($imIDs);
+
+		if ( ! empty( $imIDs ) ) {
+
+			foreach ( $imIDs as $network ) {
+
+				$token = md5( uniqid( rand(), TRUE ) );
+
+				$selectName = 'im['  . $token . '][type]';
+				$preferred  = $network->preferred ? $token : '';
+
+				echo '<div class="widget phone" id="im-row-'  . $token . '">' , PHP_EOL;
+
+					echo '<div class="widget-top">' , PHP_EOL;
+						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+						echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'im[' . $token . '][type]',
+								'options'  => $messengerTypes,
+								'required' => FALSE,
+								'label'    => __( 'IM Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							$network->type
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'im[preferred]',
+								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+								'required' => FALSE,
+								'before'   => '<span class="preferred">',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$preferred
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'im[' . $token . '][visibility]',
+								'options'  => $visibiltyOptions,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$network->visibility
+						);
+
+						echo '</h4></div>'  , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+					echo '<div class="widget-inside">' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'text',
+								'class'    => '',
+								'id'       => 'im[' . $token . '][id]',
+								'required' => FALSE,
+								'label'    => __( 'IM Network ID', 'connections' ),
+								'before'   => '',
+								'after'    => '',
+								'return'   => FALSE,
+							),
+							$network->id
+						);
+
+						echo '<input type="hidden" name="im[' , $token , '][uid]" value="' , $email->id , '">' , PHP_EOL;
+
+						echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+				echo '</div>' , PHP_EOL;
+			}
+		}
+
+		echo  '</div>' , PHP_EOL;
+
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	public static function image( $entry, $metabox ) {

@@ -913,75 +913,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the messenger meta box.
+	 * Renders the messenger metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
 	public function metaboxMessenger( $entry = NULL ) {
-		global $connections;
 
-		echo  '<div class="widgets-sortables ui-sortable form-field" id="im-ids">';
-
-		// --> Start template.  <-- \\
-		echo  '<textarea id="im-template" style="display: none">';
-
-		echo '<div class="widget-top">' , "\n";
-		echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-		echo '<div class="widget-title"><h4>' , "\n";
-		echo __( 'IM Type', 'connections' ) , ': ' , $this->buildSelect( 'im[::FIELD::][type]', $connections->options->getDefaultIMValues() ) , "\n";
-		echo '<label><input type="radio" name="im[preferred]" value="::FIELD::"> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-		echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'im[::FIELD::][visibility]', 'im_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
-		echo '</h4></div>'  , "\n";
-
-		echo '</div>' , "\n";
-
-		echo '<div class="widget-inside">' , "\n";
-
-		echo  '<label>' , __( 'IM Network ID', 'connections' ) , '</label><input type="text" name="im[::FIELD::][id]" value="" style="width: 30%"/>' , "\n";
-		echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>' , "\n";
-
-		echo '</div>' , "\n";
-
-		echo  '</textarea>';
-		// --> End template. <-- \\
-
-		$imIDs = $entry->getIm( array(), FALSE );
-
-		if ( ! empty( $imIDs ) ) {
-			foreach ( $imIDs as $network ) {
-				$token = $this->token( $entry->getId() );
-				$selectName = 'im['  . $token . '][type]';
-				( $network->preferred ) ? $preferredIM = 'CHECKED' : $preferredIM = '';
-
-				echo '<div class="widget im" id="im-row-'  . $token . '">' , "\n";
-				echo '<div class="widget-top">' , "\n";
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-				echo '<div class="widget-title"><h4>' , "\n";
-				echo __( 'IM Type', 'connections' ) , ': ' , $this->buildSelect( $selectName, $connections->options->getDefaultIMValues(), $network->type ) , "\n";
-				echo '<label><input type="radio" name="im[preferred]" value="' , $token , '" ' , $preferredIM , '> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-				echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'im[' . $token . '][visibility]', 'im_visibility_'  . $token , $this->visibiltyOptions, $network->visibility ) , '</span>' , "\n";
-				echo '</h4></div>'  , "\n";
-
-				echo '</div>' , "\n";
-
-				echo '<div class="widget-inside">' , "\n";
-
-				echo  '<label>' , __( 'IM Network ID', 'connections' ) , '</label><input type="text" name="im[' , $token , '][id]" value="' , $network->id , '" style="width: 30%"/>';
-				echo  '<input type="hidden" name="im[' , $token , '][uid]" value="' , $network->uid , '">' , "\n";
-				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-				echo '</div>' , "\n";
-				echo '</div>' , "\n";
-			}
-
-		}
-
-		echo  '</div>';
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>';
+		cnMetabox::messenger( $entry, $metabox = array() );
 	}
 
 	/**

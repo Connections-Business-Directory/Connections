@@ -1251,28 +1251,6 @@ class cnFormObjects {
 
 		$metabox->render( $entry, $field );
 	}
-
-	private function getEntrySelect( $name, $selected = NULL, $class = NULL , $id = NULL ) {
-		global $wpdb, $connections;
-
-		$atts['list_type'] = 'individual';
-		$atts['category'] = NULL;
-		$atts['visibility'] = NULL;
-
-		$results = $connections->retrieve->entries( $atts );
-
-		$out = '<select' . ( ( empty( $class ) ? '' : ' class="' . $class . '"' ) ) . ( ( empty( $id ) ? '' : ' id="' . $id . '"' ) ) . ' name="' . $name . '">';
-		$out .= '<option value="">' . __( 'Select Entry', 'connections' ) . '</option>';
-		foreach ( $results as $row ) {
-			$entry = new cnEntry( $row );
-			$out .= '<option value="' . $entry->getId() . '"';
-			if ( $selected == $entry->getId() ) $out .= ' SELECTED';
-			$out .= '>' . $entry->getFullLastFirstName() . '</option>';
-		}
-		$out .= '</select>';
-
-		return $out;
-	}
 }
 
 

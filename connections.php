@@ -162,7 +162,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );
 				add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
 				add_action( 'admin_init', array( 'cnMetaboxAPI', 'init' ) );
-				add_action( 'cn_metabox', array( 'cnMetabox', 'init' ), 1 );
+				add_action( 'cn_metabox', array( 'cnEntryMetabox', 'init' ), 1 );
 
 				/*
 				 * Add the filter to update the user settings when the "Apply" button is clicked.
@@ -441,7 +441,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				require_once CN_PATH . 'includes/admin/class.metabox-api.php';
 
 				// The class for registering the core metabox and fields for the add/edit entry admin pages.
-				require_once CN_PATH . 'includes/admin/class.metabox.php';
+				require_once CN_PATH . 'includes/admin/class.metabox-entry.php';
 
 			} else {
 

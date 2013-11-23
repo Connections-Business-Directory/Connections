@@ -39,7 +39,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					'title'    => __( 'Name', 'connection' ),
 					'context'  => 'normal',
 					'priority' => 'high',
-					'callback' => array( 'cnMetabox', 'name' ),
+					'callback' => array( 'cnEntryMetabox', 'name' ),
 				);
 
 				cnMetabox_Render::add( $instance->pageHook->add, $field );
@@ -124,7 +124,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					'title'    => __( 'Name', 'connection' ),
 					'context'  => 'normal',
 					'priority' => 'high',
-					'callback' => array( 'cnMetabox', 'name' ),
+					'callback' => array( 'cnEntryMetabox', 'name' ),
 				);
 
 				cnMetabox_Render::add( $instance->pageHook->manage, $field );
@@ -207,7 +207,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					'title'    => __( 'Name', 'connection' ),
 					'context'  => 'normal',
 					'priority' => 'high',
-					'callback' => array( 'cnMetabox', 'name' ),
+					'callback' => array( 'cnEntryMetabox', 'name' ),
 				);
 
 				cnMetabox_Render::add( $instance->pageHook->manage, $field );

@@ -13,7 +13,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnMetabox {
+class cnEntryMetabox {
 
 	/**
 	 * The core metabox options array.

@@ -764,7 +764,7 @@ class cnFormObjects {
 	 */
 	public function metaboxPublish( $entry ) {
 
-		cnMetabox::publish( $entry, $metabox = array() );
+		cnEntryMetabox::publish( $entry, $metabox = array() );
 	}
 
 	/**
@@ -779,7 +779,7 @@ class cnFormObjects {
 	 */
 	public function metaboxCategories( $entry = NULL ) {
 
-		cnMetabox::category( $entry, $metabox = array() );
+		cnEntryMetabox::category( $entry, $metabox = array() );
 	}
 
 	/**
@@ -794,7 +794,7 @@ class cnFormObjects {
 	 */
 	public function metaboxName( $entry ) {
 
-		cnMetabox::name( $entry, $metabox = array() );
+		cnEntryMetabox::name( $entry, $metabox = array() );
 	}
 
 	/**
@@ -809,7 +809,7 @@ class cnFormObjects {
 	 */
 	public function metaboxImage( $entry ) {
 
-		cnMetabox::image( $entry, $metabox = array() );
+		cnEntryMetabox::image( $entry, $metabox = array() );
 	}
 
 	/**
@@ -824,7 +824,7 @@ class cnFormObjects {
 	 */
 	public function metaboxLogo( $entry ) {
 
-		cnMetabox::logo( $entry, $metabox = array() );
+		cnEntryMetabox::logo( $entry, $metabox = array() );
 	}
 
 	/**
@@ -839,7 +839,7 @@ class cnFormObjects {
 	 */
 	public function metaboxAddress( $entry ) {
 
-		cnMetabox::address( $entry, $metabox = array() );
+		cnEntryMetabox::address( $entry, $metabox = array() );
 	}
 
 	/**
@@ -854,7 +854,7 @@ class cnFormObjects {
 	 */
 	public function metaboxPhone( $entry = NULL ) {
 
-		cnMetabox::phone( $entry, $metabox = array() );
+		cnEntryMetabox::phone( $entry, $metabox = array() );
 	}
 
 	/**
@@ -869,7 +869,7 @@ class cnFormObjects {
 	 */
 	public function metaboxEmail( $entry = NULL ) {
 
-		cnMetabox::email( $entry, $metabox = array() );
+		cnEntryMetabox::email( $entry, $metabox = array() );
 	}
 
 	/**
@@ -884,7 +884,7 @@ class cnFormObjects {
 	 */
 	public function metaboxMessenger( $entry = NULL ) {
 
-		cnMetabox::messenger( $entry, $metabox = array() );
+		cnEntryMetabox::messenger( $entry, $metabox = array() );
 	}
 
 	/**
@@ -899,7 +899,7 @@ class cnFormObjects {
 	 */
 	public function metaboxSocialMedia( $entry = NULL ) {
 
-		cnMetabox::social( $entry, $metabox = array() );
+		cnEntryMetabox::social( $entry, $metabox = array() );
 	}
 
 	/**
@@ -914,7 +914,7 @@ class cnFormObjects {
 	 */
 	public function metaboxLinks( $entry = NULL ) {
 
-		cnMetabox::links( $entry, $metabox = array() );
+		cnEntryMetabox::links( $entry, $metabox = array() );
 	}
 
 	/**
@@ -929,7 +929,7 @@ class cnFormObjects {
 	 */
 	public function metaboxDates( $entry = NULL ) {
 
-		cnMetabox::date( $entry, $metabox = array() );
+		cnEntryMetabox::date( $entry, $metabox = array() );
 	}
 
 	/**

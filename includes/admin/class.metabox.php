@@ -61,6 +61,14 @@ class cnMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'categorydiv',
+			'title'    => __( 'Categories', 'connections' ),
+			'context'  => 'side',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'category' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
 			'title'    => __( 'Image', 'connection' ),
 			'context'  => 'normal',
@@ -279,6 +287,22 @@ class cnMetabox {
 			}
 
 			echo '<div class="clear"></div>';
+		echo '</div>';
+	}
+
+	public static function category( $entry, $metabox ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		$categoryObjects = new cnCategoryObjects();
+
+		echo '<div class="categorydiv" id="taxonomy-category">';
+			echo '<div id="category-all" class="tabs-panel">';
+				echo '<ul id="categorychecklist">';
+					echo $categoryObjects->buildCategoryRow( 'checklist', $instance->retrieve->categories(), NULL, $instance->term->getTermRelationships( $entry->getId() ) );
+				echo '</ul>';
+			echo '</div>';
 		echo '</div>';
 	}
 

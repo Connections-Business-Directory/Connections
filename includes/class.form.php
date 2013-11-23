@@ -802,24 +802,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the category meta box.
+	 * Renders the category meta box.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instance of the cnEntry object.
 	 */
 	public function metaboxCategories( $entry = NULL ) {
-		global $connections;
 
-		$categoryObjects = new cnCategoryObjects();
-
-		echo '<div class="categorydiv" id="taxonomy-category">';
-		echo '<div id="category-all" class="tabs-panel">';
-		echo '<ul id="categorychecklist">';
-		echo $categoryObjects->buildCategoryRow( 'checklist', $connections->retrieve->categories(), NULL, $connections->term->getTermRelationships( $entry->getId() ) );
-		echo '</ul>';
-		echo '</div>';
-		echo '</div>';
+		cnMetabox::category( $entry, $metabox = array() );
 	}
 
 	/**

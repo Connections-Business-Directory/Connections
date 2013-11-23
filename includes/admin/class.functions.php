@@ -107,6 +107,9 @@ class cnAdminFunction {
 			add_action( 'after_plugin_row_' . CN_BASE_NAME, array( __CLASS__, 'displayUpgradeNotice' ), 1, 0 );
 			// @todo Maybe should use this action hook instead: in_plugin_update_message-{$file}
 
+			// Add the screen layout filter.
+			add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
+
 			/*
 			 * In instances such as WP AJAX requests the add_menu() and add_sub_menu() functions are
 			 * not run in the admin_menu action, so the properties would not exist and will throw
@@ -114,10 +117,6 @@ class cnAdminFunction {
 			 * properties will exist so it will be safe to add the actions using the properties.
 			 */
 			if ( get_object_vars( $instance->pageHook ) && current_user_can( 'connections_view_menu') ) {
-
-				// Register the edit metaboxes.
-				add_action( 'load-' . $instance->pageHook->add, array( __CLASS__, 'registerEditMetaboxes' ) );
-				add_action( 'load-' . $instance->pageHook->manage, array( __CLASS__, 'registerEditMetaboxes' ) );
 
 				// Register the Dashboard metaboxes.
 				add_action( 'load-' . $instance->pageHook->dashboard, array( __CLASS__, 'registerDashboardMetaboxes' ) );
@@ -248,40 +247,16 @@ class cnAdminFunction {
 	}
 
 	/**
-	 * Register the metaboxes used for editing an entry.
-	 *
-	 * @access private
-	 * @since 0.7.1.3
-	 * @uses add_filter()
-	 * @uses current_filter()
-	 * @return (void)
-	 */
-	public static function registerEditMetaboxes() {
-
-		// The meta boxes do not need diplayed/registered if no action is being taken on an entry. Such as copy/edit.
-		if ( $_GET['page'] === 'connections_manage' && ! isset( $_GET['cn-action'] ) )  return;
-
-		$form = new cnFormObjects();
-
-		$form->registerEditMetaboxes( substr( current_filter(), 5 ) );
-
-		add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
-	}
-
-	/**
 	 * Register the metaboxes used for the Dashboard.
 	 *
 	 * @access private
 	 * @since 0.7.1.6
-	 * @uses add_filter()
 	 * @return (void)
 	 */
 	public static function registerDashboardMetaboxes() {
 
 		$form = new cnFormObjects();
 		$form->registerDashboardMetaboxes();
-
-		add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
 	}
 
 	/**

@@ -61,6 +61,22 @@ class cnMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-image',
+			'title'    => __( 'Image', 'connection' ),
+			'context'  => 'normal',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'image' ),
+		);
+
+		self::$metaboxes[] = array(
+			'id'       => 'metabox-logo',
+			'title'    => __( 'Logo', 'connection' ),
+			'context'  => 'normal',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'logo' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-address',
 			'title'    => __( 'Addresses', 'connection' ),
 			'context'  => 'normal',
@@ -109,19 +125,11 @@ class cnMetabox {
 		);
 
 		self::$metaboxes[] = array(
-			'id'       => 'metabox-image',
-			'title'    => __( 'Image', 'connection' ),
+			'id'       => 'metabox-date',
+			'title'    => __( 'Dates', 'connections' ),
 			'context'  => 'normal',
 			'priority' => 'core',
-			'callback' => array( __CLASS__, 'image' ),
-		);
-
-		self::$metaboxes[] = array(
-			'id'       => 'metabox-logo',
-			'title'    => __( 'Logo', 'connection' ),
-			'context'  => 'normal',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'logo' ),
+			'callback' => array( __CLASS__, 'date' ),
 		);
 
 		self::$metaboxes[] = array(
@@ -673,6 +681,84 @@ class cnMetabox {
 		$family .= '</div>';
 
 		echo $family;
+	}
+
+	public static function image( $entry, $metabox ) {
+
+		if ( $entry->getImageLinked() ) {
+
+			$selected = $entry->getImageDisplay() ? 'show' : 'hidden';
+
+			echo '<div class="cn-center">';
+
+				if ( method_exists( $entry, 'getImage' ) ) {
+
+					$entry->getImage( array( 'image' => 'photo', 'preset' => 'profile' ) );
+
+				} else {
+
+					echo ' <img src="' . CN_IMAGE_BASE_URL . $entry->getImageNameProfile() . '" />';
+				}
+
+				cnHTML::radio(
+					array(
+						'format'  => 'inline',
+						'id'      => 'imgOptions',
+						'options' => array(
+							'show'   => __( 'Display', 'connections' ),
+							'hidden' => __( 'Not Displayed', 'connections' ),
+							'remove' => __( 'Remove', 'connections' ),
+							),
+						'before'   => '<div>',
+						'after'    => '</div>',
+						),
+					$selected
+				);
+
+			echo '</div>';
+		}
+
+		echo '<label for="original_image">' , __( 'Select Image', 'connections' ) , ':';
+		echo '<input type="file" value="" name="original_image" size="25" /></label>';
+	}
+
+	public static function logo( $entry, $metabox ) {
+
+		if ( $entry->getLogoLinked() ) {
+
+			$selected = $entry->getLogoDisplay() ? 'show' : 'hidden';
+
+			echo '<div class="cn-center">';
+
+				if ( method_exists( $entry, 'getImage' ) ) {
+
+					$entry->getImage( array( 'image' => 'logo', 'preset' => 'profile' ) );
+
+				} else {
+
+					echo ' <img src="' . CN_IMAGE_BASE_URL . $entry->getLogoName() . '" />';
+				}
+
+				cnHTML::radio(
+					array(
+						'format'  => 'inline',
+						'id'      => 'logoOptions',
+						'options' => array(
+							'show'   => __( 'Display', 'connections' ),
+							'hidden' => __( 'Not Displayed', 'connections' ),
+							'remove' => __( 'Remove', 'connections' ),
+							),
+						'before'   => '<div>',
+						'after'    => '</div>',
+						),
+					$selected
+				);
+
+			echo '</div>';
+		}
+
+		echo '<label for="original_logo">' , __( 'Select Logo', 'connections' ) , ':';
+		echo '<input type="file" value="" name="original_logo" size="25" /></label>';
 	}
 
 	public static function address( $entry, $atts ) {
@@ -2529,82 +2615,194 @@ class cnMetabox {
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
-	public static function image( $entry, $metabox ) {
+	public static function date( $entry, $metabox ) {
 
-		if ( $entry->getImageLinked() ) {
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
-			$selected = $entry->getImageDisplay() ? 'show' : 'hidden';
+		// Grab the email types.
+		$dateTypes = $instance->options->getDateOptions();
 
-			echo '<div class="cn-center">';
+		// Visibility options.
+		$visibiltyOptions = array(
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' ),
+			'unlisted' => __( 'Unlisted', 'connections' )
+			);
 
-				if ( method_exists( $entry, 'getImage' ) ) {
+		echo '<div class="widgets-sortables ui-sortable form-field" id="dates">' , PHP_EOL;
 
-					$entry->getImage( array( 'image' => 'photo', 'preset' => 'profile' ) );
+		// --> Start template <-- \\
+		echo '<textarea id="date-template" style="display: none;">' , PHP_EOL;
 
-				} else {
+			echo '<div class="widget-top">' , PHP_EOL;
 
-					echo ' <img src="' . CN_IMAGE_BASE_URL . $entry->getImageNameProfile() . '" />';
-				}
+				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
 
-				cnHTML::radio(
-					array(
-						'format'  => 'inline',
-						'id'      => 'imgOptions',
-						'options' => array(
-							'show'   => __( 'Display', 'connections' ),
-							'hidden' => __( 'Not Displayed', 'connections' ),
-							'remove' => __( 'Remove', 'connections' ),
-							),
-						'before'   => '<div>',
-						'after'    => '</div>',
+				echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'date[::FIELD::][type]',
+							'options'  => $dateTypes,
+							'required' => FALSE,
+							'label'    => __( 'Type', 'connections' ),
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'date[preferred]',
+							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'date[::FIELD::][visibility]',
+							'options'  => $visibiltyOptions,
+							'required' => FALSE,
+							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+							'after'    => '</span>',
+							'return'   => FALSE,
 						),
-					$selected
+						'public'
+					);
+
+				echo '</h4></div>'  , PHP_EOL;
+
+			echo '</div>' , PHP_EOL;
+
+			echo '<div class="widget-inside">';
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => 'datepicker',
+						'id'       => 'date[::FIELD::][date]',
+						'required' => FALSE,
+						'label'    => __( 'Date', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					)
 				);
 
-			echo '</div>';
-		}
+				echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="date" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
-		echo '<label for="original_image">' , __( 'Select Image', 'connections' ) , ':';
-		echo '<input type="file" value="" name="original_image" size="25" /></label>';
-	}
+			echo '</div>' , PHP_EOL;
 
-	public static function logo( $entry, $metabox ) {
+		echo '</textarea>' , PHP_EOL;
+		// --> End template <-- \\
 
-		if ( $entry->getLogoLinked() ) {
+		$dates = $entry->getDates( array(), FALSE );
+		//print_r($dates);
 
-			$selected = $entry->getLogoDisplay() ? 'show' : 'hidden';
+		if ( ! empty( $dates ) ) {
 
-			echo '<div class="cn-center">';
+			foreach ( $dates as $date ) {
 
-				if ( method_exists( $entry, 'getImage' ) ) {
+				$token = md5( uniqid( rand(), TRUE ) );
 
-					$entry->getImage( array( 'image' => 'logo', 'preset' => 'profile' ) );
+				$selectName = 'date['  . $token . '][type]';
+				$preferred  = $date->preferred ? $token : '';
 
-				} else {
+				echo '<div class="widget date" id="date-row-'  . $token . '">' , PHP_EOL;
 
-					echo ' <img src="' . CN_IMAGE_BASE_URL . $entry->getLogoName() . '" />';
-				}
+					echo '<div class="widget-top">' , PHP_EOL;
+						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
 
-				cnHTML::radio(
-					array(
-						'format'  => 'inline',
-						'id'      => 'logoOptions',
-						'options' => array(
-							'show'   => __( 'Display', 'connections' ),
-							'hidden' => __( 'Not Displayed', 'connections' ),
-							'remove' => __( 'Remove', 'connections' ),
+						echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'date[' . $token . '][type]',
+								'options'  => $dateTypes,
+								'required' => FALSE,
+								'label'    => __( 'Type', 'connections' ),
+								'return'   => FALSE,
 							),
-						'before'   => '<div>',
-						'after'    => '</div>',
-						),
-					$selected
-				);
+							$date->type
+						);
 
-			echo '</div>';
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'date[preferred]',
+								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+								'required' => FALSE,
+								'before'   => '<span class="preferred">',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$preferred
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'date[' . $token . '][visibility]',
+								'options'  => $visibiltyOptions,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$date->visibility
+						);
+
+						echo '</h4></div>'  , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+					echo '<div class="widget-inside">' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'text',
+								'class'    => 'datepicker',
+								'id'       => 'date[' . $token . '][date]',
+								'required' => FALSE,
+								'label'    => __( 'Date', 'connections' ),
+								'before'   => '',
+								'after'    => '',
+								'return'   => FALSE,
+							),
+							date( 'm/d/Y', strtotime( $date->date ) )
+						);
+
+						echo '<input type="hidden" name="date[' , $token , '][id]" value="' , $date->id , '">' , PHP_EOL;
+
+						echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="date" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+				echo '</div>' , PHP_EOL;
+			}
 		}
 
-		echo '<label for="original_logo">' , __( 'Select Logo', 'connections' ) , ':';
-		echo '<input type="file" value="" name="original_logo" size="25" /></label>';
+		echo  '</div>' , PHP_EOL;
+
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	/**

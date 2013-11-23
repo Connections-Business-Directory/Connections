@@ -172,7 +172,7 @@ jQuery(document).ready( function($) {
 	 */
 	if ($.fn.datepicker) {
 
-		$('.datepicker').live('focus', function() {
+		$('.cn-datepicker').live('focus', function() {
 			$(this).datepicker({
 				changeMonth: true,
 				changeYear: true,

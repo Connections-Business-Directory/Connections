@@ -958,82 +958,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the dates box.
+	 * Renders the dates metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.2.7
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
 	public function metaboxDates( $entry = NULL ) {
-		global $connections;
 
-		echo  '<div class="widgets-sortables ui-sortable form-field" id="dates">';
-
-		// --> Start template <-- \\
-		echo  '<textarea id="date-template" style="display: none">';
-
-		echo '<div class="widget-top">' , "\n";
-		echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-		echo '<div class="widget-title"><h4>' , "\n";
-		echo __( 'Type', 'connections' ) , ': ' , $this->buildSelect( 'date[::FIELD::][type]', $connections->options->getDateOptions() ) , "\n";
-		echo '<label><input type="radio" name="date[preferred]" value="::FIELD::"> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-		echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'date[::FIELD::][visibility]', 'date_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
-		echo '</h4></div>'  , "\n";
-
-		echo '</div>' , "\n";
-
-		echo '<div class="widget-inside">' , "\n";
-
-		echo '<div>' , "\n";
-		echo  '<label>' , __( 'Date', 'connections' ) , '</label><input type="text" class="datepicker" name="date[::FIELD::][date]" value="" style="padding: 2px; width: 17.5em;"/>' , "\n";
-		echo '</div>' , "\n";
-
-		echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="date" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>' , "\n";
-
-		echo '</div>' , "\n";
-
-		echo  '</textarea>';
-		// --> End template <-- \\
-
-		$dates = $entry->getDates( array(), FALSE );
-
-		if ( ! empty( $dates ) ) {
-
-			foreach ( $dates as $date ) {
-				$token = $this->token( $entry->getId() );
-				$selectName = 'date['  . $token . '][type]';
-				( $date->preferred ) ? $preferredDate = 'CHECKED' : $preferredDate = '';
-
-				echo '<div class="widget date" id="date-row-'  . $token . '">' , "\n";
-				echo '<div class="widget-top">' , "\n";
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-				echo '<div class="widget-title"><h4>' , "\n";
-				echo __( 'Type', 'connections' ) , ': ' , $this->buildSelect( $selectName, $connections->options->getDateOptions(), $date->type ) , "\n";
-				echo '<label><input type="radio" name="date[preferred]" value="' , $token , '" ' , $preferredDate , '> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-				echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'date[' . $token . '][visibility]', 'date_visibility_'  . $token , $this->visibiltyOptions, $date->visibility ) , '</span>' , "\n";
-				echo '</h4></div>'  , "\n";
-
-				echo '</div>' , "\n";
-
-				echo '<div class="widget-inside">' , "\n";
-
-				echo '<div>' , "\n";
-				echo  '<label>' , __( 'Date', 'connections' ) , '</label><input type="text" name="date[' , $token , '][date]" class="datepicker" value="' , date( 'm/d/Y', strtotime( $date->date ) ) , '" style="padding: 2px; width: 17.5em;"/>' , "\n";
-				echo '</div>' , "\n";
-
-				echo  '<input type="hidden" name="date[' , $token , '][id]" value="' , $date->id , '">' , "\n";
-				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="date" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-				echo '</div>' , "\n";
-				echo '</div>' , "\n";
-			}
-
-		}
-
-		echo  '</div>';
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>';
+		cnMetabox::date( $entry, $metabox = array() );
 	}
 
 	/**

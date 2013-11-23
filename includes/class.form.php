@@ -83,40 +83,6 @@ class cnFormObjects {
 		return $token;
 	}
 
-	public function tokenCheck( $tokenID, $token ) {
-		global $connections;
-		$token = attribute_escape( $token );
-
-		/**
-		 *
-		 *
-		 * @TODO: Check for $tokenID.
-		 */
-
-		if ( isset( $_SESSION['cn_session']['formTokens'][$tokenID]['token'] ) ) {
-			$sessionToken = esc_attr( $_SESSION['cn_session']['formTokens'][$tokenID]['token'] );
-		}
-		else {
-			$connections->setErrorMessage( 'form_no_session_token' );
-			$error = TRUE;
-		}
-
-		if ( empty( $token ) ) {
-			$connections->setErrorMessage( 'form_no_token' );
-			$error = TRUE;
-		}
-
-		if ( $sessionToken === $token && !$error ) {
-			unset( $_SESSION['cn_session']['formTokens'] );
-			return TRUE;
-		}
-		else {
-			$connections->setErrorMessage( 'form_token_mismatch' );
-			return FALSE;
-		}
-
-	}
-
 	/**
 	 * Retrieves or displays the nonce field for forms using wp_nonce_field.
 	 *

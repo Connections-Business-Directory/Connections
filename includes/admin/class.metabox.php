@@ -25,6 +25,15 @@ class cnMetabox {
 	private static $metaboxes = array();
 
 	/**
+	 * An associative array of visibility options permitted by the current user.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var array
+	 */
+	private static $visibility = array();
+
+	/**
 	 * Initiate the core metaboxes and fields.
 	 *
 	 * @access private
@@ -35,6 +44,9 @@ class cnMetabox {
 	 */
 	public static function init( $metabox ) {
 
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
 		// Build the array that defines the core metaboxes.
 		self::register();
 
@@ -43,6 +55,9 @@ class cnMetabox {
 
 			$metabox::add( $atts );
 		}
+
+		// Set the "Visibility" options that can be set by the current user.
+		self::$visibility = $instance->options->getVisibilityOptions();
 	}
 
 	/**
@@ -806,13 +821,6 @@ class cnMetabox {
 		// Grab the address types.
 		$addressTypes = $instance->options->getDefaultAddressValues();
 
-		// Visibility options.
-		$visibiltyOptions = array(
-			'public'   => __( 'Public', 'connections' ),
-			'private'  => __( 'Private', 'connections' ),
-			'unlisted' => __( 'Unlisted', 'connections' )
-			);
-
 		// $defaults = array(
 		// 	// Define the entry type so the correct fields will be rendered. If an entry type is all registered entry types, render all fields assuming this is new entry.
 		// 	'type'  => $entry->getEntryType() ? $entry->getEntryType() : array( 'individual', 'organization', 'family'),
@@ -1010,20 +1018,24 @@ class cnMetabox {
 						)
 					);
 
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'address[::FIELD::][visibility]',
-							'options'  => $visibiltyOptions,
-							'required' => FALSE,
-							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'public'
-					);
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'address[::FIELD::][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							'public'
+						);
+					}
 
 				echo '</h4></div>'  , PHP_EOL;
 
@@ -1221,20 +1233,24 @@ class cnMetabox {
 							$preferred
 						);
 
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'address[' . $token . '][visibility]',
-								'options'  => $visibiltyOptions,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$address->visibility
-						);
+						// Only show this if there are visibility options that the user is permitted to see.
+						if ( ! empty( self::$visibility ) ) {
+
+							cnHTML::field(
+								array(
+									'type'     => 'radio',
+									'format'   => 'inline',
+									'class'    => '',
+									'id'       => 'address[' . $token . '][visibility]',
+									'options'  => self::$visibility,
+									'required' => FALSE,
+									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+									'after'    => '</span>',
+									'return'   => FALSE,
+								),
+								$address->visibility
+							);
+						}
 
 						echo '</h4></div>'  , PHP_EOL;
 
@@ -1567,13 +1583,6 @@ class cnMetabox {
 		// Grab the phone types.
 		$phoneTypes = $instance->options->getDefaultPhoneNumberValues();
 
-		// Visibility options.
-		$visibiltyOptions = array(
-			'public'   => __( 'Public', 'connections' ),
-			'private'  => __( 'Private', 'connections' ),
-			'unlisted' => __( 'Unlisted', 'connections' )
-			);
-
 		echo '<div class="widgets-sortables ui-sortable form-field" id="phone-numbers">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -1611,20 +1620,24 @@ class cnMetabox {
 						)
 					);
 
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'phone[::FIELD::][visibility]',
-							'options'  => $visibiltyOptions,
-							'required' => FALSE,
-							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'public'
-					);
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'phone[::FIELD::][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							'public'
+						);
+					}
 
 				echo '</h4></div>'  , PHP_EOL;
 
@@ -1699,20 +1712,24 @@ class cnMetabox {
 							$preferred
 						);
 
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'phone[' . $token . '][visibility]',
-								'options'  => $visibiltyOptions,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$phone->visibility
-						);
+						// Only show this if there are visibility options that the user is permitted to see.
+						if ( ! empty( self::$visibility ) ) {
+
+							cnHTML::field(
+								array(
+									'type'     => 'radio',
+									'format'   => 'inline',
+									'class'    => '',
+									'id'       => 'phone[' . $token . '][visibility]',
+									'options'  => self::$visibility,
+									'required' => FALSE,
+									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+									'after'    => '</span>',
+									'return'   => FALSE,
+								),
+								$phone->visibility
+							);
+						}
 
 						echo '</h4></div>'  , PHP_EOL;
 
@@ -1757,13 +1774,6 @@ class cnMetabox {
 		// Grab the email types.
 		$emailTypes = $instance->options->getDefaultEmailValues();
 
-		// Visibility options.
-		$visibiltyOptions = array(
-			'public'   => __( 'Public', 'connections' ),
-			'private'  => __( 'Private', 'connections' ),
-			'unlisted' => __( 'Unlisted', 'connections' )
-			);
-
 		echo '<div class="widgets-sortables ui-sortable form-field" id="email-addresses">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -1801,20 +1811,24 @@ class cnMetabox {
 						)
 					);
 
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'email[::FIELD::][visibility]',
-							'options'  => $visibiltyOptions,
-							'required' => FALSE,
-							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'public'
-					);
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'email[::FIELD::][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							'public'
+						);
+					}
 
 				echo '</h4></div>'  , PHP_EOL;
 
@@ -1889,20 +1903,24 @@ class cnMetabox {
 							$preferred
 						);
 
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'email[' . $token . '][visibility]',
-								'options'  => $visibiltyOptions,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$email->visibility
-						);
+						// Only show this if there are visibility options that the user is permitted to see.
+						if ( ! empty( self::$visibility ) ) {
+
+							cnHTML::field(
+								array(
+									'type'     => 'radio',
+									'format'   => 'inline',
+									'class'    => '',
+									'id'       => 'email[' . $token . '][visibility]',
+									'options'  => self::$visibility,
+									'required' => FALSE,
+									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+									'after'    => '</span>',
+									'return'   => FALSE,
+								),
+								$email->visibility
+							);
+						}
 
 						echo '</h4></div>'  , PHP_EOL;
 
@@ -1947,13 +1965,6 @@ class cnMetabox {
 		// Grab the email types.
 		$messengerTypes = $instance->options->getDefaultIMValues();
 
-		// Visibility options.
-		$visibiltyOptions = array(
-			'public'   => __( 'Public', 'connections' ),
-			'private'  => __( 'Private', 'connections' ),
-			'unlisted' => __( 'Unlisted', 'connections' )
-			);
-
 		echo '<div class="widgets-sortables ui-sortable form-field" id="im-ids">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -1991,20 +2002,24 @@ class cnMetabox {
 						)
 					);
 
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'im[::FIELD::][visibility]',
-							'options'  => $visibiltyOptions,
-							'required' => FALSE,
-							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'public'
-					);
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'im[::FIELD::][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							'public'
+						);
+					}
 
 				echo '</h4></div>'  , PHP_EOL;
 
@@ -2079,20 +2094,24 @@ class cnMetabox {
 							$preferred
 						);
 
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'im[' . $token . '][visibility]',
-								'options'  => $visibiltyOptions,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$network->visibility
-						);
+						// Only show this if there are visibility options that the user is permitted to see.
+						if ( ! empty( self::$visibility ) ) {
+
+							cnHTML::field(
+								array(
+									'type'     => 'radio',
+									'format'   => 'inline',
+									'class'    => '',
+									'id'       => 'im[' . $token . '][visibility]',
+									'options'  => self::$visibility,
+									'required' => FALSE,
+									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+									'after'    => '</span>',
+									'return'   => FALSE,
+								),
+								$network->visibility
+							);
+						}
 
 						echo '</h4></div>'  , PHP_EOL;
 
@@ -2137,13 +2156,6 @@ class cnMetabox {
 		// Grab the email types.
 		$socialTypes = $instance->options->getDefaultSocialMediaValues();
 
-		// Visibility options.
-		$visibiltyOptions = array(
-			'public'   => __( 'Public', 'connections' ),
-			'private'  => __( 'Private', 'connections' ),
-			'unlisted' => __( 'Unlisted', 'connections' )
-			);
-
 		echo '<div class="widgets-sortables ui-sortable form-field" id="social-media">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -2181,20 +2193,24 @@ class cnMetabox {
 						)
 					);
 
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'social[::FIELD::][visibility]',
-							'options'  => $visibiltyOptions,
-							'required' => FALSE,
-							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'public'
-					);
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'social[::FIELD::][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							'public'
+						);
+					}
 
 				echo '</h4></div>'  , PHP_EOL;
 
@@ -2269,20 +2285,24 @@ class cnMetabox {
 							$preferred
 						);
 
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'social[' . $token . '][visibility]',
-								'options'  => $visibiltyOptions,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$network->visibility
-						);
+						// Only show this if there are visibility options that the user is permitted to see.
+						if ( ! empty( self::$visibility ) ) {
+
+							cnHTML::field(
+								array(
+									'type'     => 'radio',
+									'format'   => 'inline',
+									'class'    => '',
+									'id'       => 'social[' . $token . '][visibility]',
+									'options'  => self::$visibility,
+									'required' => FALSE,
+									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+									'after'    => '</span>',
+									'return'   => FALSE,
+								),
+								$network->visibility
+							);
+						}
 
 						echo '</h4></div>'  , PHP_EOL;
 
@@ -2327,13 +2347,6 @@ class cnMetabox {
 		// Grab the email types.
 		$linkTypes = $instance->options->getDefaultLinkValues();
 
-		// Visibility options.
-		$visibiltyOptions = array(
-			'public'   => __( 'Public', 'connections' ),
-			'private'  => __( 'Private', 'connections' ),
-			'unlisted' => __( 'Unlisted', 'connections' )
-			);
-
 		echo '<div class="widgets-sortables ui-sortable form-field" id="links">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -2371,20 +2384,24 @@ class cnMetabox {
 						)
 					);
 
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'link[::FIELD::][visibility]',
-							'options'  => $visibiltyOptions,
-							'required' => FALSE,
-							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'public'
-					);
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'link[::FIELD::][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							'public'
+						);
+					}
 
 				echo '</h4></div>'  , PHP_EOL;
 
@@ -2526,20 +2543,24 @@ class cnMetabox {
 							$preferred
 						);
 
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'link[' . $token . '][visibility]',
-								'options'  => $visibiltyOptions,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$link->visibility
-						);
+						// Only show this if there are visibility options that the user is permitted to see.
+						if ( ! empty( self::$visibility ) ) {
+
+							cnHTML::field(
+								array(
+									'type'     => 'radio',
+									'format'   => 'inline',
+									'class'    => '',
+									'id'       => 'link[' . $token . '][visibility]',
+									'options'  => self::$visibility,
+									'required' => FALSE,
+									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+									'after'    => '</span>',
+									'return'   => FALSE,
+								),
+								$link->visibility
+							);
+						}
 
 						echo '</h4></div>'  , PHP_EOL;
 
@@ -2650,13 +2671,6 @@ class cnMetabox {
 		// Grab the email types.
 		$dateTypes = $instance->options->getDateOptions();
 
-		// Visibility options.
-		$visibiltyOptions = array(
-			'public'   => __( 'Public', 'connections' ),
-			'private'  => __( 'Private', 'connections' ),
-			'unlisted' => __( 'Unlisted', 'connections' )
-			);
-
 		echo '<div class="widgets-sortables ui-sortable form-field" id="dates">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -2694,20 +2708,24 @@ class cnMetabox {
 						)
 					);
 
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'date[::FIELD::][visibility]',
-							'options'  => $visibiltyOptions,
-							'required' => FALSE,
-							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'public'
-					);
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'date[::FIELD::][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							'public'
+						);
+					}
 
 				echo '</h4></div>'  , PHP_EOL;
 
@@ -2782,20 +2800,24 @@ class cnMetabox {
 							$preferred
 						);
 
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'date[' . $token . '][visibility]',
-								'options'  => $visibiltyOptions,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$date->visibility
-						);
+						// Only show this if there are visibility options that the user is permitted to see.
+						if ( ! empty( self::$visibility ) ) {
+
+							cnHTML::field(
+								array(
+									'type'     => 'radio',
+									'format'   => 'inline',
+									'class'    => '',
+									'id'       => 'date[' . $token . '][visibility]',
+									'options'  => self::$visibility,
+									'required' => FALSE,
+									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+									'after'    => '</span>',
+									'return'   => FALSE,
+								),
+								$date->visibility
+							);
+						}
 
 						echo '</h4></div>'  , PHP_EOL;
 

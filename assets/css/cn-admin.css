@@ -348,16 +348,30 @@ div.widgets-sortables {
 }
 
 /* The "Phone" metabox. */
-#metabox-phone .widget-inside input { width: 80%; }
+#metabox-phone .widget-inside input[type="text"] { width: 80%; }
 
 /* The "Email" metabox. */
-#metabox-email .widget-inside input { width: 80%; }
+#metabox-email .widget-inside input[type="text"] { width: 80%; }
 
 /* The "Email" metabox. */
-#metabox-messenger .widget-inside input { width: 80%; }
+#metabox-messenger .widget-inside input[type="text"] { width: 80%; }
 
-/* The "Email" metabox. */
-#metabox-social-media .widget-inside input { width: 80%; }
+/* The "Social Media Network" metabox. */
+#metabox-social-media .widget-inside input[type="text"] { width: 80%; }
+
+/* The "Link" metabox. */
+#metabox-links .widget-inside input[type="text"] {
+	margin-right: 10px;
+	width: 30%;
+}
+#metabox-links .widget-inside input[type="radio"] {
+	margin: 0 4px 0 10px;
+	vertical-align: middle;
+	width: auto;
+}
+.link-assignment {
+	margin-top: 10px;
+}
 
 /* The "Image" and "Logo" metabox styles. */
 /* Be very specific with this selector or the images used in rendering the Google Map will be affected, */

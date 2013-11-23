@@ -943,110 +943,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the links meta box.
+	 * Renders the links metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
 	public function metaboxLinks( $entry = NULL ) {
-		global $connections;
 
-		echo  '<div class="widgets-sortables ui-sortable form-field" id="links">';
-
-		// --> Start template <-- \\
-		echo  '<textarea id="link-template" style="display: none">';
-
-		echo '<div class="widget-top">' , "\n";
-		echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-		echo '<div class="widget-title"><h4>' , "\n";
-		echo __( 'Type', 'connections' ) , ': ' , $this->buildSelect( 'link[::FIELD::][type]', $connections->options->getDefaultLinkValues() ) , "\n";
-		echo '<label><input type="radio" name="link[preferred]" value="::FIELD::"> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-		echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'link[::FIELD::][visibility]', 'website_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
-		echo '</h4></div>'  , "\n";
-
-		echo '</div>' , "\n";
-
-		echo '<div class="widget-inside">' , "\n";
-
-		echo '<div>' , "\n";
-		echo  '<label>' , __( 'Title', 'connections' ) , '</label><input type="text" name="link[::FIELD::][title]" value="" style="width: 30%"/>' , "\n";
-		echo  '<label>' , __( 'URL', 'connections' ) , '</label><input type="text" name="link[::FIELD::][url]" value="http://" style="width: 30%"/>' , "\n";
-		echo '</div>' , "\n";
-
-		echo '<div>' , "\n";
-		echo '<span class="target">' , __( 'Target', 'connections' ) , ': ' , $this->buildSelect( 'link[::FIELD::][target]', array( 'new' => __( 'New Window', 'connections' ), 'same' => __( 'Same Window', 'connections' ) ), 'same' ) , '</span>' , "\n";
-		echo '<span class="follow">' , $this->buildSelect( 'link[::FIELD::][follow]', array( 'nofollow' => 'nofollow', 'dofollow' => 'dofollow' ), 'nofollow' ) , '</span>' , "\n";
-		echo '</div>' , "\n";
-
-		echo '<div>' , "\n";
-		echo '<label><input type="radio" name="link[image]" value="::FIELD::"> ' , __( 'Assign link to the image.', 'connections' ) , '</label>' , "\n";
-		echo '<label><input type="radio" name="link[logo]" value="::FIELD::"> ' , __( 'Assign link to the logo.', 'connections' ) , '</label>' , "\n";
-		// echo '<label><input type="checkbox" name="link[none]" value="::FIELD::"> ' , __( 'None', 'connections' ) , '</label>' , "\n";
-		echo '</div>' , "\n";
-
-		echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="link" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>' , "\n";
-
-		echo '</div>' , "\n";
-
-		echo  '</textarea>';
-		// --> End template <-- \\
-
-		$links = $entry->getLinks( array(), FALSE );
-
-		if ( ! empty( $links ) ) {
-
-			foreach ( $links as $link ) {
-				$token         = $this->token( $entry->getId() );
-				$selectName    = 'link['  . $token . '][type]';
-				$preferredLink = ( $link->preferred ) ? 'CHECKED' : '';
-				$imageLink     = ( $link->image ) ? 'CHECKED' : '';
-				$logoLink      = ( $link->logo ) ? 'CHECKED' : '';
-				// $noneLink      = ( empty( $imageLink ) && empty( $logoLink ) ) ? 'CHECKED' : '';
-				//var_dump($link);
-
-				echo '<div class="widget link" id="link-row-'  . $token . '">' , "\n";
-				echo '<div class="widget-top">' , "\n";
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-				echo '<div class="widget-title"><h4>' , "\n";
-				echo __( 'Type', 'connections' ) , ': ' , $this->buildSelect( $selectName, $connections->options->getDefaultLinkValues(), $link->type ) , "\n";
-				echo '<label><input type="radio" name="link[preferred]" value="' , $token , '" ' , $preferredLink , '> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-				echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'link[' . $token . '][visibility]', 'link_visibility_'  . $token , $this->visibiltyOptions, $link->visibility ) , '</span>' , "\n";
-				echo '</h4></div>'  , "\n";
-
-				echo '</div>' , "\n";
-
-				echo '<div class="widget-inside">' , "\n";
-
-				echo '<div>' , "\n";
-				echo  '<label>' , __( 'Title', 'connections' ) , '</label><input type="text" name="link[' , $token , '][title]" value="' , $link->title , '" style="width: 30%"/>' , "\n";
-				echo  '<label>' , __( 'URL', 'connections' ) , '</label><input type="text" name="link[' , $token , '][url]" value="' , $link->url , '" style="width: 30%"/>';
-				echo '</div>' , "\n";
-
-				echo '<div>' , "\n";
-				echo '<span class="target">' , __( 'Target', 'connections' ) , ': ' , $this->buildSelect( 'link[' . $token . '][target]', array( '_blank' => __( 'New Window', 'connections' ), '_self' => __( 'Same Window', 'connections' ) ), $link->target ) , '</span>' , "\n";
-				echo '<span class="follow">' , $this->buildSelect( 'link[' . $token . '][follow]', array( 'nofollow' => 'nofollow', 'dofollow' => 'dofollow' ), $link->followString ) , '</span>' , "\n";
-				echo '</div>' , "\n";
-
-				echo '<div>' , "\n";
-				echo '<label><input type="radio" name="link[image]" value="' , $token , '" ' , $imageLink , '> ' , __( 'Assign link to the image.', 'connections' ) , '</label>' , "\n";
-				echo '<label><input type="radio" name="link[logo]" value="' , $token , '" ' , $logoLink , '> ' , __( 'Assign link to the logo.', 'connections' ) , '</label>' , "\n";
-				// echo '<label><input type="checkbox" name="link[none]" value="' , $token , '" ' , $noneLink , '> ' , __( 'None', 'connections' ) , '</label>' , "\n";
-				echo '</div>' , "\n";
-
-				echo  '<input type="hidden" name="link[' , $token , '][id]" value="' , $link->id , '">' , "\n";
-				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="link" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-				echo '</div>' , "\n";
-				echo '</div>' , "\n";
-			}
-
-		}
-
-		echo  '</div>';
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __( 'Add Link', 'connections' ) , '</a></p>';
+		cnMetabox::links( $entry, $metabox = array() );
 	}
 
 	/**

@@ -2351,9 +2351,9 @@ class cnMetabox {
 
 				echo '<div class="link-assignment">';
 
-					echo '<input type="radio" name="link[image]" value="::FIELD::"><label>' , __( 'Assign link to the image.', 'connections' ) , '</label>';
-					echo '<input type="radio" name="link[logo]" value="::FIELD::"><label>' , __( 'Assign link to the logo.', 'connections' ) , '</label>';
-					// echo '<input type="checkbox" name="link[none]" value="::FIELD::"> <label>' , __( 'None', 'connections' ) , '</label>';
+					echo '<label><input type="radio" name="link[image]" value="::FIELD::">' , __( 'Assign link to the image.', 'connections' ) , '</label>';
+					echo '<label><input type="radio" name="link[logo]" value="::FIELD::">' , __( 'Assign link to the logo.', 'connections' ) , '</label>';
+					// echo '<label><input type="checkbox" name="link[none]" value="::FIELD::">' , __( 'None', 'connections' ) , '</label>';
 
 				echo '</div>';
 
@@ -2375,8 +2375,8 @@ class cnMetabox {
 
 				$selectName = 'link['  . $token . '][type]';
 				$preferred  = $link->preferred ? $token : '';
-				$imageLink  = selected( $link->image, TRUE, FALSE );
-				$logoLink   = selected( $link->logo, TRUE, FALSE );
+				$imageLink  = checked( $link->image, TRUE, FALSE );
+				$logoLink   = checked( $link->logo, TRUE, FALSE );
 
 				echo '<div class="widget link" id="link-row-'  . $token . '">' , PHP_EOL;
 
@@ -2508,9 +2508,9 @@ class cnMetabox {
 
 						echo '<div class="link-assignment">';
 
-							echo '<input type="radio" name="link[image]" value="' , $token , '" ' , $imageLink , '>' , __( 'Assign link to the image.', 'connections' ) , '</label>';
-							echo '<input type="radio" name="link[logo]" value="' , $token , '" ' , $logoLink , '><label>' , __( 'Assign link to the logo.', 'connections' ) , '</label>';
-							// echo '<input type="checkbox" name="link[none]" value="' , $token , '"><label>' , __( 'None', 'connections' ) , '</label>';
+							echo '<label><input type="radio" name="link[image]" value="' , $token , '" ' , $imageLink , '>' , __( 'Assign link to the image.', 'connections' ) , '</label>';
+							echo '<label><input type="radio" name="link[logo]" value="' , $token , '" ' , $logoLink , '>' , __( 'Assign link to the logo.', 'connections' ) , '</label>';
+							// echo '<label><input type="checkbox" name="link[none]" value="' , $token , '">' , __( 'None', 'connections' ) , '</label>';
 
 						echo '</div>';
 
@@ -2555,6 +2555,8 @@ class cnMetabox {
 							'hidden' => __( 'Not Displayed', 'connections' ),
 							'remove' => __( 'Remove', 'connections' ),
 							),
+						'before'   => '<div>',
+						'after'    => '</div>',
 						),
 					$selected
 				);
@@ -2592,6 +2594,8 @@ class cnMetabox {
 							'hidden' => __( 'Not Displayed', 'connections' ),
 							'remove' => __( 'Remove', 'connections' ),
 							),
+						'before'   => '<div>',
+						'after'    => '</div>',
 						),
 					$selected
 				);

@@ -39,7 +39,10 @@ class cnMetabox {
 		self::register();
 
 		// Register the core metaboxes the Metabox API.
-		$metabox::add( self::$metaboxes );
+		foreach ( self::$metaboxes as $atts ) {
+
+			$metabox::add( $atts );
+		}
 	}
 
 	/**

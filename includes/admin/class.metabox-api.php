@@ -86,19 +86,16 @@ class cnMetaboxAPI {
 	 * @since 0.8
 	 * @param (array) $metabox
 	 */
-	public static function add( array $metaboxes ) {
+	public static function add( array $metabox ) {
 
 		// Grab an instance of Connections.
 		$instance = Connections_Directory();
 
-		foreach ( $metaboxes as $metabox ) {
+		$metabox['pages']    = empty( $metabox['pages'] ) ? array( $instance->pageHook->add, $instance->pageHook->manage ) : $metabox['pages'];
+		$metabox['context']  = empty( $metabox['context'] ) ? 'normal' : $metabox['context'];
+		$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
 
-			$metabox['pages']    = empty( $metabox['pages'] ) ? array( $instance->pageHook->add, $instance->pageHook->manage ) : $metabox['pages'];
-			$metabox['context']  = empty( $metabox['context'] ) ? 'normal' : $metabox['context'];
-			$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
-
-			self::$metaboxes[ $metabox['id'] ] = $metabox;
-		}
+		self::$metaboxes[ $metabox['id'] ] = $metabox;
 	}
 
 	/**
@@ -715,7 +712,7 @@ class cnMetabox_Render {
 
 				default:
 
-					// do_action('cn_metabox_render_' . $field['type'] , $field, $meta );
+					do_action('cn_meta_field-' . $field['type'] , $field, $value );
 
 					break;
 			}

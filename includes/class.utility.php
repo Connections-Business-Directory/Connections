@@ -361,7 +361,7 @@ class cnValidate
 	 * @param string $visibilty
 	 * @return bool
 	 */
-	public function userPermitted($visibilty)
+	public static function userPermitted($visibilty)
 	{
 		global $connections;
 

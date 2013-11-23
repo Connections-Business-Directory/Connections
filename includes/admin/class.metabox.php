@@ -93,6 +93,14 @@ class cnMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-social-media',
+			'title'    => __( 'Social Media IDs', 'connections' ),
+			'context'  => 'normal',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'social' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
 			'title'    => __( 'Image', 'connection' ),
 			'context'  => 'normal',
@@ -1989,7 +1997,7 @@ class cnMetabox {
 							$network->id
 						);
 
-						echo '<input type="hidden" name="im[' , $token , '][uid]" value="' , $email->id , '">' , PHP_EOL;
+						echo '<input type="hidden" name="im[' , $token , '][uid]" value="' , $network->id , '">' , PHP_EOL;
 
 						echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
@@ -2002,6 +2010,197 @@ class cnMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	public static function social( $entry, $metabox ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the email types.
+		$socialTypes = $instance->options->getDefaultSocialMediaValues();
+
+		// Visibility options.
+		$visibiltyOptions = array(
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' ),
+			'unlisted' => __( 'Unlisted', 'connections' )
+			);
+
+		echo '<div class="widgets-sortables ui-sortable form-field" id="social-media">' , PHP_EOL;
+
+		// --> Start template <-- \\
+		echo '<textarea id="social-template" style="display: none;">' , PHP_EOL;
+
+			echo '<div class="widget-top">' , PHP_EOL;
+
+				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+				echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'social[::FIELD::][type]',
+							'options'  => $socialTypes,
+							'required' => FALSE,
+							'label'    => __( 'Social Network', 'connections' ),
+							'return'   => FALSE,
+						),
+						'work'
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'social[preferred]',
+							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						)
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'social[::FIELD::][visibility]',
+							'options'  => $visibiltyOptions,
+							'required' => FALSE,
+							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						),
+						'public'
+					);
+
+				echo '</h4></div>'  , PHP_EOL;
+
+			echo '</div>' , PHP_EOL;
+
+			echo '<div class="widget-inside">';
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'social[::FIELD::][url]',
+						'required' => FALSE,
+						'label'    => __( 'URL', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					)
+				);
+
+				echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="social" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+
+			echo '</div>' , PHP_EOL;
+
+		echo '</textarea>' , PHP_EOL;
+		// --> End template <-- \\
+
+		$socialNetworks = $entry->getSocialMedia( array(), FALSE );
+		//print_r($imIDs);
+
+		if ( ! empty( $socialNetworks ) ) {
+
+			foreach ( $socialNetworks as $network ) {
+
+				$token = md5( uniqid( rand(), TRUE ) );
+
+				$selectName = 'social['  . $token . '][type]';
+				$preferred  = $network->preferred ? $token : '';
+
+				echo '<div class="widget phone" id="social-row-'  . $token . '">' , PHP_EOL;
+
+					echo '<div class="widget-top">' , PHP_EOL;
+						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
+
+						echo '<div class="widget-title"><h4>' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'social[' . $token . '][type]',
+								'options'  => $socialTypes,
+								'required' => FALSE,
+								'label'    => __( 'Social Network', 'connections' ),
+								'return'   => FALSE,
+							),
+							$network->type
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'social[preferred]',
+								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+								'required' => FALSE,
+								'before'   => '<span class="preferred">',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$preferred
+						);
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'social[' . $token . '][visibility]',
+								'options'  => $visibiltyOptions,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							$network->visibility
+						);
+
+						echo '</h4></div>'  , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+					echo '<div class="widget-inside">' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'text',
+								'class'    => '',
+								'id'       => 'social[' . $token . '][url]',
+								'required' => FALSE,
+								'label'    => __( 'Social Network', 'connections' ),
+								'before'   => '',
+								'after'    => '',
+								'return'   => FALSE,
+							),
+							$network->url
+						);
+
+						echo '<input type="hidden" name="social[' , $token , '][id]" value="' , $network->id , '">' , PHP_EOL;
+
+						echo '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="social" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+
+					echo '</div>' , PHP_EOL;
+
+				echo '</div>' , PHP_EOL;
+			}
+		}
+
+		echo  '</div>' , PHP_EOL;
+
+		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">' , __( 'Add Social Media ID', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	public static function image( $entry, $metabox ) {

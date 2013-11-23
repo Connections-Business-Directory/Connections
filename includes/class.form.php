@@ -928,76 +928,18 @@ class cnFormObjects {
 	}
 
 	/**
-	 * Outputs the social media meta box.
+	 * Renders the social media metabox.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.1.5
-	 * @param array   $entry
+	 * This is deprecated method, left in place for backward compatility only.
+	 *
+	 * @access private
+	 * @deprecated
+	 * @since 0.8
+	 * @param object   $entry An instrance of the cnEntry object.
 	 */
 	public function metaboxSocialMedia( $entry = NULL ) {
-		global $connections;
 
-		echo  '<div class="widgets-sortables ui-sortable form-field" id="social-media">';
-
-		// --> Start template <-- \\
-		echo  '<textarea id="social-template" style="display: none">';
-
-		echo '<div class="widget-top">' , "\n";
-		echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-		echo '<div class="widget-title"><h4>' , "\n";
-		echo __( 'Social Network', 'connections' ) , ': ' , $this->buildSelect( 'social[::FIELD::][type]', $connections->options->getDefaultSocialMediaValues() ) , "\n";
-		echo '<label><input type="radio" name="social[preferred]" value="::FIELD::"> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-		echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'social[::FIELD::][visibility]', 'social_visibility_::FIELD::' , $this->visibiltyOptions, 'public' ) , '</span>' , "\n";
-		echo '</h4></div>'  , "\n";
-
-		echo '</div>' , "\n";
-
-		echo '<div class="widget-inside">' , "\n";
-
-		echo  '<label>' , __( 'URL', 'connections' ) , '</label><input type="text" name="social[::FIELD::][url]" value="http://" style="width: 30%"/>' , "\n";
-		echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="social" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>' , "\n";
-
-		echo '</div>' , "\n";
-
-		echo  '</textarea>';
-		// --> End template <-- \\
-
-		$socialNetworks = $entry->getSocialMedia( array(), FALSE );
-
-		if ( ! empty( $socialNetworks ) ) {
-
-			foreach ( $socialNetworks as $network ) {
-				$token = $this->token( $entry->getId() );
-				$selectName = 'social['  . $token . '][type]';
-				( $network->preferred ) ? $preferredNetwork = 'CHECKED' : $preferredNetwork = '';
-
-				echo '<div class="widget social" id="social-row-'  . $token . '">' , "\n";
-				echo '<div class="widget-top">' , "\n";
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , "\n";
-
-				echo '<div class="widget-title"><h4>' , "\n";
-				echo __( 'Social Network', 'connections' ) , ': ' , $this->buildSelect( $selectName, $connections->options->getDefaultSocialMediaValues(), $network->type ) , "\n";
-				echo '<label><input type="radio" name="social[preferred]" value="' , $token , '" ' , $preferredNetwork , '> ' , __( 'Preferred', 'connections' ) , '</label>' , "\n";
-				echo '<span class="visibility">' , __( 'Visibility', 'connections' ) , ': ' , $this->buildRadio( 'social[' . $token . '][visibility]', 'social_visibility_'  . $token , $this->visibiltyOptions, $network->visibility ) , '</span>' , "\n";
-				echo '</h4></div>'  , "\n";
-
-				echo '</div>' , "\n";
-
-				echo '<div class="widget-inside">' , "\n";
-
-				echo  '<label>' , __( 'URL', 'connections' ) , '</label><input type="text" name="social[' , $token , '][url]" value="' , $network->url , '" style="width: 30%"/>';
-				echo  '<input type="hidden" name="social[' , $token , '][id]" value="' , $network->id , '">' , "\n";
-				echo  '<p class="remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="social" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-				echo '</div>' , "\n";
-				echo '</div>' , "\n";
-			}
-
-		}
-
-		echo  '</div>';
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">' , __( 'Add Social Media ID', 'connections' ) , '</a></p>';
+		cnMetabox::social( $entry, $metabox = array() );
 	}
 
 	/**

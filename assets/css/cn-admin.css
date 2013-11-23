@@ -356,6 +356,9 @@ div.widgets-sortables {
 /* The "Email" metabox. */
 #metabox-messenger .widget-inside input { width: 80%; }
 
+/* The "Email" metabox. */
+#metabox-social-media .widget-inside input { width: 80%; }
+
 /* The "Image" and "Logo" metabox styles. */
 /* Be very specific with this selector or the images used in rendering the Google Map will be affected, */
 #metabox-image img { border-radius:4px; background-color: #FFFFFF; border:1px solid #E3E3E3; margin-bottom:10px; padding:5px; }

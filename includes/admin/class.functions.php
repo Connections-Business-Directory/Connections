@@ -118,9 +118,6 @@ class cnAdminFunction {
 			 */
 			if ( get_object_vars( $instance->pageHook ) && current_user_can( 'connections_view_menu') ) {
 
-				// Register the Dashboard metaboxes.
-				add_action( 'load-' . $instance->pageHook->dashboard, array( __CLASS__, 'registerDashboardMetaboxes' ) );
-
 				/*
 				 * Add the panel to the "Screen Options" box to the manage page.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
@@ -244,19 +241,6 @@ class cnAdminFunction {
 		    [url] => http://wordpress.org/extend/plugins/connections/
 		    [package] => http://downloads.wordpress.org/plugin/connections.0.7.0.0.zip
 		)*/
-	}
-
-	/**
-	 * Register the metaboxes used for the Dashboard.
-	 *
-	 * @access private
-	 * @since 0.7.1.6
-	 * @return (void)
-	 */
-	public static function registerDashboardMetaboxes() {
-
-		$form = new cnFormObjects();
-		$form->registerDashboardMetaboxes();
 	}
 
 	/**

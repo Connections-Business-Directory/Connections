@@ -26,6 +26,9 @@ class cnMetaboxAPI {
 
 	/**
 	 * The metaboxes.
+	 *
+	 * @access private
+	 * @since 0.8
 	 * @var (array)
 	 */
 	private static $metaboxes = array();
@@ -56,7 +59,7 @@ class cnMetaboxAPI {
 			// Action for extensions to hook into to add custom metaboxes/fields.
 			do_action( 'cn_metabox', self::$instance );
 
-			// Add the actions to show the meatboxes on the registered pages.
+			// Add the actions to show the metaboxes on the registered pages.
 			foreach ( self::$metaboxes as $id => $metabox ) {
 
 				foreach ( $metabox['pages'] as $page ){
@@ -88,6 +91,13 @@ class cnMetaboxAPI {
 	 */
 	public static function add( array $metabox ) {
 
+		/*
+		 * Interestingly if either 'submitdiv' or 'linksubmitdiv' is used as
+		 * the 'id' in the add_meta_box function it will show up as a metabox
+		 * that can not be hidden when the Screen Options tab is output via the
+		 * meta_box_prefs function.
+		 */
+
 		// Grab an instance of Connections.
 		$instance = Connections_Directory();
 
@@ -96,6 +106,19 @@ class cnMetaboxAPI {
 		$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
 
 		self::$metaboxes[ $metabox['id'] ] = $metabox;
+	}
+
+	/**
+	 * Return self::$metaboxes array.
+	 *
+	 * @access public
+	 * @since 0.8
+	 *
+	 * @return array
+	 */
+	public static function get() {
+
+		return self::$metaboxes;
 	}
 
 	/**

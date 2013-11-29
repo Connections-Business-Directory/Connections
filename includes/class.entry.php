@@ -1036,20 +1036,6 @@ class cnEntry {
 				// Permit only the valid fields.
 				$address = $this->validate->attributesArray( $validFields, $address );
 
-				/*
-				 * Geocode the address using Google Geocoding API
-				 */
-				if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
-					//$geocode = new cnGeo();
-					$result = cnGeo::address( $address );
-
-					if ( ! empty( $result ) ) {
-						$addresses[ $key ]['latitude'] = $result->latitude;
-						$addresses[ $key ]['longitude'] = $result->longitude;
-					}
-
-				}
-
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
 
@@ -1062,6 +1048,8 @@ class cnEntry {
 				 * will have preference.
 				 */
 				if ( $addresses[ $key ]['preferred'] ) $userPreferred = $key;
+
+				$addresses[ $key ] = apply_filters( 'cn_set_address', $address );
 
 				$order++;
 			}
@@ -1101,7 +1089,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $addresses ) ) ? $this->addresses = serialize( $addresses ) : $this->addresses = NULL;
+		$this->addresses = ! empty( $addresses ) ? serialize( apply_filters( 'cn_set_addresses', $addresses ) ) : NULL;
 	}
 
 	/**

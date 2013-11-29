@@ -80,6 +80,11 @@ class cnEntry_Action {
 		// properties and then properties are overwritten by the data as needed.
 		if ( ! empty( $id ) ) $entry->set( absint( $id ) );
 
+		/*
+		 * Geocode the address using Google Geocoding API
+		 */
+		add_filter( 'cn_set_address', array( __CLASS__, 'geoCode' ) );
+
 		// Set the default visibility.
 		$entry->setVisibility( 'unlisted' );
 
@@ -510,6 +515,32 @@ class cnEntry_Action {
 		}
 
 		return TRUE;
+	}
+
+	/**
+	 * Geocode the supplied address.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  array $address An associative array containing the address to geocode.
+	 * @return array          The address that has been geocoded.
+	 */
+	public static function geoCode( $address ) {
+
+		if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
+
+			//$geocode = new cnGeo();
+			$result = cnGeo::address( $address );
+
+			if ( ! empty( $result ) ) {
+
+				$address['latitude']  = $result->latitude;
+				$address['longitude'] = $result->longitude;
+			}
+
+		}
+
+		return $address;
 	}
 
 	/**

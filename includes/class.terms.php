@@ -295,48 +295,55 @@ class cnTerms
 	 * 							parent - (int)
 	 * 							description - (string)
 	 *
-	 * @param int $term
+	 * @access public
+	 * @param string $term
 	 * @param string $taxonomy
-	 * @param array $attributes
-	 * @return bool
+	 * @param array  $attributes
+	 * @return int                The term id.
 	 */
-	public function addTerm($term, $taxonomy, $attributes)
-	{
-		global $wpdb, $connections;
+	public function addTerm( $term, $taxonomy, $attributes ) {
+		global $wpdb;
 
-		$slug = $attributes['slug'];
+		$slug        = $attributes['slug'];
 		$description = $attributes['description'];
-		$parent = $attributes['parent'];
+		$parent      = $attributes['parent'];
+		$slug        = $this->getUniqueSlug( $slug, $term );
 
-		$slug = $this->getUniqueSlug($slug, $term);
+		$wpdb->insert(
+			CN_TERMS_TABLE,
+			array(
+				'name'       => $term,
+				'slug'       => $slug,
+				'term_group' => 0,
+				),
+			array(
+				'%s',
+				'%s',
+				'%d',
+				)
+			);
 
-		/**
-		 * @TODO: Make sure the term doesn't exist before adding it.
-		 * If term does exist, only the taxonomy table needs to be updated.
-		 */
-		$sql = "INSERT INTO " . CN_TERMS_TABLE . " SET
-			name    	= '" . $wpdb->escape($term) . "',
-			slug    	= '" . $wpdb->escape($slug) . "',
-			term_group	= '0'";
+		$termID = $wpdb->insert_id;
 
-		// If insert fails return NULL.
-		$wpdb->query($sql);
-		unset($sql);
+		$wpdb->insert(
+			CN_TERM_TAXONOMY_TABLE,
+			array(
+				'term_id'     => $termID,
+				'taxonomy'    => $taxonomy,
+				'description' => $description,
+				'count'       => 0,
+				'parent'      => $parent,
+				),
+			array(
+				'%d',
+				'%s',
+				'%s',
+				'%d',
+				'%d',
+				)
+			);
 
-		$sql = "INSERT INTO " . CN_TERM_TAXONOMY_TABLE . " SET
-			term_id    	= '" . $wpdb->insert_id . "',
-			taxonomy   	= '" . $wpdb->escape($taxonomy) . "',
-			description	= '" . $wpdb->escape($description) . "',
-			count		= '0',
-			parent		= '" . $wpdb->escape($parent) . "'";
-
-		/**
-		 * @TODO: Error check the insert and return error
-		 */
-		$wpdb->query($sql);
-		unset($sql);
-
-		return TRUE;
+		return $termID;
 	}
 
 	/**

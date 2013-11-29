@@ -42,11 +42,36 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( $this, 'card' ) ) );
+			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
+
+			// Update the permitted shortcode attributes the user may use and override the template defaults as needed.
+			add_filter( 'cn_list_atts_permitted-' . $template->getSlug() , array( __CLASS__, 'registerAtts') );
+			add_filter( 'cn_list_atts-' . $template->getSlug() , array( __CLASS__, 'atts') );
 		}
 
-		public function card( $entry, $content, $template, $atts, $connections, $vCard ) {
+		/**
+		 * Initiate the permitted template shortcode options and load the default values.
+		 *
+		 * @access private
+		 * @since 0.8
+		 * @param  (array)  $atts The shortcode $atts array.
+		 * @return (array)
+		 */
+		public static function registerAtts( $atts = array() ) {
+
+			$atts['status'] = 'all';
+
+			return $atts;
+		}
+
+		public static function atts( $atts ) {
+
+
+			return $atts;
+		}
+
+		public static function card( $entry, $content, $template, $atts, $connections, $vCard ) {
 
 			if ( is_admin() ) {
 

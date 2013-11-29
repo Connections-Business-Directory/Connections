@@ -38,7 +38,7 @@ class cnEntryMetabox {
 	 *
 	 * @access private
 	 * @since 0.8
-	 * @param  object $metabox Instance of the cmMetaboxAPI.
+	 * @param  object $metabox Instance of the cnMetaboxAPI.
 	 *
 	 * @return void
 	 */
@@ -308,6 +308,15 @@ class cnEntryMetabox {
 		echo '</div>';
 	}
 
+	/**
+	 * The category metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The category metabox.
+	 */
 	public static function category( $entry, $metabox ) {
 
 		// Grab an instance of the Connections object.
@@ -725,6 +734,15 @@ class cnEntryMetabox {
 		echo $family;
 	}
 
+	/**
+	 * Renders the image/photo metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The image/photo metabox.
+	 */
 	public static function image( $entry, $metabox ) {
 
 		if ( $entry->getImageLinked() ) {
@@ -764,6 +782,15 @@ class cnEntryMetabox {
 		echo '<input type="file" value="" name="original_image" size="25" /></label>';
 	}
 
+	/**
+	 * Renders the logo metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The logo metabox.
+	 */
 	public static function logo( $entry, $metabox ) {
 
 		if ( $entry->getLogoLinked() ) {
@@ -803,6 +830,15 @@ class cnEntryMetabox {
 		echo '<input type="file" value="" name="original_logo" size="25" /></label>';
 	}
 
+	/**
+	 * Renders the address metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The address metabox.
+	 */
 	public static function address( $entry, $atts ) {
 
 		// Grab an instance of the Connections object.
@@ -1575,6 +1611,15 @@ class cnEntryMetabox {
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
+	/**
+	 * Renders the phone metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The phone metabox.
+	 */
 	public static function phone( $entry, $metabox ) {
 
 		// Grab an instance of the Connections object.
@@ -1766,6 +1811,15 @@ class cnEntryMetabox {
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">' , __( 'Add Phone Number', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
+	/**
+	 * Renders the email metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The email metabox.
+	 */
 	public static function email( $entry, $metabox ) {
 
 		// Grab an instance of the Connections object.
@@ -1957,6 +2011,15 @@ class cnEntryMetabox {
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
+	/**
+	 * Renders the instant messenger metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The instant messenger metabox.
+	 */
 	public static function messenger( $entry, $metabox ) {
 
 		// Grab an instance of the Connections object.
@@ -2148,6 +2211,15 @@ class cnEntryMetabox {
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
+	/**
+	 * Renders the social media network metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The social media network metabox.
+	 */
 	public static function social( $entry, $metabox ) {
 
 		// Grab an instance of the Connections object.
@@ -2339,6 +2411,15 @@ class cnEntryMetabox {
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">' , __( 'Add Social Media ID', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
+	/**
+	 * Renders the links metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The links metabox.
+	 */
 	public static function links( $entry, $metabox ) {
 
 		// Grab an instance of the Connections object.
@@ -2663,6 +2744,15 @@ class cnEntryMetabox {
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
+	/**
+	 * Renders the dates metabox.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  array  $metabox The metabox options array from self::register().
+	 * @return string          The dates metabox.
+	 */
 	public static function date( $entry, $metabox ) {
 
 		// Grab an instance of the Connections object.

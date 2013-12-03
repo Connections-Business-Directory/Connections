@@ -1,13 +1,22 @@
 <?php
-
 /**
- * Names Template.
+ * @package    Connections
+ * @subpackage Template : Names
+ * @author     Steven A. Zahm
+ * @since      0.7.9
+ * @license    GPL-2.0+
+ * @link       http://connections-pro.com
+ * @copyright  2013 Steven A. Zahm
  *
- * @package     Connections
- * @subpackage  Template : Names
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.7.6.1
+ * @wordpress-plugin
+ * Plugin Name:       Connections Names - Template
+ * Plugin URI:        http://connections-pro.com
+ * Description:       A simple responsive template which outputs a list of every name within the directory in a column format if the browser supports it. This template is not recommended for very large directories.
+ * Version:           1.0.1
+ * Author:            Steven A. Zahm
+ * Author URI:        http://connections-pro.com
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 // Exit if accessed directly
@@ -24,7 +33,7 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 				'name'        => 'Names',
 				'slug'        => 'names',
 				'type'        => 'all',
-				'version'     => '1.0',
+				'version'     => '1.0.1',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'A simple responsive template which outputs a list of every name within the directory in a column format if the browser supports it. This template is not recommended for very large directories.',
@@ -51,5 +60,9 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 
 	}
 
+	// This action is ran if the template is loaded by core to register the template.
 	add_action( 'cn_register_template', array( 'CN_Names_Template', 'register' ) );
+
+	// If this template is moved to the `plugins` folder, this action will be run to register the template.
+	add_action( 'plugins_loaded', array( 'CN_Names_Template', 'register' ), 11 );
 }

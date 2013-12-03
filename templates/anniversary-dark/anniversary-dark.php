@@ -1,13 +1,22 @@
 <?php
-
 /**
- * Anniversary Dark Template.
+ * @package    Connections
+ * @subpackage Template : Anniversary Dark
+ * @author     Steven A. Zahm
+ * @since      0.7.9
+ * @license    GPL-2.0+
+ * @link       http://connections-pro.com
+ * @copyright  2013 Steven A. Zahm
  *
- * @package     Connections
- * @subpackage  Template : Anniversary Dark
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.7.9
+ * @wordpress-plugin
+ * Plugin Name:       Connections Anniversary Dark - Template
+ * Plugin URI:        http://connections-pro.com
+ * Description:       Anniversary template with a black background in a table like format.
+ * Version:           2.0.1
+ * Author:            Steven A. Zahm
+ * Author URI:        http://connections-pro.com
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 // Exit if accessed directly
@@ -24,7 +33,7 @@ if ( ! class_exists( 'CN_Anniversary_Dark_Template' ) ) {
 				'name'        => 'Anniversary Dark',
 				'slug'        => 'anniversary-dark',
 				'type'        => 'anniversary',
-				'version'     => '2.0',
+				'version'     => '2.0.1',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'Anniversary template with a black background in a table like format.',
@@ -42,11 +51,11 @@ if ( ! class_exists( 'CN_Anniversary_Dark_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( $this, 'card' ) ) );
+			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
 		}
 
-		public function card( $entry, $content, $template, $atts, $connections, $vCard ) {
+		public static function card( $entry, $content, $template, $atts, $connections, $vCard ) {
 
 			?>
 
@@ -57,5 +66,9 @@ if ( ! class_exists( 'CN_Anniversary_Dark_Template' ) ) {
 
 	}
 
+	// This action is ran if the template is loaded by core to register the template.
 	add_action( 'cn_register_template', array( 'CN_Anniversary_Dark_Template', 'register' ) );
+
+	// If this template is moved to the `plugins` folder, this action will be run to register the template.
+	add_action( 'plugins_loaded', array( 'CN_Anniversary_Dark_Template', 'register' ), 11 );
 }

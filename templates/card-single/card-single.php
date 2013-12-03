@@ -1,13 +1,22 @@
 <?php
-
 /**
- * Bio Card Template.
+ * @package    Connections
+ * @subpackage Template : Single Card
+ * @author     Steven A. Zahm
+ * @since      0.7.9
+ * @license    GPL-2.0+
+ * @link       http://connections-pro.com
+ * @copyright  2013 Steven A. Zahm
  *
- * @package     Connections
- * @subpackage  Template : Bio Card
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.7.9
+ * @wordpress-plugin
+ * Plugin Name:       Connections Single Card - Template
+ * Plugin URI:        http://connections-pro.com
+ * Description:       This is a variation of the default template does not show the return to top anchor.
+ * Version:           2.0.1
+ * Author:            Steven A. Zahm
+ * Author URI:        http://connections-pro.com
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 // Exit if accessed directly
@@ -24,7 +33,7 @@ if ( ! class_exists( 'CN_Single_Card_Template' ) ) {
 				'name'        => 'Single Entry Card',
 				'slug'        => 'card-single',
 				'type'        => 'individual',
-				'version'     => '2.0',
+				'version'     => '2.0.1',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This is a variation of the default template does not show the return to top anchor.',
@@ -42,10 +51,10 @@ if ( ! class_exists( 'CN_Single_Card_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( $this, 'card' ) ) );
+			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 		}
 
-		public function card( $entry ) {
+		public static function card( $entry ) {
 
 			?>
 
@@ -106,5 +115,9 @@ if ( ! class_exists( 'CN_Single_Card_Template' ) ) {
 
 	}
 
+	// This action is ran if the template is loaded by core to register the template.
 	add_action( 'cn_register_template', array( 'CN_Single_Card_Template', 'register' ) );
+
+	// If this template is moved to the `plugins` folder, this action will be run to register the template.
+	add_action( 'plugins_loaded', array( 'CN_Single_Card_Template', 'register' ), 11 );
 }

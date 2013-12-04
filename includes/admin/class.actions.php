@@ -47,7 +47,7 @@ class cnAdminActions {
 
 			self::$instance = new self;
 
-			self::registerActions();
+			self::register();
 			self::doActions();
 
 		}
@@ -74,7 +74,7 @@ class cnAdminActions {
 	 * @uses add_action()
 	 * @return (void)
 	 */
-	private static function registerActions() {
+	private static function register() {
 
 		// Entry Actions
 		add_action( 'cn_add_entry', array( __CLASS__, 'processEntry' ) );
@@ -82,6 +82,12 @@ class cnAdminActions {
 		add_action( 'cn_duplicate_entry', array( __CLASS__, 'processEntry' ) );
 		add_action( 'cn_delete_entry', array( __CLASS__, 'deleteEntry' ) );
 		add_action( 'cn_set_status', array( __CLASS__, 'setEntryStatus' ) );
+
+		// Entry Meta Action
+		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 10, 2 );
+
+		// Entry Filters
+		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) ); // Geocode the address using Google Geocoding API.
 
 		// Save the user's manage admin page actions.
 		add_action( 'cn_manage_actions', array( __CLASS__, 'entryManagement' ) );
@@ -252,9 +258,6 @@ class cnAdminActions {
 
 					$id = cnEntry_Action::add( $_POST );
 
-					// Save any custom meta data added to the entry.
-					self::processEntryMeta( $action, $id );
-
 				} else {
 
 					cnMessage::set( 'error', 'capability_add' );
@@ -272,9 +275,6 @@ class cnAdminActions {
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
 					$id = cnEntry_Action::copy( $_GET['id'], $_POST );
-
-					// Save any custom meta data added to the entry.
-					self::processEntryMeta( $action, $id );
 
 				} else {
 
@@ -297,9 +297,6 @@ class cnAdminActions {
 
 					$id = cnEntry_Action::update( $_GET['id'], $_POST );
 
-					// Update any custom meta data added to the entry.
-					self::processEntryMeta( $action, $id );
-
 				} else {
 
 					cnMessage::set( 'error', 'capability_edit' );
@@ -307,6 +304,9 @@ class cnAdminActions {
 
 				break;
 		}
+
+		do_action( 'cn_process_meta-entry', $action, $id );
+		do_action( 'cn_process_meta-' . $action, $action, $id );
 
 		wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
 

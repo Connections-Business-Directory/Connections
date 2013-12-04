@@ -80,11 +80,6 @@ class cnEntry_Action {
 		// properties and then properties are overwritten by the data as needed.
 		if ( ! empty( $id ) ) $entry->set( absint( $id ) );
 
-		/*
-		 * Geocode the address using Google Geocoding API
-		 */
-		add_filter( 'cn_set_address', array( __CLASS__, 'geoCode' ) );
-
 		// Set the default visibility.
 		$entry->setVisibility( 'unlisted' );
 

@@ -90,7 +90,7 @@ class cnMeta {
 				$entryID   = intval( $row[ $column ] );
 				$metaID    = $row['meta_id'];
 				$metaKey   = $row['meta_key'];
-				$metaValue = maybe_unserialize( $row['meta_value'] );
+				$metaValue = json_decode( $row['meta_value'], true );
 
 				// Force subkeys to be array type:
 				if ( ! isset( self::$cache[ $entryID ] ) || ! is_array( self::$cache[ $entryID ] ) ) self::$cache[ $entryID ] = array();
@@ -178,7 +178,7 @@ class cnMeta {
 			array(
 				$column      => $id,
 				'meta_key'   => $key,
-				'meta_value' => maybe_serialize( $value ) )
+				'meta_value' => json_encode( $value ) )
 		);
 
 		if ( ! $result ) return FALSE;
@@ -233,7 +233,7 @@ class cnMeta {
 				array(
 					$column      => $id,
 					'meta_key'   => $key,
-					'meta_value' => maybe_serialize( $value ) ),
+					'meta_value' => json_encode( $value ) ),
 				array( 'meta_id' => $metaID )
 			);
 

@@ -161,9 +161,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 */
 				add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );
 				add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
-				add_action( 'admin_init', array( 'cnMetaboxAPI', 'init' ) );
+				add_action( 'admin_init', array( 'cnMetaboxAPI', 'init' ), 9 ); // cnMetaboxAPI has to load before cnAdminFunction.
 				add_action( 'cn_metabox', array( 'cnEntryMetabox', 'init' ), 1 );
-				add_action( 'cn_metabox', array( 'cnDashBoardMetabox', 'init' ), 1 );
+				add_action( 'cn_metabox', array( 'cnDashboardMetabox', 'init' ), 1 );
 
 				/*
 				 * Add the filter to update the user settings when the "Apply" button is clicked.

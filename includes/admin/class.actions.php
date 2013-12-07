@@ -396,7 +396,7 @@ class cnAdminActions {
 				// If there was meta that was delete, delete it.
 				if ( ! empty( $deleteMeta ) ) $metaIDs['deleted'] = cnEntry_Action::meta( 'delete', $id, $deleteMeta );
 
-				// Lastly, dd any new meta the user may have added.
+				// Lastly, add any new meta the user may have added.
 				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) )
 					$newmeta = cnEntry_Action::meta( 'add', $id, $_POST['newmeta'] );
 

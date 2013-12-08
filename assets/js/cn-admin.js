@@ -22,37 +22,23 @@ jQuery(document).ready( function($) {
 		}
 	});
 
-	jQuery(function() {
-		jQuery('a.detailsbutton')
-			.css("cursor","pointer")
-			.attr("title","Click to show details.")
-			.click(function()
-			{
-				jQuery('.child-'+this.id).each(function(i, elem)
-				{
-					jQuery(elem).toggle(jQuery(elem).css('display') == 'none');
-				});
+	var showDetail = 'Show Details',
+		hideDetail = 'Hide Details',
+		showTitle  = 'Click to show details.',
+		hideTitle  = 'Click to hide details.',
+		detailLink = $('a.detailsbutton');
 
-				return false;
-			})
-			.toggle
-			(
-				function()
-				{
-					jQuery(this).html('Hide Details');
-					jQuery(this).attr("title","Click to hide details.")
-				},
+	detailLink.click( function () {
 
-				function()
-				{
-					jQuery(this).html('Show Details');
-					jQuery(this).attr("title","Click to show details.")
-				}
-			);
-		//jQuery('tr[@class^=child-]').hide().children('td');
-		return false;
+		var $this = $( this );
+
+		$this.text( $this.text() == showDetail ? hideDetail : showDetail ).attr( 'title', $this.attr('title') == showTitle ? hideTitle : showTitle  );
+
+		$( '.child-' + this.id ).each( function( i, elem ) {
+
+			$(elem).toggle();
+		});
 	});
-
 
 	$(function() {
 		$('input[name^=entry_type][value=individual]').click( function() {
@@ -157,7 +143,7 @@ jQuery(document).ready( function($) {
 		return false;
 	});
 
-	$('a.cn-remove.cn-button').live('click', function() {
+	$('a.cn-remove.cn-button').on('click', function() {
 		var $this = $(this);
 		var token = $this.attr('data-token');
 		var type = $this.attr('data-type');
@@ -172,7 +158,7 @@ jQuery(document).ready( function($) {
 	 */
 	if ($.fn.datepicker) {
 
-		$('.cn-datepicker').live('focus', function() {
+		$('.cn-datepicker').on('focus', function() {
 			$(this).datepicker({
 				changeMonth: true,
 				changeYear: true,
@@ -187,7 +173,7 @@ jQuery(document).ready( function($) {
 	// Geocode an address and then input the lat / lng into the user input fields. //
 	//////////////////////////////////////////////////////////////////////////////////
 
-	$('a.geocode.button').live('click', function() {
+	$('a.geocode.button').on('click', function() {
 		var address = new Object();
 		var $this = $(this);
 		var lat;
@@ -273,7 +259,7 @@ jQuery(document).ready( function($) {
 	/////////////////////////////////////////////
 
 	// Add a new neta row.
-	$( '#newmeta-submit' ).live( 'click', function() {
+	$( '#newmeta-submit' ).on( 'click', function() {
 
 		// Clone.
 		var row   = $( '#list-table' ).find( 'tbody tr:last-child' );
@@ -330,9 +316,11 @@ jQuery(document).ready( function($) {
 	});
 
 	// Delete a meta row.
-	$( 'input[name^="deletemeta"]' ).live( 'click', function() {
+	$( 'input[name^="deletemeta"]' ).on( 'click', function() {
 
-		$( this ).closest( 'tr' ).remove();
+		var tr = $( this ).closest( 'tr' ).toggle();
+
+		tr.find( 'textarea' ).val( '::DELETED::' );
 
 		// Hide the table head if all meta rows have been removed.
 		if ( $( '#list-table' ).is( ':visible' ) ) {
@@ -346,7 +334,7 @@ jQuery(document).ready( function($) {
 	});
 
 	// Toggle the visibility of the new meta key select and meta key input.
-	$( '#enternew, #cancelnew' ).live( 'click', function() {
+	$( '#enternew, #cancelnew' ).on( 'click', function() {
 
 		$( '#metakeyinput, #metakeyselect, #enternew, #cancelnew' ).toggle();
 

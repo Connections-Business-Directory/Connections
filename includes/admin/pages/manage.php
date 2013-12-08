@@ -585,7 +585,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					$rowActions = array();
 					$rowEditActions = array();
 
-					$rowActions[] = '<a class="detailsbutton" id="row-' . $entry->getId() . '">' . __( 'Show Details', 'connections' ) . '</a>';
+					$rowActions[] = '<a class="detailsbutton" id="row-' . $entry->getId() . '" title="' . __( 'Click to show details.', 'connections' ) . '" >' . __( 'Show Details', 'connections' ) . '</a>';
 					$rowActions[] = $vCard->download( array( 'anchorText' => __( 'vCard', 'connections' ), 'return' => TRUE ) );
 					$rowActions[] = cnURL::permalink( array(
 							'slug' => $entry->getSlug(),

@@ -34,6 +34,7 @@ input[type="radio"] { vertical-align: text-top; width: auto; }
   Manage page.
 ------------------------------------------------------------------------------*/
 .tablenav .tablenav-pages a.cn-char-current { padding: 8px; }
+a.detailsbutton { cursor: pointer; }
 table.connections tr.unapproved { background-color: #FFFFE0; }
 table.connections tr.entrydetails td {border-color:transparent #DFDFDF;}
 table.connections tr.entrynotes td {border-color:transparent #DFDFDF #DFDFDF;}

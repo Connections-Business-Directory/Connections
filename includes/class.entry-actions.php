@@ -568,7 +568,7 @@ class cnEntry_Action {
 
 				foreach ( $meta as $metaID => $row ) {
 
-					cnMeta::update( 'entry', $id, $metaID, $row['key'], $row['value'] );
+					cnMeta::update( 'entry', $id, $row['key'], $row['value'] );
 
 					$metaIDs[] = $metaID;
 				}

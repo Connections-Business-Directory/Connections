@@ -84,7 +84,7 @@ class cnAdminActions {
 		add_action( 'cn_set_status', array( __CLASS__, 'setEntryStatus' ) );
 
 		// Entry Meta Action
-		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 10, 2 );
+		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 9, 2 );
 
 		// Entry Filters
 		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) ); // Geocode the address using Google Geocoding API.
@@ -333,11 +333,18 @@ class cnAdminActions {
 
 			case 'add_entry':
 
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) )
-					$newmeta = cnEntry_Action::meta( 'add', $id, $_POST['newmeta'] );
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' )
-					$metaSelect = cnEntry_Action::meta( 'add', $id, array( array( 'key' => $_POST['metakeyselect'], 'value' => $_POST['newmeta']['0']['value'] ) ) );
+					foreach ( $_POST['newmeta'] as $row ) {
+
+						$newmeta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+					}
+				}
+
+				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+
+					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['0']['value'] );
+				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );
 
@@ -346,15 +353,30 @@ class cnAdminActions {
 			case 'copy_entry':
 
 				// Copy any meta associated with the source entry to the new entry.
-				if ( isset( $_POST['meta'] ) && ! empty( $_POST['meta'] ) )
-					$meta = cnEntry_Action::meta( 'add', $id, $_POST['meta'] );
+				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) {
 
-				// Lastly, dd any new meta the user may have added.
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) )
-					$newmeta = cnEntry_Action::meta( 'add', $id, $_POST['newmeta'] );
+					foreach ( $_POST['meta'] as $row ) {
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' )
-					$metaSelect = cnEntry_Action::meta( 'add', $id, array( array( 'key' => $_POST['metakeyselect'], 'value' => $_POST['newmeta']['0']['value'] ) ) );
+						// Add the meta except for thos that the user delted for this entry.
+						if ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) $meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+					}
+				}
+
+				// Lastly, add any new meta the user may have added.
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+
+					foreach ( $_POST['newmeta'] as $row ) {
+
+						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+					}
+
+					$newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['0']['value'] );
+				}
+
+				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+
+					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['0']['value'] );
+				}
 
 				$metaIDs['added'] = array_merge( $meta, $newmeta, $metaSelect );
 
@@ -365,43 +387,45 @@ class cnAdminActions {
 				// Query the meta associated to the entry.
 				$results = cnMeta::get( 'entry', $id );
 
-				// The meta to update.
-				$updateMeta = array();
-
-				// The meta to delete.
-				$deleteMeta = array();
-
 				// Loop thru the associated meta and update any that may have been changed.
 				// If the meta id doesn't exist in the $_POST data, assume the user deleted it.
 				foreach ( $results as $metaID => $row ) {
 
 					// Update the entry meta if it differs.
 					if ( ( isset( $_POST['meta'][ $metaID ]['value'] ) && $_POST['meta'][ $metaID ]['value'] !== $row['meta_value'] ) ||
-						 ( isset( $_POST['meta'][ $metaID ]['key'] )   && $_POST['meta'][ $metaID ]['key']   !== $row['meta_key']   ) ) {
+						 ( isset( $_POST['meta'][ $metaID ]['key'] )   && $_POST['meta'][ $metaID ]['key']   !== $row['meta_key']   ) &&
+						 ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) ) {
 
-						$updateMeta[ $metaID ] = array( 'key' => $_POST['meta'][ $metaID ]['key'], 'value' =>  $_POST['meta'][ $metaID ]['value'] );
+						cnMeta::update( 'entry', $id, $_POST['meta'][ $metaID ]['key'], $_POST['meta'][ $metaID ]['value'], $row['meta_value'], $row['meta_key'], $metaID );
 
-					} elseif ( ! isset( $_POST['meta'][ $metaID ] ) ) {
-
-						// Record entry meta to be deleted.
-						$deleteMeta[ $metaID ] = array( 'key' => $row['meta_key'], 'value' =>  $row['meta_value'] );
+						$metaIDs['updated'] = $metaID;
 					}
 
-					$metaIDs[] = $metaID;
+					if ( $_POST['meta'][ $metaID ]['value'] === '::DELETED::' ) {
+
+						// Record entry meta to be deleted.
+						cnMeta::delete( 'entry', $id, $metaID );
+
+						$metaIDs['deleted'] = $metaID;
+					}
+
 				}
 
-				// Update any meta that has been changed.
-				if ( ! empty( $updateMeta ) ) $metaIDs['updated'] = cnEntry_Action::meta( 'update', $id, $updateMeta );
-
-				// If there was meta that was delete, delete it.
-				if ( ! empty( $deleteMeta ) ) $metaIDs['deleted'] = cnEntry_Action::meta( 'delete', $id, $deleteMeta );
-
 				// Lastly, add any new meta the user may have added.
-				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) )
-					$newmeta = cnEntry_Action::meta( 'add', $id, $_POST['newmeta'] );
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
 
-				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' )
-					$metaSelect = cnEntry_Action::meta( 'add', $id, array( array( 'key' => $_POST['metakeyselect'], 'value' => $_POST['newmeta']['0']['value'] ) ) );
+					foreach ( $_POST['newmeta'] as $row ) {
+
+						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+					}
+
+					$newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['0']['value'] );
+				}
+
+				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+
+					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['0']['value'] );
+				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );
 

@@ -2988,6 +2988,10 @@ class cnEntryMetabox {
 
 				foreach ( $results as $metaID => $meta ) {
 
+					// If the meta value is an array, assume it's custom meta data.
+					// Is this good or bad to do?
+					if ( is_array( $meta['meta_value'] ) ) continue;
+
 					// Class added to alternate tr rows for CSS styling.
 					$alternate = ! isset( $alternate ) || $alternate == '' ? 'alternate' : '';
 

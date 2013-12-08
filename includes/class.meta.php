@@ -19,7 +19,7 @@ class cnMeta {
 
 	/**
 	 * Previously queried meta will be saved to keep db access
-	 * to a minimum.
+	 * to a minimum. Cache is not persistent between page loads.
 	 *
 	 * @access private
 	 * @since 0.8
@@ -35,11 +35,12 @@ class cnMeta {
 	 * @global $wpdb
 	 * @uses   maybe_unserialize()
 	 * @param  string  $type   The type of object to which to get the meta data for.
-	 * @param  mixed   $ids     array | int  The object id or an array of object IDs.
+	 * @param  mixed   $ids    array | int  The object id or an array of object IDs.
+	 * @param  int     $key    The meta ID to retrieve.
 	 *
 	 * @return mixed           bool | array
 	 */
-	public static function get( $type, $ids ) {
+	public static function get( $type, $ids, $key = 0 ) {
 		global $wpdb;
 
 		// The object IDs to query from the db.
@@ -71,10 +72,11 @@ class cnMeta {
 
 			$result = $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT meta_id, %1$s, meta_key, meta_value FROM %2$s WHERE %1$s IN ( %3$s ) ORDER BY meta_id, meta_key',
+					'SELECT meta_id, %1$s, meta_key, meta_value FROM %2$s WHERE %1$s IN ( %3$s ) %4$s ORDER BY meta_id, meta_key',
 					$column = sanitize_key( $type . '_id' ),
 					CN_ENTRY_TABLE_META,
-					is_array( $query ) ? implode( ', ', array_map( 'absint', $query ) ) : absint( $query )
+					is_array( $query ) ? implode( ', ', array_map( 'absint', $query ) ) : absint( $query ),
+					$key === 0 ? '' : $wpdb->prepare( 'AND meta_key = %s', $key )
 				),
 				ARRAY_A
 			);
@@ -165,7 +167,7 @@ class cnMeta {
 		$key   = function_exists( 'wp_unslash' ) ? wp_unslash( $key )   : stripslashes_deep( $key );
 		$value = function_exists( 'wp_unslash' ) ? wp_unslash( $value ) : stripslashes_deep( $value );
 
-		if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM CN_ENTRY_TABLE_META WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) ) {
+		if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . CN_ENTRY_TABLE_META . " WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) ) {
 
 			return FALSE;
 		}
@@ -185,6 +187,9 @@ class cnMeta {
 
 		$metaID = (int) $wpdb->insert_id;
 
+		// Add the meta to the cache.
+		self::$cache[ $id ][ $metaID ] = array( 'meta_key' => $key, 'meta_value' => $value );
+
 		do_action( "cn_added_meta-{ $type }", $metaID, $id, $key, $value );
 
 		return $metaID;
@@ -200,50 +205,118 @@ class cnMeta {
 	 * @uses sanitize_key()
 	 * @uses wp_unslash()
 	 * @uses stripslashes_deep()
+	 * @uses sanitize_meta()
 	 * @uses do_action()
 	 * @param  string $type   The oject type.
 	 * @param  int    $id     The object ID.
-	 * @param  int    $metaID The meta ID.
 	 * @param  string $key    The metadata key.
-	 * @param  string $value  The metadata value
+	 * @param  string $value  The metadata value.
+	 * @param  string $oldValue  [optional] The previous metadata value.
+	 * @param  string $oldKey    [optional] The previous metadata key.
+	 * @param  int    $oldKey    [optional] The previous metadata ID.
 	 *
 	 * @return mixed          int | bool The number of affected rows or FALSE on failure.
 	 */
-	public static function update( $type, $id, $metaID, $key, $value ) {
+	public static function update( $type, $id, $key, $value, $oldValue = NULL, $oldKey = NULL, $metaID = 0 ) {
 		global $wpdb;
+
+		$data = array();
+		$where = array();
 
 		if ( ! $type || ! $key ) return FALSE;
 		if ( ! $id = absint( $id ) ) return FALSE;
 
 		$column = sanitize_key( $type . '_id' );
 
-		// The wp_unslash() is only available in WP >= 3.6 use stripslashes_deep() for backward compatibility.
+		// The wp_unslash() is only available in WP >= 3.6; use stripslashes_deep() for backward compatibility.
 		$key   = function_exists( 'wp_unslash' ) ? wp_unslash( $key )   : stripslashes_deep( $key );
 		$value = function_exists( 'wp_unslash' ) ? wp_unslash( $value ) : stripslashes_deep( $value );
 
-		do_action( "cn_update_meta-{ $type }", $id, $key, $value );
+		if ( $oldValue !== NULL ) {
 
-		$results = self::get( $type, $id );
-
-		if ( $results[ $metaID ]['meta_key'] !== $key || $results[ $metaID ]['meta_value'] !== $value ) {
-
-			// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
-			$result = $wpdb->update(
-				CN_ENTRY_TABLE_META,
-				array(
-					$column      => $id,
-					'meta_key'   => $key,
-					'meta_value' => json_encode( $value ) ),
-				array( 'meta_id' => $metaID )
-			);
-
-			do_action( "cn_updated_meta-{ $type }", $id, $key, $value );
-
-			// Result will be FALSE on failure or the number of rows affected is successful.
-			return $result;
+			$oldValue = function_exists( 'wp_unslash' ) ? wp_unslash( $oldValue ) : stripslashes_deep( $oldValue );
 		}
 
-		return FALSE;
+		if ( $oldKey !== NULL ) {
+
+			$oldKey = function_exists( 'wp_unslash' ) ? wp_unslash( $oldKey ) : stripslashes_deep( $oldKey );
+		}
+
+		if ( $metaID !== 0 ) {
+
+			$metaID = absint( $metaID );
+		}
+
+		// Adds the filters necessary for custom sanitization functions.
+		$value = sanitize_meta( $key, $value, 'cn_' . $type );
+
+		// Compare existing value to new value if no prev value given and the key exists only once.
+		if ( $oldValue === NULL ) {
+
+			$results = self::get( $type, $id, $key );
+
+			if ( count( $results ) == 1 ) {
+
+				$meta = array_shift( $results );
+
+				if ( $meta['meta_value'] === $value ) {
+
+					return FALSE;
+				}
+			}
+		}
+
+		$metaExists = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT meta_id FROM " . CN_ENTRY_TABLE_META . " WHERE meta_key = %s AND $column = %d",
+				$oldKey === NULL ? $key : $oldKey,
+				$id
+			)
+		);
+
+		if ( ! $metaExists ) {
+
+			return self::add( $type, $id, $key, $value );
+		}
+
+		do_action( "cn_update_meta-{ $type }", $id, $key, $value );
+
+		// Update the `meta_key` field only if previous value is supplied and add to the $data array for $wpdb->update().
+		if ( $oldKey !== NULL ) {
+
+			if ( $key !== $oldKey ) $data['meta_key'] = $key;
+		}
+
+		// Add the `meta_value` value to the $data array for $wpdb->update().
+		$data['meta_value'] = json_encode( $value );
+
+		// Add the `*_id` value to the $where array for $wpdb->update().
+		// This represents the object id.
+		if ( $metaID !== 0 ) {
+
+			$where['meta_id'] = $metaID;
+		}
+
+		// Add the `meta_id` value to the $where array for $wpdb->update().
+		$where[ $column ] = $id;
+
+		// Add the `meta_key` value to the $where array for $wpdb->update().
+		$where['meta_key'] = $oldKey === NULL ? $key : $oldKey;
+
+		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
+		$result = $wpdb->update(
+			CN_ENTRY_TABLE_META,
+			$data,
+			$where
+		);
+
+		do_action( "cn_updated_meta-{ $type }", $id, $key, $value );
+
+		// Update the meta in the cache.
+		self::$cache[ $id ][ $metaID ] = array( 'meta_key' => $key, 'meta_value' => $value );
+
+		// Result will be FALSE on failure or the number of rows affected is successful.
+		return $result;
 	}
 
 	/**
@@ -292,6 +365,9 @@ class cnMeta {
 
 		do_action( "cn_deleted_meta-{ $type }", $id, $key, $value );
 
+		// Remove the meta in the cache.
+		unset( self::$cache[ $id ][ $metaID ] );
+
 		// Result will be FALSE on failure or the number of rows affected is successful.
 		return $result;
 	}
@@ -312,7 +388,7 @@ class cnMeta {
 
 		// $column = sanitize_key( $type . '_id' );
 
-		$keys  = array();
+		// $keys  = array();
 		$limit = (int) apply_filters( "cn_metakey_limit-{ $type }", $limit );
 
 		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.

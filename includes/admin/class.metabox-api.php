@@ -59,13 +59,17 @@ class cnMetaboxAPI {
 			// Action for extensions to hook into to add custom metaboxes/fields.
 			do_action( 'cn_metabox', self::$instance );
 
-			// Add the actions to show the metaboxes on the registered pages.
+			// Process the metaboxes added via the `cn_metabox` action.
 			foreach ( self::$metaboxes as $id => $metabox ) {
 
 				foreach ( $metabox['pages'] as $page ){
 
+					// Add the actions to show the metaboxes on the registered pages.
 					add_action( 'load-' . $page, array( __CLASS__, 'register' ) );
 				}
+
+				// Add action to save the field metadata.
+				add_action( 'cn_process_meta-entry', array( new cnMetabox_Process( $metabox ), 'process' ), 10, 2 );
 			}
 		}
 	}
@@ -243,7 +247,7 @@ class cnMetabox_Render {
 	 */
 	public static function add( $pageHook = '', array $metabox = array() ) {
 
-		if ( ! empty( $pageHook) && ! empty( $metabox ) ) {
+		if ( ! empty( $pageHook ) && ! empty( $metabox ) ) {
 
 			$callback = isset( $metabox['callback'] ) && ! empty( $metabox['callback'] ) ? $metabox['callback'] : array( new cnMetabox_Render(), 'render' );
 
@@ -277,7 +281,7 @@ class cnMetabox_Render {
 		// Use nonce for verification
 		echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
 
-		// If metabox sections have be registered, loop thru them.
+		// If metabox sections have been registered, loop thru them.
 		if ( ! empty( $sections ) ) {
 
 			foreach ( $sections as $section ) {
@@ -855,4 +859,114 @@ foreach ( self::$slider as $id => $option ) {
 
 	}
 
+}
+
+class cnMetabox_Process {
+
+	/**
+	 * The array containing the registered metaboxes.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var array
+	 */
+	private $metabox = array();
+
+	public function __construct( $metabox ) {
+
+		$this->metabox = $metabox;
+	}
+
+	/**
+	 * Loops thru the registered metaboxes sections and fields
+	 * and save or update the meta data according to the current
+	 * action being performed.
+	 *
+	 *
+	 * @param  string $action The action being performed.
+	 * @param  int    $id     The object ID.
+	 *
+	 * @return void
+	 */
+	public function process( $action, $id ) {
+
+		$sections = isset( $this->metabox['sections'] ) && ! empty( $this->metabox['sections'] ) ? $this->metabox['sections'] : array();
+		$fields   = isset( $this->metabox['fields'] )   && ! empty( $this->metabox['fields'] )   ? $this->metabox['fields'] : array();
+
+		// If metabox sections have been registered, loop thru them.
+		if ( ! empty( $sections ) ) {
+
+			foreach ( $sections as $section ) {
+
+				if ( ! empty( $section['fields'] ) ) $this->save( $action, $id, $section['fields'] );
+			}
+		}
+
+		// If metabox fields have been supplied, loop thru them.
+		if ( ! empty( $fields ) ) {
+
+				$this->save( $action, $id, $fields );
+		}
+	}
+
+	/**
+	 * Save and or update the objects meta data
+	 * based on the action being performed to the object.
+	 *
+	 *
+	 * @param  string $action The action being performed.
+	 * @param  int    $id     The object ID.
+	 * @param  array  $fields An array of the registered fields to save and or update.
+	 *
+	 * @return void
+	 */
+	private function save( $action, $id, $fields ) {
+
+		foreach ( $fields as $field ) {
+
+			if ( isset( $_POST[ $field['id'] ] ) ) {
+
+				if ( ! $id = absint( $id ) ) return FALSE;
+
+				switch ( $action ) {
+
+					case 'add_entry':
+
+						if ( isset( $_POST[ $field['id'] ] ) || ! empty( $_POST[ $field['id'] ] ) ) {
+
+							cnMeta::add( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
+						}
+
+						break;
+
+					case 'copy_entry':
+
+						if ( isset( $_POST[ $field['id'] ] ) || ! empty( $_POST[ $field['id'] ] ) ) {
+
+							cnMeta::add( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
+						}
+
+						break;
+
+					case 'update_entry':
+
+						if ( isset( $_POST[ $field['id'] ] ) || ! empty( $_POST[ $field['id'] ] ) ) {
+
+							cnMeta::update( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
+						}
+
+						break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * @todo
+	 * @return [type] [description]
+	 */
+	public function sanitize() {
+
+
+	}
 }

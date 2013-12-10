@@ -405,12 +405,22 @@ class cnMetabox_Render {
 
 				case 'checkbox':
 
-					$value = 1;
-
 					printf( '<input type="checkbox" class="checkbox" id="%1$s" name="%1$s" value="1" %2$s/>',
 						esc_attr( $field['id'] ),
-						$checked = isset( $value ) ? checked( 1, $value, FALSE ) : ''
+						checked( 1, $value, FALSE )
 					);
+
+					// For a single checkbox we want to render the description as the label.
+					// Lets render it and unset it so it does not render twice.
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<label for="%1$s"> %2$s</label>',
+							esc_attr( $field['id'] ),
+							esc_html( $field['desc'] )
+						);
+
+						unset( $field['desc'] );
+					}
 
 					break;
 
@@ -558,7 +568,7 @@ class cnMetabox_Render {
 					printf( '<textarea rows="10" cols="50" class="%1$s-text" id="%2$s" name="%2$s">%3$s</textarea>',
 						isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) : 'small',
 						esc_attr( $field['id'] ),
-						esc_textarea( '$value' )
+						esc_textarea( $value )
 					);
 
 					break;
@@ -567,7 +577,7 @@ class cnMetabox_Render {
 
 					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"/>',
 						esc_attr( $field['id'] ),
-						date( 'm/d/Y', strtotime( 'August 22, 2013' ) )
+						date( 'm/d/Y', strtotime( $value ) )
 					);
 
 					wp_enqueue_script('jquery-ui-datepicker');
@@ -581,8 +591,6 @@ class cnMetabox_Render {
 					break;
 
 				case 'slider':
-
-					$value = 10;
 
 					// Set the slider defaults.
 					$defaults = array(
@@ -625,7 +633,7 @@ class cnMetabox_Render {
 
 					printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
 						esc_attr( $field['id'] ),
-						wp_kses_data( '$value ')
+						wp_kses_data( $value )
 					);
 
 					echo '</div>';
@@ -676,7 +684,7 @@ class cnMetabox_Render {
 
 						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
 							esc_attr( $field['id'] ),
-							wp_kses_data( '$value ')
+							wp_kses_data( $value )
 						);
 
 						echo '</div>';
@@ -704,7 +712,7 @@ class cnMetabox_Render {
 
 							$meta = array_values( $meta );
 
-							foreach( $meta as $row ) {
+							foreach ( $meta as $row ) {
 
 								echo '<tr>
 										<td><span class="sort hndle"></span></td><td>';
@@ -924,39 +932,27 @@ class cnMetabox_Process {
 
 		foreach ( $fields as $field ) {
 
-			if ( isset( $_POST[ $field['id'] ] ) ) {
+			if ( ! $id = absint( $id ) ) return FALSE;
 
-				if ( ! $id = absint( $id ) ) return FALSE;
+			switch ( $action ) {
 
-				switch ( $action ) {
+				case 'add_entry':
 
-					case 'add_entry':
+					cnMeta::add( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
 
-						if ( isset( $_POST[ $field['id'] ] ) || ! empty( $_POST[ $field['id'] ] ) ) {
+					break;
 
-							cnMeta::add( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
-						}
+				case 'copy_entry':
 
-						break;
+					cnMeta::add( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
 
-					case 'copy_entry':
+					break;
 
-						if ( isset( $_POST[ $field['id'] ] ) || ! empty( $_POST[ $field['id'] ] ) ) {
+				case 'update_entry':
 
-							cnMeta::add( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
-						}
+					cnMeta::update( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
 
-						break;
-
-					case 'update_entry':
-
-						if ( isset( $_POST[ $field['id'] ] ) || ! empty( $_POST[ $field['id'] ] ) ) {
-
-							cnMeta::update( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
-						}
-
-						break;
-				}
+					break;
 			}
 		}
 	}

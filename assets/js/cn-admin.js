@@ -113,11 +113,13 @@ jQuery(document).ready( function($) {
 	/*
 	 * Add jQuery Chosen to the family name and relation fields.
 	 */
-	if ($.fn.chosen) {
+	if ( $.fn.chosen ) {
+
 		$('.cn-enhanced-select').chosen();
 	}
 
-	$('a.cn-add.cn-button').click(function() {
+	$('a.cn-add.cn-button').click( function(e) {
+
 		var $this = $(this);
 		var type = $this.attr('data-type');
 		var container = '#' + $this.attr('data-container');
@@ -131,26 +133,28 @@ jQuery(document).ready( function($) {
 		var token = Math.floor( Math.random() * d.getTime() );
 
 		template = template.replace(
-										new RegExp('::FIELD::', 'gi'),
-										token
-									);
+			new RegExp('::FIELD::', 'gi'),
+			token
+		);
 		//console.log(template);
 		//console.log(container);
 
 		$(container).append( '<div class="widget ' + type + '" id="' + type + '-row-' + token + '" style="display: none;">' + template + '</div>' );
 		$('#' + type + '-row-' + token).slideDown();
 
-		return false;
+		e.preventDefault();
 	});
 
-	$('a.cn-remove.cn-button').on('click', function() {
+	$('.postbox').on( 'click', 'a.cn-remove.cn-button', function(e) {
+
 		var $this = $(this);
 		var token = $this.attr('data-token');
 		var type = $this.attr('data-type');
 		var id = '#' + type + '-row-' + token;
 		//alert(id);
 		$(id).slideUp('fast', function(){ $(this).remove(); });
-		return false;
+
+		e.preventDefault();
 	});
 
 	/*
@@ -173,7 +177,8 @@ jQuery(document).ready( function($) {
 	// Geocode an address and then input the lat / lng into the user input fields. //
 	//////////////////////////////////////////////////////////////////////////////////
 
-	$('a.geocode.button').on('click', function() {
+	// $('a.geocode.button').live('click', function() {
+	$('#metabox-address').on( 'click', 'a.geocode.button', function(e) {
 		var address = new Object();
 		var $this = $(this);
 		var lat;
@@ -242,7 +247,7 @@ jQuery(document).ready( function($) {
 			setLatLngInfo(uid);
 		}, 1500)
 
-		return false;
+		e.preventDefault();
 	});
 
 	function setLatLngInfo(uid) {
@@ -259,7 +264,8 @@ jQuery(document).ready( function($) {
 	/////////////////////////////////////////////
 
 	// Add a new neta row.
-	$( '#newmeta-submit' ).on( 'click', function() {
+	$('#metabox-meta').on( 'click', '#newmeta-submit', function(e) {
+	// $( '#newmeta-submit' ).on( 'click', function() {
 
 		// Clone.
 		var row   = $( '#list-table' ).find( 'tbody tr:last-child' );
@@ -312,11 +318,12 @@ jQuery(document).ready( function($) {
 		$( '#the-list' ).append( clone );
 
 		// Override the default action.
-		return false;
+		e.preventDefault();
 	});
 
 	// Delete a meta row.
-	$( 'input[name^="deletemeta"]' ).on( 'click', function() {
+	$('#metabox-meta').on( 'click', 'input[name^="deletemeta"]', function(e) {
+	// $( 'input[name^="deletemeta"]' ).on( 'click', function() {
 
 		var tr = $( this ).closest( 'tr' ).toggle();
 
@@ -330,11 +337,12 @@ jQuery(document).ready( function($) {
 		}
 
 		// Override the default action.
-		return false;
+		e.preventDefault();
 	});
 
 	// Toggle the visibility of the new meta key select and meta key input.
-	$( '#enternew, #cancelnew' ).on( 'click', function() {
+	$('#metabox-meta').on( 'click', '#enternew, #cancelnew', function(e) {
+	// $( '#enternew, #cancelnew' ).on( 'click', function() {
 
 		$( '#metakeyinput, #metakeyselect, #enternew, #cancelnew' ).toggle();
 
@@ -345,7 +353,7 @@ jQuery(document).ready( function($) {
 		$( '#metakeyinput' ).val('');
 
 		// Override the default action.
-		return false;
+		e.preventDefault();
 	});
 
 });

@@ -92,7 +92,7 @@ class cnMeta {
 				$entryID   = intval( $row[ $column ] );
 				$metaID    = $row['meta_id'];
 				$metaKey   = $row['meta_key'];
-				$metaValue = json_decode( $row['meta_value'], true );
+				$metaValue = cnFormatting::maybeJSONdecode( $row['meta_value'] );
 
 				// Force subkeys to be array type:
 				if ( ! isset( self::$cache[ $entryID ] ) || ! is_array( self::$cache[ $entryID ] ) ) self::$cache[ $entryID ] = array();
@@ -180,7 +180,7 @@ class cnMeta {
 			array(
 				$column      => $id,
 				'meta_key'   => $key,
-				'meta_value' => json_encode( $value ) )
+				'meta_value' => cnFormatting::maybeJSONencode( $value ) )
 		);
 
 		if ( ! $result ) return FALSE;
@@ -288,7 +288,7 @@ class cnMeta {
 		}
 
 		// Add the `meta_value` value to the $data array for $wpdb->update().
-		$data['meta_value'] = json_encode( $value );
+		$data['meta_value'] = cnFormatting::maybeJSONencode( $value );
 
 		// Add the `*_id` value to the $where array for $wpdb->update().
 		// This represents the object id.

@@ -19,7 +19,7 @@
 .cn-float-left { float: left; }
 .cn-clear, .clearboth { clear: both; }
 .cn-center { text-align: center; }
-input[type="radio"] { vertical-align: text-top; width: auto; }
+input[type="radio"] { /*vertical-align: text-top;*/ width: auto; }
 /*.cn-half-width { width: 50%; }*/
 #post-body #post-body-content h3 { margin: 0; }
 
@@ -257,6 +257,21 @@ div#metabox-quick-links .button.large span {
 	position: relative;
 }
 
+.widget div.widget-top {
+	height: auto;
+}
+
+.widget-top a.widget-action {
+	background-position: 6px 10px !important;
+	/*display: block;*/
+	height: 34px;
+	width: 24px;
+}
+
+.widget-top a.widget-action:after {
+	padding: 10px 6px 0;
+}
+
 .widget-top .widget-title {
 	padding: 6px 9px;
 	overflow: hidden;
@@ -264,24 +279,27 @@ div#metabox-quick-links .button.large span {
 }
 
 .widget-title h4 label { line-height: normal; vertical-align: text-top; }
-.widget-title h4 span.visibility { position: absolute; right: 0; }
+.widget-title h4 span.visibility { position: absolute; right: 0; top: 10px }
 .widget-title h4 span.visibility .cn-radio-option { padding-right: 4px; }
 .widget-title h4 span.visibility label { font-weight: normal; }
 /*.widget-title input { float: left; }*/
 
 .widget-title h4 {
 	overflow: visible;
+	padding: 0;
 }
 
 .widget-title h4 select {
 	height: 1.75em;
 	padding: 1px;
-	margin-top: -10px;
+	/*margin-top: -10px;*/
+	vertical-align: initial;
 }
 
 .widget-inside,
 .widget-description {
 	display: block;
+	padding: 12px 12px 10px;
 	position: relative;
 }
 

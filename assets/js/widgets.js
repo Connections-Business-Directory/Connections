@@ -28,7 +28,8 @@ cnWidgets = {
 			$(this).css( 'minHeight', h + 'px' );
 		});*/
 
-		$('a.widget-action').on('click', function(){
+		$('.postbox').on( 'click', 'a.widget-action', function(e) {
+
 			var css = {}, widget = $(this).closest('div.widget'), inside = widget.children('.widget-inside')/*, w = parseInt( widget.find('input.widget-width').val(), 10 )*/;
 
 			if ( inside.is(':hidden') ) {
@@ -45,7 +46,8 @@ cnWidgets = {
 					widget.css({'width':'', margin:''});
 				});
 			}
-			return false;
+
+			e.preventDefault();
 		});
 
 		/*$('input.widget-control-save').live('click', function(){

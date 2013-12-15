@@ -346,7 +346,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//date objects
 			require_once CN_PATH . 'includes/class.date.php'; // Required for activation, entry list, add entry
 			//entry objects
-			require_once CN_PATH . 'includes/class.entry.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/class.entry-data.php'; // Required for activation, entry list
 			require_once CN_PATH . 'includes/class.entry-actions.php';
 
 			// HTML elements class.
@@ -362,9 +362,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/class.sanitize.php';
 
 			//plugin template objects
-			require_once CN_PATH . 'includes/class.output.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/class.entry-output.php'; // Required for activation, entry list
 			//builds vCard
-			require_once CN_PATH . 'includes/class.vcard.php'; // Required for front end
+			require_once CN_PATH . 'includes/class.entry-vcard.php'; // Required for front end
 
 			// geocoding
 			require_once CN_PATH . 'includes/class.geo.php'; // Required

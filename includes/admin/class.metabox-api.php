@@ -407,7 +407,7 @@ class cnMetabox_Render {
 
 					printf( '<input type="checkbox" class="checkbox" id="%1$s" name="%1$s" value="1" %2$s/>',
 						esc_attr( $field['id'] ),
-						checked( 1, $value, FALSE )
+						checked( '1', $value, FALSE )
 					);
 
 					// For a single checkbox we want to render the description as the label.
@@ -481,10 +481,10 @@ class cnMetabox_Render {
 
 						echo '<div class="cn-radio-option">';
 
-						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
+						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
 							esc_attr( $field['id'] ),
 							esc_attr( $key ),
-							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
+							checked( $key, $value, FALSE )
 						);
 
 						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
@@ -519,10 +519,10 @@ class cnMetabox_Render {
 
 						echo '<span class="cn-radio-option">';
 
-						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
+						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
 							esc_attr( $field['id'] ),
 							esc_attr( $key ),
-							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
+							checked( $key, $value, FALSE )
 						);
 
 						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
@@ -535,6 +535,21 @@ class cnMetabox_Render {
 					}
 
 					echo '</div>';
+
+					break;
+
+				case 'select':
+
+					// if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description">%1$s</span><br />', $field['desc'] );
+
+					printf( '<select name="%1$s" id="%1$s">', $field['id'] );
+
+					foreach ( $field['options'] as $key => $label ) {
+
+						printf( '<option value="%1$s" %2$s>%3$s</option>', $key, selected( $value, $key, FALSE ), $label );
+					}
+
+					echo '</select>';
 
 					break;
 
@@ -577,7 +592,7 @@ class cnMetabox_Render {
 
 					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"/>',
 						esc_attr( $field['id'] ),
-						date( 'm/d/Y', strtotime( $value ) )
+						! empty( $value ) ? date( 'm/d/Y', strtotime( $value ) ) : ''
 					);
 
 					wp_enqueue_script('jquery-ui-datepicker');
@@ -747,7 +762,7 @@ class cnMetabox_Render {
 
 				default:
 
-					do_action('cn_meta_field-' . $field['type'] , $field, $value );
+					do_action( 'cn_meta_field-' . $field['type'], $field, $value );
 
 					break;
 			}
@@ -804,7 +819,8 @@ class cnMetabox_Render {
 
 	if ($.fn.datepicker) {
 
-		$('.cn-datepicker').live('focus', function() {
+		$('.postbox').on( 'focus', '.cn-datepicker', function(e) {
+
 			$(this).datepicker({
 				changeMonth: true,
 				changeYear: true,
@@ -812,6 +828,8 @@ class cnMetabox_Render {
 				selectOtherMonths: true,
 				yearRange: 'c-100:c+10'
 			});
+
+			e.preventDefault();
 		});
 	};
 });
@@ -934,6 +952,13 @@ class cnMetabox_Process {
 
 			if ( ! $id = absint( $id ) ) return FALSE;
 
+			$value = $this->sanitize(
+				$field['type'],
+				$_POST[ $field['id'] ],
+				isset( $field['options'] ) ? $field['options'] : array(),
+				isset( $field['default'] ) ? $field['default'] : NULL
+			);
+
 			switch ( $action ) {
 
 				case 'add_entry':
@@ -950,7 +975,7 @@ class cnMetabox_Process {
 
 				case 'update_entry':
 
-					cnMeta::update( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
+					cnMeta::update( 'entry', $id, $field['id'], $value );
 
 					break;
 			}
@@ -961,8 +986,66 @@ class cnMetabox_Process {
 	 * @todo
 	 * @return [type] [description]
 	 */
-	public function sanitize() {
+	public function sanitize( $type, $value, $options = array(), $default = NULL ) {
 
+		switch ( $type ) {
 
+			case 'checkbox':
+
+				$value = cnSanitize::checkbox( $value );
+				break;
+
+			case 'checkboxgroup':
+
+				$value = cnSanitize::options( $value, $options, $default );
+				break;
+
+			case 'radio':
+
+				$value = cnSanitize::option( $value, $options, $default );
+				break;
+
+			case 'radio_inline':
+
+				$value = cnSanitize::option( $value, $options, $default );
+				break;
+
+			case 'select':
+
+				$value = cnSanitize::option( $value, $options, $default );
+				break;
+
+			case 'text':
+
+				$value = cnSanitize::string( 'text', $value );
+				break;
+
+			case 'textarea':
+
+				$value = cnSanitize::string( 'textarea', $value );
+				break;
+
+			case 'slider':
+
+				$value = absint( $value );
+				break;
+
+			case 'quicktag':
+
+				$value = cnSanitize::string( 'quicktag', $value );
+				break;
+
+			case 'rte':
+
+				$value = cnSanitize::string( 'html', $value );
+				break;
+
+			default:
+
+				$value = apply_filters( 'cn_meta_sanitize_field-' . $type, $value, $options, $default );
+				break;
+		}
+
+		return $value;
 	}
 }

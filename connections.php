@@ -357,6 +357,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			//plugin utility objects
 			require_once CN_PATH . 'includes/class.utility.php'; // Required for activation, entry list
+
+			// sanitization class
+			require_once CN_PATH . 'includes/class.sanitize.php';
+
 			//plugin template objects
 			require_once CN_PATH . 'includes/class.output.php'; // Required for activation, entry list
 			//builds vCard

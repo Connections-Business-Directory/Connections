@@ -54,7 +54,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 		}
 
-		public static function card( $entry ) {
+		public static function card( $entry, $template, $atts ) {
 
 			?>
 
@@ -81,6 +81,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 					<?php $entry->getSocialMediaBlock(); ?>
 					<?php $entry->getLinkBlock(); ?>
 					<?php $entry->getDateBlock(); ?>
+					<?php $entry->getMetaBlock( array( /*'key' => 'cnbh',*/ 'shortcode_atts' => $atts, 'template_object' => $template ) ); ?>
 
 				</div>
 

@@ -2956,7 +2956,7 @@ class cnEntryMetabox {
 	public static function meta( $entry, $metabox ) {
 
 		// Only need the data from $metabox['args'].
-		$value   = $entry->getMeta( 'meta', TRUE );
+		// $value   = $entry->getMeta( 'meta', TRUE );
 		$results = $entry->getMeta();
 		$metabox = $metabox['args'];
 		$keys    = cnMeta::key( 'entry' );
@@ -2988,9 +2988,7 @@ class cnEntryMetabox {
 
 				foreach ( $results as $metaID => $meta ) {
 
-					// If the meta value is an array, assume it's custom meta data.
-					// Is this good or bad to do?
-					if ( is_array( $meta['meta_value'] ) ) continue;
+					if ( cnMeta::isPrivate( $meta['meta_key'] ) ) continue;
 
 					// Class added to alternate tr rows for CSS styling.
 					$alternate = ! isset( $alternate ) || $alternate == '' ? 'alternate' : '';
@@ -3004,10 +3002,9 @@ class cnEntryMetabox {
 							<input name='meta[<?php echo $metaID; ?>][key]' id='meta[<?php echo $metaID; ?>][key]' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ) ?>" />
 							<div class="submit">
 								<input type="submit" name="deletemeta[<?php echo $metaID; ?>]" id="deletemeta[<?php echo $metaID; ?>]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
-								<!-- <input type="submit" name="meta-<?php echo $metaID; ?>-submit" id="meta-<?php echo $metaID; ?>-submit" class="button updatemeta button-small" value="Update" /> -->
 							</div>
-							<!-- <input type="hidden" id="_ajax_nonce" name="_ajax_nonce" value="0db0125bba" /> -->
 						</td>
+
 						<td>
 							<label class="screen-reader-text" for='meta[<?php echo $metaID; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
 							<textarea name='meta[<?php echo $metaID; ?>][value]' id='meta[<?php echo $metaID; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( $meta['meta_value'] ) ?></textarea>
@@ -3065,12 +3062,12 @@ class cnEntryMetabox {
 						<select id="metakeyselect" name="metakeyselect">
 							<?php echo $options; ?>
 						</select>
-						<input class="hide-if-js" type=text id="metakeyinput" name="newmeta[0][key]" value=""/>
+						<input class="hide-if-js" type=text id="metakeyinput" name="newmeta[99][key]" value=""/>
 						<a href="#postcustomstuff" class="postcustomstuff hide-if-no-js"> <span id="enternew"><?php _e( 'Enter New', 'connections' ); ?></span> <span id="cancelnew" class="hidden"><?php _e( 'Cancel', 'connections' ); ?></span></a>
 					</td>
 
 					<td>
-						<textarea id="metavalue" name="newmeta[0][value]" rows="2" cols="25"></textarea>
+						<textarea id="metavalue" name="newmeta[99][value]" rows="2" cols="25"></textarea>
 					</td>
 
 				</tr>

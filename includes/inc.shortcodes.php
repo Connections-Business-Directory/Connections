@@ -490,11 +490,11 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 							if ( get_query_var( 'cn-entry-slug' ) && has_action( 'cn_action_card_single-' . $template->getSlug() ) ) {
 
-								do_action( 'cn_action_card_single-' . $template->getSlug(), $entry, $content, $template, $atts, $connections, $vCard );
+								do_action( 'cn_action_card_single-' . $template->getSlug(), $entry, $template, $atts, $vCard );
 
 							} else {
 
-								do_action( 'cn_action_card-' . $template->getSlug(), $entry, $content, $template, $atts, $connections, $vCard );
+								do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts, $vCard );
 							}
 
 							$out .= ob_get_contents();

@@ -383,7 +383,7 @@ class cnMeta {
 	 *
 	 * @return array           An array of meta keys.
 	 */
-	public static function key( $type, $limit =30, $unique = TRUE ) {
+	public static function key( $type, $limit = 30, $unique = TRUE ) {
 		global $wpdb;
 
 		// $column = sanitize_key( $type . '_id' );
@@ -393,8 +393,7 @@ class cnMeta {
 
 		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
 		// The query will not retrieve any meta key that begin with an '_' [underscore].
-		$sql = $wpdb->prepare( 'SELECT meta_key FROM %1$s %2$s GROUP BY meta_key HAVING meta_key NOT LIKE \'\_%%\' ORDER BY meta_key LIMIT %3$d',
-				CN_ENTRY_TABLE_META,
+		$sql = $wpdb->prepare( 'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' %1$s GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %2$d',
 				empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
 				absint( $limit )
 			);
@@ -403,6 +402,28 @@ class cnMeta {
 
 		if ( $keys ) natcasesort( $keys );
 
+		foreach ( $keys as $i => $key ) {
+
+			if ( self::isPrivate( $key ) ) unset( $keys[ $i ] );
+		}
+
 		return $keys;
+	}
+
+	/**
+	 * Checks whether or not the `key` is private or not.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  string  $key  The key to check.
+	 * @param  string  $type The object type.
+	 *
+	 * @return boolean
+	 */
+	public static function isPrivate( $key, $type = NULL ) {
+
+		$private = ( '_' == $key[0] );
+
+		return apply_filters( 'cn_is_private_meta', $private, $key, $type );
 	}
 }

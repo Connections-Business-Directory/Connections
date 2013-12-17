@@ -333,7 +333,7 @@ jQuery(document).ready( function($) {
 		if ( $( '#list-table' ).is( ':visible' ) ) {
 
 			// Less than or equal to "1" because the row being cloned exists in "#list-table tbody tr".
-			if ( $('#list-table tbody tr').length <= 1 ) $( '#list-table' ).toggle();
+			if ( $('#list-table tbody tr:visible').length == 0 ) $( '#list-table' ).toggle();
 		}
 
 		// Override the default action.

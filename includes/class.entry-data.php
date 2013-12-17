@@ -3023,21 +3023,29 @@ class cnEntry {
 		return $this->categories;
 	}
 
-	public function getMeta( $key = '', $single = FALSE ) {
+	public function getMeta( $atts = array() ) {
 
-		$out = $single ? '' : array();
+		$defaults = array(
+			'key'       => '',
+			'value'     => '',
+			'single'    => FALSE,
+			);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = $atts['single'] ? '' : array();
 
 		$results = cnMeta::get( 'entry', $this->getId() );
 
 		if ( ! empty( $results ) ) {
 
-			if ( empty( $key ) ) return $results;
+			if ( empty( $atts['key'] ) ) return $results;
 
 			foreach ( $results as $metaID => $meta ) {
 
-				if ( $meta['meta_key'] === $key ) {
+				if ( $meta['meta_key'] === $atts['key'] ) {
 
-					if ( $single ) {
+					if ( $atts['single'] ) {
 
 						return $meta['meta_value'];
 
@@ -3051,7 +3059,7 @@ class cnEntry {
 			return $out;
 		}
 
-		return $single ? '' : array();
+		return $atts['single'] ? '' : array();
 	}
 
 	/**

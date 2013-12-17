@@ -2215,6 +2215,158 @@ class cnOutput extends cnEntry
 	}
 
 	/**
+	 * Displays the custom meta data fields assigned to the entry.
+	 *
+	 * This will also run any actions registered for a custom metaboxes
+	 * and its fields. The actions should hook into `cn_meta_output_field-{key}`
+	 * to be displayed.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  array  $atts The attrubutes array.
+	 *
+	 * @return string
+	 */
+	public function getMetaBlock( $atts ) {
+
+		// @todo Implement 'merge_keys'.
+		//
+		// Whether or not to merge duplicate keys and their respective value.
+		// Expected result of a merge would be would be and indexed array:
+		//
+		// array(
+		// 		array(
+		// 			'meta_key' => 'the-duplicate-key',
+		// 			'meta_value' => array(
+		// 				'meta_id' => 'value 1',
+		// 				'meta_id' => 'value 2',
+		// 				'meta_id' => 'and so on ...',
+		// 			)
+		// 		)
+		// )
+		//
+		// $this->renderMetablock() would have to be updated to account for the
+		// 'meta_value' array, I think.
+		//
+		// NOTE: This should actually be done in cnEntry::getMeta and not here.
+		$defaults = array(
+			'key'             => '',
+			'value'           => '',
+			'single'          => FALSE,
+			'merge_keys'      => FALSE,
+			'shortcode_atts'  => array(),
+			'template_object' => NULL,
+			);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$results = $this->getMeta( $atts );
+
+		if ( ! empty( $results ) ) {
+
+			if ( empty( $atts['key'] ) ) {
+
+				foreach ( $results as $metaID => $meta ) {
+
+					if ( has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
+
+						do_action( 'cn_meta_output_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $atts['shortcode_atts'], $this, $atts['template_object'] );
+
+						unset( $results[ $metaID ] );
+
+					}
+				}
+
+				$this->renderMetablock( $results );
+
+			} else {
+
+				$metadata = array();
+
+				// Rebuild the results array for consistency in for the output methods/actions.
+				foreach ( $results as $metaID => $value ) {
+
+					$metadata[ $metaID ] = array( 'meta_key' => $atts['key'], 'meta_value' => $value );
+				}
+
+				foreach ( $metadata as $metaID => $meta ) {
+
+					if ( has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
+
+						do_action( 'cn_meta_output_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $atts['shortcode_atts'], $this, $atts['template_object'] );
+
+						unset( $metadata[ $metaID ] );
+					}
+				}
+
+				$this->renderMetablock( $metadata );
+			}
+
+		}
+	}
+
+	/**
+	 * Outputs the data saved in the "Custom Fields" entry metabox.
+	 * This should not be confused with the fields registered with
+	 * cnMetaboxAPI. Those fields should be output using a registered
+	 * action which runs in $this->getMetaBlock().
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @param  array  $metadata The metadata array passed from $this->getMetaBlock().
+	 *
+	 * @return string
+	 */
+	private function renderMetablock( $metadata ) {
+
+		$out = '';
+
+		$defaults = array(
+			'container_tag' => 'ul',
+			'item_tag'      => 'li',
+			'key_tag'       => 'span',
+			'value_tag'     => 'span',
+			'separator'     => ': ',
+			'before'        => '',
+			'after'         => '',
+		);
+
+		$atts = wp_parse_args( apply_filters( 'cn_output_meta_atts', $defaults ), $defaults );
+
+		foreach ( (array) $metadata as $metaID => $meta ) {
+
+			// NOTE: This might cause a problem if cnMetaboxAPI is loaded on the public side of the site
+			// because currently registered custom fields will be filtered out as being private. This could
+			// be a good thing too since custom fields really should have a custom action registered for its
+			// display.
+			if ( cnMeta::isPrivate( $meta['meta_key'], 'entry' ) ) continue;
+
+			$out .= apply_filters(
+				'cn_entry_meta_key',
+				sprintf( '<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
+					$atts['item_tag'],
+					$atts['key_tag'],
+					trim( $meta['meta_key'] ),
+					$atts['separator'],
+					$atts['value_tag'],
+					implode( (array) $meta['meta_value'], ', ')
+					),
+				$meta['meta_key'],
+				$meta['meta_value']
+				);
+		}
+
+		$out = sprintf( '<%1$s class="cn-entry-meta">%2$s</%1$s>',
+			$atts['container_tag'],
+			$out
+		);
+
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+	}
+
+	/**
 	 * Displays the category list for use in the class tag.
 	 *
 	 * @access public

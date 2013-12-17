@@ -71,6 +71,8 @@ class cnMetaboxAPI {
 				// Add action to save the field metadata.
 				add_action( 'cn_process_meta-entry', array( new cnMetabox_Process( $metabox ), 'process' ), 10, 2 );
 			}
+
+			add_filter( 'cn_is_private_meta', array( __CLASS__, 'isPrivate'), 10, 3 );
 		}
 	}
 
@@ -120,9 +122,11 @@ class cnMetaboxAPI {
 	 *
 	 * @return array
 	 */
-	public static function get() {
+	public static function get( $id = NULL ) {
 
-		return self::$metaboxes;
+		if ( is_null( $id ) ) return self::$metaboxes;
+
+		return isset( self::$metaboxes[ $id ] ) ? self::$metaboxes[ $id ] : array();
 	}
 
 	/**
@@ -159,6 +163,44 @@ class cnMetaboxAPI {
 
 			if ( in_array( $hook_suffix, $metabox['pages'] ) ) cnMetabox_Render::add( $hook_suffix, $metabox );
 		}
+	}
+
+	/**
+	 * All registered fields thru this class are considered to be private.
+	 * This filter checks the suppled `key` against all registered fields
+	 * and return a bool indicating whether or not the `$key` is private.
+	 *
+	 * @access private
+	 * @param  bool    $private Passed by the `cn_is_private_meta` filter.
+	 * @param  string  $key     The key name.
+	 * @param  string  $type    The object type.
+	 * @return boolean
+	 */
+	public static function isPrivate( $private, $key, $type ) {
+
+		foreach ( self::$metaboxes as $metabox ) {
+
+			if ( isset( $metabox['fields'] ) ) {
+
+				foreach ( $metabox['fields'] as $field ) {
+
+					if ( $field['id'] == $key ) return TRUE;
+				}
+			}
+
+			if ( isset( $metabox['sections'] ) ) {
+
+				foreach ( $metabox['sections'] as $section ) {
+
+					foreach ( $section['fields'] as $field ) {
+
+						if ( $field['id'] == $key ) return TRUE;
+					}
+				}
+			}
+		}
+
+		return FALSE;
 	}
 
 }
@@ -370,7 +412,7 @@ class cnMetabox_Render {
 
 			} else {
 
-				$value = $this->object->getMeta( $field['id'], TRUE );
+				$value = $this->object->getMeta( array( 'key' => $field['id'], 'single' => TRUE ) );
 			}
 
 			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .' cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';

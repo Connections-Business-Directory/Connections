@@ -72,7 +72,7 @@ class cnMetaboxAPI {
 				add_action( 'cn_process_meta-entry', array( new cnMetabox_Process( $metabox ), 'process' ), 10, 2 );
 			}
 
-			add_filter( 'cn_is_private_meta', array( __CLASS__, 'isPrivate'), 10, 3 );
+			add_filter( 'cn_is_private_meta', array( __CLASS__, 'isPrivate' ), 10, 3 );
 		}
 	}
 

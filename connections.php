@@ -160,8 +160,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * Register the admin menu and functions. These must hooked and run before the `init` hook.
 				 */
 				add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );
+				add_action( 'admin_init', array( 'cnMetaboxAPI', 'init' ) ); // cnMetaboxAPI has to load before cnAdminFunction otherwise the action to save the meta is not added in time to run.
 				add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
-				add_action( 'admin_init', array( 'cnMetaboxAPI', 'init' ), 9 ); // cnMetaboxAPI has to load before cnAdminFunction.
+
+				// Register the core metaboxes use the Metabox API.
 				add_action( 'cn_metabox', array( 'cnEntryMetabox', 'init' ), 1 );
 				add_action( 'cn_metabox', array( 'cnDashboardMetabox', 'init' ), 1 );
 

@@ -337,6 +337,9 @@ class cnAdminActions {
 
 					foreach ( $_POST['newmeta'] as $row ) {
 
+						// If the key begins with an underscore, remove it because those are private.
+						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
+
 						$newmeta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
 				}
@@ -357,6 +360,9 @@ class cnAdminActions {
 
 					foreach ( $_POST['meta'] as $row ) {
 
+						// If the key begins with an underscore, remove it because those are private.
+						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
+
 						// Add the meta except for thos that the user delted for this entry.
 						if ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) $meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
@@ -366,6 +372,9 @@ class cnAdminActions {
 				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
 
 					foreach ( $_POST['newmeta'] as $row ) {
+
+						// If the key begins with an underscore, remove it because those are private.
+						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
 
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
@@ -396,6 +405,9 @@ class cnAdminActions {
 						 ( isset( $_POST['meta'][ $metaID ]['key'] )   && $_POST['meta'][ $metaID ]['key']   !== $row['meta_key']   ) &&
 						 ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) ) {
 
+						// If the key begins with an underscore, remove it because those are private.
+						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
+
 						cnMeta::update( 'entry', $id, $_POST['meta'][ $metaID ]['key'], $_POST['meta'][ $metaID ]['value'], $row['meta_value'], $row['meta_key'], $metaID );
 
 						$metaIDs['updated'] = $metaID;
@@ -415,6 +427,9 @@ class cnAdminActions {
 				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
 
 					foreach ( $_POST['newmeta'] as $row ) {
+
+						// If the key begins with an underscore, remove it because those are private.
+						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
 
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}

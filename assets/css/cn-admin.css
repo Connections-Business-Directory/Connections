@@ -19,8 +19,8 @@
 .cn-float-left { float: left; }
 .cn-clear, .clearboth { clear: both; }
 .cn-center { text-align: center; }
-input[type="radio"] { /*vertical-align: text-top;*/ width: auto; }
-/*.cn-half-width { width: 50%; }*/
+
+
 #post-body #post-body-content h3 { margin: 0; }
 
 /*------------------------------------------------------------------------------

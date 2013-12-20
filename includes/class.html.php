@@ -241,74 +241,71 @@ class cnHTML {
 		$out = '';
 
 		$defaults = array(
-			'class'   => array(),
-			'id'      => '',
-			'style'   => array(),
-			'format'  => 'block',
-			'options' => array(),
-			'before'  => '',
-			'after'   => '',
-			'return'  => FALSE,
+			'prefix'   => 'cn-',
+			'class'    => array( 'radio' ),
+			'id'       => '',
+			'style'    => array(),
+			'value'    => '',
+			'required' => FALSE,
+			'label'    => '',
+			'before'   => '',
+			'after'    => '',
+			'display'  => 'inline',
+			'parts'    => array( '%label%', '%field%' ),
+			'layout'   => '%field%%label%',
+			'return'   => FALSE,
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		switch ( $atts['format'] ) {
+		// If no `id` was supplied, bail.
+		if ( empty( $atts['id'] ) ) return '';
 
-			case 'block':
+		// The field name.
+		$name = $atts['id'];
 
-				$out .= '<div class="cn-radio-group">';
+		// The field parts to be searched for in $atts['layout'].
+		$search = $atts['parts'];
 
-				foreach ( $atts['options'] as $key => $label ) {
+		// Prefix the `class` and `id` attribute.
+		if ( ! empty( $atts['prefix'] ) ) {
 
-					$out .= '<div class="cn-radio-option">';
-
-					$out .= sprintf( '<input type="radio" class="radio" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
-						esc_attr( $atts['id'] ),
-						esc_attr( $key ),
-						checked( TRUE , in_array( $key, (array) $value ) , FALSE )
-					);
-
-					$out .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label>',
-						esc_attr( $atts['id'] ),
-						esc_attr( $key ),
-						esc_html( $label )
-					);
-
-					$out .= '</div>' . PHP_EOL;
-				}
-
-				$out .= '</div>';
-
-				break;
-
-			case 'inline':
-
-				$out .= '<span class="cn-radio-group">';
-
-				foreach ( $atts['options'] as $key => $label ) {
-
-					$out .= '<span class="cn-radio-option">';
-
-					$out .= sprintf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
-						esc_attr( $atts['id'] ),
-						esc_attr( $key ),
-						checked( TRUE , in_array( $key, (array) $value ) , FALSE )
-					);
-
-					$out .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label>',
-						esc_attr( $atts['id'] ),
-						esc_attr( $key ),
-						esc_html( $label )
-					);
-
-					$out .= '</span>' . PHP_EOL;
-				}
-
-				$out .= '</span>';
-
-				break;
+			$atts['class'] = self::prefix( $atts['class'] );
+			$atts['id']    = self::prefix( $atts['id'] );
 		}
+
+		// Add "required" to any classes that may have been supplied.
+		// If the field is required, cast $atts['class'] as an array in case a string was supplied
+		// and then tack the "required" value to the end of the array.
+		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array('required') ) : $atts['class'];
+
+		$out .= '<span class="cn-radio-group" style="display: ' . esc_attr( $atts['display'] ) . ';">';
+
+		foreach ( $atts['options'] as $key => $label ) {
+
+			// An array to store the replacement strings for the label and field.
+			$replace = array();
+
+			$out .= '<span class="cn-radio-option" style="display: ' . esc_attr( $atts['display'] ) . ';">';
+
+			// Create the field label, if supplied.
+			$replace[] = ! empty( $label ) ? self::label( array( 'for' => $atts['id'] . '[' . $key . ']', 'label' => $label, 'return' => TRUE ) ) : '';
+
+			$replace[] = sprintf( '<input type="radio" %1$s %2$s %3$s %4$s %5$s %6$s/>',
+				self::attribute( 'class', $atts['class'] ),
+				self::attribute( 'id', $atts['id'] . '[' . $key . ']' ),
+				self::attribute( 'name', $name ),
+				self::attribute( 'style', $atts['style'] ),
+				self::attribute( 'value', $value ),
+				checked( TRUE , in_array( $key, (array) $value ) , FALSE )
+			);
+
+			$out .= str_ireplace( $search, $replace, $atts['layout'] );
+
+			$out .= '</span>' . PHP_EOL;
+		}
+
+		$out .= '</span>';
 
 		/*
 		 * Return or echo the string.

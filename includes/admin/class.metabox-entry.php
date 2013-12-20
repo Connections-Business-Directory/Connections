@@ -245,7 +245,7 @@ class cnEntryMetabox {
 			// backward compatibility.
 			cnHTML::radio(
 				array(
-					'format'  => 'block',
+					'display' => 'block',
 					'id'      => 'entry_type',
 					'options' => array_flip( $atts['entry_type'] ),
 					),
@@ -260,7 +260,7 @@ class cnEntryMetabox {
 
 			cnHTML::radio(
 				array(
-					'format'  => 'inline',
+					'display' => 'block',
 					'id'      => 'visibility',
 					'options' => array(
 						'public'   => __( 'Public', 'connections' ),
@@ -1017,7 +1017,7 @@ class cnEntryMetabox {
 
 		// $atts = wp_parse_args( apply_filters( 'cn_admin_metabox_name_atts', $atts ), $defaults );
 
-		echo '<div class="widgets-sortables ui-sortable form-field" id="addresses">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="addresses">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="address-template" style="display: none;">' , PHP_EOL;
@@ -1628,7 +1628,7 @@ class cnEntryMetabox {
 		// Grab the phone types.
 		$phoneTypes = $instance->options->getDefaultPhoneNumberValues();
 
-		echo '<div class="widgets-sortables ui-sortable form-field" id="phone-numbers">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="phone-numbers">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="phone-template" style="display: none;">' , PHP_EOL;
@@ -1828,7 +1828,7 @@ class cnEntryMetabox {
 		// Grab the email types.
 		$emailTypes = $instance->options->getDefaultEmailValues();
 
-		echo '<div class="widgets-sortables ui-sortable form-field" id="email-addresses">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="email-addresses">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="email-template" style="display: none;">' , PHP_EOL;
@@ -2028,7 +2028,7 @@ class cnEntryMetabox {
 		// Grab the email types.
 		$messengerTypes = $instance->options->getDefaultIMValues();
 
-		echo '<div class="widgets-sortables ui-sortable form-field" id="im-ids">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="im-ids">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="im-template" style="display: none;">' , PHP_EOL;
@@ -2228,7 +2228,7 @@ class cnEntryMetabox {
 		// Grab the email types.
 		$socialTypes = $instance->options->getDefaultSocialMediaValues();
 
-		echo '<div class="widgets-sortables ui-sortable form-field" id="social-media">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="social-media">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="social-template" style="display: none;">' , PHP_EOL;
@@ -2428,7 +2428,7 @@ class cnEntryMetabox {
 		// Grab the email types.
 		$linkTypes = $instance->options->getDefaultLinkValues();
 
-		echo '<div class="widgets-sortables ui-sortable form-field" id="links">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="links">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="link-template" style="display: none;">' , PHP_EOL;
@@ -2761,7 +2761,7 @@ class cnEntryMetabox {
 		// Grab the email types.
 		$dateTypes = $instance->options->getDateOptions();
 
-		echo '<div class="widgets-sortables ui-sortable form-field" id="dates">' , PHP_EOL;
+		echo '<div class="widgets-sortables ui-sortable" id="dates">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="date-template" style="display: none;">' , PHP_EOL;

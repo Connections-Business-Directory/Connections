@@ -352,14 +352,14 @@ class cnTemplate {
 		switch ( $atts['type'] ) {
 			case 'action':
 				if ( ! has_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug ) )
-					add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug , $atts['callback'], 10, 6 );
+					add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug , $atts['callback'], 10, 3 );
 
 				break;
 
 			case 'file':
 				// Maybe we should check if file exists first and if it doesn't register action to display missing file message.
 				if ( ! has_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug ) )
-					add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug , create_function( '$entry, $content, $template, $atts, $connections, $vCard', 'include(\'' . $atts['path'] . '\');' ), 10, 6 );
+					add_action( 'cn_action_' . $atts['tag'] . '-' . $this->slug , create_function( '$entry, $template, $atts', 'include(\'' . $atts['path'] . '\');' ), 10, 3 );
 
 				break;
 		}

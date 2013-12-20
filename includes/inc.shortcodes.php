@@ -490,11 +490,11 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 							if ( get_query_var( 'cn-entry-slug' ) && has_action( 'cn_action_card_single-' . $template->getSlug() ) ) {
 
-								do_action( 'cn_action_card_single-' . $template->getSlug(), $entry, $template, $atts, $vCard );
+								do_action( 'cn_action_card_single-' . $template->getSlug(), $entry, $template, $atts );
 
 							} else {
 
-								do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts, $vCard );
+								do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
 							}
 
 							$out .= ob_get_contents();
@@ -761,7 +761,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 						$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
 							ob_start();
-							do_action( 'cn_action_card-' . $template->getSlug(), $entry, $content, $template, $atts, $connections, $vCard );
+							do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
 						    $out .= ob_get_contents();
 						    ob_end_clean();
 						$out .= '</div>' . "\n";

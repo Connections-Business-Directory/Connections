@@ -199,7 +199,7 @@ class cnFormObjects {
 		$radio = cnHTML::field(
 			array(
 				'type'     => 'radio',
-				'format'   => 'block',
+				'display'  => 'block',
 				'class'    => '',
 				'id'       => $name,
 				'options'  => array_flip( $options ), // The options array is flipped to preserve backward compatibility.

@@ -245,7 +245,7 @@ class cnHTML {
 			'class'    => array( 'radio' ),
 			'id'       => '',
 			'style'    => array(),
-			'value'    => '',
+			'options'  => array(),
 			'required' => FALSE,
 			'label'    => '',
 			'before'   => '',

@@ -56,6 +56,22 @@ class cnEntry_Action {
 		return self::process( 'add', $data, $id );
 	}
 
+	private static function copyImage( $image ) {
+		// Uses the upload.class.php to handle file uploading and image manipulation.
+		// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
+		require_once CN_PATH . '/includes/php_class_upload/class.upload.php';
+
+		$source = CN_IMAGE_PATH . $image;
+
+		$process_image = new Upload( $source );
+		$process_image->Process( CN_IMAGE_PATH );
+		$process_image->file_safe_name  = true;
+		$process_image->file_auto_rename = true;
+		$image = $process_image->file_dst_name;
+
+		return $image;
+	}
+
 	/**
 	 * Add / Edit / Update / Copy an entry.
 	 *
@@ -144,7 +160,7 @@ class cnEntry_Action {
 			if ( $action !== 'update' ) {
 				// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
 				// That way if an entry is deleted, only the entry specific logo will be deleted.
-				if ( $entry->getLogoName() != NULL ) $entry->setLogoName( copyImage( $entry->getLogoName() ) );
+				if ( $entry->getLogoName() != NULL ) $entry->setLogoName( self::copyImage( $entry->getLogoName() ) );
 			}
 		}
 		/*
@@ -241,10 +257,10 @@ class cnEntry_Action {
 			if ( $action !== 'update' ) {
 				// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
 				// That way if an entry is deleted, only the entry specific images will be deleted.
-				if ( $entry->getImageNameOriginal() != NULL ) $entry->setImageNameOriginal( copyImage( $entry->getImageNameOriginal() ) );
-				if ( $entry->getImageNameThumbnail() != NULL ) $entry->setImageNameThumbnail( copyImage( $entry->getImageNameThumbnail() ) );
-				if ( $entry->getImageNameCard() != NULL ) $entry->setImageNameCard( copyImage( $entry->getImageNameCard() ) );
-				if ( $entry->getImageNameProfile() != NULL ) $entry->setImageNameProfile( copyImage( $entry->getImageNameProfile() ) );
+				if ( $entry->getImageNameOriginal() != NULL ) $entry->setImageNameOriginal( self::copyImage( $entry->getImageNameOriginal() ) );
+				if ( $entry->getImageNameThumbnail() != NULL ) $entry->setImageNameThumbnail( self::copyImage( $entry->getImageNameThumbnail() ) );
+				if ( $entry->getImageNameCard() != NULL ) $entry->setImageNameCard( self::copyImage( $entry->getImageNameCard() ) );
+				if ( $entry->getImageNameProfile() != NULL ) $entry->setImageNameProfile( self::copyImage( $entry->getImageNameProfile() ) );
 			}
 		}
 

@@ -44,6 +44,9 @@ class cnEntryMetabox {
 	 */
 	public static function init( $metabox ) {
 
+		// Bail if doing an AJAX request.
+		if ( defined('DOING_AJAX') && DOING_AJAX ) return;
+
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 

@@ -59,6 +59,14 @@ class cnMetaboxAPI {
 			// Action for extensions to hook into to add custom metaboxes/fields.
 			do_action( 'cn_metabox', self::$instance );
 
+			// Store the registered metaboxes in the options table that way the data can be used
+			// even if this API is not loaded; for example in the frontend to check if a field ID
+			// is private so it will not be rendered.
+			//
+			// NOTE: All fields registered via this API are considered private. The expectation is
+			// an action will be called to render the metadata.
+			update_option( 'connections_metaboxes', self::$metaboxes );
+
 			// Process the metaboxes added via the `cn_metabox` action.
 			foreach ( self::$metaboxes as $id => $metabox ) {
 
@@ -72,7 +80,7 @@ class cnMetaboxAPI {
 				add_action( 'cn_process_meta-entry', array( new cnMetabox_Process( $metabox ), 'process' ), 10, 2 );
 			}
 
-			add_filter( 'cn_is_private_meta', array( __CLASS__, 'isPrivate' ), 10, 3 );
+			// add_filter( 'cn_is_private_meta', array( __CLASS__, 'isPrivate' ), 10, 3 );
 		}
 	}
 
@@ -96,6 +104,9 @@ class cnMetaboxAPI {
 	 * @param (array) $metabox
 	 */
 	public static function add( array $metabox ) {
+
+		// Bail if doing an AJAX request.
+		if ( defined('DOING_AJAX') && DOING_AJAX ) return;
 
 		/*
 		 * Interestingly if either 'submitdiv' or 'linksubmitdiv' is used as

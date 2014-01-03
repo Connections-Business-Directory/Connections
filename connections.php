@@ -25,7 +25,7 @@
  *
  * @package Connections
  * @category Core
- * @author Steven A. ZAhm
+ * @author Steven A. Zahm
  * @version 0.7.9.3
  */
 

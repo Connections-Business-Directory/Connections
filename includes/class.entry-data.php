@@ -4297,6 +4297,7 @@ class cnEntry {
 		global $wpdb, $connections;
 
 		do_action( 'cn_delete-entry', $this );
+		do_action( 'cn_process_delete-entry', $this );  // KEEP! This action must exist for Link, however, do not ever use it!
 
 		/*
 		 * Delete images assigned to the entry.

@@ -240,7 +240,7 @@ class cnAdminActions {
 		$entry = new cnEntry();
 		$form = new cnFormObjects();
 
-		$action = $_GET['cn-action'] ? $_GET['cn-action'] : $_POST['cn-action'];
+		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
 
 		// Setup the redirect URL.
 		$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
@@ -327,7 +327,10 @@ class cnAdminActions {
 
 		if ( ! $id = absint( $id ) ) return FALSE;
 
-		$metaIDs = array();
+		$meta       = array();
+		$newmeta    = array();
+		$metaSelect = array();
+		$metaIDs    = array();
 
 		switch ( $action ) {
 
@@ -413,7 +416,7 @@ class cnAdminActions {
 						$metaIDs['updated'] = $metaID;
 					}
 
-					if ( $_POST['meta'][ $metaID ]['value'] === '::DELETED::' ) {
+					if ( isset( $_POST['meta'] ) && $_POST['meta'][ $metaID ]['value'] === '::DELETED::' ) {
 
 						// Record entry meta to be deleted.
 						cnMeta::delete( 'entry', $id, $metaID );

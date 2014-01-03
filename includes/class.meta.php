@@ -172,7 +172,7 @@ class cnMeta {
 			return FALSE;
 		}
 
-		do_action( "cn_add_meta-{ $type }", $id, $key, $value );
+		do_action( "cn_add_meta-$type", $id, $key, $value );
 
 		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
 		$result = $wpdb->insert(
@@ -190,7 +190,7 @@ class cnMeta {
 		// Add the meta to the cache.
 		self::$cache[ $id ][ $metaID ] = array( 'meta_key' => $key, 'meta_value' => $value );
 
-		do_action( "cn_added_meta-{ $type }", $metaID, $id, $key, $value );
+		do_action( "cn_added_meta-$type", $metaID, $id, $key, $value );
 
 		return $metaID;
 	}
@@ -279,7 +279,7 @@ class cnMeta {
 			return self::add( $type, $id, $key, $value );
 		}
 
-		do_action( "cn_update_meta-{ $type }", $id, $key, $value );
+		do_action( "cn_update_meta-$type", $id, $key, $value );
 
 		// Update the `meta_key` field only if previous value is supplied and add to the $data array for $wpdb->update().
 		if ( $oldKey !== NULL ) {
@@ -310,7 +310,7 @@ class cnMeta {
 			$where
 		);
 
-		do_action( "cn_updated_meta-{ $type }", $id, $key, $value );
+		do_action( "cn_updated_meta-$type", $id, $key, $value );
 
 		// Update the meta in the cache.
 		self::$cache[ $id ][ $metaID ] = array( 'meta_key' => $key, 'meta_value' => $value );
@@ -344,7 +344,7 @@ class cnMeta {
 
 		$column = sanitize_key( $type . '_id' );
 
-		do_action( "cn_delete_meta-{ $type }", $id, $key, $value );
+		do_action( "cn_delete_meta-$type", $id );
 
 		// The meta of the supplied object type to delete.
 		$where[ $column ] = $id;
@@ -363,7 +363,7 @@ class cnMeta {
 			$where
 		);
 
-		do_action( "cn_deleted_meta-{ $type }", $id, $key, $value );
+		do_action( "cn_deleted_meta-$type", $id );
 
 		// Remove the meta in the cache.
 		unset( self::$cache[ $id ][ $metaID ] );
@@ -389,7 +389,7 @@ class cnMeta {
 		// $column = sanitize_key( $type . '_id' );
 
 		// $keys  = array();
-		$limit = (int) apply_filters( "cn_metakey_limit-{ $type }", $limit );
+		$limit = (int) apply_filters( "cn_metakey_limit-$type", $limit );
 
 		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
 		// The query will not retrieve any meta key that begin with an '_' [underscore].
@@ -422,7 +422,53 @@ class cnMeta {
 	 */
 	public static function isPrivate( $key, $type = NULL ) {
 
-		$private = ( '_' == $key[0] );
+		$private = FALSE;
+
+		if ( is_string( $key ) && strlen( $key ) > 0 ) {
+
+			$private = ( '_' == $key[0] );
+
+			// Grab the registered metaboxes from the options table.
+			$metaboxes = get_option( 'connections_metaboxes', array() );
+
+			// Loop thru all fields registered as part of a metabox.
+			// If one id found consider it private and exit the loops.
+			//
+			// NOTE: All fields registered via the metabox  API are considered private.
+			// The expectation is an action will be called to render the metadata.
+			foreach ( $metaboxes as $metabox ) {
+
+				if ( isset( $metabox['fields'] ) ) {
+
+					foreach ( $metabox['fields'] as $field ) {
+
+						if ( $field['id'] == $key ) {
+
+							// Field found, it's private ... exit loop.
+							$private = TRUE;
+							continue;
+						}
+					}
+				}
+
+				if ( isset( $metabox['sections'] ) ) {
+
+					foreach ( $metabox['sections'] as $section ) {
+
+						foreach ( $section['fields'] as $field ) {
+
+							if ( $field['id'] == $key ) {
+
+								// Field found, it's private ... exit the loops.
+								$private = TRUE;
+								continue(2);
+							}
+						}
+					}
+				}
+			}
+
+		}
 
 		return apply_filters( 'cn_is_private_meta', $private, $key, $type );
 	}

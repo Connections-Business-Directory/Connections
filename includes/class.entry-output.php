@@ -2256,11 +2256,10 @@ class cnOutput extends cnEntry
 			'merge_keys'      => FALSE,
 			'shortcode_atts'  => array(),
 			'template_object' => NULL,
+			'display_custom'  => FALSE,
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
-
-		$out = '';
 
 		$results = $this->getMeta( $atts );
 
@@ -2270,7 +2269,7 @@ class cnOutput extends cnEntry
 
 				foreach ( $results as $metaID => $meta ) {
 
-					if ( has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
+					if ( $atts['display_custom'] && has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
 
 						do_action( 'cn_meta_output_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $atts['shortcode_atts'], $this, $atts['template_object'] );
 
@@ -2293,7 +2292,7 @@ class cnOutput extends cnEntry
 
 				foreach ( $metadata as $metaID => $meta ) {
 
-					if ( has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
+					if ( $atts['display_custom'] && has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
 
 						do_action( 'cn_meta_output_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $atts['shortcode_atts'], $this, $atts['template_object'] );
 
@@ -2337,14 +2336,12 @@ class cnOutput extends cnEntry
 
 		foreach ( (array) $metadata as $metaID => $meta ) {
 
-			// NOTE: This might cause a problem if cnMetaboxAPI is loaded on the public side of the site
-			// because currently registered custom fields will be filtered out as being private. This could
-			// be a good thing too since custom fields really should have a custom action registered for its
-			// display.
+			// Do not render any private keys; ie. ones that begin with an underscore
+			// or any fields registered as part of a custom metabox.
 			if ( cnMeta::isPrivate( $meta['meta_key'], 'entry' ) ) continue;
 
 			$out .= apply_filters(
-				'cn_entry_meta_key',
+				'cn_entry_output_meta_key',
 				sprintf( '<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
 					$atts['item_tag'],
 					$atts['key_tag'],
@@ -2353,15 +2350,22 @@ class cnOutput extends cnEntry
 					$atts['value_tag'],
 					implode( (array) $meta['meta_value'], ', ')
 					),
+				$atts,
 				$meta['meta_key'],
 				$meta['meta_value']
 				);
 		}
 
-		$out = sprintf( '<%1$s class="cn-entry-meta">%2$s</%1$s>',
-			$atts['container_tag'],
-			$out
-		);
+		$out = apply_filters(
+			'cn_entry_output_meta_container',
+			sprintf( '<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
+				$atts['container_tag'],
+				$out
+				),
+			$atts,
+			$meta['meta_key'],
+			$meta['meta_value']
+			);
 
 		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}

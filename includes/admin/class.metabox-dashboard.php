@@ -35,6 +35,9 @@ class cnDashboardMetabox {
 	 */
 	public static function init( $metabox ) {
 
+		// Bail if doing an AJAX request.
+		if ( defined('DOING_AJAX') && DOING_AJAX ) return;
+
 		// Build the array that defines the dashboard metaboxes.
 		self::register();
 

@@ -1499,3 +1499,6 @@ class cnTemplatePart {
 	}
 
 }
+
+// Init the Template Parts API
+cnTemplatePart::init();

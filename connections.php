@@ -135,12 +135,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				add_filter( 'cn_register_settings_sections' , array( 'cnRegisterSettings', 'registerSettingsSections' ) , 10 , 1 );
 				add_filter( 'cn_register_settings_fields' , array( 'cnRegisterSettings', 'registerSettingsFields' ) , 10 , 1 );
 
-				// Init the Template Factory API
-				cnTemplateFactory::init();
-
-				// Init the Template Parts API
-				cnTemplatePart::init();
-
 				// Register all valid query variables.
 				cnRewrite::init();
 

@@ -71,7 +71,7 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Added_Template' ) ) {
 			return $atts;
 		}
 
-		public static function card( $entry, $content, $template, $atts, $connections, $vCard ) {
+		public static function card( $entry ) {
 
 			if ( is_admin() ) {
 

@@ -94,6 +94,16 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 			    </tr>
 
 			    <tr>
+			    	<td colspan="2">
+
+			    		<div style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></div>
+
+						<?php $entry->getMetaBlock( array( 'display_custom' => TRUE, 'shortcode_atts' => $atts, 'template_object' => $template ) ); ?>
+
+			    	</td>
+			    </tr>
+
+			    <tr>
 			        <td valign="bottom" style="vertical-align: top;">
 			        	<?php if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) ) $entry->vcard( array( 'before' => '<span>', 'after' => '</span>' ) ); ?>
 			        </td>

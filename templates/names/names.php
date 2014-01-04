@@ -49,11 +49,11 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( $this, 'card' ) ) );
+			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
 		}
 
-		public function card( $entry ) {
+		public static function card( $entry ) {
 
 			$entry->getNameBlock( array( 'link' => TRUE ) );
 		}

@@ -81,13 +81,16 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 					<?php $entry->getSocialMediaBlock(); ?>
 					<?php $entry->getLinkBlock(); ?>
 					<?php $entry->getDateBlock(); ?>
-					<?php $entry->getMetaBlock( array( /*'key' => 'cnbh',*/ 'shortcode_atts' => $atts, 'template_object' => $template ) ); ?>
 
 				</div>
 
 				<div style="clear:both"></div>
 				<div class="cn-meta" align="left" style="margin-top: 6px">
-					<span style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></span>
+
+					<div style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></div>
+
+					<?php $entry->getMetaBlock( array( 'display_custom' => TRUE, 'shortcode_atts' => $atts, 'template_object' => $template ) ); ?>
+
 					<?php if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) ) $entry->vcard( array( 'before' => '<span>', 'after' => '</span>' ) ); ?>
 
 					<?php

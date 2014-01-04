@@ -55,7 +55,7 @@ if ( ! class_exists( 'CN_Birthday_Dark_Template' ) ) {
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
 		}
 
-		public static function card( $entry, $content, $template, $atts, $connections, $vCard ) {
+		public static function card( $entry, $template, $atts ) {
 
 			?>
 

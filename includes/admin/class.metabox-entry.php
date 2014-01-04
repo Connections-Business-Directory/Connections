@@ -2964,6 +2964,15 @@ class cnEntryMetabox {
 		$metabox = $metabox['args'];
 		$keys    = cnMeta::key( 'entry' );
 
+		// Toss the meta that is save as part of a custom field.
+		if ( ! empty( $results ) ) {
+
+			foreach ( $results as $metaID => $meta ) {
+
+				if ( cnMeta::isPrivate( $meta['meta_key'] ) ) unset( $results[ $metaID ] );
+			}
+		}
+
 		// Build the meta key select drop down options.
 		array_walk( $keys, create_function( '&$key', '$key = "<option value=\"$key\">$key</option>";' ) );
 		array_unshift( $keys, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
@@ -2990,8 +2999,6 @@ class cnEntryMetabox {
 			if ( ! empty( $results ) ) {
 
 				foreach ( $results as $metaID => $meta ) {
-
-					if ( cnMeta::isPrivate( $meta['meta_key'] ) ) continue;
 
 					// Class added to alternate tr rows for CSS styling.
 					$alternate = ! isset( $alternate ) || $alternate == '' ? 'alternate' : '';

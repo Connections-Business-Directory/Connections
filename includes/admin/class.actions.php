@@ -349,7 +349,7 @@ class cnAdminActions {
 
 				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
 
-					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['0']['value'] );
+					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );
@@ -382,12 +382,12 @@ class cnAdminActions {
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
 
-					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['0']['value'] );
+					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
 				}
 
 				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
 
-					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['0']['value'] );
+					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}
 
 				$metaIDs['added'] = array_merge( $meta, $newmeta, $metaSelect );
@@ -437,12 +437,12 @@ class cnAdminActions {
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
 
-					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['0']['value'] );
+					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
 				}
 
 				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
 
-					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['0']['value'] );
+					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );

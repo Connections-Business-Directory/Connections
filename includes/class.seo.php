@@ -457,3 +457,6 @@ class cnSEO {
 	}
 
 }
+
+// Init the class.
+add_action( 'init', array( 'cnSEO' , 'init' ) );

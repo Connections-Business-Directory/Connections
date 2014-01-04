@@ -144,9 +144,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// Register all valid query variables.
 				cnRewrite::init();
 
-				// Init the SEO class.
-				if ( ! is_admin() ) cnSEO::init();
-
 				// Init the email template API.
 				cnEmail_Template::init();
 

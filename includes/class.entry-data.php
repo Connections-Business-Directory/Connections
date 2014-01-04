@@ -3037,6 +3037,8 @@ class cnEntry {
 
 		$results = cnMeta::get( 'entry', $this->getId() );
 
+		if ( $results === FALSE ) return $results;
+
 		if ( ! empty( $results ) ) {
 
 			if ( empty( $atts['key'] ) ) return $results;

@@ -165,10 +165,10 @@ class cnMetaboxAPI {
 	 *
 	 * @access private
 	 * @since 0.8
+	 * @global $hook_suffix	The current admin page hook.
 	 * @return (void)
 	 */
 	public static function register() {
-
 		global $hook_suffix;
 
 		foreach ( self::$metaboxes as $metabox ) {

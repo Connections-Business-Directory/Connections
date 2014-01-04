@@ -329,3 +329,6 @@ class cnAdminFunction {
 	}
 
 }
+
+// Adds the admin actions and filters.
+add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );

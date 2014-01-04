@@ -168,3 +168,6 @@ class cnAdminMenu {
 	}
 
 }
+
+// cnAdminMenu must load before the cnMetaboxAPI so the admin page hooks are defined.
+add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );

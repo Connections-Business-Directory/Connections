@@ -148,22 +148,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				cnScript::init();
 
 				/*
-				 * Register the admin menu and functions. These must hooked and run before the `init` hook.
-				 */
-				// cnAdminMenu must load before the cnMetaboxAPI so the admin page hooks are defined.
-				add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );
-
-				// cnMetaboxAPI has to load before cnAdminFunction otherwise the action to save the meta is not added in time to run.
-				add_action( 'admin_init', array( 'cnMetaboxAPI', 'init' ) );
-
-				// Adds the admin actions and filters.
-				add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
-
-				// Register the core metaboxes use the Metabox API.
-				add_action( 'cn_metabox', array( 'cnEntryMetabox', 'init' ), 1 );
-				add_action( 'cn_metabox', array( 'cnDashboardMetabox', 'init' ), 1 );
-
-				/*
 				 * Add the filter to update the user settings when the "Apply" button is clicked.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 * NOTE: This filter must be init here otherwise it registers to late to be run.
@@ -174,7 +158,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * Process front end actions.
 				 */
 				add_action( 'template_redirect' , array( __CLASS__, 'frontendActions' ) );
-
 
 				// Activation/Deactivation hooks
 				register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'activate' ) );
@@ -370,11 +353,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//shortcodes
 			require_once CN_PATH . 'includes/inc.shortcodes.php'; // Required for front end
 
-			//templates
-			require_once CN_PATH . 'includes/template/class.template-api.php';
-			require_once CN_PATH . 'includes/template/class.template-parts.php';
-			require_once CN_PATH . 'includes/template/class.template.php';
-
 			// The class that inits the registered query vars, rewites reuls and canonical redirects.
 			require_once CN_PATH . 'includes/class.rewrite.php';
 
@@ -389,21 +367,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Load the class that manages the registration and enqueueing of CSS and JS files.
 			require_once CN_PATH . 'includes/class.scripts.php';
-
-			// Load the included templates that use the templates API introduced in 0.7.6
-			include_once CN_PATH . 'templates/names/names.php';
-			include_once CN_PATH . 'templates/card/card.php';
-			include_once CN_PATH . 'templates/card-bio/card-bio.php';
-			include_once CN_PATH . 'templates/card-single/card-single.php';
-			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
-			include_once CN_PATH . 'templates/profile/profile.php';
-			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
-			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
-			include_once CN_PATH . 'templates/birthday-dark/birthday-dark.php';
-			include_once CN_PATH . 'templates/birthday-light/birthday-light.php';
-			include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
-			include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';
-			include_once CN_PATH . 'templates/dashboard-upcoming/dashboard-upcoming.php';
 
 			// Class for processing email.
 			require_once CN_PATH . 'includes/email/class.email.php';
@@ -431,22 +394,27 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// Class used for managing role capabilites.
 				require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
-				// The class for adding admin menu adn registering the menu callbacks.
+				// The class for adding admin menu and registering the menu callbacks.
+				// Must require BEFORE class.metabox-api.php.
 				require_once CN_PATH . 'includes/admin/class.menu.php';
+
+				// The class for adding the metaboxes.
+				// Must require BEFORE class.functions.php.
+				require_once CN_PATH . 'includes/admin/class.metabox-api.php';
 
 				// The class for processing admin actions.
 				require_once CN_PATH . 'includes/admin/class.actions.php';
 
 				// The class for registering general admin actions.
+				// Must require AFTER class.metabox-api.php and class.functions.php.
 				require_once CN_PATH . 'includes/admin/class.functions.php';
 
-				// The class for adding the metaboxes.
-				require_once CN_PATH . 'includes/admin/class.metabox-api.php';
-
 				// The class for registering the core metabox and fields for the add/edit entry admin pages.
+				// Must require AFTER class.metabox-api.php.
 				require_once CN_PATH . 'includes/admin/class.metabox-entry.php';
 
 				// The class for registering the core metabox and fields for the dashboard admin page.
+				// Must require AFTER class.metabox-api.php.
 				require_once CN_PATH . 'includes/admin/class.metabox-dashboard.php';
 
 			} else {
@@ -456,6 +424,27 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			}
 
+			// Include the core templates that use the Template APIs introduced in 0.7.6
+			// Must include BEFORE class.template-api.php.
+			include_once CN_PATH . 'templates/names/names.php';
+			include_once CN_PATH . 'templates/card/card.php';
+			include_once CN_PATH . 'templates/card-bio/card-bio.php';
+			include_once CN_PATH . 'templates/card-single/card-single.php';
+			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
+			include_once CN_PATH . 'templates/profile/profile.php';
+			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
+			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
+			include_once CN_PATH . 'templates/birthday-dark/birthday-dark.php';
+			include_once CN_PATH . 'templates/birthday-light/birthday-light.php';
+			include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
+			include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';
+			include_once CN_PATH . 'templates/dashboard-upcoming/dashboard-upcoming.php';
+
+			// Template APIs.
+			// Must require AFTER the core templates.
+			require_once CN_PATH . 'includes/template/class.template-api.php';
+			require_once CN_PATH . 'includes/template/class.template-parts.php';
+			require_once CN_PATH . 'includes/template/class.template.php';
 		}
 
 		/**

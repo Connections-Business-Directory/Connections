@@ -579,3 +579,6 @@ class cnDashboardMetabox {
 	}
 
 }
+
+// Init the class.
+add_action( 'cn_metabox', array( 'cnDashboardMetabox', 'init' ), 1 );

@@ -653,3 +653,6 @@ class cnRewrite {
 
 	}
 }
+
+// Register all valid query variables.
+cnRewrite::init();

@@ -312,3 +312,6 @@ class cnScript {
 	}
 
 }
+
+// Init the class.
+cnScript::init();

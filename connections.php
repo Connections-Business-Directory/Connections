@@ -129,32 +129,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				add_action( 'init', array( __CLASS__ , 'loadTextdomain' ) );
 
 				/*
-				 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
-				 */
-				add_filter( 'cn_register_settings_tabs' , array( 'cnRegisterSettings', 'registerSettingsTabs' ) , 10 , 1 );
-				add_filter( 'cn_register_settings_sections' , array( 'cnRegisterSettings', 'registerSettingsSections' ) , 10 , 1 );
-				add_filter( 'cn_register_settings_fields' , array( 'cnRegisterSettings', 'registerSettingsFields' ) , 10 , 1 );
-
-				// Register all valid query variables.
-				cnRewrite::init();
-
-				// Init the email template API.
-				cnEmail_Template::init();
-
-				// Register the default email templates.
-				cnEmail_DefaultTemplates::init();
-
-				// Register and Enqueue the CSS and JavaScript libraries.
-				cnScript::init();
-
-				/*
-				 * Add the filter to update the user settings when the "Apply" button is clicked.
-				 * NOTE: This relies on the the Screen Options class by Janis Elsts
-				 * NOTE: This filter must be init here otherwise it registers to late to be run.
-				 */
-				add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 10 , 3 );
-
-				/*
 				 * Process front end actions.
 				 */
 				add_action( 'template_redirect' , array( __CLASS__, 'frontendActions' ) );
@@ -163,12 +137,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'activate' ) );
 				register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'deactivate' ) );
 
-				//@TODO: Create uninstall method to remove options and tables.
+				// @TODO: Create uninstall method to remove options and tables.
 				// register_uninstall_hook( dirname(__FILE__) . '/connections.php', array('connectionsLoad', 'uninstall') );
 
 				// Init the options if there is a version change just in case there were any changes.
 				if ( version_compare( self::$instance->options->getVersion() , CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
-				//$connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
+				// $connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
 
 				do_action( 'cn_loaded' );
 			}
@@ -333,18 +307,18 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// HTML elements class.
 			require_once CN_PATH . 'includes/class.html.php';
 
-			// meta API
+			// Meta API
 			require_once CN_PATH . 'includes/class.meta.php';
 
 			//plugin utility objects
 			require_once CN_PATH . 'includes/class.utility.php'; // Required for activation, entry list
 
-			// sanitization class
+			// Sanitization.
 			require_once CN_PATH . 'includes/class.sanitize.php';
 
-			//plugin template objects
+			// plugin template objects
 			require_once CN_PATH . 'includes/class.entry-output.php'; // Required for activation, entry list
-			//builds vCard
+			// builds vCard
 			require_once CN_PATH . 'includes/class.entry-vcard.php'; // Required for front end
 
 			// geocoding
@@ -374,7 +348,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Class for handling email template registration and management.
 			require_once CN_PATH . 'includes/email/class.email-template-api.php';
 
-			// Class for registering the default email templates.
+			// Class for registering the core email templates.
 			require_once CN_PATH . 'includes/email/class.default-template.php';
 
 			if ( is_admin() ) {

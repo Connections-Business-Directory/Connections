@@ -1429,3 +1429,10 @@ class cnRegisterSettings
 		return $settings;
 	}
 }
+
+/*
+ * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
+ */
+add_filter( 'cn_register_settings_tabs' , array( 'cnRegisterSettings', 'registerSettingsTabs' ) , 10 , 1 );
+add_filter( 'cn_register_settings_sections' , array( 'cnRegisterSettings', 'registerSettingsSections' ) , 10 , 1 );
+add_filter( 'cn_register_settings_fields' , array( 'cnRegisterSettings', 'registerSettingsFields' ) , 10 , 1 );

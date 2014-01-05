@@ -160,7 +160,7 @@ class cnEmail_Template {
 
 		 /*
 		  * Hook into the cn_email_message filter.
-		  * This filter only is reguired to be added if the template type is HTML.
+		  * This filter only is required to be added if the template type is HTML.
 		  * If the template is not, run a filer to ensure any html tags are stripped.
 		  */
 		$template->type == 'html' ? add_filter( 'cn_email_message', array( __CLASS__, 'content' ) ) : add_filter( 'cn_email_message', array( __CLASS__, 'stripTags' ) );
@@ -341,3 +341,6 @@ class cnEmail_Template {
 	}
 
 }
+
+// Init the email template API.
+cnEmail_Template::init();

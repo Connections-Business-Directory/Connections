@@ -122,7 +122,7 @@ class cnAdminFunction {
 				 * Add the panel to the "Screen Options" box to the manage page.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 */
-				add_screen_options_panel( 'cn-manage-page-limit' , 'Show on screen' , array( __CLASS__, 'managePageLimit' ) , $instance->pageHook->manage , array( __CLASS__, 'managePageLimitSaveAJAX' ) , FALSE );
+				add_screen_options_panel( 'cn-manage-page-limit', 'Show on screen', array( __CLASS__, 'managePageLimit' ), $instance->pageHook->manage );
 			}
 
 		}
@@ -279,7 +279,7 @@ class cnAdminFunction {
 
 		$page = $instance->currentUser->getFilterPage( 'manage' );
 
-		$out = '<label><input type="text" class="entry-per-page" name="wp_screen_options[value]" id="edit_entry_per_page" maxlength="3" value="' . $page->limit . '" />' . __( 'Entries', 'connections' ) . '</label>';
+		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page->limit . '" />' . __( 'Entries', 'connections' ) . '</label>';
 		$out .= '<input type="hidden" name="wp_screen_options[option]" id="edit_entry_per_page_name" value="connections" />';
 		$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="Apply"  />';
 
@@ -297,8 +297,8 @@ class cnAdminFunction {
 	 */
 	public static function managePageLimitSaveAJAX() {
 
-		include_once CN_PATH . 'includes/admin/inc.processes.php';
-		processSetUserFilter();
+		// include_once CN_PATH . 'includes/admin/inc.processes.php';
+		// processSetUserFilter();
 	}
 
 	/**
@@ -313,14 +313,14 @@ class cnAdminFunction {
 	 * @param (int) $value
 	 * @return (array)
 	 */
-	public static function managePageLimitSave( $false = FALSE , $option , $value ) {
+	public static function managePageLimitSave( $false, $option, $value ) {
 
 		if ( $option !== 'connections' ) return $false;
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$user_meta = get_user_meta( $instance->currentUser->getID() , $option, TRUE );
+		$user_meta = get_user_meta( $instance->currentUser->getID(), 'connections', TRUE );
 
 		$user_meta['filter']['manage']['limit'] = absint( $value );
 		$user_meta['filter']['manage']['current'] = 1;
@@ -332,3 +332,10 @@ class cnAdminFunction {
 
 // Adds the admin actions and filters.
 add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
+
+/*
+ * Add the filter to update the user settings when the "Apply" button is clicked.
+ * NOTE: This relies on the the Screen Options class by Janis Elsts
+ * NOTE: This filter must be added here otherwise it registers to late to be run.
+ */
+add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 10 , 3 );

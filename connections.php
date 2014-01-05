@@ -324,7 +324,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// geocoding
 			require_once CN_PATH . 'includes/class.geo.php'; // Required
 
-			//shortcodes
+			// Shortcodes
+			// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
 			require_once CN_PATH . 'includes/inc.shortcodes.php'; // Required for front end
 
 			// The class that inits the registered query vars, rewites reuls and canonical redirects.

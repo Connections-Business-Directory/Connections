@@ -54,15 +54,8 @@ class cnUser
 	}
 
 	public function getFilterEntryType()  {
-		/*
-		 * Use get_user_meta() used in WP 3.0 and newer
-		 * since get_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'get_user_meta' ) ) {
-			$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-		} else {
-			$user_meta = get_usermeta( $this->ID, 'connections' );
-		}
+
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter']['entry_type'] ) ) {
 			return $user_meta['filter']['entry_type'];
@@ -77,27 +70,11 @@ class cnUser
 
 		if ( ! in_array( $entryType, $permittedEntryTypes ) ) return FALSE;
 
-		/*
-		 * Use get_user_meta() used in WP 3.0 and newer
-		 * since get_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'get_user_meta' ) ) {
-			$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-		} else {
-			$user_meta = get_usermeta( $this->ID, 'connections' );
-		}
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		$user_meta['filter']['entry_type'] = $entryType;
 
-		/*
-		 * Use update_user_meta() used in WP 3.0 and newer
-		 * since update_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'update_user_meta' ) ) {
-			update_user_meta($this->ID, 'connections', $user_meta);
-		} else {
-			update_usermeta($this->ID, 'connections', $user_meta);
-		}
+		update_user_meta($this->ID, 'connections', $user_meta);
 
 		// Reset the current user's admin manage page.
 		//$this->resetFilterPage();
@@ -109,15 +86,8 @@ class cnUser
 	 * @return string || bool
 	 */
 	public function getFilterVisibility() {
-        /*
-		 * Use get_user_meta() used in WP 3.0 and newer
-		 * since get_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'get_user_meta' ) ) {
-			$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-		} else {
-			$user_meta = get_usermeta( $this->ID, 'connections' );
-		}
+
+        $user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter']['visibility'] ) ) {
 			/*
@@ -163,27 +133,11 @@ class cnUser
 
 		if ( ! in_array($visibility, $permittedVisibility) ) return FALSE;
 
-		/*
-		 * Use get_user_meta() used in WP 3.0 and newer
-		 * since get_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'get_user_meta' ) ) {
-			$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-		} else {
-			$user_meta = get_usermeta( $this->ID, 'connections' );
-		}
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		$user_meta['filter']['visibility'] = $visibility;
 
-		/*
-		 * Use update_user_meta() used in WP 3.0 and newer
-		 * since update_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'update_user_meta' ) ) {
-			update_user_meta( $this->ID, 'connections', $user_meta );
-		} else {
-			update_usermeta( $this->ID, 'connections', $user_meta );
-		}
+		update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
 		//$this->resetFilterPage();
@@ -198,15 +152,7 @@ class cnUser
 	 */
 	public function getFilterStatus() {
 
-		/*
-		 * Use get_user_meta() used in WP 3.0 and newer
-		 * since get_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'get_user_meta' ) ) {
-			$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-		} else {
-			$user_meta = get_usermeta( $this->ID, 'connections' );
-		}
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter']['status'] ) ) {
 			return $user_meta['filter']['status'];
@@ -222,43 +168,19 @@ class cnUser
 
 		if ( ! in_array( $status, $permittedVisibility ) ) return FALSE;
 
-		/*
-		 * Use get_user_meta() used in WP 3.0 and newer
-		 * since get_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'get_user_meta' ) ) {
-			$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-		} else {
-			$user_meta = get_usermeta( $this->ID, 'connections' );
-		}
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		$user_meta['filter']['status'] = $status;
 
-		/*
-		 * Use update_user_meta() used in WP 3.0 and newer
-		 * since update_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'update_user_meta' ) )
-		{
-			update_user_meta( $this->ID, 'connections', $user_meta );
-		} else {
-			update_usermeta( $this->ID, 'connections', $user_meta );
-		}
+		update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
 		//$this->resetFilterPage();
     }
 
 	public function getFilterCategory() {
-        /*
-		 * Use get_user_meta() used in WP 3.0 and newer
-		 * since get_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'get_user_meta' ) ) {
-			$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-		} else {
-			$user_meta = get_usermeta( $this->ID, 'connections' );
-		}
+
+        $user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter'] ) ) {
 			return $user_meta['filter']['category'];
@@ -271,27 +193,11 @@ class cnUser
         // If value is -1 from drop down, set to NULL
 		if ( $id == -1 ) $id = NULL;
 
-		/*
-		 * Use get_user_meta() used in WP 3.0 and newer
-		 * since get_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'get_user_meta' ) ) {
-			$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-		} else {
-			$user_meta = get_usermeta( $this->ID, 'connections' );
-		}
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		$user_meta['filter']['category'] = $id;
 
-		/*
-		 * Use update_user_meta() used in WP 3.0 and newer
-		 * since update_usermeta() was deprecated.
-		 */
-		if ( function_exists( 'update_user_meta' ) ) {
-			update_user_meta( $this->ID, 'connections', $user_meta );
-		} else {
-			update_usermeta( $this->ID, 'connections', $user_meta );
-		}
+		update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
 		//$this->resetFilterPage();
@@ -304,6 +210,7 @@ class cnUser
 	 * @return object
 	 */
 	public function getFilterPage( $pageName ) {
+
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter'][ $pageName ] ) ) {
@@ -327,6 +234,7 @@ class cnUser
 	 *@param object $page
 	 */
 	public function setFilterPage( $page ) {
+
 		// If the page name has not been supplied, no need to process further.
 		if ( ! isset($page->name) ) return;
 

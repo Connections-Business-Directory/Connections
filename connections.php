@@ -300,9 +300,34 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/class.form.php'; // Required for activation
 			//date objects
 			require_once CN_PATH . 'includes/class.date.php'; // Required for activation, entry list, add entry
-			//entry objects
+
+			// The class for managing metaboxes.
+			// Must require BEFORE class.functions.php.
+			require_once CN_PATH . 'includes/admin/class.metabox-api.php';
+
+			// The class for registering the core metaboxes and fields for the add/edit entry admin pages.
+			// Must require AFTER class.metabox-api.php.
+			require_once CN_PATH . 'includes/admin/class.metabox-entry.php';
+
+			/*
+			 * Entry classes. // --> START <-- \\
+			 */
+
+			// Entry data.
 			require_once CN_PATH . 'includes/class.entry-data.php'; // Required for activation, entry list
+
+			// Entry HTML template blocks.
+			require_once CN_PATH . 'includes/class.entry-output.php'; // Required for activation, entry list
+
+			// Entry vCard.
+			require_once CN_PATH . 'includes/class.entry-vcard.php'; // Required for front end
+
+			// Entry actions.
 			require_once CN_PATH . 'includes/class.entry-actions.php';
+
+			/*
+			 * Entry classes. // --> END <-- \\
+			 */
 
 			// HTML elements class.
 			require_once CN_PATH . 'includes/class.html.php';
@@ -315,11 +340,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Sanitization.
 			require_once CN_PATH . 'includes/class.sanitize.php';
-
-			// plugin template objects
-			require_once CN_PATH . 'includes/class.entry-output.php'; // Required for activation, entry list
-			// builds vCard
-			require_once CN_PATH . 'includes/class.entry-vcard.php'; // Required for front end
 
 			// geocoding
 			require_once CN_PATH . 'includes/class.geo.php'; // Required
@@ -370,27 +390,18 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
 				// The class for adding admin menu and registering the menu callbacks.
-				// Must require BEFORE class.metabox-api.php.
 				require_once CN_PATH . 'includes/admin/class.menu.php';
 
-				// The class for adding the metaboxes.
-				// Must require BEFORE class.functions.php.
-				require_once CN_PATH . 'includes/admin/class.metabox-api.php';
+				// The class for registering the core metaboxes for the dashboard admin page.
+				// Must require AFTER class.metabox-api.php.
+				require_once CN_PATH . 'includes/admin/class.metabox-dashboard.php';
 
 				// The class for processing admin actions.
 				require_once CN_PATH . 'includes/admin/class.actions.php';
 
 				// The class for registering general admin actions.
-				// Must require AFTER class.metabox-api.php and class.functions.php.
+				// Must require AFTER class.metabox-api.php and class.actions.php.
 				require_once CN_PATH . 'includes/admin/class.functions.php';
-
-				// The class for registering the core metabox and fields for the add/edit entry admin pages.
-				// Must require AFTER class.metabox-api.php.
-				require_once CN_PATH . 'includes/admin/class.metabox-entry.php';
-
-				// The class for registering the core metabox and fields for the dashboard admin page.
-				// Must require AFTER class.metabox-api.php.
-				require_once CN_PATH . 'includes/admin/class.metabox-dashboard.php';
 
 			} else {
 

@@ -45,7 +45,7 @@ class cnEntryMetabox {
 	public static function init( $metabox ) {
 
 		// Bail if doing an AJAX request.
-		if ( defined('DOING_AJAX') && DOING_AJAX ) return;
+		// if ( defined('DOING_AJAX') && DOING_AJAX ) return;
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -73,9 +73,22 @@ class cnEntryMetabox {
 	 */
 	private static function register() {
 
+		if ( is_admin() ) {
+
+			// Grab an instance of Connections.
+			$instance = Connections_Directory();
+
+			$pages = array( $instance->pageHook->add, $instance->pageHook->manage );
+
+		} else {
+
+			$pages = array( 'public' );
+		}
+
 		self::$metaboxes[] = array(
 			'id'       => 'submitdiv',
 			'title'    => __( 'Publish', 'connection' ),
+			'pages'    => $pages,
 			'context'  => 'side',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'publish' ),
@@ -84,6 +97,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'categorydiv',
 			'title'    => __( 'Categories', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'side',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'category' ),
@@ -92,6 +106,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
 			'title'    => __( 'Image', 'connection' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'image' ),
@@ -100,6 +115,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-logo',
 			'title'    => __( 'Logo', 'connection' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'logo' ),
@@ -108,6 +124,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-address',
 			'title'    => __( 'Addresses', 'connection' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'address' ),
@@ -116,6 +133,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-phone',
 			'title'    => __( 'Phone Numbers', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'phone' ),
@@ -124,6 +142,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-email',
 			'title'    => __( 'Email Addresses', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'email' ),
@@ -132,6 +151,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-messenger',
 			'title'    => __( 'Messenger IDs', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'messenger' ),
@@ -140,6 +160,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-social-media',
 			'title'    => __( 'Social Media IDs', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'social' ),
@@ -148,6 +169,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-links',
 			'title'    => __( 'Links', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'links' ),
@@ -156,6 +178,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-date',
 			'title'    => __( 'Dates', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'date' ),
@@ -164,6 +187,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-bio',
 			'title'    => __( 'Biographical Info', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'fields' => array(
@@ -178,6 +202,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-note',
 			'title'    => __( 'Notes', 'connections' ),
+			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
 			'fields' => array(
@@ -192,6 +217,7 @@ class cnEntryMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-meta',
 			'title'    => __( 'Custom Fields', 'connection' ),
+			'pages'    => $pages,
 			'name'     => 'Meta',
 			'desc'     => __( 'Custom fields can be used to add extra metadata to an entry that you can use in your template.', 'connections' ),
 			'context'  => 'normal',

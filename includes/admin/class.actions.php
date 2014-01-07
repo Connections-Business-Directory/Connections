@@ -305,8 +305,8 @@ class cnAdminActions {
 				break;
 		}
 
-		do_action( 'cn_process_meta-entry', $action, $id );
-		do_action( 'cn_process_meta-' . $action, $action, $id );
+		// do_action( 'cn_process_meta-entry', $action, $id );
+		// do_action( 'cn_process_meta-entry-' . $action, $action, $id );
 
 		wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
 
@@ -334,7 +334,7 @@ class cnAdminActions {
 
 		switch ( $action ) {
 
-			case 'add_entry':
+			case 'add':
 
 				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
 
@@ -356,7 +356,7 @@ class cnAdminActions {
 
 				break;
 
-			case 'copy_entry':
+			case 'copy':
 
 				// Copy any meta associated with the source entry to the new entry.
 				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) {
@@ -394,7 +394,7 @@ class cnAdminActions {
 
 				break;
 
-			case 'update_entry':
+			case 'update':
 
 				// Query the meta associated to the entry.
 				$results = cnMeta::get( 'entry', $id );

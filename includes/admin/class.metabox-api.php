@@ -803,6 +803,7 @@ class cnMetabox_Render {
 
 					wp_enqueue_script('jquery-ui-datepicker');
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
+					add_action( 'wp_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
 
 					break;
 

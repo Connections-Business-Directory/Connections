@@ -1111,6 +1111,10 @@ class cnMetabox_Process {
 
 			if ( ! $id = absint( $id ) ) return FALSE;
 
+			// If the field is not in POST, bail.
+			// This will likely be a checkbox field which is not sent if not checked by the user.
+			if ( ! isset( $_POST[ $field['id'] ] ) ) return FALSE;
+
 			$value = $this->sanitize(
 				$field['type'],
 				$_POST[ $field['id'] ],

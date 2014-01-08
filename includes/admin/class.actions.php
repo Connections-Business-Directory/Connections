@@ -901,7 +901,7 @@ class cnAdminActions {
 
 						$cat_ID = esc_attr( $cat_ID );
 
-						$result = $connections->retrieve->category( attribute_escape( $cat_ID ) );
+						$result = $connections->retrieve->category( esc_attr( $cat_ID ) );
 						$category = new cnCategory( $result );
 						$category->delete();
 					}

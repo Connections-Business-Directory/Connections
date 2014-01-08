@@ -20,7 +20,7 @@ class cnMetaboxAPI {
 	 *
 	 * @access private
 	 * @since 0.8
-	 * @var (object)
+	 * @var object
 	*/
 	private static $instance;
 
@@ -29,7 +29,7 @@ class cnMetaboxAPI {
 	 *
 	 * @access private
 	 * @since 0.8
-	 * @var (array)
+	 * @var array
 	 */
 	private static $metaboxes = array();
 
@@ -77,7 +77,8 @@ class cnMetaboxAPI {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @return (object) cnMetabox
+	 *
+	 * @return object cnMetabox
 	 */
 	public static function getInstance() {
 
@@ -89,7 +90,9 @@ class cnMetaboxAPI {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param (array) $metabox
+	 * @param array $metabox
+	 *
+	 * return void
 	 */
 	public static function add( array $metabox ) {
 
@@ -142,8 +145,9 @@ class cnMetaboxAPI {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  (string) $id The metabox id to remove.
-	 * @return (bool)
+	 * @param  string $id The metabox id to remove.
+	 *
+	 * @return bool
 	 */
 	public static function remove( string $id ) {
 
@@ -156,6 +160,20 @@ class cnMetaboxAPI {
 		return FALSE;
 	}
 
+	/**
+	 * Method responsible for processing the registered metaboxes.
+	 * This is a private method that is ran on the `admin_init` action
+	 * if is_admin() or the `init` if not is_admin().
+	 *
+	 * Extensions should hook into the `cn_metabox` action to register
+	 * their metaboxes.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @uses add_action()
+	 *
+	 * @return void
+	 */
 	public static function process() {
 
 		// Action for extensions to hook into to add custom metaboxes/fields.
@@ -200,7 +218,8 @@ class cnMetaboxAPI {
 	 * @access private
 	 * @since 0.8
 	 * @global $hook_suffix	The current admin page hook.
-	 * @return (void)
+	 *
+	 * @return void
 	 */
 	public static function register() {
 		global $hook_suffix;
@@ -220,6 +239,7 @@ class cnMetaboxAPI {
 	 * @param  bool    $private Passed by the `cn_is_private_meta` filter.
 	 * @param  string  $key     The key name.
 	 * @param  string  $type    The object type.
+	 *
 	 * @return boolean
 	 */
 	public static function isPrivate( $private, $key, $type ) {
@@ -273,7 +293,8 @@ class cnMetabox_Render {
 	 *
 	 * @access private
 	 * @since 0.8
-	 * @var (array)
+	 *
+	 * @var array
 	 */
 	private static $metaboxes = array();
 
@@ -282,6 +303,7 @@ class cnMetabox_Render {
 	 *
 	 * @access private
 	 * @since 0.8
+	 *
 	 * @var array
 	 */
 	private $metabox = array();
@@ -291,6 +313,7 @@ class cnMetabox_Render {
 	 *
 	 * @access private
 	 * @since 0.8
+	 *
 	 * @var array
 	 */
 	// private $sections = array();
@@ -300,6 +323,7 @@ class cnMetabox_Render {
 	 *
 	 * @access private
 	 * @since 0.8
+	 *
 	 * @var object
 	 */
 	private $object;
@@ -309,6 +333,7 @@ class cnMetabox_Render {
 	 *
 	 * @access private
 	 * @since 0.8
+	 *
 	 * @var array
 	 */
 	private $meta = array();
@@ -318,6 +343,7 @@ class cnMetabox_Render {
 	 *
 	 * @access private
 	 * @since 0.8
+	 *
 	 * @var array
 	 */
 	private static $quickTagIDs = array();
@@ -327,6 +353,7 @@ class cnMetabox_Render {
 	 *
 	 * @access private
 	 * @since 0.8
+	 *
 	 * @var array
 	 */
 	private static $slider = array();
@@ -336,11 +363,17 @@ class cnMetabox_Render {
 	/**
 	 * Register the metaboxes with WordPress.
 	 *
-	 * @access private
+	 * NOTE: This method can be used to "late" register a metabox.
+	 * Meaning if you need to register a metabox right before render.
+	 * See the `manage.php` admin page file for a working example.
+	 *
+	 * @access public
 	 * @since 0.8
 	 * @uses add_meta_box()
 	 * @param string $pageHook The page hood / post type in which to add the metabox.
 	 * @param array  $metabox  The array of metaboxes to add.
+	 *
+	 * @return void
 	 */
 	public static function add( $pageHook, array $metabox ) {
 
@@ -377,6 +410,17 @@ class cnMetabox_Render {
 
 	}
 
+	/**
+	 * Use to render the registered metaboxes on the frontend.
+	 * NOTE: To render the metaboxes on an admin page use do_meta_boxes().
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  array  $atts   The attributes array.
+	 * @param  object $object An instance the the cnEntry object.
+	 *
+	 * @return string         The HTML output of the registered metaboxes.
+	 */
 	public static function metaboxes( array $atts = array(), $object ) {
 
 		$defaults = array(
@@ -428,6 +472,7 @@ class cnMetabox_Render {
 	 *
 	 * @access private
 	 * @since 0.8
+	 *
 	 * @return void
 	 */
 	public function render( $object, $metabox ) {
@@ -470,6 +515,7 @@ class cnMetabox_Render {
 	 * @access private
 	 * @since 0.8
 	 * @param  array $section An array containing the sections of the metabox.
+	 *
 	 * @return string
 	 */
 	private function section( $section ) {
@@ -510,6 +556,7 @@ class cnMetabox_Render {
 	 * @since 0.8
 	 * @global $wp_version
 	 * @param $fields	array 	Render the metabox section fields.
+	 *
 	 * @return string
 	 */
 	private function fields( $fields ) {
@@ -1046,6 +1093,18 @@ foreach ( self::$slider as $id => $option ) {
 
 }
 
+/**
+ * Class for sanitizing and saving the user input from registered metaboxes.
+ *
+ * NOTE: This is a private class and should not be accessed directly.
+ *
+ * @package     Connections
+ * @subpackage  Metabox Processing
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.8
+ */
+
 class cnMetabox_Process {
 
 	/**
@@ -1146,8 +1205,12 @@ class cnMetabox_Process {
 	}
 
 	/**
-	 * @todo
-	 * @return [type] [description]
+	 * Sanitize use input based in field type.
+	 *
+	 * @access private
+	 * @since 0.8
+	 *
+	 * @return mixed
 	 */
 	public function sanitize( $type, $value, $options = array(), $default = NULL ) {
 

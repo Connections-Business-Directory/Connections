@@ -834,6 +834,7 @@ class cnMetabox_Render {
 
 					wp_enqueue_script('jquery-ui-slider');
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sliderJS' ) );
+					add_action( 'wp_footer' , array( __CLASS__ , 'sliderJS' ) );
 
 					break;
 
@@ -861,7 +862,9 @@ class cnMetabox_Render {
 
 					self::$quickTagIDs[] = esc_attr( $field['id'] );
 
+					wp_enqueue_script('jquery');
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
+					add_action( 'wp_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
 
 					break;
 
@@ -912,7 +915,9 @@ class cnMetabox_Render {
 
 						self::$quickTagIDs[] = esc_attr( $field['id'] );
 
+						wp_enqueue_script('jquery');
 						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
+						add_action( 'wp_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
 					}
 
 					break;

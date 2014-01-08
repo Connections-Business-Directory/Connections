@@ -93,9 +93,6 @@ class cnMetaboxAPI {
 	 */
 	public static function add( array $metabox ) {
 
-		// Bail if doing an AJAX request.
-		// if ( defined('DOING_AJAX') && DOING_AJAX ) return;
-
 		/*
 		 * Interestingly if either 'submitdiv' or 'linksubmitdiv' is used as
 		 * the 'id' in the add_meta_box function it will show up as a metabox
@@ -108,7 +105,11 @@ class cnMetaboxAPI {
 			// Grab an instance of Connections.
 			$instance = Connections_Directory();
 
-			$metabox['pages'] = empty( $metabox['pages'] ) ? array( $instance->pageHook->add, $instance->pageHook->manage ) : $metabox['pages'];
+			// Define the core pages and use them by default if no page where defined.
+			// Check if doing AJAX because the page hooks are not defined when doing an AJAX request which cause undefined property errors.
+			$pages = defined('DOING_AJAX') && DOING_AJAX ? array() : array( $instance->pageHook->add, $instance->pageHook->manage );
+
+			$metabox['pages'] = empty( $metabox['pages'] ) ? $pages : $metabox['pages'];
 
 		} else {
 

@@ -88,6 +88,19 @@ class cnMetaboxAPI {
 	/**
 	 * Public method to add metaboxes.
 	 *
+	 * Accepted option for the $atts property are:
+	 * 	id (string) The metabox ID. This value MUST be unique.
+	 * 	title (string) The metabox title that is presented.
+	 * 	callback (mixed) string | array [optional] The function name or class method to be used for custom metabox output.
+	 * 	page_hook (string) string The admin page hooks the metabox is to be rendered on.
+	 * 	context (string) [optional] The part of the admin page the metabox should be rendered. Valid options: 'normal', 'advanced', or 'side'. NOTE: note used on the frontend.
+	 * 	priority (string) [optional] The priority within the context the metabox should be rendered. Valid options: 'high', 'core', 'default' or 'low'. NOTE: note used on the frontend.
+	 * 	section (array) [optional] An array of sections and its fields to be to be rendered. NOTE: If sections are not required, use the fields option.
+	 * 		name (string) The section name that is presented.
+	 * 		desc (string) The description of the section that is presented.
+	 * 		fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
+	 * 	fields (array) The fields to be rendered. NOTE: Valid field options, @see cnMetabox_Render::fields().
+	 *
 	 * @access public
 	 * @since 0.8
 	 * @param array $metabox
@@ -371,7 +384,7 @@ class cnMetabox_Render {
 	 * @since 0.8
 	 * @uses add_meta_box()
 	 * @param string $pageHook The page hood / post type in which to add the metabox.
-	 * @param array  $metabox  The array of metaboxes to add.
+	 * @param array  $metabox  The array of metaboxes to add. NOTE: Valid field options, @see cnMetaboxAPI::add().
 	 *
 	 * @return void
 	 */
@@ -413,6 +426,11 @@ class cnMetabox_Render {
 	/**
 	 * Use to render the registered metaboxes on the frontend.
 	 * NOTE: To render the metaboxes on an admin page use do_meta_boxes().
+	 *
+	 * Accepted option for the $atts property are:
+	 * 	id (array) The metabox ID to render.
+	 * 	order (array) An indexed array of metabox IDs that should be rendered in the order in the array.
+	 * 	exclude (array) An indexed array of metabox IDs that should be excluded from being rendered.
 	 *
 	 * @access public
 	 * @since 0.8
@@ -552,10 +570,41 @@ class cnMetabox_Render {
 	/**
 	 * Render the fields registered to the metabox.
 	 *
+	 * The $fields preperty is an indexed array of fields and their properties.
+	 * Accepted option for are:
+	 * 	id (string) The field ID. This value MUST be unique.
+	 * 	desc (string) [optional] The field description.
+	 * 	type (string) The type of field which should be registered. This can be any of the supported field types or a custom field type.
+	 * 		Core supported field types are:
+	 * 			checkbox
+	 * 			checkboxgroup
+	 * 			radio
+	 * 			radio_inline
+	 * 			select
+	 * 			text (input)
+	 * 			textarea
+	 * 			datepicker
+	 * 			slider
+	 * 			quicktag
+	 * 			rte
+	 * 	value (mixed) string | array [optional] The function name or class method to be used retrieve a value for the field.
+	 * 	size (string) [optional] The size if the text input and textarea field types.
+	 * 		NOTE: Only used for the `text` field type. Valid options: small', 'regular' or 'large'
+	 * 		NOTE: Only used for the `textarea` field type. Valid options: small' or 'large'
+	 * 	options (mixed) string | array [optional] Valid value depend on the field type being rendered.
+	 * 		Field type / valid value for options
+	 * 			checkboxgroup (array) An associative array where the key is the checkbox value and the value is the checkbox label.
+	 * 			radio / radio_inline (array) An associative array where the key is the radio value and the value is the radio label.
+	 * 			select (array) An associative array where the key is the option value and the value is the option name.
+	 * 			slider (array) The slider options.
+	 * 				min (int) The minimum slider step.
+	 * 				max (int) The maximim slider step.
+	 * 				step (int) The step the slider steps at.
+	 *
 	 * @access private
 	 * @since 0.8
 	 * @global $wp_version
-	 * @param $fields	array 	Render the metabox section fields.
+	 * @param $fields	array 	An indexed array of fields to render..
 	 *
 	 * @return string
 	 */
@@ -568,7 +617,7 @@ class cnMetabox_Render {
 
 		foreach ( $fields as $field ) {
 
-			// If the meta field has a specific method defined call the method  and set the field value.
+			// If the meta field has a specific method defined call the method and set the field value.
 			// Otherwise, assume pulling from the meta table of the supplied object.
 			if ( isset( $field['value'] ) && ! empty( $field['value'] ) ) {
 
@@ -1132,7 +1181,8 @@ class cnMetabox_Process {
 	 * and save or update the meta data according to the current
 	 * action being performed.
 	 *
-	 *
+	 * @access private
+	 * @since 0.8
 	 * @param  string $action The action being performed.
 	 * @param  int    $id     The object ID.
 	 *
@@ -1163,7 +1213,8 @@ class cnMetabox_Process {
 	 * Save and or update the objects meta data
 	 * based on the action being performed to the object.
 	 *
-	 *
+	 * @access private
+	 * @since 0.8
 	 * @param  string $action The action being performed.
 	 * @param  int    $id     The object ID.
 	 * @param  array  $fields An array of the registered fields to save and or update.

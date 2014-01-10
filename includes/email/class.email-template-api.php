@@ -282,7 +282,7 @@ class cnEmail_Template {
 	 * @since 0.7.8
 	 * @return (string)
 	 */
-	private static function beforeBody( $content ) {
+	private static function beforeBody() {
 
 		ob_start();
 
@@ -310,7 +310,7 @@ class cnEmail_Template {
 	 * @since 0.7.8
 	 * @return (string)
 	 */
-	private static function afterBody( $content ) {
+	private static function afterBody() {
 
 		ob_start();
 

@@ -341,7 +341,7 @@ class cnAdminActions {
 					foreach ( $_POST['newmeta'] as $row ) {
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
 						$newmeta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
@@ -349,7 +349,7 @@ class cnAdminActions {
 
 				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
 
-					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );
@@ -364,7 +364,7 @@ class cnAdminActions {
 					foreach ( $_POST['meta'] as $row ) {
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
 						// Add the meta except for thos that the user delted for this entry.
 						if ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) $meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
@@ -377,7 +377,7 @@ class cnAdminActions {
 					foreach ( $_POST['newmeta'] as $row ) {
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
@@ -387,7 +387,7 @@ class cnAdminActions {
 
 				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
 
-					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}
 
 				$metaIDs['added'] = array_merge( $meta, $newmeta, $metaSelect );
@@ -399,6 +399,14 @@ class cnAdminActions {
 				// Query the meta associated to the entry.
 				$results = cnMeta::get( 'entry', $id );
 
+				if ( $results === FALSE ) return array();
+
+				// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
+				foreach ( $results as $metaID => $row ) {
+
+					if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $metaID ] );
+				}
+
 				// Loop thru the associated meta and update any that may have been changed.
 				// If the meta id doesn't exist in the $_POST data, assume the user deleted it.
 				foreach ( $results as $metaID => $row ) {
@@ -409,7 +417,7 @@ class cnAdminActions {
 						 ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) ) {
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
 						cnMeta::update( 'entry', $id, $_POST['meta'][ $metaID ]['key'], $_POST['meta'][ $metaID ]['value'], $row['meta_value'], $row['meta_key'], $metaID );
 
@@ -432,7 +440,7 @@ class cnAdminActions {
 					foreach ( $_POST['newmeta'] as $row ) {
 
 						// If the key begins with an underscore, remove it because those are private.
-						if ( cnMeta::isPrivate( $row['key'] ) ) $row['key'] = substr( $row['key'], 1 );
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
 						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
@@ -442,7 +450,7 @@ class cnAdminActions {
 
 				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
 
-					$metaSelect = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
 				}
 
 				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );

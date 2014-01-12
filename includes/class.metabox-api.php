@@ -3,6 +3,14 @@
 /**
  * Class registering the metaboxes for add/edit an entry.
  *
+ * @package     Connections
+ * @subpackage  Metabox API
+ * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.8
+ *
+ * @see cnMetaboxAPI::add()
+ * @see cnMetabox_Render::fields()
  * <code>
  * add_action( 'cn_metabox', 'cnCustomMetaboxFieldDemo', 10, 1 );
  *
@@ -71,11 +79,6 @@
  * }
  * </code>
  *
- * @package     Connections
- * @subpackage  Metabox API
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.8
  */
 
 // Exit if accessed directly

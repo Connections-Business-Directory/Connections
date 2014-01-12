@@ -675,7 +675,15 @@ class cnRetrieve {
 
 				// If one of the order fields is an address region add the INNER JOIN to the CN_ENTRY_ADDRESS_TABLE
 				if ( $field[0] == 'city' || $field[0] == 'state' || $field[0] == 'zipcode' || $field[0] == 'country' ) {
+
 					if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+				}
+
+				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp so it is properly ordered,
+				// otherwise it is sorted as a string which can give some very odd results compared to what is expected.
+				if ( $field[0] == 'anniversary' || $field[0] == 'birthday' ) {
+
+					$field[0] = 'FROM_UNIXTIME( ' . $field[0] . ' )';
 				}
 
 				// Check to see if an order flag was set and is a valid order flag.
@@ -685,54 +693,59 @@ class cnRetrieve {
 
 					// If a user included a sort flag that is invalid/mis-spelled it is skipped since it can not be used.
 					if ( array_key_exists( $field[1] , $orderFlags ) ) {
+
 						/*
-								 * The SPECIFIED and RANDOM order flags are special use and should only be used with the id sort field.
-								 * Set the default sort flag if it was use on any other sort field than id.
-								 */
+						 * The SPECIFIED and RANDOM order flags are special use and should only be used with the id sort field.
+						 * Set the default sort flag if it was use on any other sort field than id.
+						 */
 						if ( ( $orderFlags[$field[1]] == 'SPECIFIED' || $orderFlags[$field[1]] == 'RANDOM' ) && $field[0] != 'id' ) $field[1] = 'SORT_ASC';
 
 						switch ( $orderFlags[$field[1]] ) {
-							/*
-									 * Order the results based on the order of the supplied entry IDs
-									 */
-						case 'SPECIFIED':
-							if ( ! empty( $atts['id'] ) ) {
-								$orderBy = array( 'FIELD( id, ' . implode( ', ', (array) $atts['id'] ) . ' )' );
-							}
-							break;
 
 							/*
-									 * Randomize the order of the results.
-									 */
-						case 'RANDOM':
-							/*
-										 * Unfortunately this doesn't work when the joins for categories are added to the query.
-										 * Keep this around to see if it can be made to work.
-										 */
-							/*$from = array('(SELECT id FROM wp_connections WHERE 1=1 ORDER BY RAND() ) AS cn_random');
-										$join[] = 'JOIN ' . CN_ENTRY_TABLE . ' ON (' . CN_ENTRY_TABLE . '.id = cn_random.id)';*/
+							 * Order the results based on the order of the supplied entry IDs
+							 */
+							case 'SPECIFIED':
 
-							/*
-										 * @TODO: This seems fast enough, better profiling will need to be done.
-										 * @TODO: The session ID can be used as the seed for RAND() to support randomized paginated results.
-										 */
-							$select[] = CN_ENTRY_TABLE . '.id*0+RAND() AS random';
-							$orderBy = array( 'random' );
-							break;
+								if ( ! empty( $atts['id'] ) ) {
+									$orderBy = array( 'FIELD( id, ' . implode( ', ', (array) $atts['id'] ) . ' )' );
+								}
+								break;
 
-							/*
-									 * Return the results in ASC or DESC order.
-									 */
-						default:
-							$orderBy[] = $field[0] . ' ' . $orderFlags[$field[1]];
-							break;
+								/*
+								 * Randomize the order of the results.
+								 */
+							case 'RANDOM':
+								/*
+								 * Unfortunately this doesn't work when the joins for categories are added to the query.
+								 * Keep this around to see if it can be made to work.
+								 */
+								/*$from = array('(SELECT id FROM wp_connections WHERE 1=1 ORDER BY RAND() ) AS cn_random');
+								$join[] = 'JOIN ' . CN_ENTRY_TABLE . ' ON (' . CN_ENTRY_TABLE . '.id = cn_random.id)';*/
+
+								/*
+								 * @TODO: This seems fast enough, better profiling will need to be done.
+								 * @TODO: The session ID can be used as the seed for RAND() to support randomized paginated results.
+								 */
+								$select[] = CN_ENTRY_TABLE . '.id*0+RAND() AS random';
+								$orderBy = array( 'random' );
+								break;
+
+								/*
+								 * Return the results in ASC or DESC order.
+								 */
+							default:
+								$orderBy[] = $field[0] . ' ' . $orderFlags[$field[1]];
+								break;
 						}
-					}
-					else {
+
+					} else {
+
 						$orderBy[] = $field[0];
 					}
-				}
-				else {
+
+				} else {
+
 					$orderBy[] = $field[0];
 				}
 			}

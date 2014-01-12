@@ -303,11 +303,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// The class for managing metaboxes.
 			// Must require BEFORE class.functions.php.
-			require_once CN_PATH . 'includes/admin/class.metabox-api.php';
+			require_once CN_PATH . 'includes/class.metabox-api.php';
 
 			// The class for registering the core metaboxes and fields for the add/edit entry admin pages.
 			// Must require AFTER class.metabox-api.php.
-			require_once CN_PATH . 'includes/admin/class.metabox-entry.php';
+			require_once CN_PATH . 'includes/class.metabox-entry.php';
 
 			/*
 			 * Entry classes. // --> START <-- \\

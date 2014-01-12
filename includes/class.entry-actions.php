@@ -546,7 +546,7 @@ class cnEntry_Action {
 			//$geocode = new cnGeo();
 			$result = cnGeo::address( $address );
 
-			if ( ! empty( $result ) ) {
+			if ( ! empty( $result ) && isset( $result->latitude ) && isset( $result->longitude ) ) {
 
 				$address['latitude']  = $result->latitude;
 				$address['longitude'] = $result->longitude;

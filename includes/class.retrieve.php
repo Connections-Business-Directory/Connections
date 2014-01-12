@@ -679,8 +679,8 @@ class cnRetrieve {
 					if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
 				}
 
-				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp so it is properly ordered,
-				// otherwise it is sorted as a string which can give some very odd results compared to what is expected.
+				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp so it is properly ordered.
+				// Otherwise, it is sorted as a string which can give some very odd results compared to what is expected.
 				if ( $field[0] == 'anniversary' || $field[0] == 'birthday' ) {
 
 					$field[0] = 'FROM_UNIXTIME( ' . $field[0] . ' )';

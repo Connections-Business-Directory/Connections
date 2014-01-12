@@ -3,6 +3,74 @@
 /**
  * Class registering the metaboxes for add/edit an entry.
  *
+ * <code>
+ * add_action( 'cn_metabox', 'cnCustomMetaboxFieldDemo', 10, 1 );
+ *
+ * function cnCustomMetaboxFieldDemo( $metabox ) {
+ *
+ * 	$prefix = 'cn-demo-';
+ *
+ * 	$metabox = array(
+ * 		'id'         => 'test_metabox_one',
+ * 		'title'      => 'Metabox One',
+ * 		'context'    => 'normal',
+ * 		'priority'   => 'core',
+ * 		'sections'   => array(
+ * 			array(
+ * 				'name'       => 'Section One',
+ * 				'desc'       => 'The custom metabox / field API supports adding multiple sections to a metabox.',
+ * 				'fields'     => array(
+ * 					array(
+ * 						'name'       => 'Test Text - SMALL',
+ * 						'show_label' => TRUE, // Show field label
+ * 						'desc'       => 'field description',
+ * 						'id'         => $prefix . 'test_text_small',
+ * 						'type'       => 'text',
+ * 						'size'       => 'small',
+ * 					),
+ * 					array(
+ * 						'name'       => 'Test Text - REGULAR',
+ * 						'show_label' => FALSE, // Show field label
+ * 						'desc'       => 'field description',
+ * 						'id'         => $prefix . 'test_text_regular',
+ * 						'type'       => 'text',
+ * 						'size'       => 'regular',
+ * 					),
+ * 				),
+ * 			),
+ * 			array(
+ * 				'name' => 'Section Two',
+ * 				'desc'       => 'The custom metabox / field API supports text input fields with multiple sizes that match WordPress core.',
+ * 				'fields' => array(
+ * 					array(
+ * 						'name'       => 'Checkbox',
+ * 						'show_label' => TRUE, // Show field label
+ * 						'desc'       => 'field description',
+ * 						'id'         => 'checkbox_test',
+ * 						'type'       => 'checkbox',
+ * 					),
+ * 					array(
+ * 						'name'       => 'Checkbox Group',
+ * 						'show_label' => TRUE, // Show field label
+ * 						'desc'       => 'field description',
+ * 						'id'         => 'checkboxgroup_test',
+ * 						'type'       => 'checkboxgroup',
+ * 						'options'    => array(
+ * 								'option_one'   => 'Option One',
+ * 								'option_two'   => 'Option Two',
+ * 								'option_three' => 'Option Three',
+ * 							),
+ * 					),
+ * 				),
+ * 			),
+ * 		),
+ * 	);
+ *
+ * 	$metabox::add( $metabox );
+ *
+ * }
+ * </code>
+ *
  * @package     Connections
  * @subpackage  Metabox API
  * @copyright   Copyright (c) 2013, Steven A. Zahm
@@ -455,34 +523,27 @@ class cnMetabox_Render {
 			// array_multisort( $atts['order'], self::$metaboxes );
 		}
 
-		// echo '<div id="cn-form-container">' . "\n";
 
-		// echo '<div id="cn-form-ajax-response"><ul></ul></div>' . "\n";
+		foreach ( self::$metaboxes as $id => $metabox ) {
 
-			// echo '<form id="cn-form" method="POST" enctype="multipart/form-data">' . "\n";
+			// Exclude the metaboxes that have been requested to exclude.
+			if ( in_array( $id, $atts['exclude'] ) ) continue;
 
-			foreach ( self::$metaboxes as $id => $metabox ) {
+			$box = new cnMetabox_Render();
 
-				// Exclude the metaboxes that have been requested to exclude.
-				if ( in_array( $id, $atts['exclude'] ) ) continue;
+			echo '<div id="cn-' . $metabox['id'] . '" class="postbox">';
+				echo '<h3 class="hndle"><span>' . $metabox['title'] . '</span></h3>';
+				echo '<div class="cnf-inside">';
+					echo '<div class="form-field">';
 
-				$box = new cnMetabox_Render();
+					call_user_func( $metabox['callback'], $object, $metabox );
 
-				echo '<div id="cn-' . $metabox['id'] . '" class="postbox">';
-					echo '<h3 class="hndle"><span>' . $metabox['title'] . '</span></h3>';
-					echo '<div class="cnf-inside">';
-						echo '<div class="form-field">';
-
-						call_user_func( $metabox['callback'], $object, $metabox );
-
-						echo '</div>';
-					echo '<div class="cn-clear"></div>';
 					echo '</div>';
+				echo '<div class="cn-clear"></div>';
 				echo '</div>';
-			}
+			echo '</div>';
+		}
 
-			// echo '</form>';
-		// echo '</div>';
 	}
 
 	/**

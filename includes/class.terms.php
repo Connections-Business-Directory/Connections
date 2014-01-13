@@ -46,7 +46,15 @@ class cnTerms
 		// If the term query has alread been run and the parent/child relationship built, return the stored version rather than quering/building again and again.
 		if ( ! empty( $this->terms ) ) return $this->terms;
 
-		$query = "SELECT t.*, tt.* from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('$taxonomies') ORDER BY name";
+		$query = "SELECT t.*, tt.* from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('$taxonomies')";
+
+		if(isset($arguments['order'])){
+			$query .='  ORDER BY '.$arguments['order'];
+		}else{
+			$query .='  ORDER BY name';
+		}
+
+
 
 		$terms = $wpdb->get_results($query);
 		//print_r($terms);

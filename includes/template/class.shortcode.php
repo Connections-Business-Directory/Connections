@@ -31,6 +31,7 @@ class shortcode {
 		$shortcodes = array(
 			'connections'=> array('dis'=>__('Connections')),
 			'connections_list'=> array('dis'=>__('Connections')),//for backwards
+			
 			'attr'=> array('dis'=>__('Attributes at time of running')),
 			'cards'=> array('dis'=>__('Cards')),
 			'header'=> array('dis'=>__('Header')),
@@ -81,10 +82,8 @@ class shortcode {
 	}
 
 
-
-	public static function get_section_template($template='list'){
-		//would be pulled from a reg
-		$registered_codes = array(
+	public static function get_default_templates(){
+		return array(
 			'list' => array( 'tmp'=>'
 						<div class="cn-list" id="cn-list" data-connections-version="[version]-[dbversion]"  style="[attr key="list-style"]" >
 							<div class="cn-template cn-[tmp_slug]" id="cn-[tmp_slug]" data-template-version="[tmp_version]">
@@ -113,6 +112,21 @@ class shortcode {
 				[entry_end]
 			' )
 		);
+	}
+
+	public static function get_section_template($template='list'){
+		//would be pulled from a reg
+		$registered_codes = shortcode::get_default_templates();
+
+		//pulls from template -- this would be from the wsu-cbn template which needs no interference
+		$template_registered_codes =array(
+			'list'	=> array( 'tmp' => '[cards]' ),
+			'cards'	=> array( 'tmp' => '[content]' ),
+			'card'	=> array( 'tmp' => '[card]')
+		);
+		
+		$registered_codes = array_merge($registered_codes,$template_registered_codes);
+		
 		if (isset( $registered_codes[$template] ) ) return $registered_codes[$template]['tmp'];
 		return array();
 	}
@@ -123,16 +137,16 @@ class shortcode {
 		$registered_codes = array(
 			'list' => array(
 					'cards','header','footer',
-					'attr','verision','dbversion','return_to_target','tmp_slug','tmp_version'//core stuff
+					'attr','version','dbversion','return_to_target','tmp_slug','tmp_version'//core stuff
 				),
 			'cards' => array(
 					'content',
-					'attr','verision','dbversion','return_to_target','tmp_slug','tmp_version'//core stuff
+					'attr','version','dbversion','return_to_target','tmp_slug','tmp_version'//core stuff
 			),
 			'card' => array(
 					'entry_end','entry_start','entry_before','entry_after',
 					'card','alternate','entry_type','entry_CategoryClass','entry_slug','a_z_index',
-					'attr','verision','dbversion','return_to_target','tmp_slug','tmp_version'//core stuff
+					'attr','version','dbversion','return_to_target','tmp_slug','tmp_version'//core stuff
 			)
 				
 		);
@@ -287,9 +301,9 @@ class shortcode {
     */
     public function cards_func() {
         global $card;
-		$atts = shortcode::$atts;
-		$template = shortcode::$template;
-		$cards = shortcode::$cards;
+		$template	= shortcode::$template;
+		$atts		= shortcode::$atts;
+		$cards		= shortcode::$cards;
 		
 		//var_dump($atts);
 		$html="";
@@ -336,9 +350,8 @@ class shortcode {
     * Return loop html
     */
     public function content_func() {
-
-		$atts = shortcode::$atts;
-		$template = shortcode::$template;
+		$template	= shortcode::$template;
+		$atts		= shortcode::$atts;
 		$previousLetter = shortcode::$previousLetter;
 		
 		
@@ -372,11 +385,10 @@ class shortcode {
     }
 
 	public function card_func(){
-		$entry=shortcode::$entry;
-		$atts = shortcode::$atts;
-		$template = shortcode::$template;	
-		
-		$out="";
+		$entry		= shortcode::$entry;
+		$template	= shortcode::$template;
+		$atts		= shortcode::$atts;
+		$html="";
 		
 		ob_start();
 			if ( get_query_var( 'cn-entry-slug' ) && has_action( 'cn_action_card_single-' . $template->getSlug() ) ) {
@@ -384,58 +396,58 @@ class shortcode {
 			} else {
 				do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
 			}
-			$out .= ob_get_contents();
+			$html .= ob_get_contents();
 		ob_end_clean();
 		
-		return $out;
+		return $html;
 	}
 
 	public function a_z_index_func(){
-		$entry=shortcode::$entry;
-		$atts = shortcode::$atts;
-		$template = shortcode::$template;	
-		$out="";
+		$entry		= shortcode::$entry;
+		$template	= shortcode::$template;
+		$atts		= shortcode::$atts;
+		$html="";
 		
 		$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 		if ( $currentLetter != shortcode::$previousLetter ) {
 			$out .= sprintf( '<div class="cn-list-section-head cn-clear" id="cn-char-%1$s">', $currentLetter );
 				if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) $out .= $charIndex;
 				if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
-			$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
+			$html .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
 			shortcode::$previousLetter = $currentLetter;
 		}	
 		
-		return $out;
+		return $html;
 	}
 	
 	public function entry_before_func(){
-		$entry=shortcode::$entry;
-		$template = shortcode::$template;	
-		$out="";
+		$entry		= shortcode::$entry;
+		$template	= shortcode::$template;
+		$html="";
 
-		$out .= apply_filters( 'cn_list_entry_before' , '' , $entry );
-		$out .= apply_filters( 'cn_list_entry_before-' . $template->getSlug() , '' , $entry );
+		$html .= apply_filters( 'cn_list_entry_before' , '' , $entry );
+		$html .= apply_filters( 'cn_list_entry_before-' . $template->getSlug() , '' , $entry );
 		shortcode::$filterRegistry[] = 'cn_list_entry_before-' . $template->getSlug();
 
-		return $out;
+		return $html;
 	}
 		
 	public function entry_after_func(){
-		$entry=shortcode::$entry;
-		$template = shortcode::$template;	
-		$out="";
+		$entry		= shortcode::$entry;
+		$template	= shortcode::$template;
+		$html="";
 
-		$out .= apply_filters( 'cn_list_entry_after' , '' , $entry );
-		$out .= apply_filters( 'cn_list_entry_after-' . $template->getSlug() , '' , $entry );
+		$html .= apply_filters( 'cn_list_entry_after' , '' , $entry );
+		$html .= apply_filters( 'cn_list_entry_after-' . $template->getSlug() , '' , $entry );
 		shortcode::$filterRegistry[] = 'cn_list_entry_after-' . $template->getSlug();
 
-		return $out;
+		return $html;
 	}	
 	
 	public function entry_end_func(){
-		$entry=shortcode::$entry;
-		$atts = shortcode::$atts;
-		$template = shortcode::$template;	
+		$entry		= shortcode::$entry;
+		$atts		= shortcode::$atts;
+		$template	= shortcode::$template;
 		$out="";
 
 		// After entry actions.
@@ -537,9 +549,9 @@ class shortcode {
 	 * @return (string)
 	 */
 	public function header_func(){
-		$cards=shortcode::$cards;
-		$atts = shortcode::$atts;
-		$template = shortcode::$template;
+		$cards		= shortcode::$cards;
+		$atts		= shortcode::$atts;
+		$template	= shortcode::$template;
 		
 		$out="";
 		// Display the List Actions.
@@ -585,15 +597,15 @@ class shortcode {
 	}
 	
 	public function tmp_slug_func(){
-		$tmp_slug = shortcode::$template->getSlug();
+		$tmp_slug	= shortcode::$template->getSlug();
 		return $tmp_slug;
 	}
 	public function tmp_version_func(){
-		$tmp_version = shortcode::$template->getVersion();
+		$tmp_version	= shortcode::$template->getVersion();
 		return $tmp_version;
 	}
 	public function return_to_target_func(){
-		$atts = shortcode::$atts;
+		$atts		= shortcode::$atts;
 		ob_start();
 			// The return to top anchor
 			do_action( 'cn_action_return_to_target', $atts );
@@ -605,12 +617,12 @@ class shortcode {
 	
 	public function verision_func(){
 		global $connections;
-		$version = $connections->options->getVersion();
+		$version	= $connections->options->getVersion();
 		return $version;
 	}
 	public function dbversion_func(){
 		global $connections;
-		$dbversion = $connections->options->getDBVersion();
+		$dbversion	= $connections->options->getDBVersion();
 		return $dbversion;
 	}
 
@@ -619,7 +631,7 @@ class shortcode {
 		return shortcode::$alternate;
 	}
 	public function entry_type_func(){
-		$entry_type = shortcode::$entry->getEntryType();
+		$entry_type	= shortcode::$entry->getEntryType();
 		return $entry_type;
 	}
 	public function entry_CategoryClass_func(){
@@ -627,11 +639,11 @@ class shortcode {
 		return $entry_CategoryClass;
 	}
 	public function entry_slug_func(){
-		$entry_slug = shortcode::$entry->getSlug();
+		$entry_slug	= shortcode::$entry->getSlug();
 		return $entry_slug;
 	}
 	public function attr_func($attrs){
-		$atts = shortcode::$atts;
+		$atts		= shortcode::$atts;
 		extract(shortcode_atts(array(
 				'key'=>'-fail-'
 			), $atts));

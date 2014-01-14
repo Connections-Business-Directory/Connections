@@ -201,10 +201,14 @@ class cnMetaboxAPI {
 		} else {
 
 			$metabox['pages'] = 'public';
+			$metabox['args']  = $metabox;
 		}
 
 		$metabox['context']  = empty( $metabox['context'] ) ? 'normal' : $metabox['context'];
 		$metabox['priority'] = empty( $metabox['priority'] ) ? 'default' : $metabox['priority'];
+
+		// Use the core metabox API to render the metabox unless the metabox was registered with a custom callback to be used to render the metabox.
+		$metabox['callback'] = isset( $metabox['callback'] ) && ! empty( $metabox['callback'] ) ? $metabox['callback'] : array( new cnMetabox_Render(), 'render' );
 
 		self::$metaboxes[ $metabox['id'] ] = $metabox;
 	}
@@ -267,8 +271,8 @@ class cnMetaboxAPI {
 		// even if this API is not loaded; for example in the frontend to check if a field ID
 		// is private so it will not be rendered.
 		//
-		// NOTE: All fields registered via this API are considered private. The expectation is
-		// an action will be called to render the metadata.
+		// NOTE: All fields registered via this API are considered private.
+		// The expectation is an action will be called to render the metadata.
 		// Do not update table when doing an AJAX request.
 		if ( ! defined('DOING_AJAX') /*&& ! DOING_AJAX*/ ) update_option( 'connections_metaboxes', self::$metaboxes );
 
@@ -465,14 +469,14 @@ class cnMetabox_Render {
 		if ( empty( $pageHook ) || empty( $metabox ) ) return;
 
 		// Use the core metabox API to render the metabox unless the metabox was registered with a custom callback to be used to render the metabox.
-		$callback = isset( $metabox['callback'] ) && ! empty( $metabox['callback'] ) ? $metabox['callback'] : array( new cnMetabox_Render(), 'render' );
+		// $callback = isset( $metabox['callback'] ) && ! empty( $metabox['callback'] ) ? $metabox['callback'] : array( new cnMetabox_Render(), 'render' );
 
 		if ( is_admin() ) {
 
 			add_meta_box(
 				$metabox['id'],
 				$metabox['title'],
-				$callback,
+				$metabox['callback'],
 				$pageHook,
 				$metabox['context'],
 				$metabox['priority'],
@@ -484,7 +488,7 @@ class cnMetabox_Render {
 			self::$metaboxes[ $metabox['id'] ] = array(
 				'id'        => $metabox['id'],
 				'title'     => $metabox['title'],
-				'callback'  => $callback,
+				'callback'  => $metabox['callback'],
 				'page_hook' => $pageHook,
 				'context'   => $metabox['context'],
 				'priority'  => $metabox['priority'],
@@ -512,6 +516,8 @@ class cnMetabox_Render {
 	 */
 	public static function metaboxes( array $atts = array(), $object ) {
 
+		$metaboxes = array();
+
 		$defaults = array(
 			'id'      => '',
 			'order'   => array(),
@@ -520,28 +526,59 @@ class cnMetabox_Render {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// If the metabox order has been supplied, sort them as supplied.
-		if ( ! empty( $atts['order'] ) ) {
+		if ( ! empty( $atts['id'] ) ) {
 
-			// array_multisort( $atts['order'], self::$metaboxes );
+			$metaboxes[ $atts['id'] ] = cnMetaboxAPI::get( $atts['id'] );
+
+		} else if ( ! empty( $atts['order'] ) ) {
+
+			// If the metabox order has been supplied, sort them as supplied. Exclude is implied.
+			// Meaning, if a metabox ID is not supplied in $atts['order'], they will be excluded.
+			foreach ( $atts['order'] as $id ) {
+
+				$metaboxes[ $id ] = cnMetaboxAPI::get( $id );
+			}
+
+		} else {
+
+			$metaboxes = cnMetaboxAPI::get();
 		}
 
-
-		foreach ( self::$metaboxes as $id => $metabox ) {
+		foreach ( $metaboxes as $id => $metabox ) {
 
 			// Exclude the metaboxes that have been requested to exclude.
 			if ( in_array( $id, $atts['exclude'] ) ) continue;
 
-			$box = new cnMetabox_Render();
+			echo '<div id="cn-metabox-' . $metabox['id'] . '" class="cn-metabox">';
+				echo '<h3 class="cn-metabox-title">' . $metabox['title'] . '</h3>';
+				echo '<div class="cn-metabox-inside">';
 
-			echo '<div id="cn-' . $metabox['id'] . '" class="postbox">';
-				echo '<h3 class="hndle"><span>' . $metabox['title'] . '</span></h3>';
-				echo '<div class="cnf-inside">';
-					echo '<div class="form-field">';
+					if ( is_callable( $metabox['callback'] ) ) {
 
-					call_user_func( $metabox['callback'], $object, $metabox );
+						call_user_func( $metabox['callback'], $object, $metabox );
 
-					echo '</div>';
+					} else {
+
+						if ( is_string( $metabox['callback'] ) ) {
+
+							$callback = $metabox['callback'];
+
+						} else if ( is_array( $metabox['callback'] ) ) {
+
+							if ( is_object( $metabox['callback'][0] ) ) {
+
+								$callback = get_class( $metabox['callback'][0] ) . '::' . $metabox['callback'][1];
+
+							} else {
+
+								$callback = implode( '::', $metabox['callback'] );
+							}
+
+						}
+
+						echo '<p>' , __( sprintf( 'Invalid callback: %s', $callback ), 'connections' ) , '</p>';
+					}
+
 				echo '<div class="cn-clear"></div>';
 				echo '</div>';
 			echo '</div>';
@@ -581,7 +618,7 @@ class cnMetabox_Render {
 
 			echo '<div class="cn-metabox-section">';
 
-			echo '<table class="form-table cn-metabox"><tbody>';
+			echo '<table class="cn-metabox-table"><tbody>';
 
 				$this->fields( $fields );
 
@@ -620,7 +657,7 @@ class cnMetabox_Render {
 
 		if ( isset( $section['fields'] ) && ! empty( $section['fields'] ) ) {
 
-			echo '<table class="form-table cn-metabox"><tbody>';
+			echo '<table class="cn-metabox-table"><tbody>';
 
 				$this->fields( $section['fields'] );
 
@@ -676,8 +713,6 @@ class cnMetabox_Render {
 		global $wp_version;
 
 		// do_action( 'cn_metabox_table_before', $entry, $meta, $this->metabox );
-
-		// echo '<table class="form-table cn-metabox"><tbody>';
 
 		foreach ( $fields as $field ) {
 
@@ -1104,8 +1139,6 @@ class cnMetabox_Render {
 
 			echo '</td>' , '</tr>';
 		}
-
-		// echo '</tbody></table>';
 
 		// do_action( 'cn_metabox_table_after', $entry, $meta, $this->metabox );
 	}

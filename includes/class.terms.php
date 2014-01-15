@@ -96,7 +96,7 @@ class cnTerms
 			}
 			$query .= sprintf(' ORDER BY %s %s', $arguments['orderby'],$order);
 		}
-		var_dump($query);
+		//var_dump($query);
 		$terms = $wpdb->get_results($query);
 		//print_r($terms);
 		/*

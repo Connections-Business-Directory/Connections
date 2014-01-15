@@ -2549,10 +2549,10 @@ class cnRetrieve {
 	 *
 	 * @return object
 	 */
-	public function categories() {
+	public function categories($arg=NULL) {
 		global $connections;
 
-		return $connections->term->getTerms( 'category' );
+		return $connections->term->getTerms( 'category' , $arg );
 	}
 
 	/**

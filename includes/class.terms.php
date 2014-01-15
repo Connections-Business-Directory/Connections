@@ -43,11 +43,60 @@ class cnTerms
 	{
 		global $wpdb;
 
-		// If the term query has alread been run and the parent/child relationship built, return the stored version rather than quering/building again and again.
+
+		$args = array(
+			'orderby'       => 'name', //(string|array) 
+			'order'         => 'ASC', //(string|array) 
+			/*'hide_empty'    => true,  to work in as needed to match core WP
+			'exclude'       => array(), 
+			'exclude_tree'  => array(), 
+			'include'       => array(),
+			'number'        => '', 
+			'fields'        => 'all', 
+			'slug'          => '', 
+			'parent'         => '',
+			'hierarchical'  => true, 
+			'child_of'      => 0, 
+			'get'           => '', 
+			'name__like'    => '',
+			'pad_counts'    => false, 
+			'offset'        => '', 
+			'search'        => '', 
+			'cache_domain'  => 'core'*/
+		); 
+		$arguments = array_merge($args,$arguments);
+
+
+		// If the term query has alread been run and the parent/child relationship built, 
+		// return the stored version rather than quering/building again and again.
 		if ( ! empty( $this->terms ) ) return $this->terms;
 
-		$query = "SELECT t.*, tt.* from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('$taxonomies') ORDER BY name";
-
+		$query = "SELECT t.*, tt.* from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('$taxonomies')";
+		
+		//allows for both a array match on orderby and order and single string values
+		if(is_array($arguments['orderby'])){
+			$query .='  ORDER BY ';
+			$i=0;
+			foreach($arguments['orderby'] as $orderby){
+				if(is_array($arguments['order']) && isset($arguments['order'][$i])){
+					$order=$arguments['order'][$i]; // lines up with the first value in orderby
+				}else{
+					$order= is_array($arguments['order'])?$arguments['order'][0]:$arguments['order'];
+				}
+				$query .= sprintf(' '.($i>0?', ':' ').' %s %s', $arguments['orderby'][$i], $order);
+				$i++;
+			}
+		}else{
+			if(is_array($arguments['order'])){
+				// orderby was a string but for some odd reason an array 
+				//was passed for the order so we assume the  0 index
+				$order=$arguments['order'][0];
+			}else{
+				$order=$arguments['order'];
+			}
+			$query .= sprintf(' ORDER BY %s %s', $arguments['orderby'],$order);
+		}
+		//var_dump($query);
 		$terms = $wpdb->get_results($query);
 		//print_r($terms);
 		/*

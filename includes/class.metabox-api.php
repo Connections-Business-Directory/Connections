@@ -522,6 +522,7 @@ class cnMetabox_Render {
 			'id'      => '',
 			'order'   => array(),
 			'exclude' => array(),
+			'include' => array(),
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -547,7 +548,14 @@ class cnMetabox_Render {
 		foreach ( $metaboxes as $id => $metabox ) {
 
 			// Exclude the metaboxes that have been requested to exclude.
-			if ( in_array( $id, $atts['exclude'] ) ) continue;
+			if(!empty($atts['exclude'])){
+				if ( in_array( $id, $atts['exclude'] ) ) continue;
+			}else{
+				if(!empty($atts['include'])){
+					if ( !in_array( $id, $atts['include'] ) ) continue;
+				}
+			}
+
 
 			echo '<div id="cn-metabox-' . $metabox['id'] . '" class="cn-metabox">';
 				echo '<h3 class="cn-metabox-title">' . $metabox['title'] . '</h3>';

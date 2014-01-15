@@ -261,6 +261,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		'state'                 => NULL,
 		'zip_code'              => NULL,
 		'country'               => NULL,
+		'content'               => '',
 		'near_addr'             => NULL,
 		'latitude'              => NULL,
 		'longitude'             => NULL,

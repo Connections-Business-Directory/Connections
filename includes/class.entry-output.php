@@ -2371,6 +2371,42 @@ class cnOutput extends cnEntry
 	}
 
 	/**
+	 * Run the actions registered to custom content blocks.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  array  $hook [optional] The custom content block hook id(s) to render.
+	 * @param  array  $atts [optional] The shortcode $atts.
+	 *
+	 * @return string       The HTML output of the custom content blocks.
+	 */
+	public function getContentBlock( $hook = array(), $atts = array() ) {
+
+		// No hook, run the generic content block action
+		if ( empty( $hook ) ) do_action( 'cn_entry_output_content', $this, $atts );
+
+		// Convert the action hook to an array.
+		if ( is_string( $hook ) ) {
+
+			// If multiple content blocks have been supplied, convert to an array.
+			$hook = stripos( $hook, '|' ) !== FALSE ? explode( '|', $hook ) : array( $hook );
+
+			// Cleanup user input.
+			array_walk( $hook, 'trim' );
+			array_walk( $hook, 'strtolower' );
+		}
+
+		// Output the registered action in the order supplied by the user.
+		foreach ( $hook as $key ) {
+
+			$tag = "cn_entry_output_content-$key"
+
+			if ( has_action( $tag ) do_action( $tag, $this, $atts );
+		}
+
+	}
+
+	/**
 	 * Displays the category list for use in the class tag.
 	 *
 	 * @access public

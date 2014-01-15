@@ -2399,9 +2399,9 @@ class cnOutput extends cnEntry
 		// Output the registered action in the order supplied by the user.
 		foreach ( $hook as $key ) {
 
-			$tag = "cn_entry_output_content-$key"
+			$tag = "cn_entry_output_content-$key";
 
-			if ( has_action( $tag ) do_action( $tag, $this, $atts );
+			if ( has_action( $tag ) ) do_action( $tag, $this, $atts );
 		}
 
 	}

@@ -800,7 +800,7 @@ class cnMetabox_Render {
 						printf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
 							esc_attr( $field['id'] ),
 							esc_attr( $key ),
-							checked( TRUE , in_array( $key, (array) $value ) , FALSE )
+							checked( TRUE , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , FALSE )
 						);
 
 						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
@@ -1324,13 +1324,9 @@ class cnMetabox_Process {
 
 			if ( ! $id = absint( $id ) ) return FALSE;
 
-			// If the field is not in POST, bail.
-			// This will likely be a checkbox field which is not sent if not checked by the user.
-			if ( ! isset( $_POST[ $field['id'] ] ) ) return FALSE;
-
 			$value = $this->sanitize(
 				$field['type'],
-				$_POST[ $field['id'] ],
+				isset( $_POST[ $field['id'] ] ) ? $_POST[ $field['id'] ] : NULL,
 				isset( $field['options'] ) ? $field['options'] : array(),
 				isset( $field['default'] ) ? $field['default'] : NULL
 			);

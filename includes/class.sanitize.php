@@ -143,6 +143,8 @@ class cnSanitize {
 	 */
 	public static function options( $values, $options, $defaults = array() ) {
 
+		if ( empty( $values ) ) return;
+
 		// Let do a bit of array gymnastics...
 		// array_flip $values so the values are the keys.
 		// Use array_intersect_key to return only the values in $values from $options.

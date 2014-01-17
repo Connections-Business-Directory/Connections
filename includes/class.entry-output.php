@@ -2390,11 +2390,11 @@ class cnOutput extends cnEntry
 
 			// If multiple content blocks have been supplied, convert to an array.
 			$hook = stripos( $hook, '|' ) !== FALSE ? explode( '|', $hook ) : array( $hook );
-
-			// Cleanup user input.
-			array_walk( $hook, 'trim' );
-			array_walk( $hook, 'strtolower' );
 		}
+
+		// Cleanup user input.
+		array_walk( $hook, 'trim' );
+		array_walk( $hook, 'strtolower' );
 
 		// Output the registered action in the order supplied by the user.
 		foreach ( $hook as $key ) {

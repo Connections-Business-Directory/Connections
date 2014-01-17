@@ -2221,9 +2221,20 @@ class cnOutput extends cnEntry
 	 * and its fields. The actions should hook into `cn_meta_output_field-{key}`
 	 * to be displayed.
 	 *
+	 * Accepted option for the $atts property are:
+	 * 	key (string) The meta key to retreive.
+	 * 	single (bool) Whether or not to return a single value
+	 * 		if multiple values exists forthe supplied `key`.
+	 * 			NOTE: The `key` attribute must be supplied.
+	 * 			NOTE: If multiple values exist for a given `key` only first found will be returned.
+	 * 	shortcode_atts (array) If this is used within the shortcode template loop, the shortcode atts
+	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
+	 * 	template_object (array) If this is used within the shortcode template loop, the template object
+	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
+	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  array  $atts The attrubutes array.
+	 * @param  array  $atts The attributes array.
 	 *
 	 * @return string
 	 */
@@ -2251,7 +2262,6 @@ class cnOutput extends cnEntry
 		// NOTE: This should actually be done in cnEntry::getMeta and not here.
 		$defaults = array(
 			'key'             => '',
-			'value'           => '',
 			'single'          => FALSE,
 			'merge_keys'      => FALSE,
 			'shortcode_atts'  => array(),
@@ -2267,42 +2277,31 @@ class cnOutput extends cnEntry
 
 			if ( empty( $atts['key'] ) ) {
 
-				foreach ( $results as $metaID => $meta ) {
-
-					if ( $atts['display_custom'] && has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
-
-						do_action( 'cn_meta_output_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $atts['shortcode_atts'], $this, $atts['template_object'] );
-
-						unset( $results[ $metaID ] );
-
-					}
-				}
-
-				$this->renderMetablock( $results );
+				$metadata = $results;
 
 			} else {
 
+				// Rebuild the results array for consistency in for the output methods/actions.
+
 				$metadata = array();
 
-				// Rebuild the results array for consistency in for the output methods/actions.
 				foreach ( $results as $metaID => $value ) {
 
 					$metadata[ $metaID ] = array( 'meta_key' => $atts['key'], 'meta_value' => $value );
 				}
-
-				foreach ( $metadata as $metaID => $meta ) {
-
-					if ( $atts['display_custom'] && has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
-
-						do_action( 'cn_meta_output_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $atts['shortcode_atts'], $this, $atts['template_object'] );
-
-						unset( $metadata[ $metaID ] );
-					}
-				}
-
-				$this->renderMetablock( $metadata );
 			}
 
+			foreach ( $metadata as $metaID => $meta ) {
+
+				if ( $atts['display_custom'] && has_action( 'cn_meta_output_field-' . $meta['meta_key'] ) ) {
+
+					do_action( 'cn_meta_output_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $atts['shortcode_atts'], $this, $atts['template_object'] );
+
+					unset( $metadata[ $metaID ] );
+				}
+			}
+
+			$this->renderMetaBlock( $metadata );
 		}
 	}
 
@@ -2318,7 +2317,7 @@ class cnOutput extends cnEntry
 	 *
 	 * @return string
 	 */
-	private function renderMetablock( $metadata ) {
+	private function renderMetaBlock( $metadata ) {
 
 		$out = '';
 

@@ -507,7 +507,7 @@ class cnMetabox_Render {
 	 * 	order (array) An indexed array of metabox IDs that should be rendered in the order in the array.
 	 * 	exclude (array) An indexed array of metabox IDs that should be excluded from being rendered.
 	 * 	include (array) An indexed array of metabox IDs that should be rendered.
-	 * 		NOTE: Metabox IDs in `exclude` outweigh metabox IDs in include. Meanind if the same metsbox ID
+	 * 		NOTE: Metabox IDs in `exclude` outweigh metabox IDs in include. Meaning if the same metabox ID
 	 * 		exists in both, the metabox will be excluded.
 	 *
 	 * @access public

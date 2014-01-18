@@ -506,6 +506,9 @@ class cnMetabox_Render {
 	 * 	id (array) The metabox ID to render.
 	 * 	order (array) An indexed array of metabox IDs that should be rendered in the order in the array.
 	 * 	exclude (array) An indexed array of metabox IDs that should be excluded from being rendered.
+	 * 	include (array) An indexed array of metabox IDs that should be rendered.
+	 * 		NOTE: Metabox IDs in `exclude` outweigh metabox IDs in include. Meanind if the same metsbox ID
+	 * 		exists in both, the metabox will be excluded.
 	 *
 	 * @access public
 	 * @since 0.8
@@ -522,6 +525,7 @@ class cnMetabox_Render {
 			'id'      => '',
 			'order'   => array(),
 			'exclude' => array(),
+			'include' => array(),
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -546,8 +550,18 @@ class cnMetabox_Render {
 
 		foreach ( $metaboxes as $id => $metabox ) {
 
-			// Exclude the metaboxes that have been requested to exclude.
-			if ( in_array( $id, $atts['exclude'] ) ) continue;
+			// Exclude/Include the metaboxes that have been requested to exclude/include.
+			if( ! empty( $atts['exclude'] ) ) {
+
+				if ( in_array( $id, $atts['exclude'] ) ) continue;
+
+			} else {
+
+				if ( ! empty( $atts['include'] ) ) {
+
+					if ( ! in_array( $id, $atts['include'] ) ) continue;
+				}
+			}
 
 			echo '<div id="cn-metabox-' . $metabox['id'] . '" class="cn-metabox">';
 				echo '<h3 class="cn-metabox-title">' . $metabox['title'] . '</h3>';

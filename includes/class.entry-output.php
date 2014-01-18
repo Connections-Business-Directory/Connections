@@ -2399,10 +2399,10 @@ class cnOutput extends cnEntry
 	 * @uses wp_parse_args()
 	 * @uses apply_filters()
 	 * @uses has_action()
-	 * @param  array  $hook [optional] The custom content block hook id to render.
-	 * @param  array  $shortcode_atts If this is used within the shortcode template loop, the shortcode atts
+	 * @param  mixed  $atts array | string [optional] The custom content block(s) to render.
+	 * @param  array  $shortcode_atts [optional] If this is used within the shortcode template loop, the shortcode atts
 	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
-	 * @param  object $template If this is used within the shortcode template loop, the template object
+	 * @param  object $template [optional] If this is used within the shortcode template loop, the template object
 	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
 	 *
 	 * @return string The HTML output of the custom content blocks.

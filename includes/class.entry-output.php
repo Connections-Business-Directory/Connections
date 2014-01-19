@@ -2479,7 +2479,7 @@ class cnOutput extends cnEntry
 
 			$tag = "cn_entry_output_content-$key";
 
-			if ( has_action( $tag ) ) do_action( $tag, $this, $atts );
+			if ( has_action( $tag ) ) do_action( $tag, $this, $shortcode_atts, $template );
 		}
 
 	}

@@ -313,7 +313,7 @@ class cnHTML {
 	 *
 	 * @return string        The rendered field.
 	 */
-	private static function input( $atts, $value = '' ) {
+	public static function input( $atts, $value = '' ) {
 
 		$defaults = array(
 			'type'     => 'text',

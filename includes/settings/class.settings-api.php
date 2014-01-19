@@ -745,15 +745,18 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					// ref: http://stackoverflow.com/a/9098675
 					if ( isset( $value['order'] ) && ! empty( $value['order'] ) ) {
 
+						$order = array();
+
 						// Remove any content blocks that now longer exist.
 						$blocks = array_intersect_key( $field['options'], array_flip( $value['order'] ) );
+						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
 
 						// Order the array as the user has defined in $value['order'].
-						$blocks = array_merge( array_flip( $value['order'] ), $blocks );
+						$blocks = array_merge( array_flip( $order ), $blocks );
 
 					} else {
 
-						// No order was set or saved yet, so use the field options order.
+						// No order were set or saved yet, so use the field options order.
 						$blocks = $field['options'];
 					}
 

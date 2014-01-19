@@ -503,6 +503,21 @@ class cnRegisterSettings
 			'default'   => 0
 		);
 
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'content_block',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_single',
+			'title'     => '',
+			'desc'      => __( 'Display the following content blocks.', 'connections' ),
+			'help'      => '',
+			'type'      => 'sortable_checklist',
+			'options'   =>  apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) ),
+			'default'   => 0,
+		);
+
 		/*
 		 * The Images tab fields.
 		 */

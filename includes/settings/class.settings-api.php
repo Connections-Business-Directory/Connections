@@ -48,6 +48,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		private static $quickTagIDs = array();
 
 		/**
+		 * The array of all registered sortable IDs.
+		 * @var array
+		 */
+		private static $sortableIDs = array();
+
+		/**
 		 * Store the default values of registered settings.
 		 * Will be use to store the default values if they do not exist in the db.
 		 *
@@ -717,6 +723,88 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					$out .= wp_dropdown_pages( array( 'name' => $name, 'echo' => 0, 'show_option_none' => $field['show_option_none'], 'option_none_value' => $field['option_none_value'], 'selected' => $value ) );
 
 					break;
+
+				case 'sortable_checklist':
+
+					// This will be used to store the order of the content blocks.
+					$blocks = array();
+
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						$out .= sprintf( '<p class="description"> %1$s</p>',
+							esc_html( $field['desc'] )
+							);
+					}
+
+					$out .= sprintf( '<ul class="cn-sortable-checklist" id="%1$s">',
+						esc_attr( $name )
+						);
+
+					// Create the array to be used to render the output in the correct order.
+					// This will have to take into account content blocks being added and removed.
+					// ref: http://stackoverflow.com/a/9098675
+					if ( isset( $value['order'] ) && ! empty( $value['order'] ) ) {
+
+						// Remove any content blocks that now longer exist.
+						$blocks = array_intersect_key( $field['options'], array_flip( $value['order'] ) );
+
+						// Order the array as the user has defined in $value['order'].
+						$blocks = array_merge( array_flip( $value['order'] ), $blocks );
+
+					} else {
+
+						// No order was set or saved yet, so use the field options order.
+						$blocks = $field['options'];
+					}
+
+					foreach ( $blocks as $key => $label ) {
+
+						$checkbox = cnHTML::input(
+							array(
+								'type'    => 'checkbox',
+								'prefix'  => '',
+								'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+								'name'    => esc_attr( $name ) . '[active][]',
+								'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+								'label'   => $label,
+								'layout'  => '%field%%label%',
+								'return'  => TRUE,
+								),
+							$key
+							);
+
+						$hidden = cnHTML::input(
+							array(
+								'type'    => 'hidden',
+								'prefix'  => '',
+								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'    => esc_attr( $name ) . '[order][]',
+								'label'   => '',
+								'layout'  => '%field%',
+								'return'  => TRUE,
+								),
+							$key
+							);
+
+						$out .= sprintf( '<li value="%1$s"><div class="dashicons dashicons-sort"></div> %2$s%3$s</li>',
+							$key,
+							$hidden,
+							$checkbox
+							);
+					}
+
+					$out .= '</ul>';
+
+					// Add the list to the sortable IDs.
+					self::$sortableIDs[] = $name;
+
+					// Add the script to the admin footer.
+					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sortableJS' ) );
+
+					// Enqueue the jQuery UI Sortable Library.
+					wp_enqueue_script( 'jquery-ui-sortable' );
+
+					break;
 			}
 
 			echo $out;
@@ -736,6 +824,25 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			foreach ( self::$quickTagIDs as $id ) echo 'quicktags("' . $id . '");';
 
 		    echo '/* ]]> */</script>';
+		}
+
+		/**
+		 * Outputs the JS necessary to make a checkbox list sortable using the jQuery UI Sortable library.
+		 *
+		 * @access private
+		 * @since 0.8
+		 *
+		 * @return string
+		 */
+		public static function sortableJS() {
+
+			echo '<script type="text/javascript">/* <![CDATA[ */' . PHP_EOL;
+				echo 'jQuery(function($) {' . PHP_EOL;
+
+					foreach ( self::$sortableIDs as $id ) echo '$(\'[id="' . $id . '"]\').sortable();' . PHP_EOL;
+
+				echo '});' . PHP_EOL;
+			echo '/* ]]> */</script>';
 		}
 
 		/**

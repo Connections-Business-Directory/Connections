@@ -2376,10 +2376,7 @@ class cnOutput extends cnEntry
 	/**
 	 * Run the actions registered to custom content blocks.
 	 *
-	 * Calling this method without any attributes will run all actions registered to the
-	 * generic hook `cn_entry_output_content` and then exit. If attributes are supplied,
-	 * they will be processed accordingly to render any custom content blocks registered
-	 * to the `cn_entry_output_content-{id}` action hook.
+	 * Render any custom content blocks registered to the `cn_entry_output_content-{id}` action hook.
 	 *
 	 * This will also run any actions registered for a custom metaboxes and its fields.
 	 * The actions should hook into `cn_output_meta_field-{key}` to be rendered.
@@ -2409,20 +2406,16 @@ class cnOutput extends cnEntry
 	 */
 	public function getContentBlock( $atts = array(), $shortcode_atts = array(), $template = NULL ) {
 
-		// No atts, run the generic content block action
-		if ( empty( $atts ) ) {
-
-			do_action( 'cn_entry_output_content', $this, $shortcode_atts, $template );
-
-			// Since we're running just the generic action, no need to continue.
-			return;
-		}
+		$settings = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
+		$order    = isset( $settings['order'] ) ? $settings['order'] : array();
+		$include  = isset( $settings['active'] ) ? $settings['active'] : array();
+		$exclude  = empty( $include ) ? $order : array();
 
 		$defaults = array(
 			'id'      => '',
-			'order'   => is_string( $atts ) ? $atts : array(),
-			'exclude' => array(),
-			'include' => array(),
+			'order'   => is_string( $atts ) && ! empty( $atts ) ? $atts : $order,
+			'exclude' => is_string( $atts ) && ! empty( $atts ) ? '' : $exclude,
+			'include' => is_string( $atts ) && ! empty( $atts ) ? '' : $include,
 			);
 
 		$atts = wp_parse_args( apply_filters( 'cn_output_content_block_atts', $atts ), $defaults );
@@ -2437,8 +2430,15 @@ class cnOutput extends cnEntry
 			if ( is_string( $atts['order'] ) ) {
 
 				$blocks = stripos( $atts['order'], ',' ) !== FALSE ? explode( ',', $atts['order'] ) : array( $atts['order'] );
+
+			} else {
+
+				$blocks = $atts['order'];
 			}
 		}
+
+		// Nothing to render, exit.
+		if ( empty( $blocks ) ) return;
 
 		// Cleanup user input. Trim whitespace and convert to lowercase.
 		$blocks = array_map( 'strtolower', array_map( 'trim', $blocks ) );

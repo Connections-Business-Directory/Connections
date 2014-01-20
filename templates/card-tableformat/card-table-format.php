@@ -52,9 +52,10 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 			$this->template = $template;
 
 			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
+			$template->part( array( 'tag' => 'card-single', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 		}
 
-		public static function card( $entry ) {
+		public static function card( $entry, $template, $atts ) {
 
 			?>
 
@@ -96,9 +97,9 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 			    <tr>
 			    	<td colspan="2">
 
-			    		<div style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></div>
+			    		<?php $entry->getContentBlock( $atts['content'], $atts, $template ); ?>
 
-						<?php $entry->getMetaBlock( array( 'display_custom' => TRUE, 'shortcode_atts' => $atts, 'template_object' => $template ) ); ?>
+			    		<div style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></div>
 
 			    	</td>
 			    </tr>

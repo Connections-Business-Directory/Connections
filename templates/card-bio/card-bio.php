@@ -52,6 +52,7 @@ if ( ! class_exists( 'CN_Bio_Card_Template' ) ) {
 			$this->template = $template;
 
 			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
+			$template->part( array( 'tag' => 'card-single', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 		}
 
 		public static function card( $entry, $template, $atts ) {
@@ -93,9 +94,9 @@ if ( ! class_exists( 'CN_Bio_Card_Template' ) ) {
 
 				<div class="cn-meta" align="left" style="margin-top: 6px">
 
-					<div style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></div>
+					<?php $entry->getContentBlock( $atts['content'], $atts, $template ); ?>
 
-					<?php $entry->getMetaBlock( array( 'display_custom' => TRUE, 'shortcode_atts' => $atts, 'template_object' => $template ) ); ?>
+					<div style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></div>
 
 					<?php if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) ) $entry->vcard( array( 'before' => '<span>', 'after' => '</span>' ) ); ?>
 

@@ -143,24 +143,32 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'id'        => 'connections_display_list_actions',
 			'position'  => 15,
-			'title'     => __( 'List Actions' , 'connections' ),
+			'title'     => __( 'Result List Actions' , 'connections' ),
 			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are displayed above the result list.', 'connections' ) . '\';' ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'display',
-			'id'        => 'connections_display_entry_actions',
+			'id'        => 'connections_display_list',
 			'position'  => 20,
+			'title'     => __( 'Result List' , 'connections' ),
+			'callback'  => create_function( '', 'echo \'' . __( 'The following settings are applied when viewing the entry results list.', 'connections' ) . '\';' ),
+			'page_hook' => $settings
+		);
+		$sections[] = array(
+			'tab'       => 'display',
+			'id'        => 'connections_display_entry_actions',
+			'position'  => 25,
 			'title'     => __( 'Entry Actions' , 'connections' ),
-			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are shown above the single entry.', 'connections' ) . '\';' ),
+			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';' ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
 			'tab'       => 'display',
 			'id'        => 'connections_display_single',
-			'position'  => 25,
+			'position'  => 30,
 			'title'     => __( 'Single Entry' , 'connections' ),
-			'callback'  => '',
+			'callback'  => create_function( '', 'echo \'' . __( 'The following settings are applied when viewing a single entry in the detail view. Which details are shown are dependant on the current template being used.', 'connections' ) . '\';' ),
 			'page_hook' => $settings
 		);
 
@@ -464,6 +472,21 @@ class cnRegisterSettings
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'content_block',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'connections_display_list',
+			'title'     => __( 'Content Blocks', 'connections' ),
+			'desc'      => __( 'Whether or not a content block should be shown. Content blocks can be dragged and dropped in the desired order to be shown.', 'connections' ),
+			'help'      => '',
+			'type'      => 'sortable_checklist',
+			'options'   =>  apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) ),
+			'default'   => 0,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'back',
 			'position'  => 10,
 			'page_hook' => $settings,
@@ -496,7 +519,7 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'display',
 			'section'   => 'connections_display_single',
-			'title'     => '',
+			'title'     => __( 'Template', 'connections' ),
 			'desc'      => __( 'Display a single entry using the active template based on entry type. For example, if the entry is an organization it will be displayed using the template that is activated for the "Organization" template type found on the Connections : Templates admin page.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',

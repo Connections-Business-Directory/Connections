@@ -2406,7 +2406,15 @@ class cnOutput extends cnEntry
 	 */
 	public function getContentBlock( $atts = array(), $shortcode_atts = array(), $template = NULL ) {
 
-		$settings = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			$settings = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
+
+		} else {
+
+			$settings = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
+		}
+
 		$order    = isset( $settings['order'] ) ? $settings['order'] : array();
 		$include  = isset( $settings['active'] ) ? $settings['active'] : array();
 		$exclude  = empty( $include ) ? $order : array();

@@ -1339,6 +1339,11 @@ class cnMetabox_Process {
 
 			if ( ! $id = absint( $id ) ) return FALSE;
 
+			// Quick and dirty hack to prevent the bio and notes fields from being saved in the meta table.
+			// @todo Think of something better to do here.
+			// There should be some type of flag to check before saving as meta.
+			if ( $field['id'] === 'bio' || $field['id'] === 'notes' ) continue;
+
 			$value = $this->sanitize(
 				$field['type'],
 				isset( $_POST[ $field['id'] ] ) ? $_POST[ $field['id'] ] : NULL,
@@ -1350,13 +1355,13 @@ class cnMetabox_Process {
 
 				case 'add':
 
-					cnMeta::add( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
+					cnMeta::add( 'entry', $id, $field['id'], $value );
 
 					break;
 
 				case 'copy':
 
-					cnMeta::add( 'entry', $id, $field['id'], $_POST[ $field['id'] ] );
+					cnMeta::add( 'entry', $id, $field['id'], $value );
 
 					break;
 

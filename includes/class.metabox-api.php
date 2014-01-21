@@ -706,11 +706,12 @@ class cnMetabox_Render {
 	 * 	size (string) [optional] The size if the text input and textarea field types.
 	 * 		NOTE: Only used for the `text` field type. Valid options: small', 'regular' or 'large'
 	 * 		NOTE: Only used for the `textarea` field type. Valid options: small' or 'large'
-	 * 	options (mixed) string | array [optional] Valid value depend on the field type being rendered.
+	 * 	options (mixed) string | array [optional] Valid value depends on the field type being rendered.
 	 * 		Field type / valid value for options
 	 * 			checkboxgroup (array) An associative array where the key is the checkbox value and the value is the checkbox label.
 	 * 			radio / radio_inline (array) An associative array where the key is the radio value and the value is the radio label.
 	 * 			select (array) An associative array where the key is the option value and the value is the option name.
+	 * 			rte (array) @link http://codex.wordpress.org/Function_Reference/wp_editor#Arguments
 	 * 			slider (array) The slider options.
 	 * 				min (int) The minimum slider step.
 	 * 				max (int) The maximim slider step.

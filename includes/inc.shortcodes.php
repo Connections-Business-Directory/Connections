@@ -359,6 +359,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 					// List actions.
 					ob_start();
+						do_action( 'cn_action_list_actions-before', $atts );
 						do_action( 'cn_action_list_actions', $atts );
 						$out .= ob_get_contents();
 					ob_end_clean();
@@ -539,6 +540,13 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					do_action( 'cn_action_list_after' , $atts , $results );
 					do_action( 'cn_action_list_after-' . $template->getSlug() , $atts , $results );
 					$filterRegistry[] = 'cn_action_list_after-' . $template->getSlug();
+
+					// Display the List Actions.
+					if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+						// List actions.
+						do_action( 'cn_action_list_actions-after', $atts );
+					}
 
 					$out .= ob_get_contents();
 				ob_end_clean();

@@ -354,10 +354,10 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 			$out .= "\n" . '<div class="cn-list-head cn-clear" id="cn-list-head">' . "\n";
 
-				// Display the List Actions.
+				// Display the Results List Actions.
 				if ( ! get_query_var( 'cn-entry-slug' ) ) {
 
-					// List actions.
+					// List actions template part.
 					ob_start();
 						do_action( 'cn_action_list_actions-before', $atts );
 						do_action( 'cn_action_list_actions', $atts );
@@ -441,8 +441,9 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					// Display the Entry Actions.
 					if ( get_query_var( 'cn-entry-slug' ) ) {
 
-						// List actions template part.
+						// Entry actions template part.
 						ob_start();
+							do_action( 'cn_action_entry_actions-before', $atts , $entry );
 							do_action( 'cn_action_entry_actions', $atts , $entry );
 							$out .= ob_get_contents();
 						ob_end_clean();
@@ -518,6 +519,9 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						do_action( 'cn_action_entry_both-' . $template->getSlug() , $atts ,$entry );
 						$filterRegistry[] = 'cn_action_entry_both-' . $template->getSlug();
 
+						// Entry actions template part.
+						do_action( 'cn_action_entry_actions-after', $atts , $entry );
+
 						$out .= ob_get_contents();
 					ob_end_clean();
 
@@ -541,10 +545,10 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					do_action( 'cn_action_list_after-' . $template->getSlug() , $atts , $results );
 					$filterRegistry[] = 'cn_action_list_after-' . $template->getSlug();
 
-					// Display the List Actions.
+					// Display the Results List Actions.
 					if ( ! get_query_var( 'cn-entry-slug' ) ) {
 
-						// List actions.
+						// List actions template part.
 						do_action( 'cn_action_list_actions-after', $atts );
 					}
 

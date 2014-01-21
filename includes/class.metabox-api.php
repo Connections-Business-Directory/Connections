@@ -716,6 +716,7 @@ class cnMetabox_Render {
 	 * 				min (int) The minimum slider step.
 	 * 				max (int) The maximim slider step.
 	 * 				step (int) The step the slider steps at.
+	 * 	default	(mixed) The default value to be used.
 	 *
 	 * @access private
 	 * @since 0.8
@@ -741,6 +742,8 @@ class cnMetabox_Render {
 
 				$value = $this->object->getMeta( array( 'key' => $field['id'], 'single' => TRUE ) );
 			}
+
+			if ( empty( $value ) ) $value = isset( $field['default'] ) ? $field['default'] : '';
 
 			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .' cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';
 
@@ -853,7 +856,7 @@ class cnMetabox_Render {
 						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
 							esc_attr( $field['id'] ),
 							esc_attr( $key ),
-							checked( $key, $value, FALSE )
+							checked( $key, ( $value = empty( $value ) ? $key : $value ), FALSE )
 						);
 
 						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
@@ -891,7 +894,7 @@ class cnMetabox_Render {
 						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
 							esc_attr( $field['id'] ),
 							esc_attr( $key ),
-							checked( $key, $value, FALSE )
+							checked( $key, ( $value = empty( $value ) ? $key : $value ), FALSE )
 						);
 
 						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
@@ -915,7 +918,11 @@ class cnMetabox_Render {
 
 					foreach ( $field['options'] as $key => $label ) {
 
-						printf( '<option value="%1$s" %2$s>%3$s</option>', $key, selected( $value, $key, FALSE ), $label );
+						printf( '<option value="%1$s" %2$s>%3$s</option>',
+							$key,
+							selected( $key, ( $value = empty( $value ) ? $key : $value ), FALSE ),
+							$label
+						);
 					}
 
 					echo '</select>';

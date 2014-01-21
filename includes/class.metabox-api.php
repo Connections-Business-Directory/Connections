@@ -632,7 +632,7 @@ class cnMetabox_Render {
 
 			echo '<div class="cn-metabox-section">';
 
-			echo '<table class="cn-metabox-table"><tbody>';
+			echo '<table class="cn-metabox-table form-table"><tbody>';
 
 				$this->fields( $fields );
 
@@ -671,7 +671,7 @@ class cnMetabox_Render {
 
 		if ( isset( $section['fields'] ) && ! empty( $section['fields'] ) ) {
 
-			echo '<table class="cn-metabox-table"><tbody>';
+			echo '<table class="cn-metabox-table form-table"><tbody>';
 
 				$this->fields( $section['fields'] );
 

@@ -172,15 +172,15 @@ div.rss-widget h4 { font-size: 1.2em; margin: 0; }
 div.rss-widget h4 a { text-decoration: none; }
 div.rss-widget div.rss-date { margin-bottom: 8px; }
 
-div#metabox-system ul { margin-left: 12px; }
+#metabox-system ul { margin-left: 12px; }
 
-div#metabox-quick-links .one-half { width: 48%; }
-div#metabox-quick-links .one-third { width: 30.66%; }
-div#metabox-quick-links .two-third { width: 65.33%; }
-div#metabox-quick-links .one-half,.one-third,.two-third { position: relative; margin-right: 4%; float: left; }
-div#metabox-quick-links .last { margin-right: 0 !important; clear: right; }
+#metabox-quick-links .one-half { width: 48%; }
+#metabox-quick-links .one-third { width: 30.66%; }
+#metabox-quick-links .two-third { width: 65.33%; }
+#metabox-quick-links .one-half,.one-third,.two-third { position: relative; margin-right: 4%; float: left; }
+#metabox-quick-links .last { margin-right: 0 !important; clear: right; }
 
-div#metabox-quick-links .button {
+#metabox-quick-links .button {
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	-moz-user-select: none;
 	background: none;
@@ -220,13 +220,13 @@ div#metabox-quick-links .button {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33000000', endColorstr='#1affffff',GradientType=0 ); /* IE6-9 */
 	top: 1px;
 }
-div#metabox-quick-links .button.blue {
+#metabox-quick-links .button.blue {
   background-color: #00ADEE;
 }
-div#metabox-quick-links .button.green {
+#metabox-quick-links .button.green {
   background-color: #91BD09;
 }
-div#metabox-quick-links .button span {
+#metabox-quick-links .button span {
 	color: #FFFFFF;
 	line-height: 1em;
 	padding: 0.5em 0;
@@ -236,10 +236,10 @@ div#metabox-quick-links .button span {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
 	white-space: nowrap;
 }
-div#metabox-quick-links .button.full, .button.full span {
+#metabox-quick-links .button.full, .button.full span {
   display: block;
 }
-div#metabox-quick-links .button.large span {
+#metabox-quick-links .button.large span {
   font-size: 1em;
   font-weight: 700;
 }
@@ -420,10 +420,9 @@ form p.add {font-style:normal; padding:12px 0 0; text-align: right;}
 /*------------------------------------------------------------------------------
   Metabox default styling. This is to support the new metabox API for custom fields.
 ------------------------------------------------------------------------------*/
-.cn-metabox-section { border-bottom: 1px solid #E9E9E9; }
-.cn-metabox-section:last-child { border-bottom: none; }
-/*table.cn-metabox .cn-metabox-title { margin: 0 0 5px 0; }*/
-table.cn-metabox th label { display: inline-block;}
+.cn-metabox-section { border-bottom: 1px solid #E9E9E9; margin: 1.33em 0; padding-bottom: 1.33em; }
+.cn-metabox-section:last-child { border-bottom: none; padding-bottom: 0; }
+table.cn-metabox-table th label { display: inline-block; }
 .mceIframeContainer { background: #FFF; }
 .cn-radio-option { margin-bottom: 6px; }
 .cn-radio-option:last-child { margin-bottom: auto; }

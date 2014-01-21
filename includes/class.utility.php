@@ -80,7 +80,8 @@ class cnFormatting {
 	 * @param string $string
 	 * @return string
 	 */
-	public function stripNonNumeric( $string ) {
+	public static function stripNonNumeric( $string ) {
+
 		return preg_replace( '/[^0-9]/', '', $string );
 	}
 
@@ -683,5 +684,34 @@ class cnURL {
 
 		if ( $atts['return'] ) return $out;
 		echo $out;
+	}
+}
+
+class cnUtility {
+
+	/**
+	 * Get user IP.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @link http://stackoverflow.com/a/6718472
+	 *
+	 * @return string The IP address.
+	 */
+	public static function getIP(){
+
+	    foreach ( array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key ) {
+
+	        if ( array_key_exists( $key, $_SERVER ) === TRUE ) {
+
+	            foreach ( array_map( 'trim', explode( ',', $_SERVER[ $key ] ) ) as $ip ) {
+
+	                if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== FALSE ) {
+
+	                    return $ip;
+	                }
+	            }
+	        }
+	    }
 	}
 }

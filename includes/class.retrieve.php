@@ -725,9 +725,10 @@ class cnRetrieve {
 
 								/*
 								 * @TODO: This seems fast enough, better profiling will need to be done.
-								 * @TODO: The session ID can be used as the seed for RAND() to support randomized paginated results.
 								 */
-								$select[] = CN_ENTRY_TABLE . '.id*0+RAND() AS random';
+								$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
+
+								$select[] = CN_ENTRY_TABLE . '.id*0+RAND(' . $seed . ') AS random';
 								$orderBy = array( 'random' );
 								break;
 

@@ -35,30 +35,97 @@ class cnTerms
 	 * @TODO: Add the code necessary to accept arrays for requesting multiple taxonomy types
 	 * @TODO: Add default arguments see /wp-includes/taxonomy.php ->  line 515 to get terms specific to a type
 	 *
+	 * @access public
+	 * @since unknown
 	 * @param array $taxonomies
-	 * @param array $arguments [optional]
+	 * @param array $atts [optional]
+	 *
 	 * @return array
 	 */
-	public function getTerms($taxonomies, $arguments = NULL)
-	{
+	public function getTerms( $taxonomies, $atts = NULL ) {
 		global $wpdb;
 
-		// If the term query has alread been run and the parent/child relationship built, return the stored version rather than quering/building again and again.
+		$defaults = array(
+			'orderby'       => 'name', //(string|array)
+			'order'         => 'ASC', //(string|array)
+			/*'hide_empty'    => true,  to work in as needed to match core WP
+			'exclude'       => array(),
+			'exclude_tree'  => array(),
+			'include'       => array(),
+			'number'        => '',
+			'fields'        => 'all',
+			'slug'          => '',
+			'parent'         => '',
+			'hierarchical'  => true,
+			'child_of'      => 0,
+			'get'           => '',
+			'name__like'    => '',
+			'pad_counts'    => false,
+			'offset'        => '',
+			'search'        => '',
+			'cache_domain'  => 'core'*/
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+
+		// If the term query has alread been run and the parent/child relationship built,
+		// return the stored version rather than quering/building again and again.
 		if ( ! empty( $this->terms ) ) return $this->terms;
 
-		$query = "SELECT t.*, tt.* from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('$taxonomies') ORDER BY name";
+		$query = 'SELECT t.*, tt.* FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN (\'' . ( is_array( $taxonomies) ? implode( "', '", $taxonomies ) : $taxonomies ) . '\')';
 
-		$terms = $wpdb->get_results($query);
-		//print_r($terms);
+		//allows for both a array match on orderby and order and single string values
+		if ( is_array( $atts['orderby'] ) ) {
+
+			$query .= ' ORDER BY ';
+			$i = 0;
+
+			foreach ( $atts['orderby'] as $orderby ) {
+
+				if ( is_array( $atts['order'] ) && isset( $atts['order'][ $i ] ) ) {
+
+					$order = $atts['order'][ $i ]; // lines up with the first value in orderby
+
+				} else {
+
+					$order = is_array( $atts['order'] ) ? $atts['order'][0] : $atts['order'];
+				}
+
+				$query .= sprintf(' ' . ( $i > 0 ? ', ' :' ' ) . ' %s %s', $atts['orderby'][ $i ], $order );
+
+				$i++;
+			}
+
+		} else {
+
+			if ( is_array( $atts['order'] ) ) {
+
+				// orderby was a string but for some odd reason an array
+				//was passed for the order so we assume the  0 index
+				$order = $atts['order'][0];
+
+			} else {
+
+				$order = $atts['order'];
+			}
+
+			$query .= sprintf(' ORDER BY %s %s', $atts['orderby'], $order );
+		}
+
+		// var_dump($query);
+		$terms = $wpdb->get_results( $query );
+		// print_r($terms);
+
 		/*
 		 * Loop thru the results and build an array where key == parent ID and the value == the child objects
 		 *
 		 * NOTE: Currently $taxonomies does not need to be sent, it's not being used in the method. It's
 		 * 		 being left in place for future use.
 		 */
-		foreach ($terms as $term)
-		{
-			$this->buildChildrenArray($term->term_id, $terms, $taxonomies);
+		foreach ( $terms as $term ) {
+
+			$this->buildChildrenArray( $term->term_id, $terms, $taxonomies );
 		}
 
 		/*
@@ -67,16 +134,16 @@ class cnTerms
 		 * NOTE: Currently $taxonomies does not need to be sent, it's not being used in the method. It's
 		 * 		 being left in place for future use.
 		 */
-		foreach($terms as $key => $term)
-		{
+		foreach( $terms as $key => $term ) {
+
 			$term->children = $this->getChildren($term->term_id, $terms, $taxonomies);
 		}
 
 		/*
 		 * Loop thru the results once more and remove all child objects from the base array leaving only parent objects
 		 */
-		foreach($terms as $key => $term)
-		{
+		foreach( $terms as $key => $term ) {
+
 			if ($this->isChild($term->term_id)) unset($terms[$key]);
 		}
 

@@ -136,7 +136,7 @@ class cnTerms
 		 */
 		foreach( $terms as $key => $term ) {
 
-			$term->children = $this->getChildren($term->term_id, $terms, $taxonomies);
+			$term->children = $this->getChildren( $term->term_id, $terms, $taxonomies );
 		}
 
 		/*
@@ -144,7 +144,7 @@ class cnTerms
 		 */
 		foreach( $terms as $key => $term ) {
 
-			if ($this->isChild($term->term_id)) unset($terms[$key]);
+			if ( $this->isChild( $term->term_id ) ) unset( $terms[ $key ] );
 		}
 
 		$this->terms = $terms;

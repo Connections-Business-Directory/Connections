@@ -1,5 +1,8 @@
 <?php
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * API for registering templates.
  *
@@ -10,16 +13,6 @@
  * @since       0.7.6
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-/**
- * Singleton that registers and instantiates templates.
- *
- * @package Connections
- * @subpackage Template Factory
- * @since 0.7.6
- */
 class cnTemplateFactory {
 
 	/**

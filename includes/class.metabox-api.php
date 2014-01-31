@@ -1,5 +1,8 @@
 <?php
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Class registering the metaboxes for add/edit an entry.
  *
@@ -80,9 +83,6 @@
  * </code>
  *
  */
-
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnMetaboxAPI {
 

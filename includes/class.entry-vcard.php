@@ -13,8 +13,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnvCard extends cnOutput
-{
+class cnvCard extends cnEntry_HTML {
 	private $data;
 	private $card;
 

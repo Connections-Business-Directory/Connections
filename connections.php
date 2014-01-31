@@ -318,6 +318,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Entry HTML template blocks.
 			require_once CN_PATH . 'includes/class.entry-output.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/class.entry-html.php';
+			require_once CN_PATH . 'includes/class.entry-shortcode.php';
 
 			// Entry vCard.
 			require_once CN_PATH . 'includes/class.entry-vcard.php'; // Required for front end

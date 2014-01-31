@@ -15,10 +15,34 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnEntry_Shortcode {
 
+	/**
+	 * An instance of the cnEntry object
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var object
+	 */
 	private $entry = NULL;
 
+	/**
+	 * The resulting content after being process thru the entry shortcodes.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var string
+	 */
 	private $result = '';
 
+	/**
+	 * The method to be used to process the content thru the entry shortcode.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  string $content The content to be processed.
+	 *
+	 * @return string          The result.
+	 */
 	public static function process( $entry, $content ) {
 
 		$return = new cnEntry_Shortcode( $entry, $content );
@@ -26,7 +50,16 @@ class cnEntry_Shortcode {
 		return $return->result();
 	}
 
-	public function __construct( $entry, $content ) {
+	/**
+	 * Set's up the core entry shortcode and starts the shortcode
+	 * replacement process using the WordPress shortcode API.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @param object $entry   An instance of the cnEntry object.
+	 * @param string $content The content to be processed.
+	 */
+	private function __construct( $entry, $content ) {
 
 		$this->entry = $entry;
 
@@ -43,11 +76,31 @@ class cnEntry_Shortcode {
 		remove_shortcode( 'cn_entry' );
 	}
 
-	public function result() {
+	/**
+	 * Returns the processed content.
+	 *
+	 * @access private
+	 * @since 0.8
+	 *
+	 * @return string The processed content.
+	 */
+	private function result() {
 
 		return $this->result;
 	}
 
+	/**
+	 * The core method that processes the content according to the
+	 * entry part that the shortcode should add to the content.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @param  array  $atts    The shortcode attributes array.
+	 * @param  string $content The content captured between an open/close shortcode.
+	 * @param  string $tag     The shortcode tag.
+	 *
+	 * @return string          The processed content.
+	 */
 	public function shortcode( $atts, $content = NULL, $tag = 'cn_entry' ) {
 
 		// Bail if self::$entry is not set because an instance of the cnEntry object is required.
@@ -62,7 +115,7 @@ class cnEntry_Shortcode {
 		// which leaves keys that do not exist in $atts.
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// All the core methods in the cnOutput and cnEntry_HTML class echo by default, make sure to return instead.
+		// All the core methods in the cnEntry_HTML class echo by default, make sure to return instead.
 		$atts['return'] = TRUE;
 
 		switch ( $atts['part'] ) {
@@ -160,7 +213,10 @@ class cnEntry_Shortcode {
 				break;
 
 			default:
-				do_action( 'cn_entry_part-' . $part, $part, $this->entry, $atts, $content );
+
+				// Custom shortcodes can be applied to the content using this filter.
+				$out = apply_filters( 'cn_entry_part-' . $part, $part, $this->entry, $atts, $content );
+
 				break;
 		}
 
@@ -168,26 +224,27 @@ class cnEntry_Shortcode {
 	}
 
 	/**
-	 * [address description]
+	 * Process the content adding the entry address details in place of the shortcode.
 	 *
 	 * @access  private
 	 * @since  0.8
-	 * @param  [type] $atts    [description]
-	 * @param  [type] $content [description]
-	 * @param  string $tag     [description]
-	 * @return [type]          [description]
+	 * @param  array  $atts    The shortcode attributes array.
+	 * @param  string $content The content captured between an open/close shortcode tag.
+	 * @param  string $tag     The shortcode tag.
+	 *
+	 * @return string          The processed content.
 	 */
 	public function address( $atts, $content = NULL, $tag = 'cn_address' ) {
 
 		$out = '';
 
 		$defaults = array(
-			'preferred'   => FALSE,
-			'type'        => NULL,
-			'city'        => NULL,
-			'state'       => NULL,
-			'zipcode'     => NULL,
-			'country'     => NULL,
+			'preferred' => FALSE,
+			'type'      => NULL,
+			'city'      => NULL,
+			'state'     => NULL,
+			'zipcode'   => NULL,
+			'country'   => NULL,
 			);
 
 		$atts = shortcode_atts( $defaults, $atts, $tag );
@@ -229,14 +286,15 @@ class cnEntry_Shortcode {
 	}
 
 	/**
-	 * [phone description]
+	 * Process the content adding the entry phone number details in place of the shortcode.
 	 *
-	 * @access private
-	 * @since 0.8
-	 * @param  [type] $atts    [description]
-	 * @param  [type] $content [description]
-	 * @param  string $tag     [description]
-	 * @return [type]          [description]
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts    The shortcode attributes array.
+	 * @param  string $content The content captured between an open/close shortcode tag.
+	 * @param  string $tag     The shortcode tag.
+	 *
+	 * @return string          The processed content.
 	 */
 	public function phone( $atts, $content = NULL, $tag = 'cn_phone' ) {
 
@@ -271,14 +329,15 @@ class cnEntry_Shortcode {
 	}
 
 	/**
-	 * [im description]
+	 * Process the content adding the entry instant messenger details in place of the shortcode.
 	 *
-	 * @access private
-	 * @since 0.8
-	 * @param  [type] $atts    [description]
-	 * @param  [type] $content [description]
-	 * @param  string $tag     [description]
-	 * @return [type]          [description]
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts    The shortcode attributes array.
+	 * @param  string $content The content captured between an open/close shortcode tag.
+	 * @param  string $tag     The shortcode tag.
+	 *
+	 * @return string          The processed content.
 	 */
 	public function im( $atts, $content = NULL, $tag = 'cn_im' ) {
 
@@ -313,14 +372,15 @@ class cnEntry_Shortcode {
 	}
 
 	/**
-	 * [socialNetwork description]
+	 * Process the content adding the entry social network details in place of the shortcode.
 	 *
-	 * @access private
-	 * @since 0.8
-	 * @param  [type] $atts    [description]
-	 * @param  [type] $content [description]
-	 * @param  string $tag     [description]
-	 * @return [type]          [description]
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts    The shortcode attributes array.
+	 * @param  string $content The content captured between an open/close shortcode tag.
+	 * @param  string $tag     The shortcode tag.
+	 *
+	 * @return string          The processed content.
 	 */
 	public function socialNetwork( $atts, $content = NULL, $tag = 'cn_social_network' ) {
 
@@ -355,14 +415,15 @@ class cnEntry_Shortcode {
 	}
 
 	/**
-	 * [link description]
+	 * Process the content adding the entry links details in place of the shortcode.
 	 *
-	 * @access private
-	 * @since 0.8
-	 * @param  [type] $atts    [description]
-	 * @param  [type] $content [description]
-	 * @param  string $tag     [description]
-	 * @return [type]          [description]
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts    The shortcode attributes array.
+	 * @param  string $content The content captured between an open/close shortcode tag.
+	 * @param  string $tag     The shortcode tag.
+	 *
+	 * @return string          The processed content.
 	 */
 	public function link( $atts, $content = NULL, $tag = 'cn_link' ) {
 
@@ -399,14 +460,15 @@ class cnEntry_Shortcode {
 	}
 
 	/**
-	 * [date description]
+	 * Process the content adding the entry dates details in place of the shortcode.
 	 *
-	 * @access private
-	 * @since 0.8
-	 * @param  [type] $atts    [description]
-	 * @param  [type] $content [description]
-	 * @param  string $tag     [description]
-	 * @return [type]          [description]
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts    The shortcode attributes array.
+	 * @param  string $content The content captured between an open/close shortcode tag.
+	 * @param  string $tag     The shortcode tag.
+	 *
+	 * @return string          The processed content.
 	 */
 	public function date( $atts, $content = NULL, $tag = 'cn_date' ) {
 

@@ -76,6 +76,18 @@ function connectionsView( $atts , $content = NULL ) {
 
 			break;
 
+		case 'search':
+
+			return '<p>' . __( 'Future home of the search page.', 'connections' ) . '</p>';
+
+			break;
+
+		case 'results':
+
+			return '<p>' . __( 'Future home of the search results landing page.', 'connections' ) . '</p>';
+
+			break;
+
 		// Show the standard result list.
 		case 'list':
 

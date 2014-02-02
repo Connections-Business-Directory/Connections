@@ -97,18 +97,26 @@ class cnRetrieve {
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
 		if ( ! is_admin() && ! $atts['lock'] ) {
+
 			// Category slug
 			$queryCategorySlug = get_query_var( 'cn-cat-slug' );
+
 			if ( ! empty( $queryCategorySlug ) ) {
+
 				// If the category slug is a descendant, use the last slug from the URL for the query.
 				$queryCategorySlug = explode( '/' , $queryCategorySlug );
 
-				if ( isset( $queryCategorySlug[count( $queryCategorySlug )-1] ) ) $atts['category_slug'] = $queryCategorySlug[count( $queryCategorySlug )-1];
+				if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) $atts['category_slug'] = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];
 			}
 
 			// Category ID
 			$queryCategoryID = get_query_var( 'cn-cat' );
 			if ( ! empty( $queryCategoryID ) ) $atts['category'] = $queryCategoryID;
+
+			if ( ! empty( get_query_var( 'cn-cat-in' ) ) ) {
+
+				$atts['category_in'] = get_query_var( 'cn-cat-in' );
+			}
 
 			// Country
 			$queryCountry = get_query_var( 'cn-country' );

@@ -47,6 +47,7 @@ class cnRewrite {
 
 		$var[] = 'cn-cat';   // category id
 		$var[] = 'cn-cat-slug';  // category slug
+		$var[] = 'cn-cat-in';  // category in
 		$var[] = 'cn-country';  // country
 		$var[] = 'cn-region';  // state
 		$var[] = 'cn-locality';  // city

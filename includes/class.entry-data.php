@@ -2705,6 +2705,8 @@ class cnEntry {
 	 * $date['date'] (string) Stores date.
 	 * $date['visibility'] (string) Stores the date visibility.
 	 *
+	 * @TODO Consider using strtotime on $date['date'] to help ensure date_create() does not return FALSE.
+	 *
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
@@ -2761,8 +2763,15 @@ class cnEntry {
 
 				/*
 				 * Format the supplied date correctly for the table column:  YYYY-MM-DD
+				 * @TODO Consider using strtotime on $date['date'] to help ensure date_create() does not return FALSE.
 				 */
 				$currentDate = date_create( $date['date'] );
+
+				/*
+				 * Make sure the date object created correctly.
+				 */
+				if ( $currentDate === FALSE ) continue;
+
 				$dates[ $key ]['date'] = date_format( $currentDate, 'Y-m-d' );
 
 				/*

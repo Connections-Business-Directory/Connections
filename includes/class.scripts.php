@@ -47,8 +47,9 @@ class cnScript {
 		add_action( 'init', array( 'cnScript', 'registerCSS' ) );
 
 		// Enqueue the frontend scripts and CSS.
-		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueScripts' ) );
-		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueStyles' ) );
+		add_action( 'wp', array( __CLASS__, 'enqueue' ) );
+		// add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueScripts' ) );
+		// add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueStyles' ) );
 
 		// Enqueue the admin scripts and CSS.
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminScripts' ) );
@@ -199,6 +200,30 @@ class cnScript {
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'cn-widget' );
 		}
+	}
+
+	public static function enqueue() {
+		global $wp_query;
+
+		$posts   = $wp_query->posts;
+		$pattern = get_shortcode_regex();
+
+		foreach ( $posts as $post ) {
+
+			if ( preg_match_all( '/'. $pattern .'/s', $post->post_content, $matches )
+				&& array_key_exists( 2, $matches )
+				&& in_array( 'connections', $matches[2] ) )
+			{
+				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
+				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueStyles' ) );
+
+				// Hook extensions can use to enqueue scripts.
+				do_action( 'cn_enqueue_scripts' );
+
+				break;
+			}
+		}
+
 	}
 
 	/**

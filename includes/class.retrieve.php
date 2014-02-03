@@ -113,7 +113,9 @@ class cnRetrieve {
 			$queryCategoryID = get_query_var( 'cn-cat' );
 			if ( ! empty( $queryCategoryID ) ) $atts['category'] = $queryCategoryID;
 
-			if ( ! empty( get_query_var( 'cn-cat-in' ) ) ) {
+			// Category in
+			$queryCategoryIn = get_query_var( 'cn-cat' );
+			if ( ! empty( $queryCategoryIn ) ) {
 
 				$atts['category_in'] = get_query_var( 'cn-cat-in' );
 			}

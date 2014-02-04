@@ -747,8 +747,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 						$order = array();
 
-						// Remove any content blocks that now longer exist.
+						// Remove any content blocks that no longer exist.
 						$blocks = array_intersect_key( $field['options'], array_flip( $value['order'] ) );
+
+						// Add back in any new content blocks.
+						$blocks = array_merge( $blocks, $field['options'] );
+
 						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
 
 						// Order the array as the user has defined in $value['order'].

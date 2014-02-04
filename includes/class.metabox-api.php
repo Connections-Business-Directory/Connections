@@ -274,7 +274,7 @@ class cnMetaboxAPI {
 		// NOTE: All fields registered via this API are considered private.
 		// The expectation is an action will be called to render the metadata.
 		// Do not update table when doing an AJAX request.
-		if ( ! defined('DOING_AJAX') /*&& ! DOING_AJAX*/ ) update_option( 'connections_metaboxes', self::$metaboxes );
+		// if ( ! defined('DOING_AJAX') /*&& ! DOING_AJAX*/ ) update_option( 'connections_metaboxes', self::$metaboxes );
 
 		// Process the metaboxes added via the `cn_metabox` action.
 		foreach ( self::$metaboxes as $id => $metabox ) {

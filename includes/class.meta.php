@@ -429,7 +429,8 @@ class cnMeta {
 			$private = ( '_' == $key[0] );
 
 			// Grab the registered metaboxes from the options table.
-			$metaboxes = get_option( 'connections_metaboxes', array() );
+			// $metaboxes = get_option( 'connections_metaboxes', array() );
+			$metaboxes = cnMetaboxAPI::get();
 
 			// Loop thru all fields registered as part of a metabox.
 			// If one id found consider it private and exit the loops.

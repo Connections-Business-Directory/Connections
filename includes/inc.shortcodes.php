@@ -257,9 +257,9 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		'wp_current_category'   => 'false',
 		'allow_public_override' => 'false',
 		'private_override'      => 'false',
-		'show_alphaindex'       => cnSettingsAPI::get( 'connections', 'connections_display_results', 'index' ),
-		'repeat_alphaindex'     => cnSettingsAPI::get( 'connections', 'connections_display_results', 'index_repeat' ),
-		'show_alphahead'        => cnSettingsAPI::get( 'connections', 'connections_display_results', 'show_current_character' ),
+		'show_alphaindex'       => cnSettingsAPI::get( 'connections', 'display_results', 'index' ),
+		'repeat_alphaindex'     => cnSettingsAPI::get( 'connections', 'display_results', 'index_repeat' ),
+		'show_alphahead'        => cnSettingsAPI::get( 'connections', 'display_results', 'show_current_character' ),
 		'list_type'             => NULL,
 		'order_by'              => NULL,
 		'limit'                 => NULL,
@@ -284,7 +284,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		'width'                 => NULL,
 		'lock'                  => FALSE,
 		'force_home'            => FALSE,
-		'home_id'               => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+		'home_id'               => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 	);
 
 	$permittedAtts = apply_filters( 'cn_list_atts_permitted' , $permittedAtts );
@@ -330,6 +330,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	$atts = apply_filters('cn_list_retrieve_atts-' . $template->getSlug() , $atts );
 
 	$results = $connections->retrieve->entries( $atts );
+	// $results = cnResults::get( $atts );
 	//$out .= print_r($connections->lastQuery , TRUE);
 	//$out .= print_r($results , TRUE);
 
@@ -394,15 +395,20 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				$out .= apply_filters( 'cn_list_before-' . $template->getSlug() , '' , $results );
 				$filterRegistry[] = 'cn_list_before-' . $template->getSlug();
 
-				// The character index template part.
-				ob_start();
-					do_action( 'cn_action_character_index' , $atts );
-					$charIndex = ob_get_contents();
-				ob_end_clean();
+				//  This action only is required when the index is to be displayed.
+				if ( $atts['show_alphaindex'] || $atts['repeat_alphaindex'] ) {
 
-				$charIndex = apply_filters( 'cn_list_index' , $charIndex , $results );
-				$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $charIndex , $results );
-				$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
+					// The character index template part.
+					ob_start();
+						do_action( 'cn_action_character_index' , $atts );
+						$charIndex = ob_get_contents();
+					ob_end_clean();
+
+					// These filters are left here primarily for legacy support. At some point these should be removed.
+					$charIndex = apply_filters( 'cn_list_index' , $charIndex , $results );
+					$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug() , $charIndex , $results );
+					$filterRegistry[] = 'cn_list_index-' . $template->getSlug();
+				}
 
 				/*
 				 * The alpha index is only displayed if set to true and not set to repeat.
@@ -582,7 +588,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		if ( isset( $wp_filter[ $filter ] ) ) unset( $wp_filter[ $filter ] );
 	}
 
-	if ( cnSettingsAPI::get( 'connections', 'connections_compatibility', 'strip_rnt' ) ) {
+	if ( cnSettingsAPI::get( 'connections', 'compatibility', 'strip_rnt' ) ) {
 		$search = array( "\r\n", "\r", "\n", "\t" );
 		$replace = array( ' ', ' ', ' ', ' ' );
 		$out = str_replace( $search , $replace , $out );

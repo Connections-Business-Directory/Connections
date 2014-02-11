@@ -333,7 +333,15 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				$section = ! isset($field['section']) || empty($field['section']) ? 'default' : $field['section'];
 
 				// If the option was not registered to a section or registered to a WP core section, set the option_name to the setting id.
-				$optionName = isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array($field['section'], self::$coreSections) ? $field['section'] : $field['id'];
+				// $optionName = isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array($field['section'], self::$coreSections) ? $field['section'] : $field['id'];
+				if ( isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array( $field['section'], self::$coreSections ) ) {
+
+					$optionName = $field['plugin_id'] !== substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) ? $field['section'] = $field['plugin_id'] . '_' . $field['section'] : $field['section'];
+
+				} else {
+
+					$optionName = $field['id'];
+				}
 
 				$options['id'] = $field['id'];
 				$options['type'] = $field['type'];
@@ -912,6 +920,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			if ( ! empty($section) )
 			{
+
+				if ( $pluginID !== substr( $section, 0, strlen( $pluginID ) ) ) $section = $pluginID . '_' . $section;
+
 				if ( array_key_exists( $section , $settings ) )
 				{
 					if ( ! empty($option) )

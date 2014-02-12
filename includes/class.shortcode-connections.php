@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @since       0.8
  */
 
-class cnShortcode_Connections {
+class cnShortcode_Connections extends cnShortcode {
 
 	public static function shortcode( $atts, $content = NULL, $tag = 'connections' ) {
 
@@ -24,9 +24,9 @@ class cnShortcode_Connections {
 		$html     = 'The new shortcode.';
 		$convert  = new cnFormatting();
 
-		$template = cnShortcode::loadTemplate( $atts );
+		$template = self::loadTemplate( $atts );
 
-		if ( $template === FALSE ) return cnShortcode::loadTemplateError( $atts );
+		if ( $template === FALSE ) return self::loadTemplateError( $atts );
 
 		/*
 		 * Now that the template has been loaded, Validate the user supplied shortcode atts.
@@ -118,7 +118,7 @@ class cnShortcode_Connections {
 
 			$results = apply_filters( 'cn_list_results', $results );
 			$results = apply_filters( 'cn_list_results-' . $template->getSlug() , $results );
-			cnShortcode::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
+			self::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
 		}
 
 		ob_start();
@@ -134,7 +134,7 @@ class cnShortcode_Connections {
 
 		$html .= ob_get_clean();
 
-		return cnShortcode::removeEOL( $html );
+		return self::removeEOL( $html );
 	}
 
 }

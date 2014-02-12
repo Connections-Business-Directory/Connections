@@ -24,6 +24,11 @@ class cnShortcode {
 
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 
+		add_action( 'init', array( __CLASS__, 'register') );
+	}
+
+	public static function register() {
+
 		// Register the core shortcodes.
 		add_shortcode( 'connections', 'connectionsView' );
 		add_shortcode( 'cn_new', array( 'cnShortcode_Connections', 'shortcode' ) ); /* The new [connections] shortcode. */

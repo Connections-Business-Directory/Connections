@@ -349,8 +349,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Shortcodes
 			// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
 			require_once CN_PATH . 'includes/inc.shortcodes.php';
-			require_once CN_PATH . 'includes/class.shortcode-connections.php'; // This must be loaded before class.shortcode.php otherwise the add_shortcode() function will fail to register the shortcode callback.
 			require_once CN_PATH . 'includes/class.shortcode.php';
+			require_once CN_PATH . 'includes/class.shortcode-connections.php';
 
 			// require_once CN_PATH . 'includes/class.shortcode-upcoming_list.php';
 

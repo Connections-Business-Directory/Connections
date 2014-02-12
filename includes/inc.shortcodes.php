@@ -133,9 +133,6 @@ function connectionsView( $atts , $content = NULL ) {
 	}
 }
 
-add_shortcode( 'connections', 'connectionsView' );
-add_shortcode( 'connections_list', 'connectionsView' ); /** @deprecated since version 0.7.0.4 */
-
 /**
  * Register the [connections] shortcode
  *
@@ -169,12 +166,12 @@ add_shortcode( 'connections_list', 'connectionsView' ); /** @deprecated since ve
  * @return (string)
  */
 function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
-	global $wpdb, $wp_filter, $current_user, $connections;
+	global $wpdb, $wp_filter, $connections;
 
 	$out            = '';
 	$form           = new cnFormObjects();
 	$convert        = new cnFormatting();
-	$format         =& $convert;
+	// $format         =& $convert;
 	$filterRegistry = array();
 
 	/*
@@ -330,7 +327,6 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	$atts = apply_filters('cn_list_retrieve_atts-' . $template->getSlug() , $atts );
 
 	$results = $connections->retrieve->entries( $atts );
-	// $results = cnResults::get( $atts );
 	//$out .= print_r($connections->lastQuery , TRUE);
 	//$out .= print_r($results , TRUE);
 
@@ -611,7 +607,7 @@ function connectionsUpcomingList( $atts ) {
 	echo _upcoming_list( $atts );
 }
 
-add_shortcode( 'upcoming_list', '_upcoming_list' );
+
 
 /**
  * Display the upcoming list.
@@ -819,8 +815,6 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	return $out;
 }
 
-add_shortcode( 'connections_vcard', '_connections_vcard' );
-
 function _connections_vcard( $atts , $content = NULL, $tag ) {
 
 	$atts = shortcode_atts( array(
@@ -836,8 +830,6 @@ function _connections_vcard( $atts , $content = NULL, $tag ) {
 
 	return '<span class="cn-qtip-vcard">' . $content . $qTipContent . '</span>';
 }
-
-add_shortcode( 'connections_qtip', '_connections_qtip' );
 
 function _connections_qtip( $atts , $content = NULL, $tag )
 {

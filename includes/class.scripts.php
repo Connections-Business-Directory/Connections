@@ -106,7 +106,8 @@ class cnScript {
 		// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
 		// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
 
-		wp_register_script( 'jquery-chosen-min', CN_URL . "assets/js/jquery.chosen$min.js", array( 'jquery' ), '0.9.11', $connections->options->getJavaScriptFooter() );
+		// wp_register_script( 'jquery-chosen-min', CN_URL . "assets/js/jquery.chosen$min.js", array( 'jquery' ), '0.9.11', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-chosen-min', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
 		wp_register_script( 'jquery-validate' , CN_URL . "assets/js/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.9.0' , $connections->options->getJavaScriptFooter() );
 	}
 
@@ -131,7 +132,8 @@ class cnScript {
 			wp_register_style( 'connections-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
 		}
 
-		wp_register_style( 'connections-chosen', CN_URL . "assets/css/chosen$min.css", array(), '0.9.11' );
+		// wp_register_style( 'connections-chosen', CN_URL . "assets/css/chosen$min.css", array(), '0.9.11' );
+		wp_register_style( 'connections-chosen', CN_URL . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
 	}
 
 	/**

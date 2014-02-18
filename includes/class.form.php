@@ -220,15 +220,49 @@ class cnFormObjects {
 	 * NOTE: This should only be called by the "load-$page_hook" action.
 	 *
 	 * @access private
+	 * @deprecated
 	 * @since 0.8
 	 * @param string  $pageHook The page hook to add the entry edit metaboxes to.
 	 * @return void
 	 */
 	public function registerEditMetaboxes( $pageHook ) {
 
+		// Grab an instance of Connections.
+		$instance = Connections_Directory();
+
+		$pages = array();
+
+		// Define the core pages and use them by default if no page where defined.
+		// Check if doing AJAX because the page hooks are not defined when doing an AJAX request which cause undefined property errors.
+		if ( defined('DOING_AJAX') && DOING_AJAX ) {
+
+			// Intentially left blank. (For now.)
+
+		} else {
+
+			// Store the core admin pages used to edit an entry.
+			if ( $instance->pageHook->add    !== FALSE ) $pages[] = $instance->pageHook->add;
+			if ( $instance->pageHook->manage !== FALSE ) $pages[] = $instance->pageHook->manage;
+		}
+
+		// Retrieve all metabox registered with cnMetaboxAPI.
 		$metaboxes = cnMetaboxAPI::get();
 
 		foreach ( $metaboxes as $metabox ) {
+
+			// If the metabox was not registered to one of the core edit entry admin pages,
+			// do not continue. This is basically to mimic this methods functionality pre
+			// implementation of cnMetaboxAPI.
+			if ( is_array( $metabox['pages'] ) ) {
+
+				$pages = array_intersect( $pages, $metabox['pages'] );
+
+				if ( empty( $pages ) ) continue;
+
+			} else {
+
+				if ( ! in_array( $metabox['pages'], $pages ) ) continue;
+			}
 
 			$metabox['pages'] = array( $pageHook );
 

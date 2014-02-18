@@ -350,8 +350,8 @@ class cnHTML {
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
 
-			$atts['class'] = self::prefix( $atts['class'] );
-			$atts['id']    = self::prefix( $atts['id'] );
+			$atts['class'] = self::prefix( $atts['class'], $atts );
+			$atts['id']    = self::prefix( $atts['id'], $atts );
 		}
 
 		// Add "required" to any classes that may have been supplied.

@@ -34,6 +34,8 @@ class cnTemplatePart {
 
 		add_action( 'cn_action_character_index', array( __CLASS__, 'index' ) );
 		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
+
+		add_action( 'cn_action_entry_after', array( __CLASS__, 'JSON' ), 10, 2 );
 	}
 
 	/**
@@ -261,6 +263,73 @@ class cnTemplatePart {
 
 		if ( $atts['return'] ) return $out;
 		echo $out;
+	}
+
+	/**
+	 * Outputs entry data JSON encoded in HTML data attribute.
+	 * This is an action called by the `cn_action_entry_after` hook.
+	 *
+	 * @access  public
+	 * @since  0.8
+	 * @uses   wp_parse_args()
+	 * @param array  $atts  Shortcode $atts passed by the `cn_action_entry_after` action hook.
+	 * @param object $entry An instance the the cnEntry object.
+	 *
+	 * return void
+	 */
+	public static function JSON( $atts, $entry ) {
+
+		$defaults = array(
+			'tag'    => 'div',
+			'before' => '',
+			'after'  => '',
+			'return' => FALSE,
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out =  sprintf('<%1$s class="cn-entry-data-json" data-entry-data-json=\'%2$s\'></%1$s>',
+				$atts['tag'],
+				json_encode( array(
+					'type'            => $entry->getEntryType(),
+					'id'              => $entry->getId(),
+					'ruid'            => $entry->getRuid(),
+					'slug'            => $entry->getSlug(),
+					'name'            => array(
+						'full'   => $entry->getName( $atts ),
+						'prefix' => $entry->getHonorificPrefix(),
+						'first'  => $entry->getFirstName(),
+						'middle' => $entry->getMiddleName(),
+						'last'   => $entry->getLastName(),
+						'suffix' => $entry->getHonorificSuffix(),
+						),
+					'title'           => $entry->getTitle(),
+					'organization'    => $entry->getOrganization(),
+					'department'      => $entry->getDepartment(),
+					'contact_name'    => array(
+						'full'   => $entry->getContactName(),
+						'first'  => $entry->getContactFirstName(),
+						'last'   => $entry->getContactLastName()
+						),
+					'family_name'     => $entry->getFamilyName(),
+					'family_members'  => $entry->getFamilyMembers(),
+					'addresses'       => $entry->getAddresses( $atts ),
+					'phone_numbers'   => $entry->getPhoneNumbers( $atts ),
+					'email_addresses' => $entry->getEmailAddresses( $atts ),
+					'im'              => $entry->getIm( $atts ),
+					'social_media'    => $entry->getSocialMedia( $atts ),
+					'links'           => $entry->getLinks( $atts ),
+					'dates'           => $entry->getDates( $atts ),
+					'bio'             => $entry->getBio(),
+					'notes'           => $entry->getNotes(),
+					'categories'      => $entry->getCategory(),
+					'meta'            => $entry->getMeta( $atts ),
+					)
+				)
+			);
+
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}
 
 	/**

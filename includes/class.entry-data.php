@@ -683,7 +683,7 @@ class cnEntry {
 	 * @param array   $atts [optional]
 	 * @return string
 	 */
-	public function getContactName( $atts = NULL ) {
+	public function getContactName( $atts = array() ) {
 		$defaultAtts = array( 'format' => '%first% %last%' );
 
 		$atts = $this->validate->attributesArray( $defaultAtts, $atts );

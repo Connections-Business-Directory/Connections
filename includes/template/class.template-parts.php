@@ -1004,16 +1004,31 @@ class cnTemplatePart {
 		}
 		// $strSelected = $selected ? ' SELECTED ' : '';
 
+		$class = 'class="cn-cat-level-' . $level . '"';
+
 		// Category count to be appended to the category name.
 		$count = ( $atts['show_count'] ) ? ' (' . $category->count . ')' : '';
 
 		// If option grouping is TRUE, show only the select option if it is a descendant. The root parent was used as the option group label.
 		if ( ( $atts['group'] && $level > 1 ) && ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) ) {
-			$out .= sprintf('<option style="padding-left: %1$dpx !important" value="%2$s"%3$s>' . /*$pad .*/ $category->name . $count . '</option>' , $pad , $category->term_id , $strSelected );
+
+			$out .= sprintf('<option %1$s style="padding-left: %2$dpx !important" value="%3$s"%4$s>' . /*$pad .*/ $category->name . $count . '</option>',
+				$class,
+				$pad,
+				$category->term_id,
+				$strSelected
+				);
 		}
+
 		// If option grouping is FALSE, show the root parent and descendant options.
 		elseif ( ! $atts['group'] && ( $atts['show_empty'] || ! empty($category->count) || ! empty($category->children) ) ) {
-			$out .= sprintf('<option style="padding-left: %1$dpx !important" value="%2$s"%3$s>' . /*$pad .*/ $category->name . $count . '</option>' , $pad , $category->term_id , $strSelected );
+
+			$out .= sprintf('<option %1$s style="padding-left: %2$dpx !important" value="%3$s"%4$s>' . /*$pad .*/ $category->name . $count . '</option>',
+				$class,
+				$pad,
+				$category->term_id,
+				$strSelected
+				);
 		}
 
 		/*

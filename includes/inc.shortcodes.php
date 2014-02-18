@@ -492,11 +492,12 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						$out .= ob_get_contents();
 					ob_end_clean();
 
-					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s">',
+					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s" data-entry-type="%2$s" data-entry-id="%5$d" data-entry-slug="%4$s">',
 							$alternate = $alternate == '' ? '-alternate' : '',
 							$entry->getEntryType(),
 							$entry->getCategoryClass(TRUE),
-							$entry->getSlug()
+							$entry->getSlug(),
+							$entry->getId()
 						);
 
 						$out .= apply_filters( 'cn_list_entry_before' , '' , $entry );

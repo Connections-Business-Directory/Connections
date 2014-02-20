@@ -279,53 +279,67 @@ class cnTemplatePart {
 	 */
 	public static function JSON( $atts, $entry ) {
 
+		// Stores the entry data.
+		$data = array();
+
 		$defaults = array(
-			'tag'    => 'div',
-			'before' => '',
-			'after'  => '',
-			'return' => FALSE,
+			'tag'                => 'div',
+			'before'             => '',
+			'after'              => '',
+			'return'             => FALSE,
+			'show_addresses'     => TRUE,
+			'show_phone_numbers' => TRUE,
+			'show_email'         => TRUE,
+			'show_im'            => TRUE,
+			'show_social_media'  => TRUE,
+			'show_links'         => TRUE,
+			'show_dates'         => TRUE,
+			'show_bio'           => TRUE,
+			'show_notes'         => TRUE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		$data = array(
+			'type'            => $entry->getEntryType(),
+			'id'              => $entry->getId(),
+			'ruid'            => $entry->getRuid(),
+			'slug'            => $entry->getSlug(),
+			'name'            => array(
+				'full'   => $entry->getName( $atts ),
+				'prefix' => $entry->getHonorificPrefix(),
+				'first'  => $entry->getFirstName(),
+				'middle' => $entry->getMiddleName(),
+				'last'   => $entry->getLastName(),
+				'suffix' => $entry->getHonorificSuffix(),
+				),
+			'title'           => $entry->getTitle(),
+			'organization'    => $entry->getOrganization(),
+			'department'      => $entry->getDepartment(),
+			'contact_name'    => array(
+				'full'   => $entry->getContactName(),
+				'first'  => $entry->getContactFirstName(),
+				'last'   => $entry->getContactLastName()
+				),
+			'family_name'     => $entry->getFamilyName(),
+			'family_members'  => $entry->getFamilyMembers(),
+			'categories'      => $entry->getCategory(),
+			'meta'            => $entry->getMeta( $atts ),
+			);
+
+		if ( $atts['show_addresses'] ) $data['addresses'] = $entry->getAddresses( $atts );
+		if ( $atts['show_phone_numbers'] ) $data['phone_numbers'] = $entry->getPhoneNumbers( $atts );
+		if ( $atts['show_email'] ) $data['email_addresses'] = $entry->getEmailAddresses( $atts );
+		if ( $atts['show_im'] ) $data['im'] = $entry->getIm( $atts );
+		if ( $atts['show_social_media'] ) $data['social_media'] = $entry->getSocialMedia( $atts );
+		if ( $atts['show_links'] ) $data['links'] = $entry->getLinks( $atts );
+		if ( $atts['show_dates'] ) $data['dates'] = $entry->getDates( $atts );
+		if ( $atts['show_bio'] ) $data['bio'] = $entry->getBio();
+		if ( $atts['show_notes'] ) $data['notes'] = $entry->getNotes();
+
 		$out =  sprintf('<%1$s class="cn-entry-data-json" data-entry-data-json=\'%2$s\'></%1$s>',
 				$atts['tag'],
-				json_encode( array(
-					'type'            => $entry->getEntryType(),
-					'id'              => $entry->getId(),
-					'ruid'            => $entry->getRuid(),
-					'slug'            => $entry->getSlug(),
-					'name'            => array(
-						'full'   => $entry->getName( $atts ),
-						'prefix' => $entry->getHonorificPrefix(),
-						'first'  => $entry->getFirstName(),
-						'middle' => $entry->getMiddleName(),
-						'last'   => $entry->getLastName(),
-						'suffix' => $entry->getHonorificSuffix(),
-						),
-					'title'           => $entry->getTitle(),
-					'organization'    => $entry->getOrganization(),
-					'department'      => $entry->getDepartment(),
-					'contact_name'    => array(
-						'full'   => $entry->getContactName(),
-						'first'  => $entry->getContactFirstName(),
-						'last'   => $entry->getContactLastName()
-						),
-					'family_name'     => $entry->getFamilyName(),
-					'family_members'  => $entry->getFamilyMembers(),
-					'addresses'       => $entry->getAddresses( $atts ),
-					'phone_numbers'   => $entry->getPhoneNumbers( $atts ),
-					'email_addresses' => $entry->getEmailAddresses( $atts ),
-					'im'              => $entry->getIm( $atts ),
-					'social_media'    => $entry->getSocialMedia( $atts ),
-					'links'           => $entry->getLinks( $atts ),
-					'dates'           => $entry->getDates( $atts ),
-					'bio'             => $entry->getBio(),
-					'notes'           => $entry->getNotes(),
-					'categories'      => $entry->getCategory(),
-					'meta'            => $entry->getMeta( $atts ),
-					)
-				)
+				htmlspecialchars( json_encode( $data ), ENT_QUOTES, 'UTF-8' )
 			);
 
 		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;

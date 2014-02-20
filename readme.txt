@@ -86,6 +86,10 @@ Connections has been translated in the following languages.
 
 == Changelog ==
 
+= 0.7.9.4 02/20/2014 =
+* BUG: Fixed URL escaping in pagination links.
+* BUG: Fix potential XSS issue.
+
 = 0.7.9.3 10/15/13 =
 * FEATURE: The character filter now uses a permalink structure which is more SEO friendly.
 * BUG: Fixed the character filter when the directory is used on the front page.

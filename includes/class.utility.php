@@ -204,15 +204,16 @@ class cnFormatting {
 	}
 }
 
-class cnValidate
-{
-	public function attributesArray($defaults, $untrusted)
-	{
-		//print_r($defaults);
+class cnValidate {
 
-		$intersect = array_intersect_key($untrusted, $defaults); // Get data for which is in the valid fields.
-		$difference = array_diff_key($defaults, $untrusted); // Get default data which is not supplied.
-		return array_merge($intersect, $difference); // Merge the results. Contains only valid fields of all defaults.
+	public function attributesArray( $defaults, $untrusted ) {
+
+		if ( ! is_array( $defaults ) || ! is_array( $untrusted ) ) return $defaults;
+
+		$intersect  = array_intersect_key( $untrusted, $defaults ); // Get data for which is in the valid fields.
+		$difference = array_diff_key( $defaults, $untrusted ); // Get default data which is not supplied.
+
+		return array_merge( $intersect, $difference ); // Merge the results. Contains only valid fields of all defaults.
 	}
 
     /**
@@ -459,6 +460,46 @@ class cnValidate
 }
 
 class cnURL {
+
+	/**
+	* @param $url
+	*     The URL to encode
+	*
+	* @return
+	*     A string containing the encoded URL with disallowed
+	*     characters converted to their percentage encodings.
+	*
+	* @link http://publicmind.in/blog/url-encoding/
+	*/
+	public static function encode( $url ) {
+
+		$reserved = array(
+			":" => '!%3A!ui',
+			"/" => '!%2F!ui',
+			"?" => '!%3F!ui',
+			"#" => '!%23!ui',
+			"[" => '!%5B!ui',
+			"]" => '!%5D!ui',
+			"@" => '!%40!ui',
+			"!" => '!%21!ui',
+			"$" => '!%24!ui',
+			"&" => '!%26!ui',
+			"'" => '!%27!ui',
+			"(" => '!%28!ui',
+			")" => '!%29!ui',
+			"*" => '!%2A!ui',
+			"+" => '!%2B!ui',
+			"," => '!%2C!ui',
+			";" => '!%3B!ui',
+			"=" => '!%3D!ui',
+			"%" => '!%25!ui',
+			);
+
+		$url = rawurlencode( $url );
+		$url = preg_replace( array_values( $reserved ), array_keys( $reserved ), $url );
+
+		return $url;
+	}
 
 	/**
 	 * Take a URL and see if it's prefixed with a protocol, if it's not then it will add the default prefix to the start of the string.

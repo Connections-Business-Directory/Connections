@@ -1914,8 +1914,12 @@ class cnOutput extends cnEntry
 		$out .= '<span class="date-block">';
 
 		foreach ( $dates as $date ) {
+
 			$replace = array();
-			$dateObject = new DateTime( $date->date );
+
+			// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
+			// // just incase a user manages to input an incorrect date or date format.
+			$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
 
 			$out .= "\n" . '<span class="vevent">';
 

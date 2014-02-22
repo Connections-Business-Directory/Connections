@@ -1,5 +1,8 @@
 == Changelog ==
 
+= 0.7.9.5 02/21/2014 =
+* BUG: Fixed double quoting which could cause category queries to fail.
+
 = 0.7.9.4 02/20/2014 =
 * BUG: Fixed URL escaping in pagination links.
 * BUG: Fix potential XSS issue.

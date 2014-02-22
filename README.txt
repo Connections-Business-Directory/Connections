@@ -86,6 +86,9 @@ Connections has been translated in the following languages.
 
 == Changelog ==
 
+= 0.7.9.5 02/21/2014 =
+* BUG: Fixed double quoting which could cause category queries to fail.
+
 = 0.7.9.4 02/20/2014 =
 * BUG: Fixed URL escaping in pagination links.
 * BUG: Fix potential XSS issue.
@@ -257,3 +260,9 @@ Fix bug preventing the copying of an entry.
 
 = 0.7.9.3 =
 The character filter now uses a permalink structure for better SEO. Fix minor bug preventing the character filter from working on the front page.
+
+= 0.7.9.4 =
+Fix potential XSS vulnerability. Updating is highly advised.
+
+= 0.7.9.5 =
+Fix potential XSS vulnerability. Updating is highly advised.

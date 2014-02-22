@@ -230,7 +230,7 @@ class cnRetrieve {
 			foreach ( $atts['category_name'] as $categoryName ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name just in case the user added it when using the shortcode.
-				$categoryNames[] = $wpdb->prepare( '%s', trim( $categoryName ) );
+				$categoryNames[] = htmlentities( $wpdb->prepare( '%s', trim( $categoryName ) ) );
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'name', $categoryName );
@@ -238,7 +238,7 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the name if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categoryNames ) ) $categoryNames[] = $wpdb->prepare( '%s', $term->name );
+					if ( ! in_array( $term->name, $categoryNames ) ) $categoryNames[] = htmlentities( $wpdb->prepare( '%s', $term->name ) );
 				}
 			}
 		}
@@ -307,8 +307,11 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['exclude_category'] ) ) {
 
-			// If value is a string, strip the white space and then covert to an array.
+			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
+
+			// If value is a string, strip the white space and then convert to an array.
 			if ( ! is_array( $atts['exclude_category'] ) ) {
+
 				$atts['exclude_category'] = str_replace( ' ', '', $atts['exclude_category'] );
 
 				$atts['exclude_category'] = explode( ',', $atts['exclude_category'] );
@@ -357,14 +360,14 @@ class cnRetrieve {
 			// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
 			$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
 					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-					WHERE 1=1 AND tt.term_id IN (\'' . implode( "', '", $atts['category_in'] ) . '\') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category_in'] ) . ' ORDER BY tr.entry_id';
+					WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category_in'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category_in'] ) . ' ORDER BY tr.entry_id';
 
 			// Store the entryIDs that exist on all of the supplied category IDs
 			$results = $wpdb->get_col( $sql );
 			//print_r($results);
 
 			if ( ! empty( $results ) ) {
-				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (\'' . implode( "', '", $results ) . '\')';
+				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
 			} else {
 				$where[] = 'AND 1=2';
 			}
@@ -389,25 +392,25 @@ class cnRetrieve {
 			$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.taxonomy = \'category\'';
 
 			if ( ! empty( $categoryIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (\'' . implode( "', '", $categoryIDs ) . '\')';
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id IN (' . implode( ", ", $categoryIDs ) . ')';
 
 				unset( $categoryIDs );
 			}
 
 			if ( ! empty( $categoryExcludeIDs ) ) {
-				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (\'' . implode( "', '", $categoryExcludeIDs ) . '\')';
+				$where[] = 'AND ' . CN_TERM_TAXONOMY_TABLE . '.term_id NOT IN (' . implode( ", ", $categoryExcludeIDs ) . ')';
 
-				unset( $categoryIDs );
+				unset( $categoryExcludeIDs );
 			}
 
 			if ( ! empty( $categoryNames ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (\'' . implode( "', '", (array) $categoryNames ) . '\')';
+				$where[] = 'AND ' . CN_TERMS_TABLE . '.name IN (' . implode( ", ", (array) $categoryNames ) . ')';
 
 				unset( $categoryNames );
 			}
 
 			if ( ! empty( $categorySlugs ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.slug IN (\'' . implode( "', '", (array) $categorySlugs ) . '\')';
+				$where[] = 'AND ' . CN_TERMS_TABLE . '.slug IN (' . implode( ", ", (array) $categorySlugs ) . ')';
 
 				unset( $categorySlugs );
 			}
@@ -505,7 +508,7 @@ class cnRetrieve {
 
 		if ( 0 < strlen( $atts['char'] ) ) {
 
-			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s' , like_escape ( $atts['char'] ) . '%' );
+			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s', like_escape( $atts['char'] ) . '%' );
 		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied filters.
@@ -2001,6 +2004,7 @@ class cnRetrieve {
 			// Convert the search terms to a string adding the wild card to the end of each term to allow wider search results.
 			//$terms = implode( '* ' , $atts['terms'] ) . '*';
 			$terms = '+' . implode( ' +' , $atts['terms'] );
+			// $terms = '+"' . implode( ' +' , $atts['terms'] ) . '"';
 			//$terms = implode( ' ' , $atts['terms'] );
 
 			/*

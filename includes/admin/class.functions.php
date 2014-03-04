@@ -205,6 +205,9 @@ class cnAdminFunction {
 		if(!defined("CLOSMINWP28")){
 			define("CLOSMINWP28",false);
 		}
+		
+		$output = "";
+		
 		if ( version_compare( $GLOBALS['wp_version'], '2.9.999', '>' ) ) // returning bool if at least WP 3.0 is running
 			$current = get_option( '_site_transient_update_plugins' );
 

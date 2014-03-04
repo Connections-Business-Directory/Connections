@@ -202,7 +202,12 @@ class cnAdminFunction {
 		//echo "<tr><td colspan='5'>TEST</td></tr>";
 		//$api = plugins_api('plugin_information', array('slug' => 'connections', 'fields' => array('tested' => true, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
 		//print_r($api);
-
+		if(!defined("CLOSMINWP28")){
+			define("CLOSMINWP28",false);
+		}
+		
+		$output = "";
+		
 		if ( version_compare( $GLOBALS['wp_version'], '2.9.999', '>' ) ) // returning bool if at least WP 3.0 is running
 			$current = get_option( '_site_transient_update_plugins' );
 

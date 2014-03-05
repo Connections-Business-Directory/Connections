@@ -47,9 +47,9 @@ class cnScript {
 		add_action( 'init', array( 'cnScript', 'registerCSS' ) );
 
 		// Enqueue the frontend scripts and CSS.
-		add_action( 'wp', array( __CLASS__, 'enqueue' ) );
-		// add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueScripts' ) );
-		// add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueStyles' ) );
+		// add_action( 'wp', array( __CLASS__, 'enqueue' ) );
+		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueScripts' ) );
+		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueStyles' ) );
 
 		// Enqueue the admin scripts and CSS.
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminScripts' ) );
@@ -218,9 +218,6 @@ class cnScript {
 			{
 				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
 				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueStyles' ) );
-
-				// Hook extensions can use to enqueue scripts.
-				do_action( 'cn_enqueue_scripts' );
 
 				break;
 			}

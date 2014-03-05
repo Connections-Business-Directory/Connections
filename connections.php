@@ -9,7 +9,7 @@
  * Text Domain: connections
  * Domain Path: languages
  *
- * Copyright 2009  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
+ * Copyright 2014  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
  *
  * Connections is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as
@@ -25,7 +25,7 @@
  *
  * @package Connections
  * @category Core
- * @author Steven A. ZAhm
+ * @author Steven A. Zahm
  * @version 0.7.9.5
  */
 

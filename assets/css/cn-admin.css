@@ -405,13 +405,19 @@ div.widgets-sortables {
 #metabox-logo img { border-radius:4px; background-color: #FFFFFF; border:1px solid #E3E3E3; margin-bottom:10px; padding:5px; }
 #metabox-logo .cn-radio-group { margin-bottom:10px; }
 
+/* Bio and Notes metabox */
+#metabox-bio tr#cn-metabox-id-bio > th,
+#metabox-note tr#cn-metabox-id-notes > th {
+	display: none;
+}
+
 /* Buttons. */
 #cancel-button {float:left;}
 #cancel-button .button {display: inline-block;}
 .button-warning:hover {background:#CE0000 none repeat scroll 0 0; color:#FFFFFF;}
 .button {margin: 1px;}
 .button-primary  {margin: 1px ; padding: 3px 10px; }
-.postbox p.remove-button { bottom: 0; display:inline-block; position: absolute; right: 10px; }
+.postbox p.cn-remove-button { bottom: 0; display:inline-block; position: absolute; right: 10px; }
 
 /* Upgrade Page Styles */
 #connections-upgrade ul {padding-left: 20px !important; list-style-type: disc !important;}

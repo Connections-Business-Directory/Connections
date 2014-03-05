@@ -20,9 +20,18 @@ class cnShortcode {
 
 	private static $filterRegistry = array();
 
+	/**
+	 * The resulting content after being process thru the template shortcodes.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @var string
+	 */
+	private $result = '';
+
 	public static function init() {
 
-		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
+		add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 
 		add_action( 'init', array( __CLASS__, 'register') );
 	}
@@ -72,27 +81,27 @@ class cnShortcode {
 
 					// Show the just the search form w/o showing the intial results?
 					// If a Connections query var is set, show the results instead.
-					if ( isset( $atts['initial_results'] )
-						&& strtolower( $atts['initial_results'] ) == 'false'
-						&& ! (bool) array_intersect( $registeredQueryVars, array_keys( (array) $WP_Query->query_vars ) )
-					   )
-					{
+					// if ( isset( $atts['initial_results'] )
+					// 	&& strtolower( $atts['initial_results'] ) == 'false'
+					// 	&& ! (bool) array_intersect( $registeredQueryVars, array_keys( (array) $WP_Query->query_vars ) )
+					// 	)
+					// {
 
 
 
-					} else {
+					// } else {
 
-						// Rewrite the $atts array to prep it to be imploded.
-						array_walk( $atts, create_function( '&$i,$k','$i=" $k=\"$i\"";' ) );
+					// 	// Rewrite the $atts array to prep it to be imploded.
+					// 	array_walk( $atts, create_function( '&$i,$k','$i=" $k=\"$i\"";' ) );
 
-						$replace = '[' . $shortcode . ' ' . implode( ' ', $atts ) . ']';
-					}
+					// 	$replace = '[' . $shortcode . ' ' . implode( ' ', $atts ) . ']';
+					// }
 
 					// All returns/end of lines and tabs should be removed so wpautop() doesn't insert <p> and <br> tags in the form output.
-					$replace = str_replace( array( "\r\n", "\r", "\n", "\t" ), array( ' ', ' ', ' ', ' ' ), $replace );
+					// $replace = str_replace( array( "\r\n", "\r", "\n", "\t" ), array( ' ', ' ', ' ', ' ' ), $replace );
 
 					// Replace the shortcode in the post with something a new one based on you changes to $atts.
-					$post->post_content = str_replace( $matches[0][ array_search( $shortcode, $matches[2] ) ], $replace, $post->post_content );
+					// $post->post_content = str_replace( $matches[0][ array_search( $shortcode, $matches[2] ) ], $replace, $post->post_content );
 				}
 
 			}
@@ -207,9 +216,9 @@ class cnShortcode {
 				'desc'     => __( 'Database version.', 'connections' ),
 				'callback' => array( __CLASS__, 'dbVersion' ),
 				),
-			'return_to_top'        => array(
+			'return_to_target'     => array(
 				'desc'     => __( 'Return to top.', 'connections' ),
-				'callback' => array( __CLASS__, 'returnToTop' ),
+				'callback' => array( 'cnTemplatePart', 'returnToTopTarget' ),
 				),
 			'template_slug'        => array(
 				'desc'     => __( 'Template slug.', 'connections' ),
@@ -266,6 +275,114 @@ class cnShortcode {
 		);
 
 		return $part;
+	}
+
+	public static function part( $tag ) {
+
+		// Get the registered template shortcode parts.
+		$parts = self::parts();
+
+		// If the requested part is in the registered template shortcode parts, return its attributes.
+		if ( $key = array_key_exists( $tag, $parts ) !== FALSE ) return $parts[ $tag ];
+
+		// The parts was not found, return FALSE.
+		return FALSE;
+	}
+
+	/**
+	 * The method to be used to process the content thru the shortcode.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  object $content An instance of the cntemplate object.
+	 *
+	 * @return string          The result.
+	 */
+	public static function process( $content, $template ) {
+
+		$return = new cnShortcode( $content, $template );
+
+		return $return->result();
+	}
+
+	/**
+	 * Set's up the core  shortcode and starts the shortcode
+	 * replacement process using the WordPress shortcode API.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  object $content An instance of the cntemplate object.
+	 */
+	private function __construct( $content, $template ) {
+
+		// $this->content = $content;
+
+		// Register the entry shortcode.
+		// Adding it here so it is only processed when $content is processed thru this method.
+		add_shortcode( 'cn_template', array( $this, 'processor' ) );
+
+		// Bail if $content does hot contain the `cn_template` shortcode.
+		if ( ! has_shortcode( $content, 'cn_template' ) ) return '';
+
+		$this->result = do_shortcode( $content );
+
+		// Remove the runtime shortcode.
+		remove_shortcode( 'cn_template' );
+	}
+
+	public function processor( $atts, $content = '', $tag = 'cn_template' ) {
+
+		$out = '';
+
+		$defaults = array(
+			'part' => '',
+			);
+
+		// Normally we'd use shortcode_atts, but that strips keys from $atts that do not exist in $defaults.
+		// Since $atts can contain various option for the different callback methods, we'll use wp_parse_args()
+		// which leaves keys that do not exist in $atts.
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Check to see if the part being called is a registered part and if it is, process it.
+		if ( ( $part = self::part( $atts['part'] ) ) !== FALSE ) {
+
+			// If the part has a registered callback, run it.
+			if ( is_callable( $part['callback'] ) ) {
+
+				ob_start();
+
+				call_user_func( $part['callback'], $atts );
+
+				$out .= ob_get_clean();
+			}
+
+			if ( is_string( $content ) && ! empty( $content ) ) {
+
+				add_shortcode( $atts['part'], $part['callback'] );
+
+				$out .= has_shortcode( $content, $atts['part'] ) ? do_shortcode( $content ) : '';
+
+				remove_shortcode( $atts['part'] );
+			}
+
+		}
+
+		return $out;
+	}
+
+	/**
+	 * Returns the processed content.
+	 *
+	 * @access private
+	 * @since 0.8
+	 *
+	 * @return string The processed content.
+	 */
+	private function result() {
+
+		return $this->result;
 	}
 
 	public static function addFilterRegistry( $tag ) {

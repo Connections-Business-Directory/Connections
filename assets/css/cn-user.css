@@ -321,7 +321,7 @@ input#cn-submit {
 /*
  * Return to top.
  */
-div#cn-list span.cn-return-to-top img {
+#cn-list span.cn-return-to-top img {
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -332,4 +332,35 @@ div#cn-list span.cn-return-to-top img {
 	margin: 0 0 -6px;
 	max-width: none;
 	padding: 5px;
+}
+
+/*
+ * Core CSS for the custom metabox and fields.
+ */
+.cn-metabox input {
+	padding: 1px 6px;
+}
+.cn-metabox input.small-text {
+	width: 50px;
+}
+.cn-metabox input.regular-text {
+	display: block;
+	width: 25em;
+}
+.cn-metabox input.large-text {
+	width: 99%;
+}
+.cn-metabox span.cn-radio-option {
+	padding-right: 18px;
+}
+.cn-metabox div.cn-radio-option {
+	margin-bottom: 6px;
+}
+.cn-metabox textarea.small-text {
+	height: 196px;
+	width: 49%;
+}
+.cn-metabox textarea.large-text {
+	height: 196px;
+	width: 99%;
 }

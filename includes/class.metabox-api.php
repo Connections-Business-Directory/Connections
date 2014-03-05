@@ -237,7 +237,7 @@ class cnMetaboxAPI {
 	 *
 	 * @return bool
 	 */
-	public static function remove( string $id ) {
+	public static function remove( $id ) {
 
 		if ( isset( self::$metaboxes[ $id ] ) ) {
 
@@ -485,15 +485,19 @@ class cnMetabox_Render {
 
 		} else {
 
-			self::$metaboxes[ $metabox['id'] ] = array(
-				'id'        => $metabox['id'],
-				'title'     => $metabox['title'],
-				'callback'  => $metabox['callback'],
-				'page_hook' => $pageHook,
-				'context'   => $metabox['context'],
-				'priority'  => $metabox['priority'],
-				'args'      => $metabox
-				);
+			// self::$metaboxes[ $metabox['id'] ] = array(
+			// 	'id'        => $metabox['id'],
+			// 	'title'     => $metabox['title'],
+			// 	'callback'  => $metabox['callback'],
+			// 	'page_hook' => $pageHook,
+			// 	'context'   => $metabox['context'],
+			// 	'priority'  => $metabox['priority'],
+			// 	'args'      => $metabox
+			// 	);
+
+			$metabox['field'] = isset( $metabox['field'] ) && ! empty( $metabox['field']  ) ? $metabox['field'] : array( 'public' );
+
+			cnMetaboxAPI::add( $metabox );
 		}
 
 	}
@@ -745,10 +749,10 @@ class cnMetabox_Render {
 
 			if ( empty( $value ) ) $value = isset( $field['default'] ) ? $field['default'] : '';
 
-			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .' cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';
+			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .'" id="cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';
 
 			// For a label to be rendered the $field['name'] has to be supplied.
-			// Show the label if $field['show_label'] is TRUE, OR, if it is not supplied and $field['show_label'] show it anyway.
+			// Show the label if $field['show_label'] is TRUE, OR, if it is not supplied assume TRUE and show it anyway.
 			// The result will be the label will be shown unless specifically $field['show_label'] is set to FALSE.
 			if ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( ! isset( $field['show_label'] ) || $field['show_label'] == TRUE ) ) {
 
@@ -757,16 +761,16 @@ class cnMetabox_Render {
 					esc_html( $field['name'] )
 				);
 
-			} elseif ( isset( $field['name'] ) && ! empty( $field['name'] ) ) {
+			} elseif ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( isset( $field['show_label'] ) && $field['show_label'] == TRUE ) ) {
 
-				printf( '<td><label for="%1$s">%2$s</label></td>',
+				printf( '<th><label for="%1$s">%2$s</label></th>',
 					esc_attr( $field['id'] ),
 					esc_html( $field['name'] )
 				);
 
-			} else {
+			} elseif ( ! isset( $field['show_label'] ) || $field['show_label'] == FALSE ) {
 
-				echo '<td style="display:none;">&nbsp;</td>';
+				echo '<th>&nbsp;</th>';
 			}
 
 			echo '<td>';

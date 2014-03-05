@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnShortcode_Connections extends cnShortcode {
 
-	public static function shortcode( $atts, $content = NULL, $tag = 'connections' ) {
+	public static function shortcode( $atts, $content = '', $tag = 'connections' ) {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -133,6 +133,12 @@ class cnShortcode_Connections extends cnShortcode {
 			// do_action( 'cn_action_return_to_target', $atts );
 
 		$html .= ob_get_clean();
+
+
+		if ( is_string( $content ) && ! empty( $content ) ) {
+var_dump(htmlentities( $content ));
+			$html .= cnShortcode::process( $content, $template );
+		}
 
 		return self::removeEOL( $html );
 	}

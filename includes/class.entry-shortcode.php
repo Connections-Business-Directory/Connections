@@ -68,7 +68,7 @@ class cnEntry_Shortcode {
 		add_shortcode( 'cn_entry', array( $this, 'shortcode' ) );
 
 		// Bail if $content does hot contain the `cn_entry` shortcode.
-		if ( ! has_shortcode( $content, 'cn_entry' ) ) return $out;
+		if ( ! has_shortcode( $content, 'cn_entry' ) ) return '';
 
 		$this->result = do_shortcode( $content );
 
@@ -101,7 +101,7 @@ class cnEntry_Shortcode {
 	 *
 	 * @return string          The processed content.
 	 */
-	public function shortcode( $atts, $content = NULL, $tag = 'cn_entry' ) {
+	public function shortcode( $atts, $content = '', $tag = 'cn_entry' ) {
 
 		// Bail if self::$entry is not set because an instance of the cnEntry object is required.
 		if ( is_null( $this->entry ) ) return '';
@@ -215,7 +215,7 @@ class cnEntry_Shortcode {
 			default:
 
 				// Custom shortcodes can be applied to the content using this filter.
-				$out = apply_filters( 'cn_entry_part-' . $part, $part, $this->entry, $atts, $content );
+				$out = apply_filters( 'cn_entry_part-' . $part, $content, $atts, $this->entry );
 
 				break;
 		}
@@ -234,7 +234,7 @@ class cnEntry_Shortcode {
 	 *
 	 * @return string          The processed content.
 	 */
-	public function address( $atts, $content = NULL, $tag = 'cn_address' ) {
+	public function address( $atts, $content = '', $tag = 'cn_address' ) {
 
 		$out = '';
 
@@ -296,7 +296,7 @@ class cnEntry_Shortcode {
 	 *
 	 * @return string          The processed content.
 	 */
-	public function phone( $atts, $content = NULL, $tag = 'cn_phone' ) {
+	public function phone( $atts, $content = '', $tag = 'cn_phone' ) {
 
 		$out = '';
 
@@ -339,7 +339,7 @@ class cnEntry_Shortcode {
 	 *
 	 * @return string          The processed content.
 	 */
-	public function im( $atts, $content = NULL, $tag = 'cn_im' ) {
+	public function im( $atts, $content = '', $tag = 'cn_im' ) {
 
 		$out = '';
 
@@ -382,7 +382,7 @@ class cnEntry_Shortcode {
 	 *
 	 * @return string          The processed content.
 	 */
-	public function socialNetwork( $atts, $content = NULL, $tag = 'cn_social_network' ) {
+	public function socialNetwork( $atts, $content = '', $tag = 'cn_social_network' ) {
 
 		$out = '';
 
@@ -425,7 +425,7 @@ class cnEntry_Shortcode {
 	 *
 	 * @return string          The processed content.
 	 */
-	public function link( $atts, $content = NULL, $tag = 'cn_link' ) {
+	public function link( $atts, $content = '', $tag = 'cn_link' ) {
 
 		$out = '';
 
@@ -470,7 +470,7 @@ class cnEntry_Shortcode {
 	 *
 	 * @return string          The processed content.
 	 */
-	public function date( $atts, $content = NULL, $tag = 'cn_date' ) {
+	public function date( $atts, $content = '', $tag = 'cn_date' ) {
 
 		$out = '';
 

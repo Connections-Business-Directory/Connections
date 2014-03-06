@@ -281,6 +281,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 		'width'                 => NULL,
 		'lock'                  => FALSE,
 		'force_home'            => FALSE,
+		'cards_only'			=> FALSE,
 		'home_id'               => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 	);
 
@@ -342,14 +343,14 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 		// Prints the template's CSS file.
 		do_action( 'cn_action_css-' . $template->getSlug() , $atts );
-
+if(!$atts['cards_only']){
 		// The return to top anchor
 		do_action( 'cn_action_return_to_target', $atts );
-
+}
 		$out .= ob_get_contents();
 	ob_end_clean();
 
-
+if(!$atts['cards_only']){
 	$out .= sprintf( '<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s"%3$s>',
 				$connections->options->getVersion(),
 				$connections->options->getDBVersion(),
@@ -415,7 +416,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 			$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . "\n";
 
 			$out .= '<div class="connections-list cn-clear" id="cn-list-body">' . "\n";
-
+}
 			// If there are no results no need to proceed and output message.
 			if ( empty( $results ) ) {
 
@@ -463,7 +464,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						ob_end_clean();
 
 					}
-
+if(!$atts['cards_only']){
 					$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 
 					if ( $currentLetter != $previousLetter ) {
@@ -478,7 +479,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 						$previousLetter = $currentLetter;
 					}
-
+}
 					// Before entry actions.
 					ob_start();
 						do_action( 'cn_action_entry_before' , $atts , $entry );
@@ -491,7 +492,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 						$out .= ob_get_contents();
 					ob_end_clean();
-
+if(!$atts['cards_only']){
 					$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s" data-entry-type="%2$s" data-entry-id="%5$d" data-entry-slug="%4$s">',
 							$alternate = $alternate == '' ? '-alternate' : '',
 							$entry->getEntryType(),
@@ -499,7 +500,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 							$entry->getSlug(),
 							$entry->getId()
 						);
-
+}
 						$out .= apply_filters( 'cn_list_entry_before' , '' , $entry );
 						$out .= apply_filters( 'cn_list_entry_before-' . $template->getSlug() , '' , $entry );
 						$filterRegistry[] = 'cn_list_entry_before-' . $template->getSlug();
@@ -521,12 +522,14 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 						$out .= apply_filters( 'cn_list_entry_after' , '' , $entry );
 						$out .= apply_filters( 'cn_list_entry_after-' . $template->getSlug() , '' , $entry );
 						$filterRegistry[] = 'cn_list_entry_after-' . $template->getSlug();
-
+if(!$atts['cards_only']){
 					$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . "\n";
-
+}
 					// After entry actions.
 					ob_start();
+if(!$atts['cards_only']){ // this one had to be done due to the JSON usage, but maybe we can move that json so by default all acction are return nothing?
 						do_action( 'cn_action_entry_after' , $atts , $entry );
+}
 						do_action( 'cn_action_entry_after-' . $template->getSlug() , $atts , $entry );
 						$filterRegistry[] = 'cn_action_entry_after-' . $template->getSlug();
 
@@ -542,11 +545,11 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 				}
 			}
-
+if(!$atts['cards_only']){
 			$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . "\n";
 
 			$out .= "\n" . '<div class="cn-clear" id="cn-list-foot">' . "\n";
-
+}
 				$out .= apply_filters( 'cn_list_after' , '' , $results );
 				$out .= apply_filters( 'cn_list_after-' . $template->getSlug() , '' , $results );
 				$filterRegistry[] = 'cn_list_after-' . $template->getSlug();
@@ -569,13 +572,13 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 					$out .= ob_get_contents();
 				ob_end_clean();
-
+if(!$atts['cards_only']){
 			$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . "\n";
 
 		$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $template->getSlug() . ' -->' : '' ) . "\n";
 
 	$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . "\n";
-
+}
 	/*
 	 * Remove any filters a template may have added
 	 * so it is not run again if more than one template

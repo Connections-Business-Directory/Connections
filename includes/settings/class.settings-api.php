@@ -68,10 +68,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @since 0.7.3.0
 		 * @return void
 		 */
-		public static function getInstance()
-		{
-			if ( ! self::$instance )
-			{
+		public static function getInstance() {
+
+			if ( ! self::$instance ) {
+
 				self::$instance = new cnSettingsAPI();
 				self::$instance->init();
 			}
@@ -98,14 +98,14 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function init() {
 
 			// Register the settings tabs.
-			add_action( 'admin_init' , array( __CLASS__, 'registerTabs' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'registerTabs' ), .1 );
 
 			// Register the settings sections.
-			add_action( 'admin_init' , array( __CLASS__, 'registerSections' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'registerSections' ), .1 );
 
 			// Register the sections fields.
-			add_action( 'admin_init' , array( __CLASS__, 'addSettingsField' ), .1 );
-			add_action( 'init' , array( __CLASS__, 'registerFields' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), .1 );
+			add_action( 'init', array( __CLASS__, 'registerFields' ), .1 );
 		}
 
 		/**
@@ -130,16 +130,16 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function registerTabs() {
 
 			$tabs = array();
-			$out = array();
+			$out  = array();
 
-			$tabs = apply_filters('cn_register_settings_tabs', $tabs);
-			$tabs = apply_filters('cn_filter_settings_tabs', $tabs);
+			$tabs = apply_filters( 'cn_register_settings_tabs', $tabs );
+			$tabs = apply_filters( 'cn_filter_settings_tabs', $tabs );
 			//var_dump($tabs);
 
-			if ( empty($tabs) ) return array();
+			if ( empty( $tabs ) ) return array();
 
 			foreach ( $tabs as $key => $tab ) {
-				$out[$tab['page_hook']][] = $tab;
+				$out[ $tab['page_hook'] ][] = $tab;
 			}
 
 			self::$tabs = $out;
@@ -178,26 +178,28 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function registerSections() {
 
 			$sections = array();
-			$sort = array();
+			$sort     = array();
 
 			$sections = apply_filters('cn_register_settings_sections', $sections);
 			$sections = apply_filters('cn_filter_settings_sections', $sections);
 			//print_r($sections);
 
-			if ( empty($sections) ) return;
+			if ( empty( $sections ) ) return;
 
-			foreach ( $sections as $key => $section )
-			{
+			foreach ( $sections as $key => $section ) {
+
 				// Store the position values so an array multi sort can be done to postion the tab sections in the desired order.
 				( isset( $section['position'] ) && ! empty( $section['position'] ) ) ? $sort[] = $section['position'] : $sort[] = 0;
 			}
 
-			if ( ! empty( $sections ) )
-			{
-				array_multisort( $sort , $sections );
+			if ( ! empty( $sections ) ) {
 
-				foreach ( $sections as $section )
-				{
+				array_multisort( $sort, $sections );
+
+				foreach ( $sections as $section ) {
+
+					$id = isset( $section['plugin_id'] ) && $section['plugin_id'] !== substr( $section['id'], 0, strlen( $section['plugin_id'] ) ) ? $section['plugin_id'] . '_' . $section['id'] : $section['id'];
+
 					if ( isset( $section['tab'] ) && ! empty( $section['tab'] ) ) $section['page_hook'] = $section['page_hook'] . '-' . $section['tab'];
 
 					if ( ! isset( $section['callback'] ) || empty( $section['callback'] ) ) $section['callback'] = '__return_false';
@@ -207,9 +209,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					 * http://codex.wordpress.org/Function_Reference/add_settings_section
 					 */
 					add_settings_section(
-						$section['id'] ,
-						$section['title'] ,
-						$section['callback'] ,
+						$id,
+						$section['title'],
+						$section['callback'],
 						$section['page_hook']
 					);
 					//global $wp_settings_sections;print_r($wp_settings_sections);
@@ -307,12 +309,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 */
 		public static function registerFields() {
 
-			$fields = array();
-			$sort = array();
+			$fields  = array();
+			$sort    = array();
 			$options = array();
 
 			$fields = apply_filters('cn_register_settings_fields', $fields);
-			$fields = apply_filters('cn_filter_settings_fields', $fields);
+			$fields = apply_filters('cn_filter_settings_fields', $fields); // @todo:  At some point delete this line
 			//var_dump($fields);
 
 			if ( empty($fields) ) return;
@@ -322,15 +324,22 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				( isset( $field['position'] ) && ! empty( $field['position'] ) ) ? $sort[] = $field['position'] : $field[] = 0;
 			}
 
-			array_multisort( $sort , $fields );
+			array_multisort( $sort, $fields );
 
 			foreach ( $fields as $field ) {
 
 				// Add the tab id to the page hook if the field was registerd to a specific tab.
 				if ( isset( $field['tab'] ) && ! empty( $field['tab'] ) ) $field['page_hook'] = $field['page_hook'] . '-' . $field['tab'];
 
-				// If the section was not set or supplied empty set the value to 'default'. This is WP core behaviour.
-				$section = ! isset($field['section']) || empty($field['section']) ? 'default' : $field['section'];
+				// If the section was not set or supplied empty set the value to 'default'. This is WP core behavior.
+				if ( ! isset( $field['section'] ) || empty( $field['section'] ) ) {
+
+					$section = 'default';
+
+				} else {
+
+					$section = $field['plugin_id'] !== substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) ? $field['plugin_id'] . '_' . $field['section'] : $field['section'];
+				}
 
 				// If the option was not registered to a section or registered to a WP core section, set the option_name to the setting id.
 				// $optionName = isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array($field['section'], self::$coreSections) ? $field['section'] : $field['id'];
@@ -350,18 +359,18 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				if ( isset( $field['options'] ) ) $options['options'] = $field['options'];
 
 				$options = array(
-					/*'tab' => $field['tab'],*/
-					'section' => $section,
-					'id' => $field['id'],
-					'type' => $field['type'],
-					'size' => isset( $field['size'] ) ? $field['size'] : NULL,
-					'title' => $field['title'],
-					'desc' => isset( $field['desc'] ) ? $field['desc'] : '',
-					'help' => isset( $field['help'] ) ? $field['help'] : '',
-					'show_option_none' => isset( $field['show_option_none'] ) ? $field['show_option_none'] : '',
+					/*'tab'             => $field['tab'],*/
+					'section'           => $section,
+					'id'                => $field['id'],
+					'type'              => $field['type'],
+					'size'              => isset( $field['size'] ) ? $field['size'] : NULL,
+					'title'             => $field['title'],
+					'desc'              => isset( $field['desc'] ) ? $field['desc'] : '',
+					'help'              => isset( $field['help'] ) ? $field['help'] : '',
+					'show_option_none'  => isset( $field['show_option_none'] ) ? $field['show_option_none'] : '',
 					'option_none_value' => isset( $field['option_none_value'] ) ? $field['option_none_value'] : '',
-					'options' => isset( $field['options'] ) ? $field['options'] : array()/*,
-					'default' => isset( $field['default'] ) && ! empty( $field['default'] ) ? $field['default'] : FALSE,*/
+					'options'           => isset( $field['options'] ) ? $field['options'] : array()/*,
+					'default'           => isset( $field['default'] ) && ! empty( $field['default'] ) ? $field['default'] : FALSE,*/
 				);
 
 				/*
@@ -384,13 +393,13 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				//register_setting( $field['page_hook'], $optionName, $callback );
 
 				self::$fields[] = array(
-					'id' => $field['id'],
-					'title' => $field['title'],
-					'callback' => array( __CLASS__, 'field' ),
-					'page_hook' => $field['page_hook'],
-					'section' => $section,
-					'options' => $options,
-					'option_name' => $optionName,
+					'id'                => $field['id'],
+					'title'             => $field['title'],
+					'callback'          => array( __CLASS__, 'field' ),
+					'page_hook'         => $field['page_hook'],
+					'section'           => $section,
+					'options'           => $options,
+					'option_name'       => $optionName,
 					'sanitize_callback' => $callback
 					);
 

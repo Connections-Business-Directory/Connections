@@ -23,9 +23,7 @@ class cnRegisterSettings
 	 * @param $tabs array
 	 * @return array
 	 */
-	public static function registerSettingsTabs( $tabs )
-	{
-		global $connections;
+	public static function registerSettingsTabs( $tabs ) {
 
 		$settings = 'connections_page_connections_settings';
 
@@ -83,9 +81,7 @@ class cnRegisterSettings
 	 * @param array $sections
 	 * @return array
 	 */
-	public static function registerSettingsSections( $sections )
-	{
-		global $connections;
+	public static function registerSettingsSections( $sections ) {
 
 		$settings = 'connections_page_connections_settings';
 
@@ -140,8 +136,9 @@ class cnRegisterSettings
 			'page_hook' => $settings
 		);
 		$sections[] = array(
+			'plugin_id' => 'connections',
 			'tab'       => 'display',
-			'id'        => 'connections_display_list_actions',
+			'id'        => 'list_actions',
 			'position'  => 15,
 			'title'     => __( 'Result List Actions' , 'connections' ),
 			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are displayed above the result list.', 'connections' ) . '\';' ),
@@ -308,9 +305,7 @@ class cnRegisterSettings
 	 * @author Steven A. Zahm
 	 * @since 0.7.3.0
 	 */
-	public static function registerSettingsFields( $fields )
-	{
-		global $connections;
+	public static function registerSettingsFields( $fields ) {
 
 		$settings = 'connections_page_connections_settings';
 
@@ -456,18 +451,32 @@ class cnRegisterSettings
 			'default'   => 0
 		);
 
+		// $fields[] = array(
+		// 	'plugin_id' => 'connections',
+		// 	'id'        => 'view_all',
+		// 	'position'  => 10,
+		// 	'page_hook' => $settings,
+		// 	'tab'       => 'display',
+		// 	'section'   => 'connections_display_list_actions',
+		// 	'title'     => '',
+		// 	'desc'      => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections'),
+		// 	'help'      => '',
+		// 	'type'      => 'checkbox',
+		// 	'default'   => 0
+		// );
 		$fields[] = array(
 			'plugin_id' => 'connections',
-			'id'        => 'view_all',
+			'id'        => 'actions',
 			'position'  => 10,
 			'page_hook' => $settings,
 			'tab'       => 'display',
-			'section'   => 'connections_display_list_actions',
+			'section'   => 'list_actions',
 			'title'     => '',
-			'desc'      => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections'),
+			'desc'      => __( 'Whether or not a result list action should be shown. Result list actions can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
-			'type'      => 'checkbox',
-			'default'   => 0
+			'type'      => 'sortable_checklist',
+			'options'   =>  apply_filters( 'cn_list_actions', array( 'view_all' => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections') ) ),
+			'default'   => 0,
 		);
 
 		$fields[] = array(
@@ -1471,6 +1480,6 @@ class cnRegisterSettings
 /*
  * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
  */
-add_filter( 'cn_register_settings_tabs' , array( 'cnRegisterSettings', 'registerSettingsTabs' ) , 10 , 1 );
-add_filter( 'cn_register_settings_sections' , array( 'cnRegisterSettings', 'registerSettingsSections' ) , 10 , 1 );
-add_filter( 'cn_register_settings_fields' , array( 'cnRegisterSettings', 'registerSettingsFields' ) , 10 , 1 );
+add_filter( 'cn_register_settings_tabs', array( 'cnRegisterSettings', 'registerSettingsTabs' ), 10, 1 );
+add_filter( 'cn_register_settings_sections', array( 'cnRegisterSettings', 'registerSettingsSections' ), 10, 1 );
+add_filter( 'cn_register_settings_fields', array( 'cnRegisterSettings', 'registerSettingsFields' ), 10, 1 );

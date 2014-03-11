@@ -131,15 +131,7 @@ class cnMetaboxAPI {
 			// because the admin menu pages must be registered so we can use the page hooks.
 			// In the front end, just hook into the `init` hook since the page hooks are not needed.
 
-			if ( is_admin() ) {
-
-				add_action( 'admin_init', array( __CLASS__, 'process' ) );
-
-			} else {
-
-				add_action( 'init', array( __CLASS__, 'process' ) );
-			}
-
+			add_action( 'init', array( __CLASS__, 'process' ) );
 		}
 	}
 
@@ -190,11 +182,11 @@ class cnMetaboxAPI {
 		if ( is_admin() ) {
 
 			// Grab an instance of Connections.
-			$instance = Connections_Directory();
+			// $instance = Connections_Directory();
 
 			// Define the core pages and use them by default if no page where defined.
 			// Check if doing AJAX because the page hooks are not defined when doing an AJAX request which cause undefined property errors.
-			$pages = defined('DOING_AJAX') && DOING_AJAX ? array() : array( $instance->pageHook->add, $instance->pageHook->manage );
+			$pages = defined('DOING_AJAX') && DOING_AJAX ? array() : array( 'connections_page_connections_add', 'connections_page_connections_manage' );
 
 			$metabox['pages'] = empty( $metabox['pages'] ) ? $pages : $metabox['pages'];
 

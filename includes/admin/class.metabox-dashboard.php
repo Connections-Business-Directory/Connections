@@ -58,13 +58,12 @@ class cnDashboardMetabox {
 	 */
 	private static function register() {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$pages = 'toplevel_page_connections_dashboard';
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-news',
 			'title'    => __( 'News', 'connections' ),
-			'pages'    => array( $instance->pageHook->dashboard ),
+			'pages'    => array( $pages ),
 			'context'  => 'left',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'feed' ),
@@ -74,7 +73,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-upgrade-modules',
 			'title'    => __( 'Extension Update Notices', 'connections' ),
-			'pages'    => array( $instance->pageHook->dashboard ),
+			'pages'    => array( $pages ),
 			'context'  => 'left',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'feed' ),
@@ -84,7 +83,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-upgrade-templates',
 			'title'    => __( 'Template Update Notices', 'connections' ),
-			'pages'    => array( $instance->pageHook->dashboard ),
+			'pages'    => array( $pages ),
 			'context'  => 'left',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'feed' ),
@@ -94,7 +93,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-moderate',
 			'title'    => __( 'Awaiting Moderation', 'connections' ),
-			'pages'    => array( $instance->pageHook->dashboard ),
+			'pages'    => array( $pages ),
 			'context'  => 'left',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'recent' ),
@@ -107,7 +106,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-recent-added',
 			'title'    => __( 'Recently Added', 'connections' ),
-			'pages'    => array( $instance->pageHook->dashboard ),
+			'pages'    => array( $pages ),
 			'context'  => 'left',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'recent' ),
@@ -120,7 +119,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-recent-modified',
 			'title'    => __( 'Recently Modified', 'connections' ),
-			'pages'    => array( $instance->pageHook->dashboard ),
+			'pages'    => array( $pages ),
 			'context'  => 'left',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'recent' ),
@@ -133,7 +132,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'        => 'metabox-anniversary-today',
 			'title'     => __( 'Today\'s Anniversaries', 'connections' ),
-			'pages'     => array( $instance->pageHook->dashboard ),
+			'pages'     => array( $pages ),
 			'context'   => 'right',
 			'priority'  => 'core',
 			'callback'  => array( __CLASS__, 'celebrate' ),
@@ -145,7 +144,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'        => 'metabox-birthday-today',
 			'title'     => __( 'Today\'s Birthdays', 'connections' ),
-			'pages'     => array( $instance->pageHook->dashboard ),
+			'pages'     => array( $pages ),
 			'context'   => 'right',
 			'priority'  => 'core',
 			'callback'  => array( __CLASS__, 'celebrate' ),
@@ -157,7 +156,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'        => 'metabox-anniversary-upcoming',
 			'title'     => __( 'Upcoming Anniversaries', 'connections' ),
-			'pages'     => array( $instance->pageHook->dashboard ),
+			'pages'     => array( $pages ),
 			'context'   => 'right',
 			'priority'  => 'core',
 			'callback'  => array( __CLASS__, 'celebrate' ),
@@ -169,7 +168,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'        => 'metabox-birthday-upcoming',
 			'title'     => __( 'Upcoming Birthdays', 'connections' ),
-			'pages'     => array( $instance->pageHook->dashboard ),
+			'pages'     => array( $pages ),
 			'context'   => 'right',
 			'priority'  => 'core',
 			'callback'  => array( __CLASS__, 'celebrate' ),
@@ -181,7 +180,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-quick-links',
 			'title'    => __( 'Quick Links', 'connections' ),
-			'pages'    => array( $instance->pageHook->dashboard ),
+			'pages'    => array( $pages ),
 			'context'  => 'right',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'links' ),
@@ -190,7 +189,7 @@ class cnDashboardMetabox {
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-system',
 			'title'    => __( 'System', 'connections' ),
-			'pages'    => array( $instance->pageHook->dashboard ),
+			'pages'    => array( $pages ),
 			'context'  => 'right',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'system' ),

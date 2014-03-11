@@ -25,10 +25,13 @@ class cnTemplatePart {
 	 */
 	public static function init() {
 
-		add_action( 'cn_action_list_actions', array( __CLASS__, 'listActions' ) );
-		add_action( 'cn_action_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
+		add_action( 'cn_list_actions', array( __CLASS__, 'listActions' ) );
+		add_action( 'cn_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
 
 		add_action( 'cn_list_action-view_all', array( __CLASS__, 'listAction_ViewAll') );
+
+		add_action( 'cn_entry_action-back', array( __CLASS__, 'entryAction_Back'), 10, 2 );
+		add_action( 'cn_entry_action-vcard', array( __CLASS__, 'entryAction_vCard'), 10, 2 );
 
 		add_action( 'cn_action_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
 
@@ -105,7 +108,7 @@ class cnTemplatePart {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @param  array  $atts The $atts from self::listActions() passes by the action callback.
+	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
 	 *
 	 * @return void
 	 */
@@ -143,19 +146,23 @@ class cnTemplatePart {
 			'return'        => FALSE
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = wp_parse_args( $atts, apply_filters( 'cn_entry_actions_atts', $defaults ) );
 
-		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'back' ) )
-			$actions['back'] = cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => TRUE ) );
+		$settings = cnSettingsAPI::get( 'connections', 'entry_actions', 'actions' );
 
-		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) )
-			$actions['vcard'] = $entry->vcard( array( 'return' => TRUE ) );
+		if ( ! isset( $settings['active'] ) || empty( $settings['active'] ) ) return;
 
-		$actions = apply_filters( 'cn_filter_entry_actions', $actions );
+		foreach ( $settings['active'] as $key => $slug ) {
 
-		if ( empty( $actions ) ) return;
+			if ( ! has_action( "cn_entry_action-{$slug}" ) ) continue;
 
-		foreach ( $actions as $key => $action ) {
+			ob_start();
+
+			do_action( "cn_entry_action-{$slug}", $atts, $entry );
+
+			$action = ob_get_clean();
+
+			if ( strlen( $action ) < 1 ) continue;
 
 			$out .= sprintf( '%1$s<%2$s class="cn-entry-action-item">%3$s</%2$s>%4$s',
 				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
@@ -172,6 +179,34 @@ class cnTemplatePart {
 
 		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+	}
+
+	/**
+	 * Callback for the cn_entry_action-back action which outputs the "Go back to directory." link.
+	 *
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts  The $atts from self::entryActions() passed by the action callback.
+	 * @param  object $entry An instance of the cnEntry object; passed by the action callback.
+	 * @return void
+	 */
+	public static function entryAction_Back( $atts, $entry ) {
+
+		cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => FALSE ) );
+	}
+
+	/**
+	 * Callback for the cn_entry_action-vcard action which outputs the "Add to Address Book." link.
+	 *
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts  The $atts from self::entryActions() passed by the action callback.
+	 * @param  object $entry An instance of the cnEntry object; passed by the action callback.
+	 * @return void
+	 */
+	public static function entryAction_vCard( $atts, $entry ) {
+
+		$entry->vcard( array( 'return' => FALSE ) );
 	}
 
 	/**

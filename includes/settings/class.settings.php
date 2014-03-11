@@ -153,8 +153,9 @@ class cnRegisterSettings
 			'page_hook' => $settings
 		);
 		$sections[] = array(
+			'plugin_id' => 'connections',
 			'tab'       => 'display',
-			'id'        => 'connections_display_entry_actions',
+			'id'        => 'entry_actions',
 			'position'  => 25,
 			'title'     => __( 'Entry Actions' , 'connections' ),
 			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';' ),
@@ -472,10 +473,10 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'list_actions',
 			'title'     => '',
-			'desc'      => __( 'Whether or not a result list action should be shown. Result list actions can be dragged and dropped in the desired order to be shown.', 'connections' ),
+			'desc'      => __( 'Whether or not a list action should be shown. Actions can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  apply_filters( 'cn_list_actions', array( 'view_all' => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections') ) ),
+			'options'   =>  apply_filters( 'cn_list_action_options', array( 'view_all' => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections') ) ),
 			'default'   => 0,
 		);
 
@@ -494,31 +495,58 @@ class cnRegisterSettings
 			'default'   => 0,
 		);
 
+		// $fields[] = array(
+		// 	'plugin_id' => 'connections',
+		// 	'id'        => 'back',
+		// 	'position'  => 10,
+		// 	'page_hook' => $settings,
+		// 	'tab'       => 'display',
+		// 	'section'   => 'connections_display_entry_actions',
+		// 	'title'     => '',
+		// 	'desc'      => __( 'Show the "Back to Directory" link.', 'connections' ),
+		// 	'help'      => '',
+		// 	'type'      => 'checkbox',
+		// 	'default'   => 1
+		// );
+		// $fields[] = array(
+		// 	'plugin_id' => 'connections',
+		// 	'id'        => 'vcard',
+		// 	'position'  => 20,
+		// 	'page_hook' => $settings,
+		// 	'tab'       => 'display',
+		// 	'section'   => 'connections_display_entry_actions',
+		// 	'title'     => '',
+		// 	'desc'      => __( 'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.', 'connections' ),
+		// 	'help'      => '',
+		// 	'type'      => 'checkbox',
+		// 	'default'   => 1
+		// );
 		$fields[] = array(
 			'plugin_id' => 'connections',
-			'id'        => 'back',
+			'id'        => 'actions',
 			'position'  => 10,
 			'page_hook' => $settings,
 			'tab'       => 'display',
-			'section'   => 'connections_display_entry_actions',
+			'section'   => 'entry_actions',
 			'title'     => '',
-			'desc'      => __( 'Show the "Back to Directory" link.', 'connections' ),
+			'desc'      => __( 'Whether or not an entry action should be shown. Actions can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
-			'type'      => 'checkbox',
-			'default'   => 1
-		);
-		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'vcard',
-			'position'  => 20,
-			'page_hook' => $settings,
-			'tab'       => 'display',
-			'section'   => 'connections_display_entry_actions',
-			'title'     => '',
-			'desc'      => __( 'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.', 'connections' ),
-			'help'      => '',
-			'type'      => 'checkbox',
-			'default'   => 1
+			'type'      => 'sortable_checklist',
+			'options'   =>  apply_filters( 'cn_entry_action_options', array(
+				'back'  => __( 'Show the "Back to Directory" link.', 'connections' ),
+				'vcard' => __( 'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.', 'connections' ),
+				)
+			),
+			'default'   => array(
+				'order' => array(
+					'back',
+					'vcard',
+					),
+				'active' => array(
+					'back',
+					'vcard',
+					),
+				),
 		);
 
 		$fields[] = array(

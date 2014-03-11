@@ -378,8 +378,8 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 					// List actions template part.
 					ob_start();
-						do_action( 'cn_action_list_actions-before', $atts );
-						do_action( 'cn_action_list_actions', $atts );
+						do_action( 'cn_list_actions-before', $atts );
+						do_action( 'cn_list_actions', $atts );
 						$out .= ob_get_contents();
 					ob_end_clean();
 
@@ -467,8 +467,8 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 						// Entry actions template part.
 						ob_start();
-							do_action( 'cn_action_entry_actions-before', $atts , $entry );
-							do_action( 'cn_action_entry_actions', $atts , $entry );
+							do_action( 'cn_entry_actions-before', $atts , $entry );
+							do_action( 'cn_entry_actions', $atts , $entry );
 							$out .= ob_get_contents();
 						ob_end_clean();
 
@@ -574,7 +574,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					if ( ! get_query_var( 'cn-entry-slug' ) ) {
 
 						// List actions template part.
-						do_action( 'cn_action_list_actions-after', $atts );
+						do_action( 'cn_list_actions-after', $atts );
 					}
 
 					$out .= ob_get_contents();

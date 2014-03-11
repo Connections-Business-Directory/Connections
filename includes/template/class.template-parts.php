@@ -119,6 +119,62 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Output the entry list actions.
+	 *
+	 * @access public
+	 * @since 0.7.6.5
+	 * @param (array)  $atts [optional]
+	 * @param (object) $entry Instance of the cnEntry class.
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @return string | void
+	 */
+	public static function entryActions( $atts = array(), $entry ) {
+		$out = '';
+		$actions = array();
+
+		$defaults = array(
+			'container_tag' => 'ul',
+			'item_tag'      => 'li',
+			'before'        => '',
+			'before-item'   => '',
+			'after-item'    => '',
+			'after'         => '',
+			'return'        => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'back' ) )
+			$actions['back'] = cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => TRUE ) );
+
+		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) )
+			$actions['vcard'] = $entry->vcard( array( 'return' => TRUE ) );
+
+		$actions = apply_filters( 'cn_filter_entry_actions', $actions );
+
+		if ( empty( $actions ) ) return;
+
+		foreach ( $actions as $key => $action ) {
+
+			$out .= sprintf( '%1$s<%2$s class="cn-entry-action-item">%3$s</%2$s>%4$s',
+				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
+				$atts['item_tag'],
+				$action,
+				empty( $atts['after-item'] ) ? '' : $atts['after-item']
+			 );
+		}
+
+		$out = sprintf( '<%1$s id="cn-entry-actions">%2$s</%1$s>',
+				$atts['container_tag'],
+				$out
+			);
+
+		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+	}
+
+	/**
 	 * Output the current category description.
 	 *
 	 * @access public
@@ -171,62 +227,6 @@ class cnTemplatePart {
 
 			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
 		}
-
-		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-	}
-
-	/**
-	 * Output the entry list actions.
-	 *
-	 * @access public
-	 * @since 0.7.6.5
-	 * @param (array)  $atts [optional]
-	 * @param (object) $entry Instance of the cnEntry class.
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @return string | void
-	 */
-	public static function entryActions( $atts = array(), $entry ) {
-		$out = '';
-		$actions = array();
-
-		$defaults = array(
-			'container_tag' => 'ul',
-			'item_tag'      => 'li',
-			'before'        => '',
-			'before-item'   => '',
-			'after-item'    => '',
-			'after'         => '',
-			'return'        => FALSE
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
-
-		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'back' ) )
-			$actions['back'] = cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => TRUE ) );
-
-		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) )
-			$actions['vcard'] = $entry->vcard( array( 'return' => TRUE ) );
-
-		$actions = apply_filters( 'cn_filter_entry_actions', $actions );
-
-		if ( empty( $actions ) ) return;
-
-		foreach ( $actions as $key => $action ) {
-
-			$out .= sprintf( '%1$s<%2$s class="cn-entry-action-item">%3$s</%2$s>%4$s',
-				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
-				$atts['item_tag'],
-				$action,
-				empty( $atts['after-item'] ) ? '' : $atts['after-item']
-			 );
-		}
-
-		$out = sprintf( '<%1$s id="cn-entry-actions">%2$s</%1$s>',
-				$atts['container_tag'],
-				$out
-			);
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";

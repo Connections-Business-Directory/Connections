@@ -109,6 +109,10 @@ class cnRewrite {
 		$department   = isset( $base['department_base'] ) && $base['department_base'] ? $base['department_base'] : 'department';
 		$name         = isset( $base['name_base'] ) && $base['name_base'] ? $base['name_base'] : 'name';
 
+		// Submit new entry page.
+		$rule['submit/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-view=submit';
+
 		// Landing page.
 		$rule['landing/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-view=landing';
@@ -311,6 +315,10 @@ class cnRewrite {
 		$organization = isset( $base['organization_base'] ) && $base['organization_base'] ? $base['organization_base'] : 'organization';
 		$department   = isset( $base['department_base'] ) && $base['department_base'] ? $base['department_base'] : 'department';
 		$name         = isset( $base['name_base'] ) && $base['name_base'] ? $base['name_base'] : 'name';
+
+		// Submit entry page.
+		$rule['(.?.+?)/submit/?$']
+			= 'index.php?pagename=$matches[1]&cn-view=submit';
 
 		// Landing page.
 		$rule['(.?.+?)/landing/?$']

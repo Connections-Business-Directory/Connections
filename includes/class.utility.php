@@ -614,6 +614,16 @@ class cnURL {
 
 				break;
 
+			case 'submit':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . 'submit/' );
+				} else {
+					$permalink = add_query_arg( 'cn-view', 'submit' , $permalink );
+				}
+
+				break;
+
 			case 'name':
 
 				if ( $wp_rewrite->using_permalinks() ) {

@@ -39,7 +39,7 @@ function connectionsEntryList($atts) {
  * @param string $content [optional]
  * @return string
  */
-function connectionsView( $atts , $content = NULL ) {
+function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 	global $connections;
 
 	/*$getAllowPublic = $connections->options->getAllowPublic();
@@ -69,6 +69,16 @@ function connectionsView( $atts , $content = NULL ) {
 	}
 
 	switch ( get_query_var('cn-view') ) {
+
+		case 'submit':
+
+			ob_start();
+
+			do_action( 'cn_submit_entry_form', $atts, $content, $tag );
+
+			return ob_get_clean();
+
+			break;
 
 		case 'landing':
 

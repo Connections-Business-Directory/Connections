@@ -72,11 +72,14 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 
 		case 'submit':
 
-			ob_start();
+			if ( has_action( 'cn_submit_entry_form' ) ) {
 
-			do_action( 'cn_submit_entry_form', $atts, $content, $tag );
+				ob_start();
 
-			return ob_get_clean();
+				do_action( 'cn_submit_entry_form', $atts, $content, $tag );
+
+				return ob_get_clean();
+			}
 
 			break;
 
@@ -117,20 +120,53 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 		// Show the entry detail using a template based on the entry type.
 		case 'detail':
 
-			// Ensure an array is passed the the cnRetrieve::entries method.
-			if ( ! is_array( $atts ) ) $atts = (array) $atts;
+			switch ( get_query_var('cn-process') ) {
 
-			$results = $connections->retrieve->entries( $atts );
-			//var_dump($results);
+				case 'edit':
 
-			$atts['list_type'] = $connections->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : NULL;
+					if ( has_action( 'cn_edit_entry_form' ) ) {
 
-			// Disable the output of the following because they do no make sense to display for a single entry.
-			$atts['show_alphaindex']   = FALSE;
-			$atts['repeat_alphaindex'] = FALSE;
-			$atts['show_alphahead']    = FALSE;
+						/*
+						 * The `cn_edit_entry_form` action should only be execusted if the user is
+						 * logged in and they have the `connections_manage` capability and either the
+						 * `connections_edit_entry` or `connections_edit_entry_moderated` capability.
+						 */
 
-			return connectionsList( $atts, $content );
+						if ( is_user_logged_in() &&
+							current_user_can( 'connections_manage' ) &&
+							( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+							) {
+
+							ob_start();
+
+							do_action( 'cn_edit_entry_form', $atts, $content, $tag );
+
+							return ob_get_clean();
+						}
+
+					}
+
+					break;
+
+				default:
+
+					// Ensure an array is passed the the cnRetrieve::entries method.
+					if ( ! is_array( $atts ) ) $atts = (array) $atts;
+
+					$results = $connections->retrieve->entries( $atts );
+					//var_dump($results);
+
+					$atts['list_type'] = $connections->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : NULL;
+
+					// Disable the output of the following because they do no make sense to display for a single entry.
+					$atts['show_alphaindex']   = FALSE;
+					$atts['repeat_alphaindex'] = FALSE;
+					$atts['show_alphahead']    = FALSE;
+
+					return connectionsList( $atts, $content );
+
+					break;
+			}
 
 			break;
 

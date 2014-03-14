@@ -245,10 +245,10 @@ class cnRewrite {
 
 		// Edit entry.
 		$rule[ $name . '/([^/]*)/edit/?$']
-			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-process=edit';
+			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-view=detail&cn-process=edit';
 
 		// Moderate entry.
-		$rule[ $name . '/([^/]*)/edit/?$']
+		$rule[ $name . '/([^/]*)/moderate/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-entry-slug=$matches[1]&cn-process=moderate';
 
 		// Delete entry.
@@ -452,10 +452,10 @@ class cnRewrite {
 
 		// Edit entry.
 		$rule['(.?.+?)/' . $name . '/([^/]*)/edit/?$']
-			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-process=edit';
+			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-view=detail&cn-process=edit';
 
 		// Moderate entry.
-		$rule['(.?.+?)/' . $name . '/([^/]*)/edit/?$']
+		$rule['(.?.+?)/' . $name . '/([^/]*)/moderate/?$']
 			= 'index.php?pagename=$matches[1]&cn-entry-slug=$matches[2]&cn-process=moderate';
 
 		// Delete entry.

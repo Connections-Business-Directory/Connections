@@ -517,11 +517,12 @@ class cnMetabox_Render {
 
 		$metaboxes = array();
 
-		$defaults = array(
+		$defaults  = array(
 			'id'      => '',
 			'order'   => array(),
 			'exclude' => array(),
 			'include' => array(),
+			'hide'    => array(),
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -547,19 +548,21 @@ class cnMetabox_Render {
 		foreach ( $metaboxes as $id => $metabox ) {
 
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
-			if( ! empty( $atts['exclude'] ) ) {
+			if ( ! empty( $atts['exclude'] ) ) {
 
-				if ( in_array( $id, $atts['exclude'] ) ) continue;
+				if ( in_array( $id, $atts['exclude'] ) && ! in_array( $id, $atts['hide'] ) ) continue;
 
 			} else {
 
 				if ( ! empty( $atts['include'] ) ) {
 
-					if ( ! in_array( $id, $atts['include'] ) ) continue;
+					if ( ! in_array( $id, $atts['include'] ) && ! in_array( $id, $atts['hide'] ) ) continue;
 				}
 			}
 
-			echo '<div id="cn-metabox-' . $metabox['id'] . '" class="cn-metabox">';
+			$display = in_array( $id, $atts['hide'] ) ? 'none' : 'block';
+
+			echo '<div id="cn-metabox-' . $metabox['id'] . '" class="cn-metabox" style="display: ' . $display . '">';
 				echo '<h3 class="cn-metabox-title">' . $metabox['title'] . '</h3>';
 				echo '<div class="cn-metabox-inside">';
 

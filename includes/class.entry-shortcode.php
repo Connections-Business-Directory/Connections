@@ -164,6 +164,16 @@ class cnEntry_Shortcode {
 
 				break;
 
+			case 'email':
+
+				add_shortcode( 'cn_email', array( $this, 'email') );
+
+				$out = has_shortcode( $content, 'cn_email' ) ? do_shortcode( $content ) : '';
+
+				remove_shortcode( 'cn_email' );
+
+				break;
+
 			case 'im':
 
 				add_shortcode( 'cn_im', array( $this, 'im') );
@@ -319,6 +329,38 @@ class cnEntry_Shortcode {
 			$replace = array(
 				'type'   => $phone->name,
 				'number' => $phone->number,
+				);
+
+			$out .= str_ireplace( $search, $replace, $content );
+
+		}
+
+		return $out;
+	}
+
+	public function email( $atts, $content = '', $tag = 'cn_email' ) {
+
+		$out = '';
+
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+			);
+
+		$atts = shortcode_atts( $defaults, $atts, $tag );
+
+		$search = array(
+			'%type%',
+			'%address%',
+			);
+
+		$emailAddresses = $this->entry->getEmailAddresses( $atts );
+
+		foreach ( $emailAddresses as $email ) {
+
+			$replace = array(
+				'type'    => $email->name,
+				'address' => $email->address,
 				);
 
 			$out .= str_ireplace( $search, $replace, $content );

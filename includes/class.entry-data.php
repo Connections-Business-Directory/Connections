@@ -206,7 +206,7 @@ class cnEntry {
 	 *
 	 * @var string
 	 */
-	private $visibility;
+	private $visibility = NULL;
 
 	private $options;
 	private $imageLinked;
@@ -2988,6 +2988,9 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getVisibility() {
+
+		if ( is_null( $this->visibility ) ) $this->visibility = 'unlisted';
+
 		return sanitize_key( $this->visibility );
 	}
 
@@ -3412,7 +3415,7 @@ class cnEntry {
 			WHERE id           = %d',
 			current_time( 'mysql' ),
 			$this->entryType,
-			$this->visibility,
+			$this->getVisibility(),
 			$this->slug,
 			$this->honorificPrefix,
 			$this->firstName,
@@ -4083,7 +4086,7 @@ class cnEntry {
 			current_time( 'mysql' ),
 			current_time( 'timestamp' ),
 			$this->entryType,
-			$this->visibility,
+			$this->getVisibility(),
 			$this->slug,
 			$this->familyName,
 			$this->honorificPrefix,

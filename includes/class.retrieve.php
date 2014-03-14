@@ -903,10 +903,39 @@ class cnRetrieve {
 		return $results;
 	}
 
-	public function entry( $id ) {
+	/**
+	 * Retrieve a single entry by either `id` or `slug`.
+	 *
+	 * @access  public
+	 * @since  unknown
+	 * @param  mixed  $slid int | string  The entry `id` or `slug`.
+	 *
+	 * @return array        The entry data.
+	 */
+	public function entry( $slid ) {
 		global $wpdb;
 
-		return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id="%d"' , $id ) );
+		if ( ctype_digit( $slid ) ) {
+
+			$field = 'id';
+			$value = absint( $slid );
+
+		} else {
+
+			$field = 'slug';
+			$value = $slid;
+		}
+
+		$result = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE ' . $field . '=%s', $value ) );
+
+		if ( is_null( $result ) ) {
+
+			return FALSE;
+
+		} else {
+
+			return $result;
+		}
 	}
 
 	public static function individuals( $atts = array() ) {

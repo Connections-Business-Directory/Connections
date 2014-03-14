@@ -624,6 +624,16 @@ class cnURL {
 
 				break;
 
+			case 'edit':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . urlencode( $atts['slug'] ) . '/edit' );
+				} else {
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail', 'cn-process' => 'edit' ) , $permalink );
+				}
+
+				break;
+
 			case 'name':
 
 				if ( $wp_rewrite->using_permalinks() ) {

@@ -1046,6 +1046,7 @@ class cnTemplatePart {
 			'type'            => 'select',
 			'group'           => FALSE,
 			'class'           => array( 'cn-category-select' ),
+			'name'            => 'cn-cat',
 			'style'           => array(),
 			'enhanced'        => TRUE,
 			'on_change'       => 'this.form.submit()',
@@ -1084,7 +1085,7 @@ class cnTemplatePart {
 		// $out .= PHP_EOL . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
 		$out .= sprintf( '<select %1$s name="%2$s"%3$s%4$sdata-placeholder="%5$s"%6$s>',
 			empty( $atts['class'] ) ? '' : cnHTML::attribute( 'class', $atts['class'] ),
-			$atts['type'] == 'multiselect' ? 'cn-cat[]' : 'cn-cat',
+			$atts['type'] == 'multiselect' ? esc_attr( $atts['name'] ) . '[]' : esc_attr( $atts['name'] ),
 			empty( $atts['style'] ) ? '' : cnHTML::attribute( 'style', $atts['style'] ),
 			$atts['type'] == 'multiselect' ? '' : ( empty( $atts['on_change'] ) ? '' : sprintf( ' onchange="%s" ', esc_js( $atts['on_change'] ) ) ),
 			esc_attr( $atts['default'] ),

@@ -273,7 +273,7 @@ class cnEntryMetabox {
 			),
 		);
 
-		$atts = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
+		$atts = wp_parse_args( apply_filters( 'cn_metabox_publish_atts', $atts ), $defaults );
 		$atts['default'] = wp_parse_args( $atts['default'], $defaults['default'] );
 
 		if ( isset( $_GET['cn-action'] ) ) {
@@ -587,7 +587,7 @@ class cnEntryMetabox {
 				),
 			);
 
-		$atts = wp_parse_args( apply_filters( 'cn_admin_metabox_name_atts', $atts ), $defaults );
+		$atts = wp_parse_args( apply_filters( 'cn_metabox_name_atts', $atts ), $defaults );
 
 		foreach ( (array) $atts['type'] as $entryType ) {
 
@@ -1067,7 +1067,7 @@ class cnEntryMetabox {
 		// 		),
 		// 	);
 
-		// $atts = wp_parse_args( apply_filters( 'cn_admin_metabox_name_atts', $atts ), $defaults );
+		// $atts = wp_parse_args( apply_filters( 'cn_metabox_name_atts', $atts ), $defaults );
 
 		echo '<div class="widgets-sortables ui-sortable" id="addresses">' , PHP_EOL;
 

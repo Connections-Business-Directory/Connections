@@ -58,14 +58,14 @@ class cnRegisterSettings
 
 		$tabs[] = array(
 			'id'        => 'seo' ,
-			'position'  => 31 ,
+			'position'  => 40 ,
 			'title'     => __( 'SEO' , 'connections' ) ,
 			'page_hook' => $settings
 		);
 
 		$tabs[] = array(
 			'id'        => 'advanced' ,
-			'position'  => 40 ,
+			'position'  => 60 ,
 			'title'     => __( 'Advanced' , 'connections' ) ,
 			'page_hook' => $settings
 		);
@@ -452,19 +452,6 @@ class cnRegisterSettings
 			'default'   => 0
 		);
 
-		// $fields[] = array(
-		// 	'plugin_id' => 'connections',
-		// 	'id'        => 'view_all',
-		// 	'position'  => 10,
-		// 	'page_hook' => $settings,
-		// 	'tab'       => 'display',
-		// 	'section'   => 'connections_display_list_actions',
-		// 	'title'     => '',
-		// 	'desc'      => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections'),
-		// 	'help'      => '',
-		// 	'type'      => 'checkbox',
-		// 	'default'   => 0
-		// );
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'actions',
@@ -495,32 +482,6 @@ class cnRegisterSettings
 			'default'   => 0,
 		);
 
-		// $fields[] = array(
-		// 	'plugin_id' => 'connections',
-		// 	'id'        => 'back',
-		// 	'position'  => 10,
-		// 	'page_hook' => $settings,
-		// 	'tab'       => 'display',
-		// 	'section'   => 'connections_display_entry_actions',
-		// 	'title'     => '',
-		// 	'desc'      => __( 'Show the "Back to Directory" link.', 'connections' ),
-		// 	'help'      => '',
-		// 	'type'      => 'checkbox',
-		// 	'default'   => 1
-		// );
-		// $fields[] = array(
-		// 	'plugin_id' => 'connections',
-		// 	'id'        => 'vcard',
-		// 	'position'  => 20,
-		// 	'page_hook' => $settings,
-		// 	'tab'       => 'display',
-		// 	'section'   => 'connections_display_entry_actions',
-		// 	'title'     => '',
-		// 	'desc'      => __( 'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.', 'connections' ),
-		// 	'help'      => '',
-		// 	'type'      => 'checkbox',
-		// 	'default'   => 1
-		// );
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'actions',

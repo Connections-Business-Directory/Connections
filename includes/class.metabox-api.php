@@ -501,6 +501,7 @@ class cnMetabox_Render {
 	 * Accepted option for the $atts property are:
 	 * 	id (array) The metabox ID to render.
 	 * 	order (array) An indexed array of metabox IDs that should be rendered in the order in the array.
+	 * 		NOTE: Any registered metabox ID not supplied in `order` means `exclude` is implied.
 	 * 	exclude (array) An indexed array of metabox IDs that should be excluded from being rendered.
 	 * 	include (array) An indexed array of metabox IDs that should be rendered.
 	 * 		NOTE: Metabox IDs in `exclude` outweigh metabox IDs in include. Meaning if the same metabox ID

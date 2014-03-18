@@ -108,7 +108,7 @@ class cnScript {
 
 		// wp_register_script( 'jquery-chosen-min', CN_URL . "assets/js/jquery.chosen$min.js", array( 'jquery' ), '0.9.11', $connections->options->getJavaScriptFooter() );
 		wp_register_script( 'jquery-chosen-min', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
-		wp_register_script( 'jquery-validate' , CN_URL . "assets/js/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.9.0' , $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-validate' , CN_URL . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.11.1' , $connections->options->getJavaScriptFooter() );
 	}
 
 	/**

@@ -263,30 +263,47 @@ class CN_License {
 				switch ( $error ) {
 
 					case 'expired':
+
 						$field['desc'] = __( 'License has expired.', 'connections' );
+
+						if ( isset( $data[ $field['id'] ]->renewal_url ) ) {
+
+							$field['desc'] .= sprintf( ' <a href="%1$s" title="%2$s">%2$s</a>',
+								esc_url( $data[ $field['id'] ]->renewal_url ),
+								__( 'Renew license.', 'connections' )
+							);
+
+						}
+
 						break;
 
 					case 'item_name_mismatch':
+
 						$field['desc'] = __( 'License entered is not for this item.', 'connections' );
 						break;
 
 					case 'missing':
+
 						$field['desc'] = __( 'Invalid license.', 'connections' );
 						break;
 
 					case 'revoked':
+
 						$field['desc'] = __( 'License has been revoked.', 'connections' );
 						break;
 
 					case 'no_activations_left':
+
 						$field['desc'] = __( 'License activation limit has been reached.', 'connections' );
 						break;
 
 					case 'key_mismatch':
+
 						$field['desc'] = __( 'License key mismatch.', 'connections' );
 						break;
 
 					default:
+
 						$field['desc'] = __( 'An unknown error has occurred.', 'connections' );
 						break;
 				}
@@ -304,6 +321,16 @@ class CN_License {
 					case 'expired':
 
 						$field['desc'] = __( 'License has expired.', 'connections' );
+
+						if ( isset( $data[ $field['id'] ]->renewal_url ) ) {
+
+							$field['desc'] .= sprintf( ' <a href="%1$s" title="%2$s">%2$s</a>',
+								esc_url( $data[ $field['id'] ]->renewal_url ),
+								__( 'Renew license.', 'connections' )
+							);
+
+						}
+
 						break;
 
 					case 'inactive':

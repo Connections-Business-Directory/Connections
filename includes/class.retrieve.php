@@ -915,10 +915,10 @@ class cnRetrieve {
 	public function entry( $slid ) {
 		global $wpdb;
 
-		if ( ctype_digit( $slid ) ) {
+		if ( ctype_digit( (string) $slid ) ) {
 
 			$field = 'id';
-			$value = absint( $slid );
+			$value = $slid;
 
 		} else {
 

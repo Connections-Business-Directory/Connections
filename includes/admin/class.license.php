@@ -420,7 +420,7 @@ class CN_License {
 
 			update_option( 'connections_license_data', $data );
 
-			set_transient( 'connections_license-' . $slug, $data[ $slug ], MINUTE_IN_SECONDS );
+			set_transient( 'connections_license-' . $slug, $data[ $slug ], DAY_IN_SECONDS );
 
 			// var_dump($data[ $slug ]);
 			return $data[ $slug ]->license;
@@ -652,7 +652,7 @@ class CN_License {
 				update_option( 'connections_license_data', $licenses );
 
 				// Save license data in transient.
-				set_transient( 'connections_license-' . $slug, $data, MINUTE_IN_SECONDS );
+				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
@@ -666,7 +666,7 @@ class CN_License {
 				update_option( 'connections_license_data', $licenses );
 
 				// Save license data in transient.
-				set_transient( 'connections_license-' . $slug, $data, MINUTE_IN_SECONDS );
+				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 

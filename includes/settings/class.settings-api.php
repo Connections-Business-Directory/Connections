@@ -611,25 +611,24 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @param array $field
 		 * @return string
 		 */
-		public static function field( $field )
-		{
+		public static function field( $field ) {
 			global $wp_version;
 			$out = '';
 
-			if ( in_array( $field['section'] , self::$coreSections ) )
-			{
+			if ( in_array( $field['section'] , self::$coreSections ) ) {
+
 				$value = get_option( $field['id'] ); //print_r($value);
-				$name = sprintf( '%1$s', $field['id'] );
-			}
-			else
-			{
+				$name  = sprintf( '%1$s', $field['id'] );
+
+			} else {
+
 				$values = get_option( $field['section'] );
-				$value = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : NULL; //print_r($value);
-				$name = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
+				$value  = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : NULL; //print_r($value);
+				$name   = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
 			}
 
-			switch ( $field['type'] )
-			{
+			switch ( $field['type'] ) {
+
 				case 'checkbox':
 					$checked = isset( $value ) ? checked(1, $value, FALSE) : '';
 
@@ -827,6 +826,16 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					// Enqueue the jQuery UI Sortable Library.
 					wp_enqueue_script( 'jquery-ui-sortable' );
+
+					break;
+
+				default:
+
+					ob_start();
+
+					do_action( 'cn_settings_field-' . $field['type'], $name, $value, $field );
+
+					$out .= ob_get_clean();
 
 					break;
 			}

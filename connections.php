@@ -170,6 +170,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
+			 * Used for EDD SL Updater
+			 */
+			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
+
+			/*
 			 * Core Constants
 			 */
 			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
@@ -410,6 +415,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// The class for registering general admin actions.
 				// Must require AFTER class.metabox-api.php and class.actions.php.
 				require_once CN_PATH . 'includes/admin/class.functions.php';
+
+				// The class for managing license keys and settings.
+				require_once CN_PATH . 'includes/admin/class.license.php';
 
 			} else {
 

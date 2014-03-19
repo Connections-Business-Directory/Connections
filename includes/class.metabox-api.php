@@ -131,7 +131,7 @@ class cnMetaboxAPI {
 			// because the admin menu pages must be registered so we can use the page hooks.
 			// In the front end, just hook into the `init` hook since the page hooks are not needed.
 
-			add_action( 'init', array( __CLASS__, 'process' ) );
+			add_action( 'init', array( __CLASS__, 'process' ), 0 );
 		}
 	}
 

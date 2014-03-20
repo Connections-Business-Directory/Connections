@@ -1016,7 +1016,7 @@ class cnOptions {
 	* @returns array|false
 	*/
 	public static function getCountryByCode($code="fail"){
-		$countries = cnDefaultValues::getCountries();
+		$countries = cnOptions::getCountries();
 		$country = isset($countries[strtoupper($code)])?$countries[strtoupper($code)]:false;
 		return $country;
 	}

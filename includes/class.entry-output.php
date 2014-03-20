@@ -416,7 +416,7 @@ class cnOutput extends cnEntry
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'format' => '%prefix% %first% %middle% %last% %suffix%',
+			'format' => '',
 			'link'   => cnSettingsAPI::get( 'connections', 'connections_link', 'name' ),
 			'target' => 'name',
 			'before' => '',
@@ -453,7 +453,13 @@ class cnOutput extends cnEntry
 
 				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
-				$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+				$out = '<span class="fn n">';
+				$out .= str_ireplace(
+					$search,
+					$replace,
+					empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
+					);
+				$out .= '</span>';
 
 				break;
 
@@ -481,7 +487,13 @@ class cnOutput extends cnEntry
 
 				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
-				$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+				$out = '<span class="fn n">';
+				$out .= str_ireplace(
+					$search,
+					$replace,
+					empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
+					);
+				$out .= '</span>';
 
 				break;
 		}
@@ -781,7 +793,7 @@ class cnOutput extends cnEntry
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'format'    => '%label%: %first% %last%',
+			'format'    => '',
 			'label'     => __( 'Contact', 'connections' ),
 			'separator' => ':',
 			'before'    => '',
@@ -811,7 +823,11 @@ class cnOutput extends cnEntry
 
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-		$out = '<span class="contact-name">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+		$out = str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%label%: %first% %last%' : $atts['format']
+			);
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -871,7 +887,7 @@ class cnOutput extends cnEntry
 		$defaults['zipcode']             = NULL;
 		$defaults['country']             = NULL;
 		$defaults['coordinates']         = array();
-		$defaults['format']              = '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%';
+		$defaults['format']              = '';
 		$defaults['link']['locality']    = cnSettingsAPI::get( 'connections', 'connections_link', 'locality' );
 		$defaults['link']['region']      = cnSettingsAPI::get( 'connections', 'connections_link', 'region' );
 		$defaults['link']['postal_code'] = cnSettingsAPI::get( 'connections', 'connections_link', 'postal_code' );
@@ -1029,7 +1045,11 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%' : $atts['format']
+				);
 
 			// Set the hCard Address Type.
 			$out .= $this->gethCardAdrType( $address->type );
@@ -1206,7 +1226,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %number%';
+		$defaults['format'] = '';
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
 		$defaults['after'] = '';
@@ -1249,7 +1269,11 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %number%' : $atts['format']
+				);
 
 			// Set the hCard Phone Number Type.
 			$out .= $this->gethCardTelType( $phone->type );
@@ -1388,8 +1412,8 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %address%';
-		$defaults['title'] = '%first% %last% %type% email.';
+		$defaults['format'] = '';
+		$defaults['title'] = '';
 		$defaults['size'] = 32;
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
@@ -1410,7 +1434,11 @@ class cnOutput extends cnEntry
 		$iconSizes = array( 16, 24, 32, 48 );
 
 		// Replace the 'Name Tokens' with the entry's name.
-		$title = $this->getName( array( 'format' => $atts['title' ] ) );
+		$title = $this->getName(
+			array(
+				'format' => empty( $atts['title'] ) ? '%first% %last% %type% email.' : $atts['title']
+				)
+			);
 
 		/*
 		 * Ensure the supplied size is valid, if not reset to the default value.
@@ -1434,7 +1462,11 @@ class cnOutput extends cnEntry
 			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><image src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a></span>';
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %address%' : $atts['format']
+				);
 
 			// Set the hCard Email Address Type.
 			$out .= '<span class="type" style="display: none;">INTERNET</span>';
@@ -1490,7 +1522,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %id%';
+		$defaults['format'] = '';
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
 		$defaults['after'] = '';
@@ -1551,7 +1583,11 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %id%' : $atts['format']
+				);
 
 			$out .= '</span>' . "\n";
 		}
@@ -1623,7 +1659,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%icon%';
+		$defaults['format'] = '';
 		$defaults['style'] = 'wpzoom';
 		$defaults['size'] = 32;
 		$defaults['separator'] = ':';
@@ -1677,7 +1713,11 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%icon%' : $atts['format']
+				);
 
 			$out .= '</span>';
 		}
@@ -1740,7 +1780,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %title%';
+		$defaults['format'] = '';
 		$defaults['label'] = NULL;
 		$defaults['size'] = 'lg';
 		$defaults['separator'] = ':';
@@ -1834,7 +1874,11 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
+				);
 
 			$out .= '</span>' . "\n";
 		}
@@ -1889,8 +1933,8 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %date%';
-		$defaults['name_format'] = '%prefix% %first% %middle% %last% %suffix%';
+		$defaults['format'] = '';
+		$defaults['name_format'] = '';
 		$defaults['date_format'] = cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' );
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
@@ -1929,7 +1973,11 @@ class cnOutput extends cnEntry
 			$replace[] = ( empty( $date->date ) ) ? '' : '<abbr class="dtstart" title="' . $dateObject->format( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $date->date ) , FALSE ) /*$dateObject->format( $atts['date_format'] )*/ . '</abbr><span class="summary" style="display:none">' . $date->name . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $dateObject->format( 'YmdHis' ) . '</span>';
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
+				);
 
 			$out .= '</span>' . "\n";
 		}
@@ -1967,11 +2015,11 @@ class cnOutput extends cnEntry
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['format'] = '%label%%separator% %date%';
-		$defaults['name_format'] = '%prefix% %first% %middle% %last% %suffix%';
+		$defaults['format'] = '';
+		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
-		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
+		$defaults['date_format'] = is_null( $format ) ? 'F jS' : $format;
 
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
@@ -2000,7 +2048,11 @@ class cnOutput extends cnEntry
 		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-		$out .= str_ireplace( $search , $replace , $atts['format'] );
+		$out .= str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
+			);
 
 		$out .= '<span class="bday" style="display:none">' . $this->getBirthday( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Birthday', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getBirthday( 'YmdHis' ) . '</span>';
@@ -2038,8 +2090,8 @@ class cnOutput extends cnEntry
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['format'] = '%label%%separator% %date%';
-		$defaults['name_format'] = '%prefix% %first% %middle% %last% %suffix%';
+		$defaults['format'] = '';
+		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
 		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
@@ -2070,7 +2122,11 @@ class cnOutput extends cnEntry
 		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-		$out .= str_ireplace( $search , $replace , $atts['format'] );
+		$out .= str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
+			);
 
 		$out .= '<span class="bday" style="display:none">' . $this->getAnniversary( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';
@@ -2624,7 +2680,7 @@ class cnOutput extends cnEntry
 			'class'  => '',
 			'text'   => __( 'Add to Address Book.', 'connections' ),
 			'title'  => __( 'Download vCard', 'connections' ),
-			'format' => '%text%',
+			'format' => '',
 			'size'   => 24,
 			'follow' => FALSE,
 			'slug'   => '',
@@ -2668,7 +2724,11 @@ class cnOutput extends cnEntry
 		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 
 
-		$out .= str_ireplace( $search , $replace , $atts['format'] );
+		$out .= str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%text%' : $atts['format']
+			);
 
 		$out .= '</span>';
 
@@ -2680,5 +2740,3 @@ class cnOutput extends cnEntry
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
 }
-
-?>

@@ -183,7 +183,7 @@ class cnRetrieve {
 				if ( get_query_var( 'cn-radius' ) ) $atts['radius'] = $wpdb->prepare( '%d', get_query_var( 'cn-radius' ) );
 
 				// Sanitize and set the unit.
-				$atts['unit'] = get_query_var( 'cn-unit' ) ? $wpdb->prepare( '%s', get_query_var( 'cn-unit' ) ): $wpdb->prepare( '%s', $atts['unit'] );
+				$atts['unit'] = get_query_var( 'cn-unit' ) ? sanitize_key( get_query_var( 'cn-unit' ) ) : sanitize_key( $atts['unit'] );
 			}
 		}
 		/*

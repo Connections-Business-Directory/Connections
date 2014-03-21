@@ -216,147 +216,147 @@ class cnValidate {
 		return array_merge( $intersect, $difference ); // Merge the results. Contains only valid fields of all defaults.
 	}
 
-    /**
-     * Validate the supplied URL.
-     *
-     * return: 1 is returned if good (check for >0 or ==1)
-     * return: 0 is returned if syntax is incorrect
-     * return: -1 is returned if syntax is correct, but url/file does not exist
-     *
-     * @author Luke America
-     * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
-     * @param string $url
-     * @param bool $check_exists [optional]
-     * @return int
-     */
+	/**
+	 * Validate the supplied URL.
+	 *
+	 * return: 1 is returned if good (check for >0 or ==1)
+	 * return: 0 is returned if syntax is incorrect
+	 * return: -1 is returned if syntax is correct, but url/file does not exist
+	 *
+	 * @author Luke America
+	 * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
+	 * @param string $url
+	 * @param bool $check_exists [optional]
+	 * @return int
+	 */
 	public function url( $url , $check_exists = TRUE )
 	{
-	    /**********************************************************************
-	     Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
-	     you can redistribute and/or modify this code under the terms of the
-	     GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
-	    **********************************************************************/
+		/**********************************************************************
+		 Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
+		 you can redistribute and/or modify this code under the terms of the
+		 GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
+		**********************************************************************/
 
 		 // add http:// (here AND in the referenced $url), if needed
-	    if (!$url) {return false;}
-	    if (strpos($url, ':') === false) {$url = 'http://' . $url;}
-	    // auto-correct backslashes (here AND in the referenced $url)
-	    $url = str_replace('\\', '/', $url);
+		if (!$url) {return false;}
+		if (strpos($url, ':') === false) {$url = 'http://' . $url;}
+		// auto-correct backslashes (here AND in the referenced $url)
+		$url = str_replace('\\', '/', $url);
 
-	    // convert multi-byte international url's by stripping multi-byte chars
-	    $url_local = urldecode($url) . ' ';
+		// convert multi-byte international url's by stripping multi-byte chars
+		$url_local = urldecode($url) . ' ';
 
 		if ( function_exists( 'mb_strlen' ) )
 		{
-		    $len = mb_strlen($url_local);
-		    if ($len !== strlen($url_local))
-		    {
-		        $convmap = array(0x0, 0x2FFFF, 0, 0xFFFF);
-		        $url_local = mb_decode_numericentity($url_local, $convmap, 'UTF-8');
-		    }
+			$len = mb_strlen($url_local);
+			if ($len !== strlen($url_local))
+			{
+				$convmap = array(0x0, 0x2FFFF, 0, 0xFFFF);
+				$url_local = mb_decode_numericentity($url_local, $convmap, 'UTF-8');
+			}
 		}
 
-	    $url_local = trim($url_local);
+		$url_local = trim($url_local);
 
-	    // now, process pre-encoded MBI's
-	    $regex = '#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i';
-	    $url_test = preg_replace($regex, '$1', htmlentities($url_local, ENT_QUOTES, 'UTF-8'));
-	    if ($url_test != '') {$url_local = $url_test;}
+		// now, process pre-encoded MBI's
+		$regex = '#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i';
+		$url_test = preg_replace($regex, '$1', htmlentities($url_local, ENT_QUOTES, 'UTF-8'));
+		if ($url_test != '') {$url_local = $url_test;}
 
-	    // test for bracket-enclosed IP address (IPv6) and modify for further testing
-	    preg_match('#(?<=\[)(.*?)(?=\])#i', $url, $matches);
-	    if ( isset($matches[0]) && $matches[0] )
-	    {
-	        $ip = $matches[0];
-	        if (!preg_match('/^([0-9a-f\.\/:]+)$/', strtolower($ip))) {return false;}
-	        if (substr_count($ip, ':') < 2) {return false;}
-	        $octets = preg_split('/[:\/]/', $ip);
-	        foreach ($octets as $i) {if (strlen($i) > 4) {return false;}}
-	        $ip_adj = 'x' . str_replace(':', '_', $ip) . '.com';
-	        $url_local = str_replace('[' . $ip . ']', $ip_adj, $url_local);
-	    }
+		// test for bracket-enclosed IP address (IPv6) and modify for further testing
+		preg_match('#(?<=\[)(.*?)(?=\])#i', $url, $matches);
+		if ( isset($matches[0]) && $matches[0] )
+		{
+			$ip = $matches[0];
+			if (!preg_match('/^([0-9a-f\.\/:]+)$/', strtolower($ip))) {return false;}
+			if (substr_count($ip, ':') < 2) {return false;}
+			$octets = preg_split('/[:\/]/', $ip);
+			foreach ($octets as $i) {if (strlen($i) > 4) {return false;}}
+			$ip_adj = 'x' . str_replace(':', '_', $ip) . '.com';
+			$url_local = str_replace('[' . $ip . ']', $ip_adj, $url_local);
+		}
 
-	    // test for IP address (IPv4)
-	    $regex = "#^(https?|ftp|news|file)\:\/\/";
-	    $regex .= "([0-9]{1,3}\.[0-9]{1,3}\.)#";
-	    if (preg_match($regex, $url_local))
-	    {
-	        $regex = "#^(https?|ftps)\:\/\/";
-	        $regex .= "([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#";
-	        if (!preg_match($regex, $url_local)) {return false;}
-	        $seg = preg_split('/[.\/]/', $url_local);
-	        if (($seg[2] > 255) || ($seg[3] > 255) || ($seg[4] > 255) || ($seg[5] > 255)) {return false;}
-	    }
+		// test for IP address (IPv4)
+		$regex = "#^(https?|ftp|news|file)\:\/\/";
+		$regex .= "([0-9]{1,3}\.[0-9]{1,3}\.)#";
+		if (preg_match($regex, $url_local))
+		{
+			$regex = "#^(https?|ftps)\:\/\/";
+			$regex .= "([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#";
+			if (!preg_match($regex, $url_local)) {return false;}
+			$seg = preg_split('/[.\/]/', $url_local);
+			if (($seg[2] > 255) || ($seg[3] > 255) || ($seg[4] > 255) || ($seg[5] > 255)) {return false;}
+		}
 
-	    // patch for wikipedia which can have a 2nd colon in the url
-	    if (strpos(strtolower($url_local), 'wikipedia'))
-	    {
-	        $pos = strpos($url_local, ':');
-	        $url_left = substr($url_local, 0, $pos + 1);
-	        $url_right = substr($url_local, $pos + 1);
-	        $url_right = str_replace(':', '_', $url_right);
-	        $url_local = $url_left . $url_right;
-	    }
+		// patch for wikipedia which can have a 2nd colon in the url
+		if (strpos(strtolower($url_local), 'wikipedia'))
+		{
+			$pos = strpos($url_local, ':');
+			$url_left = substr($url_local, 0, $pos + 1);
+			$url_right = substr($url_local, $pos + 1);
+			$url_right = str_replace(':', '_', $url_right);
+			$url_local = $url_left . $url_right;
+		}
 
-	    // construct the REGEX for standard processing
-	    // scheme
-	    $regex = "~^(https?|ftp|news|file)\:\/\/";
-	    // user and password (optional)
-	    $regex .= "([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?";
-	    // hostname or IP address
-	    $regex .= "([a-z0-9+\$_-]+\.)*[a-z0-9+\$_-]{2,4}";
-	    // port (optional)
-	    $regex .= "(\:[0-9]{2,5})?";
-	    // dir/file path (optional)
-	    $regex .= "(\/([a-z0-9+\$_-]\.?)+)*\/?";
-	    // query (optional)
-	    $regex .= "(\?[a-z+&\$_.-][a-z0-9;:@/&%=+\$_.-]*)?";
-	    // anchor (optional)
-	    $regex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?\$~";
+		// construct the REGEX for standard processing
+		// scheme
+		$regex = "~^(https?|ftp|news|file)\:\/\/";
+		// user and password (optional)
+		$regex .= "([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?";
+		// hostname or IP address
+		$regex .= "([a-z0-9+\$_-]+\.)*[a-z0-9+\$_-]{2,4}";
+		// port (optional)
+		$regex .= "(\:[0-9]{2,5})?";
+		// dir/file path (optional)
+		$regex .= "(\/([a-z0-9+\$_-]\.?)+)*\/?";
+		// query (optional)
+		$regex .= "(\?[a-z+&\$_.-][a-z0-9;:@/&%=+\$_.-]*)?";
+		// anchor (optional)
+		$regex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?\$~";
 
-	    // test it
-	    $is_valid = preg_match($regex, $url_local) > 0;
+		// test it
+		$is_valid = preg_match($regex, $url_local) > 0;
 
-	    // final check for a TLD suffix
-	    if ($is_valid)
-	    {
-	        $url_test = str_replace('-', '_', $url_local);
-	        $regex = '#^(.*?//)*([\w\.\d]*)(:(\d+))*(/*)(.*)$#';
-	        preg_match($regex, $url_test, $matches);
-	        $is_valid = preg_match('#^(.+?)\.+[0-9a-z]{2,4}$#i', $matches[2]) > 0;
-	    }
+		// final check for a TLD suffix
+		if ($is_valid)
+		{
+			$url_test = str_replace('-', '_', $url_local);
+			$regex = '#^(.*?//)*([\w\.\d]*)(:(\d+))*(/*)(.*)$#';
+			preg_match($regex, $url_test, $matches);
+			$is_valid = preg_match('#^(.+?)\.+[0-9a-z]{2,4}$#i', $matches[2]) > 0;
+		}
 
-	    // check if the url/file exists
-	    if (($check_exists) && ($is_valid))
-	    {
-	        $status = array();
-	        $url_test = str_replace(' ', '%20', $url);
-	        $handle = curl_init($url_test);
-	        curl_setopt($handle, CURLOPT_HEADER, true);
-	        curl_setopt($handle, CURLOPT_NOBODY, true);
-	        curl_setopt($handle, CURLOPT_FAILONERROR, true);
-	        curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
-	        curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
-	        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, false);
-	        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-	        preg_match('/HTTP\/.* ([0-9]+) .*/', curl_exec($handle) , $status);
-	        if ($status[1] == 200) {$is_valid = true;}
-	        else {$is_valid = -1;}
-	    }
+		// check if the url/file exists
+		if (($check_exists) && ($is_valid))
+		{
+			$status = array();
+			$url_test = str_replace(' ', '%20', $url);
+			$handle = curl_init($url_test);
+			curl_setopt($handle, CURLOPT_HEADER, true);
+			curl_setopt($handle, CURLOPT_NOBODY, true);
+			curl_setopt($handle, CURLOPT_FAILONERROR, true);
+			curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($handle, CURLOPT_FOLLOWLOCATION, false);
+			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+			preg_match('/HTTP\/.* ([0-9]+) .*/', curl_exec($handle) , $status);
+			if ($status[1] == 200) {$is_valid = true;}
+			else {$is_valid = -1;}
+		}
 
-	    // exit
-	    return $is_valid;
+		// exit
+		return $is_valid;
 	}
 
 	/**
 	 * Validate the supplied URL.
-     *
-     * return: 1 is returned if good (check for >0 or ==1)
-     * return: 0 is returned if syntax is incorrect
-     * return: -1 is returned if syntax is correct, but email address does not exist
-     *
-     * @author Luke America
-     * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
+	 *
+	 * return: 1 is returned if good (check for >0 or ==1)
+	 * return: 0 is returned if syntax is incorrect
+	 * return: -1 is returned if syntax is correct, but email address does not exist
+	 *
+	 * @author Luke America
+	 * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
 	 * @param string $email
 	 * @param bool $check_mx [optional]
 	 * @return
@@ -364,54 +364,54 @@ class cnValidate {
 	public function email( $email , $check_mx = TRUE )
 	{
 		/**********************************************************************
-	     Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
-	     you can redistribute and/or modify this code under the terms of the
-	     GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
-	    **********************************************************************/
+		 Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
+		 you can redistribute and/or modify this code under the terms of the
+		 GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
+		**********************************************************************/
 
 		// check syntax
-	    $email = trim($email);
-	    $regex = '/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
-	    $is_valid = preg_match($regex, $email, $matches);
+		$email = trim($email);
+		$regex = '/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
+		$is_valid = preg_match($regex, $email, $matches);
 
-	    // NOTE: Windows servers do not offer checkdnsrr until PHP 5.3.
-	    // So we create the function, if it doesn't exist.
-	    if(!function_exists('checkdnsrr'))
-	    {
-	        function checkdnsrr($host_name='', $rec_type='')
-	        {
-	            if(!empty($host_name))
-	            {
-	                if(!$rec_type) {$rec_type = 'MX';}
-	                exec("nslookup -type=$rec_type $host_name", $result);
+		// NOTE: Windows servers do not offer checkdnsrr until PHP 5.3.
+		// So we create the function, if it doesn't exist.
+		if(!function_exists('checkdnsrr'))
+		{
+			function checkdnsrr($host_name='', $rec_type='')
+			{
+				if(!empty($host_name))
+				{
+					if(!$rec_type) {$rec_type = 'MX';}
+					exec("nslookup -type=$rec_type $host_name", $result);
 
-	                // Check each line to find the one that starts with the host name.
-	                foreach ($result as $line)
-	                {
-	                    if(eregi("^$host_name", $line))
-	                    {
-	                        return true;
-	                    }
-	                }
-	                return false;
-	            }
-	            return false;
-	        }
-	    }
+					// Check each line to find the one that starts with the host name.
+					foreach ($result as $line)
+					{
+						if(eregi("^$host_name", $line))
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+				return false;
+			}
+		}
 
-	    // check that the server exists and is setup to handle email accounts
-	    if (($is_valid) && ($check_mx))
-	    {
-	        $at_index = strrpos($email, '@');
-	        $domain = substr($email, $at_index + 1);
-	        if (!(checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A')))
-	        {
-	            $is_valid = -1;
-	        }
-	    }
+		// check that the server exists and is setup to handle email accounts
+		if (($is_valid) && ($check_mx))
+		{
+			$at_index = strrpos($email, '@');
+			$domain = substr($email, $at_index + 1);
+			if (!(checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A')))
+			{
+				$is_valid = -1;
+			}
+		}
 
-	    // exit
-	    return $is_valid;
+		// exit
+		return $is_valid;
 	}
 
 	/**
@@ -754,25 +754,73 @@ class cnUtility {
 	 * Get user IP.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @link http://stackoverflow.com/a/6718472
+	 * @since  0.8
+	 * @link   http://stackoverflow.com/a/6718472
 	 *
 	 * @return string The IP address.
 	 */
-	public static function getIP(){
+	public static function getIP() {
 
-	    foreach ( array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key ) {
+		foreach ( array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key ) {
 
-	        if ( array_key_exists( $key, $_SERVER ) === TRUE ) {
+			if ( array_key_exists( $key, $_SERVER ) === TRUE ) {
 
-	            foreach ( array_map( 'trim', explode( ',', $_SERVER[ $key ] ) ) as $ip ) {
+				foreach ( array_map( 'trim', explode( ',', $_SERVER[ $key ] ) ) as $ip ) {
 
-	                if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== FALSE ) {
+					if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== FALSE ) {
 
-	                    return $ip;
-	                }
-	            }
-	        }
-	    }
+						return $ip;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Returns v4 compliant UUID.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @link   http://stackoverflow.com/a/15875555
+	 * @link   http://www.php.net/manual/en/function.uniqid.php#94959
+	 *
+	 * @return string
+	 */
+	public static function getUUID() {
+
+		if ( function_exists( 'openssl_random_pseudo_bytes' ) ) {
+
+			$data    = openssl_random_pseudo_bytes(16);
+
+			$data[6] = chr( ord( $data[6] ) & 0x0f | 0x40 ); // set version to 0010
+			$data[8] = chr( ord( $data[8] ) & 0x3f | 0x80 ); // set bits 6-7 to 10
+
+			return vsprintf( '%s%s-%s-%s-%s-%s%s%s', str_split( bin2hex( $data ), 4 ) );
+
+		} else {
+
+			return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+
+			// 32 bits for "time_low"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+
+			// 16 bits for "time_mid"
+			mt_rand(0, 0xffff),
+
+			// 16 bits for "time_hi_and_version",
+			// four most significant bits holds version number 4
+			mt_rand(0, 0x0fff) | 0x4000,
+
+			// 16 bits, 8 bits for "clk_seq_hi_res",
+			// 8 bits for "clk_seq_low",
+			// two most significant bits holds zero and one for variant DCE1.1
+			mt_rand(0, 0x3fff) | 0x8000,
+
+			// 48 bits for "node"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+			);
+
+		}
+
 	}
 }

@@ -740,7 +740,7 @@ class cnEntryMetabox {
 
 				foreach ( $entry->getFamilyMembers() as $key => $value ) {
 
-					$token = md5( uniqid( rand(), TRUE ) );
+					$token = str_replace( '-', '', cnUtility::getUUID() );
 
 					if ( array_key_exists( $key, $individuals ) ) {
 
@@ -1281,7 +1281,7 @@ class cnEntryMetabox {
 
 			foreach ( $addresses as $address ) {
 
-				$token = md5( uniqid( rand(), TRUE ) );
+				$token = str_replace( '-', '', cnUtility::getUUID() );
 
 				$selectName = 'address['  . $token . '][type]';
 				$preferred  = $address->preferred ? $token : '';
@@ -1769,7 +1769,7 @@ class cnEntryMetabox {
 
 			foreach ( $phoneNumbers as $phone ) {
 
-				$token = md5( uniqid( rand(), TRUE ) );
+				$token = str_replace( '-', '', cnUtility::getUUID() );
 
 				$selectName = 'phone['  . $token . '][type]';
 				$preferred  = $phone->preferred ? $token : '';
@@ -1969,7 +1969,7 @@ class cnEntryMetabox {
 
 			foreach ( $emailAddresses as $email ) {
 
-				$token = md5( uniqid( rand(), TRUE ) );
+				$token = str_replace( '-', '', cnUtility::getUUID() );
 
 				$selectName = 'email['  . $token . '][type]';
 				$preferred  = $email->preferred ? $token : '';
@@ -2169,7 +2169,7 @@ class cnEntryMetabox {
 
 			foreach ( $imIDs as $network ) {
 
-				$token = md5( uniqid( rand(), TRUE ) );
+				$token = str_replace( '-', '', cnUtility::getUUID() );
 
 				$selectName = 'im['  . $token . '][type]';
 				$preferred  = $network->preferred ? $token : '';
@@ -2369,7 +2369,7 @@ class cnEntryMetabox {
 
 			foreach ( $socialNetworks as $network ) {
 
-				$token = md5( uniqid( rand(), TRUE ) );
+				$token = str_replace( '-', '', cnUtility::getUUID() );
 
 				$selectName = 'social['  . $token . '][type]';
 				$preferred  = $network->preferred ? $token : '';
@@ -2634,7 +2634,7 @@ class cnEntryMetabox {
 
 			foreach ( $links as $link ) {
 
-				$token = md5( uniqid( rand(), TRUE ) );
+				$token = str_replace( '-', '', cnUtility::getUUID() );
 
 				$selectName = 'link['  . $token . '][type]';
 				$preferred  = $link->preferred ? $token : '';
@@ -2902,7 +2902,7 @@ class cnEntryMetabox {
 
 			foreach ( $dates as $date ) {
 
-				$token = md5( uniqid( rand(), TRUE ) );
+				$token = str_replace( '-', '', cnUtility::getUUID() );
 
 				$selectName = 'date['  . $token . '][type]';
 				$preferred  = $date->preferred ? $token : '';

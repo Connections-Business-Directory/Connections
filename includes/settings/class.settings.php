@@ -106,9 +106,18 @@ class cnRegisterSettings
 			'page_hook' => $settings
 		);
 		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'general',
+			'id'        => 'geo',
+			'position'  => 20,
+			'title'     => __( 'Base country and region.' , 'connections' ),
+			'callback'  => '',
+			'page_hook' => $settings
+		);
+		$sections[] = array(
 			'tab'       => 'general',
 			'id'        => 'connections_visibility',
-			'position'  => 20,
+			'position'  => 30,
 			'title'     => __( 'Shortcode Visibility Overrides' , 'connections' ),
 			'callback'  => create_function( '', "_e('The [connections] shortcode has two options available to show an entry or an entire directory
 			if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used,
@@ -354,6 +363,46 @@ class cnRegisterSettings
 			'type'      => 'rte',
 			'default'   => 'Please login to view the directory.'
 		);
+		$fields[] = array(
+			'plugin_id'         => 'connections',
+			'id'                => 'base_country',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'general',
+			'section'           => 'geo',
+			'title'             => __('Base Country', 'connections'),
+			'desc'              => '',
+			'help'              => '',
+			'type'              => 'select',
+			'options'           => cnGEO::getCountries(),
+			'default'           => 'US',
+			'sanitize_callback' => array( 'cnRegisterSettings' , 'setGEOBase' ) // Only need to add this once per image size, otherwise it would be run for each field.
+		);
+
+		// cnGEO::getRegions() when called without the $country code @param
+		// will use the result from cnOptions::getBaseCountry() to define which
+		// regions to return. If there are no regions an empty array will be returned.
+		// So, if there are no regions, the is no reason to render this option.
+		$regions = cnGEO::getRegions();
+
+		if ( ! empty( $regions ) ) {
+
+			$fields[] = array(
+				'plugin_id' => 'connections',
+				'id'        => 'base_region',
+				'position'  => 20,
+				'page_hook' => $settings,
+				'tab'       => 'general',
+				'section'   => 'geo',
+				'title'     => __('Base Region', 'connections'),
+				'desc'      => '',
+				'help'      => '',
+				'type'      => 'select',
+				'options'   => cnGEO::getRegions(),
+				'default'   => cnOptions::getBaseRegion()
+			);
+		}
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'allow_public_override',
@@ -1461,6 +1510,18 @@ class cnRegisterSettings
 
 		// Ensure at least keyword search enabled if user decides to try to disable both keyword and FULLTEXT searching.
 		if ( empty( $settings['fulltext_enabled'] ) && empty( $settings['keyword_enabled'] ) ) $settings['keyword_enabled'] = 1;
+
+		return $settings;
+	}
+
+	public static function setGEOBase( $settings ) {
+
+		$regions = cnGEO::getRegions( $settings['base_country'] );
+
+		if ( ! in_array( $settings['base_region'], $regions ) ) {
+
+			$settings['base_region'] = current( array_keys( $regions ) );
+		}
 
 		return $settings;
 	}

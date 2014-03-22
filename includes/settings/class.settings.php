@@ -501,6 +501,9 @@ class cnRegisterSettings
 			'default'   => 0
 		);
 
+		$listActionsOptions['items']    = apply_filters( 'cn_list_action_options', array( 'view_all' => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections') ) );
+		$listActionsOptions['required'] = apply_filters( 'cn_list_action_options_required', array() );
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'actions',
@@ -512,9 +515,12 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether or not a list action should be shown. Actions can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  apply_filters( 'cn_list_action_options', array( 'view_all' => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections') ) ),
+			'options'   =>  $listActionsOptions,
 			'default'   => 0,
 		);
+
+		$contentBlockOptions['items']    = apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) );
+		$contentBlockOptions['required'] = apply_filters( 'cn_content_blocks_required', array() );
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -527,9 +533,16 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether or not a content block should be shown. Content blocks can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) ),
+			'options'   =>  $contentBlockOptions,
 			'default'   => 0,
 		);
+
+		$entryActionsOptions['items'] = apply_filters( 'cn_entry_action_options', array(
+			'back'  => __( 'Show the "Back to Directory" link.', 'connections' ),
+			'vcard' => __( 'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.', 'connections' ),
+			)
+		);
+		$entryActionsOptions['required'] = apply_filters( 'cn_entry_action_options_required', array() );
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -542,11 +555,7 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether or not an entry action should be shown. Actions can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  apply_filters( 'cn_entry_action_options', array(
-				'back'  => __( 'Show the "Back to Directory" link.', 'connections' ),
-				'vcard' => __( 'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.', 'connections' ),
-				)
-			),
+			'options'   =>  $entryActionsOptions,
 			'default'   => array(
 				'order' => array(
 					'back',
@@ -584,7 +593,7 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether or not a content block should be shown. Content blocks can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) ),
+			'options'   =>  $contentBlockOptions,
 			'default'   => 0,
 		);
 

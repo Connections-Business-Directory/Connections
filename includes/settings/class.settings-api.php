@@ -764,10 +764,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$order = array();
 
 						// Remove any content blocks that no longer exist.
-						$blocks = array_intersect_key( $field['options'], array_flip( $value['order'] ) );
+						$blocks = array_intersect_key( $field['options']['items'], array_flip( $value['order'] ) );
 
 						// Add back in any new content blocks.
-						$blocks = array_merge( $blocks, $field['options'] );
+						$blocks = array_merge( $blocks, $field['options']['items'] );
 
 						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
 
@@ -776,25 +776,58 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					} else {
 
-						// No order were set or saved yet, so use the field options order.
-						$blocks = $field['options'];
+						// No order was set or saved yet, so use the field options order.
+						$blocks = $field['options']['items'];
 					}
 
 					foreach ( $blocks as $key => $label ) {
 
-						$checkbox = cnHTML::input(
-							array(
-								'type'    => 'checkbox',
-								'prefix'  => '',
-								'id'      => esc_attr( $name ) . '[active][' . $key . ']',
-								'name'    => esc_attr( $name ) . '[active][]',
-								'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
-								'label'   => $label,
-								'layout'  => '%field%%label%',
-								'return'  => TRUE,
-								),
-							$key
-							);
+						if ( isset( $field['options']['required'] ) && in_array( $key, $field['options']['required'] ) ) {
+
+							$checkbox = cnHTML::input(
+								array(
+									'type'    => 'checkbox',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'disabled'=> TRUE,
+									'label'   => $label,
+									'layout'  => '%field%%label%',
+									'return'  => TRUE,
+									),
+								$key
+								);
+
+							$checkbox .= cnHTML::input(
+								array(
+									'type'    => 'hidden',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'layout'  => '%field%',
+									'return'  => TRUE,
+									),
+								$key
+								);
+
+						} else {
+
+							$checkbox = cnHTML::input(
+								array(
+									'type'    => 'checkbox',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'label'   => $label,
+									'layout'  => '%field%%label%',
+									'return'  => TRUE,
+									),
+								$key
+								);
+						}
 
 						$hidden = cnHTML::input(
 							array(

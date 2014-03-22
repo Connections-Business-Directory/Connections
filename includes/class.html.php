@@ -324,6 +324,8 @@ class cnHTML {
 			'style'    => array(),
 			// 'value'    => '',
 			'ckecked'  => '',
+			'readonly' => FALSE,
+			'disabled' => FALSE,
 			'required' => FALSE,
 			'label'    => '',
 			'before'   => '',
@@ -362,14 +364,16 @@ class cnHTML {
 		// Create the field label, if supplied.
 		$replace[] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
 
-		$replace[] = sprintf( '<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s/>',
+		$replace[] = sprintf( '<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s/>',
 			self::attribute( 'type', $atts['type'] ),
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
 			self::attribute( 'style', $atts['style'] ),
 			self::attribute( 'value', $value ),
-			! empty( $atts['checked'] ) ? $atts['checked'] : ''
+			! empty( $atts['checked'] ) ? $atts['checked'] : '',
+			$atts['readonly'] ? 'readonly="readonly"' : '',
+			disabled( $atts['disabled'], TRUE, FALSE )
 		);
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );

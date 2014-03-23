@@ -828,7 +828,7 @@ class cnTemplatePart {
 			$base = get_option('connections_permalink');
 
 			// Store the query vars
-			if ( get_query_var('cn-s') ) $queryVars['cn-s']                       = get_query_var('cn-s');
+			if ( get_query_var('cn-s') ) $queryVars['cn-s']                       = urlencode( get_query_var('cn-s') );
 			if ( get_query_var('cn-char') ) $queryVars['cn-char']                 = get_query_var('cn-char');
 			if ( get_query_var('cn-cat') ) $queryVars['cn-cat']                   = get_query_var('cn-cat');
 			if ( get_query_var('cn-organization') ) $queryVars['cn-organization'] = get_query_var('cn-organization');

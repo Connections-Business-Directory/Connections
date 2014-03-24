@@ -116,6 +116,7 @@ class cnOutput extends cnEntry
 			'before' => '',
 			'after'  => '',
 			'style'  => array(),
+			'action' => 'display',
 			'return' => FALSE
 		);
 
@@ -126,6 +127,12 @@ class cnOutput extends cnEntry
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
+
+		if ( $atts['action'] == 'edit' ) {
+
+			$this->setImageDisplay( TRUE );
+			$this->setLogoDisplay( TRUE );
+		}
 
 		/*
 		 * The $atts key that are not image tag attributes.

@@ -843,6 +843,7 @@ class cnOptions {
 			'flickr'        => 'Flickr',
 			'foursquare'    => 'foursquare',
 			'googleplus'    => 'Google+',
+			'instagram'     => 'Instagram',
 			'itunes'        => 'iTunes',
 			'linked-in'     => 'Linked-in',
 			'mixcloud'      => 'mixcloud',

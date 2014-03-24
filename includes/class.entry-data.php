@@ -3103,7 +3103,7 @@ class cnEntry {
 
 
 	public function getLogoDisplay() {
-		return $this->logoDisplay;
+		return $this->options['logo']['display'];
 	}
 
 	public function setLogoDisplay( $logoDisplay ) {
@@ -3133,7 +3133,7 @@ class cnEntry {
 	 * @see entry::$imageDisplay
 	 */
 	public function getImageDisplay() {
-		return $this->imageDisplay;
+		return $this->options['image']['display'];
 	}
 
 	/**

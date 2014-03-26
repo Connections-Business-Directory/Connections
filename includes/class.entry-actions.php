@@ -387,24 +387,11 @@ class cnEntry_Action {
 				break;
 		}
 
-		/*
-		 * Save the entry category(ies). If none were checked, send an empty array
-		 * which will add the entry to the default category.
-		 */
-		if ( isset( $data['entry_category'] ) ) {
-
-			$connections->term->setTermRelationships( $entryID, $data['entry_category'], 'category' );
-
-		} else {
-
-			$connections->term->setTermRelationships( $entryID, array(), 'category' );
-		}
+		do_action( 'cn_process_taxonomy-category', $action, $entryID );
+		do_action( 'cn_process_meta-entry', $action, $entryID );
 
 		// Run any registered post process actions.
 		do_action( "cn_post_process_$action-entry", $entry );
-
-		do_action( 'cn_process_meta-entry', $action, $entryID );
-		do_action( 'cn_process_meta-entry-' . $action, $action, $entryID );
 
 		return $entryID;
 	}

@@ -83,6 +83,9 @@ class cnAdminActions {
 		add_action( 'cn_delete_entry', array( __CLASS__, 'deleteEntry' ) );
 		add_action( 'cn_set_status', array( __CLASS__, 'setEntryStatus' ) );
 
+		// Process entry categories.
+		add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
+
 		// Entry Meta Action
 		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 9, 2 );
 
@@ -236,9 +239,10 @@ class cnAdminActions {
 	 * @return (void)
 	 */
 	public static function processEntry() {
-		global $wpdb, $connections;
+		global $wpdb;
+
 		$entry = new cnEntry();
-		$form = new cnFormObjects();
+		$form  = new cnFormObjects();
 
 		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
 
@@ -314,10 +318,40 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Add, update or delete the entry categories.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  string $action The action to being performed to an entry.
+	 * @param  int    $id     The entry ID.
+	 *
+	 * @return void
+	 */
+	public static function processEntryCategory( $action, $id ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		/*
+		 * Save the entry category(ies). If none were checked, send an empty array
+		 * which will add the entry to the default category.
+		 */
+		if ( isset( $_POST['entry_category'] ) ) {
+
+			$instance->term->setTermRelationships( $id, $_POST['entry_category'], 'category' );
+
+		} else {
+
+			$instance->term->setTermRelationships( $id, array(), 'category' );
+		}
+
+	}
+
+	/**
 	 * Add, update or delete the entry meta data.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
 	 * @param  string $action The action to being performed to an entry.
 	 * @param  int    $id     The entry ID.
 	 *

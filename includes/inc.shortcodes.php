@@ -142,6 +142,10 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 							do_action( 'cn_edit_entry_form', $atts, $content, $tag );
 
 							return ob_get_clean();
+
+						} else {
+
+							return __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' );
 						}
 
 					}

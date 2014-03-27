@@ -842,7 +842,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 							$key
 							);
 
-						$out .= sprintf( '<li value="%1$s"><div class="dashicons dashicons-sort"></div> %2$s%3$s</li>',
+						$out .= sprintf( '<li value="%1$s"><i class="fa fa-sort"></i> %2$s%3$s</li>',
 							$key,
 							$hidden,
 							$checkbox

@@ -79,6 +79,10 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 				do_action( 'cn_submit_entry_form', $atts, $content, $tag );
 
 				return ob_get_clean();
+
+			} else {
+
+				return '<p>' . __( 'Future home of front end submissions.', 'connections' ) . '</p>';
 			}
 
 			break;
@@ -91,13 +95,35 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 
 		case 'search':
 
-			return '<p>' . __( 'Future home of the search page.', 'connections' ) . '</p>';
+			if ( has_action( 'cn_submit_search_form' ) ) {
+
+				ob_start();
+
+				do_action( 'cn_submit_search_form', $atts, $content, $tag );
+
+				return ob_get_clean();
+
+			} else {
+
+				return '<p>' . __( 'Future home of the search page.', 'connections' ) . '</p>';
+			}
 
 			break;
 
 		case 'results':
 
-			return '<p>' . __( 'Future home of the search results landing page.', 'connections' ) . '</p>';
+			if ( has_action( 'cn_submit_search_results' ) ) {
+
+				ob_start();
+
+				do_action( 'cn_submit_search_results', $atts, $content, $tag );
+
+				return ob_get_clean();
+
+			} else {
+
+				return '<p>' . __( 'Future home of the search results landing page.', 'connections' ) . '</p>';
+			}
 
 			break;
 

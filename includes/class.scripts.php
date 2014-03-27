@@ -134,6 +134,7 @@ class cnScript {
 
 		// wp_register_style( 'connections-chosen', CN_URL . "assets/css/chosen$min.css", array(), '0.9.11' );
 		wp_register_style( 'connections-chosen', CN_URL . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
+		wp_register_style( 'connections-font-awesome', CN_URL . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.0.3' );
 	}
 
 	/**
@@ -307,6 +308,7 @@ class cnScript {
 		if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
 			wp_enqueue_style( 'cn-admin' );
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
+			wp_enqueue_style( 'connections-font-awesome' );
 		}
 
 		// Load the WordPress widgets styles only on these pages.

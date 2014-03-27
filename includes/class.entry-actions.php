@@ -333,12 +333,17 @@ class cnEntry_Action {
 
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_add_entry' ) ) {
+
 					$entry->setStatus( 'approved' );
 					$messageID = 'entry_added';
+
 				} elseif ( current_user_can( 'connections_add_entry_moderated' ) ) {
+
 					$entry->setStatus( 'pending' );
 					$messageID = 'entry_added_moderated';
+
 				} else {
+
 					$entry->setStatus( 'pending' );
 					$messageID = 'entry_added_moderated';
 				}
@@ -362,12 +367,40 @@ class cnEntry_Action {
 
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_edit_entry' ) ) {
-					$entry->setStatus( 'approved' );
-					$messageID = 'entry_updated';
+
+					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_add_entry_moderated' ) ) {
+
+						$entry->setStatus( 'pending' );
+						$messageID = 'entry_updated_moderated';
+
+					} elseif ( $entry->getStatus() == 'approved' && current_user_can( 'connections_add_entry_moderated' ) ) {
+
+						$entry->setStatus( 'approved' );
+						$messageID = 'entry_updated';
+
+					} elseif ( $entry->getStatus() == 'pending' && current_user_can( 'connections_add_entry' ) ) {
+
+						$entry->setStatus( 'approved' );
+						$messageID = 'entry_updated';
+
+					} elseif ( $entry->getStatus() == 'approved' && current_user_can( 'connections_add_entry' ) ) {
+
+						$entry->setStatus( 'approved' );
+						$messageID = 'entry_updated';
+
+					} else {
+
+						$entry->setStatus( 'pending' );
+						$messageID = 'entry_updated_moderated';
+					}
+
 				} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
+
 					$entry->setStatus( 'pending' );
 					$messageID = 'entry_updated_moderated';
+
 				} else {
+
 					$entry->setStatus( 'pending' );
 					$messageID = 'entry_updated_moderated';
 				}

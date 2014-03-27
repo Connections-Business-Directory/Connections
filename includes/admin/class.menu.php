@@ -65,18 +65,7 @@ class cnAdminMenu {
 		$instance = Connections_Directory();
 
 		// Set the capability string to be used in the add_sub_menu function per role capability assigned to the current user.
-		if ( current_user_can( 'connections_add_entry_moderated' ) ) {
-
-			$addEntryCapability = 'connections_add_entry_moderated';
-
-		} elseif ( current_user_can( 'connections_add_entry' ) ) {
-
-			$addEntryCapability = 'connections_add_entry';
-
-		} else {
-
-			$addEntryCapability = 'connections_add_entry_moderated';
-		}
+		$addEntryCapability = current_user_can( 'connections_add_entry' ) ? 'connections_add_entry' : 'connections_add_entry_moderated';
 
 		// Register the top level menu item.
 		if ( current_user_can( 'connections_view_menu') ) {

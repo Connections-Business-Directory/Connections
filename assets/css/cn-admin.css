@@ -326,8 +326,6 @@ div.widgets-sortables {
 #visibility { border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px; padding: 10px; }
 #minor-publishing label { display: block; margin:10px 6px; }
 
-
-
 /* The "Name" metabox styles. */
 #metabox-name input[type="text"] { width: 100%; }
 #cn-name-prefix { display: inline-block; width: 12.5%; }
@@ -422,6 +420,17 @@ div.widgets-sortables {
 /* Upgrade Page Styles */
 #connections-upgrade ul {padding-left: 20px !important; list-style-type: disc !important;}
 form p.add {font-style:normal; padding:12px 0 0; text-align: right;}
+
+/*------------------------------------------------------------------------------
+  Settings page.
+------------------------------------------------------------------------------*/
+.cn-sortable-checklist label {
+	vertical-align: initial;
+}
+.cn-sortable-checklist .fa-sort {
+	padding-bottom: 4px;
+	vertical-align: middle;
+}
 
 /*------------------------------------------------------------------------------
   Metabox default styling. This is to support the new metabox API for custom fields.

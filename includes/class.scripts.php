@@ -106,7 +106,6 @@ class cnScript {
 		// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
 		// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
 
-		// wp_register_script( 'jquery-chosen-min', CN_URL . "assets/js/jquery.chosen$min.js", array( 'jquery' ), '0.9.11', $connections->options->getJavaScriptFooter() );
 		wp_register_script( 'jquery-chosen-min', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
 		wp_register_script( 'jquery-validate' , CN_URL . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.11.1' , $connections->options->getJavaScriptFooter() );
 	}
@@ -128,13 +127,12 @@ class cnScript {
 			wp_register_style( 'cn-admin', CN_URL . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
 			wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
 		} else {
-			wp_register_style( 'connections-user', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
-			wp_register_style( 'connections-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
+			wp_register_style( 'cn-public', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
+			wp_register_style( 'cn-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
 		}
 
-		// wp_register_style( 'connections-chosen', CN_URL . "assets/css/chosen$min.css", array(), '0.9.11' );
-		wp_register_style( 'connections-chosen', CN_URL . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
-		wp_register_style( 'connections-font-awesome', CN_URL . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.0.3' );
+		wp_register_style( 'cn-chosen', CN_URL . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
+		wp_register_style( 'cn-font-awesome', CN_URL . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.0.3' );
 	}
 
 	/**
@@ -308,7 +306,7 @@ class cnScript {
 		if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
 			wp_enqueue_style( 'cn-admin' );
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
-			wp_enqueue_style( 'connections-font-awesome' );
+			wp_enqueue_style( 'cn-font-awesome' );
 		}
 
 		// Load the WordPress widgets styles only on these pages.
@@ -332,8 +330,8 @@ class cnScript {
 	 * @return void
 	 */
 	public static function enqueueStyles() {
-		wp_enqueue_style( 'connections-user' );
-		wp_enqueue_style( 'connections-chosen' );
+		wp_enqueue_style( 'cn-public' );
+		wp_enqueue_style( 'cn-chosen' );
 		// wp_enqueue_style( 'connections-qtip' );
 	}
 

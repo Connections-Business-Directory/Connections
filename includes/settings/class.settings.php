@@ -519,9 +519,6 @@ class cnRegisterSettings
 			'default'   => 0,
 		);
 
-		$contentBlockOptions['items']    = apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) );
-		$contentBlockOptions['required'] = apply_filters( 'cn_content_blocks_required', array() );
-
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'content_block',
@@ -533,7 +530,7 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether or not a content block should be shown. Content blocks can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  $contentBlockOptions,
+			'options'   =>  cnOptions::getContentBlocks(),
 			'default'   => 0,
 		);
 
@@ -593,7 +590,7 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether or not a content block should be shown. Content blocks can be dragged and dropped in the desired order to be shown.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  $contentBlockOptions,
+			'options'   =>  cnOptions::getContentBlocks(),
 			'default'   => 0,
 		);
 

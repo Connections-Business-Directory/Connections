@@ -40,7 +40,7 @@ class cnTemplatePart {
 		add_action( 'cn_action_character_index', array( __CLASS__, 'index' ) );
 		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
 
-		add_action( 'cn_action_entry_after', array( __CLASS__, 'JSON' ), 10, 2 );
+		// add_action( 'cn_action_entry_after', array( __CLASS__, 'JSON' ), 10, 2 );
 	}
 
 	/**

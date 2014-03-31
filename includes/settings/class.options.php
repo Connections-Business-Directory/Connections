@@ -987,6 +987,30 @@ class cnOptions {
 	}
 
 	/**
+	 * Return the registered content blocks.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  string $item [optional] The content block key id to return the title.
+	 * @return mixed        [array | string] An associated array where the key if the content block ID and the value is the content bloack name. Or just the content block name if the id is supplied.
+	 */
+	public static function getContentBlocks( $item = NULL ) {
+
+		$blocks['items']    = apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) );
+		$blocks['required'] = apply_filters( 'cn_content_blocks_required', array() );
+
+		if ( is_null( $item ) ) return $blocks;
+
+		foreach ( $blocks['items'] as $block => $name ) {
+
+			if ( $item == $block ) return $name;
+		}
+
+		return FALSE;
+	}
+
+	/**
 	 * Get Base Country
 	 *
 	 * @since

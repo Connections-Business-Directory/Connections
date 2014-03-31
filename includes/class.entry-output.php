@@ -2426,6 +2426,8 @@ class cnOutput extends cnEntry
 				);
 		}
 
+		if ( empty( $out ) ) return;
+
 		$out = apply_filters(
 			'cn_entry_output_meta_container',
 			sprintf( '<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
@@ -2473,6 +2475,8 @@ class cnOutput extends cnEntry
 	 */
 	public function getContentBlock( $atts = array(), $shortcode_atts = array(), $template = NULL ) {
 
+		$blockContainerContent = '';
+
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
 			$settings = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
@@ -2487,10 +2491,17 @@ class cnOutput extends cnEntry
 		$exclude  = empty( $include ) ? $order : array();
 
 		$defaults = array(
-			'id'      => '',
-			'order'   => is_string( $atts ) && ! empty( $atts ) ? $atts : $order,
-			'exclude' => is_string( $atts ) && ! empty( $atts ) ? '' : $exclude,
-			'include' => is_string( $atts ) && ! empty( $atts ) ? '' : $include,
+			'id'            => '',
+			'order'         => is_string( $atts ) && ! empty( $atts ) ? $atts : $order,
+			'exclude'       => is_string( $atts ) && ! empty( $atts ) ? '' : $exclude,
+			'include'       => is_string( $atts ) && ! empty( $atts ) ? '' : $include,
+			'layout'        => 'list',
+			'container_tag' => 'div',
+			'block_tag'     => 'div',
+			'header_tag'    => 'h3',
+			'before'        => '',
+			'after'         => '',
+			'return'        => FALSE
 			);
 
 		$atts = wp_parse_args( apply_filters( 'cn_output_content_block_atts', $atts ), $defaults );
@@ -2521,8 +2532,10 @@ class cnOutput extends cnEntry
 		// Output the registered action in the order supplied by the user.
 		foreach ( $blocks as $key ) {
 
+			isset( $blockNumber ) ? $blockNumber++ : $blockNumber = 1;
+
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
-			if( ! empty( $atts['exclude'] ) ) {
+			if ( ! empty( $atts['exclude'] ) ) {
 
 				if ( in_array( $key, $atts['exclude'] ) ) continue;
 
@@ -2533,6 +2546,8 @@ class cnOutput extends cnEntry
 					if ( ! in_array( $key, $atts['include'] ) ) continue;
 				}
 			}
+
+			ob_start();
 
 			// If the hook has a registered meta data output callback registered, lets run it.
 			if ( has_action( 'cn_output_meta_field-' . $key ) ) {
@@ -2552,11 +2567,58 @@ class cnOutput extends cnEntry
 				$this->getMetaBlock( array(), $shortcode_atts, $template );
 			}
 
-			$tag = "cn_entry_output_content-$key";
+			$hook = "cn_entry_output_content-$key";
 
-			if ( has_action( $tag ) ) do_action( $tag, $this, $shortcode_atts, $template );
+			if ( has_action( $hook ) ) do_action( $hook, $this, $shortcode_atts, $template );
+
+			$blockContent = ob_get_clean();
+
+			if ( empty( $blockContent ) ) continue;
+
+			$blockID = $this->getSlug() . '-' . $blockNumber;
+
+			// Store the title in an array that can be accessed/passed from outside the content block loop.
+			// And if there is no title for some reason, create one from the key.
+			$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+
+			$blockContainerContent .= apply_filters( 'cn_entry_output_content_block',
+				sprintf( '<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
+					sprintf( '<%1$s>%2$s</%1$s>',
+						$atts['header_tag'],
+						$titles[ $blockID ]
+					),
+					$atts['block_tag'],
+					$key,
+					$blockID,
+					$blockContent
+				),
+				$this,
+				$key,
+				$blockID,
+				$titles[ $blockID ],
+				$blockContent,
+				$atts,
+				$shortcode_atts
+			);
 		}
 
+		if ( empty( $blockContainerContent ) ) return;
+
+		$out = apply_filters( 'cn_entry_output_content_block_container',
+			sprintf( '<%1$s class="cn-entry-content-block-%2$s">%3$s</%1$s>' . PHP_EOL,
+				$atts['container_tag'],
+				$atts['layout'],
+				$blockContainerContent
+				),
+			$this,
+			$blockContainerContent,
+			$titles,
+			$atts,
+			$shortcode_atts
+		);
+
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}
 
 	/**

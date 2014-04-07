@@ -124,9 +124,15 @@ class cnScript {
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
 		if ( is_admin() ) {
+
 			wp_register_style( 'cn-admin', CN_URL . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
 			wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
+
 		} else {
+
+			// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
+			wp_register_style( 'connections-user', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
+
 			wp_register_style( 'cn-public', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
 			wp_register_style( 'cn-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
 		}

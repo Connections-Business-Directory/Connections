@@ -24,19 +24,67 @@ class cnShortcode {
 	 * The resulting content after being process thru the template shortcodes.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @var string
+	 * @since  0.8
+	 * @var    string
 	 */
-	private $result = '';
+	private $html = '';
 
+	/**
+	 * The shortcode atts passed by the core `connections` shortcode.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @var    array
+	 */
+	private $atts = array();
+
+	/**
+	 * An instance of the cnTemplate object.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @var    mixed   [ object | bool ] An instance of cnTemplate if one was loaded or FALSE.
+	 */
+	private $template = FALSE;
+
+	/**
+	 * The array containing the results of an entry query.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @var    array
+	 */
+	private $results = array();
+
+	/**
+	 * Register required actions/filters.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 *
+	 * @return void
+	 */
 	public static function init() {
 
-		add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
-
+		// Register the core shortcode with the WordPres Shortcode API.
 		add_action( 'init', array( __CLASS__, 'register') );
+
+		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
+		// remove_filter( 'the_content', 'wpautop' );
 	}
 
-	public static function register() {
+	/**
+	 * Register the core shortcodes.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @uses   add_shortcode()
+	 *
+	 * @return void
+	 */
+	public static function init() {
 
 		// Register the core shortcodes.
 		add_shortcode( 'connections', 'connectionsView' );
@@ -47,9 +95,284 @@ class cnShortcode {
 		add_shortcode( 'connections_qtip', '_connections_qtip' ); /* Experimental. Do NOT use. */
 	}
 
+	/**
+	 * The core template shortcode tags.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @uses   apply_filters()
+	 *
+	 * @return array An array of the template shortcode tag attributes.
+	 */
+	private static function tags() {
+
+		$tags = array(
+			'template'           => array(
+				'desc'     => __( 'Template', 'connections' ),
+				'callback' => array( __CLASS__, 'do_shortcode' ),
+				),
+			'list_actions'        => array(
+				'desc'     => __( 'List Actions', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'listActions' ),
+				),
+			'head'               => array(
+				'desc'     => __( 'Header', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'header' ),
+				),
+			'body'               => array(
+				'desc'     => __( 'Body', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'body' ),
+				),
+			'no_results'         => array(
+				'desc'     => __( 'No results message.', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'noResults' ),
+				),
+			'cards'              => array(
+				'desc'     => __( 'Cards', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'cards' ),
+				),
+
+			'card'               => array(
+				'desc'     => __( 'Entry.', 'connections' ),
+				'callback' => array( __CLASS__, 'processEntry' ),
+				),
+			'foot'               => array(
+				'desc'     => __( 'Footer', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'footer' ),
+				),
+			'return_to_target'   => array(
+				'desc'     => __( 'Return to top.', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'returnToTopTarget' ),
+				),
+			'character_index'    => array(
+				'desc'     => __( 'Character index.', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'index' ),
+				),
+			'pagination'         => array(
+				'desc'     => __( 'Pagination control.', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'pagination' ),
+				),
+			'search'             => array(
+				'desc'     => __( 'Pagination control.', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'search' ),
+				),
+		);
+
+		$tags = apply_filters( 'cn_template_shortcodes', $tags );
+
+		// Prefix all the tags to help ensure there are no shortcode tag collisions.
+		foreach ( $tags as $key => $value ) {
+
+			$tags[ 'cn_' . $key ] = $value;
+			unset( $tags[ $key ] );
+		}
+
+		return $tags;
+	}
+
+	/**
+	 * Retrieve a specific template shortcode tag.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @param  string $tag The template shortcode tag.
+	 *
+	 * @return array       The template shortcode tag attributes.
+	 */
+	private static function tag( $tag ) {
+
+		// Get the registered template shortcode tags.
+		$tags = self::tags();
+
+		// If the requested part is in the registered template shortcode tags, return its attributes.
+		if ( $key = array_key_exists( $tag, $tags ) !== FALSE ) return $tags[ $tag ];
+
+		// The tags was not found, return FALSE.
+		return FALSE;
+	}
+
+	/**
+	 * Search content for template shortcodes and filter shortcodes through their hooks.
+	 *
+	 * This was lifted from WordPress and tweaked to suit.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @uses   self::regex()
+	 * @param  string $content Content to search for shortcodes
+	 *
+	 * @return string Content with shortcodes filtered out.
+	 */
+	public function do_shortcode( $content ) {
+
+		$tags = array_keys( self::tags() );
+
+		if ( FALSE === strpos( $content, '[' ) ) {
+
+			return $content;
+		}
+
+		if ( empty( $tags ) || ! is_array( $tags ) ) {
+
+			return $content;
+		}
+
+		$pattern = self::regex();
+
+		return preg_replace_callback( "/$pattern/s", array( $this, 'do_shortcode_tag' ), $content );
+	}
+
+	/**
+	 * Retrieve the shortcode regular expression for searching.
+	 *
+	 * The regular expression combines the shortcode tags in the regular expression
+	 * in a regex class.
+	 *
+	 * The regular expression contains 6 different sub matches to help with parsing.
+	 *
+	 * 1 - An extra [ to allow for escaping shortcodes with double [[]]
+	 * 2 - The shortcode name
+	 * 3 - The shortcode argument list
+	 * 4 - The self closing /
+	 * 5 - The content of a shortcode when it wraps some content.
+	 * 6 - An extra ] to allow for escaping shortcodes with double [[]]
+	 *
+	 * This was lifted from WordPress and tweaked to suit.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 *
+	 * @return string The shortcode search regular expression
+	 */
+	public static function regex( $tags = NULL ) {
+
+		$tagnames = is_null( $tags ) ? array_keys( self::tags() ) : $tags;
+
+		$tagregexp = join( '|', array_map('preg_quote', $tagnames) );
+
+		// WARNING! Do not change this regex without changing do_shortcode_tag() and strip_shortcode_tag()
+		// Also, see shortcode_unautop() and shortcode.js.
+		return
+			  '\\['                              // Opening bracket
+			. '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
+			. "($tagregexp)"                     // 2: Shortcode name
+			. '(?![\\w-])'                       // Not followed by word character or hyphen
+			. '('                                // 3: Unroll the loop: Inside the opening shortcode tag
+			.     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
+			.     '(?:'
+			.         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
+			.         '[^\\]\\/]*'               // Not a closing bracket or forward slash
+			.     ')*?'
+			. ')'
+			. '(?:'
+			.     '(\\/)'                        // 4: Self closing tag ...
+			.     '\\]'                          // ... and closing bracket
+			. '|'
+			.     '\\]'                          // Closing bracket
+			.     '(?:'
+			.         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
+			.             '[^\\[]*+'             // Not an opening bracket
+			.             '(?:'
+			.                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
+			.                 '[^\\[]*+'         // Not an opening bracket
+			.             ')*+'
+			.         ')'
+			.         '\\[\\/\\2\\]'             // Closing shortcode tag
+			.     ')?'
+			. ')'
+			. '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+	}
+
+	/**
+	 * Regular Expression callable for do_shortcode() for calling shortcode hook.
+	 * @see self::regex() for details of the match array contents.
+	 *
+	 * This was lifted from WordPress and tweaked to suit.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @param  array $m Regular expression match array
+	 *
+	 * @return mixed False on failure.
+	 */
+	private function do_shortcode_tag( $m ) {
+
+		// Normally we'd use shortcode_atts, but that strips keys from $atts that do not exist in $defaults.
+		// Since $atts can contain various options for the different callback methods, we'll use wp_parse_args()
+		// which will retain the keys and associated values that do not exist in $atts.
+		// $atts = wp_parse_args( $atts, $defaults );
+
+		$tags = self::tags();
+
+		// allow [[foo]] syntax for escaping a tag
+		if ( $m[1] == '[' && $m[6] == ']' ) {
+
+			return substr($m[0], 1, -1);
+		}
+
+		$tag = self::tag( $m[2] );
+		// $atts = shortcode_parse_atts( $m[3] );
+
+		// Check to ensure the shortcode callback is callable.
+		if ( ! is_callable( $tag['callback'] ) ) {
+
+			$callback = is_array( $tag['callback'] ) ? implode( '::', $tag['callback'] ) : $tag['callback'];
+
+			return __( sprintf( 'The %s is not a valid callback.', $callback ), 'connections' );
+		}
+
+		// Merge the $atts passed by the core `connections`
+		// shortcode with this methods $defaults attributes.
+		$atts = array_merge( (array) shortcode_parse_atts( $m[3] ), $this->atts );
+
+		ob_start();
+
+		if ( isset( $m[5] ) ) {
+
+			// If the shortcode is an enclosing shortcode, replace the entire contents with the result
+			// of any shortcodes found within the content. This provides an override of sorts.
+			// The one exception is the `cn_card` shortcode.
+			if ( is_string( $m[5] ) && ! empty( $m[5] ) && $m[2] != 'cn_card' ) {
+
+				echo self::do_shortcode( $m[5] );
+
+			} else {
+
+				// enclosing tag - extra parameter
+				// return $m[1] . call_user_func( $tag['callback'], $atts, $m[5], $m[2] ) . $m[6];
+				echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, $m[5], $m[2] ) . $m[6];
+
+			}
+
+		} else {
+
+			// self-closing tag
+			// return $m[1] . call_user_func( $tag['callback'], $atts, NULL,  $m[2] ) . $m[6];
+			echo $m[1] . call_user_func( $tag['callback'], $atts, $this->results, $this->template, NULL, $m[2] ) . $m[6];
+		}
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Experimental code to parse and process the shortcode very early in the
+	 * WordPress execution stack. This allows the modification of its attributes
+	 * before being processed by the WordPress Shortcode API.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @param  array  $posts
+	 * @param  object $WP_Query
+	 *
+	 * @return array
+	 */
 	public static function parse( $posts, $WP_Query ) {
 
-		$pattern   = get_shortcode_regex();
+		$pattern = get_shortcode_regex();
 
 		// Grab the array containing all query vars registered by Connections.
 		$registeredQueryVars = cnRewrite::queryVars( array() );
@@ -60,7 +383,7 @@ class cnShortcode {
 			if ( isset( $WP_Query->queried_object_id ) && $WP_Query->queried_object_id == $post->ID ) {
 
 				/*
-				 * $matches[0] == An array of all shortcode that were found with its options.
+				 * $matches[0] == An array of all shortcodes that were found with its options.
 				 * $matches[1] == Unknown.
 				 * $matches[2] == An array of all shortcode tags that were found.
 				 * $matches[3] == An array of the shortcode options that were found.
@@ -100,7 +423,7 @@ class cnShortcode {
 					// All returns/end of lines and tabs should be removed so wpautop() doesn't insert <p> and <br> tags in the form output.
 					// $replace = str_replace( array( "\r\n", "\r", "\n", "\t" ), array( ' ', ' ', ' ', ' ' ), $replace );
 
-					// Replace the shortcode in the post with something a new one based on you changes to $atts.
+					// Replace the shortcode in the post with a new one based on the changes to $atts.
 					// $post->post_content = str_replace( $matches[0][ array_search( $shortcode, $matches[2] ) ], $replace, $post->post_content );
 				}
 
@@ -111,285 +434,114 @@ class cnShortcode {
 		return $posts;
 	}
 
-	public static function exists( $tag ) {
-
-		return array_search( $tag, self::$shortcode ) !== FALSE ? TRUE : FALSE;
-	}
-
-	public static function loadTemplate( $atts ) {
-
-		/*
-		 * Maybe this should be moved to the cnTemplateFactory class.
-		 */
-
-		$atts = apply_filters( 'cn_list_template_init', $atts );
-
-		$defaults = array(
-			'list_type'     => NULL,
-			'template'      => NULL,
-		);
-
-		$atts = shortcode_atts( $defaults, $atts );
-
-		if ( ! empty( $atts['list_type'] ) ) {
-
-			$permittedTypes = array( 'individual', 'organization', 'family', 'connection_group');
-
-			// Convert to array. Trim the space characters if present.
-			$atts['list_type'] = explode( ',' , str_replace( ' ', '', $atts['list_type'] ) );
-
-			// Set the template type to the first in the entry type from the supplied if multiple list types are provided.
-			if ( in_array( $atts['list_type'][0], $permittedTypes ) ) {
-
-				$type = $atts['list_type'][0];
-
-				// Change the list type to family from connection_group to maintain compatibility with versions 0.7.0.4 and earlier.
-				if ( $type == 'connection_group' ) $type = 'family';
-			}
-
-		} else {
-
-			// If no list type was specified, set the default ALL template.
-			$type = 'all';
-		}
-
-		/*
-		 * If a list type was specified in the shortcode, load the template based on that type.
-		 * However, if a specific template was specifed, that should preempt the template to be loaded based on the list type if it was specified..
-		 */
-		if ( ! empty( $atts['template'] ) ) {
-
-			$template = cnTemplateFactory::getTemplate( $atts['template'] );
-
-		} else {
-
-			// Grab an instance of the Connections object.
-			$instance = Connections_Directory();
-
-			$slug     = $instance->options->getActiveTemplate( $type );
-			$template = cnTemplateFactory::getTemplate( $slug );
-		}
-
-		do_action( 'cn_register_legacy_template_parts' );
-		do_action( 'cn_action_include_once-' . $template->getSlug() );
-		do_action( 'cn_action_js-' . $template->getSlug() );
-
-		return $template;
-	}
-
-	public static function loadTemplateError( $atts ) {
-
-		/*
-		 * Maybe this should be moved to the cnTemplateFactory class.
-		 */
-
-		$defaults = array(
-			'template'      => NULL,
-		);
-
-		$atts = shortcode_atts( $defaults, $atts );
-
-		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
-	}
-
-	public static function parts() {
-
-		$part = array(
-			// 'attr'                => array( 'desc' => __( 'Attributes at time of running', 'connections' ) ),
-			'header'               => array(
-				'desc'     => __( 'Header', 'connections' ),
-				'callback' => array( __CLASS__, 'header' ),
-				),
-			'content'              => array(
-				'desc'     => __( 'Content', 'connections' ),
-				'callback' => array( __CLASS__, 'content' ),
-				),
-			'footer'               => array(
-				'desc'     => __( 'Footer', 'connections' ),
-				'callback' => array( __CLASS__, 'footer' ),
-				),
-			'version'              => array(
-				'desc'     => __( 'Version', 'connections' ),
-				'callback' => array( __CLASS__, 'version' ),
-				),
-			'db_version'           => array(
-				'desc'     => __( 'Database version.', 'connections' ),
-				'callback' => array( __CLASS__, 'dbVersion' ),
-				),
-			'return_to_target'     => array(
-				'desc'     => __( 'Return to top.', 'connections' ),
-				'callback' => array( 'cnTemplatePart', 'returnToTopTarget' ),
-				),
-			'template_slug'        => array(
-				'desc'     => __( 'Template slug.', 'connections' ),
-				'callback' => array( __CLASS__, 'templateSlug' ),
-				),
-			'template_version'     => array(
-				'desc'     => __( 'Template version.', 'connections' ) ,
-				'callback' => array( __CLASS__, 'templateVersion' ),
-				),
-			'entry_end'            => array(
-				'desc'     => __( 'End of entry', 'connections' ),
-				'callback' => array( __CLASS__, 'entryEnd' ),
-				),
-			'entry_start'          => array(
-				'desc'     => __( 'Start of entry', 'connections' ),
-				'callback' => array( __CLASS__, 'entryStart' ),
-				),
-			'entry_before'         => array(
-				'desc'     => __( 'Before entry', 'connections' ),
-				'callback' => array( __CLASS__, 'entryBefore' ),
-				),
-			'entry_after'          => array(
-				'desc'     => __( 'After entry', 'connections' ),
-				'callback' => array( __CLASS__, 'entryAfter' ),
-				),
-			'card'                 => array(
-				'desc'     => __( 'Card', 'connections' ),
-				'callback' => array( __CLASS__, 'card' ),
-				),
-			'cards'                => array(
-				'desc'     => __( 'Cards', 'connections' ),
-				'callback' => array( __CLASS__, 'cards' ),
-				),
-			'alternate'            => array(
-				'desc'     => __( 'Row alternate class.', 'connections' ),
-				'callback' => array( __CLASS__, 'alternate' ),
-				),
-			'entry_type'           => array(
-				'desc'     => __( 'Enrty type.', 'connections' ),
-				'callback' => array( __CLASS__, 'entryType' ),
-				),
-			'entry_slug'           => array(
-				'desc'     => __( 'Entry slug.', 'connections' ),
-				'callback' => array( __CLASS__, 'entrySlug' ),
-				),
-			'entry_category_class' => array(
-				'desc'     => __( 'Entry category class.', 'connections' ),
-				'callback' => array( __CLASS__, 'entryCategoryClass' ),
-				),
-			'character_index'      => array(
-				'desc'     => __( 'Character index.', 'connections' ),
-				'callback' => array( __CLASS__, 'characterIndex' ),
-				),
-		);
-
-		return $part;
-	}
-
-	public static function part( $tag ) {
-
-		// Get the registered template shortcode parts.
-		$parts = self::parts();
-
-		// If the requested part is in the registered template shortcode parts, return its attributes.
-		if ( $key = array_key_exists( $tag, $parts ) !== FALSE ) return $parts[ $tag ];
-
-		// The parts was not found, return FALSE.
-		return FALSE;
-	}
-
 	/**
 	 * The method to be used to process the content thru the shortcode.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  object $content An instance of the cntemplate object.
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  string $content  The content of an enclosing shortcode tag.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
 	 *
-	 * @return string          The result.
+	 * @return string
 	 */
-	public static function process( $content, $template ) {
+	public static function process( $atts, $content, $results, $template ) {
 
-		$return = new cnShortcode( $content, $template );
+		$return = new cnShortcode( $atts, $content, $results, $template );
 
 		return $return->result();
 	}
 
 	/**
-	 * Set's up the core  shortcode and starts the shortcode
+	 * Set's up the core shortcode and starts the shortcode
 	 * replacement process using the WordPress shortcode API.
 	 *
-	 * @access private
-	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  object $content An instance of the cntemplate object.
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  string $content  The content of an enclosing shortcode tag.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
 	 */
-	private function __construct( $content, $template ) {
+	private function __construct( $atts, $content, $results, $template ) {
 
-		// $this->content = $content;
+		// Store the entry query array $results and the cnTemplate object $template
+		// so they can be easily passed to the template part shortcode callbacks.
+		$this->atts     = $atts;
+		$this->template = $template;
+		$this->results  = $results;
 
-		// Register the entry shortcode.
-		// Adding it here so it is only processed when $content is processed thru this method.
-		add_shortcode( 'cn_template', array( $this, 'processor' ) );
-
-		// Bail if $content does hot contain the `cn_template` shortcode.
-		if ( ! has_shortcode( $content, 'cn_template' ) ) return '';
-
-		$this->result = do_shortcode( $content );
-
-		// Remove the runtime shortcode.
-		remove_shortcode( 'cn_template' );
-	}
-
-	public function processor( $atts, $content = '', $tag = 'cn_template' ) {
-
-		$out = '';
-
-		$defaults = array(
-			'part' => '',
-			);
-
-		// Normally we'd use shortcode_atts, but that strips keys from $atts that do not exist in $defaults.
-		// Since $atts can contain various option for the different callback methods, we'll use wp_parse_args()
-		// which leaves keys that do not exist in $atts.
-		$atts = wp_parse_args( $atts, $defaults );
-
-		// Check to see if the part being called is a registered part and if it is, process it.
-		if ( ( $part = self::part( $atts['part'] ) ) !== FALSE ) {
-
-			// If the part has a registered callback, run it.
-			if ( is_callable( $part['callback'] ) ) {
-
-				ob_start();
-
-				call_user_func( $part['callback'], $atts );
-
-				$out .= ob_get_clean();
-			}
-
-			if ( is_string( $content ) && ! empty( $content ) ) {
-
-				add_shortcode( $atts['part'], $part['callback'] );
-
-				$out .= has_shortcode( $content, $atts['part'] ) ? do_shortcode( $content ) : '';
-
-				remove_shortcode( $atts['part'] );
-			}
-
-		}
-
-		return $out;
+		$this->html = self::do_shortcode( self::removePBR( $content ) );
 	}
 
 	/**
 	 * Returns the processed content.
 	 *
 	 * @access private
-	 * @since 0.8
+	 * @since  0.8
 	 *
 	 * @return string The processed content.
 	 */
 	private function result() {
 
-		return $this->result;
+		return $this->html;
 	}
 
+	/**
+	 * This is the callback ran for the `cn_card` shortcode that will process its
+	 * content the the cnEntry_Shortcode processor.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 * @param  string $content  The content of the `cn_card` shortcode.
+	 *
+	 * @return string           The result of the $content being run thru cnEntry_Shortcode::process().
+	 */
+	public static function processEntry( $atts, $results, $template, $content ) {
+
+		foreach ( $results as $row ) {
+
+			echo cnEntry_Shortcode::process( new cnEntry( $row ), $content );
+		}
+	}
+
+	/**
+	 * The core `connections` shortcode can be used multiple times on a page.
+	 * Because of this we need to keep track of the filters that are added
+	 * during execution of the shortcode so the filters can be cleared and
+	 * not applied to the other instance of the shortcode. This basically limits
+	 * the filters to per shortcode instance.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @param  string $tag The action of filter hook tag.
+	 *
+	 * @return void
+	 */
 	public static function addFilterRegistry( $tag ) {
 
 		self::$filterRegistry[] = $tag;
 	}
 
+	/**
+	 * Clear the action/filter registry.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 *
+	 * @return void
+	 */
 	public static function clearFilterRegistry() {
 		global $wp_filter;
 
@@ -404,6 +556,18 @@ class cnShortcode {
 		}
 	}
 
+	/**
+	 * Remove end of line characters to support the themes that insist
+	 * on running wpautop() AFTER the shortcode filter has been run on
+	 * the_content.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @param  string $string The result of executing any of the core Connections shortcodes.
+	 *
+	 * @return string         The string with all EOL characters removed.
+	 */
 	public static function removeEOL( $string ) {
 
 		if ( cnSettingsAPI::get( 'connections', 'compatibility', 'strip_rnt' ) ) {
@@ -413,7 +577,33 @@ class cnShortcode {
 			$string  = str_replace( $search, $replace, $string );
 		}
 
-		return $string;
+		return trim( $string );
+	}
+
+	/**
+	 * Attemps to intelligently remove <p> and <br> tags added around
+	 * the template shortcodes by wpautop().
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  string $content The content captured by the cn_template shortcode.
+	 *
+	 * @return string
+	 */
+	public static function removePBR( $content ){
+
+		$content = strtr( $content, array(
+			'<p><!--'  => '<!--',
+			'--></p>'  => '-->',
+			'<p>['     => '[',
+			']</p>'    => ']',
+			'/]</p>'   => ']',
+			']<br />'  => ']',
+			'/]<br />' => ']'
+			)
+		);
+
+		return $content;
 	}
 }
 

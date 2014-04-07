@@ -1,6 +1,7 @@
 /*
  * Common
  */
+#cn-list .cn-clear { clear: both; }
 #cn-list div.cn-list-head { position: relative; }
 #cn-list div.cn-list-section-head { position: relative; }
 #cn-list div.cn-list-section-head h4 { font-size: 16px; padding: 0; margin-bottom: .8em; }
@@ -164,6 +165,9 @@ span.date-name { font-weight: bold; }
 /*
  * Search control styles.
  */
+.cn-search label[for="cn-s"] {
+	display: none;
+}
 #cn-search-input {
 	background: #FFFFFF none;
 	border-width: 1px 0 1px 1px;

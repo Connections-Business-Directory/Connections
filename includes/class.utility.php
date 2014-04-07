@@ -92,7 +92,7 @@ class cnFormatting {
 	 * @param string $value
 	 * @return boolean
 	 */
-	public function toBoolean( &$value ) {
+	public static function toBoolean( &$value ) {
 
 		switch ( strtolower( $value ) ) {
 			case 'yes':

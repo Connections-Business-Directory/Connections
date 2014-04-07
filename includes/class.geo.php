@@ -737,7 +737,7 @@ class cnGeo {
 			'LY' => 'Libyan Arab Jamahiriya',
 			'LI' => 'Liechtenstein',
 			'LT' => 'Lithuania',
-			'LU' => 'Luxembourgh',
+			'LU' => 'Luxembourg',
 			'MO' => 'Macau',
 			'MK' => 'Macedonia',
 			'MG' => 'Madagascar',

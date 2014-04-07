@@ -423,6 +423,10 @@ class cnEntry_Action {
 		do_action( 'cn_process_taxonomy-category', $action, $entryID );
 		do_action( 'cn_process_meta-entry', $action, $entryID );
 
+		// Refresh the cnEntry object with any updated taxonomy or meta data
+		// that may have been added/updated via actions.
+		$entry->set( $entryID );
+
 		// Run any registered post process actions.
 		do_action( "cn_post_process_$action-entry", $entry );
 

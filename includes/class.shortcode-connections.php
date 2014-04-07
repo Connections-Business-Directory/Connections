@@ -21,12 +21,10 @@ class cnShortcode_Connections extends cnShortcode {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$html     = 'The new shortcode.';
-		$convert  = new cnFormatting();
+		$html     = '';
+		$template = cnTemplateFactory::loadTemplate( $atts );
 
-		$template = self::loadTemplate( $atts );
-
-		if ( $template === FALSE ) return self::loadTemplateError( $atts );
+		if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $atts );
 
 		/*
 		 * Now that the template has been loaded, Validate the user supplied shortcode atts.
@@ -71,25 +69,25 @@ class cnShortcode_Connections extends cnShortcode {
 			'home_id'               => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 		);
 
-		$atts = apply_filters( 'cn_list_atts_permitted' , $atts );
-		$atts = apply_filters( 'cn_list_atts_permitted-' . $template->getSlug() , $atts );
+		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
+		$defaults = apply_filters( 'cn_list_atts_permitted-' . $template->getSlug(), $defaults );
 
 		$atts = shortcode_atts( $defaults, $atts, $tag ) ;
 
-		$atts = apply_filters( 'cn_list_atts' , $atts );
-		$atts = apply_filters( 'cn_list_atts-' . $template->getSlug() , $atts );
+		$atts = apply_filters( 'cn_list_atts', $atts );
+		$atts = apply_filters( 'cn_list_atts-' . $template->getSlug(), $atts );
 
 		/*
 		 * Convert some of the $atts values in the array to boolean.
 		 */
-		$convert->toBoolean( $atts['allow_public_override'] );
-		$convert->toBoolean( $atts['private_override'] );
-		$convert->toBoolean( $atts['show_alphaindex'] );
-		$convert->toBoolean( $atts['repeat_alphaindex'] );
-		$convert->toBoolean( $atts['show_alphahead'] );
-		$convert->toBoolean( $atts['wp_current_category'] );
-		$convert->toBoolean( $atts['lock'] );
-		$convert->toBoolean( $atts['force_home'] );
+		cnFormatting::toBoolean( $atts['allow_public_override'] );
+		cnFormatting::toBoolean( $atts['private_override'] );
+		cnFormatting::toBoolean( $atts['show_alphaindex'] );
+		cnFormatting::toBoolean( $atts['repeat_alphaindex'] );
+		cnFormatting::toBoolean( $atts['show_alphahead'] );
+		cnFormatting::toBoolean( $atts['wp_current_category'] );
+		cnFormatting::toBoolean( $atts['lock'] );
+		cnFormatting::toBoolean( $atts['force_home'] );
 		// var_dump( $atts );
 
 		/*
@@ -107,17 +105,17 @@ class cnShortcode_Connections extends cnShortcode {
 		$atts['country']       = html_entity_decode( $atts['country'] );
 		$atts['category_name'] = html_entity_decode( $atts['category_name'] );
 
-		$atts = apply_filters( 'cn_list_retrieve_atts' , $atts );
+		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
 		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );
 
 		$results = $instance->retrieve->entries( $atts );
-		// $html .= print_r($connections->lastQuery , TRUE);
+		// $html .= print_r( $instance->lastQuery, TRUE );
 
 		// Apply any registered filters to the results.
 		if ( ! empty( $results ) ) {
 
 			$results = apply_filters( 'cn_list_results', $results );
-			$results = apply_filters( 'cn_list_results-' . $template->getSlug() , $results );
+			$results = apply_filters( 'cn_list_results-' . $template->getSlug(), $results );
 			self::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
 		}
 
@@ -126,20 +124,58 @@ class cnShortcode_Connections extends cnShortcode {
 			// Prints the template's CSS file.
 			// NOTE: This is primarily to support legacy templates which included a CSS
 			// file which was not enqueued in the page header.
-			do_action( 'cn_action_css-' . $template->getSlug() , $atts );
-
-			// @TODO: This should be rendered via shortcode.
-			// The return to top anchor
-			// do_action( 'cn_action_return_to_target', $atts );
+			do_action( 'cn_action_css-' . $template->getSlug(), $atts );
 
 		$html .= ob_get_clean();
 
 
-		if ( is_string( $content ) && ! empty( $content ) ) {
-var_dump(htmlentities( $content ));
-			$html .= cnShortcode::process( $content, $template );
+		$html .= sprintf( '<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s"%3$s>',
+				$instance->options->getVersion(),
+				$instance->options->getDBVersion(),
+				empty( $atts['width'] ) ? '' : ' style="width: ' . $atts['width'] . 'px;"'
+			);
+
+		$html .= sprintf( '<div class="cn-template cn-%1$s" id="cn-%1$s" data-template-version="%2$s">',
+				$template->getSlug(),
+				$template->getVersion()
+			);
+
+		// The filter should check $content that content is not empty before processing $content.
+		// And if it is empty the filter should return (bool) FALSE, so the core template parts can be executed.
+		$content = apply_filters( "cn_shortcode_content-$tag", FALSE, $content, $atts, $results, $template );
+
+		if ( $content === FALSE ) {
+
+			ob_start();
+
+			// Render the core result list header.
+			cnTemplatePart::header( $atts, $results, $template );
+
+			// Render the core result list body.
+			cnTemplatePart::body( $atts, $results, $template );
+
+			// Render the core result list footer.
+			cnTemplatePart::footer( $atts, $results, $template );
+
+			$html .= ob_get_clean();
+
+		} else {
+
+			// $html .= cnShortcode::process( $atts, $content, $results, $template );
+			$html .= $content;
 		}
 
+
+		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $template->getSlug() . ' -->' : '' ) . PHP_EOL;
+
+		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . PHP_EOL;
+
+
+		// Clear any filters that have been added.
+		// This allows support using the shortcode multiple times on the same page.
+		cnShortcode::clearFilterRegistry();
+
+		// @todo This should be run via a filter.
 		return self::removeEOL( $html );
 	}
 

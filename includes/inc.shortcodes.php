@@ -498,10 +498,8 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 				// The no results message.
 				ob_start();
 					do_action( 'cn_action_no_results', $atts, $results, $template );
-					$filterRegistry[] = 'cn_list_no_result_message-' . $template->getSlug();
 
-					$out .= ob_get_contents();
-				ob_end_clean();
+				$out .= ob_get_clean();
 
 			} else {
 

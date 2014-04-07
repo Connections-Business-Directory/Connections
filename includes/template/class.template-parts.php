@@ -44,6 +44,368 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Display the template no found error message.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @uses   shortcode_atts()
+	 * @param  array  $atts The shortcode $atts array.
+	 * @return string       The error message.
+	 */
+	public static function loadTemplateError( $atts ) {
+
+		$defaults = array(
+			'template'      => NULL,
+		);
+
+		$atts = shortcode_atts( $defaults, $atts );
+
+		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
+	}
+
+	/**
+	 * Output the return to top div.
+	 *
+	 * @access public
+	 * @since  0.7.6.5
+	 * @uses   wp_parse_args()
+	 * @uses   apply_filters()
+	 * @param  array  $atts [optional]
+	 *
+	 * @return string
+	 */
+	public static function returnToTopTarget( $atts = array() ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = apply_filters( 'cn_filter_return_to_top_target', '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>' );
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * The result list head.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function header( $atts, $results, $template ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$out .= PHP_EOL . '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
+
+			// Display the Results List Actions.
+			if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+				// List actions template part.
+				ob_start();
+					do_action( 'cn_list_actions-before', $atts );
+					do_action( 'cn_list_actions', $atts );
+					$out .= ob_get_contents();
+				ob_end_clean();
+
+			}
+
+			ob_start();
+				do_action( 'cn_action_list_before', $atts, $results );
+				do_action( 'cn_action_list_before-' . $template->getSlug(), $atts, $results );
+				cnShortcode::addFilterRegistry( 'cn_action_list_before-' . $template->getSlug() );
+
+				do_action( 'cn_action_list_both', $atts, $results );
+				do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
+				cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+
+				$out .= ob_get_contents();
+			ob_end_clean();
+
+			$out .= apply_filters( 'cn_list_before', '', $results );
+			$out .= apply_filters( 'cn_list_before-' . $template->getSlug(), '', $results );
+			cnShortcode::addFilterRegistry( 'cn_list_before-' . $template->getSlug() );
+
+			//  This action only is required when the index is to be displayed.
+			if ( $atts['show_alphaindex'] || $atts['repeat_alphaindex'] ) {
+
+				// The character index template part.
+				ob_start();
+					do_action( 'cn_action_character_index', $atts );
+					$charIndex = ob_get_contents();
+				ob_end_clean();
+
+				// These filters are left here primarily for legacy support. At some point these should be removed.
+				$charIndex = apply_filters( 'cn_list_index', $charIndex , $results );
+				$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug(), $charIndex, $results );
+				cnShortcode::addFilterRegistry( 'cn_list_index-' . $template->getSlug() );
+			}
+
+			/*
+			 * The alpha index is only displayed if set to true and not set to repeat.
+			 * If alpha index is set to repeat, that is handled separately.
+			 */
+			if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) $out .= $charIndex;
+
+		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * The result list body.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function body( $atts, $results, $template ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$out .= PHP_EOL . '<div class="connections-list cn-list-body cn-clear" id="cn-list-body">' . PHP_EOL;
+
+		// If there are no results no need to proceed and output message.
+		if ( empty( $results ) ) {
+
+			// The no results message.
+			ob_start();
+
+				do_action( 'cn_action_no_results', $atts, $results, $template );
+
+			$out .= ob_get_clean();
+
+		} else {
+
+			$out .= self::cards( array_merge( $atts, array( 'return' => TRUE ) ), $results, $template );
+		}
+
+		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * The result list cards.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function cards( $atts, $results, $template ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$previousLetter = '';
+		$alternate      = '';
+
+		/*
+		 * When an entry is assigned multiple categories and the RANDOM order_by shortcode attribute
+		 * is used, this will cause the entry to show once for every category it is assigned.
+		 *
+		 * The same issue occurs when an entry has been assigned multiple address and each address
+		 * falls within the geo bounds when performing a geo-limiting query.
+		 */
+		// $skipEntry = array();
+
+		foreach ( $results as $row ) {
+			$entry = new cnvCard( $row );
+			$vCard =& $entry;
+
+			// Configure the page where the entry link to.
+			$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
+
+			// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
+			// if ( in_array( $entry->getId(), $skipEntry ) ) continue;
+			// $skipEntry[] = $entry->getId();
+
+			// Display the Entry Actions.
+			if ( get_query_var( 'cn-entry-slug' ) ) {
+
+				// Entry actions template part.
+				ob_start();
+					do_action( 'cn_entry_actions-before', $atts, $entry );
+					do_action( 'cn_entry_actions', $atts, $entry );
+					$out .= ob_get_contents();
+				ob_end_clean();
+
+			}
+
+			$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
+
+			if ( $currentLetter != $previousLetter ) {
+
+				$out .= sprintf( '<div class="cn-list-section-head cn-clear" id="cn-char-%1$s">', $currentLetter );
+
+					if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) $out .= $charIndex;
+
+					if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
+
+				$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
+
+				$previousLetter = $currentLetter;
+			}
+
+			// Before entry actions.
+			ob_start();
+				do_action( 'cn_action_entry_before', $atts, $entry );
+				do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
+
+				do_action( 'cn_action_entry_both', $atts, $entry  );
+				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+
+				$out .= ob_get_contents();
+			ob_end_clean();
+
+			$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s" data-entry-type="%2$s" data-entry-id="%5$d" data-entry-slug="%4$s">',
+					$alternate = $alternate == '' ? '-alternate' : '',
+					$entry->getEntryType(),
+					$entry->getCategoryClass(TRUE),
+					$entry->getSlug(),
+					$entry->getId()
+				);
+
+				$out .= apply_filters( 'cn_list_entry_before', '', $entry );
+				$out .= apply_filters( 'cn_list_entry_before-' . $template->getSlug(), '', $entry );
+				cnShortcode::addFilterRegistry( 'cn_list_entry_before-' . $template->getSlug() );
+
+				ob_start();
+
+					if ( get_query_var( 'cn-entry-slug' ) && has_action( 'cn_action_card_single-' . $template->getSlug() ) ) {
+
+						do_action( 'cn_action_card_single-' . $template->getSlug(), $entry, $template, $atts );
+
+					} else {
+
+						do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
+					}
+
+					$out .= ob_get_contents();
+			    ob_end_clean();
+
+				$out .= apply_filters( 'cn_list_entry_after', '', $entry );
+				$out .= apply_filters( 'cn_list_entry_after-' . $template->getSlug(), '', $entry );
+				cnShortcode::addFilterRegistry( 'cn_list_entry_after-' . $template->getSlug() );
+
+			$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
+
+			// After entry actions.
+			ob_start();
+				do_action( 'cn_action_entry_after', $atts, $entry );
+				do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
+
+				do_action( 'cn_action_entry_both', $atts, $entry  );
+				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+
+				// Entry actions template part.
+				do_action( 'cn_action_entry_actions-after', $atts, $entry );
+
+				$out .= ob_get_contents();
+			ob_end_clean();
+
+		}
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * The result list foot.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function footer( $atts, $results, $template ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$out .= PHP_EOL . '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
+
+			$out .= apply_filters( 'cn_list_after' , '' , $results );
+			$out .= apply_filters( 'cn_list_after-' . $template->getSlug() , '' , $results );
+			cnShortcode::addFilterRegistry( 'cn_list_after-' . $template->getSlug() );
+
+			ob_start();
+				do_action( 'cn_action_list_both' , $atts , $results  );
+				do_action( 'cn_action_list_both-' . $template->getSlug() , $atts , $results );
+				cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+
+				do_action( 'cn_action_list_after' , $atts , $results );
+				do_action( 'cn_action_list_after-' . $template->getSlug() , $atts , $results );
+				cnShortcode::addFilterRegistry( 'cn_action_list_after-' . $template->getSlug() );
+
+				// Display the Results List Actions.
+				if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+					// List actions template part.
+					do_action( 'cn_list_actions-after', $atts );
+				}
+
+				$out .= ob_get_contents();
+			ob_end_clean();
+
+		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
 	 * Output the result list actions.
 	 *
 	 * @access public
@@ -271,16 +633,20 @@ class cnTemplatePart {
 	 * Outputs the "No Results" meesage.
 	 *
 	 * @access public
-	 * @since 0.7.6.5
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @param  (array) $atts [optional]
-	 * @param  (string) $slug The template slug.
-	 * @return (string)
+	 * @since  0.7.6.5
+	 * @uses   wp_parse_args()
+	 * @uses   apply_filters()
+	 * @param  array  $atts    [optional] The shortcode $atts array.
+	 * @param  array  $results [optional] The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
 	 */
-	public static function noResults( $atts = array(), $slug ) {
-		$out = '';
-		$actions = array();
+	public static function noResults( $atts = array(), $results = array(), $template = FALSE ) {
+
+		if ( ! empty( $results ) ) return;
+
+		$out     = '';
 
 		$defaults = array(
 			'tag'     => 'p',
@@ -293,39 +659,15 @@ class cnTemplatePart {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		$atts['message'] = apply_filters( 'cn_list_no_result_message' , $atts['message'] );
-		$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $slug , $atts['message'] );
+		if ( $template !== FALSE ) $atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , $atts['message'] );
 
-		$out .=  sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
+		$out .= sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
 				$atts['tag'],
 				$atts['message']
 			);
 
-		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-	}
-
-	/**
-	 * Output the return to top div.
-	 *
-	 * @access public
-	 * @since 0.7.6.5
-	 * @param  (array)  $atts [optional]
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @return (string)
-	 */
-	public static function returnToTopTarget( $atts = array() ) {
-
-		$defaults = array(
-			'return' => FALSE
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
-
-		$out = apply_filters( 'cn_filter_return_to_top_target', '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>' );
-
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}
 
 	/**

@@ -128,12 +128,6 @@ class cnOutput extends cnEntry
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		if ( $atts['action'] == 'edit' ) {
-
-			$this->setImageDisplay( TRUE );
-			$this->setLogoDisplay( TRUE );
-		}
-
 		/*
 		 * The $atts key that are not image tag attributes.
 		 */
@@ -145,7 +139,7 @@ class cnOutput extends cnEntry
 
 			case 'photo':
 
-				if ( $this->getImageLinked() && $this->getImageDisplay() ) {
+				if ( $this->getImageLinked() && ( $this->getImageDisplay() || $atts['action'] == 'edit' ) ) {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'photo';
@@ -218,7 +212,7 @@ class cnOutput extends cnEntry
 
 			case 'logo':
 
-				if ( $this->getLogoLinked() && $this->getLogoDisplay() ) {
+				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || $atts['action'] == 'edit' ) ) {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'logo';

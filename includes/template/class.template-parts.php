@@ -90,6 +90,84 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Renders a Connections compatible form opening.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @global $wp_rewrite
+	 * @uses   get_permalink()
+	 * @uses   is_front_page()
+	 * @uses   is_page()
+	 *
+	 * @return string
+	 */
+	public static function formOpen( $atts = array() ) {
+		global $wp_rewrite;
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		// Get the directory home page ID.
+		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
+
+		$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
+
+		// The base post permalink is required, do not filter the permalink thru cnSEO.
+		cnSEO::doFilterPermalink( FALSE );
+
+		$permalink = get_permalink( $homeID );
+
+		if ( $wp_rewrite->using_permalinks() ) {
+
+			$out .= '<form class="cn-form" id="cn-cat-select" action="' . ( $addAction || $atts['force_home'] ? $permalink : '' ) . '" method="get">';
+			if ( is_front_page() ) $out = '<input type="hidden" name="page_id" value="' . $homeID .'">';
+
+		} else {
+
+			$out .= '<form class="cn-form" id="cn-cat-select" method="get">';
+			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID .'">';
+		}
+
+		// Add the cnSEO permailink filter.
+		cnSEO::doFilterPermalink();
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * Renders a form closing tag, nothing more.
+	 * Just a simple helper function to compliment cnTemplatePart::formOpen().
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 *
+	 * @return string
+	 */
+	public static function formClose( $atts = array() ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$out .= '</form>';
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
 	 * The result list head.
 	 *
 	 * @access public

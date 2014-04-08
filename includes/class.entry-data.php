@@ -3103,7 +3103,7 @@ class cnEntry {
 
 
 	public function getLogoDisplay() {
-		return $this->options['logo']['display'];
+		return isset( $this->options['logo']['display'] ) ? $this->options['logo']['display'] : FALSE;
 	}
 
 	public function setLogoDisplay( $logoDisplay ) {
@@ -3111,7 +3111,7 @@ class cnEntry {
 	}
 
 	public function getLogoLinked() {
-		return $this->logoLinked;
+		return isset( $this->options['logo']['linked'] ) ? $this->options['logo']['linked'] : FALSE;
 	}
 
 	public function setLogoLinked( $logoLinked ) {

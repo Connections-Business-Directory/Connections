@@ -84,7 +84,7 @@ class cnShortcode {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function register() {
 
 		// Register the core shortcodes.
 		add_shortcode( 'connections', 'connectionsView' );
@@ -156,6 +156,14 @@ class cnShortcode {
 			'search'             => array(
 				'desc'     => __( 'Pagination control.', 'connections' ),
 				'callback' => array( 'cnTemplatePart', 'search' ),
+				),
+			'form_open'          => array(
+				'desc'     => __( 'Form open.', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'formOpen' ),
+				),
+			'form_close'         => array(
+				'desc'     => __( 'Form open.', 'connections' ),
+				'callback' => array( 'cnTemplatePart', 'formClose' ),
 				),
 		);
 

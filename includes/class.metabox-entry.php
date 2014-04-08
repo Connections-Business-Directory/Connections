@@ -862,7 +862,12 @@ class cnEntryMetabox {
 
 				if ( method_exists( $entry, 'getImage' ) ) {
 
-					$entry->getImage( array( 'image' => 'logo', 'preset' => 'profile' ) );
+					$entry->getImage(
+						array(
+							'image'  => 'logo',
+							'action' => 'edit',
+							)
+						);
 
 				} else {
 

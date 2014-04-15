@@ -99,7 +99,7 @@ class cnDashboardMetabox {
 			'callback' => array( __CLASS__, 'recent' ),
 			'order_by' => 'date_added|SORT_ASC',
 			'template' => 'dashboard-recent-added',
-			'limit'    => 0,
+			'limit'    => 10,
 			'status'   => 'pending',
 		);
 
@@ -286,7 +286,7 @@ class cnDashboardMetabox {
 
 		add_filter( 'cn_list_results', array( $instance->retrieve, 'removeUnknownDateAdded' ), 9 );
 
-		remove_action( 'cn_action_list_actions', array( 'cnTemplatePart', 'listActions' ) );
+		remove_action( 'cn_list_actions', array( 'cnTemplatePart', 'listActions' ) );
 
 		$atts = array(
 			'order_by'        => $metabox['args']['order_by'],

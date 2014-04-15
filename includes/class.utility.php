@@ -521,6 +521,37 @@ class cnURL {
 	}
 
 	/**
+	 * Create the URL to a file from its absolute system path.
+	 *
+	 * NOTE: This method can not be used in any function that is
+	 * executed prior to the `after_setup_theme` action hook.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @uses   untrailingslashit()
+	 * @uses   get_stylesheet_directory_uri()
+	 * @uses   get_stylesheet_directory()
+	 * @param  string $path The file path.
+	 *
+	 * @return string       The URL to the file.
+	 */
+	public static function fromPath( $path ) {
+
+		// Get correct URL and path to wp-content.
+		$content_url = untrailingslashit( dirname( dirname( get_stylesheet_directory_uri() ) ) );
+		$content_dir = untrailingslashit( dirname( dirname( get_stylesheet_directory() ) ) );
+
+		// Fix path on Windows.
+		$path        = str_replace( '\\', '/', $path );
+		$content_dir = str_replace( '\\', '/', $content_dir );
+
+		// Create URL.
+		$url         = str_replace( $content_dir, $content_url, $path );
+
+		return $url;
+	}
+
+	/**
 	 * Create a permalink.
 	 *
 	 * @access private

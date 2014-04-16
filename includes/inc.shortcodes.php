@@ -312,9 +312,8 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	if ( $template == FALSE )
 		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $preLoadAtts['template_name'] . $preLoadAtts['template'] ) . '</p>';
 
-	do_action( 'cn_register_legacy_template_parts' );
-	do_action( 'cn_action_include_once-' . $template->getSlug() );
-	do_action( 'cn_action_js-' . $template->getSlug() );
+	do_action( 'cn_template_include_once-' . $template->getSlug() );
+	do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
 
 	/*
 	 * Now that the template has been loaded, Validate the user supplied shortcode atts.
@@ -417,7 +416,7 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 	ob_start();
 
 		// Prints the template's CSS file.
-		do_action( 'cn_action_css-' . $template->getSlug() , $atts );
+		do_action( 'cn_template_inline_css-' . $template->getSlug() , $atts );
 
 		// The return to top anchor
 		do_action( 'cn_action_return_to_target', $atts );
@@ -741,9 +740,8 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	if ( $template == FALSE )
 		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
 
-	do_action( 'cn_register_legacy_template_parts' );
-	do_action( 'cn_action_include_once-' . $template->getSlug() );
-	do_action( 'cn_action_js-' . $template->getSlug() );
+	do_action( 'cn_template_include_once-' . $template->getSlug() );
+	do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
 
 	/*
 	 * Set the query vars and run query.
@@ -830,7 +828,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		ob_start();
 
 			// Prints the template's CSS file.
-			do_action( 'cn_action_css-' . $template->getSlug() , $atts );
+			do_action( 'cn_template_inline_css-' . $template->getSlug() , $atts );
 
 			$out .= ob_get_contents();
 		ob_end_clean();

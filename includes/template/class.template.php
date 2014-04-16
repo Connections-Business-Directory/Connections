@@ -584,71 +584,83 @@ class cnTemplate {
 
 				$term = $instance->term->getTermBy( 'id', $categoryID, 'category' );
 
-				$files[] = self::fileName( $base, 'category', $term->slug, $ext );
+				$files[] = $this->fileName( $base, 'category', $term->slug, $ext );
 			}
 
-			$files[] = self::fileName( $base, 'category', NULL, $ext );
+			$files[] = $this->fileName( $base, 'category', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		if ( get_query_var( 'cn-cat-slug' ) ) {
 
-			$files[] = self::fileName( $base, 'category', get_query_var( 'cn-cat-slug'), $ext );
-			$files[] = self::fileName( $base, 'category', NULL, $ext );
+			$files[] = $this->fileName( $base, 'category', get_query_var( 'cn-cat-slug'), $ext );
+			$files[] = $this->fileName( $base, 'category', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		if ( get_query_var( 'cn-country' ) ) {
 
-			$files[] = self::fileName( $base, 'country', urldecode( get_query_var( 'cn-country' ) ), $ext );
-			$files[] = self::fileName( $base, 'country', NULL, $ext );
+			$country = $this->queryVarSlug( get_query_var( 'cn-country' ) );
+
+			$files[] = $this->fileName( $base, 'country', $country, $ext );
+			$files[] = $this->fileName( $base, 'country', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		if ( get_query_var( 'cn-region' ) ) {
 
-			$files[] = self::fileName( $base, 'region', urldecode( get_query_var( 'cn-region' ) ), $ext );
-			$files[] = self::fileName( $base, 'region', NULL, $ext );
+			$region  = $this->queryVarSlug( get_query_var( 'cn-region' ) );
+
+			$files[] = $this->fileName( $base, 'region', $region, $ext );
+			$files[] = $this->fileName( $base, 'region', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		if ( get_query_var( 'cn-postal-code' ) ) {
 
-			$files[] = self::fileName( $base, 'postal-code', urldecode( get_query_var( 'cn-postal-code' ) ), $ext );
-			$files[] = self::fileName( $base, 'postal-code', NULL, $ext );
+			$zipcode = $this->queryVarSlug( get_query_var( 'cn-postal-code' ) );
+
+			$files[] = $this->fileName( $base, 'postal-code', $zipcode, $ext );
+			$files[] = $this->fileName( $base, 'postal-code', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		if ( get_query_var( 'cn-locality' ) ) {
 
-			$files[] = self::fileName( $base, 'locality', urldecode( get_query_var( 'cn-locality' ) ), $ext );
-			$files[] = self::fileName( $base, 'locality', NULL, $ext );
+			$locality = $this->queryVarSlug( get_query_var( 'cn-locality' ) );
+
+			$files[] = $this->fileName( $base, 'locality', $locality, $ext );
+			$files[] = $this->fileName( $base, 'locality', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		if ( get_query_var( 'cn-organization' ) ) {
 
-			$files[] = self::fileName( $base, 'organization', urldecode( get_query_var( 'cn-organization' ) ), $ext );
-			$files[] = self::fileName( $base, 'organization', NULL, $ext );
+			$organization = $this->queryVarSlug( get_query_var( 'cn-organization' ) );
+
+			$files[] = $this->fileName( $base, 'organization', $organization, $ext );
+			$files[] = $this->fileName( $base, 'organization', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		if ( get_query_var( 'cn-department' ) ) {
 
-			$files[] = self::fileName( $base, 'department', urldecode( get_query_var( 'cn-department' ) ), $ext );
-			$files[] = self::fileName( $base, 'department', NULL, $ext );
+			$department = $this->queryVarSlug( get_query_var( 'cn-department' ) );
+
+			$files[] = $this->fileName( $base, 'department', $department, $ext );
+			$files[] = $this->fileName( $base, 'department', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
-			$files[] = self::fileName( $base, NULL, get_query_var( 'cn-entry-slug'), $ext );
-			$files[] = self::fileName( $base, 'single', NULL, $ext );
+			$files[] = $this->fileName( $base, NULL, get_query_var( 'cn-entry-slug'), $ext );
+			$files[] = $this->fileName( $base, 'single', NULL, $ext );
 			// var_dump( $files );
 		}
 
 		// Add the base as the least priority, since it is required.
-		$files[] = self::fileName( $base, NULL, NULL, $ext );
+		$files[] = $this->fileName( $base, NULL, NULL, $ext );
 
 		/**
 		 * Allow template choices to be filtered.
@@ -662,13 +674,41 @@ class cnTemplate {
 		return $files;
 	}
 
+	/**
+	 * Create file name from supplied attributes.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @uses   sanitize_file_name()
+	 * @param  string $base The base file name.
+	 * @param  string $name The template part name.
+	 * @param  string $slug The template part slug.
+	 * @param  string $ext  The template file name extension.
+	 *
+	 * @return string       The file name.
+	 */
 	private function fileName( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
 
 		$name = array( $base, $name, $slug );
 		$name = array_filter( $name );
 		$name = implode( '-', $name ) . '.' . $ext;
 
-		return $name;
+		return strtolower( sanitize_file_name( $name ) );
+	}
+
+	/**
+	 * Takes a supplied query var and creates a file system safe slug.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @uses   sanitize_file_name()
+	 * @param  string $queryVar A query var.
+	 *
+	 * @return string           A file system safe string.
+	 */
+	private function queryVarSlug( $queryVar ) {
+
+		return strtolower( sanitize_file_name( urldecode( $queryVar ) ) );
 	}
 
 	/**

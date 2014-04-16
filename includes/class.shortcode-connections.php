@@ -26,6 +26,9 @@ class cnShortcode_Connections extends cnShortcode {
 
 		if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $atts );
 
+		do_action( 'cn_template_include_once-' . $template->getSlug() );
+		do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
+
 		/*
 		 * Now that the template has been loaded, Validate the user supplied shortcode atts.
 		 */
@@ -124,7 +127,10 @@ class cnShortcode_Connections extends cnShortcode {
 			// Prints the template's CSS file.
 			// NOTE: This is primarily to support legacy templates which included a CSS
 			// file which was not enqueued in the page header.
-			do_action( 'cn_action_css-' . $template->getSlug(), $atts );
+			do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
+
+			// The return to top anchor
+			do_action( 'cn_action_return_to_target', $atts );
 
 		$html .= ob_get_clean();
 

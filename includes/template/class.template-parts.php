@@ -326,6 +326,7 @@ class cnTemplatePart {
 		// $skipEntry = array();
 
 		foreach ( $results as $row ) {
+
 			$entry = new cnvCard( $row );
 			$vCard =& $entry;
 
@@ -335,18 +336,6 @@ class cnTemplatePart {
 			// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
 			// if ( in_array( $entry->getId(), $skipEntry ) ) continue;
 			// $skipEntry[] = $entry->getId();
-
-			// Display the Entry Actions.
-			if ( get_query_var( 'cn-entry-slug' ) ) {
-
-				// Entry actions template part.
-				ob_start();
-					do_action( 'cn_entry_actions-before', $atts, $entry );
-					do_action( 'cn_entry_actions', $atts, $entry );
-					$out .= ob_get_contents();
-				ob_end_clean();
-
-			}
 
 			$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 
@@ -365,6 +354,14 @@ class cnTemplatePart {
 
 			// Before entry actions.
 			ob_start();
+
+				// Display the Entry Actions.
+				if ( get_query_var( 'cn-entry-slug' ) ) {
+
+					do_action( 'cn_entry_actions-before', $atts, $entry );
+					do_action( 'cn_entry_actions', $atts, $entry );
+				}
+
 				do_action( 'cn_action_entry_before', $atts, $entry );
 				do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
 				cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
@@ -373,56 +370,42 @@ class cnTemplatePart {
 				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
 				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
-				$out .= ob_get_contents();
-			ob_end_clean();
+			$out .= ob_get_clean();
 
 			$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s" data-entry-type="%2$s" data-entry-id="%5$d" data-entry-slug="%4$s">',
 					$alternate = $alternate == '' ? '-alternate' : '',
 					$entry->getEntryType(),
-					$entry->getCategoryClass(TRUE),
+					$entry->getCategoryClass( TRUE ),
 					$entry->getSlug(),
 					$entry->getId()
 				);
 
-				$out .= apply_filters( 'cn_list_entry_before', '', $entry );
-				$out .= apply_filters( 'cn_list_entry_before-' . $template->getSlug(), '', $entry );
-				cnShortcode::addFilterRegistry( 'cn_list_entry_before-' . $template->getSlug() );
-
 				ob_start();
 
-					if ( get_query_var( 'cn-entry-slug' ) && has_action( 'cn_action_card_single-' . $template->getSlug() ) ) {
+					do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
 
-						do_action( 'cn_action_card_single-' . $template->getSlug(), $entry, $template, $atts );
-
-					} else {
-
-						do_action( 'cn_action_card-' . $template->getSlug(), $entry, $template, $atts );
-					}
-
-					$out .= ob_get_contents();
-			    ob_end_clean();
-
-				$out .= apply_filters( 'cn_list_entry_after', '', $entry );
-				$out .= apply_filters( 'cn_list_entry_after-' . $template->getSlug(), '', $entry );
-				cnShortcode::addFilterRegistry( 'cn_list_entry_after-' . $template->getSlug() );
+				$out .= ob_get_clean();
 
 			$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
 
 			// After entry actions.
 			ob_start();
-				do_action( 'cn_action_entry_after', $atts, $entry );
-				do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
-				cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
 
 				do_action( 'cn_action_entry_both', $atts, $entry  );
 				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
 				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
-				// Entry actions template part.
-				do_action( 'cn_action_entry_actions-after', $atts, $entry );
+				do_action( 'cn_action_entry_after', $atts, $entry );
+				do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
 
-				$out .= ob_get_contents();
-			ob_end_clean();
+				// Display the Entry Actions.
+				if ( get_query_var( 'cn-entry-slug' ) ) {
+
+					do_action( 'cn_action_entry_actions-after', $atts, $entry );
+				}
+
+			$out .= ob_get_clean();
 
 		}
 

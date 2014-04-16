@@ -429,7 +429,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Include the core templates that use the Template APIs introduced in 0.7.6
 			// Must include BEFORE class.template-api.php.
 			include_once CN_PATH . 'templates/names/names.php';
-			include_once CN_PATH . 'templates/card/card.php';
+			include_once CN_PATH . 'templates/card/card-default.php';
 			include_once CN_PATH . 'templates/card-bio/card-bio.php';
 			include_once CN_PATH . 'templates/card-single/card-single.php';
 			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';

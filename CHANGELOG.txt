@@ -1,5 +1,8 @@
 == Changelog ==
 
+= 0.7.9.6 04/17/2014 =
+* BUG: Fixed compatibility of the bio and notes field in WP 3.9.
+
 = 0.7.9.5 02/21/2014 =
 * BUG: Fixed double quoting which could cause category queries to fail.
 

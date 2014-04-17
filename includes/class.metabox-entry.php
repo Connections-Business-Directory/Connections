@@ -197,13 +197,13 @@ class cnEntryMetabox {
 					'options'    => array(
 						'media_buttons' => FALSE,
 						'tinymce'       => array(
-							'editor_selector'         => 'tinymce',
-							'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
-							'theme_advanced_buttons2' => '',
-							'inline_styles'           => TRUE,
-							'relative_urls'           => FALSE,
-							'remove_linebreaks'       => FALSE,
-							'plugins'                 => 'inlinepopups,spellchecker,tabfocus,paste,wordpress,wpdialogs'
+							'editor_selector'   => 'tinymce',
+							'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
+							'toolbar2'          => '',
+							'inline_styles'     => TRUE,
+							'relative_urls'     => FALSE,
+							'remove_linebreaks' => FALSE,
+							'plugins'           => 'wplink,tabfocus,paste,wordpress,wpdialogs'
 						)
 					),
 				),
@@ -224,13 +224,13 @@ class cnEntryMetabox {
 					'options'    => array(
 						'media_buttons' => FALSE,
 						'tinymce'       => array(
-							'editor_selector'         => 'tinymce',
-							'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
-							'theme_advanced_buttons2' => '',
-							'inline_styles'           => TRUE,
-							'relative_urls'           => FALSE,
-							'remove_linebreaks'       => FALSE,
-							'plugins'                 => 'inlinepopups,spellchecker,tabfocus,paste,wordpress,wpdialogs'
+							'editor_selector'   => 'tinymce',
+							'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
+							'toolbar2'          => '',
+							'inline_styles'     => TRUE,
+							'relative_urls'     => FALSE,
+							'remove_linebreaks' => FALSE,
+							'plugins'           => 'wplink,tabfocus,paste,wordpress,wpdialogs'
 						)
 					),
 				),

@@ -1777,6 +1777,16 @@ class cnFormObjects {
 			</div>";
 		}
 		else {
+
+			if ( version_compare( $GLOBALS['wp_version'], '3.8.999', '<' ) ) {
+
+				$plugins = array( 'inlinepopups', 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
+
+			} else {
+
+				$plugins = array( 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
+			}
+
 			wp_editor( $entry->getBio(),
 				'bio',
 				array
@@ -1790,7 +1800,7 @@ class cnFormObjects {
 						'inline_styles' => TRUE,
 						'relative_urls' => FALSE,
 						'remove_linebreaks' => FALSE,
-						'plugins' => 'tabfocus,paste,wordpress,wplink,wpdialogs'
+						'plugins' => implode( ',', $plugins )
 					)
 				)
 			);
@@ -1816,6 +1826,16 @@ class cnFormObjects {
 			</div>";
 		}
 		else {
+
+			if ( version_compare( $GLOBALS['wp_version'], '3.8.999', '<' ) ) {
+
+				$plugins = array( 'inlinepopups', 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
+
+			} else {
+
+				$plugins = array( 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
+			}
+
 			wp_editor( $entry->getNotes(),
 				'notes',
 				array
@@ -1829,7 +1849,7 @@ class cnFormObjects {
 						'inline_styles' => TRUE,
 						'relative_urls' => FALSE,
 						'remove_linebreaks' => FALSE,
-						'plugins' => 'tabfocus,paste,wordpress,wplink,wpdialogs'
+						'plugins' => implode( ',', $plugins )
 					)
 				)
 			);

@@ -104,8 +104,7 @@ class cnAdminFunction {
 			add_filter( 'plugin_row_meta', array( __CLASS__, 'addMetaLinks' ), 10, 2 );
 
 			// Add Changelog table row in the Manage Plugins admin page.
-			add_action( 'after_plugin_row_' . CN_BASE_NAME, array( __CLASS__, 'displayUpgradeNotice' ), 1, 0 );
-			// @todo Maybe should use this action hook instead: in_plugin_update_message-{$file}
+			add_action( 'in_plugin_update_message-' . CN_BASE_NAME, array( __CLASS__, 'displayUpgradeNotice' ), 20, 2 );
 
 			// Add the screen layout filter.
 			add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
@@ -187,60 +186,90 @@ class cnAdminFunction {
 	}
 
 	/**
-	 * Add the changelog as a table row on the Manage Plugin admin screen.
-	 * Code based on Changelogger.
+	 * Display the upgrade notice and changelog on the Manage Plugin admin screen.
+	 *
+	 * Inspired by Changelogger. Code based on W3 Total Cache.
 	 *
 	 * @access private
-	 * @since unknown
-	 * @uses get_option()
-	 * @uses get_transient()
-	 * @return (string)
+	 * @since  unknown
+	 * @uses   plugins_api()
+	 * @param  array  $plugin_data An Array of the plugin metadata
+	 * @param  object $r An array of metadata about the available plugin update.
+	 *
+	 * @return string
 	 */
-	public static function displayUpgradeNotice() {
+	public static function displayUpgradeNotice( $plugin_data, $r ) {
 
-		include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-		//echo "<tr><td colspan='5'>TEST</td></tr>";
-		//$api = plugins_api('plugin_information', array('slug' => 'connections', 'fields' => array('tested' => true, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
-		//print_r($api);
+		// echo '<p>' . print_r( $r, TRUE ) .  '</p>';
+		// echo '<p>' . print_r( $plugin_data, TRUE ) .  '</p>';
 
-		if ( version_compare( $GLOBALS['wp_version'], '2.9.999', '>' ) ) // returning bool if at least WP 3.0 is running
-			$current = get_option( '_site_transient_update_plugins' );
-
-		elseif ( version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ) // returning bool if at least WP 2.8 is running
-			$current = get_transient( 'update_plugins' );
-
-		else
-			$current = get_option( 'update_plugins' );
-
-		//print_r($current);
-
-		if ( !isset( $current->response[ CN_BASE_NAME ] ) ) return NULL;
-
-		$r = $current->response[ CN_BASE_NAME ]; // response should contain the slug and upgrade_notice within an array.
-		//print_r($r);
-
+		// Show the upgrade notice if it exists.
 		if ( isset( $r->upgrade_notice ) ) {
 
-			$columns = CLOSMINWP28 ? 3 : 5;
-
-			$output .= '<tr class="plugin-update-tr"><td class="plugin-update" colspan="' . $columns . '"><div class="update-message" style="font-weight: normal;">';
-			$output .= '<strong>Upgrade notice for version: ' . $r->new_version . '</strong>';
-			$output .= '<ul style="list-style-type: square; margin-left:20px;"><li>' . $r->upgrade_notice . '</li></ul>';
-			$output .= '</div></td></tr>';
-
-			echo $output;
+			echo '<p style="margin-top: 1em"><strong>' . sprintf( __( 'Upgrade notice for version: %s' ), $r->new_version ) . '</strong></p>';
+			echo '<ul style="list-style-type: square; margin-left:20px;"><li>' . $r->upgrade_notice . '</li></ul>';
 		}
 
+		// Grab the plugin info using the WordPress.org Plugins API.
+		// First, check to see if the function exists, if it doesn't, include the file which contains it.
+		if ( ! function_exists( 'plugins_api' ) )
+			include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 
-		/*stdClass Object
-		(
-		    [id] => 5801
-		    [slug] => connections
-		    [new_version] => 0.7.0.0
-		    [upgrade_notice] => Upgrading to this version might break custom templates.
-		    [url] => http://wordpress.org/extend/plugins/connections/
-		    [package] => http://downloads.wordpress.org/plugin/connections.0.7.0.0.zip
-		)*/
+		$plugin = plugins_api(
+			'plugin_information',
+			array(
+				'slug'   => 'connections',
+				'fields' => array(
+					'tested'       => TRUE,
+					'requires'     => FALSE,
+					'rating'       => FALSE,
+					'downloaded'   => FALSE,
+					'downloadlink' => FALSE,
+					'last_updated' => FALSE,
+					'homepage'     => FALSE,
+					'tags'         => FALSE,
+					'sections'     => TRUE
+					)
+				)
+			);
+		// echo '<p>' . print_r( $plugin, TRUE ) .  '</p>';
+		// echo '<p>' . print_r( $plugin->sections['changelog'], TRUE ) .  '</p>';
+
+		// Create the regex that'll parse the changelog for the latest version.
+		$regex = '~<h([1-6])>' . preg_quote( $r->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
+
+		preg_match( $regex, $plugin->sections['changelog'], $matches );
+		// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+
+		// If no changelog is found for the current version, return.
+		if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) return;
+
+		preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
+		// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+
+		// Make sure the change items were found and not entry before proceeding.
+		if ( ! isset( $matches[1] ) || empty( $matches[1] ) ) return;
+
+		$ul = FALSE;
+
+		// Finally, lets render the changelog list.
+		foreach ( $matches[1] as $key => $line ) {
+
+			if ( ! $ul ) {
+
+				echo '<p style="margin-top: 1em"><strong>' . __( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
+				echo '<ul style="list-style-type: square; margin-left: 20px;margin-top:0px;">';
+				$ul = TRUE;
+			}
+
+			echo '<li style="width: 50%; margin: 0; float: left; ' . ( $key % 2 == 0 ? 'clear: left;' : '' ) . '">' . $line . '</li>';
+		}
+
+		if ( $ul ) {
+
+			echo '</ul><div style="clear: left;">';
+		}
+
 	}
 
 	/**

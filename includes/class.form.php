@@ -1785,12 +1785,12 @@ class cnFormObjects {
 					'tinymce' => array
 					(
 						'editor_selector' => 'tinymce',
-						'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
+						'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
 						'theme_advanced_buttons2' => '',
 						'inline_styles' => TRUE,
 						'relative_urls' => FALSE,
 						'remove_linebreaks' => FALSE,
-						'plugins' => 'inlinepopups,spellchecker,tabfocus,paste,wordpress,wpdialogs'
+						'plugins' => 'tabfocus,paste,wordpress,wplink,wpdialogs'
 					)
 				)
 			);
@@ -1824,12 +1824,12 @@ class cnFormObjects {
 					'tinymce' => array
 					(
 						'editor_selector' => 'tinymce',
-						'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
+						'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
 						'theme_advanced_buttons2' => '',
 						'inline_styles' => TRUE,
 						'relative_urls' => FALSE,
 						'remove_linebreaks' => FALSE,
-						'plugins' => 'inlinepopups,spellchecker,tabfocus,paste,wordpress,wpdialogs'
+						'plugins' => 'tabfocus,paste,wordpress,wplink,wpdialogs'
 					)
 				)
 			);

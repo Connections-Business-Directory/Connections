@@ -170,6 +170,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
+ 			 * Used for EDD SL Updater
+ 			 */
+ 			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
+
+			/*
 			 * Core Constants
 			 */
 			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );

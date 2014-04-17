@@ -141,7 +141,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// register_uninstall_hook( dirname(__FILE__) . '/connections.php', array('connectionsLoad', 'uninstall') );
 
 				// Init the options if there is a version change just in case there were any changes.
-				if ( version_compare( self::$instance->options->getVersion() , CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
+				if ( version_compare( self::$instance->options->getVersion(), CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
 				// $connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
 
 				do_action( 'cn_loaded' );
@@ -166,7 +166,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Version Constants
 			 */
-			define( 'CN_CURRENT_VERSION', '0.7.9.7' );
+			define( 'CN_CURRENT_VERSION', '0.8' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
@@ -575,6 +575,16 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					$options['keyword_enabled'] = 1;
 
 					update_option( 'connections_search', $options );
+					unset( $options );
+
+				case ( version_compare( $version, '0.8', '<' ) ) :
+					/*
+					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 */
+					$options = get_option( 'connections_compatibility' );
+					$options['css'] = 1;
+
+					update_option( 'connections_compatibility', $options );
 					unset( $options );
 
 			}

@@ -289,8 +289,9 @@ class cnRegisterSettings
 		);
 
 		$sections[] = array(
+			'plugin_id' => 'connections',
 			'tab'       => 'advanced',
-			'id'        => 'connections_compatibility',
+			'id'        => 'compatibility',
 			'position'  => 20,
 			'title'     => __( 'Compatibility' , 'connections' ),
 			'callback'  => '',
@@ -1238,16 +1239,16 @@ class cnRegisterSettings
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
-			'id'        => 'strip_rnt',
+			'id'        => 'css',
 			'position'  => 30,
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
-			'section'   => 'connections_compatibility',
-			'title'     => __('Templates', 'connections'),
-			'desc'      => __('Themes can break plugin shortcodes that output content on the page causing the content not to render correctly. If the templates do not display as expected try enabling this option.', 'connections'),
+			'section'   => 'compatibility',
+			'title'     => 'CSS',
+			'desc'      => __('Enqueue the core styles. Disable this option if you do not want the core styles to be loaded.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 1
 		);
 		$fields[] = array(
 			'plugin_id' => 'connections',
@@ -1258,6 +1259,19 @@ class cnRegisterSettings
 			'section'   => 'connections_compatibility',
 			'title'     => 'jQuery',
 			'desc'      => __('Themes and plugins sometimes load a version of jQuery that is not bundled with WordPress. This is generally considered bad practice which can result in breaking plugins. Enabling this option will attempt to fix this issue. You should only enable this option at the direction of support.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'strip_rnt',
+			'position'  => 50,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_compatibility',
+			'title'     => __('Templates', 'connections'),
+			'desc'      => __('Themes can break plugin shortcodes that output content on the page causing the content not to render correctly. If the templates do not display as expected try enabling this option.', 'connections'),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0

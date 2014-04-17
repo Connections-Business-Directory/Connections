@@ -130,13 +130,17 @@ class cnScript {
 
 		} else {
 
-			// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
-			wp_register_style( 'connections-user', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
+			if ( cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ) {
 
-			wp_register_style( 'cn-public', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
-			wp_register_style( 'cn-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
+				// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
+				wp_register_style( 'connections-user', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
+
+				wp_register_style( 'cn-public', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
+			}
+
 		}
 
+		wp_register_style( 'cn-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
 		wp_register_style( 'cn-chosen', CN_URL . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
 		wp_register_style( 'cn-font-awesome', CN_URL . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.0.3' );
 	}
@@ -336,9 +340,14 @@ class cnScript {
 	 * @return void
 	 */
 	public static function enqueueStyles() {
-		wp_enqueue_style( 'cn-public' );
-		wp_enqueue_style( 'cn-chosen' );
-		// wp_enqueue_style( 'connections-qtip' );
+
+		if ( cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ) {
+
+			wp_enqueue_style( 'cn-public' );
+			wp_enqueue_style( 'cn-chosen' );
+			// wp_enqueue_style( 'connections-qtip' );
+		}
+
 	}
 
 }

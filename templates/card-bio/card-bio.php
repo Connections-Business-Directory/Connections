@@ -128,9 +128,6 @@ if ( ! class_exists( 'CN_Bio_Card_Template' ) ) {
 
 	}
 
-	// This action is ran if the template is loaded by core to register the template.
+	// Register the template.
 	add_action( 'cn_register_template', array( 'CN_Bio_Card_Template', 'register' ) );
-
-	// If this template is moved to the `plugins` folder, this action will be run to register the template.
-	add_action( 'plugins_loaded', array( 'CN_Bio_Card_Template', 'register' ), 11 );
 }

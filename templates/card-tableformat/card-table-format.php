@@ -141,7 +141,4 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 
 	// This action is ran if the template is loaded by core to register the template.
 	add_action( 'cn_register_template', array( 'CN_Card_Table_Format_Template', 'register' ) );
-
-	// If this template is moved to the `plugins` folder, this action will be run to register the template.
-	add_action( 'plugins_loaded', array( 'CN_Card_Table_Format_Template', 'register' ), 11 );
 }

@@ -84,6 +84,19 @@ class cnEntryMetabox {
 			$pages = array( 'public' );
 		}
 
+		/*
+		 * Now we're going to have to keep track of which TinyMCE plugins
+		 * WP core supports based on version, sigh.
+		 */
+		if ( version_compare( $GLOBALS['wp_version'], '3.8.999', '<' ) ) {
+
+			$tinymcePlugins = array( 'inlinepopups', 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
+
+		} else {
+
+			$tinymcePlugins = array( 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
+		}
+
 		self::$metaboxes[] = array(
 			'id'       => 'submitdiv',
 			'title'    => __( 'Publish', 'connection' ),
@@ -203,7 +216,7 @@ class cnEntryMetabox {
 							'inline_styles'     => TRUE,
 							'relative_urls'     => FALSE,
 							'remove_linebreaks' => FALSE,
-							'plugins'           => 'wplink,tabfocus,paste,wordpress,wpdialogs'
+							'plugins'           => implode( ',', $tinymcePlugins )
 						)
 					),
 				),
@@ -230,7 +243,7 @@ class cnEntryMetabox {
 							'inline_styles'     => TRUE,
 							'relative_urls'     => FALSE,
 							'remove_linebreaks' => FALSE,
-							'plugins'           => 'wplink,tabfocus,paste,wordpress,wpdialogs'
+							'plugins'           => implode( ',', $tinymcePlugins )
 						)
 					),
 				),

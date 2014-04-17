@@ -1,5 +1,8 @@
 == Changelog ==
 
+= 0.7.9.7 04/17/2014 =
+* BUG: Load TinyMCE plugin  based on WP version.
+
 = 0.7.9.6 04/17/2014 =
 * BUG: Fixed compatibility of the bio and notes field in WP 3.9.
 

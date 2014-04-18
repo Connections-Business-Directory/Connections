@@ -46,7 +46,7 @@ class CN_License {
 		// Grab the licenses from the db. Have to use get_option because this
 		// is being run before cnSettingsAPI has been init/d.
 		$licenses = get_option( 'connections_licenses', FALSE );
-		$key      = $licenses[ $slug ];
+		$key      = isset( $licenses[ $slug ] ) ? $licenses[ $slug ] : '';
 
 		$this->file      = $file;
 		$this->name      = $name;
@@ -59,6 +59,8 @@ class CN_License {
 		$this->includes();
 		$this->hooks();
 		$this->updater();
+
+		// delete_transient( 'connections_license-' . $this->slug );
 	}
 
 	/**
@@ -686,6 +688,19 @@ class CN_License {
 				break;
 
 			case 'deactivate':
+
+				// EDD SL reports either 'deactivated' or 'failed' as the license status.
+				// Unlike when activating a license, EDD does not report and error and its message.
+				// So...
+				// We'll do a status check, set 'succes' as false and set the message to the license
+				// status returned by doing a license check.
+				if ( $data->license == 'failed' ) {
+
+					$data = self::license( 'status', $name, $license, $url );
+
+					$data->success = FALSE;
+					$data->error   = $data->license;
+				}
 
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;

@@ -101,7 +101,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 			} else {
 
-				echo '<div id="message" class="error"><p>' , __( '<strong>ERROR:</strong> You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) , '</p></div>';
+				cnMessage::render( 'error', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
 
 			break;
@@ -183,10 +183,12 @@ function connectionsShowViewPage( $action = NULL ) {
 					<?php
 
 				unset( $entry );
+
+			} else {
+
+				cnMessage::render( 'error', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
-			else {
-				echo '<div id="message" class="error"><p>' , __( '<strong>ERROR:</strong> You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) , '</p></div>';
-			}
+
 			break;
 
 		case 'edit_entry':
@@ -267,10 +269,12 @@ function connectionsShowViewPage( $action = NULL ) {
 				<?php
 
 				unset( $entry );
+
+			} else {
+
+				cnMessage::render( 'error', __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
-			else {
-				echo '<div id="message" class="error"><p>' , __( '<strong>ERROR:</strong> You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) , '</p></div>';
-			}
+
 			break;
 
 		default:

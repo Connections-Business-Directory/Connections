@@ -93,8 +93,10 @@ class cnRegisterSettings
 			'id'        => 'connections_home_page',
 			'position'  => 5,
 			'title'     => __( 'Home' , 'connections' ),
-			'callback'  => create_function( '', "_e('Choose the page where your directory is located.
-			This should be the page where you used the [connections] shortcode.', 'connections');" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'Choose the page where your directory is located. This should be the page where you used the [connections] shortcode.', 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -119,9 +121,10 @@ class cnRegisterSettings
 			'id'        => 'connections_visibility',
 			'position'  => 30,
 			'title'     => __( 'Shortcode Visibility Overrides' , 'connections' ),
-			'callback'  => create_function( '', "_e('The [connections] shortcode has two options available to show an entry or an entire directory
-			if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used,
-			will only be applied to the current shortcode instance.', 'connections');" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'The [connections] shortcode has two options available to show an entry or an entire directory if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, will only be applied to the current shortcode instance.', 'connections' ) . '";'
+			),
 			'page_hook' => $settings
 		);
 
@@ -150,7 +153,10 @@ class cnRegisterSettings
 			'id'        => 'list_actions',
 			'position'  => 15,
 			'title'     => __( 'Result List Actions' , 'connections' ),
-			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are displayed above the result list.', 'connections' ) . '\';' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . __( 'Enable or disable various actions that are displayed above the result list.', 'connections' ) . '\';'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -158,7 +164,10 @@ class cnRegisterSettings
 			'id'        => 'connections_display_list',
 			'position'  => 20,
 			'title'     => __( 'Result List' , 'connections' ),
-			'callback'  => create_function( '', 'echo \'' . __( 'The following settings are applied when viewing the entry results list.', 'connections' ) . '\';' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . __( 'The following settings are applied when viewing the entry results list.', 'connections' ) . '\';'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -167,7 +176,10 @@ class cnRegisterSettings
 			'id'        => 'entry_actions',
 			'position'  => 25,
 			'title'     => __( 'Entry Actions' , 'connections' ),
-			'callback'  => create_function( '', 'echo \'' . __( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . __( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -175,7 +187,10 @@ class cnRegisterSettings
 			'id'        => 'connections_display_single',
 			'position'  => 30,
 			'title'     => __( 'Single Entry' , 'connections' ),
-			'callback'  => create_function( '', 'echo \'' . __( 'The following settings are applied when viewing a single entry in the detail view. Which details are shown are dependant on the current template being used.', 'connections' ) . '\';' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . __( 'The following settings are applied when viewing a single entry in the detail view. Which details are shown are dependant on the current template being used.', 'connections' ) . '\';'
+				),
 			'page_hook' => $settings
 		);
 
@@ -187,9 +202,10 @@ class cnRegisterSettings
 			'id'        => 'connections_image_instructions',
 			'position'  => 10,
 			'title'     => __( 'Image and Logo Instructions' , 'connections' ),
-			'callback'  => create_function( '', "_e('When an image or logo is uploaded to an entry, various sizes are created and cached. This helps to reduce server load during the
-			rendering of the directory. If these settings are changed, they will only affect images uploaded after the change has been made. All previous images will remain at their
-			previously cached sizes. NOTE: the active template will determine which image(s) is used.', 'connections');" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'When an image or logo is uploaded to an entry, various sizes are created and cached. This helps to reduce server load during the rendering of the directory. If these settings are changed, they will only affect images uploaded after the change has been made. All previous images will remain at their previously cached sizes. NOTE: the active template will determine which image(s) is used or may dynaically create a custom image size.', 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -197,7 +213,10 @@ class cnRegisterSettings
 			'id'        => 'connections_image_thumbnail',
 			'position'  => 10,
 			'title'     => __( 'Thumbnail Image' , 'connections' ),
-			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 80px; Height: 54px; Crop', 'connections');" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'Default settings are: Quality: 80%; Width: 80px; Height: 54px; Crop', 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -205,7 +224,10 @@ class cnRegisterSettings
 			'id'        => 'connections_image_medium',
 			'position'  => 20,
 			'title'     => __( 'Medium Image' , 'connections' ),
-			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop', 'connections');" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop', 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -213,7 +235,10 @@ class cnRegisterSettings
 			'id'        => 'connections_image_large',
 			'position'  => 30,
 			'title'     => __( 'Large Image' , 'connections' ),
-			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 300px; Height: 225px; Crop', 'connections');" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'Default settings are: Quality: 80%; Width: 300px; Height: 225px; Crop', 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -221,7 +246,10 @@ class cnRegisterSettings
 			'id'        => 'connections_image_logo',
 			'position'  => 30,
 			'title'     => __( 'Logo' , 'connections' ),
-			'callback'  => create_function( '', "_e('Default settings are: Quality: 80%; Width: 225px; Height: 150px; Fill', 'connections');" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Fill', 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 
@@ -233,7 +261,10 @@ class cnRegisterSettings
 			'id'        => 'connections_search_instructions',
 			'position'  => 10,
 			'title'     => __( 'Search Instructions' , 'connections' ),
-			'callback'  => create_function( '', 'echo "' . __( 'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the result of search on both the Manage admin page and the front end of the website.', 'connections' ) . '";' ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the result of search on both the Manage admin page and the front end of the website.', 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -273,7 +304,10 @@ class cnRegisterSettings
 			'id'        => 'connections_permalink',
 			'position'  => 10,
 			'title'     => __( 'Permalink' , 'connections' ),
-			'callback'  => create_function( '', "echo '<p>' , __( 'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.' , 'connections' ) , '</p>';" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.' , 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 
@@ -282,7 +316,10 @@ class cnRegisterSettings
 			'id'        => 'connections_link',
 			'position'  => 15,
 			'title'     => __( 'Links' , 'connections' ),
-			'callback'  => create_function( '', "echo '<p>' , __( 'Enable certain entry data to become links.' , 'connections' ) , '</p>';" ),
+			'callback'  => create_function(
+				'',
+				'echo "' . __( 'Enable certain entry data to become links.' , 'connections' ) . '";'
+				),
 			'page_hook' => $settings
 		);
 

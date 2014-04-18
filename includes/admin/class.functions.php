@@ -262,7 +262,7 @@ class cnAdminFunction {
 				$ul = TRUE;
 			}
 
-			echo '<li style="width: 50%; margin: 0; float: left; ' . ( $key % 2 == 0 ? 'clear: left;' : '' ) . '">' . $line . '</li>';
+			echo '<li style="width: 50%; margin: 0; float: left;' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
 		}
 
 		if ( $ul ) {

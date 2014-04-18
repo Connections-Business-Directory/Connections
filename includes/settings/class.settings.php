@@ -233,9 +233,7 @@ class cnRegisterSettings
 			'id'        => 'connections_search_instructions',
 			'position'  => 10,
 			'title'     => __( 'Search Instructions' , 'connections' ),
-			'callback'  => create_function( '', "_e('Search on the front end of the website is enabled in select premium templates only.
-			None of the supplied templates include the search feature. These settings will affect the result of search on both the Manage
-			admin page and the front end of the website.', 'connections');" ),
+			'callback'  => create_function( '', 'echo "' . __( 'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the result of search on both the Manage admin page and the front end of the website.', 'connections' ) . '";' ),
 			'page_hook' => $settings
 		);
 		$sections[] = array(

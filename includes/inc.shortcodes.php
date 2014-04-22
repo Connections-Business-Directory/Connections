@@ -462,10 +462,6 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 					$out .= ob_get_contents();
 				ob_end_clean();
 
-				$out .= apply_filters( 'cn_list_before' , '' , $results );
-				$out .= apply_filters( 'cn_list_before-' . $template->getSlug() , '' , $results );
-				$filterRegistry[] = 'cn_list_before-' . $template->getSlug();
-
 				//  This action only is required when the index is to be displayed.
 				if ( $atts['show_alphaindex'] || $atts['repeat_alphaindex'] ) {
 
@@ -573,10 +569,6 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 							$entry->getId()
 						);
 
-						$out .= apply_filters( 'cn_list_entry_before' , '' , $entry );
-						$out .= apply_filters( 'cn_list_entry_before-' . $template->getSlug() , '' , $entry );
-						$filterRegistry[] = 'cn_list_entry_before-' . $template->getSlug();
-
 						ob_start();
 
 							if ( get_query_var( 'cn-entry-slug' ) && has_action( 'cn_action_card_single-' . $template->getSlug() ) ) {
@@ -590,10 +582,6 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 
 							$out .= ob_get_contents();
 					    ob_end_clean();
-
-						$out .= apply_filters( 'cn_list_entry_after' , '' , $entry );
-						$out .= apply_filters( 'cn_list_entry_after-' . $template->getSlug() , '' , $entry );
-						$filterRegistry[] = 'cn_list_entry_after-' . $template->getSlug();
 
 					$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . "\n";
 
@@ -619,10 +607,6 @@ function connectionsList( $atts, $content = NULL, $tag = 'connections' ) {
 			$out .= "\n" . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . "\n";
 
 			$out .= "\n" . '<div class="cn-clear" id="cn-list-foot">' . "\n";
-
-				$out .= apply_filters( 'cn_list_after' , '' , $results );
-				$out .= apply_filters( 'cn_list_after-' . $template->getSlug() , '' , $results );
-				$filterRegistry[] = 'cn_list_after-' . $template->getSlug();
 
 				ob_start();
 					do_action( 'cn_action_list_both' , $atts , $results  );

@@ -163,6 +163,28 @@ span.date-name { font-weight: bold; }
 #cn-list .chosen-container-single .chosen-single { line-height: 24px !important; }
 
 /*
+ * Search Message
+ */
+#cn-search-messages {
+	border-left: 4px solid #FFBA00;
+	border-top: 1px solid rgba(0,0,0,0.1);
+	border-right: 1px solid rgba(0,0,0,0.1);
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding: 10px 12px;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	margin: 12px 2px 12px 0px;
+}
+
+#cn-clear-search {
+	text-align: right;
+}
+
+#cn-clear-search-button a {
+	text-decoration: none;
+}
+
+/*
  * Search control styles.
  */
 .cn-search label[for="cn-s"] {

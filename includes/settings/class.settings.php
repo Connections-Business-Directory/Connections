@@ -486,6 +486,19 @@ class cnRegisterSettings
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'search_message',
+			'position'  => 3,
+			'page_hook' => $settings,
+			'tab'       => 'display',
+			'section'   => 'display_results',
+			'title'     => __('Show Clear Search Message', 'connections'),
+			'desc'      => __('Display a message box above the search results with information about the current query and the option (a button) to clear results.', 'connections'),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1
+		);
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'cat_desc',
 			'position'  => 5,
 			'page_hook' => $settings,

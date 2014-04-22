@@ -589,9 +589,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					$options = get_option( 'connections_compatibility' );
 					$options['css'] = 1;
 
-					update_option( 'connections_compatibility', $options );
+					update_option( 'connections_display_results', $options );
 					unset( $options );
 
+					$options = get_option( 'connections_display_results' );
+					$options['search_message'] = 1;
+
+					update_option( 'connections_display_results', $options );
+					unset( $options );
 			}
 
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();

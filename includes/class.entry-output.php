@@ -432,7 +432,7 @@ class cnOutput extends cnEntry
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$search          = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
+		$search          = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%', '%first_initial%', '%middle_initial%', '%last_initial%' );
 		$replace         = array();
 		$honorificPrefix = $this->getHonorificPrefix();
 		$first           = $this->getFirstName();
@@ -453,6 +453,12 @@ class cnOutput extends cnEntry
 				$replace[] = empty( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
 
 				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+
+				$replace[] = empty( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
+
+				$replace[] = empty( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
+
+				$replace[] = empty( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
 
 				$out = '<span class="fn n">';
 				$out .= str_ireplace(
@@ -487,6 +493,12 @@ class cnOutput extends cnEntry
 				$replace[] = empty( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
 
 				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+
+				$replace[] = empty( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
+
+				$replace[] = empty( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
+
+				$replace[] = empty( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
 
 				$out = '<span class="fn n">';
 				$out .= str_ireplace(

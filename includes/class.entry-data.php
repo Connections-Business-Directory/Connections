@@ -484,40 +484,51 @@ class cnEntry {
 		$replace = array();
 
 		switch ( $this->getEntryType() ) {
-		case 'individual':
 
-			( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';
+			case 'individual':
 
-			( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
+				( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';
 
-			( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
+				( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
 
-			( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
+				( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
 
-			( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
+				( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
 
-			return str_ireplace( $search, $replace, $atts['format'] );
+				( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
 
-		case 'organization':
-			return $this->getOrganization();
+				$name = str_ireplace( $search, $replace, $atts['format'] );
 
-		case 'family':
-			return $this->getFamilyName();
+				break;
 
-		default:
+			case 'organization':
 
-			( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';;
+				$name = $this->getOrganization();
+				break;
 
-			( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
+			case 'family':
 
-			( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
+				$name = $this->getFamilyName();
+				break;
 
-			( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
+			default:
 
-			( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
+				( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';;
 
-			return str_ireplace( $search, $replace, $atts['format'] );
+				( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
+
+				( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
+
+				( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
+
+				( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
+
+				$name = str_ireplace( $search, $replace, $atts['format'] );
+
+				break;
 		}
+
+		return preg_replace( '/\s{2,}/', ' ', $name );
 	}
 
 	public function getHonorificPrefix() {

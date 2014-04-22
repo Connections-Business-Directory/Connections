@@ -511,6 +511,10 @@ class cnOutput extends cnEntry
 				break;
 		}
 
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
+
 		if ( $atts['link'] ) {
 
 			$out = cnURL::permalink( array(
@@ -842,6 +846,10 @@ class cnOutput extends cnEntry
 			empty( $atts['format'] ) ? '%label%: %first% %last%' : $atts['format']
 			);
 
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
+
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
@@ -1072,6 +1080,10 @@ class cnOutput extends cnEntry
 
 		$out .= '</span>';
 
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
+
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
@@ -1296,6 +1308,10 @@ class cnOutput extends cnEntry
 
 		$out .= '</span>';
 
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
+
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
@@ -1489,6 +1505,10 @@ class cnOutput extends cnEntry
 
 		$out .= '</span>';
 
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
+
 		// This filter is required to allow the ROT13 encyption plugin to function.
 		$out = apply_filters( 'cn_output_email_addresses', $out );
 
@@ -1606,6 +1626,10 @@ class cnOutput extends cnEntry
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -1736,6 +1760,10 @@ class cnOutput extends cnEntry
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -1898,6 +1926,10 @@ class cnOutput extends cnEntry
 
 		$out .= '</span>';
 
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
+
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
@@ -1997,6 +2029,10 @@ class cnOutput extends cnEntry
 
 		$out .= '</span>';
 
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
+
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
@@ -2072,6 +2108,10 @@ class cnOutput extends cnEntry
 
 		$out .= '</div>';
 
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
+
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
@@ -2140,6 +2180,10 @@ class cnOutput extends cnEntry
 			$replace,
 			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
 			);
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		$out .= '<span class="bday" style="display:none">' . $this->getAnniversary( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';

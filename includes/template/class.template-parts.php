@@ -36,6 +36,7 @@ class cnTemplatePart {
 		add_action( 'cn_action_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
 
 		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription'), 10, 2 );
+		add_action( 'cn_action_list_before', array( __CLASS__, 'searchingMessage' ), 11, 3 );
 
 		add_action( 'cn_action_character_index', array( __CLASS__, 'index' ) );
 		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
@@ -214,10 +215,6 @@ class cnTemplatePart {
 
 				$out .= ob_get_contents();
 			ob_end_clean();
-
-			$out .= apply_filters( 'cn_list_before', '', $results );
-			$out .= apply_filters( 'cn_list_before-' . $template->getSlug(), '', $results );
-			cnShortcode::addFilterRegistry( 'cn_list_before-' . $template->getSlug() );
 
 			//  This action only is required when the index is to be displayed.
 			if ( $atts['show_alphaindex'] || $atts['repeat_alphaindex'] ) {
@@ -436,10 +433,6 @@ class cnTemplatePart {
 		$out = '';
 
 		$out .= PHP_EOL . '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
-
-			$out .= apply_filters( 'cn_list_after' , '' , $results );
-			$out .= apply_filters( 'cn_list_after-' . $template->getSlug() , '' , $results );
-			cnShortcode::addFilterRegistry( 'cn_list_after-' . $template->getSlug() );
 
 			ob_start();
 				do_action( 'cn_action_list_both' , $atts , $results  );
@@ -688,6 +681,155 @@ class cnTemplatePart {
 
 		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
 		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+	}
+
+	/**
+	 * Display a message box above the search results with information
+	 * about the current query and the option (a button) to clear results.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function searchingMessage( $atts = array(), $results = array(), $template = FALSE ) {
+
+		// Check whether or not the category description should be displayed or not.
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'search_message' ) ) return;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = array();
+
+		// Get the directory home page ID.
+		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
+
+		$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
+
+		// The base post permalink is required, do not filter the permalink thru cnSEO.
+		cnSEO::doFilterPermalink( FALSE );
+
+		$permalink = get_permalink( $homeID );
+
+		// Re-enable the filter.
+		cnSEO::doFilterPermalink();
+
+
+		// Store the query vars
+		$queryVars['cn-s']            = get_query_var('cn-s') ? esc_html( urldecode( get_query_var('cn-s') ) ) : FALSE;
+		$queryVars['cn-char']         = get_query_var('cn-char') ? esc_html( urldecode( get_query_var('cn-char') ) ) : FALSE;
+		$queryVars['cn-cat']          = get_query_var('cn-cat') ? get_query_var('cn-cat') : FALSE;
+		$queryVars['cn-organization'] = get_query_var('cn-organization') ? esc_html( urldecode( get_query_var('cn-organization') ) ) : FALSE;
+		$queryVars['cn-department']   = get_query_var('cn-department') ? esc_html( urldecode( get_query_var('cn-department') ) ) : FALSE;
+		$queryVars['cn-locality']     = get_query_var('cn-locality') ? esc_html( urldecode( get_query_var('cn-locality') ) ) : FALSE;
+		$queryVars['cn-region']       = get_query_var('cn-region') ? esc_html( urldecode( get_query_var('cn-region') ) ) : FALSE;
+		$queryVars['cn-postal-code']  = get_query_var('cn-postal-code') ? esc_html( urldecode( get_query_var('cn-postal-code') ) ) :  FALSE;
+		$queryVars['cn-country']      = get_query_var('cn-country') ? esc_html( urldecode( get_query_var('cn-country') ) ) : FALSE;
+		// if ( get_query_var('cn-near-coord') ) $queryVars['cn-near-coord']     = get_query_var('cn-near-coord');
+		// if ( get_query_var('cn-radius') ) $queryVars['cn-radius']             = get_query_var('cn-radius');
+		// if ( get_query_var('cn-unit') ) $queryVars['cn-unit']                 = get_query_var('cn-unit');
+
+		if ( $queryVars['cn-cat'] ) {
+
+			$categoryID = $queryVars['cn-cat'];
+			$terms      = array();
+
+			// Since the `cn-cat` query var can be an array, we'll only add the category slug
+			// template name when querying a single category.
+			if ( is_array( $categoryID ) ) {
+
+				foreach ( $categoryID as $id ) {
+
+					$term    = $instance->term->getTermBy( 'id', $id, 'category' );
+					$terms[] = esc_html( $term->name );
+				}
+
+			} else {
+
+				$term    = $instance->term->getTermBy( 'id', $categoryID, 'category' );
+				$terms[] = esc_html( $term->name );
+			}
+
+			$out[] = sprintf( __( 'You are searching within category(ies): %s', 'connections' ), implode( ', ', $terms ) );
+		}
+
+		if ( $queryVars['cn-s'] ) {
+
+			// If value is a string, string the white space and covert to an array.
+			if ( ! is_array( $queryVars['cn-s'] ) ) $queryVars['cn-s'] = explode( ' ' , trim( $queryVars['cn-s'] ) );
+
+			// Trim any white space from around the terms in the array.
+			array_walk( $queryVars['cn-s'] , 'trim' );
+
+			$out[] = sprintf( __( 'You are searching for the keyword(s): %s', 'connections' ), implode( ', ', $queryVars['cn-s'] ) );
+		}
+
+		if ( $queryVars['cn-char'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the character: %s', 'connections' ), $queryVars['cn-char'] );
+		}
+
+		if ( $queryVars['cn-organization'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the organization: %s', 'connections' ), $queryVars['cn-organization'] );
+		}
+
+		if ( $queryVars['cn-department'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the department: %s', 'connections' ), $queryVars['cn-department'] );
+		}
+
+		if ( $queryVars['cn-locality'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the locality: %s', 'connections' ), $queryVars['cn-locality'] );
+		}
+
+		if ( $queryVars['cn-region'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the region: %s', 'connections' ), $queryVars['cn-region'] );
+		}
+
+		if ( $queryVars['cn-postal-code'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the postal code: %s', 'connections' ), $queryVars['cn-postal-code'] );
+		}
+
+		if ( $queryVars['cn-country'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the country: %s', 'connections' ), $queryVars['cn-country'] );
+		}
+
+		// Convert the search messages in a HTML UL list.
+		if ( ! empty( $out ) ) {
+
+			$out = '<li class="cn-search-message">' . implode( '</li><li class="cn-search-message">', $out ) . '</li>';
+			$out = '<ul id="cn-search-message-list">' . $out . '</ul>';
+
+			$out .= sprintf( '<div id="cn-clear-search"><button id="cn-clear-search-button"><a href="%1$s">%2$s</a></button></div>',
+				$permalink,
+				__( 'Clear Search' )
+			);
+
+			$out = '<div id="cn-search-messages">' . $out . '</div>';
+
+		} else {
+
+			$out = '';
+		}
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
 	}
 
 	/**
@@ -1217,10 +1359,11 @@ class cnTemplatePart {
 		$pageCount = ceil( $connections->retrieve->resultCountNoLimit / $atts['limit'] );
 
 		if ( $pageCount > 1 ) {
-			$current = 1;
-			$disabled = array();
-			$url = array();
-			$page = array();
+
+			$current   = 1;
+			$disabled  = array();
+			$url       = array();
+			$page      = array();
 			$queryVars = array();
 
 			// Get page/post permalink.

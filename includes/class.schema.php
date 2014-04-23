@@ -23,6 +23,31 @@ class cnSchema {
 	private function __construct() { /* Do Nothing Here. */ }
 
 	/**
+	 * Return default table engine based db version.
+	 *
+	 * Connections uses FULLTEXT indices for search.
+	 * FULLTEXT indices were not supported in INNODB until version 5.6.4.
+	 * Since InnoDB is preferred but require FULLTEXT indices, fallback to MyISAM
+	 * as appropriate  based on the db version.
+	 *
+	 * @return string The table engine.
+	 */
+	private static function getEngine() {
+		global $wpdb;
+
+		if ( version_compare( $wpdb->db_version(), '5.6.4', '>=' ) ) {
+
+			$engine = 'InnoDB';
+
+		} else {
+
+			$engine = 'MyISAM';
+		}
+
+		return $engine;
+	}
+
+	/**
 	 * Init the default db schema. Create the required tables, populate the default values and set the FULLTEXT indexes.
 	 *
 	 * @access private
@@ -171,6 +196,8 @@ class cnSchema {
 			PRIMARY KEY  (id)
 			)";
 
+		$sql[] = 'ENGINE=' . self::getEngine();
+
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
 
@@ -202,6 +229,8 @@ class cnSchema {
 			KEY meta_key (meta_key)
 			)";
 
+		$sql[] = 'ENGINE=' . self::getEngine();
+
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
 
@@ -232,6 +261,8 @@ class cnSchema {
 			UNIQUE KEY slug (slug),
 			INDEX name (name)
 			)";
+
+		$sql[] = 'ENGINE=' . self::getEngine();
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -266,6 +297,8 @@ class cnSchema {
 			INDEX taxonomy (taxonomy)
 			)";
 
+		$sql[] = 'ENGINE=' . self::getEngine();
+
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
 
@@ -294,6 +327,8 @@ class cnSchema {
 			PRIMARY KEY  (entry_id,term_taxonomy_id),
 			KEY term_taxonomy_id (term_taxonomy_id)
 			)";
+
+		$sql[] = 'ENGINE=' . self::getEngine();
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -335,6 +370,8 @@ class cnSchema {
 			PRIMARY KEY  (id,entry_id)
 			)';
 
+		$sql[] = 'ENGINE=' . self::getEngine();
+
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
 
@@ -366,6 +403,8 @@ class cnSchema {
 			visibility tinytext NOT NULL,
 			PRIMARY KEY (id,entry_id)
 			)';
+
+		$sql[] = 'ENGINE=' . self::getEngine();
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -399,6 +438,8 @@ class cnSchema {
 			PRIMARY KEY  (id,entry_id)
 			)';
 
+		$sql[] = 'ENGINE=' . self::getEngine();
+
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
 
@@ -431,6 +472,8 @@ class cnSchema {
 			PRIMARY KEY  (id, entry_id)
 			)';
 
+		$sql[] = 'ENGINE=' . self::getEngine();
+
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
 
@@ -462,6 +505,8 @@ class cnSchema {
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id, entry_id)
 			)';
+
+		$sql[] = 'ENGINE=' . self::getEngine();
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
@@ -500,6 +545,8 @@ class cnSchema {
 			PRIMARY KEY  (id, entry_id)
 			)';
 
+		$sql[] = 'ENGINE=' . self::getEngine();
+
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
 
@@ -531,6 +578,8 @@ class cnSchema {
 			visibility tinytext NOT NULL,
 			PRIMARY KEY  (id, entry_id)
 			)';
+
+		$sql[] = 'ENGINE=' . self::getEngine();
 
 		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
 		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;

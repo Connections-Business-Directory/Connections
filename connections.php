@@ -319,18 +319,18 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 */
 
 			// Entry data.
-			require_once CN_PATH . 'includes/class.entry-data.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/entry/class.entry-data.php'; // Required for activation, entry list
 
 			// Entry HTML template blocks.
-			require_once CN_PATH . 'includes/class.entry-output.php'; // Required for activation, entry list
-			require_once CN_PATH . 'includes/class.entry-html.php';
-			require_once CN_PATH . 'includes/class.entry-shortcode.php';
+			require_once CN_PATH . 'includes/entry/class.entry-output.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/entry/class.entry-html.php';
+			require_once CN_PATH . 'includes/entry/class.entry-shortcode.php';
 
 			// Entry vCard.
-			require_once CN_PATH . 'includes/class.entry-vcard.php'; // Required for front end
+			require_once CN_PATH . 'includes/entry/class.entry-vcard.php'; // Required for front end
 
 			// Entry actions.
-			require_once CN_PATH . 'includes/class.entry-actions.php';
+			require_once CN_PATH . 'includes/entry/class.entry-actions.php';
 
 			/*
 			 * Entry classes. // --> END <-- \\

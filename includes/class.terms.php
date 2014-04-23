@@ -171,37 +171,47 @@ class cnTerms
 	 *
 	 * @return mixed | False or term object
 	 */
-	public function getTermBy($field, $value, $taxonomy)
-	{
+	public function getTermBy( $field, $value, $taxonomy ) {
 		global $wpdb;
 
-		if ( 'slug' == $field )
-		{
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		if ( 'slug' == $field ) {
+
 			$field = 't.slug';
 			$value = sanitize_title($value);
 			if ( empty($value) ) return false;
-		}
-		else if ( 'name' == $field )
-		{
+
+		} else if ( 'name' == $field ) {
+
 			// Assume already escaped
 			$value = stripslashes($value);
 			$field = 't.name';
-		} else
-		{
+
+		} else {
+
 			$field = 't.term_id';
 			$value = (int) $value;
 		}
 
-		$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND $field = %s LIMIT 1", $taxonomy, $value) );
+		$sql = $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND $field = %s LIMIT 1", $taxonomy, $value);
 
-		if ( !$term )
-		{
+		if ( ! $results = $instance->retrieve->results( $sql ) ) {
+
+			$results = $wpdb->get_row( $sql );
+			$instance->retrieve->cache( $sql, $results );
+		}
+
+		if ( ! $results ) {
+
 			return FALSE;
+
+		} else {
+
+			return $results;
 		}
-		else
-		{
-			return $term;
-		}
+
 	}
 
 	private function getChildren($termID, $terms, $taxonomies)

@@ -167,7 +167,6 @@ class cnShortcode_Connections extends cnShortcode {
 
 		} else {
 
-			// $html .= cnShortcode::process( $atts, $content, $results, $template );
 			$html .= $content;
 		}
 

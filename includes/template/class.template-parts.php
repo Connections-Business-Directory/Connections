@@ -718,12 +718,12 @@ class cnTemplatePart {
 		$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
 
 		// The base post permalink is required, do not filter the permalink thru cnSEO.
-		cnSEO::doFilterPermalink( FALSE );
+		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
 
 		$permalink = get_permalink( $homeID );
 
 		// Re-enable the filter.
-		cnSEO::doFilterPermalink();
+		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
 
 		// Store the query vars

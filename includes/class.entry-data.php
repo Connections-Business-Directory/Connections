@@ -2988,6 +2988,8 @@ class cnEntry {
 			$text = implode( ' ', $words );
 		}
 
+		$text = strip_shortcodes( $text );
+
 		return apply_filters( 'cn_trim_excerpt', $text );
 	}
 

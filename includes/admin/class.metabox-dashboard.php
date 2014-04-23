@@ -432,7 +432,7 @@ class cnDashboardMetabox {
 		$convert = new cnFormatting();
 
 		// Get MYSQL Version
-		$sqlversion = $wpdb->get_var( "SELECT VERSION() AS version" );
+		$sqlversion = $wpdb->db_version();
 		// GET SQL Mode
 		$mysqlinfo = $wpdb->get_results( "SHOW VARIABLES LIKE 'sql_mode'" );
 		if ( is_array( $mysqlinfo ) ) $sql_mode = $mysqlinfo[0]->Value;

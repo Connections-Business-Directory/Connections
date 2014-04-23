@@ -51,6 +51,7 @@ class cnRetrieve {
 		$where[]              = 'WHERE 1=1';
 		$having               = array();
 		$orderBy              = array();
+		$random               = FALSE;
 		$visibility           = array();
 
 		$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
@@ -766,30 +767,19 @@ class cnRetrieve {
 								}
 								break;
 
-								/*
-								 * Randomize the order of the results.
-								 */
+							/*
+							 * Randomize the order of the results.
+							 */
 							case 'RANDOM':
-								/*
-								 * Unfortunately this doesn't work when the joins for categories are added to the query.
-								 * Keep this around to see if it can be made to work.
-								 */
-								/*$from = array('(SELECT id FROM wp_connections WHERE 1=1 ORDER BY RAND() ) AS cn_random');
-								$join[] = 'JOIN ' . CN_ENTRY_TABLE . ' ON (' . CN_ENTRY_TABLE . '.id = cn_random.id)';*/
 
-								/*
-								 * @TODO: This seems fast enough, better profiling will need to be done.
-								 */
-								$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
-
-								$select[] = CN_ENTRY_TABLE . '.id*0+RAND(' . $seed . ') AS random';
-								$orderBy = array( 'random' );
+								$random   = TRUE;
 								break;
 
 								/*
 								 * Return the results in ASC or DESC order.
 								 */
 							default:
+
 								$orderBy[] = $field[0] . ' ' . $orderFlags[$field[1]];
 								break;
 						}
@@ -821,22 +811,31 @@ class cnRetrieve {
 		 * // END --> Set up the query LIMIT and OFFSET.
 		 */
 
-		/*
-		 * // START --> Build the SELECT query segment.
-		 */
-		$select[] = 'CASE `entry_type`
+		if ( $random ) {
+
+			$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
+
+			$sql = 'SELECT SQL_CALC_FOUND_ROWS *, RAND(' . $seed . ') AS random FROM ( SELECT DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ') AS T ' . $limit . $offset;
+			// print_r($sql);
+
+		} else {
+
+			/*
+			 * // START --> Build the SELECT query segment.
+			 */
+			$select[] = 'CASE `entry_type`
 						  WHEN \'individual\' THEN `last_name`
 						  WHEN \'organization\' THEN `organization`
 						  WHEN \'connection_group\' THEN `family_name`
 						  WHEN \'family\' THEN `family_name`
 						END AS `sort_column`';
-		/*
-		 * // START --> Build the SELECT query segment.
-		 */
+			/*
+			 * // END --> Build the SELECT query segment.
+			 */
 
-
-		$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
-		// print_r($sql); die;
+			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
+			// print_r($sql);
+		}
 
 		if ( ! $results = $this->results( $sql ) ) {
 

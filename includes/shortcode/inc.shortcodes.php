@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @return string
  */
 function connectionsEntryList($atts) {
-	echo connectionsList($atts);
+	echo cnShortcode_Connections::shortcode($atts);
 }
 
 /**
@@ -130,7 +130,7 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 		// Show the standard result list.
 		case 'list':
 
-			return connectionsList( $atts, $content );
+			return cnShortcode_Connections::shortcode( $atts, $content );
 
 			break;
 
@@ -139,7 +139,7 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 
 			$atts['template'] = 'names';
 
-			return connectionsList( $atts, $content );
+			return cnShortcode_Connections::shortcode( $atts, $content );
 
 			break;
 
@@ -193,7 +193,7 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 					$atts['repeat_alphaindex'] = FALSE;
 					$atts['show_alphahead']    = FALSE;
 
-					return connectionsList( $atts, $content );
+					return cnShortcode_Connections::shortcode( $atts, $content );
 
 					break;
 			}
@@ -203,13 +203,15 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
 		// Show the standard result list.
 		default:
 
-			return connectionsList( $atts, $content );
+			return cnShortcode_Connections::shortcode( $atts, $content );
 
 			break;
 	}
 }
 
 /**
+ * Old legacy code, you should not use this code as it will be removed. 04.23.2014
+ *
  * Register the [connections] shortcode
  *
  * Filters:
@@ -236,6 +238,7 @@ function connectionsView( $atts, $content = '', $tag = 'connections' ) {
  *
  * @access public
  * @since unknown
+ * @deprecated  since 0.8
  * @param (array) $atts
  * @param (string) $content [optional]
  * @param (string) $tag [optional] When called as the callback for add_shortcode, the shortcode tag is passed automatically. Manually setting the shortcode tag so the function can be called independently.
@@ -883,7 +886,7 @@ function _connections_vcard( $atts , $content = NULL, $tag ) {
 
 	if ( empty( $atts['id'] ) || ! is_numeric( $atts['id'] ) || empty( $content ) ) return '';
 
-	$qTipContent = '<span class="cn-qtip-content-vcard" style="display: none">' . connectionsList( array( 'id' => $atts['id'] , 'template' => 'qtip-vcard' ) ) . '</span>';
+	$qTipContent = '<span class="cn-qtip-content-vcard" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'] , 'template' => 'qtip-vcard' ) ) . '</span>';
 
 	return '<span class="cn-qtip-vcard">' . $content . $qTipContent . '</span>';
 }
@@ -899,7 +902,7 @@ function _connections_qtip( $atts , $content = NULL, $tag )
 
 	if ( empty( $atts['id'] ) || ! is_numeric ($atts['id'] ) || empty( $content ) ) return '';
 
-	$qTipContent = '<span class="cn-qtip-content-card" style="display: none">' . connectionsList( array( 'id' => $atts['id'] , 'template' => 'qtip-card' ) ) . '</span>';
+	$qTipContent = '<span class="cn-qtip-content-card" style="display: none">' . cnShortcode_Connections::shortcode( array( 'id' => $atts['id'] , 'template' => 'qtip-card' ) ) . '</span>';
 
 	return '<span class="cn-qtip-card">' . $content . $qTipContent . '</span>';
 }

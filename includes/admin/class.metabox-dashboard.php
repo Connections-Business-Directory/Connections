@@ -212,7 +212,7 @@ class cnDashboardMetabox {
 		<div class="rss-widget">
 
 		    <?php
-			$rss = @fetch_feed( $metabox['args']['feed'] );
+			$rss = fetch_feed( $metabox['args']['feed'] );
 
 			if ( is_object( $rss ) ) {
 

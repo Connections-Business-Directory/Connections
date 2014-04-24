@@ -33,13 +33,13 @@ class cnTemplatePart {
 		add_action( 'cn_entry_action-back', array( __CLASS__, 'entryAction_Back'), 10, 2 );
 		add_action( 'cn_entry_action-vcard', array( __CLASS__, 'entryAction_vCard'), 10, 2 );
 
-		add_action( 'cn_action_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
+		add_action( 'cn_list_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
 
 		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription'), 10, 2 );
 		add_action( 'cn_action_list_before', array( __CLASS__, 'searchingMessage' ), 11, 3 );
 
-		add_action( 'cn_action_character_index', array( __CLASS__, 'index' ) );
-		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
+		add_action( 'cn_list_character_index', array( __CLASS__, 'index' ) );
+		add_action( 'cn_list_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
 
 		// add_action( 'cn_action_entry_after', array( __CLASS__, 'JSON' ), 10, 2 );
 	}
@@ -217,25 +217,13 @@ class cnTemplatePart {
 			ob_end_clean();
 
 			//  This action only is required when the index is to be displayed.
-			if ( $atts['show_alphaindex'] || $atts['repeat_alphaindex'] ) {
+			if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
 
 				// The character index template part.
 				ob_start();
-					do_action( 'cn_action_character_index', $atts );
-					$charIndex = ob_get_contents();
-				ob_end_clean();
-
-				// These filters are left here primarily for legacy support. At some point these should be removed.
-				$charIndex = apply_filters( 'cn_list_index', $charIndex , $results );
-				$charIndex = apply_filters( 'cn_list_index-' . $template->getSlug(), $charIndex, $results );
-				cnShortcode::addFilterRegistry( 'cn_list_index-' . $template->getSlug() );
+					do_action( 'cn_list_character_index', $atts );
+				$out .= ob_get_clean();
 			}
-
-			/*
-			 * The alpha index is only displayed if set to true and not set to repeat.
-			 * If alpha index is set to repeat, that is handled separately.
-			 */
-			if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) $out .= $charIndex;
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
 
@@ -273,7 +261,7 @@ class cnTemplatePart {
 			// The no results message.
 			ob_start();
 
-				do_action( 'cn_action_no_results', $atts, $results, $template );
+				do_action( 'cn_list_no_results', $atts, $results, $template );
 
 			$out .= ob_get_clean();
 
@@ -340,7 +328,15 @@ class cnTemplatePart {
 
 				$out .= sprintf( '<div class="cn-list-section-head cn-clear" id="cn-char-%1$s">', $currentLetter );
 
-					if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) $out .= $charIndex;
+					//  This action only is required when the index is to be displayed.
+					if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
+
+						// The character index template part.
+						ob_start();
+
+							do_action( 'cn_list_character_index', array_merge( $atts, array( 'return' => FALSE ) ) );
+						$out .= ob_get_clean();
+					}
 
 					if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
 

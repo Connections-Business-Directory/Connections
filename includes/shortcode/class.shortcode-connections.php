@@ -130,7 +130,7 @@ class cnShortcode_Connections extends cnShortcode {
 			do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
 
 			// The return to top anchor
-			do_action( 'cn_action_return_to_target', $atts );
+			do_action( 'cn_list_return_to_target', $atts );
 
 		$html .= ob_get_clean();
 

@@ -1151,14 +1151,28 @@ class cnTemplatePart {
 
 		$searchValue = ( get_query_var('cn-s') ) ? get_query_var('cn-s') : '';
 
-		$out .= '<span class="cn-search">';
-			if ( $atts['show_label'] ) $out .= '<label for="cn-s">Search Directory</label>';
-			$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . __('Search', 'connections') . '"/>';
-			$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="" tabindex="-1" />';
-		$out .= '</span>';
+		// Check to see if there is a template file override.
+		$part = cnLocate::file( cnLocate::fileNames( 'search' ) );
+
+		// If one was found, lets include it. If not, run the core function.
+		if ( $part ) {
+
+			ob_start();
+				include $part;
+			$out .= ob_get_clean();
+
+		} else {
+
+			$out .= '<span class="cn-search">';
+				if ( $atts['show_label'] ) $out .= '<label for="cn-s">Search Directory</label>';
+				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . __('Search', 'connections') . '"/>';
+				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="" tabindex="-1" />';
+			$out .= '</span>';
+
+		}
 
 		// Output the the search input.
-		if ( $atts['return']) return $out;
+		if ( $atts['return'] ) return $out;
 		echo $out;
 	}
 

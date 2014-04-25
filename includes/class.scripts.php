@@ -47,8 +47,20 @@ class cnScript {
 		add_filter( 'cn_locate_file_names', array( __CLASS__, 'minifiedFileNames' ), 10, 5 );
 
 		// Register the CSS JavaScript libraries.
-		add_action( 'wp', array( 'cnScript', 'registerScripts' ) );
-		add_action( 'wp', array( 'cnScript', 'registerCSS' ) );
+		// NOTE: Seems the `wp` action hook is not fired in the admin or at least not fired
+		// when the CODEX says it is in the admin. So the actions will have to be hooked.
+		// based on if we're in the admin or not.
+		// @see http://codex.wordpress.org/Plugin_API/Action_Reference
+		if ( is_admin() ) {
+
+			add_action( 'admin_init', array( 'cnScript', 'registerScripts' ) );
+			add_action( 'admin_init', array( 'cnScript', 'registerCSS' ) );
+
+		} else {
+
+			add_action( 'wp', array( 'cnScript', 'registerScripts' ) );
+			add_action( 'wp', array( 'cnScript', 'registerCSS' ) );
+		}
 
 		// Enqueue the frontend scripts and CSS.
 		// add_action( 'wp', array( __CLASS__, 'enqueue' ) );

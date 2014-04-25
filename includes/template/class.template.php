@@ -217,12 +217,20 @@ class cnTemplate {
 
 			} else {
 
-				// The action should only be added once.
-				if ( ! has_action( 'cn_template_inline_css-' . $this->slug ) ) {
-
-					add_action( 'wp_enqueue_scripts', array( $this, 'enqueueCSS' ) );
-				}
+				add_action( 'wp_enqueue_scripts', array( $this, 'enqueueCSS' ) );
 			}
+		}
+
+		// This will locate the custom CSS file to be enqueued.
+		$customCSS = $this->locate( $this->fileNames( "{$this->slug}-custom", NULL, NULL, 'css' ) );
+		// var_dump($customCSS);
+
+		// If a custom CSS file was found, lets register it.
+		if ( $customCSS  !== FALSE ) {
+			// var_dump($customCSS);
+
+			$this->parts['css-custom-path'] = $customCSS;
+			$this->parts['css-custom-url']  = cnURL::fromPath( $customCSS );
 		}
 
 		// This will locate the JS file to be included.
@@ -538,7 +546,7 @@ class cnTemplate {
 		// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
 		if ( is_child_theme() ) {
 
-			$path[1] = trailingslashit( get_stylesheet_directory() ) . $template_directory;
+			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory;
 		}
 
 		$path = array(
@@ -547,7 +555,12 @@ class cnTemplate {
 			100 => $this->getPath(),
 		);
 
-		return apply_filters( 'cn_template_file_paths-' . $this->slug, $path );
+		$path = apply_filters( 'cn_template_file_paths-' . $this->slug, $path );
+
+		// sort the file paths based on priority
+		ksort( $path, SORT_NUMERIC );
+
+		return $path;
 	}
 
 	/**
@@ -792,9 +805,9 @@ class cnTemplate {
 		// do not need added to the $files name array.
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) return $files;
 
-		$i = 0;
-
 		if ( $ext == 'css' || $ext == 'js' ) {
+
+			$i = 0;
 
 			foreach ( $files as $fileName ) {
 
@@ -812,6 +825,28 @@ class cnTemplate {
 		}
 
 		return $files;
+	}
+
+	/**
+	 * This a callback for the filter `cn_locate_file_paths` which adds
+	 * the template paths that cnLocate will search. The filter is added
+	 * in cnShortcode_Connections::shortcode(). This is done so when cnLocate
+	 * is searching for template part override files it'll search in the template
+	 * paths too. The filter is then removed at the end of cnShortcode_Connections::shortcode()
+	 * via a call to cnShortcode::clearFilterRegistry(). This is to ensure that the template
+	 * paths are only searched in that instance of the shortcode.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @param  array  $path An index array containing the file paths to be searched.
+	 * @return array
+	 */
+	public function templatePaths( $path ) {
+
+		$path[90]  = CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug );
+		$path[100] = $this->getPath();
+
+		return $path;
 	}
 
 	/**
@@ -878,6 +913,13 @@ class cnTemplate {
 		$required = apply_filters( 'cn_template_required_css-' . $this->slug, $required, $this );
 
 		wp_enqueue_style( "cnt_{$this->slug}-css", $this->parts['css-url'], $required, $this->version );
+
+
+		if ( isset( $this->parts['css-custom-url'] ) ) {
+
+			wp_enqueue_style( "cnt_custom_{$this->slug}-css", $this->parts['css-custom-url'], array( "cnt_{$this->slug}-css" ), $this->version );
+		}
+
 	}
 
 	/**

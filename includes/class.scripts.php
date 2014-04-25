@@ -42,9 +42,13 @@ class cnScript {
 	 */
 	public static function init() {
 
+		// This filter will add the minified CSS and JS to the search paths
+		// if SCRIPT_DEBUG is not defined or set to FALSE.
+		add_filter( 'cn_locate_file_names', array( __CLASS__, 'minifiedFileNames' ), 10, 5 );
+
 		// Register the CSS JavaScript libraries.
-		add_action( 'init', array( 'cnScript', 'registerScripts' ) );
-		add_action( 'init', array( 'cnScript', 'registerCSS' ) );
+		add_action( 'wp', array( 'cnScript', 'registerScripts' ) );
+		add_action( 'wp', array( 'cnScript', 'registerCSS' ) );
 
 		// Enqueue the frontend scripts and CSS.
 		// add_action( 'wp', array( __CLASS__, 'enqueue' ) );
@@ -120,6 +124,9 @@ class cnScript {
 	 */
 	public static function registerCSS() {
 
+		// Add a filter so cnLocate will search the plugins CSS folder.
+		add_filter( 'cn_locate_file_paths', array( __CLASS__, 'coreCSSPath' ) );
+
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
@@ -132,10 +139,29 @@ class cnScript {
 
 			if ( cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ) {
 
-				// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
-				wp_register_style( 'connections-user', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
+				// This will locate the CSS file to be enqueued.
+				$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
+				// var_dump($coreCSS);
 
-				wp_register_style( 'cn-public', CN_URL . "assets/css/cn-user$min.css", array(), CN_CURRENT_VERSION );
+				// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
+				wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
+
+				wp_register_style( 'cn-public', $coreCSS, array(), CN_CURRENT_VERSION );
+
+			}
+
+			// This will locate the custom CSS file to be enqueued.
+			$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', NULL, NULL, 'css' ), 'url' );
+			// var_dump($customCSS);
+
+			// If a custom CSS file was found, lets register it.
+			if ( $customCSS ) {
+
+				// Check to see if the core CSS file was registered since it can be disabled.
+				// Add it to the $required array to be used when registering the custom CSS file.
+				$required = wp_style_is( 'cn-public', 'registered' ) ? array( 'cn-public' ) : array();
+
+				wp_register_style( 'cn-public-custom', $customCSS, $required, CN_CURRENT_VERSION );
 			}
 
 		}
@@ -143,6 +169,9 @@ class cnScript {
 		wp_register_style( 'cn-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
 		wp_register_style( 'cn-chosen', CN_URL . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
 		wp_register_style( 'cn-font-awesome', CN_URL . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.0.3' );
+
+		// Remove the filter that adds the core CSS path to cnLocate.
+		remove_filter( 'cn_locate_file_paths', array( __CLASS__, 'coreCSSPath' ) );
 	}
 
 	/**
@@ -335,8 +364,10 @@ class cnScript {
 	 * Enqueues the Connections CSS on the frontend.
 	 *
 	 * @access private
-	 * @since 0.7.3.2
-	 * @uses wp_enqueue_style()
+	 * @since  0.7.3.2
+	 * @static
+	 * @uses   wp_enqueue_style()
+	 *
 	 * @return void
 	 */
 	public static function enqueueStyles() {
@@ -345,9 +376,102 @@ class cnScript {
 
 			wp_enqueue_style( 'cn-public' );
 			wp_enqueue_style( 'cn-chosen' );
-			// wp_enqueue_style( 'connections-qtip' );
+
+			// If the custom CSS file was registered, lets enqueue it.
+			if ( wp_style_is( 'cn-public-custom', 'registered' ) ) {
+
+				wp_enqueue_style( 'cn-public-custom' );
+			}
+
 		}
 
+	}
+
+	/**
+	 * This is the callback function that will add the minified CSS and JS
+	 * file names to the file name array.
+	 *
+	 * The minified file names will only be added if SCRIPT_DEBUG is defined
+	 * and set to true.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @see     cnLocate::fileNames()
+	 * @param  array  $files An indexed array of file names to search for.
+	 * @param  string $base The base file name. Passed via filter from  cnLocate::fileNames().
+	 * @param  string $name The template part name. Passed via filter from  cnLocate::fileNames().
+	 * @param  string $slug The template part slug. Passed via filter from  cnLocate::fileNames().
+	 * @param  string $ext  The template file name extension. Passed via filter from  cnLocate::fileNames().
+	 *
+	 * @return array        An indexed array of file names to search for.
+	 */
+	public static function minifiedFileNames( $files, $base, $name, $slug, $ext ) {
+
+		// If SCRIPT_DEBUG is set and TRUE the minified file names
+		// do not need added to the $files name array.
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) return $files;
+
+		if ( $ext == 'css' || $ext == 'js' ) {
+
+			$i = 0;
+
+			foreach ( $files as $key => $fileName ) {
+
+				// Create the minified file name.
+				$position = strrpos( $fileName, '.' );
+				$minified = substr( $fileName, 0, $position ) . '.min' . substr( $fileName, $position );
+
+				// Insert the minified file name into the array.
+				array_splice( $files, $i, 0, $minified );
+
+				// Increment the insert position. Adding `2` to take into account the updated insert postion
+				// due to an item being inserted into the array.
+				$i = $i + 2;
+			}
+
+		}
+
+		return $files;
+	}
+
+	/**
+	 * This a callback for the filter `cn_locate_file_paths` which adds
+	 * the core plugin CSS file path to the file paths which are searched
+	 * when locating a CSS file.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @see    registerCSS()
+	 * @see    cnLocate::filePaths()
+	 * @param  array  $paths An index array containing the file paths to be searched.
+	 * @return array
+	 */
+	public static function coreCSSPath( $paths ) {
+
+		$paths[9999] = CN_PATH . 'assets/css/';
+
+		return $paths;
+	}
+
+	/**
+	 * This a callback for the filter `cn_locate_file_paths` which adds
+	 * the core plugin JS file path to the file paths which are searched
+	 * when locating a JS file.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @see    registerCSS()
+	 * @param  array  $paths An index array containing the file paths to be searched.
+	 * @return array
+	 */
+	public static function coreJSPath( $paths ) {
+
+		$paths[9999] = CN_PATH . 'assets/js/';
+
+		return $paths;
 	}
 
 }

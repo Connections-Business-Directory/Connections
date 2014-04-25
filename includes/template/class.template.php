@@ -578,16 +578,19 @@ class cnTemplate {
 	 */
 	private function filePaths() {
 
-		$template_directory = trailingslashit( 'connections_templates' );
+		$template_directory = trailingslashit( 'connections-templates' );
+
+		$upload_dir = wp_upload_dir();
 
 		// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
 		if ( is_child_theme() ) {
 
-			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory;
+			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory . trailingslashit( $this->slug );
 		}
 
 		$path = array(
 			10  => trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug ),
+			50  => trailingslashit( $upload_dir['basedir'] ) . $template_directory . trailingslashit( $this->slug ),
 			99  => CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug ),
 			100 => $this->getPath(),
 		);

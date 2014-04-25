@@ -103,6 +103,8 @@ class cnLocate {
 
 		$template_directory = trailingslashit( 'connections_templates' );
 
+		$upload_dir = wp_upload_dir();
+
 		// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
 		if ( is_child_theme() ) {
 
@@ -111,6 +113,7 @@ class cnLocate {
 
 		$path = array(
 			10 => trailingslashit( get_template_directory() ) . $template_directory,
+			50 => trailingslashit( $upload_dir['basedir'] ) . $template_directory,
 			99 => CN_CUSTOM_TEMPLATE_PATH,
 		);
 

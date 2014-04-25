@@ -26,6 +26,14 @@ class cnShortcode_Connections extends cnShortcode {
 
 		if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $atts );
 
+		/*
+		 * This filter adds the current template paths to cnLocate so when template
+		 * part file overrides are being searched for, it'll also search in template
+		 * specific paths. This filter is them removed at the end of the shortcode.
+		 */
+		add_filter( 'cn_locate_file_paths', array( $template, 'templatePaths' ) );
+		self::addFilterRegistry( 'cn_locate_file_paths' );
+
 		do_action( 'cn_template_include_once-' . $template->getSlug() );
 		do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
 

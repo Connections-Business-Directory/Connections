@@ -155,6 +155,7 @@ class cnTemplate {
 	public function __construct( $atts ) {
 
 		$this->name        = $atts->name;
+		$this->class       = $atts->class;
 		$this->slug        = $atts->slug;
 		$this->type        = $atts->type;
 		$this->version     = $atts->version;
@@ -377,10 +378,31 @@ class cnTemplate {
 	 * Get the template base path.
 	 *
 	 * @access public
-	 * @since 0.7.6
-	 * @return (string)
+	 * @since  0.7.6
+	 * @uses   trailingslashit()
+	 *
+	 * @return string
 	 */
 	public function getPath() {
+
+		/*
+		 * The template path is required when registering a template, but is not enforced.
+		 * So, there is a possibilty that this value is empty.
+		 *
+		 * Since class name is absolutely required and the file defining said class is very
+		 * likely to be in the folder with the rest of the template files, we'll use
+		 * reflection to get the file name of the class and use the file name to get the
+		 * directory name.
+		 *
+		 * Now, in theory, we should have the path to the template files.
+		 */
+		if ( empty( $this->path ) ) {
+
+			$reflector = new ReflectionClass( $this->class );
+			$this->path = trailingslashit( dirname( $reflector->getFileName() ) );
+			// var_dump( $this->path );
+		}
+
 		return $this->path;
 	}
 
@@ -388,10 +410,25 @@ class cnTemplate {
 	 * Get the template base URL.
 	 *
 	 * @access public
-	 * @since 0.7.6
-	 * @return (string)
+	 * @since  0.7.6
+	 * @uses   cnURL::fromPath()
+	 * @uses   getPath()
+	 *
+	 * @return string
 	 */
 	public function getURL() {
+
+		/*
+		 * The template URL is required when registering a template, but is not enforced.
+		 * So, there is a possibilty that this value is empty.
+		 *
+		 * Let get the URL from the $this->getPath().
+		 */
+		if ( empty( $this->url ) ) {
+
+			$this->url = cnURL::fromPath( $this->getPath() );
+		}
+
 		return $this->url;
 	}
 
@@ -556,6 +593,7 @@ class cnTemplate {
 		);
 
 		$path = apply_filters( 'cn_template_file_paths-' . $this->slug, $path );
+		// var_dump($path);
 
 		// sort the file paths based on priority
 		ksort( $path, SORT_NUMERIC );

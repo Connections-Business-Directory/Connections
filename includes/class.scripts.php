@@ -51,6 +51,9 @@ class cnScript {
 		// when the CODEX says it is in the admin. So the actions will have to be hooked.
 		// based on if we're in the admin or not.
 		// @see http://codex.wordpress.org/Plugin_API/Action_Reference
+		//
+		// This is required because cnScript depends on cnLocate which depends on get_query_var()
+		// in the frontend but is not needed or available in the admin.
 		if ( is_admin() ) {
 
 			add_action( 'admin_init', array( 'cnScript', 'registerScripts' ) );

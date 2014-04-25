@@ -372,6 +372,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/settings/class.settings.php';
 
 			// Load the class that manages the registration and enqueueing of CSS and JS files.
+			require_once CN_PATH . 'includes/class.locate.php';
 			require_once CN_PATH . 'includes/class.scripts.php';
 
 			// Class for processing email.

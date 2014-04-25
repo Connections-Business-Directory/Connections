@@ -689,15 +689,15 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Create the required directories and attempt to make them writable.
 			cnFileSystem::mkdirWritable( CN_CACHE_PATH );
 			cnFileSystem::mkdirWritable( CN_IMAGE_PATH );
-			cnFileSystem::mkdirWritable( CN_CUSTOM_TEMPLATE_PATH );
+			// cnFileSystem::mkdirWritable( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Add a blank index.php file.
 			cnFileSystem::mkIndex( CN_IMAGE_PATH );
-			cnFileSystem::mkIndex( CN_CUSTOM_TEMPLATE_PATH );
+			// cnFileSystem::mkIndex( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Add an .htaccess file, create it if one doesn't exist, and add the no indexes option.
 			// cnFileSystem::noIndexes( CN_IMAGE_PATH ); // Causes some servers to respond w/ 403 when servering images.
-			cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
+			// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Create a .htaccess file in the timthumb folder to allow it to be called directly.
 			cnFileSystem::permitTimThumb( CN_PATH . 'includes/libraries/timthumb' );

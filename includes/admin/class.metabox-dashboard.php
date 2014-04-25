@@ -508,10 +508,10 @@ class cnDashboardMetabox {
 			<li><strong>CN_TEMPLATE_PATH:</strong> <?php echo CN_TEMPLATE_PATH ?></li>
 			<li><strong>CN_TEMPLATE_URL:</strong> <?php echo CN_TEMPLATE_URL ?></li>
 			<li><strong>CN_TEMPLATE_RELATIVE_URL:</strong> <?php echo CN_TEMPLATE_RELATIVE_URL ?></li>
-			<li><strong>CN_CUSTOM_TEMPLATE_PATH:</strong> <?php echo CN_CUSTOM_TEMPLATE_PATH ?></li>
-			<li><strong>CN_CUSTOM_TEMPLATE_URL:</strong> <?php echo CN_CUSTOM_TEMPLATE_URL ?></li>
-			<li><strong>CN_CUSTOM_TEMPLATE_RELATIVE_URL:</strong> <?php echo CN_CUSTOM_TEMPLATE_RELATIVE_URL ?></li>
-			<li><strong>CN_CACHE_PATH:</strong> <?php echo CN_CACHE_PATH ?></li>
+			<!-- <li><strong>CN_CUSTOM_TEMPLATE_PATH:</strong> <?php // echo CN_CUSTOM_TEMPLATE_PATH ?></li>
+			<li><strong>CN_CUSTOM_TEMPLATE_URL:</strong> <?php // echo CN_CUSTOM_TEMPLATE_URL ?></li>
+			<li><strong>CN_CUSTOM_TEMPLATE_RELATIVE_URL:</strong> <?php // echo CN_CUSTOM_TEMPLATE_RELATIVE_URL ?></li>
+			<li><strong>CN_CACHE_PATH:</strong> <?php echo CN_CACHE_PATH ?></li> -->
 		</ul>
 
 		<h4><strong><?php _e( 'Server Configuration', 'connections' );?></strong></h4>

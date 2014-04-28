@@ -1,5 +1,78 @@
 == Changelog ==
 
+= 0.8.0 04/28/2014 =
+* FEATURE: Custom Metabox and Fields API.
+* FEATURE: Introduce Custom Content Blocks.
+* FEATURE: Introduce cnHTML.
+* FEATURE: Introduce cnSanitize.
+* FEATURE: Introduce cnUtility.
+* FEATURE: Introduce cnEntry_Shortcode.
+* FEATURE: Introduce cnTemplate_Shortcode.
+* FEATURE: Introduce CN_License.
+* FEATURE: Introduce cnLocate.
+* FEATURE: Complete refactor of cnTemplate.
+* FEATURE: List Actions are user sortable.
+* FEATURE: Entry Actions are user sortable.
+* FEATURE: Add Instagram to social media.
+* FEATURE: Add option to disable output of core CSS.
+* FEATURE: Add search query message above results.
+* TWEAK: Update all core metabox fields to use the new Custom Metabox and Fields API.
+* TWEAK: Add query to retrieve "individuals" from the database.
+* TWEAK: Remove the "Select Relation" option from the drop down when creating a family.
+* TWEAK: Update both cnForm::buildRadio() and cnForm::buildSelect() to use cnHTML.
+* TWEAK: Make userPermitted a static method.
+* TWEAK: Add method to return permitted visibility options.
+* TWEAK: Show only user permitted visibility options.
+* TWEAK: Register dashboard metaboxes using cnMetaboxAPI.
+* TWEAK: Remove action which registered dashboard widgets.
+* TWEAK: Add a filter to addresses which will geocode the address rather than having that logic within the setAddresses() method.
+* TWEAK: Refactor cnTerms->addterm().
+* TWEAK: Add plugin header to all core templates so they can be moved to the plugins folder and tweaked in an update safe manner.
+* TWEAK: Add a readme.txt file to the core templates folder providing instructions on how to tweak core templates in an update safe manner.
+* TWEAK: Remove use of deprecated jQuery live and toggle functions.
+* TWEAK: Remove use of $wpdb->escape().
+* TWEAK: Add seed to rand() to support random pagination.
+* TWEAK: Add orderby and order support to getTerms().
+* TWEAK: Reduce query counts.
+* TWEAK: Add support for cn-cat-in query var.
+* TWEAK: Update cnRetrieve::entry() to support query by slug.
+* TWEAK: Add the edit endpoint.
+* TWEAK: Add the submit endpoint.
+* TWEAK: Add the search endpoint.
+* TWEAK: Add the results endpoint.
+* TWEAK: Move category relationship processing to an action.
+* TWEAK: Removed unused javascript.
+* TWEAK: Cleanup CSS registration names and remove unused script registrations.
+* TWEAK: Change cnFormatting::toBoolean() to a static method.
+* TWEAK: Move loadTemplate to cnTemplateFactory.
+* TWEAK: Limit the recently added entries in the dashboard widget to 10.
+* TWEAK: Remove unnecessary filters in the shortcode.
+* TWEAK: Add name intial tokens in getNameBlock().
+* TWEAK: Define preferred db table engine based on db version.
+* TWEAK: Strip shortcodes from getExcerpt() function.
+* BUG: Fix the exclude_category shortcode option.
+* BUG: Fix the img HTML tag output when displaying the social media icons.
+* BUG: Remove an unused query when adding categories.
+* BUG: Add DOING_AJAX check to prevent PHP undefined index notices when performing AJAX functions.
+* BUG: Check for lat/lng in Maps API result to prevent PHP undefined index notices.
+* BUG: Fix query that orders by anniversary/birthday.
+* BUG: Check that date_create() hasn't returned FALSE.
+* BUG: Ensure page title filter is not applied outside main loop.
+* BUG: Ensure date format is valid for DateTime().
+* BUG: Fix PHP undefined index notices with image/logo uploads.
+* BUG: Take user add entry capability and entry status into account when setting an entry's visibility status.
+* BUG: Fix a couple PHP undefined index notices with the entry logo.
+* BUG: Fix many translation coding errors.
+* BUG: Fix vaious minor bugs with vCard support.
+* OTHER: Add JSON encode.decode helper methods.
+* OTHER: Remove useage of get_usermeta from cnUser.
+* OTHER: Remove deprecated function attribute_escape().
+* OTHER: Add sortable checklist to the Settings API.
+* OTHER: Update Chosen to version 1.1.0.
+* OTHER: Update jQuery Validation plugin.
+* OTHER: Include and register Font Awesome.
+* OTHER: Add method to cnURL to retrieve URL for supplied file path.
+
 = 0.7.9.7 04/17/2014 =
 * BUG: Load TinyMCE plugin  based on WP version.
 

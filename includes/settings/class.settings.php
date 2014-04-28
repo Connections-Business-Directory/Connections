@@ -263,7 +263,7 @@ class cnRegisterSettings
 			'title'     => __( 'Search Instructions' , 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo "' . __( 'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the result of search on both the Manage admin page and the front end of the website.', 'connections' ) . '";'
+				'echo "' . __( 'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the results of search on both the Manage admin page and the front end of the website.', 'connections' ) . '";'
 				),
 			'page_hook' => $settings
 		);
@@ -576,7 +576,7 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'connections_display_list',
 			'title'     => __( 'Content Blocks', 'connections' ),
-			'desc'      => __( 'Whether or not a content block should be shown. Content blocks can be dragged and dropped in the desired order to be shown.', 'connections' ),
+			'desc'      => __( 'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
 			'options'   =>  cnOptions::getContentBlocks(),
@@ -636,7 +636,7 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'connections_display_single',
 			'title'     => __( 'Content Blocks', 'connections' ),
-			'desc'      => __( 'Whether or not a content block should be shown. Content blocks can be dragged and dropped in the desired order to be shown.', 'connections' ),
+			'desc'      => __( 'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
 			'options'   =>  cnOptions::getContentBlocks(),

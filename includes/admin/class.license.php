@@ -357,7 +357,16 @@ class CN_License {
 
 					case 'valid':
 
-						$field['desc'] = __( 'License is valid.', 'connections' );
+						$expiryDate = strtotime( $data[ $field['id'] ]->expires );
+
+						if ( $expiryDate !== FALSE ) {
+
+							$field['desc'] = sprintf( __( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date('F jS Y', $expiryDate ) );
+						} else {
+
+							$field['desc'] = __( 'License is valid', 'connections' );
+						}
+
 						break;
 
 					case 'deactivated':

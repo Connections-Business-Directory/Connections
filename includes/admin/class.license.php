@@ -15,7 +15,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 
-class CN_License {
+class cnLicense {
 
 	private $file;
 	private $name;

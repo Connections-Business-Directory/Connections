@@ -591,7 +591,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					$options = get_option( 'connections_compatibility' );
 					$options['css'] = 1;
 
-					update_option( 'connections_display_results', $options );
+					update_option( 'connections_compatibility', $options );
 					unset( $options );
 
 					$options = get_option( 'connections_display_results' );

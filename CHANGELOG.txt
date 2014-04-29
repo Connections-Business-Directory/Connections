@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 0.8.1 04/29/2014 =
+* BUG: Fix activation error for users where the server is still running PHP 5.2.
+* BUG: Fix custom template path folder name.
+
 = 0.8.0 04/28/2014 =
 * FEATURE: Custom Metabox and Fields API.
 * FEATURE: Introduce Custom Content Blocks.

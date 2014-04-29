@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8
+Stable tag: 0.8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.1 04/29/2014 =
+* BUG: Fix activation error for users where the server is still running PHP 5.2.
+* BUG: Fix custom template path folder name.
 
 = 0.8.0 04/28/2014 =
 * FEATURE: Custom Metabox and Fields API.
@@ -347,4 +351,7 @@ Fix potential XSS vulnerability. Updating is highly advised.
 Fix potential XSS vulnerability. Updating is highly advised.
 
 = 0.8 =
+This a major update to Connections it is recommended to back before updating.
+
+= 0.8.1 =
 This a major update to Connections it is recommended to back before updating.

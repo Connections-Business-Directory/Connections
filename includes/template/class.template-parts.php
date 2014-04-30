@@ -812,7 +812,7 @@ class cnTemplatePart {
 			$out = '<li class="cn-search-message">' . implode( '</li><li class="cn-search-message">', $out ) . '</li>';
 			$out = '<ul id="cn-search-message-list">' . $out . '</ul>';
 
-			$out .= sprintf( '<div id="cn-clear-search"><button id="cn-clear-search-button"><a href="%1$s">%2$s</a></button></div>',
+			$out .= sprintf( '<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>',
 				$permalink,
 				__( 'Clear Search' )
 			);

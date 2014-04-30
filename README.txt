@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8.1
+Stable tag: 0.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,15 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.2 04/30/2014 =
+* BUG: Fix HTML markup for the "Clear Search" button.
+* TWEAK: Remove "-min" from several JavaScript registration handles.
+* TWEAK: Add a few filters to better maintain backward compatibility with several commercial templates.
+* I18N: Update all MO files.
+* I18N: Add Catalan.
+* I18N: Add Russian.
+* I18N: Add Portugese (Portugal).
 
 = 0.8.1 04/29/2014 =
 * BUG: Fix activation error for users where the server is still running PHP 5.2.
@@ -354,7 +363,10 @@ Fix potential XSS vulnerability. Updating is highly advised.
 Fix potential XSS vulnerability. Updating is highly advised.
 
 = 0.8 =
-This a major update to Connections it is recommended to back before updating.
+This a major update to Connections it is recommended to backup before updating.
 
 = 0.8.1 =
-This a major update to Connections it is recommended to back before updating.
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.2 =
+This a major update to Connections it is recommended to backup before updating.

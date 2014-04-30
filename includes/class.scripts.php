@@ -96,36 +96,42 @@ class cnScript {
 		/*
 		 * If the Google Maps API is disabled, do not register it and change the dependencies of
 		 * both goMap and MarkerClusterer. Allowing the Google Maps API to be turned "off" provides
-		 * compatibility with themes and other plugins the enqueue Google Maps but do not provide a
-		 * method to disable it. So I will, unless we're in the admin, because the geocode function will
-		 * require it.
+		 * compatibility with themes and other plugins that enqueue Google Maps but do not provide a
+		 * method to disable it. So I will, unless we're in the admin, because the geocode function
+		 * requires it.
 		 */
 		if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
+
 			if ( ! is_ssl() ) wp_register_script( 'cn-google-maps-api', 'http://maps.googleapis.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 			if ( is_ssl() ) wp_register_script( 'cn-google-maps-api', 'https://maps.googleapis.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 
+			wp_register_script( 'jquery-gomap', CN_URL . "assets/js/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-markerclusterer', CN_URL . "assets/js/jquery.markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 
-			wp_register_script( 'jquery-gomap-min', CN_URL . "assets/js/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-markerclusterer-min', CN_URL . "assets/js/jquery.markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 		} else {
-			wp_register_script( 'jquery-gomap-min', CN_URL . "assets/js/jquery.gomap-1.3.2$min.js", array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-markerclusterer-min', CN_URL . "assets/js/jquery.markerclusterer$min.js", array( 'jquery' , 'jquery-gomap-min' ), '2.0.15', $connections->options->getJavaScriptFooter() );
+
+			wp_register_script( 'jquery-gomap', CN_URL . "assets/js/jquery.gomap-1.3.2$min.js", array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-markerclusterer', CN_URL . "assets/js/jquery.markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 		}
 
+		wp_register_script( 'jquery-preloader', CN_URL . "assets/js/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
+
 		if ( is_admin() ) {
-			wp_register_script( 'cn-ui-admin', CN_URL . "assets/js/cn-admin$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+
+			wp_register_script( 'cn-ui-admin', CN_URL . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', CN_URL . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+
 		} else {
+
 			wp_register_script( 'cn-ui', CN_URL . "assets/js/cn-user$min.js", array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 		}
 
 		wp_register_script( 'jquery-qtip', CN_URL . "assets/js/jquery.qtip$min.js", array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
-		wp_register_script( 'jquery-preloader', CN_URL . "assets/js/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
 
 		// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
 		// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
 
-		wp_register_script( 'jquery-chosen-min', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-chosen', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
 		wp_register_script( 'jquery-validate' , CN_URL . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.11.1' , $connections->options->getJavaScriptFooter() );
 	}
 
@@ -206,8 +212,8 @@ class cnScript {
 
 		// Load on all the Connections admin pages.
 		if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
+
 			wp_enqueue_script( 'cn-ui-admin' );
-			wp_enqueue_script( 'jquery-preloader' );
 		}
 
 		/*
@@ -224,9 +230,9 @@ class cnScript {
 		if ( in_array( $pageHook, $editorPages ) ) {
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
-			wp_enqueue_script( 'jquery-gomap-min' );
+			wp_enqueue_script( 'jquery-gomap' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
-			wp_enqueue_script( 'jquery-chosen-min' );
+			wp_enqueue_script( 'jquery-chosen' );
 
 			if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) {
 				$compress_scripts = FALSE; // If the script are compress the TinyMCE doesn't seem to function.
@@ -371,7 +377,7 @@ class cnScript {
 			// Earlier version of WP had the widgets CSS in a seperate file.
 			if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) wp_enqueue_style( 'connections-admin-widgets', get_admin_url() . 'css/widgets.css' );
 
-			wp_enqueue_style( 'connections-chosen' );
+			wp_enqueue_style( 'cn-chosen' );
 		}
 	}
 

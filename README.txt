@@ -34,19 +34,22 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 
 Connections has been translated in the following languages.
 
-* Danish (Denmark) [51% Complete]
-* Dutch (Netherlands) [91% Complete]
-* French (France) [96% Complete]
-* German (Germany) [82% Complete]
-* Hungarian (Hungry) [96% Complete]
-* Italian (Italy) [37% Complete]
-* Persian (Iran) [97% Complete]
-* Polish (Poland) [30% Complete]
-* Portugese (Brazil) [41% Complete]
-* Spanish (Spain) [100% Complete]
-* Spanish (Latin America) [92% Complete]
+* Catalan [86%]
+* Danish (Denmark) [45% Complete]
+* Dutch (Netherlands) [80% Complete]
+* French (France) [85% Complete]
+* German (Germany) [72% Complete]
+* Hungarian (Hungry) [84% Complete]
+* Italian (Italy) [50% Complete]
+* Persian (Iran) [85% Complete]
+* Polish (Poland) [86% Complete]
+* Portugese (Brazil) [75% Complete]
+* Portugese (Portugal) [39% Complete]
+* Russian (Russia) [42% Complete]
 * Serbian (Latin) [4% Complete]
-* Turkish (Turkey) [97% Complete]
+* Spanish (Latin America) [81% Complete]
+* Spanish (Spain) [86% Complete]
+* Turkish (Turkey) [85% Complete]
 
 == Credits: ==
 * This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.

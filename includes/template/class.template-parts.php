@@ -326,7 +326,7 @@ class cnTemplatePart {
 
 			if ( $currentLetter != $previousLetter ) {
 
-				$out .= sprintf( '<div class="cn-list-section-head cn-clear" id="cn-char-%1$s">', $currentLetter );
+				$out .= sprintf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
 
 					//  This action only is required when the index is to be displayed.
 					if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {

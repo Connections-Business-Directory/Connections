@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 0.8.3 05/01/2014 =
+* TWEAK: Remove the cn-clear class from the list section heads.
+* TWEAK: Register Chosen with jquery-chosen-min for legacy support.
+
 = 0.8.2 04/30/2014 =
 * BUG: Fix HTML markup for the "Clear Search" button.
 * TWEAK: Remove "-min" from several JavaScript registration handles.

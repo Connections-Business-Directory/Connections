@@ -1,5 +1,22 @@
 == Changelog ==
 
+= 0.8.3 05/01/2014 =
+* TWEAK: Remove the cn-clear class from the list section heads.
+* TWEAK: Register Chosen with jquery-chosen-min for legacy support.
+
+= 0.8.2 04/30/2014 =
+* BUG: Fix HTML markup for the "Clear Search" button.
+* TWEAK: Remove "-min" from several JavaScript registration handles.
+* TWEAK: Add a few filters to better maintain backward compatibility with several commercial templates.
+* I18N: Update all MO files.
+* I18N: Add Catalan.
+* I18N: Add Russian.
+* I18N: Add Portugese (Portugal).
+
+= 0.8.1 04/29/2014 =
+* BUG: Fix activation error for users where the server is still running PHP 5.2.
+* BUG: Fix custom template path folder name.
+
 = 0.8.0 04/28/2014 =
 * FEATURE: Custom Metabox and Fields API.
 * FEATURE: Introduce Custom Content Blocks.

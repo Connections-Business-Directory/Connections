@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.7.9.7
+Stable tag: 0.8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,19 +34,22 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 
 Connections has been translated in the following languages.
 
-* Danish (Denmark) [51% Complete]
-* Dutch (Netherlands) [91% Complete]
-* French (France) [96% Complete]
-* German (Germany) [82% Complete]
-* Hungarian (Hungry) [96% Complete]
-* Italian (Italy) [37% Complete]
-* Persian (Iran) [97% Complete]
-* Polish (Poland) [30% Complete]
-* Portugese (Brazil) [41% Complete]
-* Spanish (Spain) [100% Complete]
-* Spanish (Latin America) [92% Complete]
+* Catalan [86%]
+* Danish (Denmark) [45% Complete]
+* Dutch (Netherlands) [80% Complete]
+* French (France) [85% Complete]
+* German (Germany) [72% Complete]
+* Hungarian (Hungry) [84% Complete]
+* Italian (Italy) [50% Complete]
+* Persian (Iran) [85% Complete]
+* Polish (Poland) [86% Complete]
+* Portugese (Brazil) [75% Complete]
+* Portugese (Portugal) [39% Complete]
+* Russian (Russia) [42% Complete]
 * Serbian (Latin) [4% Complete]
-* Turkish (Turkey) [97% Complete]
+* Spanish (Latin America) [81% Complete]
+* Spanish (Spain) [86% Complete]
+* Turkish (Turkey) [85% Complete]
 
 == Credits: ==
 * This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
@@ -85,6 +88,23 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.3 05/01/2014 =
+* TWEAK: Remove the cn-clear class from the list section heads.
+* TWEAK: Register Chosen with jquery-chosen-min for legacy support.
+
+= 0.8.2 04/30/2014 =
+* BUG: Fix HTML markup for the "Clear Search" button.
+* TWEAK: Remove "-min" from several JavaScript registration handles.
+* TWEAK: Add a few filters to better maintain backward compatibility with several commercial templates.
+* I18N: Update all MO files.
+* I18N: Add Catalan.
+* I18N: Add Russian.
+* I18N: Add Portugese (Portugal).
+
+= 0.8.1 04/29/2014 =
+* BUG: Fix activation error for users where the server is still running PHP 5.2.
+* BUG: Fix custom template path folder name.
 
 = 0.8.0 04/28/2014 =
 * FEATURE: Custom Metabox and Fields API.
@@ -347,4 +367,13 @@ Fix potential XSS vulnerability. Updating is highly advised.
 Fix potential XSS vulnerability. Updating is highly advised.
 
 = 0.8 =
-This a major update to Connections it is recommended to back before updating.
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.1 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.2 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.3 =
+This a major update to Connections it is recommended to backup before updating.

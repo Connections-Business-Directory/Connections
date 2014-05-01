@@ -101,7 +101,7 @@ class cnLocate {
 	 */
 	private static function filePaths() {
 
-		$template_directory = trailingslashit( 'connections_templates' );
+		$template_directory = trailingslashit( 'connections-templates' );
 
 		$upload_dir = wp_upload_dir();
 

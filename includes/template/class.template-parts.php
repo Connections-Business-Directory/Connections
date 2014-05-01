@@ -326,7 +326,7 @@ class cnTemplatePart {
 
 			if ( $currentLetter != $previousLetter ) {
 
-				$out .= sprintf( '<div class="cn-list-section-head cn-clear" id="cn-char-%1$s">', $currentLetter );
+				$out .= sprintf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
 
 					//  This action only is required when the index is to be displayed.
 					if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
@@ -812,7 +812,7 @@ class cnTemplatePart {
 			$out = '<li class="cn-search-message">' . implode( '</li><li class="cn-search-message">', $out ) . '</li>';
 			$out = '<ul id="cn-search-message-list">' . $out . '</ul>';
 
-			$out .= sprintf( '<div id="cn-clear-search"><button id="cn-clear-search-button"><a href="%1$s">%2$s</a></button></div>',
+			$out .= sprintf( '<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>',
 				$permalink,
 				__( 'Clear Search' )
 			);

@@ -15,9 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @see cnMetaboxAPI::add()
  * @see cnMetabox_Render::fields()
  * <code>
- * add_action( 'cn_metabox', 'cnCustomMetaboxFieldDemo', 10, 1 );
+ * add_action( 'cn_metabox', 'cnCustomMetaboxFieldDemo' );
  *
- * function cnCustomMetaboxFieldDemo( $metabox ) {
+ * function cnCustomMetaboxFieldDemo() {
  *
  * 	$prefix = 'cn-demo-';
  *
@@ -77,7 +77,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * 		),
  * 	);
  *
- * 	$metabox::add( $metabox );
+ * 	cnMetaboxAPI::add( $metabox );
  *
  * }
  * </code>

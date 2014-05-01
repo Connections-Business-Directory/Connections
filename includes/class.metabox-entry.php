@@ -42,7 +42,7 @@ class cnEntryMetabox {
 	 *
 	 * @return void
 	 */
-	public static function init( $metabox ) {
+	public static function init() {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -53,7 +53,7 @@ class cnEntryMetabox {
 		// Register the core metaboxes the Metabox API.
 		foreach ( self::$metaboxes as $atts ) {
 
-			$metabox::add( $atts );
+			cnMetaboxAPI::add( $atts );
 		}
 
 		// Set the "Visibility" options that can be set by the current user.

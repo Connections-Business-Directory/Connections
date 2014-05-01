@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 0.7.9.7
+ * Version: 0.8.3
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 0.7.9.7
+ * @version 0.8.3
  */
 
 // Exit if accessed directly
@@ -166,7 +166,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Version Constants
 			 */
-			define( 'CN_CURRENT_VERSION', '0.8' );
+			define( 'CN_CURRENT_VERSION', '0.8.3' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
@@ -448,6 +448,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/template/class.template-api.php';
 			require_once CN_PATH . 'includes/template/class.template-parts.php';
 			require_once CN_PATH . 'includes/template/class.template-shortcode.php';
+			require_once CN_PATH . 'includes/template/class.template-compatibility.php';
 			require_once CN_PATH . 'includes/template/class.template.php';
 		}
 
@@ -591,7 +592,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					$options = get_option( 'connections_compatibility' );
 					$options['css'] = 1;
 
-					update_option( 'connections_display_results', $options );
+					update_option( 'connections_compatibility', $options );
 					unset( $options );
 
 					$options = get_option( 'connections_display_results' );

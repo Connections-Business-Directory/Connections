@@ -33,7 +33,7 @@ class cnDashboardMetabox {
 	 *
 	 * @return void
 	 */
-	public static function init( $metabox ) {
+	public static function init() {
 
 		// Bail if doing an AJAX request.
 		if ( defined('DOING_AJAX') && DOING_AJAX ) return;
@@ -44,7 +44,7 @@ class cnDashboardMetabox {
 		// Register the dashboard metaboxes the Metabox API.
 		foreach ( self::$metaboxes as $atts ) {
 
-			$metabox::add( $atts );
+			cnMetaboxAPI::add( $atts );
 		}
 	}
 

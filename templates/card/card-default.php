@@ -1,13 +1,22 @@
 <?php
-
 /**
- * Card Template.
+ * @package    Connections
+ * @subpackage Template : Card
+ * @author     Steven A. Zahm
+ * @since      0.7.9
+ * @license    GPL-2.0+
+ * @link       http://connections-pro.com
+ * @copyright  2013 Steven A. Zahm
  *
- * @package     Connections
- * @subpackage  Template : Card
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.7.9
+ * @wordpress-plugin
+ * Plugin Name:       Connections Card - Template
+ * Plugin URI:        http://connections-pro.com
+ * Description:       The default template.
+ * Version:           2.0.1
+ * Author:            Steven A. Zahm
+ * Author URI:        http://connections-pro.com
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 // Exit if accessed directly
@@ -24,7 +33,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 				'name'        => 'Default Entry Card',
 				'slug'        => 'card',
 				'type'        => 'all',
-				'version'     => '2.0',
+				'version'     => '2.0.1',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This is the default template.',
@@ -42,10 +51,11 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( $this, 'card' ) ) );
+			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
+			$template->part( array( 'tag' => 'card-single', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 		}
 
-		public function card( $entry ) {
+		public static function card( $entry, $template, $atts ) {
 
 			?>
 
@@ -77,7 +87,11 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 
 				<div style="clear:both"></div>
 				<div class="cn-meta" align="left" style="margin-top: 6px">
-					<span style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></span>
+
+					<?php $entry->getContentBlock( $atts['content'], $atts, $template ); ?>
+
+					<div style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></div>
+
 					<?php if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) ) $entry->vcard( array( 'before' => '<span>', 'after' => '</span>' ) ); ?>
 
 					<?php
@@ -108,5 +122,6 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 
 	}
 
+	// Register the template.
 	add_action( 'cn_register_template', array( 'CN_Card_Template', 'register' ) );
 }

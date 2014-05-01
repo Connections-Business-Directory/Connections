@@ -2,9 +2,9 @@
 Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
-Requires at least: 3.3
+Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.7.9.7
+Stable tag: 0.8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,19 +34,22 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 
 Connections has been translated in the following languages.
 
-* Danish (Denmark) [51% Complete]
-* Dutch (Netherlands) [91% Complete]
-* French (France) [96% Complete]
-* German (Germany) [82% Complete]
-* Hungarian (Hungry) [96% Complete]
-* Italian (Italy) [37% Complete]
-* Persian (Iran) [97% Complete]
-* Polish (Poland) [30% Complete]
-* Portugese (Brazil) [41% Complete]
-* Spanish (Spain) [100% Complete]
-* Spanish (Latin America) [92% Complete]
+* Catalan [86%]
+* Danish (Denmark) [45% Complete]
+* Dutch (Netherlands) [80% Complete]
+* French (France) [85% Complete]
+* German (Germany) [72% Complete]
+* Hungarian (Hungry) [84% Complete]
+* Italian (Italy) [50% Complete]
+* Persian (Iran) [85% Complete]
+* Polish (Poland) [86% Complete]
+* Portugese (Brazil) [75% Complete]
+* Portugese (Portugal) [39% Complete]
+* Russian (Russia) [42% Complete]
 * Serbian (Latin) [4% Complete]
-* Turkish (Turkey) [97% Complete]
+* Spanish (Latin America) [81% Complete]
+* Spanish (Spain) [86% Complete]
+* Turkish (Turkey) [85% Complete]
 
 == Credits: ==
 * This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
@@ -85,6 +88,96 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.3 05/01/2014 =
+* TWEAK: Remove the cn-clear class from the list section heads.
+* TWEAK: Register Chosen with jquery-chosen-min for legacy support.
+
+= 0.8.2 04/30/2014 =
+* BUG: Fix HTML markup for the "Clear Search" button.
+* TWEAK: Remove "-min" from several JavaScript registration handles.
+* TWEAK: Add a few filters to better maintain backward compatibility with several commercial templates.
+* I18N: Update all MO files.
+* I18N: Add Catalan.
+* I18N: Add Russian.
+* I18N: Add Portugese (Portugal).
+
+= 0.8.1 04/29/2014 =
+* BUG: Fix activation error for users where the server is still running PHP 5.2.
+* BUG: Fix custom template path folder name.
+
+= 0.8.0 04/28/2014 =
+* FEATURE: Custom Metabox and Fields API.
+* FEATURE: Introduce Custom Content Blocks.
+* FEATURE: Introduce cnHTML.
+* FEATURE: Introduce cnSanitize.
+* FEATURE: Introduce cnUtility.
+* FEATURE: Introduce cnEntry_Shortcode.
+* FEATURE: Introduce cnTemplate_Shortcode.
+* FEATURE: Introduce CN_License.
+* FEATURE: Introduce cnLocate.
+* FEATURE: Complete refactor of cnTemplate.
+* FEATURE: List Actions are user sortable.
+* FEATURE: Entry Actions are user sortable.
+* FEATURE: Add Instagram to social media.
+* FEATURE: Add option to disable output of core CSS.
+* FEATURE: Add search query message above results.
+* TWEAK: Update all core metabox fields to use the new Custom Metabox and Fields API.
+* TWEAK: Add query to retrieve "individuals" from the database.
+* TWEAK: Remove the "Select Relation" option from the drop down when creating a family.
+* TWEAK: Update both cnForm::buildRadio() and cnForm::buildSelect() to use cnHTML.
+* TWEAK: Make userPermitted a static method.
+* TWEAK: Add method to return permitted visibility options.
+* TWEAK: Show only user permitted visibility options.
+* TWEAK: Register dashboard metaboxes using cnMetaboxAPI.
+* TWEAK: Remove action which registered dashboard widgets.
+* TWEAK: Add a filter to addresses which will geocode the address rather than having that logic within the setAddresses() method.
+* TWEAK: Refactor cnTerms->addterm().
+* TWEAK: Add plugin header to all core templates so they can be moved to the plugins folder and tweaked in an update safe manner.
+* TWEAK: Add a readme.txt file to the core templates folder providing instructions on how to tweak core templates in an update safe manner.
+* TWEAK: Remove use of deprecated jQuery live and toggle functions.
+* TWEAK: Remove use of $wpdb->escape().
+* TWEAK: Add seed to rand() to support random pagination.
+* TWEAK: Add orderby and order support to getTerms().
+* TWEAK: Reduce query counts.
+* TWEAK: Add support for cn-cat-in query var.
+* TWEAK: Update cnRetrieve::entry() to support query by slug.
+* TWEAK: Add the edit endpoint.
+* TWEAK: Add the submit endpoint.
+* TWEAK: Add the search endpoint.
+* TWEAK: Add the results endpoint.
+* TWEAK: Move category relationship processing to an action.
+* TWEAK: Removed unused javascript.
+* TWEAK: Cleanup CSS registration names and remove unused script registrations.
+* TWEAK: Change cnFormatting::toBoolean() to a static method.
+* TWEAK: Move loadTemplate to cnTemplateFactory.
+* TWEAK: Limit the recently added entries in the dashboard widget to 10.
+* TWEAK: Remove unnecessary filters in the shortcode.
+* TWEAK: Add name intial tokens in getNameBlock().
+* TWEAK: Define preferred db table engine based on db version.
+* TWEAK: Strip shortcodes from getExcerpt() function.
+* BUG: Fix the exclude_category shortcode option.
+* BUG: Fix the img HTML tag output when displaying the social media icons.
+* BUG: Remove an unused query when adding categories.
+* BUG: Add DOING_AJAX check to prevent PHP undefined index notices when performing AJAX functions.
+* BUG: Check for lat/lng in Maps API result to prevent PHP undefined index notices.
+* BUG: Fix query that orders by anniversary/birthday.
+* BUG: Check that date_create() hasn't returned FALSE.
+* BUG: Ensure page title filter is not applied outside main loop.
+* BUG: Ensure date format is valid for DateTime().
+* BUG: Fix PHP undefined index notices with image/logo uploads.
+* BUG: Take user add entry capability and entry status into account when setting an entry's visibility status.
+* BUG: Fix a couple PHP undefined index notices with the entry logo.
+* BUG: Fix many translation coding errors.
+* BUG: Fix vaious minor bugs with vCard support.
+* OTHER: Add JSON encode.decode helper methods.
+* OTHER: Remove useage of get_usermeta from cnUser.
+* OTHER: Remove deprecated function attribute_escape().
+* OTHER: Add sortable checklist to the Settings API.
+* OTHER: Update Chosen to version 1.1.0.
+* OTHER: Update jQuery Validation plugin.
+* OTHER: Include and register Font Awesome.
+* OTHER: Add method to cnURL to retrieve URL for supplied file path.
 
 = 0.7.9.7 04/17/2014 =
 * BUG: Load TinyMCE plugin  based on WP version.
@@ -272,3 +365,15 @@ Fix potential XSS vulnerability. Updating is highly advised.
 
 = 0.7.9.5 =
 Fix potential XSS vulnerability. Updating is highly advised.
+
+= 0.8 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.1 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.2 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.3 =
+This a major update to Connections it is recommended to backup before updating.

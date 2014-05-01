@@ -179,6 +179,25 @@ class cnOptions {
 		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_private_override' ) ? TRUE : FALSE;
 	}
 
+	public function getVisibilityOptions() {
+
+		$options = array(
+			'public'   =>'Public',
+			'private'  =>'Private',
+			'unlisted' =>'Unlisted'
+			);
+
+		foreach ( $options as $key => $option ) {
+
+			if ( ! cnValidate::userPermitted( $key ) ) {
+
+				unset( $options[ $key ] );
+			}
+		}
+
+		return $options;
+	}
+
 	/**
 	 * Returns $version.
 	 *
@@ -720,7 +739,6 @@ class cnOptions {
 	 */
 	public function getDefaultFamilyRelationValues() {
 		return array(
-			''                 => __( 'Select Relation', 'connections' ),
 			'aunt'             => __( 'Aunt', 'connections' ),
 			'brother'          => __( 'Brother', 'connections' ),
 			'brotherinlaw'     => __( 'Brother-in-law', 'connections' ),
@@ -825,6 +843,7 @@ class cnOptions {
 			'flickr'        => 'Flickr',
 			'foursquare'    => 'foursquare',
 			'googleplus'    => 'Google+',
+			'instagram'     => 'Instagram',
 			'itunes'        => 'iTunes',
 			'linked-in'     => 'Linked-in',
 			'mixcloud'      => 'mixcloud',
@@ -967,4 +986,55 @@ class cnOptions {
 		return $connections->settings->get( 'connections', 'connections_search', 'fields' );
 	}
 
+	/**
+	 * Return the registered content blocks.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  string $item [optional] The content block key id to return the title.
+	 * @return mixed        [array | string] An associated array where the key if the content block ID and the value is the content bloack name. Or just the content block name if the id is supplied.
+	 */
+	public static function getContentBlocks( $item = NULL ) {
+
+		$blocks['items']    = apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) );
+		$blocks['required'] = apply_filters( 'cn_content_blocks_required', array() );
+
+		if ( is_null( $item ) ) return $blocks;
+
+		foreach ( $blocks['items'] as $block => $name ) {
+
+			if ( $item == $block ) return $name;
+		}
+
+		return FALSE;
+	}
+
+	/**
+	 * Get Base Country
+	 *
+	 * @since
+	 * @return string $country The two letter country code for the base country.
+	 */
+	public static function getBaseCountry() {
+
+		// Have to use get_option rather than cnSettingsAPI::get() because the class is not yet intialized.
+		$baseGEO = get_option( 'connections_geo', array( 'base_country' => 'US', 'base_region' => 'WA' ) );
+
+		return apply_filters( 'cn_base_country', $baseGEO['base_country'] );
+	}
+
+	/**
+	 * Get Base State
+	 *
+	 * @since
+	 * @return string $state The base region code.
+	 */
+	public static function getBaseRegion() {
+
+		// Have to use get_option rather than cnSettingsAPI::get() because the class is not yet intialized.
+		$baseGEO = get_option( 'connections_geo', array( 'base_country' => 'US', 'base_region' => 'WA' ) );
+
+		return apply_filters( 'cn_base_region', $baseGEO['base_region'] );
+	}
 }

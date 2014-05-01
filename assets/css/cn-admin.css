@@ -1,6 +1,6 @@
-/*
- * The Connections page icon.
- */
+/*------------------------------------------------------------------------------
+  The Connections icon.
+------------------------------------------------------------------------------*/
 #icon-connections {
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
@@ -8,15 +8,33 @@
 	background: transparent url(../images/icon.png) no-repeat;
 }
 
-/*
- * Screen options
- */
+/*------------------------------------------------------------------------------
+  Screen Options Tab
+------------------------------------------------------------------------------*/
 .entry-per-page { width: 3em }
 
-/*
- * Manage Page Styles
- */
+/*------------------------------------------------------------------------------
+  Common across all pages.
+------------------------------------------------------------------------------*/
+.cn-float-left { float: left; }
+.cn-clear, .clearboth { clear: both; }
+.cn-center { text-align: center; }
+
+
+#post-body #post-body-content h3 { margin: 0; }
+
+/*------------------------------------------------------------------------------
+  jQuery Plugin Chosen
+------------------------------------------------------------------------------*/
+.chzn-container {
+	vertical-align: bottom;
+}
+
+/*------------------------------------------------------------------------------
+  Manage page.
+------------------------------------------------------------------------------*/
 .tablenav .tablenav-pages a.cn-char-current { padding: 8px; }
+a.detailsbutton { cursor: pointer; }
 table.connections tr.unapproved { background-color: #FFFFE0; }
 table.connections tr.entrydetails td {border-color:transparent #DFDFDF;}
 table.connections tr.entrynotes td {border-color:transparent #DFDFDF #DFDFDF;}
@@ -72,19 +90,15 @@ table.connections span.social-network { display: block; }
 table.connections div.links { margin-bottom: 6px; }
 table.connections span.link { display: block; }
 
+ /* Date */
 table.connections span.date-name { font-weight: bold; }
-
-
-/*
- * Phone Styles
- */
 table.connections  span.date-block { display: block; margin-bottom: 10px; }
 table.connections  span.vevent { display: block; }
 table.connections  span.vevent span.summary { font-weight: bold; }
 
-/*
- * Template Page Styles
- */
+/*------------------------------------------------------------------------------
+  Template page.
+------------------------------------------------------------------------------*/
 table#currenttheme, table#installthemes {
 	border-color: #DDD;
 	border-spacing: 0;
@@ -148,19 +162,9 @@ table#availablethemes .template-thumbnail-none p {
 	padding: 5px;
 }
 
-
-/* Publish Styles */
-#entry-type {border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px;}
-#visibility {border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px;}
-#minor-publishing label {display: block; margin:10px 6px;}
-
-/* Field Styles */
-#fieldsdiv a {display: block; font-style: normal; text-align: center; width: 230px}
-
-/* Upgrade Page Styles */
-div#connections-upgrade ul {padding-left: 20px !important; list-style-type: disc !important;}
-
-/* Dashboard */
+/*------------------------------------------------------------------------------
+  Dashboard page.
+------------------------------------------------------------------------------*/
 div.postbox div.inside { margin: 10px; }
 
 div.rss-widget li { margin-bottom: 14px; }
@@ -168,15 +172,15 @@ div.rss-widget h4 { font-size: 1.2em; margin: 0; }
 div.rss-widget h4 a { text-decoration: none; }
 div.rss-widget div.rss-date { margin-bottom: 8px; }
 
-div#metabox-system ul { margin-left: 12px; }
+#metabox-system ul { margin-left: 12px; }
 
-div#metabox-quick-links .one-half { width: 48%; }
-div#metabox-quick-links .one-third { width: 30.66%; }
-div#metabox-quick-links .two-third { width: 65.33%; }
-div#metabox-quick-links .one-half,.one-third,.two-third { position: relative; margin-right: 4%; float: left; }
-div#metabox-quick-links .last { margin-right: 0 !important; clear: right; }
+#metabox-quick-links .one-half { width: 48%; }
+#metabox-quick-links .one-third { width: 30.66%; }
+#metabox-quick-links .two-third { width: 65.33%; }
+#metabox-quick-links .one-half,.one-third,.two-third { position: relative; margin-right: 4%; float: left; }
+#metabox-quick-links .last { margin-right: 0 !important; clear: right; }
 
-div#metabox-quick-links .button {
+#metabox-quick-links .button {
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	-moz-user-select: none;
 	background: none;
@@ -197,7 +201,7 @@ div#metabox-quick-links .button {
 	position: relative;
 	white-space: nowrap;
 }
-div#metabox-quick-links .button:hover, div#metabox-quick-links .button.hover {
+#metabox-quick-links .button:hover {
 	background: -moz-linear-gradient(top, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.2)), color-stop(100%,rgba(255,255,255,0.1))); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.1) 100%); /* Chrome10+,Safari5.1+ */
@@ -206,7 +210,7 @@ div#metabox-quick-links .button:hover, div#metabox-quick-links .button.hover {
 	background: linear-gradient(top, rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.1) 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33ffffff', endColorstr='#1affffff',GradientType=0 ); /* IE6-9 */
 }
-div#metabox-quick-links .button:active, div#metabox-quick-links .button.active {
+#metabox-quick-links .button:active {
 	background: -moz-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(100%,rgba(255,255,255,0.1))); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, rgba(0,0,0,0.2) 0%,rgba(255,255,255,0.1) 100%); /* Chrome10+,Safari5.1+ */
@@ -216,13 +220,13 @@ div#metabox-quick-links .button:active, div#metabox-quick-links .button.active {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#33000000', endColorstr='#1affffff',GradientType=0 ); /* IE6-9 */
 	top: 1px;
 }
-div#metabox-quick-links .button.blue {
+#metabox-quick-links .button.blue {
   background-color: #00ADEE;
 }
-div#metabox-quick-links .button.green {
+#metabox-quick-links .button.green {
   background-color: #91BD09;
 }
-div#metabox-quick-links .button span {
+#metabox-quick-links .button span {
 	color: #FFFFFF;
 	line-height: 1em;
 	padding: 0.5em 0;
@@ -232,117 +236,454 @@ div#metabox-quick-links .button span {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
 	white-space: nowrap;
 }
-div#metabox-quick-links .button.full, .button.full span {
+#metabox-quick-links .button.full, .button.full span {
   display: block;
 }
-div#metabox-quick-links .button.large span {
+#metabox-quick-links .button.large span {
   font-size: 1em;
   font-weight: 700;
 }
 
-div.clearboth { clear:both; }
+/*------------------------------------------------------------------------------
+  Add/Edit page.
+------------------------------------------------------------------------------*/
 
-
-/*
- * Entry Form Widget Styles
- */
-div#wpcontent div.widgets-sortables {
+/* Widget Styles */
+.widgets-sortables {
 	min-height: 0;
 }
-div#wpcontent div.widget {
+
+.widget {
 	position: relative;
 }
-div#wpcontent div.widget-top .widget-title {
+
+.widget div.widget-top {
+	height: auto;
+}
+
+.widget-top a.widget-action {
+	background-position: 6px 10px !important;
+	/*display: block;*/
+	height: 34px;
+	width: 24px;
+}
+
+.widget-top a.widget-action:after {
+	padding: 10px 6px 0;
+}
+
+.widget-top .widget-title {
 	padding: 6px 9px;
 	overflow: hidden;
 	position: relative;
 }
-div#wpcontent div.widget-title h4 {
+
+.widget-title h4 label { line-height: normal; vertical-align: text-top; }
+.widget-title h4 span.visibility { position: absolute; right: 0; top: 10px }
+.widget-title h4 span.visibility .cn-radio-option { padding-right: 4px; }
+.widget-title h4 span.visibility label { font-weight: normal; }
+/*.widget-title input { float: left; }*/
+
+.widget-title h4 {
 	overflow: visible;
+	padding: 0;
 }
-div#wpcontent div.widget-title h4 select {
+
+.widget-title h4 select {
 	height: 1.75em;
 	padding: 1px;
-	margin-top: -10px;
+	/*margin-top: -10px;*/
+	vertical-align: initial;
 }
-div#wpcontent div.widget .widget-inside, .widget .widget-description {
+
+.widget-inside,
+.widget-description {
 	display: block;
+	padding: 12px 12px 10px;
 	position: relative;
 }
-div#wpcontent div.widget-title-action:hover {
+
+.widget-title-action:hover {
 	cursor: pointer;
 }
-div#wpcontent .widget-placeholder {
+
+.widget-placeholder {
+	background-color: #FCFCFC;
 	border-width: 1px;
 	border-style: dashed;
 	margin: 0 auto 20px;
 	height: 60px;
 	width: 100%;
 }
-div#metabox-address, div#metabox-phone, div#metabox-email, div#metabox-messenger, div#metabox-social-media, div#metabox-links, div#metabox-date {
-	background-color: #FCFCFC;
+
+div.widgets-sortables {
+	background-color: transparent;
 	background-image: none;
 }
-/*
- * Entry Form Input Styles
- */
-form p.submit a.button  {font-style:normal !important;}
-form p.add  {font-style:normal; padding:12px 0 0; text-align: right;}
-/*table.form-table td input {width:auto;}*/
 
-#cancel-button {float:left;}
-#cancel-button .button {display: inline-block;}
-.button-warning:hover {background:#CE0000 none repeat scroll 0 0; color:#FFFFFF;}
-.button {margin: 1px;}
-.button-primary  {margin: 1px ; padding: 3px 10px; }
-#toggleBioEditor { margin: 4px 6px 0 0; }
-#toggleNoteEditor { margin: 4px 6px 0 0; }
+/* The "Publish" metabox styles. */
+#entry-type { border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px; padding: 10px; }
+#visibility { border-color: #DFDFDF; border-style: solid; border-width: 1px; margin: 6px; padding: 10px; }
+#minor-publishing label { display: block; margin:10px 6px; }
 
-form div.form-field input[type="text"] { width: 100%; }
-form div.form-field input[type="radio"] { vertical-align: text-top; width: auto; }
-form div.form-field div#relations { text-align: center }
-form div.form-field div#relations select { text-align: left; width: 250px; }
-form div.form-field div#relations li { text-align: left; width: 250px; }
-form div.form-field h4 label { line-height: normal; vertical-align: text-top; }
-form div.form-field h4 span.visibility { position: absolute; right: 0; }
-form div.form-field h4 span.visibility label { font-weight: normal; }
-form div.form-field div.input { float: left; }
-form div.form-field div.input.half-width { width: 50%; }
-form div.form-field .address-local input { width: 80%; }
-form div.form-field .address-region input { width: 80%; }
-form div.form-field .address-city { width: 28%; }
-form div.form-field .address-city input { width: 86%; }
-form div.form-field .address-state { width: 20%; }
-form div.form-field .address-state input { width: 74%; }
-form div.form-field .address-zipcode { width: 20%; }
-form div.form-field .address-zipcode input { width: 62%; }
-form div.form-field .address-country { clear: both; width: 52%; }
-form div.form-field .address-country input { width: 80%; }
-form div.form-field .address-latitude { width: 29%; }
-form div.form-field .address-latitude input { width: 75%; }
-form div.form-field .address-longitude { width: 29%; }
-form div.form-field .address-longitude input { width: 70%; }
+/* The "Name" metabox styles. */
+#metabox-name input[type="text"] { width: 100%; }
+#cn-name-prefix { display: inline-block; width: 12.5%; }
+#cn-name-first { display: inline-block; width: 25%; }
+#cn-name-middle { display: inline-block; width: 25%; }
+#cn-name-last { display: inline-block; width: 25%; }
+#cn-name-suffix { display: inline-block; width: 12.5%; }
+#cn-contact-first-name { display: inline-block; width: 50%; }
+#cn-contact-last-name { display: inline-block; width: 50%; }
 
-form div.form-field label {font-size: 12px; line-height: 1.6; padding: 0 2px;}
-form div.form-field span.checkbox {background-color:transparent;float:right;font-size:11px;font-weight:bold;}
-form div.form-field span.checkbox input {width:16px;}
-form div.form-field span.selectbox {font-size:11px;font-weight:bold;}
-form div.form-field span.selectbox select {padding:1px !important;vertical-align:middle !important;}
-form div.form-field span.radio_group input {height: 13px; margin: 0px 5px 0px 2px; width:13px;}
-form div.form-field span.radio_group label {float: left; line-height: 30px; padding-right: 15px; white-space: nowrap;}
+/* Family entry/relations. */
+#cn-relations { text-align: center }
+#cn-relations select { text-align: left; width: 250px; }
+#cn-relations li { text-align: left; width: 250px; }
 
-/* Be very specific with this selector or the images used in rendering the Google Map will be affected, */
-form div#metabox-image div.form-field img {-moz-border-radius:4px; background-color: #FFFFFF; border:1px solid #E3E3E3; margin-bottom:10px; padding:5px;}
-
-form div.form-field div.relation {margin: 6px 0px}
-form div.form-field div.websites label {display: inline;}
-form div.form-field p.remove-button { bottom: 0px; display:inline-block; position: absolute; right: 10px; }
-form div.form-field a.geocode.button { display: inline-block; }
-form div.inside	span.radio_group label {float: left; line-height: 30px; margin: 6px; padding-right: 12px; white-space: nowrap;}
-form div.form-field div.map {
+/* The "Address" metabox. */
+#metabox-address .address-local input { width: 80%; }
+#metabox-address .address-city { float: left; width: 28%; }
+#metabox-address .address-city input { width: 86%; }
+#metabox-address .address-state { float: left; width: 20%; }
+#metabox-address .address-state input { width: 74%; }
+#metabox-address .address-zipcode { float: left; width: 20%; }
+#metabox-address .address-zipcode input { width: 62%; }
+#metabox-address .address-country { clear: both; width: 52%; }
+#metabox-address .address-country input { width: 80%; }
+#metabox-address .address-latitude { float: left; width: 29%; }
+#metabox-address .address-latitude input { width: 75%; }
+#metabox-address .address-longitude { float: left; width: 29%; }
+#metabox-address .address-longitude input { width: 70%; }
+#metabox-address a.geocode.button { display: inline-block; }
+#metabox-address .map {
 	border: solid 1px #DFDFDF;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 	margin: 10px 0px 20px;
 }
+
+/* The "Phone" metabox. */
+#metabox-phone .widget-inside input[type="text"] { width: 80%; }
+
+/* The "Email" metabox. */
+#metabox-email .widget-inside input[type="text"] { width: 80%; }
+
+/* The "Email" metabox. */
+#metabox-messenger .widget-inside input[type="text"] { width: 80%; }
+
+/* The "Social Media Network" metabox. */
+#metabox-social-media .widget-inside input[type="text"] { width: 80%; }
+
+/* The "Link" metabox. */
+#metabox-links .widget-inside input[type="text"] {
+	margin-right: 10px;
+	width: 30%;
+}
+#metabox-links .widget-inside input[type="radio"] {
+	margin: 0 4px 0 10px;
+	vertical-align: middle;
+	width: auto;
+}
+.link-assignment {
+	margin-top: 10px;
+}
+
+/* The "Dates" metabox. */
+#metabox-date .widget-inside input[type="text"] {
+	padding: 2px;
+	width: 17.5em;
+}
+
+/* The "Image" and "Logo" metabox styles. */
+/* Be very specific with this selector or the images used in rendering the Google Map will be affected, */
+#metabox-image img { border-radius:4px; background-color: #FFFFFF; border:1px solid #E3E3E3; margin-bottom:10px; padding:5px; }
+#metabox-image .cn-radio-group { margin-bottom:10px; }
+#metabox-logo img { border-radius:4px; background-color: #FFFFFF; border:1px solid #E3E3E3; margin-bottom:10px; padding:5px; }
+#metabox-logo .cn-radio-group { margin-bottom:10px; }
+
+/* Bio and Notes metabox */
+#metabox-bio tr#cn-metabox-id-bio > th,
+#metabox-note tr#cn-metabox-id-notes > th {
+	display: none;
+}
+
+/* Buttons. */
+#cancel-button {float:left;}
+#cancel-button .button {display: inline-block;}
+.button-warning:hover {background:#CE0000 none repeat scroll 0 0; color:#FFFFFF;}
+.button {margin: 1px;}
+.button-primary  {margin: 1px ; padding: 3px 10px; }
+.postbox p.cn-remove-button { bottom: 0; display:inline-block; position: absolute; right: 10px; }
+
+/* Upgrade Page Styles */
+#connections-upgrade ul {padding-left: 20px !important; list-style-type: disc !important;}
+form p.add {font-style:normal; padding:12px 0 0; text-align: right;}
+
+/*------------------------------------------------------------------------------
+  Settings page.
+------------------------------------------------------------------------------*/
+.cn-sortable-checklist label {
+	vertical-align: initial;
+}
+.cn-sortable-checklist .fa-sort {
+	padding-bottom: 4px;
+	vertical-align: middle;
+}
+
+/*------------------------------------------------------------------------------
+  Metabox default styling. This is to support the new metabox API for custom fields.
+------------------------------------------------------------------------------*/
+.cn-metabox-section { border-bottom: 1px solid #E9E9E9; margin: 1.33em 0; padding-bottom: 1.33em; }
+.cn-metabox-section:last-child { border-bottom: none; padding-bottom: 0; }
+table.cn-metabox-table th label { display: inline-block; }
+.mceIframeContainer { background: #FFF; }
+.cn-radio-option { margin-bottom: 6px; }
+.cn-radio-option:last-child { margin-bottom: auto; }
+span.cn-radio-option { padding-right: 18px; }
+.cn-datepicker { padding: 2px; width: 17.5em; }
+.cn-slider-container { width: 25em; }
+
+
+/*------------------------------------------------------------------------------
+  Custom Fields [ Since most of these were lifted from core WP these will have to be verified and remove unused rules. ]
+------------------------------------------------------------------------------*/
+
+#meta-fields thead th {
+	padding: 5px 8px 8px;
+}
+
+#meta #meta-fields .submit {
+	border: 0 none;
+	float: none;
+	padding: 0 8px 8px;
+}
+
+#side-sortables #meta #meta-fields .submit {
+	margin: 0;
+	padding: 0;
+}
+
+#side-sortables #meta #meta-fields #the-list textarea {
+	height: 85px;
+}
+
+#side-sortables #meta #meta-fields td.left input,
+#side-sortables #meta #meta-fields td.left select,
+#side-sortables #meta-fields #newmetaleft a {
+	margin: 3px 3px 0;
+}
+
+#meta-fields table {
+	margin: 0;
+	width: 100%;
+	border-width: 1px;
+	border-style: solid;
+	border-spacing: 0;
+}
+
+#meta-fields tr {
+	vertical-align: top;
+}
+
+#meta-fields table input,
+#meta-fields table select,
+#meta-fields table textarea {
+	width: 96%;
+	margin: 8px;
+}
+
+#side-sortables #meta-fields table input,
+#side-sortables #meta-fields table select,
+#side-sortables #meta-fields table textarea {
+	margin: 3px;
+}
+
+#meta-fields th.left,
+#meta-fields td.left {
+	width: 38%;
+}
+
+#meta-fields .submit input {
+	margin: 0;
+	width: auto;
+}
+
+#meta-fields #newmetaleft a {
+	display: inline-block;
+	margin: 0 8px 8px;
+	text-decoration: none;
+}
+
+.no-js #meta-fields #enternew {
+	display: none;
+}
+
+#post-body-content .compat-attachment-fields {
+	margin-bottom: 20px;
+}
+
+.compat-attachment-fields th {
+	padding-top: 5px;
+	padding-right: 10px;
+}
+
+/*
+From colors-fresh.css -- Custom Fields
+ */
+#meta .inside label.spam,
+#meta .inside label.deleted {
+	color: red;
+}
+
+#meta .inside label.waiting {
+	color: orange;
+}
+
+#meta .inside label.approved {
+	color: green;
+}
+
+#meta-fields table {
+	border-color: #dfdfdf;
+	background-color: #f9f9f9;
+}
+
+#meta-fields thead th {
+	background-color: #f1f1f1;
+}
+
+/* START => repeatable */
+.form-table.cn-metabox .meta_box_repeatable {
+	width:510px;
+}
+.form-table.cn-metabox .meta_box_repeatable th {
+	width:auto !important;
+	padding:5px 10px;
+	border-bottom:1px dashed #ccc;
+	text-transform:uppercase;
+	font-size:10px;
+	text-shadow:none;
+}
+
+.form-table.cn-metabox .meta_box_repeatable tfoot th {
+	border-bottom:none;
+}
+
+.form-table.cn-metabox .meta_box_repeatable td {
+	width:auto !important;
+	vertical-align:top;
+	padding:10px;
+	border-bottom:1px dashed #ccc;
+	background:#eee;
+}
+
+.form-table.cn-metabox .meta_box_repeatable tr:nth-child(even) td {
+	background:none;
+}
+
+	.form-table.cn-metabox .meta_box_repeatable td * {
+		display:block;
+		margin-bottom:3px;
+	}
+
+		.form-table.cn-metabox .meta_box_repeatable td .meta_box_upload_image_button,
+		.form-table.cn-metabox .meta_box_repeatable td small,
+		.form-table.cn-metabox .meta_box_repeatable td small a {
+			display:inline-block;
+		}
+
+	.form-table.cn-metabox .meta_box_repeatable td label {
+		display:block;
+		float:left;
+		width:100px;
+		font-weight:bold;
+		line-height:30px;
+		clear:left;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable td p {
+		margin:0;
+		float:left;
+		padding-bottom:5px;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable td textarea {
+		width: 300px;
+	}
+
+	.form-table.cn-metabox .meta_box_repeatable .repeatable_id {
+		background:#ccc;
+		width:30px;
+		text-align:center;
+	}
+
+.meta_box_repeatable .sort_label {
+	display:block;
+	width:20px;
+	height:17px;
+	background:url("../images/sprite-repeatable-field.png") no-repeat -68px -100px;
+}
+
+.meta_box_repeatable .sort {
+	display:block;
+	width:20px;
+	height:15px;
+	background:url("../images/sprite-repeatable-field.png") 0 -100px;
+	margin-top:6px;
+	cursor:move;
+}
+
+.meta_box_repeatable_add,
+.meta_box_repeatable_remove {
+	display:block;
+	width:18px;
+	height:16px;
+	background:url("../images/sprite-repeatable-field.png");
+	margin-top:5px;
+}
+
+.meta_box_repeatable_add {
+	background-position:-30px -100px;
+}
+
+.meta_box_repeatable_remove {
+	background-position:-50px -100px;
+}
+
+.meta_box_repeatable tr:first-child .meta_box_repeatable_remove,
+.meta_box_repeatable tr:first-child > td > .sort {
+	display:none;
+}
+/* END => repeatable */
+
+
+/*table.cn_metabox textarea.cn_textarea_code { font-family: Consolas,Monaco,monospace; line-height: 16px; }
+table.cn_metabox input.cn_text_small { width: 100px; margin-right: 15px;}
+table.cn_metabox input.cn_timepicker { width: 100px; margin-right: 15px;}
+table.cn_metabox input.cn_text_money { width: 90px; margin-right: 15px;}
+table.cn_metabox input.cn_text_medium { width: 230px; margin-right: 15px;}
+table.cn_metabox input.cn_upload_file { width: 65%; }
+table.cn_metabox li { font-size:12px; margin: 1px 0 5px 0; line-height: 16px; }
+table.cn_metabox ul { padding-top:5px; margin: 0; }
+table.cn_metabox select { font-size:12px; margin-top: 3px;}
+
+
+.cn_radio_inline { padding: 4px 0 0 0;}
+.cn_radio_inline_option {display: inline; padding-right: 18px;}
+table.cn_metabox input[type="radio"] { margin: 0 5px 0 0; padding: 0;}
+table.cn_metabox input[type="checkbox"] { margin: 0 5px 0 0; padding: 0;}
+table.cn_metabox .mceLayout {border:1px solid #DFDFDF !important;}
+table.cn_metabox .mceIframeContainer {background:#FFF;}
+table.cn_metabox .meta_mce {width:97%;}
+table.cn_metabox .meta_mce textarea {width:100%;}
+table.cn_metabox .cn_media_status {  margin: 10px 0 0 0;}
+table.cn_metabox .cn_media_status .img_status, table.cn_metabox .cn_media_status .embed_status {  position: relative; }
+table.cn_metabox .cn_media_status .img_status img, table.cn_metabox .cn_media_status .embed_status { border:1px solid #DFDFDF; background: #FAFAFA; max-width:350px; padding: 5px; -moz-border-radius: 2px; border-radius: 2px;}
+table.cn_metabox .cn_media_status .embed_status { float: left; max-width:800px;}
+table.cn_metabox .cn_media_status .img_status .cn_remove_file_button, table.cn_metabox .cn_media_status .embed_status .cn_remove_file_button { text-indent: -9999px; background: url(images/ico-delete.png); width: 16px; height: 16px; position: absolute; top: -5px; left: -5px;}*/
+/* Sidebar placement adjustments */
+/*.inner-sidebar table.cn_metabox input[type=text], #side-sortables table.cn_metabox input[type=text], table.cn_metabox textarea { width: 95%; }
+.inner-sidebar table.cn_metabox .cn_media_status .img_status img, #side-sortables table.cn_metabox .cn_media_status .img_status img, .inner-sidebar table.cn_metabox .cn_media_status .embed_status img, #side-sortables table.cn_metabox .cn_media_status .embed_status img { width: 90%; }
+.postbox table.cn_metabox .cn-spinner { float: left; }*/

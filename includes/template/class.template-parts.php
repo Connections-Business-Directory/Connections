@@ -25,15 +25,434 @@ class cnTemplatePart {
 	 */
 	public static function init() {
 
-		add_action( 'cn_action_list_actions', array( __CLASS__, 'listActions' ) );
-		add_action( 'cn_action_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
+		add_action( 'cn_list_actions', array( __CLASS__, 'listActions' ) );
+		add_action( 'cn_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
 
-		add_action( 'cn_action_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
+		add_action( 'cn_list_action-view_all', array( __CLASS__, 'listAction_ViewAll') );
+
+		add_action( 'cn_entry_action-back', array( __CLASS__, 'entryAction_Back'), 10, 2 );
+		add_action( 'cn_entry_action-vcard', array( __CLASS__, 'entryAction_vCard'), 10, 2 );
+
+		add_action( 'cn_list_no_results', array( __CLASS__, 'noResults' ), 10, 2 );
 
 		add_action( 'cn_action_list_before', array( __CLASS__, 'categoryDescription'), 10, 2 );
+		add_action( 'cn_action_list_before', array( __CLASS__, 'searchingMessage' ), 11, 3 );
 
-		add_action( 'cn_action_character_index', array( __CLASS__, 'index' ) );
-		add_action( 'cn_action_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
+		add_action( 'cn_list_character_index', array( __CLASS__, 'index' ) );
+		add_action( 'cn_list_return_to_target', array( __CLASS__, 'returnToTopTarget' ) );
+
+		// add_action( 'cn_action_entry_after', array( __CLASS__, 'JSON' ), 10, 2 );
+	}
+
+	/**
+	 * Display the template no found error message.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @uses   shortcode_atts()
+	 * @param  array  $atts The shortcode $atts array.
+	 * @return string       The error message.
+	 */
+	public static function loadTemplateError( $atts ) {
+
+		$defaults = array(
+			'template'      => NULL,
+		);
+
+		$atts = shortcode_atts( $defaults, $atts );
+
+		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
+	}
+
+	/**
+	 * Output the return to top div.
+	 *
+	 * @access public
+	 * @since  0.7.6.5
+	 * @uses   wp_parse_args()
+	 * @uses   apply_filters()
+	 * @param  array  $atts [optional]
+	 *
+	 * @return string
+	 */
+	public static function returnToTopTarget( $atts = array() ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = apply_filters( 'cn_filter_return_to_top_target', '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>' );
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * Renders a Connections compatible form opening.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @global $wp_rewrite
+	 * @uses   get_permalink()
+	 * @uses   is_front_page()
+	 * @uses   is_page()
+	 *
+	 * @return string
+	 */
+	public static function formOpen( $atts = array() ) {
+		global $wp_rewrite;
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		// Get the directory home page ID.
+		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
+
+		$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
+
+		// The base post permalink is required, do not filter the permalink thru cnSEO.
+		cnSEO::doFilterPermalink( FALSE );
+
+		$permalink = get_permalink( $homeID );
+
+		if ( $wp_rewrite->using_permalinks() ) {
+
+			$out .= '<form class="cn-form" id="cn-cat-select" action="' . ( $addAction || $atts['force_home'] ? $permalink : '' ) . '" method="get">';
+			if ( is_front_page() ) $out = '<input type="hidden" name="page_id" value="' . $homeID .'">';
+
+		} else {
+
+			$out .= '<form class="cn-form" id="cn-cat-select" method="get">';
+			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID .'">';
+		}
+
+		// Add the cnSEO permailink filter.
+		cnSEO::doFilterPermalink();
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * Renders a form closing tag, nothing more.
+	 * Just a simple helper function to compliment cnTemplatePart::formOpen().
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 *
+	 * @return string
+	 */
+	public static function formClose( $atts = array() ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$out .= '</form>';
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * The result list head.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function header( $atts, $results, $template ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$out .= PHP_EOL . '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
+
+			// Display the Results List Actions.
+			if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+				// List actions template part.
+				ob_start();
+					do_action( 'cn_list_actions-before', $atts );
+					do_action( 'cn_list_actions', $atts );
+					$out .= ob_get_contents();
+				ob_end_clean();
+
+			}
+
+			ob_start();
+				do_action( 'cn_action_list_before', $atts, $results );
+				do_action( 'cn_action_list_before-' . $template->getSlug(), $atts, $results );
+				cnShortcode::addFilterRegistry( 'cn_action_list_before-' . $template->getSlug() );
+
+				do_action( 'cn_action_list_both', $atts, $results );
+				do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
+				cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+
+				$out .= ob_get_contents();
+			ob_end_clean();
+
+			//  This action only is required when the index is to be displayed.
+			if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
+
+				// The character index template part.
+				ob_start();
+					do_action( 'cn_list_character_index', $atts );
+				$out .= ob_get_clean();
+			}
+
+		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * The result list body.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function body( $atts, $results, $template ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$out .= PHP_EOL . '<div class="connections-list cn-list-body cn-clear" id="cn-list-body">' . PHP_EOL;
+
+		// If there are no results no need to proceed and output message.
+		if ( empty( $results ) ) {
+
+			// The no results message.
+			ob_start();
+
+				do_action( 'cn_list_no_results', $atts, $results, $template );
+
+			$out .= ob_get_clean();
+
+		} else {
+
+			$out .= self::cards( array_merge( $atts, array( 'return' => TRUE ) ), $results, $template );
+		}
+
+		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * The result list cards.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function cards( $atts, $results, $template ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$previousLetter = '';
+		$alternate      = '';
+
+		/*
+		 * When an entry is assigned multiple categories and the RANDOM order_by shortcode attribute
+		 * is used, this will cause the entry to show once for every category it is assigned.
+		 *
+		 * The same issue occurs when an entry has been assigned multiple address and each address
+		 * falls within the geo bounds when performing a geo-limiting query.
+		 */
+		// $skipEntry = array();
+
+		foreach ( $results as $row ) {
+
+			$entry = new cnvCard( $row );
+			$vCard =& $entry;
+
+			// Configure the page where the entry link to.
+			$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
+
+			// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
+			// if ( in_array( $entry->getId(), $skipEntry ) ) continue;
+			// $skipEntry[] = $entry->getId();
+
+			$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
+
+			if ( $currentLetter != $previousLetter ) {
+
+				$out .= sprintf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
+
+					//  This action only is required when the index is to be displayed.
+					if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
+
+						// The character index template part.
+						ob_start();
+
+							do_action( 'cn_list_character_index', array_merge( $atts, array( 'return' => FALSE ) ) );
+						$out .= ob_get_clean();
+					}
+
+					if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
+
+				$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
+
+				$previousLetter = $currentLetter;
+			}
+
+			// Before entry actions.
+			ob_start();
+
+				// Display the Entry Actions.
+				if ( get_query_var( 'cn-entry-slug' ) ) {
+
+					do_action( 'cn_entry_actions-before', $atts, $entry );
+					do_action( 'cn_entry_actions', $atts, $entry );
+				}
+
+				do_action( 'cn_action_entry_before', $atts, $entry );
+				do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
+
+				do_action( 'cn_action_entry_both', $atts, $entry  );
+				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+
+			$out .= ob_get_clean();
+
+			$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s" data-entry-type="%2$s" data-entry-id="%5$d" data-entry-slug="%4$s">',
+					$alternate = $alternate == '' ? '-alternate' : '',
+					$entry->getEntryType(),
+					$entry->getCategoryClass( TRUE ),
+					$entry->getSlug(),
+					$entry->getId()
+				);
+
+				ob_start();
+
+					do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
+
+				$out .= ob_get_clean();
+
+			$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
+
+			// After entry actions.
+			ob_start();
+
+				do_action( 'cn_action_entry_both', $atts, $entry  );
+				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+
+				do_action( 'cn_action_entry_after', $atts, $entry );
+				do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
+				cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
+
+				// Display the Entry Actions.
+				if ( get_query_var( 'cn-entry-slug' ) ) {
+
+					do_action( 'cn_action_entry_actions-after', $atts, $entry );
+				}
+
+			$out .= ob_get_clean();
+
+		}
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
+	}
+
+	/**
+	 * The result list foot.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
+	 */
+	public static function footer( $atts, $results, $template ) {
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = '';
+
+		$out .= PHP_EOL . '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
+
+			ob_start();
+				do_action( 'cn_action_list_both' , $atts , $results  );
+				do_action( 'cn_action_list_both-' . $template->getSlug() , $atts , $results );
+				cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+
+				do_action( 'cn_action_list_after' , $atts , $results );
+				do_action( 'cn_action_list_after-' . $template->getSlug() , $atts , $results );
+				cnShortcode::addFilterRegistry( 'cn_action_list_after-' . $template->getSlug() );
+
+				// Display the Results List Actions.
+				if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+					// List actions template part.
+					do_action( 'cn_list_actions-after', $atts );
+				}
+
+				$out .= ob_get_contents();
+			ob_end_clean();
+
+		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
 	}
 
 	/**
@@ -60,22 +479,29 @@ class cnTemplatePart {
 			'return'        => FALSE
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = wp_parse_args( $atts, apply_filters( 'cn_list_actions_atts', $defaults ) );
 
-		if ( cnSettingsAPI::get( 'connections', 'connections_display_list_actions', 'view_all' ) && get_query_var( 'cn-view' ) !== 'all' )
-			$actions['view_all'] = cnURL::permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => TRUE ) );
+		$settings = cnSettingsAPI::get( 'connections', 'list_actions', 'actions' );
 
-		$actions = apply_filters( 'cn_filter_list_actions', $actions );
+		if ( ! isset( $settings['active'] ) || empty( $settings['active'] ) ) return;
 
-		if ( empty( $actions ) ) return;
+		foreach ( $settings['active'] as $key => $slug ) {
 
-		foreach ( $actions as $key => $action ) {
+			if ( ! has_action( "cn_list_action-{$slug}" ) ) continue;
+
+			ob_start();
+
+			do_action( "cn_list_action-{$slug}", $atts );
+
+			$action = ob_get_clean();
+
+			if ( strlen( $action ) < 1 ) continue;
 
 			$out .= sprintf( '%1$s<%2$s class="cn-list-action-item">%3$s</%2$s>%4$s',
-				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
+				$atts['before-item'],
 				$atts['item_tag'],
 				$action,
-				empty( $atts['after-item'] ) ? '' : $atts['after-item']
+				$atts['after-item']
 			 );
 		}
 
@@ -84,8 +510,115 @@ class cnTemplatePart {
 				$out
 			);
 
-		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+	}
+
+	/**
+	 * Callback for the cn_list_action-view_all action which outputs the "View All" link
+	 * in the list actions.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
+	 *
+	 * @return void
+	 */
+	public static function listAction_ViewAll( $atts ) {
+
+		// No need to display if the user is viewing the "View All" page.
+		if ( get_query_var( 'cn-view' ) == 'all' ) return;
+
+		// Output the "View All" link.
+		cnURL::permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => FALSE ) );
+	}
+
+	/**
+	 * Output the entry list actions.
+	 *
+	 * @access public
+	 * @since 0.7.6.5
+	 * @param (array)  $atts [optional]
+	 * @param (object) $entry Instance of the cnEntry class.
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @return string | void
+	 */
+	public static function entryActions( $atts = array(), $entry ) {
+		$out = '';
+		$actions = array();
+
+		$defaults = array(
+			'container_tag' => 'ul',
+			'item_tag'      => 'li',
+			'before'        => '',
+			'before-item'   => '',
+			'after-item'    => '',
+			'after'         => '',
+			'return'        => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, apply_filters( 'cn_entry_actions_atts', $defaults ) );
+
+		$settings = cnSettingsAPI::get( 'connections', 'entry_actions', 'actions' );
+
+		if ( ! isset( $settings['active'] ) || empty( $settings['active'] ) ) return;
+
+		foreach ( $settings['active'] as $key => $slug ) {
+
+			if ( ! has_action( "cn_entry_action-{$slug}" ) ) continue;
+
+			ob_start();
+
+			do_action( "cn_entry_action-{$slug}", $atts, $entry );
+
+			$action = ob_get_clean();
+
+			if ( strlen( $action ) < 1 ) continue;
+
+			$out .= sprintf( '%1$s<%2$s class="cn-entry-action-item">%3$s</%2$s>%4$s',
+				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
+				$atts['item_tag'],
+				$action,
+				empty( $atts['after-item'] ) ? '' : $atts['after-item']
+			 );
+		}
+
+		$out = sprintf( '<%1$s id="cn-entry-actions">%2$s</%1$s>',
+				$atts['container_tag'],
+				$out
+			);
+
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+	}
+
+	/**
+	 * Callback for the cn_entry_action-back action which outputs the "Go back to directory." link.
+	 *
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts  The $atts from self::entryActions() passed by the action callback.
+	 * @param  object $entry An instance of the cnEntry object; passed by the action callback.
+	 * @return void
+	 */
+	public static function entryAction_Back( $atts, $entry ) {
+
+		cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => FALSE ) );
+	}
+
+	/**
+	 * Callback for the cn_entry_action-vcard action which outputs the "Add to Address Book." link.
+	 *
+	 * @access  private
+	 * @since  0.8
+	 * @param  array  $atts  The $atts from self::entryActions() passed by the action callback.
+	 * @param  object $entry An instance of the cnEntry object; passed by the action callback.
+	 * @return void
+	 */
+	public static function entryAction_vCard( $atts, $entry ) {
+
+		$entry->vcard( array( 'return' => FALSE ) );
 	}
 
 	/**
@@ -147,75 +680,172 @@ class cnTemplatePart {
 	}
 
 	/**
-	 * Output the entry list actions.
+	 * Display a message box above the search results with information
+	 * about the current query and the option (a button) to clear results.
 	 *
 	 * @access public
-	 * @since 0.7.6.5
-	 * @param (array)  $atts [optional]
-	 * @param (object) $entry Instance of the cnEntry class.
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @return string | void
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts     The shortcode $atts array.
+	 * @param  array  $results  The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
 	 */
-	public static function entryActions( $atts = array(), $entry ) {
-		$out = '';
-		$actions = array();
+	public static function searchingMessage( $atts = array(), $results = array(), $template = FALSE ) {
+
+		// Check whether or not the category description should be displayed or not.
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'search_message' ) ) return;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		$defaults = array(
-			'container_tag' => 'ul',
-			'item_tag'      => 'li',
-			'before'        => '',
-			'before-item'   => '',
-			'after-item'    => '',
-			'after'         => '',
-			'return'        => FALSE
+			'return' => FALSE
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'back' ) )
-			$actions['back'] = cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => TRUE ) );
+		$out = array();
 
-		if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) )
-			$actions['vcard'] = $entry->vcard( array( 'return' => TRUE ) );
+		// Get the directory home page ID.
+		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
 
-		$actions = apply_filters( 'cn_filter_entry_actions', $actions );
+		$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
 
-		if ( empty( $actions ) ) return;
+		// The base post permalink is required, do not filter the permalink thru cnSEO.
+		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
 
-		foreach ( $actions as $key => $action ) {
+		$permalink = get_permalink( $homeID );
 
-			$out .= sprintf( '%1$s<%2$s class="cn-entry-action-item">%3$s</%2$s>%4$s',
-				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
-				$atts['item_tag'],
-				$action,
-				empty( $atts['after-item'] ) ? '' : $atts['after-item']
-			 );
+		// Re-enable the filter.
+		if ( ! is_admin() ) cnSEO::doFilterPermalink();
+
+
+		// Store the query vars
+		$queryVars['cn-s']            = get_query_var('cn-s') ? esc_html( urldecode( get_query_var('cn-s') ) ) : FALSE;
+		$queryVars['cn-char']         = get_query_var('cn-char') ? esc_html( urldecode( get_query_var('cn-char') ) ) : FALSE;
+		$queryVars['cn-cat']          = get_query_var('cn-cat') ? get_query_var('cn-cat') : FALSE;
+		$queryVars['cn-organization'] = get_query_var('cn-organization') ? esc_html( urldecode( get_query_var('cn-organization') ) ) : FALSE;
+		$queryVars['cn-department']   = get_query_var('cn-department') ? esc_html( urldecode( get_query_var('cn-department') ) ) : FALSE;
+		$queryVars['cn-locality']     = get_query_var('cn-locality') ? esc_html( urldecode( get_query_var('cn-locality') ) ) : FALSE;
+		$queryVars['cn-region']       = get_query_var('cn-region') ? esc_html( urldecode( get_query_var('cn-region') ) ) : FALSE;
+		$queryVars['cn-postal-code']  = get_query_var('cn-postal-code') ? esc_html( urldecode( get_query_var('cn-postal-code') ) ) :  FALSE;
+		$queryVars['cn-country']      = get_query_var('cn-country') ? esc_html( urldecode( get_query_var('cn-country') ) ) : FALSE;
+		// if ( get_query_var('cn-near-coord') ) $queryVars['cn-near-coord']     = get_query_var('cn-near-coord');
+		// if ( get_query_var('cn-radius') ) $queryVars['cn-radius']             = get_query_var('cn-radius');
+		// if ( get_query_var('cn-unit') ) $queryVars['cn-unit']                 = get_query_var('cn-unit');
+
+		if ( $queryVars['cn-cat'] ) {
+
+			$categoryID = $queryVars['cn-cat'];
+			$terms      = array();
+
+			// Since the `cn-cat` query var can be an array, we'll only add the category slug
+			// template name when querying a single category.
+			if ( is_array( $categoryID ) ) {
+
+				foreach ( $categoryID as $id ) {
+
+					$term    = $instance->term->getTermBy( 'id', $id, 'category' );
+					$terms[] = esc_html( $term->name );
+				}
+
+			} else {
+
+				$term    = $instance->term->getTermBy( 'id', $categoryID, 'category' );
+				$terms[] = esc_html( $term->name );
+			}
+
+			$out[] = sprintf( __( 'You are searching within category(ies): %s', 'connections' ), implode( ', ', $terms ) );
 		}
 
-		$out = sprintf( '<%1$s id="cn-entry-actions">%2$s</%1$s>',
-				$atts['container_tag'],
-				$out
+		if ( $queryVars['cn-s'] ) {
+
+			// If value is a string, string the white space and covert to an array.
+			if ( ! is_array( $queryVars['cn-s'] ) ) $queryVars['cn-s'] = explode( ' ' , trim( $queryVars['cn-s'] ) );
+
+			// Trim any white space from around the terms in the array.
+			array_walk( $queryVars['cn-s'] , 'trim' );
+
+			$out[] = sprintf( __( 'You are searching for the keyword(s): %s', 'connections' ), implode( ', ', $queryVars['cn-s'] ) );
+		}
+
+		if ( $queryVars['cn-char'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the character: %s', 'connections' ), $queryVars['cn-char'] );
+		}
+
+		if ( $queryVars['cn-organization'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the organization: %s', 'connections' ), $queryVars['cn-organization'] );
+		}
+
+		if ( $queryVars['cn-department'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the department: %s', 'connections' ), $queryVars['cn-department'] );
+		}
+
+		if ( $queryVars['cn-locality'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the locality: %s', 'connections' ), $queryVars['cn-locality'] );
+		}
+
+		if ( $queryVars['cn-region'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the region: %s', 'connections' ), $queryVars['cn-region'] );
+		}
+
+		if ( $queryVars['cn-postal-code'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the postal code: %s', 'connections' ), $queryVars['cn-postal-code'] );
+		}
+
+		if ( $queryVars['cn-country'] ) {
+
+			$out[] = sprintf( __( 'The results are being filtered by the country: %s', 'connections' ), $queryVars['cn-country'] );
+		}
+
+		// Convert the search messages in a HTML UL list.
+		if ( ! empty( $out ) ) {
+
+			$out = '<li class="cn-search-message">' . implode( '</li><li class="cn-search-message">', $out ) . '</li>';
+			$out = '<ul id="cn-search-message-list">' . $out . '</ul>';
+
+			$out .= sprintf( '<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>',
+				$permalink,
+				__( 'Clear Search' )
 			);
 
-		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+			$out = '<div id="cn-search-messages">' . $out . '</div>';
+
+		} else {
+
+			$out = '';
+		}
+
+		if ( $atts['return'] ) return $out;
+		echo $out;
 	}
 
 	/**
 	 * Outputs the "No Results" meesage.
 	 *
 	 * @access public
-	 * @since 0.7.6.5
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @param  (array) $atts [optional]
-	 * @param  (string) $slug The template slug.
-	 * @return (string)
+	 * @since  0.7.6.5
+	 * @uses   wp_parse_args()
+	 * @uses   apply_filters()
+	 * @param  array  $atts    [optional] The shortcode $atts array.
+	 * @param  array  $results [optional] The cnRetrieve query results.
+	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @return string
 	 */
-	public static function noResults( $atts = array(), $slug ) {
-		$out = '';
-		$actions = array();
+	public static function noResults( $atts = array(), $results = array(), $template = FALSE ) {
+
+		if ( ! empty( $results ) ) return;
+
+		$out     = '';
 
 		$defaults = array(
 			'tag'     => 'p',
@@ -228,39 +858,96 @@ class cnTemplatePart {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		$atts['message'] = apply_filters( 'cn_list_no_result_message' , $atts['message'] );
-		$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $slug , $atts['message'] );
+		if ( $template !== FALSE ) $atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , $atts['message'] );
 
-		$out .=  sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
+		$out .= sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
 				$atts['tag'],
 				$atts['message']
 			);
 
-		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}
 
 	/**
-	 * Output the return to top div.
+	 * Outputs entry data JSON encoded in HTML data attribute.
+	 * This is an action called by the `cn_action_entry_after` hook.
 	 *
-	 * @access public
-	 * @since 0.7.6.5
-	 * @param  (array)  $atts [optional]
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @return (string)
+	 * @access  public
+	 * @since  0.8
+	 * @uses   wp_parse_args()
+	 * @param array  $atts  Shortcode $atts passed by the `cn_action_entry_after` action hook.
+	 * @param object $entry An instance the the cnEntry object.
+	 *
+	 * return void
 	 */
-	public static function returnToTopTarget( $atts = array() ) {
+	public static function JSON( $atts, $entry ) {
+
+		// Stores the entry data.
+		$data = array();
 
 		$defaults = array(
-			'return' => FALSE
+			'tag'                => 'div',
+			'before'             => '',
+			'after'              => '',
+			'return'             => FALSE,
+			'show_addresses'     => TRUE,
+			'show_phone_numbers' => TRUE,
+			'show_email'         => TRUE,
+			'show_im'            => TRUE,
+			'show_social_media'  => TRUE,
+			'show_links'         => TRUE,
+			'show_dates'         => TRUE,
+			'show_bio'           => TRUE,
+			'show_notes'         => TRUE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = apply_filters( 'cn_filter_return_to_top_target', '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>' );
+		$data = array(
+			'type'            => $entry->getEntryType(),
+			'id'              => $entry->getId(),
+			'ruid'            => $entry->getRuid(),
+			'slug'            => $entry->getSlug(),
+			'name'            => array(
+				'full'   => $entry->getName( $atts ),
+				'prefix' => $entry->getHonorificPrefix(),
+				'first'  => $entry->getFirstName(),
+				'middle' => $entry->getMiddleName(),
+				'last'   => $entry->getLastName(),
+				'suffix' => $entry->getHonorificSuffix(),
+				),
+			'title'           => $entry->getTitle(),
+			'organization'    => $entry->getOrganization(),
+			'department'      => $entry->getDepartment(),
+			'contact_name'    => array(
+				'full'   => $entry->getContactName(),
+				'first'  => $entry->getContactFirstName(),
+				'last'   => $entry->getContactLastName()
+				),
+			'family_name'     => $entry->getFamilyName(),
+			'family_members'  => $entry->getFamilyMembers(),
+			'categories'      => $entry->getCategory(),
+			'meta'            => $entry->getMeta( $atts ),
+			);
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( $atts['show_addresses'] ) $data['addresses'] = $entry->getAddresses( $atts );
+		if ( $atts['show_phone_numbers'] ) $data['phone_numbers'] = $entry->getPhoneNumbers( $atts );
+		if ( $atts['show_email'] ) $data['email_addresses'] = $entry->getEmailAddresses( $atts );
+		if ( $atts['show_im'] ) $data['im'] = $entry->getIm( $atts );
+		if ( $atts['show_social_media'] ) $data['social_media'] = $entry->getSocialMedia( $atts );
+		if ( $atts['show_links'] ) $data['links'] = $entry->getLinks( $atts );
+		if ( $atts['show_dates'] ) $data['dates'] = $entry->getDates( $atts );
+		if ( $atts['show_bio'] ) $data['bio'] = $entry->getBio();
+		if ( $atts['show_notes'] ) $data['notes'] = $entry->getNotes();
+
+		$out =  sprintf('<%1$s class="cn-entry-data-json" data-entry-data-json=\'%2$s\'></%1$s>',
+				$atts['tag'],
+				htmlspecialchars( json_encode( $data ), ENT_QUOTES, 'UTF-8' )
+			);
+
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}
 
 	/**
@@ -464,14 +1151,28 @@ class cnTemplatePart {
 
 		$searchValue = ( get_query_var('cn-s') ) ? get_query_var('cn-s') : '';
 
-		$out .= '<span class="cn-search">';
-			if ( $atts['show_label'] ) $out .= '<label for="cn-s">Search Directory</label>';
-			$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . __('Search', 'connections') . '"/>';
-			$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="" tabindex="-1" />';
-		$out .= '</span>';
+		// Check to see if there is a template file override.
+		$part = cnLocate::file( cnLocate::fileNames( 'search' ) );
+
+		// If one was found, lets include it. If not, run the core function.
+		if ( $part ) {
+
+			ob_start();
+				include $part;
+			$out .= ob_get_clean();
+
+		} else {
+
+			$out .= '<span class="cn-search">';
+				if ( $atts['show_label'] ) $out .= '<label for="cn-s">Search Directory</label>';
+				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . __('Search', 'connections') . '"/>';
+				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="" tabindex="-1" />';
+			$out .= '</span>';
+
+		}
 
 		// Output the the search input.
-		if ( $atts['return']) return $out;
+		if ( $atts['return'] ) return $out;
 		echo $out;
 	}
 
@@ -668,10 +1369,11 @@ class cnTemplatePart {
 		$pageCount = ceil( $connections->retrieve->resultCountNoLimit / $atts['limit'] );
 
 		if ( $pageCount > 1 ) {
-			$current = 1;
-			$disabled = array();
-			$url = array();
-			$page = array();
+
+			$current   = 1;
+			$disabled  = array();
+			$url       = array();
+			$page      = array();
 			$queryVars = array();
 
 			// Get page/post permalink.
@@ -682,7 +1384,7 @@ class cnTemplatePart {
 			$base = get_option('connections_permalink');
 
 			// Store the query vars
-			if ( get_query_var('cn-s') ) $queryVars['cn-s']                       = get_query_var('cn-s');
+			if ( get_query_var('cn-s') ) $queryVars['cn-s']                       = urlencode( get_query_var('cn-s') );
 			if ( get_query_var('cn-char') ) $queryVars['cn-char']                 = get_query_var('cn-char');
 			if ( get_query_var('cn-cat') ) $queryVars['cn-cat']                   = get_query_var('cn-cat');
 			if ( get_query_var('cn-organization') ) $queryVars['cn-organization'] = get_query_var('cn-organization');
@@ -820,25 +1522,27 @@ class cnTemplatePart {
 
 		switch ( $atts['type'] ) {
 			case 'select':
-				self::categorySelect( $atts );
+				$out = self::categorySelect( $atts );
 				break;
 
 			case 'multiselect':
-				self::categorySelect( $atts );
+				$out = self::categorySelect( $atts );
 				break;
 
 			case 'radio':
-				self::categoryInput( $atts );
+				$out = self::categoryInput( $atts );
 				break;
 
 			case 'checkbox':
-				self::categoryInput( $atts );
+				$out = self::categoryInput( $atts );
 				break;
 
 			case 'link':
-				self::categoryLink( $atts );
+				$out = self::categoryLink( $atts );
 				break;
 		}
+
+		if ( $atts['return'] ) return $out;
 	}
 
 	/**
@@ -890,13 +1594,18 @@ class cnTemplatePart {
 		}
 
 		$level = 1;
-		$out = '';
+		$out   = '';
 
 		$categories = $connections->retrieve->categories();
 
 		$defaults = array(
 			'type'            => 'select',
 			'group'           => FALSE,
+			'class'           => array( 'cn-category-select' ),
+			'name'            => 'cn-cat',
+			'style'           => array(),
+			'enhanced'        => TRUE,
+			'on_change'       => 'this.form.submit()',
 			'default'         => __( 'Select Category', 'connections' ),
 			'show_select_all' => TRUE,
 			'select_all'      => __( 'Show All Categories', 'connections' ),
@@ -926,11 +1635,22 @@ class cnTemplatePart {
 			$atts['exclude'] = explode( ',', $atts['exclude'] );
 		}
 
-		$out .= "\n" . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
+		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
+		if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('cn-enhanced-select') );
 
-		$out .= "\n" . '<option value=""></option>';
+		// $out .= PHP_EOL . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
+		$out .= sprintf( '<select %1$s name="%2$s"%3$s%4$sdata-placeholder="%5$s"%6$s>',
+			empty( $atts['class'] ) ? '' : cnHTML::attribute( 'class', $atts['class'] ),
+			$atts['type'] == 'multiselect' ? esc_attr( $atts['name'] ) . '[]' : esc_attr( $atts['name'] ),
+			empty( $atts['style'] ) ? '' : cnHTML::attribute( 'style', $atts['style'] ),
+			$atts['type'] == 'multiselect' ? '' : ( empty( $atts['on_change'] ) ? '' : sprintf( ' onchange="%s" ', esc_js( $atts['on_change'] ) ) ),
+			esc_attr( $atts['default'] ),
+			$atts['type'] == 'multiselect' ? ' MULTIPLE' : ''
+			);
 
-		if ( $atts['show_select_all'] ) $out .= "\n" . '<option value="">' . esc_attr( $atts['select_all'] ) . '</option>';
+		$out .= PHP_EOL . '<option value=""></option>';
+
+		if ( $atts['show_select_all'] ) $out .= PHP_EOL . '<option value="">' . esc_attr( $atts['select_all'] ) . '</option>';
 
 		foreach ( $categories as $key => $category ) {
 			// Limit the category tree to only the supplied root parent categories.
@@ -948,12 +1668,12 @@ class cnTemplatePart {
 
 			// If grouping by root parent is enabled, close the optiongroup tag.
 			if ( $atts['group'] && ! empty( $category->children ) )
-				$out .= '</optgroup>' . "\n";
+				$out .= '</optgroup>' . PHP_EOL;
 		}
 
-		$out .= '</select>' . "\n";
+		$out .= '</select>' . PHP_EOL;
 
-		if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
+		// if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
 
 		if ( $atts['return'] ) return $out;
 		echo $out;
@@ -1002,16 +1722,31 @@ class cnTemplatePart {
 		}
 		// $strSelected = $selected ? ' SELECTED ' : '';
 
+		$class = 'class="cn-cat-level-' . $level . '"';
+
 		// Category count to be appended to the category name.
 		$count = ( $atts['show_count'] ) ? ' (' . $category->count . ')' : '';
 
 		// If option grouping is TRUE, show only the select option if it is a descendant. The root parent was used as the option group label.
 		if ( ( $atts['group'] && $level > 1 ) && ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) ) {
-			$out .= sprintf('<option style="padding-left: %1$dpx !important" value="%2$s"%3$s>' . /*$pad .*/ $category->name . $count . '</option>' , $pad , $category->term_id , $strSelected );
+
+			$out .= sprintf('<option %1$s style="padding-left: %2$dpx !important" value="%3$s"%4$s>' . /*$pad .*/ $category->name . $count . '</option>',
+				$class,
+				$pad,
+				$category->term_id,
+				$strSelected
+				);
 		}
+
 		// If option grouping is FALSE, show the root parent and descendant options.
 		elseif ( ! $atts['group'] && ( $atts['show_empty'] || ! empty($category->count) || ! empty($category->children) ) ) {
-			$out .= sprintf('<option style="padding-left: %1$dpx !important" value="%2$s"%3$s>' . /*$pad .*/ $category->name . $count . '</option>' , $pad , $category->term_id , $strSelected );
+
+			$out .= sprintf('<option %1$s style="padding-left: %2$dpx !important" value="%3$s"%4$s>' . /*$pad .*/ $category->name . $count . '</option>',
+				$class,
+				$pad,
+				$category->term_id,
+				$strSelected
+				);
 		}
 
 		/*
@@ -1497,3 +2232,6 @@ class cnTemplatePart {
 	}
 
 }
+
+// Init the Template Parts API
+cnTemplatePart::init();

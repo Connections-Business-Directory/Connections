@@ -42,11 +42,11 @@ if ( ! class_exists( 'CN_Dashboard_Recently_Modified_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( $this, 'card' ) ) );
+			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
 		}
 
-		public function card( $entry, $content, $template, $atts, $connections, $vCard ) {
+		public static function card( $entry ) {
 
 			if ( is_admin() ) {
 

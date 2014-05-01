@@ -1,6 +1,7 @@
 /*
  * Common
  */
+#cn-list .cn-clear { clear: both; }
 #cn-list div.cn-list-head { position: relative; }
 #cn-list div.cn-list-section-head { position: relative; }
 #cn-list div.cn-list-section-head h4 { font-size: 16px; padding: 0; margin-bottom: .8em; }
@@ -119,8 +120,10 @@ span.date-name { font-weight: bold; }
 
 /*
  * Why o` why do theme's insist on floating and setting form widths globally???
+ * Apearently they also love setting inputs to blocks rather than the default inline!
  */
-#cn-list input {
+#cn-list span input, #cn-list span input[type="text"] {
+	display: inline;
 	float: none;
 	width: auto;
 }
@@ -129,21 +132,22 @@ span.date-name { font-weight: bold; }
  * A few style style from Chosen with the selectors more specific so the theme's don't
  * easily override them. I'm sure I'll have to add to this list as I run accross theme conflicts.
  */
-#cn-list .chzn-container-multi .chzn-choices .search-field input { line-height: normal; }
-#cn-list .chzn-container .chzn-results .active-result { background: none !important; }
-#cn-list .chzn-container .chzn-results .highlighted { background: #3875d7 !important; color: #FFFFFF; }
-#cn-list .chzn-container ul.chzn-results {
+#cn-list .chosen-container .chosen-search input { width: 100%; }
+#cn-list .chosen-container-multi .chosen-choices .search input { line-height: normal; }
+#cn-list .chosen-container .chosen-results .active-result { background: none !important; }
+#cn-list .chosen-container .chosen-results .highlighted { background: #3875d7 !important; color: #FFFFFF; }
+#cn-list .chosen-container ul.chosen-results {
 	clear: both !important;
 	margin: 0 4px 4px 0;
-	max-height: 190px;
+	max-height: 240px;
 	padding: 0 0 0 4px;
 	position: relative;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
-#cn-list .chzn-container .chzn-results li {
-	line-height: 80% !important;
-	padding: 7px 7px 8px;
+#cn-list .chosen-container .chosen-results li {
+	line-height: 15px;
+	padding: 5px 6px;
 	margin: 0;
 	list-style: none !important;
 	color: black;
@@ -152,15 +156,40 @@ span.date-name { font-weight: bold; }
 	border: none !important;
 	background-image: none !important;
 }
-#cn-list .chzn-container .chzn-results li.group-result {
+#cn-list .chosen-container .chosen-results li.group-result {
 	color: #999;
 	text-transform: uppercase;
 }
-#cn-list .chzn-container-single .chzn-single { line-height: 26px !important; }
+#cn-list .chosen-container-single .chosen-single { line-height: 24px !important; }
+
+/*
+ * Search Message
+ */
+#cn-search-messages {
+	border-left: 4px solid #FFBA00;
+	border-top: 1px solid rgba(0,0,0,0.1);
+	border-right: 1px solid rgba(0,0,0,0.1);
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding: 10px 12px;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	margin: 12px 2px 12px 0px;
+}
+
+#cn-clear-search {
+	text-align: right;
+}
+
+a#cn-clear-search-button {
+	text-decoration: none;
+}
 
 /*
  * Search control styles.
  */
+.cn-search label[for="cn-s"] {
+	display: none;
+}
 #cn-search-input {
 	background: #FFFFFF none;
 	border-width: 1px 0 1px 1px;
@@ -215,7 +244,7 @@ input#cn-search-submit {
 	padding: 3px;
 	text-align: left;
 	vertical-align: bottom;
-	width: 30px;
+	width: 30px !important;
 }
 
 /*
@@ -320,7 +349,7 @@ input#cn-submit {
 /*
  * Return to top.
  */
-div#cn-list span.cn-return-to-top img {
+#cn-list span.cn-return-to-top img {
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -331,4 +360,35 @@ div#cn-list span.cn-return-to-top img {
 	margin: 0 0 -6px;
 	max-width: none;
 	padding: 5px;
+}
+
+/*
+ * Core CSS for the custom metabox and fields.
+ */
+.cn-metabox input {
+	padding: 1px 6px;
+}
+.cn-metabox input.small-text {
+	width: 50px;
+}
+.cn-metabox input.regular-text {
+	display: block;
+	width: 25em;
+}
+.cn-metabox input.large-text {
+	width: 99%;
+}
+.cn-metabox span.cn-radio-option {
+	padding-right: 10px;
+}
+.cn-metabox div.cn-radio-option {
+	margin-bottom: 6px;
+}
+.cn-metabox textarea.small-text {
+	height: 196px;
+	width: 49%;
+}
+.cn-metabox textarea.large-text {
+	height: 196px;
+	width: 99%;
 }

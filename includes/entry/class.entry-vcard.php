@@ -13,8 +13,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnvCard extends cnOutput
-{
+class cnvCard extends cnEntry_HTML {
 	private $data;
 	private $card;
 
@@ -43,65 +42,65 @@ class cnvCard extends cnOutput
 		}
 
 		$this->data = array(
-							'class'=>null,
-							'display_name'=>$this->getFullFirstLastName(),
-							'first_name'=>$this->getFirstName(),
-							'last_name'=>$this->getLastName(),
-							'additional_name'=>$this->getMiddleName(),
-							'name_prefix'=>$this->getHonorificPrefix(),
-							'name_suffix'=>$this->getHonorificSuffix(),
-							'nickname'=>null,
-							'title'=>$this->getTitle(),
-							'role'=>null,
-							'department'=>$this->getDepartment(),
-							'company'=>$this->getOrganization(),
-							'work_po_box'=>null,
-							'work_extended_address'=>null,
-							'work_address'=>null,
-							'work_city'=>null,
-							'work_state'=>null,
-							'work_postal_code'=>null,
-							'work_country'=>null,
-							'home_po_box'=>null,
-							'home_extended_address'=>null,
-							'home_address'=>null,
-							'home_city'=>null,
-							'home_state'=>null,
-							'home_postal_code'=>null,
-							'home_country'=>null,
-							'other_po_box'=>null,
-							'other_extended_address'=>null,
-							'other_address'=>null,
-							'other_city'=>null,
-							'other_state'=>null,
-							'other_postal_code'=>null,
-							'other_country'=>null,
-							'latitute'=>null,
-							'longitude'=>null,
-							'work_tel'=>null,
-							'home_tel'=>null,
-							'home_fax'=>null,
-							'cell_tel'=>null,
-							'work_fax'=>null,
-							'pager_tel'=>null,
-							'email1'=>null,
-							'email2'=>null,
-							'url'=>null,
-							'aim'=>null,
-							'messenger'=>null,
-							'yim'=>null,
-							'jabber'=>null,
-							'photo'=>$imagePath,
-							'logo'=>$logoPath,
-							'birthday'=>$this->getBirthday('Y-m-d'),
-							'anniversary'=>$this->getAnniversary('Y-m-d'),
-							'spouse'=>null,
-							'timezone'=>null,
-							'revision_date'=>date('Y-m-d H:i:s', strtotime($this->getUnixTimeStamp())),
-							'sort_string'=>null,
-							'categories'=>$this->getCategory(),
-							'note'=>$this->format->sanitizeString( $this->getNotes() )
-							);
+			'class'                  => NULL,
+			'display_name'           => html_entity_decode( $this->getFullFirstLastName(), ENT_COMPAT, 'UTF-8' ),
+			'first_name'             => html_entity_decode( $this->getFirstName(), ENT_COMPAT, 'UTF-8' ),
+			'last_name'              => html_entity_decode( $this->getLastName(), ENT_COMPAT, 'UTF-8' ),
+			'additional_name'        => html_entity_decode( $this->getMiddleName(), ENT_COMPAT, 'UTF-8' ),
+			'name_prefix'            => html_entity_decode( $this->getHonorificPrefix(), ENT_COMPAT, 'UTF-8' ),
+			'name_suffix'            => html_entity_decode( $this->getHonorificSuffix(), ENT_COMPAT, 'UTF-8' ),
+			'nickname'               => NULL,
+			'title'                  => html_entity_decode( $this->getTitle(), ENT_COMPAT, 'UTF-8' ),
+			'role'                   => NULL,
+			'department'             => html_entity_decode( $this->getDepartment(), ENT_COMPAT, 'UTF-8' ),
+			'company'                => html_entity_decode( $this->getOrganization(), ENT_COMPAT, 'UTF-8' ),
+			'work_po_box'            => NULL,
+			'work_extended_address'  => NULL,
+			'work_address'           => NULL,
+			'work_city'              => NULL,
+			'work_state'             => NULL,
+			'work_postal_code'       => NULL,
+			'work_country'           => NULL,
+			'home_po_box'            => NULL,
+			'home_extended_address'  => NULL,
+			'home_address'           => NULL,
+			'home_city'              => NULL,
+			'home_state'             => NULL,
+			'home_postal_code'       => NULL,
+			'home_country'           => NULL,
+			'other_po_box'           => NULL,
+			'other_extended_address' => NULL,
+			'other_address'          => NULL,
+			'other_city'             => NULL,
+			'other_state'            => NULL,
+			'other_postal_code'      => NULL,
+			'other_country'          => NULL,
+			'latitute'               => NULL,
+			'longitude'              => NULL,
+			'work_tel'               => NULL,
+			'home_tel'               => NULL,
+			'home_fax'               => NULL,
+			'cell_tel'               => NULL,
+			'work_fax'               => NULL,
+			'pager_tel'              => NULL,
+			'email1'                 => NULL,
+			'email2'                 => NULL,
+			'url'                    => NULL,
+			'aim'                    => NULL,
+			'messenger'              => NULL,
+			'yim'                    => NULL,
+			'jabber'                 => NULL,
+			'photo'                  => $imagePath,
+			'logo'                   => $logoPath,
+			'birthday'               => $this->getBirthday('Y-m-d'),
+			'anniversary'            => $this->getAnniversary('Y-m-d'),
+			'spouse'                 => NULL,
+			'timezone'               => NULL,
+			'revision_date'          => date('Y-m-d H:i:s', strtotime($this->getUnixTimeStamp())),
+			'sort_string'            => NULL,
+			'categories'             => $this->getCategory(),
+			'note'                   => $this->format->sanitizeString( $this->getNotes() )
+			);
 
 		$this->setvCardAddresses();
 		$this->setvCardGEO();
@@ -112,8 +111,16 @@ class cnvCard extends cnOutput
 		$this->buildvCard();
 	}
 
-	private function buildvCard()
-	{
+	private function buildvCard() {
+
+		$name = array();
+
+		$name[] = $this->data['last_name'];
+		$name[] = $this->data['first_name'];
+		$name[] = $this->data['additional_name'];
+		$name[] = $this->data['name_prefix'];
+		$name[] = $this->data['name_suffix'];
+
 		if (!$this->data['class']) { $this->data['class'] = "PUBLIC"; }
 		if (!$this->data['display_name'])
 		{
@@ -131,12 +138,7 @@ class cnvCard extends cnOutput
 		$this->card .= "PRODID:-//Connections - WordPress Plug-in//Version 1.0//EN\r\n";
 		$this->card .= "REV:".$this->data['revision_date']."\r\n";
 		$this->card .= "FN;CHARSET=utf-8:".$this->data['display_name']."\r\n";
-		$this->card .= "N;CHARSET=utf-8:"
-			. $this->data['last_name'].";"
-			. $this->data['first_name'].";"
-			. $this->data['additional_name'].";"
-			. $this->data['name_prefix'].";"
-			. $this->data['name_suffix']."\r\n";
+		$this->card .= "N;CHARSET=utf-8:" . implode( ';', $name ) . "\r\n";
 
 		if ($this->data['nickname']) { $this->card .= "NICKNAME;CHARSET=utf-8:".$this->data['nickname']."\r\n"; }
 		if ($this->data['title']) { $this->card .= "TITLE;CHARSET=utf-8:".$this->data['title']."\r\n"; }

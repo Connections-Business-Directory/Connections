@@ -52,7 +52,6 @@ function connectionsShowSettingsPage() {
 			?>
 
 		</div>
-		<div class="clear"></div>
 
 	<?php }
 }

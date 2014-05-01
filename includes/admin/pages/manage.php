@@ -33,10 +33,19 @@ function connectionsShowViewPage( $action = NULL ) {
 			 * Check whether current user can add an entry.
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
-				add_meta_box( 'metabox-name', 'Name', array( &$form, 'metaboxName' ), $connections->pageHook->add, 'normal', 'high' );
+
+				$field = array(
+					'id'       => 'metabox-name',
+					'title'    => __( 'Name', 'connection' ),
+					'context'  => 'normal',
+					'priority' => 'high',
+					'callback' => array( 'cnEntryMetabox', 'name' ),
+				);
+
+				cnMetabox_Render::add( $instance->pageHook->add, $field );
 
 				$form = new cnFormObjects();
-				$entry = new cnEntry();
+				$entry = new cnOutput();
 
 				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
 
@@ -92,7 +101,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 			} else {
 
-				echo '<div id="message" class="error"><p>' , __( '<strong>ERROR:</strong> You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) , '</p></div>';
+				cnMessage::render( 'error', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
 
 			break;
@@ -110,10 +119,18 @@ function connectionsShowViewPage( $action = NULL ) {
 				$id = esc_attr( $_GET['id'] );
 				check_admin_referer( 'entry_copy_' . $id );
 
-				add_meta_box( 'metabox-name', 'Name', array( &$form, 'metaboxName' ), $connections->pageHook->manage, 'normal', 'high' );
+				$field = array(
+					'id'       => 'metabox-name',
+					'title'    => __( 'Name', 'connection' ),
+					'context'  => 'normal',
+					'priority' => 'high',
+					'callback' => array( 'cnEntryMetabox', 'name' ),
+				);
+
+				cnMetabox_Render::add( $instance->pageHook->manage, $field );
 
 				$form = new cnFormObjects();
-				$entry = new cnEntry( $connections->retrieve->entry( $id ) );
+				$entry = new cnOutput( $connections->retrieve->entry( $id ) );
 
 				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
 
@@ -166,10 +183,12 @@ function connectionsShowViewPage( $action = NULL ) {
 					<?php
 
 				unset( $entry );
+
+			} else {
+
+				cnMessage::render( 'error', __( 'You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
-			else {
-				echo '<div id="message" class="error"><p>' , __( '<strong>ERROR:</strong> You are not authorized to add entries. Please contact the admin if you received this message in error.', 'connections' ) , '</p></div>';
-			}
+
 			break;
 
 		case 'edit_entry':
@@ -185,10 +204,18 @@ function connectionsShowViewPage( $action = NULL ) {
 				$id = esc_attr( $_GET['id'] );
 				check_admin_referer( 'entry_edit_' . $id );
 
-				add_meta_box( 'metabox-name', 'Name', array( &$form, 'metaboxName' ), $connections->pageHook->manage, 'normal', 'high' );
+				$field = array(
+					'id'       => 'metabox-name',
+					'title'    => __( 'Name', 'connection' ),
+					'context'  => 'normal',
+					'priority' => 'high',
+					'callback' => array( 'cnEntryMetabox', 'name' ),
+				);
+
+				cnMetabox_Render::add( $instance->pageHook->manage, $field );
 
 				$form = new cnFormObjects();
-				$entry = new cnEntry( $connections->retrieve->entry( $id ) );
+				$entry = new cnOutput( $connections->retrieve->entry( $id ) );
 
 				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
 
@@ -242,10 +269,12 @@ function connectionsShowViewPage( $action = NULL ) {
 				<?php
 
 				unset( $entry );
+
+			} else {
+
+				cnMessage::render( 'error', __( 'You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) );
 			}
-			else {
-				echo '<div id="message" class="error"><p>' , __( '<strong>ERROR:</strong> You are not authorized to edit entries. Please contact the admin if you received this message in error.', 'connections' ) , '</p></div>';
-			}
+
 			break;
 
 		default:
@@ -560,7 +589,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					$rowActions = array();
 					$rowEditActions = array();
 
-					$rowActions[] = '<a class="detailsbutton" id="row-' . $entry->getId() . '">' . __( 'Show Details', 'connections' ) . '</a>';
+					$rowActions[] = '<a class="detailsbutton" id="row-' . $entry->getId() . '" title="' . __( 'Click to show details.', 'connections' ) . '" >' . __( 'Show Details', 'connections' ) . '</a>';
 					$rowActions[] = $vCard->download( array( 'anchorText' => __( 'vCard', 'connections' ), 'return' => TRUE ) );
 					$rowActions[] = cnURL::permalink( array(
 							'slug' => $entry->getSlug(),

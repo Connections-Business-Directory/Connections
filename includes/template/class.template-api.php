@@ -1,5 +1,8 @@
 <?php
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * API for registering templates.
  *
@@ -10,16 +13,6 @@
  * @since       0.7.6
  */
 
-// Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-/**
- * Singleton that registers and instantiates templates.
- *
- * @package Connections
- * @subpackage Template Factory
- * @since 0.7.6
- */
 class cnTemplateFactory {
 
 	/**
@@ -69,17 +62,38 @@ class cnTemplateFactory {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance  = new self;
 			self::$templates = new stdClass();
 
-			// Add all the legacy templates found, including the default templates.
-			add_action( 'plugins_loaded', array( __CLASS__, 'registerLegacy' ), 10.5 );
+			/*
+			 * When init'ing in the admin, we must use the `admin_init` action hook
+			 * so the templates are registered in time to be used on the
+			 * Connections : Dashboard admin page.
+			 *
+			 * When init'ing in the frontend, we must use the `wp` action hook
+			 * so the registered query vars have been parsed and available for use
+			 * using the get_quer_var() function. Using this function too early will
+			 * result in an empty string being returned.
+			 */
+			if ( is_admin() ) {
 
-			// Initiate the active template classes.
-			add_action( 'plugins_loaded', array( __CLASS__, 'activate' ), 100 );
+				// Add all the legacy templates found, including the default templates.
+				add_action( 'admin_init', array( __CLASS__, 'registerLegacy' ) );
+
+				// Initiate the active template classes.
+				add_action( 'admin_init', array( __CLASS__, 'activate' ), 100 );
+
+			} else {
+
+				// Add all the legacy templates found, including the default templates.
+				add_action( 'wp', array( __CLASS__, 'registerLegacy' ) );
+
+				// Initiate the active template classes.
+				add_action( 'wp', array( __CLASS__, 'activate' ), 100 );
+			}
 
 			// Plugins can hook into this action to register templates.
-			do_action( 'cn_register_template' );
+			do_action( 'cn_register_template', self::$instance );
 		}
 
 	}
@@ -199,17 +213,34 @@ class cnTemplateFactory {
 	 * @return (void)
 	 */
 	public static function activate() {
-		global $connections;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		foreach ( self::$templates as $type => $slug ) {
 
 			foreach ( $slug as $template ) {
 
 				if ( $template->legacy == FALSE && ! empty( $template->class ) ) {
-					// var_dump($template->class);
-					$connections->template->{ $template->class } = new $template->class( new cnTemplate( $template ) );
-					// var_dump($connections->template);
+
+					// Init an instance of the cnTemplate object with $template.
+					$t = new cnTemplate( $template );
+
+					// If the template has a core class, init it passing its instance of cnTemplate
+					// so it is easily accessible within its class.
+					$instance->template->{ $template->class } = new $template->class( $t );
+
+					// Add a reference to its instance of cnTemplate to the plugins globally accessible instance.
+					// This is to allow easy access when loading the template within the shortcode.
+					$instance->template->{ $template->slug }  = $t;
+
+				} else {
+
+					// If the template does not have a code class, init an instance of the cnTemplate object with $template.
+					// and add it to the plugins globally accessible instance.
+					$instance->template->{ $template->slug } = new cnTemplate( $template );
 				}
+
 			}
 
 		}
@@ -242,7 +273,7 @@ class cnTemplateFactory {
 			self::$legacy = $legacyTemplates;
 		}
 
-		$atts = array();
+		$atts  = array();
 		$parts = array();
 
 		// Register each template.
@@ -293,7 +324,7 @@ class cnTemplateFactory {
 		 * --> START <-- Find the available templates
 		 */
 		$templatePaths = array( CN_TEMPLATE_PATH , CN_CUSTOM_TEMPLATE_PATH );
-		$templates = new stdClass();
+		$templates     = new stdClass();
 
 		foreach ( $templatePaths as $templatePath ) {
 			if ( ! is_dir( $templatePath ) && ! is_readable( $templatePath ) ) continue;
@@ -436,6 +467,9 @@ class cnTemplateFactory {
 	 */
 	public static function getTemplate( $slug, $type = '' ) {
 
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
 		// If the type not was supplied, we'll have to search the self::$templates for the $slug.
 		if ( empty( $type ) ) {
 
@@ -444,7 +478,8 @@ class cnTemplateFactory {
 
 				if ( isset( self::$templates->{ $t }->{ $slug } ) ) {
 
-					$template = new cnTemplate( self::$templates->{ $t }->{ $slug } );
+					$template = $instance->template->{ $slug };
+
 					break;
 				}
 			}
@@ -453,7 +488,7 @@ class cnTemplateFactory {
 
 		} else {
 
-			$template = isset( self::$templates->{ $type }->{ $slug } ) ? new cnTemplate( self::$templates->{ $type }->{ $slug } ) : FALSE;
+			$template = isset( self::$templates->{ $type }->{ $slug } ) ? $instance->template->{ $slug } : FALSE;
 		}
 
 		/*
@@ -472,4 +507,81 @@ class cnTemplateFactory {
 
 	}
 
+	/**
+	 * Load the template. The template that will be loaded will be
+	 * determined by the template activated under the `All` template type.
+	 * Unless overridden by either the `template` or `list_type` shortcode
+	 * options.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @param  array  $atts The shortcode atts array.
+	 * @return object       An instance the of cnTemplate object.
+	 */
+	public static function loadTemplate( $atts ) {
+
+		$atts = apply_filters( 'cn_list_template_init', $atts );
+
+		$defaults = array(
+			'list_type'     => NULL,
+			'template'      => NULL,
+		);
+
+		$atts = shortcode_atts( $defaults, $atts );
+
+		if ( ! empty( $atts['list_type'] ) ) {
+
+			$permittedTypes = array( 'individual', 'organization', 'family', 'connection_group');
+
+			// Convert to array. Trim the space characters if present.
+			$atts['list_type'] = explode( ',' , str_replace( ' ', '', $atts['list_type'] ) );
+
+			// Set the template type to the first in the entry type from the supplied if multiple list types are provided.
+			if ( in_array( $atts['list_type'][0], $permittedTypes ) ) {
+
+				$type = $atts['list_type'][0];
+
+				// Change the list type to family from connection_group to maintain compatibility with versions 0.7.0.4 and earlier.
+				if ( $type == 'connection_group' ) $type = 'family';
+			}
+
+		} else {
+
+			// If no list type was specified, set the default ALL template.
+			$type = 'all';
+		}
+
+		/*
+		 * If a list type was specified in the shortcode, load the template based on that type.
+		 * However, if a specific template was specifed, that should preempt the template to be loaded based on the list type if it was specified..
+		 */
+		if ( ! empty( $atts['template'] ) ) {
+
+			$template = self::getTemplate( $atts['template'] );
+
+		} else {
+
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+
+			$slug     = $instance->options->getActiveTemplate( $type );
+			$template = self::getTemplate( $slug );
+		}
+
+		// If the template was not located, return FALSE.
+		// This will inturn display the template not found error message
+		// later in the execution of the shortcode.
+		if ( $template == FALSE ) return FALSE;
+
+		do_action( 'cn_register_legacy_template_parts' );
+		do_action( 'cn_action_include_once-' . $template->getSlug() );
+		do_action( 'cn_action_js-' . $template->getSlug() );
+
+		return $template;
+	}
+
 }
+
+// Init the Template Factory API
+cnTemplateFactory::init();

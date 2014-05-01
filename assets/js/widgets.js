@@ -28,7 +28,8 @@ cnWidgets = {
 			$(this).css( 'minHeight', h + 'px' );
 		});*/
 
-		$('a.widget-action').live('click', function(){
+		$('.postbox').on( 'click', 'a.widget-action', function(e) {
+
 			var css = {}, widget = $(this).closest('div.widget'), inside = widget.children('.widget-inside')/*, w = parseInt( widget.find('input.widget-width').val(), 10 )*/;
 
 			if ( inside.is(':hidden') ) {
@@ -45,7 +46,8 @@ cnWidgets = {
 					widget.css({'width':'', margin:''});
 				});
 			}
-			return false;
+
+			e.preventDefault();
 		});
 
 		/*$('input.widget-control-save').live('click', function(){
@@ -98,11 +100,11 @@ cnWidgets = {
 			start: function(e,ui) {
 				cnWidgets.fixWebkit(1);
 				/*ui.item.children('.widget-inside').hide();*/
-				
+
 				var marginBottom = ui.item.height();
 				//sidebars.closest('.widget-placeholder').css({'height':marginBottom});
 				$('.widget-placeholder').css({'height':marginBottom});
-				
+
 				ui.item.css({margin:'', 'width':'100%',});
 			},
 			stop: function(e,ui) {

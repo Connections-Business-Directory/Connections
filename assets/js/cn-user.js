@@ -11,26 +11,4 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	/*jQuery('.cn-image').spin({
-		lines: 12, // The number of lines to draw
-		length: 7, // The length of each line
-		width: 10, // The line thickness
-		radius: 5, // The radius of the inner circle
-		color: '#FFF', // #rgb or #rrggbb
-		speed: 1, // Rounds per second
-		trail: 60, // Afterglow percentage
-		shadow: true // Whether to render a shadow
-	});*/
-
-	/*jQuery.preload('.cn-image img',{
-		onComplete:function (data){
-			//jQuery(".cn-image .overlay:eq("+data.index+")").removeClass('preload').addClass("image_overlay").html('');
-			if (jQuery.browser.msie && parseInt(jQuery.browser.version, 10) < 9) {
-				jQuery(".cn-image:eq("+data.index+") img").css("visibility", "visible");
-			}else{
-				jQuery(".cn-image:eq("+data.index+") img").delay(2000).css({visibility: 'visible'}).animate({opacity:1}, 1000);
-				//jQuery(".cn-image:eq("+data.index+")").spin(false);
-			}
-		}
-	});*/
 });

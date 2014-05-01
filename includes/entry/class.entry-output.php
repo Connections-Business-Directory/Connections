@@ -116,6 +116,7 @@ class cnOutput extends cnEntry
 			'before' => '',
 			'after'  => '',
 			'style'  => array(),
+			'action' => 'display',
 			'return' => FALSE
 		);
 
@@ -138,7 +139,7 @@ class cnOutput extends cnEntry
 
 			case 'photo':
 
-				if ( $this->getImageLinked() && $this->getImageDisplay() ) {
+				if ( $this->getImageLinked() && ( $this->getImageDisplay() || $atts['action'] == 'edit' ) ) {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'photo';
@@ -211,7 +212,7 @@ class cnOutput extends cnEntry
 
 			case 'logo':
 
-				if ( $this->getLogoLinked() && $this->getLogoDisplay() ) {
+				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || $atts['action'] == 'edit' ) ) {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'logo';
@@ -416,7 +417,7 @@ class cnOutput extends cnEntry
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'format' => '%prefix% %first% %middle% %last% %suffix%',
+			'format' => '',
 			'link'   => cnSettingsAPI::get( 'connections', 'connections_link', 'name' ),
 			'target' => 'name',
 			'before' => '',
@@ -431,7 +432,7 @@ class cnOutput extends cnEntry
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$search          = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
+		$search          = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%', '%first_initial%', '%middle_initial%', '%last_initial%' );
 		$replace         = array();
 		$honorificPrefix = $this->getHonorificPrefix();
 		$first           = $this->getFirstName();
@@ -453,7 +454,19 @@ class cnOutput extends cnEntry
 
 				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
-				$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+				$replace[] = empty( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
+
+				$replace[] = empty( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
+
+				$replace[] = empty( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
+
+				$out = '<span class="fn n">';
+				$out .= str_ireplace(
+					$search,
+					$replace,
+					empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
+					);
+				$out .= '</span>';
 
 				break;
 
@@ -481,10 +494,26 @@ class cnOutput extends cnEntry
 
 				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
-				$out = '<span class="fn n">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+				$replace[] = empty( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
+
+				$replace[] = empty( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
+
+				$replace[] = empty( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
+
+				$out = '<span class="fn n">';
+				$out .= str_ireplace(
+					$search,
+					$replace,
+					empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
+					);
+				$out .= '</span>';
 
 				break;
 		}
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['link'] ) {
 
@@ -781,7 +810,7 @@ class cnOutput extends cnEntry
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'format'    => '%label%: %first% %last%',
+			'format'    => '',
 			'label'     => __( 'Contact', 'connections' ),
 			'separator' => ':',
 			'before'    => '',
@@ -811,7 +840,15 @@ class cnOutput extends cnEntry
 
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-		$out = '<span class="contact-name">' . str_ireplace( $search, $replace, $atts['format'] ) . '</span>';
+		$out = str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%label%: %first% %last%' : $atts['format']
+			);
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -871,7 +908,7 @@ class cnOutput extends cnEntry
 		$defaults['zipcode']             = NULL;
 		$defaults['country']             = NULL;
 		$defaults['coordinates']         = array();
-		$defaults['format']              = '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%';
+		$defaults['format']              = '';
 		$defaults['link']['locality']    = cnSettingsAPI::get( 'connections', 'connections_link', 'locality' );
 		$defaults['link']['region']      = cnSettingsAPI::get( 'connections', 'connections_link', 'region' );
 		$defaults['link']['postal_code'] = cnSettingsAPI::get( 'connections', 'connections_link', 'postal_code' );
@@ -1029,7 +1066,11 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%' : $atts['format']
+				);
 
 			// Set the hCard Address Type.
 			$out .= $this->gethCardAdrType( $address->type );
@@ -1038,6 +1079,10 @@ class cnOutput extends cnEntry
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -1206,7 +1251,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %number%';
+		$defaults['format'] = '';
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
 		$defaults['after'] = '';
@@ -1249,7 +1294,11 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %number%' : $atts['format']
+				);
 
 			// Set the hCard Phone Number Type.
 			$out .= $this->gethCardTelType( $phone->type );
@@ -1258,6 +1307,10 @@ class cnOutput extends cnEntry
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -1388,8 +1441,8 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %address%';
-		$defaults['title'] = '%first% %last% %type% email.';
+		$defaults['format'] = '';
+		$defaults['title'] = '';
 		$defaults['size'] = 32;
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
@@ -1410,7 +1463,11 @@ class cnOutput extends cnEntry
 		$iconSizes = array( 16, 24, 32, 48 );
 
 		// Replace the 'Name Tokens' with the entry's name.
-		$title = $this->getName( array( 'format' => $atts['title' ] ) );
+		$title = $this->getName(
+			array(
+				'format' => empty( $atts['title'] ) ? '%first% %last% %type% email.' : $atts['title']
+				)
+			);
 
 		/*
 		 * Ensure the supplied size is valid, if not reset to the default value.
@@ -1434,7 +1491,11 @@ class cnOutput extends cnEntry
 			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><image src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a></span>';
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %address%' : $atts['format']
+				);
 
 			// Set the hCard Email Address Type.
 			$out .= '<span class="type" style="display: none;">INTERNET</span>';
@@ -1443,6 +1504,10 @@ class cnOutput extends cnEntry
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		// This filter is required to allow the ROT13 encyption plugin to function.
 		$out = apply_filters( 'cn_output_email_addresses', $out );
@@ -1490,7 +1555,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %id%';
+		$defaults['format'] = '';
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
 		$defaults['after'] = '';
@@ -1551,12 +1616,20 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %id%' : $atts['format']
+				);
 
 			$out .= '</span>' . "\n";
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -1623,7 +1696,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%icon%';
+		$defaults['format'] = '';
 		$defaults['style'] = 'wpzoom';
 		$defaults['size'] = 32;
 		$defaults['separator'] = ':';
@@ -1673,16 +1746,24 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->url . '</a>';
 
-			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><image class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;"/></a>';
+			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;"/></a>';
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%icon%' : $atts['format']
+				);
 
 			$out .= '</span>';
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -1740,7 +1821,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %title%';
+		$defaults['format'] = '';
 		$defaults['label'] = NULL;
 		$defaults['size'] = 'lg';
 		$defaults['separator'] = ':';
@@ -1834,12 +1915,20 @@ class cnOutput extends cnEntry
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
+				);
 
 			$out .= '</span>' . "\n";
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -1889,8 +1978,8 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
-		$defaults['format'] = '%label%%separator% %date%';
-		$defaults['name_format'] = '%prefix% %first% %middle% %last% %suffix%';
+		$defaults['format'] = '';
+		$defaults['name_format'] = '';
 		$defaults['date_format'] = cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' );
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
@@ -1914,8 +2003,12 @@ class cnOutput extends cnEntry
 		$out .= '<span class="date-block">';
 
 		foreach ( $dates as $date ) {
+
 			$replace = array();
-			$dateObject = new DateTime( $date->date );
+
+			// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
+			// // just incase a user manages to input an incorrect date or date format.
+			$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
 
 			$out .= "\n" . '<span class="vevent">';
 
@@ -1925,12 +2018,20 @@ class cnOutput extends cnEntry
 			$replace[] = ( empty( $date->date ) ) ? '' : '<abbr class="dtstart" title="' . $dateObject->format( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $date->date ) , FALSE ) /*$dateObject->format( $atts['date_format'] )*/ . '</abbr><span class="summary" style="display:none">' . $date->name . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $dateObject->format( 'YmdHis' ) . '</span>';
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace( $search , $replace , $atts['format'] );
+			$out .= str_ireplace(
+				$search,
+				$replace,
+				empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
+				);
 
 			$out .= '</span>' . "\n";
 		}
 
 		$out .= '</span>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -1963,11 +2064,11 @@ class cnOutput extends cnEntry
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['format'] = '%label%%separator% %date%';
-		$defaults['name_format'] = '%prefix% %first% %middle% %last% %suffix%';
+		$defaults['format'] = '';
+		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
-		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
+		$defaults['date_format'] = is_null( $format ) ? 'F jS' : $format;
 
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
@@ -1996,12 +2097,20 @@ class cnOutput extends cnEntry
 		$replace[] = '<abbr class="dtstart" title="' . $this->getBirthday( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getBirthday( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-		$out .= str_ireplace( $search , $replace , $atts['format'] );
+		$out .= str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
+			);
 
 		$out .= '<span class="bday" style="display:none">' . $this->getBirthday( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Birthday', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getBirthday( 'YmdHis' ) . '</span>';
 
 		$out .= '</div>';
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
@@ -2034,8 +2143,8 @@ class cnOutput extends cnEntry
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['format'] = '%label%%separator% %date%';
-		$defaults['name_format'] = '%prefix% %first% %middle% %last% %suffix%';
+		$defaults['format'] = '';
+		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
 		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
@@ -2066,7 +2175,15 @@ class cnOutput extends cnEntry
 		$replace[] = '<abbr class="dtstart" title="' . $this->getAnniversary( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $this->getAnniversary( 'Y-m-d' ) ) , FALSE ) . '</abbr>';
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-		$out .= str_ireplace( $search , $replace , $atts['format'] );
+		$out .= str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
+			);
+
+		// Remove any whitespace between tags as the result of spces on before/after tokens
+		// and there was nothing to replace the token with.
+		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
 		$out .= '<span class="bday" style="display:none">' . $this->getAnniversary( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';
@@ -2215,6 +2332,346 @@ class cnOutput extends cnEntry
 	}
 
 	/**
+	 * Renders the custom meta data fields assigned to the entry.
+	 *
+	 * This will also run any actions registered for a custom metaboxes
+	 * and its fields. The actions should hook into `cn_output_meta_field-{key}`
+	 * to be rendered.
+	 *
+	 * Accepted option for the $atts property are:
+	 * 	key (string) The meta key to retreive.
+	 * 	single (bool) Whether or not to return a single value
+	 * 		if multiple values exists forthe supplied `key`.
+	 * 			NOTE: The `key` attribute must be supplied.
+	 * 			NOTE: If multiple values exist for a given `key` only first found will be returned.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @uses has_action()
+	 * @uses do_action()
+	 * @param  array  $atts The attributes array.
+	 * @param  array  $shortcode_atts If this is used within the shortcode template loop, the shortcode atts
+	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
+	 * @param  object $template If this is used within the shortcode template loop, the template object
+	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
+	 *
+	 * @return string
+	 */
+	public function getMetaBlock( $atts, $shortcode_atts, $template ) {
+
+		// @todo Implement 'merge_keys'.
+		//
+		// Whether or not to merge duplicate keys and their respective value.
+		// Expected result of a merge would be would be and indexed array:
+		//
+		// array(
+		// 		array(
+		// 			'meta_key' => 'the-duplicate-key',
+		// 			'meta_value' => array(
+		// 				'meta_id' => 'value 1',
+		// 				'meta_id' => 'value 2',
+		// 				'meta_id' => 'and so on ...',
+		// 			)
+		// 		)
+		// )
+		//
+		// $this->renderMetablock() would have to be updated to account for the
+		// 'meta_value' array, I think.
+		//
+		// NOTE: This should actually be done in cnEntry::getMeta and not here.
+		$defaults = array(
+			'key'             => '',
+			'single'          => FALSE,
+			'merge_keys'      => FALSE,
+			'display_custom'  => FALSE,
+			);
+
+		$atts = wp_parse_args( apply_filters( 'cn_output_meta_block_atts', $atts ), $defaults );
+
+		$results = $this->getMeta( $atts );
+
+		if ( ! empty( $results ) ) {
+
+			if ( empty( $atts['key'] ) ) {
+
+				$metadata = $results;
+
+			} else {
+
+				// Rebuild the results array for consistency in for the output methods/actions.
+
+				$metadata = array();
+
+				foreach ( $results as $metaID => $value ) {
+
+					$metadata[ $metaID ] = array( 'meta_key' => $atts['key'], 'meta_value' => $value );
+				}
+			}
+
+			foreach ( $metadata as $metaID => $meta ) {
+
+				if ( $atts['display_custom'] && has_action( 'cn_output_meta_field-' . $meta['meta_key'] ) ) {
+
+					do_action( 'cn_output_meta_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $this, $shortcode_atts, $template );
+
+					unset( $metadata[ $metaID ] );
+				}
+			}
+
+			$this->renderMetaBlock( $metadata );
+		}
+	}
+
+	/**
+	 * Outputs the data saved in the "Custom Fields" entry metabox.
+	 * This should not be confused with the fields registered with
+	 * cnMetaboxAPI. Those fields should be output using a registered
+	 * action which runs in $this->getMetaBlock().
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @param  array  $metadata The metadata array passed from $this->getMetaBlock(). @see self::getMetaBlock().
+	 *
+	 * @return string
+	 */
+	private function renderMetaBlock( $metadata ) {
+
+		$out = '';
+
+		$defaults = array(
+			'container_tag' => 'ul',
+			'item_tag'      => 'li',
+			'key_tag'       => 'span',
+			'value_tag'     => 'span',
+			'separator'     => ': ',
+			'before'        => '',
+			'after'         => '',
+		);
+
+		$atts = wp_parse_args( apply_filters( 'cn_output_meta_atts', $defaults ), $defaults );
+
+		foreach ( (array) $metadata as $metaID => $meta ) {
+
+			// Do not render any private keys; ie. ones that begin with an underscore
+			// or any fields registered as part of a custom metabox.
+			if ( cnMeta::isPrivate( $meta['meta_key'], 'entry' ) ) continue;
+
+			$out .= apply_filters(
+				'cn_entry_output_meta_key',
+				sprintf( '<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
+					$atts['item_tag'],
+					$atts['key_tag'],
+					trim( $meta['meta_key'] ),
+					$atts['separator'],
+					$atts['value_tag'],
+					implode( (array) $meta['meta_value'], ', ')
+					),
+				$atts,
+				$meta['meta_key'],
+				$meta['meta_value']
+				);
+		}
+
+		if ( empty( $out ) ) return;
+
+		$out = apply_filters(
+			'cn_entry_output_meta_container',
+			sprintf( '<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
+				$atts['container_tag'],
+				$out
+				),
+			$atts,
+			$meta['meta_key'],
+			$meta['meta_value']
+			);
+
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+	}
+
+	/**
+	 * Run the actions registered to custom content blocks.
+	 *
+	 * Render any custom content blocks registered to the `cn_entry_output_content-{id}` action hook.
+	 *
+	 * This will also run any actions registered for a custom metaboxes and its fields.
+	 * The actions should hook into `cn_output_meta_field-{key}` to be rendered.
+	 *
+	 * Accepted option for the $atts property are:
+	 * 	id (string) The custom block ID to render.
+	 * 	order (mixed) array | string  An indexed array of custom content block IDs that should be rendered in the order in the array.
+	 * 		If a string is provided, it should be a comma delimied string containing the content block IDs. It will be converted to an array.
+	 * 	exclude (array) An indexed array of custom content block IDs that should be excluded from being rendered.
+	 * 	include (array) An indexed array of custom content block IDs that should be rendered.
+	 * 		NOTE: Custom content block IDs in `exclude` outweigh custom content block IDs in include. Meaning if the
+	 * 		same custom content block ID exists in both, the custom content block will be excluded.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @uses do_action()
+	 * @uses wp_parse_args()
+	 * @uses apply_filters()
+	 * @uses has_action()
+	 * @param  mixed  $atts array | string [optional] The custom content block(s) to render.
+	 * @param  array  $shortcode_atts [optional] If this is used within the shortcode template loop, the shortcode atts
+	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
+	 * @param  object $template [optional] If this is used within the shortcode template loop, the template object
+	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
+	 *
+	 * @return string The HTML output of the custom content blocks.
+	 */
+	public function getContentBlock( $atts = array(), $shortcode_atts = array(), $template = NULL ) {
+
+		$blockContainerContent = '';
+
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			$settings = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
+
+		} else {
+
+			$settings = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
+		}
+
+		$order    = isset( $settings['order'] ) ? $settings['order'] : array();
+		$include  = isset( $settings['active'] ) ? $settings['active'] : array();
+		$exclude  = empty( $include ) ? $order : array();
+
+		$defaults = array(
+			'id'            => '',
+			'order'         => is_string( $atts ) && ! empty( $atts ) ? $atts : $order,
+			'exclude'       => is_string( $atts ) && ! empty( $atts ) ? '' : $exclude,
+			'include'       => is_string( $atts ) && ! empty( $atts ) ? '' : $include,
+			'layout'        => 'list',
+			'container_tag' => 'div',
+			'block_tag'     => 'div',
+			'header_tag'    => 'h3',
+			'before'        => '',
+			'after'         => '',
+			'return'        => FALSE
+			);
+
+		$atts = wp_parse_args( apply_filters( 'cn_output_content_block_atts', $atts ), $defaults );
+
+		if ( ! empty( $atts['id'] ) ) {
+
+			$blocks = array( $atts['id'] );
+
+		} elseif ( ! empty( $atts['order'] ) ) {
+
+			// If `order` was supplied as a comma delimited string, convert it to an array.
+			if ( is_string( $atts['order'] ) ) {
+
+				$blocks = stripos( $atts['order'], ',' ) !== FALSE ? explode( ',', $atts['order'] ) : array( $atts['order'] );
+
+			} else {
+
+				$blocks = $atts['order'];
+			}
+		}
+
+		// Nothing to render, exit.
+		if ( empty( $blocks ) ) return;
+
+		// Cleanup user input. Trim whitespace and convert to lowercase.
+		$blocks = array_map( 'strtolower', array_map( 'trim', $blocks ) );
+
+		// Output the registered action in the order supplied by the user.
+		foreach ( $blocks as $key ) {
+
+			isset( $blockNumber ) ? $blockNumber++ : $blockNumber = 1;
+
+			// Exclude/Include the metaboxes that have been requested to exclude/include.
+			if ( ! empty( $atts['exclude'] ) ) {
+
+				if ( in_array( $key, $atts['exclude'] ) ) continue;
+
+			} else {
+
+				if ( ! empty( $atts['include'] ) ) {
+
+					if ( ! in_array( $key, $atts['include'] ) ) continue;
+				}
+			}
+
+			ob_start();
+
+			// If the hook has a registered meta data output callback registered, lets run it.
+			if ( has_action( 'cn_output_meta_field-' . $key ) ) {
+
+				// Grab the meta.
+				$results = $this->getMeta( array( 'key' => $key, 'single' => TRUE ) );
+
+				if ( ! empty( $results ) ) {
+
+					do_action( "cn_output_meta_field-$key", $key, $results, $this, $shortcode_atts, $template );
+				}
+			}
+
+			// Render the "Custom Fields" meta block content.
+			if ( $key == 'meta' ) {
+
+				$this->getMetaBlock( array(), $shortcode_atts, $template );
+			}
+
+			$hook = "cn_entry_output_content-$key";
+
+			if ( has_action( $hook ) ) do_action( $hook, $this, $shortcode_atts, $template );
+
+			$blockContent = ob_get_clean();
+
+			if ( empty( $blockContent ) ) continue;
+
+			$blockID = $this->getSlug() . '-' . $blockNumber;
+
+			// Store the title in an array that can be accessed/passed from outside the content block loop.
+			// And if there is no title for some reason, create one from the key.
+			$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+
+			$blockContainerContent .= apply_filters( 'cn_entry_output_content_block',
+				sprintf( '<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
+					sprintf( '<%1$s>%2$s</%1$s>',
+						$atts['header_tag'],
+						$titles[ $blockID ]
+					),
+					$atts['block_tag'],
+					$key,
+					$blockID,
+					$blockContent
+				),
+				$this,
+				$key,
+				$blockID,
+				$titles[ $blockID ],
+				$blockContent,
+				$atts,
+				$shortcode_atts
+			);
+		}
+
+		if ( empty( $blockContainerContent ) ) return;
+
+		$out = apply_filters( 'cn_entry_output_content_block_container',
+			sprintf( '<%1$s class="cn-entry-content-block-%2$s">%3$s</%1$s>' . PHP_EOL,
+				$atts['container_tag'],
+				$atts['layout'],
+				$blockContainerContent
+				),
+			$this,
+			$blockContainerContent,
+			$titles,
+			$atts,
+			$shortcode_atts
+		);
+
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+	}
+
+	/**
 	 * Displays the category list for use in the class tag.
 	 *
 	 * @access public
@@ -2342,7 +2799,7 @@ class cnOutput extends cnEntry
 			'class'  => '',
 			'text'   => __( 'Add to Address Book.', 'connections' ),
 			'title'  => __( 'Download vCard', 'connections' ),
-			'format' => '%text%',
+			'format' => '',
 			'size'   => 24,
 			'follow' => FALSE,
 			'slug'   => '',
@@ -2386,7 +2843,11 @@ class cnOutput extends cnEntry
 		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 
 
-		$out .= str_ireplace( $search , $replace , $atts['format'] );
+		$out .= str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%text%' : $atts['format']
+			);
 
 		$out .= '</span>';
 
@@ -2398,5 +2859,3 @@ class cnOutput extends cnEntry
 		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
 	}
 }
-
-?>

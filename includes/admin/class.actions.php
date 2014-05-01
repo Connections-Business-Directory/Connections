@@ -47,7 +47,7 @@ class cnAdminActions {
 
 			self::$instance = new self;
 
-			self::registerActions();
+			self::register();
 			self::doActions();
 
 		}
@@ -74,7 +74,7 @@ class cnAdminActions {
 	 * @uses add_action()
 	 * @return (void)
 	 */
-	private static function registerActions() {
+	private static function register() {
 
 		// Entry Actions
 		add_action( 'cn_add_entry', array( __CLASS__, 'processEntry' ) );
@@ -82,6 +82,15 @@ class cnAdminActions {
 		add_action( 'cn_duplicate_entry', array( __CLASS__, 'processEntry' ) );
 		add_action( 'cn_delete_entry', array( __CLASS__, 'deleteEntry' ) );
 		add_action( 'cn_set_status', array( __CLASS__, 'setEntryStatus' ) );
+
+		// Process entry categories.
+		add_action( 'cn_process_taxonomy-category', array( __CLASS__, 'processEntryCategory' ), 9, 2 );
+
+		// Entry Meta Action
+		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 9, 2 );
+
+		// Entry Filters
+		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) ); // Geocode the address using Google Geocoding API.
 
 		// Save the user's manage admin page actions.
 		add_action( 'cn_manage_actions', array( __CLASS__, 'entryManagement' ) );
@@ -145,7 +154,7 @@ class cnAdminActions {
 		 */
 
 		// Process user selected filters
-		if ( isset( $_POST['filter'] ) || isset( $_GET['filter'] ) ) self::saveUserFilters();
+		self::saveUserFilters();
 
 		// Grab the bulk action requesteed by user.
 		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? $_POST['action'] : 'none';
@@ -230,11 +239,12 @@ class cnAdminActions {
 	 * @return (void)
 	 */
 	public static function processEntry() {
-		global $wpdb, $connections;
-		$entry = new cnEntry();
-		$form = new cnFormObjects();
+		global $wpdb;
 
-		$action = $_GET['cn-action'] ? $_GET['cn-action'] : $_POST['cn-action'];
+		$entry = new cnEntry();
+		$form  = new cnFormObjects();
+
+		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
 
 		// Setup the redirect URL.
 		$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : 'admin.php?page=connections_add';
@@ -250,7 +260,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-					cnEntry_Action::add( $_POST );
+					$id = cnEntry_Action::add( $_POST );
 
 				} else {
 
@@ -268,7 +278,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-					cnEntry_Action::copy( $_GET['id'], $_POST );
+					$id = cnEntry_Action::copy( $_GET['id'], $_POST );
 
 				} else {
 
@@ -289,7 +299,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
 
-					cnEntry_Action::update( $_GET['id'], $_POST );
+					$id = cnEntry_Action::update( $_GET['id'], $_POST );
 
 				} else {
 
@@ -299,9 +309,190 @@ class cnAdminActions {
 				break;
 		}
 
+		// do_action( 'cn_process_meta-entry', $action, $id );
+		// do_action( 'cn_process_meta-entry-' . $action, $action, $id );
+
 		wp_redirect( get_admin_url( get_current_blog_id(), $redirect) );
 
 		exit();
+	}
+
+	/**
+	 * Add, update or delete the entry categories.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  string $action The action to being performed to an entry.
+	 * @param  int    $id     The entry ID.
+	 *
+	 * @return void
+	 */
+	public static function processEntryCategory( $action, $id ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		/*
+		 * Save the entry category(ies). If none were checked, send an empty array
+		 * which will add the entry to the default category.
+		 */
+		if ( isset( $_POST['entry_category'] ) ) {
+
+			$instance->term->setTermRelationships( $id, $_POST['entry_category'], 'category' );
+
+		} else {
+
+			$instance->term->setTermRelationships( $id, array(), 'category' );
+		}
+
+	}
+
+	/**
+	 * Add, update or delete the entry meta data.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  string $action The action to being performed to an entry.
+	 * @param  int    $id     The entry ID.
+	 *
+	 * @return mixed          array | bool  An array of meta IDs or FALSE on failure.
+	 */
+	public static function processEntryMeta( $action, $id ) {
+
+		if ( ! $id = absint( $id ) ) return FALSE;
+
+		$meta       = array();
+		$newmeta    = array();
+		$metaSelect = array();
+		$metaIDs    = array();
+
+		switch ( $action ) {
+
+			case 'add':
+
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+
+					foreach ( $_POST['newmeta'] as $row ) {
+
+						// If the key begins with an underscore, remove it because those are private.
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+
+						$newmeta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+					}
+				}
+
+				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+				}
+
+				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );
+
+				break;
+
+			case 'copy':
+
+				// Copy any meta associated with the source entry to the new entry.
+				if ( isset( $_POST['meta'] ) || ! empty( $_POST['meta'] ) ) {
+
+					foreach ( $_POST['meta'] as $row ) {
+
+						// If the key begins with an underscore, remove it because those are private.
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+
+						// Add the meta except for thos that the user delted for this entry.
+						if ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) $meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+					}
+				}
+
+				// Lastly, add any new meta the user may have added.
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+
+					foreach ( $_POST['newmeta'] as $row ) {
+
+						// If the key begins with an underscore, remove it because those are private.
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+
+						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+					}
+
+					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
+				}
+
+				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+				}
+
+				$metaIDs['added'] = array_merge( $meta, $newmeta, $metaSelect );
+
+				break;
+
+			case 'update':
+
+				// Query the meta associated to the entry.
+				$results = cnMeta::get( 'entry', $id );
+
+				if ( $results === FALSE ) return array();
+
+				// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
+				foreach ( $results as $metaID => $row ) {
+
+					if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $metaID ] );
+				}
+
+				// Loop thru the associated meta and update any that may have been changed.
+				// If the meta id doesn't exist in the $_POST data, assume the user deleted it.
+				foreach ( $results as $metaID => $row ) {
+
+					// Update the entry meta if it differs.
+					if ( ( isset( $_POST['meta'][ $metaID ]['value'] ) && $_POST['meta'][ $metaID ]['value'] !== $row['meta_value'] ) ||
+						 ( isset( $_POST['meta'][ $metaID ]['key'] )   && $_POST['meta'][ $metaID ]['key']   !== $row['meta_key']   ) &&
+						 ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) ) {
+
+						// If the key begins with an underscore, remove it because those are private.
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+
+						cnMeta::update( 'entry', $id, $_POST['meta'][ $metaID ]['key'], $_POST['meta'][ $metaID ]['value'], $row['meta_value'], $row['meta_key'], $metaID );
+
+						$metaIDs['updated'] = $metaID;
+					}
+
+					if ( isset( $_POST['meta'] ) && $_POST['meta'][ $metaID ]['value'] === '::DELETED::' ) {
+
+						// Record entry meta to be deleted.
+						cnMeta::delete( 'entry', $id, $metaID );
+
+						$metaIDs['deleted'] = $metaID;
+					}
+
+				}
+
+				// Lastly, add any new meta the user may have added.
+				if ( isset( $_POST['newmeta'] ) || ! empty( $_POST['newmeta'] ) ) {
+
+					foreach ( $_POST['newmeta'] as $row ) {
+
+						// If the key begins with an underscore, remove it because those are private.
+						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+
+						$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+					}
+
+					// $newmeta = cnMeta::add( 'entry', $id, $_POST['newmeta']['0']['key'], $_POST['newmeta']['99']['value'] );
+				}
+
+				if ( isset( $_POST['metakeyselect'] ) && $_POST['metakeyselect'] !== '-1' ) {
+
+					$metaSelect[] = cnMeta::add( 'entry', $id, $_POST['metakeyselect'], $_POST['newmeta']['99']['value'] );
+				}
+
+				$metaIDs['added'] = array_merge( $newmeta, $metaSelect );
+
+				break;
+		}
+
+		return $metaIDs;
 	}
 
 	/**
@@ -752,7 +943,7 @@ class cnAdminActions {
 
 						$cat_ID = esc_attr( $cat_ID );
 
-						$result = $connections->retrieve->category( attribute_escape( $cat_ID ) );
+						$result = $connections->retrieve->category( esc_attr( $cat_ID ) );
 						$category = new cnCategory( $result );
 						$category->delete();
 					}

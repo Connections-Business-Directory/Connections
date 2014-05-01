@@ -1,0 +1,292 @@
+<?php
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
+ * Template part loader.
+ *
+ * This class searches template part files which will override the core
+ * template part functions in class cnTemplatePart. It will also allow
+ * the overrding of template cards.
+ *
+ * @package     Connections
+ * @subpackage  Template Part Loader API
+ * @copyright   Copyright (c) 2014, Steven A. Zahm
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       0.8
+ */
+
+/**
+ * Based on Template Loader version  1.1.0 for Plugins by Gary Jones.
+ * @link      http://github.com/GaryJones/Gamajo-Template-Loader
+ * @copyright 2013 Gary Jones
+ * @license   GPL-2.0+
+ *
+ * Originally based on functions in Easy Digital Downloads (thanks Pippin!).
+ */
+class cnLocate {
+
+	/**
+	 * Locate the file paths of the template, CSS and JS files
+	 * based on the supplied array of file names. The file name
+	 * array should be in order of highest priority first, lowest
+	 * priority last.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @uses   filePaths()
+	 * @param  array  $files An indexed array of file names to search for.
+	 *
+	 * @return string        The absolution file system path to the located file.
+	 */
+	public static function file( $files, $return = 'path' ) {
+
+		$path = FALSE;
+
+		// Try to find a template file.
+		foreach ( $files as $fileName ) {
+
+			// Trim off any slashes from the template name.
+			$fileName = untrailingslashit( $fileName );
+
+			// Try locating this template file by looping through the template paths.
+			foreach ( self::filePaths() as $filePath ) {
+				// var_dump( $filePath . $fileName );
+
+				if ( file_exists( $filePath . $fileName ) ) {
+					// var_dump( $filePath . $fileName );
+
+					$path = $filePath . $fileName;
+					break 2;
+				}
+			}
+		}
+
+		switch ( $return ) {
+
+			case 'path':
+
+				$result = $path;
+				break;
+
+			case 'url':
+
+				$result = $path ? cnURL::fromPath( $path ) : $path;
+				break;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns an array of file paths to be search for template files.
+	 *
+	 * The file paths is an indexed array where the highest priority path
+	 * is first and the lowest priority is last.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @uses   trailingslashit()
+	 * @uses   is_child_theme()
+	 * @uses   trailingslashit()
+	 * @uses   get_stylesheet_directory()
+	 * @uses   get_template_directory()
+	 * @uses   getPath()
+	 * @uses   apply_filters()
+	 *
+	 * @return array An indexed array of file paths.
+	 */
+	private static function filePaths() {
+
+		$template_directory = trailingslashit( 'connections-templates' );
+
+		$upload_dir = wp_upload_dir();
+
+		// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
+		if ( is_child_theme() ) {
+
+			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory;
+		}
+
+		$path = array(
+			10 => trailingslashit( get_template_directory() ) . $template_directory,
+			50 => trailingslashit( $upload_dir['basedir'] ) . $template_directory,
+			99 => CN_CUSTOM_TEMPLATE_PATH,
+		);
+
+		$path = apply_filters( 'cn_locate_file_paths', $path );
+
+		// sort the file paths based on priority
+		ksort( $path, SORT_NUMERIC );
+
+		return $path;
+	}
+
+	/**
+	 * An indexed array of file names to be searched for.
+	 *
+	 * The file names is an index array of file names where the
+	 * highest priority is first and the lowest priority is last.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @static
+	 * @uses   apply_filters()
+	 * @uses   get_query_var()
+	 * @param  string $base The base file name. Typically `card` for a template file and the template slug for CSS and JS files.
+	 * @param  string $name The template part name; such as `single` or `category`.
+	 * @param  string $slug The template part slug; such as an entry slug or category slug.
+	 * @param  string $ext  [optional] The template file name extension. Defaults to `php`.
+	 *
+	 * @return array        An indexed array of file names to search for.
+	 */
+	public static function fileNames( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		$files = array();
+
+		if ( get_query_var( 'cn-cat' ) ) {
+
+			$categoryID = get_query_var( 'cn-cat' );
+
+			// Since the `cn-cat` query var can be an array, we'll only add the category slug
+			// template name when querying a single category.
+			if ( ! is_array( $categoryID ) ) {
+
+				$term = $instance->term->getTermBy( 'id', $categoryID, 'category' );
+
+				$files[] = self::fileName( $base, 'category', $term->slug, $ext );
+			}
+
+			$files[] = self::fileName( $base, 'category', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		if ( get_query_var( 'cn-cat-slug' ) ) {
+
+			$files[] = self::fileName( $base, 'category', get_query_var( 'cn-cat-slug'), $ext );
+			$files[] = self::fileName( $base, 'category', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		if ( get_query_var( 'cn-country' ) ) {
+
+			$country = self::queryVarSlug( get_query_var( 'cn-country' ) );
+
+			$files[] = self::fileName( $base, 'country', $country, $ext );
+			$files[] = self::fileName( $base, 'country', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		if ( get_query_var( 'cn-region' ) ) {
+
+			$region  = self::queryVarSlug( get_query_var( 'cn-region' ) );
+
+			$files[] = self::fileName( $base, 'region', $region, $ext );
+			$files[] = self::fileName( $base, 'region', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		if ( get_query_var( 'cn-postal-code' ) ) {
+
+			$zipcode = self::queryVarSlug( get_query_var( 'cn-postal-code' ) );
+
+			$files[] = self::fileName( $base, 'postal-code', $zipcode, $ext );
+			$files[] = self::fileName( $base, 'postal-code', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		if ( get_query_var( 'cn-locality' ) ) {
+
+			$locality = self::queryVarSlug( get_query_var( 'cn-locality' ) );
+
+			$files[] = self::fileName( $base, 'locality', $locality, $ext );
+			$files[] = self::fileName( $base, 'locality', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		if ( get_query_var( 'cn-organization' ) ) {
+
+			$organization = self::queryVarSlug( get_query_var( 'cn-organization' ) );
+
+			$files[] = self::fileName( $base, 'organization', $organization, $ext );
+			$files[] = self::fileName( $base, 'organization', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		if ( get_query_var( 'cn-department' ) ) {
+
+			$department = self::queryVarSlug( get_query_var( 'cn-department' ) );
+
+			$files[] = self::fileName( $base, 'department', $department, $ext );
+			$files[] = self::fileName( $base, 'department', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			$files[] = self::fileName( $base, NULL, get_query_var( 'cn-entry-slug'), $ext );
+			$files[] = self::fileName( $base, 'single', NULL, $ext );
+			// var_dump( $files );
+		}
+
+		// Add the base as the least priority, since it is required.
+		$files[] = self::fileName( $base, NULL, NULL, $ext );
+
+		/**
+		 * Allow template choices to be filtered.
+		 *
+		 * The resulting array should be in the order of most specific first, least specific last.
+		 * e.g. 0 => card-single.php, 1 => card.php
+		 */
+		$files = apply_filters( 'cn_locate_file_names', $files, $base, $name, $slug, $ext );
+		// var_dump( $files );
+
+		return $files;
+	}
+
+	/**
+	 * Create file name from supplied attributes.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @uses   sanitize_file_name()
+	 * @param  string $base The base file name.
+	 * @param  string $name The template part name.
+	 * @param  string $slug The template part slug.
+	 * @param  string $ext  The template file name extension.
+	 *
+	 * @return string       The file name.
+	 */
+	private static function fileName( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
+
+		$name = array( $base, $name, $slug );
+		$name = array_filter( $name );
+		$name = implode( '-', $name ) . '.' . $ext;
+
+		return strtolower( sanitize_file_name( $name ) );
+	}
+
+	/**
+	 * Takes a supplied query var and creates a file system safe slug.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @static
+	 * @uses   sanitize_file_name()
+	 * @param  string $queryVar A query var.
+	 *
+	 * @return string           A file system safe string.
+	 */
+	private static function queryVarSlug( $queryVar ) {
+
+		return strtolower( sanitize_file_name( urldecode( $queryVar ) ) );
+	}
+
+}

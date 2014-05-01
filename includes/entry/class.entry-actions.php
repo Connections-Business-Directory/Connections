@@ -56,6 +56,22 @@ class cnEntry_Action {
 		return self::process( 'add', $data, $id );
 	}
 
+	private static function copyImage( $image ) {
+		// Uses the upload.class.php to handle file uploading and image manipulation.
+		// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
+		require_once CN_PATH . '/includes/php_class_upload/class.upload.php';
+
+		$source = CN_IMAGE_PATH . $image;
+
+		$process_image = new Upload( $source );
+		$process_image->Process( CN_IMAGE_PATH );
+		$process_image->file_safe_name  = true;
+		$process_image->file_auto_rename = true;
+		$image = $process_image->file_dst_name;
+
+		return $image;
+	}
+
 	/**
 	 * Add / Edit / Update / Copy an entry.
 	 *
@@ -79,9 +95,6 @@ class cnEntry_Action {
 		// If copying/editing an entry, the entry data is loaded into the class
 		// properties and then properties are overwritten by the data as needed.
 		if ( ! empty( $id ) ) $entry->set( absint( $id ) );
-
-		// Set the default visibility.
-		$entry->setVisibility( 'unlisted' );
 
 		if ( isset( $data['entry_type'] ) ) $entry->setEntryType( $data['entry_type'] );
 		if ( isset( $data['family_name'] ) ) $entry->setFamilyName( $data['family_name'] );
@@ -119,7 +132,7 @@ class cnEntry_Action {
 		/*
 		 * Process the logo upload --> START <--
 		 */
-		if ( $_FILES['original_logo']['error'] != 4 ) {
+		if ( isset( $_FILES['original_logo'] ) && $_FILES['original_logo']['error'] != 4 ) {
 			// If an entry is being updated and a new logo is uploaded, the old logo needs to be deleted.
 			if ( $entry->getLogoName() != NULL ) {
 				@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
@@ -144,7 +157,7 @@ class cnEntry_Action {
 			if ( $action !== 'update' ) {
 				// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
 				// That way if an entry is deleted, only the entry specific logo will be deleted.
-				if ( $entry->getLogoName() != NULL ) $entry->setLogoName( copyImage( $entry->getLogoName() ) );
+				if ( $entry->getLogoName() != NULL ) $entry->setLogoName( self::copyImage( $entry->getLogoName() ) );
 			}
 		}
 		/*
@@ -189,7 +202,7 @@ class cnEntry_Action {
 
 
 		// Process the entry image upload.
-		if ( $_FILES['original_image']['error'] != 4 ) {
+		if ( isset( $_FILES['original_image'] ) && $_FILES['original_image']['error'] != 4 ) {
 			// If an entry is being updated and a new image is uploaded, the old images need to be deleted.
 			if ( $entry->getImageNameOriginal() != NULL ) {
 				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
@@ -241,10 +254,10 @@ class cnEntry_Action {
 			if ( $action !== 'update' ) {
 				// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
 				// That way if an entry is deleted, only the entry specific images will be deleted.
-				if ( $entry->getImageNameOriginal() != NULL ) $entry->setImageNameOriginal( copyImage( $entry->getImageNameOriginal() ) );
-				if ( $entry->getImageNameThumbnail() != NULL ) $entry->setImageNameThumbnail( copyImage( $entry->getImageNameThumbnail() ) );
-				if ( $entry->getImageNameCard() != NULL ) $entry->setImageNameCard( copyImage( $entry->getImageNameCard() ) );
-				if ( $entry->getImageNameProfile() != NULL ) $entry->setImageNameProfile( copyImage( $entry->getImageNameProfile() ) );
+				if ( $entry->getImageNameOriginal() != NULL ) $entry->setImageNameOriginal( self::copyImage( $entry->getImageNameOriginal() ) );
+				if ( $entry->getImageNameThumbnail() != NULL ) $entry->setImageNameThumbnail( self::copyImage( $entry->getImageNameThumbnail() ) );
+				if ( $entry->getImageNameCard() != NULL ) $entry->setImageNameCard( self::copyImage( $entry->getImageNameCard() ) );
+				if ( $entry->getImageNameProfile() != NULL ) $entry->setImageNameProfile( self::copyImage( $entry->getImageNameProfile() ) );
 			}
 		}
 
@@ -320,12 +333,17 @@ class cnEntry_Action {
 
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_add_entry' ) ) {
+
 					$entry->setStatus( 'approved' );
 					$messageID = 'entry_added';
+
 				} elseif ( current_user_can( 'connections_add_entry_moderated' ) ) {
+
 					$entry->setStatus( 'pending' );
 					$messageID = 'entry_added_moderated';
+
 				} else {
+
 					$entry->setStatus( 'pending' );
 					$messageID = 'entry_added_moderated';
 				}
@@ -349,12 +367,40 @@ class cnEntry_Action {
 
 				// Set moderation status per role capability assigned to the current user.
 				if ( current_user_can( 'connections_edit_entry' ) ) {
-					$entry->setStatus( 'approved' );
-					$messageID = 'entry_updated';
+
+					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_add_entry_moderated' ) ) {
+
+						$entry->setStatus( 'pending' );
+						$messageID = 'entry_updated_moderated';
+
+					} elseif ( $entry->getStatus() == 'approved' && current_user_can( 'connections_add_entry_moderated' ) ) {
+
+						$entry->setStatus( 'approved' );
+						$messageID = 'entry_updated';
+
+					} elseif ( $entry->getStatus() == 'pending' && current_user_can( 'connections_add_entry' ) ) {
+
+						$entry->setStatus( 'approved' );
+						$messageID = 'entry_updated';
+
+					} elseif ( $entry->getStatus() == 'approved' && current_user_can( 'connections_add_entry' ) ) {
+
+						$entry->setStatus( 'approved' );
+						$messageID = 'entry_updated';
+
+					} else {
+
+						$entry->setStatus( 'pending' );
+						$messageID = 'entry_updated_moderated';
+					}
+
 				} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
+
 					$entry->setStatus( 'pending' );
 					$messageID = 'entry_updated_moderated';
+
 				} else {
+
 					$entry->setStatus( 'pending' );
 					$messageID = 'entry_updated_moderated';
 				}
@@ -374,23 +420,17 @@ class cnEntry_Action {
 				break;
 		}
 
-		/*
-		 * Save the entry category(ies). If none were checked, send an empty array
-		 * which will add the entry to the default category.
-		 */
-		if ( isset( $data['entry_category'] ) ) {
+		do_action( 'cn_process_taxonomy-category', $action, $entryID );
+		do_action( 'cn_process_meta-entry', $action, $entryID );
 
-			$connections->term->setTermRelationships( $entryID, $data['entry_category'], 'category' );
-
-		} else {
-
-			$connections->term->setTermRelationships( $entryID, array(), 'category' );
-		}
+		// Refresh the cnEntry object with any updated taxonomy or meta data
+		// that may have been added/updated via actions.
+		$entry->set( $entryID );
 
 		// Run any registered post process actions.
-		$entry = do_action( 'cn_post_process_' . $action . '-entry', $entry );
+		do_action( "cn_post_process_$action-entry", $entry );
 
-		return TRUE;
+		return $entryID;
 	}
 
 	/**
@@ -504,9 +544,97 @@ class cnEntry_Action {
 
 			$entry = new cnEntry( $instance->retrieve->entry( $id ) );
 			$entry->delete( $id );
+
+			// Delete any meta data associated with the entry.
+			self::meta( 'delete', $id );
 		}
 
 		return TRUE;
+	}
+
+	/**
+	 * Geocode the supplied address.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @param  array $address An associative array containing the address to geocode.
+	 * @return array          The address that has been geocoded.
+	 */
+	public static function geoCode( $address ) {
+
+		if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
+
+			//$geocode = new cnGeo();
+			$result = cnGeo::address( $address );
+
+			if ( ! empty( $result ) && isset( $result->latitude ) && isset( $result->longitude ) ) {
+
+				$address['latitude']  = $result->latitude;
+				$address['longitude'] = $result->longitude;
+			}
+
+		}
+
+		return $address;
+	}
+
+	/**
+	 * Add, update or delete the meta of the specified entry ID.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  string $action The action to be performed.
+	 * @param  int    $id     The entry ID.
+	 * @param  array  $meta   [optional] An array of meta data the action is to be performed on.
+	 *
+	 * @return array          The meta IDs of the meta data the action was performed on.
+	 */
+	public static function meta( $action, $id, $meta = array() ) {
+
+		$metaIDs = array();
+
+		switch ( $action ) {
+
+			case 'add':
+
+				foreach ( $meta as $row ) {
+
+					$metaIDs[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+				}
+
+				break;
+
+			case 'update':
+
+				foreach ( $meta as $metaID => $row ) {
+
+					cnMeta::update( 'entry', $id, $row['key'], $row['value'] );
+
+					$metaIDs[] = $metaID;
+				}
+
+				break;
+
+			case 'delete':
+
+				if ( empty( $meta ) ) {
+
+					cnMeta::delete( 'entry', $id );
+
+				} else {
+
+					foreach ( $meta as $metaID => $row ) {
+
+						cnMeta::delete( 'entry', $id, $metaID, $row['key'], $row['value'] );
+
+						$metaIDs[] = $metaID;
+					}
+				}
+
+				break;
+		}
+
+		return $metaIDs;
 	}
 
 }

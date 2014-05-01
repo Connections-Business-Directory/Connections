@@ -22,6 +22,15 @@ class cnRetrieve {
 	public $resultCountNoLimit;
 
 	/**
+	 * Runtime cache of query results.
+	 *
+	 * @access  private
+	 * @since  0.8
+	 * @var array
+	 */
+	private $results = array();
+
+	/**
 	 *
 	 *
 	 * @access public
@@ -42,6 +51,7 @@ class cnRetrieve {
 		$where[]              = 'WHERE 1=1';
 		$having               = array();
 		$orderBy              = array();
+		$random               = FALSE;
 		$visibility           = array();
 
 		$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
@@ -85,7 +95,7 @@ class cnRetrieve {
 		$defaults['radius']                = 10;
 		$defaults['unit']                  = 'mi';
 
-		$defaults['lock']                  = TRUE;
+		$defaults['lock']                  = FALSE;
 
 		$atts = $validate->attributesArray( $defaults, $atts );
 		/*
@@ -97,18 +107,28 @@ class cnRetrieve {
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
 		if ( ! is_admin() && ! $atts['lock'] ) {
+
 			// Category slug
 			$queryCategorySlug = get_query_var( 'cn-cat-slug' );
+
 			if ( ! empty( $queryCategorySlug ) ) {
+
 				// If the category slug is a descendant, use the last slug from the URL for the query.
 				$queryCategorySlug = explode( '/' , $queryCategorySlug );
 
-				if ( isset( $queryCategorySlug[count( $queryCategorySlug )-1] ) ) $atts['category_slug'] = $queryCategorySlug[count( $queryCategorySlug )-1];
+				if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) $atts['category_slug'] = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];
 			}
 
 			// Category ID
 			$queryCategoryID = get_query_var( 'cn-cat' );
 			if ( ! empty( $queryCategoryID ) ) $atts['category'] = $queryCategoryID;
+
+			// Category in
+			$queryCategoryIn = get_query_var( 'cn-cat-in' );
+			if ( ! empty( $queryCategoryIn ) ) {
+
+				$atts['category_in'] = get_query_var( 'cn-cat-in' );
+			}
 
 			// Country
 			$queryCountry = get_query_var( 'cn-country' );
@@ -164,7 +184,7 @@ class cnRetrieve {
 				if ( get_query_var( 'cn-radius' ) ) $atts['radius'] = $wpdb->prepare( '%d', get_query_var( 'cn-radius' ) );
 
 				// Sanitize and set the unit.
-				$atts['unit'] = get_query_var( 'cn-unit' ) ? $wpdb->prepare( '%s', get_query_var( 'cn-unit' ) ): $wpdb->prepare( '%s', $atts['unit'] );
+				$atts['unit'] = get_query_var( 'cn-unit' ) ? sanitize_key( get_query_var( 'cn-unit' ) ) : sanitize_key( $atts['unit'] );
 			}
 		}
 		/*
@@ -326,7 +346,7 @@ class cnRetrieve {
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'term_id', $categoryID );
-				//print_r($results);
+				// var_dump($results);
 
 				foreach ( (array) $results as $term ) {
 
@@ -382,7 +402,7 @@ class cnRetrieve {
 			 */
 		}
 
-		if ( ! empty( $categoryIDs ) || ! empty( $categoryNames ) || ! empty( $categorySlugs ) ) {
+		if ( ! empty( $categoryIDs ) || ! empty( $categoryExcludeIDs ) || ! empty( $categoryNames ) || ! empty( $categorySlugs ) ) {
 			// Set the query string to INNER JOIN the term relationship and taxonomy tables.
 			$join[] = 'INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_TERM_RELATIONSHIP_TABLE . '.entry_id )';
 			$join[] = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' ON ( ' . CN_TERM_RELATIONSHIP_TABLE . '.term_taxonomy_id = ' . CN_TERM_TAXONOMY_TABLE . '.term_taxonomy_id )';
@@ -710,7 +730,15 @@ class cnRetrieve {
 
 				// If one of the order fields is an address region add the INNER JOIN to the CN_ENTRY_ADDRESS_TABLE
 				if ( $field[0] == 'city' || $field[0] == 'state' || $field[0] == 'zipcode' || $field[0] == 'country' ) {
+
 					if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+				}
+
+				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp so it is properly ordered.
+				// Otherwise, it is sorted as a string which can give some very odd results compared to what is expected.
+				if ( $field[0] == 'anniversary' || $field[0] == 'birthday' ) {
+
+					$field[0] = 'FROM_UNIXTIME( ' . $field[0] . ' )';
 				}
 
 				// Check to see if an order flag was set and is a valid order flag.
@@ -720,54 +748,49 @@ class cnRetrieve {
 
 					// If a user included a sort flag that is invalid/mis-spelled it is skipped since it can not be used.
 					if ( array_key_exists( $field[1] , $orderFlags ) ) {
+
 						/*
-								 * The SPECIFIED and RANDOM order flags are special use and should only be used with the id sort field.
-								 * Set the default sort flag if it was use on any other sort field than id.
-								 */
+						 * The SPECIFIED and RANDOM order flags are special use and should only be used with the id sort field.
+						 * Set the default sort flag if it was use on any other sort field than id.
+						 */
 						if ( ( $orderFlags[$field[1]] == 'SPECIFIED' || $orderFlags[$field[1]] == 'RANDOM' ) && $field[0] != 'id' ) $field[1] = 'SORT_ASC';
 
 						switch ( $orderFlags[$field[1]] ) {
-							/*
-									 * Order the results based on the order of the supplied entry IDs
-									 */
-						case 'SPECIFIED':
-							if ( ! empty( $atts['id'] ) ) {
-								$orderBy = array( 'FIELD( id, ' . implode( ', ', (array) $atts['id'] ) . ' )' );
-							}
-							break;
 
 							/*
-									 * Randomize the order of the results.
-									 */
-						case 'RANDOM':
-							/*
-										 * Unfortunately this doesn't work when the joins for categories are added to the query.
-										 * Keep this around to see if it can be made to work.
-										 */
-							/*$from = array('(SELECT id FROM wp_connections WHERE 1=1 ORDER BY RAND() ) AS cn_random');
-										$join[] = 'JOIN ' . CN_ENTRY_TABLE . ' ON (' . CN_ENTRY_TABLE . '.id = cn_random.id)';*/
+							 * Order the results based on the order of the supplied entry IDs
+							 */
+							case 'SPECIFIED':
+
+								if ( ! empty( $atts['id'] ) ) {
+									$orderBy = array( 'FIELD( id, ' . implode( ', ', (array) $atts['id'] ) . ' )' );
+								}
+								break;
 
 							/*
-										 * @TODO: This seems fast enough, better profiling will need to be done.
-										 * @TODO: The session ID can be used as the seed for RAND() to support randomized paginated results.
-										 */
-							$select[] = CN_ENTRY_TABLE . '.id*0+RAND() AS random';
-							$orderBy = array( 'random' );
-							break;
+							 * Randomize the order of the results.
+							 */
+							case 'RANDOM':
 
-							/*
-									 * Return the results in ASC or DESC order.
-									 */
-						default:
-							$orderBy[] = $field[0] . ' ' . $orderFlags[$field[1]];
-							break;
+								$random   = TRUE;
+								break;
+
+								/*
+								 * Return the results in ASC or DESC order.
+								 */
+							default:
+
+								$orderBy[] = $field[0] . ' ' . $orderFlags[$field[1]];
+								break;
 						}
-					}
-					else {
+
+					} else {
+
 						$orderBy[] = $field[0];
 					}
-				}
-				else {
+
+				} else {
+
 					$orderBy[] = $field[0];
 				}
 			}
@@ -788,41 +811,56 @@ class cnRetrieve {
 		 * // END --> Set up the query LIMIT and OFFSET.
 		 */
 
-		/*
-		 * // START --> Build the SELECT query segment.
-		 */
-		$select[] = 'CASE `entry_type`
+		if ( $random ) {
+
+			$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
+
+			$sql = 'SELECT SQL_CALC_FOUND_ROWS *, RAND(' . $seed . ') AS random FROM ( SELECT DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ') AS T ' . $limit . $offset;
+			// print_r($sql);
+
+		} else {
+
+			/*
+			 * // START --> Build the SELECT query segment.
+			 */
+			$select[] = 'CASE `entry_type`
 						  WHEN \'individual\' THEN `last_name`
 						  WHEN \'organization\' THEN `organization`
 						  WHEN \'connection_group\' THEN `family_name`
 						  WHEN \'family\' THEN `family_name`
 						END AS `sort_column`';
-		/*
-		 * // START --> Build the SELECT query segment.
-		 */
+			/*
+			 * // END --> Build the SELECT query segment.
+			 */
 
+			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
+			// print_r($sql);
+		}
 
-		$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
-		// print_r($sql); die;
+		if ( ! $results = $this->results( $sql ) ) {
 
-		$results = $wpdb->get_results( $sql );
+			$results = $wpdb->get_results( $sql );
 
-		// The most recent query to have been executed by cnRetrieve::entries
-		$connections->lastQuery      = $wpdb->last_query;
+			$this->cache( $sql, $results );
 
-		// The most recent query error to have been generated by cnRetrieve::entries
-		$connections->lastQueryError = $wpdb->last_error;
+			// The most recent query to have been executed by cnRetrieve::entries
+			$connections->lastQuery      = $wpdb->last_query;
 
-		// ID generated for an AUTO_INCREMENT column by the most recent INSERT query.
-		$connections->lastInsertID   = $wpdb->insert_id;
+			// The most recent query error to have been generated by cnRetrieve::entries
+			$connections->lastQueryError = $wpdb->last_error;
 
-		// The number of rows returned by the last query.
-		$connections->resultCount    = $wpdb->num_rows;
+			// ID generated for an AUTO_INCREMENT column by the most recent INSERT query.
+			$connections->lastInsertID   = $wpdb->insert_id;
 
-		// The number of rows returned by the last query without the limit clause set
-		$foundRows                       = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
-		$connections->resultCountNoLimit = $foundRows[0]->{'FOUND_ROWS()'};
-		$this->resultCountNoLimit        = $foundRows[0]->{'FOUND_ROWS()'};
+			// The number of rows returned by the last query.
+			$connections->resultCount    = $wpdb->num_rows;
+
+			// The number of rows returned by the last query without the limit clause set
+			$foundRows                       = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
+			$connections->resultCountNoLimit = $foundRows[0]->{'FOUND_ROWS()'};
+			$this->resultCountNoLimit        = $foundRows[0]->{'FOUND_ROWS()'};
+
+		}
 
 		// The total number of entries based on user permissions.
 		// $connections->recordCount         = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'] ) );
@@ -862,15 +900,78 @@ class cnRetrieve {
 		}
 
 		return $results;
-
-		// Return the results ordered.
-		//return $this->orderBy($results, $atts['order_by'], $atts['id']);
 	}
 
-	public function entry( $id ) {
+	/**
+	 * Retrieve a single entry by either `id` or `slug`.
+	 *
+	 * @access  public
+	 * @since  unknown
+	 * @param  mixed  $slid int | string  The entry `id` or `slug`.
+	 *
+	 * @return array        The entry data.
+	 */
+	public function entry( $slid ) {
 		global $wpdb;
 
-		return $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id="%d"' , $id ) );
+		if ( ctype_digit( (string) $slid ) ) {
+
+			$field = 'id';
+			$value = $slid;
+
+		} else {
+
+			$field = 'slug';
+			$value = $slid;
+		}
+
+		$result = $wpdb->get_row( $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE ' . $field . '=%s', $value ) );
+
+		if ( is_null( $result ) ) {
+
+			return FALSE;
+
+		} else {
+
+			return $result;
+		}
+	}
+
+	public static function individuals( $atts = array() ) {
+		global $wpdb;
+
+		$out = array();
+		$where[] = 'WHERE 1=1';
+
+		$defaults = array(
+			'status'                => array( 'approved' ),
+			'visibility'            => array(),
+			'allow_public_override' => FALSE,
+			'private_override'      => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Limit the results to the "individual" entry type.
+		$where[] = 'AND `entry_type` = \'individual\'';
+
+		// Limit the characters that are queried based on if the current user can view public, private or unlisted entries.
+		$where = self::setQueryVisibility( $where, $atts );
+
+		// Limit the characters that are queried based on if the current user can view approved and/or pending entries.
+		$where = self::setQueryStatus( $where, $atts );
+
+		// Create the "Last Name, First Name".
+		$select = '`id`, CONCAT( `last_name`, \', \', `first_name` ) as name';
+
+		$results = $wpdb->get_results( 'SELECT DISTINCT ' . $select . ' FROM ' . CN_ENTRY_TABLE . ' '  . implode( ' ', $where ) . ' ORDER BY `last_name`' );
+
+		foreach ( $results as $row ) {
+
+			$out[ $row->id ] = $row->name;
+		}
+
+		return $out;
 	}
 
 	/**
@@ -1183,15 +1284,22 @@ class cnRetrieve {
 		return $results;
 	}
 
+	// Retrieve the categories.
 	public function entryCategories( $id ) {
 		global $wpdb;
 
-		// Retrieve the categories.
-		$results =  $wpdb->get_results( $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tt.term_taxonomy_id = tr.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tr.entry_id = %d ", $id ) );
-		//SELECT t.*, tt.* FROM wp_connections_terms AS t INNER JOIN wp_connections_term_taxonomy AS tt ON t.term_id = tt.term_id INNER JOIN wp_connections_term_relationships AS tr ON tt.term_taxonomy_id = tr.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tr.entry_id = 325
+		$sql = $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tt.term_taxonomy_id = tr.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tr.entry_id = %d ", $id );
+
+		if ( ! $results = $this->results( $sql ) ) {
+
+			$results = $wpdb->get_results( $sql );
+
+			$this->cache( $sql, $results );
+		}
 
 		if ( ! empty( $results ) ) {
-			usort( $results, array( &$this, 'sortTermsByName' ) );
+
+			usort( $results, array( $this, 'sortTermsByName' ) );
 		}
 
 		return $results;
@@ -2563,6 +2671,50 @@ class cnRetrieve {
 		global $connections;
 
 		return $connections->term->getTermChildrenBy( $field, $value, 'category' );
+	}
+
+	/**
+	 * Cache a query results so results can be used again without an db hit,
+	 * NOTE: This cache is good for each page load; not persistent.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @param  string $sql     The query statement.
+	 * @param  array  $results The results of the query statement.
+	 * @return void
+	 */
+	public function cache( $sql, $results ) {
+
+		// Create a hash so the correct results can be returned.
+		$hash = md5( json_encode( $sql ) );
+
+		$this->results[ $hash ] = $results;
+	}
+
+	/**
+	 * Return the results from a previously run query.
+	 *
+	 * @access private
+	 * @since  0.8
+	 * @param  string $sql The query statement,
+	 * @return mixed       array | bool The results if the query is in the cache. False if it is not.
+	 */
+	public function results( $sql ) {
+
+		// Create a hash so the correct results can be returned.
+		$hash = md5( json_encode( $sql ) );
+
+		// First check to see if the results have been queried already.
+		// If not query the results, store and then return then.
+		if ( array_key_exists( $hash, $this->results ) ) {
+
+			return $this->results[ $hash ];
+
+		} else {
+
+			return FALSE;
+		}
+
 	}
 
 }

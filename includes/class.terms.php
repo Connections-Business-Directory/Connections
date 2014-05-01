@@ -35,30 +35,97 @@ class cnTerms
 	 * @TODO: Add the code necessary to accept arrays for requesting multiple taxonomy types
 	 * @TODO: Add default arguments see /wp-includes/taxonomy.php ->  line 515 to get terms specific to a type
 	 *
+	 * @access public
+	 * @since unknown
 	 * @param array $taxonomies
-	 * @param array $arguments [optional]
+	 * @param array $atts [optional]
+	 *
 	 * @return array
 	 */
-	public function getTerms($taxonomies, $arguments = NULL)
-	{
+	public function getTerms( $taxonomies, $atts = NULL ) {
 		global $wpdb;
 
-		// If the term query has alread been run and the parent/child relationship built, return the stored version rather than quering/building again and again.
+		$defaults = array(
+			'orderby'       => 'name', //(string|array)
+			'order'         => 'ASC', //(string|array)
+			/*'hide_empty'    => true,  to work in as needed to match core WP
+			'exclude'       => array(),
+			'exclude_tree'  => array(),
+			'include'       => array(),
+			'number'        => '',
+			'fields'        => 'all',
+			'slug'          => '',
+			'parent'         => '',
+			'hierarchical'  => true,
+			'child_of'      => 0,
+			'get'           => '',
+			'name__like'    => '',
+			'pad_counts'    => false,
+			'offset'        => '',
+			'search'        => '',
+			'cache_domain'  => 'core'*/
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+
+		// If the term query has alread been run and the parent/child relationship built,
+		// return the stored version rather than quering/building again and again.
 		if ( ! empty( $this->terms ) ) return $this->terms;
 
-		$query = "SELECT t.*, tt.* from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('$taxonomies') ORDER BY name";
+		$query = 'SELECT t.*, tt.* FROM ' . CN_TERMS_TABLE . ' AS t INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN (\'' . ( is_array( $taxonomies) ? implode( "', '", $taxonomies ) : $taxonomies ) . '\')';
 
-		$terms = $wpdb->get_results($query);
-		//print_r($terms);
+		//allows for both a array match on orderby and order and single string values
+		if ( is_array( $atts['orderby'] ) ) {
+
+			$query .= ' ORDER BY ';
+			$i = 0;
+
+			foreach ( $atts['orderby'] as $orderby ) {
+
+				if ( is_array( $atts['order'] ) && isset( $atts['order'][ $i ] ) ) {
+
+					$order = $atts['order'][ $i ]; // lines up with the first value in orderby
+
+				} else {
+
+					$order = is_array( $atts['order'] ) ? $atts['order'][0] : $atts['order'];
+				}
+
+				$query .= sprintf(' ' . ( $i > 0 ? ', ' :' ' ) . ' %s %s', $atts['orderby'][ $i ], $order );
+
+				$i++;
+			}
+
+		} else {
+
+			if ( is_array( $atts['order'] ) ) {
+
+				// orderby was a string but for some odd reason an array
+				//was passed for the order so we assume the  0 index
+				$order = $atts['order'][0];
+
+			} else {
+
+				$order = $atts['order'];
+			}
+
+			$query .= sprintf(' ORDER BY %s %s', $atts['orderby'], $order );
+		}
+
+		// var_dump($query);
+		$terms = $wpdb->get_results( $query );
+		// print_r($terms);
+
 		/*
 		 * Loop thru the results and build an array where key == parent ID and the value == the child objects
 		 *
 		 * NOTE: Currently $taxonomies does not need to be sent, it's not being used in the method. It's
 		 * 		 being left in place for future use.
 		 */
-		foreach ($terms as $term)
-		{
-			$this->buildChildrenArray($term->term_id, $terms, $taxonomies);
+		foreach ( $terms as $term ) {
+
+			$this->buildChildrenArray( $term->term_id, $terms, $taxonomies );
 		}
 
 		/*
@@ -67,17 +134,17 @@ class cnTerms
 		 * NOTE: Currently $taxonomies does not need to be sent, it's not being used in the method. It's
 		 * 		 being left in place for future use.
 		 */
-		foreach($terms as $key => $term)
-		{
-			$term->children = $this->getChildren($term->term_id, $terms, $taxonomies);
+		foreach( $terms as $key => $term ) {
+
+			$term->children = $this->getChildren( $term->term_id, $terms, $taxonomies );
 		}
 
 		/*
 		 * Loop thru the results once more and remove all child objects from the base array leaving only parent objects
 		 */
-		foreach($terms as $key => $term)
-		{
-			if ($this->isChild($term->term_id)) unset($terms[$key]);
+		foreach( $terms as $key => $term ) {
+
+			if ( $this->isChild( $term->term_id ) ) unset( $terms[ $key ] );
 		}
 
 		$this->terms = $terms;
@@ -104,37 +171,47 @@ class cnTerms
 	 *
 	 * @return mixed | False or term object
 	 */
-	public function getTermBy($field, $value, $taxonomy)
-	{
+	public function getTermBy( $field, $value, $taxonomy ) {
 		global $wpdb;
 
-		if ( 'slug' == $field )
-		{
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		if ( 'slug' == $field ) {
+
 			$field = 't.slug';
 			$value = sanitize_title($value);
 			if ( empty($value) ) return false;
-		}
-		else if ( 'name' == $field )
-		{
+
+		} else if ( 'name' == $field ) {
+
 			// Assume already escaped
 			$value = stripslashes($value);
 			$field = 't.name';
-		} else
-		{
+
+		} else {
+
 			$field = 't.term_id';
 			$value = (int) $value;
 		}
 
-		$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND $field = %s LIMIT 1", $taxonomy, $value) );
+		$sql = $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND $field = %s LIMIT 1", $taxonomy, $value);
 
-		if ( !$term )
-		{
+		if ( ! $results = $instance->retrieve->results( $sql ) ) {
+
+			$results = $wpdb->get_row( $sql );
+			$instance->retrieve->cache( $sql, $results );
+		}
+
+		if ( ! $results ) {
+
 			return FALSE;
+
+		} else {
+
+			return $results;
 		}
-		else
-		{
-			return $term;
-		}
+
 	}
 
 	private function getChildren($termID, $terms, $taxonomies)
@@ -295,48 +372,55 @@ class cnTerms
 	 * 							parent - (int)
 	 * 							description - (string)
 	 *
-	 * @param int $term
+	 * @access public
+	 * @param string $term
 	 * @param string $taxonomy
-	 * @param array $attributes
-	 * @return bool
+	 * @param array  $attributes
+	 * @return int                The term id.
 	 */
-	public function addTerm($term, $taxonomy, $attributes)
-	{
-		global $wpdb, $connections;
+	public function addTerm( $term, $taxonomy, $attributes ) {
+		global $wpdb;
 
-		$slug = $attributes['slug'];
+		$slug        = $attributes['slug'];
 		$description = $attributes['description'];
-		$parent = $attributes['parent'];
+		$parent      = $attributes['parent'];
+		$slug        = $this->getUniqueSlug( $slug, $term );
 
-		$slug = $this->getUniqueSlug($slug, $term);
+		$wpdb->insert(
+			CN_TERMS_TABLE,
+			array(
+				'name'       => $term,
+				'slug'       => $slug,
+				'term_group' => 0,
+				),
+			array(
+				'%s',
+				'%s',
+				'%d',
+				)
+			);
 
-		/**
-		 * @TODO: Make sure the term doesn't exist before adding it.
-		 * If term does exist, only the taxonomy table needs to be updated.
-		 */
-		$sql = "INSERT INTO " . CN_TERMS_TABLE . " SET
-			name    	= '" . $wpdb->escape($term) . "',
-			slug    	= '" . $wpdb->escape($slug) . "',
-			term_group	= '0'";
+		$termID = $wpdb->insert_id;
 
-		// If insert fails return NULL.
-		$wpdb->query($sql);
-		unset($sql);
+		$wpdb->insert(
+			CN_TERM_TAXONOMY_TABLE,
+			array(
+				'term_id'     => $termID,
+				'taxonomy'    => $taxonomy,
+				'description' => $description,
+				'count'       => 0,
+				'parent'      => $parent,
+				),
+			array(
+				'%d',
+				'%s',
+				'%s',
+				'%d',
+				'%d',
+				)
+			);
 
-		$sql = "INSERT INTO " . CN_TERM_TAXONOMY_TABLE . " SET
-			term_id    	= '" . $wpdb->insert_id . "',
-			taxonomy   	= '" . $wpdb->escape($taxonomy) . "',
-			description	= '" . $wpdb->escape($description) . "',
-			count		= '0',
-			parent		= '" . $wpdb->escape($parent) . "'";
-
-		/**
-		 * @TODO: Error check the insert and return error
-		 */
-		$wpdb->query($sql);
-		unset($sql);
-
-		return TRUE;
+		return $termID;
 	}
 
 	/**
@@ -356,7 +440,7 @@ class cnTerms
 	 * @return bool
 	 */
 	public function updateTerm( $termID, $taxonomy, $attributes ) {
-		global $wpdb, $connections;
+		global $wpdb;
 
 		$name        = $attributes['name'];
 		$slug        = $attributes['slug'];
@@ -370,40 +454,46 @@ class cnTerms
 		 * Why can't a row be updated that must have a unique value
 		 * if the slug value isn't being changed??????
 		 */
-		$sql = "UPDATE " . CN_TERMS_TABLE . " SET
-				slug		= ''
-				WHERE term_id = '" . $wpdb->escape( $termID ) . "'";
-
-		// If insert fails return NULL.
-		if ( ! $wpdb->query( $sql ) ) return;
-		unset( $sql );
+		$wpdb->update(
+			CN_TERMS_TABLE,
+			array( 'slug' => '' ),
+			array( 'term_id' => $termID ),
+			'%s',
+			'%d'
+			);
 
 		$slug = $this->getUniqueSlug( $slug, $name );
 
-		$sql = "UPDATE " . CN_TERMS_TABLE . " SET
-			name		= '" . $wpdb->escape( $name ) . "',
-			slug		= '" . $wpdb->escape( $slug ) . "',
-			term_group	= '0'
-			WHERE term_id = '" . $wpdb->escape( $termID ) . "'";
-
-		// If insert fails return NULL.
-		if ( ! $wpdb->query( $sql ) ) return;
-		unset( $sql );
+		$wpdb->update(
+			CN_TERMS_TABLE,
+			array(
+				'name'       => $name,
+				'slug'       => $slug,
+				'term_group' => 0
+				),
+			array( 'term_id' => $termID ),
+			array( '%s', '%s', '%d' ),
+			'%d'
+			);
 
 		$ttID = $wpdb->get_var( $wpdb->prepare( "SELECT tt.term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " AS tt INNER JOIN " . CN_TERMS_TABLE . " AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d", $taxonomy, $termID ) );
 
-		$sql = "UPDATE " . CN_TERM_TAXONOMY_TABLE . " SET
-			term_id		= '" . $wpdb->escape( $termID ) . "',
-			taxonomy	= '" . $wpdb->escape( $taxonomy ) . "',
-			description	= '" . $wpdb->escape( $description ) . "',
-			parent		= '" . $wpdb->escape( $parent ) . "'
-			WHERE term_taxonomy_id 	= '" . $wpdb->escape( $ttID ) . "'";
+		$wpdb->update(
+			CN_TERM_TAXONOMY_TABLE,
+			array(
+				'term_id'     => $termID,
+				'taxonomy'    => $taxonomy,
+				'description' => $description,
+				'parent'      => $parent
+				),
+			array( 'term_taxonomy_id' => $ttID ),
+			array( '%d', '%s', '%s', '%d' ),
+			'%d'
+			);
 
 		/**
 		 * @TODO: Error check the insert and return error
 		 */
-		$wpdb->query( $sql );
-		unset( $sql );
 
 		return TRUE;
 	}
@@ -587,7 +677,7 @@ class cnTerms
 				$termCount = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d", $termTaxonomyID) );
 				$wpdb->query( $wpdb->prepare( "UPDATE " . CN_TERM_TAXONOMY_TABLE . " SET count = %d WHERE term_taxonomy_id = %d", $termCount, $termTaxonomyID) );
 
-				$termCount = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d", $termID) );
+				// $termCount = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d", $termID) );
 			}
 		}
 

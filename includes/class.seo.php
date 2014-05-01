@@ -42,6 +42,7 @@ class cnSEO {
 		add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );
 		add_filter( 'wp_page_menu', array( __CLASS__, 'endNav' ), 10, 2 );
 		add_filter( 'wp_nav_menu', array( __CLASS__, 'endNav' ), 10, 2 );
+		// add_filter( 'widget_posts_args', array( __CLASS__, 'startNav' ) ); // This could cause problems since the filter is not re-enabled.
 
 		// Filter the get_parmalink() function to append the Connections related items to the URL.
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
@@ -215,12 +216,11 @@ class cnSEO {
 
 		if ( get_query_var( 'cn-cat' ) ) {
 
-			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , get_query_var( 'cn-cat' ) );
+			if ( is_array( get_query_var( 'cn-cat' ) ) ) return implode( '', $title );
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categorySlug, 'category' );
+			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -271,12 +271,12 @@ class cnSEO {
 	 * @return (string)
 	 */
 	public static function filterPostTitle( $title, $id = 0 ) {
-		global $post, $connections;
+		global $wp_query, $post, $connections;
 
 		// Whether or not to filter the page title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo', 'page_title' ) ) return $title;
 
-		if ( ! is_object( $post ) || $post->ID != $id || ! self::$filterPermalink ) return $title;
+		if ( ! is_object( $post ) || $wp_query->post->ID != $id || ! self::$filterPermalink ) return $title;
 
 		// Coerce $title to be an array.
 		$title = (array) $title;
@@ -297,12 +297,11 @@ class cnSEO {
 
 		if ( get_query_var( 'cn-cat' ) ) {
 
-			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , get_query_var( 'cn-cat' ) );
+			if ( is_array( get_query_var( 'cn-cat' ) ) ) return implode( '', $title );
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categorySlug, 'category' );
+			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -371,12 +370,11 @@ class cnSEO {
 
 		if ( get_query_var( 'cn-cat' ) ) {
 
-			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , get_query_var( 'cn-cat' ) );
+			if ( is_array( get_query_var( 'cn-cat' ) ) ) return;
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categorySlug, 'category' );
+			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -457,3 +455,6 @@ class cnSEO {
 	}
 
 }
+
+// Init the class.
+add_action( 'init', array( 'cnSEO' , 'init' ) );

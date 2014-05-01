@@ -80,7 +80,8 @@ class cnFormatting {
 	 * @param string $string
 	 * @return string
 	 */
-	public function stripNonNumeric( $string ) {
+	public static function stripNonNumeric( $string ) {
+
 		return preg_replace( '/[^0-9]/', '', $string );
 	}
 
@@ -91,7 +92,7 @@ class cnFormatting {
 	 * @param string $value
 	 * @return boolean
 	 */
-	public function toBoolean( &$value ) {
+	public static function toBoolean( &$value ) {
 
 		switch ( strtolower( $value ) ) {
 			case 'yes':
@@ -142,160 +143,220 @@ class cnFormatting {
 			return __('No', 'connections');
 		}
 	}
-}
 
-class cnValidate
-{
-	public function attributesArray($defaults, $untrusted)
-	{
-		//print_r($defaults);
+	/**
+	 * JSON encode objects and arrays.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  mixed $value The value to maybe json_encode.
+	 *
+	 * @return mixed
+	 */
+	public static function maybeJSONencode( $value ) {
 
-		$intersect = array_intersect_key($untrusted, $defaults); // Get data for which is in the valid fields.
-		$difference = array_diff_key($defaults, $untrusted); // Get default data which is not supplied.
-		return array_merge($intersect, $difference); // Merge the results. Contains only valid fields of all defaults.
-	}
+		if ( is_null( $value ) ) {
 
-    /**
-     * Validate the supplied URL.
-     *
-     * return: 1 is returned if good (check for >0 or ==1)
-     * return: 0 is returned if syntax is incorrect
-     * return: -1 is returned if syntax is correct, but url/file does not exist
-     *
-     * @author Luke America
-     * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
-     * @param string $url
-     * @param bool $check_exists [optional]
-     * @return int
-     */
-	public function url( $url , $check_exists = TRUE )
-	{
-	    /**********************************************************************
-	     Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
-	     you can redistribute and/or modify this code under the terms of the
-	     GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
-	    **********************************************************************/
-
-		 // add http:// (here AND in the referenced $url), if needed
-	    if (!$url) {return false;}
-	    if (strpos($url, ':') === false) {$url = 'http://' . $url;}
-	    // auto-correct backslashes (here AND in the referenced $url)
-	    $url = str_replace('\\', '/', $url);
-
-	    // convert multi-byte international url's by stripping multi-byte chars
-	    $url_local = urldecode($url) . ' ';
-
-		if ( function_exists( 'mb_strlen' ) )
-		{
-		    $len = mb_strlen($url_local);
-		    if ($len !== strlen($url_local))
-		    {
-		        $convmap = array(0x0, 0x2FFFF, 0, 0xFFFF);
-		        $url_local = mb_decode_numericentity($url_local, $convmap, 'UTF-8');
-		    }
+			return '';
 		}
 
-	    $url_local = trim($url_local);
+		if ( ! is_scalar( $value ) ) {
 
-	    // now, process pre-encoded MBI's
-	    $regex = '#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i';
-	    $url_test = preg_replace($regex, '$1', htmlentities($url_local, ENT_QUOTES, 'UTF-8'));
-	    if ($url_test != '') {$url_local = $url_test;}
+			return json_encode( $value );
 
-	    // test for bracket-enclosed IP address (IPv6) and modify for further testing
-	    preg_match('#(?<=\[)(.*?)(?=\])#i', $url, $matches);
-	    if ( isset($matches[0]) && $matches[0] )
-	    {
-	        $ip = $matches[0];
-	        if (!preg_match('/^([0-9a-f\.\/:]+)$/', strtolower($ip))) {return false;}
-	        if (substr_count($ip, ':') < 2) {return false;}
-	        $octets = preg_split('/[:\/]/', $ip);
-	        foreach ($octets as $i) {if (strlen($i) > 4) {return false;}}
-	        $ip_adj = 'x' . str_replace(':', '_', $ip) . '.com';
-	        $url_local = str_replace('[' . $ip . ']', $ip_adj, $url_local);
-	    }
+		} else {
 
-	    // test for IP address (IPv4)
-	    $regex = "#^(https?|ftp|news|file)\:\/\/";
-	    $regex .= "([0-9]{1,3}\.[0-9]{1,3}\.)#";
-	    if (preg_match($regex, $url_local))
-	    {
-	        $regex = "#^(https?|ftps)\:\/\/";
-	        $regex .= "([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#";
-	        if (!preg_match($regex, $url_local)) {return false;}
-	        $seg = preg_split('/[.\/]/', $url_local);
-	        if (($seg[2] > 255) || ($seg[3] > 255) || ($seg[4] > 255) || ($seg[5] > 255)) {return false;}
-	    }
+			return $value;
+		}
+	}
 
-	    // patch for wikipedia which can have a 2nd colon in the url
-	    if (strpos(strtolower($url_local), 'wikipedia'))
-	    {
-	        $pos = strpos($url_local, ':');
-	        $url_left = substr($url_local, 0, $pos + 1);
-	        $url_right = substr($url_local, $pos + 1);
-	        $url_right = str_replace(':', '_', $url_right);
-	        $url_local = $url_left . $url_right;
-	    }
+	/**
+	 * Maybe json_decode the supplied value.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  mixed   $value The value to decode.
+	 * @param  boolean $array [optional] Whether or not the JSON decoded value should an object or an associative array.
+	 *
+	 * @return mixed
+	 */
+	public static function maybeJSONdecode( $value, $array = TRUE ) {
 
-	    // construct the REGEX for standard processing
-	    // scheme
-	    $regex = "~^(https?|ftp|news|file)\:\/\/";
-	    // user and password (optional)
-	    $regex .= "([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?";
-	    // hostname or IP address
-	    $regex .= "([a-z0-9+\$_-]+\.)*[a-z0-9+\$_-]{2,4}";
-	    // port (optional)
-	    $regex .= "(\:[0-9]{2,5})?";
-	    // dir/file path (optional)
-	    $regex .= "(\/([a-z0-9+\$_-]\.?)+)*\/?";
-	    // query (optional)
-	    $regex .= "(\?[a-z+&\$_.-][a-z0-9;:@/&%=+\$_.-]*)?";
-	    // anchor (optional)
-	    $regex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?\$~";
+		if ( ! is_string( $value ) || strlen( $value ) == 0 ) {
 
-	    // test it
-	    $is_valid = preg_match($regex, $url_local) > 0;
+			return $value;
+		}
 
-	    // final check for a TLD suffix
-	    if ($is_valid)
-	    {
-	        $url_test = str_replace('-', '_', $url_local);
-	        $regex = '#^(.*?//)*([\w\.\d]*)(:(\d+))*(/*)(.*)$#';
-	        preg_match($regex, $url_test, $matches);
-	        $is_valid = preg_match('#^(.+?)\.+[0-9a-z]{2,4}$#i', $matches[2]) > 0;
-	    }
+		// A JSON encoded string will start and end with either a square bracket of curly bracket.
+		if ( ( $value[0] == '[' && $value[ strlen( $value ) - 1 ] == ']' ) || ( $value[0] == '{' && $value[ strlen( $value ) - 1 ] == '}' ) ) {
 
-	    // check if the url/file exists
-	    if (($check_exists) && ($is_valid))
-	    {
-	        $status = array();
-	        $url_test = str_replace(' ', '%20', $url);
-	        $handle = curl_init($url_test);
-	        curl_setopt($handle, CURLOPT_HEADER, true);
-	        curl_setopt($handle, CURLOPT_NOBODY, true);
-	        curl_setopt($handle, CURLOPT_FAILONERROR, true);
-	        curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
-	        curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
-	        curl_setopt($handle, CURLOPT_FOLLOWLOCATION, false);
-	        curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
-	        preg_match('/HTTP\/.* ([0-9]+) .*/', curl_exec($handle) , $status);
-	        if ($status[1] == 200) {$is_valid = true;}
-	        else {$is_valid = -1;}
-	    }
+			$value = json_decode( $value, $array );
+		}
 
-	    // exit
-	    return $is_valid;
+		if ( is_null( $value ) ) {
+
+			return '';
+
+		} else {
+
+			return $value;
+		}
+	}
+}
+
+class cnValidate {
+
+	public function attributesArray( $defaults, $untrusted ) {
+
+		if ( ! is_array( $defaults ) || ! is_array( $untrusted ) ) return $defaults;
+
+		$intersect  = array_intersect_key( $untrusted, $defaults ); // Get data for which is in the valid fields.
+		$difference = array_diff_key( $defaults, $untrusted ); // Get default data which is not supplied.
+
+		return array_merge( $intersect, $difference ); // Merge the results. Contains only valid fields of all defaults.
 	}
 
 	/**
 	 * Validate the supplied URL.
-     *
-     * return: 1 is returned if good (check for >0 or ==1)
-     * return: 0 is returned if syntax is incorrect
-     * return: -1 is returned if syntax is correct, but email address does not exist
-     *
-     * @author Luke America
-     * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
+	 *
+	 * return: 1 is returned if good (check for >0 or ==1)
+	 * return: 0 is returned if syntax is incorrect
+	 * return: -1 is returned if syntax is correct, but url/file does not exist
+	 *
+	 * @author Luke America
+	 * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
+	 * @param string $url
+	 * @param bool $check_exists [optional]
+	 * @return int
+	 */
+	public function url( $url , $check_exists = TRUE )
+	{
+		/**********************************************************************
+		 Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
+		 you can redistribute and/or modify this code under the terms of the
+		 GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
+		**********************************************************************/
+
+		 // add http:// (here AND in the referenced $url), if needed
+		if (!$url) {return false;}
+		if (strpos($url, ':') === false) {$url = 'http://' . $url;}
+		// auto-correct backslashes (here AND in the referenced $url)
+		$url = str_replace('\\', '/', $url);
+
+		// convert multi-byte international url's by stripping multi-byte chars
+		$url_local = urldecode($url) . ' ';
+
+		if ( function_exists( 'mb_strlen' ) )
+		{
+			$len = mb_strlen($url_local);
+			if ($len !== strlen($url_local))
+			{
+				$convmap = array(0x0, 0x2FFFF, 0, 0xFFFF);
+				$url_local = mb_decode_numericentity($url_local, $convmap, 'UTF-8');
+			}
+		}
+
+		$url_local = trim($url_local);
+
+		// now, process pre-encoded MBI's
+		$regex = '#&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);#i';
+		$url_test = preg_replace($regex, '$1', htmlentities($url_local, ENT_QUOTES, 'UTF-8'));
+		if ($url_test != '') {$url_local = $url_test;}
+
+		// test for bracket-enclosed IP address (IPv6) and modify for further testing
+		preg_match('#(?<=\[)(.*?)(?=\])#i', $url, $matches);
+		if ( isset($matches[0]) && $matches[0] )
+		{
+			$ip = $matches[0];
+			if (!preg_match('/^([0-9a-f\.\/:]+)$/', strtolower($ip))) {return false;}
+			if (substr_count($ip, ':') < 2) {return false;}
+			$octets = preg_split('/[:\/]/', $ip);
+			foreach ($octets as $i) {if (strlen($i) > 4) {return false;}}
+			$ip_adj = 'x' . str_replace(':', '_', $ip) . '.com';
+			$url_local = str_replace('[' . $ip . ']', $ip_adj, $url_local);
+		}
+
+		// test for IP address (IPv4)
+		$regex = "#^(https?|ftp|news|file)\:\/\/";
+		$regex .= "([0-9]{1,3}\.[0-9]{1,3}\.)#";
+		if (preg_match($regex, $url_local))
+		{
+			$regex = "#^(https?|ftps)\:\/\/";
+			$regex .= "([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})#";
+			if (!preg_match($regex, $url_local)) {return false;}
+			$seg = preg_split('/[.\/]/', $url_local);
+			if (($seg[2] > 255) || ($seg[3] > 255) || ($seg[4] > 255) || ($seg[5] > 255)) {return false;}
+		}
+
+		// patch for wikipedia which can have a 2nd colon in the url
+		if (strpos(strtolower($url_local), 'wikipedia'))
+		{
+			$pos = strpos($url_local, ':');
+			$url_left = substr($url_local, 0, $pos + 1);
+			$url_right = substr($url_local, $pos + 1);
+			$url_right = str_replace(':', '_', $url_right);
+			$url_local = $url_left . $url_right;
+		}
+
+		// construct the REGEX for standard processing
+		// scheme
+		$regex = "~^(https?|ftp|news|file)\:\/\/";
+		// user and password (optional)
+		$regex .= "([a-z0-9+!*(),;?&=\$_.-]+(\:[a-z0-9+!*(),;?&=\$_.-]+)?@)?";
+		// hostname or IP address
+		$regex .= "([a-z0-9+\$_-]+\.)*[a-z0-9+\$_-]{2,4}";
+		// port (optional)
+		$regex .= "(\:[0-9]{2,5})?";
+		// dir/file path (optional)
+		$regex .= "(\/([a-z0-9+\$_-]\.?)+)*\/?";
+		// query (optional)
+		$regex .= "(\?[a-z+&\$_.-][a-z0-9;:@/&%=+\$_.-]*)?";
+		// anchor (optional)
+		$regex .= "(#[a-z_.-][a-z0-9+\$_.-]*)?\$~";
+
+		// test it
+		$is_valid = preg_match($regex, $url_local) > 0;
+
+		// final check for a TLD suffix
+		if ($is_valid)
+		{
+			$url_test = str_replace('-', '_', $url_local);
+			$regex = '#^(.*?//)*([\w\.\d]*)(:(\d+))*(/*)(.*)$#';
+			preg_match($regex, $url_test, $matches);
+			$is_valid = preg_match('#^(.+?)\.+[0-9a-z]{2,4}$#i', $matches[2]) > 0;
+		}
+
+		// check if the url/file exists
+		if (($check_exists) && ($is_valid))
+		{
+			$status = array();
+			$url_test = str_replace(' ', '%20', $url);
+			$handle = curl_init($url_test);
+			curl_setopt($handle, CURLOPT_HEADER, true);
+			curl_setopt($handle, CURLOPT_NOBODY, true);
+			curl_setopt($handle, CURLOPT_FAILONERROR, true);
+			curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($handle, CURLOPT_FOLLOWLOCATION, false);
+			curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+			preg_match('/HTTP\/.* ([0-9]+) .*/', curl_exec($handle) , $status);
+			if ($status[1] == 200) {$is_valid = true;}
+			else {$is_valid = -1;}
+		}
+
+		// exit
+		return $is_valid;
+	}
+
+	/**
+	 * Validate the supplied URL.
+	 *
+	 * return: 1 is returned if good (check for >0 or ==1)
+	 * return: 0 is returned if syntax is incorrect
+	 * return: -1 is returned if syntax is correct, but email address does not exist
+	 *
+	 * @author Luke America
+	 * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
 	 * @param string $email
 	 * @param bool $check_mx [optional]
 	 * @return
@@ -303,54 +364,54 @@ class cnValidate
 	public function email( $email , $check_mx = TRUE )
 	{
 		/**********************************************************************
-	     Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
-	     you can redistribute and/or modify this code under the terms of the
-	     GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
-	    **********************************************************************/
+		 Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
+		 you can redistribute and/or modify this code under the terms of the
+		 GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
+		**********************************************************************/
 
 		// check syntax
-	    $email = trim($email);
-	    $regex = '/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
-	    $is_valid = preg_match($regex, $email, $matches);
+		$email = trim($email);
+		$regex = '/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
+		$is_valid = preg_match($regex, $email, $matches);
 
-	    // NOTE: Windows servers do not offer checkdnsrr until PHP 5.3.
-	    // So we create the function, if it doesn't exist.
-	    if(!function_exists('checkdnsrr'))
-	    {
-	        function checkdnsrr($host_name='', $rec_type='')
-	        {
-	            if(!empty($host_name))
-	            {
-	                if(!$rec_type) {$rec_type = 'MX';}
-	                exec("nslookup -type=$rec_type $host_name", $result);
+		// NOTE: Windows servers do not offer checkdnsrr until PHP 5.3.
+		// So we create the function, if it doesn't exist.
+		if(!function_exists('checkdnsrr'))
+		{
+			function checkdnsrr($host_name='', $rec_type='')
+			{
+				if(!empty($host_name))
+				{
+					if(!$rec_type) {$rec_type = 'MX';}
+					exec("nslookup -type=$rec_type $host_name", $result);
 
-	                // Check each line to find the one that starts with the host name.
-	                foreach ($result as $line)
-	                {
-	                    if(eregi("^$host_name", $line))
-	                    {
-	                        return true;
-	                    }
-	                }
-	                return false;
-	            }
-	            return false;
-	        }
-	    }
+					// Check each line to find the one that starts with the host name.
+					foreach ($result as $line)
+					{
+						if(eregi("^$host_name", $line))
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+				return false;
+			}
+		}
 
-	    // check that the server exists and is setup to handle email accounts
-	    if (($is_valid) && ($check_mx))
-	    {
-	        $at_index = strrpos($email, '@');
-	        $domain = substr($email, $at_index + 1);
-	        if (!(checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A')))
-	        {
-	            $is_valid = -1;
-	        }
-	    }
+		// check that the server exists and is setup to handle email accounts
+		if (($is_valid) && ($check_mx))
+		{
+			$at_index = strrpos($email, '@');
+			$domain = substr($email, $at_index + 1);
+			if (!(checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A')))
+			{
+				$is_valid = -1;
+			}
+		}
 
-	    // exit
-	    return $is_valid;
+		// exit
+		return $is_valid;
 	}
 
 	/**
@@ -361,7 +422,7 @@ class cnValidate
 	 * @param string $visibilty
 	 * @return bool
 	 */
-	public function userPermitted($visibilty)
+	public static function userPermitted($visibilty)
 	{
 		global $connections;
 
@@ -399,6 +460,96 @@ class cnValidate
 }
 
 class cnURL {
+
+	/**
+	* @param $url
+	*     The URL to encode
+	*
+	* @return
+	*     A string containing the encoded URL with disallowed
+	*     characters converted to their percentage encodings.
+	*
+	* @link http://publicmind.in/blog/url-encoding/
+	*/
+	public static function encode( $url ) {
+
+		$reserved = array(
+			":" => '!%3A!ui',
+			"/" => '!%2F!ui',
+			"?" => '!%3F!ui',
+			"#" => '!%23!ui',
+			"[" => '!%5B!ui',
+			"]" => '!%5D!ui',
+			"@" => '!%40!ui',
+			"!" => '!%21!ui',
+			"$" => '!%24!ui',
+			"&" => '!%26!ui',
+			"'" => '!%27!ui',
+			"(" => '!%28!ui',
+			")" => '!%29!ui',
+			"*" => '!%2A!ui',
+			"+" => '!%2B!ui',
+			"," => '!%2C!ui',
+			";" => '!%3B!ui',
+			"=" => '!%3D!ui',
+			"%" => '!%25!ui',
+			);
+
+		$url = rawurlencode( $url );
+		$url = preg_replace( array_values( $reserved ), array_keys( $reserved ), $url );
+
+		return $url;
+	}
+
+	/**
+	 * Take a URL and see if it's prefixed with a protocol, if it's not then it will add the default prefix to the start of the string.
+	 *
+	 * @access public
+	 * @since 0.8
+	 * @param  string $url
+	 * @param  string $protocal
+	 * @return string
+	 */
+	public static function prefix( $url, $protocal = 'http://' ) {
+
+		if ( ! preg_match( "~^(?:f|ht)tps?://~i", $url ) ) {
+
+			$url = $protocal . $url;
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Create the URL to a file from its absolute system path.
+	 *
+	 * NOTE: This method can not be used in any function that is
+	 * executed prior to the `after_setup_theme` action hook.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @uses   untrailingslashit()
+	 * @uses   get_stylesheet_directory_uri()
+	 * @uses   get_stylesheet_directory()
+	 * @param  string $path The file path.
+	 *
+	 * @return string       The URL to the file.
+	 */
+	public static function fromPath( $path ) {
+
+		// Get correct URL and path to wp-content.
+		$content_url = untrailingslashit( dirname( dirname( get_stylesheet_directory_uri() ) ) );
+		$content_dir = untrailingslashit( dirname( dirname( get_stylesheet_directory() ) ) );
+
+		// Fix path on Windows.
+		$path        = str_replace( '\\', '/', $path );
+		$content_dir = str_replace( '\\', '/', $content_dir );
+
+		// Create URL.
+		$url         = str_replace( $content_dir, $content_url, $path );
+
+		return $url;
+	}
 
 	/**
 	 * Create a permalink.
@@ -490,6 +641,26 @@ class cnURL {
 					$permalink = trailingslashit( $permalink . 'view/all/' );
 				} else {
 					$permalink = add_query_arg( 'cn-view', 'all' , $permalink );
+				}
+
+				break;
+
+			case 'submit':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . 'submit/' );
+				} else {
+					$permalink = add_query_arg( 'cn-view', 'submit' , $permalink );
+				}
+
+				break;
+
+			case 'edit':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . urlencode( $atts['slug'] ) . '/edit' );
+				} else {
+					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail', 'cn-process' => 'edit' ) , $permalink );
 				}
 
 				break;
@@ -605,5 +776,82 @@ class cnURL {
 
 		if ( $atts['return'] ) return $out;
 		echo $out;
+	}
+}
+
+class cnUtility {
+
+	/**
+	 * Get user IP.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @link   http://stackoverflow.com/a/6718472
+	 *
+	 * @return string The IP address.
+	 */
+	public static function getIP() {
+
+		foreach ( array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key ) {
+
+			if ( array_key_exists( $key, $_SERVER ) === TRUE ) {
+
+				foreach ( array_map( 'trim', explode( ',', $_SERVER[ $key ] ) ) as $ip ) {
+
+					if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) !== FALSE ) {
+
+						return $ip;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Returns v4 compliant UUID.
+	 *
+	 * @access public
+	 * @since  0.8
+	 * @link   http://stackoverflow.com/a/15875555
+	 * @link   http://www.php.net/manual/en/function.uniqid.php#94959
+	 *
+	 * @return string
+	 */
+	public static function getUUID() {
+
+		if ( function_exists( 'openssl_random_pseudo_bytes' ) ) {
+
+			$data    = openssl_random_pseudo_bytes(16);
+
+			$data[6] = chr( ord( $data[6] ) & 0x0f | 0x40 ); // set version to 0010
+			$data[8] = chr( ord( $data[8] ) & 0x3f | 0x80 ); // set bits 6-7 to 10
+
+			return vsprintf( '%s%s-%s-%s-%s-%s%s%s', str_split( bin2hex( $data ), 4 ) );
+
+		} else {
+
+			return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+
+			// 32 bits for "time_low"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+
+			// 16 bits for "time_mid"
+			mt_rand(0, 0xffff),
+
+			// 16 bits for "time_hi_and_version",
+			// four most significant bits holds version number 4
+			mt_rand(0, 0x0fff) | 0x4000,
+
+			// 16 bits, 8 bits for "clk_seq_hi_res",
+			// 8 bits for "clk_seq_low",
+			// two most significant bits holds zero and one for variant DCE1.1
+			mt_rand(0, 0x3fff) | 0x8000,
+
+			// 48 bits for "node"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+			);
+
+		}
+
 	}
 }

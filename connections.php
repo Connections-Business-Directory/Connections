@@ -3,13 +3,13 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 0.7.9.7
+ * Version: 0.8.3
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
  * Domain Path: languages
  *
- * Copyright 2009  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
+ * Copyright 2014  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
  *
  * Connections is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as
@@ -25,8 +25,8 @@
  *
  * @package Connections
  * @category Core
- * @author Steven A. ZAhm
- * @version 0.7.9.7
+ * @author Steven A. Zahm
+ * @version 0.8.3
  */
 
 // Exit if accessed directly
@@ -129,62 +129,20 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				add_action( 'init', array( __CLASS__ , 'loadTextdomain' ) );
 
 				/*
-				 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
-				 */
-				add_filter( 'cn_register_settings_tabs' , array( 'cnRegisterSettings', 'registerSettingsTabs' ) , 10 , 1 );
-				add_filter( 'cn_register_settings_sections' , array( 'cnRegisterSettings', 'registerSettingsSections' ) , 10 , 1 );
-				add_filter( 'cn_register_settings_fields' , array( 'cnRegisterSettings', 'registerSettingsFields' ) , 10 , 1 );
-
-				// Init the Template Factory API
-				cnTemplateFactory::init();
-
-				// Init the Template Parts API
-				cnTemplatePart::init();
-
-				// Register all valid query variables.
-				cnRewrite::init();
-
-				// Init the SEO class.
-				if ( ! is_admin() ) cnSEO::init();
-
-				// Init the email template API.
-				cnEmail_Template::init();
-
-				// Register the default email templates.
-				cnEmail_DefaultTemplates::init();
-
-				// Register and Enqueue the CSS and JavaScript libraries.
-				cnScript::init();
-
-				/*
-				 * Register the admin menu and functions. These must hooked and run before the `init` hook.
-				 */
-				add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );
-				add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
-
-				/*
-				 * Add the filter to update the user settings when the "Apply" button is clicked.
-				 * NOTE: This relies on the the Screen Options class by Janis Elsts
-				 * NOTE: This filter must be init here otherwise it registers to late to be run.
-				 */
-				add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 10 , 3 );
-
-				/*
 				 * Process front end actions.
 				 */
 				add_action( 'template_redirect' , array( __CLASS__, 'frontendActions' ) );
-
 
 				// Activation/Deactivation hooks
 				register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'activate' ) );
 				register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'deactivate' ) );
 
-				//@TODO: Create uninstall method to remove options and tables.
+				// @TODO: Create uninstall method to remove options and tables.
 				// register_uninstall_hook( dirname(__FILE__) . '/connections.php', array('connectionsLoad', 'uninstall') );
 
 				// Init the options if there is a version change just in case there were any changes.
-				if ( version_compare( self::$instance->options->getVersion() , CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
-				//$connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
+				if ( version_compare( self::$instance->options->getVersion(), CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
+				// $connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
 
 				do_action( 'cn_loaded' );
 			}
@@ -208,8 +166,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Version Constants
 			 */
-			define( 'CN_CURRENT_VERSION', '0.7.9.7' );
+			define( 'CN_CURRENT_VERSION', '0.8.3' );
 			define( 'CN_DB_VERSION', '0.1.9' );
+
+			/*
+ 			 * Used for EDD SL Updater
+ 			 */
+ 			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
 
 			/*
 			 * Core Constants
@@ -342,27 +305,59 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/class.form.php'; // Required for activation
 			//date objects
 			require_once CN_PATH . 'includes/class.date.php'; // Required for activation, entry list, add entry
-			//entry objects
-			require_once CN_PATH . 'includes/class.entry.php'; // Required for activation, entry list
-			require_once CN_PATH . 'includes/class.entry-actions.php';
+
+			// The class for managing metaboxes.
+			// Must require BEFORE class.functions.php.
+			require_once CN_PATH . 'includes/class.metabox-api.php';
+
+			// The class for registering the core metaboxes and fields for the add/edit entry admin pages.
+			// Must require AFTER class.metabox-api.php.
+			require_once CN_PATH . 'includes/class.metabox-entry.php';
+
+			/*
+			 * Entry classes. // --> START <-- \\
+			 */
+
+			// Entry data.
+			require_once CN_PATH . 'includes/entry/class.entry-data.php'; // Required for activation, entry list
+
+			// Entry HTML template blocks.
+			require_once CN_PATH . 'includes/entry/class.entry-output.php'; // Required for activation, entry list
+			require_once CN_PATH . 'includes/entry/class.entry-html.php';
+			require_once CN_PATH . 'includes/entry/class.entry-shortcode.php';
+
+			// Entry vCard.
+			require_once CN_PATH . 'includes/entry/class.entry-vcard.php'; // Required for front end
+
+			// Entry actions.
+			require_once CN_PATH . 'includes/entry/class.entry-actions.php';
+
+			/*
+			 * Entry classes. // --> END <-- \\
+			 */
+
+			// HTML elements class.
+			require_once CN_PATH . 'includes/class.html.php';
+
+			// Meta API
+			require_once CN_PATH . 'includes/class.meta.php';
 
 			//plugin utility objects
 			require_once CN_PATH . 'includes/class.utility.php'; // Required for activation, entry list
-			//plugin template objects
-			require_once CN_PATH . 'includes/class.output.php'; // Required for activation, entry list
-			//builds vCard
-			require_once CN_PATH . 'includes/class.vcard.php'; // Required for front end
+
+			// Sanitization.
+			require_once CN_PATH . 'includes/class.sanitize.php';
 
 			// geocoding
 			require_once CN_PATH . 'includes/class.geo.php'; // Required
 
-			//shortcodes
-			require_once CN_PATH . 'includes/inc.shortcodes.php'; // Required for front end
+			// Shortcodes
+			// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
+			require_once CN_PATH . 'includes/shortcode/inc.shortcodes.php';
+			require_once CN_PATH . 'includes/shortcode/class.shortcode.php';
+			require_once CN_PATH . 'includes/shortcode/class.shortcode-connections.php';
 
-			//templates
-			require_once CN_PATH . 'includes/template/class.template-api.php';
-			require_once CN_PATH . 'includes/template/class.template-parts.php';
-			require_once CN_PATH . 'includes/template/class.template.php';
+			// require_once CN_PATH . 'includes/class.shortcode-upcoming_list.php';
 
 			// The class that inits the registered query vars, rewites reuls and canonical redirects.
 			require_once CN_PATH . 'includes/class.rewrite.php';
@@ -377,22 +372,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/settings/class.settings.php';
 
 			// Load the class that manages the registration and enqueueing of CSS and JS files.
+			require_once CN_PATH . 'includes/class.locate.php';
 			require_once CN_PATH . 'includes/class.scripts.php';
-
-			// Load the included templates that use the templates API introduced in 0.7.6
-			include_once CN_PATH . 'templates/names/names.php';
-			include_once CN_PATH . 'templates/card/card.php';
-			include_once CN_PATH . 'templates/card-bio/card-bio.php';
-			include_once CN_PATH . 'templates/card-single/card-single.php';
-			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
-			include_once CN_PATH . 'templates/profile/profile.php';
-			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
-			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
-			include_once CN_PATH . 'templates/birthday-dark/birthday-dark.php';
-			include_once CN_PATH . 'templates/birthday-light/birthday-light.php';
-			include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
-			include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';
-			include_once CN_PATH . 'templates/dashboard-upcoming/dashboard-upcoming.php';
 
 			// Class for processing email.
 			require_once CN_PATH . 'includes/email/class.email.php';
@@ -400,8 +381,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Class for handling email template registration and management.
 			require_once CN_PATH . 'includes/email/class.email-template-api.php';
 
-			// Class for registering the default email templates.
+			// Class for registering the core email templates.
 			require_once CN_PATH . 'includes/email/class.default-template.php';
+
+			// require_once CN_PATH . 'includes/class.results.php';
 
 			if ( is_admin() ) {
 
@@ -420,14 +403,22 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// Class used for managing role capabilites.
 				require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
-				// The class for adding admin menu adn registering the menu callbacks.
+				// The class for adding admin menu and registering the menu callbacks.
 				require_once CN_PATH . 'includes/admin/class.menu.php';
+
+				// The class for registering the core metaboxes for the dashboard admin page.
+				// Must require AFTER class.metabox-api.php.
+				require_once CN_PATH . 'includes/admin/class.metabox-dashboard.php';
 
 				// The class for processing admin actions.
 				require_once CN_PATH . 'includes/admin/class.actions.php';
 
 				// The class for registering general admin actions.
+				// Must require AFTER class.metabox-api.php and class.actions.php.
 				require_once CN_PATH . 'includes/admin/class.functions.php';
+
+				// The class for managing license keys and settings.
+				require_once CN_PATH . 'includes/admin/class.license.php';
 
 			} else {
 
@@ -436,6 +427,29 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			}
 
+			// Include the core templates that use the Template APIs introduced in 0.7.6
+			// Must include BEFORE class.template-api.php.
+			include_once CN_PATH . 'templates/names/names.php';
+			include_once CN_PATH . 'templates/card/card-default.php';
+			include_once CN_PATH . 'templates/card-bio/card-bio.php';
+			include_once CN_PATH . 'templates/card-single/card-single.php';
+			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
+			include_once CN_PATH . 'templates/profile/profile.php';
+			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
+			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
+			include_once CN_PATH . 'templates/birthday-dark/birthday-dark.php';
+			include_once CN_PATH . 'templates/birthday-light/birthday-light.php';
+			include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
+			include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';
+			include_once CN_PATH . 'templates/dashboard-upcoming/dashboard-upcoming.php';
+
+			// Template APIs.
+			// Must require AFTER the core templates.
+			require_once CN_PATH . 'includes/template/class.template-api.php';
+			require_once CN_PATH . 'includes/template/class.template-parts.php';
+			require_once CN_PATH . 'includes/template/class.template-shortcode.php';
+			require_once CN_PATH . 'includes/template/class.template-compatibility.php';
+			require_once CN_PATH . 'includes/template/class.template.php';
 		}
 
 		/**
@@ -571,6 +585,21 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					update_option( 'connections_search', $options );
 					unset( $options );
 
+				case ( version_compare( $version, '0.8', '<' ) ) :
+					/*
+					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 */
+					$options = get_option( 'connections_compatibility' );
+					$options['css'] = 1;
+
+					update_option( 'connections_compatibility', $options );
+					unset( $options );
+
+					$options = get_option( 'connections_display_results' );
+					$options['search_message'] = 1;
+
+					update_option( 'connections_display_results', $options );
+					unset( $options );
 			}
 
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();
@@ -661,15 +690,15 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Create the required directories and attempt to make them writable.
 			cnFileSystem::mkdirWritable( CN_CACHE_PATH );
 			cnFileSystem::mkdirWritable( CN_IMAGE_PATH );
-			cnFileSystem::mkdirWritable( CN_CUSTOM_TEMPLATE_PATH );
+			// cnFileSystem::mkdirWritable( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Add a blank index.php file.
 			cnFileSystem::mkIndex( CN_IMAGE_PATH );
-			cnFileSystem::mkIndex( CN_CUSTOM_TEMPLATE_PATH );
+			// cnFileSystem::mkIndex( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Add an .htaccess file, create it if one doesn't exist, and add the no indexes option.
 			// cnFileSystem::noIndexes( CN_IMAGE_PATH ); // Causes some servers to respond w/ 403 when servering images.
-			cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
+			// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Create a .htaccess file in the timthumb folder to allow it to be called directly.
 			cnFileSystem::permitTimThumb( CN_PATH . 'includes/libraries/timthumb' );

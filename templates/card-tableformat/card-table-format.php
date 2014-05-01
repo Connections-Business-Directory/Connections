@@ -1,13 +1,22 @@
 <?php
-
 /**
- * Card Template using a table.
+ * @package    Connections
+ * @subpackage Template : Table Entry Card
+ * @author     Steven A. Zahm
+ * @since      0.7.9
+ * @license    GPL-2.0+
+ * @link       http://connections-pro.com
+ * @copyright  2013 Steven A. Zahm
  *
- * @package     Connections
- * @subpackage  Template : Bio Card
- * @copyright   Copyright (c) 2013, Steven A. Zahm
- * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       0.7.9
+ * @wordpress-plugin
+ * Plugin Name:       Connections Table Entry Card - Template
+ * Plugin URI:        http://connections-pro.com
+ * Description:       This is a variation of the default template which is formatted using a table. This template is recommended when compatibility with Internet Explorer 6 is required.
+ * Version:           2.0.1
+ * Author:            Steven A. Zahm
+ * Author URI:        http://connections-pro.com
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 // Exit if accessed directly
@@ -24,7 +33,7 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 				'name'        => 'Table Entry Card',
 				'slug'        => 'card-tableformat',
 				'type'        => 'all',
-				'version'     => '2.0',
+				'version'     => '2.0.1',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This is a variation of the default template which is formatted using a table. This template is recommended when compatibility with Internet Explorer 6 is required.',
@@ -42,10 +51,11 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( $this, 'card' ) ) );
+			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
+			$template->part( array( 'tag' => 'card-single', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 		}
 
-		public function card( $entry ) {
+		public static function card( $entry, $template, $atts ) {
 
 			?>
 
@@ -85,6 +95,16 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 			    </tr>
 
 			    <tr>
+			    	<td colspan="2">
+
+			    		<?php $entry->getContentBlock( $atts['content'], $atts, $template ); ?>
+
+			    		<div style="display: block; margin-bottom: 8px;"><?php $entry->getCategoryBlock( array( 'separator' => ', ', 'before' => '<span>', 'after' => '</span>' ) ); ?></div>
+
+			    	</td>
+			    </tr>
+
+			    <tr>
 			        <td valign="bottom" style="vertical-align: top;">
 			        	<?php if ( cnSettingsAPI::get( 'connections', 'connections_display_entry_actions', 'vcard' ) ) $entry->vcard( array( 'before' => '<span>', 'after' => '</span>' ) ); ?>
 			        </td>
@@ -119,5 +139,6 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 
 	}
 
+	// This action is ran if the template is loaded by core to register the template.
 	add_action( 'cn_register_template', array( 'CN_Card_Table_Format_Template', 'register' ) );
 }

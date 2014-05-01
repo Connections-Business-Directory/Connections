@@ -48,6 +48,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		private static $quickTagIDs = array();
 
 		/**
+		 * The array of all registered sortable IDs.
+		 * @var array
+		 */
+		private static $sortableIDs = array();
+
+		/**
 		 * Store the default values of registered settings.
 		 * Will be use to store the default values if they do not exist in the db.
 		 *
@@ -62,10 +68,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @since 0.7.3.0
 		 * @return void
 		 */
-		public static function getInstance()
-		{
-			if ( ! self::$instance )
-			{
+		public static function getInstance() {
+
+			if ( ! self::$instance ) {
+
 				self::$instance = new cnSettingsAPI();
 				self::$instance->init();
 			}
@@ -92,14 +98,14 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function init() {
 
 			// Register the settings tabs.
-			add_action( 'admin_init' , array( __CLASS__, 'registerTabs' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'registerTabs' ), .1 );
 
 			// Register the settings sections.
-			add_action( 'admin_init' , array( __CLASS__, 'registerSections' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'registerSections' ), .1 );
 
 			// Register the sections fields.
-			add_action( 'admin_init' , array( __CLASS__, 'addSettingsField' ), .1 );
-			add_action( 'init' , array( __CLASS__, 'registerFields' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), .1 );
+			add_action( 'init', array( __CLASS__, 'registerFields' ), .1 );
 		}
 
 		/**
@@ -124,16 +130,16 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function registerTabs() {
 
 			$tabs = array();
-			$out = array();
+			$out  = array();
 
-			$tabs = apply_filters('cn_register_settings_tabs', $tabs);
-			$tabs = apply_filters('cn_filter_settings_tabs', $tabs);
+			$tabs = apply_filters( 'cn_register_settings_tabs', $tabs );
+			$tabs = apply_filters( 'cn_filter_settings_tabs', $tabs );
 			//var_dump($tabs);
 
-			if ( empty($tabs) ) return array();
+			if ( empty( $tabs ) ) return array();
 
 			foreach ( $tabs as $key => $tab ) {
-				$out[$tab['page_hook']][] = $tab;
+				$out[ $tab['page_hook'] ][] = $tab;
 			}
 
 			self::$tabs = $out;
@@ -172,26 +178,28 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function registerSections() {
 
 			$sections = array();
-			$sort = array();
+			$sort     = array();
 
 			$sections = apply_filters('cn_register_settings_sections', $sections);
 			$sections = apply_filters('cn_filter_settings_sections', $sections);
 			//print_r($sections);
 
-			if ( empty($sections) ) return;
+			if ( empty( $sections ) ) return;
 
-			foreach ( $sections as $key => $section )
-			{
+			foreach ( $sections as $key => $section ) {
+
 				// Store the position values so an array multi sort can be done to postion the tab sections in the desired order.
 				( isset( $section['position'] ) && ! empty( $section['position'] ) ) ? $sort[] = $section['position'] : $sort[] = 0;
 			}
 
-			if ( ! empty( $sections ) )
-			{
-				array_multisort( $sort , $sections );
+			if ( ! empty( $sections ) ) {
 
-				foreach ( $sections as $section )
-				{
+				array_multisort( $sort, $sections );
+
+				foreach ( $sections as $section ) {
+
+					$id = isset( $section['plugin_id'] ) && $section['plugin_id'] !== substr( $section['id'], 0, strlen( $section['plugin_id'] ) ) ? $section['plugin_id'] . '_' . $section['id'] : $section['id'];
+
 					if ( isset( $section['tab'] ) && ! empty( $section['tab'] ) ) $section['page_hook'] = $section['page_hook'] . '-' . $section['tab'];
 
 					if ( ! isset( $section['callback'] ) || empty( $section['callback'] ) ) $section['callback'] = '__return_false';
@@ -201,9 +209,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					 * http://codex.wordpress.org/Function_Reference/add_settings_section
 					 */
 					add_settings_section(
-						$section['id'] ,
-						$section['title'] ,
-						$section['callback'] ,
+						$id,
+						$section['title'],
+						$section['callback'],
 						$section['page_hook']
 					);
 					//global $wp_settings_sections;print_r($wp_settings_sections);
@@ -301,12 +309,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 */
 		public static function registerFields() {
 
-			$fields = array();
-			$sort = array();
+			$fields  = array();
+			$sort    = array();
 			$options = array();
 
 			$fields = apply_filters('cn_register_settings_fields', $fields);
-			$fields = apply_filters('cn_filter_settings_fields', $fields);
+			$fields = apply_filters('cn_filter_settings_fields', $fields); // @todo:  At some point delete this line
 			//var_dump($fields);
 
 			if ( empty($fields) ) return;
@@ -316,18 +324,33 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				( isset( $field['position'] ) && ! empty( $field['position'] ) ) ? $sort[] = $field['position'] : $field[] = 0;
 			}
 
-			array_multisort( $sort , $fields );
+			array_multisort( $sort, $fields );
 
 			foreach ( $fields as $field ) {
 
 				// Add the tab id to the page hook if the field was registerd to a specific tab.
 				if ( isset( $field['tab'] ) && ! empty( $field['tab'] ) ) $field['page_hook'] = $field['page_hook'] . '-' . $field['tab'];
 
-				// If the section was not set or supplied empty set the value to 'default'. This is WP core behaviour.
-				$section = ! isset($field['section']) || empty($field['section']) ? 'default' : $field['section'];
+				// If the section was not set or supplied empty set the value to 'default'. This is WP core behavior.
+				if ( ! isset( $field['section'] ) || empty( $field['section'] ) ) {
+
+					$section = 'default';
+
+				} else {
+
+					$section = $field['plugin_id'] !== substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) ? $field['plugin_id'] . '_' . $field['section'] : $field['section'];
+				}
 
 				// If the option was not registered to a section or registered to a WP core section, set the option_name to the setting id.
-				$optionName = isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array($field['section'], self::$coreSections) ? $field['section'] : $field['id'];
+				// $optionName = isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array($field['section'], self::$coreSections) ? $field['section'] : $field['id'];
+				if ( isset( $field['section'] ) && ! empty( $field['section'] ) && ! in_array( $field['section'], self::$coreSections ) ) {
+
+					$optionName = $field['plugin_id'] !== substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) ? $field['section'] = $field['plugin_id'] . '_' . $field['section'] : $field['section'];
+
+				} else {
+
+					$optionName = $field['id'];
+				}
 
 				$options['id'] = $field['id'];
 				$options['type'] = $field['type'];
@@ -336,18 +359,18 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				if ( isset( $field['options'] ) ) $options['options'] = $field['options'];
 
 				$options = array(
-					/*'tab' => $field['tab'],*/
-					'section' => $section,
-					'id' => $field['id'],
-					'type' => $field['type'],
-					'size' => isset( $field['size'] ) ? $field['size'] : NULL,
-					'title' => $field['title'],
-					'desc' => isset( $field['desc'] ) ? $field['desc'] : '',
-					'help' => isset( $field['help'] ) ? $field['help'] : '',
-					'show_option_none' => isset( $field['show_option_none'] ) ? $field['show_option_none'] : '',
+					/*'tab'             => $field['tab'],*/
+					'section'           => $section,
+					'id'                => $field['id'],
+					'type'              => $field['type'],
+					'size'              => isset( $field['size'] ) ? $field['size'] : NULL,
+					'title'             => $field['title'],
+					'desc'              => isset( $field['desc'] ) ? $field['desc'] : '',
+					'help'              => isset( $field['help'] ) ? $field['help'] : '',
+					'show_option_none'  => isset( $field['show_option_none'] ) ? $field['show_option_none'] : '',
 					'option_none_value' => isset( $field['option_none_value'] ) ? $field['option_none_value'] : '',
-					'options' => isset( $field['options'] ) ? $field['options'] : array()/*,
-					'default' => isset( $field['default'] ) && ! empty( $field['default'] ) ? $field['default'] : FALSE,*/
+					'options'           => isset( $field['options'] ) ? $field['options'] : array()/*,
+					'default'           => isset( $field['default'] ) && ! empty( $field['default'] ) ? $field['default'] : FALSE,*/
 				);
 
 				/*
@@ -370,13 +393,13 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				//register_setting( $field['page_hook'], $optionName, $callback );
 
 				self::$fields[] = array(
-					'id' => $field['id'],
-					'title' => $field['title'],
-					'callback' => array( __CLASS__, 'field' ),
-					'page_hook' => $field['page_hook'],
-					'section' => $section,
-					'options' => $options,
-					'option_name' => $optionName,
+					'id'                => $field['id'],
+					'title'             => $field['title'],
+					'callback'          => array( __CLASS__, 'field' ),
+					'page_hook'         => $field['page_hook'],
+					'section'           => $section,
+					'options'           => $options,
+					'option_name'       => $optionName,
 					'sanitize_callback' => $callback
 					);
 
@@ -588,25 +611,24 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @param array $field
 		 * @return string
 		 */
-		public static function field( $field )
-		{
+		public static function field( $field ) {
 			global $wp_version;
 			$out = '';
 
-			if ( in_array( $field['section'] , self::$coreSections ) )
-			{
+			if ( in_array( $field['section'] , self::$coreSections ) ) {
+
 				$value = get_option( $field['id'] ); //print_r($value);
-				$name = sprintf( '%1$s', $field['id'] );
-			}
-			else
-			{
+				$name  = sprintf( '%1$s', $field['id'] );
+
+			} else {
+
 				$values = get_option( $field['section'] );
-				$value = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : NULL; //print_r($value);
-				$name = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
+				$value  = ( isset( $values[$field['id']] ) ) ? $values[$field['id']] : NULL; //print_r($value);
+				$name   = sprintf( '%1$s[%2$s]', $field['section'], $field['id'] );
 			}
 
-			switch ( $field['type'] )
-			{
+			switch ( $field['type'] ) {
+
 				case 'checkbox':
 					$checked = isset( $value ) ? checked(1, $value, FALSE) : '';
 
@@ -620,7 +642,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					foreach ( $field['options'] as $key => $label )
 					{
-						$checked = checked( TRUE , in_array($key, (array) $value) , FALSE );
+						$checked = checked( TRUE , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , FALSE );
 
 						$out .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>', $name, $key, $checked );
 						$out .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label><br />', $name, $key, $label );
@@ -660,7 +682,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					foreach ( $field['options'] as $key => $label )
 					{
-						$checked = checked( TRUE , in_array($key, $value) , FALSE );
+						$checked = checked( TRUE , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , FALSE );
 
 						$out .= sprintf( '<label><input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s" %3$s/> %4$s</label><br />', $name, $key, $checked, $label );
 					}
@@ -717,6 +739,138 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					$out .= wp_dropdown_pages( array( 'name' => $name, 'echo' => 0, 'show_option_none' => $field['show_option_none'], 'option_none_value' => $field['option_none_value'], 'selected' => $value ) );
 
 					break;
+
+				case 'sortable_checklist':
+
+					// This will be used to store the order of the content blocks.
+					$blocks = array();
+
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						$out .= sprintf( '<p class="description"> %1$s</p>',
+							esc_html( $field['desc'] )
+							);
+					}
+
+					$out .= sprintf( '<ul class="cn-sortable-checklist" id="%1$s">',
+						esc_attr( $name )
+						);
+
+					// Create the array to be used to render the output in the correct order.
+					// This will have to take into account content blocks being added and removed.
+					// ref: http://stackoverflow.com/a/9098675
+					if ( isset( $value['order'] ) && ! empty( $value['order'] ) ) {
+
+						$order = array();
+
+						// Remove any content blocks that no longer exist.
+						$blocks = array_intersect_key( $field['options']['items'], array_flip( $value['order'] ) );
+
+						// Add back in any new content blocks.
+						$blocks = array_merge( $blocks, $field['options']['items'] );
+
+						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
+
+						// Order the array as the user has defined in $value['order'].
+						$blocks = array_merge( array_flip( $order ), $blocks );
+
+					} else {
+
+						// No order was set or saved yet, so use the field options order.
+						$blocks = $field['options']['items'];
+					}
+
+					foreach ( $blocks as $key => $label ) {
+
+						if ( isset( $field['options']['required'] ) && in_array( $key, $field['options']['required'] ) ) {
+
+							$checkbox = cnHTML::input(
+								array(
+									'type'    => 'checkbox',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'disabled'=> TRUE,
+									'label'   => $label,
+									'layout'  => '%field%%label%',
+									'return'  => TRUE,
+									),
+								$key
+								);
+
+							$checkbox .= cnHTML::input(
+								array(
+									'type'    => 'hidden',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'layout'  => '%field%',
+									'return'  => TRUE,
+									),
+								$key
+								);
+
+						} else {
+
+							$checkbox = cnHTML::input(
+								array(
+									'type'    => 'checkbox',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'label'   => $label,
+									'layout'  => '%field%%label%',
+									'return'  => TRUE,
+									),
+								$key
+								);
+						}
+
+						$hidden = cnHTML::input(
+							array(
+								'type'    => 'hidden',
+								'prefix'  => '',
+								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'    => esc_attr( $name ) . '[order][]',
+								'label'   => '',
+								'layout'  => '%field%',
+								'return'  => TRUE,
+								),
+							$key
+							);
+
+						$out .= sprintf( '<li value="%1$s"><i class="fa fa-sort"></i> %2$s%3$s</li>',
+							$key,
+							$hidden,
+							$checkbox
+							);
+					}
+
+					$out .= '</ul>';
+
+					// Add the list to the sortable IDs.
+					self::$sortableIDs[] = $name;
+
+					// Add the script to the admin footer.
+					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sortableJS' ) );
+
+					// Enqueue the jQuery UI Sortable Library.
+					wp_enqueue_script( 'jquery-ui-sortable' );
+
+					break;
+
+				default:
+
+					ob_start();
+
+					do_action( 'cn_settings_field-' . $field['type'], $name, $value, $field );
+
+					$out .= ob_get_clean();
+
+					break;
 			}
 
 			echo $out;
@@ -736,6 +890,25 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			foreach ( self::$quickTagIDs as $id ) echo 'quicktags("' . $id . '");';
 
 		    echo '/* ]]> */</script>';
+		}
+
+		/**
+		 * Outputs the JS necessary to make a checkbox list sortable using the jQuery UI Sortable library.
+		 *
+		 * @access private
+		 * @since 0.8
+		 *
+		 * @return string
+		 */
+		public static function sortableJS() {
+
+			echo '<script type="text/javascript">/* <![CDATA[ */' . PHP_EOL;
+				echo 'jQuery(function($) {' . PHP_EOL;
+
+					foreach ( self::$sortableIDs as $id ) echo '$(\'[id="' . $id . '"]\').sortable();' . PHP_EOL;
+
+				echo '});' . PHP_EOL;
+			echo '/* ]]> */</script>';
 		}
 
 		/**
@@ -798,6 +971,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			if ( ! empty($section) )
 			{
+
+				if ( $pluginID !== substr( $section, 0, strlen( $pluginID ) ) ) $section = $pluginID . '_' . $section;
+
 				if ( array_key_exists( $section , $settings ) )
 				{
 					if ( ! empty($option) )

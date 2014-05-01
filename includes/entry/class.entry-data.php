@@ -206,7 +206,7 @@ class cnEntry {
 	 *
 	 * @var string
 	 */
-	private $visibility;
+	private $visibility = NULL;
 
 	private $options;
 	private $imageLinked;
@@ -484,40 +484,51 @@ class cnEntry {
 		$replace = array();
 
 		switch ( $this->getEntryType() ) {
-		case 'individual':
 
-			( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';
+			case 'individual':
 
-			( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
+				( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';
 
-			( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
+				( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
 
-			( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
+				( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
 
-			( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
+				( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
 
-			return str_ireplace( $search, $replace, $atts['format'] );
+				( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
 
-		case 'organization':
-			return $this->getOrganization();
+				$name = str_ireplace( $search, $replace, $atts['format'] );
 
-		case 'family':
-			return $this->getFamilyName();
+				break;
 
-		default:
+			case 'organization':
 
-			( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';;
+				$name = $this->getOrganization();
+				break;
 
-			( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
+			case 'family':
 
-			( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
+				$name = $this->getFamilyName();
+				break;
 
-			( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
+			default:
 
-			( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
+				( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';;
 
-			return str_ireplace( $search, $replace, $atts['format'] );
+				( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
+
+				( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
+
+				( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
+
+				( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
+
+				$name = str_ireplace( $search, $replace, $atts['format'] );
+
+				break;
 		}
+
+		return preg_replace( '/\s{2,}/', ' ', $name );
 	}
 
 	public function getHonorificPrefix() {
@@ -683,7 +694,7 @@ class cnEntry {
 	 * @param array   $atts [optional]
 	 * @return string
 	 */
-	public function getContactName( $atts = NULL ) {
+	public function getContactName( $atts = array() ) {
 		$defaultAtts = array( 'format' => '%first% %last%' );
 
 		$atts = $this->validate->attributesArray( $defaultAtts, $atts );
@@ -1036,20 +1047,6 @@ class cnEntry {
 				// Permit only the valid fields.
 				$address = $this->validate->attributesArray( $validFields, $address );
 
-				/*
-				 * Geocode the address using Google Geocoding API
-				 */
-				if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
-					//$geocode = new cnGeo();
-					$result = cnGeo::address( $address );
-
-					if ( ! empty( $result ) ) {
-						$addresses[ $key ]['latitude'] = $result->latitude;
-						$addresses[ $key ]['longitude'] = $result->longitude;
-					}
-
-				}
-
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
 
@@ -1062,6 +1059,8 @@ class cnEntry {
 				 * will have preference.
 				 */
 				if ( $addresses[ $key ]['preferred'] ) $userPreferred = $key;
+
+				$addresses[ $key ] = apply_filters( 'cn_set_address', $address );
 
 				$order++;
 			}
@@ -1101,7 +1100,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $addresses ) ) ? $this->addresses = serialize( $addresses ) : $this->addresses = NULL;
+		$this->addresses = ! empty( $addresses ) ? serialize( apply_filters( 'cn_set_addresses', $addresses ) ) : NULL;
 	}
 
 	/**
@@ -2717,6 +2716,8 @@ class cnEntry {
 	 * $date['date'] (string) Stores date.
 	 * $date['visibility'] (string) Stores the date visibility.
 	 *
+	 * @TODO Consider using strtotime on $date['date'] to help ensure date_create() does not return FALSE.
+	 *
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
@@ -2773,8 +2774,15 @@ class cnEntry {
 
 				/*
 				 * Format the supplied date correctly for the table column:  YYYY-MM-DD
+				 * @TODO Consider using strtotime on $date['date'] to help ensure date_create() does not return FALSE.
 				 */
 				$currentDate = date_create( $date['date'] );
+
+				/*
+				 * Make sure the date object created correctly.
+				 */
+				if ( $currentDate === FALSE ) continue;
+
 				$dates[ $key ]['date'] = date_format( $currentDate, 'Y-m-d' );
 
 				/*
@@ -2980,6 +2988,8 @@ class cnEntry {
 			$text = implode( ' ', $words );
 		}
 
+		$text = strip_shortcodes( $text );
+
 		return apply_filters( 'cn_trim_excerpt', $text );
 	}
 
@@ -2991,6 +3001,9 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getVisibility() {
+
+		if ( is_null( $this->visibility ) ) $this->visibility = 'unlisted';
+
 		return sanitize_key( $this->visibility );
 	}
 
@@ -3035,6 +3048,47 @@ class cnEntry {
 		return $this->categories;
 	}
 
+	public function getMeta( $atts = array() ) {
+
+		$defaults = array(
+			'key'       => '',
+			'value'     => '',
+			'single'    => FALSE,
+			);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		$out = $atts['single'] ? '' : array();
+
+		$results = cnMeta::get( 'entry', $this->getId() );
+
+		if ( $results === FALSE ) return $results;
+
+		if ( ! empty( $results ) ) {
+
+			if ( empty( $atts['key'] ) ) return $results;
+
+			foreach ( $results as $metaID => $meta ) {
+
+				if ( $meta['meta_key'] === $atts['key'] ) {
+
+					if ( $atts['single'] ) {
+
+						return $meta['meta_value'];
+
+					} else {
+
+						$out[ $metaID ] = $meta['meta_value'];
+					}
+				}
+			}
+
+			return $out;
+		}
+
+		return $atts['single'] ? '' : array();
+	}
+
 	/**
 	 * Returns the entry type.
 	 *
@@ -3062,7 +3116,7 @@ class cnEntry {
 
 
 	public function getLogoDisplay() {
-		return $this->logoDisplay;
+		return isset( $this->options['logo']['display'] ) ? $this->options['logo']['display'] : FALSE;
 	}
 
 	public function setLogoDisplay( $logoDisplay ) {
@@ -3070,7 +3124,7 @@ class cnEntry {
 	}
 
 	public function getLogoLinked() {
-		return $this->logoLinked;
+		return isset( $this->options['logo']['linked'] ) ? $this->options['logo']['linked'] : FALSE;
 	}
 
 	public function setLogoLinked( $logoLinked ) {
@@ -3092,7 +3146,7 @@ class cnEntry {
 	 * @see entry::$imageDisplay
 	 */
 	public function getImageDisplay() {
-		return $this->imageDisplay;
+		return $this->options['image']['display'];
 	}
 
 	/**
@@ -3330,6 +3384,8 @@ class cnEntry {
 				break;
 		}
 
+		do_action( 'cn_update-entry', $this );
+
 		$wpdb->show_errors = true;
 
 		/*
@@ -3372,7 +3428,7 @@ class cnEntry {
 			WHERE id           = %d',
 			current_time( 'mysql' ),
 			$this->entryType,
-			$this->visibility,
+			$this->getVisibility(),
 			$this->slug,
 			$this->honorificPrefix,
 			$this->firstName,
@@ -3948,7 +4004,7 @@ class cnEntry {
 
 		$wpdb->show_errors = FALSE;
 
-		do_action( 'cn_process_update-entry', $this );
+		do_action( 'cn_updated-entry', $this );
 
 		return $result;
 	}
@@ -3994,6 +4050,8 @@ class cnEntry {
 				$this->familyName = '';
 				break;
 		}
+
+		do_action( 'cn_save-entry', $this );
 
 		$wpdb->show_errors = true;
 
@@ -4041,7 +4099,7 @@ class cnEntry {
 			current_time( 'mysql' ),
 			current_time( 'timestamp' ),
 			$this->entryType,
-			$this->visibility,
+			$this->getVisibility(),
 			$this->slug,
 			$this->familyName,
 			$this->honorificPrefix,
@@ -4257,13 +4315,16 @@ class cnEntry {
 
 		$wpdb->show_errors = FALSE;
 
-		do_action( 'cn_process_save-entry', $this );
+		do_action( 'cn_saved-entry', $this );
 
 		return $result;
 	}
 
 	public function delete( $id ) {
 		global $wpdb, $connections;
+
+		do_action( 'cn_delete-entry', $this );
+		do_action( 'cn_process_delete-entry', $this );  // KEEP! This action must exist for Link, however, do not ever use it!
 
 		/*
 		 * Delete images assigned to the entry.
@@ -4350,7 +4411,7 @@ class cnEntry {
 		 */
 		$connections->term->deleteTermRelationships( $id );
 
-		do_action( 'cn_process_delete-entry', $this );
+		do_action( 'cn_deleted-entry', $this );
 	}
 
 }

@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8.4
+Stable tag: 0.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,11 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.5 05/02/2014 =
+* BUG: Fix logic for template part output that prevented rendering of some template features.
+* TWEAK: Remove the repeatable character index from the view all endpoint.
+* OTHER: Add whitespace.
 
 = 0.8.4 05/02/2014 =
 * BUG: Fix the random ordering.
@@ -386,4 +391,7 @@ This a major update to Connections it is recommended to backup before updating.
 This a major update to Connections it is recommended to backup before updating.
 
 = 0.8.4 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.5 =
 This a major update to Connections it is recommended to backup before updating.

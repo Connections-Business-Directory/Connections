@@ -244,6 +244,10 @@ class cnShortcode {
 			// Show the "View All" result list using the "Names" template.
 			case 'all':
 
+				// Disable the output of the repeat character index.
+				$atts['repeat_alphaindex'] = FALSE;
+
+				// Force the use of the Names template.
 				$atts['template'] = 'names';
 
 				return cnShortcode_Connections::shortcode( $atts, $content );

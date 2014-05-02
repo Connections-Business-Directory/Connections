@@ -745,6 +745,8 @@ class cnMetabox_Render {
 
 			if ( empty( $value ) ) $value = isset( $field['default'] ) ? $field['default'] : '';
 
+			$value = apply_filters( 'cn_meta_field_value-' . $field['type'], $value, $field );
+
 			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .'" id="cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';
 
 			// For a label to be rendered the $field['name'] has to be supplied.

@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8.3
+Stable tag: 0.8.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,13 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.4 05/02/2014 =
+* BUG: Fix the random ordering.
+* BUG: Fix cnTemplatePart::formOpen().
+* BUG: Fix CSS URL path string replace for inline CSS.
+* TWEAK: Admin CSS tweaks for custom metaboxes.
+* OTHER: Add meta value filter.
 
 = 0.8.3 05/01/2014 =
 * TWEAK: Remove the cn-clear class from the list section heads.
@@ -376,4 +383,7 @@ This a major update to Connections it is recommended to backup before updating.
 This a major update to Connections it is recommended to backup before updating.
 
 = 0.8.3 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.4 =
 This a major update to Connections it is recommended to backup before updating.

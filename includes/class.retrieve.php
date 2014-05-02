@@ -815,7 +815,7 @@ class cnRetrieve {
 
 			$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
 
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS *, RAND(' . $seed . ') AS random FROM ( SELECT DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ') AS T ' . $limit . $offset;
+			$sql = 'SELECT SQL_CALC_FOUND_ROWS *, RAND(' . $seed . ') AS random FROM ( SELECT DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ') AS T ORDER BY random' . $limit . $offset;
 			// print_r($sql);
 
 		} else {

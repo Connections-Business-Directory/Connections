@@ -127,7 +127,7 @@ class cnTemplatePart {
 		if ( $wp_rewrite->using_permalinks() ) {
 
 			$out .= '<form class="cn-form" id="cn-cat-select" action="' . ( $addAction || $atts['force_home'] ? $permalink : '' ) . '" method="get">';
-			if ( is_front_page() ) $out = '<input type="hidden" name="page_id" value="' . $homeID .'">';
+			if ( is_front_page() ) $out .= '<input type="hidden" name="page_id" value="' . $homeID .'">';
 
 		} else {
 

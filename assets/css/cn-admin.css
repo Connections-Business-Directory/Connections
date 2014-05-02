@@ -442,8 +442,31 @@ table.cn-metabox-table th label { display: inline-block; }
 .cn-radio-option { margin-bottom: 6px; }
 .cn-radio-option:last-child { margin-bottom: auto; }
 span.cn-radio-option { padding-right: 18px; }
-.cn-datepicker { padding: 2px; width: 17.5em; }
+.cn-datepicker { padding: 2px; max-width: 100%; width: 17.5em; }
 .cn-slider-container { width: 25em; }
+
+.cn-metabox-section table {
+	border: none;
+	margin: 0;
+	text-align: left;
+	width: 100%;
+	border-image: initial;
+}
+.cn-metabox-section table tr th {
+	padding: 0;
+	border: none;
+	text-transform: none;
+}
+.cn-metabox-section table tr th.cn-metabox-label {
+	width: 200px;
+}
+.cn-metabox-section table tr th.cn-metabox-label-empty {
+	width: 0px;
+}
+.cn-metabox-section table tr td {
+	border: none;
+	padding: 0;
+}
 
 
 /*------------------------------------------------------------------------------

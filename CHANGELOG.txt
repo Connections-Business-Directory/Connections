@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 0.8.5 05/02/2014 =
+* BUG: Fix logic for template part output that prevented rendering of some template features.
+* TWEAK: Remove the repeatable character index from the view all endpoint.
+* OTHER: Add whitespace.
+
 = 0.8.4 05/02/2014 =
 * BUG: Fix the random ordering.
 * BUG: Fix cnTemplatePart::formOpen().

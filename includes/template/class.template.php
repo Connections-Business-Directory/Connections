@@ -920,7 +920,7 @@ class cnTemplate {
 
 		$out     = '';
 		$search  = array( "\r\n", "\r", "\n", "\t", '%%PATH%%' );
-		$replace = array( ' ', ' ', ' ', ' ', $this->parts['css-url'] );
+		$replace = array( ' ', ' ', ' ', ' ', $this->getURL() );
 
 		/**
 		 * @TODO Create a page pre-process function so the CSS outputs only once in the page head.

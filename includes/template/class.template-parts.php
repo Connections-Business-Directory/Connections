@@ -255,20 +255,20 @@ class cnTemplatePart {
 
 		$out .= PHP_EOL . '<div class="connections-list cn-list-body cn-clear" id="cn-list-body">' . PHP_EOL;
 
+		ob_start();
+
 		// If there are no results no need to proceed and output message.
 		if ( empty( $results ) ) {
 
 			// The no results message.
-			ob_start();
-
-				do_action( 'cn_list_no_results', $atts, $results, $template );
-
-			$out .= ob_get_clean();
+			do_action( 'cn_list_no_results', $atts, $results, $template );
 
 		} else {
 
-			$out .= self::cards( array_merge( $atts, array( 'return' => TRUE ) ), $results, $template );
+			self::cards( $atts, $results, $template );
 		}
+
+		$out .= ob_get_clean();
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
 
@@ -334,7 +334,7 @@ class cnTemplatePart {
 						// The character index template part.
 						ob_start();
 
-							do_action( 'cn_list_character_index', array_merge( $atts, array( 'return' => FALSE ) ) );
+							do_action( 'cn_list_character_index', $atts );
 						$out .= ob_get_clean();
 					}
 

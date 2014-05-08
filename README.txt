@@ -34,11 +34,12 @@ Quite simply, Connections is the best directory plugin available for WordPress. 
 
 Connections has been translated in the following languages.
 
-* Catalan [86%]
+* Catalan [86% Complete]
 * Danish (Denmark) [45% Complete]
 * Dutch (Netherlands) [80% Complete]
 * French (France) [85% Complete]
 * German (Germany) [72% Complete]
+* Hebrew (Israel) [100% Complete]
 * Hungarian (Hungry) [84% Complete]
 * Italian (Italy) [50% Complete]
 * Persian (Iran) [85% Complete]

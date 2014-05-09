@@ -34,6 +34,7 @@ Quite simply, Connections Business Directory is the best directory plugin availa
 Connections Business directory provides a vast array of hooks and filters so it can be easily extended. It has a very flexible template engine which allows for loading of [custom CSS](http://connections-pro.com/2014/05/07/quicktip-custom-css-templates/) files that are update safe. The loading of template files and CSS are even context aware. This means your developer could create templates that load when a user visits a specific entry, category, postal code and more.
 
 Here are a couple other great free extensions (with more on the way) that enhance your expirence with the Connections Business Directory:
+
 * [Business Hours](http://wordpress.org/plugins/connections-business-directory-hours/)
 * [Toolbar](http://wordpress.org/plugins/connections-toolbar/)
 * Income Level (Coming Soon)

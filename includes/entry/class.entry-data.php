@@ -3002,7 +3002,7 @@ class cnEntry {
 	 */
 	public function getVisibility() {
 
-		if ( is_null( $this->visibility ) ) $this->visibility = 'unlisted';
+		if ( is_null( $this->visibility ) ) $this->visibility = 'public';
 
 		return sanitize_key( $this->visibility );
 	}

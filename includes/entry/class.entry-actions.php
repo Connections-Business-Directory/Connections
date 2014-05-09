@@ -390,8 +390,9 @@ class cnEntry_Action {
 
 					} else {
 
-						$entry->setStatus( 'pending' );
-						$messageID = 'entry_updated_moderated';
+						// $entry->setStatus( 'pending' );
+						// $messageID = 'entry_updated_moderated';
+						$messageID = 'entry_updated';
 					}
 
 				} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {

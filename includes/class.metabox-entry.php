@@ -301,8 +301,8 @@ class cnEntryMetabox {
 			$action = $atts['action'];
 		}
 
-		$visibility = $entry->getVisibility() ? $entry->getVisibility() : $atts['default']['visibility'];
-		$type       = $entry->getEntryType()  ? $entry->getEntryType()  : $atts['default']['type'];
+		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
+		$type       = $entry->getId() ? $entry->getEntryType()  : $atts['default']['type'];
 
 		if ( $action == NULL ) {
 

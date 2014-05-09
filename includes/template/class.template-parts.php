@@ -1648,7 +1648,7 @@ class cnTemplatePart {
 			$atts['type'] == 'multiselect' ? ' MULTIPLE' : ''
 			);
 
-		$out .= PHP_EOL . '<option value=""></option>';
+		$out .= PHP_EOL . sprintf( '<option value="">%1$s</option>', ( wp_is_mobile() ? esc_attr( $atts['default'] ) : '' ) );
 
 		if ( $atts['show_select_all'] ) $out .= PHP_EOL . '<option value="">' . esc_attr( $atts['select_all'] ) . '</option>';
 

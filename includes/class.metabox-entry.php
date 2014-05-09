@@ -267,11 +267,13 @@ class cnEntryMetabox {
 	 *
 	 * @access private
 	 * @since 0.8
+	 * @global string $plugin_page
 	 * @param  object $entry   An instance of the cnEntry object.
 	 * @param  array  $metabox The metabox attributes array set in self::register().
 	 * @return void
 	 */
 	public static function publish( $entry, $metabox, $atts = array() ) {
+		global $plugin_page;
 
 		$defaults = array(
 			'action'     => NULL,
@@ -282,7 +284,7 @@ class cnEntryMetabox {
 			),
 			'default'    => array(
 				'type'       => 'individual',
-				'visibility' => 'unlisted',
+				'visibility' => 'public',
 			),
 		);
 
@@ -301,8 +303,8 @@ class cnEntryMetabox {
 			$action = $atts['action'];
 		}
 
-		$visibility = $entry->getVisibility() ? $entry->getVisibility() : $atts['default']['visibility'];
-		$type       = $entry->getEntryType()  ? $entry->getEntryType()  : $atts['default']['type'];
+		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
+		$type       = $entry->getId() ? $entry->getEntryType()  : $atts['default']['type'];
 
 		if ( $action == NULL ) {
 
@@ -342,6 +344,10 @@ class cnEntryMetabox {
 			echo '</div>';
 		}
 
+		// Create URL to current admin page.
+		$adminURL = admin_url( 'admin.php', ( is_ssl() ? 'https' : 'http' ) );
+		$adminURL = add_query_arg( array( 'page' => $plugin_page ), $adminURL );
+
 		echo '<div id="minor-publishing"></div>';
 
 		echo '<div id="major-publishing-actions">';
@@ -351,7 +357,7 @@ class cnEntryMetabox {
 				case ( $action ==  'edit_entry' || $action == 'edit' ):
 
 					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
-					echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
+					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
 					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
 
 					break;
@@ -359,7 +365,7 @@ class cnEntryMetabox {
 				case ( $action == 'copy_entry' || $action == 'copy' ):
 
 					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
-					echo '<div id="cancel-button"><a href="admin.php?page=connections_manage" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
+					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
 					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
 
 					break;

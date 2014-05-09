@@ -1,44 +1,57 @@
 === Connections Business Directory ===
 Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
-Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory
+Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8.5
+Stable tag: 0.8.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Connections is a simple to use directory manager which can be used to create an addressbook, business directory, staff directory or church directory.
+Connections Business Directory is a simple to use directory plugin which can be used to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
 
 [Plugin Homepage](http://connections-pro.com/) | [Documentation](http://connections-pro.com/documentation/plugin/) | [Showcase](http://connections-pro.com/showcase/) | [Premium Templates](http://connections-pro.com/templates/) | [Extensions](http://connections-pro.com/extensions/) | [Github](https://github.com/shazahm1/Connections)
 
-Quite simply, Connections is the best directory plugin available for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff directory and even run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
+Quite simply, Connections Business Directory is the best directory plugin available for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff directory and run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
 
 = Features =
-* Seamless integration with the WordPress admin.
+* Seamless integration with the WordPress.
 * A Dashboard admin page where you can keep up to date with Connections related news, such as updates notices for Ttemplates](http://connections-pro.com/templates/) and the [Extensions](http://connections-pro.com/extensions/). Also see at a glance today's anniversaries and birthdays as well as any upcoming anniversaries and birthdays.
 * When inputting an entry there are multiple entry types from which to choose. They are individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating church directories.
 * You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
 * Fields, fields and more fields... no other directory plugin offers more. There are fields for addresses, phone numbers, email addresses, IM, social networks, an image, a logo, bio, notes and more. Want more? Many fields, such as addresses and phone numbers, you can assign as many as you need. Wait, I'm not done yet... want to be able to list the business phone but keep that cell phone number private? You can do that, too. Most of the fields have selectable visibility. What this means is you can have an entry set as public but keep personal details private or even unlisted so only them admin can view it.
-* Connections is being used to manage directories which contain thousands of entries so the ability to manage them easily is a must- a task which Connections stands and delivers. You can filter the entries list by category, entry type and visibility. You can search for entries. You can even search within the filtered entries. Of course Connections doesn't stop there, there are several bulk actions available to make changes a breeze.
+* Connections is being used to manage directories which contain tens of thousands of entries so the ability to manage them easily is a must- a task which Connections stands and delivers. You can filter the entries list by category, entry type and visibility. You can search for entries. You can even search within the filtered entries. Of course Connections doesn't stop there, there are several bulk actions available to make changes a breeze.
 * Category support. This feature was modeled after the category feature for WordPress posts. So if you know how to add and manage categories for posts, you know how they work for Connections. Categories can be hierarchical and entries can be assigned to any number of categories.
-* Extensive role support. For your users that have access to the WordPress admin, there is extensive role support. You can define which roles can perform tasks to manage entries in Connections.
+* Extensive role capability support. For your users that have access to the WordPress admin, there is extensive role capability support. You can define which roles can perform tasks to manage entries in Connections.
 * Unrivaled customability with templates. Connections comes with many basic templates to get you started. For many, these meet their needs. But if you need more than these basic templates provide, check out these great [premium templates](http://connections-pro.com/templates/).
 * Displaying your entries on the front end is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The Connections shortcode provides almost a dizzying array of options that are just too numerous to list. But if you want to know more, you can find it [here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * Even a bit of SEO was sprinkled in. Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec.
-* One last item. [Extensibility](http://connections-pro.com/extensions/).
+
+= Extensible =
+
+Connections Business directory provides a vast array of hooks and filters so it can be easily extended. It has a very flexible template engine which allows for loading of [custom CSS](http://connections-pro.com/2014/05/07/quicktip-custom-css-templates/) files that are update safe. The loading of template files and CSS are even context aware. This means your developer could create templates that load when a user visits a specific entry, category, postal code and more.
+
+Here are a couple other great free extensions (with more on the way) that enhance your expirence with the Connections Business Directory:
+
+* [Business Hours](http://wordpress.org/plugins/connections-business-directory-hours/)
+* [Toolbar](http://wordpress.org/plugins/connections-toolbar/)
+* [Income Level](http://wordpress.org/plugins/connections-business-directory-income-levels/)
+* Education Level (Coming Soon)
+
+In addition to the free extensions Connections Business Directory also features a growing library of [premium extensions](http://connections-pro.com/extensions/).
 
 = Languages =
 
-Connections has been translated in the following languages.
+Connections Business Directory has been embraced around the world and has been translated in the following languages.
 
-* Catalan [86%]
+* Catalan [86% Complete]
 * Danish (Denmark) [45% Complete]
 * Dutch (Netherlands) [80% Complete]
 * French (France) [85% Complete]
 * German (Germany) [72% Complete]
+* Hebrew (Israel) [100% Complete]
 * Hungarian (Hungry) [84% Complete]
 * Italian (Italy) [50% Complete]
 * Persian (Iran) [85% Complete]
@@ -88,6 +101,17 @@ Connections has been translated in the following languages.
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.6 05/09/2014 =
+* TWEAK: Change default entry visibility to 'Public'.
+* TWEAK: Readme.txt file tweaks.
+* BUG: Fix datepicker so it would function correctly in custom metaboxes.
+* BUG: Fix broken filter to allow default visibility to be set.
+* BUG: The 'Cancel' will now link to the current admin page when adding/editing an entry.
+* BUG: Fix entry status being set when editing an entry with only the 'edit_entry' capability.
+* BUG: Fix select/drop down when viewed on mobile device.
+* I18N: Add Hebrew (Israel).
+
 
 = 0.8.5 05/02/2014 =
 * BUG: Fix logic for template part output that prevented rendering of some template features.

@@ -282,7 +282,7 @@ class cnEntryMetabox {
 			),
 			'default'    => array(
 				'type'       => 'individual',
-				'visibility' => 'unlisted',
+				'visibility' => 'public',
 			),
 		);
 

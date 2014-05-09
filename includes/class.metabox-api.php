@@ -975,7 +975,7 @@ class cnMetabox_Render {
 
 					wp_enqueue_script('jquery-ui-datepicker');
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
-					add_action( 'wp_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
+					add_action( 'wp_footer' , array( __CLASS__ , 'datepickerJS' ) );
 
 					break;
 
@@ -1201,7 +1201,7 @@ class cnMetabox_Render {
 
 	if ($.fn.datepicker) {
 
-		$('.postbox').on( 'focus', '.cn-datepicker', function(e) {
+		$('.postbox, .cn-metabox').on( 'focus', '.cn-datepicker', function(e) {
 
 			$(this).datepicker({
 				changeMonth: true,
@@ -1234,7 +1234,7 @@ class cnMetabox_Render {
 
 <script type="text/javascript">/* <![CDATA[ */
 /*
- * Add the jQuery UI Datepicker to the date input fields.
+ * Add the jQuery UI Slider input fields.
  */
 ;jQuery(document).ready( function($){
 

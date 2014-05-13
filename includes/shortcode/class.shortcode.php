@@ -77,6 +77,8 @@ class cnShortcode {
 
 		foreach ( $posts as $post ) {
 
+			// $WP_Query->queried_object_id -- This will only be set on pages, not posts. Why? Good question!
+
 			// If we're in the main query, proceed!
 			if ( isset( $WP_Query->queried_object_id ) && $WP_Query->queried_object_id == $post->ID ) {
 

@@ -538,8 +538,8 @@ class cnURL {
 	public static function fromPath( $path ) {
 
 		// Get correct URL and path to wp-content.
-		$content_url = untrailingslashit( dirname( dirname( get_stylesheet_directory_uri() ) ) );
-		$content_dir = untrailingslashit( dirname( dirname( get_stylesheet_directory() ) ) );
+		$content_url = content_url();
+		$content_dir = untrailingslashit( WP_CONTENT_DIR );
 
 		// Fix path on Windows.
 		$path        = str_replace( '\\', '/', $path );

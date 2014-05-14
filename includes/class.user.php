@@ -98,7 +98,7 @@ class cnUser
 					if ( ! current_user_can('connections_view_public') ) {
 						return FALSE;
 					} else {
-						return $user_meta['filter']['visibility'];
+						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
 					}
 					break;
 
@@ -106,7 +106,7 @@ class cnUser
 					if ( ! current_user_can('connections_view_private') ) {
 						return FALSE;
 					} else {
-						return $user_meta['filter']['visibility'];
+						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
 					}
 					break;
 
@@ -114,7 +114,7 @@ class cnUser
 					if ( ! current_user_can('connections_view_unlisted') ) {
 						return FALSE;
 					} else {
-						return $user_meta['filter']['visibility'];
+						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
 					}
 					break;
 
@@ -155,7 +155,7 @@ class cnUser
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter']['status'] ) ) {
-			return $user_meta['filter']['status'];
+			return isset( $user_meta['filter']['status'] ) ? $user_meta['filter']['status'] : '';
 		} else {
 			return 'approved';
 		}
@@ -183,7 +183,7 @@ class cnUser
         $user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter'] ) ) {
-			return $user_meta['filter']['category'];
+			return isset( $user_meta['filter']['category'] ) ? $user_meta['filter']['category'] : '';
 		} else {
 			return '';
 		}

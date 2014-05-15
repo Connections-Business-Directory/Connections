@@ -343,7 +343,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					<p class="search-box">
 						<label class="screen-reader-text" for="post-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
-						<input type="text" id="entry-search-input" name="s" value="<?php if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) echo $_GET['s'] ; ?>" />
+						<input type="search" id="entry-search-input" name="s" value="<?php if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) echo $_GET['s'] ; ?>" />
 						<input type="submit" name="" id="search-submit" class="button" value="<?php _e( 'Search Entries', 'connections' ); ?>"  />
 					</p>
 

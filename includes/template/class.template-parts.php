@@ -1685,6 +1685,7 @@ class cnTemplatePart {
 
 		$out .= '</select>' . PHP_EOL;
 
+		// This submit is required for template that have the enable_category_multi_select set to tru for backward compatibility.
 		if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
 
 		if ( $atts['return'] ) return $out;

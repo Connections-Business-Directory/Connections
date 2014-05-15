@@ -1685,7 +1685,7 @@ class cnTemplatePart {
 
 		$out .= '</select>' . PHP_EOL;
 
-		// if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
+		if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
 
 		if ( $atts['return'] ) return $out;
 		echo $out;

@@ -38,7 +38,7 @@ Here are a couple other great free extensions (with more on the way) that enhanc
 * [Business Hours](http://wordpress.org/plugins/connections-business-directory-hours/)
 * [Toolbar](http://wordpress.org/plugins/connections-toolbar/)
 * [Income Level](http://wordpress.org/plugins/connections-business-directory-income-levels/)
-* Education Level (Coming Soon)
+* [Education Level](http://wordpress.org/plugins/connections-business-directory-education-levels/)
 
 In addition to the free extensions Connections Business Directory also features a growing library of [premium extensions](http://connections-pro.com/extensions/).
 

@@ -1586,7 +1586,7 @@ class cnRegisterSettings
 
 		$regions = cnGEO::getRegions( $settings['base_country'] );
 
-		if ( ! in_array( $settings['base_region'], $regions ) ) {
+		if ( ! array_key_exists( $settings['base_region'], $regions ) ) {
 
 			$settings['base_region'] = current( array_keys( $regions ) );
 		}

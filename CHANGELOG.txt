@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 0.8.7 05/19/2014 =
+* TWEAK: Change input type to search on manage page.
+* TWEAK: Add link to Education level to readme.txt.
+* TWEAK: Allow linked entry to edit on front-end when Form >= 2.0 is install and activated.
+* BUG: Fix for cnURL::fromPath() where path would be incorrect for a small number of users. Use wp_normalize_path() if it exists.
+* BUG: Fix for PHP "Fatal error: Cannot use string offset as an array".
+* BUG: Fix PHP explode error when enable_category_multi_select=true.
+* BUG: Fix default region settings sanitation callback which prevented the default region from being set.
+* I18N: Update French (France) MO file.
+* I18N: Update Hebrew (Israel) MO file.
+* I18N: Update Hungarian (Hungry) MO file.
+
 = 0.8.6 05/09/2014 =
 * TWEAK: Change default entry visibility to 'Public'.
 * TWEAK: Readme.txt file tweaks.

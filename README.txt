@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8.6
+Stable tag: 0.8.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,12 +33,12 @@ Quite simply, Connections Business Directory is the best directory plugin availa
 
 Connections Business directory provides a vast array of hooks and filters so it can be easily extended. It has a very flexible template engine which allows for loading of [custom CSS](http://connections-pro.com/2014/05/07/quicktip-custom-css-templates/) files that are update safe. The loading of template files and CSS are even context aware. This means your developer could create templates that load when a user visits a specific entry, category, postal code and more.
 
-Here are a couple other great free extensions (with more on the way) that enhance your expirence with the Connections Business Directory:
+Here are other great free extensions (with more on the way) that enhance your expirence with the Connections Business Directory:
 
 * [Business Hours](http://wordpress.org/plugins/connections-business-directory-hours/)
 * [Toolbar](http://wordpress.org/plugins/connections-toolbar/)
 * [Income Level](http://wordpress.org/plugins/connections-business-directory-income-levels/)
-* Education Level (Coming Soon)
+* [Education Level](http://wordpress.org/plugins/connections-business-directory-education-levels/)
 
 In addition to the free extensions Connections Business Directory also features a growing library of [premium extensions](http://connections-pro.com/extensions/).
 
@@ -49,10 +49,10 @@ Connections Business Directory has been embraced around the world and has been t
 * Catalan [86% Complete]
 * Danish (Denmark) [45% Complete]
 * Dutch (Netherlands) [80% Complete]
-* French (France) [85% Complete]
+* French (France) [86% Complete]
 * German (Germany) [72% Complete]
 * Hebrew (Israel) [100% Complete]
-* Hungarian (Hungry) [84% Complete]
+* Hungarian (Hungry) [85% Complete]
 * Italian (Italy) [50% Complete]
 * Persian (Iran) [85% Complete]
 * Polish (Poland) [86% Complete]
@@ -101,6 +101,18 @@ Connections Business Directory has been embraced around the world and has been t
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.7 05/19/2014 =
+* TWEAK: Change input type to search on manage page.
+* TWEAK: Add link to Education level to readme.txt.
+* TWEAK: Allow linked entry to edit on front-end when Form >= 2.0 is install and activated.
+* BUG: Fix for cnURL::fromPath() where path would be incorrect for a small number of users. Use wp_normalize_path() if it exists.
+* BUG: Fix for PHP "Fatal error: Cannot use string offset as an array".
+* BUG: Fix PHP explode error when enable_category_multi_select=true.
+* BUG: Fix default region settings sanitation callback which prevented the default region from being set.
+* I18N: Update French (France) MO file.
+* I18N: Update Hebrew (Israel) MO file.
+* I18N: Update Hungarian (Hungry) MO file.
 
 = 0.8.6 05/09/2014 =
 * TWEAK: Change default entry visibility to 'Public'.
@@ -418,4 +430,10 @@ This a major update to Connections it is recommended to backup before updating.
 This a major update to Connections it is recommended to backup before updating.
 
 = 0.8.5 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.6 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.7 =
 This a major update to Connections it is recommended to backup before updating.

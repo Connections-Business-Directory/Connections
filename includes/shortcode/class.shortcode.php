@@ -263,6 +263,13 @@ class cnShortcode {
 
 						if ( has_action( 'cn_edit_entry_form' ) ) {
 
+							// Check to see if the entry has been linked to a user ID.
+							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', TRUE );
+							// var_dump( $entryID );
+
+							$results = $instance->retrieve->entries( $atts );
+							// var_dump( $results );
+
 							/*
 							 * The `cn_edit_entry_form` action should only be execusted if the user is
 							 * logged in and they have the `connections_manage` capability and either the
@@ -270,7 +277,7 @@ class cnShortcode {
 							 */
 
 							if ( is_user_logged_in() &&
-								current_user_can( 'connections_manage' ) &&
+								( current_user_can( 'connections_manage' ) || $entryID == $results[0]->id ) &&
 								( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 								) {
 

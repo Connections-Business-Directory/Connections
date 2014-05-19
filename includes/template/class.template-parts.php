@@ -663,20 +663,32 @@ class cnTemplatePart {
 
 		if ( get_query_var( 'cn-cat' ) ) {
 
-			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , get_query_var( 'cn-cat' ) );
+			$categoryID = get_query_var( 'cn-cat' );
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			if ( is_array( $categoryID ) ) {
 
-			$term = $connections->term->getTermBy( 'id', $categorySlug, 'category' );
+				if ( empty( $categoryID ) ) {
+
+					return $out;
+
+				} else {
+
+					$categoryID = $categoryID[0];
+
+					if ( empty( $categoryID ) ) return $out;
+				}
+
+			}
+
+			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
 			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
 		}
 
-		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}
 
 	/**
@@ -1673,6 +1685,8 @@ class cnTemplatePart {
 
 		$out .= '</select>' . PHP_EOL;
 
+		// This submit is required for template that have the enable_category_multi_select set to tru for backward compatibility.
+		// Dang, this can not be enabled for backward compatibility. It'll output in undesired locations.
 		// if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
 
 		if ( $atts['return'] ) return $out;

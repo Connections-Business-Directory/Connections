@@ -523,14 +523,10 @@ class cnURL {
 	/**
 	 * Create the URL to a file from its absolute system path.
 	 *
-	 * NOTE: This method can not be used in any function that is
-	 * executed prior to the `after_setup_theme` action hook.
-	 *
 	 * @access public
 	 * @since  0.8
 	 * @uses   untrailingslashit()
-	 * @uses   get_stylesheet_directory_uri()
-	 * @uses   get_stylesheet_directory()
+	 * @uses   wp_normalize_path()
 	 * @param  string $path The file path.
 	 *
 	 * @return string       The URL to the file.
@@ -538,15 +534,28 @@ class cnURL {
 	public static function fromPath( $path ) {
 
 		// Get correct URL and path to wp-content.
-		$content_url = untrailingslashit( dirname( dirname( get_stylesheet_directory_uri() ) ) );
-		$content_dir = untrailingslashit( dirname( dirname( get_stylesheet_directory() ) ) );
+		$content_url = content_url();
+		$content_dir = untrailingslashit( WP_CONTENT_DIR );
 
 		// Fix path on Windows.
-		$path        = str_replace( '\\', '/', $path );
-		$content_dir = str_replace( '\\', '/', $content_dir );
+		// wp_normalize_path() in WP >= 3.9
+		if ( function_exists( 'wp_normalize_path' ) ) {
+
+			$path        = wp_normalize_path( $path );
+			$content_dir = wp_normalize_path( $content_dir );
+
+		} else {
+
+			$path = str_replace( '\\', '/', $path );
+			$path = preg_replace( '|/+|','/', $path );
+
+			$content_dir = str_replace( '\\', '/', $content_dir );
+			$content_dir = preg_replace( '|/+|','/', $content_dir );
+
+		}
 
 		// Create URL.
-		$url         = str_replace( $content_dir, $content_url, $path );
+		$url = str_replace( $content_dir, $content_url, $path );
 
 		return $url;
 	}

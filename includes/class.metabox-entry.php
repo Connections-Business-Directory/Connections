@@ -308,8 +308,6 @@ class cnEntryMetabox {
 
 		if ( $action == NULL ) {
 
-			echo '<div id="entry-type">';
-
 			// The options have to be flipped because of an earlier stupid decision
 			// of making the array keys the option labels. This basically provide
 			// backward compatibility.
@@ -318,31 +316,28 @@ class cnEntryMetabox {
 					'display' => 'block',
 					'id'      => 'entry_type',
 					'options' => array_flip( $atts['entry_type'] ),
+					'before'  => '<div id="entry-type">',
+					'after'   => '</div>',
 					),
 				$type
 				);
 
-			echo '</div>';
 		}
 
-		if ( current_user_can( 'connections_edit_entry' ) ) {
-			echo '<div id="visibility">';
-
-			cnHTML::radio(
-				array(
-					'display' => 'block',
-					'id'      => 'visibility',
-					'options' => array(
-						'public'   => __( 'Public', 'connections' ),
-						'private'  => __( 'Private', 'connections' ),
-						'unlisted' => __( 'Unlisted', 'connections' ),
-						),
+		cnHTML::radio(
+			array(
+				'display' => 'block',
+				'id'      => 'visibility',
+				'options' => array(
+					'public'   => __( 'Public', 'connections' ),
+					'private'  => __( 'Private', 'connections' ),
+					'unlisted' => __( 'Unlisted', 'connections' ),
 					),
-				$visibility
-				);
-
-			echo '</div>';
-		}
+				'before'  => '<div id="visibility">',
+				'after'   => '</div>',
+				),
+			$visibility
+		);
 
 		// Create URL to current admin page.
 		$adminURL = admin_url( 'admin.php', ( is_ssl() ? 'https' : 'http' ) );

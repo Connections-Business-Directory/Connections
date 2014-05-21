@@ -267,7 +267,7 @@ class cnShortcode {
 							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', TRUE );
 							// var_dump( $entryID );
 
-							$results = $instance->retrieve->entries( $atts );
+							$results = $instance->retrieve->entries();
 							// var_dump( $results );
 
 							/*

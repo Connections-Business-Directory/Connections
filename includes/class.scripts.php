@@ -202,68 +202,49 @@ class cnScript {
 	 * Enqueues the Connections JavaScript libraries on required admin pages.
 	 *
 	 * @access private
-	 * @since 0.7.3.2
-	 * @global $connections
-	 * @uses wp_enqueue_script()
+	 * @since  0.7.3.2
+	 * @uses   wp_enqueue_script()
 	 * @param  string $pageHook The current admin page hook.
 	 * @return void
 	 */
 	public static function enqueueAdminScripts( $pageHook ) {
-		global $connections;
 
-		if ( ! current_user_can( 'connections_view_menu') ) return;
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		// Load on all the Connections admin pages.
-		if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
+		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
 
 			wp_enqueue_script( 'cn-ui-admin' );
+
+			do_action( 'cn_admin_enqueue_scripts', $pageHook );
 		}
 
-		/*
-		 * TinyMCE in WordPress Plugins
-		 * http://www.keighl.com/2010/01/tinymce-in-wordpress-plugins/
-		 *
-		 * For full editor see:
-		 * http://dannyvankooten.com/450/tinymce-wysiwyg-editor-in-wordpress-plugin/
-		 *
-		 * Load the tinyMCE scripts on these pages.
-		 */
-		$editorPages = array( $connections->pageHook->manage, $connections->pageHook->add );
+		$editPages = apply_filters( 'cn_admin_required_edit_scripts', array( $instance->pageHook->manage, $instance->pageHook->add ) );
 
-		if ( in_array( $pageHook, $editorPages ) ) {
-			global $concatenate_scripts, $compress_scripts, $compress_css;
+		if ( in_array( $pageHook, $editPages ) ) {
+			// global $concatenate_scripts, $compress_scripts, $compress_css;
 
 			wp_enqueue_script( 'jquery-gomap' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-chosen' );
 
-			if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) {
-				$compress_scripts = FALSE; // If the script are compress the TinyMCE doesn't seem to function.
-
-				wp_tiny_mce(
-					FALSE , // true makes the editor "teeny"
-					array(
-						'editor_selector'         => 'tinymce',
-						'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
-						'theme_advanced_buttons2' => '',
-						'inline_styles'           => TRUE,
-						'relative_urls'           => FALSE,
-						'remove_linebreaks'       => FALSE,
-						'plugins'                 => 'paste'
-					)
-				);
-			}
+			do_action( 'cn_admin_enqueue_edit_scripts', $pageHook );
 		}
 
-		// Load the core JavaScripts required for meta box UI.
-		$metaBoxPages = array( $connections->pageHook->dashboard, $connections->pageHook->manage, $connections->pageHook->add );
+		// Load the core JavaScripts required for metabox UI.
+		$metaboxPages = apply_filters( 'cn_admin_required_metabox_scripts', array( $instance->pageHook->dashboard, $instance->pageHook->manage, $instance->pageHook->add ) );
 
-		if ( in_array( $pageHook, $metaBoxPages ) ) {
+		if ( in_array( $pageHook, $metaboxPages ) ) {
+
 			wp_enqueue_script( 'common' );
 			wp_enqueue_script( 'wp-lists' );
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'cn-widget' );
+
+			do_action( 'cn_admin_enqueue_metabox_scripts', $pageHook );
 		}
+
 	}
 
 	public static function enqueue() {
@@ -361,26 +342,28 @@ class cnScript {
 	 * @return void
 	 */
 	public static function enqueueAdminStyles( $pageHook ) {
-		global $connections;
 
-		if ( ! current_user_can( 'connections_view_menu') ) return;
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
 
 		// Load on all the Connections admin pages.
-		if ( in_array( $pageHook, get_object_vars( $connections->pageHook ) ) ) {
+		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
+
 			wp_enqueue_style( 'cn-admin' );
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
 			wp_enqueue_style( 'cn-font-awesome' );
+
+			do_action( 'cn_admin_enqueue_styles', $pageHook );
 		}
 
-		// Load the WordPress widgets styles only on these pages.
-		$adminPageEntryEdit = array( $connections->pageHook->manage, $connections->pageHook->add );
+		$editPages = apply_filters( 'cn_admin_required_edit_scripts', array( $instance->pageHook->manage, $instance->pageHook->add ) );
 
-		if ( in_array( $pageHook, $adminPageEntryEdit ) ) {
-
-			// Earlier version of WP had the widgets CSS in a seperate file.
-			if ( version_compare( $GLOBALS['wp_version'], '3.2.999', '<' ) ) wp_enqueue_style( 'connections-admin-widgets', get_admin_url() . 'css/widgets.css' );
+		if ( in_array( $pageHook, $editPages ) ) {
 
 			wp_enqueue_style( 'cn-chosen' );
+
+			do_action( 'cn_admin_enqueue_edit_styles', $pageHook );
 		}
 	}
 

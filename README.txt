@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8.7
+Stable tag: 0.8.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,6 +47,7 @@ In addition to the free extensions Connections Business Directory also features 
 Connections Business Directory has been embraced around the world and has been translated in the following languages.
 
 * Catalan [86% Complete]
+* Danish [37% Complete]
 * Danish (Denmark) [45% Complete]
 * Dutch (Netherlands) [80% Complete]
 * French (France) [86% Complete]
@@ -54,9 +55,10 @@ Connections Business Directory has been embraced around the world and has been t
 * Hebrew (Israel) [100% Complete]
 * Hungarian (Hungry) [85% Complete]
 * Italian (Italy) [50% Complete]
+* Norwegian [20% Complete]
 * Persian (Iran) [85% Complete]
 * Polish (Poland) [86% Complete]
-* Portugese (Brazil) [75% Complete]
+* Portugese (Brazil) [77% Complete]
 * Portugese (Portugal) [39% Complete]
 * Russian (Russia) [42% Complete]
 * Serbian (Latin) [4% Complete]
@@ -101,6 +103,22 @@ Connections Business Directory has been embraced around the world and has been t
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.8 05/26/2014 =
+* TWEAK: Set width to template table cell to make them evenly spaced.
+* TWEAK: Remove $atts when retrieving an entry to edit on the front-end.
+* TWEAK: Clean the publish metabox code.
+* TWEAK: User get_current_user_id() to reduce db queries.
+* TWEAK: Cleanup admin CSS and JavaScript script enqueue code.
+* TWEAK: Remove unused JavaScript code on edit admin pages.
+* TWEAK: Add filters so plugins can alter the page hooks that the CSS and JS will be enqueued on.
+* TWEAK: Add actions to allow other plugins to hook into to make it easy to enqueue scripts only on Connections` admin pages.
+* TWEAK: Use hyphen instead of underscore for CSS and JS slugs.
+* I18N: Update Danish translation.
+* I18N: Update Hebrew (Israel) translation.
+* I18N: Update Hungarian (Hungary) translation.
+* I18N: Update Portuguese (Brazil) translation.
+* I18N: Add Nowegian translation.
 
 = 0.8.7 05/19/2014 =
 * TWEAK: Change input type to search on manage page.

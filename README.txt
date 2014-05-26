@@ -104,6 +104,9 @@ Connections Business Directory has been embraced around the world and has been t
 
 == Changelog ==
 
+= 0.8.9 05/26/2014 =
+* BUG: Remove extra hyphen when checking for template javascript registration action.
+
 = 0.8.8 05/26/2014 =
 * TWEAK: Set width to template table cell to make them evenly spaced.
 * TWEAK: Remove $atts when retrieving an entry to edit on the front-end.
@@ -454,4 +457,10 @@ This a major update to Connections it is recommended to backup before updating.
 This a major update to Connections it is recommended to backup before updating.
 
 = 0.8.7 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.8 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.9 =
 This a major update to Connections it is recommended to backup before updating.

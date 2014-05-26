@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8.8
+Stable tag: 0.8.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,9 @@ Connections Business Directory has been embraced around the world and has been t
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.9 05/26/2014 =
+* BUG: Remove extra hyphen when checking for template javascript registration action.
 
 = 0.8.8 05/26/2014 =
 * TWEAK: Set width to template table cell to make them evenly spaced.
@@ -454,4 +457,10 @@ This a major update to Connections it is recommended to backup before updating.
 This a major update to Connections it is recommended to backup before updating.
 
 = 0.8.7 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.8 =
+This a major update to Connections it is recommended to backup before updating.
+
+= 0.8.9 =
 This a major update to Connections it is recommended to backup before updating.

@@ -507,7 +507,7 @@ class cnTemplate {
 
 				case 'js':
 
-					if ( ! has_action( 'cn_template_enqueue_js-' . '-' . $this->slug ) ) {
+					if ( ! has_action( 'cn_template_enqueue_js-' . $this->slug ) ) {
 
 						add_action( 'cn_template_enqueue_js-' . $this->slug, $atts['callback'], 10, 3 );
 					}

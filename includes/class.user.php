@@ -45,12 +45,13 @@ class cnUser
 	}
 
 	public function getID() {
-        return $this->ID;
+
+        return get_current_user_id();
     }
 
 	public function setID() {
-		$current_user = wp_get_current_user();
-		$this->ID = $current_user->ID;
+
+		$this->ID = get_current_user_id();
 	}
 
 	public function getFilterEntryType()  {

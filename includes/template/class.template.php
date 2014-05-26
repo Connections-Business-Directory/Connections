@@ -953,12 +953,12 @@ class cnTemplate {
 
 		$required = apply_filters( 'cn_template_required_css-' . $this->slug, $required, $this );
 
-		wp_enqueue_style( "cnt_{$this->slug}-css", $this->parts['css-url'], $required, $this->version );
+		wp_enqueue_style( "cnt-{$this->slug}", $this->parts['css-url'], $required, $this->version );
 
 
 		if ( isset( $this->parts['css-custom-url'] ) ) {
 
-			wp_enqueue_style( "cnt_custom_{$this->slug}-css", $this->parts['css-custom-url'], array( "cnt_{$this->slug}-css" ), $this->version );
+			wp_enqueue_style( "cnt-{$this->slug}-custom", $this->parts['css-custom-url'], array( "cnt-{$this->slug}" ), $this->version );
 		}
 
 	}
@@ -974,7 +974,7 @@ class cnTemplate {
 
 		$required = apply_filters( 'cn_template_required_js-' . $this->slug, array(), $this );
 
-		wp_enqueue_script( "cnt_{$this->slug}-js", $this->parts['js-url'], $required, $this->version, TRUE );
+		wp_enqueue_script( "cnt-{$this->slug}", $this->parts['js-url'], $required, $this->version, TRUE );
 	}
 
 }

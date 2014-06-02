@@ -223,7 +223,7 @@ class cnScript {
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', array( $instance->pageHook->manage, $instance->pageHook->add ) );
 
 		if ( in_array( $pageHook, $editPages ) ) {
-			// global $concatenate_scripts, $compress_scripts, $compress_css;
+			global $concatenate_scripts, $compress_scripts, $compress_css;
 
 			wp_enqueue_script( 'jquery-gomap' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );

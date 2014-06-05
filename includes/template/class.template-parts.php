@@ -1376,9 +1376,9 @@ class cnTemplatePart {
 			'return' => FALSE
 		);
 
-		$atts = wp_parse_args($atts, $defaults);
+		$atts = wp_parse_args( $atts, $defaults );
 
-		$pageCount = ceil( $connections->retrieve->resultCountNoLimit / $atts['limit'] );
+		$pageCount = absint( $atts['limit'] ) ? ceil( $connections->retrieve->resultCountNoLimit / $atts['limit'] ) : 0;
 
 		if ( $pageCount > 1 ) {
 
@@ -1486,7 +1486,7 @@ class cnTemplatePart {
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 		// Output the page nav.
-		if ( $atts['return']) return $out;
+		if ( $atts['return'] ) return $out;
 		echo $out;
 	}
 
@@ -1744,8 +1744,9 @@ class cnTemplatePart {
 		// If option grouping is TRUE, show only the select option if it is a descendant. The root parent was used as the option group label.
 		if ( ( $atts['group'] && $level > 1 ) && ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) ) {
 
-			$out .= sprintf('<option %1$s style="padding-left: %2$dpx !important" value="%3$s"%4$s>' . /*$pad .*/ $category->name . $count . '</option>',
+			$out .= sprintf('<option %1$s style="padding-%2$s: %3$dpx !important" value="%4$s"%5$s>' . /*$pad .*/ $category->name . $count . '</option>',
 				$class,
+				is_rtl() ? 'right' : 'left',
 				$pad,
 				$category->term_id,
 				$strSelected
@@ -1755,8 +1756,9 @@ class cnTemplatePart {
 		// If option grouping is FALSE, show the root parent and descendant options.
 		elseif ( ! $atts['group'] && ( $atts['show_empty'] || ! empty($category->count) || ! empty($category->children) ) ) {
 
-			$out .= sprintf('<option %1$s style="padding-left: %2$dpx !important" value="%3$s"%4$s>' . /*$pad .*/ $category->name . $count . '</option>',
+			$out .= sprintf('<option %1$s style="padding-%2$s: %3$dpx !important" value="%4$s"%5$s>' . /*$pad .*/ $category->name . $count . '</option>',
 				$class,
+				is_rtl() ? 'right' : 'left',
 				$pad,
 				$category->term_id,
 				$strSelected

@@ -45,6 +45,136 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Get the template part path or the rendered template part.
+	 *
+	 * If the template is being loaded, the output will be buffered by default
+	 * and the result of the buffer returned.
+	 *
+	 * @access public
+	 * @since  0.8.11
+	 * @static
+	 * @uses   cnLocate::fileNames()
+	 * @uses   cnTemplatePart::locate()
+	 * @param  string  $base         The base template name.
+	 * @param  string  $name         The template name.
+	 * @param  array   $params       An array of arguments that will be extact() if the template part is to be loaded.
+	 * @param  boolean $load         Whether or not to load the template.
+	 * @param  boolean $buffer
+	 * @param  boolean $require_once Whether or not to require() or require_once() the template part.
+	 * @return string                The template part file path, if one is located.
+	 */
+	public static function get( $base, $name = NULL, $params, $load = TRUE, $buffer = TRUE, $require_once = TRUE ) {
+
+		$files = cnLocate::fileNames( $base, $name );
+
+		if ( $load ) {
+
+			if ( $buffer ) {
+
+				ob_start();
+
+				cnTemplatePart::locate( $files, $params, TRUE, $require_once );
+
+				$part = ob_get_clean();
+
+			} else {
+
+				return cnTemplatePart::locate( $files, $params, TRUE, $require_once );
+			}
+
+		} else {
+
+			$part = cnTemplatePart::locate( $files, $params );
+		}
+
+		return $part;
+	}
+
+	/**
+	 * Retrieve the name of the highest priority template file that exists.
+	 *
+	 * @access public
+	 * @since  0.8.11
+	 * @static
+	 * @uses   cnLocate::file()
+	 * @uses   load_template()
+	 * @param  string|array  $files        Template file(s) to search for, in order of priority.
+	 * @param  array         $params       An array of arguments that will be extact() if the template part is to be loaded.
+	 * @param  boolean       $load         If true the template file will be loaded.
+	 * @param  boolean       $require_once Whether to require_once or require. Default is to require_once.
+	 *
+	 * @return string                      The template part file path, if one is located.
+	 */
+	public static function locate( $files, $params, $load = FALSE, $require_once = TRUE ) {
+
+		$located = FALSE;
+
+		$located = cnLocate::file( $files );
+
+		if ( $load && $located ) {
+
+			return self::load( $located, $params, $require_once );
+		}
+
+		return $located;
+	}
+
+	/**
+	 * Load the template.
+	 *
+	 * This is basically a Connections version of WP core load_template().
+	 *
+	 * The difference is an array $params can be passed which will be
+	 * extract() so the $params are in scope of the template part.
+	 *
+	 * @access public
+	 * @static
+	 * @since  0.8.11
+	 * @global $posts
+	 * @global $post
+	 * @global $wp_did_header
+	 * @global $wp_query
+	 * @global $wp_rewrite
+	 * @global $wpdb
+	 * @global $wp_version
+	 * @global $wp
+	 * @global $id
+	 * @global $comment
+	 * @global $user_ID
+	 * @param  string  $file         The file path of the template part to be loaded.
+	 * @param  array   $params       An array of arguments that will be extact().
+	 * @param  bool    $require_once Whether to require_once or require. Default is to require_once.
+	 *
+	 * @return bool                  Unless the required file returns another value.
+	 */
+	public static function load( $file, $params = array(), $require_once = TRUE ) {
+		global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
+
+		if ( is_array( $wp_query->query_vars ) ) {
+
+			extract( $wp_query->query_vars, EXTR_SKIP );
+		}
+
+		if ( is_array( $wp_query->query_vars ) ) {
+
+			extract( $params );
+		}
+
+		if ( $require_once ) {
+
+			$result = require_once( $file );
+
+		} else {
+
+			$result = require( $file );
+		}
+
+		$result = $result === FALSE ? $result : TRUE;
+
+		return $result;
+	}
+
+	/**
 	 * Display the template no found error message.
 	 *
 	 * @access private
@@ -1164,14 +1294,12 @@ class cnTemplatePart {
 		$searchValue = ( get_query_var('cn-s') ) ? get_query_var('cn-s') : '';
 
 		// Check to see if there is a template file override.
-		$part = cnLocate::file( cnLocate::fileNames( 'search' ) );
+		$part = self::get( 'search', NULL, array( 'atts' => $atts, 'searchValue' => $searchValue ) );
 
 		// If one was found, lets include it. If not, run the core function.
 		if ( $part ) {
 
-			ob_start();
-				include $part;
-			$out .= ob_get_clean();
+			$out .= $part;
 
 		} else {
 
@@ -1363,7 +1491,7 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function pagination( $atts = array() ) {
-		global $wp_rewrite, $post,  $connections;
+		global $wp_rewrite, $post, $connections;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
@@ -1376,9 +1504,9 @@ class cnTemplatePart {
 			'return' => FALSE
 		);
 
-		$atts = wp_parse_args($atts, $defaults);
+		$atts = wp_parse_args( $atts, $defaults );
 
-		$pageCount = ceil( $connections->retrieve->resultCountNoLimit / $atts['limit'] );
+		$pageCount = absint( $atts['limit'] ) ? ceil( $connections->retrieve->resultCountNoLimit / $atts['limit'] ) : 0;
 
 		if ( $pageCount > 1 ) {
 
@@ -1486,7 +1614,7 @@ class cnTemplatePart {
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 		// Output the page nav.
-		if ( $atts['return']) return $out;
+		if ( $atts['return'] ) return $out;
 		echo $out;
 	}
 
@@ -1744,8 +1872,9 @@ class cnTemplatePart {
 		// If option grouping is TRUE, show only the select option if it is a descendant. The root parent was used as the option group label.
 		if ( ( $atts['group'] && $level > 1 ) && ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) ) {
 
-			$out .= sprintf('<option %1$s style="padding-left: %2$dpx !important" value="%3$s"%4$s>' . /*$pad .*/ $category->name . $count . '</option>',
+			$out .= sprintf('<option %1$s style="padding-%2$s: %3$dpx !important" value="%4$s"%5$s>' . /*$pad .*/ $category->name . $count . '</option>',
 				$class,
+				is_rtl() ? 'right' : 'left',
 				$pad,
 				$category->term_id,
 				$strSelected
@@ -1755,8 +1884,9 @@ class cnTemplatePart {
 		// If option grouping is FALSE, show the root parent and descendant options.
 		elseif ( ! $atts['group'] && ( $atts['show_empty'] || ! empty($category->count) || ! empty($category->children) ) ) {
 
-			$out .= sprintf('<option %1$s style="padding-left: %2$dpx !important" value="%3$s"%4$s>' . /*$pad .*/ $category->name . $count . '</option>',
+			$out .= sprintf('<option %1$s style="padding-%2$s: %3$dpx !important" value="%4$s"%5$s>' . /*$pad .*/ $category->name . $count . '</option>',
 				$class,
+				is_rtl() ? 'right' : 'left',
 				$pad,
 				$category->term_id,
 				$strSelected
@@ -2153,7 +2283,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private static function categoryLinkDescendant ( $category, $level, $depth, $slug, $atts ) {
+	private static function categoryLinkDescendant( $category, $level, $depth, $slug, $atts ) {
 		global $wp_rewrite, $connections;
 
 		$out = '';

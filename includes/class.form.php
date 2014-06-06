@@ -400,26 +400,34 @@ class cnCategoryObjects {
 		$out .= '<p>' . __( 'Categories can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.', 'connections' ) . '</p>';
 		$out .= '</div>';
 
-		// $out .= '<div class="form-field connectionsform">';
-		// $out .= '<label for="category_description">' . __( 'Description', 'connections' ) . '</label>';
-		// $out .= '<textarea cols="40" rows="5" id="category_description" name="category_description">' . $category->getDescription() . '</textarea>';
-		// $out .= '<p>' . __( 'The description is not displayed by default; however, templates may be created or altered to show it.', 'connections' ) . '</p>';
-		// $out .= '</div>';
-
 		ob_start();
 
-		wp_editor( $category->getDescription(),
+		/*
+		 * Now we're going to have to keep track of which TinyMCE plugins
+		 * WP core supports based on version, sigh.
+		 */
+		if ( version_compare( $GLOBALS['wp_version'], '3.8.999', '<' ) ) {
+
+			$tinymcePlugins = array( 'inlinepopups', 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
+
+		} else {
+
+			$tinymcePlugins = array( 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
+		}
+
+		wp_editor(
+			wp_kses_post( $category->getDescription() ),
 			'category_description',
 			array(
 				'media_buttons' => FALSE,
-				'tinymce' => array(
-					'editor_selector' => 'tinymce',
-					'theme_advanced_buttons1' => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
-					'theme_advanced_buttons2' => '',
-					'inline_styles' => TRUE,
-					'relative_urls' => FALSE,
+				'tinymce'       => array(
+					'editor_selector'   => 'tinymce',
+					'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
+					'toolbar2'          => '',
+					'inline_styles'     => TRUE,
+					'relative_urls'     => FALSE,
 					'remove_linebreaks' => FALSE,
-					'plugins' => 'inlinepopups,spellchecker,tabfocus,paste,wordpress,wpdialogs'
+					'plugins'           => implode( ',', $tinymcePlugins )
 				)
 			)
 		);

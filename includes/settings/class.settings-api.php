@@ -719,18 +719,50 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					break;
 
 				case 'rte':
-					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
-					if( $wp_version >= 3.3 && function_exists('wp_editor') )
-					{
-						if ( isset($field['desc']) && ! empty($field['desc']) ) echo sprintf( '<span class="description">%1$s</span><br />', $field['desc'] );
-						wp_editor($value, sprintf('%1$s' , $name), array('textarea_name' => sprintf('%1$s' , $name) ) );
+					$size = isset( $field['size'] ) && $field['size'] != 'regular' ? $field['size'] : 'regular';
+
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<div class="description"> %1$s</div>',
+							esc_html( $field['desc'] )
+						);
 
 					}
-					else
-					{
-						if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description">%1$s</span><br />', $field['desc'] );
-						$out .= sprintf( '<textarea rows="10" cols="50" class="%1$s-text" id="%2$s" name="%2$s">%3$s</textarea>', $size, $name, $value );
+
+					if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
+
+						// Set the rte defaults.
+						$defaults = array(
+							'textarea_name' => sprintf( '%1$s' , $field['id'] ),
+						);
+
+						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
+
+						wp_editor(
+							wp_kses_post( $value ),
+							sprintf( '%1$s' , $field['id'] ),
+							$atts
+						);
+
+					} else {
+
+						/*
+						 * If this is pre WP 3.3, lets drop in the quick tag editor instead.
+						 */
+						echo '<div class="wp-editor-container">';
+
+						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
+							esc_attr( $field['id'] ),
+							wp_kses_data( $value )
+						);
+
+						echo '</div>';
+
+						self::$quickTagIDs[] = esc_attr( $field['id'] );
+
+						wp_enqueue_script('jquery');
+						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
 					}
 
 					break;

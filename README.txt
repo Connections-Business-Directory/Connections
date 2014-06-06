@@ -104,6 +104,16 @@ Connections Business Directory has been embraced around the world and has been t
 
 == Changelog ==
 
+= 0.8.11 06/06/2014 =
+* BUG: Fixed the Visual editor in the Settings API.
+* BUG: Fixed the Visual editor on Categories admin page.
+* BUG: Prevent divide by zero error in pagination.
+* TWEAK: Add filter for default admin metabox page hooks.
+* TWEAK: Change cnLocate::file() logic to search for all files in priority order before moving on to the next priority folder.
+* TWEAK: Change cnTemplate::locate() logic to search for all files in priority order before moving on to the next priority folder.
+* OTHER: Fix misspelling in phpDoc block.
+* OTHER: Add cnTemplatePart helper methods used to require template part files.
+
 = 0.8.10 06/02/2014 =
 * BUG: Fixed issue where Visual editor may not work.
 
@@ -469,4 +479,7 @@ This a major update to Connections it is recommended to backup before updating.
 This a major update to Connections it is recommended to backup before updating.
 
 = 0.8.10 =
+If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
+
+= 0.8.11 =
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.

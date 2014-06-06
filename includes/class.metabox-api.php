@@ -181,12 +181,11 @@ class cnMetaboxAPI {
 
 		if ( is_admin() ) {
 
-			// Grab an instance of Connections.
-			// $instance = Connections_Directory();
+			$pageHooks = apply_filters( 'cn_admin_default_metabox_page_hooks', array( 'connections_page_connections_add', 'connections_page_connections_manage' ) );
 
-			// Define the core pages and use them by default if no page where defined.
-			// Check if doing AJAX because the page hooks are not defined when doing an AJAX request which cause undefined property errors.
-			$pages = defined('DOING_AJAX') && DOING_AJAX ? array() : array( 'connections_page_connections_add', 'connections_page_connections_manage' );
+			// Define the core pages and use them by default if no page hooks were defined.
+			// Check DOING_AJAX because the page hooks are not defined when doing an AJAX request which causes undefined property errors.
+			$pages = defined('DOING_AJAX') && DOING_AJAX ? array() : $pageHooks;
 
 			$metabox['pages'] = empty( $metabox['pages'] ) ? $pages : $metabox['pages'];
 

@@ -29,7 +29,7 @@ class cnShortcode_Connections extends cnShortcode {
 		/*
 		 * This filter adds the current template paths to cnLocate so when template
 		 * part file overrides are being searched for, it'll also search in template
-		 * specific paths. This filter is them removed at the end of the shortcode.
+		 * specific paths. This filter is then removed at the end of the shortcode.
 		 */
 		add_filter( 'cn_locate_file_paths', array( $template, 'templatePaths' ) );
 		self::addFilterRegistry( 'cn_locate_file_paths' );

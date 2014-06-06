@@ -536,14 +536,11 @@ class cnTemplate {
 
 		$path = FALSE;
 
-		// Try to find a template file.
-		foreach ( $files as $fileName ) {
+		// Try locating this template file by looping through the template paths.
+		foreach ( $this->filePaths() as $filePath ) {
 
-			// Trim off any slashes from the template name.
-			$fileName = untrailingslashit( $fileName );
-
-			// Try locating this template file by looping through the template paths.
-			foreach ( $this->filePaths() as $filePath ) {
+			// Try to find a template file.
+			foreach ( $files as $fileName ) {
 				// var_dump( $filePath . $fileName );
 
 				if ( file_exists( $filePath . $fileName ) ) {
@@ -598,10 +595,10 @@ class cnTemplate {
 		$path = apply_filters( 'cn_template_file_paths-' . $this->slug, $path );
 		// var_dump($path);
 
-		// sort the file paths based on priority
+		// Sort the file paths based on priority.
 		ksort( $path, SORT_NUMERIC );
 
-		return $path;
+		return array_filter( $path );
 	}
 
 	/**
@@ -725,7 +722,11 @@ class cnTemplate {
 		$files = apply_filters( 'cn_template_file_names-' . $this->slug, $files, $base, $name, $slug, $ext );
 		// var_dump( $files );
 
-		return $files;
+		// Sort the files based on priority
+		ksort( $files, SORT_NUMERIC );
+		// var_dump( $files );
+
+		return array_filter( $files );
 	}
 
 	/**
@@ -879,12 +880,28 @@ class cnTemplate {
 	 *
 	 * @access private
 	 * @since  0.8
+	 * @uses   trailingslashit()
+	 * @uses   wp_upload_dir()
+	 * @uses   is_child_theme()
 	 * @param  array  $path An index array containing the file paths to be searched.
+	 *
 	 * @return array
 	 */
 	public function templatePaths( $path ) {
 
-		$path[90]  = CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug );
+		$template_directory = trailingslashit( 'connections-templates' );
+
+		$upload_dir = wp_upload_dir();
+
+		// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
+		if ( is_child_theme() ) {
+
+			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory . trailingslashit( $this->slug );
+		}
+
+		$path[20]  =  trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug );
+		$path[40]  = trailingslashit( $upload_dir['basedir'] ) . $template_directory . trailingslashit( $this->slug );
+		$path[80]  = CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug );
 		$path[100] = $this->getPath();
 
 		return $path;

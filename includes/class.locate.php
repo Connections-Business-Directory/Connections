@@ -39,20 +39,18 @@ class cnLocate {
 	 * @uses   filePaths()
 	 * @param  array  $files An indexed array of file names to search for.
 	 *
-	 * @return string        The absolution file system path to the located file.
+	 * @return string        The absolute file system path to the located file.
 	 */
 	public static function file( $files, $return = 'path' ) {
 
-		$path = FALSE;
+		$path  = FALSE;
+		$files = array_filter( (array) $files );
 
-		// Try to find a template file.
-		foreach ( $files as $fileName ) {
+		// Try locating this template file by looping through the template paths.
+		foreach ( self::filePaths() as $filePath ) {
 
-			// Trim off any slashes from the template name.
-			$fileName = untrailingslashit( $fileName );
-
-			// Try locating this template file by looping through the template paths.
-			foreach ( self::filePaths() as $filePath ) {
+			// Try to find a template file.
+			foreach ( $files as $fileName ) {
 				// var_dump( $filePath . $fileName );
 
 				if ( file_exists( $filePath . $fileName ) ) {
@@ -101,6 +99,8 @@ class cnLocate {
 	 */
 	private static function filePaths() {
 
+		$path  = array();
+
 		$template_directory = trailingslashit( 'connections-templates' );
 
 		$upload_dir = wp_upload_dir();
@@ -108,21 +108,20 @@ class cnLocate {
 		// Only add this conditionally, so non-child themes don't redundantly check active theme twice.
 		if ( is_child_theme() ) {
 
-			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory;
+			$path[10] = trailingslashit( get_stylesheet_directory() ) . $template_directory;
 		}
 
-		$path = array(
-			10 => trailingslashit( get_template_directory() ) . $template_directory,
-			50 => trailingslashit( $upload_dir['basedir'] ) . $template_directory,
-			99 => CN_CUSTOM_TEMPLATE_PATH,
-		);
+		$path[30] = trailingslashit( get_template_directory() ) . $template_directory;
+		$path[50] = trailingslashit( $upload_dir['basedir'] ) . $template_directory;
+		$path[90] = CN_CUSTOM_TEMPLATE_PATH;
 
 		$path = apply_filters( 'cn_locate_file_paths', $path );
 
-		// sort the file paths based on priority
+		// Sort the file paths based on priority.
 		ksort( $path, SORT_NUMERIC );
+		// var_dump( $path );
 
-		return $path;
+		return array_filter( $path );
 	}
 
 	/**
@@ -247,7 +246,11 @@ class cnLocate {
 		$files = apply_filters( 'cn_locate_file_names', $files, $base, $name, $slug, $ext );
 		// var_dump( $files );
 
-		return $files;
+		// Sort the files based on priority
+		ksort( $files, SORT_NUMERIC );
+		// var_dump( $files );
+
+		return array_filter( $files );
 	}
 
 	/**

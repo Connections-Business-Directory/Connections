@@ -956,7 +956,7 @@ class cnTemplatePart {
 
 			$out .= sprintf( '<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>',
 				$permalink,
-				__( 'Clear Search' )
+				__( 'Clear Search', 'connections' )
 			);
 
 			$out = '<div id="cn-search-messages">' . $out . '</div>';

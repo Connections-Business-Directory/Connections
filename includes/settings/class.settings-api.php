@@ -734,14 +734,14 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 						// Set the rte defaults.
 						$defaults = array(
-							'textarea_name' => sprintf( '%1$s' , $field['id'] ),
+							'textarea_name' => sprintf( '%1$s' , $name ),
 						);
 
 						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
 						wp_editor(
 							wp_kses_post( $value ),
-							sprintf( '%1$s' , $field['id'] ),
+							esc_attr( $field['id'] ),
 							$atts
 						);
 
@@ -753,13 +753,13 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						echo '<div class="wp-editor-container">';
 
 						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
-							esc_attr( $field['id'] ),
+							esc_attr( $name ),
 							wp_kses_data( $value )
 						);
 
 						echo '</div>';
 
-						self::$quickTagIDs[] = esc_attr( $field['id'] );
+						self::$quickTagIDs[] = esc_attr( $name );
 
 						wp_enqueue_script('jquery');
 						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );

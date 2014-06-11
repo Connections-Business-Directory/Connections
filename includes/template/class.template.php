@@ -575,6 +575,8 @@ class cnTemplate {
 	 */
 	private function filePaths() {
 
+		$path  = array();
+
 		$template_directory = trailingslashit( 'connections-templates' );
 
 		$upload_dir = wp_upload_dir();
@@ -585,12 +587,10 @@ class cnTemplate {
 			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory . trailingslashit( $this->slug );
 		}
 
-		$path = array(
-			10  => trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug ),
-			50  => trailingslashit( $upload_dir['basedir'] ) . $template_directory . trailingslashit( $this->slug ),
-			99  => CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug ),
-			100 => $this->getPath(),
-		);
+		$path[10]  = trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug );
+		$path[50]  = trailingslashit( $upload_dir['basedir'] ) . $template_directory . trailingslashit( $this->slug );
+		$path[99]  = CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug );
+		$path[100] = $this->getPath();
 
 		$path = apply_filters( 'cn_template_file_paths-' . $this->slug, $path );
 		// var_dump($path);

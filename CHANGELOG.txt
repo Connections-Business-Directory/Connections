@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 0.8.12 06/13/2014 =
+* FEATURE: Add Goodreads to social media options.
+* FEATURE: Add IMDb to social media options.
+* FEATURE: Add Tumblr to social media options.
+* BUG: Add missing gettext text domain to the "Clear Search" button.
+* BUG: Fix RTE saving on the Settings admin page.
+* BUG: Properly search the child template path for custom template files.
+* TWEAK: Update the Google+ icons.
+
 = 0.8.11 06/06/2014 =
 * BUG: Fixed the Visual editor in the Settings API.
 * BUG: Fixed the Visual editor on Categories admin page.

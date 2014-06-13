@@ -492,3 +492,6 @@ If you are updating from a version less than 0.8, it is recommended to backup be
 
 = 0.8.11 =
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
+
+= 0.8.12 =
+If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.

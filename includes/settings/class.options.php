@@ -842,6 +842,7 @@ class cnOptions {
 			'facebook'      => 'Facebook',
 			'flickr'        => 'Flickr',
 			'foursquare'    => 'foursquare',
+			'goodreads'     => 'Goodreads',
 			'googleplus'    => 'Google+',
 			'instagram'     => 'Instagram',
 			'itunes'        => 'iTunes',

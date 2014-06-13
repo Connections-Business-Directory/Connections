@@ -856,6 +856,7 @@ class cnOptions {
 			'soundcloud'    => 'SoundCloud',
 			'technorati'    => 'Technorati',
 			'tripadvisor'   => 'TripAdvisor',
+			'tumblr'        => 'Tumblr',
 			'twitter'       => 'Twitter',
 			'vimeo'         => 'vimeo',
 			'vk'            => 'VK',

@@ -67,10 +67,14 @@ class cnEntry_Shortcode {
 		// Adding it here so it is only processed when $content is processed thru this method.
 		add_shortcode( 'cn_entry', array( $this, 'shortcode' ) );
 
-		// Bail if $content does hot contain the `cn_entry` shortcode.
-		if ( ! has_shortcode( $content, 'cn_entry' ) ) return '';
+		if ( has_shortcode( $content, 'cn_entry' ) ) {
 
-		$this->result = do_shortcode( $content );
+			$this->result = do_shortcode( $content );
+
+		} else {
+
+			$this->result = $content;
+		}
 
 		// Remove the runtime shortcode.
 		remove_shortcode( 'cn_entry' );

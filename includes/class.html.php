@@ -60,6 +60,24 @@ class cnHTML {
 
 				break;
 
+			case 'submit':
+
+				return self::input( $atts, $value );
+
+				break;
+
+			case 'textarea':
+
+				return self::textarea( $atts, $value );
+
+				break;
+
+			case 'hidden':
+
+				return self::input( $atts, $value );
+
+				break;
+
 			default:
 				# todo Put action and or filter here.
 				break;
@@ -374,6 +392,82 @@ class cnHTML {
 			! empty( $atts['checked'] ) ? $atts['checked'] : '',
 			$atts['readonly'] ? 'readonly="readonly"' : '',
 			disabled( $atts['disabled'], TRUE, FALSE )
+		);
+
+		$out = str_ireplace( $search, $replace, $atts['layout'] );
+
+		/*
+		 * Return or echo the string.
+		 */
+		if ( $atts['return'] ) return ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
+		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
+	}
+
+	public static function textarea( $atts = array(), $value = '' ) {
+
+		$defaults = array(
+			'type'        => 'text', // text | quicktag | rte
+			'prefix'      => 'cn-',
+			'class'       => array(),
+			'id'          => '',
+			'name'        => '',
+			'cols'        => '',
+			'rows'        => '',
+			'maxlength'   => 0,
+			'style'       => array(),
+			'readonly'    => FALSE,
+			'disabled'    => FALSE,
+			'required'    => FALSE,
+			'placeholder' => '',
+			'label'       => '',
+			'before'      => '',
+			'after'       => '',
+			'parts'       => array( '%label%', '%field%' ),
+			'layout'      => '%label%%field%',
+			'return'      => FALSE,
+			);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// If no `id` was supplied, bail.
+		if ( empty( $atts['id'] ) ) return '';
+
+		// The field name. If not supplied, use the id.
+		$name = ! empty( $atts['name'] ) ? $atts['name'] : $atts['id'];
+
+		// The field parts to be searched for in $atts['layout'].
+		$search = $atts['parts'];
+
+		// An array to store the replacement strings for the label and field.
+		$replace = array();
+
+		// Prefix the `class` and `id` attribute.
+		if ( ! empty( $atts['prefix'] ) ) {
+
+			$atts['class'] = self::prefix( $atts['class'], $atts );
+			$atts['id']    = self::prefix( $atts['id'], $atts );
+		}
+
+		// Add "required" to any classes that may have been supplied.
+		// If the field is required, cast $atts['class'] as an array in case a string was supplied
+		// and then tack the "required" value to the end of the array.
+		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array('required') ) : $atts['class'];
+
+		// Create the field label, if supplied.
+		$replace[] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
+
+		$replace[] = sprintf( '<textarea %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s>%7$s</textarea>',
+			self::attribute( 'class', $atts['class'] ),
+			self::attribute( 'id', $atts['id'] ),
+			self::attribute( 'name', $name ),
+			! empty( $atts['cols'] ) ? absint( $atts['cols'] ) : '',
+			! empty( $atts['rows'] ) ? absint( $atts['rows'] ) : '',
+			! empty( $atts['maxlength'] ) ? absint( $atts['maxlength'] ) : '',
+			self::attribute( 'style', $atts['style'] ),
+			$atts['readonly'] ? 'readonly="readonly"' : '',
+			disabled( $atts['disabled'], TRUE, FALSE ),
+			! empty( $atts['placeholder'] ) ? $atts['placeholder'] : '',
+			esc_textarea( $value )
 		);
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );

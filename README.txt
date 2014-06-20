@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.5
 Tested up to: 3.9
-Stable tag: 0.8.12
+Stable tag: 0.8.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,13 @@ Connections Business Directory has been embraced around the world and has been t
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.13 06/20/2014 =
+BUG: Fix logic that determines if cnEntry_Shortcode should process $content for the `cn_entry` shortcode.
+BUG: Fix cnFormatting::toBoolean(). Check if value is bool and return it if it is. Otherwise convert value to bool.
+TWEAK: Add submit, textarea & hidden to cnHTML.
+TWEAK: Re-order before/after list/entry action hooks to be more consistent.
+OTHER: Update EDD_SL_Plugin_Updater to version 1.2.
 
 = 0.8.12 06/13/2014 =
 * FEATURE: Add Goodreads to social media options.
@@ -494,4 +501,7 @@ If you are updating from a version less than 0.8, it is recommended to backup be
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
 
 = 0.8.12 =
+If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
+
+= 0.8.13 =
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.

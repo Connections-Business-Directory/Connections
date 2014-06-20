@@ -336,10 +336,11 @@ class cnTemplatePart {
 
 			ob_start();
 				do_action( 'cn_action_list_before', $atts, $results );
+				do_action( 'cn_action_list_both', $atts, $results );
+
 				do_action( 'cn_action_list_before-' . $template->getSlug(), $atts, $results );
 				cnShortcode::addFilterRegistry( 'cn_action_list_before-' . $template->getSlug() );
 
-				do_action( 'cn_action_list_both', $atts, $results );
 				do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
 				cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
 
@@ -486,10 +487,11 @@ class cnTemplatePart {
 				}
 
 				do_action( 'cn_action_entry_before', $atts, $entry );
+				do_action( 'cn_action_entry_both', $atts, $entry  );
+
 				do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
 				cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
 
-				do_action( 'cn_action_entry_both', $atts, $entry  );
 				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
 				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
@@ -514,13 +516,14 @@ class cnTemplatePart {
 			// After entry actions.
 			ob_start();
 
-				do_action( 'cn_action_entry_both', $atts, $entry  );
 				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
 				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
-				do_action( 'cn_action_entry_after', $atts, $entry );
 				do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
 				cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
+
+				do_action( 'cn_action_entry_both', $atts, $entry  );
+				do_action( 'cn_action_entry_after', $atts, $entry );
 
 				// Display the Entry Actions.
 				if ( get_query_var( 'cn-entry-slug' ) ) {
@@ -561,13 +564,14 @@ class cnTemplatePart {
 		$out .= PHP_EOL . '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
 
 			ob_start();
-				do_action( 'cn_action_list_both' , $atts , $results  );
-				do_action( 'cn_action_list_both-' . $template->getSlug() , $atts , $results );
+				do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
 				cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
 
-				do_action( 'cn_action_list_after' , $atts , $results );
-				do_action( 'cn_action_list_after-' . $template->getSlug() , $atts , $results );
+				do_action( 'cn_action_list_after-' . $template->getSlug(), $atts, $results );
 				cnShortcode::addFilterRegistry( 'cn_action_list_after-' . $template->getSlug() );
+
+				do_action( 'cn_action_list_both', $atts, $results );
+				do_action( 'cn_action_list_after', $atts, $results );
 
 				// Display the Results List Actions.
 				if ( ! get_query_var( 'cn-entry-slug' ) ) {

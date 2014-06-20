@@ -94,7 +94,11 @@ class cnFormatting {
 	 */
 	public static function toBoolean( &$value ) {
 
+		// Already a bool, return it.
+		if ( is_bool( $value ) ) return $value;
+
 		switch ( strtolower( $value ) ) {
+
 			case 'yes':
 				$value = TRUE;
 				break;
@@ -119,9 +123,6 @@ class cnFormatting {
 				$value = FALSE;
 				break;
 
-			default:
-				$value = NULL;
-				break;
 		}
 
 		return $value;

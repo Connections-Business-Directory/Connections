@@ -125,8 +125,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * the language files are loaded will not be loaded.
 				 *
 				 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the init action hook or later.
+				 * NOTE: Priority set at -1 because the Metabox API runs at priority 0. The translation files need to be
+				 * 	loaded before the metaboxes are registered by the API or the metabox head will not display with the translated strings.
 				 */
-				add_action( 'init', array( __CLASS__ , 'loadTextdomain' ) );
+				add_action( 'init', array( __CLASS__ , 'loadTextdomain' ), -1 );
 
 				/*
 				 * Process front end actions.
@@ -432,7 +434,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			include_once CN_PATH . 'templates/names/names.php';
 			include_once CN_PATH . 'templates/card/card-default.php';
 			include_once CN_PATH . 'templates/card-bio/card-bio.php';
-			include_once CN_PATH . 'templates/card-single/card-single.php';
+			include_once CN_PATH . 'templates/card-single/card-single-default.php';
 			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
 			include_once CN_PATH . 'templates/profile/profile.php';
 			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';

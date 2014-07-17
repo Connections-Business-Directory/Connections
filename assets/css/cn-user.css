@@ -3,7 +3,7 @@
  */
 #cn-list .cn-clear { clear: both; }
 #cn-list div.cn-list-head { position: relative; }
-#cn-list div.cn-list-section-head { position: relative; }
+/*#cn-list div.cn-list-section-head { position: relative; }*/
 #cn-list div.cn-list-section-head h4 { font-size: 16px; padding: 0; margin-bottom: .8em; }
 #cn-list div.cn-alphaindex { font-weight: bold; font-size: 14px; position: relative; bottom: 0; right: 0; }
 #cn-list label { cursor: pointer; }

@@ -242,9 +242,16 @@ class cnScript {
 			wp_enqueue_script( 'postbox' );
 			wp_enqueue_script( 'cn-widget' );
 
+			add_action( 'admin_footer-' . $instance->pageHook->dashboard, array( __CLASS__ , 'adminFooterScript' ) );
 			do_action( 'cn_admin_enqueue_metabox_scripts', $pageHook );
 		}
 
+	}
+
+	public static function adminFooterScript() {
+		?>
+		<script>postboxes.add_postbox_toggles(pagenow);</script>
+		<?php
 	}
 
 	public static function enqueue() {

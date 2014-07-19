@@ -25,8 +25,9 @@ div.rss-widget li{margin-bottom:14px}div.rss-widget h4{font-size:1.2em;margin:0}
 #metabox-quick-links .button.full,.button.full span{display:block}#metabox-quick-links .button.large span{font-size:1em;font-weight:700}.widgets-sortables{min-height:0}
 .widget{position:relative}.widget div.widget-top{height:auto}.widget-top a.widget-action{background-position:6px 10px!important;height:34px;width:24px}
 .widget-top a.widget-action:after{padding:10px 6px 0}.widget-top .widget-title{padding:6px 9px;overflow:hidden;position:relative}.widget-title h4 label{line-height:normal;vertical-align:text-top}
-.widget-title h4 span.visibility{position:absolute;right:0;top:10px}.widget-title h4 span.visibility .cn-radio-option{padding-right:4px}.widget-title h4 span.visibility label{font-weight:normal}
-.widget-title h4{overflow:visible;padding:0}.widget-title h4 select{height:1.75em;padding:1px;vertical-align:initial}.widget-inside,.widget-description{display:block;padding:12px 12px 10px;position:relative}
+.widget-title h4 span.adddress-type{white-space:nowrap;float:left}.widget-title h4 span.visibility{white-space:nowrap;float:right;padding-top:4px}@media only screen and (max-width :780px){.widget-title h4 span.visibility{padding-top:.75em}
+}.widget-title h4 span.visibility .cn-radio-option{padding-right:4px}.widget-title h4 span.visibility label{font-weight:normal}.widget-title h4{overflow:visible;padding:0;white-space:normal}
+.widget-title h4 select{height:1.75em;padding:1px;vertical-align:initial}.widget-inside,.widget-description{display:block;padding:12px 12px 10px;position:relative}
 .widget-title-action:hover{cursor:pointer}.widget-placeholder{background-color:#fcfcfc;border-width:1px;border-style:dashed;margin:0 auto 20px;height:60px;width:100%}
 div.widgets-sortables{background-color:transparent;background-image:none}#entry-type{border-color:#dfdfdf;border-style:solid;border-width:1px;margin:6px;padding:10px}
 #visibility{border-color:#dfdfdf;border-style:solid;border-width:1px;margin:6px;padding:10px}#minor-publishing label{display:block;margin:10px 6px}#metabox-name input[type="text"]{width:100%}

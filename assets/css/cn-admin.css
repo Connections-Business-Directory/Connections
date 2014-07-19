@@ -280,7 +280,26 @@ div.rss-widget div.rss-date { margin-bottom: 8px; }
 }
 
 .widget-title h4 label { line-height: normal; vertical-align: text-top; }
-.widget-title h4 span.visibility { position: absolute; right: 0; top: 10px }
+.widget-title h4 span.adddress-type {
+	white-space: nowrap;
+	float: left;
+}
+.widget-title h4 span.visibility {
+	/*position: absolute;
+	right: 0;
+	top: 10px;*/
+	white-space: nowrap;
+	float: right;
+	padding-top: 4px;
+}
+@media only screen
+and (max-width : 780px) {
+
+	.widget-title h4 span.visibility {
+		padding-top: .75em;
+	}
+
+}
 .widget-title h4 span.visibility .cn-radio-option { padding-right: 4px; }
 .widget-title h4 span.visibility label { font-weight: normal; }
 /*.widget-title input { float: left; }*/
@@ -288,6 +307,7 @@ div.rss-widget div.rss-date { margin-bottom: 8px; }
 .widget-title h4 {
 	overflow: visible;
 	padding: 0;
+	white-space: normal;
 }
 
 .widget-title h4 select {

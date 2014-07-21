@@ -1114,6 +1114,7 @@ class cnEntryMetabox {
 							'id'       => 'address[::FIELD::][type]',
 							'options'  => $addressTypes,
 							'required' => FALSE,
+							'before'   => '<span class="adddress-type">',
 							'label'    => __( 'Address Type', 'connections' ),
 							'return'   => FALSE,
 						)
@@ -1128,7 +1129,7 @@ class cnEntryMetabox {
 							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
 							'required' => FALSE,
 							'before'   => '<span class="preferred">',
-							'after'    => '</span>',
+							'after'    => '</span></span>',
 							'return'   => FALSE,
 						)
 					);
@@ -1327,6 +1328,7 @@ class cnEntryMetabox {
 								'id'       => $selectName,
 								'options'  => $addressTypes,
 								'required' => FALSE,
+								'before'   => '<span class="adddress-type">',
 								'label'    => __( 'Address Type', 'connections' ),
 								'return'   => FALSE,
 							),
@@ -1342,7 +1344,7 @@ class cnEntryMetabox {
 								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
 								'required' => FALSE,
 								'before'   => '<span class="preferred">',
-								'after'    => '</span>',
+								'after'    => '</span></span>',
 								'return'   => FALSE,
 							),
 							$preferred

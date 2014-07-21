@@ -109,20 +109,7 @@ class cnAdminFunction {
 			// Add the screen layout filter.
 			add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
 
-			/*
-			 * In instances such as WP AJAX requests the add_menu() and add_sub_menu() functions are
-			 * not run in the admin_menu action, so the properties would not exist and will throw
-			 * PHP notices when attempting to access them. If the menus have been added then the
-			 * properties will exist so it will be safe to add the actions using the properties.
-			 */
-			if ( get_object_vars( $instance->pageHook ) && current_user_can( 'connections_view_menu') ) {
-
-				/*
-				 * Add the panel to the "Screen Options" box to the manage page.
-				 * NOTE: This relies on the the Screen Options class by Janis Elsts
-				 */
-				add_screen_options_panel( 'cn-manage-page-limit', 'Show on screen', array( __CLASS__, 'managePageLimit' ), $instance->pageHook->manage );
-			}
+			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ) );
 
 		}
 
@@ -286,11 +273,60 @@ class cnAdminFunction {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
+		/*
+		 * The Screen Layout options in the Screen Options tab only needs to be added on the manage page if performing an action to an entry.
+		 * This is to prevent the Screen Layout options in the Screen Options tab from being displayed on the Manage
+		 * admin page when viewing the manage entries table.
+		 */
+		if ( $screen == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) return $columns;
+
 		$columns[ $instance->pageHook->dashboard ] = 2;
 		$columns[ $instance->pageHook->manage ] = 2;
 		$columns[ $instance->pageHook->add ] = 2;
 
 		return $columns;
+	}
+
+	/**
+	 * Adds the "Show on screen" option to limit number of entries per page on the Connections : Manage admin page.
+	 *
+	 * @access private
+	 * @since  0.8.14
+	 * @static
+	 * @uses   get_object_vars()
+	 * @uses   current_user_can()
+	 * @uses   add_screen_options_panel()
+	 * @param  object $screen An instance of the WordPress screen object.
+	 * @return void
+	 */
+	public static function screenOptionsPanel( $screen ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		/*
+		 * In instances such as WP AJAX requests the add_menu() and add_sub_menu() functions are
+		 * not run in the admin_menu action, so the properties would not exist and will throw
+		 * PHP notices when attempting to access them. If the menus have been added then the
+		 * properties will exist so it will be safe to add the actions using the properties.
+		 */
+		if ( get_object_vars( $instance->pageHook ) && current_user_can( 'connections_view_menu') ) {
+
+			/*
+			 * The Screen Layout options in the Screen Option tab only needs to be added on the manage page when NOT performing an action to an entry.
+			 * This is to prevent the Screen Layout options in the Screen Option tab on the Manage
+			 * admin page when performing an action on an entry.
+			 */
+			if ( $screen->id == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
+
+				/*
+				 * Add the panel to the "Screen Options" box to the manage page.
+				 * NOTE: This relies on the the Screen Options class by Janis Elsts
+				 */
+				add_screen_options_panel( 'cn-manage-page-limit', 'Show on screen', array( __CLASS__, 'managePageLimit' ), $instance->pageHook->manage );
+			}
+
+		}
 	}
 
 	/**

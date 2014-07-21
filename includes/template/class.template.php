@@ -183,7 +183,7 @@ class cnTemplate {
 
 		if ( $templatePath !== FALSE ) {
 			// var_dump($templatePath);
-
+			$templatePath = addslashes( $templatePath );
 			// The action should only be added once.
 			if ( ! has_action( 'cn_template-' . $this->slug ) ) {
 

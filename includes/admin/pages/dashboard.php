@@ -30,34 +30,32 @@ function connectionsShowDashboardPage() {
 				padding:1em 2em;
 				text-align:center;
 				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
-	}
-	else {
+	} else {
 		global $connections;
 
 		$form = new cnFormObjects();
-?>
+		?>
 		<div class="wrap">
-			<?php echo get_screen_icon( 'connections' ); ?>
 
 			<h2>Connections : <?php _e( 'Dashboard', 'connections' ); ?></h2>
 
 			<div id="dashboard-widgets-wrap">
 
-				<div class="metabox-holder" id="dashboard-widgets">
+				<div id="dashboard-widgets" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 
-					<div style="width: 49%;" class="postbox-container">
+					<div class="postbox-container">
 						<?php do_meta_boxes( $connections->pageHook->dashboard, 'left', NULL ); ?>
 					</div>
 
-					<div style="width: 49%;" class="postbox-container">
+					<div class="postbox-container">
 						<?php do_meta_boxes( $connections->pageHook->dashboard, 'right', NULL ); ?>
 					</div>
 
-				</div>
+				</div><!-- #dashboard-widgets -->
 
-			</div>
+			</div><!-- .dashboard-widgets-wrap -->
 
-		</div>
+		</div><!-- .wrap -->
 
 		<?php
 		$attr = array(
@@ -67,27 +65,15 @@ function connectionsShowDashboardPage() {
 
 		$form->open( $attr );
 
-		wp_nonce_field( 'howto-metaboxes-general' );
-		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
-		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
+		/* Used to save closed metaboxes and their order */
+		wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
+		wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
 
 		$form->close();
-?>
-
+		?>
 
 		<div class="clear"></div>
 
-		<script type="text/javascript">
-		//<![CDATA[
-		jQuery(document).ready( function($) {
-			// close postboxes that should be closed
-			$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-			// postboxes setup
-			postboxes.add_postbox_toggles('<?php echo $connections->pageHook->dashboard ?>');
-		});
-		//]]>
-		</script>
 	<?php
 	}
 }
-?>

@@ -2,9 +2,9 @@
 Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
-Requires at least: 3.5
+Requires at least: 3.8
 Tested up to: 3.9
-Stable tag: 0.8.13
+Stable tag: 0.8.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,7 +51,7 @@ Connections Business Directory has been embraced around the world and has been t
 * Danish (Denmark) [45% Complete]
 * Dutch (Netherlands) [80% Complete]
 * French (France) [86% Complete]
-* German (Germany) [72% Complete]
+* German (Germany) [75% Complete]
 * Hebrew (Israel) [100% Complete]
 * Hungarian (Hungry) [85% Complete]
 * Italian (Italy) [50% Complete]
@@ -95,7 +95,7 @@ Connections Business Directory has been embraced around the world and has been t
 [Installation instructions can be found here.](http://connections-pro.com/documentation/plugin/install/)
 
 = Requirements =
-* **WordPress version:** >= 3.3
+* **WordPress version:** >= 3.8
 * **PHP version:** >= 5.2.4
 * **NOTE:** Upgrading from version 0.6.1 and newer only, is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
 
@@ -103,6 +103,19 @@ Connections Business Directory has been embraced around the world and has been t
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 0.8.14 07/21/2014 =
+FEATURE: Improve responsive readiness of the Dashboard and Manage admin pages.
+BUG: Rename the base for of the Single Entry Card template.
+BUG: Fix HTML syntax for text areas.
+BUG: Fix permalink encoding issue.
+BUG: Fix Dashboard column toggle.
+BUG: Fix the Screen Options tab display and functions.
+BUG: Escape the template file path before including it.
+TWEAK: Remove section head relative positioning.
+TWEAK: Improve Visibility CSS in metabox header.
+OTHER: Update TimThumb to 2.8.14.
+I18N: Update German (Germany) translation.
 
 = 0.8.13 06/20/2014 =
 BUG: Fix logic that determines if cnEntry_Shortcode should process $content for the `cn_entry` shortcode.
@@ -505,3 +518,6 @@ If you are updating from a version less than 0.8, it is recommended to backup be
 
 = 0.8.13 =
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
+
+= 0.8.14 =
+If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update. Requires WordPress >= 3.8.

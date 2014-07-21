@@ -14,25 +14,33 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function connectionsShowViewPage( $action = NULL ) {
-	global $wpdb, $connections;
 
 	// Grab an instance of the Connections object.
-	$instance = Connections_Directory();
-
+	$instance  = Connections_Directory();
 	$queryVars = array();
+
+	echo '<div class="wrap">';
 
 	switch ( $action ) {
 
 		case 'add_entry':
 
-			echo '<div class="wrap">';
-			echo get_screen_icon( 'connections' );
 			echo '<h2>Connections : ' , __( 'Add Entry', 'connections' ) , '</h2>';
 
 			/*
 			 * Check whether current user can add an entry.
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
+
+				$form  = new cnFormObjects();
+				$entry = new cnOutput();
+
+				$attr = array(
+					'method'  => 'post',
+					'enctype' => 'multipart/form-data',
+				);
+
+				$form->open( $attr );
 
 				$field = array(
 					'id'       => 'metabox-name',
@@ -44,58 +52,40 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				cnMetabox_Render::add( $instance->pageHook->add, $field );
 
-				$form = new cnFormObjects();
-				$entry = new cnOutput();
+				echo '<div id="poststuff">';
 
-				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
+					echo '<div id="post-body" class="metabox-holder columns-' . ( 1 == get_current_screen()->get_columns() ? '1' : '2' ) . '">';
 
-				$attr = array(
-					// 'action'  => 'admin.php?connections_process=true&process=manage&action=add',
-					'method'  => 'post',
-					'enctype' => 'multipart/form-data',
-				);
+						wp_nonce_field( 'cn-manage-metaboxes' );
+						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
+						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
+						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
-				$form->open( $attr );
+						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
 
-				wp_nonce_field( 'cn-manage-metaboxes' );
-				wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
-				wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-				echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
+						do_action( 'cn_admin_form_add_entry_before', $entry, $form );
 
-				$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
+						echo '<div id="postbox-container-1" class="postbox-container">';
+							echo '<div id="side-sortables" class="meta-box-sortables ui-sortable">';
+								do_meta_boxes( $instance->pageHook->add, 'side', $entry );
+							echo '</div> <!-- #side-sortables -->';
+						echo '</div> <!-- #postbox-container-1 -->';
 
-				do_action( 'cn_admin_form_add_entry_before', $entry, $form );
+						echo '<div id="postbox-container-2" class="postbox-container">';
+							echo '<div id="normal-sortables" class="meta-box-sortables ui-sortable">';
+								do_meta_boxes( $instance->pageHook->add, 'normal', $entry );
+							echo '</div> <!-- #normal-sortables -->';
+						echo '</div> <!-- #postbox-container-2 -->';
 
-				echo '<div id="side-info-column" class="inner-sidebar">';
-				do_meta_boxes( $connections->pageHook->add, 'side', $entry );
-				echo '</div>';
+						do_action( 'cn_admin_form_add_entry_after', $entry, $form );
 
+					echo '</div> <!-- #post-body -->';
 
-				echo '<div id="post-body" class="has-sidebar">';
-				echo '<div id="post-body-content" class="has-sidebar-content">';
-				do_meta_boxes( $connections->pageHook->add, 'normal', $entry );
-				echo '</div>';
-				echo '</div>';
+					echo '<br class="clear">';
 
-				do_action( 'cn_admin_form_add_entry_before', $entry, $form );
+				echo '</div> <!-- #poststuff -->';
 
 				$form->close();
-
-				echo '</div>';
-	?>
-
-					<script type="text/javascript">
-					//<![CDATA[
-					jQuery(document).ready( function($) {
-						// close postboxes that should be closed
-						$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-						// postboxes setup
-						postboxes.add_postbox_toggles('<?php echo $connections->pageHook->add ?>');
-					});
-					//]]>
-					</script>
-
-					<?php
 
 				unset( $entry );
 
@@ -109,15 +99,26 @@ function connectionsShowViewPage( $action = NULL ) {
 		case 'copy_entry':
 
 			echo '<div class="wrap">';
-			echo get_screen_icon( 'connections' );
+
 			echo '<h2>Connections : ' , __( 'Copy Entry', 'connections' ) , '</h2>';
 
 			/*
 			 * Check whether current user can add an entry.
 			 */
 			if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
+
 				$id = esc_attr( $_GET['id'] );
 				check_admin_referer( 'entry_copy_' . $id );
+
+				$form  = new cnFormObjects();
+				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
+
+				$attr = array(
+					'method'  => 'post',
+					'enctype' => 'multipart/form-data',
+				);
+
+				$form->open( $attr );
 
 				$field = array(
 					'id'       => 'metabox-name',
@@ -129,58 +130,40 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				cnMetabox_Render::add( $instance->pageHook->manage, $field );
 
-				$form = new cnFormObjects();
-				$entry = new cnOutput( $connections->retrieve->entry( $id ) );
+				echo '<div id="poststuff">';
 
-				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
+					echo '<div id="post-body" class="metabox-holder columns-' . ( 1 == get_current_screen()->get_columns() ? '1' : '2' ) . '">';
 
-				$attr = array(
-					// 'action'  => 'admin.php?connections_process=true&process=manage&action=add&id=' . $id,
-					'method'  => 'post',
-					'enctype' => 'multipart/form-data',
-				);
+						wp_nonce_field( 'cn-manage-metaboxes' );
+						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
+						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
+						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
-				$form->open( $attr );
+						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
 
-				wp_nonce_field( 'cn-manage-metaboxes' );
-				wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
-				wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-				echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
+						do_action( 'cn_admin_form_copy_entry_before', $entry, $form );
 
-				$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
+						echo '<div id="postbox-container-1" class="postbox-container">';
+							echo '<div id="side-sortables" class="meta-box-sortables ui-sortable">';
+								do_meta_boxes( $instance->pageHook->manage, 'side', $entry );
+							echo '</div> <!-- #side-sortables -->';
+						echo '</div> <!-- #postbox-container-1 -->';
 
-				do_action( 'cn_admin_form_copy_entry_before', $entry, $form );
+						echo '<div id="postbox-container-2" class="postbox-container">';
+							echo '<div id="normal-sortables" class="meta-box-sortables ui-sortable">';
+								do_meta_boxes( $instance->pageHook->manage, 'normal', $entry );
+							echo '</div> <!-- #normal-sortables -->';
+						echo '</div> <!-- #postbox-container-2 -->';
 
-				echo '<div id="side-info-column" class="inner-sidebar">';
-				do_meta_boxes( $connections->pageHook->manage, 'side', $entry );
-				echo '</div>';
+						do_action( 'cn_admin_form_copy_entry_after', $entry, $form );
 
+					echo '</div> <!-- #post-body -->';
 
-				echo '<div id="post-body" class="has-sidebar">';
-				echo '<div id="post-body-content" class="has-sidebar-content">';
-				do_meta_boxes( $connections->pageHook->manage, 'normal', $entry );
-				echo '</div>';
-				echo '</div>';
+					echo '<br class="clear">';
 
-				do_action( 'cn_admin_form_copy_entry_after', $entry, $form );
+				echo '</div> <!-- #poststuff -->';
 
 				$form->close();
-
-				echo '</div>';
-	?>
-
-					<script type="text/javascript">
-					//<![CDATA[
-					jQuery(document).ready( function($) {
-						// close postboxes that should be closed
-						$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-						// postboxes setup
-						postboxes.add_postbox_toggles('<?php echo $connections->pageHook->manage ?>');
-					});
-					//]]>
-					</script>
-
-					<?php
 
 				unset( $entry );
 
@@ -193,16 +176,26 @@ function connectionsShowViewPage( $action = NULL ) {
 
 		case 'edit_entry':
 
-			echo '<div class="wrap">';
-			echo get_screen_icon( 'connections' );
 			echo '<h2>Connections : ' , __( 'Edit Entry', 'connections' ) , '</h2>';
 
 			/*
 			 * Check whether the current user can edit entries.
 			 */
 			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+
 				$id = esc_attr( $_GET['id'] );
 				check_admin_referer( 'entry_edit_' . $id );
+
+				$form  = new cnFormObjects();
+				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
+
+				$attr = array(
+					'action'  => 'admin.php?connections_process=true&process=manage&action=update&id=' . $id,
+					'method'  => 'post',
+					'enctype' => 'multipart/form-data',
+				);
+
+				$form->open( $attr );
 
 				$field = array(
 					'id'       => 'metabox-name',
@@ -214,59 +207,40 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				cnMetabox_Render::add( $instance->pageHook->manage, $field );
 
-				$form = new cnFormObjects();
-				$entry = new cnOutput( $connections->retrieve->entry( $id ) );
+				echo '<div id="poststuff">';
 
-				echo '<div id="poststuff" class="metabox-holder has-right-sidebar">';
+					echo '<div id="post-body" class="metabox-holder columns-' . ( 1 == get_current_screen()->get_columns() ? '1' : '2' ) . '">';
 
-				$attr = array(
-					'action'  => 'admin.php?connections_process=true&process=manage&action=update&id=' . $id,
-					'method'  => 'post',
-					'enctype' => 'multipart/form-data',
-				);
+						wp_nonce_field( 'cn-manage-metaboxes' );
+						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
+						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
+						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
-				$form->open( $attr );
+						$form->tokenField( 'update_entry', FALSE, '_cn_wpnonce', FALSE );
 
-				wp_nonce_field( 'cn-manage-metaboxes' );
-				wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
-				wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-				echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
+						do_action( 'cn_admin_form_edit_entry_before', $entry, $form );
 
-				$form->tokenField( 'update_entry', FALSE, '_cn_wpnonce', FALSE );
+						echo '<div id="postbox-container-1" class="postbox-container">';
+							echo '<div id="side-sortables" class="meta-box-sortables ui-sortable">';
+								do_meta_boxes( $instance->pageHook->manage, 'side', $entry );
+							echo '</div> <!-- #side-sortables -->';
+						echo '</div> <!-- #postbox-container-1 -->';
 
-				do_action( 'cn_admin_form_edit_entry_before', $entry, $form );
+						echo '<div id="postbox-container-2" class="postbox-container">';
+							echo '<div id="normal-sortables" class="meta-box-sortables ui-sortable">';
+								do_meta_boxes( $instance->pageHook->manage, 'normal', $entry );
+							echo '</div> <!-- #normal-sortables -->';
+						echo '</div> <!-- #postbox-container-2 -->';
 
-				echo '<div id="side-info-column" class="inner-sidebar">';
-				do_meta_boxes( $connections->pageHook->manage, 'side', $entry );
-				echo '</div>';
+						do_action( 'cn_admin_form_edit_entry_after', $entry, $form );
 
+					echo '</div> <!-- #post-body -->';
 
-				echo '<div id="post-body" class="has-sidebar">';
-				echo '<div id="post-body-content" class="has-sidebar-content">';
-				do_meta_boxes( $connections->pageHook->manage, 'normal', $entry );
-				echo '</div>';
-				echo '</div>';
+					echo '<br class="clear">';
 
-				do_action( 'cn_admin_form_edit_entry_after', $entry, $form );
+				echo '</div> <!-- #poststuff -->';
 
 				$form->close();
-
-				echo '</div>';
-
-				?>
-
-				<script type="text/javascript">
-				//<![CDATA[
-				jQuery(document).ready( function($) {
-					// close postboxes that should be closed
-					$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-					// postboxes setup
-					postboxes.add_postbox_toggles('<?php echo $connections->pageHook->manage ?>');
-				});
-				//]]>
-				</script>
-
-				<?php
 
 				unset( $entry );
 
@@ -281,7 +255,7 @@ function connectionsShowViewPage( $action = NULL ) {
 			$form = new cnFormObjects();
 			$categoryObjects = new cnCategoryObjects();
 
-			$page = $connections->currentUser->getFilterPage( 'manage' );
+			$page = $instance->currentUser->getFilterPage( 'manage' );
 			$offset = ( $page->current - 1 ) * $page->limit;
 
 			echo '<div class="wrap">';
@@ -293,20 +267,20 @@ function connectionsShowViewPage( $action = NULL ) {
 			 */
 			if ( current_user_can( 'connections_manage' ) ) {
 
-				$retrieveAttr['list_type']  = $connections->currentUser->getFilterEntryType();
-				$retrieveAttr['category']   = $connections->currentUser->getFilterCategory();
+				$retrieveAttr['list_type']  = $instance->currentUser->getFilterEntryType();
+				$retrieveAttr['category']   = $instance->currentUser->getFilterCategory();
 
 				$retrieveAttr['char']       = isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ? $_GET['cn-char'] : '';
-				$retrieveAttr['visibility'] = $connections->currentUser->getFilterVisibility();
-				$retrieveAttr['status']     = $connections->currentUser->getFilterStatus();
+				$retrieveAttr['visibility'] = $instance->currentUser->getFilterVisibility();
+				$retrieveAttr['status']     = $instance->currentUser->getFilterStatus();
 
 				$retrieveAttr['limit']      = $page->limit;
 				$retrieveAttr['offset']     = $offset;
 
 				if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) $retrieveAttr['search_terms'] = $_GET['s'];
 
-				$results = $connections->retrieve->entries( $retrieveAttr );
-				// print_r($connections->lastQuery);
+				$results = $instance->retrieve->entries( $retrieveAttr );
+				// print_r($instance->lastQuery);
 				?>
 
 				<?php if ( current_user_can( 'connections_edit_entry' ) ) { ?>
@@ -357,7 +331,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							<?php
 							echo '<select class="postform" id="category" name="category">';
 							echo '<option value="-1">' , __( 'Show All Categories', 'connections' ) , '</option>';
-							echo $categoryObjects->buildCategoryRow( 'option', $connections->retrieve->categories(), 0, $connections->currentUser->getFilterCategory() );
+							echo $categoryObjects->buildCategoryRow( 'option', $instance->retrieve->categories(), 0, $instance->currentUser->getFilterCategory() );
 							echo '</select>';
 
 							echo $form->buildSelect(
@@ -368,13 +342,13 @@ function connectionsShowViewPage( $action = NULL ) {
 									'organization' => __( 'Show Organizations', 'connections' ),
 									'family' => __( 'Show Families', 'connections' )
 								),
-								$connections->currentUser->getFilterEntryType()
+								$instance->currentUser->getFilterEntryType()
 							);
 
 							/*
 							 * Builds the visibilty select list base on current user capabilities.
 							 */
-							if ( current_user_can( 'connections_view_public' ) || $connections->options->getAllowPublic() ) $visibilitySelect['public'] = __( 'Show Public', 'connections' );
+							if ( current_user_can( 'connections_view_public' ) || $instance->options->getAllowPublic() ) $visibilitySelect['public'] = __( 'Show Public', 'connections' );
 							if ( current_user_can( 'connections_view_private' ) ) $visibilitySelect['private'] = __( 'Show Private', 'connections' );
 							if ( current_user_can( 'connections_view_unlisted' ) ) $visibilitySelect['unlisted'] = __( 'Show Unlisted', 'connections' );
 
@@ -385,7 +359,7 @@ function connectionsShowViewPage( $action = NULL ) {
 								 */
 								$showAll['all'] = __( 'Show All', 'connections' );
 								$visibilitySelect = $showAll + $visibilitySelect;
-								echo $form->buildSelect( 'visibility_type', $visibilitySelect, $connections->currentUser->getFilterVisibility() );
+								echo $form->buildSelect( 'visibility_type', $visibilitySelect, $instance->currentUser->getFilterVisibility() );
 							}
 
 							?>
@@ -397,7 +371,7 @@ function connectionsShowViewPage( $action = NULL ) {
 						<div class="tablenav-pages">
 							<?php
 
-							echo '<span class="displaying-num">' . sprintf( __( 'Displaying %1$d of %2$d entries.', 'connections' ), $connections->resultCount, $connections->resultCountNoLimit ) . '</span>';
+							echo '<span class="displaying-num">' . sprintf( __( 'Displaying %1$d of %2$d entries.', 'connections' ), $instance->resultCount, $instance->resultCountNoLimit ) . '</span>';
 
 							/*
 							 * // START --> Pagination
@@ -405,9 +379,9 @@ function connectionsShowViewPage( $action = NULL ) {
 							 * Grab the pagination data again incase a filter reset the values
 							 * or the user input an invalid number which the retrieve query would have reset.
 							 */
-							$page = $connections->currentUser->getFilterPage( 'manage' );
+							$page = $instance->currentUser->getFilterPage( 'manage' );
 
-							$pageCount = ceil( $connections->resultCountNoLimit / $page->limit );
+							$pageCount = ceil( $instance->resultCountNoLimit / $page->limit );
 
 							if ( $pageCount > 1 ) {
 
@@ -497,7 +471,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							 * Display the character filter control.
 							 */
 							echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
-							cnTemplatePart::index( array( 'status' => $connections->currentUser->getFilterStatus(), 'tag' => 'span' ) );
+							cnTemplatePart::index( array( 'status' => $instance->currentUser->getFilterStatus(), 'tag' => 'span' ) );
 							cnTemplatePart::currentCharacter();
 							?>
 						</div>
@@ -687,10 +661,10 @@ function connectionsShowViewPage( $action = NULL ) {
 
 							if ( $relation->getId() ) {
 								if ( current_user_can( 'connections_edit_entry' ) ) {
-									echo '<strong>' . $connections->options->getFamilyRelation( $value ) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getFullFirstLastName() . '">' . $relation->getFullFirstLastName() . '</a><br />' . "\n";
+									echo '<strong>' . $instance->options->getFamilyRelation( $value ) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getFullFirstLastName() . '">' . $relation->getFullFirstLastName() . '</a><br />' . "\n";
 								}
 								else {
-									echo '<strong>' . $connections->options->getFamilyRelation( $value ) . ':</strong> ' . $relation->getFullFirstLastName() . '<br />' . "\n";
+									echo '<strong>' . $instance->options->getFamilyRelation( $value ) . ':</strong> ' . $relation->getFullFirstLastName() . '<br />' . "\n";
 								}
 							}
 
@@ -856,11 +830,11 @@ function connectionsShowViewPage( $action = NULL ) {
 				<?php
 			}
 			else {
-				$connections->setErrorMessage( 'capability_view_entry_list' );
+				$instance->setErrorMessage( 'capability_view_entry_list' );
 			}
 
 			break;
 	}
-?>
-	</div>
-<?php }
+
+	echo '</div> <!-- .wrap -->';
+ }

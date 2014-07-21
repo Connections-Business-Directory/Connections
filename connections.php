@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 0.8.13
+ * Version: 0.8.14
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 0.8.13
+ * @version 0.8.14
  */
 
 // Exit if accessed directly
@@ -125,8 +125,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * the language files are loaded will not be loaded.
 				 *
 				 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the init action hook or later.
+				 * NOTE: Priority set at -1 because the Metabox API runs at priority 0. The translation files need to be
+				 * 	loaded before the metaboxes are registered by the API or the metabox head will not display with the translated strings.
 				 */
-				add_action( 'init', array( __CLASS__ , 'loadTextdomain' ) );
+				add_action( 'init', array( __CLASS__ , 'loadTextdomain' ), -1 );
 
 				/*
 				 * Process front end actions.
@@ -166,7 +168,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Version Constants
 			 */
-			define( 'CN_CURRENT_VERSION', '0.8.13' );
+			define( 'CN_CURRENT_VERSION', '0.8.14' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
@@ -432,7 +434,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			include_once CN_PATH . 'templates/names/names.php';
 			include_once CN_PATH . 'templates/card/card-default.php';
 			include_once CN_PATH . 'templates/card-bio/card-bio.php';
-			include_once CN_PATH . 'templates/card-single/card-single.php';
+			include_once CN_PATH . 'templates/card-single/card-single-default.php';
 			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
 			include_once CN_PATH . 'templates/profile/profile.php';
 			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
@@ -701,7 +703,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Create a .htaccess file in the timthumb folder to allow it to be called directly.
-			cnFileSystem::permitTimThumb( CN_PATH . 'includes/libraries/timthumb' );
+			cnFileSystem::permitTimThumb( CN_PATH . '/vendor/timthumb' );
 
 			$connections->initOptions();
 

@@ -113,31 +113,31 @@ class cnSEO {
 
 
 			if ( get_query_var( 'cn-country' ) )
-				$link = esc_url( trailingslashit( $link . $base['country_base'] . '/' . urlencode( get_query_var( 'cn-country' ) ) ) );
+				$link = esc_url( trailingslashit( $link . $base['country_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-country' ) ) ) ) );
 
 
 			if ( get_query_var( 'cn-region' ) )
-				$link = esc_url( trailingslashit( $link . $base['region_base'] . '/' . urlencode( get_query_var( 'cn-region' ) ) ) );
+				$link = esc_url( trailingslashit( $link . $base['region_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-region' ) ) ) ) );
 
 
 			if ( get_query_var( 'cn-locality' ) )
-				$link = esc_url( trailingslashit( $link . $base['locality_base'] . '/' . urlencode( get_query_var( 'cn-locality' ) ) ) );
+				$link = esc_url( trailingslashit( $link . $base['locality_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-locality' ) ) ) ) );
 
 
 			if ( get_query_var( 'cn-postal-code' ) )
-				$link = esc_url( trailingslashit( $link . $base['postal_code_base'] . '/' . urlencode( get_query_var( 'cn-postal-code' ) ) ) );
+				$link = esc_url( trailingslashit( $link . $base['postal_code_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-postal-code' ) ) ) ) );
 
 
 			if ( get_query_var( 'cn-organization' ) )
-				$link = esc_url( trailingslashit( $link . $base['organization_base'] . '/' . urlencode( get_query_var( 'cn-organization' ) ) ) );
+				$link = esc_url( trailingslashit( $link . $base['organization_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-organization' ) ) ) ) );
 
 
 			if ( get_query_var( 'cn-department' ) )
-				$link = esc_url( trailingslashit( $link . $base['department_base'] . '/' . urlencode( get_query_var( 'cn-department' ) ) ) );
+				$link = esc_url( trailingslashit( $link . $base['department_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-department' ) ) ) ) );
 
 
 			if ( get_query_var( 'cn-entry-slug' ) )
-				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( get_query_var( 'cn-entry-slug' ) ) ) );
+				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-entry-slug' ) ) ) ) );
 
 
 			$link = user_trailingslashit( $link, 'page' );
@@ -149,31 +149,31 @@ class cnSEO {
 
 
 			if ( get_query_var( 'cn-country' ) )
-				$link = esc_url( add_query_arg( array( 'cn-country' => get_query_var( 'cn-country' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-country' => urldecode( get_query_var( 'cn-country' ) ) ), $link ) );
 
 
 			if ( get_query_var( 'cn-region' ) )
-				$link = esc_url( add_query_arg( array( 'cn-region' => get_query_var( 'cn-region' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-region' => urldecode( get_query_var( 'cn-region' ) ) ), $link ) );
 
 
 			if ( get_query_var( 'cn-locality' ) )
-				$link = esc_url( add_query_arg( array( 'cn-locality' => get_query_var( 'cn-locality' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-locality' => urldecode( get_query_var( 'cn-locality' ) ) ), $link ) );
 
 
 			if ( get_query_var( 'cn-postal-code' ) )
-				$link = esc_url( add_query_arg( array( 'cn-postal-code' => get_query_var( 'cn-postal-code' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-postal-code' => urldecode( get_query_var( 'cn-postal-code' ) ) ), $link ) );
 
 
 			if ( get_query_var( 'cn-organization' ) )
-				$link = esc_url( add_query_arg( array( 'cn-organization' => get_query_var( 'cn-organization' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-organization' => urldecode( get_query_var( 'cn-organization' ) ) ), $link ) );
 
 
 			if ( get_query_var( 'cn-department' ) )
-				$link = esc_url( add_query_arg( array( 'cn-department' => get_query_var( 'cn-department' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-department' => urldecode( get_query_var( 'cn-department' ) ) ), $link ) );
 
 
 			if ( get_query_var( 'cn-entry-slug' ) )
-				$link = esc_url( add_query_arg( array( 'cn-entry-slug' => get_query_var( 'cn-entry-slug' ) ) , $link ) );
+				$link = esc_url( add_query_arg( array( 'cn-entry-slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ), $link ) );
 
 		}
 

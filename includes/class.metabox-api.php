@@ -127,11 +127,8 @@ class cnMetaboxAPI {
 
 			self::$instance = new self;
 
-			// Process the registered metaboxes. This has to be run on the `admin_init` hook
-			// because the admin menu pages must be registered so we can use the page hooks.
-			// In the front end, just hook into the `init` hook since the page hooks are not needed.
-
 			add_action( 'init', array( __CLASS__, 'process' ), 0 );
+
 		}
 	}
 
@@ -302,6 +299,14 @@ class cnMetaboxAPI {
 	 */
 	public static function register() {
 		global $hook_suffix;
+
+		// Grab an instance of the Connections object.
+		$instance  = Connections_Directory();
+
+		// The metaboxes only need to be added on the manage page if performing an action to an entry.
+		// This is to prevent the metaboxes from showing on the Screen Option tab on the Manage
+		// admin page when viewing the manage entries table.
+		if ( $hook_suffix == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) return;
 
 		foreach ( self::$metaboxes as $metabox ) {
 

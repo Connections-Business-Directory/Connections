@@ -182,9 +182,9 @@ class cnOptions {
 	public function getVisibilityOptions() {
 
 		$options = array(
-			'public'   =>'Public',
-			'private'  =>'Private',
-			'unlisted' =>'Unlisted'
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' ),
+			'unlisted' => __( 'Unlisted', 'connections' )
 			);
 
 		foreach ( $options as $key => $option ) {

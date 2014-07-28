@@ -251,7 +251,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-meta',
-			'title'    => __( 'Custom Fields', 'connection' ),
+			'title'    => __( 'Custom Fields', 'connections' ),
 			'pages'    => $pages,
 			'name'     => 'Meta',
 			'desc'     => __( 'Custom fields can be used to add extra metadata to an entry that you can use in your template.', 'connections' ),

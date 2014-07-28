@@ -353,11 +353,15 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// geocoding
 			require_once CN_PATH . 'includes/class.geo.php'; // Required
 
+			// thumbnails
+			require_once CN_PATH . 'includes/image/class.image.php';
+
 			// Shortcodes
 			// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
 			require_once CN_PATH . 'includes/shortcode/inc.shortcodes.php';
 			require_once CN_PATH . 'includes/shortcode/class.shortcode.php';
 			require_once CN_PATH . 'includes/shortcode/class.shortcode-connections.php';
+			require_once CN_PATH . 'includes/shortcode/class.shortcode-thumbnail.php';
 
 			// require_once CN_PATH . 'includes/class.shortcode-upcoming_list.php';
 
@@ -386,6 +390,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Class for registering the core email templates.
 			require_once CN_PATH . 'includes/email/class.default-template.php';
 
+			// The class for working with the file system.
+			require_once CN_PATH . 'includes/class.filesystem.php';
+
 			// require_once CN_PATH . 'includes/class.results.php';
 
 			if ( is_admin() ) {
@@ -395,9 +402,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/
 				 */
 				include_once CN_PATH . 'includes/libraries/screen-options/screen-options.php';
-
-				// The class for working with the file system.
-				require_once CN_PATH . 'includes/admin/class.filesystem.php';
 
 				// The class for handling admin notices.
 				require_once CN_PATH . 'includes/admin/class.message.php';

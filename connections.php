@@ -220,6 +220,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				}
 			}
 
+			// Set images subdirectory folder name.
+			if ( ! defined( 'CN_IMAGE_DIR_NAME' ) )
+				define( 'CN_IMAGE_DIR_NAME', 'connections-images' );
+
 			/*
 			 * Core constants that can be overrideen in wp-config.php
 			 * which enable support for multi-site file locations.

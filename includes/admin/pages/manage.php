@@ -59,7 +59,6 @@ function connectionsShowViewPage( $action = NULL ) {
 						wp_nonce_field( 'cn-manage-metaboxes' );
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
 						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
 
@@ -137,7 +136,6 @@ function connectionsShowViewPage( $action = NULL ) {
 						wp_nonce_field( 'cn-manage-metaboxes' );
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
 						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
 
@@ -214,7 +212,6 @@ function connectionsShowViewPage( $action = NULL ) {
 						wp_nonce_field( 'cn-manage-metaboxes' );
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
 						$form->tokenField( 'update_entry', FALSE, '_cn_wpnonce', FALSE );
 

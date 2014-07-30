@@ -46,7 +46,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 		} elseif ( is_wp_error( $resized ) )
 			return $resized;
 
-		return new WP_Error( 'image_resize_error', __('Image resize failed.'), $this->file );
+		return new WP_Error( 'image_resize_error', __( 'Image resize failed.', 'connections' ), $this->file );
 	}
 
 	protected function _resize_padded( $canvas_w, $canvas_h, $canvas_color, $width, $height, $orig_w, $orig_h, $origin_x, $origin_y ) {
@@ -97,7 +97,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			return $resized;
 		}
 
-		return new WP_Error( 'image_resize_error', __('Image resize failed.'), $this->file );
+		return new WP_Error( 'image_resize_error', __( 'Image resize failed.', 'connections' ), $this->file );
 	}
 
 	/**
@@ -126,7 +126,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 				return true;
 			}
 		}
-		return new WP_Error( 'image_rotate_error', __('Image rotate failed.', 'default'), $this->file );
+		return new WP_Error( 'image_rotate_error', __( 'Image rotate failed.', 'connections' ), $this->file );
 	}
 
 	/**
@@ -156,7 +156,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 			}
 		}
 
-		return new WP_Error( 'image_opacity_error', __( 'Image opacity change failed.', 'default' ), $this->file );
+		return new WP_Error( 'image_opacity_error', __( 'Image opacity change failed.', 'connections' ), $this->file );
 	}
 
 	// from: http://php.net/manual/en/function.imagefilter.php

@@ -47,7 +47,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 		}
 
-		return new WP_Error( 'image_opacity_error', __('Image opacity change failed.', 'default'), $this->file );
+		return new WP_Error( 'image_opacity_error', __( 'Image opacity change failed.', 'connections' ), $this->file );
 	}
 
 	/**

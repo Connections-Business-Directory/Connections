@@ -414,17 +414,18 @@ class cnEntry {
 	 * @see cnEntry::$slug
 	 */
 	public function getSlug() {
-		return $this->slug;
+
+		return ( empty( $this->slug ) ? $this->getUniqueSlug() : $this->slug );
 	}
 
 	/**
 	 * Sets $slug.
 	 *
-	 * @param object  $slug
 	 * @see cnEntry::$slug
 	 */
 	public function setSlug( $slug ) {
-		$this->slug = $slug;
+
+		$this->slug = $this->getUniqueSlug( $slug );
 	}
 
 	/**
@@ -432,11 +433,11 @@ class cnEntry {
 	 *
 	 * @return string
 	 */
-	private function getUniqueSlug( $slug = NULL ) {
+	private function getUniqueSlug( $slug ) {
 		global $wpdb;
 
 		// WP function -- formatting class
-		$slug = empty( $slug ) ? sanitize_title( $this->getName( array( 'format' => '%first%-%last%' ) ) ) : $slug;
+		$slug = empty( $slug ) || ! is_string( $slug ) ? sanitize_title( $this->getName( array( 'format' => '%first%-%last%' ) ) ) : sanitize_title( $slug );
 
 		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug = %s', $slug );
 
@@ -3258,6 +3259,165 @@ class cnEntry {
 		$this->options['image']['name']['original'] = $imageNameOriginal;
 	}
 
+	/**
+	 * Copy or move the originally uploaded image to the new folder structure, post 8.1.
+	 *
+	 * NOTE: If the original logo already exists in the new folder structure, this will
+	 * return TRUE without any further processing.
+	 *
+	 * NOTE: Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
+	 * copying an entry so it was possible multiple entries could share the same image.
+	 * Only images created after the date that version .0.7.0.0 was released will be moved,
+	 * plus a couple weeks for good measure. Images before that date will be copied instead
+	 * so it is available to be copied to the new folder structure, post 8.1, for any other
+	 * entries that may require it.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @uses   wp_upload_dir()
+	 * @uses   trailingslashit()
+	 * @param  string $filename The original image file name.
+	 *
+	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
+	 */
+	protected function processLegacyImages( $filename ) {
+
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
+
+		// Build the destination image path.
+		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR;
+
+		// If the source image already exists in the new folder structure, post 8.1, bail, nothing to do.
+		if ( is_file( $path . $filename ) &&
+			@getimagesize( $path . $filename ) ) {
+
+			return TRUE;
+		}
+
+		if ( is_file( CN_IMAGE_PATH . $filename ) &&
+			@getimagesize( CN_IMAGE_PATH . $filename ) ) {
+
+			// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
+			$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
+
+			// Build path to the original file.
+			$original = CN_IMAGE_PATH . $filename;
+
+			// Get original file info.
+			$info = pathinfo( $original );
+
+			// Ensure the destination directory exists.
+			cnFileSystem::mkdir( $path );
+
+			// Copy or move the original image.
+			if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $filename ) ) {
+
+				$result = rename( $original, $path . $filename );
+
+			} else {
+
+				$result = copy( $original, $path . $filename );
+			}
+
+			// Delete any of the legacy size variations if the copy/move was successful.
+			if ( $result ) {
+
+				// NOTE: This is a little greedy as it will also delete any variations of any duplicate images used by other entries.
+				// This should be alright because we will not need those variations anyway since they will be made from the original using cnImage.
+				$files         = new DirectoryIterator( CN_IMAGE_PATH );
+				$filesFiltered = new RegexIterator(
+					$files,
+					sprintf(
+						'/%s(?:_thumbnail|_entry|_profile)(?:_\d+)?\.%s/i',
+						preg_quote( preg_replace( '/(?:_original(?:_\d+)?)/i', '', $info['filename'] ) ),
+						preg_quote( $info['extension'] )
+					)
+				);
+
+				foreach( $filesFiltered as $file ) {
+
+					if ( $file->isDot() ) { continue; }
+
+					@unlink( $file->getPathname() );
+				}
+
+				return TRUE;
+			}
+
+		}
+
+		return new WP_Error( 'image_move_legacy_image_error', __( 'Failed to move legacy image.', 'connections' ), CN_IMAGE_PATH . $filename );
+	}
+
+	/**
+	 * Copy or move the originally uploaded logo to the new folder structure, post 8.1.
+	 *
+	 * NOTE: If the original logo already exists in the new folder structure, this will
+	 * return TRUE without any further processing.
+	 *
+	 * NOTE: Versions previous to 0.6.2.1 did not not make a duplicate copy of logos when
+	 * copying an entry so it was possible multiple entries could share the same logo.
+	 * Only logos created after the date that version .0.7.0.0 was released will be moved,
+	 * plus a couple weeks for good measure. Images before that date will be copied instead
+	 * so it is available to be copied to the new folder structure, post 8.1, for any other
+	 * entries that may require it.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @uses   wp_upload_dir()
+	 * @uses   trailingslashit(
+	 * @param  string $filename The original logo file name.
+	 *
+	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
+	 */
+	protected function processLegacyLogo( $filename ) {
+
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
+
+		// Build the destination logo path.
+		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR;
+
+		// If the source logo already exists in the new folder structure, post 8.1, bail, nothing to do.
+		if ( is_file( $path . $filename ) &&
+			@getimagesize( $path . $filename ) ) {
+
+			return TRUE;
+		}
+
+		if ( is_file( CN_IMAGE_PATH . $filename ) &&
+			@getimagesize( CN_IMAGE_PATH . $filename ) ) {
+
+			// The modification file date that logo will be deleted to maintain compatibility with 0.6.2.1 and older.
+			$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
+
+			// Build path to the original file.
+			$original = CN_IMAGE_PATH . $filename;
+
+			// Get original file info.
+			$info = pathinfo( $original );
+
+			// Ensure the destination directory exists.
+			cnFileSystem::mkdir( $path );
+
+			// Copy or move the logo.
+			if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $filename ) ) {
+
+				$result = rename( $original, $path . $filename );
+
+			} else {
+
+				$result = copy( $original, $path . $filename );
+			}
+
+			if ( $result ) return TRUE;
+
+		}
+
+		return new WP_Error( 'image_move_legacy_logo_error', __( 'Failed to move legacy logo.', 'connections' ), CN_IMAGE_PATH . $filename );
+	}
+
 	public function getAddedBy() {
 		$addedBy = get_userdata( $this->addedBy );
 
@@ -3388,11 +3548,6 @@ class cnEntry {
 
 		$wpdb->show_errors = true;
 
-		/*
-		 * Check to see if there is a slug; if not go fetch one.
-		 */
-		if ( empty( $this->slug ) ) $this->slug = $this->getUniqueSlug();
-
 		$result = $wpdb->query( $wpdb->prepare(
 			'UPDATE ' . CN_ENTRY_TABLE . ' SET
 			ts                 = %s,
@@ -3429,7 +3584,7 @@ class cnEntry {
 			current_time( 'mysql' ),
 			$this->entryType,
 			$this->getVisibility(),
-			$this->slug,
+			$this->getSlug(),
 			$this->honorificPrefix,
 			$this->firstName,
 			$this->middleName,
@@ -4055,12 +4210,6 @@ class cnEntry {
 
 		$wpdb->show_errors = true;
 
-		/*
-		 * Check to see if there is a slug; if not go fetch one.
-		 * NOTE: When adding a new entry, a new unique slug should be created and set.
-		 */
-		/*if ( empty( $this->slug ) )*/ $this->slug = $this->getUniqueSlug();
-
 		$sql = $wpdb->prepare(
 			'INSERT INTO ' . CN_ENTRY_TABLE . ' SET
 			ts                 = %s,
@@ -4100,7 +4249,7 @@ class cnEntry {
 			current_time( 'timestamp' ),
 			$this->entryType,
 			$this->getVisibility(),
-			$this->slug,
+			$this->getSlug(), /* NOTE: When adding a new entry, a new unique slug should always be created and set. */
 			$this->familyName,
 			$this->honorificPrefix,
 			$this->firstName,

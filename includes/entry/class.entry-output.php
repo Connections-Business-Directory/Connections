@@ -94,9 +94,13 @@ class cnOutput extends cnEntry
 	public function getImage( $atts = array() ) {
 
 		$displayImage = FALSE;
+		$cropMode     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
 		$tag          = array();
 		$anchorStart  = '';
 		$out          = '';
+
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
 
 		/*
 		 * // START -- Set the default attributes array. \\
@@ -113,6 +117,7 @@ class cnOutput extends cnEntry
 			'height' => 0,
 			'width'  => 0,
 			'zc'     => 1,
+			'quality'=> 80,
 			'before' => '',
 			'after'  => '',
 			'style'  => array(),
@@ -132,9 +137,9 @@ class cnOutput extends cnEntry
 		/*
 		 * The $atts key that are not image tag attributes.
 		 */
-		$nonAtts = array( 'image' , 'preset' , 'fallback' , 'image_size' , 'zc' , 'before' , 'after' , 'return' );
+		$nonAtts = array( 'action', 'image', 'preset', 'fallback', 'image_size', 'zc', 'quality', 'before', 'after', 'return' );
 
-		( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? $customSize = TRUE : $customSize = FALSE;
+		$customSize = ( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? TRUE : FALSE;
 
 		switch ( $atts['image'] ) {
 
@@ -142,54 +147,77 @@ class cnOutput extends cnEntry
 
 				if ( $this->getImageLinked() && ( $this->getImageDisplay() || $atts['action'] == 'edit' ) ) {
 
+					// Move any legacy images, pre 8.1, to the new folder structure.
+					$this->processLegacyImages( $this->getImageNameOriginal() );
+
+					// Build the URL to the original image.
+					$url = trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' .$this->getImageNameOriginal();
+
 					$displayImage  = TRUE;
 					$atts['class'] = 'photo';
-					$atts['alt']   = __( 'Photo of', 'connections' ) . ' ' . $this->getName();
-					$atts['title'] = __( 'Photo of', 'connections' ) . ' ' . $this->getName();
+					$atts['alt']   = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
+					$atts['title'] = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
 
 					if ( $customSize ) {
 
-						$atts['src'] = CN_URL . '/vendor/timthumb/timthumb.php?src=' .
-							CN_IMAGE_RELATIVE_URL . $this->getImageNameOriginal() .
-							( empty( $atts['height'] ) ? '' : '&amp;h=' . $atts['height'] ) .
-							( empty( $atts['width'] ) ? '' : '&amp;w=' . $atts['width'] ) .
-							( empty( $atts['zc'] ) ? '' : '&amp;zc=' . $atts['zc'] );
+						$image = cnImage::get(
+							$url,
+							array(
+								'crop_mode' => empty( $atts['zc'] ) && $atts !== 0 ? 1 : $atts['zc'],
+								'width'     => empty( $atts['width'] ) ? NULL : $atts['width'],
+								'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
+								'quality'   => $atts['quality'],
+								'sub_dir'   => $this->getSlug(),
+								),
+							FALSE
+							);
+
+						if ( is_wp_error( $image ) ) {
+
+							// cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							$displayImage = FALSE;
+
+						} else {
+
+							$atts['src']    = $image['url'];
+							$atts['width']  = $image['width'];
+							$atts['height'] = $image['height'];
+						}
 
 					} else {
 
-						switch ( $atts['preset'] ) {
-							case 'entry':
-								if ( is_file( CN_IMAGE_PATH . $this->getImageNameCard() ) ) {
-									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameCard() );
-									$atts['src']        = CN_IMAGE_BASE_URL . $this->getImageNameCard();
-								}
-								break;
+						$preset = array( 'thumbnail' => 'thumbnail', 'medium' => 'entry', 'large' => 'profile' );
 
-							case 'profile':
-								if ( is_file( CN_IMAGE_PATH . $this->getImageNameProfile() ) ) {
-									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameProfile() );
-									$atts['src']        = CN_IMAGE_BASE_URL . $this->getImageNameProfile();
-								}
-								break;
+						if ( $size = array_search( $atts['preset'], $preset ) ) {
 
-							case 'thumbnail':
-								if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
-									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameThumbnail() );
-									$atts['src']        = CN_IMAGE_BASE_URL . $this->getImageNameThumbnail();
-								}
-								break;
+							$image = cnImage::get(
+								$url,
+								array(
+									'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+									'width'     => cnSettingsAPI::get( 'connections', "image_{$size}", 'width' ),
+									'height'    => cnSettingsAPI::get( 'connections', "image_{$size}", 'height' ),
+									'quality'   => cnSettingsAPI::get( 'connections', "image_{$size}", 'quality' ),
+									'sub_dir'   => $this->getSlug(),
+									),
+								FALSE
+								);
 
-							default:
-								if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
-									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameCard() );
-									$atts['src']        = CN_IMAGE_BASE_URL . $this->getImageNameCard();
-								}
-								break;
-						}
+							if ( is_wp_error( $image ) ) {
 
-						if ( isset( $atts['image_size'] ) && $atts['image_size'] !== FALSE ) {
-							$atts['width']  = $atts['image_size'][0];
-							$atts['height'] = $atts['image_size'][1];
+								// cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+								$displayImage = FALSE;
+
+							} else {
+
+								$atts['src']    = $image['url'];
+								$atts['width']  = $image['width'];
+								$atts['height'] = $image['height'];
+							}
+
+						} else {
+
+							/* TODO */
+
 						}
 					}
 				}
@@ -200,6 +228,7 @@ class cnOutput extends cnEntry
 				$links = $this->getLinks( array( 'image' => TRUE ) );
 
 				if ( ! empty( $links ) ) {
+
 					$link = $links[0];
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
@@ -215,27 +244,69 @@ class cnOutput extends cnEntry
 
 				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || $atts['action'] == 'edit' ) ) {
 
+					// Move the legacy logo, pre 8.1, to the new folder structure.
+					$this->processLegacyLogo( $this->getLogoName() );
+
+					// Build the URL to the original image.
+					$url = trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' .$this->getLogoName();
+
 					$displayImage  = TRUE;
 					$atts['class'] = 'logo';
-					$atts['alt']   = __( 'Logo for', 'connections' ) . ' ' . $this->getName();
-					$atts['title'] = __( 'Logo for', 'connections' ) . ' ' . $this->getName();
+					$atts['alt']   = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
+					$atts['title'] = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
 
 					if ( $customSize ) {
 
-						$atts['src'] = CN_URL . '/vendor/timthumb/timthumb.php?src=' .
-							CN_IMAGE_RELATIVE_URL . $this->getLogoName() .
-							( empty( $atts['height'] ) ? '' : '&amp;h=' . $atts['height'] ) .
-							( empty( $atts['width'] ) ? '' : '&amp;w=' . $atts['width'] ) .
-							( empty( $atts['zc'] ) ? '' : '&amp;zc=' . $atts['zc'] );
+						$image = cnImage::get(
+							$url,
+							array(
+								'crop_mode' => empty( $atts['zc'] ) && $atts !== 0 ? 1 : $atts['zc'],
+								'width'     => empty( $atts['width'] ) ? NULL : $atts['width'],
+								'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
+								'quality'   => $atts['quality'],
+								'sub_dir'   => $this->getSlug(),
+								),
+							FALSE
+							);
+
+						if ( is_wp_error( $image ) ) {
+
+							// cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							$displayImage = FALSE;
+
+						} else {
+
+							$atts['src']    = $image['url'];
+							$atts['width']  = $image['width'];
+							$atts['height'] = $image['height'];
+						}
 
 					} else {
-						$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getLogoName() );
-						$atts['src']        = CN_IMAGE_BASE_URL . $this->getLogoName();
 
-						if ( $atts['image_size'] !== FALSE ) {
-							$atts['width']  = $atts['image_size'][0];
-							$atts['height'] = $atts['image_size'][1];
+						$image = cnImage::get(
+							$url,
+							array(
+								'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+								'width'     => cnSettingsAPI::get( 'connections', 'image_logo', 'width' ),
+								'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
+								'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
+								'sub_dir'   => $this->getSlug(),
+								),
+							FALSE
+							);
+
+						if ( is_wp_error( $image ) ) {
+
+							// cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							$displayImage = FALSE;
+
+						} else {
+
+							$atts['src']    = $image['url'];
+							$atts['width']  = $image['width'];
+							$atts['height'] = $image['height'];
 						}
+
 					}
 				}
 
@@ -296,23 +367,23 @@ class cnOutput extends cnEntry
 						switch ( $atts['preset'] ) {
 
 							case 'entry':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_medium', 'height' ) . 'px';
-								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_medium', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
+								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_medium', 'width' ) . 'px';
 								break;
 
 							case 'profile':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_large', 'height' ) . 'px';
-								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_large', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_large', 'height' ) . 'px';
+								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_large', 'width' ) . 'px';
 								break;
 
 							case 'thumbnail':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_thumbnail', 'height' ) . 'px';
-								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_thumbnail', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_thumbnail', 'height' ) . 'px';
+								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_thumbnail', 'width' ) . 'px';
 								break;
 
 							default:
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_medium', 'height' ) . 'px';
-								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_medium', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
+								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_medium', 'width' ) . 'px';
 								break;
 						}
 
@@ -320,8 +391,8 @@ class cnOutput extends cnEntry
 
 					case 'logo':
 
-						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_logo', 'height' ) . 'px';
-						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_logo', 'width' ) . 'px';
+						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_logo', 'height' ) . 'px';
+						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_logo', 'width' ) . 'px';
 						break;
 				}
 			}

@@ -4475,32 +4475,17 @@ class cnEntry {
 		do_action( 'cn_delete-entry', $this );
 		do_action( 'cn_process_delete-entry', $this );  // KEEP! This action must exist for Link, however, do not ever use it!
 
-		/*
-		 * Delete images assigned to the entry.
-		 *
-		 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
-		 * copying an entry so it was possible multiple entries could share the same image.
-		 * Only images created after the date that version .0.7.0.0 was released will be deleted,
-		 * plus a couple weeks for good measure.
-		 */
+		// Delete the entry image and its variations.
+		cnEntry_Action::deleteImages( $this->getImageNameOriginal(), $this->getSlug() );
 
-		$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
+		// Delete any legacy images, pre 8.1, that may exist.
+		cnEntry_Action::deleteLegacyImages( $this );
 
-		if ( is_file( CN_IMAGE_PATH . $this->getImageNameOriginal() ) ) {
-			if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $this->getImageNameOriginal() ) ) unlink( CN_IMAGE_PATH . $this->getImageNameOriginal() );
-		}
+		// Delete the entry logo.
+		cnEntry_Action::deleteImages( $this->getLogoName(), $this->getSlug() );
 
-		if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
-			if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) unlink( CN_IMAGE_PATH . $this->getImageNameThumbnail() );
-		}
-
-		if ( is_file( CN_IMAGE_PATH . $this->getImageNameCard() ) ) {
-			if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $this->getImageNameCard() ) ) unlink( CN_IMAGE_PATH . $this->getImageNameCard() );
-		}
-
-		if ( is_file( CN_IMAGE_PATH . $this->getImageNameProfile() ) ) {
-			if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $this->getImageNameProfile() ) ) unlink( CN_IMAGE_PATH . $this->getImageNameProfile() );
-		}
+		// Delete logo the legacy logo, pre 8.1.
+		cnEntry_Action::deleteLegacyLogo( $this );
 
 		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_TABLE . ' WHERE id = %d' , $id ) );
 

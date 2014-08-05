@@ -283,7 +283,7 @@ class cnEntry_Action {
 	 *
 	 * @return void
 	 */
-	private static function deleteImages( $filename, $source ) {
+	public static function deleteImages( $filename, $source ) {
 
 		// Get the core WP uploads info.
 		$uploadInfo = wp_upload_dir();
@@ -341,7 +341,7 @@ class cnEntry_Action {
 	 *
 	 * @return void
 	 */
-	private static function deleteLegacyImages( $entry ) {
+	public static function deleteLegacyImages( $entry ) {
 
 		// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
 		$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
@@ -398,7 +398,7 @@ class cnEntry_Action {
 	 *
 	 * @return void
 	 */
-	private static function deleteLegacyLogo( $entry ) {
+	public static function deleteLegacyLogo( $entry ) {
 
 		if ( $entry->getLogoName() != NULL &&
 			is_file( CN_IMAGE_PATH . $entry->getLogoName() )

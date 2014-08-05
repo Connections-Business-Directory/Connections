@@ -224,6 +224,45 @@ class cnFileSystem {
 		return TRUE;
 	}
 
+	/**
+	 * Recursively delete all directories and files starting at the defined $path.
+	 * @url    http://stackoverflow.com/a/3352564
+	 * @url    http://stackoverflow.com/a/7288067
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @static
+	 * @param  string  $path       Absolute directory path.
+	 * @param  boolean $deleteRoot Where or not to delete the origin directory.
+	 *
+	 * @return void
+	 */
+	public static function xrmdir( $path, $deleteRoot = TRUE ) {
+
+		// If the $path does not exist, bail.
+		if ( ! file_exists( $path ) ) return;
+
+		$it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
+		$it = new RecursiveIteratorIterator( $it, RecursiveIteratorIterator::CHILD_FIRST );
+
+		foreach ( $it as $file ) {
+
+			// if ( $file->isDot() ) { continue; }
+
+			if ( $file->isDir() ) {
+
+				@rmdir( $file->getPathname() );
+
+			} else {
+
+				@unlink( $file->getPathname() );
+			}
+
+		}
+
+		if ( $deleteRoot ) @rmdir( $path );
+	}
+
 }
 
 class cnUpload {

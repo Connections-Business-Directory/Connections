@@ -291,6 +291,9 @@ class cnEntry_Action {
 		// Build path to the subfolder in which all the entry's images are saved.
 		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $source . DIRECTORY_SEPARATOR;
 
+		// If the $path does not exist, bail.
+		if ( ! file_exists( $path ) ) return;
+
 		// Build path to the original file.
 		$original = $path . $filename;
 

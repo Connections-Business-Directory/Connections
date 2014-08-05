@@ -277,6 +277,7 @@ class cnImage {
 			'crop_only'     => FALSE,
 			'canvas_color'  => '#FFFFFF',
 			'quality'       => 90,
+			'sub_dir'       => '',
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -762,8 +763,8 @@ class cnImage {
 		if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ) $ext = 'png';
 
 		// Create the upload subdirectory, this is where the generated images are saved.
-		$upload_dir .= '/connections-images';
-		$upload_url .= '/connections-images';
+		$upload_dir .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME ) . $atts['sub_dir'] : DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME;
+		$upload_url .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME ) . $atts['sub_dir'] : DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME;
 		cnFileSystem::mkdir( $upload_dir );
 
 		// Desination paths and URL.
@@ -1111,6 +1112,7 @@ class cnImage {
 	 *    Images will be cropped to the specified dimensions within the defined crop area.
 	 * 3. If true, images will be cropped to the specified dimensions using center center .5, .5.
 	 *
+	 * @access private
 	 * @since 8.1
 	 *
 	 * @param NULL       $payload NULL value being passed by the image_resize_dimensions filter
@@ -1203,6 +1205,35 @@ class cnImage {
 		// int dst_x, int dst_y, int src_x, int src_y, int dst_w, int dst_h, int src_w, int src_h
 		return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
 
+	}
+
+	/**
+	 * Upload a file to the WP_CONTENT_DIR/CN_IMAGE_DIR_NAME or in the defined subdirectory.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   trailingslashit()
+	 * @uses   cnUpload
+	 * @param array  $file Reference to a single element of $_FILES.
+	 * @param array  $atts An associative array containing the upload params.
+	 *
+	 * @return mixed array | object On success an associative array of the uploadewd file details. On failure, an instance of WP_Error.
+	 */
+	public static function upload( $file, $subDirectory = '' ) {
+
+		$atts = array(
+			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory ,
+			'mimes'   => array(
+				'jpeg' => 'image/jpeg',
+				'jpg'  => 'image/jpeg',
+				'gif'  => 'image/gif',
+				'png'  => 'image/png',
+				 ),
+			);
+
+		$upload = new cnUpload( $file, $atts );
+
+		return $upload->result();
 	}
 
 }

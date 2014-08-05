@@ -169,4 +169,252 @@ class cnFileSystem {
 
 	}
 
+	/**
+	 * Copy a file, or recursively copy a folder and its contents.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @static
+	 * @url    http://stackoverflow.com/a/12763962
+	 * @uses   self::mkdir()
+	 * @param  string   $source    Source path
+	 * @param  string   $dest      Destination path
+	 * @param  string   $permissions New folder creation permissions
+	 *
+	 * @return bool     Returns true on success, false on failure
+	 */
+	public static function xcopy( $source, $dest, $permissions = 0755 ) {
+
+		// Check for symlinks
+		if ( is_link( $source ) ) {
+
+			return symlink( readlink( $source ), $dest );
+		}
+
+		// Simple copy for a file
+		if ( is_file( $source ) ) {
+
+			return copy( $source, $dest );
+		}
+
+		// Make destination directory
+		if ( ! is_dir( $dest ) ) {
+
+			self::mkdir( $dest, $permissions );
+		}
+
+		// Loop through the folder
+		$dir = dir( $source );
+
+		while ( FALSE !== $entry = $dir->read() ) {
+
+			// Skip pointers
+			if ( $entry == '.' || $entry == '..' ) {
+
+				continue;
+			}
+
+			// Deep copy directories
+			xcopy( "$source/$entry", "$dest/$entry" );
+		}
+
+		// Clean up
+		$dir->close();
+
+		return TRUE;
+	}
+
+}
+
+class cnUpload {
+
+	/**
+	 * The subdirectory of WP_CONTENT_DIR in which to upload the file to.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @var string
+	 */
+	private $subDirectory = '';
+
+	/**
+	 * An associative array containing the key/value pair returned from wp_handle_upload().
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @var array
+	 */
+	private $result = array();
+
+	/**
+	 * Upload a file to the WP_CONTENT_DIR or in a defined subdirectory.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   self::file()
+	 * @param array  $file Reference to a single element of $_FILES.
+	 * @param array  $atts An associative array containing the upload params.
+	 *
+	 * @return mixed array | object On success an associative array of the uploadewd file details. On failure, an instance of WP_Error.
+	 */
+	public function __construct( $file, $atts = array() ) {
+
+		$this->file( $file, $atts );
+	}
+
+	/**
+	 * Upload a file to the WP_CONTENT_DIR or in a defined subdirectory.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   wp_parse_args()
+	 * @uses   add_filter()
+	 * @uses   wp_handle_upload()
+	 * @uses   remove_filter()
+	 * @param array  $file Reference to a single element of $_FILES.
+	 * @param array  $atts An associative array containing the upload params.
+	 *
+	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
+	 */
+	public function file( $file, $atts = array() ) {
+
+		$options = array();
+
+		$defaults = array(
+			'post_action'       => '',
+			'sub_dir'           => '',
+			'mimes'             => array(),
+			'error_callback'    => array( $this, 'uploadErrorHandler' ),
+			'filename_callback' => array( $this, 'uniqueFilename' ),
+			);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( ! function_exists( 'wp_handle_upload' ) ) require_once( ABSPATH . 'wp-admin/includes/file.php' );
+
+		// Add filter to change the file upload destination directory.
+		add_filter( 'upload_dir', array( $this, 'subDirectory' ) );
+
+		// Add filter to process the data array returned by wp_handle_upload()
+		add_filter( 'wp_handle_upload', array( $this, 'uploadData' ), 10, 2 );
+
+		// Set the sub directory/folder in which to upload the file to.
+		// If empty, it'll use the WP core default.
+		if ( ! empty( $atts['sub_dir'] ) ) $this->subDirectory = $atts['sub_dir'];
+
+		// Setup the wp_handle_upload() $options array.
+		// Only add values to the array that are going to be overridden.
+		// Passing options not intended to be overridden, even if pass empty causes bad things to happen to you.
+		$options['test_form'] = empty( $atts['post_action'] ) ? FALSE : $atts['post_action'];
+
+		if ( ! empty( $atts['mimes'] ) && is_array( $atts['mimes']) ) $options['mimes']   = $atts['mimes'];
+		if ( ! empty( $atts['error_callback'] ) ) $options['upload_error_handler']        = $atts['error_callback'];
+		if ( ! empty( $atts['filename_callback'] ) ) $options['unique_filename_callback'] = $atts['filename_callback'];
+
+		$this->result = wp_handle_upload( $file, $options );
+
+		// Remove the filter that changes the upload destination directory.
+		remove_filter( 'upload_dir', array( $this, 'subDirectory' ) );
+
+		// Remove the data array filter.
+		remove_filter( 'wp_handle_upload', array( $this, 'uploadData' ), 10, 2 );
+
+		return $this->result;
+	}
+
+	/**
+	 * A filter to change the WP core upload path for files.
+	 *
+	 * @access private
+	 * @static
+	 * @since  8.1
+	 * @param  array $file The WP core upload path values.
+	 *
+	 * @return array
+	 */
+	public function subDirectory( $file ) {
+
+		$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : '/' . $this->subDirectory;
+		$file['path']   = $file['basedir'] . $file['subdir'];
+		$file['url']    = $file['baseurl'] . $file['subdir'];
+
+		return $file;
+	}
+
+	/**
+	 * The file upload error handler callback.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @param  array  $file    Reference to a single element of $_FILES
+	 * @param  string $message Error massage passed by wp_handle_upload()
+	 *
+	 * @return object          Instance of WP_Error.
+	 */
+	public function uploadErrorHandler( $file, $message ) {
+
+		return new WP_Error( 'image_upload_error', $message, $file );
+	}
+
+	/**
+	 * The callback for the wp_handle_upload filter. Tweak the data array to better suit.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @param  array  $file    An associtive array containing the file upload details.
+	 * @param  string $context Accepts 'upload' or 'sideload'
+	 * @return string          An associtive array containing the file upload details.
+	 */
+	public function uploadData( $file, $context ) {
+
+		$file['path'] = $file['file'];
+		$file['name'] = basename( $file['path'] );
+
+		unset( $file['file'] );
+
+		return $file;
+	}
+
+	/**
+	 * Unique filename callback function.
+	 *
+	 * Change to add a hyphen before the number.
+	 * Why, because squishing the iterator number right beside the filename is ugly.
+	 *
+	 * @url    http://stackoverflow.com/a/15633243
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @param  string $dir  The file path.
+	 * @param  string $name The file name.
+	 * @param  string $ext  The file extension.
+	 *
+	 * @return string       The unique file name.
+	 */
+	public function uniqueFilename( $dir, $name, $ext ) {
+
+		$filename = $name . $ext;
+		$number   = 0;
+
+		// while ( file_exists( "$dir/$filename" ) ) {
+
+		// 	if ( count( glob( "$dir/$filename", GLOB_NOSORT ) ) > 0 ) {
+
+		// 		$filename = $name . '-' . count( glob( "$dir/$name*$ext" ) ) . $ext;
+
+		// 	}
+		// }
+
+		while ( file_exists( "$dir/$filename" ) ) {
+
+			$filename = $name . '-' . ++$number . $ext;
+		}
+
+		return $filename;
+	}
+
+	public function result() {
+
+		return $this->result;
+	}
 }

@@ -4472,6 +4472,12 @@ class cnEntry {
 	public function delete( $id ) {
 		global $wpdb, $connections;
 
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
+
+		// Build path to the subfolder in which all the entry's images are saved.
+		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR;
+
 		do_action( 'cn_delete-entry', $this );
 		do_action( 'cn_process_delete-entry', $this );  // KEEP! This action must exist for Link, however, do not ever use it!
 
@@ -4486,6 +4492,9 @@ class cnEntry {
 
 		// Delete logo the legacy logo, pre 8.1.
 		cnEntry_Action::deleteLegacyLogo( $this );
+
+		// Delete the entry subfolder from CN_IMAGE_DIR_NAME.
+		cnFileSystem::xrmdir( $path );
 
 		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_TABLE . ' WHERE id = %d' , $id ) );
 

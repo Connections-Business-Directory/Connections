@@ -831,7 +831,18 @@ class cnEntryMetabox {
 
 				} else {
 
-					echo ' <img src="' . CN_IMAGE_BASE_URL . $entry->getImageNameProfile() . '" />';
+					// Since the getImage() method did not exist, the cnEntry_HTML needs to be init/d.
+					$out = new cnEntry_HTML();
+					$out->set( $entry->getId() );
+
+					$out->getImage(
+						array(
+							'image'  => 'photo',
+							'preset' => 'profile',
+							'action' => 'edit',
+							)
+						);
+
 				}
 
 				cnHTML::radio(
@@ -884,7 +895,16 @@ class cnEntryMetabox {
 
 				} else {
 
-					echo ' <img src="' . CN_IMAGE_BASE_URL . $entry->getLogoName() . '" />';
+					// Since the getImage() method did not exist, the cnEntry_HTML needs to be init/d.
+					$out = new cnEntry_HTML();
+					$out->set( $entry->getId() );
+
+					$out->getImage(
+						array(
+							'image'  => 'logo',
+							'action' => 'edit',
+							)
+						);
 				}
 
 				cnHTML::radio(

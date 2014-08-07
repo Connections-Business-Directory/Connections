@@ -405,7 +405,7 @@ class cnOutput extends cnEntry
 
 					if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
-					$string = empty( $atts['fallback']['string'] ) ? '' : '<p>' . $atts['fallback']['string'] . '</p>';
+					$string = empty( $atts['fallback']['string'] ) ? '' : '<span>' . $atts['fallback']['string'] . '</span>';
 
 					$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-none"%1$s>%2$s</span></span>',
 						empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',

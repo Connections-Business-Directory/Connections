@@ -136,6 +136,8 @@ class cnScript {
 		wp_register_script( 'jquery-chosen-min', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
 
 		wp_register_script( 'jquery-validate' , CN_URL . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.11.1' , $connections->options->getJavaScriptFooter() );
+
+		wp_register_script( 'picturefill', CN_URL . "vendor/picturefill/picturefill$min.js", array(), '2.1.0', $connections->options->getJavaScriptFooter() );
 	}
 
 	/**
@@ -294,6 +296,7 @@ class cnScript {
 		 */
 
 		wp_enqueue_script( 'cn-ui' );
+		wp_enqueue_script( 'picturefill' );
 	}
 
 	/**

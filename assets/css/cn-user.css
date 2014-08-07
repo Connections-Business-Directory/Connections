@@ -40,6 +40,13 @@
 	margin: 0 0 5px;
 	padding: 5px;
 }
+#cn-list span.cn-image-style span {
+	color: #AAAAAA;
+	font-weight: 700;
+	text-align: center;
+	text-shadow: 1px 1px 0px #FFFFFF;
+	padding: 5px;
+}
 
 /*
  * Name and Org Styles

@@ -499,7 +499,7 @@ class cnImage {
 		// Check if img path exists, and is an image.
 		if ( ( $image_info = getimagesize( $img_path ) ) === FALSE ) {
 
-			return new WP_Error( 'image_path_not_found', __( 'Image path does not exist or file is not an image.', 'connections' ), $img_path );
+			return new WP_Error( 'image_not_image', __( sprintf( 'The file %s is not an image.', basename( $img_path ) ), 'connections' ), basename( $img_path ) );
 		}
 
 		// This is the filename.

@@ -136,8 +136,8 @@ class cnThumb_Responsive extends cnShortcode {
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ) {
 
-				$out .= implode( '', $log );
-			}
+			$out .= implode( '', $log );
+		}
 
 		return $out;
 	}

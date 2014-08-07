@@ -16,20 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnThumb extends cnShortcode {
 
-	public static function bfiThumb() {
+	public static function shortcode( $atts, $content = '', $tag = 'cn_thumb' ) {
 
-		$url = bfi_thumb( 'http://sandbox.connections-pro.com/wp-content/uploads/parakeet.jpg', array( 'width' => 200, 'height' => 200, 'crop' => array( 0.2, 0.9 ) ) );
-
-		return '<img src="' . $url . '" width="200" height="200" />';
-	}
-
-	public static function shortcode( $atts, $content = '', $tag = 'cn_thumnb' ) {
-
-		$defaults = array(
+		$permitted = array( 'attachment', 'featured', 'path', 'url' );
+		$defaults  = array(
+			'type'          => 'url',
+			'source'        => NULL,
 			'align'         => 'alignnone',
-			'id'            => NULL,
-			'entry_id'      => NULL,
-			'url'           => NULL,
 			'height'        => 0,
 			'width'         => 0,
 			'negate'        => FALSE,
@@ -56,6 +49,11 @@ class cnThumb extends cnShortcode {
 
 		$atts = shortcode_atts( $defaults, $atts, $tag ) ;
 
+		if ( ! in_array( $atts['type'], $permitted ) ) {
+
+			return __( 'Valid image source type not supplied.', 'connections' );
+		}
+
 		/*
 		 * Convert some of the $atts values in the array to boolean because the Shortcode API passes all values as strings.
 		 */
@@ -71,7 +69,34 @@ class cnThumb extends cnShortcode {
 		// cnFormatting::toBoolean( $atts['crop'] );
 		cnFormatting::toBoolean( $atts['crop_only'] );
 
-		$image = cnImage::get( $atts['url'], $atts, FALSE );
+		switch ( $atts['type'] ) {
+
+			case 'attachment':
+
+				$source = wp_get_attachment_url( absint( $atts['source'] ) );
+				break;
+
+			case 'featured':
+
+				$source = wp_get_attachment_url( get_post_thumbnail_id() );
+				break;
+
+			case 'path':
+
+				$source = $atts['source'];
+				break;
+
+			case 'url':
+
+				$source = esc_url( $atts['source'] );
+				break;
+
+		}
+
+		// Unset $atts['source'] because passing that $atts to cnImage::get() extracts and overwrite the $source var.
+		unset( $atts['source'] );
+
+		$image = cnImage::get( $source, $atts, FALSE );
 
 		if ( is_wp_error( $image ) ) {
 
@@ -89,7 +114,7 @@ class cnThumb extends cnShortcode {
 				'align' => $atts['align'],
 				'width' => $image['width'],
 			),
-			'<img src="' . $image['url'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />' . $image['filename']
+			'<img src="' . $image['url'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />' . $content
 		);
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ) {

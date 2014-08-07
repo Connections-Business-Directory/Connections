@@ -214,13 +214,13 @@ class cnImage {
 	 *
 	 * 	quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 90
 	 *
-	 * @param string $url    The local image URL to process. The image must be in the root upload folder or the theme root folder.
+	 * @param string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
 	 * @param array  $atts   An associative array containing the options used to process the image.
 	 * @param bool   $single if false then an array of data will be returned
 	 *
 	 * @return string|array
 	 */
-	public static function get( $url, $atts = array(), $single = TRUE ) {
+	public static function get( $source, $atts = array(), $single = TRUE ) {
 		global $wp_filter;
 
 		$filter  = array();
@@ -288,12 +288,19 @@ class cnImage {
 		 * --> START <-- Sanitize/Validate $atts values.
 		 */
 
-		$url = esc_url( $url );
-		$log->add( 'image_url', __( sprintf( 'Source URL: %s', $url ), 'connections' ) );
+		if ( path_is_absolute( $source ) ) {
 
-		if ( $url === '' ) {
+			$log->add( 'image_path', __( sprintf( 'Supplied Source Path: %s', $source ), 'connections' ) );
 
-			return new WP_Error( 'invalid_url', __( 'Invalid URL supplied.', 'connections' ), $url );
+		} else {
+
+			$source = esc_url( $source );
+			$log->add( 'image_url', __( sprintf( 'Supplied Source URL: %s', $source ), 'connections' ) );
+		}
+
+		if ( empty( $source ) ) {
+
+			return new WP_Error( 'no_path_or_url_provided', __( 'No image path or URL supplied.', 'connections' ), $source );
 		}
 
 		if ( ! is_bool( $negate ) ) $negate = FALSE;
@@ -478,18 +485,26 @@ class cnImage {
 		$theme_url   = get_stylesheet_directory_uri();
 		$theme_dir   = get_stylesheet_directory();
 
-		// find the path of the image. Perform 2 checks:
-		// #1 check if the image is in the uploads folder
-		if ( strpos( $url, $upload_url ) !== FALSE ) {
+		if ( path_is_absolute( $source ) ) {
 
-			$rel_path = str_replace( $upload_url, '', $url );
-			$img_path = $upload_dir . $rel_path;
+			$img_path = $source;
 
-		// #2 check if the image is in the current theme folder
-		} else if ( strpos( $url, $theme_url ) !== FALSE ) {
+		} else {
 
-			$rel_path = str_replace( $theme_url, '', $url );
-			$img_path = $theme_dir . $rel_path;
+			// find the path of the image. Perform 2 checks:
+			// #1 check if the image is in the uploads folder
+			if ( strpos( $source, $upload_url ) !== FALSE ) {
+
+				$rel_path = str_replace( $upload_url, '', $source );
+				$img_path = $upload_dir . $rel_path;
+
+			// #2 check if the image is in the current theme folder
+			} else if ( strpos( $source, $theme_url ) !== FALSE ) {
+
+				$rel_path = str_replace( $theme_url, '', $source );
+				$img_path = $theme_dir . $rel_path;
+			}
+
 		}
 
 		// Fail if we can't find the image in our WP local directory
@@ -503,6 +518,8 @@ class cnImage {
 
 			return new WP_Error( 'image_not_image', __( sprintf( 'The file %s is not an image.', basename( $img_path ) ), 'connections' ), basename( $img_path ) );
 		}
+
+		$log->add( 'image_path' , __( sprintf( 'Verified Source Path: %s' , $img_path ), 'connections' ) );
 
 		// This is the filename.
 		$basename = basename( $img_path );

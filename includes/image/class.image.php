@@ -482,13 +482,13 @@ class cnImage {
 		// #1 check if the image is in the uploads folder
 		if ( strpos( $url, $upload_url ) !== FALSE ) {
 
-			$rel_path = str_replace( $upload_url, '', $url);
+			$rel_path = str_replace( $upload_url, '', $url );
 			$img_path = $upload_dir . $rel_path;
 
 		// #2 check if the image is in the current theme folder
 		} else if ( strpos( $url, $theme_url ) !== FALSE ) {
 
-			$rel_path = str_replace( $theme_url, '', $url);
+			$rel_path = str_replace( $theme_url, '', $url );
 			$img_path = $theme_dir . $rel_path;
 		}
 

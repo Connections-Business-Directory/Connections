@@ -366,6 +366,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/shortcode/class.shortcode.php';
 			require_once CN_PATH . 'includes/shortcode/class.shortcode-connections.php';
 			require_once CN_PATH . 'includes/shortcode/class.shortcode-thumbnail.php';
+			require_once CN_PATH . 'includes/shortcode/class.shortcode-thumbnail-responsive.php';
 
 			// require_once CN_PATH . 'includes/class.shortcode-upcoming_list.php';
 

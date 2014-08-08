@@ -114,8 +114,8 @@ class cnOutput extends cnEntry
 				'height'   => 0,
 				'width'    => 0
 			),
-			'height' => 0,
 			'width'  => 0,
+			'height' => 0,
 			'zc'     => 1,
 			'quality'=> 80,
 			'before' => '',
@@ -339,8 +339,9 @@ class cnOutput extends cnEntry
 
 			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
-			$out = sprintf( '<span class="cn-image-style"><span class="cn-image%1$s"%2$s>%3$s<img %4$s/>%5$s</span></span>',
+			$out = sprintf( '<span class="cn-image-style"><span class="cn-image%1$s cn-image-%2$s"%3$s>%4$s<img %5$s/>%6$s</span></span>',
 				$customSize ? ' cn-image-loading' : '',
+				esc_attr( $atts['image'] ),
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				empty( $anchorStart ) ? '' : $anchorStart,
 				implode( ' ', $tag ),
@@ -354,8 +355,8 @@ class cnOutput extends cnEntry
 				/*
 				 * Set the size to the supplied custom. The fallback custom size would take priority if it has been supplied.
 				 */
-				$atts['style']['height'] = empty( $atts['fallback']['height'] ) ? $atts['height'] . 'px' : $atts['fallback']['height'] . 'px';
 				$atts['style']['width']  = empty( $atts['fallback']['width'] ) ? $atts['width'] . 'px' : $atts['fallback']['width'] . 'px';
+				$atts['style']['height'] = empty( $atts['fallback']['height'] ) ? $atts['height'] . 'px' : $atts['fallback']['height'] . 'px';
 
 			} else {
 				/*
@@ -367,23 +368,23 @@ class cnOutput extends cnEntry
 						switch ( $atts['preset'] ) {
 
 							case 'entry':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
 								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_medium', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
 								break;
 
 							case 'profile':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_large', 'height' ) . 'px';
 								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_large', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_large', 'height' ) . 'px';
 								break;
 
 							case 'thumbnail':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_thumbnail', 'height' ) . 'px';
 								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_thumbnail', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_thumbnail', 'height' ) . 'px';
 								break;
 
 							default:
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
 								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_medium', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
 								break;
 						}
 
@@ -391,8 +392,8 @@ class cnOutput extends cnEntry
 
 					case 'logo':
 
-						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_logo', 'height' ) . 'px';
 						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_logo', 'width' ) . 'px';
+						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_logo', 'height' ) . 'px';
 						break;
 				}
 			}
@@ -407,7 +408,8 @@ class cnOutput extends cnEntry
 
 					$string = empty( $atts['fallback']['string'] ) ? '' : '<span>' . $atts['fallback']['string'] . '</span>';
 
-					$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-none"%1$s>%2$s</span></span>',
+					$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-%1$s cn-image-none"%2$s>%3$s</span></span>',
+						esc_attr( $atts['image'] ),
 						empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 						$string
 					);

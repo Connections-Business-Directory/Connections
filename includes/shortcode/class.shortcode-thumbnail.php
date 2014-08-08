@@ -114,7 +114,7 @@ class cnThumb extends cnShortcode {
 				'align' => $atts['align'],
 				'width' => $image['width'],
 			),
-			'<img src="' . $image['url'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />' . $content
+			'<img class="cn-image" src="' . $image['url'] . '" width="' . $image['width'] . '" height="' . $image['height'] . '" />' . $content
 		);
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ) {

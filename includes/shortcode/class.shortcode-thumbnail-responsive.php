@@ -129,7 +129,7 @@ class cnThumb_Responsive extends cnShortcode {
 			$srcset[] = $image['url'] . ' ' . $width . 'w';
 		}
 
-		$out = sprintf( '<img srcset="%1$s" sizes="100vw"%2$s />',
+		$out = sprintf( '<img class="cn-image" srcset="%1$s" sizes="100vw"%2$s />',
 			implode( ',', $srcset ),
 			empty( $content ) ? '' : ' alt="' . esc_attr( $content ) . '"'
 			);

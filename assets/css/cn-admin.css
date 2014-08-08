@@ -57,20 +57,41 @@ table.connections span.cn-image-style {
 table.connections span.cn-image {
 	background:url("../images/loading.gif") transparent no-repeat 50% 50%;
 	display: block;
+	height: auto !important;
+	line-height: 0;
 	position: relative;
+	width: auto !important;
 }
-table.connections span.cn-image img {
-	border: 1px solid #E3E3E3;
-	box-sizing: border-box;
-	margin: 0 !important;
-	padding: 0 !important;
+table.connections span.cn-image-loading img {
 	visibility: hidden;
 }
-table.connections .cn-image-style .cn-image-none {
+table.connections span.cn-image-style {
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	display: inline-block;
+	margin: 0 0 5px;
+	padding: 5px;
+}
+table.connections span.cn-image-style span.cn-image-none {
 	color: #AAAAAA;
 	font-weight: 700;
 	text-align: center;
 	text-shadow: 1px 1px 0px #FFFFFF;
+}
+table.connections img.cn-image {
+	border: none !important;
+	height: auto !important;
+	left: 0 !important;
+	margin: 0 !important;
+	max-height: none !important;
+	max-width: 100%;
+	padding: 0 !important;
+	position: relative !important;
+	top: 0 !important;
+	width: 100% !important;
 }
 table.connections a.action.approve { color: #006505; display: inline; }
 table.connections a.action.unapprove { color: #D98500; }

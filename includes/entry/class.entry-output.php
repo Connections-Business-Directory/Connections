@@ -334,12 +334,12 @@ class cnOutput extends cnEntry
 				if ( ! empty( $value ) && ! in_array( $attr , $nonAtts ) ) $tag[] = "$attr=\"$value\"";
 			}
 
-			if ( ! empty( $atts['height'] ) ) $atts['style']['height'] = $atts['height'] . 'px';
 			if ( ! empty( $atts['width'] ) )  $atts['style']['width']  = $atts['width'] . 'px';
+			if ( ! empty( $atts['height'] ) ) $atts['style']['height'] = $atts['height'] . 'px';
 
 			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
-			$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image%1$s"%2$s>%3$s<img %4$s/>%5$s</span></span>',
+			$out = sprintf( '<span class="cn-image-style"><span class="cn-image%1$s"%2$s>%3$s<img %4$s/>%5$s</span></span>',
 				$customSize ? ' cn-image-loading' : '',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				empty( $anchorStart ) ? '' : $anchorStart,

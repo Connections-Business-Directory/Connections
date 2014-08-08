@@ -66,11 +66,11 @@ table.connections span.cn-image img {
 	padding: 0 !important;
 	visibility: hidden;
 }
-table.connections span.cn-image-style p {
+table.connections .cn-image-style .cn-image-none {
 	color: #AAAAAA;
-	margin: 4px;
+	font-weight: 700;
 	text-align: center;
-	text-shadow: 0px 1px 0px #E1E1E8;
+	text-shadow: 1px 1px 0px #FFFFFF;
 }
 table.connections a.action.approve { color: #006505; display: inline; }
 table.connections a.action.unapprove { color: #D98500; }

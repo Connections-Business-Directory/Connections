@@ -154,7 +154,7 @@ class cnOutput extends cnEntry
 					$url = trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' .$this->getImageNameOriginal();
 
 					$displayImage  = TRUE;
-					$atts['class'] = 'photo';
+					$atts['class'] = 'cn-image photo';
 					$atts['alt']   = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
 					$atts['title'] = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
 
@@ -251,7 +251,7 @@ class cnOutput extends cnEntry
 					$url = trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' .$this->getLogoName();
 
 					$displayImage  = TRUE;
-					$atts['class'] = 'logo';
+					$atts['class'] = 'cn-image logo';
 					$atts['alt']   = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
 					$atts['title'] = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
 

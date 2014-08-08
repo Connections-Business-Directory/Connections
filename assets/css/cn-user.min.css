@@ -1,15 +1,17 @@
 #cn-list .cn-clear{clear:both}#cn-list div.cn-list-head{position:relative}#cn-list div.cn-list-section-head h4{font-size:16px;padding:0;margin-bottom:.8em}
-#cn-list div.cn-alphaindex{font-weight:bold;font-size:14px;position:relative;bottom:0;right:0}#cn-list label{cursor:pointer}#cn-list span.cn-image{background:url("../images/loading.gif") transparent no-repeat 50% 50%;display:block;position:relative}
+#cn-list div.cn-alphaindex{font-weight:bold;font-size:14px;position:relative;bottom:0;right:0}#cn-list label{cursor:pointer}#cn-list span.cn-image{background:url("../images/loading.gif") transparent no-repeat 50% 50%;display:block;line-height:0;position:relative}
 #cn-list span.cn-image img{border:none!important;height:auto;left:0!important;margin:0!important;max-height:none!important;max-width:none!important;padding:0!important;position:relative!important;top:0!important;width:auto}
-#cn-list span.cn-image-loading img{visibility:hidden}#cn-list span.cn-image-style{-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;background-color:#fff;border:1px solid #e3e3e3;margin:0 0 5px;padding:5px}
-#cn-list span.fn{display:block}#cn-list span.org{display:block}#cn-list span.organization-name{display:block}#cn-list span.organization-unit{display:block}
-#cn-list span.title{display:block}#cn-list span.contact-name{display:block}#cn-list span.contact-label{font-weight:bold}#cn-list span.adr{display:block;margin-bottom:10px}
-#cn-list span.adr span.address-name{display:block;font-weight:bold}#cn-list span.adr span.street-address{display:block}#cn-list span.adr span.extended-address{display:block}
-#cn-list span.adr span.country-name{display:block}#cn-list span.adr span.geo,div#cn-list span.adr span.geo span.latitude,div#cn-list span.adr span.geo span.longitude{display:block}
-#cn-list span.phone-number-block{display:block;margin-bottom:10px}#cn-list span.tel{display:block;margin:0 0 5px}#cn-list span.tel span.phone-name{font-weight:bold}
-#cn-list span.email-address-block{display:block;margin-bottom:10px}#cn-list span.email{background-image:none;display:block;float:none;margin:0}#cn-list span.email span.email-name{font-weight:bold}
-#cn-list span.im-network-block{display:block;margin-bottom:10px}#cn-list span.im-network{display:block}#cn-list span.im-network span.im-name{font-weight:bold}
-#cn-list span.social-media-block{display:block;margin-bottom:10px}#cn-list span.social-media-block a{margin:0;padding:0}#cn-list span.social-media-block img{border:0;margin:0;padding:0;max-height:none;max-width:none;width:auto}
+#cn-list span.cn-image-loading img{visibility:hidden}#cn-list span.cn-image-style{-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;background-color:#fff;border:1px solid #e3e3e3;display:inline-block;margin:0 0 5px;padding:5px}
+#cn-list span.cn-image-style span.cn-image-none{color:#aaa;font-weight:700;text-align:center;text-shadow:1px 1px 0 #fff;padding:5px}#cn-list span.cn-image{width:auto!important;height:auto!important}
+#cn-list span.cn-image img.photo,#cn-list span.cn-image img.logo{width:100%!important;height:auto!important;max-width:100%}#cn-list span.fn{display:block}
+#cn-list span.org{display:block}#cn-list span.organization-name{display:block}#cn-list span.organization-unit{display:block}#cn-list span.title{display:block}
+#cn-list span.contact-name{display:block}#cn-list span.contact-label{font-weight:bold}#cn-list span.adr{display:block;margin-bottom:10px}#cn-list span.adr span.address-name{display:block;font-weight:bold}
+#cn-list span.adr span.street-address{display:block}#cn-list span.adr span.extended-address{display:block}#cn-list span.adr span.country-name{display:block}
+#cn-list span.adr span.geo,div#cn-list span.adr span.geo span.latitude,div#cn-list span.adr span.geo span.longitude{display:block}#cn-list span.phone-number-block{display:block;margin-bottom:10px}
+#cn-list span.tel{display:block;margin:0 0 5px}#cn-list span.tel span.phone-name{font-weight:bold}#cn-list span.email-address-block{display:block;margin-bottom:10px}
+#cn-list span.email{background-image:none;display:block;float:none;margin:0}#cn-list span.email span.email-name{font-weight:bold}#cn-list span.im-network-block{display:block;margin-bottom:10px}
+#cn-list span.im-network{display:block}#cn-list span.im-network span.im-name{font-weight:bold}#cn-list span.social-media-block{display:block;margin-bottom:10px}
+#cn-list span.social-media-block a{margin:0;padding:0}#cn-list span.social-media-block img{border:0;margin:0;padding:0;max-height:none;max-width:none;width:auto}
 #cn-list span.social-media-network{display:inline-block;margin:0 1px}#cn-list span.link-block{display:block;margin-bottom:10px}#cn-list span.link{display:block}
 #cn-list span.link span.link-name{font-weight:bold}#cn-list span.date-block{display:block;margin-bottom:10px}#cn-list span.date{display:block}#cn-list span.date span.date-name{font-weight:bold}
 #cn-list div.vevent abbr{border:0;cursor:default;text-transform:none;letter-spacing:normal}#cn-list span.vevent{display:block}span.date-name{font-weight:bold}

@@ -14,6 +14,7 @@
 #cn-list span.cn-image {
 	background:url("../images/loading.gif") transparent no-repeat 50% 50%;
 	display: block;
+	line-height: 0;
 	position: relative;
 }
 #cn-list span.cn-image img {
@@ -37,15 +38,26 @@
 	border-radius: 4px;
 	background-color: #FFFFFF;
 	border: 1px solid #E3E3E3;
+	display: inline-block;
 	margin: 0 0 5px;
 	padding: 5px;
 }
-#cn-list span.cn-image-style span {
+#cn-list span.cn-image-style span.cn-image-none {
 	color: #AAAAAA;
 	font-weight: 700;
 	text-align: center;
 	text-shadow: 1px 1px 0px #FFFFFF;
 	padding: 5px;
+}
+#cn-list span.cn-image {
+   width: auto !important;
+   height: auto !important;
+}
+
+#cn-list span.cn-image img.photo, #cn-list span.cn-image img.logo {
+   width: 100% !important;
+   height: auto !important;
+   max-width: 100%;
 }
 
 /*

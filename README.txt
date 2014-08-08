@@ -39,6 +39,7 @@ Here are other great free extensions (with more on the way) that enhance your ex
 * [Toolbar](http://wordpress.org/plugins/connections-toolbar/)
 * [Income Level](http://wordpress.org/plugins/connections-business-directory-income-levels/)
 * [Education Level](http://wordpress.org/plugins/connections-business-directory-education-levels/)
+* [Login](http://wordpress.org/plugins/connections-business-directory-login/)
 
 In addition to the free extensions Connections Business Directory also features a growing library of [premium extensions](http://connections-pro.com/extensions/).
 

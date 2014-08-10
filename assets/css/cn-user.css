@@ -48,7 +48,7 @@ img.cn-image {
 	padding: 0 !important;
 	position: relative !important;
 	top: 0 !important;
-	width: 100% !important;
+	width: auto !important;
 }
 
 /*

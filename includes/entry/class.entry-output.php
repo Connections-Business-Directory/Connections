@@ -169,7 +169,7 @@ class cnOutput extends cnEntry
 								'quality'   => $atts['quality'],
 								'sub_dir'   => $this->getSlug(),
 								),
-							FALSE
+							'data'
 							);
 
 						if ( is_wp_error( $image ) ) {
@@ -199,7 +199,7 @@ class cnOutput extends cnEntry
 									'quality'   => cnSettingsAPI::get( 'connections', "image_{$size}", 'quality' ),
 									'sub_dir'   => $this->getSlug(),
 									),
-								FALSE
+								'data'
 								);
 
 							if ( is_wp_error( $image ) ) {
@@ -266,7 +266,7 @@ class cnOutput extends cnEntry
 								'quality'   => $atts['quality'],
 								'sub_dir'   => $this->getSlug(),
 								),
-							FALSE
+							'data'
 							);
 
 						if ( is_wp_error( $image ) ) {
@@ -292,7 +292,7 @@ class cnOutput extends cnEntry
 								'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
 								'sub_dir'   => $this->getSlug(),
 								),
-							FALSE
+							'data'
 							);
 
 						if ( is_wp_error( $image ) ) {

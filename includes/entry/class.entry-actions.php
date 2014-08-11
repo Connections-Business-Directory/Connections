@@ -95,7 +95,7 @@ class cnEntry_Action {
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_large', 'quality' ),
 				'sub_dir'   => $entrySlug,
 				),
-			FALSE
+			'data'
 			);
 
 		if ( is_wp_error( $large ) ) {
@@ -112,7 +112,7 @@ class cnEntry_Action {
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_medium', 'quality' ),
 				'sub_dir'   => $entrySlug,
 				),
-			FALSE
+			'data'
 			);
 
 		if ( is_wp_error( $medium ) ) {
@@ -129,7 +129,7 @@ class cnEntry_Action {
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'quality' ),
 				'sub_dir'   => $entrySlug,
 				),
-			FALSE
+			'data'
 			);
 
 		if ( is_wp_error( $thumb ) ) {
@@ -187,7 +187,7 @@ class cnEntry_Action {
 				'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
 				'sub_dir'   => $entrySlug,
 				),
-			FALSE
+			'data'
 			);
 
 		if ( is_wp_error( $logo ) ) {

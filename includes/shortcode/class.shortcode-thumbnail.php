@@ -96,7 +96,7 @@ class cnThumb extends cnShortcode {
 		// Unset $atts['source'] because passing that $atts to cnImage::get() extracts and overwrite the $source var.
 		unset( $atts['source'] );
 
-		$image = cnImage::get( $source, $atts, FALSE );
+		$image = cnImage::get( $source, $atts, 'data' );
 
 		if ( is_wp_error( $image ) ) {
 

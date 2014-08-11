@@ -109,7 +109,7 @@ class cnThumb_Responsive extends cnShortcode {
 
 			$atts['width'] = $width;
 
-			$image = cnImage::get( $source, $atts, FALSE );
+			$image = cnImage::get( $source, $atts, 'data' );
 
 			if ( is_wp_error( $image ) ) {
 

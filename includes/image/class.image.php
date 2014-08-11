@@ -46,6 +46,7 @@ class cnImage {
 
 			// Set priority 11 so we know cnMessage has been init'd.
 			add_action( 'admin_init', array( __CLASS__, 'checkEditorSupport' ), 11 );
+			add_action( 'parse_query', array( __CLASS__, 'query'), -1 );
 		}
 
 	}
@@ -141,6 +142,164 @@ class cnImage {
 	}
 
 	/**
+	 * Parses a TimThumb compatible URL via the CN_IMAGE_ENDPOINT root rewrite endpoint
+	 * and stream the image to the browser with the correct headers for the image type being served.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @static
+	 * @uses   get_query_var()
+	 * @uses   path_is_absolute()
+	 * @uses   cnColor::rgb2hex2rgb()
+	 * @uses   self::get()
+	 * @uses   is_wp_error[]
+	 *
+	 * @return stream Streams an image resoure to the browser or a error message.
+	 */
+	public static function query() {
+
+		if ( get_query_var( CN_IMAGE_ENDPOINT ) ) {
+
+			if ( path_is_absolute( get_query_var( 'src' ) ) ) {
+
+				header ( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+				echo '<h1>ERROR/s:</h1><ul><li>Source is file path. Source must be a local file URL.</li></ul>';
+
+				exit();
+			}
+
+			$atts = array();
+
+			if ( get_query_var( 'w' ) ) $atts['width'] = get_query_var( 'w' );
+			if ( get_query_var( 'h' ) ) $atts['height'] = get_query_var( 'h' );
+
+			if ( get_query_var( 'zc' ) || get_query_var( 'zc' ) === '0' ) $atts['crop_mode'] = get_query_var( 'zc' );
+
+			if ( get_query_var( 'a' ) ) {
+
+				$atts['crop_focus'] = array( 'center', 'center' );
+
+				if ( strpos( get_query_var( 'a' ), 't' ) !== FALSE) {
+					$atts['crop_focus'][1] = 'top';
+				}
+
+				if ( strpos( get_query_var( 'a' ), 'r' ) !== FALSE) {
+					$atts['crop_focus'][0] = 'right';
+				}
+
+				if ( strpos( get_query_var( 'a' ), 'b' ) !== FALSE) {
+					$atts['crop_focus'][1] = 'bottom';
+				}
+
+				if ( strpos( get_query_var( 'a' ), 'l' ) !== FALSE) {
+					$atts['crop_focus'][0] = 'left';
+				}
+
+				$atts['crop_focus'] = implode( ',', $atts['crop_focus'] );
+			}
+
+			if ( get_query_var( 'f' ) ) {
+
+				$filters = explode ( '|', get_query_var( 'f' ) );
+
+				foreach ( $filters as $filter ) {
+
+					$param = explode( ',', $filter );
+
+					for ( $i = 0; $i < 4; $i ++ ) {
+
+						if ( ! isset( $param[ $i ] ) ) {
+
+							$param[ $i ] = NULL;
+
+						} else {
+
+							$param[ $i ] = $param[ $i ];
+						}
+					}
+
+					switch ( $param[0] ) {
+
+						case '1':
+							$atts['negate'] = TRUE;
+							break;
+
+						case '2':
+							$atts['grayscale'] = TRUE;
+							break;
+
+						case '3':
+							$atts['brightness'] = $param[1];
+							break;
+
+						case '4':
+							$atts['contrast'] = $param[1];
+							break;
+
+						case '5':
+							$atts['colorize'] = cnColor::rgb2hex2rgb( $param[1] . ',' . $param[2] . ',' . $param[3] );
+							break;
+
+						case '6':
+							$atts['detect_edges'] = TRUE;
+							break;
+
+						case '7':
+							$atts['emboss'] = TRUE;
+							break;
+
+						case '8':
+							$atts['gaussian_blur'] = TRUE;
+							break;
+
+						case '9':
+							$atts['blur'] = TRUE;
+							break;
+
+						case '10':
+							$atts['sketchy'] = TRUE;
+							break;
+
+						case '11':
+							$atts['smooth'] = $param[1];
+					}
+				}
+			}
+
+			if ( get_query_var( 's' ) && get_query_var( 's' ) === '1' ) $atts['sharpen'] = TRUE;
+
+			if ( get_query_var( 'o' ) ) $atts['opacity'] = get_query_var( 'o' );
+
+			if ( get_query_var( 'q' ) ) $atts['quality'] = get_query_var( 'q' );
+			if ( get_query_var( 'cc' ) ) $atts['canvas_color'] = get_query_var( 'cc' );
+
+			// This needs to be set after the `cc` query var because it should override any value set using the `cc` query var, just like TimThumb.
+			if ( get_query_var( 'ct' ) && get_query_var( 'ct' ) === '1' ) $atts['canvas_color'] = 'transparent';
+
+			// Process the image.
+			$image = self::get( get_query_var( 'src' ), $atts, 'stream' );
+
+			// If there been an error
+			if ( is_wp_error( $image ) ) {
+
+				$errors =  implode( '</li><li>', $image->get_error_messages() );
+
+				// Display the error messages.
+				header ( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+				echo '<h1>ERROR/s:</h1><ul><li>' . wp_kses_post( $errors ) . '</li></ul>';
+
+				exit();
+			}
+
+			$image->stream();
+
+			exit();
+
+		}
+
+	}
+
+	/**
 	 * Uses WP's Image Editor Class to crop and resize images.
 	 *
 	 * Derived from bfithumb.
@@ -214,13 +373,17 @@ class cnImage {
 	 *
 	 * 	quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 90
 	 *
-	 * @param string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
-	 * @param array  $atts   An associative array containing the options used to process the image.
-	 * @param bool   $single if false then an array of data will be returned
+	 * @param  string $source The local image path or URL to process. The image must be in the upload folder or the theme folder.
+	 * @param  array  $atts   An associative array containing the options used to process the image.
+	 * @param  string $return
 	 *
-	 * @return string|array
+	 * @return mixed  array | object | string | stream
+	 *                If $return is `data` and array of the image meta is returned.
+	 *                If $retuen is `editor` an instance if the WP_Image_Editor is returned.
+	 *                If $return is `stream` the image resource will be streamed to the browser with the correct headers set.
+	 *                If $return is `url` the image URL will be returned. [Default]
 	 */
-	public static function get( $source, $atts = array(), $single = TRUE ) {
+	public static function get( $source, $atts = array(), $return = 'url' ) {
 		global $wp_filter;
 
 		$filter  = array();
@@ -351,89 +514,62 @@ class cnImage {
 
 		$log->add( 'image_crop_mode' , __( sprintf( 'Crop Mode: %d' , $crop_mode ), 'connections' ) );
 
-		// Crop can be defined as either an array or (bool) FALSE, sanitized/validate both.
+		// Crop can be defined as either an array or string, sanitized/validate both.
 		if ( is_array( $crop_focus ) || is_string( $crop_focus ) ) {
 
-			// If $crop_focus is a string, lets check if is a positional crop.
+			// If $crop_focus is a string, lets check if is a positional crop and convert to an array.
 			if ( is_string( $crop_focus ) && stripos(  $crop_focus, ',' ) !== FALSE ) {
 
-				$crop_focus = trim( $crop_focus );
-
-				// Set positional crop based on string values.
-				switch ( $crop_focus ) {
-
-					case 'left,top':
-
-						$crop_focus = array( 0, 0 );
-						break;
-
-					case 'center,top':
-
-						$crop_focus = array( .5, 0 );
-						break;
-
-					case 'right,top':
-
-						$crop_focus = array( 1, 0 );
-						break;
-
-					case 'left,center':
-
-						$crop_focus = array( 0, .5 );
-						break;
-
-					case 'center,center':
-
-						$crop_focus = array( .5, .5 );
-						break;
-
-					case 'right,center':
-
-						$crop_focus = array( 1, .5 );
-						break;
-
-					case 'left,bottom':
-
-						$crop_focus = array( 0, 1 );
-						break;
-
-					case 'center,bottom':
-
-						$crop_focus = array( .5, 1 );
-						break;
-
-					case 'right,bottom':
-
-						$crop_focus = array( 1, 1 );
-						break;
-
-					default:
-
-						// Appears to be a decimal positional, convert it to an array.
-						$crop_focus = explode( ',', $crop_focus );
-						break;
-				}
-
-				$log->add( 'crop_origin', 'Positional crop: ' . implode( ',', $crop_focus ) );
-
-			// It doesn't appear to be a positional crop. Set to FALSE.
-			} else {
-
-				$crop_focus = FALSE;
+				$crop_focus = explode( ',', $crop_focus );
+				array_walk( $crop_focus, 'trim' );
 			}
 
-			// The array should have two values, if it does not, set $crop_focus to the default positional crop.
-			if ( count( $crop_focus ) !== 2 && ! is_bool( $crop_focus ) ) {
+			// Convert the string values to their float equivalents.
+
+			switch ( $crop_focus[0] ) {
+
+				case 'left':
+					$crop_focus[0] = 0;
+					break;
+
+				case 'right':
+					$crop_focus[0] = 1;
+					break;
+
+				default:
+					$crop_focus[0] = .5;
+					break;
+			}
+
+			switch ( $crop_focus[1] ) {
+
+				case 'top':
+					$crop_focus[1] = 0;
+					break;
+
+				case 'bottom':
+					$crop_focus[1] = 1;
+					break;
+
+				default:
+					$crop_focus[1] = .5;
+					break;
+			}
+
+			// Ensure if an array was supplied, that there are only two keys, if not, set the default positional crop.
+			if ( count( $crop_focus ) !== 2 ) {
 
 				$crop_focus = array( .5, .5 );
 
+			// Values must be a float within the range of 0–1, if is not, set the default positional crop.
 			} else {
 
-				// Values must be a float within the range of 0–1, if is not, set the default positional crop.
 				if ( ( ! $crop_focus[0] >= 0 || ! $crop_focus <= 1 ) && ( filter_var( (float) $crop_focus[0], FILTER_VALIDATE_FLOAT ) === FALSE ) ) $crop_focus[0] = .5;
 				if ( ( ! $crop_focus[1] >= 0 || ! $crop_focus <= 1 ) && ( filter_var( (float) $crop_focus[1], FILTER_VALIDATE_FLOAT ) === FALSE ) ) $crop_focus[1] = .5;
 
 			}
+
+			$log->add( 'image_crop_focus', 'Crop Focus: ' . implode( ',', $crop_focus ) );
 
 		} else {
 
@@ -487,7 +623,18 @@ class cnImage {
 
 		if ( path_is_absolute( $source ) ) {
 
-			$img_path = $source;
+			// Ensure the supplied path is in either the WP_CONTENT/UPLOADS directory or
+			// the STYLESHEETPATH directory.
+			if ( strpos( $source, $upload_dir ) !== FALSE ||
+				 strpos( $source, $theme_dir ) !== FALSE
+				) {
+
+				$img_path = $source;
+
+			} else {
+
+				$img_path = FALSE;
+			}
 
 		} else {
 
@@ -791,9 +938,22 @@ class cnImage {
 		$img_url      = "{$upload_url}/{$dst_rel_path}-{$suffix}.{$ext}";
 
 		// If file exists, just return it.
-		if ( @file_exists( $destfilename ) && getimagesize( $destfilename ) ) {
+		if ( @file_exists( $destfilename ) && ( $image_info = getimagesize( $destfilename ) ) ) {
 
-			$log->add( 'image_serve_from_cache', 'Image found in cache, no image processing required.' );
+			$mime_type = $image_info['mime'];
+
+			$log->add( 'image_serve_from_cache', 'Image found in cache, no processing required.' );
+
+			$editor = wp_get_image_editor( $destfilename );
+
+			// If there is an error, return WP_Error object.
+			if ( $result = is_wp_error( $editor ) ) {
+
+				return $result;
+			}
+
+			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
+			$log->add( 'image_editor_engine', __( sprintf( 'Image processing class is %s', get_class( $editor ) ), 'connections' ) );
 
 		} else {
 
@@ -826,11 +986,8 @@ class cnImage {
 				return $result;
 			}
 
-			$image_editing_parent_class = get_parent_class( $editor );
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', $image_editing_parent_class ), 'connections' ) );
-
-			$image_editing_class = get_class( $editor );
-			$log->add( 'image_editor_engine', __( sprintf( 'Image processing class is %s', $image_editing_class ), 'connections' ) );
+			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
+			$log->add( 'image_editor_engine', __( sprintf( 'Image processing class is %s', get_class( $editor ) ), 'connections' ) );
 
 			/*
 			 * Perform image manipulations.
@@ -1072,7 +1229,7 @@ class cnImage {
 
 			$log->add( 'image_save_mime_type', __( sprintf( 'Saving file as %s.', $mime_type ), 'connections' ) );
 
-			$log->add( 'image_save_mime_type', __( sprintf( 'Saving file in path: %s', $destfilename ), 'connections' ) );
+			$log->add( 'image_save_file_path', __( sprintf( 'Saving file in path: %s', $destfilename ), 'connections' ) );
 
 			$resized_file = $editor->save( $destfilename, $mime_type );
 
@@ -1080,24 +1237,6 @@ class cnImage {
 		}
 
 		$log->add( 'image_cache_url', __( sprintf( 'Cache URL: %s', $img_url ), 'connections' ) );
-
-		//return the output
-		if ( $single ) {
-
-			$image = $img_url;
-
-		} else {
-
-			//array return
-			$image = array (
-				'url'       => $img_url,
-				'width'     => isset($dst_w) ? $dst_w : $orig_w,
-				'height'    => isset($dst_h) ? $dst_h : $orig_h,
-				'filename'  => "{$dst_rel_path}-{$suffix}.{$ext}",
-				'mime_type' => isset( $mime_type ) ? $mime_type : $orig_mime_type,
-				'log'       => defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ? $log : __( 'WP_DEBUG is not defined or set to FALSE, set to TRUE to enable image processing log.', 'connections' ),
-			);
-		}
 
 		/*
 		 * Remove the cnImage filters.
@@ -1111,6 +1250,37 @@ class cnImage {
 		 */
 		if ( ! empty( $filter['editors'] ) ) $wp_filter['wp_image_editors']       = $filter['editors'];
 		if ( ! empty( $filter['resize'] ) ) $wp_filter['image_resize_dimensions'] = $filter['resize'];
+
+		switch ( $return ) {
+
+			case 'data':
+
+				$image = array (
+					'url'      => $img_url,
+					'path'     => $destfilename,
+					'width'    => isset($dst_w) ? $dst_w : $orig_w,
+					'height'   => isset($dst_h) ? $dst_h : $orig_h,
+					'filename' => "{$dst_rel_path}-{$suffix}.{$ext}",
+					'mime'     => isset( $mime_type ) ? $mime_type : $orig_mime_type,
+					'log'      => defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ? $log : __( 'WP_DEBUG is not defined or set to FALSE, set to TRUE to enable image processing log.', 'connections' ),
+				);
+				break;
+
+			case 'editor':
+
+				$image = $editor;
+				break;
+
+			case 'stream':
+
+				$image = $editor->stream();
+				break;
+
+			default:
+
+				$image = $img_url;
+				break;
+		}
 
 		return $image;
 	}

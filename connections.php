@@ -220,6 +220,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				}
 			}
 
+			// Set the root image permalink endpoint name.
+			if ( ! defined( 'CN_IMAGE_ENDPOINT' ) )
+				define( 'CN_IMAGE_ENDPOINT', 'cn-image' );
+
 			// Set images subdirectory folder name.
 			if ( ! defined( 'CN_IMAGE_DIR_NAME' ) )
 				define( 'CN_IMAGE_DIR_NAME', 'connections-images' );

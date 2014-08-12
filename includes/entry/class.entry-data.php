@@ -318,6 +318,10 @@ class cnEntry {
 			if ( isset( $entry->status ) ) $this->status = $entry->status;
 
 			$this->ruid = uniqid( $this->getId() , FALSE );
+
+			// Move any legacy images and logo, pre 8.1, to the new folder structure.
+			$this->processLegacyImages( $this->getImageNameOriginal() );
+			$this->processLegacyLogo( $this->getLogoName() );
 		}
 
 		// Load the formatting class for sanitizing the get methods.
@@ -3257,6 +3261,326 @@ class cnEntry {
 	 */
 	public function setImageNameOriginal( $imageNameOriginal ) {
 		$this->options['image']['name']['original'] = $imageNameOriginal;
+	}
+
+	/**
+	 * Saves the logo image meta data (the result of cnImage::get()).
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @param  array  $meta
+	 */
+	public function setOriginalLogoMeta( $meta ) {
+
+		$this->options['logo']['meta'] = $meta;
+	}
+
+	/**
+	 * Saves the photo image meta data (the result of cnImage::get()).
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @param  array  $meta
+	 */
+	public function setOriginalImageMeta( $meta ) {
+
+		$this->options['image']['meta']['original'] = $meta;
+	}
+
+	/**
+	 * Get the original logo/photo absolute image path.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   wp_upload_dir()
+	 * @uses   trailingslashit()
+	 * @uses   self::getSlug()
+	 * @uses   self::getLogoName()
+	 * @uses   self::getImageNameOriginal()
+	 * @param  string $type The image path to return, logo | photo.
+	 * @return string       The absolute image path.
+	 */
+	public function getOriginalImagePath( $type ) {
+
+		if ( empty( $type ) ) return '';
+
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
+
+		switch ( $type ) {
+
+			case 'logo':
+
+				// Build the URL to the original image.
+				return trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR .$this->getLogoName();
+				break;
+
+			case 'photo':
+
+				// Build the URL to the original image.
+				return trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR .$this->getImageNameOriginal();
+				break;
+
+			default:
+
+				return '';
+				break;
+		}
+
+	}
+
+	/**
+	 * Get the original logo/photo image URL.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   wp_upload_dir()
+	 * @uses   trailingslashit()
+	 * @uses   self::getSlug()
+	 * @uses   self::getLogoName()
+	 * @uses   self::getImageNameOriginal()
+	 * @param  string $type The image URL to return, logo | photo.
+	 * @return string       The image URL.
+	 */
+	public function getOriginalImageURL( $type ) {
+
+		if ( empty( $type ) ) return '';
+
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
+
+		switch ( $type ) {
+
+			case 'logo':
+
+				return trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' . $this->getLogoName();
+				break;
+
+			case 'photo':
+
+				return trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' . $this->getImageNameOriginal();
+				break;
+
+			default:
+
+				return '';
+				break;
+		}
+
+	}
+
+	/**
+	 * Return an array of image meta data.
+	 *
+	 * Accepted option for the $atts property are:
+	 * 	type (string) Valid options: logo | photo | custom. Default: photo
+	 * 	size (string) Valid options depend on `type`.
+	 * 		If `type` is `logo`: original | scaled. Default: original
+	 * 		If `type` is `photo`: original | thumbnail | medium | large. Default: original
+	 * 		If `type` is `custom`: Not used, use the `width` and `height` to set the custom size.
+	 * 	width (int) The width of the `custom` size.
+	 * 	height (int) The height of the `custom` size.
+	 * 	crop_mode (int) Which crop mode to utilitize when rescaling the image. Valid range is 0–3. Default: 1
+	 * 		0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
+	 * 		1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
+	 * 		2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
+	 * 			Use the canvas_color option to set the color to be used when adding margins.
+	 * 		3 == Resize proportionally adjusting size of scaled image so there are no margins added.
+	 * 	quality (int) The image quality to be used when saving the image. Valid range is 1–100. Default: 80
+	 *
+	 * The return array will contain the following keys and their value:
+	 * 	name   => (string) The image name.
+	 * 	path   => (string) The absolute image path.
+	 * 	url    => (string) The image URL.
+	 * 	width  => (int) The image width.
+	 * 	height => (int) The image height.
+	 * 	size   => (string) The image size in a string, `height="yyy" width="xxx"`, that can be used directly in an img tag.
+	 * 	mime   => (string) The image mime type.
+	 * 	type   => (int) The IMAGETYPE_XXX constants indicating the type of the image.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   apply_filters()
+	 * @uses   wp_parse_args()
+	 * @uses   self::getOriginalImageURL()
+	 * @uses   self::getOriginalImagePath()
+	 * @uses   cnImage::get()
+	 * @uses   WP_Error
+	 * @uses   is_wp_error()
+	 * @param  array  $atts
+	 * @return array
+	 */
+	public function getImageMeta( $atts = array() ) {
+
+		$cropMode = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
+		$sizes    = array( 'thumbnail', 'medium', 'large' );
+		$meta     = array();
+
+		$defaults = array(
+			'type'      => 'photo',
+			'size'      => 'original',
+			'width'     => 0,
+			'height'    => 0,
+			'crop_mode' => 1,
+			'quality'   => 80,
+		);
+
+		$defaults = apply_filters( 'cn_default_atts_image_meta', $defaults );
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( empty( $atts['type'] ) ) return $meta;
+
+		if ( $atts['size'] == 'custom' ) {
+
+			$meta = cnImage::get(
+				$this->getOriginalImageURL( $atts['type'] ),
+				array(
+					'crop_mode' => empty( $atts['crop_mode'] ) && $atts['crop_mode'] !== 0 ? 1 : $atts['crop_mode'],
+					'width'     => empty( $atts['width'] ) ? NULL : $atts['width'],
+					'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
+					'quality'   => $atts['quality'],
+					'sub_dir'   => $this->getSlug(),
+					),
+				'data'
+				);
+
+			if ( ! is_wp_error( $meta ) ) {
+
+				$meta['source'] = 'file';
+			}
+
+			return $meta;
+		}
+
+		switch ( $atts['type'] ) {
+
+			case 'logo':
+
+				switch ( $atts['size'] ) {
+
+					case 'original':
+						$meta['path'] = $this->getOriginalImagePath( $atts['type'] );
+						$meta['url']  = $this->getOriginalImageURL( $atts['type'] );
+
+						if ( isset( $this->options['logo']['meta'] ) ) {
+
+							$meta = $this->options['logo']['meta'];
+
+							$meta['source'] = 'db';
+
+						} else {
+
+
+							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
+
+								$meta['width']  = $image[0];
+								$meta['height'] = $image[1];
+								$meta['size']   = $image[3];
+								$meta['mime']   = $image['mime'];
+								$meta['type']   = $image[2];
+								$meta['source'] = 'file';
+
+							} else {
+
+								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), basename( $meta['path'] ) );
+							}
+
+						}
+
+						break;
+
+					default:
+
+						$meta = cnImage::get(
+							$this->getOriginalImageURL( $atts['type'] ),
+							array(
+								'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+								'width'     => cnSettingsAPI::get( 'connections', 'image_logo', 'width' ),
+								'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
+								'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
+								'sub_dir'   => $this->getSlug(),
+								),
+							'data'
+							);
+
+						if ( ! is_wp_error( $meta ) ) {
+
+							$meta['source'] = 'file';
+						}
+
+						break;
+
+				}
+
+				break;
+
+			case 'photo':
+
+				switch ( $atts['size'] ) {
+
+					case 'original':
+
+						$meta['path'] = $this->getOriginalImagePath( $atts['type'] );
+						$meta['url']  = $this->getOriginalImageURL( $atts['type'] );
+
+						if ( isset( $this->options['image']['meta']['original'] ) ) {
+
+							$meta = $this->options['image']['meta']['original'];
+
+							$meta['source'] = 'db';
+
+						} else {
+
+							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
+
+								$meta['width']  = $image[0];
+								$meta['height'] = $image[1];
+								$meta['size']   = $image[3];
+								$meta['mime']   = $image['mime'];
+								$meta['type']   = $image[2];
+								$meta['source'] = 'file';
+
+							} else {
+
+								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), basename( $meta['path'] ) );
+							}
+
+						}
+
+						break;
+
+					default:
+
+						if ( in_array( $atts['size'], $sizes ) ) {
+
+							$meta = cnImage::get(
+								$this->getOriginalImageURL( $atts['type'] ),
+								array(
+									'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+									'width'     => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'width' ),
+									'height'    => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'height' ),
+									'quality'   => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'quality' ),
+									'sub_dir'   => $this->getSlug(),
+									),
+								'data'
+								);
+
+							if ( ! is_wp_error( $meta ) ) {
+
+								$meta['source'] = 'file';
+							}
+
+						}
+
+						break;
+				}
+
+				break;
+
+		}
+
+		return $meta;
 	}
 
 	/**

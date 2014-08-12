@@ -99,9 +99,6 @@ class cnOutput extends cnEntry
 		$anchorStart  = '';
 		$out          = '';
 
-		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
-
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -147,12 +144,6 @@ class cnOutput extends cnEntry
 
 				if ( $this->getImageLinked() && ( $this->getImageDisplay() || $atts['action'] == 'edit' ) ) {
 
-					// Move any legacy images, pre 8.1, to the new folder structure.
-					$this->processLegacyImages( $this->getImageNameOriginal() );
-
-					// Build the URL to the original image.
-					$url = trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' .$this->getImageNameOriginal();
-
 					$displayImage  = TRUE;
 					$atts['class'] = 'cn-image photo';
 					$atts['alt']   = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
@@ -160,16 +151,15 @@ class cnOutput extends cnEntry
 
 					if ( $customSize ) {
 
-						$image = cnImage::get(
-							$url,
+						$image = $this->getImageMeta(
 							array(
-								'crop_mode' => empty( $atts['zc'] ) && $atts !== 0 ? 1 : $atts['zc'],
-								'width'     => empty( $atts['width'] ) ? NULL : $atts['width'],
-								'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
+								'type'      => 'photo',
+								'size'      => 'custom',
+								'crop_mode' => $atts['zc'],
+								'width'     => $atts['width'],
+								'height'    => $atts['height'],
 								'quality'   => $atts['quality'],
-								'sub_dir'   => $this->getSlug(),
-								),
-							'data'
+								)
 							);
 
 						if ( is_wp_error( $image ) ) {
@@ -190,16 +180,11 @@ class cnOutput extends cnEntry
 
 						if ( $size = array_search( $atts['preset'], $preset ) ) {
 
-							$image = cnImage::get(
-								$url,
+							$image = $this->getImageMeta(
 								array(
-									'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
-									'width'     => cnSettingsAPI::get( 'connections', "image_{$size}", 'width' ),
-									'height'    => cnSettingsAPI::get( 'connections', "image_{$size}", 'height' ),
-									'quality'   => cnSettingsAPI::get( 'connections', "image_{$size}", 'quality' ),
-									'sub_dir'   => $this->getSlug(),
-									),
-								'data'
+									'type' => 'photo',
+									'size' => $size,
+									)
 								);
 
 							if ( is_wp_error( $image ) ) {
@@ -244,12 +229,6 @@ class cnOutput extends cnEntry
 
 				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || $atts['action'] == 'edit' ) ) {
 
-					// Move the legacy logo, pre 8.1, to the new folder structure.
-					$this->processLegacyLogo( $this->getLogoName() );
-
-					// Build the URL to the original image.
-					$url = trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' .$this->getLogoName();
-
 					$displayImage  = TRUE;
 					$atts['class'] = 'cn-image logo';
 					$atts['alt']   = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
@@ -257,16 +236,15 @@ class cnOutput extends cnEntry
 
 					if ( $customSize ) {
 
-						$image = cnImage::get(
-							$url,
+						$image = $this->getImageMeta(
 							array(
-								'crop_mode' => empty( $atts['zc'] ) && $atts !== 0 ? 1 : $atts['zc'],
-								'width'     => empty( $atts['width'] ) ? NULL : $atts['width'],
-								'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
+								'type'      => 'logo',
+								'size'      => 'custom',
+								'crop_mode' => $atts['zc'],
+								'width'     => $atts['width'],
+								'height'    => $atts['height'],
 								'quality'   => $atts['quality'],
-								'sub_dir'   => $this->getSlug(),
-								),
-							'data'
+								)
 							);
 
 						if ( is_wp_error( $image ) ) {
@@ -283,16 +261,11 @@ class cnOutput extends cnEntry
 
 					} else {
 
-						$image = cnImage::get(
-							$url,
+						$image = $this->getImageMeta(
 							array(
-								'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
-								'width'     => cnSettingsAPI::get( 'connections', 'image_logo', 'width' ),
-								'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
-								'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
-								'sub_dir'   => $this->getSlug(),
-								),
-							'data'
+								'type' => 'logo',
+								'size' => 'scaled',
+								)
 							);
 
 						if ( is_wp_error( $image ) ) {

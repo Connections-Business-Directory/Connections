@@ -145,7 +145,7 @@ class cnEntry_Action {
 			if ( isset( $thumb['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Thumbnail Image Process Log<br/><pre>' . $thumb['log'] . '</pre>' );
 		}
 
-		return array( 'image_names' => array( 'original' => $img['name'] ) );
+		return array( 'image_names' => array( 'original' => $img['name'] ), 'image' => array( 'original' => array( 'meta' => $img ) ) );
 	}
 
 	/**
@@ -517,6 +517,7 @@ class cnEntry_Action {
 				$entry->setLogoLinked( TRUE );
 				$entry->setLogoDisplay( TRUE );
 				$entry->setLogoName( $result['name'] );
+				$entry->setOriginalLogoMeta( $result );
 
 			} else {
 
@@ -599,6 +600,7 @@ class cnEntry_Action {
 				$entry->setImageNameCard( $result['image_names']['entry'] );
 				$entry->setImageNameProfile( $result['image_names']['profile'] );
 				$entry->setImageNameOriginal( $result['image_names']['original'] );
+				$entry->setOriginalImageMeta( $result['image']['original']['meta'] );
 
 			} else {
 

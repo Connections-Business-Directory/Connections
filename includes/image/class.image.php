@@ -1256,13 +1256,15 @@ class cnImage {
 			case 'data':
 
 				$image = array (
-					'url'      => $img_url,
-					'path'     => $destfilename,
-					'width'    => isset($dst_w) ? $dst_w : $orig_w,
-					'height'   => isset($dst_h) ? $dst_h : $orig_h,
-					'filename' => "{$dst_rel_path}-{$suffix}.{$ext}",
-					'mime'     => isset( $mime_type ) ? $mime_type : $orig_mime_type,
-					'log'      => defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ? $log : __( 'WP_DEBUG is not defined or set to FALSE, set to TRUE to enable image processing log.', 'connections' ),
+					'name'   => "{$dst_rel_path}-{$suffix}.{$ext}",
+					'path'   => $destfilename,
+					'url'    => $img_url,
+					'width'  => isset($dst_w) ? $dst_w : $orig_w,
+					'height' => isset($dst_h) ? $dst_h : $orig_h,
+					'size'   => 'height="' . ( isset($dst_h) ? $dst_h : $orig_h ) . '" width="' . ( isset($dst_w) ? $dst_w : $orig_w ) . '"',
+					'mime'   => isset( $mime_type ) ? $mime_type : $orig_mime_type,
+					'type'   => $image_info[2],
+					'log'    => defined( 'WP_DEBUG' ) && WP_DEBUG === TRUE ? $log : __( 'WP_DEBUG is not defined or set to FALSE, set to TRUE to enable image processing log.', 'connections' ),
 				);
 				break;
 
@@ -1422,7 +1424,31 @@ class cnImage {
 
 		$upload = new cnUpload( $file, $atts );
 
-		return $upload->result();
+		$result = $upload->result();
+
+		if ( ! is_wp_error( $result ) && $image = @getimagesize( $result['path'] ) ) {
+
+			$result['width']  = $image[0];
+			$result['height'] = $image[1];
+			$result['size']   = $image[3];
+			$result['mime']   = $image['mime'];
+			$result['type']   = $image[2];
+
+			$order = array(
+				'name'   => '',
+				'path'   => '',
+				'url'    => '',
+				'width'  => '',
+				'height' => '',
+				'size'   => '',
+				'mime'   => '',
+				'type'   => ''
+				);
+
+			$result = array_merge( $order, $result );
+		}
+
+		return $result;
 	}
 
 }

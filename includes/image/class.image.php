@@ -157,6 +157,7 @@ class cnImage {
 	 * @return stream Streams an image resoure to the browser or a error message.
 	 */
 	public static function query() {
+		global $wpdb;
 
 		if ( get_query_var( CN_IMAGE_ENDPOINT ) ) {
 
@@ -170,6 +171,26 @@ class cnImage {
 
 			$atts = array();
 
+			if ( get_query_var( 'cn-entry-slug' ) ) {
+
+				$sql = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug=%s', get_query_var( 'cn-entry-slug' ) );
+
+				$result = $wpdb->get_var( $sql );
+
+				if ( is_null( $result ) ) {
+
+					header ( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request');
+					echo '<h1>ERROR/s:</h1><ul><li>Cheating?</li></ul>';
+
+					exit();
+
+				} else {
+
+					$atts['sub_dir'] = $result;
+				}
+
+			}
+
 			if ( get_query_var( 'w' ) ) $atts['width'] = get_query_var( 'w' );
 			if ( get_query_var( 'h' ) ) $atts['height'] = get_query_var( 'h' );
 
@@ -179,19 +200,19 @@ class cnImage {
 
 				$atts['crop_focus'] = array( 'center', 'center' );
 
-				if ( strpos( get_query_var( 'a' ), 't' ) !== FALSE) {
+				if ( strpos( get_query_var( 'a' ), 't' ) !== FALSE ) {
 					$atts['crop_focus'][1] = 'top';
 				}
 
-				if ( strpos( get_query_var( 'a' ), 'r' ) !== FALSE) {
+				if ( strpos( get_query_var( 'a' ), 'r' ) !== FALSE ) {
 					$atts['crop_focus'][0] = 'right';
 				}
 
-				if ( strpos( get_query_var( 'a' ), 'b' ) !== FALSE) {
+				if ( strpos( get_query_var( 'a' ), 'b' ) !== FALSE ) {
 					$atts['crop_focus'][1] = 'bottom';
 				}
 
-				if ( strpos( get_query_var( 'a' ), 'l' ) !== FALSE) {
+				if ( strpos( get_query_var( 'a' ), 'l' ) !== FALSE ) {
 					$atts['crop_focus'][0] = 'left';
 				}
 
@@ -752,10 +773,12 @@ class cnImage {
 					if ( $width && ! $height ) {
 
 						$height = floor ( $orig_h * ( $width / $orig_w ) );
+						$canvas_h = $height;
 
 					} else if ( $height && ! $width ) {
 
 						$width = floor ( $orig_w * ( $height / $orig_h ) );
+						$canvas_w = $width;
 					}
 
 					$final_height = $orig_h * ($width / $orig_w);

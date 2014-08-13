@@ -533,7 +533,8 @@ class cnEntry {
 				break;
 		}
 
-		return preg_replace( '/\s{2,}/', ' ', $name );
+		// return preg_replace( '/\s{2,}/', ' ', $name );
+		return trim( preg_replace( '/\s+/', ' ', $name ) );
 	}
 
 	public function getHonorificPrefix() {

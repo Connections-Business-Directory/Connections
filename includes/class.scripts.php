@@ -295,7 +295,7 @@ class cnScript {
 		 * http://scribu.net/wordpress/optimal-script-loading.html
 		 */
 
-		wp_enqueue_script( 'cn-ui' );
+		// wp_enqueue_script( 'cn-ui' );
 		wp_enqueue_script( 'picturefill' );
 	}
 

@@ -11,30 +11,25 @@
 /*
  * Image / Logo Styles
  */
-#cn-list span.cn-image {
-	background:url("../images/loading.gif") transparent no-repeat 50% 50%;
-	display: block;
-	height: auto !important;
-	line-height: 0;
-	position: relative;
-	width: auto !important;
-}
-#cn-list span.cn-image-loading img {
-	visibility: hidden;
-}
 #cn-list span.cn-image-style {
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	background-color: #FFFFFF;
 	border: 1px solid #E3E3E3;
+	box-sizing: border-box;
 	display: inline-block;
+	line-height: 0;
 	margin: 0 0 5px;
+	max-width: 100%;
 	padding: 5px;
+	width: auto;
 }
-#cn-list span.cn-image-style span.cn-image-none {
+#cn-list span.cn-image-none {
 	color: #AAAAAA;
 	font-weight: 700;
+	line-height: normal;
+	max-width: 100%;
 	text-align: center;
 	text-shadow: 1px 1px 0px #FFFFFF;
 }
@@ -48,7 +43,7 @@ img.cn-image {
 	padding: 0 !important;
 	position: relative !important;
 	top: 0 !important;
-	width: auto !important;
+	/*width: auto;*/
 }
 
 /*

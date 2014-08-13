@@ -38,6 +38,7 @@ a.detailsbutton { cursor: pointer; }
 table.connections tr.unapproved { background-color: #FFFFE0; }
 table.connections tr.entrydetails td {border-color:transparent #DFDFDF;}
 table.connections tr.entrynotes td {border-color:transparent #DFDFDF #DFDFDF;}
+
 table.connections span.cn-image-style {
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
@@ -51,33 +52,19 @@ table.connections span.cn-image-style {
 	background: linear-gradient(top, #f1f1f1 0%,#e3e3e3 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1f1f1', endColorstr='#e3e3e3',GradientType=0 ); /* IE6-9 */
 	border: 1px solid #E3E3E3;
-	margin: 4px 0px;
-	padding: 5px;
-}
-table.connections span.cn-image {
-	background:url("../images/loading.gif") transparent no-repeat 50% 50%;
-	display: block;
-	height: auto !important;
-	line-height: 0;
-	position: relative;
-	width: auto !important;
-}
-table.connections span.cn-image-loading img {
-	visibility: hidden;
-}
-table.connections span.cn-image-style {
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	background-color: #FFFFFF;
-	border: 1px solid #E3E3E3;
+	box-sizing: border-box;
 	display: inline-block;
+	line-height: 0;
 	margin: 0 0 5px;
+	max-width: 100%;
 	padding: 5px;
+	width: auto;
 }
-table.connections span.cn-image-style span.cn-image-none {
+table.connections span.cn-image-none {
 	color: #AAAAAA;
 	font-weight: 700;
+	line-height: normal;
+	max-width: 100%;
 	text-align: center;
 	text-shadow: 1px 1px 0px #FFFFFF;
 }
@@ -91,7 +78,7 @@ table.connections img.cn-image {
 	padding: 0 !important;
 	position: relative !important;
 	top: 0 !important;
-	width: 100% !important;
+	/*width: 100% !important;*/
 }
 table.connections a.action.approve { color: #006505; display: inline; }
 table.connections a.action.unapprove { color: #D98500; }

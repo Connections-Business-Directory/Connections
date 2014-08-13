@@ -399,6 +399,7 @@ class cnImage {
 	 * @param  string $return
 	 *
 	 * @return mixed  array | object | string | stream
+	 *                If $return is `base64` then base64 encoded image data URI will be returned. Suitable for use in CSS or img src attribute.
 	 *                If $return is `data` and array of the image meta is returned.
 	 *                If $retuen is `editor` an instance if the WP_Image_Editor is returned.
 	 *                If $return is `stream` the image resource will be streamed to the browser with the correct headers set.
@@ -1275,6 +1276,11 @@ class cnImage {
 		if ( ! empty( $filter['resize'] ) ) $wp_filter['image_resize_dimensions'] = $filter['resize'];
 
 		switch ( $return ) {
+
+			case 'base64':
+
+				$image = 'data:image/' . ( isset( $mime_type ) ? $mime_type : $orig_mime_type ) . ';base64,' . base64_encode( file_get_contents( $destfilename ) );
+				break;
 
 			case 'data':
 

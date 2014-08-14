@@ -17,29 +17,7 @@ class cnvCard extends cnEntry_HTML {
 	private $data;
 	private $card;
 
-	private function setvCardData()
-	{
-		$imageName = $this->getImageNameCard();
-		$logoName = $this->getLogoName();
-
-		if ( !empty($imageName) )
-		{
-			$imagePath = CN_IMAGE_PATH . $imageName;
-		}
-		else
-		{
-			$imagePath = NULL;
-		}
-
-
-		if ( !empty($logoName) )
-		{
-			$logoPath = CN_IMAGE_PATH . $logoName;
-		}
-		else
-		{
-			$logoPath = NULL;
-		}
+	private function setvCardData() {
 
 		$this->data = array(
 			'class'                  => NULL,
@@ -90,8 +68,8 @@ class cnvCard extends cnEntry_HTML {
 			'messenger'              => NULL,
 			'yim'                    => NULL,
 			'jabber'                 => NULL,
-			'photo'                  => $imagePath,
-			'logo'                   => $logoPath,
+			'photo'                  => $this->getOriginalImagePath('photo'),
+			'logo'                   => $this->getOriginalImagePath('logo'),
 			'birthday'               => $this->getBirthday('Y-m-d'),
 			'anniversary'            => $this->getAnniversary('Y-m-d'),
 			'spouse'                 => NULL,
@@ -336,7 +314,7 @@ class cnvCard extends cnEntry_HTML {
 		}
 
 		$this->card .= "TZ:".$this->data['timezone']."\r\n";
-		$this->card .= "END:VCARD\r\n";
+		$this->card .= "END:VCARD";
 	}
 
 	/**

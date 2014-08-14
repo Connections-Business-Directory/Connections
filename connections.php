@@ -806,7 +806,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				$data     = $vCard->getvCard(); //var_dump($data);die;
 
 
-				header( 'Content-Type: text/x-vcard; charset=utf-8' );
+				header( 'Content-Description: File Transfer');
+				header( 'Content-Type: application/octet-stream' );
 				header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
 				header( 'Content-Length: ' . strlen( $data ) );
 				header( 'Pragma: public' );
@@ -814,7 +815,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				//header( "Expires: 0" );
 				header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 				header( 'Cache-Control: private' );
-				header( 'Connection: close' );
+				// header( 'Connection: close' );
+				ob_clean();
+				flush();
 
 				echo $data;
 				exit;

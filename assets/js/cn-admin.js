@@ -10,17 +10,17 @@ jQuery(document).ready( function($) {
 	/*
 	 * Hide the image loading spinner and show the image.
 	 */
-	$('.connections').cn_preloader({
-		delay:200,
-		imgSelector:'.cn-image img.photo, .cn-image img.logo',
-		beforeShow:function(){
-			$(this).closest('.cn-image img').css('visibility','hidden');
-		},
-		afterShow:function(){
-			//var image = $(this).closest('.cn-image');
-			//$(image).spin(false);
-		}
-	});
+	// $('.connections').cn_preloader({
+	// 	delay:200,
+	// 	imgSelector:'.cn-image img.photo, .cn-image img.logo',
+	// 	beforeShow:function(){
+	// 		$(this).closest('.cn-image img').css('visibility','hidden');
+	// 	},
+	// 	afterShow:function(){
+	// 		//var image = $(this).closest('.cn-image');
+	// 		//$(image).spin(false);
+	// 	}
+	// });
 
 	var showDetail = 'Show Details',
 		hideDetail = 'Hide Details',

@@ -298,7 +298,7 @@ class cnImage {
 			if ( get_query_var( 'ct' ) && get_query_var( 'ct' ) === '1' ) $atts['canvas_color'] = 'transparent';
 
 			// Process the image.
-			$image = self::get( get_query_var( 'src' ), $atts, 'stream' );
+			$image = self::get( get_query_var( 'src' ), $atts, 'editor' );
 
 			// If there been an error
 			if ( is_wp_error( $image ) ) {

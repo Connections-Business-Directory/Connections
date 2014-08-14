@@ -437,7 +437,7 @@ class cnEntry {
 	 *
 	 * @return string
 	 */
-	private function getUniqueSlug( $slug ) {
+	private function getUniqueSlug( $slug = '' ) {
 		global $wpdb;
 
 		// WP function -- formatting class

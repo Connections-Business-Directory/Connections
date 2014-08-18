@@ -2401,7 +2401,7 @@ class cnOutput extends cnEntry
 		$out = '';
 		$categories = $this->getCategory();
 
-		if ( empty( $categories ) ) return NULL;
+		if ( empty( $categories ) ) return $out;
 
 		if ( !empty( $atts['before'] ) ) $out .= $atts['before'];
 
@@ -2416,13 +2416,10 @@ class cnOutput extends cnEntry
 
 			$atts['list'] === 'unordered' ? $out .= '</ul>' : $out .= '</ol>';
 		} else {
-			$i = 0;
+			$i = 1;
 
 			foreach ( $categories as $category ) {
-				$out .= '<span class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . '</span>';
-
-				$i++;
-				if ( count( $categories ) > $i ) $out .= $atts['separator'];
+				$out .= '<span class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . ( count( $categories ) > $i++ && ! empty( $atts['separator'] ) ? $atts['separator'] : '' ) . '</span>';
 			}
 		}
 

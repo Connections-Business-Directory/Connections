@@ -3484,7 +3484,7 @@ class cnEntry {
 
 							} else {
 
-								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), basename( $meta['path'] ) );
+								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), $meta['path'] );
 							}
 
 						}
@@ -3544,7 +3544,7 @@ class cnEntry {
 
 							} else {
 
-								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), basename( $meta['path'] ) );
+								$meta = new WP_Error( 'image_not_found', __( sprintf( 'The file %s is not an image.', basename( $meta['path'] ) ), 'connections' ), $meta['path'] );
 							}
 
 						}
@@ -3613,15 +3613,25 @@ class cnEntry {
 		// Build the destination image path.
 		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR;
 
+		/*
+		 * NOTE: is_file() will always return false if teh folder/file does not
+		 * have the execution bit set (ie 0775) on some hosts appearently. Need to
+		 * come up with an alternative method which may not be possible wihout using
+		 * WP_Filesystem and that causes a whole bunch of issues when credentials are
+		 * required.
+		 *
+		 * Maybe chmodding the path to 0755 first, sounds safe?
+		 * @link http://codex.wordpress.org/Changing_File_Permissions#Permission_Scheme_for_WordPress
+		 * @link http://stackoverflow.com/a/11005
+		 */
+
 		// If the source image already exists in the new folder structure, post 8.1, bail, nothing to do.
-		if ( is_file( $path . $filename ) &&
-			@getimagesize( $path . $filename ) ) {
+		if ( is_file( $path . $filename ) ) {
 
 			return TRUE;
 		}
 
-		if ( is_file( CN_IMAGE_PATH . $filename ) &&
-			@getimagesize( CN_IMAGE_PATH . $filename ) ) {
+		if ( is_file( CN_IMAGE_PATH . $filename ) ) {
 
 			// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
 			$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
@@ -3633,41 +3643,43 @@ class cnEntry {
 			$info = pathinfo( $original );
 
 			// Ensure the destination directory exists.
-			cnFileSystem::mkdir( $path );
+			if ( cnFileSystem::mkdir( $path ) ) {
 
-			// Copy or move the original image.
-			if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $filename ) ) {
+				// Copy or move the original image.
+				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $filename ) ) {
 
-				$result = rename( $original, $path . $filename );
+					$result = @rename( $original, $path . $filename );
 
-			} else {
+				} else {
 
-				$result = copy( $original, $path . $filename );
-			}
-
-			// Delete any of the legacy size variations if the copy/move was successful.
-			if ( $result ) {
-
-				// NOTE: This is a little greedy as it will also delete any variations of any duplicate images used by other entries.
-				// This should be alright because we will not need those variations anyway since they will be made from the original using cnImage.
-				$files         = new DirectoryIterator( CN_IMAGE_PATH );
-				$filesFiltered = new RegexIterator(
-					$files,
-					sprintf(
-						'/%s(?:_thumbnail|_entry|_profile)(?:_\d+)?\.%s/i',
-						preg_quote( preg_replace( '/(?:_original(?:_\d+)?)/i', '', $info['filename'] ) ),
-						preg_quote( $info['extension'] )
-					)
-				);
-
-				foreach( $filesFiltered as $file ) {
-
-					if ( $file->isDot() ) { continue; }
-
-					@unlink( $file->getPathname() );
+					$result = @copy( $original, $path . $filename );
 				}
 
-				return TRUE;
+				// Delete any of the legacy size variations if the copy/move was successful.
+				if ( $result === TRUE ) {
+
+					// NOTE: This is a little greedy as it will also delete any variations of any duplicate images used by other entries.
+					// This should be alright because we will not need those variations anyway since they will be made from the original using cnImage.
+					$files         = new DirectoryIterator( CN_IMAGE_PATH );
+					$filesFiltered = new RegexIterator(
+						$files,
+						sprintf(
+							'/%s(?:_thumbnail|_entry|_profile)(?:_\d+)?\.%s/i',
+							preg_quote( preg_replace( '/(?:_original(?:_\d+)?)/i', '', $info['filename'] ) ),
+							preg_quote( $info['extension'] )
+						)
+					);
+
+					foreach( $filesFiltered as $file ) {
+
+						if ( $file->isDot() ) { continue; }
+
+						@unlink( $file->getPathname() );
+					}
+
+					return TRUE;
+				}
+
 			}
 
 		}
@@ -3705,14 +3717,12 @@ class cnEntry {
 		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR;
 
 		// If the source logo already exists in the new folder structure, post 8.1, bail, nothing to do.
-		if ( is_file( $path . $filename ) &&
-			@getimagesize( $path . $filename ) ) {
+		if ( is_file( $path . $filename ) ) {
 
 			return TRUE;
 		}
 
-		if ( is_file( CN_IMAGE_PATH . $filename ) &&
-			@getimagesize( CN_IMAGE_PATH . $filename ) ) {
+		if ( is_file( CN_IMAGE_PATH . $filename ) ) {
 
 			// The modification file date that logo will be deleted to maintain compatibility with 0.6.2.1 and older.
 			$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
@@ -3724,19 +3734,20 @@ class cnEntry {
 			$info = pathinfo( $original );
 
 			// Ensure the destination directory exists.
-			cnFileSystem::mkdir( $path );
+			if ( cnFileSystem::mkdir( $path ) ) {
 
-			// Copy or move the logo.
-			if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $filename ) ) {
+				// Copy or move the logo.
+				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $filename ) ) {
 
-				$result = rename( $original, $path . $filename );
+					$result = @rename( $original, $path . $filename );
 
-			} else {
+				} else {
 
-				$result = copy( $original, $path . $filename );
+					$result = @copy( $original, $path . $filename );
+				}
+
+				if ( $result === TRUE ) return TRUE;
 			}
-
-			if ( $result ) return TRUE;
 
 		}
 

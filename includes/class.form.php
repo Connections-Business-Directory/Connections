@@ -43,12 +43,14 @@ class cnFormObjects {
 	 * @return string
 	 */
 	public function open( $attr ) {
-		if ( isset( $attr['name'] ) ) $attr['name'] = 'name="' . $attr['name'] . '" ';
-		if ( isset( $attr['action'] ) ) $attr['action'] = 'action="' . $attr['action'] . '" ';
-		if ( isset( $attr['accept'] ) ) $attr['accept'] = 'accept="' . $attr['accept'] . '" ';
-		if ( isset( $attr['accept-charset'] ) ) $attr['accept-charset'] = 'accept-charset="' . $attr['accept-charset'] . '" ';
-		if ( isset( $attr['enctype'] ) ) $attr['enctype'] = 'enctype="' . $attr['enctype'] . '" ';
-		if ( isset( $attr['method'] ) ) $attr['method'] = 'method="' . $attr['method'] . '" ';
+
+		if ( isset( $attr['id'] ) ) $attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
+		if ( isset( $attr['name'] ) ) $attr['name'] = 'name="' . esc_attr( $attr['name'] ) . '" ';
+		if ( isset( $attr['action'] ) ) $attr['action'] = 'action="' . esc_attr( $attr['action'] ) . '" ';
+		if ( isset( $attr['accept'] ) ) $attr['accept'] = 'accept="' . esc_attr( $attr['accept'] ) . '" ';
+		if ( isset( $attr['accept-charset'] ) ) $attr['accept-charset'] = 'accept-charset="' . esc_attr( $attr['accept-charset'] ) . '" ';
+		if ( isset( $attr['enctype'] ) ) $attr['enctype'] = 'enctype="' . esc_attr( $attr['enctype'] ) . '" ';
+		if ( isset( $attr['method'] ) ) $attr['method'] = 'method="' . esc_attr( $attr['method'] ) . '" ';
 
 		$out = '<form ';
 

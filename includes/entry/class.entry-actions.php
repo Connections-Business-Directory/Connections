@@ -250,19 +250,22 @@ class cnEntry_Action {
 		// 	}
 		// }
 
-		$files = new DirectoryIterator( $sourcePath );
+		if ( realpath( $sourcePath ) ) {
 
-		foreach( $files as $file ) {
+			$files = new DirectoryIterator( $sourcePath );
 
-			if ( $file->isDot() ) { continue; }
+			foreach( $files as $file ) {
 
-			if ( ! $file->isDir() && $file->isReadable() ) {
+				if ( $file->isDot() ) { continue; }
 
-				$destinationFile = trailingslashit( realpath( $destinationPath ) ) . basename( $file );
+				if ( ! $file->isDir() && $file->isReadable() ) {
 
-				if ( copy( $file->getPathname(), $destinationFile ) === FALSE ) {
+					$destinationFile = trailingslashit( realpath( $destinationPath ) ) . basename( $file );
 
-					return new WP_Error( 'image_copy_error', __( 'Image copy failed.', 'connections' ) );
+					if ( copy( $file->getPathname(), $destinationFile ) === FALSE ) {
+
+						return new WP_Error( 'image_copy_error', __( 'Image copy failed.', 'connections' ) );
+					}
 				}
 			}
 		}

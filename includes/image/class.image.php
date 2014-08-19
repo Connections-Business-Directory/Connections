@@ -679,7 +679,7 @@ class cnImage {
 		// Fail if we can't find the image in our WP local directory
 		if ( empty( $img_path ) || ! @file_exists( $img_path ) ) {
 
-			return new WP_Error( 'image_path_not_found', __( 'Image path or file does not exist.', 'connections' ), $img_path );
+			return new WP_Error( 'image_path_not_found', __( sprintf( 'Image path %s does not exist.', $img_path ), 'connections' ), $img_path );
 		}
 
 		// Check if img path exists, and is an image.

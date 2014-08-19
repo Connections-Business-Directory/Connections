@@ -36,6 +36,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				$entry = new cnOutput();
 
 				$attr = array(
+					'id'      => 'cn-form',
 					'method'  => 'post',
 					'enctype' => 'multipart/form-data',
 				);
@@ -113,6 +114,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
 
 				$attr = array(
+					'id'      => 'cn-form',
 					'method'  => 'post',
 					'enctype' => 'multipart/form-data',
 				);
@@ -188,6 +190,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
 
 				$attr = array(
+					'id'      => 'cn-form',
 					'action'  => 'admin.php?connections_process=true&process=manage&action=update&id=' . $id,
 					'method'  => 'post',
 					'enctype' => 'multipart/form-data',

@@ -239,8 +239,13 @@ class cnEntry {
 	private $updateObjectCache = FALSE;
 
 	function __construct( $entry = NULL ) {
-
 		global $connections;
+
+		// Load the formatting class for sanitizing the get methods.
+		$this->format = new cnFormatting();
+
+		// Load the validation class.
+		$this->validate = new cnValidate();
 
 		if ( isset( $entry ) ) {
 			if ( isset( $entry->id ) ) $this->id = (integer) $entry->id;
@@ -324,11 +329,6 @@ class cnEntry {
 			$this->processLegacyLogo( $this->getLogoName() );
 		}
 
-		// Load the formatting class for sanitizing the get methods.
-		$this->format = new cnFormatting();
-
-		// Load the validation class.
-		$this->validate = new cnValidate();
 	}
 
 	/**
@@ -442,6 +442,9 @@ class cnEntry {
 
 		// WP function -- formatting class
 		$slug = empty( $slug ) || ! is_string( $slug ) ? sanitize_title( $this->getName( array( 'format' => '%first%-%last%' ) ) ) : sanitize_title( $slug );
+
+		// If the entry was entered with no name, use the entry ID instead.
+		if ( empty( $slug ) ) return 'cn-id-' . $this->getId();
 
 		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug = %s', $slug );
 
@@ -3607,11 +3610,16 @@ class cnEntry {
 	 */
 	protected function processLegacyImages( $filename ) {
 
+		$slug = $this->getSlug();
+
+		// Ensure the entry slug is not empty in case a user added an entry with no name.
+		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), CN_IMAGE_PATH . $filename );
+
 		// Get the core WP uploads info.
 		$uploadInfo = wp_upload_dir();
 
 		// Build the destination image path.
-		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR;
+		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $slug . DIRECTORY_SEPARATOR;
 
 		/*
 		 * NOTE: is_file() will always return false if teh folder/file does not
@@ -3684,7 +3692,7 @@ class cnEntry {
 
 		}
 
-		return new WP_Error( 'image_move_legacy_image_error', __( 'Failed to move legacy image.', 'connections' ), CN_IMAGE_PATH . $filename );
+		return new WP_Error( 'image_move_legacy_image_error', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), CN_IMAGE_PATH . $filename );
 	}
 
 	/**
@@ -3709,6 +3717,11 @@ class cnEntry {
 	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
 	 */
 	protected function processLegacyLogo( $filename ) {
+
+		$slug = $this->getSlug();
+
+		// Ensure the entry slug is not empty in case a user added an entry with no name.
+		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), CN_IMAGE_PATH . $filename );
 
 		// Get the core WP uploads info.
 		$uploadInfo = wp_upload_dir();
@@ -3751,7 +3764,7 @@ class cnEntry {
 
 		}
 
-		return new WP_Error( 'image_move_legacy_logo_error', __( 'Failed to move legacy logo.', 'connections' ), CN_IMAGE_PATH . $filename );
+		return new WP_Error( 'image_move_legacy_logo_error', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), CN_IMAGE_PATH . $filename );
 	}
 
 	public function getAddedBy() {
@@ -4808,29 +4821,37 @@ class cnEntry {
 	public function delete( $id ) {
 		global $wpdb, $connections;
 
-		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
-
-		// Build path to the subfolder in which all the entry's images are saved.
-		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR;
-
 		do_action( 'cn_delete-entry', $this );
 		do_action( 'cn_process_delete-entry', $this );  // KEEP! This action must exist for Link, however, do not ever use it!
 
-		// Delete the entry image and its variations.
-		cnEntry_Action::deleteImages( $this->getImageNameOriginal(), $this->getSlug() );
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
 
-		// Delete any legacy images, pre 8.1, that may exist.
-		cnEntry_Action::deleteLegacyImages( $this );
+		$slug = $this->getSlug();
 
-		// Delete the entry logo.
-		cnEntry_Action::deleteImages( $this->getLogoName(), $this->getSlug() );
+		// Ensure the entry slug is not empty in case a user added an entry with no name.
+		// If this check is not done all the images in the CN_IMAGE_DIR_NAME will be deleted
+		// by cnFileSystem::xrmdir() which would be very bad, indeed.
+		if ( ! empty( $slug ) ) {
 
-		// Delete logo the legacy logo, pre 8.1.
-		cnEntry_Action::deleteLegacyLogo( $this );
+			// Build path to the subfolder in which all the entry's images are saved.
+			$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $slug . DIRECTORY_SEPARATOR;
 
-		// Delete the entry subfolder from CN_IMAGE_DIR_NAME.
-		cnFileSystem::xrmdir( $path );
+			// Delete the entry image and its variations.
+			cnEntry_Action::deleteImages( $this->getImageNameOriginal(), $slug );
+
+			// Delete any legacy images, pre 8.1, that may exist.
+			cnEntry_Action::deleteLegacyImages( $this );
+
+			// Delete the entry logo.
+			cnEntry_Action::deleteImages( $this->getLogoName(), $slug );
+
+			// Delete logo the legacy logo, pre 8.1.
+			cnEntry_Action::deleteLegacyLogo( $this );
+
+			// Delete the entry subfolder from CN_IMAGE_DIR_NAME.
+			cnFileSystem::xrmdir( $path );
+		}
 
 		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . CN_ENTRY_TABLE . ' WHERE id = %d' , $id ) );
 

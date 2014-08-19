@@ -118,7 +118,7 @@ class cnScript {
 
 		if ( is_admin() ) {
 
-			wp_register_script( 'cn-ui-admin', CN_URL . "assets/js/cn-admin$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-ui-admin', CN_URL . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', CN_URL . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 
 		} else {

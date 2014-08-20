@@ -354,6 +354,27 @@ class cnRetrieve {
 					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = $wpdb->prepare( '%d', $term->term_id );
 				}
 			}
+
+			// Merge the children of the excluded category into the excluded category ID array.
+			$atts['exclude_category'] = array_merge( $atts['exclude_category'], (array) $categoryExcludeIDs );
+
+			// Ensure unique values only.
+			$atts['exclude_category'] = array_unique( $atts['exclude_category'] );
+
+			$sql = 'SELECT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
+					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
+					WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['exclude_category'] ) . ')';
+
+			// Store the entryIDs that are to be excluded.
+			$results = $wpdb->get_col( $sql );
+			//print_r($results);
+
+			if ( ! empty( $results ) ) {
+
+				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ", ", $results ) . ')';
+			} /*else {
+				$where[] = 'AND 1=2';
+			}*/
 		}
 
 		// Convert the supplied category IDs $atts['category_in'] to an array.

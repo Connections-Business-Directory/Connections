@@ -258,6 +258,14 @@ div.rss-widget div.rss-date { margin-bottom: 8px; }
   Add/Edit page.
 ------------------------------------------------------------------------------*/
 
+/* Highlight error fields. */
+#cn-form input[type="text"].error {
+	background-color: #FDE9EA;
+	outline: none;
+	border-color: #FDCED0;
+	box-shadow: 0 0 8px #CE0000;
+}
+
 /* Widget Styles */
 .widgets-sortables {
 	min-height: 0;
@@ -359,9 +367,9 @@ div.widgets-sortables {
 /* The "Name" metabox styles. */
 #metabox-name input[type="text"] { width: 100%; }
 #cn-name-prefix { display: inline-block; width: 12.5%; }
-#cn-name-first { display: inline-block; width: 25%; }
-#cn-name-middle { display: inline-block; width: 25%; }
-#cn-name-last { display: inline-block; width: 25%; }
+#cn-name-first { box-sizing: border-box; display: inline-block; padding: 0 5px; width: 25%; }
+#cn-name-middle { box-sizing: border-box; display: inline-block; width: 25%; }
+#cn-name-last { box-sizing: border-box; display: inline-block; padding: 0 5px; width: 25%; }
 #cn-name-suffix { display: inline-block; width: 12.5%; }
 #cn-contact-first-name { display: inline-block; width: 50%; }
 #cn-contact-last-name { display: inline-block; width: 50%; }

@@ -959,7 +959,8 @@ class cnLog extends WP_Error {
 			$this->errors = array();
 			$this->error_data = array();
 
-			$this->add( 'wp_debug', 'To enable logging, WP_DEBUG must defined and set to TRUE.');
+			$this->errors[ 'wp_debug' ][]   = __( 'To enable logging, WP_DEBUG must defined and set to TRUE.', 'connections' );
+			$this->error_data[ 'wp_debug' ] = '';
 		}
 
 		$execTime = sprintf( '%.6f', microtime(TRUE) - $this->startTime);

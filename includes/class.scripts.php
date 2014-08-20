@@ -121,6 +121,15 @@ class cnScript {
 			wp_register_script( 'cn-ui-admin', CN_URL . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', CN_URL . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 
+			$strings = array(
+				'showDetails'      => __( 'Show Details', 'connections' ),
+				'hideDetails'      => __( 'Hide Details', 'connections' ),
+				'showDetailsTitle' => __( 'Click to show details.', 'connections' ),
+				'hideDetailsTitle' => __( 'Click to hide details.', 'connections' ),
+				);
+
+			wp_localize_script( 'cn-ui-admin', 'cn_string', $strings );
+
 		} else {
 
 			wp_register_script( 'cn-ui', CN_URL . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );

@@ -2053,12 +2053,15 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function search( $suppliedAttr = array() ) {
-		global $wpdb, $connections;
+		global $wpdb;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		$validate = new cnValidate();
-		$results = array();
-		$like = array();
-		$search = $connections->options->getSearchFields();
+		$results  = array();
+		$like     = array();
+		$search   = $instance->options->getSearchFields();
 
 		// If no search search fields are set, return an empty array.
 		if ( empty( $search ) ) return array();
@@ -2134,7 +2137,7 @@ class cnRetrieve {
 		 * 		MySQL has a default stopwords file that has a list of common words (i.e., the, that, has) which are not returned in your search. In other words, searching for the will return zero rows.
 		 * 		According to MySQL's manual, the argument to AGAINST() must be a constant string. In other words, you cannot search for values returned within the query.
 		 */
-		if ( $connections->settings->get( 'connections', 'connections_search', 'fulltext_enabled' ) ) {
+		if ( $instance->settings->get( 'connections', 'search', 'fulltext_enabled' ) ) {
 			// Convert the search terms to a string adding the wild card to the end of each term to allow wider search results.
 			//$terms = implode( '* ' , $atts['terms'] ) . '*';
 			$terms = '+' . implode( ' +' , $atts['terms'] );
@@ -2182,7 +2185,7 @@ class cnRetrieve {
 		 * Perform the search on each table individually because joining the tables doesn't scale when
 		 * there are a large number of entries.
 		 */
-		if ( $connections->settings->get( 'connections', 'connections_search', 'keyword_enabled' ) ) {
+		if ( $instance->settings->get( 'connections', 'search', 'keyword_enabled' ) ) {
 			/*
 			 * Only search the primary records if at least one fields is selected to be searched.
 			 */

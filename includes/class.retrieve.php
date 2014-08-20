@@ -2101,12 +2101,17 @@ class cnRetrieve {
 		// If no search terms were entered, return an empty array.
 		if ( empty( $atts['terms'] ) ) return array();
 
-		// If value is a string, string the white space and covert to an array.
+		// If value is a string, stripe the white space and covert to an array.
 		if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ' , trim( $atts['terms'] ) );
 
 		// Trim any white space from around the terms in the array.
 		array_walk( $atts['terms'] , 'trim' );
 
+		// Remove any single characters and stp words from terms.
+		$atts['terms'] = $this->parse_search_terms( $atts['terms'] );
+
+		// If no search terms are left after removing stop words, return an empty array.
+		if ( empty( $atts['terms'] ) ) return array();
 
 		/*
 		 * Perform search using FULLTEXT if enabled.
@@ -2254,6 +2259,86 @@ class cnRetrieve {
 		}
 
 		return array_unique( $results );
+	}
+
+	/**
+	 * Ripped from WP core. Unfortunately it can not be used
+	 * directly because it is a protected method in the WP_Query class.
+	 *
+	 * Check if the terms are suitable for searching.
+	 *
+	 * Uses an array of stopwords (terms) that are excluded from the separate
+	 * term matching when searching for posts. The list of English stopwords is
+	 * the approximate search engines list, and is translatable.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @param array Terms to check.
+	 * @return array Terms that are not stopwords.
+	 */
+	protected function parse_search_terms( $terms ) {
+		$strtolower = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strtolower';
+		$checked = array();
+
+		$stopwords = $this->get_search_stopwords();
+
+		foreach ( $terms as $term ) {
+			// keep before/after spaces when term is for exact match
+			if ( preg_match( '/^".+"$/', $term ) )
+				$term = trim( $term, "\"'" );
+			else
+				$term = trim( $term, "\"' " );
+
+			// Avoid single A-Z.
+			if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z]$/i', $term ) ) )
+				continue;
+
+			if ( in_array( call_user_func( $strtolower, $term ), $stopwords, true ) )
+				continue;
+
+			$checked[] = $term;
+		}
+
+		return $checked;
+	}
+
+	/**
+	 * Ripped from WP core. Unfortunately it can not be used
+	 * directly because it is a protected method in the WP_Query class.
+	 *
+	 * Retrieve stopwords used when parsing search terms.
+	 *
+	 * @since 3.7.0
+	 *
+	 * @return array Stopwords.
+	 */
+	protected function get_search_stopwords() {
+		if ( isset( $this->stopwords ) )
+			return $this->stopwords;
+
+		/* translators: This is a comma-separated list of very common words that should be excluded from a search,
+		 * like a, an, and the. These are usually called "stopwords". You should not simply translate these individual
+		 * words into your language. Instead, look for and provide commonly accepted stopwords in your language.
+		 */
+		$words = explode( ',', _x( 'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
+			'Comma-separated list of search stopwords in your language' ) );
+
+		$stopwords = array();
+		foreach( $words as $word ) {
+			$word = trim( $word, "\r\n\t " );
+			if ( $word )
+				$stopwords[] = $word;
+		}
+
+		/**
+		 * Filter stopwords used when parsing search terms.
+		 *
+		 * @since 3.7.0
+		 *
+		 * @param array $stopwords Stopwords.
+		 */
+		$this->stopwords = apply_filters( 'wp_search_stopwords', $stopwords );
+		return $this->stopwords;
 	}
 
 	/**

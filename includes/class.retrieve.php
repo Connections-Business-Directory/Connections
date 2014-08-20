@@ -2137,7 +2137,7 @@ class cnRetrieve {
 		 * 		MySQL has a default stopwords file that has a list of common words (i.e., the, that, has) which are not returned in your search. In other words, searching for the will return zero rows.
 		 * 		According to MySQL's manual, the argument to AGAINST() must be a constant string. In other words, you cannot search for values returned within the query.
 		 */
-		if ( $instance->settings->get( 'connections', 'search', 'fulltext_enabled' ) ) {
+		if ( cnSettingsAPI::get( 'connections', 'search', 'fulltext_enabled' ) ) {
 			// Convert the search terms to a string adding the wild card to the end of each term to allow wider search results.
 			//$terms = implode( '* ' , $atts['terms'] ) . '*';
 			$terms = '+' . implode( ' +' , $atts['terms'] );
@@ -2185,7 +2185,9 @@ class cnRetrieve {
 		 * Perform the search on each table individually because joining the tables doesn't scale when
 		 * there are a large number of entries.
 		 */
-		if ( $instance->settings->get( 'connections', 'search', 'keyword_enabled' ) ) {
+		if ( ( cnSettingsAPI::get( 'connections', 'search', 'keyword_enabled' ) && empty( $results ) ) ||
+			( cnSettingsAPI::get( 'connections', 'search', 'fulltext_enabled' ) && empty( $results ) ) ) {
+
 			/*
 			 * Only search the primary records if at least one fields is selected to be searched.
 			 */

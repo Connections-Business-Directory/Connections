@@ -210,8 +210,8 @@ jQuery(document).ready( function($) {
 				new RegExp('::FIELD::', 'gi'),
 				token
 			);
-			//console.log(template);
-			//console.log(container);
+			// console.log(template);
+			// console.log(container);
 
 			$(container).append( '<div class="widget ' + type + '" id="' + type + '-row-' + token + '" style="display: none;">' + template + '</div>' );
 			$('#' + type + '-row-' + token).slideDown();
@@ -222,8 +222,8 @@ jQuery(document).ready( function($) {
 			var token = button.attr('data-token');
 			var type = button.attr('data-type');
 			var id = '#' + type + '-row-' + token;
-			//alert(id);
-			$(id).slideUp().remove('fast');
+			// console.log(id);
+			$(id).slideUp('fast', function() { $(id).remove(); });
 
 		},
 		add_meta : function() {

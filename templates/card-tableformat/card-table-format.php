@@ -67,7 +67,7 @@ if ( ! class_exists( 'CN_Card_Table_Format_Template' ) ) {
 
 						<div style="clear:both; margin: 0 5px;">
 							<div style="margin-bottom: 10px;">
-								<span style="font-size:larger;font-variant: small-caps"><strong><?php echo $entry->getNameBlock(); ?></strong></span>
+								<div style="font-size:larger;font-variant: small-caps"><strong><?php echo $entry->getNameBlock(); ?></strong></div>
 
 								<?php $entry->getTitleBlock(); ?>
 								<?php $entry->getOrgUnitBlock(); ?>

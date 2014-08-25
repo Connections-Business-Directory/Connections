@@ -256,7 +256,8 @@ input#cn-search-submit {
  * Pagination control styles.
  */
 #cn-page-nav { /*clear: both;*/ display: block; font-size: 12px; margin: 10px 0; text-align: center; } /* Setting clear breaks Market */
-#cn-page-nav a {
+#cn-page-nav a,
+#cn-page-nav .page-numbers {
 	color: #AAAAAA !important;
 	text-decoration: none;
 	background-color: #EEEEEE;
@@ -273,7 +274,11 @@ input#cn-search-submit {
 	-webkit-border-radius: 3px;
 }
 #cn-page-nav a:active, #cn-page-nav a:visited { color: #AAAAAA !important; }
-#cn-page-nav a.disabled { color: #CCCCCC !important; }
+#cn-page-nav a.disabled,
+#cn-page-nav .page-numbers.current,
+#cn-page-nav .page-numbers.dots {
+	color: #CCCCCC !important;
+}
 #cn-page-nav input {
 	background: #FFFFFF none;
 	border-width: 1px;

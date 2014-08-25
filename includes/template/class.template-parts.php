@@ -1491,6 +1491,7 @@ class cnTemplatePart {
 	 * @uses add_query_arg()
 	 * @uses absint()
 	 * @uses trailingslashit()
+	 * @uses paginate_links()
 	 * @param array $atts [optional]
 	 * @return string
 	 */
@@ -1510,7 +1511,8 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$pageCount = absint( $atts['limit'] ) ? ceil( $connections->retrieve->resultCountNoLimit / $atts['limit'] ) : 0;
+		$total     = $connections->retrieve->resultCountNoLimit;
+		$pageCount = absint( $atts['limit'] ) ? ceil( $total / $atts['limit'] ) : 0;
 
 		if ( $pageCount > 1 ) {
 
@@ -1541,19 +1543,31 @@ class cnTemplatePart {
 			if ( get_query_var('cn-radius') ) $queryVars['cn-radius']             = get_query_var('cn-radius');
 			if ( get_query_var('cn-unit') ) $queryVars['cn-unit']                 = get_query_var('cn-unit');
 
+			if ( is_front_page() && get_query_var('page_id') ) {
+
+				$queryVars['page_id'] = get_query_var('page_id');
+			}
+
 			// Current page
 			if ( get_query_var('cn-pg') ) $current = absint( get_query_var('cn-pg') );
 
-			$page['first'] = 1;
-			$page['previous'] = ( $current - 1 >= 1 ) ? $current - 1 : 1;
-			$page['next'] = ( $current + 1 <= $pageCount ) ? $current + 1 : $pageCount;
-			$page['last'] = $pageCount;
+			if ( is_admin() ) {
 
-			// The class to apply to the disabled links.
-			( $current > 1 ) ? $disabled['first'] = '' : $disabled['first'] = ' disabled';
-			( $current - 1 >= 1 ) ? $disabled['previous'] = '' : $disabled['previous'] = ' disabled';
-			( $current + 1 <= $pageCount ) ? $disabled['next'] = '' : $disabled['next'] = ' disabled';
-			( $current < $pageCount ) ? $disabled['last'] = '' : $disabled['last'] = ' disabled';
+				$page['first']    = 1;
+				$page['previous'] = ( $current - 1 >= 1 ) ? $current - 1 : 1;
+				$page['next']     = ( $current + 1 <= $pageCount ) ? $current + 1 : $pageCount;
+				$page['last']     = $pageCount;
+
+				// The class to apply to the disabled links.
+				$disabled['first']    = ( $current > 1 ) ? '' : ' disabled';
+				$disabled['previous'] = ( $current - 1 >= 1 ) ? '' : ' disabled';
+				$disabled['next']     = ( $current + 1 <= $pageCount ) ? '' : ' disabled';
+				$disabled['last']     = ( $current < $pageCount ) ? '' : ' disabled';
+
+			} else {
+
+				// Needed?
+			}
 
 			/*
 			 * Create the page permalinks. If on a post or custom post type, use query vars.
@@ -1581,42 +1595,93 @@ class cnTemplatePart {
 				// Add the country base and path if paging thru a country.
 				if ( get_query_var('cn-country') ) $permalink = trailingslashit( $permalink . $base['country_base'] . '/' . get_query_var('cn-country') );
 
-				$url['first']    = add_query_arg( $queryVars , $permalink . 'pg/' . $page['first'] );
-				$url['previous'] = add_query_arg( $queryVars , $permalink . 'pg/' . $page['previous'] );
-				$url['next']     = add_query_arg( $queryVars , $permalink . 'pg/' . $page['next'] );
-				$url['last']     = add_query_arg( $queryVars , $permalink . 'pg/' . $page['last'] );
+				if ( is_admin() ) {
+
+					$url['first']    = add_query_arg( $queryVars, $permalink . 'pg/' . $page['first'] );
+					$url['previous'] = add_query_arg( $queryVars, $permalink . 'pg/' . $page['previous'] );
+					$url['next']     = add_query_arg( $queryVars, $permalink . 'pg/' . $page['next'] );
+					$url['last']     = add_query_arg( $queryVars, $permalink . 'pg/' . $page['last'] );
+
+				} else {
+
+					$args = array(
+						'base'               => $permalink . '%_%',
+						'format'             => 'pg/%#%',
+						'total'              => $pageCount,
+						'current'            => $current,
+						'show_all'           => FALSE,
+						'end_size'           => 3,
+						'mid_size'           => 3,
+						'prev_next'          => TRUE,
+						'prev_text'          => __( '&laquo;', 'connections' ),
+						'next_text'          => __( '&raquo;', 'connections' ),
+						'type'               => 'array',
+						'add_args'           => $queryVars,
+						'add_fragment'       => '',
+						'before_page_number' => '',
+						'after_page_number'  => ''
+						);
+
+					$links = paginate_links( $args );
+				}
 
 			} else {
 
 				// If on the front page, add the query var for the page ID.
-				if ( is_front_page() ) $permalink = add_query_arg( 'page_id' , $post->ID );
+				// if ( is_front_page() ) $permalink = add_query_arg( 'page_id' , $post->ID );
 
 				// Add back on the URL any other Connections query vars.
-				$permalink = add_query_arg( $queryVars , $permalink );
+				// $permalink = add_query_arg( $queryVars , $permalink );
 
-				$url['first']    = add_query_arg( array( 'cn-pg' => $page['first'] ) , $permalink );
-				$url['previous'] = add_query_arg( array( 'cn-pg' => $page['previous'] ) , $permalink );
-				$url['next']     = add_query_arg( array( 'cn-pg' => $page['next'] ) , $permalink );
-				$url['last']     = add_query_arg( array( 'cn-pg' => $page['last'] ) , $permalink );
+				$args = array(
+					'base'               => $permalink . '%_%',
+					'format'             => '&cn-pg=%#%',
+					'total'              => $pageCount,
+					'current'            => $current,
+					'show_all'           => FALSE,
+					'end_size'           => 3,
+					'mid_size'           => 3,
+					'prev_next'          => TRUE,
+					'prev_text'          => __( '&laquo;', 'connections' ),
+					'next_text'          => __( '&raquo;', 'connections' ),
+					'type'               => 'array',
+					'add_args'           => $queryVars,
+					'add_fragment'       => '',
+					'before_page_number' => '',
+					'after_page_number'  => ''
+					);
+
+				$links = paginate_links( $args );
 			}
 
-			// Build the html page nav.
-			$out .= '<span class="cn-page-nav" id="cn-page-nav">';
+			if ( is_admin() ) {
 
-			$out .= '<a href="' . esc_url( $url['first'] ) . '" title="' . __('First Page', 'connections') . '" class="cn-first-page' . $disabled['first'] . '">&laquo;</a> ';
-			$out .= '<a href="' . esc_url( $url['previous'] ) . '" title="' . __('Previous Page', 'connections') . '" class="cn-prev-page' . $disabled['previous'] . '" rel="prev">&lsaquo;</a> ';
+				// Build the html page nav.
+				$out .= '<span class="cn-page-nav" id="cn-page-nav">';
 
-			$out .= '<span class="cn-paging-input"><input type="text" size="1" value="' . $current . '" name="cn-pg" title="' . __('Current Page', 'connections') . '" class="current-page"> ' . __('of', 'connections') . ' <span class="total-pages">' . $pageCount . '</span></span> ';
+				$out .= '<a href="' . esc_url( $url['first'] ) . '" title="' . __('First Page', 'connections') . '" class="cn-first-page' . $disabled['first'] . '">&laquo;</a> ';
+				$out .= '<a href="' . esc_url( $url['previous'] ) . '" title="' . __('Previous Page', 'connections') . '" class="cn-prev-page' . $disabled['previous'] . '" rel="prev">&lsaquo;</a> ';
 
-			$out .= '<a href="' . esc_url( $url['next'] ) . '" title="' . __('Next Page', 'connections') . '" class="cn-next-page' . $disabled['next'] . '" rel="next">&rsaquo;</a> ';
-			$out .= '<a href="' . esc_url( $url['last'] ) . '" title="' . __('Last Page', 'connections') . '" class="cn-last-page' . $disabled['last'] . '">&raquo;</a>';
+				$out .= '<span class="cn-paging-input"><input type="text" size="1" value="' . $current . '" name="cn-pg" title="' . __('Current Page', 'connections') . '" class="current-page"> ' . __('of', 'connections') . ' <span class="total-pages">' . $pageCount . '</span></span> ';
 
-			$out .= '</span>';
+				$out .= '<a href="' . esc_url( $url['next'] ) . '" title="' . __('Next Page', 'connections') . '" class="cn-next-page' . $disabled['next'] . '" rel="next">&rsaquo;</a> ';
+				$out .= '<a href="' . esc_url( $url['last'] ) . '" title="' . __('Last Page', 'connections') . '" class="cn-last-page' . $disabled['last'] . '">&raquo;</a>';
+
+				$out .= '</span>';
+
+			} else {
+
+				$out .= '<span class="cn-page-nav" id="cn-page-nav">';
+				$out .= join( PHP_EOL, $links );
+				$out .= '</span>';
+			}
+
 		}
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
+
 		// Output the page nav.
 		if ( $atts['return'] ) return $out;
 		echo $out;

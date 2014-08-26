@@ -433,7 +433,7 @@ class cnAdminActions {
 				// Query the meta associated to the entry.
 				$results = cnMeta::get( 'entry', $id );
 
-				if ( $results === FALSE ) return array();
+				// if ( $results === FALSE ) return array();
 
 				// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
 				foreach ( $results as $metaID => $row ) {

@@ -88,11 +88,19 @@ Connections Business Directory has been embraced around the world and has been t
 * CSS theme and image used for the jQuery UI Datepicker by [helenhousandi](https://github.com/helenhousandi/wp-admin-jquery-ui).
 
 == Screenshots ==
-[Screenshots can be found here.](http://connections-pro.com/screenshots/)
+
+1. The Dashboard admin page. A snapshot of important infomation about the directory.
+2. The Manage admin page. Here you can manage all the entries within the address book.
+3. The Add New Entry admin page. From here you can add new entries to the addressbook.
+4. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.
+5. The Templates admin page. Here you choose which template that the business directory should use when displaying the directory.
+6. The Settings admin page where you can configure the business directory options.
+7. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.
 
 [Connections running on live websites can be found here.](http://connections-pro.com/live-samples/)
 
 == Installation ==
+
 [Installation instructions can be found here.](http://connections-pro.com/documentation/plugin/install/)
 
 = Using the WordPress Plugin Search =
@@ -121,11 +129,13 @@ Connections Business Directory has been embraced around the world and has been t
 4. Activate the plugin on the Plugins admin page.
 
 = Requirements =
+
 * **WordPress version:** >= 3.8
 * **PHP version:** >= 5.2.4
 * **NOTE:** Upgrading from version 0.6.1 and newer only is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
 
 == Frequently Asked Questions ==
+
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==

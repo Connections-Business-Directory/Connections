@@ -1622,6 +1622,11 @@ class cnTemplatePart {
 						'after_page_number'  => ''
 						);
 
+					$args = apply_filters( 'cn_pagination_atts', $args );
+
+					// Ensure the return type is always an array.
+					$args['type'] = 'array';
+
 					$links = paginate_links( $args );
 				}
 

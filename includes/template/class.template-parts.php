@@ -1640,7 +1640,7 @@ class cnTemplatePart {
 
 				$args = array(
 					'base'               => $permalink . '%_%',
-					'format'             => '&cn-pg=%#%',
+					'format'             => $wp_rewrite->using_permalinks() ? '?cn-pg=%#%' : '&cn-pg=%#%',
 					'total'              => $pageCount,
 					'current'            => $current,
 					'show_all'           => FALSE,

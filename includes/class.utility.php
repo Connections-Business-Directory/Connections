@@ -1279,3 +1279,41 @@ class cnColor {
 	}
 
 }
+
+class cnString {
+
+	/**
+	 * Whether or not a string begins with string segment.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @static
+	 * @url    http://stackoverflow.com/a/834355
+	 * @param  string $needle
+	 * @param  string $haystack
+	 *
+	 * @return bool
+	 */
+	public static function startsWith( $needle, $haystack ) {
+
+		return substr( $haystack, 0, strlen( $needle ) ) === $needle;
+	}
+
+	/**
+	 * Whether or not a string ends with string segment.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @static
+	 * @url    http://stackoverflow.com/a/834355
+	 * @param  string $needle
+	 * @param  string $haystack
+	 *
+	 * @return bool
+	 */
+	public static function endsWith( $needle, $haystack ) {
+
+		return substr( $haystack, -strlen( $needle) ) === $needle;
+	}
+
+}

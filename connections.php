@@ -315,6 +315,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/class.form.php'; // Required for activation
 			//date objects
 			require_once CN_PATH . 'includes/class.date.php'; // Required for activation, entry list, add entry
+			// cnCache
+			require_once CN_PATH . 'includes/class.cache.php';
 
 			// The class for managing metaboxes.
 			// Must require BEFORE class.functions.php.

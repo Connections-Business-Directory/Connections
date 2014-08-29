@@ -763,6 +763,8 @@ class cnEntry_Action {
 		do_action( 'cn_process_taxonomy-category', $action, $entryID );
 		do_action( 'cn_process_meta-entry', $action, $entryID );
 
+		do_action( 'cn_process_cache-entry', $action, $entryID );
+
 		// Refresh the cnEntry object with any updated taxonomy or meta data
 		// that may have been added/updated via actions.
 		$entry->set( $entryID );
@@ -811,6 +813,8 @@ class cnEntry_Action {
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
+		do_action( 'cn_process_cache-entry', 'bulk_status', $id );
+
 		return $result !== FALSE ? TRUE : FALSE;
 	}
 
@@ -852,6 +856,8 @@ class cnEntry_Action {
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
+		do_action( 'cn_process_cache-entry', 'bulk_visibility', $id );
+
 		return $result !== FALSE ? TRUE : FALSE;
 	}
 
@@ -888,6 +894,8 @@ class cnEntry_Action {
 			// Delete any meta data associated with the entry.
 			self::meta( 'delete', $id );
 		}
+
+		do_action( 'cn_process_cache-entry', 'bulk_delete', $ids );
 
 		return TRUE;
 	}
@@ -977,4 +985,23 @@ class cnEntry_Action {
 		return $metaIDs;
 	}
 
+	/**
+	 * Purge entry related caches when an entry is added/editted.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @param  string $action The action to be performed.
+	 * @param  int    $id     The entry ID.
+	 *
+	 * @return void
+	 */
+	public static function clearCache( $action, $id ) {
+
+		cnCache::clear( TRUE, 'transient', 'cn_category' );
+		cnCache::clear( TRUE, 'transient', 'cn_relative' );
+	}
+
 }
+
+// Add an action to purge caches after adding/editing and entry.
+add_action( 'cn_process_cache-entry', array( 'cnEntry_Action', 'clearCache' ), 10, 2 );

@@ -387,18 +387,28 @@ class cnEntryMetabox {
 	 */
 	public static function category( $entry, $metabox ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$id   = $entry->getId();
+		$ckey = $entry->getId() ? 'category_checklist_entry_' . $entry->getId() : 'category_checklist';
 
-		$categoryObjects = new cnCategoryObjects();
+		$fragment = new cnFragment( $ckey );
 
-		echo '<div class="categorydiv" id="taxonomy-category">';
-			echo '<div id="category-all" class="tabs-panel">';
-				echo '<ul id="categorychecklist">';
-					echo $categoryObjects->buildCategoryRow( 'checklist', $instance->retrieve->categories(), NULL, $instance->term->getTermRelationships( $entry->getId() ) );
-				echo '</ul>';
+		if ( ! $fragment->get() ) {
+
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+
+			$categoryObjects = new cnCategoryObjects();
+
+			echo '<div class="categorydiv" id="taxonomy-category">';
+				echo '<div id="category-all" class="tabs-panel">';
+					echo '<ul id="categorychecklist">';
+						echo $categoryObjects->buildCategoryRow( 'checklist', $instance->retrieve->categories(), NULL, $instance->term->getTermRelationships( $entry->getId() ) );
+					echo '</ul>';
+				echo '</div>';
 			echo '</div>';
-		echo '</div>';
+
+			$fragment->save();
+		}
 	}
 
 	/**
@@ -706,10 +716,15 @@ class cnEntryMetabox {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		/*
-		 * Dump the output in a var that way it can mre more easily broke up and filters added later.
-		 */
-		$family = '';
+		$html = '';
+		$id   = $entry->getId();
+		$ckey = $entry->getId() ? 'relative_select_entry_' . $entry->getId() : 'relative_select_user_' . $instance->currentUser->getID();
+
+		if ( FALSE !== ( $html = cnCache::get( $ckey, 'transient' ) ) ) {
+
+			echo $html;
+			return;
+		}
 
 		// Retrieve all the entries of the "individual" entry type that the user is permitted to view and is approved.
 		$individuals = cnRetrieve::individuals();
@@ -717,17 +732,17 @@ class cnEntryMetabox {
 		// Get the core entry relations.
 		$relations   = $instance->options->getDefaultFamilyRelationValues();
 
-		$family .= '<div class="cn-metabox" id="cn-metabox-section-family">';
+		$html .= '<div class="cn-metabox" id="cn-metabox-section-family">';
 
-			$family .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
-			$family .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
+			$html .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
+			$html .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
 
-			$family .= '<div id="cn-relations">';
+			$html .= '<div id="cn-relations">';
 
 			// --> Start template for Family <-- \\
-			$family .= '<textarea id="cn-relation-template" style="display: none">';
+			$html .= '<textarea id="cn-relation-template" style="display: none">';
 
-				$family .= cnHTML::select(
+				$html .= cnHTML::select(
 						array(
 							'class'    => 'family-member-name',
 							'id'       => 'family_member[::FIELD::][entry_id]',
@@ -738,7 +753,7 @@ class cnEntryMetabox {
 							)
 						);
 
-				$family .= cnHTML::select(
+				$html .= cnHTML::select(
 						array(
 							'class'    => 'family-member-relation',
 							'id'       => 'family_member[::FIELD::][relation]',
@@ -749,7 +764,7 @@ class cnEntryMetabox {
 							)
 						);
 
-			$family .= '</textarea>';
+			$html .= '</textarea>';
 			// --> End template for Family <-- \\
 
 			if ( $entry->getFamilyMembers() ) {
@@ -760,9 +775,9 @@ class cnEntryMetabox {
 
 					if ( array_key_exists( $key, $individuals ) ) {
 
-						$family .= '<div id="relation-row-' . $token . '" class="relation">';
+						$html .= '<div id="relation-row-' . $token . '" class="relation">';
 
-							$family .= cnHTML::select(
+							$html .= cnHTML::select(
 								array(
 									'class'    => 'family-member-name',
 									'id'       => 'family_member[' . $token . '][entry_id]',
@@ -774,7 +789,7 @@ class cnEntryMetabox {
 									$key
 								);
 
-							$family .= cnHTML::select(
+							$html .= cnHTML::select(
 								array(
 									'class'   => 'family-member-relation',
 									'id'      => 'family_member[' . $token . '][relation]',
@@ -786,20 +801,22 @@ class cnEntryMetabox {
 									$value
 								);
 
-							$family .= '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
+							$html .= '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
 
-						$family .= '</div>';
+						$html .= '</div>';
 					}
 				}
 			}
 
-			$family .= '</div>';
+			$html .= '</div>';
 
-			$family .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
+			$html .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
 
-		$family .= '</div>';
+		$html .= '</div>';
 
-		echo $family;
+		cnCache::set( $ckey, $html, YEAR_IN_SECONDS, 'transient' );
+
+		echo $html;
 	}
 
 	/**

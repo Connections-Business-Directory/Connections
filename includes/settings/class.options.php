@@ -855,6 +855,7 @@ class cnOptions {
 			'podcast'       => 'Podcast',
 			'reverbnation'  => 'ReverbNation',
 			'rss'           => 'RSS',
+			'smugmug'       => 'Smugmug',
 			'soundcloud'    => 'SoundCloud',
 			'technorati'    => 'Technorati',
 			'tripadvisor'   => 'TripAdvisor',

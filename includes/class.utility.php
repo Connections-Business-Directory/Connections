@@ -1313,7 +1313,28 @@ class cnString {
 	 */
 	public static function endsWith( $needle, $haystack ) {
 
-		return substr( $haystack, -strlen( $needle) ) === $needle;
+		return substr( $haystack, -strlen( $needle ) ) === $needle;
+	}
+
+	/**
+	 * Remove prefix from string if it exists.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @static
+	 * @param  string $needle
+	 * @param  string $haystack
+	 *
+	 * @return string
+	 */
+	public static function removePrefix( $needle, $haystack ) {
+
+		if ( substr( $haystack, 0, strlen( $needle ) ) == $needle ) {
+
+			return substr( $haystack, strlen( $needle ) );
+		}
+
+		return $haystack;
 	}
 
 }

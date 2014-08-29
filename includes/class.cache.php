@@ -486,6 +486,22 @@ class cnCache {
  * Fragment caching based on class by Mark Jaquith.
  * @url   http://markjaquith.wordpress.com/2013/04/26/fragment-caching-in-wordpress/
  *
+ * <code>
+ * $fragment = new cnFragment( 'unique-key', 3600 );
+ *
+ * if ( ! $fragment->get() ) {
+ *
+ *     functions_that_do_stuff_live();
+ *     these_should_echo();
+ *
+ *     echo 'All output should be echo'd';
+ *
+ *     // IMPORTANT: YOU CANNOT FORGET THIS. If you do, the site will break.
+ *     $frag->save();
+ *
+ * }
+ * </code>
+ *
  * @since 8.1
  * @uses  cnCache
  */

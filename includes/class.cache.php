@@ -481,3 +481,72 @@ class cnCache {
 	}
 
 }
+
+/**
+ * Fragment caching based on class by Mark Jaquith.
+ * @url   http://markjaquith.wordpress.com/2013/04/26/fragment-caching-in-wordpress/
+ *
+ * @since 8.1
+ * @uses  cnCache
+ */
+class cnFragment {
+
+	const PREFIX = 'cn';
+	protected $key;
+	protected $ttl;
+
+	/**
+	 * Setup the fragment cache values.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @param  string $key     The cache key.
+	 * @param  int    $ttl     (optional) Time in seconds for the cache to expire, if 0 no expiration.
+	 *
+	 * @return void
+	 */
+	public function __construct( $key, $ttl = WEEK_IN_SECONDS ) {
+
+		$this->key = $key;
+		$this->ttl = $ttl;
+	}
+
+	/**
+	 * Echo a cached fragment if found.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   cnCache::get()
+	 *
+	 * @return bool
+	 */
+	public function get() {
+
+		$fragment = cnCache::get( $this->key, 'transient', self::PREFIX );
+
+		if ( $fragment !== FALSE ) {
+
+			echo $fragment;
+			return TRUE;
+
+		} else {
+
+			ob_start();
+			return FALSE;
+		}
+	}
+
+	/**
+	 * Save fragment in the cache.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   cnCache::set()
+	 *
+	 * @return void
+	 */
+	public function save() {
+
+		cnCache::set( $this->key, ob_get_flush(), $this->ttl, 'transient', self::PREFIX );
+	}
+}

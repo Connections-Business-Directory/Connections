@@ -329,10 +329,18 @@ function connectionsShowViewPage( $action = NULL ) {
 
 						<div class="alignleft actions">
 							<?php
-							echo '<select class="postform" id="category" name="category">';
-							echo '<option value="-1">' , __( 'Show All Categories', 'connections' ) , '</option>';
-							echo $categoryObjects->buildCategoryRow( 'option', $instance->retrieve->categories(), 0, $instance->currentUser->getFilterCategory() );
-							echo '</select>';
+
+							$fragment = new cnFragment( 'category_select' );
+
+							if ( ! $fragment->get() ) {
+
+								echo '<select class="postform" id="category" name="category">';
+									echo '<option value="-1">' . __( 'Show All Categories', 'connections' ) . '</option>';
+									echo $categoryObjects->buildCategoryRow( 'option', $instance->retrieve->categories(), 0, $instance->currentUser->getFilterCategory() );
+								echo '</select>';
+
+								$fragment->save();
+							}
 
 							echo $form->buildSelect(
 								'entry_type',

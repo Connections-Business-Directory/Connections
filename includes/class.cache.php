@@ -339,6 +339,7 @@ class cnCache {
 	 * // Clear all transients.
 	 * cnCache::clear( TRUE, 'transient' );
 	 * ?>
+	 * </code>
 	 *
 	 * @access public
 	 * @since  8.1

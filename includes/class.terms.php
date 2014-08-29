@@ -422,6 +422,8 @@ class cnTerms
 				)
 			);
 
+		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
+
 		return $termID;
 	}
 
@@ -493,10 +495,11 @@ class cnTerms
 			'%d'
 			);
 
+		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
+
 		/**
 		 * @TODO: Error check the insert and return error
 		 */
-
 		return TRUE;
 	}
 
@@ -562,6 +565,8 @@ class cnTerms
 				$wpdb->query( $wpdb->prepare( "UPDATE " . CN_TERM_TAXONOMY_TABLE . " SET count = %d WHERE term_taxonomy_id = %d", $termCount, $term->term_taxonomy_id) );
 			}
 		}
+
+		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
 
 		// If everthing went well, return TRUE.
 		return TRUE;

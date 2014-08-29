@@ -305,7 +305,7 @@ class cnEntryMetabox {
 		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
 		$type       = $entry->getId() ? $entry->getEntryType()  : $atts['default']['type'];
 
-		if ( $action == NULL ) {
+		// if ( $action == NULL ) {
 
 			// The options have to be flipped because of an earlier stupid decision
 			// of making the array keys the option labels. This basically provide
@@ -321,7 +321,7 @@ class cnEntryMetabox {
 				$type
 				);
 
-		}
+		// }
 
 		cnHTML::radio(
 			array(
@@ -437,7 +437,7 @@ class cnEntryMetabox {
 
 		$defaults = array(
 			// Define the entry type so the correct fields will be rendered. If an entry type is all registered entry types, render all fields assuming this is new entry.
-			'type'  => $entry->getEntryType() ? $entry->getEntryType() : array( 'individual', 'organization', 'family'),
+			'type'  => /*$entry->getEntryType() ? $entry->getEntryType() : */array( 'individual', 'organization', 'family'),
 			// The entry type to which the meta fields are being registered.
 			'individual' => array(
 				// The entry type field meta. Contains the arrays that define the field groups and their respective fields.

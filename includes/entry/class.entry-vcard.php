@@ -19,6 +19,20 @@ class cnvCard extends cnEntry_HTML {
 
 	private function setvCardData() {
 
+		$day = $this->getDates( array( 'type' => 'anniversary' ) );
+
+		if ( ! empty( $day ) ) {
+
+			$anniversary = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
+		}
+
+		$day = $this->getDates( array( 'type' => 'birthday' ) );
+
+		if ( ! empty( $day ) ) {
+
+			$birthday = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
+		}
+
 		$this->data = array(
 			'class'                  => NULL,
 			'display_name'           => html_entity_decode( $this->getFullFirstLastName(), ENT_COMPAT, 'UTF-8' ),
@@ -70,8 +84,8 @@ class cnvCard extends cnEntry_HTML {
 			'jabber'                 => NULL,
 			'photo'                  => $this->getOriginalImagePath('photo'),
 			'logo'                   => $this->getOriginalImagePath('logo'),
-			'birthday'               => $this->getBirthday('Y-m-d'),
-			'anniversary'            => $this->getAnniversary('Y-m-d'),
+			'birthday'               => $birthday,
+			'anniversary'            => $anniversary,
 			'spouse'                 => NULL,
 			'timezone'               => NULL,
 			'revision_date'          => date('Y-m-d H:i:s', strtotime($this->getUnixTimeStamp())),

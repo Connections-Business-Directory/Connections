@@ -1483,16 +1483,18 @@ class cnTemplatePart {
 	 * 	return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @uses wp_parse_args()
-	 * @uses get_permalink()
-	 * @uses get_query_var()
-	 * @uses add_query_arg()
-	 * @uses absint()
-	 * @uses trailingslashit()
-	 * @uses paginate_links()
-	 * @param array $atts [optional]
+	 * @since  0.7.3
+	 * @static
+	 * @uses   apply_filters
+	 * @uses   wp_parse_args()
+	 * @uses   get_permalink()
+	 * @uses   get_query_var()
+	 * @uses   add_query_arg()
+	 * @uses   absint()
+	 * @uses   trailingslashit()
+	 * @uses   paginate_links()
+	 * @param  array  $atts [optional]
+	 * -
 	 * @return string
 	 */
 	public static function pagination( $atts = array() ) {
@@ -1505,11 +1507,21 @@ class cnTemplatePart {
 		$out = '';
 
 		$defaults = array(
-			'limit'  => 20,
-			'return' => FALSE
+			'limit'              => 20,
+			'show_all'           => FALSE,
+			'end_size'           => 2,
+			'mid_size'           => 2,
+			'prev_next'          => TRUE,
+			'prev_text'          => __( '&laquo;', 'connections' ),
+			'next_text'          => __( '&raquo;', 'connections' ),
+			'add_fragment'       => '',
+			'before_page_number' => '',
+			'after_page_number'  => '',
+			'return'             => FALSE,
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$defaults = apply_filters( 'cn_pagination_atts', $defaults );
+		$atts     = wp_parse_args( $atts, $defaults );
 
 		$total     = $connections->retrieve->resultCountNoLimit;
 		$pageCount = absint( $atts['limit'] ) ? ceil( $total / $atts['limit'] ) : 0;
@@ -1579,51 +1591,54 @@ class cnTemplatePart {
 					'format'             => 'pg/%#%',
 					'total'              => $pageCount,
 					'current'            => $current,
-					'show_all'           => FALSE,
-					'end_size'           => 2,
-					'mid_size'           => 2,
-					'prev_next'          => TRUE,
-					'prev_text'          => __( '&laquo;', 'connections' ),
-					'next_text'          => __( '&raquo;', 'connections' ),
+					'show_all'           => $atts['show_all'],
+					'end_size'           => $atts['end_size'],
+					'mid_size'           => $atts['mid_size'],
+					'prev_next'          => $atts['prev_next'],
+					'prev_text'          => $atts['prev_text'],
+					'next_text'          => $atts['next_text'],
 					'type'               => 'array',
 					'add_args'           => $queryVars,
-					'add_fragment'       => '',
-					'before_page_number' => '',
-					'after_page_number'  => ''
+					'add_fragment'       => $atts['add_fragment'],
+					'before_page_number' => $atts['before_page_number'],
+					'after_page_number'  => $atts['after_page_number'],
 					);
-
-				$args = apply_filters( 'cn_pagination_atts', $args );
-
-				// Ensure the return type is always an array.
-				$args['type'] = 'array';
 
 				$links = paginate_links( $args );
 
 			} else {
 
+				if ( $wp_rewrite->using_permalinks() ) {
+
+					$atts['format'] = '?cn-pg=%#%';
+
+				} elseif ( isset( $wp_query->query ) && ! empty( $wp_query->query ) ) {
+
+					$atts['format'] = '&cn-pg=%#%';
+
+				} else {
+
+					$atts['format'] = '?cn-pg=%#%';
+				}
+
 				$args = array(
 					'base'               => $permalink . '%_%',
 					// Ensure the correct format is set based on if there are query vars or not.
-					'format'             => isset( $wp_query->query ) && ! empty( $wp_query->query ) ? '&cn-pg=%#%' : '?cn-pg=%#%',
+					'format'             => $atts['format'],
 					'total'              => $pageCount,
 					'current'            => $current,
-					'show_all'           => FALSE,
-					'end_size'           => 2,
-					'mid_size'           => 2,
-					'prev_next'          => TRUE,
-					'prev_text'          => __( '&laquo;', 'connections' ),
-					'next_text'          => __( '&raquo;', 'connections' ),
+					'show_all'           => $atts['show_all'],
+					'end_size'           => $atts['end_size'],
+					'mid_size'           => $atts['mid_size'],
+					'prev_next'          => $atts['prev_next'],
+					'prev_text'          => $atts['prev_text'],
+					'next_text'          => $atts['next_text'],
 					'type'               => 'array',
 					'add_args'           => $queryVars,
-					'add_fragment'       => '',
-					'before_page_number' => '',
-					'after_page_number'  => ''
+					'add_fragment'       => $atts['add_fragment'],
+					'before_page_number' => $atts['before_page_number'],
+					'after_page_number'  => $atts['after_page_number'],
 					);
-
-				$args = apply_filters( 'cn_pagination_atts', $args );
-
-				// Ensure the return type is always an array.
-				$args['type'] = 'array';
 
 				$links = paginate_links( $args );
 			}

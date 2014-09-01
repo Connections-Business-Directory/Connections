@@ -166,6 +166,9 @@ span.date-name { font-weight: bold; }
 	text-transform: uppercase;
 }
 #cn-list .chosen-container-single .chosen-single { line-height: 24px !important; }
+#cn-list .chosen-choices li:after {
+	border: none;
+}
 
 /*
  * Search Message

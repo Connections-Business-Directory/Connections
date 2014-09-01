@@ -1001,7 +1001,54 @@ class cnEntry_Action {
 		cnCache::clear( TRUE, 'transient', 'cn_relative' );
 	}
 
+	/**
+	 * Add the entry actions to the admin bar
+	 *
+	 * @access private
+	 * @static
+	 * @since  8.2
+	 * @uses   cnURL::permalink()
+	 * @uses   current_user_can()
+	 * @param  $admin_bar object
+	 *
+	 * @return void
+	 */
+	public static function adminBarMenuItems( $admin_bar ) {
+
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			// Grab an instance of the Connections object.
+			$instance   = Connections_Directory();
+			$entry      = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			// preg_match( '/href="(.*?)"/', cnURL::permalink( array( 'slug' => $entry->slug, 'return' => TRUE ) ), $matches );
+			// $permalink = $matches[1];
+
+			if ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) ) {
+
+				$admin_bar->add_node(
+					array(
+						'parent' => FALSE,
+						'id'     => 'cn-edit-entry',
+						'title'  => __( 'Edit Entry', 'connections' ),
+						'href'   => admin_url( wp_nonce_url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry[0]->id, 'entry_edit_' . $entry[0]->id ) ),
+						'meta'  => array(
+							// 'class' => 'edit',
+							'title' => __( 'Edit Entry', 'connections' )
+							),
+					)
+				);
+
+			}
+
+		}
+
+	}
+
 }
 
 // Add an action to purge caches after adding/editing and entry.
 add_action( 'cn_process_cache-entry', array( 'cnEntry_Action', 'clearCache' ), 10, 2 );
+
+// Add the "Edit Entry" menu items to the admin bar.
+add_action( 'admin_bar_menu', array( 'cnEntry_Action', 'adminBarMenuItems' ), 90 );

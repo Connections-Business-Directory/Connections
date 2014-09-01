@@ -8,6 +8,11 @@
 #cn-list div.cn-alphaindex { font-weight: bold; font-size: 14px; position: relative; bottom: 0; right: 0; }
 #cn-list label { cursor: pointer; }
 
+#wpadminbar #wp-admin-bar-connections-entry-edit > .ab-item:before {
+	content: '\f464';
+	top: 2px;
+}
+
 /*
  * Image / Logo Styles
  */

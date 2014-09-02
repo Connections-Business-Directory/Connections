@@ -8,37 +8,47 @@
 #cn-list div.cn-alphaindex { font-weight: bold; font-size: 14px; position: relative; bottom: 0; right: 0; }
 #cn-list label { cursor: pointer; }
 
+#wpadminbar #wp-admin-bar-connections-entry-edit > .ab-item:before {
+	content: '\f464';
+	top: 2px;
+}
+
 /*
  * Image / Logo Styles
  */
-#cn-list span.cn-image {
-	background:url("../images/loading.gif") transparent no-repeat 50% 50%;
-	display: block;
-	position: relative;
-}
-#cn-list span.cn-image img {
-	border: none !important;
-	height: auto;
-	left: 0 !important;
-	margin: 0 !important;
-	max-height: none !important;
-	max-width: none !important;
-	padding: 0 !important;
-	position: relative !important;
-	top: 0 !important;
-	width: auto;
-}
-#cn-list span.cn-image-loading img {
-	visibility: hidden;
-}
 #cn-list span.cn-image-style {
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	background-color: #FFFFFF;
 	border: 1px solid #E3E3E3;
+	box-sizing: border-box;
+	display: inline-block;
+	line-height: 0;
 	margin: 0 0 5px;
+	max-width: 100%;
 	padding: 5px;
+	width: auto;
+}
+#cn-list span.cn-image-none {
+	color: #AAAAAA;
+	font-weight: 700;
+	line-height: normal;
+	max-width: 100%;
+	text-align: center;
+	text-shadow: 1px 1px 0px #FFFFFF;
+}
+img.cn-image {
+	border: none !important;
+	height: auto !important;
+	left: 0 !important;
+	margin: 0 !important;
+	max-height: none !important;
+	max-width: 100%;
+	padding: 0 !important;
+	position: relative !important;
+	top: 0 !important;
+	/*width: auto;*/
 }
 
 /*
@@ -161,6 +171,9 @@ span.date-name { font-weight: bold; }
 	text-transform: uppercase;
 }
 #cn-list .chosen-container-single .chosen-single { line-height: 24px !important; }
+#cn-list .chosen-choices li:after {
+	border: none;
+}
 
 /*
  * Search Message
@@ -251,7 +264,8 @@ input#cn-search-submit {
  * Pagination control styles.
  */
 #cn-page-nav { /*clear: both;*/ display: block; font-size: 12px; margin: 10px 0; text-align: center; } /* Setting clear breaks Market */
-#cn-page-nav a {
+#cn-page-nav a,
+#cn-page-nav .page-numbers {
 	color: #AAAAAA !important;
 	text-decoration: none;
 	background-color: #EEEEEE;
@@ -268,7 +282,11 @@ input#cn-search-submit {
 	-webkit-border-radius: 3px;
 }
 #cn-page-nav a:active, #cn-page-nav a:visited { color: #AAAAAA !important; }
-#cn-page-nav a.disabled { color: #CCCCCC !important; }
+#cn-page-nav a.disabled,
+#cn-page-nav .page-numbers.current,
+#cn-page-nav .page-numbers.dots {
+	color: #CCCCCC !important;
+}
 #cn-page-nav input {
 	background: #FFFFFF none;
 	border-width: 1px;

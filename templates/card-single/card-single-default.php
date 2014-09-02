@@ -64,7 +64,7 @@ if ( ! class_exists( 'CN_Single_Card_Template' ) ) {
 					<?php $entry->getImage(); ?>
 					<div style="clear:both;"></div>
 					<div style="margin-bottom: 10px;">
-						<span style="font-size:larger;font-variant: small-caps"><strong><?php echo $entry->getNameBlock(); ?></strong></span>
+						<div style="font-size:larger;font-variant: small-caps"><strong><?php echo $entry->getNameBlock(); ?></strong></div>
 						<?php $entry->getTitleBlock(); ?>
 						<?php $entry->getOrgUnitBlock(); ?>
 						<?php $entry->getContactNameBlock(); ?>

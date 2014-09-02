@@ -36,6 +36,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				$entry = new cnOutput();
 
 				$attr = array(
+					'id'      => 'cn-form',
 					'method'  => 'post',
 					'enctype' => 'multipart/form-data',
 				);
@@ -59,7 +60,6 @@ function connectionsShowViewPage( $action = NULL ) {
 						wp_nonce_field( 'cn-manage-metaboxes' );
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
 						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
 
@@ -114,6 +114,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
 
 				$attr = array(
+					'id'      => 'cn-form',
 					'method'  => 'post',
 					'enctype' => 'multipart/form-data',
 				);
@@ -137,7 +138,6 @@ function connectionsShowViewPage( $action = NULL ) {
 						wp_nonce_field( 'cn-manage-metaboxes' );
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
 						$form->tokenField( 'add_entry', FALSE, '_cn_wpnonce', FALSE );
 
@@ -190,6 +190,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
 
 				$attr = array(
+					'id'      => 'cn-form',
 					'action'  => 'admin.php?connections_process=true&process=manage&action=update&id=' . $id,
 					'method'  => 'post',
 					'enctype' => 'multipart/form-data',
@@ -214,7 +215,6 @@ function connectionsShowViewPage( $action = NULL ) {
 						wp_nonce_field( 'cn-manage-metaboxes' );
 						wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', FALSE );
 						wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', FALSE );
-						echo '<input type="hidden" name="action" value="save_cn_add_metaboxes" />';
 
 						$form->tokenField( 'update_entry', FALSE, '_cn_wpnonce', FALSE );
 
@@ -329,10 +329,18 @@ function connectionsShowViewPage( $action = NULL ) {
 
 						<div class="alignleft actions">
 							<?php
-							echo '<select class="postform" id="category" name="category">';
-							echo '<option value="-1">' , __( 'Show All Categories', 'connections' ) , '</option>';
-							echo $categoryObjects->buildCategoryRow( 'option', $instance->retrieve->categories(), 0, $instance->currentUser->getFilterCategory() );
-							echo '</select>';
+
+							$fragment = new cnFragment( 'category_select' );
+
+							if ( ! $fragment->get() ) {
+
+								echo '<select class="postform" id="category" name="category">';
+									echo '<option value="-1">' . __( 'Show All Categories', 'connections' ) . '</option>';
+									echo $categoryObjects->buildCategoryRow( 'option', $instance->retrieve->categories(), 0, $instance->currentUser->getFilterCategory() );
+								echo '</select>';
+
+								$fragment->save();
+							}
 
 							echo $form->buildSelect(
 								'entry_type',
@@ -546,7 +554,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass .'">';
 					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='id[]'/></th> \n";
 					echo '<td>';
-					$entry->getImage( array( 'image' => 'photo' , 'preset' => 'thumbnail' , 'height' => 54 , 'width' => 80 , 'zc' => 2 , 'fallback' => array( 'type' => 'block' , 'string' => __( 'No Photo Available', 'connections' ) ) ) );
+					$entry->getImage( array( 'image' => 'photo', 'height' => 54, 'width' => 80, 'zc' => 2, 'fallback' => array( 'type' => 'block', 'string' => __( 'No Photo Available', 'connections' ) ) ) );
 					echo '</td>';
 					echo '<td  colspan="2">';
 					if ( $setAnchor ) echo $setAnchor;

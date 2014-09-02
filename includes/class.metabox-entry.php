@@ -57,7 +57,7 @@ class cnEntryMetabox {
 		}
 
 		// Set the "Visibility" options that can be set by the current user.
-		self::$visibility = $instance->options->getVisibilityOptions();
+		if ( is_user_logged_in() ) self::$visibility = $instance->options->getVisibilityOptions();
 	}
 
 	/**
@@ -251,7 +251,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-meta',
-			'title'    => __( 'Custom Fields', 'connection' ),
+			'title'    => __( 'Custom Fields', 'connections' ),
 			'pages'    => $pages,
 			'name'     => 'Meta',
 			'desc'     => __( 'Custom fields can be used to add extra metadata to an entry that you can use in your template.', 'connections' ),
@@ -305,7 +305,7 @@ class cnEntryMetabox {
 		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
 		$type       = $entry->getId() ? $entry->getEntryType()  : $atts['default']['type'];
 
-		if ( $action == NULL ) {
+		// if ( $action == NULL ) {
 
 			// The options have to be flipped because of an earlier stupid decision
 			// of making the array keys the option labels. This basically provide
@@ -321,7 +321,7 @@ class cnEntryMetabox {
 				$type
 				);
 
-		}
+		// }
 
 		cnHTML::radio(
 			array(
@@ -387,18 +387,28 @@ class cnEntryMetabox {
 	 */
 	public static function category( $entry, $metabox ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$id   = $entry->getId();
+		$ckey = $entry->getId() ? 'category_checklist_entry_' . $entry->getId() : 'category_checklist';
 
-		$categoryObjects = new cnCategoryObjects();
+		$fragment = new cnFragment( $ckey );
 
-		echo '<div class="categorydiv" id="taxonomy-category">';
-			echo '<div id="category-all" class="tabs-panel">';
-				echo '<ul id="categorychecklist">';
-					echo $categoryObjects->buildCategoryRow( 'checklist', $instance->retrieve->categories(), NULL, $instance->term->getTermRelationships( $entry->getId() ) );
-				echo '</ul>';
+		if ( ! $fragment->get() ) {
+
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+
+			$categoryObjects = new cnCategoryObjects();
+
+			echo '<div class="categorydiv" id="taxonomy-category">';
+				echo '<div id="category-all" class="tabs-panel">';
+					echo '<ul id="categorychecklist">';
+						echo $categoryObjects->buildCategoryRow( 'checklist', $instance->retrieve->categories(), NULL, $instance->term->getTermRelationships( $entry->getId() ) );
+					echo '</ul>';
+				echo '</div>';
 			echo '</div>';
-		echo '</div>';
+
+			$fragment->save();
+		}
 	}
 
 	/**
@@ -427,7 +437,7 @@ class cnEntryMetabox {
 
 		$defaults = array(
 			// Define the entry type so the correct fields will be rendered. If an entry type is all registered entry types, render all fields assuming this is new entry.
-			'type'  => $entry->getEntryType() ? $entry->getEntryType() : array( 'individual', 'organization', 'family'),
+			'type'  => /*$entry->getEntryType() ? $entry->getEntryType() : */array( 'individual', 'organization', 'family'),
 			// The entry type to which the meta fields are being registered.
 			'individual' => array(
 				// The entry type field meta. Contains the arrays that define the field groups and their respective fields.
@@ -706,10 +716,15 @@ class cnEntryMetabox {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		/*
-		 * Dump the output in a var that way it can mre more easily broke up and filters added later.
-		 */
-		$family = '';
+		$html = '';
+		$id   = $entry->getId();
+		$ckey = $entry->getId() ? 'relative_select_entry_' . $entry->getId() : 'relative_select_user_' . $instance->currentUser->getID();
+
+		if ( FALSE !== ( $html = cnCache::get( $ckey, 'transient' ) ) ) {
+
+			echo $html;
+			return;
+		}
 
 		// Retrieve all the entries of the "individual" entry type that the user is permitted to view and is approved.
 		$individuals = cnRetrieve::individuals();
@@ -717,17 +732,17 @@ class cnEntryMetabox {
 		// Get the core entry relations.
 		$relations   = $instance->options->getDefaultFamilyRelationValues();
 
-		$family .= '<div class="cn-metabox" id="cn-metabox-section-family">';
+		$html .= '<div class="cn-metabox" id="cn-metabox-section-family">';
 
-			$family .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
-			$family .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
+			$html .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
+			$html .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
 
-			$family .= '<div id="cn-relations">';
+			$html .= '<div id="cn-relations">';
 
 			// --> Start template for Family <-- \\
-			$family .= '<textarea id="cn-relation-template" style="display: none">';
+			$html .= '<textarea id="cn-relation-template" style="display: none">';
 
-				$family .= cnHTML::select(
+				$html .= cnHTML::select(
 						array(
 							'class'    => 'family-member-name',
 							'id'       => 'family_member[::FIELD::][entry_id]',
@@ -738,7 +753,7 @@ class cnEntryMetabox {
 							)
 						);
 
-				$family .= cnHTML::select(
+				$html .= cnHTML::select(
 						array(
 							'class'    => 'family-member-relation',
 							'id'       => 'family_member[::FIELD::][relation]',
@@ -749,7 +764,7 @@ class cnEntryMetabox {
 							)
 						);
 
-			$family .= '</textarea>';
+			$html .= '</textarea>';
 			// --> End template for Family <-- \\
 
 			if ( $entry->getFamilyMembers() ) {
@@ -760,9 +775,9 @@ class cnEntryMetabox {
 
 					if ( array_key_exists( $key, $individuals ) ) {
 
-						$family .= '<div id="relation-row-' . $token . '" class="relation">';
+						$html .= '<div id="relation-row-' . $token . '" class="relation">';
 
-							$family .= cnHTML::select(
+							$html .= cnHTML::select(
 								array(
 									'class'    => 'family-member-name',
 									'id'       => 'family_member[' . $token . '][entry_id]',
@@ -774,7 +789,7 @@ class cnEntryMetabox {
 									$key
 								);
 
-							$family .= cnHTML::select(
+							$html .= cnHTML::select(
 								array(
 									'class'   => 'family-member-relation',
 									'id'      => 'family_member[' . $token . '][relation]',
@@ -786,20 +801,22 @@ class cnEntryMetabox {
 									$value
 								);
 
-							$family .= '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
+							$html .= '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
 
-						$family .= '</div>';
+						$html .= '</div>';
 					}
 				}
 			}
 
-			$family .= '</div>';
+			$html .= '</div>';
 
-			$family .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
+			$html .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
 
-		$family .= '</div>';
+		$html .= '</div>';
 
-		echo $family;
+		cnCache::set( $ckey, $html, YEAR_IN_SECONDS, 'transient' );
+
+		echo $html;
 	}
 
 	/**
@@ -831,7 +848,18 @@ class cnEntryMetabox {
 
 				} else {
 
-					echo ' <img src="' . CN_IMAGE_BASE_URL . $entry->getImageNameProfile() . '" />';
+					// Since the getImage() method did not exist, the cnEntry_HTML needs to be init/d.
+					$out = new cnEntry_HTML();
+					$out->set( $entry->getId() );
+
+					$out->getImage(
+						array(
+							'image'  => 'photo',
+							'preset' => 'profile',
+							'action' => 'edit',
+							)
+						);
+
 				}
 
 				cnHTML::radio(
@@ -884,7 +912,16 @@ class cnEntryMetabox {
 
 				} else {
 
-					echo ' <img src="' . CN_IMAGE_BASE_URL . $entry->getLogoName() . '" />';
+					// Since the getImage() method did not exist, the cnEntry_HTML needs to be init/d.
+					$out = new cnEntry_HTML();
+					$out->set( $entry->getId() );
+
+					$out->getImage(
+						array(
+							'image'  => 'logo',
+							'action' => 'edit',
+							)
+						);
 				}
 
 				cnHTML::radio(

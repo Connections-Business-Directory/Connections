@@ -94,7 +94,9 @@ class cnOutput extends cnEntry
 	public function getImage( $atts = array() ) {
 
 		$displayImage = FALSE;
+		$cropModes    = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
 		$tag          = array();
+		$srcset       = array();
 		$anchorStart  = '';
 		$out          = '';
 
@@ -110,11 +112,13 @@ class cnOutput extends cnEntry
 				'height'   => 0,
 				'width'    => 0
 			),
-			'height' => 0,
 			'width'  => 0,
+			'height' => 0,
 			'zc'     => 1,
+			'quality'=> 80,
 			'before' => '',
 			'after'  => '',
+			'sizes'  => array('100vw'),
 			'style'  => array(),
 			'action' => 'display',
 			'return' => FALSE
@@ -132,9 +136,9 @@ class cnOutput extends cnEntry
 		/*
 		 * The $atts key that are not image tag attributes.
 		 */
-		$nonAtts = array( 'image' , 'preset' , 'fallback' , 'image_size' , 'zc' , 'before' , 'after' , 'return' );
+		$nonAtts = array( 'action', 'image', 'preset', 'fallback', 'image_size', 'zc', 'quality', 'before', 'after', 'return' );
 
-		( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? $customSize = TRUE : $customSize = FALSE;
+		$customSize = ( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? TRUE : FALSE;
 
 		switch ( $atts['image'] ) {
 
@@ -143,53 +147,78 @@ class cnOutput extends cnEntry
 				if ( $this->getImageLinked() && ( $this->getImageDisplay() || $atts['action'] == 'edit' ) ) {
 
 					$displayImage  = TRUE;
-					$atts['class'] = 'photo';
-					$atts['alt']   = __( 'Photo of', 'connections' ) . ' ' . $this->getName();
-					$atts['title'] = __( 'Photo of', 'connections' ) . ' ' . $this->getName();
+					$atts['class'] = 'cn-image photo';
+					$atts['alt']   = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
+					$atts['title'] = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
+
+					$atts['alt']   = apply_filters( 'cn_photo_alt', $atts['alt'], $this );
+					$atts['title'] = apply_filters( 'cn_photo_title', $atts['title'], $this );
 
 					if ( $customSize ) {
 
-						$atts['src'] = CN_URL . '/vendor/timthumb/timthumb.php?src=' .
-							CN_IMAGE_RELATIVE_URL . $this->getImageNameOriginal() .
-							( empty( $atts['height'] ) ? '' : '&amp;h=' . $atts['height'] ) .
-							( empty( $atts['width'] ) ? '' : '&amp;w=' . $atts['width'] ) .
-							( empty( $atts['zc'] ) ? '' : '&amp;zc=' . $atts['zc'] );
+						$image = $this->getImageMeta(
+							array(
+								'type'      => 'photo',
+								'size'      => 'custom',
+								'crop_mode' => $atts['zc'],
+								'width'     => $atts['width'],
+								'height'    => $atts['height'],
+								'quality'   => $atts['quality'],
+								)
+							);
+
+						if ( is_wp_error( $image ) ) {
+
+							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							$displayImage = FALSE;
+
+						} else {
+
+							// Since this is a custom size of an image we can not know which crop mode to use.
+							// Set the crop mode the the value set in $atts['zc'].
+							$cropMode = $atts['zc'];
+
+							// Add the image to the scrset.
+							$srcset['image_custom'] = array( 'src' => $image['url'], 'width' => '1x' );
+
+							$atts['width']  = $image['width'];
+							$atts['height'] = $image['height'];
+						}
 
 					} else {
 
-						switch ( $atts['preset'] ) {
-							case 'entry':
-								if ( is_file( CN_IMAGE_PATH . $this->getImageNameCard() ) ) {
-									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameCard() );
-									$atts['src']        = CN_IMAGE_BASE_URL . $this->getImageNameCard();
-								}
-								break;
+						$preset = array( 'thumbnail' => 'thumbnail', 'medium' => 'entry', 'large' => 'profile' );
 
-							case 'profile':
-								if ( is_file( CN_IMAGE_PATH . $this->getImageNameProfile() ) ) {
-									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameProfile() );
-									$atts['src']        = CN_IMAGE_BASE_URL . $this->getImageNameProfile();
-								}
-								break;
+						if ( $size = array_search( $atts['preset'], $preset ) ) {
 
-							case 'thumbnail':
-								if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
-									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameThumbnail() );
-									$atts['src']        = CN_IMAGE_BASE_URL . $this->getImageNameThumbnail();
-								}
-								break;
+							$image = $this->getImageMeta(
+								array(
+									'type' => 'photo',
+									'size' => $size,
+									)
+								);
 
-							default:
-								if ( is_file( CN_IMAGE_PATH . $this->getImageNameThumbnail() ) ) {
-									$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getImageNameCard() );
-									$atts['src']        = CN_IMAGE_BASE_URL . $this->getImageNameCard();
-								}
-								break;
-						}
+							if ( is_wp_error( $image ) ) {
 
-						if ( isset( $atts['image_size'] ) && $atts['image_size'] !== FALSE ) {
-							$atts['width']  = $atts['image_size'][0];
-							$atts['height'] = $atts['image_size'][1];
+								if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+								$displayImage = FALSE;
+
+							} else {
+
+								// Set the crop mode to the value saved in the settings.
+								$cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+
+								// Add the image to the scrset.
+								$srcset[ 'image_' . $size ] = array( 'src' => $image['url'], 'width' => '1x' );
+
+								$atts['width']  = $image['width'];
+								$atts['height'] = $image['height'];
+							}
+
+						} else {
+
+							/* TODO */
+
 						}
 					}
 				}
@@ -200,6 +229,7 @@ class cnOutput extends cnEntry
 				$links = $this->getLinks( array( 'image' => TRUE ) );
 
 				if ( ! empty( $links ) ) {
+
 					$link = $links[0];
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
@@ -216,26 +246,64 @@ class cnOutput extends cnEntry
 				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || $atts['action'] == 'edit' ) ) {
 
 					$displayImage  = TRUE;
-					$atts['class'] = 'logo';
-					$atts['alt']   = __( 'Logo for', 'connections' ) . ' ' . $this->getName();
-					$atts['title'] = __( 'Logo for', 'connections' ) . ' ' . $this->getName();
+					$atts['class'] = 'cn-image logo';
+					$atts['alt']   = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
+					$atts['title'] = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
+					$cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+
+					$atts['alt']   = apply_filters( 'cn_logo_alt', $atts['alt'], $this );
+					$atts['title'] = apply_filters( 'cn_logo_title', $atts['title'], $this );
 
 					if ( $customSize ) {
 
-						$atts['src'] = CN_URL . '/vendor/timthumb/timthumb.php?src=' .
-							CN_IMAGE_RELATIVE_URL . $this->getLogoName() .
-							( empty( $atts['height'] ) ? '' : '&amp;h=' . $atts['height'] ) .
-							( empty( $atts['width'] ) ? '' : '&amp;w=' . $atts['width'] ) .
-							( empty( $atts['zc'] ) ? '' : '&amp;zc=' . $atts['zc'] );
+						$image = $this->getImageMeta(
+							array(
+								'type'      => 'logo',
+								'size'      => 'custom',
+								'crop_mode' => $atts['zc'],
+								'width'     => $atts['width'],
+								'height'    => $atts['height'],
+								'quality'   => $atts['quality'],
+								)
+							);
+
+						if ( is_wp_error( $image ) ) {
+
+							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							$displayImage = FALSE;
+
+						} else {
+
+							// Add the image to the scrset.
+							$srcset['logo_custom'] = array( 'src' => $image['url'], 'width' => '1x' );
+
+							$atts['width']  = $image['width'];
+							$atts['height'] = $image['height'];
+						}
 
 					} else {
-						$atts['image_size'] = @getimagesize( CN_IMAGE_PATH . $this->getLogoName() );
-						$atts['src']        = CN_IMAGE_BASE_URL . $this->getLogoName();
 
-						if ( $atts['image_size'] !== FALSE ) {
-							$atts['width']  = $atts['image_size'][0];
-							$atts['height'] = $atts['image_size'][1];
+						$image = $this->getImageMeta(
+							array(
+								'type' => 'logo',
+								'size' => 'scaled',
+								)
+							);
+
+						if ( is_wp_error( $image ) ) {
+
+							if ( is_admin() ) cnMessage::render( 'error', implode( '<br />', $image->get_error_messages() ) );
+							$displayImage = FALSE;
+
+						} else {
+
+							// Add the image to the scrset.
+							$srcset['logo'] = array( 'src' => $image['url'], 'width' => '1x' );
+
+							$atts['width']  = $image['width'];
+							$atts['height'] = $image['height'];
 						}
+
 					}
 				}
 
@@ -259,17 +327,49 @@ class cnOutput extends cnEntry
 
 		if ( $displayImage ) {
 
+			// Allow extension to filter the img class.
+			$atts['class'] = apply_filters( 'cn_image_class', $atts['class'] );
+
+			// Add the 2x (retina) image to the srcset.
+			$srcset['2x'] = array(
+				'src' => add_query_arg(
+					array(
+						'src'           => $this->getOriginalImageURL( $atts['image'] ),
+						'cn-entry-slug' => $this->getSlug(),
+						'w'             => $image['width'] * 2,
+						'h'             => $atts['height'] * 2,
+						'zc'            => $cropMode,
+					),
+					network_home_url( CN_IMAGE_ENDPOINT ) ),
+				'width' => '2x'
+				);
+
+			// Allow extensions to add/remove images to the srcset.
+			$srcset = apply_filters( 'cn_image_srcset', $srcset );
+
+			foreach ( $srcset as $src ) {
+
+				$atts['srcset'][] = implode( ' ', $src );
+			}
+
+			$atts['srcset'] = implode( ', ', $atts['srcset'] );
+
+			// Allow extensions to add/remove sizes media queries.
+			$atts['sizes'] = apply_filters( 'cn_image_sizes', $atts['sizes'] );
+
+			$atts['sizes'] = implode( ', ', $atts['sizes'] );
+
+			// Remove any values in the $atts array that not not img attributes and add those that are to the $tag array.
 			foreach ( $atts as $attr => $value ) {
 				if ( ! empty( $value ) && ! in_array( $attr , $nonAtts ) ) $tag[] = "$attr=\"$value\"";
 			}
 
-			if ( ! empty( $atts['height'] ) ) $atts['style']['height'] = $atts['height'] . 'px';
-			if ( ! empty( $atts['width'] ) )  $atts['style']['width']  = $atts['width'] . 'px';
+			// All extensions to apply/remove inline styles.
+			$atts['style'] = apply_filters( 'cn_image_styles', $atts['style'] );
 
 			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
-			$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image%1$s"%2$s>%3$s<img %4$s/>%5$s</span></span>',
-				$customSize ? ' cn-image-loading' : '',
+			$out = sprintf( '<span class="cn-image-style"%1$s>%2$s<img %3$s/>%4$s</span>',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				empty( $anchorStart ) ? '' : $anchorStart,
 				implode( ' ', $tag ),
@@ -283,8 +383,8 @@ class cnOutput extends cnEntry
 				/*
 				 * Set the size to the supplied custom. The fallback custom size would take priority if it has been supplied.
 				 */
-				$atts['style']['height'] = empty( $atts['fallback']['height'] ) ? $atts['height'] . 'px' : $atts['fallback']['height'] . 'px';
 				$atts['style']['width']  = empty( $atts['fallback']['width'] ) ? $atts['width'] . 'px' : $atts['fallback']['width'] . 'px';
+				$atts['style']['height'] = empty( $atts['fallback']['height'] ) ? $atts['height'] . 'px' : $atts['fallback']['height'] . 'px';
 
 			} else {
 				/*
@@ -296,23 +396,23 @@ class cnOutput extends cnEntry
 						switch ( $atts['preset'] ) {
 
 							case 'entry':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_medium', 'height' ) . 'px';
-								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_medium', 'width' ) . 'px';
+								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_medium', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
 								break;
 
 							case 'profile':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_large', 'height' ) . 'px';
-								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_large', 'width' ) . 'px';
+								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_large', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_large', 'height' ) . 'px';
 								break;
 
 							case 'thumbnail':
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_thumbnail', 'height' ) . 'px';
-								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_thumbnail', 'width' ) . 'px';
+								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_thumbnail', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_thumbnail', 'height' ) . 'px';
 								break;
 
 							default:
-								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_medium', 'height' ) . 'px';
-								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_medium', 'width' ) . 'px';
+								$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_medium', 'width' ) . 'px';
+								$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
 								break;
 						}
 
@@ -320,8 +420,8 @@ class cnOutput extends cnEntry
 
 					case 'logo':
 
-						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'connections_image_logo', 'height' ) . 'px';
-						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'connections_image_logo', 'width' ) . 'px';
+						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_logo', 'width' ) . 'px';
+						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_logo', 'height' ) . 'px';
 						break;
 				}
 			}
@@ -334,9 +434,10 @@ class cnOutput extends cnEntry
 
 					if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
-					$string = empty( $atts['fallback']['string'] ) ? '' : '<p>' . $atts['fallback']['string'] . '</p>';
+					$string = empty( $atts['fallback']['string'] ) ? '' : '<span>' . $atts['fallback']['string'] . '</span>';
 
-					$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-none"%1$s>%2$s</span></span>',
+					$out = sprintf( '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image-%1$s cn-image-none"%2$s>%3$s</span></span>',
+						esc_attr( $atts['image'] ),
 						empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 						$string
 					);
@@ -2300,7 +2401,7 @@ class cnOutput extends cnEntry
 		$out = '';
 		$categories = $this->getCategory();
 
-		if ( empty( $categories ) ) return NULL;
+		if ( empty( $categories ) ) return $out;
 
 		if ( !empty( $atts['before'] ) ) $out .= $atts['before'];
 
@@ -2315,13 +2416,10 @@ class cnOutput extends cnEntry
 
 			$atts['list'] === 'unordered' ? $out .= '</ul>' : $out .= '</ol>';
 		} else {
-			$i = 0;
+			$i = 1;
 
 			foreach ( $categories as $category ) {
-				$out .= '<span class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . '</span>';
-
-				$i++;
-				if ( count( $categories ) > $i ) $out .= $atts['separator'];
+				$out .= '<span class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . ( count( $categories ) > $i++ && ! empty( $atts['separator'] ) ? $atts['separator'] : '' ) . '</span>';
 			}
 		}
 

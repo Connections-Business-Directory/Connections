@@ -433,39 +433,40 @@ class cnAdminActions {
 				// Query the meta associated to the entry.
 				$results = cnMeta::get( 'entry', $id );
 
-				if ( $results === FALSE ) return array();
+				if ( $results !== FALSE ) {
 
-				// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
-				foreach ( $results as $metaID => $row ) {
+					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
+					foreach ( $results as $metaID => $row ) {
 
-					if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $metaID ] );
-				}
-
-				// Loop thru the associated meta and update any that may have been changed.
-				// If the meta id doesn't exist in the $_POST data, assume the user deleted it.
-				foreach ( $results as $metaID => $row ) {
-
-					// Update the entry meta if it differs.
-					if ( ( isset( $_POST['meta'][ $metaID ]['value'] ) && $_POST['meta'][ $metaID ]['value'] !== $row['meta_value'] ) ||
-						 ( isset( $_POST['meta'][ $metaID ]['key'] )   && $_POST['meta'][ $metaID ]['key']   !== $row['meta_key']   ) &&
-						 ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) ) {
-
-						// If the key begins with an underscore, remove it because those are private.
-						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
-
-						cnMeta::update( 'entry', $id, $_POST['meta'][ $metaID ]['key'], $_POST['meta'][ $metaID ]['value'], $row['meta_value'], $row['meta_key'], $metaID );
-
-						$metaIDs['updated'] = $metaID;
+						if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $metaID ] );
 					}
 
-					if ( isset( $_POST['meta'] ) && $_POST['meta'][ $metaID ]['value'] === '::DELETED::' ) {
+					// Loop thru the associated meta and update any that may have been changed.
+					// If the meta id doesn't exist in the $_POST data, assume the user deleted it.
+					foreach ( $results as $metaID => $row ) {
 
-						// Record entry meta to be deleted.
-						cnMeta::delete( 'entry', $id, $metaID );
+						// Update the entry meta if it differs.
+						if ( ( isset( $_POST['meta'][ $metaID ]['value'] ) && $_POST['meta'][ $metaID ]['value'] !== $row['meta_value'] ) ||
+							 ( isset( $_POST['meta'][ $metaID ]['key'] )   && $_POST['meta'][ $metaID ]['key']   !== $row['meta_key']   ) &&
+							 ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) ) {
 
-						$metaIDs['deleted'] = $metaID;
+							// If the key begins with an underscore, remove it because those are private.
+							if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+
+							cnMeta::update( 'entry', $id, $_POST['meta'][ $metaID ]['key'], $_POST['meta'][ $metaID ]['value'], $row['meta_value'], $row['meta_key'], $metaID );
+
+							$metaIDs['updated'] = $metaID;
+						}
+
+						if ( isset( $_POST['meta'] ) && $_POST['meta'][ $metaID ]['value'] === '::DELETED::' ) {
+
+							// Record entry meta to be deleted.
+							cnMeta::delete( 'entry', $id, $metaID );
+
+							$metaIDs['deleted'] = $metaID;
+						}
+
 					}
-
 				}
 
 				// Lastly, add any new meta the user may have added.

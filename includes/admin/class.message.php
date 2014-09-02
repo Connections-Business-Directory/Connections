@@ -142,6 +142,7 @@ class cnMessage extends WP_Error {
 		$instance->add( 'entry_preferred_overridden_link', __( 'Your preferred setting for a link was overridden because another link that you are not permitted to view or edit is set as the preferred link. Please contact the admin if you received this message in error.', 'connections' ) );
 		$instance->add( 'entry_preferred_overridden_date', __( 'Your preferred setting for a date was overridden because another date that you are not permitted to view or edit is set as the preferred date. Please contact the admin if you received this message in error.', 'connections' ) );
 
+		$instance->add( 'image_edit_support_failed', __( 'The server does not have ImageMagick or GD installed and/or enabled. Either of these are required for WordPress to be able to resize images. Please contact your server administrator.', 'connections' ) );
 		$instance->add( 'image_upload_failed', __( 'Image upload failed.', 'connections' ) );
 		$instance->add( 'image_uploaded_failed', __( 'Uploaded image could not be saved to the destination folder.', 'connections' ) );
 		$instance->add( 'image_profile_failed', __( 'Profile image could not be created and/or saved to the destination folder.', 'connections' ) );

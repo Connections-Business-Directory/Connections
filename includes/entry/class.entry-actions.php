@@ -56,41 +56,380 @@ class cnEntry_Action {
 		return self::process( 'add', $data, $id );
 	}
 
-	private static function copyImage( $image ) {
-		// Uses the upload.class.php to handle file uploading and image manipulation.
-		// GPL PHP upload class from http://www.verot.net/php_class_upload.htm
-		require_once CN_PATH . '/includes/php_class_upload/class.upload.php';
+	/**
+	 * Process an image upload, creating the three size variations and caching them for later use.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @static
+	 * @uses   Connections_Directory()
+	 * @uses   is_wp_error()
+	 * @uses   cnMessage::set()
+	 * @uses   cnImage::get()
+	 * @uses   is_admin()
+	 * @param  string $entrySlug The entry slug.
+	 *
+	 * @return array             An associative array containing the the details about the uploaded image.
+	 */
+	private static function processImage( $entrySlug ) {
 
-		$source = CN_IMAGE_PATH . $image;
+		if ( ! isset( $_FILES['original_image'] ) ) return FALSE;
 
-		$process_image = new Upload( $source );
-		$process_image->Process( CN_IMAGE_PATH );
-		$process_image->file_safe_name  = true;
-		$process_image->file_auto_rename = true;
-		$image = $process_image->file_dst_name;
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
-		return $image;
+		if ( is_wp_error( $img = cnImage::upload( $_FILES['original_image'], $entrySlug ) ) ) {
+
+			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+			return FALSE;
+		}
+
+		$cropMode = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
+
+		$large = cnImage::get(
+			$img['url'],
+			array(
+				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_large', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+				'width'     => cnSettingsAPI::get( 'connections', 'image_large', 'width' ),
+				'height'    => cnSettingsAPI::get( 'connections', 'image_large', 'height' ),
+				'quality'   => cnSettingsAPI::get( 'connections', 'image_large', 'quality' ),
+				'sub_dir'   => $entrySlug,
+				),
+			'data'
+			);
+
+		if ( is_wp_error( $large ) ) {
+
+			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+		}
+
+		$medium = cnImage::get(
+			$img['url'],
+			array(
+				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_medium', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+				'width'     => cnSettingsAPI::get( 'connections', 'image_medium', 'width' ),
+				'height'    => cnSettingsAPI::get( 'connections', 'image_medium', 'height' ),
+				'quality'   => cnSettingsAPI::get( 'connections', 'image_medium', 'quality' ),
+				'sub_dir'   => $entrySlug,
+				),
+			'data'
+			);
+
+		if ( is_wp_error( $medium ) ) {
+
+			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+		}
+
+		$thumb = cnImage::get(
+			$img['url'],
+			array(
+				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_thumbnail', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+				'width'     => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'width' ),
+				'height'    => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'height' ),
+				'quality'   => cnSettingsAPI::get( 'connections', 'image_thumbnail', 'quality' ),
+				'sub_dir'   => $entrySlug,
+				),
+			'data'
+			);
+
+		if ( is_wp_error( $thumb ) ) {
+
+			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+		}
+
+		// Output the debug log.
+		if ( $instance->options->getDebug() && is_admin() ) {
+
+			if ( isset( $large['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Large Image Process Log<br/> <pre>' . $large['log'] . '</pre>' );
+			if ( isset( $medium['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Medium Image Process Log<br/><pre>' . $medium['log'] . '</pre>' );
+			if ( isset( $thumb['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Thumbnail Image Process Log<br/><pre>' . $thumb['log'] . '</pre>' );
+		}
+
+		return array( 'image_names' => array( 'original' => $img['name'] ), 'image' => array( 'original' => array( 'meta' => $img ) ) );
 	}
 
 	/**
-	 * Add / Edit / Update / Copy an entry.
-	 *
-	 * @todo The image logic/processing should be abstracted out of this method into its own class.
+	 * Process a logo upload, creating its size variation and caching it for later use.
 	 *
 	 * @access private
-	 * @since 0.7.8
+	 * @since  8.1
+	 * @static
+	 * @uses   Connections_Directory()
+	 * @uses   is_wp_error()
+	 * @uses   cnMessage::set()
+	 * @uses   cnImage::get()
+	 * @uses   is_admin()
+	 * @param  string $entrySlug The entry slug.
+	 *
+	 * @return array             An associative array containing the the details about the uploaded logo.
+	 */
+	private static function processLogo( $entrySlug ) {
+
+		if ( ! isset( $_FILES['original_logo'] ) ) return FALSE;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		if ( is_wp_error( $img = cnImage::upload( $_FILES['original_logo'], $entrySlug ) ) ) {
+
+			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+			return FALSE;
+		}
+
+		$cropMode = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
+
+		$logo = cnImage::get(
+			$img['url'],
+			array(
+				'crop_mode' => ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropMode ) ) || $key === 0 ? $key : 2,
+				'width'     => cnSettingsAPI::get( 'connections', 'image_logo', 'width' ),
+				'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
+				'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
+				'sub_dir'   => $entrySlug,
+				),
+			'data'
+			);
+
+		if ( is_wp_error( $logo ) ) {
+
+			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+		}
+
+		// Output the debug log.
+		if ( $instance->options->getDebug() && is_admin() ) {
+
+			if ( isset( $logo['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Logo Image Process Log<br/> <pre>' . $logo['log'] . '</pre>' );
+		}
+
+		return $img;
+	}
+
+	/**
+	 * Copies image from one entry to a new entry.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @static
+	 * @uses   wp_upload_dir()
+	 * @uses   trailingslashit()
+	 * @uses   cnFileSystem::mkdir()
+	 * @param  string $filename    The filename to copy.
+	 * @param  string $source      The source sub directory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
+	 * @param  string $destination The destination sub directory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the image to copy.
+	 *
+	 * @return mixed               bool | object TRUE on success, an instance of WP_Error on failure.
+	 */
+	private static function copyImages( $filename, $source, $destination ) {
+
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
+
+		// Build source path to the subfolder in which all the entry's images are saved.
+		$sourcePath      = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $source . DIRECTORY_SEPARATOR;
+		$sourceImagePath = $sourcePath . $filename;
+
+		// Source file info.
+		$sourceImageInfo = pathinfo( $sourceImagePath );
+
+		// Build destination path to the subfolder in which all the entry's images are saved.
+		$destinationPath = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $destination . DIRECTORY_SEPARATOR;
+
+		// Create the new folder.
+		cnFileSystem::mkdir( $destinationPath );
+
+		// foreach ( glob( "$sourcePath{$sourceImageInfo['filename']}*.{$sourceImageInfo['extension']}", GLOB_NOSORT ) as $file ) {
+
+		// 	if ( ! is_dir( $file ) && is_readable( $file ) ) {
+
+		// 		$destinationFile = trailingslashit( realpath( $destinationPath ) ) . basename( $file );
+
+		// 		if ( copy( $file, $destinationFile ) === FALSE ) {
+
+		// 			return new WP_Error( 'image_copy_error', __( 'Image copy failed.', 'connections' ) );
+		// 		}
+		// 	}
+		// }
+
+		if ( realpath( $sourcePath ) ) {
+
+			$files = new DirectoryIterator( $sourcePath );
+
+			foreach( $files as $file ) {
+
+				if ( $file->isDot() ) { continue; }
+
+				if ( ! $file->isDir() && $file->isReadable() ) {
+
+					$destinationFile = trailingslashit( realpath( $destinationPath ) ) . basename( $file );
+
+					if ( copy( $file->getPathname(), $destinationFile ) === FALSE ) {
+
+						return new WP_Error( 'image_copy_error', __( 'Image copy failed.', 'connections' ) );
+					}
+				}
+			}
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * Deletes the image and its variations from an entry.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @static
+	 * @uses   wp_upload_dir()
+	 * @uses   trailingslashit()
+	 * @param  string $filename    The base filename to delete.
+	 * @param  string $source      The source sub directory (entry slug) of WP_CONTENT_DIR/CN_IMAGE_DIR_NAME of the images to delete.
+	 *
+	 * @return void
+	 */
+	public static function deleteImages( $filename, $source ) {
+
+		// Get the core WP uploads info.
+		$uploadInfo = wp_upload_dir();
+
+		// Build path to the subfolder in which all the entry's images are saved.
+		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $source . DIRECTORY_SEPARATOR;
+
+		// If the $path does not exist, bail.
+		if ( ! file_exists( $path ) ) return;
+
+		// Build path to the original file.
+		$original = $path . $filename;
+
+		// Get original file info.
+		$info = pathinfo( $original );
+
+		// Delete the original uploaded file.
+		@unlink( $original );
+
+		// Now, delete any of its variations.
+		// @url http://stackoverflow.com/a/18283138
+		// foreach ( glob( "$path{$info['filename']}-H?*.{$info['extension']}", GLOB_NOSORT ) as $filename ) {
+
+		// 	@unlink( $filename );
+		// }
+
+		// This will match a MD5 hash:  [a-f0-9]{32}
+		// @url http://stackoverflow.com/a/21517123
+		$files         = new DirectoryIterator( $path );
+		$filesFiltered = new RegexIterator( $files, sprintf( '~%s-[a-f0-9]{32}.%s~i', preg_quote( $info['filename'] ), preg_quote( $info['extension'] ) ) );
+
+		foreach( $filesFiltered as $file ) {
+
+			if ( $file->isDot() ) { continue; }
+
+			@unlink( $file->getPathname() );
+		}
+
+	}
+
+	/**
+	 * Deletes the image and its size variations from the legacy folder, pre 8.1.
+	 *
+	 * NOTE: Delete the image its size variations if is saved in the old CN_IMAGE_PATH folder, pre version 8.1
+	 *
+	 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
+	 * copying an entry so it was possible multiple entries could share the same image.
+	 * Only images created after the date that version .0.7.0.0 was released will be deleted,
+	 * plus a couple weeks for good measure.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @uses   self::getImageNameOriginal()
+	 * @uses   self::getImageNameThumbnail()
+	 * @uses   self::getImageNameCard()
+	 * @uses   self::getImageNameProfile()
+	 * @param  object $entry An instance the the cnEntry object.
+	 *
+	 * @return void
+	 */
+	public static function deleteLegacyImages( $entry ) {
+
+		// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
+		$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
+
+		if ( $entry->getImageNameOriginal() != NULL ) {
+
+			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) &&
+				$compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() )
+				) {
+
+				@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
+			}
+		}
+
+		if ( $entry->getImageNameThumbnail() != NULL ) {
+
+			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) &&
+				$compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() )
+				) {
+
+				@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
+			}
+		}
+
+		if ( $entry->getImageNameCard() != NULL ) {
+
+			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameCard() ) &&
+				$compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() )
+				) {
+
+				@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
+			}
+		}
+
+		if ( $entry->getImageNameProfile() != NULL ) {
+
+			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameProfile() ) &&
+				$compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() )
+				) {
+
+				@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
+			}
+		}
+
+	}
+
+	/**
+	 * Deletes the logo from the legacy folder, pre 8.1.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @uses   self::getLogoName()
+	 * @param  object $entry An instance the the cnEntry object.
+	 *
+	 * @return void
+	 */
+	public static function deleteLegacyLogo( $entry ) {
+
+		if ( $entry->getLogoName() != NULL &&
+			is_file( CN_IMAGE_PATH . $entry->getLogoName() )
+			) {
+
+			@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
+		}
+	}
+
+	/**
+	 * Add / Edit / Copy an entry.
+	 *
+	 * @access private
+	 * @since  0.7.8
 	 * @param  (string) $action Valid options are: add | update
 	 * @param  (array)  $data [optional] The data to be used when adding / editing / duplicating an entry.
 	 * @param  (int) $action [optional] If editing/duplicating an entry, the entry ID.
-	 * @uses absint()
+	 * @uses   absint()
+	 *
 	 * @return (bool)
 	 */
 	private static function process( $action, $data = array(), $id = 0 ) {
 		global $connections;
-		$entry = new cnEntry();
 
-		// The modification file date that image will be deleted. to maintain compatibility with 0.6.2.1 and older.
-		$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
+		$entry = new cnEntry();
 
 		// If copying/editing an entry, the entry data is loaded into the class
 		// properties and then properties are overwritten by the data as needed.
@@ -125,6 +464,37 @@ class cnEntry_Action {
 
 		( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->setUser( 0 );
 
+		switch ( $action ) {
+
+			case 'add':
+
+				// If the entry is being copied, the source slug needs copied because it is required
+				// in order to copy the source entry images to the new entry.
+				if ( ! empty( $id ) ) {
+
+					$sourceEntrySlug = $entry->getSlug();
+
+					$entry->setSlug( $entry->getName( array( 'format' => '%first%-%last%' ) ) );
+
+				// If a new entry is being added, set the unique slug.
+				} else {
+
+					$entry->setSlug( $entry->getName( array( 'format' => '%first%-%last%' ) ) );
+				}
+
+				break;
+
+			case 'update':
+
+				// If an entry is being edited, set the new slug, if a new slug was provided.
+				if ( isset( $data['slug'] ) && $data['slug'] != $entry->getSlug() ) {
+
+					$entry->setSlug( $data['slug'] );
+				}
+
+				break;
+		}
+
 		// Run any registered filters before processing, passing the $entry object.
 		// ? Should the logo, photo and category data be passed too?
 		$entry = apply_filters( 'cn_pre_process_' . $action . '-entry', $entry, ( isset( $data['entry_category'] ) ? $data['entry_category'] : array() ) );
@@ -133,36 +503,44 @@ class cnEntry_Action {
 		 * Process the logo upload --> START <--
 		 */
 		if ( isset( $_FILES['original_logo'] ) && $_FILES['original_logo']['error'] != 4 ) {
+
 			// If an entry is being updated and a new logo is uploaded, the old logo needs to be deleted.
-			if ( $entry->getLogoName() != NULL ) {
-				@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
-			}
+			// Delete the entry logo.
+			self::deleteImages( $entry->getLogoName(), $entry->getSlug() );
 
-			include_once CN_PATH . 'includes/admin/inc.processes.php';
+			// Delete logo the legacy logo, pre 8.1.
+			self::deleteLegacyLogo( $entry );
 
-			// Process the newly uploaded logo.
-			$logoProcessResults = processLogo();
+			// Process the newly uploaded image.
+			$result = self::processLogo( $entry->getSlug() );
 
 			// If there were no errors processing the logo, set the values.
-			if ( $logoProcessResults ) {
+			if ( $result ) {
+
 				$entry->setLogoLinked( TRUE );
 				$entry->setLogoDisplay( TRUE );
-				$entry->setLogoName( $logoProcessResults['name'] );
+				$entry->setLogoName( $result['name'] );
+				$entry->setOriginalLogoMeta( $result );
+
 			} else {
+
 				$entry->setLogoLinked( FALSE );
 				$entry->setLogoDisplay( FALSE );
 			}
-		} else {
-			// Don't do this if an entry is being updated.
-			if ( $action !== 'update' ) {
-				// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
-				// That way if an entry is deleted, only the entry specific logo will be deleted.
-				if ( $entry->getLogoName() != NULL ) $entry->setLogoName( self::copyImage( $entry->getLogoName() ) );
+		}
+
+		// Don't do this if an entry is being updated.
+		if ( $action !== 'update' && $sourceEntrySlug ) {
+
+			// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
+			// That way if an entry is deleted, only the entry specific logo will be deleted.
+			if ( $entry->getLogoName() != NULL ) {
+
+				$originalLogoName = self::copyImages( $entry->getLogoName(), $sourceEntrySlug, $entry->getSlug() );
+
+				// $entry->setLogoName( self::copyImage( $originalLogoName ) );
 			}
 		}
-		/*
-		 * Process the logo upload --> END <--
-		 */
 
 		/*
 		 * If copying an entry, the logo visibility property is set based on the user's choice.
@@ -176,12 +554,11 @@ class cnEntry_Action {
 					$entry->setLogoDisplay( FALSE );
 					$entry->setLogoLinked( FALSE );
 
-					/*
-					 * Delete logo assigned to the entry.
-					 */
-					if ( is_file( CN_IMAGE_PATH . $entry->getLogoName() ) ) {
-						@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
-					}
+					// Delete the entry image and its variations.
+					self::deleteImages( $entry->getLogoName(), $entry->getSlug() );
+
+					// Delete logo the legacy logo, pre 8.1.
+					self::deleteLegacyLogo( $entry );
 
 					$entry->setLogoName( NULL );
 					break;
@@ -199,112 +576,71 @@ class cnEntry_Action {
 					break;
 			}
 		}
+		/*
+		 * Process the logo upload --> END <--
+		 */
 
-
-		// Process the entry image upload.
+		/*
+		 * Process the image upload. --> START <--
+		 */
 		if ( isset( $_FILES['original_image'] ) && $_FILES['original_image']['error'] != 4 ) {
-			// If an entry is being updated and a new image is uploaded, the old images need to be deleted.
-			if ( $entry->getImageNameOriginal() != NULL ) {
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
-				}
-			}
 
-			if ( $entry->getImageNameThumbnail() != NULL ) {
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
+			// Delete the entry image and its variations.
+			self::deleteImages( $entry->getImageNameOriginal(), $entry->getSlug() );
 
-				}
-			}
-
-			if ( $entry->getImageNameCard() != NULL ) {
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
-				}
-			}
-
-			if ( $entry->getImageNameProfile() != NULL ) {
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
-					@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
-				}
-			}
-
-			include_once CN_PATH . 'includes/admin/inc.processes.php';
+			// Delete any legacy images, pre 8.1, that may exist.
+			self::deleteLegacyImages( $entry );
 
 			// Process the newly uploaded image.
-			$image_proccess_results = processImages();
+			$result = self::processImage( $entry->getSlug() );
 
 			// If there were no errors processing the image, set the values.
-			if ( $image_proccess_results ) {
-				$entry->setImageLinked( true );
-				$entry->setImageDisplay( true );
-				$entry->setImageNameThumbnail( $image_proccess_results['image_names']['thumbnail'] );
-				$entry->setImageNameCard( $image_proccess_results['image_names']['entry'] );
-				$entry->setImageNameProfile( $image_proccess_results['image_names']['profile'] );
-				$entry->setImageNameOriginal( $image_proccess_results['image_names']['original'] );
+			if ( $result ) {
+
+				$entry->setImageLinked( TRUE );
+				$entry->setImageDisplay( TRUE );
+				$entry->setImageNameThumbnail( $result['image_names']['thumbnail'] );
+				$entry->setImageNameCard( $result['image_names']['entry'] );
+				$entry->setImageNameProfile( $result['image_names']['profile'] );
+				$entry->setImageNameOriginal( $result['image_names']['original'] );
+				$entry->setOriginalImageMeta( $result['image']['original']['meta'] );
+
 			} else {
-				$entry->setImageLinked( false );
-				$entry->setImageDisplay( false );
-			}
-		} else {
 
-			include_once CN_PATH . 'includes/admin/inc.processes.php';
-
-			// Don't do this if an entry is being updated.
-			if ( $action !== 'update' ) {
-				// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
-				// That way if an entry is deleted, only the entry specific images will be deleted.
-				if ( $entry->getImageNameOriginal() != NULL ) $entry->setImageNameOriginal( self::copyImage( $entry->getImageNameOriginal() ) );
-				if ( $entry->getImageNameThumbnail() != NULL ) $entry->setImageNameThumbnail( self::copyImage( $entry->getImageNameThumbnail() ) );
-				if ( $entry->getImageNameCard() != NULL ) $entry->setImageNameCard( self::copyImage( $entry->getImageNameCard() ) );
-				if ( $entry->getImageNameProfile() != NULL ) $entry->setImageNameProfile( self::copyImage( $entry->getImageNameProfile() ) );
+				$entry->setImageLinked( FALSE );
+				$entry->setImageDisplay( FALSE );
 			}
+
 		}
 
+		// Don't do this if an entry is being updated.
+		if ( $action !== 'update' && $sourceEntrySlug ) {
+
+			// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
+			// That way if an entry is deleted, only the entry specific images will be deleted.
+			if ( $entry->getImageNameOriginal() != NULL ) {
+
+				$originalImageName = self::copyImages( $entry->getImageNameOriginal(), $sourceEntrySlug, $entry->getSlug() );
+
+				// $entry->setImageNameOriginal( $originalImageName );
+			}
+		}
 
 		// If copying an entry, the image visibility property is set based on the user's choice.
 		// NOTE: This must come after the image processing.
 		if ( isset( $data['imgOptions'] ) ) {
 
 			switch ( $data['imgOptions'] ) {
+
 				case 'remove':
-					$entry->setImageDisplay( false );
-					$entry->setImageLinked( false );
+					$entry->setImageDisplay( FALSE );
+					$entry->setImageLinked( FALSE );
 
-					/*
-					 * Delete images assigned to the entry.
-					 *
-					 * Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
-					 * copying an entry so it was possible multiple entries could share the same image.
-					 * Only images created after the date that version .0.7.0.0 was released will be deleted,
-					 * plus a couple weeks for good measure.
-					 */
+					// Delete the entry image and its variations.
+					self::deleteImages( $entry->getImageNameOriginal(), $entry->getSlug() );
 
-
-					if ( is_file( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
-						if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) ) {
-							@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
-						}
-					}
-
-					if ( is_file( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
-						if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) ) {
-							@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
-
-						}
-					}
-
-					if ( is_file( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
-						if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() ) ) {
-							@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
-						}
-					}
-
-					if ( is_file( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
-						if ( $compatiblityDate < filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() ) ) {
-							@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
-						}
-					}
+					// Delete any legacy images, pre 8.1, that may exist.
+					self::deleteLegacyImages( $entry );
 
 					$entry->setImageNameOriginal( NULL );
 					$entry->setImageNameThumbnail( NULL );
@@ -314,18 +650,21 @@ class cnEntry_Action {
 					break;
 
 				case 'hidden':
-					$entry->setImageDisplay( false );
+					$entry->setImageDisplay( FALSE );
 					break;
 
 				case 'show':
-					$entry->setImageDisplay( true );
+					$entry->setImageDisplay( TRUE );
 					break;
 
 				default:
-					$entry->setImageDisplay( false );
+					$entry->setImageDisplay( FALSE );
 					break;
 			}
 		}
+		/*
+		 * Process the image upload. --> END <--
+		 */
 
 		switch ( $action ) {
 
@@ -424,6 +763,8 @@ class cnEntry_Action {
 		do_action( 'cn_process_taxonomy-category', $action, $entryID );
 		do_action( 'cn_process_meta-entry', $action, $entryID );
 
+		do_action( 'cn_process_cache-entry', $action, $entryID );
+
 		// Refresh the cnEntry object with any updated taxonomy or meta data
 		// that may have been added/updated via actions.
 		$entry->set( $entryID );
@@ -472,6 +813,8 @@ class cnEntry_Action {
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
+		do_action( 'cn_process_cache-entry', 'bulk_status', $id );
+
 		return $result !== FALSE ? TRUE : FALSE;
 	}
 
@@ -513,6 +856,8 @@ class cnEntry_Action {
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
+		do_action( 'cn_process_cache-entry', 'bulk_visibility', $id );
+
 		return $result !== FALSE ? TRUE : FALSE;
 	}
 
@@ -549,6 +894,8 @@ class cnEntry_Action {
 			// Delete any meta data associated with the entry.
 			self::meta( 'delete', $id );
 		}
+
+		do_action( 'cn_process_cache-entry', 'bulk_delete', $ids );
 
 		return TRUE;
 	}
@@ -638,4 +985,70 @@ class cnEntry_Action {
 		return $metaIDs;
 	}
 
+	/**
+	 * Purge entry related caches when an entry is added/editted.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @param  string $action The action to be performed.
+	 * @param  int    $id     The entry ID.
+	 *
+	 * @return void
+	 */
+	public static function clearCache( $action, $id ) {
+
+		cnCache::clear( TRUE, 'transient', 'cn_category' );
+		cnCache::clear( TRUE, 'transient', 'cn_relative' );
+	}
+
+	/**
+	 * Add the entry actions to the admin bar
+	 *
+	 * @access private
+	 * @static
+	 * @since  8.2
+	 * @uses   cnURL::permalink()
+	 * @uses   current_user_can()
+	 * @param  $admin_bar object
+	 *
+	 * @return void
+	 */
+	public static function adminBarMenuItems( $admin_bar ) {
+
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			// Grab an instance of the Connections object.
+			$instance   = Connections_Directory();
+			$entry      = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			// preg_match( '/href="(.*?)"/', cnURL::permalink( array( 'slug' => $entry->slug, 'return' => TRUE ) ), $matches );
+			// $permalink = $matches[1];
+
+			if ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) ) {
+
+				$admin_bar->add_node(
+					array(
+						'parent' => FALSE,
+						'id'     => 'cn-edit-entry',
+						'title'  => __( 'Edit Entry', 'connections' ),
+						'href'   => admin_url( wp_nonce_url( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry[0]->id, 'entry_edit_' . $entry[0]->id ) ),
+						'meta'  => array(
+							// 'class' => 'edit',
+							'title' => __( 'Edit Entry', 'connections' )
+							),
+					)
+				);
+
+			}
+
+		}
+
+	}
+
 }
+
+// Add an action to purge caches after adding/editing and entry.
+add_action( 'cn_process_cache-entry', array( 'cnEntry_Action', 'clearCache' ), 10, 2 );
+
+// Add the "Edit Entry" menu items to the admin bar.
+add_action( 'admin_bar_menu', array( 'cnEntry_Action', 'adminBarMenuItems' ), 90 );

@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 0.8.14
+ * Version: 8.1
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 0.8.14
+ * @version 8.1
  */
 
 // Exit if accessed directly
@@ -168,7 +168,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Version Constants
 			 */
-			define( 'CN_CURRENT_VERSION', '0.8.14' );
+			define( 'CN_CURRENT_VERSION', '8.1' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
@@ -219,6 +219,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					define( 'CN_MULTISITE_ENABLED', FALSE );
 				}
 			}
+
+			// Set the root image permalink endpoint name.
+			if ( ! defined( 'CN_IMAGE_ENDPOINT' ) )
+				define( 'CN_IMAGE_ENDPOINT', 'cn-image' );
+
+			// Set images subdirectory folder name.
+			if ( ! defined( 'CN_IMAGE_DIR_NAME' ) )
+				define( 'CN_IMAGE_DIR_NAME', 'connections-images' );
 
 			/*
 			 * Core constants that can be overrideen in wp-config.php
@@ -307,6 +315,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/class.form.php'; // Required for activation
 			//date objects
 			require_once CN_PATH . 'includes/class.date.php'; // Required for activation, entry list, add entry
+			// cnCache
+			require_once CN_PATH . 'includes/class.cache.php';
 
 			// The class for managing metaboxes.
 			// Must require BEFORE class.functions.php.
@@ -353,11 +363,16 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// geocoding
 			require_once CN_PATH . 'includes/class.geo.php'; // Required
 
+			// thumbnails
+			require_once CN_PATH . 'includes/image/class.image.php';
+
 			// Shortcodes
 			// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
 			require_once CN_PATH . 'includes/shortcode/inc.shortcodes.php';
 			require_once CN_PATH . 'includes/shortcode/class.shortcode.php';
 			require_once CN_PATH . 'includes/shortcode/class.shortcode-connections.php';
+			require_once CN_PATH . 'includes/shortcode/class.shortcode-thumbnail.php';
+			require_once CN_PATH . 'includes/shortcode/class.shortcode-thumbnail-responsive.php';
 
 			// require_once CN_PATH . 'includes/class.shortcode-upcoming_list.php';
 
@@ -386,6 +401,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Class for registering the core email templates.
 			require_once CN_PATH . 'includes/email/class.default-template.php';
 
+			// The class for working with the file system.
+			require_once CN_PATH . 'includes/class.filesystem.php';
+
 			// require_once CN_PATH . 'includes/class.results.php';
 
 			if ( is_admin() ) {
@@ -395,9 +413,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/
 				 */
 				include_once CN_PATH . 'includes/libraries/screen-options/screen-options.php';
-
-				// The class for working with the file system.
-				require_once CN_PATH . 'includes/admin/class.filesystem.php';
 
 				// The class for handling admin notices.
 				require_once CN_PATH . 'includes/admin/class.message.php';
@@ -793,7 +808,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				$data     = $vCard->getvCard(); //var_dump($data);die;
 
 
-				header( 'Content-Type: text/x-vcard; charset=utf-8' );
+				header( 'Content-Description: File Transfer');
+				header( 'Content-Type: application/octet-stream' );
 				header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
 				header( 'Content-Length: ' . strlen( $data ) );
 				header( 'Pragma: public' );
@@ -801,7 +817,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				//header( "Expires: 0" );
 				header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 				header( 'Cache-Control: private' );
-				header( 'Connection: close' );
+				// header( 'Connection: close' );
+				ob_clean();
+				flush();
 
 				echo $data;
 				exit;

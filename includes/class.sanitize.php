@@ -75,7 +75,7 @@ class cnSanitize {
 
 			case 'color':
 
-				$string = self::hex_color( $string );
+				$string = self::hexColor( $string );
 				break;
 
 			// Default should be unnecessary, but provided as a fallback anyway.
@@ -222,7 +222,7 @@ class cnSanitize {
 	 * Returns the currency value of the $input.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
 	 * @param  string $input Input data to be sanitized.
 	 *
 	 * @return string Returns the $valid string after sanitization.
@@ -241,19 +241,20 @@ class cnSanitize {
 	}
 
 	/**
-	 * Validates a hex color.
+	 * Sanitizes a hex color.
 	 *
-	 * Returns either '', a 3 or 6 digit hex color (with #), or null.
-	 * This function is borrowed directly from the class_wp_customize_manager.php
+	 * Returns either '' or a 3 or 6 digit hex color (with #).
+	 *
+	 * This function is borrowed from the class_wp_customize_manager.php
 	 * file in WordPress core.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
 	 * @param  string $color
 	 *
-	 * @return mixed  string | null
+	 * @return string
 	 */
-	public function hex_color( $color ) {
+	public static function hexColor( $color ) {
 
 		// Returns empty string if input was an empty string.
 		if ( '' === $color ) {
@@ -267,6 +268,32 @@ class cnSanitize {
 			return $color;
 		}
 
-		return null;
+		return '';
 	}
+
+	/**
+	 * Sanitizes a hex color without a hash. Use hexColor() when possible.
+	 *
+	 * Returns either '' or a 3 or 6 digit hex color (without a #).
+	 *
+	 * This function is borrowed from the class_wp_customize_manager.php
+	 * file in WordPress core.
+	 *
+	 * @access public
+	 * @since  8.1
+	 * @uses   sanitize_hex_color()
+	 * @param  string $color
+	 *
+	 * @return mixed  string | string
+	 */
+	public static function hexColorNoHash( $color ) {
+
+		$color = ltrim( $color, '#' );
+
+		if ( '' === $color )
+			return '';
+
+		return self::hexColor( '#' . $color ) ? $color : '';
+	}
+
 }

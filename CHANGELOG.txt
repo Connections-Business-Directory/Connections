@@ -1,24 +1,95 @@
 == Changelog ==
 
+= 8.1 09/02/2014 =
+* FEATURE: Photo and logo images are now responsive.
+* FEATURE: Photo and logo images support HiDPI (Retina) devices.
+* FEATURE: Improve search results for relevancy and shortword search support.
+* FEATURE: Add new shortcode [cn_thumb].
+* FEATURE: Add new shortcode [cn_thumbr].
+* FEATURE: Add new image crop method, fit.
+* FEATURE: Add SmugMug to social network options.
+* FEATURE: Register TimThumb compatible query vars and add the CN_IMAGE_ENDPOINT root rewrite endpoint.
+* BUG: Fix gettext domain for "Name".
+* BUG: Make sure the visibility options are translation ready.
+* BUG: Fix invalid HTML markup. Remove p tag from within a span element in the no image block.
+* BUG: Fix vCard importing on OSX.
+* BUG: Fix bug that would cause entry meta to be lost during an entry update.
+* BUG: Fix cnSanitize::string() color callback method name.
+* BUG: Ensure valid custom metabox before displaying.
+* BUG: Make country code for Maldives uppercase.
+* TWEAK: Remove stop words from search.
+* TWEAK: Only run keyword search when FULLTEXT search is enabled if no results were returned from the FULLTEXT search.
+* TWEAK: Improve exclude_category exclusion.
+* TWEAK: Allow changing of entry type when copying and editing an entry.
+* TWEAK: Complete refactor of the admin js file.
+* TWEAK: Update frontend pagination links to use paginate_links().
+* TWEAK: Update CSS to support the pagination markup output by paginate_links().
+* TWEAK: Move the category separator within the category span.
+* TWEAK: Change span around entry name in core templates to div.
+* TWEAK: Add jquery-validate as a script dependency for cn-ui-admin.
+* TWEAK: Add support for the id attribute on the form tag.
+* TWEAK: Add id attribute to the add/edit entry form.
+* TWEAK: Cache category select, category checklist and family relations.
+* TWEAK: Use actual year in vCard instead of upcoming year for anniversary and birthday dates.
+* TWEAK: Update the posts dates to reflect the entry currently being viewed.
+* TWEAK: Add another CSS style for Chosen so theme's do not break it.
+* TWEAK: Add "Edit Entry" action link to the admin bar.
+* TWEAK: Set the visibility options only if a user is logged in.
+* TWEAK: Remove unnecessary manage form actions for metaboxes.
+* TWEAK: Remove inline styles from images.
+* TWEAK: Update image settings with better descriptions.
+* OTHER: Added methods to cnSanitize to sanitize a hex color with/without a hash.
+* OTHER: Add error message warning if GD or Imagick is not installed.
+* OTHER: Move class.filesystem.php in folder structure.
+* OTHER: Register and enqueue Picturefill.
+* OTHER: Add the CN_IMAGE_DIR_NAME constant.
+* OTHER: Add the CN_IMAGE_ENDPOINT constant.
+* OTHER: Introduce cnUpload.
+* OTHER: Introduce cnImage.
+* OTHER: Introduce cnLog.
+* OTHER: Introduce cnColor.
+* OTHER: Introduce cnCache.
+* OTHER: Introduce cnFragment.
+* OTHER: Introduce cnString.
+* OTHER: Add maybeHashHEXColor().
+* OTHER: Add remapRange().
+* OTHER: Add xrmdir().
+* OTHER: Add several helper methods in cnEntry to handle image metadata.
+* OTHER: Eliminate the use of Timthumb and class.upload.php from core.
+* OTHER: Move class.upload.php to the vendor sub-folder.
+* OTHER: Delete class.upload.php lang files. Not needed.
+* OTHER: Remove double spaces and trim the result of getName().
+* OTHER: Remove the use of the cn_preloader.
+* OTHER: Various checks to deal with empty entry slugs.
+* OTHER: Add filter so pagination atts can be changed.
+* OTHER: Update the installation instructions in the readme.txt file.
+* OTHER: Add screenshots to the readme.txt file.
+* OTHER: Remove deprecated image option methods.
+* OTHER: Add color picker support to the metabox api.
+* OTHER: Add filters to allow the addition of new metadata options.
+* I18N: Updated Danish translation.
+* I18N: Updated French (France).
+* I18N: Update connections.pot file to include new strings.
+
 = 0.8.14 07/21/2014 =
-FEATURE: Improve responsive readiness of the Dashboard and Manage admin pages.
-BUG: Rename the base for of the Single Entry Card template.
-BUG: Fix HTML syntax for text areas.
-BUG: Fix permalink encoding issue.
-BUG: Fix Dashboard column toggle.
-BUG: Fix the Screen Options tab display and functions.
-BUG: Escape the template file path before including it.
-TWEAK: Remove section head relative positioning.
-TWEAK: Improve Visibility CSS in metabox header.
-OTHER: Update TimThumb to 2.8.14.
-I18N: Update German (Germany) translation.
+* FEATURE: Improve responsive readiness of the Dashboard and Manage admin pages.
+* BUG: Rename the base for of the Single Entry Card template.
+* BUG: Fix HTML syntax for text areas.
+* BUG: Fix permalink encoding issue.
+* BUG: Fix Dashboard column toggle.
+* BUG: Fix the Screen Options tab display and functions.
+* BUG: Escape the template file path before including it.
+* TWEAK: Remove section head relative positioning.
+* TWEAK: Improve Visibility CSS in metabox header.
+* OTHER: Update TimThumb to 2.8.14.
+* I18N: Update German (Germany) translation.
 
 = 0.8.13 06/20/2014 =
-BUG: Fix logic that determines if cnEntry_Shortcode should process $content for the `cn_entry` shortcode.
-BUG: Fix cnFormatting::toBoolean(). Check if value is bool and return it if it is. Otherwise convert value to bool.
-TWEAK: Add submit, textarea & hidden to cnHTML.
-TWEAK: Re-order before/after list/entry action hooks to be more consistent.
-OTHER: Update EDD_SL_Plugin_Updater to version 1.2.
+* BUG: Fix logic that determines if cnEntry_Shortcode should process $content for the `cn_entry` shortcode.
+* BUG: Fix cnFormatting::toBoolean(). Check if value is bool and return it if it is. Otherwise convert value to bool.
+* TWEAK: Add submit, textarea & hidden to cnHTML.
+* TWEAK: Re-order before/after list/entry action hooks to be more consistent.
+* OTHER: Update EDD_SL_Plugin_Updater to version 1.2.
 
 = 0.8.12 06/13/2014 =
 * FEATURE: Add Goodreads to social media options.

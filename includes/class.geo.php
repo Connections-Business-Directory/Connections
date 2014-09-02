@@ -743,7 +743,7 @@ class cnGeo {
 			'MG' => 'Madagascar',
 			'MW' => 'Malawi',
 			'MY' => 'Malaysia',
-			'Mv' => 'Maldives',
+			'MV' => 'Maldives',
 			'ML' => 'Mali',
 			'MT' => 'Malta',
 			'MH' => 'Marshall Islands',

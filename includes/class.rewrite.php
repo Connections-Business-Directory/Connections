@@ -33,6 +33,8 @@ class cnRewrite {
 		// add_action( 'template_redirect', array( __CLASS__ , 'canonicalRedirectAction' ) );
 		// add_filter( 'redirect_canonical', array( __CLASS__ , 'canonicalRedirectFilter') , 10, 2 );
 
+		add_action( 'init', array( __CLASS__, 'addEndPoints') );
+		add_filter( 'request', array( __CLASS__, 'setImageEndpointQueryVar' ) );
 	}
 
 	/**
@@ -70,7 +72,66 @@ class cnRewrite {
 		$var[] = 'cn-radius';  // distance
 		$var[] = 'cn-unit';   // unit of distance
 
+		// Timthumb query vars for cnImage.
+		$var[] = 'src';
+		$var[] = 'w';
+		$var[] = 'h';
+		$var[] = 'q';
+		$var[] = 'a';
+		$var[] = 'zc';
+		$var[] = 'f';
+		$var[] = 's';
+		$var[] = 'o';
+		$var[] = 'cc';
+		$var[] = 'ct';
+
 		// var_dump( $var ); exit();
+		return $var;
+	}
+
+	/**
+	 * Add the endpoint for images to the root rewrite rules.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @static
+	 * @uses   add_rewrite_endpoint()
+	 * @return void
+	 */
+	public static function addEndPoints() {
+
+		add_rewrite_endpoint( CN_IMAGE_ENDPOINT, EP_ROOT );
+	}
+
+	/**
+	 * Set the query var for the CN_IMAGE_ENDPOINT to TRUE.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @static
+	 * @param  array $var An associtive array of the parsed query vars where the key is the query var key.
+	 * @return array $var
+	 */
+	public static function setImageEndpointQueryVar( $var ) {
+
+		if ( ! empty( $var[ CN_IMAGE_ENDPOINT ] ) ) {
+
+			return $var;
+		}
+
+		// When a static page was set as front page, the WordPress endpoint API
+		// does some strange things. Let's fix that.
+		// @url http://wordpress.stackexchange.com/a/91195
+		if ( isset( $var[ CN_IMAGE_ENDPOINT ] ) ||
+			( isset ( $var['pagename'] ) && CN_IMAGE_ENDPOINT === $var['pagename'] ) ||
+			( isset ( $var['name'] ) && CN_IMAGE_ENDPOINT === $var['name'] )
+			)
+		{
+			// In some cases WP misinterprets the request as a page request and returns a 404.
+			$var['page'] = $var['pagename'] = $var['name'] = FALSE;
+			$var[ CN_IMAGE_ENDPOINT ] = TRUE;
+		}
+
 		return $var;
 	}
 

@@ -53,6 +53,9 @@ class cnShortcode {
 		add_shortcode( 'upcoming_list', '_upcoming_list' );
 		add_shortcode( 'connections_vcard', '_connections_vcard' ); /* Experimental. Do NOT use. */
 		add_shortcode( 'connections_qtip', '_connections_qtip' ); /* Experimental. Do NOT use. */
+
+		add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
+		add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
 	}
 
 	/**
@@ -76,6 +79,8 @@ class cnShortcode {
 		$registeredQueryVars = cnRewrite::queryVars( array() );
 
 		foreach ( $posts as $post ) {
+
+			// $WP_Query->queried_object_id -- This will only be set on pages, not posts. Why? Good question!
 
 			// If we're in the main query, proceed!
 			if ( isset( $WP_Query->queried_object_id ) && $WP_Query->queried_object_id == $post->ID ) {

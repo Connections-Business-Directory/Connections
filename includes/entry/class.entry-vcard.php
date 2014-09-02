@@ -17,28 +17,20 @@ class cnvCard extends cnEntry_HTML {
 	private $data;
 	private $card;
 
-	private function setvCardData()
-	{
-		$imageName = $this->getImageNameCard();
-		$logoName = $this->getLogoName();
+	private function setvCardData() {
 
-		if ( !empty($imageName) )
-		{
-			$imagePath = CN_IMAGE_PATH . $imageName;
-		}
-		else
-		{
-			$imagePath = NULL;
+		$day = $this->getDates( array( 'type' => 'anniversary' ) );
+
+		if ( ! empty( $day ) ) {
+
+			$anniversary = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
 		}
 
+		$day = $this->getDates( array( 'type' => 'birthday' ) );
 
-		if ( !empty($logoName) )
-		{
-			$logoPath = CN_IMAGE_PATH . $logoName;
-		}
-		else
-		{
-			$logoPath = NULL;
+		if ( ! empty( $day ) ) {
+
+			$birthday = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
 		}
 
 		$this->data = array(
@@ -90,10 +82,10 @@ class cnvCard extends cnEntry_HTML {
 			'messenger'              => NULL,
 			'yim'                    => NULL,
 			'jabber'                 => NULL,
-			'photo'                  => $imagePath,
-			'logo'                   => $logoPath,
-			'birthday'               => $this->getBirthday('Y-m-d'),
-			'anniversary'            => $this->getAnniversary('Y-m-d'),
+			'photo'                  => $this->getOriginalImagePath('photo'),
+			'logo'                   => $this->getOriginalImagePath('logo'),
+			'birthday'               => $birthday,
+			'anniversary'            => $anniversary,
 			'spouse'                 => NULL,
 			'timezone'               => NULL,
 			'revision_date'          => date('Y-m-d H:i:s', strtotime($this->getUnixTimeStamp())),
@@ -336,7 +328,7 @@ class cnvCard extends cnEntry_HTML {
 		}
 
 		$this->card .= "TZ:".$this->data['timezone']."\r\n";
-		$this->card .= "END:VCARD\r\n";
+		$this->card .= "END:VCARD";
 	}
 
 	/**

@@ -35,6 +35,9 @@ class cnSEO {
 	 */
 	public static function init() {
 
+		// Update the post dates to reflect the dates of the entry.
+		add_action( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
+
 		// Add the page meta description.
 		add_action( 'wp_head', array( __CLASS__, 'metaDesc' ), 10 );
 
@@ -178,6 +181,51 @@ class cnSEO {
 		}
 
 		return $link;
+	}
+
+	/**
+	 * Update the post date and post modified date to refect the current entry being viewed.
+	 *
+	 * @access private
+	 * @since  8.1
+	 * @static
+	 * @uses   is_main_query()
+	 * @uses   get_query_var()
+	 * @uses   get_gmt_from_date()
+	 * @param  array  $posts    An array of WP_Post objects.
+	 * @param  object $wp_query A reference to the WP_Query object
+	 *
+	 * @return array
+	 */
+	public static function postDates( $posts, $wp_query ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		if ( $wp_query->is_main_query() && get_query_var( 'cn-entry-slug' ) ) {
+
+			$result = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			$modified = $result[0]->ts;
+			$created  = $result[0]->date_added ? date( 'Y-m-d H:i:s', $result[0]->date_added ) : $result[0]->ts;
+
+			if ( isset( $posts[0] ) ) {
+
+				if ( isset( $posts[0]->post_date ) ) {
+
+					$posts[0]->post_date     = $created;
+					$posts[0]->post_date_gmt = get_gmt_from_date( $created );
+				}
+
+				if ( isset( $posts[0]->post_modified ) ) {
+
+					$posts[0]->post_modified     = $modified;
+					$posts[0]->post_modified_gmt = get_gmt_from_date( $modified );
+				}
+			}
+		}
+
+		return $posts;
 	}
 
 	/**

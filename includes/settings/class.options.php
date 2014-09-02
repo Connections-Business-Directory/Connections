@@ -182,9 +182,9 @@ class cnOptions {
 	public function getVisibilityOptions() {
 
 		$options = array(
-			'public'   =>'Public',
-			'private'  =>'Private',
-			'unlisted' =>'Unlisted'
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' ),
+			'unlisted' => __( 'Unlisted', 'connections' )
 			);
 
 		foreach ( $options as $key => $option ) {
@@ -236,430 +236,6 @@ class cnOptions {
 	public function setDBVersion( $version ) {
 		$this->dbVersion = $version;
 		$this->saveOptions();
-	}
-
-	/**
-	 * Medium image quality.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgEntryQuality() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_medium', 'quality' );
-	}
-
-	/**
-	 * Medium width.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgEntryX() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_medium', 'width' );
-	}
-
-	/**
-	 * Medium height.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgEntryY() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_medium', 'height' );
-	}
-
-	/**
-	 * Medium height.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgEntryCrop() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_medium', 'ratio' );
-	}
-
-	/**
-	 * Medium image ratio crop.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return string
-	 */
-	public function getImgEntryRatioCrop() {
-		global $connections;
-
-		$imgRatio = $connections->settings->get( 'connections', 'connections_image_medium', 'ratio' );
-
-		switch ( $imgRatio ) {
-		case 'none':
-			$imgRatioCrop = false;
-			break;
-
-		case 'crop':
-			$imgRatioCrop = true;
-			break;
-
-		case 'fill':
-			$imgRatioCrop = false;
-			break;
-		}
-
-		return $imgRatioCrop;
-	}
-
-	/**
-	 * Medium image ratio fill.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return string
-	 */
-	public function getImgEntryRatioFill() {
-		global $connections;
-
-		$imgRatio = $connections->settings->get( 'connections', 'connections_image_medium', 'ratio' );
-
-		switch ( $imgRatio ) {
-		case 'none':
-			$imgRatioFill = false;
-			break;
-
-		case 'crop':
-			$imgRatioFill = false;
-			break;
-
-		case 'fill':
-			$imgRatioFill = true;
-			break;
-		}
-
-		return $imgRatioFill;
-	}
-
-	/**
-	 * Large image quality.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgProfileQuality() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_large', 'quality' );
-	}
-
-	/**
-	 * Large width.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgProfileX() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_large', 'width' );
-	}
-
-	/**
-	 * Large height.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgProfileY() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_large', 'height' );
-	}
-
-	/**
-	 * Large height.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgProfileCrop() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_large', 'ratio' );
-	}
-
-	/**
-	 * Large image ratio crop.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return string
-	 */
-	public function getImgProfileRatioCrop() {
-		global $connections;
-
-		$imgRatio = $connections->settings->get( 'connections', 'connections_image_large', 'ratio' );
-
-		switch ( $imgRatio ) {
-		case 'none':
-			$imgRatioCrop = false;
-			break;
-
-		case 'crop':
-			$imgRatioCrop = true;
-			break;
-
-		case 'fill':
-			$imgRatioCrop = false;
-			break;
-		}
-
-		return $imgRatioCrop;
-	}
-
-	/**
-	 * Large image ratio fill.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return string
-	 */
-	public function getImgProfileRatioFill() {
-		global $connections;
-
-		$imgRatio = $connections->settings->get( 'connections', 'connections_image_large', 'ratio' );
-
-		switch ( $imgRatio ) {
-		case 'none':
-			$imgRatioFill = false;
-			break;
-
-		case 'crop':
-			$imgRatioFill = false;
-			break;
-
-		case 'fill':
-			$imgRatioFill = true;
-			break;
-		}
-
-		return $imgRatioFill;
-	}
-
-	/**
-	 * Thumbnail image quality.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgThumbQuality() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_thumbnail', 'quality' );
-	}
-
-	/**
-	 * Thumbnail width.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgThumbX() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_thumbnail', 'width' );
-	}
-
-	/**
-	 * Thumbnail height.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgThumbY() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_thumbnail', 'height' );
-	}
-
-	/**
-	 * Thumbnail height.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgThumbCrop() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_thumbnail', 'ratio' );
-	}
-
-	/**
-	 * Thumbnail image ratio crop.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return string
-	 */
-	public function getImgThumbRatioCrop() {
-		global $connections;
-
-		$imgRatio = $connections->settings->get( 'connections', 'connections_image_thumbnail', 'ratio' );
-
-		switch ( $imgRatio ) {
-		case 'none':
-			$imgRatioCrop = false;
-			break;
-
-		case 'crop':
-			$imgRatioCrop = true;
-			break;
-
-		case 'fill':
-			$imgRatioCrop = false;
-			break;
-		}
-
-		return $imgRatioCrop;
-	}
-
-	/**
-	 * Thumbnail image ratio fill.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return string
-	 */
-	public function getImgThumbRatioFill() {
-		global $connections;
-
-		$imgRatio = $connections->settings->get( 'connections', 'connections_image_thumbnail', 'ratio' );
-
-		switch ( $imgRatio ) {
-		case 'none':
-			$imgRatioFill = false;
-			break;
-
-		case 'crop':
-			$imgRatioFill = false;
-			break;
-
-		case 'fill':
-			$imgRatioFill = true;
-			break;
-		}
-
-		return $imgRatioFill;
-	}
-
-	/**
-	 * Logo image quality.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgLogoQuality() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_logo', 'quality' );
-	}
-
-	/**
-	 * Logo width.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgLogoX() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_logo', 'width' );
-	}
-
-	/**
-	 * Logo height.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgLogoY() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_logo', 'height' );
-	}
-
-	/**
-	 * Medium height.
-	 *
-	 * @deprecated since 0.7.3
-	 * @return int
-	 */
-	public function getImgLogoCrop() {
-		global $connections;
-
-		return $connections->settings->get( 'connections', 'connections_image_logo', 'ratio' );
-	}
-
-	/**
-	 * Logo image ratio crop.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return string
-	 */
-	public function getImgLogoRatioCrop() {
-		global $connections;
-
-		$imgRatio = $connections->settings->get( 'connections', 'connections_image_logo', 'ratio' );
-
-		switch ( $imgRatio ) {
-			case 'none':
-				$imgRatioCrop = false;
-				break;
-
-			case 'crop':
-				$imgRatioCrop = true;
-				break;
-
-			case 'fill':
-				$imgRatioCrop = false;
-				break;
-			}
-
-		return $imgRatioCrop;
-	}
-
-	/**
-	 * Logo image ratio fill.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return string
-	 */
-	public function getImgLogoRatioFill() {
-		global $connections;
-
-		$imgRatio = $connections->settings->get( 'connections', 'connections_image_logo', 'ratio' );
-
-		switch ( $imgRatio ) {
-			case 'none':
-				$imgRatioFill = false;
-				break;
-
-			case 'crop':
-				$imgRatioFill = false;
-				break;
-
-			case 'fill':
-				$imgRatioFill = true;
-				break;
-		}
-
-		return $imgRatioFill;
 	}
 
 	/**
@@ -738,7 +314,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultFamilyRelationValues() {
-		return array(
+
+		$options = array(
 			'aunt'             => __( 'Aunt', 'connections' ),
 			'brother'          => __( 'Brother', 'connections' ),
 			'brotherinlaw'     => __( 'Brother-in-law', 'connections' ),
@@ -775,6 +352,8 @@ class cnOptions {
 			'uncle'            => __( 'Uncle', 'connections' ),
 			'wife'             => __( 'Wife', 'connections' )
 		);
+
+		return apply_filters( 'cn_family_relation_options', $options );
 	}
 
 	/**
@@ -799,14 +378,15 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultAddressValues() {
-		$defaultAddressValues = array(
+
+		$options = array(
 			'home'   => __( 'Home' , 'connections' ),
 			'work'   => __( 'Work' , 'connections' ),
 			'school' => __( 'School' , 'connections' ),
 			'other'  => __( 'Other' , 'connections' )
 		);
 
-		return $defaultAddressValues;
+		return apply_filters( 'cn_address_options', $options );
 	}
 
 	/**
@@ -817,7 +397,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultPhoneNumberValues() {
-		$defaultPhoneNumberValues = array(
+
+		$options = array(
 			'homephone' => __( 'Home Phone' , 'connections' ),
 			'homefax'   => __( 'Home Fax' , 'connections' ),
 			'cellphone' => __( 'Cell Phone' , 'connections' ),
@@ -825,7 +406,7 @@ class cnOptions {
 			'workfax'   => __( 'Work Fax' , 'connections' )
 		);
 
-		return $defaultPhoneNumberValues;
+		return apply_filters( 'cn_phone_options', $options );
 	}
 
 	/**
@@ -836,7 +417,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultSocialMediaValues() {
-		return array(
+
+		$options = array(
 			'delicious'     => 'delicious',
 			'cdbaby'        => 'CD Baby',
 			'facebook'      => 'Facebook',
@@ -855,6 +437,7 @@ class cnOptions {
 			'podcast'       => 'Podcast',
 			'reverbnation'  => 'ReverbNation',
 			'rss'           => 'RSS',
+			'smugmug'       => 'Smugmug',
 			'soundcloud'    => 'SoundCloud',
 			'technorati'    => 'Technorati',
 			'tripadvisor'   => 'TripAdvisor',
@@ -865,6 +448,8 @@ class cnOptions {
 			'yelp'          => 'Yelp',
 			'youtube'       => 'YouTube'
 		);
+
+		return apply_filters( 'cn_social_network_options', $options );
 	}
 
 	/**
@@ -875,7 +460,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultIMValues() {
-		return array(
+
+		$options = array(
 			'aim'       => 'AIM',
 			'yahoo'     => 'Yahoo IM',
 			'jabber'    => 'Jabber / Google Talk',
@@ -883,6 +469,8 @@ class cnOptions {
 			'skype'     => 'Skype',
 			'icq'       => 'ICQ'
 		);
+
+		return apply_filters( 'cn_instant_messenger_options', $options );
 	}
 
 	/**
@@ -893,12 +481,13 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultEmailValues() {
-		$defaultEmailValues = array(
+
+		$options = array(
 			'personal' => __( 'Personal Email' , 'connections' ),
 			'work'     => __( 'Work Email' , 'connections' )
 		);
 
-		return $defaultEmailValues;
+		return apply_filters( 'cn_email_options', $options );
 	}
 
 	/**
@@ -909,12 +498,13 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultLinkValues() {
-		$defaultLinkValues = array(
+
+		$options = array(
 			'website' => __( 'Website' , 'connections' ),
 			'blog'    => __( 'Blog' , 'connections' )
 		);
 
-		return $defaultLinkValues;
+		return apply_filters( 'cn_link_options', $options );
 	}
 
 	/**
@@ -925,7 +515,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDateOptions() {
-		$dateOptions = array(
+
+		$options = array(
 			'anniversary'          => __( 'Anniversary' , 'connections' ),
 			'baptism'              => __( 'Baptism' , 'connections' ),
 			'birthday'             => __( 'Birthday' , 'connections' ),
@@ -938,7 +529,7 @@ class cnOptions {
 			'ordination'           => __( 'Ordination' , 'connections' )
 		);
 
-		return $dateOptions;
+		return apply_filters( 'cn_date_options', $options );
 	}
 
 	/**

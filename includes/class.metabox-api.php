@@ -552,6 +552,10 @@ class cnMetabox_Render {
 
 		foreach ( $metaboxes as $id => $metabox ) {
 
+			// Since custom metaboxes can be enabled/disabled, there's a possibility that there will
+			// be a saved metabox in the settings that no longer exists. Lets catch this and continue.
+			if ( empty( $metabox ) ) continue;
+
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
 			if ( ! empty( $atts['exclude'] ) ) {
 
@@ -808,7 +812,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<div class="description"> %1$s</div>',
+						printf( '<p class="description">%1$s</p>',
 							esc_html( $field['desc'] )
 						);
 
@@ -846,7 +850,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<div class="description"> %1$s</div>',
+						printf( '<p class="description">%1$s</p>',
 							esc_html( $field['desc'] )
 						);
 
@@ -884,7 +888,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<div class="description"> %1$s</div>',
+						printf( '<p class="description">%1$s</p>',
 							esc_html( $field['desc'] )
 						);
 
@@ -955,7 +959,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<div class="description"> %1$s</div>',
+						printf( '<p class="description">%1$s</p>',
 							esc_html( $field['desc'] )
 						);
 
@@ -985,6 +989,64 @@ class cnMetabox_Render {
 
 				case 'colorpicker':
 
+					// For color picker areas we want to render the description before the field.
+					// Lets render it and unset it so it does not render twice.
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						printf( '<p class="description">%1$s</p>',
+							esc_html( $field['desc'] )
+						);
+
+						unset( $field['desc'] );
+					}
+
+					printf('<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"/>',
+						esc_attr( $field['id'] ),
+						esc_attr( $value )
+					);
+
+					wp_enqueue_style('wp-color-picker');
+
+					if ( is_admin() ) {
+
+						wp_enqueue_script('wp-color-picker');
+						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'colorpickerJS' ) );
+
+					} else {
+
+						/*
+						 * WordPress seems to only register the color picker scripts for use in the admin.
+						 * So, for the frontend, we must manually register and then enqueue.
+						 * @url http://wordpress.stackexchange.com/a/82722/59053
+						 */
+
+						wp_enqueue_script(
+							'iris',
+							admin_url( 'js/iris.min.js' ),
+							array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ),
+							FALSE,
+							1
+						);
+
+						wp_enqueue_script(
+							'wp-color-picker',
+							admin_url( 'js/color-picker.min.js' ),
+							array( 'iris' ),
+							FALSE,
+							1
+						);
+
+						$colorpicker_l10n = array(
+							'clear'         => __( 'Clear' ),
+							'defaultString' => __( 'Default' ),
+							'pick'          => __( 'Select Color' ),
+							'current'       => __( 'Current Color' ),
+						);
+
+						wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n );
+
+						add_action( 'wp_footer' , array( __CLASS__ , 'colorpickerJS' ) );
+					}
 
 					break;
 
@@ -1021,7 +1083,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<div class="description"> %1$s</div>',
+						printf( '<p class="description">%1$s</p>',
 							esc_html( $field['desc'] )
 						);
 
@@ -1053,7 +1115,7 @@ class cnMetabox_Render {
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						printf( '<div class="description"> %1$s</div>',
+						printf( '<p class="description">%1$s</p>',
 							esc_html( $field['desc'] )
 						);
 
@@ -1218,6 +1280,31 @@ class cnMetabox_Render {
 			e.preventDefault();
 		});
 	};
+});
+/* ]]> */</script>
+
+<?php
+
+	}
+
+	/**
+	 * Outputs the JS necessary to support the color picker.
+	 *
+	 * @access private
+	 * @since 0.8
+	 * @return void
+	 */
+	public static function colorpickerJS() {
+
+?>
+
+<script type="text/javascript">/* <![CDATA[ */
+/*
+ * Add the Color Picker to the input fields.
+ */
+;jQuery(document).ready( function($){
+
+	$('.cn-colorpicker').wpColorPicker();
 });
 /* ]]> */</script>
 
@@ -1437,6 +1524,11 @@ class cnMetabox_Process {
 			case 'slider':
 
 				$value = absint( $value );
+				break;
+
+			case 'colorpicker':
+
+				$value = cnSanitize::string( 'color', $value );
 				break;
 
 			case 'quicktag':

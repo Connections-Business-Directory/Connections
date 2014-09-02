@@ -114,16 +114,25 @@ class cnScript {
 			wp_register_script( 'jquery-markerclusterer', CN_URL . "assets/js/jquery.markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 		}
 
-		wp_register_script( 'jquery-preloader', CN_URL . "assets/js/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
+		// wp_register_script( 'jquery-preloader', CN_URL . "assets/js/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
 
 		if ( is_admin() ) {
 
-			wp_register_script( 'cn-ui-admin', CN_URL . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-ui-admin', CN_URL . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', CN_URL . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+
+			$strings = array(
+				'showDetails'      => __( 'Show Details', 'connections' ),
+				'hideDetails'      => __( 'Hide Details', 'connections' ),
+				'showDetailsTitle' => __( 'Click to show details.', 'connections' ),
+				'hideDetailsTitle' => __( 'Click to hide details.', 'connections' ),
+				);
+
+			wp_localize_script( 'cn-ui-admin', 'cn_string', $strings );
 
 		} else {
 
-			wp_register_script( 'cn-ui', CN_URL . "assets/js/cn-user$min.js", array( 'jquery', 'jquery-preloader' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'cn-ui', CN_URL . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 		}
 
 		wp_register_script( 'jquery-qtip', CN_URL . "assets/js/jquery.qtip$min.js", array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
@@ -136,6 +145,8 @@ class cnScript {
 		wp_register_script( 'jquery-chosen-min', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
 
 		wp_register_script( 'jquery-validate' , CN_URL . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.11.1' , $connections->options->getJavaScriptFooter() );
+
+		wp_register_script( 'picturefill', CN_URL . "vendor/picturefill/picturefill$min.js", array(), '2.1.0', $connections->options->getJavaScriptFooter() );
 	}
 
 	/**
@@ -215,6 +226,7 @@ class cnScript {
 		// Load on all the Connections admin pages.
 		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
 
+			wp_enqueue_script( 'picturefill' );
 			wp_enqueue_script( 'cn-ui-admin' );
 
 			do_action( 'cn_admin_enqueue_scripts', $pageHook );
@@ -293,7 +305,8 @@ class cnScript {
 		 * http://scribu.net/wordpress/optimal-script-loading.html
 		 */
 
-		wp_enqueue_script( 'cn-ui' );
+		// wp_enqueue_script( 'cn-ui' );
+		wp_enqueue_script( 'picturefill' );
 	}
 
 	/**

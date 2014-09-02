@@ -18,7 +18,10 @@ class cnThumb extends cnShortcode {
 
 	public static function shortcode( $atts, $content = '', $tag = 'cn_thumb' ) {
 
-		$permitted = array( 'attachment', 'featured', 'path', 'url' );
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		$permitted = array( 'attachment', 'featured', 'path', 'url', 'logo', 'photo' );
 		$defaults  = array(
 			'type'          => 'url',
 			'source'        => NULL,
@@ -89,6 +92,42 @@ class cnThumb extends cnShortcode {
 			case 'url':
 
 				$source = esc_url( $atts['source'] );
+				break;
+
+			case 'logo':
+
+				$result = $instance->retrieve->entry( absint( $atts['source'] ) );
+
+				$entry = new cnEntry( $result );
+
+				$meta = $entry->getImageMeta( array( 'type' => 'logo' ) );
+
+				if ( is_wp_error( $meta ) ) {
+
+					// Display the error messages.
+					return implode( PHP_EOL, $meta->get_error_messages() );
+				}
+
+				$source = $meta['url'];
+
+				break;
+
+			case 'photo':
+
+				$result = $instance->retrieve->entry( absint( $atts['source'] ) );
+
+				$entry = new cnEntry( $result );
+
+				$meta = $entry->getImageMeta( array( 'type' => 'photo' ) );
+
+				if ( is_wp_error( $meta ) ) {
+
+					// Display the error messages.
+					return implode( PHP_EOL, $meta->get_error_messages() );
+				}
+
+				$source = $meta['url'];
+
 				break;
 
 		}

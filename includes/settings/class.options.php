@@ -314,7 +314,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultFamilyRelationValues() {
-		return array(
+
+		$options = array(
 			'aunt'             => __( 'Aunt', 'connections' ),
 			'brother'          => __( 'Brother', 'connections' ),
 			'brotherinlaw'     => __( 'Brother-in-law', 'connections' ),
@@ -351,6 +352,8 @@ class cnOptions {
 			'uncle'            => __( 'Uncle', 'connections' ),
 			'wife'             => __( 'Wife', 'connections' )
 		);
+
+		return apply_filters( 'cn_family_relation_options', $options );
 	}
 
 	/**
@@ -375,14 +378,15 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultAddressValues() {
-		$defaultAddressValues = array(
+
+		$options = array(
 			'home'   => __( 'Home' , 'connections' ),
 			'work'   => __( 'Work' , 'connections' ),
 			'school' => __( 'School' , 'connections' ),
 			'other'  => __( 'Other' , 'connections' )
 		);
 
-		return $defaultAddressValues;
+		return apply_filters( 'cn_address_options', $options );
 	}
 
 	/**
@@ -393,7 +397,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultPhoneNumberValues() {
-		$defaultPhoneNumberValues = array(
+
+		$options = array(
 			'homephone' => __( 'Home Phone' , 'connections' ),
 			'homefax'   => __( 'Home Fax' , 'connections' ),
 			'cellphone' => __( 'Cell Phone' , 'connections' ),
@@ -401,7 +406,7 @@ class cnOptions {
 			'workfax'   => __( 'Work Fax' , 'connections' )
 		);
 
-		return $defaultPhoneNumberValues;
+		return apply_filters( 'cn_phone_options', $options );
 	}
 
 	/**
@@ -412,7 +417,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultSocialMediaValues() {
-		return array(
+
+		$options = array(
 			'delicious'     => 'delicious',
 			'cdbaby'        => 'CD Baby',
 			'facebook'      => 'Facebook',
@@ -442,6 +448,8 @@ class cnOptions {
 			'yelp'          => 'Yelp',
 			'youtube'       => 'YouTube'
 		);
+
+		return apply_filters( 'cn_social_network_options', $options );
 	}
 
 	/**
@@ -452,7 +460,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultIMValues() {
-		return array(
+
+		$options = array(
 			'aim'       => 'AIM',
 			'yahoo'     => 'Yahoo IM',
 			'jabber'    => 'Jabber / Google Talk',
@@ -460,6 +469,8 @@ class cnOptions {
 			'skype'     => 'Skype',
 			'icq'       => 'ICQ'
 		);
+
+		return apply_filters( 'cn_instant_messenger_options', $options );
 	}
 
 	/**
@@ -470,12 +481,13 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultEmailValues() {
-		$defaultEmailValues = array(
+
+		$options = array(
 			'personal' => __( 'Personal Email' , 'connections' ),
 			'work'     => __( 'Work Email' , 'connections' )
 		);
 
-		return $defaultEmailValues;
+		return apply_filters( 'cn_email_options', $options );
 	}
 
 	/**
@@ -486,12 +498,13 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDefaultLinkValues() {
-		$defaultLinkValues = array(
+
+		$options = array(
 			'website' => __( 'Website' , 'connections' ),
 			'blog'    => __( 'Blog' , 'connections' )
 		);
 
-		return $defaultLinkValues;
+		return apply_filters( 'cn_link_options', $options );
 	}
 
 	/**
@@ -502,7 +515,8 @@ class cnOptions {
 	 * @return array
 	 */
 	public function getDateOptions() {
-		$dateOptions = array(
+
+		$options = array(
 			'anniversary'          => __( 'Anniversary' , 'connections' ),
 			'baptism'              => __( 'Baptism' , 'connections' ),
 			'birthday'             => __( 'Birthday' , 'connections' ),
@@ -515,7 +529,7 @@ class cnOptions {
 			'ordination'           => __( 'Ordination' , 'connections' )
 		);
 
-		return $dateOptions;
+		return apply_filters( 'cn_date_options', $options );
 	}
 
 	/**

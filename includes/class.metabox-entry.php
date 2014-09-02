@@ -57,7 +57,7 @@ class cnEntryMetabox {
 		}
 
 		// Set the "Visibility" options that can be set by the current user.
-		self::$visibility = $instance->options->getVisibilityOptions();
+		if ( is_user_logged_in() ) self::$visibility = $instance->options->getVisibilityOptions();
 	}
 
 	/**

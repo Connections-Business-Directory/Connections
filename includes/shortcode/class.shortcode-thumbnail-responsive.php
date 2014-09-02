@@ -18,9 +18,12 @@ class cnThumb_Responsive extends cnShortcode {
 
 	public static function shortcode( $atts, $content = '', $tag = 'cn_thumbr' ) {
 
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
 		$log       = array();
 		$srcset    = array();
-		$permitted = array( 'attachment', 'featured', 'path', 'url' );
+		$permitted = array( 'attachment', 'featured', 'path', 'url', 'logo', 'photo' );
 		$defaults  = array(
 			'type'          => 'url',
 			'source'        => NULL,
@@ -100,6 +103,41 @@ class cnThumb_Responsive extends cnShortcode {
 				$source = esc_url( $atts['source'] );
 				break;
 
+			case 'logo':
+
+				$result = $instance->retrieve->entry( absint( $atts['source'] ) );
+
+				$entry = new cnEntry( $result );
+
+				$meta = $entry->getImageMeta( array( 'type' => 'logo' ) );
+
+				if ( is_wp_error( $meta ) ) {
+
+					// Display the error messages.
+					return implode( PHP_EOL, $meta->get_error_messages() );
+				}
+
+				$source = $meta['url'];
+
+				break;
+
+			case 'photo':
+
+				$result = $instance->retrieve->entry( absint( $atts['source'] ) );
+
+				$entry = new cnEntry( $result );
+
+				$meta = $entry->getImageMeta( array( 'type' => 'photo' ) );
+
+				if ( is_wp_error( $meta ) ) {
+
+					// Display the error messages.
+					return implode( PHP_EOL, $meta->get_error_messages() );
+				}
+
+				$source = $meta['url'];
+
+				break;
 		}
 
 		// Unset $atts['source'] because passing that $atts to cnImage::get() extracts and overwrite the $source var.

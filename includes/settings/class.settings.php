@@ -579,7 +579,7 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  cnOptions::getContentBlocks(),
+			'options'   =>  cnOptions::getContentBlocks( NULL, 'list' ),
 			'default'   => 0,
 		);
 
@@ -639,7 +639,7 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  cnOptions::getContentBlocks(),
+			'options'   =>  cnOptions::getContentBlocks( NULL, 'single' ),
 			'default'   => 0,
 		);
 

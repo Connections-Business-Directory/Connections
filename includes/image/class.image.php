@@ -312,6 +312,16 @@ class cnImage {
 				exit();
 			}
 
+			// Ensure a stream quality is set otherwise we get a block mess as an image when serving a cached image.
+			$quality = get_query_var( 'q' ) ? get_query_var( 'q' ) : 90;
+
+			// Ensure valid value for $quality. If invalid valid is supplied reset to the defaut of 90, matching WP core.
+			if ( filter_var( (int) $quality, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) ) ) === FALSE ) {
+
+				$quality = 90;
+			}
+
+			$image->set_quality( $quality );
 			$image->stream();
 
 			exit();

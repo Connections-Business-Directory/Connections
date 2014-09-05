@@ -239,21 +239,21 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( ! defined( 'CN_IMAGE_PATH' ) ) {
 
-					// define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/' );
+					// define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/' );
 					define( 'CN_IMAGE_PATH', trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
 				}
 
 				if ( ! defined( 'CN_IMAGE_BASE_URL' ) ) {
 
-					// define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connection_images/' ) );
+					// define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connection_images/' ) );
 					define( 'CN_IMAGE_BASE_URL', trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' );
 				}
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connections_templates/' );
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
-					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
+					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connections_templates/' ) );
 
 				// Define the relative URL/s.
 				define( 'CN_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL ) );

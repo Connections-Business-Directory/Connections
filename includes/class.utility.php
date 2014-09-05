@@ -973,11 +973,23 @@ class cnLog extends WP_Error {
 
 		$this->lastBenchTime = microtime(TRUE);
 
-		$this->errors[ $code ][] = "[$execTime : $tick]: $message";
+		/*
+		 * WordPress >= 4.0 made the errors and error_data vars private and added magic
+		 * get/set for backword compatibility. In order to set array data we need to bring
+		 * the value of $this->errors into scope (via the magic get()), set the error code and message
+		 * and finally save back to $this->errors (via the magic set()).
+		 *
+		 * NOTE: The same method is used for $this->error_data.
+		 */
+		$error = $this->errors;
+		$error[ $code ][] = "[$execTime : $tick]: $message";
+		$this->errors = $error;
 
 		if ( ! empty( $data ) ) {
 
-			$this->error_data[ $code ] = $data;
+			$error_data = $this->error_data;
+			$error_data[ $code ] = $data;
+			$this->error_data = $error_data;
 		}
 
 	}

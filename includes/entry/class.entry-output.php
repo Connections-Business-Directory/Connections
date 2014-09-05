@@ -92,6 +92,7 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function getImage( $atts = array() ) {
+		global $wp_rewrite;
 
 		$displayImage = FALSE;
 		$cropModes    = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
@@ -334,13 +335,14 @@ class cnOutput extends cnEntry
 			$srcset['2x'] = array(
 				'src' => add_query_arg(
 					array(
-						'src'           => $this->getOriginalImageURL( $atts['image'] ),
-						'cn-entry-slug' => $this->getSlug(),
-						'w'             => $image['width'] * 2,
-						'h'             => $atts['height'] * 2,
-						'zc'            => $cropMode,
+						CN_IMAGE_ENDPOINT => $wp_rewrite->using_permalinks() ? FALSE : TRUE,
+						'src'             => $this->getOriginalImageURL( $atts['image'] ),
+						'cn-entry-slug'   => $this->getSlug(),
+						'w'               => $image['width'] * 2,
+						'h'               => $atts['height'] * 2,
+						'zc'              => $cropMode,
 					),
-					home_url( CN_IMAGE_ENDPOINT ) ),
+					( $wp_rewrite->using_permalinks() ? home_url( CN_IMAGE_ENDPOINT ) : home_url() ) ),
 				'width' => '2x'
 				);
 

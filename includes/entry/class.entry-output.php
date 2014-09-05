@@ -340,7 +340,7 @@ class cnOutput extends cnEntry
 						'h'             => $atts['height'] * 2,
 						'zc'            => $cropMode,
 					),
-					network_home_url( CN_IMAGE_ENDPOINT ) ),
+					home_url( CN_IMAGE_ENDPOINT ) ),
 				'width' => '2x'
 				);
 

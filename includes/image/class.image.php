@@ -637,9 +637,9 @@ class cnImage {
 		 */
 
 		// Define upload path & dir.
-		$upload_info = wp_upload_dir();
-		$upload_dir  = $upload_info['basedir'];
-		$upload_url  = $upload_info['baseurl'];
+		// $upload_info = wp_upload_dir();
+		$upload_dir  = CN_IMAGE_PATH;
+		$upload_url  = CN_IMAGE_BASE_URL;
 		$theme_url   = get_stylesheet_directory_uri();
 		$theme_dir   = get_stylesheet_directory();
 
@@ -953,8 +953,8 @@ class cnImage {
 		if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ) $ext = 'png';
 
 		// Create the upload subdirectory, this is where the generated images are saved.
-		$upload_dir .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME ) . $atts['sub_dir'] : DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME;
-		$upload_url .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME ) . $atts['sub_dir'] : DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME;
+		$upload_dir .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? $atts['sub_dir'] : CN_IMAGE_PATH;
+		$upload_url .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? $atts['sub_dir'] : CN_IMAGE_BASE_URL;
 		cnFileSystem::mkdir( $upload_dir );
 
 		// Desination paths and URL.

@@ -1249,7 +1249,7 @@ class cnImage {
 			$log->add( 'image_save_quality', __( sprintf( 'Saving quality set at %s.', $editor->get_quality() ), 'connections' ) );
 
 			// Save the new image, set file type to PNG if the opacity has been set less than 100 or if the crop mode is `2` and the canvas color was set to transparent.
-			$mime_type = $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ? 'image/png' : 'image/jpeg';
+			$mime_type = $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) || $orig_mime_type == 'image/png' ? 'image/png' : 'image/jpeg';
 
 			$log->add( 'image_save_mime_type', __( sprintf( 'Saving file as %s.', $mime_type ), 'connections' ) );
 

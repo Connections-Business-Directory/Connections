@@ -166,7 +166,7 @@ class cnRegisterSettings
 			'title'     => __( 'Result List' , 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo \'' . __( 'The following settings are applied when viewing the entry results list.', 'connections' ) . '\';'
+				'echo \'' . esc_html__( 'The following settings are applied when viewing the entry results list.', 'connections' ) . '\';'
 				),
 			'page_hook' => $settings
 		);
@@ -178,7 +178,7 @@ class cnRegisterSettings
 			'title'     => __( 'Entry Actions' , 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo \'' . __( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';'
+				'echo \'' . esc_html__( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';'
 				),
 			'page_hook' => $settings
 		);

@@ -971,13 +971,13 @@ class cnImage {
 		if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ) $ext = 'png';
 
 		// Create the upload subdirectory, this is where the generated images are saved.
-		$upload_dir .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? $atts['sub_dir'] : CN_IMAGE_PATH;
-		$upload_url .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? $atts['sub_dir'] : CN_IMAGE_BASE_URL;
+		$upload_dir = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? $atts['sub_dir'] : CN_IMAGE_PATH;
+		$upload_url = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? $atts['sub_dir'] : CN_IMAGE_BASE_URL;
 		cnFileSystem::mkdir( $upload_dir );
 
 		// Desination paths and URL.
-		$destfilename = "{$upload_dir}/{$dst_rel_path}-{$suffix}.{$ext}";
-		$img_url      = "{$upload_url}/{$dst_rel_path}-{$suffix}.{$ext}";
+		$destfilename = "{$upload_dir}{$dst_rel_path}-{$suffix}.{$ext}";
+		$img_url      = "{$upload_url}{$dst_rel_path}-{$suffix}.{$ext}";
 
 		// If file exists, just return it.
 		if ( @file_exists( $destfilename ) && ( $image_info = getimagesize( $destfilename ) ) ) {

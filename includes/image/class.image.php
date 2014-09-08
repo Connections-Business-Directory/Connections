@@ -418,6 +418,15 @@ class cnImage {
 	public static function get( $source, $atts = array(), $return = 'url' ) {
 		global $wp_filter;
 
+		// Increase PHP script execution by 60. This should help on hosts
+		// that permit this change from page load timeouts from occuring
+		// due to large number of images that might have to be created and cached.
+		@set_time_limit(60);
+
+		// Set artificially high because GD uses uncompressed images in memory.
+		// Even though Imagick uses less PHP memory than GD, set higher limit for users that have low PHP.ini limits.
+		@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+
 		$filter  = array();
 		$methods = array();
 		$log     = new cnLog();

@@ -976,8 +976,8 @@ class cnImage {
 		cnFileSystem::mkdir( $upload_dir );
 
 		// Desination paths and URL.
-		$destfilename = "{$upload_dir}{$dst_rel_path}-{$suffix}.{$ext}";
-		$img_url      = "{$upload_url}{$dst_rel_path}-{$suffix}.{$ext}";
+		$destfilename = "{$upload_dir}{$dst_rel_path}-{$suffix}." . strtolower( $ext );
+		$img_url      = "{$upload_url}{$dst_rel_path}-{$suffix}." . strtolower( $ext );
 
 		// If file exists, just return it.
 		if ( @file_exists( $destfilename ) && ( $image_info = getimagesize( $destfilename ) ) ) {
@@ -1459,6 +1459,9 @@ class cnImage {
 	 */
 	public static function upload( $file, $subDirectory = '' ) {
 
+		// Add filter to lowercase the image filename extension.
+		add_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
+
 		$atts = array(
 			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory ,
 			'mimes'   => array(
@@ -1495,7 +1498,30 @@ class cnImage {
 			$result = array_merge( $order, $result );
 		}
 
+		// Remove the filter which lowercases the image filename extension.
+		remove_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
+
 		return $result;
+	}
+
+	/**
+	 * Force image filename extensions to lower case because the core image editor
+	 * will save file extensions as lowercase.
+	 *
+	 * @access private
+	 * @since  8.1.1
+	 * @static
+	 * @param  string $filename The image filename.
+	 *
+	 * @return string           The image filename with the extension lowercased.
+	 */
+	public static function extToLowercase( $filename ) {
+
+		$info = pathinfo( $filename );
+		$ext  = empty( $info['extension'] ) ? '' : '.' . $info['extension'];
+		$name = basename( $filename, $ext );
+
+		return $name . strtolower( $ext );
 	}
 
 }

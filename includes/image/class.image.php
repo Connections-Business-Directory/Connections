@@ -971,8 +971,8 @@ class cnImage {
 		if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ) $ext = 'png';
 
 		// Create the upload subdirectory, this is where the generated images are saved.
-		$upload_dir = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? $atts['sub_dir'] : CN_IMAGE_PATH;
-		$upload_url = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? $atts['sub_dir'] : CN_IMAGE_BASE_URL;
+		$upload_dir = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? CN_IMAGE_PATH . $atts['sub_dir'] : CN_IMAGE_PATH;
+		$upload_url = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? CN_IMAGE_BASE_URL . $atts['sub_dir'] : CN_IMAGE_BASE_URL;
 		cnFileSystem::mkdir( $upload_dir );
 
 		// Desination paths and URL.

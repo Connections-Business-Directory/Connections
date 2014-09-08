@@ -242,12 +242,18 @@ class cnFileSystem {
 		// If the $path does not exist, bail.
 		if ( ! file_exists( $path ) ) return;
 
-		$it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
+		// SKIP_DOTS Requires PHP >= 5.3
+		// $it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
+		$it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator );
 		$it = new RecursiveIteratorIterator( $it, RecursiveIteratorIterator::CHILD_FIRST );
 
 		foreach ( $it as $file ) {
 
+			// isDot() Requires PHP >= 5.3
 			// if ( $file->isDot() ) { continue; }
+
+			// Required for PHP 5.2 support.
+			if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
 
 			if ( $file->isDir() ) {
 

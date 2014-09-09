@@ -45,7 +45,7 @@ class cnImage {
 		if ( ! isset( self::$instance ) ) {
 
 			// Set priority 11 so we know cnMessage has been init'd.
-			add_action( 'admin_init', array( __CLASS__, 'checkEditorSupport' ), 11 );
+			// add_action( 'admin_init', array( __CLASS__, 'checkEditorSupport' ), 11 );
 			add_action( 'parse_query', array( __CLASS__, 'query'), -1 );
 		}
 

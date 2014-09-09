@@ -656,7 +656,7 @@ class cnImage {
 		 */
 
 		// Define upload path & dir.
-		$upload_info = wp_upload_dir();
+		$upload_info = cnUpload::info();
 		$upload_dir  = CN_IMAGE_PATH;
 		$upload_url  = CN_IMAGE_BASE_URL;
 		$theme_url   = get_stylesheet_directory_uri();
@@ -666,7 +666,7 @@ class cnImage {
 
 			// Ensure the supplied path is in either the WP_CONTENT/UPLOADS directory or
 			// the STYLESHEETPATH directory.
-			if ( strpos( $source, $upload_info['basedir'] ) !== FALSE ||
+			if ( strpos( $source, $upload_info['base_path'] ) !== FALSE ||
 				 strpos( $source, $theme_dir ) !== FALSE
 				) {
 
@@ -681,10 +681,10 @@ class cnImage {
 
 			// find the path of the image. Perform 2 checks:
 			// #1 check if the image is in the uploads folder
-			if ( strpos( $source, $upload_info['baseurl'] ) !== FALSE ) {
+			if ( strpos( $source, $upload_info['base_url'] ) !== FALSE ) {
 
-				$rel_path = str_replace( $upload_info['baseurl'], '', $source );
-				$img_path = $upload_info['basedir'] . $rel_path;
+				$rel_path = str_replace( $upload_info['base_url'], '', $source );
+				$img_path = $upload_info['base_path'] . $rel_path;
 
 			// #2 check if the image is in the current theme folder
 			} else if ( strpos( $source, $theme_url ) !== FALSE ) {

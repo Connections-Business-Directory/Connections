@@ -1052,7 +1052,7 @@ class cnGeo {
 	 * @static
 	 *
 	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
-	 *//
+	 */
 	public static function ES_Regions() {
 
 		$regions = array(

@@ -478,9 +478,11 @@ class cnUpload {
 	 */
 	public function subDirectory( $file ) {
 
+		$info = cnUpload::info();
+
 		$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : '/' . $this->subDirectory;
-		$file['path']   = $file['basedir'] . $file['subdir'];
-		$file['url']    = $file['baseurl'] . $file['subdir'];
+		$file['path']   = $info['base_path'] . $file['subdir'];
+		$file['url']    = $info['base_url'] . $file['subdir'];
 
 		return $file;
 	}

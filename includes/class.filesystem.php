@@ -244,16 +244,16 @@ class cnFileSystem {
 
 		// SKIP_DOTS Requires PHP >= 5.3
 		// $it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
-		$it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator );
+		$it = new RecursiveDirectoryIterator( $path );
 		$it = new RecursiveIteratorIterator( $it, RecursiveIteratorIterator::CHILD_FIRST );
 
 		foreach ( $it as $file ) {
 
 			// isDot() Requires PHP >= 5.3
-			// if ( $file->isDot() ) { continue; }
+			if ( $file->isDot() ) { continue; }
 
 			// Required for PHP 5.2 support.
-			if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
+			// if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
 
 			if ( $file->isDir() ) {
 

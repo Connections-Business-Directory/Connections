@@ -3,8 +3,8 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
-Tested up to: 3.9
-Stable tag: 8.1
+Tested up to: 4.0
+Stable tag: 8.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,6 +156,28 @@ Connections Business Directory has been embraced around the world and has been t
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 8.1.1 09/09/2014 =
+* BUG: Fix responsive image support for IE8.
+* BUG: Fix issue where uploads of PNG file variations would save as JPG instead of PNG.
+* BUG: In multisite the upload subdir s/b sites not blogs.dir.
+* BUG: Set the image stream quality if one was not defined in the image query string.
+* BUG: Take into account default permalink setting when creating the image query string.
+* BUG: Ensure no duplicate meta title and meta desc on internal pages when using WPSEO.
+* TWEAK: Refactor code to use CN_IMAGE_PATH and CN_IMAGE_BASE_URL to support CN_MULTISITE_ENABLED.
+* TWEAK: Add support for registering a content block for list or entry only.
+* TWEAK: Update cnLog to be compatible with changes made in WP_Error in WP 4.0.
+* TWEAK: Escape text in a couple anonymous functions to prevent translations from throwing PHP errors.
+* TWEAK: Force new image uploads to have lowercase file extension. Add support for existing filenames with uppercase file extensions.
+* TWEAK: Increase execusion time and memory limit when processing images.
+* TWEAK: Remove use of SKIP_DOTS for PHP < 5.3 compatibility.
+* TWEAK: Support the uploading of GIF/s.
+* TWEAK: Add info() the the cnUpload class to get Connections related upload paths.
+* TWEAK: Use cnUpload::info() to define image upload paths.
+* TWEAK: Disable the admin image check because it somehow prevented access to the plugins/updates.
+* OTHER: Add Spain regions to cnGEO.
+* OTHER: Add error message for when $img_path is not set.
+* I18N: Update POT file.
 
 = 8.1 09/02/2014 =
 * FEATURE: Photo and logo images are now responsive.
@@ -647,4 +669,7 @@ If you are updating from a version less than 0.8, it is recommended to backup be
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update. Requires WordPress >= 3.8.
 
 = 8.1 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.1.1 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

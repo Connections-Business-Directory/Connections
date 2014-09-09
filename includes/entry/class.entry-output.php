@@ -92,6 +92,7 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function getImage( $atts = array() ) {
+		global $wp_rewrite;
 
 		$displayImage = FALSE;
 		$cropModes    = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
@@ -334,13 +335,14 @@ class cnOutput extends cnEntry
 			$srcset['2x'] = array(
 				'src' => add_query_arg(
 					array(
-						'src'           => $this->getOriginalImageURL( $atts['image'] ),
-						'cn-entry-slug' => $this->getSlug(),
-						'w'             => $image['width'] * 2,
-						'h'             => $atts['height'] * 2,
-						'zc'            => $cropMode,
+						CN_IMAGE_ENDPOINT => $wp_rewrite->using_permalinks() ? FALSE : TRUE,
+						'src'             => $this->getOriginalImageURL( $atts['image'] ),
+						'cn-entry-slug'   => $this->getSlug(),
+						'w'               => $image['width'] * 2,
+						'h'               => $atts['height'] * 2,
+						'zc'              => $cropMode,
 					),
-					network_home_url( CN_IMAGE_ENDPOINT ) ),
+					( $wp_rewrite->using_permalinks() ? home_url( CN_IMAGE_ENDPOINT ) : home_url() ) ),
 				'width' => '2x'
 				);
 
@@ -369,8 +371,10 @@ class cnOutput extends cnEntry
 
 			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
-			$out = sprintf( '<span class="cn-image-style"%1$s>%2$s<img %3$s/>%4$s</span>',
+			// The inner <span> is required for responsive image support. This markup also makes it IE8 compatible.
+			$out = sprintf( '<span class="cn-image-style"%1$s><span style="max-width: 100%%; width: %2$spx">%3$s<img %4$s/>%5$s</span></span>',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
+				absint( $image['width'] ),
 				empty( $anchorStart ) ? '' : $anchorStart,
 				implode( ' ', $tag ),
 				empty( $anchorStart ) ? '' : '</a>'

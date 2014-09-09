@@ -222,17 +222,17 @@ class cnEntry_Action {
 	private static function copyImages( $filename, $source, $destination ) {
 
 		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
+		// $uploadInfo = wp_upload_dir();
 
 		// Build source path to the subfolder in which all the entry's images are saved.
-		$sourcePath      = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $source . DIRECTORY_SEPARATOR;
+		$sourcePath      = CN_IMAGE_PATH . $source . DIRECTORY_SEPARATOR;
 		$sourceImagePath = $sourcePath . $filename;
 
 		// Source file info.
 		$sourceImageInfo = pathinfo( $sourceImagePath );
 
 		// Build destination path to the subfolder in which all the entry's images are saved.
-		$destinationPath = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $destination . DIRECTORY_SEPARATOR;
+		$destinationPath = CN_IMAGE_PATH . $destination . DIRECTORY_SEPARATOR;
 
 		// Create the new folder.
 		cnFileSystem::mkdir( $destinationPath );
@@ -289,10 +289,10 @@ class cnEntry_Action {
 	public static function deleteImages( $filename, $source ) {
 
 		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
+		// $uploadInfo = wp_upload_dir();
 
 		// Build path to the subfolder in which all the entry's images are saved.
-		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $source . DIRECTORY_SEPARATOR;
+		$path = CN_IMAGE_PATH . $source . DIRECTORY_SEPARATOR;
 
 		// If the $path does not exist, bail.
 		if ( ! file_exists( $path ) ) return;
@@ -348,47 +348,57 @@ class cnEntry_Action {
 	 * @return void
 	 */
 	public static function deleteLegacyImages( $entry ) {
+		global $blog_id;
+
+		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
+
+			$path = WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/';
+
+		} else {
+
+			$path = WP_CONTENT_DIR . '/connection_images/';
+		}
 
 		// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
 		$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
 
 		if ( $entry->getImageNameOriginal() != NULL ) {
 
-			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameOriginal() ) &&
-				$compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameOriginal() )
+			if ( is_file( $path . $entry->getImageNameOriginal() ) &&
+				$compatiblityDate < @filemtime( $path . $entry->getImageNameOriginal() )
 				) {
 
-				@unlink( CN_IMAGE_PATH . $entry->getImageNameOriginal() );
+				@unlink( $path . $entry->getImageNameOriginal() );
 			}
 		}
 
 		if ( $entry->getImageNameThumbnail() != NULL ) {
 
-			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameThumbnail() ) &&
-				$compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameThumbnail() )
+			if ( is_file( $path . $entry->getImageNameThumbnail() ) &&
+				$compatiblityDate < @filemtime( $path . $entry->getImageNameThumbnail() )
 				) {
 
-				@unlink( CN_IMAGE_PATH . $entry->getImageNameThumbnail() );
+				@unlink( $path . $entry->getImageNameThumbnail() );
 			}
 		}
 
 		if ( $entry->getImageNameCard() != NULL ) {
 
-			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameCard() ) &&
-				$compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameCard() )
+			if ( is_file( $path . $entry->getImageNameCard() ) &&
+				$compatiblityDate < @filemtime( $path . $entry->getImageNameCard() )
 				) {
 
-				@unlink( CN_IMAGE_PATH . $entry->getImageNameCard() );
+				@unlink( $path . $entry->getImageNameCard() );
 			}
 		}
 
 		if ( $entry->getImageNameProfile() != NULL ) {
 
-			if ( is_file( CN_IMAGE_PATH . $entry->getImageNameProfile() ) &&
-				$compatiblityDate < @filemtime( CN_IMAGE_PATH . $entry->getImageNameProfile() )
+			if ( is_file( $path . $entry->getImageNameProfile() ) &&
+				$compatiblityDate < @filemtime( $path . $entry->getImageNameProfile() )
 				) {
 
-				@unlink( CN_IMAGE_PATH . $entry->getImageNameProfile() );
+				@unlink( $path . $entry->getImageNameProfile() );
 			}
 		}
 
@@ -405,12 +415,22 @@ class cnEntry_Action {
 	 * @return void
 	 */
 	public static function deleteLegacyLogo( $entry ) {
+		global $blog_id;
+
+		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
+
+			$path = WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/';
+
+		} else {
+
+			$path = WP_CONTENT_DIR . '/connection_images/';
+		}
 
 		if ( $entry->getLogoName() != NULL &&
-			is_file( CN_IMAGE_PATH . $entry->getLogoName() )
+			is_file( $path . $entry->getLogoName() )
 			) {
 
-			@unlink( CN_IMAGE_PATH . $entry->getLogoName() );
+			@unlink( $path . $entry->getLogoName() );
 		}
 	}
 

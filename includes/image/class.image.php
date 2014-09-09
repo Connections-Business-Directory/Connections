@@ -45,7 +45,7 @@ class cnImage {
 		if ( ! isset( self::$instance ) ) {
 
 			// Set priority 11 so we know cnMessage has been init'd.
-			add_action( 'admin_init', array( __CLASS__, 'checkEditorSupport' ), 11 );
+			// add_action( 'admin_init', array( __CLASS__, 'checkEditorSupport' ), 11 );
 			add_action( 'parse_query', array( __CLASS__, 'query'), -1 );
 		}
 
@@ -312,6 +312,16 @@ class cnImage {
 				exit();
 			}
 
+			// Ensure a stream quality is set otherwise we get a block mess as an image when serving a cached image.
+			$quality = get_query_var( 'q' ) ? get_query_var( 'q' ) : 90;
+
+			// Ensure valid value for $quality. If invalid valid is supplied reset to the defaut of 90, matching WP core.
+			if ( filter_var( (int) $quality, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) ) ) === FALSE ) {
+
+				$quality = 90;
+			}
+
+			$image->set_quality( $quality );
 			$image->stream();
 
 			exit();
@@ -407,6 +417,15 @@ class cnImage {
 	 */
 	public static function get( $source, $atts = array(), $return = 'url' ) {
 		global $wp_filter;
+
+		// Increase PHP script execution by 60. This should help on hosts
+		// that permit this change from page load timeouts from occuring
+		// due to large number of images that might have to be created and cached.
+		@set_time_limit(60);
+
+		// Set artificially high because GD uses uncompressed images in memory.
+		// Even though Imagick uses less PHP memory than GD, set higher limit for users that have low PHP.ini limits.
+		@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
 
 		$filter  = array();
 		$methods = array();
@@ -637,9 +656,9 @@ class cnImage {
 		 */
 
 		// Define upload path & dir.
-		$upload_info = wp_upload_dir();
-		$upload_dir  = $upload_info['basedir'];
-		$upload_url  = $upload_info['baseurl'];
+		$upload_info = cnUpload::info();
+		$upload_dir  = CN_IMAGE_PATH;
+		$upload_url  = CN_IMAGE_BASE_URL;
 		$theme_url   = get_stylesheet_directory_uri();
 		$theme_dir   = get_stylesheet_directory();
 
@@ -647,7 +666,7 @@ class cnImage {
 
 			// Ensure the supplied path is in either the WP_CONTENT/UPLOADS directory or
 			// the STYLESHEETPATH directory.
-			if ( strpos( $source, $upload_dir ) !== FALSE ||
+			if ( strpos( $source, $upload_info['base_path'] ) !== FALSE ||
 				 strpos( $source, $theme_dir ) !== FALSE
 				) {
 
@@ -662,10 +681,10 @@ class cnImage {
 
 			// find the path of the image. Perform 2 checks:
 			// #1 check if the image is in the uploads folder
-			if ( strpos( $source, $upload_url ) !== FALSE ) {
+			if ( strpos( $source, $upload_info['base_url'] ) !== FALSE ) {
 
-				$rel_path = str_replace( $upload_url, '', $source );
-				$img_path = $upload_dir . $rel_path;
+				$rel_path = str_replace( $upload_info['base_url'], '', $source );
+				$img_path = $upload_info['base_path'] . $rel_path;
 
 			// #2 check if the image is in the current theme folder
 			} else if ( strpos( $source, $theme_url ) !== FALSE ) {
@@ -679,7 +698,15 @@ class cnImage {
 		// Fail if we can't find the image in our WP local directory
 		if ( empty( $img_path ) || ! @file_exists( $img_path ) ) {
 
-			return new WP_Error( 'image_path_not_found', __( sprintf( 'Image path %s does not exist.', $img_path ), 'connections' ), $img_path );
+			if ( empty( $img_path) ) {
+
+				return new WP_Error( 'image_path_not_set', esc_html__( 'The $img_path variable has not been set.', 'connections' ) );
+
+			} else {
+
+				return new WP_Error( 'image_path_not_found', __( sprintf( 'Image path %s does not exist.', $img_path ), 'connections' ), $img_path );
+			}
+
 		}
 
 		// Check if img path exists, and is an image.
@@ -953,13 +980,13 @@ class cnImage {
 		if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ) $ext = 'png';
 
 		// Create the upload subdirectory, this is where the generated images are saved.
-		$upload_dir .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME ) . $atts['sub_dir'] : DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME;
-		$upload_url .= ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME ) . $atts['sub_dir'] : DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME;
+		$upload_dir = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( CN_IMAGE_PATH . $atts['sub_dir'] ) : CN_IMAGE_PATH;
+		$upload_url = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( CN_IMAGE_BASE_URL . $atts['sub_dir'] ) : CN_IMAGE_BASE_URL;
 		cnFileSystem::mkdir( $upload_dir );
 
 		// Desination paths and URL.
-		$destfilename = "{$upload_dir}/{$dst_rel_path}-{$suffix}.{$ext}";
-		$img_url      = "{$upload_url}/{$dst_rel_path}-{$suffix}.{$ext}";
+		$destfilename = "{$upload_dir}{$dst_rel_path}-{$suffix}." . strtolower( $ext );
+		$img_url      = "{$upload_url}{$dst_rel_path}-{$suffix}." . strtolower( $ext );
 
 		// If file exists, just return it.
 		if ( @file_exists( $destfilename ) && ( $image_info = getimagesize( $destfilename ) ) ) {
@@ -1249,7 +1276,18 @@ class cnImage {
 			$log->add( 'image_save_quality', __( sprintf( 'Saving quality set at %s.', $editor->get_quality() ), 'connections' ) );
 
 			// Save the new image, set file type to PNG if the opacity has been set less than 100 or if the crop mode is `2` and the canvas color was set to transparent.
-			$mime_type = $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ? 'image/png' : 'image/jpeg';
+			if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) || $orig_mime_type == 'image/png' ) {
+
+				$mime_type = 'image/png';
+
+			} elseif ( $orig_mime_type == 'image/jpeg' ) {
+
+				$mime_type = 'image/jpeg';
+
+			} elseif ( $orig_mime_type == 'image/gif' ) {
+
+				$mime_type = 'image/gif';
+			}
 
 			$log->add( 'image_save_mime_type', __( sprintf( 'Saving file as %s.', $mime_type ), 'connections' ) );
 
@@ -1441,6 +1479,9 @@ class cnImage {
 	 */
 	public static function upload( $file, $subDirectory = '' ) {
 
+		// Add filter to lowercase the image filename extension.
+		add_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
+
 		$atts = array(
 			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory ,
 			'mimes'   => array(
@@ -1477,7 +1518,30 @@ class cnImage {
 			$result = array_merge( $order, $result );
 		}
 
+		// Remove the filter which lowercases the image filename extension.
+		remove_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
+
 		return $result;
+	}
+
+	/**
+	 * Force image filename extensions to lower case because the core image editor
+	 * will save file extensions as lowercase.
+	 *
+	 * @access private
+	 * @since  8.1.1
+	 * @static
+	 * @param  string $filename The image filename.
+	 *
+	 * @return string           The image filename with the extension lowercased.
+	 */
+	public static function extToLowercase( $filename ) {
+
+		$info = pathinfo( $filename );
+		$ext  = empty( $info['extension'] ) ? '' : '.' . $info['extension'];
+		$name = basename( $filename, $ext );
+
+		return $name . strtolower( $ext );
 	}
 
 }

@@ -51,7 +51,8 @@ class cnSEO {
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
 		// Filter the meta title to reflect the current Connections filter.
-		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 10, 3 );
+		// User priority 20 because WordPress SEP by Yoast uses priority 15. This filter should run after.
+		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 20, 3 );
 
 		// Filter the page title to reflect the current Connection filter.
 		add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );

@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.1
+ * Version: 8.1.1
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.1
+ * @version 8.1.1
  */
 
 // Exit if accessed directly
@@ -168,7 +168,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Version Constants
 			 */
-			define( 'CN_CURRENT_VERSION', '8.1' );
+			define( 'CN_CURRENT_VERSION', '8.1.1' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
@@ -234,17 +234,26 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 */
 			if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 
-				if ( ! defined( 'CN_IMAGE_PATH' ) )
-					define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/' );
+				// Get the core WP uploads info.
+				$uploadInfo = wp_upload_dir();
 
-				if ( ! defined( 'CN_IMAGE_BASE_URL' ) )
-					define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connection_images/' ) );
+				if ( ! defined( 'CN_IMAGE_PATH' ) ) {
+
+					// define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/' );
+					define( 'CN_IMAGE_PATH', trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
+				}
+
+				if ( ! defined( 'CN_IMAGE_BASE_URL' ) ) {
+
+					// define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connection_images/' ) );
+					define( 'CN_IMAGE_BASE_URL', trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' );
+				}
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connections_templates/' );
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
-					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
+					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connections_templates/' ) );
 
 				// Define the relative URL/s.
 				define( 'CN_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL ) );
@@ -254,17 +263,71 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			} else {
 
+				/*
+				 * Pulled this block of code from wp_upload_dir(). Using this rather than simply using wp_upload_dir()
+				 * because wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
+				 *
+				 * We do not want this behavior if forcing Connections into single site mode on a multisite
+				 * install of WP. Addtionally we do not want the year/month sub dir appended.
+				 *
+				 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as everytime the custom
+				 * dir/url would be needed the filter would have to be added and then removed not to mention other plugins could
+				 * interfere by hooking into `upload_dir`.
+				 *
+				 * --> START <--
+				 */
+				$siteurl     = get_option( 'siteurl' );
+				$upload_path = trim( get_option( 'upload_path' ) );
+
+				if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
+
+					$dir = WP_CONTENT_DIR . '/uploads';
+
+				} elseif ( 0 !== strpos( $upload_path, ABSPATH ) ) {
+
+					// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
+					$dir = path_join( ABSPATH, $upload_path );
+
+				} else {
+
+					$dir = $upload_path;
+				}
+
+				if ( ! $url = get_option( 'upload_url_path' ) ) {
+
+					if ( empty($upload_path) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) ) {
+
+						$url = WP_CONTENT_URL . '/uploads';
+
+					} else {
+
+						$url = trailingslashit( $siteurl ) . $upload_path;
+					}
+
+				}
+
+				// Obey the value of UPLOADS. This happens as long as ms-files rewriting is disabled.
+				// We also sometimes obey UPLOADS when rewriting is enabled -- see the next block.
+				if ( defined( 'UPLOADS' ) && ! ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) ) {
+
+					$dir = ABSPATH . UPLOADS;
+					$url = trailingslashit( $siteurl ) . UPLOADS;
+				}
+				/*
+				 * --> END <--
+				 */
+
 				if ( ! defined( 'CN_IMAGE_PATH' ) )
-					define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/connection_images/' );
+					define( 'CN_IMAGE_PATH', $dir . DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
 
 				if ( ! defined( 'CN_IMAGE_BASE_URL' ) )
-					define( 'CN_IMAGE_BASE_URL', content_url() . '/connection_images/' );
+					define( 'CN_IMAGE_BASE_URL', $url . '/' . CN_IMAGE_DIR_NAME . '/' );
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
 					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates/' );
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
-					define( 'CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_URL', $url . '/connections_templates/' );
 
 				// Define the relative URL/s.
 				define( 'CN_RELATIVE_URL', str_replace( home_url(), '', CN_URL ) );
@@ -467,6 +530,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/template/class.template-shortcode.php';
 			require_once CN_PATH . 'includes/template/class.template-compatibility.php';
 			require_once CN_PATH . 'includes/template/class.template.php';
+
+			require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
 		}
 
 		/**

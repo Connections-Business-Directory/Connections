@@ -3309,20 +3309,20 @@ class cnEntry {
 		if ( empty( $type ) ) return '';
 
 		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
+		// $uploadInfo = wp_upload_dir();
 
 		switch ( $type ) {
 
 			case 'logo':
 
 				// Build the URL to the original image.
-				return trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR .$this->getLogoName();
+				return CN_IMAGE_PATH . $this->getSlug() . DIRECTORY_SEPARATOR .$this->getLogoName();
 				break;
 
 			case 'photo':
 
 				// Build the URL to the original image.
-				return trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR .$this->getImageNameOriginal();
+				return CN_IMAGE_PATH . $this->getSlug() . DIRECTORY_SEPARATOR .$this->getImageNameOriginal();
 				break;
 
 			default:
@@ -3351,18 +3351,18 @@ class cnEntry {
 		if ( empty( $type ) ) return '';
 
 		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
+		// $uploadInfo = wp_upload_dir();
 
 		switch ( $type ) {
 
 			case 'logo':
 
-				return trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' . $this->getLogoName();
+				return CN_IMAGE_BASE_URL . $this->getSlug() . '/' . $this->getLogoName();
 				break;
 
 			case 'photo':
 
-				return trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' . $this->getSlug() . '/' . $this->getImageNameOriginal();
+				return CN_IMAGE_BASE_URL . $this->getSlug() . '/' . $this->getImageNameOriginal();
 				break;
 
 			default:
@@ -3609,17 +3609,27 @@ class cnEntry {
 	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
 	 */
 	protected function processLegacyImages( $filename ) {
+		global $blog_id;
+
+		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
+
+			$legacyPath = WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/';
+
+		} else {
+
+			$legacyPath = WP_CONTENT_DIR . '/connection_images/';
+		}
 
 		$slug = $this->getSlug();
 
 		// Ensure the entry slug is not empty in case a user added an entry with no name.
-		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), CN_IMAGE_PATH . $filename );
+		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), $legacyPath . $filename );
 
 		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
+		// $uploadInfo = wp_upload_dir();
 
 		// Build the destination image path.
-		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $slug . DIRECTORY_SEPARATOR;
+		$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR;
 
 		/*
 		 * NOTE: is_file() will always return false if teh folder/file does not
@@ -3639,13 +3649,13 @@ class cnEntry {
 			return TRUE;
 		}
 
-		if ( is_file( CN_IMAGE_PATH . $filename ) ) {
+		if ( is_file( $legacyPath . $filename ) ) {
 
 			// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
 			$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
 
 			// Build path to the original file.
-			$original = CN_IMAGE_PATH . $filename;
+			$original = $legacyPath . $filename;
 
 			// Get original file info.
 			$info = pathinfo( $original );
@@ -3654,7 +3664,7 @@ class cnEntry {
 			if ( cnFileSystem::mkdir( $path ) ) {
 
 				// Copy or move the original image.
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $filename ) ) {
+				if ( $compatiblityDate < @filemtime( $legacyPath . $filename ) ) {
 
 					$result = @rename( $original, $path . $filename );
 
@@ -3668,7 +3678,7 @@ class cnEntry {
 
 					// NOTE: This is a little greedy as it will also delete any variations of any duplicate images used by other entries.
 					// This should be alright because we will not need those variations anyway since they will be made from the original using cnImage.
-					$files         = new DirectoryIterator( CN_IMAGE_PATH );
+					$files         = new DirectoryIterator( $legacyPath );
 					$filesFiltered = new RegexIterator(
 						$files,
 						sprintf(
@@ -3692,7 +3702,7 @@ class cnEntry {
 
 		}
 
-		return new WP_Error( 'image_move_legacy_image_error', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), CN_IMAGE_PATH . $filename );
+		return new WP_Error( 'image_move_legacy_image_error', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), $legacyPath . $filename );
 	}
 
 	/**
@@ -3717,17 +3727,27 @@ class cnEntry {
 	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
 	 */
 	protected function processLegacyLogo( $filename ) {
+		global $blog_id;
+
+		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
+
+			$legacyPath = WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/';
+
+		} else {
+
+			$legacyPath = WP_CONTENT_DIR . '/connection_images/';
+		}
 
 		$slug = $this->getSlug();
 
 		// Ensure the entry slug is not empty in case a user added an entry with no name.
-		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), CN_IMAGE_PATH . $filename );
+		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), $legacyPath . $filename );
 
 		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
+		// $uploadInfo = wp_upload_dir();
 
 		// Build the destination logo path.
-		$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $this->getSlug() . DIRECTORY_SEPARATOR;
+		$path = CN_IMAGE_PATH . $this->getSlug() . DIRECTORY_SEPARATOR;
 
 		// If the source logo already exists in the new folder structure, post 8.1, bail, nothing to do.
 		if ( is_file( $path . $filename ) ) {
@@ -3735,13 +3755,13 @@ class cnEntry {
 			return TRUE;
 		}
 
-		if ( is_file( CN_IMAGE_PATH . $filename ) ) {
+		if ( is_file( $legacyPath . $filename ) ) {
 
 			// The modification file date that logo will be deleted to maintain compatibility with 0.6.2.1 and older.
 			$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
 
 			// Build path to the original file.
-			$original = CN_IMAGE_PATH . $filename;
+			$original = $legacyPath . $filename;
 
 			// Get original file info.
 			$info = pathinfo( $original );
@@ -3750,7 +3770,7 @@ class cnEntry {
 			if ( cnFileSystem::mkdir( $path ) ) {
 
 				// Copy or move the logo.
-				if ( $compatiblityDate < @filemtime( CN_IMAGE_PATH . $filename ) ) {
+				if ( $compatiblityDate < @filemtime( $legacyPath . $filename ) ) {
 
 					$result = @rename( $original, $path . $filename );
 
@@ -3764,7 +3784,7 @@ class cnEntry {
 
 		}
 
-		return new WP_Error( 'image_move_legacy_logo_error', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), CN_IMAGE_PATH . $filename );
+		return new WP_Error( 'image_move_legacy_logo_error', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), $legacyPath . $filename );
 	}
 
 	public function getAddedBy() {
@@ -4825,7 +4845,7 @@ class cnEntry {
 		do_action( 'cn_process_delete-entry', $this );  // KEEP! This action must exist for Link, however, do not ever use it!
 
 		// Get the core WP uploads info.
-		$uploadInfo = wp_upload_dir();
+		// $uploadInfo = wp_upload_dir();
 
 		$slug = $this->getSlug();
 
@@ -4835,7 +4855,7 @@ class cnEntry {
 		if ( ! empty( $slug ) ) {
 
 			// Build path to the subfolder in which all the entry's images are saved.
-			$path = trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR . $slug . DIRECTORY_SEPARATOR;
+			$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR;
 
 			// Delete the entry image and its variations.
 			cnEntry_Action::deleteImages( $this->getImageNameOriginal(), $slug );

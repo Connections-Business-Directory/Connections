@@ -48,7 +48,7 @@ img.cn-image {
 	padding: 0 !important;
 	position: relative !important;
 	top: 0 !important;
-	/*width: auto;*/
+	width: auto; /* For proper IE8 support for max-width, width:auto needs to be defined. */
 }
 
 /*

@@ -166,7 +166,7 @@ class cnRegisterSettings
 			'title'     => __( 'Result List' , 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo \'' . __( 'The following settings are applied when viewing the entry results list.', 'connections' ) . '\';'
+				'echo \'' . esc_html__( 'The following settings are applied when viewing the entry results list.', 'connections' ) . '\';'
 				),
 			'page_hook' => $settings
 		);
@@ -178,7 +178,7 @@ class cnRegisterSettings
 			'title'     => __( 'Entry Actions' , 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo \'' . __( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';'
+				'echo \'' . esc_html__( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';'
 				),
 			'page_hook' => $settings
 		);
@@ -579,7 +579,7 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  cnOptions::getContentBlocks(),
+			'options'   =>  cnOptions::getContentBlocks( NULL, 'list' ),
 			'default'   => 0,
 		);
 
@@ -639,7 +639,7 @@ class cnRegisterSettings
 			'desc'      => __( 'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.', 'connections' ),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  cnOptions::getContentBlocks(),
+			'options'   =>  cnOptions::getContentBlocks( NULL, 'single' ),
 			'default'   => 0,
 		);
 

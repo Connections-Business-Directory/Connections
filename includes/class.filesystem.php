@@ -242,12 +242,18 @@ class cnFileSystem {
 		// If the $path does not exist, bail.
 		if ( ! file_exists( $path ) ) return;
 
-		$it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
+		// SKIP_DOTS Requires PHP >= 5.3
+		// $it = new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS );
+		$it = new RecursiveDirectoryIterator( $path );
 		$it = new RecursiveIteratorIterator( $it, RecursiveIteratorIterator::CHILD_FIRST );
 
 		foreach ( $it as $file ) {
 
-			// if ( $file->isDot() ) { continue; }
+			// isDot() Requires PHP >= 5.3
+			if ( $file->isDot() ) { continue; }
+
+			// Required for PHP 5.2 support.
+			// if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
 
 			if ( $file->isDir() ) {
 
@@ -299,6 +305,105 @@ class cnUpload {
 	public function __construct( $file, $atts = array() ) {
 
 		$this->file( $file, $atts );
+	}
+
+	/**
+	 * A Connections equivelent of wp_upload_dir().
+	 *
+	 * @access public
+	 * @since  8.1.1
+	 * @static
+	 *
+	 * @return array Returns an array containing the Connections upload paths.
+	 */
+	public static function info() {
+
+		$info = array();
+
+		/*
+		 * Core constants that can be overrideen in wp-config.php
+		 * which enable support for multi-site file locations.
+		 */
+		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
+
+			// Get the core WP uploads info.
+			$uploadInfo = wp_upload_dir();
+
+			$info['base_path']    = trailingslashit( $uploadInfo['basedir'] );
+			$info['base_url']     = trailingslashit( $uploadInfo['baseurl'] );
+			$info['base_rel_url'] = str_replace( home_url(), '', $info['base_url'] );
+
+			$info['img_base_path']    = trailingslashit( $info['base_path'] . CN_IMAGE_DIR_NAME );
+			$info['img_base_url']     = trailingslashit( $info['base_url'] . CN_IMAGE_DIR_NAME );
+			$info['img_base_rel_url'] = trailingslashit( $info['base_rel_url'] . CN_IMAGE_DIR_NAME );
+
+		} else {
+
+			/*
+			 * Pulled this block of code from wp_upload_dir(). Using this rather than simply using wp_upload_dir()
+			 * because wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
+			 *
+			 * We do not want this behavior if forcing Connections into single site mode on a multisite
+			 * install of WP. Addtionally we do not want the year/month sub dir appended.
+			 *
+			 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as everytime the custom
+			 * dir/url would be needed the filter would have to be added and then removed not to mention other plugins could
+			 * interfere by hooking into `upload_dir`.
+			 *
+			 * --> START <--
+			 */
+			$siteurl     = get_option( 'siteurl' );
+			$upload_path = trim( get_option( 'upload_path' ) );
+
+			if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
+
+				$dir = WP_CONTENT_DIR . '/uploads';
+
+			} elseif ( 0 !== strpos( $upload_path, ABSPATH ) ) {
+
+				// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
+				$dir = path_join( ABSPATH, $upload_path );
+
+			} else {
+
+				$dir = $upload_path;
+			}
+
+			if ( ! $url = get_option( 'upload_url_path' ) ) {
+
+				if ( empty($upload_path) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) ) {
+
+					$url = WP_CONTENT_URL . '/uploads';
+
+				} else {
+
+					$url = trailingslashit( $siteurl ) . $upload_path;
+				}
+
+			}
+
+			// Obey the value of UPLOADS. This happens as long as ms-files rewriting is disabled.
+			// We also sometimes obey UPLOADS when rewriting is enabled -- see the next block.
+			if ( defined( 'UPLOADS' ) && ! ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) ) {
+
+				$dir = ABSPATH . UPLOADS;
+				$url = trailingslashit( $siteurl ) . UPLOADS;
+			}
+			/*
+			 * --> END <--
+			 */
+
+			$info['base_path']    = trailingslashit( $dir );
+			$info['base_url']     = trailingslashit( $url );
+			$info['base_rel_url'] = str_replace( network_home_url(), '', $info['base_url'] );
+
+			$info['img_base_path']    = trailingslashit( $info['base_path'] . CN_IMAGE_DIR_NAME );
+			$info['img_base_url']     = trailingslashit( $info['base_url']  . CN_IMAGE_DIR_NAME );
+			$info['img_base_rel_url'] = trailingslashit( $info['base_rel_url'] . CN_IMAGE_DIR_NAME );
+
+		}
+
+		return $info;
 	}
 
 	/**
@@ -373,9 +478,11 @@ class cnUpload {
 	 */
 	public function subDirectory( $file ) {
 
+		$info = cnUpload::info();
+
 		$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : '/' . $this->subDirectory;
-		$file['path']   = $file['basedir'] . $file['subdir'];
-		$file['url']    = $file['baseurl'] . $file['subdir'];
+		$file['path']   = $info['base_path'] . $file['subdir'];
+		$file['url']    = $info['base_url'] . $file['subdir'];
 
 		return $file;
 	}

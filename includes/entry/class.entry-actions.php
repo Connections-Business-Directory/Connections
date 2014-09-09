@@ -352,7 +352,7 @@ class cnEntry_Action {
 
 		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 
-			$path = WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/';
+			$path = WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/';
 
 		} else {
 
@@ -419,7 +419,7 @@ class cnEntry_Action {
 
 		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 
-			$path = WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/';
+			$path = WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/';
 
 		} else {
 

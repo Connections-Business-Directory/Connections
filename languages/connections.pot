@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
-"POT-Creation-Date: 2014-09-02 14:59-0500\n"
-"PO-Revision-Date: 2014-09-02 14:59-0500\n"
+"POT-Creation-Date: 2014-09-09 15:59-0500\n"
+"PO-Revision-Date: 2014-09-09 15:59-0500\n"
 "Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: connections.php:792 connections.php:801
+#: connections.php:857 connections.php:866
 msgid "vCard not available for download."
 msgstr ""
 
@@ -52,8 +52,8 @@ msgstr ""
 
 #: includes/admin/class.capabilities.php:63
 #: includes/admin/pages/manage.php:179
-#: includes/entry/class.entry-actions.php:1033
-#: includes/entry/class.entry-actions.php:1037
+#: includes/entry/class.entry-actions.php:1053
+#: includes/entry/class.entry-actions.php:1057
 msgid "Edit Entry"
 msgstr ""
 
@@ -1091,7 +1091,7 @@ msgid "Linked to:"
 msgstr ""
 
 #: includes/admin/pages/manage.php:687
-#: includes/entry/class.entry-output.php:916
+#: includes/entry/class.entry-output.php:920
 msgid "Contact"
 msgstr ""
 
@@ -1118,13 +1118,13 @@ msgstr ""
 
 #: includes/admin/pages/manage.php:714 includes/class.metabox-entry.php:1306
 #: includes/class.metabox-entry.php:1529
-#: includes/entry/class.entry-output.php:1164
+#: includes/entry/class.entry-output.php:1168
 msgid "Latitude"
 msgstr ""
 
 #: includes/admin/pages/manage.php:714 includes/class.metabox-entry.php:1319
 #: includes/class.metabox-entry.php:1543
-#: includes/entry/class.entry-output.php:1165
+#: includes/entry/class.entry-output.php:1169
 msgid "Longitude"
 msgstr ""
 
@@ -1198,16 +1198,16 @@ msgstr ""
 
 #: includes/admin/pages/templates.php:58
 #: includes/entry/class.entry-data.php:2583
-#: includes/entry/class.entry-output.php:2276
-#: includes/entry/class.entry-output.php:2291
+#: includes/entry/class.entry-output.php:2280
+#: includes/entry/class.entry-output.php:2295
 #: includes/settings/class.options.php:520
 msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:59
 #: includes/entry/class.entry-data.php:2598
-#: includes/entry/class.entry-output.php:2198
-#: includes/entry/class.entry-output.php:2209
+#: includes/entry/class.entry-output.php:2202
+#: includes/entry/class.entry-output.php:2213
 #: includes/settings/class.options.php:522
 msgid "Birthday"
 msgstr ""
@@ -1701,85 +1701,89 @@ msgstr ""
 msgid "Image copy failed."
 msgstr ""
 
-#: includes/entry/class.entry-data.php:3792
+#: includes/entry/class.entry-data.php:3812
 msgid "Unknown"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2392
+#: includes/entry/class.entry-output.php:2396
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2899
+#: includes/entry/class.entry-output.php:2903
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2900
+#: includes/entry/class.entry-output.php:2904
 msgid "Download vCard"
 msgstr ""
 
-#: includes/image/class.image.php:430
+#: includes/image/class.image.php:449
 msgid "Image processing started."
 msgstr ""
 
-#: includes/image/class.image.php:488
+#: includes/image/class.image.php:507
 msgid "No image path or URL supplied."
 msgstr ""
 
-#: includes/image/class.image.php:1038
+#: includes/image/class.image.php:703
+msgid "The $img_path variable has not been set."
+msgstr ""
+
+#: includes/image/class.image.php:1065
 msgid ""
 "Image successfully resized to fit new width and height without maintaining "
 "proportion."
 msgstr ""
 
-#: includes/image/class.image.php:1057
+#: includes/image/class.image.php:1084
 msgid "Image successfully resized with cropping."
 msgstr ""
 
-#: includes/image/class.image.php:1085
+#: includes/image/class.image.php:1112
 msgid "Image successfully resized proportionally with padding."
 msgstr ""
 
-#: includes/image/class.image.php:1102
+#: includes/image/class.image.php:1129
 msgid "Image successfully resized proportionally with no padding."
 msgstr ""
 
-#: includes/image/class.image.php:1125
+#: includes/image/class.image.php:1152
 msgid "Negate filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1135
+#: includes/image/class.image.php:1162
 msgid "Grayscale filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1175
+#: includes/image/class.image.php:1202
 msgid "Edge Detect filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1185
+#: includes/image/class.image.php:1212
 msgid "Emboss filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1195
+#: includes/image/class.image.php:1222
 msgid "Gaussian Blur filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1205
+#: includes/image/class.image.php:1232
 msgid "Blur filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1215
+#: includes/image/class.image.php:1242
 msgid "Sketchy filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1225
+#: includes/image/class.image.php:1252
 msgid "Sharpen filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1260
+#: includes/image/class.image.php:1298
 msgid "File saved successfully."
 msgstr ""
 
-#: includes/image/class.image.php:1296
+#: includes/image/class.image.php:1334
 msgid ""
 "WP_DEBUG is not defined or set to FALSE, set to TRUE to enable image "
 "processing log."

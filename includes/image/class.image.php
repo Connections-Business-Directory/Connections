@@ -484,7 +484,9 @@ class cnImage {
 			'sub_dir'       => '',
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = wp_parse_args( apply_filters( 'cn_get_image_atts', $atts, $source, $return ), $defaults );
+
+		do_action( 'cn_image_get', $atts, $source, $return );
 
 		extract( $atts );
 

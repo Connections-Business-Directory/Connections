@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 8.1.2 09/16/2014 =
+* BUG: Fix responsive image CSS bug.
+* BUG: Fix infinite loop bug when uploading images in a WP multi site installation.
+* TWEAK: Check for isDot() before calling. PHP5.2/5.3 compatibility.
+* TWEAK: Change custom template path for multi site back to `blogs.dir`.
+* TWEAK: Re-enable attemting to make writable CN_IMAGE_PATH in the upgrade.php file.
+* TWEAK: Add cnImage::info().
+* TWEAK: Update cnImage::get() to use cnImage::info().
+* TWEAK: Fix crop_focus sanitation in cnImage::get().
+* TWEAK: Add filter cn_get_image_atts.
+* TWEAK: Add action cn_image_get.
+* I18N: Update Turkish (Turkey) translation.
+
 = 8.1.1 09/09/2014 =
 * BUG: Fix responsive image support for IE8.
 * BUG: Fix issue where uploads of PNG file variations would save as JPG instead of PNG.

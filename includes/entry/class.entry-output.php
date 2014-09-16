@@ -372,7 +372,7 @@ class cnOutput extends cnEntry
 			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
 			// The inner <span> is required for responsive image support. This markup also makes it IE8 compatible.
-			$out = sprintf( '<span class="cn-image-style"%1$s><span style="max-width: 100%%; width: %2$spx">%3$s<img %4$s/>%5$s</span></span>',
+			$out = sprintf( '<span class="cn-image-style"%1$s><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s/>%5$s</span></span>',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				absint( $image['width'] ),
 				empty( $anchorStart ) ? '' : $anchorStart,

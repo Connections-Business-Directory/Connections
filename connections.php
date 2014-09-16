@@ -250,10 +250,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				}
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
-					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connections_templates/' ) );
+					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
 
 				// Define the relative URL/s.
 				define( 'CN_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL ) );

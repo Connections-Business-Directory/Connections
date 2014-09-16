@@ -658,14 +658,14 @@ function cnRunDBUpgrade() {
 
 			// Create the images folder.
 			// wp_mkdir_p( CN_IMAGE_PATH );
-			// if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0746 );
-			// if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0747 );
-			// if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0756 );
-			// if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0757 );
-			// if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0764 );
-			// if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0765 );
-			// if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0766 );
-			// if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0767 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0746 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0747 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0756 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0757 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0764 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0765 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0766 );
+			if ( file_exists( CN_IMAGE_PATH ) && ! is_writeable( CN_IMAGE_PATH ) ) @chmod( CN_IMAGE_PATH , 0767 );
 
 			// Create the custom template folder.
 			wp_mkdir_p( CN_CUSTOM_TEMPLATE_PATH );

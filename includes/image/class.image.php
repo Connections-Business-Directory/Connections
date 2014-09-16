@@ -566,35 +566,42 @@ class cnImage {
 			}
 
 			// Convert the string values to their float equivalents.
+			if ( is_string( $crop_focus[0] ) ) {
 
-			switch ( $crop_focus[0] ) {
+				switch ( $crop_focus[0] ) {
 
-				case 'left':
-					$crop_focus[0] = 0;
-					break;
+					case 'left':
+						$crop_focus[0] = 0;
+						break;
 
-				case 'right':
-					$crop_focus[0] = 1;
-					break;
+					case 'right':
+						$crop_focus[0] = 1;
+						break;
 
-				default:
-					$crop_focus[0] = .5;
-					break;
+					default:
+						$crop_focus[0] = .5;
+						break;
+				}
+
 			}
 
-			switch ( $crop_focus[1] ) {
+			if ( is_string( $crop_focus[1] ) ) {
 
-				case 'top':
-					$crop_focus[1] = 0;
-					break;
+				switch ( $crop_focus[1] ) {
 
-				case 'bottom':
-					$crop_focus[1] = 1;
-					break;
+					case 'top':
+						$crop_focus[1] = 0;
+						break;
 
-				default:
-					$crop_focus[1] = .5;
-					break;
+					case 'bottom':
+						$crop_focus[1] = 1;
+						break;
+
+					default:
+						$crop_focus[1] = .5;
+						break;
+				}
+
 			}
 
 			// Ensure if an array was supplied, that there are only two keys, if not, set the default positional crop.

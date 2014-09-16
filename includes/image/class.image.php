@@ -484,7 +484,9 @@ class cnImage {
 			'sub_dir'       => '',
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = wp_parse_args( apply_filters( 'cn_get_image_atts', $atts, $source, $return ), $defaults );
+
+		do_action( 'cn_image_get', $atts, $source, $return );
 
 		extract( $atts );
 
@@ -566,35 +568,42 @@ class cnImage {
 			}
 
 			// Convert the string values to their float equivalents.
+			if ( is_string( $crop_focus[0] ) ) {
 
-			switch ( $crop_focus[0] ) {
+				switch ( $crop_focus[0] ) {
 
-				case 'left':
-					$crop_focus[0] = 0;
-					break;
+					case 'left':
+						$crop_focus[0] = 0;
+						break;
 
-				case 'right':
-					$crop_focus[0] = 1;
-					break;
+					case 'right':
+						$crop_focus[0] = 1;
+						break;
 
-				default:
-					$crop_focus[0] = .5;
-					break;
+					default:
+						$crop_focus[0] = .5;
+						break;
+				}
+
 			}
 
-			switch ( $crop_focus[1] ) {
+			if ( is_string( $crop_focus[1] ) ) {
 
-				case 'top':
-					$crop_focus[1] = 0;
-					break;
+				switch ( $crop_focus[1] ) {
 
-				case 'bottom':
-					$crop_focus[1] = 1;
-					break;
+					case 'top':
+						$crop_focus[1] = 0;
+						break;
 
-				default:
-					$crop_focus[1] = .5;
-					break;
+					case 'bottom':
+						$crop_focus[1] = 1;
+						break;
+
+					default:
+						$crop_focus[1] = .5;
+						break;
+				}
+
 			}
 
 			// Ensure if an array was supplied, that there are only two keys, if not, set the default positional crop.
@@ -656,74 +665,23 @@ class cnImage {
 		 */
 
 		// Define upload path & dir.
-		$upload_info = cnUpload::info();
 		$upload_dir  = CN_IMAGE_PATH;
 		$upload_url  = CN_IMAGE_BASE_URL;
-		$theme_url   = get_stylesheet_directory_uri();
-		$theme_dir   = get_stylesheet_directory();
 
-		if ( path_is_absolute( $source ) ) {
+		// Get image info or return WP_Error.
+		if ( is_wp_error( $image_info = self::info( $source ) ) ) {
 
-			// Ensure the supplied path is in either the WP_CONTENT/UPLOADS directory or
-			// the STYLESHEETPATH directory.
-			if ( strpos( $source, $upload_info['base_path'] ) !== FALSE ||
-				 strpos( $source, $theme_dir ) !== FALSE
-				) {
-
-				$img_path = $source;
-
-			} else {
-
-				$img_path = FALSE;
-			}
-
-		} else {
-
-			// find the path of the image. Perform 2 checks:
-			// #1 check if the image is in the uploads folder
-			if ( strpos( $source, $upload_info['base_url'] ) !== FALSE ) {
-
-				$rel_path = str_replace( $upload_info['base_url'], '', $source );
-				$img_path = $upload_info['base_path'] . $rel_path;
-
-			// #2 check if the image is in the current theme folder
-			} else if ( strpos( $source, $theme_url ) !== FALSE ) {
-
-				$rel_path = str_replace( $theme_url, '', $source );
-				$img_path = $theme_dir . $rel_path;
-			}
-
+			return $image_info;
 		}
 
-		// Fail if we can't find the image in our WP local directory
-		if ( empty( $img_path ) || ! @file_exists( $img_path ) ) {
-
-			if ( empty( $img_path) ) {
-
-				return new WP_Error( 'image_path_not_set', esc_html__( 'The $img_path variable has not been set.', 'connections' ) );
-
-			} else {
-
-				return new WP_Error( 'image_path_not_found', __( sprintf( 'Image path %s does not exist.', $img_path ), 'connections' ), $img_path );
-			}
-
-		}
-
-		// Check if img path exists, and is an image.
-		if ( ( $image_info = getimagesize( $img_path ) ) === FALSE ) {
-
-			return new WP_Error( 'image_not_image', __( sprintf( 'The file %s is not an image.', basename( $img_path ) ), 'connections' ), basename( $img_path ) );
-		}
-
-		$log->add( 'image_path' , __( sprintf( 'Verified Source Path: %s' , $img_path ), 'connections' ) );
+		$log->add( 'image_path' , __( sprintf( 'Verified Source Path: %s' , $image_info['path'] ), 'connections' ) );
 
 		// This is the filename.
-		$basename = basename( $img_path );
+		$basename = $image_info['basename'];
 		$log->add( 'image_base_filename', 'Original filename: ' . $basename );
 
 		// Path/File info.
-		$path = pathinfo( $img_path );
-		$ext  = $path['extension'];
+		$ext  = $image_info['extension'];
 
 		// Image info.
 		$orig_w = $image_info[0];
@@ -939,7 +897,7 @@ class cnImage {
 
 		// Create the hash for the saved file.
 		// This to check whether we need to create a new file or use an existing file.
-		$hash = (string) filemtime( $img_path ) .
+		$hash = (string) $image_info['modified'] .
 			( empty( $width ) ? str_pad( (string) $width, 5, '0', STR_PAD_LEFT ) : '00000' ) .
 			( empty( $height ) ? str_pad( (string) $height, 5, '0', STR_PAD_LEFT ) : '00000' ) .
 			( $negate ? '1' : '0' ) .
@@ -974,7 +932,7 @@ class cnImage {
 		$log->add( 'image_base_name_suffix', 'Base filename suffix: ' . $suffix );
 
 		// Use this to check if cropped image already exists, so we can return that instead.
-		$dst_rel_path = str_replace( '.' . $ext, '', basename( $img_path ) );
+		$dst_rel_path = str_replace( '.' . $ext, '', $image_info['basename'] );
 
 		// Set file ext to `png` if the opacity has been set less than 100 or if the crop mode is `2` and the canvas color was set to transparent.
 		if ( $opacity < 100 || ( $canvas_color === 'transparent' && $crop_mode == 2 ) ) $ext = 'png';
@@ -1029,7 +987,7 @@ class cnImage {
 			$methods['methods'][]                             = 'set_quality';
 
 			// Perform resizing and other filters.
-			$editor = wp_get_image_editor( $img_path, $methods );
+			$editor = wp_get_image_editor( $image_info['path'], $methods );
 
 			// If there is an error, return WP_Error object.
 			if ( $result = is_wp_error( $editor ) ) {
@@ -1464,6 +1422,86 @@ class cnImage {
 		return array( 0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h );
 
 	}
+
+	/**
+	 * Returns image metadata.
+	 *
+	 * NOTE: The image must be within the WP_CONTENT/UPLOADS folder or within the STYLESHEETPATH folder.
+	 *
+	 * @access public
+	 * @since  8.1.2
+	 * @static
+	 * @param  string $source URL or absolute path to an image.
+	 * @return mixed          array | object An associative array of image meta or an instance of WP_Error.
+	 */
+	public static function info( $source ) {
+
+			// Define upload path & dir.
+			$upload_info = cnUpload::info();
+			$theme_url   = get_stylesheet_directory_uri();
+			$theme_dir   = get_stylesheet_directory();
+
+			if ( path_is_absolute( $source ) ) {
+
+				// Ensure the supplied path is in either the WP_CONTENT/UPLOADS directory or
+				// the STYLESHEETPATH directory.
+				if ( strpos( $source, $upload_info['base_path'] ) !== FALSE ||
+					 strpos( $source, $theme_dir ) !== FALSE
+					) {
+
+					$img_path = $source;
+
+				} else {
+
+					$img_path = FALSE;
+				}
+
+			} else {
+
+				// find the path of the image. Perform 2 checks:
+				// #1 check if the image is in the uploads folder
+				if ( strpos( $source, $upload_info['base_url'] ) !== FALSE ) {
+
+					$rel_path = str_replace( $upload_info['base_url'], '', $source );
+					$img_path = $upload_info['base_path'] . $rel_path;
+
+				// #2 check if the image is in the current theme folder
+				} else if ( strpos( $source, $theme_url ) !== FALSE ) {
+
+					$rel_path = str_replace( $theme_url, '', $source );
+					$img_path = $theme_dir . $rel_path;
+				}
+
+			}
+
+			// Fail if we can't find the image in our WP local directory
+			if ( empty( $img_path ) || ! @file_exists( $img_path ) ) {
+
+				if ( empty( $img_path) ) {
+
+					return new WP_Error( 'image_path_not_set', esc_html__( 'The $img_path variable has not been set.', 'connections' ) );
+
+				} else {
+
+					return new WP_Error( 'image_path_not_found', __( sprintf( 'Image path %s does not exist.', $img_path ), 'connections' ), $img_path );
+				}
+
+			}
+
+			// Check if img path exists, and is an image.
+			if ( ( $image_info = getimagesize( $img_path ) ) === FALSE ) {
+
+				return new WP_Error( 'image_not_image', __( sprintf( 'The file %s is not an image.', basename( $img_path ) ), 'connections' ), basename( $img_path ) );
+			}
+
+
+			$image_info['path']     = $img_path;
+			$image_info['modified'] = filemtime( $img_path );
+
+			$image_info = array_merge( pathinfo( $img_path ), $image_info );
+
+			return $image_info;
+		}
 
 	/**
 	 * Upload a file to the WP_CONTENT_DIR/CN_IMAGE_DIR_NAME or in the defined subdirectory.

@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 8.1.1
+Stable tag: 8.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,25 +64,25 @@ Templates and CSS overridding is very granualar and update safe. Check out these
 
 Connections Business Directory has been embraced around the world and has been translated in the following languages.
 
-* Catalan [86% Complete]
-* Danish [53% Complete]
-* Danish (Denmark) [45% Complete]
-* Dutch (Netherlands) [80% Complete]
-* French (France) [96% Complete]
-* German (Germany) [75% Complete]
-* Hebrew (Israel) [100% Complete]
-* Hungarian (Hungry) [85% Complete]
-* Italian (Italy) [50% Complete]
-* Norwegian [20% Complete]
-* Persian (Iran) [85% Complete]
-* Polish (Poland) [86% Complete]
-* Portugese (Brazil) [77% Complete]
-* Portugese (Portugal) [39% Complete]
-* Russian (Russia) [42% Complete]
+* Catalan [79% Complete]
+* Danish [48% Complete]
+* Danish (Denmark) [41% Complete]
+* Dutch (Netherlands) [73% Complete]
+* French (France) [88% Complete]
+* German (Germany) [68% Complete]
+* Hebrew (Israel) [91% Complete]
+* Hungarian (Hungry) [78% Complete]
+* Italian (Italy) [46% Complete]
+* Norwegian [19% Complete]
+* Persian (Iran) [78% Complete]
+* Polish (Poland) [79% Complete]
+* Portugese (Brazil) [70% Complete]
+* Portugese (Portugal) [35% Complete]
+* Russian (Russia) [39% Complete]
 * Serbian (Latin) [4% Complete]
-* Spanish (Latin America) [81% Complete]
-* Spanish (Spain) [86% Complete]
-* Turkish (Turkey) [85% Complete]
+* Spanish (Latin America) [74% Complete]
+* Spanish (Spain) [79% Complete]
+* Turkish (Turkey) [86% Complete]
 
 == Credits: ==
 * This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
@@ -156,6 +156,19 @@ Connections Business Directory has been embraced around the world and has been t
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 8.1.2 09/16/2014 =
+* BUG: Fix responsive image CSS bug.
+* BUG: Fix infinite loop bug when uploading images in a WP multi site installation.
+* TWEAK: Check for isDot() before calling. PHP5.2/5.3 compatibility.
+* TWEAK: Change custom template path for multi site back to `blogs.dir`.
+* TWEAK: Re-enable attemting to make writable CN_IMAGE_PATH in the upgrade.php file.
+* TWEAK: Add cnImage::info().
+* TWEAK: Update cnImage::get() to use cnImage::info().
+* TWEAK: Fix crop_focus sanitation in cnImage::get().
+* TWEAK: Add filter cn_get_image_atts.
+* TWEAK: Add action cn_image_get.
+* I18N: Update Turkish (Turkey) translation.
 
 = 8.1.1 09/09/2014 =
 * BUG: Fix responsive image support for IE8.
@@ -672,4 +685,7 @@ If you are updating from a version less than 0.8, it is recommended to backup be
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.1.1 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.1.2 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

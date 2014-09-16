@@ -249,11 +249,16 @@ class cnFileSystem {
 
 		foreach ( $it as $file ) {
 
-			// isDot() Requires PHP >= 5.3
-			if ( $file->isDot() ) { continue; }
+			if ( is_callable( $file, 'isDot' ) ) {
 
-			// Required for PHP 5.2 support.
-			// if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
+				// isDot() Requires PHP >= 5.3
+				if ( $file->isDot() ) { continue; }
+
+			} else {
+
+				// Required for PHP 5.2 support.
+				if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
+			}
 
 			if ( $file->isDir() ) {
 
@@ -478,11 +483,25 @@ class cnUpload {
 	 */
 	public function subDirectory( $file ) {
 
-		$info = cnUpload::info();
+		// If this is a multi site AND Connections is in multi site mode then the the paths passed by WP can be used.
+		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 
-		$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : '/' . $this->subDirectory;
-		$file['path']   = $info['base_path'] . $file['subdir'];
-		$file['url']    = $info['base_url'] . $file['subdir'];
+			$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : '/' . $this->subDirectory;
+			$file['path']   = $file['basedir'] . $file['subdir'];
+			$file['url']    = $file['baseurl'] . $file['subdir'];
+
+		// If Connections is on sigle site or in single site mode on a multi site setup use cnUpload::info() to get the path info.
+		} else {
+
+			// NOTE: Important! cnUpload::info() can not be used within this class when `if ( is_multisite() && CN_MULTISITE_ENABLED )`
+			// because it will cause a infinite loop due to the filter added in $this->file() which add this method as a callback
+			// to the `upload_dir` hook.
+			$info = cnUpload::info();
+
+			$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : '/' . $this->subDirectory;
+			$file['path']   = $info['base_path'] . $file['subdir'];
+			$file['url']    = $info['base_url'] . $file['subdir'];
+		}
 
 		return $file;
 	}

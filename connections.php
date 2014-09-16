@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.1.1
+ * Version: 8.1.2
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.1.1
+ * @version 8.1.2
  */
 
 // Exit if accessed directly
@@ -168,7 +168,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Version Constants
 			 */
-			define( 'CN_CURRENT_VERSION', '8.1.1' );
+			define( 'CN_CURRENT_VERSION', '8.1.2' );
 			define( 'CN_DB_VERSION', '0.1.9' );
 
 			/*
@@ -250,10 +250,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				}
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
-					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connections_templates/' ) );
+					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
 
 				// Define the relative URL/s.
 				define( 'CN_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL ) );

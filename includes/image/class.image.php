@@ -1466,6 +1466,86 @@ class cnImage {
 	}
 
 	/**
+	 * Returns image metadata.
+	 *
+	 * NOTE: The image must be within the WP_CONTENT/UPLOADS folder or within the STYLESHEETPATH folder.
+	 *
+	 * @access public
+	 * @since  8.1.2
+	 * @static
+	 * @param  string $source URL or absolute path to an image.
+	 * @return mixed          array | object An associative array of image meta or an instance of WP_Error.
+	 */
+	public static function info( $source ) {
+
+			// Define upload path & dir.
+			$upload_info = cnUpload::info();
+			$theme_url   = get_stylesheet_directory_uri();
+			$theme_dir   = get_stylesheet_directory();
+
+			if ( path_is_absolute( $source ) ) {
+
+				// Ensure the supplied path is in either the WP_CONTENT/UPLOADS directory or
+				// the STYLESHEETPATH directory.
+				if ( strpos( $source, $upload_info['base_path'] ) !== FALSE ||
+					 strpos( $source, $theme_dir ) !== FALSE
+					) {
+
+					$img_path = $source;
+
+				} else {
+
+					$img_path = FALSE;
+				}
+
+			} else {
+
+				// find the path of the image. Perform 2 checks:
+				// #1 check if the image is in the uploads folder
+				if ( strpos( $source, $upload_info['base_url'] ) !== FALSE ) {
+
+					$rel_path = str_replace( $upload_info['base_url'], '', $source );
+					$img_path = $upload_info['base_path'] . $rel_path;
+
+				// #2 check if the image is in the current theme folder
+				} else if ( strpos( $source, $theme_url ) !== FALSE ) {
+
+					$rel_path = str_replace( $theme_url, '', $source );
+					$img_path = $theme_dir . $rel_path;
+				}
+
+			}
+
+			// Fail if we can't find the image in our WP local directory
+			if ( empty( $img_path ) || ! @file_exists( $img_path ) ) {
+
+				if ( empty( $img_path) ) {
+
+					return new WP_Error( 'image_path_not_set', esc_html__( 'The $img_path variable has not been set.', 'connections' ) );
+
+				} else {
+
+					return new WP_Error( 'image_path_not_found', __( sprintf( 'Image path %s does not exist.', $img_path ), 'connections' ), $img_path );
+				}
+
+			}
+
+			// Check if img path exists, and is an image.
+			if ( ( $image_info = getimagesize( $img_path ) ) === FALSE ) {
+
+				return new WP_Error( 'image_not_image', __( sprintf( 'The file %s is not an image.', basename( $img_path ) ), 'connections' ), basename( $img_path ) );
+			}
+
+
+			$image_info['path']     = $img_path;
+			$image_info['modified'] = filemtime( $img_path );
+
+			$image_info = array_merge( pathinfo( $img_path ), $image_info );
+
+			return $image_info;
+		}
+
+	/**
 	 * Upload a file to the WP_CONTENT_DIR/CN_IMAGE_DIR_NAME or in the defined subdirectory.
 	 *
 	 * @access public

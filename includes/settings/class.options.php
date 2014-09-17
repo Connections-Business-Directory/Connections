@@ -419,6 +419,7 @@ class cnOptions {
 	public function getDefaultSocialMediaValues() {
 
 		$options = array(
+			'angieslist'    => 'Angie\'s List',
 			'delicious'     => 'delicious',
 			'cdbaby'        => 'CD Baby',
 			'facebook'      => 'Facebook',

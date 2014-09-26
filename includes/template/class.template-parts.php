@@ -437,7 +437,7 @@ class cnTemplatePart {
 		$out = '';
 
 		$previousLetter = '';
-		$alternate      = '';
+		$rowClass       = 'cn-list-row';
 
 		/*
 		 * When an entry is assigned multiple categories and the RANDOM order_by shortcode attribute
@@ -504,10 +504,24 @@ class cnTemplatePart {
 
 			$out .= ob_get_clean();
 
-			$out .= sprintf( '<div class="cn-list-row%1$s vcard %2$s %3$s" id="%4$s" data-entry-type="%2$s" data-entry-id="%5$d" data-entry-slug="%4$s">',
-					$alternate = $alternate == '' ? '-alternate' : '',
+			$class = apply_filters(
+				'cn_list_row_class',
+				array(
+					$rowClass = $rowClass == 'cn-list-row' ? 'cn-list-row-alternate' : 'cn-list-row',
+					'vcard',
 					$entry->getEntryType(),
 					$entry->getCategoryClass( TRUE ),
+					)
+				);
+
+			$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
+			cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
+
+			array_walk( $class, 'esc_attr' );
+
+			$out .= sprintf( '<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
+					implode( ' ', $class ),
+					$entry->getEntryType(),
 					$entry->getSlug(),
 					$entry->getId()
 				);

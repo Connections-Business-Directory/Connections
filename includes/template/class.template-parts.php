@@ -384,7 +384,14 @@ class cnTemplatePart {
 
 		$out = '';
 
-		$out .= PHP_EOL . '<div class="connections-list cn-list-body cn-clear" id="cn-list-body">' . PHP_EOL;
+		$class = apply_filters( 'cn_list_body_class', array( 'connections-list', 'cn-list-body', 'cn-clear' ) );
+
+		$class = apply_filters( 'cn_list_body_class-' . $template->getSlug(), $class );
+		cnShortcode::addFilterRegistry( 'cn_list_body_class-' . $template->getSlug() );
+
+		array_walk( $class, 'esc_attr' );
+
+		$out .= PHP_EOL . '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
 
 		ob_start();
 

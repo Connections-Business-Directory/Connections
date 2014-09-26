@@ -137,7 +137,7 @@ class cnOutput extends cnEntry
 		/*
 		 * The $atts key that are not image tag attributes.
 		 */
-		$nonAtts = array( 'action', 'image', 'preset', 'fallback', 'image_size', 'zc', 'quality', 'before', 'after', 'return' );
+		$nonAtts = array( 'action', 'image', 'preset', 'fallback', 'image_size', 'zc', 'quality', 'before', 'after', 'style', 'return' );
 
 		$customSize = ( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? TRUE : FALSE;
 

@@ -1548,6 +1548,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
+		$defaults['limit'] = NULL;
 		$defaults['format'] = '';
 		$defaults['title'] = '';
 		$defaults['size'] = 32;

@@ -660,7 +660,7 @@ class cnTemplatePart {
 			 );
 		}
 
-		$out = sprintf( '<%1$s id="cn-list-actions">%2$s</%1$s>',
+		$out = sprintf( '<%1$s class="cn-list-actions">%2$s</%1$s>',
 				$atts['container_tag'],
 				$out
 			);

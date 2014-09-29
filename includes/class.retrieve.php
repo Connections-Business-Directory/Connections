@@ -1492,6 +1492,7 @@ class cnRetrieve {
 		$defaultAttr['id'] = NULL;
 		$defaultAttr['preferred'] = NULL;
 		$defaultAttr['type'] = NULL;
+		$defaultAttr['limit'] = NULL;
 
 		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
 		/*
@@ -1534,6 +1535,8 @@ class cnRetrieve {
 
 		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
 
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
 		if ( $returnData ) {
 			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_PHONE_TABLE . '.*
 
@@ -1541,7 +1544,7 @@ class cnRetrieve {
 
 				implode( ' ', $where ) . ' ' .
 
-				'ORDER BY `order`';
+				'ORDER BY `order`' . $limit;
 
 			//print_r($sql);
 
@@ -1550,7 +1553,7 @@ class cnRetrieve {
 		else {
 			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
 
-					FROM ' . CN_ENTRY_PHONE_TABLE . ' ' . ' ' . implode( ' ', $where );
+					FROM ' . CN_ENTRY_PHONE_TABLE . ' ' . ' ' . implode( ' ', $where ) . $limit;
 
 			//print_r($sql);
 			$results = $wpdb->get_col( $sql );

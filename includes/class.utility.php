@@ -956,11 +956,20 @@ class cnLog extends WP_Error {
 
 		if ( ! defined( 'WP_DEBUG' ) || WP_DEBUG === FALSE ) {
 
-			$this->errors = array();
-			$this->error_data = array();
+			// $this->errors and $this->error_data neds to be brought into scope too.
+			// See note below about WP 4.0.
 
-			$this->errors[ 'wp_debug' ][]   = __( 'To enable logging, WP_DEBUG must defined and set to TRUE.', 'connections' );
-			$this->error_data[ 'wp_debug' ] = '';
+			$error = $this->errors;
+			// $this->errors = array();
+
+			$error_data = $this->error_data;
+			// $this->error_data = array();
+
+			$error[ 'wp_debug' ][]   = __( 'To enable logging, WP_DEBUG must defined and set to TRUE.', 'connections' );
+			$error_data[ 'wp_debug' ] = '';
+
+			$this->errors = $error;
+			$this->error_data = $error_data;
 		}
 
 		$execTime = sprintf( '%.6f', microtime(TRUE) - $this->startTime);

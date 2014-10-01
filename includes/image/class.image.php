@@ -1411,10 +1411,12 @@ class cnImage {
 				$new_h = intval($new_w / $aspect_ratio);
 			}
 
-			$size_ratio = max($new_w / $orig_w, $new_h / $orig_h);
+			// $size_ratio = max($new_w / $orig_w, $new_h / $orig_h);
 
-			$crop_w = round($new_w / $size_ratio);
-			$crop_h = round($new_h / $size_ratio);
+			// $crop_w = round($new_w / $size_ratio);
+			// $crop_h = round($new_h / $size_ratio);
+			$crop_w = $orig_w;
+			$crop_h = $orig_h;
 		}
 
 		// the return array matches the parameters to imagecopyresampled()

@@ -152,8 +152,8 @@ class cnMessage extends WP_Error {
 		$instance->add( 'template_install_failed', __( 'The template installation has failed.', 'connections' ) );
 		$instance->add( 'template_delete_failed', __( 'The template could not be deleted.', 'connections' ) );
 
-		$instance->add( 'image_path_exists_failed', sprintf( __( "The connection_images folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'http://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/'  ) );
-		$instance->add( 'image_path_writeable_failed', sprintf( __( "The connection_images folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'http://connections-pro.com/faqs/the-connection_images-folder-is-not-writable/' ) );
+		$instance->add( 'image_path_exists_failed', sprintf( __( "The %s folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), CN_IMAGE_DIR_NAME, 'http://connections-pro.com/faqs/the-connection_images-folder-does-not-exist/'  ) );
+		$instance->add( 'image_path_writeable_failed', sprintf( __( "The %s folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), CN_IMAGE_DIR_NAME, 'http://connections-pro.com/faqs/the-connection_images-folder-is-not-writable/' ) );
 
 		$instance->add( 'template_path_exists_failed', sprintf( __( "The connections_templates folder does not exist. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'http://connections-pro.com/faqs/the-connections_templates-folder-does-not-exist/' ) );
 		$instance->add( 'template_path_writeable_failed', sprintf( __( "The connections_templates folder is not writable. <a class='button-primary' href='%s'>Read more.</a>", 'connections' ), 'http://connections-pro.com/faqs/the-connections_templates-folder-is-not-writable/' ) );

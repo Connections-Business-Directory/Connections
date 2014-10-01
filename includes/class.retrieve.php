@@ -1492,6 +1492,7 @@ class cnRetrieve {
 		$defaultAttr['id'] = NULL;
 		$defaultAttr['preferred'] = NULL;
 		$defaultAttr['type'] = NULL;
+		$defaultAttr['limit'] = NULL;
 
 		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
 		/*
@@ -1534,6 +1535,8 @@ class cnRetrieve {
 
 		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
 
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
 		if ( $returnData ) {
 			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_PHONE_TABLE . '.*
 
@@ -1541,7 +1544,7 @@ class cnRetrieve {
 
 				implode( ' ', $where ) . ' ' .
 
-				'ORDER BY `order`';
+				'ORDER BY `order`' . $limit;
 
 			//print_r($sql);
 
@@ -1550,7 +1553,7 @@ class cnRetrieve {
 		else {
 			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
 
-					FROM ' . CN_ENTRY_PHONE_TABLE . ' ' . ' ' . implode( ' ', $where );
+					FROM ' . CN_ENTRY_PHONE_TABLE . ' ' . ' ' . implode( ' ', $where ) . $limit;
 
 			//print_r($sql);
 			$results = $wpdb->get_col( $sql );
@@ -1586,6 +1589,7 @@ class cnRetrieve {
 		$defaultAttr['id'] = NULL;
 		$defaultAttr['preferred'] = NULL;
 		$defaultAttr['type'] = NULL;
+		$defaultAttr['limit'] = NULL;
 
 		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
 		/*
@@ -1628,6 +1632,8 @@ class cnRetrieve {
 
 		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
 
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
 		if ( $returnData ) {
 			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_EMAIL_TABLE . '.*
 
@@ -1635,7 +1641,7 @@ class cnRetrieve {
 
 				implode( ' ', $where ) . ' ' .
 
-				'ORDER BY `order`';
+				'ORDER BY `order`' . $limit;
 
 			//print_r($sql);
 
@@ -1644,7 +1650,7 @@ class cnRetrieve {
 		else {
 			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_EMAIL_TABLE . '.entry_id
 
-					FROM ' . CN_ENTRY_EMAIL_TABLE . ' ' . ' ' . implode( ' ', $where );
+					FROM ' . CN_ENTRY_EMAIL_TABLE . ' ' . ' ' . implode( ' ', $where ) . $limit;
 
 			//print_r($sql);
 			$results = $wpdb->get_col( $sql );
@@ -2054,55 +2060,55 @@ class cnRetrieve {
 	 *  http://devzone.zend.com/26/using-mysql-full-text-searching/
 	 *  http://onlamp.com/onlamp/2003/06/26/fulltext.html
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.2.0
-	 * @param array   $suppliedAttr [optional]
+	 * @since  0.7.2.0
+	 * @param  array   $atts [optional]
+	 *
 	 * @return array
 	 */
-	public function search( $suppliedAttr = array() ) {
+	public function search( $atts = array() ) {
 		global $wpdb;
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$validate   = new cnValidate();
 		$results    = array();
 		$scored     = array();
 		$shortwords = array();
-		$search     = $instance->options->getSearchFields();
+		$fields     = $instance->options->getSearchFields();
+
+		$fields     = apply_filters( 'cn_search_fields', $fields );
 
 		// If no search search fields are set, return an empty array.
-		if ( empty( $search ) ) return array();
+		if ( empty( $fields ) ) return array();
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['terms'] = array();
+		$defaults['terms'] = array();
 
-		if ( in_array( 'family_name' , $search ) ) $defaultAttr['fields_entry'][] = 'family_name';
-		if ( in_array( 'first_name' , $search ) ) $defaultAttr['fields_entry'][] = 'first_name';
-		if ( in_array( 'middle_name' , $search ) ) $defaultAttr['fields_entry'][] = 'middle_name';
-		if ( in_array( 'last_name' , $search ) ) $defaultAttr['fields_entry'][] = 'last_name';
-		if ( in_array( 'title' , $search ) ) $defaultAttr['fields_entry'][] = 'title';
-		if ( in_array( 'organization' , $search ) ) $defaultAttr['fields_entry'][] = 'organization';
-		if ( in_array( 'department' , $search ) ) $defaultAttr['fields_entry'][] = 'department';
-		if ( in_array( 'contact_first_name' , $search ) ) $defaultAttr['fields_entry'][] = 'contact_first_name';
-		if ( in_array( 'contact_last_name' , $search ) ) $defaultAttr['fields_entry'][] = 'contact_last_name';
-		if ( in_array( 'bio' , $search ) ) $defaultAttr['fields_entry'][] = 'bio';
-		if ( in_array( 'notes' , $search ) ) $defaultAttr['fields_entry'][] = 'notes';
+		if ( in_array( 'family_name', $fields ) ) $defaults['fields']['entry'][]        = 'family_name';
+		if ( in_array( 'first_name', $fields ) ) $defaults['fields']['entry'][]         = 'first_name';
+		if ( in_array( 'middle_name', $fields ) ) $defaults['fields']['entry'][]        = 'middle_name';
+		if ( in_array( 'last_name', $fields ) ) $defaults['fields']['entry'][]          = 'last_name';
+		if ( in_array( 'title', $fields ) ) $defaults['fields']['entry'][]              = 'title';
+		if ( in_array( 'organization', $fields ) ) $defaults['fields']['entry'][]       = 'organization';
+		if ( in_array( 'department', $fields ) ) $defaults['fields']['entry'][]         = 'department';
+		if ( in_array( 'contact_first_name', $fields ) ) $defaults['fields']['entry'][] = 'contact_first_name';
+		if ( in_array( 'contact_last_name', $fields ) ) $defaults['fields']['entry'][]  = 'contact_last_name';
+		if ( in_array( 'bio', $fields ) ) $defaults['fields']['entry'][]                = 'bio';
+		if ( in_array( 'notes', $fields ) ) $defaults['fields']['entry'][]              = 'notes';
 
-		if ( in_array( 'address_line_1' , $search ) ) $defaultAttr['fields_address'][] = 'line_1';
-		if ( in_array( 'address_line_2' , $search ) ) $defaultAttr['fields_address'][] = 'line_2';
-		if ( in_array( 'address_line_3' , $search ) ) $defaultAttr['fields_address'][] = 'line_3';
-		if ( in_array( 'address_city' , $search ) ) $defaultAttr['fields_address'][] = 'city';
-		if ( in_array( 'address_state' , $search ) ) $defaultAttr['fields_address'][] = 'state';
-		if ( in_array( 'address_zipcode' , $search ) ) $defaultAttr['fields_address'][] = 'zipcode';
-		if ( in_array( 'address_country' , $search ) ) $defaultAttr['fields_address'][] = 'country';
+		if ( in_array( 'address_line_1', $fields ) ) $defaults['fields']['address'][]   = 'line_1';
+		if ( in_array( 'address_line_2', $fields ) ) $defaults['fields']['address'][]   = 'line_2';
+		if ( in_array( 'address_line_3', $fields ) ) $defaults['fields']['address'][]   = 'line_3';
+		if ( in_array( 'address_city', $fields ) ) $defaults['fields']['address'][]     = 'city';
+		if ( in_array( 'address_state', $fields ) ) $defaults['fields']['address'][]    = 'state';
+		if ( in_array( 'address_zipcode', $fields ) ) $defaults['fields']['address'][]  = 'zipcode';
+		if ( in_array( 'address_country', $fields ) ) $defaults['fields']['address'][]  = 'country';
 
-		if ( in_array( 'phone_number' , $search ) ) $defaultAttr['fields_phone'][] = 'number';
+		if ( in_array( 'phone_number', $fields ) ) $defaults['fields']['phone'][]       = 'number';
 
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		//print_r($atts);
+		$atts = wp_parse_args( $atts, apply_filters( 'cn_search_atts', $defaults ) );
 
 		// @todo Validate each fiels array to ensure only permitted fields will be used.
 		/*
@@ -2113,12 +2119,14 @@ class cnRetrieve {
 		if ( empty( $atts['terms'] ) ) return array();
 
 		// If value is a string, stripe the white space and covert to an array.
-		if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ' , trim( $atts['terms'] ) );
+		if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ', trim( $atts['terms'] ) );
 
 		// Trim any white space from around the terms in the array.
 		array_walk( $atts['terms'] , 'trim' );
 
-		// Remove any single characters and stp words from terms.
+		$atts['terms'] = apply_filters( 'cn_search_terms', $atts['terms'] );
+
+		// Remove any single characters and stop words from terms.
 		$atts['terms'] = $this->parse_search_terms( $atts['terms'] );
 
 		// If no search terms are left after removing stop words, return an empty array.
@@ -2168,13 +2176,13 @@ class cnRetrieve {
 			if ( ! empty( $atts['terms'] ) ) {
 
 				// Make each term required, functional AND query.
-				$terms = '+' . implode( ' +' , $atts['terms'] );
+				$terms = apply_filters( 'cn_search_fulltext_terms', '+' . implode( ' +', $atts['terms'] ) );
 			}
 
 			/*
 			 * Only search the primary records if at least one fields is selected to be searched.
 			 */
-			if ( ! empty( $defaultAttr['fields_entry'] ) ) {
+			if ( ! empty( $atts['fields']['entry'] ) ) {
 
 				$select = array();
 				$from   = array();
@@ -2189,7 +2197,7 @@ class cnRetrieve {
 				if ( ! empty( $terms ) ) {
 
 					$select[] = $wpdb->prepare(
-						'MATCH (' . implode( ', ', $atts['fields_entry'] ) . ') AGAINST (%s) AS score',
+						'MATCH (' . implode( ', ', $atts['fields']['entry'] ) . ') AGAINST (%s) AS score',
 						$terms
 						);
 				}
@@ -2202,7 +2210,7 @@ class cnRetrieve {
 				if ( ! empty( $terms ) ) {
 
 					$where[] = $wpdb->prepare(
-						'MATCH (' . implode( ', ', $atts['fields_entry'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
+						'MATCH (' . implode( ', ', $atts['fields']['entry'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
 						);
 				}
@@ -2214,7 +2222,7 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $defaultAttr['fields_entry'] ) . ' LIKE %s ', array_fill( 0, count( $defaultAttr['fields_entry'] ), like_escape( $word ) . '%' ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), like_escape( $word ) . '%' ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
@@ -2234,7 +2242,7 @@ class cnRetrieve {
 			/*
 			 * Only search the address records if at least one fields is selected to be searched.
 			 */
-			if ( ! empty( $defaultAttr['fields_address'] ) ) {
+			if ( ! empty( $atts['fields']['address'] ) ) {
 
 				$select = array();
 				$from   = array();
@@ -2249,7 +2257,7 @@ class cnRetrieve {
 				if ( ! empty( $terms ) ) {
 
 					$select[] = $wpdb->prepare(
-						'MATCH (' . implode( ', ', $atts['fields_address'] ) . ') AGAINST (%s) AS score',
+						'MATCH (' . implode( ', ', $atts['fields']['address'] ) . ') AGAINST (%s) AS score',
 						$terms
 						);
 				}
@@ -2262,7 +2270,7 @@ class cnRetrieve {
 				if ( ! empty( $terms ) ) {
 
 					$where[] = $wpdb->prepare(
-						'MATCH (' . implode( ', ', $atts['fields_address'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
+						'MATCH (' . implode( ', ', $atts['fields']['address'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
 						);
 				}
@@ -2274,7 +2282,7 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $defaultAttr['fields_address'] ) . ' LIKE %s ', array_fill( 0, count( $defaultAttr['fields_address'] ), like_escape( $word ) . '%' ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), like_escape( $word ) . '%' ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
@@ -2299,7 +2307,7 @@ class cnRetrieve {
 			/*
 			 * Only search the phone records if thefield is selected to be search.
 			 */
-			if ( ! empty( $defaultAttr['fields_phone'] ) ) {
+			if ( ! empty( $atts['fields']['phone'] ) ) {
 
 				$select = array();
 				$from   = array();
@@ -2314,7 +2322,7 @@ class cnRetrieve {
 				if ( ! empty( $terms ) ) {
 
 					$select[] = $wpdb->prepare(
-						'MATCH (' . implode( ', ', $atts['fields_phone'] ) . ') AGAINST (%s) AS score',
+						'MATCH (' . implode( ', ', $atts['fields']['phone'] ) . ') AGAINST (%s) AS score',
 						$terms
 						);
 				}
@@ -2327,7 +2335,7 @@ class cnRetrieve {
 				if ( ! empty( $terms ) ) {
 
 					$where[] = $wpdb->prepare(
-						'MATCH (' . implode( ', ', $atts['fields_phone'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
+						'MATCH (' . implode( ', ', $atts['fields']['phone'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
 						);
 				}
@@ -2339,7 +2347,7 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $defaultAttr['fields_phone'] ) . ' LIKE %s ', array_fill( 0, count( $defaultAttr['fields_phone'] ), like_escape( $word ) . '%' ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), like_escape( $word ) . '%' ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
@@ -2360,6 +2368,8 @@ class cnRetrieve {
 				 */
 				if ( ! empty( $ids ) ) $scored = array_merge( $scored, $ids );
 			}
+
+			$scored = apply_filters( 'cn_search_scored_results', $scored, $terms );
 
 			/*
 			 * The query results are stored in the $scored array ordered by relevance.
@@ -2386,7 +2396,7 @@ class cnRetrieve {
 			/*
 			 * Only search the primary records if at least one fields is selected to be searched.
 			 */
-			if ( ! empty( $defaultAttr['fields_entry'] ) ) {
+			if ( ! empty( $atts['fields']['entry'] ) ) {
 
 				foreach ( $atts['terms'] as $term ) {
 					/*
@@ -2395,7 +2405,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $defaultAttr['fields_entry'] ) . ' LIKE %s ' , array_fill( 0 , count( $defaultAttr['fields_entry'] ) , '%' . like_escape( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['entry'] ) , '%' . like_escape( $term ) . '%' ) );
 				}
 
 				$sql =  'SELECT ' . CN_ENTRY_TABLE . '.id
@@ -2410,7 +2420,7 @@ class cnRetrieve {
 			/*
 			 * Only search the address records if at least one fields is selected to be searched.
 			 */
-			if ( ! empty( $defaultAttr['fields_address'] ) ) {
+			if ( ! empty( $atts['fields']['address'] ) ) {
 
 				$like = array(); // Reset the like array.
 
@@ -2421,7 +2431,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $defaultAttr['fields_address'] ) . ' LIKE %s ' , array_fill( 0 , count( $defaultAttr['fields_address'] ) , '%' . like_escape( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['address'] ) , '%' . like_escape( $term ) . '%' ) );
 				}
 
 				$sql =  'SELECT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
@@ -2436,7 +2446,7 @@ class cnRetrieve {
 			/*
 			 * Only search the phone records if thefield is selected to be search.
 			 */
-			if ( ! empty( $defaultAttr['fields_phone'] ) ) {
+			if ( ! empty( $atts['fields']['phone'] ) ) {
 				$like = array(); // Reset the like array.
 
 				foreach ( $atts['terms'] as $term ) {
@@ -2446,7 +2456,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $defaultAttr['fields_phone'] ) . ' LIKE %s ' , array_fill( 0 , count( $defaultAttr['fields_phone'] ) , '%' . like_escape( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['phone'] ) , '%' . like_escape( $term ) . '%' ) );
 				}
 
 				$sql =  'SELECT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
@@ -2460,7 +2470,7 @@ class cnRetrieve {
 
 		}
 
-		return $results;
+		return apply_filters( 'cn_search_results', $results, $atts );;
 	}
 
 	/**

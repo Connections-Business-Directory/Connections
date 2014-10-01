@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Connections\n"
-"POT-Creation-Date: 2014-09-09 15:59-0500\n"
-"PO-Revision-Date: 2014-09-09 15:59-0500\n"
+"POT-Creation-Date: 2014-10-01 11:06-0500\n"
+"PO-Revision-Date: 2014-10-01 11:06-0500\n"
 "Last-Translator: Steven A. Zahm <helpdesk@connections-pro.com>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -409,15 +409,15 @@ msgstr ""
 #: includes/admin/class.message.php:155
 #, php-format
 msgid ""
-"The connection_images folder does not exist. <a class='button-primary' "
-"href='%s'>Read more.</a>"
+"The %s folder does not exist. <a class='button-primary' href='%s'>Read more."
+"</a>"
 msgstr ""
 
 #: includes/admin/class.message.php:156
 #, php-format
 msgid ""
-"The connection_images folder is not writable. <a class='button-primary' "
-"href='%s'>Read more.</a>"
+"The %s folder is not writable. <a class='button-primary' href='%s'>Read more."
+"</a>"
 msgstr ""
 
 #: includes/admin/class.message.php:158
@@ -943,8 +943,8 @@ msgid "Search Entries"
 msgstr ""
 
 #: includes/admin/pages/manage.php:338
-#: includes/template/class.template-parts.php:1692
-#: includes/template/class.template-parts.php:1791
+#: includes/template/class.template-parts.php:1713
+#: includes/template/class.template-parts.php:1812
 msgid "Show All Categories"
 msgstr ""
 
@@ -1197,17 +1197,17 @@ msgid "Family"
 msgstr ""
 
 #: includes/admin/pages/templates.php:58
-#: includes/entry/class.entry-data.php:2583
-#: includes/entry/class.entry-output.php:2280
-#: includes/entry/class.entry-output.php:2295
+#: includes/entry/class.entry-data.php:2595
+#: includes/entry/class.entry-output.php:2282
+#: includes/entry/class.entry-output.php:2297
 #: includes/settings/class.options.php:520
 msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:59
-#: includes/entry/class.entry-data.php:2598
-#: includes/entry/class.entry-output.php:2202
-#: includes/entry/class.entry-output.php:2213
+#: includes/entry/class.entry-data.php:2610
+#: includes/entry/class.entry-output.php:2204
+#: includes/entry/class.entry-output.php:2215
 #: includes/settings/class.options.php:522
 msgid "Birthday"
 msgstr ""
@@ -1407,19 +1407,19 @@ msgid ""
 msgstr ""
 
 #: includes/class.metabox-entry.php:331
-#: includes/entry/class.entry-data.php:3044
+#: includes/entry/class.entry-data.php:3056
 #: includes/settings/class.options.php:185
 msgid "Public"
 msgstr ""
 
 #: includes/class.metabox-entry.php:332
-#: includes/entry/class.entry-data.php:3044
+#: includes/entry/class.entry-data.php:3056
 #: includes/settings/class.options.php:186
 msgid "Private"
 msgstr ""
 
 #: includes/class.metabox-entry.php:333
-#: includes/entry/class.entry-data.php:3044
+#: includes/entry/class.entry-data.php:3056
 #: includes/settings/class.options.php:187
 msgid "Unlisted"
 msgstr ""
@@ -1666,7 +1666,7 @@ msgstr ""
 msgid "Add Custom Field"
 msgstr ""
 
-#: includes/class.retrieve.php:2525
+#: includes/class.retrieve.php:2535
 msgctxt "Comma-separated list of search stopwords in your language"
 msgid ""
 "about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,"
@@ -1693,7 +1693,7 @@ msgstr ""
 msgid "Click to hide details."
 msgstr ""
 
-#: includes/class.utility.php:962
+#: includes/class.utility.php:968
 msgid "To enable logging, WP_DEBUG must defined and set to TRUE."
 msgstr ""
 
@@ -1701,19 +1701,19 @@ msgstr ""
 msgid "Image copy failed."
 msgstr ""
 
-#: includes/entry/class.entry-data.php:3812
+#: includes/entry/class.entry-data.php:3824
 msgid "Unknown"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2396
+#: includes/entry/class.entry-output.php:2398
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2903
+#: includes/entry/class.entry-output.php:2905
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2904
+#: includes/entry/class.entry-output.php:2906
 msgid "Download vCard"
 msgstr ""
 
@@ -1721,72 +1721,72 @@ msgstr ""
 msgid "Image processing started."
 msgstr ""
 
-#: includes/image/class.image.php:507
+#: includes/image/class.image.php:509
 msgid "No image path or URL supplied."
 msgstr ""
 
-#: includes/image/class.image.php:703
-msgid "The $img_path variable has not been set."
-msgstr ""
-
-#: includes/image/class.image.php:1065
+#: includes/image/class.image.php:1023
 msgid ""
 "Image successfully resized to fit new width and height without maintaining "
 "proportion."
 msgstr ""
 
-#: includes/image/class.image.php:1084
+#: includes/image/class.image.php:1042
 msgid "Image successfully resized with cropping."
 msgstr ""
 
-#: includes/image/class.image.php:1112
+#: includes/image/class.image.php:1070
 msgid "Image successfully resized proportionally with padding."
 msgstr ""
 
-#: includes/image/class.image.php:1129
+#: includes/image/class.image.php:1087
 msgid "Image successfully resized proportionally with no padding."
 msgstr ""
 
-#: includes/image/class.image.php:1152
+#: includes/image/class.image.php:1110
 msgid "Negate filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1162
+#: includes/image/class.image.php:1120
 msgid "Grayscale filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1202
+#: includes/image/class.image.php:1160
 msgid "Edge Detect filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1212
+#: includes/image/class.image.php:1170
 msgid "Emboss filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1222
+#: includes/image/class.image.php:1180
 msgid "Gaussian Blur filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1232
+#: includes/image/class.image.php:1190
 msgid "Blur filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1242
+#: includes/image/class.image.php:1200
 msgid "Sketchy filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1252
+#: includes/image/class.image.php:1210
 msgid "Sharpen filter applied."
 msgstr ""
 
-#: includes/image/class.image.php:1298
+#: includes/image/class.image.php:1256
 msgid "File saved successfully."
 msgstr ""
 
-#: includes/image/class.image.php:1334
+#: includes/image/class.image.php:1292
 msgid ""
 "WP_DEBUG is not defined or set to FALSE, set to TRUE to enable image "
 "processing log."
+msgstr ""
+
+#: includes/image/class.image.php:1482
+msgid "The $img_path variable has not been set."
 msgstr ""
 
 #: includes/image/editors/class-wp-image-editor-gmagick.php:90
@@ -2384,7 +2384,7 @@ msgid "Images"
 msgstr ""
 
 #: includes/settings/class.settings.php:55
-#: includes/template/class.template-parts.php:1312
+#: includes/template/class.template-parts.php:1333
 msgid "Search"
 msgstr ""
 
@@ -3104,96 +3104,96 @@ msgid "ERROR: Template %1$s not found."
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:142
-#: includes/template/class.template-parts.php:998
+#: includes/template/class.template-parts.php:1019
 msgid "No results."
 msgstr ""
 
-#: includes/template/class.template-parts.php:667
+#: includes/template/class.template-parts.php:688
 msgid "View All"
 msgstr ""
 
-#: includes/template/class.template-parts.php:741
+#: includes/template/class.template-parts.php:762
 msgid "Go back to directory."
-msgstr ""
-
-#: includes/template/class.template-parts.php:906
-#, php-format
-msgid "You are searching within category(ies): %s"
-msgstr ""
-
-#: includes/template/class.template-parts.php:917
-#, php-format
-msgid "You are searching for the keyword(s): %s"
-msgstr ""
-
-#: includes/template/class.template-parts.php:922
-#, php-format
-msgid "The results are being filtered by the character: %s"
 msgstr ""
 
 #: includes/template/class.template-parts.php:927
 #, php-format
+msgid "You are searching within category(ies): %s"
+msgstr ""
+
+#: includes/template/class.template-parts.php:938
+#, php-format
+msgid "You are searching for the keyword(s): %s"
+msgstr ""
+
+#: includes/template/class.template-parts.php:943
+#, php-format
+msgid "The results are being filtered by the character: %s"
+msgstr ""
+
+#: includes/template/class.template-parts.php:948
+#, php-format
 msgid "The results are being filtered by the organization: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:932
+#: includes/template/class.template-parts.php:953
 #, php-format
 msgid "The results are being filtered by the department: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:937
+#: includes/template/class.template-parts.php:958
 #, php-format
 msgid "The results are being filtered by the locality: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:942
+#: includes/template/class.template-parts.php:963
 #, php-format
 msgid "The results are being filtered by the region: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:947
+#: includes/template/class.template-parts.php:968
 #, php-format
 msgid "The results are being filtered by the postal code: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:952
+#: includes/template/class.template-parts.php:973
 #, php-format
 msgid "The results are being filtered by the country: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:963
+#: includes/template/class.template-parts.php:984
 msgid "Clear Search"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1116
-#: includes/template/class.template-parts.php:1117
+#: includes/template/class.template-parts.php:1137
+#: includes/template/class.template-parts.php:1138
 #: includes/template/class.template-shortcode.php:103
 msgid "Return to top."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1195
+#: includes/template/class.template-parts.php:1216
 #, php-format
 msgid "Updated %1$s ago."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1343
+#: includes/template/class.template-parts.php:1364
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1472
+#: includes/template/class.template-parts.php:1493
 msgid "Current Character"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1515
+#: includes/template/class.template-parts.php:1536
 msgid "&laquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1516
+#: includes/template/class.template-parts.php:1537
 msgid "&raquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1690
-#: includes/template/class.template-parts.php:1789
+#: includes/template/class.template-parts.php:1711
+#: includes/template/class.template-parts.php:1810
 msgid "Select Category"
 msgstr ""
 

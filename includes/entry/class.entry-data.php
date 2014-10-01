@@ -1154,6 +1154,7 @@ class cnEntry {
 		 */
 		$defaults['preferred'] = FALSE;
 		$defaults['type'] = NULL;
+		$defaults['limit'] = NULL;
 
 		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
@@ -1174,6 +1175,11 @@ class cnEntry {
 				 * Covert to an array if it was supplied as a comma delimited string
 				 */
 				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+
+				/*
+				 * Limit the number of results.
+				 */
+				if ( ! is_null( $atts['limit'] ) ) $phoneNumbers = array_slice( $phoneNumbers, 0, absint( $atts['limit'] ) );
 
 				foreach ( (array) $phoneNumbers as $key => $number ) {
 					/*
@@ -1423,6 +1429,7 @@ class cnEntry {
 		 */
 		$defaults['preferred'] = FALSE;
 		$defaults['type'] = NULL;
+		$defaults['limit'] = NULL;
 
 		$atts = $this->validate->attributesArray( $defaults, $atts );
 		$atts['id'] = $this->getId();
@@ -1443,6 +1450,11 @@ class cnEntry {
 				 * Covert to an array if it was supplied as a comma delimited string
 				 */
 				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+
+				/*
+				 * Limit the number of results.
+				 */
+				if ( ! is_null( $atts['limit'] ) ) $emailAddresses = array_slice( $emailAddresses, 0, absint( $atts['limit'] ) );
 
 				foreach ( (array) $emailAddresses as $key => $email ) {
 

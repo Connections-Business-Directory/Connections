@@ -1,6 +1,7 @@
 /*
  * Common
  */
+#cn-list .vcard span { display: initial; } /* Prevent themes from setting spans as blocks! */
 #cn-list .cn-clear { clear: both; }
 #cn-list div.cn-list-head { position: relative; }
 /*#cn-list div.cn-list-section-head { position: relative; }*/

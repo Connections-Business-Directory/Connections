@@ -28,7 +28,7 @@ function cn_remove_wpseo_head() {
 		 get_query_var( 'cn-cat-slug' ) ||
 		 get_query_var( 'cn-cat' ) ) {
 
-		remove_action( 'wp_head', array( $GLOBALS['wpseo_front'], 'head' ), 1 );
+		if ( isset( $GLOBALS['wpseo_front'] ) ) remove_action( 'wp_head', array( $GLOBALS['wpseo_front'], 'head' ), 1 );
 	}
 
 }

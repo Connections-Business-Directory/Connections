@@ -332,7 +332,7 @@ class cnOutput extends cnEntry
 			$atts['class'] = apply_filters( 'cn_image_class', $atts['class'] );
 
 			// Add the 2x (retina) image to the srcset.
-			$srcset['2x'] = array(
+			/*$srcset['2x'] = array(
 				'src' => add_query_arg(
 					array(
 						CN_IMAGE_ENDPOINT => $wp_rewrite->using_permalinks() ? FALSE : TRUE,
@@ -344,7 +344,7 @@ class cnOutput extends cnEntry
 					),
 					( $wp_rewrite->using_permalinks() ? home_url( CN_IMAGE_ENDPOINT ) : home_url() ) ),
 				'width' => '2x'
-				);
+				);*/
 
 			// Allow extensions to add/remove images to the srcset.
 			$srcset = apply_filters( 'cn_image_srcset', $srcset );

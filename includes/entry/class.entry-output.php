@@ -137,7 +137,7 @@ class cnOutput extends cnEntry
 		/*
 		 * The $atts key that are not image tag attributes.
 		 */
-		$nonAtts = array( 'action', 'image', 'preset', 'fallback', 'image_size', 'zc', 'quality', 'before', 'after', 'return' );
+		$nonAtts = array( 'action', 'image', 'preset', 'fallback', 'image_size', 'zc', 'quality', 'before', 'after', 'style', 'return' );
 
 		$customSize = ( ! empty( $atts['height'] ) || ! empty( $atts['width'] ) ) ? TRUE : FALSE;
 
@@ -332,7 +332,7 @@ class cnOutput extends cnEntry
 			$atts['class'] = apply_filters( 'cn_image_class', $atts['class'] );
 
 			// Add the 2x (retina) image to the srcset.
-			$srcset['2x'] = array(
+			/*$srcset['2x'] = array(
 				'src' => add_query_arg(
 					array(
 						CN_IMAGE_ENDPOINT => $wp_rewrite->using_permalinks() ? FALSE : TRUE,
@@ -344,7 +344,7 @@ class cnOutput extends cnEntry
 					),
 					( $wp_rewrite->using_permalinks() ? home_url( CN_IMAGE_ENDPOINT ) : home_url() ) ),
 				'width' => '2x'
-				);
+				);*/
 
 			// Allow extensions to add/remove images to the srcset.
 			$srcset = apply_filters( 'cn_image_srcset', $srcset );
@@ -372,7 +372,7 @@ class cnOutput extends cnEntry
 			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
 			// The inner <span> is required for responsive image support. This markup also makes it IE8 compatible.
-			$out = sprintf( '<span class="cn-image-style"%1$s><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s/>%5$s</span></span>',
+			$out = sprintf( '<span class="cn-image-style"><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s%1$s/>%5$s</span></span>',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				absint( $image['width'] ),
 				empty( $anchorStart ) ? '' : $anchorStart,
@@ -1357,6 +1357,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
+		$defaults['limit'] = NULL;
 		$defaults['format'] = '';
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
@@ -1547,6 +1548,7 @@ class cnOutput extends cnEntry
 		 */
 		$defaults['preferred'] = NULL;
 		$defaults['type'] = NULL;
+		$defaults['limit'] = NULL;
 		$defaults['format'] = '';
 		$defaults['title'] = '';
 		$defaults['size'] = 32;

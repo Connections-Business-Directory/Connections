@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 8.1.2
+Stable tag: 8.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -156,6 +156,23 @@ Connections Business Directory has been embraced around the world and has been t
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
 == Changelog ==
+
+= 8.1.2 10/01/2014 =
+* BUG: Add `style` that should not be added to the img tag attributes.
+* BUG: Update cnLog to be compatible with change made in WP_Error in WP 4.0 when WP_DEBUG is not defined or FALSE.
+* BUG: Fixed undefined index error.
+* TWEAK: Refactor and add filters to cnRetrieve::search().
+* TWEAK: Move the image style from the span to the img.
+* TWEAK: Change `cn-list-actions` from id to class.
+* TWEAK: Update image_path_exists_failed and image_path_writeable_failed error messages.
+* OTHER: Prevent themes from setting spans as blocks within Connections HTML markup.
+* OTHER: Add the `cn_list_body_class` filter.
+* OTHER: Add the `cn_list_row_class` filter.
+* OTHER: Add `limit` support when querying phone numbers.
+* OTHER: Add `limit` support when querying email addresses.
+* OTHER: Temporarily disable the HiDPI image in srcset.
+* OTHER: Add experimental code (disabled) to speedup cnImage when called thru a URL query.
+* I18N: Update POT file.
 
 = 8.1.2 09/16/2014 =
 * BUG: Fix responsive image CSS bug.
@@ -688,4 +705,7 @@ This a major update to Connections it is recommended to backup before updating. 
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.1.2 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.1.3 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

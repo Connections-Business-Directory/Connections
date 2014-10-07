@@ -80,7 +80,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $img = cnImage::upload( $_FILES['original_image'], $entrySlug ) ) ) {
 
-			cnMessage::set( 'error', implode( '<br />implode([string glue,] array pieces)', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
 			return FALSE;
 		}
 
@@ -100,7 +100,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $large ) ) {
 
-			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $large->get_error_messages() ) );
 		}
 
 		$medium = cnImage::get(
@@ -117,7 +117,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $medium ) ) {
 
-			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $large->get_error_messages() ) );
 		}
 
 		$thumb = cnImage::get(
@@ -134,7 +134,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $thumb ) ) {
 
-			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $large->get_error_messages() ) );
 		}
 
 		// Output the debug log.
@@ -192,7 +192,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $logo ) ) {
 
-			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $logo->get_error_messages() ) );
 		}
 
 		// Output the debug log.

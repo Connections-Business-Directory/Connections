@@ -562,7 +562,7 @@ class cnEntry_Action {
 		}
 
 		// Don't do this if an entry is being updated.
-		if ( $action !== 'update' && $sourceEntrySlug ) {
+		if ( $action !== 'update' ) {
 
 			// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific logo will be deleted.
@@ -631,9 +631,9 @@ class cnEntry_Action {
 
 				$entry->setImageLinked( TRUE );
 				$entry->setImageDisplay( TRUE );
-				$entry->setImageNameThumbnail( $result['image_names']['thumbnail'] );
-				$entry->setImageNameCard( $result['image_names']['entry'] );
-				$entry->setImageNameProfile( $result['image_names']['profile'] );
+				// $entry->setImageNameThumbnail( $result['image_names']['thumbnail'] );
+				// $entry->setImageNameCard( $result['image_names']['entry'] );
+				// $entry->setImageNameProfile( $result['image_names']['profile'] );
 				$entry->setImageNameOriginal( $result['image_names']['original'] );
 				$entry->setOriginalImageMeta( $result['image']['original']['meta'] );
 
@@ -646,7 +646,7 @@ class cnEntry_Action {
 		}
 
 		// Don't do this if an entry is being updated.
-		if ( $action !== 'update' && $sourceEntrySlug ) {
+		if ( $action !== 'update' ) {
 
 			// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific images will be deleted.

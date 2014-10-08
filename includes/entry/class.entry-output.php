@@ -729,10 +729,12 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function getTitleBlock( $atts = array() ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
+			'tag'    => 'span',
 			'before' => '',
 			'after'  => '',
 			'return' => FALSE
@@ -745,18 +747,19 @@ class cnOutput extends cnEntry
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
 		$title = $this->getTitle();
 
 		if ( ! empty( $title ) ) {
-			$out .= '<span class="title">' . $title . '</span>';
-		}
-		else {
+
+			$out = sprintf( '<%1$s class="title">%2$s</%1$s>', $atts['tag'], $title );
+
+		} else {
+
 			return '';
 		}
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		if ( $atts['return'] ) return ( PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . PHP_EOL;
+		echo ( PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . PHP_EOL;
 	}
 
 	/**

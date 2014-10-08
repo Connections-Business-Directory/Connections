@@ -952,7 +952,7 @@ class cnOutput extends cnEntry
 		$out = str_ireplace(
 			$search,
 			$replace,
-			empty( $atts['format'] ) ? '%label%: %first% %last%' : $atts['format']
+			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
 			);
 
 		// Remove any whitespace between tags as the result of spces on before/after tokens
@@ -1889,7 +1889,7 @@ class cnOutput extends cnEntry
 		/*
 		 * Set some defaults so the result resembles how the previous rendered.
 		 */
-		return $this->getLinkBlock( array( 'format' => '%label%: %url%' , 'type' => array( 'personal', 'website' ) , 'return' => TRUE ) );
+		return $this->getLinkBlock( array( 'format' => '%label%%separator% %url%' , 'type' => array( 'personal', 'website' ) , 'return' => TRUE ) );
 	}
 
 	/**

@@ -320,7 +320,16 @@ class cnEntry_Action {
 
 		foreach( $filesFiltered as $file ) {
 
-			if ( $file->isDot() ) { continue; }
+			if ( is_callable( $file, 'isDot' ) ) {
+
+				// isDot() Requires PHP >= 5.3
+				if ( $file->isDot() ) { continue; }
+
+			} else {
+
+				// Required for PHP 5.2 support.
+				if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
+			}
 
 			@unlink( $file->getPathname() );
 		}

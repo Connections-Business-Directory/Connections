@@ -288,6 +288,9 @@ class cnEntry_Action {
 	 */
 	public static function deleteImages( $filename, $source ) {
 
+		// Ensure neither $filename or $source are empty. If one is bail.
+		if ( empty( $filename ) || empty( $source ) ) return;
+
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 

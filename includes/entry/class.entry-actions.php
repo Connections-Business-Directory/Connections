@@ -80,7 +80,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $img = cnImage::upload( $_FILES['original_image'], $entrySlug ) ) ) {
 
-			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
 			return FALSE;
 		}
 
@@ -100,7 +100,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $large ) ) {
 
-			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $large->get_error_messages() ) );
 		}
 
 		$medium = cnImage::get(
@@ -117,7 +117,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $medium ) ) {
 
-			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $large->get_error_messages() ) );
 		}
 
 		$thumb = cnImage::get(
@@ -134,15 +134,15 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $thumb ) ) {
 
-			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $large->get_error_messages() ) );
 		}
 
 		// Output the debug log.
 		if ( $instance->options->getDebug() && is_admin() ) {
 
-			if ( isset( $large['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Large Image Process Log<br/> <pre>' . $large['log'] . '</pre>' );
-			if ( isset( $medium['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Medium Image Process Log<br/><pre>' . $medium['log'] . '</pre>' );
-			if ( isset( $thumb['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Thumbnail Image Process Log<br/><pre>' . $thumb['log'] . '</pre>' );
+			if ( ! is_wp_error( $large ) && isset( $large['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Large Image Process Log<br/> <pre>' . $large['log'] . '</pre>' );
+			if ( ! is_wp_error( $medium ) && isset( $medium['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Medium Image Process Log<br/><pre>' . $medium['log'] . '</pre>' );
+			if ( ! is_wp_error( $thumb ) && isset( $thumb['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Thumbnail Image Process Log<br/><pre>' . $thumb['log'] . '</pre>' );
 		}
 
 		return array( 'image_names' => array( 'original' => $img['name'] ), 'image' => array( 'original' => array( 'meta' => $img ) ) );
@@ -172,7 +172,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $img = cnImage::upload( $_FILES['original_logo'], $entrySlug ) ) ) {
 
-			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $img->get_error_messages() ) );
 			return FALSE;
 		}
 
@@ -192,7 +192,7 @@ class cnEntry_Action {
 
 		if ( is_wp_error( $logo ) ) {
 
-			cnMessage::set( 'error', implode( '<br /', $img->get_error_messages() ) );
+			cnMessage::set( 'error', implode( '<br />', $logo->get_error_messages() ) );
 		}
 
 		// Output the debug log.
@@ -288,6 +288,9 @@ class cnEntry_Action {
 	 */
 	public static function deleteImages( $filename, $source ) {
 
+		// Ensure neither $filename or $source are empty. If one is bail.
+		if ( empty( $filename ) || empty( $source ) ) return;
+
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
@@ -320,7 +323,16 @@ class cnEntry_Action {
 
 		foreach( $filesFiltered as $file ) {
 
-			if ( $file->isDot() ) { continue; }
+			if ( is_callable( $file, 'isDot' ) ) {
+
+				// isDot() Requires PHP >= 5.3
+				if ( $file->isDot() ) { continue; }
+
+			} else {
+
+				// Required for PHP 5.2 support.
+				if ( basename( $file ) == '..' || basename( $file ) == '.' ) { continue; }
+			}
 
 			@unlink( $file->getPathname() );
 		}
@@ -550,7 +562,7 @@ class cnEntry_Action {
 		}
 
 		// Don't do this if an entry is being updated.
-		if ( $action !== 'update' && $sourceEntrySlug ) {
+		if ( $action !== 'update' ) {
 
 			// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific logo will be deleted.
@@ -619,9 +631,9 @@ class cnEntry_Action {
 
 				$entry->setImageLinked( TRUE );
 				$entry->setImageDisplay( TRUE );
-				$entry->setImageNameThumbnail( $result['image_names']['thumbnail'] );
-				$entry->setImageNameCard( $result['image_names']['entry'] );
-				$entry->setImageNameProfile( $result['image_names']['profile'] );
+				// $entry->setImageNameThumbnail( $result['image_names']['thumbnail'] );
+				// $entry->setImageNameCard( $result['image_names']['entry'] );
+				// $entry->setImageNameProfile( $result['image_names']['profile'] );
 				$entry->setImageNameOriginal( $result['image_names']['original'] );
 				$entry->setOriginalImageMeta( $result['image']['original']['meta'] );
 
@@ -634,7 +646,7 @@ class cnEntry_Action {
 		}
 
 		// Don't do this if an entry is being updated.
-		if ( $action !== 'update' && $sourceEntrySlug ) {
+		if ( $action !== 'update' ) {
 
 			// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific images will be deleted.

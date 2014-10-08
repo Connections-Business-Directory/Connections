@@ -486,9 +486,9 @@ class cnUpload {
 		// If this is a multi site AND Connections is in multi site mode then the the paths passed by WP can be used.
 		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 
-			$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : '/' . $this->subDirectory;
-			$file['path']   = $file['basedir'] . $file['subdir'];
-			$file['url']    = $file['baseurl'] . $file['subdir'];
+			$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : $this->subDirectory;
+			$file['path']   = trailingslashit( $file['basedir'] ) . $file['subdir'];
+			$file['url']    = trailingslashit( $file['baseurl'] ) . $file['subdir'];
 
 		// If Connections is on sigle site or in single site mode on a multi site setup use cnUpload::info() to get the path info.
 		} else {
@@ -498,9 +498,9 @@ class cnUpload {
 			// to the `upload_dir` hook.
 			$info = cnUpload::info();
 
-			$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : '/' . $this->subDirectory;
-			$file['path']   = $info['base_path'] . $file['subdir'];
-			$file['url']    = $info['base_url'] . $file['subdir'];
+			$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : $this->subDirectory;
+			$file['path']   = trailingslashit( $info['base_path'] ) . $file['subdir'];
+			$file['url']    = trailingslashit( $info['base_url'] ) . $file['subdir'];
 		}
 
 		return $file;

@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 8.1.3
+Stable tag: 8.1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,7 +157,21 @@ Connections Business Directory has been embraced around the world and has been t
 
 == Changelog ==
 
-= 8.1.2 10/01/2014 =
+= 8.1.4 10/08/2014 =
+* BUG: Ensure image is not a WP_Error before trying to access its process log.
+* BUG: Fix error report when creating entry images. Was not calling correct object.
+* BUG: Ensure no double slash in paths when uploading an image.
+* BUG: Make cnEntry_Action::deleteImages() is PHP <= 5.2 compatible.
+* BUG: Ensure neither $filename or $source are empty in cnEntry_Action::deleteImages().
+* BUG: Fix undefined index notices when processing new images.
+* BUG: Fix the "Resize to fit the specified dimensions (no cropping)." image option.
+* BUG: Fix unclosed `br` tag in error message triggered when adding images to entries.
+* BUG: Fix missing %separator% token in replacement string for getLinkBlock() and getContactNameBlock().
+* BUG: Run setTermRelationships() thru $wpdb->prepare().
+* BUG: Fix version in changelog and readme.
+* TWEAK: Add `tag` option to getTitleBlock();.
+
+= 8.1.3 10/01/2014 =
 * BUG: Add `style` that should not be added to the img tag attributes.
 * BUG: Update cnLog to be compatible with change made in WP_Error in WP 4.0 when WP_DEBUG is not defined or FALSE.
 * BUG: Fixed undefined index error.
@@ -708,4 +722,7 @@ This a major update to Connections it is recommended to backup before updating. 
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.1.3 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.1.4 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

@@ -644,7 +644,7 @@ class cnTerms
 		{
 			foreach ($termIDs as $termID)
 			{
-				$termTaxonomyID = $wpdb->get_var( 'SELECT term_taxonomy_id FROM ' . CN_TERM_TAXONOMY_TABLE . ' WHERE term_id=' . $termID );
+				$termTaxonomyID = $wpdb->get_var( $wpdb->prepare( 'SELECT term_taxonomy_id FROM ' . CN_TERM_TAXONOMY_TABLE . ' WHERE term_id=%d', $termID ) );
 				$wpdb->query( $wpdb->prepare( "INSERT INTO " . CN_TERM_RELATIONSHIP_TABLE . " SET entry_id = %d, term_taxonomy_id = %d, term_order = 0", $entryID, $termTaxonomyID) );
 			}
 		}

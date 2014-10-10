@@ -2977,41 +2977,16 @@ class cnEntry {
 	/**
 	 * Create excerpt from the supplied text. Default is the bio.
 	 *
-	 * Filters:
-	 *   cn_excerpt_length => change the default excerpt length of 55 words.
-	 *   cn_excerpt_more  => change the default more string of &hellip;
-	 *   cn_trim_excerpt  => change returned string
+	 * @access public
+	 * @since  unknown
+	 * @param  array   $atts [optional]
+	 * @param  string  $text [optional]
 	 *
-	 * @param (string)  $atts [optional]
-	 * @param (string)  $text [optional]
-	 * @return (string)
+	 * @return string
 	 */
-	public function getExcerpt( $atts = array(), $text = NULL ) {
+	public function getExcerpt( $atts = array(), $text = '' ) {
 
-		$defaults = array(
-			'length' => apply_filters( 'cn_excerpt_length', 55 ),
-			'more'   => apply_filters( 'cn_excerpt_more', '&hellip;' )
-		);
-
-		$atts = $this->validate->attributesArray( $defaults, $atts );
-
-		$text = empty( $text ) ? $this->getBio() : $this->format->sanitizeString( $text, FALSE );
-
-		$words = preg_split( "/[\n\r\t ]+/", $text, $atts['length'] + 1, PREG_SPLIT_NO_EMPTY );
-
-		if ( count( $words ) > $atts['length'] ) {
-
-			array_pop( $words );
-			$text = implode( ' ', $words ) . $atts['more'];
-
-		} else {
-
-			$text = implode( ' ', $words );
-		}
-
-		$text = strip_shortcodes( $text );
-
-		return apply_filters( 'cn_trim_excerpt', $text );
+		return cnFormatting::excerpt( $text = empty( $text ) ? $this->getBio() : $text, $atts );
 	}
 
 	/**

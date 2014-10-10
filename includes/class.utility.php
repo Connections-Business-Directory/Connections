@@ -231,11 +231,22 @@ class cnFormatting {
 	/**
 	 * Create excerpt from the supplied string.
 	 *
+	 * Accepted option for the $atts property are:
+	 * 	length (int|string) The length, number of words, of the excerpt to create. If set to `p` the excerpt will be the first paragraph, no word limit.
+	 * 	more (string) The string appended to the end of the excerpt.
+	 * 	allowed_tags (array) An array containing the permitted tags.
+	 *
+	 * NOTE: The `more` string will be inserted before the last HTML tag if one exists.
+	 * 		 If not, it'll be appended to the end of the excert.
+	 *
 	 * Filters:
 	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
 	 *   cn_excerpt_more         => change the default more string of &hellip;
 	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
-	 *   cn_entry_excerpt        => change returned string
+	 *   cn_entry_excerpt        => change returned excerpt
+	 *
+	 * Credit:
+	 * @url http://wordpress.stackexchange.com/a/141136
 	 *
 	 * @access public
 	 * @since  8.1.5
@@ -264,34 +275,52 @@ class cnFormatting {
 
 		$string = str_replace( ']]>', ']]&gt;', $string );
 
-		$string = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+		if ( $atts['length'] === 'p' ) {
 
-		$tokens  = array();
-		$excerpt = '';
-		$count   = 0;
+			$excerpt = substr( $string, 0, strpos( $string, '</p>' ) + 4 );
 
-		// Divide the string into tokens; HTML tags, or words, followed by any whitespace
-		preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
+		} else {
 
-		foreach ( $tokens[0] as $token ) {
+			$string  = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$tokens  = array();
+			$excerpt = '';
+			$count   = 0;
 
-			if ( $count >= $atts['length'] && preg_match('/[\,\;\?\.\!]\s*$/uS', $token ) ) {
+			// Divide the string into tokens; HTML tags, or words, followed by any whitespace
+			preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
 
-				// Limit reached, continue until , ; ? . or ! occur at the end
-				$excerpt .= trim( $token );
-				break;
+			foreach ( $tokens[0] as $token ) {
+
+				if ( $count >= $atts['length'] && preg_match('/[\,\;\?\.\!]\s*$/uS', $token ) ) {
+
+					// Limit reached, continue until , ; ? . or ! occur at the end
+					$excerpt .= trim( $token );
+					break;
+				}
+
+				// Add words to complete sentence
+				$count++;
+
+				// Append what's left of the token
+				$excerpt .= $token;
 			}
 
-			// Add words to complete sentence
-			$count++;
-
-			// Append what's left of the token
-			$excerpt .= $token;
 		}
 
-		$excerpt .= $atts['more'];
-
 		$excerpt = trim( force_balance_tags( $excerpt ) );
+
+		$pos = strrpos( $excerpt, '</' );
+
+		if ( $pos !== FALSE ) {
+
+			// Inside last HTML tag
+			$excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
+
+		} else {
+
+			// After the content
+			$excerpt .= $atts['more'];
+		}
 
 		return apply_filters( 'cn_entry_excerpt', $excerpt, $raw, $atts );
 	}

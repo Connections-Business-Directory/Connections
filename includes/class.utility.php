@@ -228,6 +228,74 @@ class cnFormatting {
 		return $color;
 	}
 
+	/**
+	 * Create excerpt from the supplied string.
+	 *
+	 * Filters:
+	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
+	 *   cn_excerpt_more         => change the default more string of &hellip;
+	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
+	 *   cn_entry_excerpt        => change returned string
+	 *
+	 * @access public
+	 * @since  8.1.5
+	 * @param  string  $string String to create the excerpt from.
+	 * @param  array   $atts   [optional]
+	 *
+	 * @return string
+	 */
+	public static function excerpt( $string, $atts = array() ) {
+
+		if ( empty( $string ) || ! is_string( $string ) ) return '';
+
+		$defaults = array(
+			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;' ) ),
+			'allowed_tags' => apply_filters( 'cn_excerpt_allowed_tags', array( 'style','br','em','strong','i','ul','ol','li','a','p','img','video','audio' ) )
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Save a copy of the raw text for the filter.
+		$raw    = $string;
+
+		// Strip all shortcode from the text.
+		$string = strip_shortcodes( $string );
+
+		$string = str_replace( ']]>', ']]&gt;', $string );
+
+		$string = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+
+		$tokens  = array();
+		$excerpt = '';
+		$count   = 0;
+
+		// Divide the string into tokens; HTML tags, or words, followed by any whitespace
+		preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
+
+		foreach ( $tokens[0] as $token ) {
+
+			if ( $count >= $atts['length'] && preg_match('/[\,\;\?\.\!]\s*$/uS', $token ) ) {
+
+				// Limit reached, continue until , ; ? . or ! occur at the end
+				$excerpt .= trim( $token );
+				break;
+			}
+
+			// Add words to complete sentence
+			$count++;
+
+			// Append what's left of the token
+			$excerpt .= $token;
+		}
+
+		$excerpt .= $atts['more'];
+
+		$excerpt = trim( force_balance_tags( $excerpt ) );
+
+		return apply_filters( 'cn_entry_excerpt', $excerpt, $raw, $atts );
+	}
+
 }
 
 class cnValidate {

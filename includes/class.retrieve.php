@@ -170,7 +170,7 @@ class cnRetrieve {
 
 			// Search terms
 			$searchTerms = get_query_var( 'cn-s' );
-			if ( ! empty( $searchTerms ) ) $atts['search_terms'] = urldecode( $searchTerms );
+			if ( ! empty( $searchTerms ) ) $atts['search_terms'] = $searchTerms;
 
 			// Geo-location
 			$queryCoord = get_query_var( 'cn-near-coord' );

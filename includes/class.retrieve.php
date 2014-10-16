@@ -155,8 +155,9 @@ class cnRetrieve {
 			if ( ! empty( $queryDeparment ) ) $atts['department'] = urldecode( $queryDeparment );
 
 			// Entry slug
+			// NOTE: The entry slug is saved in the DB URL encoded, so there's no need to urldecode().
 			$queryEntrySlug = get_query_var( 'cn-entry-slug' );
-			if ( ! empty( $queryEntrySlug ) ) $atts['slug'] = urldecode( $queryEntrySlug );
+			if ( ! empty( $queryEntrySlug ) ) $atts['slug'] = $queryEntrySlug;
 
 			// Initial character.
 			$queryInitialChar = get_query_var( 'cn-char' );
@@ -169,7 +170,7 @@ class cnRetrieve {
 
 			// Search terms
 			$searchTerms = get_query_var( 'cn-s' );
-			if ( ! empty( $searchTerms ) ) $atts['search_terms'] = urldecode( $searchTerms );
+			if ( ! empty( $searchTerms ) ) $atts['search_terms'] = $searchTerms;
 
 			// Geo-location
 			$queryCoord = get_query_var( 'cn-near-coord' );
@@ -2390,13 +2391,19 @@ class cnRetrieve {
 		 * Perform the search on each table individually because joining the tables doesn't scale when
 		 * there are a large number of entries.
 		 */
-		if ( ( cnSettingsAPI::get( 'connections', 'search', 'keyword_enabled' ) && empty( $results ) ) ||
-			( cnSettingsAPI::get( 'connections', 'search', 'fulltext_enabled' ) && empty( $results ) ) ) {
+		if (
+			(
+				( cnSettingsAPI::get( 'connections', 'search', 'keyword_enabled' ) && empty( $results ) ) ||
+				( cnSettingsAPI::get( 'connections', 'search', 'fulltext_enabled' ) && empty( $results ) )
+			) &&
+			! empty( $atts['terms'] ) ) {
 
 			/*
 			 * Only search the primary records if at least one fields is selected to be searched.
 			 */
 			if ( ! empty( $atts['fields']['entry'] ) ) {
+
+				$like = array(); // Reset the like array.
 
 				foreach ( $atts['terms'] as $term ) {
 					/*
@@ -2447,6 +2454,7 @@ class cnRetrieve {
 			 * Only search the phone records if thefield is selected to be search.
 			 */
 			if ( ! empty( $atts['fields']['phone'] ) ) {
+
 				$like = array(); // Reset the like array.
 
 				foreach ( $atts['terms'] as $term ) {

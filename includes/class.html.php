@@ -334,23 +334,23 @@ class cnHTML {
 	public static function input( $atts, $value = '' ) {
 
 		$defaults = array(
-			'type'     => 'text',
-			'prefix'   => 'cn-',
-			'class'    => array(),
-			'id'       => '',
-			'name'     => '',
-			'style'    => array(),
-			// 'value'    => '',
-			'ckecked'  => '',
-			'readonly' => FALSE,
-			'disabled' => FALSE,
-			'required' => FALSE,
-			'label'    => '',
-			'before'   => '',
-			'after'    => '',
-			'parts'    => array( '%label%', '%field%' ),
-			'layout'   => '%label%%field%',
-			'return'   => FALSE,
+			'type'         => 'text',
+			'prefix'       => 'cn-',
+			'class'        => array(),
+			'id'           => '',
+			'name'         => '',
+			'style'        => array(),
+			'autocomplete' => FALSE,
+			'ckecked'      => '',
+			'readonly'     => FALSE,
+			'disabled'     => FALSE,
+			'required'     => FALSE,
+			'label'        => '',
+			'before'       => '',
+			'after'        => '',
+			'parts'        => array( '%label%', '%field%' ),
+			'layout'       => '%label%%field%',
+			'return'       => FALSE,
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -382,13 +382,14 @@ class cnHTML {
 		// Create the field label, if supplied.
 		$replace[] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
 
-		$replace[] = sprintf( '<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s/>',
+		$replace[] = sprintf( '<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s/>',
 			self::attribute( 'type', $atts['type'] ),
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
 			self::attribute( 'style', $atts['style'] ),
 			self::attribute( 'value', $value ),
+			self::attribute( 'autocomplete', $atts['autocomplete'] ),
 			! empty( $atts['checked'] ) ? $atts['checked'] : '',
 			$atts['readonly'] ? 'readonly="readonly"' : '',
 			disabled( $atts['disabled'], TRUE, FALSE )

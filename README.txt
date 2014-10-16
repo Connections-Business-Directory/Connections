@@ -157,6 +157,17 @@ Connections Business Directory has been embraced around the world and has been t
 
 == Changelog ==
 
+= 8.1.5 10/16/2014 =
+* FEATURE: Add cnFormatting::excerpt().
+* BUG: Fix the use of UTF8 Cyrillic entry slugs throughout. Addresses issue where URL encoded folder names would be created for the images uploaded to an entry.
+* BUG: The output of get_query_var( 'cn-s' ) does not need to be urldecode().
+* BUG: Check for empty search terms array after shortwords are removed to prevent invalid db queries.
+* BUG: Reset the $like array var to ensure valid queries when performing a keyword search.
+* TWEAK: Use cnFormatting::excerpt() to create the entry bio for improved excerpt creation form several of the premium templates.
+* TWEAK: Add support autocomplete in cnHTML::input().
+* OTHER: Remove whitespace.
+* OTHER: Add .editorconfig.
+
 = 8.1.4 10/08/2014 =
 * BUG: Ensure image is not a WP_Error before trying to access its process log.
 * BUG: Fix error report when creating entry images. Was not calling correct object.
@@ -725,4 +736,7 @@ This a major update to Connections it is recommended to backup before updating. 
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.1.4 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.1.5 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

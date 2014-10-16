@@ -228,6 +228,103 @@ class cnFormatting {
 		return $color;
 	}
 
+	/**
+	 * Create excerpt from the supplied string.
+	 *
+	 * Accepted option for the $atts property are:
+	 * 	length (int|string) The length, number of words, of the excerpt to create. If set to `p` the excerpt will be the first paragraph, no word limit.
+	 * 	more (string) The string appended to the end of the excerpt.
+	 * 	allowed_tags (array) An array containing the permitted tags.
+	 *
+	 * NOTE: The `more` string will be inserted before the last HTML tag if one exists.
+	 * 		 If not, it'll be appended to the end of the excert.
+	 *
+	 * Filters:
+	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
+	 *   cn_excerpt_more         => change the default more string of &hellip;
+	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
+	 *   cn_entry_excerpt        => change returned excerpt
+	 *
+	 * Credit:
+	 * @url http://wordpress.stackexchange.com/a/141136
+	 *
+	 * @access public
+	 * @since  8.1.5
+	 * @param  string  $string String to create the excerpt from.
+	 * @param  array   $atts   [optional]
+	 *
+	 * @return string
+	 */
+	public static function excerpt( $string, $atts = array() ) {
+
+		if ( empty( $string ) || ! is_string( $string ) ) return '';
+
+		$defaults = array(
+			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;' ) ),
+			'allowed_tags' => apply_filters( 'cn_excerpt_allowed_tags', array( 'style','br','em','strong','i','ul','ol','li','a','p','img','video','audio' ) )
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Save a copy of the raw text for the filter.
+		$raw    = $string;
+
+		// Strip all shortcode from the text.
+		$string = strip_shortcodes( $string );
+
+		$string = str_replace( ']]>', ']]&gt;', $string );
+
+		if ( $atts['length'] === 'p' ) {
+
+			$excerpt = substr( $string, 0, strpos( $string, '</p>' ) + 4 );
+
+		} else {
+
+			$string  = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$tokens  = array();
+			$excerpt = '';
+			$count   = 0;
+
+			// Divide the string into tokens; HTML tags, or words, followed by any whitespace
+			preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
+
+			foreach ( $tokens[0] as $token ) {
+
+				if ( $count >= $atts['length'] && preg_match('/[\,\;\?\.\!]\s*$/uS', $token ) ) {
+
+					// Limit reached, continue until , ; ? . or ! occur at the end
+					$excerpt .= trim( $token );
+					break;
+				}
+
+				// Add words to complete sentence
+				$count++;
+
+				// Append what's left of the token
+				$excerpt .= $token;
+			}
+
+		}
+
+		$excerpt = trim( force_balance_tags( $excerpt ) );
+
+		$pos = strrpos( $excerpt, '</' );
+
+		if ( $pos !== FALSE ) {
+
+			// Inside last HTML tag
+			$excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
+
+		} else {
+
+			// After the content
+			$excerpt .= $atts['more'];
+		}
+
+		return apply_filters( 'cn_entry_excerpt', $excerpt, $raw, $atts );
+	}
+
 }
 
 class cnValidate {
@@ -589,6 +686,12 @@ class cnURL {
 	/**
 	 * Create a permalink.
 	 *
+	 * NOTE: When the `name` permalink is being requested, use the entry slug.
+	 * 		 It is saved id the db as URL encoded. If any other strings pass
+	 * 		 for the `name` permalink must be URL encoded.
+	 * 		 All the other permalink types will be URL encoded in this method
+	 * 		 so pass stings without URL encoding.
+	 *
 	 * @access private
 	 * @since 0.7.3
 	 * @global $wp_rewrite
@@ -703,7 +806,10 @@ class cnURL {
 			case 'name':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . urlencode( $atts['slug'] ) );
+
+					// The entry slug is saved in the db urlencoded so we'll expect when the permalink for entry name is
+					// requested that the entry slug is being used so urecode() will not be use as not to double encode it.
+					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] );
 				} else {
 					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
 				}

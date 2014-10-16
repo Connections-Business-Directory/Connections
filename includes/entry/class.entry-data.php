@@ -435,6 +435,8 @@ class cnEntry {
 	/**
 	 * Returns a unique sanitized slug for insertion in the database.
 	 *
+	 * NOTE: If the entry name is UTF8 it will be URL encoded by the sanitize_title() function.
+	 *
 	 * @return string
 	 */
 	private function getUniqueSlug( $slug = '' ) {
@@ -2977,41 +2979,16 @@ class cnEntry {
 	/**
 	 * Create excerpt from the supplied text. Default is the bio.
 	 *
-	 * Filters:
-	 *   cn_excerpt_length => change the default excerpt length of 55 words.
-	 *   cn_excerpt_more  => change the default more string of &hellip;
-	 *   cn_trim_excerpt  => change returned string
+	 * @access public
+	 * @since  unknown
+	 * @param  array   $atts [optional]
+	 * @param  string  $text [optional]
 	 *
-	 * @param (string)  $atts [optional]
-	 * @param (string)  $text [optional]
-	 * @return (string)
+	 * @return string
 	 */
-	public function getExcerpt( $atts = array(), $text = NULL ) {
+	public function getExcerpt( $atts = array(), $text = '' ) {
 
-		$defaults = array(
-			'length' => apply_filters( 'cn_excerpt_length', 55 ),
-			'more'   => apply_filters( 'cn_excerpt_more', '&hellip;' )
-		);
-
-		$atts = $this->validate->attributesArray( $defaults, $atts );
-
-		$text = empty( $text ) ? $this->getBio() : $this->format->sanitizeString( $text, FALSE );
-
-		$words = preg_split( "/[\n\r\t ]+/", $text, $atts['length'] + 1, PREG_SPLIT_NO_EMPTY );
-
-		if ( count( $words ) > $atts['length'] ) {
-
-			array_pop( $words );
-			$text = implode( ' ', $words ) . $atts['more'];
-
-		} else {
-
-			$text = implode( ' ', $words );
-		}
-
-		$text = strip_shortcodes( $text );
-
-		return apply_filters( 'cn_trim_excerpt', $text );
+		return cnFormatting::excerpt( $text = empty( $text ) ? $this->getBio() : $text, $atts );
 	}
 
 	/**
@@ -3323,18 +3300,21 @@ class cnEntry {
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
+		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
+		$slug = rawurldecode( $this->getSlug() );
+
 		switch ( $type ) {
 
 			case 'logo':
 
 				// Build the URL to the original image.
-				return CN_IMAGE_PATH . $this->getSlug() . DIRECTORY_SEPARATOR .$this->getLogoName();
+				return CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR .$this->getLogoName();
 				break;
 
 			case 'photo':
 
 				// Build the URL to the original image.
-				return CN_IMAGE_PATH . $this->getSlug() . DIRECTORY_SEPARATOR .$this->getImageNameOriginal();
+				return CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR .$this->getImageNameOriginal();
 				break;
 
 			default:
@@ -3365,16 +3345,19 @@ class cnEntry {
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
+		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
+		$slug = rawurldecode( $this->getSlug() );
+
 		switch ( $type ) {
 
 			case 'logo':
 
-				return CN_IMAGE_BASE_URL . $this->getSlug() . '/' . $this->getLogoName();
+				return CN_IMAGE_BASE_URL . $slug . '/' . $this->getLogoName();
 				break;
 
 			case 'photo':
 
-				return CN_IMAGE_BASE_URL . $this->getSlug() . '/' . $this->getImageNameOriginal();
+				return CN_IMAGE_BASE_URL . $slug . '/' . $this->getImageNameOriginal();
 				break;
 
 			default:
@@ -3447,6 +3430,9 @@ class cnEntry {
 
 		if ( empty( $atts['type'] ) ) return $meta;
 
+		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
+		$slug = rawurldecode( $this->getSlug() );
+
 		if ( $atts['size'] == 'custom' ) {
 
 			$meta = cnImage::get(
@@ -3456,7 +3442,7 @@ class cnEntry {
 					'width'     => empty( $atts['width'] ) ? NULL : $atts['width'],
 					'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
 					'quality'   => $atts['quality'],
-					'sub_dir'   => $this->getSlug(),
+					'sub_dir'   => $slug,
 					),
 				'data'
 				);
@@ -3515,7 +3501,7 @@ class cnEntry {
 								'width'     => cnSettingsAPI::get( 'connections', 'image_logo', 'width' ),
 								'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
 								'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
-								'sub_dir'   => $this->getSlug(),
+								'sub_dir'   => $slug,
 								),
 							'data'
 							);
@@ -3577,7 +3563,7 @@ class cnEntry {
 									'width'     => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'width' ),
 									'height'    => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'height' ),
 									'quality'   => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'quality' ),
-									'sub_dir'   => $this->getSlug(),
+									'sub_dir'   => $slug,
 									),
 								'data'
 								);
@@ -3632,7 +3618,8 @@ class cnEntry {
 			$legacyPath = WP_CONTENT_DIR . '/connection_images/';
 		}
 
-		$slug = $this->getSlug();
+		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
+		$slug = rawurldecode( $this->getSlug() );
 
 		// Ensure the entry slug is not empty in case a user added an entry with no name.
 		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), $legacyPath . $filename );
@@ -3750,7 +3737,8 @@ class cnEntry {
 			$legacyPath = WP_CONTENT_DIR . '/connection_images/';
 		}
 
-		$slug = $this->getSlug();
+		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
+		$slug = rawurldecode( $this->getSlug() );
 
 		// Ensure the entry slug is not empty in case a user added an entry with no name.
 		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), $legacyPath . $filename );
@@ -3759,7 +3747,7 @@ class cnEntry {
 		// $uploadInfo = wp_upload_dir();
 
 		// Build the destination logo path.
-		$path = CN_IMAGE_PATH . $this->getSlug() . DIRECTORY_SEPARATOR;
+		$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR;
 
 		// If the source logo already exists in the new folder structure, post 8.1, bail, nothing to do.
 		if ( is_file( $path . $filename ) ) {
@@ -4859,7 +4847,8 @@ class cnEntry {
 		// Get the core WP uploads info.
 		// $uploadInfo = wp_upload_dir();
 
-		$slug = $this->getSlug();
+		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
+		$slug = rawurldecode( $this->getSlug() );
 
 		// Ensure the entry slug is not empty in case a user added an entry with no name.
 		// If this check is not done all the images in the CN_IMAGE_DIR_NAME will be deleted

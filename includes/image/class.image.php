@@ -1280,7 +1280,7 @@ class cnImage {
 
 			case 'data':
 
-				$image = array (
+				$image = array(
 					'name'   => "{$dst_rel_path}-{$suffix}.{$ext}",
 					'path'   => $destfilename,
 					'url'    => $img_url,

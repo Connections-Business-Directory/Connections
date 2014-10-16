@@ -59,6 +59,8 @@ class cnEntry_Action {
 	/**
 	 * Process an image upload, creating the three size variations and caching them for later use.
 	 *
+	 * NOTE: The entry slug should be run thru rawurldecode() before being passed to this method.
+	 *
 	 * @access private
 	 * @since  8.1
 	 * @static
@@ -151,6 +153,8 @@ class cnEntry_Action {
 	/**
 	 * Process a logo upload, creating its size variation and caching it for later use.
 	 *
+	 * NOTE: The entry slug should be run thru rawurldecode() before being passed to this method.
+	 *
 	 * @access private
 	 * @since  8.1
 	 * @static
@@ -206,6 +210,8 @@ class cnEntry_Action {
 
 	/**
 	 * Copies image from one entry to a new entry.
+	 *
+	 * NOTE: The entry slug should be run thru rawurldecode() before being passed to this method.
 	 *
 	 * @access private
 	 * @since  8.1
@@ -275,6 +281,9 @@ class cnEntry_Action {
 
 	/**
 	 * Deletes the image and its variations from an entry.
+	 *
+	 * NOTE: The entry slug should be run thru rawurldecode() before being passed
+	 * 		 to this method as $source.
 	 *
 	 * @access private
 	 * @since  8.1
@@ -504,7 +513,7 @@ class cnEntry_Action {
 				// in order to copy the source entry images to the new entry.
 				if ( ! empty( $id ) ) {
 
-					$sourceEntrySlug = $entry->getSlug();
+					$sourceEntrySlug = rawurldecode( $entry->getSlug() );
 
 					$entry->setSlug( $entry->getName( array( 'format' => '%first%-%last%' ) ) );
 
@@ -527,6 +536,8 @@ class cnEntry_Action {
 				break;
 		}
 
+		$slug = rawurldecode( $entry->getSlug() );
+
 		// Run any registered filters before processing, passing the $entry object.
 		// ? Should the logo, photo and category data be passed too?
 		$entry = apply_filters( 'cn_pre_process_' . $action . '-entry', $entry, ( isset( $data['entry_category'] ) ? $data['entry_category'] : array() ) );
@@ -538,13 +549,13 @@ class cnEntry_Action {
 
 			// If an entry is being updated and a new logo is uploaded, the old logo needs to be deleted.
 			// Delete the entry logo.
-			self::deleteImages( $entry->getLogoName(), $entry->getSlug() );
+			self::deleteImages( $entry->getLogoName(), $slug );
 
 			// Delete logo the legacy logo, pre 8.1.
 			self::deleteLegacyLogo( $entry );
 
 			// Process the newly uploaded image.
-			$result = self::processLogo( $entry->getSlug() );
+			$result = self::processLogo( $slug );
 
 			// If there were no errors processing the logo, set the values.
 			if ( $result ) {
@@ -568,7 +579,7 @@ class cnEntry_Action {
 			// That way if an entry is deleted, only the entry specific logo will be deleted.
 			if ( $entry->getLogoName() != NULL ) {
 
-				$originalLogoName = self::copyImages( $entry->getLogoName(), $sourceEntrySlug, $entry->getSlug() );
+				$originalLogoName = self::copyImages( $entry->getLogoName(), $sourceEntrySlug, $slug );
 
 				// $entry->setLogoName( self::copyImage( $originalLogoName ) );
 			}
@@ -587,7 +598,7 @@ class cnEntry_Action {
 					$entry->setLogoLinked( FALSE );
 
 					// Delete the entry image and its variations.
-					self::deleteImages( $entry->getLogoName(), $entry->getSlug() );
+					self::deleteImages( $entry->getLogoName(), $slug );
 
 					// Delete logo the legacy logo, pre 8.1.
 					self::deleteLegacyLogo( $entry );
@@ -618,13 +629,13 @@ class cnEntry_Action {
 		if ( isset( $_FILES['original_image'] ) && $_FILES['original_image']['error'] != 4 ) {
 
 			// Delete the entry image and its variations.
-			self::deleteImages( $entry->getImageNameOriginal(), $entry->getSlug() );
+			self::deleteImages( $entry->getImageNameOriginal(), $slug );
 
 			// Delete any legacy images, pre 8.1, that may exist.
 			self::deleteLegacyImages( $entry );
 
 			// Process the newly uploaded image.
-			$result = self::processImage( $entry->getSlug() );
+			$result = self::processImage( $slug );
 
 			// If there were no errors processing the image, set the values.
 			if ( $result ) {
@@ -652,7 +663,7 @@ class cnEntry_Action {
 			// That way if an entry is deleted, only the entry specific images will be deleted.
 			if ( $entry->getImageNameOriginal() != NULL ) {
 
-				$originalImageName = self::copyImages( $entry->getImageNameOriginal(), $sourceEntrySlug, $entry->getSlug() );
+				$originalImageName = self::copyImages( $entry->getImageNameOriginal(), $sourceEntrySlug, $slug );
 
 				// $entry->setImageNameOriginal( $originalImageName );
 			}
@@ -669,7 +680,7 @@ class cnEntry_Action {
 					$entry->setImageLinked( FALSE );
 
 					// Delete the entry image and its variations.
-					self::deleteImages( $entry->getImageNameOriginal(), $entry->getSlug() );
+					self::deleteImages( $entry->getImageNameOriginal(), $slug );
 
 					// Delete any legacy images, pre 8.1, that may exist.
 					self::deleteLegacyImages( $entry );
@@ -1051,7 +1062,7 @@ class cnEntry_Action {
 
 			// Grab an instance of the Connections object.
 			$instance   = Connections_Directory();
-			$entry      = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			$entry      = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ) ) );
 
 			// preg_match( '/href="(.*?)"/', cnURL::permalink( array( 'slug' => $entry->slug, 'return' => TRUE ) ), $matches );
 			// $permalink = $matches[1];

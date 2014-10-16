@@ -2399,6 +2399,8 @@ class cnRetrieve {
 			 */
 			if ( ! empty( $atts['fields']['entry'] ) ) {
 
+				$like = array(); // Reset the like array.
+
 				foreach ( $atts['terms'] as $term ) {
 					/*
 					 * Attempt to secure the query using $wpdb->prepare() and like_escape()

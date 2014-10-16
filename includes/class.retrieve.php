@@ -155,8 +155,9 @@ class cnRetrieve {
 			if ( ! empty( $queryDeparment ) ) $atts['department'] = urldecode( $queryDeparment );
 
 			// Entry slug
+			// NOTE: The entry slug is saved in the DB URL encoded, so there's no need to urldecode().
 			$queryEntrySlug = get_query_var( 'cn-entry-slug' );
-			if ( ! empty( $queryEntrySlug ) ) $atts['slug'] = urldecode( $queryEntrySlug );
+			if ( ! empty( $queryEntrySlug ) ) $atts['slug'] = $queryEntrySlug;
 
 			// Initial character.
 			$queryInitialChar = get_query_var( 'cn-char' );

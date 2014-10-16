@@ -686,6 +686,12 @@ class cnURL {
 	/**
 	 * Create a permalink.
 	 *
+	 * NOTE: When the `name` permalink is being requested, use the entry slug.
+	 * 		 It is saved id the db as URL encoded. If any other strings pass
+	 * 		 for the `name` permalink must be URL encoded.
+	 * 		 All the other permalink types will be URL encoded in this method
+	 * 		 so pass stings without URL encoding.
+	 *
 	 * @access private
 	 * @since 0.7.3
 	 * @global $wp_rewrite
@@ -800,7 +806,10 @@ class cnURL {
 			case 'name':
 
 				if ( $wp_rewrite->using_permalinks() ) {
-					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . urlencode( $atts['slug'] ) );
+
+					// The entry slug is saved in the db urlencoded so we'll expect when the permalink for entry name is
+					// requested that the entry slug is being used so urecode() will not be use as not to double encode it.
+					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] );
 				} else {
 					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail' ) , $permalink );
 				}

@@ -2391,8 +2391,12 @@ class cnRetrieve {
 		 * Perform the search on each table individually because joining the tables doesn't scale when
 		 * there are a large number of entries.
 		 */
-		if ( ( cnSettingsAPI::get( 'connections', 'search', 'keyword_enabled' ) && empty( $results ) ) ||
-			( cnSettingsAPI::get( 'connections', 'search', 'fulltext_enabled' ) && empty( $results ) ) ) {
+		if (
+			(
+				( cnSettingsAPI::get( 'connections', 'search', 'keyword_enabled' ) && empty( $results ) ) ||
+				( cnSettingsAPI::get( 'connections', 'search', 'fulltext_enabled' ) && empty( $results ) )
+			) &&
+			! empty( $atts['terms'] ) ) {
 
 			/*
 			 * Only search the primary records if at least one fields is selected to be searched.

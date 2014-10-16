@@ -2450,6 +2450,7 @@ class cnRetrieve {
 			 * Only search the phone records if thefield is selected to be search.
 			 */
 			if ( ! empty( $atts['fields']['phone'] ) ) {
+
 				$like = array(); // Reset the like array.
 
 				foreach ( $atts['terms'] as $term ) {

@@ -4,6 +4,10 @@
 # WordPress Coding Standards
 # http://make.wordpress.org/core/handbook/coding-standards/
 
+# Based from https://github.com/ntwb/wp.editorconfig/blob/master/.editorconfig
+#
+# Need an IDE plugin? http://editorconfig.org/#download
+
 root = true
 
 [*]

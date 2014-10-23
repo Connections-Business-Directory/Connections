@@ -2669,6 +2669,15 @@ class cnEntry {
 					 * // END -- Do not return dates that do not match the supplied $atts.
 					 */
 
+					/*
+					 * // START -- Compatibility for previous versions.
+					 */
+					// Versions prior to 8.1.5 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
+					if ( ! isset( $date['visibility'] ) || empty( $date['visibility'] ) ) $row->visibility = 'public';
+					/*
+					 * // END -- Compatibility for previous versions.
+					 */
+
 					// If the user does not have permission to view the address, do not return it.
 					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 

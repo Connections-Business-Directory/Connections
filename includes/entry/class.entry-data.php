@@ -904,8 +904,8 @@ class cnEntry {
 					( isset( $address['state'] ) ) ? $row->state = $this->format->sanitizeString( $address['state'] ) : $row->state = '';
 					( isset( $address['zipcode'] ) ) ? $row->zipcode = $this->format->sanitizeString( $address['zipcode'] ) : $row->zipcode = '';
 					( isset( $address['country'] ) ) ? $row->country = $this->format->sanitizeString( $address['country'] ) : $row->country = '';
-					( isset( $address['latitude'] ) ) ? $row->latitude = (float) $address['latitude'] : $row->latitude = NULL;
-					( isset( $address['longitude'] ) ) ? $row->longitude = (float) $address['longitude'] : $row->longitude = NULL;
+					( isset( $address['latitude'] ) ) ? $row->latitude = number_format( (float) $address['latitude'], 12 ) : $row->latitude = NULL;
+					( isset( $address['longitude'] ) ) ? $row->longitude = number_format( (float) $address['longitude'], 12 ) : $row->longitude = NULL;
 					( isset( $address['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $address['visibility'] ) : $row->visibility = '';
 
 					/*
@@ -978,9 +978,9 @@ class cnEntry {
 				$address->zipcode = $this->format->sanitizeString( $address->zipcode );
 				$address->country = $this->format->sanitizeString( $address->country );
 
-				$address->latitude = (float) $address->latitude;
+				$address->latitude = number_format( (float) $address->latitude, 12 );
 				if ( empty( $address->latitude ) ) $address->latitude = NULL;
-				$address->longitude = (float) $address->longitude;
+				$address->longitude = number_format( (float) $address->longitude, 12 );
 				if ( empty( $address->longitude ) ) $address->longitude = NULL;
 
 				$address->visibility = $this->format->sanitizeString( $address->visibility );

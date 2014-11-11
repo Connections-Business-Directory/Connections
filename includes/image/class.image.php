@@ -956,9 +956,9 @@ class cnImage {
 			$editor = wp_get_image_editor( $destfilename );
 
 			// If there is an error, return WP_Error object.
-			if ( $result = is_wp_error( $editor ) ) {
+			if ( is_wp_error( $editor ) ) {
 
-				return $result;
+				return $editor;
 			}
 
 			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
@@ -990,9 +990,9 @@ class cnImage {
 			$editor = wp_get_image_editor( $image_info['path'], $methods );
 
 			// If there is an error, return WP_Error object.
-			if ( $result = is_wp_error( $editor ) ) {
+			if ( is_wp_error( $editor ) ) {
 
-				return $result;
+				return $editor;
 			}
 
 			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );

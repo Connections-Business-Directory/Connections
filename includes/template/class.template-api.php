@@ -584,4 +584,5 @@ class cnTemplateFactory {
 }
 
 // Init the Template Factory API
-cnTemplateFactory::init();
+// cnTemplateFactory::init();
+add_action( 'plugins_loaded', array( 'cnTemplateFactory', 'init' ), 99 );

@@ -1172,11 +1172,10 @@ class cnRetrieve {
 	public function upcoming( $atts = array() ) {
 		global $wpdb, $connections;
 
-		$validate = new cnValidate();
-		$where = array();
-		$results = array();
-
-		$permittedUpcomingTypes = array( 'anniversary', 'birthday' );
+		$validate  = new cnValidate();
+		$permitted = array( 'anniversary', 'birthday' );
+		$where     = array();
+		$results   = array();
 
 		$defaults = array(
 			'type'                  => 'birthday',
@@ -1190,85 +1189,19 @@ class cnRetrieve {
 		$atts = $validate->attributesArray( $defaults, $atts );
 
 		// Ensure that the upcoming type is one of the supported types. If not, reset to the default.
-		$atts['type'] = in_array( $atts['type'], $permittedUpcomingTypes ) ? $atts['type'] : 'birthday';
+		$atts['type'] = in_array( $atts['type'], $permitted ) ? $atts['type'] : 'birthday';
 
-
-		// Show only public or private [if permitted] entries.
-		/*if ( is_user_logged_in() || $atts['private_override'] != FALSE ) {
-			$visibilityfilter = " AND (visibility='private' OR visibility='public') AND (".$atts['list_type']." != '')";
-		} else {
-			$visibilityfilter = " AND (visibility='public') AND (`".$atts['list_type']."` != '')";
-		}*/
-
-
-		/*
-		 * // START --> Set up the query to only return the entries based on user permissions.
-		 */
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			//var_dump( $connections->options->getAllowPublic() ); die;
-
-			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-
-			// Display the 'public' entries if the public override shortcode option is enabled.
-			if ( $connections->options->getAllowPublicOverride() ) {
-				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
-			}
-
-			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
-			if ( $connections->options->getAllowPrivateOverride() ) {
-				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
-				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
-				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
-			}
-		}
-
-		$where[] = 'AND visibility IN (\'' . implode( "', '", $visibility ) . '\')';
-		//$where[] = "AND (visibility='private' OR visibility='public')";
-		/*
-		 * // END --> Set up the query to only return the entries based on user permissions.
-		 */
+		// Limit the results that are queried based on if the current user can view public, private or unlisted entries.
+		$where = self::setQueryVisibility( $where, $atts );
 
 		// Only select the entries with a date.
 		$where[] = "AND ( `".$atts['type']."` != '' )";
 
-		// Get the current date from WP which should have the current time zone offset.
-		// $wpCurrentDate = date( 'Y-m-d', $connections->options->wpCurrentTime );
-
 		// Get todays date, formatted for use in the query.
 		$date = gmdate( 'Y-m-d', current_time( 'timestamp' ) );
 
-		// FROM_UNIXTIME automatically adjusts for the local time. Offset is applied in query to ensure event is returned in current WP set timezone.
-		// $sqlTimeOffset = $connections->options->sqlTimeOffset;
-		// $results       = $wpdb->get_results( 'SELECT TIME_FORMAT( TIMEDIFF(NOW(), UTC_TIMESTAMP), \'%H:%i‌​\' ) AS offset' );
-		// $offset        = preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $results[0]->offset ); // The result from SQL seems to have some non-printing control characters, remove them.
-		// $offset = (int) $offset >= 0 ? '+' . $offset : $offset;
-		// var_dump( $offset );
-
 		// Whether or not to include the event occurring today or not.
 		$includeToday = ( $atts['today'] ) ? '<=' : '<';
-
-		// $sql = "SELECT * FROM ".CN_ENTRY_TABLE." WHERE"
-		// 	. "  (YEAR(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY))"
-		// 	. " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND)) )"
-		// 	. " - ( MID(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY),5,6)"
-		// 	. " < MID(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND),5,6) )"
-		// 	. " > ( YEAR('$wpCurrentDate')"
-		// 	. " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND)) )"
-		// 	. " - ( MID('$wpCurrentDate',5,6)"
-		// 	. " ".$includeToday." MID(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND),5,6) )"
-		// 	. " ".implode( ' ', $where );
-		// print_r($sql);
 
 		/*
 		 * The FROM_UNIXTIME function will return the date offset to the local system timezone.
@@ -1291,24 +1224,26 @@ class cnRetrieve {
 		$results = $wpdb->get_results( $sql );
 		// print_r($results);
 
-
 		if ( ! empty( $results ) ) {
+
 			/*The SQL returns an array sorted by the birthday and/or anniversary date. However the year end wrap needs to be accounted for.
 			Otherwise earlier months of the year show before the later months in the year. Example Jan before Dec. The desired output is to show
 			Dec then Jan dates.  This function checks to see if the month is a month earlier than the current month. If it is the year is changed to the following year rather than the current.
 			After a new list is built, it is resorted based on the date.*/
 			foreach ( $results as $key => $row ) {
-				if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', $connections->options->wpCurrentTime ) ) < $connections->options->wpCurrentTime ) {
-					$dateSort[] = $row->$atts['type'] = gmmktime( 0, 0, 0, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', $connections->options->wpCurrentTime ) + 1 );
+
+				if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', current_time( 'timestamp' ) ) ) < current_time( 'timestamp' ) ) {
+					$dateSort[] = $row->$atts['type'] = gmmktime( 0, 0, 0, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', current_time( 'timestamp' ) ) + 1 );
+
+				} else {
+
+					$dateSort[] = $row->$atts['type'] = gmmktime( 0, 0, 0, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', current_time( 'timestamp' ) ) );
 				}
-				else {
-					$dateSort[] = $row->$atts['type'] = gmmktime( 0, 0, 0, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', $connections->options->wpCurrentTime ) );
-				}
+
 			}
 
 			array_multisort( $dateSort, SORT_ASC, $results );
 		}
-
 
 		return $results;
 	}

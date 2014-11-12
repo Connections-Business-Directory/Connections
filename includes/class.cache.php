@@ -566,4 +566,27 @@ class cnFragment {
 
 		cnCache::set( $this->key, ob_get_flush(), $this->ttl, 'transient', self::PREFIX );
 	}
+
+	/**
+	 * Clear a fragment cache object or object group.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 * @param  mixed  $key   bool | string The cache key to clear. When set to TRUE, clear a fragment cache group.
+	 * @param  string $group The cache group to clear
+	 * @return void
+	 */
+	public static function clear( $key, $group = '' ) {
+
+		if ( TRUE !== $key ) {
+
+			cnCache::clear( $key, 'transient', self::PREFIX );
+
+		} else {
+
+			cnCache::clear( TRUE, 'transient', self::PREFIX . '_' . $group );
+		}
+
+	}
 }

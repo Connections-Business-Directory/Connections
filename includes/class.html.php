@@ -341,7 +341,7 @@ class cnHTML {
 			'name'         => '',
 			'style'        => array(),
 			'autocomplete' => FALSE,
-			'ckecked'      => '',
+			'checked'      => '',
 			'readonly'     => FALSE,
 			'disabled'     => FALSE,
 			'required'     => FALSE,
@@ -618,7 +618,7 @@ class cnHTML {
 		if ( empty( $atts['id'] ) ) return '';
 
 		// The field name.
-		$name = $atts['id'];
+		$name = ! empty( $atts['name'] ) ? $atts['name'] : $atts['id'];
 
 		// The field parts to be searched for in $atts['layout'].
 		$search = $atts['parts'];

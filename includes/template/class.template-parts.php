@@ -1794,8 +1794,8 @@ class cnTemplatePart {
 			$selected = explode( ',', $selected );
 		}
 
-		$level = 1;
-		$out   = '';
+		$level  = 1;
+		$select = '';
 
 		$categories = $connections->retrieve->categories();
 
@@ -1803,6 +1803,7 @@ class cnTemplatePart {
 			'type'            => 'select',
 			'group'           => FALSE,
 			'class'           => array( 'cn-category-select' ),
+			'id'              => '',
 			'name'            => 'cn-cat',
 			'style'           => array(),
 			'enhanced'        => TRUE,
@@ -1815,10 +1816,21 @@ class cnTemplatePart {
 			'depth'           => 0,
 			'parent_id'       => array(),
 			'exclude'         => array(),
+			'label'           => '',
+			'before'          => '',
+			'after'           => '',
+			'parts'           => array( '%label%', '%field%' ),
+			'layout'          => '%label%%field%',
 			'return'          => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		// The field parts to be searched for in $atts['layout'].
+		$search = $atts['parts'];
+
+		// An array to store the replacement strings for the label and field.
+		$replace = array();
 
 		if ( ! is_array( $atts['parent_id'] ) ) {
 			// Trim extra whitespace.
@@ -1839,9 +1851,13 @@ class cnTemplatePart {
 		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
 		if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('cn-enhanced-select') );
 
+		// Create the field label, if supplied.
+		$replace[] = ! empty( $atts['label'] ) ? cnHTML::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
+
 		// $out .= PHP_EOL . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
-		$out .= sprintf( '<select %1$s name="%2$s"%3$s%4$sdata-placeholder="%5$s"%6$s>',
+		$select .= sprintf( '<select %1$s %2$s name="%3$s"%4$s%5$sdata-placeholder="%6$s"%7$s>',
 			empty( $atts['class'] ) ? '' : cnHTML::attribute( 'class', $atts['class'] ),
+			empty( $atts['id'] ) ? '' : cnHTML::attribute( 'id', $atts['id'] ),
 			$atts['type'] == 'multiselect' ? esc_attr( $atts['name'] ) . '[]' : esc_attr( $atts['name'] ),
 			empty( $atts['style'] ) ? '' : cnHTML::attribute( 'style', $atts['style'] ),
 			$atts['type'] == 'multiselect' ? '' : ( empty( $atts['on_change'] ) ? '' : sprintf( ' onchange="%s" ', esc_js( $atts['on_change'] ) ) ),
@@ -1849,9 +1865,9 @@ class cnTemplatePart {
 			$atts['type'] == 'multiselect' ? ' MULTIPLE' : ''
 			);
 
-		$out .= PHP_EOL . sprintf( '<option value="">%1$s</option>', ( wp_is_mobile() ? esc_attr( $atts['default'] ) : '' ) );
+		if ( $atts['enhanced'] ) $select .= PHP_EOL . sprintf( '<option value="">%1$s</option>', ( wp_is_mobile() ? esc_attr( $atts['default'] ) : '' ) );
 
-		if ( $atts['show_select_all'] ) $out .= PHP_EOL . '<option value="">' . esc_attr( $atts['select_all'] ) . '</option>';
+		if ( $atts['show_select_all'] ) $select .= PHP_EOL . '<option value="">' . esc_attr( $atts['select_all'] ) . '</option>';
 
 		foreach ( $categories as $key => $category ) {
 			// Limit the category tree to only the supplied root parent categories.
@@ -1862,24 +1878,28 @@ class cnTemplatePart {
 
 			// If grouping by root parent is enabled, open the optiongroup tag.
 			if ( $atts['group'] && ! empty( $category->children ) )
-				$out .= sprintf( '<optgroup label="%1$s">' , $category->name );
+				$select .= sprintf( '<optgroup label="%1$s">' , $category->name );
 
 			// Call the recursive function to build the select options.
-			$out .= self::categorySelectOption( $category, $level, $atts['depth'], $selected, $atts );
+			$select .= self::categorySelectOption( $category, $level, $atts['depth'], $selected, $atts );
 
 			// If grouping by root parent is enabled, close the optiongroup tag.
 			if ( $atts['group'] && ! empty( $category->children ) )
-				$out .= '</optgroup>' . PHP_EOL;
+				$select .= '</optgroup>' . PHP_EOL;
 		}
 
-		$out .= '</select>' . PHP_EOL;
+		$select .= '</select>' . PHP_EOL;
+
+		$replace[] = $select;
+
+		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
 		// This submit is required for template that have the enable_category_multi_select set to tru for backward compatibility.
 		// Dang, this can not be enabled for backward compatibility. It'll output in undesired locations.
 		// if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( $atts['return'] ) return ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
+		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
 	}
 
 	/**

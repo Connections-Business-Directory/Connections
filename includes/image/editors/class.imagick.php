@@ -35,7 +35,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 				// From: http://stackoverflow.com/questions/3538851/php-imagick-setimageopacity-destroys-transparency-and-does-nothing
 				// preserves transparency
-				$this->image->setImageOpacity( $level );
+				if ( method_exists( $this->image, 'setImageOpacity' ) ) $this->image->setImageOpacity( $level );
 				$this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
 
 				return TRUE;

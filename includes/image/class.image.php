@@ -157,6 +157,8 @@ class cnImage {
 	 * @return stream Streams an image resoure to the browser or a error message.
 	 */
 	public static function query() {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		if ( get_query_var( CN_IMAGE_ENDPOINT ) ) {
@@ -488,6 +490,29 @@ class cnImage {
 
 		do_action( 'cn_image_get', $atts, $source, $return );
 
+		/**
+		 * @var $width
+		 * @var $height
+		 * @var $negate
+		 * @var $grayscale
+		 * @var $brightness
+		 * @var $colorize
+		 * @var $contrast
+		 * @var $detect_edges
+		 * @var $emboss
+		 * @var $gaussian_blur
+		 * @var $blur
+		 * @var $sketchy
+		 * @var $sharpen
+		 * @var $smooth
+		 * @var $opacity
+		 * @var $crop_mode
+		 * @var $crop_focus
+		 * @var $crop_only
+		 * @var $canvas_color
+		 * @var $quality
+		 * @var $sub_dir
+		 */
 		extract( $atts );
 
 		/*
@@ -987,6 +1012,7 @@ class cnImage {
 			$methods['methods'][]                             = 'set_quality';
 
 			// Perform resizing and other filters.
+			/** @var CN_Image_Editor_GD $editor */
 			$editor = wp_get_image_editor( $image_info['path'], $methods );
 
 			// If there is an error, return WP_Error object.
@@ -1513,7 +1539,7 @@ class cnImage {
 	 * @uses   trailingslashit()
 	 * @uses   cnUpload
 	 * @param array  $file Reference to a single element of $_FILES.
-	 * @param array  $atts An associative array containing the upload params.
+	 * @param string $subDirectory An associative array containing the upload params.
 	 *
 	 * @return mixed array | object On success an associative array of the uploadewd file details. On failure, an instance of WP_Error.
 	 */

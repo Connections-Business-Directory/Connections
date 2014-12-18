@@ -601,7 +601,7 @@ class cnHTML {
 			'class'    => array(),
 			'id'       => '',
 			'style'    => array(),
-			'default'  => array(),
+			'default'  => '',
 			'options'  => array(),
 			'enhanced' => FALSE,
 			'label'    => '',
@@ -645,7 +645,7 @@ class cnHTML {
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
 			self::attribute( 'style', $atts['style'] ),
-			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( (string) reset( $atts['default'] ) ) . '"' : ''
+			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( $atts['default'] ) . '"' : ''
 			);
 
 		/*
@@ -653,7 +653,7 @@ class cnHTML {
 		 */
 
 		// If the select is NOT a Chosen enhanced select; prepend the default option to the top of the options array.
-		if ( ! empty( $atts['default'] ) && ! $atts['enhanced'] ) $atts['options'] = $atts['default'] + $atts['options'];
+		if ( ! empty( $atts['default'] ) && ! $atts['enhanced'] ) $atts['options'] = (array) $atts['default'] + $atts['options'];
 
 		// If the select IS a Chosen enhanced select; prepend the blank option required for Chosen.
 		if ( ! empty( $atts['default'] ) && $atts['enhanced'] ) $atts['options'] = array( '' => '' ) + $atts['options'];

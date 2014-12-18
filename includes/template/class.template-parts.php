@@ -1683,27 +1683,30 @@ class cnTemplatePart {
 	 * Parent public function that outputs the various categories output formats.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The ouput type of the categories. Valid options options are: select || multiselect || radio || checkbox
-	 * 	group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
-	 * 	default (string) The default string to show as the first item in the list. Used for select && multiselect only.
-	 * 	show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
-	 * 	select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
-	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *    type (string) The ouput type of the categories. Valid options options are: select || multiselect || radio || checkbox
+	 *    group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
+	 *    default (string) The default string to show as the first item in the list. Used for select && multiselect only.
+	 *    show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
+	 *    select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
+	 *    show_empty (bool) Whether or not to display empty categories.
+	 *    show_count (bool) Whether or not to display the category count.
+	 *    depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
+	 *    parent_id (array) An array of root parent category IDs to limit the list to.
+	 *    return (bool) Whether or not to return or echo the result.
 	 *
 	 * NOTE: The $atts array is passed to a number of private methods to output the categories.
 	 *
-	 * @access public
+	 * @access  public
 	 * @version 1.0
-	 * @since 0.7.3
-	 * @uses wp_parse_args()
+	 * @since   0.7.3
+	 * @uses    wp_parse_args()
+	 *
 	 * @param array $atts [optional]
+	 * @param array $value [optional] An indexed array of category ID/s that should be marked as "SELECTED".
+	 *
 	 * @return string
 	 */
-	public static function category( $atts = NULL ) {
+	public static function category( $atts = NULL, $value = array() ) {
 
 		$defaults = array(
 			'type'            => 'select',
@@ -1723,11 +1726,11 @@ class cnTemplatePart {
 
 		switch ( $atts['type'] ) {
 			case 'select':
-				$out = self::categorySelect( $atts );
+				$out = self::categorySelect( $atts, $value );
 				break;
 
 			case 'multiselect':
-				$out = self::categorySelect( $atts );
+				$out = self::categorySelect( $atts, $value );
 				break;
 
 			case 'radio':
@@ -1767,37 +1770,43 @@ class cnTemplatePart {
 	 * @uses get_query_var()
 	 * @uses wp_parse_args()
 	 * @param array $atts
+	 * @param array $value [optional] An indexed array of category ID/s that should be marked as "SELECTED".
 	 * @return string
 	 */
-	private static function categorySelect( $atts ) {
-		global $connections;
-		$selected = array();
+	private static function categorySelect( $atts, $value = array() ) {
 
-		if ( get_query_var( 'cn-cat' ) ) {
+		// Grab an instance of the Connections object.
+		$connections = Connections_Directory();
 
-			$selected = get_query_var( 'cn-cat' );
+		$categories = $connections->retrieve->categories();
+		$selected   = array();
+		$level      = 1;
+		$select     = '';
 
+		if ( empty( $value ) ) {
 
-		} elseif ( get_query_var( 'cn-cat-slug' ) ) {
+			if ( get_query_var( 'cn-cat' ) ) {
 
-			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$queryCategorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+				$selected = get_query_var( 'cn-cat' );
 
-			if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) $selected = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];
+			} elseif ( get_query_var( 'cn-cat-slug' ) ) {
+
+				// If the category slug is a descendant, use the last slug from the URL for the query.
+				$queryCategorySlug = explode( '/', get_query_var( 'cn-cat-slug' ) );
+
+				if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) {
+					$selected = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];
+				}
+			}
+
+		} else {
+
+			$selected = $value;
+
 		}
 
 		// If value is a string, strip the white space and covert to an array.
-		if ( ! is_array( $selected ) ) {
-
-			$selected = str_replace( ' ', '', $selected );
-
-			$selected = explode( ',', $selected );
-		}
-
-		$level  = 1;
-		$select = '';
-
-		$categories = $connections->retrieve->categories();
+		$selected = wp_parse_id_list( $selected );
 
 		$defaults = array(
 			'type'            => 'select',

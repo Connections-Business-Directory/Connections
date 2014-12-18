@@ -709,6 +709,8 @@ class cnURL {
 	 * @return string
 	 */
 	public static function permalink( $atts ) {
+
+		/** @var $wp_rewrite WP_Rewrite */
 		global $wp_rewrite, $post;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter

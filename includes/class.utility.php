@@ -907,9 +907,17 @@ class cnURL {
 				break;
 		}
 
-		$piece['href'] = 'href="' . esc_url( $permalink ) . '"';
+		if ( $atts['data'] == 'url' ) {
 
-		$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
+			$out =  esc_url( $permalink );
+
+		} else {
+
+			$piece['href'] = 'href="' . esc_url( $permalink ) . '"';
+
+			$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
+
+		}
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
 		// otherwise it'll cause an error.

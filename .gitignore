@@ -46,3 +46,8 @@ Thumbs.db
 # Sublime Text 2 #
 ##################
 sftp-config.json
+
+#################
+## phpStorm
+#################
+.idea

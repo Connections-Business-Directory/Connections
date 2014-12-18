@@ -50,7 +50,21 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		private static $instance;
 
 		public $currentUser;
+
+		/**
+		 * @var cnOptions
+		 *
+		 * @access public
+		 * @since unknown
+		 */
 		public $options;
+
+		/**
+		 * @var cnRetrieve
+		 *
+		 * @access public
+		 * @since unknown
+		 */
 		public $retrieve;
 		public $term;
 

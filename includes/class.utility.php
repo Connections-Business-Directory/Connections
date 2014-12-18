@@ -773,6 +773,9 @@ class cnURL {
 
 		switch ( $atts['type'] ) {
 
+			case 'home':
+				break;
+
 			case 'all':
 
 				if ( $wp_rewrite->using_permalinks() ) {

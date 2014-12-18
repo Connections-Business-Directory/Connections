@@ -218,7 +218,7 @@ class cnOutput extends cnEntry
 
 						} else {
 
-							/* TODO */
+							/* @TODO Render an WP_Error message like on line 204 or something... */
 
 						}
 					}

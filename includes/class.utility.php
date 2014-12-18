@@ -731,6 +731,7 @@ class cnURL {
 			'type'       => 'name',
 			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 			'force_home' => FALSE,
+			'data'       => 'tag', // Valid: 'tag' | 'url'
 			'return'     => FALSE,
 		);
 

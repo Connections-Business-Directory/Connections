@@ -886,7 +886,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
 				$data     = $vCard->getvCard(); //var_dump($data);die;
 
-
 				header( 'Content-Description: File Transfer');
 				header( 'Content-Type: application/octet-stream' );
 				header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );

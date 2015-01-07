@@ -1326,7 +1326,7 @@ class cnTerm {
 	 * @static
 	 *
 	 * @uses   cnTerm::update_count_now()
-	 * @uses   cnTerm::defer_count()
+	 * @uses   cnTerm::deferCount()
 	 * @uses   cnTerm::update_count_now()
 	 *
 	 * @param int|array $terms    The term_taxonomy_id of the terms
@@ -1358,7 +1358,7 @@ class cnTerm {
 			$terms = array( $terms );
 		}
 
-		if ( self::defer_count() ) {
+		if ( self::deferCount() ) {
 
 			if ( ! isset( $_deferred[ $taxonomy ] ) ) {
 
@@ -1388,7 +1388,7 @@ class cnTerm {
 	 *
 	 * @return bool Whether term counting is enabled or disabled.
 	 */
-	public static function defer_count( $defer = NULL ) {
+	public static function deferCount( $defer = NULL ) {
 
 		static $_defer = FALSE;
 

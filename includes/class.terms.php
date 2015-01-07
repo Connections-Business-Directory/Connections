@@ -1327,7 +1327,6 @@ class cnTerm {
 	 *
 	 * @uses   cnTerm::updateCountNow()
 	 * @uses   cnTerm::deferCount()
-	 * @uses   cnTerm::updateCountNow()
 	 *
 	 * @param int|array $terms    The term_taxonomy_id of the terms
 	 * @param string    $taxonomy The context of the term.

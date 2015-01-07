@@ -66,6 +66,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @since unknown
 		 */
 		public $retrieve;
+
+		/**
+		 * @var cnTerms
+		 *
+		 * @access public
+		 * @since  unknown
+		 */
 		public $term;
 
 		/**

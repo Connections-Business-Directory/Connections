@@ -1325,9 +1325,9 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @uses   cnTerm::update_count_now()
+	 * @uses   cnTerm::updateCountNow()
 	 * @uses   cnTerm::deferCount()
-	 * @uses   cnTerm::update_count_now()
+	 * @uses   cnTerm::updateCountNow()
 	 *
 	 * @param int|array $terms    The term_taxonomy_id of the terms
 	 * @param string    $taxonomy The context of the term.
@@ -1342,7 +1342,7 @@ class cnTerm {
 
 			foreach ( (array) array_keys( $_deferred ) as $tax ) {
 
-				self::update_count_now( $_deferred[ $tax ], $tax );
+				self::updateCountNow( $_deferred[ $tax ], $tax );
 				unset( $_deferred[ $tax ] );
 			}
 
@@ -1370,7 +1370,7 @@ class cnTerm {
 			return TRUE;
 		}
 
-		return self::update_count_now( $terms, $taxonomy );
+		return self::updateCountNow( $terms, $taxonomy );
 	}
 
 	/**
@@ -1421,7 +1421,7 @@ class cnTerm {
 	 *
 	 * @return bool Always true when complete.
 	 */
-	public static function update_count_now( $terms, $taxonomy ) {
+	public static function updateCountNow( $terms, $taxonomy ) {
 
 		$terms = array_map( 'intval', $terms );
 

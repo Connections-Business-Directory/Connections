@@ -4251,6 +4251,8 @@ class cnTerm {
 	 * Recalculates term counts by including items from child terms. Assumes all
 	 * relevant children are already in the $terms argument.
 	 *
+	 * NOTE: This is the Connections equivalent of @see _pad_term_counts() in WordPress core ../wp-includes/taxonomy.php
+	 *
 	 * @access private
 	 * @since  8.1
 	 * @static

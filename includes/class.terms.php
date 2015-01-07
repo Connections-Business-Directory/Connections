@@ -1328,8 +1328,9 @@ class cnTerm {
 	 * @uses   cnTerm::updateCountNow()
 	 * @uses   cnTerm::deferCount()
 	 *
-	 * @param int|array $terms    The term_taxonomy_id of the terms
-	 * @param string    $taxonomy The context of the term.
+	 * @param int|array $terms       The term_taxonomy_id of the terms
+	 * @param string    $taxonomy    The context of the term.
+	 * @param bool      $do_deferred Whether or not to process the deferred count updating.
 	 *
 	 * @return bool If no terms will return false, and if successful will return true.
 	 */

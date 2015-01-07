@@ -1457,7 +1457,7 @@ class cnTerm {
 
 		//}
 
-		self::clean_cache( $terms, '', FALSE );
+		self::cleanCache( $terms, '', FALSE );
 
 		return TRUE;
 	}
@@ -2024,7 +2024,7 @@ class cnTerm {
 		 */
 		$term_id = apply_filters( 'cn_term_id_filter', $term_id, $tt_id );
 
-		self::clean_cache( $term_id, $taxonomy );
+		self::cleanCache( $term_id, $taxonomy );
 
 		/**
 		 * Fires after a new term is created, and after the term cache has been cleaned.
@@ -2345,7 +2345,7 @@ class cnTerm {
 		/** @see cnTerm::insert() */
 		$term_id = apply_filters( 'cn_term_id_filter', $term_id, $tt_id );
 
-		self::clean_cache( $term_id, $taxonomy );
+		self::cleanCache( $term_id, $taxonomy );
 
 		/**
 		 * Fires after a term has been updated, and the term cache has been cleaned.
@@ -2407,7 +2407,7 @@ class cnTerm {
 	 * @uses   cnTerm::set_entry_terms()
 	 * @uses   wpdb::delete()
 	 * @uses   wpdb::get_var()
-	 * @uses   cnTerm::clean_cache()
+	 * @uses   cnTerm::cleanCache()
 	 *
 	 * @param int          $term     Term ID
 	 * @param string       $taxonomy Taxonomy Name
@@ -2583,7 +2583,7 @@ class cnTerm {
 			$wpdb->delete( CN_TERMS_TABLE, array( 'term_id' => $term ) );
 		}
 
-		self::clean_cache( $term, $taxonomy );
+		self::cleanCache( $term, $taxonomy );
 
 		/**
 		 * Fires after a term is deleted from the database and the cache is cleaned.
@@ -2750,7 +2750,7 @@ class cnTerm {
 	 * @param string    $taxonomy       Can be empty and will assume tt_ids, else will use for context.
 	 * @param bool      $clean_taxonomy Whether to clean taxonomy wide caches (true), or just individual term object caches (false). Default is true.
 	 */
-	public static function clean_cache( $ids, $taxonomy = '', $clean_taxonomy = TRUE ) {
+	public static function cleanCache( $ids, $taxonomy = '', $clean_taxonomy = TRUE ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;

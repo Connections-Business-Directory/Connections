@@ -1030,7 +1030,7 @@ class cnTerm {
 	 * @uses   wpdb::get_var()
 	 * @uses   do_action()
 	 * @uses   wpdb::insert()
-	 * @uses   cnTerm::update_count()
+	 * @uses   cnTerm::updateCount()
 	 * @uses   wpdb::get_col()
 	 * @uses   cnTerm::remove_entry_terms()
 	 * @uses   wp_cache_delete()
@@ -1142,7 +1142,7 @@ class cnTerm {
 
 		if ( $new_tt_ids ) {
 
-			self::update_count( $new_tt_ids, $taxonomy );
+			self::updateCount( $new_tt_ids, $taxonomy );
 		}
 
 		if ( ! $append ) {
@@ -1222,7 +1222,7 @@ class cnTerm {
 	 * @uses   do_action()
 	 * @uses   wpdb::prepare()
 	 * @uses   wpdb::query()
-	 * @uses   cnTerm::update_count()
+	 * @uses   cnTerm::updateCount()
 	 *
 	 * @param int              $object_id The ID of the object from which the terms will be removed.
 	 * @param array|int|string $terms     The slug(s) or ID(s) of the term(s) to remove.
@@ -1302,7 +1302,7 @@ class cnTerm {
 			 */
 			do_action( 'cn_deleted_term_relationships', $object_id, $tt_ids );
 
-			self::update_count( $tt_ids, $taxonomy );
+			self::updateCount( $tt_ids, $taxonomy );
 
 			return (bool) $deleted;
 		}
@@ -1334,7 +1334,7 @@ class cnTerm {
 	 *
 	 * @return bool If no terms will return false, and if successful will return true.
 	 */
-	public static function update_count( $terms, $taxonomy, $do_deferred = FALSE ) {
+	public static function updateCount( $terms, $taxonomy, $do_deferred = FALSE ) {
 
 		static $_deferred = array();
 
@@ -1382,7 +1382,7 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @uses   cnTerm::update_count()
+	 * @uses   cnTerm::updateCount()
 	 *
 	 * @param bool $defer Optional. Enable if true, disable if false.
 	 *
@@ -1399,7 +1399,7 @@ class cnTerm {
 			// flush any deferred counts
 			if ( ! $defer ) {
 
-				self::update_count( NULL, NULL, TRUE );
+				self::updateCount( NULL, NULL, TRUE );
 			}
 
 		}

@@ -390,7 +390,7 @@ class cnEntryMetabox {
 		$id   = $entry->getId();
 		$ckey = $entry->getId() ? 'category_checklist_entry_' . $entry->getId() : 'category_checklist';
 
-		$fragment = new cnFragment( $ckey );
+		$fragment = new cnFragment( $ckey, 'cn' );
 
 		if ( ! $fragment->get() ) {
 

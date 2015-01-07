@@ -4272,6 +4272,9 @@ class cnTerm {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
+		$term_ids   = array();
+		$visibility = array();
+
 		// Grab an instance of the Connections object.
 		/** @var connectionsLoad $instance */
 		$instance = Connections_Directory();

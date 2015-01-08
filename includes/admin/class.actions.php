@@ -70,9 +70,11 @@ class cnAdminActions {
 	 * Register admin actions.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses add_action()
-	 * @return (void)
+	 * @since  0.7.5
+	 *
+	 * @uses   add_action()
+	 *
+	 * @return void
 	 */
 	private static function register() {
 
@@ -115,9 +117,11 @@ class cnAdminActions {
 	 * Run admin actions.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses do_action()
-	 * @return (void)
+	 * @since  0.7.5
+	 *
+	 * @uses   do_action()
+	 *
+	 * @return void
 	 */
 	private static function doActions() {
 
@@ -136,11 +140,13 @@ class cnAdminActions {
 	 * Process controller for action taken by the user.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @uses   wp_redirect()
+	 * @uses   get_admin_url()
+	 * @uses   get_current_blog_id()
+	 *
+	 * @return void
 	 */
 	public static function entryManagement() {
 
@@ -230,13 +236,13 @@ class cnAdminActions {
 	 * Add / Edit / Update / Copy an entry.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param  (array)  $data [optional]
-	 * @param  (string) $action [optional]
+	 * @since  0.7.8
+	 *
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void)
+	 *
+	 * @return void
 	 */
 	public static function processEntry() {
 		global $wpdb;
@@ -500,14 +506,17 @@ class cnAdminActions {
 	 * Set the entry status to pending or approved.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (int) $id [optional] Entry ID.
-	 * @param (string) $status [optional] The entry status to be assigned.
+	 * @since  0.7.8
+	 *
 	 * @uses absint()
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void)
+	 *
+	 * @param int $id [optional] Entry ID.
+	 * @param string $status [optional] The entry status to be assigned.
+	 *
+	 * @return void
 	 */
 	public static function setEntryStatus( $id = '', $status = '' ) {
 
@@ -565,9 +574,11 @@ class cnAdminActions {
 	 * Set the approval status of entries in bulk.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (string) $status The entry status that should be set.
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @param  string $status The entry status that should be set.
+	 *
+	 * @return void
 	 */
 	public static function setEntryStatusBulk( $status ) {
 
@@ -605,9 +616,11 @@ class cnAdminActions {
 	 * Set the visibility status of entries in bulk.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (string) $status The entry visibility that should be set.
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @param  string $visibility The entry visibility that should be set.
+	 *
+	 * @return void
 	 */
 	static public function setEntryVisibilityBulk( $visibility ) {
 
@@ -634,16 +647,18 @@ class cnAdminActions {
 	 * Delete an entry.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (int) $id [optional] Entry ID.
+	 * @since  0.7.8
+	 *
 	 * @uses absint()
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void)
+	 *
+	 * @param (int) $id [optional] Entry ID.
+	 *
+	 * @return void
 	 */
 	public static function deleteEntry( $id = '' ) {
-		global $connections;
 
 		// If no entry ID was supplied, check $_GET.
 		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? $_GET['id'] : $id;
@@ -673,11 +688,11 @@ class cnAdminActions {
 	 * Delete entries in bulk.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @return void
 	 */
 	public static function deleteEntryBulk() {
-		global $connections;
 
 		/*
 		 * Check whether the current user delete an entry.
@@ -703,11 +718,13 @@ class cnAdminActions {
 	 *
 	 * @access public
 	 * @since 0.7.8
+	 *
 	 * @uses check_admin_referer()
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void)
+	 *
+	 * @return void
 	 */
 	public static function userFilter() {
 
@@ -743,8 +760,9 @@ class cnAdminActions {
 	 * Save user filteres.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @return void
 	 */
 	public static function saveUserFilters() {
 		global $connections;
@@ -1027,6 +1045,8 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function activateTemplate() {
+
+		/** @var $connections connectionsLoad */
 		global $connections;
 
 		/*
@@ -1151,6 +1171,8 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function updateRoleCapabilities() {
+
+		/** @var $wp_roles WP_Roles */
 		global $wp_roles;
 
 		$form = new cnFormObjects();

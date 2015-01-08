@@ -42,36 +42,44 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 	final class connectionsLoad {
 
 		/**
-		 * @var Stores the instance of this class.
+		 * Stores the instance of this class.
 		 *
 		 * @access private
-		 * @since 0.7.9
+		 * @since  0.7.9
+		 *
+		 * @var connectionsLoad
 		 */
 		private static $instance;
 
+		/**
+		 * @access private
+		 * @since  unknown
+		 *
+		 * @var cnUser
+		 */
 		public $currentUser;
 
 		/**
-		 * @var cnOptions
-		 *
 		 * @access public
-		 * @since unknown
+		 * @since  unknown
+		 *
+		 * @var cnOptions
 		 */
 		public $options;
 
 		/**
-		 * @var cnRetrieve
-		 *
 		 * @access public
-		 * @since unknown
+		 * @since  unknown
+		 *
+		 * @var cnRetrieve
 		 */
 		public $retrieve;
 
 		/**
-		 * @var cnTerms
-		 *
 		 * @access public
 		 * @since  unknown
+		 *
+		 * @var cnTerms
 		 */
 		public $term;
 
@@ -79,8 +87,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Stores the page hook values returned from the add_menu_page & add_submenu_page functions
 		 *
 		 * @access public
-		 * @since unknown
-		 * @var (object)
+		 * @since  unknown
+		 *
+		 * @var object
 		 */
 		public $pageHook;
 
@@ -88,8 +97,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * The Connections Settings API Wrapper class.
 		 *
 		 * @access public
-		 * @since unknown
-		 * @var (object)
+		 * @since  unknown
+		 *
+		 * @var cnSettingsAPI
 		 */
 		public $settings;
 
@@ -97,8 +107,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Do the database upgrade.
 		 *
 		 * @access public
-		 * @since unknown
-		 * @var (bool)
+		 * @since  unknown
+		 *
+		 * @var bool
 		 */
 		public $dbUpgrade = FALSE;
 
@@ -109,10 +120,19 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * for backward compatibility for templates expecting to find those methods as part of this object.
 		 *
 		 * @access public
-		 * @since 0.7.6
-		 * @var (object)
+		 * @since  0.7.6
+		 *
+		 * @var cnTemplatePart
 		 */
 		public $template;
+
+		/**
+		 * @access public
+		 * @since  unknown
+		 *
+		 * @var cnURL
+		 */
+		public $url;
 
 		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
@@ -177,8 +197,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Define the core constants.
 		 *
 		 * @access private
-		 * @since unknown
-		 * @return (void)
+		 * @since  unknown
+		 * @return void
 		 */
 		private static function defineConstants() {
 			global $wpdb, $blog_id;
@@ -289,7 +309,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * because wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
 				 *
 				 * We do not want this behavior if forcing Connections into single site mode on a multisite
-				 * install of WP. Addtionally we do not want the year/month sub dir appended.
+				 * install of WP. Additionally we do not want the year/month sub dir appended.
 				 *
 				 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as everytime the custom
 				 * dir/url would be needed the filter would have to be added and then removed not to mention other plugins could
@@ -441,7 +461,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//plugin utility objects
 			require_once CN_PATH . 'includes/class.utility.php'; // Required for activation, entry list
 
-			// Sanitization.
+			// Sanitation.
 			require_once CN_PATH . 'includes/class.sanitize.php';
 
 			// geocoding
@@ -460,7 +480,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// require_once CN_PATH . 'includes/class.shortcode-upcoming_list.php';
 
-			// The class that inits the registered query vars, rewites reuls and canonical redirects.
+			// The class that inits the registered query vars, rewrite urls and canonical redirects.
 			require_once CN_PATH . 'includes/class.rewrite.php';
 
 			// Load the Connections Settings API Wrapper Class.
@@ -501,7 +521,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// The class for handling admin notices.
 				require_once CN_PATH . 'includes/admin/class.message.php';
 
-				// Class used for managing role capabilites.
+				// Class used for managing role capabilities.
 				require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
 				// The class for adding admin menu and registering the menu callbacks.
@@ -567,7 +587,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @uses get_locale()
 		 * @uses load_textdomain()
 		 * @uses load_plugin_textdomain()
-		 * @return (void)
+		 * @return void
 		 */
 		public static function loadTextdomain() {
 
@@ -748,6 +768,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @access public
 		 * @since unknown
 		 * @deprecated 0.7.5
+		 *
+		 * @param $type    string
+		 * @param $message string
+		 *
 		 * @return void
 		 */
 		public function setRuntimeMessage( $type , $message ) {
@@ -761,6 +785,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @access public
 		 * @since unknown
 		 * @deprecated 0.7.5
+		 *
+		 * @param  $code string
+		 *
 		 * @return void
 		 */
 		public function setErrorMessage( $code ) {
@@ -774,6 +801,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @access public
 		 * @since unknown
 		 * @deprecated 0.7.5
+		 *
+		 * @param  $code string
+		 *
 		 * @return void
 		 */
 		public function setSuccessMessage( $code ) {
@@ -784,7 +814,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Called when activating Connections via the activation hook.
 		 */
 		public static function activate() {
-			global $wpdb, $connections;
+
+			/** @var $connections connectionsLoad */
+			global $connections;
 
 			require_once CN_PATH . 'includes/class.schema.php';
 
@@ -801,10 +833,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// cnFileSystem::mkIndex( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Add an .htaccess file, create it if one doesn't exist, and add the no indexes option.
-			// cnFileSystem::noIndexes( CN_IMAGE_PATH ); // Causes some servers to respond w/ 403 when servering images.
+			// cnFileSystem::noIndexes( CN_IMAGE_PATH ); // Causes some servers to respond w/ 403 when serving images.
 			// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
-			// Create a .htaccess file in the timthumb folder to allow it to be called directly.
+			// Create a .htaccess file in the TimThumb folder to allow it to be called directly.
 			cnFileSystem::permitTimThumb( CN_PATH . '/vendor/timthumb' );
 
 			$connections->initOptions();
@@ -835,7 +867,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			//global $options;
 
-			/* This should be occur in the unistall hook
+			/* This should be occur in the uninstall hook
 			$this->options->removeDefaultCapabilities();
 			*/
 
@@ -920,15 +952,15 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 	 * Use this function like you would a global variable, except without needing
 	 * to declare the global.
 	 *
-	 * NOTE: Decalring an instance in the global var @connections to provide backward
+	 * NOTE: Declaring an instance in the global @var $connections connectionsLoad to provide backward
 	 * compatibility with many internal methods, template and extensions that expect it.
 	 *
 	 * Example: <?php $instance = Connections_Directory(); ?>
 	 *
 	 * @access public
-	 * @since 0.7.9
+	 * @since  0.7.9
 	 * @global $connections
-	 * @return (object)
+	 * @return connectionsLoad
 	 */
 	function Connections_Directory() {
 		global $connections;

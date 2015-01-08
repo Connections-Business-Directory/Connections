@@ -314,38 +314,29 @@ class cnCategory {
 	/**
 	 * Saves the category to the database via the cnTerm class.
 	 *
-	 * @return The success or error message.
+	 * @return bool
 	 */
 	public function save() {
-		global $connections;
 
-		/*$terms = $connections->term->getTermChildrenBy('term_id', $this->parent, 'category');
-		var_dump($this->parent);
-		var_dump($terms);die;*/
+		$args = array(
+			'slug'        => $this->slug,
+			'description' => $this->description,
+			'parent'      => $this->parent,
+		);
 
-		// If the category already exists, do not let it be created.
-		if ( $terms = $connections->term->getTermChildrenBy( 'term_id', $this->parent, 'category' ) ) {
-			foreach ( $terms as $term ) {
-				if ( $this->name == $term->name ) return $connections->setErrorMessage( 'category_duplicate_name' );
-			}
+		$result = cnTerm::insert( $this->name, 'category', $args );
+
+		if ( is_wp_error( $result ) ) {
+
+			cnMessage::set( 'error', $result->get_error_message() );
+			return FALSE;
+
+		} else {
+
+			cnMessage::set( 'success', 'category_added' );
+			return TRUE;
 		}
 
-		$attributes['slug'] = $this->slug;
-		$attributes['description'] = $this->description;
-		$attributes['parent'] = $this->parent;
-
-		// Do not add the uncategorized category
-		if ( strtolower( $this->name ) != 'uncategorized' ) {
-			if ( $connections->term->addTerm( $this->name, 'category', $attributes ) ) {
-				$connections->setSuccessMessage( 'category_added' );
-			}
-			else {
-				$connections->setErrorMessage( 'category_add_failed' );
-			}
-		}
-		else {
-			$connections->setErrorMessage( 'category_add_uncategorized' );
-		}
 	}
 
 	/**
@@ -353,83 +344,92 @@ class cnCategory {
 	 *
 	 * @access public
 	 * @since unknown
-	 * @return (bool)
+	 * @return bool
 	 */
 	public function update() {
-		global $connections;
-		$duplicate = FALSE;
 
-		$attributes['name'] = $this->name;
-		$attributes['slug'] = $this->slug;
-		$attributes['parent']= $this->parent;
-		$attributes['description'] = $this->description;
-
-		// If the category already exists, do not let it be created.
-		if ( $terms = $connections->term->getTermChildrenBy( 'term_id', $this->parent, 'category' ) ) {
-
-			foreach ( $terms as $term ) {
-
-				if ( $this->name == $term->name ) {
-					if ( $this->id != $term->term_id ) $duplicate = TRUE;
-					break;
-				}
-			}
-
-			if ( $duplicate ) {
-				$connections->setErrorMessage( 'category_duplicate_name' );
-				return FALSE;
-			}
-		}
+		$args = array(
+			'name'        => $this->name,
+			'slug'        => $this->slug,
+			'description' => $this->description,
+			'parent'      => $this->parent,
+		);
 
 		// Make sure the category isn't being set to itself as a parent.
 		if ( $this->id === $this->parent ) {
 
-			$connections->setErrorMessage( 'category_self_parent' );
+			cnMessage::set( 'error', 'category_self_parent' );
 			return FALSE;
 		}
 
-		// Do not change the uncategorized category
-		if ( $this->slug != 'uncategorized' ) {
+		// @todo Add option for user to set the default category, which should not be able to be deleted.
+		//$defaults['default'] = get_option( 'cn_default_category' );
 
-			if ( $connections->term->updateTerm( $this->id, 'category', $attributes ) ) {
+		// Temporarily hard code the default category to the Uncategorized category
+		// and ensure it can not be deleted. This should be removed when the default
+		// category can be set by the user.
+		$default_category = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
+		$defaults['default'] = $default_category->term_id;
 
-				$connections->setSuccessMessage( 'category_updated' );
-				return TRUE;
+		// Do not change the default category.
+		// This should be able to be removed after the user configurable default category is implemented.
+		if ( $this->id == $default_category->term_id ) {
 
-			} else {
+			cnMessage::set( 'error', 'category_update_uncategorized' );
+			return FALSE;
+		}
 
-				$connections->setErrorMessage( 'category_update_failed' );
-				return FALSE;
-			}
+		$result = cnTerm::update( $this->id, 'category', $args );
+
+		if ( is_wp_error( $result ) ) {
+
+			cnMessage::set( 'error', $result->get_error_message() );
+			return FALSE;
 
 		} else {
-			$connections->setErrorMessage( 'category_update_uncategorized' );
-			return FALSE;
+
+			cnMessage::set( 'success', 'category_updated' );
+			return TRUE;
 		}
 
-		// Shouldn't get here...
-		return FALSE;
 	}
 
 	/**
 	 * Deletes the category from the database via the cnTerm class.
 	 *
-	 * @return The success or error message.
+	 * @return bool The success or error message.
 	 */
 	public function delete() {
-		global $connections;
 
-		// Do not delete the uncategorized category
-		if ( $this->slug != 'uncategorized' ) {
-			if ( $connections->term->deleteTerm( $this->id, $this->parent, 'category' ) ) {
-				$connections->setSuccessMessage( 'category_deleted' );
-			}
-			else {
-				$connections->setErrorMessage( 'category_delete_failed' );
-			}
+		// @todo Add option for user to set the default category, which should not be able to be deleted.
+		//$defaults['default'] = get_option( 'cn_default_category' );
+
+		// Temporarily hard code the default category to the Uncategorized category
+		// and ensure it can not be deleted. This should be removed when the default
+		// category can be set by the user.
+		$default_category = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
+		$defaults['default'] = $default_category->term_id;
+
+		// Do not change the default category.
+		// This should be able to be removed after the user configurable default category is implemented.
+		if ( $this->id == $default_category->term_id ) {
+
+			cnMessage::set( 'error', 'category_delete_uncategorized' );
+			return FALSE;
 		}
-		else {
-			$connections->setErrorMessage( 'category_delete_uncategorized' );
+
+		$result = cnTerm::delete( $this->id, 'category' );
+
+		if ( is_wp_error( $result ) ) {
+
+			cnMessage::set( 'error', $result->get_error_message() );
+			return FALSE;
+
+		} else {
+
+			cnMessage::set( 'success', 'category_deleted' );
+			return TRUE;
 		}
+
 	}
 }

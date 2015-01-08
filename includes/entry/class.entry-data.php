@@ -3478,6 +3478,12 @@ class cnEntry {
 
 							$meta = $this->options['logo']['meta'];
 
+							// This needs to be here to ensure that the path and URL stored is updated
+							// to the current path to account for users moving their site or changing
+							// the site's folder structure.
+							$meta['path'] = $this->getOriginalImagePath( $atts['type'] );
+							$meta['url']  = $this->getOriginalImageURL( $atts['type'] );
+
 							$meta['source'] = 'db';
 
 						} else {
@@ -3538,6 +3544,12 @@ class cnEntry {
 						if ( isset( $this->options['image']['meta']['original'] ) ) {
 
 							$meta = $this->options['image']['meta']['original'];
+
+							// This needs to be here to ensure that the path and URL stored is updated
+							// to the current path to account for users moving their site or changing
+							// the site's folder structure.
+							$meta['path'] = $this->getOriginalImagePath( $atts['type'] );
+							$meta['url']  = $this->getOriginalImageURL( $atts['type'] );
 
 							$meta['source'] = 'db';
 

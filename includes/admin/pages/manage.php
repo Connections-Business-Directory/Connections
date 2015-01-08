@@ -330,7 +330,7 @@ function connectionsShowViewPage( $action = NULL ) {
 						<div class="alignleft actions">
 							<?php
 
-							$fragment = new cnFragment( 'category_select' );
+							$fragment = new cnFragment( 'category_select', 'cn' );
 
 							if ( ! $fragment->get() ) {
 

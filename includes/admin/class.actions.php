@@ -245,9 +245,7 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function processEntry() {
-		global $wpdb;
 
-		$entry = new cnEntry();
 		$form  = new cnFormObjects();
 
 		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
@@ -266,7 +264,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-					$id = cnEntry_Action::add( $_POST );
+					cnEntry_Action::add( $_POST );
 
 				} else {
 
@@ -284,7 +282,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-					$id = cnEntry_Action::copy( $_GET['id'], $_POST );
+					cnEntry_Action::copy( $_GET['id'], $_POST );
 
 				} else {
 
@@ -305,7 +303,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
 
-					$id = cnEntry_Action::update( $_GET['id'], $_POST );
+					cnEntry_Action::update( $_GET['id'], $_POST );
 
 				} else {
 

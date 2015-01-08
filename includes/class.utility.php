@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnFormatting {
 	/**
 	 * Sanitize the input string. HTML tags can be permitted.
-	 * The permitted tags can be suppled in an array.
+	 * The permitted tags can be supplied in an array.
 	 *
 	 * @TODO: Finish the code needed to support the $permittedTags array.
 	 *
@@ -135,7 +135,7 @@ class cnFormatting {
 	 * @since 0.7.1.6
 	 *
 	 * @param bool $bool
-	 * @return return 'Yes' | 'No'
+	 * @return string Returns 'Yes' | 'No'
 	 */
 	public function toYesNo( $bool ) {
 		if( $bool ) {

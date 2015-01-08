@@ -25,14 +25,14 @@ class cnCategory {
 	private $children;
 
 	/**
-	 * The cnFormmatting class.
-	 * @var (object)
+	 * The cnFormatting class.
+	 * @var cnFormatting
 	 */
 	private $format;
 
 	/**
 	 * The cnValidate class.
-	 * @var (object)
+	 * @var cnValidate
 	 */
 	private $validate;
 
@@ -128,9 +128,11 @@ class cnCategory {
 	 * @uses run_shortcode()
 	 * @uses do_shortcode()
 	 * @param array $atts [optional]
-	 * @return (string)
+	 * @return string
 	 */
 	public function getDescriptionBlock( $atts = array() ) {
+
+		/** @var $wp_embed WP_Embed */
 		global $wp_embed;
 
 		$defaults = array(

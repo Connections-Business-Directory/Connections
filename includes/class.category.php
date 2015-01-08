@@ -106,7 +106,7 @@ class cnCategory {
 	/**
 	 * Sets $description.
 	 *
-	 * @param object  $description
+	 * @param string  $description
 	 * @see cnCategory::$description
 	 */
 	public function setDescription( $description ) {
@@ -201,7 +201,7 @@ class cnCategory {
 	/**
 	 * Sets $id.
 	 *
-	 * @param object  $id
+	 * @param int  $id
 	 * @see cnCategory::$id
 	 */
 	public function setId( $id ) {
@@ -220,7 +220,7 @@ class cnCategory {
 	/**
 	 * Sets $name.
 	 *
-	 * @param object  $name
+	 * @param string  $name
 	 * @see cnCategory::$name
 	 */
 	public function setName( $name ) {
@@ -239,7 +239,7 @@ class cnCategory {
 	/**
 	 * Sets $parent.
 	 *
-	 * @param object  $parent
+	 * @param int  $parent
 	 * @see cnCategory::$parent
 	 */
 	public function setParent( $parent ) {
@@ -258,7 +258,7 @@ class cnCategory {
 	/**
 	 * Sets $slug.
 	 *
-	 * @param object  $slug
+	 * @param string  $slug
 	 * @see cnCategory::$slug
 	 */
 	public function setSlug( $slug ) {

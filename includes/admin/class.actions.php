@@ -340,13 +340,21 @@ class cnAdminActions {
 		 * Save the entry category(ies). If none were checked, send an empty array
 		 * which will add the entry to the default category.
 		 */
-		if ( isset( $_POST['entry_category'] ) ) {
+		if ( isset( $_POST['entry_category'] ) && ! empty( $_POST['entry_category'] ) ) {
 
 			$instance->term->setTermRelationships( $id, $_POST['entry_category'], 'category' );
 
 		} else {
 
-			$instance->term->setTermRelationships( $id, array(), 'category' );
+			// @todo Add option for user to set the default category, which should not be able to be deleted.
+			//$defaults['default'] = get_option( 'cn_default_category' );
+
+			// Temporarily hard code the default category to the Uncategorized category
+			// and ensure it can not be deleted. This should be removed when the default
+			// category can be set by the user.
+			$default_category = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
+
+			$instance->term->setTermRelationships( $id,  $default_category->term_id, 'category' );
 		}
 
 	}

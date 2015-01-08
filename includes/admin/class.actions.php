@@ -828,7 +828,7 @@ class cnAdminActions {
 			check_admin_referer( $form->getNonce( 'add_category' ), '_cn_wpnonce' );
 
 			$category = new cnCategory();
-			$format = new cnFormatting();
+			$format   = new cnFormatting();
 
 			$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
 			$category->setSlug( $format->sanitizeString( $_POST['category_slug'] ) );
@@ -871,7 +871,7 @@ class cnAdminActions {
 			check_admin_referer( $form->getNonce( 'update_category' ), '_cn_wpnonce' );
 
 			$category = new cnCategory();
-			$format = new cnFormatting();
+			$format   = new cnFormatting();
 
 			$category->setID( $format->sanitizeString( $_POST['category_id'] ) );
 			$category->setName( $format->sanitizeString( $_POST['category_name'] ) );

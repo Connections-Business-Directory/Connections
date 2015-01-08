@@ -166,12 +166,14 @@ class cnCategory {
 	 *   cn_trim_cat_excerpt  => change returned string
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (string)  $atts [optional]
-	 * @param (string)  $text [optional]
-	 * @return (string)
+	 * @since  0.7.8
+	 *
+	 * @param  array  $atts [optional]
+	 * @param  string $text [optional]
+	 *
+	 * @return string
 	 */
-	public function getExcerpt( $atts = array(), $text = NULL ) {
+	public function getExcerpt( $atts = array(), $text = '' ) {
 
 		$defaults = array(
 			'length' => apply_filters( 'cn_cat_excerpt_length', 55 ),
@@ -180,19 +182,7 @@ class cnCategory {
 
 		$atts = $this->validate->attributesArray( $defaults, $atts );
 
-		$text = empty( $text ) ? $this->getDescription() : $this->format->sanitizeString( $text, FALSE );
-
-		$words = preg_split( "/[\n\r\t ]+/", $text, $atts['length'] + 1, PREG_SPLIT_NO_EMPTY );
-
-		if ( count( $words ) > $atts['length'] ) {
-
-			array_pop( $words );
-			$text = implode( ' ', $words ) . $atts['more'];
-
-		} else {
-
-			$text = implode( ' ', $words );
-		}
+		$text = cnFormatting::excerpt( empty( $text ) ? $this->getDescription() : $text, $atts );
 
 		return apply_filters( 'cn_trim_cat_excerpt', $text );
 	}

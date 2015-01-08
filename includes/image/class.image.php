@@ -1247,9 +1247,12 @@ class cnImage {
 			}
 
 
-			if ( is_wp_error( $result = $editor->opacity( $opacity ) ) ) {
+			if ( $opacity < 100 ) {
 
-				return $result;
+				if ( is_wp_error( $result = $editor->opacity( $opacity ) ) ) {
+
+					return $result;
+				}
 			}
 
 			$log->add( 'image_filter_opacity', __( sprintf( 'Opacity set at %d.', $opacity ), 'connections' ) );

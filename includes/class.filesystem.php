@@ -416,18 +416,25 @@ class cnUpload {
 	 *
 	 * @access public
 	 * @since  8.1
+	 *
+	 * @global $wp_filter
+	 *
 	 * @uses   wp_parse_args()
+	 * @uses   remove_all_filters()
 	 * @uses   add_filter()
 	 * @uses   wp_handle_upload()
 	 * @uses   remove_filter()
+	 *
 	 * @param array  $file Reference to a single element of $_FILES.
 	 * @param array  $atts An associative array containing the upload params.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
 	public function file( $file, $atts = array() ) {
+		global $wp_filter;
 
 		$options = array();
+		$filter  = array();
 
 		$defaults = array(
 			'post_action'       => '',
@@ -438,6 +445,20 @@ class cnUpload {
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		/*
+		 * Temporarily store the filters hooked to the upload_dir filter.
+		 */
+		$filter['wp_handle_upload_prefilter'] = isset( $wp_filter['wp_handle_upload_prefilter'] ) ? $wp_filter['wp_handle_upload_prefilter'] : '';
+		$filter['upload_dir']                 = isset( $wp_filter['upload_dir'] ) ? $wp_filter['upload_dir'] : '';
+		$filter['wp_handle_upload'] = isset( $wp_filter['wp_handle_upload'] ) ? $wp_filter['wp_handle_upload'] : '';
+
+		/*
+		 * Remove all filters hooked into the upload_dir filter to prevent conflicts.
+		 */
+		remove_all_filters( 'upload_dir' );
+		remove_all_filters( 'wp_handle_upload_prefilter' );
+		remove_all_filters( 'wp_handle_upload' );
 
 		if ( ! function_exists( 'wp_handle_upload' ) ) require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
@@ -467,6 +488,13 @@ class cnUpload {
 
 		// Remove the data array filter.
 		remove_filter( 'wp_handle_upload', array( $this, 'uploadData' ), 10, 2 );
+
+		/*
+		 * Be a good citizen and add the filters that were hooked back to into upload_dir filter.
+		 */
+		if ( ! empty( $filter['wp_handle_upload_prefilter'] ) ) $wp_filter['wp_handle_upload_prefilter'] = $filter['wp_handle_upload_prefilter'];
+		if ( ! empty( $filter['upload_dir'] ) ) $wp_filter['upload_dir'] = $filter['upload_dir'];
+		if ( ! empty( $filter['wp_handle_upload'] ) ) $wp_filter['wp_handle_upload'] = $filter['wp_handle_upload'];
 
 		return $this->result;
 	}

@@ -440,7 +440,7 @@ class cnImage {
 		$filter['resize']  = isset( $wp_filter['image_resize_dimensions'] ) ? $wp_filter['image_resize_dimensions'] : '';
 
 		/*
-		 * Remove all filters hooked into the the image editor filters to prevent conlicts.
+		 * Remove all filters hooked into the the image editor filters to prevent conflicts.
 		 */
 		remove_all_filters( 'wp_image_editors' );
 		remove_all_filters( 'image_resize_dimensions' );

@@ -3159,7 +3159,7 @@ class cnEntry {
 	/**
 	 * Sets $imageDisplay.
 	 *
-	 * @param object  $imageDisplay
+	 * @param bool  $imageDisplay
 	 * @see entry::$imageDisplay
 	 */
 	public function setImageDisplay( $imageDisplay ) {
@@ -3178,7 +3178,7 @@ class cnEntry {
 	/**
 	 * Sets $imageLinked.
 	 *
-	 * @param object  $imageLinked
+	 * @param bool  $imageLinked
 	 * @see entry::$imageLinked
 	 */
 	public function setImageLinked( $imageLinked ) {

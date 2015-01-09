@@ -56,7 +56,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @param string hex color e.g. #ff00ff
+	 * @param string $hexColor hex color e.g. #ff00ff
 	 * @return boolean|WP_Error
 	 */
 	public function colorize( $hexColor ) {

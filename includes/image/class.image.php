@@ -1544,7 +1544,7 @@ class cnImage {
 	 * @param array  $file Reference to a single element of $_FILES.
 	 * @param string $subDirectory An associative array containing the upload params.
 	 *
-	 * @return mixed array | object On success an associative array of the uploadewd file details. On failure, an instance of WP_Error.
+	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
 	public static function upload( $file, $subDirectory = '' ) {
 

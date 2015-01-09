@@ -358,7 +358,7 @@ class cnEmail {
 		$filter['from_email'] = isset( $wp_filter['wp_mail_from'] ) ? $wp_filter['wp_mail_from'] : '';
 
 		/*
-		 * Remove all filters hooked into the wp_mail filters to prevent conlicts.
+		 * Remove all filters hooked into the wp_mail filters to prevent conflicts.
 		 */
 		remove_all_filters( 'wp_mail' );
 		remove_all_filters( 'wp_mail_content_type' );

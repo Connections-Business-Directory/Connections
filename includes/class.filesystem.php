@@ -305,7 +305,7 @@ class cnUpload {
 	 * @param array  $file Reference to a single element of $_FILES.
 	 * @param array  $atts An associative array containing the upload params.
 	 *
-	 * @return mixed array | object On success an associative array of the uploadewd file details. On failure, an instance of WP_Error.
+	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
 	public function __construct( $file, $atts = array() ) {
 
@@ -313,7 +313,7 @@ class cnUpload {
 	}
 
 	/**
-	 * A Connections equivelent of wp_upload_dir().
+	 * A Connections equivalent of @see wp_upload_dir().
 	 *
 	 * @access public
 	 * @since  8.1.1
@@ -326,7 +326,7 @@ class cnUpload {
 		$info = array();
 
 		/*
-		 * Core constants that can be overrideen in wp-config.php
+		 * Core constants that can be overridden in wp-config.php
 		 * which enable support for multi-site file locations.
 		 */
 		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
@@ -349,9 +349,9 @@ class cnUpload {
 			 * because wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
 			 *
 			 * We do not want this behavior if forcing Connections into single site mode on a multisite
-			 * install of WP. Addtionally we do not want the year/month sub dir appended.
+			 * install of WP. Additionally we do not want the year/month sub dir appended.
 			 *
-			 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as everytime the custom
+			 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as every time the custom
 			 * dir/url would be needed the filter would have to be added and then removed not to mention other plugins could
 			 * interfere by hooking into `upload_dir`.
 			 *
@@ -526,9 +526,9 @@ class cnUpload {
 	 *
 	 * @access private
 	 * @since  8.1
-	 * @param  array  $file    An associtive array containing the file upload details.
+	 * @param  array  $file    An associative array containing the file upload details.
 	 * @param  string $context Accepts 'upload' or 'sideload'
-	 * @return string          An associtive array containing the file upload details.
+	 * @return string          An associative array containing the file upload details.
 	 */
 	public function uploadData( $file, $context ) {
 

@@ -580,11 +580,9 @@ class cnEntry_Action {
 
 			// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific logo will be deleted.
-			if ( $entry->getLogoName() != NULL ) {
+			if ( $entry->getLogoName() != NULL && ( isset( $sourceEntrySlug ) && ! empty( $sourceEntrySlug ) ) ) {
 
-				$originalLogoName = self::copyImages( $entry->getLogoName(), $sourceEntrySlug, $slug );
-
-				// $entry->setLogoName( self::copyImage( $originalLogoName ) );
+				self::copyImages( $entry->getLogoName(), $sourceEntrySlug, $slug );
 			}
 		}
 
@@ -664,11 +662,9 @@ class cnEntry_Action {
 
 			// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific images will be deleted.
-			if ( $entry->getImageNameOriginal() != NULL ) {
+			if ( $entry->getImageNameOriginal() != NULL && ( isset( $sourceEntrySlug ) && ! empty( $sourceEntrySlug ) ) ) {
 
-				$originalImageName = self::copyImages( $entry->getImageNameOriginal(), $sourceEntrySlug, $slug );
-
-				// $entry->setImageNameOriginal( $originalImageName );
+				self::copyImages( $entry->getImageNameOriginal(), $sourceEntrySlug, $slug );
 			}
 		}
 

@@ -460,16 +460,19 @@ class cnEntry_Action {
 	 *
 	 * @access private
 	 * @since  0.7.8
-	 * @param  (string) $action Valid options are: add | update
-	 * @param  (array)  $data [optional] The data to be used when adding / editing / duplicating an entry.
-	 * @param  (int) $action [optional] If editing/duplicating an entry, the entry ID.
+	 *
 	 * @uses   absint()
 	 *
-	 * @return (bool)
+	 * @param  string $action Valid options are: add | update
+	 * @param  array  $data [optional] The data to be used when adding / editing / duplicating an entry.
+	 * @param  int    $id [optional] If editing/duplicating an entry, the entry ID.
+	 *
+	 * @return bool
 	 */
 	private static function process( $action, $data = array(), $id = 0 ) {
 		global $connections;
 
+		/** @var cnEntry $entry */
 		$entry = new cnEntry();
 
 		// If copying/editing an entry, the entry data is loaded into the class

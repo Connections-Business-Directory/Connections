@@ -42,7 +42,7 @@ class cnRewrite {
 	 *
 	 * @access private
 	 * @since 0.7.3.2
-	 * @param arra	$var
+	 * @param array Provide information about a function parameter.	$var
 	 * @return array
 	 */
 	public static function queryVars( $var ) {

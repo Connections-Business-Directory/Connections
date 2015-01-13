@@ -338,7 +338,7 @@ class cnTerm {
 	 * @param array|string $args {
 	 *    Optional. Change what is returned
 	 *
-	 *    @type string 'orderby' Default: name. Accepts: name | slug | term_group | term_order | count | none
+	 *    @type string 'orderby' Default: name. Accepts: name | slug | term_id | term_group | term_order | count | none
 	 *    @type string 'order'   Default: ASC. Accepts: ASC | DESC
 	 *    @type string 'fields'  Default: all. Accepts: all | ids | names | slugs | all_with_entry_id
 	 * }
@@ -2556,6 +2556,8 @@ class cnTerm {
 	/**
 	 * Retrieve the terms in a given taxonomy or list of taxonomies.
 	 *
+	 * NOTE: This is the Connections equivalent of @see get_terms() in WordPress core ../wp-includes/taxonomy.php
+	 *
 	 * Filters:
 	 *    cn_get_terms_atts - The method variables.
 	 *        Passes: (array) $atts, (array) $taxonomies
@@ -2623,7 +2625,7 @@ class cnTerm {
 	 *
 	 *    orderby ( string | array )
 	 *        Default: name
-	 *        Valid:   term_id | name | slug | term_group | parent | count
+	 *        Valid:   term_id | name | slug | term_group | parent | count | include
 	 *
 	 *    order ( string | array )
 	 *        Default: ASC
@@ -2700,9 +2702,10 @@ class cnTerm {
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
-		$select  = array();
-		$where   = array();
-		$orderBy = array();
+		$select        = array();
+		$where         = array();
+		$orderBy       = array();
+		$orderByClause = '';
 
 		/*
 		 * @TODO $taxonomies need to be checked against registered taxonomies.
@@ -2737,7 +2740,7 @@ class cnTerm {
 			'search'       => '',
 		);
 
-		/*
+		/**
 		 * Filter the terms query arguments.
 		 *
 		 * @since 8.1
@@ -2745,7 +2748,7 @@ class cnTerm {
 		 * @param array        $atts       An array of arguments.
 		 * @param string|array $taxonomies A taxonomy or array of taxonomies.
 		 */
-		$atts = apply_filters( 'cn_get_terms_atts', $atts, $taxonomies );
+		$atts = apply_filters( 'cn_get_terms_args', $atts, $taxonomies );
 
 		$atts = wp_parse_args( $atts, $defaults );
 
@@ -2824,60 +2827,72 @@ class cnTerm {
 		 */
 		if ( is_array( $atts['orderby'] ) ) {
 
-			$orderBy[]          = 'ORDER BY';
-			$orderByQueryClause = '';
-			$i                  = 0;
+			foreach ( $atts['orderby'] as $i => $value ) {
 
-			foreach ( $atts['orderby'] as $orderby ) {
+				if ( ! isset ( $order ) ) $order = 'ASC';
 
-				if ( is_array( $atts['order'] ) && isset( $atts['order'][ $i ] ) ) {
-
-					// Align with the first value in orderby.
-					$order = $atts['order'][ $i ];
-
-				} else {
-
-					$order = is_array( $atts['order'] ) ? $atts['order'][0] : $atts['order'];
-				}
-
-				switch ( $atts['orderby'][ $i ] ) {
+				switch ( $value ) {
 
 					case 'id':
 					case 'term_id':
-						$atts['orderby'][ $i ] = 't.term_id';
+						$orderField = 't.term_id';
 						break;
 
 					case 'slug':
-						$atts['orderby'][ $i ] = 't.slug';
+						$orderField = 't.slug';
+						break;
+
+					case 'include':
+						$include = implode( ',', wp_parse_id_list( $atts['include'] ) );
+						$orderField = "FIELD( t.term_id, $include )";
 						break;
 
 					case 'term_group':
-						$atts['orderby'][ $i ] = 't.term_group';
+						$orderField = 't.term_group';
 						break;
 
+					case 'none':
+						$orderField = '';
+
+						// If an `none` order field was supplied, break out of both the switch and foreach statements.
+						break(2);
+
 					case 'parent':
-						$atts['orderby'][ $i ] = 'tt.parent';
+						$orderField = 'tt.parent';
 						break;
 
 					case 'count':
-						$atts['orderby'][ $i ] = 'tt.count';
+						$orderField = 'tt.count';
 						break;
 
 					default:
 
-						$atts['orderby'][ $i ] = 't.name';
+						$orderField = 't.name';
 						break;
 				}
 
+				// Set the $order to align with $atts['orderby'].
+				if ( is_array( $atts['order'] ) && isset( $atts['order'][ $i ] ) ) {
+
+					$order = $atts['order'][ $i ];
+
+				// If an aligned $atts['order'] does not exist use the last $order set otherwise use $atts['order'].
+				} else {
+
+					$order = is_array( $atts['order'] ) ? $order : $atts['order'];
+				}
+
 				$order = strtoupper( $order );
+
 				$order = in_array( $order, array( 'ASC', 'DESC' ) ) ? $order : 'ASC';
 
-				$orderByQueryClause .= sprintf( ( $i > 0 ? ', ' : '' ) . '%s %s', $atts['orderby'][ $i ], $order );
+				$orderBy[] = sprintf( '%s %s', $orderField, $order );
 
-				$i++;
 			}
 
-			if ( ! empty( $orderByQueryClause ) ) $orderBy[] = $orderByQueryClause;
+			// The @var $value will be set to the last value from the $atts['orderby'] foreach loop.
+			// If a `none` $atts['orderby'] was found in the supplied array, no order by clause will be set.
+			if ( ! empty( $orderBy ) && $value != 'none' ) $orderByClause = 'ORDER BY ' . implode( ', ', $orderBy );
 
 		} else {
 
@@ -2892,8 +2907,17 @@ class cnTerm {
 					$atts['orderby'] = 't.slug';
 					break;
 
+				case 'include':
+					$include = implode( ',', wp_parse_id_list( $atts['include'] ) );
+					$atts['orderby'] = "FIELD( t.term_id, $include )";
+					break;
+
 				case 'term_group':
 					$atts['orderby'] = 't.term_group';
+					break;
+
+				case 'none':
+					$atts['orderby'] = '';
 					break;
 
 				case 'parent':
@@ -2912,8 +2936,7 @@ class cnTerm {
 
 			if ( is_array( $atts['order'] ) ) {
 
-				// orderby was a string but for some reason an array
-				// was passed for the order so we assume the 0 index
+				// $atts['orderby'] was a string but an array was passed for $atts['order'], assume the 0 index.
 				$order = $atts['order'][0];
 
 			} else {
@@ -2921,10 +2944,14 @@ class cnTerm {
 				$order = $atts['order'];
 			}
 
-			$order = strtoupper( $order );
-			$order = in_array( $order, array( 'ASC', 'DESC' ) ) ? $order : 'ASC';
+			if ( ! empty( $atts['orderby'] ) ) {
 
-			$orderBy[] = sprintf( 'ORDER BY %s %s', $atts['orderby'], $order );
+				$order = strtoupper( $order );
+				$order = in_array( $order, array( 'ASC', 'DESC' ) ) ? $order : 'ASC';
+
+				$orderByClause = 'ORDER BY ' . sprintf( '%s %s', $atts['orderby'], $order );
+			}
+
 		}
 
 		/*
@@ -2936,7 +2963,7 @@ class cnTerm {
 		 * @param array        $atts       An array of terms query arguments.
 		 * @param string|array $taxonomies A taxonomy or array of taxonomies.
 		 */
-		$orderBy = apply_filters( 'cn_term_orderby', implode( ' ', $orderBy ), $atts, $taxonomies );
+		$orderBy = apply_filters( 'cn_terms_orderby', $orderByClause, $atts, $taxonomies );
 
 		/*
 		 * Start construct the WHERE query clause.

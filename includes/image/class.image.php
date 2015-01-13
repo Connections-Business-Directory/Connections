@@ -967,7 +967,7 @@ class cnImage {
 		$upload_url = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( CN_IMAGE_BASE_URL . $atts['sub_dir'] ) : CN_IMAGE_BASE_URL;
 		cnFileSystem::mkdir( $upload_dir );
 
-		// Desination paths and URL.
+		// Destination paths and URL.
 		$destfilename = "{$upload_dir}{$dst_rel_path}-{$suffix}." . strtolower( $ext );
 		$img_url      = "{$upload_url}{$dst_rel_path}-{$suffix}." . strtolower( $ext );
 

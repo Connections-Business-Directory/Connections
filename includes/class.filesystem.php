@@ -357,7 +357,7 @@ class cnUpload {
 			 *
 			 * --> START <--
 			 */
-			$siteurl     = get_option( 'siteurl' );
+			$siteurl     = site_url();
 			$upload_path = trim( get_option( 'upload_path' ) );
 
 			if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
@@ -378,7 +378,7 @@ class cnUpload {
 
 				if ( empty($upload_path) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) ) {
 
-					$url = WP_CONTENT_URL . '/uploads';
+					$url = content_url( '/uploads' );
 
 				} else {
 

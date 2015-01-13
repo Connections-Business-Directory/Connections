@@ -304,20 +304,20 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			} else {
 
-				/*
+				/**
 				 * Pulled this block of code from wp_upload_dir(). Using this rather than simply using wp_upload_dir()
-				 * because wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
+				 * because @see wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
 				 *
 				 * We do not want this behavior if forcing Connections into single site mode on a multisite
 				 * install of WP. Additionally we do not want the year/month sub dir appended.
 				 *
-				 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as everytime the custom
+				 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as every time the custom
 				 * dir/url would be needed the filter would have to be added and then removed not to mention other plugins could
 				 * interfere by hooking into `upload_dir`.
 				 *
 				 * --> START <--
 				 */
-				$siteurl     = get_option( 'siteurl' );
+				$siteurl     = site_url();
 				$upload_path = trim( get_option( 'upload_path' ) );
 
 				if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
@@ -338,7 +338,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 					if ( empty($upload_path) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) ) {
 
-						$url = WP_CONTENT_URL . '/uploads';
+						$url = content_url( '/uploads' );
 
 					} else {
 

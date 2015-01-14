@@ -882,6 +882,10 @@ class cnEntryMetabox {
 
 		echo '<label for="original_image">' , __( 'Select Image', 'connections' ) , ':';
 		echo '<input type="file" accept="image/*" value="" name="original_image" size="25" /></label>';
+
+		echo '<p class="suggested-dimensions">';
+			printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( wp_max_upload_size() ) ) );
+		echo '</p>';
 	}
 
 	/**
@@ -944,6 +948,10 @@ class cnEntryMetabox {
 
 		echo '<label for="original_logo">' , __( 'Select Logo', 'connections' ) , ':';
 		echo '<input type="file" accept="image/*" value="" name="original_logo" size="25" /></label>';
+
+		echo '<p class="suggested-dimensions">';
+			printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( wp_max_upload_size() ) ) );
+		echo '</p>';
 	}
 
 	/**

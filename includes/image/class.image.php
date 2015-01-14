@@ -1561,6 +1561,25 @@ class cnImage {
 				 ),
 			);
 
+		/**
+		 * Filter the arguments used when processing an image upload.
+		 *
+		 * @since 8.1.6
+		 *
+		 * @param array $atts An associative array of the arguments used when processing an image upload.
+		 */
+		$atts = apply_filters( 'cn_image_upload_atts', $atts );
+
+		/**
+		 * Action fires before an image is uploaded.
+		 *
+		 * @since 8.1.6
+		 *
+		 * @param array  $file A reference to a single element of $_FILES.
+		 * @param string $atts['sub_dir'] The subdirectory the image is to be uploaded.
+		 */
+		do_action( 'cn_image_upload', $file, $atts['sub_dir'] );
+
 		$upload = new cnUpload( $file, $atts );
 
 		$result = $upload->result();
@@ -1584,8 +1603,24 @@ class cnImage {
 				'type'   => ''
 				);
 
-			$result = array_merge( $order, $result );
+			/**
+			 * The uploaded image meta data.
+			 *
+			 * @since 8.1.6
+			 *
+			 * @param array $result An associative array of the uploaded image metadata.
+			 */
+			$result = apply_filters( 'cn_image_uploaded_meta', array_merge( $order, $result ) );
 		}
+
+		/**
+		 * Fires after an image has been uploaded.
+		 *
+		 * @since 8.1.6
+		 *
+		 * @param mixed $result An associative array of the uploaded image metadata on success or an instance of WP_Error on error.
+		 */
+		do_action( 'cn_image_uploaded', $result );
 
 		// Remove the filter which lowercases the image filename extension.
 		remove_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );

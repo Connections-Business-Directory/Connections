@@ -881,7 +881,7 @@ class cnEntryMetabox {
 		}
 
 		echo '<label for="original_image">' , __( 'Select Image', 'connections' ) , ':';
-		echo '<input type="file" value="" name="original_image" size="25" /></label>';
+		echo '<input type="file" accept="image/*" value="" name="original_image" size="25" /></label>';
 	}
 
 	/**
@@ -943,7 +943,7 @@ class cnEntryMetabox {
 		}
 
 		echo '<label for="original_logo">' , __( 'Select Logo', 'connections' ) , ':';
-		echo '<input type="file" value="" name="original_logo" size="25" /></label>';
+		echo '<input type="file" accept="image/*" value="" name="original_logo" size="25" /></label>';
 	}
 
 	/**

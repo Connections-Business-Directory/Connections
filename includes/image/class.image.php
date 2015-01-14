@@ -1539,9 +1539,12 @@ class cnImage {
 	 *
 	 * @access public
 	 * @since  8.1
+	 * @static
+	 *
 	 * @uses   trailingslashit()
 	 * @uses   cnUpload
-	 * @param array  $file Reference to a single element of $_FILES.
+	 *
+	 * @param array  $file         Reference to a single element of $_FILES.
 	 * @param string $subDirectory An associative array containing the upload params.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
@@ -1552,14 +1555,14 @@ class cnImage {
 		add_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
 
 		$atts = array(
-			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory ,
+			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory,
 			'mimes'   => array(
 				'jpeg' => 'image/jpeg',
 				'jpg'  => 'image/jpeg',
 				'gif'  => 'image/gif',
 				'png'  => 'image/png',
-				 ),
-			);
+			),
+		);
 
 		/**
 		 * Filter the arguments used when processing an image upload.
@@ -1601,7 +1604,7 @@ class cnImage {
 				'size'   => '',
 				'mime'   => '',
 				'type'   => ''
-				);
+			);
 
 			/**
 			 * The uploaded image meta data.
@@ -1622,7 +1625,7 @@ class cnImage {
 		 */
 		do_action( 'cn_image_uploaded', $result );
 
-		// Remove the filter which lowercases the image filename extension.
+		// Remove the filter which makes the image filename extension lowercase.
 		remove_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
 
 		return $result;

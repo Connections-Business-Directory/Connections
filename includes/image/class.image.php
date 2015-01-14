@@ -1685,8 +1685,8 @@ class cnImage {
 	 */
 	public static function maxSize( $image ) {
 
-		$maxWidth  = defined( 'CN_IMAGE_MAX_WIDTH' ) ? CN_IMAGE_MAX_WIDTH : 1000;
-		$maxHeight = defined( 'CN_IMAGE_MAX_HEIGHT' ) ? CN_IMAGE_MAX_HEIGHT : 1000;
+		$maxWidth  = defined( 'CN_IMAGE_MAX_WIDTH' ) ? CN_IMAGE_MAX_WIDTH : 1920;
+		$maxHeight = defined( 'CN_IMAGE_MAX_HEIGHT' ) ? CN_IMAGE_MAX_HEIGHT : 1080;
 		$quality   = defined( 'CN_IMAGE_QUALITY' ) ? CN_IMAGE_QUALITY : 90;
 
 		if ( ( $image['width'] > $maxWidth && $maxWidth > 0 ) || ( $image['height'] > $maxHeight && $maxHeight > 0 ) ) {

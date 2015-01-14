@@ -47,6 +47,8 @@ class cnImage {
 			// Set priority 11 so we know cnMessage has been init'd.
 			// add_action( 'admin_init', array( __CLASS__, 'checkEditorSupport' ), 11 );
 			add_action( 'parse_query', array( __CLASS__, 'query'), -1 );
+
+			add_filter( 'cn_image_uploaded_meta', array( __CLASS__, 'maxSize' ) );
 		}
 
 	}

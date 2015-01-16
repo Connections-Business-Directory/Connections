@@ -3388,7 +3388,7 @@ class cnEntry {
 	 * 		If `type` is `custom`: Not used, use the `width` and `height` to set the custom size.
 	 * 	width (int) The width of the `custom` size.
 	 * 	height (int) The height of the `custom` size.
-	 * 	crop_mode (int) Which crop mode to utilitize when rescaling the image. Valid range is 0–3. Default: 1
+	 * 	crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
 	 * 		0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
 	 * 		1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
 	 * 		2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.

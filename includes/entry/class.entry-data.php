@@ -3140,8 +3140,20 @@ class cnEntry {
 		$this->options['logo']['linked'] = $logoLinked;
 	}
 
+	/**
+	 * Returns the filename of the original uploaded logo image.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
+	 */
 	public function getLogoName() {
-		if ( empty( $this->options['logo']['name'] ) ) return NULL;
+
+		if ( empty( $this->options['logo']['name'] ) ) {
+			return '';
+		}
+
 		return $this->options['logo']['name'];
 	}
 

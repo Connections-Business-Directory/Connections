@@ -560,7 +560,7 @@ class cnTemplateFactory {
 
 		/*
 		 * If a list type was specified in the shortcode, load the template based on that type.
-		 * However, if a specific template was specifed, that should preempt the template to be loaded based on the list type if it was specified..
+		 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified..
 		 */
 		if ( ! empty( $atts['template'] ) ) {
 
@@ -576,7 +576,7 @@ class cnTemplateFactory {
 		}
 
 		// If the template was not located, return FALSE.
-		// This will inturn display the template not found error message
+		// This will in turn display the template not found error message
 		// later in the execution of the shortcode.
 		if ( $template == FALSE ) return FALSE;
 

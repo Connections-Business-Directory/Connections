@@ -357,7 +357,7 @@ class cnOptions {
 	}
 
 	/**
-	 * Returns the fmaily relation name based on the supplied key.
+	 * Returns the family relation name based on the supplied key.
 	 *
 	 * @access private
 	 * @since  unknown

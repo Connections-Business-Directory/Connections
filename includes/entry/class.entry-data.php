@@ -3312,20 +3312,21 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit()
-	 * @uses   self::getSlug()
-	 * @uses   self::getLogoName()
-	 * @uses   self::getImageNameOriginal()
+	 *
+	 * @uses   cnEntry::getSlug()
+	 * @uses   cnEntry::getLogoName()
+	 * @uses   cnEntry::getImageNameOriginal()
+	 *
 	 * @param  string $type The image path to return, logo | photo.
+	 *
 	 * @return string       The absolute image path.
 	 */
 	public function getOriginalImagePath( $type ) {
 
-		if ( empty( $type ) ) return '';
+		if ( empty( $type ) ) {
 
-		// Get the core WP uploads info.
-		// $uploadInfo = wp_upload_dir();
+			return '';
+		}
 
 		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
 		$slug = rawurldecode( $this->getSlug() );
@@ -3335,21 +3336,27 @@ class cnEntry {
 			case 'logo':
 
 				// Build the URL to the original image.
-				return CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR .$this->getLogoName();
+				$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR . $this->getLogoName();
 				break;
 
 			case 'photo':
 
 				// Build the URL to the original image.
-				return CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR .$this->getImageNameOriginal();
+				$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR . $this->getImageNameOriginal();
 				break;
 
 			default:
 
-				return '';
+				$path = '';
 				break;
 		}
 
+		if ( file_exists( $path ) && ! is_dir( $path ) ) {
+
+			return $path;
+		}
+
+		return '';
 	}
 
 	/**

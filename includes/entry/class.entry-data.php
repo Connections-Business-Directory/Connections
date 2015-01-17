@@ -1145,8 +1145,10 @@ class cnEntry {
 	 */
 	public function getPhoneNumbers( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
+		/** @var $connections connectionsLoad */
 		global $connections;
 
+		$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
 		$phoneNumbers = array();
 		$results = array();
 
@@ -1227,8 +1229,7 @@ class cnEntry {
 					/*
 					 * Set the phone name based on the type.
 					 */
-					$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
-					$row->name = $phoneTypes[ $row->type ];
+					$row->name = ! isset( $phoneTypes[ $row->type ] )  ? 'Other' : $phoneTypes[ $row->type ];
 
 					/*
 					 * // START -- Do not return phone numbers that do not match the supplied $atts.
@@ -1289,8 +1290,7 @@ class cnEntry {
 				/*
 				 * Set the phone name based on the phone type.
 				 */
-				$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
-				$phone->name = $phoneTypes[ $phone->type ];
+				$phone->name = ! isset( $phoneTypes[ $phone->type ] )  ? 'Other' : $phoneTypes[ $phone->type ];
 
 				$results[] = apply_filters( 'cn_phone_number', $phone );
 			}

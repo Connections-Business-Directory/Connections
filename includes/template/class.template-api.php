@@ -590,5 +590,6 @@ class cnTemplateFactory {
 }
 
 // Init the Template Factory API
+// NOTE: The priority can not be > 10 otherwise it will break older templates which init'd on `plugins_loaded` at priority 11.
 // cnTemplateFactory::init();
-add_action( 'plugins_loaded', array( 'cnTemplateFactory', 'init' ), 99 );
+add_action( 'plugins_loaded', array( 'cnTemplateFactory', 'init' ) );

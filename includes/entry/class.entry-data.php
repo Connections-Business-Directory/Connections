@@ -3190,61 +3190,58 @@ class cnEntry {
 	/**
 	 * Returns $imageNameCard.
 	 *
-	 * @see entry::$imageNameCard
+	 * @access public
+	 * @since unknown
+	 *
+	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 *
+	 * @return string
 	 */
 	public function getImageNameCard() {
-		if ( empty( $this->options['image']['name']['entry'] ) ) return NULL;
-		return $this->options['image']['name']['entry'];
-	}
 
-	/**
-	 * Sets $imageNameCard.
-	 *
-	 * @param object  $imageNameCard
-	 * @see entry::$imageNameCard
-	 */
-	public function setImageNameCard( $imageNameCard ) {
-		$this->options['image']['name']['entry'] = $imageNameCard;
+		if ( empty( $this->options['image']['name']['entry'] ) ) {
+			return '';
+		}
+
+		return $this->options['image']['name']['entry'];
 	}
 
 	/**
 	 * Returns $imageNameProfile.
 	 *
-	 * @see entry::$imageNameProfile
+	 * @access public
+	 * @since unknown
+	 *
+	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 *
+	 * @return string
 	 */
 	public function getImageNameProfile() {
-		if ( empty( $this->options['image']['name']['profile'] ) ) return NULL;
-		return $this->options['image']['name']['profile'];
-	}
 
-	/**
-	 * Sets $imageNameProfile.
-	 *
-	 * @param object  $imageNameProfile
-	 * @see entry::$imageNameProfile
-	 */
-	public function setImageNameProfile( $imageNameProfile ) {
-		$this->options['image']['name']['profile'] = $imageNameProfile;
+		if ( empty( $this->options['image']['name']['profile'] ) ) {
+			return '';
+		}
+
+		return $this->options['image']['name']['profile'];
 	}
 
 	/**
 	 * Returns $imageNameThumbnail.
 	 *
-	 * @see entry::$imageNameThumbnail
+	 * @access public
+	 * @since unknown
+	 *
+	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 *
+	 * @return string
 	 */
 	public function getImageNameThumbnail() {
-		if ( empty( $this->options['image']['name']['thumbnail'] ) ) return NULL;
-		return $this->options['image']['name']['thumbnail'];
-	}
 
-	/**
-	 * Sets $imageNameThumbnail.
-	 *
-	 * @param object  $imageNameThumbnail
-	 * @see entry::$imageNameThumbnail
-	 */
-	public function setImageNameThumbnail( $imageNameThumbnail ) {
-		$this->options['image']['name']['thumbnail'] = $imageNameThumbnail;
+		if ( empty( $this->options['image']['name']['thumbnail'] ) ) {
+			return '';
+		}
+
+		return $this->options['image']['name']['thumbnail'];
 	}
 
 	/**

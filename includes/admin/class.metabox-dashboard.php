@@ -186,14 +186,17 @@ class cnDashboardMetabox {
 			'callback' => array( __CLASS__, 'links' ),
 		);
 
-		self::$metaboxes[] = array(
-			'id'       => 'metabox-system',
-			'title'    => __( 'System', 'connections' ),
-			'pages'    => array( $pages ),
-			'context'  => 'right',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'system' ),
-		);
+		if ( current_user_can( 'manage_options') ) {
+
+			self::$metaboxes[] = array(
+				'id'       => 'metabox-system',
+				'title'    => __( 'System', 'connections' ),
+				'pages'    => array( $pages ),
+				'context'  => 'right',
+				'priority' => 'core',
+				'callback' => array( __CLASS__, 'system' ),
+			);
+		}
 
 	}
 

@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class cnEntry {
 	/**
-	 * Interger: Entry ID
+	 * Integer: Entry ID
 	 *
 	 * @var integer
 	 */

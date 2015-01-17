@@ -517,7 +517,6 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function getNameBlock( $atts = array() ) {
-		global $connections;
 
 		/*
 		 * // START -- Set the default attributes array. \\

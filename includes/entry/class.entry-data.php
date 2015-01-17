@@ -3257,12 +3257,19 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns $imageNameOriginal.
+	 * Returns the filename of the original uploaded image.
 	 *
-	 * @see entry::$imageNameOriginal
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
 	 */
 	public function getImageNameOriginal() {
-		if ( empty( $this->options['image']['name']['original'] ) ) return NULL;
+
+		if ( empty( $this->options['image']['name']['original'] ) ) {
+			return '';
+		}
+
 		return $this->options['image']['name']['original'];
 	}
 

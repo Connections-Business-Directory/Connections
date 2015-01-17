@@ -291,10 +291,10 @@ class cnEntry {
 					$this->imageDisplay = $this->options['image']['display'];
 
 					if ( isset( $this->options['image']['name'] ) ) {
-						$this->imageNameThumbnail = $this->options['image']['name']['thumbnail'];
-						$this->imageNameCard = $this->options['image']['name']['entry'];
-						$this->imageNameProfile = $this->options['image']['name']['profile'];
-						$this->imageNameOriginal = $this->options['image']['name']['original'];
+						$this->imageNameThumbnail = isset( $this->options['image']['name']['thumbnail'] ) ? $this->options['image']['name']['thumbnail'] : '';
+						$this->imageNameCard = isset( $this->options['image']['name']['entry'] ) ? $this->options['image']['name']['entry'] : '';
+						$this->imageNameProfile = isset( $this->options['image']['name']['profile'] ) ? $this->options['image']['name']['profile'] : '';
+						$this->imageNameOriginal = isset( $this->options['image']['name']['original'] ) ? $this->options['image']['name']['original'] : '';
 					}
 				}
 

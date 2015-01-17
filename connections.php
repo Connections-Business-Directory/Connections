@@ -541,6 +541,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// The class for managing license keys and settings.
 				require_once CN_PATH . 'includes/admin/class.license.php';
 
+				// Load the templates used on the Dashboard admin page.
+				include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
+				include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';
+				include_once CN_PATH . 'templates/dashboard-upcoming/dashboard-upcoming.php';
+
 			} else {
 
 				// Class for SEO
@@ -560,9 +565,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
 			include_once CN_PATH . 'templates/birthday-dark/birthday-dark.php';
 			include_once CN_PATH . 'templates/birthday-light/birthday-light.php';
-			include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
-			include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';
-			include_once CN_PATH . 'templates/dashboard-upcoming/dashboard-upcoming.php';
 
 			// Template APIs.
 			// Must require AFTER the core templates.

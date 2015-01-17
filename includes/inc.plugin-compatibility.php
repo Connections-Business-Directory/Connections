@@ -33,3 +33,9 @@ function cn_remove_wpseo_head() {
 
 }
 add_action( 'parse_query', 'cn_remove_wpseo_head' );
+
+/**
+ * Prevent s2member re-setting custom capabilities on re-activation.
+ * gh-392
+ */
+add_filter( 'ws_plugin__s2member_lock_roles_caps', '__return_true' );

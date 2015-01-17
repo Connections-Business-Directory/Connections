@@ -643,9 +643,6 @@ class cnEntry_Action {
 
 				$entry->setImageLinked( TRUE );
 				$entry->setImageDisplay( TRUE );
-				// $entry->setImageNameThumbnail( $result['image_names']['thumbnail'] );
-				// $entry->setImageNameCard( $result['image_names']['entry'] );
-				// $entry->setImageNameProfile( $result['image_names']['profile'] );
 				$entry->setImageNameOriginal( $result['image_names']['original'] );
 				$entry->setOriginalImageMeta( $result['image']['original']['meta'] );
 
@@ -685,9 +682,6 @@ class cnEntry_Action {
 					self::deleteLegacyImages( $entry );
 
 					$entry->setImageNameOriginal( NULL );
-					$entry->setImageNameThumbnail( NULL );
-					$entry->setImageNameCard( NULL );
-					$entry->setImageNameProfile( NULL );
 
 					break;
 

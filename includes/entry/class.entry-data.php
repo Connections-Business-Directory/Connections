@@ -232,11 +232,30 @@ class cnEntry {
 	private $status;
 
 	public $format;
+
+	/**
+	 * An instance of cnValidate.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @var cnValidate
+	 */
 	public $validate;
 
 	private $sortColumn;
 
 	private $updateObjectCache = FALSE;
+
+	/**
+	 * Stored the directory home page ID and whether or no to force permalinks to the directory home.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @var array
+	 */
+	public $directoryHome = array();
 
 	function __construct( $entry = NULL ) {
 		global $connections;

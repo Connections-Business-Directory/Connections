@@ -827,8 +827,11 @@ class cnEntry {
 	 * @return array
 	 */
 	public function getAddresses( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+
+		/** @var $connections connectionsLoad */
 		global $connections;
 
+		$addressTypes = $connections->options->getDefaultAddressValues();
 		$addresses = array();
 		$results = array();
 
@@ -912,10 +915,10 @@ class cnEntry {
 					 * Set the address name based on the address type.
 					 */
 					// Some previous versions did set the address type, so set the type to 'other'.
-					if ( empty( $row->type ) ) $row->type = 'other';
-					$addressTypes = $connections->options->getDefaultAddressValues();
-					// Recent previous versions set the type to the Select string from the drop down, so set the type to 'other'.
-					( $addressTypes[ $row->type ] == 'Select' ) ? $row->name = 'Other' : $row->name = $addressTypes[ $row->type ];
+					if ( empty( $row->type ) || ! isset( $addressTypes[ $row->type ] ) ) $row->type = 'other';
+
+					// Recent previous versions set the type to the Select string from the drop down, so set the name to 'Other'.
+					$row->name = ! isset( $addressTypes[ $row->type ] ) || $addressTypes[ $row->type ] == 'Select' ? 'Other' : $addressTypes[ $row->type ];
 
 					/*
 					 * // START -- Compatibility for previous versions.
@@ -988,8 +991,7 @@ class cnEntry {
 				/*
 				 * Set the address name based on the address type.
 				 */
-				$addressTypes = $connections->options->getDefaultAddressValues();
-				( ! isset( $addressTypes[ $address->type ] ) || $addressTypes[ $address->type ] === 'Select' ) ? $address->name = NULL : $address->name = $addressTypes[ $address->type ];
+				$address->name = ( ! isset( $addressTypes[ $address->type ] ) || $addressTypes[ $address->type ] === 'Select' ) ? 'Other' : $addressTypes[ $address->type ];
 
 				/*
 				 * // START -- Compatibility for previous versions.

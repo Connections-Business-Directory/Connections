@@ -3925,11 +3925,31 @@ class cnEntry {
 		$this->options = serialize( $this->options );
 	}
 
-
+	/**
+	 * Sets up the current instance of cnEntry to pull in the values of the supplied ID.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param int $id The entry ID to query from the database.
+	 *
+	 * @return bool Whether of not the instance of cnEntry has been setup with the values of the new entry ID.
+	 */
 	public function set( $id ) {
-		global $connections;
-		$result = $connections->retrieve->entry( $id );
-		$this->__construct( $result );
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		if ( $result = $instance->retrieve->entry( $id ) ) {
+
+			$this->__construct( $result );
+
+		} else {
+
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	public function update() {

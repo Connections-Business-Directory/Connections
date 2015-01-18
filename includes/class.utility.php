@@ -370,14 +370,22 @@ class cnFormatting {
 
 class cnValidate {
 
+	/**
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @deprecated 8.1.6 Use {@see cnSanitize::args()} instead.
+	 * @see cnSanitize::args()
+	 *
+	 * @param array $defaults
+	 * @param array $untrusted
+	 *
+	 * @return array
+	 */
 	public function attributesArray( $defaults, $untrusted ) {
 
-		if ( ! is_array( $defaults ) || ! is_array( $untrusted ) ) return $defaults;
-
-		$intersect  = array_intersect_key( $untrusted, $defaults ); // Get data for which is in the valid fields.
-		$difference = array_diff_key( $defaults, $untrusted ); // Get default data which is not supplied.
-
-		return array_merge( $intersect, $difference ); // Merge the results. Contains only valid fields of all defaults.
+		return cnSanitize::args( $untrusted, $defaults );
 	}
 
 	/**

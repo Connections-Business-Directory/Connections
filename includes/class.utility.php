@@ -86,6 +86,65 @@ class cnFormatting {
 	}
 
 	/**
+	 * General purpose function to do a little more than just white-space trimming and cleaning, it can do
+	 * characters-to-replace and characters-to-replace-with. You can do the following:
+	 *
+	 * 1. Normalize white-spaces, so that all multiple \r, \n, \t, \r\n, \0, 0x0b, 0x20 and all control characters
+	 *    can be replaced with a single space, and also trim from both ends of the string.
+	 * 2. Remove all undesired characters.
+	 * 3. Remove duplicates.
+	 * 4. Replace multiple occurrences of characters with a character or string.
+	 *
+	 * @link http://pageconfig.com/post/remove-undesired-characters-with-trim_all-php
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @param string $string
+	 * @param null   $what
+	 * @param string $with
+	 *
+	 * @return string
+	 */
+	public static function replaceWhatWith( $string, $what = NULL, $with = ' ' ) {
+
+		if ( ! is_string( $string ) ) {
+			return '';
+		}
+
+		if ( is_null( $what ) ) {
+
+			//	Character      Decimal      Use
+			//	"\0"            0           Null Character
+			//	"\t"            9           Tab
+			//	"\n"           10           New line
+			//	"\x0B"         11           Vertical Tab
+			//	"\r"           13           New Line in Mac
+			//	" "            32           Space
+
+			$what = "\\x00-\\x20";    //all white-spaces and control chars
+		}
+
+		return trim( preg_replace( "/[" . $what . "]+/u", $with, $string ), $what );
+	}
+
+	/**
+	 * Normalize a string. Replace all occurrence of one or more spaces with a single space, remove control characters
+	 * and trim whitespace from both ends.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @param string $string The string to normalize.
+	 *
+	 * @return string
+	 */
+	public static function normalizeString( $string ) {
+
+		return self::replaceWhatWith( $string );
+	}
+
+	/**
 	 * Converts the following strings: yes/no; true/false and 0/1 to boolean values.
 	 * If the supplied string does not match one of those values the method will return NULL.
 	 *

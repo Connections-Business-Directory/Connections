@@ -661,37 +661,101 @@ class cnOutput extends cnEntry
 	/**
 	 * Echos the family members of the family entry type.
 	 *
-	 * @access public
-	 * @since unknown
-	 * @version 1.0
+	 * @access  public
+	 * @since   unknown
+	 *
+	 * @param array $atts {
+	 *     Optional.
+	 *
+	 *     @type string $container_tag The relationship container tag. Default `ul`. Accepts HTML tag.
+	 *     @type string $item_tag      The relationship row tag. Default `li`. Accepts HTML tag.
+	 *     @type string $item_format   The relationship row HTML markup.
+	 *     @type string $name_format   How the relationship name should be displayed @see cnEntry::getName().
+	 *     @type string $separator     The string used to separate the relation label from the relation name. Default ':'.
+	 *     @type string $before        HTML to be displayed before the relations container. Default, empty string.
+	 *     @type string $after         HTML to be displayed after the relations container. Default, empty string.
+	 *     @type string $before_item   HTML to be displayed before a relation row. Default, empty string.
+	 *     @type string $after_item    HTML to be displayed after a relation row. Default, empty string.
+	 * }
+	 *
 	 * @return string
 	 */
-	public function getFamilyMemberBlock() {
+	public function getFamilyMemberBlock( $atts = array() ) {
+
+		$defaults = array(
+			'container_tag' => 'ul',
+			'item_tag'      => 'li',
+			'item_format'   => '<%1$s class="cn-relation"><span class="cn-relation-label">%relation%</span>%separator% <span class="cn-relation-name">%name%</span></%1$s>',
+			'name_format'   => '',
+			'separator'     => ':',
+			'before'        => '',
+			'after'         => '',
+			'before_item'   => '',
+			'after_item'    => '',
+			'return'        => FALSE,
+		);
+
+		/**
+		 * Filter the arguments.
+		 *
+		 * @since unknown
+		 *
+		 * @param array $atts An array of arguments.
+		 */
+		$atts = cnSanitize::args( apply_filters( 'cn_output_family_atts', $atts ), $defaults );
+
+		$html   = '';
+		$search = array( '%relation%', '%name%', '%separator%' );
+
 		if ( $this->getFamilyMembers() ) {
-			global $connections;
+
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
 
 			foreach ( $this->getFamilyMembers() as $key => $value ) {
+
 				$relation = new cnEntry();
-				$relationName = '';
+				$replace  = array();
 
-				$relation->set( $key );
-				$relationType = $connections->options->getFamilyRelation( $value );
+				if ( $relation->set( $key ) ) {
 
-				$relationName = cnURL::permalink( array(
-						'type'       => 'name',
-						'slug'       => $relation->getSlug(),
-						'title'      => $relation->getName(),
-						'text'       => $relation->getName(),
-						'home_id'    => $this->directoryHome['page_id'],
-						'force_home' => $this->directoryHome['force_home'],
-						'return'     => TRUE
-					)
-				);
+					$replace[] = $instance->options->getFamilyRelation( $value );
 
-				echo '<span><strong>' . $relationType . ':</strong> ' . $relationName . '</span><br />' . "\n";
-				unset( $relation );
+					$replace[] = cnURL::permalink(
+						array(
+							'type'       => 'name',
+							'slug'       => $relation->getSlug(),
+							'title'      => $relation->getName( array( 'format' => $atts['name_format'] ) ),
+							'text'       => $relation->getName( array( 'format' => $atts['name_format'] ) ),
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE,
+						)
+					);
+
+					$replace[] = empty( $atts['separator'] ) ? '' : '<span class="cn-separator">' . $atts['separator'] . '</span>';
+
+					$row = str_ireplace(
+						$search,
+						$replace,
+						empty( $atts['item_format'] ) ? $defaults['item_format'] : $atts['item_format']
+					);
+
+					$html .= "\t" . sprintf( $row, $atts['item_tag'] ) . PHP_EOL;
+				}
 			}
+
+			$html = sprintf(
+				'<%1$s class="cn-relations">' . PHP_EOL . '%2$s</%1$s>',
+				$atts['container_tag'],
+				$html
+			);
+
+			$html = PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 		}
+
+		if ( $atts['return'] ) return $html;
+		echo $html;
 	}
 
 	/**
@@ -2559,7 +2623,7 @@ class cnOutput extends cnEntry
 					trim( $meta['meta_key'] ),
 					$atts['separator'],
 					$atts['value_tag'],
-					implode( (array) $meta['meta_value'], ', ')
+					implode( ', ', (array) $meta['meta_value'] )
 					),
 				$atts,
 				$meta['meta_key'],

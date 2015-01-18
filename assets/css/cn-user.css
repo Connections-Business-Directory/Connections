@@ -64,6 +64,21 @@ img.cn-image {
 #cn-list span.contact-label { font-weight: bold; }
 
 /*
+ * Family styles.
+ */
+#cn-list ul.cn-relations {
+	line-height: normal;
+	list-style: none;
+	margin: 0 0 10px;
+}
+#cn-list ul.cn-relations li {
+	margin: 0;
+}
+#cn-list span.cn-relation-label {
+	font-weight: bold;
+}
+
+/*
  * Address Styles
  */
 #cn-list span.adr { display: block; margin-bottom: 10px; }

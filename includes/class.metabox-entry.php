@@ -746,7 +746,7 @@ class cnEntryMetabox {
 						array(
 							'class'    => 'family-member-name',
 							'id'       => 'family_member[::FIELD::][entry_id]',
-							'default'  => array( '' => __( 'Select Entry', 'connections' ) ),
+							'default'  => __( 'Select Entry', 'connections' ),
 							'options'  => $individuals,
 							'enhanced' => TRUE,
 							'return'   => TRUE,
@@ -757,7 +757,7 @@ class cnEntryMetabox {
 						array(
 							'class'    => 'family-member-relation',
 							'id'       => 'family_member[::FIELD::][relation]',
-							'default'  => array( '' => __( 'Select Relation', 'connections' ) ),
+							'default'  => __( 'Select Relation', 'connections' ),
 							'options'  => $relations,
 							'enhanced' => TRUE,
 							'return'   => TRUE,
@@ -781,7 +781,7 @@ class cnEntryMetabox {
 								array(
 									'class'    => 'family-member-name',
 									'id'       => 'family_member[' . $token . '][entry_id]',
-									'default'  => array( '' => __( 'Select Entry', 'connections' ) ),
+									'default'  => __( 'Select Entry', 'connections' ),
 									'options'  => $individuals,
 									'enhanced' => TRUE,
 									'return'   => TRUE,
@@ -793,7 +793,7 @@ class cnEntryMetabox {
 								array(
 									'class'   => 'family-member-relation',
 									'id'      => 'family_member[' . $token . '][relation]',
-									'default'  => array( '' => __( 'Select Relation', 'connections' ) ),
+									'default'  => __( 'Select Relation', 'connections' ),
 									'options' => $relations,
 									'enhanced' => TRUE,
 									'return'   => TRUE,

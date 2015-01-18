@@ -3225,6 +3225,7 @@ class cnEntry {
 	 * @since unknown
 	 *
 	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 * @see cnEntry::getImageMeta()
 	 *
 	 * @return string
 	 */
@@ -3244,6 +3245,7 @@ class cnEntry {
 	 * @since unknown
 	 *
 	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 * @see cnEntry::getImageMeta()
 	 *
 	 * @return string
 	 */
@@ -3263,6 +3265,7 @@ class cnEntry {
 	 * @since unknown
 	 *
 	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 * @see cnEntry::getImageMeta()
 	 *
 	 * @return string
 	 */

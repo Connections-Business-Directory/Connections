@@ -496,42 +496,35 @@ class cnOutput extends cnEntry
 	/**
 	 * Echo or return the entry name in a HTML hCard compliant string.
 	 *
-	 * Accepted options for the $atts property are:
-	 *  format (string) Tokens for the parts of the name.
-	 *   Permitted Tokens:
-	 *    %prefix%
-	 *    %first%
-	 *    %middle%
-	 *    %last%
-	 *    %suffix%
-	 *  before (string) HTML to output before an address.
-	 *  after (string) HTML to after before an address.
-	 *  return (bool) Return or echo the string. Default is to echo.
+	 * @example
+	 * If an entry is an individual this would return their name as Last Name, First Name
 	 *
-	 * Example:
-	 *  If an entry is an individual this would return their name as Last Name, First Name
-	 *
-	 *  $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
+	 * $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
 	 *
 	 * NOTE: If an entry is a organization/family, this will return the organization/family name instead
-	 *    ignoring the format attribute because it does not apply.
+	 *       ignoring the format attribute because it does not apply.
 	 *
-	 * Filters:
-	 *  cn_output_default_atts_name => (array) Register the methods default attributes.
+	 * @access  public
+	 * @since   unknown
 	 *
-	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param array   $atts [optional]
+	 * @param array $atts {
+	 *     Optional.
+	 *
+	 *     @type string $format How the name should be displayed using Tokens for the parts of the name.
+	 *                          Default, '%prefix% %first% %middle% %last% %suffix%'.
+	 *                          Accepts any combination of the following tokens:
+	 *                          '%prefix%', '%first%', '%middle%', '%last%', '%suffix%', '%first_initial%', '%middle_initial%','%last_initial%'
+	 *     @type string $before HTML to be displayed before the relations container. Default, empty string.
+	 *     @type string $after  HTML to be displayed after the relations container. Default, empty string.
+	 *     @type bool   $return Whether or not to return the HTML. Default, FALSE.
+	 * }
+	 *
 	 * @return string
 	 */
 	public function getNameBlock( $atts = array() ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
-			'format' => '',
+			'format' => '%prefix% %first% %middle% %last% %suffix%',
 			'link'   => cnSettingsAPI::get( 'connections', 'connections_link', 'name' ),
 			'target' => 'name',
 			'before' => '',
@@ -539,14 +532,25 @@ class cnOutput extends cnEntry
 			'return' => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_name' , $defaults );
-
-		$atts = $this->validate->attributesArray( $defaults, $atts );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * Filter the arguments.
+		 *
+		 * @since unknown
+		 *
+		 * @param array $atts An array of arguments.
 		 */
+		$atts = cnSanitize::args( apply_filters( 'cn_output_name_atts', $atts ), $defaults );
 
-		$search          = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%', '%first_initial%', '%middle_initial%', '%last_initial%' );
+		$search          = array(
+			'%prefix%',
+			'%first%',
+			'%middle%',
+			'%last%',
+			'%suffix%',
+			'%first_initial%',
+			'%middle_initial%',
+			'%last_initial%',
+		);
 		$replace         = array();
 		$honorificPrefix = $this->getHonorificPrefix();
 		$first           = $this->getFirstName();
@@ -556,43 +560,15 @@ class cnOutput extends cnEntry
 
 		switch ( $this->getEntryType() ) {
 
-			case 'individual':
-
-				$replace[] = empty( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
-
-				$replace[] = empty( $first ) ? '' : '<span class="given-name">' . $first . '</span>';
-
-				$replace[] = empty( $middle ) ? '' : '<span class="additional-name">' . $middle . '</span>';
-
-				$replace[] = empty( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
-
-				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
-
-				$replace[] = empty( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
-
-				$replace[] = empty( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
-
-				$replace[] = empty( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
-
-				$out = '<span class="fn n">';
-				$out .= str_ireplace(
-					$search,
-					$replace,
-					empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
-					);
-				$out .= '</span>';
-
-				break;
-
 			case 'organization':
 
-				$out = '<span class="org fn">' . $this->getOrganization() . '</span>';
+				$html = '<span class="org fn">' . $this->getOrganization() . '</span>';
 
 				break;
 
 			case 'family':
 
-				$out = '<span class="fn n"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
+				$html = '<span class="fn n"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
 
 				break;
 
@@ -614,28 +590,25 @@ class cnOutput extends cnEntry
 
 				$replace[] = empty( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
 
-				$out = '<span class="fn n">';
-				$out .= str_ireplace(
+				$html = str_ireplace(
 					$search,
 					$replace,
-					empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
-					);
-				$out .= '</span>';
+					'<span class="fn n">' . ( empty( $atts['format'] ) ? $defaults['format'] : $atts['format'] ) . '</span>'
+				);
 
 				break;
 		}
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$html = cnFormatting::normalizeString( $html );
 
 		if ( $atts['link'] ) {
 
-			$out = cnURL::permalink( array(
+			$html = cnURL::permalink(
+				array(
 					'type'       => $atts['target'],
 					'slug'       => $this->getSlug(),
 					'title'      => $this->getName( $atts ),
-					'text'       => $out,
+					'text'       => $html,
 					'home_id'    => $this->directoryHome['page_id'],
 					'force_home' => $this->directoryHome['force_home'],
 					'return'     => TRUE,
@@ -643,8 +616,10 @@ class cnOutput extends cnEntry
 			);
 		}
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$html = PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		if ( $atts['return'] ) return $html;
+		echo $html;
 	}
 
 	/**

@@ -487,48 +487,40 @@ class cnEntry {
 	/**
 	 * Returns the name of the entry based on its type.
 	 *
-	 * Accepted options for the $atts property are:
-	 *  format (string) Tokens for the parts of the name.
-	 *   Permitted Tokens:
-	 *    %prefix%
-	 *    %first%
-	 *    %middle%
-	 *    %last%
-	 *    %suffix%
+	 * @example
+	 * If an entry is an individual this would return their name as Last Name, First Name
 	 *
-	 * Example:
-	 *  If an entry is an individual this would return their name as Last Name, First Name
+	 * $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
 	 *
-	 *  $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
+	 * @param array $atts   {
+	 *     Optional
 	 *
-	 * @param array   $atts [optional]
+	 *     @type string $format The format the name should be returned as.
+	 *                          Default '%prefix% %first% %middle% %last% %suffix%'.
+	 *                          Accepts any combination of the following tokens: '%prefix%', '%first%', '%middle%', '%last%', '%suffix%'
+	 * }
+	 *
 	 * @return string
 	 */
-	public function getName( $atts = NULL ) {
-		$defaultAtts = array( 'format' => '%prefix% %first% %middle% %last% %suffix%' );
+	public function getName( $atts = array() ) {
 
-		$atts = $this->validate->attributesArray( $defaultAtts, (array) $atts );
+		$defaults = array(
+			'format' => '%prefix% %first% %middle% %last% %suffix%',
+		);
 
-		$search = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
+		/**
+		 * Filter the arguments.
+		 *
+		 * @since unknown
+		 *
+		 * @param array $atts An array of arguments.
+		 */
+		$atts = cnSanitize::args( apply_filters( 'cn_name_atts', $atts ), $defaults );
+
+		$search  = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
 		$replace = array();
 
 		switch ( $this->getEntryType() ) {
-
-			case 'individual':
-
-				( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';
-
-				( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
-
-				( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
-
-				( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
-
-				( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
-
-				$name = str_ireplace( $search, $replace, $atts['format'] );
-
-				break;
 
 			case 'organization':
 
@@ -542,23 +534,26 @@ class cnEntry {
 
 			default:
 
-				( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';;
+				$replace[] = ( isset( $this->honorificPrefix ) ) ? $this->getHonorificPrefix() : '';;
 
-				( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
+				$replace[] = ( isset( $this->firstName ) ) ? $this->getFirstName() : '';
 
-				( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
+				$replace[] = ( isset( $this->middleName ) ) ? $this->getMiddleName() : '';
 
-				( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
+				$replace[] = ( isset( $this->lastName ) ) ? $this->getLastName() : '';
 
-				( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
+				$replace[] = ( isset( $this->honorificSuffix ) ) ? $this->getHonorificSuffix() : '';
 
-				$name = str_ireplace( $search, $replace, $atts['format'] );
+				$name = str_ireplace(
+					$search,
+					$replace,
+					empty( $atts['format'] ) ? $defaults['format'] : $atts['format']
+				);
 
 				break;
 		}
 
-		// return preg_replace( '/\s{2,}/', ' ', $name );
-		return trim( preg_replace( '/\s+/', ' ', $name ) );
+		return cnFormatting::normalizeString( $name );
 	}
 
 	public function getHonorificPrefix() {

@@ -718,11 +718,11 @@ class cnEntryMetabox {
 
 		$html = '';
 		$id   = $entry->getId();
-		$ckey = $entry->getId() ? 'relative_select_entry_' . $entry->getId() : 'relative_select_user_' . $instance->currentUser->getID();
+		$ckey = $entry->getId() ? 'relative_select_entry_' . $id : 'relative_select_user_' . $instance->currentUser->getID();
 
-		if ( FALSE !== ( $html = cnCache::get( $ckey, 'transient' ) ) ) {
+		if ( FALSE !== ( $cache = cnCache::get( $ckey, 'transient' ) ) ) {
 
-			echo $html;
+			echo $cache;
 			return;
 		}
 

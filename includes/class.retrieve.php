@@ -631,7 +631,7 @@ class cnRetrieve {
 				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
 			}
 			elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-				$userPermittedEntryStatus = array( 'approved' );
+				$userPermittedEntryStatus = array( 'approved', 'pending' );
 
 				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
 			}

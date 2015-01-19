@@ -941,6 +941,8 @@ class cnRetrieve {
 	 * @return array        The entry data.
 	 */
 	public function entry( $slid ) {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		if ( ctype_digit( (string) $slid ) ) {

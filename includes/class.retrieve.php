@@ -2907,6 +2907,8 @@ class cnRetrieve {
 	 * @return object
 	 */
 	public function categories() {
+
+		/** @var $connections connectionsLoad */
 		global $connections;
 
 		return $connections->term->getTerms( 'category' );

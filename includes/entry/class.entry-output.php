@@ -467,30 +467,27 @@ class cnOutput extends cnEntry
 	}
 
 	/**
-	 * Set the values to be used to determine the page ID to be used for the directory links.
+	 * Returns the permalink for the entry.
 	 *
 	 * @access public
-	 * @since  0.7.9
+	 * @since  8.1.6
 	 *
-	 * @see cnEntry::$directoryHome
+	 * @uses   cnURL::permalink()
 	 *
-	 * @param  array $atts {
-	 *     Optional.
-	 *
-	 *     @type int  $page_id    The page ID of the directory home page.
-	 *     @type bool $force_home Whether or not to force the permalinks to resolve to the directory home page.
-	 * }
-	 *
-	 * @return void
+	 * @return string
 	 */
-	public function directoryHome( $atts = array() ) {
+	public function permalink() {
 
-		$defaults = array(
-			'page_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
-			'force_home' => FALSE,
+		cnURL::permalink(
+			array(
+				'type'       => 'name',
+				'slug'       => $this->getSlug(),
+				'home_id'    => $this->directoryHome['page_id'],
+				'force_home' => $this->directoryHome['force_home'],
+				'data'       => 'url',
+				'return'     => FALSE,
+			)
 		);
-
-		$this->directoryHome = $this->validate->attributesArray( $defaults, $atts );
 	}
 
 	/**

@@ -432,6 +432,57 @@ class cnEntry {
 	}
 
 	/**
+	 * Set the values to be used to determine the page ID to be used for the directory links.
+	 *
+	 * @access public
+	 * @since  0.7.9
+	 *
+	 * @see cnEntry::$directoryHome
+	 *
+	 * @param  array $atts {
+	 *     Optional.
+	 *
+	 *     @type int  $page_id    The page ID of the directory home page.
+	 *     @type bool $force_home Whether or not to force the permalinks to resolve to the directory home page.
+	 * }
+	 *
+	 * @return void
+	 */
+	public function directoryHome( $atts = array() ) {
+
+		$defaults = array(
+			'page_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+			'force_home' => FALSE,
+		);
+
+		$this->directoryHome = cnSanitize::args( $atts, $defaults );
+	}
+
+	/**
+	 * Returns the permalink for the entry.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @uses   cnURL::permalink()
+	 *
+	 * @return string
+	 */
+	public function getPermalink() {
+
+		return cnURL::permalink(
+			array(
+				'type'       => 'name',
+				'slug'       => $this->getSlug(),
+				'home_id'    => $this->directoryHome['page_id'],
+				'force_home' => $this->directoryHome['force_home'],
+				'data'       => 'url',
+				'return'     => TRUE,
+			)
+		);
+	}
+
+	/**
 	 * Returns $slug.
 	 *
 	 * @see cnEntry::$slug

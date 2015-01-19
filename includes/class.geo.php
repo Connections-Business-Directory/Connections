@@ -755,7 +755,6 @@ class cnGeo {
 			'IM' => 'Isle of Man',
 			'IL' => 'Israel',
 			'IT' => 'Italy',
-			'CI' => 'Icory Coast',
 			'JM' => 'Jamaica',
 			'JP' => 'Japan',
 			'JE' => 'Jersey',

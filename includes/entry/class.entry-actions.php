@@ -1055,12 +1055,12 @@ class cnEntry_Action {
 
 			// Grab an instance of the Connections object.
 			$instance   = Connections_Directory();
-			$entry      = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			$entry      = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ), 'status' => 'approved,pending' ) );
 
 			// preg_match( '/href="(.*?)"/', cnURL::permalink( array( 'slug' => $entry->slug, 'return' => TRUE ) ), $matches );
 			// $permalink = $matches[1];
 
-			if ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) ) {
+			if ( ( current_user_can( 'connections_manage' ) && current_user_can( 'connections_view_menu' ) ) && ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) ) ) {
 
 				$admin_bar->add_node(
 					array(

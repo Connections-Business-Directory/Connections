@@ -156,7 +156,7 @@ class cnImage {
 	 * @uses   self::get()
 	 * @uses   is_wp_error[]
 	 *
-	 * @return stream Streams an image resoure to the browser or a error message.
+	 * @return stream Streams an image resource to the browser or a error message.
 	 */
 	public static function query() {
 
@@ -415,7 +415,7 @@ class cnImage {
 	 * @return mixed  array | object | string | stream
 	 *                If $return is `base64` then base64 encoded image data URI will be returned. Suitable for use in CSS or img src attribute.
 	 *                If $return is `data` and array of the image meta is returned.
-	 *                If $retuen is `editor` an instance if the WP_Image_Editor is returned.
+	 *                If $return is `editor` an instance if the WP_Image_Editor is returned.
 	 *                If $return is `stream` the image resource will be streamed to the browser with the correct headers set.
 	 *                If $return is `url` the image URL will be returned. [Default]
 	 */
@@ -423,7 +423,7 @@ class cnImage {
 		global $wp_filter;
 
 		// Increase PHP script execution by 60. This should help on hosts
-		// that permit this change from page load timeouts from occuring
+		// that permit this change from page load timeouts from occurring
 		// due to large number of images that might have to be created and cached.
 		@set_time_limit(60);
 

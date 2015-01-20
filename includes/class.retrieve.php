@@ -298,13 +298,7 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['category'] ) ) {
 
-			// If value is a string, string the white space and covert to an array.
-			if ( ! is_array( $atts['category'] ) ) {
-
-				$atts['category'] = str_replace( ' ', '', $atts['category'] );
-
-				$atts['category'] = explode( ',', $atts['category'] );
-			}
+			$atts['category'] = wp_parse_id_list( $atts['category'] );
 
 			foreach ( $atts['category'] as $categoryID ) {
 
@@ -330,13 +324,7 @@ class cnRetrieve {
 
 			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
 
-			// If value is a string, strip the white space and then convert to an array.
-			if ( ! is_array( $atts['exclude_category'] ) ) {
-
-				$atts['exclude_category'] = str_replace( ' ', '', $atts['exclude_category'] );
-
-				$atts['exclude_category'] = explode( ',', $atts['exclude_category'] );
-			}
+			$atts['exclude_category'] = wp_parse_id_list( $atts['exclude_category'] );
 
 			$categoryIDs = array_diff( (array) $categoryIDs, $atts['exclude_category'] );
 

@@ -2611,9 +2611,9 @@ class cnTerm {
 	 *        Valid:   An indexed array, comma- or space-delimited string of term_id.
 	 *        If 'include' is non-empty, 'exclude' is ignored.
 	 *
-	 *    slug ( string )
+	 *    slug ( string | array  )
 	 *        Default: ''
-	 *        Returns terms whose 'slug' matches this value.
+	 *        Slug or array of slugs to return term(s) for.
 	 *
 	 *    hide_empty ( bool )
 	 *        Default: TRUE
@@ -3062,8 +3062,17 @@ class cnTerm {
 
 		if ( ! empty( $atts['slug'] ) ) {
 
-			$slug    = sanitize_title( $atts['slug'] );
-			$where[] = $wpdb->prepare( ' AND t.slug = %s', $slug );
+			if ( is_array( $atts['slug'] ) ) {
+
+				$slug = array_map( 'sanitize_title', $atts['slug'] );
+				$where[] = " AND t.slug IN ('" . implode( "', '", $slug ) . "')";
+
+			} else {
+
+				$slug = sanitize_title( $atts['slug'] );
+				$where[] = " AND t.slug = '$slug'";
+			}
+
 		}
 
 		if ( ! empty( $atts['name__like'] ) ) {

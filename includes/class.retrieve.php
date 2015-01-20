@@ -454,11 +454,13 @@ class cnRetrieve {
 		 * // START --> Set up the query to only return the entries that match the supplied IDs.
 		 *    NOTE: This includes the entry IDs returned for category_in.
 		 */
-		// Convert the supplied IDs $atts['id'] to an array if it was not supplied as an array.
-		if ( ! empty( $atts['id'] ) && ! is_array( $atts['id'] ) ) $atts['id'] = explode( ',' , trim( $atts['id'] ) );
+		if ( ! empty( $atts['id'] ) ) {
 
-		// Set query string to return specific entries.
-		if ( ! empty( $atts['id'] ) ) $where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (\'' . implode( "', '", $atts['id'] ) . '\')';
+			$atts['id'] = wp_parse_id_list( $atts['id'] );
+
+			// Set query string to return specific entries.
+			$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (\'' . implode( "', '", $atts['id'] ) . '\')';
+		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied IDs.
 		 */

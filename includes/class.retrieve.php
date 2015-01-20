@@ -307,7 +307,7 @@ class cnRetrieve {
 			foreach ( $atts['category'] as $categoryID ) {
 
 				// Add the parent category ID to the array.
-				$categoryIDs[] = $wpdb->prepare( '%d', $categoryID );
+				$categoryIDs[] = absint( $categoryID );
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'term_id', $categoryID );
@@ -316,7 +316,7 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the ID if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = $wpdb->prepare( '%d', $term->term_id );
+					if ( ! in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = absint( $term->term_id );
 				}
 			}
 		}
@@ -335,7 +335,7 @@ class cnRetrieve {
 			foreach ( $atts['exclude_category'] as $categoryID ) {
 
 				// Add the parent category ID to the array.
-				$categoryExcludeIDs[] = $wpdb->prepare( '%d', $categoryID );
+				$categoryExcludeIDs[] = absint( $categoryID );
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'term_id', $categoryID );
@@ -344,7 +344,7 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the ID if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = $wpdb->prepare( '%d', $term->term_id );
+					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = absint( $term->term_id );
 				}
 			}
 

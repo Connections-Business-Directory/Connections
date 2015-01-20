@@ -1171,80 +1171,201 @@ class cnRetrieve {
 		return $where;
 	}
 
+	/**
+	 * Query the CN_ENTRY_DATE_TABLE for upcoming date events. Will return an array if entry ID/s
+	 * or an array of objects ordered from sooner to later over spanning the course of n-days.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param array $atts {
+	 *     Optional.
+	 *
+	 *     @type string       $type                  The date event type to query. Default is 'birthday'.
+	 *                                               Accepts any array keys @see cnOptions::getDateOptions().
+	 *     @type int          $days                  The number of days to look forward. Default is 30.
+	 *     @type bool         $today                 Whether of not to include events occurring today. Default is FALSE.
+	 *     @type array|string $visibility
+	 *     @type bool         $allow_public_override Default is FALSE.
+	 *     @type bool         $private_override      Default is FALSE.
+	 *     @type string       $return                What to return. Default is 'data'. Accepts data|id.
+	 * }
+	 *
+	 * @return array An array of entry ID/s or an array of objects.
+	 */
 	public function upcoming( $atts = array() ) {
-		global $wpdb, $connections;
 
-		$validate  = new cnValidate();
-		$permitted = array( 'anniversary', 'birthday' );
+		/** @var $wpdb wpdb */
+		global $wpdb;
+
+		$instance = Connections_Directory();
+
+		$permitted = array_keys( $instance->options->getDateOptions() );
 		$where     = array();
 		$results   = array();
 
 		$defaults = array(
 			'type'                  => 'birthday',
-			'days'                  => '30',
+			'days'                  => 30,
 			'today'                 => TRUE,
 			'visibility'            => array(),
 			'allow_public_override' => FALSE,
-			'private_override'      => FALSE
+			'private_override'      => FALSE,
+			'return'                => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
 		);
 
-		$atts = $validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		// Ensure that the upcoming type is one of the supported types. If not, reset to the default.
 		$atts['type'] = in_array( $atts['type'], $permitted ) ? $atts['type'] : 'birthday';
 
-		// Limit the results that are queried based on if the current user can view public, private or unlisted entries.
-		$where = self::setQueryVisibility( $where, $atts );
+		$where[] = $wpdb->prepare( 'AND `type` = %s', $atts['type'] );
 
-		// Only select the entries with a date.
-		$where[] = "AND ( `".$atts['type']."` != '' )";
+		// Get timestamp.
+		$time = current_time( 'timestamp' );
 
-		// Get todays date, formatted for use in the query.
+		// Get today's date, formatted for use in the query.
 		$date = gmdate( 'Y-m-d', current_time( 'timestamp' ) );
 
 		// Whether or not to include the event occurring today or not.
-		$includeToday = ( $atts['today'] ) ? '<=' : '<';
+		$includeToday = $atts['today'] ? '<=' : '<';
 
-		/*
-		 * The FROM_UNIXTIME function will return the date offset to the local system timezone.
-		 * The dates were not saved in GMT time and since FROM_UNIXTIME is adjusting for the local system timezone
-		 * it could cause dates to shift days. The solution is to take the timezone shifted date from FROM_UNIXTIME
-		 * and convert it using CONVERT_TZ from the local system timezone to GMT.
-		 */
-		$sql = 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE '
-			. '  ( YEAR( DATE_ADD( \'' . $date . '\', INTERVAL ' . absint( $atts['days'] ) . ' DAY ) )'
-			. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
-			. ' - ( MID( DATE_ADD( \'' . $date . '\' , INTERVAL ' . absint( $atts['days'] ) . ' DAY ), 5, 6 )'
-			. ' < MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
-			. ' > ( YEAR( \'' . $date . '\' )'
-			. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
-			. ' - ( MID( \'' . $date . '\', 5, 6 )'
-			. ' ' . $includeToday . ' MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
-			. ' ' . implode( ' ', $where );
+		$sql = $wpdb->prepare(
+			'SELECT `entry_id` AS id, `date` FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE '
+			. '  ( YEAR( DATE_ADD( %s, INTERVAL %d DAY ) )'
+			. ' - YEAR( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ) ) )'
+			. ' - ( MID( DATE_ADD( %s, INTERVAL %d DAY ), 5, 6 )'
+			. ' < MID( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+			. ' > ( YEAR( %s )'
+			. ' - YEAR( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ) ) )'
+			. ' - ( MID( %s, 5, 6 )'
+			. ' ' . $includeToday . ' MID( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+			. ' ' . implode( ' ', $where ),
+			$date,
+			absint( $atts['days'] ),
+			$date,
+			absint( $atts['days'] ),
+			$date,
+			$date
+			);
 		// print_r($sql);
 
-		$results = $wpdb->get_results( $sql );
-		// print_r($results);
+		$upcoming = $wpdb->get_results( $sql );
+		// var_dump($upcoming);
 
-		if ( ! empty( $results ) ) {
+		// The date is stored in YYYY-MM-DD format, we must convert to UNIX time.
+		// We need to use PHP to do the conversion because MySQL UNIX_TIMESTAMP() will return 0 for pre 1970-01-01 dates.
+		if ( ! empty( $upcoming ) ) {
 
-			/*The SQL returns an array sorted by the birthday and/or anniversary date. However the year end wrap needs to be accounted for.
-			Otherwise earlier months of the year show before the later months in the year. Example Jan before Dec. The desired output is to show
-			Dec then Jan dates.  This function checks to see if the month is a month earlier than the current month. If it is the year is changed to the following year rather than the current.
-			After a new list is built, it is resorted based on the date.*/
-			foreach ( $results as $key => $row ) {
+			foreach ( $upcoming as $row ) {
 
-				if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', current_time( 'timestamp' ) ) ) < current_time( 'timestamp' ) ) {
-					$dateSort[] = $row->$atts['type'] = gmmktime( 0, 0, 0, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', current_time( 'timestamp' ) ) + 1 );
+				// Append the time/timezone offset so strtotime() does not shift it to the local server timezone.
+				$row->date = strtotime( $row->date . ' 00:00:00+0000' );
+			}
+		}
+
+		// We need to query the main table for anniversaries or birthdays so we can capture any that may have been
+		// added before the implementation of the CN_ENTRY_DATE_TABLE table.
+		if ( $atts['type'] == 'anniversary' || $atts['type'] == 'birthday' ) {
+
+			$exclude = array();
+
+			// Reset the WHERE clause.
+			$where   = array();
+
+			// Only select the entries with a date.
+			$where[] = sprintf( 'AND ( `%s` != \'\' )', $atts['type'] );
+
+			// Exclude any entries that already exist in the previous query results.
+			foreach ( $upcoming as $row ) {
+
+				$exclude[] = $row->id;
+			}
+
+			if ( ! empty( $exclude ) ) $where[] = 'AND `id` NOT IN (\'' . implode( '\', \'', $exclude ) . '\')';
+
+			/*
+			 * The FROM_UNIXTIME function will return the date offset to the local system timezone.
+			 * The dates were not saved in GMT time and since FROM_UNIXTIME is adjusting for the local system timezone
+			 * it could cause dates to shift days. The solution is to take the timezone shifted date from FROM_UNIXTIME
+			 * and convert it using CONVERT_TZ from the local system timezone to GMT.
+			 */
+			$sql = $wpdb->prepare(
+				'SELECT `id`, ' . $atts['type'] . ' AS `date` FROM ' . CN_ENTRY_TABLE . ' WHERE '
+				. '  ( YEAR( DATE_ADD( %s, INTERVAL %d DAY ) )'
+				. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
+				. ' - ( MID( DATE_ADD( %s, INTERVAL %d DAY ), 5, 6 )'
+				. ' < MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+				. ' > ( YEAR( %s )'
+				. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
+				. ' - ( MID( %s, 5, 6 )'
+				. ' ' . $includeToday . ' MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+				. ' ' . implode( ' ', $where ),
+				$date,
+				absint( $atts['days'] ),
+				$date,
+				absint( $atts['days'] ),
+				$date,
+				$date
+				);
+			// print_r($sql);
+
+			$legacy = $wpdb->get_results( $sql );
+			// var_dump($legacy);
+
+			if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );
+		}
+
+		if ( ! empty( $upcoming ) ) {
+
+			$ids = array();
+			$ts  = array();
+
+			/*
+			 * The SQL returns an array sorted by the birthday and/or anniversary date. However the year end wrap needs to be accounted for.
+			 * Otherwise earlier months of the year show before the later months in the year. Example Jan before Dec. The desired output is to show
+			 * Dec then Jan dates.  This function checks to see if the month is a month earlier than the current month. If it is the year is changed to the following year rather than the current.
+			 * After a new list is built, it is resorted based on the date.
+			 */
+			foreach ( $upcoming as $row ) {
+
+				$ids[] = $row->id;
+
+				if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->date ), gmdate( 'd', $row->date ), gmdate( 'Y', $time ) ) < $time ) {
+
+					$ts[] = gmmktime( 0, 0, 0, gmdate( 'm', $row->date ), gmdate( 'd', $row->date ), gmdate( 'Y', $time ) + 1 );
 
 				} else {
 
-					$dateSort[] = $row->$atts['type'] = gmmktime( 0, 0, 0, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', current_time( 'timestamp' ) ) );
+					$ts[] = gmmktime( 0, 0, 0, gmdate( 'm', $row->date ), gmdate( 'd', $row->date ), gmdate( 'Y', $time ) );
 				}
 
 			}
 
-			array_multisort( $dateSort, SORT_ASC, $results );
+			array_multisort( $ts, SORT_ASC, SORT_NUMERIC, $ids );
+			// var_dump( $ids );
+
+			switch ( $atts['return'] ) {
+
+				case 'id':
+
+					return $ids;
+
+					break;
+
+				default:
+
+					return self::entries(
+						array(
+							'lock'     => TRUE,
+							'id'       => $ids,
+							'order_by' => 'id|SPECIFIED',
+						)
+					);
+
+					break;
+			}
+
 		}
 
 		return $results;
@@ -1252,23 +1373,8 @@ class cnRetrieve {
 
 	// Retrieve the categories.
 	public function entryCategories( $id ) {
-		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tt.term_taxonomy_id = tr.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tr.entry_id = %d ", $id );
-
-		if ( ! $results = $this->results( $sql ) ) {
-
-			$results = $wpdb->get_results( $sql );
-
-			$this->cache( $sql, $results );
-		}
-
-		if ( ! empty( $results ) ) {
-
-			usort( $results, array( $this, 'sortTermsByName' ) );
-		}
-
-		return $results;
+		return cnTerm::get_entry_terms( $id, 'category' );
 	}
 
 	/**

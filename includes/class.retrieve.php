@@ -185,7 +185,7 @@ class cnRetrieve {
 				$atts['latitude']  = $wpdb->prepare( '%f', $queryCoord[0] );
 				$atts['longitude'] = $wpdb->prepare( '%f', $queryCoord[1] );
 
-				// Get the radius, otherwise the defaultf of 10.
+				// Get the radius, otherwise the default of 10.
 				if ( get_query_var( 'cn-radius' ) ) $atts['radius'] = $wpdb->prepare( '%d', get_query_var( 'cn-radius' ) );
 
 				// Sanitize and set the unit.

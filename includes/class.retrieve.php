@@ -373,37 +373,32 @@ class cnRetrieve {
 		// Convert the supplied category IDs $atts['category_in'] to an array.
 		if ( ! empty( $atts['category_in'] ) ) {
 
-			if ( ! is_array( $atts['category_in'] ) ) {
+			$atts['category_in'] = wp_parse_id_list( $atts['category_in'] );
 
-				// Trim the space characters if present.
-				$atts['category_in'] = str_replace( ' ', '', $atts['category_in'] );
+			// Remove empty values from the array.
+			$atts['category_in'] = array_filter( $atts['category_in'] );
 
-				// Convert to array.
-				$atts['category_in'] = explode( ',', $atts['category_in'] );
-			}
+			// Ensure there is something to query after filtering the array.
+			if ( ! empty( $atts['category_in'] ) ) {
 
-			// Sanitize the values in $atts['category_in']
-			foreach ( $atts['category_in'] as $key => $value ) {
+				// Exclude any category IDs that may have been set.
+				$atts['category_in'] = array_diff( $atts['category_in'], $atts['exclude_category'] );
 
-				$atts['category_in'][ $key ] = $wpdb->prepare( '%d', $value );
-			}
+				// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
+				$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
+						INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
+						WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category_in'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category_in'] ) . ' ORDER BY tr.entry_id';
 
-			// Exclude any category IDs that may have been set.
-			$atts['category_in'] = array_diff( $atts['category_in'], (array) $atts['exclude_category'] );
+				// Store the entryIDs that exist on all of the supplied category IDs
+				$results = $wpdb->get_col( $sql );
+				//print_r($results);
 
-			// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
-			$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
-					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-					WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category_in'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category_in'] ) . ' ORDER BY tr.entry_id';
+				if ( ! empty( $results ) ) {
+					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
+				} else {
+					$where[] = 'AND 1=2';
+				}
 
-			// Store the entryIDs that exist on all of the supplied category IDs
-			$results = $wpdb->get_col( $sql );
-			//print_r($results);
-
-			if ( ! empty( $results ) ) {
-				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
-			} else {
-				$where[] = 'AND 1=2';
 			}
 
 			/*

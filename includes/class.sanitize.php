@@ -25,6 +25,8 @@ class cnSanitize {
 	 *
 	 * @link http://www.peterrknight.com/fear-and-surprise-improving-a-widespread-wordpress-pattern/
 	 *
+	 * @todo Add a third array param. This will define the sanitation to be used on each value in the untrusted array.
+	 *
 	 * @access public
 	 * @since  8.1.6
 	 *

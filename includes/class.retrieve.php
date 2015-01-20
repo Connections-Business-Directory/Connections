@@ -97,7 +97,7 @@ class cnRetrieve {
 
 		$defaults['lock']                  = FALSE;
 
-		$atts = $validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */

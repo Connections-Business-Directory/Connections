@@ -475,7 +475,7 @@ class cnRetrieve {
 			} else {
 
 				// Set $atts['order_by'] to the order the entry IDs were returned.
-				// This is to support the relenvancy order results being retuned by self::search().
+				// This is to support the relevancy order results being returned by self::search().
 				$atts['order_by'] = 'id|SPECIFIED';
 				$atts['id']       = $searchResults;
 
@@ -515,7 +515,7 @@ class cnRetrieve {
 
 		// Set query string for entry type.
 		if ( ! empty( $atts['list_type'] ) && (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {
-			// Compatibility code to make sure any ocurrences of the deprecated entry type connections_group is changed to entry type family
+			// Compatibility code to make sure any occurrences of the deprecated entry type connections_group is changed to entry type family
 			$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
 
 			$where[] = 'AND `entry_type` IN (\'' . implode( "', '", (array) $atts['list_type'] ) . '\')';

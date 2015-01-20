@@ -341,7 +341,7 @@ class cnGeo {
 	 * @since 0.7.3
 	 * @version 1.0
 	 * @uses wp_parse_args()
-	 * @param object  $atts
+	 * @param array  $atts
 	 * @return mixed [int, float, string]
 	 */
 	static public function convert( $atts ) {

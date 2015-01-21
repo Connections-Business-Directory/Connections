@@ -62,7 +62,7 @@ Templates and CSS overriding is very granular and update safe. Check out these l
 
 = Languages =
 
-Connections Business Directory has been embraced around the world and has been translated in the following languages.
+Connections Business Directory has been embraced around the world and has been translated by its users in the following languages.
 
 * Catalan [79% Complete]
 * Danish [48% Complete]
@@ -78,10 +78,12 @@ Connections Business Directory has been embraced around the world and has been t
 * Polish (Poland) [79% Complete]
 * Portuguese (Brazil) [70% Complete]
 * Portuguese (Portugal) [35% Complete]
-* Russian (Russia) [39% Complete]
+* Romanian (Romania) [79% Complete]
+* Russian (Russia) [40% Complete]
 * Serbian (Latin) [4% Complete]
 * Spanish (Latin America) [74% Complete]
-* Spanish (Spain) [79% Complete]
+* Spanish (Spain) [74% Complete]
+* Thai [1% Complete]
 * Turkish (Turkey) [86% Complete]
 
 == Credits: ==
@@ -155,7 +157,66 @@ Connections Business Directory has been embraced around the world and has been t
 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
+= How do I display the business directory on my site? =
+We have a [QuickStart](http://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode.
+
+= Will it work with my theme? =
+Connections Business Directory has been designed to work with any theme.
+
+= Is Connections Business Directory translation-ready? =
+Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
+
 == Changelog ==
+
+= 8.1.6 01/21/2015 =
+* BUG: Fixed the “Warning: Cannot use a scalar value as an array” error. This error was shown to users when their web host does not have an image processing library installed on the web server. This error should no longer be shown, however, Connections will not be able to dynamically resize images. A notice in the admin will still be displayed, “The server does not have ImageMagick or GD installed and/or enabled. Either of these are required for WordPress to be able to resize images. Please contact your server administrator.” If you see this notice, you will have to contact your web host and request that they install the GD image processing library.
+* BUG: White screen when uploading an image. This, I believe, is being caused by an older version of the Imagick image processing library. The older version does not contain a required function and will cause a fatal error when Connections tries to use it. This causes the white screen. To address this, Connections no longer uses that function.
+* BUG: Fix bug with image URL/s when the protocol is https so they are served securely.
+* BUG: Fix bug that would copy any images from the `connections-images` folder to the {entry-slug} folder when adding an entry.
+* BUG: Add missing stylesheet for datepicker in metabox API.
+* BUG: Ensure lat/lng are properly formatted preventing PHP from localizing it.
+* BUG: Fix admin dashboard admin widgets so the so the correct date ranges.
+* BUG: Allow cnRetrieve::entries() to return results with status ‘pending’ for users with the edit moderated capability.
+* BUG: Allow the ‘cn_edit_entry_form’ action to be fired if the user’s entry status is approved or pending.
+* BUG: Show the edit entry admin bar link if the entry status is approved or pending if the user has either edit or edit moderated capabilities.
+* BUG: Fix undefined index errors.
+* TWEAK: Add input attribute accept=”image/*” to both the image and logo upload fields.
+* TWEAK: Ensure that the path and URL to images are updated to the current path to account for moving sites or changing the site’s folder structure.
+* TWEAK: Ensure sub dir is prefixed with a forward slash in cnUpload::subDirectory(). Since it is now being prepended with a forward slash both path and url needed to be untrailingslashit() so the paths are correct when the two are joined with subdir(). This was done to remain consistent with WP core.
+* TWEAK: Prevent selection of files that are too large to be uploaded.
+* TWEAK: Add actions/filters to cnImage::upload().
+* TWEAK: Ensure other plugins can not override the upload path in cnUpload::File().
+* TWEAK: Include the Dashboard admin page templates only in the admin.
+* TWEAK: Only load the System Dashboard widget if the current user can manage options.
+* TWEAK: Refactor cnEntry::set().
+* TWEAK: Refactor cnEntry::getName().
+* TWEAK: Refactor cnOutput::getNameBlock().
+* TWEAK: Refactor cnOutput::getFamilyMemberBlock().
+* TWEAK: Refactor cnRetrieve::upcoming().
+* TWEAK: Refactor portions of cnRetrieve::entries() to be cleaner and more efficient.
+* TWEAK: Remove unused global var from cnOutput::getNameBlock().
+* TWEAK: Init the template API on the `plugins_loaded` action hook.
+* OTHER: Update EDD-SL Updater to 1.6.
+* TWEAK: Add the $value options to cnTemplatePart::categorySelect() so the SELECTED options can be set rather than rely on query vars.
+* TWEAK: Remove unused local vars in cnAdminActions.
+* TWEAK: Remove several deprecated image related functions.
+* OTHER: Compatibility fix to prevent s2member from resetting the custom roles and capabilities.
+* OTHER: Add additional countries and regions to cnGeo.
+* OTHER: Introduce cnFragment::clear().
+* OTHER: Introduce CN_Walker_Category_List.
+* OTHER: Introduce cnImage::maxSize().
+* OTHER: Introduce cnSanitize::args().
+* OTHER: Introduce cnFormatting::replaceWhatWith() and cnFormatting::normalizeString().
+* OTHER: Add get permalink methods to both cnEntry (returns) and cnOutput (echos). Moved directoryHome page to cnEntry.
+* OTHER: Fix a lot of misspellings in the code inline docs.
+* OTHER: Fix a lot of phpDoc errors.
+* OTHER: Add .jshintrc.
+* OTHER: Add .scrutinizer.yml.
+* OTHER: Update .editorconfig.
+* I18N: Update Spanish (Spain) translation.
+* I18N: Update Russian (Russia) translation.
+* I18N: Add Thai translation.
+* I18N: Add Romanian (Romania) translation.
 
 = 8.1.5 10/16/2014 =
 * FEATURE: Add cnFormatting::excerpt().
@@ -740,3 +801,6 @@ This a major update to Connections it is recommended to backup before updating. 
 
 = 8.1.5 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.1.6 =
+It is recommended to backup before updating. Requires WordPress >= 3.8.

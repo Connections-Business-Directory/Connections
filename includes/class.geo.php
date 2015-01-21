@@ -341,7 +341,7 @@ class cnGeo {
 	 * @since 0.7.3
 	 * @version 1.0
 	 * @uses wp_parse_args()
-	 * @param object  $atts
+	 * @param array  $atts
 	 * @return mixed [int, float, string]
 	 */
 	static public function convert( $atts ) {
@@ -535,9 +535,11 @@ class cnGeo {
 	 * @access public
 	 * @since  0.8
 	 * @static
+	 *
 	 * @param  string $country The country code.
 	 *
-	 * @return array           An associative array where the key is the region abbr and the value is the full region name.
+	 * @return array           An associative array where the key is the region abbr and the value is the full region
+	 *                         name.
 	 */
 	public static function getRegions( $country = '' ) {
 
@@ -558,6 +560,12 @@ class cnGeo {
 				break;
 			case 'AU' :
 				$regions = self::AU_Regions();
+				break;
+			case 'BD' :
+				$regions = self::BD_Regions();
+				break;
+			case 'BG' :
+				$regions = self::BG_Regions();
 				break;
 			case 'BR' :
 				$regions = self::BR_Regions();
@@ -580,14 +588,35 @@ class cnGeo {
 			case 'IN' :
 				$regions = self::IN_Regions();
 				break;
+			case 'IR' :
+				$regions = self::IR_Regions();
+				break;
+			case 'IT' :
+				$regions = self::IT_Regions();
+				break;
+			case 'JP' :
+				$regions = self::JP_Regions();
+				break;
+			case 'MX' :
+				$regions = self::MX_Regions();
+				break;
 			case 'MY' :
 				$regions = self::MY_Regions();
+				break;
+			case 'NP' :
+				$regions = self::NP_Regions();
 				break;
 			case 'NZ' :
 				$regions = self::NZ_Regions();
 				break;
+			case 'PE' :
+				$regions = self::PE_Regions();
+				break;
 			case 'TH' :
 				$regions = self::TH_Regions();
+				break;
+			case 'TR' :
+				$regions = self::TR_Regions();
 				break;
 			case 'ZA' :
 				$regions = self::ZA_Regions();
@@ -617,6 +646,7 @@ class cnGeo {
 			'CA' => 'Canada',
 			'GB' => 'United Kingdom',
 			'AF' => 'Afghanistan',
+			'AX' => '&#197;land Islands',
 			'AL' => 'Albania',
 			'DZ' => 'Algeria',
 			'AS' => 'American Samoa',
@@ -642,6 +672,7 @@ class cnGeo {
 			'BM' => 'Bermuda',
 			'BT' => 'Bhutan',
 			'BO' => 'Bolivia',
+			'BQ' => 'Bonaire, Saint Eustatius and Saba',
 			'BA' => 'Bosnia and Herzegovina',
 			'BW' => 'Botswana',
 			'BV' => 'Bouvet Island',
@@ -667,9 +698,10 @@ class cnGeo {
 			'CG' => 'Congo, Republic of',
 			'CK' => 'Cook Islands',
 			'CR' => 'Costa Rica',
-			'CI' => 'Cote d\'Ivoire',
+			//'CI' => 'Cote d\'Ivoire',
 			'HR' => 'Croatia/Hrvatska',
 			'CU' => 'Cuba',
+			'CW' => 'Cura&Ccedil;ao',
 			'CY' => 'Cyprus Island',
 			'CZ' => 'Czech Republic',
 			'DK' => 'Denmark',
@@ -797,13 +829,16 @@ class cnGeo {
 			'RO' => 'Romania',
 			'RU' => 'Russian Federation',
 			'RW' => 'Rwanda',
+			'BL' => 'Saint Barth&eacute;lemy',
 			'SH' => 'Saint Helena',
 			'KN' => 'Saint Kitts and Nevis',
 			'LC' => 'Saint Lucia',
+			'MF' => 'Saint Martin (French)',
+			'SX' => 'Saint Martin (Dutch)',
 			'PM' => 'Saint Pierre and Miquelon',
 			'VC' => 'Saint Vincent and the Grenadines',
 			'SM' => 'San Marino',
-			'ST' => 'Sao Tome and Principe',
+			'ST' => 'S&atilde;o Tom&eacute; and Pr&iacute;ncipe',
 			'SA' => 'Saudi Arabia',
 			'SN' => 'Senegal',
 			'RS' => 'Serbia',
@@ -817,6 +852,7 @@ class cnGeo {
 			'ZA' => 'South Africa',
 			'GS' => 'South Georgia',
 			'KP' => 'South Korea',
+			'SS' => 'South Sudan',
 			'ES' => 'Spain',
 			'LK' => 'Sri Lanka',
 			'SD' => 'Sudan',
@@ -829,10 +865,11 @@ class cnGeo {
 			'TW' => 'Taiwan',
 			'TJ' => 'Tajikistan',
 			'TZ' => 'Tanzania',
+			'TH' => 'Thailand',
+			'TL' => 'Timor-Leste',
 			'TG' => 'Togo',
 			'TK' => 'Tokelau',
 			'TO' => 'Tonga',
-			'TH' => 'Thailand',
 			'TT' => 'Trinidad and Tobago',
 			'TN' => 'Tunisia',
 			'TR' => 'Turkey',
@@ -946,6 +983,51 @@ class cnGeo {
 	}
 
 	/**
+	 * Get the Bulgarian regions.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
+	 */
+	public static function BG_Regions() {
+
+		$regions = array(
+			'BG-01' => 'Blagoevgrad',
+			'BG-02' => 'Burgas',
+			'BG-08' => 'Dobrich',
+			'BG-07' => 'Gabrovo',
+			'BG-26' => 'Haskovo',
+			'BG-09' => 'Kardzhali',
+			'BG-10' => 'Kyustendil',
+			'BG-11' => 'Lovech',
+			'BG-12' => 'Montana',
+			'BG-13' => 'Pazardzhik',
+			'BG-14' => 'Pernik',
+			'BG-15' => 'Pleven',
+			'BG-16' => 'Plovdiv',
+			'BG-17' => 'Razgrad',
+			'BG-18' => 'Ruse',
+			'BG-27' => 'Shumen',
+			'BG-19' => 'Silistra',
+			'BG-20' => 'Sliven',
+			'BG-21' => 'Smolyan',
+			'BG-23' => 'Sofia',
+			'BG-22' => 'Sofia-Grad',
+			'BG-24' => 'Stara Zagora',
+			'BG-25' => 'Targovishte',
+			'BG-03' => 'Varna',
+			'BG-04' => 'Veliko Tarnovo',
+			'BG-05' => 'Vidin',
+			'BG-06' => 'Vratsa',
+			'BG-28' => 'Yambol'
+		);
+
+		return apply_filters( 'cn_bulgarian_regions', $regions );
+	}
+
+	/**
 	 * Get the Canadian regions.
 	 *
 	 * @access public
@@ -998,6 +1080,87 @@ class cnGeo {
 		);
 
 		return apply_filters( 'cn_au_regions', $regions );
+	}
+
+	/**
+	 * Get the Bangladeshi regions (Districts).
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
+	 */
+	function BD_Regions() {
+
+		$regions = array(
+			'BAG' => 'Bagerhat',
+			'BAN' => 'Bandarban',
+			'BAR' => 'Barguna',
+			'BARI'=> 'Barisal',
+			'BHO' => 'Bhola',
+			'BOG' => 'Bogra',
+			'BRA' => 'Brahmanbaria',
+			'CHA' => 'Chandpur',
+			'CHI' => 'Chittagong',
+			'CHU' => 'Chuadanga',
+			'COM' => 'Comilla',
+			'COX' => 'Cox\'s Bazar',
+			'DHA' => 'Dhaka',
+			'DIN' => 'Dinajpur',
+			'FAR' => 'Faridpur',
+			'FEN' => 'Feni',
+			'GAI' => 'Gaibandha',
+			'GAZI'=> 'Gazipur',
+			'GOP' => 'Gopalganj',
+			'HAB' => 'Habiganj',
+			'JAM' => 'Jamalpur',
+			'JES' => 'Jessore',
+			'JHA' => 'Jhalokati',
+			'JHE' => 'Jhenaidah',
+			'JOY' => 'Joypurhat',
+			'KHA' => 'Khagrachhari',
+			'KHU' => 'Khulna',
+			'KIS' => 'Kishoreganj',
+			'KUR' => 'Kurigram',
+			'KUS' => 'Kushtia',
+			'LAK' => 'Lakshmipur',
+			'LAL' => 'Lalmonirhat',
+			'MAD' => 'Madaripur',
+			'MAG' => 'Magura',
+			'MAN' => 'Manikganj',
+			'MEH' => 'Meherpur',
+			'MOU' => 'Moulvibazar',
+			'MUN' => 'Munshiganj',
+			'MYM' => 'Mymensingh',
+			'NAO' => 'Naogaon',
+			'NAR' => 'Narail',
+			'NARG'=> 'Narayanganj',
+			'NARD'=> 'Narsingdi',
+			'NAT' => 'Natore',
+			'NAW' => 'Nawabganj',
+			'NET' => 'Netrakona',
+			'NIL' => 'Nilphamari',
+			'NOA' => 'Noakhali',
+			'PAB' => 'Pabna',
+			'PAN' => 'Panchagarh',
+			'PAT' => 'Patuakhali',
+			'PIR' => 'Pirojpur',
+			'RAJB'=> 'Rajbari',
+			'RAJ' => 'Rajshahi',
+			'RAN' => 'Rangamati',
+			'RANP'=> 'Rangpur',
+			'SAT' => 'Satkhira',
+			'SHA' => 'Shariatpur',
+			'SHE' => 'Sherpur',
+			'SIR' => 'Sirajganj',
+			'SUN' => 'Sunamganj',
+			'SYL' => 'Sylhet',
+			'TAN' => 'Tangail',
+			'THA' => 'Thakurgaon'
+		);
+
+		return apply_filters( 'cn_bangladeshi_regions', $regions );
 	}
 
 	/**
@@ -1314,7 +1477,7 @@ class cnGeo {
 	public static function IN_Regions() {
 
 		$regions = array(
-			'AP' => 'Andra Pradesh',
+			'AP' => 'Andhra Pradesh',
 			'AR' => 'Arunachal Pradesh',
 			'AS' => 'Assam',
 			'BR' => 'Bihar',
@@ -1338,8 +1501,9 @@ class cnGeo {
 			'RJ' => 'Rajasthan',
 			'SK' => 'Sikkim',
 			'TN' => 'Tamil Nadu',
+			'TG' => 'Telangana',
 			'TR' => 'Tripura',
-			'UT' => 'Uttaranchal',
+			'UT' => 'Uttarakhand',
 			'UP' => 'Uttar Pradesh',
 			'WB' => 'West Bengal',
 			'AN' => 'Andaman and Nicobar Islands',
@@ -1347,11 +1511,300 @@ class cnGeo {
 			'DN' => 'Dadar and Nagar Haveli',
 			'DD' => 'Daman and Diu',
 			'DL' => 'Delhi',
-			'LD' => 'Lakshadeep',
+			'LD' => 'Lakshadweep',
 			'PY' => 'Pondicherry (Puducherry)'
 		);
 
 		return apply_filters( 'cn_in_regions', $regions );
+	}
+
+	/**
+	 * Get the Iranian regions.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
+	 */
+	public static function IR_Regions() {
+
+		$regions = array(
+			'KHZ' => 'Khuzestan',
+			'THR' => 'Tehran',
+			'ILM' => 'Ilaam',
+			'BHR' => 'Bushehr',
+			'ADL' => 'Ardabil',
+			'ESF' => 'Isfahan',
+			'YZD' => 'Yazd',
+			'KRH' => 'Kermanshah',
+			'KRN' => 'Kerman',
+			'HDN' => 'Hamadan',
+			'GZN' => 'Ghazvin',
+			'ZJN' => 'Zanjan',
+			'LRS' => 'Luristan',
+			'ABZ' => 'Alborz',
+			'EAZ' => 'East Azerbaijan',
+			'WAZ' => 'West Azerbaijan',
+			'CHB' => 'Chaharmahal and Bakhtiari',
+			'SKH' => 'South Khorasan',
+			'RKH' => 'Razavi Khorasan',
+			'NKH' => 'North Khorasan',
+			'SMN' => 'Semnan',
+			'FRS' => 'Fars',
+			'QHM' => 'Qom',
+			'KRD' => 'Kurdistan',
+			'KBD' => 'Kohgiluyeh and BoyerAhmad',
+			'GLS' => 'Golestan',
+			'GIL' => 'Gilan',
+			'MZN' => 'Mazandaran',
+			'MKZ' => 'Markazi',
+			'HRZ' => 'Hormozgan',
+			'SBN' => 'Sistan and Baluchestan'
+		);
+
+		return apply_filters( 'cn_iranian_regions', $regions );
+	}
+
+	/**
+	 * Get the Italian regions.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
+	 */
+	public static function IT_Regions() {
+
+		$regions = array(
+			'AG' => 'Agrigento',
+			'AL' => 'Alessandria',
+			'AN' => 'Ancona',
+			'AO' => 'Aosta',
+			'AR' => 'Arezzo',
+			'AP' => 'Ascoli Piceno',
+			'AT' => 'Asti',
+			'AV' => 'Avellino',
+			'BA' => 'Bari',
+			'BT' => 'Barletta-Andria-Trani',
+			'BL' => 'Belluno',
+			'BN' => 'Benevento',
+			'BG' => 'Bergamo',
+			'BI' => 'Biella',
+			'BO' => 'Bologna',
+			'BZ' => 'Bolzano',
+			'BS' => 'Brescia',
+			'BR' => 'Brindisi',
+			'CA' => 'Cagliari',
+			'CL' => 'Caltanissetta',
+			'CB' => 'Campobasso',
+			'CI' => 'Caltanissetta',
+			'CE' => 'Caserta',
+			'CT' => 'Catania',
+			'CZ' => 'Catanzaro',
+			'CH' => 'Chieti',
+			'CO' => 'Como',
+			'CS' => 'Cosenza',
+			'CR' => 'Cremona',
+			'KR' => 'Crotone',
+			'CN' => 'Cuneo',
+			'EN' => 'Enna',
+			'FM' => 'Fermo',
+			'FE' => 'Ferrara',
+			'FI' => 'Firenze',
+			'FG' => 'Foggia',
+			'FC' => 'Forli-Cesena',
+			'FR' => 'Frosinone',
+			'GE' => 'Genova',
+			'GO' => 'Gorizia',
+			'GR' => 'Grosseto',
+			'IM' => 'Imperia',
+			'IS' => 'Isernia',
+			'SP' => 'La Spezia',
+			'AQ' => 'L&apos;Aquila',
+			'LT' => 'Latina',
+			'LE' => 'Lecce',
+			'LC' => 'Lecco',
+			'LI' => 'Livorno',
+			'LO' => 'Lodi',
+			'LU' => 'Lucca',
+			'MC' => 'Macerata',
+			'MN' => 'Mantova',
+			'MS' => 'Massa-Carrara',
+			'MT' => 'Matera',
+			'ME' => 'Messina',
+			'MI' => 'Milano',
+			'MO' => 'Modena',
+			'MB' => 'Monza e della Brianza',
+			'NA' => 'Napoli',
+			'NO' => 'Novara',
+			'NU' => 'Nuoro',
+			'OT' => 'Olbia-Tempio',
+			'OR' => 'Oristano',
+			'PD' => 'Padova',
+			'PA' => 'Palermo',
+			'PR' => 'Parma',
+			'PV' => 'Pavia',
+			'PG' => 'Perugia',
+			'PU' => 'Pesaro e Urbino',
+			'PE' => 'Pescara',
+			'PC' => 'Piacenza',
+			'PI' => 'Pisa',
+			'PT' => 'Pistoia',
+			'PN' => 'Pordenone',
+			'PZ' => 'Potenza',
+			'PO' => 'Prato',
+			'RG' => 'Ragusa',
+			'RA' => 'Ravenna',
+			'RC' => 'Reggio Calabria',
+			'RE' => 'Reggio Emilia',
+			'RI' => 'Rieti',
+			'RN' => 'Rimini',
+			'RM' => 'Roma',
+			'RO' => 'Rovigo',
+			'SA' => 'Salerno',
+			'VS' => 'Medio Campidano',
+			'SS' => 'Sassari',
+			'SV' => 'Savona',
+			'SI' => 'Siena',
+			'SR' => 'Siracusa',
+			'SO' => 'Sondrio',
+			'TA' => 'Taranto',
+			'TE' => 'Teramo',
+			'TR' => 'Terni',
+			'TO' => 'Torino',
+			'OG' => 'Ogliastra',
+			'TP' => 'Trapani',
+			'TN' => 'Trento',
+			'TV' => 'Treviso',
+			'TS' => 'Trieste',
+			'UD' => 'Udine',
+			'VA' => 'Varesa',
+			'VE' => 'Venezia',
+			'VB' => 'Verbano-Cusio-Ossola',
+			'VC' => 'Vercelli',
+			'VR' => 'Verona',
+			'VV' => 'Vibo Valentia',
+			'VI' => 'Vicenza',
+			'VT' => 'Viterbo'
+		);
+
+		return apply_filters( 'cn_italian_regions', $regions );
+	}
+
+	/**
+	 * Get the Japanese regions.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
+	 */
+	public static function JP_Regions() {
+
+		$regions = array(
+			''     => '',
+			'JP01' => 'Hokkaido',
+			'JP02' => 'Aomori',
+			'JP03' => 'Iwate',
+			'JP04' => 'Miyagi',
+			'JP05' => 'Akita',
+			'JP06' => 'Yamagata',
+			'JP07' => 'Fukushima',
+			'JP08' => 'Ibaraki',
+			'JP09' => 'Tochigi',
+			'JP10' => 'Gunma',
+			'JP11' => 'Saitama',
+			'JP12' => 'Chiba',
+			'JP13' => 'Tokyo',
+			'JP14' => 'Kanagawa',
+			'JP15' => 'Niigata',
+			'JP16' => 'Toyama',
+			'JP17' => 'Ishikawa',
+			'JP18' => 'Fukui',
+			'JP19' => 'Yamanashi',
+			'JP20' => 'Nagano',
+			'JP21' => 'Gifu',
+			'JP22' => 'Shizuoka',
+			'JP23' => 'Aichi',
+			'JP24' => 'Mie',
+			'JP25' => 'Shiga',
+			'JP26' => 'Kyouto',
+			'JP27' => 'Osaka',
+			'JP28' => 'Hyougo',
+			'JP29' => 'Nara',
+			'JP30' => 'Wakayama',
+			'JP31' => 'Tottori',
+			'JP32' => 'Shimane',
+			'JP33' => 'Okayama',
+			'JP34' => 'Hiroshima',
+			'JP35' => 'Yamaguchi',
+			'JP36' => 'Tokushima',
+			'JP37' => 'Kagawa',
+			'JP38' => 'Ehime',
+			'JP39' => 'Kochi',
+			'JP40' => 'Fukuoka',
+			'JP41' => 'Saga',
+			'JP42' => 'Nagasaki',
+			'JP43' => 'Kumamoto',
+			'JP44' => 'Oita',
+			'JP45' => 'Miyazaki',
+			'JP46' => 'Kagoshima',
+			'JP47' => 'Okinawa'
+		);
+
+		return apply_filters( 'cn_japanese_regions', $regions );
+	}
+
+	/**
+	 * Get the Mexican regions.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
+	 */
+	public static function MX_Regions() {
+
+		$regions = array(
+			'DIF' => 'Distrito Federal',
+			'JAL' => 'Jalisco',
+			'NLE' => 'Nuevo Le&oacute;n',
+			'AGU' => 'Aguascalientes',
+			'BCN' => 'Baja California Norte',
+			'BCS' => 'Baja California Sur',
+			'CAM' => 'Campeche',
+			'CHP' => 'Chiapas',
+			'CHH' => 'Chihuahua',
+			'COA' => 'Coahuila',
+			'COL' => 'Colima',
+			'DUR' => 'Durango',
+			'GUA' => 'Guanajuato',
+			'GRO' => 'Guerrero',
+			'HID' => 'Hidalgo',
+			'MEX' => 'Edo. de M&eacute;xico',
+			'MIC' => 'Michoac&aacute;n',
+			'MOR' => 'Morelos',
+			'NAY' => 'Nayarit',
+			'OAX' => 'Oaxaca',
+			'PUE' => 'Puebla',
+			'QUE' => 'Quer&eacute;taro',
+			'ROO' => 'Quintana Roo',
+			'SLP' => 'San Luis Potos&iacute;',
+			'SIN' => 'Sinaloa',
+			'SON' => 'Sonora',
+			'TAB' => 'Tabasco',
+			'TAM' => 'Tamaulipas',
+			'TLA' => 'Tlaxcala',
+			'VER' => 'Veracruz',
+			'YUC' => 'Yucat&aacute;n',
+			'ZAC' => 'Zacatecas'
+		);
+
+		return apply_filters( 'cn_mexican_regions', $regions );
 	}
 
 	/**
@@ -1385,6 +1838,141 @@ class cnGeo {
 		);
 
 		return apply_filters( 'cn_my_regions', $regions );
+	}
+
+	/**
+	 * Get the Nepalese regions (Districts).
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
+	 */
+	public static function NP_Regions() {
+
+		$regions = array(
+			'ILL' => 'Illam',
+			'JHA' => 'Jhapa',
+			'PAN' => 'Panchthar',
+			'TAP' => 'Taplejung',
+			'BHO' => 'Bhojpur',
+			'DKA' => 'Dhankuta',
+			'MOR' => 'Morang',
+			'SUN' => 'Sunsari',
+			'SAN' => 'Sankhuwa',
+			'TER' => 'Terhathum',
+			'KHO' => 'Khotang',
+			'OKH' => 'Okhaldhunga',
+			'SAP' => 'Saptari',
+			'SIR' => 'Siraha',
+			'SOL' => 'Solukhumbu',
+			'UDA' => 'Udayapur',
+			'DHA' => 'Dhanusa',
+			'DLK' => 'Dolakha',
+			'MOH' => 'Mohottari',
+			'RAM' => 'Ramechha',
+			'SAR' => 'Sarlahi',
+			'SIN' => 'Sindhuli',
+			'BHA' => 'Bhaktapur',
+			'DHD' => 'Dhading',
+			'KTM' => 'Kathmandu',
+			'KAV' => 'Kavrepalanchowk',
+			'LAL' => 'Lalitpur',
+			'NUW' => 'Nuwakot',
+			'RAS' => 'Rasuwa',
+			'SPC' => 'Sindhupalchowk',
+			'BAR' => 'Bara',
+			'CHI' => 'Chitwan',
+			'MAK' => 'Makwanpur',
+			'PAR' => 'Parsa',
+			'RAU' => 'Rautahat',
+			'GOR' => 'Gorkha',
+			'KAS' => 'Kaski',
+			'LAM' => 'Lamjung',
+			'MAN' => 'Manang',
+			'SYN' => 'Syangja',
+			'TAN' => 'Tanahun',
+			'BAG' => 'Baglung',
+			'PBT' => 'Parbat',
+			'MUS' => 'Mustang',
+			'MYG' => 'Myagdi',
+			'AGR' => 'Agrghakanchi',
+			'GUL' => 'Gulmi',
+			'KAP' => 'Kapilbastu',
+			'NAW' => 'Nawalparasi',
+			'PAL' => 'Palpa',
+			'RUP' => 'Rupandehi',
+			'DAN' => 'Dang',
+			'PYU' => 'Pyuthan',
+			'ROL' => 'Rolpa',
+			'RUK' => 'Rukum',
+			'SAL' => 'Salyan',
+			'BAN' => 'Banke',
+			'BDA' => 'Bardiya',
+			'DAI' => 'Dailekh',
+			'JAJ' => 'Jajarkot',
+			'SUR' => 'Surkhet',
+			'DOL' => 'Dolpa',
+			'HUM' => 'Humla',
+			'JUM' => 'Jumla',
+			'KAL' => 'Kalikot',
+			'MUG' => 'Mugu',
+			'ACH' => 'Achham',
+			'BJH' => 'Bajhang',
+			'BJU' => 'Bajura',
+			'DOT' => 'Doti',
+			'KAI' => 'Kailali',
+			'BAI' => 'Baitadi',
+			'DAD' => 'Dadeldhura',
+			'DAR' => 'Darchula',
+			'KAN' => 'Kanchanpur'
+		);
+
+		return apply_filters( 'cn_nepalese_regions', $regions );
+	}
+
+	/**
+	 * Get the Peruvian regions.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
+	 */
+	public static function PE_Regions() {
+
+		$regions = array(
+			'CAL' => 'El Callao',
+			'LMA' => 'Municipalidad Metropolitana de Lima',
+			'AMA' => 'Amazonas',
+			'ANC' => 'Ancash',
+			'APU' => 'Apur&iacute;mac',
+			'ARE' => 'Arequipa',
+			'AYA' => 'Ayacucho',
+			'CAJ' => 'Cajamarca',
+			'CUS' => 'Cusco',
+			'HUV' => 'Huancavelica',
+			'HUC' => 'Hu&aacute;nuco',
+			'ICA' => 'Ica',
+			'JUN' => 'Jun&iacute;n',
+			'LAL' => 'La Libertad',
+			'LAM' => 'Lambayeque',
+			'LIM' => 'Lima',
+			'LOR' => 'Loreto',
+			'MDD' => 'Madre de Dios',
+			'MOQ' => 'Moquegua',
+			'PAS' => 'Pasco',
+			'PIU' => 'Piura',
+			'PUN' => 'Puno',
+			'SAM' => 'San Mart&iacute;n',
+			'TAC' => 'Tacna',
+			'TUM' => 'Tumbes',
+			'UCA' => 'Ucayali'
+		);
+
+		return apply_filters( 'cn_peruvian_regions', $regions );
 	}
 
 	/**
@@ -1505,6 +2093,101 @@ class cnGeo {
 		);
 
 		return apply_filters( 'cn_th_regions', $regions );
+	}
+
+	/**
+	 * Get Turkey States
+	 *
+	 * @since 2.2.3
+	 * @return array $states A list of states
+	 */
+	public static function TR_Regions() {
+
+		$regions = array(
+			'TR01' => 'Adana',
+			'TR02' => 'Ad&#305;yaman',
+			'TR03' => 'Afyon',
+			'TR04' => 'A&#287;r&#305;',
+			'TR05' => 'Amasya',
+			'TR06' => 'Ankara',
+			'TR07' => 'Antalya',
+			'TR08' => 'Artvin',
+			'TR09' => 'Ayd&#305;n',
+			'TR10' => 'Bal&#305;kesir',
+			'TR11' => 'Bilecik',
+			'TR12' => 'Bing&#246;l',
+			'TR13' => 'Bitlis',
+			'TR14' => 'Bolu',
+			'TR15' => 'Burdur',
+			'TR16' => 'Bursa',
+			'TR17' => '&#199;anakkale',
+			'TR18' => '&#199;ank&#305;kesir',
+			'TR19' => '&#199;orum',
+			'TR20' => 'Denizli',
+			'TR21' => 'Diyarbak&#305;r',
+			'TR22' => 'Edirne',
+			'TR23' => 'Elaz&#305;&#287;',
+			'TR24' => 'Erzincan',
+			'TR25' => 'Erzurum',
+			'TR26' => 'Eski&#351;ehir',
+			'TR27' => 'Gaziantep',
+			'TR28' => 'Giresun',
+			'TR29' => 'G&#252;m&#252;&#351;hane',
+			'TR30' => 'Hakkari',
+			'TR31' => 'Hatay',
+			'TR32' => 'Isparta',
+			'TR33' => '&#304;&#231;el',
+			'TR34' => '&#304;stanbul',
+			'TR35' => '&#304;zmir',
+			'TR36' => 'Kars',
+			'TR37' => 'Kastamonu',
+			'TR38' => 'Kayseri',
+			'TR39' => 'K&#305;rklareli',
+			'TR40' => 'K&#305;r&#351;ehir',
+			'TR41' => 'Kocaeli',
+			'TR42' => 'Konya',
+			'TR43' => 'K&#252;tahya',
+			'TR44' => 'Malatya',
+			'TR45' => 'Manisa',
+			'TR46' => 'Kahramanmara&#351;',
+			'TR47' => 'Mardin',
+			'TR48' => 'Mu&#287;la',
+			'TR49' => 'Mu&#351;',
+			'TR50' => 'Nev&#351;ehir',
+			'TR51' => 'Ni&#287;de',
+			'TR52' => 'Ordu',
+			'TR53' => 'Rize',
+			'TR54' => 'Sakarya',
+			'TR55' => 'Samsun',
+			'TR56' => 'Siirt',
+			'TR57' => 'Sinop',
+			'TR58' => 'Sivas',
+			'TR59' => 'Tekirda&#287;',
+			'TR60' => 'Tokat',
+			'TR61' => 'Trabzon',
+			'TR62' => 'Tunceli',
+			'TR63' => '&#350;anl&#305;urfa',
+			'TR64' => 'U&#351;ak',
+			'TR65' => 'Van',
+			'TR66' => 'Yozgat',
+			'TR67' => 'Zonguldak',
+			'TR68' => 'Aksaray',
+			'TR69' => 'Bayburt',
+			'TR70' => 'Karaman',
+			'TR71' => 'K&#305;r&#305;kkale',
+			'TR72' => 'Batman',
+			'TR73' => '&#350;&#305;rnak',
+			'TR74' => 'Bart&#305;n',
+			'TR75' => 'Ardahan',
+			'TR76' => 'I&#287;d&#305;r',
+			'TR77' => 'Yalova',
+			'TR78' => 'Karab&#252;k',
+			'TR79' => 'Kilis',
+			'TR80' => 'Osmaniye',
+			'TR81' => 'D&#252;zce'
+		);
+
+		return apply_filters( 'cn_turkey_regions', $regions );
 	}
 
 	/**

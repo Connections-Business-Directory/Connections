@@ -272,11 +272,12 @@ class cnShortcode {
 							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', TRUE );
 							// var_dump( $entryID );
 
-							$results = $instance->retrieve->entries();
+							//
+							$results = $instance->retrieve->entries( array( 'status' => 'approved,pending' ) );
 							// var_dump( $results );
 
 							/*
-							 * The `cn_edit_entry_form` action should only be execusted if the user is
+							 * The `cn_edit_entry_form` action should only be executed if the user is
 							 * logged in and they have the `connections_manage` capability and either the
 							 * `connections_edit_entry` or `connections_edit_entry_moderated` capability.
 							 */
@@ -287,6 +288,11 @@ class cnShortcode {
 								) {
 
 								ob_start();
+
+								if ( ! current_user_can( 'connections_edit_entry' ) && $results[0]->status == 'pending' ) {
+
+									echo '<p>' . __( 'Your entry submission is currently under review, however, you can continue to make edits to your entry submission while your submission is under review.', 'connections' ) . '</p>';
+								}
 
 								do_action( 'cn_edit_entry_form', $atts, $content, $tag );
 

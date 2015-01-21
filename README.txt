@@ -3,7 +3,7 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag: 8.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -17,7 +17,7 @@ Connections Business Directory is a simple to use directory plugin which can be 
 Quite simply, Connections Business Directory is the best directory plugin available for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff directory and run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
 
 = Features =
-* Both the photo and logo images are fuly responsive with HiDPI (Retina) display support.
+* Both the photo and logo images are fully responsive with HiDPI (Retina) display support.
 * Seamless integration with the WordPress.
 * A Dashboard admin page where you can keep up to date with Connections related news, such as updates notices for [templates](http://connections-pro.com/templates/) and the [Extensions](http://connections-pro.com/extensions/). Also see at a glance today's anniversaries and birthdays as well as any upcoming anniversaries and birthdays.
 * When adding an entry there are multiple entry types from which to choose. They are individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating church directories.
@@ -26,13 +26,13 @@ Quite simply, Connections Business Directory is the best directory plugin availa
 * Connections is being used to manage directories which contain tens of thousands of entries so the ability to manage them easily is a must- a task which Connections stands and delivers. You can filter the entries list by category, entry type and visibility. You can search for entries. You can even search within the filtered entries. Of course Connections doesn't stop there, there are several bulk actions available to make changes a breeze.
 * Category support. This feature was modeled after the category feature for WordPress posts. So if you know how to add and manage categories for posts, you know how they work for Connections. Categories can be hierarchical and entries can be assigned to any number of categories.
 * Extensive role capability support. For your users that have access to the WordPress admin, there is extensive role capability support. You can define which roles can perform tasks to manage entries in Connections.
-* Unrivaled customability with templates. Connections comes with many basic templates to get you started. For many, these meet their needs. But if you need more than these basic templates provide, check out these great [premium templates](http://connections-pro.com/templates/).
+* Unrivaled customization with templates. Connections comes with many basic templates to get you started. For many, these meet their needs. But if you need more than these basic templates provide, check out these great [premium templates](http://connections-pro.com/templates/).
 * Displaying your entries on the front end is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The Connections shortcode provides almost a dizzying array of options that are just too numerous to list. But if you want to know more, you can find it [here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * Even a bit of SEO was sprinkled in. Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec.
 
 = Extensible =
 
-Here are other great free extensions (with more on the way) that enhance your expirence with the Connections Business Directory:
+Here are other great free extensions (with more on the way) that enhance your experience with the Connections Business Directory:
 
 Utility
 
@@ -54,7 +54,7 @@ Connections Business Directory provides a vast array of hooks and filters so it 
 
 The directory has a very flexible template engine. The loading of template and CSS are context aware. This means your developer could create specific templates that load when a user visits a specific entry, category, postal code and more.
 
-Templates and CSS overridding is very granualar and update safe. Check out these links for the details:
+Templates and CSS overriding is very granular and update safe. Check out these links for the details:
 
 * [Custom Core CSS](http://connections-pro.com/2014/05/04/quicktip-custom-css/)
 * [Custom CSS for Templates](http://connections-pro.com/2014/05/07/quicktip-custom-css-templates/)
@@ -62,7 +62,7 @@ Templates and CSS overridding is very granualar and update safe. Check out these
 
 = Languages =
 
-Connections Business Directory has been embraced around the world and has been translated in the following languages.
+Connections Business Directory has been embraced around the world and has been translated by its users in the following languages.
 
 * Catalan [79% Complete]
 * Danish [48% Complete]
@@ -76,12 +76,14 @@ Connections Business Directory has been embraced around the world and has been t
 * Norwegian [19% Complete]
 * Persian (Iran) [78% Complete]
 * Polish (Poland) [79% Complete]
-* Portugese (Brazil) [70% Complete]
-* Portugese (Portugal) [35% Complete]
-* Russian (Russia) [39% Complete]
+* Portuguese (Brazil) [70% Complete]
+* Portuguese (Portugal) [35% Complete]
+* Romanian (Romania) [79% Complete]
+* Russian (Russia) [40% Complete]
 * Serbian (Latin) [4% Complete]
 * Spanish (Latin America) [74% Complete]
-* Spanish (Spain) [79% Complete]
+* Spanish (Spain) [74% Complete]
+* Thai [1% Complete]
 * Turkish (Turkey) [86% Complete]
 
 == Credits: ==
@@ -106,7 +108,7 @@ Connections Business Directory has been embraced around the world and has been t
 
 == Screenshots ==
 
-1. The Dashboard admin page. A snapshot of important infomation about the directory.
+1. The Dashboard admin page. A snapshot of important information about the directory.
 2. The Manage admin page. Here you can manage all the entries within the address book.
 3. The Add New Entry admin page. From here you can add new entries to the addressbook.
 4. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.
@@ -155,7 +157,66 @@ Connections Business Directory has been embraced around the world and has been t
 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
+= How do I display the business directory on my site? =
+We have a [QuickStart](http://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode.
+
+= Will it work with my theme? =
+Connections Business Directory has been designed to work with any theme.
+
+= Is Connections Business Directory translation-ready? =
+Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
+
 == Changelog ==
+
+= 8.1.6 01/21/2015 =
+* BUG: Fixed the “Warning: Cannot use a scalar value as an array” error. This error was shown to users when their web host does not have an image processing library installed on the web server. This error should no longer be shown, however, Connections will not be able to dynamically resize images. A notice in the admin will still be displayed, “The server does not have ImageMagick or GD installed and/or enabled. Either of these are required for WordPress to be able to resize images. Please contact your server administrator.” If you see this notice, you will have to contact your web host and request that they install the GD image processing library.
+* BUG: White screen when uploading an image. This, I believe, is being caused by an older version of the Imagick image processing library. The older version does not contain a required function and will cause a fatal error when Connections tries to use it. This causes the white screen. To address this, Connections no longer uses that function.
+* BUG: Fix bug with image URL/s when the protocol is https so they are served securely.
+* BUG: Fix bug that would copy any images from the `connections-images` folder to the {entry-slug} folder when adding an entry.
+* BUG: Add missing stylesheet for datepicker in metabox API.
+* BUG: Ensure lat/lng are properly formatted preventing PHP from localizing it.
+* BUG: Fix admin dashboard admin widgets so the so the correct date ranges.
+* BUG: Allow cnRetrieve::entries() to return results with status ‘pending’ for users with the edit moderated capability.
+* BUG: Allow the ‘cn_edit_entry_form’ action to be fired if the user’s entry status is approved or pending.
+* BUG: Show the edit entry admin bar link if the entry status is approved or pending if the user has either edit or edit moderated capabilities.
+* BUG: Fix undefined index errors.
+* TWEAK: Add input attribute accept=”image/*” to both the image and logo upload fields.
+* TWEAK: Ensure that the path and URL to images are updated to the current path to account for moving sites or changing the site’s folder structure.
+* TWEAK: Ensure sub dir is prefixed with a forward slash in cnUpload::subDirectory(). Since it is now being prepended with a forward slash both path and url needed to be untrailingslashit() so the paths are correct when the two are joined with subdir(). This was done to remain consistent with WP core.
+* TWEAK: Prevent selection of files that are too large to be uploaded.
+* TWEAK: Add actions/filters to cnImage::upload().
+* TWEAK: Ensure other plugins can not override the upload path in cnUpload::File().
+* TWEAK: Include the Dashboard admin page templates only in the admin.
+* TWEAK: Only load the System Dashboard widget if the current user can manage options.
+* TWEAK: Refactor cnEntry::set().
+* TWEAK: Refactor cnEntry::getName().
+* TWEAK: Refactor cnOutput::getNameBlock().
+* TWEAK: Refactor cnOutput::getFamilyMemberBlock().
+* TWEAK: Refactor cnRetrieve::upcoming().
+* TWEAK: Refactor portions of cnRetrieve::entries() to be cleaner and more efficient.
+* TWEAK: Remove unused global var from cnOutput::getNameBlock().
+* TWEAK: Init the template API on the `plugins_loaded` action hook.
+* OTHER: Update EDD-SL Updater to 1.6.
+* TWEAK: Add the $value options to cnTemplatePart::categorySelect() so the SELECTED options can be set rather than rely on query vars.
+* TWEAK: Remove unused local vars in cnAdminActions.
+* TWEAK: Remove several deprecated image related functions.
+* OTHER: Compatibility fix to prevent s2member from resetting the custom roles and capabilities.
+* OTHER: Add additional countries and regions to cnGeo.
+* OTHER: Introduce cnFragment::clear().
+* OTHER: Introduce CN_Walker_Category_List.
+* OTHER: Introduce cnImage::maxSize().
+* OTHER: Introduce cnSanitize::args().
+* OTHER: Introduce cnFormatting::replaceWhatWith() and cnFormatting::normalizeString().
+* OTHER: Add get permalink methods to both cnEntry (returns) and cnOutput (echos). Moved directoryHome page to cnEntry.
+* OTHER: Fix a lot of misspellings in the code inline docs.
+* OTHER: Fix a lot of phpDoc errors.
+* OTHER: Add .jshintrc.
+* OTHER: Add .scrutinizer.yml.
+* OTHER: Update .editorconfig.
+* I18N: Update Spanish (Spain) translation.
+* I18N: Update Russian (Russia) translation.
+* I18N: Add Thai translation.
+* I18N: Add Romanian (Romania) translation.
 
 = 8.1.5 10/16/2014 =
 * FEATURE: Add cnFormatting::excerpt().
@@ -204,7 +265,7 @@ Connections Business Directory has been embraced around the world and has been t
 * BUG: Fix infinite loop bug when uploading images in a WP multi site installation.
 * TWEAK: Check for isDot() before calling. PHP5.2/5.3 compatibility.
 * TWEAK: Change custom template path for multi site back to `blogs.dir`.
-* TWEAK: Re-enable attemting to make writable CN_IMAGE_PATH in the upgrade.php file.
+* TWEAK: Re-enable attempting to make writable CN_IMAGE_PATH in the upgrade.php file.
 * TWEAK: Add cnImage::info().
 * TWEAK: Update cnImage::get() to use cnImage::info().
 * TWEAK: Fix crop_focus sanitation in cnImage::get().
@@ -224,7 +285,7 @@ Connections Business Directory has been embraced around the world and has been t
 * TWEAK: Update cnLog to be compatible with changes made in WP_Error in WP 4.0.
 * TWEAK: Escape text in a couple anonymous functions to prevent translations from throwing PHP errors.
 * TWEAK: Force new image uploads to have lowercase file extension. Add support for existing filenames with uppercase file extensions.
-* TWEAK: Increase execusion time and memory limit when processing images.
+* TWEAK: Increase execution time and memory limit when processing images.
 * TWEAK: Remove use of SKIP_DOTS for PHP < 5.3 compatibility.
 * TWEAK: Support the uploading of GIF/s.
 * TWEAK: Add info() the the cnUpload class to get Connections related upload paths.
@@ -364,7 +425,7 @@ Connections Business Directory has been embraced around the world and has been t
 * I18N: Update Hebrew (Israel) translation.
 * I18N: Update Hungarian (Hungary) translation.
 * I18N: Update Portuguese (Brazil) translation.
-* I18N: Add Nowegian translation.
+* I18N: Add Norwegian translation.
 
 = 0.8.7 05/19/2014 =
 * TWEAK: Change input type to search on manage page.
@@ -412,7 +473,7 @@ Connections Business Directory has been embraced around the world and has been t
 * I18N: Update all MO files.
 * I18N: Add Catalan.
 * I18N: Add Russian.
-* I18N: Add Portugese (Portugal).
+* I18N: Add Portuguese (Portugal).
 
 = 0.8.1 04/29/2014 =
 * BUG: Fix activation error for users where the server is still running PHP 5.2.
@@ -465,7 +526,7 @@ Connections Business Directory has been embraced around the world and has been t
 * TWEAK: Move loadTemplate to cnTemplateFactory.
 * TWEAK: Limit the recently added entries in the dashboard widget to 10.
 * TWEAK: Remove unnecessary filters in the shortcode.
-* TWEAK: Add name intial tokens in getNameBlock().
+* TWEAK: Add name initial tokens in getNameBlock().
 * TWEAK: Define preferred db table engine based on db version.
 * TWEAK: Strip shortcodes from getExcerpt() function.
 * BUG: Fix the exclude_category shortcode option.
@@ -481,9 +542,9 @@ Connections Business Directory has been embraced around the world and has been t
 * BUG: Take user add entry capability and entry status into account when setting an entry's visibility status.
 * BUG: Fix a couple PHP undefined index notices with the entry logo.
 * BUG: Fix many translation coding errors.
-* BUG: Fix vaious minor bugs with vCard support.
+* BUG: Fix various minor bugs with vCard support.
 * OTHER: Add JSON encode.decode helper methods.
-* OTHER: Remove useage of get_usermeta from cnUser.
+* OTHER: Remove usage of get_usermeta from cnUser.
 * OTHER: Remove deprecated function attribute_escape().
 * OTHER: Add sortable checklist to the Settings API.
 * OTHER: Update Chosen to version 1.1.0.
@@ -524,7 +585,7 @@ Connections Business Directory has been embraced around the world and has been t
 * TWEAK: Update path not found error messages. Message now points to the website where much more info can be provided and more frequently updated.
 * TWEAK: Purge the legacy template transient on page load of the Connections : Templates admin page.
 * TWEAK: Check that the template is found before returning its object.
-* TWEAK: Check that a legacy temnplate's path/files exists before returning its object.
+* TWEAK: Check that a legacy template's path/files exists before returning its object.
 * TWEAK: Use relative URL when loading images via TimThumb.
 * TWEAK: Add constant to allow positioning of the admin menu.
 * TWEAK: The "Add to addressbook." link will no longer be shown on the core templates if it has been turned off under the entry action settings.
@@ -546,7 +607,7 @@ Connections Business Directory has been embraced around the world and has been t
 * I18N: Update the POT file.
 * I18N: Add Persian (Iran).
 * I18N: Add Turkish (Turkey).
-* I18N: Add Portugese (Brazil).
+* I18N: Add Portuguese (Brazil).
 * I18N: Update French (France).
 * I18N: Update Spanish (Spain).
 * I18N: Update Hungarian (Hungry).
@@ -562,7 +623,7 @@ Connections Business Directory has been embraced around the world and has been t
 * BUG: Fix malformed HTML being created when the template not found error message was shown.
 * BUG: Fix a conflict with Formidable.
 * BUG: Fix the Members template so it at least functions again.
-* BUG: If no template author waas supplied, return an empty string.
+* BUG: If no template author was supplied, return an empty string.
 * BUG: Fix the edit links on the Connections : Dashboard widgets.
 * BUG: Remove 'p' from the query string when using the default permalink structure.
 * BUG: Remove the /feed/ endpoint from the directory subpages because they caused 404 search engine crawl errors.
@@ -617,7 +678,7 @@ Many bug fixes throughout. This is a highly recommended update.
 Many bug fixes throughout. This is a highly recommended update.
 
 = 0.7.3.7 =
-Potentially fixes issues with mutlisite installs.
+Potentially fixes issues with multisite installs.
 
 = 0.7.4 =
 A lot of code cleanup and tweaking. Add new feature to be able to filter by initial character on the Connections : Manage admin page.
@@ -740,3 +801,6 @@ This a major update to Connections it is recommended to backup before updating. 
 
 = 8.1.5 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.1.6 =
+It is recommended to backup before updating. Requires WordPress >= 3.8.

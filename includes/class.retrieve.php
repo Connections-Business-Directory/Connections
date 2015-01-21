@@ -40,11 +40,15 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function entries( $atts = array() ) {
-		global $wpdb, $connections, $current_user;
+
+		/** @var $wpdb wpdb */
+		global $wpdb, $current_user;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		get_currentuserinfo();
 
-		$validate             = new cnValidate();
 		$select[]             = CN_ENTRY_TABLE . '.*';
 		$from[]               = CN_ENTRY_TABLE;
 		$join                 = array();
@@ -97,7 +101,7 @@ class cnRetrieve {
 
 		$defaults['lock']                  = FALSE;
 
-		$atts = $validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -181,7 +185,7 @@ class cnRetrieve {
 				$atts['latitude']  = $wpdb->prepare( '%f', $queryCoord[0] );
 				$atts['longitude'] = $wpdb->prepare( '%f', $queryCoord[1] );
 
-				// Get the radius, otherwise the defaultf of 10.
+				// Get the radius, otherwise the default of 10.
 				if ( get_query_var( 'cn-radius' ) ) $atts['radius'] = $wpdb->prepare( '%d', get_query_var( 'cn-radius' ) );
 
 				// Sanitize and set the unit.
@@ -280,7 +284,7 @@ class cnRetrieve {
 			foreach ( $atts['category_slug'] as $categorySlug ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name in case the user added it when using the shortcode.
-				$categorySlugs[] = $wpdb->prepare( '%s', trim( $categorySlug ) );
+				$categorySlugs[] = sanitize_title( trim( $categorySlug ) );
 
 				// Retrieve the children categories.
 				$results = $this->categoryChildren( 'slug', $categorySlug );
@@ -288,7 +292,7 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the slug if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categorySlugs ) ) $categorySlugs[] = $wpdb->prepare( '%s', $term->slug );
+					if ( ! in_array( $term->name, $categorySlugs ) ) $categorySlugs[] = sanitize_title( $term->slug );
 				}
 			}
 		}
@@ -298,18 +302,12 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['category'] ) ) {
 
-			// If value is a string, string the white space and covert to an array.
-			if ( ! is_array( $atts['category'] ) ) {
-
-				$atts['category'] = str_replace( ' ', '', $atts['category'] );
-
-				$atts['category'] = explode( ',', $atts['category'] );
-			}
+			$atts['category'] = wp_parse_id_list( $atts['category'] );
 
 			foreach ( $atts['category'] as $categoryID ) {
 
 				// Add the parent category ID to the array.
-				$categoryIDs[] = $wpdb->prepare( '%d', $categoryID );
+				$categoryIDs[] = absint( $categoryID );
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'term_id', $categoryID );
@@ -318,7 +316,7 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the ID if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = $wpdb->prepare( '%d', $term->term_id );
+					if ( ! in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = absint( $term->term_id );
 				}
 			}
 		}
@@ -330,20 +328,14 @@ class cnRetrieve {
 
 			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
 
-			// If value is a string, strip the white space and then convert to an array.
-			if ( ! is_array( $atts['exclude_category'] ) ) {
-
-				$atts['exclude_category'] = str_replace( ' ', '', $atts['exclude_category'] );
-
-				$atts['exclude_category'] = explode( ',', $atts['exclude_category'] );
-			}
+			$atts['exclude_category'] = wp_parse_id_list( $atts['exclude_category'] );
 
 			$categoryIDs = array_diff( (array) $categoryIDs, $atts['exclude_category'] );
 
 			foreach ( $atts['exclude_category'] as $categoryID ) {
 
 				// Add the parent category ID to the array.
-				$categoryExcludeIDs[] = $wpdb->prepare( '%d', $categoryID );
+				$categoryExcludeIDs[] = absint( $categoryID );
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'term_id', $categoryID );
@@ -352,7 +344,7 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the ID if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = $wpdb->prepare( '%d', $term->term_id );
+					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = absint( $term->term_id );
 				}
 			}
 
@@ -381,37 +373,32 @@ class cnRetrieve {
 		// Convert the supplied category IDs $atts['category_in'] to an array.
 		if ( ! empty( $atts['category_in'] ) ) {
 
-			if ( ! is_array( $atts['category_in'] ) ) {
+			$atts['category_in'] = wp_parse_id_list( $atts['category_in'] );
 
-				// Trim the space characters if present.
-				$atts['category_in'] = str_replace( ' ', '', $atts['category_in'] );
+			// Remove empty values from the array.
+			$atts['category_in'] = array_filter( $atts['category_in'] );
 
-				// Convert to array.
-				$atts['category_in'] = explode( ',', $atts['category_in'] );
-			}
+			// Ensure there is something to query after filtering the array.
+			if ( ! empty( $atts['category_in'] ) ) {
 
-			// Sanitize the values in $atts['category_in']
-			foreach ( $atts['category_in'] as $key => $value ) {
+				// Exclude any category IDs that may have been set.
+				$atts['category_in'] = array_diff( $atts['category_in'], (array) $atts['exclude_category'] );
 
-				$atts['category_in'][ $key ] = $wpdb->prepare( '%d', $value );
-			}
+				// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
+				$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
+						INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
+						WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category_in'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category_in'] ) . ' ORDER BY tr.entry_id';
 
-			// Exclude any category IDs that may have been set.
-			$atts['category_in'] = array_diff( $atts['category_in'], (array) $atts['exclude_category'] );
+				// Store the entryIDs that exist on all of the supplied category IDs
+				$results = $wpdb->get_col( $sql );
+				//print_r($results);
 
-			// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
-			$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
-					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
-					WHERE 1=1 AND tt.term_id IN (' . implode( ", ", $atts['category_in'] ) . ') GROUP BY tr.entry_id HAVING COUNT(*) = ' . count( $atts['category_in'] ) . ' ORDER BY tr.entry_id';
+				if ( ! empty( $results ) ) {
+					$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
+				} else {
+					$where[] = 'AND 1=2';
+				}
 
-			// Store the entryIDs that exist on all of the supplied category IDs
-			$results = $wpdb->get_col( $sql );
-			//print_r($results);
-
-			if ( ! empty( $results ) ) {
-				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (' . implode( ", ", $results ) . ')';
-			} else {
-				$where[] = 'AND 1=2';
 			}
 
 			/*
@@ -462,11 +449,13 @@ class cnRetrieve {
 		 * // START --> Set up the query to only return the entries that match the supplied IDs.
 		 *    NOTE: This includes the entry IDs returned for category_in.
 		 */
-		// Convert the supplied IDs $atts['id'] to an array if it was not supplied as an array.
-		if ( ! empty( $atts['id'] ) && ! is_array( $atts['id'] ) ) $atts['id'] = explode( ',' , trim( $atts['id'] ) );
+		if ( ! empty( $atts['id'] ) ) {
 
-		// Set query string to return specific entries.
-		if ( ! empty( $atts['id'] ) ) $where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (\'' . implode( "', '", $atts['id'] ) . '\')';
+			$atts['id'] = wp_parse_id_list( $atts['id'] );
+
+			// Set query string to return specific entries.
+			$where[] = 'AND ' . CN_ENTRY_TABLE . '.id IN (\'' . implode( "', '", $atts['id'] ) . '\')';
+		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied IDs.
 		 */
@@ -487,7 +476,7 @@ class cnRetrieve {
 			} else {
 
 				// Set $atts['order_by'] to the order the entry IDs were returned.
-				// This is to support the relenvancy order results being retuned by self::search().
+				// This is to support the relevancy order results being returned by self::search().
 				$atts['order_by'] = 'id|SPECIFIED';
 				$atts['id']       = $searchResults;
 
@@ -527,7 +516,7 @@ class cnRetrieve {
 
 		// Set query string for entry type.
 		if ( ! empty( $atts['list_type'] ) && (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {
-			// Compatibility code to make sure any ocurrences of the deprecated entry type connections_group is changed to entry type family
+			// Compatibility code to make sure any occurrences of the deprecated entry type connections_group is changed to entry type family
 			$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
 
 			$where[] = 'AND `entry_type` IN (\'' . implode( "', '", (array) $atts['list_type'] ) . '\')';
@@ -580,18 +569,18 @@ class cnRetrieve {
 			}
 
 		} else {
-			//var_dump( $connections->options->getAllowPublic() ); die;
+			//var_dump( $instance->options->getAllowPublic() ); die;
 
 			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
+			if ( $instance->options->getAllowPublic() ) $visibility[] = 'public';
 
 			// Display the 'public' entries if the public override shortcode option is enabled.
-			if ( $connections->options->getAllowPublicOverride() ) {
+			if ( $instance->options->getAllowPublicOverride() ) {
 				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
 			}
 
 			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
-			if ( $connections->options->getAllowPrivateOverride() ) {
+			if ( $instance->options->getAllowPrivateOverride() ) {
 				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
 				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
 				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
@@ -631,7 +620,7 @@ class cnRetrieve {
 				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
 			}
 			elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-				$userPermittedEntryStatus = array( 'approved' );
+				$userPermittedEntryStatus = array( 'approved', 'pending' );
 
 				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
 			}
@@ -873,32 +862,32 @@ class cnRetrieve {
 			$this->cache( $sql, $results );
 
 			// The most recent query to have been executed by cnRetrieve::entries
-			$connections->lastQuery      = $wpdb->last_query;
+			$instance->lastQuery      = $wpdb->last_query;
 
 			// The most recent query error to have been generated by cnRetrieve::entries
-			$connections->lastQueryError = $wpdb->last_error;
+			$instance->lastQueryError = $wpdb->last_error;
 
 			// ID generated for an AUTO_INCREMENT column by the most recent INSERT query.
-			$connections->lastInsertID   = $wpdb->insert_id;
+			$instance->lastInsertID   = $wpdb->insert_id;
 
 			// The number of rows returned by the last query.
-			$connections->resultCount    = $wpdb->num_rows;
+			$instance->resultCount    = $wpdb->num_rows;
 
 			// The number of rows returned by the last query without the limit clause set
 			$foundRows                       = $wpdb->get_results( 'SELECT FOUND_ROWS()' );
-			$connections->resultCountNoLimit = $foundRows[0]->{'FOUND_ROWS()'};
+			$instance->resultCountNoLimit    = $foundRows[0]->{'FOUND_ROWS()'};
 			$this->resultCountNoLimit        = $foundRows[0]->{'FOUND_ROWS()'};
 
 		}
 
 		// The total number of entries based on user permissions.
-		// $connections->recordCount         = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'] ) );
+		// $instance->recordCount         = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'] ) );
 
 		// The total number of entries based on user permissions with the status set to 'pending'
-		// $connections->recordCountPending  = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'], 'status' => array( 'pending' ) ) );
+		// $instance->recordCountPending  = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'], 'status' => array( 'pending' ) ) );
 
 		// The total number of entries based on user permissions with the status set to 'approved'
-		// $connections->recordCountApproved = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'], 'status' => array( 'approved' ) ) );
+		// $instance->recordCountApproved = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'], 'status' => array( 'approved' ) ) );
 
 		/*
 		 * ONLY in the admin.
@@ -907,20 +896,20 @@ class cnRetrieve {
 		 * query if the offset for the query is greater than the record count with no limit set in the query.
 		 *
 		 */
-		if ( is_admin() && $atts['offset'] > $connections->resultCountNoLimit ) {
+		if ( is_admin() && $atts['offset'] > $instance->resultCountNoLimit ) {
 
-			$connections->currentUser->resetFilterPage( 'manage' );
+			$instance->currentUser->resetFilterPage( 'manage' );
 			unset( $atts['offset'] );
 			$results = $this->entries( $atts );
 
-		} elseif ( $atts['offset'] > $connections->resultCountNoLimit ) {
+		} elseif ( $atts['offset'] > $instance->resultCountNoLimit ) {
 
 			/*
 			 * This is for the front end, reset the page and offset and re-run the query if the offset
 			 * is greater than the record count with no limit.
 			 *
 			 * @TODO  this should somehow be precessed in the parse_request action hook so the URL
-			 * permlink and query vars can be properly updated.
+			 * permalink and query vars can be properly updated.
 			 */
 
 			set_query_var( 'cn-pg', 0 );
@@ -941,6 +930,8 @@ class cnRetrieve {
 	 * @return array        The entry data.
 	 */
 	public function entry( $slid ) {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		if ( ctype_digit( (string) $slid ) ) {
@@ -1169,169 +1160,210 @@ class cnRetrieve {
 		return $where;
 	}
 
+	/**
+	 * Query the CN_ENTRY_DATE_TABLE for upcoming date events. Will return an array if entry ID/s
+	 * or an array of objects ordered from sooner to later over spanning the course of n-days.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param array $atts {
+	 *     Optional.
+	 *
+	 *     @type string       $type                  The date event type to query. Default is 'birthday'.
+	 *                                               Accepts any array keys @see cnOptions::getDateOptions().
+	 *     @type int          $days                  The number of days to look forward. Default is 30.
+	 *     @type bool         $today                 Whether of not to include events occurring today. Default is FALSE.
+	 *     @type array|string $visibility
+	 *     @type bool         $allow_public_override Default is FALSE.
+	 *     @type bool         $private_override      Default is FALSE.
+	 *     @type string       $return                What to return. Default is 'data'. Accepts data|id.
+	 * }
+	 *
+	 * @return array An array of entry ID/s or an array of objects.
+	 */
 	public function upcoming( $atts = array() ) {
-		global $wpdb, $connections;
 
-		$validate = new cnValidate();
-		$where = array();
-		$results = array();
+		/** @var $wpdb wpdb */
+		global $wpdb;
 
-		$permittedUpcomingTypes = array( 'anniversary', 'birthday' );
+		$instance = Connections_Directory();
+
+		$permitted = array_keys( $instance->options->getDateOptions() );
+		$where     = array();
+		$results   = array();
 
 		$defaults = array(
 			'type'                  => 'birthday',
-			'days'                  => '30',
+			'days'                  => 30,
 			'today'                 => TRUE,
 			'visibility'            => array(),
 			'allow_public_override' => FALSE,
-			'private_override'      => FALSE
+			'private_override'      => FALSE,
+			'return'                => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
 		);
 
-		$atts = $validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		// Ensure that the upcoming type is one of the supported types. If not, reset to the default.
-		$atts['type'] = in_array( $atts['type'], $permittedUpcomingTypes ) ? $atts['type'] : 'birthday';
+		$atts['type'] = in_array( $atts['type'], $permitted ) ? $atts['type'] : 'birthday';
 
+		$where[] = $wpdb->prepare( 'AND `type` = %s', $atts['type'] );
 
-		// Show only public or private [if permitted] entries.
-		/*if ( is_user_logged_in() || $atts['private_override'] != FALSE ) {
-			$visibilityfilter = " AND (visibility='private' OR visibility='public') AND (".$atts['list_type']." != '')";
-		} else {
-			$visibilityfilter = " AND (visibility='public') AND (`".$atts['list_type']."` != '')";
-		}*/
+		// Get timestamp.
+		$time = current_time( 'timestamp' );
 
-
-		/*
-		 * // START --> Set up the query to only return the entries based on user permissions.
-		 */
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			//var_dump( $connections->options->getAllowPublic() ); die;
-
-			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-
-			// Display the 'public' entries if the public override shortcode option is enabled.
-			if ( $connections->options->getAllowPublicOverride() ) {
-				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
-			}
-
-			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
-			if ( $connections->options->getAllowPrivateOverride() ) {
-				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
-				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
-				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
-			}
-		}
-
-		$where[] = 'AND visibility IN (\'' . implode( "', '", $visibility ) . '\')';
-		//$where[] = "AND (visibility='private' OR visibility='public')";
-		/*
-		 * // END --> Set up the query to only return the entries based on user permissions.
-		 */
-
-		// Only select the entries with a date.
-		$where[] = "AND ( `".$atts['type']."` != '' )";
-
-		// Get the current date from WP which should have the current time zone offset.
-		// $wpCurrentDate = date( 'Y-m-d', $connections->options->wpCurrentTime );
-
-		// Get todays date, formatted for use in the query.
+		// Get today's date, formatted for use in the query.
 		$date = gmdate( 'Y-m-d', current_time( 'timestamp' ) );
 
-		// FROM_UNIXTIME automatically adjusts for the local time. Offset is applied in query to ensure event is returned in current WP set timezone.
-		// $sqlTimeOffset = $connections->options->sqlTimeOffset;
-		// $results       = $wpdb->get_results( 'SELECT TIME_FORMAT( TIMEDIFF(NOW(), UTC_TIMESTAMP), \'%H:%i‌​\' ) AS offset' );
-		// $offset        = preg_replace( '/[\x00-\x1F\x80-\xFF]/', '', $results[0]->offset ); // The result from SQL seems to have some non-printing control characters, remove them.
-		// $offset = (int) $offset >= 0 ? '+' . $offset : $offset;
-		// var_dump( $offset );
-
 		// Whether or not to include the event occurring today or not.
-		$includeToday = ( $atts['today'] ) ? '<=' : '<';
+		$includeToday = $atts['today'] ? '<=' : '<';
 
-		// $sql = "SELECT * FROM ".CN_ENTRY_TABLE." WHERE"
-		// 	. "  (YEAR(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY))"
-		// 	. " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND)) )"
-		// 	. " - ( MID(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY),5,6)"
-		// 	. " < MID(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND),5,6) )"
-		// 	. " > ( YEAR('$wpCurrentDate')"
-		// 	. " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND)) )"
-		// 	. " - ( MID('$wpCurrentDate',5,6)"
-		// 	. " ".$includeToday." MID(DATE_ADD(FROM_UNIXTIME(`".$atts['type']."`), INTERVAL ".$sqlTimeOffset." SECOND),5,6) )"
-		// 	. " ".implode( ' ', $where );
+		$sql = $wpdb->prepare(
+			'SELECT `entry_id` AS id, `date` FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE '
+			. '  ( YEAR( DATE_ADD( %s, INTERVAL %d DAY ) )'
+			. ' - YEAR( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ) ) )'
+			. ' - ( MID( DATE_ADD( %s, INTERVAL %d DAY ), 5, 6 )'
+			. ' < MID( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+			. ' > ( YEAR( %s )'
+			. ' - YEAR( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ) ) )'
+			. ' - ( MID( %s, 5, 6 )'
+			. ' ' . $includeToday . ' MID( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+			. ' ' . implode( ' ', $where ),
+			$date,
+			absint( $atts['days'] ),
+			$date,
+			absint( $atts['days'] ),
+			$date,
+			$date
+			);
 		// print_r($sql);
 
-		/*
-		 * The FROM_UNIXTIME function will return the date offset to the local system timezone.
-		 * The dates were not saved in GMT time and since FROM_UNIXTIME is adjusting for the local system timezone
-		 * it could cause dates to shift days. The solution is to take the timezone shifted date from FROM_UNIXTIME
-		 * and convert it using CONVERT_TZ from the local system timezone to GMT.
-		 */
-		$sql = 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE '
-			. '  ( YEAR( DATE_ADD( \'' . $date . '\', INTERVAL ' . absint( $atts['days'] ) . ' DAY ) )'
-			. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
-			. ' - ( MID( DATE_ADD( \'' . $date . '\' , INTERVAL ' . absint( $atts['days'] ) . ' DAY ), 5, 6 )'
-			. ' < MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
-			. ' > ( YEAR( \'' . $date . '\' )'
-			. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
-			. ' - ( MID( \'' . $date . '\', 5, 6 )'
-			. ' ' . $includeToday . ' MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
-			. ' ' . implode( ' ', $where );
-		// print_r($sql);
+		$upcoming = $wpdb->get_results( $sql );
+		// var_dump($upcoming);
 
-		$results = $wpdb->get_results( $sql );
-		// print_r($results);
+		// The date is stored in YYYY-MM-DD format, we must convert to UNIX time.
+		// We need to use PHP to do the conversion because MySQL UNIX_TIMESTAMP() will return 0 for pre 1970-01-01 dates.
+		if ( ! empty( $upcoming ) ) {
 
+			foreach ( $upcoming as $row ) {
 
-		if ( ! empty( $results ) ) {
-			/*The SQL returns an array sorted by the birthday and/or anniversary date. However the year end wrap needs to be accounted for.
-			Otherwise earlier months of the year show before the later months in the year. Example Jan before Dec. The desired output is to show
-			Dec then Jan dates.  This function checks to see if the month is a month earlier than the current month. If it is the year is changed to the following year rather than the current.
-			After a new list is built, it is resorted based on the date.*/
-			foreach ( $results as $key => $row ) {
-				if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', $connections->options->wpCurrentTime ) ) < $connections->options->wpCurrentTime ) {
-					$dateSort[] = $row->$atts['type'] = gmmktime( 0, 0, 0, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', $connections->options->wpCurrentTime ) + 1 );
-				}
-				else {
-					$dateSort[] = $row->$atts['type'] = gmmktime( 0, 0, 0, gmdate( 'm', $row->$atts['type'] ), gmdate( 'd', $row->$atts['type'] ), gmdate( 'Y', $connections->options->wpCurrentTime ) );
-				}
+				// Append the time/timezone offset so strtotime() does not shift it to the local server timezone.
+				$row->date = strtotime( $row->date . ' 00:00:00+0000' );
 			}
-
-			array_multisort( $dateSort, SORT_ASC, $results );
 		}
 
+		// We need to query the main table for anniversaries or birthdays so we can capture any that may have been
+		// added before the implementation of the CN_ENTRY_DATE_TABLE table.
+		if ( $atts['type'] == 'anniversary' || $atts['type'] == 'birthday' ) {
+
+			$exclude = array();
+
+			// Reset the WHERE clause.
+			$where   = array();
+
+			// Only select the entries with a date.
+			$where[] = sprintf( 'AND ( `%s` != \'\' )', $atts['type'] );
+
+			// Exclude any entries that already exist in the previous query results.
+			foreach ( $upcoming as $row ) {
+
+				$exclude[] = $row->id;
+			}
+
+			if ( ! empty( $exclude ) ) $where[] = 'AND `id` NOT IN (\'' . implode( '\', \'', $exclude ) . '\')';
+
+			/*
+			 * The FROM_UNIXTIME function will return the date offset to the local system timezone.
+			 * The dates were not saved in GMT time and since FROM_UNIXTIME is adjusting for the local system timezone
+			 * it could cause dates to shift days. The solution is to take the timezone shifted date from FROM_UNIXTIME
+			 * and convert it using CONVERT_TZ from the local system timezone to GMT.
+			 */
+			$sql = $wpdb->prepare(
+				'SELECT `id`, ' . $atts['type'] . ' AS `date` FROM ' . CN_ENTRY_TABLE . ' WHERE '
+				. '  ( YEAR( DATE_ADD( %s, INTERVAL %d DAY ) )'
+				. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
+				. ' - ( MID( DATE_ADD( %s, INTERVAL %d DAY ), 5, 6 )'
+				. ' < MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+				. ' > ( YEAR( %s )'
+				. ' - YEAR( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ) ) )'
+				. ' - ( MID( %s, 5, 6 )'
+				. ' ' . $includeToday . ' MID( CONVERT_TZ( FROM_UNIXTIME( `' . $atts['type'] . '` ), @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+				. ' ' . implode( ' ', $where ),
+				$date,
+				absint( $atts['days'] ),
+				$date,
+				absint( $atts['days'] ),
+				$date,
+				$date
+				);
+			// print_r($sql);
+
+			$legacy = $wpdb->get_results( $sql );
+			// var_dump($legacy);
+
+			if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );
+		}
+
+		if ( ! empty( $upcoming ) ) {
+
+			$ids = array();
+			$ts  = array();
+
+			/*
+			 * The SQL returns an array sorted by the birthday and/or anniversary date. However the year end wrap needs to be accounted for.
+			 * Otherwise earlier months of the year show before the later months in the year. Example Jan before Dec. The desired output is to show
+			 * Dec then Jan dates.  This function checks to see if the month is a month earlier than the current month. If it is the year is changed to the following year rather than the current.
+			 * After a new list is built, it is resorted based on the date.
+			 */
+			foreach ( $upcoming as $row ) {
+
+				$ids[] = $row->id;
+
+				if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->date ), gmdate( 'd', $row->date ), gmdate( 'Y', $time ) ) < $time ) {
+
+					$ts[] = gmmktime( 0, 0, 0, gmdate( 'm', $row->date ), gmdate( 'd', $row->date ), gmdate( 'Y', $time ) + 1 );
+
+				} else {
+
+					$ts[] = gmmktime( 0, 0, 0, gmdate( 'm', $row->date ), gmdate( 'd', $row->date ), gmdate( 'Y', $time ) );
+				}
+
+			}
+
+			array_multisort( $ts, SORT_ASC, SORT_NUMERIC, $ids );
+			// var_dump( $ids );
+
+			switch ( $atts['return'] ) {
+
+				case 'id':
+
+					return $ids;
+
+					break;
+
+				default:
+
+					return self::entries(
+						array(
+							'lock'     => TRUE,
+							'id'       => $ids,
+							'order_by' => 'id|SPECIFIED',
+						)
+					);
+
+					break;
+			}
+
+		}
 
 		return $results;
 	}
 
 	// Retrieve the categories.
 	public function entryCategories( $id ) {
-		global $wpdb;
 
-		$sql = $wpdb->prepare( "SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tt.term_taxonomy_id = tr.term_taxonomy_id WHERE tt.taxonomy = 'category' AND tr.entry_id = %d ", $id );
-
-		if ( ! $results = $this->results( $sql ) ) {
-
-			$results = $wpdb->get_results( $sql );
-
-			$this->cache( $sql, $results );
-		}
-
-		if ( ! empty( $results ) ) {
-
-			usort( $results, array( $this, 'sortTermsByName' ) );
-		}
-
-		return $results;
+		return cnTerm::get_entry_terms( $id, 'category' );
 	}
 
 	/**
@@ -2970,6 +3002,8 @@ class cnRetrieve {
 	 * @return object
 	 */
 	public function categories() {
+
+		/** @var $connections connectionsLoad */
 		global $connections;
 
 		return $connections->term->getTerms( 'category' );

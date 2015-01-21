@@ -305,7 +305,7 @@ class cnUpload {
 	 * @param array  $file Reference to a single element of $_FILES.
 	 * @param array  $atts An associative array containing the upload params.
 	 *
-	 * @return mixed array | object On success an associative array of the uploadewd file details. On failure, an instance of WP_Error.
+	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
 	public function __construct( $file, $atts = array() ) {
 
@@ -313,7 +313,7 @@ class cnUpload {
 	}
 
 	/**
-	 * A Connections equivelent of wp_upload_dir().
+	 * A Connections equivalent of @see wp_upload_dir().
 	 *
 	 * @access public
 	 * @since  8.1.1
@@ -326,7 +326,7 @@ class cnUpload {
 		$info = array();
 
 		/*
-		 * Core constants that can be overrideen in wp-config.php
+		 * Core constants that can be overridden in wp-config.php
 		 * which enable support for multi-site file locations.
 		 */
 		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
@@ -349,15 +349,15 @@ class cnUpload {
 			 * because wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
 			 *
 			 * We do not want this behavior if forcing Connections into single site mode on a multisite
-			 * install of WP. Addtionally we do not want the year/month sub dir appended.
+			 * install of WP. Additionally we do not want the year/month sub dir appended.
 			 *
-			 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as everytime the custom
+			 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as every time the custom
 			 * dir/url would be needed the filter would have to be added and then removed not to mention other plugins could
 			 * interfere by hooking into `upload_dir`.
 			 *
 			 * --> START <--
 			 */
-			$siteurl     = get_option( 'siteurl' );
+			$siteurl     = site_url();
 			$upload_path = trim( get_option( 'upload_path' ) );
 
 			if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
@@ -378,7 +378,7 @@ class cnUpload {
 
 				if ( empty($upload_path) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) ) {
 
-					$url = WP_CONTENT_URL . '/uploads';
+					$url = content_url( '/uploads' );
 
 				} else {
 
@@ -416,18 +416,25 @@ class cnUpload {
 	 *
 	 * @access public
 	 * @since  8.1
+	 *
+	 * @global $wp_filter
+	 *
 	 * @uses   wp_parse_args()
+	 * @uses   remove_all_filters()
 	 * @uses   add_filter()
 	 * @uses   wp_handle_upload()
 	 * @uses   remove_filter()
+	 *
 	 * @param array  $file Reference to a single element of $_FILES.
 	 * @param array  $atts An associative array containing the upload params.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
 	public function file( $file, $atts = array() ) {
+		global $wp_filter;
 
 		$options = array();
+		$filter  = array();
 
 		$defaults = array(
 			'post_action'       => '',
@@ -438,6 +445,20 @@ class cnUpload {
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		/*
+		 * Temporarily store the filters hooked to the upload_dir filter.
+		 */
+		$filter['wp_handle_upload_prefilter'] = isset( $wp_filter['wp_handle_upload_prefilter'] ) ? $wp_filter['wp_handle_upload_prefilter'] : '';
+		$filter['upload_dir']                 = isset( $wp_filter['upload_dir'] ) ? $wp_filter['upload_dir'] : '';
+		$filter['wp_handle_upload'] = isset( $wp_filter['wp_handle_upload'] ) ? $wp_filter['wp_handle_upload'] : '';
+
+		/*
+		 * Remove all filters hooked into the upload_dir filter to prevent conflicts.
+		 */
+		remove_all_filters( 'upload_dir' );
+		remove_all_filters( 'wp_handle_upload_prefilter' );
+		remove_all_filters( 'wp_handle_upload' );
 
 		if ( ! function_exists( 'wp_handle_upload' ) ) require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
@@ -468,6 +489,13 @@ class cnUpload {
 		// Remove the data array filter.
 		remove_filter( 'wp_handle_upload', array( $this, 'uploadData' ), 10, 2 );
 
+		/*
+		 * Be a good citizen and add the filters that were hooked back to into upload_dir filter.
+		 */
+		if ( ! empty( $filter['wp_handle_upload_prefilter'] ) ) $wp_filter['wp_handle_upload_prefilter'] = $filter['wp_handle_upload_prefilter'];
+		if ( ! empty( $filter['upload_dir'] ) ) $wp_filter['upload_dir'] = $filter['upload_dir'];
+		if ( ! empty( $filter['wp_handle_upload'] ) ) $wp_filter['wp_handle_upload'] = $filter['wp_handle_upload'];
+
 		return $this->result;
 	}
 
@@ -486,11 +514,11 @@ class cnUpload {
 		// If this is a multi site AND Connections is in multi site mode then the the paths passed by WP can be used.
 		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 
-			$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : $this->subDirectory;
-			$file['path']   = trailingslashit( $file['basedir'] ) . $file['subdir'];
-			$file['url']    = trailingslashit( $file['baseurl'] ) . $file['subdir'];
+			$file['subdir'] = empty( $this->subDirectory ) ? cnFormatting::preslashit( $file['subdir'] ) : cnFormatting::preslashit( $this->subDirectory );
+			$file['path']   = untrailingslashit( $file['basedir'] ) . $file['subdir'];
+			$file['url']    = untrailingslashit( $file['baseurl'] ) . $file['subdir'];
 
-		// If Connections is on sigle site or in single site mode on a multi site setup use cnUpload::info() to get the path info.
+		// If Connections is on single site or in single site mode on a multi site setup use cnUpload::info() to get the path info.
 		} else {
 
 			// NOTE: Important! cnUpload::info() can not be used within this class when `if ( is_multisite() && CN_MULTISITE_ENABLED )`
@@ -498,9 +526,9 @@ class cnUpload {
 			// to the `upload_dir` hook.
 			$info = cnUpload::info();
 
-			$file['subdir'] = empty( $this->subDirectory ) ? $file['subdir'] : $this->subDirectory;
-			$file['path']   = trailingslashit( $info['base_path'] ) . $file['subdir'];
-			$file['url']    = trailingslashit( $info['base_url'] ) . $file['subdir'];
+			$file['subdir'] = empty( $this->subDirectory ) ? cnFormatting::preslashit( $file['subdir'] ) : cnFormatting::preslashit( $this->subDirectory );
+			$file['path']   = untrailingslashit( $info['base_path'] ) . $file['subdir'];
+			$file['url']    = untrailingslashit( $info['base_url'] ) . $file['subdir'];
 		}
 
 		return $file;
@@ -526,9 +554,9 @@ class cnUpload {
 	 *
 	 * @access private
 	 * @since  8.1
-	 * @param  array  $file    An associtive array containing the file upload details.
+	 * @param  array  $file    An associative array containing the file upload details.
 	 * @param  string $context Accepts 'upload' or 'sideload'
-	 * @return string          An associtive array containing the file upload details.
+	 * @return string          An associative array containing the file upload details.
 	 */
 	public function uploadData( $file, $context ) {
 

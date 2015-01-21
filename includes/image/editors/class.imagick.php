@@ -33,10 +33,60 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 			try {
 
-				// From: http://stackoverflow.com/questions/3538851/php-imagick-setimageopacity-destroys-transparency-and-does-nothing
-				// preserves transparency
-				$this->image->setImageOpacity( $level );
-				$this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
+				/**
+				 * NOTES:
+				 *
+				 * Few hosts seem to have the Imagick PHP library installed and those that do seem to have an
+				 * older version which does not have the @see Imagick::setImageOpacity() method. So this causes
+				 * a fatal error because the try/catch does not seem to catch calling methods that do not exist.
+				 *
+				 * Even if the host does have a newer version of Imagick installed it seems that
+				 * @see Imagick::setImageOpacity() is not a great solution since it will destroy the transparency of
+				 * images that contain it and it does not seem to work on PNG source images (I have not verified the later).
+				 *
+				 * ref: @link http://stackoverflow.com/questions/3538851/php-imagick-setimageopacity-destroys-transparency-and-does-nothing
+				 *
+				 * The solution provided in the above link can also not be replied upon because it seems to only work on
+				 * image with transparency (I have not verified).
+				 *
+				 * ref: @link http://stackoverflow.com/questions/24350043/change-opacity-of-image-using-imagick
+				 *
+				 * Looking for a universal working solution I found this
+				 * @link http://catch404.net/2012/07/making-images-transparent-in-imagick-enter-the-pixel-iterator/
+				 *
+				 * I'm going to change the code to that solution but I can not test because my current host only has
+				 * Imagick available via the command line. Crosses fingers :/ ...
+				 */
+
+				//if ( method_exists( $this->image, 'setImageOpacity' ) ) $this->image->setImageOpacity( $level );
+				//$this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
+
+				/** @var ImagickPixelIterator $rows */
+				$rows = $this->image->getPixelIterator();
+
+				foreach( $rows as $cols ) {
+
+					/** @var ImagickPixel $pixel */
+					foreach( $cols as $pixel ) {
+
+						// An object pointing at a single pixel of the image
+						// which can be manipulated.
+
+						// Determine the pixel's current transparency level.
+						$current = $pixel->getColorValue( Imagick::COLOR_ALPHA );
+
+						// Only make the pixel more transparent than it may already be
+						// if the resulting value is greater than fully transparent.
+						$pixel->setColorValue(
+							Imagick::COLOR_ALPHA,
+							( $current - $level > 0 ? $current - $level : 0 )
+						);
+
+						// Tell Imagick to sync the change made to the pixel object to
+						// the actual image, via the iterator that created the pixel object.
+						$rows->syncIterator();
+					}
+				}
 
 				return TRUE;
 
@@ -56,7 +106,7 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @param string hex color e.g. #ff00ff
+	 * @param string $hexColor hex color e.g. #ff00ff
 	 * @return boolean|WP_Error
 	 */
 	public function colorize( $hexColor ) {

@@ -47,6 +47,8 @@ class cnImage {
 			// Set priority 11 so we know cnMessage has been init'd.
 			// add_action( 'admin_init', array( __CLASS__, 'checkEditorSupport' ), 11 );
 			add_action( 'parse_query', array( __CLASS__, 'query'), -1 );
+
+			add_filter( 'cn_image_uploaded_meta', array( __CLASS__, 'maxSize' ) );
 		}
 
 	}
@@ -154,9 +156,11 @@ class cnImage {
 	 * @uses   self::get()
 	 * @uses   is_wp_error[]
 	 *
-	 * @return stream Streams an image resoure to the browser or a error message.
+	 * @return stream Streams an image resource to the browser or a error message.
 	 */
 	public static function query() {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		if ( get_query_var( CN_IMAGE_ENDPOINT ) ) {
@@ -411,7 +415,7 @@ class cnImage {
 	 * @return mixed  array | object | string | stream
 	 *                If $return is `base64` then base64 encoded image data URI will be returned. Suitable for use in CSS or img src attribute.
 	 *                If $return is `data` and array of the image meta is returned.
-	 *                If $retuen is `editor` an instance if the WP_Image_Editor is returned.
+	 *                If $return is `editor` an instance if the WP_Image_Editor is returned.
 	 *                If $return is `stream` the image resource will be streamed to the browser with the correct headers set.
 	 *                If $return is `url` the image URL will be returned. [Default]
 	 */
@@ -419,7 +423,7 @@ class cnImage {
 		global $wp_filter;
 
 		// Increase PHP script execution by 60. This should help on hosts
-		// that permit this change from page load timeouts from occuring
+		// that permit this change from page load timeouts from occurring
 		// due to large number of images that might have to be created and cached.
 		@set_time_limit(60);
 
@@ -438,7 +442,7 @@ class cnImage {
 		$filter['resize']  = isset( $wp_filter['image_resize_dimensions'] ) ? $wp_filter['image_resize_dimensions'] : '';
 
 		/*
-		 * Remove all filters hooked into the the image editor filters to prevent conlicts.
+		 * Remove all filters hooked into the the image editor filters to prevent conflicts.
 		 */
 		remove_all_filters( 'wp_image_editors' );
 		remove_all_filters( 'image_resize_dimensions' );
@@ -488,6 +492,29 @@ class cnImage {
 
 		do_action( 'cn_image_get', $atts, $source, $return );
 
+		/**
+		 * @var $width
+		 * @var $height
+		 * @var $negate
+		 * @var $grayscale
+		 * @var $brightness
+		 * @var $colorize
+		 * @var $contrast
+		 * @var $detect_edges
+		 * @var $emboss
+		 * @var $gaussian_blur
+		 * @var $blur
+		 * @var $sketchy
+		 * @var $sharpen
+		 * @var $smooth
+		 * @var $opacity
+		 * @var $crop_mode
+		 * @var $crop_focus
+		 * @var $crop_only
+		 * @var $canvas_color
+		 * @var $quality
+		 * @var $sub_dir
+		 */
 		extract( $atts );
 
 		/*
@@ -942,7 +969,7 @@ class cnImage {
 		$upload_url = ( is_string( $atts['sub_dir'] ) && ! empty( $atts['sub_dir'] ) ) ? trailingslashit( CN_IMAGE_BASE_URL . $atts['sub_dir'] ) : CN_IMAGE_BASE_URL;
 		cnFileSystem::mkdir( $upload_dir );
 
-		// Desination paths and URL.
+		// Destination paths and URL.
 		$destfilename = "{$upload_dir}{$dst_rel_path}-{$suffix}." . strtolower( $ext );
 		$img_url      = "{$upload_url}{$dst_rel_path}-{$suffix}." . strtolower( $ext );
 
@@ -956,9 +983,9 @@ class cnImage {
 			$editor = wp_get_image_editor( $destfilename );
 
 			// If there is an error, return WP_Error object.
-			if ( $result = is_wp_error( $editor ) ) {
+			if ( is_wp_error( $editor ) ) {
 
-				return $result;
+				return $editor;
 			}
 
 			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
@@ -987,12 +1014,13 @@ class cnImage {
 			$methods['methods'][]                             = 'set_quality';
 
 			// Perform resizing and other filters.
+			/** @var CN_Image_Editor_GD $editor */
 			$editor = wp_get_image_editor( $image_info['path'], $methods );
 
 			// If there is an error, return WP_Error object.
-			if ( $result = is_wp_error( $editor ) ) {
+			if ( is_wp_error( $editor ) ) {
 
-				return $result;
+				return $editor;
 			}
 
 			$log->add( 'image_editor_engine', __( sprintf( 'Image processing parent class is %s', get_parent_class( $editor ) ), 'connections' ) );
@@ -1221,9 +1249,12 @@ class cnImage {
 			}
 
 
-			if ( is_wp_error( $result = $editor->opacity( $opacity ) ) ) {
+			if ( $opacity < 100 ) {
 
-				return $result;
+				if ( is_wp_error( $result = $editor->opacity( $opacity ) ) ) {
+
+					return $result;
+				}
 			}
 
 			$log->add( 'image_filter_opacity', __( sprintf( 'Opacity set at %d.', $opacity ), 'connections' ) );
@@ -1510,12 +1541,15 @@ class cnImage {
 	 *
 	 * @access public
 	 * @since  8.1
+	 * @static
+	 *
 	 * @uses   trailingslashit()
 	 * @uses   cnUpload
-	 * @param array  $file Reference to a single element of $_FILES.
-	 * @param array  $atts An associative array containing the upload params.
 	 *
-	 * @return mixed array | object On success an associative array of the uploadewd file details. On failure, an instance of WP_Error.
+	 * @param array  $file         Reference to a single element of $_FILES.
+	 * @param string $subDirectory An associative array containing the upload params.
+	 *
+	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
 	public static function upload( $file, $subDirectory = '' ) {
 
@@ -1523,14 +1557,33 @@ class cnImage {
 		add_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
 
 		$atts = array(
-			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory ,
+			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory,
 			'mimes'   => array(
 				'jpeg' => 'image/jpeg',
 				'jpg'  => 'image/jpeg',
 				'gif'  => 'image/gif',
 				'png'  => 'image/png',
-				 ),
-			);
+			),
+		);
+
+		/**
+		 * Filter the arguments used when processing an image upload.
+		 *
+		 * @since 8.1.6
+		 *
+		 * @param array $atts An associative array of the arguments used when processing an image upload.
+		 */
+		$atts = apply_filters( 'cn_image_upload_atts', $atts );
+
+		/**
+		 * Action fires before an image is uploaded.
+		 *
+		 * @since 8.1.6
+		 *
+		 * @param array  $file A reference to a single element of $_FILES.
+		 * @param string $atts['sub_dir'] The subdirectory the image is to be uploaded.
+		 */
+		do_action( 'cn_image_upload', $file, $atts['sub_dir'] );
 
 		$upload = new cnUpload( $file, $atts );
 
@@ -1553,12 +1606,28 @@ class cnImage {
 				'size'   => '',
 				'mime'   => '',
 				'type'   => ''
-				);
+			);
 
-			$result = array_merge( $order, $result );
+			/**
+			 * The uploaded image meta data.
+			 *
+			 * @since 8.1.6
+			 *
+			 * @param array $result An associative array of the uploaded image metadata.
+			 */
+			$result = apply_filters( 'cn_image_uploaded_meta', array_merge( $order, $result ) );
 		}
 
-		// Remove the filter which lowercases the image filename extension.
+		/**
+		 * Fires after an image has been uploaded.
+		 *
+		 * @since 8.1.6
+		 *
+		 * @param mixed $result An associative array of the uploaded image metadata on success or an instance of WP_Error on error.
+		 */
+		do_action( 'cn_image_uploaded', $result );
+
+		// Remove the filter which makes the image filename extension lowercase.
 		remove_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
 
 		return $result;
@@ -1582,6 +1651,109 @@ class cnImage {
 		$name = basename( $filename, $ext );
 
 		return $name . strtolower( $ext );
+	}
+
+	/**
+	 * This is a filter callback that ensures a max image size when an image is uploaded.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @uses   wp_get_image_editor()
+	 * @uses   is_wp_error()
+	 * @uses   WP_Image_Editor::set_quality()
+	 * @uses   WP_Image_Editor::rotate()
+	 * @uses   WP_Image_Editor::resize()
+	 * @uses   WP_Image_Editor::save()
+	 * @uses   wp_constrain_dimensions()
+	 *
+	 * @param  array $image {
+	 *     An associative array of image meta data.
+	 *
+	 *     @type string  $name   The file name.
+	 *     @type string  $path   The absolute file path.
+	 *     @type string  $url    The url.
+	 *     @type int     $width  Image width.
+	 *     @type int     $height Image height.
+	 *     @type string  $size   Image height and in width="{width}" height="{height}" format.
+	 *     @type string  $mime   The mime type.
+	 *     @type int     $type   One of the IMAGETYPE_XXX constants indicating the type of the image.
+	 * }
+	 *
+	 * @return array|WP_Error
+	 */
+	public static function maxSize( $image ) {
+
+		$maxWidth  = defined( 'CN_IMAGE_MAX_WIDTH' ) ? CN_IMAGE_MAX_WIDTH : 1920;
+		$maxHeight = defined( 'CN_IMAGE_MAX_HEIGHT' ) ? CN_IMAGE_MAX_HEIGHT : 1080;
+		$quality   = defined( 'CN_IMAGE_QUALITY' ) ? CN_IMAGE_QUALITY : 90;
+
+		if ( ( $image['width'] > $maxWidth && $maxWidth > 0 ) || ( $image['height'] > $maxHeight && $maxHeight > 0 ) ) {
+
+			$editor = wp_get_image_editor( $image['path'] );
+
+			if ( is_wp_error( $editor ) ) {
+
+				return $editor;
+			}
+
+			$editor->set_quality( $quality );
+
+			$type = pathinfo( $image['path'], PATHINFO_EXTENSION );
+
+			// Attempt to correct for auto-rotation if the meta data is available.
+			if ( function_exists( 'exif_read_data' ) && ( $type == 'jpg' || $type == 'jpeg' ) ) {
+
+				$exif        = @exif_read_data( $image['path'] );
+				$orientation = is_array( $exif ) && array_key_exists( 'Orientation', $exif ) ? $exif['Orientation'] : 0;
+
+				switch ( $orientation ) {
+
+					case 3:
+						$editor->rotate( 180 );
+						break;
+
+					case 6:
+						$editor->rotate( -90 );
+						break;
+
+					case 8:
+						$editor->rotate( 90 );
+						break;
+				}
+
+			}
+
+			list( $newWidth, $newHeight ) = wp_constrain_dimensions( $image['width'], $image['height'], $maxWidth, $maxHeight );
+
+			$result = $editor->resize( $newWidth, $newHeight, FALSE );
+
+			if ( is_wp_error( $result ) ) {
+
+				return $result;
+			}
+
+			// NOTE: This will overwrite the originally uploaded image.
+			$saved = $editor->save( $image['path'] );
+
+			if ( is_wp_error( $saved ) ) {
+
+				return $saved;
+			}
+
+			//$image['name'] = ''; Does not change because it is being overwritten.
+			$image['path'] = $saved['path'];
+			//$image['url'] = ''; @todo This may need updated if the file name has changed.
+			$image['width']  = $saved['width'];
+			$image['height'] = $saved['height'];
+			$image['size']   = "width=\"{$saved['width']}\" height=\"{$saved['height']}\"";
+			$image['mime']   = $saved['mime-type'];
+			//$image['type'] = 0; @todo This might need to be updated if the image type has changed.
+
+		}
+
+		return $image;
 	}
 
 }

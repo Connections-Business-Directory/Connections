@@ -70,9 +70,11 @@ class cnAdminActions {
 	 * Register admin actions.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses add_action()
-	 * @return (void)
+	 * @since  0.7.5
+	 *
+	 * @uses   add_action()
+	 *
+	 * @return void
 	 */
 	private static function register() {
 
@@ -115,9 +117,11 @@ class cnAdminActions {
 	 * Run admin actions.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses do_action()
-	 * @return (void)
+	 * @since  0.7.5
+	 *
+	 * @uses   do_action()
+	 *
+	 * @return void
 	 */
 	private static function doActions() {
 
@@ -136,11 +140,13 @@ class cnAdminActions {
 	 * Process controller for action taken by the user.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @uses   wp_redirect()
+	 * @uses   get_admin_url()
+	 * @uses   get_current_blog_id()
+	 *
+	 * @return void
 	 */
 	public static function entryManagement() {
 
@@ -230,18 +236,16 @@ class cnAdminActions {
 	 * Add / Edit / Update / Copy an entry.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param  (array)  $data [optional]
-	 * @param  (string) $action [optional]
+	 * @since  0.7.8
+	 *
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void)
+	 *
+	 * @return void
 	 */
 	public static function processEntry() {
-		global $wpdb;
 
-		$entry = new cnEntry();
 		$form  = new cnFormObjects();
 
 		$action = isset( $_GET['cn-action'] ) ? $_GET['cn-action'] : $_POST['cn-action'];
@@ -260,7 +264,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-					$id = cnEntry_Action::add( $_POST );
+					cnEntry_Action::add( $_POST );
 
 				} else {
 
@@ -278,7 +282,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'add_entry' ), '_cn_wpnonce' );
 
-					$id = cnEntry_Action::copy( $_GET['id'], $_POST );
+					cnEntry_Action::copy( $_GET['id'], $_POST );
 
 				} else {
 
@@ -299,7 +303,7 @@ class cnAdminActions {
 
 					check_admin_referer( $form->getNonce( 'update_entry' ), '_cn_wpnonce' );
 
-					$id = cnEntry_Action::update( $_GET['id'], $_POST );
+					cnEntry_Action::update( $_GET['id'], $_POST );
 
 				} else {
 
@@ -336,13 +340,21 @@ class cnAdminActions {
 		 * Save the entry category(ies). If none were checked, send an empty array
 		 * which will add the entry to the default category.
 		 */
-		if ( isset( $_POST['entry_category'] ) ) {
+		if ( isset( $_POST['entry_category'] ) && ! empty( $_POST['entry_category'] ) ) {
 
 			$instance->term->setTermRelationships( $id, $_POST['entry_category'], 'category' );
 
 		} else {
 
-			$instance->term->setTermRelationships( $id, array(), 'category' );
+			// @todo Add option for user to set the default category, which should not be able to be deleted.
+			//$defaults['default'] = get_option( 'cn_default_category' );
+
+			// Temporarily hard code the default category to the Uncategorized category
+			// and ensure it can not be deleted. This should be removed when the default
+			// category can be set by the user.
+			$default_category = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
+
+			$instance->term->setTermRelationships( $id,  $default_category->term_id, 'category' );
 		}
 
 	}
@@ -400,8 +412,8 @@ class cnAdminActions {
 						// If the key begins with an underscore, remove it because those are private.
 						if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
-						// Add the meta except for thos that the user delted for this entry.
-						if ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) $meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
+						// Add the meta except for those that the user deleted for this entry.
+						if ( $row['value'] !== '::DELETED::' ) $meta[] = cnMeta::add( 'entry', $id, $row['key'], $row['value'] );
 					}
 				}
 
@@ -500,14 +512,17 @@ class cnAdminActions {
 	 * Set the entry status to pending or approved.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (int) $id [optional] Entry ID.
-	 * @param (string) $status [optional] The entry status to be assigned.
+	 * @since  0.7.8
+	 *
 	 * @uses absint()
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void)
+	 *
+	 * @param int $id [optional] Entry ID.
+	 * @param string $status [optional] The entry status to be assigned.
+	 *
+	 * @return void
 	 */
 	public static function setEntryStatus( $id = '', $status = '' ) {
 
@@ -565,9 +580,11 @@ class cnAdminActions {
 	 * Set the approval status of entries in bulk.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (string) $status The entry status that should be set.
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @param  string $status The entry status that should be set.
+	 *
+	 * @return void
 	 */
 	public static function setEntryStatusBulk( $status ) {
 
@@ -605,9 +622,11 @@ class cnAdminActions {
 	 * Set the visibility status of entries in bulk.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (string) $status The entry visibility that should be set.
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @param  string $visibility The entry visibility that should be set.
+	 *
+	 * @return void
 	 */
 	static public function setEntryVisibilityBulk( $visibility ) {
 
@@ -634,16 +653,18 @@ class cnAdminActions {
 	 * Delete an entry.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param (int) $id [optional] Entry ID.
+	 * @since  0.7.8
+	 *
 	 * @uses absint()
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void)
+	 *
+	 * @param (int) $id [optional] Entry ID.
+	 *
+	 * @return void
 	 */
 	public static function deleteEntry( $id = '' ) {
-		global $connections;
 
 		// If no entry ID was supplied, check $_GET.
 		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? $_GET['id'] : $id;
@@ -673,11 +694,11 @@ class cnAdminActions {
 	 * Delete entries in bulk.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @return void
 	 */
 	public static function deleteEntryBulk() {
-		global $connections;
 
 		/*
 		 * Check whether the current user delete an entry.
@@ -703,11 +724,13 @@ class cnAdminActions {
 	 *
 	 * @access public
 	 * @since 0.7.8
+	 *
 	 * @uses check_admin_referer()
 	 * @uses wp_redirect()
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
-	 * @return (void)
+	 *
+	 * @return void
 	 */
 	public static function userFilter() {
 
@@ -743,8 +766,9 @@ class cnAdminActions {
 	 * Save user filteres.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @return (void)
+	 * @since  0.7.8
+	 *
+	 * @return void
 	 */
 	public static function saveUserFilters() {
 		global $connections;
@@ -810,7 +834,7 @@ class cnAdminActions {
 			check_admin_referer( $form->getNonce( 'add_category' ), '_cn_wpnonce' );
 
 			$category = new cnCategory();
-			$format = new cnFormatting();
+			$format   = new cnFormatting();
 
 			$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
 			$category->setSlug( $format->sanitizeString( $_POST['category_slug'] ) );
@@ -853,7 +877,7 @@ class cnAdminActions {
 			check_admin_referer( $form->getNonce( 'update_category' ), '_cn_wpnonce' );
 
 			$category = new cnCategory();
-			$format = new cnFormatting();
+			$format   = new cnFormatting();
 
 			$category->setID( $format->sanitizeString( $_POST['category_id'] ) );
 			$category->setName( $format->sanitizeString( $_POST['category_name'] ) );
@@ -1027,6 +1051,8 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function activateTemplate() {
+
+		/** @var $connections connectionsLoad */
 		global $connections;
 
 		/*
@@ -1151,6 +1177,8 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function updateRoleCapabilities() {
+
+		/** @var $wp_roles WP_Roles */
 		global $wp_roles;
 
 		$form = new cnFormObjects();

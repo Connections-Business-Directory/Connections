@@ -39,7 +39,7 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access private
 	 * @since 0.7.5
-	 * @var (int)
+	 * @var int
 	 */
 	private static $id;
 
@@ -207,7 +207,7 @@ class cnMessage extends WP_Error {
 	 * @access private
 	 * @since 0.7.5
 	 * @uses wp_get_current_user()
-	 * @return void
+	 * @return int
 	 */
 	private static function setUserID() {
 
@@ -225,7 +225,7 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access private
 	 * @since 0.7.5
-	 * @return (string) The action/error message created to match the admin notices style.
+	 * @return string The action/error message created to match the admin notices style.
 	 */
 	private static function display() {
 
@@ -251,9 +251,9 @@ class cnMessage extends WP_Error {
 	 * @access public
 	 * @since 0.7.5
 	 * @uses add_action()
-	 * @param  (string) $type The $type must be either "error" or "success" or "notice".
-	 * @param  (string) $message The message to be displayed. || A message code registered in self::init().
-	 * @return (string) The name of the lamda function.
+	 * @param  string $type The $type must be either "error" or "success" or "notice".
+	 * @param  string $message The message to be displayed. || A message code registered in self::init().
+	 * @return string The name of the lambda function.
 	 */
 	public static function create( $type , $message ) {
 
@@ -291,7 +291,7 @@ class cnMessage extends WP_Error {
 	 *
 	 * @access public
 	 * @since 0.7.5
-	 * @return (string) The action/error message created to match the admin notices style.
+	 * @return string The action/error message created to match the admin notices style.
 	 */
 	public static function render( $type, $message ) {
 
@@ -355,12 +355,12 @@ class cnMessage extends WP_Error {
 				break;
 
 			case 'success':
-				// If the success message is slready stored, no need to store it twice.
+				// If the success message is already stored, no need to store it twice.
 				if ( ! in_array( array( 'success' => $code ) , $messages ) ) self::store( array( 'success' => $code ) );
 				break;
 
 			case 'notice':
-				// If the notice message is slready stored, no need to store it twice.
+				// If the notice message is already stored, no need to store it twice.
 				if ( ! in_array( array( 'notice' => $code ) , $messages ) ) self::store( array( 'notice' => $code ) );
 				break;
 		}
@@ -392,9 +392,9 @@ class cnMessage extends WP_Error {
 	 * @access private
 	 * @since 0.7.5
 	 * @uses get_user_meta()
-	 * @return (array)
+	 * @return array
 	 */
-	private static function get() {
+	public static function get() {
 
 		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
 

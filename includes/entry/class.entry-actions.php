@@ -460,16 +460,19 @@ class cnEntry_Action {
 	 *
 	 * @access private
 	 * @since  0.7.8
-	 * @param  (string) $action Valid options are: add | update
-	 * @param  (array)  $data [optional] The data to be used when adding / editing / duplicating an entry.
-	 * @param  (int) $action [optional] If editing/duplicating an entry, the entry ID.
+	 *
 	 * @uses   absint()
 	 *
-	 * @return (bool)
+	 * @param  string $action Valid options are: add | update
+	 * @param  array  $data [optional] The data to be used when adding / editing / duplicating an entry.
+	 * @param  int    $id [optional] If editing/duplicating an entry, the entry ID.
+	 *
+	 * @return bool
 	 */
 	private static function process( $action, $data = array(), $id = 0 ) {
 		global $connections;
 
+		/** @var cnEntry $entry */
 		$entry = new cnEntry();
 
 		// If copying/editing an entry, the entry data is loaded into the class
@@ -577,11 +580,9 @@ class cnEntry_Action {
 
 			// If an entry is being copied and there is a logo, the logo will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific logo will be deleted.
-			if ( $entry->getLogoName() != NULL ) {
+			if ( $entry->getLogoName() != NULL && ( isset( $sourceEntrySlug ) && ! empty( $sourceEntrySlug ) ) ) {
 
-				$originalLogoName = self::copyImages( $entry->getLogoName(), $sourceEntrySlug, $slug );
-
-				// $entry->setLogoName( self::copyImage( $originalLogoName ) );
+				self::copyImages( $entry->getLogoName(), $sourceEntrySlug, $slug );
 			}
 		}
 
@@ -642,9 +643,6 @@ class cnEntry_Action {
 
 				$entry->setImageLinked( TRUE );
 				$entry->setImageDisplay( TRUE );
-				// $entry->setImageNameThumbnail( $result['image_names']['thumbnail'] );
-				// $entry->setImageNameCard( $result['image_names']['entry'] );
-				// $entry->setImageNameProfile( $result['image_names']['profile'] );
 				$entry->setImageNameOriginal( $result['image_names']['original'] );
 				$entry->setOriginalImageMeta( $result['image']['original']['meta'] );
 
@@ -661,11 +659,9 @@ class cnEntry_Action {
 
 			// If an entry is being copied and there is an image, the image will be duplicated for the new entry.
 			// That way if an entry is deleted, only the entry specific images will be deleted.
-			if ( $entry->getImageNameOriginal() != NULL ) {
+			if ( $entry->getImageNameOriginal() != NULL && ( isset( $sourceEntrySlug ) && ! empty( $sourceEntrySlug ) ) ) {
 
-				$originalImageName = self::copyImages( $entry->getImageNameOriginal(), $sourceEntrySlug, $slug );
-
-				// $entry->setImageNameOriginal( $originalImageName );
+				self::copyImages( $entry->getImageNameOriginal(), $sourceEntrySlug, $slug );
 			}
 		}
 
@@ -686,9 +682,6 @@ class cnEntry_Action {
 					self::deleteLegacyImages( $entry );
 
 					$entry->setImageNameOriginal( NULL );
-					$entry->setImageNameThumbnail( NULL );
-					$entry->setImageNameCard( NULL );
-					$entry->setImageNameProfile( NULL );
 
 					break;
 
@@ -1062,12 +1055,12 @@ class cnEntry_Action {
 
 			// Grab an instance of the Connections object.
 			$instance   = Connections_Directory();
-			$entry      = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			$entry      = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ), 'status' => 'approved,pending' ) );
 
 			// preg_match( '/href="(.*?)"/', cnURL::permalink( array( 'slug' => $entry->slug, 'return' => TRUE ) ), $matches );
 			// $permalink = $matches[1];
 
-			if ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) ) {
+			if ( ( current_user_can( 'connections_manage' ) && current_user_can( 'connections_view_menu' ) ) && ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) ) ) {
 
 				$admin_bar->add_node(
 					array(

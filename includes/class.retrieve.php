@@ -382,7 +382,7 @@ class cnRetrieve {
 			if ( ! empty( $atts['category_in'] ) ) {
 
 				// Exclude any category IDs that may have been set.
-				$atts['category_in'] = array_diff( $atts['category_in'], $atts['exclude_category'] );
+				$atts['category_in'] = array_diff( $atts['category_in'], (array) $atts['exclude_category'] );
 
 				// Build the query to retrieve entry IDs that are assigned to all the supplied category IDs; operational AND.
 				$sql = 'SELECT DISTINCT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr

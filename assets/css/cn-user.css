@@ -64,6 +64,21 @@ img.cn-image {
 #cn-list span.contact-label { font-weight: bold; }
 
 /*
+ * Family styles.
+ */
+#cn-list ul.cn-relations {
+	line-height: normal;
+	list-style: none;
+	margin: 0 0 10px;
+}
+#cn-list ul.cn-relations li {
+	margin: 0;
+}
+#cn-list span.cn-relation-label {
+	font-weight: bold;
+}
+
+/*
  * Address Styles
  */
 #cn-list span.adr { display: block; margin-bottom: 10px; }
@@ -131,7 +146,7 @@ span.date-name { font-weight: bold; }
 
 /*
  * Why o` why do theme's insist on floating and setting form widths globally???
- * Apearently they also love setting inputs to blocks rather than the default inline!
+ * Apparently they also love setting inputs to blocks rather than the default inline!
  */
 #cn-list span input, #cn-list span input[type="text"] {
 	display: inline;
@@ -141,7 +156,7 @@ span.date-name { font-weight: bold; }
 
 /*
  * A few style style from Chosen with the selectors more specific so the theme's don't
- * easily override them. I'm sure I'll have to add to this list as I run accross theme conflicts.
+ * easily override them. I'm sure I'll have to add to this list as I run across theme conflicts.
  */
 #cn-list .chosen-container .chosen-search input { width: 100%; }
 #cn-list .chosen-container-multi .chosen-choices .search input { line-height: normal; }

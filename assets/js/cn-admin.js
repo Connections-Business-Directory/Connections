@@ -99,6 +99,41 @@ jQuery(document).ready( function($) {
 				e.preventDefault();
 			});
 
+			// Check full File API support.
+			if (window.FileReader && window.File && window.FileList && window.Blob) {
+
+				$('input[name="original_image"], input[name="original_logo"]').bind('change', function () {
+
+					//this.files[0].size gets the size of your file.
+					var imageField = $('input[name="original_image"]');
+					var logoField = $('input[name="original_logo"]');
+
+					if ( cn_string.imageMaxFileSize < this.files[0].size ) {
+
+						//var fileSize = cnFormatBytesTo( this.files[0].size, 'si' );
+						var name  = $(this).attr('name');
+						var clone = $(this).attr('name') == 'original_image' ? imageField.clone(true) : logoField.clone(true);
+
+						alert( cn_string.imageMaxFileSizeExceeded );
+
+						if (name == 'original_image') {
+
+							imageField.replaceWith(clone);
+
+						} else {
+
+							logoField.replaceWith(clone);
+						}
+
+					}
+
+				});
+
+			} else {
+
+				//alert( "Not supported" );
+			}
+
 			// Add a new meta row.
 			$( '#metabox-meta' ).on( 'click', '#newmeta-submit', function(e) {
 
@@ -428,5 +463,46 @@ jQuery(document).ready( function($) {
 			$(elem).toggle();
 		});
 	});
+
+	/**
+	 * @link http://stackoverflow.com/a/25651291
+	 * @param pBytes the size in bytes to be converted.
+	 * @param pUnits 'si'|'iec' si units means the order of magnitude is 10^3, iec uses 2^10
+	 *
+	 * @returns {string}
+	 */
+	function cnFormatBytesTo(pBytes, pUnits) {
+		// Handle some special cases
+		if (pBytes == 0) return '0 Bytes';
+		if (pBytes == 1) return '1 Byte';
+		if (pBytes == -1) return '-1 Byte';
+
+		var bytes = Math.abs(pBytes)
+		if (pUnits && pUnits.toLowerCase() && pUnits.toLowerCase() == 'si') {
+			// SI units use the Metric representation based on 10^3 as a order of magnitude
+			var orderOfMagnitude = Math.pow(10, 3);
+			var abbreviations = ['Bytes', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+		} else {
+			// IEC units use 2^10 as an order of magnitude
+			var orderOfMagnitude = Math.pow(2, 10);
+			var abbreviations = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+		}
+		var i = Math.floor(Math.log(bytes) / Math.log(orderOfMagnitude));
+		var result = (bytes / Math.pow(orderOfMagnitude, i));
+
+		// This will get the sign right
+		if (pBytes < 0) {
+			result *= -1;
+		}
+
+		// This bit here is purely for show. it drops the precision on numbers greater than 100 before the units.
+		// it also always shows the full number of bytes if bytes is the unit.
+		if (result >= 99.995 || i == 0) {
+			return result.toFixed(0) + ' ' + abbreviations[i];
+		} else {
+			return result.toFixed(2) + ' ' + abbreviations[i];
+		}
+	}
+
 
 });

@@ -510,22 +510,24 @@ class cnFragment {
 
 	const PREFIX = 'cn';
 	protected $key;
-	protected $ttl;
+	protected $group;
+	protected $ttl = WEEK_IN_SECONDS;
 
 	/**
 	 * Setup the fragment cache values.
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @param  string $key     The cache key.
-	 * @param  int    $ttl     (optional) Time in seconds for the cache to expire, if 0 no expiration.
 	 *
-	 * @return void
+	 * @param  string $key   The cache key.
+	 * @param  string $group (optional) The fragment cache group that the fragment belongs to.
+	 *
+	 * @return \cnFragment
 	 */
-	public function __construct( $key, $ttl = WEEK_IN_SECONDS ) {
+	public function __construct( $key, $group = '' ) {
 
-		$this->key = $key;
-		$this->ttl = $ttl;
+		$this->key   = $key;
+		$this->group = $group;
 	}
 
 	/**
@@ -539,7 +541,7 @@ class cnFragment {
 	 */
 	public function get() {
 
-		$fragment = cnCache::get( $this->key, 'transient', self::PREFIX );
+		$fragment = cnCache::get( $this->key, 'transient', $this->group );
 
 		if ( $fragment !== FALSE ) {
 
@@ -560,10 +562,39 @@ class cnFragment {
 	 * @since  8.1
 	 * @uses   cnCache::set()
 	 *
+	 * @param  null $ttl The number of seconds the fragment should live. Defaults to WEEK_IN_SECONDS.
+	 *
 	 * @return void
 	 */
-	public function save() {
+	public function save( $ttl = NULL ) {
 
-		cnCache::set( $this->key, ob_get_flush(), $this->ttl, 'transient', self::PREFIX );
+		$ttl = is_null( $ttl ) ? $this->ttl : $ttl;
+
+		cnCache::set( $this->key, ob_get_flush(), $ttl, 'transient', $this->group );
+	}
+
+	/**
+	 * Clear a fragment cache object or object group.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 * @param  mixed  $key   bool | string The cache key to clear. When set to TRUE, clear a fragment cache group.
+	 * @param  string $group The cache group to clear
+	 * @return void
+	 */
+	public static function clear( $key, $group = '' ) {
+
+		if ( TRUE !== $key ) {
+
+			cnCache::clear( $key, 'transient', self::PREFIX );
+
+		} else {
+
+			$group_key = empty( $group ) ? self::PREFIX : $group;
+
+			cnCache::clear( TRUE, 'transient', $group_key );
+		}
+
 	}
 }

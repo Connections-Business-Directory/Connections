@@ -217,7 +217,7 @@ class CN_Image_Editor_GD extends WP_Image_Editor_GD {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @param string hex color e.g. #ff00ff
+	 * @param string $hexColor color e.g. #ff00ff
 	 * @return boolean|WP_Error
 	 */
 	public function colorize( $hexColor ) {

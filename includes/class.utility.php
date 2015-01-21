@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnFormatting {
 	/**
 	 * Sanitize the input string. HTML tags can be permitted.
-	 * The permitted tags can be suppled in an array.
+	 * The permitted tags can be supplied in an array.
 	 *
 	 * @TODO: Finish the code needed to support the $permittedTags array.
 	 *
@@ -86,6 +86,65 @@ class cnFormatting {
 	}
 
 	/**
+	 * General purpose function to do a little more than just white-space trimming and cleaning, it can do
+	 * characters-to-replace and characters-to-replace-with. You can do the following:
+	 *
+	 * 1. Normalize white-spaces, so that all multiple \r, \n, \t, \r\n, \0, 0x0b, 0x20 and all control characters
+	 *    can be replaced with a single space, and also trim from both ends of the string.
+	 * 2. Remove all undesired characters.
+	 * 3. Remove duplicates.
+	 * 4. Replace multiple occurrences of characters with a character or string.
+	 *
+	 * @link http://pageconfig.com/post/remove-undesired-characters-with-trim_all-php
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @param string $string
+	 * @param null   $what
+	 * @param string $with
+	 *
+	 * @return string
+	 */
+	public static function replaceWhatWith( $string, $what = NULL, $with = ' ' ) {
+
+		if ( ! is_string( $string ) ) {
+			return '';
+		}
+
+		if ( is_null( $what ) ) {
+
+			//	Character      Decimal      Use
+			//	"\0"            0           Null Character
+			//	"\t"            9           Tab
+			//	"\n"           10           New line
+			//	"\x0B"         11           Vertical Tab
+			//	"\r"           13           New Line in Mac
+			//	" "            32           Space
+
+			$what = "\\x00-\\x20";    //all white-spaces and control chars
+		}
+
+		return trim( preg_replace( "/[" . $what . "]+/u", $with, $string ), $what );
+	}
+
+	/**
+	 * Normalize a string. Replace all occurrence of one or more spaces with a single space, remove control characters
+	 * and trim whitespace from both ends.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @param string $string The string to normalize.
+	 *
+	 * @return string
+	 */
+	public static function normalizeString( $string ) {
+
+		return self::replaceWhatWith( $string );
+	}
+
+	/**
 	 * Converts the following strings: yes/no; true/false and 0/1 to boolean values.
 	 * If the supplied string does not match one of those values the method will return NULL.
 	 *
@@ -135,7 +194,7 @@ class cnFormatting {
 	 * @since 0.7.1.6
 	 *
 	 * @param bool $bool
-	 * @return return 'Yes' | 'No'
+	 * @return string Returns 'Yes' | 'No'
 	 */
 	public function toYesNo( $bool ) {
 		if( $bool ) {
@@ -325,18 +384,67 @@ class cnFormatting {
 		return apply_filters( 'cn_entry_excerpt', $excerpt, $raw, $atts );
 	}
 
+	/**
+	 * Prepends a forward slash to a string.
+	 *
+	 * @access public
+	 * @since 8.1.6
+	 * @static
+	 *
+	 * @param string $string String to  prepend the forward slash.
+	 *
+     * @return string String with forward slash prepended.
+	 */
+	public static function preslashit( $string ) {
+
+		if ( is_string( $string ) && 0 < strlen( $string ) ) {
+
+			$string = '/' . self::unpreslashit( $string );
+		}
+
+		return $string;
+	}
+
+	/**
+	 * Removes a forward slash from the beginning of he string if it exists.
+	 *
+	 * @access public
+	 * @since 8.1.6
+	 * @static
+	 *
+	 * @param string $string String to remove the  slashes from.
+	 * @return string String without the forward slashes.
+	 */
+	public static function unpreslashit( $string ) {
+
+		if ( is_string( $string ) && 0 < strlen( $string ) ) {
+
+			$string = ltrim( $string, '/\\' );
+		}
+
+		return $string;
+	}
+
 }
 
 class cnValidate {
 
+	/**
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @deprecated 8.1.6 Use {@see cnSanitize::args()} instead.
+	 * @see cnSanitize::args()
+	 *
+	 * @param array $defaults
+	 * @param array $untrusted
+	 *
+	 * @return array
+	 */
 	public function attributesArray( $defaults, $untrusted ) {
 
-		if ( ! is_array( $defaults ) || ! is_array( $untrusted ) ) return $defaults;
-
-		$intersect  = array_intersect_key( $untrusted, $defaults ); // Get data for which is in the valid fields.
-		$difference = array_diff_key( $defaults, $untrusted ); // Get default data which is not supplied.
-
-		return array_merge( $intersect, $difference ); // Merge the results. Contains only valid fields of all defaults.
+		return cnSanitize::args( $untrusted, $defaults );
 	}
 
 	/**
@@ -709,6 +817,8 @@ class cnURL {
 	 * @return string
 	 */
 	public static function permalink( $atts ) {
+
+		/** @var $wp_rewrite WP_Rewrite */
 		global $wp_rewrite, $post;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
@@ -729,6 +839,7 @@ class cnURL {
 			'type'       => 'name',
 			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 			'force_home' => FALSE,
+			'data'       => 'tag', // Valid: 'tag' | 'url'
 			'return'     => FALSE,
 		);
 
@@ -772,6 +883,9 @@ class cnURL {
 		if ( ! empty( $atts['on_click'] ) ) $piece['on_click'] = 'onClick="' . $atts['on_click'] .'"';
 
 		switch ( $atts['type'] ) {
+
+			case 'home':
+				break;
 
 			case 'all':
 
@@ -907,9 +1021,17 @@ class cnURL {
 				break;
 		}
 
-		$piece['href'] = 'href="' . esc_url( $permalink ) . '"';
+		if ( $atts['data'] == 'url' ) {
 
-		$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
+			$out =  esc_url( $permalink );
+
+		} else {
+
+			$piece['href'] = 'href="' . esc_url( $permalink ) . '"';
+
+			$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
+
+		}
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to add the filter
 		// otherwise it'll cause an error.

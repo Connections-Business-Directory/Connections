@@ -390,7 +390,7 @@ class cnEntryMetabox {
 		$id   = $entry->getId();
 		$ckey = $entry->getId() ? 'category_checklist_entry_' . $entry->getId() : 'category_checklist';
 
-		$fragment = new cnFragment( $ckey );
+		$fragment = new cnFragment( $ckey, 'cn' );
 
 		if ( ! $fragment->get() ) {
 
@@ -718,11 +718,11 @@ class cnEntryMetabox {
 
 		$html = '';
 		$id   = $entry->getId();
-		$ckey = $entry->getId() ? 'relative_select_entry_' . $entry->getId() : 'relative_select_user_' . $instance->currentUser->getID();
+		$ckey = $entry->getId() ? 'relative_select_entry_' . $id : 'relative_select_user_' . $instance->currentUser->getID();
 
-		if ( FALSE !== ( $html = cnCache::get( $ckey, 'transient' ) ) ) {
+		if ( FALSE !== ( $cache = cnCache::get( $ckey, 'transient' ) ) ) {
 
-			echo $html;
+			echo $cache;
 			return;
 		}
 
@@ -746,7 +746,7 @@ class cnEntryMetabox {
 						array(
 							'class'    => 'family-member-name',
 							'id'       => 'family_member[::FIELD::][entry_id]',
-							'default'  => array( '' => __( 'Select Entry', 'connections' ) ),
+							'default'  => __( 'Select Entry', 'connections' ),
 							'options'  => $individuals,
 							'enhanced' => TRUE,
 							'return'   => TRUE,
@@ -757,7 +757,7 @@ class cnEntryMetabox {
 						array(
 							'class'    => 'family-member-relation',
 							'id'       => 'family_member[::FIELD::][relation]',
-							'default'  => array( '' => __( 'Select Relation', 'connections' ) ),
+							'default'  => __( 'Select Relation', 'connections' ),
 							'options'  => $relations,
 							'enhanced' => TRUE,
 							'return'   => TRUE,
@@ -781,7 +781,7 @@ class cnEntryMetabox {
 								array(
 									'class'    => 'family-member-name',
 									'id'       => 'family_member[' . $token . '][entry_id]',
-									'default'  => array( '' => __( 'Select Entry', 'connections' ) ),
+									'default'  => __( 'Select Entry', 'connections' ),
 									'options'  => $individuals,
 									'enhanced' => TRUE,
 									'return'   => TRUE,
@@ -793,7 +793,7 @@ class cnEntryMetabox {
 								array(
 									'class'   => 'family-member-relation',
 									'id'      => 'family_member[' . $token . '][relation]',
-									'default'  => array( '' => __( 'Select Relation', 'connections' ) ),
+									'default'  => __( 'Select Relation', 'connections' ),
 									'options' => $relations,
 									'enhanced' => TRUE,
 									'return'   => TRUE,
@@ -881,7 +881,11 @@ class cnEntryMetabox {
 		}
 
 		echo '<label for="original_image">' , __( 'Select Image', 'connections' ) , ':';
-		echo '<input type="file" value="" name="original_image" size="25" /></label>';
+		echo '<input type="file" accept="image/*" value="" name="original_image" size="25" /></label>';
+
+		echo '<p class="suggested-dimensions">';
+			printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( wp_max_upload_size() ) ) );
+		echo '</p>';
 	}
 
 	/**
@@ -943,7 +947,11 @@ class cnEntryMetabox {
 		}
 
 		echo '<label for="original_logo">' , __( 'Select Logo', 'connections' ) , ':';
-		echo '<input type="file" value="" name="original_logo" size="25" /></label>';
+		echo '<input type="file" accept="image/*" value="" name="original_logo" size="25" /></label>';
+
+		echo '<p class="suggested-dimensions">';
+			printf( __( 'Maximum upload file size: %s.' ), esc_html( size_format( wp_max_upload_size() ) ) );
+		echo '</p>';
 	}
 
 	/**

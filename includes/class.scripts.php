@@ -122,11 +122,15 @@ class cnScript {
 			wp_register_script( 'cn-widget', CN_URL . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 
 			$strings = array(
-				'showDetails'      => __( 'Show Details', 'connections' ),
-				'hideDetails'      => __( 'Hide Details', 'connections' ),
-				'showDetailsTitle' => __( 'Click to show details.', 'connections' ),
-				'hideDetailsTitle' => __( 'Click to hide details.', 'connections' ),
-				);
+				'showDetails'              => __( 'Show Details', 'connections' ),
+				'hideDetails'              => __( 'Hide Details', 'connections' ),
+				'showDetailsTitle'         => __( 'Click to show details.', 'connections' ),
+				'hideDetailsTitle'         => __( 'Click to hide details.', 'connections' ),
+				'imageMaxFileSize'         => wp_max_upload_size(),
+				'imageMaxFileSizeExceeded' => __( sprintf( 'Selected image exceeds maximum upload file size of %s. Please choose a different image.',
+				                                           esc_html( size_format( wp_max_upload_size() ) ) ),
+				                                  'connections ' ),
+			);
 
 			wp_localize_script( 'cn-ui-admin', 'cn_string', $strings );
 

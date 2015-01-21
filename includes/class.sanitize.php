@@ -18,6 +18,49 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnSanitize {
 
 	/**
+	 * Merge user defined arguments into defaults array.
+	 *
+	 * This is the Connections equivalent to @see wp_parse_args().
+	 * The difference is that is will discard any key/value pairs in $untrusted where the $key does not exist in $defaults.
+	 *
+	 * @link http://www.peterrknight.com/fear-and-surprise-improving-a-widespread-wordpress-pattern/
+	 *
+	 * @todo Add a third array param. This will define the sanitation to be used on each value in the untrusted array.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @param array|object|string $untrusted
+	 * @param $defaults
+	 *
+	 * @return array
+	 */
+	public static function args( $untrusted, $defaults ) {
+
+		if ( ! is_array( $defaults ) ) return $defaults;
+
+		if ( is_object( $untrusted ) ) {
+
+			$args = get_object_vars( $untrusted );
+
+		} elseif ( is_array( $untrusted ) ) {
+
+			$args =& $untrusted;
+
+		} elseif ( is_string( $untrusted ) ) {
+
+			wp_parse_str( $untrusted, $args );
+		}
+
+		if ( ! isset( $args ) ) return $defaults;
+
+		$intersect  = array_intersect_key( $args, $defaults ); // Get data for which is in the valid fields.
+		$difference = array_diff_key( $defaults, $args ); // Get default data which is not supplied.
+
+		return array_merge( $intersect, $difference ); // Merge the results. Contains only valid fields of all defaults.
+	}
+
+	/**
 	 * Sanitizes text inputs
 	 *
 	 * Sanitizes string based on the the string type.

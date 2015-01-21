@@ -126,7 +126,7 @@ class cnTemplateFactory {
 	 *  legacy (bool) [optional|required] Whether or not the template being registered is a legacy template. NOTE: required only when registering legacy templates.
 	 *  path (string) [required] The base path to the template's folder.
 	 *  url (string) [required] The base URL to the templates's folder.
-	 *  thumbnail (string) [optional] The template's thumnail file name.
+	 *  thumbnail (string) [optional] The template's thumbnail file name.
 	 *  functions (string) [required] The name of the templates functions file. NOTE: required only when registering legacy templates.
 	 *  parts (array) [optional] The name of the template's CSS|JS|PHP file for rendering the entry info. NOTE: required only when registering legacy templates.
 	 *  	Accepted values for parts:
@@ -138,7 +138,7 @@ class cnTemplateFactory {
 	 * @since 0.7.6
 	 * @uses sanitize_title_with_dashes()
 	 * @param  (array) $atts
-	 * @return (void)
+	 * @return void
 	 */
 	public static function register( $atts ) {
 
@@ -162,6 +162,10 @@ class cnTemplateFactory {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		/**
+		 * @var $name string
+		 * @var $type string
+		 */
 		extract( $atts );
 
 		// Since the template slug is optional, but required, we'll create the slug from the template's name.
@@ -181,9 +185,9 @@ class cnTemplateFactory {
 	 *
 	 * @access public
 	 * @since 0.7.6
-	 * @param  (string) $slug
-	 * @param  (string) [optional] $type
-	 * @return (void)
+	 * @param  string $slug
+	 * @param  string [optional] $type
+	 * @return void
 	 */
 	public static function unregister( $slug, $type = '' ) {
 
@@ -210,7 +214,7 @@ class cnTemplateFactory {
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @return (void)
+	 * @return void
 	 */
 	public static function activate() {
 
@@ -255,7 +259,7 @@ class cnTemplateFactory {
 	 * @uses get_transient()
 	 * @uses set_transient()
 	 * @since 0.7.6
-	 * @return (void)
+	 * @return void
 	 */
 	public static function registerLegacy() {
 
@@ -316,7 +320,7 @@ class cnTemplateFactory {
 	 *
 	 * @access private
 	 * @since 0.7.6
-	 * @return (void)
+	 * @return void
 	 */
 	private static function scan() {
 
@@ -385,8 +389,8 @@ class cnTemplateFactory {
 	 *
 	 * @access public
 	 * @since 0.7.6
-	 * @param (string)|(array) $type The template catalog to return by type.
-	 * @return (object)
+	 * @param string|array $types The template catalog to return by type.
+	 * @return object
 	 */
 	public static function getCatalog( $types = array() ) {
 		$templates = new stdClass();
@@ -461,11 +465,13 @@ class cnTemplateFactory {
 	 *
 	 * @access public
 	 * @since 0.7.6
-	 * @param  (string) $type The template type.
-	 * @param  (string) $slug The template slug.
-	 * @return (object)|(bool) If the template is found a cnTemplate object is returned, otherwise FALSE.
+	 * @param  string $type The template type.
+	 * @param  string $slug The template slug.
+	 * @return object|bool If the template is found a cnTemplate object is returned, otherwise FALSE.
 	 */
 	public static function getTemplate( $slug, $type = '' ) {
+
+		/** @var $template cnTemplate */
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -554,7 +560,7 @@ class cnTemplateFactory {
 
 		/*
 		 * If a list type was specified in the shortcode, load the template based on that type.
-		 * However, if a specific template was specifed, that should preempt the template to be loaded based on the list type if it was specified..
+		 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified..
 		 */
 		if ( ! empty( $atts['template'] ) ) {
 
@@ -570,7 +576,7 @@ class cnTemplateFactory {
 		}
 
 		// If the template was not located, return FALSE.
-		// This will inturn display the template not found error message
+		// This will in turn display the template not found error message
 		// later in the execution of the shortcode.
 		if ( $template == FALSE ) return FALSE;
 
@@ -584,4 +590,6 @@ class cnTemplateFactory {
 }
 
 // Init the Template Factory API
-cnTemplateFactory::init();
+// NOTE: The priority can not be > 10 otherwise it will break older templates which init'd on `plugins_loaded` at priority 11.
+// cnTemplateFactory::init();
+add_action( 'plugins_loaded', array( 'cnTemplateFactory', 'init' ) );

@@ -139,6 +139,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Anniversaries Today', 'connections' ),
 			'list_type' => 'anniversary',
 			'days'      => 0,
+			'today'     => TRUE,
 		);
 
 		self::$metaboxes[] = array(
@@ -151,6 +152,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Birthdays Today', 'connections' ),
 			'list_type' => 'birthday',
 			'days'      => 0,
+			'today'     => TRUE,
 		);
 
 		self::$metaboxes[] = array(
@@ -163,6 +165,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Upcoming Anniversaries.', 'connections' ),
 			'list_type' => 'anniversary',
 			'days'      => 30,
+			'today'     => FALSE,
 		);
 
 		self::$metaboxes[] = array(
@@ -175,6 +178,7 @@ class cnDashboardMetabox {
 			'message'   => __( 'No Upcoming Birthdays.', 'connections' ),
 			'list_type' => 'birthday',
 			'days'      => 30,
+			'today'     => FALSE,
 		);
 
 		self::$metaboxes[] = array(
@@ -186,14 +190,17 @@ class cnDashboardMetabox {
 			'callback' => array( __CLASS__, 'links' ),
 		);
 
-		self::$metaboxes[] = array(
-			'id'       => 'metabox-system',
-			'title'    => __( 'System', 'connections' ),
-			'pages'    => array( $pages ),
-			'context'  => 'right',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'system' ),
-		);
+		if ( current_user_can( 'manage_options') ) {
+
+			self::$metaboxes[] = array(
+				'id'       => 'metabox-system',
+				'title'    => __( 'System', 'connections' ),
+				'pages'    => array( $pages ),
+				'context'  => 'right',
+				'priority' => 'core',
+				'callback' => array( __CLASS__, 'system' ),
+			);
+		}
 
 	}
 
@@ -320,12 +327,13 @@ class cnDashboardMetabox {
 		$atts = array(
 			'list_type'        => $metabox['args']['list_type'],
 			'days'             => $metabox['args']['days'],
+			'include_today'    => $metabox['args']['today'],
 			'private_override' => FALSE,
 			'date_format'      => cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' ),
 			'show_lastname'    => TRUE,
 			'list_title'       => NULL,
 			'show_title'       => FALSE,
-			'template'         => 'dashboard-upcoming'
+			'template'         => 'dashboard-upcoming',
 		);
 
 		connectionsUpcomingList( $atts );

@@ -3,13 +3,14 @@
 #cn-list span.cn-image-style{-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;background-color:#fff;border:1px solid #e3e3e3;box-sizing:border-box;display:inline-block;line-height:0;margin:0 0 5px;max-width:100%;padding:5px;width:auto}
 #cn-list span.cn-image-none{color:#aaa;font-weight:700;line-height:normal;max-width:100%;text-align:center;text-shadow:1px 1px 0 #fff}img.cn-image{border:none!important;height:auto!important;left:0!important;margin:0!important;max-height:none!important;max-width:100%;padding:0!important;position:relative!important;top:0!important;width:auto}
 #cn-list span.fn{display:block}#cn-list span.org{display:block}#cn-list span.organization-name{display:block}#cn-list span.organization-unit{display:block}
-#cn-list span.title{display:block}#cn-list span.contact-name{display:block}#cn-list span.contact-label{font-weight:bold}#cn-list span.adr{display:block;margin-bottom:10px}
-#cn-list span.adr span.address-name{display:block;font-weight:bold}#cn-list span.adr span.street-address{display:block}#cn-list span.adr span.extended-address{display:block}
-#cn-list span.adr span.country-name{display:block}#cn-list span.adr span.geo,div#cn-list span.adr span.geo span.latitude,div#cn-list span.adr span.geo span.longitude{display:block}
-#cn-list span.phone-number-block{display:block;margin-bottom:10px}#cn-list span.tel{display:block;margin:0 0 5px}#cn-list span.tel span.phone-name{font-weight:bold}
-#cn-list span.email-address-block{display:block;margin-bottom:10px}#cn-list span.email{background-image:none;display:block;float:none;margin:0}#cn-list span.email span.email-name{font-weight:bold}
-#cn-list span.im-network-block{display:block;margin-bottom:10px}#cn-list span.im-network{display:block}#cn-list span.im-network span.im-name{font-weight:bold}
-#cn-list span.social-media-block{display:block;margin-bottom:10px}#cn-list span.social-media-block a{margin:0;padding:0}#cn-list span.social-media-block img{border:0;margin:0;padding:0;max-height:none;max-width:none;width:auto}
+#cn-list span.title{display:block}#cn-list span.contact-name{display:block}#cn-list span.contact-label{font-weight:bold}#cn-list ul.cn-relations{line-height:normal;list-style:none;margin:0 0 10px}
+#cn-list ul.cn-relations li{margin:0}#cn-list span.cn-relation-label{font-weight:bold}#cn-list span.adr{display:block;margin-bottom:10px}#cn-list span.adr span.address-name{display:block;font-weight:bold}
+#cn-list span.adr span.street-address{display:block}#cn-list span.adr span.extended-address{display:block}#cn-list span.adr span.country-name{display:block}
+#cn-list span.adr span.geo,div#cn-list span.adr span.geo span.latitude,div#cn-list span.adr span.geo span.longitude{display:block}#cn-list span.phone-number-block{display:block;margin-bottom:10px}
+#cn-list span.tel{display:block;margin:0 0 5px}#cn-list span.tel span.phone-name{font-weight:bold}#cn-list span.email-address-block{display:block;margin-bottom:10px}
+#cn-list span.email{background-image:none;display:block;float:none;margin:0}#cn-list span.email span.email-name{font-weight:bold}#cn-list span.im-network-block{display:block;margin-bottom:10px}
+#cn-list span.im-network{display:block}#cn-list span.im-network span.im-name{font-weight:bold}#cn-list span.social-media-block{display:block;margin-bottom:10px}
+#cn-list span.social-media-block a{margin:0;padding:0}#cn-list span.social-media-block img{border:0;margin:0;padding:0;max-height:none;max-width:none;width:auto}
 #cn-list span.social-media-network{display:inline-block;margin:0 1px}#cn-list span.link-block{display:block;margin-bottom:10px}#cn-list span.link{display:block}
 #cn-list span.link span.link-name{font-weight:bold}#cn-list span.date-block{display:block;margin-bottom:10px}#cn-list span.date{display:block}#cn-list span.date span.date-name{font-weight:bold}
 #cn-list div.vevent abbr{border:0;cursor:default;text-transform:none;letter-spacing:normal}#cn-list span.vevent{display:block}span.date-name{font-weight:bold}

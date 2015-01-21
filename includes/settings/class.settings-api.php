@@ -19,7 +19,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		/**
 	     * Singleton instance
 	     *
-	     * @var object
+	     * @var cnSettingsAPI
 	     */
 	    private static $instance;
 
@@ -66,7 +66,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 *
 		 * @author Steven A. Zahm
 		 * @since 0.7.3.0
-		 * @return void
+		 *
+		 * @return cnSettingsAPI
 		 */
 		public static function getInstance() {
 

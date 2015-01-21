@@ -73,10 +73,10 @@ class cnOptions {
 
 	/**
 	 * Sets up the plugin option properties. Requires the current WP user ID.
-	 *
-	 * @param interger $userID
 	 */
 	public function __construct() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$this->options = get_option( 'connections_options' );
@@ -133,7 +133,7 @@ class cnOptions {
 	}
 
 	/**
-	 *
+	 * @param $options
 	 *
 	 * @TODO This can likely be removed.
 	 */
@@ -210,7 +210,7 @@ class cnOptions {
 	/**
 	 * Sets $version.
 	 *
-	 * @param object  $version
+	 * @param string  $version
 	 * @see options::$version
 	 */
 	public function setVersion( $version ) {
@@ -230,7 +230,7 @@ class cnOptions {
 	/**
 	 * Sets $dbVersion.
 	 *
-	 * @param string  $dbVersion
+	 * @param string  $version
 	 * @see options::$dbVersion
 	 */
 	public function setDBVersion( $version ) {
@@ -268,7 +268,7 @@ class cnOptions {
 	/**
 	 * Returns all active templates by type.
 	 *
-	 * @return (array)
+	 * @return array
 	 */
 	public function getAllActiveTemplates( ) {
 		return $this->activeTemplates;
@@ -278,7 +278,7 @@ class cnOptions {
 	 * Returns the active templates by type.
 	 *
 	 * @param string  $type
-	 * @return (array)
+	 * @return array
 	 */
 	public function getActiveTemplate( $type ) {
 		return empty( $this->activeTemplates[ $type ]['slug'] ) ? '' : $this->activeTemplates[ $type ]['slug'];
@@ -287,8 +287,8 @@ class cnOptions {
 	/**
 	 * Sets $activeTemplate by type.
 	 *
-	 * @param string  $type
-	 * @param object  $activeTemplate
+	 * @param string $type
+	 * @param string $slug
 	 */
 	public function setActiveTemplate( $type, $slug ) {
 		$this->activeTemplates[ $type ] = array( 'slug' => $slug );
@@ -357,11 +357,11 @@ class cnOptions {
 	}
 
 	/**
-	 * Returns the fmaily relation name based on the supplied key.
+	 * Returns the family relation name based on the supplied key.
 	 *
 	 * @access private
-	 * @since unknown
-	 * @param unknown $value string
+	 * @since  unknown
+	 * @param  $value string
 	 * @return string
 	 */
 	public function getFamilyRelation( $value ) {
@@ -586,7 +586,8 @@ class cnOptions {
 	 * @access public
 	 * @since  0.8
 	 * @static
-	 * @param  string $item [optional] The content block key id to return the title.
+	 * @param $item string [optional] The content block key id to return the title.
+	 * @param $type string
 	 * @return mixed        [array | string] An associated array where the key if the content block ID and the value is the content bloack name. Or just the content block name if the id is supplied.
 	 */
 	public static function getContentBlocks( $item = NULL, $type = NULL ) {
@@ -621,7 +622,7 @@ class cnOptions {
 	 */
 	public static function getBaseCountry() {
 
-		// Have to use get_option rather than cnSettingsAPI::get() because the class is not yet intialized.
+		// Have to use get_option rather than cnSettingsAPI::get() because the class is not yet initialized.
 		$baseGEO = get_option( 'connections_geo', array( 'base_country' => 'US', 'base_region' => 'WA' ) );
 
 		return apply_filters( 'cn_base_country', $baseGEO['base_country'] );
@@ -635,7 +636,7 @@ class cnOptions {
 	 */
 	public static function getBaseRegion() {
 
-		// Have to use get_option rather than cnSettingsAPI::get() because the class is not yet intialized.
+		// Have to use get_option rather than cnSettingsAPI::get() because the class is not yet initialized.
 		$baseGEO = get_option( 'connections_geo', array( 'base_country' => 'US', 'base_region' => 'WA' ) );
 
 		return apply_filters( 'cn_base_region', $baseGEO['base_region'] );

@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class cnEntry {
 	/**
-	 * Interger: Entry ID
+	 * Integer: Entry ID
 	 *
 	 * @var integer
 	 */
@@ -232,11 +232,30 @@ class cnEntry {
 	private $status;
 
 	public $format;
+
+	/**
+	 * An instance of cnValidate.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @var cnValidate
+	 */
 	public $validate;
 
 	private $sortColumn;
 
 	private $updateObjectCache = FALSE;
+
+	/**
+	 * Stored the directory home page ID and whether or no to force permalinks to the directory home.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @var array
+	 */
+	public $directoryHome = array();
 
 	function __construct( $entry = NULL ) {
 		global $connections;
@@ -291,10 +310,10 @@ class cnEntry {
 					$this->imageDisplay = $this->options['image']['display'];
 
 					if ( isset( $this->options['image']['name'] ) ) {
-						$this->imageNameThumbnail = $this->options['image']['name']['thumbnail'];
-						$this->imageNameCard = $this->options['image']['name']['entry'];
-						$this->imageNameProfile = $this->options['image']['name']['profile'];
-						$this->imageNameOriginal = $this->options['image']['name']['original'];
+						$this->imageNameThumbnail = isset( $this->options['image']['name']['thumbnail'] ) ? $this->options['image']['name']['thumbnail'] : '';
+						$this->imageNameCard = isset( $this->options['image']['name']['entry'] ) ? $this->options['image']['name']['entry'] : '';
+						$this->imageNameProfile = isset( $this->options['image']['name']['profile'] ) ? $this->options['image']['name']['profile'] : '';
+						$this->imageNameOriginal = isset( $this->options['image']['name']['original'] ) ? $this->options['image']['name']['original'] : '';
 					}
 				}
 
@@ -413,6 +432,57 @@ class cnEntry {
 	}
 
 	/**
+	 * Set the values to be used to determine the page ID to be used for the directory links.
+	 *
+	 * @access public
+	 * @since  0.7.9
+	 *
+	 * @see cnEntry::$directoryHome
+	 *
+	 * @param  array $atts {
+	 *     Optional.
+	 *
+	 *     @type int  $page_id    The page ID of the directory home page.
+	 *     @type bool $force_home Whether or not to force the permalinks to resolve to the directory home page.
+	 * }
+	 *
+	 * @return void
+	 */
+	public function directoryHome( $atts = array() ) {
+
+		$defaults = array(
+			'page_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+			'force_home' => FALSE,
+		);
+
+		$this->directoryHome = cnSanitize::args( $atts, $defaults );
+	}
+
+	/**
+	 * Returns the permalink for the entry.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @uses   cnURL::permalink()
+	 *
+	 * @return string
+	 */
+	public function getPermalink() {
+
+		return cnURL::permalink(
+			array(
+				'type'       => 'name',
+				'slug'       => $this->getSlug(),
+				'home_id'    => $this->directoryHome['page_id'],
+				'force_home' => $this->directoryHome['force_home'],
+				'data'       => 'url',
+				'return'     => TRUE,
+			)
+		);
+	}
+
+	/**
 	 * Returns $slug.
 	 *
 	 * @see cnEntry::$slug
@@ -468,48 +538,40 @@ class cnEntry {
 	/**
 	 * Returns the name of the entry based on its type.
 	 *
-	 * Accepted options for the $atts property are:
-	 *  format (string) Tokens for the parts of the name.
-	 *   Permitted Tokens:
-	 *    %prefix%
-	 *    %first%
-	 *    %middle%
-	 *    %last%
-	 *    %suffix%
+	 * @example
+	 * If an entry is an individual this would return their name as Last Name, First Name
 	 *
-	 * Example:
-	 *  If an entry is an individual this would return their name as Last Name, First Name
+	 * $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
 	 *
-	 *  $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
+	 * @param array $atts   {
+	 *     Optional
 	 *
-	 * @param array   $atts [optional]
+	 *     @type string $format The format the name should be returned as.
+	 *                          Default '%prefix% %first% %middle% %last% %suffix%'.
+	 *                          Accepts any combination of the following tokens: '%prefix%', '%first%', '%middle%', '%last%', '%suffix%'
+	 * }
+	 *
 	 * @return string
 	 */
-	public function getName( $atts = NULL ) {
-		$defaultAtts = array( 'format' => '%prefix% %first% %middle% %last% %suffix%' );
+	public function getName( $atts = array() ) {
 
-		$atts = $this->validate->attributesArray( $defaultAtts, (array) $atts );
+		$defaults = array(
+			'format' => '%prefix% %first% %middle% %last% %suffix%',
+		);
 
-		$search = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
+		/**
+		 * Filter the arguments.
+		 *
+		 * @since unknown
+		 *
+		 * @param array $atts An array of arguments.
+		 */
+		$atts = cnSanitize::args( apply_filters( 'cn_name_atts', $atts ), $defaults );
+
+		$search  = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
 		$replace = array();
 
 		switch ( $this->getEntryType() ) {
-
-			case 'individual':
-
-				( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';
-
-				( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
-
-				( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
-
-				( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
-
-				( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
-
-				$name = str_ireplace( $search, $replace, $atts['format'] );
-
-				break;
 
 			case 'organization':
 
@@ -523,23 +585,26 @@ class cnEntry {
 
 			default:
 
-				( isset( $this->honorificPrefix ) ) ? $replace[] = $this->getHonorificPrefix() : $replace[] = '';;
+				$replace[] = ( isset( $this->honorificPrefix ) ) ? $this->getHonorificPrefix() : '';;
 
-				( isset( $this->firstName ) ) ? $replace[] = $this->getFirstName() : $replace[] = '';
+				$replace[] = ( isset( $this->firstName ) ) ? $this->getFirstName() : '';
 
-				( isset( $this->middleName ) ) ? $replace[] = $this->getMiddleName() : $replace[] = '';
+				$replace[] = ( isset( $this->middleName ) ) ? $this->getMiddleName() : '';
 
-				( isset( $this->lastName ) ) ? $replace[] = $this->getLastName() : $replace[] = '';
+				$replace[] = ( isset( $this->lastName ) ) ? $this->getLastName() : '';
 
-				( isset( $this->honorificSuffix ) ) ? $replace[] = $this->getHonorificSuffix() : $replace[] = '';
+				$replace[] = ( isset( $this->honorificSuffix ) ) ? $this->getHonorificSuffix() : '';
 
-				$name = str_ireplace( $search, $replace, $atts['format'] );
+				$name = str_ireplace(
+					$search,
+					$replace,
+					empty( $atts['format'] ) ? $defaults['format'] : $atts['format']
+				);
 
 				break;
 		}
 
-		// return preg_replace( '/\s{2,}/', ' ', $name );
-		return trim( preg_replace( '/\s+/', ' ', $name ) );
+		return cnFormatting::normalizeString( $name );
 	}
 
 	public function getHonorificPrefix() {
@@ -827,8 +892,11 @@ class cnEntry {
 	 * @return array
 	 */
 	public function getAddresses( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+
+		/** @var $connections connectionsLoad */
 		global $connections;
 
+		$addressTypes = $connections->options->getDefaultAddressValues();
 		$addresses = array();
 		$results = array();
 
@@ -904,18 +972,18 @@ class cnEntry {
 					( isset( $address['state'] ) ) ? $row->state = $this->format->sanitizeString( $address['state'] ) : $row->state = '';
 					( isset( $address['zipcode'] ) ) ? $row->zipcode = $this->format->sanitizeString( $address['zipcode'] ) : $row->zipcode = '';
 					( isset( $address['country'] ) ) ? $row->country = $this->format->sanitizeString( $address['country'] ) : $row->country = '';
-					( isset( $address['latitude'] ) ) ? $row->latitude = (float) $address['latitude'] : $row->latitude = NULL;
-					( isset( $address['longitude'] ) ) ? $row->longitude = (float) $address['longitude'] : $row->longitude = NULL;
+					( isset( $address['latitude'] ) ) ? $row->latitude = number_format( (float) $address['latitude'], 12 ) : $row->latitude = NULL;
+					( isset( $address['longitude'] ) ) ? $row->longitude = number_format( (float) $address['longitude'], 12 ) : $row->longitude = NULL;
 					( isset( $address['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $address['visibility'] ) : $row->visibility = '';
 
 					/*
 					 * Set the address name based on the address type.
 					 */
 					// Some previous versions did set the address type, so set the type to 'other'.
-					if ( empty( $row->type ) ) $row->type = 'other';
-					$addressTypes = $connections->options->getDefaultAddressValues();
-					// Recent previous versions set the type to the Select string from the drop down, so set the type to 'other'.
-					( $addressTypes[ $row->type ] == 'Select' ) ? $row->name = 'Other' : $row->name = $addressTypes[ $row->type ];
+					if ( empty( $row->type ) || ! isset( $addressTypes[ $row->type ] ) ) $row->type = 'other';
+
+					// Recent previous versions set the type to the Select string from the drop down, so set the name to 'Other'.
+					$row->name = ! isset( $addressTypes[ $row->type ] ) || $addressTypes[ $row->type ] == 'Select' ? 'Other' : $addressTypes[ $row->type ];
 
 					/*
 					 * // START -- Compatibility for previous versions.
@@ -978,9 +1046,9 @@ class cnEntry {
 				$address->zipcode = $this->format->sanitizeString( $address->zipcode );
 				$address->country = $this->format->sanitizeString( $address->country );
 
-				$address->latitude = (float) $address->latitude;
+				$address->latitude = number_format( (float) $address->latitude, 12 );
 				if ( empty( $address->latitude ) ) $address->latitude = NULL;
-				$address->longitude = (float) $address->longitude;
+				$address->longitude = number_format( (float) $address->longitude, 12 );
 				if ( empty( $address->longitude ) ) $address->longitude = NULL;
 
 				$address->visibility = $this->format->sanitizeString( $address->visibility );
@@ -988,8 +1056,7 @@ class cnEntry {
 				/*
 				 * Set the address name based on the address type.
 				 */
-				$addressTypes = $connections->options->getDefaultAddressValues();
-				( ! isset( $addressTypes[ $address->type ] ) || $addressTypes[ $address->type ] === 'Select' ) ? $address->name = NULL : $address->name = $addressTypes[ $address->type ];
+				$address->name = ( ! isset( $addressTypes[ $address->type ] ) || $addressTypes[ $address->type ] === 'Select' ) ? 'Other' : $addressTypes[ $address->type ];
 
 				/*
 				 * // START -- Compatibility for previous versions.
@@ -1143,8 +1210,10 @@ class cnEntry {
 	 */
 	public function getPhoneNumbers( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
+		/** @var $connections connectionsLoad */
 		global $connections;
 
+		$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
 		$phoneNumbers = array();
 		$results = array();
 
@@ -1225,8 +1294,7 @@ class cnEntry {
 					/*
 					 * Set the phone name based on the type.
 					 */
-					$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
-					$row->name = $phoneTypes[ $row->type ];
+					$row->name = ! isset( $phoneTypes[ $row->type ] )  ? 'Other' : $phoneTypes[ $row->type ];
 
 					/*
 					 * // START -- Do not return phone numbers that do not match the supplied $atts.
@@ -1287,8 +1355,7 @@ class cnEntry {
 				/*
 				 * Set the phone name based on the phone type.
 				 */
-				$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
-				$phone->name = $phoneTypes[ $phone->type ];
+				$phone->name = ! isset( $phoneTypes[ $phone->type ] )  ? 'Other' : $phoneTypes[ $phone->type ];
 
 				$results[] = apply_filters( 'cn_phone_number', $phone );
 			}
@@ -2669,6 +2736,15 @@ class cnEntry {
 					 * // END -- Do not return dates that do not match the supplied $atts.
 					 */
 
+					/*
+					 * // START -- Compatibility for previous versions.
+					 */
+					// Versions prior to 8.1.5 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
+					if ( ! isset( $date['visibility'] ) || empty( $date['visibility'] ) ) $row->visibility = 'public';
+					/*
+					 * // END -- Compatibility for previous versions.
+					 */
+
 					// If the user does not have permission to view the address, do not return it.
 					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
@@ -3129,8 +3205,20 @@ class cnEntry {
 		$this->options['logo']['linked'] = $logoLinked;
 	}
 
+	/**
+	 * Returns the filename of the original uploaded logo image.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
+	 */
 	public function getLogoName() {
-		if ( empty( $this->options['logo']['name'] ) ) return NULL;
+
+		if ( empty( $this->options['logo']['name'] ) ) {
+			return '';
+		}
+
 		return $this->options['logo']['name'];
 	}
 
@@ -3150,7 +3238,7 @@ class cnEntry {
 	/**
 	 * Sets $imageDisplay.
 	 *
-	 * @param object  $imageDisplay
+	 * @param bool  $imageDisplay
 	 * @see entry::$imageDisplay
 	 */
 	public function setImageDisplay( $imageDisplay ) {
@@ -3169,7 +3257,7 @@ class cnEntry {
 	/**
 	 * Sets $imageLinked.
 	 *
-	 * @param object  $imageLinked
+	 * @param bool  $imageLinked
 	 * @see entry::$imageLinked
 	 */
 	public function setImageLinked( $imageLinked ) {
@@ -3179,70 +3267,77 @@ class cnEntry {
 	/**
 	 * Returns $imageNameCard.
 	 *
-	 * @see entry::$imageNameCard
+	 * @access public
+	 * @since unknown
+	 *
+	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 * @see cnEntry::getImageMeta()
+	 *
+	 * @return string
 	 */
 	public function getImageNameCard() {
-		if ( empty( $this->options['image']['name']['entry'] ) ) return NULL;
-		return $this->options['image']['name']['entry'];
-	}
 
-	/**
-	 * Sets $imageNameCard.
-	 *
-	 * @param object  $imageNameCard
-	 * @see entry::$imageNameCard
-	 */
-	public function setImageNameCard( $imageNameCard ) {
-		$this->options['image']['name']['entry'] = $imageNameCard;
+		if ( empty( $this->options['image']['name']['entry'] ) ) {
+			return '';
+		}
+
+		return $this->options['image']['name']['entry'];
 	}
 
 	/**
 	 * Returns $imageNameProfile.
 	 *
-	 * @see entry::$imageNameProfile
+	 * @access public
+	 * @since unknown
+	 *
+	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 * @see cnEntry::getImageMeta()
+	 *
+	 * @return string
 	 */
 	public function getImageNameProfile() {
-		if ( empty( $this->options['image']['name']['profile'] ) ) return NULL;
-		return $this->options['image']['name']['profile'];
-	}
 
-	/**
-	 * Sets $imageNameProfile.
-	 *
-	 * @param object  $imageNameProfile
-	 * @see entry::$imageNameProfile
-	 */
-	public function setImageNameProfile( $imageNameProfile ) {
-		$this->options['image']['name']['profile'] = $imageNameProfile;
+		if ( empty( $this->options['image']['name']['profile'] ) ) {
+			return '';
+		}
+
+		return $this->options['image']['name']['profile'];
 	}
 
 	/**
 	 * Returns $imageNameThumbnail.
 	 *
-	 * @see entry::$imageNameThumbnail
+	 * @access public
+	 * @since unknown
+	 *
+	 * @deprecated since 8.1.6. Use {@see cnEntry::getImageMeta()} instead.
+	 * @see cnEntry::getImageMeta()
+	 *
+	 * @return string
 	 */
 	public function getImageNameThumbnail() {
-		if ( empty( $this->options['image']['name']['thumbnail'] ) ) return NULL;
+
+		if ( empty( $this->options['image']['name']['thumbnail'] ) ) {
+			return '';
+		}
+
 		return $this->options['image']['name']['thumbnail'];
 	}
 
 	/**
-	 * Sets $imageNameThumbnail.
+	 * Returns the filename of the original uploaded image.
 	 *
-	 * @param object  $imageNameThumbnail
-	 * @see entry::$imageNameThumbnail
-	 */
-	public function setImageNameThumbnail( $imageNameThumbnail ) {
-		$this->options['image']['name']['thumbnail'] = $imageNameThumbnail;
-	}
-
-	/**
-	 * Returns $imageNameOriginal.
+	 * @access public
+	 * @since  unknown
 	 *
-	 * @see entry::$imageNameOriginal
+	 * @return string
 	 */
 	public function getImageNameOriginal() {
-		if ( empty( $this->options['image']['name']['original'] ) ) return NULL;
+
+		if ( empty( $this->options['image']['name']['original'] ) ) {
+			return '';
+		}
+
 		return $this->options['image']['name']['original'];
 	}
 
@@ -3285,20 +3380,21 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit()
-	 * @uses   self::getSlug()
-	 * @uses   self::getLogoName()
-	 * @uses   self::getImageNameOriginal()
+	 *
+	 * @uses   cnEntry::getSlug()
+	 * @uses   cnEntry::getLogoName()
+	 * @uses   cnEntry::getImageNameOriginal()
+	 *
 	 * @param  string $type The image path to return, logo | photo.
+	 *
 	 * @return string       The absolute image path.
 	 */
 	public function getOriginalImagePath( $type ) {
 
-		if ( empty( $type ) ) return '';
+		if ( empty( $type ) ) {
 
-		// Get the core WP uploads info.
-		// $uploadInfo = wp_upload_dir();
+			return '';
+		}
 
 		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
 		$slug = rawurldecode( $this->getSlug() );
@@ -3308,21 +3404,27 @@ class cnEntry {
 			case 'logo':
 
 				// Build the URL to the original image.
-				return CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR .$this->getLogoName();
+				$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR . $this->getLogoName();
 				break;
 
 			case 'photo':
 
 				// Build the URL to the original image.
-				return CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR .$this->getImageNameOriginal();
+				$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR . $this->getImageNameOriginal();
 				break;
 
 			default:
 
-				return '';
+				$path = '';
 				break;
 		}
 
+		if ( file_exists( $path ) && ! is_dir( $path ) ) {
+
+			return $path;
+		}
+
+		return '';
 	}
 
 	/**
@@ -3379,7 +3481,7 @@ class cnEntry {
 	 * 		If `type` is `custom`: Not used, use the `width` and `height` to set the custom size.
 	 * 	width (int) The width of the `custom` size.
 	 * 	height (int) The height of the `custom` size.
-	 * 	crop_mode (int) Which crop mode to utilitize when rescaling the image. Valid range is 0–3. Default: 1
+	 * 	crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
 	 * 		0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
 	 * 		1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
 	 * 		2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.
@@ -3469,6 +3571,12 @@ class cnEntry {
 
 							$meta = $this->options['logo']['meta'];
 
+							// This needs to be here to ensure that the path and URL stored is updated
+							// to the current path to account for users moving their site or changing
+							// the site's folder structure.
+							$meta['path'] = $this->getOriginalImagePath( $atts['type'] );
+							$meta['url']  = $this->getOriginalImageURL( $atts['type'] );
+
 							$meta['source'] = 'db';
 
 						} else {
@@ -3529,6 +3637,12 @@ class cnEntry {
 						if ( isset( $this->options['image']['meta']['original'] ) ) {
 
 							$meta = $this->options['image']['meta']['original'];
+
+							// This needs to be here to ensure that the path and URL stored is updated
+							// to the current path to account for users moving their site or changing
+							// the site's folder structure.
+							$meta['path'] = $this->getOriginalImagePath( $atts['type'] );
+							$meta['url']  = $this->getOriginalImageURL( $atts['type'] );
 
 							$meta['source'] = 'db';
 
@@ -3860,11 +3974,31 @@ class cnEntry {
 		$this->options = serialize( $this->options );
 	}
 
-
+	/**
+	 * Sets up the current instance of cnEntry to pull in the values of the supplied ID.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param int $id The entry ID to query from the database.
+	 *
+	 * @return bool Whether of not the instance of cnEntry has been setup with the values of the new entry ID.
+	 */
 	public function set( $id ) {
-		global $connections;
-		$result = $connections->retrieve->entry( $id );
-		$this->__construct( $result );
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		if ( $result = $instance->retrieve->entry( $id ) ) {
+
+			$this->__construct( $result );
+
+		} else {
+
+			return FALSE;
+		}
+
+		return TRUE;
 	}
 
 	public function update() {

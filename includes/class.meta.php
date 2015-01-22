@@ -15,6 +15,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnMeta
+ */
 class cnMeta {
 
 	/**
@@ -22,7 +25,7 @@ class cnMeta {
 	 * to a minimum. Cache is not persistent between page loads.
 	 *
 	 * @access private
-	 * @since 0.8
+	 * @since  0.8
 	 * @var array
 	 */
 	private static $cache = array();
@@ -31,16 +34,19 @@ class cnMeta {
 	 * Get the meta data for the supplied object type and id.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @global $wpdb
-	 * @uses   maybe_unserialize()
-	 * @param  string  $type   The type of object to which to get the meta data for.
-	 * @param  mixed   $ids    array | int  The object id or an array of object IDs.
-	 * @param  int     $key    The meta ID to retrieve.
+	 * @since  0.8
+	 *
+	 * @global wpdb   $wpdb WordPress database abstraction object.
+	 *
+	 * @param  string $type The type of object to which to get the meta data for.
+	 * @param  mixed  $ids  array | int  The object id or an array of object IDs.
+	 * @param  int    $key  The meta ID to retrieve.
 	 *
 	 * @return mixed           bool | array
 	 */
 	public static function get( $type, $ids, $key = 0 ) {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		// The object IDs to query from the db.
@@ -52,6 +58,7 @@ class cnMeta {
 		// An array which contains the meta data of the object IDs that was requested.
 		$meta = array();
 
+		$column = sanitize_key( $type . '_id' );
 
 		// If an array of object IDs are being requested; first loop thru the cache
 		// and pull the ones that already exist so they do not need queried again.
@@ -73,7 +80,7 @@ class cnMeta {
 			$result = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT meta_id, %1$s, meta_key, meta_value FROM %2$s WHERE %1$s IN ( %3$s ) %4$s ORDER BY meta_id, meta_key',
-					$column = sanitize_key( $type . '_id' ),
+					$column,
 					CN_ENTRY_TABLE_META,
 					is_array( $query ) ? implode( ', ', array_map( 'absint', $query ) ) : absint( $query ),
 					$key === 0 ? '' : $wpdb->prepare( 'AND meta_key = %s', $key )
@@ -82,7 +89,6 @@ class cnMeta {
 			);
 
 		}
-
 
 		// If there are any results add them to the cache.
 		if ( ! empty( $result ) ) {
@@ -94,7 +100,7 @@ class cnMeta {
 				$metaKey   = $row['meta_key'];
 				$metaValue = cnFormatting::maybeJSONdecode( $row['meta_value'] );
 
-				// Force subkeys to be array type:
+				// Force sub-keys to be array type:
 				if ( ! isset( self::$cache[ $entryID ] ) || ! is_array( self::$cache[ $entryID ] ) ) self::$cache[ $entryID ] = array();
 				if ( ! isset( self::$cache[ $entryID ][ $metaID ] ) || ! is_array( self::$cache[ $entryID ][ $metaID ] ) ) self::$cache[ $entryID ][ $metaID ] = array();
 
@@ -107,7 +113,7 @@ class cnMeta {
 
 				foreach ( $ids as $id ) {
 
-					if ( ! isset( self::$cache[ $id ] ) ) self::$cache[ $ids ] = NULL;
+					if ( ! isset( self::$cache[ $id ] ) ) self::$cache[ $id ] = NULL;
 				}
 
 			} else {
@@ -139,23 +145,28 @@ class cnMeta {
 	 * Add meta data to the supplied object type.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @global $wpdb
-	 * @uses absint()
-	 * @uses wp_unslash()
-	 * @uses stripslashes_deep()
-	 * @uses do_action()
-	 * @param string  $type   The type of object the meta dats is for; ie. entry and taxonomy.
-	 * @param int     $id     The object ID.
-	 * @param string  $key    Metadata key.
-	 * @param string  $value  Metadata value.
-	 * @param bool    $unique [optional] Whether the specified metadata key should be
+	 * @since  0.8
+	 *
+	 * @global wpdb  $wpdb    WordPress database abstraction object.
+	 *
+	 * @uses   absint()
+	 * @uses   wp_unslash()
+	 * @uses   stripslashes_deep()
+	 * @uses   do_action()
+	 *
+	 * @param string $type    The type of object the meta data is for; ie. entry and taxonomy.
+	 * @param int    $id      The object ID.
+	 * @param string $key     Metadata key.
+	 * @param string $value   Metadata value.
+	 * @param bool   $unique  [optional] Whether the specified metadata key should be
 	 *                        unique for the object. If TRUE, and the object already has
 	 *                        a value for the specified metadata key, no change will be made.
 	 *
-	 * @return mixed          int | bool The metadata ID on succesfull insert or FALSE on failure.
+	 * @return mixed          int | bool The metadata ID on successful insert or FALSE on failure.
 	 */
 	public static function add( $type, $id, $key, $value, $unique = FALSE ) {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		if ( ! $type || ! $key ) return FALSE;
@@ -167,7 +178,7 @@ class cnMeta {
 		$key   = function_exists( 'wp_unslash' ) ? wp_unslash( $key )   : stripslashes_deep( $key );
 		$value = function_exists( 'wp_unslash' ) ? wp_unslash( $value ) : stripslashes_deep( $value );
 
-		if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . CN_ENTRY_TABLE_META . " WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) ) ) {
+		if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . CN_ENTRY_TABLE_META . " WHERE meta_key = %s AND $column = %d", $key, $id ) ) ) {
 
 			return FALSE;
 		}
@@ -199,25 +210,30 @@ class cnMeta {
 	 * Update the meta of the specified object.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @global $wpdb
-	 * @uses absint()
-	 * @uses sanitize_key()
-	 * @uses wp_unslash()
-	 * @uses stripslashes_deep()
-	 * @uses sanitize_meta()
-	 * @uses do_action()
-	 * @param  string $type   The oject type.
-	 * @param  int    $id     The object ID.
-	 * @param  string $key    The metadata key.
-	 * @param  string $value  The metadata value.
-	 * @param  string $oldValue  [optional] The previous metadata value.
-	 * @param  string $oldKey    [optional] The previous metadata key.
-	 * @param  int    $oldKey    [optional] The previous metadata ID.
+	 * @since  0.8
+	 *
+	 * @global wpdb   $wpdb     WordPress database abstraction object.
+	 *
+	 * @uses   absint()
+	 * @uses   sanitize_key()
+	 * @uses   wp_unslash()
+	 * @uses   stripslashes_deep()
+	 * @uses   sanitize_meta()
+	 * @uses   do_action()
+	 *
+	 * @param  string $type     The object type.
+	 * @param  int    $id       The object ID.
+	 * @param  string $key      The metadata key.
+	 * @param  string $value    The metadata value.
+	 * @param  string $oldValue [optional] The previous metadata value.
+	 * @param  string $oldKey   [optional] The previous metadata key.
+	 * @param  int    $metaID   [optional] The previous metadata ID.
 	 *
 	 * @return mixed          int | bool The number of affected rows or FALSE on failure.
 	 */
 	public static function update( $type, $id, $key, $value, $oldValue = NULL, $oldKey = NULL, $metaID = 0 ) {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$data = array();
@@ -247,7 +263,7 @@ class cnMeta {
 			$metaID = absint( $metaID );
 		}
 
-		// Adds the filters necessary for custom sanitization functions.
+		// Adds the filters necessary for custom sanitation functions.
 		$value = sanitize_meta( $key, $value, 'cn_' . $type );
 
 		// Compare existing value to new value if no prev value given and the key exists only once.
@@ -323,11 +339,14 @@ class cnMeta {
 	 * Delete the meta of the specified object.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @global $wpdb
-	 * @uses absint()
-	 * @uses sanitize_key()
-	 * @uses do_action()
+	 * @since  0.8
+	 *
+	 * @global wpdb   $wpdb   WordPress database abstraction object.
+	 *
+	 * @uses   absint()
+	 * @uses   sanitize_key()
+	 * @uses   do_action()
+	 *
 	 * @param  string $type   The object type.
 	 * @param  int    $id     The object ID.
 	 * @param  int    $metaID [optional] The meta ID.
@@ -335,6 +354,8 @@ class cnMeta {
 	 * @return mixed          int | bool The number of affected rows or FALSE on failure.
 	 */
 	public static function delete( $type, $id, $metaID = NULL ) {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$where = array();
@@ -376,14 +397,18 @@ class cnMeta {
 	 * Retrieve the specified meta keys.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @param  string  $type   The object type.
-	 * @param  int     $limit  Limit the number of keys to retrieve.
-	 * @param  boolean $unique Whether or not to retrieve only unique keys.
+	 * @since  0.8
+	 *
+	 * @global wpdb   $wpdb  WordPress database abstraction object.
+	 *
+	 * @param  string $type  The object type.
+	 * @param  int    $limit Limit the number of keys to retrieve.
 	 *
 	 * @return array           An array of meta keys.
 	 */
-	public static function key( $type, $limit = 30, $unique = TRUE ) {
+	public static function key( $type, $limit = 30 ) {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		// $column = sanitize_key( $type . '_id' );
@@ -393,8 +418,8 @@ class cnMeta {
 
 		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
 		// The query will not retrieve any meta key that begin with an '_' [underscore].
-		$sql = $wpdb->prepare( 'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' %1$s GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %2$d',
-				empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
+		$sql = $wpdb->prepare( 'SELECT meta_key FROM ' . CN_ENTRY_TABLE_META . ' GROUP BY meta_key HAVING meta_key NOT LIKE \'\\_%%\' ORDER BY meta_key LIMIT %d',
+				//empty( $key ) ? '' : ' WHERE meta_key IN ("' . implode( '", "', $keys ) . '") ',
 				absint( $limit )
 			);
 
@@ -414,9 +439,10 @@ class cnMeta {
 	 * Checks whether or not the `key` is private or not.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @param  string  $key  The key to check.
-	 * @param  string  $type The object type.
+	 * @since  0.8
+	 *
+	 * @param  string $key  The key to check.
+	 * @param  string $type The object type.
 	 *
 	 * @return boolean
 	 */

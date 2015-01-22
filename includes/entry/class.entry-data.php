@@ -568,9 +568,6 @@ class cnEntry {
 		 */
 		$atts = cnSanitize::args( apply_filters( 'cn_name_atts', $atts ), $defaults );
 
-		$search  = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
-		$replace = array();
-
 		switch ( $this->getEntryType() ) {
 
 			case 'organization':
@@ -585,30 +582,28 @@ class cnEntry {
 
 			default:
 
-				$replace[] = ( isset( $this->honorificPrefix ) ) ? $this->getHonorificPrefix() : '';;
-
-				$replace[] = ( isset( $this->firstName ) ) ? $this->getFirstName() : '';
-
-				$replace[] = ( isset( $this->middleName ) ) ? $this->getMiddleName() : '';
-
-				$replace[] = ( isset( $this->lastName ) ) ? $this->getLastName() : '';
-
-				$replace[] = ( isset( $this->honorificSuffix ) ) ? $this->getHonorificSuffix() : '';
-
-				$name = str_ireplace(
-					$search,
-					$replace,
-					empty( $atts['format'] ) ? $defaults['format'] : $atts['format']
-				);
-
+				$name = $this->getIndividualName( $atts );
 				break;
 		}
 
-		return cnFormatting::normalizeString( $name );
+		return $name;
 	}
 
+	/**
+	 * Returns the entry's name prefix.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 *
+	 * @uses   sanitize_text_field()
+	 *
+	 * @return string
+	 */
 	public function getHonorificPrefix() {
-		return $this->format->sanitizeString( $this->honorificPrefix );
+
+		return isset( $this->honorificPrefix ) ? sanitize_text_field( $this->honorificPrefix ) : '';
 	}
 
 	public function setHonorificPrefix( $honorificPrefix ) {
@@ -616,13 +611,20 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns the entries first name.
-	 * Returns $firstName.
+	 * Returns the entry's first name.
 	 *
-	 * @see entry::$firstName
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 *
+	 * @uses   sanitize_text_field()
+	 *
+	 * @return string
 	 */
 	public function getFirstName() {
-		return $this->format->sanitizeString( $this->firstName );
+
+		return isset( $this->firstName ) ? sanitize_text_field( $this->firstName ) : '';
 	}
 
 	/**
@@ -635,8 +637,21 @@ class cnEntry {
 		$this->firstName = stripslashes( $firstName );
 	}
 
+	/**
+	 * Returns the entry's middle name.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 *
+	 * @uses   sanitize_text_field()
+	 *
+	 * @return string
+	 */
 	public function getMiddleName() {
-		return $this->format->sanitizeString( $this->middleName );
+
+		return isset( $this->middleName ) ? sanitize_text_field( $this->middleName ) : '';
 	}
 
 	public function setMiddleName( $middleName ) {
@@ -644,14 +659,20 @@ class cnEntry {
 	}
 
 	/**
-	 * The last name if the entry type is an individual.
-	 * If entry type is set to connection group the method will return the group name.
-	 * Returns $lastName.
+	 * Returns the entry's last name.
 	 *
-	 * @see entry::$lastName
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 *
+	 * @uses   sanitize_text_field()
+	 *
+	 * @return string
 	 */
 	public function getLastName() {
-		return $this->format->sanitizeString( $this->lastName );
+
+		return isset( $this->lastName ) ? sanitize_text_field( $this->lastName ) : '';
 	}
 
 	/**
@@ -661,17 +682,65 @@ class cnEntry {
 	 * @see entry::$lastName
 	 */
 	public function setLastName( $lastName ) {
-		// Unescape the string because all methods expect unescaped strings.
 		$this->lastName = stripslashes( $lastName );
 	}
 
+	/**
+	 * Returns the entry's name suffix.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 *
+	 * @uses   sanitize_text_field()
+	 *
+	 * @return string
+	 */
 	public function getHonorificSuffix() {
-		return $this->format->sanitizeString( $this->honorificSuffix );
+
+		return isset( $this->honorificSuffix ) ? sanitize_text_field( $this->honorificSuffix ) : '';
 	}
 
 	public function setHonorificSuffix( $honorificSuffix ) {
 		$this->honorificSuffix = stripslashes( $honorificSuffix );
 	}
+
+	/**
+	 * Returns the name of the Individual.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 *
+	 * @param array $atts   {
+	 *     Optional
+	 *
+	 *     @type string $format The format the name should be returned as.
+	 *                          Default '%prefix% %first% %middle% %last% %suffix%'.
+	 *                          Accepts any combination of the following tokens: '%prefix%', '%first%', '%middle%', '%last%', '%suffix%'
+	 * }
+	 *
+	 * @return string
+	 */
+	private function getIndividualName( $atts = array() ) {
+
+		$search  = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
+		$replace = array(
+			$this->getHonorificPrefix(),
+			$this->getFirstName(),
+			$this->getMiddleName(),
+			$this->getLastName(),
+			$this->getHonorificSuffix(),
+		);
+
+		$name = str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
+		);
+
+		return cnFormatting::normalizeString( $name );
+}
 
 
 	/**

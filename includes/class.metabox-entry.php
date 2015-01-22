@@ -3097,9 +3097,10 @@ class cnEntryMetabox {
 		}
 
 		// Build the meta key select drop down options.
-		array_walk( $keys, create_function( '&$key', '$key = "<option value=\"$key\">$key</option>";' ) );
-		array_unshift( $keys, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
-		$options = implode( $keys, PHP_EOL );
+		$options = array_combine( array_map( 'esc_attr', array_keys( $keys ) ), array_map( 'esc_html', $keys ) );
+		array_walk( $options, create_function( '&$key', '$key = "<option value=\"$key\">$key</option>";' ) );
+		array_unshift( $options, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
+		$options = implode( $options, PHP_EOL );
 
 		// echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
 

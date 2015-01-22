@@ -69,6 +69,7 @@ function connectionsShowUpgradePage() {
 function cnRunDBUpgrade() {
 	global $wpdb, $connections;
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+	require_once CN_PATH . 'includes/class.schema.php';
 
 	$urlPath = admin_url() . 'admin.php?page=' . $_GET['page'];
 
@@ -791,6 +792,16 @@ function cnRunDBUpgrade() {
 			echo '</ul>';
 
 			$connections->options->setDBVersion( '0.1.9' );
+
+			// Save the options
+			$connections->options->saveOptions();
+		}
+
+		if ( version_compare( $dbVersion, '0.2', '<' ) ) {
+
+			cnSchema::create();
+
+			$connections->options->setDBVersion( '0.2' );
 
 			// Save the options
 			$connections->options->saveOptions();

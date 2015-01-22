@@ -210,7 +210,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * Version Constants
 			 */
 			define( 'CN_CURRENT_VERSION', '8.1.6' );
-			define( 'CN_DB_VERSION', '0.1.9' );
+			define( 'CN_DB_VERSION', '0.2' );
 
 			/*
  			 * Used for EDD SL Updater
@@ -398,7 +398,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_TERMS_TABLE', $prefix . 'connections_terms' );
 			define( 'CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy' );
 			define( 'CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships' );
-
+			define( 'CN_TERM_META_TABLE', $prefix . 'connections_term_meta' );
 		}
 
 		private static function includes() {

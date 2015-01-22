@@ -79,6 +79,7 @@ class cnSchema {
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERMS_TABLE . "'" ) != CN_TERMS_TABLE ) $sql[] = self::terms();
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_TAXONOMY_TABLE . "'" ) != CN_TERM_TAXONOMY_TABLE ) $sql[] = self::termTaxonomy();
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_RELATIONSHIP_TABLE . "'" ) != CN_TERM_RELATIONSHIP_TABLE ) $sql[] = self::termRelationship();
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_TERM_META_TABLE . "'" ) != CN_TERM_META_TABLE ) $sql[] = self::termMeta();
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_ADDRESS_TABLE . "'" ) != CN_ENTRY_ADDRESS_TABLE ) $sql[] = self::addresses();
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_PHONE_TABLE . "'" ) != CN_ENTRY_PHONE_TABLE ) $sql[] = self::phone();
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_EMAIL_TABLE . "'" ) != CN_ENTRY_EMAIL_TABLE ) $sql[] = self::email();
@@ -357,6 +358,42 @@ class cnSchema {
 			term_order int(11) NOT NULL,
 			PRIMARY KEY  (entry_id,term_taxonomy_id),
 			KEY term_taxonomy_id (term_taxonomy_id)
+			)";
+
+		$sql[] = 'ENGINE=' . self::getEngine();
+
+		if ( ! empty( $wpdb->charset ) ) $sql[] = 'DEFAULT CHARACTER SET ' .  $wpdb->charset;
+		if ( ! empty( $wpdb->collate ) ) $sql[] = 'COLLATE ' . $wpdb->collate;
+
+		return implode( ' ', $sql );
+	}
+
+	/**
+	 * Build the query to create the terms  meta table.
+	 * NOTE: String is formatted to be dbDelta() compatible.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 *
+	 * @return string
+	 */
+	private static function termMeta() {
+
+		/** @var $wpdb wpdb */
+		global $wpdb;
+
+		$sql = array();
+
+		$sql[] = 'CREATE TABLE';
+		$sql[] = CN_TERM_META_TABLE;
+		$sql[] = "(
+			meta_id bigint(20) unsigned NOT NULL auto_increment,
+			term_id bigint(20) unsigned NOT NULL default '0',
+			meta_key varchar(255) default NULL,
+			meta_value longtext,
+			PRIMARY KEY  (meta_id),
+			KEY term_id (term_id),
+			KEY meta_key (meta_key)
 			)";
 
 		$sql[] = 'ENGINE=' . self::getEngine();

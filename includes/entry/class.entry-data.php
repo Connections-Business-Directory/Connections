@@ -836,24 +836,28 @@ class cnEntry {
 	}
 
 	/**
-	 * Sets $familyMembers.
+	 * The form to capture the user IDs and relationship stores the data
+	 * in a two-dimensional array as follows:
+	 * 		array[0]
+	 * 			array[entry_id]
+	 * 				 [relation]
+	 *
+	 * This re-writes the data into an associative array entry_id => relation.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param array $relations
 	 */
-	public function setFamilyMembers( $familyMembers ) {
-		/*
-		 * The form to capture the user IDs and relationship stores the data
-		 * in a two-dementional array as follows:
-		 * 		array[0]
-		 * 			array[entry_id]
-		 * 				 [relation]
-		 *
-		 * This loop re-writes the data into an associative array entry_id => relation.
-		 */
-		if ( empty( $familyMembers ) ) {
-			$family = array();
-		}
-		else {
-			foreach ( $familyMembers as $relation ) {
-				$family[ $relation['entry_id'] ] .= $relation['relation'];
+	public function setFamilyMembers( $relations ) {
+
+		$family = array();
+
+		if ( ! empty( $relations ) ) {
+
+			foreach ( $relations as $relation ) {
+
+				$family[ $relation['entry_id'] ] = $relation['relation'];
 			}
 		}
 
@@ -861,7 +865,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns as an array of objects contining the addresses per the defined options for the current entry.
+	 * Returns as an array of objects containing the addresses per the defined options for the current entry.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry address.

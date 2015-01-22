@@ -703,7 +703,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				case ( version_compare( $version, '0.7.4', '<' ) ) :
 					/*
-					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 					 */
 					$options = get_option( 'connections_search' );
 					$options['keyword_enabled'] = 1;
@@ -713,7 +713,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				case ( version_compare( $version, '0.8', '<' ) ) :
 					/*
-					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 					 */
 					$options = get_option( 'connections_compatibility' );
 					$options['css'] = 1;
@@ -730,7 +730,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();
 
-			// Class used for managing role capabilites.
+			// Class used for managing role capabilities.
 			if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
 			if ( $this->options->getCapabilitiesSet() != TRUE ) {

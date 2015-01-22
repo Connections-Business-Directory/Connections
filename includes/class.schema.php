@@ -15,10 +15,15 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnSchema
+ *
+ * @since  0.7.5
+ */
 class cnSchema {
 
 	/**
-	 * Empty contructor.
+	 * Empty constructor.
 	 */
 	private function __construct() { /* Do Nothing Here. */ }
 
@@ -33,6 +38,8 @@ class cnSchema {
 	 * @return string The table engine.
 	 */
 	private static function getEngine() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		if ( version_compare( $wpdb->db_version(), '5.6.4', '>=' ) ) {
@@ -51,10 +58,13 @@ class cnSchema {
 	 * Init the default db schema. Create the required tables, populate the default values and set the FULLTEXT indexes.
 	 *
 	 * @access private
-	 * @since 0.7.5
+	 * @since  0.7.5
+	 *
 	 * @return void
 	 */
 	public static function create() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
@@ -89,7 +99,7 @@ class cnSchema {
 		self::addFULLTEXT();
 
 		/*
-		 * Add the default "Uncateforized" category.
+		 * Add the default "Uncategorized" category.
 		 */
 		self::addDefaultCategory();
 	}
@@ -98,10 +108,13 @@ class cnSchema {
 	 * Add the default FULLTEXT indexes.
 	 *
 	 * @access private
-	 * @since 0.7.5
+	 * @since  0.7.5
+	 *
 	 * @return void
 	 */
 	private static function addFULLTEXT() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		/*
@@ -125,10 +138,13 @@ class cnSchema {
 	 * Add the "Uncategorized" category"
 	 *
 	 * @access private
-	 * @since 0.7.5
+	 * @since  0.7.5
+	 *
 	 * @return void
 	 */
 	private static function addDefaultCategory() {
+
+		/** @var $wpdb wpdb */
 		global $connections;
 
 		// Check if the Uncategorized term exists and if it doesn't create it.
@@ -148,10 +164,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function entry() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -209,10 +228,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function entryMeta() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -242,10 +264,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function terms() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -275,10 +300,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function termTaxonomy() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -310,10 +338,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function termRelationship() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -341,10 +372,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function addresses() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -383,10 +417,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function phone() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -417,10 +454,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function email() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -451,10 +491,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function messenger() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -485,10 +528,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function socialMedia() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -519,10 +565,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function links() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();
@@ -558,10 +607,13 @@ class cnSchema {
 	 * NOTE: String is formatted to be dbDelta() compatible.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @return string
 	 */
 	private static function dates() {
+
+		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$sql = array();

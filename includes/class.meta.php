@@ -499,4 +499,29 @@ class cnMeta {
 
 		return apply_filters( 'cn_is_private_meta', $private, $key, $type );
 	}
+
+	/**
+	 * Retrieve the name of the metadata table for the specified meta type.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 * @static
+	 *
+	 * @param string $type Type of object to get metadata table name for (e.g., entry, term).
+	 *
+	 * @return string
+	 */
+	private static function tableName( $type ) {
+
+		if ( 'entry' == $type ) {
+
+			$name = 'connections_meta';
+
+		} else {
+
+			$name = "connections_{$type}_meta";
+		}
+
+		return $name;
+	}
 }

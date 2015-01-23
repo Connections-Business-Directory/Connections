@@ -153,6 +153,14 @@ class cnMeta {
 	 * @uses   wp_unslash()
 	 * @uses   stripslashes_deep()
 	 * @uses   do_action()
+	 * @uses   cnMeta::tableName()
+	 * @uses   sanitize_key()
+	 * @uses   sanitize_meta()
+	 * @uses   apply_filters()
+	 * @uses   wpdb::prepare()
+	 * @uses   wpdb::get_var()
+	 * @uses   wpdb::inset()
+	 * @uses   wp_cache_delete()
 	 *
 	 * @param string $type    The type of object the meta data is for; ie. entry and taxonomy.
 	 * @param int    $id      The object ID.
@@ -169,39 +177,105 @@ class cnMeta {
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
-		if ( ! $type || ! $key ) return FALSE;
-		if ( ! $id = absint( $id ) ) return FALSE;
+		if ( ! $type || ! $key || ! is_numeric( $id ) ) {
+			return FALSE;
+		}
 
+		$id = absint( $id );
+		if ( ! $id ) {
+			return FALSE;
+		}
+
+		$table  = self::tableName( $type );
 		$column = sanitize_key( $type . '_id' );
 
 		// The wp_unslash() is only available in WP >= 3.6 use stripslashes_deep() for backward compatibility.
 		$key   = function_exists( 'wp_unslash' ) ? wp_unslash( $key )   : stripslashes_deep( $key );
 		$value = function_exists( 'wp_unslash' ) ? wp_unslash( $value ) : stripslashes_deep( $value );
+		$value = sanitize_meta( $key, $value, 'cn_' . $type );
 
-		if ( $unique && $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM " . CN_ENTRY_TABLE_META . " WHERE meta_key = %s AND $column = %d", $key, $id ) ) ) {
+		/**
+		 * Filter whether to add metadata of a specific type.
+		 *
+		 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type (entry, term).
+		 *
+		 * Returning a non-null value will effectively short-circuit the function.
+		 *
+		 * @since 8.1.7
+		 *
+		 * @param null|bool $check  Whether to allow adding metadata for the given type.
+		 * @param int       $id     Object ID.
+		 * @param string    $key    Meta key.
+		 * @param mixed     $value  Meta value. Must be json encoded if non-scalar. Use @see cnFormatting::maybeJSONencode().
+		 * @param bool      $unique Whether the specified meta key should be unique
+		 *                          for the object. Optional. Default false.
+		 */
+		$check = apply_filters( "cn_add_{$type}_metadata", NULL, $id, $key, $value, $unique );
+
+		if ( NULL !== $check ) {
+			return $check;
+		}
+
+		if ( $unique && $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT COUNT(*) FROM " . $table . " WHERE meta_key = %s AND $column = %d",
+					$key,
+					$id
+				)
+			)
+		) {
 
 			return FALSE;
 		}
 
-		do_action( "cn_add_meta-$type", $id, $key, $value );
+		/**
+		 * Fires immediately before meta of a specific type is added.
+		 *
+		 * The dynamic portion of the hook, `$meta_type`, refers to the meta
+		 * object type (comment, post, or user).
+		 *
+		 * @since 8.1.7
+		 *
+		 * @param int    $id    Object ID.
+		 * @param string $key   Meta key.
+		 * @param mixed  $value Meta value.
+		 */
+		do_action( "cn_add_{$type}_meta", $id, $key, $value );
 
 		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
 		$result = $wpdb->insert(
-			CN_ENTRY_TABLE_META,
+			$table,
 			array(
 				$column      => $id,
 				'meta_key'   => $key,
 				'meta_value' => cnFormatting::maybeJSONencode( $value ) )
 		);
 
-		if ( ! $result ) return FALSE;
+		if ( ! $result ) {
+			return FALSE;
+		}
 
 		$metaID = (int) $wpdb->insert_id;
+
+		wp_cache_delete( $id, 'cn_' . $type . '_meta' );
 
 		// Add the meta to the cache.
 		self::$cache[ $id ][ $metaID ] = array( 'meta_key' => $key, 'meta_value' => $value );
 
-		do_action( "cn_added_meta-$type", $metaID, $id, $key, $value );
+		/**
+		 * Fires immediately after meta of a specific type is added.
+		 *
+		 * The dynamic portion of the hook, `$meta_type`, refers to the meta
+		 * object type (comment, post, or user).
+		 *
+		 * @since 8.1.7
+		 *
+		 * @param int    $metaID The meta ID after successful update.
+		 * @param int    $id     Object ID.
+		 * @param string $key    Meta key.
+		 * @param mixed  $value  Meta value.
+		 */
+		do_action( "cn_added_{$type}_meta", $metaID, $id, $key, $value );
 
 		return $metaID;
 	}

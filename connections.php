@@ -378,7 +378,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/*
-			 * Set the table prefix accordingly depedning if Connections is installed on a multisite WP installation.
+			 * Set the table prefix accordingly depending if Connections is installed on a multisite WP installation.
 			 */
 			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->prefix : $wpdb->base_prefix;
 

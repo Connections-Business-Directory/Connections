@@ -507,19 +507,31 @@ class cnMeta {
 	 * @since  8.1.7
 	 * @static
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @uses   is_multisite()
+	 *
 	 * @param string $type Type of object to get metadata table name for (e.g., entry, term).
 	 *
 	 * @return string
 	 */
 	private static function tableName( $type ) {
 
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		/*
+		 * Set the table prefix accordingly depending if Connections is installed on a multisite WP installation.
+		 */
+		$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->prefix : $wpdb->base_prefix;
+
 		if ( 'entry' == $type ) {
 
-			$name = 'connections_meta';
+			$name = CN_ENTRY_TABLE_META;
 
 		} else {
 
-			$name = "connections_{$type}_meta";
+			$name = "{$prefix}connections_{$type}_meta";
 		}
 
 		return $name;

@@ -816,9 +816,9 @@ class cnEntry_Action {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @param (string) $status 		The status to set. Valid options are: approved | pending
-	 * @param (array | int) $id 	The entry IDs to set the status.
-	 * @return (bool)
+	 * @param string $status 		The status to set. Valid options are: approved | pending
+	 * @param array|int $id 	The entry IDs to set the status.
+	 * @return bool
 	 */
 	public static function status( $status, $id ) {
 		global $wpdb;
@@ -859,9 +859,9 @@ class cnEntry_Action {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @param (string) $visibility	The visibility to set. Valid options are: public | private | unlisted
-	 * @param (array | int) $id 	The entry IDs to set the visibility.
-	 * @return (bool)
+	 * @param string $visibility	The visibility to set. Valid options are: public | private | unlisted
+	 * @param array|int $id 	The entry IDs to set the visibility.
+	 * @return bool
 	 */
 	public static function visibility( $visibility, $id ) {
 		global $wpdb;

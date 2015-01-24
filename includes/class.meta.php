@@ -33,7 +33,17 @@ class cnMeta {
 	/**
 	 * Retrieve metadata for the specified object.
 	 *
-	 * @since 8.1.7
+	 * NOTE: This is the Connections equivalent of @see get_metadata() in WordPress core ../wp-includes/meta.php
+	 *
+	 * @access public
+	 * @since  8.1.7
+	 * @static
+	 *
+	 * @uses   absint()
+	 * @uses   apply_filters()
+	 * @uses   wp_cache_get()
+	 * @uses   cnMeta::updateCache()
+	 * @uses   cnFormatting::maybeJSONdecode()
 	 *
 	 * @param string $type      Type of object metadata is for (e.g., entry, term)
 	 * @param int    $id        ID of the object metadata is for
@@ -125,9 +135,19 @@ class cnMeta {
 	/**
 	 * Update the metadata cache for the specified objects.
 	 *
-	 * @since 8.1.7
+	 * NOTE: This is the Connections equivalent of @see update_meta_cache() in WordPress core ../wp-includes/meta.php
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 * @static
 	 *
 	 * @global wpdb     $wpdb       WordPress database abstraction object.
+	 *
+	 * @uses   cnMeta::tableName()
+	 * @uses   sanitize_key()
+	 * @uses   wp_cache_get()
+	 * @uses   wpdb::get_results()
+	 * @uses   wp_cache_add()
 	 *
 	 * @param string    $type       Type of object metadata is for (e.g., comment, post, or user)
 	 * @param int|array $object_ids array or comma delimited list of object IDs to update cache for
@@ -424,7 +444,7 @@ class cnMeta {
 		 * object type (comment, post, or user). Returning a non-null value
 		 * will effectively short-circuit the function.
 		 *
-		 * @since 3.1.0
+		 * @since 8.1.7
 		 *
 		 * @param null|bool $check      Whether to allow updating metadata for the given type.
 		 * @param int       $id         Object ID.
@@ -488,7 +508,7 @@ class cnMeta {
 			 * The dynamic portion of the hook, `$meta_type`, refers to the meta
 			 * object type (comment, post, or user).
 			 *
-			 * @since 2.9.0
+			 * @since 8.1.7
 			 *
 			 * @param int    $meta_id ID of the metadata entry to update.
 			 * @param int    $id      Object ID.
@@ -514,7 +534,7 @@ class cnMeta {
 			 * The dynamic portion of the hook, `$meta_type`, refers to the meta
 			 * object type (comment, post, or user).
 			 *
-			 * @since 2.9.0
+			 * @since 8.1.7
 			 *
 			 * @param int    $meta_id ID of updated metadata entry.
 			 * @param int    $id      Object ID.

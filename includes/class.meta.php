@@ -498,23 +498,6 @@ class cnMeta {
 			do_action( "cn_update_{$type}_meta", $meta_id, $id, $key, $_meta_value );
 		}
 
-		if ( 'entry' == $type ) {
-
-			foreach ( $meta_ids as $meta_id ) {
-				/**
-				 * Fires immediately before updating a post's metadata.
-				 *
-				 * @since 2.9.0
-				 *
-				 * @param int    $meta_id ID of metadata entry to update.
-				 * @param int    $id      Object ID.
-				 * @param string $key     Meta key.
-				 * @param mixed  $value   Meta value.
-				 */
-				do_action( 'cn_update_entrymeta', $meta_id, $id, $key, $value );
-			}
-		}
-
 		$result = $wpdb->update( $table, $data, $where );
 
 		if ( ! $result ) {
@@ -539,23 +522,6 @@ class cnMeta {
 			 * @param mixed  $value   Meta value.
 			 */
 			do_action( "cn_updated_{$type}_meta", $meta_id, $id, $key, $_meta_value );
-		}
-
-		if ( 'entry' == $type ) {
-
-			foreach ( $meta_ids as $meta_id ) {
-				/**
-				 * Fires immediately after updating a post's metadata.
-				 *
-				 * @since 2.9.0
-				 *
-				 * @param int    $meta_id ID of updated metadata entry.
-				 * @param int    $id      Object ID.
-				 * @param string $key     Meta key.
-				 * @param mixed  $value   Meta value.
-				 */
-				do_action( 'cn_updated_entrymeta', $meta_id, $id, $key, $value );
-			}
 		}
 
 		return TRUE;

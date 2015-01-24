@@ -21,16 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class cnMeta {
 
 	/**
-	 * Previously queried meta will be saved to keep db access
-	 * to a minimum. Cache is not persistent between page loads.
-	 *
-	 * @access private
-	 * @since  0.8
-	 * @var array
-	 */
-	private static $cache = array();
-
-	/**
 	 * Retrieve metadata for the specified object.
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_metadata() in WordPress core ../wp-includes/meta.php
@@ -356,9 +346,6 @@ class cnMeta {
 		$metaID = (int) $wpdb->insert_id;
 
 		wp_cache_delete( $id, 'cn_' . $type . '_meta' );
-
-		// Add the meta to the cache.
-		self::$cache[ $id ][ $metaID ] = array( 'meta_key' => $key, 'meta_value' => $value );
 
 		/**
 		 * Fires immediately after meta of a specific type is added.

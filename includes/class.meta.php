@@ -231,7 +231,6 @@ class cnMeta {
 	 *
 	 * @uses   absint()
 	 * @uses   wp_unslash()
-	 * @uses   stripslashes_deep()
 	 * @uses   do_action()
 	 * @uses   cnMeta::tableName()
 	 * @uses   sanitize_key()
@@ -269,9 +268,8 @@ class cnMeta {
 		$table  = self::tableName( $type );
 		$column = sanitize_key( $type . '_id' );
 
-		// The wp_unslash() is only available in WP >= 3.6 use stripslashes_deep() for backward compatibility.
-		$key   = function_exists( 'wp_unslash' ) ? wp_unslash( $key )   : stripslashes_deep( $key );
-		$value = function_exists( 'wp_unslash' ) ? wp_unslash( $value ) : stripslashes_deep( $value );
+		$key   = wp_unslash( $key );
+		$value = wp_unslash( $value );
 		$value = sanitize_meta( $key, $value, 'cn_' . $type );
 
 		/**

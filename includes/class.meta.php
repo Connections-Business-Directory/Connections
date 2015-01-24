@@ -361,132 +361,206 @@ class cnMeta {
 	}
 
 	/**
-	 * Update the meta of the specified object.
+	 * Update metadata for the specified object. If no value already exists for the specified object
+	 * ID and metadata key, the metadata will be added.
+	 *
+	 * NOTE: This is the Connections equivalent of @see update_metadata() in WordPress core ../wp-includes/meta.php
 	 *
 	 * @access public
-	 * @since  0.8
+	 * @since  8.1.7
+	 * @static
 	 *
-	 * @global wpdb   $wpdb     WordPress database abstraction object.
+	 * @global wpdb  $wpdb       WordPress database abstraction object.
 	 *
 	 * @uses   absint()
+	 * @uses   cnMeta::tableName()
 	 * @uses   sanitize_key()
 	 * @uses   wp_unslash()
-	 * @uses   stripslashes_deep()
 	 * @uses   sanitize_meta()
+	 * @uses   apply_filters()
+	 * @uses   cnMeta::get()
+	 * @uses   wpdb::prepare()
+	 * @uses   wpdb::get_col()
+	 * @uses   cnMeta::add()
+	 * @uses   cnFormatting::maybeJSONencode()
 	 * @uses   do_action()
+	 * @uses   wpdb::update()
+	 * @uses   wp_cache_delete()
 	 *
-	 * @param  string $type     The object type.
-	 * @param  int    $id       The object ID.
-	 * @param  string $key      The metadata key.
-	 * @param  string $value    The metadata value.
-	 * @param  string $oldValue [optional] The previous metadata value.
-	 * @param  string $oldKey   [optional] The previous metadata key.
-	 * @param  int    $metaID   [optional] The previous metadata ID.
+	 * @param string $type       Type of object metadata is for (e.g., comment, post, or user)
+	 * @param int    $id         ID of the object metadata is for
+	 * @param string $key        Metadata key
+	 * @param mixed  $value      Metadata value. Must be serializable if non-scalar.
+	 * @param mixed  $prev_value Optional. If specified, only update existing metadata entries with
+	 *                           the specified value. Otherwise, update all entries.
 	 *
-	 * @return mixed          int | bool The number of affected rows or FALSE on failure.
+	 * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
 	 */
-	public static function update( $type, $id, $key, $value, $oldValue = NULL, $oldKey = NULL, $metaID = 0 ) {
+	public static function update( $type, $id, $key, $value, $prev_value = '' ) {
 
-		/** @var $wpdb wpdb */
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$data = array();
-		$where = array();
+		if ( ! $type || ! $key || ! is_numeric( $id ) ) {
+			return FALSE;
+		}
 
-		if ( ! $type || ! $key ) return FALSE;
-		if ( ! $id = absint( $id ) ) return FALSE;
+		$id = absint( $id );
+		if ( ! $id ) {
+			return FALSE;
+		}
 
+		$table  = self::tableName( $type );
 		$column = sanitize_key( $type . '_id' );
 
-		// The wp_unslash() is only available in WP >= 3.6; use stripslashes_deep() for backward compatibility.
-		$key   = function_exists( 'wp_unslash' ) ? wp_unslash( $key )   : stripslashes_deep( $key );
-		$value = function_exists( 'wp_unslash' ) ? wp_unslash( $value ) : stripslashes_deep( $value );
+		// expected_slashed ($meta_key)
+		$key          = wp_unslash( $key );
+		$passed_value = $value;
+		$value        = wp_unslash( $value );
+		$value        = sanitize_meta( $key, $value, 'cn_' . $type );
 
-		if ( $oldValue !== NULL ) {
-
-			$oldValue = function_exists( 'wp_unslash' ) ? wp_unslash( $oldValue ) : stripslashes_deep( $oldValue );
+		/**
+		 * Filter whether to update metadata of a specific type.
+		 *
+		 * The dynamic portion of the hook, `$meta_type`, refers to the meta
+		 * object type (comment, post, or user). Returning a non-null value
+		 * will effectively short-circuit the function.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param null|bool $check      Whether to allow updating metadata for the given type.
+		 * @param int       $id         Object ID.
+		 * @param string    $key        Meta key.
+		 * @param mixed     $value      Meta value. Must be serializable if non-scalar.
+		 * @param mixed     $prev_value Optional. If specified, only update existing
+		 *                              metadata entries with the specified value.
+		 *                              Otherwise, update all entries.
+		 */
+		$check = apply_filters(
+			"cn_update_{$type}_metadata",
+			NULL,
+			$id,
+			$key,
+			$value,
+			$prev_value
+		);
+		if ( NULL !== $check ) {
+			return (bool) $check;
 		}
-
-		if ( $oldKey !== NULL ) {
-
-			$oldKey = function_exists( 'wp_unslash' ) ? wp_unslash( $oldKey ) : stripslashes_deep( $oldKey );
-		}
-
-		if ( $metaID !== 0 ) {
-
-			$metaID = absint( $metaID );
-		}
-
-		// Adds the filters necessary for custom sanitation functions.
-		$value = sanitize_meta( $key, $value, 'cn_' . $type );
 
 		// Compare existing value to new value if no prev value given and the key exists only once.
-		if ( $oldValue === NULL ) {
+		if ( empty( $prev_value ) ) {
 
-			$results = self::get( $type, $id, $key );
+			$old_value = self::get( $type, $id, $key );
 
-			if ( count( $results ) == 1 ) {
+			if ( count( $old_value ) == 1 ) {
 
-				$meta = is_array( $results ) ? array_shift( $results ) : $results;
-
-				if ( $meta['meta_value'] === $value ) {
+				if ( $old_value[0] === $value ) {
 
 					return FALSE;
 				}
 			}
 		}
 
-		$metaExists = $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT meta_id FROM " . CN_ENTRY_TABLE_META . " WHERE meta_key = %s AND $column = %d",
-				$oldKey === NULL ? $key : $oldKey,
-				$id
-			)
+		$meta_ids = $wpdb->get_col(
+			$wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s AND $column = %d", $key, $id )
 		);
 
-		if ( ! $metaExists ) {
+		if ( empty( $meta_ids ) ) {
 
-			return self::add( $type, $id, $key, $value );
+			return self::add( $type, $id, $key, $passed_value );
 		}
 
-		do_action( "cn_update_meta-$type", $id, $key, $value );
+		$_meta_value = $value;
+		$value       = cnFormatting::maybeJSONencode( $value );
 
-		// Update the `meta_key` field only if previous value is supplied and add to the $data array for $wpdb->update().
-		if ( $oldKey !== NULL ) {
+		$data  = array( 'meta_value' => $value );
+		$where = array( $column => $id, 'meta_key' => $key );
 
-			if ( $key !== $oldKey ) $data['meta_key'] = $key;
+		if ( ! empty( $prev_value ) ) {
+
+			$prev_value          = cnFormatting::maybeJSONencode( $prev_value );
+			$where['meta_value'] = $prev_value;
 		}
 
-		// Add the `meta_value` value to the $data array for $wpdb->update().
-		$data['meta_value'] = cnFormatting::maybeJSONencode( $value );
-
-		// Add the `*_id` value to the $where array for $wpdb->update().
-		// This represents the object id.
-		if ( $metaID !== 0 ) {
-
-			$where['meta_id'] = $metaID;
+		foreach ( $meta_ids as $meta_id ) {
+			/**
+			 * Fires immediately before updating metadata of a specific type.
+			 *
+			 * The dynamic portion of the hook, `$meta_type`, refers to the meta
+			 * object type (comment, post, or user).
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param int    $meta_id ID of the metadata entry to update.
+			 * @param int    $id      Object ID.
+			 * @param string $key     Meta key.
+			 * @param mixed  $value   Meta value.
+			 */
+			do_action( "cn_update_{$type}_meta", $meta_id, $id, $key, $_meta_value );
 		}
 
-		// Add the `meta_id` value to the $where array for $wpdb->update().
-		$where[ $column ] = $id;
+		if ( 'entry' == $type ) {
 
-		// Add the `meta_key` value to the $where array for $wpdb->update().
-		$where['meta_key'] = $oldKey === NULL ? $key : $oldKey;
+			foreach ( $meta_ids as $meta_id ) {
+				/**
+				 * Fires immediately before updating a post's metadata.
+				 *
+				 * @since 2.9.0
+				 *
+				 * @param int    $meta_id ID of metadata entry to update.
+				 * @param int    $id      Object ID.
+				 * @param string $key     Meta key.
+				 * @param mixed  $value   Meta value.
+				 */
+				do_action( 'cn_update_entrymeta', $meta_id, $id, $key, $value );
+			}
+		}
 
-		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
-		$result = $wpdb->update(
-			CN_ENTRY_TABLE_META,
-			$data,
-			$where
-		);
+		$result = $wpdb->update( $table, $data, $where );
 
-		do_action( "cn_updated_meta-$type", $id, $key, $value );
+		if ( ! $result ) {
 
-		// Update the meta in the cache.
-		self::$cache[ $id ][ $metaID ] = array( 'meta_key' => $key, 'meta_value' => $value );
+			return FALSE;
+		}
 
-		// Result will be FALSE on failure or the number of rows affected is successful.
-		return $result;
+		wp_cache_delete( $id, 'cn_' . $type . '_meta' );
+
+		foreach ( $meta_ids as $meta_id ) {
+			/**
+			 * Fires immediately after updating metadata of a specific type.
+			 *
+			 * The dynamic portion of the hook, `$meta_type`, refers to the meta
+			 * object type (comment, post, or user).
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param int    $meta_id ID of updated metadata entry.
+			 * @param int    $id      Object ID.
+			 * @param string $key     Meta key.
+			 * @param mixed  $value   Meta value.
+			 */
+			do_action( "cn_updated_{$type}_meta", $meta_id, $id, $key, $_meta_value );
+		}
+
+		if ( 'entry' == $type ) {
+
+			foreach ( $meta_ids as $meta_id ) {
+				/**
+				 * Fires immediately after updating a post's metadata.
+				 *
+				 * @since 2.9.0
+				 *
+				 * @param int    $meta_id ID of updated metadata entry.
+				 * @param int    $id      Object ID.
+				 * @param string $key     Meta key.
+				 * @param mixed  $value   Meta value.
+				 */
+				do_action( 'cn_updated_entrymeta', $meta_id, $id, $key, $value );
+			}
+		}
+
+		return TRUE;
 	}
 
 	/**

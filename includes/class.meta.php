@@ -548,61 +548,151 @@ class cnMeta {
 	}
 
 	/**
-	 * Delete the meta of the specified object.
+	 * Delete metadata for the specified object.
+	 *
+	 * NOTE: This is the Connections equivalent of @see delete_metadata() in WordPress core ../wp-includes/meta.php
 	 *
 	 * @access public
-	 * @since  0.8
-	 *
-	 * @global wpdb   $wpdb   WordPress database abstraction object.
+	 * @since  8.1.7
+	 * @static
 	 *
 	 * @uses   absint()
+	 * @uses   cnMeta::tableName()
 	 * @uses   sanitize_key()
+	 * @uses   wp_unslash()
+	 * @uses   cnFormatting::maybeJSONencode()
+	 * @uses   wpdb::prepare()
+	 * @uses   wpdb::get_col()
 	 * @uses   do_action()
+	 * @uses   wpdb::query()
+	 * @uses   wp_cache_delete()
 	 *
-	 * @param  string $type   The object type.
-	 * @param  int    $id     The object ID.
-	 * @param  int    $metaID [optional] The meta ID.
+	 * @global wpdb  $wpdb       WordPress database abstraction object.
 	 *
-	 * @return mixed          int | bool The number of affected rows or FALSE on failure.
+	 * @param string $type       Type of object metadata is for (e.g., comment, post, or user)
+	 * @param int    $id         ID of the object metadata is for
+	 * @param string $key        Metadata key
+	 * @param mixed  $value      Optional. Metadata value. Must be serializable if non-scalar. If specified, only
+	 *                           delete metadata entries with this value. Otherwise, delete all entries with the
+	 *                           specified meta_key.
+	 * @param bool   $delete_all Optional, default is false. If true, delete matching metadata entries
+	 *                           for all objects, ignoring the specified object_id. Otherwise, only delete matching
+	 *                           metadata entries for the specified object_id.
+	 *
+	 * @return bool True on successful delete, false on failure.
 	 */
-	public static function delete( $type, $id, $metaID = NULL ) {
+	public static function delete( $type, $id, $key, $value = '', $delete_all = FALSE ) {
 
-		/** @var $wpdb wpdb */
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		$where = array();
-
-		if ( ! $type ) return FALSE;
-		if ( ! $id = absint( $id ) ) return FALSE;
-
-		$column = sanitize_key( $type . '_id' );
-
-		do_action( "cn_delete_meta-$type", $id );
-
-		// The meta of the supplied object type to delete.
-		$where[ $column ] = $id;
-
-		// Only delete the specified meta.
-		if ( $metaID !== NULL && $metaID = absint( $metaID ) ) {
-
-			if ( ! $metaID = absint( $metaID ) ) return FALSE;
-
-			$where[ 'meta_id' ] = $metaID;
+		if ( ! $type || ! $key || ! is_numeric( $id ) && ! $delete_all ) {
+			return FALSE;
 		}
 
-		// Hard code the entry meta table for now. As other meta tables are added this will have to change based $type.
-		$result = $wpdb->delete(
-			CN_ENTRY_TABLE_META,
-			$where
-		);
+		$id = absint( $id );
+		if ( ! $id && ! $delete_all ) {
+			return FALSE;
+		}
 
-		do_action( "cn_deleted_meta-$type", $id );
+		$table = self::tableName( $type );
 
-		// Remove the meta in the cache.
-		unset( self::$cache[ $id ][ $metaID ] );
+		$type_column = sanitize_key( $type . '_id' );
+		$key         = wp_unslash( $key );
+		$value       = wp_unslash( $value );
 
-		// Result will be FALSE on failure or the number of rows affected is successful.
-		return $result;
+		/**
+		 * Filter whether to delete metadata of a specific type.
+		 *
+		 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type (comment, post, or user).
+		 * Returning a non-null value will effectively short-circuit the function.
+		 *
+		 * @since 8.1.7
+		 *
+		 * @param null|bool $delete     Whether to allow metadata deletion of the given type.
+		 * @param int       $id         Object ID.
+		 * @param string    $key        Meta key.
+		 * @param mixed     $value      Meta value. Must be serializable if non-scalar.
+		 * @param bool      $delete_all Whether to delete the matching metadata entries
+		 *                              for all objects, ignoring the specified $object_id.
+		 *                              Default false.
+		 */
+		$check = apply_filters( "cn_delete_{$type}_metadata", NULL, $id, $key, $value, $delete_all );
+		if ( NULL !== $check ) {
+			return (bool) $check;
+		}
+
+		$_meta_value = $value;
+		$value       = cnFormatting::maybeJSONencode( $value );
+
+		$query = $wpdb->prepare( "SELECT meta_id FROM $table WHERE meta_key = %s", $key );
+
+		if ( ! $delete_all ) {
+			$query .= $wpdb->prepare( " AND $type_column = %d", $id );
+		}
+
+		if ( $value ) {
+			$query .= $wpdb->prepare( " AND meta_value = %s", $value );
+		}
+
+		$meta_ids = $wpdb->get_col( $query );
+		if ( ! count( $meta_ids ) ) {
+			return FALSE;
+		}
+
+		if ( $delete_all ) {
+			$object_ids = $wpdb->get_col(
+				$wpdb->prepare( "SELECT $type_column FROM $table WHERE meta_key = %s", $key )
+			);
+		}
+
+		/**
+		 * Fires immediately before deleting metadata of a specific type.
+		 *
+		 * The dynamic portion of the hook, `$meta_type`, refers to the meta
+		 * object type (comment, post, or user).
+		 *
+		 * @since 8.1.7
+		 *
+		 * @param array  $meta_ids An array of metadata entry IDs to delete.
+		 * @param int    $id       Object ID.
+		 * @param string $key      Meta key.
+		 * @param mixed  $value    Meta value.
+		 */
+		do_action( "cn_delete_{$type}_meta", $meta_ids, $id, $key, $_meta_value );
+
+		$query = "DELETE FROM $table WHERE meta_id IN( " . implode( ',', $meta_ids ) . " )";
+
+		$count = $wpdb->query( $query );
+
+		if ( ! $count ) {
+			return FALSE;
+		}
+
+		if ( $delete_all ) {
+			foreach ( (array) $object_ids as $o_id ) {
+				wp_cache_delete( $o_id, 'cn_' . $type . '_meta' );
+			}
+		} else {
+			wp_cache_delete( $id, 'cn_' . $type . '_meta' );
+		}
+
+		/**
+		 * Fires immediately after deleting metadata of a specific type.
+		 *
+		 * The dynamic portion of the hook name, `$meta_type`, refers to the meta
+		 * object type (comment, post, or user).
+		 *
+		 * @since 8.1.7
+		 *
+		 * @param array  $meta_ids An array of deleted metadata entry IDs.
+		 * @param int    $id       Object ID.
+		 * @param string $key      Meta key.
+		 * @param mixed  $value    Meta value.
+		 */
+		do_action( "cn_deleted_{$type}_meta", $meta_ids, $id, $key, $_meta_value );
+
+		return TRUE;
 	}
 
 	/**

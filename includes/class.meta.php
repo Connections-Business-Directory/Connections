@@ -780,7 +780,7 @@ class cnMeta {
 	 *
 	 * @return bool True on successful delete, false on failure.
 	 */
-	function deleteByID( $type, $id ) {
+	public static function deleteByID( $type, $id ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

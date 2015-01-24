@@ -586,6 +586,224 @@ class cnMeta {
 	}
 
 	/**
+	 * Get meta by ID.
+	 *
+	 * NOTE: This is the Connections equivalent of @see get_metadata_by_mid() in WordPress core ../wp-includes/meta.php
+	 *
+	 * @access public
+	 * @since  8.1.7
+	 * @static
+	 *
+	 * @global wpdb  $wpdb  WordPress database abstraction object.
+	 *
+	 * @uses   absint()
+	 * @uses   cnMeta::tableName()
+	 * @uses   wpdb::prepare()
+	 * @uses   wpdb::get_row()
+	 * @uses   cnFormatting::maybeJSONdecode()
+	 *
+	 * @param string $type Type of object metadata is for (e.g., comment, post, or user)
+	 * @param int    $id   ID for a specific meta row
+	 *
+	 * @return mixed object|bool Meta object or false.
+	 */
+	public static function getByID( $type, $id ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		if ( ! $type || ! is_numeric( $id ) ) {
+			return FALSE;
+		}
+
+		$id = absint( $id );
+		if ( ! $id ) {
+			return FALSE;
+		}
+
+		$table = self::tableName( $type );
+
+		$meta = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $table WHERE meta_id = %d", $id ) );
+
+		if ( empty( $meta ) ) {
+			return FALSE;
+		}
+
+		if ( isset( $meta->meta_value ) ) {
+
+			$meta->meta_value = cnFormatting::maybeJSONdecode( $meta->meta_value );
+		}
+
+		return $meta;
+	}
+
+	/**
+	 * Update meta by ID.
+	 *
+	 * NOTE: This is the Connections equivalent of @see update_metadata_by_mid() in WordPress core ../wp-includes/meta.php
+	 *
+	 * @access public
+	 * @since  8.1.7
+	 * @static
+	 *
+	 * @global wpdb  $wpdb  WordPress database abstraction object.
+	 *
+	 * @uses   cnMeta::tableName()
+	 * @uses   cnMeta::getByID()
+	 * @uses   sanitize_meta()
+	 * @uses   cnFormatting::maybeJSONencode()
+	 * @uses   do_action()
+	 * @uses   wpdb::update()
+	 * @uses   wp_cache_delete()
+	 *
+	 * @param string $type  Type of object metadata is for (e.g., comment, post, or user)
+	 * @param int    $id    ID for a specific meta row
+	 * @param string $value Metadata value
+	 * @param mixed  $key   string|bool Optional, you can provide a meta key to update it
+	 *
+	 * @return bool True on successful update, false on failure.
+	 */
+	public static function updateByID( $type, $id, $value, $key = FALSE ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		// Make sure everything is valid.
+		if ( ! $type || ! is_numeric( $id ) ) {
+
+			return FALSE;
+		}
+
+		$id = absint( $id );
+		if ( ! $id ) {
+			return FALSE;
+		}
+
+		$table     = self::tableName( $type );
+		$column    = sanitize_key( $type . '_id' );
+		$id_column = 'meta_id';
+
+		// Fetch the meta and go on if it's found.
+		if ( $meta = self::getByID( $type, $id ) ) {
+
+			$original_key = $meta->meta_key;
+			$object_id    = $meta->{$column};
+
+			// If a new meta_key (last parameter) was specified, change the meta key,
+			// otherwise use the original key in the update statement.
+			if ( FALSE === $key ) {
+
+				$key = $original_key;
+
+			} elseif ( ! is_string( $key ) ) {
+
+				return FALSE;
+			}
+
+			// Sanitize the meta
+			$_meta_value = $value;
+			$value       = sanitize_meta( $key, $value, 'cn_' . $type );
+			$value       = cnFormatting::maybeJSONencode( $value );
+
+			// Format the data query arguments.
+			$data = array(
+				'meta_key'   => $key,
+				'meta_value' => $value
+			);
+
+			// Format the where query arguments.
+			$where               = array();
+			$where[ $id_column ] = $id;
+
+			/** This action is documented in includes/class.meta.php */
+			do_action( "cn_update_{$type}_meta", $id, $object_id, $key, $_meta_value );
+
+			// Run the update query, all fields in $data are %s, $where is a %d.
+			$result = $wpdb->update( $table, $data, $where, '%s', '%d' );
+			if ( ! $result ) {
+				return FALSE;
+			}
+
+			// Clear the caches.
+			wp_cache_delete( $object_id, 'cn_' . $type . '_meta' );
+
+			/** This action is documented in includes/class.meta.php */
+			do_action( "cn_updated_{$type}_meta", $id, $object_id, $key, $_meta_value );
+
+			return TRUE;
+		}
+
+		// And if the meta was not found.
+		return FALSE;
+	}
+
+	/**
+	 * Delete meta data by meta ID.
+	 *
+	 * NOTE: This is the Connections equivalent of @see delete_metadata_by_mid() in WordPress core ../wp-includes/meta.php
+	 *
+	 * @access public
+	 * @since  8.1.7
+	 * @static
+	 *
+	 * @global wpdb  $wpdb WordPress database abstraction object.
+	 *
+	 * @uses   absint()
+	 * @uses   sanitize_key()
+	 * @uses   cnMeta::tableName()
+	 * @uses   cnMeta::getByID()
+	 * @uses   wpdb::delete()
+	 * @uses   do_action()
+	 *
+	 * @param string $type Type of object metadata is for (e.g., comment, post, or user)
+	 * @param int    $id   ID for a specific meta row
+	 *
+	 * @return bool True on successful delete, false on failure.
+	 */
+	function deleteByID( $type, $id ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		// Make sure everything is valid.
+		if ( ! $type || ! is_numeric( $id ) ) {
+			return FALSE;
+		}
+
+		$id = absint( $id );
+		if ( ! $id ) {
+			return FALSE;
+		}
+
+		$table = cnMeta::tableName( $type );
+
+		// object and id columns
+		$column = sanitize_key( $type . '_id' );
+
+		// Fetch the meta and go on if it's found.
+		if ( $meta = cnMeta::getByID( $type, $id ) ) {
+
+			$object_id = $meta->{$column};
+
+			/** This action is documented in wp-includes/meta.php */
+			do_action( "cn_delete_{$type}_meta", (array) $id, $object_id, $meta->meta_key, $meta->meta_value );
+
+			// Run the query, will return true if deleted, false otherwise
+			$result = (bool) $wpdb->delete( $table, array( 'meta_id' => $id ) );
+
+			// Clear the caches.
+			wp_cache_delete( $object_id, 'cn_' . $type . '_meta' );
+
+			/** This action is documented in wp-includes/meta.php */
+			do_action( "cn_deleted_{$type}_meta", (array) $id, $object_id, $meta->meta_key, $meta->meta_value );
+
+			return $result;
+		}
+
+		return FALSE;
+	}
+
+	/**
 	 * Retrieve the specified meta keys.
 	 *
 	 * @access public

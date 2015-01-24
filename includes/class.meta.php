@@ -31,114 +31,194 @@ class cnMeta {
 	private static $cache = array();
 
 	/**
-	 * Get the meta data for the supplied object type and id.
+	 * Retrieve metadata for the specified object.
 	 *
-	 * @access public
-	 * @since  0.8
+	 * @since 8.1.7
 	 *
-	 * @global wpdb   $wpdb WordPress database abstraction object.
+	 * @param string $type      Type of object metadata is for (e.g., entry, term)
+	 * @param int    $id        ID of the object metadata is for
+	 * @param string $key       Optional. Metadata key. If not specified, retrieve all metadata for
+	 *                          the specified object.
+	 * @param bool   $single    Optional, default is false. If true, return only the first value of the
+	 *                          specified meta_key. This parameter has no effect if meta_key is not specified.
 	 *
-	 * @param  string $type The type of object to which to get the meta data for.
-	 * @param  mixed  $ids  array | int  The object id or an array of object IDs.
-	 * @param  int    $key  The meta ID to retrieve.
-	 *
-	 * @return mixed           bool | array
+	 * @return bool|string|array Single metadata value, or array of values
 	 */
-	public static function get( $type, $ids, $key = 0 ) {
+	public static function get( $type, $id, $key = '', $single = FALSE ) {
 
-		/** @var $wpdb wpdb */
-		global $wpdb;
+		if ( ! $type || ! is_numeric( $id ) ) {
 
-		// The object IDs to query from the db.
-		$query = array();
-
-		// Set the default value for the query results to FALSE.
-		$result = FALSE;
-
-		// An array which contains the meta data of the object IDs that was requested.
-		$meta = array();
-
-		$column = sanitize_key( $type . '_id' );
-
-		// If an array of object IDs are being requested; first loop thru the cache
-		// and pull the ones that already exist so they do not need queried again.
-		if ( is_array( $ids ) ) {
-
-			foreach ( $ids as $id ) {
-
-				if ( ! isset( self::$cache[ $id ] ) ) $query[] = $id;
-			}
-
-		} else {
-
-			if ( ! isset( self::$cache[ $ids ] ) ) $query[] = $ids;
+			return FALSE;
 		}
 
-		// Query the meta data for the objects IDs not in the cache.
-		if ( ! empty( $query ) ) {
+		$id = absint( $id );
 
-			$result = $wpdb->get_results(
-				$wpdb->prepare(
-					'SELECT meta_id, %1$s, meta_key, meta_value FROM %2$s WHERE %1$s IN ( %3$s ) %4$s ORDER BY meta_id, meta_key',
-					$column,
-					CN_ENTRY_TABLE_META,
-					is_array( $query ) ? implode( ', ', array_map( 'absint', $query ) ) : absint( $query ),
-					$key === 0 ? '' : $wpdb->prepare( 'AND meta_key = %s', $key )
-				),
-				ARRAY_A
-			);
+		if ( ! $id ) {
 
+			return FALSE;
 		}
 
-		// If there are any results add them to the cache.
-		if ( ! empty( $result ) ) {
+		/**
+		 * Filter whether to retrieve metadata of a specific type.
+		 *
+		 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type (entry, term).
+		 * Returning a non-null value will effectively short-circuit the function.
+		 *
+		 * @since 8.1.7
+		 *
+		 * @param null|array|string $value     The value should return
+		 *                                     a single metadata value,
+		 *                                     or an array of values.
+		 * @param int               $id        Object ID.
+		 * @param string            $key       Meta key.
+		 * @param string|array      $single    Meta value, or an array of values.
+		 */
+		$check = apply_filters( "cn_get_{$type}_metadata", NULL, $id, $key, $single );
 
-			foreach ( $result as $row ) {
+		if ( NULL !== $check ) {
 
-				$entryID   = intval( $row[ $column ] );
-				$metaID    = $row['meta_id'];
-				$metaKey   = $row['meta_key'];
-				$metaValue = cnFormatting::maybeJSONdecode( $row['meta_value'] );
+			if ( $single && is_array( $check ) ) {
 
-				// Force sub-keys to be array type:
-				if ( ! isset( self::$cache[ $entryID ] ) || ! is_array( self::$cache[ $entryID ] ) ) self::$cache[ $entryID ] = array();
-				if ( ! isset( self::$cache[ $entryID ][ $metaID ] ) || ! is_array( self::$cache[ $entryID ][ $metaID ] ) ) self::$cache[ $entryID ][ $metaID ] = array();
-
-				self::$cache[ $entryID ][ $metaID ] = array( 'meta_key' => $metaKey, 'meta_value' => $metaValue );
-			}
-
-		} else {
-
-			if ( is_array( $ids ) ) {
-
-				foreach ( $ids as $id ) {
-
-					if ( ! isset( self::$cache[ $id ] ) ) self::$cache[ $id ] = NULL;
-				}
+				return $check[0];
 
 			} else {
 
-				if ( ! isset( self::$cache[ $ids ] ) ) self::$cache[ $ids ] = NULL;
+				return $check;
 			}
-
 		}
 
-		// Return the requested meta data from the cache.
-		if ( is_array( $ids ) ) {
+		$meta_cache = wp_cache_get( $id, 'cn_' . $type . '_meta' );
 
-			foreach ( $ids as $id ) {
+		if ( ! $meta_cache ) {
 
-				$meta[ $id ] = self::$cache[ $id ];
+			$meta_cache = self::updateCache( $type, array( $id ) );
+			$meta_cache = $meta_cache[ $id ];
+		}
+
+		if ( ! $key ) {
+
+			return $meta_cache;
+		}
+
+		if ( isset( $meta_cache[ $key ] ) ) {
+
+			if ( $single ) {
+
+				return cnFormatting::maybeJSONdecode( $meta_cache[ $key ][0] );
+
+			} else {
+
+				return array_map( array( 'cnFormatting', 'maybeJSONdecode' ), $meta_cache[ $key ] );
 			}
+		}
 
-			if ( ! empty( $meta ) ) return $meta;
+		if ( $single ) {
+
+			return '';
 
 		} else {
 
-			if ( isset( self::$cache[ $ids ] ) ) return self::$cache[ $ids ];
+			return array();
+		}
+	}
+
+	/**
+	 * Update the metadata cache for the specified objects.
+	 *
+	 * @since 8.1.7
+	 *
+	 * @global wpdb     $wpdb       WordPress database abstraction object.
+	 *
+	 * @param string    $type       Type of object metadata is for (e.g., comment, post, or user)
+	 * @param int|array $object_ids array or comma delimited list of object IDs to update cache for
+	 *
+	 * @return mixed Metadata cache for the specified objects, or false on failure.
+	 */
+	private static function updateCache( $type, $object_ids ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		if ( ! $type || ! $object_ids ) {
+			return FALSE;
 		}
 
-		return FALSE;
+		$table  = self::tableName( $type );
+		$column = sanitize_key( $type . '_id');
+
+		if ( ! is_array( $object_ids ) ) {
+
+			$object_ids = preg_replace('|[^0-9,]|', '', $object_ids );
+			$object_ids = explode(',', $object_ids);
+		}
+
+		$object_ids = array_map( 'intval', $object_ids );
+
+		$cache_key = 'cn_' . $type . '_meta';
+		$ids       = array();
+		$cache     = array();
+
+		foreach ( $object_ids as $id ) {
+
+			$cached_object = wp_cache_get( $id, $cache_key );
+
+			if ( FALSE === $cached_object ) {
+
+				$ids[] = $id;
+
+			} else {
+
+				$cache[ $id ] = $cached_object;
+			}
+		}
+
+		if ( empty( $ids ) ) {
+
+			return $cache;
+		}
+
+		// Get meta data.
+		$id_list   = join( ',', $ids );
+		$meta_list = $wpdb->get_results(
+			"SELECT $column, meta_key, meta_value FROM $table WHERE $column IN ($id_list) ORDER BY meta_id ASC",
+			ARRAY_A
+		);
+
+		if ( ! empty( $meta_list ) ) {
+
+			foreach ( $meta_list as $metarow ) {
+
+				$mpid = intval( $metarow[ $column ] );
+				$mkey = $metarow['meta_key'];
+				$mval = $metarow['meta_value'];
+
+				// Force sub keys to be array type.
+				if ( ! isset( $cache[ $mpid ] ) || ! is_array( $cache[ $mpid ] ) ) {
+
+					$cache[ $mpid ] = array();
+				}
+
+				if ( ! isset( $cache[ $mpid ][ $mkey ] ) || ! is_array( $cache[ $mpid ][ $mkey ] ) ) {
+
+					$cache[ $mpid ][ $mkey ] = array();
+				}
+
+				// Add a value to the current pid/key:
+				$cache[ $mpid ][ $mkey ][] = $mval;
+			}
+		}
+
+		foreach ( $ids as $id ) {
+
+			if ( ! isset( $cache[ $id ] ) ) {
+
+				$cache[ $id ] = array();
+			}
+
+			wp_cache_add( $id, $cache[ $id ], $cache_key );
+		}
+
+		return $cache;
 	}
 
 	/**

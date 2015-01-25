@@ -3,7 +3,7 @@
 /**
  * Metadata API.
  *
- * Provides methods to manage the meta data of the vaious Connections object types.
+ * Provides methods to manage the meta data of the various Connections object types.
  *
  * @package     Connections
  * @subpackage  Meta
@@ -35,14 +35,13 @@ class cnMeta {
 	 * @uses   cnMeta::updateCache()
 	 * @uses   cnFormatting::maybeJSONdecode()
 	 *
-	 * @param string $type      Type of object metadata is for (e.g., entry, term)
-	 * @param int    $id        ID of the object metadata is for
-	 * @param string $key       Optional. Metadata key. If not specified, retrieve all metadata for
-	 *                          the specified object.
-	 * @param bool   $single    Optional, default is false. If true, return only the first value of the
-	 *                          specified meta_key. This parameter has no effect if meta_key is not specified.
+	 * @param string $type      Type of object metadata is for (e.g., entry, term).
+	 * @param int    $id        ID of the object metadata is for.
+	 * @param string $key       Optional. Metadata key. If not specified, retrieve all metadata for the specified object.
+	 * @param bool   $single    Optional, default is FALSE. If true, return only the first value of the
+	 *                          specified meta_key. This parameter has no effect if $key is not specified.
 	 *
-	 * @return bool|string|array Single metadata value, or array of values
+	 * @return bool|string|array Single metadata value, or array of values.
 	 */
 	public static function get( $type, $id, $key = '', $single = FALSE ) {
 
@@ -61,14 +60,12 @@ class cnMeta {
 		/**
 		 * Filter whether to retrieve metadata of a specific type.
 		 *
-		 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type (entry, term).
+		 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
 		 * Returning a non-null value will effectively short-circuit the function.
 		 *
 		 * @since 8.1.7
 		 *
-		 * @param null|array|string $value     The value should return
-		 *                                     a single metadata value,
-		 *                                     or an array of values.
+		 * @param null|array|string $value     The value should return a single metadata value, or an array of values.
 		 * @param int               $id        Object ID.
 		 * @param string            $key       Meta key.
 		 * @param string|array      $single    Meta value, or an array of values.
@@ -139,10 +136,10 @@ class cnMeta {
 	 * @uses   wpdb::get_results()
 	 * @uses   wp_cache_add()
 	 *
-	 * @param string    $type       Type of object metadata is for (e.g., comment, post, or user)
-	 * @param int|array $object_ids array or comma delimited list of object IDs to update cache for
+	 * @param string    $type       Type of object metadata is for (e.g., entry, term).
+	 * @param int|array $object_ids array or comma delimited list of object IDs to update.
 	 *
-	 * @return mixed Metadata cache for the specified objects, or false on failure.
+	 * @return mixed                array|bool Metadata for the specified objects, or FALSE on failure.
 	 */
 	private static function updateCache( $type, $object_ids ) {
 
@@ -232,7 +229,7 @@ class cnMeta {
 	}
 
 	/**
-	 * Add meta data to the supplied object type.
+	 * Add meta data to the supplied object type id.
 	 *
 	 * @access public
 	 * @since  0.8
@@ -251,15 +248,14 @@ class cnMeta {
 	 * @uses   wpdb::inset()
 	 * @uses   wp_cache_delete()
 	 *
-	 * @param string $type    The type of object the meta data is for; ie. entry and taxonomy.
+	 * @param string $type    The type of object the meta data is for; ie. entry and term.
 	 * @param int    $id      The object ID.
 	 * @param string $key     Metadata key.
 	 * @param string $value   Metadata value.
-	 * @param bool   $unique  [optional] Whether the specified metadata key should be
-	 *                        unique for the object. If TRUE, and the object already has
-	 *                        a value for the specified metadata key, no change will be made.
+	 * @param bool $unique    [optional] Whether the specified metadata key should be unique for the object.
+	 *                        If TRUE, and the object already has a value for the specified metadata key, no change will be made.
 	 *
-	 * @return mixed          int | bool The metadata ID on successful insert or FALSE on failure.
+	 * @return mixed          int|bool The metadata ID on successful insert or FALSE on failure.
 	 */
 	public static function add( $type, $id, $key, $value, $unique = FALSE ) {
 
@@ -285,8 +281,7 @@ class cnMeta {
 		/**
 		 * Filter whether to add metadata of a specific type.
 		 *
-		 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type (entry, term).
-		 *
+		 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
 		 * Returning a non-null value will effectively short-circuit the function.
 		 *
 		 * @since 8.1.7
@@ -294,7 +289,8 @@ class cnMeta {
 		 * @param null|bool $check  Whether to allow adding metadata for the given type.
 		 * @param int       $id     Object ID.
 		 * @param string    $key    Meta key.
-		 * @param mixed     $value  Meta value. Must be json encoded if non-scalar. Use @see cnFormatting::maybeJSONencode().
+		 * @param mixed $value      Meta value. Must be able to be json encoded if non-scalar.
+		 *                          Use @see cnFormatting::maybeJSONencode().
 		 * @param bool      $unique Whether the specified meta key should be unique
 		 *                          for the object. Optional. Default false.
 		 */
@@ -319,8 +315,7 @@ class cnMeta {
 		/**
 		 * Fires immediately before meta of a specific type is added.
 		 *
-		 * The dynamic portion of the hook, `$meta_type`, refers to the meta
-		 * object type (comment, post, or user).
+		 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
 		 *
 		 * @since 8.1.7
 		 *
@@ -350,8 +345,7 @@ class cnMeta {
 		/**
 		 * Fires immediately after meta of a specific type is added.
 		 *
-		 * The dynamic portion of the hook, `$meta_type`, refers to the meta
-		 * object type (comment, post, or user).
+		 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
 		 *
 		 * @since 8.1.7
 		 *
@@ -392,10 +386,11 @@ class cnMeta {
 	 * @uses   wpdb::update()
 	 * @uses   wp_cache_delete()
 	 *
-	 * @param string $type       Type of object metadata is for (e.g., comment, post, or user)
+	 * @param string $type       Type of object metadata is for (e.g., entry, term)
 	 * @param int    $id         ID of the object metadata is for
 	 * @param string $key        Metadata key
-	 * @param mixed  $value      Metadata value. Must be serializable if non-scalar.
+	 * @param mixed  $value      Metadata value. Must be able to be JSON encoded if non-scalar.
+	 *                           Use @see cnFormatting::maybeJSONencode().
 	 * @param mixed  $prev_value Optional. If specified, only update existing metadata entries with
 	 *                           the specified value. Otherwise, update all entries.
 	 *
@@ -427,16 +422,16 @@ class cnMeta {
 		/**
 		 * Filter whether to update metadata of a specific type.
 		 *
-		 * The dynamic portion of the hook, `$meta_type`, refers to the meta
-		 * object type (comment, post, or user). Returning a non-null value
-		 * will effectively short-circuit the function.
+		 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
+		 * Returning a non-null value will effectively short-circuit the function.
 		 *
 		 * @since 8.1.7
 		 *
 		 * @param null|bool $check      Whether to allow updating metadata for the given type.
 		 * @param int       $id         Object ID.
 		 * @param string    $key        Meta key.
-		 * @param mixed     $value      Meta value. Must be serializable if non-scalar.
+		 * @param mixed     $value      Meta value. Must be able to be JSON encoded if non-scalar.
+		 *                              Use @see cnFormatting::maybeJSONencode().
 		 * @param mixed     $prev_value Optional. If specified, only update existing
 		 *                              metadata entries with the specified value.
 		 *                              Otherwise, update all entries.
@@ -492,8 +487,7 @@ class cnMeta {
 			/**
 			 * Fires immediately before updating metadata of a specific type.
 			 *
-			 * The dynamic portion of the hook, `$meta_type`, refers to the meta
-			 * object type (comment, post, or user).
+			 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
 			 *
 			 * @since 8.1.7
 			 *
@@ -518,8 +512,7 @@ class cnMeta {
 			/**
 			 * Fires immediately after updating metadata of a specific type.
 			 *
-			 * The dynamic portion of the hook, `$meta_type`, refers to the meta
-			 * object type (comment, post, or user).
+			 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
 			 *
 			 * @since 8.1.7
 			 *
@@ -556,17 +549,17 @@ class cnMeta {
 	 *
 	 * @global wpdb  $wpdb       WordPress database abstraction object.
 	 *
-	 * @param string $type       Type of object metadata is for (e.g., comment, post, or user)
-	 * @param int    $id         ID of the object metadata is for
-	 * @param string $key        Metadata key
-	 * @param mixed  $value      Optional. Metadata value. Must be serializable if non-scalar. If specified, only
-	 *                           delete metadata entries with this value. Otherwise, delete all entries with the
-	 *                           specified meta_key.
-	 * @param bool   $delete_all Optional, default is false. If true, delete matching metadata entries
-	 *                           for all objects, ignoring the specified object_id. Otherwise, only delete matching
-	 *                           metadata entries for the specified object_id.
+	 * @param string $type       Type of object metadata is for (e.g., entry, term).
+	 * @param int    $id         ID of the object metadata is for.
+	 * @param string $key        Metadata key.
+	 * @param mixed  $value      Optional. Metadata value. Must be able to be JSON encoded if non-scalar. If specified,
+	 *                           only delete metadata entries with this value. Otherwise, delete all entries with the
+	 *                           specified $key.
+	 * @param bool   $delete_all Optional, default is FALSE. If true, delete matching metadata entries
+	 *                           for all objects, ignoring the specified $id. Otherwise, only delete matching
+	 *                           metadata entries for the specified $id.
 	 *
-	 * @return bool True on successful delete, false on failure.
+	 * @return bool              TRUE on successful delete, FALSE on failure.
 	 */
 	public static function delete( $type, $id, $key, $value = '', $delete_all = FALSE ) {
 
@@ -591,7 +584,7 @@ class cnMeta {
 		/**
 		 * Filter whether to delete metadata of a specific type.
 		 *
-		 * The dynamic portion of the hook, `$meta_type`, refers to the meta object type (comment, post, or user).
+		 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
 		 * Returning a non-null value will effectively short-circuit the function.
 		 *
 		 * @since 8.1.7
@@ -599,10 +592,11 @@ class cnMeta {
 		 * @param null|bool $delete     Whether to allow metadata deletion of the given type.
 		 * @param int       $id         Object ID.
 		 * @param string    $key        Meta key.
-		 * @param mixed     $value      Meta value. Must be serializable if non-scalar.
-		 * @param bool      $delete_all Whether to delete the matching metadata entries
-		 *                              for all objects, ignoring the specified $object_id.
-		 *                              Default false.
+		 * @param mixed     $value      Meta value. Must be able to be JSON encoded if non-scalar.
+		 *                              Use @see cnFormatting::maybeJSONencode().
+		 * @param bool $delete_all      Whether to delete the matching metadata entries for all objects,
+		 *                              ignoring the specified $id.
+		 *                              Default FALSE.
 		 */
 		$check = apply_filters( "cn_delete_{$type}_metadata", NULL, $id, $key, $value, $delete_all );
 		if ( NULL !== $check ) {
@@ -636,12 +630,11 @@ class cnMeta {
 		/**
 		 * Fires immediately before deleting metadata of a specific type.
 		 *
-		 * The dynamic portion of the hook, `$meta_type`, refers to the meta
-		 * object type (comment, post, or user).
+		 * The dynamic portion of the hook, `$type`, refers to the meta object type (entry, term).
 		 *
 		 * @since 8.1.7
 		 *
-		 * @param array  $meta_ids An array of metadata entry IDs to delete.
+		 * @param array  $meta_ids An array of metadata IDs to delete.
 		 * @param int    $id       Object ID.
 		 * @param string $key      Meta key.
 		 * @param mixed  $value    Meta value.
@@ -656,19 +649,22 @@ class cnMeta {
 			return FALSE;
 		}
 
-		if ( $delete_all ) {
+		if ( $delete_all && isset( $object_ids ) ) {
+
 			foreach ( (array) $object_ids as $o_id ) {
+
 				wp_cache_delete( $o_id, 'cn_' . $type . '_meta' );
 			}
+
 		} else {
+
 			wp_cache_delete( $id, 'cn_' . $type . '_meta' );
 		}
 
 		/**
 		 * Fires immediately after deleting metadata of a specific type.
 		 *
-		 * The dynamic portion of the hook name, `$meta_type`, refers to the meta
-		 * object type (comment, post, or user).
+		 * The dynamic portion of the hook name, `$type`, refers to the meta object type (entry, term).
 		 *
 		 * @since 8.1.7
 		 *
@@ -699,10 +695,10 @@ class cnMeta {
 	 * @uses   wpdb::get_row()
 	 * @uses   cnFormatting::maybeJSONdecode()
 	 *
-	 * @param string $type Type of object metadata is for (e.g., comment, post, or user)
+	 * @param string $type Type of object metadata is for (e.g., entry, term)
 	 * @param int    $id   ID for a specific meta row
 	 *
-	 * @return mixed object|bool Meta object or false.
+	 * @return mixed object|bool Meta object or FALSE.
 	 */
 	public static function getByID( $type, $id ) {
 
@@ -753,12 +749,12 @@ class cnMeta {
 	 * @uses   wpdb::update()
 	 * @uses   wp_cache_delete()
 	 *
-	 * @param string $type  Type of object metadata is for (e.g., comment, post, or user)
-	 * @param int    $id    ID for a specific meta row
-	 * @param string $value Metadata value
-	 * @param mixed  $key   string|bool Optional, you can provide a meta key to update it
+	 * @param string $type  Type of object metadata is for (e.g., entry, term).
+	 * @param int    $id    ID for a specific meta row.
+	 * @param string $value Metadata value.
+	 * @param mixed  $key   string|bool Optional, you can provide a meta key to update it.
 	 *
-	 * @return bool True on successful update, false on failure.
+	 * @return bool         TRUE on successful update, FALSE on failure.
 	 */
 	public static function updateByID( $type, $id, $value, $key = FALSE ) {
 
@@ -852,7 +848,7 @@ class cnMeta {
 	 * @uses   wpdb::delete()
 	 * @uses   do_action()
 	 *
-	 * @param string $type Type of object metadata is for (e.g., comment, post, or user)
+	 * @param string $type Type of object metadata is for (e.g., entry, term)
 	 * @param int    $id   ID for a specific meta row
 	 *
 	 * @return bool True on successful delete, false on failure.
@@ -911,7 +907,7 @@ class cnMeta {
 	 * @param  string $type  The object type.
 	 * @param  int    $limit Limit the number of keys to retrieve.
 	 *
-	 * @return array           An array of meta keys.
+	 * @return array         An array of meta keys.
 	 */
 	public static function key( $type, $limit = 30 ) {
 

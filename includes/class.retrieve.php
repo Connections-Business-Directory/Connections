@@ -439,7 +439,7 @@ class cnRetrieve {
 			}
 
 			if ( ! empty( $categorySlugs ) ) {
-				$where[] = 'AND ' . CN_TERMS_TABLE . '.slug IN (' . implode( ", ", (array) $categorySlugs ) . ')';
+				$where[] = 'AND ' . CN_TERMS_TABLE . '.slug IN (\'' . implode( "', '", (array) $categorySlugs ) . '\')';
 
 				unset( $categorySlugs );
 			}

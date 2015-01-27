@@ -507,9 +507,13 @@ class cnEntry {
 	 *
 	 * NOTE: If the entry name is UTF8 it will be URL encoded by the sanitize_title() function.
 	 *
+	 * @param string $slug
+	 *
 	 * @return string
 	 */
 	private function getUniqueSlug( $slug = '' ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		// WP function -- formatting class

@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 8.1.6
+Stable tag: 8.1.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -167,6 +167,15 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.1.7 01/26/2015 =
+* BUG: Fix bug which was stripping numeric characters from the entry name when it was being displayed.
+* BUG: Fix bug where category slugs were not being quoted which cause querying by category slug to fail.
+* TWEAK: Cleanup logic in cnEntry::setFamilyMembers().
+* TWEAK: Cleanup/refactor the methods that get the entry name fields in cnEntry.
+* TWEAK: Set the edit context when displaying the entry "name" fields.
+* OTHER: Introduce cnSanitize::field().
+* OTHER: Fix a phpDoc errors.
 
 = 8.1.6 01/21/2015 =
 * BUG: Fixed the “Warning: Cannot use a scalar value as an array” error. This error was shown to users when their web host does not have an image processing library installed on the web server. This error should no longer be shown, however, Connections will not be able to dynamically resize images. A notice in the admin will still be displayed, “The server does not have ImageMagick or GD installed and/or enabled. Either of these are required for WordPress to be able to resize images. Please contact your server administrator.” If you see this notice, you will have to contact your web host and request that they install the GD image processing library.
@@ -803,4 +812,7 @@ This a major update to Connections it is recommended to backup before updating. 
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.1.6 =
+It is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.1.7 =
 It is recommended to backup before updating. Requires WordPress >= 3.8.

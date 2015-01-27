@@ -284,7 +284,7 @@ class cnRetrieve {
 			foreach ( $atts['category_slug'] as $categorySlug ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name in case the user added it when using the shortcode.
-				$categorySlugs[] = sanitize_title( trim( $categorySlug ) );
+				$categorySlugs[] = sanitize_title( trim( $categorySlug, 'query' ) );
 
 				// Retrieve the children categories.
 				$results = $this->categoryChildren( 'slug', $categorySlug );
@@ -292,7 +292,7 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the slug if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categorySlugs ) ) $categorySlugs[] = sanitize_title( $term->slug );
+					if ( ! in_array( $term->name, $categorySlugs ) ) $categorySlugs[] = sanitize_title( $term->slug, 'query' );
 				}
 			}
 		}

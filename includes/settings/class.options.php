@@ -419,6 +419,7 @@ class cnOptions {
 	public function getDefaultSocialMediaValues() {
 
 		$options = array(
+			'angieslist'    => 'Angie\'s List',
 			'delicious'     => 'delicious',
 			'cdbaby'        => 'CD Baby',
 			'facebook'      => 'Facebook',
@@ -426,6 +427,7 @@ class cnOptions {
 			'foursquare'    => 'foursquare',
 			'goodreads'     => 'Goodreads',
 			'googleplus'    => 'Google+',
+			'houzz'         => 'Houzz',
 			'imdb'          => 'IMDb',
 			'instagram'     => 'Instagram',
 			'itunes'        => 'iTunes',

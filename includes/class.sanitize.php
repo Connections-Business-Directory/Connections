@@ -130,6 +130,85 @@ class cnSanitize {
 	}
 
 	/**
+	 * NOTE: This method is not complete an still under development, it should not be used.
+	 *
+	 * This is basically a Connections equivalent of @see sanitize_post_field().
+	 * The only form fields currently supported by this method are the "name" fields.
+	 * The $field var should be set to `name` to sanitize the "name" fields.
+	 *
+	 * The "name" fields include the following fields:
+	 *
+	 *  - honorable prefix
+	 *  - first name
+	 *  - middle name
+	 *  - last name
+	 *  - honorable suffix
+	 *  - organization
+	 *  - department
+	 *  - title
+	 *  - contact first name
+	 *  - contact last name
+	 *  - family name
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 * @static
+	 *
+	 * @param string $field   The field to sanitize.
+	 * @param string $value   The string to sanitize.
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public static function field( $field, $value, $context = 'display' ) {
+
+		switch ( $context ) {
+
+			case 'raw':
+
+				return $value;
+				break;
+
+			case 'edit':
+
+				if ( 'name' == $field ) {
+
+					return esc_textarea( $value );
+				}
+
+				break;
+
+			case 'db':
+
+				if ( 'name' == $field ) {
+
+					return trim( wp_unslash( $value ) );
+				}
+
+				break;
+
+			case 'attribute':
+
+				return esc_attr( $value );
+				break;
+
+			case 'js':
+
+				return esc_js( $value );
+				break;
+
+			default:
+
+				if ( 'name' == $field ) {
+
+					return trim( convert_chars( wptexturize( $value ) ) );
+				}
+
+				break;
+		}
+	}
+
+	/**
 	 * Check the supplied value against an array of options.
 	 * If the value exists as a key in the options array,
 	 * it is returned, if it is not, the first key in the
@@ -141,7 +220,7 @@ class cnSanitize {
 	 * @access public
 	 * @since 0.8
 	 * @param  mixed $value
-	 * @param  array $options An associtive array of options.
+	 * @param  array $options An associative array of options.
 	 * @param  mixed $default [optional] The value to return if value does not exist in the options array.
 	 *
 	 * @return mixed

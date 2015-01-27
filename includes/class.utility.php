@@ -100,6 +100,8 @@ class cnFormatting {
 	 * @access public
 	 * @since  8.1.6
 	 *
+	 * @uses   wp_slash()
+	 *
 	 * @param string $string
 	 * @param null   $what
 	 * @param string $with
@@ -122,10 +124,10 @@ class cnFormatting {
 			//	"\r"           13           New Line in Mac
 			//	" "            32           Space
 
-			$what = "\\x00-\\x20";    //all white-spaces and control chars
+			$what = "\x00-\x20";    //all white-spaces and control chars
 		}
 
-		return trim( preg_replace( "/[" . $what . "]+/u", $with, $string ), $what );
+		return trim( preg_replace( "/[" . wp_slash( $what ) . "]+/u", $with, $string ), $what );
 	}
 
 	/**

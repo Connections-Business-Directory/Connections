@@ -18,118 +18,96 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class cnEntry {
 	/**
-	 * Integer: Entry ID
-	 *
 	 * @var integer
 	 */
 	private $id;
 
 	/**
-	 *
-	 *
 	 * @var string
 	 */
 	private $ruid;
 
 	/**
-	 * Unix timestamp
-	 *
 	 * @var integer unix timestamp
 	 */
 	private $timeStamp;
 
 	/**
-	 * Unique slug
-	 *
 	 * @var string
 	 */
 	private $slug;
 
 	/**
-	 * Date added.
-	 *
 	 * @var integer unix timestamp
 	 */
 	private $dateAdded;
 
 	/**
-	 * Honorific prefix.
-	 *
 	 * @var string
 	 */
-	private $honorificPrefix;
+	private $honorificPrefix = '';
 
 	/**
-	 * String: First Name
-	 *
 	 * @var string
 	 */
-	private $firstName;
+	private $firstName = '';
 
 	/**
-	 * Middle Name
-	 *
 	 * @var string
 	 */
-	private $middleName;
+	private $middleName = '';
 
 	/**
-	 * String: Last Name
-	 *
 	 * @var string
 	 */
-	private $lastName;
+	private $lastName = '';
 
 	/**
-	 * Honorific suffix
-	 *
 	 * @var string
 	 */
-	private $honorificSuffix;
+	private $honorificSuffix = '';
 
 	/**
-	 * String: Title
-	 *
 	 * @var string
 	 */
-	private $title;
+	private $title = '';
 
 	/**
-	 * String: Oranization
-	 *
 	 * @var string
 	 */
-	private $organization;
+	private $organization = '';
 
 	/**
-	 * String: Department
-	 *
 	 * @var string
 	 */
-	private $department;
-
-	private $contactFirstName;
-
-	private $contactLastName;
+	private $department = '';
 
 	/**
-	 * String: Family Name
-	 *
 	 * @var string
 	 */
-	private $familyName;
+	private $contactFirstName = '';
+
+	/**
+	 * @var string
+	 */
+	private $contactLastName = '';
+
+	/**
+	 * @var string
+	 */
+	private $familyName = '';
 
 	/**
 	 * Associative array of addresses
 	 *
-	 * @var associative array
+	 * @var array
 	 */
 	private $addresses;
 
 	/**
 	 * Associative array of phone numbers
 	 *
-	 * @var associative arrya
+	 * @var array
 	 */
 	private $phoneNumbers;
 
@@ -162,19 +140,22 @@ class cnEntry {
 	 */
 	private $im;
 
+	/**
+	 * @var array
+	 */
 	private $socialMedia;
 
 	/**
 	 * Unix time: Birthday.
 	 *
-	 * @var unix time
+	 * @var integer unix time
 	 */
 	private $birthday;
 
 	/**
 	 * Unix time: Anniversary.
 	 *
-	 * @var unix time
+	 * @var integer unix time
 	 */
 	private $anniversary;
 
@@ -507,9 +488,13 @@ class cnEntry {
 	 *
 	 * NOTE: If the entry name is UTF8 it will be URL encoded by the sanitize_title() function.
 	 *
+	 * @param string $slug
+	 *
 	 * @return string
 	 */
 	private function getUniqueSlug( $slug = '' ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		// WP function -- formatting class
@@ -550,10 +535,11 @@ class cnEntry {
 	 *                          Default '%prefix% %first% %middle% %last% %suffix%'.
 	 *                          Accepts any combination of the following tokens: '%prefix%', '%first%', '%middle%', '%last%', '%suffix%'
 	 * }
+	 * @param string $context   The context in which it should be sanitized.
 	 *
 	 * @return string
 	 */
-	public function getName( $atts = array() ) {
+	public function getName( $atts = array(), $context = 'display' ) {
 
 		$defaults = array(
 			'format' => '%prefix% %first% %middle% %last% %suffix%',
@@ -568,259 +554,512 @@ class cnEntry {
 		 */
 		$atts = cnSanitize::args( apply_filters( 'cn_name_atts', $atts ), $defaults );
 
-		$search  = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
-		$replace = array();
-
 		switch ( $this->getEntryType() ) {
 
 			case 'organization':
 
-				$name = $this->getOrganization();
+				$name = $this->getOrganization( $context );
 				break;
 
 			case 'family':
 
-				$name = $this->getFamilyName();
+				$name = $this->getFamilyName( $context );
 				break;
 
 			default:
 
-				$replace[] = ( isset( $this->honorificPrefix ) ) ? $this->getHonorificPrefix() : '';;
-
-				$replace[] = ( isset( $this->firstName ) ) ? $this->getFirstName() : '';
-
-				$replace[] = ( isset( $this->middleName ) ) ? $this->getMiddleName() : '';
-
-				$replace[] = ( isset( $this->lastName ) ) ? $this->getLastName() : '';
-
-				$replace[] = ( isset( $this->honorificSuffix ) ) ? $this->getHonorificSuffix() : '';
-
-				$name = str_ireplace(
-					$search,
-					$replace,
-					empty( $atts['format'] ) ? $defaults['format'] : $atts['format']
-				);
-
+				$name = $this->getIndividualName( $atts, $context );
 				break;
 		}
+
+		return $name;
+	}
+
+	/**
+	 * Returns the honorable prefix.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly.
+	 *
+	 * @access private
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized. This method will eventually be declared as private.
+	 *
+	 * @return string
+	 */
+	public function getHonorificPrefix( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->honorificPrefix, $context );
+	}
+
+	/**
+	 * Sets the honorable prefix.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param string $prefix
+	 * @param string $context The context in which it should be sanitized.
+	 */
+	public function setHonorificPrefix( $prefix, $context = 'db' ) {
+
+		$this->honorificPrefix = cnSanitize::field( 'name', $prefix, $context );
+	}
+
+	/**
+	 * Returns the first name.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getFirstName( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->firstName, $context );
+	}
+
+	/**
+	 * Sets the first name.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $firstName
+	 * @param string $context   The context in which it should be sanitized.
+	 */
+	public function setFirstName( $firstName, $context = 'db' ) {
+
+		$this->firstName = cnSanitize::field( 'name', $firstName, $context );
+	}
+
+	/**
+	 * Returns the middle name.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getMiddleName( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->middleName, $context );
+	}
+
+	/**
+	 * Sets the middle name.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $middleName
+	 * @param string $context    The context in which it should be sanitized.
+	 */
+	public function setMiddleName( $middleName, $context = 'db' ) {
+
+		$this->middleName = cnSanitize::field( 'name', $middleName, $context );
+	}
+
+	/**
+	 * Returns the last name.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getLastName( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->lastName, $context );
+	}
+
+	/**
+	 * Sets the last name.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $lastName
+	 * @param string $context  The context in which it should be sanitized.
+	 */
+	public function setLastName( $lastName, $context = 'db' ) {
+
+		$this->lastName = cnSanitize::field( 'name', $lastName, $context );
+	}
+
+	/**
+	 * Returns the entry's name suffix.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getHonorificSuffix( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->honorificSuffix, $context );
+	}
+
+	/**
+	 * Sets the honorable suffix.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $suffix
+	 * @param string $context The context in which it should be sanitized.
+	 */
+	public function setHonorificSuffix( $suffix, $context = 'db' ) {
+
+		$this->honorificSuffix = cnSanitize::field( 'name', $suffix, $context );
+	}
+
+	/**
+	 * Returns the name of the Individual.
+	 *
+	 * @access private
+	 * @since  8.1.7
+	 *
+	 * @uses cnFormatting::normalizeString()
+	 *
+	 * @param array $atts {
+	 *     Optional
+	 *
+	 *     @type string $format The format the name should be returned as.
+	 *                          Default '%prefix% %first% %middle% %last% %suffix%'.
+	 *                          Accepts any combination of the following tokens: '%prefix%', '%first%', '%middle%', '%last%', '%suffix%'
+	 * }
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	private function getIndividualName( $atts = array(), $context = 'display' ) {
+
+		$search  = array( '%prefix%', '%first%', '%middle%', '%last%', '%suffix%' );
+		$replace = array(
+			$this->getHonorificPrefix( $context ),
+			$this->getFirstName( $context ),
+			$this->getMiddleName( $context ),
+			$this->getLastName( $context ),
+			$this->getHonorificSuffix( $context ),
+		);
+
+		$name = str_ireplace(
+			$search,
+			$replace,
+			empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
+		);
+
+		return cnFormatting::normalizeString( $name );
+}
+
+	/**
+	 * Get the name, in format "first middle last".
+	 *
+	 * @access private
+	 * @since  unknown
+	 * @deprecated 8.1.7 Use {@see cnEntry::getName()} instead.
+	 * @see cnEntry::getName()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getFullFirstLastName( $context = 'display' ) {
+
+		return $this->getName( array( 'format' => '%first% %middle% %last%' ), $context );
+	}
+
+	/**
+	 * Get the name, in format "last, first middle".
+	 *
+	 * @access private
+	 * @since  unknown
+	 * @deprecated 8.1.7 Use {@see cnEntry::getName()} instead.
+	 * @see cnEntry::getName()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getFullLastFirstName( $context = 'display' ) {
+
+		return $this->getName( array( 'format' => '%last%, %first% %middle%' ), $context );
+	}
+
+	/**
+	 * Get the organization name.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getOrganization( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->organization, $context );
+	}
+
+	/**
+	 * Set the organization name.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field
+	 *
+	 * @param string $organization
+	 * @param string $context      The context in which it should be sanitized.
+	 */
+	public function setOrganization( $organization, $context = 'db' ) {
+
+		$this->organization = cnSanitize::field( 'name', $organization, $context );
+	}
+
+	/**
+	 * Get the title.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getTitle( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->title, $context );
+	}
+
+	/**
+	 * Set the title.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $title
+	 * @param string $context The context in which it should be sanitized.
+	 */
+	public function setTitle( $title, $context = 'db' ) {
+
+		$this->title = cnSanitize::field( 'name', $title, $context );
+	}
+
+	/**
+	 * Get the department.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getDepartment( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->department, $context );
+	}
+
+	/**
+	 * Set the department.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field
+	 *
+	 * @param string $department
+	 * @param string $context    The context in which it should be sanitized.
+	 */
+	public function setDepartment( $department, $context = 'db' ) {
+
+		$this->department = cnSanitize::field( 'name', $department, $context );
+	}
+
+	/**
+	 * Get the contact name.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnFormatting::normalizeString()
+	 *
+	 * @param array  $atts {
+	 *     Optional
+	 *
+	 *     @type string $format The format the name should be returned as.
+	 *                          Default '%first% %last%'.
+	 *                          Accepts any combination of the following tokens: '%first%', '%last%''
+	 * }
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getContactName( $atts = array(), $context = 'display' ) {
+
+		$defaults = array( 'format' => '%first% %last%' );
+
+		$atts = cnSanitize::args( apply_filters( 'cn_contact_name_atts', $atts ), $defaults );
+
+		$search  = array( '%first%', '%last%' );
+		$replace = array();
+
+		$replace[] = $this->contactFirstName ? $this->getContactFirstName( $context ) : '';
+
+		$replace[] = $this->contactLastName ? $this->getContactLastName( $context ) : '';
+
+		$name = str_ireplace( $search, $replace, $atts['format'] );
 
 		return cnFormatting::normalizeString( $name );
 	}
 
-	public function getHonorificPrefix() {
-		return $this->format->sanitizeString( $this->honorificPrefix );
-	}
-
-	public function setHonorificPrefix( $honorificPrefix ) {
-		$this->honorificPrefix = stripslashes( $honorificPrefix );
-	}
-
 	/**
-	 * Returns the entries first name.
-	 * Returns $firstName.
+	 * Get the contact first name.
 	 *
-	 * @see entry::$firstName
-	 */
-	public function getFirstName() {
-		return $this->format->sanitizeString( $this->firstName );
-	}
-
-	/**
-	 * Sets $firstName.
+	 * Use @see cnEntry::getContactName() instead of calling this method directly. This method will eventually be declared as private.
 	 *
-	 * @param object  $firstName
-	 * @see entry::$firstName
-	 */
-	public function setFirstName( $firstName ) {
-		$this->firstName = stripslashes( $firstName );
-	}
-
-	public function getMiddleName() {
-		return $this->format->sanitizeString( $this->middleName );
-	}
-
-	public function setMiddleName( $middleName ) {
-		$this->middleName = stripslashes( $middleName );
-	}
-
-	/**
-	 * The last name if the entry type is an individual.
-	 * If entry type is set to connection group the method will return the group name.
-	 * Returns $lastName.
+	 * @access public
+	 * @since  unknown
 	 *
-	 * @see entry::$lastName
-	 */
-	public function getLastName() {
-		return $this->format->sanitizeString( $this->lastName );
-	}
-
-	/**
-	 * Sets $lastName.
+	 * @uses   cnSanitize::field()
 	 *
-	 * @param string  $lastName
-	 * @see entry::$lastName
-	 */
-	public function setLastName( $lastName ) {
-		// Unescape the string because all methods expect unescaped strings.
-		$this->lastName = stripslashes( $lastName );
-	}
-
-	public function getHonorificSuffix() {
-		return $this->format->sanitizeString( $this->honorificSuffix );
-	}
-
-	public function setHonorificSuffix( $honorificSuffix ) {
-		$this->honorificSuffix = stripslashes( $honorificSuffix );
-	}
-
-
-	/**
-	 * The entries full name if the entry type is an individual.
+	 * @param string $context The context in which it should be sanitized.
 	 *
-	 * Returns $fullFirstLastName.
-	 *
-	 * @see entry::$fullFirstLastName
-	 */
-	public function getFullFirstLastName() {
-		return $this->getName( array( 'format' => '%first% %middle% %last%' ) );
-	}
-
-	/**
-	 * The entries full name; last name first if the entry type is an individual.
-	 * Returns $fullLastFirstName.
-	 *
-	 * @see entry::$fullLastFirstName
-	 */
-	public function getFullLastFirstName() {
-		return $this->getName( array( 'format' => '%last%, %first% %middle%' ) );
-	}
-
-	/**
-	 * Returns the entries Organization.
-	 * Returns $organization.
-	 *
-	 * @see entry::$organization
-	 */
-	public function getOrganization() {
-		return $this->format->sanitizeString( $this->organization );
-	}
-
-	/**
-	 * Sets $organization.
-	 *
-	 * @param object  $organization
-	 * @see entry::$organization
-	 */
-	public function setOrganization( $organization ) {
-		// Unescape the string because all methods expect unescaped strings.
-		$this->organization = stripslashes( $organization );
-	}
-
-	/**
-	 * Returns the entries Title.
-	 * Returns $title.
-	 *
-	 * @see entry::$title
-	 */
-	public function getTitle() {
-		return $this->format->sanitizeString( $this->title );
-	}
-
-	/**
-	 * Sets $title.
-	 *
-	 * @param object  $title
-	 * @see entry::$title
-	 */
-	public function setTitle( $title ) {
-		// Unescape the string because all methods expect unescaped strings.
-		$this->title = stripslashes( $title );
-	}
-
-	/**
-	 * Returns the entries Department.
-	 * Returns $department.
-	 *
-	 * @see entry::$department
-	 */
-	public function getDepartment() {
-		return $this->format->sanitizeString( $this->department );
-	}
-
-	/**
-	 * Sets $department.
-	 *
-	 * @param object  $department
-	 * @see entry::$department
-	 */
-	public function setDepartment( $department ) {
-		// Unescape the string because all methods expect unescaped strings.
-		$this->department = stripslashes( $department );
-	}
-
-	/**
-	 * Returns the entry's contact name.
-	 *
-	 * Accepted options for the $atts property are:
-	 *  format (string) Tokens for the parts of the name.
-	 *   Permitted Tokens:
-	 *    %first%
-	 *    %last%
-	 *
-	 * @param array   $atts [optional]
 	 * @return string
 	 */
-	public function getContactName( $atts = array() ) {
-		$defaultAtts = array( 'format' => '%first% %last%' );
+	public function getContactFirstName( $context = 'display' ) {
 
-		$atts = $this->validate->attributesArray( $defaultAtts, $atts );
-
-		$search = array( '%first%', '%last%' );
-		$replace = array();
-
-		( isset( $this->contactFirstName ) ) ? $replace[] = $this->getContactFirstName() : $replace[] = '';
-
-		( isset( $this->contactLastName ) ) ? $replace[] = $this->getContactLastName() : $replace[] = '';
-
-		return str_ireplace( $search , $replace , $atts['format'] );
-	}
-
-	public function getContactFirstName() {
-		return $this->format->sanitizeString( $this->contactFirstName );
-	}
-
-	public function setContactFirstName( $contactFirstName ) {
-		// Unescape the string because all methods expect unescaped strings.
-		$this->contactFirstName = stripslashes( $contactFirstName );
-	}
-
-	public function getContactLastName() {
-		return $this->format->sanitizeString( $this->contactLastName );
-	}
-
-	public function setContactLastName( $contactLastName ) {
-		// Unescape the string because all methods expect unescaped strings.
-		$this->contactLastName = stripslashes( $contactLastName );
+		return cnSanitize::field( 'name', $this->contactFirstName, $context );
 	}
 
 	/**
-	 * Returns $familyName.
+	 * Set the contact first name.
 	 *
-	 * @see entry::$familyName
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $firstName
+	 * @param string $context   The context in which it should be sanitized.
 	 */
-	public function getFamilyName() {
-		return $this->format->sanitizeString( $this->familyName );
+	public function setContactFirstName( $firstName, $context = 'db'  ) {
+
+		$this->contactFirstName = cnSanitize::field( 'name', $firstName, $context );
 	}
 
 	/**
-	 * Sets $familyName.
+	 * Get the contact last name.
 	 *
-	 * @param object  $familyName
-	 * @see entry::$familyName
+	 * Use @see cnEntry::getContactName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
 	 */
-	public function setFamilyName( $familyName ) {
-		// Unescape the string because all methods expect unescaped strings.
-		$this->familyName = stripslashes( $familyName );
+	public function getContactLastName( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->contactLastName, $context );
+	}
+
+	/**
+	 * Set the contact last name.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $lastName
+	 * @param string $context  The context in which it should be sanitized.
+	 */
+	public function setContactLastName( $lastName, $context = 'db' ) {
+
+		$this->contactLastName = cnSanitize::field( 'name', $lastName, $context );
+	}
+
+	/**
+	 * Get the family name.
+	 *
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 *
+	 * @access private
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @return string
+	 */
+	public function getFamilyName( $context = 'display' ) {
+
+		return cnSanitize::field( 'name', $this->familyName, $context );
+	}
+
+	/**
+	 * Set the family name.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   cnSanitize::field()
+	 *
+	 * @param string $familyName
+	 * @param string $context    The context in which it should be sanitized.
+	 */
+	public function setFamilyName( $familyName, $context = 'db' ) {
+
+		$this->familyName = cnSanitize::field( 'name', $familyName, $context );
 	}
 
 	/**
@@ -836,24 +1075,28 @@ class cnEntry {
 	}
 
 	/**
-	 * Sets $familyMembers.
+	 * The form to capture the user IDs and relationship stores the data
+	 * in a two-dimensional array as follows:
+	 * 		array[0]
+	 * 			array[entry_id]
+	 * 				 [relation]
+	 *
+	 * This re-writes the data into an associative array entry_id => relation.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param array $relations
 	 */
-	public function setFamilyMembers( $familyMembers ) {
-		/*
-		 * The form to capture the user IDs and relationship stores the data
-		 * in a two-dementional array as follows:
-		 * 		array[0]
-		 * 			array[entry_id]
-		 * 				 [relation]
-		 *
-		 * This loop re-writes the data into an associative array entry_id => relation.
-		 */
-		if ( empty( $familyMembers ) ) {
-			$family = array();
-		}
-		else {
-			foreach ( $familyMembers as $relation ) {
-				$family[ $relation['entry_id'] ] .= $relation['relation'];
+	public function setFamilyMembers( $relations ) {
+
+		$family = array();
+
+		if ( ! empty( $relations ) ) {
+
+			foreach ( $relations as $relation ) {
+
+				$family[ $relation['entry_id'] ] = $relation['relation'];
 			}
 		}
 
@@ -861,7 +1104,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns as an array of objects contining the addresses per the defined options for the current entry.
+	 * Returns as an array of objects containing the addresses per the defined options for the current entry.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry address.

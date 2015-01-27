@@ -18,118 +18,96 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 class cnEntry {
 	/**
-	 * Integer: Entry ID
-	 *
 	 * @var integer
 	 */
 	private $id;
 
 	/**
-	 *
-	 *
 	 * @var string
 	 */
 	private $ruid;
 
 	/**
-	 * Unix timestamp
-	 *
 	 * @var integer unix timestamp
 	 */
 	private $timeStamp;
 
 	/**
-	 * Unique slug
-	 *
 	 * @var string
 	 */
 	private $slug;
 
 	/**
-	 * Date added.
-	 *
 	 * @var integer unix timestamp
 	 */
 	private $dateAdded;
 
 	/**
-	 * Honorific prefix.
-	 *
 	 * @var string
 	 */
-	private $honorificPrefix;
+	private $honorificPrefix = '';
 
 	/**
-	 * String: First Name
-	 *
 	 * @var string
 	 */
-	private $firstName;
+	private $firstName = '';
 
 	/**
-	 * Middle Name
-	 *
 	 * @var string
 	 */
-	private $middleName;
+	private $middleName = '';
 
 	/**
-	 * String: Last Name
-	 *
 	 * @var string
 	 */
-	private $lastName;
+	private $lastName = '';
 
 	/**
-	 * Honorific suffix
-	 *
 	 * @var string
 	 */
-	private $honorificSuffix;
+	private $honorificSuffix = '';
 
 	/**
-	 * String: Title
-	 *
 	 * @var string
 	 */
-	private $title;
+	private $title = '';
 
 	/**
-	 * String: Oranization
-	 *
 	 * @var string
 	 */
-	private $organization;
+	private $organization = '';
 
 	/**
-	 * String: Department
-	 *
 	 * @var string
 	 */
-	private $department;
-
-	private $contactFirstName;
-
-	private $contactLastName;
+	private $department = '';
 
 	/**
-	 * String: Family Name
-	 *
 	 * @var string
 	 */
-	private $familyName;
+	private $contactFirstName = '';
+
+	/**
+	 * @var string
+	 */
+	private $contactLastName = '';
+
+	/**
+	 * @var string
+	 */
+	private $familyName = '';
 
 	/**
 	 * Associative array of addresses
 	 *
-	 * @var associative array
+	 * @var array
 	 */
 	private $addresses;
 
 	/**
 	 * Associative array of phone numbers
 	 *
-	 * @var associative arrya
+	 * @var array
 	 */
 	private $phoneNumbers;
 

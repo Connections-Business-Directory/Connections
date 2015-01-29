@@ -371,6 +371,9 @@ class cnAdminActions {
 	 */
 	public static function processEntryMeta( $action, $id ) {
 
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
 		if ( ! $id = absint( $id ) ) return FALSE;
 
 		$meta       = array();

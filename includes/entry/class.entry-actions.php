@@ -903,7 +903,7 @@ class cnEntry_Action {
 	 * @access private
 	 * @since 0.7.8
 	 * @param (array | int) $ids 	The entry IDs to delete.
-	 * @return (bool)
+	 * @return bool
 	 */
 	public static function delete( $ids ) {
 
@@ -914,13 +914,7 @@ class cnEntry_Action {
 		if ( empty( $ids ) ) return FALSE;
 
 		// Check for and convert to an array.
-		if ( ! is_array( $ids ) ) {
-
-			// Remove whitespace.
-			$ids = trim( str_replace( ' ', '', $ids ) );
-
-			$ids = explode( ',', $ids );
-		}
+		$ids = wp_parse_id_list( $ids );
 
 		foreach ( $ids as $id ) {
 

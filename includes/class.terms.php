@@ -2396,7 +2396,7 @@ class cnTerm {
 	 *
 	 * @return array Empty if $taxonomy isn't hierarchical or returns children as Term IDs.
 	 */
-	private static function get_hierarchy( $taxonomy ) {
+	public static function get_hierarchy( $taxonomy ) {
 
 		// Implement taxonomy check.
 		//if ( !is_taxonomy_hierarchical($taxonomy) )

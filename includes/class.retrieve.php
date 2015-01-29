@@ -3012,7 +3012,7 @@ class cnRetrieve {
 	/**
 	 * Returns category by ID.
 	 *
-	 * @param interger $id
+	 * @param integer $id
 	 * @return object
 	 */
 	public function category( $id ) {

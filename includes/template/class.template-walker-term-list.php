@@ -155,7 +155,7 @@ class CN_Walker_Term_List extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_List::render()
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
@@ -172,7 +172,7 @@ class CN_Walker_Term_List extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_List::render()
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
@@ -194,7 +194,7 @@ class CN_Walker_Term_List extends Walker {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $term   Term object.
 	 * @param int    $depth  Depth of category in reference to parents. Default 0.
-	 * @param array  $args   An array of arguments.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_List::render()
 	 * @param int    $id     ID of the current term.
 	 */
 	public function start_el( &$output, $term, $depth = 0, $args = array(), $id = 0 ) {
@@ -238,8 +238,8 @@ class CN_Walker_Term_List extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page   Not used.
-	 * @param int    $depth  Depth of category. Not used.
-	 * @param array  $args   An array of arguments. Only uses 'list' for whether should append to output. @see wp_list_categories()
+	 * @param int    $depth  Depth of category.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_List::render()
 	 */
 	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
 

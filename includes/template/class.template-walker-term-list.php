@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Class CN_Walker_Term_List
+ */
 class CN_Walker_Term_List extends Walker {
 
 	/**
@@ -44,6 +47,11 @@ class CN_Walker_Term_List extends Walker {
 	 * @access public
 	 * @since  8.1.6
 	 * @static
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   cnTerm::getTaxonomyTerms()
+	 * @uses   cnURL::permalink()
+	 * @uses   Walker::walk()
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.

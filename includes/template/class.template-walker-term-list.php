@@ -4,7 +4,7 @@
  * Class for displaying the category list.
  *
  * @package     Connections
- * @subpackage  Template Parts : Category List
+ * @subpackage  Template Parts : Term List
  * @copyright   Copyright (c) 2014, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       8.1.6
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class CN_Walker_Category_List extends Walker {
+class CN_Walker_Term_List extends Walker {
 
 	/**
 	 * What the class handles.

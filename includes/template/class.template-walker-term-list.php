@@ -39,45 +39,34 @@ class CN_Walker_Category_List extends Walker {
 	/**
 	 * Render an unordered list of categories.
 	 *
-	 * Accepted option for the $atts property are:
-	 *
-	 *  NOTE:  All valid options in @see cnTerm::getTaxonomyTerms().
-	 *
-	 *  show_option_all (string)
-	 *      Default: ''
-	 *      Valid: Any string.
-	 *      A non-blank value causes the display of a link to the directory home page. The default is not to display a link.
-	 *
-	 *  show_option_none (string)
-	 *      Default: 'No categories'
-	 *      Valid: Any string.
-	 *      Set the text to show when no categories are listed.
-	 *
-	 *  show_count (bool)
-	 *      Default: FALSE
-	 *      Whether or not to display the category count.
-	 *
-	 *  depth (int)
-	 *      Default: 0
-	 *      Controls how many levels in the hierarchy of categories are to be included in the list.
-	 *          0  - All categories and child categories.
-	 *          -1 - All Categories displayed  flat, not showing the parent/child relationships.
-	 *          1  - Show only top level/root parent categories.
-	 *          n  - Value of n (int) specifies the depth (or level) to descend in displaying the categories.
-	 *
-	 *  taxonomy (string)
-	 *      Default: 'category'
-	 *      The taxonomy tree to display.
-	 *
-	 *  return (bool)
-	 *      Default: FALSE
-	 *      Whether or not to return or echo the resulting HTML.
-	 *
 	 * @access public
-	 * @since 8.1.6
+	 * @since  8.1.6
 	 * @static
 	 *
-	 * @param $atts (array)
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
+	 *     NOTE: Additionally, all valid options in as supported in @see cnTerm::getTaxonomyTerms().
+	 *
+	 * @type string $show_option_all  A non-blank value causes the display of a link to the directory home page.
+	 *                                Default: ''. The default is not to display a link.
+	 *                                Accepts: Any valid string.
+	 * @type string $show_option_none Set the text to show when no categories are listed.
+	 *                                Default: 'No Categories'
+	 *                                Accepts: Any valid string.
+	 * @type bool   $show_count       Whether or not to display the category count.
+	 *                                Default: FALSE
+	 * @type int    $depth            Controls how many levels in the hierarchy of categories are to be included in the list.
+	 *                                Default: 0
+	 *                                Accepts: 0  - All categories and child categories.
+	 *                                         -1 - All Categories displayed  flat, not showing the parent/child relationships.
+	 *                                         1  - Show only top level/root parent categories.
+	 *                                         n  - Value of n (int) specifies the depth (or level) to descend in displaying the categories.
+	 * @type string $taxonomy         The taxonomy tree to display.
+	 *                                Default: 'category'
+	 *                                Accepts: Any registered taxonomy.
+	 * @type bool   $return           Whether or not to return or echo the resulting HTML.
+	 *                                Default: FALSE
+	 * }
 	 *
 	 * @return string
 	 */
@@ -86,12 +75,18 @@ class CN_Walker_Category_List extends Walker {
 		$out = '';
 
 		$defaults = array(
-			'show_option_all'    => '',
-			'show_option_none'   => __( 'No categories', 'connections' ),
-			'show_count'         => FALSE,
-			'depth'              => 0,
-			'taxonomy'           => 'category',
-			'return'             => FALSE,
+			'show_option_all'  => '',
+			'show_option_none' => __( 'No categories', 'connections' ),
+			'orderby'          => 'name',
+			'order'            => 'ASC',
+			'show_count'       => FALSE,
+			'hide_empty'       => FALSE,
+			'child_of'         => 0,
+			'exclude'          => array(),
+			'hierarchical'     => TRUE,
+			'depth'            => 0,
+			'taxonomy'         => 'category',
+			'return'           => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -146,13 +141,11 @@ class CN_Walker_Category_List extends Walker {
 	 *
 	 * @see   Walker::start_lvl()
 	 *
-	 * @since 2.1.0
+	 * @since 8.1.6
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
-	 *
-	 * @see   wp_list_categories()
+	 * @param array  $args   An array of arguments.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
@@ -165,13 +158,11 @@ class CN_Walker_Category_List extends Walker {
 	 *
 	 * @see   Walker::end_lvl()
 	 *
-	 * @since 2.1.0
+	 * @since 8.1.6
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
-	 *
-	 * @see  wp_list_categories()
+	 * @param array  $args   An array of arguments.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
@@ -184,37 +175,37 @@ class CN_Walker_Category_List extends Walker {
 	 *
 	 * @see   Walker::start_el()
 	 *
-	 * @since 2.1.0
+	 * @since 8.1.6
 	 *
-	 * @param string $output   Passed by reference. Used to append additional content.
-	 * @param object $category Category data object.
-	 * @param int    $depth    Depth of category in reference to parents. Default 0.
-	 * @param array  $args     An array of arguments. @see wp_list_categories()
-	 * @param int    $id       ID of the current category.
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $term   Term object.
+	 * @param int    $depth  Depth of category in reference to parents. Default 0.
+	 * @param array  $args   An array of arguments.
+	 * @param int    $id     ID of the current term.
 	 */
-	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
+	public function start_el( &$output, $term, $depth = 0, $args = array(), $id = 0 ) {
 
-		$count = ( $args['show_count'] ) ? ' (' . number_format_i18n( $category->count ) . ')' : '';
+		$count = ( $args['show_count'] ) ? ' (' . number_format_i18n( $term->count ) . ')' : '';
 
-		$url = cnTerm::permalink( $category, 'category' );
+		$url = cnTerm::permalink( $term, 'category' );
 
 		$link = sprintf( '<a href="%1$s" title="%2$s">%3$s',
 		                 $url,
-		                 esc_attr( $category->name ),
-		                 esc_attr( $category->name . $count ) ) . '</a>';
+		                 esc_attr( $term->name ),
+		                 esc_attr( $term->name . $count ) ) . '</a>';
 
 		$output .= "\t<li";
-		$class = 'cat-item cat-item-' . $category->term_id . ' cn-cat-parent';
+		$class = 'cat-item cat-item-' . $term->term_id . ' cn-cat-parent';
 
 		if ( ! empty( $args['current_category'] ) ) {
 
-			$_current_category = cnTerm::get( $args['current_category'], $category->taxonomy );
+			$_current_category = cnTerm::get( $args['current_category'], $term->taxonomy );
 
-			if ( $category->term_id == $args['current_category'] ) {
+			if ( $term->term_id == $args['current_category'] ) {
 
 				$class .= ' current-cat';
 
-			} elseif ( $category->term_id == $_current_category->parent ) {
+			} elseif ( $term->term_id == $_current_category->parent ) {
 
 				$class .= ' current-cat-parent';
 			}
@@ -229,7 +220,7 @@ class CN_Walker_Category_List extends Walker {
 	 *
 	 * @see   Walker::end_el()
 	 *
-	 * @since 2.1.0
+	 * @since 8.1.6
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page   Not used.

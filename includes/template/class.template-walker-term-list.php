@@ -187,6 +187,10 @@ class CN_Walker_Term_List extends Walker {
 	 *
 	 * @since 8.1.6
 	 *
+	 * @uses   esc_attr()
+	 * @uses   number_format_i18n()
+	 * @uses   cnTerm::get()
+	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $term   Term object.
 	 * @param int    $depth  Depth of category in reference to parents. Default 0.

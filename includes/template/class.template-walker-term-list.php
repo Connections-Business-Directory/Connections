@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for displaying the category list.
+ * Class for displaying the term list.
  *
  * @package     Connections
  * @subpackage  Template Parts : Term List
@@ -39,13 +39,15 @@ class CN_Walker_Term_List extends Walker {
 	/**
 	 * Render an unordered list of categories.
 	 *
+	 * This is the Connections equivalent of @see wp_list_categories() in WordPress core ../wp-includes/category-template.php
+	 *
 	 * @access public
 	 * @since  8.1.6
 	 * @static
 	 *
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
-	 *     NOTE: Additionally, all valid options in as supported in @see cnTerm::getTaxonomyTerms().
+	 *     NOTE: Additionally, all valid options as supported in @see cnTerm::getTaxonomyTerms().
 	 *
 	 * @type string $show_option_all  A non-blank value causes the display of a link to the directory home page.
 	 *                                Default: ''. The default is not to display a link.

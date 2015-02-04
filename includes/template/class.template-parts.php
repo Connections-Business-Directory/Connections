@@ -99,15 +99,13 @@ class cnTemplatePart {
 	 * @uses   cnLocate::file()
 	 * @uses   load_template()
 	 * @param  string|array  $files        Template file(s) to search for, in order of priority.
-	 * @param  array         $params       An array of arguments that will be extact() if the template part is to be loaded.
+	 * @param  array         $params       An array of arguments that will be extract() if the template part is to be loaded.
 	 * @param  boolean       $load         If true the template file will be loaded.
 	 * @param  boolean       $require_once Whether to require_once or require. Default is to require_once.
 	 *
-	 * @return string                      The template part file path, if one is located.
+	 * @return mixed string|bool           The template part file path, if one is located.
 	 */
 	public static function locate( $files, $params, $load = FALSE, $require_once = TRUE ) {
-
-		$located = FALSE;
 
 		$located = cnLocate::file( $files );
 

@@ -154,7 +154,7 @@ class CN_Walker_Term_Select_List extends Walker {
 			 *
 			 * @since 8.2
 			 *
-			 * @param string $element Taxonomy element to list.
+			 * @param string $element Taxonomy term name.
 			 */
 			$show_option_none = apply_filters( 'cn_list_cats', $atts['show_option_none'] );
 
@@ -219,12 +219,13 @@ class CN_Walker_Term_Select_List extends Walker {
 	 * @since 2.1.0
 	 *
 	 * @uses   apply_filters()
+	 * @uses   selected()
 	 * @uses   number_format_i18n()
 	 *
 	 * @param string $out   Passed by reference. Used to append additional content.
 	 * @param object $term  Category data object.
 	 * @param int    $depth Depth of category in reference to parents. Default 0.
-	 * @param array  $args  An array of arguments. @see wp_list_categories()
+	 * @param array  $args  An array of arguments. @see CN_Walker_Term_Select_List::render()
 	 * @param int    $id    ID of the current category.
 	 */
 	public function start_el( &$out, $term, $depth = 0, $args = array(), $id = 0 ) {
@@ -236,10 +237,7 @@ class CN_Walker_Term_Select_List extends Walker {
 
 		$out .= "\t<option class=\"level-$depth\" value=\"" . $term->term_id . "\"";
 
-		if ( $term->term_id == $args['selected'] ) {
-
-			$out .= ' selected="selected"';
-		}
+		$out .= selected( $term->term_id, $args['selected'], FALSE );
 
 		$out .= '>';
 		$out .= $pad . $name;

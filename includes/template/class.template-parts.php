@@ -140,7 +140,7 @@ class cnTemplatePart {
 	 * @global $comment
 	 * @global $user_ID
 	 * @param  string  $file         The file path of the template part to be loaded.
-	 * @param  array   $params       An array of arguments that will be extact().
+	 * @param  array   $params       An array of arguments that will be extract().
 	 * @param  bool    $require_once Whether to require_once or require. Default is to require_once.
 	 *
 	 * @return bool                  Unless the required file returns another value.

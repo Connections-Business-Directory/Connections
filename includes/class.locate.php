@@ -37,9 +37,11 @@ class cnLocate {
 	 * @since  0.8
 	 * @static
 	 * @uses   filePaths()
-	 * @param  array  $files An indexed array of file names to search for.
 	 *
-	 * @return string        The absolute file system path to the located file.
+	 * @param  array $files An indexed array of file names to search for.
+	 * @param  string $return
+	 *
+	 * @return mixed bool|string The absolute file system path to the located file. False is file not found.
 	 */
 	public static function file( $files, $return = 'path' ) {
 

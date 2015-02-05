@@ -173,6 +173,64 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Load and init an instance of the WP_list_Table class.
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param string $type The type of the list table to load and init.
+	 * @param array  $args Optional. Arguments to pass to the class.
+	 *
+	 * @return mixed bool|string Returns or echos the HTML output of the table class. FALSE on failure.
+	 */
+	public static function table( $type, $args = array() ) {
+
+		$table = array(
+			'term-admin' => 'CN_Term_Admin_List_Table',
+		);
+
+		if ( array_key_exists( $type, $table ) ) {
+
+			require_once( CN_PATH . '/includes/template/class.template-list-table-' . $type . '.php' );
+
+			return new $table[ $type ]( $args );
+		}
+
+		return FALSE;
+	}
+
+	/**
+	 * Load and init an instance of the Walker class.
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param string $type The type of the walker to load and init.
+	 * @param array  $args Optional. Arguments to pass to the class.
+	 *
+	 * @return mixed bool|string Returns or echos the HTML output of the walker class. FALSE on failure.
+	 */
+	public static function walker( $type, $args = array() ) {
+
+		$walker = array(
+			'term-list'      => 'CN_Walker_Term_List',
+			'term-select'    => 'CN_Walker_Term_Select_List',
+			'term-checklist' => 'CN_Walker_Term_Check_List',
+		);
+
+		if ( array_key_exists( $type, $walker ) ) {
+
+			require_once( CN_PATH . '/includes/template/class.template-walker-' . $type . '.php' );
+
+			return $walker[ $type ]::render( $args );
+		}
+
+		return FALSE;
+	}
+
+	/**
 	 * Display the template no found error message.
 	 *
 	 * @access private

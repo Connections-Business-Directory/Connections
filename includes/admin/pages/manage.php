@@ -253,7 +253,6 @@ function connectionsShowViewPage( $action = NULL ) {
 
 		default:
 			$form = new cnFormObjects();
-			$categoryObjects = new cnCategoryObjects();
 
 			$page = $instance->currentUser->getFilterPage( 'manage' );
 			$offset = ( $page->current - 1 ) * $page->limit;
@@ -330,17 +329,18 @@ function connectionsShowViewPage( $action = NULL ) {
 						<div class="alignleft actions">
 							<?php
 
-							$fragment = new cnFragment( 'category_select', 'cn' );
-
-							if ( ! $fragment->get() ) {
-
-								echo '<select class="postform" id="category" name="category">';
-									echo '<option value="-1">' . __( 'Show All Categories', 'connections' ) . '</option>';
-									echo $categoryObjects->buildCategoryRow( 'option', $instance->retrieve->categories(), 0, $instance->currentUser->getFilterCategory() );
-								echo '</select>';
-
-								$fragment->save();
-							}
+							cnTemplatePart::walker(
+								'term-select',
+								array(
+									'name'            => 'category',
+									'show_option_all' => __( 'Show All Categories', 'connections' ),
+									'hide_empty'      => FALSE,
+									'hierarchical'    => TRUE,
+									'show_count'      => FALSE,
+									'orderby'         => 'name',
+									'selected'        => $instance->currentUser->getFilterCategory(),
+								)
+							);
 
 							echo $form->buildSelect(
 								'entry_type',

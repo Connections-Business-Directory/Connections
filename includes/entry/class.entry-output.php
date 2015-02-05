@@ -2491,9 +2491,9 @@ class cnOutput extends cnEntry
 	 * to be rendered.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	key (string) The meta key to retreive.
+	 * 	key (string) The meta key to retrieve.
 	 * 	single (bool) Whether or not to return a single value
-	 * 		if multiple values exists forthe supplied `key`.
+	 * 		if multiple values exists for the supplied `key`.
 	 * 			NOTE: The `key` attribute must be supplied.
 	 * 			NOTE: If multiple values exist for a given `key` only first found will be returned.
 	 *

@@ -570,7 +570,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Must require AFTER the core templates.
 			require_once CN_PATH . 'includes/template/class.template-api.php';
 			require_once CN_PATH . 'includes/template/class.template-parts.php';
-			require_once CN_PATH . 'includes/template/class.template-walker-category-list.php';
 			require_once CN_PATH . 'includes/template/class.template-shortcode.php';
 			require_once CN_PATH . 'includes/template/class.template-compatibility.php';
 			require_once CN_PATH . 'includes/template/class.template.php';

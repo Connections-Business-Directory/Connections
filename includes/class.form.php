@@ -89,7 +89,7 @@ class cnFormObjects {
 	 * Retrieves or displays the nonce field for forms using wp_nonce_field.
 	 *
 	 * @param string  $action  Action name.
-	 * @param string  $item    [optional] Item name. Use when protecting multiple items on the same page.
+	 * @param bool    $item    [optional] Item name. Use when protecting multiple items on the same page.
 	 * @param string  $name    [optional] Nonce name.
 	 * @param bool    $referer [optional] Whether to set and display the refer field for validation.
 	 * @param bool    $echo    [optional] Whether to display or return the hidden form field.
@@ -130,7 +130,7 @@ class cnFormObjects {
 	 * Generate the complete nonce string, from the nonce base, the action and an item.
 	 *
 	 * @param string  $action Action name.
-	 * @param string  $item   [optional] Item name. Use when protecting multiple items on the same page.
+	 * @param bool    $item   [optional] Item name. Use when protecting multiple items on the same page.
 	 * @return string
 	 */
 	public function getNonce( $action, $item = FALSE ) {
@@ -150,7 +150,7 @@ class cnFormObjects {
 	/**
 	 * Renders a select drop down.
 	 *
-	 * This is deprecated method, left in place for backward compatility only.
+	 * This is deprecated method, left in place for backward compatibility only.
 	 *
 	 * @access private
 	 * @deprecated
@@ -184,7 +184,7 @@ class cnFormObjects {
 	/**
 	 * Renders a radio group.
 	 *
-	 * This is deprecated method, left in place for backward compatility only.
+	 * This is deprecated method, left in place for backward compatibility only.
 	 *
 	 * @access private
 	 * @deprecated
@@ -217,7 +217,7 @@ class cnFormObjects {
 	/**
 	 * Registers the entry edit form metaboxes.
 	 *
-	 * This is deprecated method, left in place for backward compatility only.
+	 * This is deprecated method, left in place for backward compatibility only.
 	 *
 	 * NOTE: This should only be called by the "load-$page_hook" action.
 	 *

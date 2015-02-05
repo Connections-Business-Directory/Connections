@@ -381,34 +381,24 @@ class cnEntryMetabox {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The category metabox.
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  array   $metabox The metabox options array from self::register().
+	 * @return string           The category metabox.
 	 */
 	public static function category( $entry, $metabox ) {
 
-		$id   = $entry->getId();
-		$ckey = $entry->getId() ? 'category_checklist_entry_' . $entry->getId() : 'category_checklist';
+		echo '<div class="categorydiv" id="taxonomy-category">';
+		echo '<div id="category-all" class="tabs-panel">';
 
-		$fragment = new cnFragment( $ckey, 'cn' );
+		cnTemplatePart::walker(
+			'term-checklist',
+			array(
+				'selected' => cnTerm::get_entry_terms( $entry->getID(), 'category', array( 'fields' => 'ids' ) ),
+			)
+		);
 
-		if ( ! $fragment->get() ) {
-
-			// Grab an instance of the Connections object.
-			$instance = Connections_Directory();
-
-			$categoryObjects = new cnCategoryObjects();
-
-			echo '<div class="categorydiv" id="taxonomy-category">';
-				echo '<div id="category-all" class="tabs-panel">';
-					echo '<ul id="categorychecklist">';
-						echo $categoryObjects->buildCategoryRow( 'checklist', $instance->retrieve->categories(), NULL, $instance->term->getTermRelationships( $entry->getId() ) );
-					echo '</ul>';
-				echo '</div>';
-			echo '</div>';
-
-			$fragment->save();
-		}
+		echo '</div>';
+		echo '</div>';
 	}
 
 	/**

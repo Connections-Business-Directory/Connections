@@ -3236,44 +3236,6 @@ class cnTerm {
 			}
 		}
 
-		$_terms = array();
-
-		if ( 'id=>parent' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[ $term->term_id ] = $term->parent;
-
-		} elseif ( 'ids' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[] = $term->term_id;
-
-		} elseif ( 'names' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[] = $term->name;
-
-		} elseif ( 'id=>name' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[ $term->term_id ] = $term->name;
-
-		} elseif ( 'id=>slug' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[ $term->term_id ] = $term->slug;
-		}
-
-		if ( ! empty( $_terms ) ) {
-
-			$terms = $_terms;
-		}
-
-		if ( $atts['number'] && is_array( $terms ) && count( $terms ) > $atts['number'] ) {
-
-			$terms = array_slice( $terms, $atts['offset'], $atts['number'] );
-		}
-
 		/*
 		 * @todo Add method to adjust counts based on user visibility permissions.
 		 */
@@ -3313,6 +3275,44 @@ class cnTerm {
 		}
 
 		reset( $terms );
+
+		$_terms = array();
+
+		if ( 'id=>parent' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[ $term->term_id ] = $term->parent;
+
+		} elseif ( 'ids' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[] = $term->term_id;
+
+		} elseif ( 'names' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[] = $term->name;
+
+		} elseif ( 'id=>name' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[ $term->term_id ] = $term->name;
+
+		} elseif ( 'id=>slug' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[ $term->term_id ] = $term->slug;
+		}
+
+		if ( ! empty( $_terms ) ) {
+
+			$terms = $_terms;
+		}
+
+		if ( $atts['number'] && is_array( $terms ) && count( $terms ) > $atts['number'] ) {
+
+			$terms = array_slice( $terms, $atts['offset'], $atts['number'] );
+		}
 
 		wp_cache_add( $cache_key, $terms, 'cn_terms', DAY_IN_SECONDS );
 

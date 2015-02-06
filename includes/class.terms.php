@@ -232,8 +232,8 @@ class cnTerms
 	 * If the term $IDs is empty then the uncategorized category is set as the relationship.
 	 * NOTE: Only if the taxonomy is 'category'
 	 *
-	 * @deprecated 8.1.6 Use {@see cnTerm::set_entry_terms()} instead.
-	 * @see cnTerm::set_entry_terms()
+	 * @deprecated 8.1.6 Use {@see cnTerm::setObjectTerms()} instead.
+	 * @see cnTerm::setObjectTerms()
 	 *
 	 * @param int    $entryID
 	 * @param array  $termIDs
@@ -249,7 +249,7 @@ class cnTerms
 		}
 
 		$termIDs = array_map( 'intval', $termIDs );
-		$result  = cnTerm::set_entry_terms( $entryID, $termIDs, $taxonomy );
+		$result  = cnTerm::setObjectTerms( $entryID, $termIDs, $taxonomy );
 
 		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
 			cnTerm::updateCount( $result, $taxonomy );
@@ -595,7 +595,7 @@ class cnTerm {
 	 *
 	 * @return array|WP_Error Affected Term IDs.
 	 */
-	public static function set_entry_terms( $object_id, $terms, $taxonomy, $append = FALSE ) {
+	public static function setObjectTerms( $object_id, $terms, $taxonomy, $append = FALSE ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
@@ -1977,7 +1977,7 @@ class cnTerm {
 	 * @uses   do_action()
 	 * @uses   wpdb::prepare()
 	 * @uses   cnTerm::objectTerms()
-	 * @uses   cnTerm::set_entry_terms()
+	 * @uses   setObjectTerms::setObjecTerms()
 	 * @uses   wpdb::delete()
 	 * @uses   wpdb::get_var()
 	 * @uses   cnTerm::cleanCache()
@@ -2116,7 +2116,7 @@ class cnTerm {
 
 			$terms = array_map( 'intval', $terms );
 
-			self::set_entry_terms( $object, $terms, $taxonomy );
+			self::setObjectTerms( $object, $terms, $taxonomy );
 		}
 
 		// Clean the relationship caches for all object types using this term

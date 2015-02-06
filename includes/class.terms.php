@@ -3658,6 +3658,46 @@ class cnTerm {
 	}
 
 	/**
+	 * Check if a term is an ancestor of another term.
+	 *
+	 * You can use either an id or the term object for both parameters.
+	 *
+	 * NOTE: This is the Connections equivalent of @see term_is_ancestor_of() in WordPress core ../wp-includes/taxonomy.php
+	 *
+	 * @since 8.2
+	 *
+	 * @param int|object $term1    ID or object to check if this is the parent term.
+	 * @param int|object $term2    The child term.
+	 * @param string     $taxonomy Taxonomy name that $term1 and $term2 belong to.
+	 *
+	 * @return bool Whether $term2 is child of $term1
+	 */
+	function isAncestorOf( $term1, $term2, $taxonomy ) {
+
+		if ( ! isset( $term1->term_id ) ) {
+
+			$term1 = self::get( $term1, $taxonomy );
+		}
+
+		if ( ! isset( $term2->parent ) ) {
+
+			$term2 = self::get( $term2, $taxonomy );
+		}
+
+		if ( empty( $term1->term_id ) || empty( $term2->parent ) ) {
+
+			return FALSE;
+		}
+		if ( $term2->parent == $term1->term_id ) {
+
+			return TRUE;
+		}
+
+		return self::isAncestorOf( $term1, self::get( $term2->parent, $taxonomy ), $taxonomy );
+	}
+
+
+	/**
 	 * Retrieves children of taxonomy as term IDs.
 	 *
 	 * @access private

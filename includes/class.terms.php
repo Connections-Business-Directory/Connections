@@ -1020,7 +1020,7 @@ class cnTerm {
 			//if ( $object_types == array_filter( $object_types, 'post_type_exists' ) ) {
 
 				// Only post types are attached to this taxonomy
-				self::update_entry_count( $terms, $taxonomy );
+				self::updateRelationshipCount( $terms, $taxonomy );
 
 			//} else {
 
@@ -1056,7 +1056,7 @@ class cnTerm {
 	 * @param array  $terms    List of Term taxonomy IDs
 	 * @param string $taxonomy Current taxonomy object of terms
 	 */
-	private static function update_entry_count( $terms, $taxonomy ) {
+	private static function updateRelationshipCount( $terms, $taxonomy ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;

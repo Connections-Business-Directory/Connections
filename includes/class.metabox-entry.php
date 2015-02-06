@@ -393,7 +393,7 @@ class cnEntryMetabox {
 		cnTemplatePart::walker(
 			'term-checklist',
 			array(
-				'selected' => cnTerm::getObjectTerms( $entry->getID(), 'category', array( 'fields' => 'ids' ) ),
+				'selected' => cnTerm::getRelationships( $entry->getID(), 'category', array( 'fields' => 'ids' ) ),
 			)
 		);
 

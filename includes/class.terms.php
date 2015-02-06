@@ -989,6 +989,9 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
+	 * @uses   cnTerm::updateRelationshipCount()
+	 * @uses   cnTerm::cleanCache()
+	 *
 	 * @param array  $terms    The term_taxonomy_id of terms to update.
 	 * @param string $taxonomy The context of the term.
 	 *

@@ -3832,6 +3832,8 @@ class cnTerm {
 	 *
 	 * Will return an empty array if $term does not exist in $taxonomy.
 	 *
+	 * NOTE: This is the Connections equivalent of @see get_term_children() in WordPress core ../wp-includes/taxonomy.php
+	 *
 	 * @access public
 	 * @since  8.1
 	 * @static

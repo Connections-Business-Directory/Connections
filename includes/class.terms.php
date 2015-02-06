@@ -755,7 +755,7 @@ class cnTerm {
 		 * @param bool   $append     Whether to append new terms to the old terms.
 		 * @param array  $old_tt_ids Old array of term taxonomy IDs.
 		 */
-		do_action( 'cn_set_entry_terms', $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids );
+		do_action( 'cn_set_object_terms', $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids );
 
 		return $tt_ids;
 	}

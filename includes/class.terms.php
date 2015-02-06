@@ -263,8 +263,8 @@ class cnTerms
 	/**
 	 * Retrieve the entry's term relationships.
 	 *
-	 * @deprecated 8.1.6 Use {@see cnTerm::objectTerms()} instead.
-	 * @see cnTerm::objectTerms()
+	 * @deprecated 8.1.6 Use {@see cnTerm::getObjectTerms()} instead.
+	 * @see cnTerm::getObjectTerms()
 	 *
 	 * @param integer $entryID
 	 *
@@ -272,7 +272,7 @@ class cnTerms
 	 */
 	public function getTermRelationships( $entryID ) {
 
-		return cnTerm::objectTerms( $entryID, 'category', array( 'fields' => 'ids' ) );
+		return cnTerm::getObjectTerms( $entryID, 'category', array( 'fields' => 'ids' ) );
 	}
 
 	/**
@@ -287,7 +287,7 @@ class cnTerms
 	 */
 	public function deleteTermRelationships( $entryID ) {
 
-		$terms  = cnTerm::objectTerms( $entryID, 'category', array( 'fields' => 'ids' ) );
+		$terms  = cnTerm::getObjectTerms( $entryID, 'category', array( 'fields' => 'ids' ) );
 		$result = cnTerm::remove_entry_terms( $entryID, $terms, 'category' );
 
 		cnCache::clear( TRUE, 'transient', "cn_category" );
@@ -345,7 +345,7 @@ class cnTerm {
 	 *
 	 * @return array|WP_Error The requested term data or empty array if no terms found. WP_Error if any of the $taxonomies don't exist.
 	 */
-	public static function objectTerms( $object_ids, $taxonomies, $args = array() ) {
+	public static function getObjectTerms( $object_ids, $taxonomies, $args = array() ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
@@ -390,7 +390,7 @@ class cnTerm {
 		//		$t = get_taxonomy($taxonomy);
 		//		if ( isset($t->args) && is_array($t->args) && $args != array_merge($args, $t->args) ) {
 		//			unset($taxonomies[$index]);
-		//			$terms = array_merge($terms, self::objectTerms($object_ids, $taxonomy, array_merge($args, $t->args)));
+		//			$terms = array_merge($terms, self::getObjectTerms($object_ids, $taxonomy, array_merge($args, $t->args)));
 		//		}
 		//	}
 		//} else {
@@ -574,7 +574,7 @@ class cnTerm {
 	 *
 	 * @global @wpdb
 	 *
-	 * @uses   cnTerm::objectTerms()
+	 * @uses   cnTerm::getObjectTerms()
 	 * @uses   cnTerm::exists()
 	 * @uses   cnTerm::insert()
 	 * @uses   is_wp_error()
@@ -612,7 +612,7 @@ class cnTerm {
 
 		if ( ! $append ) {
 
-			$old_tt_ids = self::objectTerms(
+			$old_tt_ids = self::getObjectTerms(
 				$object_id,
 				$taxonomy,
 				array( 'fields' => 'tt_ids', 'orderby' => 'none' )
@@ -731,7 +731,7 @@ class cnTerm {
 		//
 		//	$values = array();
 		//	$term_order = 0;
-		//	$final_tt_ids = self::objectTerms($object_id, $taxonomy, array('fields' => 'tt_ids'));
+		//	$final_tt_ids = self::getObjectTerms($object_id, $taxonomy, array('fields' => 'tt_ids'));
 		//
 		//	foreach ( $tt_ids as $tt_id )
 		//		if ( in_array($tt_id, $final_tt_ids) )
@@ -1976,8 +1976,8 @@ class cnTerm {
 	 * @uses   wpdb::update()
 	 * @uses   do_action()
 	 * @uses   wpdb::prepare()
-	 * @uses   cnTerm::objectTerms()
-	 * @uses   setObjectTerms::setObjecTerms()
+	 * @uses   cnTerm::getObjectTerms()
+	 * @uses   cnTerm::setObjectTerms()
 	 * @uses   wpdb::delete()
 	 * @uses   wpdb::get_var()
 	 * @uses   cnTerm::cleanCache()
@@ -2097,7 +2097,7 @@ class cnTerm {
 
 		foreach ( (array) $objects as $object ) {
 
-			$terms = self::objectTerms( $object, $taxonomy, array( 'fields' => 'ids', 'orderby' => 'none' ) );
+			$terms = self::getObjectTerms( $object, $taxonomy, array( 'fields' => 'ids', 'orderby' => 'none' ) );
 
 			if ( 1 == count( $terms ) && isset( $default ) ) {
 

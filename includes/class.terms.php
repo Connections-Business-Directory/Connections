@@ -278,8 +278,8 @@ class cnTerms
 	/**
 	 * Deletes all entry's relationships.
 	 *
-	 * @deprecated 8.1.6 Use {@see cnTerm::remove_entry_terms()} instead.
-	 * @see cnTerm::remove_entry_terms()
+	 * @deprecated 8.1.6 Use {@see cnTerm::removeObjectTerms()} instead.
+	 * @see cnTerm::removeObjectTerms()
 	 *
 	 * @param integer $entryID
 	 *
@@ -288,7 +288,7 @@ class cnTerms
 	public function deleteTermRelationships( $entryID ) {
 
 		$terms  = cnTerm::getObjectTerms( $entryID, 'category', array( 'fields' => 'ids' ) );
-		$result = cnTerm::remove_entry_terms( $entryID, $terms, 'category' );
+		$result = cnTerm::removeObjectTerms( $entryID, $terms, 'category' );
 
 		cnCache::clear( TRUE, 'transient', "cn_category" );
 
@@ -584,7 +584,7 @@ class cnTerm {
 	 * @uses   wpdb::insert()
 	 * @uses   cnTerm::updateCount()
 	 * @uses   wpdb::get_col()
-	 * @uses   cnTerm::remove_entry_terms()
+	 * @uses   cnTerm::removeObjectTerms()
 	 * @uses   wp_cache_delete()
 	 *
 	 * @param int              $object_id The object to relate to.
@@ -714,7 +714,7 @@ class cnTerm {
 
 				$delete_term_ids  = array_map( 'intval', $delete_term_ids );
 
-				$remove = self::remove_entry_terms( $object_id, $delete_term_ids, $taxonomy );
+				$remove = self::removeObjectTerms( $object_id, $delete_term_ids, $taxonomy );
 
 				if ( is_wp_error( $remove ) ) {
 
@@ -782,7 +782,7 @@ class cnTerm {
 	 *
 	 * @return bool|WP_Error True on success, false or WP_Error on failure.
 	 */
-	public static function remove_entry_terms( $object_id, $terms, $taxonomy ) {
+	public static function removeObjectTerms( $object_id, $terms, $taxonomy ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;

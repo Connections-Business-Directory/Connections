@@ -876,7 +876,7 @@ class cnTerm {
 	 *
 	 * @return mixed array|bool Array of terms if found, FALSE if not found.
 	 */
-	public static function objectCache( $id, $taxonomy ) {
+	public static function getRelationshipsCache( $id, $taxonomy ) {
 
 		$cache = wp_cache_get( $id, "cn_{$taxonomy}_relationships" );
 

@@ -552,7 +552,7 @@ class cnTerm {
 		 *                                 the given object(s).
 		 */
 
-		return apply_filters( 'cn_get_entry_terms', $terms, $object_ids, $taxonomies, $args );
+		return apply_filters( 'cn_get_object_terms', $terms, $object_ids, $taxonomies, $args );
 	}
 
 	/**

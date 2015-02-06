@@ -863,6 +863,27 @@ class cnTerm {
 	}
 
 	/**
+	 * Retrieves the taxonomy relationship to the object id.
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @uses   wp_cache_get()
+	 *
+	 * @param int|      $id       Object ID.
+	 * @param string    $taxonomy Taxonomy Name.
+	 *
+	 * @return mixed array|bool Array of terms if found, FALSE if not found.
+	 */
+	public static function objectCache( $id, $taxonomy ) {
+
+		$cache = wp_cache_get( $id, "cn_{$taxonomy}_relationships" );
+
+		return $cache;
+	}
+
+	/**
 	 * Updates the amount of terms in taxonomy.
 	 *
 	 * If there is a taxonomy callback applied, then it will be called for updating

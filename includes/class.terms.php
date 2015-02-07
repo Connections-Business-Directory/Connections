@@ -1946,19 +1946,19 @@ class cnTerm {
 		 */
 		do_action( 'cn_edited_term_taxonomy', $tt_id, $taxonomy );
 
-		//@todo implement the following block of code.
 		// Clean the relationship caches for all object types using this term
-		//$objects = $wpdb->get_col(
-		//	$wpdb->prepare(
-		//		"SELECT object_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
-		//		$tt_id
-		//	)
-		//);
+		$objects = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT object_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
+				$tt_id
+			)
+		);
 
 		//@todo implement the following block of code.
 		//$tax_object = get_taxonomy( $taxonomy );
 		//foreach ( $tax_object->object_type as $object_type ) {
-		//	clean_object_term_cache( $objects, $object_type );
+		//	self::cleanRelationshipCache( $objects, $object_type );
+			self::cleanRelationshipCache( $objects, $taxonomy ); // Clean the entry/term relationships directly until get_taxonomy() is implemented.
 		//}
 
 		/**

@@ -350,6 +350,8 @@ class cnTerm {
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
+		$select = array();
+
 		if ( empty( $object_ids ) || empty( $taxonomies ) ) {
 
 			return array();
@@ -401,7 +403,7 @@ class cnTerm {
 
 		$orderby = $args['orderby'];
 		$order   = $args['order'];
-		$fields  = $args['fields'];
+		//$fields  = $args['fields'];
 
 		if ( 'count' == $orderby ) {
 			$orderby = 'tt.count';
@@ -421,7 +423,7 @@ class cnTerm {
 		}
 
 		// tt_ids queries can only be none or tr.term_taxonomy_id
-		if ( ( 'tt_ids' == $fields ) && ! empty( $orderby ) ) {
+		if ( ( 'tt_ids' == $args['fields'] ) && ! empty( $orderby ) ) {
 
 			$orderby = 'tr.term_taxonomy_id';
 		}
@@ -441,21 +443,83 @@ class cnTerm {
 		$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
 		$object_ids = implode( ', ', $object_ids );
 
-		$select_this = '';
+		switch ( $args['fields'] ) {
 
-		if ( 'all' == $fields ) {
-			$select_this = 't.*, tt.*';
-		} else if ( 'ids' == $fields ) {
-			$select_this = 't.term_id';
-		} else if ( 'names' == $fields ) {
-			$select_this = 't.name';
-		} else if ( 'slugs' == $fields ) {
-			$select_this = 't.slug';
-		} else if ( 'all_with_entry_id' == $fields ) {
-			$select_this = 't.*, tt.*, tr.entry_id';
+			case 'all':
+				$select = array( 't.*', 'tt.*' );
+				break;
+
+			case 'ids':
+				$select = array( 't.term_id' );
+				break;
+
+			case 'names':
+				$select = array( 't.name' );
+				break;
+
+			case 'slugs':
+				$select  = array( 't.slug' );
+				break;
+
+			case 'all_with_entry_id':
+				$select = array( 't.*', 'tt.*', 'tr.entry_id' );
+				break;
 		}
 
-		$query = "SELECT $select_this FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON tt.term_id = t.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.entry_id IN ($object_ids) $orderby $order";
+		/**
+		 * --> START <-- This block of code deviates quite a bit from the code copied
+		 * from core WP to add filters which can be hooked into.
+		 */
+
+		/**
+		 * Filter the fields to select in the terms query.
+		 *
+		 * @since 8.2
+		 *
+		 * @param array        $select     An array of fields to select for the terms query.
+		 * @param array        $args       An array of term query arguments.
+		 * @param string|array $taxonomies A taxonomy or array of taxonomies.
+		 */
+		$fields  = implode( ', ', apply_filters( 'cn_get_term_relationship_fields', $select, $args, $taxonomies ) );
+
+		$join    = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
+
+		$where   = array( "tt.taxonomy IN ($taxonomies) AND tr.entry_id IN ($object_ids)" );
+
+		$orderBy = "$orderby $order";
+
+		$pieces  = array( 'fields', 'join', 'where', 'orderBy' );
+
+		/**
+		 * Filter the terms query SQL clauses.
+		 *
+		 * @since 8.2
+		 *
+		 * @param array        $pieces     Terms query SQL clauses.
+		 * @param string|array $taxonomies A taxonomy or array of taxonomies.
+		 * @param array        $atts       An array of terms query arguments.
+		 */
+		$clauses = apply_filters( 'cn_term_relationship_clauses', compact( $pieces ), $taxonomies, $args );
+
+		foreach ( $pieces as $piece ) {
+
+			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
+		}
+
+		$query = sprintf(
+			'SELECT %1$s FROM %2$s AS t %3$s WHERE %4$s %5$s',
+			$fields,
+			CN_TERMS_TABLE,
+			$join,
+			implode( ' ', $where ),
+			$orderBy
+		);
+
+		/**
+		 * --> END <--
+		 */
+
+		//$query = "SELECT $select_this FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON tt.term_id = t.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.entry_id IN ($object_ids) $orderby $order";
 
 		$objects = FALSE;
 
@@ -468,7 +532,7 @@ class cnTerm {
 		 * calls.
 		 */
 
-		if ( 'all' == $fields || 'all_with_entry_id' == $fields ) {
+		if ( 'all' == $args['fields'] || 'all_with_entry_id' == $args['fields'] ) {
 
 			$_terms = $wpdb->get_results( $query );
 
@@ -483,10 +547,10 @@ class cnTerm {
 
 			$objects = TRUE;
 
-		} else if ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
+		} else if ( 'ids' == $args['fields'] || 'names' == $args['fields'] || 'slugs' == $args['fields'] ) {
 
 			$_terms = $wpdb->get_col( $query );
-			$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
+			$_field = ( 'ids' == $args['fields'] ) ? 'term_id' : 'name';
 
 			foreach ( $_terms as $key => $term ) {
 
@@ -495,7 +559,7 @@ class cnTerm {
 
 			$terms = array_merge( $terms, $_terms );
 
-		} else if ( 'tt_ids' == $fields ) {
+		} else if ( 'tt_ids' == $args['fields'] ) {
 
 			$terms = $wpdb->get_col(
 				"SELECT tr.term_taxonomy_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " AS tr INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.entry_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order"
@@ -518,7 +582,7 @@ class cnTerm {
 
 			$terms = array();
 
-		} elseif ( $objects && 'all_with_entry_id' !== $fields ) {
+		} elseif ( $objects && 'all_with_entry_id' !== $args['fields'] ) {
 
 			$_tt_ids = array();
 			$_terms  = array();

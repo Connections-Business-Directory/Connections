@@ -3760,7 +3760,7 @@ class cnTerm {
 	 *
 	 * @return bool Whether $term2 is child of $term1
 	 */
-	function isAncestorOf( $term1, $term2, $taxonomy ) {
+	public static function isAncestorOf( $term1, $term2, $taxonomy ) {
 
 		if ( ! isset( $term1->term_id ) ) {
 

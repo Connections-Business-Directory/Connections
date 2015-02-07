@@ -2193,7 +2193,8 @@ class cnTerm {
 		//@todo Implement the following block of code.
 		//$tax_object = get_taxonomy( $taxonomy );
 		//foreach ( $tax_object->object_type as $object_type )
-		//	self::clean_object_term_cache( $objects, $object_type );
+		//	self::cleanRelationshipCache( $objects, $object_type );
+			self::cleanRelationshipCache( $objects, $taxonomy ); // Clean the entry/term relationships directly until get_taxonomy() is implemented.
 
 		// Get the object before deletion so we can pass to actions below
 		$deleted_term = self::get( $term, $taxonomy );

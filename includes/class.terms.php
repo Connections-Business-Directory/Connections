@@ -2469,6 +2469,58 @@ class cnTerm {
 	}
 
 	/**
+	 * Removes the taxonomy relationship to terms from the cache.
+	 *
+	 * Will remove the entire taxonomy relationship containing term $object_id. The
+	 * term IDs have to exist within the taxonomy $object_type for the deletion to
+	 * take place.
+	 *
+	 * NOTE: This is the Connections equivalent of @see get_object_taxonomies() in WordPress core ../wp-includes/taxonomy.php
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param int|array    $object_ids  Single or list of term object ID(s)
+	 * @param array|string $object_type The taxonomy object type
+	 */
+	public static function cleanRelationshipCache( $object_ids, $object_type ) {
+
+		if ( ! is_array( $object_ids ) ) {
+
+			$object_ids = array( $object_ids );
+		}
+
+		//$taxonomies = get_object_taxonomies( $object_type );
+		if ( ! is_array( $object_type ) ) {
+
+			$taxonomies = array( $object_type );
+
+		} else {
+
+			$taxonomies = $object_type;
+		}
+
+		foreach ( $object_ids as $id ) {
+
+			foreach ( $taxonomies as $taxonomy ) {
+
+				wp_cache_delete( $id, "cn_{$taxonomy}_relationships" );
+			}
+		}
+
+		/**
+		 * Fires after the object term cache has been cleaned.
+		 *
+		 * @since 8.2
+		 *
+		 * @param array  $object_ids An array of object IDs.
+		 * @param string $object_type Object type.
+		 */
+		do_action( 'cn_clean_object_term_cache', $object_ids, $object_type );
+	}
+
+	/**
 	 * Retrieves children of taxonomy as Term IDs.
 	 *
 	 * Stores all of the children in "cn_{$taxonomy}_children" option.

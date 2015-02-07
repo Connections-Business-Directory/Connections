@@ -296,6 +296,9 @@ class cnTerms
 	}
 }
 
+/**
+ * Class cnTerm
+ */
 class cnTerm {
 
 	/**

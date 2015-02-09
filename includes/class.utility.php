@@ -1589,3 +1589,51 @@ class cnString {
 	}
 
 }
+
+/**
+ * Class cnFunction.
+ *
+ * A collection of useful functions.
+ *
+ * @access public
+ * @since  8.2
+ */
+class cnFunction {
+
+	/**
+	 * Recursively implode a multi-dimensional array.
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param string $glue
+	 * @param array  $pieces
+	 *
+	 * @return string
+	 */
+	public static function implodeDeep( $glue, $pieces ) {
+
+		$implode = array();
+
+		if ( ! is_array( $pieces ) ) {
+
+			$pieces = array( $pieces );
+		}
+
+		foreach ( $pieces as $piece ) {
+
+			if ( is_array( $piece ) ) {
+
+				$implode[] = self::implodeDeep( $glue, $piece );
+
+			} else {
+
+				$implode[] = $piece;
+			}
+		}
+
+		return implode( $glue, $implode );
+
+	}
+}

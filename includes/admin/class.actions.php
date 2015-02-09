@@ -446,14 +446,17 @@ class cnAdminActions {
 			case 'update':
 
 				// Query the meta associated to the entry.
-				$results = cnMeta::get( 'entry', $id );
+				//$results = cnMeta::get( 'entry', $id );
+				$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id
+							FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
+							ORDER BY meta_key,meta_id", $id ), ARRAY_A );
 
 				if ( $results !== FALSE ) {
 
 					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
 					foreach ( $results as $metaID => $row ) {
 
-						if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $metaID ] );
+						if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $row['meta_id'] ] );
 					}
 
 					// Loop thru the associated meta and update any that may have been changed.
@@ -461,24 +464,25 @@ class cnAdminActions {
 					foreach ( $results as $metaID => $row ) {
 
 						// Update the entry meta if it differs.
-						if ( ( isset( $_POST['meta'][ $metaID ]['value'] ) && $_POST['meta'][ $metaID ]['value'] !== $row['meta_value'] ) ||
-							 ( isset( $_POST['meta'][ $metaID ]['key'] )   && $_POST['meta'][ $metaID ]['key']   !== $row['meta_key']   ) &&
-							 ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) ) {
+						if ( ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] !== $row['meta_value'] ) ||
+							 ( isset( $_POST['meta'][ $row['meta_id'] ]['key'] )   && $_POST['meta'][ $row['meta_id'] ]['key']   !== $row['meta_key']   ) &&
+							 ( $_POST['meta'][ $row['meta_id'] ]['value'] !== '::DELETED::' ) ) {
 
 							// If the key begins with an underscore, remove it because those are private.
-							if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+							//if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
-							cnMeta::update( 'entry', $id, $_POST['meta'][ $metaID ]['key'], $_POST['meta'][ $metaID ]['value'], $row['meta_value'], $row['meta_key'], $metaID );
+							//cnMeta::update( 'entry', $id, $_POST['meta'][ $row['meta_id'] ]['key'], $_POST['meta'][ $row['meta_id'] ]['value'], $row['meta_value'], $row['meta_key'], $row['meta_id'] );
+							cnMeta::updateByID( 'entry', $row['meta_id'], $_POST['meta'][ $row['meta_id'] ]['value'], $_POST['meta'][ $row['meta_id'] ]['key'] );
 
-							$metaIDs['updated'] = $metaID;
+							$metaIDs['updated'] = $row['meta_id'];
 						}
 
-						if ( isset( $_POST['meta'] ) && $_POST['meta'][ $metaID ]['value'] === '::DELETED::' ) {
+						if ( isset( $_POST['meta'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] === '::DELETED::' ) {
 
 							// Record entry meta to be deleted.
-							cnMeta::delete( 'entry', $id, $metaID );
+							cnMeta::deleteByID( 'entry', $row['meta_id'] );
 
-							$metaIDs['deleted'] = $metaID;
+							$metaIDs['deleted'] = $row['meta_id'];
 						}
 
 					}

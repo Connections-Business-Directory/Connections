@@ -956,26 +956,26 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function categoryManagement() {
-		global $connections;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		/*
 		 * Check whether user can edit Settings
 		 */
 		if ( current_user_can( 'connections_edit_categories' ) ) {
 
-			$form = new cnFormObjects();
+			//$form = new cnFormObjects();
 
 			switch ( $_POST['action'] ) {
 
 				case 'delete':
 
-					check_admin_referer( $form->getNonce( 'bulk_delete_category' ), '_cn_wpnonce' );
+					check_admin_referer( 'bulk-terms' );
 
-					foreach ( (array) $_POST['category'] as $cat_ID ) {
+					foreach ( (array) $_POST['category'] as $id ) {
 
-						$cat_ID = esc_attr( $cat_ID );
-
-						$result = $connections->retrieve->category( esc_attr( $cat_ID ) );
+						$result = $instance->retrieve->category( absint( $id ) );
 						$category = new cnCategory( $result );
 						$category->delete();
 					}

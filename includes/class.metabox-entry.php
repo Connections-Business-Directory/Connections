@@ -3065,19 +3065,23 @@ class cnEntryMetabox {
 	 *
 	 * @access private
 	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array  $metabox The metabox attributes array set in self::register().
 	 * @return void
 	 */
 	public static function meta( $entry, $metabox ) {
 
-		// Only need the data from $metabox['args'].
-		// $value   = $entry->getMeta( 'meta', TRUE );
-		$results = $entry->getMeta();
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id
+			FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
+			ORDER BY meta_key,meta_id", $entry->getId()), ARRAY_A );
+
 		$metabox = $metabox['args'];
 		$keys    = cnMeta::key( 'entry' );
 
-		// Toss the meta that is save as part of a custom field.
+		// Toss the meta that is saved as part of a custom field.
 		if ( ! empty( $results ) ) {
 
 			foreach ( $results as $metaID => $meta ) {
@@ -3119,19 +3123,19 @@ class cnEntryMetabox {
 
 					?>
 
-					<tr id="meta-<?php echo $metaID; ?>" class="<?php echo $alternate; ?>">
+					<tr id="meta-<?php echo $meta['meta_id']; ?>" class="<?php echo $alternate; ?>">
 
 						<td class="left">
-							<label class="screen-reader-text" for='meta[<?php echo $metaID; ?>][key]'><?php _e( 'Key', 'connections' ); ?></label>
-							<input name='meta[<?php echo $metaID; ?>][key]' id='meta[<?php echo $metaID; ?>][key]' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ) ?>" />
+							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][key]'><?php _e( 'Key', 'connections' ); ?></label>
+							<input name='meta[<?php echo $meta['meta_id']; ?>][key]' id='meta[<?php echo $meta['meta_id']; ?>][key]' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ) ?>" />
 							<div class="submit">
-								<input type="submit" name="deletemeta[<?php echo $metaID; ?>]" id="deletemeta[<?php echo $metaID; ?>]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
+								<input type="submit" name="deletemeta[<?php echo $meta['meta_id']; ?>]" id="deletemeta[<?php echo $meta['meta_id']; ?>]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
 							</div>
 						</td>
 
 						<td>
-							<label class="screen-reader-text" for='meta[<?php echo $metaID; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
-							<textarea name='meta[<?php echo $metaID; ?>][value]' id='meta[<?php echo $metaID; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( cnFormatting::maybeJSONencode( $meta['meta_value'] ) ) ?></textarea>
+							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
+							<textarea name='meta[<?php echo $meta['meta_id']; ?>][value]' id='meta[<?php echo $meta['meta_id']; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( cnFormatting::maybeJSONencode( $meta['meta_value'] ) ) ?></textarea>
 						</td>
 
 					</tr>

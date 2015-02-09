@@ -778,6 +778,8 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function saveUserFilters() {
+
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		// Set the moderation filter for the current user if set in the query string.
@@ -786,8 +788,8 @@ class cnAdminActions {
 		if ( isset( $_POST['entry_type'] ) ) $connections->currentUser->setFilterEntryType( esc_attr( $_POST['entry_type'] ) );
 		if ( isset( $_POST['visibility_type'] ) ) $connections->currentUser->setFilterVisibility( esc_attr( $_POST['visibility_type'] ) );
 
-		if ( isset( $_POST['category'] ) && ! empty( $_POST['category'] ) ) $connections->currentUser->setFilterCategory( esc_attr( $_POST['category'] ) );
-		if ( isset( $_GET['category'] ) && ! empty( $_GET['category'] ) ) $connections->currentUser->setFilterCategory( esc_attr( $_GET['category'] ) );
+		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) $connections->currentUser->setFilterCategory( absint( $_POST['category'] ) );
+		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) $connections->currentUser->setFilterCategory( absint( $_GET['category'] ) );
 
 		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) {
 			$page = new stdClass();
@@ -964,8 +966,6 @@ class cnAdminActions {
 		 * Check whether user can edit Settings
 		 */
 		if ( current_user_can( 'connections_edit_categories' ) ) {
-
-			//$form = new cnFormObjects();
 
 			switch ( $_POST['action'] ) {
 

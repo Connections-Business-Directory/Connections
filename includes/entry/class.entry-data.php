@@ -3365,45 +3365,37 @@ class cnEntry {
 		return $this->categories;
 	}
 
+	/**
+	 * Returns the entry meta data.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   cnMeta::get()
+	 *
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
+	 *
+	 * @type string $key       Metadata key. If not specified, retrieve all metadata for the specified object.
+	 * @type bool   $single    Default is FALSE. If TRUE, return only the first value of the specified meta_key.
+	 *                         This parameter has no effect if $key is not specified.
+	 * }
+	 *
+	 * @return mixed array|bool|string Array of the entry meta data.
+	 *                                 String if $single is set to TRUE.
+	 *                                 FALSE on failure.
+	 */
 	public function getMeta( $atts = array() ) {
 
 		$defaults = array(
-			'key'       => '',
-			'value'     => '',
-			'single'    => FALSE,
-			);
+			'key'    => '',
+			'single' => FALSE,
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = $atts['single'] ? '' : array();
-
-		$results = cnMeta::get( 'entry', $this->getId() );
-
-		if ( $results === FALSE ) return $results;
-
-		if ( ! empty( $results ) ) {
-
-			if ( empty( $atts['key'] ) ) return $results;
-
-			foreach ( $results as $metaID => $meta ) {
-
-				if ( $meta['meta_key'] === $atts['key'] ) {
-
-					if ( $atts['single'] ) {
-
-						return $meta['meta_value'];
-
-					} else {
-
-						$out[ $metaID ] = $meta['meta_value'];
-					}
-				}
-			}
-
-			return $out;
-		}
-
-		return $atts['single'] ? '' : array();
+		return cnMeta::get( 'entry', $this->getId(), $atts['key'], $atts['single'] );
 	}
 
 	/**

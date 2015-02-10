@@ -3665,6 +3665,9 @@ class cnEntry {
 	/**
 	 * Get the original logo/photo image URL.
 	 *
+	 * @todo Consider using cnUpload::info() instead of the CN_IMAGE_BASE_URL constant.
+	 * @link http://connections-pro.com/support/topic/error-the-img_path-variable-has-not-been-set/#post-318897
+	 *
 	 * @access public
 	 * @since  8.1
 	 * @uses   wp_upload_dir()

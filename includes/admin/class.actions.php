@@ -111,6 +111,9 @@ class cnAdminActions {
 		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
 		add_action( 'cn_install_template', array( __CLASS__, 'installTemplate' ) );
 		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
+
+		// Term Meta Actions
+		add_action( 'cn_delete_term', array( __CLASS__, 'deleteTermMeta' ), 10, 4 );
 	}
 
 	/**
@@ -943,6 +946,35 @@ class cnAdminActions {
 			cnMessage::set( 'error', 'capability_categories' );
 		}
 
+	}
+
+	/**
+	 * Callback to delete the term meta when when a term is deleted.
+	 *
+	 * @access private
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param int    $term          Term ID.
+	 * @param int    $tt_id         Term taxonomy ID.
+	 * @param string $taxonomy      Taxonomy slug.
+	 * @param mixed  $deleted_term  Copy of the already-deleted term, in the form specified
+	 *                              by the parent function. WP_Error otherwise.
+	 */
+	public static function deleteTermMeta( $term, $tt_id, $taxonomy, $deleted_term ) {
+
+		if ( ! is_wp_error( $deleted_term ) ) {
+
+			$meta = cnMeta::get( 'term', $term );
+
+			if ( ! empty( $meta ) ) {
+
+				foreach ( $meta as $key => $value ) {
+
+					cnMeta::delete( 'term', $term, $key );
+				}
+			}
+		}
 	}
 
 	/**

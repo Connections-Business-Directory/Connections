@@ -3747,7 +3747,7 @@ class cnEntry {
 	 * @uses   WP_Error
 	 * @uses   is_wp_error()
 	 * @param  array  $atts
-	 * @return array
+	 * @return mixed array|WP_Error
 	 */
 	public function getImageMeta( $atts = array() ) {
 

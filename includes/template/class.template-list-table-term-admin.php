@@ -446,9 +446,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 			++$count;
 
-			unset( $terms[$key] );
+			unset( $terms[ $key ] );
 
-			if ( isset( $children[$term->term_id] ) && empty( $_REQUEST['s'] ) )
+			if ( isset( $children[ $term->term_id ] ) && empty( $_REQUEST['s'] ) )
 				$this->_rows( $taxonomy, $terms, $children, $start, $per_page, $count, $term->term_id, $level + 1 );
 		}
 	}

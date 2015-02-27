@@ -1360,10 +1360,65 @@ class cnRetrieve {
 		return $results;
 	}
 
-	// Retrieve the categories.
+	/**
+	 * Retrieve the entry categories.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param int $id
+	 *
+	 * @return mixed array|WP_Error An array of categories associated to an entry.
+	 */
 	public function entryCategories( $id ) {
 
-		return cnTerm::get_entry_terms( $id, 'category' );
+		return self::entryTerms( $id, 'category' );
+	}
+
+	/**
+	 * Retrieve the entry terms by taxonomy.
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param int    $id
+	 * @param string $taxonomy
+	 * @param array  $atts     Optional. An array of arguments. @see cnTerm::getRelationships() for accepted arguments.
+	 *
+	 * @return mixed array|WP_Error An array of terms by taxonomy associated to an entry.
+	 */
+	public static function entryTerms( $id, $taxonomy, $atts = array() ) {
+
+		/** @todo Check that entry exists */
+		//if ( ! $id = get_entry( $id ) ) {
+		//	return false;
+		//}
+
+		$terms = cnTerm::getRelationshipsCache( $id, $taxonomy );
+
+		if ( FALSE === $terms ) {
+
+			$terms = cnTerm::getRelationships( $id, $taxonomy, $atts );
+
+			wp_cache_add( $id, $terms, "cn_{$taxonomy}_relationships" );
+
+		} else {
+
+			/**
+			 * Filter the list of terms attached to the given entry.
+			 *
+			 * @since 8.2
+			 *
+			 * @param array|WP_Error $terms    List of attached terms, or WP_Error on failure.
+			 * @param int            $id       Post ID.
+			 * @param string         $taxonomy Name of the taxonomy.
+			 * @param array          $atts     An array of arguments for retrieving terms for the given object.
+			 */
+			$terms = apply_filters( 'cn_get_object_terms', $terms, $id, $taxonomy, $atts );
+		}
+
+		return $terms;
 	}
 
 	/**
@@ -3012,7 +3067,7 @@ class cnRetrieve {
 	/**
 	 * Returns category by ID.
 	 *
-	 * @param interger $id
+	 * @param integer $id
 	 * @return object
 	 */
 	public function category( $id ) {

@@ -111,6 +111,9 @@ class cnAdminActions {
 		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
 		add_action( 'cn_install_template', array( __CLASS__, 'installTemplate' ) );
 		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
+
+		// Term Meta Actions
+		add_action( 'cn_delete_term', array( __CLASS__, 'deleteTermMeta' ), 10, 4 );
 	}
 
 	/**
@@ -371,6 +374,9 @@ class cnAdminActions {
 	 */
 	public static function processEntryMeta( $action, $id ) {
 
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
 		if ( ! $id = absint( $id ) ) return FALSE;
 
 		$meta       = array();
@@ -443,14 +449,17 @@ class cnAdminActions {
 			case 'update':
 
 				// Query the meta associated to the entry.
-				$results = cnMeta::get( 'entry', $id );
+				//$results = cnMeta::get( 'entry', $id );
+				$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id
+							FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
+							ORDER BY meta_key,meta_id", $id ), ARRAY_A );
 
 				if ( $results !== FALSE ) {
 
 					// Loop thru $results removing any custom meta fields. Custom meta fields are considered to be private.
 					foreach ( $results as $metaID => $row ) {
 
-						if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $metaID ] );
+						if ( cnMeta::isPrivate( $row['meta_key'] ) ) unset( $results[ $row['meta_id'] ] );
 					}
 
 					// Loop thru the associated meta and update any that may have been changed.
@@ -458,24 +467,25 @@ class cnAdminActions {
 					foreach ( $results as $metaID => $row ) {
 
 						// Update the entry meta if it differs.
-						if ( ( isset( $_POST['meta'][ $metaID ]['value'] ) && $_POST['meta'][ $metaID ]['value'] !== $row['meta_value'] ) ||
-							 ( isset( $_POST['meta'][ $metaID ]['key'] )   && $_POST['meta'][ $metaID ]['key']   !== $row['meta_key']   ) &&
-							 ( $_POST['meta'][ $metaID ]['value'] !== '::DELETED::' ) ) {
+						if ( ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] !== $row['meta_value'] ) ||
+							 ( isset( $_POST['meta'][ $row['meta_id'] ]['key'] )   && $_POST['meta'][ $row['meta_id'] ]['key']   !== $row['meta_key']   ) &&
+							 ( $_POST['meta'][ $row['meta_id'] ]['value'] !== '::DELETED::' ) ) {
 
 							// If the key begins with an underscore, remove it because those are private.
-							if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
+							//if ( isset( $row['key'][0] ) && '_' == $row['key'][0] ) $row['key'] = substr( $row['key'], 1 );
 
-							cnMeta::update( 'entry', $id, $_POST['meta'][ $metaID ]['key'], $_POST['meta'][ $metaID ]['value'], $row['meta_value'], $row['meta_key'], $metaID );
+							//cnMeta::update( 'entry', $id, $_POST['meta'][ $row['meta_id'] ]['key'], $_POST['meta'][ $row['meta_id'] ]['value'], $row['meta_value'], $row['meta_key'], $row['meta_id'] );
+							cnMeta::updateByID( 'entry', $row['meta_id'], $_POST['meta'][ $row['meta_id'] ]['value'], $_POST['meta'][ $row['meta_id'] ]['key'] );
 
-							$metaIDs['updated'] = $metaID;
+							$metaIDs['updated'] = $row['meta_id'];
 						}
 
-						if ( isset( $_POST['meta'] ) && $_POST['meta'][ $metaID ]['value'] === '::DELETED::' ) {
+						if ( isset( $_POST['meta'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] === '::DELETED::' ) {
 
 							// Record entry meta to be deleted.
-							cnMeta::delete( 'entry', $id, $metaID );
+							cnMeta::deleteByID( 'entry', $row['meta_id'] );
 
-							$metaIDs['deleted'] = $metaID;
+							$metaIDs['deleted'] = $row['meta_id'];
 						}
 
 					}
@@ -771,6 +781,8 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function saveUserFilters() {
+
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		// Set the moderation filter for the current user if set in the query string.
@@ -779,8 +791,8 @@ class cnAdminActions {
 		if ( isset( $_POST['entry_type'] ) ) $connections->currentUser->setFilterEntryType( esc_attr( $_POST['entry_type'] ) );
 		if ( isset( $_POST['visibility_type'] ) ) $connections->currentUser->setFilterVisibility( esc_attr( $_POST['visibility_type'] ) );
 
-		if ( isset( $_POST['category'] ) && ! empty( $_POST['category'] ) ) $connections->currentUser->setFilterCategory( esc_attr( $_POST['category'] ) );
-		if ( isset( $_GET['category'] ) && ! empty( $_GET['category'] ) ) $connections->currentUser->setFilterCategory( esc_attr( $_GET['category'] ) );
+		if ( isset( $_POST['category'] ) /*&& ! empty( $_POST['category'] )*/ ) $connections->currentUser->setFilterCategory( absint( $_POST['category'] ) );
+		if ( isset( $_GET['category'] ) /*&& ! empty( $_GET['category'] )*/ ) $connections->currentUser->setFilterCategory( absint( $_GET['category'] ) );
 
 		if ( isset( $_POST['pg'] ) && ! empty( $_POST['pg'] ) ) {
 			$page = new stdClass();
@@ -937,6 +949,35 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Callback to delete the term meta when when a term is deleted.
+	 *
+	 * @access private
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param int    $term          Term ID.
+	 * @param int    $tt_id         Term taxonomy ID.
+	 * @param string $taxonomy      Taxonomy slug.
+	 * @param mixed  $deleted_term  Copy of the already-deleted term, in the form specified
+	 *                              by the parent function. WP_Error otherwise.
+	 */
+	public static function deleteTermMeta( $term, $tt_id, $taxonomy, $deleted_term ) {
+
+		if ( ! is_wp_error( $deleted_term ) ) {
+
+			$meta = cnMeta::get( 'term', $term );
+
+			if ( ! empty( $meta ) ) {
+
+				foreach ( $meta as $key => $value ) {
+
+					cnMeta::delete( 'term', $term, $key );
+				}
+			}
+		}
+	}
+
+	/**
 	 * Bulk category actions.
 	 *
 	 * @access public
@@ -949,26 +990,24 @@ class cnAdminActions {
 	 * @return void
 	 */
 	public static function categoryManagement() {
-		global $connections;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		/*
 		 * Check whether user can edit Settings
 		 */
 		if ( current_user_can( 'connections_edit_categories' ) ) {
 
-			$form = new cnFormObjects();
-
 			switch ( $_POST['action'] ) {
 
 				case 'delete':
 
-					check_admin_referer( $form->getNonce( 'bulk_delete_category' ), '_cn_wpnonce' );
+					check_admin_referer( 'bulk-terms' );
 
-					foreach ( (array) $_POST['category'] as $cat_ID ) {
+					foreach ( (array) $_POST['category'] as $id ) {
 
-						$cat_ID = esc_attr( $cat_ID );
-
-						$result = $connections->retrieve->category( esc_attr( $cat_ID ) );
+						$result = $instance->retrieve->category( absint( $id ) );
 						$category = new cnCategory( $result );
 						$category->delete();
 					}
@@ -976,7 +1015,16 @@ class cnAdminActions {
 					break;
 				}
 
-			wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
+			$url = get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' );
+
+			if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
+
+				$page = absint( $_REQUEST['paged'] );
+
+				$url = add_query_arg( array( 'paged' => $page ) , $url);
+			}
+
+			wp_redirect( $url );
 
 			exit();
 

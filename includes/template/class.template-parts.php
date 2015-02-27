@@ -99,15 +99,13 @@ class cnTemplatePart {
 	 * @uses   cnLocate::file()
 	 * @uses   load_template()
 	 * @param  string|array  $files        Template file(s) to search for, in order of priority.
-	 * @param  array         $params       An array of arguments that will be extact() if the template part is to be loaded.
+	 * @param  array         $params       An array of arguments that will be extract() if the template part is to be loaded.
 	 * @param  boolean       $load         If true the template file will be loaded.
 	 * @param  boolean       $require_once Whether to require_once or require. Default is to require_once.
 	 *
-	 * @return string                      The template part file path, if one is located.
+	 * @return mixed string|bool           The template part file path, if one is located.
 	 */
 	public static function locate( $files, $params, $load = FALSE, $require_once = TRUE ) {
-
-		$located = FALSE;
 
 		$located = cnLocate::file( $files );
 
@@ -142,7 +140,7 @@ class cnTemplatePart {
 	 * @global $comment
 	 * @global $user_ID
 	 * @param  string  $file         The file path of the template part to be loaded.
-	 * @param  array   $params       An array of arguments that will be extact().
+	 * @param  array   $params       An array of arguments that will be extract().
 	 * @param  bool    $require_once Whether to require_once or require. Default is to require_once.
 	 *
 	 * @return bool                  Unless the required file returns another value.
@@ -172,6 +170,64 @@ class cnTemplatePart {
 		$result = $result === FALSE ? $result : TRUE;
 
 		return $result;
+	}
+
+	/**
+	 * Load and init an instance of the WP_list_Table class.
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param string $type The type of the list table to load and init.
+	 * @param array  $args Optional. Arguments to pass to the class.
+	 *
+	 * @return mixed bool|string Returns or echos the HTML output of the table class. FALSE on failure.
+	 */
+	public static function table( $type, $args = array() ) {
+
+		$table = array(
+			'term-admin' => 'CN_Term_Admin_List_Table',
+		);
+
+		if ( array_key_exists( $type, $table ) ) {
+
+			require_once( CN_PATH . '/includes/template/class.template-list-table-' . $type . '.php' );
+
+			return new $table[ $type ]( $args );
+		}
+
+		return FALSE;
+	}
+
+	/**
+	 * Load and init an instance of the Walker class.
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param string $type The type of the walker to load and init.
+	 * @param array  $args Optional. Arguments to pass to the class.
+	 *
+	 * @return mixed bool|string Returns or echos the HTML output of the walker class. FALSE on failure.
+	 */
+	public static function walker( $type, $args = array() ) {
+
+		$walker = array(
+			'term-list'      => 'CN_Walker_Term_List',
+			'term-select'    => 'CN_Walker_Term_Select_List',
+			'term-checklist' => 'CN_Walker_Term_Check_List',
+		);
+
+		if ( array_key_exists( $type, $walker ) ) {
+
+			require_once( CN_PATH . '/includes/template/class.template-walker-' . $type . '.php' );
+
+			return $walker[ $type ]::render( $args );
+		}
+
+		return FALSE;
 	}
 
 	/**

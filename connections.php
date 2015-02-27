@@ -210,7 +210,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * Version Constants
 			 */
 			define( 'CN_CURRENT_VERSION', '8.1.7' );
-			define( 'CN_DB_VERSION', '0.1.9' );
+			define( 'CN_DB_VERSION', '0.2' );
 
 			/*
  			 * Used for EDD SL Updater
@@ -378,7 +378,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/*
-			 * Set the table prefix accordingly depedning if Connections is installed on a multisite WP installation.
+			 * Set the table prefix accordingly depending if Connections is installed on a multisite WP installation.
 			 */
 			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->prefix : $wpdb->base_prefix;
 
@@ -398,7 +398,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_TERMS_TABLE', $prefix . 'connections_terms' );
 			define( 'CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy' );
 			define( 'CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships' );
-
+			define( 'CN_TERM_META_TABLE', $prefix . 'connections_term_meta' );
 		}
 
 		private static function includes() {
@@ -570,7 +570,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Must require AFTER the core templates.
 			require_once CN_PATH . 'includes/template/class.template-api.php';
 			require_once CN_PATH . 'includes/template/class.template-parts.php';
-			require_once CN_PATH . 'includes/template/class.template-walker-category-list.php';
 			require_once CN_PATH . 'includes/template/class.template-shortcode.php';
 			require_once CN_PATH . 'includes/template/class.template-compatibility.php';
 			require_once CN_PATH . 'includes/template/class.template.php';
@@ -703,7 +702,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				case ( version_compare( $version, '0.7.4', '<' ) ) :
 					/*
-					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 					 */
 					$options = get_option( 'connections_search' );
 					$options['keyword_enabled'] = 1;
@@ -713,7 +712,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				case ( version_compare( $version, '0.8', '<' ) ) :
 					/*
-					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 					 */
 					$options = get_option( 'connections_compatibility' );
 					$options['css'] = 1;
@@ -730,7 +729,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();
 
-			// Class used for managing role capabilites.
+			// Class used for managing role capabilities.
 			if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
 			if ( $this->options->getCapabilitiesSet() != TRUE ) {

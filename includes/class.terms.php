@@ -232,8 +232,8 @@ class cnTerms
 	 * If the term $IDs is empty then the uncategorized category is set as the relationship.
 	 * NOTE: Only if the taxonomy is 'category'
 	 *
-	 * @deprecated 8.1.6 Use {@see cnTerm::set_entry_terms()} instead.
-	 * @see cnTerm::set_entry_terms()
+	 * @deprecated 8.1.6 Use {@see cnTerm::setRelationships()} instead.
+	 * @see cnTerm::setRelationships()
 	 *
 	 * @param int    $entryID
 	 * @param array  $termIDs
@@ -249,7 +249,7 @@ class cnTerms
 		}
 
 		$termIDs = array_map( 'intval', $termIDs );
-		$result  = cnTerm::set_entry_terms( $entryID, $termIDs, $taxonomy );
+		$result  = cnTerm::setRelationships( $entryID, $termIDs, $taxonomy );
 
 		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
 			cnTerm::updateCount( $result, $taxonomy );
@@ -263,8 +263,8 @@ class cnTerms
 	/**
 	 * Retrieve the entry's term relationships.
 	 *
-	 * @deprecated 8.1.6 Use {@see cnTerm::get_entry_terms()} instead.
-	 * @see cnTerm::get_entry_terms()
+	 * @deprecated 8.1.6 Use {@see cnTerm::getRelationships()} instead.
+	 * @see cnTerm::getRelationships()
 	 *
 	 * @param integer $entryID
 	 *
@@ -272,14 +272,14 @@ class cnTerms
 	 */
 	public function getTermRelationships( $entryID ) {
 
-		return cnTerm::get_entry_terms( $entryID, 'category', array( 'fields' => 'ids' ) );
+		return cnTerm::getRelationships( $entryID, 'category', array( 'fields' => 'ids' ) );
 	}
 
 	/**
 	 * Deletes all entry's relationships.
 	 *
-	 * @deprecated 8.1.6 Use {@see cnTerm::remove_entry_terms()} instead.
-	 * @see cnTerm::remove_entry_terms()
+	 * @deprecated 8.1.6 Use {@see cnTerm::deleteRelationships()} instead.
+	 * @see cnTerm::deleteRelationships()
 	 *
 	 * @param integer $entryID
 	 *
@@ -287,8 +287,8 @@ class cnTerms
 	 */
 	public function deleteTermRelationships( $entryID ) {
 
-		$terms  = cnTerm::get_entry_terms( $entryID, 'category', array( 'fields' => 'ids' ) );
-		$result = cnTerm::remove_entry_terms( $entryID, $terms, 'category' );
+		$terms  = cnTerm::getRelationships( $entryID, 'category', array( 'fields' => 'ids' ) );
+		$result = cnTerm::deleteRelationships( $entryID, $terms, 'category' );
 
 		cnCache::clear( TRUE, 'transient', "cn_category" );
 
@@ -296,6 +296,9 @@ class cnTerms
 	}
 }
 
+/**
+ * Class cnTerm
+ */
 class cnTerm {
 
 	/**
@@ -345,10 +348,12 @@ class cnTerm {
 	 *
 	 * @return array|WP_Error The requested term data or empty array if no terms found. WP_Error if any of the $taxonomies don't exist.
 	 */
-	public static function get_entry_terms( $object_ids, $taxonomies, $args = array() ) {
+	public static function getRelationships( $object_ids, $taxonomies, $args = array() ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
+
+		$select = array();
 
 		if ( empty( $object_ids ) || empty( $taxonomies ) ) {
 
@@ -390,7 +395,7 @@ class cnTerm {
 		//		$t = get_taxonomy($taxonomy);
 		//		if ( isset($t->args) && is_array($t->args) && $args != array_merge($args, $t->args) ) {
 		//			unset($taxonomies[$index]);
-		//			$terms = array_merge($terms, self::get_entry_terms($object_ids, $taxonomy, array_merge($args, $t->args)));
+		//			$terms = array_merge($terms, self::getRelationships($object_ids, $taxonomy, array_merge($args, $t->args)));
 		//		}
 		//	}
 		//} else {
@@ -401,7 +406,7 @@ class cnTerm {
 
 		$orderby = $args['orderby'];
 		$order   = $args['order'];
-		$fields  = $args['fields'];
+		//$fields  = $args['fields'];
 
 		if ( 'count' == $orderby ) {
 			$orderby = 'tt.count';
@@ -421,7 +426,7 @@ class cnTerm {
 		}
 
 		// tt_ids queries can only be none or tr.term_taxonomy_id
-		if ( ( 'tt_ids' == $fields ) && ! empty( $orderby ) ) {
+		if ( ( 'tt_ids' == $args['fields'] ) && ! empty( $orderby ) ) {
 
 			$orderby = 'tr.term_taxonomy_id';
 		}
@@ -441,21 +446,83 @@ class cnTerm {
 		$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
 		$object_ids = implode( ', ', $object_ids );
 
-		$select_this = '';
+		switch ( $args['fields'] ) {
 
-		if ( 'all' == $fields ) {
-			$select_this = 't.*, tt.*';
-		} else if ( 'ids' == $fields ) {
-			$select_this = 't.term_id';
-		} else if ( 'names' == $fields ) {
-			$select_this = 't.name';
-		} else if ( 'slugs' == $fields ) {
-			$select_this = 't.slug';
-		} else if ( 'all_with_entry_id' == $fields ) {
-			$select_this = 't.*, tt.*, tr.entry_id';
+			case 'all':
+				$select = array( 't.*', 'tt.*' );
+				break;
+
+			case 'ids':
+				$select = array( 't.term_id' );
+				break;
+
+			case 'names':
+				$select = array( 't.name' );
+				break;
+
+			case 'slugs':
+				$select  = array( 't.slug' );
+				break;
+
+			case 'all_with_entry_id':
+				$select = array( 't.*', 'tt.*', 'tr.entry_id' );
+				break;
 		}
 
-		$query = "SELECT $select_this FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON tt.term_id = t.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.entry_id IN ($object_ids) $orderby $order";
+		/**
+		 * --> START <-- This block of code deviates quite a bit from the code copied
+		 * from core WP to add filters which can be hooked into.
+		 */
+
+		/**
+		 * Filter the fields to select in the terms query.
+		 *
+		 * @since 8.2
+		 *
+		 * @param array        $select     An array of fields to select for the terms query.
+		 * @param array        $args       An array of term query arguments.
+		 * @param string|array $taxonomies A taxonomy or array of taxonomies.
+		 */
+		$fields  = implode( ', ', apply_filters( 'cn_get_term_relationship_fields', $select, $args, $taxonomies ) );
+
+		$join    = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
+
+		$where   = array( "tt.taxonomy IN ($taxonomies) AND tr.entry_id IN ($object_ids)" );
+
+		$orderBy = "$orderby $order";
+
+		$pieces  = array( 'fields', 'join', 'where', 'orderBy' );
+
+		/**
+		 * Filter the terms query SQL clauses.
+		 *
+		 * @since 8.2
+		 *
+		 * @param array        $pieces     Terms query SQL clauses.
+		 * @param string|array $taxonomies A taxonomy or array of taxonomies.
+		 * @param array        $atts       An array of terms query arguments.
+		 */
+		$clauses = apply_filters( 'cn_term_relationship_clauses', compact( $pieces ), $taxonomies, $args );
+
+		foreach ( $pieces as $piece ) {
+
+			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
+		}
+
+		$query = sprintf(
+			'SELECT %1$s FROM %2$s AS t %3$s WHERE %4$s %5$s',
+			$fields,
+			CN_TERMS_TABLE,
+			$join,
+			implode( ' ', $where ),
+			$orderBy
+		);
+
+		/**
+		 * --> END <--
+		 */
+
+		//$query = "SELECT $select_this FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON tt.term_id = t.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.entry_id IN ($object_ids) $orderby $order";
 
 		$objects = FALSE;
 
@@ -468,7 +535,7 @@ class cnTerm {
 		 * calls.
 		 */
 
-		if ( 'all' == $fields || 'all_with_entry_id' == $fields ) {
+		if ( 'all' == $args['fields'] || 'all_with_entry_id' == $args['fields'] ) {
 
 			$_terms = $wpdb->get_results( $query );
 
@@ -483,10 +550,10 @@ class cnTerm {
 
 			$objects = TRUE;
 
-		} else if ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
+		} else if ( 'ids' == $args['fields'] || 'names' == $args['fields'] || 'slugs' == $args['fields'] ) {
 
 			$_terms = $wpdb->get_col( $query );
-			$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
+			$_field = ( 'ids' == $args['fields'] ) ? 'term_id' : 'name';
 
 			foreach ( $_terms as $key => $term ) {
 
@@ -495,7 +562,7 @@ class cnTerm {
 
 			$terms = array_merge( $terms, $_terms );
 
-		} else if ( 'tt_ids' == $fields ) {
+		} else if ( 'tt_ids' == $args['fields'] ) {
 
 			$terms = $wpdb->get_col(
 				"SELECT tr.term_taxonomy_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " AS tr INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.entry_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order"
@@ -518,7 +585,7 @@ class cnTerm {
 
 			$terms = array();
 
-		} elseif ( $objects && 'all_with_entry_id' !== $fields ) {
+		} elseif ( $objects && 'all_with_entry_id' !== $args['fields'] ) {
 
 			$_tt_ids = array();
 			$_terms  = array();
@@ -552,7 +619,7 @@ class cnTerm {
 		 *                                 the given object(s).
 		 */
 
-		return apply_filters( 'cn_get_entry_terms', $terms, $object_ids, $taxonomies, $args );
+		return apply_filters( 'cn_get_object_terms', $terms, $object_ids, $taxonomies, $args );
 	}
 
 	/**
@@ -574,7 +641,7 @@ class cnTerm {
 	 *
 	 * @global @wpdb
 	 *
-	 * @uses   cnTerm::get_entry_terms()
+	 * @uses   cnTerm::getRelationships()
 	 * @uses   cnTerm::exists()
 	 * @uses   cnTerm::insert()
 	 * @uses   is_wp_error()
@@ -584,7 +651,7 @@ class cnTerm {
 	 * @uses   wpdb::insert()
 	 * @uses   cnTerm::updateCount()
 	 * @uses   wpdb::get_col()
-	 * @uses   cnTerm::remove_entry_terms()
+	 * @uses   cnTerm::deleteRelationships()
 	 * @uses   wp_cache_delete()
 	 *
 	 * @param int              $object_id The object to relate to.
@@ -595,7 +662,7 @@ class cnTerm {
 	 *
 	 * @return array|WP_Error Affected Term IDs.
 	 */
-	public static function set_entry_terms( $object_id, $terms, $taxonomy, $append = FALSE ) {
+	public static function setRelationships( $object_id, $terms, $taxonomy, $append = FALSE ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
@@ -612,7 +679,7 @@ class cnTerm {
 
 		if ( ! $append ) {
 
-			$old_tt_ids = self::get_entry_terms(
+			$old_tt_ids = self::getRelationships(
 				$object_id,
 				$taxonomy,
 				array( 'fields' => 'tt_ids', 'orderby' => 'none' )
@@ -714,7 +781,7 @@ class cnTerm {
 
 				$delete_term_ids  = array_map( 'intval', $delete_term_ids );
 
-				$remove = self::remove_entry_terms( $object_id, $delete_term_ids, $taxonomy );
+				$remove = self::deleteRelationships( $object_id, $delete_term_ids, $taxonomy );
 
 				if ( is_wp_error( $remove ) ) {
 
@@ -731,7 +798,7 @@ class cnTerm {
 		//
 		//	$values = array();
 		//	$term_order = 0;
-		//	$final_tt_ids = self::get_entry_terms($object_id, $taxonomy, array('fields' => 'tt_ids'));
+		//	$final_tt_ids = self::getRelationships($object_id, $taxonomy, array('fields' => 'tt_ids'));
 		//
 		//	foreach ( $tt_ids as $tt_id )
 		//		if ( in_array($tt_id, $final_tt_ids) )
@@ -755,7 +822,7 @@ class cnTerm {
 		 * @param bool   $append     Whether to append new terms to the old terms.
 		 * @param array  $old_tt_ids Old array of term taxonomy IDs.
 		 */
-		do_action( 'cn_set_entry_terms', $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids );
+		do_action( 'cn_set_object_terms', $object_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids );
 
 		return $tt_ids;
 	}
@@ -782,7 +849,7 @@ class cnTerm {
 	 *
 	 * @return bool|WP_Error True on success, false or WP_Error on failure.
 	 */
-	public static function remove_entry_terms( $object_id, $terms, $taxonomy ) {
+	public static function deleteRelationships( $object_id, $terms, $taxonomy ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
@@ -860,6 +927,27 @@ class cnTerm {
 		}
 
 		return FALSE;
+	}
+
+	/**
+	 * Retrieves the taxonomy relationship to the object id.
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @uses   wp_cache_get()
+	 *
+	 * @param int|      $id       Object ID.
+	 * @param string    $taxonomy Taxonomy Name.
+	 *
+	 * @return mixed array|bool Array of terms if found, FALSE if not found.
+	 */
+	public static function getRelationshipsCache( $id, $taxonomy ) {
+
+		$cache = wp_cache_get( $id, "cn_{$taxonomy}_relationships" );
+
+		return $cache;
 	}
 
 	/**
@@ -968,6 +1056,9 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
+	 * @uses   cnTerm::updateRelationshipCount()
+	 * @uses   cnTerm::cleanCache()
+	 *
 	 * @param array  $terms    The term_taxonomy_id of terms to update.
 	 * @param string $taxonomy The context of the term.
 	 *
@@ -999,7 +1090,7 @@ class cnTerm {
 			//if ( $object_types == array_filter( $object_types, 'post_type_exists' ) ) {
 
 				// Only post types are attached to this taxonomy
-				self::update_entry_count( $terms, $taxonomy );
+				self::updateRelationshipCount( $terms, $taxonomy );
 
 			//} else {
 
@@ -1035,7 +1126,7 @@ class cnTerm {
 	 * @param array  $terms    List of Term taxonomy IDs
 	 * @param string $taxonomy Current taxonomy object of terms
 	 */
-	private static function update_entry_count( $terms, $taxonomy ) {
+	private static function updateRelationshipCount( $terms, $taxonomy ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
@@ -1855,19 +1946,19 @@ class cnTerm {
 		 */
 		do_action( 'cn_edited_term_taxonomy', $tt_id, $taxonomy );
 
-		//@todo implement the following block of code.
 		// Clean the relationship caches for all object types using this term
-		//$objects = $wpdb->get_col(
-		//	$wpdb->prepare(
-		//		"SELECT object_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
-		//		$tt_id
-		//	)
-		//);
+		$objects = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT object_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
+				$tt_id
+			)
+		);
 
 		//@todo implement the following block of code.
 		//$tax_object = get_taxonomy( $taxonomy );
 		//foreach ( $tax_object->object_type as $object_type ) {
-		//	clean_object_term_cache( $objects, $object_type );
+		//	self::cleanRelationshipCache( $objects, $object_type );
+			self::cleanRelationshipCache( $objects, $taxonomy ); // Clean the entry/term relationships directly until get_taxonomy() is implemented.
 		//}
 
 		/**
@@ -1955,8 +2046,8 @@ class cnTerm {
 	 * @uses   wpdb::update()
 	 * @uses   do_action()
 	 * @uses   wpdb::prepare()
-	 * @uses   cnTerm::get_entry_terms()
-	 * @uses   cnTerm::set_entry_terms()
+	 * @uses   cnTerm::getRelationships()
+	 * @uses   cnTerm::setRelationships()
 	 * @uses   wpdb::delete()
 	 * @uses   wpdb::get_var()
 	 * @uses   cnTerm::cleanCache()
@@ -2076,7 +2167,7 @@ class cnTerm {
 
 		foreach ( (array) $objects as $object ) {
 
-			$terms = self::get_entry_terms( $object, $taxonomy, array( 'fields' => 'ids', 'orderby' => 'none' ) );
+			$terms = self::getRelationships( $object, $taxonomy, array( 'fields' => 'ids', 'orderby' => 'none' ) );
 
 			if ( 1 == count( $terms ) && isset( $default ) ) {
 
@@ -2095,14 +2186,15 @@ class cnTerm {
 
 			$terms = array_map( 'intval', $terms );
 
-			self::set_entry_terms( $object, $terms, $taxonomy );
+			self::setRelationships( $object, $terms, $taxonomy );
 		}
 
 		// Clean the relationship caches for all object types using this term
 		//@todo Implement the following block of code.
 		//$tax_object = get_taxonomy( $taxonomy );
 		//foreach ( $tax_object->object_type as $object_type )
-		//	self::clean_object_term_cache( $objects, $object_type );
+		//	self::cleanRelationshipCache( $objects, $object_type );
+			self::cleanRelationshipCache( $objects, $taxonomy ); // Clean the entry/term relationships directly until get_taxonomy() is implemented.
 
 		// Get the object before deletion so we can pass to actions below
 		$deleted_term = self::get( $term, $taxonomy );
@@ -2378,6 +2470,58 @@ class cnTerm {
 	}
 
 	/**
+	 * Removes the taxonomy relationship to terms from the cache.
+	 *
+	 * Will remove the entire taxonomy relationship containing term $object_id. The
+	 * term IDs have to exist within the taxonomy $object_type for the deletion to
+	 * take place.
+	 *
+	 * NOTE: This is the Connections equivalent of @see get_object_taxonomies() in WordPress core ../wp-includes/taxonomy.php
+	 *
+	 * @access public
+	 * @since  8.2
+	 * @static
+	 *
+	 * @param int|array    $object_ids  Single or list of term object ID(s)
+	 * @param array|string $object_type The taxonomy object type
+	 */
+	public static function cleanRelationshipCache( $object_ids, $object_type ) {
+
+		if ( ! is_array( $object_ids ) ) {
+
+			$object_ids = array( $object_ids );
+		}
+
+		//$taxonomies = get_object_taxonomies( $object_type );
+		if ( ! is_array( $object_type ) ) {
+
+			$taxonomies = array( $object_type );
+
+		} else {
+
+			$taxonomies = $object_type;
+		}
+
+		foreach ( $object_ids as $id ) {
+
+			foreach ( $taxonomies as $taxonomy ) {
+
+				wp_cache_delete( $id, "cn_{$taxonomy}_relationships" );
+			}
+		}
+
+		/**
+		 * Fires after the object term cache has been cleaned.
+		 *
+		 * @since 8.2
+		 *
+		 * @param array  $object_ids An array of object IDs.
+		 * @param string $object_type Object type.
+		 */
+		do_action( 'cn_clean_object_term_cache', $object_ids, $object_type );
+	}
+
+	/**
 	 * Retrieves children of taxonomy as Term IDs.
 	 *
 	 * Stores all of the children in "cn_{$taxonomy}_children" option.
@@ -2396,7 +2540,7 @@ class cnTerm {
 	 *
 	 * @return array Empty if $taxonomy isn't hierarchical or returns children as Term IDs.
 	 */
-	private static function get_hierarchy( $taxonomy ) {
+	public static function get_hierarchy( $taxonomy ) {
 
 		// Implement taxonomy check.
 		//if ( !is_taxonomy_hierarchical($taxonomy) )
@@ -3236,44 +3380,6 @@ class cnTerm {
 			}
 		}
 
-		$_terms = array();
-
-		if ( 'id=>parent' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[ $term->term_id ] = $term->parent;
-
-		} elseif ( 'ids' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[] = $term->term_id;
-
-		} elseif ( 'names' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[] = $term->name;
-
-		} elseif ( 'id=>name' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[ $term->term_id ] = $term->name;
-
-		} elseif ( 'id=>slug' == $atts['fields'] ) {
-
-			while ( $term = array_shift( $terms ) )
-				$_terms[ $term->term_id ] = $term->slug;
-		}
-
-		if ( ! empty( $_terms ) ) {
-
-			$terms = $_terms;
-		}
-
-		if ( $atts['number'] && is_array( $terms ) && count( $terms ) > $atts['number'] ) {
-
-			$terms = array_slice( $terms, $atts['offset'], $atts['number'] );
-		}
-
 		/*
 		 * @todo Add method to adjust counts based on user visibility permissions.
 		 */
@@ -3313,6 +3419,44 @@ class cnTerm {
 		}
 
 		reset( $terms );
+
+		$_terms = array();
+
+		if ( 'id=>parent' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[ $term->term_id ] = $term->parent;
+
+		} elseif ( 'ids' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[] = $term->term_id;
+
+		} elseif ( 'names' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[] = $term->name;
+
+		} elseif ( 'id=>name' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[ $term->term_id ] = $term->name;
+
+		} elseif ( 'id=>slug' == $atts['fields'] ) {
+
+			while ( $term = array_shift( $terms ) )
+				$_terms[ $term->term_id ] = $term->slug;
+		}
+
+		if ( ! empty( $_terms ) ) {
+
+			$terms = $_terms;
+		}
+
+		if ( $atts['number'] && is_array( $terms ) && count( $terms ) > $atts['number'] ) {
+
+			$terms = array_slice( $terms, $atts['offset'], $atts['number'] );
+		}
 
 		wp_cache_add( $cache_key, $terms, 'cn_terms', DAY_IN_SECONDS );
 
@@ -3658,6 +3802,46 @@ class cnTerm {
 	}
 
 	/**
+	 * Check if a term is an ancestor of another term.
+	 *
+	 * You can use either an id or the term object for both parameters.
+	 *
+	 * NOTE: This is the Connections equivalent of @see term_is_ancestor_of() in WordPress core ../wp-includes/taxonomy.php
+	 *
+	 * @since 8.2
+	 *
+	 * @param int|object $term1    ID or object to check if this is the parent term.
+	 * @param int|object $term2    The child term.
+	 * @param string     $taxonomy Taxonomy name that $term1 and $term2 belong to.
+	 *
+	 * @return bool Whether $term2 is child of $term1
+	 */
+	public static function isAncestorOf( $term1, $term2, $taxonomy ) {
+
+		if ( ! isset( $term1->term_id ) ) {
+
+			$term1 = self::get( $term1, $taxonomy );
+		}
+
+		if ( ! isset( $term2->parent ) ) {
+
+			$term2 = self::get( $term2, $taxonomy );
+		}
+
+		if ( empty( $term1->term_id ) || empty( $term2->parent ) ) {
+
+			return FALSE;
+		}
+		if ( $term2->parent == $term1->term_id ) {
+
+			return TRUE;
+		}
+
+		return self::isAncestorOf( $term1, self::get( $term2->parent, $taxonomy ), $taxonomy );
+	}
+
+
+	/**
 	 * Retrieves children of taxonomy as term IDs.
 	 *
 	 * @access private
@@ -3791,6 +3975,8 @@ class cnTerm {
 	 * array of term IDs. Only useful for taxonomies which are hierarchical.
 	 *
 	 * Will return an empty array if $term does not exist in $taxonomy.
+	 *
+	 * NOTE: This is the Connections equivalent of @see get_term_children() in WordPress core ../wp-includes/taxonomy.php
 	 *
 	 * @access public
 	 * @since  8.1

@@ -3080,6 +3080,7 @@ class cnEntryMetabox {
 
 		$metabox = $metabox['args'];
 		$keys    = cnMeta::key( 'entry' );
+		$options = array();
 
 		// Toss the meta that is saved as part of a custom field.
 		if ( ! empty( $results ) ) {
@@ -3091,8 +3092,11 @@ class cnEntryMetabox {
 		}
 
 		// Build the meta key select drop down options.
-		$options = array_combine( array_map( 'esc_attr', array_keys( $keys ) ), array_map( 'esc_html', $keys ) );
-		array_walk( $options, create_function( '&$key', '$key = "<option value=\"$key\">$key</option>";' ) );
+		if ( ! empty( $keys ) ) {
+			$options = array_combine( array_map( 'esc_attr', array_keys( $keys ) ), array_map( 'esc_html', $keys ) );
+			array_walk( $options, create_function( '&$key', '$key = "<option value=\"$key\">$key</option>";' ) );
+		}
+
 		array_unshift( $options, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
 		$options = implode( $options, PHP_EOL );
 

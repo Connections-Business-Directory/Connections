@@ -1015,7 +1015,16 @@ class cnAdminActions {
 					break;
 				}
 
-			wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' ) );
+			$url = get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' );
+
+			if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
+
+				$page = absint( $_REQUEST['paged'] );
+
+				$url = add_query_arg( array( 'paged' => $page ) , $url);
+			}
+
+			wp_redirect( $url );
 
 			exit();
 

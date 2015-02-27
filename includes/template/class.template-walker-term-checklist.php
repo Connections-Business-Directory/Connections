@@ -91,6 +91,15 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		if ( ! is_array( $atts['selected'] ) ) {
+
+			$atts['selected'] = array( absint( $atts['selected'] ) );
+
+		} else {
+
+			array_walk( $atts['selected'], 'absint' );
+		}
+
 		$walker = new self;
 
 		$walker->tree_type = $atts['taxonomy'];

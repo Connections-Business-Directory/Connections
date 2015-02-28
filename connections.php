@@ -993,7 +993,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$token = get_query_var( 'cn-token' );
 			$id = (integer) get_query_var( 'cn-id' );
 
-			if ( 'vcard' ===  $process ) {
+			if ( 'vcard' === $process ) {
 
 				$slug = get_query_var( 'cn-entry-slug' ); //var_dump($slug);
 

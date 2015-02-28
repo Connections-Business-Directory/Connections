@@ -393,7 +393,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 						$url = trailingslashit( $siteurl ) . $upload_path;
 					}
-
 				}
 
 				// Obey the value of UPLOADS. This happens as long as ms-files rewriting is disabled.

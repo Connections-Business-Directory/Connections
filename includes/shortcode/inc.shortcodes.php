@@ -48,11 +48,15 @@ function connectionsUpcomingList( $atts ) {
  * Display the upcoming list.
  *
  * @access public
- * @since unknown
- * @param (array) $atts
- * @param (string) $content [optional]
- * @param (string) $tag [optional] When called as the callback for add_shortcode, the shortcode tag is passed automatically. Manually setting the shortcode tag so the function can be called independently.
- * @return (string)
+ * @since  unknown
+ *
+ * @param array  $atts
+ * @param string $content [optional]
+ * @param string $tag     [optional] When called as the callback for add_shortcode, the shortcode tag is passed
+ *                        automatically. Manually setting the shortcode tag so the function can be called
+ *                        independently.
+ *
+ * @return string
  */
 function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
     global $connections, $wpdb;

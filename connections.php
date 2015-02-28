@@ -1013,7 +1013,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					$vCard = new cnvCard( $entry[0] ); //var_dump($vCard);die;
 				}
 
-
 				$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
 				$data     = $vCard->getvCard(); //var_dump($data);die;
 

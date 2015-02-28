@@ -81,12 +81,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		}
 
 		/**
-		 * Intiate the settings registry.
+		 * Initiate the settings registry.
 		 *
 		 * NOTE: The filters for the tabs, sections and fields should be added before running init()
 		 *
 		 * NOTE: The recommended action to hook into is plugins_loaded. This will ensure the actions
-		 * 	within this class are run at the appropiate times.
+		 * 	within this class are run at the appropriate times.
 		 *
 		 * NOTE: The high priority is used to make sure the actions registered in this API are run
 		 * 	first. This is to help ensure registered settings are available to other actions registered
@@ -99,14 +99,14 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function init() {
 
 			// Register the settings tabs.
-			add_action( 'admin_init', array( __CLASS__, 'registerTabs' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'registerTabs' ), 0 );
 
 			// Register the settings sections.
-			add_action( 'admin_init', array( __CLASS__, 'registerSections' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'registerSections' ), 0 );
 
 			// Register the sections fields.
-			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), .1 );
-			add_action( 'init', array( __CLASS__, 'registerFields' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), 0 );
+			add_action( 'init', array( __CLASS__, 'registerFields' ), 0 );
 		}
 
 		/**

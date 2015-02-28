@@ -321,7 +321,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			if ( empty($fields) ) return;
 
 			foreach ( $fields as $key => $field ) {
-				// Store the position values so an array multi sort can be done to postion the fields in the desired order.
+				// Store the position values so an array multi sort can be done to position the fields in the desired order.
 				( isset( $field['position'] ) && ! empty( $field['position'] ) ) ? $sort[] = $field['position'] : $field[] = 0;
 			}
 
@@ -329,7 +329,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			foreach ( $fields as $field ) {
 
-				// Add the tab id to the page hook if the field was registerd to a specific tab.
+				// Add the tab id to the page hook if the field was registered to a specific tab.
 				if ( isset( $field['tab'] ) && ! empty( $field['tab'] ) ) $field['page_hook'] = $field['page_hook'] . '-' . $field['tab'];
 
 				// If the section was not set or supplied empty set the value to 'default'. This is WP core behavior.

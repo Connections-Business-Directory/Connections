@@ -92,7 +92,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 	/*
 	 * If a list type was specified in the shortcode, load the template based on that type.
-	 * However, if a specific template was specifed, that should preempt the template to be loaded based on the list type if it was specified..
+	 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified..
 	 */
 	if ( ! empty( $atts['template'] ) ) {
 		$template = cnTemplateFactory::getTemplate( $atts['template'] );

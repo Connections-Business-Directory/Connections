@@ -98,7 +98,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'submitdiv',
-			'title'    => __( 'Publish', 'connection' ),
+			'title'    => __( 'Publish', 'connections' ),
 			'pages'    => $pages,
 			'context'  => 'side',
 			'priority' => 'core',
@@ -116,7 +116,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
-			'title'    => __( 'Image', 'connection' ),
+			'title'    => __( 'Image', 'connections' ),
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
@@ -125,7 +125,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-logo',
-			'title'    => __( 'Logo', 'connection' ),
+			'title'    => __( 'Logo', 'connections' ),
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
@@ -134,7 +134,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-address',
-			'title'    => __( 'Addresses', 'connection' ),
+			'title'    => __( 'Addresses', 'connections' ),
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',

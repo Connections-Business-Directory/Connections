@@ -62,7 +62,6 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
     global $connections, $wpdb;
 
 	// $template =& $connections->template;
-	$convert = new cnFormatting();
 	$out = '';
 	$alternate = '';
 
@@ -84,11 +83,11 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	/*
 	 * Convert some of the $atts values in the array to boolean.
 	 */
-	$convert->toBoolean( $atts['include_today'] );
-	$convert->toBoolean( $atts['private_override'] );
-	$convert->toBoolean( $atts['show_lastname'] );
-	$convert->toBoolean( $atts['repeat_alphaindex'] );
-	$convert->toBoolean( $atts['show_title'] );
+	cnFormatting::toBoolean( $atts['include_today'] );
+	cnFormatting::toBoolean( $atts['private_override'] );
+	cnFormatting::toBoolean( $atts['show_lastname'] );
+	cnFormatting::toBoolean( $atts['repeat_alphaindex'] );
+	cnFormatting::toBoolean( $atts['show_title'] );
 
 	/*
 	 * If a list type was specified in the shortcode, load the template based on that type.

@@ -709,16 +709,17 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			switch ( TRUE ) {
 
+				/** @noinspection PhpMissingBreakStatementInspection */
 				case ( version_compare( $version, '0.7.3', '<' ) ) :
 					/*
 					 * Retrieve the settings stored prior to 0.7.3 and migrate them
 					 * so they will be accessible in the structure supported by the
 					 * Connections WordPress Settings API Wrapper Class.
 					 */
-					if ( get_option( 'connections_options' ) !== FALSE ) {
+					if ( FALSE !== get_option( 'connections_options' ) ) {
 						$options = get_option( 'connections_options' );
 
-						if ( get_option( 'connections_login' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_login' ) ) {
 							update_option( 'connections_login' , array(
 									'required' => $options['settings']['allow_public'],
 									'message' => 'Please login to view the directory.'
@@ -726,7 +727,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_visibility' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_visibility' ) ) {
 							update_option( 'connections_visibility' , array(
 									'allow_public_override' => $options['settings']['allow_public_override'],
 									'allow_private_override' => $options['settings']['allow_private_override']
@@ -734,7 +735,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_image_thumbnail' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_image_thumbnail' ) ) {
 							update_option( 'connections_image_thumbnail' , array(
 									'quality' => $options['settings']['image']['thumbnail']['quality'],
 									'width' => $options['settings']['image']['thumbnail']['x'],
@@ -743,7 +744,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								)
 							);
 						}
-						if ( get_option( 'connections_image_medium' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_image_medium' ) ) {
 							update_option( 'connections_image_medium' , array(
 									'quality' => $options['settings']['image']['entry']['quality'],
 									'width' => $options['settings']['image']['entry']['x'],
@@ -753,7 +754,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_image_large' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_image_large' ) ) {
 							update_option( 'connections_image_large' , array(
 									'quality' => $options['settings']['image']['profile']['quality'],
 									'width' => $options['settings']['image']['profile']['x'],
@@ -763,7 +764,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_image_logo' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_image_logo' ) ) {
 							update_option( 'connections_image_logo' , array(
 									'quality' => $options['settings']['image']['logo']['quality'],
 									'width' => $options['settings']['image']['logo']['x'],
@@ -773,20 +774,21 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_compatibility' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_compatibility' ) ) {
 							update_option( 'connections_compatibility' , array(
 									'google_maps_api' => $options['settings']['advanced']['load_google_maps_api'],
 									'javascript_footer' => $options['settings']['advanced']['load_javascript_footer'] )
 							);
 						}
 
-						if ( get_option( 'connections_debug' ) === FALSE ) update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
+						if ( FALSE === get_option( 'connections_debug' ) ) {
+							update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
+						}
 
 						unset( $options );
-
 					}
 
-
+				/** @noinspection PhpMissingBreakStatementInspection */
 				case ( version_compare( $version, '0.7.4', '<' ) ) :
 					/*
 					 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
@@ -797,6 +799,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					update_option( 'connections_search', $options );
 					unset( $options );
 
+				/** @noinspection PhpMissingBreakStatementInspection */
 				case ( version_compare( $version, '0.8', '<' ) ) :
 					/*
 					 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
@@ -814,12 +817,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					unset( $options );
 			}
 
-			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();
+			if ( NULL === $this->options->getDefaultTemplatesSet() ) $this->options->setDefaultTemplates();
 
 			// Class used for managing role capabilities.
 			if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
-			if ( $this->options->getCapabilitiesSet() != TRUE ) {
+			if ( TRUE != $this->options->getCapabilitiesSet() ) {
 
 				cnRole::reset();
 				$this->options->defaultCapabilitiesSet( TRUE );
@@ -980,7 +983,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$token = get_query_var( 'cn-token' );
 			$id = (integer) get_query_var( 'cn-id' );
 
-			if ( $process === 'vcard' ) {
+			if ( 'vcard' ===  $process ) {
 
 				$slug = get_query_var( 'cn-entry-slug' ); //var_dump($slug);
 

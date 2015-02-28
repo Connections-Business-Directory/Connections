@@ -1843,26 +1843,19 @@ class cnTemplatePart {
 
 			if ( get_query_var( 'cn-cat' ) ) {
 
-				$selected = get_query_var( 'cn-cat' );
+				// If value is a string, strip the white space and covert to an array.
+				$selected = wp_parse_id_list( get_query_var( 'cn-cat' ) );
 
 			} elseif ( get_query_var( 'cn-cat-slug' ) ) {
 
 				// If the category slug is a descendant, use the last slug from the URL for the query.
-				$queryCategorySlug = explode( '/', get_query_var( 'cn-cat-slug' ) );
-
-				if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) {
-					$selected = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];
-				}
+				$selected = end( explode( '/', get_query_var( 'cn-cat-slug' ) ) );
 			}
 
 		} else {
 
 			$selected = $value;
-
 		}
-
-		// If value is a string, strip the white space and covert to an array.
-		$selected = wp_parse_id_list( $selected );
 
 		$defaults = array(
 			'type'            => 'select',

@@ -205,44 +205,58 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		private static function defineConstants() {
 			global $wpdb, $blog_id;
 
-			// Whether or not to log actions and results for debugging.
-			if ( ! defined( 'CN_LOG' ) ) define( 'CN_LOG', FALSE );
+			if ( ! defined( 'CN_LOG' ) ) {
+				/** @var string CN_LOG Whether or not to log actions and results for debugging. */
+				define( 'CN_LOG', FALSE );
+			}
 
-			/*
-			 * Version Constants
-			 */
+			/** @var string CN_CURRENT_VERSION The current version. */
 			define( 'CN_CURRENT_VERSION', '8.1.7' );
+
+			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
 
-			/*
- 			 * Used for EDD SL Updater
- 			 */
- 			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
+			/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
+			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
 
-			/*
-			 * Core Constants
-			 */
+			/** @var string CN_DIR_NAME */
 			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
+
+			/** @var string CN_BASE_NAME */
 			define( 'CN_BASE_NAME', plugin_basename( __FILE__ ) );
+
+			/** @var string CN_PATH */
 			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
+
+			/** @var string CN_URL */
 			define( 'CN_URL', plugin_dir_url( __FILE__ ) );
 
 			/*
 			 * Core constants that can be overridden by setting in wp-config.php.
-			 *
-			 * NOTE: If CN_CACHE_PATH is overridden, the path will need updated in timthumb-config.php also.
 			 */
-			if ( ! defined( 'CN_TEMPLATE_PATH' ) )
+			if ( ! defined( 'CN_TEMPLATE_PATH' ) ) {
+
+				/** @var string CN_TEMPLATE_PATH */
 				define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates/' );
+			}
 
-			if ( ! defined( 'CN_TEMPLATE_URL' ) )
+			if ( ! defined( 'CN_TEMPLATE_URL' ) ) {
+
+				/** @var string CN_TEMPLATE_URL */
 				define( 'CN_TEMPLATE_URL', CN_URL . 'templates/' );
+			}
 
-			if ( ! defined( 'CN_CACHE_PATH' ) )
+			if ( ! defined( 'CN_CACHE_PATH' ) ) {
+
+				/** @var string CN_CACHE_PATH */
 				define( 'CN_CACHE_PATH', CN_PATH . 'cache/' );
+			}
 
-			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) )
+			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) ) {
+
+				/** @var string CN_ADMIN_MENU_POSITION */
 				define( 'CN_ADMIN_MENU_POSITION', NULL );
+			}
 
 			/*
 			 * To run Connections in single site mode on multi-site.
@@ -255,24 +269,32 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( is_multisite() ) {
 
+					/** @var string CN_MULTISITE_ENABLED */
 					define( 'CN_MULTISITE_ENABLED', TRUE );
 
 				} else {
 
+					/** @var string CN_MULTISITE_ENABLED */
 					define( 'CN_MULTISITE_ENABLED', FALSE );
 				}
 			}
 
 			// Set the root image permalink endpoint name.
-			if ( ! defined( 'CN_IMAGE_ENDPOINT' ) )
+			if ( ! defined( 'CN_IMAGE_ENDPOINT' ) ) {
+
+				/** @var string CN_IMAGE_ENDPOINT */
 				define( 'CN_IMAGE_ENDPOINT', 'cn-image' );
+			}
 
 			// Set images subdirectory folder name.
-			if ( ! defined( 'CN_IMAGE_DIR_NAME' ) )
+			if ( ! defined( 'CN_IMAGE_DIR_NAME' ) ){
+
+				/** @var string CN_IMAGE_DIR_NAME */
 				define( 'CN_IMAGE_DIR_NAME', 'connections-images' );
+			}
 
 			/*
-			 * Core constants that can be overrideen in wp-config.php
+			 * Core constants that can be overridden in wp-config.php
 			 * which enable support for multi-site file locations.
 			 */
 			if ( is_multisite() && CN_MULTISITE_ENABLED ) {
@@ -282,26 +304,41 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( ! defined( 'CN_IMAGE_PATH' ) ) {
 
-					// define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/' );
+					/** @var string CN_IMAGE_PATH */
 					define( 'CN_IMAGE_PATH', trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
+					// define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/' );
 				}
 
 				if ( ! defined( 'CN_IMAGE_BASE_URL' ) ) {
 
-					// define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connection_images/' ) );
+					/** @var string CN_IMAGE_BASE_URL */
 					define( 'CN_IMAGE_BASE_URL', trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' );
+					// define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connection_images/' ) );
 				}
 
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) ) {
 
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
+					/** @var string CN_CUSTOM_TEMPLATE_PATH */
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
+				}
+
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
+
+					/** @var string CN_CUSTOM_TEMPLATE_URL */
 					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
+				}
 
 				// Define the relative URL/s.
+				/** @var string CN_RELATIVE_URL */
 				define( 'CN_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL ) );
+
+				/** @var string CN_TEMPLATE_RELATIVE_URL */
 				define( 'CN_TEMPLATE_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL . 'templates/' ) );
+
+				/** @var string CN_IMAGE_RELATIVE_URL */
 				define( 'CN_IMAGE_RELATIVE_URL', str_replace( network_home_url(), '', CN_IMAGE_BASE_URL ) );
+
+				/** @var string CN_CUSTOM_TEMPLATE_RELATIVE_URL */
 				define( 'CN_CUSTOM_TEMPLATE_RELATIVE_URL', str_replace( network_home_url(), '', CN_CUSTOM_TEMPLATE_URL ) );
 
 			} else {
@@ -360,22 +397,40 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * --> END <--
 				 */
 
-				if ( ! defined( 'CN_IMAGE_PATH' ) )
+				if ( ! defined( 'CN_IMAGE_PATH' ) ){
+
+					/** @var string CN_IMAGE_PATH */
 					define( 'CN_IMAGE_PATH', $dir . DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
+				}
+				if ( ! defined( 'CN_IMAGE_BASE_URL' ) ) {
 
-				if ( ! defined( 'CN_IMAGE_BASE_URL' ) )
+					/** @var string CN_IMAGE_BASE_URL */
 					define( 'CN_IMAGE_BASE_URL', $url . '/' . CN_IMAGE_DIR_NAME . '/' );
+				}
 
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) ) {
+
+					/** @var string CN_CUSTOM_TEMPLATE_PATH */
 					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates/' );
+				}
 
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
+
+					/** @var string CN_CUSTOM_TEMPLATE_URL */
 					define( 'CN_CUSTOM_TEMPLATE_URL', $url . '/connections_templates/' );
+				}
 
 				// Define the relative URL/s.
+				/** @var string CN_RELATIVE_URL */
 				define( 'CN_RELATIVE_URL', str_replace( home_url(), '', CN_URL ) );
+
+				/** @var string CN_TEMPLATE_RELATIVE_URL */
 				define( 'CN_TEMPLATE_RELATIVE_URL', str_replace( home_url(), '', CN_URL . 'templates/' ) );
+
+				/** @var string CN_IMAGE_RELATIVE_URL */
 				define( 'CN_IMAGE_RELATIVE_URL', str_replace( home_url(), '', CN_IMAGE_BASE_URL ) );
+
+				/** @var string CN_CUSTOM_TEMPLATE_RELATIVE_URL */
 				define( 'CN_CUSTOM_TEMPLATE_RELATIVE_URL', str_replace( home_url(), '', CN_CUSTOM_TEMPLATE_URL ) );
 			}
 
@@ -387,19 +442,43 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/*
 			 * Define the constants that can be used to reference the custom tables
 			 */
+			/** @var string CN_ENTRY_TABLE */
 			define( 'CN_ENTRY_TABLE', $prefix . 'connections' );
+
+			/** @var string CN_ENTRY_ADDRESS_TABLE */
 			define( 'CN_ENTRY_ADDRESS_TABLE', $prefix . 'connections_address' );
+
+			/** @var string CN_ENTRY_PHONE_TABLE */
 			define( 'CN_ENTRY_PHONE_TABLE', $prefix . 'connections_phone' );
+
+			/** @var string CN_ENTRY_EMAIL_TABLE */
 			define( 'CN_ENTRY_EMAIL_TABLE', $prefix . 'connections_email' );
+
+			/** @var string CN_ENTRY_MESSENGER_TABLE */
 			define( 'CN_ENTRY_MESSENGER_TABLE', $prefix . 'connections_messenger' );
+
+			/** @var string CN_ENTRY_SOCIAL_TABLE */
 			define( 'CN_ENTRY_SOCIAL_TABLE', $prefix . 'connections_social' );
+
+			/** @var string CN_ENTRY_LINK_TABLE */
 			define( 'CN_ENTRY_LINK_TABLE', $prefix . 'connections_link' );
+
+			/** @var string CN_ENTRY_DATE_TABLE */
 			define( 'CN_ENTRY_DATE_TABLE', $prefix . 'connections_date' );
 
+			/** @var string CN_ENTRY_TABLE_META */
 			define( 'CN_ENTRY_TABLE_META', $prefix . 'connections_meta' );
+
+			/** @var string CN_TERMS_TABLE */
 			define( 'CN_TERMS_TABLE', $prefix . 'connections_terms' );
+
+			/** @var string CN_TERM_TAXONOMY_TABLE */
 			define( 'CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy' );
+
+			/** @var string CN_TERM_RELATIONSHIP_TABLE */
 			define( 'CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships' );
+
+			/** @var string CN_TERM_META_TABLE */
 			define( 'CN_TERM_META_TABLE', $prefix . 'connections_term_meta' );
 		}
 

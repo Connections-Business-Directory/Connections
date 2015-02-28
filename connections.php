@@ -160,16 +160,18 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::$instance->template    = new cnTemplatePart();
 				self::$instance->url         = new cnURL();
 
-				/*
-				 * Load translation. NOTE: This should be ran on the init action hook because
-				 * function calls for translatable strings, like __() or _e(), execute before
-				 * the language files are loaded will not be loaded.
+				/**
+				 * NOTE: Any calls to load_plugin_textdomain should be in a function attached to the `plugins_loaded` action hook.
+				 * @link http://ottopress.com/2013/language-packs-101-prepwork/
 				 *
-				 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the init action hook or later.
-				 * NOTE: Priority set at -1 because the Metabox API runs at priority 0. The translation files need to be
-				 * 	loaded before the metaboxes are registered by the API or the metabox head will not display with the translated strings.
+				 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the plugins_loaded action hook or later.
+				 *
+				 * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
+				 *       generally loaded on the `plugins_loaded` action hook, any strings with the `connections` text
+				 *       domain will be merged into it. The purpose is to allow the extensions to use strings known to
+				 *       in the core plugin to reuse those strings and benefit if they are already translated.
 				 */
-				add_action( 'init', array( __CLASS__ , 'loadTextdomain' ), -1 );
+				add_action( 'plugins_loaded', array( __CLASS__ , 'loadTextdomain' ), -1 );
 
 				/*
 				 * Process front end actions.
@@ -592,26 +594,32 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public static function loadTextdomain() {
 
-			// Plugin's unique textdomain string.
-			$textdomain = 'connections';
+			// Set filter for plugin's languages directory
+			$languagesDirectory = apply_filters( 'cn_languages_directory', CN_DIR_NAME . '/languages/' );
 
-			// Filter for the plugin languages folder.
-			$languagesDirectory = apply_filters( 'connections_lang_dir', CN_DIR_NAME . '/languages/' );
+			// Traditional WordPress plugin locale filter
+			$locale   = apply_filters( 'plugin_locale', get_locale(), 'connections' );
+			$fileName = sprintf( '%1$s-%2$s.mo', 'connections', $locale );
 
-			// The 'plugin_locale' filter is also used by default in load_plugin_textdomain().
-			$locale = apply_filters( 'plugin_locale', get_locale(), $textdomain );
+			// Setup paths to current locale file
+			$local  = $languagesDirectory . $fileName;
+			$global = WP_LANG_DIR . '/connections/' . $fileName;
 
-			// Filter for WordPress languages directory.
-			$wpLanguagesDirectory = apply_filters(
-				'connections_wp_lang_dir',
-				WP_LANG_DIR . '/connections/' . sprintf( '%1$s-%2$s.mo', $textdomain, $locale )
-			);
+			if ( file_exists( $global ) ) {
 
-			// Translations: First, look in WordPress' "languages" folder = custom & update-secure!
-			load_textdomain( $textdomain, $wpLanguagesDirectory );
+				// Look in global `../wp-content/languages/connections/` folder.
+				load_textdomain( 'connections', $global );
 
-			// Translations: Secondly, look in plugin's "languages" folder = default.
-			load_plugin_textdomain( $textdomain, FALSE, $languagesDirectory );
+			} elseif ( file_exists( $local ) ) {
+
+				// Look in local `../wp-content/plugins/connections/languages/` folder.
+				load_textdomain( 'connections', $local );
+
+			} else {
+
+				// Load the default language files
+				load_plugin_textdomain( 'connections', false, $languagesDirectory );
+			}
 		}
 
 		/**

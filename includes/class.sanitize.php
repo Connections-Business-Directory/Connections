@@ -173,7 +173,8 @@ class cnSanitize {
 
 				if ( 'name' == $field ) {
 
-					return esc_textarea( $value );
+					// This is the same as the post title on the edit-form-advanced.php admin page.
+					return esc_attr( esc_textarea( $value ) );
 				}
 
 				break;
@@ -182,6 +183,7 @@ class cnSanitize {
 
 				if ( 'name' == $field ) {
 
+					// Matches the post title sanitation be inserted in the db.
 					return trim( wp_unslash( $value ) );
 				}
 
@@ -201,7 +203,8 @@ class cnSanitize {
 
 				if ( 'name' == $field ) {
 
-					return trim( convert_chars( wptexturize( $value ) ) );
+					// This is the same as the filters applied via the `the_title` filter for the post title.
+					return esc_html( trim( convert_chars( wptexturize( $value ) ) ) );
 				}
 
 				break;

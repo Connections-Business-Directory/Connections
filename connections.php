@@ -865,7 +865,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 *
 		 * @return void
 		 */
-		public function setRuntimeMessage( $type , $message ) {
+		public function setRuntimeMessage( $type, $message ) {
 			cnMessage::runtime( $type, $message );
 		}
 

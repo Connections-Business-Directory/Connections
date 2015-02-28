@@ -255,7 +255,7 @@ class cnRetrieve {
 			foreach ( $atts['category_name'] as $categoryName ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name just in case the user added it when using the shortcode.
-				$categoryNames[] = htmlentities( $wpdb->prepare( '%s', trim( $categoryName ) ) );
+				$categoryNames[] = $wpdb->prepare( '%s', trim( $categoryName ) ) ;
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'name', $categoryName );
@@ -263,7 +263,7 @@ class cnRetrieve {
 				foreach ( (array) $results as $term ) {
 
 					// Only add the name if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->name, $categoryNames ) ) $categoryNames[] = htmlentities( $wpdb->prepare( '%s', $term->name ) );
+					if ( ! in_array( $term->name, $categoryNames ) ) $categoryNames[] = $wpdb->prepare( '%s', $term->name );
 				}
 			}
 		}

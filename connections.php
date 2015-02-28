@@ -39,6 +39,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 if ( ! class_exists( 'connectionsLoad' ) ) {
 
+	/**
+	 * Class connectionsLoad
+	 */
 	final class connectionsLoad {
 
 		/**
@@ -142,6 +145,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public function __construct() { /* Do nothing here */ }
 
+		/**
+		 * @access private
+		 * @since  unknown
+		 * @static
+		 *
+		 * @return connectionsLoad
+		 */
 		public static function instance() {
 
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof connectionsLoad ) ) {

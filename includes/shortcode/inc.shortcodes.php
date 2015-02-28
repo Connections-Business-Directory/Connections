@@ -97,7 +97,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		$template = cnTemplateFactory::getTemplate( $atts['template'] );
 	} else {
 		$templateSlug = $connections->options->getActiveTemplate( $atts['list_type'] );
-		$template = cnTemplateFactory::getTemplate( $templateSlug, $atts['list_type'] );
+		$template = cnTemplateFactory::getTemplate( $templateSlug );
 	}
 
 	// No template found return error message.

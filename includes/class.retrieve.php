@@ -255,7 +255,7 @@ class cnRetrieve {
 			foreach ( $atts['category_name'] as $categoryName ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name just in case the user added it when using the shortcode.
-				$categoryNames[] = $wpdb->prepare( '%s', trim( $categoryName ) ) ;
+				$categoryNames[] = $wpdb->prepare( '%s', trim( $categoryName ) );
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'name', $categoryName );

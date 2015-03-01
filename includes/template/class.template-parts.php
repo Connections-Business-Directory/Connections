@@ -1848,8 +1848,10 @@ class cnTemplatePart {
 
 			} elseif ( get_query_var( 'cn-cat-slug' ) ) {
 
+				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
+
 				// If the category slug is a descendant, use the last slug from the URL for the query.
-				$selected = end( explode( '/', get_query_var( 'cn-cat-slug' ) ) );
+				$selected = end( $slug );
 			}
 
 		} else {

@@ -14,13 +14,18 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnSEO
+ */
 class cnSEO {
 
 	/**
 	 * Whether or not to filter the permalink.
 	 *
 	 * @access private
-	 * @since 0.7.8
+	 * @since  0.7.8
+	 * @static
+	 *
 	 * @var boolean
 	 */
 	private static $filterPermalink = TRUE;
@@ -29,9 +34,12 @@ class cnSEO {
 	 * Register the default template actions.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @uses add_filter()
-	 * @return (void)
+	 * @since  0.7.8
+	 * @static
+	 *
+	 * @uses   add_filter()
+	 *
+	 * @return void
 	 */
 	public static function init() {
 
@@ -47,7 +55,7 @@ class cnSEO {
 		add_filter( 'wp_nav_menu', array( __CLASS__, 'endNav' ), 10, 2 );
 		// add_filter( 'widget_posts_args', array( __CLASS__, 'startNav' ) ); // This could cause problems since the filter is not re-enabled.
 
-		// Filter the get_parmalink() function to append the Connections related items to the URL.
+		// Filter the get_permalink() function to append the Connections related items to the URL.
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
 		// Filter the meta title to reflect the current Connections filter.
@@ -73,9 +81,12 @@ class cnSEO {
 	 * This can be called to turn on/off the filters applied in cnSEO.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param  (bool) $do [optional]
-	 * @return (void)
+	 * @since  0.7.8
+	 * @static
+	 *
+	 * @param  bool $do
+	 *
+	 * @return void
 	 */
 	public static function doFilterPermalink( $do = TRUE ) {
 
@@ -86,18 +97,24 @@ class cnSEO {
 	 * Add the Connections URL segments to the page permalink.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @uses get_option()
-	 * @uses trailingslashit()
-	 * @uses get_query_var()
-	 * @uses user_trailingslashit()
-	 * @uses esc_url()
-	 * @param  (string) $link The permalink.
-	 * @param  (int) $ID Page ID.
-	 * @param  (bool) $sample Is it a sample permalink.
-	 * @return (string)
+	 * @since  0.7.8
+	 * @static
+	 *
+	 * @uses   get_option()
+	 * @uses   trailingslashit()
+	 * @uses   get_query_var()
+	 * @uses   user_trailingslashit()
+	 * @uses   esc_url()
+	 *
+	 * @param  string $link   The permalink.
+	 * @param  int    $ID     Page ID.
+	 * @param  bool   $sample Is it a sample permalink.
+	 *
+	 * @return string
 	 */
 	public static function filterPermalink( $link, $ID, $sample ) {
+
+		/** @var WP_rewrite $wp_rewrite */
 		global $wp_rewrite, $post/*, $connections*/;
 
 		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
@@ -185,14 +202,16 @@ class cnSEO {
 	}
 
 	/**
-	 * Update the post date and post modified date to refect the current entry being viewed.
+	 * Update the post date and post modified date to reflect the current entry being viewed.
 	 *
 	 * @access private
 	 * @since  8.1
 	 * @static
+	 *
 	 * @uses   is_main_query()
 	 * @uses   get_query_var()
 	 * @uses   get_gmt_from_date()
+	 *
 	 * @param  array  $posts    An array of WP_Post objects.
 	 * @param  object $wp_query A reference to the WP_Query object
 	 *
@@ -233,12 +252,16 @@ class cnSEO {
 	 * Add the the current Connections directory location/query to the page meta title.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @uses get_query_var()
-	 * @param  (string) $title The browser tab/window title.
-	 * @param  (string) $sep [optional] The title separator.
-	 * @param  (string) $seplocation [optional] The separator location.
-	 * @return (string)
+	 * @since  0.7.8
+	 * @static
+	 *
+	 * @uses   get_query_var()
+	 *
+	 * @param  string $title The browser tab/window title.
+	 * @param  string $sep [optional] The title separator.
+	 * @param  string $seplocation [optional] The separator location.
+	 *
+	 * @return string
 	 */
 	public static function filterMetaTitle( $title, $sep = '&raquo;', $seplocation = '' ) {
 		global $connections;
@@ -309,15 +332,19 @@ class cnSEO {
 	/**
 	 * Add the the current Connections directory location/query to the page title.
 	 *
-	 * NOTE: $id really isn't optionaly, some plugins fail to use the `the_title` filter correctly,
+	 * NOTE: $id really isn't optional, some plugins fail to use the `the_title` filter correctly,
 	 * ie. "Display Posts Shortcode", causes Connections to crash an burn if not supplied.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @uses get_query_var()
-	 * @param  (string) $title The browser tab/window title.
-	 * @param  (int) $id [optional] The page/post ID.
-	 * @return (string)
+	 * @since  0.7.8
+	 * @static
+	 *
+	 * @uses   get_query_var()
+	 *
+	 * @param  string $title The browser tab/window title.
+	 * @param  int    $id    The page/post ID.
+	 *
+	 * @return string
 	 */
 	public static function filterPostTitle( $title, $id = 0 ) {
 		global $wp_query, $post, $connections;
@@ -391,11 +418,14 @@ class cnSEO {
 	 * Add the the current Connections category description or entry bio excerpt  as the page meta description.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @uses get_query_var()
-	 * @uses esc_attr()
-	 * @uses strip_shortcodes()
-	 * @return (string) | (void)
+	 * @since  0.7.8
+	 * @static
+	 *
+	 * @uses   get_query_var()
+	 * @uses   esc_attr()
+	 * @uses   strip_shortcodes()
+	 *
+	 * @return string
 	 */
 	public static function metaDesc() {
 		global $connections;
@@ -452,9 +482,12 @@ class cnSEO {
 	 * not run thru the cnSEO filters.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @param  (array) $args The arguments passed to wp_nav_menu().
-	 * @return (array)
+	 * @since  0.7.8
+	 * @static
+	 *
+	 * @param  array $args The arguments passed to wp_nav_menu().
+	 *
+	 * @return array
 	 */
 	public static function startNav( $args ) {
 
@@ -468,12 +501,16 @@ class cnSEO {
 	 * The only purpose is to set self::doFilterPermalink to TRUE.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @see self::startNav()
-	 * @see self::doFilterPermalink()
-	 * @param  (string) $menu
-	 * @param  (array) $args $args The arguments passed to wp_nav_menu().
-	 * @return (string)
+	 * @since  0.7.8
+	 * @static
+	 *
+	 * @see    self::startNav()
+	 * @see    self::doFilterPermalink()
+	 *
+	 * @param  string $menu
+	 * @param  array  $args The arguments passed to wp_nav_menu().
+	 *
+	 * @return string
 	 */
 	public static function endNav( $menu, $args ) {
 
@@ -483,13 +520,16 @@ class cnSEO {
 	}
 
 	/**
-	 * Remove the comment feeds from th directory subpages.
+	 * Remove the comment feeds from th directory sub-pages.
 	 * This is to prevent search engine crawl errors / 404s.
 	 *
 	 * @access private
-	 * @since 0.7.9
+	 * @since  0.7.9
+	 * @static
+	 *
 	 * @global $wp_query
-	 * @return (void)
+	 *
+	 * @return void
 	 */
 	public static function removeCommentFeed() {
 		global $wp_query;

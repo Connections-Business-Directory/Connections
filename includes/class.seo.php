@@ -122,7 +122,7 @@ class cnSEO {
 	 *
 	 * @return string
 	 */
-	public static function filterPermalink( $link, $ID, $sample ) {
+	public static function filterPermalink( $link, $ID, /** @noinspection PhpUnusedParameterInspection */ $sample ) {
 
 		/** @var WP_rewrite $wp_rewrite */
 		global $wp_rewrite, $post/*, $connections*/;
@@ -273,7 +273,7 @@ class cnSEO {
 	 *
 	 * @return string
 	 */
-	public static function filterMetaTitle( $title, $sep = '&raquo;', $seplocation = '' ) {
+	public static function filterMetaTitle( $title, $sep = '&raquo;', /** @noinspection PhpUnusedParameterInspection */ $seplocation = '' ) {
 		global $connections;
 
 		// Whether or not to filter the page meta title with the current directory location.
@@ -522,7 +522,7 @@ class cnSEO {
 	 *
 	 * @return string
 	 */
-	public static function endNav( $menu, $args ) {
+	public static function endNav( $menu, /** @noinspection PhpUnusedParameterInspection */ $args ) {
 
 		self::doFilterPermalink();
 

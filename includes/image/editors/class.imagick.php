@@ -61,16 +61,19 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 				//if ( method_exists( $this->image, 'setImageOpacity' ) ) $this->image->setImageOpacity( $level );
 				//$this->image->evaluateImage( Imagick::EVALUATE_MULTIPLY, $level, Imagick::CHANNEL_ALPHA );
 
-				/** @var ImagickPixelIterator $rows */
-				$rows = $this->image->getPixelIterator();
+				// Add the alpha channel
+				/** @todo Text how this affects an image which already has an alpha channel. */
+				$this->image->setImageAlphaChannel( Imagick::ALPHACHANNEL_ACTIVATE );
 
-				foreach( $rows as $cols ) {
+				/** @var ImagickPixelIterator $pixelIterator */
+				$pixelIterator = $this->image->getPixelIterator();
 
+				// Loop trough pixel rows.
+				foreach ( $pixelIterator as $row => $pixels ) {
+
+					// Loop through the pixels in the row (columns).
 					/** @var ImagickPixel $pixel */
-					foreach( $cols as $pixel ) {
-
-						// An object pointing at a single pixel of the image
-						// which can be manipulated.
+					foreach ( $pixels as $column => $pixel ) {
 
 						// Determine the pixel's current transparency level.
 						$current = $pixel->getColorValue( Imagick::COLOR_ALPHA );
@@ -81,11 +84,11 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 							Imagick::COLOR_ALPHA,
 							( $current - $level > 0 ? $current - $level : 0 )
 						);
-
-						// Tell Imagick to sync the change made to the pixel object to
-						// the actual image, via the iterator that created the pixel object.
-						$rows->syncIterator();
 					}
+					// Sync the change made to the pixel object to the actual image,
+					// via the iterator that created the pixel object,
+					// this is important to do on each iteration.
+					$pixelIterator->syncIterator();
 				}
 
 				return TRUE;
@@ -94,7 +97,6 @@ class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
 
 				return new WP_Error( 'image_opacity_error', $e->getMessage(), $this->file );
 			}
-
 		}
 
 		return new WP_Error( 'image_opacity_error', __( 'Image opacity change failed.', 'connections' ), $this->file );

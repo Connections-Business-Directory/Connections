@@ -61,6 +61,11 @@ class cnSEO {
 		// add_filter( 'widget_posts_args', array( __CLASS__, 'startNav' ) );
 
 		// Filter the get_permalink() function to append the Connections related items to the URL.
+		/**
+		 * @todo Perhaps this filter should only be applied while in the page head so on the meta canonical link if affected.
+		 * That would eliminate issues like this:
+		 * @link http://connections-pro.com/support/topic/the-link-of-the-address-book-doesnt-work-after-the-choice-a-category/
+		 */
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
 		// Filter the meta title to reflect the current Connections filter.

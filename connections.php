@@ -3,13 +3,13 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.1.7
+ * Version: 8.2
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
  * Domain Path: languages
  *
- * Copyright 2014  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
+ * Copyright 2015  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
  *
  * Connections is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.1.7
+ * @version 8.2
  */
 
 // Exit if accessed directly
@@ -39,6 +39,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 if ( ! class_exists( 'connectionsLoad' ) ) {
 
+	/**
+	 * Class connectionsLoad
+	 */
 	final class connectionsLoad {
 
 		/**
@@ -142,6 +145,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public function __construct() { /* Do nothing here */ }
 
+		/**
+		 * @access private
+		 * @since  unknown
+		 * @static
+		 *
+		 * @return connectionsLoad
+		 */
 		public static function instance() {
 
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof connectionsLoad ) ) {
@@ -160,16 +170,18 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::$instance->template    = new cnTemplatePart();
 				self::$instance->url         = new cnURL();
 
-				/*
-				 * Load translation. NOTE: This should be ran on the init action hook because
-				 * function calls for translatable strings, like __() or _e(), execute before
-				 * the language files are loaded will not be loaded.
+				/**
+				 * NOTE: Any calls to load_plugin_textdomain should be in a function attached to the `plugins_loaded` action hook.
+				 * @link http://ottopress.com/2013/language-packs-101-prepwork/
 				 *
-				 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the init action hook or later.
-				 * NOTE: Priority set at -1 because the Metabox API runs at priority 0. The translation files need to be
-				 * 	loaded before the metaboxes are registered by the API or the metabox head will not display with the translated strings.
+				 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the plugins_loaded action hook or later.
+				 *
+				 * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
+				 *       generally loaded on the `plugins_loaded` action hook, any strings with the `connections` text
+				 *       domain will be merged into it. The purpose is to allow the extensions to use strings known to
+				 *       in the core plugin to reuse those strings and benefit if they are already translated.
 				 */
-				add_action( 'init', array( __CLASS__ , 'loadTextdomain' ), -1 );
+				add_action( 'plugins_loaded', array( __CLASS__ , 'loadTextdomain' ), -1 );
 
 				/*
 				 * Process front end actions.
@@ -203,44 +215,58 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		private static function defineConstants() {
 			global $wpdb, $blog_id;
 
-			// Whether or not to log actions and results for debugging.
-			if ( ! defined( 'CN_LOG' ) ) define( 'CN_LOG', FALSE );
+			if ( ! defined( 'CN_LOG' ) ) {
+				/** @var string CN_LOG Whether or not to log actions and results for debugging. */
+				define( 'CN_LOG', FALSE );
+			}
 
-			/*
-			 * Version Constants
-			 */
-			define( 'CN_CURRENT_VERSION', '8.1.7' );
-			define( 'CN_DB_VERSION', '0.1.9' );
+			/** @var string CN_CURRENT_VERSION The current version. */
+			define( 'CN_CURRENT_VERSION', '8.2' );
 
-			/*
- 			 * Used for EDD SL Updater
- 			 */
- 			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
+			/** @var string CN_DB_VERSION The current DB version. */
+			define( 'CN_DB_VERSION', '0.2' );
 
-			/*
-			 * Core Constants
-			 */
+			/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
+			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
+
+			/** @var string CN_DIR_NAME */
 			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
+
+			/** @var string CN_BASE_NAME */
 			define( 'CN_BASE_NAME', plugin_basename( __FILE__ ) );
+
+			/** @var string CN_PATH */
 			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
+
+			/** @var string CN_URL */
 			define( 'CN_URL', plugin_dir_url( __FILE__ ) );
 
 			/*
 			 * Core constants that can be overridden by setting in wp-config.php.
-			 *
-			 * NOTE: If CN_CACHE_PATH is overridden, the path will need updated in timthumb-config.php also.
 			 */
-			if ( ! defined( 'CN_TEMPLATE_PATH' ) )
+			if ( ! defined( 'CN_TEMPLATE_PATH' ) ) {
+
+				/** @var string CN_TEMPLATE_PATH */
 				define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates/' );
+			}
 
-			if ( ! defined( 'CN_TEMPLATE_URL' ) )
+			if ( ! defined( 'CN_TEMPLATE_URL' ) ) {
+
+				/** @var string CN_TEMPLATE_URL */
 				define( 'CN_TEMPLATE_URL', CN_URL . 'templates/' );
+			}
 
-			if ( ! defined( 'CN_CACHE_PATH' ) )
+			if ( ! defined( 'CN_CACHE_PATH' ) ) {
+
+				/** @var string CN_CACHE_PATH */
 				define( 'CN_CACHE_PATH', CN_PATH . 'cache/' );
+			}
 
-			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) )
+			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) ) {
+
+				/** @var string CN_ADMIN_MENU_POSITION */
 				define( 'CN_ADMIN_MENU_POSITION', NULL );
+			}
 
 			/*
 			 * To run Connections in single site mode on multi-site.
@@ -253,24 +279,32 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( is_multisite() ) {
 
+					/** @var string CN_MULTISITE_ENABLED */
 					define( 'CN_MULTISITE_ENABLED', TRUE );
 
 				} else {
 
+					/** @var string CN_MULTISITE_ENABLED */
 					define( 'CN_MULTISITE_ENABLED', FALSE );
 				}
 			}
 
 			// Set the root image permalink endpoint name.
-			if ( ! defined( 'CN_IMAGE_ENDPOINT' ) )
+			if ( ! defined( 'CN_IMAGE_ENDPOINT' ) ) {
+
+				/** @var string CN_IMAGE_ENDPOINT */
 				define( 'CN_IMAGE_ENDPOINT', 'cn-image' );
+			}
 
 			// Set images subdirectory folder name.
-			if ( ! defined( 'CN_IMAGE_DIR_NAME' ) )
+			if ( ! defined( 'CN_IMAGE_DIR_NAME' ) ){
+
+				/** @var string CN_IMAGE_DIR_NAME */
 				define( 'CN_IMAGE_DIR_NAME', 'connections-images' );
+			}
 
 			/*
-			 * Core constants that can be overrideen in wp-config.php
+			 * Core constants that can be overridden in wp-config.php
 			 * which enable support for multi-site file locations.
 			 */
 			if ( is_multisite() && CN_MULTISITE_ENABLED ) {
@@ -280,26 +314,41 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( ! defined( 'CN_IMAGE_PATH' ) ) {
 
-					// define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/' );
+					/** @var string CN_IMAGE_PATH */
 					define( 'CN_IMAGE_PATH', trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
+					// define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/' );
 				}
 
 				if ( ! defined( 'CN_IMAGE_BASE_URL' ) ) {
 
-					// define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connection_images/' ) );
+					/** @var string CN_IMAGE_BASE_URL */
 					define( 'CN_IMAGE_BASE_URL', trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' );
+					// define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connection_images/' ) );
 				}
 
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) ) {
 
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
+					/** @var string CN_CUSTOM_TEMPLATE_PATH */
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
+				}
+
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
+
+					/** @var string CN_CUSTOM_TEMPLATE_URL */
 					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
+				}
 
 				// Define the relative URL/s.
+				/** @var string CN_RELATIVE_URL */
 				define( 'CN_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL ) );
+
+				/** @var string CN_TEMPLATE_RELATIVE_URL */
 				define( 'CN_TEMPLATE_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL . 'templates/' ) );
+
+				/** @var string CN_IMAGE_RELATIVE_URL */
 				define( 'CN_IMAGE_RELATIVE_URL', str_replace( network_home_url(), '', CN_IMAGE_BASE_URL ) );
+
+				/** @var string CN_CUSTOM_TEMPLATE_RELATIVE_URL */
 				define( 'CN_CUSTOM_TEMPLATE_RELATIVE_URL', str_replace( network_home_url(), '', CN_CUSTOM_TEMPLATE_URL ) );
 
 			} else {
@@ -344,7 +393,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 						$url = trailingslashit( $siteurl ) . $upload_path;
 					}
-
 				}
 
 				// Obey the value of UPLOADS. This happens as long as ms-files rewriting is disabled.
@@ -358,47 +406,89 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 * --> END <--
 				 */
 
-				if ( ! defined( 'CN_IMAGE_PATH' ) )
+				if ( ! defined( 'CN_IMAGE_PATH' ) ){
+
+					/** @var string CN_IMAGE_PATH */
 					define( 'CN_IMAGE_PATH', $dir . DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
+				}
+				if ( ! defined( 'CN_IMAGE_BASE_URL' ) ) {
 
-				if ( ! defined( 'CN_IMAGE_BASE_URL' ) )
+					/** @var string CN_IMAGE_BASE_URL */
 					define( 'CN_IMAGE_BASE_URL', $url . '/' . CN_IMAGE_DIR_NAME . '/' );
+				}
 
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) )
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) ) {
+
+					/** @var string CN_CUSTOM_TEMPLATE_PATH */
 					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates/' );
+				}
 
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) )
+				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
+
+					/** @var string CN_CUSTOM_TEMPLATE_URL */
 					define( 'CN_CUSTOM_TEMPLATE_URL', $url . '/connections_templates/' );
+				}
 
 				// Define the relative URL/s.
+				/** @var string CN_RELATIVE_URL */
 				define( 'CN_RELATIVE_URL', str_replace( home_url(), '', CN_URL ) );
+
+				/** @var string CN_TEMPLATE_RELATIVE_URL */
 				define( 'CN_TEMPLATE_RELATIVE_URL', str_replace( home_url(), '', CN_URL . 'templates/' ) );
+
+				/** @var string CN_IMAGE_RELATIVE_URL */
 				define( 'CN_IMAGE_RELATIVE_URL', str_replace( home_url(), '', CN_IMAGE_BASE_URL ) );
+
+				/** @var string CN_CUSTOM_TEMPLATE_RELATIVE_URL */
 				define( 'CN_CUSTOM_TEMPLATE_RELATIVE_URL', str_replace( home_url(), '', CN_CUSTOM_TEMPLATE_URL ) );
 			}
 
 			/*
-			 * Set the table prefix accordingly depedning if Connections is installed on a multisite WP installation.
+			 * Set the table prefix accordingly depending if Connections is installed on a multisite WP installation.
 			 */
 			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->prefix : $wpdb->base_prefix;
 
 			/*
 			 * Define the constants that can be used to reference the custom tables
 			 */
+			/** @var string CN_ENTRY_TABLE */
 			define( 'CN_ENTRY_TABLE', $prefix . 'connections' );
+
+			/** @var string CN_ENTRY_ADDRESS_TABLE */
 			define( 'CN_ENTRY_ADDRESS_TABLE', $prefix . 'connections_address' );
+
+			/** @var string CN_ENTRY_PHONE_TABLE */
 			define( 'CN_ENTRY_PHONE_TABLE', $prefix . 'connections_phone' );
+
+			/** @var string CN_ENTRY_EMAIL_TABLE */
 			define( 'CN_ENTRY_EMAIL_TABLE', $prefix . 'connections_email' );
+
+			/** @var string CN_ENTRY_MESSENGER_TABLE */
 			define( 'CN_ENTRY_MESSENGER_TABLE', $prefix . 'connections_messenger' );
+
+			/** @var string CN_ENTRY_SOCIAL_TABLE */
 			define( 'CN_ENTRY_SOCIAL_TABLE', $prefix . 'connections_social' );
+
+			/** @var string CN_ENTRY_LINK_TABLE */
 			define( 'CN_ENTRY_LINK_TABLE', $prefix . 'connections_link' );
+
+			/** @var string CN_ENTRY_DATE_TABLE */
 			define( 'CN_ENTRY_DATE_TABLE', $prefix . 'connections_date' );
 
+			/** @var string CN_ENTRY_TABLE_META */
 			define( 'CN_ENTRY_TABLE_META', $prefix . 'connections_meta' );
+
+			/** @var string CN_TERMS_TABLE */
 			define( 'CN_TERMS_TABLE', $prefix . 'connections_terms' );
+
+			/** @var string CN_TERM_TAXONOMY_TABLE */
 			define( 'CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy' );
+
+			/** @var string CN_TERM_RELATIONSHIP_TABLE */
 			define( 'CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships' );
 
+			/** @var string CN_TERM_META_TABLE */
+			define( 'CN_TERM_META_TABLE', $prefix . 'connections_term_meta' );
 		}
 
 		private static function includes() {
@@ -570,7 +660,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Must require AFTER the core templates.
 			require_once CN_PATH . 'includes/template/class.template-api.php';
 			require_once CN_PATH . 'includes/template/class.template-parts.php';
-			require_once CN_PATH . 'includes/template/class.template-walker-category-list.php';
 			require_once CN_PATH . 'includes/template/class.template-shortcode.php';
 			require_once CN_PATH . 'includes/template/class.template-compatibility.php';
 			require_once CN_PATH . 'includes/template/class.template.php';
@@ -593,26 +682,32 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public static function loadTextdomain() {
 
-			// Plugin's unique textdomain string.
-			$textdomain = 'connections';
+			// Set filter for plugin's languages directory
+			$languagesDirectory = apply_filters( 'cn_languages_directory', CN_DIR_NAME . '/languages/' );
 
-			// Filter for the plugin languages folder.
-			$languagesDirectory = apply_filters( 'connections_lang_dir', CN_DIR_NAME . '/languages/' );
+			// Traditional WordPress plugin locale filter
+			$locale   = apply_filters( 'plugin_locale', get_locale(), 'connections' );
+			$fileName = sprintf( '%1$s-%2$s.mo', 'connections', $locale );
 
-			// The 'plugin_locale' filter is also used by default in load_plugin_textdomain().
-			$locale = apply_filters( 'plugin_locale', get_locale(), $textdomain );
+			// Setup paths to current locale file
+			$local  = $languagesDirectory . $fileName;
+			$global = WP_LANG_DIR . '/connections/' . $fileName;
 
-			// Filter for WordPress languages directory.
-			$wpLanguagesDirectory = apply_filters(
-				'connections_wp_lang_dir',
-				WP_LANG_DIR . '/connections/' . sprintf( '%1$s-%2$s.mo', $textdomain, $locale )
-			);
+			if ( file_exists( $global ) ) {
 
-			// Translations: First, look in WordPress' "languages" folder = custom & update-secure!
-			load_textdomain( $textdomain, $wpLanguagesDirectory );
+				// Look in global `../wp-content/languages/connections/` folder.
+				load_textdomain( 'connections', $global );
 
-			// Translations: Secondly, look in plugin's "languages" folder = default.
-			load_plugin_textdomain( $textdomain, FALSE, $languagesDirectory );
+			} elseif ( file_exists( $local ) ) {
+
+				// Look in local `../wp-content/plugins/connections/languages/` folder.
+				load_textdomain( 'connections', $local );
+
+			} else {
+
+				// Load the default language files
+				load_plugin_textdomain( 'connections', false, $languagesDirectory );
+			}
 		}
 
 		/**
@@ -623,16 +718,17 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			switch ( TRUE ) {
 
+				/** @noinspection PhpMissingBreakStatementInspection */
 				case ( version_compare( $version, '0.7.3', '<' ) ) :
 					/*
 					 * Retrieve the settings stored prior to 0.7.3 and migrate them
 					 * so they will be accessible in the structure supported by the
 					 * Connections WordPress Settings API Wrapper Class.
 					 */
-					if ( get_option( 'connections_options' ) !== FALSE ) {
+					if ( FALSE !== get_option( 'connections_options' ) ) {
 						$options = get_option( 'connections_options' );
 
-						if ( get_option( 'connections_login' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_login' ) ) {
 							update_option( 'connections_login' , array(
 									'required' => $options['settings']['allow_public'],
 									'message' => 'Please login to view the directory.'
@@ -640,7 +736,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_visibility' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_visibility' ) ) {
 							update_option( 'connections_visibility' , array(
 									'allow_public_override' => $options['settings']['allow_public_override'],
 									'allow_private_override' => $options['settings']['allow_private_override']
@@ -648,7 +744,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_image_thumbnail' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_image_thumbnail' ) ) {
 							update_option( 'connections_image_thumbnail' , array(
 									'quality' => $options['settings']['image']['thumbnail']['quality'],
 									'width' => $options['settings']['image']['thumbnail']['x'],
@@ -657,7 +753,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 								)
 							);
 						}
-						if ( get_option( 'connections_image_medium' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_image_medium' ) ) {
 							update_option( 'connections_image_medium' , array(
 									'quality' => $options['settings']['image']['entry']['quality'],
 									'width' => $options['settings']['image']['entry']['x'],
@@ -667,7 +763,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_image_large' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_image_large' ) ) {
 							update_option( 'connections_image_large' , array(
 									'quality' => $options['settings']['image']['profile']['quality'],
 									'width' => $options['settings']['image']['profile']['x'],
@@ -677,7 +773,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_image_logo' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_image_logo' ) ) {
 							update_option( 'connections_image_logo' , array(
 									'quality' => $options['settings']['image']['logo']['quality'],
 									'width' => $options['settings']['image']['logo']['x'],
@@ -687,23 +783,24 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 							);
 						}
 
-						if ( get_option( 'connections_compatibility' ) === FALSE ) {
+						if ( FALSE === get_option( 'connections_compatibility' ) ) {
 							update_option( 'connections_compatibility' , array(
 									'google_maps_api' => $options['settings']['advanced']['load_google_maps_api'],
 									'javascript_footer' => $options['settings']['advanced']['load_javascript_footer'] )
 							);
 						}
 
-						if ( get_option( 'connections_debug' ) === FALSE ) update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
+						if ( FALSE === get_option( 'connections_debug' ) ) {
+							update_option( 'connections_debug' , array( 'debug_messages' => $options['debug'] ) );
+						}
 
 						unset( $options );
-
 					}
 
-
+				/** @noinspection PhpMissingBreakStatementInspection */
 				case ( version_compare( $version, '0.7.4', '<' ) ) :
 					/*
-					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 					 */
 					$options = get_option( 'connections_search' );
 					$options['keyword_enabled'] = 1;
@@ -711,9 +808,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					update_option( 'connections_search', $options );
 					unset( $options );
 
+				/** @noinspection PhpMissingBreakStatementInspection */
 				case ( version_compare( $version, '0.8', '<' ) ) :
 					/*
-					 * The option to disable keyowrd search was added in version 0.7.4. Set this option to be enabled by default.
+					 * The option to disable keyword search was added in version 0.7.4. Set this option to be enabled by default.
 					 */
 					$options = get_option( 'connections_compatibility' );
 					$options['css'] = 1;
@@ -728,12 +826,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 					unset( $options );
 			}
 
-			if ( $this->options->getDefaultTemplatesSet() === NULL ) $this->options->setDefaultTemplates();
+			if ( NULL === $this->options->getDefaultTemplatesSet() ) $this->options->setDefaultTemplates();
 
-			// Class used for managing role capabilites.
+			// Class used for managing role capabilities.
 			if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
-			if ( $this->options->getCapabilitiesSet() != TRUE ) {
+			if ( TRUE != $this->options->getCapabilitiesSet() ) {
 
 				cnRole::reset();
 				$this->options->defaultCapabilitiesSet( TRUE );
@@ -776,7 +874,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 *
 		 * @return void
 		 */
-		public function setRuntimeMessage( $type , $message ) {
+		public function setRuntimeMessage( $type, $message ) {
 			cnMessage::runtime( $type, $message );
 		}
 
@@ -894,7 +992,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			$token = get_query_var( 'cn-token' );
 			$id = (integer) get_query_var( 'cn-id' );
 
-			if ( $process === 'vcard' ) {
+			if ( 'vcard' === $process ) {
 
 				$slug = get_query_var( 'cn-entry-slug' ); //var_dump($slug);
 
@@ -923,7 +1021,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 					$vCard = new cnvCard( $entry[0] ); //var_dump($vCard);die;
 				}
-
 
 				$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
 				$data     = $vCard->getvCard(); //var_dump($data);die;

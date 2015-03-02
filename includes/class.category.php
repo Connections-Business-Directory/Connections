@@ -316,6 +316,7 @@ class cnCategory {
 			'parent'      => $this->parent,
 		);
 
+		remove_filter( 'pre_term_description', 'wp_filter_kses' );
 		$result = cnTerm::insert( $this->name, 'category', $args );
 
 		if ( is_wp_error( $result ) ) {
@@ -371,6 +372,7 @@ class cnCategory {
 			return FALSE;
 		}
 
+		remove_filter( 'pre_term_description', 'wp_filter_kses' );
 		$result = cnTerm::update( $this->id, 'category', $args );
 
 		if ( is_wp_error( $result ) ) {

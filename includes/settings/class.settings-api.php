@@ -81,12 +81,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		}
 
 		/**
-		 * Intiate the settings registry.
+		 * Initiate the settings registry.
 		 *
 		 * NOTE: The filters for the tabs, sections and fields should be added before running init()
 		 *
 		 * NOTE: The recommended action to hook into is plugins_loaded. This will ensure the actions
-		 * 	within this class are run at the appropiate times.
+		 * 	within this class are run at the appropriate times.
 		 *
 		 * NOTE: The high priority is used to make sure the actions registered in this API are run
 		 * 	first. This is to help ensure registered settings are available to other actions registered
@@ -99,14 +99,14 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		public static function init() {
 
 			// Register the settings tabs.
-			add_action( 'admin_init', array( __CLASS__, 'registerTabs' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'registerTabs' ), 0 );
 
 			// Register the settings sections.
-			add_action( 'admin_init', array( __CLASS__, 'registerSections' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'registerSections' ), 0 );
 
 			// Register the sections fields.
-			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), .1 );
-			add_action( 'init', array( __CLASS__, 'registerFields' ), .1 );
+			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), 0 );
+			add_action( 'init', array( __CLASS__, 'registerFields' ), 0 );
 		}
 
 		/**
@@ -321,7 +321,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			if ( empty($fields) ) return;
 
 			foreach ( $fields as $key => $field ) {
-				// Store the position values so an array multi sort can be done to postion the fields in the desired order.
+				// Store the position values so an array multi sort can be done to position the fields in the desired order.
 				( isset( $field['position'] ) && ! empty( $field['position'] ) ) ? $sort[] = $field['position'] : $field[] = 0;
 			}
 
@@ -329,7 +329,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			foreach ( $fields as $field ) {
 
-				// Add the tab id to the page hook if the field was registerd to a specific tab.
+				// Add the tab id to the page hook if the field was registered to a specific tab.
 				if ( isset( $field['tab'] ) && ! empty( $field['tab'] ) ) $field['page_hook'] = $field['page_hook'] . '-' . $field['tab'];
 
 				// If the section was not set or supplied empty set the value to 'default'. This is WP core behavior.

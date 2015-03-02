@@ -816,9 +816,9 @@ class cnEntry_Action {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @param (string) $status 		The status to set. Valid options are: approved | pending
-	 * @param (array | int) $id 	The entry IDs to set the status.
-	 * @return (bool)
+	 * @param string $status 		The status to set. Valid options are: approved | pending
+	 * @param array|int $id 	The entry IDs to set the status.
+	 * @return bool
 	 */
 	public static function status( $status, $id ) {
 		global $wpdb;
@@ -859,9 +859,9 @@ class cnEntry_Action {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @param (string) $visibility	The visibility to set. Valid options are: public | private | unlisted
-	 * @param (array | int) $id 	The entry IDs to set the visibility.
-	 * @return (bool)
+	 * @param string $visibility	The visibility to set. Valid options are: public | private | unlisted
+	 * @param array|int $id 	The entry IDs to set the visibility.
+	 * @return bool
 	 */
 	public static function visibility( $visibility, $id ) {
 		global $wpdb;
@@ -903,7 +903,7 @@ class cnEntry_Action {
 	 * @access private
 	 * @since 0.7.8
 	 * @param (array | int) $ids 	The entry IDs to delete.
-	 * @return (bool)
+	 * @return bool
 	 */
 	public static function delete( $ids ) {
 
@@ -914,13 +914,7 @@ class cnEntry_Action {
 		if ( empty( $ids ) ) return FALSE;
 
 		// Check for and convert to an array.
-		if ( ! is_array( $ids ) ) {
-
-			// Remove whitespace.
-			$ids = trim( str_replace( ' ', '', $ids ) );
-
-			$ids = explode( ',', $ids );
-		}
+		$ids = wp_parse_id_list( $ids );
 
 		foreach ( $ids as $id ) {
 
@@ -1003,15 +997,16 @@ class cnEntry_Action {
 
 				if ( empty( $meta ) ) {
 
-					cnMeta::delete( 'entry', $id );
+					$meta = cnMeta::get( 'entry', $id );
+				}
 
-				} else {
+				if ( $meta ) {
 
-					foreach ( $meta as $metaID => $row ) {
+					foreach ( $meta as $key => $value ) {
 
-						cnMeta::delete( 'entry', $id, $metaID, $row['key'], $row['value'] );
+						cnMeta::delete( 'entry', $id, $key );
 
-						$metaIDs[] = $metaID;
+						$metaIDs[] = $key;
 					}
 				}
 
@@ -1022,7 +1017,7 @@ class cnEntry_Action {
 	}
 
 	/**
-	 * Purge entry related caches when an entry is added/editted.
+	 * Purge entry related caches when an entry is added/edited.
 	 *
 	 * @access public
 	 * @since  8.1

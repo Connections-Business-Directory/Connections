@@ -16,6 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnShortcode_Connections extends cnShortcode {
 
+	/**
+	 * @param array  $atts
+	 * @param string $content
+	 * @param string $tag
+	 *
+	 * @return string
+	 */
 	public static function shortcode( $atts, $content = '', $tag = 'connections' ) {
 
 		// Grab an instance of the Connections object.

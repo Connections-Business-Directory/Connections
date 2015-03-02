@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @package     Connections
  * @subpackage  Template Part Loader API
- * @copyright   Copyright (c) 2014, Steven A. Zahm
+ * @copyright   Copyright (c) 2015, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.8
  */
@@ -37,9 +37,11 @@ class cnLocate {
 	 * @since  0.8
 	 * @static
 	 * @uses   filePaths()
-	 * @param  array  $files An indexed array of file names to search for.
 	 *
-	 * @return string        The absolute file system path to the located file.
+	 * @param  array $files An indexed array of file names to search for.
+	 * @param  string $return
+	 *
+	 * @return mixed bool|string The absolute file system path to the located file. False is file not found.
 	 */
 	public static function file( $files, $return = 'path' ) {
 
@@ -64,14 +66,14 @@ class cnLocate {
 
 		switch ( $return ) {
 
-			case 'path':
-
-				$result = $path;
-				break;
-
 			case 'url':
 
 				$result = $path ? cnURL::fromPath( $path ) : $path;
+				break;
+
+			default:
+
+				$result = $path;
 				break;
 		}
 

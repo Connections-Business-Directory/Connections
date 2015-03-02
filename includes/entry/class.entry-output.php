@@ -2491,11 +2491,14 @@ class cnOutput extends cnEntry
 	 * to be rendered.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	key (string) The meta key to retreive.
+	 * 	key (string) The meta key to retrieve.
 	 * 	single (bool) Whether or not to return a single value
-	 * 		if multiple values exists forthe supplied `key`.
+	 * 		if multiple values exists for the supplied `key`.
 	 * 			NOTE: The `key` attribute must be supplied.
 	 * 			NOTE: If multiple values exist for a given `key` only first found will be returned.
+	 *  display_custom (bool) Whether or not to display any custom content meta blocks via their registered callbacks.
+	 *      If any are registered the callback output will be rendered before the custom fields meta block @see cnOutput::renderMetaBlock().
+	 *      For better control @see cnOutput::getContentBlock() can be used.
 	 *
 	 * @access public
 	 * @since 0.8
@@ -2516,7 +2519,7 @@ class cnOutput extends cnEntry
 		// @todo Implement 'merge_keys'.
 		//
 		// Whether or not to merge duplicate keys and their respective value.
-		// Expected result of a merge would be would be and indexed array:
+		// Expected result of a merge would be would be an indexed array:
 		//
 		// array(
 		// 		array(
@@ -2556,19 +2559,19 @@ class cnOutput extends cnEntry
 
 				$metadata = array();
 
-				foreach ( $results as $metaID => $value ) {
+				foreach ( $results as $key => $value ) {
 
-					$metadata[ $metaID ] = array( 'meta_key' => $atts['key'], 'meta_value' => $value );
+					$metadata[] = array( 'meta_key' => $key, 'meta_value' => $value );
 				}
 			}
 
-			foreach ( $metadata as $metaID => $meta ) {
+			foreach ( $metadata as $key => $value ) {
 
-				if ( $atts['display_custom'] && has_action( 'cn_output_meta_field-' . $meta['meta_key'] ) ) {
+				if ( $atts['display_custom'] && has_action( 'cn_output_meta_field-' . $key ) ) {
 
-					do_action( 'cn_output_meta_field-' . $meta['meta_key'], $meta['meta_key'], $meta['meta_value'], $this, $shortcode_atts, $template );
+					do_action( 'cn_output_meta_field-' . $key, $key, $value, $this, $shortcode_atts, $template );
 
-					unset( $metadata[ $metaID ] );
+					unset( $metadata[ $key ] );
 				}
 			}
 
@@ -2606,25 +2609,25 @@ class cnOutput extends cnEntry
 
 		$atts = wp_parse_args( apply_filters( 'cn_output_meta_atts', $defaults ), $defaults );
 
-		foreach ( (array) $metadata as $metaID => $meta ) {
+		foreach ( (array) $metadata as $key => $value ) {
 
 			// Do not render any private keys; ie. ones that begin with an underscore
 			// or any fields registered as part of a custom metabox.
-			if ( cnMeta::isPrivate( $meta['meta_key'], 'entry' ) ) continue;
+			if ( cnMeta::isPrivate( $key, 'entry' ) ) continue;
 
 			$out .= apply_filters(
 				'cn_entry_output_meta_key',
 				sprintf( '<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
 					$atts['item_tag'],
 					$atts['key_tag'],
-					trim( $meta['meta_key'] ),
+					trim( $key ),
 					$atts['separator'],
 					$atts['value_tag'],
-					implode( ', ', (array) $meta['meta_value'] )
+					implode( ', ', (array) $value )
 					),
 				$atts,
-				$meta['meta_key'],
-				$meta['meta_value']
+				$key,
+				$value
 				);
 		}
 
@@ -2637,8 +2640,7 @@ class cnOutput extends cnEntry
 				$out
 				),
 			$atts,
-			$meta['meta_key'],
-			$meta['meta_value']
+			$metadata
 			);
 
 		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
@@ -2655,7 +2657,7 @@ class cnOutput extends cnEntry
 	 * Accepted option for the $atts property are:
 	 * 	id (string) The custom block ID to render.
 	 * 	order (mixed) array | string  An indexed array of custom content block IDs that should be rendered in the order in the array.
-	 * 		If a string is provided, it should be a comma delimied string containing the content block IDs. It will be converted to an array.
+	 * 		If a string is provided, it should be a comma delimited string containing the content block IDs. It will be converted to an array.
 	 * 	exclude (array) An indexed array of custom content block IDs that should be excluded from being rendered.
 	 * 	include (array) An indexed array of custom content block IDs that should be rendered.
 	 * 		NOTE: Custom content block IDs in `exclude` outweigh custom content block IDs in include. Meaning if the

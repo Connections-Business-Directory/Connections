@@ -98,7 +98,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'submitdiv',
-			'title'    => __( 'Publish', 'connection' ),
+			'title'    => __( 'Publish', 'connections' ),
 			'pages'    => $pages,
 			'context'  => 'side',
 			'priority' => 'core',
@@ -116,7 +116,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-image',
-			'title'    => __( 'Image', 'connection' ),
+			'title'    => __( 'Image', 'connections' ),
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
@@ -125,7 +125,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-logo',
-			'title'    => __( 'Logo', 'connection' ),
+			'title'    => __( 'Logo', 'connections' ),
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
@@ -134,7 +134,7 @@ class cnEntryMetabox {
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-address',
-			'title'    => __( 'Addresses', 'connection' ),
+			'title'    => __( 'Addresses', 'connections' ),
 			'pages'    => $pages,
 			'context'  => 'normal',
 			'priority' => 'core',
@@ -381,34 +381,24 @@ class cnEntryMetabox {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The category metabox.
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  array   $metabox The metabox options array from self::register().
+	 * @return string           The category metabox.
 	 */
 	public static function category( $entry, $metabox ) {
 
-		$id   = $entry->getId();
-		$ckey = $entry->getId() ? 'category_checklist_entry_' . $entry->getId() : 'category_checklist';
+		echo '<div class="categorydiv" id="taxonomy-category">';
+		echo '<div id="category-all" class="tabs-panel">';
 
-		$fragment = new cnFragment( $ckey, 'cn' );
+		cnTemplatePart::walker(
+			'term-checklist',
+			array(
+				'selected' => cnTerm::getRelationships( $entry->getID(), 'category', array( 'fields' => 'ids' ) ),
+			)
+		);
 
-		if ( ! $fragment->get() ) {
-
-			// Grab an instance of the Connections object.
-			$instance = Connections_Directory();
-
-			$categoryObjects = new cnCategoryObjects();
-
-			echo '<div class="categorydiv" id="taxonomy-category">';
-				echo '<div id="category-all" class="tabs-panel">';
-					echo '<ul id="categorychecklist">';
-						echo $categoryObjects->buildCategoryRow( 'checklist', $instance->retrieve->categories(), NULL, $instance->term->getTermRelationships( $entry->getId() ) );
-					echo '</ul>';
-				echo '</div>';
-			echo '</div>';
-
-			$fragment->save();
-		}
+		echo '</div>';
+		echo '</div>';
 	}
 
 	/**
@@ -3075,19 +3065,24 @@ class cnEntryMetabox {
 	 *
 	 * @access private
 	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array  $metabox The metabox attributes array set in self::register().
 	 * @return void
 	 */
 	public static function meta( $entry, $metabox ) {
 
-		// Only need the data from $metabox['args'].
-		// $value   = $entry->getMeta( 'meta', TRUE );
-		$results = $entry->getMeta();
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$results =  $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value, meta_id, entry_id
+			FROM " . CN_ENTRY_TABLE_META . " WHERE entry_id = %d
+			ORDER BY meta_key,meta_id", $entry->getId()), ARRAY_A );
+
 		$metabox = $metabox['args'];
 		$keys    = cnMeta::key( 'entry' );
+		$options = array();
 
-		// Toss the meta that is save as part of a custom field.
+		// Toss the meta that is saved as part of a custom field.
 		if ( ! empty( $results ) ) {
 
 			foreach ( $results as $metaID => $meta ) {
@@ -3097,9 +3092,13 @@ class cnEntryMetabox {
 		}
 
 		// Build the meta key select drop down options.
-		array_walk( $keys, create_function( '&$key', '$key = "<option value=\"$key\">$key</option>";' ) );
-		array_unshift( $keys, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
-		$options = implode( $keys, PHP_EOL );
+		if ( ! empty( $keys ) ) {
+			$options = array_combine( array_map( 'esc_attr', array_keys( $keys ) ), array_map( 'esc_html', $keys ) );
+			array_walk( $options, create_function( '&$key', '$key = "<option value=\"$key\">$key</option>";' ) );
+		}
+
+		array_unshift( $options, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
+		$options = implode( $options, PHP_EOL );
 
 		// echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
 
@@ -3128,19 +3127,19 @@ class cnEntryMetabox {
 
 					?>
 
-					<tr id="meta-<?php echo $metaID; ?>" class="<?php echo $alternate; ?>">
+					<tr id="meta-<?php echo $meta['meta_id']; ?>" class="<?php echo $alternate; ?>">
 
 						<td class="left">
-							<label class="screen-reader-text" for='meta[<?php echo $metaID; ?>][key]'><?php _e( 'Key', 'connections' ); ?></label>
-							<input name='meta[<?php echo $metaID; ?>][key]' id='meta[<?php echo $metaID; ?>][key]' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ) ?>" />
+							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][key]'><?php _e( 'Key', 'connections' ); ?></label>
+							<input name='meta[<?php echo $meta['meta_id']; ?>][key]' id='meta[<?php echo $meta['meta_id']; ?>][key]' type="text" size="20" value="<?php echo esc_textarea( $meta['meta_key'] ) ?>" />
 							<div class="submit">
-								<input type="submit" name="deletemeta[<?php echo $metaID; ?>]" id="deletemeta[<?php echo $metaID; ?>]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
+								<input type="submit" name="deletemeta[<?php echo $meta['meta_id']; ?>]" id="deletemeta[<?php echo $meta['meta_id']; ?>]" class="button deletemeta button-small" value="<?php _e( 'Delete', 'connections' ); ?>" />
 							</div>
 						</td>
 
 						<td>
-							<label class="screen-reader-text" for='meta[<?php echo $metaID; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
-							<textarea name='meta[<?php echo $metaID; ?>][value]' id='meta[<?php echo $metaID; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( cnFormatting::maybeJSONencode( $meta['meta_value'] ) ) ?></textarea>
+							<label class="screen-reader-text" for='meta[<?php echo $meta['meta_id']; ?>][value]'><?php _e( 'Value', 'connections' ); ?></label>
+							<textarea name='meta[<?php echo $meta['meta_id']; ?>][value]' id='meta[<?php echo $meta['meta_id']; ?>][value]' rows="2" cols="30"><?php echo esc_textarea( cnFormatting::maybeJSONencode( $meta['meta_value'] ) ) ?></textarea>
 						</td>
 
 					</tr>

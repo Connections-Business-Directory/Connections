@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 8.1.7
+Stable tag: 8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -167,6 +167,93 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.2 03/02/2015 =
+* FEATURE: Completely refactored of the categories admin page.
+* FEATURE: Introduce CN_Walker_Term_Select.
+* FEATURE: Introduce CN_Walker_Term_Check_List.
+* FEATURE: Introduce CN_Term_Admin_List_Table.
+* FEATURE: Introduce table and walker methods to cnTemplatePart.
+* FEATURE: Introduce cnTerm::isAncestorOf().
+* FEATURE: Introduce cnTerm::objectCache().
+* FEATURE: Introduce cnTerm::cleanRelationshipCache().
+* FEATURE: Introduce cnFunction::implodeDeep().
+* FEATURE: Introduce the cnMeta::{*}ByID() methods.
+* TWEAK: Use the new CN_Walker_Term_Select_List walker class to render the category select drop down on the manage admin page.
+* TWEAK: Refactor the category metabox to use the new CN_Walker_Term_Check_List walker class to render the category checklist.
+* TWEAK: Refactor cnMeta::add() to allow inserting meta into other tables based on the object type.
+* TWEAK: Refactor cnMeta::get. Also implement new method cnMeta:updateCache(), a required method of cnMeta::get().
+* TWEAK: Refactor cnMeta::update().
+* TWEAK: Refactor cnMeta::delete().
+* TWEAK: Remove use of local static $cache var from cnMeta.
+* TWEAK: Remove usage of stripslashes_deep() in cnMeta::add().
+* TWEAK: Remove the "old style" filters which mimicked the WP core from cnMeta::update().
+* TWEAK: Use wp_parse_id_list() to sanitize the entry ID/s to delete.
+* TWEAK: Remove the "pre_term_description" filter right before saving a category so HTML will not be stripped.
+* TWEAK: Declare cnTerm::get_Hierarchy() as public instead of private.
+* TWEAK: Streamline return logic of cnLocate::file().
+* TWEAK: Change some code order of cnTerm::getTaxonomyTerms() to match core WP function get_terms().
+* TWEAK: Remove the class.template-walker-category-list.php file from being included on plugin load. Use cnTemplatePart::walker() to load and init instead.
+* TWEAK: Remove the cnCategoryObject class which has been replaced by the new list table and walker classes.
+* TWEAK: Update the category filter on the manage page to properly check for the "Show All..." option value used by the new term walker class.
+* TWEAK: Remove the admin notice about the cache folder not being writable.
+* TWEAK: Rename filter cn_get_entry_terms to cn_get_object_terms.
+* TWEAK: Rename action cn_set_entry_terms to cn_set_object_terms.
+* TWEAK: Rename cnTerm::get_entry_terms() to cnTerm::getRelationships().
+* TWEAK: Rename cnTerm::set_entry_terms() to cnTerm::setRelationships().
+* TWEAK: Rename cnTerm::remove_entry_terms() to cnTerm::deleteRelationships().
+* TWEAK: Rename cnTerm::objectCache() to cnTerm::getRelationshipsCache().
+* TWEAK: Rename cnTerm::update_entry_count() to cnTerm::updateRelationshipCount().
+* TWEAK: Small refactor to cnTerm::getRelationships() which add a couple filters which can be hooked into.
+* TWEAK: Declare cnTerm::isAncestorOf() as a public static function.
+* TWEAK: Clean entry/term relationships on term update.
+* TWEAK: Clean entry/term relationships on term delete.
+* TWEAK: Refactor cnEntry::getMeta() to be compatible with the data structure returned by cnMeta::get() due to the cnMeta refactor.
+* TWEAK: Refactor cnOutput::getMetaBlock() and cnOutput::renderMetaBlock() to be compatible with the data structure returned by cnMeta::get() due to the cnMeta refactor.
+* TWEAK: Refactor cnAdminActions::processEntryMeta() to be compatible with the refactored cnMeta.
+* TWEAK: Refactor cnAdminActions::categoryManagement() to be compatible with the new bulk actions structure due to refactoring the categories admin page around WP_List_Table.
+* TWEAK: Refactor cnAdminActions::saveUserFilters() to be compatible with the new category select on the manage admin page due to refactoring the category select around the Walker class.
+* TWEAK: Refactor cnEntryMetabox::meta() to query the custom fields meta directly from the db rather thru cnMeta so we can also retrieve the meta ID.
+* TWEAK: Refactor cnEntryAction::meta() to be compatible with the refactored cnMeta::get() structure so the entry meta can be properly deleted.
+* TWEAK: Refactor cnRetrieve::entryCategories() to be compatible with the refactoring done to cnTerm.
+* TWEAK: Change the Settings API priorities from .1 to 0.
+* TWEAK: Tweak the loading of the plugin textdomain so it's ready for language packs.
+* TWEAK: Add esc_attr() in the 'edit' context for the 'name' field.
+* TWEAK: Add esc_html() in the 'display' (default) context for the 'name' field.
+* TWEAK: Call cnFormatting::toBoolean() statically in _upcoming_list().
+* TWEAK: Add support for the term meta table activation installation and db update.
+* TWEAK: Add cnMeta::tableName().
+* BUG: Delete term meta when a term is deleted.
+* BUG: Fixed selected terms in the term checklist walker.
+* BUG: Check to ensure the meta keys are not empty before building the select drop down.
+* BUG: Append the paged query var to the bulk category actions callback.
+* BUG: Fix text domains.
+* BUG: Ensure any template can be used in the the [upcoming_list] shortcode.
+* BUG: Fix the selected category in the category drop down when using the category slug.
+* BUG: Remove the use of htmlentities() when retrieving entries by category name.
+* BUG: Pass an array to end() rather than the results of an expression to avoid possible fatal error.
+* BUG: Remove the page title and page permalink filters from the wp_list_pages() function.
+* BUG: Fix applying image opacity when using the Imagick editor.
+* BUG: Fixed several bugs in cnMeta where vars were named incorrectly.
+* BUG: Escape the meta key select options in the custom fields metabox.
+* BUG: Forgot to apply the wpdb table prefix to the table name in cnMeta::tableName().
+* BUG: cnMeta::deleteByID() should have been declared public static.
+* OTHER: Fix misspellings in phpDoc in areas of code with edits/changes.
+* OTHER: Fix phpDoc issues in class.schema.php.
+* OTHER: Fix phpDoc issues in cnLocate::file().
+* OTHER: phpDoc fixes in cnTemplatePart::locate().
+* OTHER: phpDoc fixes in CN_Walker_Term_List.
+* OTHER: Fix misspelling in cnTemplatePart::load().
+* OTHER: phpDoc fixes in cnForm.
+* OTHER: Fix code spacing in areas of code with edits/changes.
+* OTHER: Fix some misspellings in areas of code with edits/changes.
+* OTHER: Base phpDoc the plugin constants.
+* OTHER: Use Yoda conditions in connections.php.
+* OTHER: Remove extra blank lines in areas of code with edits/changes.
+* OTHER: Cleanup phpDoc for _upcoming_list().
+* OTHER: Add minimal phpDoc to cnShortcode_Connections::shortcode().
+* OTHER: Cleanup phpDoc in cnSEO.
+* OTHER: phpDoc cleanup of cnMeta.
 
 = 8.1.7 01/26/2015 =
 * BUG: Fix bug which was stripping numeric characters from the entry name when it was being displayed.
@@ -816,3 +903,6 @@ It is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.1.7 =
 It is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

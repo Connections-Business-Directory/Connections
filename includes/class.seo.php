@@ -53,7 +53,12 @@ class cnSEO {
 		add_filter( 'wp_nav_menu_args', array( __CLASS__, 'startNav' ) );
 		add_filter( 'wp_page_menu', array( __CLASS__, 'endNav' ), 10, 2 );
 		add_filter( 'wp_nav_menu', array( __CLASS__, 'endNav' ), 10, 2 );
-		// add_filter( 'widget_posts_args', array( __CLASS__, 'startNav' ) ); // This could cause problems since the filter is not re-enabled.
+
+		add_filter( 'wp_list_pages_excludes', array( __CLASS__, 'startNav' ) );
+		add_filter( 'wp_list_pages', array( __CLASS__, 'endNav' ), 10, 2 );
+
+		// This could cause problems since the filter is not re-enabled.
+		// add_filter( 'widget_posts_args', array( __CLASS__, 'startNav' ) );
 
 		// Filter the get_permalink() function to append the Connections related items to the URL.
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );

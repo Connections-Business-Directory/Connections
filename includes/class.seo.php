@@ -444,7 +444,7 @@ class cnSEO {
 
 			$category = new cnCategory( $term );
 
-			$desciption = $category->getExcerpt( array( 'length' => 160 ) );
+			$description = $category->getExcerpt( array( 'length' => 160 ) );
 		}
 
 		if ( get_query_var( 'cn-cat' ) ) {
@@ -457,7 +457,7 @@ class cnSEO {
 
 			$category = new cnCategory( $term );
 
-			$desciption = $category->getExcerpt( array( 'length' => 160 ) );
+			$description = $category->getExcerpt( array( 'length' => 160 ) );
 		}
 
 		if ( get_query_var( 'cn-entry-slug' ) ) {
@@ -466,12 +466,12 @@ class cnSEO {
 
 			$entry = new cnEntry( $result[0] );
 
-			$desciption = $entry->getExcerpt( array( 'length' => 160 ) );
+			$description = $entry->getExcerpt( array( 'length' => 160 ) );
 		}
 
-		if ( empty( $desciption ) ) return;
+		if ( empty( $description ) ) return;
 
-		echo '<meta name="description" content="' . esc_attr( trim( strip_shortcodes( strip_tags( stripslashes( $desciption ) ) ) ) ) . '"/>' . "\n";
+		echo '<meta name="description" content="' . esc_attr( trim( strip_shortcodes( strip_tags( stripslashes( $description ) ) ) ) ) . '"/>' . "\n";
 
 	}
 

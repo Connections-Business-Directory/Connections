@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 8.2.1 03/03/2015 =
+* BUG: Fixed Parse error: syntax error, unexpected T_PAAMAYIM_NEKUDOTAYIM fatal error with PHP 5.2.x.
+* I18N: Update the connections.pot file.
+* OTHER: Add the Transifex config file.
+* OTHER: Ignore the connections.mo file.
+* OTHER: Remove blank line.
+
 = 8.2 03/02/2015 =
 * FEATURE: Completely refactored of the categories admin page.
 * FEATURE: Introduce CN_Walker_Term_Select.

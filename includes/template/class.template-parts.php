@@ -224,7 +224,7 @@ class cnTemplatePart {
 
 			require_once( CN_PATH . 'includes/template/class.template-walker-' . $type . '.php' );
 
-			return $walker[ $type ]::render( $args );
+			return call_user_func( array( $walker[ $type ], 'render' ), $args );
 		}
 
 		return FALSE;

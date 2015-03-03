@@ -937,7 +937,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Create a .htaccess file in the TimThumb folder to allow it to be called directly.
-			cnFileSystem::permitTimThumb( CN_PATH . '/vendor/timthumb' );
+			cnFileSystem::permitTimThumb( CN_PATH . 'vendor/timthumb' );
 
 			$connections->initOptions();
 

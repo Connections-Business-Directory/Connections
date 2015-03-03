@@ -192,7 +192,7 @@ class cnTemplatePart {
 
 		if ( array_key_exists( $type, $table ) ) {
 
-			require_once( CN_PATH . '/includes/template/class.template-list-table-' . $type . '.php' );
+			require_once( CN_PATH . 'includes/template/class.template-list-table-' . $type . '.php' );
 
 			return new $table[ $type ]( $args );
 		}
@@ -222,7 +222,7 @@ class cnTemplatePart {
 
 		if ( array_key_exists( $type, $walker ) ) {
 
-			require_once( CN_PATH . '/includes/template/class.template-walker-' . $type . '.php' );
+			require_once( CN_PATH . 'includes/template/class.template-walker-' . $type . '.php' );
 
 			return $walker[ $type ]::render( $args );
 		}

@@ -618,7 +618,6 @@ class cnTerm {
 		 * @param array        $args       An array of arguments for retrieving terms for
 		 *                                 the given object(s).
 		 */
-
 		return apply_filters( 'cn_get_object_terms', $terms, $object_ids, $taxonomies, $args );
 	}
 

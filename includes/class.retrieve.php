@@ -829,6 +829,19 @@ class cnRetrieve {
 		 * // END --> Set up the query LIMIT and OFFSET.
 		 */
 
+		/*
+		 * // START --> Build the SELECT query segment.
+		 */
+		$select[] = 'CASE `entry_type`
+						  WHEN \'individual\' THEN `last_name`
+						  WHEN \'organization\' THEN `organization`
+						  WHEN \'connection_group\' THEN `family_name`
+						  WHEN \'family\' THEN `family_name`
+						END AS `sort_column`';
+		/*
+		 * // END --> Build the SELECT query segment.
+		 */
+
 		if ( $random ) {
 
 			$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
@@ -837,19 +850,6 @@ class cnRetrieve {
 			// print_r($sql);
 
 		} else {
-
-			/*
-			 * // START --> Build the SELECT query segment.
-			 */
-			$select[] = 'CASE `entry_type`
-						  WHEN \'individual\' THEN `last_name`
-						  WHEN \'organization\' THEN `organization`
-						  WHEN \'connection_group\' THEN `family_name`
-						  WHEN \'family\' THEN `family_name`
-						END AS `sort_column`';
-			/*
-			 * // END --> Build the SELECT query segment.
-			 */
 
 			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
 			// print_r($sql);

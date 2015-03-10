@@ -1323,11 +1323,17 @@ class cnEntryMetabox {
 
 				echo '</div>' , PHP_EOL;
 
-				echo '<a class="geocode button" data-uid="::FIELD::" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
+				if ( is_admin() ) {
+
+					echo '<a class="geocode button" data-uid="::FIELD::" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
+				}
 
 				echo '<div class="clear"></div>';
 
-				echo '<div class="map" id="map-::FIELD::" data-map-id="::FIELD::" style="display: none; height: 400px;">' , __( 'Geocoding Address.', 'connections' ) , '</div>';
+				if ( is_admin() ) {
+
+					echo '<div class="map" id="map-::FIELD::" data-map-id="::FIELD::" style="display: none; height: 400px;">' , __( 'Geocoding Address.', 'connections' ) , '</div>';
+				}
 
 				echo '<br>';
 				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
@@ -1548,11 +1554,17 @@ class cnEntryMetabox {
 
 						echo '</div>' , PHP_EOL;
 
-						echo '<a class="geocode button" data-uid="' , $token , '" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
+						if ( is_admin() ) {
+
+							echo '<a class="geocode button" data-uid="' , $token , '" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
+						}
 
 						echo '<div class="clear"></div>' , PHP_EOL;
 
-						echo '<div class="map" id="map-' , $token , '" data-map-id="' , $token , '" style="display: none; height: 400px;">' , __( 'Geocoding Address.', 'connections' ) , '</div>' , PHP_EOL;
+						if ( is_admin() ) {
+
+							echo '<div class="map" id="map-', $token, '" data-map-id="', $token, '" style="display: none; height: 400px;">', __( 'Geocoding Address.', 'connections' ), '</div>', PHP_EOL;
+						}
 
 						echo '<input type="hidden" name="address[' , $token , '][id]" value="' , $address->id , '">' , PHP_EOL;
 

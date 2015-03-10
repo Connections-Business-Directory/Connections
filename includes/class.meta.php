@@ -795,6 +795,7 @@ class cnMeta {
 
 			// Sanitize the meta
 			$_meta_value = $value;
+			$value       = wp_unslash( $value );
 			$value       = sanitize_meta( $key, $value, 'cn_' . $type );
 			$value       = cnFormatting::maybeJSONencode( $value );
 

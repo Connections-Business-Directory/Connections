@@ -55,3 +55,7 @@ tx.exe
 # Grunt #
 #########
 node_modules
+
+# Misc #
+########
+build

@@ -54,3 +54,7 @@ sftp-config.json
 
 
 connections.mo
+
+# Grunt #
+#########
+node_modules

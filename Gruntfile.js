@@ -152,6 +152,14 @@ module.exports = function(grunt) {
 				src: ['**/*'],
 				dest: '<%= pkg.name %>/'
 			}
+		},
+
+		uglify: {
+			files: {
+				expand: true,           // Seems to be required will get "(Error code: EISDIR)" error without it.
+				src: 'assets/js/*.js',  // source files mask
+				ext: '.min.js'          // replace .js to .min.js
+			}
 		}
 	});
 
@@ -166,6 +174,9 @@ module.exports = function(grunt) {
 
 	// Pull from Transifex and create .mo task(s).
 	grunt.registerTask('tx-pull', ['exec:txpull', 'potomo']);
+
+	// Minify JavaScript
+	grunt.registerTask('minify-js', 'uglify');
 
 	// Build task(s).
 	grunt.registerTask('build', ['clean', 'copy', 'compress']);

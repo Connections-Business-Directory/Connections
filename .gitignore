@@ -43,9 +43,14 @@ Thumbs.db
 ############
 *.po
 
-# Sublime Text 2 #
-##################
+# Sublime Text #
+################
+*.sublime-project
+*.sublime-workspace
 sftp-config.json
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
 
 #################
 ## phpStorm

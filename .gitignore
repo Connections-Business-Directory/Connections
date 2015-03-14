@@ -55,6 +55,22 @@ sftp-config.json
 
 connections.mo
 
+# Eclipse #
+###########
+.project
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+
 # Grunt #
 #########
 node_modules

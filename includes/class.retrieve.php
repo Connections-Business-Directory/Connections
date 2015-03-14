@@ -677,6 +677,11 @@ class cnRetrieve {
 			// Add the WHERE statement to limit the query to a geographic circle per the defined radius.
 			$where[] = $wpdb->prepare( 'AND acos(sin(%f)*sin(radians(latitude)) + cos(%f)*cos(radians(latitude))*cos(radians(longitude)-%f))*6371 < %f' , $atts['latitude'] , $atts['latitude'] , $atts['longitude'] , $atts['radius'] );
 
+			// This is required otherwise addresses the user may not have permissions to view will be included in the query
+			// which could be confusing since entries could appear to be outside of the search radius when in fact the entry
+			// is within the search radius, it is just the address used to determine that is not viewable to the user.
+			$where[] = 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.visibility IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+
 			// Temporarily set the sort order to 'radius' for testing.
 			//$atts['order_by'] = array('radius');
 		}
@@ -842,16 +847,32 @@ class cnRetrieve {
 		 * // END --> Build the SELECT query segment.
 		 */
 
+		/**
+		 * NOTES:
+		 *
+		 * Many queries can produce multiple results per entry ID when we really only want it once.
+		 * For example an entry maybe return once for each category it is assigned or once for each
+		 * address an entry has that is within the search radius.
+		 *
+		 * Simple adding `GROUP BY CN_ENTRY_TABLE.id seems to fix this, but may be incorrect and might fail
+		 * on db/s other than MySQL such as Oracle.
+		 *
+		 * Very useful links that provide more details that require further study:
+		 *
+		 *@link http://www.psce.com/blog/2012/05/15/mysql-mistakes-do-you-use-group-by-correctly/
+		 * @link http://rpbouman.blogspot.com/2007/05/debunking-group-by-myths.html
+		 */
+
 		if ( $random ) {
 
 			$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
 
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS *, RAND(' . $seed . ') AS random FROM ( SELECT DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ') AS T ORDER BY random' . $limit . $offset;
+			$sql = 'SELECT SQL_CALC_FOUND_ROWS *, RAND(' . $seed . ') AS random FROM ( SELECT DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' GROUP BY ' . CN_ENTRY_TABLE . '.id ' . implode( ' ', $having ) . ') AS T ORDER BY random' . $limit . $offset;
 			// print_r($sql);
 
 		} else {
 
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
+			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' GROUP BY ' . CN_ENTRY_TABLE . '.id ' . implode( ' ', $having ) . ' ' . $orderBy . ' ' . $limit . $offset;
 			// print_r($sql);
 		}
 

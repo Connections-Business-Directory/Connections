@@ -39,8 +39,9 @@ dwsync.xml
 ehthumbs.db
 Thumbs.db
 
-# PO File  #
+# i18n #
 ############
+connections.mo
 *.po
 
 # Sublime Text #
@@ -55,9 +56,6 @@ sftp-config.json
 # phpStorm #
 ############
 .idea
-
-
-connections.mo
 
 # Eclipse #
 ###########

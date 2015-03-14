@@ -48,6 +48,10 @@ local.properties
 _notes
 dwsync.xml
 
+# Transifex #
+#############
+tx.exe
+
 # Grunt #
 #########
 node_modules

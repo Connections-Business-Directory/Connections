@@ -75,6 +75,7 @@ local.properties
 #########
 node_modules
 
-# Misc #
-########
+# Dreamweaver #
+###############
+_notes
 dwsync.xml

@@ -171,12 +171,24 @@ module.exports = function(grunt) {
 				cascade: false
 			},
 
-			assets: {
+			core: {
 				expand: true,
 				flatten: true,
 				src: ['assets/css/*.css', '!assets/css/*.min.css'],
 				dest: 'assets/css/prefixed/',
 				extDot: 'first'
+			}
+		},
+
+		cssmin: {
+			core: {
+				files: [{
+					expand: true,
+					flatten: true,
+					src: ['assets/css/*.css', '!assets/css/*.min.css'],
+					dest: 'assets/css/minified/',
+					ext: '.min.css'
+				}]
 			}
 		}
 	});
@@ -193,10 +205,13 @@ module.exports = function(grunt) {
 	// Pull from Transifex and create .mo task(s).
 	grunt.registerTask('tx-pull', ['exec:txpull', 'potomo']);
 
+	// Minify CSS
+	grunt.registerTask('minify-css', 'cssmin');
+
 	// Minify JavaScript
 	grunt.registerTask('minify-js', 'uglify');
 
-	// Minify JavaScript
+	// Autoprefix CSS
 	grunt.registerTask('prefix-css', 'autoprefixer');
 
 	// Build task(s).

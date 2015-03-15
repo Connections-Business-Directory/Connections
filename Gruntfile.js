@@ -157,8 +157,26 @@ module.exports = function(grunt) {
 		uglify: {
 			files: {
 				expand: true,           // Seems to be required will get "(Error code: EISDIR)" error without it.
+				flatten: true,          // remove all unnecessary nesting (what dos this mean ???)
 				src: 'assets/js/*.js',  // source files mask
+				dest: 'assets/js/',
 				ext: '.min.js'          // replace .js to .min.js
+			}
+		},
+
+		autoprefixer: {
+			options: {
+				// Same as WordPress core.
+				browsers: ['Android >= 2.1', 'Chrome >= 21', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0'],
+				cascade: false
+			},
+
+			assets: {
+				expand: true,
+				flatten: true,
+				src: ['assets/css/*.css', '!assets/css/*.min.css'],
+				dest: 'assets/css/prefixed/',
+				extDot: 'first'
 			}
 		}
 	});
@@ -177,6 +195,9 @@ module.exports = function(grunt) {
 
 	// Minify JavaScript
 	grunt.registerTask('minify-js', 'uglify');
+
+	// Minify JavaScript
+	grunt.registerTask('prefix-css', 'autoprefixer');
 
 	// Build task(s).
 	grunt.registerTask('build', ['clean', 'copy', 'compress']);

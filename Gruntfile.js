@@ -155,12 +155,15 @@ module.exports = function(grunt) {
 		},
 
 		uglify: {
-			files: {
-				expand: true,           // Seems to be required will get "(Error code: EISDIR)" error without it.
-				flatten: true,          // remove all unnecessary nesting (what dos this mean ???)
-				src: 'assets/js/*.js',  // source files mask
-				dest: 'assets/js/',
-				ext: '.min.js'          // replace .js to .min.js
+
+			core: {
+				files : [{
+					expand : true,
+					flatten : true,
+					src: ['assets/js/*.js', '!assets/js/*.min.js'],
+					dest : 'assets/js/',
+					ext : '.min.js'
+				}]
 			}
 		},
 
@@ -172,11 +175,12 @@ module.exports = function(grunt) {
 			},
 
 			core: {
-				expand: true,
-				flatten: true,
-				src: ['assets/css/*.css', '!assets/css/*.min.css'],
-				dest: 'assets/css/prefixed/',
-				extDot: 'first'
+				files: [{
+					expand : true,
+					flatten : true,
+					src : ['assets/css/*.css', '!assets/css/*.min.css'],
+					dest : 'assets/css/prefixed/'
+				}]
 			}
 		},
 

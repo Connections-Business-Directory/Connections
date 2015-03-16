@@ -1405,12 +1405,12 @@ class cnTerm {
 
 		if ( is_int( $term ) && 0 == $term ) {
 
-			return new WP_Error( 'invalid_term_id', __( 'Invalid term ID' ) );
+			return new WP_Error( 'invalid_term_id', __( 'Invalid term ID', 'connections' ) );
 		}
 
 		if ( '' == trim( $term ) ) {
 
-			return new WP_Error( 'empty_term_name', __( 'A name is required for this term' ) );
+			return new WP_Error( 'empty_term_name', __( 'A name is required for this term', 'connections' ) );
 		}
 
 		$defaults = array(
@@ -1424,7 +1424,7 @@ class cnTerm {
 
 		if ( $args['parent'] > 0 && ! self::exists( (int) $args['parent'] ) ) {
 
-			return new WP_Error( 'missing_parent', __( 'Parent term does not exist.' ) );
+			return new WP_Error( 'missing_parent', __( 'Parent term does not exist.', 'connections' ) );
 		}
 
 		$args['name']     = $term;
@@ -1525,7 +1525,7 @@ class cnTerm {
 					if ( $slug_provided ) {
 						return new WP_Error(
 							'term_exists',
-							__( 'A term with the name and slug provided already exists with this parent.' ),
+							__( 'A term with the name and slug provided already exists with this parent.', 'connections' ),
 							$exists['term_id']
 						);
 
@@ -1533,7 +1533,7 @@ class cnTerm {
 
 						return new WP_Error(
 							'term_exists',
-							__( 'A term with the name provided already exists with this parent.' ),
+							__( 'A term with the name provided already exists with this parent.', 'connections' ),
 							$exists['term_id']
 						);
 					}
@@ -1546,7 +1546,7 @@ class cnTerm {
 
 						return new WP_Error(
 							'db_insert_error',
-							__( 'Could not insert term into the database' ),
+							__( 'Could not insert term into the database', 'connections' ),
 							$wpdb->last_error
 						);
 					}
@@ -1563,7 +1563,7 @@ class cnTerm {
 
 					return new WP_Error(
 						'db_insert_error',
-						__( 'Could not insert term into the database' ),
+						__( 'Could not insert term into the database', 'connections' ),
 						$wpdb->last_error
 					);
 				}
@@ -1575,7 +1575,7 @@ class cnTerm {
 				// Same name, same slug.
 				return new WP_Error(
 					'term_exists',
-					__( 'A term with the name and slug provided already exists.' ),
+					__( 'A term with the name and slug provided already exists.', 'connections' ),
 					$exists['term_id']
 				);
 
@@ -1590,7 +1590,7 @@ class cnTerm {
 
 				return new WP_Error(
 					'db_insert_error',
-					__( 'Could not insert term into the database' ),
+					__( 'Could not insert term into the database', 'connections' ),
 					$wpdb->last_error
 				);
 
@@ -1810,7 +1810,7 @@ class cnTerm {
 
 		if ( '' == trim( $name ) ) {
 
-			return new WP_Error( 'empty_term_name', __( 'A name is required for this term' ) );
+			return new WP_Error( 'empty_term_name', __( 'A name is required for this term', 'connections' ) );
 		}
 
 		$empty_slug = FALSE;
@@ -1890,7 +1890,7 @@ class cnTerm {
 				return new WP_Error(
 					'duplicate_term_slug',
 					sprintf(
-						__( 'The slug &#8220;%s&#8221; is already in use by another term' ),
+						__( 'The slug &#8220;%s&#8221; is already in use by another term', 'connections' ),
 						$slug
 					)
 				);
@@ -2611,7 +2611,7 @@ class cnTerm {
 
 		 if ( empty( $term ) ) {
 
-			return new WP_Error( 'invalid_term', __('Empty Term') );
+			return new WP_Error( 'invalid_term', __( 'Empty Term', 'connections' ) );
 		 }
 
 		// if ( ! taxonomy_exists( $taxonomy ) ) {
@@ -3647,7 +3647,7 @@ class cnTerm {
 
 		if ( empty( $term ) ) {
 
-			return new WP_Error( 'invalid_term', __( 'Empty Term' ) );
+			return new WP_Error( 'invalid_term', __( 'Empty Term', 'connections' ) );
 		}
 
 		// @todo Implement taxonomy check.
@@ -4182,7 +4182,7 @@ class cnTerm {
 
 		if ( ! is_object( $term ) ) {
 
-			$term = new WP_Error( 'invalid_term', __( 'Empty Term' ) );
+			$term = new WP_Error( 'invalid_term', __( 'Empty Term', 'connections' ) );
 		}
 
 		if ( is_wp_error( $term ) ) {

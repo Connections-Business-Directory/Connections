@@ -496,7 +496,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		if ( $term->term_id != $this->default_term ) {
 
 			return '<label class="screen-reader-text" for="cb-select-' . $term->term_id . '">' .
-			       sprintf( __( 'Select %s' ), $term->name ) .
+			      sprintf( __( 'Select %s', 'connections' ), $term->name ) .
 			       '</label>' . '<input type="checkbox" name="category[]" value="' . $term->term_id . '" id="cb-select-' . $term->term_id . '" />';
 		}
 
@@ -557,9 +557,9 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 			$out .= '<strong><a class="row-title" href="' . $editURL . '" title="' .
 			        esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
-			$actions['edit']   = '<a href="' . $editURL . '">' . __( 'Edit' ) . '</a>';
-			$actions['delete'] = "<a class='delete-tag' href='" . $deleteURL . "'>" . __( 'Delete' ) . "</a>";
-			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View' ) . '</a>';
+			$actions['edit']   = '<a href="' . $editURL . '">' . __( 'Edit', 'connections' ) . '</a>';
+			$actions['delete'] = "<a class='delete-tag' href='" . $deleteURL . "'>" . __( 'Delete', 'connections' ) . "</a>";
+			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View', 'connections' ) . '</a>';
 
 		} else {
 

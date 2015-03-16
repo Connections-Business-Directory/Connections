@@ -322,7 +322,7 @@ class cnFormatting {
 
 		$defaults = array(
 			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
-			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;' ) ),
+			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
 			'allowed_tags' => apply_filters( 'cn_excerpt_allowed_tags', array( 'style','br','em','strong','i','ul','ol','li','a','p','img','video','audio' ) )
 		);
 

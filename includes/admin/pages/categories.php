@@ -136,7 +136,7 @@ function connectionsShowCategoriesPage() {
 								'selected'         => $category->getParent(),
 								'exclude_tree'     => $category->getID(),
 								'hierarchical'     => TRUE,
-								'show_option_none' => __( 'None' ),
+								'show_option_none' => __( 'None', 'connections' ),
 								//'return'           => TRUE,
 							)
 						);
@@ -381,7 +381,7 @@ function connectionsShowCategoriesPage() {
 										'name'             => 'category_parent',
 										'orderby'          => 'name',
 										'hierarchical'     => TRUE,
-										'show_option_none' => __( 'None' ),
+										'show_option_none' => __( 'None', 'connections' ),
 									);
 
 									/**

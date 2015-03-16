@@ -1,5 +1,46 @@
 == Changelog ==
 
+= 8.2.2 03/16/2015 =
+* TWEAK: Move third party js libraries from assets folder to the vendor folder.
+* TWEAK: Move the jQuery qTip CSS from the assets folder to the vendor folder.
+* TWEAK: Update css/js paths to the vendor folder.
+* TWEAK: Use grunt-contrib-uglify to minify the JS files.
+* BUG: The select that add the `sort_column` needs to be part of the query when performing a random query so the query will not fail when filtering by character.
+* BUG: When updated meta by ID, the value should be unslashed.
+* BUG: The geocode should not be shown on the frontend.
+* BUG: No need to runt the category description thru __().
+* BUG: No need to runt the bio thru __().
+* BUG: No need to runt the notes thru __().
+* I18N: Add missing text domains.
+* I18N: Fix misspelled text domains.
+* I18N: Update MO files.
+* I18N: Ignore the connections-en_US.mo file.
+* I18N: Include the Arabic translation.
+* I18N: Include the Thai translation.
+* OTHER: Add Grunt to .gitignore.
+* OTHER: Update Eclipse in .gitignore.
+* OTHER: Update Sublime Text in .gitignore.
+* OTHER: Change phpStorm comment header in .gitignore.
+* OTHER: Change PO File comment header to i18n and move connections.mo to be under it.
+* OTHER: Add a Misc section in .gitignore.
+* OTHER: Change the Misc comment header to Dreamweaver.
+* OTHER: Remove several unnecessary sections from .gitignore.
+* OTHER: Add Transifex to .gitignore.
+* OTHER: Add package.json for Node.js.
+* OTHER: Add Gruntfile.js.
+* OTHER: Ignore the `build` folder.
+* OTHER: Minor readme.txt changes.
+* OTHER: Initial readme.md commit.
+* OTHER: Add grunt-uglify to package.json.
+* OTHER: Add minify-js to grunt tasks.
+* OTHER: Add grunt-autoprefixer to package.json.
+* OTHER: Add prefix-css task to grunt.
+* OTHER: Add grunt-contrib-cssmin to package.json.
+* OTHER: Add minify-css task to grunt.
+* OTHER: Clean up grunt syntax to be uniform.
+* OTHER: More complete package.json file with a config key to be used in the Gruntfile.js.
+* OTHER: Update many of the tasks to use the variable from the config key in the package.json file.
+
 = 8.2.1 03/03/2015 =
 * BUG: Fixed Parse error: syntax error, unexpected T_PAAMAYIM_NEKUDOTAYIM fatal error with PHP 5.2.x.
 * I18N: Update the connections.pot file.

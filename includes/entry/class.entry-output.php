@@ -2374,7 +2374,7 @@ class cnOutput extends cnEntry
 
 		$atts = $this->validate->attributesArray( $defaults, $atts );
 
-		$out = __( $wp_embed->run_shortcode( $this->getNotes() ) );
+		$out = $wp_embed->run_shortcode( $this->getNotes() );
 
 		$out = do_shortcode( $out );
 

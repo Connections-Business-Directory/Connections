@@ -3,6 +3,9 @@ module.exports = function(grunt) {
 	// Load multiple grunt tasks using globbing patterns
 	require('load-grunt-tasks')(grunt);
 
+	var pck    = require('./package' );
+	var config = pck.config;
+
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -10,22 +13,22 @@ module.exports = function(grunt) {
 		makepot: {
 			target: {
 				options: {
-					domainPath: '/languages/', // Where to save the POT file.
+					domainPath: config.makepot.dest, // Where to save the POT file.
 					exclude: ['build/.*'],
-					mainFile: 'connections.php', // Main project file.
-					potFilename: 'connections.pot', // Name of the POT file.
+					mainFile: config.makepot.src, // Main project file.
+					potFilename: config.makepot.domain + '.pot', // Name of the POT file.
 					potHeaders: {
 						poedit: true, // Includes common Poedit headers.
 						'x-poedit-keywordslist': true // Include a list of all possible gettext functions.
 					},
-					type: 'wp-plugin', // Type of project (wp-plugin or wp-theme).
+					type: config.makepot.type, // Type of project (wp-plugin or wp-theme).
 					updateTimestamp: true, // Whether the POT-Creation-Date should be updated without other changes.
 					updatePoFiles: true, // Whether to update PO files in the same directory as the POT file.
 					processPot: function(pot, options) {
-						pot.headers['report-msgid-bugs-to'] = 'http://connections-pro.com/support/forum/translations/';
-						pot.headers['last-translator'] = 'WP-Translations (http://wp-translations.org/)\n';
-						pot.headers['language-team'] = 'WP-Translations <wpt@wp-translations.org>\n';
-						pot.headers['language'] = 'en_US';
+						pot.headers['report-msgid-bugs-to'] = config.makepot.header.bugs;
+						pot.headers['last-translator'] = config.makepot.header.last_translator;
+						pot.headers['language-team'] = config.makepot.header.team;
+						pot.headers['language'] = config.makepot.header.language;
 						var translation, // Exclude meta data from pot.
 							excluded_meta = [
 								'Plugin Name of the plugin/theme',
@@ -36,7 +39,7 @@ module.exports = function(grunt) {
 						for (translation in pot.translations['']) {
 							if ('undefined' !== typeof pot.translations[''][translation].comments.extracted) {
 								if (excluded_meta.indexOf(pot.translations[''][translation].comments.extracted) >= 0) {
-									console.log('Excluded meta: ' + pot.translations[''][translation].comments.extracted);
+									grunt.log.writeln('Excluded meta: ' + pot.translations[''][translation].comments.extracted);
 									delete pot.translations[''][translation];
 								}
 							}
@@ -49,7 +52,7 @@ module.exports = function(grunt) {
 
 		checktextdomain: {
 			options: {
-				text_domain: 'connections',
+				text_domain: config.makepot.domain,
 				keywords: [
 					'__:1,2d',
 					'_e:1,2d',
@@ -93,10 +96,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		dirs: {
-			lang: 'languages' // It should be languages or lang
-		},
-
 		potomo: {
 			dist: {
 				options: {
@@ -104,9 +103,10 @@ module.exports = function(grunt) {
 				},
 				files: [{
 					expand: true,
-					cwd: '<%= dirs.lang %>',
+					flatten : true,
+					cwd: config.makepot.dest,
 					src: ['*.po'],
-					dest: '<%= dirs.lang %>',
+					dest: config.makepot.dest,
 					ext: '.mo',
 					nonull: true
 				}]
@@ -160,8 +160,12 @@ module.exports = function(grunt) {
 				files : [{
 					expand : true,
 					flatten : true,
-					src: ['assets/js/*.js', '!assets/js/*.min.js'],
-					dest : 'assets/js/',
+					cwd: config.uglify.core.src,
+					src: [
+						'*.js',
+						'!*.min.js'
+					],
+					dest : config.uglify.core.dest,
 					ext : '.min.js'
 				}]
 			}
@@ -197,11 +201,13 @@ module.exports = function(grunt) {
 		}
 	});
 
-	// Default task. - grunt makepot
-	grunt.registerTask('default', 'makepot');
+	// Default task.
+	grunt.registerTask('default', function() {
+		console.log( 'No default task created.' );
+	});
 
-	//  Checktextdomain and makepot task(s)
-	grunt.registerTask('go-pot', ['checktextdomain', 'makepot', 'potomo']);
+	// Checktextdomain and makepot task(s)
+	grunt.registerTask('make-pot', ['checktextdomain', 'makepot']);
 
 	// Makepot and push it on Transifex task(s).
 	grunt.registerTask('tx-push', ['makepot', 'exec:txpush_s']);

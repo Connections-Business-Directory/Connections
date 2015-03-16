@@ -45,7 +45,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connection' ),
+					'title'    => __( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),
@@ -123,7 +123,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connection' ),
+					'title'    => __( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),
@@ -200,7 +200,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				$field = array(
 					'id'       => 'metabox-name',
-					'title'    => __( 'Name', 'connection' ),
+					'title'    => __( 'Name', 'connections' ),
 					'context'  => 'normal',
 					'priority' => 'high',
 					'callback' => array( 'cnEntryMetabox', 'name' ),

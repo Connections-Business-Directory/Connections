@@ -193,7 +193,7 @@ class cnAdminFunction {
 		// Show the upgrade notice if it exists.
 		if ( isset( $r->upgrade_notice ) ) {
 
-			echo '<p style="margin-top: 1em"><strong>' . sprintf( __( 'Upgrade notice for version: %s' ), $r->new_version ) . '</strong></p>';
+			echo '<p style="margin-top: 1em"><strong>' . sprintf( __( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
 			echo '<ul style="list-style-type: square; margin-left:20px;"><li>' . $r->upgrade_notice . '</li></ul>';
 		}
 

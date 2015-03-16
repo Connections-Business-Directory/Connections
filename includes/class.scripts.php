@@ -105,16 +105,16 @@ class cnScript {
 			if ( ! is_ssl() ) wp_register_script( 'cn-google-maps-api', 'http://maps.googleapis.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 			if ( is_ssl() ) wp_register_script( 'cn-google-maps-api', 'https://maps.googleapis.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 
-			wp_register_script( 'jquery-gomap', CN_URL . "assets/js/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-markerclusterer', CN_URL . "assets/js/jquery.markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-gomap', CN_URL . "vendor/jquery-gomap/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-markerclusterer', CN_URL . "vendor/markerclusterer/jquery.markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 
 		} else {
 
-			wp_register_script( 'jquery-gomap', CN_URL . "assets/js/jquery.gomap-1.3.2$min.js", array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-markerclusterer', CN_URL . "assets/js/jquery.markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-gomap', CN_URL . "vendor/jquery-gomap/jquery.gomap-1.3.2$min.js", array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-markerclusterer', CN_URL . "vendor/markerclusterer/jquery.markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 		}
 
-		// wp_register_script( 'jquery-preloader', CN_URL . "assets/js/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
+		// wp_register_script( 'jquery-preloader', CN_URL . "vendor/jquery-preloader/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
 
 		if ( is_admin() ) {
 
@@ -127,9 +127,13 @@ class cnScript {
 				'showDetailsTitle'         => __( 'Click to show details.', 'connections' ),
 				'hideDetailsTitle'         => __( 'Click to hide details.', 'connections' ),
 				'imageMaxFileSize'         => wp_max_upload_size(),
-				'imageMaxFileSizeExceeded' => __( sprintf( 'Selected image exceeds maximum upload file size of %s. Please choose a different image.',
-				                                           esc_html( size_format( wp_max_upload_size() ) ) ),
-				                                  'connections ' ),
+				'imageMaxFileSizeExceeded' => __(
+					sprintf(
+						'Selected image exceeds maximum upload file size of %s. Please choose a different image.',
+						esc_html( size_format( wp_max_upload_size() ) )
+					),
+					'connections'
+				),
 			);
 
 			wp_localize_script( 'cn-ui-admin', 'cn_string', $strings );
@@ -139,10 +143,10 @@ class cnScript {
 			wp_register_script( 'cn-ui', CN_URL . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 		}
 
-		wp_register_script( 'jquery-qtip', CN_URL . "assets/js/jquery.qtip$min.js", array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-qtip', CN_URL . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
 
-		// Disble this for now, Elegant Theme uses the same registration name in the admin which causes errors.
-		// wp_register_script('jquery-spin', CN_URL . 'js/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
+		// Disable this for now, Elegant Theme uses the same hook name in the admin which causes errors.
+		// wp_register_script('jquery-spin', CN_URL . 'vendor/jquery-spin/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
 
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
 		wp_register_script( 'jquery-chosen', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
@@ -205,7 +209,7 @@ class cnScript {
 
 		}
 
-		wp_register_style( 'cn-qtip', CN_URL . "assets/css/jquery.qtip$min.css", array(), '2.0.1' );
+		wp_register_style( 'cn-qtip', CN_URL . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '2.0.1' );
 		wp_register_style( 'cn-chosen', CN_URL . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
 		wp_register_style( 'cn-font-awesome', CN_URL . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.0.3' );
 

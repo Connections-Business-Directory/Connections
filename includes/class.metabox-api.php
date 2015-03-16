@@ -1040,10 +1040,10 @@ class cnMetabox_Render {
 						);
 
 						$colorpicker_l10n = array(
-							'clear'         => __( 'Clear' ),
-							'defaultString' => __( 'Default' ),
-							'pick'          => __( 'Select Color' ),
-							'current'       => __( 'Current Color' ),
+							'clear'         => __( 'Clear', 'connections' ),
+							'defaultString' => __( 'Default', 'connections' ),
+							'pick'          => __( 'Select Color', 'connections' ),
+							'current'       => __( 'Current Color', 'connections' ),
 						);
 
 						wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n );

@@ -146,7 +146,7 @@ class cnCategory {
 
 		$atts = $this->validate->attributesArray( $defaults, $atts );
 
-		$out = __( $wp_embed->run_shortcode( $this->getDescription() ) );
+		$out = $wp_embed->run_shortcode( $this->getDescription() );
 
 		$out = do_shortcode( $out );
 

@@ -87,7 +87,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 			return true;
 
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
-			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
+			return new WP_Error( 'error_loading_image', __( 'File doesn&#8217;t exist?', 'connections' ), $this->file );
 
 		try {
 			$this->image = new Gmagick( $this->file );
@@ -158,7 +158,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 				);
 			}
 			catch ( Exception $e ) {
-				return new WP_Error( 'invalid_image', __('Could not read image size'), $this->file );
+				return new WP_Error( 'invalid_image', __( 'Could not read image size', 'connections' ), $this->file );
 			}
 		}
 
@@ -188,7 +188,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 
 		$dims = image_resize_dimensions( $this->size['width'], $this->size['height'], $max_w, $max_h, $crop );
 		if ( ! $dims )
-			return new WP_Error( 'error_getting_dimensions', __('Could not calculate resized image dimensions') );
+			return new WP_Error( 'error_getting_dimensions', __( 'Could not calculate resized image dimensions', 'connections' ) );
 		list( $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h ) = $dims;
 
 		if ( $crop ) {

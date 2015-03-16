@@ -1,22 +1,22 @@
-=== Connections Business Directory ===
-Contributors: shazahm1@hotmail.com
-Donate link: http://connections-pro.com/
-Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
-Requires at least: 3.8
-Tested up to: 4.1
-Stable tag: 8.2.2
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
+# Connections Business Directory #
+**Contributors:** shazahm1@hotmail.com
+**Donate link:** http://connections-pro.com/
+**Tags:** addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
+**Requires at least:** 3.8
+**Tested up to:** 4.1  
+**Stable tag:** 8.2.2 
+**License:** GPLv2 or later  
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
+  
 Connections Business Directory is a simple to use directory plugin which can be used to create an addressbook, business directory, staff directory or church directory.
 
-== Description ==
+## Description ##
 
 [Homepage](http://connections-pro.com/) | [Documentation](http://connections-pro.com/documentation/plugin/) | [Showcase](http://connections-pro.com/showcase/) | [Templates](http://connections-pro.com/templates/) | [Extensions](http://connections-pro.com/extensions/) | [Github](https://github.com/shazahm1/Connections)
 
 Quite simply, Connections Business Directory is the best directory plugin available for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff directory and run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
 
-= Features =
+### Features ###
 * Both the photo and logo images are fully responsive with HiDPI (Retina) display support.
 * Seamless integration with the WordPress.
 * A Dashboard admin page where you can keep up to date with Connections related news, such as updates notices for [templates](http://connections-pro.com/templates/) and the [Extensions](http://connections-pro.com/extensions/). Also see at a glance today's anniversaries and birthdays as well as any upcoming anniversaries and birthdays.
@@ -30,7 +30,7 @@ Quite simply, Connections Business Directory is the best directory plugin availa
 * Displaying your entries on the front end is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The Connections shortcode provides almost a dizzying array of options that are just too numerous to list. But if you want to know more, you can find it [here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * Even a bit of SEO was sprinkled in. Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec.
 
-= Extensible =
+### Extensible ###
 
 Here are other great free extensions (with more on the way) that enhance your experience with the Connections Business Directory:
 
@@ -48,7 +48,7 @@ Custom Fields
 
 In addition to these free extensions Connections Business Directory also features a growing library of [premium extensions](http://connections-pro.com/extensions/).
 
-= Developer Friendly =
+### Developer Friendly ###
 
 Connections Business Directory provides a vast array of hooks and filters so it can be easily extended.
 
@@ -60,7 +60,7 @@ Templates and CSS overriding is very granular and update safe. Check out these l
 * [Custom CSS for Templates](http://connections-pro.com/2014/05/07/quicktip-custom-css-templates/)
 * [Custom Template Override File](http://connections-pro.com/2014/06/04/quicktip-custom-template-override-files/)
 
-= Languages =
+### Languages ###
 
 Connections Business Directory has been embraced around the world and has been translated by its users in the following languages.
 
@@ -88,7 +88,7 @@ Connections Business Directory has been embraced around the world and has been t
 * Thai [1% Complete]
 * Turkish (Turkey) [83% Complete]
 
-== Credits: ==
+## Credits: ##
 * This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
 * vCard class is a modified version by [Troy Wolf](http://www.troywolf.com/articles/php/class_vcard/).
 * Image uploading and processing done by the class.upload.php by [Colin Verot](http://www.verot.net/php_class_upload.htm).
@@ -108,23 +108,44 @@ Connections Business Directory has been embraced around the world and has been t
 * Podcast icon by [schollidesign](http://findicons.com/icon/94188/podcast_new); license GNU/GPL.
 * CSS theme and image used for the jQuery UI Datepicker by [helenhousandi](https://github.com/helenhousandi/wp-admin-jquery-ui).
 
-== Screenshots ==
+## Screenshots ##
 
-1. The Dashboard admin page. A snapshot of important information about the directory.
-2. The Manage admin page. Here you can manage all the entries within the address book.
-3. The Add New Entry admin page. From here you can add new entries to the addressbook.
-4. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.
-5. The Templates admin page. Here you choose which template that the business directory should use when displaying the directory.
-6. The Settings admin page where you can configure the business directory options.
-7. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.
+###1. The Dashboard admin page. A snapshot of important information about the directory.
+###
+[missing image]
+
+###2. The Manage admin page. Here you can manage all the entries within the address book.
+###
+[missing image]
+
+###3. The Add New Entry admin page. From here you can add new entries to the addressbook.
+###
+[missing image]
+
+###4. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.
+###
+[missing image]
+
+###5. The Templates admin page. Here you choose which template that the business directory should use when displaying the directory.
+###
+[missing image]
+
+###6. The Settings admin page where you can configure the business directory options.
+###
+[missing image]
+
+###7. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.
+###
+[missing image]
+
 
 [Connections running on live websites can be found here.](http://connections-pro.com/live-samples/)
 
-== Installation ==
+## Installation ##
 
 [Installation instructions can be found here.](http://connections-pro.com/documentation/plugin/install/)
 
-= Using the WordPress Plugin Search =
+### Using the WordPress Plugin Search ###
 
 1. Navigate to the `Add New` sub-page under the Plugins admin page.
 2. Search for `connections business directory`.
@@ -132,7 +153,7 @@ Connections Business Directory has been embraced around the world and has been t
 4. Click the `Install Now` link.
 5. Lastly click the `Activate Plugin` link to activate the plugin.
 
-= Uploading in WordPress Admin =
+### Uploading in WordPress Admin ###
 
 1. [Download the plugin zip file](http://wordpress.org/plugins/connections/) and save it to your computer.
 2. Navigate to the `Add New` sub-page under the Plugins admin page.
@@ -141,7 +162,7 @@ Connections Business Directory has been embraced around the world and has been t
 5. Click the `Install Now` button.
 6. Lastly click the `Activate Plugin` link to activate the plugin.
 
-= Using FTP =
+### Using FTP ###
 
 1. [Download the plugin zip file](http://wordpress.org/plugins/connections/) and save it to your computer.
 2. Extract the Connections Business Directory zip file.
@@ -149,28 +170,28 @@ Connections Business Directory has been embraced around the world and has been t
 4. Upload the files from the folder extracted in Step 2.
 4. Activate the plugin on the Plugins admin page.
 
-= Requirements =
+### Requirements ###
 
 * **WordPress version:** >= 3.8
 * **PHP version:** >= 5.2.4
 * **NOTE:** Upgrading from version 0.6.1 and newer only is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions ##
 
 [FAQs can be found here.](http://connections-pro.com/faq/)
 
-= How do I display the business directory on my site? =
+### How do I display the business directory on my site? ###
 We have a [QuickStart](http://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode.
 
-= Will it work with my theme? =
+### Will it work with my theme? ###
 Connections Business Directory has been designed to work with any theme.
 
-= Is Connections Business Directory translation-ready? =
+### Is Connections Business Directory translation-ready? ###
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
-== Changelog ==
+## Changelog ##
 
-= 8.2.2 03/16/2015 =
+### 8.2.2 03/16/2015 ###
 * TWEAK: Move third party js libraries from assets folder to the vendor folder.
 * TWEAK: Move the jQuery qTip CSS from the assets folder to the vendor folder.
 * TWEAK: Update css/js paths to the vendor folder.
@@ -211,14 +232,14 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: More complete package.json file with a config key to be used in the Gruntfile.js.
 * OTHER: Update many of the tasks to use the variable from the config key in the package.json file.
 
-= 8.2.1 03/03/2015 =
+### 8.2.1 03/03/2015 ###
 * BUG: Fixed Parse error: syntax error, unexpected T_PAAMAYIM_NEKUDOTAYIM fatal error with PHP 5.2.x.
 * I18N: Update the connections.pot file.
 * OTHER: Add the Transifex config file.
 * OTHER: Ignore the connections.mo file.
 * OTHER: Remove blank line.
 
-= 8.2 03/02/2015 =
+### 8.2 03/02/2015 ###
 * FEATURE: Completely refactored of the categories admin page.
 * FEATURE: Introduce CN_Walker_Term_Select.
 * FEATURE: Introduce CN_Walker_Term_Check_List.
@@ -305,7 +326,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Cleanup phpDoc in cnSEO.
 * OTHER: phpDoc cleanup of cnMeta.
 
-= 8.1.7 01/26/2015 =
+### 8.1.7 01/26/2015 ###
 * BUG: Fix bug which was stripping numeric characters from the entry name when it was being displayed.
 * BUG: Fix bug where category slugs were not being quoted which cause querying by category slug to fail.
 * TWEAK: Cleanup logic in cnEntry::setFamilyMembers().
@@ -314,7 +335,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Introduce cnSanitize::field().
 * OTHER: Fix a phpDoc errors.
 
-= 8.1.6 01/21/2015 =
+### 8.1.6 01/21/2015 ###
 * BUG: Fixed the “Warning: Cannot use a scalar value as an array” error. This error was shown to users when their web host does not have an image processing library installed on the web server. This error should no longer be shown, however, Connections will not be able to dynamically resize images. A notice in the admin will still be displayed, “The server does not have ImageMagick or GD installed and/or enabled. Either of these are required for WordPress to be able to resize images. Please contact your server administrator.” If you see this notice, you will have to contact your web host and request that they install the GD image processing library.
 * BUG: White screen when uploading an image. This, I believe, is being caused by an older version of the Imagick image processing library. The older version does not contain a required function and will cause a fatal error when Connections tries to use it. This causes the white screen. To address this, Connections no longer uses that function.
 * BUG: Fix bug with image URL/s when the protocol is https so they are served securely.
@@ -364,7 +385,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * I18N: Add Thai translation.
 * I18N: Add Romanian (Romania) translation.
 
-= 8.1.5 10/16/2014 =
+### 8.1.5 10/16/2014 ###
 * FEATURE: Add cnFormatting::excerpt().
 * BUG: Fix the use of UTF8 Cyrillic entry slugs throughout. Addresses issue where URL encoded folder names would be created for the images uploaded to an entry.
 * BUG: The output of get_query_var( 'cn-s' ) does not need to be urldecode().
@@ -375,7 +396,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Remove whitespace.
 * OTHER: Add .editorconfig.
 
-= 8.1.4 10/08/2014 =
+### 8.1.4 10/08/2014 ###
 * BUG: Ensure image is not a WP_Error before trying to access its process log.
 * BUG: Fix error report when creating entry images. Was not calling correct object.
 * BUG: Ensure no double slash in paths when uploading an image.
@@ -389,7 +410,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * BUG: Fix version in changelog and readme.
 * TWEAK: Add `tag` option to getTitleBlock();.
 
-= 8.1.3 10/01/2014 =
+### 8.1.3 10/01/2014 ###
 * BUG: Add `style` that should not be added to the img tag attributes.
 * BUG: Update cnLog to be compatible with change made in WP_Error in WP 4.0 when WP_DEBUG is not defined or FALSE.
 * BUG: Fixed undefined index error.
@@ -406,7 +427,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Add experimental code (disabled) to speedup cnImage when called thru a URL query.
 * I18N: Update POT file.
 
-= 8.1.2 09/16/2014 =
+### 8.1.2 09/16/2014 ###
 * BUG: Fix responsive image CSS bug.
 * BUG: Fix infinite loop bug when uploading images in a WP multi site installation.
 * TWEAK: Check for isDot() before calling. PHP5.2/5.3 compatibility.
@@ -419,7 +440,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * TWEAK: Add action cn_image_get.
 * I18N: Update Turkish (Turkey) translation.
 
-= 8.1.1 09/09/2014 =
+### 8.1.1 09/09/2014 ###
 * BUG: Fix responsive image support for IE8.
 * BUG: Fix issue where uploads of PNG file variations would save as JPG instead of PNG.
 * BUG: In multisite the upload subdir s/b sites not blogs.dir.
@@ -441,7 +462,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Add error message for when $img_path is not set.
 * I18N: Update POT file.
 
-= 8.1 09/02/2014 =
+### 8.1 09/02/2014 ###
 * FEATURE: Photo and logo images are now responsive.
 * FEATURE: Photo and logo images support HiDPI (Retina) devices.
 * FEATURE: Improve search results for relevancy and shortword search support.
@@ -512,7 +533,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * I18N: Updated French (France).
 * I18N: Update connections.pot file to include new strings.
 
-= 0.8.14 07/21/2014 =
+### 0.8.14 07/21/2014 ###
 * FEATURE: Improve responsive readiness of the Dashboard and Manage admin pages.
 * BUG: Rename the base for of the Single Entry Card template.
 * BUG: Fix HTML syntax for text areas.
@@ -525,14 +546,14 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Update TimThumb to 2.8.14.
 * I18N: Update German (Germany) translation.
 
-= 0.8.13 06/20/2014 =
+### 0.8.13 06/20/2014 ###
 * BUG: Fix logic that determines if cnEntry_Shortcode should process $content for the `cn_entry` shortcode.
 * BUG: Fix cnFormatting::toBoolean(). Check if value is bool and return it if it is. Otherwise convert value to bool.
 * TWEAK: Add submit, textarea & hidden to cnHTML.
 * TWEAK: Re-order before/after list/entry action hooks to be more consistent.
 * OTHER: Update EDD_SL_Plugin_Updater to version 1.2.
 
-= 0.8.12 06/13/2014 =
+### 0.8.12 06/13/2014 ###
 * FEATURE: Add Goodreads to social media options.
 * FEATURE: Add IMDb to social media options.
 * FEATURE: Add Tumblr to social media options.
@@ -541,7 +562,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * BUG: Properly search the child template path for custom template files.
 * TWEAK: Update the Google+ icons.
 
-= 0.8.11 06/06/2014 =
+### 0.8.11 06/06/2014 ###
 * BUG: Fixed the Visual editor in the Settings API.
 * BUG: Fixed the Visual editor on Categories admin page.
 * BUG: Prevent divide by zero error in pagination.
@@ -551,13 +572,13 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Fix misspelling in phpDoc block.
 * OTHER: Add cnTemplatePart helper methods used to require template part files.
 
-= 0.8.10 06/02/2014 =
+### 0.8.10 06/02/2014 ###
 * BUG: Fixed issue where Visual editor may not work.
 
-= 0.8.9 05/26/2014 =
+### 0.8.9 05/26/2014 ###
 * BUG: Remove extra hyphen when checking for template javascript registration action.
 
-= 0.8.8 05/26/2014 =
+### 0.8.8 05/26/2014 ###
 * TWEAK: Set width to template table cell to make them evenly spaced.
 * TWEAK: Remove $atts when retrieving an entry to edit on the front-end.
 * TWEAK: Clean the publish metabox code.
@@ -573,7 +594,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * I18N: Update Portuguese (Brazil) translation.
 * I18N: Add Norwegian translation.
 
-= 0.8.7 05/19/2014 =
+### 0.8.7 05/19/2014 ###
 * TWEAK: Change input type to search on manage page.
 * TWEAK: Add link to Education level to readme.txt.
 * TWEAK: Allow linked entry to edit on front-end when Form >= 2.0 is install and activated.
@@ -585,7 +606,7 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * I18N: Update Hebrew (Israel) MO file.
 * I18N: Update Hungarian (Hungry) MO file.
 
-= 0.8.6 05/09/2014 =
+### 0.8.6 05/09/2014 ###
 * TWEAK: Change default entry visibility to 'Public'.
 * TWEAK: Readme.txt file tweaks.
 * BUG: Fix datepicker so it would function correctly in custom metaboxes.
@@ -596,23 +617,23 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * I18N: Add Hebrew (Israel).
 
 
-= 0.8.5 05/02/2014 =
+### 0.8.5 05/02/2014 ###
 * BUG: Fix logic for template part output that prevented rendering of some template features.
 * TWEAK: Remove the repeatable character index from the view all endpoint.
 * OTHER: Add whitespace.
 
-= 0.8.4 05/02/2014 =
+### 0.8.4 05/02/2014 ###
 * BUG: Fix the random ordering.
 * BUG: Fix cnTemplatePart::formOpen().
 * BUG: Fix CSS URL path string replace for inline CSS.
 * TWEAK: Admin CSS tweaks for custom metaboxes.
 * OTHER: Add meta value filter.
 
-= 0.8.3 05/01/2014 =
+### 0.8.3 05/01/2014 ###
 * TWEAK: Remove the cn-clear class from the list section heads.
 * TWEAK: Register Chosen with jquery-chosen-min for legacy support.
 
-= 0.8.2 04/30/2014 =
+### 0.8.2 04/30/2014 ###
 * BUG: Fix HTML markup for the "Clear Search" button.
 * TWEAK: Remove "-min" from several JavaScript registration handles.
 * TWEAK: Add a few filters to better maintain backward compatibility with several commercial templates.
@@ -621,11 +642,11 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * I18N: Add Russian.
 * I18N: Add Portuguese (Portugal).
 
-= 0.8.1 04/29/2014 =
+### 0.8.1 04/29/2014 ###
 * BUG: Fix activation error for users where the server is still running PHP 5.2.
 * BUG: Fix custom template path folder name.
 
-= 0.8.0 04/28/2014 =
+### 0.8.0 04/28/2014 ###
 * FEATURE: Custom Metabox and Fields API.
 * FEATURE: Introduce Custom Content Blocks.
 * FEATURE: Introduce cnHTML.
@@ -698,30 +719,30 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Include and register Font Awesome.
 * OTHER: Add method to cnURL to retrieve URL for supplied file path.
 
-= 0.7.9.7 04/17/2014 =
+### 0.7.9.7 04/17/2014 ###
 * BUG: Load TinyMCE plugin  based on WP version.
 
-= 0.7.9.6 04/17/2014 =
+### 0.7.9.6 04/17/2014 ###
 * BUG: Fixed compatibility of the bio and notes field in WP 3.9.
 
-= 0.7.9.5 02/21/2014 =
+### 0.7.9.5 02/21/2014 ###
 * BUG: Fixed double quoting which could cause category queries to fail.
 
-= 0.7.9.4 02/20/2014 =
+### 0.7.9.4 02/20/2014 ###
 * BUG: Fixed URL escaping in pagination links.
 * BUG: Fix potential XSS issue.
 
-= 0.7.9.3 10/15/13 =
+### 0.7.9.3 10/15/13 ###
 * FEATURE: The character filter now uses a permalink structure which is more SEO friendly.
 * BUG: Fixed the character filter when the directory is used on the front page.
 
-= 0.7.9.2 09/30/13 =
+### 0.7.9.2 09/30/13 ###
 * BUG: Fix bug preventing the copying of an entry.
 
-= 0.7.9.1 09/23/13 =
+### 0.7.9.1 09/23/13 ###
 * BUG: Critical fix that fixes the path to the inc.upgrade.php file.
 
-= 0.7.9 09/15/13 =
+### 0.7.9 09/15/13 ###
 * FEATURE: Added an exclude_category shortcode option.
 * FEATURE: The character index now filters by the character clicked rather than just using an in-page link.
 * FEATURE: Add home_id and force_home shortcode options that will override the setting on the Connections : Settings admin page.
@@ -788,174 +809,174 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 [Complete Changlog can be found here.](http://connections-pro.com/changelog/)
 
-== Upgrade Notice ==
+## Upgrade Notice ##
 
-= 0.7.2.1 =
+### 0.7.2.1 ###
 This is a major update. It would be advisable to backup the Connections tables in the database before upgrading.
 
-= 0.7.2.2 =
+### 0.7.2.2 ###
 Bug fixes.
 
-= 0.7.2.5 =
+### 0.7.2.5 ###
 A couple bug fixes. Should be the last one.
 
-= 0.7.2.6 =
+### 0.7.2.6 ###
 Bug fixes and updates to third party jQuery plugins and PHP classes. It is highly recommended to update.
 
-= 0.7.3 =
+### 0.7.3 ###
 This is a major update. It would be advisable to backup the Connections tables in the database before upgrading.
 
-= 0.7.3.1 =
+### 0.7.3.1 ###
 This is a major update. It would be advisable to backup the Connections tables in the database before upgrading.
 
-= 0.7.3.2 =
+### 0.7.3.2 ###
 Many bug fixes throughout. This is a highly recommended update.
 
-= 0.7.3.3 =
+### 0.7.3.3 ###
 Many bug fixes throughout. This is a highly recommended update.
 
-= 0.7.3.4 =
+### 0.7.3.4 ###
 Many bug fixes throughout. This is a highly recommended update.
 
-= 0.7.3.5 =
+### 0.7.3.5 ###
 Many bug fixes throughout. This is a highly recommended update.
 
-= 0.7.3.6 =
+### 0.7.3.6 ###
 Many bug fixes throughout. This is a highly recommended update.
 
-= 0.7.3.7 =
+### 0.7.3.7 ###
 Potentially fixes issues with multisite installs.
 
-= 0.7.4 =
+### 0.7.4 ###
 A lot of code cleanup and tweaking. Add new feature to be able to filter by initial character on the Connections : Manage admin page.
 NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.4.1 =
+### 0.7.4.1 ###
 A permissions bug has been fixed.
 NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.5 =
+### 0.7.5 ###
 NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.5.1 =
+### 0.7.5.1 ###
 NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.6.1 =
+### 0.7.6.1 ###
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.6.2 =
+### 0.7.6.2 ###
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.6.3 =
+### 0.7.6.3 ###
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.6.4 =
+### 0.7.6.4 ###
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.6.5 =
+### 0.7.6.5 ###
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.6.6 =
+### 0.7.6.6 ###
 Major rewrite of the template system. Now requires WordPress 3.3 or newer. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.7.1 =
+### 0.7.7.1 ###
 Minor bug fixes and language updates. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.8 =
+### 0.7.8 ###
 Some new features, minor bug fixes and language updates. NOTICE: Your roles settings for Connections are reset upon upgrade. After upgrading, please check the role settings.
 
-= 0.7.8.1 =
+### 0.7.8.1 ###
 Minor bug fixes.
 
-= 0.7.9 =
+### 0.7.9 ###
 Some new features, minor bug fixes and language updates.
 
-= 0.7.9.1 =
+### 0.7.9.1 ###
 Critical fix that fixes the path to the inc.upgrade.php file.
 
-= 0.7.9.2 =
+### 0.7.9.2 ###
 Fix bug preventing the copying of an entry.
 
-= 0.7.9.3 =
+### 0.7.9.3 ###
 The character filter now uses a permalink structure for better SEO. Fix minor bug preventing the character filter from working on the front page.
 
-= 0.7.9.4 =
+### 0.7.9.4 ###
 Fix potential XSS vulnerability. Updating is highly advised.
 
-= 0.7.9.5 =
+### 0.7.9.5 ###
 Fix potential XSS vulnerability. Updating is highly advised.
 
-= 0.8 =
+### 0.8 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.1 =
+### 0.8.1 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.2 =
+### 0.8.2 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.3 =
+### 0.8.3 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.4 =
+### 0.8.4 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.5 =
+### 0.8.5 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.6 =
+### 0.8.6 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.7 =
+### 0.8.7 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.8 =
+### 0.8.8 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.9 =
+### 0.8.9 ###
 This a major update to Connections it is recommended to backup before updating.
 
-= 0.8.10 =
+### 0.8.10 ###
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
 
-= 0.8.11 =
+### 0.8.11 ###
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
 
-= 0.8.12 =
+### 0.8.12 ###
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
 
-= 0.8.13 =
+### 0.8.13 ###
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
 
-= 0.8.14 =
+### 0.8.14 ###
 If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update. Requires WordPress >= 3.8.
 
-= 8.1 =
+### 8.1 ###
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.1.1 =
+### 8.1.1 ###
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.1.2 =
+### 8.1.2 ###
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.1.3 =
+### 8.1.3 ###
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.1.4 =
+### 8.1.4 ###
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.1.5 =
+### 8.1.5 ###
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.1.6 =
+### 8.1.6 ###
 It is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.1.7 =
+### 8.1.7 ###
 It is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.2 =
+### 8.2 ###
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
-= 8.2.1 =
+### 8.2.1 ###
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

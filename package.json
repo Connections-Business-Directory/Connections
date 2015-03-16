@@ -1,7 +1,43 @@
 {
   "name": "connections",
   "version": "8.2.1",
+  "description": "Connections Business Directory plugin for WordPress.",
+  "homepage": "http://connections-pro.com/",
+  "author": {
+    "name": "Steven A Zahm",
+    "email": "",
+    "url": "http://connections-pro.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Connections-Business-Directory/Connections"
+  },
+  "bugs": {
+    "url": "https://github.com/Connections-Business-Directory/Connections/issues",
+    "email": ""
+  },
+  "license": "GPLv2+",
   "private": true,
+  "config": {
+    "makepot": {
+      "type": "wp-plugin",
+      "domain": "connections",
+      "src": "connections.php",
+      "dest": "languages/",
+      "header": {
+        "bugs": "http://connections-pro.com/support/forum/translations/",
+        "team": "WP-Translations (http://wp-translations.org/)",
+        "last_translator": "WP-Translations <wpt@wp-translations.org>",
+        "language": "en_US"
+      }
+    },
+    "uglify": {
+      "core": {
+        "src": "assets/js/",
+        "dest": "assets/js/"
+      }
+    }
+  },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-autoprefixer": "^2.2.0",

@@ -2407,7 +2407,7 @@ class cnOutput extends cnEntry
 
 		$atts = $this->validate->attributesArray( $defaults, $atts );
 
-		$out = __( $wp_embed->run_shortcode( $this->getBio() ) );
+		$out = $wp_embed->run_shortcode( $this->getBio() );
 
 		$out = do_shortcode( $out );
 

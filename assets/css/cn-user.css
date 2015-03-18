@@ -63,7 +63,7 @@
 	line-height: normal;
 	max-width: 100%;
 	text-align: center;
-	text-shadow: 1px 1px 0px #FFFFFF;
+	text-shadow: 1px 1px 0 #FFFFFF;
 }
 
 img.cn-image {
@@ -369,14 +369,12 @@ span.date-name {
  * Search Message
  */
 #cn-search-messages {
-	border-left: 4px solid #FFBA00;
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
-	border-right: 1px solid rgba(0, 0, 0, 0.1);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-left: 4px #FFBA00;
 	padding: 10px 12px;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-	margin: 12px 2px 12px 0px;
+	margin: 12px 2px 12px 0;
 }
 
 #cn-clear-search {
@@ -396,9 +394,8 @@ a#cn-clear-search-button {
 
 #cn-search-input {
 	background: #FFFFFF none;
-	border-width: 1px 0 1px 1px;
-	border-style: solid;
-	border-color: #DFDFDF;
+	border: 1px solid #DFDFDF;
+	border-right-width: 0;
 	border-radius: 3px 0 0 3px;
 	-moz-border-radius: 3px 0 0 3px;
 	-khtml-border-radius: 3px 0 0 3px;
@@ -428,9 +425,8 @@ a#cn-clear-search-button {
 
 input#cn-search-submit {
 	background: #FFFFFF url(../images/icons/search.png) no-repeat 8px center;
-	border-width: 1px 1px 1px 0;
-	border-style: solid;
-	border-color: #DFDFDF;
+	border: 1px solid #DFDFDF;
+	border-left-width: 0;
 	border-radius: 0 3px 3px 0;
 	-moz-border-radius: 0 3px 3px 0;
 	-khtml-border-radius: 0 3px 3px 0;
@@ -470,18 +466,13 @@ input#cn-search-submit {
 	color: #AAAAAA !important;
 	text-decoration: none;
 	background-color: #EEEEEE;
-	border: none;
 	padding: 3px 6px;
-	border-style: solid;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	border-width: 1px;
+	border: 1px solid;
 	font-size: 12px;
 	font-weight: bold;
 	margin: 0 1px 0 0;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
 }
 
 #cn-page-nav a:active, #cn-page-nav a:visited {
@@ -496,9 +487,7 @@ input#cn-search-submit {
 
 #cn-page-nav input {
 	background: #FFFFFF none;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #DFDFDF;
+	border: 1px solid #DFDFDF;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	-webkit-box-sizing: border-box;
@@ -515,9 +504,6 @@ input#cn-search-submit {
 	text-align: center;
 	vertical-align: baseline;
 	width: 30px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
 }
 
 /*
@@ -526,21 +512,16 @@ input#cn-search-submit {
 input#cn-submit {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	-webkit-box-shadow: 0px 1px 2px 1px rgba(100, 100, 100, .4);
-	-moz-box-shadow: 0px 1px 2px 1px rgba(100, 100, 100, .4);
 	color: #666666;
 	display: inline;
-	-webkit-box-shadow: 0px 1px 2px 1px rgba(100, 100, 100, .4);
-	box-shadow: 0px 1px 2px 1px rgba(100, 100, 100, .4);
-	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=180, Color='#CCC')"; /* For IE 8 */
-	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=180, Color='#000000'); /* For IE 5.5 - 7 */
+	-webkit-box-shadow: 0 1px 2px 1px rgba(100, 100, 100, .4);
+	box-shadow: 0 1px 2px 1px rgba(100, 100, 100, .4);
 	float: none;
 	background: #E3E3E3;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #E3E3E3), color-stop(100%, #F1F1F1));
 	background: -webkit-linear-gradient(top, #E3E3E3 1%, #F1F1F1 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #E3E3E3), to(#F1F1F1));
 	background: linear-gradient(top, #E3E3E3 1%, #F1F1F1 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e3e3e3', endColorstr='#f1f1f1', GradientType=0); /* IE6-9 */
 	border: 1px solid #D3D3D3;
 	font-size: 12px;
 	margin: 2px;

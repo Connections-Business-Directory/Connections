@@ -198,6 +198,18 @@ module.exports = function(grunt) {
 					ext: '.min.css'
 				}]
 			}
+		},
+
+		csslint: {
+			strict: {
+				src: ['assets/css/*.css', '!assets/css/*.min.css']
+			},
+			lax: {
+				options: {
+					csslintrc: '.csslintrc'
+				},
+				src: ['assets/css/*.css', '!assets/css/*.min.css']
+			}
 		}
 	});
 
@@ -223,6 +235,9 @@ module.exports = function(grunt) {
 
 	// Autoprefix CSS
 	grunt.registerTask('prefix-css', 'autoprefixer');
+
+	// CSS Lint
+	grunt.registerTask('lint-css', ['csslint:lax']);
 
 	// Build task(s).
 	grunt.registerTask('build', ['clean', 'copy', 'compress']);

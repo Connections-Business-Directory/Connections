@@ -210,6 +210,18 @@ module.exports = function(grunt) {
 				},
 				src: ['assets/css/*.css', '!assets/css/*.min.css']
 			}
+		},
+
+		jshint: {
+			options: grunt.file.readJSON('.jshintrc'),
+			grunt: {
+				src: ['Gruntfile.js']
+			},
+			core: {
+				expand: true,
+				cwd: config.uglify.core.src,
+				src: [ '*.js', '!*.min.js' ]
+			}
 		}
 	});
 
@@ -238,6 +250,9 @@ module.exports = function(grunt) {
 
 	// CSS Lint
 	grunt.registerTask('lint-css', ['csslint:lax']);
+
+	// JS Lint
+	grunt.registerTask( 'lint-js', ['jshint:core'] );
 
 	// Build task(s).
 	grunt.registerTask('build', ['clean', 'copy', 'compress']);

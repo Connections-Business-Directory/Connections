@@ -249,7 +249,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('prefix-css', 'autoprefixer');
 
 	// CSS Lint
-	grunt.registerTask('lint-css', ['csslint:lax']);
+	grunt.registerTask( 'lint-css', ['csslint:lax'] );
+	grunt.registerTask( 'lint-css:strict', ['csslint:strict'] );
 
 	// JS Lint
 	grunt.registerTask( 'lint-js', ['jshint:core'] );

@@ -3,7 +3,6 @@
 ------------------------------------------------------------------------------*/
 #icon-connections {
 	-moz-background-clip: border;
-	-moz-background-inline-policy: continuous;
 	-moz-background-origin: padding;
 	background: transparent url(../images/icon.png) no-repeat;
 }
@@ -91,7 +90,7 @@ table.connections span.cn-image-none {
 	line-height: normal;
 	max-width: 100%;
 	text-align: center;
-	text-shadow: 1px 1px 0px #FFFFFF;
+	text-shadow: 1px 1px 0 #FFFFFF;
 }
 
 table.connections img.cn-image {
@@ -242,7 +241,7 @@ table#availablethemes {
 
 table#availablethemes td.available-theme {
 	display: table-cell;;
-	margin: 0px;
+	margin: 0;
 	padding: 20px;
 	width: 33%;
 }
@@ -251,16 +250,14 @@ table#availablethemes td.available-theme {
 table#availablethemes .template-thumbnail-none {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	-webkit-box-shadow: 0px 3px 4px 2px rgba(100, 100, 100, .4);
-	box-shadow: 0px 3px 4px 2px rgba(100, 100, 100, .4);
+	-webkit-box-shadow: 0 3px 4px 2px rgba(100, 100, 100, .4);
+	box-shadow: 0 3px 4px 2px rgba(100, 100, 100, .4);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=180, Color='#CCC')";
-	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=180, Color='#000000');
-	background: #E3E3E3; /* Old browsers */ /* FF3.6+ */
+	background: #E3E3E3;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #E3E3E3), color-stop(100%, #F1F1F1));
 	background: -webkit-linear-gradient(top, #E3E3E3 1%, #F1F1F1 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #E3E3E3), to(#F1F1F1));
 	background: linear-gradient(top, #E3E3E3 1%, #F1F1F1 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e3e3e3', endColorstr='#f1f1f1', GradientType=0);
 	border: 1px solid #D3D3D3;
 	margin: auto;
 }
@@ -269,7 +266,7 @@ table#availablethemes .template-thumbnail-none p {
 	color: #AAAAAA;
 	font-weight: 700;
 	text-align: center;
-	text-shadow: 1px 1px 0px #FFFFFF;
+	text-shadow: 1px 1px 0 #FFFFFF;
 	padding: 5px;
 }
 
@@ -333,9 +330,8 @@ div.rss-widget div.rss-date {
 	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.1)), to(rgba(0, 0, 0, 0.2)));
 	background: linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1affffff', endColorstr='#33000000', GradientType=0);
-	border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.4);
-	border-style: solid;
-	border-width: 1px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-bottom-color: rgba(0, 0, 0, 0.4);
 	cursor: pointer;
 	line-height: 1em;
 	overflow: hidden;
@@ -496,31 +492,25 @@ and (max-width: 780px) {
 
 .widget-placeholder {
 	background-color: #FCFCFC;
-	border-width: 1px;
-	border-style: dashed;
+	border: 1px dashed;
 	margin: 0 auto 20px;
 	height: 60px;
 	width: 100%;
 }
 
 div.widgets-sortables {
-	background-color: transparent;
-	background-image: none;
+	background: transparent none;
 }
 
 /* The "Publish" metabox styles. */
 #entry-type {
-	border-color: #DFDFDF;
-	border-style: solid;
-	border-width: 1px;
+	border: 1px solid #DFDFDF;
 	margin: 6px;
 	padding: 10px;
 }
 
 #visibility {
-	border-color: #DFDFDF;
-	border-style: solid;
-	border-width: 1px;
+	border: 1px solid #DFDFDF;
 	margin: 6px;
 	padding: 10px;
 }
@@ -663,7 +653,7 @@ div.widgets-sortables {
 	border: solid 1px #DFDFDF;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
-	margin: 10px 0px 20px;
+	margin: 10px 0 20px;
 }
 
 /* The "Phone" metabox. */
@@ -867,7 +857,7 @@ span.cn-radio-option {
 }
 
 .cn-metabox-section table tr th.cn-metabox-label-empty {
-	width: 0px;
+	width: 0;
 }
 
 .cn-metabox-section table tr td {
@@ -907,8 +897,7 @@ span.cn-radio-option {
 #meta-fields table {
 	margin: 0;
 	width: 100%;
-	border-width: 1px;
-	border-style: solid;
+	border: 1px solid;
 	border-spacing: 0;
 }
 

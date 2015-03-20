@@ -426,7 +426,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
 
 					/** @var string CN_CUSTOM_TEMPLATE_URL */
-					define( 'CN_CUSTOM_TEMPLATE_URL', $url . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates/' );
 				}
 
 				// Define the relative URL/s.

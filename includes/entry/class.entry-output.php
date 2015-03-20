@@ -538,7 +538,7 @@ class cnOutput extends cnEntry
 		 */
 		$atts = cnSanitize::args( apply_filters( 'cn_output_name_atts', $atts ), $defaults );
 
-		$search          = array(
+		$search = array(
 			'%prefix%',
 			'%first%',
 			'%middle%',

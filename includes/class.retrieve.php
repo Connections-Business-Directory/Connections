@@ -1244,12 +1244,12 @@ class cnRetrieve {
 			'SELECT `entry_id` AS id, `date` FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE '
 			. '  ( YEAR( DATE_ADD( %s, INTERVAL %d DAY ) )'
 			. ' - YEAR( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ) ) )'
-			. ' - ( MID( DATE_ADD( %s, INTERVAL %d DAY ), 5, 6 )'
-			. ' < MID( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+			. ' - ( MID( DATE_ADD( %s, INTERVAL %d DAY ), 6, 5 )'
+			. ' < MID( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ), 6, 5 ) )'
 			. ' > ( YEAR( %s )'
 			. ' - YEAR( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ) ) )'
-			. ' - ( MID( %s, 5, 6 )'
-			. ' ' . $includeToday . ' MID( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ), 5, 6 ) )'
+			. ' - ( MID( %s, 6, 5 )'
+			. ' ' . $includeToday . ' MID( CONVERT_TZ( `date`, @@session.time_zone, \'+00:00\' ), 6, 5 ) )'
 			. ' ' . implode( ' ', $where ),
 			$date,
 			absint( $atts['days'] ),

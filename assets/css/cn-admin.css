@@ -294,14 +294,20 @@ div.rss-widget .rss-date {
 
 /*noinspection CssOverwrittenProperties*/
 .cn-button {
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	background: none;
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.1)), to(rgba(0, 0, 0, 0.2)));
+	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
 	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
 	border: #000000;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	border-bottom-color: #000000;
 	border-bottom-color: rgba(0, 0, 0, 0.4);
+	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	cursor: pointer;
 	line-height: 1em;
@@ -313,10 +319,14 @@ div.rss-widget .rss-date {
 }
 
 .cn-button:hover {
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.1)));
+	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 }
 
 .cn-button:active {
+	background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.2)), to(rgba(255, 255, 255, 0.1)));
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 	top: 1px;
 }
@@ -327,6 +337,7 @@ div.rss-widget .rss-date {
 }
 
 .cn-button-blue:focus {
+	-webkit-box-shadow: 0 0 0 1px #00ADEE, 0 0 2px 1px rgba(0, 173, 238, .8);
 	box-shadow: 0 0 0 1px #00ADEE, 0 0 2px 1px rgba(0, 173, 238, .8);
 }
 
@@ -336,6 +347,7 @@ div.rss-widget .rss-date {
 }
 
 .cn-button-green:focus {
+	-webkit-box-shadow: 0 0 0 1px #91BD09, 0 0 2px 1px rgba(145, 189, 9, .8);
 	box-shadow: 0 0 0 1px #91BD09, 0 0 2px 1px rgba(145, 189, 9, .8);
 }
 

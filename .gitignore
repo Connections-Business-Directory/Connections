@@ -60,3 +60,4 @@ node_modules
 # Misc #
 ########
 build
+logs

@@ -182,8 +182,18 @@ module.exports = function(grunt) {
 				files: [{
 					expand : true,
 					flatten : true,
-					src : ['assets/css/*.css', '!assets/css/*.min.css'],
-					dest : 'assets/css/prefixed/'
+					cwd: 'assets/css/',
+					src : ['*.css', '!*.min.css', '!jquery-ui-*'],
+					dest : 'assets/css/'
+				}]
+			},
+			jqueryui: {
+				files: [{
+					expand : true,
+					flatten : true,
+					cwd: 'assets/css/',
+					src : ['jquery-ui-*.css', '!*.min.css'],
+					dest : 'assets/css/'
 				}]
 			}
 		},
@@ -202,19 +212,35 @@ module.exports = function(grunt) {
 
 		csslint: {
 			strict: {
-				src: ['assets/css/*.css', '!assets/css/*.min.css']
+				options: {
+					csslintrc: '.csslintrc-strict'
+				},
+				files: [{
+					expand: true,
+					flatten: true,
+					cwd: 'assets/css/',
+					src: [ '*.css', '!*.min.css', '!jquery-ui-*' ]
+				}]
 			},
 			lax: {
 				options: {
 					csslintrc: '.csslintrc'
 				},
-				src: ['assets/css/*.css', '!assets/css/*.min.css']
+				files: [{
+					expand: true,
+					flatten: true,
+					cwd: 'assets/css/',
+					src: ['*.css', '!*.min.css', '!jquery-ui-*']
+				}]
 			}
 		},
 
 		jshint: {
 			options: grunt.file.readJSON('.jshintrc'),
 			grunt: {
+				options: {
+					node: true
+				},
 				src: ['Gruntfile.js']
 			},
 			core: {
@@ -222,8 +248,20 @@ module.exports = function(grunt) {
 				cwd: config.uglify.core.src,
 				src: [ '*.js', '!*.min.js' ]
 			}
-		}
+		}/*,
+
+		log: {
+			lint_css: {
+				options: {
+					keepColors: false,
+					clearLogFile: false,
+					filePath: './logs/lint-css.log'
+				}
+			}
+		}*/
 	});
+
+	//require('logfile-grunt')(grunt);
 
 	// Default task.
 	grunt.registerTask('default', function() {
@@ -246,14 +284,23 @@ module.exports = function(grunt) {
 	grunt.registerTask('minify-js', 'uglify');
 
 	// Autoprefix CSS
-	grunt.registerTask('prefix-css', 'autoprefixer');
+	grunt.registerTask( 'prefix-css', [ 'autoprefixer:core', 'autoprefixer:jqueryui' ] );
+	grunt.registerTask( 'prefix-css:core', ['autoprefixer:core'] );
+	grunt.registerTask( 'prefix-css:jqueryui', ['autoprefixer:jqueryui'] );
 
 	// CSS Lint
-	grunt.registerTask( 'lint-css', ['csslint:lax'] );
-	grunt.registerTask( 'lint-css:strict', ['csslint:strict'] );
+	grunt.registerTask( 'lint-css', [ 'log-lint:css', 'csslint:lax' ] );
+	grunt.registerTask( 'lint-css:strict', [ 'log-lint:css', 'csslint:strict' ] );
 
 	// JS Lint
 	grunt.registerTask( 'lint-js', ['jshint:core'] );
+	grunt.registerTask( 'lint-js:grunt', ['jshint:grunt'] );
+
+	// Add task specific logging.
+	// @link https://github.com/brutaldev/logfile-grunt
+	grunt.task.registerTask( 'log-lint:css', 'Log the CSSLint report.', function() {
+		require('logfile-grunt')(grunt, { filePath: './logs/lint-css.log', clearLogFile: true });
+	});
 
 	// Build task(s).
 	grunt.registerTask('build', ['clean', 'copy', 'compress']);

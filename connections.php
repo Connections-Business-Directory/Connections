@@ -197,7 +197,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				// Init the options if there is a version change just in case there were any changes.
 				if ( version_compare( self::$instance->options->getVersion(), CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
-				// $connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
+				//self::$instance->options->setDBVersion('0.1.9'); self::$instance->options->saveOptions();
 
 				do_action( 'cn_loaded' );
 			}

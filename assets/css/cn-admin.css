@@ -292,8 +292,17 @@ div.rss-widget .rss-date {
 	clear: right;
 }
 
+/*------------------------------------------------------------------------------
+  Button Styles
+
+  NOTES:
+  The `body[class*="connections"]` selector is to ensure core WP admin style can be overridden.
+  CSSLint reports this as being slow.
+  @todo See if there is a admin filter for the body classes that can be hooked into to define custom classes.
+------------------------------------------------------------------------------*/
+
 /*noinspection CssOverwrittenProperties*/
-.cn-button {
+body[class*="connections"] .cn-button {
 	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	-webkit-box-sizing: border-box;
@@ -310,48 +319,60 @@ div.rss-widget .rss-date {
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	cursor: pointer;
-	line-height: 1em;
 	overflow: hidden;
-	padding: 0;
 	position: relative;
-	text-decoration: none;
-	white-space: nowrap;
 }
 
-.cn-button:hover {
+body[class*="connections"] .cn-button:hover {
 	background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.2)), to(rgba(255, 255, 255, 0.1)));
 	background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 }
 
-.cn-button:active {
+body[class*="connections"] .cn-button:active {
 	background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.2)), to(rgba(255, 255, 255, 0.1)));
 	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 	background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
 	top: 1px;
 }
 
-.cn-button-blue,
-.cn-button-blue:hover {
+body[class*="connections"] .cn-button-blue,
+body[class*="connections"] .cn-button-blue:hover,
+body[class*="connections"] .cn-button-blue:active {
 	background-color: #00ADEE;
 }
 
-.cn-button-blue:focus {
+body[class*="connections"] .cn-button-blue:focus {
 	-webkit-box-shadow: 0 0 0 1px #00ADEE, 0 0 2px 1px rgba(0, 173, 238, .8);
 	box-shadow: 0 0 0 1px #00ADEE, 0 0 2px 1px rgba(0, 173, 238, .8);
 }
 
-.cn-button-green,
-.cn-button-green:hover {
+body[class*="connections"] .cn-button-green,
+body[class*="connections"] .cn-button-green:hover,
+body[class*="connections"] .cn-button-green:active {
 	background-color: #91BD09;
 }
 
-.cn-button-green:focus {
+body[class*="connections"] .cn-button-green:focus {
 	-webkit-box-shadow: 0 0 0 1px #91BD09, 0 0 2px 1px rgba(145, 189, 9, .8);
 	box-shadow: 0 0 0 1px #91BD09, 0 0 2px 1px rgba(145, 189, 9, .8);
 }
 
-.cn-button span {
+body[class*="connections"] .cn-button-warning,
+body[class*="connections"] .cn-button-warning:focus,
+body[class*="connections"] .cn-button-warning:hover,
+body[class*="connections"] .cn-button-warning:active {
+	background-color: #CE0000;
+	color: #FFFFFF;
+}
+
+body[class*="connections"] .cn-button-warning:focus {
+	border-color: #CE0000;
+	-webkit-box-shadow: 0 0 0 1px #CE0000, 0 0 2px 1px rgba(206, 0, 0, .8);
+	box-shadow: 0 0 0 1px #CE0000, 0 0 2px 1px rgba(206, 0, 0, .8);
+}
+
+body[class*="connections"] .cn-button span {
 	color: #FFFFFF;
 	line-height: 1em;
 	padding: 0.5em 0;
@@ -362,14 +383,43 @@ div.rss-widget .rss-date {
 	white-space: nowrap;
 }
 
-.cn-button-full,
-.cn-button-full span {
+body[class*="connections"] .cn-button-full,
+body[class*="connections"] .cn-button-full span {
 	display: block;
 }
 
-.cn-button-large {
+body[class*="connections"] .cn-button-large {
 	font-size: 1em;
 	font-weight: 700;
+}
+
+#cancel-button {
+	float: left;
+}
+
+#cancel-button .button {
+	display: inline-block;
+}
+
+.button-warning:hover {
+	background: #CE0000 none repeat scroll 0 0;
+	color: #FFFFFF;
+}
+
+.button {
+	margin: 1px;
+}
+
+.button-primary {
+	margin: 1px;
+	padding: 3px 10px;
+}
+
+.postbox .cn-remove-button {
+	bottom: 0;
+	display: inline-block;
+	position: absolute;
+	right: 10px;
 }
 
 /*------------------------------------------------------------------------------
@@ -704,36 +754,6 @@ and (max-width: 780px) {
 #cn-metabox-id-bio > th,
 #cn-metabox-id-notes > th {
 	display: none;
-}
-
-/* Buttons. */
-#cancel-button {
-	float: left;
-}
-
-#cancel-button .button {
-	display: inline-block;
-}
-
-.button-warning:hover {
-	background: #CE0000 none repeat scroll 0 0;
-	color: #FFFFFF;
-}
-
-.button {
-	margin: 1px;
-}
-
-.button-primary {
-	margin: 1px;
-	padding: 3px 10px;
-}
-
-.postbox .cn-remove-button {
-	bottom: 0;
-	display: inline-block;
-	position: absolute;
-	right: 10px;
 }
 
 /* Upgrade Page Styles */

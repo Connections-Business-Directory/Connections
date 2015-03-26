@@ -174,39 +174,50 @@ module.exports = function(grunt) {
 		autoprefixer: {
 			options: {
 				// Same as WordPress core.
-				browsers: ['Android >= 2.1', 'Chrome >= 21', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0'],
-				cascade: false
+				browsers: [ 'Android >= 2.1', 'Chrome >= 21', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0' ],
+				cascade:  false
 			},
 
-			core: {
-				files: [{
-					expand : true,
-					flatten : true,
-					cwd: 'assets/css/',
-					src : ['*.css', '!*.min.css', '!jquery-ui-*'],
-					dest : 'assets/css/'
-				}]
+			core:     {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'assets/css/',
+					src:     [ '*.css', '!*.min.css', '!jquery-ui-*' ],
+					dest:    'assets/css/'
+				} ]
 			},
 			jqueryui: {
-				files: [{
-					expand : true,
-					flatten : true,
-					cwd: 'assets/css/',
-					src : ['jquery-ui-*.css', '!*.min.css'],
-					dest : 'assets/css/'
-				}]
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'assets/css/',
+					src:     [ 'jquery-ui-*.css', '!*.min.css' ],
+					dest:    'assets/css/'
+				} ]
 			}
 		},
 
 		cssmin: {
-			core: {
-				files: [{
-					expand: true,
+			core:     {
+				files: [ {
+					expand:  true,
 					flatten: true,
-					src: ['assets/css/*.css', '!assets/css/*.min.css'],
-					dest: 'assets/css/minified/',
-					ext: '.min.css'
-				}]
+					cwd:     'assets/css/',
+					src:     [ '*.css', '!*.min.css', '!jquery-ui-*' ],
+					dest:    'assets/css/',
+					ext:     '.min.css'
+				} ]
+			},
+			jqueryui: {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'assets/css/',
+					src:     [ 'jquery-ui-*.css', '!*.min.css' ],
+					dest:    'assets/css/',
+					ext:     '.min.css'
+				} ]
 			}
 		},
 
@@ -278,7 +289,9 @@ module.exports = function(grunt) {
 	grunt.registerTask('tx-pull', ['exec:txpull', 'potomo']);
 
 	// Minify CSS
-	grunt.registerTask('minify-css', 'cssmin');
+	grunt.registerTask( 'minify-css', [ 'cssmin:core', 'cssmin:jqueryui' ] );
+	grunt.registerTask( 'minify-css:core', [ 'cssmin:core' ] );
+	grunt.registerTask( 'minify-css:jqueryui', [ 'cssmin:jqueryui' ] );
 
 	// Minify JavaScript
 	grunt.registerTask('minify-js', 'uglify');

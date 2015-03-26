@@ -1,0 +1,37 @@
+{
+  "important": false,                // The !important declaration in use have been checked and are required. Run grunt lint-css:strict to report it's usage.
+  "adjoining-classes": true,
+  "known-properties": true,
+  "box-sizing": false,
+  "box-model": false,
+  "overqualified-elements": true,
+  "display-property-grouping": true,
+  "bulletproof-font-face": false,
+  "compatible-vendor-prefixes": false,
+  "regex-selectors": false,
+  "errors": true,
+  "duplicate-background-images": true,
+  "duplicate-properties": true,
+  "empty-rules": true,
+  "selector-max-approaching": false,
+  "gradients": false,
+  "fallback-colors": false,
+  "font-sizes": false,
+  "font-faces": false,
+  "floats": false,
+  "star-property-hack": true,
+  "outline-none": true,
+  "import": true,
+  "ids": false,                      // I'm convinced this is bad practice, however, being within WordPress and needing to override the admin ID style declarations, they are needed.
+  "underscore-property-hack": true,
+  "rules-count": false,
+  "qualified-headings": false,       // Being within WordPress and subject to theme's CSS, not sure this can be done correctly.
+  "selector-max": false,
+  "shorthand": true,
+  "text-indent": true,
+  "unique-headings": false,          // Being within WordPress and subject to theme's CSS, not sure this can be done correctly.
+  "universal-selector": false,
+  "unqualified-attributes": true,
+  "vendor-prefix": true,
+  "zero-units": true
+}

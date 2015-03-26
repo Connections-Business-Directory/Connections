@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.2.2
+ * Version: 8.2.3
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.2.2
+ * @version 8.2.3
  */
 
 // Exit if accessed directly
@@ -197,7 +197,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				// Init the options if there is a version change just in case there were any changes.
 				if ( version_compare( self::$instance->options->getVersion(), CN_CURRENT_VERSION ) < 0 ) self::$instance->initOptions();
-				// $connections->options->setDBVersion('0.1.8'); $connections->options->saveOptions();
+				//self::$instance->options->setDBVersion('0.1.9'); self::$instance->options->saveOptions();
 
 				do_action( 'cn_loaded' );
 			}
@@ -221,7 +221,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.2.2' );
+			define( 'CN_CURRENT_VERSION', '8.2.3' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -426,7 +426,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
 
 					/** @var string CN_CUSTOM_TEMPLATE_URL */
-					define( 'CN_CUSTOM_TEMPLATE_URL', $url . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates/' );
 				}
 
 				// Define the relative URL/s.

@@ -174,32 +174,105 @@ module.exports = function(grunt) {
 		autoprefixer: {
 			options: {
 				// Same as WordPress core.
-				browsers: ['Android >= 2.1', 'Chrome >= 21', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0'],
-				cascade: false
+				browsers: [ 'Android >= 2.1', 'Chrome >= 21', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0' ],
+				cascade:  false
 			},
 
-			core: {
-				files: [{
-					expand : true,
-					flatten : true,
-					src : ['assets/css/*.css', '!assets/css/*.min.css'],
-					dest : 'assets/css/prefixed/'
-				}]
+			core:     {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'assets/css/',
+					src:     [ '*.css', '!*.min.css', '!jquery-ui-*' ],
+					dest:    'assets/css/'
+				} ]
+			},
+			jqueryui: {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'assets/css/',
+					src:     [ 'jquery-ui-*.css', '!*.min.css' ],
+					dest:    'assets/css/'
+				} ]
 			}
 		},
 
 		cssmin: {
-			core: {
+			core:     {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'assets/css/',
+					src:     [ '*.css', '!*.min.css', '!jquery-ui-*' ],
+					dest:    'assets/css/',
+					ext:     '.min.css'
+				} ]
+			},
+			jqueryui: {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'assets/css/',
+					src:     [ 'jquery-ui-*.css', '!*.min.css' ],
+					dest:    'assets/css/',
+					ext:     '.min.css'
+				} ]
+			}
+		},
+
+		csslint: {
+			strict: {
+				options: {
+					csslintrc: '.csslintrc-strict'
+				},
 				files: [{
 					expand: true,
 					flatten: true,
-					src: ['assets/css/*.css', '!assets/css/*.min.css'],
-					dest: 'assets/css/minified/',
-					ext: '.min.css'
+					cwd: 'assets/css/',
+					src: [ '*.css', '!*.min.css', '!jquery-ui-*' ]
+				}]
+			},
+			lax: {
+				options: {
+					csslintrc: '.csslintrc'
+				},
+				files: [{
+					expand: true,
+					flatten: true,
+					cwd: 'assets/css/',
+					src: ['*.css', '!*.min.css', '!jquery-ui-*']
 				}]
 			}
-		}
+		},
+
+		jshint: {
+			options: grunt.file.readJSON('.jshintrc'),
+			grunt: {
+				options: {
+					node: true
+				},
+				src: ['Gruntfile.js']
+			},
+			core: {
+				expand: true,
+				cwd: config.uglify.core.src,
+				src: [ '*.js', '!*.min.js' ]
+			}
+		}/*,
+
+		log: {
+			lint_css: {
+				options: {
+					keepColors: false,
+					clearLogFile: false,
+					filePath: './logs/lint-css.log'
+				}
+			}
+		}*/
 	});
+
+	//require('logfile-grunt')(grunt);
 
 	// Default task.
 	grunt.registerTask('default', function() {
@@ -216,13 +289,31 @@ module.exports = function(grunt) {
 	grunt.registerTask('tx-pull', ['exec:txpull', 'potomo']);
 
 	// Minify CSS
-	grunt.registerTask('minify-css', 'cssmin');
+	grunt.registerTask( 'minify-css', [ 'cssmin:core', 'cssmin:jqueryui' ] );
+	grunt.registerTask( 'minify-css:core', [ 'cssmin:core' ] );
+	grunt.registerTask( 'minify-css:jqueryui', [ 'cssmin:jqueryui' ] );
 
 	// Minify JavaScript
 	grunt.registerTask('minify-js', 'uglify');
 
 	// Autoprefix CSS
-	grunt.registerTask('prefix-css', 'autoprefixer');
+	grunt.registerTask( 'prefix-css', [ 'autoprefixer:core', 'autoprefixer:jqueryui' ] );
+	grunt.registerTask( 'prefix-css:core', ['autoprefixer:core'] );
+	grunt.registerTask( 'prefix-css:jqueryui', ['autoprefixer:jqueryui'] );
+
+	// CSS Lint
+	grunt.registerTask( 'lint-css', [ 'log-lint:css', 'csslint:lax' ] );
+	grunt.registerTask( 'lint-css:strict', [ 'log-lint:css', 'csslint:strict' ] );
+
+	// JS Lint
+	grunt.registerTask( 'lint-js', ['jshint:core'] );
+	grunt.registerTask( 'lint-js:grunt', ['jshint:grunt'] );
+
+	// Add task specific logging.
+	// @link https://github.com/brutaldev/logfile-grunt
+	grunt.task.registerTask( 'log-lint:css', 'Log the CSSLint report.', function() {
+		require('logfile-grunt')(grunt, { filePath: './logs/lint-css.log', clearLogFile: true });
+	});
 
 	// Build task(s).
 	grunt.registerTask('build', ['clean', 'copy', 'compress']);

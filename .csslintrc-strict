@@ -1,0 +1,10 @@
+{
+  "adjoining-classes": true,           // Wanted to be false, but convinced this is bad practice/hack.
+  "box-sizing": false,                 // Don't care about IE6, EI7.
+  "box-model": false,
+  "compatible-vendor-prefixes": false, // Use Autoprefixer to add the appropriate vendor prefixes.
+  "gradients": false,                  // Use Autoprefixer to add the appropriate gradient declarations.
+  "ids": false,                        // I'm convinced this is bad practice, however, being within WordPress and needing to override the admin ID style declarations, they are needed.
+  "qualified-headings": false,         // Being within WordPress and subject to theme's CSS, sometimes it's required to ensure no CSS conflict.
+  "unique-headings": false             // Being within WordPress and subject to theme's CSS, sometimes it's required to ensure no CSS conflict.
+}

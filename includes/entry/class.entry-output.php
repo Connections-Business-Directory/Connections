@@ -538,7 +538,7 @@ class cnOutput extends cnEntry
 		 */
 		$atts = cnSanitize::args( apply_filters( 'cn_output_name_atts', $atts ), $defaults );
 
-		$search          = array(
+		$search = array(
 			'%prefix%',
 			'%first%',
 			'%middle%',
@@ -559,13 +559,14 @@ class cnOutput extends cnEntry
 
 			case 'organization':
 
-				$html = '<span class="org fn">' . $this->getOrganization() . '</span>';
+				// The `notranslate` class is added to prevent Google Translate from translating the text.
+				$html = '<span class="org fn notranslate">' . $this->getOrganization() . '</span>';
 
 				break;
 
 			case 'family':
 
-				$html = '<span class="fn n"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
+				$html = '<span class="fn n notranslate"><span class="family-name">' . $this->getFamilyName() . '</span></span>';
 
 				break;
 
@@ -590,7 +591,7 @@ class cnOutput extends cnEntry
 				$html = str_ireplace(
 					$search,
 					$replace,
-					'<span class="fn n">' . ( empty( $atts['format'] ) ? $defaults['format'] : $atts['format'] ) . '</span>'
+					'<span class="fn n notranslate">' . ( empty( $atts['format'] ) ? $defaults['format'] : $atts['format'] ) . '</span>'
 				);
 
 				break;
@@ -682,7 +683,7 @@ class cnOutput extends cnEntry
 		$defaults = array(
 			'container_tag' => 'ul',
 			'item_tag'      => 'li',
-			'item_format'   => '<%1$s class="cn-relation"><span class="cn-relation-label">%relation%</span>%separator% <span class="cn-relation-name">%name%</span></%1$s>',
+			'item_format'   => '<%1$s class="cn-relation"><span class="cn-relation-label">%relation%</span>%separator% <span class="cn-relation-name notranslate">%name%</span></%1$s>', // The `notranslate` class is added to prevent Google Translate from translating the text.
 			'name_format'   => '',
 			'separator'     => ':',
 			'before'        => '',
@@ -795,7 +796,8 @@ class cnOutput extends cnEntry
 
 		if ( ! empty( $title ) ) {
 
-			$out = sprintf( '<%1$s class="title">%2$s</%1$s>', $atts['tag'], $title );
+			// The `notranslate` class is added to prevent Google Translate from translating the text.
+			$out = sprintf( '<%1$s class="title notranslate">%2$s</%1$s>', $atts['tag'], $title );
 
 		} else {
 
@@ -874,7 +876,8 @@ class cnOutput extends cnEntry
 					$organization = $org;
 				}
 
-				$out .= '<span class="organization-name"' . ( $this->getEntryType() == 'organization' ? ' style="display: none;"' : '' ) . '>' . $organization . '</span>';
+				// The `notranslate` class is added to prevent Google Translate from translating the text.
+				$out .= '<span class="organization-name notranslate"' . ( $this->getEntryType() == 'organization' ? ' style="display: none;"' : '' ) . '>' . $organization . '</span>';
 
 			}
 
@@ -900,7 +903,8 @@ class cnOutput extends cnEntry
 					$department = $dept;
 				}
 
-				$out .= '<span class="organization-unit">' . $department . '</span>';
+				// The `notranslate` class is added to prevent Google Translate from translating the text.
+				$out .= '<span class="organization-unit notranslate">' . $department . '</span>';
 
 			}
 
@@ -987,9 +991,11 @@ class cnOutput extends cnEntry
 
 		( empty( $first ) && empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="contact-label">' . $atts['label'] . '</span>';
 
-		( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="contact-given-name">' . $first . '</span>';
+		// The `notranslate` class is added to prevent Google Translate from translating the text.
+		( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="contact-given-name notranslate">' . $first . '</span>';
 
-		( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="contact-family-name">' . $last . '</span>';
+		// The `notranslate` class is added to prevent Google Translate from translating the text.
+		( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="contact-family-name notranslate">' . $last . '</span>';
 
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
@@ -1093,10 +1099,11 @@ class cnOutput extends cnEntry
 
 			$out .= "\n" . '<span class="adr">';
 
+			// The `notranslate` class is added to prevent Google Translate from translating the text.
 			( empty( $address->name ) ) ? $replace[] = '' : $replace[] = '<span class="address-name">' . $address->name . '</span>';
-			( empty( $address->line_1 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address">' . $address->line_1 . '</span>';
-			( empty( $address->line_2 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address">' . $address->line_2 . '</span>';
-			( empty( $address->line_3 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address">' . $address->line_3 . '</span>';
+			( empty( $address->line_1 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_1 . '</span>';
+			( empty( $address->line_2 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_2 . '</span>';
+			( empty( $address->line_3 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_3 . '</span>';
 
 			if ( empty( $address->city ) ) {
 
@@ -2015,9 +2022,9 @@ class cnOutput extends cnEntry
 				$replace[] = '<span class="link-name">' . $atts['label'] . '</span>';
 			}
 
-
-			( empty( $link->title ) ) ? $replace[] = '' : $replace[] = '<a class="url" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $link->title . '</a>';
-			( empty( $link->url ) ) ? $replace[] = '' : $replace[] = '<a class="url" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $link->url . '</a>';
+			// The `notranslate` class is added to prevent Google Translate from translating the text.
+			( empty( $link->title ) ) ? $replace[] = '' : $replace[] = '<a class="url notranslate" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $link->title . '</a>';
+			( empty( $link->url ) ) ? $replace[] = '' : $replace[] = '<a class="url notranslate" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $link->url . '</a>';
 
 
 			// Set the image size; These string values match the valid size for http://www.shrinktheweb.com

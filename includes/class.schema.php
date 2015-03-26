@@ -145,18 +145,15 @@ class cnSchema {
 	 */
 	private static function addDefaultCategory() {
 
-		/** @var $wpdb wpdb */
-		global $connections;
-
-		// Check if the Uncategorized term exists and if it doesn't create it.
-		$term = $connections->term->getTermBy( 'slug', 'uncategorized', 'category' );
+		$term = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
 
 		if ( ! $term ) {
+
 			$attributes['slug'] = '';
 			$attributes['parent'] = 0;
 			$attributes['description'] = __( 'Entries not assigned to a category will automatically be assigned to this category and deleting a category which has been assigned to an entry will reassign that entry to this category. This category can not be edited or deleted.', 'connections' ) ;
 
-			$connections->term->addTerm( __( 'Uncategorized', 'connections' ) , 'category', $attributes );
+			cnTerm::insert( __( 'Uncategorized', 'connections' ) , 'category', $attributes );
 		}
 	}
 

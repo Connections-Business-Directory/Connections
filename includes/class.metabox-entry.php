@@ -351,7 +351,7 @@ class cnEntryMetabox {
 				case ( $action ==  'edit_entry' || $action == 'edit' ):
 
 					echo '<input type="hidden" name="cn-action" value="update_entry"/>';
-					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
+					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , __( 'Cancel', 'connections' ) , '</a></div>';
 					echo '<div id="publishing-action"><input  class="button-primary" type="submit" name="update" value="' , __( 'Update', 'connections' ) , '" /></div>';
 
 					break;
@@ -359,7 +359,7 @@ class cnEntryMetabox {
 				case ( $action == 'copy_entry' || $action == 'copy' ):
 
 					echo '<input type="hidden" name="cn-action" value="duplicate_entry"/>';
-					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
+					echo '<div id="cancel-button"><a href="' . esc_url( $adminURL ) . '" class="button cn-button cn-button-warning">' , __( 'Cancel', 'connections' ) , '</a>';
 					echo '</div><div id="publishing-action"><input class="button-primary" type="submit" name="save" value="' , __( 'Add Entry', 'connections' ) , '" /></div>';
 
 					break;
@@ -791,7 +791,7 @@ class cnEntryMetabox {
 									$value
 								);
 
-							$html .= '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
+							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
 
 						$html .= '</div>';
 					}
@@ -1336,7 +1336,7 @@ class cnEntryMetabox {
 				}
 
 				echo '<br>';
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="address" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
 			echo '</div>' , PHP_EOL;
 
@@ -1569,7 +1569,7 @@ class cnEntryMetabox {
 						echo '<input type="hidden" name="address[' , $token , '][id]" value="' , $address->id , '">' , PHP_EOL;
 
 						echo '<br>';
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="address" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="address" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
 					echo '</div>' , PHP_EOL;
 
@@ -1831,7 +1831,7 @@ class cnEntryMetabox {
 					)
 				);
 
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="phone" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="phone" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
 			echo '</div>' , PHP_EOL;
 
@@ -1926,7 +1926,7 @@ class cnEntryMetabox {
 
 						echo '<input type="hidden" name="phone[' , $token , '][id]" value="' , $phone->id , '">' , PHP_EOL;
 
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="phone" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="phone" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
 					echo '</div>' , PHP_EOL;
 
@@ -2031,7 +2031,7 @@ class cnEntryMetabox {
 					)
 				);
 
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="email" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="email" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
 			echo '</div>' , PHP_EOL;
 
@@ -2126,7 +2126,7 @@ class cnEntryMetabox {
 
 						echo '<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">' , PHP_EOL;
 
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="email" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="email" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
 					echo '</div>' , PHP_EOL;
 
@@ -2231,7 +2231,7 @@ class cnEntryMetabox {
 					)
 				);
 
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="im" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
 			echo '</div>' , PHP_EOL;
 
@@ -2326,7 +2326,7 @@ class cnEntryMetabox {
 
 						echo '<input type="hidden" name="im[' , $token , '][uid]" value="' , $network->id , '">' , PHP_EOL;
 
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="im" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="im" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
 					echo '</div>' , PHP_EOL;
 
@@ -2431,7 +2431,7 @@ class cnEntryMetabox {
 					)
 				);
 
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="social" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="social" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
 			echo '</div>' , PHP_EOL;
 
@@ -2526,7 +2526,7 @@ class cnEntryMetabox {
 
 						echo '<input type="hidden" name="social[' , $token , '][id]" value="' , $network->id , '">' , PHP_EOL;
 
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="social" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="social" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
 					echo '</div>' , PHP_EOL;
 
@@ -2696,7 +2696,7 @@ class cnEntryMetabox {
 
 				echo '</div>';
 
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="link" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="link" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
 			echo '</div>' , PHP_EOL;
 
@@ -2859,7 +2859,7 @@ class cnEntryMetabox {
 
 						echo '<input type="hidden" name="link[' , $token , '][id]" value="' , $link->id , '">' , PHP_EOL;
 
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="link" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="link" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
 					echo '</div>' , PHP_EOL;
 
@@ -2964,7 +2964,7 @@ class cnEntryMetabox {
 					)
 				);
 
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="date" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
+				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="date" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
 			echo '</div>' , PHP_EOL;
 
@@ -3059,7 +3059,7 @@ class cnEntryMetabox {
 
 						echo '<input type="hidden" name="date[' , $token , '][id]" value="' , $date->id , '">' , PHP_EOL;
 
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button button-warning" data-type="date" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
+						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="date" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
 					echo '</div>' , PHP_EOL;
 

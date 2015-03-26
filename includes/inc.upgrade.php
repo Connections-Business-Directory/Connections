@@ -37,7 +37,6 @@ function connectionsShowUpgradePage() {
 ?>
 
 			<div class="wrap nosubsub">
-				<div class="icon32" id="icon-connections"><br/></div>
 				<h2>Connections : <?php _e( 'Upgrade', 'connections' ); ?></h2>
 
 				<div id="connections-upgrade">

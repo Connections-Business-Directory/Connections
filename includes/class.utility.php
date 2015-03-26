@@ -868,7 +868,7 @@ class cnURL {
 
 			} else {
 
-				$permalink = add_query_arg( array( 'page_id' => $homeID, 'p' => FALSE  ), get_permalink() );
+				$permalink = add_query_arg( array( 'page_id' => $homeID, 'p' => FALSE  ), get_permalink( $homeID ) );
 			}
 
 		}

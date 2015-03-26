@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnTemplatePart
+ */
 class cnTemplatePart {
 
 	/**
@@ -20,8 +23,11 @@ class cnTemplatePart {
 	 *
 	 * @access private
 	 * @since 0.7.6.5
+	 * @static
+	 *
 	 * @uses add_action()
-	 * @return (void)
+	 *
+	 * @return void
 	 */
 	public static function init() {
 
@@ -57,7 +63,7 @@ class cnTemplatePart {
 	 * @uses   cnTemplatePart::locate()
 	 * @param  string  $base         The base template name.
 	 * @param  string  $name         The template name.
-	 * @param  array   $params       An array of arguments that will be extact() if the template part is to be loaded.
+	 * @param  array   $params       An array of arguments that will be extract() if the template part is to be loaded.
 	 * @param  boolean $load         Whether or not to load the template.
 	 * @param  boolean $buffer
 	 * @param  boolean $require_once Whether or not to require() or require_once() the template part.
@@ -146,6 +152,8 @@ class cnTemplatePart {
 	 * @return bool                  Unless the required file returns another value.
 	 */
 	public static function load( $file, $params = array(), $require_once = TRUE ) {
+
+		/** @noinspection PhpUnusedLocalVariableInspection */
 		global $posts, $post, $wp_did_header, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
 		if ( is_array( $wp_query->query_vars ) ) {
@@ -282,14 +290,20 @@ class cnTemplatePart {
 	 * @access public
 	 * @since  0.8
 	 * @static
+	 *
 	 * @global $wp_rewrite
+	 *
 	 * @uses   get_permalink()
 	 * @uses   is_front_page()
 	 * @uses   is_page()
 	 *
+	 * @param  array $atts
+	 *
 	 * @return string
 	 */
 	public static function formOpen( $atts = array() ) {
+
+		/** @var WP_Rewrite $wp_rewrite */
 		global $wp_rewrite;
 
 		$defaults = array(
@@ -321,7 +335,7 @@ class cnTemplatePart {
 			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID .'">';
 		}
 
-		// Add the cnSEO permailink filter.
+		// Add the cnSEO permalink filter.
 		cnSEO::doFilterPermalink();
 
 		if ( $atts['return'] ) return $out;
@@ -335,6 +349,8 @@ class cnTemplatePart {
 	 * @access public
 	 * @since  0.8
 	 * @static
+	 *
+	 * @param array $atts
 	 *
 	 * @return string
 	 */

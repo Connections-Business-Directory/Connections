@@ -762,17 +762,11 @@ class cnMetabox_Render {
 			// The result will be the label will be shown unless specifically $field['show_label'] is set to FALSE.
 			if ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( ! isset( $field['show_label'] ) || $field['show_label'] == TRUE ) ) {
 
-				printf( '<th class="cn-metabox-label"><label for="%1$s">%2$s</label></th>',
-					esc_attr( $field['id'] ),
-					esc_html( $field['name'] )
-				);
+				echo '<th class="cn-metabox-label">' . esc_html( $field['name'] ) . '</th>';
 
 			} elseif ( ( isset( $field['name'] ) && ! empty( $field['name'] ) ) && ( isset( $field['show_label'] ) && $field['show_label'] == TRUE ) ) {
 
-				printf( '<th class="cn-metabox-label"><label for="%1$s">%2$s</label></th>',
-					esc_attr( $field['id'] ),
-					esc_html( $field['name'] )
-				);
+				echo '<th class="cn-metabox-label">' . esc_html( $field['name'] ) . '</th>';
 
 			} elseif ( ! isset( $field['show_label'] ) || $field['show_label'] == FALSE ) {
 

@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 8.2.2
+Stable tag: 8.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,7 +64,7 @@ Templates and CSS overriding is very granular and update safe. Check out these l
 
 Connections Business Directory has been embraced around the world and has been translated by its users in the following languages.
 
-* Arabic [86% Complete]
+* Arabic [87% Complete]
 * Catalan [77% Complete]
 * Croatian (Croatia) [36% Complete]
 * Danish [46% Complete]
@@ -80,7 +80,7 @@ Connections Business Directory has been embraced around the world and has been t
 * Polish (Poland) [77% Complete]
 * Portuguese (Brazil) [72% Complete]
 * Portuguese (Portugal) [34% Complete]
-* Romanian (Romania) [90% Complete]
+* Romanian (Romania) [100% Complete]
 * Russian (Russia) [39% Complete]
 * Serbian (Latin) [3% Complete]
 * Spanish (Latin America) [71% Complete]
@@ -169,6 +169,44 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.2.3 03/26/2015 =
+* FEATURE: Add Stitcher to the social media options.
+* BUG: Fix the path to the markerclusterer library.
+* BUG: Fix the CN_CUSTOM_TEMPLATE_URL path to properly point to the content_url().
+* BUG: Adjust the substring position and length in cnRetieve::upcoming() so it only returns MM-DD.
+* BUG: When performing an upcoming date(s) query, do not convert the date from @@session.time_zone to +00.00 because it caused entries to be returned from +1day more than what should have been returned.
+* BUG: Make sure to pass the $homeID var when calling get_permalink() when not $wp_rewrite->using_permalink().
+* BUG: Custom field titles/names should not be wrapped in the <label> tag, only the actual field should be.
+* TWEAK: Add `notranslate` to several areas in cnOutput to prevent Google Translate from translating names and such.
+* TWEAK: Beautify the admin CSS file.
+* TWEAK: Beautify the frontend CSS file.
+* TWEAK: Run admin CSS thru Autoprefixer.
+* TWEAK: Run the frontend CSS thru Autprefixer.
+* TWEAK: Remove invalid/old CSS rules. Remove unit on 0 values. Optimize style declarations.
+* TWEAK: Delete unused sprite.
+* TWEAK: Remove the icon markup from the Update page ... must have missed it.
+* TWEAK: Address many issues reported by csslint in cn-admin.css.
+* TWEAK: Redo classes for quicklink buttons so chained classes are not required for the desired style/hover effect.
+* TWEAK: Change class name cn-background-blue to cn-button-blue.
+* TWEAK: Tweak button CSS to more match the admin style buttons.
+* TWEAK: Remove the usage of the $connections global in cnSchema::addDefaultCategory().
+* TWEAK: Cleanup admin button styles.
+* TWEAK: Change the class name `button-warning` to `cn-button-warning`.
+* OTHER: Update minified CSS files.
+* I18N: Update Arabic translation.
+* I18N: Update Romanian (Romania) translation.
+* I18N: Update all translation MO files.
+* DEV: Update grunt devDependencies versions.
+* DEV: Add .jshintrc to the .editorconfig file.
+* DEV: Add the .csslintrc to the .editorconfig file.
+* DEV: Add lint-css task to grunt.
+* DEV: Remove invalid rules from .jshintrc.
+* DEV: Add lint-js task to grunt.
+* DEV: Add lint-css:strict task to grunt.
+* DEV: Update .gitignore to ignore the logs folder.
+* DEV: Add logfile-grunt to devDependencies in package.json.
+* DEV: A few minor phpDoc fixes in cnTemplatePart.
 
 = 8.2.2 03/16/2015 =
 * TWEAK: Move third party js libraries from assets folder to the vendor folder.
@@ -958,4 +996,10 @@ It is recommended to backup before updating. Requires WordPress >= 3.8.
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.1 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.2 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.3 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

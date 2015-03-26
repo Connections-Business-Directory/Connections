@@ -21,6 +21,14 @@ indent_style = tab
 indent_style = space
 indent_size = 2
 
+[.jshintrc]
+indent_style = space
+indent_size = 2
+
+[.csslintrc]
+indent_style = space
+indent_size = 2
+
 [*.yml]
 indent_style = space
 indent_size = 4

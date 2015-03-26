@@ -441,6 +441,7 @@ class cnOptions {
 			'rss'           => 'RSS',
 			'smugmug'       => 'Smugmug',
 			'soundcloud'    => 'SoundCloud',
+			'stitcher'      => 'Stitcher',
 			'technorati'    => 'Technorati',
 			'tripadvisor'   => 'TripAdvisor',
 			'tumblr'        => 'Tumblr',

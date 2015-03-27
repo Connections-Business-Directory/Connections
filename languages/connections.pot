@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.2.1\n"
+"Project-Id-Version: Connections 8.2.3\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2015-03-16 17:47:01+00:00\n"
+"POT-Creation-Date: 2015-03-27 13:44:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -552,18 +552,18 @@ msgid "ERROR"
 msgstr ""
 
 #: includes/admin/class.message.php:272 includes/admin/class.message.php:310
-#: includes/inc.upgrade.php:94 includes/inc.upgrade.php:97
-#: includes/inc.upgrade.php:100 includes/inc.upgrade.php:103
-#: includes/inc.upgrade.php:106 includes/inc.upgrade.php:109
-#: includes/inc.upgrade.php:112 includes/inc.upgrade.php:115
-#: includes/inc.upgrade.php:118 includes/inc.upgrade.php:121
-#: includes/inc.upgrade.php:124 includes/inc.upgrade.php:127
-#: includes/inc.upgrade.php:130 includes/inc.upgrade.php:199
-#: includes/inc.upgrade.php:211 includes/inc.upgrade.php:214
-#: includes/inc.upgrade.php:602 includes/inc.upgrade.php:605
-#: includes/inc.upgrade.php:694 includes/inc.upgrade.php:697
-#: includes/inc.upgrade.php:750 includes/inc.upgrade.php:753
-#: includes/inc.upgrade.php:787 includes/inc.upgrade.php:790
+#: includes/inc.upgrade.php:93 includes/inc.upgrade.php:96
+#: includes/inc.upgrade.php:99 includes/inc.upgrade.php:102
+#: includes/inc.upgrade.php:105 includes/inc.upgrade.php:108
+#: includes/inc.upgrade.php:111 includes/inc.upgrade.php:114
+#: includes/inc.upgrade.php:117 includes/inc.upgrade.php:120
+#: includes/inc.upgrade.php:123 includes/inc.upgrade.php:126
+#: includes/inc.upgrade.php:129 includes/inc.upgrade.php:198
+#: includes/inc.upgrade.php:210 includes/inc.upgrade.php:213
+#: includes/inc.upgrade.php:601 includes/inc.upgrade.php:604
+#: includes/inc.upgrade.php:693 includes/inc.upgrade.php:696
+#: includes/inc.upgrade.php:749 includes/inc.upgrade.php:752
+#: includes/inc.upgrade.php:786 includes/inc.upgrade.php:789
 msgid "SUCCESS"
 msgstr ""
 
@@ -948,8 +948,8 @@ msgid "Search Entries"
 msgstr ""
 
 #: includes/admin/pages/manage.php:336
-#: includes/template/class.template-parts.php:1772
-#: includes/template/class.template-parts.php:1873
+#: includes/template/class.template-parts.php:1788
+#: includes/template/class.template-parts.php:1889
 msgid "Show All Categories"
 msgstr ""
 
@@ -1110,7 +1110,7 @@ msgid "Linked to:"
 msgstr ""
 
 #: includes/admin/pages/manage.php:687
-#: includes/entry/class.entry-output.php:967
+#: includes/entry/class.entry-output.php:971
 msgid "Contact"
 msgstr ""
 
@@ -1137,13 +1137,13 @@ msgstr ""
 
 #: includes/admin/pages/manage.php:714 includes/class.metabox-entry.php:1304
 #: includes/class.metabox-entry.php:1533
-#: includes/entry/class.entry-output.php:1215
+#: includes/entry/class.entry-output.php:1222
 msgid "Latitude"
 msgstr ""
 
 #: includes/admin/pages/manage.php:714 includes/class.metabox-entry.php:1317
 #: includes/class.metabox-entry.php:1547
-#: includes/entry/class.entry-output.php:1216
+#: includes/entry/class.entry-output.php:1223
 msgid "Longitude"
 msgstr ""
 
@@ -1215,17 +1215,17 @@ msgstr ""
 
 #: includes/admin/pages/templates.php:58
 #: includes/entry/class.entry-data.php:2907
-#: includes/entry/class.entry-output.php:2329
-#: includes/entry/class.entry-output.php:2344
-#: includes/settings/class.options.php:522
+#: includes/entry/class.entry-output.php:2336
+#: includes/entry/class.entry-output.php:2351
+#: includes/settings/class.options.php:523
 msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:59
 #: includes/entry/class.entry-data.php:2922
-#: includes/entry/class.entry-output.php:2251
-#: includes/entry/class.entry-output.php:2262
-#: includes/settings/class.options.php:524
+#: includes/entry/class.entry-output.php:2258
+#: includes/entry/class.entry-output.php:2269
+#: includes/settings/class.options.php:525
 msgid "Birthday"
 msgstr ""
 
@@ -1320,19 +1320,19 @@ msgstr ""
 msgid "Install Now"
 msgstr ""
 
-#: includes/class.metabox-api.php:1043
+#: includes/class.metabox-api.php:1037
 msgid "Clear"
 msgstr ""
 
-#: includes/class.metabox-api.php:1044
+#: includes/class.metabox-api.php:1038
 msgid "Default"
 msgstr ""
 
-#: includes/class.metabox-api.php:1045
+#: includes/class.metabox-api.php:1039
 msgid "Select Color"
 msgstr ""
 
-#: includes/class.metabox-api.php:1046
+#: includes/class.metabox-api.php:1040
 msgid "Current Color"
 msgstr ""
 
@@ -1382,7 +1382,7 @@ msgstr ""
 msgid "Biographical Info"
 msgstr ""
 
-#: includes/class.metabox-entry.php:254 includes/settings/class.options.php:597
+#: includes/class.metabox-entry.php:254 includes/settings/class.options.php:598
 msgid "Custom Fields"
 msgstr ""
 
@@ -1656,7 +1656,7 @@ msgstr ""
 msgid "Add Custom Field"
 msgstr ""
 
-#: includes/class.schema.php:157
+#: includes/class.schema.php:154
 msgid ""
 "Entries not assigned to a category will automatically be assigned to this "
 "category and deleting a category which has been assigned to an entry will "
@@ -1664,7 +1664,7 @@ msgid ""
 "deleted."
 msgstr ""
 
-#: includes/class.schema.php:159
+#: includes/class.schema.php:156
 msgid "Uncategorized"
 msgstr ""
 
@@ -1730,15 +1730,15 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2445
+#: includes/entry/class.entry-output.php:2452
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2954
+#: includes/entry/class.entry-output.php:2961
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2955
+#: includes/entry/class.entry-output.php:2962
 msgid "Download vCard"
 msgstr ""
 
@@ -1890,271 +1890,271 @@ msgstr ""
 msgid "Image sharpen failed."
 msgstr ""
 
-#: includes/inc.upgrade.php:41
+#: includes/inc.upgrade.php:40
 msgid "Upgrade"
 msgstr ""
 
-#: includes/inc.upgrade.php:53
+#: includes/inc.upgrade.php:52
 msgid "Upgrade Required"
 msgstr ""
 
-#: includes/inc.upgrade.php:54
+#: includes/inc.upgrade.php:53
 msgid ""
 "Your database tables are out of date and must be upgraded before you can "
 "continue."
 msgstr ""
 
-#: includes/inc.upgrade.php:55
+#: includes/inc.upgrade.php:54
 msgid ""
 "If you would like to downgrade later, please first make a complete backup "
 "of your database tables."
 msgstr ""
 
-#: includes/inc.upgrade.php:56
+#: includes/inc.upgrade.php:55
 msgid "Start Upgrade"
 msgstr ""
 
-#: includes/inc.upgrade.php:83
+#: includes/inc.upgrade.php:82
 msgid "Upgrade the database structure..."
 msgstr ""
 
-#: includes/inc.upgrade.php:89
+#: includes/inc.upgrade.php:88
 msgid "Upgrade from database version %1$s to database version 0.1.0."
 msgstr ""
 
-#: includes/inc.upgrade.php:93
+#: includes/inc.upgrade.php:92
 msgid "Changing \"id\" type-length/values to BIGINT(20)"
 msgstr ""
 
-#: includes/inc.upgrade.php:96
+#: includes/inc.upgrade.php:95
 msgid "Adding Column... \"date_added\""
 msgstr ""
 
-#: includes/inc.upgrade.php:99
+#: includes/inc.upgrade.php:98
 msgid "Adding Column... \"entry_type\""
 msgstr ""
 
-#: includes/inc.upgrade.php:102
+#: includes/inc.upgrade.php:101
 msgid "Adding Column... \"honorable_prefix\""
 msgstr ""
 
-#: includes/inc.upgrade.php:105
+#: includes/inc.upgrade.php:104
 msgid "Adding Column... \"middle_name\""
 msgstr ""
 
-#: includes/inc.upgrade.php:108
+#: includes/inc.upgrade.php:107
 msgid "Adding Column... \"honorable_suffix\""
 msgstr ""
 
-#: includes/inc.upgrade.php:111
+#: includes/inc.upgrade.php:110
 msgid "Adding Column... \"social\""
 msgstr ""
 
-#: includes/inc.upgrade.php:114
+#: includes/inc.upgrade.php:113
 msgid "Adding Column... \"added_by\""
 msgstr ""
 
-#: includes/inc.upgrade.php:117
+#: includes/inc.upgrade.php:116
 msgid "Adding Column... \"edited_by\""
 msgstr ""
 
-#: includes/inc.upgrade.php:120
+#: includes/inc.upgrade.php:119
 msgid "Adding Column... \"owner\""
 msgstr ""
 
-#: includes/inc.upgrade.php:123
+#: includes/inc.upgrade.php:122
 msgid "Adding Column... \"status\""
 msgstr ""
 
-#: includes/inc.upgrade.php:126
+#: includes/inc.upgrade.php:125
 msgid "Adding Column... \"contact_first_name\""
 msgstr ""
 
-#: includes/inc.upgrade.php:129
+#: includes/inc.upgrade.php:128
 msgid "Adding Column... \"contact_last_name\""
 msgstr ""
 
-#: includes/inc.upgrade.php:133
+#: includes/inc.upgrade.php:132
 msgid "Adding default term relationship."
 msgstr ""
 
-#: includes/inc.upgrade.php:153
+#: includes/inc.upgrade.php:152
 msgid "Upgrade from database version %1$s to database version 0.1.1."
 msgstr ""
 
-#: includes/inc.upgrade.php:155
+#: includes/inc.upgrade.php:154
 msgid "Setting all current entries to the \"approved\" status."
 msgstr ""
 
-#: includes/inc.upgrade.php:166
+#: includes/inc.upgrade.php:165
 msgid "Upgrade from database version %1$s to database version 0.1.2."
 msgstr ""
 
-#: includes/inc.upgrade.php:168
+#: includes/inc.upgrade.php:167
 msgid "Setting all current entries `entry_type` column."
 msgstr ""
 
-#: includes/inc.upgrade.php:195
+#: includes/inc.upgrade.php:194
 msgid "Upgrade from database version %1$s to database version 0.1.3."
 msgstr ""
 
-#: includes/inc.upgrade.php:198
+#: includes/inc.upgrade.php:197
 msgid "Changing column name from group_name to family_name..."
 msgstr ""
 
-#: includes/inc.upgrade.php:207
+#: includes/inc.upgrade.php:206
 msgid "Upgrade from database version %1$s to database version 0.1.4."
 msgstr ""
 
-#: includes/inc.upgrade.php:210
+#: includes/inc.upgrade.php:209
 msgid "Changing column name from honorable_prefix to honorific_prefix..."
 msgstr ""
 
-#: includes/inc.upgrade.php:213
+#: includes/inc.upgrade.php:212
 msgid "Changing column name from honorable_suffix to honorific_suffix..."
 msgstr ""
 
-#: includes/inc.upgrade.php:225
+#: includes/inc.upgrade.php:224
 msgid "Upgrade from database version %1$s to database version 0.1.5."
 msgstr ""
 
-#: includes/inc.upgrade.php:230
+#: includes/inc.upgrade.php:229
 msgid "Add the entry meta table."
 msgstr ""
 
-#: includes/inc.upgrade.php:254
+#: includes/inc.upgrade.php:253
 msgid "Upgrade from database version %1$s to database version 0.1.6."
 msgstr ""
 
-#: includes/inc.upgrade.php:259
+#: includes/inc.upgrade.php:258
 msgid "Add the entry address table."
 msgstr ""
 
-#: includes/inc.upgrade.php:283
+#: includes/inc.upgrade.php:282
 msgid "Porting addresses..."
 msgstr ""
 
-#: includes/inc.upgrade.php:350
+#: includes/inc.upgrade.php:349
 msgid "Porting phone numbers..."
 msgstr ""
 
-#: includes/inc.upgrade.php:387
+#: includes/inc.upgrade.php:386
 msgid "Add the entry email table."
 msgstr ""
 
-#: includes/inc.upgrade.php:403
+#: includes/inc.upgrade.php:402
 msgid "Porting email addresses..."
 msgstr ""
 
-#: includes/inc.upgrade.php:440
+#: includes/inc.upgrade.php:439
 msgid "Add the entry messenger table."
 msgstr ""
 
-#: includes/inc.upgrade.php:456
+#: includes/inc.upgrade.php:455
 msgid "Porting IM IDs..."
 msgstr ""
 
-#: includes/inc.upgrade.php:491
+#: includes/inc.upgrade.php:490
 msgid "Add the entry social media table."
 msgstr ""
 
-#: includes/inc.upgrade.php:507
+#: includes/inc.upgrade.php:506
 msgid "Porting Social Media IDs..."
 msgstr ""
 
-#: includes/inc.upgrade.php:542
+#: includes/inc.upgrade.php:541
 msgid "Add the entry link table."
 msgstr ""
 
-#: includes/inc.upgrade.php:561
+#: includes/inc.upgrade.php:560
 msgid "Porting websites..."
 msgstr ""
 
-#: includes/inc.upgrade.php:601
+#: includes/inc.upgrade.php:600
 msgid "Changing column name from websites to links..."
 msgstr ""
 
-#: includes/inc.upgrade.php:604
+#: includes/inc.upgrade.php:603
 msgid "Adding column... \"slug\""
 msgstr ""
 
-#: includes/inc.upgrade.php:607
+#: includes/inc.upgrade.php:606
 msgid "Adding entry slugs..."
 msgstr ""
 
-#: includes/inc.upgrade.php:689
+#: includes/inc.upgrade.php:688
 msgid "Upgrade from database version %1$s to database version 0.1.7."
 msgstr ""
 
-#: includes/inc.upgrade.php:693
+#: includes/inc.upgrade.php:692
 msgid "Adding column \"image\" to the links table."
 msgstr ""
 
-#: includes/inc.upgrade.php:696
+#: includes/inc.upgrade.php:695
 msgid "Adding column \"logo\" to the links table."
 msgstr ""
 
-#: includes/inc.upgrade.php:728
+#: includes/inc.upgrade.php:727
 msgid "Upgrade from database version %1$s to database version 0.1.8."
 msgstr ""
 
-#: includes/inc.upgrade.php:730
+#: includes/inc.upgrade.php:729
 msgid "NOTE"
 msgstr ""
 
-#: includes/inc.upgrade.php:730
+#: includes/inc.upgrade.php:729
 msgid ""
 "You might receive this error: \"The used table type doesn't support "
 "FULLTEXT indexes\"."
 msgstr ""
 
-#: includes/inc.upgrade.php:732
+#: includes/inc.upgrade.php:731
 msgid ""
 "This is not a critical error. What this means is that the database does not "
 "support FULLTEXT query statments. Connections will perform a secondary "
 "search query in order to return search results."
 msgstr ""
 
-#: includes/inc.upgrade.php:746
+#: includes/inc.upgrade.php:745
 msgid ""
 "The activate action for Connections 0.7.2.2 was not properly updated which "
 "created a fatal bug for new installations of Connections. Checking for the "
 "missing table columns in the Links table and add them, if missing."
 msgstr ""
 
-#: includes/inc.upgrade.php:749
+#: includes/inc.upgrade.php:748
 msgid "Adding, if missing, column \"image\" to the links table."
 msgstr ""
 
-#: includes/inc.upgrade.php:752
+#: includes/inc.upgrade.php:751
 msgid "Adding, if missing, column \"logo\" to the links table."
 msgstr ""
 
-#: includes/inc.upgrade.php:764
+#: includes/inc.upgrade.php:763
 msgid "Upgrade from database version %1$s to database version 0.1.9."
 msgstr ""
 
-#: includes/inc.upgrade.php:769
+#: includes/inc.upgrade.php:768
 msgid "Add the date table."
 msgstr ""
 
-#: includes/inc.upgrade.php:786
+#: includes/inc.upgrade.php:785
 msgid "Adding column... \"user\""
 msgstr ""
 
-#: includes/inc.upgrade.php:789
+#: includes/inc.upgrade.php:788
 msgid "Adding column... \"dates\""
 msgstr ""
 
-#: includes/inc.upgrade.php:812
+#: includes/inc.upgrade.php:811
 msgid "Upgrade completed."
 msgstr ""
 
-#: includes/inc.upgrade.php:813
+#: includes/inc.upgrade.php:812
 msgid "Continue"
 msgstr ""
 
-#: includes/inc.upgrade.php:856
+#: includes/inc.upgrade.php:855
 msgid "Could not add column %1$s in table %2$s."
 msgstr ""
 
@@ -2335,51 +2335,51 @@ msgstr ""
 msgid "Work Fax"
 msgstr ""
 
-#: includes/settings/class.options.php:488
+#: includes/settings/class.options.php:489
 msgid "Personal Email"
 msgstr ""
 
-#: includes/settings/class.options.php:489
+#: includes/settings/class.options.php:490
 msgid "Work Email"
 msgstr ""
 
-#: includes/settings/class.options.php:505
+#: includes/settings/class.options.php:506
 msgid "Website"
 msgstr ""
 
-#: includes/settings/class.options.php:506
+#: includes/settings/class.options.php:507
 msgid "Blog"
 msgstr ""
 
-#: includes/settings/class.options.php:523
+#: includes/settings/class.options.php:524
 msgid "Baptism"
 msgstr ""
 
-#: includes/settings/class.options.php:525
+#: includes/settings/class.options.php:526
 msgid "Deceased"
 msgstr ""
 
-#: includes/settings/class.options.php:526
+#: includes/settings/class.options.php:527
 msgid "Certification"
 msgstr ""
 
-#: includes/settings/class.options.php:527
+#: includes/settings/class.options.php:528
 msgid "Employment"
 msgstr ""
 
-#: includes/settings/class.options.php:528
+#: includes/settings/class.options.php:529
 msgid "Membership"
 msgstr ""
 
-#: includes/settings/class.options.php:529
+#: includes/settings/class.options.php:530
 msgid "Graduate High School"
 msgstr ""
 
-#: includes/settings/class.options.php:530
+#: includes/settings/class.options.php:531
 msgid "Graduate College"
 msgstr ""
 
-#: includes/settings/class.options.php:531
+#: includes/settings/class.options.php:532
 msgid "Ordination"
 msgstr ""
 
@@ -2393,7 +2393,7 @@ msgid "Images"
 msgstr ""
 
 #: includes/settings/class.settings.php:55
-#: includes/template/class.template-parts.php:1389
+#: includes/template/class.template-parts.php:1405
 msgid "Search"
 msgstr ""
 
@@ -3111,12 +3111,12 @@ msgid ""
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:105
-#: includes/template/class.template-parts.php:251
+#: includes/template/class.template-parts.php:259
 msgid "ERROR: Template %1$s not found."
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:145
-#: includes/template/class.template-parts.php:1075
+#: includes/template/class.template-parts.php:1091
 msgid "No results."
 msgstr ""
 
@@ -3140,82 +3140,82 @@ msgstr ""
 msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:744
+#: includes/template/class.template-parts.php:760
 msgid "View All"
 msgstr ""
 
-#: includes/template/class.template-parts.php:818
+#: includes/template/class.template-parts.php:834
 msgid "Go back to directory."
 msgstr ""
 
-#: includes/template/class.template-parts.php:983
+#: includes/template/class.template-parts.php:999
 msgid "You are searching within category(ies): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:994
+#: includes/template/class.template-parts.php:1010
 msgid "You are searching for the keyword(s): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:999
+#: includes/template/class.template-parts.php:1015
 msgid "The results are being filtered by the character: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1004
+#: includes/template/class.template-parts.php:1020
 msgid "The results are being filtered by the organization: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1009
+#: includes/template/class.template-parts.php:1025
 msgid "The results are being filtered by the department: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1014
+#: includes/template/class.template-parts.php:1030
 msgid "The results are being filtered by the locality: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1019
+#: includes/template/class.template-parts.php:1035
 msgid "The results are being filtered by the region: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1024
+#: includes/template/class.template-parts.php:1040
 msgid "The results are being filtered by the postal code: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1029
+#: includes/template/class.template-parts.php:1045
 msgid "The results are being filtered by the country: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1040
+#: includes/template/class.template-parts.php:1056
 msgid "Clear Search"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1193
-#: includes/template/class.template-parts.php:1194
+#: includes/template/class.template-parts.php:1209
+#: includes/template/class.template-parts.php:1210
 #: includes/template/class.template-shortcode.php:103
 msgid "Return to top."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1272
+#: includes/template/class.template-parts.php:1288
 msgid "Updated %1$s ago."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1420
+#: includes/template/class.template-parts.php:1436
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1549
+#: includes/template/class.template-parts.php:1565
 msgid "Current Character"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1592
+#: includes/template/class.template-parts.php:1608
 msgid "&laquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1593
+#: includes/template/class.template-parts.php:1609
 msgid "&raquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1770
-#: includes/template/class.template-parts.php:1871
+#: includes/template/class.template-parts.php:1786
+#: includes/template/class.template-parts.php:1887
 msgid "Select Category"
 msgstr ""
 

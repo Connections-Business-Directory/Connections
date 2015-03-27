@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 			target: {
 				options: {
 					domainPath: config.makepot.dest, // Where to save the POT file.
-					exclude: ['build/.*'],
+					exclude: [ 'build/.*', 'node_modules/.*' ],
 					mainFile: config.makepot.src, // Main project file.
 					potFilename: config.makepot.domain + '.pot', // Name of the POT file.
 					potHeaders: {

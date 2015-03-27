@@ -292,13 +292,13 @@ class cnFormatting {
 	/**
 	 * Create excerpt from the supplied string.
 	 *
-	 * Accepted option for the $atts property are:
-	 * 	length (int|string) The length, number of words, of the excerpt to create. If set to `p` the excerpt will be the first paragraph, no word limit.
-	 * 	more (string) The string appended to the end of the excerpt.
-	 * 	allowed_tags (array) An array containing the permitted tags.
-	 *
 	 * NOTE: The `more` string will be inserted before the last HTML tag if one exists.
-	 * 		 If not, it'll be appended to the end of the excert.
+	 *       If not, it'll be appended to the end of the string.
+	 *       If the length is set `p`, the `more` string will not be appended.
+	 *
+	 * NOTE: The length maybe exceeded in attempt to end the excerpt at the end of a sentence.
+	 *
+	 * @todo  If the string contains HTML tags, those too will be counted when determining whether or not to append the `more` string. This should be fixed.
 	 *
 	 * Filters:
 	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
@@ -307,12 +307,23 @@ class cnFormatting {
 	 *   cn_entry_excerpt        => change returned excerpt
 	 *
 	 * Credit:
-	 * @url http://wordpress.stackexchange.com/a/141136
+	 * @link http://wordpress.stackexchange.com/a/141136
 	 *
 	 * @access public
 	 * @since  8.1.5
+	 * @static
+	 *
 	 * @param  string  $string String to create the excerpt from.
-	 * @param  array   $atts   [optional]
+	 * @param  array   $atts {
+	 *     Optional. An array of arguments.
+	 *
+	 *     @type int    $length       The length, number of words, of the excerpt to create.
+	 *                                If set to `p` the excerpt will be the first paragraph, no word limit.
+	 *                                Default: 55.
+	 *     @type string $more         The string appended to the end of the excerpt when $length is exceeded.
+	 *                                Default: &hellip
+	 *     @type array  $allowed_tags An array containing the permitted tags.
+	 * }
 	 *
 	 * @return string
 	 */
@@ -329,7 +340,12 @@ class cnFormatting {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// Save a copy of the raw text for the filter.
-		$raw    = $string;
+		$raw = $string;
+
+		// Whether or not to append the more string.
+		// This is only true if the word count is is more than the word length limit.
+		// This is not set if length is set to `p`.
+		$appendMore = FALSE;
 
 		// Strip all shortcode from the text.
 		$string = strip_shortcodes( $string );
@@ -356,6 +372,10 @@ class cnFormatting {
 
 					// Limit reached, continue until , ; ? . or ! occur at the end
 					$excerpt .= trim( $token );
+
+					// If the length limit was reached, append the more string.
+					$appendMore = TRUE;
+
 					break;
 				}
 
@@ -365,9 +385,9 @@ class cnFormatting {
 				// Append what's left of the token
 				$excerpt .= $token;
 			}
-
 		}
 
+		/** @noinspection PhpInternalEntityUsedInspection */
 		$excerpt = trim( force_balance_tags( $excerpt ) );
 
 		$pos = strrpos( $excerpt, '</' );
@@ -375,12 +395,12 @@ class cnFormatting {
 		if ( $pos !== FALSE ) {
 
 			// Inside last HTML tag
-			$excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
+			if ( $appendMore ) $excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
 
 		} else {
 
 			// After the content
-			$excerpt .= $atts['more'];
+			if ( $appendMore ) $excerpt .= $atts['more'];
 		}
 
 		return apply_filters( 'cn_entry_excerpt', $excerpt, $raw, $atts );

@@ -1827,14 +1827,14 @@ class cnTemplatePart {
 	 * The private function called by cnTemplate::category that outputs the select, multiselect; grouped and ungrouped.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The ouput type of the categories. Valid options options are: select || multiselect
+	 * 	type (string) The output type of the categories. Valid options options are: select || multiselect
 	 * 	group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 * 	default (string) The default string to show as the first item in the list. Used for select && multiselect only.
 	 * 	show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
 	 * 	select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
 	 * 	show_empty (bool) Whether or not to display empty categories.
 	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
+	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
 	 * 	return (bool) Whether or not to return or echo the result.
 	 *

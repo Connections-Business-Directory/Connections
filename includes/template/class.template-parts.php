@@ -1798,6 +1798,7 @@ class cnTemplatePart {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		switch ( $atts['type'] ) {
+
 			case 'select':
 				$out = self::categorySelect( $atts, $value );
 				break;

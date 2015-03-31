@@ -1816,7 +1816,25 @@ class cnTemplatePart {
 				break;
 
 			case 'link':
-				$out = self::categoryLink( $atts );
+
+				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
+
+					$out = self::categoryLink( $atts );
+
+				} else {
+
+					// For backwards compatibility.
+					$atts['child_of']   = isset( $atts['parent_id'] ) && ! empty( $atts['parent_id'] ) ? $atts['parent_id'] : 0;
+					$atts['hide_empty'] = isset( $atts['show_empty'] ) && $atts['show_empty'] === FALSE ? TRUE : FALSE;
+
+					$out = cnTemplatePart::walker( 'term-list', $atts );
+				}
+
+				break;
+
+			default:
+
+				$out = '';
 				break;
 		}
 

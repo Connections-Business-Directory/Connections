@@ -370,7 +370,7 @@ span.date-name {
  */
 #cn-search-messages {
 	border: 1px solid rgba(0, 0, 0, 0.1);
-	border-left: 4px #FFBA00;
+	border-left: 4px solid #FFBA00;
 	padding: 10px 12px;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);

@@ -160,7 +160,7 @@ class CN_Walker_Term_List extends Walker {
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
 		$indent = str_repeat( "\t", $depth );
-		$output .= "$indent<ul class='children cn-cat-children'>\n";
+		$output .= "$indent<ul class='children cn-cat-children'>" . PHP_EOL;
 	}
 
 	/**
@@ -177,7 +177,7 @@ class CN_Walker_Term_List extends Walker {
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
 		$indent = str_repeat( "\t", $depth );
-		$output .= "$indent</ul>\n";
+		$output .= "$indent</ul>" . PHP_EOL;
 	}
 
 	/**

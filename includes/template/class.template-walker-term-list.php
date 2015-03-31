@@ -101,15 +101,11 @@ class CN_Walker_Term_List extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// Provided for backward compatibility.
-		$atts['hide_empty'] = isset( $atts['show_empty'] ) && $atts['show_empty'] && ! $atts['hide_empty'] ? TRUE : FALSE;
-		$atts['child_of']   = isset( $atts['parent_id'] ) && ! empty( $atts['parent_id'] ) && empty( $atts['child_of'] ) ? $atts['parent_id'] : $atts['child_of'];
-
 		$walker = new self;
 
 		$walker->tree_type = $atts['taxonomy'];
 
-		$out .= '<ul class="cn-cat-tree">';
+		$out .= '<ul class="cn-cat-tree">' . PHP_EOL;
 
 		$terms = cnTerm::getTaxonomyTerms( $walker->tree_type, $atts );
 
@@ -119,14 +115,32 @@ class CN_Walker_Term_List extends Walker {
 
 		} else {
 
-			// @todo If viewing a single category set the $atts['current_category'] to the category's ID.
-			//if ( get_query_var( 'cn-cat' ) ) {
-			//
-			//	if ( ! is_array( get_query_var( 'cn-cat' ) ) ) {
-			//
-			//		$atts['current_category'] = get_query_var( 'cn-cat' );
-			//	}
-			//}
+			if ( get_query_var( 'cn-cat-slug' ) ) {
+
+				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
+
+				// If the category slug is a descendant, use the last slug from the URL for the query.
+				$atts['current_category'] = end( $slug );
+
+			} elseif ( $catIDs = get_query_var( 'cn-cat' ) ) {
+
+				if ( is_array( $catIDs ) ) {
+
+					// If value is a string, strip the white space and covert to an array.
+					$catIDs = wp_parse_id_list( $catIDs );
+
+					// Use the first element
+					$atts['current_category'] = reset( $catIDs );
+
+				} else {
+
+					$atts['current_category'] = $catIDs;
+				}
+
+			} else {
+
+				$atts['current_category'] = 0;
+			}
 
 			if ( ! empty( $atts['show_option_all'] ) ) {
 
@@ -136,7 +150,7 @@ class CN_Walker_Term_List extends Walker {
 			$out .= $walker->walk( $terms, $atts['depth'], $atts );
 		}
 
-		$out .= '</ul>';
+		$out .= '</ul>' . PHP_EOL;
 
 		if ( $atts['return'] ) {
 

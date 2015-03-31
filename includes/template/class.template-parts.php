@@ -223,9 +223,10 @@ class cnTemplatePart {
 	public static function walker( $type, $args = array() ) {
 
 		$walker = array(
-			'term-list'      => 'CN_Walker_Term_List',
-			'term-select'    => 'CN_Walker_Term_Select_List',
-			'term-checklist' => 'CN_Walker_Term_Check_List',
+			'term-list'            => 'CN_Walker_Term_List',
+			'term-select'          => 'CN_Walker_Term_Select_List',
+			'term-select-enhanced' => 'CN_Walker_Term_Select_List_Enhanced',
+			'term-checklist'       => 'CN_Walker_Term_Check_List',
 		);
 
 		if ( array_key_exists( $type, $walker ) ) {

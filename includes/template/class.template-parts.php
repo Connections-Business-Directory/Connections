@@ -2307,7 +2307,6 @@ class cnTemplatePart {
 	private static function categoryLink( $atts = NULL ) {
 		global $connections;
 
-		$categories = array();
 		$level = 0;
 		$out = '';
 		$trClass = 'alternate';

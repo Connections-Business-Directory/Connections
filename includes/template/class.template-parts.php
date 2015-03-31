@@ -1849,27 +1849,23 @@ class cnTemplatePart {
 	 */
 	private static function categorySelect( $atts, $value = array() ) {
 
-		// Grab an instance of the Connections object.
-		$connections = Connections_Directory();
-
-		$categories = $connections->retrieve->categories();
-		$selected   = array();
-		$level      = 1;
-		$select     = '';
-
 		if ( empty( $value ) ) {
 
-			if ( get_query_var( 'cn-cat' ) ) {
-
-				// If value is a string, strip the white space and covert to an array.
-				$selected = wp_parse_id_list( get_query_var( 'cn-cat' ) );
-
-			} elseif ( get_query_var( 'cn-cat-slug' ) ) {
+			if ( get_query_var( 'cn-cat-slug' ) ) {
 
 				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
 
 				// If the category slug is a descendant, use the last slug from the URL for the query.
 				$selected = end( $slug );
+
+			} elseif ( get_query_var( 'cn-cat' ) ) {
+
+				// If value is a string, strip the white space and covert to an array.
+				$selected = wp_parse_id_list( get_query_var( 'cn-cat' ) );
+
+			} else {
+
+				$selected = 0;
 			}
 
 		} else {
@@ -1878,195 +1874,17 @@ class cnTemplatePart {
 		}
 
 		$defaults = array(
-			'type'            => 'select',
-			'group'           => FALSE,
-			'class'           => array( 'cn-category-select' ),
-			'id'              => '',
-			'name'            => 'cn-cat',
-			'style'           => array(),
-			'enhanced'        => TRUE,
-			'on_change'       => 'this.form.submit()',
-			'default'         => __( 'Select Category', 'connections' ),
-			'show_select_all' => TRUE,
-			'select_all'      => __( 'Show All Categories', 'connections' ),
-			'show_empty'      => TRUE,
-			'show_count'      => FALSE,
-			'depth'           => 0,
-			'parent_id'       => array(),
-			'exclude'         => array(),
-			'label'           => '',
-			'before'          => '',
-			'after'           => '',
-			'parts'           => array( '%label%', '%field%' ),
-			'layout'          => '%label%%field%',
-			'return'          => FALSE,
+			'on_change'  => 'this.form.submit()',
+			'selected'   => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// The field parts to be searched for in $atts['layout'].
-		$search = $atts['parts'];
+		// For backwards compatibility.
+		$atts['show_option_all'] = isset( $atts['select_all'] ) && ! empty( $atts['select_all'] ) ? $atts['select_all'] : '';
+		$atts['hide_empty']      = isset( $atts['show_empty'] ) && $atts['show_empty'] === FALSE ? TRUE : FALSE;
 
-		// An array to store the replacement strings for the label and field.
-		$replace = array();
-
-		if ( ! is_array( $atts['parent_id'] ) ) {
-			// Trim extra whitespace.
-			$atts['parent_id'] = trim( str_replace( ' ', '', $atts['parent_id'] ) );
-
-			// Convert to array.
-			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
-		}
-
-		if ( ! is_array( $atts['exclude'] ) ) {
-			// Trim extra whitespace.
-			$atts['exclude'] = trim( str_replace( ' ', '', $atts['exclude'] ) );
-
-			// Convert to array.
-			$atts['exclude'] = explode( ',', $atts['exclude'] );
-		}
-
-		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
-		if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('cn-enhanced-select') );
-
-		// Create the field label, if supplied.
-		$replace[] = ! empty( $atts['label'] ) ? cnHTML::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
-
-		// $out .= PHP_EOL . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
-		$select .= sprintf( '<select %1$s %2$s name="%3$s"%4$s%5$sdata-placeholder="%6$s"%7$s>',
-			empty( $atts['class'] ) ? '' : cnHTML::attribute( 'class', $atts['class'] ),
-			empty( $atts['id'] ) ? '' : cnHTML::attribute( 'id', $atts['id'] ),
-			$atts['type'] == 'multiselect' ? esc_attr( $atts['name'] ) . '[]' : esc_attr( $atts['name'] ),
-			empty( $atts['style'] ) ? '' : cnHTML::attribute( 'style', $atts['style'] ),
-			$atts['type'] == 'multiselect' ? '' : ( empty( $atts['on_change'] ) ? '' : sprintf( ' onchange="%s" ', esc_js( $atts['on_change'] ) ) ),
-			esc_attr( $atts['default'] ),
-			$atts['type'] == 'multiselect' ? ' MULTIPLE' : ''
-			);
-
-		if ( $atts['enhanced'] ) $select .= PHP_EOL . sprintf( '<option value="">%1$s</option>', ( wp_is_mobile() ? esc_attr( $atts['default'] ) : '' ) );
-
-		if ( $atts['show_select_all'] ) $select .= PHP_EOL . '<option value="">' . esc_attr( $atts['select_all'] ) . '</option>';
-
-		foreach ( $categories as $key => $category ) {
-			// Limit the category tree to only the supplied root parent categories.
-			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) continue;
-
-			// Do not show the excluded category as options.
-			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) continue;
-
-			// If grouping by root parent is enabled, open the optiongroup tag.
-			if ( $atts['group'] && ! empty( $category->children ) )
-				$select .= sprintf( '<optgroup label="%1$s">' , $category->name );
-
-			// Call the recursive function to build the select options.
-			$select .= self::categorySelectOption( $category, $level, $atts['depth'], $selected, $atts );
-
-			// If grouping by root parent is enabled, close the optiongroup tag.
-			if ( $atts['group'] && ! empty( $category->children ) )
-				$select .= '</optgroup>' . PHP_EOL;
-		}
-
-		$select .= '</select>' . PHP_EOL;
-
-		$replace[] = $select;
-
-		$out = str_ireplace( $search, $replace, $atts['layout'] );
-
-		// This submit is required for template that have the enable_category_multi_select set to tru for backward compatibility.
-		// Dang, this can not be enabled for backward compatibility. It'll output in undesired locations.
-		// if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
-
-		if ( $atts['return'] ) return ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
-		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
-	}
-
-	/**
-	 * The private recursive function to build the select options.
-	 *
-	 * Accepted option for the $atts property are:
-	 * 	group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
-	 *
-	 * @param object $category A category object.
-	 * @param int $level The current category level.
-	 * @param int $depth The depth limit.
-	 * @param array $selected An array of the selected category IDs / slugs.
-	 * @param array $atts
-	 * @return string
-	 */
-	private static function categorySelectOption( $category, $level, $depth, $selected, $atts ) {
-
-		$out = '';
-
-		$defaults = array(
-			'group'      => FALSE,
-			'show_empty' => TRUE,
-			'show_count' => TRUE,
-			'exclude'    => array(),
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
-
-		// Do not show the excluded category as options.
-		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
-
-		// The padding in px to indent descendant categories. The 7px is the default pad applied in the CSS which must be taken in to account.
-		$pad = ( $level > 1 ) ? $level * 12 + 7 : 7;
-		//$pad = str_repeat($atts['pad_char'], max(0, $level));
-
-		// Set the option SELECT attribute if the category is one of the currently selected categories.
-		if ( is_array( $selected ) ) {
-			$strSelected = ( ( in_array( $category->term_id, $selected ) ) || ( in_array( $category->slug, $selected ) ) ) ? ' SELECTED ' : '';
-		} else {
-			$strSelected = ( ( $selected == $category->term_id ) || ( $selected == $category->slug ) ) ? ' SELECTED ' : '';
-		}
-		// $strSelected = $selected ? ' SELECTED ' : '';
-
-		$class = 'class="cn-cat-level-' . $level . '"';
-
-		// Category count to be appended to the category name.
-		$count = ( $atts['show_count'] ) ? ' (' . $category->count . ')' : '';
-
-		// If option grouping is TRUE, show only the select option if it is a descendant. The root parent was used as the option group label.
-		if ( ( $atts['group'] && $level > 1 ) && ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) ) {
-
-			$out .= sprintf('<option %1$s style="padding-%2$s: %3$dpx !important" value="%4$s"%5$s>' . /*$pad .*/ $category->name . $count . '</option>',
-				$class,
-				is_rtl() ? 'right' : 'left',
-				$pad,
-				$category->term_id,
-				$strSelected
-				);
-		}
-
-		// If option grouping is FALSE, show the root parent and descendant options.
-		elseif ( ! $atts['group'] && ( $atts['show_empty'] || ! empty($category->count) || ! empty($category->children) ) ) {
-
-			$out .= sprintf('<option %1$s style="padding-%2$s: %3$dpx !important" value="%4$s"%5$s>' . /*$pad .*/ $category->name . $count . '</option>',
-				$class,
-				is_rtl() ? 'right' : 'left',
-				$pad,
-				$category->term_id,
-				$strSelected
-				);
-		}
-
-		/*
-		 * Only show the descendants based on the following criteria:
-		 * 	- There are descendant categories.
-		 * 	- The descendant depth is < than the current $level
-		 *
-		 * When descendant depth is set to 0, show all descendants.
-		 * When descendant depth is set to < $level, call the recursive function.
-		 */
-		if ( ! empty( $category->children ) && ($depth <= 0 ? -1 : $level) < $depth ) {
-			foreach ( $category->children as $child ) {
-				$out .= self::categorySelectOption( $child, $level + 1, $depth, $selected, $atts );
-			}
-		}
-
-		return $out;
+		return cnTemplatePart::walker( 'term-select-enhanced', $atts );
 	}
 
 	/**

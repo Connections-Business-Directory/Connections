@@ -199,23 +199,38 @@ class CN_Walker_Term_List extends Walker {
 	 */
 	public function start_el( &$output, $term, $depth = 0, $args = array(), $id = 0 ) {
 
-		$count = ( $args['show_count'] ) ? ' (' . number_format_i18n( $term->count ) . ')' : '';
+		$indent = str_repeat( "\t", $depth );
+
+		$count = $args['show_count'] ? '&nbsp;(' . number_format_i18n( $term->count ) . ')' : '';
 
 		$url = cnTerm::permalink( $term, 'category' );
 
-		$link = sprintf( '<a href="%1$s" title="%2$s">%3$s',
-		                 $url,
-		                 esc_attr( $term->name ),
-		                 esc_attr( $term->name . $count ) ) . '</a>';
+		$link = sprintf(
+			'<a href="%1$s" title="%2$s">%3$s</a>',
+			$url,
+			esc_attr( $term->name ),
+			esc_html( $term->name . $count )
+		);
 
-		$output .= "\t<li";
 		$class = 'cat-item cat-item-' . $term->term_id . ' cn-cat-parent';
 
 		if ( ! empty( $args['current_category'] ) ) {
 
-			$_current_category = cnTerm::get( $args['current_category'], $term->taxonomy );
+			if ( is_numeric( $args['current_category'] ) ) {
 
-			if ( $term->term_id == $args['current_category'] ) {
+				$_current_category = cnTerm::get( $args['current_category'], $term->taxonomy );
+
+			} else {
+
+				$_current_category = new stdClass();
+				$_current_category->parent = 0;
+			}
+
+			if ( $term->slug == $args['current_category'] ) {
+
+				$class .= ' current-cat';
+
+			} elseif ( $term->term_id == $args['current_category'] ) {
 
 				$class .= ' current-cat';
 
@@ -225,25 +240,6 @@ class CN_Walker_Term_List extends Walker {
 			}
 		}
 
-		$output .= ' class="' . $class . '"';
-		$output .= ">$link\n";
+		$output .= "$indent<li" . ' class="' . $class . '"' . ">$link</li>" . PHP_EOL;
 	}
-
-	/**
-	 * Ends the element output, if needed.
-	 *
-	 * @see   Walker::end_el()
-	 *
-	 * @since 8.1.6
-	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $page   Not used.
-	 * @param int    $depth  Depth of category.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_List::render()
-	 */
-	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
-
-		$output .= "</li>\n";
-	}
-
 }

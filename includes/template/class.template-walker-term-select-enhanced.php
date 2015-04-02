@@ -200,7 +200,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 			$terms = cnTerm::getTaxonomyTerms(
 				$atts['taxonomy'],
-				array_merge( $atts, array( 'include' => $atts['parent_id'] ) )
+				array_merge( $atts, array( 'include' => $atts['parent_id'], 'child_of' => 0 ) )
 			);
 
 			// If any of the `parent_id` is not a root parent (where $term->parent = 0) set it parent ID to `0`

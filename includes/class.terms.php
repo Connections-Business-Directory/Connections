@@ -302,17 +302,6 @@ class cnTerms
 class cnTerm {
 
 	/**
-	 * An array that contains the term parent relationship as array.
-	 * key == the parent ID
-	 * value == array of the child objects
-	 *
-	 * @access private
-	 * @since  8.1
-	 * @var array
-	 */
-	private static $termRelationships = array();
-
-	/**
 	 * Retrieves the terms associated with the given object(s), in the supplied taxonomies.
 	 *
 	 * The fields argument also decides what will be returned. If 'all' or

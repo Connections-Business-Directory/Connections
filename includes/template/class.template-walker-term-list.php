@@ -95,19 +95,50 @@ class CN_Walker_Term_List extends Walker {
 			'exclude'          => array(),
 			'hierarchical'     => TRUE,
 			'depth'            => 0,
+			'parent_id'        => array(),
 			'taxonomy'         => 'category',
 			'return'           => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		$atts['parent_id'] = wp_parse_id_list( $atts['parent_id'] );
+
 		$walker = new self;
 
-		$walker->tree_type = $atts['taxonomy'];
+		if ( empty( $atts['parent_id'] ) ) {
+
+			$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], $atts );
+
+		} else {
+
+			$terms = cnTerm::getTaxonomyTerms(
+				$atts['taxonomy'],
+				array_merge( $atts, array( 'include' => $atts['parent_id'], 'child_of' => 0 ) )
+			);
+
+			// If any of the `parent_id` is not a root parent (where $term->parent = 0) set it parent ID to `0`
+			// so the term tree will be properly constructed.
+			foreach ( $terms as $term ) {
+
+				if ( 0 !== $term->parent ) $term->parent = 0;
+			}
+
+			foreach ( $atts['parent_id'] as $termID ) {
+
+				$children = cnTerm::getTaxonomyTerms(
+					$atts['taxonomy'],
+					array_merge( $atts, array( 'child_of' => $termID ) )
+				);
+
+				if ( ! is_wp_error( $children ) ) {
+
+					$terms = array_merge( $terms, $children );
+				}
+			}
+		}
 
 		$out .= '<ul class="cn-cat-tree">' . PHP_EOL;
-
-		$terms = cnTerm::getTaxonomyTerms( $walker->tree_type, $atts );
 
 		if ( empty( $terms ) ) {
 

@@ -21,15 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CN_Walker_Term_List extends Walker {
 
 	/**
-	 * What the class handles.
-	 *
-	 * @see   Walker::$tree_type
-	 * @since 8.1.5
-	 * @var string
-	 */
-	public $tree_type = 'category';
-
-	/**
 	 * Database fields to use.
 	 *
 	 * @see   Walker::$db_fields

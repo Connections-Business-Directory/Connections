@@ -2344,7 +2344,6 @@ class cnTemplatePart {
 
 		return $out;
 	}
-
 }
 
 // Init the Template Parts API

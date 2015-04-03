@@ -422,11 +422,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 		$pad = ( $depth > 0 ) ? $depth * 12 + 7 : 7;
 
 		// Set the option SELECTED attribute if the category is one of the currently selected categories.
-		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array(
-			$term->slug,
-			(array) $args['selected'],
-			TRUE
-		) ? ' SELECTED' : '';
+		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], TRUE ) ? ' SELECTED' : '';
 
 		$out .= sprintf(
 			"\t" . '<option class="cn-cat-level-%1$d" style="padding-%2$s: %3$dpx !important;" value="%4$s"%5$s>%6$s%7$s%8$s</option>' . PHP_EOL,

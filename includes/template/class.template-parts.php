@@ -1809,7 +1809,16 @@ class cnTemplatePart {
 				break;
 
 			case 'radio':
-				$out = self::categoryInput( $atts );
+
+				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
+
+					$out = self::categoryInput( $atts );
+
+				} else {
+
+					$out = self::categoryRadioGroup( $atts, $value );
+				}
+
 				break;
 
 			case 'checkbox':

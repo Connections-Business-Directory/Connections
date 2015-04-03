@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 8.2.3
+Stable tag: 8.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,35 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.2.4 04/03/2015 =
+* FEATURE: Introduce CN_Walker_Term_Select_List_Enhanced.
+* FEATURE: Introduce CN_Walker_Term_Radio_Group.
+* BUG: When creating an excerpt the `more` string should only be appended if `length` is exceeded.
+* BUG: Add missing var to the `cn_meta_field- {type}` action.
+* BUG: Fix CSS border on search message display div.
+* BUG: In CN_Walker_Term_Select_List_Enhanced::render(), ensure when querying by `parent_id` ensure that `child_of` is reset to its default value of `0`.
+* BUG: Refactor cnTerm::tree() to vastly improve its performance.
+* TWEAK: Replace existing code in cnTemplatePart::categorySelect() to use CN_Walker_Term_Select_List_Enhanced.
+* TWEAK: Replace \n with PHP_EOL.
+* TWEAK: Streamline CN_Walker_Term_List a little to make it more efficient.
+* TWEAK: Set current category in CN_Walker_Term_List.
+* TWEAK: Use CN_Walker_Term_Check_List to render the link list of categories rather than using cnTemplatePart::categoryLink().
+* TWEAK: Remove dead code in cnTemplatePart::categoryLink().
+* TWEAK: Add querying by `parent_id` support to CN_Walker_Term_List::render().
+* TWEAK: Update cnTemplatePart::category() to use the cnTemplatePart::categoryChecklist() helper function when layout is not a table.
+* TWEAK: Update cnTemplatePart::category() to use the cnTemplatePart::categoryRadioGroup() helper function when layout is not a table.
+* TWEAK: Remove the old code that the new term radio group and checklist walkers replaced.
+* I18N: Update the POT file.
+* I18N: Correct settings for _n() keyword in the grunt checktextdomain command.
+* DEV: Exclude the node_modules folder in the makepot grunt task.
+* DEV: Add the cnTemplatePart::categoryChecklist() helper function.
+* DEV: Add the cnTemplatePart::categoryRadioGroup() helper function.
+* OTHER: Remove unused var.
+* OTHER: Remove extra white space.
+* OTHER: Insert whitespace.
+* OTHER: Fix a couple misspellings.
+* OTHER: Fix code alignment.
 
 = 8.2.3 03/26/2015 =
 * FEATURE: Add Stitcher to the social media options.
@@ -1002,4 +1031,7 @@ This a major update to Connections it is recommended to backup before updating. 
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.3 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.4 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

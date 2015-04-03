@@ -1910,10 +1910,10 @@ class cnTemplatePart {
 	 * Each category root parent and its descendants are output in an unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The ouput type of the categories. Valid options options are: select || multiselect
+	 * 	type (string) The output type of the categories. Valid options options are: select || multiselect
 	 * 	show_empty (bool) Whether or not to display empty categories.
 	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
+	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
 	 * 	layout (string) The layout to be used for rendering the categories. Valid options are: list || table
 	 * 	columns (int) The number of columns in the table.
@@ -2128,7 +2128,7 @@ class cnTemplatePart {
 	 * Accepted option for the $atts property are:
 	 * 	show_empty (bool) Whether or not to display empty categories.
 	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
+	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
 	 * 	layout (string) The layout to be used for rendering the categories. Valid options are: list || table
 	 * 	columns (int) The number of columns in the table.

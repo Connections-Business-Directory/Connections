@@ -2113,76 +2113,51 @@ class cnTemplatePart {
 			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) unset( $categories[ $key ] );
 		}
 
-		switch ( $atts['layout'] ) {
+		// Build the table grid.
+		$table = array();
+		$rows = ceil(count( $categories ) / $atts['columns'] );
+		$keys = array_keys( $categories );
 
-			case 'table':
+		for ( $row = 1; $row <= $rows; $row++ )
+			for ( $col = 1; $col <= $atts['columns']; $col++ )
+				$table[$row][$col] = array_shift($keys);
 
-				// Build the table grid.
-				$table = array();
-				$rows = ceil(count( $categories ) / $atts['columns'] );
-				$keys = array_keys( $categories );
+		$out .= '<table cellspacing="0" cellpadding="0" class="cn-cat-table">';
+		$out .= '<tbody>';
 
-				for ( $row = 1; $row <= $rows; $row++ )
-					for ( $col = 1; $col <= $atts['columns']; $col++ )
-						$table[$row][$col] = array_shift($keys);
+		foreach ( $table as $row => $cols ) {
 
-				$out .= '<table cellspacing="0" cellpadding="0" class="cn-cat-table">';
-					$out .= '<tbody>';
+			$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
 
-					foreach ( $table as $row => $cols ) {
+			$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
 
-						$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
+			foreach ( $cols as $col => $key ) {
 
-						$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
+				// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
+				if ( $key === NULL ) continue;
 
-						foreach ( $cols as $col => $key ) {
+				$tdClass = array('cn-cat-td');
+				if ( $row == 1 ) $tdClass[] = '-top';
+				if ( $row == $rows ) $tdClass[] = '-bottom';
+				if ( $col == 1 ) $tdClass[] = '-left';
+				if ( $col == $atts['columns'] ) $tdClass[] = '-right';
 
-							// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
-							if ( $key === NULL ) continue;
-
-							$tdClass = array('cn-cat-td');
-							if ( $row == 1 ) $tdClass[] = '-top';
-							if ( $row == $rows ) $tdClass[] = '-bottom';
-							if ( $col == 1 ) $tdClass[] = '-left';
-							if ( $col == $atts['columns'] ) $tdClass[] = '-right';
-
-							$out .= '<td class="' . implode( '', $tdClass ) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
-
-								$out .= '<ul class="cn-cat-tree">';
-
-									$out .= self::categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
-
-								$out .= '</ul>';
-
-							$out .= '</td>';
-						}
-
-						$out .= '</tr>';
-					}
-
-					$out .= '</tbody>';
-				$out .= '</table>';
-
-				break;
-
-			case 'list':
+				$out .= '<td class="' . implode( '', $tdClass ) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
 
 				$out .= '<ul class="cn-cat-tree">';
 
-				foreach ( $categories as $key => $category ) {
-
-					// Limit the category tree to only the supplied root parent categories.
-					if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) continue;
-
-					// Call the recursive function to build the select options.
-					$out .= self::categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
-				}
+				$out .= self::categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
 
 				$out .= '</ul>';
 
-				break;
+				$out .= '</td>';
+			}
+
+			$out .= '</tr>';
 		}
 
+		$out .= '</tbody>';
+		$out .= '</table>';
 
 		if ( $atts['return']) return $out;
 		echo $out;

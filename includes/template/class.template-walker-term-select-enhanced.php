@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class CN_Walker_Term_Select_List
+ * Class CN_Walker_Term_Select_List_Enhanced
  */
 class CN_Walker_Term_Select_List_Enhanced extends Walker {
 

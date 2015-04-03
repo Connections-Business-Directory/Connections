@@ -1932,7 +1932,6 @@ class cnTemplatePart {
 		global $connections;
 
 		$selected = ( get_query_var('cn-cat') ) ? get_query_var('cn-cat') : array();
-		$categories = array();
 		$level = 0;
 		$out = '';
 		$trClass = 'alternate';

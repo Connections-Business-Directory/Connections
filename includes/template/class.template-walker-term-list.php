@@ -21,15 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class CN_Walker_Term_List extends Walker {
 
 	/**
-	 * What the class handles.
-	 *
-	 * @see   Walker::$tree_type
-	 * @since 8.1.5
-	 * @var string
-	 */
-	public $tree_type = 'category';
-
-	/**
 	 * Database fields to use.
 	 *
 	 * @see   Walker::$db_fields
@@ -95,23 +86,50 @@ class CN_Walker_Term_List extends Walker {
 			'exclude'          => array(),
 			'hierarchical'     => TRUE,
 			'depth'            => 0,
+			'parent_id'        => array(),
 			'taxonomy'         => 'category',
 			'return'           => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// Provided for backward compatibility.
-		$atts['hide_empty'] = isset( $atts['show_empty'] ) && $atts['show_empty'] && ! $atts['hide_empty'] ? TRUE : FALSE;
-		$atts['child_of']   = isset( $atts['parent_id'] ) && ! empty( $atts['parent_id'] ) && empty( $atts['child_of'] ) ? $atts['parent_id'] : $atts['child_of'];
+		$atts['parent_id'] = wp_parse_id_list( $atts['parent_id'] );
 
 		$walker = new self;
 
-		$walker->tree_type = $atts['taxonomy'];
+		if ( empty( $atts['parent_id'] ) ) {
 
-		$out .= '<ul class="cn-cat-tree">';
+			$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], $atts );
 
-		$terms = cnTerm::getTaxonomyTerms( $walker->tree_type, $atts );
+		} else {
+
+			$terms = cnTerm::getTaxonomyTerms(
+				$atts['taxonomy'],
+				array_merge( $atts, array( 'include' => $atts['parent_id'], 'child_of' => 0 ) )
+			);
+
+			// If any of the `parent_id` is not a root parent (where $term->parent = 0) set it parent ID to `0`
+			// so the term tree will be properly constructed.
+			foreach ( $terms as $term ) {
+
+				if ( 0 !== $term->parent ) $term->parent = 0;
+			}
+
+			foreach ( $atts['parent_id'] as $termID ) {
+
+				$children = cnTerm::getTaxonomyTerms(
+					$atts['taxonomy'],
+					array_merge( $atts, array( 'child_of' => $termID ) )
+				);
+
+				if ( ! is_wp_error( $children ) ) {
+
+					$terms = array_merge( $terms, $children );
+				}
+			}
+		}
+
+		$out .= '<ul class="cn-cat-tree">' . PHP_EOL;
 
 		if ( empty( $terms ) ) {
 
@@ -119,14 +137,32 @@ class CN_Walker_Term_List extends Walker {
 
 		} else {
 
-			// @todo If viewing a single category set the $atts['current_category'] to the category's ID.
-			//if ( get_query_var( 'cn-cat' ) ) {
-			//
-			//	if ( ! is_array( get_query_var( 'cn-cat' ) ) ) {
-			//
-			//		$atts['current_category'] = get_query_var( 'cn-cat' );
-			//	}
-			//}
+			if ( get_query_var( 'cn-cat-slug' ) ) {
+
+				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
+
+				// If the category slug is a descendant, use the last slug from the URL for the query.
+				$atts['current_category'] = end( $slug );
+
+			} elseif ( $catIDs = get_query_var( 'cn-cat' ) ) {
+
+				if ( is_array( $catIDs ) ) {
+
+					// If value is a string, strip the white space and covert to an array.
+					$catIDs = wp_parse_id_list( $catIDs );
+
+					// Use the first element
+					$atts['current_category'] = reset( $catIDs );
+
+				} else {
+
+					$atts['current_category'] = $catIDs;
+				}
+
+			} else {
+
+				$atts['current_category'] = 0;
+			}
 
 			if ( ! empty( $atts['show_option_all'] ) ) {
 
@@ -136,7 +172,7 @@ class CN_Walker_Term_List extends Walker {
 			$out .= $walker->walk( $terms, $atts['depth'], $atts );
 		}
 
-		$out .= '</ul>';
+		$out .= '</ul>' . PHP_EOL;
 
 		if ( $atts['return'] ) {
 
@@ -160,7 +196,7 @@ class CN_Walker_Term_List extends Walker {
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
 		$indent = str_repeat( "\t", $depth );
-		$output .= "$indent<ul class='children cn-cat-children'>\n";
+		$output .= "$indent<ul class='children cn-cat-children'>" . PHP_EOL;
 	}
 
 	/**
@@ -177,7 +213,7 @@ class CN_Walker_Term_List extends Walker {
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 
 		$indent = str_repeat( "\t", $depth );
-		$output .= "$indent</ul>\n";
+		$output .= "$indent</ul>" . PHP_EOL;
 	}
 
 	/**
@@ -199,23 +235,38 @@ class CN_Walker_Term_List extends Walker {
 	 */
 	public function start_el( &$output, $term, $depth = 0, $args = array(), $id = 0 ) {
 
-		$count = ( $args['show_count'] ) ? ' (' . number_format_i18n( $term->count ) . ')' : '';
+		$indent = str_repeat( "\t", $depth );
+
+		$count = $args['show_count'] ? '&nbsp;(' . number_format_i18n( $term->count ) . ')' : '';
 
 		$url = cnTerm::permalink( $term, 'category' );
 
-		$link = sprintf( '<a href="%1$s" title="%2$s">%3$s',
-		                 $url,
-		                 esc_attr( $term->name ),
-		                 esc_attr( $term->name . $count ) ) . '</a>';
+		$link = sprintf(
+			'<a href="%1$s" title="%2$s">%3$s</a>',
+			$url,
+			esc_attr( $term->name ),
+			esc_html( $term->name . $count )
+		);
 
-		$output .= "\t<li";
 		$class = 'cat-item cat-item-' . $term->term_id . ' cn-cat-parent';
 
 		if ( ! empty( $args['current_category'] ) ) {
 
-			$_current_category = cnTerm::get( $args['current_category'], $term->taxonomy );
+			if ( is_numeric( $args['current_category'] ) ) {
 
-			if ( $term->term_id == $args['current_category'] ) {
+				$_current_category = cnTerm::get( $args['current_category'], $term->taxonomy );
+
+			} else {
+
+				$_current_category = new stdClass();
+				$_current_category->parent = 0;
+			}
+
+			if ( $term->slug == $args['current_category'] ) {
+
+				$class .= ' current-cat';
+
+			} elseif ( $term->term_id == $args['current_category'] ) {
 
 				$class .= ' current-cat';
 
@@ -225,25 +276,6 @@ class CN_Walker_Term_List extends Walker {
 			}
 		}
 
-		$output .= ' class="' . $class . '"';
-		$output .= ">$link\n";
+		$output .= "$indent<li" . ' class="' . $class . '"' . ">$link</li>" . PHP_EOL;
 	}
-
-	/**
-	 * Ends the element output, if needed.
-	 *
-	 * @see   Walker::end_el()
-	 *
-	 * @since 8.1.6
-	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $page   Not used.
-	 * @param int    $depth  Depth of category.
-	 * @param array  $args   An array of arguments. @see CN_Walker_Term_List::render()
-	 */
-	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
-
-		$output .= "</li>\n";
-	}
-
 }

@@ -302,17 +302,6 @@ class cnTerms
 class cnTerm {
 
 	/**
-	 * An array that contains the term parent relationship as array.
-	 * key == the parent ID
-	 * value == array of the child objects
-	 *
-	 * @access private
-	 * @since  8.1
-	 * @var array
-	 */
-	private static $termRelationships = array();
-
-	/**
 	 * Retrieves the terms associated with the given object(s), in the supplied taxonomies.
 	 *
 	 * The fields argument also decides what will be returned. If 'all' or
@@ -4268,10 +4257,7 @@ class cnTerm {
 	 * @since  8.1
 	 * @static
 	 *
-	 * @uses   cnTerm::get()
-	 * @uses   cnTerm::buildChildrenArray()
-	 * @uses   cnTerm::getChildren()
-	 * @uses   cnTerm::isChild()
+	 * @uses   cnTerm::getTaxonomyTerms()
 	 *
 	 * @param  array  $taxonomies
 	 * @param  array  $atts
@@ -4300,7 +4286,7 @@ class cnTerm {
 			'search'       => '',
 		);
 
-		/*
+		/**
 		 * Filter the terms query arguments.
 		 *
 		 * @since 8.1.6
@@ -4314,92 +4300,42 @@ class cnTerm {
 
 		$terms = self::getTaxonomyTerms( $taxonomies, $atts );
 
-		/*
-		 * Loop thru the results and build an array where key == parent ID and the value == the child objects
+		/**
+		 * This is where the magic happens --> the building of the term hierarchy tree.
+		 * Based in @link http://stackoverflow.com/a/3261351
 		 *
-		 * NOTE: Currently $taxonomies does not need to be sent, it's not being used in the method. It's
-		 * 		 being left in place for future use.
-		 */
-		foreach ( $terms as $term ) {
-
-			self::buildChildrenArray( $term->term_id, $terms, $taxonomies );
-		}
-
-		/*
-		 * Loop thru the results again adding the children objects from $this->termChildren to the parent object.
+		 * Since the term parents are not guaranteed to be in the $terms array before the term children
+		 * two passes need to be made.
 		 *
-		 * NOTE: Currently $taxonomies does not need to be sent, it's not being used in the method. It's
-		 * 		 being left in place for future use.
+		 * The first pass is to build an indexed term array where the term_id will be set as
+		 * the array index for the reference to the term object.
+		 *
+		 * The second pass builds the term hierarchy array from the term_id indexed nodes array.
 		 */
-		foreach( $terms as $key => $term ) {
+		$nodes = array();
+		$tree  = array();
 
-			$term->children = self::getChildren( $term->term_id, $terms, $taxonomies );
+		foreach ( $terms as &$node ) {
+
+			$node->children = array();
+			$nodes[ $node->term_id ] =& $node;
 		}
 
-		/*
-		 * Loop thru the results once more and remove all child objects from the base array leaving only parent objects
-		 */
-		foreach( $terms as $key => $term ) {
+		foreach ( $nodes as &$node ) {
 
-			if ( self::isChild( $term->term_id ) ) unset( $terms[ $key ] );
-		}
+			// If the $term->parent ID exists in the indexed nodes array, add a reference to the term in the $term->children array.
+			if ( array_key_exists( $node->parent, $nodes ) ) {
 
-		//return $this->termChildren;
-		return $terms;
-	}
+				$nodes[ $node->parent ]->children[] =& $node;
 
-	private static function getChildren( $termID, $terms, $taxonomies ) {
+			// If the $term->parent ID does NOT exist in the indexed nodes array, add a reference to term to the root of the hierarchy tree.
+			// Only terms with parent ID of `0` or orphaned terms should end up in the root of the hierarchy tree.
+			} else {
 
-		foreach ( $terms as $key => $term ) {
-
-			if ( $termID == $term->parent ) {
-
-				$termList[] = $term;
+				$tree[] =& $node;
 			}
 		}
 
-		if ( isset( $termList ) ) return $termList;
+		return $tree;
 	}
-
-	private static function buildChildrenArray( $termID, $terms, $taxonomies ) {
-
-		foreach ( $terms as $term ) {
-
-			// Skip the term if it is itself
-			if ( $termID == $term->term_id ) continue;
-
-			if ( $termID == $term->parent ) {
-
-				self::$termRelationships[ $termID ][] = $term;
-			}
-		}
-	}
-
-	private static function isChild( $termID ) {
-
-		$isChild = FALSE;
-
-		foreach ( self::$termRelationships as $parentID => $children ) {
-
-			foreach ( $children as $child ) {
-
-				if ( $termID == $child->term_id ) {
-
-					$isChild = TRUE;
-				}
-			}
-
-		}
-
-		if ( $isChild ) {
-
-			return TRUE;
-
-		} else {
-
-			return FALSE;
-		}
-
-	}
-
 }

@@ -223,9 +223,11 @@ class cnTemplatePart {
 	public static function walker( $type, $args = array() ) {
 
 		$walker = array(
-			'term-list'      => 'CN_Walker_Term_List',
-			'term-select'    => 'CN_Walker_Term_Select_List',
-			'term-checklist' => 'CN_Walker_Term_Check_List',
+			'term-list'            => 'CN_Walker_Term_List',
+			'term-select'          => 'CN_Walker_Term_Select_List',
+			'term-select-enhanced' => 'CN_Walker_Term_Select_List_Enhanced',
+			'term-checklist'       => 'CN_Walker_Term_Check_List',
+			'term-radio-group'     => 'CN_Walker_Term_Radio_Group',
 		);
 
 		if ( array_key_exists( $type, $walker ) ) {
@@ -1755,14 +1757,14 @@ class cnTemplatePart {
 	 * Parent public function that outputs the various categories output formats.
 	 *
 	 * Accepted option for the $atts property are:
-	 *    type (string) The ouput type of the categories. Valid options options are: select || multiselect || radio || checkbox
+	 *    type (string) The output type of the categories. Valid options options are: select || multiselect || radio || checkbox
 	 *    group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 *    default (string) The default string to show as the first item in the list. Used for select && multiselect only.
 	 *    show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
 	 *    select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
 	 *    show_empty (bool) Whether or not to display empty categories.
 	 *    show_count (bool) Whether or not to display the category count.
-	 *    depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
+	 *    depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 *    parent_id (array) An array of root parent category IDs to limit the list to.
 	 *    return (bool) Whether or not to return or echo the result.
 	 *
@@ -1797,6 +1799,7 @@ class cnTemplatePart {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		switch ( $atts['type'] ) {
+
 			case 'select':
 				$out = self::categorySelect( $atts, $value );
 				break;
@@ -1806,15 +1809,51 @@ class cnTemplatePart {
 				break;
 
 			case 'radio':
-				$out = self::categoryInput( $atts );
+
+				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
+
+					$out = self::categoryInput( $atts );
+
+				} else {
+
+					$out = self::categoryRadioGroup( $atts, $value );
+				}
+
 				break;
 
 			case 'checkbox':
-				$out = self::categoryInput( $atts );
+
+				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
+
+					$out = self::categoryInput( $atts );
+
+				} else {
+
+					$out = self::categoryChecklist( $atts );
+				}
+
 				break;
 
 			case 'link':
-				$out = self::categoryLink( $atts );
+
+				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
+
+					$out = self::categoryLink( $atts );
+
+				} else {
+
+					// For backwards compatibility.
+					$atts['child_of']   = isset( $atts['parent_id'] ) && ! empty( $atts['parent_id'] ) ? $atts['parent_id'] : 0;
+					$atts['hide_empty'] = isset( $atts['show_empty'] ) && $atts['show_empty'] === FALSE ? TRUE : FALSE;
+
+					$out = cnTemplatePart::walker( 'term-list', $atts );
+				}
+
+				break;
+
+			default:
+
+				$out = '';
 				break;
 		}
 
@@ -1825,14 +1864,14 @@ class cnTemplatePart {
 	 * The private function called by cnTemplate::category that outputs the select, multiselect; grouped and ungrouped.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The ouput type of the categories. Valid options options are: select || multiselect
+	 * 	type (string) The output type of the categories. Valid options options are: select || multiselect
 	 * 	group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
 	 * 	default (string) The default string to show as the first item in the list. Used for select && multiselect only.
 	 * 	show_select_all (bool) Whether or not to show the "Select All" option. Used for select && multiselect only.
 	 * 	select_all (string) The string to use for the "Select All" option. Used for select && multiselect only.
 	 * 	show_empty (bool) Whether or not to display empty categories.
 	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
+	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
 	 * 	return (bool) Whether or not to return or echo the result.
 	 *
@@ -1847,27 +1886,23 @@ class cnTemplatePart {
 	 */
 	private static function categorySelect( $atts, $value = array() ) {
 
-		// Grab an instance of the Connections object.
-		$connections = Connections_Directory();
-
-		$categories = $connections->retrieve->categories();
-		$selected   = array();
-		$level      = 1;
-		$select     = '';
-
 		if ( empty( $value ) ) {
 
-			if ( get_query_var( 'cn-cat' ) ) {
-
-				// If value is a string, strip the white space and covert to an array.
-				$selected = wp_parse_id_list( get_query_var( 'cn-cat' ) );
-
-			} elseif ( get_query_var( 'cn-cat-slug' ) ) {
+			if ( get_query_var( 'cn-cat-slug' ) ) {
 
 				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
 
 				// If the category slug is a descendant, use the last slug from the URL for the query.
 				$selected = end( $slug );
+
+			} elseif ( get_query_var( 'cn-cat' ) ) {
+
+				// If value is a string, strip the white space and covert to an array.
+				$selected = wp_parse_id_list( get_query_var( 'cn-cat' ) );
+
+			} else {
+
+				$selected = 0;
 			}
 
 		} else {
@@ -1876,195 +1911,132 @@ class cnTemplatePart {
 		}
 
 		$defaults = array(
-			'type'            => 'select',
-			'group'           => FALSE,
-			'class'           => array( 'cn-category-select' ),
-			'id'              => '',
-			'name'            => 'cn-cat',
-			'style'           => array(),
-			'enhanced'        => TRUE,
-			'on_change'       => 'this.form.submit()',
-			'default'         => __( 'Select Category', 'connections' ),
-			'show_select_all' => TRUE,
-			'select_all'      => __( 'Show All Categories', 'connections' ),
-			'show_empty'      => TRUE,
-			'show_count'      => FALSE,
-			'depth'           => 0,
-			'parent_id'       => array(),
-			'exclude'         => array(),
-			'label'           => '',
-			'before'          => '',
-			'after'           => '',
-			'parts'           => array( '%label%', '%field%' ),
-			'layout'          => '%label%%field%',
-			'return'          => FALSE,
+			'on_change'  => 'this.form.submit()',
+			'selected'   => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// The field parts to be searched for in $atts['layout'].
-		$search = $atts['parts'];
+		// For backwards compatibility.
+		$atts['show_option_all'] = isset( $atts['select_all'] ) && ! empty( $atts['select_all'] ) ? $atts['select_all'] : '';
+		$atts['hide_empty']      = isset( $atts['show_empty'] ) && $atts['show_empty'] === FALSE ? TRUE : FALSE;
 
-		// An array to store the replacement strings for the label and field.
-		$replace = array();
-
-		if ( ! is_array( $atts['parent_id'] ) ) {
-			// Trim extra whitespace.
-			$atts['parent_id'] = trim( str_replace( ' ', '', $atts['parent_id'] ) );
-
-			// Convert to array.
-			$atts['parent_id'] = explode( ',', $atts['parent_id'] );
-		}
-
-		if ( ! is_array( $atts['exclude'] ) ) {
-			// Trim extra whitespace.
-			$atts['exclude'] = trim( str_replace( ' ', '', $atts['exclude'] ) );
-
-			// Convert to array.
-			$atts['exclude'] = explode( ',', $atts['exclude'] );
-		}
-
-		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
-		if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('cn-enhanced-select') );
-
-		// Create the field label, if supplied.
-		$replace[] = ! empty( $atts['label'] ) ? cnHTML::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
-
-		// $out .= PHP_EOL . '<select class="cn-cat-select" name="' . ( ( $atts['type'] == 'multiselect' ) ? 'cn-cat[]' : 'cn-cat' ) . '"' . ( ( $atts['type'] == 'multiselect' ) ? ' MULTIPLE ' : '' ) . ( ( $atts['type'] == 'multiselect' ) ? '' : ' onchange="this.form.submit()" ' ) . 'data-placeholder="' . esc_attr($atts['default']) . '">';
-		$select .= sprintf( '<select %1$s %2$s name="%3$s"%4$s%5$sdata-placeholder="%6$s"%7$s>',
-			empty( $atts['class'] ) ? '' : cnHTML::attribute( 'class', $atts['class'] ),
-			empty( $atts['id'] ) ? '' : cnHTML::attribute( 'id', $atts['id'] ),
-			$atts['type'] == 'multiselect' ? esc_attr( $atts['name'] ) . '[]' : esc_attr( $atts['name'] ),
-			empty( $atts['style'] ) ? '' : cnHTML::attribute( 'style', $atts['style'] ),
-			$atts['type'] == 'multiselect' ? '' : ( empty( $atts['on_change'] ) ? '' : sprintf( ' onchange="%s" ', esc_js( $atts['on_change'] ) ) ),
-			esc_attr( $atts['default'] ),
-			$atts['type'] == 'multiselect' ? ' MULTIPLE' : ''
-			);
-
-		if ( $atts['enhanced'] ) $select .= PHP_EOL . sprintf( '<option value="">%1$s</option>', ( wp_is_mobile() ? esc_attr( $atts['default'] ) : '' ) );
-
-		if ( $atts['show_select_all'] ) $select .= PHP_EOL . '<option value="">' . esc_attr( $atts['select_all'] ) . '</option>';
-
-		foreach ( $categories as $key => $category ) {
-			// Limit the category tree to only the supplied root parent categories.
-			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) continue;
-
-			// Do not show the excluded category as options.
-			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) continue;
-
-			// If grouping by root parent is enabled, open the optiongroup tag.
-			if ( $atts['group'] && ! empty( $category->children ) )
-				$select .= sprintf( '<optgroup label="%1$s">' , $category->name );
-
-			// Call the recursive function to build the select options.
-			$select .= self::categorySelectOption( $category, $level, $atts['depth'], $selected, $atts );
-
-			// If grouping by root parent is enabled, close the optiongroup tag.
-			if ( $atts['group'] && ! empty( $category->children ) )
-				$select .= '</optgroup>' . PHP_EOL;
-		}
-
-		$select .= '</select>' . PHP_EOL;
-
-		$replace[] = $select;
-
-		$out = str_ireplace( $search, $replace, $atts['layout'] );
-
-		// This submit is required for template that have the enable_category_multi_select set to tru for backward compatibility.
-		// Dang, this can not be enabled for backward compatibility. It'll output in undesired locations.
-		// if ( $atts['type'] == 'multiselect' ) $out .= self::submit( array( 'return' => TRUE ) );
-
-		if ( $atts['return'] ) return ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
-		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
+		return cnTemplatePart::walker( 'term-select-enhanced', $atts );
 	}
 
 	/**
-	 * The private recursive function to build the select options.
+	 * The private function called by cnTemplate::category that outputs a term radio group list.
+	 * Each category root parent and its descendants are output in an unordered list.
 	 *
-	 * Accepted option for the $atts property are:
-	 * 	group (bool) Whether or not to create option groups using the root parent as the group label. Used for select && multiselect only.
-	 * 	show_empty (bool) Whether or not to display empty categories.
-	 * 	show_count (bool) Whether or not to display the category count.
+	 * @access  private
+	 * @since   8.2.4
+	 * @static
 	 *
-	 * @param object $category A category object.
-	 * @param int $level The current category level.
-	 * @param int $depth The depth limit.
-	 * @param array $selected An array of the selected category IDs / slugs.
-	 * @param array $atts
-	 * @return string
+	 * @uses get_query_var()
+	 * @uses wp_parse_id_list()
+	 * @uses wp_parse_args()
+	 * @uses cnTemplatePart::walker()
+	 *
+	 * @param array $atts  {
+	 *     Optional. An array of arguments @see CN_Walker_Term_Radio_Group::render().
+	 *     NOTE: Additionally, all valid options as supported in @see cnTerm::getTaxonomyTerms().
+	 * }
+	 * @param array $value An index array containing either the term ID/s or term slugs which are CHECKED.
+	 *
+	 * @return mixed
 	 */
-	private static function categorySelectOption( $category, $level, $depth, $selected, $atts ) {
+	private static function categoryRadioGroup( $atts, $value = array() ) {
 
-		$out = '';
+		if ( empty( $value ) ) {
+
+			if ( get_query_var( 'cn-cat-slug' ) ) {
+
+				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
+
+				// If the category slug is a descendant, use the last slug from the URL for the query.
+				$selected = end( $slug );
+
+			} elseif ( get_query_var( 'cn-cat' ) ) {
+
+				// If value is a string, strip the white space and covert to an array.
+				$selected = wp_parse_id_list( get_query_var( 'cn-cat' ) );
+
+			} else {
+
+				$selected = 0;
+			}
+
+		} else {
+
+			$selected = $value;
+		}
 
 		$defaults = array(
-			'group'      => FALSE,
-			'show_empty' => TRUE,
-			'show_count' => TRUE,
-			'exclude'    => array(),
+			'selected'   => $selected,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		// Do not show the excluded category as options.
-		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
+		// For backwards compatibility.
+		$atts['hide_empty'] = isset( $atts['show_empty'] ) && $atts['show_empty'] === FALSE ? TRUE : FALSE;
 
-		// The padding in px to indent descendant categories. The 7px is the default pad applied in the CSS which must be taken in to account.
-		$pad = ( $level > 1 ) ? $level * 12 + 7 : 7;
-		//$pad = str_repeat($atts['pad_char'], max(0, $level));
+		return cnTemplatePart::walker( 'term-radio-group', $atts );
+	}
 
-		// Set the option SELECT attribute if the category is one of the currently selected categories.
-		if ( is_array( $selected ) ) {
-			$strSelected = ( ( in_array( $category->term_id, $selected ) ) || ( in_array( $category->slug, $selected ) ) ) ? ' SELECTED ' : '';
-		} else {
-			$strSelected = ( ( $selected == $category->term_id ) || ( $selected == $category->slug ) ) ? ' SELECTED ' : '';
-		}
-		// $strSelected = $selected ? ' SELECTED ' : '';
+	/**
+	 * The private function called by cnTemplate::category that outputs a term checklist.
+	 * Each category root parent and its descendants are output in an unordered list.
+	 *
+	 * @access  private
+	 * @since   8.2.4
+	 * @static
+	 *
+	 * @uses get_query_var()
+	 * @uses wp_parse_id_list()
+	 * @uses wp_parse_args()
+	 * @uses cnTemplatePart::walker()
+	 *
+	 * @param array $atts  {
+	 *     Optional. An array of arguments @see CN_Walker_Term_Check_List::render().
+	 *     NOTE: Additionally, all valid options as supported in @see cnTerm::getTaxonomyTerms().
+	 * }
+	 * @param array $value An index array containing either the term ID/s or term slugs which are CHECKED.
+	 *
+	 * @return mixed
+	 */
+	private static function categoryChecklist( $atts, $value = array() ) {
 
-		$class = 'class="cn-cat-level-' . $level . '"';
+		if ( empty( $value ) ) {
 
-		// Category count to be appended to the category name.
-		$count = ( $atts['show_count'] ) ? ' (' . $category->count . ')' : '';
+			if ( get_query_var( 'cn-cat-slug' ) ) {
 
-		// If option grouping is TRUE, show only the select option if it is a descendant. The root parent was used as the option group label.
-		if ( ( $atts['group'] && $level > 1 ) && ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) ) {
+				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
 
-			$out .= sprintf('<option %1$s style="padding-%2$s: %3$dpx !important" value="%4$s"%5$s>' . /*$pad .*/ $category->name . $count . '</option>',
-				$class,
-				is_rtl() ? 'right' : 'left',
-				$pad,
-				$category->term_id,
-				$strSelected
-				);
-		}
+				// If the category slug is a descendant, use the last slug from the URL for the query.
+				$selected = end( $slug );
 
-		// If option grouping is FALSE, show the root parent and descendant options.
-		elseif ( ! $atts['group'] && ( $atts['show_empty'] || ! empty($category->count) || ! empty($category->children) ) ) {
+			} elseif ( get_query_var( 'cn-cat' ) ) {
 
-			$out .= sprintf('<option %1$s style="padding-%2$s: %3$dpx !important" value="%4$s"%5$s>' . /*$pad .*/ $category->name . $count . '</option>',
-				$class,
-				is_rtl() ? 'right' : 'left',
-				$pad,
-				$category->term_id,
-				$strSelected
-				);
-		}
+				// If value is a string, strip the white space and covert to an array.
+				$selected = wp_parse_id_list( get_query_var( 'cn-cat' ) );
 
-		/*
-		 * Only show the descendants based on the following criteria:
-		 * 	- There are descendant categories.
-		 * 	- The descendant depth is < than the current $level
-		 *
-		 * When descendant depth is set to 0, show all descendants.
-		 * When descendant depth is set to < $level, call the recursive function.
-		 */
-		if ( ! empty( $category->children ) && ($depth <= 0 ? -1 : $level) < $depth ) {
-			foreach ( $category->children as $child ) {
-				$out .= self::categorySelectOption( $child, $level + 1, $depth, $selected, $atts );
+			} else {
+
+				$selected = 0;
 			}
+
+		} else {
+
+			$selected = $value;
 		}
 
-		return $out;
+		$defaults = array(
+			'selected'   => $selected,
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		return cnTemplatePart::walker( 'term-checklist', $atts );
 	}
 
 	/**
@@ -2072,10 +2044,10 @@ class cnTemplatePart {
 	 * Each category root parent and its descendants are output in an unordered list.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	type (string) The ouput type of the categories. Valid options options are: select || multiselect
+	 * 	type (string) The output type of the categories. Valid options options are: select || multiselect
 	 * 	show_empty (bool) Whether or not to display empty categories.
 	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
+	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
 	 * 	layout (string) The layout to be used for rendering the categories. Valid options are: list || table
 	 * 	columns (int) The number of columns in the table.
@@ -2093,7 +2065,6 @@ class cnTemplatePart {
 		global $connections;
 
 		$selected = ( get_query_var('cn-cat') ) ? get_query_var('cn-cat') : array();
-		$categories = array();
 		$level = 0;
 		$out = '';
 		$trClass = 'alternate';
@@ -2142,76 +2113,51 @@ class cnTemplatePart {
 			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) unset( $categories[ $key ] );
 		}
 
-		switch ( $atts['layout'] ) {
+		// Build the table grid.
+		$table = array();
+		$rows = ceil(count( $categories ) / $atts['columns'] );
+		$keys = array_keys( $categories );
 
-			case 'table':
+		for ( $row = 1; $row <= $rows; $row++ )
+			for ( $col = 1; $col <= $atts['columns']; $col++ )
+				$table[$row][$col] = array_shift($keys);
 
-				// Build the table grid.
-				$table = array();
-				$rows = ceil(count( $categories ) / $atts['columns'] );
-				$keys = array_keys( $categories );
+		$out .= '<table cellspacing="0" cellpadding="0" class="cn-cat-table">';
+		$out .= '<tbody>';
 
-				for ( $row = 1; $row <= $rows; $row++ )
-					for ( $col = 1; $col <= $atts['columns']; $col++ )
-						$table[$row][$col] = array_shift($keys);
+		foreach ( $table as $row => $cols ) {
 
-				$out .= '<table cellspacing="0" cellpadding="0" class="cn-cat-table">';
-					$out .= '<tbody>';
+			$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
 
-					foreach ( $table as $row => $cols ) {
+			$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
 
-						$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
+			foreach ( $cols as $col => $key ) {
 
-						$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
+				// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
+				if ( $key === NULL ) continue;
 
-						foreach ( $cols as $col => $key ) {
+				$tdClass = array('cn-cat-td');
+				if ( $row == 1 ) $tdClass[] = '-top';
+				if ( $row == $rows ) $tdClass[] = '-bottom';
+				if ( $col == 1 ) $tdClass[] = '-left';
+				if ( $col == $atts['columns'] ) $tdClass[] = '-right';
 
-							// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
-							if ( $key === NULL ) continue;
-
-							$tdClass = array('cn-cat-td');
-							if ( $row == 1 ) $tdClass[] = '-top';
-							if ( $row == $rows ) $tdClass[] = '-bottom';
-							if ( $col == 1 ) $tdClass[] = '-left';
-							if ( $col == $atts['columns'] ) $tdClass[] = '-right';
-
-							$out .= '<td class="' . implode( '', $tdClass ) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
-
-								$out .= '<ul class="cn-cat-tree">';
-
-									$out .= self::categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
-
-								$out .= '</ul>';
-
-							$out .= '</td>';
-						}
-
-						$out .= '</tr>';
-					}
-
-					$out .= '</tbody>';
-				$out .= '</table>';
-
-				break;
-
-			case 'list':
+				$out .= '<td class="' . implode( '', $tdClass ) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
 
 				$out .= '<ul class="cn-cat-tree">';
 
-				foreach ( $categories as $key => $category ) {
-
-					// Limit the category tree to only the supplied root parent categories.
-					if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) continue;
-
-					// Call the recursive function to build the select options.
-					$out .= self::categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
-				}
+				$out .= self::categoryInputOption( $categories[ $key ], $level + 1, $atts['depth'], $selected, $atts);
 
 				$out .= '</ul>';
 
-				break;
+				$out .= '</td>';
+			}
+
+			$out .= '</tr>';
 		}
 
+		$out .= '</tbody>';
+		$out .= '</table>';
 
 		if ( $atts['return']) return $out;
 		echo $out;
@@ -2290,7 +2236,7 @@ class cnTemplatePart {
 	 * Accepted option for the $atts property are:
 	 * 	show_empty (bool) Whether or not to display empty categories.
 	 * 	show_count (bool) Whether or not to display the category count.
-	 * 	depth (int) The number of levels deap to show categories. Setting to 0 will show all levels.
+	 * 	depth (int) The number of levels deep to show categories. Setting to 0 will show all levels.
 	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
 	 * 	layout (string) The layout to be used for rendering the categories. Valid options are: list || table
 	 * 	columns (int) The number of columns in the table.
@@ -2307,7 +2253,6 @@ class cnTemplatePart {
 	private static function categoryLink( $atts = NULL ) {
 		global $connections;
 
-		$categories = array();
 		$level = 0;
 		$out = '';
 		$trClass = 'alternate';
@@ -2354,72 +2299,48 @@ class cnTemplatePart {
 			if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) unset( $categories[ $key ] );
 		}
 
-		switch ( $atts['layout'] ) {
+		// Build the table grid.
+		$table = array();
+		$rows = ceil(count( $categories ) / $atts['columns'] );
+		$keys = array_keys( $categories );
+		for ( $row = 1; $row <= $rows; $row++ )
+			for ( $col = 1; $col <= $atts['columns']; $col++ )
+				$table[ $row ][ $col ] = array_shift( $keys );
 
-			case 'table':
+		$out .= '<table cellspacing="0" cellpadding="0" class="cn-cat-table">';
+		$out .= '<tbody>';
 
-				// Build the table grid.
-				$table = array();
-				$rows = ceil(count( $categories ) / $atts['columns'] );
-				$keys = array_keys( $categories );
-				for ( $row = 1; $row <= $rows; $row++ )
-					for ( $col = 1; $col <= $atts['columns']; $col++ )
-						$table[ $row ][ $col ] = array_shift( $keys );
+		foreach ( $table as $row => $cols ) {
+			$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
 
-				$out .= '<table cellspacing="0" cellpadding="0" class="cn-cat-table">';
-					$out .= '<tbody>';
+			$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
 
-					foreach ( $table as $row => $cols ) {
-						$trClass = ( $trClass == 'alternate' ) ? '' : 'alternate';
+			foreach ( $cols as $col => $key ) {
+				// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
+				if ( $key === NULL ) continue;
 
-						$out .= '<tr' . ( $trClass ? ' class="' . $trClass . '"' : '' ) . '>';
+				$tdClass = array('cn-cat-td');
+				if ( $row == 1 ) $tdClass[] = '-top';
+				if ( $row == $rows ) $tdClass[] = '-bottom';
+				if ( $col == 1 ) $tdClass[] = '-left';
+				if ( $col == $atts['columns'] ) $tdClass[] = '-right';
 
-						foreach ( $cols as $col => $key ) {
-							// When building the table grid, NULL will be the result of the array_shift when it runs out of $keys.
-							if ( $key === NULL ) continue;
-
-							$tdClass = array('cn-cat-td');
-							if ( $row == 1 ) $tdClass[] = '-top';
-							if ( $row == $rows ) $tdClass[] = '-bottom';
-							if ( $col == 1 ) $tdClass[] = '-left';
-							if ( $col == $atts['columns'] ) $tdClass[] = '-right';
-
-							$out .= '<td class="' . implode( '', $tdClass) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
-
-								$out .= '<ul class="cn-cat-tree">';
-
-									$out .= self::categoryLinkDescendant( $categories[ $key ], $level + 1, $atts['depth'], array(), $atts );
-
-								$out .= '</ul>';
-
-							$out .= '</td>';
-						}
-
-						$out .= '</tr>';
-					}
-
-					$out .= '</tbody>';
-				$out .= '</table>';
-
-				break;
-
-			case 'list':
+				$out .= '<td class="' . implode( '', $tdClass) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
 
 				$out .= '<ul class="cn-cat-tree">';
 
-				foreach ( $categories as $key => $category )
-				{
-					// Limit the category tree to only the supplied root parent categories.
-					if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) continue;
-
-					// Call the recursive function to build the select options.
-					$out .= self::categoryLinkDescendant( $category, $level + 1, $atts['depth'], array(), $atts );
-				}
+				$out .= self::categoryLinkDescendant( $categories[ $key ], $level + 1, $atts['depth'], array(), $atts );
 
 				$out .= '</ul>';
 
-				break;
+				$out .= '</td>';
+			}
+
+			$out .= '</tr>';
 		}
+
+		$out .= '</tbody>';
+		$out .= '</table>';
 
 		if ( $atts['return'] ) return $out;
 		echo $out;
@@ -2531,7 +2452,6 @@ class cnTemplatePart {
 
 		return $out;
 	}
-
 }
 
 // Init the Template Parts API

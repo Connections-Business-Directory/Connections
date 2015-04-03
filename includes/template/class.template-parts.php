@@ -1907,6 +1907,62 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * The private function called by cnTemplate::category that outputs a term checklist.
+	 * Each category root parent and its descendants are output in an unordered list.
+	 *
+	 * @access  private
+	 * @since   8.2.4
+	 * @static
+	 *
+	 * @uses get_query_var()
+	 * @uses wp_parse_id_list()
+	 * @uses wp_parse_args()
+	 * @uses cnTemplatePart::walker()
+	 *
+	 * @param array $atts  {
+	 *     Optional. An array of arguments @see CN_Walker_Term_Check_List::render().
+	 *     NOTE: Additionally, all valid options as supported in @see cnTerm::getTaxonomyTerms().
+	 * }
+	 * @param array $value An index array containing either the term ID/s or term slugs which are CHECKED.
+	 *
+	 * @return mixed
+	 */
+	private static function categoryChecklist( $atts, $value = array() ) {
+
+		if ( empty( $value ) ) {
+
+			if ( get_query_var( 'cn-cat-slug' ) ) {
+
+				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
+
+				// If the category slug is a descendant, use the last slug from the URL for the query.
+				$selected = end( $slug );
+
+			} elseif ( get_query_var( 'cn-cat' ) ) {
+
+				// If value is a string, strip the white space and covert to an array.
+				$selected = wp_parse_id_list( get_query_var( 'cn-cat' ) );
+
+			} else {
+
+				$selected = 0;
+			}
+
+		} else {
+
+			$selected = $value;
+		}
+
+		$defaults = array(
+			'selected'   => $selected,
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		return cnTemplatePart::walker( 'term-checklist', $atts );
+	}
+
+	/**
 	 * The private function called by cnTemplate::category that outputs the radio && checkbox in a table layout.
 	 * Each category root parent and its descendants are output in an unordered list.
 	 *

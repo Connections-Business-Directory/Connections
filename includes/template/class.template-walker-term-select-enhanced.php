@@ -174,8 +174,6 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$atts['parent_id'] = wp_parse_id_list( $atts['parent_id'] );
-
 		// The field parts to be searched for in $atts['layout'].
 		$search = array( '%label%', '%field%' );
 
@@ -197,6 +195,8 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], $atts );
 
 		} else {
+
+			$atts['parent_id'] = wp_parse_id_list( $atts['parent_id'] );
 
 			$terms = cnTerm::getTaxonomyTerms(
 				$atts['taxonomy'],

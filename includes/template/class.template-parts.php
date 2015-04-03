@@ -1813,7 +1813,16 @@ class cnTemplatePart {
 				break;
 
 			case 'checkbox':
-				$out = self::categoryInput( $atts );
+
+				if ( isset( $atts['layout'] ) && 'table' == $atts['layout'] ) {
+
+					$out = self::categoryInput( $atts );
+
+				} else {
+
+					$out = self::categoryChecklist( $atts );
+				}
+
 				break;
 
 			case 'link':

@@ -407,7 +407,7 @@ class cnFormatting {
 
 		$pos = strrpos( $excerpt, '</' );
 
-		if ( $pos !== FALSE ) {
+		if ( FALSE !== $pos ) {
 
 			// Inside last HTML tag
 			if ( $appendMore ) $excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );

@@ -1691,7 +1691,6 @@ class cnColor {
 		if ( ! $color ) return FALSE;
 
 		$color = trim( $color );
-		$out   = FALSE;
 
 		if ( preg_match( "/^[0-9ABCDEFabcdef\#]+$/i", $color ) ) {
 

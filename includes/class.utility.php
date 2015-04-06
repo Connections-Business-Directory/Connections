@@ -1467,7 +1467,9 @@ class cnColor {
 	 *
 	 * @access private
 	 * @since  8.1
-	 * @url    http://psoug.org/snippet/CSS_Colornames_to_RGB_values_415.htm
+	 * @static
+	 *
+	 * @link   http://psoug.org/snippet/CSS_Colornames_to_RGB_values_415.htm
 	 * @var    array
 	 */
 	private static $colors = array(

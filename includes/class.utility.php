@@ -860,12 +860,16 @@ class cnURL {
 	}
 
 	/**
-	 * Take a URL and see if it's prefixed with a protocol, if it's not then it will add the default prefix to the start of the string.
+	 * Take a URL and see if it's prefixed with a protocol, if it's not then it will add the default prefix to the
+	 * start of the string.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
+	 * @static
+	 *
 	 * @param  string $url
 	 * @param  string $protocol
+	 *
 	 * @return string
 	 */
 	public static function prefix( $url, $protocol = 'http://' ) {

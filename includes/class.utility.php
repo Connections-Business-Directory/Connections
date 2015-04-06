@@ -1395,7 +1395,7 @@ class cnLog extends WP_Error {
 
 		if ( ! defined( 'WP_DEBUG' ) || FALSE === WP_DEBUG ) {
 
-			// $this->errors and $this->error_data neds to be brought into scope too.
+			// $this->errors and $this->error_data needs to be brought into scope too.
 			// See note below about WP 4.0.
 
 			$error = $this->errors;
@@ -1423,7 +1423,7 @@ class cnLog extends WP_Error {
 
 		/*
 		 * WordPress >= 4.0 made the errors and error_data vars private and added magic
-		 * get/set for backword compatibility. In order to set array data we need to bring
+		 * get/set for backward compatibility. In order to set array data we need to bring
 		 * the value of $this->errors into scope (via the magic get()), set the error code and message
 		 * and finally save back to $this->errors (via the magic set()).
 		 *

@@ -1221,7 +1221,7 @@ class cnUtility {
 	 * @access public
 	 * @since  0.8
 	 * @static
-	 * 
+	 *
 	 * @link   http://stackoverflow.com/a/6718472
 	 *
 	 * @return string The IP address.

@@ -818,14 +818,16 @@ class cnValidate {
 class cnURL {
 
 	/**
-	* @param $url
-	*     The URL to encode
-	*
-	* @return
-	*     A string containing the encoded URL with disallowed
-	*     characters converted to their percentage encodings.
-	*
-	* @link http://publicmind.in/blog/url-encoding/
+	 * @link http://publicmind.in/blog/url-encoding/
+	 *
+	 * @access public
+	 * @since  unknown
+	 * @static
+	 *
+	 * @param string $url The URL to encode
+	 *
+	 * @return string A string containing the encoded URL with disallowed
+	 *                characters converted to their percentage encodings.
 	*/
 	public static function encode( $url ) {
 

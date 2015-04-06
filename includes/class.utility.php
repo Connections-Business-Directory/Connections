@@ -367,7 +367,7 @@ class cnFormatting {
 
 		$string = str_replace( ']]>', ']]&gt;', $string );
 
-		if ( $atts['length'] === 'p' ) {
+		if ( 'p' === $atts['length'] ) {
 
 			$excerpt = substr( $string, 0, strpos( $string, '</p>' ) + 4 );
 

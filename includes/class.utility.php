@@ -865,14 +865,14 @@ class cnURL {
 	 * @access public
 	 * @since 0.8
 	 * @param  string $url
-	 * @param  string $protocal
+	 * @param  string $protocol
 	 * @return string
 	 */
-	public static function prefix( $url, $protocal = 'http://' ) {
+	public static function prefix( $url, $protocol = 'http://' ) {
 
 		if ( ! preg_match( "~^(?:f|ht)tps?://~i", $url ) ) {
 
-			$url = $protocal . $url;
+			$url = $protocol . $url;
 		}
 
 		return $url;

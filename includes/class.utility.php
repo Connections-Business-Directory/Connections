@@ -1393,7 +1393,7 @@ class cnLog extends WP_Error {
 	 */
 	public function add( $code, $message, $data = '' ) {
 
-		if ( ! defined( 'WP_DEBUG' ) || WP_DEBUG === FALSE ) {
+		if ( ! defined( 'WP_DEBUG' ) || FALSE === WP_DEBUG ) {
 
 			// $this->errors and $this->error_data neds to be brought into scope too.
 			// See note below about WP 4.0.

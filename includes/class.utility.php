@@ -383,7 +383,7 @@ class cnFormatting {
 
 			foreach ( $tokens[0] as $token ) {
 
-				if ( $count >= $atts['length'] && preg_match('/[\,\;\?\.\!]\s*$/uS', $token ) ) {
+				if ( $count >= $atts['length'] && preg_match( '/[\,\;\?\.\!]\s*$/uS', $token ) ) {
 
 					// Limit reached, continue until , ; ? . or ! occur at the end
 					$excerpt .= trim( $token );

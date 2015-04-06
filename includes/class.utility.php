@@ -1300,17 +1300,19 @@ class cnUtility {
 	/**
 	 * Convert a value within one range to a value within another range, maintaining ratio.
 	 *
-	 * Coverted Python script from:
-	 * @url    http://stackoverflow.com/a/15537393
+	 * Converted Python script from:
+	 * @link   http://stackoverflow.com/a/15537393
 	 *
 	 * @access public
 	 * @since  8.1
 	 * @static
+	 *
 	 * @param  float  $x    Original value.
 	 * @param  float  $oMin Old minimum.
 	 * @param  float  $oMax Old maximum.
 	 * @param  float  $nMin New minimum.
 	 * @param  float  $nMax New maximum.
+	 *
 	 * @return mixed        bool | float Return false on failure, or return new value within new range.
 	 */
 	public static function remapRange( $x, $oMin, $oMax, $nMin, $nMax ) {

@@ -1615,16 +1615,17 @@ class cnColor {
 	);
 
 	/**
-	 * Covert named color to RGB.
+	 * Convert named color to RGB.
 	 *
 	 * @access public
 	 * @since  8.1
 	 * @static
+	 *
 	 * @param  string $name Named color.
 	 * @param  bool   $returnAsString Whether or not to return the RGB as an array or string, default is array.
 	 * @param  string $separator      Used to separate RGB values. Applicable only if second parameter is TRUE.
 	 *
-	 * @return mixed  array | string  RGB will be turned as an array unless $returnAsString is TRUE.
+	 * @return mixed  array|string  RGB will be turned as an array unless $returnAsString is TRUE.
 	 */
 	public static function name2rgb( $name, $returnAsString = FALSE, $separator = ',' ) {
 
@@ -1644,14 +1645,15 @@ class cnColor {
 	}
 
 	/**
-	 * Covert named color to HEX.
+	 * Convert named color to HEX.
 	 *
 	 * @access public
 	 * @since  8.1
 	 * @static
+	 *
 	 * @param  string $name Named color.
 	 *
-	 * @return string
+	 * @return mixed bool|string False if named color does not have a defined color separation.
 	 */
 	public static function name2hex( $name ) {
 
@@ -1666,22 +1668,23 @@ class cnColor {
 
 			return FALSE;
 		}
-
 	}
 
 	/**
 	 * Convert HEX to RGB or RGB to HEX.
 	 *
+	 * @link   http://php.net/manual/en/function.hexdec.php#93835
+	 * @link   http://php.net/manual/en/function.hexdec.php#99478
+	 *
 	 * @access public
 	 * @since  8.1
 	 * @static
-	 * @url    http://php.net/manual/en/function.hexdec.php#93835
-	 * @url    http://php.net/manual/en/function.hexdec.php#99478
+	 *
 	 * @param  string $color          HEX or RGB string. HEX can be long or short with/without the has. RGB can be separated by space, comma or period.
 	 * @param  bool   $returnAsString Whether or not to return the HEX to RGB as an array or string, default is array.
 	 * @param  string $separator      Used to separate RGB values. Applicable only if second parameter is TRUE.
 	 *
-	 * @return mixed  array | string  HEX to RGB will be turned as an array unless $returnAsString is TRUE. RGB to HEX will be returned as a string.
+	 * @return mixed  array|bool|string HEX to RGB will be turned as an array unless $returnAsString is TRUE. RGB to HEX will be returned as a string. False on failure.
 	 */
 	public static function rgb2hex2rgb( $color, $returnAsString = FALSE, $separator = ',' ) {
 

@@ -1194,7 +1194,7 @@ class cnURL {
 
 		if ( 'url' == $atts['data'] ) {
 
-			$out =  esc_url( $permalink );
+			$out = esc_url( $permalink );
 
 		} else {
 

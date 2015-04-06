@@ -673,56 +673,66 @@ class cnValidate {
 	 *
 	 * @author Luke America
 	 * @url http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
 	 * @param string $email
-	 * @param bool $check_mx [optional]
-	 * @return
+	 * @param bool   $check_mx [optional]
+	 *
+	 * @return int
 	 */
-	public function email( $email , $check_mx = TRUE )
-	{
+	public function email( $email, $check_mx = TRUE ) {
+
 		/**********************************************************************
-		 Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
-		 you can redistribute and/or modify this code under the terms of the
-		 GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
-		**********************************************************************/
+		 * Copyright © 2011 Gizmo Digital Fusion (http://wpCodeSnippets.info)
+		 * you can redistribute and/or modify this code under the terms of the
+		 * GNU GPL v2: http://www.gnu.org/licenses/gpl-2.0.html
+		 **********************************************************************/
 
 		// check syntax
-		$email = trim($email);
-		$regex = '/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
-		$is_valid = preg_match($regex, $email, $matches);
+		$email    = trim( $email );
+		$regex    = '/^([*+!.&#$¦\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,4})$/i';
+		$is_valid = preg_match( $regex, $email, $matches );
 
 		// NOTE: Windows servers do not offer checkdnsrr until PHP 5.3.
 		// So we create the function, if it doesn't exist.
-		if(!function_exists('checkdnsrr'))
-		{
-			function checkdnsrr($host_name='', $rec_type='')
-			{
-				if(!empty($host_name))
-				{
-					if(!$rec_type) {$rec_type = 'MX';}
-					exec("nslookup -type=$rec_type $host_name", $result);
+		if ( ! function_exists( 'checkdnsrr' ) ) {
+
+			function checkdnsrr( $host_name = '', $rec_type = '' ) {
+
+				if ( ! empty( $host_name ) ) {
+
+					if ( ! $rec_type ) {
+
+						$rec_type = 'MX';
+					}
+
+					exec( "nslookup -type=$rec_type $host_name", $result );
 
 					// Check each line to find the one that starts with the host name.
-					foreach ($result as $line)
-					{
-						if(eregi("^$host_name", $line))
-						{
-							return true;
+					foreach ( $result as $line ) {
+						if ( eregi( "^$host_name", $line ) ) {
+							return TRUE;
 						}
 					}
-					return false;
+
+					return FALSE;
 				}
-				return false;
+
+				return FALSE;
 			}
 		}
 
 		// check that the server exists and is setup to handle email accounts
-		if (($is_valid) && ($check_mx))
-		{
-			$at_index = strrpos($email, '@');
-			$domain = substr($email, $at_index + 1);
-			if (!(checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A')))
-			{
-				$is_valid = -1;
+		if ( ( $is_valid ) && ( $check_mx ) ) {
+
+			$at_index = strrpos( $email, '@' );
+			$domain   = substr( $email, $at_index + 1 );
+
+			if ( ! ( checkdnsrr( $domain, 'MX' ) || checkdnsrr( $domain, 'A' ) ) ) {
+
+				$is_valid = - 1;
 			}
 		}
 

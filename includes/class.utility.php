@@ -220,7 +220,9 @@ class cnFormatting {
 	 * JSON encode objects and arrays.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
+	 * @static
+	 *
 	 * @param  mixed $value The value to maybe json_encode.
 	 *
 	 * @return mixed
@@ -247,6 +249,8 @@ class cnFormatting {
 	 *
 	 * @access public
 	 * @since 0.8
+	 * @static
+	 *
 	 * @param  mixed   $value The value to decode.
 	 * @param  boolean $array [optional] Whether or not the JSON decoded value should an object or an associative array.
 	 *
@@ -284,10 +288,11 @@ class cnFormatting {
 	 *
 	 * @access public
 	 * @since  8.1
+	 * @static
 	 *
 	 * @param  string $color
 	 *
-	 * @return mixed  string | string
+	 * @return string
 	 */
 	public static function maybeHashHEXColor( $color ) {
 

@@ -1,0 +1,75 @@
+/*------------------------------------------------------------------------------
+  Dashboard page.
+------------------------------------------------------------------------------*/
+
+.cn-dashboard-upcoming .cn-upcoming-date {
+	left: 4px;
+	right: auto;
+}
+
+.cn-dashboard-recent-added .cn-list-date {
+	left: 4px;
+	right: auto;
+}
+
+.cn-dashboard-recent-modified .cn-list-date {
+	left: 4px;
+	right: auto;
+}
+
+/*------------------------------------------------------------------------------
+  Add/Edit page.
+------------------------------------------------------------------------------*/
+
+#cn-relations select {
+	text-align: right;
+}
+
+#cn-relations li {
+	text-align: right;
+}
+
+/* The `Add` button. */
+form .add {
+	text-align: left;
+}
+
+.cn-metabox-section table {
+	text-align: right;
+}
+
+/*------------------------------------------------------------------------------
+  Button Styles
+
+  NOTES:
+  The `body[class*="connections"]` selector is to ensure core WP admin style can be overridden.
+  CSSLint reports this as being slow.
+  @todo See if there is a admin filter for the body classes that can be hooked into to define custom classes.
+------------------------------------------------------------------------------*/
+
+.postbox .cn-remove-button {
+	right: auto;
+	left: 10px;
+}
+
+/*------------------------------------------------------------------------------
+  Add/Edit page.
+------------------------------------------------------------------------------*/
+#metabox-address .address-city {
+	float: right;
+}
+
+#metabox-address .address-state {
+	float: right;
+}
+
+#metabox-address .address-zipcode {
+	float: right;
+}
+#metabox-address .address-latitude {
+	float: right;
+}
+
+#metabox-address .address-longitude {
+	float: right;
+}

@@ -810,6 +810,7 @@ class cnValidate {
 		}
 
 		// Shouldn't happen....
+		/** @noinspection PhpUnreachableStatementInspection */
 		return FALSE;
 	}
 }

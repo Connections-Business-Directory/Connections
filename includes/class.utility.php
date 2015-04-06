@@ -430,7 +430,7 @@ class cnFormatting {
 	 *
 	 * @param string $string String to  prepend the forward slash.
 	 *
-     * @return string String with forward slash prepended.
+	 * @return string String with forward slash prepended.
 	 */
 	public static function preslashit( $string ) {
 

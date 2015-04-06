@@ -158,7 +158,7 @@ class CN_Walker_Term_Radio_Group extends Walker {
 
 		if ( ! empty( $terms ) ) {
 
-			$out .= '<ul class="cn-' . esc_attr( $atts['taxonomy'] ) . '-radio-group">';
+			$out .= '<ul class="cn-' . esc_attr( $atts['taxonomy'] ) . '-radio-group">' . PHP_EOL;
 
 			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {
 
@@ -168,15 +168,14 @@ class CN_Walker_Term_Radio_Group extends Walker {
 
 				$out .= "<li id='cn-{$type}-0'>" . '<label><input value="0" type="radio" name="' . esc_attr( $atts['name'] ) . '" id="cn-in-' . $type . '-0"' .
 				        checked( in_array( 0, (array) $atts['selected'] ), TRUE, FALSE ) . ' /> ' .
-				        esc_html( $show_option_all ) . '</label>' .
-				        PHP_EOL;
+				        esc_html( $show_option_all ) . '</label>';
 
 				$out .= '</li>' . PHP_EOL;
 			}
 
 			$out .= $walker->walk( $terms, $atts['depth'], $atts );
 
-			$out .= '</ul>';
+			$out .= '</ul>' . PHP_EOL;
 		}
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
@@ -246,6 +245,8 @@ class CN_Walker_Term_Radio_Group extends Walker {
 
 		// Set the option SELECTED attribute if the category is one of the currently selected categories.
 		$selected = in_array( $term->term_id, (array) $args['selected'] ) || in_array( $term->slug, (array) $args['selected'], TRUE ) ? ' CHECKED ' : '';
+
+		$out .= str_repeat( "\t", $depth );
 
 		$out .= "<li id='cn-{$type}-{$term->term_id}'>" . '<label><input value="' . $term->term_id . '" type="radio" name="' . $name . '" id="cn-in-' . $type . '-' . $term->term_id . '"' .
 				$selected .

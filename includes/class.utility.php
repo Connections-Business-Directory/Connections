@@ -1200,7 +1200,7 @@ class cnURL {
 
 			$piece['href'] = 'href="' . esc_url( $permalink ) . '"';
 
-			$out = '<a ' . implode(' ', $piece) . '>' . $atts['text'] . '</a>';
+			$out = '<a ' . implode( ' ', $piece ) . '>' . $atts['text'] . '</a>';
 
 		}
 

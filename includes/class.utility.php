@@ -887,8 +887,12 @@ class cnURL {
 	 *
 	 * @access public
 	 * @since  0.8
+	 * @static
+	 *
+	 * @uses   content_url()
 	 * @uses   untrailingslashit()
 	 * @uses   wp_normalize_path()
+	 *
 	 * @param  string $path The file path.
 	 *
 	 * @return string       The URL to the file.

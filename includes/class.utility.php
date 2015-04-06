@@ -150,8 +150,13 @@ class cnFormatting {
 	 * Converts the following strings: yes/no; true/false and 0/1 to boolean values.
 	 * If the supplied string does not match one of those values the method will return NULL.
 	 *
-	 * @param string $value
-	 * @return boolean
+	 * @access public
+	 * @since  unknown
+	 * @static
+	 *
+	 * @param  string $value
+	 *
+	 * @return bool
 	 */
 	public static function toBoolean( &$value ) {
 

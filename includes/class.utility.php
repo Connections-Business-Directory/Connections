@@ -193,16 +193,21 @@ class cnFormatting {
 	 * Return localized Yes or No.
 	 *
 	 * @author Alex Rabe (http://alexrabe.de/)
-	 * @since 0.7.1.6
+	 * @since  0.7.1.6
 	 *
-	 * @param bool $bool
+	 * @param  bool $bool
+	 *
 	 * @return string Returns 'Yes' | 'No'
 	 */
 	public function toYesNo( $bool ) {
-		if( $bool ) {
-			return __('Yes', 'connections');
+
+		if ( $bool ) {
+
+			return __( 'Yes', 'connections' );
+
 		} else {
-			return __('No', 'connections');
+
+			return __( 'No', 'connections' );
 		}
 	}
 

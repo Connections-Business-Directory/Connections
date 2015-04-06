@@ -1366,11 +1366,31 @@ class cnUtility {
 	}
 }
 
+/**
+ * Class cnLog
+ */
 class cnLog extends WP_Error {
 
+	/**
+	 * @var float
+	 */
 	private $startTime = 0;
+
+	/**
+	 * @var float
+	 */
 	private $lastBenchTime = 0;
 
+	/**
+	 * Add an error or append additional message to an existing error.
+	 *
+	 * @access public
+	 * @since unknown
+	 *
+	 * @param int|string $code    Error code.
+	 * @param string     $message Error message.
+	 * @param string     $data    Error data.
+	 */
 	public function add( $code, $message, $data = '' ) {
 
 		if ( ! defined( 'WP_DEBUG' ) || WP_DEBUG === FALSE ) {
@@ -1422,6 +1442,14 @@ class cnLog extends WP_Error {
 
 	}
 
+	/**
+	 * Return WP_Error messages array as string.
+	 *
+	 * @access public
+	 * @since unknown
+	 *
+	 * @return string
+	 */
 	public function __toString() {
 
 		return implode( PHP_EOL, $this->get_error_messages() );

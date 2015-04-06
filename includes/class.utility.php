@@ -760,17 +760,17 @@ class cnValidate {
 
 			if ( ! empty( $visibility ) ) {
 
-				if ( current_user_can( 'connections_view_public' ) && $visibility == 'public' ) {
+				if ( current_user_can( 'connections_view_public' ) && 'public' == $visibility ) {
 
 					return TRUE;
 				}
 
-				if ( current_user_can( 'connections_view_private' ) && $visibility == 'private' ) {
+				if ( current_user_can( 'connections_view_private' ) && 'private' == $visibility ) {
 					return TRUE;
 
 				}
 
-				if ( ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) && $visibility == 'unlisted' ) {
+				if ( ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) && 'unlisted' == $visibility ) {
 					return TRUE;
 
 				}
@@ -790,17 +790,17 @@ class cnValidate {
 				return FALSE;
 			}
 
-			if ( $connections->options->getAllowPublic() && $visibility == 'public' ) {
+			if ( $connections->options->getAllowPublic() && 'public' == $visibility ) {
 
 				return TRUE;
 			}
 
-			if ( $connections->options->getAllowPublicOverride() && $visibility == 'public' ) {
+			if ( $connections->options->getAllowPublicOverride() && 'public' == $visibility ) {
 
 				return TRUE;
 			}
 
-			if ( $connections->options->getAllowPrivateOverride() && $visibility == 'private' ) {
+			if ( $connections->options->getAllowPrivateOverride() && 'private' == $visibility ) {
 
 				return TRUE;
 			}

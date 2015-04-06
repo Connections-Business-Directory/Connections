@@ -496,6 +496,7 @@ body[class*="connections"] .cn-button-large {
 .postbox .cn-remove-button {
 	bottom: 0;
 	display: inline-block;
+	margin: 0;
 	position: absolute;
 	right: 10px;
 }

@@ -1192,7 +1192,7 @@ class cnURL {
 				break;
 		}
 
-		if ( $atts['data'] == 'url' ) {
+		if ( 'url' == $atts['data'] ) {
 
 			$out =  esc_url( $permalink );
 

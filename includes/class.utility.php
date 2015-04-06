@@ -254,7 +254,7 @@ class cnFormatting {
 	 */
 	public static function maybeJSONdecode( $value, $array = TRUE ) {
 
-		if ( ! is_string( $value ) || strlen( $value ) == 0 ) {
+		if ( ! is_string( $value ) || 0 == strlen( $value ) ) {
 
 			return $value;
 		}

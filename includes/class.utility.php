@@ -929,26 +929,62 @@ class cnURL {
 	/**
 	 * Create a permalink.
 	 *
+	 * @todo Should check to ensure require params are set and valid and pass back WP_Error if they are not.
+	 * @todo The type case statement should have a default with an filter attached so this can be pluggable.
+	 *
 	 * NOTE: When the `name` permalink is being requested, use the entry slug.
-	 * 		 It is saved id the db as URL encoded. If any other strings pass
-	 * 		 for the `name` permalink must be URL encoded.
-	 * 		 All the other permalink types will be URL encoded in this method
-	 * 		 so pass stings without URL encoding.
+	 *       It is saved id the db as URL encoded. If any other strings pass
+	 *       for the `name` permalink must be URL encoded.
+	 *       All the other permalink types will be URL encoded in this method
+	 *       so pass stings without URL encoding.
 	 *
 	 * @access private
-	 * @since 0.7.3
+	 * @since  0.7.3
+	 * @static
+	 *
 	 * @global $wp_rewrite
 	 * @global $post
-	 * @uses is_admin()
-	 * @uses wp_parse_args()
-	 * @uses get_option()
-	 * @uses in_the_loop()
-	 * @uses is_page()
-	 * @uses trailingslashit()
-	 * @uses get_permalink()
-	 * @uses add_query_arg()
-	 * @uses is_front_page()
-	 * @param array $atts
+	 *
+	 * @uses   is_admin()
+	 * @uses   wp_parse_args()
+	 * @uses   get_option()
+	 * @uses   in_the_loop()
+	 * @uses   is_page()
+	 * @uses   trailingslashit()
+	 * @uses   get_permalink()
+	 * @uses   add_query_arg()
+	 * @uses   is_front_page()
+	 *
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
+	 *
+	 *     @type string $class      The class to give the anchor.
+	 *                              Default: ''
+	 *     @type string $text       The anchor text.
+	 *                              Default: ''
+	 *     @type string $title      The anchor title attribute.
+	 *                              Default: ''
+	 *     @type bool   $follow     Whether or not the anchor rel should be follow or nofollow
+	 *                              Default: TRUE
+	 *     @type string $rel        The rel attribute.
+	 *                              Default: ''
+	 *     @type string $slug       The slug of the object to build the permalink for. ie. the entry slug or term slug.
+	 *                              Default: ''
+	 *     @type string $on_click   The inline javascript on_click attribute.
+	 *                              Default: ''
+	 *     @type string $type       The type of permalink to create. ie. name, edit, home
+	 *                              Default: 'name'
+	 *     @type int    $home_id    The page ID of the directory home.
+	 *                              Default: The page set as the Directory Home Page.
+	 *     @type bool   $force_home Whether or not to for the page ID to the page ID of the page set as the Directory Home Page.
+	 *                              Default: FALSE
+	 *     @type string $data       What to return.
+	 *                              Default: tag
+	 *                              Accepts: tag | url
+	 *     @type bool   $return     Whether or not to return or echo the permalink.
+	 *                              Default: FALSE
+	 * }
+	 *
 	 * @return string
 	 */
 	public static function permalink( $atts ) {

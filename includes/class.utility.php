@@ -1456,7 +1456,6 @@ class cnLog extends WP_Error {
 	}
 }
 
-
 /**
  * Class cnColor
  */

@@ -1822,7 +1822,6 @@ class cnString {
 
 		return $haystack;
 	}
-
 }
 
 /**
@@ -1869,6 +1868,5 @@ class cnFunction {
 		}
 
 		return implode( $glue, $implode );
-
 	}
 }

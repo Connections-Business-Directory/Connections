@@ -1248,6 +1248,8 @@ class cnUtility {
 	 *
 	 * @access public
 	 * @since  0.8
+	 * @static
+	 *
 	 * @link   http://stackoverflow.com/a/15875555
 	 * @link   http://www.php.net/manual/en/function.uniqid.php#94959
 	 *

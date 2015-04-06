@@ -514,7 +514,7 @@ class cnValidate {
 		if ( ! $url ) {
 			return FALSE;
 		}
-		if ( strpos( $url, ':' ) === FALSE ) {
+		if ( FALSE === strpos( $url, ':' ) ) {
 			$url = 'http://' . $url;
 		}
 

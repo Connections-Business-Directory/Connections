@@ -741,40 +741,69 @@ class cnValidate {
 	}
 
 	/**
-	 * Will return TRUE?FALSE based on current user capability or privacy setting if the user is not logged in to WordPress.
+	 * Will return TRUE?FALSE based on current user capability or privacy setting if the user is not logged in to
+	 * WordPress.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.2.0
+	 * @access public
+	 * @since  0.7.2.0
+	 * @static
+	 *
 	 * @param string $visibilty
+	 *
 	 * @return bool
 	 */
-	public static function userPermitted($visibilty)
-	{
+	public static function userPermitted( $visibilty ) {
+
 		global $connections;
 
-		if ( is_user_logged_in() )
-		{
-			if ( ! empty($visibilty) )
-			{
-				if ( current_user_can('connections_view_public') && $visibilty == 'public' ) return TRUE;
-				if ( current_user_can('connections_view_private') && $visibilty == 'private' ) return TRUE;
-				if ( ( current_user_can('connections_view_unlisted') && is_admin() ) && $visibilty == 'unlisted' ) return TRUE;
+		if ( is_user_logged_in() ) {
+
+			if ( ! empty( $visibilty ) ) {
+
+				if ( current_user_can( 'connections_view_public' ) && $visibilty == 'public' ) {
+
+					return TRUE;
+				}
+
+				if ( current_user_can( 'connections_view_private' ) && $visibilty == 'private' ) {
+					return TRUE;
+
+				}
+
+				if ( ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) && $visibilty == 'unlisted' ) {
+					return TRUE;
+
+				}
 
 				// If we get here, return FALSE
 				return FALSE;
-			}
-			else
-			{
+
+			} else {
+
 				return FALSE;
 			}
-		}
-		else
-		{
-			if ( $visibilty == 'unlisted' ) return FALSE;
 
-			if ( $connections->options->getAllowPublic() && $visibilty == 'public' ) return TRUE;
-			if ( $connections->options->getAllowPublicOverride() && $visibilty == 'public' ) return TRUE;
-			if ( $connections->options->getAllowPrivateOverride() && $visibilty == 'private' ) return TRUE;
+		} else {
+
+			if ( $visibilty == 'unlisted' ) {
+
+				return FALSE;
+			}
+
+			if ( $connections->options->getAllowPublic() && $visibilty == 'public' ) {
+
+				return TRUE;
+			}
+
+			if ( $connections->options->getAllowPublicOverride() && $visibilty == 'public' ) {
+
+				return TRUE;
+			}
+
+			if ( $connections->options->getAllowPrivateOverride() && $visibilty == 'private' ) {
+
+				return TRUE;
+			}
 
 			// If we get here, return FALSE
 			return FALSE;

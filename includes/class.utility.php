@@ -785,7 +785,7 @@ class cnValidate {
 
 		} else {
 
-			if ( $visibility == 'unlisted' ) {
+			if ( 'unlisted' == $visibility ) {
 
 				return FALSE;
 			}

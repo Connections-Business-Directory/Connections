@@ -1404,22 +1404,22 @@ class cnLog extends WP_Error {
 			$error_data = $this->error_data;
 			// $this->error_data = array();
 
-			$error[ 'wp_debug' ][]   = __( 'To enable logging, WP_DEBUG must defined and set to TRUE.', 'connections' );
+			$error['wp_debug'][]   = __( 'To enable logging, WP_DEBUG must defined and set to TRUE.', 'connections' );
 			$error_data[ 'wp_debug' ] = '';
 
 			$this->errors = $error;
 			$this->error_data = $error_data;
 		}
 
-		$execTime = sprintf( '%.6f', microtime(TRUE) - $this->startTime);
+		$execTime = sprintf( '%.6f', microtime( TRUE ) - $this->startTime );
 		$tick     = sprintf( '%.6f', 0 );
 
 		if ( $this->lastBenchTime > 0 ) {
 
-			$tick = sprintf( '%.6f', microtime(TRUE) - $this->lastBenchTime );
+			$tick = sprintf( '%.6f', microtime( TRUE ) - $this->lastBenchTime );
 		}
 
-		$this->lastBenchTime = microtime(TRUE);
+		$this->lastBenchTime = microtime( TRUE );
 
 		/*
 		 * WordPress >= 4.0 made the errors and error_data vars private and added magic
@@ -1430,13 +1430,13 @@ class cnLog extends WP_Error {
 		 * NOTE: The same method is used for $this->error_data.
 		 */
 		$error = $this->errors;
-		$error[ $code ][] = "[$execTime : $tick]: $message";
+		$error[$code][] = "[$execTime : $tick]: $message";
 		$this->errors = $error;
 
 		if ( ! empty( $data ) ) {
 
 			$error_data = $this->error_data;
-			$error_data[ $code ] = $data;
+			$error_data[$code] = $data;
 			$this->error_data = $error_data;
 		}
 

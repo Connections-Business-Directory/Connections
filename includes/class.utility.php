@@ -1318,41 +1318,51 @@ class cnUtility {
 	public static function remapRange( $x, $oMin, $oMax, $nMin, $nMax ) {
 
 		#range check
-		if ($oMin == $oMax) {
+		if ( $oMin == $oMax ) {
+
 			return FALSE;
 		}
 
-		if ($nMin == $nMax) {
+		if ( $nMin == $nMax ) {
+
 			return FALSE;
 		}
 
 		#check reversed input range
 		$reverseInput = FALSE;
-		$oldMin = min( $oMin, $oMax );
-		$oldMax = max( $oMin, $oMax );
-		if (! $oldMin == $oMin) {
+		$oldMin       = min( $oMin, $oMax );
+		$oldMax       = max( $oMin, $oMax );
+
+		if ( ! $oldMin == $oMin ) {
+
 			$reverseInput = TRUE;
 		}
 
 		#check reversed output range
 		$reverseOutput = FALSE;
-		$newMin = min( $nMin, $nMax );
-		$newMax = max( $nMin, $nMax );
-		if (! $newMin == $nMin) {
+		$newMin        = min( $nMin, $nMax );
+		$newMax        = max( $nMin, $nMax );
+
+		if ( ! $newMin == $nMin ) {
+
 			$reverseOutput = TRUE;
 		}
 
-		$portion = ($x-$oldMin)*($newMax-$newMin)/($oldMax-$oldMin);
+		$portion = ( $x - $oldMin ) * ( $newMax - $newMin ) / ( $oldMax - $oldMin );
 
-		if ($reverseInput)
-			$portion = ($oldMax-$x)*($newMax-$newMin)/($oldMax-$oldMin);
+		if ( $reverseInput ) {
+
+			$portion = ( $oldMax - $x ) * ( $newMax - $newMin ) / ( $oldMax - $oldMin );
+		}
 
 		$result = $portion + $newMin;
-		if ($reverseOutput)
+
+		if ( $reverseOutput ) {
+
 			$result = $newMax - $portion;
+		}
 
 		return $result;
-
 	}
 }
 

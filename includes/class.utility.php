@@ -1742,7 +1742,7 @@ class cnColor {
 			}
 
 			for ( $i = 0; $i < 3; $i ++ ) {
-				
+
 				$out .= ( ( strlen( $e[ $i ] ) < 2 ) ? '0' : '' ) . $e[ $i ];
 			}
 

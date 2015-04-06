@@ -25,7 +25,7 @@ class cnFormatting {
 	 * @param array $permittedTags [optional]
 	 * @return string
 	 */
-	public function sanitizeString( $string, $allowHTML = FALSE, $permittedTags = NULL ) {
+	public function sanitizeString( $string, $allowHTML = FALSE, $permittedTags = array() ) {
 		// Strip all tags except the permitted.
 		if ( ! $allowHTML ) {
 			// Ensure all tags are closed. Uses WordPress method balanceTags().

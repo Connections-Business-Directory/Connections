@@ -978,7 +978,7 @@ class cnMetabox_Render {
 					$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
 					wp_enqueue_script('jquery-ui-datepicker');
-					wp_enqueue_style( 'cn-public-jquery-ui', CN_URL . "assets/css/jquery-ui-fresh$min.css", array( 'cn-public' ), CN_CURRENT_VERSION );
+					wp_enqueue_style( 'cn-public-jquery-ui', CN_URL . "assets/css/jquery-ui-fresh$min.css", ( is_admin() ? array('cn-admin') : array( 'cn-public' ) ), CN_CURRENT_VERSION );
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
 					add_action( 'wp_footer' , array( __CLASS__ , 'datepickerJS' ) );
 

@@ -1758,15 +1758,20 @@ class cnColor {
 
 }
 
+/**
+ * Class cnString
+ */
 class cnString {
 
 	/**
 	 * Whether or not a string begins with string segment.
 	 *
+	 * @link   http://stackoverflow.com/a/834355
+	 *
 	 * @access public
 	 * @since  8.1
 	 * @static
-	 * @url    http://stackoverflow.com/a/834355
+	 *
 	 * @param  string $needle
 	 * @param  string $haystack
 	 *
@@ -1780,10 +1785,12 @@ class cnString {
 	/**
 	 * Whether or not a string ends with string segment.
 	 *
+	 * @url    http://stackoverflow.com/a/834355
+	 *
 	 * @access public
 	 * @since  8.1
 	 * @static
-	 * @url    http://stackoverflow.com/a/834355
+	 *
 	 * @param  string $needle
 	 * @param  string $haystack
 	 *
@@ -1800,6 +1807,7 @@ class cnString {
 	 * @access public
 	 * @since  8.1
 	 * @static
+	 *
 	 * @param  string $needle
 	 * @param  string $haystack
 	 *

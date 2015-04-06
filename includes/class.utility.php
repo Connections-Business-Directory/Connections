@@ -1698,7 +1698,7 @@ class cnColor {
 			$rgb   = array();
 
 			// If a proper hex code, convert using bitwise operation. No overhead... faster
-			if ( strlen( $color ) == 6 ) {
+			if ( 6 == strlen( $color ) ) {
 
 				$colorVal     = hexdec( $color );
 				$rgb['red']   = 0xFF & ( $colorVal >> 0x10 );
@@ -1709,7 +1709,7 @@ class cnColor {
 				$out = $returnAsString ? implode( $separator, $rgb ) : $rgb;
 
 			// If shorthand notation, need some string manipulations.
-			} elseif ( strlen( $color ) == 3 ) {
+			} elseif ( 3 == strlen( $color ) ) {
 
 				$rgb['red']   = hexdec( str_repeat( substr( $color, 0, 1 ), 2 ) );
 				$rgb['green'] = hexdec( str_repeat( substr( $color, 1, 1 ), 2 ) );
@@ -1729,7 +1729,7 @@ class cnColor {
 			$spr = str_replace( array( ',',' ','.' ), ':', $color );
 			$e   = explode( ':', $spr );
 
-			if ( count( $e ) != 3 ) {
+			if ( 3 != count( $e ) ) {
 
 				return FALSE;
 			}

@@ -15,6 +15,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnSanitize
+ */
 class cnSanitize {
 
 	/**

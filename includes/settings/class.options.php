@@ -156,6 +156,22 @@ class cnOptions {
 	}
 
 	/**
+	 * Whether or not login is required to view the directory or not.
+	 *
+	 * @access public
+	 * @since  8.2.5
+	 * @static
+	 *
+	 * @uses   cnSettingsAPI::get()
+	 *
+	 * @return bool
+	 */
+	public static function loginRequired() {
+
+		return cnSettingsAPI::get( 'connections', 'login', 'required' ) ? TRUE : FALSE;
+	}
+
+	/**
 	 * Disable the shortcode option - public_override.
 	 *
 	 * @deprecated since 0.7.3

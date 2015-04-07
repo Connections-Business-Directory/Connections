@@ -827,6 +827,9 @@ class cnValidate {
 	}
 }
 
+/**
+ * Class cnURL
+ */
 class cnURL {
 
 	/**

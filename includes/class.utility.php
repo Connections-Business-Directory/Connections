@@ -1445,13 +1445,13 @@ class cnLog extends WP_Error {
 		 * NOTE: The same method is used for $this->error_data.
 		 */
 		$error = $this->errors;
-		$error[$code][] = "[$execTime : $tick]: $message";
+		$error[ $code ][] = "[$execTime : $tick]: $message";
 		$this->errors = $error;
 
 		if ( ! empty( $data ) ) {
 
 			$error_data = $this->error_data;
-			$error_data[$code] = $data;
+			$error_data[ $code ] = $data;
 			$this->error_data = $error_data;
 		}
 

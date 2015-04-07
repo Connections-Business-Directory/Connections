@@ -1419,8 +1419,8 @@ class cnLog extends WP_Error {
 			$error_data = $this->error_data;
 			// $this->error_data = array();
 
-			$error['wp_debug'][]   = __( 'To enable logging, WP_DEBUG must defined and set to TRUE.', 'connections' );
-			$error_data[ 'wp_debug' ] = '';
+			$error['wp_debug'][]    = __( 'To enable logging, WP_DEBUG must defined and set to TRUE.', 'connections' );
+			$error_data['wp_debug'] = '';
 
 			$this->errors = $error;
 			$this->error_data = $error_data;

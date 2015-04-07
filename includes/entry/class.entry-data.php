@@ -2682,8 +2682,6 @@ class cnEntry {
 	 */
 	public function getWebsites( $atts = array(), $cached = TRUE ) {
 
-		global $connections;
-
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */

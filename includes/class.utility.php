@@ -748,70 +748,82 @@ class cnValidate {
 	 * @since  0.7.2.0
 	 * @static
 	 *
+	 * @uses   is_user_logged_in()
+	 * @uses   current_user_can()
+	 * @uses   is_admin()
+	 * @uses   cnOptions::loginRequired()
+	 * @uses   cnOptions::getAllowPublicOverride()
+	 * @uses   cnOptions::getAllowPrivateOverride()
+	 *
 	 * @param string $visibility
 	 *
 	 * @return bool
 	 */
 	public static function userPermitted( $visibility ) {
 
-		global $connections;
+		// Ensure a valid option for $visibility.
+		if ( ! in_array( $visibility, array( 'public', 'private', 'unlisted' ) ) ) {
+
+			return FALSE;
+		}
 
 		if ( is_user_logged_in() ) {
 
-			if ( ! empty( $visibility ) ) {
+			switch ( $visibility ) {
 
-				if ( current_user_can( 'connections_view_public' ) && 'public' == $visibility ) {
+				case 'public':
 
-					return TRUE;
-				}
+					return current_user_can( 'connections_view_public' );
 
-				if ( current_user_can( 'connections_view_private' ) && 'private' == $visibility ) {
-					return TRUE;
+				case 'private':
 
-				}
+					return current_user_can( 'connections_view_private' );
 
-				if ( ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) && 'unlisted' == $visibility ) {
-					return TRUE;
+				case 'unlisted':
 
-				}
+					return is_admin() && current_user_can( 'connections_view_unlisted' );
 
-				// If we get here, return FALSE
-				return FALSE;
+				default:
 
-			} else {
-
-				return FALSE;
+					return FALSE;
 			}
 
 		} else {
 
+			// Unlisted entries are not shown on the frontend.
 			if ( 'unlisted' == $visibility ) {
 
 				return FALSE;
 			}
 
-			if ( $connections->options->getAllowPublic() && 'public' == $visibility ) {
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
 
-				return TRUE;
-			}
+			if ( cnOptions::loginRequired() ) {
 
-			if ( $connections->options->getAllowPublicOverride() && 'public' == $visibility ) {
+				switch ( $visibility ) {
 
-				return TRUE;
-			}
+					case 'public':
 
-			if ( $connections->options->getAllowPrivateOverride() && 'private' == $visibility ) {
+						return $instance->options->getAllowPublicOverride();
 
-				return TRUE;
+					case 'private':
+
+						return $instance->options->getAllowPrivateOverride();
+
+					default:
+
+						return FALSE;
+				}
+
+			} else {
+
+				if ( 'public' == $visibility ) return TRUE;
 			}
 
 			// If we get here, return FALSE
 			return FALSE;
 		}
-
-		// Shouldn't happen....
-		/** @noinspection PhpUnreachableStatementInspection */
-		return FALSE;
 	}
 }
 

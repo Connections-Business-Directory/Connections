@@ -889,10 +889,7 @@ class cnURL {
 	 */
 	public static function prefix( $url, $protocol = 'http://' ) {
 
-		if ( ! preg_match( "~^(?:f|ht)tps?://~i", $url ) ) {
-
-			$url = $protocol . $url;
-		}
+		return parse_url( $url, PHP_URL_SCHEME ) === NULL ? $protocol . $url : $url;
 
 		return $url;
 	}

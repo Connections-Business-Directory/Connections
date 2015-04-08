@@ -890,8 +890,6 @@ class cnURL {
 	public static function prefix( $url, $protocol = 'http://' ) {
 
 		return parse_url( $url, PHP_URL_SCHEME ) === NULL ? $protocol . $url : $url;
-
-		return $url;
 	}
 
 	/**

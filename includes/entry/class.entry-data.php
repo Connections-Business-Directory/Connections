@@ -2525,7 +2525,6 @@ class cnEntry {
 
 		global $connections;
 
-		$linkIDs = array();
 		$results = array();
 
 		$atts = apply_filters( 'cn_link_atts', $atts );

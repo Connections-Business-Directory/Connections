@@ -1622,7 +1622,7 @@ class cnOutput extends cnEntry
 		$out = '';
 		$emailAddresses = $this->getEmailAddresses( $atts , $cached );
 		$search = array( '%label%' , '%address%' , '%icon%' , '%separator%' );
-		$iconSizes = array( 16, 24, 32, 48 );
+		$iconSizes = array( 16, 24, 32, 48, 64 );
 
 		// Replace the 'Name Tokens' with the entry's name.
 		$title = $this->getName(

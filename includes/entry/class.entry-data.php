@@ -2734,18 +2734,25 @@ class cnEntry {
 	 */
 	public function setLinks( $links ) {
 
-		global $connections;
-
 		$userPreferred = NULL;
 
-		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'title' => NULL, 'url' => NULL, 'target' => NULL, 'follow' => NULL, 'visibility' => NULL );
+		$validFields = array(
+			'id'         => NULL,
+			'preferred'  => NULL,
+			'type'       => NULL,
+			'title'      => NULL,
+			'url'        => NULL,
+			'target'     => NULL,
+			'follow'     => NULL,
+			'visibility' => NULL,
+		);
 
 		if ( ! empty( $links ) ) {
 
-			$order = 0;
-			$preferred = FALSE;
-			$image = FALSE;
-			$logo = FALSE;
+			$order     = 0;
+			$preferred = '';
+			$image     = '';
+			$logo      = '';
 
 			if ( isset( $links['preferred'] ) ) {
 				$preferred = $links['preferred'];
@@ -2765,7 +2772,7 @@ class cnEntry {
 			foreach ( $links as $key => $link ) {
 
 				// First validate the supplied data.
-				$link = $this->validate->attributesArray( $validFields, $link );
+				$link = cnSanitize::args( $link, $validFields );
 
 				// If the URL is empty, no need to save it.
 				if ( empty( $link['url'] ) || $link['url'] == 'http://' ) {
@@ -2773,25 +2780,25 @@ class cnEntry {
 					continue;
 				}
 
-				// if the http protocol is not part of the url, add it.
-				if ( preg_match( "/https?/" , $link['url'] ) == 0 ) $links[ $key ]['url'] = 'http://' . $link['url'];
+				// If the http protocol is not part of the url, add it.
+				$links[ $key ]['url'] = cnURL::prefix( $link['url'] );
+
+				// Sanitize the URL.
+				$links[ $key ]['url'] = cnSanitize::field( 'url', $links[ $key ]['url'], 'db' );
 
 				// Store the order attribute as supplied in the addresses array.
 				$links[ $key ]['order'] = $order;
 
 				// Convert the do/nofollow string to an (int) so it is saved properly in the db
-				( $link['follow'] == 'dofollow' ) ? $links[ $key ]['follow'] = 1 : $links[ $key ]['follow'] = 0;
-
-				( ( ! empty( $preferred ) ) && $preferred == $key ) ? $links[ $key ]['preferred'] = TRUE : $links[ $key ]['preferred'] = FALSE;
-
-				( ( ! empty( $image ) ) && $image == $key ) ? $links[ $key ]['image'] = TRUE : $links[ $key ]['image'] = FALSE;
-
-				( ( ! empty( $logo ) ) && $logo == $key ) ? $links[ $key ]['logo'] = TRUE : $links[ $key ]['logo'] = FALSE;
+				$links[ $key ]['follow']    = 'dofollow' == $link['follow'] ? 1 : 0;
+				$links[ $key ]['preferred'] = ! empty( $preferred ) && $preferred == $key ? TRUE : FALSE;
+				$links[ $key ]['image']     = ! empty( $image ) && $image == $key ? TRUE : FALSE;
+				$links[ $key ]['logo']      = ! empty( $logo ) && $logo == $key ? TRUE : FALSE;
 
 				/*
-				 * If the user set a preferred network, save the $key value.
-				 * This is going to be needed because if a network that the user
-				 * does not have permission to edit is set to preferred, that network
+				 * If the user set a preferred link, save the $key value.
+				 * This is going to be needed because if a link that the user
+				 * does not have permission to edit is set to preferred, that link
 				 * will have preference.
 				 */
 				if ( $links[ $key ]['preferred'] ) $userPreferred = $key;
@@ -2821,35 +2828,35 @@ class cnEntry {
 				 */
 
 				// Add back to the data array the networks that user does not have permission to view and edit.
-				if ( ! $this->validate->userPermitted( $link['visibility'] ) ) {
+				if ( ! cnValidate::userPermitted( $link['visibility'] ) ) {
 					$links[] = $link;
 
-					// If the network is preferred, it takes precedence, so the user's choice is overriden.
-					if ( ! empty( $preferred ) && $link['preferred'] ) {
+					// If the network is preferred, it takes precedence, so the user's choice is overridden.
+					if ( isset( $userPreferred ) && ! empty( $preferred ) && $link['preferred'] ) {
 						$links[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
-						$connections->setErrorMessage( 'entry_preferred_overridden_link' );
+						cnMessage::set( 'error', 'entry_preferred_overridden_link' );
 					}
 
-					// If the link is already assigned to an image, it takes precedence, so the user's choice is overriden.
-					if ( ! empty( $image ) && $link['image'] ) {
+					// If the link is already assigned to an image, it takes precedence, so the user's choice is overridden.
+					if ( isset( $userImage ) && ! empty( $image ) && $link['image'] ) {
 						$links[ $userImage ]['image'] = FALSE;
 
-						// @TODO Create error message for the user.
+						// @todo Create error message for the user.
 					}
 
-					// If the link is already assigned to an image, it takes precedence, so the user's choice is overriden.
-					if ( ! empty( $logo ) && $link['logo'] ) {
+					// If the link is already assigned to an image, it takes precedence, so the user's choice is overridden.
+					if ( isset( $userLogo ) && ! empty( $logo ) && $link['logo'] ) {
 						$links[ $userLogo ]['logo'] = FALSE;
 
-						// @TODO Create error message for the user.
+						// @todo Create error message for the user.
 					}
 				}
 			}
 		}
 
-		( ! empty( $links ) ) ? $this->links = serialize( $links ) : $this->links = NULL;
+		$this->links = ! empty( $links ) ? serialize( $links ) : NULL;
 		//print_r($links); die;
 	}
 

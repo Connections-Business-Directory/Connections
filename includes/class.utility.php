@@ -1934,7 +1934,7 @@ class cnSiteShot {
 	 *
 	 * @var string
 	 */
-	private $title ='';
+	private $title = '';
 
 	/**
 	 * The string applied to the <a> alt attribute.

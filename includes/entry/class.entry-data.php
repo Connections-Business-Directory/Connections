@@ -2494,26 +2494,31 @@ class cnEntry {
 	/**
 	 * Return an array of objects containing the links per the defined options for the current entry.
 	 *
-	 * Accepted options for the $atts property are:
-	 *  preferred (bool) Retrieve the preferred entry link.
-	 *  type (array) || (string) Retrieve specific link types[network].
-	 *   Permitted Types:
-	 *    website
-	 *    blog
-	 *  image (bool) Retrieve the link assigned to the image.
-	 *  logo (bool) Retrieve the link assigned to the logo.
-	 *
 	 * Filters:
 	 *  cn_link_atts => (array) Set the method attributes.
 	 *  cn_link_cached => (bool) Define if the returned email addresses should be from the object cache or queried from the db.
 	 *  cn_link => (object) Individual email address as it is processed thru the loop.
 	 *  cn_links => (array) All phone numbers before it is returned.
 	 *
-	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $atts 		Accepted values as noted above.
-	 * @param bool    $cached       Returns the cached link data rather than querying the db.
+	 * @access  public
+	 * @since   0.7.3
+	 *
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
+	 *
+	 *     @type bool  $preferred Return only the link set as the preferred link.
+	 *                            Default: FALSE
+	 *     @type array $type      An indexed array to define which link types to return.
+	 *                            Default: array() (All link types.)
+	 *                            Accepts: Array keys of @see cnOptions::getDefaultLinkValues()
+	 *     @type bool  $image     Return only the link that was assigned to the image.
+	 *                            Default: FALSE
+	 *     @type bool  $logo      Return only the link that was assigned to the logo.
+	 *                            Default: FALSE
+	 * }
+	 * @param bool  $cached Returns the cached link data rather than querying the db.
+	 * @param bool  $saving
+	 *
 	 * @return array
 	 */
 	public function getLinks( $atts = array(), $cached = TRUE, $saving = FALSE ) {

@@ -2547,6 +2547,12 @@ class cnEntry {
 				$links = unserialize( $this->links );
 				if ( empty( $links ) ) return $results;
 
+				/**
+				 * @var bool   $preferred
+				 * @var string $type
+				 * @var bool   $image
+				 * @var bool   $logo
+				 */
 				extract( $atts );
 
 				/*

@@ -2700,7 +2700,7 @@ class cnEntry {
 		 */
 		$defaults['preferred'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		$atts['type'] = array( 'personal', 'website' ); // The 'personal' type is provided for legacy support. Versions 0.7.1.6 an older.
 		/*

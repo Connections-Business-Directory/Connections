@@ -2523,22 +2523,27 @@ class cnEntry {
 	 */
 	public function getLinks( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
-		global $connections;
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		$results = array();
 
-		$atts = apply_filters( 'cn_link_atts', $atts );
+		$atts   = apply_filters( 'cn_link_atts', $atts );
 		$cached = apply_filters( 'cn_link_cached' , $cached );
+
+		$types  = $instance->options->getDefaultLinkValues();
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
-		$defaults['image'] = FALSE;
-		$defaults['logo'] = FALSE;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => array_keys( $types ),
+			'image'     => FALSE,
+			'logo'      => FALSE,
+		);
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2568,24 +2573,23 @@ class cnEntry {
 
 					$row = new stdClass();
 
-					( isset( $link['id'] ) ) ? $row->id                 = (int) $link['id'] : $row->id = 0;
-					( isset( $link['order'] ) ) ? $row->order           = (int) $link['order'] : $row->order = 0;
-					( isset( $link['preferred'] ) ) ? $row->preferred   = (bool) $link['preferred'] : $row->preferred = FALSE;
-					( isset( $link['type'] ) ) ? $row->type             = $this->format->sanitizeString( $link['type'] ) : $row->type = 'website';
-					( isset( $link['title'] ) ) ? $row->title           = $this->format->sanitizeString( $link['title'] ) : $row->title = '';
-					( isset( $link['address'] ) ) ? $row->address       = $this->format->sanitizeString( $link['address'] ) : $row->address = NULL;
-					( isset( $link['url'] ) ) ? $row->url               = $this->format->sanitizeString( $link['url'] ) : $row->url = '';
-					( isset( $link['target'] ) ) ? $row->target         = $this->format->sanitizeString( $link['target'] ) : $row->target = '_blank';
-					( isset( $link['follow'] ) ) ? $row->follow         = (bool) $link['follow'] : $row->follow = FALSE;
-					( isset( $link['image'] ) ) ? $row->image           = (bool) $link['image'] : $row->image = FALSE;
-					( isset( $link['logo'] ) ) ? $row->logo             = (bool) $link['logo'] : $row->logo = FALSE;
-					( isset( $link['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $link['visibility'] ) : $row->visibility = '';
+					$row->id         = isset( $link['id'] ) ? (int) $link['id'] : 0;
+					$row->order      = isset( $link['order'] ) ? (int) $link['order'] : 0;
+					$row->preferred  = isset( $link['preferred'] ) ? (bool) $link['preferred'] : FALSE;
+					$row->type       = isset( $link['type'] ) ? $this->format->sanitizeString( $link['type'] ) : 'website';
+					$row->title      = isset( $link['title'] ) ? $this->format->sanitizeString( $link['title'] ) : '';
+					$row->address    = isset( $link['address'] ) ? cnSanitize::field( 'url', $link['address'], 'raw' ) : '';
+					$row->url        = isset( $link['url'] ) ? cnSanitize::field( 'url', $link['url'], 'raw' ) :'';
+					$row->target     = isset( $link['target'] ) ? $this->format->sanitizeString( $link['target'] ) : 'same';
+					$row->follow     = isset( $link['follow'] ) ? (bool) $link['follow'] : FALSE;
+					$row->image      = isset( $link['image'] ) ? (bool) $link['image'] : FALSE;
+					$row->logo       = isset( $link['logo'] ) ? (bool) $link['logo'] : FALSE;
+					$row->visibility = isset( $link['visibility'] ) ? $this->format->sanitizeString( $link['visibility'] ) : 'public';
 
 					/*
 					 * Set the Link name based on type.
 					 */
-					$linkTypes = $connections->options->getDefaultLinkValues();
-					( empty( $row->type ) ) ? $row->name = $linkTypes['website'] : $row->name = $linkTypes[ $row->type ];
+					$row->name = empty( $row->type ) ? $types['website'] : $types[ $row->type ];
 					//var_dump($row->type);
 
 					/*
@@ -2597,7 +2601,7 @@ class cnEntry {
 					if ( empty( $row->name ) ) $row->name       = 'Website';
 
 					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
-					if ( ! isset( $link['visibility'] ) || empty( $link['visibility'] ) ) $row->visibility = 'public';
+					if ( empty( $row->visibility ) ) $row->visibility = 'public';
 					/*
 					 * // END -- Compatibility for previous versions.
 					 */
@@ -2606,7 +2610,7 @@ class cnEntry {
 					/*
 					 * Set the dofollow/nofollow string based on the bool value.
 					 */
-					( $row->follow ) ? $row->followString = 'dofollow' : $row->followString = 'nofollow';
+					$row->followString = $row->follow ? 'dofollow' : 'nofollow';
 
 					/*
 					 * // START -- Do not return links that do not match the supplied $atts.
@@ -2620,7 +2624,7 @@ class cnEntry {
 					 */
 
 					// If the user does not have permission to view the link, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
+					if ( ! cnValidate::userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_link', $row );
 				}
@@ -2632,7 +2636,7 @@ class cnEntry {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
-			$links = $connections->retrieve->links( $atts );
+			$links = $instance->retrieve->links( $atts );
 			//print_r($results);
 
 			if ( empty( $links ) ) return $results;
@@ -2644,7 +2648,7 @@ class cnEntry {
 				$link->preferred  = (bool) $link->preferred;
 				$link->type       = $this->format->sanitizeString( $link->type );
 				$link->title      = $this->format->sanitizeString( $link->title );
-				$link->url        = $this->format->sanitizeString( $link->url );
+				$link->url        = cnSanitize::field( 'url', $link->url, 'raw' );
 				$link->target     = $this->format->sanitizeString( $link->target );
 				$link->follow     = (bool) $link->follow;
 				$link->image      = (bool) $link->image;
@@ -2654,8 +2658,7 @@ class cnEntry {
 				/*
 				 * Set the link name based on the link type.
 				 */
-				$linkTypes  = $connections->options->getDefaultLinkValues();
-				$link->name = $linkTypes[ $link->type ];
+				$link->name = $types[ $link->type ];
 
 				/*
 				 * // START -- Compatibility for previous versions.
@@ -2670,7 +2673,7 @@ class cnEntry {
 				/*
 				 * Set the dofollow/nofollow string based on the bool value.
 				 */
-				( $link->follow ) ? $link->followString = 'dofollow' : $link->followString = 'nofollow';
+				$link->followString = $link->follow ? 'dofollow' : 'nofollow';
 
 				$results[] = apply_filters( 'cn_link', $link );
 			}

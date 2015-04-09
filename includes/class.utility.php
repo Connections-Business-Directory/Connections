@@ -1799,7 +1799,7 @@ class cnString {
 	 *
 	 * @author  http://stackoverflow.com/users/63557/mrhus
 	 * @license http://creativecommons.org/licenses/by-sa/3.0/
-	 * @url     http://stackoverflow.com/a/834355
+	 * @link    http://stackoverflow.com/a/834355
 	 *
 	 * @access public
 	 * @since  8.1

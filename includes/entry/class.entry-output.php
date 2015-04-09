@@ -1971,131 +1971,134 @@ class cnOutput extends cnEntry
 	 * Filters:
 	 *  cn_output_default_atts_link => (array) Register the methods default attributes.
 	 *
-	 * @url http://microformats.org/wiki/hcard-examples#Site_profiles
+	 * @link  http://microformats.org/wiki/hcard-examples#Site_profiles
+	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 * @since  unknown
+	 *
+	 * @param  array $atts Accepted values as noted above.
+	 * @param  bool  [optional] $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getLinkBlock( $atts = array() , $cached = TRUE ) {
+	public function getLinkBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['format'] = '';
-		$defaults['label'] = NULL;
-		$defaults['size'] = 'lg';
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'format'    => '%image%',
+			'label'     => NULL,
+			'size'      => 'lg',
+			'icon_size' => 32,
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_link' , $defaults );
+		$defaults = apply_filters( 'cn_output_default_atts_link', $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$links = $this->getLinks( $atts , $cached );
-		$search = array( '%label%' , '%title%' , '%url%' , '%image%' , '%separator%' );
+		$rows          = array();
+		$links         = $this->getLinks( $atts, $cached );
+		$search        = array( '%label%', '%title%', '%url%', '%image%', '%icon%', '%separator%' );
+		$iconSizes     = array( 16, 24, 32, 48, 64 );
+		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 
 		if ( empty( $links ) ) return '';
 
-		$out .= '<span class="link-block">';
+		/*
+		 * Ensure the supplied size is valid, if not reset to the default value.
+		 */
+
+		$icon = array();
+
+		$icon['width']  = in_array( $atts['icon_size'], $iconSizes ) ? $atts['icon_size'] : 32;
+		$icon['height'] = $icon['width'];
+		$icon['src']    = CN_URL . 'assets/images/icons/link/link_' . $icon['width'] . '.png';
 
 		foreach ( $links as $link ) {
-			$replace = array();
-			$imgBlock = '';
-			$queryURL = '';
-			$imageTag ='';
 
-			$out .= "\n" . '<span class="link ' . $link->type . '">';
+			$icon = apply_filters( 'cn_output_link_icon', $icon, $link->type );
+
+			$replace = array();
 
 			if ( empty( $atts['label'] ) ) {
-				$replace[] = ( empty( $link->name ) ) ? '' : '<span class="link-name">' . $link->name . '</span>';
+
+				$name = empty( $link->name ) ? '' : $link->name;
+
+			} else {
+
+				$name = $atts['label'];
 			}
-			else {
-				$replace[] = '<span class="link-name">' . $atts['label'] . '</span>';
-			}
+
+			$url    = cnSanitize::field( 'url', $link->url );
+			$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
+			$follow = $link->follow ? '' : 'rel="nofollow"';
+
+			$replace[] = '<span class="link-name">' . $name . '</span>';
 
 			// The `notranslate` class is added to prevent Google Translate from translating the text.
-			( empty( $link->title ) ) ? $replace[] = '' : $replace[] = '<a class="url notranslate" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $link->title . '</a>';
-			( empty( $link->url ) ) ? $replace[] = '' : $replace[] = '<a class="url notranslate" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $link->url . '</a>';
+			$replace[] = empty( $link->title ) ? '' : '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $link->title . '</a>';
+			$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $url . '</a>';
 
+			if ( FALSE !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
+			     FALSE !== strpos( $atts['format'], '%image%' ) ) {
 
-			// Set the image size; These string values match the valid size for http://www.shrinktheweb.com
-			switch ( $atts['size'] ) {
-			case 'mcr':
-				$width = 75;
-				$height = 56;
-				break;
+				$screenshot = new cnSiteShot(
+					array(
+						'url'    => $link->url,
+						'alt'    => $url,
+						'title'  => $name,
+						'target' => $target,
+						'follow' => $link->follow,
+						'return' => TRUE,
+					)
+				);
 
-			case 'tny':
-				$width = 90;
-				$height = 68;
-				break;
+				$size = $screenshot->setSize( $atts['size'] );
 
-			case 'vsm':
-				$width = 100;
-				$height = 75;
-				break;
+				/** @noinspection CssInvalidPropertyValue */
+				$screenshot->setBefore( '<span class="cn-image-style" style="display: inline-block;"><span style="display: block; max-width: 100%; width: ' . $size['width'] . 'px">' );
+				$screenshot->setAfter( '</span></span>' );
 
-			case 'sm':
-				$width = 120;
-				$height = 90;
-				break;
+				$replace[] = $screenshot->render();
 
-			case 'lg':
-				$width = 200;
-				$height = 150;
-				break;
+			} else {
 
-			case 'xlg':
-				$width = 320;
-				$height = 240;
-				break;
-			}
-
-			if ( $this->validate->url( $link->url , FALSE ) == 1 ) {
-				// Create the query the WordPress for the webshot to be displayed.
-				$queryURL = 'http://s.wordpress.com/mshots/v1/' . urlencode( $link->url ) . '?w=' . $width;
-				$imageTag = '<img class="screenshot" alt="' . esc_attr( $link->url ) . '" width="' . $width . '" src="' . $queryURL . '" />';
-
-				$imgBlock .= '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image" style="height: ' . $height . '; width: ' . $width . '">';
-				$imgBlock .= '<a class="url" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $imageTag . '</a>';
-				$imgBlock .= '</span></span>';
-
-				$replace[] = $imgBlock;
-			}
-			else {
 				$replace[] = '';
 			}
 
+			$replace[] = '<span class="link-icon"><a class="url" title="' . $link->title . '" href="' . $url . '" target="' . $target . '" ' . $follow . '><img src="' . $icon['src'] . '" height="' . $icon['height'] . '" width="' . $icon['width'] . '"/></a></span>';
+
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace(
+			$row = str_ireplace(
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
-				);
+			);
 
-			$out .= '</span>' . "\n";
+			// Remove any whitespace between tags as the result of spaces on before/after tokens and there was nothing to replace the token with.
+			$row = cnFormatting::normalizeString( $row );
+
+			$rows[] = "\t" . '<span class="link ' . $link->type . '">' . $row . '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$block = '<span class="link-block">' . PHP_EOL . implode( '', $rows ) . '</span>';
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		if ( ! $atts['return'] ) echo $html;
+		return $html;
 	}
 
 

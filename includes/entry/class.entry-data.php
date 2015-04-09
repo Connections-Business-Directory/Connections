@@ -3271,7 +3271,7 @@ class cnEntry {
 
 	/**
 	 * Get the date of the entry's next anniversary or birthday. If the date of the anniversary or birthday has not
-	 * yet occured in the current year, the current year will be used. If the date has already passed in the current
+	 * yet occurred in the current year, the current year will be used. If the date has already passed in the current
 	 * year the next year will be used.
 	 *
 	 * @access public

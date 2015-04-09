@@ -3284,23 +3284,25 @@ class cnEntry {
 	 */
 	public function getUpcoming( $type, $format = '' ) {
 
-		global $connections;
-
 		if ( empty( $this->$type ) ) return '';
 
-		if ( empty( $format ) ) $format = cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' );
+		$timeStamp = current_time( 'timestamp' );
 
-		if ( gmmktime( 23, 59, 59, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $connections->options->wpCurrentTime ) ) < $connections->options->wpCurrentTime ) {
-			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $connections->options->wpCurrentTime ) + 1 );
-		}
-		else {
-			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $connections->options->wpCurrentTime ) );
+		if ( empty( $format ) ) $format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );
+
+		if ( gmmktime( 23, 59, 59, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) ) < $timeStamp ) {
+
+			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) + 1 );
+
+		} else {
+
+			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) );
 		}
 
-		// Convert the date to a string to convert to a sting again. Why? Because doing it this way should keep PHP from timezone adjusting the output.
+		// Convert the date to a string to convert to a sting again.
+		// Why? Because doing it this way should keep PHP from timezone adjusting the output.
 		// date_default_timezone_set('UTC')
 		return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );
-
 	}
 
 	public function getBio() {

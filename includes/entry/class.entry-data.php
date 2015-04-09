@@ -2713,23 +2713,38 @@ class cnEntry {
 	/**
 	 * Caches the links for use and preps for saving and updating.
 	 *
-	 * Valid values as follows.
+	 * @todo Validate as valid web addresses.
 	 *
-	 * $link['id'] (int) Stores the link ID if it was retrieved from the db.
-	 * $link['preferred'] (bool) If the link is the preferred network or not.
-	 * $link['type'] (string) Stores the link type.
-	 * $link['title'] (string) Stores the link title.
-	 * $link['url'] (string) Stores link URL.
-	 * $link['target'] (string) Stores the link target.
-	 * $link['follow'] (bool) Sets the follow attribute.
-	 * $link['visibility'] (string) Stores the link visibility.
+	 * @access  public
+	 * @since   0.7.3
 	 *
-	 * @TODO: Validate as valid web addresses.
+	 * @param   array $links {
+	 *     Optional. An array of arguments.
 	 *
-	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $links
+	 *     @type int    $id         The unique link ID as queried from the DB.
+	 *     @type mixed  $preferred  The array key of the link to be set as the preferred link.
+	 *                              Default: ''
+	 *     @type string $type       The link type.
+	 *                              Default: @todo Should have a default if one is not supplied.
+	 *                              Accepts: The array keys returned from @see cnOptions::getDefaultLinkValues()
+	 *     @type string $title      The link text (also used for the link title attribute).
+	 *                              Default: ''
+	 *     @type string $url        The link URL.
+	 *     @type string $target     The link target attribute.
+	 *                              Default: same
+	 *                              Accepts: new|same
+	 *     @type bool   $follow     Whether or not the link should be followed.
+	 *                              Default: nofollow
+	 *                              Accepts: dofollow | nofollow
+	 *     @type string $visibility The visibility status of the link.
+	 *                              Default: public
+	 *                              Accepts: public|private|unlisted
+	 *     @type mixed  $image      The array key of the link to be assigned to the entry image.
+	 *                              Default: ''
+	 *     @type mixed  $logo       The array key of the link to be assigned to the entry logo.
+	 *                              Default: ''
+	 * }
+	 *
 	 * @return void
 	 */
 	public function setLinks( $links ) {

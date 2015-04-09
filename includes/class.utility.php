@@ -1776,7 +1776,9 @@ class cnString {
 	/**
 	 * Whether or not a string begins with string segment.
 	 *
-	 * @link   http://stackoverflow.com/a/834355
+	 * @author  http://stackoverflow.com/users/63557/mrhus
+	 * @license http://creativecommons.org/licenses/by-sa/3.0/
+	 * @link    http://stackoverflow.com/a/834355
 	 *
 	 * @access public
 	 * @since  8.1
@@ -1795,7 +1797,9 @@ class cnString {
 	/**
 	 * Whether or not a string ends with string segment.
 	 *
-	 * @url    http://stackoverflow.com/a/834355
+	 * @author  http://stackoverflow.com/users/63557/mrhus
+	 * @license http://creativecommons.org/licenses/by-sa/3.0/
+	 * @url     http://stackoverflow.com/a/834355
 	 *
 	 * @access public
 	 * @since  8.1

@@ -129,7 +129,7 @@ class cnEntry {
 	/**
 	 * Associative array of links
 	 *
-	 * @var array
+	 * @var null|string
 	 */
 	private $links;
 

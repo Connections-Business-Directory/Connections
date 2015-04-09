@@ -3274,12 +3274,15 @@ class cnEntry {
 	 * yet occurred in the current year, the current year will be used. If the date has already passed in the current
 	 * year the next year will be used.
 	 *
-	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @uses date_i18n()
+	 * @access  public
+	 * @since   unknown
+	 *
+	 * @uses    date_i18n()
+	 * @uses    current_time()
+	 *
 	 * @param  string $type   The date type to get, anniversary or birthday.
 	 * @param  string $format The date format to show the date in. Use PHP date formatting.
+	 *
 	 * @return string         The formatted date.
 	 */
 	public function getUpcoming( $type, $format = '' ) {

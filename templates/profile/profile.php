@@ -60,7 +60,7 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 
 			<div class="cn-entry" style="-moz-border-radius:4px; background-color:#FFFFFF; border:1px solid #E3E3E3; color: #000000; margin:8px 0px; padding:6px; position: relative;">
 
-					<span style="float: left; margin-right: 10px;"><?php $entry->getImage( array( 'preset' => 'profile' ) ); ?></span>
+					<span style="float: <?php echo is_rtl() ? 'right' : 'left'; ?>; margin-right: 10px;"><?php $entry->getImage( array( 'preset' => 'profile' ) ); ?></span>
 
 					<div style="margin-left: 10px;">
 						<span style="font-size:larger;font-variant: small-caps"><strong><?php $entry->getNameBlock(); ?></strong></span>

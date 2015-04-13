@@ -227,7 +227,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			define( 'CN_DB_VERSION', '0.2' );
 
 			/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
-			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
+			define( 'CN_UPDATE_URL', 'http://connections-pro.com/edd-sl-api' );
 
 			/** @var string CN_DIR_NAME */
 			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );

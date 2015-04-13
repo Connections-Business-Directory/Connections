@@ -1989,7 +1989,7 @@ class cnOutput extends cnEntry
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
-			'format'    => '%image%',
+			'format'    => '',
 			'label'     => NULL,
 			'size'      => 'lg',
 			'icon_size' => 32,

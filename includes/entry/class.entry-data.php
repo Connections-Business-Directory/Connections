@@ -3518,6 +3518,14 @@ class cnEntry {
 
 	}
 
+	/**
+	 * Get the entry notes.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
+	 */
 	public function getNotes() {
 
 		//return $this->notes;

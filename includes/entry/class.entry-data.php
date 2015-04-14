@@ -489,7 +489,6 @@ class cnEntry {
 		return human_time_diff( strtotime( $this->timeStamp ), current_time( 'timestamp' ) );
 	}
 
-	public function getDateAdded( $format = NULL ) {
 	/**
 	 * Get the formatted date that the entry was added.
 	 *
@@ -503,12 +502,14 @@ class cnEntry {
 	 *
 	 * @return string
 	 */
+	public function getDateAdded( $format = 'm/d/Y' ) {
+
 		if ( $this->dateAdded != NULL ) {
-			if ( empty( $format ) ) $format = 'm/d/Y';
 
 			return date( $format, $this->dateAdded );
-		}
-		else {
+
+		} else {
+
 			return 'Unknown';
 		}
 	}

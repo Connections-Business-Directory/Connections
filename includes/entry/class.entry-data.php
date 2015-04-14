@@ -457,7 +457,6 @@ class cnEntry {
 	 * Returns $timeStamp
 	 *
 	 * @param string  $format
-	 * @see entry::$timeStamp
 	 */
 	public function getFormattedTimeStamp( $format = NULL ) {
 		if ( !$format ) {
@@ -578,7 +577,6 @@ class cnEntry {
 	/**
 	 * Sets $slug.
 	 *
-	 * @see cnEntry::$slug
 	 */
 	public function setSlug( $slug ) {
 

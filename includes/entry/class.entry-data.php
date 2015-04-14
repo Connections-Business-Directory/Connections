@@ -3711,6 +3711,14 @@ class cnEntry {
 		return isset( $this->options['logo']['linked'] ) ? $this->options['logo']['linked'] : FALSE;
 	}
 
+	/**
+	 * Set whether or not the logo is linked.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param bool $logoLinked
+	 */
 	public function setLogoLinked( $logoLinked ) {
 		$this->options['logo']['linked'] = $logoLinked;
 	}

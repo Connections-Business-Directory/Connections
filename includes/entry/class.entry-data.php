@@ -1258,7 +1258,7 @@ class cnEntry {
 		$defaults['country'] = NULL;
 		$defaults['coordinates'] = array();
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1467,7 +1467,7 @@ class cnEntry {
 			foreach ( $addresses as $key => $address ) {
 
 				// Permit only the valid fields.
-				$address = $this->validate->attributesArray( $validFields, $address );
+				$address = cnSanitize::args( $address, $validFields );
 
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
@@ -1571,7 +1571,7 @@ class cnEntry {
 		$defaults['type'] = NULL;
 		$defaults['limit'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1745,7 +1745,7 @@ class cnEntry {
 
 			foreach ( $phoneNumbers as $key => $phoneNumber ) {
 				// First validate the supplied data.
-				$phoneNumber = $this->validate->attributesArray( $validFields, $phoneNumber );
+				$phoneNumber = cnSanitize::args( $phoneNumber, $validFields );
 
 				// If the number is empty, no need to store it.
 				if ( empty( $phoneNumber['number'] ) ) {
@@ -1844,7 +1844,7 @@ class cnEntry {
 		$defaults['type'] = NULL;
 		$defaults['limit'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1990,7 +1990,7 @@ class cnEntry {
 			foreach ( $emailAddresses as $key => $email ) {
 
 				// First validate the supplied data.
-				$email = $this->validate->attributesArray( $validFields, $email );
+				$email = cnSanitize::args( $email, $validFields );
 
 				// If the address is empty, no need to store it.
 				if ( empty( $email['address'] ) ) {
@@ -2090,7 +2090,7 @@ class cnEntry {
 		$defaults['preferred'] = FALSE;
 		$defaults['type'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2268,7 +2268,7 @@ class cnEntry {
 			foreach ( $im as $key => $network ) {
 
 				// First validate the supplied data.
-				$network = $this->validate->attributesArray( $validFields, $network );
+				$network = cnSanitize::args( $network, $validFields );
 
 				// If the id is emty, no need to store it.
 				if ( empty( $network['id'] ) ) {
@@ -2382,7 +2382,7 @@ class cnEntry {
 		$defaults['preferred'] = FALSE;
 		$defaults['type'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2521,7 +2521,7 @@ class cnEntry {
 			foreach ( $socialNetworks as $key => $network ) {
 
 				// First validate the supplied data.
-				$network = $this->validate->attributesArray( $validFields, $network );
+				$network = cnSanitize::args( $network, $validFields );
 
 				// If the URL is empty, no need to save it.
 				if ( empty( $network['url'] ) || $network['url'] == 'http://' ) {
@@ -3020,7 +3020,7 @@ class cnEntry {
 		$defaults['preferred'] = FALSE;
 		$defaults['type'] = NULL;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -3227,7 +3227,7 @@ class cnEntry {
 			foreach ( $dates as $key => $date ) {
 
 				// First validate the supplied data.
-				$date = $this->validate->attributesArray( $validFields, $date );
+				$date = cnSanitize::args( $date, $validFields );
 
 				// If the date is empty, no need to store it.
 				if ( empty( $date['date'] ) ) {

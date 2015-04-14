@@ -1844,7 +1844,6 @@ class cnEntry {
 		 */
 		global $connections;
 
-		$emailAddresses = array();
 		$results = array();
 
 		$atts = apply_filters( 'cn_email_atts', $atts );

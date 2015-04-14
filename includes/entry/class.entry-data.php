@@ -409,7 +409,6 @@ class cnEntry {
 			$this->processLegacyImages( $this->getImageNameOriginal() );
 			$this->processLegacyLogo( $this->getLogoName() );
 		}
-
 	}
 
 	/**

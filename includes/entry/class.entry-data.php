@@ -1567,7 +1567,6 @@ class cnEntry {
 		global $connections;
 
 		$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
-		$phoneNumbers = array();
 		$results = array();
 
 		$atts = apply_filters( 'cn_phone_atts', $atts );

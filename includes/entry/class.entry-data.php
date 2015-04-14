@@ -3387,6 +3387,18 @@ class cnEntry {
 
 	}
 
+	/**
+	 * Set the entry's anniversary.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @deprecated Unknown Use {@see cnEntry::getDates()} instead.
+	 * @see cnEntry::getDates()
+	 *
+	 * @param int $day
+	 * @param int $month
+	 */
 	public function setAnniversary( $day, $month ) {
 
 		//Create the anniversary with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.

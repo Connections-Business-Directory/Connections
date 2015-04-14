@@ -2092,7 +2092,6 @@ class cnEntry {
 
 		global $connections;
 
-		$imIDs = array();
 		$results = array();
 
 		$atts = apply_filters( 'cn_messenger_atts', $atts );

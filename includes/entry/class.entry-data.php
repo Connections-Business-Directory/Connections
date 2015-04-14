@@ -1561,7 +1561,9 @@ class cnEntry {
 	 */
 	public function getPhoneNumbers( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
-		/** @var $connections connectionsLoad */
+		/**
+		 * @var connectionsLoad $connections
+		 */
 		global $connections;
 
 		$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
@@ -1838,6 +1840,9 @@ class cnEntry {
 	 */
 	public function getEmailAddresses( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
+		/**
+		 * @var connectionsLoad $connections
+		 */
 		global $connections;
 
 		$emailAddresses = array();
@@ -2381,6 +2386,9 @@ class cnEntry {
 	 */
 	public function getSocialMedia( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
+		/**
+		 * @var connectionsLoad $connections
+		 */
 		global $connections;
 
 		$socialMediaIDs = array();
@@ -4395,6 +4403,11 @@ class cnEntry {
 	}
 
 	public function update() {
+
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb            $wpdb
+		 */
 		global $wpdb, $connections;
 
 		$this->serializeOptions();
@@ -5366,6 +5379,11 @@ class cnEntry {
 	}
 
 	public function delete( $id ) {
+
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb            $wpdb
+		 */
 		global $wpdb, $connections;
 
 		do_action( 'cn_delete-entry', $this );

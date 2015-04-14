@@ -4481,10 +4481,11 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getEditedBy() {
+
 		$editedBy = get_userdata( $this->editedBy );
 
 		if ( $editedBy ) {
-			return $editedBy->get('display_name');
+			return $editedBy->get( 'display_name' );
 		} else {
 			return __( 'Unknown', 'connections' );
 		}

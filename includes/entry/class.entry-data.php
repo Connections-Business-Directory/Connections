@@ -477,6 +477,14 @@ class cnEntry {
 		return $this->timeStamp;
 	}
 
+	/**
+	 * The human readable difference between the date the entry was last edited and the current date.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
+	 */
 	public function getHumanTimeDiff() {
 		return human_time_diff( strtotime( $this->timeStamp ), current_time( 'timestamp' ) );
 	}

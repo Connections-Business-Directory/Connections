@@ -4453,9 +4453,8 @@ class cnEntry {
 		$addedBy = get_userdata( $this->addedBy );
 
 		if ( $addedBy ) {
-			return $addedBy->display_name;
-		}
-		else {
+			return $addedBy->get('display_name');
+		} else {
 			return 'Unknown';
 		}
 	}
@@ -4484,9 +4483,8 @@ class cnEntry {
 		$editedBy = get_userdata( $this->editedBy );
 
 		if ( $editedBy ) {
-			return $editedBy->display_name;
-		}
-		else {
+			return $editedBy->get('display_name');
+		} else {
 			return __( 'Unknown', 'connections' );
 		}
 	}

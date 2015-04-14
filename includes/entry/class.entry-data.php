@@ -1672,7 +1672,7 @@ class cnEntry {
 			}
 		}
 		else {
-			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all phone numbers will be returned by the query.
+			// Exit right away and return an empty array if the entry ID has not been set otherwise all phone numbers will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
 			$phoneNumbers = $connections->retrieve->phoneNumbers( $atts );
@@ -1937,7 +1937,7 @@ class cnEntry {
 
 		} else {
 
-			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all email addresses will be returned by the query.
+			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
 			$emailAddresses = $connections->retrieve->emailAddresses( $atts );
@@ -2288,7 +2288,7 @@ class cnEntry {
 				// First validate the supplied data.
 				$network = cnSanitize::args( $network, $validFields );
 
-				// If the id is emty, no need to store it.
+				// If the id is empty, no need to store it.
 				if ( empty( $network['id'] ) ) {
 					unset( $im[ $key ] );
 					continue;
@@ -2476,7 +2476,7 @@ class cnEntry {
 
 		} else {
 
-			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all email addresses will be returned by the query.
+			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
 			$socialMedia = $connections->retrieve->socialMedia( $atts );

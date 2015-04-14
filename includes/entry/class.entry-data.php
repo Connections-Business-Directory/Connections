@@ -3385,7 +3385,6 @@ class cnEntry {
 		} else {
 			return '';
 		}
-
 	}
 
 	/**
@@ -3430,7 +3429,6 @@ class cnEntry {
 		} else {
 			return '';
 		}
-
 	}
 
 	/**
@@ -3503,7 +3501,6 @@ class cnEntry {
 	public function getBio() {
 
 		return $this->format->sanitizeString( $this->bio, TRUE );
-
 	}
 
 	/**
@@ -3517,7 +3514,6 @@ class cnEntry {
 	public function setBio( $bio ) {
 
 		$this->bio = $bio;
-
 	}
 
 	/**
@@ -3531,7 +3527,6 @@ class cnEntry {
 	public function getNotes() {
 
 		return $this->format->sanitizeString( $this->notes, TRUE );
-
 	}
 
 	/**
@@ -3545,7 +3540,6 @@ class cnEntry {
 	public function setNotes( $notes ) {
 
 		$this->notes = $notes;
-
 	}
 
 	/**
@@ -4522,7 +4516,6 @@ class cnEntry {
 		$permittedValues = array( 'approved', 'pending' );
 
 		$this->status = in_array( $status, $permittedValues ) ? sanitize_key( $status ) : 'pending';
-
 	}
 
 

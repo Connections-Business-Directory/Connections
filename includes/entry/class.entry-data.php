@@ -3740,6 +3740,14 @@ class cnEntry {
 		return $this->options['logo']['name'];
 	}
 
+	/**
+	 * Saves the file name of the originally uploaded logo.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param string $logoName
+	 */
 	public function setLogoName( $logoName ) {
 		$this->options['logo']['name'] = $logoName;
 	}

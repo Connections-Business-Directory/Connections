@@ -3490,6 +3490,14 @@ class cnEntry {
 		return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );
 	}
 
+	/**
+	 * Get the entry bio.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
+	 */
 	public function getBio() {
 
 		return $this->format->sanitizeString( $this->bio, TRUE );

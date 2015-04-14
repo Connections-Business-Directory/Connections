@@ -490,6 +490,19 @@ class cnEntry {
 	}
 
 	public function getDateAdded( $format = NULL ) {
+	/**
+	 * Get the formatted date that the entry was added.
+	 *
+	 * @todo Add logic to deal with the possibility that date() can return FALSE.
+	 * @todo Date should be run thru date_i18n().
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param string $format
+	 *
+	 * @return string
+	 */
 		if ( $this->dateAdded != NULL ) {
 			if ( empty( $format ) ) $format = 'm/d/Y';
 

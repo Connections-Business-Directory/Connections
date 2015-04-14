@@ -1482,7 +1482,7 @@ class cnEntry {
 				( ( isset( $preferred ) ) && $preferred == $key ) ? $addresses[ $key ]['preferred'] = TRUE : $addresses[ $key ]['preferred'] = FALSE;
 
 				/*
-				 * If the user set a perferred address, save the $key value.
+				 * If the user set a preferred address, save the $key value.
 				 * This is going to be needed because if an address that the user
 				 * does not have permission to edit is set to preferred, that address
 				 * will have preference.
@@ -1770,7 +1770,7 @@ class cnEntry {
 				( ( isset( $preferred ) ) && $preferred == $key ) ? $phoneNumbers[ $key ]['preferred'] = TRUE : $phoneNumbers[ $key ]['preferred'] = FALSE;
 
 				/*
-				 * If the user set a perferred number, save the $key value.
+				 * If the user set a preferred number, save the $key value.
 				 * This is going to be needed because if a number that the user
 				 * does not have permission to edit is set to preferred, that number
 				 * will have preference.
@@ -2020,7 +2020,7 @@ class cnEntry {
 				( ( isset( $preferred ) ) && $preferred == $key ) ? $emailAddresses[ $key ]['preferred'] = TRUE : $emailAddresses[ $key ]['preferred'] = FALSE;
 
 				/*
-				 * If the user set a perferred address, save the $key value.
+				 * If the user set a preferred address, save the $key value.
 				 * This is going to be needed because if an address that the user
 				 * does not have permission to edit is set to preferred, that address
 				 * will have preference.
@@ -2300,7 +2300,7 @@ class cnEntry {
 				( ( isset( $preferred ) ) && $preferred == $key ) ? $im[ $key ]['preferred'] = TRUE : $im[ $key ]['preferred'] = FALSE;
 
 				/*
-				 * If the user set a perferred network, save the $key value.
+				 * If the user set a preferred network, save the $key value.
 				 * This is going to be needed because if a network that the user
 				 * does not have permission to edit is set to preferred that network
 				 * will have preference.
@@ -2563,7 +2563,7 @@ class cnEntry {
 				( ( ! empty( $preferred ) ) && $preferred == $key ) ? $socialNetworks[ $key ]['preferred'] = TRUE : $socialNetworks[ $key ]['preferred'] = FALSE;
 
 				/*
-				 * If the user set a perferred network, save the $key value.
+				 * If the user set a preferred network, save the $key value.
 				 * This is going to be needed because if a network that the user
 				 * does not have permission to edit is set to preferred, that network
 				 * will have preference.
@@ -3265,7 +3265,7 @@ class cnEntry {
 				( ( isset( $preferred ) ) && $preferred == $key ) ? $dates[ $key ]['preferred'] = TRUE : $dates[ $key ]['preferred'] = FALSE;
 
 				/*
-				 * If the user set a perferred date, save the $key value.
+				 * If the user set a preferred date, save the $key value.
 				 * This is going to be needed because if a date that the user
 				 * does not have permission to edit is set to preferred, that date
 				 * will have preference.

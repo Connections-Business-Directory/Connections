@@ -4499,8 +4499,9 @@ class cnEntry {
 	 * Returns the entry's status.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @return (string)
+	 * @since  unknown
+	 *
+	 * @return string
 	 */
 	public function getStatus() {
 		return sanitize_key( $this->status );

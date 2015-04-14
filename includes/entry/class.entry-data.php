@@ -5237,6 +5237,14 @@ class cnEntry {
 		return $result;
 	}
 
+	/**
+	 * Save the entry to the db.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return false|int
+	 */
 	public function save() {
 		global $wpdb, $connections;
 

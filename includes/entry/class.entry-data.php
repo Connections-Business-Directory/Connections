@@ -4535,9 +4535,6 @@ class cnEntry {
 
 	/**
 	 * Sets $options.
-	 *
-	 * @param object  $options
-	 * @see entry::$options
 	 */
 	private function serializeOptions() {
 		$this->options = serialize( $this->options );

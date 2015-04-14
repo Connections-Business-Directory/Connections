@@ -308,6 +308,14 @@ class cnEntry {
 	public $directoryHome = array();
 
 	function __construct( $entry = NULL ) {
+	/**
+	 * Setup the entry object.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param null $entry
+	 */
 
 		/**
 		 * @var connectionsLoad $connections

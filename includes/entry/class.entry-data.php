@@ -3533,6 +3533,14 @@ class cnEntry {
 
 	}
 
+	/**
+	 * Set the entry notes.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param string $notes
+	 */
 	public function setNotes( $notes ) {
 
 		$this->notes = $notes;

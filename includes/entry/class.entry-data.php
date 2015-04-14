@@ -3361,6 +3361,22 @@ class cnEntry {
 		( ! empty( $dates ) ) ? $this->dates = serialize( $dates ) : $this->dates = NULL;
 	}
 
+	/**
+	 * Get the entry's anniversary. If formatted with the year, the year will be the year of the next upcoming
+	 * year of the anniversary. For example, if the month and day of the anniversary date has not yet passed the current date,
+	 * the current year will be returned. If the month and day of the anniversary date has passed the current date, the
+	 * next year will be returned.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @deprecated Unknown Use {@see cnEntry::getDates()} instead.
+	 * @see cnEntry::getDates()
+	 *
+	 * @param string $format
+	 *
+	 * @return string
+	 */
 	public function getAnniversary( $format = 'F jS' ) {
 
 		if ( ! empty( $this->anniversary ) ) {

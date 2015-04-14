@@ -3032,7 +3032,6 @@ class cnEntry {
 
 		global $connections;
 
-		$dates = array();
 		$results = array();
 
 		$atts = apply_filters( 'cn_date_atts', $atts );

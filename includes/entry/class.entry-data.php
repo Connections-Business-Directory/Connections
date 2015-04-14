@@ -1271,6 +1271,15 @@ class cnEntry {
 				$addresses = unserialize( $this->addresses );
 				if ( empty( $addresses ) ) return $results;
 
+				/**
+				 * @var bool   $preferred
+				 * @var string $type
+				 * @var string $city
+				 * @var string $state
+				 * @var string $zipcode
+				 * @var string $country
+				 * @var array  $coordinates
+				 */
 				extract( $atts );
 
 				/*
@@ -1582,6 +1591,10 @@ class cnEntry {
 				$phoneNumbers = unserialize( $this->phoneNumbers );
 				if ( empty( $phoneNumbers ) ) return $results;
 
+				/**
+				 * @var bool   $preferred
+				 * @var string $type
+				 */
 				extract( $atts );
 
 				/*
@@ -1853,6 +1866,10 @@ class cnEntry {
 				$emailAddresses = unserialize( $this->emailAddresses );
 				if ( empty( $emailAddresses ) ) return $results;
 
+				/**
+				 * @var bool   $preferred
+				 * @var string $type
+				 */
 				extract( $atts );
 
 				/*
@@ -2099,6 +2116,10 @@ class cnEntry {
 
 				if ( empty( $networks ) ) return $results;
 
+				/**
+				 * @var bool   $preferred
+				 * @var string $type
+				 */
 				extract( $atts );
 
 				/*
@@ -2387,6 +2408,10 @@ class cnEntry {
 				$networks = unserialize( $this->socialMedia );
 				if ( empty( $networks ) ) return $results;
 
+				/**
+				 * @var bool   $preferred
+				 * @var string $type
+				 */
 				extract( $atts );
 
 				/*
@@ -3057,6 +3082,10 @@ class cnEntry {
 				$dates = unserialize( $this->dates );
 				if ( empty( $dates ) ) return $results;
 
+				/**
+				 * @var bool   $preferred
+				 * @var string $type
+				 */
 				extract( $atts );
 
 				/*

@@ -4528,8 +4528,6 @@ class cnEntry {
 
 	/**
 	 * Returns $options.
-	 *
-	 * @see entry::$options
 	 */
 	private function getOptions() {
 		return $this->options;

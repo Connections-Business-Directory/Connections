@@ -3670,8 +3670,7 @@ class cnEntry {
 	/**
 	 * Sets $entryType.
 	 *
-	 * @param object  $entryType
-	 * @see entry::$entryType
+	 * @param string $entryType
 	 */
 	public function setEntryType( $entryType ) {
 		$this->options['entry']['type'] = $entryType;

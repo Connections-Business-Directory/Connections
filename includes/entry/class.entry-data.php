@@ -330,7 +330,8 @@ class cnEntry {
 		// Load the validation class.
 		$this->validate = new cnValidate();
 
-		if ( isset( $entry ) ) {
+		if ( ! is_null( $entry ) ) {
+
 			if ( isset( $entry->id ) ) $this->id = (integer) $entry->id;
 			if ( isset( $entry->user ) ) $this->user = (integer) $entry->user;
 			if ( isset( $entry->ts ) ) $this->timeStamp = $entry->ts;

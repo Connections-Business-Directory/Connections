@@ -4450,10 +4450,11 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getAddedBy() {
+
 		$addedBy = get_userdata( $this->addedBy );
 
 		if ( $addedBy ) {
-			return $addedBy->get('display_name');
+			return $addedBy->get( 'display_name' );
 		} else {
 			return 'Unknown';
 		}

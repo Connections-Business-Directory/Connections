@@ -3597,8 +3597,9 @@ class cnEntry {
 	 * The screen display value of the entry's visibility status.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @return (string)
+	 * @since  unknown
+	 *
+	 * @return string
 	 */
 	public function displayVisibilityType() {
 

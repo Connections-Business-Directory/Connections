@@ -5542,6 +5542,14 @@ class cnEntry {
 		return $result;
 	}
 
+	/**
+	 * Delete the entry.
+	 *
+	 * @access public
+	 * @since  Unknown
+	 *
+	 * @param int $id The entry ID.
+	 */
 	public function delete( $id ) {
 
 		/**

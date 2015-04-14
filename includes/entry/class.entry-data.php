@@ -3687,6 +3687,14 @@ class cnEntry {
 		return isset( $this->options['logo']['display'] ) ? $this->options['logo']['display'] : FALSE;
 	}
 
+	/**
+	 * Set whether or not the logo should be displayed.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param bool $logoDisplay
+	 */
 	public function setLogoDisplay( $logoDisplay ) {
 		$this->options['logo']['display'] = $logoDisplay;
 	}

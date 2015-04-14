@@ -2388,7 +2388,6 @@ class cnEntry {
 		 */
 		global $connections;
 
-		$socialMediaIDs = array();
 		$results = array();
 
 		$atts = apply_filters( 'cn_social_network_atts', $atts );

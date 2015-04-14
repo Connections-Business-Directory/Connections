@@ -3675,7 +3675,14 @@ class cnEntry {
 		$this->entryType = $entryType;
 	}
 
-
+	/**
+	 * Whether or not the logo is set to be displayed or not.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return bool
+	 */
 	public function getLogoDisplay() {
 		return isset( $this->options['logo']['display'] ) ? $this->options['logo']['display'] : FALSE;
 	}

@@ -1800,7 +1800,7 @@ class cnEntry {
 				if ( ! $this->validate->userPermitted( $phone['visibility'] ) ) {
 					$phoneNumbers[] = $phone;
 
-					// If the number is preferred, it takes precedence, so the user's choice is overriden.
+					// If the number is preferred, it takes precedence, so the user's choice is overridden.
 					if ( ! empty( $preferred ) && $phone['preferred'] ) {
 						$phoneNumbers[ $userPreferred ]['preferred'] = FALSE;
 
@@ -2050,7 +2050,7 @@ class cnEntry {
 				if ( ! $this->validate->userPermitted( $email['visibility'] ) ) {
 					$emailAddresses[] = $email;
 
-					// If the address is preferred, it takes precedence, so the user's choice is overriden.
+					// If the address is preferred, it takes precedence, so the user's choice is overridden.
 					if ( ! empty( $preferred ) && $email['preferred'] ) {
 						$emailAddresses[ $userPreferred ]['preferred'] = FALSE;
 
@@ -2333,7 +2333,7 @@ class cnEntry {
 
 					$im[] = $network;
 
-					// If the network is preferred, it takes precedence, so the user's choice is overriden.
+					// If the network is preferred, it takes precedence, so the user's choice is overridden.
 					if ( ! empty( $preferred ) && $network['preferred'] ) {
 
 						$im[ $userPreferred ]['preferred'] = FALSE;
@@ -2598,7 +2598,7 @@ class cnEntry {
 
 					$socialNetworks[] = $network;
 
-					// If the network is preferred, it takes precedence, so the user's choice is overriden.
+					// If the network is preferred, it takes precedence, so the user's choice is overridden.
 					if ( ! empty( $preferred ) && $network['preferred'] ) {
 
 						$socialNetworks[ $userPreferred ]['preferred'] = FALSE;
@@ -3346,7 +3346,7 @@ class cnEntry {
 				if ( ! $this->validate->userPermitted( $date['visibility'] ) ) {
 					//$dates[] = $date;
 
-					// If the date is preferred, it takes precedence, so the user's choice is overriden.
+					// If the date is preferred, it takes precedence, so the user's choice is overridden.
 					if ( ! empty( $preferred ) && $date['preferred'] ) {
 						$dates[ $userPreferred ]['preferred'] = FALSE;
 

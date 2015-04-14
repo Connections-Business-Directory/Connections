@@ -4375,7 +4375,7 @@ class cnEntry {
 	 * @access private
 	 * @since  8.1
 	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit(
+	 * @uses   trailingslashit()
 	 * @param  string $filename The original logo file name.
 	 *
 	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.

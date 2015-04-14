@@ -222,7 +222,8 @@ class cnEntry {
 	 * @var bool
 	 */
 	private $logoDisplay;
-	private $logoName;
+
+	//private $logoName;
 
 	/**
 	 * @since unknown
@@ -384,9 +385,9 @@ class cnEntry {
 					$this->logoLinked = $this->options['logo']['linked'];
 					$this->logoDisplay = $this->options['logo']['display'];
 
-					if ( isset( $this->options['logo']['name'] ) ) {
-						$this->logoName =$this->options['logo']['name'];
-					}
+					//if ( isset( $this->options['logo']['name'] ) ) {
+					//	$this->logoName =$this->options['logo']['name'];
+					//}
 				}
 
 				if ( isset( $this->options['entry']['type'] ) ) $this->entryType = $this->options['entry']['type'];

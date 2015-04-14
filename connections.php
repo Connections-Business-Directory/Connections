@@ -138,6 +138,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public $url;
 
 		/**
+		 * The following vars are being set in the cnEntry and cnRetrieve classes.
+		 * @todo Code should be refactor to remove their usage.
+		 */
+		public $lastQuery;
+		public $lastQueryError;
+		public $lastInsertID;
+
+		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
 		 *
 		 * @access public

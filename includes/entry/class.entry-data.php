@@ -4111,6 +4111,7 @@ class cnEntry {
 						} else {
 
 
+							/** @noinspection PhpUsageOfSilenceOperatorInspection */
 							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
 
 								$meta['width']  = $image[0];
@@ -4177,6 +4178,7 @@ class cnEntry {
 
 						} else {
 
+							/** @noinspection PhpUsageOfSilenceOperatorInspection */
 							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
 
 								$meta['width']  = $image[0];
@@ -4306,12 +4308,15 @@ class cnEntry {
 			if ( cnFileSystem::mkdir( $path ) ) {
 
 				// Copy or move the original image.
+				/** @noinspection PhpUsageOfSilenceOperatorInspection */
 				if ( $compatiblityDate < @filemtime( $legacyPath . $filename ) ) {
 
+					/** @noinspection PhpUsageOfSilenceOperatorInspection */
 					$result = @rename( $original, $path . $filename );
 
 				} else {
 
+					/** @noinspection PhpUsageOfSilenceOperatorInspection */
 					$result = @copy( $original, $path . $filename );
 				}
 
@@ -4334,6 +4339,7 @@ class cnEntry {
 
 						if ( $file->isDot() ) { continue; }
 
+						/** @noinspection PhpUsageOfSilenceOperatorInspection */
 						@unlink( $file->getPathname() );
 					}
 
@@ -4414,11 +4420,14 @@ class cnEntry {
 
 				// Copy or move the logo.
 				if ( $compatiblityDate < @filemtime( $legacyPath . $filename ) ) {
+				/** @noinspection PhpUsageOfSilenceOperatorInspection */
 
+					/** @noinspection PhpUsageOfSilenceOperatorInspection */
 					$result = @rename( $original, $path . $filename );
 
 				} else {
 
+					/** @noinspection PhpUsageOfSilenceOperatorInspection */
 					$result = @copy( $original, $path . $filename );
 				}
 

@@ -3600,7 +3600,11 @@ class cnEntry {
 	 */
 	public function displayVisibiltyType() {
 
-		$permittedValues = array( 'unlisted' => __( 'Unlisted', 'connections' ), 'public' => __( 'Public', 'connections' ), 'private' => __( 'Private', 'connections' ) );
+		$permittedValues = array(
+			'unlisted' => __( 'Unlisted', 'connections' ),
+			'public'   => __( 'Public', 'connections' ),
+			'private'  => __( 'Private', 'connections' )
+		);
 
 		$visibility = $this->getVisibility();
 

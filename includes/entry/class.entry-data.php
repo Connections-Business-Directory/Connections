@@ -183,7 +183,7 @@ class cnEntry {
 	private $notes;
 
 	/**
-	 * String: Visibilty Type; public, private, unlisted
+	 * String: Visibility Type; public, private, unlisted
 	 *
 	 * @var string
 	 */

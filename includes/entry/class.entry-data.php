@@ -356,8 +356,8 @@ class cnEntry {
 			if ( isset( $entry->links ) ) $this->links = $entry->links;
 			if ( isset( $entry->dates ) ) $this->dates = $entry->dates;
 
-			if ( isset( $entry->birthday ) ) (integer) $this->birthday = $entry->birthday;
-			if ( isset( $entry->anniversary ) ) (integer) $this->anniversary = $entry->anniversary;
+			if ( isset( $entry->birthday ) ) $this->birthday = (integer) $entry->birthday;
+			if ( isset( $entry->anniversary ) ) $this->anniversary = (integer) $entry->anniversary;
 
 			if ( isset( $entry->bio ) ) $this->bio = $entry->bio;
 			if ( isset( $entry->notes ) ) $this->notes = $entry->notes;

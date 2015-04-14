@@ -3406,6 +3406,22 @@ class cnEntry {
 
 	}
 
+	/**
+	 * Get the entry's birthday. If formatted with the year, the year will be the year of the next upcoming
+	 * year of the birthday. For example, if the month and day of the birthday date has not yet passed the current date,
+	 * the current year will be returned. If the month and day of the birthday date has passed the current date, the
+	 * next year will be returned.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @deprecated Unknown Use {@see cnEntry::getDates()} instead.
+	 * @see cnEntry::getDates()
+	 *
+	 * @param string $format
+	 *
+	 * @return string
+	 */
 	public function getBirthday( $format = 'F jS' ) {
 
 		if ( ! empty( $this->birthday ) ) {

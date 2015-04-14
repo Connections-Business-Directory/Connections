@@ -2084,7 +2084,7 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $atts 		Accepted values as noted above.
+	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
 	 * @return array
 	 */
@@ -2377,7 +2377,7 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $atts 		Accepted values as noted above.
+	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
 	 * @return array
 	 */
@@ -3018,7 +3018,7 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $atts 		Accepted values as noted above.
+	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached date data rather than querying the db.
 	 * @return array
 	 */

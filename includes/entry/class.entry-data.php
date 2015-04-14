@@ -4406,7 +4406,7 @@ class cnEntry {
 		if ( is_file( $legacyPath . $filename ) ) {
 
 			// The modification file date that logo will be deleted to maintain compatibility with 0.6.2.1 and older.
-			$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
+			$compatibilityDate = mktime( 0, 0, 0, 6, 1, 2010 );
 
 			// Build path to the original file.
 			$original = $legacyPath . $filename;
@@ -4418,8 +4418,8 @@ class cnEntry {
 			if ( cnFileSystem::mkdir( $path ) ) {
 
 				// Copy or move the logo.
-				if ( $compatiblityDate < @filemtime( $legacyPath . $filename ) ) {
 				/** @noinspection PhpUsageOfSilenceOperatorInspection */
+				if ( $compatibilityDate < @filemtime( $legacyPath . $filename ) ) {
 
 					/** @noinspection PhpUsageOfSilenceOperatorInspection */
 					$result = @rename( $original, $path . $filename );

@@ -5254,6 +5254,11 @@ class cnEntry {
 	 * @return false|int
 	 */
 	public function save() {
+
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb            $wpdb
+		 */
 		global $wpdb, $connections;
 
 		$this->serializeOptions();

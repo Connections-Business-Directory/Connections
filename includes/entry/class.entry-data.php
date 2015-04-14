@@ -2086,6 +2086,8 @@ class cnEntry {
 	 * @version 1.0
 	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
+	 * @param bool    $saving       Whether or no the data is being saved to the db.
+	 *
 	 * @return array
 	 */
 	public function getIm( $atts = array(), $cached = TRUE, $saving = FALSE ) {
@@ -2379,6 +2381,8 @@ class cnEntry {
 	 * @version 1.0
 	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
+	 * @param bool    $saving       Whether or no the data is being saved to the db.
+	 *
 	 * @return array
 	 */
 	public function getSocialMedia( $atts = array(), $cached = TRUE, $saving = FALSE ) {
@@ -2636,7 +2640,7 @@ class cnEntry {
 	 *                            Default: FALSE
 	 * }
 	 * @param bool  $cached Returns the cached link data rather than querying the db.
-	 * @param bool  $saving
+	 * @param bool  $saving Whether or no the data is being saved to the db.
 	 *
 	 * @return array
 	 */
@@ -3020,6 +3024,8 @@ class cnEntry {
 	 * @version 1.0
 	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached date data rather than querying the db.
+	 * @param bool    $saving       Whether or no the data is being saved to the db.
+	 *
 	 * @return array
 	 */
 	public function getDates( $atts = array(), $cached = TRUE, $saving = FALSE ) {

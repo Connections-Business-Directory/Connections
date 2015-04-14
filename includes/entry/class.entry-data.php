@@ -1242,7 +1242,6 @@ class cnEntry {
 		global $connections;
 
 		$addressTypes = $connections->options->getDefaultAddressValues();
-		$addresses = array();
 		$results = array();
 
 		$atts = apply_filters( 'cn_address_atts', $atts );

@@ -295,7 +295,7 @@ class cnEntry {
 	 */
 	private $sortColumn;
 
-	private $updateObjectCache = FALSE;
+	//private $updateObjectCache = FALSE;
 
 	/**
 	 * Stored the directory home page ID and whether or no to force permalinks to the directory home.

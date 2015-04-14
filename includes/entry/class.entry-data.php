@@ -457,6 +457,8 @@ class cnEntry {
 	 * Returns $timeStamp
 	 *
 	 * @param string  $format
+	 *
+	 * @return string
 	 */
 	public function getFormattedTimeStamp( $format = NULL ) {
 		if ( !$format ) {

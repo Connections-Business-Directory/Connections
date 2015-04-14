@@ -1007,7 +1007,7 @@ class cnMeta {
 	/**
 	 * Retrieve the name of the metadata table for the specified meta type.
 	 *
-	 * @access private
+	 * @access public
 	 * @since  8.1.7
 	 * @static
 	 *
@@ -1019,7 +1019,7 @@ class cnMeta {
 	 *
 	 * @return string
 	 */
-	private static function tableName( $type ) {
+	public static function tableName( $type ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

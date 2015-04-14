@@ -4457,6 +4457,14 @@ class cnEntry {
 		}
 	}
 
+	/**
+	 * The sort column returned from @see cnRetrieve::entries().
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
+	 */
 	public function getSortColumn() {
 		return $this->sortColumn;
 	}

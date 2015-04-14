@@ -4566,6 +4566,14 @@ class cnEntry {
 		return TRUE;
 	}
 
+	/**
+	 * Update the entry in the db.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return false|int
+	 */
 	public function update() {
 
 		/**

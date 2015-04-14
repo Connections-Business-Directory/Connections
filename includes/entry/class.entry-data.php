@@ -4469,6 +4469,14 @@ class cnEntry {
 		return $this->sortColumn;
 	}
 
+	/**
+	 * Return the display name of user who last edited the entry.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
+	 */
 	public function getEditedBy() {
 		$editedBy = get_userdata( $this->editedBy );
 

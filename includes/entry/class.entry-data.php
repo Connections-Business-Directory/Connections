@@ -308,6 +308,10 @@ class cnEntry {
 	public $directoryHome = array();
 
 	function __construct( $entry = NULL ) {
+
+		/**
+		 * @var connectionsLoad $connections
+		 */
 		global $connections;
 
 		// Load the formatting class for sanitizing the get methods.

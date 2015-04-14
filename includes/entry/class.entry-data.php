@@ -2214,7 +2214,7 @@ class cnEntry {
 				/*
 				 * This will probably forever give me headaches,
 				 * Previous versions stored the IM ID as id. Now that the data
-				 * is stored in a seperate table, id is now the unique table `id`
+				 * is stored in a separate table, id is now the unique table `id`
 				 * and uid is the IM ID.
 				 *
 				 * So I have to make sure to properly map the values. Unfortunately
@@ -3210,7 +3210,7 @@ class cnEntry {
 	}
 
 	/**
-	 * Caches the datess for use and preps for saving and updating.
+	 * Caches the dates for use and preps for saving and updating.
 	 *
 	 * Valid values as follows.
 	 *

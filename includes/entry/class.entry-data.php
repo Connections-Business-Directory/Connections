@@ -3358,7 +3358,7 @@ class cnEntry {
 				}
 			}
 		}
-// var_dump( $dates ); var_dump( $this->birthday ); die();
+
 		( ! empty( $dates ) ) ? $this->dates = serialize( $dates ) : $this->dates = NULL;
 	}
 

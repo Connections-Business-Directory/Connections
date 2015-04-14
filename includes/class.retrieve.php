@@ -949,7 +949,7 @@ class cnRetrieve {
 	 *
 	 * @param  mixed $slid int|string  The entry `id` or `slug`.
 	 *
-	 * @return object The entry data.
+	 * @return mixed bool|object The entry data.
 	 */
 	public function entry( $slid ) {
 

@@ -3352,7 +3352,7 @@ class cnEntry {
 						$dates[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
-						$connections->setErrorMessage( 'entry_preferred_overridden_date' );
+						cnMessage::set( 'error', 'entry_preferred_overridden_date' );
 					}
 				}
 			}

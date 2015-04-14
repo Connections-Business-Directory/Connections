@@ -579,6 +579,7 @@ class cnEntry {
 	/**
 	 * Sets $slug.
 	 *
+	 * @param string $slug
 	 */
 	public function setSlug( $slug ) {
 

@@ -1447,8 +1447,6 @@ class cnEntry {
 	 */
 	public function setAddresses( $addresses ) {
 
-		global $connections;
-
 		$userPreferred = NULL;
 
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'line_1' => NULL, 'line_2' => NULL, 'line_3' => NULL, 'city' => NULL, 'state' => NULL, 'zipcode' => NULL, 'country' => NULL, 'latitude' => NULL, 'longitude' => NULL, 'visibility' => NULL );
@@ -1728,8 +1726,6 @@ class cnEntry {
 	 */
 	public function setPhoneNumbers( $phoneNumbers ) {
 
-		global $connections;
-
 		$userPreferred = NULL;
 
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'number' => NULL, 'visibility' => NULL );
@@ -1971,8 +1967,6 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setEmailAddresses( $emailAddresses ) {
-
-		global $connections;
 
 		$userPreferred = NULL;
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'address' => NULL, 'visibility' => NULL );
@@ -2249,8 +2243,6 @@ class cnEntry {
 	 */
 	public function setIm( $im ) {
 
-		global $connections;
-
 		$userPreferred = NULL;
 
 		$validFields = array( 'uid' => NULL, 'preferred' => NULL, 'type' => NULL, 'id' => NULL, 'visibility' => NULL );
@@ -2501,8 +2493,6 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setSocialMedia( $socialNetworks ) {
-
-		global $connections;
 
 		$userPreferred = NULL;
 
@@ -3200,8 +3190,6 @@ class cnEntry {
 	 * @return void
 	 */
 	public function setDates( $dates ) {
-
-		global $connections;
 
 		$userPreferred = NULL;
 

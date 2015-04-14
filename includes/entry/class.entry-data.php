@@ -1516,7 +1516,7 @@ class cnEntry {
 						$addresses[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
-						$connections->setErrorMessage( 'entry_preferred_overridden_address' );
+						cnMessage::set( 'error', 'entry_preferred_overridden_address' );
 					}
 				}
 			}
@@ -1794,7 +1794,7 @@ class cnEntry {
 						$phoneNumbers[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
-						$connections->setErrorMessage( 'entry_preferred_overridden_phone' );
+						cnMessage::set( 'error', 'entry_preferred_overridden_phone' );
 					}
 				}
 			}
@@ -2039,7 +2039,7 @@ class cnEntry {
 						$emailAddresses[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
-						$connections->setErrorMessage( 'entry_preferred_overridden_email' );
+						cnMessage::set( 'error', 'entry_preferred_overridden_email' );
 					}
 				}
 			}
@@ -2321,7 +2321,7 @@ class cnEntry {
 						$im[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
-						$connections->setErrorMessage( 'entry_preferred_overridden_im' );
+						cnMessage::set( 'error', 'entry_preferred_overridden_im' );
 					}
 				}
 			}
@@ -2581,8 +2581,7 @@ class cnEntry {
 						$socialNetworks[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
-						$connections->setErrorMessage( 'entry_preferred_overridden_social' );
-
+						cnMessage::set( 'error', 'entry_preferred_overridden_social' );
 					}
 				}
 			}

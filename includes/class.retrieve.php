@@ -88,6 +88,7 @@ class cnRetrieve {
 		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
 		$defaults['limit']                 = NULL;
 		$defaults['offset']                = 0;
+		$defaults['meta_query']            = array();
 		$defaults['allow_public_override'] = FALSE;
 		$defaults['private_override']      = FALSE;
 		$defaults['search_terms']          = NULL;
@@ -819,6 +820,16 @@ class cnRetrieve {
 			}
 		}
 		//}
+
+		if ( ! empty( $atts['meta_query'] ) ) {
+
+			$metaQuery = new cnMeta_Query();
+			$metaQuery->parse_query_vars( $atts['meta_query'] );
+			$metaClause = $metaQuery->get_sql( 'entry', CN_ENTRY_TABLE, 'id' );
+
+			$join['meta']  = $metaClause['join'];
+			$where['meta'] = $metaClause['where'];
+		}
 
 		$orderBy = empty( $orderBy ) ? 'ORDER BY sort_column, last_name, first_name' : 'ORDER BY ' . implode( ', ', $orderBy );
 		/*

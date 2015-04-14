@@ -3598,7 +3598,7 @@ class cnEntry {
 	 * @since unknown
 	 * @return (string)
 	 */
-	public function displayVisibiltyType() {
+	public function displayVisibilityType() {
 
 		$permittedValues = array(
 			'unlisted' => __( 'Unlisted', 'connections' ),

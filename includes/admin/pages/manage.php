@@ -619,7 +619,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<td >';
 						echo '<strong>' . __( 'On', 'connections' ) . ':</strong> ' . $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) . '<br />';
 						echo '<strong>' . __( 'By', 'connections' ) . ':</strong> ' . $entry->getEditedBy() . '<br />';
-						echo '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibiltyType() . '<br />';
+						echo '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibilityType() . '<br />';
 
 						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : FALSE;
 

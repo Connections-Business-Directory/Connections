@@ -4599,7 +4599,7 @@ class cnEntry {
 				$this->firstName       = '';
 				$this->middleName      = '';
 				$this->lastName        = '';
-				$this->honorific       = '';
+				$this->honorificSuffix = '';
 				$this->title           = '';
 				$this->familyMembers   = '';
 				$this->birthday        = '';

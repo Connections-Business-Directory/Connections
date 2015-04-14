@@ -3432,6 +3432,18 @@ class cnEntry {
 
 	}
 
+	/**
+	 * Set the entry's birthday.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @deprecated Unknown Use {@see cnEntry::getDates()} instead.
+	 * @see cnEntry::getDates()
+	 *
+	 * @param int $day
+	 * @param int $month
+	 */
 	public function setBirthday( $day, $month ) {
 
 		//Create the birthday with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.

@@ -3475,6 +3475,7 @@ class cnEntry {
 
 		if ( gmmktime( 23, 59, 59, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) ) < $timeStamp ) {
 
+			/** @noinspection PhpWrongStringConcatenationInspection */
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) + 1 );
 
 		} else {

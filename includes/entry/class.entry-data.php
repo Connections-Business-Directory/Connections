@@ -3530,7 +3530,6 @@ class cnEntry {
 	 */
 	public function getNotes() {
 
-		//return $this->notes;
 		return $this->format->sanitizeString( $this->notes, TRUE );
 
 	}

@@ -205,10 +205,11 @@ class cnEntry {
 	 * @var bool
 	 */
 	private $imageDisplay;
-	private $imageNameThumbnail;
-	private $imageNameCard;
-	private $imageNameProfile;
-	private $imageNameOriginal;
+
+	//private $imageNameThumbnail;
+	//private $imageNameCard;
+	//private $imageNameProfile;
+	//private $imageNameOriginal;
 
 	/**
 	 * @since unknown
@@ -371,12 +372,12 @@ class cnEntry {
 					$this->imageLinked = $this->options['image']['linked'];
 					$this->imageDisplay = $this->options['image']['display'];
 
-					if ( isset( $this->options['image']['name'] ) ) {
-						$this->imageNameThumbnail = isset( $this->options['image']['name']['thumbnail'] ) ? $this->options['image']['name']['thumbnail'] : '';
-						$this->imageNameCard = isset( $this->options['image']['name']['entry'] ) ? $this->options['image']['name']['entry'] : '';
-						$this->imageNameProfile = isset( $this->options['image']['name']['profile'] ) ? $this->options['image']['name']['profile'] : '';
-						$this->imageNameOriginal = isset( $this->options['image']['name']['original'] ) ? $this->options['image']['name']['original'] : '';
-					}
+					//if ( isset( $this->options['image']['name'] ) ) {
+					//	$this->imageNameThumbnail = isset( $this->options['image']['name']['thumbnail'] ) ? $this->options['image']['name']['thumbnail'] : '';
+					//	$this->imageNameCard = isset( $this->options['image']['name']['entry'] ) ? $this->options['image']['name']['entry'] : '';
+					//	$this->imageNameProfile = isset( $this->options['image']['name']['profile'] ) ? $this->options['image']['name']['profile'] : '';
+					//	$this->imageNameOriginal = isset( $this->options['image']['name']['original'] ) ? $this->options['image']['name']['original'] : '';
+					//}
 				}
 
 				if ( isset( $this->options['logo'] ) ) {

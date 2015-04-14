@@ -315,7 +315,7 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param null $entry
+	 * @param object $entry
 	 */
 	public function __construct( $entry = NULL ) {
 

@@ -189,29 +189,92 @@ class cnEntry {
 	 */
 	private $visibility = NULL;
 
+	/**
+	 * @since unknown
+	 * @var array
+	 */
 	private $options;
+
+	/**
+	 * @var bool
+	 */
 	private $imageLinked;
+
+	/**
+	 * @since unknown
+	 * @var bool
+	 */
 	private $imageDisplay;
 	private $imageNameThumbnail;
 	private $imageNameCard;
 	private $imageNameProfile;
 	private $imageNameOriginal;
+
+	/**
+	 * @since unknown
+	 * @var bool
+	 */
 	private $logoLinked;
+
+	/**
+	 * @since unknown
+	 * @var bool
+	 */
 	private $logoDisplay;
 	private $logoName;
+
+	/**
+	 * @since unknown
+	 * @var string
+	 */
 	private $entryType;
+
+	/**
+	 * @since unknown
+	 * @var array
+	 */
 	private $familyMembers;
 
+	/**
+	 * @since unknown
+	 * @var mixed array|WP_Error An array of categories associated to an entry.
+	 */
 	private $categories;
 
+	/**
+	 * @since unknown
+	 * @var int
+	 */
 	private $addedBy;
+
+	/**
+	 * @since unknown
+	 * @var int
+	 */
 	private $editedBy;
 
+	/**
+	 * @since unknown
+	 * @var int
+	 */
 	private $owner;
+
+	/**
+	 * @since unknown
+	 * @var int
+	 */
 	private $user;
 
+	/**
+	 * @since unknown
+	 * @var string
+	 */
 	private $status;
 
+	/**
+	 * @since unknown
+	 * @var cnFormatting
+	 */
 	public $format;
 
 	/**
@@ -224,6 +287,12 @@ class cnEntry {
 	 */
 	public $validate;
 
+	/**
+	 * @access private
+	 * @since  unknown
+	 *
+	 * @var string
+	 */
 	private $sortColumn;
 
 	private $updateObjectCache = FALSE;

@@ -4438,6 +4438,14 @@ class cnEntry {
 		return new WP_Error( 'image_move_legacy_logo_error', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), $legacyPath . $filename );
 	}
 
+	/**
+	 * Return the display name of user who add the entry.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return string
+	 */
 	public function getAddedBy() {
 		$addedBy = get_userdata( $this->addedBy );
 

@@ -4577,7 +4577,7 @@ class cnEntry {
 					 * If the $address->id was not set, the add the address to the db.
 					 */
 					if ( isset( $address->id ) && ! empty( $address->id ) ) {
-						$wpdb->query( $wpdb->prepare ( 'UPDATE ' . CN_ENTRY_ADDRESS_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_ADDRESS_TABLE . ' SET
 													`entry_id`			= %d,
 													`order`				= %d,
 													`preferred`			= %d,
@@ -4614,7 +4614,7 @@ class cnEntry {
 
 					}
 					else {
-						$wpdb->query( $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
 														`entry_id`			= %d,
 														`order`				= %d,
 														`preferred`			= %d,
@@ -4682,7 +4682,7 @@ class cnEntry {
 					 * If the $phone->id was not set, the add the phone number to the db.
 					 */
 					if ( isset( $phone->id ) && ! empty( $phone->id ) ) {
-						$wpdb->query( $wpdb->prepare ( 'UPDATE ' . CN_ENTRY_PHONE_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_PHONE_TABLE . ' SET
 													`entry_id`			= %d,
 													`order`				= %d,
 													`preferred`			= %d,
@@ -4703,7 +4703,7 @@ class cnEntry {
 
 					}
 					else {
-						$wpdb->query( $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
 														`entry_id`			= %d,
 														`order`				= %d,
 														`preferred`			= %d,
@@ -4745,7 +4745,7 @@ class cnEntry {
 					 * If the $email->id was not set, the add the email address to the db.
 					 */
 					if ( isset( $email->id ) && ! empty( $email->id ) ) {
-						$wpdb->query( $wpdb->prepare ( 'UPDATE ' . CN_ENTRY_EMAIL_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_EMAIL_TABLE . ' SET
 													`entry_id`			= %d,
 													`order`				= %d,
 													`preferred`			= %d,
@@ -4766,7 +4766,7 @@ class cnEntry {
 
 					}
 					else {
-						$wpdb->query( $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
 														`entry_id`			= %d,
 														`order`				= %d,
 														`preferred`			= %d,
@@ -4808,7 +4808,7 @@ class cnEntry {
 					 * If the $network->id was not set, the add the IM ID to the db.
 					 */
 					if ( isset( $network->uid ) && ! empty( $network->uid ) ) {
-						$wpdb->query( $wpdb->prepare ( 'UPDATE ' . CN_ENTRY_MESSENGER_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_MESSENGER_TABLE . ' SET
 													`entry_id`			= %d,
 													`order`				= %d,
 													`preferred`			= %d,
@@ -4829,7 +4829,7 @@ class cnEntry {
 
 					}
 					else {
-						$wpdb->query( $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
 														`entry_id`			= %d,
 														`order`				= %d,
 														`preferred`			= %d,
@@ -4871,7 +4871,7 @@ class cnEntry {
 					 * If the $network->id was not set, the add the social network to the db.
 					 */
 					if ( isset( $network->id ) && ! empty( $network->id ) ) {
-						$wpdb->query( $wpdb->prepare ( 'UPDATE ' . CN_ENTRY_SOCIAL_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_SOCIAL_TABLE . ' SET
 													`entry_id`			= %d,
 													`order`				= %d,
 													`preferred`			= %d,
@@ -4892,7 +4892,7 @@ class cnEntry {
 
 					}
 					else {
-						$wpdb->query( $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
 														`entry_id`			= "%d",
 														`order`				= "%d",
 														`preferred`			= "%d",
@@ -4934,7 +4934,7 @@ class cnEntry {
 					 * If the $link->id was not set, the add the link to the db.
 					 */
 					if ( isset( $link->id ) && ! empty( $link->id ) ) {
-						$wpdb->query( $wpdb->prepare ( 'UPDATE ' . CN_ENTRY_LINK_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_LINK_TABLE . ' SET
 													`entry_id`			= %d,
 													`order`				= %d,
 													`preferred`			= %d,
@@ -4965,7 +4965,7 @@ class cnEntry {
 
 					}
 					else {
-						$wpdb->query( $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
 														`entry_id`			= %d,
 														`order`				= %d,
 														`preferred`			= %d,
@@ -5017,7 +5017,7 @@ class cnEntry {
 					 * If the $date->id was not set, the add the date to the db.
 					 */
 					if ( isset( $date->id ) && ! empty( $date->id ) ) {
-						$wpdb->query( $wpdb->prepare ( 'UPDATE ' . CN_ENTRY_DATE_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_DATE_TABLE . ' SET
 													`entry_id`			= %d,
 													`order`				= %d,
 													`preferred`			= %d,
@@ -5038,7 +5038,7 @@ class cnEntry {
 
 					}
 					else {
-						$wpdb->query( $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_DATE_TABLE . ' SET
+						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_DATE_TABLE . ' SET
 														`entry_id`			= %d,
 														`order`				= %d,
 														`preferred`			= %d,
@@ -5208,7 +5208,7 @@ class cnEntry {
 
 			if ( ! empty( $addresses ) ) {
 				foreach ( $addresses as $address ) {
-					$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
+					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
 											`entry_id`			= %d,
 											`order`				= %d,
 											`preferred`			= %d,
@@ -5244,7 +5244,7 @@ class cnEntry {
 
 			if ( ! empty( $phoneNumbers ) ) {
 				foreach ( $phoneNumbers as $phone ) {
-					$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
+					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
 											`entry_id`			= %d,
 											`order`				= %d,
 											`preferred`			= %d,
@@ -5264,7 +5264,7 @@ class cnEntry {
 
 			if ( ! empty( $emailAddresses ) ) {
 				foreach ( $emailAddresses as $email ) {
-					$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
+					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
 											`entry_id`			= %d,
 											`order`				= %d,
 											`preferred`			= %d,
@@ -5284,7 +5284,7 @@ class cnEntry {
 
 			if ( ! empty( $imIDs ) ) {
 				foreach ( $imIDs as $network ) {
-					$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
+					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
 											`entry_id`			= %d,
 											`order`				= %d,
 											`preferred`			= %d,
@@ -5304,7 +5304,7 @@ class cnEntry {
 
 			if ( ! empty( $socialNetworks ) ) {
 				foreach ( $socialNetworks as $network ) {
-					$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
+					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
 											`entry_id`			= %d,
 											`order`				= %d,
 											`preferred`			= %d,
@@ -5324,7 +5324,7 @@ class cnEntry {
 
 			if ( ! empty( $links ) ) {
 				foreach ( $links as $link ) {
-					$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
+					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
 											`entry_id`			= %d,
 											`order`				= %d,
 											`preferred`			= %d,
@@ -5354,7 +5354,7 @@ class cnEntry {
 
 			if ( ! empty( $dates ) ) {
 				foreach ( $dates as $date ) {
-					$sql = $wpdb->prepare ( 'INSERT INTO ' . CN_ENTRY_DATE_TABLE . ' SET
+					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_DATE_TABLE . ' SET
 											`entry_id`			= %d,
 											`order`				= %d,
 											`preferred`			= %d,

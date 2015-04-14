@@ -124,7 +124,7 @@ class cnEntry {
 	 * @deprecated since 0.7.2.0
 	 * @var array
 	 */
-	private $websites;
+	//private $websites;
 
 	/**
 	 * Associative array of links

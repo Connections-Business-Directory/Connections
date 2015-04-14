@@ -4280,8 +4280,8 @@ class cnEntry {
 
 		/*
 		 * NOTE: is_file() will always return false if teh folder/file does not
-		 * have the execution bit set (ie 0775) on some hosts appearently. Need to
-		 * come up with an alternative method which may not be possible wihout using
+		 * have the execution bit set (ie 0775) on some hosts apparently. Need to
+		 * come up with an alternative method which may not be possible without using
 		 * WP_Filesystem and that causes a whole bunch of issues when credentials are
 		 * required.
 		 *

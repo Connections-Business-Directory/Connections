@@ -3504,6 +3504,14 @@ class cnEntry {
 
 	}
 
+	/**
+	 * Set the entry bio.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param string $bio
+	 */
 	public function setBio( $bio ) {
 
 		$this->bio = $bio;

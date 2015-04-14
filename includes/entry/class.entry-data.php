@@ -1231,7 +1231,7 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
-	 * @param array   $atts 		Accepted values as noted above.
+	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached address data rather than querying the db.
 	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
 	 * @return array

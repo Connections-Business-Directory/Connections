@@ -4511,8 +4511,10 @@ class cnEntry {
 	 * Sets the entry's status to one of the permitted values.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @param (string) $status
+	 * @since  unknown
+	 *
+	 * @param string $status
+	 *
 	 * @return void
 	 */
 	public function setStatus( $status ) {

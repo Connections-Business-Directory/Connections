@@ -461,6 +461,7 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getFormattedTimeStamp( $format = NULL ) {
+
 		if ( !$format ) {
 			$format = "m/d/Y";
 		}
@@ -1755,6 +1756,7 @@ class cnEntry {
 			}
 
 			foreach ( $phoneNumbers as $key => $phoneNumber ) {
+
 				// First validate the supplied data.
 				$phoneNumber = cnSanitize::args( $phoneNumber, $validFields );
 

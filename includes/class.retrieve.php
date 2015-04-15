@@ -32,6 +32,30 @@ class cnRetrieve {
 
 	/**
 	 *
+	 * The $atts['meta_query'] can have two different structures when passed to
+	 * @see cnMeta_Query::parse_query_vars(), they are:
+	 *
+	 * array(
+	 *     'meta_key'     => (string),
+	 *     'meta_value    => (string|array),
+	 *     'meta_type     => (string),
+	 *     'meta_compare' => (string)
+	 * )
+	 *
+	 * OR
+	 *
+	 * array(
+	 *     'meta_query' =>
+	 *         array(
+	 *             'key'     => (string),
+	 *             'value'   => (string|array),
+	 *             'compare' => (string),
+	 *             'type'    => (string)
+	 *         ),
+	 *         [array(...),]
+	 * )
+	 *
+	 * The later, 'meta_query', can have multiple arrays.
 	 *
 	 * @access public
 	 * @since unknown
@@ -719,10 +743,17 @@ class cnRetrieve {
 		);
 
 		$orderFlags = array(
-			'SPECIFIED' => 'SPECIFIED',
-			'RANDOM'    => 'RANDOM',
-			'SORT_ASC'  => 'ASC',
-			'SORT_DESC' => 'DESC'
+			'SPECIFIED'         => 'SPECIFIED',
+			'RANDOM'            => 'RANDOM',
+			'ASC'               => 'ASC',
+			'SORT_ASC'          => 'ASC',       // Alias for ASC
+			'DESC'              => 'DESC',
+			'SORT_DESC'         => 'DESC',      // Alias for DESC
+			'NUMERIC'           => '+0',
+			'SORT_NUMERIC'      => '+0',        // Alias for NUMERIC
+			'SORT_NUMERIC_ASC'  => '+0',        // Alias for NUMERIC
+			'NUMERIC_DESC'      => '+0 DESC',
+			'SORT_NUMERIC_DESC' => '+0 DESC',   // Alias for NUMERIC_DESC
 		);
 
 		// If a geo-bound query is being performed the `radius` order field can be used.
@@ -748,7 +779,7 @@ class cnRetrieve {
 			$field[0] = strtolower( trim( $field[0] ) );
 
 			// Check to make sure the supplied field is one of the valid fields to order by.
-			if ( in_array( $field[0] , $orderFields ) ) {
+			if ( in_array( $field[0], $orderFields ) || cnString::startsWith( 'meta_key:', $field[0] ) ) {
 				// The date_modified actually maps to the `ts` column in the db.
 				if ( $field[0] == 'date_modified' ) $field[0] = 'ts';
 
@@ -756,6 +787,27 @@ class cnRetrieve {
 				if ( $field[0] == 'city' || $field[0] == 'state' || $field[0] == 'zipcode' || $field[0] == 'country' ) {
 
 					if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+				}
+
+				if ( cnString::startsWith( 'meta_key:', $field[0] ) ) {
+
+					// Extract the meta key name from $field[0].
+					$meta = explode( ':', $field[0] );
+
+					// Ensure the meta key does exist and is not empty before altering the query.
+					if ( isset( $meta[1] ) && ! empty( $meta[1] ) ) {
+
+						$atts['meta_query']['meta_query'][] = array( 'key' => $meta[1] );
+
+						if ( 1 < count( $atts['meta_query']['meta_query'] ) ) {
+
+							$field[0] = 'mt' . ( count( $atts['meta_query']['meta_query'] ) - 1 ) . '.meta_value';
+
+						} else {
+
+							$field[0] = CN_ENTRY_TABLE_META . '.meta_value';
+						}
+					}
 				}
 
 				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp so it is properly ordered.

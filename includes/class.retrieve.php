@@ -856,7 +856,7 @@ class cnRetrieve {
 								 */
 							default:
 
-								$orderBy[] = $field[0] . ' ' . $orderFlags[$field[1]];
+								$orderBy[] = $field[0] . ' ' . $orderFlags[ $field[1] ];
 								break;
 						}
 

@@ -1057,7 +1057,7 @@ class cnMeta_Query extends WP_Meta_Query {
 	 * @param string $type              Type of meta, eg 'entry', 'term'.
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg CN_ENTRY_TABLE).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
-	 * @param object $context           Optional. The main query object.
+	 * @param mixed  $context           object|null Optional. The main query object.
 	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.

@@ -272,7 +272,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) ) {
 
-				/** @var string CN_ADMIN_MENU_POSITION */
+				/** @var int CN_ADMIN_MENU_POSITION */
 				define( 'CN_ADMIN_MENU_POSITION', NULL );
 			}
 
@@ -287,12 +287,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( is_multisite() ) {
 
-					/** @var string CN_MULTISITE_ENABLED */
+					/** @var bool CN_MULTISITE_ENABLED */
 					define( 'CN_MULTISITE_ENABLED', TRUE );
 
 				} else {
 
-					/** @var string CN_MULTISITE_ENABLED */
+					/** @var bool CN_MULTISITE_ENABLED */
 					define( 'CN_MULTISITE_ENABLED', FALSE );
 				}
 			}

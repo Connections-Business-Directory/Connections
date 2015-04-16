@@ -74,7 +74,7 @@ class cnFileSystem {
 	 * @access public
 	 * @since 0.7.5
 	 * @uses trailingslashit()
-	 * @param (string) $path The path inwhich the file is to be created in.
+	 * @param (string) $path The path in which the file is to be created in.
 	 * @return void
 	 */
 	public static function noIndexes( $path ) {
@@ -109,7 +109,7 @@ class cnFileSystem {
 	 * @access public
 	 * @since 0.7.7
 	 * @uses trailingslashit()
-	 * @param (string) $path The path inwhich the file is to be created in.
+	 * @param (string) $path The path in which the file is to be created in.
 	 * @return void
 	 */
 	public static function permitTimThumb( $path ) {
@@ -134,18 +134,21 @@ class cnFileSystem {
 			);
 
 		@file_put_contents( $path . '.htaccess', implode( PHP_EOL, $rules ) );
-
 	}
 
 	/**
-	 * Attempt to set the folder writeable per http://codex.wordpress.org/Changing_File_Permissions#Using_the_Command_Line
-	 * If the suplied path does not exist, it'll be create recursively.
+	 * Attempt to set the folder writable per
+	 *
+	 * @link http://codex.wordpress.org/Changing_File_Permissions#Using_the_Command_Line
+	 *       If the supplied path does not exist, it'll be create recursively.
 	 *
 	 * @access public
-	 * @since 0.7.5
-	 * @uses untrailingslashit()
-	 * @param (string) $path The path inwhich to make writable.
-	 * @return (bool)
+	 * @since  0.7.5
+	 * @uses   untrailingslashit()
+	 *
+	 * @param  string $path The path in which to make writable.
+	 *
+	 * @return bool
 	 */
 	public static function mkdirWritable( $path ) {
 		$path = untrailingslashit( $path );
@@ -177,9 +180,9 @@ class cnFileSystem {
 	 * @static
 	 * @url    http://stackoverflow.com/a/12763962
 	 * @uses   self::mkdir()
-	 * @param  string   $source    Source path
-	 * @param  string   $dest      Destination path
-	 * @param  string   $permissions New folder creation permissions
+	 * @param  string   $source      Source path
+	 * @param  string   $dest        Destination path
+	 * @param  int      $permissions New folder creation permissions
 	 *
 	 * @return bool     Returns true on success, false on failure
 	 */
@@ -215,7 +218,7 @@ class cnFileSystem {
 			}
 
 			// Deep copy directories
-			xcopy( "$source/$entry", "$dest/$entry" );
+			self::xcopy( "$source/$entry", "$dest/$entry" );
 		}
 
 		// Clean up
@@ -344,9 +347,9 @@ class cnUpload {
 
 		} else {
 
-			/*
+			/**
 			 * Pulled this block of code from wp_upload_dir(). Using this rather than simply using wp_upload_dir()
-			 * because wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
+			 * because @see wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
 			 *
 			 * We do not want this behavior if forcing Connections into single site mode on a multisite
 			 * install of WP. Additionally we do not want the year/month sub dir appended.

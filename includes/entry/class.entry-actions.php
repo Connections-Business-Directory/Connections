@@ -819,6 +819,7 @@ class cnEntry_Action {
 	 *
 	 * @global $wpdb
 	 *
+	 * @uses   wp_parse_id_list()
 	 * @uses   wpdb::prepare()
 	 * @uses   wpdb::query()
 	 * @uses   do_action()
@@ -842,28 +843,22 @@ class cnEntry_Action {
 		if ( empty( $id ) ) return FALSE;
 
 		// Check for and convert to an array.
-		if ( ! is_array( $id ) ) {
-
-			// Remove whitespace.
-			$id = trim( str_replace( ' ', '', $id ) );
-
-			$id = explode( ',', $id );
-		}
+		$ids = wp_parse_id_list( $id );
 
 		// Create the placeholders for the $id values to be used in $wpdb->prepare().
-		$d = implode( ',', array_fill( 0, count( $id ), '%d' ) );
+		$d = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
 		// Sanitize the query, passing values to be sanitized as an array.
-		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET status = %s WHERE id IN (' . $d . ')', array_merge( (array) $status, $id ) );
+		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET status = %s WHERE id IN (' . $d . ')', array_merge( (array) $status, $ids ) );
 
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
-		do_action( 'cn_process_cache-entry', 'bulk_status', $id );
+		do_action( 'cn_process_cache-entry', 'bulk_status', $ids );
 
 		if ( FALSE !== $result ) {
 
-			do_action( 'cn_process_status', $id );
+			do_action( 'cn_process_status', $ids );
 		}
 
 		return $result !== FALSE ? TRUE : FALSE;

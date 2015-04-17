@@ -854,6 +854,13 @@ class cnEntry_Action {
 
 		if ( FALSE !== $result ) {
 
+			/**
+			 * Action fired after entries have their status bulk changed.
+			 *
+			 * @since 8.2.5
+			 *
+			 * @param array $ids An array of entry IDs that had their status changed.
+			 */
 			do_action( 'cn_process_status', $ids );
 		}
 

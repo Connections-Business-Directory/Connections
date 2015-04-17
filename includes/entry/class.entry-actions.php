@@ -964,6 +964,7 @@ class cnEntry_Action {
 		}
 
 		do_action( 'cn_process_cache-entry', 'bulk_delete', $ids );
+		do_action( 'cn_process_bulk_delete', $ids );
 
 		return TRUE;
 	}

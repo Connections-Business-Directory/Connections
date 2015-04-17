@@ -799,8 +799,6 @@ class cnEntry_Action {
 		do_action( 'cn_process_taxonomy-category', $action, $entryID );
 		do_action( 'cn_process_meta-entry', $action, $entryID );
 
-		do_action( 'cn_process_cache-entry', $action, $entryID );
-
 		// Refresh the cnEntry object with any updated taxonomy or meta data
 		// that may have been added/updated via actions.
 		$entry->set( $entryID );
@@ -854,8 +852,6 @@ class cnEntry_Action {
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
-		do_action( 'cn_process_cache-entry', 'bulk_status', $ids );
-
 		if ( FALSE !== $result ) {
 
 			do_action( 'cn_process_status', $ids );
@@ -907,8 +903,6 @@ class cnEntry_Action {
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
-		do_action( 'cn_process_cache-entry', 'bulk_visibility', $ids );
-
 		if ( FALSE !== $result ) {
 
 			do_action( 'cn_process_visibility', $ids );
@@ -953,7 +947,6 @@ class cnEntry_Action {
 			self::meta( 'delete', $id );
 		}
 
-		do_action( 'cn_process_cache-entry', 'bulk_delete', $ids );
 		do_action( 'cn_process_bulk_delete', $ids );
 
 		return TRUE;
@@ -1059,6 +1052,8 @@ class cnEntry_Action {
 
 		cnCache::clear( TRUE, 'transient', 'cn_category' );
 		cnCache::clear( TRUE, 'transient', 'cn_relative' );
+
+		do_action( 'cn_process_cache-entry' );
 	}
 
 	/**

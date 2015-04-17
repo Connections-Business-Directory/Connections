@@ -961,6 +961,13 @@ class cnEntry_Action {
 			self::meta( 'delete', $id );
 		}
 
+		/**
+		 * Action fired after entries are bulk deleted.
+		 *
+		 * @since 8.2.5
+		 *
+		 * @param array $ids An array of entry IDs that were deleted.
+		 */
 		do_action( 'cn_process_bulk_delete', $ids );
 
 		return TRUE;

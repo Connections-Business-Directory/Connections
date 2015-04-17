@@ -974,6 +974,34 @@ class cnEntry_Action {
 	}
 
 	/**
+	 * Update the term taxonomy counts of the supplied entry IDs for the supplied taxonmies.
+	 *
+	 * @access private
+	 * @since  8.2.5
+	 * @static
+	 *
+	 * @param mixed $ids      array|string An array or comma separated list of entry IDs.
+	 * @param mixed $taxonomy array|string An array of taxonomies or taxonomy to update the term taxonomy count.
+	 *
+	 * @return array|WP_Error An indexed array of term taxonomy IDs which have had their term count updated. WP_Error on failure.
+	 */
+	public static function updateTermCount( $ids, $taxonomy = 'category' ) {
+
+		// Check for and convert to an array.
+		$ids = wp_parse_id_list( $ids );
+
+		$result = cnTerm::getRelationships( $ids, $taxonomy, array( 'fields' => 'tt_ids' ) );
+
+		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
+			cnTerm::updateCount( $result, $taxonomy );
+		}
+
+		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
+
+		return $result;
+	}
+
+	/**
 	 * Geocode the supplied address.
 	 *
 	 * @access public

@@ -118,7 +118,7 @@ Connections Business Directory has been embraced around the world and has been t
 6. The Settings admin page where you can configure the business directory options.
 7. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.
 
-[Connections running on live websites can be found here.](http://connections-pro.com/live-samples/)
+[Connections running on live websites can be found here.](http://connections-pro.com/showcase/)
 
 == Installation ==
 

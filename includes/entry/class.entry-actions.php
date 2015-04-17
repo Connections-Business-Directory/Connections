@@ -1103,7 +1103,11 @@ class cnEntry_Action {
 }
 
 // Add an action to purge caches after adding/editing and entry.
-add_action( 'cn_process_cache-entry', array( 'cnEntry_Action', 'clearCache' ), 10, 2 );
+add_action( 'cn_post_process_add-entry', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'cn_post_process_update-entry', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'cn_process_status', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'cn_process_bulk_delete', array( 'cnEntry_Action', 'clearCache' ) );
 
 // Add the "Edit Entry" menu items to the admin bar.
 add_action( 'admin_bar_menu', array( 'cnEntry_Action', 'adminBarMenuItems' ), 90 );

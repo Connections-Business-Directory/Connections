@@ -1050,12 +1050,12 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @param  string $action The action to be performed.
-	 * @param  int    $id     The entry ID.
+	 *
+	 * @uses   cnCache::clear()
 	 *
 	 * @return void
 	 */
-	public static function clearCache( $action, $id ) {
+	public static function clearCache() {
 
 		cnCache::clear( TRUE, 'transient', 'cn_category' );
 		cnCache::clear( TRUE, 'transient', 'cn_relative' );

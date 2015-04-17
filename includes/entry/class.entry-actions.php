@@ -902,7 +902,7 @@ class cnEntry_Action {
 		$d = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
 		// Sanitize the query, passing values to be sanitized as an array.
-		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET visibility = %s WHERE id IN (' . $d . ')', array_merge( (array) $visibility, $id ) );
+		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET visibility = %s WHERE id IN (' . $d . ')', array_merge( (array) $visibility, $ids ) );
 
 		// Run the query.
 		$result = $wpdb->query( $sql );

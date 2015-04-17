@@ -1159,12 +1159,16 @@ class cnEntry_Action {
 
 }
 
-// Add an action to purge caches after adding/editing and entry.
+// Add actions to purge caches after adding/editing and entry.
 add_action( 'cn_post_process_add-entry', array( 'cnEntry_Action', 'clearCache' ) );
 add_action( 'cn_post_process_update-entry', array( 'cnEntry_Action', 'clearCache' ) );
 add_action( 'cn_process_status', array( 'cnEntry_Action', 'clearCache' ) );
 add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'clearCache' ) );
 add_action( 'cn_process_bulk_delete', array( 'cnEntry_Action', 'clearCache' ) );
+
+// Add actions to update the term taxonomy counts when entry status or visibility has been updated via the bulk actions.
+add_action( 'cn_process_status', array( 'cnEntry_Action', 'updateTermCount' ) );
+add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'updateTermCount' ) );
 
 // Add the "Edit Entry" menu items to the admin bar.
 add_action( 'admin_bar_menu', array( 'cnEntry_Action', 'adminBarMenuItems' ), 90 );

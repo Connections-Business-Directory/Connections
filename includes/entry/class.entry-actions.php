@@ -873,12 +873,22 @@ class cnEntry_Action {
 	 * Set the visibility of one or more entries.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @param string $visibility	The visibility to set. Valid options are: public | private | unlisted
-	 * @param array|int $id 	The entry IDs to set the visibility.
+	 * @since  0.7.8
+	 *
+	 * @global $wpdb
+	 *
+	 * @uses   wpdb::prepare()
+	 * @uses   wpdb::query()
+	 * @uses   do_action()
+	 *
+	 * @param string    $visibility The visibility to set. Valid options are: public | private | unlisted
+	 * @param array|int $id         The entry IDs to set the visibility.
+	 *
 	 * @return bool
 	 */
 	public static function visibility( $visibility, $id ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$permitted = array( 'public', 'private', 'unlisted' );

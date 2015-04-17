@@ -919,6 +919,11 @@ class cnEntry_Action {
 
 		do_action( 'cn_process_cache-entry', 'bulk_visibility', $id );
 
+		if ( FALSE !== $result ) {
+
+			do_action( 'cn_process_visibility', $id );
+		}
+
 		return $result !== FALSE ? TRUE : FALSE;
 	}
 

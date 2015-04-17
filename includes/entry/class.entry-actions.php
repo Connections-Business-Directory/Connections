@@ -815,12 +815,22 @@ class cnEntry_Action {
 	 * Set the status of one or more entries.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @param string $status 		The status to set. Valid options are: approved | pending
-	 * @param array|int $id 	The entry IDs to set the status.
+	 * @since  0.7.8
+	 *
+	 * @global $wpdb
+	 *
+	 * @uses   wpdb::prepare()
+	 * @uses   wpdb::query()
+	 * @uses   do_action()
+	 *
+	 * @param string    $status The status to set. Valid options are: approved | pending
+	 * @param array|int $id     The entry IDs to set the status.
+	 *
 	 * @return bool
 	 */
 	public static function status( $status, $id ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$permitted = array( 'pending', 'approved' );

@@ -861,6 +861,11 @@ class cnEntry_Action {
 
 		do_action( 'cn_process_cache-entry', 'bulk_status', $id );
 
+		if ( FALSE !== $result ) {
+
+			do_action( 'cn_process_status', $id );
+		}
+
 		return $result !== FALSE ? TRUE : FALSE;
 	}
 

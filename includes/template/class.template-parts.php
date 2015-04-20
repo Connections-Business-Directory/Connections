@@ -1540,13 +1540,17 @@ class cnTemplatePart {
 	 * Retrieves the current character and outs a hidden form input.
 	 *
 	 * @access public
-	 * @since 0.7.4
-	 * @uses wp_parse_args()
-	 * @uses is_admin()
-	 * @uses get_query_var()
-	 * @uses esc_attr()
-	 * @param  (array)
-	 * @return (string)
+	 * @since  0.7.4
+	 * @static
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   is_admin()
+	 * @uses   get_query_var()
+	 * @uses   esc_attr()
+	 *
+	 * @param  array
+	 *
+	 * @return string
 	 */
 	public static function currentCharacter( $atts = array() ) {
 		$out = '';

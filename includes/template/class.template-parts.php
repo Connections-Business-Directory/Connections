@@ -1449,19 +1449,23 @@ class cnTemplatePart {
 	}
 
 	/**
-	 * Creates the initisl character filter control.
+	 * Creates the initial character filter control.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *    return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access public
-	 * @since 0.7.4
-	 * @uses add_query_arg()
-	 * @uses get_query_var()
-	 * @uses wp_parse_args()
-	 * @uses is_admin()
-	 * @param  (array)  $atts [description]
-	 * @return (string)
+	 * @since  0.7.4
+	 * @static
+	 *
+	 * @uses   add_query_arg()
+	 * @uses   get_query_var()
+	 * @uses   wp_parse_args()
+	 * @uses   is_admin()
+	 *
+	 * @param  array  $atts [description]
+	 *
+	 * @return string
 	 */
 	public static function index( $atts = array() ) {
 		$out     = '';

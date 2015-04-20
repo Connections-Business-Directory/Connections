@@ -640,7 +640,7 @@ function connectionsShowViewPage( $action = NULL ) {
 								$editUserLink = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
 							}
 
-							echo '<strong>' . __( 'Linked to:', 'connections' ) . '</strong> ' . '<a href="'. $editUserLink .'">'. esc_attr( $user->display_name ) .'</a>';
+							echo '<strong>' . __( 'Linked to:', 'connections' ) . '</strong> ' . '<a href="' . esc_url( $editUserLink ) .'">'. esc_attr( $user->display_name ) .'</a>';
 						}
 
 					echo "</td> \n";

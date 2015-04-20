@@ -559,7 +559,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						// Only show tabs registered to the current page.
 						if ( ! isset( $tab['page_hook'] ) || $tab['page_hook'] !== $pageHook ) continue;
 
-						echo '<a class="nav-tab' . ( ( $currentTab === $tab['id'] ) ? ' nav-tab-active' : '' ) . '" href="' . add_query_arg('tab', $tab['id']) . '">' . $tab['title'] . '</a>';
+						echo '<a class="nav-tab' . ( $tab['id'] === $currentTab ? ' nav-tab-active' : '' ) . '" href="' . esc_url( add_query_arg( 'tab', $tab['id'] ) ) . '">' . $tab['title'] . '</a>';
 					}
 
 					echo '</h2>';

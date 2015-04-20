@@ -1355,7 +1355,7 @@ class cnTemplatePart {
 			if ( empty( $parsedURL['query'] ) ) {
 				$links[] = '<a href="#cn-char-' . $letter . '">' . $letter . '</a>';
 			} else {
-				$links[] = '<a href="' . add_query_arg( $_parsed_query, $redirectURL . '#cn-char-' . $letter ) . '">' . $letter . '</a>';
+				$links[] = '<a href="' . esc_url( add_query_arg( $_parsed_query, $redirectURL . '#cn-char-' . $letter ) ) . '">' . $letter . '</a>';
 			}
 
 		}

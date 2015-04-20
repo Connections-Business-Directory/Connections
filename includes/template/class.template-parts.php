@@ -1468,7 +1468,7 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function index( $atts = array() ) {
-		$out     = '';
+
 		$links   = array();
 		$current = '';
 		$styles  = '';

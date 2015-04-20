@@ -634,7 +634,7 @@ class cnLicense {
 
 		$licenses = get_option( 'connections_license_data' );
 		$slug     = self::getSlug( $name );
-		$url      = is_null( $url ) ? CN_UPDATE_URL : $url;
+		$url      = is_null( $url ) ? CN_UPDATE_URL : esc_url( $url );
 
 		$licenses = ( $licenses === FALSE ) ? array() : $licenses;
 

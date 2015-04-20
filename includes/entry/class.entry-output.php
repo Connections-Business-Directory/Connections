@@ -234,7 +234,7 @@ class cnOutput extends cnEntry
 					$link = $links[0];
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
-						$link->url,
+						esc_url( $link->url ),
 						empty( $link->target ) ? '' : ' target="' . $link->target . '"',
 						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
 					);
@@ -276,7 +276,7 @@ class cnOutput extends cnEntry
 						} else {
 
 							// Add the image to the scrset.
-							$srcset['logo_custom'] = array( 'src' => $image['url'], 'width' => '1x' );
+							$srcset['logo_custom'] = array( 'src' => esc_url( $image['url'] ), 'width' => '1x' );
 
 							$atts['width']  = $image['width'];
 							$atts['height'] = $image['height'];
@@ -299,7 +299,7 @@ class cnOutput extends cnEntry
 						} else {
 
 							// Add the image to the scrset.
-							$srcset['logo'] = array( 'src' => $image['url'], 'width' => '1x' );
+							$srcset['logo'] = array( 'src' => esc_url( $image['url'] ), 'width' => '1x' );
 
 							$atts['width']  = $image['width'];
 							$atts['height'] = $image['height'];
@@ -317,7 +317,7 @@ class cnOutput extends cnEntry
 					$link = $links[0];
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
-						$link->url,
+						esc_url( $link->url ),
 						empty( $link->target ) ? '' : ' target="' . $link->target . '"',
 						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
 					);

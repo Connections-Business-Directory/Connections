@@ -2940,6 +2940,11 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function vcard( $atts = array() ) {
+
+		/**
+		 * @var wp_rewrite $wp_rewrite
+		 * @var connectionsLoad $connections
+		 */
 		global $wp_rewrite, $connections;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter

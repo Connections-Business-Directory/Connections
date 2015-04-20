@@ -1557,7 +1557,7 @@ class cnTemplatePart {
 		$current = '';
 
 		$defaults = array(
-			'type'   => 'input',	// Resevered for future use. Will define the type of output to render. In this case a form input.
+			'type'   => 'input', // Reserved for future use. Will define the type of output to render. In this case a form input.
 			'hidden' => TRUE,
 			'return' => FALSE
 		);

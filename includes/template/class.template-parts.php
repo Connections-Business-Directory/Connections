@@ -1532,8 +1532,8 @@ class cnTemplatePart {
 		// $out = '<div class="">' . . '</div>';
 		$out = "\n" . '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . "\n";
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**

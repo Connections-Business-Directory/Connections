@@ -537,7 +537,7 @@ class cnTemplate {
 		$path = FALSE;
 
 		// Try locating this template file by looping through the template paths.
-		foreach ( $this->filePaths() as $filePath ) {
+		/*foreach ( $this->filePaths() as $filePath ) {
 
 			// Try to find a template file.
 			foreach ( $files as $fileName ) {
@@ -545,6 +545,22 @@ class cnTemplate {
 
 				if ( file_exists( $filePath . $fileName ) ) {
 					// var_dump( $filePath . $fileName );
+
+					$path = $filePath . $fileName;
+					break 2;
+				}
+			}
+		}*/
+
+		// Try to find a template file.
+		foreach ( $files as $fileName ) {
+
+			// Try locating this template file by looping through the template paths.
+			foreach ( $this->filePaths() as $filePath ) {
+				//var_dump( $filePath . $fileName );
+
+				if ( file_exists( $filePath . $fileName ) ) {
+					//var_dump( $filePath . $fileName );
 
 					$path = $filePath . $fileName;
 					break 2;

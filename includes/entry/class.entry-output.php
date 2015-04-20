@@ -2984,13 +2984,16 @@ class cnOutput extends cnEntry
 		/*
 		 * Ensure the supplied size is valid, if not reset to the default value.
 		 */
-		( in_array( $atts['size'], $iconSizes ) ) ? $iconSize = $atts['size'] : $iconSize = 32;
+		$iconSize = in_array( $atts['size'], $iconSizes ) ? $atts['size'] : 32;
 
 		// Create the permalink base based on context where the entry is being displayed.
 		if ( in_the_loop() && is_page() ) {
-			$permalink = trailingslashit ( get_permalink() );
+
+			$permalink = trailingslashit( get_permalink() );
+
 		} else {
-			$permalink = trailingslashit ( get_permalink( $homeID ) );
+
+			$permalink = trailingslashit( get_permalink( $homeID ) );
 		}
 
 		if ( ! empty( $atts['class'] ) ) $piece[] = 'class="' . $atts['class'] .'"';
@@ -3001,17 +3004,18 @@ class cnOutput extends cnEntry
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
-			$piece[] = 'href="' . add_query_arg( array( 'cn-id' => $id , 'cn-token' => $token ) , $permalink . $name . '/' .$this->getSlug() . '/vcard/' ) . '"';
-		}
-		else {
-			$piece[] = 'href="' . add_query_arg( array( 'cn-entry-slug' => $this->getSlug() , 'cn-process' => 'vcard' , 'cn-id' => $id , 'cn-token' => $token ) , $permalink ) . '"';
+			$piece[] = 'href="' . esc_url( add_query_arg( array( 'cn-id' => $id, 'cn-token' => $token ), $permalink . $name . '/' . $this->getSlug() . '/vcard/' ) ) . '"';
+
+		} else {
+
+			$piece[] = 'href="' . esc_url( add_query_arg( array( 'cn-entry-slug' => $this->getSlug(), 'cn-process' => 'vcard', 'cn-id' => $id, 'cn-token' => $token ), $permalink ) ) . '"';
 		}
 
 		$out = '<span class="vcard-block">';
 
 		$replace[] = '<a ' . implode( ' ', $piece ) . '>' . $atts['text'] . '</a>';
 
-		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
+		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . esc_url( CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png' ) . '" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 
 
 		$out .= str_ireplace(

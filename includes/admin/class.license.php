@@ -628,7 +628,7 @@ class cnLicense {
 	 * @param  string $license The item license key.
 	 * @param  string $url     The EDD SL Updater URL.
 	 *
-	 * @return mixed           bool | object The EDD SL responce for the item on success or FALSE on fail.
+	 * @return mixed           bool | object The EDD SL response for the item on success or FALSE on fail.
 	 */
 	public static function license( $action, $name, $license, $url = NULL ) {
 

@@ -135,7 +135,7 @@ class cnRetrieve {
 		 * // START -- Process the query vars. \\
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
-		if ( ! is_admin() && ! $atts['lock'] ) {
+		if ( ( ( defined( DOING_AJAX ) && DOING_AJAX ) || ! is_admin() ) && ! $atts['lock'] ) {
 
 			// Category slug
 			$queryCategorySlug = get_query_var( 'cn-cat-slug' );

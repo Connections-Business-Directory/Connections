@@ -942,29 +942,28 @@ class cnOutput extends cnEntry
 	/**
 	 * Echo or return the entry's contact name in a HTML string.
 	 *
-	 * Accepted options for the $atts property are:
-	 *  format (string) Tokens for the parts of the name.
-	 *   Permitted Tokens:
-	 *    %label%
-	 *    %first%
-	 *    %last%
-	 *    %separator%
-	 *  label (string) The label to be displayed for the contact name.
-	 *  separator (string) The separator to use.
-	 *  before (string) HTML to output before an address.
-	 *  after (string) HTML to after before an address.
-	 *  return (bool) Return or echo the string. Default is to echo.
+	 * @access  public
+	 * @since   unknown
 	 *
-	 * Filters:
-	 *  cn_output_default_atts_contact_name => (array) Register the methods default attributes.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param array   $atts [optional]
+	 *     @type string $format    The format the contact name should be returned as.
+	 *                             Default: %label%%separator% %first% %last%
+	 *                             Accepts any combination of the following tokens: '%label%', '%first%', '%last%', '%separator%'
+	 *     @type string $label     The label shown for the contact name.
+	 *                             Default: Contact
+	 *     @type string $separator The separator to use between the label and contact name.
+	 *     @type string $before    The content to render before the contact name block.
+	 *     @type string $after     The content to render after the contact name block.
+	 *     @type bool   $return    Whether or not to echo or return the HTML.
+	 *                             Default: FALSE, which is to echo the result.
+	 * }
+	 *
 	 * @return string
 	 */
 	public function getContactNameBlock( $atts = array() ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -977,27 +976,31 @@ class cnOutput extends cnEntry
 			'return'    => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_contact_name' , $defaults );
-
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		/**
+		 *
+		 */
+		$atts = cnSanitize::args( $atts, apply_filters( 'cn_output_default_atts_contact_name', $defaults ) );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$search = array( '%label%', '%first%', '%last%' , '%separator%' );
+		$search  = array( '%label%', '%first%', '%last%', '%separator%' );
 		$replace = array();
-		$first = $this->getContactFirstName();
-		$last = $this->getContactLastName();
+		$first   = $this->getContactFirstName();
+		$last    = $this->getContactLastName();
 
-		if ( empty( $first ) && empty( $last ) ) return '';
+		if ( empty( $first ) && empty( $last ) ) {
 
-		( empty( $first ) && empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="contact-label">' . $atts['label'] . '</span>';
+			return '';
+		}
+
+		$replace[] = empty( $first ) && empty( $last ) ? '' : '<span class="contact-label">' . $atts['label'] . '</span>';
 
 		// The `notranslate` class is added to prevent Google Translate from translating the text.
-		( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="contact-given-name notranslate">' . $first . '</span>';
+		$replace[] = empty( $first ) ? '' : '<span class="contact-given-name notranslate">' . $first . '</span>';
 
 		// The `notranslate` class is added to prevent Google Translate from translating the text.
-		( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="contact-family-name notranslate">' . $last . '</span>';
+		$replace[] = empty( $last ) ? '' : '<span class="contact-family-name notranslate">' . $last . '</span>';
 
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
@@ -1007,12 +1010,14 @@ class cnOutput extends cnEntry
 			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
 			);
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::normalizeString( $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$block = '<span class="contact-block">' .  $out . '</span>';
+
+		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		if ( ! $atts['return'] ) echo $html;
+		return $html;
 	}
 
 	/**

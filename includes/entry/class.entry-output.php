@@ -920,7 +920,7 @@ class cnOutput extends cnEntry
 	}
 
 	/**
-	 * Return the entry's organization and/or departartment in a HTML hCard compliant string.
+	 * Return the entry's organization and/or department in a HTML hCard compliant string.
 	 *
 	 * @deprecated since 0.7.2.0
 	 */
@@ -929,7 +929,7 @@ class cnOutput extends cnEntry
 	}
 
 	/**
-	 * Return the entry's organization and/or departartment in a HTML hCard compliant string.
+	 * Return the entry's organization and/or department in a HTML hCard compliant string.
 	 *
 	 * @deprecated since 0.7.2.0
 	 */

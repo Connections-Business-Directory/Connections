@@ -15,6 +15,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnSanitize
+ */
 class cnSanitize {
 
 	/**
@@ -158,7 +161,7 @@ class cnSanitize {
 	 * @param string $value   The string to sanitize.
 	 * @param string $context The context in which it should be sanitized.
 	 *
-	 * @return string
+	 * @return mixed string|WP_Error
 	 */
 	public static function field( $field, $value, $context = 'display' ) {
 
@@ -166,49 +169,75 @@ class cnSanitize {
 
 			case 'raw':
 
-				return $value;
-				break;
+				switch ( $field ) {
+
+					case 'url':
+
+						return esc_url_raw( $value );
+
+					default:
+
+						return $value;
+				}
 
 			case 'edit':
 
-				if ( 'name' == $field ) {
+				switch ( $field ) {
 
-					// This is the same as the post title on the edit-form-advanced.php admin page.
-					return esc_attr( esc_textarea( $value ) );
+					case 'name':
+
+						// This is the same as the post title on the edit-form-advanced.php admin page.
+						return esc_attr( esc_textarea( $value ) );
+
+					case 'url':
+
+						return esc_url( $value );
 				}
 
 				break;
 
 			case 'db':
 
-				if ( 'name' == $field ) {
+				switch ( $field ) {
 
-					// Matches the post title sanitation be inserted in the db.
-					return trim( wp_unslash( $value ) );
+					case 'name';
+
+						// Matches the post title sanitation be inserted in the db.
+						return trim( wp_unslash( $value ) );
+
+					case 'url';
+
+						return esc_url_raw( $value );
 				}
 
-				break;
-
-			case 'attribute':
-
-				return esc_attr( $value );
-				break;
-
-			case 'js':
-
-				return esc_js( $value );
 				break;
 
 			default:
 
-				if ( 'name' == $field ) {
+				switch ( $field ) {
 
-					// This is the same as the filters applied via the `the_title` filter for the post title.
-					return esc_html( trim( convert_chars( wptexturize( $value ) ) ) );
+					case 'name':
+
+						// This is the same as the filters applied via the `the_title` filter for the post title.
+						return esc_html( trim( convert_chars( wptexturize( $value ) ) ) );
+
+					case 'url':
+
+						return esc_url( $value );
+
+					case 'attribute':
+
+						return esc_attr( $value );
+
+					case 'js':
+
+						return esc_js( $value );
 				}
 
 				break;
 		}
+
+		return new WP_Error( 'value_not_sanitized', __( 'Value not sanitized.', 'connections' ), $value );
 	}
 
 	/**

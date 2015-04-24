@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.2.4
+ * Version: 8.2.5
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.2.4
+ * @version 8.2.5
  */
 
 // Exit if accessed directly
@@ -138,6 +138,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public $url;
 
 		/**
+		 * The following vars are being set in the cnEntry and cnRetrieve classes.
+		 * @todo Code should be refactor to remove their usage.
+		 */
+		public $lastQuery;
+		public $lastQueryError;
+		public $lastInsertID;
+
+		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
 		 *
 		 * @access public
@@ -221,13 +229,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.2.4' );
+			define( 'CN_CURRENT_VERSION', '8.2.5' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
 
 			/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
-			define( 'CN_UPDATE_URL', 'http://connections-pro.com' );
+			define( 'CN_UPDATE_URL', 'http://connections-pro.com/edd-sl-api' );
 
 			/** @var string CN_DIR_NAME */
 			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
@@ -264,7 +272,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) ) {
 
-				/** @var string CN_ADMIN_MENU_POSITION */
+				/** @var int CN_ADMIN_MENU_POSITION */
 				define( 'CN_ADMIN_MENU_POSITION', NULL );
 			}
 
@@ -279,12 +287,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( is_multisite() ) {
 
-					/** @var string CN_MULTISITE_ENABLED */
+					/** @var bool CN_MULTISITE_ENABLED */
 					define( 'CN_MULTISITE_ENABLED', TRUE );
 
 				} else {
 
-					/** @var string CN_MULTISITE_ENABLED */
+					/** @var bool CN_MULTISITE_ENABLED */
 					define( 'CN_MULTISITE_ENABLED', FALSE );
 				}
 			}

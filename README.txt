@@ -3,8 +3,8 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
-Tested up to: 4.1
-Stable tag: 8.2.4
+Tested up to: 4.2
+Stable tag: 8.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,23 +64,23 @@ Templates and CSS overriding is very granular and update safe. Check out these l
 
 Connections Business Directory has been embraced around the world and has been translated by its users in the following languages.
 
-* Arabic [87% Complete]
-* Catalan [77% Complete]
-* Croatian (Croatia) [36% Complete]
+* Arabic [86% Complete]
+* Catalan [76% Complete]
+* Croatian (Croatia) [35% Complete]
 * Danish [46% Complete]
-* Danish (Denmark) [46% Complete]
+* Danish (Denmark) [40% Complete]
 * Dutch (Netherlands) [71% Complete]
 * French (France) [85% Complete]
-* German (Germany) [66% Complete]
+* German (Germany) [68% Complete]
 * Hebrew (Israel) [88% Complete]
 * Hungarian (Hungry) [75% Complete]
 * Italian (Italy) [45% Complete]
 * Norwegian [18% Complete]
-* Persian (Iran) [76% Complete]
-* Polish (Poland) [77% Complete]
+* Persian (Iran) [75% Complete]
+* Polish (Poland) [76% Complete]
 * Portuguese (Brazil) [72% Complete]
 * Portuguese (Portugal) [34% Complete]
-* Romanian (Romania) [100% Complete]
+* Romanian (Romania) [99% Complete]
 * Russian (Russia) [39% Complete]
 * Serbian (Latin) [3% Complete]
 * Spanish (Latin America) [71% Complete]
@@ -118,7 +118,7 @@ Connections Business Directory has been embraced around the world and has been t
 6. The Settings admin page where you can configure the business directory options.
 7. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.
 
-[Connections running on live websites can be found here.](http://connections-pro.com/live-samples/)
+[Connections running on live websites can be found here.](http://connections-pro.com/showcase/)
 
 == Installation ==
 
@@ -169,6 +169,184 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.2.5 04/24/2015 =
+* FEATURE: Introduce cnSiteShot.
+* FEATURE: Introduce cnMeta_Query.
+* BUG: Fix broken CSS dependency for the jQuery UI Datepicker when in the admin.
+* BUG: Set correct param default in cnFormatting::sanitizeString().
+* BUG: Remove unused var in cnColor::rgb2hex2rgb().
+* BUG: Remove unused global var in cnEntry::getWebsites().
+* BUG: Add missing 64px icon size to cnOutput::getEmailAddressBlock().
+* BUG: Correct the img tag name and remove the px from the with and height attributes in cnOutput::getEmailAddressBlock().
+* BUG: Remove unused var in cnEntry::getLinks().
+* BUG: Remove dead code in cnURL::prefix().
+* BUG: Remove unused $updateObjectCache class var in cnEntry.
+* BUG: Fix bug in typecasting the anniversary and birthday vars in cnEntry::__construct().
+* BUG: Remove unused var in cnEntry::getAddresses().
+* BUG: Remove the use of the unused $connections global var in several methods in cnEntry.
+* BUG: Remove unused $phoneNumbers in cnEntry::getPhoneNumbers().
+* BUG: Remove unused $emailAddresses var in cnEntry::getEmailAddresses().
+* BUG: Remove unused $imIDs var from cnEntry::getIm().
+* BUG: Remove unused $socialMediaIDs from cnEntry::getSocialMedia().
+* BUG: Remove unused $dates var in cnEntry::getDates().
+* BUG: Fix bug in cnEntry::update() where the honorific suffix was not be emptied when updating an entry of the organization type.
+* BUG: No need to set the various image size variation names to class vars in cnEntry because they are no longer used.
+* BUG: Remove unused class var $websites from cnEntry.
+* BUG: Fix bug in cnEntry_Action::visibility() where the sanitized entry ID/s where not being used in the query.
+* BUG: Remove unused var in cnTemplatePart::index().
+* BUG: Fix bug in the template file override code.
+* BUG: If an invalid image preset is supplied in cnOutput::getImage() set the image display to false and force the display of the image fallback block with the message stating; "Photo preset %s is not valid."
+* TWEAK: Move Dashboard template styles to the admin CSS style sheet.
+* TWEAK: Remove margins on admin widgets "Remove" buttons.
+* TWEAK: Remove text align left on the bio and notes fields from the front end style sheet.
+* TWEAK: Add a RTL admin style sheet.
+* TWEAK: Register and enqueue the RTL admin style sheet is the current local RTL.
+* TWEAK: Use PHP native function to prefix URL with a protocol.
+* TWEAK: Add icons that can be used for links.
+* TWEAK: Remove use of deprecated function call in cnEntry::getWebsites().
+* TWEAK: Remove use of global $connections in cnEntry::getUpcoming().
+* TWEAK: If the local is RTL, float right instead of left in the core templates.
+* TWEAK: Change the licensing API calls to use the new API endpoint.
+* TWEAK: Declare cnEntry::__construct() as public.
+* TWEAK: Set default date format from NULL to 'm/d/Y' in cnEntry::getDateAdded() and refactor code accordingly.
+* TWEAK: Remove use of deprecated function cnValidate::attributesArray() in cnEntry. Now uses cnSanitize::args().
+* TWEAK: Remove use of deprecated function connectionsLoad::setErrorMessage() in cnEntry. Use cnMessage::set() instead.
+* TWEAK: Remove usage of deprecated function connectionsLoad::setErrorMessage(). Use cnMessage::set() instead().
+* TWEAK: Simplify the ternary in cnEntry::setAnniversary().
+* TWEAK: Simplify the ternary in cnEntry::setBirthday().
+* TWEAK: No need to set the logo file name to class vars in cnEntry because it is no longer used. The helper methods should always be used instead.
+* TWEAK: The the user display name by using WP_User::get() rather than the magic __get() method.
+* TWEAK: Add a few class vars that are being added to the connectionsLoad class.
+* TWEAK: Use the more explicit is_null() on the $entry param in cnEntry::__construct().
+* TWEAK: Make cnMeta::tableName() public.
+* TWEAK: Add meta query support to cnRetrieve::entries().
+* TWEAK: Add ordering by meta_key support to cnRetrieve::entries().
+* TWEAK: Add `cn_process_status` to cnEntry_Action::status().
+* TWEAK: Add `cn_process_visibility` action to cnEntry_Action::visibility().
+* TWEAK: Add `cn_process_bulk_delete` action to cnEntry_Action::delete().
+* TWEAK: Use `wp_parse_id_list()` in cnEntry_Action::visibility() to simplify the method.
+* TWEAK: Use `wp_parse_id_list()` in cnEntry_Action::status() to simplify the method.
+* TWEAK: Remove the params from cnEntry_Action::clearCache() and update the phpDoc.
+* TWEAK: Move action `cn_process_cache-entry` action from cnEntry_Action::process() to cnEntry_Action::clearCache().
+* TWEAK: Add various actions to the cnEntry_Action::clearCache() method so the entry caches are cleared when those actions are fired.
+* TWEAK: Add the `cn_clean_entry_cache` action to cnEntry_Action::clearCache() and deprecate the existing `cn_process_cache-entry` action.
+* TWEAK: Add cnEntry_action::updateTermCount().
+* TWEAK: Add actions to update the term taxonomy counts when entry status or visibility has been updated via the bulk actions.
+* TWEAK: Set $atts['enhanced'] to FALSE if wp_is_mobile() in CN_Walker_Term_Select_List_Enhanced::render().
+* TWEAK: Ensure URL is escaped in cnLicense::license().
+* TWEAK: Ensure the entry status filter links on the Manage admin page are escaped.
+* TWEAK: Ensure the pagination links on the Manage admin page are escaped.
+* TWEAK: Ensure the entry action links on the Manage admin page are escaped.
+* TWEAK: Ensure the "Linked to" profile link is escaped on the Manage admin page.
+* TWEAK: Ensure the image src URLs and logo/photo links are escaped.
+* TWEAK: Ensure the vCard URL and the icon src URLs are escaped.
+* TWEAK: Ensure the tab URL on the Settings admin page is escaped.
+* TWEAK: Ensure the index links in cnTemplatePart::characterIndex() are escaped().
+* TWEAK: Ensure the character links in cnTemplatePart::index() are escaped.
+* TWEAK: Add the geometry library to the Google Maps API when it is registered.
+* TWEAK: Clean up the code for cnOutput::getContactNameBlock().
+* TWEAK: Check is doing AJAX in cnRetrieve::entries()  before processing query vars.
+* I18N: Update the .pot file.
+* I18N: Update the .mo files.
+* OTHER: Fix the page source HTML whitespace in CN_Walker_Term_Radio_Group.
+* OTHER: Update minified CSS.
+* OTHER: Fix spelling of $visibility.
+* OTHER: Fix misspelling of $protocol.
+* OTHER: Fix misspellings in cnLog.
+* OTHER: Fix spelling error in phpDoc for cnEntry::getUpcoming().
+* OTHER: Fix spelling of visibility in phpDoc.
+* OTHER: Correct the misspelling of empty in several places in cnEntry.
+* OTHER: Corrected misspelling of preferred in several places in cnEntry.
+* OTHER: Correct misspelling of overridden in several places in cnEntry.
+* OTHER: Remove the space between the $wpdb->prepare function and open paren per coding style in several instances in cnEntry.
+* OTHER: Correct misspelling of var $compatibilityDate().
+* OTHER: Correct misspelling of apparently in cnEntry.
+* OTHER: Correct misspelling of cnEntry::displayVisibilityType() and update any instances of its usage.
+* OTHER: Correct param type for $entry in cnEntry::__construct().
+* OTHER: Correct param type in cnEntry::setEntryType().
+* OTHER: Run the Members template thru the phpStorm code formatter to get it much closer to following the coding style guidelines.
+* OTHER: Update link in readme.txt to point the Live Samples page to the Showcase page.
+* OTHER: Fix a couple instances of misspellings of department in the phpDoc.
+* DEV: Cleanup phpDoc in cnScript.
+* DEV: Cleanup coding style of cnFormatting::toYesNo().
+* DEV: Cleanup phpDoc for cnFormatting::toBoolean().
+* DEV: Bring cnValidate::url() up to code style standards.
+* DEV: Bring cnValidate::email() up to coding standards.
+* DEV: Bring cnValidate::userPermitted() up to coding standards.
+* DEV: Cleanup phpDoc for cnURL::encode().
+* DEV: Clean up phpDoc for cnURL::prefix().
+* DEV: Cleanup phpDoc for cnURL::fromPath().
+* DEV: Update phpDoc for cnURL::permalink().
+* DEV: Fix code formatting in cnUtility::getUUID().
+* DEV: Cleanup code formatting of cnUtility::remapRange().
+* DEV: Add phpDoc to cnLog.
+* DEV: Cleanup code formatting in cnLog.
+* DEV: Clean up code formatting of the colors array.
+* DEV: phpDoc fixes in cnColor.
+* DEV: Cleanup code formatting a couple conditional statements in cnColor.
+* DEV: phpDoc fixes in cnString.
+* DEV: Add cnOptions::loginRequired() helper function.
+* DEV: Refactor cnValidate::userPermitted().
+* DEV: Add the ability to sanitize URL/s to cnSanitize::field().
+* DEV: Update phpDoc for cnEntry::getLinks().
+* DEV: Code cleanup of cnEntry::getLinks().
+* DEV: Code cleanup of cnEntry::setLinks().
+* DEV: Cleanup phpDoc for cnEntry::setLinks().
+* DEV: Cleanup the code in cnOutput::getLinkBlock().
+* DEV: Update .gitattributes to exclude assets in archives.
+* DEV: Fix phpDoc type for var connectionsLoad::$links.
+* DEV: Update phpDoc for cnEntry::getUpcoming().
+* DEV: Add phpDoc to class vars in cnEntry.
+* DEV: Add phpDoc for global $connections usage in cnEntry::__construct().
+* DEV: Add phpDoc to cnEntry::__construct().
+* DEV: Add phpDoc to cnEntry::getHumanTimeDiff().
+* DEV: Add phpDoc to cnEntry::getDateAdded().
+* DEV: Add phpDoc to several methods in cnEntry where the extract() function is used.
+* DEV: Add phpDoc to several methods in cnEntry to document usage of the $connections global var.
+* DEV: Update the phpDoc for several methods for the $saving attribute.
+* DEV: Add phpDoc to cnEntry::getAnniversary().
+* DEV: Add phpDoc to cnEntry::setAnniversary().
+* DEV: Add phpDoc to cnEntry::getBirthday().
+* DEV: Add phpDoc to cnEntry::setBirthday().
+* DEV: Add phpDoc to cnEntry::getBio().
+* DEV: Add phpDoc to cnEntry::setBio().
+* DEV: Add phpDoc to cnEntry::getNotes().
+* DEV: Add phpDoc to cnEntry::setNotes().
+* DEV: Add phpDoc to cnEntry::getLogoDisplay().
+* DEV: Add phpDoc to cnEntry::setLogoDisplay().
+* DEV: Add phpDoc to cnEntry::getLogoLinked().
+* DEV: Add phpDoc to cnEntry::setLogoLinked().
+* DEV: Add phpDoc to cnEntry::setLogoName().
+* DEV: Add phpDoc for cnEntry::getAddedBy().
+* DEV: Add phpDoc to cnEntry::getSortColumn().
+* DEV: Add phpDoc to cnEntry::getEditedBy().
+* DEV: Add phpDoc to cnEntry::delete().
+* DEV: Add phpDoc to cnEntry::save().
+* DEV: Add phpDoc to cnEntry::update().
+* DEV: Add phpDoc to cnEntry::save() for the global $connections var().
+* DEV: Add @return to phpDoc for cnEntry::getFormattedTimestamp().
+* DEV: Add phpDoc for the $slug param to cnEntry::setSlug().
+* DEV: Cleanup of phpDoc for cnEntry::displayVisibilityType().
+* DEV: Cleanup phpDoc for cnEntry::getStatus().
+* DEV: Cleanup phpDoc for cnEntry::setStatus().
+* DEV: Bring cnEntry::getAddedBy() up to coding style standards.
+* DEV: Bring cnEntry::getEditedBy() up to coding style standards.
+* DEV: Clean up phpDoc for cnRetrieve::entry().
+* DEV: Fix the @return type tag in cnRetrieve::entry().
+* DEV: Correct the phpDoc var type of several constants.
+* DEV: Cleanup a few phpDoc issues in cnUpload.
+* DEV: Correct phpDoc var type in phpDoc for cnMeta_Query::get_sql().
+* DEV: Update phpDoc for cnEntry_action::status().
+* DEV: Update phpDoc for cnEntryAction::visibility().
+* DEV: Update phpDoc for cnEntry_Action::delete().
+* DEV: Add phpDoc to the `cn_process_status` action hook.
+* DEV: Add phpDoc to the `cn_process_visibility` action hook.
+* DEV: Add phpDoc to the `cn_process_bulk_delete` action hook.
+* DEV: Fix misspelling in phpDoc for cnLicense::license().
+* DEV: Add phpDoc the the global vars used in cnOutput::vcard().
+* DEV: Cleanup phpDoc for cnTemplatePart::index().
+* DEV: Cleanup phpDoc for cnTemplatePart::currentCharacter().
 
 = 8.2.4 04/03/2015 =
 * FEATURE: Introduce CN_Walker_Term_Select_List_Enhanced.
@@ -1034,4 +1212,7 @@ This a major update to Connections it is recommended to backup before updating. 
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.4 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.5 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

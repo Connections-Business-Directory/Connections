@@ -13,13 +13,16 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnScript
+ */
 class cnScript {
 
 	/**
 	 * Used to store the values of core jQuery.
 	 *
 	 * @access private
-	 * @since 0.7.7
+	 * @since  0.7.7
 	 * @var array
 	 */
 	private static $corejQuery = array();
@@ -28,8 +31,7 @@ class cnScript {
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
 	 * @access public
-	 * @since 0.7.6.4
-	 * @return (void)
+	 * @since  0.7.6.4
 	 */
 	public function __construct() { /* Do nothing here */ }
 
@@ -37,8 +39,14 @@ class cnScript {
 	 * Init the class.
 	 *
 	 * @access public
-	 * @since 0.7.6.4
-	 * @return (void)
+	 * @since  0.7.6.4
+	 * @static
+	 *
+	 * @uses   add_filter()
+	 * @uses   is_admin()
+	 * @uses   add_action()
+	 *
+	 * @return void
 	 */
 	public static function init() {
 
@@ -82,9 +90,19 @@ class cnScript {
 	 * Register the external JS libraries that may be enqueued in either the admin or frontend.
 	 *
 	 * @access private
-	 * @since 0.7.3.2
+	 * @since  0.7.3.2
+	 * @static
+	 *
 	 * @global $connections
-	 * @uses wp_register_script()
+	 *
+	 * @uses   is_admin()
+	 * @uses   is_ssl()
+	 * @uses   wp_register_script()
+	 * @uses   wp_max_upload_size()
+	 * @uses   size_format()
+	 * @uses   esc_html()
+	 * @uses   wp_localize_script()
+	 *
 	 * @return void
 	 */
 	public static function registerScripts() {
@@ -102,8 +120,8 @@ class cnScript {
 		 */
 		if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
 
-			if ( ! is_ssl() ) wp_register_script( 'cn-google-maps-api', 'http://maps.googleapis.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
-			if ( is_ssl() ) wp_register_script( 'cn-google-maps-api', 'https://maps.googleapis.com/maps/api/js?sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+			if ( ! is_ssl() ) wp_register_script( 'cn-google-maps-api', 'http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+			if ( is_ssl() ) wp_register_script( 'cn-google-maps-api', 'https://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 
 			wp_register_script( 'jquery-gomap', CN_URL . "vendor/jquery-gomap/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
 			wp_register_script( 'jquery-markerclusterer', CN_URL . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
@@ -161,8 +179,20 @@ class cnScript {
 	 * Registers the CSS libraries that may be enqueued in the admin or frontend.
 	 *
 	 * @access private
-	 * @since 0.7.3.2
-	 * @uses wp_register_style()
+	 * @since  0.7.3.2
+	 * @static
+	 *
+	 * @uses   add_filter()
+	 * @uses   is_admin()
+	 * @uses   wp_register_style()
+	 * @uses   get_user_option()
+	 * @uses   is_rtl()
+	 * @uses   cnSettingsAPI::get()
+	 * @uses   cnLocate::file()
+	 * @uses   cnLocate::fileNames()
+	 * @uses   wp_style_is()
+	 * @uses   remove_filter()
+	 *
 	 * @return void
 	 */
 	public static function registerCSS() {
@@ -177,6 +207,11 @@ class cnScript {
 
 			wp_register_style( 'cn-admin', CN_URL . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
 			wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
+
+			if ( is_rtl() ) {
+
+				wp_register_style( 'cn-admin-rtl', CN_URL . "assets/css/cn-admin-rtl$min.css", array('cn-admin'), CN_CURRENT_VERSION );
+			}
 
 		} else {
 
@@ -222,8 +257,20 @@ class cnScript {
 	 *
 	 * @access private
 	 * @since  0.7.3.2
+	 * @static
+	 *
+	 * @global $concatenate_scripts
+	 * @global $compress_scripts
+	 * @global $compress_css
+	 *
+	 * @uses   Connections_Directory()
 	 * @uses   wp_enqueue_script()
+	 * @uses   do_action()
+	 * @uses   add_action()
+	 * @uses   apply_filters()
+	 *
 	 * @param  string $pageHook The current admin page hook.
+	 *
 	 * @return void
 	 */
 	public static function enqueueAdminScripts( $pageHook ) {
@@ -243,6 +290,7 @@ class cnScript {
 		$editPages = apply_filters( 'cn_admin_required_edit_scripts', array( $instance->pageHook->manage, $instance->pageHook->add ) );
 
 		if ( in_array( $pageHook, $editPages ) ) {
+			/** @noinspection PhpUnusedLocalVariableInspection */
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
 			wp_enqueue_script( 'jquery-gomap' );
@@ -271,12 +319,22 @@ class cnScript {
 
 	}
 
+	/**
+	 * @access private
+	 * @since  unknown
+	 * @static
+	 */
 	public static function adminFooterScript() {
 		?>
 		<script>postboxes.add_postbox_toggles(pagenow);</script>
 		<?php
 	}
 
+	/**
+	 * @access private
+	 * @since  unknown
+	 * @static
+	 */
 	public static function enqueue() {
 		global $wp_query;
 
@@ -302,8 +360,11 @@ class cnScript {
 	 * Enqueues the Connections JavaScript libraries on the frontend.
 	 *
 	 * @access private
-	 * @since 0.7.3.2
-	 * @uses wp_enqueue_script()
+	 * @since  0.7.3.2
+	 * @static
+	 *
+	 * @uses   wp_enqueue_script()
+	 *
 	 * @return void
 	 */
 	public static function enqueueScripts() {
@@ -321,10 +382,13 @@ class cnScript {
 	 * Attempt to re-register the bundled version of jQuery
 	 *
 	 * @access private
-	 * @since 0.7.6
-	 * @uses wp_deregister_script()
-	 * @uses wp_register_script()
-	 * @return (void)
+	 * @since  0.7.6
+	 * @static
+	 *
+	 * @uses   wp_deregister_script()
+	 * @uses   wp_register_script()
+	 *
+	 * @return void
 	 */
 	public static function jQueryFixr() {
 
@@ -350,10 +414,13 @@ class cnScript {
 	 * Store the values of core jQuery.
 	 *
 	 * @access private
-	 * @since 0.7.7
-	 * @uses WP_Scripts
-	 * @param  (object) $scripts WP_Scripts
-	 * @return (void)
+	 * @since  0.7.7
+	 *
+	 * @uses   WP_Scripts
+	 *
+	 * @param  object $scripts WP_Scripts
+	 *
+	 * @return void
 	 */
 	public static function storeCorejQuery( &$scripts ) {
 
@@ -366,10 +433,16 @@ class cnScript {
 	 * Enqueues the Connections CSS on the required admin pages.
 	 *
 	 * @access private
-	 * @since 0.7.3.2
-	 * @global $connections
-	 * @uses wp_enqueue_style()
+	 * @since  0.7.3.2
+	 * @static
+	 *
+	 * @uses   Connections_Directory()
+	 * @uses   wp_enqueue_style()
+	 * @uses   do_action()
+	 * @uses   apply_filters()
+	 *
 	 * @param  string $pageHook The current admin page hook.
+	 *
 	 * @return void
 	 */
 	public static function enqueueAdminStyles( $pageHook ) {
@@ -384,6 +457,11 @@ class cnScript {
 			wp_enqueue_style( 'cn-admin' );
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
 			wp_enqueue_style( 'cn-font-awesome' );
+
+			if ( is_rtl() ) {
+
+				wp_enqueue_style( 'cn-admin-rtl' );
+			}
 
 			do_action( 'cn_admin_enqueue_styles', $pageHook );
 		}
@@ -404,7 +482,9 @@ class cnScript {
 	 * @access private
 	 * @since  0.7.3.2
 	 * @static
+	 *
 	 * @uses   wp_enqueue_style()
+	 * @uses   wp_style_is()
 	 *
 	 * @return void
 	 */
@@ -435,14 +515,16 @@ class cnScript {
 	 * @access private
 	 * @since  0.8
 	 * @static
-	 * @see     cnLocate::fileNames()
-	 * @param  array  $files An indexed array of file names to search for.
-	 * @param  string $base The base file name. Passed via filter from  cnLocate::fileNames().
-	 * @param  string $name The template part name. Passed via filter from  cnLocate::fileNames().
-	 * @param  string $slug The template part slug. Passed via filter from  cnLocate::fileNames().
-	 * @param  string $ext  The template file name extension. Passed via filter from  cnLocate::fileNames().
 	 *
-	 * @return array        An indexed array of file names to search for.
+	 * @see    cnLocate::fileNames()
+	 *
+	 * @param  array  $files An indexed array of file names to search for.
+	 * @param  string $base  The base file name. Passed via filter from  cnLocate::fileNames().
+	 * @param  string $name  The template part name. Passed via filter from  cnLocate::fileNames().
+	 * @param  string $slug  The template part slug. Passed via filter from  cnLocate::fileNames().
+	 * @param  string $ext   The template file name extension. Passed via filter from  cnLocate::fileNames().
+	 *
+	 * @return array         An indexed array of file names to search for.
 	 */
 	public static function minifiedFileNames( $files, $base, $name, $slug, $ext ) {
 
@@ -463,7 +545,7 @@ class cnScript {
 				// Insert the minified file name into the array.
 				array_splice( $files, $i, 0, $minified );
 
-				// Increment the insert position. Adding `2` to take into account the updated insert postion
+				// Increment the insert position. Adding `2` to take into account the updated insert position
 				// due to an item being inserted into the array.
 				$i = $i + 2;
 			}
@@ -481,9 +563,12 @@ class cnScript {
 	 * @access private
 	 * @since  0.8
 	 * @static
+	 *
 	 * @see    registerCSS()
 	 * @see    cnLocate::filePaths()
+	 *
 	 * @param  array  $paths An index array containing the file paths to be searched.
+	 *
 	 * @return array
 	 */
 	public static function coreCSSPath( $paths ) {
@@ -501,8 +586,11 @@ class cnScript {
 	 * @access private
 	 * @since  0.8
 	 * @static
+	 *
 	 * @see    registerCSS()
+	 *
 	 * @param  array  $paths An index array containing the file paths to be searched.
+	 *
 	 * @return array
 	 */
 	public static function coreJSPath( $paths ) {

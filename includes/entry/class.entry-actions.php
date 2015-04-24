@@ -799,8 +799,6 @@ class cnEntry_Action {
 		do_action( 'cn_process_taxonomy-category', $action, $entryID );
 		do_action( 'cn_process_meta-entry', $action, $entryID );
 
-		do_action( 'cn_process_cache-entry', $action, $entryID );
-
 		// Refresh the cnEntry object with any updated taxonomy or meta data
 		// that may have been added/updated via actions.
 		$entry->set( $entryID );
@@ -815,12 +813,23 @@ class cnEntry_Action {
 	 * Set the status of one or more entries.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @param string $status 		The status to set. Valid options are: approved | pending
-	 * @param array|int $id 	The entry IDs to set the status.
+	 * @since  0.7.8
+	 *
+	 * @global $wpdb
+	 *
+	 * @uses   wp_parse_id_list()
+	 * @uses   wpdb::prepare()
+	 * @uses   wpdb::query()
+	 * @uses   do_action()
+	 *
+	 * @param string    $status The status to set. Valid options are: approved | pending
+	 * @param array|int $id     The entry IDs to set the status.
+	 *
 	 * @return bool
 	 */
 	public static function status( $status, $id ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$permitted = array( 'pending', 'approved' );
@@ -832,24 +841,28 @@ class cnEntry_Action {
 		if ( empty( $id ) ) return FALSE;
 
 		// Check for and convert to an array.
-		if ( ! is_array( $id ) ) {
-
-			// Remove whitespace.
-			$id = trim( str_replace( ' ', '', $id ) );
-
-			$id = explode( ',', $id );
-		}
+		$ids = wp_parse_id_list( $id );
 
 		// Create the placeholders for the $id values to be used in $wpdb->prepare().
-		$d = implode( ',', array_fill( 0, count( $id ), '%d' ) );
+		$d = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
 		// Sanitize the query, passing values to be sanitized as an array.
-		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET status = %s WHERE id IN (' . $d . ')', array_merge( (array) $status, $id ) );
+		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET status = %s WHERE id IN (' . $d . ')', array_merge( (array) $status, $ids ) );
 
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
-		do_action( 'cn_process_cache-entry', 'bulk_status', $id );
+		if ( FALSE !== $result ) {
+
+			/**
+			 * Action fired after entries have their status bulk changed.
+			 *
+			 * @since 8.2.5
+			 *
+			 * @param array $ids An array of entry IDs that had their status changed.
+			 */
+			do_action( 'cn_process_status', $ids );
+		}
 
 		return $result !== FALSE ? TRUE : FALSE;
 	}
@@ -858,12 +871,23 @@ class cnEntry_Action {
 	 * Set the visibility of one or more entries.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @param string $visibility	The visibility to set. Valid options are: public | private | unlisted
-	 * @param array|int $id 	The entry IDs to set the visibility.
+	 * @since  0.7.8
+	 *
+	 * @global $wpdb
+	 *
+	 * @uses   wp_parse_id_list()
+	 * @uses   wpdb::prepare()
+	 * @uses   wpdb::query()
+	 * @uses   do_action()
+	 *
+	 * @param string    $visibility The visibility to set. Valid options are: public | private | unlisted
+	 * @param array|int $id         The entry IDs to set the visibility.
+	 *
 	 * @return bool
 	 */
 	public static function visibility( $visibility, $id ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$permitted = array( 'public', 'private', 'unlisted' );
@@ -875,24 +899,28 @@ class cnEntry_Action {
 		if ( empty( $id ) ) return FALSE;
 
 		// Check for and convert to an array.
-		if ( ! is_array( $id ) ) {
-
-			// Remove whitespace.
-			$id = trim( str_replace( ' ', '', $id ) );
-
-			$id = explode( ',', $id );
-		}
+		$ids = wp_parse_id_list( $id );
 
 		// Create the placeholders for the $id values to be used in $wpdb->prepare().
-		$d = implode( ',', array_fill( 0, count( $id ), '%d' ) );
+		$d = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
 
 		// Sanitize the query, passing values to be sanitized as an array.
-		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET visibility = %s WHERE id IN (' . $d . ')', array_merge( (array) $visibility, $id ) );
+		$sql = $wpdb->prepare( 'UPDATE ' . CN_ENTRY_TABLE . ' SET visibility = %s WHERE id IN (' . $d . ')', array_merge( (array) $visibility, $ids ) );
 
 		// Run the query.
 		$result = $wpdb->query( $sql );
 
-		do_action( 'cn_process_cache-entry', 'bulk_visibility', $id );
+		if ( FALSE !== $result ) {
+
+			/**
+			 * Action fired after entries have their visibility bulk changed.
+			 *
+			 * @since 8.2.5
+			 *
+			 * @param array $ids An array of entry IDs that had their visibility changed.
+			 */
+			do_action( 'cn_process_visibility', $ids );
+		}
 
 		return $result !== FALSE ? TRUE : FALSE;
 	}
@@ -901,8 +929,16 @@ class cnEntry_Action {
 	 * Delete one or more entries.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @param (array | int) $ids 	The entry IDs to delete.
+	 * @since  0.7.8
+	 *
+	 * @uses   Connections_Directory()
+	 * @uses   wp_parse_id_list()
+	 * @uses   cnRetrieve::entry()
+	 * @uses   cnEntry::delete()
+	 * @uses   do_action()
+	 *
+	 * @param  mixed $ids array|int The entry IDs to delete.
+	 *
 	 * @return bool
 	 */
 	public static function delete( $ids ) {
@@ -925,9 +961,44 @@ class cnEntry_Action {
 			self::meta( 'delete', $id );
 		}
 
-		do_action( 'cn_process_cache-entry', 'bulk_delete', $ids );
+		/**
+		 * Action fired after entries are bulk deleted.
+		 *
+		 * @since 8.2.5
+		 *
+		 * @param array $ids An array of entry IDs that were deleted.
+		 */
+		do_action( 'cn_process_bulk_delete', $ids );
 
 		return TRUE;
+	}
+
+	/**
+	 * Update the term taxonomy counts of the supplied entry IDs for the supplied taxonmies.
+	 *
+	 * @access private
+	 * @since  8.2.5
+	 * @static
+	 *
+	 * @param mixed $ids      array|string An array or comma separated list of entry IDs.
+	 * @param mixed $taxonomy array|string An array of taxonomies or taxonomy to update the term taxonomy count.
+	 *
+	 * @return array|WP_Error An indexed array of term taxonomy IDs which have had their term count updated. WP_Error on failure.
+	 */
+	public static function updateTermCount( $ids, $taxonomy = 'category' ) {
+
+		// Check for and convert to an array.
+		$ids = wp_parse_id_list( $ids );
+
+		$result = cnTerm::getRelationships( $ids, $taxonomy, array( 'fields' => 'tt_ids' ) );
+
+		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
+			cnTerm::updateCount( $result, $taxonomy );
+		}
+
+		cnCache::clear( TRUE, 'transient', "cn_{$taxonomy}" );
+
+		return $result;
 	}
 
 	/**
@@ -1021,15 +1092,25 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @param  string $action The action to be performed.
-	 * @param  int    $id     The entry ID.
+	 *
+	 * @uses   cnCache::clear()
 	 *
 	 * @return void
 	 */
-	public static function clearCache( $action, $id ) {
+	public static function clearCache() {
 
 		cnCache::clear( TRUE, 'transient', 'cn_category' );
 		cnCache::clear( TRUE, 'transient', 'cn_relative' );
+
+		/**
+		 * Action fired after entry related caches are cleared.
+		 *
+		 * The `cn_process_cache-entry` action is deprecated since 8.2.5 and should not be used.
+		 *
+		 * @since 8.2.5
+		 */
+		do_action( 'cn_clean_entry_cache' );
+		do_action( 'cn_process_cache-entry' );
 	}
 
 	/**
@@ -1078,8 +1159,16 @@ class cnEntry_Action {
 
 }
 
-// Add an action to purge caches after adding/editing and entry.
-add_action( 'cn_process_cache-entry', array( 'cnEntry_Action', 'clearCache' ), 10, 2 );
+// Add actions to purge caches after adding/editing and entry.
+add_action( 'cn_post_process_add-entry', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'cn_post_process_update-entry', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'cn_process_status', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'cn_process_bulk_delete', array( 'cnEntry_Action', 'clearCache' ) );
+
+// Add actions to update the term taxonomy counts when entry status or visibility has been updated via the bulk actions.
+add_action( 'cn_process_status', array( 'cnEntry_Action', 'updateTermCount' ) );
+add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'updateTermCount' ) );
 
 // Add the "Edit Entry" menu items to the admin bar.
 add_action( 'admin_bar_menu', array( 'cnEntry_Action', 'adminBarMenuItems' ), 90 );

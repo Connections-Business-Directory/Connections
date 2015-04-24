@@ -32,6 +32,30 @@ class cnRetrieve {
 
 	/**
 	 *
+	 * The $atts['meta_query'] can have two different structures when passed to
+	 * @see cnMeta_Query::parse_query_vars(), they are:
+	 *
+	 * array(
+	 *     'meta_key'     => (string),
+	 *     'meta_value    => (string|array),
+	 *     'meta_type     => (string),
+	 *     'meta_compare' => (string)
+	 * )
+	 *
+	 * OR
+	 *
+	 * array(
+	 *     'meta_query' =>
+	 *         array(
+	 *             'key'     => (string),
+	 *             'value'   => (string|array),
+	 *             'compare' => (string),
+	 *             'type'    => (string)
+	 *         ),
+	 *         [array(...),]
+	 * )
+	 *
+	 * The later, 'meta_query', can have multiple arrays.
 	 *
 	 * @access public
 	 * @since unknown
@@ -88,6 +112,7 @@ class cnRetrieve {
 		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
 		$defaults['limit']                 = NULL;
 		$defaults['offset']                = 0;
+		$defaults['meta_query']            = array();
 		$defaults['allow_public_override'] = FALSE;
 		$defaults['private_override']      = FALSE;
 		$defaults['search_terms']          = NULL;
@@ -110,7 +135,7 @@ class cnRetrieve {
 		 * // START -- Process the query vars. \\
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
-		if ( ! is_admin() && ! $atts['lock'] ) {
+		if ( ( ( defined( DOING_AJAX ) && DOING_AJAX ) || ! is_admin() ) && ! $atts['lock'] ) {
 
 			// Category slug
 			$queryCategorySlug = get_query_var( 'cn-cat-slug' );
@@ -718,10 +743,17 @@ class cnRetrieve {
 		);
 
 		$orderFlags = array(
-			'SPECIFIED' => 'SPECIFIED',
-			'RANDOM'    => 'RANDOM',
-			'SORT_ASC'  => 'ASC',
-			'SORT_DESC' => 'DESC'
+			'SPECIFIED'         => 'SPECIFIED',
+			'RANDOM'            => 'RANDOM',
+			'ASC'               => 'ASC',
+			'SORT_ASC'          => 'ASC',       // Alias for ASC
+			'DESC'              => 'DESC',
+			'SORT_DESC'         => 'DESC',      // Alias for DESC
+			'NUMERIC'           => '+0',
+			'SORT_NUMERIC'      => '+0',        // Alias for NUMERIC
+			'SORT_NUMERIC_ASC'  => '+0',        // Alias for NUMERIC
+			'NUMERIC_DESC'      => '+0 DESC',
+			'SORT_NUMERIC_DESC' => '+0 DESC',   // Alias for NUMERIC_DESC
 		);
 
 		// If a geo-bound query is being performed the `radius` order field can be used.
@@ -747,7 +779,7 @@ class cnRetrieve {
 			$field[0] = strtolower( trim( $field[0] ) );
 
 			// Check to make sure the supplied field is one of the valid fields to order by.
-			if ( in_array( $field[0] , $orderFields ) ) {
+			if ( in_array( $field[0], $orderFields ) || cnString::startsWith( 'meta_key:', $field[0] ) ) {
 				// The date_modified actually maps to the `ts` column in the db.
 				if ( $field[0] == 'date_modified' ) $field[0] = 'ts';
 
@@ -755,6 +787,27 @@ class cnRetrieve {
 				if ( $field[0] == 'city' || $field[0] == 'state' || $field[0] == 'zipcode' || $field[0] == 'country' ) {
 
 					if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
+				}
+
+				if ( cnString::startsWith( 'meta_key:', $field[0] ) ) {
+
+					// Extract the meta key name from $field[0].
+					$meta = explode( ':', $field[0] );
+
+					// Ensure the meta key does exist and is not empty before altering the query.
+					if ( isset( $meta[1] ) && ! empty( $meta[1] ) ) {
+
+						$atts['meta_query']['meta_query'][] = array( 'key' => $meta[1] );
+
+						if ( 1 < count( $atts['meta_query']['meta_query'] ) ) {
+
+							$field[0] = 'mt' . ( count( $atts['meta_query']['meta_query'] ) - 1 ) . '.meta_value';
+
+						} else {
+
+							$field[0] = CN_ENTRY_TABLE_META . '.meta_value';
+						}
+					}
 				}
 
 				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp so it is properly ordered.
@@ -803,7 +856,7 @@ class cnRetrieve {
 								 */
 							default:
 
-								$orderBy[] = $field[0] . ' ' . $orderFlags[$field[1]];
+								$orderBy[] = $field[0] . ' ' . $orderFlags[ $field[1] ];
 								break;
 						}
 
@@ -819,6 +872,16 @@ class cnRetrieve {
 			}
 		}
 		//}
+
+		if ( ! empty( $atts['meta_query'] ) ) {
+
+			$metaQuery = new cnMeta_Query();
+			$metaQuery->parse_query_vars( $atts['meta_query'] );
+			$metaClause = $metaQuery->get_sql( 'entry', CN_ENTRY_TABLE, 'id' );
+
+			$join['meta']  = $metaClause['join'];
+			$where['meta'] = $metaClause['where'];
+		}
 
 		$orderBy = empty( $orderBy ) ? 'ORDER BY sort_column, last_name, first_name' : 'ORDER BY ' . implode( ', ', $orderBy );
 		/*
@@ -944,11 +1007,12 @@ class cnRetrieve {
 	/**
 	 * Retrieve a single entry by either `id` or `slug`.
 	 *
-	 * @access  public
+	 * @access public
 	 * @since  unknown
-	 * @param  mixed  $slid int | string  The entry `id` or `slug`.
 	 *
-	 * @return array        The entry data.
+	 * @param  mixed $slid int|string  The entry `id` or `slug`.
+	 *
+	 * @return mixed bool|object The entry data.
 	 */
 	public function entry( $slid ) {
 

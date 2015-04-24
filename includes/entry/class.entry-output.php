@@ -218,8 +218,10 @@ class cnOutput extends cnEntry
 
 						} else {
 
-							/* @TODO Render an WP_Error message like on line 204 or something... */
+							$displayImage = FALSE;
 
+							$atts['fallback']['type']   = 'block';
+							$atts['fallback']['string'] = sprintf( __( 'Photo present %s is not valid.', 'connections' ), $size );
 						}
 					}
 				}
@@ -234,7 +236,7 @@ class cnOutput extends cnEntry
 					$link = $links[0];
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
-						$link->url,
+						esc_url( $link->url ),
 						empty( $link->target ) ? '' : ' target="' . $link->target . '"',
 						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
 					);
@@ -276,7 +278,7 @@ class cnOutput extends cnEntry
 						} else {
 
 							// Add the image to the scrset.
-							$srcset['logo_custom'] = array( 'src' => $image['url'], 'width' => '1x' );
+							$srcset['logo_custom'] = array( 'src' => esc_url( $image['url'] ), 'width' => '1x' );
 
 							$atts['width']  = $image['width'];
 							$atts['height'] = $image['height'];
@@ -299,7 +301,7 @@ class cnOutput extends cnEntry
 						} else {
 
 							// Add the image to the scrset.
-							$srcset['logo'] = array( 'src' => $image['url'], 'width' => '1x' );
+							$srcset['logo'] = array( 'src' => esc_url( $image['url'] ), 'width' => '1x' );
 
 							$atts['width']  = $image['width'];
 							$atts['height'] = $image['height'];
@@ -317,7 +319,7 @@ class cnOutput extends cnEntry
 					$link = $links[0];
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
-						$link->url,
+						esc_url( $link->url ),
 						empty( $link->target ) ? '' : ' target="' . $link->target . '"',
 						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
 					);
@@ -920,7 +922,7 @@ class cnOutput extends cnEntry
 	}
 
 	/**
-	 * Return the entry's organization and/or departartment in a HTML hCard compliant string.
+	 * Return the entry's organization and/or department in a HTML hCard compliant string.
 	 *
 	 * @deprecated since 0.7.2.0
 	 */
@@ -929,7 +931,7 @@ class cnOutput extends cnEntry
 	}
 
 	/**
-	 * Return the entry's organization and/or departartment in a HTML hCard compliant string.
+	 * Return the entry's organization and/or department in a HTML hCard compliant string.
 	 *
 	 * @deprecated since 0.7.2.0
 	 */
@@ -940,29 +942,28 @@ class cnOutput extends cnEntry
 	/**
 	 * Echo or return the entry's contact name in a HTML string.
 	 *
-	 * Accepted options for the $atts property are:
-	 *  format (string) Tokens for the parts of the name.
-	 *   Permitted Tokens:
-	 *    %label%
-	 *    %first%
-	 *    %last%
-	 *    %separator%
-	 *  label (string) The label to be displayed for the contact name.
-	 *  separator (string) The separator to use.
-	 *  before (string) HTML to output before an address.
-	 *  after (string) HTML to after before an address.
-	 *  return (bool) Return or echo the string. Default is to echo.
+	 * @access  public
+	 * @since   unknown
 	 *
-	 * Filters:
-	 *  cn_output_default_atts_contact_name => (array) Register the methods default attributes.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param array   $atts [optional]
+	 *     @type string $format    The format the contact name should be returned as.
+	 *                             Default: %label%%separator% %first% %last%
+	 *                             Accepts any combination of the following tokens: '%label%', '%first%', '%last%', '%separator%'
+	 *     @type string $label     The label shown for the contact name.
+	 *                             Default: Contact
+	 *     @type string $separator The separator to use between the label and contact name.
+	 *     @type string $before    The content to render before the contact name block.
+	 *     @type string $after     The content to render after the contact name block.
+	 *     @type bool   $return    Whether or not to echo or return the HTML.
+	 *                             Default: FALSE, which is to echo the result.
+	 * }
+	 *
 	 * @return string
 	 */
 	public function getContactNameBlock( $atts = array() ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -975,27 +976,31 @@ class cnOutput extends cnEntry
 			'return'    => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_contact_name' , $defaults );
-
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		/**
+		 *
+		 */
+		$atts = cnSanitize::args( $atts, apply_filters( 'cn_output_default_atts_contact_name', $defaults ) );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$search = array( '%label%', '%first%', '%last%' , '%separator%' );
+		$search  = array( '%label%', '%first%', '%last%', '%separator%' );
 		$replace = array();
-		$first = $this->getContactFirstName();
-		$last = $this->getContactLastName();
+		$first   = $this->getContactFirstName();
+		$last    = $this->getContactLastName();
 
-		if ( empty( $first ) && empty( $last ) ) return '';
+		if ( empty( $first ) && empty( $last ) ) {
 
-		( empty( $first ) && empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="contact-label">' . $atts['label'] . '</span>';
+			return '';
+		}
+
+		$replace[] = empty( $first ) && empty( $last ) ? '' : '<span class="contact-label">' . $atts['label'] . '</span>';
 
 		// The `notranslate` class is added to prevent Google Translate from translating the text.
-		( empty( $first ) ) ? $replace[] = '' : $replace[] = '<span class="contact-given-name notranslate">' . $first . '</span>';
+		$replace[] = empty( $first ) ? '' : '<span class="contact-given-name notranslate">' . $first . '</span>';
 
 		// The `notranslate` class is added to prevent Google Translate from translating the text.
-		( empty( $last ) ) ? $replace[] = '' : $replace[] = '<span class="contact-family-name notranslate">' . $last . '</span>';
+		$replace[] = empty( $last ) ? '' : '<span class="contact-family-name notranslate">' . $last . '</span>';
 
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
@@ -1005,12 +1010,14 @@ class cnOutput extends cnEntry
 			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
 			);
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::normalizeString( $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$block = '<span class="contact-block">' .  $out . '</span>';
+
+		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		if ( ! $atts['return'] ) echo $html;
+		return $html;
 	}
 
 	/**
@@ -1622,7 +1629,7 @@ class cnOutput extends cnEntry
 		$out = '';
 		$emailAddresses = $this->getEmailAddresses( $atts , $cached );
 		$search = array( '%label%' , '%address%' , '%icon%' , '%separator%' );
-		$iconSizes = array( 16, 24, 32, 48 );
+		$iconSizes = array( 16, 24, 32, 48, 64 );
 
 		// Replace the 'Name Tokens' with the entry's name.
 		$title = $this->getName(
@@ -1650,7 +1657,9 @@ class cnOutput extends cnEntry
 
 			$replace[] = ( empty( $email->name ) ) ? '' : '<span class="email-name">' . $email->name . '</span>';
 			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-address"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '">' . $email->address . '</a></span>';
-			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><image src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a></span>';
+
+			/** @noinspection HtmlUnknownTarget */
+			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><img src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . '" width="' . $iconSize . '"/></a></span>';
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 			$out .= str_ireplace(
@@ -1969,131 +1978,134 @@ class cnOutput extends cnEntry
 	 * Filters:
 	 *  cn_output_default_atts_link => (array) Register the methods default attributes.
 	 *
-	 * @url http://microformats.org/wiki/hcard-examples#Site_profiles
+	 * @link  http://microformats.org/wiki/hcard-examples#Site_profiles
+	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 * @since  unknown
+	 *
+	 * @param  array $atts Accepted values as noted above.
+	 * @param  bool  [optional] $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getLinkBlock( $atts = array() , $cached = TRUE ) {
+	public function getLinkBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['format'] = '';
-		$defaults['label'] = NULL;
-		$defaults['size'] = 'lg';
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'format'    => '',
+			'label'     => NULL,
+			'size'      => 'lg',
+			'icon_size' => 32,
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_link' , $defaults );
+		$defaults = apply_filters( 'cn_output_default_atts_link', $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$links = $this->getLinks( $atts , $cached );
-		$search = array( '%label%' , '%title%' , '%url%' , '%image%' , '%separator%' );
+		$rows          = array();
+		$links         = $this->getLinks( $atts, $cached );
+		$search        = array( '%label%', '%title%', '%url%', '%image%', '%icon%', '%separator%' );
+		$iconSizes     = array( 16, 24, 32, 48, 64 );
+		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 
 		if ( empty( $links ) ) return '';
 
-		$out .= '<span class="link-block">';
+		/*
+		 * Ensure the supplied size is valid, if not reset to the default value.
+		 */
+
+		$icon = array();
+
+		$icon['width']  = in_array( $atts['icon_size'], $iconSizes ) ? $atts['icon_size'] : 32;
+		$icon['height'] = $icon['width'];
+		$icon['src']    = CN_URL . 'assets/images/icons/link/link_' . $icon['width'] . '.png';
 
 		foreach ( $links as $link ) {
-			$replace = array();
-			$imgBlock = '';
-			$queryURL = '';
-			$imageTag ='';
 
-			$out .= "\n" . '<span class="link ' . $link->type . '">';
+			$icon = apply_filters( 'cn_output_link_icon', $icon, $link->type );
+
+			$replace = array();
 
 			if ( empty( $atts['label'] ) ) {
-				$replace[] = ( empty( $link->name ) ) ? '' : '<span class="link-name">' . $link->name . '</span>';
+
+				$name = empty( $link->name ) ? '' : $link->name;
+
+			} else {
+
+				$name = $atts['label'];
 			}
-			else {
-				$replace[] = '<span class="link-name">' . $atts['label'] . '</span>';
-			}
+
+			$url    = cnSanitize::field( 'url', $link->url );
+			$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
+			$follow = $link->follow ? '' : 'rel="nofollow"';
+
+			$replace[] = '<span class="link-name">' . $name . '</span>';
 
 			// The `notranslate` class is added to prevent Google Translate from translating the text.
-			( empty( $link->title ) ) ? $replace[] = '' : $replace[] = '<a class="url notranslate" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $link->title . '</a>';
-			( empty( $link->url ) ) ? $replace[] = '' : $replace[] = '<a class="url notranslate" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $link->url . '</a>';
+			$replace[] = empty( $link->title ) ? '' : '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $link->title . '</a>';
+			$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $url . '</a>';
 
+			if ( FALSE !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
+			     FALSE !== strpos( $atts['format'], '%image%' ) ) {
 
-			// Set the image size; These string values match the valid size for http://www.shrinktheweb.com
-			switch ( $atts['size'] ) {
-			case 'mcr':
-				$width = 75;
-				$height = 56;
-				break;
+				$screenshot = new cnSiteShot(
+					array(
+						'url'    => $link->url,
+						'alt'    => $url,
+						'title'  => $name,
+						'target' => $target,
+						'follow' => $link->follow,
+						'return' => TRUE,
+					)
+				);
 
-			case 'tny':
-				$width = 90;
-				$height = 68;
-				break;
+				$size = $screenshot->setSize( $atts['size'] );
 
-			case 'vsm':
-				$width = 100;
-				$height = 75;
-				break;
+				/** @noinspection CssInvalidPropertyValue */
+				$screenshot->setBefore( '<span class="cn-image-style" style="display: inline-block;"><span style="display: block; max-width: 100%; width: ' . $size['width'] . 'px">' );
+				$screenshot->setAfter( '</span></span>' );
 
-			case 'sm':
-				$width = 120;
-				$height = 90;
-				break;
+				$replace[] = $screenshot->render();
 
-			case 'lg':
-				$width = 200;
-				$height = 150;
-				break;
+			} else {
 
-			case 'xlg':
-				$width = 320;
-				$height = 240;
-				break;
-			}
-
-			if ( $this->validate->url( $link->url , FALSE ) == 1 ) {
-				// Create the query the WordPress for the webshot to be displayed.
-				$queryURL = 'http://s.wordpress.com/mshots/v1/' . urlencode( $link->url ) . '?w=' . $width;
-				$imageTag = '<img class="screenshot" alt="' . esc_attr( $link->url ) . '" width="' . $width . '" src="' . $queryURL . '" />';
-
-				$imgBlock .= '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image" style="height: ' . $height . '; width: ' . $width . '">';
-				$imgBlock .= '<a class="url" href="' . $link->url . '"' . ( ( empty( $link->target ) ? '' : ' target="' . $link->target . '"' ) ) . ( ( empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"' ) ) . '>' . $imageTag . '</a>';
-				$imgBlock .= '</span></span>';
-
-				$replace[] = $imgBlock;
-			}
-			else {
 				$replace[] = '';
 			}
 
+			$replace[] = '<span class="link-icon"><a class="url" title="' . $link->title . '" href="' . $url . '" target="' . $target . '" ' . $follow . '><img src="' . $icon['src'] . '" height="' . $icon['height'] . '" width="' . $icon['width'] . '"/></a></span>';
+
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace(
+			$row = str_ireplace(
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
-				);
+			);
 
-			$out .= '</span>' . "\n";
+			// Remove any whitespace between tags as the result of spaces on before/after tokens and there was nothing to replace the token with.
+			$row = cnFormatting::normalizeString( $row );
+
+			$rows[] = "\t" . '<span class="link ' . $link->type . '">' . $row . '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$block = '<span class="link-block">' . PHP_EOL . implode( '', $rows ) . '</span>';
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		if ( ! $atts['return'] ) echo $html;
+		return $html;
 	}
 
 
@@ -2935,6 +2947,11 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function vcard( $atts = array() ) {
+
+		/**
+		 * @var wp_rewrite $wp_rewrite
+		 * @var connectionsLoad $connections
+		 */
 		global $wp_rewrite, $connections;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
@@ -2974,13 +2991,16 @@ class cnOutput extends cnEntry
 		/*
 		 * Ensure the supplied size is valid, if not reset to the default value.
 		 */
-		( in_array( $atts['size'], $iconSizes ) ) ? $iconSize = $atts['size'] : $iconSize = 32;
+		$iconSize = in_array( $atts['size'], $iconSizes ) ? $atts['size'] : 32;
 
 		// Create the permalink base based on context where the entry is being displayed.
 		if ( in_the_loop() && is_page() ) {
-			$permalink = trailingslashit ( get_permalink() );
+
+			$permalink = trailingslashit( get_permalink() );
+
 		} else {
-			$permalink = trailingslashit ( get_permalink( $homeID ) );
+
+			$permalink = trailingslashit( get_permalink( $homeID ) );
 		}
 
 		if ( ! empty( $atts['class'] ) ) $piece[] = 'class="' . $atts['class'] .'"';
@@ -2991,17 +3011,18 @@ class cnOutput extends cnEntry
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
-			$piece[] = 'href="' . add_query_arg( array( 'cn-id' => $id , 'cn-token' => $token ) , $permalink . $name . '/' .$this->getSlug() . '/vcard/' ) . '"';
-		}
-		else {
-			$piece[] = 'href="' . add_query_arg( array( 'cn-entry-slug' => $this->getSlug() , 'cn-process' => 'vcard' , 'cn-id' => $id , 'cn-token' => $token ) , $permalink ) . '"';
+			$piece[] = 'href="' . esc_url( add_query_arg( array( 'cn-id' => $id, 'cn-token' => $token ), $permalink . $name . '/' . $this->getSlug() . '/vcard/' ) ) . '"';
+
+		} else {
+
+			$piece[] = 'href="' . esc_url( add_query_arg( array( 'cn-entry-slug' => $this->getSlug(), 'cn-process' => 'vcard', 'cn-id' => $id, 'cn-token' => $token ), $permalink ) ) . '"';
 		}
 
 		$out = '<span class="vcard-block">';
 
 		$replace[] = '<a ' . implode( ' ', $piece ) . '>' . $atts['text'] . '</a>';
 
-		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
+		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . esc_url( CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png' ) . '" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 
 
 		$out .= str_ireplace(

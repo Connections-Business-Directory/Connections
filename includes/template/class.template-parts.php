@@ -1355,7 +1355,7 @@ class cnTemplatePart {
 			if ( empty( $parsedURL['query'] ) ) {
 				$links[] = '<a href="#cn-char-' . $letter . '">' . $letter . '</a>';
 			} else {
-				$links[] = '<a href="' . add_query_arg( $_parsed_query, $redirectURL . '#cn-char-' . $letter ) . '">' . $letter . '</a>';
+				$links[] = '<a href="' . esc_url( add_query_arg( $_parsed_query, $redirectURL . '#cn-char-' . $letter ) ) . '">' . $letter . '</a>';
 			}
 
 		}
@@ -1449,22 +1449,26 @@ class cnTemplatePart {
 	}
 
 	/**
-	 * Creates the initisl character filter control.
+	 * Creates the initial character filter control.
 	 *
 	 * Accepted option for the $atts property are:
-	 * 	return (bool) Whether or not to return or echo the result.
+	 *    return (bool) Whether or not to return or echo the result.
 	 *
 	 * @access public
-	 * @since 0.7.4
-	 * @uses add_query_arg()
-	 * @uses get_query_var()
-	 * @uses wp_parse_args()
-	 * @uses is_admin()
-	 * @param  (array)  $atts [description]
-	 * @return (string)
+	 * @since  0.7.4
+	 * @static
+	 *
+	 * @uses   add_query_arg()
+	 * @uses   get_query_var()
+	 * @uses   wp_parse_args()
+	 * @uses   is_admin()
+	 *
+	 * @param  array  $atts [description]
+	 *
+	 * @return string
 	 */
 	public static function index( $atts = array() ) {
-		$out     = '';
+
 		$links   = array();
 		$current = '';
 		$styles  = '';
@@ -1503,7 +1507,7 @@ class cnTemplatePart {
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
 
-				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) , 'filter' ) . '">' . $char . '</a> ';
+				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . esc_url( $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ), 'filter' ) ) . '">' . $char . '</a> ';
 
 			} else {
 
@@ -1528,28 +1532,32 @@ class cnTemplatePart {
 		// $out = '<div class="">' . . '</div>';
 		$out = "\n" . '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . "\n";
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
 	 * Retrieves the current character and outs a hidden form input.
 	 *
 	 * @access public
-	 * @since 0.7.4
-	 * @uses wp_parse_args()
-	 * @uses is_admin()
-	 * @uses get_query_var()
-	 * @uses esc_attr()
-	 * @param  (array)
-	 * @return (string)
+	 * @since  0.7.4
+	 * @static
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   is_admin()
+	 * @uses   get_query_var()
+	 * @uses   esc_attr()
+	 *
+	 * @param  array
+	 *
+	 * @return string
 	 */
 	public static function currentCharacter( $atts = array() ) {
 		$out = '';
 		$current = '';
 
 		$defaults = array(
-			'type'   => 'input',	// Resevered for future use. Will define the type of output to render. In this case a form input.
+			'type'   => 'input', // Reserved for future use. Will define the type of output to render. In this case a form input.
 			'hidden' => TRUE,
 			'return' => FALSE
 		);

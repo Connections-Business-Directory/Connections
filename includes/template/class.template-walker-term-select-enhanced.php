@@ -174,6 +174,11 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		if ( wp_is_mobile() ) {
+
+			$atts['enhanced'] = FALSE;
+		}
+
 		// The field parts to be searched for in $atts['layout'].
 		$search = array( '%label%', '%field%' );
 
@@ -261,7 +266,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( ! empty( $terms ) ) {
 
-			if ( $atts['enhanced'] ) $select .= "\t" . sprintf( '<option value="">%1$s</option>' . PHP_EOL, ( wp_is_mobile() ? esc_attr( $atts['default'] ) : '' ) );
+			if ( $atts['enhanced'] ) $select .= "\t" . '<option value=""></option>';
 
 			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {
 

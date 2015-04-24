@@ -298,7 +298,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 						$subsubsub[] = sprintf( '<li><a%1$shref="%2$s">%3$s</a> <span class="count">(%4$d)</span></li>',
 							$instance->currentUser->getFilterStatus() == $key ? ' class="current" ' : ' ',
-							$form->tokenURL( add_query_arg( array( 'page' => 'connections_manage', 'cn-action' => 'filter', 'status' => $key ) ), 'filter' ),
+							esc_url( $form->tokenURL( add_query_arg( array( 'page' => 'connections_manage', 'cn-action' => 'filter', 'status' => $key ) ), 'filter' ) ),
 							$status,
 							cnRetrieve::recordCount( array( 'status' => $key ) )
 						 );
@@ -411,10 +411,10 @@ function connectionsShowViewPage( $action = NULL ) {
 								/*
 								 * Genreate the page link token URL.
 								 */
-								$pageFilterURL['first_page']    = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) , 'filter' );
-								$pageFilterURL['previous_page'] = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['previous_page'] ) , $currentPageURL ) , 'filter' );
-								$pageFilterURL['next_page']     = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['next_page'] ) , $currentPageURL ) , 'filter' );
-								$pageFilterURL['last_page']     = $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['last_page'] ) , $currentPageURL ) , 'filter' );
+								$pageFilterURL['first_page']    = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) , 'filter' ) );
+								$pageFilterURL['previous_page'] = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['previous_page'] ) , $currentPageURL ) , 'filter' ) );
+								$pageFilterURL['next_page']     = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['next_page'] ) , $currentPageURL ) , 'filter' ) );
+								$pageFilterURL['last_page']     = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['last_page'] ) , $currentPageURL ) , 'filter' ) );
 
 								echo '<span class="page-navigation" id="page-input">';
 
@@ -529,13 +529,13 @@ function connectionsShowViewPage( $action = NULL ) {
 					}
 
 					/*
-					 * Genreate the edit, copy and delete URLs with nonce tokens.
+					 * Generate the edit, copy and delete URLs with nonce tokens.
 					 */
-					$editTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() );
-					$copyTokenURL      = $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() );
-					$deleteTokenURL    = $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() );
-					$approvedTokenURL  = $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
-					$unapproveTokenURL = $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() );
+					$editTokenURL      = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $entry->getId(), 'entry_edit_' . $entry->getId() ) );
+					$copyTokenURL      = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=copy_entry&id=' . $entry->getId(), 'entry_copy_' . $entry->getId() ) );
+					$deleteTokenURL    = esc_url( $form->tokenURL( 'admin.php?cn-action=delete_entry&id=' . $entry->getId(), 'entry_delete_' . $entry->getId() ) );
+					$approvedTokenURL  = esc_url( $form->tokenURL( 'admin.php?cn-action=set_status&status=approved&id=' . $entry->getId(), 'entry_status_' . $entry->getId() ) );
+					$unapproveTokenURL = esc_url( $form->tokenURL( 'admin.php?cn-action=set_status&status=pending&id=' . $entry->getId(), 'entry_status_' . $entry->getId() ) );
 
 					switch ( $entry->getStatus() ) {
 						case 'pending' :
@@ -619,7 +619,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<td >';
 						echo '<strong>' . __( 'On', 'connections' ) . ':</strong> ' . $entry->getFormattedTimeStamp( 'm/d/Y g:ia' ) . '<br />';
 						echo '<strong>' . __( 'By', 'connections' ) . ':</strong> ' . $entry->getEditedBy() . '<br />';
-						echo '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibiltyType() . '<br />';
+						echo '<strong>' . __( 'Visibility', 'connections' ) . ':</strong> ' . $entry->displayVisibilityType() . '<br />';
 
 						$user = $entry->getUser() ? get_userdata( $entry->getUser() ) : FALSE;
 
@@ -640,7 +640,7 @@ function connectionsShowViewPage( $action = NULL ) {
 								$editUserLink = add_query_arg( 'user_id', $user->ID, self_admin_url( 'user-edit.php' ) );
 							}
 
-							echo '<strong>' . __( 'Linked to:', 'connections' ) . '</strong> ' . '<a href="'. $editUserLink .'">'. esc_attr( $user->display_name ) .'</a>';
+							echo '<strong>' . __( 'Linked to:', 'connections' ) . '</strong> ' . '<a href="' . esc_url( $editUserLink ) .'">'. esc_attr( $user->display_name ) .'</a>';
 						}
 
 					echo "</td> \n";

@@ -628,13 +628,13 @@ class cnLicense {
 	 * @param  string $license The item license key.
 	 * @param  string $url     The EDD SL Updater URL.
 	 *
-	 * @return mixed           bool | object The EDD SL responce for the item on success or FALSE on fail.
+	 * @return mixed           bool | object The EDD SL response for the item on success or FALSE on fail.
 	 */
 	public static function license( $action, $name, $license, $url = NULL ) {
 
 		$licenses = get_option( 'connections_license_data' );
 		$slug     = self::getSlug( $name );
-		$url      = is_null( $url ) ? CN_UPDATE_URL : $url;
+		$url      = is_null( $url ) ? CN_UPDATE_URL : esc_url( $url );
 
 		$licenses = ( $licenses === FALSE ) ? array() : $licenses;
 

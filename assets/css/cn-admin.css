@@ -292,6 +292,84 @@ div.rss-widget .rss-date {
 	clear: right;
 }
 
+.cn-dashboard-upcoming {
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	position: relative;
+}
+
+.cn-dashboard-upcoming a {
+	text-decoration: none;
+}
+
+.cn-dashboard-upcoming .cn-upcoming-row {
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-upcoming .cn-upcoming-row-alternate {
+	background-color: #F9F9F9;
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-upcoming .cn-upcoming-date {
+	position: absolute;
+	right: 4px;
+}
+
+.cn-dashboard-recent-added {
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	position: relative;
+}
+
+.cn-dashboard-recent-added a {
+	text-decoration: none;
+}
+
+.cn-dashboard-recent-added .cn-list-row {
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-recent-added .cn-list-row-alternate {
+	background-color: #F9F9F9;
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-recent-added .cn-list-date {
+	position: absolute;
+	right: 4px;
+}
+
+.cn-dashboard-recent-modified {
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	position: relative;
+}
+
+.cn-dashboard-recent-modified a {
+	text-decoration: none;
+}
+
+.cn-dashboard-recent-modified .cn-list-row {
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-recent-modified .cn-list-row-alternate {
+	background-color: #F9F9F9;
+	margin: 0;
+	padding: 4px;
+}
+
+.cn-dashboard-recent-modified .cn-list-date {
+	position: absolute;
+	right: 4px;
+}
+
 /*------------------------------------------------------------------------------
   Button Styles
 
@@ -418,6 +496,7 @@ body[class*="connections"] .cn-button-large {
 .postbox .cn-remove-button {
 	bottom: 0;
 	display: inline-block;
+	margin: 0;
 	position: absolute;
 	right: 10px;
 }

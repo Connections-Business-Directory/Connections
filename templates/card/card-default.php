@@ -47,6 +47,9 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * @param cnTemplate $template
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
@@ -55,12 +58,17 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 			$template->part( array( 'tag' => 'card-single', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
 		}
 
+		/**
+		 * @param cnOutput   $entry
+		 * @param cnTemplate $template
+		 * @param array      $atts
+		 */
 		public static function card( $entry, $template, $atts ) {
 
 			?>
 
-			<div class="cn-entry" style="-moz-border-radius:4px; background-color:#FFFFFF; border:1px solid #E3E3E3; color: #000000; margin:8px 0px; padding:6px; position: relative;">
-				<div style="width:49%; float:left">
+			<div class="cn-entry" style="-moz-border-radius:4px; background-color:#FFFFFF; border:1px solid #E3E3E3; color: #000000; margin:8px 0; padding:6px; position: relative;">
+				<div style="width:49%; float:<?php echo is_rtl() ? 'right' : 'left'; ?>">
 					<?php $entry->getImage(); ?>
 					<div style="clear:both;"></div>
 					<div style="margin-bottom: 10px;">

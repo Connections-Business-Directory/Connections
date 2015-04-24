@@ -293,13 +293,6 @@ span.date-name {
 }
 
 /*
- * Bio/Notes Styles
- */
-#cn-list div.bio, div#cn-list div.note {
-	text-align: left;
-}
-
-/*
  * Why o` why do theme's insist on floating and setting form widths globally???
  * Apparently they also love setting inputs to blocks rather than the default inline!
  */

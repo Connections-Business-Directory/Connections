@@ -218,8 +218,10 @@ class cnOutput extends cnEntry
 
 						} else {
 
-							/* @TODO Render an WP_Error message like on line 204 or something... */
+							$displayImage = FALSE;
 
+							$atts['fallback']['type']   = 'block';
+							$atts['fallback']['string'] = sprintf( __( 'Photo present %s is not valid.', 'connections' ), $size );
 						}
 					}
 				}

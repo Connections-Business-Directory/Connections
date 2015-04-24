@@ -1213,3 +1213,6 @@ This a major update to Connections it is recommended to backup before updating. 
 
 = 8.2.4 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.5 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

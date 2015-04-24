@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.2.3\n"
+"Project-Id-Version: Connections 8.2.4\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2015-03-27 13:44:29+00:00\n"
+"POT-Creation-Date: 2015-04-24 21:44:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,7 +32,7 @@ msgstr ""
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: connections.php:1011 connections.php:1020
+#: connections.php:1019 connections.php:1028
 msgid "vCard not available for download."
 msgstr ""
 
@@ -59,8 +59,8 @@ msgid "Add Entry Moderated"
 msgstr ""
 
 #: includes/admin/class.capabilities.php:63 includes/admin/pages/manage.php:179
-#: includes/entry/class.entry-actions.php:1064
-#: includes/entry/class.entry-actions.php:1068
+#: includes/entry/class.entry-actions.php:1145
+#: includes/entry/class.entry-actions.php:1149
 msgid "Edit Entry"
 msgstr ""
 
@@ -719,7 +719,7 @@ msgstr ""
 #: includes/admin/class.metabox-dashboard.php:476
 #: includes/admin/class.metabox-dashboard.php:479
 #: includes/admin/pages/manage.php:813 includes/admin/pages/manage.php:814
-#: includes/class.utility.php:203
+#: includes/class.utility.php:211
 msgid "Yes"
 msgstr ""
 
@@ -727,7 +727,7 @@ msgstr ""
 #: includes/admin/class.metabox-dashboard.php:477
 #: includes/admin/class.metabox-dashboard.php:480
 #: includes/admin/pages/manage.php:813 includes/admin/pages/manage.php:814
-#: includes/class.utility.php:205
+#: includes/class.utility.php:215
 msgid "No"
 msgstr ""
 
@@ -948,8 +948,7 @@ msgid "Search Entries"
 msgstr ""
 
 #: includes/admin/pages/manage.php:336
-#: includes/template/class.template-parts.php:1788
-#: includes/template/class.template-parts.php:1889
+#: includes/template/class.template-parts.php:1798
 msgid "Show All Categories"
 msgstr ""
 
@@ -1060,11 +1059,11 @@ msgstr ""
 msgid "No Photo Available"
 msgstr ""
 
-#: includes/admin/pages/manage.php:574 includes/class.scripts.php:127
+#: includes/admin/pages/manage.php:574 includes/class.scripts.php:145
 msgid "Click to show details."
 msgstr ""
 
-#: includes/admin/pages/manage.php:574 includes/class.scripts.php:125
+#: includes/admin/pages/manage.php:574 includes/class.scripts.php:143
 msgid "Show Details"
 msgstr ""
 
@@ -1110,7 +1109,7 @@ msgid "Linked to:"
 msgstr ""
 
 #: includes/admin/pages/manage.php:687
-#: includes/entry/class.entry-output.php:971
+#: includes/entry/class.entry-output.php:972
 msgid "Contact"
 msgstr ""
 
@@ -1137,13 +1136,13 @@ msgstr ""
 
 #: includes/admin/pages/manage.php:714 includes/class.metabox-entry.php:1304
 #: includes/class.metabox-entry.php:1533
-#: includes/entry/class.entry-output.php:1222
+#: includes/entry/class.entry-output.php:1229
 msgid "Latitude"
 msgstr ""
 
 #: includes/admin/pages/manage.php:714 includes/class.metabox-entry.php:1317
 #: includes/class.metabox-entry.php:1547
-#: includes/entry/class.entry-output.php:1223
+#: includes/entry/class.entry-output.php:1230
 msgid "Longitude"
 msgstr ""
 
@@ -1214,18 +1213,18 @@ msgid "Family"
 msgstr ""
 
 #: includes/admin/pages/templates.php:58
-#: includes/entry/class.entry-data.php:2907
-#: includes/entry/class.entry-output.php:2336
-#: includes/entry/class.entry-output.php:2351
-#: includes/settings/class.options.php:523
+#: includes/entry/class.entry-data.php:3070
+#: includes/entry/class.entry-output.php:2348
+#: includes/entry/class.entry-output.php:2363
+#: includes/settings/class.options.php:539
 msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:59
-#: includes/entry/class.entry-data.php:2922
-#: includes/entry/class.entry-output.php:2258
-#: includes/entry/class.entry-output.php:2269
-#: includes/settings/class.options.php:525
+#: includes/entry/class.entry-data.php:3085
+#: includes/entry/class.entry-output.php:2270
+#: includes/entry/class.entry-output.php:2281
+#: includes/settings/class.options.php:541
 msgid "Birthday"
 msgstr ""
 
@@ -1382,7 +1381,7 @@ msgstr ""
 msgid "Biographical Info"
 msgstr ""
 
-#: includes/class.metabox-entry.php:254 includes/settings/class.options.php:598
+#: includes/class.metabox-entry.php:254 includes/settings/class.options.php:614
 msgid "Custom Fields"
 msgstr ""
 
@@ -1393,20 +1392,20 @@ msgid ""
 msgstr ""
 
 #: includes/class.metabox-entry.php:331
-#: includes/entry/class.entry-data.php:3352
-#: includes/settings/class.options.php:185
+#: includes/entry/class.entry-data.php:3605
+#: includes/settings/class.options.php:201
 msgid "Public"
 msgstr ""
 
 #: includes/class.metabox-entry.php:332
-#: includes/entry/class.entry-data.php:3352
-#: includes/settings/class.options.php:186
+#: includes/entry/class.entry-data.php:3606
+#: includes/settings/class.options.php:202
 msgid "Private"
 msgstr ""
 
 #: includes/class.metabox-entry.php:333
-#: includes/entry/class.entry-data.php:3352
-#: includes/settings/class.options.php:187
+#: includes/entry/class.entry-data.php:3604
+#: includes/settings/class.options.php:203
 msgid "Unlisted"
 msgstr ""
 
@@ -1656,6 +1655,10 @@ msgstr ""
 msgid "Add Custom Field"
 msgstr ""
 
+#: includes/class.sanitize.php:240
+msgid "Value not sanitized."
+msgstr ""
+
 #: includes/class.schema.php:154
 msgid ""
 "Entries not assigned to a category will automatically be assigned to this "
@@ -1668,77 +1671,89 @@ msgstr ""
 msgid "Uncategorized"
 msgstr ""
 
-#: includes/class.scripts.php:126
+#: includes/class.scripts.php:144
 msgid "Hide Details"
 msgstr ""
 
-#: includes/class.scripts.php:128
+#: includes/class.scripts.php:146
 msgid "Click to hide details."
 msgstr ""
 
-#: includes/class.terms.php:1408
+#: includes/class.terms.php:1397
 msgid "Invalid term ID"
 msgstr ""
 
-#: includes/class.terms.php:1413 includes/class.terms.php:1813
+#: includes/class.terms.php:1402 includes/class.terms.php:1802
 msgid "A name is required for this term"
 msgstr ""
 
-#: includes/class.terms.php:1427
+#: includes/class.terms.php:1416
 msgid "Parent term does not exist."
 msgstr ""
 
-#: includes/class.terms.php:1528
+#: includes/class.terms.php:1517
 msgid "A term with the name and slug provided already exists with this parent."
 msgstr ""
 
-#: includes/class.terms.php:1536
+#: includes/class.terms.php:1525
 msgid "A term with the name provided already exists with this parent."
 msgstr ""
 
-#: includes/class.terms.php:1549 includes/class.terms.php:1566
-#: includes/class.terms.php:1593
+#: includes/class.terms.php:1538 includes/class.terms.php:1555
+#: includes/class.terms.php:1582
 msgid "Could not insert term into the database"
 msgstr ""
 
-#: includes/class.terms.php:1578
+#: includes/class.terms.php:1567
 msgid "A term with the name and slug provided already exists."
 msgstr ""
 
-#: includes/class.terms.php:1893
+#: includes/class.terms.php:1882
 msgid "The slug &#8220;%s&#8221; is already in use by another term"
 msgstr ""
 
-#: includes/class.terms.php:2614 includes/class.terms.php:3650
-#: includes/class.terms.php:4185
+#: includes/class.terms.php:2603 includes/class.terms.php:3639
+#: includes/class.terms.php:4174
 msgid "Empty Term"
 msgstr ""
 
-#: includes/class.utility.php:325
+#: includes/class.utility.php:351
 msgid "&hellip;"
 msgstr ""
 
-#: includes/class.utility.php:1198
+#: includes/class.utility.php:1417
 msgid "To enable logging, WP_DEBUG must defined and set to TRUE."
+msgstr ""
+
+#: includes/class.utility.php:2068
+msgid "Invalid URL."
+msgstr ""
+
+#: includes/class.utility.php:2183
+msgid "No URL or width."
 msgstr ""
 
 #: includes/entry/class.entry-actions.php:273
 msgid "Image copy failed."
 msgstr ""
 
-#: includes/entry/class.entry-data.php:4164
+#: includes/entry/class.entry-data.php:4490
 msgid "Unknown"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2452
+#: includes/entry/class.entry-output.php:224
+msgid "Photo present %s is not valid."
+msgstr ""
+
+#: includes/entry/class.entry-output.php:2464
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2961
+#: includes/entry/class.entry-output.php:2978
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2962
+#: includes/entry/class.entry-output.php:2979
 msgid "Download vCard"
 msgstr ""
 
@@ -2158,228 +2173,228 @@ msgstr ""
 msgid "Could not add column %1$s in table %2$s."
 msgstr ""
 
-#: includes/settings/class.options.php:319
+#: includes/settings/class.options.php:335
 msgid "Aunt"
 msgstr ""
 
-#: includes/settings/class.options.php:320
+#: includes/settings/class.options.php:336
 msgid "Brother"
 msgstr ""
 
-#: includes/settings/class.options.php:321
+#: includes/settings/class.options.php:337
 msgid "Brother-in-law"
 msgstr ""
 
-#: includes/settings/class.options.php:322
+#: includes/settings/class.options.php:338
 msgid "Cousin"
 msgstr ""
 
-#: includes/settings/class.options.php:323
+#: includes/settings/class.options.php:339
 msgid "Daughter"
 msgstr ""
 
-#: includes/settings/class.options.php:324
+#: includes/settings/class.options.php:340
 msgid "Daughter-in-law"
 msgstr ""
 
-#: includes/settings/class.options.php:325
+#: includes/settings/class.options.php:341
 msgid "Father"
 msgstr ""
 
-#: includes/settings/class.options.php:326
+#: includes/settings/class.options.php:342
 msgid "Father-in-law"
 msgstr ""
 
-#: includes/settings/class.options.php:327
+#: includes/settings/class.options.php:343
 msgid "Friend"
 msgstr ""
 
-#: includes/settings/class.options.php:328
+#: includes/settings/class.options.php:344
 msgid "Grand Daughter"
 msgstr ""
 
-#: includes/settings/class.options.php:329
+#: includes/settings/class.options.php:345
 msgid "Grand Father"
 msgstr ""
 
-#: includes/settings/class.options.php:330
+#: includes/settings/class.options.php:346
 msgid "Grand Mother"
 msgstr ""
 
-#: includes/settings/class.options.php:331
+#: includes/settings/class.options.php:347
 msgid "Grand Son"
 msgstr ""
 
-#: includes/settings/class.options.php:332
+#: includes/settings/class.options.php:348
 msgid "Great Grand Mother"
 msgstr ""
 
-#: includes/settings/class.options.php:333
+#: includes/settings/class.options.php:349
 msgid "Great Grand Father"
 msgstr ""
 
-#: includes/settings/class.options.php:334
+#: includes/settings/class.options.php:350
 msgid "Husband"
 msgstr ""
 
-#: includes/settings/class.options.php:335
+#: includes/settings/class.options.php:351
 msgid "Mother"
 msgstr ""
 
-#: includes/settings/class.options.php:336
+#: includes/settings/class.options.php:352
 msgid "Mother-in-law"
 msgstr ""
 
-#: includes/settings/class.options.php:337
+#: includes/settings/class.options.php:353
 msgid "Nephew"
 msgstr ""
 
-#: includes/settings/class.options.php:338
+#: includes/settings/class.options.php:354
 msgid "Niece"
 msgstr ""
 
-#: includes/settings/class.options.php:339
+#: includes/settings/class.options.php:355
 msgid "Partner"
 msgstr ""
 
-#: includes/settings/class.options.php:340
+#: includes/settings/class.options.php:356
 msgid "Significant Other"
 msgstr ""
 
-#: includes/settings/class.options.php:341
+#: includes/settings/class.options.php:357
 msgid "Sister"
 msgstr ""
 
-#: includes/settings/class.options.php:342
+#: includes/settings/class.options.php:358
 msgid "Sister-in-law"
 msgstr ""
 
-#: includes/settings/class.options.php:343
+#: includes/settings/class.options.php:359
 msgid "Spouse"
 msgstr ""
 
-#: includes/settings/class.options.php:344
+#: includes/settings/class.options.php:360
 msgid "Son"
 msgstr ""
 
-#: includes/settings/class.options.php:345
+#: includes/settings/class.options.php:361
 msgid "Son-in-law"
 msgstr ""
 
-#: includes/settings/class.options.php:346
+#: includes/settings/class.options.php:362
 msgid "Step Brother"
 msgstr ""
 
-#: includes/settings/class.options.php:347
+#: includes/settings/class.options.php:363
 msgid "Step Daughter"
 msgstr ""
 
-#: includes/settings/class.options.php:348
+#: includes/settings/class.options.php:364
 msgid "Step Father"
 msgstr ""
 
-#: includes/settings/class.options.php:349
+#: includes/settings/class.options.php:365
 msgid "Step Mother"
 msgstr ""
 
-#: includes/settings/class.options.php:350
+#: includes/settings/class.options.php:366
 msgid "Step Sister"
 msgstr ""
 
-#: includes/settings/class.options.php:351
+#: includes/settings/class.options.php:367
 msgid "Step Son"
 msgstr ""
 
-#: includes/settings/class.options.php:352
+#: includes/settings/class.options.php:368
 msgid "Uncle"
 msgstr ""
 
-#: includes/settings/class.options.php:353
+#: includes/settings/class.options.php:369
 msgid "Wife"
 msgstr ""
 
-#: includes/settings/class.options.php:383
+#: includes/settings/class.options.php:399
 #: includes/settings/class.settings.php:95
 msgid "Home"
 msgstr ""
 
-#: includes/settings/class.options.php:384
+#: includes/settings/class.options.php:400
 msgid "Work"
 msgstr ""
 
-#: includes/settings/class.options.php:385
+#: includes/settings/class.options.php:401
 msgid "School"
 msgstr ""
 
-#: includes/settings/class.options.php:386
+#: includes/settings/class.options.php:402
 msgid "Other"
 msgstr ""
 
-#: includes/settings/class.options.php:402
+#: includes/settings/class.options.php:418
 msgid "Home Phone"
 msgstr ""
 
-#: includes/settings/class.options.php:403
+#: includes/settings/class.options.php:419
 msgid "Home Fax"
 msgstr ""
 
-#: includes/settings/class.options.php:404
+#: includes/settings/class.options.php:420
 msgid "Cell Phone"
 msgstr ""
 
-#: includes/settings/class.options.php:405
+#: includes/settings/class.options.php:421
 msgid "Work Phone"
 msgstr ""
 
-#: includes/settings/class.options.php:406
+#: includes/settings/class.options.php:422
 msgid "Work Fax"
 msgstr ""
 
-#: includes/settings/class.options.php:489
+#: includes/settings/class.options.php:505
 msgid "Personal Email"
 msgstr ""
 
-#: includes/settings/class.options.php:490
+#: includes/settings/class.options.php:506
 msgid "Work Email"
 msgstr ""
 
-#: includes/settings/class.options.php:506
+#: includes/settings/class.options.php:522
 msgid "Website"
 msgstr ""
 
-#: includes/settings/class.options.php:507
+#: includes/settings/class.options.php:523
 msgid "Blog"
 msgstr ""
 
-#: includes/settings/class.options.php:524
+#: includes/settings/class.options.php:540
 msgid "Baptism"
 msgstr ""
 
-#: includes/settings/class.options.php:526
+#: includes/settings/class.options.php:542
 msgid "Deceased"
 msgstr ""
 
-#: includes/settings/class.options.php:527
+#: includes/settings/class.options.php:543
 msgid "Certification"
 msgstr ""
 
-#: includes/settings/class.options.php:528
+#: includes/settings/class.options.php:544
 msgid "Employment"
 msgstr ""
 
-#: includes/settings/class.options.php:529
+#: includes/settings/class.options.php:545
 msgid "Membership"
 msgstr ""
 
-#: includes/settings/class.options.php:530
+#: includes/settings/class.options.php:546
 msgid "Graduate High School"
 msgstr ""
 
-#: includes/settings/class.options.php:531
+#: includes/settings/class.options.php:547
 msgid "Graduate College"
 msgstr ""
 
-#: includes/settings/class.options.php:532
+#: includes/settings/class.options.php:548
 msgid "Ordination"
 msgstr ""
 
@@ -2393,7 +2408,7 @@ msgid "Images"
 msgstr ""
 
 #: includes/settings/class.settings.php:55
-#: includes/template/class.template-parts.php:1405
+#: includes/template/class.template-parts.php:1407
 msgid "Search"
 msgstr ""
 
@@ -3111,12 +3126,12 @@ msgid ""
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:105
-#: includes/template/class.template-parts.php:259
+#: includes/template/class.template-parts.php:261
 msgid "ERROR: Template %1$s not found."
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:145
-#: includes/template/class.template-parts.php:1091
+#: includes/template/class.template-parts.php:1093
 msgid "No results."
 msgstr ""
 
@@ -3140,82 +3155,83 @@ msgstr ""
 msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:760
+#: includes/template/class.template-parts.php:762
 msgid "View All"
 msgstr ""
 
-#: includes/template/class.template-parts.php:834
+#: includes/template/class.template-parts.php:836
 msgid "Go back to directory."
 msgstr ""
 
-#: includes/template/class.template-parts.php:999
+#: includes/template/class.template-parts.php:1001
 msgid "You are searching within category(ies): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1010
+#: includes/template/class.template-parts.php:1012
 msgid "You are searching for the keyword(s): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1015
+#: includes/template/class.template-parts.php:1017
 msgid "The results are being filtered by the character: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1020
+#: includes/template/class.template-parts.php:1022
 msgid "The results are being filtered by the organization: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1025
+#: includes/template/class.template-parts.php:1027
 msgid "The results are being filtered by the department: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1030
+#: includes/template/class.template-parts.php:1032
 msgid "The results are being filtered by the locality: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1035
+#: includes/template/class.template-parts.php:1037
 msgid "The results are being filtered by the region: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1040
+#: includes/template/class.template-parts.php:1042
 msgid "The results are being filtered by the postal code: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1045
+#: includes/template/class.template-parts.php:1047
 msgid "The results are being filtered by the country: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1056
+#: includes/template/class.template-parts.php:1058
 msgid "Clear Search"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1209
-#: includes/template/class.template-parts.php:1210
+#: includes/template/class.template-parts.php:1211
+#: includes/template/class.template-parts.php:1212
 #: includes/template/class.template-shortcode.php:103
 msgid "Return to top."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1288
+#: includes/template/class.template-parts.php:1290
 msgid "Updated %1$s ago."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1436
+#: includes/template/class.template-parts.php:1438
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1565
+#: includes/template/class.template-parts.php:1575
 msgid "Current Character"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1608
+#: includes/template/class.template-parts.php:1618
 msgid "&laquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1609
+#: includes/template/class.template-parts.php:1619
 msgid "&raquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1786
-#: includes/template/class.template-parts.php:1887
+#: includes/template/class.template-parts.php:1796
+#: includes/template/class.template-walker-term-radio-group.php:108
+#: includes/template/class.template-walker-term-select-enhanced.php:162
 msgid "Select Category"
 msgstr ""
 
@@ -3261,7 +3277,7 @@ msgstr ""
 msgid "Form open."
 msgstr ""
 
-#: includes/template/class.template-walker-term-list.php:89
+#: includes/template/class.template-walker-term-list.php:80
 msgid "No categories"
 msgstr ""
 
@@ -3290,7 +3306,7 @@ msgstr ""
 msgid "A business directory and address book manager."
 msgstr ""
 
-#: includes/class.retrieve.php:2651
+#: includes/class.retrieve.php:2715
 #. translators: This is a comma-separated list of very common words that should
 #. be excluded from a search,
 #. * like a, an, and the. These are usually called "stopwords". You should

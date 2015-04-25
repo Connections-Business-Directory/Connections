@@ -1462,7 +1462,7 @@ class cnRegisterSettings
 	}
 
 	/**
-	 * Callback for the seetings search fields.
+	 * Callback for the settings search fields.
 	 * Saves the user's search field choices and sets up the FULLTEXT indexes.
 	 *
 	 * @TODO this will fail on tables that do not support FULLTEXT. Should somehow check before processing
@@ -1470,7 +1470,7 @@ class cnRegisterSettings
 	 *
 	 * @access private
 	 * @since 0.7.3
-	 * @param unknown $settings array
+	 * @param array $settings
 	 * @return array
 	 */
 	public static function setSearchFields( $settings ) {

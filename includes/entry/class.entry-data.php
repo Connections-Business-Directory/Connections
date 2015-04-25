@@ -4432,9 +4432,6 @@ class cnEntry {
 			// Build path to the original file.
 			$original = $legacyPath . $filename;
 
-			// Get original file info.
-			$info = pathinfo( $original );
-
 			// Ensure the destination directory exists.
 			if ( cnFileSystem::mkdir( $path ) ) {
 

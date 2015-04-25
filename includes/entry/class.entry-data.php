@@ -4856,21 +4856,10 @@ class cnEntry {
 			 * Now delete all the address IDs that have not been added/updated and
 			 * make sure not to delete the entries that the user does not have permission to view/edit.
 			 */
-			//( ! empty($keepIDs) ) ? $IDs = '\'' . implode("', '", (array) $keepIDs) . '\'' : $IDs = '';
 			if ( ! empty( $keepIDs ) ) $where['addresses'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			/*if ( ! empty($IDs) )
-			{
-				$sql = 'SELECT * FROM `' . CN_ENTRY_ADDRESS_TABLE . '` WHERE `entry_id` = "' . $this->getId() . '" AND `id` NOT IN ( ' . $IDs . ' ) ' . $sqlVisibility;
-
-				$results = $wpdb->get_col( $sql );
-
-				if ( ! empty($results) ) $wpdb->query( 'DELETE FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE `id` IN (\'' . implode("', '", (array) $results) . '\')' );
-			}*/
 
 			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_ADDRESS_TABLE . '` ' . implode( ' ', $where ) );
 			if ( isset( $where['addresses'] ) ) unset( $where['addresses'] );
-
 
 			/*
 			 * Update and add the phone numbers as necessary and removing the rest unless the current user does not have permission to view/edit.

@@ -2577,8 +2577,8 @@ class cnEntry {
 					continue;
 				}
 
-				// if the http protocol is not part of the url, add it.
-				if ( preg_match( "/https?/" , $network['url'] ) == 0 ) $socialNetworks[ $key ]['url'] = 'http://' . $network['url'];
+				// If the http protocol is not part of the url, add it.
+				$socialNetworks[ $key ]['url'] = cnURL::prefix( $network['url'] );
 
 				// Store the order attribute as supplied in the addresses array.
 				$socialNetworks[ $key ]['order'] = $order;

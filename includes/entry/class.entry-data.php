@@ -1255,13 +1255,15 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
-		$defaults['city'] = NULL;
-		$defaults['state'] = NULL;
-		$defaults['zipcode'] = NULL;
-		$defaults['country'] = NULL;
-		$defaults['coordinates'] = array();
+		$defaults = array(
+			'preferred'   => FALSE,
+			'type'        => NULL,
+			'city'        => NULL,
+			'state'       => NULL,
+			'zipcode'     => NULL,
+			'country'     => NULL,
+			'coordinates' => array(),
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -1580,9 +1582,11 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
-		$defaults['limit'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+			'limit'     => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -1855,9 +1859,11 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
-		$defaults['limit'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+			'limit'     => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -2104,8 +2110,10 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -2401,8 +2409,10 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -2821,7 +2831,9 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
+		$defaults = array(
+			'preferred' => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -3040,8 +3052,10 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();

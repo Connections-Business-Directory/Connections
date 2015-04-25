@@ -2663,9 +2663,10 @@ class cnRetrieve {
 	 * term matching when searching for posts. The list of English stopwords is
 	 * the approximate search engines list, and is translatable.
 	 *
-	 * @since 3.7.0
+	 * @since 8.1
 	 *
-	 * @param array Terms to check.
+	 * @param array $terms Terms to check.
+	 *
 	 * @return array Terms that are not stopwords.
 	 */
 	protected function parse_search_terms( $terms ) {
@@ -2700,7 +2701,7 @@ class cnRetrieve {
 	 *
 	 * Retrieve stopwords used when parsing search terms.
 	 *
-	 * @since 3.7.0
+	 * @since 8.1
 	 *
 	 * @return array Stopwords.
 	 */
@@ -2768,18 +2769,19 @@ class cnRetrieve {
 	 *  SORT_STRING
 	 *
 	 * **NOTE: The SPECIFIED and RANDOM Order Flags can only be used
-	 * with the id field. The SPECIFIED flag must be used in conjuction
+	 * with the id field. The SPECIFIED flag must be used in conjunction
 	 * with $suppliedIDs which can be either a comma delimited sting or
 	 * an indexed array of entry IDs. If this is set, other sort fields/flags
 	 * are ignored.
 	 *
 	 * @access private
-	 * @since unknown
-	 * @version 1.0
-	 * @deprecated since unkown
-	 * @param array   of object $entries
+	 * @since  unknown
+	 * @deprecated since unknown
+	 *
+	 * @param array   $entries A reference to an array of object $entries
 	 * @param string  $orderBy
-	 * @param string  || array $ids [optional]
+	 * @param mixed   array|string|NULL [optional]
+	 *
 	 * @return array of objects
 	 */
 	private function orderBy( &$entries, $orderBy, $suppliedIDs = NULL ) {

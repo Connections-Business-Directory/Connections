@@ -4095,9 +4095,9 @@ class cnEntry {
 					'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
 					'quality'   => $atts['quality'],
 					'sub_dir'   => $slug,
-					),
+				),
 				'data'
-				);
+			);
 
 			if ( ! is_wp_error( $meta ) ) {
 
@@ -4160,9 +4160,9 @@ class cnEntry {
 								'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
 								'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
 								'sub_dir'   => $slug,
-								),
+							),
 							'data'
-							);
+						);
 
 						if ( ! is_wp_error( $meta ) ) {
 
@@ -4229,9 +4229,9 @@ class cnEntry {
 									'height'    => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'height' ),
 									'quality'   => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'quality' ),
 									'sub_dir'   => $slug,
-									),
+								),
 								'data'
-								);
+							);
 
 							if ( ! is_wp_error( $meta ) ) {
 

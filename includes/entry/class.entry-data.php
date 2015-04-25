@@ -1887,7 +1887,7 @@ class cnEntry {
 
 		if ( $cached ) {
 
-			if ( !empty( $this->emailAddresses ) ) {
+			if ( ! empty( $this->emailAddresses ) ) {
 
 				$emailAddresses = unserialize( $this->emailAddresses );
 				if ( empty( $emailAddresses ) ) return $results;
@@ -3080,7 +3080,7 @@ class cnEntry {
 		 */
 		if ( ! empty( $this->anniversary ) ) {
 
-			$anniversary =  new stdClass();
+			$anniversary = new stdClass();
 
 			$anniversary->id = 0;
 			$anniversary->order = 0;
@@ -3095,7 +3095,7 @@ class cnEntry {
 		}
 
 		if ( ! empty( $this->birthday ) ) {
-			$birthday =  new stdClass();
+			$birthday = new stdClass();
 
 			$birthday->id = 0;
 			$birthday->order = 0;
@@ -3264,7 +3264,7 @@ class cnEntry {
 
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'date' => NULL, 'visibility' => NULL );
 
-		if ( !empty( $dates ) ) {
+		if ( ! empty( $dates ) ) {
 
 			$order = 0;
 			$preferred = '';

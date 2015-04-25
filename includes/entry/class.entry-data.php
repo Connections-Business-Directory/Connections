@@ -465,8 +465,8 @@ class cnEntry {
 	 */
 	public function getFormattedTimeStamp( $format = NULL ) {
 
-		if ( !$format ) {
-			$format = "m/d/Y";
+		if ( is_null( $format ) ) {
+			$format = 'm/d/Y';
 		}
 
 		return date( $format, strtotime( $this->timeStamp ) );

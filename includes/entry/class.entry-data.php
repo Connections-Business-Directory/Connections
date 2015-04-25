@@ -2558,11 +2558,9 @@ class cnEntry {
 				$network = cnSanitize::args( $network, $validFields );
 
 				// If the URL is empty, no need to save it.
-				if ( empty( $network['url'] ) || $network['url'] == 'http://' ) {
-
+				if ( empty( $network['url'] ) || 'http://' == $network['url'] ) {
 					unset( $socialNetworks[ $key ] );
 					continue;
-
 				}
 
 				// if the http protocol is not part of the url, add it.
@@ -2924,7 +2922,7 @@ class cnEntry {
 				$link = cnSanitize::args( $link, $validFields );
 
 				// If the URL is empty, no need to save it.
-				if ( empty( $link['url'] ) || $link['url'] == 'http://' ) {
+				if ( empty( $link['url'] ) || 'http://' == $link['url'] ) {
 					unset( $links[ $key ] );
 					continue;
 				}
@@ -3141,8 +3139,8 @@ class cnEntry {
 					 * will return the year of the next anniversary or birthday. IE: if that date in the current year has already
 					 * passed the year would be the next year.
 					 */
-					if ( ( $row->type == 'anniversary' ) && ( isset( $results['anniversary'] ) ) && ( substr( $row->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
-					if ( ( $row->type == 'birthday' ) && ( isset( $results['birthday'] ) ) && ( substr( $row->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
+					if ( ( 'anniversary' == $row->type ) && ( isset( $results['anniversary'] ) ) && ( substr( $row->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
+					if ( ( 'birthday' == $row->type ) && ( isset( $results['birthday'] ) ) && ( substr( $row->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
 
 					/*
 					 * // START -- Do not return dates that do not match the supplied $atts.
@@ -3198,8 +3196,8 @@ class cnEntry {
 				 * saved in the legacy fields are the same, unset the data imported from the legacy field.
 				 * This is for compatibility with versions 0.7.2.6 and older.
 				 */
-				if ( $date->type == 'anniversary' && isset( $results['anniversary'] ) && $date->date == $results['anniversary']->date ) unset( $results['anniversary'] );
-				if ( $date->type == 'birthday' && isset( $results['birthday'] ) && $date->date == $results['birthday']->date ) unset( $results['birthday'] );
+				if ( 'anniversary' == $date->type && isset( $results['anniversary'] ) && $date->date == $results['anniversary']->date ) unset( $results['anniversary'] );
+				if ( 'birthday' == $date->type && isset( $results['birthday'] ) && $date->date == $results['birthday']->date ) unset( $results['birthday'] );
 
 				/*
 				 * If the date type is anniversary or birthday and the date is equal to the date
@@ -3210,8 +3208,8 @@ class cnEntry {
 				 * will return the year of the next anniversary or birthday. IE: if that date in the current year has already
 				 * passed the year would be the next year.
 				 */
-				if ( ( $date->type == 'anniversary' ) && ( isset( $results['anniversary'] ) ) && ( substr( $date->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
-				if ( ( $date->type == 'birthday' ) && ( isset( $results['birthday'] ) ) && ( substr( $date->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
+				if ( ( 'anniversary' == $date->type ) && ( isset( $results['anniversary'] ) ) && ( substr( $date->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
+				if ( ( 'birthday' == $date->type ) && ( isset( $results['birthday'] ) ) && ( substr( $date->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
 
 				$results[] = apply_filters( 'cn_date', $date );
 			}
@@ -3295,7 +3293,7 @@ class cnEntry {
 				/*
 				 * Make sure the date object created correctly.
 				 */
-				if ( $currentDate === FALSE ) continue;
+				if ( FALSE === $currentDate ) continue;
 
 				$dates[ $key ]['date'] = date_format( $currentDate, 'Y-m-d' );
 
@@ -3669,7 +3667,7 @@ class cnEntry {
 	 */
 	public function getEntryType() {
 		// This is to provide compatibility for versions >= 0.7.0.4
-		if ( $this->entryType == 'connection_group' ) $this->entryType = 'family';
+		if ( 'connection_group' == $this->entryType ) $this->entryType = 'family';
 
 		return $this->entryType;
 	}
@@ -4073,7 +4071,7 @@ class cnEntry {
 		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
 		$slug = rawurldecode( $this->getSlug() );
 
-		if ( $atts['size'] == 'custom' ) {
+		if ( 'custom' == $atts['size'] ) {
 
 			$meta = cnImage::get(
 				$this->getOriginalImageURL( $atts['type'] ),
@@ -4329,7 +4327,7 @@ class cnEntry {
 				}
 
 				// Delete any of the legacy size variations if the copy/move was successful.
-				if ( $result === TRUE ) {
+				if ( TRUE === $result ) {
 
 					// NOTE: This is a little greedy as it will also delete any variations of any duplicate images used by other entries.
 					// This should be alright because we will not need those variations anyway since they will be made from the original using cnImage.
@@ -4439,7 +4437,7 @@ class cnEntry {
 					$result = @copy( $original, $path . $filename );
 				}
 
-				if ( $result === TRUE ) return TRUE;
+				if ( TRUE === $result ) return TRUE;
 			}
 
 		}
@@ -4703,7 +4701,7 @@ class cnEntry {
 		/*
 		 * Only update the rest of the entry's data if the update to the ENTRY TABLE was successful.
 		 */
-		if ( $result !== FALSE ) {
+		if ( FALSE !== $result ) {
 
 			$where[] = 'WHERE 1=1';
 

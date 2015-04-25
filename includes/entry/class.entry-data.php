@@ -315,7 +315,7 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param object $entry
+	 * @param mixed object|null $entry
 	 */
 	public function __construct( $entry = NULL ) {
 
@@ -459,7 +459,7 @@ class cnEntry {
 	 * Timestamp format can be sent as a string variable.
 	 * Returns $timeStamp
 	 *
-	 * @param string  $format
+	 * @param mixed string|null  $format
 	 *
 	 * @return string
 	 */
@@ -3776,7 +3776,7 @@ class cnEntry {
 	/**
 	 * Returns $imageDisplay.
 	 *
-	 * @see entry::$imageDisplay
+	 * @return bool
 	 */
 	public function getImageDisplay() {
 		return $this->options['image']['display'];
@@ -4264,7 +4264,7 @@ class cnEntry {
 	 * @uses   trailingslashit()
 	 * @param  string $filename The original image file name.
 	 *
-	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
+	 * @return mixed            bool|WP_Error TRUE on success, an instance of WP_Error on failure.
 	 */
 	protected function processLegacyImages( $filename ) {
 		global $blog_id;
@@ -4387,7 +4387,7 @@ class cnEntry {
 	 * @uses   trailingslashit()
 	 * @param  string $filename The original logo file name.
 	 *
-	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
+	 * @return mixed            bool|WP_Error TRUE on success, an instance of WP_Error on failure.
 	 */
 	protected function processLegacyLogo( $filename ) {
 		global $blog_id;

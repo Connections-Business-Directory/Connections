@@ -2239,6 +2239,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function search( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		// Grab an instance of the Connections object.

@@ -2650,7 +2650,7 @@ class cnRetrieve {
 
 		}
 
-		return apply_filters( 'cn_search_results', $results, $atts );;
+		return apply_filters( 'cn_search_results', $results, $atts );
 	}
 
 	/**

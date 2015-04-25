@@ -1474,6 +1474,8 @@ class cnRegisterSettings
 	 * @return array
 	 */
 	public static function setSearchFields( $settings ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$fields = $settings['fields'];

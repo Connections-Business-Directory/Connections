@@ -8,7 +8,7 @@ Stable tag: 8.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Connections Business Directory is a simple to use directory plugin which can be used to create an addressbook, business directory, staff directory or church directory.
+Connections Business Directory is an easy to use directory plugin to create an addressbook, business directory, staff directory or church directory.
 
 == Description ==
 

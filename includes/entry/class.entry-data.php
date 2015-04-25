@@ -1465,7 +1465,21 @@ class cnEntry {
 
 		$userPreferred = NULL;
 
-		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'line_1' => NULL, 'line_2' => NULL, 'line_3' => NULL, 'city' => NULL, 'state' => NULL, 'zipcode' => NULL, 'country' => NULL, 'latitude' => NULL, 'longitude' => NULL, 'visibility' => NULL );
+		$validFields = array(
+			'id'         => NULL,
+			'preferred'  => NULL,
+			'type'       => NULL,
+			'line_1'     => NULL,
+			'line_2'     => NULL,
+			'line_3'     => NULL,
+			'city'       => NULL,
+			'state'      => NULL,
+			'zipcode'    => NULL,
+			'country'    => NULL,
+			'latitude'   => NULL,
+			'longitude'  => NULL,
+			'visibility' => NULL
+		);
 
 		if ( ! empty( $addresses ) ) {
 

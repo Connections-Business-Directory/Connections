@@ -1495,7 +1495,7 @@ class cnEntry {
 			foreach ( $addresses as $key => $address ) {
 
 				// Permit only the valid fields.
-				$address = cnSanitize::args( $address, $validFields );
+				$addresses[ $key ] = cnSanitize::args( $address, $validFields );
 
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
@@ -1510,7 +1510,7 @@ class cnEntry {
 				 */
 				if ( $addresses[ $key ]['preferred'] ) $userPreferred = $key;
 
-				$addresses[ $key ] = apply_filters( 'cn_set_address', $address );
+				$addresses[ $key ] = apply_filters( 'cn_set_address', $addresses[ $key ] );
 
 				$order++;
 			}

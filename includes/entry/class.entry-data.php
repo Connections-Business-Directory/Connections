@@ -1817,7 +1817,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $phoneNumbers ) ) ? $this->phoneNumbers = serialize( $phoneNumbers ) : $this->phoneNumbers = NULL;
+		$this->phoneNumbers = ! empty( $phoneNumbers ) ? serialize( $phoneNumbers ) : NULL;
 	}
 
 	/**
@@ -2353,7 +2353,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $im ) ) ? $this->im = serialize( $im ) : $this->im = NULL;
+		$this->im = ! empty( $im ) ? serialize( $im ) : NULL;
 	}
 
 	/**
@@ -2621,8 +2621,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $socialNetworks ) ) ? $this->socialMedia = serialize( $socialNetworks ) : $this->socialMedia = NULL;
-
+		$this->socialMedia = ! empty( $socialNetworks ) ? serialize( $socialNetworks ) : NULL;
 	}
 
 	/**
@@ -3372,7 +3371,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $dates ) ) ? $this->dates = serialize( $dates ) : $this->dates = NULL;
+		$this->dates = ! empty( $dates ) ? serialize( $dates ) : NULL;
 	}
 
 	/**

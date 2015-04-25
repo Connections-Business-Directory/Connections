@@ -4754,78 +4754,97 @@ class cnEntry {
 			$keepIDs = array();
 
 			if ( ! empty( $addresses ) ) {
+
 				foreach ( $addresses as $address ) {
+
 					/*
 					 * If the $address->id is set, this address is already in the db so it will be updated.
 					 * If the $address->id was not set, the add the address to the db.
 					 */
 					if ( isset( $address->id ) && ! empty( $address->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_ADDRESS_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`line_1`			= %s,
-													`line_2`			= %s,
-													`line_3`			= %s,
-													`city`				= %s,
-													`state`				= %s,
-													`zipcode`			= %s,
-													`country`			= %s,
-													`latitude`			= %f,
-													`longitude`			= %f,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$address->order,
-								$address->preferred,
-								$address->type,
-								$address->line_1,
-								$address->line_2,
-								$address->line_3,
-								$address->city,
-								$address->state,
-								$address->zipcode,
-								$address->country,
-								$address->latitude,
-								$address->longitude,
-								$address->visibility,
-								$address->id ) );
+
+						$wpdb->update(
+							CN_ENTRY_ADDRESS_TABLE,
+							array(
+								'entry_id'   => $this->getId(),
+								'order'      => $address->order,
+								'preferred'  => $address->preferred,
+								'type'       => $address->type,
+								'line_1'     => $address->line_1,
+								'line_2'     => $address->line_2,
+								'line_3'     => $address->line_3,
+								'city'       => $address->city,
+								'state'      => $address->state,
+								'zipcode'    => $address->zipcode,
+								'country'    => $address->country,
+								'latitude'   => $address->latitude,
+								'longitude'  => $address->longitude,
+								'visibility' => $address->visibility
+							),
+							array(
+								'id' => $address->id
+							),
+							array(
+								'%d',
+								'%d',
+								'%d',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%f',
+								'%f',
+								'%s'
+							),
+							array(
+								'%d'
+							)
+						);
 
 						// Save the address IDs that have been updated
 						$keepIDs[] = $address->id;
 
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`line_1`			= %s,
-														`line_2`			= %s,
-														`line_3`			= %s,
-														`city`				= %s,
-														`state`				= %s,
-														`zipcode`			= %s,
-														`country`			= %s,
-														`latitude`			= %f,
-														`longitude`			= %f,
-														`visibility`		= %s',
-								$this->getId(),
-								$address->order,
-								$address->preferred,
-								$address->type,
-								$address->line_1,
-								$address->line_2,
-								$address->line_3,
-								$address->city,
-								$address->state,
-								$address->zipcode,
-								$address->country,
-								$address->latitude,
-								$address->longitude,
-								$address->visibility ) );
+					} else {
+
+						$wpdb->insert(
+							CN_ENTRY_ADDRESS_TABLE,
+							array(
+								'entry_id'   => $this->getId(),
+								'order'      => $address->order,
+								'preferred'  => $address->preferred,
+								'type'       => $address->type,
+								'line_1'     => $address->line_1,
+								'line_2'     => $address->line_2,
+								'line_3'     => $address->line_3,
+								'city'       => $address->city,
+								'state'      => $address->state,
+								'zipcode'    => $address->zipcode,
+								'country'    => $address->country,
+								'latitude'   => $address->latitude,
+								'longitude'  => $address->longitude,
+								'visibility' => $address->visibility
+							),
+							array(
+								'%d',
+								'%d',
+								'%d',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%s',
+								'%f',
+								'%f',
+								'%s'
+							)
+						);
 
 						// Save the address IDs that have been added
 						$keepIDs[] = $wpdb->insert_id;

@@ -2623,7 +2623,7 @@ class cnRetrieve {
 			}
 
 			/*
-			 * Only search the phone records if thefield is selected to be search.
+			 * Only search the phone records if the field is selected to be search.
 			 */
 			if ( ! empty( $atts['fields']['phone'] ) ) {
 

@@ -1651,7 +1651,6 @@ class cnEntry {
 					 * // END -- Compatibility for previous versions.
 					 */
 
-
 					/*
 					 * Set the phone name based on the type.
 					 */
@@ -1669,7 +1668,6 @@ class cnEntry {
 					// If the user does not have permission to view the address, do not return it.
 					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
-
 					$results[] = apply_filters( 'cn_phone_number', $row );
 				}
 
@@ -1682,7 +1680,6 @@ class cnEntry {
 			$phoneNumbers = $connections->retrieve->phoneNumbers( $atts );
 
 			if ( empty( $phoneNumbers ) ) return $results;
-
 
 			foreach ( $phoneNumbers as $phone ) {
 				$phone->id = (int) $phone->id;
@@ -1958,7 +1955,6 @@ class cnEntry {
 				$email->address = $this->format->sanitizeString( $email->address );
 				$email->visibility = $this->format->sanitizeString( $email->visibility );
 
-
 				/*
 				 * Set the email name based on the email type.
 				 */
@@ -2116,7 +2112,6 @@ class cnEntry {
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
-
 
 		if ( $cached ) {
 
@@ -2734,7 +2729,6 @@ class cnEntry {
 					/*
 					 * // END -- Compatibility for previous versions.
 					 */
-
 
 					/*
 					 * Set the dofollow/nofollow string based on the bool value.
@@ -4111,7 +4105,6 @@ class cnEntry {
 							$meta['source'] = 'db';
 
 						} else {
-
 
 							/** @noinspection PhpUsageOfSilenceOperatorInspection */
 							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {

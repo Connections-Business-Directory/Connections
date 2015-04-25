@@ -100,14 +100,14 @@ class cnEntry {
 	/**
 	 * Associative array of addresses
 	 *
-	 * @var array
+	 * @var null|string
 	 */
 	private $addresses;
 
 	/**
 	 * Associative array of phone numbers
 	 *
-	 * @var array
+	 * @var null|array
 	 */
 	private $phoneNumbers;
 
@@ -136,33 +136,33 @@ class cnEntry {
 	/**
 	 * Associative array of instant messengers IDs
 	 *
-	 * @var array
+	 * @var null|array
 	 */
 	private $im;
 
 	/**
-	 * @var array
+	 * @var null|array
 	 */
 	private $socialMedia;
 
 	/**
 	 * Unix time: Birthday.
 	 *
-	 * @var integer unix time
+	 * @var int|string unix time
 	 */
 	private $birthday;
 
 	/**
 	 * Unix time: Anniversary.
 	 *
-	 * @var integer unix time
+	 * @var int|string unix time
 	 */
 	private $anniversary;
 
 	/**
 	 * The date data stored serialized array.
 	 *
-	 * @var array
+	 * @var null|array
 	 *
 	 * @since 0.7.3.0
 	 */
@@ -191,7 +191,7 @@ class cnEntry {
 
 	/**
 	 * @since unknown
-	 * @var array
+	 * @var array|string
 	 */
 	private $options;
 
@@ -233,7 +233,7 @@ class cnEntry {
 
 	/**
 	 * @since unknown
-	 * @var array
+	 * @var array|string
 	 */
 	private $familyMembers;
 

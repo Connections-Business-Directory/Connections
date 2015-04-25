@@ -3992,10 +3992,9 @@ class cnEntry {
 	 */
 	public function getOriginalImageURL( $type ) {
 
-		if ( empty( $type ) ) return '';
+		$url = '';
 
-		// Get the core WP uploads info.
-		// $uploadInfo = wp_upload_dir();
+		if ( empty( $type ) ) return '';
 
 		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
 		$slug = rawurldecode( $this->getSlug() );
@@ -4004,20 +4003,16 @@ class cnEntry {
 
 			case 'logo':
 
-				return CN_IMAGE_BASE_URL . $slug . '/' . $this->getLogoName();
+				$url = CN_IMAGE_BASE_URL . $slug . '/' . $this->getLogoName();
 				break;
 
 			case 'photo':
 
-				return CN_IMAGE_BASE_URL . $slug . '/' . $this->getImageNameOriginal();
-				break;
-
-			default:
-
-				return '';
+				$url = CN_IMAGE_BASE_URL . $slug . '/' . $this->getImageNameOriginal();
 				break;
 		}
 
+		return $url;
 	}
 
 	/**

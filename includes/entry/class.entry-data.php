@@ -4716,7 +4716,7 @@ class cnEntry {
 		 */
 		if ( FALSE !== $result ) {
 
-			$where[] = 'WHERE 1=1';
+			$where = array( 'WHERE 1=1' );
 
 			/*
 			 * Retrieve entry details from the object caches

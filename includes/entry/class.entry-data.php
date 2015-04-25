@@ -4350,7 +4350,7 @@ class cnEntry {
 						)
 					);
 
-					foreach( $filesFiltered as $file ) {
+					foreach ( $filesFiltered as $file ) {
 
 						if ( $file->isDot() ) { continue; }
 

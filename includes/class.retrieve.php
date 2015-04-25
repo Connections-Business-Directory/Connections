@@ -2248,7 +2248,6 @@ class cnRetrieve {
 
 		$results    = array();
 		$scored     = array();
-		$shortwords = array();
 		$fields     = $instance->options->getSearchFields();
 
 		$fields     = apply_filters( 'cn_search_fields', $fields );
@@ -2332,7 +2331,6 @@ class cnRetrieve {
 
 			$terms      = array();
 			$shortwords = array();
-			$strlen     = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strlen';
 
 			/*
 			 * Remove any shortwords from the FULLTEXT query since the db will drop them anyway.

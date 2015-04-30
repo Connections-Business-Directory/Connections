@@ -892,7 +892,7 @@ class cnEntry {
 		);
 
 		return cnFormatting::normalizeString( $name );
-}
+	}
 
 	/**
 	 * Get the name, in format "first middle last".

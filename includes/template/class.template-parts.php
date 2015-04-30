@@ -789,7 +789,7 @@ class cnTemplatePart {
 
 		$settings = cnSettingsAPI::get( 'connections', 'entry_actions', 'actions' );
 
-		if ( ! isset( $settings['active'] ) || empty( $settings['active'] ) ) return;
+		if ( ! isset( $settings['active'] ) || empty( $settings['active'] ) )  '';
 
 		foreach ( $settings['active'] as $key => $slug ) {
 

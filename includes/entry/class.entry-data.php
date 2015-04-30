@@ -4632,11 +4632,11 @@ class cnEntry {
 	 */
 	public function update() {
 
-		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb            $wpdb
-		 */
-		global $wpdb, $connections;
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		$this->serializeOptions();
 		$this->setPropertyDefaultsByEntryType();
@@ -4673,7 +4673,7 @@ class cnEntry {
 				'options'            => $this->options,
 				'bio'                => $this->bio,
 				'notes'              => $this->notes,
-				'edited_by'          => $connections->currentUser->getID(),
+				'edited_by'          => $instance->currentUser->getID(),
 				'user'               => $this->getUser(),
 				'status'             => $this->status,
 			),

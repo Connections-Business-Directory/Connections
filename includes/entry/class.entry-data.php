@@ -4978,6 +4978,9 @@ class cnEntry {
 			)
 		);
 
+		/**
+		 * @todo Are these really needed? If they are, this should be refactored to remove their usage.
+		 */
 		$connections->lastQuery = $wpdb->last_query;
 		$connections->lastQueryError = $wpdb->last_error;
 		$connections->lastInsertID = $wpdb->insert_id;

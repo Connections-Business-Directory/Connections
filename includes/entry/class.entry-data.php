@@ -107,7 +107,7 @@ class cnEntry {
 	/**
 	 * Associative array of phone numbers
 	 *
-	 * @var null|array
+	 * @var null|string
 	 */
 	private $phoneNumbers;
 
@@ -136,12 +136,12 @@ class cnEntry {
 	/**
 	 * Associative array of instant messengers IDs
 	 *
-	 * @var null|array
+	 * @var null|string
 	 */
 	private $im;
 
 	/**
-	 * @var null|array
+	 * @var null|string
 	 */
 	private $socialMedia;
 
@@ -162,7 +162,7 @@ class cnEntry {
 	/**
 	 * The date data stored serialized array.
 	 *
-	 * @var null|array
+	 * @var null|string
 	 *
 	 * @since 0.7.3.0
 	 */

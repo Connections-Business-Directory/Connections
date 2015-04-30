@@ -928,19 +928,16 @@ class cnTemplatePart {
 	 * @access public
 	 * @since  0.8
 	 * @static
-	 * @param  array  $atts     The shortcode $atts array.
-	 * @param  array  $results  The cnRetrieve query results.
-	 * @param  object $template An instance of the cnTemplate object.
+	 * @param  array      $atts     The shortcode $atts array.
+	 * @param  array      $results  The cnRetrieve query results.
+	 * @param  cnTemplate $template An instance of the cnTemplate object.
 	 *
 	 * @return string
 	 */
-	public static function searchingMessage( $atts = array(), $results = array(), $template = FALSE ) {
+	public static function searchingMessage( $atts = array(), $results = array(), $template = NULL ) {
 
 		// Check whether or not the category description should be displayed or not.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'search_message' ) ) return;
-
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'search_message' ) ) return '';
 
 		$defaults = array(
 			'return' => FALSE
@@ -953,7 +950,7 @@ class cnTemplatePart {
 		// Get the directory home page ID.
 		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
 
-		$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
+		//$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE;
 
 		// The base post permalink is required, do not filter the permalink thru cnSEO.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
@@ -962,7 +959,6 @@ class cnTemplatePart {
 
 		// Re-enable the filter.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
-
 
 		// Store the query vars
 		$queryVars['cn-s']            = get_query_var('cn-s') ? esc_html( get_query_var('cn-s') ) : FALSE;
@@ -989,13 +985,13 @@ class cnTemplatePart {
 
 				foreach ( $categoryID as $id ) {
 
-					$term    = $instance->term->getTermBy( 'id', $id, 'category' );
+					$term    = cnTerm::getBy( 'id', $id, 'category' );
 					$terms[] = esc_html( $term->name );
 				}
 
 			} else {
 
-				$term    = $instance->term->getTermBy( 'id', $categoryID, 'category' );
+				$term    = cnTerm::getBy( 'id', $categoryID, 'category' );
 				$terms[] = esc_html( $term->name );
 			}
 
@@ -1054,7 +1050,8 @@ class cnTemplatePart {
 			$out = '<li class="cn-search-message">' . implode( '</li><li class="cn-search-message">', $out ) . '</li>';
 			$out = '<ul id="cn-search-message-list">' . $out . '</ul>';
 
-			$out .= sprintf( '<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>',
+			$out .= sprintf(
+				'<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>',
 				$permalink,
 				__( 'Clear Search', 'connections' )
 			);

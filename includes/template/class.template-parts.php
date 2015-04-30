@@ -865,7 +865,7 @@ class cnTemplatePart {
 		global $connections;
 
 		// Check whether or not the category description should be displayed or not.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) return;
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) return '';
 
 		$out = '';
 

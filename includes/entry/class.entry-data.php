@@ -4716,547 +4716,126 @@ class cnEntry {
 		 */
 		if ( FALSE !== $result ) {
 
-			$where = array( 'WHERE 1=1' );
+			require_once CN_PATH . 'includes/entry/class.entry-db.php';
+			$cnDb = new cnEntry_DB( $this->getId() );
 
-			/*
-			 * Retrieve entry details from the object caches
-			 */
-			$addresses = $this->getAddresses( array(), TRUE, TRUE );
-			$phoneNumbers = $this->getPhoneNumbers( array(), TRUE, TRUE );
-			$emailAddresses = $this->getEmailAddresses( array(), TRUE, TRUE );
-			$imIDs = $this->getIm( array(), TRUE, TRUE );
-			$socialNetworks = $this->getSocialMedia( array(), TRUE, TRUE );
-			$links = $this->getLinks( array(), TRUE, TRUE );
-			$dates = $this->getDates( array(), TRUE, TRUE );
+			$cnDb->upsert(
+				CN_ENTRY_ADDRESS_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
+					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
+					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
+					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
+					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
+					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
+					'country'    => array( 'key' => 'country' , 'format' => '%s' ),
+					'latitude'   => array( 'key' => 'latitude' , 'format' => '%f' ),
+					'longitude'  => array( 'key' => 'longitude' , 'format' => '%f' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getAddresses( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-			/*
-			 * Create a sql segment for the entry ID that can be used in the queries.
-			 */
-			$where[] = 'AND `entry_id` = "' . $this->getId() . '"';
+			$cnDb->upsert(
+				CN_ENTRY_PHONE_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'number'     => array( 'key' => 'number' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getPhoneNumbers( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-			/*
-			 * Create an array to store the which records by visibility the user can edit.
-			 * This is done to avoid removing or editing any records the user isn't permitted access.
-			 */
-			$notPermitted = array();
-			if ( ! current_user_can( 'connections_view_public' ) ) $notPermitted[] = 'public';
-			if ( ! current_user_can( 'connections_view_private' ) ) $notPermitted[] = 'private';
-			if ( ! current_user_can( 'connections_view_unlisted' ) ) $notPermitted[] = 'unlisted';
+			$cnDb->upsert(
+				CN_ENTRY_EMAIL_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'address'    => array( 'key' => 'address' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getEmailAddresses( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-			/*
-			 * Create a sql segment for the visibility that can be used in the queries.
-			 */
-			$where['visibility'] = ! empty( $notPermitted ) ? 'AND `visibility` NOT IN (\'' . implode( "', '", $notPermitted ) . '\')' : '';
+			$cnDb->upsert(
+				CN_ENTRY_MESSENGER_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'uid'        => array( 'key' => 'id' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getIm( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'uid', 'format' => '%d' )
+				)
+			);
 
-			/*
-			 * Update and add addresses as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
+			$cnDb->upsert(
+				CN_ENTRY_SOCIAL_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getSocialMedia( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-			if ( ! empty( $addresses ) ) {
+			$cnDb->upsert(
+				CN_ENTRY_LINK_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'title'      => array( 'key' => 'title' , 'format' => '%s' ),
+					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
+					'target'     => array( 'key' => 'target' , 'format' => '%s' ),
+					'follow'     => array( 'key' => 'follow' , 'format' => '%d' ),
+					'image'      => array( 'key' => 'image' , 'format' => '%d' ),
+					'logo'       => array( 'key' => 'logo' , 'format' => '%d' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getLinks( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-				foreach ( $addresses as $address ) {
-
-					/*
-					 * If the $address->id is set, this address is already in the db so it will be updated.
-					 * If the $address->id was not set, the add the address to the db.
-					 */
-					if ( isset( $address->id ) && ! empty( $address->id ) ) {
-
-						$wpdb->update(
-							CN_ENTRY_ADDRESS_TABLE,
-							array(
-								'entry_id'   => $this->getId(),
-								'order'      => $address->order,
-								'preferred'  => $address->preferred,
-								'type'       => $address->type,
-								'line_1'     => $address->line_1,
-								'line_2'     => $address->line_2,
-								'line_3'     => $address->line_3,
-								'city'       => $address->city,
-								'state'      => $address->state,
-								'zipcode'    => $address->zipcode,
-								'country'    => $address->country,
-								'latitude'   => $address->latitude,
-								'longitude'  => $address->longitude,
-								'visibility' => $address->visibility
-							),
-							array(
-								'id' => $address->id
-							),
-							array(
-								'%d',
-								'%d',
-								'%d',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%f',
-								'%f',
-								'%s'
-							),
-							array(
-								'%d'
-							)
-						);
-
-						// Save the address IDs that have been updated
-						$keepIDs[] = $address->id;
-
-					} else {
-
-						$wpdb->insert(
-							CN_ENTRY_ADDRESS_TABLE,
-							array(
-								'entry_id'   => $this->getId(),
-								'order'      => $address->order,
-								'preferred'  => $address->preferred,
-								'type'       => $address->type,
-								'line_1'     => $address->line_1,
-								'line_2'     => $address->line_2,
-								'line_3'     => $address->line_3,
-								'city'       => $address->city,
-								'state'      => $address->state,
-								'zipcode'    => $address->zipcode,
-								'country'    => $address->country,
-								'latitude'   => $address->latitude,
-								'longitude'  => $address->longitude,
-								'visibility' => $address->visibility
-							),
-							array(
-								'%d',
-								'%d',
-								'%d',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%s',
-								'%f',
-								'%f',
-								'%s'
-							)
-						);
-
-						// Save the address IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the address IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['addresses'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_ADDRESS_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['addresses'] ) ) unset( $where['addresses'] );
-
-			/*
-			 * Update and add the phone numbers as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $phoneNumbers ) ) {
-				foreach ( $phoneNumbers as $phone ) {
-					/*
-					 * If the $phone->id is set, this phone number is already in the db so it will be updated.
-					 * If the $phone->id was not set, the add the phone number to the db.
-					 */
-					if ( isset( $phone->id ) && ! empty( $phone->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_PHONE_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`number`			= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$phone->order,
-								$phone->preferred,
-								$phone->type,
-								$phone->number,
-								$phone->visibility,
-								$phone->id ) );
-
-						// Save the phone number IDs that have been updated
-						$keepIDs[] = $phone->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`number`			= %s,
-														`visibility`		= %s',
-								$this->getId(),
-								$phone->order,
-								$phone->preferred,
-								$phone->type,
-								$phone->number,
-								$phone->visibility ) );
-
-						// Save the phone number IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the phone numbers that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['phone'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_PHONE_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['phone'] ) ) unset( $where['phone'] );
-
-
-			/*
-			 * Update and add the email addresses as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $emailAddresses ) ) {
-				foreach ( $emailAddresses as $email ) {
-					/*
-					 * If the $email->id is set, this email address is already in the db so it will be updated.
-					 * If the $email->id was not set, the add the email address to the db.
-					 */
-					if ( isset( $email->id ) && ! empty( $email->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_EMAIL_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`address`			= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$email->order,
-								$email->preferred,
-								$email->type,
-								$email->address,
-								$email->visibility,
-								$email->id ) );
-
-						// Save the email address IDs that have been updated
-						$keepIDs[] = $email->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`address`			= %s,
-														`visibility`		= %s',
-								$this->getId(),
-								$email->order,
-								$email->preferred,
-								$email->type,
-								$email->address,
-								$email->visibility ) );
-
-						// Save the email address IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the social network IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['email'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_EMAIL_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['email'] ) ) unset( $where['email'] );
-
-
-			/*
-			 * Update and add the IMs as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $imIDs ) ) {
-				foreach ( $imIDs as $network ) {
-					/*
-					 * If the $network->id is set, this IM ID is already in the db so it will be updated.
-					 * If the $network->id was not set, the add the IM ID to the db.
-					 */
-					if ( isset( $network->uid ) && ! empty( $network->uid ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_MESSENGER_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`uid`				= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$network->order,
-								$network->preferred,
-								$network->type,
-								$network->id,
-								$network->visibility,
-								$network->uid ) );
-
-						// Save the IM IDs that have been updated
-						$keepIDs[] = $network->uid;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`uid`				= %s,
-														`visibility`		= %s',
-								$this->getId(),
-								$network->order,
-								$network->preferred,
-								$network->type,
-								$network->id,
-								$network->visibility ) );
-
-						// Save the IM IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the IM network IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['im'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_MESSENGER_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['im'] ) ) unset( $where['im'] );
-
-
-			/*
-			 * Update and add the social networks as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $socialNetworks ) ) {
-				foreach ( $socialNetworks as $network ) {
-					/*
-					 * If the $network->id is set, this IM ID is already in the db so it will be updated.
-					 * If the $network->id was not set, the add the social network to the db.
-					 */
-					if ( isset( $network->id ) && ! empty( $network->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_SOCIAL_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`url`				= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$network->order,
-								$network->preferred,
-								$network->type,
-								$network->url,
-								$network->visibility,
-								$network->id ) );
-
-						// Save the social networks IDs that have been updated
-						$keepIDs[] = $network->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
-														`entry_id`			= "%d",
-														`order`				= "%d",
-														`preferred`			= "%d",
-														`type`				= "%s",
-														`url`				= "%s",
-														`visibility`		= "%s"',
-								$this->getId(),
-								$network->order,
-								$network->preferred,
-								$network->type,
-								$network->url,
-								$network->visibility ) );
-
-						// Save the social networks IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the social network IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['social'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_SOCIAL_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['social'] ) ) unset( $where['social'] );
-
-
-			/*
-			 * Update and add the links as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $links ) ) {
-				foreach ( $links as $link ) {
-					/*
-					 * If the $link->id is set, this link ID is already in the db so it will be updated.
-					 * If the $link->id was not set, the add the link to the db.
-					 */
-					if ( isset( $link->id ) && ! empty( $link->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_LINK_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`title`				= %s,
-													`url`				= %s,
-													`target`			= %s,
-													`follow`			= %d,
-													`image`				= %d,
-													`logo`				= %d,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$link->order,
-								$link->preferred,
-								$link->type,
-								$link->title,
-								$link->url,
-								$link->target,
-								(int) $link->follow,
-								(int) $link->image,
-								(int) $link->logo,
-								$link->visibility,
-								$link->id ) );
-
-						// Save the links IDs that have been updated
-						$keepIDs[] = $link->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`title`				= %s,
-														`url`				= %s,
-														`target`			= %s,
-														`follow`			= %d,
-														`image`				= %d,
-														`logo`				= %d,
-														`visibility`		= %s',
-								$this->getId(),
-								$link->order,
-								$link->preferred,
-								$link->type,
-								$link->title,
-								$link->url,
-								$link->target,
-								(int) $link->follow,
-								(int) $link->image,
-								(int) $link->logo,
-								$link->visibility ) );
-
-						// Save the link IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the link IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['links'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_LINK_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['links'] ) ) unset( $where['links'] );
-
-
-			/*
-			 * Update and add the dates as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $dates ) ) {
-				foreach ( $dates as $date ) {
-					/*
-					 * If the $date->id is set, this date is already in the db so it will be updated.
-					 * If the $date->id was not set, the add the date to the db.
-					 */
-					if ( isset( $date->id ) && ! empty( $date->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_DATE_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`date`				= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$date->order,
-								$date->preferred,
-								$date->type,
-								$date->date,
-								$date->visibility,
-								$date->id ) );
-
-						// Save the date IDs that have been updated
-						$keepIDs[] = $date->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_DATE_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`date`				= %s,
-														`visibility`		= %s',
-								$this->getId(),
-								$date->order,
-								$date->preferred,
-								$date->type,
-								$date->date,
-								$date->visibility ) );
-
-						// Save the date IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the dates that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['date'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_DATE_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['date'] ) ) unset( $where['date'] );
+			$cnDb->upsert(
+				CN_ENTRY_DATE_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'date'       => array( 'key' => 'date' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getDates( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 		}
 
 		$wpdb->show_errors = FALSE;

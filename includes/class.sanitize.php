@@ -297,7 +297,7 @@ class cnSanitize {
 	 */
 	public static function options( $values, $options, $defaults = array() ) {
 
-		if ( empty( $values ) ) return;
+		if ( empty( $values ) ) return array();
 
 		// Let do a bit of array gymnastics...
 		// array_flip $values so the values are the keys.

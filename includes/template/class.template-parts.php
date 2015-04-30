@@ -1080,9 +1080,9 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	public static function noResults( $atts = array(), $results = array(), $template = FALSE ) {
+	public static function noResults( $atts = array(), $results = array(), $template = NULL ) {
 
-		if ( ! empty( $results ) ) return;
+		if ( ! empty( $results ) ) return '';
 
 		$out     = '';
 

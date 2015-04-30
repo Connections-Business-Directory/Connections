@@ -1037,8 +1037,7 @@ class cnOutput extends cnEntry {
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		if ( ! $atts['return'] ) echo $html;
-		return $html;
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

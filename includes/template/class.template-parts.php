@@ -1125,9 +1125,6 @@ class cnTemplatePart {
 	 */
 	public static function JSON( $atts, $entry ) {
 
-		// Stores the entry data.
-		$data = array();
-
 		$defaults = array(
 			'tag'                => 'div',
 			'before'             => '',

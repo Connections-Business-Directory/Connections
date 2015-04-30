@@ -1297,14 +1297,17 @@ class cnTemplatePart {
 	 * Outputs the legacy character index. This is being deprecated in favor of cnTemplatePart::index().
 	 * This was added for backward compatibility only for the legacy templates.
 	 *
-	 * @access public
-	 * @since 0.7.6.5
+	 * @access     public
+	 * @since      0.7.6.5
 	 * @deprecated since 0.7.6.5
-	 * @uses wp_parse_args()
-	 * @uses is_ssl()
-	 * @uses add_query_arg()
-	 * @param  (array) $atts [optional]
-	 * @return (string)
+	 *
+	 * @uses       wp_parse_args()
+	 * @uses       is_ssl()
+	 * @uses       add_query_arg()
+	 *
+	 * @param  array $atts [optional]
+	 *
+	 * @return string
 	 */
 	public static function characterIndex( $atts = array() ) {
 		static $out = '';

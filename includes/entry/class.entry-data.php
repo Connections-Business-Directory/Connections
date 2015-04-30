@@ -4982,180 +4982,109 @@ class cnEntry {
 		$connections->lastQueryError = $wpdb->last_error;
 		$connections->lastInsertID = $wpdb->insert_id;
 
-			$addresses = $this->getAddresses( array(), TRUE, TRUE );
-			$phoneNumbers = $this->getPhoneNumbers( array(), TRUE, TRUE );
-			$emailAddresses = $this->getEmailAddresses( array(), TRUE, TRUE );
-			$imIDs = $this->getIm( array(), TRUE, TRUE );
-			$socialNetworks = $this->getSocialMedia( array(), TRUE, TRUE );
-			$links = $this->getLinks( array(), TRUE, TRUE );
-			$dates = $this->getDates( array(), TRUE, TRUE );
-
-			if ( ! empty( $addresses ) ) {
-				foreach ( $addresses as $address ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`line_1`			= %s,
-											`line_2`			= %s,
-											`line_3`			= %s,
-											`city`				= %s,
-											`state`				= %s,
-											`zipcode`			= %s,
-											`country`			= %s,
-											`latitude`			= %f,
-											`longitude`			= %f,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$address->order,
-						$address->preferred,
-						$address->type,
-						$address->line_1,
-						$address->line_2,
-						$address->line_3,
-						$address->city,
-						$address->state,
-						$address->zipcode,
-						$address->country,
-						$address->latitude,
-						$address->longitude,
-						$address->visibility );
-
-					$wpdb->query( $sql );
-				}
-			}
 		if ( FALSE !== $result ) {
 
-			if ( ! empty( $phoneNumbers ) ) {
-				foreach ( $phoneNumbers as $phone ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`number`			= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$phone->order,
-						$phone->preferred,
-						$phone->type,
-						$phone->number,
-						$phone->visibility );
+			$this->setId( $wpdb->insert_id );
 
-					$wpdb->query( $sql );
-				}
-			}
+			require_once CN_PATH . 'includes/entry/class.entry-db.php';
+			$cnDb = new cnEntry_DB( $this->getId() );
 
-			if ( ! empty( $emailAddresses ) ) {
-				foreach ( $emailAddresses as $email ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`address`			= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$email->order,
-						$email->preferred,
-						$email->type,
-						$email->address,
-						$email->visibility );
+			$cnDb->insert(
+				CN_ENTRY_ADDRESS_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
+					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
+					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
+					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
+					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
+					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
+					'country'    => array( 'key' => 'country' , 'format' => '%s' ),
+					'latitude'   => array( 'key' => 'latitude' , 'format' => '%f' ),
+					'longitude'  => array( 'key' => 'longitude' , 'format' => '%f' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getAddresses( array(), TRUE, TRUE )
+			);
 
-					$wpdb->query( $sql );
-				}
-			}
+			$cnDb->insert(
+				CN_ENTRY_PHONE_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'number'     => array( 'key' => 'number' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getPhoneNumbers( array(), TRUE, TRUE )
+			);
 
-			if ( ! empty( $imIDs ) ) {
-				foreach ( $imIDs as $network ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`uid`				= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$network->order,
-						$network->preferred,
-						$network->type,
-						$network->id,
-						$network->visibility );
+			$cnDb->insert(
+				CN_ENTRY_EMAIL_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'address'    => array( 'key' => 'address' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getEmailAddresses( array(), TRUE, TRUE )
+			);
 
-					$wpdb->query( $sql );
-				}
-			}
+			$cnDb->insert(
+				CN_ENTRY_MESSENGER_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'uid'        => array( 'key' => 'id' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getIm( array(), TRUE, TRUE )
+			);
 
-			if ( ! empty( $socialNetworks ) ) {
-				foreach ( $socialNetworks as $network ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`url`				= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$network->order,
-						$network->preferred,
-						$network->type,
-						$network->url,
-						$network->visibility );
+			$cnDb->insert(
+				CN_ENTRY_SOCIAL_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getSocialMedia( array(), TRUE, TRUE )
+			);
 
-					$wpdb->query( $sql );
-				}
-			}
+			$cnDb->insert(
+				CN_ENTRY_LINK_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'title'      => array( 'key' => 'title' , 'format' => '%s' ),
+					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
+					'target'     => array( 'key' => 'target' , 'format' => '%s' ),
+					'follow'     => array( 'key' => 'follow' , 'format' => '%d' ),
+					'image'      => array( 'key' => 'image' , 'format' => '%d' ),
+					'logo'       => array( 'key' => 'logo' , 'format' => '%d' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getLinks( array(), TRUE, TRUE )
+			);
 
-			if ( ! empty( $links ) ) {
-				foreach ( $links as $link ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`title`				= %s,
-											`url`				= %s,
-											`target`			= %s,
-											`follow`			= %d,
-											`image`				= %d,
-											`logo`				= %d,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$link->order,
-						$link->preferred,
-						$link->type,
-						$link->title,
-						$link->url,
-						$link->target,
-						(int) $link->follow,
-						(int) $link->image,
-						(int) $link->logo,
-						$link->visibility );
-
-					$wpdb->query( $sql );
-				}
-			}
-
-			if ( ! empty( $dates ) ) {
-				foreach ( $dates as $date ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_DATE_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`date`				= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$date->order,
-						$date->preferred,
-						$date->type,
-						$date->date,
-						$date->visibility );
-
-					$wpdb->query( $sql );
-				}
-			}
+			$cnDb->insert(
+				CN_ENTRY_DATE_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'date'       => array( 'key' => 'date' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getDates( array(), TRUE, TRUE )
+			);
 		}
 
 		$wpdb->show_errors = FALSE;

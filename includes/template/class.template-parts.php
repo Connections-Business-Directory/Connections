@@ -852,11 +852,14 @@ class cnTemplatePart {
 	 * Output the current category description.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @param  (array)  $atts [optional]
-	 * @param  (array)  $results [optional]
-	 * @uses get_query_var()
-	 * @return (string) | (void)
+	 * @since  0.7.8
+	 *
+	 * @uses   get_query_var()
+	 *
+	 * @param  array  $atts [optional]
+	 * @param  array  $results [optional]
+	 *
+	 * @return string
 	 */
 	public static function categoryDescription( $atts = array(), $results = array() ) {
 		global $connections;

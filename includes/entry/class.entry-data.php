@@ -4573,25 +4573,15 @@ class cnEntry {
 	}
 
 	/**
-	 * Update the entry in the db.
+	 * Ensure fields that should be empty depending on the entry type.
 	 *
-	 * @access public
-	 * @since  unknown
-	 *
-	 * @return false|int
+	 * @access private
+	 * @since  8.2.6
 	 */
-	public function update() {
+	private function setPropertyDefaultsByEntryType() {
 
-		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb            $wpdb
-		 */
-		global $wpdb, $connections;
-
-		$this->serializeOptions();
-
-		// Ensure fields that should be empty depending on the entry type.
 		switch ( $this->getEntryType() ) {
+
 			case 'individual':
 				$this->familyName       = '';
 				$this->familyMembers    = '';
@@ -4630,6 +4620,26 @@ class cnEntry {
 				$this->familyName = '';
 				break;
 		}
+	}
+
+	/**
+	 * Update the entry in the db.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return false|int
+	 */
+	public function update() {
+
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb            $wpdb
+		 */
+		global $wpdb, $connections;
+
+		$this->serializeOptions();
+		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_update-entry', $this );
 
@@ -4858,43 +4868,7 @@ class cnEntry {
 		global $wpdb, $connections;
 
 		$this->serializeOptions();
-
-		// Ensure fields that should be empty depending on the entry type.
-		switch ( $this->getEntryType() ) {
-			case 'individual':
-				$this->familyName    = '';
-				$this->familyMembers = '';
-				break;
-
-			case 'organization':
-				$this->familyName      = '';
-				$this->honorificPrefix = '';
-				$this->firstName       = '';
-				$this->middleName      = '';
-				$this->lastName        = '';
-				$this->honorificSuffix = '';
-				$this->title           = '';
-				$this->familyMembers   = '';
-				$this->birthday        = '';
-				$this->anniversary     = '';
-				break;
-
-			case 'family':
-				$this->honorificPrefix = '';
-				$this->firstName       = '';
-				$this->middleName      = '';
-				$this->lastName        = '';
-				$this->honorificSuffix = '';
-				$this->title           = '';
-				$this->birthday        = '';
-				$this->anniversary     = '';
-				break;
-
-			default:
-				$this->entryType  = 'individual';
-				$this->familyName = '';
-				break;
-		}
+		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_save-entry', $this );
 

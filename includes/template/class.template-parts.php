@@ -1322,9 +1322,8 @@ class cnTemplatePart {
 		 * so there is no need to rebuild the character index.
 		 */
 		if ( ! empty( $out ) ) {
-			if ( $atts['return'] ) return $out;
-			echo $out;
-			return;
+			if ( ! $atts['return'] ) echo $out;
+			return $out;
 		}
 
 		// The URL in the address bar

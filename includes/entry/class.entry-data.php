@@ -4633,8 +4633,6 @@ class cnEntry {
 
 		do_action( 'cn_update-entry', $this );
 
-		$wpdb->show_errors = true;
-
 		$result = $wpdb->update(
 			CN_ENTRY_TABLE,
 			array(
@@ -4838,8 +4836,6 @@ class cnEntry {
 			);
 		}
 
-		$wpdb->show_errors = FALSE;
-
 		do_action( 'cn_updated-entry', $this );
 
 		return $result;
@@ -4901,8 +4897,6 @@ class cnEntry {
 		}
 
 		do_action( 'cn_save-entry', $this );
-
-		$wpdb->show_errors = true;
 
 		$result = $wpdb->insert(
 			CN_ENTRY_TABLE,
@@ -5089,8 +5083,6 @@ class cnEntry {
 				$this->getDates( array(), TRUE, TRUE )
 			);
 		}
-
-		$wpdb->show_errors = FALSE;
 
 		do_action( 'cn_saved-entry', $this );
 

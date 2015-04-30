@@ -315,7 +315,7 @@ class cnSanitize {
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  string $input Value data to be sanitized.
+	 * @param  string $value Value data to be sanitized.
 	 *
 	 * @return string
 	 */

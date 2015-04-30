@@ -13,8 +13,29 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnOutput extends cnEntry
-{
+class cnOutput extends cnEntry {
+
+	/**
+	 * Echo or return the supplied string.
+	 * 
+	 * @param bool   $echo
+	 * @param string $html
+	 *
+	 * @return string
+	 */
+	private function echoOrReturn( $echo, $html ) {
+
+		if ( $echo ) {
+
+			echo $html;
+			return '';
+
+		} else {
+
+			return $html;
+		}
+	}
+
 	/**
 	 * Echos the 'Entry Sized' image.
 	 *

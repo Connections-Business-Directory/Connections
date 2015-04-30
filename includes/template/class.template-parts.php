@@ -282,8 +282,8 @@ class cnTemplatePart {
 
 		$out = apply_filters( 'cn_filter_return_to_top_target', '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>' );
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -340,8 +340,8 @@ class cnTemplatePart {
 		// Add the cnSEO permalink filter.
 		cnSEO::doFilterPermalink();
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -368,8 +368,8 @@ class cnTemplatePart {
 
 		$out .= '</form>';
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -432,8 +432,8 @@ class cnTemplatePart {
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -484,8 +484,8 @@ class cnTemplatePart {
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -630,8 +630,8 @@ class cnTemplatePart {
 
 		}
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -680,8 +680,8 @@ class cnTemplatePart {
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -692,11 +692,10 @@ class cnTemplatePart {
 	 * @param  (array)  $atts [optional]
 	 * @uses wp_parse_args()
 	 * @uses apply_filters()
-	 * @return string | void
+	 * @return string
 	 */
 	public static function listActions( $atts = array() ) {
 		$out = '';
-		$actions = array();
 
 		$defaults = array(
 			'container_tag' => 'ul',
@@ -1065,8 +1064,8 @@ class cnTemplatePart {
 			$out = '';
 		}
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -1362,8 +1361,8 @@ class cnTemplatePart {
 
 		$out = "\n" . '<div class="cn-alphaindex">' . implode( ' ', $links ). '</div>' . "\n";
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -1411,8 +1410,8 @@ class cnTemplatePart {
 		}
 
 		// Output the the search input.
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -1444,8 +1443,8 @@ class cnTemplatePart {
 		$out .= '<input type="submit" name="' . $atts['name'] . '" id="cn-submit" class="button" value="' . $atts['value'] . '" tabindex="-1" />';
 
 		// Output a submit button.
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -1574,8 +1573,8 @@ class cnTemplatePart {
 		// Only output if there is a current character set in the query string.
 		if ( 0 < strlen( $current ) ) $out .= '<input class="cn-current-char-input" name="cn-char" title="' . __('Current Character', 'connections') . '" type="' . ( $atts['hidden'] ? 'hidden' : 'text' ) . '" size="1" value="' . esc_attr( $current ) . '">';
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -1757,8 +1756,8 @@ class cnTemplatePart {
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
 		// Output the page nav.
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -2167,8 +2166,8 @@ class cnTemplatePart {
 		$out .= '</tbody>';
 		$out .= '</table>';
 
-		if ( $atts['return']) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo $out;
+		return $out;
 	}
 
 	/**
@@ -2350,8 +2349,8 @@ class cnTemplatePart {
 		$out .= '</tbody>';
 		$out .= '</table>';
 
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		if ( ! $atts['return'] ) echo  $out;
+		return $out;
 	}
 
 	/**

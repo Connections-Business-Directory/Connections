@@ -1319,7 +1319,7 @@ class cnTemplatePart {
 
 		/*
 		 * $out is a static variable so if is not empty, this method was already run,
-		 * so there is no need to rebuild the chracter index.
+		 * so there is no need to rebuild the character index.
 		 */
 		if ( ! empty( $out ) ) {
 			if ( $atts['return'] ) return $out;

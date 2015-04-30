@@ -2224,7 +2224,7 @@ class cnEntry {
 
 		} else {
 
-			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all email addresses will be returned by the query.
+			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
 			$imIDs = $connections->retrieve->imIDs( $atts );

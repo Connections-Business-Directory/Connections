@@ -2377,6 +2377,11 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	private static function categoryLinkDescendant( $category, $level, $depth, $slug, $atts ) {
+
+		/**
+		 * @var WP_Rewrite $wp_rewrite
+		 * @var connectionsLoad $connections
+		 */
 		global $wp_rewrite, $connections;
 
 		$out = '';

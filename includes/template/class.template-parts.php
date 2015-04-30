@@ -1602,7 +1602,13 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function pagination( $atts = array() ) {
-		global $wp_rewrite, $wp_query, $post, $connections;
+
+		/**
+		 * @var WP_Rewrite $wp_rewrite
+		 * @var WP_Query $wp_query
+		 * @var connectionsLoad $connections
+		 */
+		global $wp_rewrite, $wp_query, $connections;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.

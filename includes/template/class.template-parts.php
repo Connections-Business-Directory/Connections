@@ -770,7 +770,7 @@ class cnTemplatePart {
 	 * @param (object) $entry Instance of the cnEntry class.
 	 * @uses wp_parse_args()
 	 * @uses apply_filters()
-	 * @return string | void
+	 * @return string
 	 */
 	public static function entryActions( $atts = array(), $entry ) {
 		$out = '';

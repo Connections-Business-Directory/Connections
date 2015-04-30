@@ -4982,7 +4982,6 @@ class cnEntry {
 		$connections->lastQueryError = $wpdb->last_error;
 		$connections->lastInsertID = $wpdb->insert_id;
 
-		if ( $result !== FALSE ) {
 			$addresses = $this->getAddresses( array(), TRUE, TRUE );
 			$phoneNumbers = $this->getPhoneNumbers( array(), TRUE, TRUE );
 			$emailAddresses = $this->getEmailAddresses( array(), TRUE, TRUE );
@@ -5026,6 +5025,7 @@ class cnEntry {
 					$wpdb->query( $sql );
 				}
 			}
+		if ( FALSE !== $result ) {
 
 			if ( ! empty( $phoneNumbers ) ) {
 				foreach ( $phoneNumbers as $phone ) {

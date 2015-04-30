@@ -1118,7 +1118,7 @@ class cnTemplatePart {
 	 * @param array  $atts  Shortcode $atts passed by the `cn_action_entry_after` action hook.
 	 * @param object $entry An instance the the cnEntry object.
 	 *
-	 * return void
+	 * @return string
 	 */
 	public static function JSON( $atts, $entry ) {
 

@@ -525,6 +525,7 @@ class cnTemplatePart {
 		foreach ( $results as $row ) {
 
 			$entry = new cnvCard( $row );
+			/** @noinspection PhpUnusedLocalVariableInspection */
 			$vCard =& $entry;
 
 			// Configure the page where the entry link to.

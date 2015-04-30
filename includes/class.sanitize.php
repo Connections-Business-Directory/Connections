@@ -357,6 +357,36 @@ class cnSanitize {
 	}
 
 	/**
+	 * Sanitizes an array of IDs numbers or an ID number.
+	 *
+	 * @access protected
+	 * @since  8.2.6
+	 *
+	 * @uses   absint()
+	 *
+	 * @param $id
+	 *
+	 * @return array|int
+	 */
+	public static function id( $id ) {
+
+		if ( is_array( $id ) ) {
+
+			// Ensure all IDs are positive integers.
+			$id = array_map( 'absint', $id );
+
+			// Filter anything that converted to 0 (i.e. non-integers).
+			$id = array_filter( $id );
+
+		} else {
+
+			$id = absint( $id );
+		}
+
+		return $id;
+	}
+
+	/**
 	 * Return integer.
 	 *
 	 * @access public

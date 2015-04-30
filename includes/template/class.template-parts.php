@@ -1071,15 +1071,15 @@ class cnTemplatePart {
 	}
 
 	/**
-	 * Outputs the "No Results" meesage.
+	 * Outputs the "No Results" message.
 	 *
 	 * @access public
 	 * @since  0.7.6.5
 	 * @uses   wp_parse_args()
 	 * @uses   apply_filters()
-	 * @param  array  $atts    [optional] The shortcode $atts array.
-	 * @param  array  $results [optional] The cnRetrieve query results.
-	 * @param  object $template An instance of the cnTemplate object.
+	 * @param  array      $atts    [optional] The shortcode $atts array.
+	 * @param  array      $results [optional] The cnRetrieve query results.
+	 * @param  cnTemplate $template An instance of the cnTemplate object.
 	 *
 	 * @return string
 	 */

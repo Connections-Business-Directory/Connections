@@ -311,7 +311,7 @@ class cnSanitize {
 	 * Sanitizes checkbox input.
 	 *
 	 * WordPress core evaluates checkboxes as '1' or '0';
-	 * to be consistant with core return '1' or '0'.
+	 * to be consistent with core return '1' or '0'.
 	 *
 	 * @access public
 	 * @since 0.8

@@ -774,7 +774,6 @@ class cnTemplatePart {
 	 */
 	public static function entryActions( $atts = array(), $entry ) {
 		$out = '';
-		$actions = array();
 
 		$defaults = array(
 			'container_tag' => 'ul',

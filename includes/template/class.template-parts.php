@@ -2432,7 +2432,7 @@ class cnTemplatePart {
 					// If the category slug is a descendant, use the last slug from the URL for the query.
 					$queryCategorySlug = explode( '/' , $queryCategorySlug );
 
-					if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) $currentCategory = $queryCategorySlug[ count( $queryCategorySlug )-1 ];
+					if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) $currentCategory = $queryCategorySlug[ count( $queryCategorySlug ) - 1 ];
 				}
 
 			} elseif ( get_query_var( 'cn-cat' ) ) {

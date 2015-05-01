@@ -1098,7 +1098,11 @@ class cnTemplatePart {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		$atts['message'] = apply_filters( 'cn_list_no_result_message' , $atts['message'] );
-		if ( $template !== FALSE ) $atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , $atts['message'] );
+
+		if ( is_a( $template, 'cnTemplate' ) ) {
+
+			$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , $atts['message'] );
+		}
 
 		$out .= sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
 				$atts['tag'],

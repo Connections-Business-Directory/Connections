@@ -251,7 +251,7 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	private function echoOrReturn( $return, $html ) {
+	private static function echoOrReturn( $return, $html ) {
 
 		if ( $return ) {
 

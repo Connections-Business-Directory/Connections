@@ -1365,7 +1365,7 @@ class cnTemplatePart {
 		$redirectURL = $redirectURL[0];
 
 		// Ensure array index is set, prevent PHP error notice.
-		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] = array();
+		if ( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] = array();
 
 		$parsedURL['query'] = preg_replace( '#^\??&*?#', '', $parsedURL['query'] );
 
@@ -2112,7 +2112,6 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-
 		if ( ! empty( $atts['parent_id'] ) && ! is_array( $atts['parent_id'] ) ) {
 			// Trim extra whitespace.
 			$atts['parent_id'] = trim( str_replace( ' ', '', $atts['parent_id'] ) );
@@ -2147,7 +2146,7 @@ class cnTemplatePart {
 
 		for ( $row = 1; $row <= $rows; $row++ )
 			for ( $col = 1; $col <= $atts['columns']; $col++ )
-				$table[$row][$col] = array_shift($keys);
+				$table[ $row ][ $col ] = array_shift( $keys );
 
 		$out .= '<table cellspacing="0" cellpadding="0" class="cn-cat-table">';
 		$out .= '<tbody>';
@@ -2433,7 +2432,7 @@ class cnTemplatePart {
 					// If the category slug is a descendant, use the last slug from the URL for the query.
 					$queryCategorySlug = explode( '/' , $queryCategorySlug );
 
-					if ( isset( $queryCategorySlug[ count( $queryCategorySlug )-1 ] ) ) $currentCategory = $queryCategorySlug[ count( $queryCategorySlug )-1 ];
+					if ( isset( $queryCategorySlug[ count( $queryCategorySlug ) - 1 ] ) ) $currentCategory = $queryCategorySlug[ count( $queryCategorySlug )-1 ];
 				}
 
 			} elseif ( get_query_var( 'cn-cat' ) ) {

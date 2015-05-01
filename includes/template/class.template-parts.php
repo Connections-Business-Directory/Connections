@@ -551,17 +551,17 @@ class cnTemplatePart {
 
 				$out .= sprintf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
 
-					//  This action only is required when the index is to be displayed.
-					if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
+				//  This action only is required when the index is to be displayed.
+				if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
 
-						// The character index template part.
-						ob_start();
+					// The character index template part.
+					ob_start();
 
-							do_action( 'cn_list_character_index', $atts );
-						$out .= ob_get_clean();
-					}
+						do_action( 'cn_list_character_index', $atts );
+					$out .= ob_get_clean();
+				}
 
-					if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
+				if ( $atts['show_alphahead'] ) $out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
 
 				$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
 
@@ -571,21 +571,21 @@ class cnTemplatePart {
 			// Before entry actions.
 			ob_start();
 
-				// Display the Entry Actions.
-				if ( get_query_var( 'cn-entry-slug' ) ) {
+			// Display the Entry Actions.
+			if ( get_query_var( 'cn-entry-slug' ) ) {
 
-					do_action( 'cn_entry_actions-before', $atts, $entry );
-					do_action( 'cn_entry_actions', $atts, $entry );
-				}
+				do_action( 'cn_entry_actions-before', $atts, $entry );
+				do_action( 'cn_entry_actions', $atts, $entry );
+			}
 
-				do_action( 'cn_action_entry_before', $atts, $entry );
-				do_action( 'cn_action_entry_both', $atts, $entry  );
+			do_action( 'cn_action_entry_before', $atts, $entry );
+			do_action( 'cn_action_entry_both', $atts, $entry  );
 
-				do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
-				cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
+			do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
+			cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
 
-				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
-				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
+			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
 			$out .= ob_get_clean();
 
@@ -604,41 +604,41 @@ class cnTemplatePart {
 
 			array_walk( $class, 'esc_attr' );
 
-			$out .= sprintf( '<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
-					implode( ' ', $class ),
-					$entry->getEntryType(),
-					$entry->getSlug(),
-					$entry->getId()
-				);
+			$out .= sprintf(
+				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
+				implode( ' ', $class ),
+				$entry->getEntryType(),
+				$entry->getSlug(),
+				$entry->getId()
+			);
 
-				ob_start();
+			ob_start();
 
-					do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
+				do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
 
-				$out .= ob_get_clean();
+			$out .= ob_get_clean();
 
 			$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
 
 			// After entry actions.
 			ob_start();
 
-				do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
-				cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
+			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
+			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
-				do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
-				cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
+			do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
+			cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
 
-				do_action( 'cn_action_entry_both', $atts, $entry  );
-				do_action( 'cn_action_entry_after', $atts, $entry );
+			do_action( 'cn_action_entry_both', $atts, $entry  );
+			do_action( 'cn_action_entry_after', $atts, $entry );
 
-				// Display the Entry Actions.
-				if ( get_query_var( 'cn-entry-slug' ) ) {
+			// Display the Entry Actions.
+			if ( get_query_var( 'cn-entry-slug' ) ) {
 
-					do_action( 'cn_action_entry_actions-after', $atts, $entry );
-				}
+				do_action( 'cn_action_entry_actions-after', $atts, $entry );
+			}
 
 			$out .= ob_get_clean();
-
 		}
 
 		return self::echoOrReturn( $atts['return'], $out );

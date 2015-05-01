@@ -979,6 +979,7 @@ class cnTemplatePart {
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
 		// Store the query vars
+		$queryVars                    = array();
 		$queryVars['cn-s']            = get_query_var('cn-s') ? esc_html( get_query_var('cn-s') ) : FALSE;
 		$queryVars['cn-char']         = get_query_var('cn-char') ? esc_html( urldecode( get_query_var('cn-char') ) ) : FALSE;
 		$queryVars['cn-cat']          = get_query_var('cn-cat') ? get_query_var('cn-cat') : FALSE;

@@ -1574,10 +1574,26 @@ class cnRegisterSettings
 		if ( $search['phone_number'] ) $column['phone'][]       = 'number';
 
 		// Add the FULLTEXT indexes.
-		if ( ! empty( $column['entry'] ) ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['entry'] ) . ')' );
-		if ( ! empty( $column['address'] ) ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['address'] ) . ')' );
-		if ( ! empty( $column['phone'] ) ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['phone'] ) . ')' );
+		if ( isset( $settings['fulltext_enabled'] ) ) {
 
+			if ( ! empty( $column['entry'] ) ) {
+				$wpdb->query(
+					'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['entry'] ) . ')'
+				);
+			}
+
+			if ( ! empty( $column['address'] ) ) {
+				$wpdb->query(
+					'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['address'] ) . ')'
+				);
+			}
+
+			if ( ! empty( $column['phone'] ) ) {
+				$wpdb->query(
+					'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['phone'] ) . ')'
+				);
+			}
+		}
 		//$wpdb->hide_errors();
 
 		//die;

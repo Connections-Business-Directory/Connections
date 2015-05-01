@@ -2271,7 +2271,7 @@ class cnOutput extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getBirthdayBlock( $format = NULL, $atts = array() ) {
+	public function getBirthdayBlock( $format = '', $atts = array() ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */

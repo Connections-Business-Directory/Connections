@@ -1573,23 +1573,25 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function gethCardAdrType( $adrType ) {
-		switch ( $adrType ) {
-		case 'home':
-			$type = '<span class="type" style="display: none;">home</span>';
-			break;
-		case 'work':
-			$type = '<span class="type" style="display: none;">work</span>';
-			break;
-		case 'school':
-			$type = '<span class="type" style="display: none;">postal</span>';
-			break;
-		case 'other':
-			$type = '<span class="type" style="display: none;">postal</span>';
-			break;
 
-		default:
-			$type = '<span class="type" style="display: none;">postal</span>';
-			break;
+		switch ( $adrType ) {
+
+			case 'home':
+				$type = '<span class="type" style="display: none;">home</span>';
+				break;
+			case 'work':
+				$type = '<span class="type" style="display: none;">work</span>';
+				break;
+			case 'school':
+				$type = '<span class="type" style="display: none;">postal</span>';
+				break;
+			case 'other':
+				$type = '<span class="type" style="display: none;">postal</span>';
+				break;
+
+			default:
+				$type = '<span class="type" style="display: none;">postal</span>';
+				break;
 		}
 
 		return $type;

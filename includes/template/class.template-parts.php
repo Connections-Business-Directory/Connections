@@ -241,6 +241,30 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Echo or return the supplied string.
+	 *
+	 * @access private
+	 * @since  8.2.6
+	 *
+	 * @param bool   $return
+	 * @param string $html
+	 *
+	 * @return string
+	 */
+	private function echoOrReturn( $return, $html ) {
+
+		if ( $return ) {
+
+			return $html;
+
+		} else {
+
+			echo $html;
+			return '';
+		}
+	}
+
+	/**
 	 * Display the template no found error message.
 	 *
 	 * @access private

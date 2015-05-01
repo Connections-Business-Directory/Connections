@@ -102,9 +102,9 @@ class cnFormatting {
 	 *
 	 * @uses   wp_slash()
 	 *
-	 * @param string $string
-	 * @param null   $what
-	 * @param string $with
+	 * @param string      $string
+	 * @param string|null $what
+	 * @param string      $with
 	 *
 	 * @return string
 	 */

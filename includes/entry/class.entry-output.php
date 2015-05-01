@@ -1709,7 +1709,7 @@ class cnOutput extends cnEntry {
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		// This filter is required to allow the ROT13 encyption plugin to function.
+		// This filter is required to allow the ROT13 encryption plugin to function.
 		$out = apply_filters( 'cn_output_email_addresses', $out );
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;

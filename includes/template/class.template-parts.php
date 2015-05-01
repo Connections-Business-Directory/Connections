@@ -1199,7 +1199,7 @@ class cnTemplatePart {
 		if ( $atts['show_bio'] ) $data['bio'] = $entry->getBio();
 		if ( $atts['show_notes'] ) $data['notes'] = $entry->getNotes();
 
-		$out =  sprintf('<%1$s class="cn-entry-data-json" data-entry-data-json=\'%2$s\'></%1$s>',
+		$out = sprintf('<%1$s class="cn-entry-data-json" data-entry-data-json=\'%2$s\'></%1$s>',
 				$atts['tag'],
 				htmlspecialchars( json_encode( $data ), ENT_QUOTES, 'UTF-8' )
 			);

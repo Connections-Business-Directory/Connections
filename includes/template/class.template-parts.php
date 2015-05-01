@@ -733,18 +733,20 @@ class cnTemplatePart {
 
 			if ( strlen( $action ) < 1 ) continue;
 
-			$out .= sprintf( PHP_EOL . "\t" . '%1$s<%2$s class="cn-list-action-item">%3$s</%2$s>%4$s',
+			$out .= sprintf(
+				PHP_EOL . "\t" . '%1$s<%2$s class="cn-list-action-item">%3$s</%2$s>%4$s',
 				$atts['before-item'],
 				$atts['item_tag'],
 				$action,
 				$atts['after-item']
-			 );
+			);
 		}
 
-		$out = sprintf( '<%1$s class="cn-list-actions">%2$s' . PHP_EOL . '</%1$s>',
-				$atts['container_tag'],
-				$out
-			);
+		$out = sprintf(
+			'<%1$s class="cn-list-actions">%2$s' . PHP_EOL . '</%1$s>',
+			$atts['container_tag'],
+			$out
+		);
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

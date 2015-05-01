@@ -2516,7 +2516,7 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'social[' . $token . '][url]',
 								'required' => FALSE,
-								'label'    => __( 'Social Network', 'connections' ),
+								'label'    => __( 'URL', 'connections' ),
 								'before'   => '',
 								'after'    => '',
 								'return'   => FALSE,

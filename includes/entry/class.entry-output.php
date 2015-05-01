@@ -1436,6 +1436,8 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getPhoneNumberBlock( $atts = array() , $cached = TRUE ) {
+
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		/*

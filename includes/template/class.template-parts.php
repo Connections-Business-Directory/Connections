@@ -1119,10 +1119,11 @@ class cnTemplatePart {
 			$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , $atts['message'] );
 		}
 
-		$out = sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
-				$atts['tag'],
-				$atts['message']
-			);
+		$out = sprintf(
+			'<%1$s class="cn-list-no-results">%2$s</%1$s>',
+			$atts['tag'],
+			$atts['message']
+		);
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

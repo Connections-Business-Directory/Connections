@@ -880,7 +880,6 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function categoryDescription( $atts = array(), $results = array() ) {
-		global $connections;
 
 		// Check whether or not the category description should be displayed or not.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) return '';
@@ -902,7 +901,7 @@ class cnTemplatePart {
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
-			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -928,7 +927,7 @@ class cnTemplatePart {
 
 			}
 
-			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
+			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 

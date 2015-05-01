@@ -4582,13 +4582,6 @@ class cnEntry {
 
 		switch ( $this->getEntryType() ) {
 
-			case 'individual':
-				$this->familyName       = '';
-				$this->familyMembers    = '';
-				$this->contactFirstName = '';
-				$this->contactLastName  = '';
-				break;
-
 			case 'organization':
 				$this->familyName      = '';
 				$this->honorificPrefix = '';
@@ -4616,8 +4609,10 @@ class cnEntry {
 				break;
 
 			default:
-				$this->entryType  = 'individual';
-				$this->familyName = '';
+				$this->familyName       = '';
+				$this->familyMembers    = '';
+				$this->contactFirstName = '';
+				$this->contactLastName  = '';
 				break;
 		}
 	}

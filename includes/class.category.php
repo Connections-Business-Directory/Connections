@@ -132,7 +132,7 @@ class cnCategory {
 	 */
 	public function getDescriptionBlock( $atts = array() ) {
 
-		/** @var $wp_embed WP_Embed */
+		/** @var WP_Embed $wp_embed */
 		global $wp_embed;
 
 		$defaults = array(

@@ -888,9 +888,9 @@ class cnTemplatePart {
 		$out = '';
 
 		$defaults = array(
-			'before'        => '',
-			'after'         => '',
-			'return'        => FALSE
+			'before' => '',
+			'after'  => '',
+			'return' => FALSE
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

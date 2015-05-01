@@ -413,39 +413,36 @@ class cnTemplatePart {
 
 		$out = '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
 
-			// Display the Results List Actions.
-			if ( ! get_query_var( 'cn-entry-slug' ) ) {
+		// Display the Results List Actions.
+		if ( ! get_query_var( 'cn-entry-slug' ) ) {
 
-				// List actions template part.
-				ob_start();
-					do_action( 'cn_list_actions-before', $atts );
-					do_action( 'cn_list_actions', $atts );
-					$out .= ob_get_contents();
-				ob_end_clean();
-
-			}
-
+			// List actions template part.
 			ob_start();
-				do_action( 'cn_action_list_before', $atts, $results );
-				do_action( 'cn_action_list_both', $atts, $results );
+			do_action( 'cn_list_actions-before', $atts );
+			do_action( 'cn_list_actions', $atts );
+			$out .= ob_get_clean();
+		}
 
-				do_action( 'cn_action_list_before-' . $template->getSlug(), $atts, $results );
-				cnShortcode::addFilterRegistry( 'cn_action_list_before-' . $template->getSlug() );
+		ob_start();
+		do_action( 'cn_action_list_before', $atts, $results );
+		do_action( 'cn_action_list_both', $atts, $results );
 
-				do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
-				cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
+		do_action( 'cn_action_list_before-' . $template->getSlug(), $atts, $results );
+		cnShortcode::addFilterRegistry( 'cn_action_list_before-' . $template->getSlug() );
 
-				$out .= ob_get_contents();
-			ob_end_clean();
+		do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
+		cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
 
-			//  This action only is required when the index is to be displayed.
-			if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
+		$out .= ob_get_clean();
 
-				// The character index template part.
-				ob_start();
-					do_action( 'cn_list_character_index', $atts );
-				$out .= ob_get_clean();
-			}
+		//  This action only is required when the index is to be displayed.
+		if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
+
+			// The character index template part.
+			ob_start();
+			do_action( 'cn_list_character_index', $atts );
+			$out .= ob_get_clean();
+		}
 
 		$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
 

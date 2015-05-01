@@ -637,7 +637,7 @@ class cnOutput extends cnEntry {
 			);
 		}
 
-		$html = PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
@@ -771,7 +771,7 @@ class cnOutput extends cnEntry {
 				$html
 			);
 
-			$html = PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+			$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 		}
 
 		return $this->echoOrReturn( $atts['return'], $html );
@@ -1122,18 +1122,18 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $addresses ) ) return '';
 
-		$out .= '<span class="address-block">';
+		$out .= '<span class="address-block">' . PHP_EOL;
 
 		foreach ( $addresses as $address ) {
 			$replace = array();
 
-			$out .= "\n" . '<span class="adr">';
+			$out .= '<span class="adr">' . PHP_EOL;
 
 			// The `notranslate` class is added to prevent Google Translate from translating the text.
-			( empty( $address->name ) ) ? $replace[] = '' : $replace[] = '<span class="address-name">' . $address->name . '</span>';
-			( empty( $address->line_1 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_1 . '</span>';
-			( empty( $address->line_2 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_2 . '</span>';
-			( empty( $address->line_3 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_3 . '</span>';
+			$replace[] = empty( $address->name ) ? '' : '<span class="address-name">' . $address->name . '</span>' . PHP_EOL;
+			$replace[] = empty( $address->line_1 ) ? '' : '<span class="street-address notranslate">' . $address->line_1 . '</span>' . PHP_EOL;
+			$replace[] = empty( $address->line_2 ) ? '' : '<span class="street-address notranslate">' . $address->line_2 . '</span>' . PHP_EOL;
+			$replace[] = empty( $address->line_3 ) ? '' : '<span class="street-address notranslate">' . $address->line_3 . '</span>' . PHP_EOL;
 
 			if ( empty( $address->city ) ) {
 
@@ -1159,7 +1159,7 @@ class cnOutput extends cnEntry {
 					$locality = $address->city;
 				}
 
-				$replace[] = '<span class="locality">' . $locality . '</span>';
+				$replace[] = '<span class="locality">' . $locality . '</span>' . PHP_EOL;
 
 			}
 
@@ -1187,7 +1187,7 @@ class cnOutput extends cnEntry {
 					$region = $address->state;
 				}
 
-				$replace[] = '<span class="region">' . $region . '</span>';
+				$replace[] = '<span class="region">' . $region . '</span>' . PHP_EOL;
 
 			}
 
@@ -1215,7 +1215,7 @@ class cnOutput extends cnEntry {
 					$postal = $address->zipcode;
 				}
 
-				$replace[] = '<span class="postal-code">' . $postal . '</span>';
+				$replace[] = '<span class="postal-code">' . $postal . '</span>' . PHP_EOL;
 
 			}
 
@@ -1243,18 +1243,18 @@ class cnOutput extends cnEntry {
 					$country = $address->country;
 				}
 
-				$replace[] = '<span class="country-name">' . $country . '</span>';
+				$replace[] = '<span class="country-name">' . $country . '</span>' . PHP_EOL;
 
 			}
 
 			if ( ! empty( $address->latitude ) || ! empty( $address->longitude ) ) {
 				$replace[] = '<span class="geo">' .
-					( ( empty( $address->latitude ) ) ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . __( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
-					( ( empty( $address->longitude ) ) ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . __( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
-					'</span>';
+					( empty( $address->latitude ) ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . __( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
+					( empty( $address->longitude ) ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . __( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
+					'</span>' . PHP_EOL;
 			}
 
-			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
+			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>' . PHP_EOL;
 
 			$out .= str_ireplace(
 				$search,
@@ -1265,10 +1265,10 @@ class cnOutput extends cnEntry {
 			// Set the hCard Address Type.
 			$out .= $this->gethCardAdrType( $address->type );
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
@@ -1464,12 +1464,12 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $phoneNumbers ) ) return '';
 
-		$out .= '<span class="phone-number-block">';
+		$out .= '<span class="phone-number-block">' . PHP_EOL;
 
 		foreach ( $phoneNumbers as $phone ) {
 			$replace = array();
 
-			$out .= "\n" . '<span class="tel">';
+			$out .= "\t" . '<span class="tel">';
 
 			( empty( $phone->name ) ) ? $replace[] = '' : $replace[] = '<span class="phone-name">' . $phone->name . '</span>';
 
@@ -1496,10 +1496,10 @@ class cnOutput extends cnEntry {
 			// Set the hCard Phone Number Type.
 			$out .= $this->gethCardTelType( $phone->type );
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
@@ -1674,12 +1674,12 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $emailAddresses ) ) return '';
 
-		$out .= '<span class="email-address-block">';
+		$out .= '<span class="email-address-block">' . PHP_EOL;
 
 		foreach ( $emailAddresses as $email ) {
 			$replace = array();
 
-			$out .= "\n" . '<span class="email">';
+			$out .= "\t" . '<span class="email">';
 
 			// Replace the 'Email Tokens' with the email info.
 			$title = str_ireplace( array( '%type%', '%name%' ) , array( $email->type, $email->name ), $title );
@@ -1700,10 +1700,10 @@ class cnOutput extends cnEntry {
 			// Set the hCard Email Address Type.
 			$out .= '<span class="type" style="display: none;">INTERNET</span>';
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
@@ -1775,43 +1775,43 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $networks ) ) return '';
 
-		$out .= '<span class="im-network-block">';
+		$out .= '<span class="im-network-block">' . PHP_EOL;
 
 		foreach ( $networks as $network ) {
 			$replace = array();
 
-			$out .= "\n" . '<span class="im-network">';
+			$out .= "\t" . '<span class="im-network">';
 
 			( empty( $network->name ) ) ? $replace[] = '' : $replace[] = '<span class="im-name">' . $network->name . '</span>';
 
 			switch ( $network->type ) {
-			case 'aim':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" href="aim:goim?screenname=' . $network->id . '">' . $network->id . '</a>';
-				break;
+				case 'aim':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="aim:goim?screenname=' . $network->id . '">' . $network->id . '</a>';
+					break;
 
-			case 'yahoo':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" href="ymsgr:sendIM?' . $network->id . '">' . $network->id . '</a>';
-				break;
+				case 'yahoo':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="ymsgr:sendIM?' . $network->id . '">' . $network->id . '</a>';
+					break;
 
-			case 'jabber':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<span class="im-id">' . $network->id . '</span>';
-				break;
+				case 'jabber':
+					$replace[] = empty( $network->id ) ? '' : '<span class="im-id">' . $network->id . '</span>';
+					break;
 
-			case 'messenger':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" href="msnim:chat?contact=' . $network->id . '">' . $network->id . '</a>';
-				break;
+				case 'messenger':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="msnim:chat?contact=' . $network->id . '">' . $network->id . '</a>';
+					break;
 
-			case 'skype':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" href="skype:' . $network->id . '?chat">' . $network->id . '</a>';
-				break;
+				case 'skype':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="skype:' . $network->id . '?chat">' . $network->id . '</a>';
+					break;
 
-			case 'icq':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" type="application/x-icq" href="http://www.icq.com/people/cmd.php?uin=' . $network->id . '&action=message">' . $network->id . '</a>';
-				break;
+				case 'icq':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" type="application/x-icq" href="http://www.icq.com/people/cmd.php?uin=' . $network->id . '&action=message">' . $network->id . '</a>';
+					break;
 
-			default:
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<span class="im-id">' . $network->id . '</span>';
-				break;
+				default:
+					$replace[] = empty( $network->id ) ? '' : '<span class="im-id">' . $network->id . '</span>';
+					break;
 			}
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
@@ -1822,10 +1822,10 @@ class cnOutput extends cnEntry {
 				empty( $atts['format'] ) ? '%label%%separator% %id%' : $atts['format']
 				);
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
@@ -1929,7 +1929,7 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $networks ) ) return '';
 
-		$out = '<span class="social-media-block">';
+		$out = '<span class="social-media-block">' . PHP_EOL;
 
 		foreach ( $networks as $network ) {
 			$replace = array();
@@ -1942,7 +1942,7 @@ class cnOutput extends cnEntry {
 			$iconClass[] = $iconStyle;
 			$iconClass[] = 'sz-' . $iconSize;
 
-			$out .= '<span class="social-media-network">';
+			$out .= "\t" . '<span class="social-media-network">';
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->name . '</a>';
 
@@ -1958,10 +1958,10 @@ class cnOutput extends cnEntry {
 				empty( $atts['format'] ) ? '%icon%' : $atts['format']
 				);
 
-			$out .= '</span>';
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
@@ -2130,7 +2130,7 @@ class cnOutput extends cnEntry {
 			$rows[] = "\t" . '<span class="link ' . $link->type . '">' . $row . '</span>' . PHP_EOL;
 		}
 
-		$block = '<span class="link-block">' . PHP_EOL . implode( '', $rows ) . '</span>';
+		$block = '<span class="link-block">' . PHP_EOL . implode( '', $rows ) . '</span>' . PHP_EOL;
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
@@ -2205,17 +2205,17 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $dates ) ) return '';
 
-		$out .= '<span class="date-block">';
+		$out = '<span class="date-block">' . PHP_EOL;
 
 		foreach ( $dates as $date ) {
 
 			$replace = array();
 
 			// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
-			// // just incase a user manages to input an incorrect date or date format.
+			// just in case a user manages to input an incorrect date or date format.
 			$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
 
-			$out .= "\n" . '<span class="vevent">';
+			$out .= "\t" . '<span class="vevent">';
 
 			// Hidden elements are to maintain hCalendar spec compatibility
 			$replace[] = ( empty( $date->name ) ) ? '' : '<span class="date-name">' . $date->name . '</span>';
@@ -2229,10 +2229,10 @@ class cnOutput extends cnEntry {
 				empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
 				);
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
@@ -2695,7 +2695,7 @@ class cnOutput extends cnEntry {
 			$metadata
 			);
 
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}
 
 	/**

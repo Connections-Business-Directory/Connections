@@ -2412,6 +2412,8 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getNotesBlock( $atts = array() ) {
+
+		/** @var WP_Embed $wp_embed */
 		global $wp_embed;
 
 		$defaults = array(
@@ -2447,6 +2449,8 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getBioBlock( $atts = array() ) {
+
+		/** @var WP_Embed $wp_embed */
 		global $wp_embed;
 
 		$defaults = array(

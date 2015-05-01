@@ -592,12 +592,12 @@ class cnTemplatePart {
 			$class = apply_filters(
 				'cn_list_row_class',
 				array(
-					$rowClass = $rowClass == 'cn-list-row' ? 'cn-list-row-alternate' : 'cn-list-row',
+					$rowClass = 'cn-list-row' == $rowClass ? 'cn-list-row-alternate' : 'cn-list-row',
 					'vcard',
 					$entry->getEntryType(),
 					$entry->getCategoryClass( TRUE ),
-					)
-				);
+				)
+			);
 
 			$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
 			cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );

@@ -411,9 +411,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '';
-
-		$out .= PHP_EOL . '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
+		$out = '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
 
 			// Display the Results List Actions.
 			if ( ! get_query_var( 'cn-entry-slug' ) ) {
@@ -449,7 +447,7 @@ class cnTemplatePart {
 				$out .= ob_get_clean();
 			}
 
-		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
+		$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}
@@ -474,8 +472,6 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '';
-
 		$class = apply_filters( 'cn_list_body_class', array( 'connections-list', 'cn-list-body', 'cn-clear' ) );
 
 		$class = apply_filters( 'cn_list_body_class-' . $template->getSlug(), $class );
@@ -483,7 +479,7 @@ class cnTemplatePart {
 
 		array_walk( $class, 'esc_attr' );
 
-		$out .= PHP_EOL . '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
+		$out = '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
 
 		ob_start();
 
@@ -671,9 +667,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '';
-
-		$out .= PHP_EOL . '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
+		$out = '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
 
 			ob_start();
 				do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
@@ -741,7 +735,7 @@ class cnTemplatePart {
 
 			if ( strlen( $action ) < 1 ) continue;
 
-			$out .= sprintf( '%1$s<%2$s class="cn-list-action-item">%3$s</%2$s>%4$s',
+			$out .= sprintf( PHP_EOL . "\t" . '%1$s<%2$s class="cn-list-action-item">%3$s</%2$s>%4$s',
 				$atts['before-item'],
 				$atts['item_tag'],
 				$action,
@@ -749,7 +743,7 @@ class cnTemplatePart {
 			 );
 		}
 
-		$out = sprintf( '<%1$s class="cn-list-actions">%2$s</%1$s>',
+		$out = sprintf( '<%1$s class="cn-list-actions">%2$s' . PHP_EOL . '</%1$s>',
 				$atts['container_tag'],
 				$out
 			);
@@ -823,7 +817,7 @@ class cnTemplatePart {
 
 			if ( strlen( $action ) < 1 ) continue;
 
-			$out .= sprintf( '%1$s<%2$s class="cn-entry-action-item">%3$s</%2$s>%4$s',
+			$out .= sprintf( PHP_EOL . "\t" . '%1$s<%2$s class="cn-entry-action-item">%3$s</%2$s>%4$s',
 				empty( $atts['before-item'] ) ? '' : $atts['before-item'],
 				$atts['item_tag'],
 				$action,
@@ -831,7 +825,7 @@ class cnTemplatePart {
 			 );
 		}
 
-		$out = sprintf( '<%1$s id="cn-entry-actions">%2$s</%1$s>',
+		$out = sprintf( '<%1$s id="cn-entry-actions">%2$s' . PHP_EOL . '</%1$s>',
 				$atts['container_tag'],
 				$out
 			);
@@ -1385,7 +1379,7 @@ class cnTemplatePart {
 
 		}
 
-		$out = "\n" . '<div class="cn-alphaindex">' . implode( ' ', $links ). '</div>' . "\n";
+		$out = '<div class="cn-alphaindex">' . implode( ' ', $links ). '</div>' . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}
@@ -1489,7 +1483,7 @@ class cnTemplatePart {
 	 */
 	public static function index( $atts = array() ) {
 
-		$links   = array();
+		$links   = array( PHP_EOL );
 		$current = '';
 		$styles  = '';
 
@@ -1527,7 +1521,7 @@ class cnTemplatePart {
 			// If we're in the admin, add the nonce to the URL to be verified when settings the current user filter.
 			if ( is_admin() ) {
 
-				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . esc_url( $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ), 'filter' ) ) . '">' . $char . '</a> ';
+				$links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . esc_url( $form->tokenURL( add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ), 'filter' ) ) . '">' . $char . '</a> ' . PHP_EOL;
 
 			} else {
 
@@ -1543,14 +1537,12 @@ class cnTemplatePart {
 					)
 				);
 
-				// $links[] = '<a' . ( $current == $char ? ' class="cn-char-current"' : ' class="cn-char"' ) . ' href="' . add_query_arg( array( 'cn-char' => urlencode( $char ) ) /*, $currentPageURL*/ ) . '">' . $char . '</a> ';
-				$links[] = $url;
+				$links[] = $url . PHP_EOL;
 			}
 
 		}
 
-		// $out = '<div class="">' . . '</div>';
-		$out = "\n" . '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . "\n";
+		$out = '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

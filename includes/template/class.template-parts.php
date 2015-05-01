@@ -1101,8 +1101,6 @@ class cnTemplatePart {
 
 		if ( ! empty( $results ) ) return '';
 
-		$out     = '';
-
 		$defaults = array(
 			'tag'     => 'p',
 			'message' => __('No results.', 'connections'),
@@ -1120,7 +1118,7 @@ class cnTemplatePart {
 			$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , $atts['message'] );
 		}
 
-		$out .= sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
+		$out = sprintf('<%1$s class="cn-list-no-results">%2$s</%1$s>',
 				$atts['tag'],
 				$atts['message']
 			);

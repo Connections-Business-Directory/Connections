@@ -1161,31 +1161,31 @@ class cnTemplatePart {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		$data = array(
-			'type'            => $entry->getEntryType(),
-			'id'              => $entry->getId(),
-			'ruid'            => $entry->getRuid(),
-			'slug'            => $entry->getSlug(),
-			'name'            => array(
+			'type'           => $entry->getEntryType(),
+			'id'             => $entry->getId(),
+			'ruid'           => $entry->getRuid(),
+			'slug'           => $entry->getSlug(),
+			'name'           => array(
 				'full'   => $entry->getName( $atts ),
 				'prefix' => $entry->getHonorificPrefix(),
 				'first'  => $entry->getFirstName(),
 				'middle' => $entry->getMiddleName(),
 				'last'   => $entry->getLastName(),
 				'suffix' => $entry->getHonorificSuffix(),
-				),
-			'title'           => $entry->getTitle(),
-			'organization'    => $entry->getOrganization(),
-			'department'      => $entry->getDepartment(),
-			'contact_name'    => array(
-				'full'   => $entry->getContactName(),
-				'first'  => $entry->getContactFirstName(),
-				'last'   => $entry->getContactLastName()
-				),
-			'family_name'     => $entry->getFamilyName(),
-			'family_members'  => $entry->getFamilyMembers(),
-			'categories'      => $entry->getCategory(),
-			'meta'            => $entry->getMeta( $atts ),
-			);
+			),
+			'title'          => $entry->getTitle(),
+			'organization'   => $entry->getOrganization(),
+			'department'     => $entry->getDepartment(),
+			'contact_name'   => array(
+				'full'  => $entry->getContactName(),
+				'first' => $entry->getContactFirstName(),
+				'last'  => $entry->getContactLastName()
+			),
+			'family_name'    => $entry->getFamilyName(),
+			'family_members' => $entry->getFamilyMembers(),
+			'categories'     => $entry->getCategory(),
+			'meta'           => $entry->getMeta( $atts ),
+		);
 
 		if ( $atts['show_addresses'] ) $data['addresses'] = $entry->getAddresses( $atts );
 		if ( $atts['show_phone_numbers'] ) $data['phone_numbers'] = $entry->getPhoneNumbers( $atts );
@@ -1197,10 +1197,11 @@ class cnTemplatePart {
 		if ( $atts['show_bio'] ) $data['bio'] = $entry->getBio();
 		if ( $atts['show_notes'] ) $data['notes'] = $entry->getNotes();
 
-		$out = sprintf('<%1$s class="cn-entry-data-json" data-entry-data-json=\'%2$s\'></%1$s>',
-				$atts['tag'],
-				htmlspecialchars( json_encode( $data ), ENT_QUOTES, 'UTF-8' )
-			);
+		$out = sprintf(
+			'<%1$s class="cn-entry-data-json" data-entry-data-json=\'%2$s\'></%1$s>',
+			$atts['tag'],
+			htmlspecialchars( json_encode( $data ), ENT_QUOTES, 'UTF-8' )
+		);
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

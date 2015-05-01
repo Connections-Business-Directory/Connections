@@ -1523,34 +1523,38 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function gethCardTelType( $data ) {
+
+		$type = '';
+
 		switch ( $data ) {
-		case 'home':
-			$type = '<span class="type" style="display: none;">home</span>';
-			break;
-		case 'homephone':
-			$type = '<span class="type" style="display: none;">home</span>';
-			break;
-		case 'homefax':
-			$type = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
-			break;
-		case 'cell':
-			$type = '<span class="type" style="display: none;">cell</span>';
-			break;
-		case 'cellphone':
-			$type = '<span class="type" style="display: none;">cell</span>';
-			break;
-		case 'work':
-			$type = '<span class="type" style="display: none;">work</span>';
-			break;
-		case 'workphone':
-			$type = '<span class="type" style="display: none;">work</span>';
-			break;
-		case 'workfax':
-			$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
-			break;
-		case 'fax':
-			$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
-			break;
+
+			case 'home':
+				$type = '<span class="type" style="display: none;">home</span>';
+				break;
+			case 'homephone':
+				$type = '<span class="type" style="display: none;">home</span>';
+				break;
+			case 'homefax':
+				$type = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
+				break;
+			case 'cell':
+				$type = '<span class="type" style="display: none;">cell</span>';
+				break;
+			case 'cellphone':
+				$type = '<span class="type" style="display: none;">cell</span>';
+				break;
+			case 'work':
+				$type = '<span class="type" style="display: none;">work</span>';
+				break;
+			case 'workphone':
+				$type = '<span class="type" style="display: none;">work</span>';
+				break;
+			case 'workfax':
+				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
+				break;
+			case 'fax':
+				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
+				break;
 		}
 
 		return $type;

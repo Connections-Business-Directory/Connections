@@ -667,24 +667,24 @@ class cnTemplatePart {
 		$out = '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
 
 			ob_start();
-				do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
-				cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
 
-				do_action( 'cn_action_list_after-' . $template->getSlug(), $atts, $results );
-				cnShortcode::addFilterRegistry( 'cn_action_list_after-' . $template->getSlug() );
+			do_action( 'cn_action_list_both-' . $template->getSlug(), $atts, $results );
+			cnShortcode::addFilterRegistry( 'cn_action_list_both-' . $template->getSlug() );
 
-				do_action( 'cn_action_list_both', $atts, $results );
-				do_action( 'cn_action_list_after', $atts, $results );
+			do_action( 'cn_action_list_after-' . $template->getSlug(), $atts, $results );
+			cnShortcode::addFilterRegistry( 'cn_action_list_after-' . $template->getSlug() );
 
-				// Display the Results List Actions.
-				if ( ! get_query_var( 'cn-entry-slug' ) ) {
+			do_action( 'cn_action_list_both', $atts, $results );
+			do_action( 'cn_action_list_after', $atts, $results );
 
-					// List actions template part.
-					do_action( 'cn_list_actions-after', $atts );
-				}
+			// Display the Results List Actions.
+			if ( ! get_query_var( 'cn-entry-slug' ) ) {
 
-				$out .= ob_get_contents();
-			ob_end_clean();
+				// List actions template part.
+				do_action( 'cn_list_actions-after', $atts );
+			}
+
+			$out .= ob_get_clean();
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
 

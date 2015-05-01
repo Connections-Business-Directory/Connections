@@ -484,11 +484,9 @@ class cnOutput extends cnEntry {
 
 		$out = apply_filters( 'cn_output_image', $out, $atts, $this );
 
-		/*
-		 * Return or echo the string.
-		 */
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -641,8 +639,7 @@ class cnOutput extends cnEntry {
 
 		$html = PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		if ( $atts['return'] ) return $html;
-		echo $html;
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -777,8 +774,7 @@ class cnOutput extends cnEntry {
 			$html = PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 		}
 
-		if ( $atts['return'] ) return $html;
-		echo $html;
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -829,8 +825,9 @@ class cnOutput extends cnEntry {
 			return '';
 		}
 
-		if ( $atts['return'] ) return ( PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . PHP_EOL;
-		echo ( PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -940,8 +937,9 @@ class cnOutput extends cnEntry {
 			return '';
 		}
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1273,8 +1271,9 @@ class cnOutput extends cnEntry {
 		// and there was nothing to replace the token with.
 		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1396,8 +1395,9 @@ class cnOutput extends cnEntry {
 			$out = '<div ' . implode( ' ', $attr ) . '></div>';
 		}
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1502,8 +1502,9 @@ class cnOutput extends cnEntry {
 		// and there was nothing to replace the token with.
 		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1705,8 +1706,9 @@ class cnOutput extends cnEntry {
 		// This filter is required to allow the ROT13 encyption plugin to function.
 		$out = apply_filters( 'cn_output_email_addresses', $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1824,8 +1826,9 @@ class cnOutput extends cnEntry {
 		// and there was nothing to replace the token with.
 		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1958,8 +1961,9 @@ class cnOutput extends cnEntry {
 		// and there was nothing to replace the token with.
 		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2126,8 +2130,7 @@ class cnOutput extends cnEntry {
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		if ( ! $atts['return'] ) echo $html;
-		return $html;
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 
@@ -2229,8 +2232,9 @@ class cnOutput extends cnEntry {
 		// and there was nothing to replace the token with.
 		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2308,8 +2312,9 @@ class cnOutput extends cnEntry {
 		// and there was nothing to replace the token with.
 		$out = preg_replace( '/\s{2,}/', ' ', $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2386,8 +2391,9 @@ class cnOutput extends cnEntry {
 
 		$out .= '</div>';
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2419,8 +2425,9 @@ class cnOutput extends cnEntry {
 
 		$out = do_shortcode( $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2452,8 +2459,9 @@ class cnOutput extends cnEntry {
 
 		$out = do_shortcode( $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2519,9 +2527,7 @@ class cnOutput extends cnEntry {
 
 		if ( ! empty( $atts['after'] ) ) $out .= $atts['after'];
 
-		if ( $atts['return'] ) return $out;
-
-		echo $out;
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2862,8 +2868,9 @@ class cnOutput extends cnEntry {
 			$shortcode_atts
 		);
 
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2884,10 +2891,7 @@ class cnOutput extends cnEntry {
 			$out[] = $category->slug;
 		}
 
-		if ( $return ) return implode( ' ', $out );
-
-		echo implode( ' ', $out );
-
+		return $this->echoOrReturn( $return, implode( ' ', $out ) );
 	}
 
 	/**
@@ -3059,7 +3063,8 @@ class cnOutput extends cnEntry {
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 }

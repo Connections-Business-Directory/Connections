@@ -2324,7 +2324,7 @@ class cnEntryMetabox {
 							$network->id
 						);
 
-						echo '<input type="hidden" name="im[' , $token , '][uid]" value="' , $network->id , '">' , PHP_EOL;
+						echo '<input type="hidden" name="im[' , $token , '][uid]" value="' , $network->uid , '">' , PHP_EOL;
 
 						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="im" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
 
@@ -2516,7 +2516,7 @@ class cnEntryMetabox {
 								'class'    => '',
 								'id'       => 'social[' . $token . '][url]',
 								'required' => FALSE,
-								'label'    => __( 'Social Network', 'connections' ),
+								'label'    => __( 'URL', 'connections' ),
 								'before'   => '',
 								'after'    => '',
 								'return'   => FALSE,

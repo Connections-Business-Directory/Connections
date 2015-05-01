@@ -100,14 +100,14 @@ class cnEntry {
 	/**
 	 * Associative array of addresses
 	 *
-	 * @var array
+	 * @var null|string
 	 */
 	private $addresses;
 
 	/**
 	 * Associative array of phone numbers
 	 *
-	 * @var array
+	 * @var null|string
 	 */
 	private $phoneNumbers;
 
@@ -136,33 +136,33 @@ class cnEntry {
 	/**
 	 * Associative array of instant messengers IDs
 	 *
-	 * @var array
+	 * @var null|string
 	 */
 	private $im;
 
 	/**
-	 * @var array
+	 * @var null|string
 	 */
 	private $socialMedia;
 
 	/**
 	 * Unix time: Birthday.
 	 *
-	 * @var integer unix time
+	 * @var int|string unix time
 	 */
 	private $birthday;
 
 	/**
 	 * Unix time: Anniversary.
 	 *
-	 * @var integer unix time
+	 * @var int|string unix time
 	 */
 	private $anniversary;
 
 	/**
 	 * The date data stored serialized array.
 	 *
-	 * @var array
+	 * @var null|string
 	 *
 	 * @since 0.7.3.0
 	 */
@@ -191,7 +191,7 @@ class cnEntry {
 
 	/**
 	 * @since unknown
-	 * @var array
+	 * @var array|string
 	 */
 	private $options;
 
@@ -233,7 +233,7 @@ class cnEntry {
 
 	/**
 	 * @since unknown
-	 * @var array
+	 * @var array|string
 	 */
 	private $familyMembers;
 
@@ -315,7 +315,7 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param object $entry
+	 * @param mixed object|null $entry
 	 */
 	public function __construct( $entry = NULL ) {
 
@@ -459,14 +459,14 @@ class cnEntry {
 	 * Timestamp format can be sent as a string variable.
 	 * Returns $timeStamp
 	 *
-	 * @param string  $format
+	 * @param mixed string|null  $format
 	 *
 	 * @return string
 	 */
 	public function getFormattedTimeStamp( $format = NULL ) {
 
-		if ( !$format ) {
-			$format = "m/d/Y";
+		if ( is_null( $format ) ) {
+			$format = 'm/d/Y';
 		}
 
 		return date( $format, strtotime( $this->timeStamp ) );
@@ -892,7 +892,7 @@ class cnEntry {
 		);
 
 		return cnFormatting::normalizeString( $name );
-}
+	}
 
 	/**
 	 * Get the name, in format "first middle last".
@@ -1255,13 +1255,15 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
-		$defaults['city'] = NULL;
-		$defaults['state'] = NULL;
-		$defaults['zipcode'] = NULL;
-		$defaults['country'] = NULL;
-		$defaults['coordinates'] = array();
+		$defaults = array(
+			'preferred'   => FALSE,
+			'type'        => NULL,
+			'city'        => NULL,
+			'state'       => NULL,
+			'zipcode'     => NULL,
+			'country'     => NULL,
+			'coordinates' => array(),
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -1463,7 +1465,21 @@ class cnEntry {
 
 		$userPreferred = NULL;
 
-		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'line_1' => NULL, 'line_2' => NULL, 'line_3' => NULL, 'city' => NULL, 'state' => NULL, 'zipcode' => NULL, 'country' => NULL, 'latitude' => NULL, 'longitude' => NULL, 'visibility' => NULL );
+		$validFields = array(
+			'id'         => NULL,
+			'preferred'  => NULL,
+			'type'       => NULL,
+			'line_1'     => NULL,
+			'line_2'     => NULL,
+			'line_3'     => NULL,
+			'city'       => NULL,
+			'state'      => NULL,
+			'zipcode'    => NULL,
+			'country'    => NULL,
+			'latitude'   => NULL,
+			'longitude'  => NULL,
+			'visibility' => NULL
+		);
 
 		if ( ! empty( $addresses ) ) {
 
@@ -1479,7 +1495,7 @@ class cnEntry {
 			foreach ( $addresses as $key => $address ) {
 
 				// Permit only the valid fields.
-				$address = cnSanitize::args( $address, $validFields );
+				$addresses[ $key ] = cnSanitize::args( $address, $validFields );
 
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
@@ -1494,7 +1510,7 @@ class cnEntry {
 				 */
 				if ( $addresses[ $key ]['preferred'] ) $userPreferred = $key;
 
-				$addresses[ $key ] = apply_filters( 'cn_set_address', $address );
+				$addresses[ $key ] = apply_filters( 'cn_set_address', $addresses[ $key ] );
 
 				$order++;
 			}
@@ -1580,9 +1596,11 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
-		$defaults['limit'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+			'limit'     => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -1651,7 +1669,6 @@ class cnEntry {
 					 * // END -- Compatibility for previous versions.
 					 */
 
-
 					/*
 					 * Set the phone name based on the type.
 					 */
@@ -1669,7 +1686,6 @@ class cnEntry {
 					// If the user does not have permission to view the address, do not return it.
 					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
-
 					$results[] = apply_filters( 'cn_phone_number', $row );
 				}
 
@@ -1682,7 +1698,6 @@ class cnEntry {
 			$phoneNumbers = $connections->retrieve->phoneNumbers( $atts );
 
 			if ( empty( $phoneNumbers ) ) return $results;
-
 
 			foreach ( $phoneNumbers as $phone ) {
 				$phone->id = (int) $phone->id;
@@ -1816,7 +1831,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $phoneNumbers ) ) ? $this->phoneNumbers = serialize( $phoneNumbers ) : $this->phoneNumbers = NULL;
+		$this->phoneNumbers = ! empty( $phoneNumbers ) ? serialize( $phoneNumbers ) : NULL;
 	}
 
 	/**
@@ -1858,9 +1873,11 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
-		$defaults['limit'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+			'limit'     => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -1870,7 +1887,7 @@ class cnEntry {
 
 		if ( $cached ) {
 
-			if ( !empty( $this->emailAddresses ) ) {
+			if ( ! empty( $this->emailAddresses ) ) {
 
 				$emailAddresses = unserialize( $this->emailAddresses );
 				if ( empty( $emailAddresses ) ) return $results;
@@ -1957,7 +1974,6 @@ class cnEntry {
 				$email->type = $this->format->sanitizeString( $email->type );
 				$email->address = $this->format->sanitizeString( $email->address );
 				$email->visibility = $this->format->sanitizeString( $email->visibility );
-
 
 				/*
 				 * Set the email name based on the email type.
@@ -2108,15 +2124,16 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
-
 
 		if ( $cached ) {
 
@@ -2207,7 +2224,7 @@ class cnEntry {
 
 		} else {
 
-			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all email addresses will be returned by the query.
+			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
 			$imIDs = $connections->retrieve->imIDs( $atts );
@@ -2350,7 +2367,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $im ) ) ? $this->im = serialize( $im ) : $this->im = NULL;
+		$this->im = ! empty( $im ) ? serialize( $im ) : NULL;
 	}
 
 	/**
@@ -2406,8 +2423,10 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -2553,15 +2572,13 @@ class cnEntry {
 				$network = cnSanitize::args( $network, $validFields );
 
 				// If the URL is empty, no need to save it.
-				if ( empty( $network['url'] ) || $network['url'] == 'http://' ) {
-
+				if ( empty( $network['url'] ) || 'http://' == $network['url'] ) {
 					unset( $socialNetworks[ $key ] );
 					continue;
-
 				}
 
-				// if the http protocol is not part of the url, add it.
-				if ( preg_match( "/https?/" , $network['url'] ) == 0 ) $socialNetworks[ $key ]['url'] = 'http://' . $network['url'];
+				// If the http protocol is not part of the url, add it.
+				$socialNetworks[ $key ]['url'] = cnURL::prefix( $network['url'] );
 
 				// Store the order attribute as supplied in the addresses array.
 				$socialNetworks[ $key ]['order'] = $order;
@@ -2616,8 +2633,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $socialNetworks ) ) ? $this->socialMedia = serialize( $socialNetworks ) : $this->socialMedia = NULL;
-
+		$this->socialMedia = ! empty( $socialNetworks ) ? serialize( $socialNetworks ) : NULL;
 	}
 
 	/**
@@ -2735,7 +2751,6 @@ class cnEntry {
 					 * // END -- Compatibility for previous versions.
 					 */
 
-
 					/*
 					 * Set the dofollow/nofollow string based on the bool value.
 					 */
@@ -2827,7 +2842,9 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
+		$defaults = array(
+			'preferred' => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -2919,7 +2936,7 @@ class cnEntry {
 				$link = cnSanitize::args( $link, $validFields );
 
 				// If the URL is empty, no need to save it.
-				if ( empty( $link['url'] ) || $link['url'] == 'http://' ) {
+				if ( empty( $link['url'] ) || 'http://' == $link['url'] ) {
 					unset( $links[ $key ] );
 					continue;
 				}
@@ -3046,8 +3063,10 @@ class cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = FALSE;
-		$defaults['type'] = NULL;
+		$defaults = array(
+			'preferred' => FALSE,
+			'type'      => NULL,
+		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
@@ -3061,7 +3080,7 @@ class cnEntry {
 		 */
 		if ( ! empty( $this->anniversary ) ) {
 
-			$anniversary =  new stdClass();
+			$anniversary = new stdClass();
 
 			$anniversary->id = 0;
 			$anniversary->order = 0;
@@ -3076,7 +3095,7 @@ class cnEntry {
 		}
 
 		if ( ! empty( $this->birthday ) ) {
-			$birthday =  new stdClass();
+			$birthday = new stdClass();
 
 			$birthday->id = 0;
 			$birthday->order = 0;
@@ -3134,8 +3153,8 @@ class cnEntry {
 					 * will return the year of the next anniversary or birthday. IE: if that date in the current year has already
 					 * passed the year would be the next year.
 					 */
-					if ( ( $row->type == 'anniversary' ) && ( isset( $results['anniversary'] ) ) && ( substr( $row->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
-					if ( ( $row->type == 'birthday' ) && ( isset( $results['birthday'] ) ) && ( substr( $row->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
+					if ( ( 'anniversary' == $row->type ) && ( isset( $results['anniversary'] ) ) && ( substr( $row->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
+					if ( ( 'birthday' == $row->type ) && ( isset( $results['birthday'] ) ) && ( substr( $row->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
 
 					/*
 					 * // START -- Do not return dates that do not match the supplied $atts.
@@ -3191,8 +3210,8 @@ class cnEntry {
 				 * saved in the legacy fields are the same, unset the data imported from the legacy field.
 				 * This is for compatibility with versions 0.7.2.6 and older.
 				 */
-				if ( $date->type == 'anniversary' && isset( $results['anniversary'] ) && $date->date == $results['anniversary']->date ) unset( $results['anniversary'] );
-				if ( $date->type == 'birthday' && isset( $results['birthday'] ) && $date->date == $results['birthday']->date ) unset( $results['birthday'] );
+				if ( 'anniversary' == $date->type && isset( $results['anniversary'] ) && $date->date == $results['anniversary']->date ) unset( $results['anniversary'] );
+				if ( 'birthday' == $date->type && isset( $results['birthday'] ) && $date->date == $results['birthday']->date ) unset( $results['birthday'] );
 
 				/*
 				 * If the date type is anniversary or birthday and the date is equal to the date
@@ -3203,8 +3222,8 @@ class cnEntry {
 				 * will return the year of the next anniversary or birthday. IE: if that date in the current year has already
 				 * passed the year would be the next year.
 				 */
-				if ( ( $date->type == 'anniversary' ) && ( isset( $results['anniversary'] ) ) && ( substr( $date->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
-				if ( ( $date->type == 'birthday' ) && ( isset( $results['birthday'] ) ) && ( substr( $date->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
+				if ( ( 'anniversary' == $date->type ) && ( isset( $results['anniversary'] ) ) && ( substr( $date->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
+				if ( ( 'birthday' == $date->type ) && ( isset( $results['birthday'] ) ) && ( substr( $date->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
 
 				$results[] = apply_filters( 'cn_date', $date );
 			}
@@ -3245,7 +3264,7 @@ class cnEntry {
 
 		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'date' => NULL, 'visibility' => NULL );
 
-		if ( !empty( $dates ) ) {
+		if ( ! empty( $dates ) ) {
 
 			$order = 0;
 			$preferred = '';
@@ -3288,7 +3307,7 @@ class cnEntry {
 				/*
 				 * Make sure the date object created correctly.
 				 */
-				if ( $currentDate === FALSE ) continue;
+				if ( FALSE === $currentDate ) continue;
 
 				$dates[ $key ]['date'] = date_format( $currentDate, 'Y-m-d' );
 
@@ -3364,7 +3383,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $dates ) ) ? $this->dates = serialize( $dates ) : $this->dates = NULL;
+		$this->dates = ! empty( $dates ) ? serialize( $dates ) : NULL;
 	}
 
 	/**
@@ -3662,7 +3681,7 @@ class cnEntry {
 	 */
 	public function getEntryType() {
 		// This is to provide compatibility for versions >= 0.7.0.4
-		if ( $this->entryType == 'connection_group' ) $this->entryType = 'family';
+		if ( 'connection_group' == $this->entryType ) $this->entryType = 'family';
 
 		return $this->entryType;
 	}
@@ -3757,7 +3776,7 @@ class cnEntry {
 	/**
 	 * Returns $imageDisplay.
 	 *
-	 * @see entry::$imageDisplay
+	 * @return bool
 	 */
 	public function getImageDisplay() {
 		return $this->options['image']['display'];
@@ -3973,10 +3992,9 @@ class cnEntry {
 	 */
 	public function getOriginalImageURL( $type ) {
 
-		if ( empty( $type ) ) return '';
+		$url = '';
 
-		// Get the core WP uploads info.
-		// $uploadInfo = wp_upload_dir();
+		if ( empty( $type ) ) return '';
 
 		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
 		$slug = rawurldecode( $this->getSlug() );
@@ -3985,20 +4003,16 @@ class cnEntry {
 
 			case 'logo':
 
-				return CN_IMAGE_BASE_URL . $slug . '/' . $this->getLogoName();
+				$url = CN_IMAGE_BASE_URL . $slug . '/' . $this->getLogoName();
 				break;
 
 			case 'photo':
 
-				return CN_IMAGE_BASE_URL . $slug . '/' . $this->getImageNameOriginal();
-				break;
-
-			default:
-
-				return '';
+				$url = CN_IMAGE_BASE_URL . $slug . '/' . $this->getImageNameOriginal();
 				break;
 		}
 
+		return $url;
 	}
 
 	/**
@@ -4066,7 +4080,7 @@ class cnEntry {
 		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
 		$slug = rawurldecode( $this->getSlug() );
 
-		if ( $atts['size'] == 'custom' ) {
+		if ( 'custom' == $atts['size'] ) {
 
 			$meta = cnImage::get(
 				$this->getOriginalImageURL( $atts['type'] ),
@@ -4076,9 +4090,9 @@ class cnEntry {
 					'height'    => empty( $atts['height'] ) ? NULL : $atts['height'],
 					'quality'   => $atts['quality'],
 					'sub_dir'   => $slug,
-					),
+				),
 				'data'
-				);
+			);
 
 			if ( ! is_wp_error( $meta ) ) {
 
@@ -4112,7 +4126,6 @@ class cnEntry {
 
 						} else {
 
-
 							/** @noinspection PhpUsageOfSilenceOperatorInspection */
 							if ( is_file( $meta['path'] ) && $image = @getimagesize( $meta['path'] ) ) {
 
@@ -4142,9 +4155,9 @@ class cnEntry {
 								'height'    => cnSettingsAPI::get( 'connections', 'image_logo', 'height' ),
 								'quality'   => cnSettingsAPI::get( 'connections', 'image_logo', 'quality' ),
 								'sub_dir'   => $slug,
-								),
+							),
 							'data'
-							);
+						);
 
 						if ( ! is_wp_error( $meta ) ) {
 
@@ -4211,9 +4224,9 @@ class cnEntry {
 									'height'    => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'height' ),
 									'quality'   => cnSettingsAPI::get( 'connections', "image_{$atts['size']}", 'quality' ),
 									'sub_dir'   => $slug,
-									),
+								),
 								'data'
-								);
+							);
 
 							if ( ! is_wp_error( $meta ) ) {
 
@@ -4251,7 +4264,7 @@ class cnEntry {
 	 * @uses   trailingslashit()
 	 * @param  string $filename The original image file name.
 	 *
-	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
+	 * @return mixed            bool|WP_Error TRUE on success, an instance of WP_Error on failure.
 	 */
 	protected function processLegacyImages( $filename ) {
 		global $blog_id;
@@ -4298,7 +4311,7 @@ class cnEntry {
 		if ( is_file( $legacyPath . $filename ) ) {
 
 			// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
-			$compatiblityDate = mktime( 0, 0, 0, 6, 1, 2010 );
+			$compatibilityDate = mktime( 0, 0, 0, 6, 1, 2010 );
 
 			// Build path to the original file.
 			$original = $legacyPath . $filename;
@@ -4311,7 +4324,7 @@ class cnEntry {
 
 				// Copy or move the original image.
 				/** @noinspection PhpUsageOfSilenceOperatorInspection */
-				if ( $compatiblityDate < @filemtime( $legacyPath . $filename ) ) {
+				if ( $compatibilityDate < @filemtime( $legacyPath . $filename ) ) {
 
 					/** @noinspection PhpUsageOfSilenceOperatorInspection */
 					$result = @rename( $original, $path . $filename );
@@ -4323,7 +4336,7 @@ class cnEntry {
 				}
 
 				// Delete any of the legacy size variations if the copy/move was successful.
-				if ( $result === TRUE ) {
+				if ( TRUE === $result ) {
 
 					// NOTE: This is a little greedy as it will also delete any variations of any duplicate images used by other entries.
 					// This should be alright because we will not need those variations anyway since they will be made from the original using cnImage.
@@ -4337,7 +4350,7 @@ class cnEntry {
 						)
 					);
 
-					foreach( $filesFiltered as $file ) {
+					foreach ( $filesFiltered as $file ) {
 
 						if ( $file->isDot() ) { continue; }
 
@@ -4374,7 +4387,7 @@ class cnEntry {
 	 * @uses   trailingslashit()
 	 * @param  string $filename The original logo file name.
 	 *
-	 * @return mixed            bool | object TRUE on success, an instance of WP_Error on failure.
+	 * @return mixed            bool|WP_Error TRUE on success, an instance of WP_Error on failure.
 	 */
 	protected function processLegacyLogo( $filename ) {
 		global $blog_id;
@@ -4414,9 +4427,6 @@ class cnEntry {
 			// Build path to the original file.
 			$original = $legacyPath . $filename;
 
-			// Get original file info.
-			$info = pathinfo( $original );
-
 			// Ensure the destination directory exists.
 			if ( cnFileSystem::mkdir( $path ) ) {
 
@@ -4433,7 +4443,7 @@ class cnEntry {
 					$result = @copy( $original, $path . $filename );
 				}
 
-				if ( $result === TRUE ) return TRUE;
+				if ( TRUE === $result ) return TRUE;
 			}
 
 		}
@@ -4563,31 +4573,14 @@ class cnEntry {
 	}
 
 	/**
-	 * Update the entry in the db.
+	 * Ensure fields that should be empty depending on the entry type.
 	 *
-	 * @access public
-	 * @since  unknown
-	 *
-	 * @return false|int
+	 * @access private
+	 * @since  8.2.6
 	 */
-	public function update() {
+	private function setPropertyDefaultsByEntryType() {
 
-		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb            $wpdb
-		 */
-		global $wpdb, $connections;
-
-		$this->serializeOptions();
-
-		// Ensure fields that should be empty depending on the entry type.
 		switch ( $this->getEntryType() ) {
-			case 'individual':
-				$this->familyName       = '';
-				$this->familyMembers    = '';
-				$this->contactFirstName = '';
-				$this->contactLastName  = '';
-				break;
 
 			case 'organization':
 				$this->familyName      = '';
@@ -4616,79 +4609,106 @@ class cnEntry {
 				break;
 
 			default:
-				$this->entryType  = 'individual';
-				$this->familyName = '';
+				$this->familyName       = '';
+				$this->familyMembers    = '';
+				$this->contactFirstName = '';
+				$this->contactLastName  = '';
 				break;
 		}
+	}
+
+	/**
+	 * Update the entry in the db.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return false|int
+	 */
+	public function update() {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		$this->serializeOptions();
+		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_update-entry', $this );
 
-		$wpdb->show_errors = true;
-
-		$result = $wpdb->query( $wpdb->prepare(
-			'UPDATE ' . CN_ENTRY_TABLE . ' SET
-			ts                 = %s,
-			entry_type         = %s,
-			visibility         = %s,
-			slug               = %s,
-			honorific_prefix   = %s,
-			first_name         = %s,
-			middle_name        = %s,
-			last_name          = %s,
-			honorific_suffix   = %s,
-			title              = %s,
-			organization       = %s,
-			department         = %s,
-			contact_first_name = %s,
-			contact_last_name  = %s,
-			family_name        = %s,
-			birthday           = %s,
-			anniversary        = %s,
-			addresses          = %s,
-			phone_numbers      = %s,
-			email              = %s,
-			im                 = %s,
-			social             = %s,
-			links              = %s,
-			dates              = %s,
-			options            = %s,
-			bio                = %s,
-			notes              = %s,
-			edited_by          = %d,
-			user               = %d,
-			status             = %s
-			WHERE id           = %d',
-			current_time( 'mysql' ),
-			$this->entryType,
-			$this->getVisibility(),
-			$this->getSlug(),
-			$this->honorificPrefix,
-			$this->firstName,
-			$this->middleName,
-			$this->lastName,
-			$this->honorificSuffix,
-			$this->title,
-			$this->organization,
-			$this->department,
-			$this->contactFirstName,
-			$this->contactLastName,
-			$this->familyName,
-			$this->birthday,
-			$this->anniversary,
-			$this->addresses,
-			$this->phoneNumbers,
-			$this->emailAddresses,
-			$this->im,
-			$this->socialMedia,
-			$this->links,
-			$this->dates,
-			$this->options,
-			$this->bio,
-			$this->notes,
-			$connections->currentUser->getID(),
-			$this->getUser(),
-			$this->status,
-			$this->id
+		$result = $wpdb->update(
+			CN_ENTRY_TABLE,
+			array(
+				'ts'                 => current_time( 'mysql' ),
+				'entry_type'         => $this->entryType,
+				'visibility'         => $this->getVisibility(),
+				'slug'               => $this->getSlug(),
+				'honorific_prefix'   => $this->honorificPrefix,
+				'first_name'         => $this->firstName,
+				'middle_name'        => $this->middleName,
+				'last_name'          => $this->lastName,
+				'honorific_suffix'   => $this->honorificSuffix,
+				'title'              => $this->title,
+				'organization'       => $this->organization,
+				'department'         => $this->department,
+				'contact_first_name' => $this->contactFirstName,
+				'contact_last_name'  => $this->contactLastName,
+				'family_name'        => $this->familyName,
+				'birthday'           => $this->birthday,
+				'anniversary'        => $this->anniversary,
+				'addresses'          => $this->addresses,
+				'phone_numbers'      => $this->phoneNumbers,
+				'email'              => $this->emailAddresses,
+				'im'                 => $this->im,
+				'social'             => $this->socialMedia,
+				'links'              => $this->links,
+				'dates'              => $this->dates,
+				'options'            => $this->options,
+				'bio'                => $this->bio,
+				'notes'              => $this->notes,
+				'edited_by'          => $instance->currentUser->getID(),
+				'user'               => $this->getUser(),
+				'status'             => $this->status,
+			),
+			array(
+				'id' => $this->id
+			),
+			array(
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%d',
+				'%d',
+				'%s',
+			),
+			array(
+				'%d'
 			)
 		);
 
@@ -4697,544 +4717,129 @@ class cnEntry {
 		/*
 		 * Only update the rest of the entry's data if the update to the ENTRY TABLE was successful.
 		 */
-		if ( $result !== FALSE ) {
+		if ( FALSE !== $result ) {
 
-			$where[] = 'WHERE 1=1';
+			require_once CN_PATH . 'includes/entry/class.entry-db.php';
+			$cnDb = new cnEntry_DB( $this->getId() );
 
-			/*
-			 * Retrieve entry details from the object caches
-			 */
-			$addresses = $this->getAddresses( array(), TRUE, TRUE );
-			$phoneNumbers = $this->getPhoneNumbers( array(), TRUE, TRUE );
-			$emailAddresses = $this->getEmailAddresses( array(), TRUE, TRUE );
-			$imIDs = $this->getIm( array(), TRUE, TRUE );
-			$socialNetworks = $this->getSocialMedia( array(), TRUE, TRUE );
-			$links = $this->getLinks( array(), TRUE, TRUE );
-			$dates = $this->getDates( array(), TRUE, TRUE );
+			$cnDb->upsert(
+				CN_ENTRY_ADDRESS_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
+					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
+					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
+					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
+					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
+					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
+					'country'    => array( 'key' => 'country' , 'format' => '%s' ),
+					'latitude'   => array( 'key' => 'latitude' , 'format' => '%f' ),
+					'longitude'  => array( 'key' => 'longitude' , 'format' => '%f' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getAddresses( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-			/*
-			 * Create a sql segment for the entry ID that can be used in the queries.
-			 */
-			$where[] = 'AND `entry_id` = "' . $this->getId() . '"';
+			$cnDb->upsert(
+				CN_ENTRY_PHONE_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'number'     => array( 'key' => 'number' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getPhoneNumbers( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-			/*
-			 * Create an array to store the which records by visibility the user can edit.
-			 * This is done to avoid removing or editing any records the user isn't permitted access.
-			 */
-			$notPermitted = array();
-			if ( ! current_user_can( 'connections_view_public' ) ) $notPermitted[] = 'public';
-			if ( ! current_user_can( 'connections_view_private' ) ) $notPermitted[] = 'private';
-			if ( ! current_user_can( 'connections_view_unlisted' ) ) $notPermitted[] = 'unlisted';
+			$cnDb->upsert(
+				CN_ENTRY_EMAIL_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'address'    => array( 'key' => 'address' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getEmailAddresses( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-			/*
-			 * Create a sql segment for the visibility that can be used in the queries.
-			 */
-			$where['visibility'] = ! empty( $notPermitted ) ? 'AND `visibility` NOT IN (\'' . implode( "', '", $notPermitted ) . '\')' : '';
+			$cnDb->upsert(
+				CN_ENTRY_MESSENGER_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'uid'        => array( 'key' => 'id' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getIm( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'uid', 'format' => '%d' )
+				)
+			);
 
-			/*
-			 * Update and add addresses as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
+			$cnDb->upsert(
+				CN_ENTRY_SOCIAL_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getSocialMedia( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-			if ( ! empty( $addresses ) ) {
-				foreach ( $addresses as $address ) {
-					/*
-					 * If the $address->id is set, this address is already in the db so it will be updated.
-					 * If the $address->id was not set, the add the address to the db.
-					 */
-					if ( isset( $address->id ) && ! empty( $address->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_ADDRESS_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`line_1`			= %s,
-													`line_2`			= %s,
-													`line_3`			= %s,
-													`city`				= %s,
-													`state`				= %s,
-													`zipcode`			= %s,
-													`country`			= %s,
-													`latitude`			= %f,
-													`longitude`			= %f,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$address->order,
-								$address->preferred,
-								$address->type,
-								$address->line_1,
-								$address->line_2,
-								$address->line_3,
-								$address->city,
-								$address->state,
-								$address->zipcode,
-								$address->country,
-								$address->latitude,
-								$address->longitude,
-								$address->visibility,
-								$address->id ) );
+			$cnDb->upsert(
+				CN_ENTRY_LINK_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'title'      => array( 'key' => 'title' , 'format' => '%s' ),
+					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
+					'target'     => array( 'key' => 'target' , 'format' => '%s' ),
+					'follow'     => array( 'key' => 'follow' , 'format' => '%d' ),
+					'image'      => array( 'key' => 'image' , 'format' => '%d' ),
+					'logo'       => array( 'key' => 'logo' , 'format' => '%d' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getLinks( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 
-						// Save the address IDs that have been updated
-						$keepIDs[] = $address->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`line_1`			= %s,
-														`line_2`			= %s,
-														`line_3`			= %s,
-														`city`				= %s,
-														`state`				= %s,
-														`zipcode`			= %s,
-														`country`			= %s,
-														`latitude`			= %f,
-														`longitude`			= %f,
-														`visibility`		= %s',
-								$this->getId(),
-								$address->order,
-								$address->preferred,
-								$address->type,
-								$address->line_1,
-								$address->line_2,
-								$address->line_3,
-								$address->city,
-								$address->state,
-								$address->zipcode,
-								$address->country,
-								$address->latitude,
-								$address->longitude,
-								$address->visibility ) );
-
-						// Save the address IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the address IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			//( ! empty($keepIDs) ) ? $IDs = '\'' . implode("', '", (array) $keepIDs) . '\'' : $IDs = '';
-			if ( ! empty( $keepIDs ) ) $where['addresses'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			/*if ( ! empty($IDs) )
-			{
-				$sql = 'SELECT * FROM `' . CN_ENTRY_ADDRESS_TABLE . '` WHERE `entry_id` = "' . $this->getId() . '" AND `id` NOT IN ( ' . $IDs . ' ) ' . $sqlVisibility;
-
-				$results = $wpdb->get_col( $sql );
-
-				if ( ! empty($results) ) $wpdb->query( 'DELETE FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE `id` IN (\'' . implode("', '", (array) $results) . '\')' );
-			}*/
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_ADDRESS_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['addresses'] ) ) unset( $where['addresses'] );
-
-
-			/*
-			 * Update and add the phone numbers as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $phoneNumbers ) ) {
-				foreach ( $phoneNumbers as $phone ) {
-					/*
-					 * If the $phone->id is set, this phone number is already in the db so it will be updated.
-					 * If the $phone->id was not set, the add the phone number to the db.
-					 */
-					if ( isset( $phone->id ) && ! empty( $phone->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_PHONE_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`number`			= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$phone->order,
-								$phone->preferred,
-								$phone->type,
-								$phone->number,
-								$phone->visibility,
-								$phone->id ) );
-
-						// Save the phone number IDs that have been updated
-						$keepIDs[] = $phone->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`number`			= %s,
-														`visibility`		= %s',
-								$this->getId(),
-								$phone->order,
-								$phone->preferred,
-								$phone->type,
-								$phone->number,
-								$phone->visibility ) );
-
-						// Save the phone number IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the phone numbers that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['phone'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_PHONE_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['phone'] ) ) unset( $where['phone'] );
-
-
-			/*
-			 * Update and add the email addresses as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $emailAddresses ) ) {
-				foreach ( $emailAddresses as $email ) {
-					/*
-					 * If the $email->id is set, this email address is already in the db so it will be updated.
-					 * If the $email->id was not set, the add the email address to the db.
-					 */
-					if ( isset( $email->id ) && ! empty( $email->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_EMAIL_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`address`			= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$email->order,
-								$email->preferred,
-								$email->type,
-								$email->address,
-								$email->visibility,
-								$email->id ) );
-
-						// Save the email address IDs that have been updated
-						$keepIDs[] = $email->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`address`			= %s,
-														`visibility`		= %s',
-								$this->getId(),
-								$email->order,
-								$email->preferred,
-								$email->type,
-								$email->address,
-								$email->visibility ) );
-
-						// Save the email address IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the social network IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['email'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_EMAIL_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['email'] ) ) unset( $where['email'] );
-
-
-			/*
-			 * Update and add the IMs as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $imIDs ) ) {
-				foreach ( $imIDs as $network ) {
-					/*
-					 * If the $network->id is set, this IM ID is already in the db so it will be updated.
-					 * If the $network->id was not set, the add the IM ID to the db.
-					 */
-					if ( isset( $network->uid ) && ! empty( $network->uid ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_MESSENGER_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`uid`				= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$network->order,
-								$network->preferred,
-								$network->type,
-								$network->id,
-								$network->visibility,
-								$network->uid ) );
-
-						// Save the IM IDs that have been updated
-						$keepIDs[] = $network->uid;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`uid`				= %s,
-														`visibility`		= %s',
-								$this->getId(),
-								$network->order,
-								$network->preferred,
-								$network->type,
-								$network->id,
-								$network->visibility ) );
-
-						// Save the IM IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the IM network IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['im'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_MESSENGER_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['im'] ) ) unset( $where['im'] );
-
-
-			/*
-			 * Update and add the social networks as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $socialNetworks ) ) {
-				foreach ( $socialNetworks as $network ) {
-					/*
-					 * If the $network->id is set, this IM ID is already in the db so it will be updated.
-					 * If the $network->id was not set, the add the social network to the db.
-					 */
-					if ( isset( $network->id ) && ! empty( $network->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_SOCIAL_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`url`				= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$network->order,
-								$network->preferred,
-								$network->type,
-								$network->url,
-								$network->visibility,
-								$network->id ) );
-
-						// Save the social networks IDs that have been updated
-						$keepIDs[] = $network->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
-														`entry_id`			= "%d",
-														`order`				= "%d",
-														`preferred`			= "%d",
-														`type`				= "%s",
-														`url`				= "%s",
-														`visibility`		= "%s"',
-								$this->getId(),
-								$network->order,
-								$network->preferred,
-								$network->type,
-								$network->url,
-								$network->visibility ) );
-
-						// Save the social networks IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the social network IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['social'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_SOCIAL_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['social'] ) ) unset( $where['social'] );
-
-
-			/*
-			 * Update and add the links as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $links ) ) {
-				foreach ( $links as $link ) {
-					/*
-					 * If the $link->id is set, this link ID is already in the db so it will be updated.
-					 * If the $link->id was not set, the add the link to the db.
-					 */
-					if ( isset( $link->id ) && ! empty( $link->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_LINK_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`title`				= %s,
-													`url`				= %s,
-													`target`			= %s,
-													`follow`			= %d,
-													`image`				= %d,
-													`logo`				= %d,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$link->order,
-								$link->preferred,
-								$link->type,
-								$link->title,
-								$link->url,
-								$link->target,
-								(int) $link->follow,
-								(int) $link->image,
-								(int) $link->logo,
-								$link->visibility,
-								$link->id ) );
-
-						// Save the links IDs that have been updated
-						$keepIDs[] = $link->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`title`				= %s,
-														`url`				= %s,
-														`target`			= %s,
-														`follow`			= %d,
-														`image`				= %d,
-														`logo`				= %d,
-														`visibility`		= %s',
-								$this->getId(),
-								$link->order,
-								$link->preferred,
-								$link->type,
-								$link->title,
-								$link->url,
-								$link->target,
-								(int) $link->follow,
-								(int) $link->image,
-								(int) $link->logo,
-								$link->visibility ) );
-
-						// Save the link IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the link IDs that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['links'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_LINK_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['links'] ) ) unset( $where['links'] );
-
-
-			/*
-			 * Update and add the dates as necessary and removing the rest unless the current user does not have permission to view/edit.
-			 */
-			$keepIDs = array();
-
-			if ( ! empty( $dates ) ) {
-				foreach ( $dates as $date ) {
-					/*
-					 * If the $date->id is set, this date is already in the db so it will be updated.
-					 * If the $date->id was not set, the add the date to the db.
-					 */
-					if ( isset( $date->id ) && ! empty( $date->id ) ) {
-						$wpdb->query( $wpdb->prepare( 'UPDATE ' . CN_ENTRY_DATE_TABLE . ' SET
-													`entry_id`			= %d,
-													`order`				= %d,
-													`preferred`			= %d,
-													`type`				= %s,
-													`date`				= %s,
-													`visibility`		= %s
-													WHERE `id` 			= %d',
-								$this->getId(),
-								$date->order,
-								$date->preferred,
-								$date->type,
-								$date->date,
-								$date->visibility,
-								$date->id ) );
-
-						// Save the date IDs that have been updated
-						$keepIDs[] = $date->id;
-
-					}
-					else {
-						$wpdb->query( $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_DATE_TABLE . ' SET
-														`entry_id`			= %d,
-														`order`				= %d,
-														`preferred`			= %d,
-														`type`				= %s,
-														`date`				= %s,
-														`visibility`		= %s',
-								$this->getId(),
-								$date->order,
-								$date->preferred,
-								$date->type,
-								$date->date,
-								$date->visibility ) );
-
-						// Save the date IDs that have been added
-						$keepIDs[] = $wpdb->insert_id;
-					}
-				}
-			}
-
-			/*
-			 * Now delete all the dates that have not been added/updated and
-			 * make sure not to delete the entries that the user does not have permission to view/edit.
-			 */
-			if ( ! empty( $keepIDs ) ) $where['date'] = 'AND `id` NOT IN (\'' . implode( '\', \'', (array) $keepIDs ) . '\')';
-
-			$wpdb->query( 'DELETE FROM `' . CN_ENTRY_DATE_TABLE . '` ' . implode( ' ', $where ) );
-			if ( isset( $where['date'] ) ) unset( $where['date'] );
+			$cnDb->upsert(
+				CN_ENTRY_DATE_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'date'       => array( 'key' => 'date' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getDates( array(), TRUE, TRUE ),
+				array(
+					'id' => array( 'key' => 'id', 'format' => '%d' )
+				)
+			);
 		}
-
-		$wpdb->show_errors = FALSE;
 
 		do_action( 'cn_updated-entry', $this );
 
@@ -5258,301 +4863,195 @@ class cnEntry {
 		global $wpdb, $connections;
 
 		$this->serializeOptions();
-
-		// Ensure fields that should be empty depending on the entry type.
-		switch ( $this->getEntryType() ) {
-			case 'individual':
-				$this->familyName    = '';
-				$this->familyMembers = '';
-				break;
-
-			case 'organization':
-				$this->familyName      = '';
-				$this->honorificPrefix = '';
-				$this->firstName       = '';
-				$this->middleName      = '';
-				$this->lastName        = '';
-				$this->honorificSuffix = '';
-				$this->title           = '';
-				$this->familyMembers   = '';
-				$this->birthday        = '';
-				$this->anniversary     = '';
-				break;
-
-			case 'family':
-				$this->honorificPrefix = '';
-				$this->firstName       = '';
-				$this->middleName      = '';
-				$this->lastName        = '';
-				$this->honorificSuffix = '';
-				$this->title           = '';
-				$this->birthday        = '';
-				$this->anniversary     = '';
-				break;
-
-			default:
-				$this->entryType  = 'individual';
-				$this->familyName = '';
-				break;
-		}
+		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_save-entry', $this );
 
-		$wpdb->show_errors = true;
-
-		$sql = $wpdb->prepare(
-			'INSERT INTO ' . CN_ENTRY_TABLE . ' SET
-			ts                 = %s,
-			date_added         = %d,
-			entry_type         = %s,
-			visibility         = %s,
-			slug               = %s,
-			family_name        = %s,
-			honorific_prefix   = %s,
-			first_name         = %s,
-			middle_name        = %s,
-			last_name          = %s,
-			honorific_suffix   = %s,
-			title              = %s,
-			organization       = %s,
-			department         = %s,
-			contact_first_name = %s,
-			contact_last_name  = %s,
-			addresses          = %s,
-			phone_numbers      = %s,
-			email              = %s,
-			im                 = %s,
-			social             = %s,
-			links              = %s,
-			dates              = %s,
-			birthday           = %s,
-			anniversary        = %s,
-			bio                = %s,
-			notes              = %s,
-			options            = %s,
-			added_by           = %d,
-			edited_by          = %d,
-			owner              = %d,
-			user               = %d,
-			status             = %s',
-			current_time( 'mysql' ),
-			current_time( 'timestamp' ),
-			$this->entryType,
-			$this->getVisibility(),
-			$this->getSlug(), /* NOTE: When adding a new entry, a new unique slug should always be created and set. */
-			$this->familyName,
-			$this->honorificPrefix,
-			$this->firstName,
-			$this->middleName,
-			$this->lastName,
-			$this->honorificSuffix,
-			$this->title,
-			$this->organization,
-			$this->department,
-			$this->contactFirstName,
-			$this->contactLastName,
-			$this->addresses,
-			$this->phoneNumbers,
-			$this->emailAddresses,
-			$this->im,
-			$this->socialMedia,
-			$this->links,
-			$this->dates,
-			$this->birthday,
-			$this->anniversary,
-			$this->bio,
-			$this->notes,
-			$this->options,
-			$connections->currentUser->getID(),
-			$connections->currentUser->getID(),
-			$connections->currentUser->getID(),
-			$this->getUser(),
-			$this->status
+		$result = $wpdb->insert(
+			CN_ENTRY_TABLE,
+			array(
+				'ts'                 => current_time( 'mysql' ),
+				'date_added'         => current_time( 'timestamp' ),
+				'entry_type'         => $this->entryType,
+				'visibility'         => $this->getVisibility(),
+				'slug'               => $this->getSlug(), /* NOTE: When adding a new entry, a new unique slug should always be created and set. */
+				'family_name'        => $this->familyName,
+				'honorific_prefix'   => $this->honorificPrefix,
+				'first_name'         => $this->firstName,
+				'middle_name'        => $this->middleName,
+				'last_name'          => $this->lastName,
+				'honorific_suffix'   => $this->honorificSuffix,
+				'title'              => $this->title,
+				'organization'       => $this->organization,
+				'department'         => $this->department,
+				'contact_first_name' => $this->contactFirstName,
+				'contact_last_name'  => $this->contactLastName,
+				'addresses'          => $this->addresses,
+				'phone_numbers'      => $this->phoneNumbers,
+				'email'              => $this->emailAddresses,
+				'im'                 => $this->im,
+				'social'             => $this->socialMedia,
+				'links'              => $this->links,
+				'dates'              => $this->dates,
+				'birthday'           => $this->birthday,
+				'anniversary'        => $this->anniversary,
+				'bio'                => $this->bio,
+				'notes'              => $this->notes,
+				'options'            => $this->options,
+				'added_by'           => $connections->currentUser->getID(),
+				'edited_by'          => $connections->currentUser->getID(),
+				'owner'              => $connections->currentUser->getID(),
+				'user'               => $this->getUser(),
+				'status'             => $this->status
+			),
+			array(
+				'%s',
+				'%d',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%d',
+				'%d',
+				'%d',
+				'%d',
+				'%s'
+			)
 		);
 
-		$result = $wpdb->query( $sql );
-
+		/**
+		 * @todo Are these really needed? If they are, this should be refactored to remove their usage.
+		 */
 		$connections->lastQuery = $wpdb->last_query;
 		$connections->lastQueryError = $wpdb->last_error;
 		$connections->lastInsertID = $wpdb->insert_id;
 
-		if ( $result !== FALSE ) {
-			$addresses = $this->getAddresses( array(), TRUE, TRUE );
-			$phoneNumbers = $this->getPhoneNumbers( array(), TRUE, TRUE );
-			$emailAddresses = $this->getEmailAddresses( array(), TRUE, TRUE );
-			$imIDs = $this->getIm( array(), TRUE, TRUE );
-			$socialNetworks = $this->getSocialMedia( array(), TRUE, TRUE );
-			$links = $this->getLinks( array(), TRUE, TRUE );
-			$dates = $this->getDates( array(), TRUE, TRUE );
+		if ( FALSE !== $result ) {
 
-			if ( ! empty( $addresses ) ) {
-				foreach ( $addresses as $address ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_ADDRESS_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`line_1`			= %s,
-											`line_2`			= %s,
-											`line_3`			= %s,
-											`city`				= %s,
-											`state`				= %s,
-											`zipcode`			= %s,
-											`country`			= %s,
-											`latitude`			= %f,
-											`longitude`			= %f,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$address->order,
-						$address->preferred,
-						$address->type,
-						$address->line_1,
-						$address->line_2,
-						$address->line_3,
-						$address->city,
-						$address->state,
-						$address->zipcode,
-						$address->country,
-						$address->latitude,
-						$address->longitude,
-						$address->visibility );
+			$this->setId( $wpdb->insert_id );
 
-					$wpdb->query( $sql );
-				}
-			}
+			require_once CN_PATH . 'includes/entry/class.entry-db.php';
+			$cnDb = new cnEntry_DB( $this->getId() );
 
-			if ( ! empty( $phoneNumbers ) ) {
-				foreach ( $phoneNumbers as $phone ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_PHONE_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`number`			= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$phone->order,
-						$phone->preferred,
-						$phone->type,
-						$phone->number,
-						$phone->visibility );
+			$cnDb->insert(
+				CN_ENTRY_ADDRESS_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
+					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
+					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
+					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
+					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
+					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
+					'country'    => array( 'key' => 'country' , 'format' => '%s' ),
+					'latitude'   => array( 'key' => 'latitude' , 'format' => '%f' ),
+					'longitude'  => array( 'key' => 'longitude' , 'format' => '%f' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getAddresses( array(), TRUE, TRUE )
+			);
 
-					$wpdb->query( $sql );
-				}
-			}
+			$cnDb->insert(
+				CN_ENTRY_PHONE_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'number'     => array( 'key' => 'number' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getPhoneNumbers( array(), TRUE, TRUE )
+			);
 
-			if ( ! empty( $emailAddresses ) ) {
-				foreach ( $emailAddresses as $email ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_EMAIL_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`address`			= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$email->order,
-						$email->preferred,
-						$email->type,
-						$email->address,
-						$email->visibility );
+			$cnDb->insert(
+				CN_ENTRY_EMAIL_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'address'    => array( 'key' => 'address' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getEmailAddresses( array(), TRUE, TRUE )
+			);
 
-					$wpdb->query( $sql );
-				}
-			}
+			$cnDb->insert(
+				CN_ENTRY_MESSENGER_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'uid'        => array( 'key' => 'id' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getIm( array(), TRUE, TRUE )
+			);
 
-			if ( ! empty( $imIDs ) ) {
-				foreach ( $imIDs as $network ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_MESSENGER_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`uid`				= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$network->order,
-						$network->preferred,
-						$network->type,
-						$network->id,
-						$network->visibility );
+			$cnDb->insert(
+				CN_ENTRY_SOCIAL_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getSocialMedia( array(), TRUE, TRUE )
+			);
 
-					$wpdb->query( $sql );
-				}
-			}
+			$cnDb->insert(
+				CN_ENTRY_LINK_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'title'      => array( 'key' => 'title' , 'format' => '%s' ),
+					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
+					'target'     => array( 'key' => 'target' , 'format' => '%s' ),
+					'follow'     => array( 'key' => 'follow' , 'format' => '%d' ),
+					'image'      => array( 'key' => 'image' , 'format' => '%d' ),
+					'logo'       => array( 'key' => 'logo' , 'format' => '%d' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getLinks( array(), TRUE, TRUE )
+			);
 
-			if ( ! empty( $socialNetworks ) ) {
-				foreach ( $socialNetworks as $network ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_SOCIAL_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`url`				= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$network->order,
-						$network->preferred,
-						$network->type,
-						$network->url,
-						$network->visibility );
-
-					$wpdb->query( $sql );
-				}
-			}
-
-			if ( ! empty( $links ) ) {
-				foreach ( $links as $link ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_LINK_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`title`				= %s,
-											`url`				= %s,
-											`target`			= %s,
-											`follow`			= %d,
-											`image`				= %d,
-											`logo`				= %d,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$link->order,
-						$link->preferred,
-						$link->type,
-						$link->title,
-						$link->url,
-						$link->target,
-						(int) $link->follow,
-						(int) $link->image,
-						(int) $link->logo,
-						$link->visibility );
-
-					$wpdb->query( $sql );
-				}
-			}
-
-			if ( ! empty( $dates ) ) {
-				foreach ( $dates as $date ) {
-					$sql = $wpdb->prepare( 'INSERT INTO ' . CN_ENTRY_DATE_TABLE . ' SET
-											`entry_id`			= %d,
-											`order`				= %d,
-											`preferred`			= %d,
-											`type`				= %s,
-											`date`				= %s,
-											`visibility`		= %s',
-						$connections->lastInsertID,
-						$date->order,
-						$date->preferred,
-						$date->type,
-						$date->date,
-						$date->visibility );
-
-					$wpdb->query( $sql );
-				}
-			}
+			$cnDb->insert(
+				CN_ENTRY_DATE_TABLE,
+				array(
+					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
+					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
+					'date'       => array( 'key' => 'date' , 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+				),
+				$this->getDates( array(), TRUE, TRUE )
+			);
 		}
-
-		$wpdb->show_errors = FALSE;
 
 		do_action( 'cn_saved-entry', $this );
 

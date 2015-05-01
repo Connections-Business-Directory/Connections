@@ -1864,9 +1864,9 @@ class cnTerm {
 		$parent = apply_filters( 'cn_update_term_parent', $args['parent'], $term_id, $taxonomy, $parsed_args, $args );
 
 		// Check for duplicate slug
-		$id = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " WHERE slug = %s", $slug ) );
+		$duplicate = self::getBy( 'slug', $slug, $taxonomy );
 
-		if ( $id && ( $id != $term_id ) ) {
+		if ( $duplicate && $duplicate->term_id != $term_id ) {
 
 			// If an empty slug was passed or the parent changed, reset the slug to something unique.
 			// Otherwise, bail.

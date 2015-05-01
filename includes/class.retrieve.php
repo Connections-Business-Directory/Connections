@@ -135,7 +135,7 @@ class cnRetrieve {
 		 * // START -- Process the query vars. \\
 		 * NOTE: these will override any values supplied via $atts, which include via the shortcode.
 		 */
-		if ( ( ( defined( DOING_AJAX ) && DOING_AJAX ) || ! is_admin() ) && ! $atts['lock'] ) {
+		if ( ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ! is_admin() ) && ! $atts['lock'] ) {
 
 			// Category slug
 			$queryCategorySlug = get_query_var( 'cn-cat-slug' );
@@ -2239,6 +2239,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function search( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		// Grab an instance of the Connections object.
@@ -2246,7 +2248,6 @@ class cnRetrieve {
 
 		$results    = array();
 		$scored     = array();
-		$shortwords = array();
 		$fields     = $instance->options->getSearchFields();
 
 		$fields     = apply_filters( 'cn_search_fields', $fields );
@@ -2330,7 +2331,6 @@ class cnRetrieve {
 
 			$terms      = array();
 			$shortwords = array();
-			$strlen     = function_exists( 'mb_strtolower' ) ? 'mb_strtolower' : 'strlen';
 
 			/*
 			 * Remove any shortwords from the FULLTEXT query since the db will drop them anyway.
@@ -2623,7 +2623,7 @@ class cnRetrieve {
 			}
 
 			/*
-			 * Only search the phone records if thefield is selected to be search.
+			 * Only search the phone records if the field is selected to be search.
 			 */
 			if ( ! empty( $atts['fields']['phone'] ) ) {
 
@@ -2650,7 +2650,7 @@ class cnRetrieve {
 
 		}
 
-		return apply_filters( 'cn_search_results', $results, $atts );;
+		return apply_filters( 'cn_search_results', $results, $atts );
 	}
 
 	/**
@@ -2663,9 +2663,10 @@ class cnRetrieve {
 	 * term matching when searching for posts. The list of English stopwords is
 	 * the approximate search engines list, and is translatable.
 	 *
-	 * @since 3.7.0
+	 * @since 8.1
 	 *
-	 * @param array Terms to check.
+	 * @param array $terms Terms to check.
+	 *
 	 * @return array Terms that are not stopwords.
 	 */
 	protected function parse_search_terms( $terms ) {
@@ -2700,7 +2701,7 @@ class cnRetrieve {
 	 *
 	 * Retrieve stopwords used when parsing search terms.
 	 *
-	 * @since 3.7.0
+	 * @since 8.1
 	 *
 	 * @return array Stopwords.
 	 */
@@ -2768,18 +2769,19 @@ class cnRetrieve {
 	 *  SORT_STRING
 	 *
 	 * **NOTE: The SPECIFIED and RANDOM Order Flags can only be used
-	 * with the id field. The SPECIFIED flag must be used in conjuction
+	 * with the id field. The SPECIFIED flag must be used in conjunction
 	 * with $suppliedIDs which can be either a comma delimited sting or
 	 * an indexed array of entry IDs. If this is set, other sort fields/flags
 	 * are ignored.
 	 *
 	 * @access private
-	 * @since unknown
-	 * @version 1.0
-	 * @deprecated since unkown
-	 * @param array   of object $entries
+	 * @since  unknown
+	 * @deprecated since unknown
+	 *
+	 * @param array   $entries A reference to an array of object $entries
 	 * @param string  $orderBy
-	 * @param string  || array $ids [optional]
+	 * @param mixed   array|string|NULL [optional]
+	 *
 	 * @return array of objects
 	 */
 	private function orderBy( &$entries, $orderBy, $suppliedIDs = NULL ) {

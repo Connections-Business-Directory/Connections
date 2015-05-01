@@ -13,8 +13,32 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnOutput extends cnEntry
-{
+class cnOutput extends cnEntry {
+
+	/**
+	 * Echo or return the supplied string.
+	 *
+	 * @access private
+	 * @since  8.2.6
+	 *
+	 * @param bool   $return
+	 * @param string $html
+	 *
+	 * @return string
+	 */
+	private function echoOrReturn( $return, $html ) {
+
+		if ( $return ) {
+
+			return $html;
+
+		} else {
+
+			echo $html;
+			return '';
+		}
+	}
+
 	/**
 	 * Echos the 'Entry Sized' image.
 	 *
@@ -48,7 +72,6 @@ class cnOutput extends cnEntry
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getLogoImage( $atts = array() ) {
-		global $connections;
 
 		$this->getImage( array( 'image' => 'logo' ) );
 	}
@@ -461,11 +484,9 @@ class cnOutput extends cnEntry
 
 		$out = apply_filters( 'cn_output_image', $out, $atts, $this );
 
-		/*
-		 * Return or echo the string.
-		 */
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -599,7 +620,7 @@ class cnOutput extends cnEntry
 				break;
 		}
 
-		$html = cnFormatting::normalizeString( $html );
+		$html = cnFormatting::replaceWhatWith( $html, ' ' );
 
 		if ( $atts['link'] ) {
 
@@ -616,10 +637,9 @@ class cnOutput extends cnEntry
 			);
 		}
 
-		$html = PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		if ( $atts['return'] ) return $html;
-		echo $html;
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -751,11 +771,10 @@ class cnOutput extends cnEntry
 				$html
 			);
 
-			$html = PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+			$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 		}
 
-		if ( $atts['return'] ) return $html;
-		echo $html;
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -770,9 +789,10 @@ class cnOutput extends cnEntry
 	 *  cn_output_default_atts_title => (array) Register the methods default attributes.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
+	 * @since  unknown
+	 *
+	 * @param array $atts Accepted values as noted above.
+	 *
 	 * @return string
 	 */
 	public function getTitleBlock( $atts = array() ) {
@@ -806,12 +826,13 @@ class cnOutput extends cnEntry
 			return '';
 		}
 
-		if ( $atts['return'] ) return ( PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . PHP_EOL;
-		echo ( PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
-	 * Echo or return the entry's organization and/or departartment in a HTML hCard compliant string.
+	 * Echo or return the entry's organization and/or department in a HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  before (string) HTML to output before an address.
@@ -822,9 +843,10 @@ class cnOutput extends cnEntry
 	 *  cn_output_default_atts_orgunit => (array) Register the methods default attributes.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
+	 * @since  unknown
+	 *
+	 * @param array $atts Accepted values as noted above.
+	 *
 	 * @return string
 	 */
 	public function getOrgUnitBlock( $atts = array() ) {
@@ -917,8 +939,9 @@ class cnOutput extends cnEntry
 			return '';
 		}
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1010,14 +1033,13 @@ class cnOutput extends cnEntry
 			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
 			);
 
-		$out = cnFormatting::normalizeString( $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
 		$block = '<span class="contact-block">' .  $out . '</span>';
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		if ( ! $atts['return'] ) echo $html;
-		return $html;
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -1058,12 +1080,13 @@ class cnOutput extends cnEntry
 	 *
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached address rather than querying the db.
+	 *
+	 * @param array $atts Accepted values as noted above.
+	 * @param bool  $cached Returns the cached address rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getAddressBlock( $atts = array() , $cached = TRUE ) {
+	public function getAddressBlock( $atts = array(), $cached = TRUE ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1099,18 +1122,18 @@ class cnOutput extends cnEntry
 
 		if ( empty( $addresses ) ) return '';
 
-		$out .= '<span class="address-block">';
+		$out .= '<span class="address-block">' . PHP_EOL;
 
 		foreach ( $addresses as $address ) {
 			$replace = array();
 
-			$out .= "\n" . '<span class="adr">';
+			$out .= '<span class="adr">' . PHP_EOL;
 
 			// The `notranslate` class is added to prevent Google Translate from translating the text.
-			( empty( $address->name ) ) ? $replace[] = '' : $replace[] = '<span class="address-name">' . $address->name . '</span>';
-			( empty( $address->line_1 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_1 . '</span>';
-			( empty( $address->line_2 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_2 . '</span>';
-			( empty( $address->line_3 ) ) ? $replace[] = '' : $replace[] = '<span class="street-address notranslate">' . $address->line_3 . '</span>';
+			$replace[] = empty( $address->name ) ? '' : '<span class="address-name">' . $address->name . '</span>' . PHP_EOL;
+			$replace[] = empty( $address->line_1 ) ? '' : '<span class="street-address notranslate">' . $address->line_1 . '</span>' . PHP_EOL;
+			$replace[] = empty( $address->line_2 ) ? '' : '<span class="street-address notranslate">' . $address->line_2 . '</span>' . PHP_EOL;
+			$replace[] = empty( $address->line_3 ) ? '' : '<span class="street-address notranslate">' . $address->line_3 . '</span>' . PHP_EOL;
 
 			if ( empty( $address->city ) ) {
 
@@ -1136,7 +1159,7 @@ class cnOutput extends cnEntry
 					$locality = $address->city;
 				}
 
-				$replace[] = '<span class="locality">' . $locality . '</span>';
+				$replace[] = '<span class="locality">' . $locality . '</span>' . PHP_EOL;
 
 			}
 
@@ -1164,7 +1187,7 @@ class cnOutput extends cnEntry
 					$region = $address->state;
 				}
 
-				$replace[] = '<span class="region">' . $region . '</span>';
+				$replace[] = '<span class="region">' . $region . '</span>' . PHP_EOL;
 
 			}
 
@@ -1192,7 +1215,7 @@ class cnOutput extends cnEntry
 					$postal = $address->zipcode;
 				}
 
-				$replace[] = '<span class="postal-code">' . $postal . '</span>';
+				$replace[] = '<span class="postal-code">' . $postal . '</span>' . PHP_EOL;
 
 			}
 
@@ -1220,18 +1243,18 @@ class cnOutput extends cnEntry
 					$country = $address->country;
 				}
 
-				$replace[] = '<span class="country-name">' . $country . '</span>';
+				$replace[] = '<span class="country-name">' . $country . '</span>' . PHP_EOL;
 
 			}
 
 			if ( ! empty( $address->latitude ) || ! empty( $address->longitude ) ) {
 				$replace[] = '<span class="geo">' .
-					( ( empty( $address->latitude ) ) ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . __( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
-					( ( empty( $address->longitude ) ) ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . __( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
-					'</span>';
+					( empty( $address->latitude ) ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . __( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
+					( empty( $address->longitude ) ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . __( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
+					'</span>' . PHP_EOL;
 			}
 
-			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
+			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>' . PHP_EOL;
 
 			$out .= str_ireplace(
 				$search,
@@ -1242,17 +1265,16 @@ class cnOutput extends cnEntry
 			// Set the hCard Address Type.
 			$out .= $this->gethCardAdrType( $address->type );
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1285,10 +1307,11 @@ class cnOutput extends cnEntry
 	 *  cn_output_default_atts_contact_name => (array) Register the methods default attributes.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optiona] $cached Returns the cached address rather than querying the db.
+	 * @since  unknown
+	 *
+	 * @param array $atts Accepted values as noted above.
+	 * @param bool  $cached Returns the cached address rather than querying the db.
+	 *
 	 * @return string
 	 */
 	public function getMapBlock( $atts = array() , $cached = TRUE ) {
@@ -1374,8 +1397,9 @@ class cnOutput extends cnEntry
 			$out = '<div ' . implode( ' ', $attr ) . '></div>';
 		}
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1405,12 +1429,15 @@ class cnOutput extends cnEntry
 	 *
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
 	public function getPhoneNumberBlock( $atts = array() , $cached = TRUE ) {
+
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		/*
@@ -1439,12 +1466,12 @@ class cnOutput extends cnEntry
 
 		if ( empty( $phoneNumbers ) ) return '';
 
-		$out .= '<span class="phone-number-block">';
+		$out .= '<span class="phone-number-block">' . PHP_EOL;
 
 		foreach ( $phoneNumbers as $phone ) {
 			$replace = array();
 
-			$out .= "\n" . '<span class="tel">';
+			$out .= "\t" . '<span class="tel">';
 
 			( empty( $phone->name ) ) ? $replace[] = '' : $replace[] = '<span class="phone-name">' . $phone->name . '</span>';
 
@@ -1471,58 +1498,63 @@ class cnOutput extends cnEntry
 			// Set the hCard Phone Number Type.
 			$out .= $this->gethCardTelType( $phone->type );
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
 	 * Returns the entry's telephone type in a HTML hCard compliant string.
 	 *
-	 * @url http://microformats.org/wiki/hcard-cheatsheet
+	 * @link  http://microformats.org/wiki/hcard-cheatsheet
+	 *
 	 * @access private
-	 * @since unknown
-	 * @version 1.0
-	 * @param (string) $data
+	 * @since  unknown
+	 *
+	 * @param string $data
+	 *
 	 * @return string
 	 */
 	public function gethCardTelType( $data ) {
+
+		$type = '';
+
 		switch ( $data ) {
-		case 'home':
-			$type = '<span class="type" style="display: none;">home</span>';
-			break;
-		case 'homephone':
-			$type = '<span class="type" style="display: none;">home</span>';
-			break;
-		case 'homefax':
-			$type = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
-			break;
-		case 'cell':
-			$type = '<span class="type" style="display: none;">cell</span>';
-			break;
-		case 'cellphone':
-			$type = '<span class="type" style="display: none;">cell</span>';
-			break;
-		case 'work':
-			$type = '<span class="type" style="display: none;">work</span>';
-			break;
-		case 'workphone':
-			$type = '<span class="type" style="display: none;">work</span>';
-			break;
-		case 'workfax':
-			$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
-			break;
-		case 'fax':
-			$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
-			break;
+
+			case 'home':
+				$type = '<span class="type" style="display: none;">home</span>';
+				break;
+			case 'homephone':
+				$type = '<span class="type" style="display: none;">home</span>';
+				break;
+			case 'homefax':
+				$type = '<span class="type" style="display: none;">home</span><span class="type" style="display: none;">fax</span>';
+				break;
+			case 'cell':
+				$type = '<span class="type" style="display: none;">cell</span>';
+				break;
+			case 'cellphone':
+				$type = '<span class="type" style="display: none;">cell</span>';
+				break;
+			case 'work':
+				$type = '<span class="type" style="display: none;">work</span>';
+				break;
+			case 'workphone':
+				$type = '<span class="type" style="display: none;">work</span>';
+				break;
+			case 'workfax':
+				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
+				break;
+			case 'fax':
+				$type = '<span class="type" style="display: none;">work</span><span class="type" style="display: none;">fax</span>';
+				break;
 		}
 
 		return $type;
@@ -1531,31 +1563,35 @@ class cnOutput extends cnEntry
 	/**
 	 * Returns the entry's address type in a HTML hCard compliant string.
 	 *
-	 * @url http://microformats.org/wiki/adr-cheatsheet#Properties_.28Class_Names.29
+	 * @link http://microformats.org/wiki/adr-cheatsheet#Properties_.28Class_Names.29
+	 *
 	 * @access private
-	 * @since unknown
-	 * @version 1.0
-	 * @param (string) $data
+	 * @since  unknown
+	 *
+	 * @param string $adrType
+	 *
 	 * @return string
 	 */
 	public function gethCardAdrType( $adrType ) {
-		switch ( $adrType ) {
-		case 'home':
-			$type = '<span class="type" style="display: none;">home</span>';
-			break;
-		case 'work':
-			$type = '<span class="type" style="display: none;">work</span>';
-			break;
-		case 'school':
-			$type = '<span class="type" style="display: none;">postal</span>';
-			break;
-		case 'other':
-			$type = '<span class="type" style="display: none;">postal</span>';
-			break;
 
-		default:
-			$type = '<span class="type" style="display: none;">postal</span>';
-			break;
+		switch ( $adrType ) {
+
+			case 'home':
+				$type = '<span class="type" style="display: none;">home</span>';
+				break;
+			case 'work':
+				$type = '<span class="type" style="display: none;">work</span>';
+				break;
+			case 'school':
+				$type = '<span class="type" style="display: none;">postal</span>';
+				break;
+			case 'other':
+				$type = '<span class="type" style="display: none;">postal</span>';
+				break;
+
+			default:
+				$type = '<span class="type" style="display: none;">postal</span>';
+				break;
 		}
 
 		return $type;
@@ -1597,13 +1633,14 @@ class cnOutput extends cnEntry
 	 *  cn_output_default_atts_email => (array) Register the methods default attributes.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 * @since  unknown
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getEmailAddressBlock( $atts = array() , $cached = TRUE ) {
+	public function getEmailAddressBlock( $atts = array(), $cached = TRUE ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1645,12 +1682,12 @@ class cnOutput extends cnEntry
 
 		if ( empty( $emailAddresses ) ) return '';
 
-		$out .= '<span class="email-address-block">';
+		$out .= '<span class="email-address-block">' . PHP_EOL;
 
 		foreach ( $emailAddresses as $email ) {
 			$replace = array();
 
-			$out .= "\n" . '<span class="email">';
+			$out .= "\t" . '<span class="email">';
 
 			// Replace the 'Email Tokens' with the email info.
 			$title = str_ireplace( array( '%type%', '%name%' ) , array( $email->type, $email->name ), $title );
@@ -1671,20 +1708,19 @@ class cnOutput extends cnEntry
 			// Set the hCard Email Address Type.
 			$out .= '<span class="type" style="display: none;">INTERNET</span>';
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		// This filter is required to allow the ROT13 encyption plugin to function.
+		// This filter is required to allow the ROT13 encryption plugin to function.
 		$out = apply_filters( 'cn_output_email_addresses', $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1715,12 +1751,13 @@ class cnOutput extends cnEntry
 	 * @url http://microformats.org/wiki/hcard-examples#New_Types_of_Contact_Info
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optiona] $cached Returns the cached data rather than querying the db.
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getImBlock( $atts = array() , $cached = TRUE ) {
+	public function getImBlock( $atts = array(), $cached = TRUE ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1746,43 +1783,43 @@ class cnOutput extends cnEntry
 
 		if ( empty( $networks ) ) return '';
 
-		$out .= '<span class="im-network-block">';
+		$out .= '<span class="im-network-block">' . PHP_EOL;
 
 		foreach ( $networks as $network ) {
 			$replace = array();
 
-			$out .= "\n" . '<span class="im-network">';
+			$out .= "\t" . '<span class="im-network">';
 
 			( empty( $network->name ) ) ? $replace[] = '' : $replace[] = '<span class="im-name">' . $network->name . '</span>';
 
 			switch ( $network->type ) {
-			case 'aim':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" href="aim:goim?screenname=' . $network->id . '">' . $network->id . '</a>';
-				break;
+				case 'aim':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="aim:goim?screenname=' . $network->id . '">' . $network->id . '</a>';
+					break;
 
-			case 'yahoo':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" href="ymsgr:sendIM?' . $network->id . '">' . $network->id . '</a>';
-				break;
+				case 'yahoo':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="ymsgr:sendIM?' . $network->id . '">' . $network->id . '</a>';
+					break;
 
-			case 'jabber':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<span class="im-id">' . $network->id . '</span>';
-				break;
+				case 'jabber':
+					$replace[] = empty( $network->id ) ? '' : '<span class="im-id">' . $network->id . '</span>';
+					break;
 
-			case 'messenger':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" href="msnim:chat?contact=' . $network->id . '">' . $network->id . '</a>';
-				break;
+				case 'messenger':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="msnim:chat?contact=' . $network->id . '">' . $network->id . '</a>';
+					break;
 
-			case 'skype':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" href="skype:' . $network->id . '?chat">' . $network->id . '</a>';
-				break;
+				case 'skype':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="skype:' . $network->id . '?chat">' . $network->id . '</a>';
+					break;
 
-			case 'icq':
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<a class="url im-id" type="application/x-icq" href="http://www.icq.com/people/cmd.php?uin=' . $network->id . '&action=message">' . $network->id . '</a>';
-				break;
+				case 'icq':
+					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" type="application/x-icq" href="http://www.icq.com/people/cmd.php?uin=' . $network->id . '&action=message">' . $network->id . '</a>';
+					break;
 
-			default:
-				( empty( $network->id ) ) ? $replace[] = '' : $replace[] = '<span class="im-id">' . $network->id . '</span>';
-				break;
+				default:
+					$replace[] = empty( $network->id ) ? '' : '<span class="im-id">' . $network->id . '</span>';
+					break;
 			}
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
@@ -1793,17 +1830,16 @@ class cnOutput extends cnEntry
 				empty( $atts['format'] ) ? '%label%%separator% %id%' : $atts['format']
 				);
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1853,15 +1889,18 @@ class cnOutput extends cnEntry
 	 * Filters:
 	 *  cn_output_default_atts_socialmedia => (array) Register the methods default attributes.
 	 *
-	 * @url http://microformats.org/wiki/hcard-examples#Site_profiles
+	 * @link http://microformats.org/wiki/hcard-examples#Site_profiles
+	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 * @since  unknown
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getSocialMediaBlock( $atts = array() , $cached = TRUE ) {
+	public function getSocialMediaBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1883,7 +1922,6 @@ class cnOutput extends cnEntry
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
 		$networks = $this->getSocialMedia( $atts , $cached );
 		$search = array( '%label%' , '%url%' , '%icon%' , '%separator%' );
 
@@ -1893,12 +1931,12 @@ class cnOutput extends cnEntry
 		/*
 		 * Ensure the supplied icon style and size are valid, if not reset to the default values.
 		 */
-		( in_array( $atts['style'], $iconStyles ) ) ? $iconStyle = $atts['style'] : $iconStyle = 'wpzoom';
-		( in_array( $atts['size'], $iconSizes ) ) ? $iconSize = $atts['size'] : $iconSize = 32;
+		$iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
+		$iconSize  = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
 
 		if ( empty( $networks ) ) return '';
 
-		$out = '<span class="social-media-block">';
+		$out = '<span class="social-media-block">' . PHP_EOL;
 
 		foreach ( $networks as $network ) {
 			$replace = array();
@@ -1911,7 +1949,7 @@ class cnOutput extends cnEntry
 			$iconClass[] = $iconStyle;
 			$iconClass[] = 'sz-' . $iconSize;
 
-			$out .= '<span class="social-media-network">';
+			$out .= "\t" . '<span class="social-media-network">';
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->name . '</a>';
 
@@ -1927,17 +1965,16 @@ class cnOutput extends cnEntry
 				empty( $atts['format'] ) ? '%icon%' : $atts['format']
 				);
 
-			$out .= '</span>';
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1946,6 +1983,7 @@ class cnOutput extends cnEntry
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getWebsiteBlock() {
+
 		/*
 		 * Set some defaults so the result resembles how the previous rendered.
 		 */
@@ -1983,8 +2021,8 @@ class cnOutput extends cnEntry
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param  array $atts Accepted values as noted above.
-	 * @param  bool  [optional] $cached Returns the cached data rather than querying the db.
+	 * @param  array $atts   Accepted values as noted above.
+	 * @param  bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
@@ -2094,18 +2132,16 @@ class cnOutput extends cnEntry
 				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
 			);
 
-			// Remove any whitespace between tags as the result of spaces on before/after tokens and there was nothing to replace the token with.
-			$row = cnFormatting::normalizeString( $row );
+			$row = cnFormatting::replaceWhatWith( $row, ' ' );
 
 			$rows[] = "\t" . '<span class="link ' . $link->type . '">' . $row . '</span>' . PHP_EOL;
 		}
 
-		$block = '<span class="link-block">' . PHP_EOL . implode( '', $rows ) . '</span>';
+		$block = '<span class="link-block">' . PHP_EOL . implode( '', $rows ) . '</span>' . PHP_EOL;
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		if ( ! $atts['return'] ) echo $html;
-		return $html;
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 
@@ -2141,12 +2177,14 @@ class cnOutput extends cnEntry
 	 *
 	 * @access public
 	 * @since 0.7.3
-	 * @version 1.0
-	 * @param (array) [optional] $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getDateBlock( $atts = array() , $cached = TRUE ) {
+	public function getDateBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -2168,23 +2206,22 @@ class cnOutput extends cnEntry
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
 		$dates = $this->getDates( $atts , $cached );
 		$search = array( '%label%' , '%date%' , '%separator%' );
 
 		if ( empty( $dates ) ) return '';
 
-		$out .= '<span class="date-block">';
+		$out = '<span class="date-block">' . PHP_EOL;
 
 		foreach ( $dates as $date ) {
 
 			$replace = array();
 
 			// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
-			// // just incase a user manages to input an incorrect date or date format.
+			// just in case a user manages to input an incorrect date or date format.
 			$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
 
-			$out .= "\n" . '<span class="vevent">';
+			$out .= "\t" . '<span class="vevent">';
 
 			// Hidden elements are to maintain hCalendar spec compatibility
 			$replace[] = ( empty( $date->name ) ) ? '' : '<span class="date-name">' . $date->name . '</span>';
@@ -2198,17 +2235,16 @@ class cnOutput extends cnEntry
 				empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
 				);
 
-			$out .= '</span>' . "\n";
+			$out .= '</span>' . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= '</span>' . PHP_EOL;
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2228,13 +2264,14 @@ class cnOutput extends cnEntry
 	 *  return (bool) Return string if set to TRUE instead of echo string.
 	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 2.0
-	 * @param string  [optional] $format deprecated since 0.7.3
-	 * @param (array) [optional] $atts
+	 * @since  0.7.3
+	 *
+	 * @param string $format deprecated since 0.7.3
+	 * @param array  $atts
+	 *
 	 * @return string
 	 */
-	public function getBirthdayBlock( $format = NULL, $atts = array() ) {
+	public function getBirthdayBlock( $format = '', $atts = array() ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -2242,7 +2279,7 @@ class cnOutput extends cnEntry
 		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
-		$defaults['date_format'] = is_null( $format ) ? 'F jS' : $format;
+		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
 
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';
@@ -2282,12 +2319,11 @@ class cnOutput extends cnEntry
 
 		$out .= '</div>';
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2307,13 +2343,14 @@ class cnOutput extends cnEntry
 	 *  return (bool) Return string if set to TRUE instead of echo string.
 	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 2.0
-	 * @param string  [optional] $format deprecated since 0.7.3
-	 * @param (array) [optional] $atts
+	 * @since  0.7.3
+	 *
+	 * @param string $format deprecated since 0.7.3
+	 * @param array  $atts
+	 *
 	 * @return string
 	 */
-	public function getAnniversaryBlock( $format = NULL, $atts = array() ) {
+	public function getAnniversaryBlock( $format = '', $atts = array() ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -2355,17 +2392,16 @@ class cnOutput extends cnEntry
 			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
 			);
 
-		// Remove any whitespace between tags as the result of spces on before/after tokens
-		// and there was nothing to replace the token with.
-		$out = preg_replace( '/\s{2,}/', ' ', $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
 		$out .= '<span class="bday" style="display:none">' . $this->getAnniversary( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';
 
 		$out .= '</div>';
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2375,12 +2411,15 @@ class cnOutput extends cnEntry
 	 * to run before the do_shortcode function for the [embed] shortcode to fire
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.1
+	 * @since  unknown
+	 *
 	 * @param array
+	 *
 	 * @return string
 	 */
 	public function getNotesBlock( $atts = array() ) {
+
+		/** @var WP_Embed $wp_embed */
 		global $wp_embed;
 
 		$defaults = array(
@@ -2397,8 +2436,9 @@ class cnOutput extends cnEntry
 
 		$out = do_shortcode( $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2408,12 +2448,15 @@ class cnOutput extends cnEntry
 	 * to run before the do_shortcode function for the [embed] shortcode to fire
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.1
+	 * @since  unknown
+	 *
 	 * @param array
+	 *
 	 * @return string
 	 */
 	public function getBioBlock( $atts = array() ) {
+
+		/** @var WP_Embed $wp_embed */
 		global $wp_embed;
 
 		$defaults = array(
@@ -2430,8 +2473,9 @@ class cnOutput extends cnEntry
 
 		$out = do_shortcode( $out );
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2449,9 +2493,10 @@ class cnOutput extends cnEntry
 	 *   return == TRUE || FALSE -- Return string if set to TRUE instead of echo string.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param array   $atts [optional]
+	 * @since  unknown
+	 *
+	 * @param array $atts
+	 *
 	 * @return string
 	 */
 	public function getCategoryBlock( $atts = array() ) {
@@ -2497,9 +2542,7 @@ class cnOutput extends cnEntry
 
 		if ( ! empty( $atts['after'] ) ) $out .= $atts['after'];
 
-		if ( $atts['return'] ) return $out;
-
-		echo $out;
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2650,7 +2693,7 @@ class cnOutput extends cnEntry
 				);
 		}
 
-		if ( empty( $out ) ) return;
+		if ( empty( $out ) ) return '';
 
 		$out = apply_filters(
 			'cn_entry_output_meta_container',
@@ -2662,7 +2705,7 @@ class cnOutput extends cnEntry
 			$metadata
 			);
 
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 	}
 
 	/**
@@ -2747,7 +2790,7 @@ class cnOutput extends cnEntry
 		}
 
 		// Nothing to render, exit.
-		if ( empty( $blocks ) ) return;
+		if ( empty( $blocks ) ) return '';
 
 		// Cleanup user input. Trim whitespace and convert to lowercase.
 		$blocks = array_map( 'strtolower', array_map( 'trim', $blocks ) );
@@ -2825,7 +2868,7 @@ class cnOutput extends cnEntry
 			);
 		}
 
-		if ( empty( $blockContainerContent ) ) return;
+		if ( empty( $blockContainerContent ) ) return '';
 
 		$out = apply_filters( 'cn_entry_output_content_block_container',
 			sprintf( '<%1$s class="cn-entry-content-block-%2$s">%3$s</%1$s>' . PHP_EOL,
@@ -2840,8 +2883,9 @@ class cnOutput extends cnEntry
 			$shortcode_atts
 		);
 
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2854,18 +2898,17 @@ class cnOutput extends cnEntry
 	 * @return string
 	 */
 	public function getCategoryClass( $return = FALSE ) {
-		$categories = $this->getCategory();
 
-		if ( empty( $categories ) ) return NULL;
+		$categories = $this->getCategory();
+		$out        = array();
+
+		if ( empty( $categories ) ) return '';
 
 		foreach ( $categories as $category ) {
 			$out[] = $category->slug;
 		}
 
-		if ( $return ) return implode( ' ', $out );
-
-		echo implode( ' ', $out );
-
+		return $this->echoOrReturn( $return, implode( ' ', $out ) );
 	}
 
 	/**
@@ -3037,7 +3080,8 @@ class cnOutput extends cnEntry
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
-		if ( $atts['return'] ) return ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
-		echo ( "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) ) . $out . ( ( empty( $atts['after'] ) ? '' : $atts['after'] ) ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $out );
 	}
 }

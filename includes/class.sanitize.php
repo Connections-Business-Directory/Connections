@@ -297,7 +297,7 @@ class cnSanitize {
 	 */
 	public static function options( $values, $options, $defaults = array() ) {
 
-		if ( empty( $values ) ) return;
+		if ( empty( $values ) ) return array();
 
 		// Let do a bit of array gymnastics...
 		// array_flip $values so the values are the keys.
@@ -311,11 +311,11 @@ class cnSanitize {
 	 * Sanitizes checkbox input.
 	 *
 	 * WordPress core evaluates checkboxes as '1' or '0';
-	 * to be consistant with core return '1' or '0'.
+	 * to be consistent with core return '1' or '0'.
 	 *
 	 * @access public
 	 * @since 0.8
-	 * @param  string $input Value data to be sanitized.
+	 * @param  string $value Value data to be sanitized.
 	 *
 	 * @return string
 	 */
@@ -354,6 +354,36 @@ class cnSanitize {
 	public static function quicktag( $string ) {
 
 		return wp_kses_data( force_balance_tags( $string ) );
+	}
+
+	/**
+	 * Sanitizes an array of IDs numbers or an ID number.
+	 *
+	 * @access protected
+	 * @since  8.2.6
+	 *
+	 * @uses   absint()
+	 *
+	 * @param $id
+	 *
+	 * @return array|int
+	 */
+	public static function id( $id ) {
+
+		if ( is_array( $id ) ) {
+
+			// Ensure all IDs are positive integers.
+			$id = array_map( 'absint', $id );
+
+			// Filter anything that converted to 0 (i.e. non-integers).
+			$id = array_filter( $id );
+
+		} else {
+
+			$id = absint( $id );
+		}
+
+		return $id;
 	}
 
 	/**

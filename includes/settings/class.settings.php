@@ -1462,7 +1462,7 @@ class cnRegisterSettings
 	}
 
 	/**
-	 * Callback for the seetings search fields.
+	 * Callback for the settings search fields.
 	 * Saves the user's search field choices and sets up the FULLTEXT indexes.
 	 *
 	 * @TODO this will fail on tables that do not support FULLTEXT. Should somehow check before processing
@@ -1470,10 +1470,12 @@ class cnRegisterSettings
 	 *
 	 * @access private
 	 * @since 0.7.3
-	 * @param unknown $settings array
+	 * @param array $settings
 	 * @return array
 	 */
 	public static function setSearchFields( $settings ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$fields = $settings['fields'];
@@ -1535,14 +1537,14 @@ class cnRegisterSettings
 		/*
 		 * Drop the current FULLTEXT indexes.
 		 */
-		$indexExists = @$wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
-		if ( $indexExists > 0 ) @$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' DROP INDEX search' );
+		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
+		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' DROP INDEX search' );
 
-		$indexExists = @$wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
-		if ( $indexExists > 0 ) @$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' DROP INDEX search' );
+		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
+		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' DROP INDEX search' );
 
-		$indexExists = @$wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
-		if ( $indexExists > 0 ) @$wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' DROP INDEX search' );
+		$indexExists = $wpdb->query( 'SHOW INDEX FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE KEY_NAME = \'search\'' ); //var_dump($indexExists);
+		if ( $indexExists > 0 ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' DROP INDEX search' );
 
 		/*
 		 * Recreate the FULLTEXT indexes based on the user choices
@@ -1572,10 +1574,26 @@ class cnRegisterSettings
 		if ( $search['phone_number'] ) $column['phone'][]       = 'number';
 
 		// Add the FULLTEXT indexes.
-		if ( ! empty( $column['entry'] ) ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['entry'] ) . ')' );
-		if ( ! empty( $column['address'] ) ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['address'] ) . ')' );
-		if ( ! empty( $column['phone'] ) ) $wpdb->query( 'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['phone'] ) . ')' );
+		if ( isset( $settings['fulltext_enabled'] ) ) {
 
+			if ( ! empty( $column['entry'] ) ) {
+				$wpdb->query(
+					'ALTER TABLE ' . CN_ENTRY_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['entry'] ) . ')'
+				);
+			}
+
+			if ( ! empty( $column['address'] ) ) {
+				$wpdb->query(
+					'ALTER TABLE ' . CN_ENTRY_ADDRESS_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['address'] ) . ')'
+				);
+			}
+
+			if ( ! empty( $column['phone'] ) ) {
+				$wpdb->query(
+					'ALTER TABLE ' . CN_ENTRY_PHONE_TABLE . ' ADD FULLTEXT search (' . implode( ',', $column['phone'] ) . ')'
+				);
+			}
+		}
 		//$wpdb->hide_errors();
 
 		//die;

@@ -386,9 +386,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '';
-
-		$out .= '</form>';
+		$out = '</form>';
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

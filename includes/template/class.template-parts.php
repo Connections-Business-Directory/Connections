@@ -190,7 +190,7 @@ class cnTemplatePart {
 	 * @param string $type The type of the list table to load and init.
 	 * @param array  $args Optional. Arguments to pass to the class.
 	 *
-	 * @return mixed bool|string Returns or echos the HTML output of the table class. FALSE on failure.
+	 * @return mixed bool|object Returns or echos the HTML output of the table class. FALSE on failure.
 	 */
 	public static function table( $type, $args = array() ) {
 
@@ -946,9 +946,9 @@ class cnTemplatePart {
 	 * @access public
 	 * @since  0.8
 	 * @static
-	 * @param  array      $atts     The shortcode $atts array.
-	 * @param  array      $results  The cnRetrieve query results.
-	 * @param  cnTemplate $template An instance of the cnTemplate object.
+	 * @param  array           $atts     The shortcode $atts array.
+	 * @param  array           $results  The cnRetrieve query results.
+	 * @param  cnTemplate|null $template An instance of the cnTemplate object.
 	 *
 	 * @return string
 	 */

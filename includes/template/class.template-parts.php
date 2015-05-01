@@ -766,7 +766,7 @@ class cnTemplatePart {
 	public static function listAction_ViewAll( $atts ) {
 
 		// No need to display if the user is viewing the "View All" page.
-		if ( 'all' ==  get_query_var( 'cn-view' ) ) return '';
+		if ( 'all' == get_query_var( 'cn-view' ) ) return '';
 
 		// Output the "View All" link.
 		cnURL::permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => FALSE ) );

@@ -306,8 +306,7 @@ class cnTemplatePart {
 
 		$out = apply_filters( 'cn_filter_return_to_top_target', '<div id="cn-top" style="position: absolute; top: 0; right: 0;"></div>' );
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -364,8 +363,7 @@ class cnTemplatePart {
 		// Add the cnSEO permalink filter.
 		cnSEO::doFilterPermalink();
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -392,8 +390,7 @@ class cnTemplatePart {
 
 		$out .= '</form>';
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -456,8 +453,7 @@ class cnTemplatePart {
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -508,8 +504,7 @@ class cnTemplatePart {
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -655,8 +650,7 @@ class cnTemplatePart {
 
 		}
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -705,8 +699,7 @@ class cnTemplatePart {
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -763,8 +756,9 @@ class cnTemplatePart {
 				$out
 			);
 
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -814,7 +808,10 @@ class cnTemplatePart {
 
 		$settings = cnSettingsAPI::get( 'connections', 'entry_actions', 'actions' );
 
-		if ( ! isset( $settings['active'] ) || empty( $settings['active'] ) )  '';
+		if ( ! isset( $settings['active'] ) || empty( $settings['active'] ) ) {
+
+			return self::echoOrReturn( $atts['return'], $out );
+		}
 
 		foreach ( $settings['active'] as $key => $slug ) {
 
@@ -841,8 +838,9 @@ class cnTemplatePart {
 				$out
 			);
 
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -942,8 +940,9 @@ class cnTemplatePart {
 			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
 		}
 
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1088,8 +1087,7 @@ class cnTemplatePart {
 			$out = '';
 		}
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1133,8 +1131,9 @@ class cnTemplatePart {
 				$atts['message']
 			);
 
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1211,8 +1210,9 @@ class cnTemplatePart {
 				htmlspecialchars( json_encode( $data ), ENT_QUOTES, 'UTF-8' )
 			);
 
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1251,8 +1251,9 @@ class cnTemplatePart {
 
 		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $anchor . '</' . $atts['tag'] . '>';
 
-		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1284,8 +1285,7 @@ class cnTemplatePart {
 		// No need to continue if the timestamp was not supplied.
 		if ( ! isset( $atts['timestamp'] ) || empty( $atts['timestamp'] ) ) {
 
-			if ( $atts['return'] ) return $out;
-			echo $out;
+			return self::echoOrReturn( $atts['return'], $out );
 		}
 
 		$age = (int) abs( time() - strtotime( $atts['timestamp'] ) );
@@ -1315,8 +1315,9 @@ class cnTemplatePart {
 
 		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $updated . '</' . $atts['tag'] . '>';
 
-		if ( $atts['return'] ) return "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
-		echo "\n" . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . "\n";
+		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1351,8 +1352,8 @@ class cnTemplatePart {
 		 * so there is no need to rebuild the character index.
 		 */
 		if ( ! empty( $out ) ) {
-			if ( ! $atts['return'] ) echo $out;
-			return $out;
+
+			return self::echoOrReturn( $atts['return'], $out );
 		}
 
 		// The URL in the address bar
@@ -1388,8 +1389,7 @@ class cnTemplatePart {
 
 		$out = "\n" . '<div class="cn-alphaindex">' . implode( ' ', $links ). '</div>' . "\n";
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1436,9 +1436,7 @@ class cnTemplatePart {
 
 		}
 
-		// Output the the search input.
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1469,9 +1467,7 @@ class cnTemplatePart {
 
 		$out .= '<input type="submit" name="' . $atts['name'] . '" id="cn-submit" class="button" value="' . $atts['value'] . '" tabindex="-1" />';
 
-		// Output a submit button.
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1558,8 +1554,7 @@ class cnTemplatePart {
 		// $out = '<div class="">' . . '</div>';
 		$out = "\n" . '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . "\n";
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1600,8 +1595,7 @@ class cnTemplatePart {
 		// Only output if there is a current character set in the query string.
 		if ( 0 < strlen( $current ) ) $out .= '<input class="cn-current-char-input" name="cn-char" title="' . __('Current Character', 'connections') . '" type="' . ( $atts['hidden'] ? 'hidden' : 'text' ) . '" size="1" value="' . esc_attr( $current ) . '">';
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1788,9 +1782,7 @@ class cnTemplatePart {
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
-		// Output the page nav.
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -1897,7 +1889,7 @@ class cnTemplatePart {
 				break;
 		}
 
-		if ( $atts['return'] ) return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2199,8 +2191,7 @@ class cnTemplatePart {
 		$out .= '</tbody>';
 		$out .= '</table>';
 
-		if ( ! $atts['return'] ) echo $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
@@ -2382,8 +2373,7 @@ class cnTemplatePart {
 		$out .= '</tbody>';
 		$out .= '</table>';
 
-		if ( ! $atts['return'] ) echo  $out;
-		return $out;
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**

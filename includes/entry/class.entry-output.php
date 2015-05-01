@@ -1983,6 +1983,7 @@ class cnOutput extends cnEntry {
 	 * @deprecated since 0.7.2.0
 	 */
 	public function getWebsiteBlock() {
+
 		/*
 		 * Set some defaults so the result resembles how the previous rendered.
 		 */
@@ -2897,7 +2898,9 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getCategoryClass( $return = FALSE ) {
+
 		$categories = $this->getCategory();
+		$out        = array();
 
 		if ( empty( $categories ) ) return '';
 

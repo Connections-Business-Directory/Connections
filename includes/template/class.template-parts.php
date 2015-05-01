@@ -1450,7 +1450,6 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function submit( $atts = array() ) {
-		$out = '';
 
 		$defaults = array(
 			'name'   => '',
@@ -1460,7 +1459,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out .= '<input type="submit" name="' . $atts['name'] . '" id="cn-submit" class="button" value="' . $atts['value'] . '" tabindex="-1" />';
+		$out = '<input type="submit" name="' . $atts['name'] . '" id="cn-submit" class="button" value="' . $atts['value'] . '" tabindex="-1" />';
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

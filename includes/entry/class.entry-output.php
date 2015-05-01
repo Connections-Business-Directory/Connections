@@ -17,22 +17,25 @@ class cnOutput extends cnEntry {
 
 	/**
 	 * Echo or return the supplied string.
-	 * 
-	 * @param bool   $echo
+	 *
+	 * @access private
+	 * @since  8.2.6
+	 *
+	 * @param bool   $return
 	 * @param string $html
 	 *
 	 * @return string
 	 */
-	private function echoOrReturn( $echo, $html ) {
+	private function echoOrReturn( $return, $html ) {
 
-		if ( $echo ) {
+		if ( $return ) {
 
-			echo $html;
-			return '';
+			return $html;
 
 		} else {
 
-			return $html;
+			echo $html;
+			return '';
 		}
 	}
 

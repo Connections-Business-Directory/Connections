@@ -2125,8 +2125,7 @@ class cnOutput extends cnEntry {
 				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
 			);
 
-			// Remove any whitespace between tags as the result of spaces on before/after tokens and there was nothing to replace the token with.
-			$row = cnFormatting::normalizeString( $row );
+			$row = cnFormatting::replaceWhatWith( $row, ' ' );
 
 			$rows[] = "\t" . '<span class="link ' . $link->type . '">' . $row . '</span>' . PHP_EOL;
 		}

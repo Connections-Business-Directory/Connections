@@ -766,7 +766,7 @@ class cnTemplatePart {
 	public static function listAction_ViewAll( $atts ) {
 
 		// No need to display if the user is viewing the "View All" page.
-		if ( get_query_var( 'cn-view' ) == 'all' ) return;
+		if ( 'all' ==  get_query_var( 'cn-view' ) ) return '';
 
 		// Output the "View All" link.
 		cnURL::permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => FALSE ) );
@@ -2161,9 +2161,9 @@ class cnTemplatePart {
 				if ( $key === NULL ) continue;
 
 				$tdClass = array('cn-cat-td');
-				if ( $row == 1 ) $tdClass[] = '-top';
+				if ( 1 == $row ) $tdClass[] = '-top';
 				if ( $row == $rows ) $tdClass[] = '-bottom';
-				if ( $col == 1 ) $tdClass[] = '-left';
+				if ( 1 == $col ) $tdClass[] = '-left';
 				if ( $col == $atts['columns'] ) $tdClass[] = '-right';
 
 				$out .= '<td class="' . implode( '', $tdClass ) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';
@@ -2343,9 +2343,9 @@ class cnTemplatePart {
 				if ( $key === NULL ) continue;
 
 				$tdClass = array('cn-cat-td');
-				if ( $row == 1 ) $tdClass[] = '-top';
+				if ( 1 == $row ) $tdClass[] = '-top';
 				if ( $row == $rows ) $tdClass[] = '-bottom';
-				if ( $col == 1 ) $tdClass[] = '-left';
+				if ( 1 == $col ) $tdClass[] = '-left';
 				if ( $col == $atts['columns'] ) $tdClass[] = '-right';
 
 				$out .= '<td class="' . implode( '', $tdClass) . '" style="width: ' . floor( 100 / $atts['columns'] ) . '%">';

@@ -620,7 +620,7 @@ class cnOutput extends cnEntry {
 				break;
 		}
 
-		$html = cnFormatting::normalizeString( $html );
+		$html = cnFormatting::replaceWhatWith( $html, ' ' );
 
 		if ( $atts['link'] ) {
 
@@ -1031,7 +1031,7 @@ class cnOutput extends cnEntry {
 			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
 			);
 
-		$out = cnFormatting::normalizeString( $out );
+		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
 		$block = '<span class="contact-block">' .  $out . '</span>';
 

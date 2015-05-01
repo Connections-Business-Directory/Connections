@@ -2279,7 +2279,7 @@ class cnOutput extends cnEntry {
 		$defaults['name_format'] = '';
 
 		// The $format option has been deprecated since 0.7.3. If it has been supplied override the $defaults['date_format] value.
-		$defaults['date_format'] = is_null( $format ) ? 'F jS' : $format;
+		$defaults['date_format'] = empty( $format ) ? 'F jS' : $format;
 
 		$defaults['separator'] = ':';
 		$defaults['before'] = '';

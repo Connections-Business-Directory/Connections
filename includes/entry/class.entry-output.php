@@ -789,9 +789,10 @@ class cnOutput extends cnEntry {
 	 *  cn_output_default_atts_title => (array) Register the methods default attributes.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
+	 * @since  unknown
+	 *
+	 * @param array $atts Accepted values as noted above.
+	 *
 	 * @return string
 	 */
 	public function getTitleBlock( $atts = array() ) {
@@ -831,7 +832,7 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 * Echo or return the entry's organization and/or departartment in a HTML hCard compliant string.
+	 * Echo or return the entry's organization and/or department in a HTML hCard compliant string.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  before (string) HTML to output before an address.
@@ -842,9 +843,10 @@ class cnOutput extends cnEntry {
 	 *  cn_output_default_atts_orgunit => (array) Register the methods default attributes.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
+	 * @since  unknown
+	 *
+	 * @param array $atts Accepted values as noted above.
+	 *
 	 * @return string
 	 */
 	public function getOrgUnitBlock( $atts = array() ) {
@@ -1078,12 +1080,13 @@ class cnOutput extends cnEntry {
 	 *
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached address rather than querying the db.
+	 *
+	 * @param array $atts Accepted values as noted above.
+	 * @param bool  $cached Returns the cached address rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getAddressBlock( $atts = array() , $cached = TRUE ) {
+	public function getAddressBlock( $atts = array(), $cached = TRUE ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1304,10 +1307,11 @@ class cnOutput extends cnEntry {
 	 *  cn_output_default_atts_contact_name => (array) Register the methods default attributes.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optiona] $cached Returns the cached address rather than querying the db.
+	 * @since  unknown
+	 *
+	 * @param array $atts Accepted values as noted above.
+	 * @param bool  $cached Returns the cached address rather than querying the db.
+	 *
 	 * @return string
 	 */
 	public function getMapBlock( $atts = array() , $cached = TRUE ) {
@@ -1425,9 +1429,10 @@ class cnOutput extends cnEntry {
 	 *
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
 	public function getPhoneNumberBlock( $atts = array() , $cached = TRUE ) {
@@ -1506,11 +1511,13 @@ class cnOutput extends cnEntry {
 	/**
 	 * Returns the entry's telephone type in a HTML hCard compliant string.
 	 *
-	 * @url http://microformats.org/wiki/hcard-cheatsheet
+	 * @link  http://microformats.org/wiki/hcard-cheatsheet
+	 *
 	 * @access private
-	 * @since unknown
-	 * @version 1.0
-	 * @param (string) $data
+	 * @since  unknown
+	 *
+	 * @param string $data
+	 *
 	 * @return string
 	 */
 	public function gethCardTelType( $data ) {
@@ -1550,11 +1557,13 @@ class cnOutput extends cnEntry {
 	/**
 	 * Returns the entry's address type in a HTML hCard compliant string.
 	 *
-	 * @url http://microformats.org/wiki/adr-cheatsheet#Properties_.28Class_Names.29
+	 * @link http://microformats.org/wiki/adr-cheatsheet#Properties_.28Class_Names.29
+	 *
 	 * @access private
-	 * @since unknown
-	 * @version 1.0
-	 * @param (string) $data
+	 * @since  unknown
+	 *
+	 * @param string $adrType
+	 *
 	 * @return string
 	 */
 	public function gethCardAdrType( $adrType ) {
@@ -1616,13 +1625,14 @@ class cnOutput extends cnEntry {
 	 *  cn_output_default_atts_email => (array) Register the methods default attributes.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 * @since  unknown
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getEmailAddressBlock( $atts = array() , $cached = TRUE ) {
+	public function getEmailAddressBlock( $atts = array(), $cached = TRUE ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1733,12 +1743,13 @@ class cnOutput extends cnEntry {
 	 * @url http://microformats.org/wiki/hcard-examples#New_Types_of_Contact_Info
 	 * @access public
 	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optiona] $cached Returns the cached data rather than querying the db.
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getImBlock( $atts = array() , $cached = TRUE ) {
+	public function getImBlock( $atts = array(), $cached = TRUE ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1870,15 +1881,18 @@ class cnOutput extends cnEntry {
 	 * Filters:
 	 *  cn_output_default_atts_socialmedia => (array) Register the methods default attributes.
 	 *
-	 * @url http://microformats.org/wiki/hcard-examples#Site_profiles
+	 * @link http://microformats.org/wiki/hcard-examples#Site_profiles
+	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param (array) $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 * @since  unknown
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getSocialMediaBlock( $atts = array() , $cached = TRUE ) {
+	public function getSocialMediaBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1999,8 +2013,8 @@ class cnOutput extends cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param  array $atts Accepted values as noted above.
-	 * @param  bool  [optional] $cached Returns the cached data rather than querying the db.
+	 * @param  array $atts   Accepted values as noted above.
+	 * @param  bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
@@ -2156,12 +2170,14 @@ class cnOutput extends cnEntry {
 	 *
 	 * @access public
 	 * @since 0.7.3
-	 * @version 1.0
-	 * @param (array) [optional] $atts Accepted values as noted above.
-	 * @param (bool)  [optional] $cached Returns the cached data rather than querying the db.
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached data rather than querying the db.
+	 *
 	 * @return string
 	 */
-	public function getDateBlock( $atts = array() , $cached = TRUE ) {
+	public function getDateBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -2242,10 +2258,11 @@ class cnOutput extends cnEntry {
 	 *  return (bool) Return string if set to TRUE instead of echo string.
 	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 2.0
-	 * @param string  [optional] $format deprecated since 0.7.3
-	 * @param (array) [optional] $atts
+	 * @since  0.7.3
+	 *
+	 * @param string $format deprecated since 0.7.3
+	 * @param array  $atts
+	 *
 	 * @return string
 	 */
 	public function getBirthdayBlock( $format = NULL, $atts = array() ) {
@@ -2320,10 +2337,11 @@ class cnOutput extends cnEntry {
 	 *  return (bool) Return string if set to TRUE instead of echo string.
 	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 2.0
-	 * @param string  [optional] $format deprecated since 0.7.3
-	 * @param (array) [optional] $atts
+	 * @since  0.7.3
+	 *
+	 * @param string $format deprecated since 0.7.3
+	 * @param array  $atts
+	 *
 	 * @return string
 	 */
 	public function getAnniversaryBlock( $format = NULL, $atts = array() ) {
@@ -2387,9 +2405,10 @@ class cnOutput extends cnEntry {
 	 * to run before the do_shortcode function for the [embed] shortcode to fire
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.1
+	 * @since  unknown
+	 *
 	 * @param array
+	 *
 	 * @return string
 	 */
 	public function getNotesBlock( $atts = array() ) {
@@ -2421,9 +2440,10 @@ class cnOutput extends cnEntry {
 	 * to run before the do_shortcode function for the [embed] shortcode to fire
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.1
+	 * @since  unknown
+	 *
 	 * @param array
+	 *
 	 * @return string
 	 */
 	public function getBioBlock( $atts = array() ) {
@@ -2463,9 +2483,10 @@ class cnOutput extends cnEntry {
 	 *   return == TRUE || FALSE -- Return string if set to TRUE instead of echo string.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param array   $atts [optional]
+	 * @since  unknown
+	 *
+	 * @param array $atts
+	 *
 	 * @return string
 	 */
 	public function getCategoryBlock( $atts = array() ) {

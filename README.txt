@@ -170,6 +170,121 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.2.6 05/01/2015 =
+* FEATURE: Introduce cnEntry_DB.
+* BUG: Correct usage of defined in cnRetrieve::entries() when checking for DOING_AJAX.
+* BUG: Removed couple unused variables in cnRetrieve:: search().
+* BUG: Remove extra trailing semi-colon in cnRetrieve::search().
+* BUG: Properly init the $defaults array in many of the methods in cnEntry.
+* BUG: Fix bug in cnEntry::Addresses() where incorrect address array was being referenced during argument sanitation and being passed via a filter.
+* BUG: Remove unused variable in cnEntry::processLegacyLogo().
+* BUG: Properly init the $where array in cnEntry::update().
+* BUG: Fix return value in cnSanitize::options().
+* BUG: Fix bug with the duplicate term check when updating a term.
+* BUG: Fix the value of the unique ID field of am IM ID.
+* BUG: Remove unused var in cnTemplatePart::entryActions().
+* BUG: Remove unused var in cnTemplatePart::JSON().
+* BUG: Remove unused global in cnOutput::getLogoImage().
+* BUG: Remove a couple unused vars in cnOutput.
+* BUG: cnTemplatePart::echoOrReturn() should be declared as static.
+* BUG: Only attempt to create FULLTEXT indexes if FULLTEXT search is enabled.
+* BUG: Init array in cnTemplatePart::searchMessage().
+* BUG: Fix social media field label when adding a new social media URL.
+* TWEAK: Prune the changelog section of the readme.txt file.
+* TWEAK: Update the plugin shortcode description in the readme.txt file.
+* TWEAK: Remove error suppression in cnRegisterSettings::setSearchFields().
+* TWEAK: Simplify several ternaries used within cnEntry.
+* TWEAK: Use Yoda Condition checks.
+* TWEAK: Line wrap long array in cnEntry::setAddresses();
+* TWEAK: Fix several instance of incorrect array alignment in cnEntry.
+* TWEAK: Refactor cnEntry::getOriginalImageURL() to be cleaner.
+* TWEAK: Be more succinct in if statement in cnEntry::getFormattedTimeStamp().
+* TWEAK: Use cnURL::prefix() to ensure social network URL rather than regex.
+* TWEAK: Fix misspelling in var name and update usages in cnEntry::processLegacyImages().
+* TWEAK: Refactor cnEntry::update() to use $wpdb->update() rather than $wpdb->query() when updating the entry table.
+* TWEAK: Refactor cnEntry::save() so when saving the entry so wpdb::insert() is utilized rather than wpdb::query().
+* TWEAK: Change the name of Cyrus Island to just Cyrpus to be more correct.
+* TWEAK: Refactor cnEntry::update() to utilize cnEntry_DB.
+* TWEAK: Use Yoda condition in cnEntry::save().
+* TWEAK: Refactor cnEntry::save() to use cnEntry_DB.
+* TWEAK: Do not show wpdb insert/update errors in cnEntry::save() and cnEntry::update().
+* TWEAK: Return empty string for list actions if it has been disabled via the settings.
+* TWEAK: Return empty string for entry actions if it has been disabled via the settings.
+* TWEAK: Return an empty string for the category description if it has been disabled via the settings.
+* TWEAK: Minor code cleanup of cnTemplatePart::searchMessage().
+* TWEAK: Return empty string in cnTemplatePart::noResults().
+* TWEAK: De-duplicate code to set entry defaults based on entry type before saving/updating.
+* TWEAK: Remove usage of global $connections var in cnEntry::update().
+* TWEAK: Fix check to ensure $template is an object of cnTemplate in cnTemplatePart::noResults().
+* TWEAK: Standardize output logic of most methods in cnOutput to use cnOutput::echoOrReturn() to reduce duplicate code usage.
+* TWEAK: Replace instances of cnFormatting::normalizeString() to use cnFormatting::replaceWhatWith().
+* TWEAK: Replace all instances of preg_replace() with cnFormatting::replaceWhatWith() to remove code duplication.
+* TWEAK: Cleanup web page source code whitespace output from cnOutput to make it more readable.
+* TWEAK: Simply ternaries in cnOutput::getSocialMediaBlock().
+* TWEAK: Return empty string in several instances in cnOutput rather than nothing or NULL so output is consistent across all methods.
+* TWEAK: Cleanup code alignment in cnOutput::getCardTelType().
+* TWEAK: Cleanup code alignment in cnOutput::getCardAdrType().
+* TWEAK: Refactor methods in cnTemplatePart to use cnTemplatePart::echoOrReturn() to remove code duplication and simplify output logic.
+* TWEAK: Simplify cnTemplatePart::formClose().
+* TWEAK: Cleanup web page source code whitespace output from cnTemplatePart to make it more readable.
+* TWEAK: Remove unnecessary var init in cnTemplatePart::noResults().
+* TWEAK: Remove unnecessary var init in cnTemplatePart::submit().
+* TWEAK: Fix code alignment in cnTemplatePart::header().
+* TWEAK: Fix code alignment in cnTemplatePart::cards().
+* TWEAK: Fix code alignment in cnTemplatePart::listActions().
+* TWEAK: Fix code alignment in cnTemplatePart::entryActions().
+* TWEAK: Fix code alignment in cnTemplatePart::category description.
+* TWEAK: Remove use of deprecated function in cnTemplatePart::categoryDescription().
+* TWEAK: Fix code alignment in cnTemplatePart::JSON().
+* TWEAK: Fix code alignment in cnTemplatePart::noResults().
+* TWEAK: Fix several default param values in cnTemplatePart.
+* TWEAK: Fix default param value in cnOutput::getAnniversaryBlock().
+* TWEAK: Fix default param value in cnOutput::getBirthdayBlock().
+* TWEAK: Fix code alignment in cnTemplatePart:cards().
+* TWEAK: Fix code alignment in cnTemplatePart::footer().
+* TWEAK: Correct type check in cnOutput::getBirthdayBlock() since default param value was changed.
+* TWEAK: Simplify cnEntry::setPropertyDefaultsByEntryType().
+* OTHER: Correct a misspelling in a code comment in cnRetrieve::entries().
+* OTHER: Correct misspelling of empty.
+* OTHER: Correct misspelling of character.
+* OTHER: Correct misspelling if encryption.
+* DEV: Fix a few exclude errors in .gitattributes.
+* DEV: Add phpDoc to global $wpdb in cnRetrieve::search().
+* DEV: A few minor fixes to the phpDoc for several methods in cnRetrieve.
+* DEV: Add phpDoc to global $wpdb in cnRegisterSettings::setSearchFields().
+* DEV: Minor fixes to phpDoc for cnRegisterSettings::setSearchFields().
+* DEV: Update the phpDoc for many of the class properties of cnEntry.
+* DEV: Remove many extra blanks lines in cnEntry.
+* DEV: Fix code spacing in several places in cnEntry.
+* DEV: Update several phpDoc of several methods in cnEntry.
+* DEV: Add space between foreach and opening paren.
+* DEV: Delete some commented out dead code in cnEntry::update().
+* DEV: Fix a misspelling in phpDoc for cnSanitize::checkbox().
+* DEV: Fix @param var name to match name of actual variable being used.
+* DEV: Add cnSanitize::id().
+* DEV: Correct indenting of closing bracket.
+* DEV: Add @todo in cnEntry to remove the use of a several properties in connectionsLoad.
+* DEV: Correct return type on cnTemplatePart::entryActions().
+* DEV: Cleanup phpDoc for cnTemplatePart::categoryDescription().
+* DEV: Cleanup phpDoc for cnTemplatePart::characterIndex().
+* DEV: Cleanup phpDoc for cnTemplate::noResults().
+* DEV: Doc global vars in cnTemplatePart::pagination().
+* DEV: Doc global vars in cnTemplate::categoryLinkDescendant().
+* DEV: Correct return type in cnTemplatePart::JSON().
+* DEV: Add phpStorm no inspection flag for unused var in cnTemplatePart::cards().
+* DEV: Add new helper method cnEntry_Output::echoOrReturn().
+* DEV: Change up logic in cnOutput::echoOrReturn().
+* DEV: Many little cleanup changes to phpDoc in cnOutput.
+* DEV: Add phpDoc to global var $connections in cnOutput::getPhoneNumberBlock().
+* DEV: Add phpDoc to a couple instances of $wp_embed in cnOutput.
+* DEV: Add echoOfReturn() to cnTemplatePart.
+* DEV: Few minor phpDoc fixes in cnTemplatePart.
+* DEV: Add blank line to a couple methods in cnTemplatePart.
+* DEV: Remove extra space after var init.
+* DEV: Correct param type in phpDoc for cnFormatting::replaceWhatWith().
+* DEV: Correct phpDoc for global used in cnCategory::getDescriptionBlock().
+* DEV: Couple phpDoc fix in cnTemplatePart.
+
 = 8.2.5 04/24/2015 =
 * FEATURE: Introduce cnSiteShot.
 * FEATURE: Introduce cnMeta_Query.
@@ -757,106 +872,6 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * I18N: Updated French (France).
 * I18N: Update connections.pot file to include new strings.
 
-= 0.8.14 07/21/2014 =
-* FEATURE: Improve responsive readiness of the Dashboard and Manage admin pages.
-* BUG: Rename the base for of the Single Entry Card template.
-* BUG: Fix HTML syntax for text areas.
-* BUG: Fix permalink encoding issue.
-* BUG: Fix Dashboard column toggle.
-* BUG: Fix the Screen Options tab display and functions.
-* BUG: Escape the template file path before including it.
-* TWEAK: Remove section head relative positioning.
-* TWEAK: Improve Visibility CSS in metabox header.
-* OTHER: Update TimThumb to 2.8.14.
-* I18N: Update German (Germany) translation.
-
-= 0.8.13 06/20/2014 =
-* BUG: Fix logic that determines if cnEntry_Shortcode should process $content for the `cn_entry` shortcode.
-* BUG: Fix cnFormatting::toBoolean(). Check if value is bool and return it if it is. Otherwise convert value to bool.
-* TWEAK: Add submit, textarea & hidden to cnHTML.
-* TWEAK: Re-order before/after list/entry action hooks to be more consistent.
-* OTHER: Update EDD_SL_Plugin_Updater to version 1.2.
-
-= 0.8.12 06/13/2014 =
-* FEATURE: Add Goodreads to social media options.
-* FEATURE: Add IMDb to social media options.
-* FEATURE: Add Tumblr to social media options.
-* BUG: Add missing gettext text domain to the "Clear Search" button.
-* BUG: Fix RTE saving on the Settings admin page.
-* BUG: Properly search the child template path for custom template files.
-* TWEAK: Update the Google+ icons.
-
-= 0.8.11 06/06/2014 =
-* BUG: Fixed the Visual editor in the Settings API.
-* BUG: Fixed the Visual editor on Categories admin page.
-* BUG: Prevent divide by zero error in pagination.
-* TWEAK: Add filter for default admin metabox page hooks.
-* TWEAK: Change cnLocate::file() logic to search for all files in priority order before moving on to the next priority folder.
-* TWEAK: Change cnTemplate::locate() logic to search for all files in priority order before moving on to the next priority folder.
-* OTHER: Fix misspelling in phpDoc block.
-* OTHER: Add cnTemplatePart helper methods used to require template part files.
-
-= 0.8.10 06/02/2014 =
-* BUG: Fixed issue where Visual editor may not work.
-
-= 0.8.9 05/26/2014 =
-* BUG: Remove extra hyphen when checking for template javascript registration action.
-
-= 0.8.8 05/26/2014 =
-* TWEAK: Set width to template table cell to make them evenly spaced.
-* TWEAK: Remove $atts when retrieving an entry to edit on the front-end.
-* TWEAK: Clean the publish metabox code.
-* TWEAK: User get_current_user_id() to reduce db queries.
-* TWEAK: Cleanup admin CSS and JavaScript script enqueue code.
-* TWEAK: Remove unused JavaScript code on edit admin pages.
-* TWEAK: Add filters so plugins can alter the page hooks that the CSS and JS will be enqueued on.
-* TWEAK: Add actions to allow other plugins to hook into to make it easy to enqueue scripts only on Connections` admin pages.
-* TWEAK: Use hyphen instead of underscore for CSS and JS slugs.
-* I18N: Update Danish translation.
-* I18N: Update Hebrew (Israel) translation.
-* I18N: Update Hungarian (Hungary) translation.
-* I18N: Update Portuguese (Brazil) translation.
-* I18N: Add Norwegian translation.
-
-= 0.8.7 05/19/2014 =
-* TWEAK: Change input type to search on manage page.
-* TWEAK: Add link to Education level to readme.txt.
-* TWEAK: Allow linked entry to edit on front-end when Form >= 2.0 is install and activated.
-* BUG: Fix for cnURL::fromPath() where path would be incorrect for a small number of users. Use wp_normalize_path() if it exists.
-* BUG: Fix for PHP "Fatal error: Cannot use string offset as an array".
-* BUG: Fix PHP explode error when enable_category_multi_select=true.
-* BUG: Fix default region settings sanitation callback which prevented the default region from being set.
-* I18N: Update French (France) MO file.
-* I18N: Update Hebrew (Israel) MO file.
-* I18N: Update Hungarian (Hungry) MO file.
-
-= 0.8.6 05/09/2014 =
-* TWEAK: Change default entry visibility to 'Public'.
-* TWEAK: Readme.txt file tweaks.
-* BUG: Fix datepicker so it would function correctly in custom metaboxes.
-* BUG: Fix broken filter to allow default visibility to be set.
-* BUG: The 'Cancel' will now link to the current admin page when adding/editing an entry.
-* BUG: Fix entry status being set when editing an entry with only the 'edit_entry' capability.
-* BUG: Fix select/drop down when viewed on mobile device.
-* I18N: Add Hebrew (Israel).
-
-
-= 0.8.5 05/02/2014 =
-* BUG: Fix logic for template part output that prevented rendering of some template features.
-* TWEAK: Remove the repeatable character index from the view all endpoint.
-* OTHER: Add whitespace.
-
-= 0.8.4 05/02/2014 =
-* BUG: Fix the random ordering.
-* BUG: Fix cnTemplatePart::formOpen().
-* BUG: Fix CSS URL path string replace for inline CSS.
-* TWEAK: Admin CSS tweaks for custom metaboxes.
-* OTHER: Add meta value filter.
-
-= 0.8.3 05/01/2014 =
-* TWEAK: Remove the cn-clear class from the list section heads.
-* TWEAK: Register Chosen with jquery-chosen-min for legacy support.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
@@ -937,4 +952,7 @@ This a major update to Connections it is recommended to backup before updating. 
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.5 =
+This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.6 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.

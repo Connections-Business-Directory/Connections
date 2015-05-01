@@ -1807,7 +1807,7 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	public static function category( $atts = NULL, $value = array() ) {
+	public static function category( $atts = array(), $value = array() ) {
 
 		$defaults = array(
 			'type'            => 'select',
@@ -2088,7 +2088,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private static function categoryInput( $atts = NULL ) {
+	private static function categoryInput( $atts = array() ) {
 		global $connections;
 
 		$selected = ( get_query_var('cn-cat') ) ? get_query_var('cn-cat') : array();
@@ -2275,7 +2275,7 @@ class cnTemplatePart {
 	 * @param array $atts
 	 * @return string
 	 */
-	private static function categoryLink( $atts = NULL ) {
+	private static function categoryLink( $atts = array() ) {
 		global $connections;
 
 		$level = 0;

@@ -1916,7 +1916,6 @@ class cnOutput extends cnEntry {
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
 		$networks = $this->getSocialMedia( $atts , $cached );
 		$search = array( '%label%' , '%url%' , '%icon%' , '%separator%' );
 
@@ -2201,7 +2200,6 @@ class cnOutput extends cnEntry {
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
 		$dates = $this->getDates( $atts , $cached );
 		$search = array( '%label%' , '%date%' , '%separator%' );
 

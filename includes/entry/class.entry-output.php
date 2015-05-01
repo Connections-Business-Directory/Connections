@@ -2350,7 +2350,7 @@ class cnOutput extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getAnniversaryBlock( $format = NULL, $atts = array() ) {
+	public function getAnniversaryBlock( $format = '', $atts = array() ) {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */

@@ -705,6 +705,7 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function listActions( $atts = array() ) {
+
 		$out = '';
 
 		$defaults = array(
@@ -784,6 +785,7 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function entryActions( $atts = array(), $entry ) {
+
 		$out = '';
 
 		$defaults = array(

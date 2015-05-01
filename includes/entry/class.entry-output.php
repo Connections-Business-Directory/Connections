@@ -1925,8 +1925,8 @@ class cnOutput extends cnEntry {
 		/*
 		 * Ensure the supplied icon style and size are valid, if not reset to the default values.
 		 */
-		( in_array( $atts['style'], $iconStyles ) ) ? $iconStyle = $atts['style'] : $iconStyle = 'wpzoom';
-		( in_array( $atts['size'], $iconSizes ) ) ? $iconSize = $atts['size'] : $iconSize = 32;
+		$iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
+		$iconSize  = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
 
 		if ( empty( $networks ) ) return '';
 

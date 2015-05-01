@@ -2687,7 +2687,7 @@ class cnOutput extends cnEntry {
 				);
 		}
 
-		if ( empty( $out ) ) return;
+		if ( empty( $out ) ) return '';
 
 		$out = apply_filters(
 			'cn_entry_output_meta_container',
@@ -2784,7 +2784,7 @@ class cnOutput extends cnEntry {
 		}
 
 		// Nothing to render, exit.
-		if ( empty( $blocks ) ) return;
+		if ( empty( $blocks ) ) return '';
 
 		// Cleanup user input. Trim whitespace and convert to lowercase.
 		$blocks = array_map( 'strtolower', array_map( 'trim', $blocks ) );
@@ -2862,7 +2862,7 @@ class cnOutput extends cnEntry {
 			);
 		}
 
-		if ( empty( $blockContainerContent ) ) return;
+		if ( empty( $blockContainerContent ) ) return '';
 
 		$out = apply_filters( 'cn_entry_output_content_block_container',
 			sprintf( '<%1$s class="cn-entry-content-block-%2$s">%3$s</%1$s>' . PHP_EOL,
@@ -2894,7 +2894,7 @@ class cnOutput extends cnEntry {
 	public function getCategoryClass( $return = FALSE ) {
 		$categories = $this->getCategory();
 
-		if ( empty( $categories ) ) return NULL;
+		if ( empty( $categories ) ) return '';
 
 		foreach ( $categories as $category ) {
 			$out[] = $category->slug;

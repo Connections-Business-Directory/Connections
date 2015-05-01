@@ -761,7 +761,7 @@ class cnTemplatePart {
 	 * @since  0.8
 	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public static function listAction_ViewAll( $atts ) {
 
@@ -854,8 +854,8 @@ class cnTemplatePart {
 	 *
 	 * @access  private
 	 * @since  0.8
-	 * @param  array  $atts  The $atts from self::entryActions() passed by the action callback.
-	 * @param  object $entry An instance of the cnEntry object; passed by the action callback.
+	 * @param  array    $atts  The $atts from self::entryActions() passed by the action callback.
+	 * @param  cnOutput $entry An instance of the cnEntry object; passed by the action callback.
 	 * @return void
 	 */
 	public static function entryAction_vCard( $atts, $entry ) {
@@ -1249,15 +1249,18 @@ class cnTemplatePart {
 	}
 
 	/**
-	 * The last updated messagefor an entry.
+	 * The last updated message for an entry.
 	 *
 	 * @access public
-	 * @since 0.7.6.5
-	 * @uses wp_parse_args()
-	 * @uses human_time_diff()
-	 * @uses current_time()
-	 * @param (array) $atts [optional]
-	 * @return (string)
+	 * @since  0.7.6.5
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   human_time_diff()
+	 * @uses   current_time()
+	 *
+	 * @param  array $atts [optional]
+	 *
+	 * @return string
 	 */
 	public static function updated( $atts = array() ) {
 		$out = '';

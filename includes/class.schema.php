@@ -276,10 +276,10 @@ class cnSchema {
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_TERMS_TABLE;
 		$sql[] = "(
-			term_id bigint(20) NOT NULL AUTO_INCREMENT,
-			name varchar(200) NOT NULL,
-			slug varchar(200) NOT NULL,
-			term_group bigint(10) NOT NULL,
+			term_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			name varchar(200) NOT NULL default '',
+			slug varchar(200) NOT NULL default '',
+			term_group bigint(10) NOT NULL default 0,
 			PRIMARY KEY  (term_id),
 			KEY slug (slug(191)),
 			KEY name (name(191))
@@ -312,12 +312,12 @@ class cnSchema {
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_TERM_TAXONOMY_TABLE;
 		$sql[] = "(
-			term_taxonomy_id bigint(20) NOT NULL AUTO_INCREMENT,
-			term_id bigint(20) NOT NULL,
-			taxonomy varchar(32) NOT NULL,
+			term_taxonomy_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+			term_id bigint(20) NOT NULL default 0,
+			taxonomy varchar(32) NOT NULL default '',
 			description longtext NOT NULL,
-			parent bigint(20) NOT NULL,
-			count bigint(20) NOT NULL,
+			parent bigint(20) unsigned NOT NULL default 0,
+			count bigint(20) NOT NULL default 0,
 			PRIMARY KEY  (term_taxonomy_id),
 			UNIQUE KEY term_id_taxonomy (term_id, taxonomy),
 			INDEX taxonomy (taxonomy)
@@ -350,9 +350,9 @@ class cnSchema {
 		$sql[] = 'CREATE TABLE';
 		$sql[] = CN_TERM_RELATIONSHIP_TABLE;
 		$sql[] = "(
-			entry_id bigint(20) NOT NULL,
-			term_taxonomy_id bigint(20) NOT NULL,
-			term_order int(11) NOT NULL,
+			entry_id bigint(20) unsigned NOT NULL default 0,
+			term_taxonomy_id bigint(20) unsigned NOT NULL default 0,
+			term_order int(11) NOT NULL default 0,
 			PRIMARY KEY  (entry_id,term_taxonomy_id),
 			KEY term_taxonomy_id (term_taxonomy_id)
 			)";

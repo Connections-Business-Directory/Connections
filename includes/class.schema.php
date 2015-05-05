@@ -246,7 +246,7 @@ class cnSchema {
 			meta_value longtext,
 			PRIMARY KEY  (meta_id),
 			KEY entry_id (entry_id),
-			KEY meta_key (meta_key)
+			KEY meta_key (meta_key(191))
 			)";
 
 		$sql[] = 'ENGINE=' . self::getEngine();
@@ -281,8 +281,8 @@ class cnSchema {
 			slug varchar(200) NOT NULL,
 			term_group bigint(10) NOT NULL,
 			PRIMARY KEY  (term_id),
-			UNIQUE KEY slug (slug),
-			INDEX name (name)
+			KEY slug (slug(191)),
+			KEY name (name(191))
 			)";
 
 		$sql[] = 'ENGINE=' . self::getEngine();
@@ -390,7 +390,7 @@ class cnSchema {
 			meta_value longtext,
 			PRIMARY KEY  (meta_id),
 			KEY term_id (term_id),
-			KEY meta_key (meta_key)
+			KEY meta_key (meta_key(191))
 			)";
 
 		$sql[] = 'ENGINE=' . self::getEngine();

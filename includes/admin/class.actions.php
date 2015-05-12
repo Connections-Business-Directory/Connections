@@ -480,7 +480,7 @@ class cnAdminActions {
 							$metaIDs['updated'] = $row['meta_id'];
 						}
 
-						if ( isset( $_POST['meta'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] === '::DELETED::' ) {
+						if ( isset( $_POST['meta'][ $row['meta_id'] ]['value'] ) && $_POST['meta'][ $row['meta_id'] ]['value'] === '::DELETED::' ) {
 
 							// Record entry meta to be deleted.
 							cnMeta::deleteByID( 'entry', $row['meta_id'] );

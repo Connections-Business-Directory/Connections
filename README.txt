@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.2
-Stable tag: 8.2.6
+Stable tag: 8.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,15 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.2.7 05/12/2015 =
+* BUG: Add missing $default_term property to CN_Term_Admin_List_Table.
+* BUG: Set maximum character for indexes to 191 when creating indexes to support WordPress 4.2 move to utf8mb4.
+* BUG: Correct LinkedIn spelling.
+* BUG: Fix undefined index notice when updating entry meta.
+* TWEAK: Small schema tweaks when creating the db taxonomy tables.
+* TWEAK: Add support for WP Mailto Links plugin via a CSS tweak.
+* OTHER: Fix misspelling of urlencode().
 
 = 8.2.6 05/01/2015 =
 * FEATURE: Introduce cnEntry_DB.
@@ -956,3 +965,6 @@ This a major update to Connections it is recommended to backup before updating. 
 
 = 8.2.6 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.7 =
+It is recommended to backup before updating. Requires WordPress >= 3.8.

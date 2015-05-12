@@ -70,6 +70,15 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	private $level;
 
 	/**
+	 * The term ID of the default term.
+	 *
+	 * @access private
+	 * @since  8.2.7
+	 * @var int
+	 */
+	private $default_term;
+
+	/**
 	 * Constructor.
 	 *
 	 * @access public

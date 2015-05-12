@@ -5,6 +5,11 @@
 	display: initial;
 }
 
+/* This is for WP Mailto Links support. This is to ensure the dummy text is hidden as intended. ref: @link http://connections-pro.com/support/topic/email-displays-odd/*/
+#cn-list .vcard span.wpml-nodis {
+	display: none;
+}
+
 /* Prevent themes from setting spans as blocks! */
 #cn-list .cn-clear {
 	clear: both;

@@ -447,7 +447,7 @@ class cnOptions {
 			'imdb'          => 'IMDb',
 			'instagram'     => 'Instagram',
 			'itunes'        => 'iTunes',
-			'linked-in'     => 'Linked-in',
+			'linked-in'     => 'LinkedIn',
 			'mixcloud'      => 'mixcloud',
 			'myspace'       => 'MySpace',
 			'odnoklassniki' => 'Odnoklassniki',

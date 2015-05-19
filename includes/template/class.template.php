@@ -457,7 +457,7 @@ class cnTemplate {
 	 *
 	 * This is a deprecated function. Its current purpose is to only register template
 	 * parts that used a callback function rather including a file. To my knowledge,
-	 * only the core templates used this structure. The commerical templates all
+	 * only the core templates used this structure. The commercial templates all
 	 * included their template files.
 	 *
 	 * @access public

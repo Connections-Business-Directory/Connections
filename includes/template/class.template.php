@@ -149,11 +149,10 @@ class cnTemplate {
 	/**
 	 * Setup the template.
 	 *
-	 * @access private
+	 * @access public
 	 * @since  0.7.6
-	 * @param  object  $atts
 	 *
-	 * @return object  An instance of this object.
+	 * @param  object $atts
 	 */
 	public function __construct( $atts ) {
 

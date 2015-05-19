@@ -436,11 +436,12 @@ class cnTemplate {
 	}
 
 	/**
-	 * Get the template thumnail file name.
+	 * Get the template thumbnail file name.
 	 *
 	 * @access public
-	 * @since 0.7.6
-	 * @return (string)
+	 * @since  0.7.6
+	 *
+	 * @return array
 	 */
 	public function getThumbnail() {
 		$thumbnail = array();

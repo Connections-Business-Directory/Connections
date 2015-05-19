@@ -304,6 +304,11 @@ class cnLicense {
 						$field['desc'] = __( 'License key mismatch.', 'connections' );
 						break;
 
+					case 'license_not_activable':
+
+						$field['desc'] = __( 'Bundle license keys can not be activated. Use item license key instead.', 'connections' );
+						break;
+
 					default:
 
 						$field['desc'] = __( 'An unknown error has occurred.', 'connections' );

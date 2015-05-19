@@ -390,7 +390,7 @@ class cnTemplate {
 
 		/*
 		 * The template path is required when registering a template, but is not enforced.
-		 * So, there is a possibilty that this value is empty.
+		 * So, there is a possibility that this value is empty.
 		 *
 		 * Since class name is absolutely required and the file defining said class is very
 		 * likely to be in the folder with the rest of the template files, we'll use

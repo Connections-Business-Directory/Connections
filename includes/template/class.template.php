@@ -333,8 +333,9 @@ class cnTemplate {
 	 * Get the template author's URL.
 	 *
 	 * @access public
-	 * @since 0.7.6
-	 * @return (string)
+	 * @since  0.7.6
+	 *
+	 * @return string
 	 */
 	public function getAuthorURL() {
 

@@ -1202,6 +1202,8 @@ class cnURL {
 				break;
 		}
 
+		$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
+
 		if ( 'url' == $atts['data'] ) {
 
 			$out = esc_url( $permalink );

@@ -253,7 +253,7 @@ class cnTemplate {
 			}
 		}
 
-		// Only legacy templates had a `functions.php` so only sarch for it on legacy templates.
+		// Only legacy templates had a `functions.php` so only search for it on legacy templates.
 		if ( $this->legacy == TRUE ) {
 
 			$functionsPath = $this->locate( $this->fileNames( 'functions', NULL, NULL, 'php' ) );

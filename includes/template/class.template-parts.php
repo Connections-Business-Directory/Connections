@@ -975,6 +975,8 @@ class cnTemplatePart {
 
 		$permalink = get_permalink( $homeID );
 
+		$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
+
 		// Re-enable the filter.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 

@@ -236,6 +236,9 @@ class cnLocate {
 			// var_dump( $files );
 		}
 
+		// If `$name` was supplied, add it to the files to search for.
+		if ( ! is_null( $name ) ) $files[] = self::fileName( $base, $name, NULL, $ext );
+
 		// Add the base as the least priority, since it is required.
 		$files[] = self::fileName( $base, NULL, NULL, $ext );
 

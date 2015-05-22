@@ -146,9 +146,6 @@ class cnLocate {
 	 */
 	public static function fileNames( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
 		$files = array();
 
 		if ( get_query_var( 'cn-cat' ) ) {
@@ -159,7 +156,7 @@ class cnLocate {
 			// template name when querying a single category.
 			if ( ! is_array( $categoryID ) ) {
 
-				$term = $instance->term->getTermBy( 'id', $categoryID, 'category' );
+				$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 				$files[] = self::fileName( $base, 'category', $term->slug, $ext );
 			}

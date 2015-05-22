@@ -2092,7 +2092,7 @@ class cnOutput extends cnEntry {
 			$replace[] = '<span class="link-name">' . $name . '</span>';
 
 			// The `notranslate` class is added to prevent Google Translate from translating the text.
-			$replace[] = empty( $link->title ) ? '' : '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $link->title . '</a>';
+			$replace[] = empty( $link->title ) ? '' : '<a class="url" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $link->title . '</a>';
 			$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $url . '</a>';
 
 			if ( FALSE !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&

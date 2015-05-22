@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * This class searches template part files which will override the core
  * template part functions in class cnTemplatePart. It will also allow
- * the overrding of template cards.
+ * the overriding of template cards.
  *
  * @package     Connections
  * @subpackage  Template Part Loader API

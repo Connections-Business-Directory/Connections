@@ -1165,6 +1165,7 @@ add_action( 'cn_post_process_update-entry', array( 'cnEntry_Action', 'clearCache
 add_action( 'cn_process_status', array( 'cnEntry_Action', 'clearCache' ) );
 add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'clearCache' ) );
 add_action( 'cn_process_bulk_delete', array( 'cnEntry_Action', 'clearCache' ) );
+add_action( 'update_option_permalink_structure' , array( 'cnEntry_Action', 'clearCache' ) );
 
 // Add actions to update the term taxonomy counts when entry status or visibility has been updated via the bulk actions.
 add_action( 'cn_process_status', array( 'cnEntry_Action', 'updateTermCount' ) );

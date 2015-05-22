@@ -24,6 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'CN_Names_Template' ) ) {
 
+	/**
+	 * Class CN_Names_Template
+	 */
 	class CN_Names_Template {
 
 		public static function register() {
@@ -45,6 +48,12 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * @access public
+		 * @since  unknown
+		 *
+		 * @param cnTemplate $template
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
@@ -53,6 +62,12 @@ if ( ! class_exists( 'CN_Names_Template' ) ) {
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
 		}
 
+		/**
+		 * @access public
+		 * @since  unknown
+		 *
+		 * @param cnOutput $entry
+		 */
 		public static function card( $entry ) {
 
 			$entry->getNameBlock( array( 'link' => TRUE ) );

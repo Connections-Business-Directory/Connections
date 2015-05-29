@@ -287,7 +287,7 @@ class cnEntryMetabox {
 			),
 		);
 
-		// Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backword compatibility for version prior to 0.8.
+		// Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
 		$defaults        = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
 
 		$atts            = wp_parse_args( apply_filters( 'cn_metabox_publish_atts', $atts ), $defaults );

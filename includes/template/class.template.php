@@ -177,7 +177,7 @@ class cnTemplate {
 
 		// This filter will add the minified CSS and JS to the search paths if SCRIPT_DEBUG is not defined
 		// or set to FALSE.
-		add_filter( 'cn_template_file_names-' . $this->slug, array( $this, 'minifiedFileNames' ), 11, 5 );
+		//add_filter( 'cn_template_file_names-' . $this->slug, array( $this, 'minifiedFileNames' ), 11, 5 );
 
 		// This will locate the template card to be used.
 		$templatePath = $this->locate( $this->fileNames( 'card' ) );
@@ -538,10 +538,10 @@ class cnTemplate {
 	 */
 	private function locate( $files ) {
 
-		$path = FALSE;
+		$paths = $this->filePaths();
 
 		// Try locating this template file by looping through the template paths.
-		/*foreach ( $this->filePaths() as $filePath ) {
+		/*foreach ( $paths as $filePath ) {
 
 			// Try to find a template file.
 			foreach ( $files as $fileName ) {
@@ -560,19 +560,51 @@ class cnTemplate {
 		foreach ( $files as $fileName ) {
 
 			// Try locating this template file by looping through the template paths.
-			foreach ( $this->filePaths() as $filePath ) {
-				//var_dump( $filePath . $fileName );
+			foreach ( $paths as $filePath ) {
 
-				if ( file_exists( $filePath . $fileName ) ) {
-					//var_dump( $filePath . $fileName );
+				$absolutePath = $this->checkForMinified( $filePath . $fileName );
+				// var_dump( $absolutePath );
 
-					$path = $filePath . $fileName;
-					break 2;
+				if ( file_exists( $absolutePath ) ) {
+					//var_dump( $absolutePath );
+
+					return $absolutePath;
 				}
 			}
 		}
 
-		return $path;
+		return FALSE;
+	}
+
+	/**
+	 * Check to see if a minified file exists for the supplied CSS|JS template resource and return its
+	 * absolute server path.
+	 *
+	 * @access private
+	 * @since  8.2.8
+	 *
+	 * @param string $filePath Absolute server path to CSS|JS template resource file.
+	 *
+	 * @return string
+	 */
+	private function checkForMinified( $filePath ) {
+
+		$file = pathinfo( $filePath );
+
+		if ( 'css' == $file['extension'] || 'js' == $file['extension'] ) {
+
+			$minified = $file['dirname'] . DIRECTORY_SEPARATOR . $file['filename'] . '.min.' . $file['extension'];
+			// var_dump( $minified );
+
+			if ( file_exists( $minified ) ) {
+				// var_dump( $minified );
+
+				return $minified;
+			}
+
+		}
+
+		return $filePath;
 	}
 
 	/**

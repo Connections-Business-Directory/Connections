@@ -352,6 +352,8 @@ class cnTemplatePart {
 
 		$permalink = get_permalink( $homeID );
 
+		//$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
+
 		if ( $wp_rewrite->using_permalinks() ) {
 
 			$out .= '<form class="cn-form" id="cn-cat-select" action="' . ( $addAction || $atts['force_home'] ? $permalink : '' ) . '" method="get">';

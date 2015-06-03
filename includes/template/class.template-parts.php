@@ -759,17 +759,26 @@ class cnTemplatePart {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
 	 *
-	 * @return string
+	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
 	 */
 	public static function listAction_ViewAll( $atts ) {
 
-		// No need to display if the user is viewing the "View All" page.
-		if ( 'all' == get_query_var( 'cn-view' ) ) return '';
+		$defaults = array(
+			'type'   => 'all',
+			'text'   => __( 'View All', 'connections' ),
+			'rel'    => 'canonical',
+			'return' => FALSE,
+		);
 
-		// Output the "View All" link.
-		cnURL::permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => FALSE ) );
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// No need to display if the user is viewing the "View All" page.
+		if ( 'all' != get_query_var( 'cn-view' ) ) {
+
+			// Output the "View All" link.
+			cnURL::permalink( $atts );
+		}
 	}
 
 	/**

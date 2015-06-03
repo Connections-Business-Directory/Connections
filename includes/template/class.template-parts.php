@@ -31,6 +31,9 @@ class cnTemplatePart {
 	 */
 	public static function init() {
 
+		add_action( 'cn_action_list_before', array( __CLASS__, 'doListActionsBefore' ), 5 );
+		add_action( 'cn_action_list_after', array( __CLASS__, 'doListActionsAfter' ), 5 );
+
 		add_action( 'cn_list_actions', array( __CLASS__, 'listActions' ) );
 		add_action( 'cn_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
 
@@ -413,16 +416,6 @@ class cnTemplatePart {
 
 		$out = '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
 
-		// Display the Results List Actions.
-		if ( ! get_query_var( 'cn-entry-slug' ) ) {
-
-			// List actions template part.
-			ob_start();
-			do_action( 'cn_list_actions-before', $atts );
-			do_action( 'cn_list_actions', $atts );
-			$out .= ob_get_clean();
-		}
-
 		ob_start();
 		do_action( 'cn_action_list_before', $atts, $results );
 		do_action( 'cn_action_list_both', $atts, $results );
@@ -677,16 +670,73 @@ class cnTemplatePart {
 			do_action( 'cn_action_list_both', $atts, $results );
 			do_action( 'cn_action_list_after', $atts, $results );
 
-			// Display the Results List Actions.
-			if ( ! get_query_var( 'cn-entry-slug' ) ) {
-
-				// List actions template part.
-				do_action( 'cn_list_actions-after', $atts );
-			}
-
 			$out .= ob_get_clean();
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
+	}
+
+	/**
+	 * The action callback to render the list action before the result list.
+	 *
+	 * @access public
+	 * @since  8.2.8
+	 * @static
+	 *
+	 * @param  array  $atts     The shortcode $atts array.
+	 *
+	 * @return string
+	 */
+	public static function doListActionsBefore( $atts ) {
+
+		$out = '';
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+			// List actions template part.
+			ob_start();
+			do_action( 'cn_list_actions-before', $atts );
+			do_action( 'cn_list_actions', $atts );
+			$out = ob_get_clean();
+		}
+
+		return self::echoOrReturn( $atts['return'], $out );
+	}
+
+	/**
+	 * The action callback to render the list action after the result list.
+	 *
+	 * @access public
+	 * @since  8.2.8
+	 * @static
+	 *
+	 * @param  array  $atts     The shortcode $atts array.
+	 *
+	 * @return string
+	 */
+	public static function doListActionsAfter( $atts ) {
+
+		$out = '';
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Display the Results List Actions.
+		if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+			// List actions template part.
+			do_action( 'cn_list_actions-after', $atts );
+		}
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

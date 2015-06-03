@@ -483,7 +483,26 @@ class cnTemplatePart {
 
 		} else {
 
-			self::cards( $atts, $results, $template );
+			// Check to see if there is a template file override.
+			$part = self::get(
+				'list',
+				'body',
+				array(
+					'atts'     => $atts,
+					'results'  => $results,
+					'template' => $template
+				)
+			);
+
+			// If one was found, lets include it. If not, run the core function.
+			if ( $part ) {
+
+				echo $part;
+
+			} else {
+
+				self::cards( $atts, $results, $template );
+			}
 		}
 
 		do_action( 'cn_list_after_body', $atts, $results, $template );

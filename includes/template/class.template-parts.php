@@ -243,7 +243,7 @@ class cnTemplatePart {
 	/**
 	 * Echo or return the supplied string.
 	 *
-	 * @access private
+	 * @access protected
 	 * @since  8.2.6
 	 *
 	 * @param bool   $return
@@ -251,7 +251,7 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	private static function echoOrReturn( $return, $html ) {
+	protected static function echoOrReturn( $return, $html ) {
 
 		if ( $return ) {
 

@@ -933,6 +933,11 @@ span.cn-radio-option {
 	padding: 0;
 }
 
+.cn-metabox-section table tr th,
+.cn-metabox-section table tr td {
+	padding-bottom: 20px;
+}
+
 /*------------------------------------------------------------------------------
   Custom Fields [ Since most of these were lifted from core WP these will have to be verified and remove unused rules. ]
 ------------------------------------------------------------------------------*/

@@ -877,7 +877,7 @@ class cnTemplate {
 				// Insert the minified file name into the array.
 				array_splice( $files, $i, 0, $minified );
 
-				// Increment the insert position. Adding `2` to take into account the updated insert postion
+				// Increment the insert position. Adding `2` to take into account the updated insert position
 				// due to an item being inserted into the array.
 				$i = $i + 2;
 			}

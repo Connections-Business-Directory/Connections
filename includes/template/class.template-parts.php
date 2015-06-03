@@ -509,7 +509,7 @@ class cnTemplatePart {
 
 		$out .= ob_get_clean();
 
-		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
+		$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

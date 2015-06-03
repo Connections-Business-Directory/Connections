@@ -2128,18 +2128,22 @@ class cnOutput extends cnEntry {
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$row = str_ireplace(
+			$row = "\t" . '<span class="link ' . $link->type . '">';
+
+			$row .= str_ireplace(
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
 			);
 
-			$row = cnFormatting::replaceWhatWith( $row, ' ' );
+			$row .= '</span>';
 
-			$rows[] = "\t" . '<span class="link ' . $link->type . '">' . $row . '</span>' . PHP_EOL;
+			$rows[] = apply_filters( 'cn_output_link', cnFormatting::replaceWhatWith( $row, ' ' ), $link, $this, $atts );
 		}
 
-		$block = '<span class="link-block">' . PHP_EOL . implode( '', $rows ) . '</span>' . PHP_EOL;
+		$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+
+		$block = apply_filters( 'cn_output_links', $block, $links, $this, $atts );
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

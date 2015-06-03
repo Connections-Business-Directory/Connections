@@ -1035,7 +1035,7 @@ class cnOutput extends cnEntry {
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		$block = '<span class="contact-block">' .  $out . '</span>';
+		$block = '<span class="cn-contact-block">' .  $out . '</span>';
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

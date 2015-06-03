@@ -473,6 +473,8 @@ class cnTemplatePart {
 
 		ob_start();
 
+		do_action( 'cn_list_before_body', $atts, $results, $template );
+
 		// If there are no results no need to proceed and output message.
 		if ( empty( $results ) ) {
 
@@ -483,6 +485,8 @@ class cnTemplatePart {
 
 			self::cards( $atts, $results, $template );
 		}
+
+		do_action( 'cn_list_after_body', $atts, $results, $template );
 
 		$out .= ob_get_clean();
 

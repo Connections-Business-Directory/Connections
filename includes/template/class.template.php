@@ -423,7 +423,7 @@ class cnTemplate {
 
 		/*
 		 * The template URL is required when registering a template, but is not enforced.
-		 * So, there is a possibilty that this value is empty.
+		 * So, there is a possibility that this value is empty.
 		 *
 		 * Let get the URL from the $this->getPath().
 		 */

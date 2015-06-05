@@ -1035,7 +1035,7 @@ class cnOutput extends cnEntry {
 
 		$out = cnFormatting::replaceWhatWith( $out, ' ' );
 
-		$block = '<span class="contact-block">' .  $out . '</span>';
+		$block = '<span class="cn-contact-block">' .  $out . '</span>';
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
@@ -1641,32 +1641,37 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getEmailAddressBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['limit'] = NULL;
-		$defaults['format'] = '';
-		$defaults['title'] = '';
-		$defaults['size'] = 32;
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'limit'     => NULL,
+			'format'    => '',
+			'title'     => '',
+			'size'      => 32,
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_email' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$emailAddresses = $this->getEmailAddresses( $atts , $cached );
-		$search = array( '%label%' , '%address%' , '%icon%' , '%separator%' );
+		$rows      = array();
+		$addresses = $this->getEmailAddresses( $atts, $cached );
+		$search    = array( '%label%', '%address%', '%icon%', '%separator%' );
 		$iconSizes = array( 16, 24, 32, 48, 64 );
+
+		if ( empty( $addresses ) ) return '';
 
 		// Replace the 'Name Tokens' with the entry's name.
 		$title = $this->getName(
@@ -1678,19 +1683,14 @@ class cnOutput extends cnEntry {
 		/*
 		 * Ensure the supplied size is valid, if not reset to the default value.
 		 */
-		( in_array( $atts['size'], $iconSizes ) ) ? $iconSize = $atts['size'] : $iconSize = 32;
+		in_array( $atts['size'], $iconSizes ) ? $iconSize = $atts['size'] : $iconSize = 32;
 
-		if ( empty( $emailAddresses ) ) return '';
+		foreach ( $addresses as $email ) {
 
-		$out .= '<span class="email-address-block">' . PHP_EOL;
-
-		foreach ( $emailAddresses as $email ) {
 			$replace = array();
 
-			$out .= "\t" . '<span class="email">';
-
 			// Replace the 'Email Tokens' with the email info.
-			$title = str_ireplace( array( '%type%', '%name%' ) , array( $email->type, $email->name ), $title );
+			$title = str_ireplace( array( '%type%', '%name%' ), array( $email->type, $email->name ), $title );
 
 			$replace[] = ( empty( $email->name ) ) ? '' : '<span class="email-name">' . $email->name . '</span>';
 			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-address"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '">' . $email->address . '</a></span>';
@@ -1699,28 +1699,30 @@ class cnOutput extends cnEntry {
 			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><img src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . '" width="' . $iconSize . '"/></a></span>';
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace(
+			$row = "\t" . '<span class="email">';
+
+			$row .= str_ireplace(
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %address%' : $atts['format']
 				);
 
 			// Set the hCard Email Address Type.
-			$out .= '<span class="type" style="display: none;">INTERNET</span>';
+			$row .= '<span class="type" style="display: none;">INTERNET</span>';
 
-			$out .= '</span>' . PHP_EOL;
+			$row .= '</span>';
+
+			$rows[] = apply_filters( 'cn_output_email_address', cnFormatting::replaceWhatWith( $row, ' ' ), $email, $this, $atts );
 		}
 
-		$out .= '</span>' . PHP_EOL;
-
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$block = '<span class="email-address-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
 
 		// This filter is required to allow the ROT13 encryption plugin to function.
-		$out = apply_filters( 'cn_output_email_addresses', $out );
+		$block = apply_filters( 'cn_output_email_addresses', $block, $addresses, $this, $atts );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
-		return $this->echoOrReturn( $atts['return'], $out );
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -2092,7 +2094,7 @@ class cnOutput extends cnEntry {
 			$replace[] = '<span class="link-name">' . $name . '</span>';
 
 			// The `notranslate` class is added to prevent Google Translate from translating the text.
-			$replace[] = empty( $link->title ) ? '' : '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $link->title . '</a>';
+			$replace[] = empty( $link->title ) ? '' : '<a class="url" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $link->title . '</a>';
 			$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $url . '</a>';
 
 			if ( FALSE !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
@@ -2126,18 +2128,22 @@ class cnOutput extends cnEntry {
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$row = str_ireplace(
+			$row = "\t" . '<span class="link ' . $link->type . '">';
+
+			$row .= str_ireplace(
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
 			);
 
-			$row = cnFormatting::replaceWhatWith( $row, ' ' );
+			$row .= '</span>';
 
-			$rows[] = "\t" . '<span class="link ' . $link->type . '">' . $row . '</span>' . PHP_EOL;
+			$rows[] = apply_filters( 'cn_output_link', cnFormatting::replaceWhatWith( $row, ' ' ), $link, $this, $atts );
 		}
 
-		$block = '<span class="link-block">' . PHP_EOL . implode( '', $rows ) . '</span>' . PHP_EOL;
+		$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+
+		$block = apply_filters( 'cn_output_links', $block, $links, $this, $atts );
 
 		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

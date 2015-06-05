@@ -1035,8 +1035,22 @@ class cnURL {
 		// Create the permalink base based on context where the entry is being displayed.
 		if ( in_the_loop() && is_page() ) {
 
-			// Only slash it when using pretty permalinks.
-			$permalink = $wp_rewrite->using_permalinks() ? trailingslashit( get_permalink( $homeID ) ) : get_permalink( $homeID );
+			if ( $wp_rewrite->using_permalinks() ) {
+
+				// Only slash it when using pretty permalinks.
+				$permalink = trailingslashit( get_permalink( $homeID ) );
+
+			} else {
+
+				$permalink = get_permalink( $homeID );
+
+				// If the current page is the front page, the `page_id` query var must be added because without it, WP
+				// will redirect to the blog/posts home page.
+				if ( is_front_page() ) {
+
+					$permalink = add_query_arg( 'page_id' , $post->ID, $permalink );
+				}
+			}
 
 		} else {
 
@@ -1051,9 +1065,6 @@ class cnURL {
 			}
 
 		}
-
-		// If on the front page, add the query var for the page ID.
-		if ( ! $wp_rewrite->using_permalinks() && is_front_page() ) $permalink = add_query_arg( 'page_id' , $post->ID, $permalink );
 
 		if ( ! empty( $atts['class'] ) ) $piece['class']       = 'class="' . $atts['class'] .'"';
 		// if ( ! empty( $atts['slug'] ) ) $piece['id']        = 'id="' . $atts['slug'] .'"';
@@ -1201,6 +1212,8 @@ class cnURL {
 
 				break;
 		}
+
+		$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
 
 		if ( 'url' == $atts['data'] ) {
 

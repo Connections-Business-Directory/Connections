@@ -31,6 +31,9 @@ class cnTemplatePart {
 	 */
 	public static function init() {
 
+		add_action( 'cn_action_list_before', array( __CLASS__, 'doListActionsBefore' ), 5 );
+		add_action( 'cn_action_list_after', array( __CLASS__, 'doListActionsAfter' ), 5 );
+
 		add_action( 'cn_list_actions', array( __CLASS__, 'listActions' ) );
 		add_action( 'cn_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
 
@@ -243,7 +246,7 @@ class cnTemplatePart {
 	/**
 	 * Echo or return the supplied string.
 	 *
-	 * @access private
+	 * @access protected
 	 * @since  8.2.6
 	 *
 	 * @param bool   $return
@@ -251,7 +254,7 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	private static function echoOrReturn( $return, $html ) {
+	protected static function echoOrReturn( $return, $html ) {
 
 		if ( $return ) {
 
@@ -349,6 +352,8 @@ class cnTemplatePart {
 
 		$permalink = get_permalink( $homeID );
 
+		//$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
+
 		if ( $wp_rewrite->using_permalinks() ) {
 
 			$out .= '<form class="cn-form" id="cn-cat-select" action="' . ( $addAction || $atts['force_home'] ? $permalink : '' ) . '" method="get">';
@@ -413,16 +418,6 @@ class cnTemplatePart {
 
 		$out = '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
 
-		// Display the Results List Actions.
-		if ( ! get_query_var( 'cn-entry-slug' ) ) {
-
-			// List actions template part.
-			ob_start();
-			do_action( 'cn_list_actions-before', $atts );
-			do_action( 'cn_list_actions', $atts );
-			$out .= ob_get_clean();
-		}
-
 		ob_start();
 		do_action( 'cn_action_list_before', $atts, $results );
 		do_action( 'cn_action_list_both', $atts, $results );
@@ -480,6 +475,8 @@ class cnTemplatePart {
 
 		ob_start();
 
+		do_action( 'cn_list_before_body', $atts, $results, $template );
+
 		// If there are no results no need to proceed and output message.
 		if ( empty( $results ) ) {
 
@@ -488,12 +485,33 @@ class cnTemplatePart {
 
 		} else {
 
-			self::cards( $atts, $results, $template );
+			// Check to see if there is a template file override.
+			$part = self::get(
+				'list',
+				'body',
+				array(
+					'atts'     => $atts,
+					'results'  => $results,
+					'template' => $template
+				)
+			);
+
+			// If one was found, lets include it. If not, run the core function.
+			if ( $part ) {
+
+				echo $part;
+
+			} else {
+
+				self::cards( $atts, $results, $template );
+			}
 		}
+
+		do_action( 'cn_list_after_body', $atts, $results, $template );
 
 		$out .= ob_get_clean();
 
-		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
+		$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}
@@ -677,16 +695,73 @@ class cnTemplatePart {
 			do_action( 'cn_action_list_both', $atts, $results );
 			do_action( 'cn_action_list_after', $atts, $results );
 
-			// Display the Results List Actions.
-			if ( ! get_query_var( 'cn-entry-slug' ) ) {
-
-				// List actions template part.
-				do_action( 'cn_list_actions-after', $atts );
-			}
-
 			$out .= ob_get_clean();
 
 		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $out );
+	}
+
+	/**
+	 * The action callback to render the list action before the result list.
+	 *
+	 * @access public
+	 * @since  8.2.8
+	 * @static
+	 *
+	 * @param  array  $atts     The shortcode $atts array.
+	 *
+	 * @return string
+	 */
+	public static function doListActionsBefore( $atts ) {
+
+		$out = '';
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+			// List actions template part.
+			ob_start();
+			do_action( 'cn_list_actions-before', $atts );
+			do_action( 'cn_list_actions', $atts );
+			$out = ob_get_clean();
+		}
+
+		return self::echoOrReturn( $atts['return'], $out );
+	}
+
+	/**
+	 * The action callback to render the list action after the result list.
+	 *
+	 * @access public
+	 * @since  8.2.8
+	 * @static
+	 *
+	 * @param  array  $atts     The shortcode $atts array.
+	 *
+	 * @return string
+	 */
+	public static function doListActionsAfter( $atts ) {
+
+		$out = '';
+
+		$defaults = array(
+			'return' => FALSE
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Display the Results List Actions.
+		if ( ! get_query_var( 'cn-entry-slug' ) ) {
+
+			// List actions template part.
+			do_action( 'cn_list_actions-after', $atts );
+		}
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}
@@ -759,17 +834,26 @@ class cnTemplatePart {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
 	 *
-	 * @return string
+	 * @param  array  $atts The $atts from self::listActions() passed by the action callback.
 	 */
 	public static function listAction_ViewAll( $atts ) {
 
-		// No need to display if the user is viewing the "View All" page.
-		if ( 'all' == get_query_var( 'cn-view' ) ) return '';
+		$defaults = array(
+			'type'   => 'all',
+			'text'   => __( 'View All', 'connections' ),
+			'rel'    => 'canonical',
+			'return' => FALSE,
+		);
 
-		// Output the "View All" link.
-		cnURL::permalink( array( 'type' => 'all', 'text' => __( 'View All', 'connections' ), 'rel' => 'canonical', 'return' => FALSE ) );
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// No need to display if the user is viewing the "View All" page.
+		if ( 'all' != get_query_var( 'cn-view' ) ) {
+
+			// Output the "View All" link.
+			cnURL::permalink( $atts );
+		}
 	}
 
 	/**
@@ -849,7 +933,14 @@ class cnTemplatePart {
 	 */
 	public static function entryAction_Back( $atts, $entry ) {
 
-		cnURL::permalink( array( 'type' => 'home', 'text' => __( 'Go back to directory.', 'connections' ), 'on_click' => 'history.back();return false;', 'return' => FALSE ) );
+		cnURL::permalink(
+			array(
+				'type' => 'home',
+				'text' => __( 'Go back to directory.', 'connections' ),
+				'on_click' => 'history.back();return false;',
+				'return' => FALSE
+			)
+		);
 	}
 
 	/**
@@ -975,6 +1066,8 @@ class cnTemplatePart {
 
 		$permalink = get_permalink( $homeID );
 
+		$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
+
 		// Re-enable the filter.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
@@ -1071,7 +1164,7 @@ class cnTemplatePart {
 
 			$out .= sprintf(
 				'<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>',
-				$permalink,
+				esc_url( $permalink ),
 				__( 'Clear Search', 'connections' )
 			);
 

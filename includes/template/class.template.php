@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnTemplate
+ */
 class cnTemplate {
 
 	/**
@@ -146,11 +149,10 @@ class cnTemplate {
 	/**
 	 * Setup the template.
 	 *
-	 * @access private
+	 * @access public
 	 * @since  0.7.6
-	 * @param  object  $atts
 	 *
-	 * @return object  An instance of this object.
+	 * @param  object $atts
 	 */
 	public function __construct( $atts ) {
 
@@ -175,7 +177,7 @@ class cnTemplate {
 
 		// This filter will add the minified CSS and JS to the search paths if SCRIPT_DEBUG is not defined
 		// or set to FALSE.
-		add_filter( 'cn_template_file_names-' . $this->slug, array( $this, 'minifiedFileNames' ), 11, 5 );
+		//add_filter( 'cn_template_file_names-' . $this->slug, array( $this, 'minifiedFileNames' ), 11, 5 );
 
 		// This will locate the template card to be used.
 		$templatePath = $this->locate( $this->fileNames( 'card' ) );
@@ -251,7 +253,7 @@ class cnTemplate {
 			}
 		}
 
-		// Only legacy templates had a `functions.php` so only sarch for it on legacy templates.
+		// Only legacy templates had a `functions.php` so only search for it on legacy templates.
 		if ( $this->legacy == TRUE ) {
 
 			$functionsPath = $this->locate( $this->fileNames( 'functions', NULL, NULL, 'php' ) );
@@ -331,8 +333,9 @@ class cnTemplate {
 	 * Get the template author's URL.
 	 *
 	 * @access public
-	 * @since 0.7.6
-	 * @return (string)
+	 * @since  0.7.6
+	 *
+	 * @return string
 	 */
 	public function getAuthorURL() {
 
@@ -387,7 +390,7 @@ class cnTemplate {
 
 		/*
 		 * The template path is required when registering a template, but is not enforced.
-		 * So, there is a possibilty that this value is empty.
+		 * So, there is a possibility that this value is empty.
 		 *
 		 * Since class name is absolutely required and the file defining said class is very
 		 * likely to be in the folder with the rest of the template files, we'll use
@@ -420,7 +423,7 @@ class cnTemplate {
 
 		/*
 		 * The template URL is required when registering a template, but is not enforced.
-		 * So, there is a possibilty that this value is empty.
+		 * So, there is a possibility that this value is empty.
 		 *
 		 * Let get the URL from the $this->getPath().
 		 */
@@ -433,11 +436,12 @@ class cnTemplate {
 	}
 
 	/**
-	 * Get the template thumnail file name.
+	 * Get the template thumbnail file name.
 	 *
 	 * @access public
-	 * @since 0.7.6
-	 * @return (string)
+	 * @since  0.7.6
+	 *
+	 * @return array
 	 */
 	public function getThumbnail() {
 		$thumbnail = array();
@@ -453,7 +457,7 @@ class cnTemplate {
 	 *
 	 * This is a deprecated function. Its current purpose is to only register template
 	 * parts that used a callback function rather including a file. To my knowledge,
-	 * only the core templates used this structure. The commerical templates all
+	 * only the core templates used this structure. The commercial templates all
 	 * included their template files.
 	 *
 	 * @access public
@@ -534,10 +538,10 @@ class cnTemplate {
 	 */
 	private function locate( $files ) {
 
-		$path = FALSE;
+		$paths = $this->filePaths();
 
 		// Try locating this template file by looping through the template paths.
-		/*foreach ( $this->filePaths() as $filePath ) {
+		/*foreach ( $paths as $filePath ) {
 
 			// Try to find a template file.
 			foreach ( $files as $fileName ) {
@@ -556,19 +560,51 @@ class cnTemplate {
 		foreach ( $files as $fileName ) {
 
 			// Try locating this template file by looping through the template paths.
-			foreach ( $this->filePaths() as $filePath ) {
-				//var_dump( $filePath . $fileName );
+			foreach ( $paths as $filePath ) {
 
-				if ( file_exists( $filePath . $fileName ) ) {
-					//var_dump( $filePath . $fileName );
+				$absolutePath = $this->checkForMinified( $filePath . $fileName );
+				// var_dump( $absolutePath );
 
-					$path = $filePath . $fileName;
-					break 2;
+				if ( file_exists( $absolutePath ) ) {
+					//var_dump( $absolutePath );
+
+					return $absolutePath;
 				}
 			}
 		}
 
-		return $path;
+		return FALSE;
+	}
+
+	/**
+	 * Check to see if a minified file exists for the supplied CSS|JS template resource and return its
+	 * absolute server path.
+	 *
+	 * @access private
+	 * @since  8.2.8
+	 *
+	 * @param string $filePath Absolute server path to CSS|JS template resource file.
+	 *
+	 * @return string
+	 */
+	private function checkForMinified( $filePath ) {
+
+		$file = pathinfo( $filePath );
+
+		if ( 'css' == $file['extension'] || 'js' == $file['extension'] ) {
+
+			$minified = $file['dirname'] . DIRECTORY_SEPARATOR . $file['filename'] . '.min.' . $file['extension'];
+			// var_dump( $minified );
+
+			if ( file_exists( $minified ) ) {
+				// var_dump( $minified );
+
+				return $minified;
+			}
+
+		}
+
+		return $filePath;
 	}
 
 	/**
@@ -636,9 +672,6 @@ class cnTemplate {
 	 */
 	private function fileNames( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
 		$files = array();
 
 		if ( get_query_var( 'cn-cat' ) ) {
@@ -649,7 +682,7 @@ class cnTemplate {
 			// template name when querying a single category.
 			if ( ! is_array( $categoryID ) ) {
 
-				$term = $instance->term->getTermBy( 'id', $categoryID, 'category' );
+				$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 				$files[] = $this->fileName( $base, 'category', $term->slug, $ext );
 			}
@@ -876,7 +909,7 @@ class cnTemplate {
 				// Insert the minified file name into the array.
 				array_splice( $files, $i, 0, $minified );
 
-				// Increment the insert position. Adding `2` to take into account the updated insert postion
+				// Increment the insert position. Adding `2` to take into account the updated insert position
 				// due to an item being inserted into the array.
 				$i = $i + 2;
 			}
@@ -963,6 +996,7 @@ class cnTemplate {
 		// However, if the sever is running the pagespeed mod, the scoped setting will cause the CSS
 		// not to be applied because it is moved to the page head where it belongs.
 		$out .= '<style type="text/css">';
+		/** @noinspection PhpUsageOfSilenceOperatorInspection */
 		$out .= str_replace( $search, $replace, @file_get_contents( $this->parts['css-path'] ) );
 		$out .= '</style>';
 
@@ -981,7 +1015,7 @@ class cnTemplate {
 	 */
 	public function enqueueCSS() {
 
-		// Ensure the core CSS is added as a required CSS file when enqueuing the template's CSS.
+		// Ensure the core CSS is added as a required CSS file when enqueueing the template's CSS.
 		$required = cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ? array( 'cn-public' ) : array();
 
 		$required = apply_filters( 'cn_template_required_css-' . $this->slug, $required, $this );

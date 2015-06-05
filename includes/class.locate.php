@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * This class searches template part files which will override the core
  * template part functions in class cnTemplatePart. It will also allow
- * the overrding of template cards.
+ * the overriding of template cards.
  *
  * @package     Connections
  * @subpackage  Template Part Loader API
@@ -146,9 +146,6 @@ class cnLocate {
 	 */
 	public static function fileNames( $base, $name = NULL, $slug = NULL, $ext = 'php' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
 		$files = array();
 
 		if ( get_query_var( 'cn-cat' ) ) {
@@ -159,7 +156,7 @@ class cnLocate {
 			// template name when querying a single category.
 			if ( ! is_array( $categoryID ) ) {
 
-				$term = $instance->term->getTermBy( 'id', $categoryID, 'category' );
+				$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 				$files[] = self::fileName( $base, 'category', $term->slug, $ext );
 			}
@@ -235,6 +232,9 @@ class cnLocate {
 			$files[] = self::fileName( $base, 'single', NULL, $ext );
 			// var_dump( $files );
 		}
+
+		// If `$name` was supplied, add it to the files to search for.
+		if ( ! is_null( $name ) ) $files[] = self::fileName( $base, $name, NULL, $ext );
 
 		// Add the base as the least priority, since it is required.
 		$files[] = self::fileName( $base, NULL, NULL, $ext );

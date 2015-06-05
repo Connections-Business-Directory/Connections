@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 3.8
 Tested up to: 4.2
-Stable tag: 8.2.7
+Stable tag: 8.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,6 +169,46 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.2.8 06/05/2015 =
+* BUG: Escape URL for search message clear message button.
+* BUG: Refactor cnTemplate::locate() to fix inconsistencies in the priority loading order of template override resource files.
+* TWEAK: Remove use of deprecated function in cnTemplate::filenames().
+* TWEAK: Add support for the `license_not_activable` error message response from EDD-SL.
+* TWEAK: Add support for base name in cnLocate when searching for template files.
+* TWEAK: Add a filter to cnURL::permalink() so the URL can be filtered.
+* TWEAK: Add a filter to the URL for cnTemplatePart::searchingMessage().
+* TWEAK: Set the default template type to 'all' and only override if the `list_type` option is set in cnTemplateFactory::loadTemplate().
+* TWEAK: Clear the options/transient caches when the permalink structure is changed.
+* TWEAK: Remove the notranslate class from a link title.
+* TWEAK: Remove use of deprecated function in cnLocate::fileNames().
+* TWEAK: Prefix the contact-block class.
+* TWEAK: Tweaks to cnOutput::getLinkBlock() so filters to output could be added.
+* TWEAK: And additional filters to cnOutput::getEmailAddressBlock().
+* TWEAK: Tweak to add a bit of padding to the metabox table rows.
+* TWEAK: Tweak logic in cnURL::permalink() to properly id the page_id query var to the site's static home page when the directory and/or widgets are added to the static home page.
+* TWEAK: Change cnTemplatePart::echoOrReturn() to be a protect function.
+* TWEAK: Move the before/after action list logic to their own callback functions and add them to the cn_action_list_{before|after} action hooks.
+* TWEAK: Add the cn_list_{before|after}_body action hooks.
+* TWEAK: Allow the results list body to be overridden by using a template override file in cnTemplatePart::body().
+* TWEAK: Remove unnecessary PHP_EOL in cnTemplatePart::body().
+* TWEAK: Assign get_query_var('cn-view') to the $view var for reuse in switch in cnShortcode::view().
+* TWEAK: Make the shortcode view switch pluggable in cnShortcode::view() to allow new views to be registered and processed.
+* TWEAK: Change the default view from card to list to cleanup nomenclature for the forthcoming List View extension.
+* OTHER: Fix misspelling of search in phpDoc.
+* OTHER: Fix misspelling in code comment in cnTemplate::getPath().
+* OTHER: Fix misspelling in phpDoc.
+* OTHER: Correct misspelling in phpDoc in cnLocate.
+* OTHER: Fix misspellings in code comment.
+* DEV: Stub phpDoc for class cnTemplate.
+* DEV: Fix phpDoc for cnTemplate::__construct().
+* DEV: Cleanup phpDoc for cnTemplate::getAuthorURL().
+* DEV: Cleanup phpDoc for cnTemplate::getThumbnail().
+* DEV: Add a no inspection flag for phpStorm.
+* DEV: Add basic phpDoc to the Names template.
+* DEV: Refactor cnOutput::getEmailAddressBlock(). Cleanup code and add additional filters.
+* DEV: Refactor cnTemplatePart::listAction_ViewAll() to be more readable and add default options so the permalink would be properly resolve to the correct page.
+* DEV: Refactor cnTemplatePart::entryAction_Back() to be more readable by flowing options on multiple lines.
 
 = 8.2.7 05/12/2015 =
 * BUG: Add missing $default_term property to CN_Term_Admin_List_Table.
@@ -967,4 +1007,7 @@ This a major update to Connections it is recommended to backup before updating. 
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.7 =
+It is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.8 =
 It is recommended to backup before updating. Requires WordPress >= 3.8.

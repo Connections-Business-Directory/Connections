@@ -534,6 +534,8 @@ class cnTemplateFactory {
 			'template'      => NULL,
 		);
 
+		$type = 'all';
+
 		$atts = shortcode_atts( $defaults, $atts );
 
 		if ( ! empty( $atts['list_type'] ) ) {
@@ -551,11 +553,6 @@ class cnTemplateFactory {
 				// Change the list type to family from connection_group to maintain compatibility with versions 0.7.0.4 and earlier.
 				if ( $type == 'connection_group' ) $type = 'family';
 			}
-
-		} else {
-
-			// If no list type was specified, set the default ALL template.
-			$type = 'all';
 		}
 
 		/*

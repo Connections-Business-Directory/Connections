@@ -9,7 +9,7 @@
   
 **Tested up to:** 4.2
   
-**Stable tag:** 8.2.7
+**Stable tag:** 8.2.8
   
 **License:** GPLv2 or later
   

@@ -35,7 +35,7 @@ class cnAdminActions {
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Setup the class, if it has already been initialized, return the intialized instance.
+	 * Setup the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @access public
 	 * @since 0.7.5

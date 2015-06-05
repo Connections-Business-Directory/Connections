@@ -334,10 +334,21 @@ class cnShortcode {
 			// Show the standard result list.
 			default:
 
-				return cnShortcode_Connections::shortcode( $atts, $content );
+				//return cnShortcode_Connections::shortcode( $atts, $content );
+
+				if ( has_action( "cn_view_$view" ) ) {
+
+					ob_start();
+
+					do_action( "cn_view_$view", $atts, $content, $tag );
+
+					return ob_get_clean();
+				}
 
 				break;
 		}
+
+		return cnShortcode_Connections::shortcode( $atts, $content );
 	}
 
 	/**

@@ -242,7 +242,7 @@ class cnShortcode {
 				break;
 
 			// Show the standard result list.
-			case 'list':
+			case 'card':
 
 				return cnShortcode_Connections::shortcode( $atts, $content );
 

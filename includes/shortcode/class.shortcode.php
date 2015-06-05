@@ -180,7 +180,9 @@ class cnShortcode {
 			return $message;
 		}
 
-		switch ( get_query_var('cn-view') ) {
+		$view = get_query_var('cn-view');
+
+		switch ( $view ) {
 
 			case 'submit':
 

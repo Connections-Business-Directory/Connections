@@ -255,19 +255,19 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			if ( ! defined( 'CN_TEMPLATE_PATH' ) ) {
 
 				/** @var string CN_TEMPLATE_PATH */
-				define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates/' );
+				define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates' . DIRECTORY_SEPARATOR );
 			}
 
 			if ( ! defined( 'CN_TEMPLATE_URL' ) ) {
 
 				/** @var string CN_TEMPLATE_URL */
-				define( 'CN_TEMPLATE_URL', CN_URL . 'templates/' );
+				define( 'CN_TEMPLATE_URL', CN_URL . 'templates' . DIRECTORY_SEPARATOR );
 			}
 
 			if ( ! defined( 'CN_CACHE_PATH' ) ) {
 
 				/** @var string CN_CACHE_PATH */
-				define( 'CN_CACHE_PATH', CN_PATH . 'cache/' );
+				define( 'CN_CACHE_PATH', CN_PATH . 'cache' . DIRECTORY_SEPARATOR );
 			}
 
 			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) ) {
@@ -428,7 +428,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) ) {
 
 					/** @var string CN_CUSTOM_TEMPLATE_PATH */
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'connections_templates' . DIRECTORY_SEPARATOR );
 				}
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {

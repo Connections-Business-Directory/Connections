@@ -487,6 +487,26 @@ class cnUpload {
 		if ( ! empty( $atts['error_callback'] ) ) $options['upload_error_handler']        = $atts['error_callback'];
 		if ( ! empty( $atts['filename_callback'] ) ) $options['unique_filename_callback'] = $atts['filename_callback'];
 
+		/**
+		 * The default overrides passed to wp_handle_uploads().
+		 * 
+		 * @since 8.2.9
+		 *
+		 * @param array $options {
+		 *     @type string       $action                   The form action. Expected and default value set by @see wp_handle_upload() is 'wp_handle_upload'.
+		 *                                                  Default: empty string, @see wp_handle_upload() will set this to 'wp_handle_upload'
+		 *     @type bool         $test_form                Whether or not $action == $_POST['action'] should be checked to ensure a valid form POST.
+		 *                                                  Default: FALSE
+		 *     @type array        $mimes                    Key is the file extension with value as the mime type.
+		 *                                                  Default: empty array.
+		 *     @type array|string $upload_error_handler     Custom error handler callback.
+		 *                                                  Default: array( $this, 'uploadErrorHandler' )
+		 *     @type array|string $unique_filename_callback Custom unique filename callback.
+		 *                                                  Default: array( $this, 'uniqueFilename' )
+		 * }
+		 */
+		$options = apply_filters( 'cn_upload_file_options', $options, $file );
+
 		$this->result = wp_handle_upload( $file, $options );
 
 		// Remove the filter that changes the upload destination directory.

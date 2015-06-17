@@ -440,6 +440,7 @@ class cnUpload {
 		$filter  = array();
 
 		$defaults = array(
+			'action'            => '',
 			'post_action'       => '',
 			'sub_dir'           => '',
 			'mimes'             => array(),
@@ -478,6 +479,8 @@ class cnUpload {
 		// Setup the wp_handle_upload() $options array.
 		// Only add values to the array that are going to be overridden.
 		// Passing options not intended to be overridden, even if pass empty causes bad things to happen to you.
+
+		$options['action']    = empty( $atts['action'] ) ? '' : $atts['action'];
 		$options['test_form'] = empty( $atts['post_action'] ) ? FALSE : $atts['post_action'];
 
 		if ( ! empty( $atts['mimes'] ) && is_array( $atts['mimes']) ) $options['mimes']   = $atts['mimes'];

@@ -489,7 +489,7 @@ class cnUpload {
 
 		/**
 		 * The default overrides passed to wp_handle_uploads().
-		 * 
+		 *
 		 * @since 8.2.9
 		 *
 		 * @param array $options {

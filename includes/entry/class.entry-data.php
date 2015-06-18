@@ -3534,10 +3534,11 @@ class cnEntry {
 	 * @since  unknown
 	 *
 	 * @param string $bio
+	 * @param string $context
 	 */
-	public function setBio( $bio ) {
+	public function setBio( $bio, $context = 'db' ) {
 
-		$this->bio = $bio;
+		$this->bio = cnSanitize::field( 'bio', $bio, $context );
 	}
 
 	/**

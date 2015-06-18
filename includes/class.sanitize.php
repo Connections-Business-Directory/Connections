@@ -358,7 +358,12 @@ class cnSanitize {
 	 */
 	public static function quicktag( $string ) {
 
-		return wp_kses_data( force_balance_tags( $string ) );
+		if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+
+			$string = wp_kses_data( $string );
+		}
+
+		return balanceTags( $string, TRUE );
 	}
 
 	/**

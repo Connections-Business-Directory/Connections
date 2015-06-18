@@ -862,66 +862,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		}
 
 		/**
-		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
-		 * This purposefully is blank.
-		 *
-		 * @access public
-		 * @since unknown
-		 * @deprecated 0.7.5
-		 * @return void
-		 */
-		public function displayMessages() { /* Do nothing here */ }
-
-		/**
-		 * Set a runtime action/error message.
-		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
-		 *
-		 * @access public
-		 * @since unknown
-		 * @deprecated 0.7.5
-		 *
-		 * @param $type    string
-		 * @param $message string
-		 *
-		 * @return void
-		 */
-		public function setRuntimeMessage( $type, $message ) {
-			cnMessage::runtime( $type, $message );
-		}
-
-		/**
-		 * Store an error code.
-		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
-		 *
-		 * @access public
-		 * @since unknown
-		 * @deprecated 0.7.5
-		 *
-		 * @param  $code string
-		 *
-		 * @return void
-		 */
-		public function setErrorMessage( $code ) {
-			cnMessage::set( 'error', $code );
-		}
-
-		/**
-		 * Store a success code.
-		 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
-		 *
-		 * @access public
-		 * @since unknown
-		 * @deprecated 0.7.5
-		 *
-		 * @param  $code string
-		 *
-		 * @return void
-		 */
-		public function setSuccessMessage( $code ) {
-			cnMessage::set( 'success', $code );
-		}
-
-		/**
 		 * Called when activating Connections via the activation hook.
 		 */
 		public static function activate() {

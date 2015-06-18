@@ -1118,7 +1118,7 @@ class cnAdminActions {
 
 			$connections->options->saveOptions();
 
-			$connections->setSuccessMessage( 'template_change_active' );
+			cnMessage::set( 'success', 'template_change_active' );
 
 			delete_transient( 'cn_legacy_templates' );
 

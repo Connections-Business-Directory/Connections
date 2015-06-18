@@ -3547,11 +3547,13 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
+	 * @param string $context
+	 *
 	 * @return string
 	 */
-	public function getNotes() {
+	public function getNotes( $context = 'display' ) {
 
-		return $this->format->sanitizeString( $this->notes, TRUE );
+		return cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->notes ), $context );
 	}
 
 	/**

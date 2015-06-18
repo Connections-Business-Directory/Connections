@@ -684,40 +684,45 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Credit: Adapted from Ninja Forms / Easy Digital Downloads.
 		 *
 		 * @access private
-		 * @since 0.7.9
+		 * @since  0.7.9
+		 *
 		 * @uses apply_filters()
 		 * @uses get_locale()
 		 * @uses load_textdomain()
 		 * @uses load_plugin_textdomain()
+		 *
 		 * @return void
 		 */
 		public static function loadTextdomain() {
 
+			// Plugin textdomain. This should match the one set in the plugin header.
+			$domain = 'connections';
+
 			// Set filter for plugin's languages directory
-			$languagesDirectory = apply_filters( 'cn_languages_directory', CN_DIR_NAME . '/languages/' );
+			$languagesDirectory = apply_filters( "cn_{$domain}_languages_directory", CN_DIR_NAME . '/languages/' );
 
 			// Traditional WordPress plugin locale filter
-			$locale   = apply_filters( 'plugin_locale', get_locale(), 'connections' );
-			$fileName = sprintf( '%1$s-%2$s.mo', 'connections', $locale );
+			$locale   = apply_filters( 'plugin_locale', get_locale(), $domain );
+			$fileName = sprintf( '%1$s-%2$s.mo', $domain, $locale );
 
 			// Setup paths to current locale file
 			$local  = $languagesDirectory . $fileName;
-			$global = WP_LANG_DIR . '/connections/' . $fileName;
+			$global = WP_LANG_DIR . "/{$domain}/" . $fileName;
 
 			if ( file_exists( $global ) ) {
 
-				// Look in global `../wp-content/languages/connections/` folder.
-				load_textdomain( 'connections', $global );
+				// Look in global `../wp-content/languages/{$domain}/` folder.
+				load_textdomain( $domain, $global );
 
 			} elseif ( file_exists( $local ) ) {
 
-				// Look in local `../wp-content/plugins/connections/languages/` folder.
-				load_textdomain( 'connections', $local );
+				// Look in local `../wp-content/plugins/{$languagesDirectory}/languages/` folder.
+				load_textdomain( $domain, $local );
 
 			} else {
 
 				// Load the default language files
-				load_plugin_textdomain( 'connections', false, $languagesDirectory );
+				load_plugin_textdomain( $domain, FALSE, $languagesDirectory );
 			}
 		}
 

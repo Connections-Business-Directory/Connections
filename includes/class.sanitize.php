@@ -234,6 +234,11 @@ class cnSanitize {
 
 				switch ( $field ) {
 
+					case 'bio':
+					case 'notes':
+
+						return $value;
+
 					case 'name':
 
 						// This is the same as the filters applied via the `the_title` filter for the post title.

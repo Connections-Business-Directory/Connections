@@ -200,9 +200,27 @@ class cnSanitize {
 
 				switch ( $field ) {
 
+					case 'bio':
+					case 'notes':
+
+						/**
+						 * Match the post content sanitation before being inserted in the db.
+						 * See the `content_save_pre` filters.
+						 */
+
+						if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+
+							$value = wp_filter_post_kses( $value );
+						}
+
+						return wp_unslash( balanceTags( $value ) );
+
 					case 'name';
 
-						// Matches the post title sanitation be inserted in the db.
+						/**
+						 * Matches the post title sanitation before being inserted in the db.
+						 * Aee the `title_save_pre` filters.
+						 */
 						return trim( wp_unslash( $value ) );
 
 					case 'url';

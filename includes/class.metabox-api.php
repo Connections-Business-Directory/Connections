@@ -1127,7 +1127,7 @@ class cnMetabox_Render {
 						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
 						wp_editor(
-							wp_kses_post( $value ),
+							cnSanitize::html( $value ),
 							sprintf( '%1$s' , $field['id'] ),
 							$atts
 						);

@@ -2457,9 +2457,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getBioBlock( $atts = array() ) {
 
-		/** @var WP_Embed $wp_embed */
-		global $wp_embed;
-
 		$defaults = array(
 			'before'    => '<div class="bio">',
 			'after'     => '</div>',
@@ -2468,11 +2465,9 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_bio' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
-		$out = $wp_embed->run_shortcode( $this->getBio() );
-
-		$out = do_shortcode( $out );
+		$out = apply_filters( 'cn_output_bio', $this->getBio() );
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

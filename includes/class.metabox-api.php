@@ -1142,7 +1142,7 @@ class cnMetabox_Render {
 
 						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
 							esc_attr( $field['id'] ),
-							wp_kses_data( $value )
+							cnSanitize::quicktag( $value )
 						);
 
 						echo '</div>';

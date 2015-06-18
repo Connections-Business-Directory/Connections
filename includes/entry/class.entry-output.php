@@ -620,7 +620,7 @@ class cnOutput extends cnEntry {
 				break;
 		}
 
-		$html = cnFormatting::replaceWhatWith( $html, ' ' );
+		$html = cnString::replaceWhatWith( $html, ' ' );
 
 		if ( $atts['link'] ) {
 
@@ -1033,7 +1033,7 @@ class cnOutput extends cnEntry {
 			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
 			);
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$block = '<span class="cn-contact-block">' .  $out . '</span>';
 
@@ -1270,7 +1270,7 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
@@ -1503,7 +1503,7 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
@@ -1712,7 +1712,7 @@ class cnOutput extends cnEntry {
 
 			$row .= '</span>';
 
-			$rows[] = apply_filters( 'cn_output_email_address', cnFormatting::replaceWhatWith( $row, ' ' ), $email, $this, $atts );
+			$rows[] = apply_filters( 'cn_output_email_address', cnString::replaceWhatWith( $row, ' ' ), $email, $this, $atts );
 		}
 
 		$block = '<span class="email-address-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
@@ -1837,7 +1837,7 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
@@ -1972,7 +1972,7 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
@@ -2138,7 +2138,7 @@ class cnOutput extends cnEntry {
 
 			$row .= '</span>';
 
-			$rows[] = apply_filters( 'cn_output_link', cnFormatting::replaceWhatWith( $row, ' ' ), $link, $this, $atts );
+			$rows[] = apply_filters( 'cn_output_link', cnString::replaceWhatWith( $row, ' ' ), $link, $this, $atts );
 		}
 
 		$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
@@ -2246,7 +2246,7 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
@@ -2325,7 +2325,7 @@ class cnOutput extends cnEntry {
 
 		$out .= '</div>';
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
@@ -2398,7 +2398,7 @@ class cnOutput extends cnEntry {
 			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
 			);
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out .= '<span class="bday" style="display:none">' . $this->getAnniversary( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';

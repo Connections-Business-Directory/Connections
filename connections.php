@@ -505,6 +505,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * @TODO: Load dependencies as needed. For example load only classes needed in the admin and frontend
 			 */
 
+			// Add the default filters.
+			require_once CN_PATH . 'includes/inc.default-filters.php';
+
 			//Current User objects
 			require_once CN_PATH . 'includes/class.user.php'; // Required for activation
 			//Terms Objects

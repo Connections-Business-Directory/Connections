@@ -325,7 +325,7 @@ class cnSanitize {
 	}
 
 	/**
-	 * Sanitizes the quicktag textarea input.
+	 * Sanitizes the rte textarea input.
 	 *
 	 * @access public
 	 * @since 0.8
@@ -337,7 +337,12 @@ class cnSanitize {
 	 */
 	public static function html( $string ) {
 
-		return wp_kses_post( force_balance_tags( $string ) );
+		if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+
+			$string = wp_kses_post( $string );
+		}
+
+		return balanceTags( $string, TRUE );
 	}
 
 	/**

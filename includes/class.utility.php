@@ -86,22 +86,6 @@ class cnFormatting {
 	}
 
 	/**
-	 * Normalize a string. Replace all occurrence of one or more spaces with a single space, remove control characters
-	 * and trim whitespace from both ends.
-	 *
-	 * @access public
-	 * @since  8.1.6
-	 *
-	 * @param string $string The string to normalize.
-	 *
-	 * @return string
-	 */
-	public static function normalizeString( $string ) {
-
-		return self::replaceWhatWith( $string );
-	}
-
-	/**
 	 * Converts the following strings: yes/no; true/false and 0/1 to boolean values.
 	 * If the supplied string does not match one of those values the method will return NULL.
 	 *
@@ -1849,6 +1833,22 @@ class cnString {
 
 		return trim( preg_replace( "/[" . wp_slash( $what ) . "]+/u", $with, $string ), $what );
 	}
+
+	/**
+	 * Normalize a string. Replace all occurrence of one or more spaces with a single space, remove control characters
+	 * and trim whitespace from both ends.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @param string $string The string to normalize.
+	 *
+	 * @return string
+	 */
+	public static function normalize( $string ) {
+
+		return cnString::replaceWhatWith( $string );
+	}
 }
 
 /**
@@ -2256,7 +2256,7 @@ class cnSiteShot {
 				$this->width
 			);
 
-			$image = cnFormatting::normalizeString( $image );
+			$image = cnString::normalize( $image );
 
 			if ( $this->link ) {
 
@@ -2269,7 +2269,7 @@ class cnSiteShot {
 					$image
 				);
 
-				$html = cnFormatting::normalizeString( $link );
+				$html = cnString::normalize( $link );
 
 			} else {
 

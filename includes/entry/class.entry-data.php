@@ -861,7 +861,7 @@ class cnEntry {
 	 * @access private
 	 * @since  8.1.7
 	 *
-	 * @uses cnFormatting::normalizeString()
+	 * @uses cnString::normalize()
 	 *
 	 * @param array $atts {
 	 *     Optional
@@ -870,6 +870,7 @@ class cnEntry {
 	 *                          Default '%prefix% %first% %middle% %last% %suffix%'.
 	 *                          Accepts any combination of the following tokens: '%prefix%', '%first%', '%middle%', '%last%', '%suffix%'
 	 * }
+	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -891,7 +892,7 @@ class cnEntry {
 			empty( $atts['format'] ) ? '%prefix% %first% %middle% %last% %suffix%' : $atts['format']
 		);
 
-		return cnFormatting::normalizeString( $name );
+		return cnString::normalize( $name );
 	}
 
 	/**
@@ -1033,7 +1034,7 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @uses   cnFormatting::normalizeString()
+	 * @uses   cnString::normalize()
 	 *
 	 * @param array  $atts {
 	 *     Optional
@@ -1042,6 +1043,7 @@ class cnEntry {
 	 *                          Default '%first% %last%'.
 	 *                          Accepts any combination of the following tokens: '%first%', '%last%''
 	 * }
+	 *
 	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return string
@@ -1061,7 +1063,7 @@ class cnEntry {
 
 		$name = str_ireplace( $search, $replace, $atts['format'] );
 
-		return cnFormatting::normalizeString( $name );
+		return cnString::normalize( $name );
 	}
 
 	/**

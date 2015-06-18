@@ -406,7 +406,10 @@ class cnAdminFunction {
 	 */
 	public static function rateUs( $text ) {
 
-		if ( defined('DOING_AJAX') && DOING_AJAX ) return $text;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+
+			return $text;
+		}
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();

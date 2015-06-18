@@ -1106,8 +1106,6 @@ class cnMetabox_Render {
 
 				case 'rte':
 
-					$size = isset( $field['size'] ) && $field['size'] != 'regular' ? $field['size'] : 'regular';
-
 					// For text areas we want to render the description before the field.
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {

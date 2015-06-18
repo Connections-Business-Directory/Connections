@@ -693,7 +693,7 @@ class cnMetabox_Render {
 	/**
 	 * Render the fields registered to the metabox.
 	 *
-	 * The $fields preperty is an indexed array of fields and their properties.
+	 * The $fields property is an indexed array of fields and their properties.
 	 * Accepted option for are:
 	 * 	id (string) The field ID. This value MUST be unique.
 	 * 	desc (string) [optional] The field description.
@@ -722,7 +722,7 @@ class cnMetabox_Render {
 	 * 			rte (array) @link http://codex.wordpress.org/Function_Reference/wp_editor#Arguments
 	 * 			slider (array) The slider options.
 	 * 				min (int) The minimum slider step.
-	 * 				max (int) The maximim slider step.
+	 * 				max (int) The maximum slider step.
 	 * 				step (int) The step the slider steps at.
 	 * 	default	(mixed) The default value to be used.
 	 *

@@ -2425,9 +2425,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getNotesBlock( $atts = array() ) {
 
-		/** @var WP_Embed $wp_embed */
-		global $wp_embed;
-
 		$defaults = array(
 			'before'    => '<div class="note">',
 			'after'     => '</div>',
@@ -2436,11 +2433,9 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_notes' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
-		$out = $wp_embed->run_shortcode( $this->getNotes() );
-
-		$out = do_shortcode( $out );
+		$out = apply_filters( 'cn_output_notes', $this->getNotes() );
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 

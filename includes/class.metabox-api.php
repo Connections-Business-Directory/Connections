@@ -1057,7 +1057,7 @@ class cnMetabox_Render {
 						'value' => 0
 					);
 
-					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
+					$field['options'] = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
 					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"/>',
 						esc_attr( $field['id'] ),

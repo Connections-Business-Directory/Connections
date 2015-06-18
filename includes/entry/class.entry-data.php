@@ -3563,10 +3563,11 @@ class cnEntry {
 	 * @since  unknown
 	 *
 	 * @param string $notes
+	 * @param string $context
 	 */
-	public function setNotes( $notes ) {
+	public function setNotes( $notes, $context = 'db' ) {
 
-		$this->notes = $notes;
+		$this->notes = cnSanitize::field( 'notes', $notes, $context );
 	}
 
 	/**

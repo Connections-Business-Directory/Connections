@@ -1626,7 +1626,7 @@ class cnEntry {
 				/*
 				 * Covert to an array if it was supplied as a comma delimited string
 				 */
-				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+				cnFunction::parseStringList( $type );
 
 				/*
 				 * Limit the number of results.
@@ -1903,7 +1903,7 @@ class cnEntry {
 				/*
 				 * Covert to an array if it was supplied as a comma delimited string
 				 */
-				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+				cnFunction::parseStringList( $type );
 
 				/*
 				 * Limit the number of results.
@@ -2154,7 +2154,7 @@ class cnEntry {
 				/*
 				 * Covert to an array if it was supplied as a comma delimited string
 				 */
-				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+				cnFunction::parseStringList( $type );
 
 				foreach ( (array) $networks as $key => $network ) {
 
@@ -2452,7 +2452,7 @@ class cnEntry {
 				/*
 				 * Covert to an array if it was supplied as a comma delimited string
 				 */
-				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+				cnFunction::parseStringList( $type );
 
 				foreach ( (array) $networks as $key => $network ) {
 					/*
@@ -2714,7 +2714,7 @@ class cnEntry {
 				/*
 				 * Covert to an array if it was supplied as a comma delimited string
 				 */
-				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+				cnFunction::parseStringList( $type );
 
 				foreach ( (array) $links as $key => $link ) {
 
@@ -3127,7 +3127,7 @@ class cnEntry {
 				/*
 				 * Covert to an array if it was supplied as a comma delimited string
 				 */
-				if ( ! empty( $type ) && ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+				cnFunction::parseStringList( $type );
 
 				foreach ( (array) $dates as $key => $date ) {
 

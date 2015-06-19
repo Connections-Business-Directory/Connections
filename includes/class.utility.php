@@ -271,6 +271,27 @@ class cnFormatting {
 
 		return cnString::excerpt( $string, $atts );
 	}
+
+	/**
+	 * Prepare the placeholders to be used in a IN query clause using @see wpdb::prepare().
+	 *
+	 * @access public
+	 * @since  8.1.5
+	 * @static
+	 *
+	 * @param array  $items The array of items to be used in the IN query clause.
+	 * @param string $type  The type of placeholder to be used.
+	 *                      Default: %s
+	 *                      Accepted: %d, %f, %s
+	 *
+	 * @return string
+	 */
+	public static function prepareINPlaceholders( $items, $type = '%s' ) {
+
+		$placeholders = array_fill( 0, count( $items ), $type );
+
+		return implode( ', ', $placeholders );
+	}
 }
 
 class cnValidate {

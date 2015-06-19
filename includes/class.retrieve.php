@@ -1124,43 +1124,46 @@ class cnRetrieve {
 	/**
 	 * Set up the query to only return the entries based on user permissions.
 	 *
-	 * @param (array) $where
-	 * @param (array) $atts
+	 * @param array $where
+	 * @param array $atts
 	 *
 	 * @access private
 	 * @since 0.7.4
+	 *
 	 * @uses wp_parse_args()
 	 * @uses is_user_logged_in()
 	 * @uses current_user_can()
-	 * @return (array)
+	 *
+	 * @return array
 	 */
 	public static function setQueryVisibility( $where, $atts = array() ) {
-		global $connections;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
 		$visibility = array();
 
 		$defaults = array(
+			'table'                 => CN_ENTRY_TABLE,
 			'visibility'            => array(),
 			'allow_public_override' => FALSE,
 			'private_override'      => FALSE
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		if ( is_user_logged_in() ) {
 
 			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
+
 				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
 				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
 				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			} else {
-				// Convert the supplied entry statuses $atts['visibility'] to an array.
-				if ( ! is_array( $atts['visibility'] ) ) {
-					// Trim the space characters if present.
-					$atts['visibility'] = str_replace( ' ', '', $atts['visibility'] );
 
-					// Convert to array.
-					$atts['visibility'] = explode( ',', $atts['visibility'] );
-				}
+			} else {
+
+				// Convert the supplied entry statuses $atts['visibility'] to an array.
+				cnFunction::parseStringList( $atts['visibility'] );
 
 				$visibility[] = $atts['visibility'];
 			}
@@ -1169,15 +1172,15 @@ class cnRetrieve {
 			//var_dump( $connections->options->getAllowPublic() ); die;
 
 			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
+			if ( $instance->options->getAllowPublic() ) $visibility[] = 'public';
 
 			// Display the 'public' entries if the public override shortcode option is enabled.
-			if ( $connections->options->getAllowPublicOverride() ) {
+			if ( $instance->options->getAllowPublicOverride() ) {
 				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
 			}
 
 			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
-			if ( $connections->options->getAllowPrivateOverride() ) {
+			if ( $instance->options->getAllowPrivateOverride() ) {
 				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
 				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
 				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
@@ -1185,7 +1188,7 @@ class cnRetrieve {
 
 		}
 
-		$where[] = 'AND ' . CN_ENTRY_TABLE . '.visibility IN (\'' . implode( "', '", $visibility ) . '\')';
+		$where[] = 'AND ' . $atts['table'] . '.visibility IN (\'' . implode( "', '", $visibility ) . '\')';
 
 		return $where;
 	}

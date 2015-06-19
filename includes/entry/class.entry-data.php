@@ -3584,7 +3584,7 @@ class cnEntry {
 	 */
 	public function getExcerpt( $atts = array(), $text = '' ) {
 
-		return cnFormatting::excerpt( $text = empty( $text ) ? $this->getBio() : $text, $atts );
+		return cnString::excerpt( $text = empty( $text ) ? $this->getBio() : $text, $atts );
 	}
 
 	/**

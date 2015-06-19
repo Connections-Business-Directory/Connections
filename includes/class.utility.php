@@ -246,26 +246,12 @@ class cnFormatting {
 	/**
 	 * Create excerpt from the supplied string.
 	 *
-	 * NOTE: The `more` string will be inserted before the last HTML tag if one exists.
-	 *       If not, it'll be appended to the end of the string.
-	 *       If the length is set `p`, the `more` string will not be appended.
-	 *
-	 * NOTE: The length maybe exceeded in attempt to end the excerpt at the end of a sentence.
-	 *
-	 * @todo  If the string contains HTML tags, those too will be counted when determining whether or not to append the `more` string. This should be fixed.
-	 *
-	 * Filters:
-	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
-	 *   cn_excerpt_more         => change the default more string of &hellip;
-	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
-	 *   cn_entry_excerpt        => change returned excerpt
-	 *
-	 * Credit:
-	 * @link http://wordpress.stackexchange.com/a/141136
-	 *
 	 * @access public
 	 * @since  8.1.5
 	 * @static
+	 *
+	 * @deprecated 8.2.9 Use {@see cnString::excerpt()} instead.
+	 * @see cnString::excerpt()
 	 *
 	 * @param  string  $string String to create the excerpt from.
 	 * @param  array   $atts {
@@ -283,83 +269,8 @@ class cnFormatting {
 	 */
 	public static function excerpt( $string, $atts = array() ) {
 
-		if ( empty( $string ) || ! is_string( $string ) ) return '';
-
-		$defaults = array(
-			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
-			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
-			'allowed_tags' => apply_filters( 'cn_excerpt_allowed_tags', array( 'style','br','em','strong','i','ul','ol','li','a','p','img','video','audio' ) )
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
-
-		// Save a copy of the raw text for the filter.
-		$raw = $string;
-
-		// Whether or not to append the more string.
-		// This is only true if the word count is is more than the word length limit.
-		// This is not set if length is set to `p`.
-		$appendMore = FALSE;
-
-		// Strip all shortcode from the text.
-		$string = strip_shortcodes( $string );
-
-		$string = str_replace( ']]>', ']]&gt;', $string );
-
-		if ( 'p' === $atts['length'] ) {
-
-			$excerpt = substr( $string, 0, strpos( $string, '</p>' ) + 4 );
-
-		} else {
-
-			$string  = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
-			$tokens  = array();
-			$excerpt = '';
-			$count   = 0;
-
-			// Divide the string into tokens; HTML tags, or words, followed by any whitespace
-			preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
-
-			foreach ( $tokens[0] as $token ) {
-
-				if ( $count >= $atts['length'] && preg_match( '/[\,\;\?\.\!]\s*$/uS', $token ) ) {
-
-					// Limit reached, continue until , ; ? . or ! occur at the end
-					$excerpt .= trim( $token );
-
-					// If the length limit was reached, append the more string.
-					$appendMore = TRUE;
-
-					break;
-				}
-
-				// Add words to complete sentence
-				$count++;
-
-				// Append what's left of the token
-				$excerpt .= $token;
-			}
-		}
-
-		/** @noinspection PhpInternalEntityUsedInspection */
-		$excerpt = trim( force_balance_tags( $excerpt ) );
-
-		$pos = strrpos( $excerpt, '</' );
-
-		if ( FALSE !== $pos ) {
-
-			// Inside last HTML tag
-			if ( $appendMore ) $excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
-
-		} else {
-
-			// After the content
-			if ( $appendMore ) $excerpt .= $atts['more'];
-		}
-
-		return apply_filters( 'cn_entry_excerpt', $excerpt, $raw, $atts );
+		return cnString::excerpt( $string, $atts );
 	}
-
 }
 
 class cnValidate {
@@ -1849,6 +1760,146 @@ class cnString {
 	public static function normalize( $string ) {
 
 		return cnString::replaceWhatWith( $string );
+	}
+
+	/**
+	 * Create excerpt from the supplied string.
+	 *
+	 * NOTE: The `more` string will be inserted before the last HTML tag if one exists.
+	 *       If not, it'll be appended to the end of the string.
+	 *       If the length is set `p`, the `more` string will not be appended.
+	 *
+	 * NOTE: The length maybe exceeded in attempt to end the excerpt at the end of a sentence.
+	 *
+	 * @todo  If the string contains HTML tags, those too will be counted when determining whether or not to append the `more` string. This should be fixed.
+	 *
+	 * Filters:
+	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
+	 *   cn_excerpt_more         => change the default more string of &hellip;
+	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
+	 *   cn_entry_excerpt        => change returned excerpt
+	 *
+	 * Credit:
+	 * @link http://wordpress.stackexchange.com/a/141136
+	 *
+	 * @access public
+	 * @since  8.1.5
+	 * @static
+	 *
+	 * @param  string  $string String to create the excerpt from.
+	 * @param  array   $atts {
+	 *     Optional. An array of arguments.
+	 *
+	 *     @type int    $length       The length, number of words, of the excerpt to create.
+	 *                                If set to `p` the excerpt will be the first paragraph, no word limit.
+	 *                                Default: 55.
+	 *     @type string $more         The string appended to the end of the excerpt when $length is exceeded.
+	 *                                Default: &hellip
+	 *     @type array  $allowed_tags An array containing the permitted tags.
+	 * }
+	 *
+	 * @return string
+	 */
+	public static function excerpt( $string, $atts = array() ) {
+
+		if ( empty( $string ) || ! is_string( $string ) ) {
+			return '';
+		}
+
+		$defaults = array(
+			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
+			'allowed_tags' => apply_filters(
+				'cn_excerpt_allowed_tags',
+				array(
+					'style',
+					'br',
+					'em',
+					'strong',
+					'i',
+					'ul',
+					'ol',
+					'li',
+					'a',
+					'p',
+					'img',
+					'video',
+					'audio'
+				)
+			)
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Save a copy of the raw text for the filter.
+		$raw = $string;
+
+		// Whether or not to append the more string.
+		// This is only true if the word count is is more than the word length limit.
+		// This is not set if length is set to `p`.
+		$appendMore = FALSE;
+
+		// Strip all shortcode from the text.
+		$string = strip_shortcodes( $string );
+
+		$string = str_replace( ']]>', ']]&gt;', $string );
+
+		if ( 'p' === $atts['length'] ) {
+
+			$excerpt = substr( $string, 0, strpos( $string, '</p>' ) + 4 );
+
+		} else {
+
+			$string  = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$tokens  = array();
+			$excerpt = '';
+			$count   = 0;
+
+			// Divide the string into tokens; HTML tags, or words, followed by any whitespace
+			preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
+
+			foreach ( $tokens[0] as $token ) {
+
+				if ( $count >= $atts['length'] && preg_match( '/[\,\;\?\.\!]\s*$/uS', $token ) ) {
+
+					// Limit reached, continue until , ; ? . or ! occur at the end
+					$excerpt .= trim( $token );
+
+					// If the length limit was reached, append the more string.
+					$appendMore = TRUE;
+
+					break;
+				}
+
+				// Add words to complete sentence
+				$count ++;
+
+				// Append what's left of the token
+				$excerpt .= $token;
+			}
+		}
+
+		/** @noinspection PhpInternalEntityUsedInspection */
+		$excerpt = trim( force_balance_tags( $excerpt ) );
+
+		$pos = strrpos( $excerpt, '</' );
+
+		if ( FALSE !== $pos ) {
+
+			// Inside last HTML tag
+			if ( $appendMore ) {
+				$excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
+			}
+
+		} else {
+
+			// After the content
+			if ( $appendMore ) {
+				$excerpt .= $atts['more'];
+			}
+		}
+
+		return apply_filters( 'cn__excerpt', $excerpt, $raw, $atts );
 	}
 }
 

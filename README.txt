@@ -193,6 +193,54 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.2.9 06/19/2015 =
+* FEATURE: Bio and Notes fields now supports oEmbed.
+* NEW: Add new helper function cnImage::sideload().
+* NEW: Introduce cnFunction::parseStringList().
+* NEW: Introduce cnFormatting::prepareINPlaceholders().
+* BUG: Default attributes for the slider field type were not properly being set in cnMetabox_Render::fields().
+* BUG: Remove unnecessary string comparisons before concatenation.
+* TWEAK: Add support for lifetime support license keys.
+* TWEAK: Change several instances of hard coded directory separators to the the PHP constant instead.
+* TWEAK: Add thank you to admin footer.
+* TWEAK: Add support for the `action` override option for wp_handle_upload() in wrapper function cnFile::upload().
+* TWEAK: Add the `cn_upload_file_options` filter to cnUpload::file() to allow the default overrides passed to wp_handle_upload() to be overridden.
+* TWEAK: Remove dead code in cnMetabox_Render::fields() in the `rte` field type.
+* TWEAK: Update the readme.txt file.
+* TWEAK: Use cnSanitize::html() for the rte field type in cnMetabox_Render::fields().
+* TWEAK: Use cnSanitize::quicktag() for the quicktag field type in cnMetabox_Render::fields().
+* TWEAK: Do not run the string thru wp_kses_post() if the current user has the unfiltered_html capability in cnSanitize::html().
+* TWEAK: Do not run the string thru wp_kses_data() if the current user has the unfiltered_html capability in cnSanitize::quicktag().
+* TWEAK: Apply all the filters applied to the post content to both the bio and notes fields when being displayed.
+* TWEAK: Remove all usages of deprecated admin message functions.
+* TWEAK: Remove unnecessary call to plugin_basename() when defining plugin constants.
+* TWEAK: Utilize cnFunction::parseStringList() throughout cnEntry to remove code duplication.
+* TWEAK: Simplify ternary in cnEntry::setAddresses().
+* OTHER: Correct a couple misspelling in the phpDoc for cnMetabox_Render::fields().
+* DEV: Add support for the bio and notes fields in cnSanitize::field(), matching the core WP filters for post_content on the content_save_pre hook.
+* DEV: Refactor cnEntry::getBio() to use cnSanitize::field().
+* DEV: Refactor cnEntry::setBio() to use cnSanitize::field().
+* DEV: Refactor cnEntry::getNotes() to use cnSanitize::field().
+* DEV: Refactor cnEntry::setNotes() to use cnSanitize::field().
+* DEV: Refactor cnOutput::getNotesBlock(), removing direct usage of WP_Embed::run_shortcode() and do_shortcode().
+* DEV: Refactor cnOutput::getBioBlock(), removing direct usage of WP_Embed::run_shortcode() and do_shortcode().
+* DEV: Refactor loadTextDomain() to be more variable for reuse.
+* DEV: Move cnFormatting::replaceWhatWith() to cnString::replaceWhatWith().
+* DEV: Move cnFormatting::normalizeString() to cnString::normalizeString().
+* DEV: Move cnFormatting::preslashit() and cnFormatting::unpreslashit() to cnURL.
+* DEV: Move cnFormatting::excerpt() to cnString::excerpt().
+* DEV: phpDoc usages of the global $wpdb in many of the methods in cnRetrieve.
+* DEV: Add support for the address fields in cnSanitize::field().
+* DEV: Add $context param to cnEntry::setAddresses().
+* DEV: Cleanup phpDoc for cnEntry::setAddresses().
+* DEV: Complete refactor of cnEntry::getAddresses() for better readability and code standards compliance.
+* DEV: Add the $context param to cnEntryMetabox::address().
+* DEV: Cleanup phpDoc of cnEntryMetabox::address().
+* DEV: Refactor cnRetrieve::setQueryVisibility() for better readability and code standards compliance.
+* DEV: Complete refactor of cnRetrieve::address() for better readability, code standards compliance and greater flexibility for defining queries.
+* DEV: Cleanup phpDoc for cnRetrieve::setQueryStatus().
+* DEV: Update phpDoc for cnRetrieve::addresses().
+
 = 8.2.8 06/05/2015 =
 * BUG: Escape URL for search message clear message button.
 * BUG: Refactor cnTemplate::locate() to fix inconsistencies in the priority loading order of template override resource files.
@@ -873,77 +921,6 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Add error message for when $img_path is not set.
 * I18N: Update POT file.
 
-= 8.1 09/02/2014 =
-* FEATURE: Photo and logo images are now responsive.
-* FEATURE: Photo and logo images support HiDPI (Retina) devices.
-* FEATURE: Improve search results for relevancy and shortword search support.
-* FEATURE: Add new shortcode [cn_thumb].
-* FEATURE: Add new shortcode [cn_thumbr].
-* FEATURE: Add new image crop method, fit.
-* FEATURE: Add SmugMug to social network options.
-* FEATURE: Register TimThumb compatible query vars and add the CN_IMAGE_ENDPOINT root rewrite endpoint.
-* BUG: Fix gettext domain for "Name".
-* BUG: Make sure the visibility options are translation ready.
-* BUG: Fix invalid HTML markup. Remove p tag from within a span element in the no image block.
-* BUG: Fix vCard importing on OSX.
-* BUG: Fix bug that would cause entry meta to be lost during an entry update.
-* BUG: Fix cnSanitize::string() color callback method name.
-* BUG: Ensure valid custom metabox before displaying.
-* BUG: Make country code for Maldives uppercase.
-* TWEAK: Remove stop words from search.
-* TWEAK: Only run keyword search when FULLTEXT search is enabled if no results were returned from the FULLTEXT search.
-* TWEAK: Improve exclude_category exclusion.
-* TWEAK: Allow changing of entry type when copying and editing an entry.
-* TWEAK: Complete refactor of the admin js file.
-* TWEAK: Update frontend pagination links to use paginate_links().
-* TWEAK: Update CSS to support the pagination markup output by paginate_links().
-* TWEAK: Move the category separator within the category span.
-* TWEAK: Change span around entry name in core templates to div.
-* TWEAK: Add jquery-validate as a script dependency for cn-ui-admin.
-* TWEAK: Add support for the id attribute on the form tag.
-* TWEAK: Add id attribute to the add/edit entry form.
-* TWEAK: Cache category select, category checklist and family relations.
-* TWEAK: Use actual year in vCard instead of upcoming year for anniversary and birthday dates.
-* TWEAK: Update the posts dates to reflect the entry currently being viewed.
-* TWEAK: Add another CSS style for Chosen so theme's do not break it.
-* TWEAK: Add "Edit Entry" action link to the admin bar.
-* TWEAK: Set the visibility options only if a user is logged in.
-* TWEAK: Remove unnecessary manage form actions for metaboxes.
-* TWEAK: Remove inline styles from images.
-* TWEAK: Update image settings with better descriptions.
-* OTHER: Added methods to cnSanitize to sanitize a hex color with/without a hash.
-* OTHER: Add error message warning if GD or Imagick is not installed.
-* OTHER: Move class.filesystem.php in folder structure.
-* OTHER: Register and enqueue Picturefill.
-* OTHER: Add the CN_IMAGE_DIR_NAME constant.
-* OTHER: Add the CN_IMAGE_ENDPOINT constant.
-* OTHER: Introduce cnUpload.
-* OTHER: Introduce cnImage.
-* OTHER: Introduce cnLog.
-* OTHER: Introduce cnColor.
-* OTHER: Introduce cnCache.
-* OTHER: Introduce cnFragment.
-* OTHER: Introduce cnString.
-* OTHER: Add maybeHashHEXColor().
-* OTHER: Add remapRange().
-* OTHER: Add xrmdir().
-* OTHER: Add several helper methods in cnEntry to handle image metadata.
-* OTHER: Eliminate the use of Timthumb and class.upload.php from core.
-* OTHER: Move class.upload.php to the vendor sub-folder.
-* OTHER: Delete class.upload.php lang files. Not needed.
-* OTHER: Remove double spaces and trim the result of getName().
-* OTHER: Remove the use of the cn_preloader.
-* OTHER: Various checks to deal with empty entry slugs.
-* OTHER: Add filter so pagination atts can be changed.
-* OTHER: Update the installation instructions in the readme.txt file.
-* OTHER: Add screenshots to the readme.txt file.
-* OTHER: Remove deprecated image option methods.
-* OTHER: Add color picker support to the metabox api.
-* OTHER: Add filters to allow the addition of new metadata options.
-* I18N: Updated Danish translation.
-* I18N: Updated French (France).
-* I18N: Update connections.pot file to include new strings.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
@@ -1033,4 +1010,7 @@ This a major update to Connections it is recommended to backup before updating. 
 It is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.8 =
+It is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.9 =
 It is recommended to backup before updating. Requires WordPress >= 3.8.

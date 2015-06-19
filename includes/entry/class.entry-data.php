@@ -1463,7 +1463,7 @@ class cnEntry {
 	 * @param array   $addresses
 	 * @return void
 	 */
-	public function setAddresses( $addresses ) {
+	public function setAddresses( $addresses, $context = 'db' ) {
 
 		$userPreferred = NULL;
 

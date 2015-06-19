@@ -949,9 +949,11 @@ class cnEntryMetabox {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The address metabox.
+	 *
+	 * @param  cnEntry $entry An instance of the cnEntry object.
+	 * @param  array   $atts  The metabox options array from self::register().
+	 *
+	 * @return string The address metabox.
 	 */
 	public static function address( $entry, $atts ) {
 

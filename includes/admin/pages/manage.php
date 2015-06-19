@@ -817,7 +817,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				} ?>
 								</tbody>
-					        </table>
+							</table>
 							</form>
 
 
@@ -836,9 +836,10 @@ function connectionsShowViewPage( $action = NULL ) {
 						/* ]]> */
 					</script>
 				<?php
-			}
-			else {
-				$instance->setErrorMessage( 'capability_view_entry_list' );
+
+			} else {
+
+				cnMessage::set( 'error', 'capability_view_entry_list' );
 			}
 
 			break;

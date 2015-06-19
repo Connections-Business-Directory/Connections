@@ -185,6 +185,11 @@ class cnSanitize {
 				switch ( $field ) {
 
 					case 'name':
+					case 'street':
+					case 'locality':
+					case 'region':
+					case 'postal-code':
+					case 'country':
 
 						// This is the same as the post title on the edit-form-advanced.php admin page.
 						return esc_attr( esc_textarea( $value ) );
@@ -192,6 +197,10 @@ class cnSanitize {
 					case 'url':
 
 						return esc_url( $value );
+
+					case 'attribute':
+
+						return esc_attr( $value );
 				}
 
 				break;
@@ -200,9 +209,32 @@ class cnSanitize {
 
 				switch ( $field ) {
 
-					case 'name';
+					case 'bio':
+					case 'notes':
 
-						// Matches the post title sanitation be inserted in the db.
+						/**
+						 * Match the post content sanitation before being inserted in the db.
+						 * See the `content_save_pre` filters.
+						 */
+
+						if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+
+							$value = wp_filter_post_kses( $value );
+						}
+
+						return wp_unslash( balanceTags( $value ) );
+
+					case 'name';
+					case 'street':
+					case 'locality':
+					case 'region':
+					case 'postal-code':
+					case 'country':
+
+						/**
+						 * Matches the post title sanitation before being inserted in the db.
+						 * Aee the `title_save_pre` filters.
+						 */
 						return trim( wp_unslash( $value ) );
 
 					case 'url';
@@ -216,7 +248,17 @@ class cnSanitize {
 
 				switch ( $field ) {
 
+					case 'bio':
+					case 'notes':
+
+						return $value;
+
 					case 'name':
+					case 'street':
+					case 'locality':
+					case 'region':
+					case 'postal-code':
+					case 'country':
 
 						// This is the same as the filters applied via the `the_title` filter for the post title.
 						return esc_html( trim( convert_chars( wptexturize( $value ) ) ) );
@@ -325,7 +367,7 @@ class cnSanitize {
 	}
 
 	/**
-	 * Sanitizes the quicktag textarea input.
+	 * Sanitizes the rte textarea input.
 	 *
 	 * @access public
 	 * @since 0.8
@@ -337,7 +379,12 @@ class cnSanitize {
 	 */
 	public static function html( $string ) {
 
-		return wp_kses_post( force_balance_tags( $string ) );
+		if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+
+			$string = wp_kses_post( $string );
+		}
+
+		return balanceTags( $string, TRUE );
 	}
 
 	/**
@@ -353,7 +400,12 @@ class cnSanitize {
 	 */
 	public static function quicktag( $string ) {
 
-		return wp_kses_data( force_balance_tags( $string ) );
+		if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+
+			$string = wp_kses_data( $string );
+		}
+
+		return balanceTags( $string, TRUE );
 	}
 
 	/**

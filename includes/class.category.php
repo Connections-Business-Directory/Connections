@@ -184,7 +184,7 @@ class cnCategory {
 
 		$atts = $this->validate->attributesArray( $defaults, $atts );
 
-		$text = cnFormatting::excerpt( empty( $text ) ? $this->getDescription() : $text, $atts );
+		$text = cnString::excerpt( empty( $text ) ? $this->getDescription() : $text, $atts );
 
 		return apply_filters( 'cn_trim_cat_excerpt', $text );
 	}

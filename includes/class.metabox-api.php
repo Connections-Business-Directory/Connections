@@ -693,7 +693,7 @@ class cnMetabox_Render {
 	/**
 	 * Render the fields registered to the metabox.
 	 *
-	 * The $fields preperty is an indexed array of fields and their properties.
+	 * The $fields property is an indexed array of fields and their properties.
 	 * Accepted option for are:
 	 * 	id (string) The field ID. This value MUST be unique.
 	 * 	desc (string) [optional] The field description.
@@ -722,7 +722,7 @@ class cnMetabox_Render {
 	 * 			rte (array) @link http://codex.wordpress.org/Function_Reference/wp_editor#Arguments
 	 * 			slider (array) The slider options.
 	 * 				min (int) The minimum slider step.
-	 * 				max (int) The maximim slider step.
+	 * 				max (int) The maximum slider step.
 	 * 				step (int) The step the slider steps at.
 	 * 	default	(mixed) The default value to be used.
 	 *
@@ -1057,7 +1057,7 @@ class cnMetabox_Render {
 						'value' => 0
 					);
 
-					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
+					$field['options'] = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
 					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"/>',
 						esc_attr( $field['id'] ),
@@ -1106,8 +1106,6 @@ class cnMetabox_Render {
 
 				case 'rte':
 
-					$size = isset( $field['size'] ) && $field['size'] != 'regular' ? $field['size'] : 'regular';
-
 					// For text areas we want to render the description before the field.
 					// Lets render it and unset it so it does not render twice.
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
@@ -1129,7 +1127,7 @@ class cnMetabox_Render {
 						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
 						wp_editor(
-							wp_kses_post( $value ),
+							cnSanitize::html( $value ),
 							sprintf( '%1$s' , $field['id'] ),
 							$atts
 						);
@@ -1144,7 +1142,7 @@ class cnMetabox_Render {
 
 						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
 							esc_attr( $field['id'] ),
-							wp_kses_data( $value )
+							cnSanitize::quicktag( $value )
 						);
 
 						echo '</div>';

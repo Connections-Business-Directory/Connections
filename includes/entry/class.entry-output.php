@@ -620,7 +620,7 @@ class cnOutput extends cnEntry {
 				break;
 		}
 
-		$html = cnFormatting::replaceWhatWith( $html, ' ' );
+		$html = cnString::replaceWhatWith( $html, ' ' );
 
 		if ( $atts['link'] ) {
 
@@ -637,7 +637,7 @@ class cnOutput extends cnEntry {
 			);
 		}
 
-		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
@@ -771,7 +771,7 @@ class cnOutput extends cnEntry {
 				$html
 			);
 
-			$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $html . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
 		}
 
 		return $this->echoOrReturn( $atts['return'], $html );
@@ -826,7 +826,7 @@ class cnOutput extends cnEntry {
 			return '';
 		}
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -939,7 +939,7 @@ class cnOutput extends cnEntry {
 			return '';
 		}
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -1033,11 +1033,11 @@ class cnOutput extends cnEntry {
 			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
 			);
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$block = '<span class="cn-contact-block">' .  $out . '</span>';
 
-		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
@@ -1270,9 +1270,9 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -1397,7 +1397,7 @@ class cnOutput extends cnEntry {
 			$out = '<div ' . implode( ' ', $attr ) . '></div>';
 		}
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -1503,9 +1503,9 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -1712,7 +1712,7 @@ class cnOutput extends cnEntry {
 
 			$row .= '</span>';
 
-			$rows[] = apply_filters( 'cn_output_email_address', cnFormatting::replaceWhatWith( $row, ' ' ), $email, $this, $atts );
+			$rows[] = apply_filters( 'cn_output_email_address', cnString::replaceWhatWith( $row, ' ' ), $email, $this, $atts );
 		}
 
 		$block = '<span class="email-address-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL . '</span>';
@@ -1720,7 +1720,7 @@ class cnOutput extends cnEntry {
 		// This filter is required to allow the ROT13 encryption plugin to function.
 		$block = apply_filters( 'cn_output_email_addresses', $block, $addresses, $this, $atts );
 
-		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
@@ -1837,9 +1837,9 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -1972,9 +1972,9 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2138,14 +2138,14 @@ class cnOutput extends cnEntry {
 
 			$row .= '</span>';
 
-			$rows[] = apply_filters( 'cn_output_link', cnFormatting::replaceWhatWith( $row, ' ' ), $link, $this, $atts );
+			$rows[] = apply_filters( 'cn_output_link', cnString::replaceWhatWith( $row, ' ' ), $link, $this, $atts );
 		}
 
 		$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
 
 		$block = apply_filters( 'cn_output_links', $block, $links, $this, $atts );
 
-		$html = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $block . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
@@ -2246,9 +2246,9 @@ class cnOutput extends cnEntry {
 
 		$out .= '</span>' . PHP_EOL;
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2325,9 +2325,9 @@ class cnOutput extends cnEntry {
 
 		$out .= '</div>';
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2398,14 +2398,14 @@ class cnOutput extends cnEntry {
 			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
 			);
 
-		$out = cnFormatting::replaceWhatWith( $out, ' ' );
+		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out .= '<span class="bday" style="display:none">' . $this->getAnniversary( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Anniversary', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getAnniversary( 'YmdHis' ) . '</span>';
 
 		$out .= '</div>';
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2425,9 +2425,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getNotesBlock( $atts = array() ) {
 
-		/** @var WP_Embed $wp_embed */
-		global $wp_embed;
-
 		$defaults = array(
 			'before'    => '<div class="note">',
 			'after'     => '</div>',
@@ -2436,13 +2433,11 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_notes' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
-		$out = $wp_embed->run_shortcode( $this->getNotes() );
+		$out = apply_filters( 'cn_output_notes', $this->getNotes() );
 
-		$out = do_shortcode( $out );
-
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2462,9 +2457,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getBioBlock( $atts = array() ) {
 
-		/** @var WP_Embed $wp_embed */
-		global $wp_embed;
-
 		$defaults = array(
 			'before'    => '<div class="bio">',
 			'after'     => '</div>',
@@ -2473,13 +2465,11 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_bio' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
-		$out = $wp_embed->run_shortcode( $this->getBio() );
+		$out = apply_filters( 'cn_output_bio', $this->getBio() );
 
-		$out = do_shortcode( $out );
-
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2510,8 +2500,8 @@ class cnOutput extends cnEntry {
 		$defaults = array(
 			'list'      => 'unordered',
 			'separator' => NULL,
-			'before'    => NULL,
-			'after'     => NULL,
+			'before'    => '',
+			'after'     => '',
 			'label'     => __( 'Categories:', 'connections') . ' ',
 			'parents'   => FALSE,
 			'return'    => FALSE
@@ -2526,7 +2516,7 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $categories ) ) return $out;
 
-		if ( !empty( $atts['before'] ) ) $out .= $atts['before'];
+		$out .= $atts['before'];
 
 		if ( !empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
 
@@ -2546,7 +2536,7 @@ class cnOutput extends cnEntry {
 			}
 		}
 
-		if ( ! empty( $atts['after'] ) ) $out .= $atts['after'];
+		$out .= $atts['after'];
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2711,7 +2701,7 @@ class cnOutput extends cnEntry {
 			$metadata
 			);
 
-		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		echo $atts['before'] . $out . $atts['after'] . PHP_EOL;
 	}
 
 	/**
@@ -2889,7 +2879,7 @@ class cnOutput extends cnEntry {
 			$shortcode_atts
 		);
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -3086,7 +3076,7 @@ class cnOutput extends cnEntry {
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}

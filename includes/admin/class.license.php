@@ -367,6 +367,11 @@ class cnLicense {
 						if ( $expiryDate !== FALSE ) {
 
 							$field['desc'] = sprintf( __( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date('F jS Y', $expiryDate ) );
+
+						} elseif ( 'lifetime' == $data[ $field['id'] ]->expires ) {
+
+							$field['desc'] = __( 'Lifetime license is valid and you are receiving updates.', 'connections' );
+
 						} else {
 
 							$field['desc'] = __( 'License is valid', 'connections' );

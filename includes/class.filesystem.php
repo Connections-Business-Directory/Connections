@@ -440,6 +440,7 @@ class cnUpload {
 		$filter  = array();
 
 		$defaults = array(
+			'action'            => '',
 			'post_action'       => '',
 			'sub_dir'           => '',
 			'mimes'             => array(),
@@ -478,11 +479,33 @@ class cnUpload {
 		// Setup the wp_handle_upload() $options array.
 		// Only add values to the array that are going to be overridden.
 		// Passing options not intended to be overridden, even if pass empty causes bad things to happen to you.
+
+		$options['action']    = empty( $atts['action'] ) ? '' : $atts['action'];
 		$options['test_form'] = empty( $atts['post_action'] ) ? FALSE : $atts['post_action'];
 
 		if ( ! empty( $atts['mimes'] ) && is_array( $atts['mimes']) ) $options['mimes']   = $atts['mimes'];
 		if ( ! empty( $atts['error_callback'] ) ) $options['upload_error_handler']        = $atts['error_callback'];
 		if ( ! empty( $atts['filename_callback'] ) ) $options['unique_filename_callback'] = $atts['filename_callback'];
+
+		/**
+		 * The default overrides passed to wp_handle_uploads().
+		 *
+		 * @since 8.2.9
+		 *
+		 * @param array $options {
+		 *     @type string       $action                   The form action. Expected and default value set by @see wp_handle_upload() is 'wp_handle_upload'.
+		 *                                                  Default: empty string, @see wp_handle_upload() will set this to 'wp_handle_upload'
+		 *     @type bool         $test_form                Whether or not $action == $_POST['action'] should be checked to ensure a valid form POST.
+		 *                                                  Default: FALSE
+		 *     @type array        $mimes                    Key is the file extension with value as the mime type.
+		 *                                                  Default: empty array.
+		 *     @type array|string $upload_error_handler     Custom error handler callback.
+		 *                                                  Default: array( $this, 'uploadErrorHandler' )
+		 *     @type array|string $unique_filename_callback Custom unique filename callback.
+		 *                                                  Default: array( $this, 'uniqueFilename' )
+		 * }
+		 */
+		$options = apply_filters( 'cn_upload_file_options', $options, $file );
 
 		$this->result = wp_handle_upload( $file, $options );
 
@@ -517,7 +540,7 @@ class cnUpload {
 		// If this is a multi site AND Connections is in multi site mode then the the paths passed by WP can be used.
 		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 
-			$file['subdir'] = empty( $this->subDirectory ) ? cnFormatting::preslashit( $file['subdir'] ) : cnFormatting::preslashit( $this->subDirectory );
+			$file['subdir'] = empty( $this->subDirectory ) ? cnURL::preslashit( $file['subdir'] ) : cnURL::preslashit( $this->subDirectory );
 			$file['path']   = untrailingslashit( $file['basedir'] ) . $file['subdir'];
 			$file['url']    = untrailingslashit( $file['baseurl'] ) . $file['subdir'];
 
@@ -529,7 +552,7 @@ class cnUpload {
 			// to the `upload_dir` hook.
 			$info = cnUpload::info();
 
-			$file['subdir'] = empty( $this->subDirectory ) ? cnFormatting::preslashit( $file['subdir'] ) : cnFormatting::preslashit( $this->subDirectory );
+			$file['subdir'] = empty( $this->subDirectory ) ? cnURL::preslashit( $file['subdir'] ) : cnURL::preslashit( $this->subDirectory );
 			$file['path']   = untrailingslashit( $info['base_path'] ) . $file['subdir'];
 			$file['url']    = untrailingslashit( $info['base_url'] ) . $file['subdir'];
 		}

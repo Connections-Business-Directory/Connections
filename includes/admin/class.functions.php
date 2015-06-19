@@ -111,6 +111,7 @@ class cnAdminFunction {
 
 			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ) );
 
+			add_filter( 'admin_footer_text', array( __CLASS__, 'rateUs' ) );
 		}
 
 	}
@@ -393,6 +394,49 @@ class cnAdminFunction {
 		return $user_meta;
 	}
 
+	/**
+	 * Add rating links to the admin dashboard
+	 *
+	 * @access private
+	 * @since  8.2.9
+	 *
+	 * @param  string $text The existing footer text
+	 *
+	 * @return string
+	 */
+	public static function rateUs( $text ) {
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+
+			return $text;
+		}
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		//var_dump( get_current_screen()->id );
+		//var_dump( $instance->pageHook );
+
+		if ( in_array( get_current_screen()->id, get_object_vars( $instance->pageHook ) ) ) {
+		//if ( in_array( get_current_screen()->id, (array) $instance->pageHook ) ) {
+
+			$rate_text = sprintf(
+				__(
+					'Thank you for using <a href="%1$s" target="_blank">Connections Business Directory</a>! Please <a href="%2$s" target="_blank">rate us</a> on <a href="%2$s" target="_blank">WordPress.org</a>',
+					'connections'
+				),
+				'http://connections-pro.com',
+				'https://wordpress.org/support/view/plugin-reviews/connections?filter=5#postform'
+			);
+
+			return str_replace( '</span>', '', $text ) . ' | ' . $rate_text . '</span>';
+
+		} else {
+
+			return $text;
+		}
+	}
+
 }
 
 // Adds the admin actions and filters.
@@ -403,4 +447,4 @@ add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
  * NOTE: This relies on the the Screen Options class by Janis Elsts
  * NOTE: This filter must be added here otherwise it registers to late to be run.
  */
-add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 10 , 3 );
+add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 10, 3 );

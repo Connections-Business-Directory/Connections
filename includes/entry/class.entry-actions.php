@@ -142,9 +142,9 @@ class cnEntry_Action {
 		// Output the debug log.
 		if ( $instance->options->getDebug() && is_admin() ) {
 
-			if ( ! is_wp_error( $large ) && isset( $large['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Large Image Process Log<br/> <pre>' . $large['log'] . '</pre>' );
-			if ( ! is_wp_error( $medium ) && isset( $medium['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Medium Image Process Log<br/><pre>' . $medium['log'] . '</pre>' );
-			if ( ! is_wp_error( $thumb ) && isset( $thumb['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Thumbnail Image Process Log<br/><pre>' . $thumb['log'] . '</pre>' );
+			if ( ! is_wp_error( $large ) && isset( $large['log'] ) ) cnMessage::runtime( 'notice', 'Large Image Process Log<br/> <pre>' . $large['log'] . '</pre>' );
+			if ( ! is_wp_error( $medium ) && isset( $medium['log'] ) ) cnMessage::runtime( 'notice', 'Medium Image Process Log<br/><pre>' . $medium['log'] . '</pre>' );
+			if ( ! is_wp_error( $thumb ) && isset( $thumb['log'] ) ) cnMessage::runtime( 'notice', 'Thumbnail Image Process Log<br/><pre>' . $thumb['log'] . '</pre>' );
 		}
 
 		return array( 'image_names' => array( 'original' => $img['name'] ), 'image' => array( 'original' => array( 'meta' => $img ) ) );
@@ -202,7 +202,7 @@ class cnEntry_Action {
 		// Output the debug log.
 		if ( $instance->options->getDebug() && is_admin() ) {
 
-			if ( isset( $logo['log'] ) ) $instance->setRuntimeMessage( 'notice', 'Logo Image Process Log<br/> <pre>' . $logo['log'] . '</pre>' );
+			if ( isset( $logo['log'] ) ) cnMessage::runtime( 'notice', 'Logo Image Process Log<br/> <pre>' . $logo['log'] . '</pre>' );
 		}
 
 		return $img;

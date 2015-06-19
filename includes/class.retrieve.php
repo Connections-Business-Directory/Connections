@@ -1043,6 +1043,8 @@ class cnRetrieve {
 	}
 
 	public static function individuals( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$out = array();
@@ -1084,9 +1086,12 @@ class cnRetrieve {
 	 *
 	 * @access public
 	 * @since 0.7.4
-	 * @return (array)
+	 *
+	 * @return array
 	 */
 	public static function getCharacters( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 		$where[] = 'WHERE 1=1';
 
@@ -1119,43 +1124,46 @@ class cnRetrieve {
 	/**
 	 * Set up the query to only return the entries based on user permissions.
 	 *
-	 * @param (array) $where
-	 * @param (array) $atts
+	 * @param array $where
+	 * @param array $atts
 	 *
 	 * @access private
 	 * @since 0.7.4
+	 *
 	 * @uses wp_parse_args()
 	 * @uses is_user_logged_in()
 	 * @uses current_user_can()
-	 * @return (array)
+	 *
+	 * @return array
 	 */
 	public static function setQueryVisibility( $where, $atts = array() ) {
-		global $connections;
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
 		$visibility = array();
 
 		$defaults = array(
+			'table'                 => CN_ENTRY_TABLE,
 			'visibility'            => array(),
 			'allow_public_override' => FALSE,
 			'private_override'      => FALSE
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		if ( is_user_logged_in() ) {
 
 			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
+
 				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
 				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
 				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			} else {
-				// Convert the supplied entry statuses $atts['visibility'] to an array.
-				if ( ! is_array( $atts['visibility'] ) ) {
-					// Trim the space characters if present.
-					$atts['visibility'] = str_replace( ' ', '', $atts['visibility'] );
 
-					// Convert to array.
-					$atts['visibility'] = explode( ',', $atts['visibility'] );
-				}
+			} else {
+
+				// Convert the supplied entry statuses $atts['visibility'] to an array.
+				cnFunction::parseStringList( $atts['visibility'] );
 
 				$visibility[] = $atts['visibility'];
 			}
@@ -1164,15 +1172,15 @@ class cnRetrieve {
 			//var_dump( $connections->options->getAllowPublic() ); die;
 
 			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
+			if ( $instance->options->getAllowPublic() ) $visibility[] = 'public';
 
 			// Display the 'public' entries if the public override shortcode option is enabled.
-			if ( $connections->options->getAllowPublicOverride() ) {
+			if ( $instance->options->getAllowPublicOverride() ) {
 				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
 			}
 
 			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
-			if ( $connections->options->getAllowPrivateOverride() ) {
+			if ( $instance->options->getAllowPrivateOverride() ) {
 				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
 				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
 				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
@@ -1180,7 +1188,7 @@ class cnRetrieve {
 
 		}
 
-		$where[] = 'AND ' . CN_ENTRY_TABLE . '.visibility IN (\'' . implode( "', '", $visibility ) . '\')';
+		$where[] = 'AND ' . $atts['table'] . '.visibility IN (\'' . implode( "', '", $visibility ) . '\')';
 
 		return $where;
 	}
@@ -1188,15 +1196,17 @@ class cnRetrieve {
 	/**
 	 * Set up the query to only return the entries based on status.
 	 *
-	 * @param (array) $where
-	 * @param (array) $atts
+	 * @param array $where
+	 * @param array $atts
 	 *
 	 * @access private
 	 * @since 0.7.4
+	 *
 	 * @uses wp_parse_args()
 	 * @uses is_user_logged_in()
 	 * @uses current_user_can()
-	 * @return (array)
+	 *
+	 * @return array
 	 */
 	public static function setQueryStatus( $where, $atts = array() ) {
 		$valid = array( 'approved', 'pending' );
@@ -1507,137 +1517,169 @@ class cnRetrieve {
 	}
 
 	/**
-	 * Returns as an array of objects the addresses per the defined options.
+	 * Returns an indexed array of objects the addresses per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the addresses of the specified entry by entry id.
-	 * $atts['preferred'] (bool) Retrieve the preferred entry address; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific address types, id must be supplied.
-	 * $atts['city'] (array) || (string) Retrieve addresses in a specific city; id is optional.
-	 * $atts['state'] (array) || (string) Retrieve addresses in a specific state; id is optional.
-	 * $atts['zipcode'] (array) || (string) Retrieve addresses in a specific zipcode; id is optional.
-	 * $atts['country'] (array) || (string) Retrieve addresses in a specific country; id is optional.
-	 * $atts['coordinates'] (array) Retrieve addresses in with specific coordinates; id is optional. Both latitude and longitude must be supplied.
+	 * @param $atts {
+	 *     @type string       $fields    The fields to return.
+	 *                                   Default: all
+	 *                                   Accepts: all, ids, locality, regions, postal-code, country
+	 *     @type int          $id        The entry ID in which to retrieve the addresses for.
+	 *     @type bool         $preferred Whether or not to return only the preferred address.
+	 *                                   Default: false
+	 *     @type array|string $type      The address types to return.
+	 *                                   Default: array() which will return all registered address types.
+	 *                                   Accepts: home, work, school, other and any other registered types.
+	 *     @type array|string $city      Return address in the defined cities.
+	 *     @type array|string $state     Return address in the defined states.
+	 *     @type array|string $country   Return address in the defined countries.
+	 *     @type array        $coordinates {
+	 *         Return the addresses at the specific coordinates.
+	 *         @type float $latitude
+	 *         @type float $longitude
+	 *     }
+	 * }
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnIDs    Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the address data will be returned.
 	 * @return array
 	 */
-	public function addresses( $suppliedAttr , $returnData = TRUE ) {
-		global $wpdb, $connections, $current_user;
+	public function addresses( $atts = array() ) {
 
-		get_currentuserinfo();
-		$validate = new cnValidate();
-		$where[] = 'WHERE 1=1';
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$where = array( 'WHERE 1=1' );
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['type'] = NULL;
-		$defaultAttr['city'] = NULL;
-		$defaultAttr['state'] = NULL;
-		$defaultAttr['zipcode'] = NULL;
-		$defaultAttr['country'] = NULL;
-		$defaultAttr['coordinates'] = array();
+		$defaults = array(
+			'fields'      => 'all',
+			'id'          => NULL,
+			'preferred'   => FALSE,
+			'type'        => array(),
+			'city'        => array(),
+			'state'       => array(),
+			'zipcode'     => array(),
+			'country'     => array(),
+			'coordinates' => array(),
+		);
 
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
+		/**
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var array|string $type
+		 * @var array|string $city
+		 * @var array|string $state
+		 * @var array|string $zipcode
+		 * @var array|string $country
+		 * @var array        $coordinates
+		 */
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		/** @var array $type */
+		cnFunction::parseStringList( $type );
+
+		/** @var array $city */
+		cnFunction::parseStringList( $city );
+
+		/** @var array $state */
+		cnFunction::parseStringList( $state );
+
+		/** @var array $zipcode */
+		cnFunction::parseStringList( $zipcode );
+
+		/** @var array $country */
+		cnFunction::parseStringList( $country );
+
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 'a.id', 'a.entry_id' );
+				break;
+
+			case 'locality':
+				$select = array( 'a.city' );
+				break;
+
+			case 'region':
+				$select  = array( 'a.state' );
+				break;
+
+			case 'postal-code':
+				$select = array( 'a.zipcode' );
+				break;
+
+			case 'country':
+				$select = array( 'a.country' );
+				break;
+
+			default:
+				$select = array( 'a.*' );
+		}
 
 		if ( ! empty( $id ) ) {
-			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
 
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
-			}
+			$where[] = $wpdb->prepare( 'AND `entry_id` = %d', $id );
+		}
 
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
+		if ( ! empty( $preferred ) ) {
 
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
+		}
+
+		if ( ! empty( $type ) ) {
+
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
 		if ( ! empty( $city ) ) {
-			if ( ! is_array( $city ) ) $city = explode( ',' , trim( $city ) );
 
-			$where[] = stripslashes( $wpdb->prepare( 'AND `city` IN (\'%s\')', implode( "', '", (array) $city ) ) );
+			$where[] = $wpdb->prepare( 'AND `city` IN (' . cnFormatting::prepareINPlaceholders( $city ) . ')', $city );
 		}
 
 		if ( ! empty( $state ) ) {
-			if ( ! is_array( $state ) ) $state = explode( ',' , trim( $state ) );
 
-			$where[] = stripslashes( $wpdb->prepare( 'AND `state` IN (\'%s\')', implode( "', '", (array) $state ) ) );
+			$where[] = $wpdb->prepare( 'AND `state` IN (' . cnFormatting::prepareINPlaceholders( $state ) . ')', $state );
 		}
 
 		if ( ! empty( $zipcode ) ) {
-			if ( ! is_array( $zipcode ) ) $zipcode = explode( ',' , trim( $zipcode ) );
 
-			$where[] = stripslashes( $wpdb->prepare( 'AND `zipcode` IN (\'%s\')', implode( "', '", (array) $zipcode ) ) );
+			$where[] = $wpdb->prepare( 'AND `zipcode` IN (' . cnFormatting::prepareINPlaceholders( $zipcode ) . ')', $zipcode );
 		}
 
 		if ( ! empty( $country ) ) {
-			if ( ! is_array( $country ) ) $country = explode( ',' , trim( $country ) );
 
-			$where[] = stripslashes( $wpdb->prepare( 'AND `country` IN (\'%s\')', implode( "', '", (array) $country ) ) );
+			$where[] = $wpdb->prepare( 'AND `country` IN (' . cnFormatting::prepareINPlaceholders( $country ) . ')', $country );
 		}
 
 		if ( ! empty( $coordinates ) ) {
+
 			if ( ! empty( $coordinates['latitude'] ) && ! empty( $coordinates['longitude'] ) ) {
-				$where[] = $wpdb->prepare( 'AND `latitude` = %d', $coordinates['latitude'] );
-				$where[] = $wpdb->prepare( 'AND `longitude` = %d', $coordinates['longitude'] );
+
+				$where[] = $wpdb->prepare( 'AND `latitude` = %f', $coordinates['latitude'] );
+				$where[] = $wpdb->prepare( 'AND `longitude` = %f', $coordinates['longitude'] );
 			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
-		}
+		// Limit the characters that are queried based on if the current user can view public, private or unlisted entries.
+		$where = self::setQueryVisibility( $where, array( 'table' => 'a' ) );
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS a %3$s ORDER BY `order`',
+			implode( ', ', $select ),
+			CN_ENTRY_ADDRESS_TABLE,
+			implode( ' ', $where )
+		);
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_ADDRESS_TABLE . '.*
+		$results = $wpdb->get_results( $sql );
 
-					FROM ' . CN_ENTRY_ADDRESS_TABLE . ' ' . ' ' .
-
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`';
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_ADDRESS_TABLE . ' ' . ' ' . implode( ' ', $where );
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
-		}
-
-		if ( empty( $results ) ) return array();
-
-		//print_r($results);
 		return $results;
 	}
 
@@ -1653,6 +1695,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function phoneNumbers( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -1750,6 +1794,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function emailAddresses( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -1847,6 +1893,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function imIDs( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -1941,6 +1989,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function socialMedia( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -2035,6 +2085,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function links( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -2140,6 +2192,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function dates( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();

@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.2.8
+ * Version: 8.2.9
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.2.8
+ * @version 8.2.9
  */
 
 // Exit if accessed directly
@@ -229,7 +229,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.2.8' );
+			define( 'CN_CURRENT_VERSION', '8.2.9' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -237,11 +237,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
 			define( 'CN_UPDATE_URL', 'http://connections-pro.com/edd-sl-api' );
 
-			/** @var string CN_DIR_NAME */
-			define( 'CN_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
-
 			/** @var string CN_BASE_NAME */
 			define( 'CN_BASE_NAME', plugin_basename( __FILE__ ) );
+
+			/** @var string CN_DIR_NAME */
+			define( 'CN_DIR_NAME', dirname( CN_BASE_NAME ) );
 
 			/** @var string CN_PATH */
 			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
@@ -255,19 +255,19 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			if ( ! defined( 'CN_TEMPLATE_PATH' ) ) {
 
 				/** @var string CN_TEMPLATE_PATH */
-				define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates/' );
+				define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates' . DIRECTORY_SEPARATOR );
 			}
 
 			if ( ! defined( 'CN_TEMPLATE_URL' ) ) {
 
 				/** @var string CN_TEMPLATE_URL */
-				define( 'CN_TEMPLATE_URL', CN_URL . 'templates/' );
+				define( 'CN_TEMPLATE_URL', CN_URL . 'templates' . DIRECTORY_SEPARATOR );
 			}
 
 			if ( ! defined( 'CN_CACHE_PATH' ) ) {
 
 				/** @var string CN_CACHE_PATH */
-				define( 'CN_CACHE_PATH', CN_PATH . 'cache/' );
+				define( 'CN_CACHE_PATH', CN_PATH . 'cache' . DIRECTORY_SEPARATOR );
 			}
 
 			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) ) {
@@ -428,7 +428,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) ) {
 
 					/** @var string CN_CUSTOM_TEMPLATE_PATH */
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/connections_templates/' );
+					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'connections_templates' . DIRECTORY_SEPARATOR );
 				}
 
 				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
@@ -504,6 +504,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			/**
 			 * @TODO: Load dependencies as needed. For example load only classes needed in the admin and frontend
 			 */
+
+			// Add the default filters.
+			require_once CN_PATH . 'includes/inc.default-filters.php';
 
 			//Current User objects
 			require_once CN_PATH . 'includes/class.user.php'; // Required for activation
@@ -681,40 +684,45 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Credit: Adapted from Ninja Forms / Easy Digital Downloads.
 		 *
 		 * @access private
-		 * @since 0.7.9
+		 * @since  0.7.9
+		 *
 		 * @uses apply_filters()
 		 * @uses get_locale()
 		 * @uses load_textdomain()
 		 * @uses load_plugin_textdomain()
+		 *
 		 * @return void
 		 */
 		public static function loadTextdomain() {
 
+			// Plugin textdomain. This should match the one set in the plugin header.
+			$domain = 'connections';
+
 			// Set filter for plugin's languages directory
-			$languagesDirectory = apply_filters( 'cn_languages_directory', CN_DIR_NAME . '/languages/' );
+			$languagesDirectory = apply_filters( "cn_{$domain}_languages_directory", CN_DIR_NAME . '/languages/' );
 
 			// Traditional WordPress plugin locale filter
-			$locale   = apply_filters( 'plugin_locale', get_locale(), 'connections' );
-			$fileName = sprintf( '%1$s-%2$s.mo', 'connections', $locale );
+			$locale   = apply_filters( 'plugin_locale', get_locale(), $domain );
+			$fileName = sprintf( '%1$s-%2$s.mo', $domain, $locale );
 
 			// Setup paths to current locale file
 			$local  = $languagesDirectory . $fileName;
-			$global = WP_LANG_DIR . '/connections/' . $fileName;
+			$global = WP_LANG_DIR . "/{$domain}/" . $fileName;
 
 			if ( file_exists( $global ) ) {
 
-				// Look in global `../wp-content/languages/connections/` folder.
-				load_textdomain( 'connections', $global );
+				// Look in global `../wp-content/languages/{$domain}/` folder.
+				load_textdomain( $domain, $global );
 
 			} elseif ( file_exists( $local ) ) {
 
-				// Look in local `../wp-content/plugins/connections/languages/` folder.
-				load_textdomain( 'connections', $local );
+				// Look in local `../wp-content/plugins/{$languagesDirectory}/languages/` folder.
+				load_textdomain( $domain, $local );
 
 			} else {
 
 				// Load the default language files
-				load_plugin_textdomain( 'connections', false, $languagesDirectory );
+				load_plugin_textdomain( $domain, FALSE, $languagesDirectory );
 			}
 		}
 

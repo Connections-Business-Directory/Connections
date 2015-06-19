@@ -1634,6 +1634,114 @@ class cnImage {
 	}
 
 	/**
+	 * Sideload an image to the WP_CONTENT_DIR/CN_IMAGE_DIR_NAME or in the defined subdirectory.
+	 *
+	 * @access public
+	 * @since  8.2.9
+	 * @static
+	 *
+	 * @uses   trailingslashit()
+	 * @uses   cnUpload
+	 *
+	 * @param array  $filename  Reference to a single element of $_FILES.
+	 * @param string $folder An associative array containing the upload params.
+	 *
+	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
+	 */
+	public static function sideload( $path, $filename, $folder = '' ) {
+
+		// Add filter to lowercase the image filename extension.
+		add_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
+
+		$atts = array(
+			'action'  => 'cn_image_sideload',
+			'sub_dir' => empty( $folder ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $folder,
+			'mimes'   => array(
+				'jpeg' => 'image/jpeg',
+				'jpg'  => 'image/jpeg',
+				'gif'  => 'image/gif',
+				'png'  => 'image/png',
+			),
+		);
+
+		/**
+		 * Filter the arguments used when processing an image sideload.
+		 *
+		 * @since 8.2.9
+		 *
+		 * @param array $atts An associative array of the arguments used when processing an image upload.
+		 */
+		$atts = apply_filters( 'cn_image_sideload_atts', $atts );
+
+		/**
+		 * Action fires before an image is sideloaded.
+		 *
+		 * @since 8.2.9
+		 *
+		 * @param array  $filename A reference to a single element of $_FILES.
+		 * @param string $atts['sub_dir'] The subdirectory the image is to be uploaded.
+		 */
+		do_action( 'cn_image_sideload', $filename, $atts['sub_dir'] );
+
+		// Build an array to match a single element of $_FILES so file can be processed using _wp_handle_upload().
+		$file = array();
+
+		$file['name']     = $filename;
+		$file['type']     = '';
+		$file['size']     = filesize( $path . $filename );
+		$file['tmp_name'] = $path . $filename;
+		$file['error']    = 0;
+		//var_dump( $file );
+
+		$sideload = new cnUpload( $file, $atts );
+
+		$result = $sideload->result();
+
+		if ( ! is_wp_error( $result ) && $image = @getimagesize( $result['path'] ) ) {
+
+			$result['width']  = $image[0];
+			$result['height'] = $image[1];
+			$result['size']   = $image[3];
+			$result['mime']   = $image['mime'];
+			$result['type']   = $image[2];
+
+			$order = array(
+				'name'   => '',
+				'path'   => '',
+				'url'    => '',
+				'width'  => '',
+				'height' => '',
+				'size'   => '',
+				'mime'   => '',
+				'type'   => ''
+			);
+
+			/**
+			 * The sideloaded image meta data.
+			 *
+			 * @since 8.2.9
+			 *
+			 * @param array $result An associative array of the sideloaded image metadata.
+			 */
+			$result = apply_filters( 'cn_image_sideloaded_meta', array_merge( $order, $result ) );
+		}
+
+		/**
+		 * Fires after an image has been uploaded.
+		 *
+		 * @since 8.2.9
+		 *
+		 * @param mixed $result An associative array of the uploaded image metadata on success or an instance of WP_Error on error.
+		 */
+		do_action( 'cn_image_sideloaded', $result );
+
+		// Remove the filter which makes the image filename extension lowercase.
+		remove_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
+
+		return $result;
+	}
+
+	/**
 	 * Force image filename extensions to lower case because the core image editor
 	 * will save file extensions as lowercase.
 	 *

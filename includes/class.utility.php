@@ -86,67 +86,6 @@ class cnFormatting {
 	}
 
 	/**
-	 * General purpose function to do a little more than just white-space trimming and cleaning, it can do
-	 * characters-to-replace and characters-to-replace-with. You can do the following:
-	 *
-	 * 1. Normalize white-spaces, so that all multiple \r, \n, \t, \r\n, \0, 0x0b, 0x20 and all control characters
-	 *    can be replaced with a single space, and also trim from both ends of the string.
-	 * 2. Remove all undesired characters.
-	 * 3. Remove duplicates.
-	 * 4. Replace multiple occurrences of characters with a character or string.
-	 *
-	 * @link http://pageconfig.com/post/remove-undesired-characters-with-trim_all-php
-	 *
-	 * @access public
-	 * @since  8.1.6
-	 *
-	 * @uses   wp_slash()
-	 *
-	 * @param string      $string
-	 * @param string|null $what
-	 * @param string      $with
-	 *
-	 * @return string
-	 */
-	public static function replaceWhatWith( $string, $what = NULL, $with = ' ' ) {
-
-		if ( ! is_string( $string ) ) {
-			return '';
-		}
-
-		if ( is_null( $what ) ) {
-
-			//	Character      Decimal      Use
-			//	"\0"            0           Null Character
-			//	"\t"            9           Tab
-			//	"\n"           10           New line
-			//	"\x0B"         11           Vertical Tab
-			//	"\r"           13           New Line in Mac
-			//	" "            32           Space
-
-			$what = "\x00-\x20";    //all white-spaces and control chars
-		}
-
-		return trim( preg_replace( "/[" . wp_slash( $what ) . "]+/u", $with, $string ), $what );
-	}
-
-	/**
-	 * Normalize a string. Replace all occurrence of one or more spaces with a single space, remove control characters
-	 * and trim whitespace from both ends.
-	 *
-	 * @access public
-	 * @since  8.1.6
-	 *
-	 * @param string $string The string to normalize.
-	 *
-	 * @return string
-	 */
-	public static function normalizeString( $string ) {
-
-		return self::replaceWhatWith( $string );
-	}
-
-	/**
 	 * Converts the following strings: yes/no; true/false and 0/1 to boolean values.
 	 * If the supplied string does not match one of those values the method will return NULL.
 	 *
@@ -307,26 +246,12 @@ class cnFormatting {
 	/**
 	 * Create excerpt from the supplied string.
 	 *
-	 * NOTE: The `more` string will be inserted before the last HTML tag if one exists.
-	 *       If not, it'll be appended to the end of the string.
-	 *       If the length is set `p`, the `more` string will not be appended.
-	 *
-	 * NOTE: The length maybe exceeded in attempt to end the excerpt at the end of a sentence.
-	 *
-	 * @todo  If the string contains HTML tags, those too will be counted when determining whether or not to append the `more` string. This should be fixed.
-	 *
-	 * Filters:
-	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
-	 *   cn_excerpt_more         => change the default more string of &hellip;
-	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
-	 *   cn_entry_excerpt        => change returned excerpt
-	 *
-	 * Credit:
-	 * @link http://wordpress.stackexchange.com/a/141136
-	 *
 	 * @access public
 	 * @since  8.1.5
 	 * @static
+	 *
+	 * @deprecated 8.2.9 Use {@see cnString::excerpt()} instead.
+	 * @see cnString::excerpt()
 	 *
 	 * @param  string  $string String to create the excerpt from.
 	 * @param  array   $atts {
@@ -344,124 +269,29 @@ class cnFormatting {
 	 */
 	public static function excerpt( $string, $atts = array() ) {
 
-		if ( empty( $string ) || ! is_string( $string ) ) return '';
-
-		$defaults = array(
-			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
-			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
-			'allowed_tags' => apply_filters( 'cn_excerpt_allowed_tags', array( 'style','br','em','strong','i','ul','ol','li','a','p','img','video','audio' ) )
-		);
-
-		$atts = wp_parse_args( $atts, $defaults );
-
-		// Save a copy of the raw text for the filter.
-		$raw = $string;
-
-		// Whether or not to append the more string.
-		// This is only true if the word count is is more than the word length limit.
-		// This is not set if length is set to `p`.
-		$appendMore = FALSE;
-
-		// Strip all shortcode from the text.
-		$string = strip_shortcodes( $string );
-
-		$string = str_replace( ']]>', ']]&gt;', $string );
-
-		if ( 'p' === $atts['length'] ) {
-
-			$excerpt = substr( $string, 0, strpos( $string, '</p>' ) + 4 );
-
-		} else {
-
-			$string  = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
-			$tokens  = array();
-			$excerpt = '';
-			$count   = 0;
-
-			// Divide the string into tokens; HTML tags, or words, followed by any whitespace
-			preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
-
-			foreach ( $tokens[0] as $token ) {
-
-				if ( $count >= $atts['length'] && preg_match( '/[\,\;\?\.\!]\s*$/uS', $token ) ) {
-
-					// Limit reached, continue until , ; ? . or ! occur at the end
-					$excerpt .= trim( $token );
-
-					// If the length limit was reached, append the more string.
-					$appendMore = TRUE;
-
-					break;
-				}
-
-				// Add words to complete sentence
-				$count++;
-
-				// Append what's left of the token
-				$excerpt .= $token;
-			}
-		}
-
-		/** @noinspection PhpInternalEntityUsedInspection */
-		$excerpt = trim( force_balance_tags( $excerpt ) );
-
-		$pos = strrpos( $excerpt, '</' );
-
-		if ( FALSE !== $pos ) {
-
-			// Inside last HTML tag
-			if ( $appendMore ) $excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
-
-		} else {
-
-			// After the content
-			if ( $appendMore ) $excerpt .= $atts['more'];
-		}
-
-		return apply_filters( 'cn_entry_excerpt', $excerpt, $raw, $atts );
+		return cnString::excerpt( $string, $atts );
 	}
 
 	/**
-	 * Prepends a forward slash to a string.
+	 * Prepare the placeholders to be used in a IN query clause using @see wpdb::prepare().
 	 *
 	 * @access public
-	 * @since 8.1.6
+	 * @since  8.1.5
 	 * @static
 	 *
-	 * @param string $string String to  prepend the forward slash.
+	 * @param array  $items The array of items to be used in the IN query clause.
+	 * @param string $type  The type of placeholder to be used.
+	 *                      Default: %s
+	 *                      Accepted: %d, %f, %s
 	 *
-	 * @return string String with forward slash prepended.
+	 * @return string
 	 */
-	public static function preslashit( $string ) {
+	public static function prepareINPlaceholders( $items, $type = '%s' ) {
 
-		if ( is_string( $string ) && 0 < strlen( $string ) ) {
+		$placeholders = array_fill( 0, count( $items ), $type );
 
-			$string = '/' . self::unpreslashit( $string );
-		}
-
-		return $string;
+		return implode( ', ', $placeholders );
 	}
-
-	/**
-	 * Removes a forward slash from the beginning of he string if it exists.
-	 *
-	 * @access public
-	 * @since 8.1.6
-	 * @static
-	 *
-	 * @param string $string String to remove the  slashes from.
-	 * @return string String without the forward slashes.
-	 */
-	public static function unpreslashit( $string ) {
-
-		if ( is_string( $string ) && 0 < strlen( $string ) ) {
-
-			$string = ltrim( $string, '/\\' );
-		}
-
-		return $string;
-	}
-
 }
 
 class cnValidate {
@@ -1234,6 +1064,48 @@ class cnURL {
 		if ( $atts['return'] ) return $out;
 		echo $out;
 	}
+
+	/**
+	 * Removes a forward slash from the beginning of he string if it exists.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @param string $string String to remove the  slashes from.
+	 *
+	 * @return string String without the forward slashes.
+	 */
+	public static function unpreslashit( $string ) {
+
+		if ( is_string( $string ) && 0 < strlen( $string ) ) {
+
+			$string = ltrim( $string, '/\\' );
+		}
+
+		return $string;
+	}
+
+	/**
+	 * Prepends a forward slash to a string.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @param string $string String to  prepend the forward slash.
+	 *
+	 * @return string String with forward slash prepended.
+	 */
+	public static function preslashit( $string ) {
+
+		if ( is_string( $string ) && 0 < strlen( $string ) ) {
+
+			$string = '/' . self::unpreslashit( $string );
+		}
+
+		return $string;
+	}
 }
 
 class cnUtility {
@@ -1849,6 +1721,207 @@ class cnString {
 
 		return $haystack;
 	}
+
+	/**
+	 * General purpose function to do a little more than just white-space trimming and cleaning, it can do
+	 * characters-to-replace and characters-to-replace-with. You can do the following:
+	 *
+	 * 1. Normalize white-spaces, so that all multiple \r, \n, \t, \r\n, \0, 0x0b, 0x20 and all control characters
+	 *    can be replaced with a single space, and also trim from both ends of the string.
+	 * 2. Remove all undesired characters.
+	 * 3. Remove duplicates.
+	 * 4. Replace multiple occurrences of characters with a character or string.
+	 *
+	 * @link http://pageconfig.com/post/remove-undesired-characters-with-trim_all-php
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @uses   wp_slash()
+	 *
+	 * @param string      $string
+	 * @param string|null $what
+	 * @param string      $with
+	 *
+	 * @return string
+	 */
+	public static function replaceWhatWith( $string, $what = NULL, $with = ' ' ) {
+
+		if ( ! is_string( $string ) ) {
+			return '';
+		}
+
+		if ( is_null( $what ) ) {
+
+			//	Character      Decimal      Use
+			//	"\0"            0           Null Character
+			//	"\t"            9           Tab
+			//	"\n"           10           New line
+			//	"\x0B"         11           Vertical Tab
+			//	"\r"           13           New Line in Mac
+			//	" "            32           Space
+
+			$what = "\x00-\x20";    //all white-spaces and control chars
+		}
+
+		return trim( preg_replace( "/[" . wp_slash( $what ) . "]+/u", $with, $string ), $what );
+	}
+
+	/**
+	 * Normalize a string. Replace all occurrence of one or more spaces with a single space, remove control characters
+	 * and trim whitespace from both ends.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 *
+	 * @param string $string The string to normalize.
+	 *
+	 * @return string
+	 */
+	public static function normalize( $string ) {
+
+		return cnString::replaceWhatWith( $string );
+	}
+
+	/**
+	 * Create excerpt from the supplied string.
+	 *
+	 * NOTE: The `more` string will be inserted before the last HTML tag if one exists.
+	 *       If not, it'll be appended to the end of the string.
+	 *       If the length is set `p`, the `more` string will not be appended.
+	 *
+	 * NOTE: The length maybe exceeded in attempt to end the excerpt at the end of a sentence.
+	 *
+	 * @todo  If the string contains HTML tags, those too will be counted when determining whether or not to append the `more` string. This should be fixed.
+	 *
+	 * Filters:
+	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
+	 *   cn_excerpt_more         => change the default more string of &hellip;
+	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
+	 *   cn_entry_excerpt        => change returned excerpt
+	 *
+	 * Credit:
+	 * @link http://wordpress.stackexchange.com/a/141136
+	 *
+	 * @access public
+	 * @since  8.1.5
+	 * @static
+	 *
+	 * @param  string  $string String to create the excerpt from.
+	 * @param  array   $atts {
+	 *     Optional. An array of arguments.
+	 *
+	 *     @type int    $length       The length, number of words, of the excerpt to create.
+	 *                                If set to `p` the excerpt will be the first paragraph, no word limit.
+	 *                                Default: 55.
+	 *     @type string $more         The string appended to the end of the excerpt when $length is exceeded.
+	 *                                Default: &hellip
+	 *     @type array  $allowed_tags An array containing the permitted tags.
+	 * }
+	 *
+	 * @return string
+	 */
+	public static function excerpt( $string, $atts = array() ) {
+
+		if ( empty( $string ) || ! is_string( $string ) ) {
+			return '';
+		}
+
+		$defaults = array(
+			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
+			'allowed_tags' => apply_filters(
+				'cn_excerpt_allowed_tags',
+				array(
+					'style',
+					'br',
+					'em',
+					'strong',
+					'i',
+					'ul',
+					'ol',
+					'li',
+					'a',
+					'p',
+					'img',
+					'video',
+					'audio'
+				)
+			)
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Save a copy of the raw text for the filter.
+		$raw = $string;
+
+		// Whether or not to append the more string.
+		// This is only true if the word count is is more than the word length limit.
+		// This is not set if length is set to `p`.
+		$appendMore = FALSE;
+
+		// Strip all shortcode from the text.
+		$string = strip_shortcodes( $string );
+
+		$string = str_replace( ']]>', ']]&gt;', $string );
+
+		if ( 'p' === $atts['length'] ) {
+
+			$excerpt = substr( $string, 0, strpos( $string, '</p>' ) + 4 );
+
+		} else {
+
+			$string  = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$tokens  = array();
+			$excerpt = '';
+			$count   = 0;
+
+			// Divide the string into tokens; HTML tags, or words, followed by any whitespace
+			preg_match_all( '/(<[^>]+>|[^<>\s]+)\s*/u', $string, $tokens );
+
+			foreach ( $tokens[0] as $token ) {
+
+				if ( $count >= $atts['length'] && preg_match( '/[\,\;\?\.\!]\s*$/uS', $token ) ) {
+
+					// Limit reached, continue until , ; ? . or ! occur at the end
+					$excerpt .= trim( $token );
+
+					// If the length limit was reached, append the more string.
+					$appendMore = TRUE;
+
+					break;
+				}
+
+				// Add words to complete sentence
+				$count ++;
+
+				// Append what's left of the token
+				$excerpt .= $token;
+			}
+		}
+
+		/** @noinspection PhpInternalEntityUsedInspection */
+		$excerpt = trim( force_balance_tags( $excerpt ) );
+
+		$pos = strrpos( $excerpt, '</' );
+
+		if ( FALSE !== $pos ) {
+
+			// Inside last HTML tag
+			if ( $appendMore ) {
+				$excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
+			}
+
+		} else {
+
+			// After the content
+			if ( $appendMore ) {
+				$excerpt .= $atts['more'];
+			}
+		}
+
+		return apply_filters( 'cn__excerpt', $excerpt, $raw, $atts );
+	}
 }
 
 /**
@@ -1895,6 +1968,35 @@ class cnFunction {
 		}
 
 		return implode( $glue, $implode );
+	}
+
+	/**
+	 * Clean up an array, comma- or space-separated list of strings.
+	 *
+	 * @access public
+	 * @since  8.2.9
+	 * @static
+	 *
+	 * @param string|array $list
+	 *
+	 * @return array
+	 */
+	public static function parseStringList( &$list ) {
+
+		// Convert to an array if the supplied list is not.
+		if ( ! is_array( $list ) ) {
+
+			$list = preg_split( '/[\s,]+/', $list );
+		}
+
+		// Remove NULL, FALSE and empty strings (""), but leave values of 0 (zero).
+		$list = array_filter( $list, 'strlen' );
+
+		// Cleanup any excess whitespace.
+		$list = array_map( 'trim', $list );
+
+		// Return only unique values.
+		return array_unique( $list );
 	}
 }
 
@@ -2256,7 +2358,7 @@ class cnSiteShot {
 				$this->width
 			);
 
-			$image = cnFormatting::normalizeString( $image );
+			$image = cnString::normalize( $image );
 
 			if ( $this->link ) {
 
@@ -2269,7 +2371,7 @@ class cnSiteShot {
 					$image
 				);
 
-				$html = cnFormatting::normalizeString( $link );
+				$html = cnString::normalize( $link );
 
 			} else {
 

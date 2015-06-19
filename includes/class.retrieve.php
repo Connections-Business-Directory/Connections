@@ -1517,18 +1517,27 @@ class cnRetrieve {
 	}
 
 	/**
-	 * Returns as an array of objects the addresses per the defined options.
+	 * Returns an indexed array of objects the addresses per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the addresses of the specified entry by entry id.
-	 * $atts['preferred'] (bool) Retrieve the preferred entry address; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific address types, id must be supplied.
-	 * $atts['city'] (array) || (string) Retrieve addresses in a specific city; id is optional.
-	 * $atts['state'] (array) || (string) Retrieve addresses in a specific state; id is optional.
-	 * $atts['zipcode'] (array) || (string) Retrieve addresses in a specific zipcode; id is optional.
-	 * $atts['country'] (array) || (string) Retrieve addresses in a specific country; id is optional.
-	 * $atts['coordinates'] (array) Retrieve addresses in with specific coordinates; id is optional. Both latitude and longitude must be supplied.
-	 *
-	 * @param array $atts Accepted values as noted above.
+	 * @param $atts {
+	 *     @type string       $fields    The fields to return.
+	 *                                   Default: all
+	 *                                   Accepts: all, ids, locality, regions, postal-code, country
+	 *     @type int          $id        The entry ID in which to retrieve the addresses for.
+	 *     @type bool         $preferred Whether or not to return only the preferred address.
+	 *                                   Default: false
+	 *     @type array|string $type      The address types to return.
+	 *                                   Default: array() which will return all registered address types.
+	 *                                   Accepts: home, work, school, other and any other registered types.
+	 *     @type array|string $city      Return address in the defined cities.
+	 *     @type array|string $state     Return address in the defined states.
+	 *     @type array|string $country   Return address in the defined countries.
+	 *     @type array        $coordinates {
+	 *         Return the addresses at the specific coordinates.
+	 *         @type float $latitude
+	 *         @type float $longitude
+	 *     }
+	 * }
 	 *
 	 * @return array
 	 */
@@ -1572,12 +1581,21 @@ class cnRetrieve {
 		extract( $atts );
 
 		/*
-		 * Covert these to values to an array if they were supplied as a comma delimited string
+		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
+		/** @var array $type */
 		cnFunction::parseStringList( $type );
+
+		/** @var array $city */
 		cnFunction::parseStringList( $city );
+
+		/** @var array $state */
 		cnFunction::parseStringList( $state );
+
+		/** @var array $zipcode */
 		cnFunction::parseStringList( $zipcode );
+
+		/** @var array $country */
 		cnFunction::parseStringList( $country );
 
 		switch ( $atts['fields'] ) {

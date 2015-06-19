@@ -1343,7 +1343,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$addresses = $entry->getAddresses( array(), FALSE );
+		$addresses = $entry->getAddresses( array(), FALSE, FALSE, 'edit' );
 		//print_r($addresses);
 
 		if ( ! empty( $addresses ) ) {

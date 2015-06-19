@@ -1196,15 +1196,17 @@ class cnRetrieve {
 	/**
 	 * Set up the query to only return the entries based on status.
 	 *
-	 * @param (array) $where
-	 * @param (array) $atts
+	 * @param array $where
+	 * @param array $atts
 	 *
 	 * @access private
 	 * @since 0.7.4
+	 *
 	 * @uses wp_parse_args()
 	 * @uses is_user_logged_in()
 	 * @uses current_user_can()
-	 * @return (array)
+	 *
+	 * @return array
 	 */
 	public static function setQueryStatus( $where, $atts = array() ) {
 		$valid = array( 'approved', 'pending' );

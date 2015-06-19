@@ -185,6 +185,11 @@ class cnSanitize {
 				switch ( $field ) {
 
 					case 'name':
+					case 'street':
+					case 'locality':
+					case 'region':
+					case 'postal-code':
+					case 'country':
 
 						// This is the same as the post title on the edit-form-advanced.php admin page.
 						return esc_attr( esc_textarea( $value ) );
@@ -192,6 +197,10 @@ class cnSanitize {
 					case 'url':
 
 						return esc_url( $value );
+
+					case 'attribute':
+
+						return esc_attr( $value );
 				}
 
 				break;
@@ -216,6 +225,11 @@ class cnSanitize {
 						return wp_unslash( balanceTags( $value ) );
 
 					case 'name';
+					case 'street':
+					case 'locality':
+					case 'region':
+					case 'postal-code':
+					case 'country':
 
 						/**
 						 * Matches the post title sanitation before being inserted in the db.
@@ -240,6 +254,11 @@ class cnSanitize {
 						return $value;
 
 					case 'name':
+					case 'street':
+					case 'locality':
+					case 'region':
+					case 'postal-code':
+					case 'country':
 
 						// This is the same as the filters applied via the `the_title` filter for the post title.
 						return esc_html( trim( convert_chars( wptexturize( $value ) ) ) );

@@ -1502,7 +1502,7 @@ class cnEntry {
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
 
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $addresses[ $key ]['preferred'] = TRUE : $addresses[ $key ]['preferred'] = FALSE;
+				$addresses[ $key ]['preferred'] = isset( $preferred ) && $preferred == $key ? TRUE : FALSE;
 
 				/*
 				 * If the user set a preferred address, save the $key value.

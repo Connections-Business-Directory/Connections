@@ -1043,6 +1043,8 @@ class cnRetrieve {
 	}
 
 	public static function individuals( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$out = array();
@@ -1084,9 +1086,12 @@ class cnRetrieve {
 	 *
 	 * @access public
 	 * @since 0.7.4
-	 * @return (array)
+	 *
+	 * @return array
 	 */
 	public static function getCharacters( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb;
 		$where[] = 'WHERE 1=1';
 
@@ -1653,6 +1658,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function phoneNumbers( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -1750,6 +1757,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function emailAddresses( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -1847,6 +1856,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function imIDs( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -1941,6 +1952,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function socialMedia( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -2035,6 +2048,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function links( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -2140,6 +2155,8 @@ class cnRetrieve {
 	 * @return array
 	 */
 	public function dates( $suppliedAttr , $returnData = TRUE ) {
+
+		/** @var wpdb $wpdb */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();

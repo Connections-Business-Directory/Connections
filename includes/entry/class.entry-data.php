@@ -1441,26 +1441,25 @@ class cnEntry {
 	/**
 	 * Caches the addresses for use and preps for saving and updating.
 	 *
-	 * Valid values as follows.
-	 *
-	 * $addresses['id'] (int) Stores the address ID if it was retrieved from the db.
-	 * $addresses['preferred'] (bool) Stores is the address is the preferred address or not.
-	 * $addresses['type'] (string) Stores the address type.
-	 * $addresses['line_1'] (string) Stores address line 1.
-	 * $addresses['line_2'] (string) Stores address line 2.
-	 * $addresses['line_3'] (string) Stores address line 3.
-	 * $addresses['city'] (string) Stores the address city.
-	 * $addresses['state'] (string) Stores the address state.
-	 * $addresses['zipcode'] (string) Stores the address zipcode.
-	 * $addresses['country'] (string) Stores the address country.
-	 * $addresses['latitude'] (float) Stores the address latitude.
-	 * $addresses['longitude'] (float) Stores the address longitude.
-	 * $addresses['visibility'] (string) Stores the address visibility.
-	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $addresses
+	 * @since  0.7.3
+	 *
+	 * @param array  $addresses {
+	 *     @type int    $id         The address ID if it was retrieved from the db.
+	 *     @type bool   $preferred  Whether the address is the preferred address or not.
+	 *     @type string $type       The address type.
+	 *     @type string $line_1     Address line 1.
+	 *     @type string $line_2     Address line 2.
+	 *     @type string $line_3     Address line 3.
+	 *     @type string $city       The address locality.
+	 *     @type string $state      The address region.
+	 *     @type string $country    The address country.
+	 *     @type float  $latitude   The address latitude.
+	 *     @type float  $longitude  The address longitude.
+	 *     @type string $visibility The address visibility.
+	 * }
+	 * @param string $context The context in which it should be sanitized.
+	 *
 	 * @return void
 	 */
 	public function setAddresses( $addresses, $context = 'db' ) {

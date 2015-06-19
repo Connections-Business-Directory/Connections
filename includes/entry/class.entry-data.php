@@ -1219,7 +1219,7 @@ class cnEntry {
 	 * @since  0.7.3
 	 *
 	 * @param array  $atts {
-	 *     @type bool         $preferred  Whether or not to return only the preferred address.
+	 *     @type bool         $preferred Whether or not to return only the preferred address.
 	 *                                   Default: false
 	 *     @type array|string $type      The address types to return.
 	 *                                   Default: array() which will return all registered address types.

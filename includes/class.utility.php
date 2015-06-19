@@ -1948,6 +1948,35 @@ class cnFunction {
 
 		return implode( $glue, $implode );
 	}
+
+	/**
+	 * Clean up an array, comma- or space-separated list of strings.
+	 *
+	 * @access public
+	 * @since  8.2.9
+	 * @static
+	 *
+	 * @param string|array $list
+	 *
+	 * @return array
+	 */
+	public static function parseStringList( &$list ) {
+
+		// Convert to an array if the supplied list is not.
+		if ( ! is_array( $list ) ) {
+
+			$list = preg_split( '/[\s,]+/', $list );
+		}
+
+		// Remove NULL, FALSE and empty strings (""), but leave values of 0 (zero).
+		$list = array_filter( $list, 'strlen' );
+
+		// Cleanup any excess whitespace.
+		$list = array_map( 'trim', $list );
+
+		// Return only unique values.
+		return array_unique( $list );
+	}
 }
 
 /**

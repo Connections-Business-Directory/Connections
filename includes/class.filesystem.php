@@ -540,7 +540,7 @@ class cnUpload {
 		// If this is a multi site AND Connections is in multi site mode then the the paths passed by WP can be used.
 		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
 
-			$file['subdir'] = empty( $this->subDirectory ) ? cnFormatting::preslashit( $file['subdir'] ) : cnFormatting::preslashit( $this->subDirectory );
+			$file['subdir'] = empty( $this->subDirectory ) ? cnURL::preslashit( $file['subdir'] ) : cnURL::preslashit( $this->subDirectory );
 			$file['path']   = untrailingslashit( $file['basedir'] ) . $file['subdir'];
 			$file['url']    = untrailingslashit( $file['baseurl'] ) . $file['subdir'];
 
@@ -552,7 +552,7 @@ class cnUpload {
 			// to the `upload_dir` hook.
 			$info = cnUpload::info();
 
-			$file['subdir'] = empty( $this->subDirectory ) ? cnFormatting::preslashit( $file['subdir'] ) : cnFormatting::preslashit( $this->subDirectory );
+			$file['subdir'] = empty( $this->subDirectory ) ? cnURL::preslashit( $file['subdir'] ) : cnURL::preslashit( $this->subDirectory );
 			$file['path']   = untrailingslashit( $info['base_path'] ) . $file['subdir'];
 			$file['url']    = untrailingslashit( $info['base_url'] ) . $file['subdir'];
 		}

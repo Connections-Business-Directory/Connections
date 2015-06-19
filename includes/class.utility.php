@@ -360,47 +360,6 @@ class cnFormatting {
 		return apply_filters( 'cn_entry_excerpt', $excerpt, $raw, $atts );
 	}
 
-	/**
-	 * Prepends a forward slash to a string.
-	 *
-	 * @access public
-	 * @since 8.1.6
-	 * @static
-	 *
-	 * @param string $string String to  prepend the forward slash.
-	 *
-	 * @return string String with forward slash prepended.
-	 */
-	public static function preslashit( $string ) {
-
-		if ( is_string( $string ) && 0 < strlen( $string ) ) {
-
-			$string = '/' . self::unpreslashit( $string );
-		}
-
-		return $string;
-	}
-
-	/**
-	 * Removes a forward slash from the beginning of he string if it exists.
-	 *
-	 * @access public
-	 * @since 8.1.6
-	 * @static
-	 *
-	 * @param string $string String to remove the  slashes from.
-	 * @return string String without the forward slashes.
-	 */
-	public static function unpreslashit( $string ) {
-
-		if ( is_string( $string ) && 0 < strlen( $string ) ) {
-
-			$string = ltrim( $string, '/\\' );
-		}
-
-		return $string;
-	}
-
 }
 
 class cnValidate {
@@ -1172,6 +1131,48 @@ class cnURL {
 
 		if ( $atts['return'] ) return $out;
 		echo $out;
+	}
+
+	/**
+	 * Removes a forward slash from the beginning of he string if it exists.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @param string $string String to remove the  slashes from.
+	 *
+	 * @return string String without the forward slashes.
+	 */
+	public static function unpreslashit( $string ) {
+
+		if ( is_string( $string ) && 0 < strlen( $string ) ) {
+
+			$string = ltrim( $string, '/\\' );
+		}
+
+		return $string;
+	}
+
+	/**
+	 * Prepends a forward slash to a string.
+	 *
+	 * @access public
+	 * @since  8.1.6
+	 * @static
+	 *
+	 * @param string $string String to  prepend the forward slash.
+	 *
+	 * @return string String with forward slash prepended.
+	 */
+	public static function preslashit( $string ) {
+
+		if ( is_string( $string ) && 0 < strlen( $string ) ) {
+
+			$string = '/' . self::unpreslashit( $string );
+		}
+
+		return $string;
 	}
 }
 

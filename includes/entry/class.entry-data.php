@@ -3575,7 +3575,7 @@ class cnEntry {
 	 */
 	public function getNotes( $context = 'display' ) {
 
-		return cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->notes ), $context );
+		return cnSanitize::field( 'bio', apply_filters( 'cn_notes', $this->notes ), $context );
 	}
 
 	/**

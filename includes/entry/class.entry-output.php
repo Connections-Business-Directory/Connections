@@ -1122,9 +1122,20 @@ class cnOutput extends cnEntry {
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$addresses = $this->getAddresses( $atts , $cached );
-		$search = array( '%label%' , '%line1%' , '%line2%' , '%line3%' , '%city%' , '%state%' , '%zipcode%' , '%country%' , '%geo%' , '%separator%' );
+		$out       = '';
+		$addresses = $this->getAddresses( $atts, $cached );
+		$search    = array(
+			'%label%',
+			'%line1%',
+			'%line2%',
+			'%line3%',
+			'%city%',
+			'%state%',
+			'%zipcode%',
+			'%country%',
+			'%geo%',
+			'%separator%'
+		);
 
 		if ( empty( $addresses ) ) return '';
 

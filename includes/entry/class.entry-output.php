@@ -1030,7 +1030,7 @@ class cnOutput extends cnEntry {
 			$search,
 			$replace,
 			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
-			);
+		);
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
@@ -1276,7 +1276,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%' : $atts['format']
-				);
+			);
 
 			// Set the hCard Address Type.
 			$out .= $this->gethCardAdrType( $address->type );
@@ -1509,7 +1509,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %number%' : $atts['format']
-				);
+			);
 
 			// Set the hCard Phone Number Type.
 			$out .= $this->gethCardTelType( $phone->type );
@@ -1693,8 +1693,8 @@ class cnOutput extends cnEntry {
 		$title = $this->getName(
 			array(
 				'format' => empty( $atts['title'] ) ? '%first% %last% %type% email.' : $atts['title']
-				)
-			);
+			)
+		);
 
 		/*
 		 * Ensure the supplied size is valid, if not reset to the default value.
@@ -1721,7 +1721,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %address%' : $atts['format']
-				);
+			);
 
 			// Set the hCard Email Address Type.
 			$row .= '<span class="type" style="display: none;">INTERNET</span>';
@@ -1846,7 +1846,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %id%' : $atts['format']
-				);
+			);
 
 			$out .= '</span>' . PHP_EOL;
 		}
@@ -1981,7 +1981,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%icon%' : $atts['format']
-				);
+			);
 
 			$out .= '</span>' . PHP_EOL;
 		}
@@ -2255,7 +2255,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
-				);
+			);
 
 			$out .= '</span>' . PHP_EOL;
 		}
@@ -2334,7 +2334,7 @@ class cnOutput extends cnEntry {
 			$search,
 			$replace,
 			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
-			);
+		);
 
 		$out .= '<span class="bday" style="display:none">' . $this->getBirthday( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Birthday', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getBirthday( 'YmdHis' ) . '</span>';
@@ -2412,7 +2412,7 @@ class cnOutput extends cnEntry {
 			$search,
 			$replace,
 			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
-			);
+		);
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
@@ -2691,31 +2691,33 @@ class cnOutput extends cnEntry {
 
 			$out .= apply_filters(
 				'cn_entry_output_meta_key',
-				sprintf( '<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
+				sprintf(
+					'<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
 					$atts['item_tag'],
 					$atts['key_tag'],
 					trim( $key ),
 					$atts['separator'],
 					$atts['value_tag'],
 					implode( ', ', (array) $value )
-					),
+				),
 				$atts,
 				$key,
 				$value
-				);
+			);
 		}
 
 		if ( empty( $out ) ) return '';
 
 		$out = apply_filters(
 			'cn_entry_output_meta_container',
-			sprintf( '<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
+			sprintf(
+				'<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
 				$atts['container_tag'],
 				$out
-				),
+			),
 			$atts,
 			$metadata
-			);
+		);
 
 		echo $atts['before'] . $out . $atts['after'] . PHP_EOL;
 	}
@@ -2859,9 +2861,12 @@ class cnOutput extends cnEntry {
 			// And if there is no title for some reason, create one from the key.
 			$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
 
-			$blockContainerContent .= apply_filters( 'cn_entry_output_content_block',
-				sprintf( '<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
-					sprintf( '<%1$s>%2$s</%1$s>',
+			$blockContainerContent .= apply_filters(
+				'cn_entry_output_content_block',
+				sprintf(
+					'<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
+					sprintf(
+						'<%1$s>%2$s</%1$s>',
 						$atts['header_tag'],
 						$titles[ $blockID ]
 					),
@@ -2882,12 +2887,14 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $blockContainerContent ) ) return '';
 
-		$out = apply_filters( 'cn_entry_output_content_block_container',
-			sprintf( '<%1$s class="cn-entry-content-block-%2$s">%3$s</%1$s>' . PHP_EOL,
+		$out = apply_filters(
+			'cn_entry_output_content_block_container',
+			sprintf(
+				'<%1$s class="cn-entry-content-block-%2$s">%3$s</%1$s>' . PHP_EOL,
 				$atts['container_tag'],
 				$atts['layout'],
 				$blockContainerContent
-				),
+			),
 			$this,
 			$blockContainerContent,
 			$titles,
@@ -3084,7 +3091,7 @@ class cnOutput extends cnEntry {
 			$search,
 			$replace,
 			empty( $atts['format'] ) ? '%text%' : $atts['format']
-			);
+		);
 
 		$out .= '</span>';
 

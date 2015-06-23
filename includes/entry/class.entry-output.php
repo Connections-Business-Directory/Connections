@@ -218,8 +218,8 @@ class cnOutput extends cnEntry {
 								array(
 									'type' => 'photo',
 									'size' => $size,
-									)
-								);
+								)
+							);
 
 							if ( is_wp_error( $image ) ) {
 

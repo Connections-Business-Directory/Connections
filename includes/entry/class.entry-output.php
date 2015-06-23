@@ -115,7 +115,6 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getImage( $atts = array() ) {
-		global $wp_rewrite;
 
 		$displayImage = FALSE;
 		$cropModes    = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );

@@ -1648,11 +1648,6 @@ class cnEntry {
 				 */
 				cnFunction::parseStringList( $type );
 
-				/*
-				 * Limit the number of results.
-				 */
-				if ( ! is_null( $atts['limit'] ) ) $phoneNumbers = array_slice( $phoneNumbers, 0, absint( $atts['limit'] ) );
-
 				foreach ( (array) $phoneNumbers as $key => $number ) {
 					/*
 					 * Previous versions stored empty arrays for phone numbers, check for a number, continue if not found.
@@ -1711,9 +1706,17 @@ class cnEntry {
 					$results[] = apply_filters( 'cn_phone_number', $row );
 				}
 
+				/*
+				 * Limit the number of results.
+				 */
+				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
+
+					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
+				}
+
 			}
-		}
-		else {
+
+		} else {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all phone numbers will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 

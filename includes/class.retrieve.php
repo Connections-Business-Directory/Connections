@@ -1561,6 +1561,7 @@ class cnRetrieve {
 			'zipcode'     => array(),
 			'country'     => array(),
 			'coordinates' => array(),
+			'limit'       => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1577,6 +1578,7 @@ class cnRetrieve {
 		 * @var array|string $zipcode
 		 * @var array|string $country
 		 * @var array        $coordinates
+		 * @var null|int     $limit
 		 */
 		extract( $atts );
 
@@ -1671,11 +1673,14 @@ class cnRetrieve {
 		// Limit the characters that are queried based on if the current user can view public, private or unlisted entries.
 		$where = self::setQueryVisibility( $where, array( 'table' => 'a' ) );
 
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
 		$sql = sprintf(
-			'SELECT %1$s FROM %2$s AS a %3$s ORDER BY `order`',
+			'SELECT %1$s FROM %2$s AS a %3$s ORDER BY `order`%4$s',
 			implode( ', ', $select ),
 			CN_ENTRY_ADDRESS_TABLE,
-			implode( ' ', $where )
+			implode( ' ', $where ),
+			$limit
 		);
 
 		$results = $wpdb->get_results( $sql );

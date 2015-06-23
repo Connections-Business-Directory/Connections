@@ -1262,6 +1262,7 @@ class cnEntry {
 			'zipcode'     => array(),
 			'country'     => array(),
 			'coordinates' => array(),
+			'limit'       => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1395,6 +1396,14 @@ class cnEntry {
 					 * }
 					 */
 					$results[] = apply_filters( 'cn_address', $row );
+				}
+
+				/*
+				 * Limit the number of results.
+				 */
+				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
+
+					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
 				}
 
 			}

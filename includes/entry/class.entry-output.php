@@ -1092,6 +1092,7 @@ class cnOutput extends cnEntry {
 		 */
 		$defaults['preferred']           = NULL;
 		$defaults['type']                = NULL;
+		$defaults['limit']               = NULL;
 		$defaults['city']                = NULL;
 		$defaults['state']               = NULL;
 		$defaults['zipcode']             = NULL;

@@ -1928,11 +1928,6 @@ class cnEntry {
 				 */
 				cnFunction::parseStringList( $type );
 
-				/*
-				 * Limit the number of results.
-				 */
-				if ( ! is_null( $atts['limit'] ) ) $emailAddresses = array_slice( $emailAddresses, 0, absint( $atts['limit'] ) );
-
 				foreach ( (array) $emailAddresses as $key => $email ) {
 
 					/*
@@ -1977,6 +1972,14 @@ class cnEntry {
 					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_email_address', $row );
+				}
+
+				/*
+				 * Limit the number of results.
+				 */
+				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
+
+					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
 				}
 
 			}

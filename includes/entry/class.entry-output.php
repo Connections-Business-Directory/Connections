@@ -1115,9 +1115,9 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_address' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
-		$atts['link'] = $this->validate->attributesArray( $defaults['link'], $atts['link'] );
-		$atts['id'] = $this->getId();
+		$atts         = cnSanitize::args( $atts, $defaults );
+		$atts['link'] = cnSanitize::args( $atts['link'], $defaults['link'] );
+		$atts['id']   = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */

@@ -289,8 +289,8 @@ class cnOutput extends cnEntry {
 								'width'     => $atts['width'],
 								'height'    => $atts['height'],
 								'quality'   => $atts['quality'],
-								)
-							);
+							)
+						);
 
 						if ( is_wp_error( $image ) ) {
 

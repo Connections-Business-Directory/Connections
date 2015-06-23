@@ -268,7 +268,7 @@ class cnOutput extends cnEntry {
 
 			case 'logo':
 
-				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || $atts['action'] == 'edit' ) ) {
+				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || 'edit' == $atts['action'] ) ) {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'cn-image logo';

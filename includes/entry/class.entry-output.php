@@ -131,21 +131,21 @@ class cnOutput extends cnEntry {
 			'image'    => 'photo',
 			'preset'   => 'entry',
 			'fallback' => array(
-				'type'     => 'none',
-				'string'   => '',
-				'height'   => 0,
-				'width'    => 0
+				'type'   => 'none',
+				'string' => '',
+				'height' => 0,
+				'width'  => 0
 			),
-			'width'  => 0,
-			'height' => 0,
-			'zc'     => 1,
-			'quality'=> 80,
-			'before' => '',
-			'after'  => '',
-			'sizes'  => array('100vw'),
-			'style'  => array(),
-			'action' => 'display',
-			'return' => FALSE
+			'width'    => 0,
+			'height'   => 0,
+			'zc'       => 1,
+			'quality'  => 80,
+			'before'   => '',
+			'after'    => '',
+			'sizes'    => array( '100vw' ),
+			'style'    => array(),
+			'action'   => 'display',
+			'return'   => FALSE
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_image' , $defaults );

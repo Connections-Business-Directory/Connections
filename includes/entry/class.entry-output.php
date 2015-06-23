@@ -149,9 +149,9 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_image' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults , $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
-		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) $atts['fallback'] = $this->validate->attributesArray( $defaults['fallback'] , $atts['fallback'] );
+		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) $atts['fallback'] = cnSanitize::args( $atts['fallback'], $defaults['fallback'] );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */

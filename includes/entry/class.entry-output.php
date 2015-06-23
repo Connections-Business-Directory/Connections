@@ -312,8 +312,8 @@ class cnOutput extends cnEntry {
 							array(
 								'type' => 'logo',
 								'size' => 'scaled',
-								)
-							);
+							)
+						);
 
 						if ( is_wp_error( $image ) ) {
 

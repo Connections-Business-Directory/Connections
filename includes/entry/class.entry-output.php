@@ -808,7 +808,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_title' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -868,7 +868,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_orgunit' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -1347,7 +1347,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_contact_name' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1470,7 +1470,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_phone' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1789,7 +1789,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_im' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1934,7 +1934,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_socialmedia' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2222,7 +2222,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_date' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2308,7 +2308,7 @@ class cnOutput extends cnEntry {
 		$defaults['after'] = '';
 		$defaults['return'] = FALSE;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -2386,7 +2386,7 @@ class cnOutput extends cnEntry {
 		$defaults['after'] = '';
 		$defaults['return'] = FALSE;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -2525,7 +2525,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_category' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		$out = '';
 		$categories = $this->getCategory();

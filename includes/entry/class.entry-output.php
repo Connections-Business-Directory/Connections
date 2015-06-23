@@ -1087,26 +1087,31 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getAddressBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred']           = NULL;
-		$defaults['type']                = NULL;
-		$defaults['limit']               = NULL;
-		$defaults['city']                = NULL;
-		$defaults['state']               = NULL;
-		$defaults['zipcode']             = NULL;
-		$defaults['country']             = NULL;
-		$defaults['coordinates']         = array();
-		$defaults['format']              = '';
-		$defaults['link']['locality']    = cnSettingsAPI::get( 'connections', 'connections_link', 'locality' );
-		$defaults['link']['region']      = cnSettingsAPI::get( 'connections', 'connections_link', 'region' );
-		$defaults['link']['postal_code'] = cnSettingsAPI::get( 'connections', 'connections_link', 'postal_code' );
-		$defaults['link']['country']     = cnSettingsAPI::get( 'connections', 'connections_link', 'country' );
-		$defaults['separator']           = ':';
-		$defaults['before']              = '';
-		$defaults['after']               = '';
-		$defaults['return']              = FALSE;
+		$defaults = array(
+			'preferred'   => NULL,
+			'type'        => NULL,
+			'limit'       => NULL,
+			'city'        => NULL,
+			'state'       => NULL,
+			'zipcode'     => NULL,
+			'country'     => NULL,
+			'coordinates' => array(),
+			'format'      => '',
+			'link'        => array(
+				'locality'    => cnSettingsAPI::get( 'connections', 'link', 'locality' ),
+				'region'      => cnSettingsAPI::get( 'connections', 'link', 'region' ),
+				'postal_code' => cnSettingsAPI::get( 'connections', 'link', 'postal_code' ),
+				'country'     => cnSettingsAPI::get( 'connections', 'link', 'country' ),
+			),
+			'separator'   => ':',
+			'before'      => '',
+			'after'       => '',
+			'return'      => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_address' , $defaults );
 

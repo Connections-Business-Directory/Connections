@@ -71,7 +71,7 @@ class cnOutput extends cnEntry {
 	 *
 	 * @deprecated since 0.7.2.0
 	 */
-	public function getLogoImage( $atts = array() ) {
+	public function getLogoImage() {
 
 		$this->getImage( array( 'image' => 'logo' ) );
 	}

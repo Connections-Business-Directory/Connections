@@ -1337,16 +1337,18 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['static'] = FALSE;
-		$defaults['maptype'] = 'ROADMAP';
-		$defaults['zoom'] = 13;
-		$defaults['height'] = 400;
-		$defaults['width'] = 400;
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'static'    => FALSE,
+			'maptype'   => 'ROADMAP',
+			'zoom'      => 13,
+			'height'    => 400,
+			'width'     => 400,
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_contact_name' , $defaults );
 
@@ -1462,14 +1464,16 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['limit'] = NULL;
-		$defaults['format'] = '';
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'limit'     => NULL,
+			'format'    => '',
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_phone' , $defaults );
 
@@ -1782,13 +1786,15 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['format'] = '';
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'format'    => '',
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_im' , $defaults );
 
@@ -1925,15 +1931,17 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['format'] = '';
-		$defaults['style'] = 'wpzoom';
-		$defaults['size'] = 32;
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'format'    => '',
+			'style'     => 'wpzoom',
+			'size'      => 32,
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_socialmedia' , $defaults );
 
@@ -2213,15 +2221,17 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['format'] = '';
-		$defaults['name_format'] = '';
-		$defaults['date_format'] = cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' );
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred'   => NULL,
+			'type'        => NULL,
+			'format'      => '',
+			'name_format' => '',
+			'date_format' => cnSettingsAPI::get( 'connections', 'display_general', 'date_format' ),
+			'separator'   => ':',
+			'before'      => '',
+			'after'       => '',
+			'return'      => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_date' , $defaults );
 
@@ -2300,6 +2310,7 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
+		$defaults = array();
 		$defaults['format'] = '';
 		$defaults['name_format'] = '';
 
@@ -2379,6 +2390,7 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
+		$defaults = array();
 		$defaults['format'] = '';
 		$defaults['name_format'] = '';
 

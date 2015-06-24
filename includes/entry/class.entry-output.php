@@ -3102,7 +3102,6 @@ class cnOutput extends cnEntry {
 
 		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . esc_url( CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png' ) . '" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 
-
 		$out .= str_ireplace(
 			$search,
 			$replace,

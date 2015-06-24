@@ -2858,7 +2858,7 @@ class cnOutput extends cnEntry {
 			}
 
 			// Render the "Custom Fields" meta block content.
-			if ( $key == 'meta' ) {
+			if ( 'meta' == $key ) {
 
 				$this->getMetaBlock( array(), $shortcode_atts, $template );
 			}
@@ -3046,7 +3046,7 @@ class cnOutput extends cnEntry {
 		$search = array( '%text%' , '%icon%' );
 
 		// These are values will need to be added to the query string in order to download unlisted entries from the admin.
-		if ( $this->getVisibility() === 'unlisted' ) {
+		if ( 'unlisted' === $this->getVisibility() ) {
 			$id = $this->getId();
 			$token = wp_create_nonce( 'download_vcard_' . $this->getId() );
 		}

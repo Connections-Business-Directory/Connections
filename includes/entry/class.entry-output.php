@@ -1333,7 +1333,8 @@ class cnOutput extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getMapBlock( $atts = array() , $cached = TRUE ) {
+	public function getMapBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -1456,7 +1457,7 @@ class cnOutput extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getPhoneNumberBlock( $atts = array() , $cached = TRUE ) {
+	public function getPhoneNumberBlock( $atts = array(), $cached = TRUE ) {
 
 		/** @var connectionsLoad $connections */
 		global $connections;

@@ -2550,7 +2550,7 @@ class cnOutput extends cnEntry {
 
 		$out .= $atts['before'];
 
-		if ( !empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
+		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
 
 		if ( empty( $atts['separator'] ) ) {
 			$atts['list'] === 'unordered' ? $out .= '<ul class="cn_category_list">' : $out .= '<ol class="cn_category_list">';

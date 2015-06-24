@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnOutput
+ */
 class cnOutput extends cnEntry {
 
 	/**

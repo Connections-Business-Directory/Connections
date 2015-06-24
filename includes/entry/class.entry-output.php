@@ -2599,10 +2599,8 @@ class cnOutput extends cnEntry {
 	 * @param  array  $atts The attributes array.
 	 * @param  array  $shortcode_atts If this is used within the shortcode template loop, the shortcode atts
 	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
-	 * @param  object $template If this is used within the shortcode template loop, the template object
+	 * @param  cnTemplate|null $template If this is used within the shortcode template loop, the template object
 	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
-	 *
-	 * @return string
 	 */
 	public function getMetaBlock( $atts, $shortcode_atts, $template ) {
 
@@ -2764,7 +2762,7 @@ class cnOutput extends cnEntry {
 	 * @param  mixed  $atts array | string [optional] The custom content block(s) to render.
 	 * @param  array  $shortcode_atts [optional] If this is used within the shortcode template loop, the shortcode atts
 	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
-	 * @param  object $template [optional] If this is used within the shortcode template loop, the template object
+	 * @param  cnTemplate|null $template [optional] If this is used within the shortcode template loop, the template object
 	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
 	 *
 	 * @return string The HTML output of the custom content blocks.
@@ -2993,7 +2991,7 @@ class cnOutput extends cnEntry {
 	 * @since unknown
 	 * @version 1.0
 	 * @deprecated
-	 * @return string
+	 * @return string|null
 	 */
 	public function returnToTopAnchor() {
 
@@ -3005,7 +3003,7 @@ class cnOutput extends cnEntry {
 	 *
 	 * Accepted attributes for the $atts array are:
 	 *  class (string) The link class attribute.
-	 *  text (string) The acnhor text.
+	 *  text (string) The anchor text.
 	 *  title (string) The link title attribute.
 	 *  format (string) The tokens to use to display the vcard link block parts.
 	 *   Permitted Tokens:

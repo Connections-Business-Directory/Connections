@@ -2782,9 +2782,10 @@ class cnOutput extends cnEntry {
 			$settings = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
 		}
 
-		$order    = isset( $settings['order'] ) ? $settings['order'] : array();
-		$include  = isset( $settings['active'] ) ? $settings['active'] : array();
-		$exclude  = empty( $include ) ? $order : array();
+		$order   = isset( $settings['order'] ) ? $settings['order'] : array();
+		$include = isset( $settings['active'] ) ? $settings['active'] : array();
+		$exclude = empty( $include ) ? $order : array();
+		$titles  = array();
 
 		$defaults = array(
 			'id'            => '',
@@ -3036,14 +3037,15 @@ class cnOutput extends cnEntry {
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
 
-		$base = get_option( 'connections_permalink' );
-		$name = $base['name_base'];
-		$homeID = $connections->settings->get( 'connections', 'connections_home_page', 'page_id' ); // Get the directory home page ID.
-		$piece = array();
-		$id = FALSE;
-		$token = FALSE;
+		$base      = get_option( 'connections_permalink' );
+		$name      = $base['name_base'];
+		$homeID    = $connections->settings->get( 'connections', 'home_page', 'page_id' ); // Get the directory home page ID.
+		$piece     = array();
+		$id        = FALSE;
+		$token     = FALSE;
 		$iconSizes = array( 16, 24, 32, 48 );
-		$search = array( '%text%' , '%icon%' );
+		$search    = array( '%text%', '%icon%' );
+		$replace   = array();
 
 		// These are values will need to be added to the query string in order to download unlisted entries from the admin.
 		if ( 'unlisted' === $this->getVisibility() ) {

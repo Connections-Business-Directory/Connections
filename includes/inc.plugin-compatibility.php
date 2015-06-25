@@ -81,3 +81,24 @@ function cn_email_log_add_email_filter() {
 		add_filter( 'cn_email', array( $EmailLog, 'log_email' ) );
 	}
 }
+
+/**
+ * Add support for the Log Emails Plugin
+ *
+ *Filter is added on the `plugins_loaded` hook to ensure Log Emails has been loaded.
+ *
+ * @link https://wordpress.org/plugins/log-emails/
+ *
+ * @since 8.2.10
+ */
+add_action( 'plugins_loaded', 'cn_log_emails_add_email_filter' );
+
+function cn_log_emails_add_email_filter() {
+
+	if ( method_exists( 'LogEmailsPlugin', 'getInstance' ) ) {
+
+		$instance = LogEmailsPlugin::getInstance();
+
+		add_filter( 'cn_email', array( $instance, 'wpMail' ) );
+	}
+}

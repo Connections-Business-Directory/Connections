@@ -366,28 +366,6 @@ class cnEmail {
 		remove_all_filters( 'wp_mail_from_name' );
 		remove_all_filters( 'wp_mail_from' );
 
-
-		/*
-		 * Allow extensions to filter the email before sending.
-		 */
-		$this->header      = apply_filters( 'cn_email_header', $this->header );
-		$this->type        = apply_filters( 'cn_email_type', $this->type );
-		$this->charSet     = apply_filters( 'cn_email_charset', $this->charset );
-
-		$this->from        = apply_filters( 'cn_email_from', $this->from );
-		$this->to          = apply_filters( 'cn_email_to', $this->to );
-		$this->cc          = apply_filters( 'cn_email_cc', $this->cc );
-		$this->bcc         = apply_filters( 'cn_email_bcc', $this->bcc );
-
-		$this->subject     = apply_filters( 'cn_email_subject', $this->subject );
-		$this->message     = apply_filters( 'cn_email_message', $this->message );
-		$this->attachments = apply_filters( 'cn_email_attachments', $this->attachments );
-
-		/*
-		 * Allow extensions to do a pre send action.
-		 */
-		do_action( 'cn_email_pre_send', $this->header, $this->type, $this->charSet, $this->from, $this->to, $this->cc, $this->bcc, $this->subject, $this->message, $this->attachments );
-
 		/*
 		 * Set the content type and char set header.
 		 */
@@ -463,15 +441,72 @@ class cnEmail {
 			}
 		}
 
+		$email = apply_filters(
+			'cn_email',
+			array(
+				'to'          => $to,
+				'subject'     => $this->subject,
+				'message'     => $this->message,
+				'headers'     => $this->header,
+				'attachments' => $this->attachments
+			)
+		);
+
+		/*
+		 * Allow extensions to filter the email before sending.
+		 */
+		$email['headers']     = apply_filters( 'cn_email_header', $email['headers'] );
+		$this->type           = apply_filters( 'cn_email_type', $this->type );
+		$this->charSet        = apply_filters( 'cn_email_charset', $this->charset );
+
+		$this->from           = apply_filters( 'cn_email_from', $this->from );
+		$email['to']          = apply_filters( 'cn_email_to', $email['to'] );
+		$this->cc             = apply_filters( 'cn_email_cc', $this->cc );
+		$this->bcc            = apply_filters( 'cn_email_bcc', $this->bcc );
+
+		$email['subject']     = apply_filters( 'cn_email_subject', $email['subject'] );
+		$email['message']     = apply_filters( 'cn_email_message', $email['message'] );
+		$email['attachments'] = apply_filters( 'cn_email_attachments', $email['attachments'] );
+
+		/*
+		 * Allow extensions to do a pre send action.
+		 */
+		do_action(
+			'cn_email_pre_send',
+			$email['headers'],
+			$this->type,
+			$this->charSet,
+			$this->from,
+			$email['to'],
+			$this->cc,
+			$this->bcc,
+			$email['subject'],
+			$email['message'],
+			$email['attachments']
+		);
+
 		/*
 		 * Send the email using wp_mail().
 		 */
-		$response = wp_mail( $to, $this->subject, $this->message, $this->header, $this->attachments );
+		$response = wp_mail( $email['to'], $email['subject'], $email['message'], $email['headers'], $email['attachments'] );
 
 		/*
 		 * Allow extensions to do a post send action.
 		 */
-		do_action( 'cn_email_post_send', $this->header, $this->type, $this->charSet, $this->from, $this->to, $this->cc, $this->bcc, $this->subject, $this->message, $this->attachments, $response );
+		do_action(
+			'cn_email_post_send',
+			$email['headers'],
+			$this->type,
+			$this->charSet,
+			$this->from,
+			$email['to'],
+			$this->cc,
+			$this->bcc,
+			$email['subject'],
+			$email['message'],
+			$email['attachments'],
+			$response
+		);
 
 		/*
 		 * Be a good citizen and add the filters that were hooked back to the wp_mail filters.

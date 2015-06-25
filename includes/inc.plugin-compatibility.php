@@ -39,3 +39,24 @@ add_action( 'parse_query', 'cn_remove_wpseo_head' );
  * gh-392
  */
 add_filter( 'ws_plugin__s2member_lock_roles_caps', '__return_true' );
+
+/**
+ * Add support for the WP Mail Logging Plugin
+ *
+ * Filter is added on the `plugins_loaded` hook to ensure WPML has been loaded.
+ *
+ * @link https://wordpress.org/plugins/wp-mail-logging/
+ *
+ * @since 8.2.10
+ */
+add_action( 'plugins_loaded', 'cn_WPML_add_email_filter' );
+
+function cn_WPML_add_email_filter() {
+
+	global $WPML_Plugin;
+
+	if ( method_exists( $WPML_Plugin, 'log_email' ) ) {
+
+		add_filter( 'cn_email', array( $WPML_Plugin, 'log_email' ) );
+	}
+}

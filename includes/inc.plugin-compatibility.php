@@ -60,3 +60,24 @@ function cn_WPML_add_email_filter() {
 		add_filter( 'cn_email', array( $WPML_Plugin, 'log_email' ) );
 	}
 }
+
+/**
+ * Add support for the Email Log Plugin
+ *
+ * Filter is added on the `init` at priority 11 hook to ensure Email Log has been loaded.
+ *
+ * @link https://wordpress.org/plugins/email-log/
+ *
+ * @since 8.2.10
+ */
+add_action( 'init', 'cn_email_log_add_email_filter', 11 );
+
+function cn_email_log_add_email_filter() {
+
+	global $EmailLog;
+
+	if ( method_exists( $EmailLog, 'log_email' ) ) {
+
+		add_filter( 'cn_email', array( $EmailLog, 'log_email' ) );
+	}
+}

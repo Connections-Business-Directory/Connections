@@ -617,6 +617,8 @@ final class cnLog {
 		}
 
 		do_action( 'wp_post_update_log', $id, $data, $meta );
+
+		return $id;
 	}
 
 	/**

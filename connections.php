@@ -723,7 +723,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			} elseif ( file_exists( $local ) ) {
 
-				// Look in local `../wp-content/plugins/{$languagesDirectory}/languages/` folder.
+				// Look in local `../wp-content/plugins/{plugin-directory}/languages/` folder.
 				load_textdomain( $domain, $local );
 
 			} else {

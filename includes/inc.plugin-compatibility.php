@@ -131,6 +131,8 @@ function cn_enable_wp_super_cache_purge() {
 		add_action( 'delete_post', 'wp_cache_post_edit', 0 );
 		add_action( 'clean_post_cache', 'wp_cache_post_edit' );
 	}
+}
+
 /**
  * Prevent WP Rocket from purging the post cache when inserting or deleting a log.
  * @link

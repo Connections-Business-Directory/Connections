@@ -131,4 +131,32 @@ function cn_enable_wp_super_cache_purge() {
 		add_action( 'delete_post', 'wp_cache_post_edit', 0 );
 		add_action( 'clean_post_cache', 'wp_cache_post_edit' );
 	}
+/**
+ * Prevent WP Rocket from purging the post cache when inserting or deleting a log.
+ * @link
+ *
+ * @since 8.2.10
+ */
+add_action( 'cn_pre_insert_log', 'cn_disable_wp_rocket_purge' );
+add_action( 'cn_pre_update_log', 'cn_disable_wp_rocket_purge' );
+
+function cn_disable_wp_rocket_purge() {
+
+	remove_action( 'create_term', 'rocket_clean_domain' );
+	remove_action( 'edited_terms', 'rocket_clean_domain' );
+	remove_action( 'delete_term', 'rocket_clean_domain' );
+	remove_action( 'delete_post', 'rocket_clean_post' );
+	remove_action( 'clean_post_cache', 'rocket_clean_post' );
+}
+
+add_action( 'cn_post_insert_log', 'cn_enable_wp_rocket_purge' );
+add_action( 'wp_post_update_log', 'cn_enable_wp_rocket_purge' );
+
+function cn_enable_wp_rocket_purge() {
+
+	add_action( 'create_term', 'rocket_clean_domain' );
+	add_action( 'edited_terms', 'rocket_clean_domain' );
+	add_action( 'delete_term', 'rocket_clean_domain' );
+	add_action( 'delete_post', 'rocket_clean_post' );
+	add_action( 'clean_post_cache', 'rocket_clean_post' );
 }

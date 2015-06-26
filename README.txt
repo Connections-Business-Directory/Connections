@@ -71,9 +71,13 @@ Here are some great **free extensions** (with more on the way) that enhance your
 * Open development on [Github](https://github.com/shazahm1/Connections).
 * Access to **180 action hooks** and over **300 filters** ... and counting.
 * Term API.
-* Custom Fields API.
+* Custom Metabox and Fields API.
 * Template Engine and API.
 * Fragment Cache API.
+* Log API (stateless and stateful).
+* Admin Notices API.
+* Email API.
+* Settings API.
 
 The directory has a very flexible template engine. The loading of template and CSS are context aware. This means you could create specific templates that load when a user visits a specific entry, category, postal code and more.
 

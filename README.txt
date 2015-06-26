@@ -197,6 +197,38 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.2.10 06/26/2015 =
+* FEATURE: Allow admins and editors (roles with unfiltered_html capability) to use the Media Manager to insert images in the Bio and Notes fields.
+* NEW: Introduce the new stateful cnLog().
+* NEW: Introduce logging of email sent using cnEmail(). This will enable logging of email sent via Contact and Form.
+* COMPATIBILITY: Add support for the WP Mail Logging plugin.
+* COMPATIBILITY: Add support for the Email Log plugin.
+* COMPATIBILITY: Add support for the Log Emails plugin.
+* COMPATIBILITY: Prevent WP Super Cache from purging the page cache when a log in added/updated by cnLog().
+* COMPATIBILITY: Prevent WP Rocket from purging the page cache when a log in added/updated by cnLog().
+* BUG: Ensure bio and notes fields are unslashed before displayed.
+* BUG: Fix admin sortable repeatable fieldsets.
+* BUG: Fix limit bug when retrieving phone numbers by type.
+* BUG: Fix limit bug when retrieving email addresses by type.
+* BUG: Correct the defaults array initialization in cnOutput::getAddressBlock().
+* BUG: Remove unused param in cnOutput::getLogoImage().
+* BUG: Remove unused global cnOutput::getImage().
+* BUG: Properly init arrays throughout cnOutput().
+* TWEAK: Add limit support when retrieving addresses.
+* TWEAK: Remove use of deprecated args sanitation function in cnOutput::getAddressBlock().
+* TWEAK: Remove use of deprecated function in cnOutput::getImage().
+* TWEAK: Remove use of deprecated args sanitization function throughout cnOutput().
+* TWEAK: Rename cnLog() to cnLog_Stateless(), move it to its own folder/file and update its usage in cnImage().
+* TWEAK: Refactor cnEmail::send(), break it apart into smaller more maintainable methods.
+* I18N: Update POT file.
+* I18N: Update all MO files.
+* I18N: Remove orphaned MO file.
+* DEV: Cleanup code alignment in cnOutput::getAddressBlock().
+* DEV: Fix code alignment of defaults array in cnOutput::getImage().
+* DEV: Correct several phpDoc params errors in cnOutput().
+* DEV: Adjust filters and actions in cnEmail::send() for better compatibility.
+* DEV: Prettify code in cnDate() to better meet coding standards.
+
 = 8.2.9 06/19/2015 =
 * FEATURE: Bio and Notes fields now supports oEmbed.
 * NEW: Add new helper function cnImage::sideload().
@@ -1017,4 +1049,7 @@ It is recommended to backup before updating. Requires WordPress >= 3.8.
 It is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.9 =
+It is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.10 =
 It is recommended to backup before updating. Requires WordPress >= 3.8.

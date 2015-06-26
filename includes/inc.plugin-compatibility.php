@@ -144,11 +144,14 @@ add_action( 'cn_pre_update_log', 'cn_disable_wp_rocket_purge' );
 
 function cn_disable_wp_rocket_purge() {
 
-	remove_action( 'create_term', 'rocket_clean_domain' );
-	remove_action( 'edited_terms', 'rocket_clean_domain' );
-	remove_action( 'delete_term', 'rocket_clean_domain' );
-	remove_action( 'delete_post', 'rocket_clean_post' );
-	remove_action( 'clean_post_cache', 'rocket_clean_post' );
+	if ( defined( 'WP_ROCKET_VERSION' ) ) {
+
+		remove_action( 'create_term', 'rocket_clean_domain' );
+		remove_action( 'edited_terms', 'rocket_clean_domain' );
+		remove_action( 'delete_term', 'rocket_clean_domain' );
+		remove_action( 'delete_post', 'rocket_clean_post' );
+		remove_action( 'clean_post_cache', 'rocket_clean_post' );
+	}
 }
 
 add_action( 'cn_post_insert_log', 'cn_enable_wp_rocket_purge' );
@@ -156,9 +159,12 @@ add_action( 'wp_post_update_log', 'cn_enable_wp_rocket_purge' );
 
 function cn_enable_wp_rocket_purge() {
 
-	add_action( 'create_term', 'rocket_clean_domain' );
-	add_action( 'edited_terms', 'rocket_clean_domain' );
-	add_action( 'delete_term', 'rocket_clean_domain' );
-	add_action( 'delete_post', 'rocket_clean_post' );
-	add_action( 'clean_post_cache', 'rocket_clean_post' );
+	if ( defined( 'WP_ROCKET_VERSION' ) ) {
+
+		add_action( 'create_term', 'rocket_clean_domain' );
+		add_action( 'edited_terms', 'rocket_clean_domain' );
+		add_action( 'delete_term', 'rocket_clean_domain' );
+		add_action( 'delete_post', 'rocket_clean_post' );
+		add_action( 'clean_post_cache', 'rocket_clean_post' );
+	}
 }

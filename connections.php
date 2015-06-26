@@ -604,6 +604,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/log/class.log.php';
 			require_once CN_PATH . 'includes/log/class.log-stateless.php';
 
+			// Log email sent through the Email API.
+			require_once CN_PATH . 'includes/log/class.log-email.php';
+
 			// Class for handling email template registration and management.
 			require_once CN_PATH . 'includes/email/class.email-template-api.php';
 

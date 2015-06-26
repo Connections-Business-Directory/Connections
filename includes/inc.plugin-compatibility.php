@@ -102,3 +102,33 @@ function cn_log_emails_add_email_filter() {
 		add_filter( 'cn_email', array( $instance, 'wpMail' ) );
 	}
 }
+
+/**
+ * Prevent WP Super Cache from purging the post cache when inserting or deleting a log.
+ * @link
+ *
+ * @since 8.2.10
+ */
+add_action( 'cn_pre_insert_log', 'cn_disable_wp_super_cache_purge' );
+add_action( 'cn_pre_update_log', 'cn_disable_wp_super_cache_purge' );
+
+function cn_disable_wp_super_cache_purge() {
+
+	if ( isset( $GLOBALS['wp_super_cache_late_init'] ) ) {
+
+		remove_action( 'delete_post', 'wp_cache_post_edit', 0 );
+		remove_action( 'clean_post_cache', 'wp_cache_post_edit' );
+	}
+}
+
+add_action( 'cn_post_insert_log', 'cn_enable_wp_super_cache_purge' );
+add_action( 'wp_post_update_log', 'cn_enable_wp_super_cache_purge' );
+
+function cn_enable_wp_super_cache_purge() {
+
+	if ( isset( $GLOBALS['wp_super_cache_late_init'] ) ) {
+
+		add_action( 'delete_post', 'wp_cache_post_edit', 0 );
+		add_action( 'clean_post_cache', 'wp_cache_post_edit' );
+	}
+}

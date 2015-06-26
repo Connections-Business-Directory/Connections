@@ -207,7 +207,7 @@ class cnEntryMetabox {
 					'type'       => 'rte',
 					'value'      => 'getBio',
 					'options'    => array(
-						'media_buttons' => FALSE,
+						'media_buttons' => current_user_can( 'unfiltered_html' ) ? TRUE : FALSE,
 						'tinymce'       => array(
 							'editor_selector'   => 'tinymce',
 							'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
@@ -234,7 +234,7 @@ class cnEntryMetabox {
 					'type'       => 'rte',
 					'value'      => 'getNotes',
 					'options'    => array(
-						'media_buttons' => FALSE,
+						'media_buttons' => current_user_can( 'unfiltered_html' ) ? TRUE : FALSE,
 						'tinymce'       => array(
 							'editor_selector'   => 'tinymce',
 							'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',

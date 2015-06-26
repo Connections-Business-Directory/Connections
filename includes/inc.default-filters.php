@@ -12,6 +12,16 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Versions prior to 8.2.9 saved the `"` slashed in the db, example: \"
+ * These filters will remove that slash while leaving all the others alone.
+ *
+ * NOTE: Disabled in favor of using @see wp_unslash() for the "display" context in
+ * cnSanitize::field() for the bio and notes field.
+ */
+//add_filter( 'cn_bio', 'wp_kses_stripslashes', 9 );
+//add_filter( 'cn_notes', 'wp_kses_stripslashes', 9 );
+
 if ( isset( $GLOBALS['wp_embed'] ) ) {
 
 	add_filter( 'cn_output_bio', array( $GLOBALS['wp_embed'], 'run_shortcode' ), 8 );

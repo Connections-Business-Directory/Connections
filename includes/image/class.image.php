@@ -433,7 +433,7 @@ class cnImage {
 
 		$filter  = array();
 		$methods = array();
-		$log     = new cnLog();
+		$log     = new cnLog_Stateless();
 
 		/*
 		 * Temporarily store the filters hooked to the image editor filters.

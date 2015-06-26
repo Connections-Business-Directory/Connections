@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.2.9
+ * Version: 8.2.10
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.2.9
+ * @version 8.2.10
  */
 
 // Exit if accessed directly
@@ -229,7 +229,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.2.9' );
+			define( 'CN_CURRENT_VERSION', '8.2.10' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -600,6 +600,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Class for processing email.
 			require_once CN_PATH . 'includes/email/class.email.php';
 
+			// Log APIs.
+			require_once CN_PATH . 'includes/log/class.log.php';
+			require_once CN_PATH . 'includes/log/class.log-stateless.php';
+
+			// Log email sent through the Email API.
+			require_once CN_PATH . 'includes/log/class.log-email.php';
+
 			// Class for handling email template registration and management.
 			require_once CN_PATH . 'includes/email/class.email-template-api.php';
 
@@ -716,7 +723,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			} elseif ( file_exists( $local ) ) {
 
-				// Look in local `../wp-content/plugins/{$languagesDirectory}/languages/` folder.
+				// Look in local `../wp-content/plugins/{plugin-directory}/languages/` folder.
 				load_textdomain( $domain, $local );
 
 			} else {

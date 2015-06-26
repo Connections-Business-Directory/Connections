@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.0
 Tested up to: 4.2
-Stable tag: 8.2.9
+Stable tag: 8.2.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -71,9 +71,13 @@ Here are some great **free extensions** (with more on the way) that enhance your
 * Open development on [Github](https://github.com/shazahm1/Connections).
 * Access to **180 action hooks** and over **300 filters** ... and counting.
 * Term API.
-* Custom Fields API.
+* Custom Metabox and Fields API.
 * Template Engine and API.
 * Fragment Cache API.
+* Log API (stateless and stateful).
+* Admin Notices API.
+* Email API.
+* Settings API.
 
 The directory has a very flexible template engine. The loading of template and CSS are context aware. This means you could create specific templates that load when a user visits a specific entry, category, postal code and more.
 
@@ -192,6 +196,38 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.2.10 06/26/2015 =
+* FEATURE: Allow admins and editors (roles with unfiltered_html capability) to use the Media Manager to insert images in the Bio and Notes fields.
+* NEW: Introduce the new stateful cnLog().
+* NEW: Introduce logging of email sent using cnEmail(). This will enable logging of email sent via Contact and Form.
+* COMPATIBILITY: Add support for the WP Mail Logging plugin.
+* COMPATIBILITY: Add support for the Email Log plugin.
+* COMPATIBILITY: Add support for the Log Emails plugin.
+* COMPATIBILITY: Prevent WP Super Cache from purging the page cache when a log in added/updated by cnLog().
+* COMPATIBILITY: Prevent WP Rocket from purging the page cache when a log in added/updated by cnLog().
+* BUG: Ensure bio and notes fields are unslashed before displayed.
+* BUG: Fix admin sortable repeatable fieldsets.
+* BUG: Fix limit bug when retrieving phone numbers by type.
+* BUG: Fix limit bug when retrieving email addresses by type.
+* BUG: Correct the defaults array initialization in cnOutput::getAddressBlock().
+* BUG: Remove unused param in cnOutput::getLogoImage().
+* BUG: Remove unused global cnOutput::getImage().
+* BUG: Properly init arrays throughout cnOutput().
+* TWEAK: Add limit support when retrieving addresses.
+* TWEAK: Remove use of deprecated args sanitation function in cnOutput::getAddressBlock().
+* TWEAK: Remove use of deprecated function in cnOutput::getImage().
+* TWEAK: Remove use of deprecated args sanitization function throughout cnOutput().
+* TWEAK: Rename cnLog() to cnLog_Stateless(), move it to its own folder/file and update its usage in cnImage().
+* TWEAK: Refactor cnEmail::send(), break it apart into smaller more maintainable methods.
+* I18N: Update POT file.
+* I18N: Update all MO files.
+* I18N: Remove orphaned MO file.
+* DEV: Cleanup code alignment in cnOutput::getAddressBlock().
+* DEV: Fix code alignment of defaults array in cnOutput::getImage().
+* DEV: Correct several phpDoc params errors in cnOutput().
+* DEV: Adjust filters and actions in cnEmail::send() for better compatibility.
+* DEV: Prettify code in cnDate() to better meet coding standards.
 
 = 8.2.9 06/19/2015 =
 * FEATURE: Bio and Notes fields now supports oEmbed.
@@ -1013,4 +1049,7 @@ It is recommended to backup before updating. Requires WordPress >= 3.8.
 It is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.9 =
+It is recommended to backup before updating. Requires WordPress >= 3.8.
+
+= 8.2.10 =
 It is recommended to backup before updating. Requires WordPress >= 3.8.

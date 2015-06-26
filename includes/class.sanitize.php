@@ -251,7 +251,11 @@ class cnSanitize {
 					case 'bio':
 					case 'notes':
 
-						return $value;
+						/**
+						 * Versions prior to 8.2.9 saved teh bio and notes field slashed in the db.
+						 * Unslash them when displaying before displaying them.
+						 */
+						return wp_unslash( $value );
 
 					case 'name':
 					case 'street':

@@ -201,7 +201,7 @@ class cnEmail {
 	}
 
 	/**
-	 * Add attatchment to be passed to the wp_mail() $attachments param.
+	 * Add attachment to be passed to the wp_mail() $attachments param.
 	 *
 	 * Files to attach: a single filename, an array of filenames,
 	 * or a newline-delimited string list of multiple filenames.
@@ -346,7 +346,6 @@ class cnEmail {
 		global $wp_filter;
 
 		$filter = array();
-		$to     = array();
 
 		/*
 		 * Temporarily store the filters hooked to the wp_mail filters.
@@ -366,36 +365,116 @@ class cnEmail {
 		remove_all_filters( 'wp_mail_from_name' );
 		remove_all_filters( 'wp_mail_from' );
 
+		/**
+		 * Prepare data to be compliant with @see wp_mail().
+		 */
+		$this->parseType();
+		$this->parseFrom();
+		$to = $this->parseTo();
+		$this->parseCC();
+		$this->parseBCC();
+
+		$email = apply_filters(
+			'cn_email',
+			array(
+				'to'          => $to,
+				'subject'     => $this->subject,
+				'message'     => $this->message,
+				'headers'     => $this->header,
+				'attachments' => $this->attachments
+			)
+		);
 
 		/*
 		 * Allow extensions to filter the email before sending.
 		 */
-		$this->header      = apply_filters( 'cn_email_header', $this->header );
-		$this->type        = apply_filters( 'cn_email_type', $this->type );
-		$this->charSet     = apply_filters( 'cn_email_charset', $this->charset );
+		$email['headers']     = apply_filters( 'cn_email_header', $email['headers'] );
+		$this->type           = apply_filters( 'cn_email_type', $this->type );
+		$this->charSet        = apply_filters( 'cn_email_charset', $this->charset );
 
-		$this->from        = apply_filters( 'cn_email_from', $this->from );
-		$this->to          = apply_filters( 'cn_email_to', $this->to );
-		$this->cc          = apply_filters( 'cn_email_cc', $this->cc );
-		$this->bcc         = apply_filters( 'cn_email_bcc', $this->bcc );
+		$this->from           = apply_filters( 'cn_email_from', $this->from );
+		$email['to']          = apply_filters( 'cn_email_to', $email['to'] );
+		$this->cc             = apply_filters( 'cn_email_cc', $this->cc );
+		$this->bcc            = apply_filters( 'cn_email_bcc', $this->bcc );
 
-		$this->subject     = apply_filters( 'cn_email_subject', $this->subject );
-		$this->message     = apply_filters( 'cn_email_message', $this->message );
-		$this->attachments = apply_filters( 'cn_email_attachments', $this->attachments );
+		$email['subject']     = apply_filters( 'cn_email_subject', $email['subject'] );
+		$email['message']     = apply_filters( 'cn_email_message', $email['message'] );
+		$email['attachments'] = apply_filters( 'cn_email_attachments', $email['attachments'] );
 
 		/*
 		 * Allow extensions to do a pre send action.
 		 */
-		do_action( 'cn_email_pre_send', $this->header, $this->type, $this->charSet, $this->from, $this->to, $this->cc, $this->bcc, $this->subject, $this->message, $this->attachments );
+		do_action(
+			'cn_email_pre_send',
+			$email['headers'],
+			$this->type,
+			$this->charSet,
+			$this->from,
+			$email['to'],
+			$this->cc,
+			$this->bcc,
+			$email['subject'],
+			$email['message'],
+			$email['attachments']
+		);
 
 		/*
-		 * Set the content type and char set header.
+		 * Send the email using wp_mail().
 		 */
+		$response = wp_mail( $email['to'], $email['subject'], $email['message'], $email['headers'], $email['attachments'] );
+
+		/*
+		 * Allow extensions to do a post send action.
+		 */
+		do_action(
+			'cn_email_post_send',
+			$email['headers'],
+			$this->type,
+			$this->charSet,
+			$this->from,
+			$email['to'],
+			$this->cc,
+			$this->bcc,
+			$email['subject'],
+			$email['message'],
+			$email['attachments'],
+			$response
+		);
+
+		/*
+		 * Be a good citizen and add the filters that were hooked back to the wp_mail filters.
+		 */
+		if ( ! empty( $filter['param'] ) ) $wp_filter['wp_mail']               = $filter['param'];
+		if ( ! empty( $filter['type'] ) ) $wp_filter['wp_mail_content_type']   = $filter['type'];
+		if ( ! empty( $filter['charset'] ) ) $wp_filter['wp_mail_charset']     = $filter['charset'];
+		if ( ! empty( $filter['from_name'] ) ) $wp_filter['wp_mail_from_name'] = $filter['from_name'];
+		if ( ! empty( $filter['from_email'] ) ) $wp_filter['wp_mail_from']     = $filter['from_email'];
+
+		/**
+		 * wp_mail() returns a (bool), so lets return the result.
+		 */
+		return $response;
+	}
+
+	/**
+	 * Set the content type and char set header.
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 */
+	private function parseType() {
+
 		$this->header['type'] = sprintf( 'Content-type: %1$s; charset=%2$s', $this->type, $this->charset );
+	}
 
-		/*
-		 * Set the 'From' header for wp_mail.
-		 */
+	/**
+	 * Set the 'From' header for @see wp_mail().
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 */
+	private function parseFrom() {
+
 		if ( isset( $this->from['name'] ) ) {
 
 			$this->header['from'] = sprintf( 'From: %1$s <%2$s>', $this->from['name'], $this->from['email'] );
@@ -405,10 +484,20 @@ class cnEmail {
 			$this->header['from'] = sprintf( 'From: %s', $this->from['email'] );
 
 		}
+	}
 
-		/*
-		 * Build the to array for the wp_mail() $to param.
-		 */
+	/**
+	 * Build the to array for the @see wp_mail() $to param.
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 *
+	 * @return array
+	 */
+	private function parseTo() {
+
+		$to = array();
+
 		if ( count( $this->to ) >= 1 ) {
 
 			for ( $i = 0; $i < count( $this->to ); $i++ ) {
@@ -425,9 +514,17 @@ class cnEmail {
 			}
 		}
 
-		/*
-		 * Build the cc header string for wp_mail() and add it to the header.
-		 */
+		return $to;
+	}
+
+	/**
+	 * Build the cc header string for @see wp_mail() and add it to the header.
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 */
+	private function parseCC() {
+
 		if ( count( $this->cc ) >= 1 ) {
 
 			for ( $i = 0; $i < count( $this->cc ); $i++ ) {
@@ -443,10 +540,16 @@ class cnEmail {
 				}
 			}
 		}
+	}
 
-		/*
-		 * Build the bcc header string for wp_mail() and add it to the header.
-		 */
+	/**
+	 * Build the bcc header string for @see wp_mail() and add it to the header.
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 */
+	private function parseBCC() {
+
 		if ( count( $this->bcc ) >= 1 ) {
 
 			for ( $i = 0; $i < count( $this->bcc ); $i++ ) {
@@ -462,30 +565,6 @@ class cnEmail {
 				}
 			}
 		}
-
-		/*
-		 * Send the email using wp_mail().
-		 */
-		$response = wp_mail( $to, $this->subject, $this->message, $this->header, $this->attachments );
-
-		/*
-		 * Allow extensions to do a post send action.
-		 */
-		do_action( 'cn_email_post_send', $this->header, $this->type, $this->charSet, $this->from, $this->to, $this->cc, $this->bcc, $this->subject, $this->message, $this->attachments, $response );
-
-		/*
-		 * Be a good citizen and add the filters that were hooked back to the wp_mail filters.
-		 */
-		if ( ! empty( $filter['param'] ) ) $wp_filter['wp_mail']               = $filter['param'];
-		if ( ! empty( $filter['type'] ) ) $wp_filter['wp_mail_content_type']   = $filter['type'];
-		if ( ! empty( $filter['charset'] ) ) $wp_filter['wp_mail_charset']     = $filter['charset'];
-		if ( ! empty( $filter['from_name'] ) ) $wp_filter['wp_mail_from_name'] = $filter['from_name'];
-		if ( ! empty( $filter['from_email'] ) ) $wp_filter['wp_mail_from']     = $filter['from_email'];
-
-		/**
-		 * wp_mail() returns a (bool), so lets return the result.
-		 */
-		return $response;
 	}
 
 	/**

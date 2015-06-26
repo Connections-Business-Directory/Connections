@@ -1262,6 +1262,7 @@ class cnEntry {
 			'zipcode'     => array(),
 			'country'     => array(),
 			'coordinates' => array(),
+			'limit'       => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
@@ -1395,6 +1396,14 @@ class cnEntry {
 					 * }
 					 */
 					$results[] = apply_filters( 'cn_address', $row );
+				}
+
+				/*
+				 * Limit the number of results.
+				 */
+				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
+
+					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
 				}
 
 			}
@@ -1648,11 +1657,6 @@ class cnEntry {
 				 */
 				cnFunction::parseStringList( $type );
 
-				/*
-				 * Limit the number of results.
-				 */
-				if ( ! is_null( $atts['limit'] ) ) $phoneNumbers = array_slice( $phoneNumbers, 0, absint( $atts['limit'] ) );
-
 				foreach ( (array) $phoneNumbers as $key => $number ) {
 					/*
 					 * Previous versions stored empty arrays for phone numbers, check for a number, continue if not found.
@@ -1711,9 +1715,17 @@ class cnEntry {
 					$results[] = apply_filters( 'cn_phone_number', $row );
 				}
 
+				/*
+				 * Limit the number of results.
+				 */
+				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
+
+					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
+				}
+
 			}
-		}
-		else {
+
+		} else {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all phone numbers will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -1925,11 +1937,6 @@ class cnEntry {
 				 */
 				cnFunction::parseStringList( $type );
 
-				/*
-				 * Limit the number of results.
-				 */
-				if ( ! is_null( $atts['limit'] ) ) $emailAddresses = array_slice( $emailAddresses, 0, absint( $atts['limit'] ) );
-
 				foreach ( (array) $emailAddresses as $key => $email ) {
 
 					/*
@@ -1974,6 +1981,14 @@ class cnEntry {
 					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
 
 					$results[] = apply_filters( 'cn_email_address', $row );
+				}
+
+				/*
+				 * Limit the number of results.
+				 */
+				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
+
+					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
 				}
 
 			}
@@ -3575,7 +3590,7 @@ class cnEntry {
 	 */
 	public function getNotes( $context = 'display' ) {
 
-		return cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->notes ), $context );
+		return cnSanitize::field( 'bio', apply_filters( 'cn_notes', $this->notes ), $context );
 	}
 
 	/**

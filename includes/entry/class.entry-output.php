@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnOutput
+ */
 class cnOutput extends cnEntry {
 
 	/**
@@ -71,7 +74,7 @@ class cnOutput extends cnEntry {
 	 *
 	 * @deprecated since 0.7.2.0
 	 */
-	public function getLogoImage( $atts = array() ) {
+	public function getLogoImage() {
 
 		$this->getImage( array( 'image' => 'logo' ) );
 	}
@@ -115,7 +118,6 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getImage( $atts = array() ) {
-		global $wp_rewrite;
 
 		$displayImage = FALSE;
 		$cropModes    = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
@@ -131,28 +133,28 @@ class cnOutput extends cnEntry {
 			'image'    => 'photo',
 			'preset'   => 'entry',
 			'fallback' => array(
-				'type'     => 'none',
-				'string'   => '',
-				'height'   => 0,
-				'width'    => 0
+				'type'   => 'none',
+				'string' => '',
+				'height' => 0,
+				'width'  => 0
 			),
-			'width'  => 0,
-			'height' => 0,
-			'zc'     => 1,
-			'quality'=> 80,
-			'before' => '',
-			'after'  => '',
-			'sizes'  => array('100vw'),
-			'style'  => array(),
-			'action' => 'display',
-			'return' => FALSE
+			'width'    => 0,
+			'height'   => 0,
+			'zc'       => 1,
+			'quality'  => 80,
+			'before'   => '',
+			'after'    => '',
+			'sizes'    => array( '100vw' ),
+			'style'    => array(),
+			'action'   => 'display',
+			'return'   => FALSE
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_image' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults , $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
-		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) $atts['fallback'] = $this->validate->attributesArray( $defaults['fallback'] , $atts['fallback'] );
+		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) $atts['fallback'] = cnSanitize::args( $atts['fallback'], $defaults['fallback'] );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -168,7 +170,7 @@ class cnOutput extends cnEntry {
 
 			case 'photo':
 
-				if ( $this->getImageLinked() && ( $this->getImageDisplay() || $atts['action'] == 'edit' ) ) {
+				if ( $this->getImageLinked() && ( $this->getImageDisplay() || 'edit' == $atts['action'] ) ) {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'cn-image photo';
@@ -188,8 +190,8 @@ class cnOutput extends cnEntry {
 								'width'     => $atts['width'],
 								'height'    => $atts['height'],
 								'quality'   => $atts['quality'],
-								)
-							);
+							)
+						);
 
 						if ( is_wp_error( $image ) ) {
 
@@ -219,8 +221,8 @@ class cnOutput extends cnEntry {
 								array(
 									'type' => 'photo',
 									'size' => $size,
-									)
-								);
+								)
+							);
 
 							if ( is_wp_error( $image ) ) {
 
@@ -269,7 +271,7 @@ class cnOutput extends cnEntry {
 
 			case 'logo':
 
-				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || $atts['action'] == 'edit' ) ) {
+				if ( $this->getLogoLinked() && ( $this->getLogoDisplay() || 'edit' == $atts['action'] ) ) {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'cn-image logo';
@@ -290,8 +292,8 @@ class cnOutput extends cnEntry {
 								'width'     => $atts['width'],
 								'height'    => $atts['height'],
 								'quality'   => $atts['quality'],
-								)
-							);
+							)
+						);
 
 						if ( is_wp_error( $image ) ) {
 
@@ -313,8 +315,8 @@ class cnOutput extends cnEntry {
 							array(
 								'type' => 'logo',
 								'size' => 'scaled',
-								)
-							);
+							)
+						);
 
 						if ( is_wp_error( $image ) ) {
 
@@ -809,7 +811,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_title' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -869,7 +871,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_orgunit' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -1031,7 +1033,7 @@ class cnOutput extends cnEntry {
 			$search,
 			$replace,
 			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
-			);
+		);
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
@@ -1087,38 +1089,55 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getAddressBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred']           = NULL;
-		$defaults['type']                = NULL;
-		$defaults['city']                = NULL;
-		$defaults['state']               = NULL;
-		$defaults['zipcode']             = NULL;
-		$defaults['country']             = NULL;
-		$defaults['coordinates']         = array();
-		$defaults['format']              = '';
-		$defaults['link']['locality']    = cnSettingsAPI::get( 'connections', 'connections_link', 'locality' );
-		$defaults['link']['region']      = cnSettingsAPI::get( 'connections', 'connections_link', 'region' );
-		$defaults['link']['postal_code'] = cnSettingsAPI::get( 'connections', 'connections_link', 'postal_code' );
-		$defaults['link']['country']     = cnSettingsAPI::get( 'connections', 'connections_link', 'country' );
-		$defaults['separator']           = ':';
-		$defaults['before']              = '';
-		$defaults['after']               = '';
-		$defaults['return']              = FALSE;
+		$defaults = array(
+			'preferred'   => NULL,
+			'type'        => NULL,
+			'limit'       => NULL,
+			'city'        => NULL,
+			'state'       => NULL,
+			'zipcode'     => NULL,
+			'country'     => NULL,
+			'coordinates' => array(),
+			'format'      => '',
+			'link'        => array(
+				'locality'    => cnSettingsAPI::get( 'connections', 'link', 'locality' ),
+				'region'      => cnSettingsAPI::get( 'connections', 'link', 'region' ),
+				'postal_code' => cnSettingsAPI::get( 'connections', 'link', 'postal_code' ),
+				'country'     => cnSettingsAPI::get( 'connections', 'link', 'country' ),
+			),
+			'separator'   => ':',
+			'before'      => '',
+			'after'       => '',
+			'return'      => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_address' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
-		$atts['link'] = $this->validate->attributesArray( $defaults['link'], $atts['link'] );
-		$atts['id'] = $this->getId();
+		$atts         = cnSanitize::args( $atts, $defaults );
+		$atts['link'] = cnSanitize::args( $atts['link'], $defaults['link'] );
+		$atts['id']   = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$addresses = $this->getAddresses( $atts , $cached );
-		$search = array( '%label%' , '%line1%' , '%line2%' , '%line3%' , '%city%' , '%state%' , '%zipcode%' , '%country%' , '%geo%' , '%separator%' );
+		$out       = '';
+		$addresses = $this->getAddresses( $atts, $cached );
+		$search    = array(
+			'%label%',
+			'%line1%',
+			'%line2%',
+			'%line3%',
+			'%city%',
+			'%state%',
+			'%zipcode%',
+			'%country%',
+			'%geo%',
+			'%separator%'
+		);
 
 		if ( empty( $addresses ) ) return '';
 
@@ -1260,7 +1279,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%' : $atts['format']
-				);
+			);
 
 			// Set the hCard Address Type.
 			$out .= $this->gethCardAdrType( $address->type );
@@ -1314,24 +1333,27 @@ class cnOutput extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getMapBlock( $atts = array() , $cached = TRUE ) {
+	public function getMapBlock( $atts = array(), $cached = TRUE ) {
+
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['static'] = FALSE;
-		$defaults['maptype'] = 'ROADMAP';
-		$defaults['zoom'] = 13;
-		$defaults['height'] = 400;
-		$defaults['width'] = 400;
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'static'    => FALSE,
+			'maptype'   => 'ROADMAP',
+			'zoom'      => 13,
+			'height'    => 400,
+			'width'     => 400,
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_contact_name' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1435,7 +1457,7 @@ class cnOutput extends cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getPhoneNumberBlock( $atts = array() , $cached = TRUE ) {
+	public function getPhoneNumberBlock( $atts = array(), $cached = TRUE ) {
 
 		/** @var connectionsLoad $connections */
 		global $connections;
@@ -1443,18 +1465,20 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['limit'] = NULL;
-		$defaults['format'] = '';
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'limit'     => NULL,
+			'format'    => '',
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_phone' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1493,7 +1517,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %number%' : $atts['format']
-				);
+			);
 
 			// Set the hCard Phone Number Type.
 			$out .= $this->gethCardTelType( $phone->type );
@@ -1677,8 +1701,8 @@ class cnOutput extends cnEntry {
 		$title = $this->getName(
 			array(
 				'format' => empty( $atts['title'] ) ? '%first% %last% %type% email.' : $atts['title']
-				)
-			);
+			)
+		);
 
 		/*
 		 * Ensure the supplied size is valid, if not reset to the default value.
@@ -1705,7 +1729,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %address%' : $atts['format']
-				);
+			);
 
 			// Set the hCard Email Address Type.
 			$row .= '<span class="type" style="display: none;">INTERNET</span>';
@@ -1763,17 +1787,19 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['format'] = '';
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'format'    => '',
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_im' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1830,7 +1856,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %id%' : $atts['format']
-				);
+			);
 
 			$out .= '</span>' . PHP_EOL;
 		}
@@ -1906,19 +1932,21 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['format'] = '';
-		$defaults['style'] = 'wpzoom';
-		$defaults['size'] = 32;
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred' => NULL,
+			'type'      => NULL,
+			'format'    => '',
+			'style'     => 'wpzoom',
+			'size'      => 32,
+			'separator' => ':',
+			'before'    => '',
+			'after'     => '',
+			'return'    => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_socialmedia' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -1965,7 +1993,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%icon%' : $atts['format']
-				);
+			);
 
 			$out .= '</span>' . PHP_EOL;
 		}
@@ -2194,19 +2222,21 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
-		$defaults['preferred'] = NULL;
-		$defaults['type'] = NULL;
-		$defaults['format'] = '';
-		$defaults['name_format'] = '';
-		$defaults['date_format'] = cnSettingsAPI::get( 'connections', 'connections_display_general', 'date_format' );
-		$defaults['separator'] = ':';
-		$defaults['before'] = '';
-		$defaults['after'] = '';
-		$defaults['return'] = FALSE;
+		$defaults = array(
+			'preferred'   => NULL,
+			'type'        => NULL,
+			'format'      => '',
+			'name_format' => '',
+			'date_format' => cnSettingsAPI::get( 'connections', 'display_general', 'date_format' ),
+			'separator'   => ':',
+			'before'      => '',
+			'after'       => '',
+			'return'      => FALSE,
+		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_date' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		$atts['id'] = $this->getId();
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -2239,7 +2269,7 @@ class cnOutput extends cnEntry {
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
-				);
+			);
 
 			$out .= '</span>' . PHP_EOL;
 		}
@@ -2281,6 +2311,7 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
+		$defaults = array();
 		$defaults['format'] = '';
 		$defaults['name_format'] = '';
 
@@ -2292,7 +2323,7 @@ class cnOutput extends cnEntry {
 		$defaults['after'] = '';
 		$defaults['return'] = FALSE;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -2318,7 +2349,7 @@ class cnOutput extends cnEntry {
 			$search,
 			$replace,
 			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
-			);
+		);
 
 		$out .= '<span class="bday" style="display:none">' . $this->getBirthday( 'Y-m-d' ) . '</span>';
 		$out .= '<span class="summary" style="display:none">' . __( 'Birthday', 'connections' ) . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $this->getBirthday( 'YmdHis' ) . '</span>';
@@ -2360,6 +2391,7 @@ class cnOutput extends cnEntry {
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
+		$defaults = array();
 		$defaults['format'] = '';
 		$defaults['name_format'] = '';
 
@@ -2370,7 +2402,7 @@ class cnOutput extends cnEntry {
 		$defaults['after'] = '';
 		$defaults['return'] = FALSE;
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -2396,7 +2428,7 @@ class cnOutput extends cnEntry {
 			$search,
 			$replace,
 			empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
-			);
+		);
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
@@ -2509,7 +2541,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = apply_filters( 'cn_output_default_atts_category' , $defaults );
 
-		$atts = $this->validate->attributesArray( $defaults, $atts );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		$out = '';
 		$categories = $this->getCategory();
@@ -2518,7 +2550,7 @@ class cnOutput extends cnEntry {
 
 		$out .= $atts['before'];
 
-		if ( !empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
+		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
 
 		if ( empty( $atts['separator'] ) ) {
 			$atts['list'] === 'unordered' ? $out .= '<ul class="cn_category_list">' : $out .= '<ol class="cn_category_list">';
@@ -2567,10 +2599,8 @@ class cnOutput extends cnEntry {
 	 * @param  array  $atts The attributes array.
 	 * @param  array  $shortcode_atts If this is used within the shortcode template loop, the shortcode atts
 	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
-	 * @param  object $template If this is used within the shortcode template loop, the template object
+	 * @param  cnTemplate|null $template If this is used within the shortcode template loop, the template object
 	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
-	 *
-	 * @return string
 	 */
 	public function getMetaBlock( $atts, $shortcode_atts, $template ) {
 
@@ -2675,31 +2705,33 @@ class cnOutput extends cnEntry {
 
 			$out .= apply_filters(
 				'cn_entry_output_meta_key',
-				sprintf( '<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
+				sprintf(
+					'<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
 					$atts['item_tag'],
 					$atts['key_tag'],
 					trim( $key ),
 					$atts['separator'],
 					$atts['value_tag'],
 					implode( ', ', (array) $value )
-					),
+				),
 				$atts,
 				$key,
 				$value
-				);
+			);
 		}
 
 		if ( empty( $out ) ) return '';
 
 		$out = apply_filters(
 			'cn_entry_output_meta_container',
-			sprintf( '<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
+			sprintf(
+				'<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
 				$atts['container_tag'],
 				$out
-				),
+			),
 			$atts,
 			$metadata
-			);
+		);
 
 		echo $atts['before'] . $out . $atts['after'] . PHP_EOL;
 	}
@@ -2730,7 +2762,7 @@ class cnOutput extends cnEntry {
 	 * @param  mixed  $atts array | string [optional] The custom content block(s) to render.
 	 * @param  array  $shortcode_atts [optional] If this is used within the shortcode template loop, the shortcode atts
 	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
-	 * @param  object $template [optional] If this is used within the shortcode template loop, the template object
+	 * @param  cnTemplate|null $template [optional] If this is used within the shortcode template loop, the template object
 	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
 	 *
 	 * @return string The HTML output of the custom content blocks.
@@ -2748,9 +2780,10 @@ class cnOutput extends cnEntry {
 			$settings = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
 		}
 
-		$order    = isset( $settings['order'] ) ? $settings['order'] : array();
-		$include  = isset( $settings['active'] ) ? $settings['active'] : array();
-		$exclude  = empty( $include ) ? $order : array();
+		$order   = isset( $settings['order'] ) ? $settings['order'] : array();
+		$include = isset( $settings['active'] ) ? $settings['active'] : array();
+		$exclude = empty( $include ) ? $order : array();
+		$titles  = array();
 
 		$defaults = array(
 			'id'            => '',
@@ -2824,7 +2857,7 @@ class cnOutput extends cnEntry {
 			}
 
 			// Render the "Custom Fields" meta block content.
-			if ( $key == 'meta' ) {
+			if ( 'meta' == $key ) {
 
 				$this->getMetaBlock( array(), $shortcode_atts, $template );
 			}
@@ -2843,9 +2876,12 @@ class cnOutput extends cnEntry {
 			// And if there is no title for some reason, create one from the key.
 			$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
 
-			$blockContainerContent .= apply_filters( 'cn_entry_output_content_block',
-				sprintf( '<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
-					sprintf( '<%1$s>%2$s</%1$s>',
+			$blockContainerContent .= apply_filters(
+				'cn_entry_output_content_block',
+				sprintf(
+					'<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
+					sprintf(
+						'<%1$s>%2$s</%1$s>',
 						$atts['header_tag'],
 						$titles[ $blockID ]
 					),
@@ -2866,12 +2902,14 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $blockContainerContent ) ) return '';
 
-		$out = apply_filters( 'cn_entry_output_content_block_container',
-			sprintf( '<%1$s class="cn-entry-content-block-%2$s">%3$s</%1$s>' . PHP_EOL,
+		$out = apply_filters(
+			'cn_entry_output_content_block_container',
+			sprintf(
+				'<%1$s class="cn-entry-content-block-%2$s">%3$s</%1$s>' . PHP_EOL,
 				$atts['container_tag'],
 				$atts['layout'],
 				$blockContainerContent
-				),
+			),
 			$this,
 			$blockContainerContent,
 			$titles,
@@ -2953,7 +2991,7 @@ class cnOutput extends cnEntry {
 	 * @since unknown
 	 * @version 1.0
 	 * @deprecated
-	 * @return string
+	 * @return string|null
 	 */
 	public function returnToTopAnchor() {
 
@@ -2965,7 +3003,7 @@ class cnOutput extends cnEntry {
 	 *
 	 * Accepted attributes for the $atts array are:
 	 *  class (string) The link class attribute.
-	 *  text (string) The acnhor text.
+	 *  text (string) The anchor text.
 	 *  title (string) The link title attribute.
 	 *  format (string) The tokens to use to display the vcard link block parts.
 	 *   Permitted Tokens:
@@ -2997,17 +3035,18 @@ class cnOutput extends cnEntry {
 		// otherwise it'll cause an error.
 		if ( ! is_admin() ) cnSEO::doFilterPermalink( FALSE );
 
-		$base = get_option( 'connections_permalink' );
-		$name = $base['name_base'];
-		$homeID = $connections->settings->get( 'connections', 'connections_home_page', 'page_id' ); // Get the directory home page ID.
-		$piece = array();
-		$id = FALSE;
-		$token = FALSE;
+		$base      = get_option( 'connections_permalink' );
+		$name      = $base['name_base'];
+		$homeID    = $connections->settings->get( 'connections', 'home_page', 'page_id' ); // Get the directory home page ID.
+		$piece     = array();
+		$id        = FALSE;
+		$token     = FALSE;
 		$iconSizes = array( 16, 24, 32, 48 );
-		$search = array( '%text%' , '%icon%' );
+		$search    = array( '%text%', '%icon%' );
+		$replace   = array();
 
 		// These are values will need to be added to the query string in order to download unlisted entries from the admin.
-		if ( $this->getVisibility() === 'unlisted' ) {
+		if ( 'unlisted' === $this->getVisibility() ) {
 			$id = $this->getId();
 			$token = wp_create_nonce( 'download_vcard_' . $this->getId() );
 		}
@@ -3063,12 +3102,11 @@ class cnOutput extends cnEntry {
 
 		$replace[] = '<a ' . implode( ' ', $piece ) . '><image src="' . esc_url( CN_URL . 'assets/images/icons/vcard/vcard_' . $iconSize . '.png' ) . '" height="' . $iconSize . 'px" width="' . $iconSize . 'px"/></a>';
 
-
 		$out .= str_ireplace(
 			$search,
 			$replace,
 			empty( $atts['format'] ) ? '%text%' : $atts['format']
-			);
+		);
 
 		$out .= '</span>';
 

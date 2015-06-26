@@ -600,6 +600,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Class for processing email.
 			require_once CN_PATH . 'includes/email/class.email.php';
 
+			require_once CN_PATH . 'includes/log/class.log-stateless.php';
+
 			// Class for handling email template registration and management.
 			require_once CN_PATH . 'includes/email/class.email-template-api.php';
 

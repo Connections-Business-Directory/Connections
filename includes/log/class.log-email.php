@@ -45,7 +45,7 @@ final class cnLog_Email {
 	 *
 	 * @uses   add_action()
 	 *
-	 * @return cnLog
+	 * @return cnLog_Email
 	 */
 	public static function instance() {
 
@@ -155,7 +155,7 @@ final class cnLog_Email {
 	 *
 	 * @param array|string $headers
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	private static function parseHeader( $headers ) {
 
@@ -202,7 +202,7 @@ final class cnLog_Email {
 	 *
 	 * @param array $to
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	private static function parseTo( $to ) {
 
@@ -218,7 +218,7 @@ final class cnLog_Email {
 	 *
 	 * @param array $cc
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	private static function parseCC( $cc ) {
 
@@ -253,7 +253,7 @@ final class cnLog_Email {
 	 *
 	 * @param array|string $attachments
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	private static function parseAttachments( $attachments ) {
 

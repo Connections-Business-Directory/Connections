@@ -346,7 +346,6 @@ class cnEmail {
 		global $wp_filter;
 
 		$filter = array();
-		$to     = array();
 
 		/*
 		 * Temporarily store the filters hooked to the wp_mail filters.
@@ -366,80 +365,14 @@ class cnEmail {
 		remove_all_filters( 'wp_mail_from_name' );
 		remove_all_filters( 'wp_mail_from' );
 
-		/*
-		 * Set the content type and char set header.
+		/**
+		 * Prepare data to be compliant with @see wp_mail().
 		 */
-		$this->header['type'] = sprintf( 'Content-type: %1$s; charset=%2$s', $this->type, $this->charset );
-
-		/*
-		 * Set the 'From' header for wp_mail.
-		 */
-		if ( isset( $this->from['name'] ) ) {
-
-			$this->header['from'] = sprintf( 'From: %1$s <%2$s>', $this->from['name'], $this->from['email'] );
-
-		} else {
-
-			$this->header['from'] = sprintf( 'From: %s', $this->from['email'] );
-
-		}
-
-		/*
-		 * Build the to array for the wp_mail() $to param.
-		 */
-		if ( count( $this->to ) >= 1 ) {
-
-			for ( $i = 0; $i < count( $this->to ); $i++ ) {
-
-				if ( empty( $this->to[ $i ]['name'] ) ) {
-
-					$to[] = $this->to[ $i ]['email'];
-
-				} else {
-
-					$to[] = sprintf( '%1$s <%2$s>', $this->to[ $i ]['name'], $this->to[ $i ]['email'] );
-
-				}
-			}
-		}
-
-		/*
-		 * Build the cc header string for wp_mail() and add it to the header.
-		 */
-		if ( count( $this->cc ) >= 1 ) {
-
-			for ( $i = 0; $i < count( $this->cc ); $i++ ) {
-
-				if ( empty( $this->cc[ $i ]['name'] ) ) {
-
-					$this->header[] = sprintf( 'Cc: %s', $this->cc[ $i ]['email'] );
-
-				} else {
-
-					$this->header[] = sprintf( 'Cc: %1$s <%2$s>', $this->cc[ $i ]['name'], $this->cc[ $i ]['email'] );
-
-				}
-			}
-		}
-
-		/*
-		 * Build the bcc header string for wp_mail() and add it to the header.
-		 */
-		if ( count( $this->bcc ) >= 1 ) {
-
-			for ( $i = 0; $i < count( $this->bcc ); $i++ ) {
-
-				if ( empty( $this->bcc[ $i ]['name'] ) ) {
-
-					$this->header[] = sprintf( 'Bcc: %s', $this->bcc[ $i ]['email'] );
-
-				} else {
-
-					$this->header[] = sprintf( 'Bcc: %1$s <%2$s>', $this->bcc[ $i ]['name'], $this->bcc[ $i ]['email'] );
-
-				}
-			}
-		}
+		$this->parseType();
+		$this->parseFrom();
+		$to = $this->parseTo();
+		$this->parseCC();
+		$this->parseBCC();
 
 		$email = apply_filters(
 			'cn_email',
@@ -521,6 +454,117 @@ class cnEmail {
 		 * wp_mail() returns a (bool), so lets return the result.
 		 */
 		return $response;
+	}
+
+	/**
+	 * Set the content type and char set header.
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 */
+	private function parseType() {
+
+		$this->header['type'] = sprintf( 'Content-type: %1$s; charset=%2$s', $this->type, $this->charset );
+	}
+
+	/**
+	 * Set the 'From' header for @see wp_mail().
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 */
+	private function parseFrom() {
+
+		if ( isset( $this->from['name'] ) ) {
+
+			$this->header['from'] = sprintf( 'From: %1$s <%2$s>', $this->from['name'], $this->from['email'] );
+
+		} else {
+
+			$this->header['from'] = sprintf( 'From: %s', $this->from['email'] );
+
+		}
+	}
+
+	/**
+	 * Build the to array for the @see wp_mail() $to param.
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 *
+	 * @return array
+	 */
+	private function parseTo() {
+
+		$to = array();
+
+		if ( count( $this->to ) >= 1 ) {
+
+			for ( $i = 0; $i < count( $this->to ); $i++ ) {
+
+				if ( empty( $this->to[ $i ]['name'] ) ) {
+
+					$to[] = $this->to[ $i ]['email'];
+
+				} else {
+
+					$to[] = sprintf( '%1$s <%2$s>', $this->to[ $i ]['name'], $this->to[ $i ]['email'] );
+
+				}
+			}
+		}
+
+		return $to;
+	}
+
+	/**
+	 * Build the cc header string for @see wp_mail() and add it to the header.
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 */
+	private function parseCC() {
+
+		if ( count( $this->cc ) >= 1 ) {
+
+			for ( $i = 0; $i < count( $this->cc ); $i++ ) {
+
+				if ( empty( $this->cc[ $i ]['name'] ) ) {
+
+					$this->header[] = sprintf( 'Cc: %s', $this->cc[ $i ]['email'] );
+
+				} else {
+
+					$this->header[] = sprintf( 'Cc: %1$s <%2$s>', $this->cc[ $i ]['name'], $this->cc[ $i ]['email'] );
+
+				}
+			}
+		}
+	}
+
+	/**
+	 * Build the bcc header string for @see wp_mail() and add it to the header.
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 */
+	private function parseBCC() {
+
+		if ( count( $this->bcc ) >= 1 ) {
+
+			for ( $i = 0; $i < count( $this->bcc ); $i++ ) {
+
+				if ( empty( $this->bcc[ $i ]['name'] ) ) {
+
+					$this->header[] = sprintf( 'Bcc: %s', $this->bcc[ $i ]['email'] );
+
+				} else {
+
+					$this->header[] = sprintf( 'Bcc: %1$s <%2$s>', $this->bcc[ $i ]['name'], $this->bcc[ $i ]['email'] );
+
+				}
+			}
+		}
 	}
 
 	/**

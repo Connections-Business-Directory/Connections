@@ -478,7 +478,7 @@ final class cnLog {
 	 *
 	 * @param  string $type
 	 *
-	 * @return array
+	 * @return bool
 	 */
 	public static function valid( $type ) {
 
@@ -534,7 +534,7 @@ final class cnLog {
 	 * @param array $data
 	 * @param array $meta
 	 *
-	 * @return int The ID of the newly created log item
+	 * @return int|WP_Error The ID of the newly created log item or the value 0 or WP_Error on failure.
 	 */
 	public static function insert( $data, $meta = array() ) {
 
@@ -588,7 +588,7 @@ final class cnLog {
 	 * @param array $data
 	 * @param array $meta
 	 *
-	 * @return bool True on success, otherwise false.
+	 * @return int|WP_Error The ID or the value 0 or WP_Error on failure.
 	 */
 	public static function update( $data, $meta = array() ) {
 
@@ -686,7 +686,7 @@ final class cnLog {
 	 * @param string $type
 	 * @param int    $paged
 	 *
-	 * @return array Array of the connected logs.
+	 * @return array|false An indexed array of the connected logs or false if none were found.
 	 */
 	public static function get( $id = 0, $type = '', $paged = 20 ) {
 
@@ -709,7 +709,7 @@ final class cnLog {
 	 *
 	 * @param array $atts
 	 *
-	 * @return array|false Array if logs were found, otherwise false.
+	 * @return array|false An indexed array of logs or false if none were found.
 	 */
 	public static function getConnected( $atts = array() ) {
 

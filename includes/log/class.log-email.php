@@ -223,10 +223,11 @@ final class cnLog_Email {
 	private static function parseCC( $cc ) {
 
 		$field = array();
+		$count = count( $cc );
 
-		if ( 1 <= count( $cc ) ) {
+		if ( 1 <= $count ) {
 
-			for ( $i = 0; $i < count( $cc ); $i++ ) {
+			for ( $i = 0; $i < $count; $i++ ) {
 
 				if ( isset( $cc[ $i ]['name'] ) && ! empty( $cc[ $i ]['name'] ) ) {
 

@@ -201,7 +201,7 @@ class cnEmail {
 	}
 
 	/**
-	 * Add attatchment to be passed to the wp_mail() $attachments param.
+	 * Add attachment to be passed to the wp_mail() $attachments param.
 	 *
 	 * Files to attach: a single filename, an array of filenames,
 	 * or a newline-delimited string list of multiple filenames.

@@ -502,7 +502,7 @@ final class cnLog {
 	 * @param int    $parent
 	 * @param string $type
 	 *
-	 * @return int The ID of the new log entry.
+	 * @return int|WP_Error The ID of the new log entry or the value 0 or WP_Error on failure.
 	 */
 	public static function add( $title = '', $message = '', $parent = 0, $type = '' ) {
 

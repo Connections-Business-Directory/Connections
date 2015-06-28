@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnAdminMenu
+ */
 class cnAdminMenu {
 
 	/**
@@ -31,7 +34,6 @@ class cnAdminMenu {
 	 * @since 0.7.9
 	 * @see cnAdminMenu::init()
 	 * @see cnAdminMenu();
-	 * @return (void)
 	 */
 	public function __construct() { /* Do nothing here */ }
 
@@ -41,7 +43,6 @@ class cnAdminMenu {
 	 * @access public
 	 * @since 0.7.9
 	 * @see cnAdminMenu()
-	 * @return (void)
 	 */
 	public static function init() {
 
@@ -57,7 +58,6 @@ class cnAdminMenu {
 	 *
 	 * @access private
 	 * @since unknown
-	 * @return (void)
 	 */
 	public static function menu() {
 
@@ -100,7 +100,6 @@ class cnAdminMenu {
 	 *
 	 * @access private
 	 * @since unknown
-	 * @return (void)
 	 */
 	public static function showPage() {
 

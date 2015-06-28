@@ -36,6 +36,7 @@ function connectionsShowSettingsPage() {
 
 	} else {
 
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		?>

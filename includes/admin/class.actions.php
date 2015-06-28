@@ -165,7 +165,7 @@ class cnAdminActions {
 		// Process user selected filters
 		self::saveUserFilters();
 
-		// Grab the bulk action requesteed by user.
+		// Grab the bulk action requested by user.
 		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? $_POST['action'] : 'none';
 
 		switch ( $action ) {
@@ -208,7 +208,7 @@ class cnAdminActions {
 
 			default:
 
-				/* None, blank intentially. */
+				/* None, blank intentionally. */
 
 				break;
 		}

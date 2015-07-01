@@ -517,8 +517,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					 *
 					 * @TODO: Use the Output class to show entry details.
 					 */
-					$entry = new cnvCard( $row );
-					$vCard =& $entry;
+					$entry = new cnOutput( $row );
 
 					$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 					if ( $currentLetter != $previousLetter ) {
@@ -572,7 +571,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					$rowEditActions = array();
 
 					$rowActions[] = '<a class="detailsbutton" id="row-' . $entry->getId() . '" title="' . __( 'Click to show details.', 'connections' ) . '" >' . __( 'Show Details', 'connections' ) . '</a>';
-					$rowActions[] = $vCard->download( array( 'anchorText' => __( 'vCard', 'connections' ), 'return' => TRUE ) );
+					$rowActions[] = $entry->vcard( array( 'text' => __( 'vCard', 'connections' ), 'return' => TRUE ) );
 					$rowActions[] = cnURL::permalink( array(
 							'slug' => $entry->getSlug(),
 							'title' => sprintf( __( 'View %s', 'connections' ) , $entry->getName( array( 'format' => '%first% %last%' ) ) ),

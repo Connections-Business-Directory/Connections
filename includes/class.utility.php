@@ -1834,6 +1834,39 @@ class cnString {
 	}
 
 	/**
+	 * Generate a more truly "random" alpha-numeric string.
+	 *
+	 * NOTE:  If @see openssl_random_pseudo_bytes() does not exist, this will silently fallback to
+	 *        @see cnString::quickRandom().
+	 *
+	 * Function borrowed from Laravel 4.2
+	 * @link https://github.com/laravel/framework/blob/4.2/src/Illuminate/Support/Str.php
+	 *
+	 * @access public
+	 * @since  8.3
+	 *
+	 * @param  int $length
+	 *
+	 * @return string|WP_Error Random string on success, WP_Error on failure.
+	 */
+	public static function random( $length = 16 ) {
+
+		if ( function_exists( 'openssl_random_pseudo_bytes' ) ) {
+
+			$bytes = openssl_random_pseudo_bytes( $length * 2 );
+
+			if ( $bytes === FALSE ) {
+
+				return new WP_Error( __( 'Unable to generate random string.', 'connections' ) );
+			}
+
+			return substr( str_replace( array( '/', '+', '=' ), '', base64_encode( $bytes ) ), 0, $length );
+		}
+
+		return static::quickRandom( $length );
+	}
+
+	/**
 	 * Generate a "random" alpha-numeric string.
 	 *
 	 * Should not be considered sufficient for cryptography, etc.

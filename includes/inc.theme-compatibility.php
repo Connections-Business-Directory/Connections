@@ -18,6 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Add the "img-as-is" class to the image and logo if the ProPhoto theme is active.
  *
  * @since 8.3
+ *
+ * @param string $class
+ *
+ * @return string
  */
 
 add_filter( 'cn_image_class', 'cn_add_img_as_is_class' );

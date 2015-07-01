@@ -78,7 +78,7 @@ class cnAdmin_Tools {
 	 * @access private
 	 * @since  8.3
 	 *
-	 * @var cnLog
+	 * @var cnAdmin_Tools
 	 */
 	private static $instance;
 

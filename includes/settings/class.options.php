@@ -606,11 +606,12 @@ class cnOptions {
 	 * @since  0.8
 	 * @static
 	 *
-	 * @param string $item [optional] The content block key id to return the title.
-	 * @param string $type
+	 * @param string|null $item [optional] The content block key id to return the title.
+	 * @param string|null $type
 	 *
-	 * @return array|string An associated array where the key if the content block ID and the value is the content block name.
-	 *                      Or just the content block name if the id is supplied.
+	 * @return array|string|false An associated array where the key if the content block ID and the value is the content block name.
+	 *                            Or just the content block name if the id is supplied.
+	 *                            False is return if no blocks are found.
 	 */
 	public static function getContentBlocks( $item = NULL, $type = NULL ) {
 

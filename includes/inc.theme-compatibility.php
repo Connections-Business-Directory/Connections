@@ -23,9 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * @return string
  */
-
-add_filter( 'cn_image_class', 'cn_add_img_as_is_class' );
-
 function cn_add_img_as_is_class( $class ) {
 
 	if ( class_exists( 'ppContentFilter' ) && method_exists( 'ppContentFilter', 'modifyImgs' ) ) {
@@ -35,3 +32,5 @@ function cn_add_img_as_is_class( $class ) {
 
 	return $class;
 }
+
+add_filter( 'cn_image_class', 'cn_add_img_as_is_class' );

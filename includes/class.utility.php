@@ -1855,7 +1855,7 @@ class cnString {
 
 			$bytes = openssl_random_pseudo_bytes( $length * 2 );
 
-			if ( $bytes === FALSE ) {
+			if ( FALSE === $bytes ) {
 
 				return new WP_Error( __( 'Unable to generate random string.', 'connections' ) );
 			}

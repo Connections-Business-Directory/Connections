@@ -111,7 +111,7 @@ Active Theme:               <?php echo $theme . PHP_EOL; ?>
 Show On Front:              <?php echo get_option( 'show_on_front' ) . PHP_EOL; ?>
 <?php
 //Only show page specs if front page is set to 'page'
-if ( get_option( 'show_on_front' ) == 'page' ) :
+if ( 'page' == get_option( 'show_on_front' ) ) :
 $front_page_id = get_option( 'page_on_front' );
 $blog_page_id  = get_option( 'page_for_posts' );
 ?>

@@ -390,7 +390,7 @@ class cnAdmin_Tools {
 
 	public static function importExport() {
 
-		if( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'install_plugins' ) ) {
 
 			return;
 		}

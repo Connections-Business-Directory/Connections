@@ -974,6 +974,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Called when deactivating Connections via the deactivation hook.
 		 */
 		public static function deactivate() {
+
 			/*
 			 * Since we're adding the rewrite rules using a filter, make sure to remove the filter
 			 * before flushing, otherwise the rules will not be removed.
@@ -983,16 +984,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Flush so they are rebuilt.
 			flush_rewrite_rules();
-
-			//global $options;
-
-			/* This should be occur in the uninstall hook
-			$this->options->removeDefaultCapabilities();
-			*/
-
-			//  DROP TABLE `cnpfresh_connections`, `cnpfresh_connections_terms`, `cnpfresh_connections_term_relationships`, `cnpfresh_connections_term_taxonomy`;
-			//  DELETE FROM `nhonline_freshcnpro`.`cnpfresh_options` WHERE `cnpfresh_options`.`option_name` = 'connections_options'
-		}
 		}
 	}
 

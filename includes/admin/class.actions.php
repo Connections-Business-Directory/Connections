@@ -186,7 +186,7 @@ class cnAdminActions {
 		 * Since email is sent via an ajax request, let's check for the appropriate header.
 		 * @link http://davidwalsh.name/detect-ajax
 		 */
-		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest' ) {
+		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || 'xmlhttprequest' != strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
 
 			wp_send_json( -3 );
 		}

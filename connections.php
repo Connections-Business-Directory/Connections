@@ -679,6 +679,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
 			require_once CN_PATH . 'includes/inc.theme-compatibility.php';
+
+			// System Info
+			require_once CN_PATH . 'includes/system-info/class.system-info.php';
 		}
 
 		/**

@@ -114,6 +114,12 @@ class cnAdminActions {
 
 		// Term Meta Actions
 		add_action( 'cn_delete_term', array( __CLASS__, 'deleteTermMeta' ), 10, 4 );
+
+		// Actions that deal with the system info.
+		add_action( 'wp_ajax_download_system_info', array( __CLASS__, 'downloadSystemInfo' ) );
+		add_action( 'wp_ajax_email_system_info', array( __CLASS__, 'emailSystemInfo' ) );
+		add_action( 'wp_ajax_generate_url', array( __CLASS__, 'generateSystemInfoURL' ) );
+		add_action( 'wp_ajax_revoke_url', array( __CLASS__, 'revokeSystemInfoURL' ) );
 	}
 
 	/**
@@ -137,6 +143,141 @@ class cnAdminActions {
 
 			do_action( 'cn_' . $_GET['cn-action'] );
 		}
+	}
+
+	/**
+	 * AJAX callback used to download the system info.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function downloadSystemInfo() {
+
+		check_ajax_referer( 'download_system_info' );
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json( __( 'You do not have sufficient permissions to download system information.', 'connections' ) );
+		}
+
+		cnSystem_Info::download();
+	}
+
+	/**
+	 * AJAX callback to email the system info.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function emailSystemInfo() {
+
+		$form = new cnFormObjects();
+
+		check_ajax_referer( $form->getNonce( 'email_system_info' ), 'nonce' );
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json( -2 );
+		}
+
+		/**
+		 * Since email is sent via an ajax request, let's check for the appropriate header.
+		 * @link http://davidwalsh.name/detect-ajax
+		 */
+		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) != 'xmlhttprequest' ) {
+
+			wp_send_json( -3 );
+		}
+
+		$user = wp_get_current_user();
+
+		$atts = array(
+			'from_email' => $user->user_email,
+			'from_name'  => $user->display_name,
+			'to_email'   => $_POST['email'],
+			'subject'    => $_POST['subject'],
+			'message'    => $_POST['message'],
+		);
+
+		$response = cnSystem_Info::email( $atts );
+
+		if ( $response ) {
+
+			// Success, send success code.
+			wp_send_json( 1 );
+
+		} else {
+
+			/** @var PHPMailer $phpmailer */
+			global $phpmailer;
+
+			wp_send_json( $phpmailer->ErrorInfo );
+		}
+	}
+
+	/**
+	 * AJAX callback to create a secret URL for the system info.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function generateSystemInfoURL() {
+
+		if ( ! check_ajax_referer( 'generate_remote_system_info_url', FALSE, FALSE ) ) {
+
+			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
+		}
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json_error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ) );
+		}
+
+		$token   = cnString::random( 32 );
+		$expires = apply_filters( 'cn_system_info_remote_token_expire', DAY_IN_SECONDS * 3 );
+
+		cnCache::set(
+			'system_info_remote_token',
+			$token,
+			$expires,
+			'option-cache'
+		);
+
+		$url = home_url() . '/?cn-system-info=' . $token;
+
+		wp_send_json_success(
+			array(
+				'url' => $url,
+				'message' => __( 'Secret URL has been created.', 'connections' ),
+			)
+		);
+	}
+
+	/**
+	 * AJAX callback to revoke the secret URL for the system info.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function revokeSystemInfoURL() {
+
+		if ( ! check_ajax_referer( 'revoke_remote_system_info_url', FALSE, FALSE ) ) {
+
+			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
+		}
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json_error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ) );
+		}
+
+		cnCache::clear( 'system_info_remote_token', 'option-cache' );
+
+		wp_send_json_success( __( 'Secret URL has been revoked.', 'connections' ) );
 	}
 
 	/**

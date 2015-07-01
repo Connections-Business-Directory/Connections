@@ -101,7 +101,7 @@ class cnAdmin_Tools {
 	 */
 	public static function instance() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof cnLog ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof cnAdmin_Tools ) ) {
 
 			self::init();
 		}

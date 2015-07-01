@@ -2877,7 +2877,20 @@ class cnOutput extends cnEntry {
 
 			// Store the title in an array that can be accessed/passed from outside the content block loop.
 			// And if there is no title for some reason, create one from the key.
-			$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+			if ( $name = cnOptions::getContentBlocks( $key ) ) {
+
+				$titles[ $blockID ] = $name;
+
+			} elseif ( $name = cnOptions::getContentBlocks( $key, 'single' ) ) {
+
+				$titles[ $blockID ] = $name;
+
+			} else {
+
+				$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+			}
+
+			//$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
 
 			$blockContainerContent .= apply_filters(
 				'cn_entry_output_content_block',

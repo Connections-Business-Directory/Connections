@@ -588,36 +588,74 @@ class cnvCard extends cnEntry_HTML {
 		return $this->card;
 	}
 
-	/**
-	 * @access private
-	 * @since unknown
-	 * @version 1.0
-	 * @deprecated
-	 * @param array $suppliedAtts [optional]
-	 * @return string
-	 */
-	public function download( $suppliedAtts = array() )
-	{
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAtts = array( 'anchorText' => 'Add to Address Book',
-							  'title' => 'Download vCard',
-							  'return' => FALSE
-							);
+	public static function download() {
 
-		$atts = $this->validate->attributesArray($defaultAtts, $suppliedAtts);
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
-		extract($atts);
+		$process = get_query_var( 'cn-process' );
+		$token   = get_query_var( 'cn-token' );
+		$id      = absint( get_query_var( 'cn-id' ) );
 
-		$out = $this->vcard( array( 'text' => $anchorText , 'title' => $title , 'return' => TRUE ) );
+		if ( 'vcard' === $process ) {
 
-		//$token = wp_create_nonce('download_vcard_' . $this->getId() );
-		//$out = '<a href="' . get_site_url() . '?cntoken=' . $token . '&cnid=' . $this->getId() . '&cnvc=1" title="' . $title . '" rel="nofollow">' . $anchorText . '</a>';
+			$slug = get_query_var( 'cn-entry-slug' ); //var_dump($slug);
 
-		if ( $return ) return $out; else echo $out;
+			/*
+			 * If the token and id values were set, the link was likely from the admin.
+			 * Check for those values and validate the token. The primary reason for this
+			 * to be able to download vCards of entries that are set to "Unlisted".
+			 */
+			if ( ! empty( $id ) && ! empty( $token ) ) {
+
+				if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id ) ) {
+
+					wp_die( 'Invalid vCard Token' );
+				}
+
+				$entry = $instance->retrieve->entry( $id );
+
+				// Die if no entry was found.
+				if ( empty( $entry ) ) {
+
+					wp_die( __( 'vCard not available for download.', 'connections' ) );
+				}
+
+				$vCard = new cnvCard( $entry ); //var_dump($vCard);die;
+
+			} else {
+
+				$entry = $instance->retrieve->entries( array( 'slug' => $slug ) ); //var_dump($entry);die;
+
+				// Die if no entry was found.
+				if ( empty( $entry ) ) {
+
+					wp_die( __( 'vCard not available for download.', 'connections' ) );
+				}
+
+				$vCard = new cnvCard( $entry[0] ); //var_dump($vCard);die;
+			}
+
+			$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
+			$data     = $vCard->getvCard(); //var_dump($data);die;
+
+			header( 'Content-Description: File Transfer' );
+			header( 'Content-Type: application/octet-stream' );
+			header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
+			header( 'Content-Length: ' . strlen( $data ) );
+			header( 'Pragma: public' );
+			header( "Pragma: no-cache" );
+			//header( "Expires: 0" );
+			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
+			header( 'Cache-Control: private' );
+			// header( 'Connection: close' );
+			ob_clean();
+			flush();
+
+			echo $data;
+			exit;
+		}
 	}
 }
+
+add_action( 'template_redirect' , array( 'cnvCard', 'download' ) );

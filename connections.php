@@ -683,6 +683,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/template/class.template.php';
 
 			require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
+			require_once CN_PATH . 'includes/inc.theme-compatibility.php';
 		}
 
 		/**

@@ -1832,6 +1832,27 @@ class cnString {
 
 		return apply_filters( 'cn__excerpt', $excerpt, $raw, $atts );
 	}
+
+	/**
+	 * Generate a "random" alpha-numeric string.
+	 *
+	 * Should not be considered sufficient for cryptography, etc.
+	 *
+	 * Function borrowed from Laravel 5.1
+	 * @link https://github.com/laravel/framework/blob/5.1/src/Illuminate/Support/Str.php#L270
+	 *
+	 * @access public
+	 * @since  8.3
+	 *
+	 * @param  int $length
+	 *
+	 * @return string
+	 */
+	public static function quickRandom( $length = 16 ) {
+
+		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+	}
 }
 
 /**

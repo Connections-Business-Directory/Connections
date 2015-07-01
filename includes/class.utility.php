@@ -143,7 +143,7 @@ class cnFormatting {
 	 *
 	 * @return string Returns 'Yes' | 'No'
 	 */
-	public function toYesNo( $bool ) {
+	public static function toYesNo( $bool ) {
 
 		if ( $bool ) {
 

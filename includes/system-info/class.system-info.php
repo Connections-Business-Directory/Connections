@@ -280,27 +280,27 @@ class cnSystem_Info {
 	 */
 	public static function getHost() {
 
-		if( defined( 'WPE_APIKEY' ) ) {
+		if ( defined( 'WPE_APIKEY' ) ) {
 			$host = 'WP Engine';
-		} elseif( defined( 'PAGELYBIN' ) ) {
+		} elseif ( defined( 'PAGELYBIN' ) ) {
 			$host = 'Pagely';
-		} elseif( DB_HOST == 'localhost:/tmp/mysql5.sock' ) {
+		} elseif ( 'localhost:/tmp/mysql5.sock' == DB_HOST ) {
 			$host = 'ICDSoft';
-		} elseif( DB_HOST == 'mysqlv5' ) {
+		} elseif ( 'mysqlv5' == DB_HOST ) {
 			$host = 'NetworkSolutions';
-		} elseif( strpos( DB_HOST, 'ipagemysql.com' ) !== false ) {
+		} elseif ( FALSE !== strpos( DB_HOST, 'ipagemysql.com' ) ) {
 			$host = 'iPage';
-		} elseif( strpos( DB_HOST, 'ipowermysql.com' ) !== false ) {
+		} elseif ( FALSE !== strpos( DB_HOST, 'ipowermysql.com' ) ) {
 			$host = 'IPower';
-		} elseif( strpos( DB_HOST, '.gridserver.com' ) !== false ) {
+		} elseif ( FALSE !== strpos( DB_HOST, '.gridserver.com' ) ) {
 			$host = 'MediaTemple Grid';
-		} elseif( strpos( DB_HOST, '.pair.com' ) !== false ) {
+		} elseif ( FALSE !== strpos( DB_HOST, '.pair.com' ) ) {
 			$host = 'pair Networks';
-		} elseif( strpos( DB_HOST, '.stabletransit.com' ) !== false ) {
+		} elseif ( FALSE !== strpos( DB_HOST, '.stabletransit.com' ) ) {
 			$host = 'Rackspace Cloud';
-		} elseif( strpos( DB_HOST, '.sysfix.eu' ) !== false ) {
+		} elseif ( FALSE !== strpos( DB_HOST, '.sysfix.eu' ) ) {
 			$host = 'SysFix.eu Power Hosting';
-		} elseif( strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) !== false ) {
+		} elseif ( FALSE !== strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) ) {
 			$host = 'Flywheel';
 		} else {
 			// Adding a general fallback for data gathering

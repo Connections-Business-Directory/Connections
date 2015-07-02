@@ -47,6 +47,28 @@
 				return false;
 			});
 
+			/**
+			 * Upload a JSON file to import the settings.
+			 */
+			$( '#cn-import-settings' ).ajaxForm({
+				type:         'post',
+				dataType:     'json',
+				url:          ajaxurl,
+				beforeSubmit: function( arr, $form, options ) {
+					$( '#cn-import-settings-submit' ).attr( 'disabled', 'disabled' );
+				},
+				success:      function( response, status, jqXHR ) {
+					CN_System_Tools.ajaxSuccess( '#cn-import-settings-response', response, status, jqXHR );
+					$( '#cn-import-settings input[name="import_file"]' ).val( '' );
+					$( '#cn-import-settings-submit' ).removeAttr( 'disabled' );
+				},
+				error:        function( XMLHttpRequest, status, error ) {
+					CN_System_Tools.ajaxError( '#cn-import-settings-response', XMLHttpRequest, status, error );
+					$( '#cn-import-settings-submit' ).removeAttr( 'disabled' );
+					$( '#cn-import-settings input[name="import_file"]' ).val( '' );
+				}
+			});
+
 		},
 
 		setupValidation: function() {

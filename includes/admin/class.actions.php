@@ -120,6 +120,10 @@ class cnAdminActions {
 		add_action( 'wp_ajax_email_system_info', array( __CLASS__, 'emailSystemInfo' ) );
 		add_action( 'wp_ajax_generate_url', array( __CLASS__, 'generateSystemInfoURL' ) );
 		add_action( 'wp_ajax_revoke_url', array( __CLASS__, 'revokeSystemInfoURL' ) );
+
+		// Actions for export/import settings.
+		add_action( 'wp_ajax_export_settings', array( __CLASS__, 'downloadSettings' ) );
+		add_action( 'wp_ajax_import_settings', array( __CLASS__, 'importSettings' ) );
 	}
 
 	/**
@@ -278,6 +282,66 @@ class cnAdminActions {
 		cnCache::clear( 'system_info_remote_token', 'option-cache' );
 
 		wp_send_json_success( __( 'Secret URL has been revoked.', 'connections' ) );
+	}
+
+	/**
+	 * AJAX callback to download the settings in a JSON encoded text file.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function downloadSettings() {
+
+		check_ajax_referer( 'export_settings' );
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json( __( 'You do not have sufficient permissions to export the settings.', 'connections' ) );
+		}
+
+		cnSettingsAPI::download();
+	}
+
+	/**
+	 * AJAX callback to import settings from a JSON encoded text file.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function importSettings() {
+
+		check_ajax_referer( 'import_settings' );
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json( __( 'You do not have sufficient permissions to import the settings.', 'connections' ) );
+		}
+
+		if ( 'json' != pathinfo( $_FILES['import_file']['name'], PATHINFO_EXTENSION ) ) {
+
+			wp_send_json( __( 'Please upload a .json file.', 'connections' ) );
+		}
+
+		$file = $_FILES['import_file']['tmp_name'];
+
+		if ( empty( $file ) ) {
+
+			wp_send_json( __( 'Please select a file to import.', 'connections' ) );
+		}
+
+		$json   = file_get_contents( $file );
+		$result = cnSettingsAPI::import( $json );
+
+		if ( TRUE === $result ) {
+
+			wp_send_json( __( 'Settings have been imported.', 'connections' ) );
+
+		} else {
+
+			wp_send_json( $result );
+		}
 	}
 
 	/**

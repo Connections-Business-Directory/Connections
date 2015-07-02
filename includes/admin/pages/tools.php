@@ -263,6 +263,13 @@ class cnAdmin_Tools {
 	 */
 	public static function systemInfoEmail() {
 
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			return;
+		}
+
+		do_action( 'cn_tools_email_system_info_before' );
+
 		$form = new cnFormObjects();
 
 		?>
@@ -324,6 +331,7 @@ class cnAdmin_Tools {
 		</div><!-- .postbox -->
 
 		<?php
+		do_action( 'cn_tools_email_system_info_after' );
 	}
 
 	/**

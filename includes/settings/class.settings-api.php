@@ -1036,6 +1036,28 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		}
 
 		/**
+		 * Returns all the settings registered through this API.
+		 *
+		 * @access private
+		 * @since  8.3
+		 * @static
+		 *
+		 * @return array
+		 */
+		private static function getAll() {
+
+			$plugins  = array_keys( self::$registry );
+			$settings = array();
+
+			foreach ( $plugins as $id ) {
+
+				$settings[ $id ] = self::get( $id );
+			}
+
+			return $settings;
+		}
+
+		/**
 		 * Reset all the settings to the registered default values
 		 * for a specific plugin that was registered using this API.
 		 *
@@ -1074,6 +1096,60 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					delete_option( $optionName, $values );
 				}
 			}
+		}
+
+		/**
+		 * Downloads all setting register through this API to a JSON encoded text file.
+		 *
+		 * @access private
+		 * @since  8.3
+		 * @static
+		 */
+		public static function download() {
+
+			$filename = apply_filters(
+				'cn_settings_export_filename',
+				'cn-settings-export-' . current_time( 'Y-m-d_H-i-s' )
+			);
+
+			nocache_headers();
+			header( 'Content-Type: application/json; charset=utf-8' );
+			header( 'Content-Disposition: attachment; filename=' . $filename  . '.json' );
+			header( "Expires: 0" );
+
+			echo json_encode( self::getAll() );
+			exit;
+		}
+
+		/**
+		 * Import settings from a JSON encoded string.
+		 *
+		 * @access private
+		 * @since  8.3
+		 * @static
+		 *
+		 * @param string $json
+		 *
+		 * @return bool|string
+		 */
+		public static function import( $json ) {
+
+			$result = cnFunction::decodeJSON( $json, TRUE );
+
+			if ( is_wp_error( $result ) ) {
+
+				return $result->get_error_message( 'json_decode_error' );
+			}
+
+			foreach ( $result as $pluginID => $options ) {
+
+				foreach ( $options as $id => $value ) {
+
+					update_option( $id, $value );
+				}
+			}
+
+			return TRUE;
 		}
 	}
 }

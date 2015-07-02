@@ -112,7 +112,7 @@
 					$.when(
 						// Post the form data
 						$.ajax( {
-							type:     'POST',
+							type:     'post',
 							url:      ajaxurl,
 							dataType: 'json',
 							data:     CN_System_Tools.data( id ),

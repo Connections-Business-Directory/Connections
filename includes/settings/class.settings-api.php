@@ -1039,46 +1039,40 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * Reset all the settings to the registered default values
 		 * for a specific plugin that was registered using this API.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @param string $pluginID
-		 * @return mixed
+		 * @access public
+		 * @since  0.7.3.0
+		 * @static
+		 *
+		 * @param  string $pluginID
 		 */
-		public static function reset( $pluginID )
-		{
-			if ( array_key_exists( $pluginID, self::$registry ) )
-			{
-				foreach ( self::$registry[$pluginID] as $optionName => $values )
-				{
-					update_option( $optionName , $values );
+		public static function reset( $pluginID ) {
+
+			if ( array_key_exists( $pluginID, self::$registry ) ) {
+
+				foreach ( self::$registry[ $pluginID ] as $optionName => $values ) {
+
+					update_option( $optionName, $values );
 				}
-			}
-			else
-			{
-				return FALSE;
 			}
 		}
 
 		/**
 		 * Delete all the settings for a specific plugin that was registered using this API.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @param string $pluginID
-		 * @return mixed
+		 * @access public
+		 * @since  0.7.3.0
+		 * @static
+		 *
+		 * @param  string $pluginID
 		 */
-		public static function delete( $pluginID )
-		{
-			if ( array_key_exists( $pluginID, self::$registry ) )
-			{
-				foreach ( self::$registry[$pluginID] as $optionName => $values )
-				{
-					delete_option( $optionName , $values );
+		public static function delete( $pluginID ) {
+
+			if ( array_key_exists( $pluginID, self::$registry ) ) {
+
+				foreach ( self::$registry[ $pluginID ] as $optionName => $values ) {
+
+					delete_option( $optionName, $values );
 				}
-			}
-			else
-			{
-				return FALSE;
 			}
 		}
 	}

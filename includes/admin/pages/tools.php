@@ -229,14 +229,10 @@ class cnAdmin_Tools {
 					</textarea>
 
 				<?php // Form used to download .txt file ?>
-				<form action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>" method="post" enctype="multipart/form-data">
+				<form method="post" enctype="multipart/form-data" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">
 					<input type="hidden" name="action" value="download_system_info"/>
-
-					<p class="submit">
-						<?php wp_nonce_field( 'download_system_info' ); ?>
-						<input type="submit" class="button-secondary"
-						       value="<?php _e( 'Download System Info as Text File', 'connections' ) ?>"/>
-					</p>
+					<?php wp_nonce_field( 'download_system_info' ); ?>
+					<?php submit_button( __( 'Download System Info as Text File', 'connections' ), 'secondary', 'submit' ); ?>
 				</form>
 			</div><!-- .inside -->
 		</div><!-- .postbox -->

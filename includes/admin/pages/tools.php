@@ -281,7 +281,7 @@ class cnAdmin_Tools {
 
 				<div id="cn-email-response"></div>
 
-				<form id="cn-send-system-info" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>" method="post" enctype="multipart/form-data">
+				<form id="cn-send-system-info" method="post" enctype="multipart/form-data" action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>">
 					<table class="form-table">
 						<tr>
 							<th scope="row">

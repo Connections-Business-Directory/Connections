@@ -77,10 +77,15 @@ class cnSystem_Info {
 	 */
 	public static function download() {
 
-		nocache_headers();
+		$filename = apply_filters(
+			'cn_system_info_filename',
+			'connections-system-info-' . current_time( 'Y-m-d_H-i-s' )
+		);
 
+		nocache_headers();
 		header( 'Content-Type: text/plain' );
-		header( 'Content-Disposition: attachment; filename=connections-system-info-' . current_time( 'mysql' ) . '.txt' );
+		header( 'Content-Disposition: attachment; filename=' . $filename . '.txt' );
+		header( "Expires: 0" );
 
 		echo wp_strip_all_tags( self::get() );
 		exit;

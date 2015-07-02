@@ -83,7 +83,7 @@ class cnSystem_Info {
 		header( 'Content-Disposition: attachment; filename=connections-system-info-' . current_time( 'mysql' ) . '.txt' );
 
 		echo wp_strip_all_tags( self::get() );
-		die();
+		exit;
 	}
 
 	/**
@@ -113,12 +113,12 @@ class cnSystem_Info {
 			echo '<pre>';
 			self::display();
 			echo '</pre>';
-			exit();
+			exit;
 
 		} else {
 
 			wp_redirect( home_url() );
-			exit();
+			exit;
 		}
 
 	}

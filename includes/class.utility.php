@@ -1857,7 +1857,7 @@ class cnString {
 
 			if ( FALSE === $bytes ) {
 
-				return new WP_Error( __( 'Unable to generate random string.', 'connections' ) );
+				return new WP_Error( 'general_random_string', __( 'Unable to generate random string.', 'connections' ) );
 			}
 
 			return substr( str_replace( array( '/', '+', '=' ), '', base64_encode( $bytes ) ), 0, $length );

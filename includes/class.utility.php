@@ -1962,6 +1962,60 @@ class cnFunction {
 		// Return only unique values.
 		return array_unique( $list );
 	}
+
+	/**
+	 * Wrapper method for @see json_decode().
+	 *
+	 * On success this will return the decoded JSON. On error, it'll return an instance of @see WP_Error()
+	 * with the result of @see json_last_error().
+	 *
+	 * @access public
+	 * @since  8.3
+	 * @static
+	 *
+	 * @param string $json  The data to decode.
+	 * @param bool   $assoc When TRUE, returned objects will be converted into associative arrays.
+	 * @param int    $depth Recursion depth.
+	 *
+	 * @return array|mixed|WP_Error
+	 */
+	public static function decodeJSON( $json, $assoc = FALSE, $depth = 512 ) {
+
+		$data = json_decode( $json, $assoc, $depth );
+
+		switch ( json_last_error() ) {
+
+			case JSON_ERROR_NONE:
+				$result = $data;
+				break;
+
+			case JSON_ERROR_DEPTH:
+				$result = new WP_Error( 'json_decode_error', __( 'Maximum stack depth exceeded.', 'connections' ) );
+				break;
+
+			case JSON_ERROR_STATE_MISMATCH:
+				$result = new WP_Error( 'json_decode_error', __( 'Underflow or the modes mismatch.', 'connections' ) );
+				break;
+
+			case JSON_ERROR_CTRL_CHAR:
+				$result = new WP_Error( 'json_decode_error', __( 'Unexpected control character found.', 'connections' ) );
+				break;
+
+			case JSON_ERROR_SYNTAX:
+				$result = new WP_Error( 'json_decode_error', __( 'Syntax error, malformed JSON.', 'connections' ) );
+				break;
+
+			case JSON_ERROR_UTF8:
+				$result = new WP_Error( 'json_decode_error', __( 'Malformed UTF-8 characters, possibly incorrectly encoded.', 'connections' ) );
+				break;
+
+			default:
+				$result = new WP_Error( 'json_decode_error', __( 'Unknown error.', 'connections' ) );
+				break;
+		}
+
+		return $result;
+	}
 }
 
 /**

@@ -1,6 +1,6 @@
 ;jQuery(document).ready( function ($) {
 
-	var CN_System_Info = {
+	var CN_System_Tools = {
 
 		init: function() {
 
@@ -13,12 +13,12 @@
 
 				var id = '#cn-send-system-info';
 
-				CN_System_Info.clearValidationErrorMessages( id );
+				CN_System_Tools.clearValidationErrorMessages( id );
 
-				if ( CN_System_Info.isValid( id ) ) {
+				if ( CN_System_Tools.isValid( id ) ) {
 
-					CN_System_Info.send( id );
-					// alert( CN_System_Info.isValid( id ) );
+					CN_System_Tools.send( id );
+					// alert( CN_System_Tools.isValid( id ) );
 				}
 
 				// Prevent the default button/submit action.
@@ -31,7 +31,7 @@
 			$( 'input[name="generate-url"]' ).on( 'click', function( e ) {
 				e.preventDefault();
 
-				CN_System_Info.generateURL( this );
+				CN_System_Tools.generateURL( this );
 
 				return false;
 			});
@@ -42,7 +42,7 @@
 			$( 'input[name="revoke-url"]' ).on( 'click', function( e ) {
 				e.preventDefault();
 
-				CN_System_Info.revokeURL( this );
+				CN_System_Tools.revokeURL( this );
 
 				return false;
 			});
@@ -115,18 +115,18 @@
 							type:     'POST',
 							url:      ajaxurl,
 							dataType: 'json',
-							data:     CN_System_Info.data( id ),
+							data:     CN_System_Tools.data( id ),
 							cache:    false,
 							success:  function( response, status, jqXHR ) {
-								CN_System_Info.ajaxSuccess( '#cn-email-response', response, status, jqXHR );
+								CN_System_Tools.ajaxSuccess( '#cn-email-response', response, status, jqXHR );
 							},
 							error:    function( XMLHttpRequest, status, error ) {
-								CN_System_Info.ajaxError( '#cn-email-response', XMLHttpRequest, status, error );
+								CN_System_Tools.ajaxError( '#cn-email-response', XMLHttpRequest, status, error );
 							}
 						} )
 					).then( function() {
 
-							CN_System_Info.clearForm( id );
+							CN_System_Tools.clearForm( id );
 					});
 				});
 
@@ -144,12 +144,12 @@
 						.attr( 'href', response.url )
 						.css( 'display', 'inline-block' );
 
-					CN_System_Info.ajaxSuccess( '#cn-remote-response', response.message );
+					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response.message );
 
 				},
 				error:   function( response ) {
 
-					CN_System_Info.ajaxSuccess( '#cn-remote-response', response );
+					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response );
 				},
 				data: {
 					_ajax_nonce: $( object ).data('nonce')
@@ -169,12 +169,12 @@
 						.attr( 'href', '#' )
 						.css( 'display', 'none' );
 
-					CN_System_Info.ajaxSuccess( '#cn-remote-response', response );
+					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response );
 
 				},
 				error:   function( response ) {
 
-					CN_System_Info.ajaxSuccess( '#cn-remote-response', response );
+					CN_System_Tools.ajaxSuccess( '#cn-remote-response', response );
 				},
 				data: {
 					_ajax_nonce: $( object ).data('nonce')
@@ -189,32 +189,32 @@
 
 				case -3:
 
-					CN_System_Info.showMessage( id, cn_system_info.strAJAXHeaderErrMsg );
+					CN_System_Tools.showMessage( id, cn_system_info.strAJAXHeaderErrMsg );
 					break;
 
 				case -2:
 
-					CN_System_Info.showMessage( id, cn_system_info.strErrMsgUserNotPermitted );
+					CN_System_Tools.showMessage( id, cn_system_info.strErrMsgUserNotPermitted );
 					break;
 
 				case -1:
 
-					CN_System_Info.showMessage( id, cn_system_info.strErrMsgAction );
+					CN_System_Tools.showMessage( id, cn_system_info.strErrMsgAction );
 					break;
 
 				case 0:
 
-					CN_System_Info.showMessage( id, cn_system_info.strErrMsgAction );
+					CN_System_Tools.showMessage( id, cn_system_info.strErrMsgAction );
 					break;
 
 				case 1:
 
-					CN_System_Info.showMessage( id, cn_system_info.strSubmitted );
+					CN_System_Tools.showMessage( id, cn_system_info.strSubmitted );
 					break;
 
 				default:
 
-					CN_System_Info.showMessage( id, response );
+					CN_System_Tools.showMessage( id, response );
 					break;
 
 			}
@@ -223,7 +223,7 @@
 
 		ajaxError: function( id, XMLHttpRequest, status, error ) {
 
-			CN_System_Info.showMessage( id, cn_system_info.strAJAXSubmitErrMsg );
+			CN_System_Tools.showMessage( id, cn_system_info.strAJAXSubmitErrMsg );
 		},
 
 		clearForm: function( id ) {
@@ -248,6 +248,5 @@
 		}
 	};
 
-	CN_System_Info.init();
-
+	CN_System_Tools.init();
 });

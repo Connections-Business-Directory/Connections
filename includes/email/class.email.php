@@ -51,6 +51,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnEmail
+ */
 class cnEmail {
 
 	/**
@@ -78,7 +81,7 @@ class cnEmail {
 	private $charset = '';
 
 	/**
-	 * Array to store the name and email addresse
+	 * Array to store the name and email addresses
 	 * from whom the email was sent.
 	 *
 	 * @since 0.7.8
@@ -130,8 +133,8 @@ class cnEmail {
 	private $message = '';
 
 	/**
-	 * Files to attach: a single filename, an array of filenames,
-	 * or a newline-delimited string list of multiple filenames.
+	 * Files to attach: a single filename, an array of file names,
+	 * or a newline-delimited string list of multiple file names.
 	 *
 	 * @since 0.7.8
 	 * @var array
@@ -142,8 +145,7 @@ class cnEmail {
 	 * Set class defaults.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @return void
+	 * @since  0.7.8
 	 */
 	public function __construct() {
 
@@ -155,8 +157,9 @@ class cnEmail {
 	 * Add custom headers to be passed to the wp_mail() $header param.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @return void
+	 * @since  0.7.8
+	 *
+	 * @param $header
 	 */
 	public function header( $header ) {
 
@@ -168,8 +171,9 @@ class cnEmail {
 	 * Set whether or not the email should be sent as HTML.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @return void
+	 * @since  0.7.8
+	 *
+	 * @param bool $html
 	 */
 	public function html( $html = TRUE ) {
 
@@ -191,8 +195,9 @@ class cnEmail {
 	 * Set the email character set.
 	 *
 	 * @access public
-	 * @since 0.7.8
-	 * @return void
+	 * @since  0.7.8
+	 *
+	 * @param $charset
 	 */
 	public function charSet( $charset ) {
 
@@ -203,8 +208,8 @@ class cnEmail {
 	/**
 	 * Add attachment to be passed to the wp_mail() $attachments param.
 	 *
-	 * Files to attach: a single filename, an array of filenames,
-	 * or a newline-delimited string list of multiple filenames.
+	 * Files to attach: a single filename, an array of file names,
+	 * or a newline-delimited string list of multiple file names.
 	 *
 	 * @access public
 	 * @since 0.7.8

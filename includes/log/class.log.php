@@ -678,7 +678,7 @@ final class cnLog {
 	 *
 	 * @return void
 	 */
-	public static function delete( $id = 0, $type = '', $meta_query = array() ) {
+	public static function deleteConnected( $id = 0, $type = '', $meta_query = array() ) {
 
 		$query = array(
 			'post_parent'    => $id,

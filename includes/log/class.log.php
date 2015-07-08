@@ -710,9 +710,9 @@ final class cnLog {
 
 		if ( $logs ) {
 
-			foreach ( $logs as $logID ) {
+			foreach ( $logs as $log ) {
 
-				wp_delete_post( $logID, TRUE );
+				wp_delete_post( $log->ID, TRUE );
 			}
 		}
 	}

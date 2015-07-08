@@ -471,7 +471,7 @@ final class cnLog {
 	 *
 	 * Sets up the default log types and allows for new ones to be created
 	 *
-	 * @access private
+	 * @access public
 	 * @since  8.2.10
 	 * @static
 	 *
@@ -479,7 +479,7 @@ final class cnLog {
 	 *
 	 * @return array
 	 */
-	private static function types() {
+	public static function types() {
 
 		$terms = array();
 

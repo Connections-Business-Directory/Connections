@@ -780,15 +780,35 @@ final class cnLog {
 
 		$query = wp_parse_args( $atts, $defaults );
 
-		if ( $query['type'] && self::valid( $query['type'] ) ) {
+		if ( $query['type'] ) {
 
-			$query['tax_query'] = array(
-				array(
-					'taxonomy' => self::TAXONOMY,
-					'field'    => 'slug',
-					'terms'    => $query['type']
-				)
-			);
+			if ( is_array( $query['type'] ) ) {
+
+				$types = array();
+
+				foreach ( $query['type'] as $type ) {
+
+					if ( self::valid( $type ) ) $types[] = $type;
+				}
+
+			} else {
+
+				$types = '';
+
+				if ( self::valid( $query['type'] ) ) $types = $query['type'];
+			}
+
+			if ( ! empty( $types ) ) {
+
+				$query['tax_query'] = array(
+					array(
+						'taxonomy' => self::TAXONOMY,
+						'field'    => 'slug',
+						'terms'    => $types
+					)
+				);
+
+			}
 		}
 
 		$logs = get_posts( $query );

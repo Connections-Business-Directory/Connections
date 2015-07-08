@@ -240,6 +240,7 @@ class cnAdminActions {
 			wp_send_json_error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ) );
 		}
 
+		/** @todo need to check the $token is not WP_Error. */
 		$token   = cnString::random( 32 );
 		$expires = apply_filters( 'cn_system_info_remote_token_expire', DAY_IN_SECONDS * 3 );
 

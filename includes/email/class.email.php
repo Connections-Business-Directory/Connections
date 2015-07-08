@@ -395,7 +395,7 @@ class cnEmail {
 		 */
 		$email['headers']     = apply_filters( 'cn_email_header', $email['headers'] );
 		$this->type           = apply_filters( 'cn_email_type', $this->type );
-		$this->charSet        = apply_filters( 'cn_email_charset', $this->charset );
+		$this->charset        = apply_filters( 'cn_email_charset', $this->charset );
 
 		$this->from           = apply_filters( 'cn_email_from', $this->from );
 		$email['to']          = apply_filters( 'cn_email_to', $email['to'] );
@@ -413,7 +413,7 @@ class cnEmail {
 			'cn_email_pre_send',
 			$email['headers'],
 			$this->type,
-			$this->charSet,
+			$this->charset,
 			$this->from,
 			$email['to'],
 			$this->cc,
@@ -435,7 +435,7 @@ class cnEmail {
 			'cn_email_post_send',
 			$email['headers'],
 			$this->type,
-			$this->charSet,
+			$this->charset,
 			$this->from,
 			$email['to'],
 			$this->cc,
@@ -587,7 +587,7 @@ class cnEmail {
 			case 'header':
 
 				$this->header = array();
-				$this->charSet = get_bloginfo( 'charset' );
+				$this->charset = get_bloginfo( 'charset' );
 				$this->html( FALSE );
 				break;
 
@@ -619,7 +619,7 @@ class cnEmail {
 			default:
 
 				$this->header = array();
-				$this->charSet = get_bloginfo( 'charset' );
+				$this->charset = get_bloginfo( 'charset' );
 				$this->html( FALSE );
 
 				$this->to = array();

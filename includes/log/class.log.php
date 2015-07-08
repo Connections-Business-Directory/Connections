@@ -469,6 +469,29 @@ final class cnLog {
 	}
 
 	/**
+	 * Get the registered log views.
+	 *
+	 * @access public
+	 * @since  8.3
+	 *
+	 * @return array
+	 */
+	public static function views() {
+
+		/**
+		 * Filter used to register the meta about the view for a registered log type.
+		 *
+		 * @since 8.3
+		 *
+		 * @param array $args {
+		 *     @type string       $id The log view ID.
+		 *     @type string       $name The log view name.
+		 *     @type array|string $callback The log view callback which will display teh logs for the registered log type.
+		 * }
+		 */
+		return apply_filters( 'cn_log_views', array() );
+	}
+
 	 * Check if a log type is valid.
 	 *
 	 * Checks to see if the specified type is in the registered list of types.

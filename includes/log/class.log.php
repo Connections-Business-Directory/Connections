@@ -438,6 +438,7 @@ final class cnLog {
 		}
 	}
 
+	/**
 	 * Returns the log post type.
 	 *
 	 * @access private
@@ -509,6 +510,7 @@ final class cnLog {
 		return apply_filters( 'cn_log_views', array() );
 	}
 
+	/**
 	 * Check if a log type is valid.
 	 *
 	 * Checks to see if the specified type is in the registered list of types.
@@ -727,6 +729,7 @@ final class cnLog {
 		return wp_delete_post( $id, TRUE );
 	}
 
+	/**
 	 * Retrieve log items for a an object ID.
 	 *
 	 * @access private

@@ -831,9 +831,9 @@ final class cnLog {
 	 * @uses   WP_Query()
 	 * @uses   self::valid()
 	 *
-	 * @param int    $id
-	 * @param string $type
-	 * @param array  $meta_query
+	 * @param int          $id
+	 * @param array|string $type
+	 * @param array        $meta_query
 	 *
 	 * @return int
 	 */
@@ -846,13 +846,29 @@ final class cnLog {
 			'post_status'    => 'publish'
 		);
 
-		if ( ! empty( $type ) && self::valid( $type ) ) {
+		if ( ! empty( $type ) ) {
+
+			if ( is_array( $type ) ) {
+
+				$types = array();
+
+				foreach ( $type as $id ) {
+
+					if ( self::valid( $id ) ) $types[] = $id;
+				}
+
+			} else {
+
+				$types = '';
+
+				if ( self::valid( $type ) ) $types = $type;
+			}
 
 			$query['tax_query'] = array(
 				array(
 					'taxonomy' => self::TAXONOMY,
 					'field'    => 'slug',
-					'terms'    => $type
+					'terms'    => $types
 				)
 			);
 

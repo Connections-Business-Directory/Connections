@@ -935,7 +935,7 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Process user filteres.
+	 * Process user filters.
 	 *
 	 * @access public
 	 * @since 0.7.8
@@ -1453,7 +1453,7 @@ class cnAdminActions {
 
 					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) {
 
-						// the admininistrator should always have all capabilities
+						// the administrator should always have all capabilities
 						if ( $role == 'administrator' ) continue;
 
 						if ( $grant == 'true' ) {

@@ -392,6 +392,21 @@ class cnAdmin_Tools {
 		<?php
 	}
 
+	/**
+	 * Callback to render import/export settings.
+	 *
+	 * @access public
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   current_user_can()
+	 * @uses   do_action()
+	 * @uses   _E()
+	 * @uses   esc_url()
+	 * @uses   self_admin_url()
+	 * @uses   wp_nonce_field()
+	 * @uses   submit_button()
+	 */
 	public static function importExport() {
 
 		if ( ! current_user_can( 'install_plugins' ) ) {

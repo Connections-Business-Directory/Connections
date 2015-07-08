@@ -295,6 +295,9 @@ final class cnLog {
 			// Register types taxonomy and default types.
 			add_action( 'init', array( __CLASS__, 'registerTaxonomy' ), 1 );
 
+			// Register the  actions for the logs views.
+			add_action( 'init', array( __CLASS__, 'registerViews' ) );
+
 			// Create a cron job for this hook to start pruning.
 			add_action( 'cn_log_purge_process', array( __CLASS__, 'purge' ) );
 
@@ -421,6 +424,20 @@ final class cnLog {
 	}
 
 	/**
+	 * Callback on init hook to register the actions for the log views that have been registered.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function registerViews() {
+
+		foreach ( self::views() as $view ) {
+
+			add_action( 'cn_logs_view_' . $view['id'], $view['callback'] );
+		}
+	}
+
 	 * Returns the log post type.
 	 *
 	 * @access private

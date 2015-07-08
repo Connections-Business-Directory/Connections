@@ -876,11 +876,11 @@ class cnAdminActions {
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
 	 *
-	 * @param (int) $id [optional] Entry ID.
+	 * @param int $id [optional] Entry ID.
 	 *
 	 * @return void
 	 */
-	public static function deleteEntry( $id = '' ) {
+	public static function deleteEntry( $id = 0 ) {
 
 		// If no entry ID was supplied, check $_GET.
 		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? $_GET['id'] : $id;

@@ -360,6 +360,18 @@ final class cnLog_Email {
 				break;
 
 			case 'from':
+
+				if ( empty( $value ) ) {
+
+					$value = '<p>' . __( 'None', 'connections' ) . '</p>';
+
+				} else {
+
+					$value = '<p>' . esc_html( $value ) . '</p>';
+				}
+
+				break;
+
 			case 'to':
 			case 'cc':
 			case 'bcc':

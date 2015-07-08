@@ -743,7 +743,7 @@ class cnAdminActions {
 	 *
 	 * @return void
 	 */
-	public static function setEntryStatus( $id = '', $status = '' ) {
+	public static function setEntryStatus( $id = 0, $status = '' ) {
 
 		// If no entry ID was supplied, check $_GET.
 		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? absint( $_GET['id'] ) : absint( $id );

@@ -676,6 +676,17 @@ final class cnLog {
 	}
 
 	/**
+	 * Delete a specific log by ID.
+	 *
+	 * @param $id
+	 *
+	 * @return array|bool|WP_Post
+	 */
+	public static function delete( $id  ) {
+
+		return wp_delete_post( $id, TRUE );
+	}
+
 	 * Retrieve log items for a an object ID.
 	 *
 	 * @access private

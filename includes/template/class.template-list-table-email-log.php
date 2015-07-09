@@ -20,7 +20,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 	 *
 	 * @access private
 	 * @since  8.3
-	 * @var string
+	 * @var array
 	 */
 	private $type = '';
 
@@ -65,7 +65,7 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 	 */
 	public function __construct( $args = array() ) {
 
-		$defaults =array(
+		$defaults = array(
 			'type' => '',
 		);
 

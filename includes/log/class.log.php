@@ -518,7 +518,7 @@ final class cnLog {
 	 * @access private
 	 * @since  8.2.10
 	 *
-	 * @param  array $type
+	 * @param  string $type
 	 *
 	 * @return bool
 	 */

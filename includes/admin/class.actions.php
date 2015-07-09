@@ -127,6 +127,10 @@ class cnAdminActions {
 		// Actions for export/import settings.
 		add_action( 'wp_ajax_export_settings', array( __CLASS__, 'downloadSettings' ) );
 		add_action( 'wp_ajax_import_settings', array( __CLASS__, 'importSettings' ) );
+
+		// Register the action to delete a single log.
+		add_action( 'cn_log_bulk_actions', array( __CLASS__, 'logManagement' ) );
+		add_action( 'cn_delete_log', array( __CLASS__, 'deleteLog' ) );
 	}
 
 	/**
@@ -1485,6 +1489,116 @@ class cnAdminActions {
 			cnMessage::set( 'error', 'capability_roles' );
 		}
 
+	}
+
+	/**
+	 * Callback for the cn_log_bulk_actions hook which processes the action and then redirects back to the current admin page.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   current_user_can()
+	 * @uses   check_admin_referer()
+	 * @uses   cnLog::delete()
+	 * @uses   cnMessage::set()
+	 * @uses   add_query_arg()
+	 * @uses   wp_get_referer()
+	 * @uses   wp_safe_redirect()
+	 */
+	public static function logManagement() {
+
+		$action = '';
+
+		if ( current_user_can( 'install_plugins' ) ) {
+
+			if ( isset( $_GET['action'] ) && '-1' !== $_GET['action'] ) {
+
+				$action = $_GET['action'];
+
+			} elseif ( isset( $_GET['action2'] ) && '-1' !== $_GET['action2'] ) {
+
+				$action = $_GET['action2'];
+
+			}
+
+			switch ( $action ) {
+
+				case 'delete':
+
+					check_admin_referer( 'bulk-email' );
+
+					foreach ( $_GET['log'] as $id ) {
+
+						cnLog::delete( $id );
+					}
+
+					cnMessage::set( 'success', 'form_entry_delete' );
+
+					break;
+			}
+
+		} else {
+
+			cnMessage::set( 'error', 'capability_categories' );
+		}
+
+		$url = add_query_arg(
+			array(
+				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : FALSE,
+				'cn-action' => FALSE,
+				'action'    => FALSE,
+				'action2'   => FALSE,
+			),
+			wp_get_referer()
+		);
+
+		wp_safe_redirect( $url );
+		exit();
+	}
+
+	/**
+	 * Callback for the cn_delete_log hook which processes the delete action and then redirects back to the current admin page.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   current_user_can()
+	 * @uses   check_admin_referer()
+	 * @uses   cnLog::delete()
+	 * @uses   cnMessage::set()
+	 * @uses   add_query_arg()
+	 * @uses   wp_get_referer()
+	 * @uses   wp_safe_redirect()
+	 */
+	public static function deleteLog() {
+
+		if ( current_user_can( 'install_plugins' ) ) {
+
+			$id = 0;
+
+			if ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) {
+
+				$id = absint( $_GET['id'] );
+			}
+
+			check_admin_referer( 'log_delete_' . $id );
+
+			cnLog::delete( $id );
+
+			cnMessage::set( 'success', 'form_entry_delete' );
+
+			$url = add_query_arg(
+				array(
+					'type' => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : FALSE,
+				),
+				wp_get_referer()
+			);
+
+			wp_safe_redirect( $url );
+			exit();
+		}
 	}
 
 }

@@ -230,6 +230,24 @@ class cnSystem_Info {
 	}
 
 	/**
+	 * NOTE: Uses the @see cnLog_Email::viewLogs() view.
+	 *
+	 * @param array $view
+	 *
+	 * @return array
+	 */
+	public static function registerLogView( $view ) {
+
+		$view[ self::LOG_TYPE ] = array(
+			'id'       => self::LOG_TYPE,
+			'name'     => __( 'System Info Email', 'connections' ),
+			'callback' => array( 'cnLog_Email', 'viewLogs' )
+		);
+
+		return $view;
+	}
+
+	/**
 	 * Add the custom email header to set the "cn-system-info" email log type.
 	 *
 	 * @access private
@@ -328,4 +346,8 @@ class cnSystem_Info {
 // Register email log type.
 add_filter( 'cn_email_log_types', array( 'cnSystem_Info', 'registerEmailLogType' ) );
 
+// Register the log view.
+add_filter( 'cn_log_views', array( 'cnSystem_Info', 'registerLogView' ) );
+
+// Register the callback to display the email log detail view.
 add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );

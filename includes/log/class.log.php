@@ -408,11 +408,11 @@ final class cnLog {
 			)
 		);
 
-		$types = self::types();
+		$types = wp_list_pluck( self::types(), 'name', 'id' );
 
 		if ( ! empty( $types ) ) {
 
-			foreach ( $types as $type ) {
+			foreach ( $types as $type => $name ) {
 
 				if ( ! term_exists( $type, self::TAXONOMY ) ) {
 
@@ -518,13 +518,13 @@ final class cnLog {
 	 * @access private
 	 * @since  8.2.10
 	 *
-	 * @param  string $type
+	 * @param  array $type
 	 *
 	 * @return bool
 	 */
 	public static function valid( $type ) {
 
-		return in_array( $type, self::types() );
+		return array_key_exists( $type, wp_list_pluck( self::types(), 'name', 'id' ) );
 	}
 
 	/**

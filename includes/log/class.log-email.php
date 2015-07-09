@@ -70,6 +70,14 @@ final class cnLog_Email {
 	}
 
 	/**
+	 * Callback used to register the email log types with @see cnLog().
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 * @static
+	 *
+	 * @uses   apply_filters()
+	 *
 	 * @param array $types
 	 *
 	 * @return array

@@ -199,6 +199,7 @@ class cnTemplatePart {
 
 		$table = array(
 			'term-admin' => 'CN_Term_Admin_List_Table',
+			'email-log'  => 'CN_Email_Log_List_Table',
 		);
 
 		if ( array_key_exists( $type, $table ) ) {

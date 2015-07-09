@@ -1459,8 +1459,8 @@ class cnOutput extends cnEntry {
 	 */
 	public function getPhoneNumberBlock( $atts = array(), $cached = TRUE ) {
 
-		/** @var connectionsLoad $connections */
-		global $connections;
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		/*
 		 * // START -- Set the default attributes array. \\
@@ -1484,28 +1484,29 @@ class cnOutput extends cnEntry {
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
-		$out = '';
-		$phoneNumbers = $this->getPhoneNumbers( $atts , $cached );
-		$search = array( '%label%' , '%number%' , '%separator%' );
+		$rows         = array();
+		$phoneNumbers = $this->getPhoneNumbers( $atts, $cached );
+		$search       = array( '%label%' , '%number%' , '%separator%' );
 
 		if ( empty( $phoneNumbers ) ) return '';
-
-		$out .= '<span class="phone-number-block">' . PHP_EOL;
 
 		foreach ( $phoneNumbers as $phone ) {
 			$replace = array();
 
-			$out .= "\t" . '<span class="tel">';
+			$row = "\t" . '<span class="tel">';
 
-			( empty( $phone->name ) ) ? $replace[] = '' : $replace[] = '<span class="phone-name">' . $phone->name . '</span>';
+			$replace[] = empty( $phone->name ) ? '' : '<span class="phone-name">' . $phone->name . '</span>';
 
 			if ( empty( $phone->number ) ) {
 				$replace[] = '';
 			} else {
 
-				if ( $connections->settings->get( 'connections', 'connections_link', 'phone' ) ) {
+				if ( $instance->settings->get( 'connections', 'link', 'phone' ) ) {
+
 					$replace[] = '<a class="value" href="tel:' . $phone->number . '" value="' . preg_replace( '/[^0-9]/', '', $phone->number ) . '">' . $phone->number . '</a>';
+
 				} else {
+
 					$replace[] = '<span class="value">' . $phone->number . '</span>';
 				}
 
@@ -1513,25 +1514,27 @@ class cnOutput extends cnEntry {
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace(
+			$row .= str_ireplace(
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%label%%separator% %number%' : $atts['format']
 			);
 
 			// Set the hCard Phone Number Type.
-			$out .= $this->gethCardTelType( $phone->type );
+			$row .= $this->gethCardTelType( $phone->type );
 
-			$out .= '</span>' . PHP_EOL;
+			$row .= '</span>' . PHP_EOL;
+
+			$rows[] = apply_filters( 'cn_output_phone_number', cnString::replaceWhatWith( $row, ' ' ), $phone, $this, $atts );
 		}
 
-		$out .= '</span>' . PHP_EOL;
+		$block = '<span class="phone-number-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
 
-		$out = cnString::replaceWhatWith( $out, ' ' );
+		$block = apply_filters( 'cn_output_phone_numbers', $block, $phoneNumbers, $this, $atts );
 
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 
-		return $this->echoOrReturn( $atts['return'], $out );
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -2874,7 +2877,20 @@ class cnOutput extends cnEntry {
 
 			// Store the title in an array that can be accessed/passed from outside the content block loop.
 			// And if there is no title for some reason, create one from the key.
-			$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+			if ( $name = cnOptions::getContentBlocks( $key ) ) {
+
+				$titles[ $blockID ] = $name;
+
+			} elseif ( $name = cnOptions::getContentBlocks( $key, 'single' ) ) {
+
+				$titles[ $blockID ] = $name;
+
+			} else {
+
+				$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+			}
+
+			//$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
 
 			$blockContainerContent .= apply_filters(
 				'cn_entry_output_content_block',

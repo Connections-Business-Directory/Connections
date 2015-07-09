@@ -1036,50 +1036,120 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		}
 
 		/**
+		 * Returns all the settings registered through this API.
+		 *
+		 * @access private
+		 * @since  8.3
+		 * @static
+		 *
+		 * @return array
+		 */
+		private static function getAll() {
+
+			$plugins  = array_keys( self::$registry );
+			$settings = array();
+
+			foreach ( $plugins as $id ) {
+
+				$settings[ $id ] = self::get( $id );
+			}
+
+			return $settings;
+		}
+
+		/**
 		 * Reset all the settings to the registered default values
 		 * for a specific plugin that was registered using this API.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @param string $pluginID
-		 * @return mixed
+		 * @access public
+		 * @since  0.7.3.0
+		 * @static
+		 *
+		 * @param  string $pluginID
 		 */
-		public static function reset( $pluginID )
-		{
-			if ( array_key_exists( $pluginID, self::$registry ) )
-			{
-				foreach ( self::$registry[$pluginID] as $optionName => $values )
-				{
-					update_option( $optionName , $values );
+		public static function reset( $pluginID ) {
+
+			if ( array_key_exists( $pluginID, self::$registry ) ) {
+
+				foreach ( self::$registry[ $pluginID ] as $optionName => $values ) {
+
+					update_option( $optionName, $values );
 				}
-			}
-			else
-			{
-				return FALSE;
 			}
 		}
 
 		/**
 		 * Delete all the settings for a specific plugin that was registered using this API.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @param string $pluginID
-		 * @return mixed
+		 * @access public
+		 * @since  0.7.3.0
+		 * @static
+		 *
+		 * @param  string $pluginID
 		 */
-		public static function delete( $pluginID )
-		{
-			if ( array_key_exists( $pluginID, self::$registry ) )
-			{
-				foreach ( self::$registry[$pluginID] as $optionName => $values )
-				{
-					delete_option( $optionName , $values );
+		public static function delete( $pluginID ) {
+
+			if ( array_key_exists( $pluginID, self::$registry ) ) {
+
+				foreach ( self::$registry[ $pluginID ] as $optionName => $values ) {
+
+					delete_option( $optionName, $values );
 				}
 			}
-			else
-			{
-				return FALSE;
+		}
+
+		/**
+		 * Downloads all setting register through this API to a JSON encoded text file.
+		 *
+		 * @access private
+		 * @since  8.3
+		 * @static
+		 */
+		public static function download() {
+
+			$filename = apply_filters(
+				'cn_settings_export_filename',
+				'cn-settings-export-' . current_time( 'Y-m-d_H-i-s' )
+			);
+
+			nocache_headers();
+			header( 'Content-Type: application/json; charset=utf-8' );
+			header( 'Content-Disposition: attachment; filename=' . $filename  . '.json' );
+			header( "Expires: 0" );
+
+			echo json_encode( self::getAll() );
+			exit;
+		}
+
+		/**
+		 * Import settings from a JSON encoded string.
+		 *
+		 * @access private
+		 * @since  8.3
+		 * @static
+		 *
+		 * @param string $json
+		 *
+		 * @return bool|string
+		 */
+		public static function import( $json ) {
+
+			$result = cnFunction::decodeJSON( $json, TRUE );
+
+			if ( is_wp_error( $result ) ) {
+
+				return $result->get_error_message( 'json_decode_error' );
 			}
+
+			foreach ( $result as $pluginID => $options ) {
+
+				foreach ( $options as $id => $value ) {
+
+					update_option( $id, $value );
+				}
+			}
+
+			return TRUE;
 		}
 	}
 }

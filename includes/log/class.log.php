@@ -295,6 +295,9 @@ final class cnLog {
 			// Register types taxonomy and default types.
 			add_action( 'init', array( __CLASS__, 'registerTaxonomy' ), 1 );
 
+			// Register the  actions for the logs views.
+			add_action( 'init', array( __CLASS__, 'registerViews' ) );
+
 			// Create a cron job for this hook to start pruning.
 			add_action( 'cn_log_purge_process', array( __CLASS__, 'purge' ) );
 
@@ -405,11 +408,11 @@ final class cnLog {
 			)
 		);
 
-		$types = self::types();
+		$types = wp_list_pluck( self::types(), 'name', 'id' );
 
 		if ( ! empty( $types ) ) {
 
-			foreach ( $types as $type ) {
+			foreach ( $types as $type => $name ) {
 
 				if ( ! term_exists( $type, self::TAXONOMY ) ) {
 
@@ -417,6 +420,21 @@ final class cnLog {
 				}
 			}
 
+		}
+	}
+
+	/**
+	 * Callback on init hook to register the actions for the log views that have been registered.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function registerViews() {
+
+		foreach ( self::views() as $view ) {
+
+			add_action( 'cn_logs_view_' . $view['id'], $view['callback'] );
 		}
 	}
 
@@ -453,7 +471,7 @@ final class cnLog {
 	 *
 	 * Sets up the default log types and allows for new ones to be created
 	 *
-	 * @access private
+	 * @access public
 	 * @since  8.2.10
 	 * @static
 	 *
@@ -461,11 +479,35 @@ final class cnLog {
 	 *
 	 * @return array
 	 */
-	private static function types() {
+	public static function types() {
 
 		$terms = array();
 
 		return apply_filters( 'cn_log_types', $terms );
+	}
+
+	/**
+	 * Get the registered log views.
+	 *
+	 * @access public
+	 * @since  8.3
+	 *
+	 * @return array
+	 */
+	public static function views() {
+
+		/**
+		 * Filter used to register the meta about the view for a registered log type.
+		 *
+		 * @since 8.3
+		 *
+		 * @param array $args {
+		 *     @type string       $id The log view ID.
+		 *     @type string       $name The log view name.
+		 *     @type array|string $callback The log view callback which will display teh logs for the registered log type.
+		 * }
+		 */
+		return apply_filters( 'cn_log_views', array() );
 	}
 
 	/**
@@ -482,7 +524,7 @@ final class cnLog {
 	 */
 	public static function valid( $type ) {
 
-		return in_array( $type, self::types() );
+		return array_key_exists( $type, wp_list_pluck( self::types(), 'name', 'id' ) );
 	}
 
 	/**
@@ -638,7 +680,7 @@ final class cnLog {
 	 *
 	 * @return void
 	 */
-	public static function delete( $id = 0, $type = '', $meta_query = array() ) {
+	public static function deleteConnected( $id = 0, $type = '', $meta_query = array() ) {
 
 		$query = array(
 			'post_parent'    => $id,
@@ -668,11 +710,23 @@ final class cnLog {
 
 		if ( $logs ) {
 
-			foreach ( $logs as $logID ) {
+			foreach ( $logs as $log ) {
 
-				wp_delete_post( $logID, TRUE );
+				wp_delete_post( $log->ID, TRUE );
 			}
 		}
+	}
+
+	/**
+	 * Delete a specific log by ID.
+	 *
+	 * @param $id
+	 *
+	 * @return array|bool|WP_Post
+	 */
+	public static function delete( $id  ) {
+
+		return wp_delete_post( $id, TRUE );
 	}
 
 	/**
@@ -726,15 +780,35 @@ final class cnLog {
 
 		$query = wp_parse_args( $atts, $defaults );
 
-		if ( $query['type'] && self::valid( $query['type'] ) ) {
+		if ( $query['type'] ) {
 
-			$query['tax_query'] = array(
-				array(
-					'taxonomy' => self::TAXONOMY,
-					'field'    => 'slug',
-					'terms'    => $query['type']
-				)
-			);
+			if ( is_array( $query['type'] ) ) {
+
+				$types = array();
+
+				foreach ( $query['type'] as $type ) {
+
+					if ( self::valid( $type ) ) $types[] = $type;
+				}
+
+			} else {
+
+				$types = '';
+
+				if ( self::valid( $query['type'] ) ) $types = $query['type'];
+			}
+
+			if ( ! empty( $types ) ) {
+
+				$query['tax_query'] = array(
+					array(
+						'taxonomy' => self::TAXONOMY,
+						'field'    => 'slug',
+						'terms'    => $types
+					)
+				);
+
+			}
 		}
 
 		$logs = get_posts( $query );
@@ -757,9 +831,9 @@ final class cnLog {
 	 * @uses   WP_Query()
 	 * @uses   self::valid()
 	 *
-	 * @param int    $id
-	 * @param string $type
-	 * @param array  $meta_query
+	 * @param int          $id
+	 * @param array|string $type
+	 * @param array        $meta_query
 	 *
 	 * @return int
 	 */
@@ -772,13 +846,29 @@ final class cnLog {
 			'post_status'    => 'publish'
 		);
 
-		if ( ! empty( $type ) && self::valid( $type ) ) {
+		if ( ! empty( $type ) ) {
+
+			if ( is_array( $type ) ) {
+
+				$types = array();
+
+				foreach ( $type as $id ) {
+
+					if ( self::valid( $id ) ) $types[] = $id;
+				}
+
+			} else {
+
+				$types = '';
+
+				if ( self::valid( $type ) ) $types = $type;
+			}
 
 			$query['tax_query'] = array(
 				array(
 					'taxonomy' => self::TAXONOMY,
 					'field'    => 'slug',
-					'terms'    => $type
+					'terms'    => $types
 				)
 			);
 

@@ -143,7 +143,7 @@ class cnFormatting {
 	 *
 	 * @return string Returns 'Yes' | 'No'
 	 */
-	public function toYesNo( $bool ) {
+	public static function toYesNo( $bool ) {
 
 		if ( $bool ) {
 
@@ -1832,6 +1832,60 @@ class cnString {
 
 		return apply_filters( 'cn__excerpt', $excerpt, $raw, $atts );
 	}
+
+	/**
+	 * Generate a more truly "random" alpha-numeric string.
+	 *
+	 * NOTE:  If @see openssl_random_pseudo_bytes() does not exist, this will silently fallback to
+	 *        @see cnString::quickRandom().
+	 *
+	 * Function borrowed from Laravel 4.2
+	 * @link https://github.com/laravel/framework/blob/4.2/src/Illuminate/Support/Str.php
+	 *
+	 * @access public
+	 * @since  8.3
+	 *
+	 * @param  int $length
+	 *
+	 * @return string|WP_Error Random string on success, WP_Error on failure.
+	 */
+	public static function random( $length = 16 ) {
+
+		if ( function_exists( 'openssl_random_pseudo_bytes' ) ) {
+
+			$bytes = openssl_random_pseudo_bytes( $length * 2 );
+
+			if ( FALSE === $bytes ) {
+
+				return new WP_Error( 'general_random_string', __( 'Unable to generate random string.', 'connections' ) );
+			}
+
+			return substr( str_replace( array( '/', '+', '=' ), '', base64_encode( $bytes ) ), 0, $length );
+		}
+
+		return static::quickRandom( $length );
+	}
+
+	/**
+	 * Generate a "random" alpha-numeric string.
+	 *
+	 * Should not be considered sufficient for cryptography, etc.
+	 *
+	 * Function borrowed from Laravel 5.1
+	 * @link https://github.com/laravel/framework/blob/5.1/src/Illuminate/Support/Str.php#L270
+	 *
+	 * @access public
+	 * @since  8.3
+	 *
+	 * @param  int $length
+	 *
+	 * @return string
+	 */
+	public static function quickRandom( $length = 16 ) {
+
+		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+	}
 }
 
 /**
@@ -1907,6 +1961,60 @@ class cnFunction {
 
 		// Return only unique values.
 		return array_unique( $list );
+	}
+
+	/**
+	 * Wrapper method for @see json_decode().
+	 *
+	 * On success this will return the decoded JSON. On error, it'll return an instance of @see WP_Error()
+	 * with the result of @see json_last_error().
+	 *
+	 * @access public
+	 * @since  8.3
+	 * @static
+	 *
+	 * @param string $json  The data to decode.
+	 * @param bool   $assoc When TRUE, returned objects will be converted into associative arrays.
+	 * @param int    $depth Recursion depth.
+	 *
+	 * @return array|mixed|WP_Error
+	 */
+	public static function decodeJSON( $json, $assoc = FALSE, $depth = 512 ) {
+
+		$data = json_decode( $json, $assoc, $depth );
+
+		switch ( json_last_error() ) {
+
+			case JSON_ERROR_NONE:
+				$result = $data;
+				break;
+
+			case JSON_ERROR_DEPTH:
+				$result = new WP_Error( 'json_decode_error', __( 'Maximum stack depth exceeded.', 'connections' ) );
+				break;
+
+			case JSON_ERROR_STATE_MISMATCH:
+				$result = new WP_Error( 'json_decode_error', __( 'Underflow or the modes mismatch.', 'connections' ) );
+				break;
+
+			case JSON_ERROR_CTRL_CHAR:
+				$result = new WP_Error( 'json_decode_error', __( 'Unexpected control character found.', 'connections' ) );
+				break;
+
+			case JSON_ERROR_SYNTAX:
+				$result = new WP_Error( 'json_decode_error', __( 'Syntax error, malformed JSON.', 'connections' ) );
+				break;
+
+			case JSON_ERROR_UTF8:
+				$result = new WP_Error( 'json_decode_error', __( 'Malformed UTF-8 characters, possibly incorrectly encoded.', 'connections' ) );
+				break;
+
+			default:
+				$result = new WP_Error( 'json_decode_error', __( 'Unknown error.', 'connections' ) );
+				break;
+		}
+
+		return $result;
 	}
 }
 

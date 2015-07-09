@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.2.9\n"
+"Project-Id-Version: Connections 8.2.10\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2015-06-26 19:20:08+00:00\n"
+"POT-Creation-Date: 2015-07-09 20:03:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,12 +28,50 @@ msgstr ""
 #: cache/index.php:14 includes/admin/pages/categories.php:37
 #: includes/admin/pages/dashboard.php:32 includes/admin/pages/roles.php:32
 #: includes/admin/pages/settings.php:34 includes/admin/pages/templates.php:33
-#: includes/inc.upgrade.php:32
+#: includes/admin/pages/tools.php:37 includes/inc.upgrade.php:32
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: connections.php:1034 connections.php:1043
-msgid "vCard not available for download."
+#: includes/admin/class.actions.php:172
+msgid "You do not have sufficient permissions to download system information."
+msgstr ""
+
+#: includes/admin/class.actions.php:242 includes/admin/class.actions.php:282
+#: includes/class.scripts.php:164
+msgid "Invalid AJAX action or nonce validation failed."
+msgstr ""
+
+#: includes/admin/class.actions.php:247 includes/admin/class.actions.php:287
+#: includes/class.scripts.php:168
+msgid "You do not have sufficient permissions to perform this action."
+msgstr ""
+
+#: includes/admin/class.actions.php:266
+msgid "Secret URL has been created."
+msgstr ""
+
+#: includes/admin/class.actions.php:292
+msgid "Secret URL has been revoked."
+msgstr ""
+
+#: includes/admin/class.actions.php:308
+msgid "You do not have sufficient permissions to export the settings."
+msgstr ""
+
+#: includes/admin/class.actions.php:327
+msgid "You do not have sufficient permissions to import the settings."
+msgstr ""
+
+#: includes/admin/class.actions.php:332
+msgid "Please upload a .json file."
+msgstr ""
+
+#: includes/admin/class.actions.php:339
+msgid "Please select a file to import."
+msgstr ""
+
+#: includes/admin/class.actions.php:347
+msgid "Settings have been imported."
 msgstr ""
 
 #: includes/admin/class.capabilities.php:58
@@ -101,24 +139,24 @@ msgid "Change Role Capabilities"
 msgstr ""
 
 #: includes/admin/class.functions.php:149 includes/admin/class.menu.php:81
-#: includes/admin/pages/settings.php:47
+#: includes/admin/pages/settings.php:48
 msgid "Settings"
 msgstr ""
 
 #: includes/admin/class.functions.php:167
-#: includes/admin/class.metabox-dashboard.php:380
+#: includes/admin/class.metabox-dashboard.php:366
 msgid "Extensions"
 msgstr ""
 
 #: includes/admin/class.functions.php:168 includes/admin/class.menu.php:80
-#: includes/admin/class.metabox-dashboard.php:391
+#: includes/admin/class.metabox-dashboard.php:377
 #: includes/admin/pages/templates.php:51
 #: includes/settings/class.settings.php:1325
 msgid "Templates"
 msgstr ""
 
 #: includes/admin/class.functions.php:169
-#: includes/admin/class.metabox-dashboard.php:358
+#: includes/admin/class.metabox-dashboard.php:344
 msgid "Documentation"
 msgstr ""
 
@@ -246,10 +284,14 @@ msgid "Categories"
 msgstr ""
 
 #: includes/admin/class.menu.php:82
+msgid "Tools"
+msgstr ""
+
+#: includes/admin/class.menu.php:83
 msgid "Roles &amp; Capabilites"
 msgstr ""
 
-#: includes/admin/class.menu.php:82
+#: includes/admin/class.menu.php:83
 msgid "Roles"
 msgstr ""
 
@@ -297,54 +339,60 @@ msgid ""
 "if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:125
-msgid "The category you are trying to create already exists."
+#: includes/admin/class.message.php:124
+msgid ""
+"You are not authorized to manage logs. Please contact the admin if you "
+"received this message in error."
 msgstr ""
 
 #: includes/admin/class.message.php:126
-msgid "Category can not be a parent of itself."
+msgid "The category you are trying to create already exists."
 msgstr ""
 
 #: includes/admin/class.message.php:127
-msgid "The Uncategorized category can not be deleted."
+msgid "Category can not be a parent of itself."
 msgstr ""
 
 #: includes/admin/class.message.php:128
-msgid "The Uncategorized category can not be altered."
+msgid "The Uncategorized category can not be deleted."
 msgstr ""
 
 #: includes/admin/class.message.php:129
-msgid "The Uncategorized category already exists."
+msgid "The Uncategorized category can not be altered."
 msgstr ""
 
 #: includes/admin/class.message.php:130
-msgid "Failed to add category."
+msgid "The Uncategorized category already exists."
 msgstr ""
 
 #: includes/admin/class.message.php:131
-msgid "Failed to update category."
+msgid "Failed to add category."
 msgstr ""
 
 #: includes/admin/class.message.php:132
+msgid "Failed to update category."
+msgstr ""
+
+#: includes/admin/class.message.php:133
 msgid "Failed to delete category."
 msgstr ""
 
-#: includes/admin/class.message.php:134
+#: includes/admin/class.message.php:135
 msgid "Entry could not be added."
 msgstr ""
 
-#: includes/admin/class.message.php:135
+#: includes/admin/class.message.php:136
 msgid "Entry could not be updated."
 msgstr ""
 
-#: includes/admin/class.message.php:137
+#: includes/admin/class.message.php:138
 msgid ""
 "Your preferred setting for a address was overridden because another address "
 "that you are not permitted to view or edit is set as the preferred address. "
 "Please contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:138
+#: includes/admin/class.message.php:139
 msgid ""
 "Your preferred setting for a phone was overridden because another phone "
 "number that you are not permitted to view or edit is set as the preferred "
@@ -352,7 +400,7 @@ msgid ""
 "error."
 msgstr ""
 
-#: includes/admin/class.message.php:139
+#: includes/admin/class.message.php:140
 msgid ""
 "Your preferred setting for an email address was overridden because another "
 "email address that you are not permitted to view or edit is set as the "
@@ -360,14 +408,14 @@ msgid ""
 "message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:140
+#: includes/admin/class.message.php:141
 msgid ""
 "Your preferred setting for a IM Network was overridden because another IM "
 "Network that you are not permitted to view or edit is set as the preferred "
 "IM Network. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:141
+#: includes/admin/class.message.php:142
 msgid ""
 "Your preferred setting for a social media network was overridden because "
 "another social media network that you are not permitted to view or edit is "
@@ -375,198 +423,206 @@ msgid ""
 "received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:142
+#: includes/admin/class.message.php:143
 msgid ""
 "Your preferred setting for a link was overridden because another link that "
 "you are not permitted to view or edit is set as the preferred link. Please "
 "contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:143
+#: includes/admin/class.message.php:144
 msgid ""
 "Your preferred setting for a date was overridden because another date that "
 "you are not permitted to view or edit is set as the preferred date. Please "
 "contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:145
+#: includes/admin/class.message.php:146
 msgid ""
 "The server does not have ImageMagick or GD installed and/or enabled. Either "
 "of these are required for WordPress to be able to resize images. Please "
 "contact your server administrator."
 msgstr ""
 
-#: includes/admin/class.message.php:146
+#: includes/admin/class.message.php:147
 msgid "Image upload failed."
 msgstr ""
 
-#: includes/admin/class.message.php:147
+#: includes/admin/class.message.php:148
 msgid "Uploaded image could not be saved to the destination folder."
 msgstr ""
 
-#: includes/admin/class.message.php:148
+#: includes/admin/class.message.php:149
 msgid "Profile image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: includes/admin/class.message.php:149
+#: includes/admin/class.message.php:150
 msgid "Entry image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: includes/admin/class.message.php:150
+#: includes/admin/class.message.php:151
 msgid "Thumbnail image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: includes/admin/class.message.php:152
+#: includes/admin/class.message.php:153
 msgid "The template installation has failed."
 msgstr ""
 
-#: includes/admin/class.message.php:153
+#: includes/admin/class.message.php:154
 msgid "The template could not be deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:155
+#: includes/admin/class.message.php:156
 msgid ""
 "The %s folder does not exist. <a class='button-primary' href='%s'>Read "
 "more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:156
+#: includes/admin/class.message.php:157
 msgid ""
 "The %s folder is not writable. <a class='button-primary' href='%s'>Read "
 "more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:158
+#: includes/admin/class.message.php:159
 msgid ""
 "The connections_templates folder does not exist. <a class='button-primary' "
 "href='%s'>Read more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:159
+#: includes/admin/class.message.php:160
 msgid ""
 "The connections_templates folder is not writable. <a class='button-primary' "
 "href='%s'>Read more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:161
+#: includes/admin/class.message.php:162
 msgid ""
 "The cache folder does not exist. <a class='button-primary' href='%s'>Read "
 "more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:162
+#: includes/admin/class.message.php:163
 msgid ""
 "The cache folder is not writable. <a class='button-primary' href='%s'>Read "
 "more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:164
+#: includes/admin/class.message.php:165
 msgid ""
 "The Connections directory home page has not been set. Please set it now on "
 "the Connections : Settings page under the General tab."
 msgstr ""
 
-#: includes/admin/class.message.php:169
+#: includes/admin/class.message.php:170
 msgid "The entry has been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:170
+#: includes/admin/class.message.php:171
 msgid "Entry(ies) have been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:171
+#: includes/admin/class.message.php:172
 msgid "The entry status have been set to pending."
 msgstr ""
 
-#: includes/admin/class.message.php:172
+#: includes/admin/class.message.php:173
 msgid "Entry(ies) status have been set to pending."
 msgstr ""
 
-#: includes/admin/class.message.php:173
+#: includes/admin/class.message.php:174
 msgid "The entry has been approved."
 msgstr ""
 
-#: includes/admin/class.message.php:174
+#: includes/admin/class.message.php:175
 msgid "Entry(ies) have been approved."
 msgstr ""
 
-#: includes/admin/class.message.php:175
+#: includes/admin/class.message.php:176
 msgid "Entry(ies) visibility have been updated."
 msgstr ""
 
-#: includes/admin/class.message.php:177
+#: includes/admin/class.message.php:178
 msgid "Category(ies) have been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:178
+#: includes/admin/class.message.php:179
 msgid "Category has been updated."
 msgstr ""
 
-#: includes/admin/class.message.php:179
+#: includes/admin/class.message.php:180
 msgid "Category has been added."
 msgstr ""
 
-#: includes/admin/class.message.php:181
+#: includes/admin/class.message.php:182
 msgid "Entry has been added."
 msgstr ""
 
-#: includes/admin/class.message.php:182
+#: includes/admin/class.message.php:183
 msgid "Pending review entry will be added."
 msgstr ""
 
-#: includes/admin/class.message.php:183
+#: includes/admin/class.message.php:184
 msgid "Entry has been updated."
 msgstr ""
 
-#: includes/admin/class.message.php:184
+#: includes/admin/class.message.php:185
 msgid "Pending review entry will be updated."
 msgstr ""
 
-#: includes/admin/class.message.php:186
+#: includes/admin/class.message.php:187
 msgid "Uploaded image saved."
 msgstr ""
 
-#: includes/admin/class.message.php:187
+#: includes/admin/class.message.php:188
 msgid "Profile image created and saved."
 msgstr ""
 
-#: includes/admin/class.message.php:188
+#: includes/admin/class.message.php:189
 msgid "Entry image created and saved."
 msgstr ""
 
-#: includes/admin/class.message.php:189
+#: includes/admin/class.message.php:190
 msgid "Thumbnail image created and saved."
 msgstr ""
 
-#: includes/admin/class.message.php:191
+#: includes/admin/class.message.php:192
 msgid "Role capabilities have been updated."
 msgstr ""
 
-#: includes/admin/class.message.php:193
+#: includes/admin/class.message.php:194
 msgid "The default active template has been changed."
 msgstr ""
 
-#: includes/admin/class.message.php:194
+#: includes/admin/class.message.php:195
 msgid "A new template has been installed."
 msgstr ""
 
-#: includes/admin/class.message.php:195
+#: includes/admin/class.message.php:196
 msgid "The template has been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:200
+#: includes/admin/class.message.php:198
+msgid "The log has been deleted."
+msgstr ""
+
+#: includes/admin/class.message.php:199
+msgid "The logs have been deleted."
+msgstr ""
+
+#: includes/admin/class.message.php:204
 msgid "Connections database requires updating."
 msgstr ""
 
-#: includes/admin/class.message.php:200
+#: includes/admin/class.message.php:204
 msgid "START"
 msgstr ""
 
-#: includes/admin/class.message.php:268 includes/admin/class.message.php:306
+#: includes/admin/class.message.php:272 includes/admin/class.message.php:310
 msgid "ERROR"
 msgstr ""
 
-#: includes/admin/class.message.php:272 includes/admin/class.message.php:310
+#: includes/admin/class.message.php:276 includes/admin/class.message.php:314
 #: includes/inc.upgrade.php:93 includes/inc.upgrade.php:96
 #: includes/inc.upgrade.php:99 includes/inc.upgrade.php:102
 #: includes/inc.upgrade.php:105 includes/inc.upgrade.php:108
@@ -582,288 +638,120 @@ msgstr ""
 msgid "SUCCESS"
 msgstr ""
 
-#: includes/admin/class.message.php:276 includes/admin/class.message.php:314
+#: includes/admin/class.message.php:280 includes/admin/class.message.php:318
 msgid "NOTICE"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:65
+#: includes/admin/class.metabox-dashboard.php:64
 msgid "News"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:75
+#: includes/admin/class.metabox-dashboard.php:74
 msgid "Extension Update Notices"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:85
+#: includes/admin/class.metabox-dashboard.php:84
 msgid "Template Update Notices"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:95
+#: includes/admin/class.metabox-dashboard.php:94
 msgid "Awaiting Moderation"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:108
+#: includes/admin/class.metabox-dashboard.php:107
 msgid "Recently Added"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:121
+#: includes/admin/class.metabox-dashboard.php:120
 msgid "Recently Modified"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:134
+#: includes/admin/class.metabox-dashboard.php:133
 msgid "Today's Anniversaries"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:139
+#: includes/admin/class.metabox-dashboard.php:138
 msgid "No Anniversaries Today"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:147
+#: includes/admin/class.metabox-dashboard.php:146
 msgid "Today's Birthdays"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:152
+#: includes/admin/class.metabox-dashboard.php:151
 msgid "No Birthdays Today"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:160
+#: includes/admin/class.metabox-dashboard.php:159
 msgid "Upcoming Anniversaries"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:165
+#: includes/admin/class.metabox-dashboard.php:164
 msgid "No Upcoming Anniversaries."
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:173
+#: includes/admin/class.metabox-dashboard.php:172
 msgid "Upcoming Birthdays"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:178
+#: includes/admin/class.metabox-dashboard.php:177
 msgid "No Upcoming Birthdays."
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:186
+#: includes/admin/class.metabox-dashboard.php:185
 msgid "Quick Links"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:197
-msgid "System"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:228
+#: includes/admin/class.metabox-dashboard.php:214
 msgid ""
 "Newsfeed could not be loaded. Check the <a href='%s'>blog</a> to check for "
 "updates."
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:248
+#: includes/admin/class.metabox-dashboard.php:234
 msgid "Untitled"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:263
+#: includes/admin/class.metabox-dashboard.php:249
 msgid "ago"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:272
+#: includes/admin/class.metabox-dashboard.php:258
 msgid "No updates at this time"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:369
+#: includes/admin/class.metabox-dashboard.php:355
 msgid "FAQs"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:374
+#: includes/admin/class.metabox-dashboard.php:360
 msgid ""
 "Have a question, maybe someone else had the same question, please check the "
 "FAQs."
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:385
+#: includes/admin/class.metabox-dashboard.php:371
 msgid "Extend Connections with the Pro Module Addons."
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:396
+#: includes/admin/class.metabox-dashboard.php:382
 msgid "Check out the template market."
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:402
+#: includes/admin/class.metabox-dashboard.php:388
 msgid "Bug Report"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:407
+#: includes/admin/class.metabox-dashboard.php:393
 msgid "Did you find a bug, please take the time to report it. Thanks."
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:413
+#: includes/admin/class.metabox-dashboard.php:399
 msgid "Feature Request"
 msgstr ""
 
-#: includes/admin/class.metabox-dashboard.php:418
+#: includes/admin/class.metabox-dashboard.php:404
 msgid "Need a feature, request a feature."
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:447
-msgid "Not set"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:449
-#: includes/admin/class.metabox-dashboard.php:452
-#: includes/admin/pages/manage.php:620
-msgid "On"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:450
-#: includes/admin/class.metabox-dashboard.php:453
-msgid "Off"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:456
-#: includes/admin/class.metabox-dashboard.php:459
-#: includes/admin/class.metabox-dashboard.php:462
-#: includes/admin/class.metabox-dashboard.php:465
-#: includes/admin/class.metabox-dashboard.php:468
-#: includes/admin/class.metabox-dashboard.php:471
-msgid "N/A"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:470
-msgid "MByte"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:473
-#: includes/admin/class.metabox-dashboard.php:476
-#: includes/admin/class.metabox-dashboard.php:479
-#: includes/admin/pages/manage.php:813 includes/admin/pages/manage.php:814
-#: includes/class.utility.php:150
-msgid "Yes"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:474
-#: includes/admin/class.metabox-dashboard.php:477
-#: includes/admin/class.metabox-dashboard.php:480
-#: includes/admin/pages/manage.php:813 includes/admin/pages/manage.php:814
-#: includes/class.utility.php:154
-msgid "No"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:483
-msgid "Version Information"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:492
-msgid "Constants"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:495
-msgid "TRUE"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:495
-msgid "FALSE"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:525
-msgid "Server Configuration"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:528
-msgid "Operating System"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:529
-msgid "Server"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:530
-msgid "Memory usage"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:531
-msgid "MYSQL Version"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:532
-msgid "SQL Mode"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:533
-msgid "PHP Version"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:534
-msgid "PHP Safe Mode"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:535
-msgid "PHP Allow URL fopen"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:536
-msgid "PHP Memory Limit"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:537
-msgid "PHP Max Upload Size"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:538
-msgid "PHP Max Post Size"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:539
-msgid "PCRE Backtracking Limit"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:540
-msgid "PHP Max Script Execute Time"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:541
-msgid "PHP Exif support"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:542
-msgid "PHP IPTC support"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:543
-msgid "PHP XML support"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:546
-msgid "Graphic Library"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:566
-msgid "No GD support"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:571
-msgid "Folder Permissions"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:576
-msgid "Image Path Exists:"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:577
-msgid "Image Path Writeable:"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:579
-msgid "Template Path Exists:"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:580
-msgid "Template Path Writeable:"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:582
-msgid "Cache Path Exists:"
-msgstr ""
-
-#: includes/admin/class.metabox-dashboard.php:583
-msgid "Cache Path Writeable:"
 msgstr ""
 
 #: includes/admin/pages/categories.php:82
@@ -903,7 +791,8 @@ msgid "Parent"
 msgstr ""
 
 #: includes/admin/pages/categories.php:139
-#: includes/admin/pages/categories.php:384 includes/log/class.log-email.php:372
+#: includes/admin/pages/categories.php:384 includes/log/class.log-email.php:276
+#: includes/log/class.log-email.php:583 includes/log/class.log-email.php:601
 msgid "None"
 msgstr ""
 
@@ -963,7 +852,7 @@ msgid "Search Entries"
 msgstr ""
 
 #: includes/admin/pages/manage.php:336
-#: includes/template/class.template-parts.php:1910
+#: includes/template/class.template-parts.php:1911
 msgid "Show All Categories"
 msgstr ""
 
@@ -1031,11 +920,11 @@ msgstr ""
 msgid "Bulk Actions"
 msgstr ""
 
-#: includes/admin/pages/manage.php:452 includes/admin/pages/manage.php:584
+#: includes/admin/pages/manage.php:452 includes/admin/pages/manage.php:583
 msgid "Unapprove"
 msgstr ""
 
-#: includes/admin/pages/manage.php:453 includes/admin/pages/manage.php:585
+#: includes/admin/pages/manage.php:453 includes/admin/pages/manage.php:584
 msgid "Approve"
 msgstr ""
 
@@ -1051,8 +940,10 @@ msgstr ""
 msgid "Set Unlisted"
 msgstr ""
 
-#: includes/admin/pages/manage.php:460 includes/admin/pages/manage.php:589
+#: includes/admin/pages/manage.php:460 includes/admin/pages/manage.php:588
 #: includes/class.metabox-entry.php:3150 includes/class.metabox-entry.php:3179
+#: includes/template/class.template-list-table-email-log.php:341
+#: includes/template/class.template-list-table-email-log.php:531
 #: includes/template/class.template-list-table-term-admin.php:244
 #: includes/template/class.template-list-table-term-admin.php:570
 msgid "Delete"
@@ -1070,45 +961,50 @@ msgstr ""
 msgid "Last Modified"
 msgstr ""
 
-#: includes/admin/pages/manage.php:557
+#: includes/admin/pages/manage.php:556
 msgid "No Photo Available"
 msgstr ""
 
-#: includes/admin/pages/manage.php:574 includes/class.scripts.php:145
+#: includes/admin/pages/manage.php:573 includes/class.scripts.php:146
 msgid "Click to show details."
 msgstr ""
 
-#: includes/admin/pages/manage.php:574 includes/class.scripts.php:143
+#: includes/admin/pages/manage.php:573 includes/class.scripts.php:144
 msgid "Show Details"
 msgstr ""
 
-#: includes/admin/pages/manage.php:575
+#: includes/admin/pages/manage.php:574
 msgid "vCard"
 msgstr ""
 
-#: includes/admin/pages/manage.php:578
+#: includes/admin/pages/manage.php:577
 msgid "View %s"
 msgstr ""
 
-#: includes/admin/pages/manage.php:579
+#: includes/admin/pages/manage.php:578
+#: includes/template/class.template-list-table-email-log.php:532
 #: includes/template/class.template-list-table-term-admin.php:571
 msgid "View"
 msgstr ""
 
-#: includes/admin/pages/manage.php:587 includes/admin/pages/manage.php:672
+#: includes/admin/pages/manage.php:586 includes/admin/pages/manage.php:671
 #: includes/template/class.template-list-table-term-admin.php:569
 msgid "Edit"
 msgstr ""
 
-#: includes/admin/pages/manage.php:588
+#: includes/admin/pages/manage.php:587
 msgid "Copy"
 msgstr ""
 
-#: includes/admin/pages/manage.php:621
+#: includes/admin/pages/manage.php:619
+msgid "On"
+msgstr ""
+
+#: includes/admin/pages/manage.php:620
 msgid "By"
 msgstr ""
 
-#: includes/admin/pages/manage.php:622 includes/class.metabox-entry.php:1185
+#: includes/admin/pages/manage.php:621 includes/class.metabox-entry.php:1185
 #: includes/class.metabox-entry.php:1407 includes/class.metabox-entry.php:1809
 #: includes/class.metabox-entry.php:1901 includes/class.metabox-entry.php:2009
 #: includes/class.metabox-entry.php:2101 includes/class.metabox-entry.php:2209
@@ -1119,22 +1015,22 @@ msgstr ""
 msgid "Visibility"
 msgstr ""
 
-#: includes/admin/pages/manage.php:643
+#: includes/admin/pages/manage.php:642
 msgid "Linked to:"
 msgstr ""
 
-#: includes/admin/pages/manage.php:687
+#: includes/admin/pages/manage.php:686
 #: includes/entry/class.entry-output.php:997
 msgid "Contact"
 msgstr ""
 
-#: includes/admin/pages/manage.php:688 includes/class.metabox-entry.php:507
+#: includes/admin/pages/manage.php:687 includes/class.metabox-entry.php:507
 #: includes/class.metabox-entry.php:2631 includes/class.metabox-entry.php:2790
 #: includes/settings/class.settings.php:917
 msgid "Title"
 msgstr ""
 
-#: includes/admin/pages/manage.php:689 includes/admin/pages/templates.php:56
+#: includes/admin/pages/manage.php:688 includes/admin/pages/templates.php:56
 #: includes/class.metabox-entry.php:281 includes/class.metabox-entry.php:520
 #: includes/class.metabox-entry.php:550
 #: includes/settings/class.settings.php:918
@@ -1142,55 +1038,65 @@ msgstr ""
 msgid "Organization"
 msgstr ""
 
-#: includes/admin/pages/manage.php:690 includes/class.metabox-entry.php:533
+#: includes/admin/pages/manage.php:689 includes/class.metabox-entry.php:533
 #: includes/class.metabox-entry.php:563
 #: includes/settings/class.settings.php:919
 #: includes/settings/class.settings.php:1193
 msgid "Department"
 msgstr ""
 
-#: includes/admin/pages/manage.php:714 includes/class.metabox-entry.php:1306
+#: includes/admin/pages/manage.php:713 includes/class.metabox-entry.php:1306
 #: includes/class.metabox-entry.php:1535
 #: includes/entry/class.entry-output.php:1271
 msgid "Latitude"
 msgstr ""
 
-#: includes/admin/pages/manage.php:714 includes/class.metabox-entry.php:1319
+#: includes/admin/pages/manage.php:713 includes/class.metabox-entry.php:1319
 #: includes/class.metabox-entry.php:1549
 #: includes/entry/class.entry-output.php:1272
 msgid "Longitude"
 msgstr ""
 
-#: includes/admin/pages/manage.php:805
+#: includes/admin/pages/manage.php:804
 msgid "Bio"
 msgstr ""
 
-#: includes/admin/pages/manage.php:806 includes/class.metabox-entry.php:227
+#: includes/admin/pages/manage.php:805 includes/class.metabox-entry.php:227
 #: includes/settings/class.settings.php:923
 msgid "Notes"
 msgstr ""
 
-#: includes/admin/pages/manage.php:809
+#: includes/admin/pages/manage.php:808
 msgid "Entry ID"
 msgstr ""
 
-#: includes/admin/pages/manage.php:810
+#: includes/admin/pages/manage.php:809
 msgid "Entry Slug"
 msgstr ""
 
-#: includes/admin/pages/manage.php:811
+#: includes/admin/pages/manage.php:810
 msgid "Date Added"
 msgstr ""
 
-#: includes/admin/pages/manage.php:812
+#: includes/admin/pages/manage.php:811
 msgid "Added By"
 msgstr ""
 
-#: includes/admin/pages/manage.php:813
+#: includes/admin/pages/manage.php:812
 msgid "Image Linked"
 msgstr ""
 
-#: includes/admin/pages/manage.php:814 includes/class.metabox-entry.php:860
+#: includes/admin/pages/manage.php:812 includes/admin/pages/manage.php:813
+#: includes/class.utility.php:154
+msgid "No"
+msgstr ""
+
+#: includes/admin/pages/manage.php:812 includes/admin/pages/manage.php:813
+#: includes/class.utility.php:150
+msgid "Yes"
+msgstr ""
+
+#: includes/admin/pages/manage.php:813 includes/class.metabox-entry.php:860
 #: includes/class.metabox-entry.php:926 includes/settings/class.settings.php:41
 msgid "Display"
 msgstr ""
@@ -1229,16 +1135,16 @@ msgstr ""
 
 #: includes/admin/pages/templates.php:58
 #: includes/entry/class.entry-data.php:3126
-#: includes/entry/class.entry-output.php:2423
-#: includes/entry/class.entry-output.php:2436
+#: includes/entry/class.entry-output.php:2426
+#: includes/entry/class.entry-output.php:2439
 #: includes/settings/class.options.php:539
 msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:59
 #: includes/entry/class.entry-data.php:3141
-#: includes/entry/class.entry-output.php:2344
-#: includes/entry/class.entry-output.php:2355
+#: includes/entry/class.entry-output.php:2347
+#: includes/entry/class.entry-output.php:2358
 #: includes/settings/class.options.php:541
 msgid "Birthday"
 msgstr ""
@@ -1334,6 +1240,117 @@ msgstr ""
 msgid "Install Now"
 msgstr ""
 
+#: includes/admin/pages/tools.php:151 includes/admin/pages/tools.php:217
+msgid "System Information"
+msgstr ""
+
+#: includes/admin/pages/tools.php:155
+msgid "Settings Import/Export"
+msgstr ""
+
+#: includes/admin/pages/tools.php:159 includes/log/class.log.php:329
+msgid "Logs"
+msgstr ""
+
+#: includes/admin/pages/tools.php:223
+msgid ""
+"To copy the System Info, click below then press Ctrl + C (PC) or Cmd + C "
+"(Mac)."
+msgstr ""
+
+#: includes/admin/pages/tools.php:236
+msgid "Download System Info as Text File"
+msgstr ""
+
+#: includes/admin/pages/tools.php:279
+msgid "Send to:"
+msgstr ""
+
+#: includes/admin/pages/tools.php:290 includes/class.metabox-entry.php:2029
+#: includes/class.metabox-entry.php:2121
+msgid "Email Address"
+msgstr ""
+
+#: includes/admin/pages/tools.php:294
+msgid "user@email.com"
+msgstr ""
+
+#: includes/admin/pages/tools.php:300 includes/admin/pages/tools.php:304
+#: includes/template/class.template-list-table-email-log.php:255
+msgid "Subject"
+msgstr ""
+
+#: includes/admin/pages/tools.php:310
+msgid "Additional Message"
+msgstr ""
+
+#: includes/admin/pages/tools.php:314
+msgid "Enter additional message here."
+msgstr ""
+
+#: includes/admin/pages/tools.php:317
+msgid "Your system information will be attached automatically to this email."
+msgstr ""
+
+#: includes/admin/pages/tools.php:328 includes/class.scripts.php:161
+msgid "Send Email"
+msgstr ""
+
+#: includes/admin/pages/tools.php:358
+msgid "Remote Viewing"
+msgstr ""
+
+#: includes/admin/pages/tools.php:365
+msgid ""
+"Create a secret URL that support can use to remotely view your system "
+"information. The secret URL will expire after 72 hours and can be revoked "
+"at any time."
+msgstr ""
+
+#: includes/admin/pages/tools.php:374
+msgid "To copy the URL, click then press Ctrl + C (PC) or Cmd + C (Mac)."
+msgstr ""
+
+#: includes/admin/pages/tools.php:378
+msgid "Test"
+msgstr ""
+
+#: includes/admin/pages/tools.php:383
+msgid "Generate URL"
+msgstr ""
+
+#: includes/admin/pages/tools.php:386
+msgid "Revoke URL"
+msgstr ""
+
+#: includes/admin/pages/tools.php:422
+msgid "Export Settings"
+msgstr ""
+
+#: includes/admin/pages/tools.php:426
+msgid ""
+"Export the for this site as a .json file. This allows you to easily import "
+"the configuration into another site."
+msgstr ""
+
+#: includes/admin/pages/tools.php:435
+msgid "Export"
+msgstr ""
+
+#: includes/admin/pages/tools.php:441
+msgid "Import Settings"
+msgstr ""
+
+#: includes/admin/pages/tools.php:448
+msgid ""
+"Import the settings from a .json file. This file can be obtained by "
+"exporting the settings on another site using the form above."
+msgstr ""
+
+#: includes/admin/pages/tools.php:461
+msgid "Import"
+msgstr ""
+
 #: includes/class.metabox-api.php:1037
 msgid "Clear"
 msgstr ""
@@ -1396,7 +1413,7 @@ msgstr ""
 msgid "Biographical Info"
 msgstr ""
 
-#: includes/class.metabox-entry.php:254 includes/settings/class.options.php:614
+#: includes/class.metabox-entry.php:254 includes/settings/class.options.php:618
 msgid "Custom Fields"
 msgstr ""
 
@@ -1574,10 +1591,6 @@ msgstr ""
 msgid "Email Type"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2029 includes/class.metabox-entry.php:2121
-msgid "Email Address"
-msgstr ""
-
 #: includes/class.metabox-entry.php:2141
 msgid "Add Email Address"
 msgstr ""
@@ -1637,6 +1650,7 @@ msgid "Add Link"
 msgstr ""
 
 #: includes/class.metabox-entry.php:2962 includes/class.metabox-entry.php:3054
+#: includes/template/class.template-list-table-email-log.php:254
 msgid "Date"
 msgstr ""
 
@@ -1685,12 +1699,40 @@ msgstr ""
 msgid "Uncategorized"
 msgstr ""
 
-#: includes/class.scripts.php:144
+#: includes/class.scripts.php:145
 msgid "Hide Details"
 msgstr ""
 
-#: includes/class.scripts.php:146
+#: includes/class.scripts.php:147
 msgid "Click to hide details."
+msgstr ""
+
+#: includes/class.scripts.php:162
+msgid "Sending..."
+msgstr ""
+
+#: includes/class.scripts.php:163
+msgid "Your message has been sent. Thank You!"
+msgstr ""
+
+#: includes/class.scripts.php:165
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: includes/class.scripts.php:166
+msgid "Please enter a subject."
+msgstr ""
+
+#: includes/class.scripts.php:167
+msgid "Please enter a message."
+msgstr ""
+
+#: includes/class.scripts.php:169
+msgid "Unknown error has occurred!"
+msgstr ""
+
+#: includes/class.scripts.php:170
+msgid "AJAX Headers not set."
 msgstr ""
 
 #: includes/class.terms.php:1397
@@ -1735,11 +1777,39 @@ msgstr ""
 msgid "&hellip;"
 msgstr ""
 
-#: includes/class.utility.php:2093
+#: includes/class.utility.php:1860
+msgid "Unable to generate random string."
+msgstr ""
+
+#: includes/class.utility.php:1993
+msgid "Maximum stack depth exceeded."
+msgstr ""
+
+#: includes/class.utility.php:1997
+msgid "Underflow or the modes mismatch."
+msgstr ""
+
+#: includes/class.utility.php:2001
+msgid "Unexpected control character found."
+msgstr ""
+
+#: includes/class.utility.php:2005
+msgid "Syntax error, malformed JSON."
+msgstr ""
+
+#: includes/class.utility.php:2009
+msgid "Malformed UTF-8 characters, possibly incorrectly encoded."
+msgstr ""
+
+#: includes/class.utility.php:2013
+msgid "Unknown error."
+msgstr ""
+
+#: includes/class.utility.php:2201
 msgid "Invalid URL."
 msgstr ""
 
-#: includes/class.utility.php:2208
+#: includes/class.utility.php:2316
 msgid "No URL or width."
 msgstr ""
 
@@ -1755,16 +1825,21 @@ msgstr ""
 msgid "Photo present %s is not valid."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2537
+#: includes/entry/class.entry-output.php:2540
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:3056
+#: includes/entry/class.entry-output.php:3072
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:3057
+#: includes/entry/class.entry-output.php:3073
 msgid "Download vCard"
+msgstr ""
+
+#: includes/entry/class.entry-vcard.php:644
+#: includes/entry/class.entry-vcard.php:656
+msgid "vCard not available for download."
 msgstr ""
 
 #: includes/image/class.image.php:453
@@ -2183,144 +2258,180 @@ msgstr ""
 msgid "Could not add column %1$s in table %2$s."
 msgstr ""
 
-#: includes/log/class.log-email.php:296
-msgid "Email Headers:"
+#: includes/log/class.log-email.php:93 includes/log/class.log-email.php:114
+#: includes/log/class.log-email.php:135
+msgid "System Email"
 msgstr ""
 
-#: includes/log/class.log-email.php:300
-msgid "Email Type:"
+#: includes/log/class.log-email.php:179
+msgid "Email Logs"
 msgstr ""
 
-#: includes/log/class.log-email.php:304
-msgid "Email Character Set:"
+#: includes/log/class.log-email.php:183 includes/settings/class.settings.php:55
+#: includes/template/class.template-parts.php:1525
+msgid "Search"
 msgstr ""
 
-#: includes/log/class.log-email.php:308
-msgid "Email From:"
-msgstr ""
-
-#: includes/log/class.log-email.php:312
-msgid "Email To:"
-msgstr ""
-
-#: includes/log/class.log-email.php:316
-msgid "Email CC:"
-msgstr ""
-
-#: includes/log/class.log-email.php:320
-msgid "Email BCC:"
-msgstr ""
-
-#: includes/log/class.log-email.php:324
-msgid "Email Attachments:"
-msgstr ""
-
-#: includes/log/class.log-email.php:328
-msgid "Email Sent:"
-msgstr ""
-
-#: includes/log/class.log-email.php:390
+#: includes/log/class.log-email.php:294 includes/log/class.log-email.php:619
 msgid "Successfully"
 msgstr ""
 
-#: includes/log/class.log-email.php:390
+#: includes/log/class.log-email.php:294 includes/log/class.log-email.php:619
 msgid "Failed"
+msgstr ""
+
+#: includes/log/class.log-email.php:513
+msgid "Email Headers:"
+msgstr ""
+
+#: includes/log/class.log-email.php:517
+msgid "Email Type:"
+msgstr ""
+
+#: includes/log/class.log-email.php:521
+msgid "Email Character Set:"
+msgstr ""
+
+#: includes/log/class.log-email.php:525
+msgid "Email From:"
+msgstr ""
+
+#: includes/log/class.log-email.php:529
+msgid "Email To:"
+msgstr ""
+
+#: includes/log/class.log-email.php:533
+msgid "Email CC:"
+msgstr ""
+
+#: includes/log/class.log-email.php:537
+msgid "Email BCC:"
+msgstr ""
+
+#: includes/log/class.log-email.php:541
+msgid "Email Attachments:"
+msgstr ""
+
+#: includes/log/class.log-email.php:545
+msgid "Email Sent:"
 msgstr ""
 
 #: includes/log/class.log-stateless.php:51
 msgid "To enable logging, WP_DEBUG must defined and set to TRUE."
 msgstr ""
 
-#: includes/log/class.log.php:326
-msgid "Logs"
-msgstr ""
-
-#: includes/log/class.log.php:328
+#: includes/log/class.log.php:331
 msgid "Add New Log"
 msgstr ""
 
-#: includes/log/class.log.php:329
+#: includes/log/class.log.php:332
 msgid "Edit Log"
 msgstr ""
 
-#: includes/log/class.log.php:330
+#: includes/log/class.log.php:333
 msgid "New Log"
 msgstr ""
 
-#: includes/log/class.log.php:331
+#: includes/log/class.log.php:334
 msgid "View Log"
 msgstr ""
 
-#: includes/log/class.log.php:332
+#: includes/log/class.log.php:335
 msgid "Search Logs"
 msgstr ""
 
-#: includes/log/class.log.php:333
+#: includes/log/class.log.php:336
 msgid "No logs found."
 msgstr ""
 
-#: includes/log/class.log.php:334
+#: includes/log/class.log.php:337
 msgid "No logs found in Trash."
 msgstr ""
 
-#: includes/log/class.log.php:335
+#: includes/log/class.log.php:338
 msgid "All Logs"
 msgstr ""
 
-#: includes/log/class.log.php:384
+#: includes/log/class.log.php:387
 msgid "Search Log Types"
 msgstr ""
 
-#: includes/log/class.log.php:386
+#: includes/log/class.log.php:389
 msgid "All Log Types"
 msgstr ""
 
-#: includes/log/class.log.php:387
+#: includes/log/class.log.php:390
 msgid "Edit Log Type"
 msgstr ""
 
-#: includes/log/class.log.php:388
+#: includes/log/class.log.php:391
 msgid "View Log Type"
 msgstr ""
 
-#: includes/log/class.log.php:389
+#: includes/log/class.log.php:392
 msgid "Update Log Type"
 msgstr ""
 
-#: includes/log/class.log.php:390
+#: includes/log/class.log.php:393
 msgid "Add New Log Type"
 msgstr ""
 
-#: includes/log/class.log.php:391
+#: includes/log/class.log.php:394
 msgid "New Log Type Name"
 msgstr ""
 
-#: includes/log/class.log.php:392
+#: includes/log/class.log.php:395
 msgid "Separate log types with commas"
 msgstr ""
 
-#: includes/log/class.log.php:393
+#: includes/log/class.log.php:396
 msgid "Add or remove log types."
 msgstr ""
 
-#: includes/log/class.log.php:394
+#: includes/log/class.log.php:397
 msgid "Choose from the most used log types."
 msgstr ""
 
-#: includes/log/class.log.php:395
+#: includes/log/class.log.php:398
 msgid "No log types found."
 msgstr ""
 
-#: includes/log/class.log.php:890
+#: includes/log/class.log.php:980
 msgid "Log Meta"
 msgstr ""
 
-#: includes/log/class.log.php:912
+#: includes/log/class.log.php:1002
 msgid "No log meta found."
 msgstr ""
 
-#: includes/log/class.log.php:933
+#: includes/log/class.log.php:1023
 msgid "No meta value."
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:16
+msgid "System Email Log Item"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:26
+#: includes/template/class.template-list-table-email-log.php:261
+msgid "Sent"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:31
+msgid "Headers"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:37
+msgid "Content Type"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:44
+msgid "Character Set"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:79
+#: includes/template/class.template-list-table-email-log.php:260
+msgid "Attachments"
 msgstr ""
 
 #: includes/settings/class.options.php:335
@@ -2555,11 +2666,6 @@ msgstr ""
 
 #: includes/settings/class.settings.php:48
 msgid "Images"
-msgstr ""
-
-#: includes/settings/class.settings.php:55
-#: includes/template/class.template-parts.php:1524
-msgid "Search"
 msgstr ""
 
 #: includes/settings/class.settings.php:62
@@ -3276,13 +3382,61 @@ msgid ""
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:105
-#: includes/template/class.template-parts.php:288
+#: includes/template/class.template-parts.php:289
 msgid "ERROR: Template %1$s not found."
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:145
-#: includes/template/class.template-parts.php:1200
+#: includes/template/class.template-parts.php:1201
 msgid "No results."
+msgstr ""
+
+#: includes/system-info/class.system-info.php:226
+#: includes/system-info/class.system-info.php:243
+msgid "System Info Email"
+msgstr ""
+
+#: includes/system-info/inc.system-info.php:150
+msgid "TRUE"
+msgstr ""
+
+#: includes/system-info/inc.system-info.php:150
+msgid "FALSE"
+msgstr ""
+
+#: includes/template/class.template-list-table-email-log.php:253
+#: includes/template/class.template-list-table-term-admin.php:287
+msgid "ID"
+msgstr ""
+
+#: includes/template/class.template-list-table-email-log.php:256
+msgid "From"
+msgstr ""
+
+#: includes/template/class.template-list-table-email-log.php:257
+msgid "To"
+msgstr ""
+
+#: includes/template/class.template-list-table-email-log.php:258
+msgid "CC"
+msgstr ""
+
+#: includes/template/class.template-list-table-email-log.php:259
+msgid "BCC"
+msgstr ""
+
+#: includes/template/class.template-list-table-email-log.php:369
+#: includes/template/class.template-parts.php:845
+msgid "View All"
+msgstr ""
+
+#: includes/template/class.template-list-table-email-log.php:393
+#: includes/template/class.template-list-table-term-admin.php:508
+msgid "Select %s"
+msgstr ""
+
+#: includes/template/class.template-list-table-email-log.php:529
+msgid "View &#8220;%s&#8221;"
 msgstr ""
 
 #: includes/template/class.template-list-table-term-admin.php:284
@@ -3293,93 +3447,81 @@ msgstr ""
 msgid "Count"
 msgstr ""
 
-#: includes/template/class.template-list-table-term-admin.php:287
-msgid "ID"
-msgstr ""
-
-#: includes/template/class.template-list-table-term-admin.php:508
-msgid "Select %s"
-msgstr ""
-
 #: includes/template/class.template-list-table-term-admin.php:567
 msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:844
-msgid "View All"
-msgstr ""
-
-#: includes/template/class.template-parts.php:939
+#: includes/template/class.template-parts.php:940
 msgid "Go back to directory."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1110
+#: includes/template/class.template-parts.php:1111
 msgid "You are searching within category(ies): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1121
+#: includes/template/class.template-parts.php:1122
 msgid "You are searching for the keyword(s): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1126
+#: includes/template/class.template-parts.php:1127
 msgid "The results are being filtered by the character: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1131
+#: includes/template/class.template-parts.php:1132
 msgid "The results are being filtered by the organization: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1136
+#: includes/template/class.template-parts.php:1137
 msgid "The results are being filtered by the department: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1141
+#: includes/template/class.template-parts.php:1142
 msgid "The results are being filtered by the locality: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1146
+#: includes/template/class.template-parts.php:1147
 msgid "The results are being filtered by the region: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1151
+#: includes/template/class.template-parts.php:1152
 msgid "The results are being filtered by the postal code: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1156
+#: includes/template/class.template-parts.php:1157
 msgid "The results are being filtered by the country: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1168
+#: includes/template/class.template-parts.php:1169
 msgid "Clear Search"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1323
 #: includes/template/class.template-parts.php:1324
+#: includes/template/class.template-parts.php:1325
 #: includes/template/class.template-shortcode.php:103
 msgid "Return to top."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1405
+#: includes/template/class.template-parts.php:1406
 msgid "Updated %1$s ago."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1552
+#: includes/template/class.template-parts.php:1553
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1684
+#: includes/template/class.template-parts.php:1685
 msgid "Current Character"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1732
+#: includes/template/class.template-parts.php:1733
 msgid "&laquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1733
+#: includes/template/class.template-parts.php:1734
 msgid "&raquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1908
+#: includes/template/class.template-parts.php:1909
 #: includes/template/class.template-walker-term-radio-group.php:108
 #: includes/template/class.template-walker-term-select-enhanced.php:162
 msgid "Select Category"
@@ -3469,29 +3611,64 @@ msgid ""
 "to,was,what,when,where,who,will,with,www"
 msgstr ""
 
-#: includes/log/class.log.php:324
+#: includes/log/class.log.php:327
 msgctxt "post type general name"
 msgid "Logs"
 msgstr ""
 
-#: includes/log/class.log.php:325
+#: includes/log/class.log.php:328
 msgctxt "post type singular name"
 msgid "Log"
 msgstr ""
 
-#: includes/log/class.log.php:327
+#: includes/log/class.log.php:330
 msgctxt "post"
 msgid "Add New"
 msgstr ""
 
-#: includes/log/class.log.php:382
+#: includes/log/class.log.php:385
 msgctxt "taxonomy general name"
 msgid "Log Types"
 msgstr ""
 
-#: includes/log/class.log.php:383
+#: includes/log/class.log.php:386
 msgctxt "taxonomy singular name"
 msgid "Type"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:21
+msgctxt "Date and time an email was sent."
+msgid "Date"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:50
+msgctxt "Email subject."
+msgid "Subject"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:55
+msgctxt "Email sender (From)."
+msgid "From"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:60
+msgctxt "Email recipients (To)."
+msgid "To"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:66
+msgctxt "Courtesy copy email addresses."
+msgid "CC"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:73
+msgctxt "Blind courtesy copy email addresses."
+msgid "BCC"
+msgstr ""
+
+#: includes/log/inc.log-email-detail.php:84
+msgctxt "Content of email."
+msgid "Message"
 msgstr ""
 
 #: includes/template/class.template-list-table-term-admin.php:283

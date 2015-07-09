@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnAdminMenu
+ */
 class cnAdminMenu {
 
 	/**
@@ -31,7 +34,6 @@ class cnAdminMenu {
 	 * @since 0.7.9
 	 * @see cnAdminMenu::init()
 	 * @see cnAdminMenu();
-	 * @return (void)
 	 */
 	public function __construct() { /* Do nothing here */ }
 
@@ -41,7 +43,6 @@ class cnAdminMenu {
 	 * @access public
 	 * @since 0.7.9
 	 * @see cnAdminMenu()
-	 * @return (void)
 	 */
 	public static function init() {
 
@@ -57,7 +58,6 @@ class cnAdminMenu {
 	 *
 	 * @access private
 	 * @since unknown
-	 * @return (void)
 	 */
 	public static function menu() {
 
@@ -78,8 +78,9 @@ class cnAdminMenu {
 		$submenu[40]  = array( 'hook' => 'add', 'page_title' => 'Connections : ' . __( 'Add Entry', 'connections' ), 'menu_title' => __( 'Add Entry', 'connections' ), 'capability' => $addEntryCapability, 'menu_slug' => 'connections_add', 'function' => array( __CLASS__, 'showPage' ) );
 		$submenu[60]  = array( 'hook' => 'categories', 'page_title' => 'Connections : ' . __( 'Categories', 'connections' ), 'menu_title' => __( 'Categories', 'connections' ), 'capability' => 'connections_edit_categories', 'menu_slug' => 'connections_categories', 'function' => array( __CLASS__, 'showPage' ) );
 		$submenu[80]  = array( 'hook' => 'templates', 'page_title' => 'Connections : ' . __( 'Templates', 'connections' ), 'menu_title' => __( 'Templates', 'connections' ), 'capability' => 'connections_manage_template', 'menu_slug' => 'connections_templates', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[100] = array( 'hook' => 'settings', 'page_title' => 'Connections : ' . __( 'Settings', 'connections' ), 'menu_title' => __( 'Settings', 'connections' ), 'capability' => 'connections_change_settings', 'menu_slug' => 'connections_settings', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[120] = array( 'hook' => 'roles', 'page_title' => 'Connections : ' . __( 'Roles &amp; Capabilites', 'connections' ), 'menu_title' => __( 'Roles', 'connections' ), 'capability' => 'connections_change_roles', 'menu_slug' => 'connections_roles', 'function' => array( __CLASS__, 'showPage' ) );
+		$submenu[100] = array( 'hook' => 'roles', 'page_title' => 'Connections : ' . __( 'Roles &amp; Capabilites', 'connections' ), 'menu_title' => __( 'Roles', 'connections' ), 'capability' => 'connections_change_roles', 'menu_slug' => 'connections_roles', 'function' => array( __CLASS__, 'showPage' ) );
+		$submenu[110] = array( 'hook' => 'tools', 'page_title' => 'Connections : ' . __( 'Tools', 'connections' ), 'menu_title' => __( 'Tools', 'connections' ), 'capability' => 'install_plugins', 'menu_slug' => 'connections_tools', 'function' => array( __CLASS__, 'showPage' ) );
+		$submenu[120] = array( 'hook' => 'settings', 'page_title' => 'Connections : ' . __( 'Settings', 'connections' ), 'menu_title' => __( 'Settings', 'connections' ), 'capability' => 'connections_change_settings', 'menu_slug' => 'connections_settings', 'function' => array( __CLASS__, 'showPage' ) );
 
 		$submenu = apply_filters( 'cn_submenu', $submenu );
 
@@ -87,6 +88,14 @@ class cnAdminMenu {
 
 		foreach ( $submenu as $menu ) {
 
+			/**
+			 * @var string       $hook
+			 * @var string       $page_title
+			 * @var string       $menu_title
+			 * @var string       $capability
+			 * @var string       $menu_slug
+			 * @var array|string $function
+			 */
 			extract( $menu );
 
 			$instance->pageHook->{ $hook } = add_submenu_page( 'connections_dashboard', $page_title, $menu_title, $capability, $menu_slug, $function );
@@ -100,7 +109,6 @@ class cnAdminMenu {
 	 *
 	 * @access private
 	 * @since unknown
-	 * @return (void)
 	 */
 	public static function showPage() {
 
@@ -140,6 +148,11 @@ class cnAdminMenu {
 			case 'connections_settings':
 				include_once CN_PATH . 'includes/admin/pages/settings.php';
 				connectionsShowSettingsPage();
+				break;
+
+			case 'connections_tools':
+				include_once CN_PATH . 'includes/admin/pages/tools.php';
+				connectionsShowToolsPage();
 				break;
 
 			case 'connections_templates':

@@ -95,7 +95,7 @@ add_action( 'plugins_loaded', 'cn_log_emails_add_email_filter' );
 
 function cn_log_emails_add_email_filter() {
 
-	if ( method_exists( 'LogEmailsPlugin', 'getInstance' ) ) {
+	if ( class_exists( 'LogEmailsPlugin' ) && method_exists( 'LogEmailsPlugin', 'getInstance' ) ) {
 
 		$instance = LogEmailsPlugin::getInstance();
 

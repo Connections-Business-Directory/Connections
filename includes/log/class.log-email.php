@@ -56,6 +56,10 @@ final class cnLog_Email {
 			// Register log type.
 			add_filter( 'cn_log_types', array( __CLASS__, 'registerLogType' ) );
 
+			// Register the log view.
+			add_filter( 'cn_log_views', array( __CLASS__, 'registerLogView' ) );
+			add_action( 'admin_action_cn_log_email_view', array( __CLASS__, 'viewLog') );
+
 			// Add action to log email after they are sent.
 			add_action( 'cn_email_post_send', array( __CLASS__, 'add' ), 10, 11 );
 
@@ -70,15 +74,228 @@ final class cnLog_Email {
 	}
 
 	/**
+	 * Callback used to register the email log types with @see cnLog().
+	 *
+	 * @access private
+	 * @since  8.2.10
+	 * @static
+	 *
+	 * @uses   apply_filters()
+	 *
 	 * @param array $types
 	 *
 	 * @return array
 	 */
 	public static function registerLogType( $types ) {
 
-		$types[] = self::LOG_TYPE;
+		$types[ self::LOG_TYPE ] = array(
+			'id'   => self::LOG_TYPE,
+			'name' => __( 'System Email', 'connections' ),
+		);
 
 		return apply_filters( 'cn_email_log_types', $types );
+	}
+
+	/**
+	 * Get the registered email log types.
+	 *
+	 * @access public
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   apply_filters()
+	 *
+	 * @return array
+	 */
+	public static function types() {
+
+		$types[ self::LOG_TYPE ] = array(
+			'id'   => self::LOG_TYPE,
+			'name' => __( 'System Email', 'connections' ),
+		);
+
+		return apply_filters( 'cn_email_log_types', $types );
+	}
+
+	/**
+	 * Callback to register the email log view.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 *
+	 * @param $view
+	 *
+	 * @return array
+	 */
+	public static function registerLogView( $view ) {
+
+		$view[ self::LOG_TYPE ] = array(
+			'id'       => self::LOG_TYPE,
+			'name'     => __( 'System Email', 'connections' ),
+			'callback' => array( __CLASS__, 'viewLogs' )
+		);
+
+		return $view;
+	}
+
+	/**
+	 * Callback which renders the email log view.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   esc_attr()
+	 * @uses   cnTemplatePart::table()
+	 * @uses   get_current_screen()
+	 * @uses   CN_Email_Log_List_Table::prepare_items()
+	 * @uses   CN_Email_Log_List_Table::display()
+	 * @uses   esc_html_e()
+	 * @uses   do_action()
+	 * @uses   CN_Email_Log_List_Table::search_box()
+	 */
+	public static function viewLogs() {
+
+		$type = '';
+
+		if ( isset( $_REQUEST['type'] ) && ! empty( $_REQUEST['type'] ) ) {
+
+			$type = esc_attr( $_REQUEST['type'] );
+		}
+
+		/** @var CN_Email_Log_List_Table $table */
+		$table = cnTemplatePart::table(
+			'email-log',
+			array(
+				'screen' => get_current_screen()->id,
+				'type' => $type
+			)
+		);
+
+		$table->prepare_items();
+
+		?>
+		<h2><?php esc_html_e( 'Email Logs', 'connections' ); ?></h2>
+		<?php do_action( 'cn_logs_email_top' ); ?>
+		<form id="cn-email-logs-filter" method="get">
+			<?php
+			$table->search_box( __( 'Search', 'connections' ), self::LOG_TYPE );
+			$table->display();
+			?>
+			<input type="hidden" name="cn-action" value="log_bulk_actions">
+			<!--<input type="hidden" name="page" value="connections_tools"/>-->
+			<!--<input type="hidden" name="tab" value="logs"/>-->
+		</form>
+		<?php do_action( 'cn_logs_email_bottom' ); ?>
+	<?php
+	}
+
+	/**
+	 * Callback which renders the email log detail view.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   wp_enqueue_style()
+	 */
+	public static function viewLog() {
+
+		$id = empty( $_GET['log_id'] ) ? 0 : absint( $_GET['log_id'] );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		/** @noinspection PhpUnusedLocalVariableInspection */
+		$post      = get_post( $id );
+		$post_meta = get_post_meta( $id );
+		$meta      = array();
+
+		foreach ( $post_meta as $key => $value ) {
+
+			if ( FALSE === strpos( $key, cnLog::POST_META_PREFIX ) ) continue;
+
+			$key = str_replace( cnLog::POST_META_PREFIX, '', $key );
+
+			$meta[ $key ] = $value[0];
+		}
+
+		wp_enqueue_style( 'cn-admin' );
+
+		require_once( ABSPATH . 'wp-admin/admin-header.php' );
+		require_once( CN_PATH . 'includes/log/inc.log-email-detail.php' );
+		require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+	}
+
+	/**
+	 * Returns email log meta data item as human readable.
+	 *
+	 * @access public
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   cnFormatting::maybeJSONdecode()
+	 * @uses   esc_html()
+	 *
+	 * @param $type
+	 * @param $value
+	 *
+	 * @return string
+	 */
+	public static function viewLogItem( $type, $value ) {
+
+		switch ( $type ) {
+
+			case 'headers':
+
+				$value = implode( '<br>', cnFormatting::maybeJSONdecode( $value ) );
+				break;
+
+			case 'type':
+			case 'character_set':
+				$value = esc_html( $value );
+				break;
+
+			case 'from':
+
+				$value = esc_html( $value );
+
+				break;
+
+			case 'to':
+			case 'cc':
+			case 'bcc':
+			case 'attachments':
+
+				$value = cnFormatting::maybeJSONdecode( $value );
+
+				if ( empty( $value ) ) {
+
+					$value = __( 'None', 'connections' );
+
+				} else {
+
+					if ( is_array( $value ) ) {
+
+						$value = implode( '<br>', array_map( 'esc_html', $value ) );
+
+					} else {
+
+						$value = esc_html( $value );
+					}
+
+				}
+
+				break;
+
+			case 'response':
+				$value = ( 'success' == $value ? __( 'Successfully', 'connections' ) : __( 'Failed', 'connections' ) );
+				break;
+		}
+
+		return $value;
 	}
 
 	/**
@@ -360,6 +577,18 @@ final class cnLog_Email {
 				break;
 
 			case 'from':
+
+				if ( empty( $value ) ) {
+
+					$value = '<p>' . __( 'None', 'connections' ) . '</p>';
+
+				} else {
+
+					$value = '<p>' . esc_html( $value ) . '</p>';
+				}
+
+				break;
+
 			case 'to':
 			case 'cc':
 			case 'bcc':

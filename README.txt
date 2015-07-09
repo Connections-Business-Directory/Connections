@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.0
 Tested up to: 4.2
-Stable tag: 8.2.10
+Stable tag: 8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,42 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.3 07/09/2015 =
+
+* FEATURE: Add the Tools admin page with the System Info tab with the ability to email and/or share a secret URL to share the system info.
+* FEATURE: Introduce the ability to export/import the settings.
+* FEATURE: Introduce the ability for an admin to view and manage the email logs.
+* NEW: Introduce cnString::quickRandom().
+* NEW: Introduce cnString::random().
+* NEW: Introduce cnFunction::decodeJSON().
+* NEW: Introduce cnSettingsAPI::getAll(), cnSettingsAPI::download() and cnSettingsAPI::import().
+* NEW: Introduce cnLog::delete().
+* NEW: Introduce cnLog::views().
+* COMPATIBILITY: Include theme compatibility file with a filter to make images and logos compatible in the ProPhoto theme.
+* BUG: Fix bug in cnOutput::getContentBlock() that prevented the use of the content block name if the content block was registered as a single entry view content block.
+* BUG: Fix bug throughout cnEmail referring to a nonexistent charSet var.
+* BUG: Correct param default in cnAdminActions::setEntryStatus().
+* BUG: Fix reference bug in cnLog::deleteConnected().
+* TWEAK: Change cnFormatting::toYesNo() to a static method.
+* TWEAK: Do not create the .htaccess file in the TimThumb folder since it is no longer needed.
+* TWEAK: Move the vCard download template_redirect action callback function to static method cnvCard::download().
+* TWEAK: Remove the dead code in the deactivation callback.
+* TWEAK: Remove the Dashboard System widget.
+* TWEAK: Remove use of the cnvCard class on the Manage admin page since it is no longer needed.
+* TWEAK: Refactor cnOutput::getPhoneNumberBlock() to cleanup code and added a couple new filters.
+* TWEAK: Update cnLog::getConnected() to support getting logs of multiple types.
+* TWEAK: Update cnLog::getCount() to support getting log count of multiple types.
+* TWEAK: Make cnLog::types() a public method.
+* OTHER: Correct misspellings in inline code comments.
+* I18N: Update the POT file.
+* I18N: Update all MO files.
+* DEV: Include the Browser class by Chris Schuld.
+* DEV: phpDoc fixes.
+* DEV: Add phpDoc for the vars being extracted in cnAdminMenu::menu().
+* DEV: Use Yoda conditions.
+* DEV: Prettify cnvCard() to better meet coding standards.
+* DEV: Stub phpDoc for cnAdminAction class.
 
 = 8.2.10 06/26/2015 =
 * FEATURE: Allow admins and editors (roles with unfiltered_html capability) to use the Media Manager to insert images in the Bio and Notes fields.
@@ -1052,4 +1088,7 @@ It is recommended to backup before updating. Requires WordPress >= 3.8.
 It is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.2.10 =
-It is recommended to backup before updating. Requires WordPress >= 3.8.
+It is recommended to backup before updating. Requires WordPress >= 4.0.
+
+= 8.3 =
+It is recommended to backup before updating. Requires WordPress >= 4.0.

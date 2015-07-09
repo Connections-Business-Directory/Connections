@@ -235,7 +235,7 @@ function connectionsShowCategoriesPage() {
 		} else {
 
 			/**
-			 * @var CN_Terms_List_Table $table
+			 * @var CN_Term_Admin_List_Table $table
 			 */
 			$table = cnTemplatePart::table( 'term-admin', array( 'screen' => get_current_screen()->id ) );
 			$table->prepare_items();

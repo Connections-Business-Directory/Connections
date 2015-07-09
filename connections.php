@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.2.10
+ * Version: 8.3
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.2.10
+ * @version 8.3
  */
 
 // Exit if accessed directly
@@ -191,11 +191,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 */
 				add_action( 'plugins_loaded', array( __CLASS__ , 'loadTextdomain' ), -1 );
 
-				/*
-				 * Process front end actions.
-				 */
-				add_action( 'template_redirect' , array( __CLASS__, 'frontendActions' ) );
-
 				// Activation/Deactivation hooks
 				register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'activate' ) );
 				register_deactivation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'deactivate' ) );
@@ -229,7 +224,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.2.10' );
+			define( 'CN_CURRENT_VERSION', '8.3' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -683,6 +678,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			require_once CN_PATH . 'includes/template/class.template.php';
 
 			require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
+			require_once CN_PATH . 'includes/inc.theme-compatibility.php';
+
+			// System Info
+			require_once CN_PATH . 'includes/system-info/class.system-info.php';
 		}
 
 		/**
@@ -960,7 +959,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
 			// Create a .htaccess file in the TimThumb folder to allow it to be called directly.
-			cnFileSystem::permitTimThumb( CN_PATH . 'vendor/timthumb' );
+			//cnFileSystem::permitTimThumb( CN_PATH . 'vendor/timthumb' );
 
 			$connections->initOptions();
 
@@ -978,6 +977,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * Called when deactivating Connections via the deactivation hook.
 		 */
 		public static function deactivate() {
+
 			/*
 			 * Since we're adding the rewrite rules using a filter, make sure to remove the filter
 			 * before flushing, otherwise the rules will not be removed.
@@ -987,83 +987,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Flush so they are rebuilt.
 			flush_rewrite_rules();
-
-			//global $options;
-
-			/* This should be occur in the uninstall hook
-			$this->options->removeDefaultCapabilities();
-			*/
-
-			//  DROP TABLE `cnpfresh_connections`, `cnpfresh_connections_terms`, `cnpfresh_connections_term_relationships`, `cnpfresh_connections_term_taxonomy`;
-			//  DELETE FROM `nhonline_freshcnpro`.`cnpfresh_options` WHERE `cnpfresh_options`.`option_name` = 'connections_options'
-		}
-
-		/**
-		 * This action will handle frontend process requests, currently only creating the vCard for download.
-		 *
-		 * @TODO If no vcard is found should redirect to an error message.
-		 * @access private
-		 * @since 0.7.3
-		 * @return void
-		 */
-		public static function frontendActions() {
-
-			// Grab an instance of the Connections object.
-			$instance = Connections_Directory();
-
-			$process = get_query_var( 'cn-process' );
-			$token = get_query_var( 'cn-token' );
-			$id = (integer) get_query_var( 'cn-id' );
-
-			if ( 'vcard' === $process ) {
-
-				$slug = get_query_var( 'cn-entry-slug' ); //var_dump($slug);
-
-				/*
-				 * If the token and id values were set, the link was likely from the admin.
-				 * Check for those values and validate the token. The primary reason for this
-				 * to be able to download vCards of entries that are set to "Unlisted".
-				 */
-				if ( ! empty( $id ) && ! empty( $token ) ) {
-
-					if ( ! wp_verify_nonce( $token, 'download_vcard_' . $id ) ) wp_die( 'Invalid vCard Token' );
-
-					$entry = $instance->retrieve->entry( $id );
-
-					// Die if no entry was found.
-					if ( empty( $entry ) ) wp_die( __( 'vCard not available for download.', 'connections' ) );
-
-					$vCard = new cnvCard( $entry ); //var_dump($vCard);die;
-
-				} else {
-
-					$entry = $instance->retrieve->entries( array( 'slug' => $slug ) ); //var_dump($entry);die;
-
-					// Die if no entry was found.
-					if ( empty( $entry ) ) wp_die( __( 'vCard not available for download.', 'connections' ) );
-
-					$vCard = new cnvCard( $entry[0] ); //var_dump($vCard);die;
-				}
-
-				$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
-				$data     = $vCard->getvCard(); //var_dump($data);die;
-
-				header( 'Content-Description: File Transfer');
-				header( 'Content-Type: application/octet-stream' );
-				header( 'Content-Disposition: attachment; filename=' . $filename . '.vcf' );
-				header( 'Content-Length: ' . strlen( $data ) );
-				header( 'Pragma: public' );
-				header( "Pragma: no-cache" );
-				//header( "Expires: 0" );
-				header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
-				header( 'Cache-Control: private' );
-				// header( 'Connection: close' );
-				ob_clean();
-				flush();
-
-				echo $data;
-				exit;
-			}
 		}
 	}
 

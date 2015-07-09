@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnAdminActions
+ */
 class cnAdminActions {
 
 	/**
@@ -114,6 +117,20 @@ class cnAdminActions {
 
 		// Term Meta Actions
 		add_action( 'cn_delete_term', array( __CLASS__, 'deleteTermMeta' ), 10, 4 );
+
+		// Actions that deal with the system info.
+		add_action( 'wp_ajax_download_system_info', array( __CLASS__, 'downloadSystemInfo' ) );
+		add_action( 'wp_ajax_email_system_info', array( __CLASS__, 'emailSystemInfo' ) );
+		add_action( 'wp_ajax_generate_url', array( __CLASS__, 'generateSystemInfoURL' ) );
+		add_action( 'wp_ajax_revoke_url', array( __CLASS__, 'revokeSystemInfoURL' ) );
+
+		// Actions for export/import settings.
+		add_action( 'wp_ajax_export_settings', array( __CLASS__, 'downloadSettings' ) );
+		add_action( 'wp_ajax_import_settings', array( __CLASS__, 'importSettings' ) );
+
+		// Register the action to delete a single log.
+		add_action( 'cn_log_bulk_actions', array( __CLASS__, 'logManagement' ) );
+		add_action( 'cn_delete_log', array( __CLASS__, 'deleteLog' ) );
 	}
 
 	/**
@@ -136,6 +153,202 @@ class cnAdminActions {
 		if ( isset( $_GET['cn-action'] ) ) {
 
 			do_action( 'cn_' . $_GET['cn-action'] );
+		}
+	}
+
+	/**
+	 * AJAX callback used to download the system info.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function downloadSystemInfo() {
+
+		check_ajax_referer( 'download_system_info' );
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json( __( 'You do not have sufficient permissions to download system information.', 'connections' ) );
+		}
+
+		cnSystem_Info::download();
+	}
+
+	/**
+	 * AJAX callback to email the system info.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function emailSystemInfo() {
+
+		$form = new cnFormObjects();
+
+		check_ajax_referer( $form->getNonce( 'email_system_info' ), 'nonce' );
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json( -2 );
+		}
+
+		/**
+		 * Since email is sent via an ajax request, let's check for the appropriate header.
+		 * @link http://davidwalsh.name/detect-ajax
+		 */
+		if ( ! isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) || 'xmlhttprequest' != strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) ) {
+
+			wp_send_json( -3 );
+		}
+
+		$user = wp_get_current_user();
+
+		$atts = array(
+			'from_email' => $user->user_email,
+			'from_name'  => $user->display_name,
+			'to_email'   => $_POST['email'],
+			'subject'    => $_POST['subject'],
+			'message'    => $_POST['message'],
+		);
+
+		$response = cnSystem_Info::email( $atts );
+
+		if ( $response ) {
+
+			// Success, send success code.
+			wp_send_json( 1 );
+
+		} else {
+
+			/** @var PHPMailer $phpmailer */
+			global $phpmailer;
+
+			wp_send_json( $phpmailer->ErrorInfo );
+		}
+	}
+
+	/**
+	 * AJAX callback to create a secret URL for the system info.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function generateSystemInfoURL() {
+
+		if ( ! check_ajax_referer( 'generate_remote_system_info_url', FALSE, FALSE ) ) {
+
+			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
+		}
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json_error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ) );
+		}
+
+		/** @todo need to check the $token is not WP_Error. */
+		$token   = cnString::random( 32 );
+		$expires = apply_filters( 'cn_system_info_remote_token_expire', DAY_IN_SECONDS * 3 );
+
+		cnCache::set(
+			'system_info_remote_token',
+			$token,
+			$expires,
+			'option-cache'
+		);
+
+		$url = home_url() . '/?cn-system-info=' . $token;
+
+		wp_send_json_success(
+			array(
+				'url' => $url,
+				'message' => __( 'Secret URL has been created.', 'connections' ),
+			)
+		);
+	}
+
+	/**
+	 * AJAX callback to revoke the secret URL for the system info.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function revokeSystemInfoURL() {
+
+		if ( ! check_ajax_referer( 'revoke_remote_system_info_url', FALSE, FALSE ) ) {
+
+			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
+		}
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json_error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ) );
+		}
+
+		cnCache::clear( 'system_info_remote_token', 'option-cache' );
+
+		wp_send_json_success( __( 'Secret URL has been revoked.', 'connections' ) );
+	}
+
+	/**
+	 * AJAX callback to download the settings in a JSON encoded text file.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function downloadSettings() {
+
+		check_ajax_referer( 'export_settings' );
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json( __( 'You do not have sufficient permissions to export the settings.', 'connections' ) );
+		}
+
+		cnSettingsAPI::download();
+	}
+
+	/**
+	 * AJAX callback to import settings from a JSON encoded text file.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 */
+	public static function importSettings() {
+
+		check_ajax_referer( 'import_settings' );
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			wp_send_json( __( 'You do not have sufficient permissions to import the settings.', 'connections' ) );
+		}
+
+		if ( 'json' != pathinfo( $_FILES['import_file']['name'], PATHINFO_EXTENSION ) ) {
+
+			wp_send_json( __( 'Please upload a .json file.', 'connections' ) );
+		}
+
+		$file = $_FILES['import_file']['tmp_name'];
+
+		if ( empty( $file ) ) {
+
+			wp_send_json( __( 'Please select a file to import.', 'connections' ) );
+		}
+
+		$json   = file_get_contents( $file );
+		$result = cnSettingsAPI::import( $json );
+
+		if ( TRUE === $result ) {
+
+			wp_send_json( __( 'Settings have been imported.', 'connections' ) );
+
+		} else {
+
+			wp_send_json( $result );
 		}
 	}
 
@@ -165,7 +378,7 @@ class cnAdminActions {
 		// Process user selected filters
 		self::saveUserFilters();
 
-		// Grab the bulk action requesteed by user.
+		// Grab the bulk action requested by user.
 		$action = isset( $_POST['bulk_action'] ) && ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) ? $_POST['action'] : 'none';
 
 		switch ( $action ) {
@@ -208,7 +421,7 @@ class cnAdminActions {
 
 			default:
 
-				/* None, blank intentially. */
+				/* None, blank intentionally. */
 
 				break;
 		}
@@ -534,7 +747,7 @@ class cnAdminActions {
 	 *
 	 * @return void
 	 */
-	public static function setEntryStatus( $id = '', $status = '' ) {
+	public static function setEntryStatus( $id = 0, $status = '' ) {
 
 		// If no entry ID was supplied, check $_GET.
 		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? absint( $_GET['id'] ) : absint( $id );
@@ -670,11 +883,11 @@ class cnAdminActions {
 	 * @uses get_admin_url()
 	 * @uses get_current_blog_id()
 	 *
-	 * @param (int) $id [optional] Entry ID.
+	 * @param int $id [optional] Entry ID.
 	 *
 	 * @return void
 	 */
-	public static function deleteEntry( $id = '' ) {
+	public static function deleteEntry( $id = 0 ) {
 
 		// If no entry ID was supplied, check $_GET.
 		$id = empty( $id ) && ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) ? $_GET['id'] : $id;
@@ -730,7 +943,7 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Process user filteres.
+	 * Process user filters.
 	 *
 	 * @access public
 	 * @since 0.7.8
@@ -1248,7 +1461,7 @@ class cnAdminActions {
 
 					foreach ( $_POST['roles'][ $role ]['capabilities'] as $capability => $grant ) {
 
-						// the admininistrator should always have all capabilities
+						// the administrator should always have all capabilities
 						if ( $role == 'administrator' ) continue;
 
 						if ( $grant == 'true' ) {
@@ -1276,6 +1489,116 @@ class cnAdminActions {
 			cnMessage::set( 'error', 'capability_roles' );
 		}
 
+	}
+
+	/**
+	 * Callback for the cn_log_bulk_actions hook which processes the action and then redirects back to the current admin page.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   current_user_can()
+	 * @uses   check_admin_referer()
+	 * @uses   cnLog::delete()
+	 * @uses   cnMessage::set()
+	 * @uses   add_query_arg()
+	 * @uses   wp_get_referer()
+	 * @uses   wp_safe_redirect()
+	 */
+	public static function logManagement() {
+
+		$action = '';
+
+		if ( current_user_can( 'install_plugins' ) ) {
+
+			if ( isset( $_GET['action'] ) && '-1' !== $_GET['action'] ) {
+
+				$action = $_GET['action'];
+
+			} elseif ( isset( $_GET['action2'] ) && '-1' !== $_GET['action2'] ) {
+
+				$action = $_GET['action2'];
+
+			}
+
+			switch ( $action ) {
+
+				case 'delete':
+
+					check_admin_referer( 'bulk-email' );
+
+					foreach ( $_GET['log'] as $id ) {
+
+						cnLog::delete( $id );
+					}
+
+					cnMessage::set( 'success', 'log_bulk_delete' );
+
+					break;
+			}
+
+		} else {
+
+			cnMessage::set( 'error', 'capability_manage_logs' );
+		}
+
+		$url = add_query_arg(
+			array(
+				'type'      => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : FALSE,
+				'cn-action' => FALSE,
+				'action'    => FALSE,
+				'action2'   => FALSE,
+			),
+			wp_get_referer()
+		);
+
+		wp_safe_redirect( $url );
+		exit();
+	}
+
+	/**
+	 * Callback for the cn_delete_log hook which processes the delete action and then redirects back to the current admin page.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   current_user_can()
+	 * @uses   check_admin_referer()
+	 * @uses   cnLog::delete()
+	 * @uses   cnMessage::set()
+	 * @uses   add_query_arg()
+	 * @uses   wp_get_referer()
+	 * @uses   wp_safe_redirect()
+	 */
+	public static function deleteLog() {
+
+		if ( current_user_can( 'install_plugins' ) ) {
+
+			$id = 0;
+
+			if ( isset( $_GET['id'] ) && ! empty( $_GET['id'] ) ) {
+
+				$id = absint( $_GET['id'] );
+			}
+
+			check_admin_referer( 'log_delete_' . $id );
+
+			cnLog::delete( $id );
+
+			cnMessage::set( 'success', 'log_delete' );
+
+			$url = add_query_arg(
+				array(
+					'type' => isset( $_GET['type'] ) && ! empty( $_GET['type'] ) && '-1' !== $_GET['type'] ? $_GET['type'] : FALSE,
+				),
+				wp_get_referer()
+			);
+
+			wp_safe_redirect( $url );
+			exit();
+		}
 	}
 
 }

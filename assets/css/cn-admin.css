@@ -1181,3 +1181,23 @@ table.cn_metabox .cn_media_status .img_status .cn_remove_file_button, table.cn_m
 /*.inner-sidebar table.cn_metabox input[type=text], #side-sortables table.cn_metabox input[type=text], table.cn_metabox textarea { width: 95%; }
 .inner-sidebar table.cn_metabox .cn_media_status .img_status img, #side-sortables table.cn_metabox .cn_media_status .img_status img, .inner-sidebar table.cn_metabox .cn_media_status .embed_status img, #side-sortables table.cn_metabox .cn_media_status .embed_status img { width: 90%; }
 .postbox table.cn_metabox .cn-spinner { float: left; }*/
+
+/*------------------------------------------------------------------------------
+  Tools page
+------------------------------------------------------------------------------*/
+#cn-email-log-details {
+	width: 96%
+}
+
+#cn-email-log-details th {
+	text-align: right;
+	vertical-align: top;
+	padding: 3px;
+	width: 8em
+}
+
+#cn-email-log-details td {
+	padding: 3px;
+	border: 1px solid #ccc;
+	background-color: white;
+}

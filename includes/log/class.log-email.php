@@ -76,7 +76,10 @@ final class cnLog_Email {
 	 */
 	public static function registerLogType( $types ) {
 
-		$types[] = self::LOG_TYPE;
+		$types[ self::LOG_TYPE ] = array(
+			'id'   => self::LOG_TYPE,
+			'name' => __( 'System Email', 'connections' ),
+		);
 
 		return apply_filters( 'cn_email_log_types', $types );
 	}

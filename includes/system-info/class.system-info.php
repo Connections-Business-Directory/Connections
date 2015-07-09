@@ -6,6 +6,14 @@
 class cnSystem_Info {
 
 	/**
+	 * The log type to which the system info should be logged to.
+	 *
+	 * @since 8.2.10
+	 * @var   string
+	 */
+	const LOG_TYPE = 'cn-system-info';
+
+	/**
 	 * Get the system info.
 	 *
 	 * @access private

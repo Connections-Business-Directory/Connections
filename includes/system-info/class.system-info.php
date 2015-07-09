@@ -175,9 +175,6 @@ class cnSystem_Info {
 
 		$atts = cnSanitize::args( $atts, $defaults );
 
-		// Register log type.
-		add_filter( 'cn_email_log_types', array( __CLASS__, 'registerEmailLogType' ) );
-
 		$email = new cnEmail();
 
 		// Set email to be sent as HTML.
@@ -327,5 +324,8 @@ class cnSystem_Info {
 	}
 
 }
+
+// Register email log type.
+add_filter( 'cn_email_log_types', array( 'cnSystem_Info', 'registerEmailLogType' ) );
 
 add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );

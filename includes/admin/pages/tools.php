@@ -40,6 +40,7 @@ function connectionsShowToolsPage() {
 	} else {
 
 		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'system_info';
+		$current_page = self_admin_url( 'admin.php?page=connections_tools' );
 
 		?>
 
@@ -49,7 +50,7 @@ function connectionsShowToolsPage() {
 
 				foreach ( cnAdmin_Tools::getTabs() as $tab ) {
 
-					$tab_url = add_query_arg( array( 'tab' => $tab['id'] ) );
+					$tab_url = add_query_arg( array( 'tab' => $tab['id'] ), $current_page );
 
 					$active = $active_tab == $tab['id'] ? ' nav-tab-active' : '';
 

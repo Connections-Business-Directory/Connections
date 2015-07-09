@@ -155,10 +155,10 @@ class cnAdmin_Tools {
 			       'name'     => __( 'Settings Import/Export', 'connections' ),
 			       'callback' => array( __CLASS__, 'importExport' )
 			),
-			//array( 'id'       => 'logs',
-			//       'name'     => __( 'Logs', 'connections' ),
-			//       'callback' => array( __CLASS__, 'logs' )
-			//),
+			array( 'id'       => 'logs',
+			       'name'     => __( 'Logs', 'connections' ),
+			       'callback' => array( __CLASS__, 'logs' )
+			),
 		);
 
 		/**
@@ -466,9 +466,79 @@ class cnAdmin_Tools {
 		do_action( 'cn_tools_import_export_settings_after' );
 	}
 
+	/**
+	 * Callback used to render the log view of the log type being viewed.
+	 *
+	 * @access private
+	 * @since  8.3
+	 * @static
+	 *
+	 * @uses   current_user_can()
+	 * @uses   wp_list_pluck()
+	 * @uses   esc_url()
+	 * @uses   self_admin_url()
+	 * @uses   cnLog::types()
+	 * @uses   cnLog_Email::types()
+	 * @uses   cnHTML::select()
+	 * @uses   submit_button()
+	 * @uses   do_action()
+	 */
 	public static function logs() {
 
-		echo ' Logs';
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			return;
+		}
+
+		$current = cnLog_Email::LOG_TYPE;
+		$views   = wp_list_pluck( cnLog::views(), 'id' );
+
+		if ( isset( $_GET['view'] ) && array_key_exists( $_GET['view'], $views ) ) {
+			$current = $_GET['view'];
+		}
+
+		?>
+
+		<div class="wrap" id="cn-logs">
+
+			<form id="cn-log-type" method="get"
+			      action="<?php echo esc_url( self_admin_url( 'admin.php' ) ); ?>">
+
+				<input type="hidden" name="page" value="connections_tools"/>
+				<input type="hidden" name="tab" value="logs"/>
+
+				<?php
+
+				$allLogTypes   = wp_list_pluck( cnLog::types(), 'name', 'id' );
+				$emailLogTypes = wp_list_pluck( cnLog_Email::types(), 'name', 'id' );
+
+				unset( $emailLogTypes[ cnLog_Email::LOG_TYPE ] );
+
+				cnHTML::select(
+					array(
+						'id'      => 'view',
+						'options' => array_diff_assoc( $allLogTypes, $emailLogTypes ),
+					),
+					$current
+				);
+
+				submit_button(
+					'Switch',
+					'secondary',
+					'action',
+					FALSE,
+					array(
+						'id'    => 'log-type-submit',
+					)
+				);
+				?>
+
+			</form>
+
+			<?php do_action( 'cn_logs_view_' . $current ); ?>
+
+		</div>
+
+	<?php
 	}
 
 }

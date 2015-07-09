@@ -1533,14 +1533,14 @@ class cnAdminActions {
 						cnLog::delete( $id );
 					}
 
-					cnMessage::set( 'success', 'form_entry_delete' );
+					cnMessage::set( 'success', 'log_bulk_delete' );
 
 					break;
 			}
 
 		} else {
 
-			cnMessage::set( 'error', 'capability_categories' );
+			cnMessage::set( 'error', 'capability_manage_logs' );
 		}
 
 		$url = add_query_arg(
@@ -1587,7 +1587,7 @@ class cnAdminActions {
 
 			cnLog::delete( $id );
 
-			cnMessage::set( 'success', 'form_entry_delete' );
+			cnMessage::set( 'success', 'log_delete' );
 
 			$url = add_query_arg(
 				array(

@@ -121,6 +121,7 @@ class cnMessage extends WP_Error {
 		$instance->add( 'capability_categories', __( 'You are not authorized to edit the categories. Please contact the admin if you received this message in error.', 'connections' ) );
 		$instance->add( 'capability_settings', __( 'You are not authorized to edit the settings. Please contact the admin if you received this message in error.', 'connections' ) );
 		$instance->add( 'capability_roles', __( 'You are not authorized to edit role capabilities. Please contact the admin if you received this message in error.', 'connections' ) );
+		$instance->add( 'capability_manage_logs', __( 'You are not authorized to manage logs. Please contact the admin if you received this message in error.', 'connections' ) );
 
 		$instance->add( 'category_duplicate_name', __( 'The category you are trying to create already exists.', 'connections' ) );
 		$instance->add( 'category_self_parent', __( 'Category can not be a parent of itself.', 'connections' ) );
@@ -193,6 +194,9 @@ class cnMessage extends WP_Error {
 		$instance->add( 'template_change_active', __( 'The default active template has been changed.', 'connections' ) );
 		$instance->add( 'template_installed', __( 'A new template has been installed.', 'connections' ) );
 		$instance->add( 'template_deleted', __( 'The template has been deleted.', 'connections' ) );
+
+		$instance->add( 'log_delete', __( 'The log has been deleted.', 'connections' ) );
+		$instance->add( 'log_bulk_delete', __( 'The logs have been deleted.', 'connections' ) );
 
 		/*
 		 * DB update message.

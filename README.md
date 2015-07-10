@@ -9,7 +9,7 @@
   
 **Tested up to:** 4.2
   
-**Stable tag:** 8.3
+**Stable tag:** 8.3.1
   
 **License:** GPLv2 or later
   
@@ -226,8 +226,10 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 ## Changelog ##
 
-### 8.3 07/09/2015 ###
+### 8.3.1 07/10/2015 ###
+* BUG: Fix PHP error `Parse error: syntax error, unexpected T_STATIC in ../wp-content/plugins/connections/includes/class.utility.php on line 1866` on older versions of PHP.
 
+### 8.3 07/09/2015 ###
 * FEATURE: Add the Tools admin page with the System Info tab with the ability to email and/or share a secret URL to share the system info.
 * FEATURE: Introduce the ability to export/import the settings.
 * FEATURE: Introduce the ability for an admin to view and manage the email logs.
@@ -1120,4 +1122,7 @@ It is recommended to backup before updating. Requires WordPress >= 3.8.
 It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 ### 8.3 ###
+It is recommended to backup before updating. Requires WordPress >= 4.0.
+
+### 8.3.1 ###
 It is recommended to backup before updating. Requires WordPress >= 4.0.

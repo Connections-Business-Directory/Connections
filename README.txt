@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.0
 Tested up to: 4.2
-Stable tag: 8.3
+Stable tag: 8.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -197,8 +197,10 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
-= 8.3 07/09/2015 =
+= 8.3.1 07/10/2015 =
+* BUG: Fix PHP error `Parse error: syntax error, unexpected T_STATIC in ../wp-content/plugins/connections/includes/class.utility.php on line 1866` on older versions of PHP.
 
+= 8.3 07/09/2015 =
 * FEATURE: Add the Tools admin page with the System Info tab with the ability to email and/or share a secret URL to share the system info.
 * FEATURE: Introduce the ability to export/import the settings.
 * FEATURE: Introduce the ability for an admin to view and manage the email logs.
@@ -1091,4 +1093,7 @@ It is recommended to backup before updating. Requires WordPress >= 3.8.
 It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 = 8.3 =
+It is recommended to backup before updating. Requires WordPress >= 4.0.
+
+= 8.3.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.0.

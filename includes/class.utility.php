@@ -1863,7 +1863,7 @@ class cnString {
 			return substr( str_replace( array( '/', '+', '=' ), '', base64_encode( $bytes ) ), 0, $length );
 		}
 
-		return static::quickRandom( $length );
+		return self::quickRandom( $length );
 	}
 
 	/**
@@ -1884,7 +1884,8 @@ class cnString {
 	public static function quickRandom( $length = 16 ) {
 
 		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		return substr(str_shuffle(str_repeat($pool, $length)), 0, $length);
+
+		return substr( str_shuffle( str_repeat( $pool, $length ) ), 0, $length );
 	}
 }
 

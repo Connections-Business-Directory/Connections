@@ -1863,7 +1863,7 @@ class cnString {
 			return substr( str_replace( array( '/', '+', '=' ), '', base64_encode( $bytes ) ), 0, $length );
 		}
 
-		return static::quickRandom( $length );
+		return self::quickRandom( $length );
 	}
 
 	/**

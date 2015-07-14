@@ -225,8 +225,10 @@ class cnAdmin_Tools {
 						          'connections'
 					          ); ?>"
 					          style="display: block; width: 100%; height: 500px; font-family: 'Consolas', 'Monaco', monospace; white-space: pre; overflow: auto;">
-<!-- Non standard indentation needed for plain-text display. -->
-<?php cnSystem_Info::display(); ?>
+<?php
+// Non standard indentation needed for plain-text display.
+cnSystem_Info::display();
+?>
 					</textarea>
 
 				<?php // Form used to download .txt file ?>

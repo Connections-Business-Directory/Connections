@@ -109,12 +109,31 @@ final class cnLog_Email {
 	 */
 	public static function types() {
 
+		$types = array();
+
 		$types[ self::LOG_TYPE ] = array(
 			'id'   => self::LOG_TYPE,
 			'name' => __( 'System Email', 'connections' ),
 		);
 
-		return apply_filters( 'cn_email_log_types', $types );
+		$types = apply_filters( 'cn_email_log_types', $types );
+
+		foreach ( $types as $key => $type ) {
+
+			// Each log type should be an array, if it not, it is not valid, remove it.
+			if ( ! is_array( $type ) ) {
+
+				unset( $types[ $key ] );
+			}
+
+			// Each log type must have at least an ID and a Name, if it does not, remove it.
+			if ( ! isset( $type['id'] ) && ! isset( $type['name'] ) ) {
+
+				unset( $types[ $key ] );
+			}
+		}
+
+		return $types;
 	}
 
 	/**

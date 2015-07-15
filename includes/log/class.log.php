@@ -481,9 +481,24 @@ final class cnLog {
 	 */
 	public static function types() {
 
-		$terms = array();
+		$types = apply_filters( 'cn_log_types', array() );
 
-		return apply_filters( 'cn_log_types', $terms );
+		foreach ( $types as $key => $type ) {
+
+			// Each log type should be an array, if it not, it is not valid, remove it.
+			if ( ! is_array( $type ) ) {
+
+				unset( $types[ $key ] );
+			}
+
+			// Each log type must have at least an ID and a Name, if it does not, remove it.
+			if ( ! isset( $type['id'] ) && ! isset( $type['name'] ) ) {
+
+				unset( $types[ $key ] );
+			}
+		}
+
+		return $types;
 	}
 
 	/**

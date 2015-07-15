@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.0
 Tested up to: 4.2
-Stable tag: 8.3.1
+Stable tag: 8.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -196,6 +196,15 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.3.2 07/14/2015 =
+* BUG: Fix PHP ternary to be compatible with older version of PHP. This could cause the Connections : Tools admin page to not display.
+* BUG: Correct anchor target when a link is linked to the image or logo.
+* BUG: Correct CN_Email_Log_List_Table::column_default() to be compatible with parent::column_default().
+* BUG: Remove indentation comment from displaying in the System Information.
+* TWEAK: Ensure data for registering a log type is valid before attempting to register it.
+* TWEAK: Ensure data for registering an email log type is valid before attempting to register it.
+* DEV: Prettify class cnImage() to better meet coding standards.
 
 = 8.3.1 07/10/2015 =
 * BUG: Fix PHP error `Parse error: syntax error, unexpected T_STATIC in ../wp-content/plugins/connections/includes/class.utility.php on line 1866` on older versions of PHP.
@@ -1096,4 +1105,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.0.
 It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 = 8.3.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.0.
+
+= 8.3.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.0.

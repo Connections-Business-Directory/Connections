@@ -569,14 +569,15 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 	/**
 	 * Renders any custom columns.
 	 *
-	 * @access public
+	 * @access protected
 	 * @since  8.3
 	 *
-	 * @param array $log The log item data.
+	 * @param array  $log         The log item data.
+	 * @param string $column_name The column name.
 	 *
 	 * @return string
 	 */
-	public function column_default( $log ) {
+	protected function column_default( $log, $column_name ) {
 
 		/**
 		 * Filter the displayed columns in the terms list table.

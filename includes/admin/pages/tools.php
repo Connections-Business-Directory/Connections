@@ -225,8 +225,10 @@ class cnAdmin_Tools {
 						          'connections'
 					          ); ?>"
 					          style="display: block; width: 100%; height: 500px; font-family: 'Consolas', 'Monaco', monospace; white-space: pre; overflow: auto;">
-<!-- Non standard indentation needed for plain-text display. -->
-<?php cnSystem_Info::display(); ?>
+<?php
+// Non standard indentation needed for plain-text display.
+cnSystem_Info::display();
+?>
 					</textarea>
 
 				<?php // Form used to download .txt file ?>
@@ -374,7 +376,7 @@ class cnAdmin_Tools {
 					       title="<?php _e(
 						       'To copy the URL, click then press Ctrl + C (PC) or Cmd + C (Mac).',
 						       'connections'
-					       ); ?>"/>&nbsp;&nbsp;<a class="button-secondary" href="<?php echo esc_url( $url ? : '#' ); ?>" target="_blank"
+					       ); ?>"/>&nbsp;&nbsp;<a class="button-secondary" href="<?php echo esc_url( $url ? $url : '#' ); ?>" target="_blank"
 					                              id="system-info-url-text-link" style="display: <?php echo $url ? 'display-inline' : 'none' ; ?>"><?php _e( 'Test', 'connections' ); ?></a>
 				</p>
 

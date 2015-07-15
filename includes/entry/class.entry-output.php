@@ -119,12 +119,13 @@ class cnOutput extends cnEntry {
 	 */
 	public function getImage( $atts = array() ) {
 
-		$displayImage = FALSE;
-		$cropModes    = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
-		$tag          = array();
-		$srcset       = array();
-		$anchorStart  = '';
-		$out          = '';
+		$displayImage  = FALSE;
+		$cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
+		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
+		$tag           = array();
+		$srcset        = array();
+		$anchorStart   = '';
+		$out           = '';
 
 		/*
 		 * // START -- Set the default attributes array. \\
@@ -258,11 +259,12 @@ class cnOutput extends cnEntry {
 
 				if ( ! empty( $links ) ) {
 
-					$link = $links[0];
+					$link   = $links[0];
+					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
 						esc_url( $link->url ),
-						empty( $link->target ) ? '' : ' target="' . $link->target . '"',
+						empty( $target ) ? '' : ' target="' . $target . '"',
 						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
 					);
 				}
@@ -341,11 +343,13 @@ class cnOutput extends cnEntry {
 				$links = $this->getLinks( array( 'logo' => TRUE ) );
 
 				if ( ! empty( $links ) ) {
-					$link = $links[0];
+
+					$link   = $links[0];
+					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
 						esc_url( $link->url ),
-						empty( $link->target ) ? '' : ' target="' . $link->target . '"',
+						empty( $target ) ? '' : ' target="' . $target . '"',
 						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
 					);
 				}

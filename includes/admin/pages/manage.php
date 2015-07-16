@@ -354,7 +354,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							);
 
 							/*
-							 * Builds the visibilty select list base on current user capabilities.
+							 * Builds the visibility select list base on current user capabilities.
 							 */
 							if ( current_user_can( 'connections_view_public' ) || $instance->options->getAllowPublic() ) $visibilitySelect['public'] = __( 'Show Public', 'connections' );
 							if ( current_user_can( 'connections_view_private' ) ) $visibilitySelect['private'] = __( 'Show Private', 'connections' );
@@ -384,7 +384,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							/*
 							 * // START --> Pagination
 							 *
-							 * Grab the pagination data again incase a filter reset the values
+							 * Grab the pagination data again in case a filter reset the values
 							 * or the user input an invalid number which the retrieve query would have reset.
 							 */
 							$page = $instance->currentUser->getFilterPage( 'manage' );
@@ -409,7 +409,7 @@ function connectionsShowViewPage( $action = NULL ) {
 								( $page->current < $pageCount ) ? $pageDisabled['last_page'] = '' : $pageDisabled['last_page'] = ' disabled';
 
 								/*
-								 * Genreate the page link token URL.
+								 * Generate the page link token URL.
 								 */
 								$pageFilterURL['first_page']    = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) , 'filter' ) );
 								$pageFilterURL['previous_page'] = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['previous_page'] ) , $currentPageURL ) , 'filter' ) );

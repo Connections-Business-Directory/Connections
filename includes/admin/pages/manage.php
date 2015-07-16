@@ -258,7 +258,7 @@ function connectionsShowViewPage( $action = NULL ) {
 			$offset = ( $page->current - 1 ) * $page->limit;
 
 			echo '<div class="wrap">';
-			echo get_screen_icon( 'connections' );
+
 			echo '<h2>Connections : ' , __( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __( 'Add New', 'connections' ) , '</a></h2>';
 
 			/*

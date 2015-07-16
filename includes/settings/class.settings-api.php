@@ -949,21 +949,23 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * The optional parameters can be used to return a specific settings section or a
 		 * specific option from within a section.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
+		 * @access public
+		 * @since  0.7.3.0
+		 * @static
+		 *
 		 * @param string $pluginID The plugin_id the settings field was registered to.
-		 * @param string $section [optional] The section id the settings field was registered to.
-		 * @param string $option [optional] The settings field id that was used to register the option.
+		 * @param string $section  [optional] The section id the settings field was registered to.
+		 * @param string $option   [optional] The settings field id that was used to register the option.
+		 *
 		 * @return mixed
 		 */
-		public static function get( $pluginID , $section = '' , $option = '' )
-		{
+		public static function get( $pluginID, $section = '', $option = '' ) {
+
 			$settings = array();
 			//var_dump($this->registry[$pluginID]);
 
 			// Return all the specified plugin options registered using this API.
-			if ( array_key_exists( $pluginID, self::$registry ) )
-			{
+			if ( array_key_exists( $pluginID, self::$registry ) ) {
 				/*
 				 * Since checkboxes are not returned if unchecked when submitting a form,
 				 * the fields are/can not be saved. This basically traverses the registered
@@ -971,62 +973,46 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				 * get_option() the missing key with an empty value. Using an empty value
 				 * should be safe for the other field types too since that mimics the WP Settings API.
 				 */
-				foreach ( self::$registry[$pluginID] as $optionName => $values )
-				{
+				foreach ( self::$registry[ $pluginID ] as $optionName => $values ) {
 					// TRUE and FALSE should be stored as 1 and 0 in the db so get_option must be strictly compared.
-					if ( get_option($optionName) !== FALSE )
-					{
-						$settings[$optionName] = get_option($optionName);
+					if ( get_option( $optionName ) !== FALSE ) {
+						$settings[ $optionName ] = get_option( $optionName );
 
-						if ( is_array( self::$registry[$pluginID][$optionName] ) )
-						{
-							foreach ( self::$registry[$pluginID][$optionName] as $key => $value )
-							{
-								if ( ! isset( $settings[$optionName][$key] ) || empty( $settings[$optionName][$key] ) ) $settings[$optionName][$key] = '';
+						if ( is_array( self::$registry[ $pluginID ][ $optionName ] ) ) {
+							foreach ( self::$registry[ $pluginID ][ $optionName ] as $key => $value ) {
+								if ( ! isset( $settings[ $optionName ][ $key ] ) || empty( $settings[ $optionName ][ $key ] ) ) {
+									$settings[ $optionName ][ $key ] = '';
+								}
 							}
+						} elseif ( ! isset( $settings[ $optionName ] ) || empty( $settings[ $optionName ] ) ) {
+							$settings[ $optionName ] = '';
 						}
-						elseif ( ! isset( $settings[$optionName] ) || empty( $settings[$optionName] ) )
-						{
-							$settings[$optionName] = '';
-						}
-					}
-					else
-					{
+					} else {
 						return FALSE;
 					}
 				}
 
-			}
-			else
-			{
+			} else {
 				return FALSE;
 			}
 
-			if ( ! empty($section) )
-			{
+			if ( ! empty( $section ) ) {
 
-				if ( $pluginID !== substr( $section, 0, strlen( $pluginID ) ) ) $section = $pluginID . '_' . $section;
+				if ( $pluginID !== substr( $section, 0, strlen( $pluginID ) ) ) {
+					$section = $pluginID . '_' . $section;
+				}
 
-				if ( array_key_exists( $section , $settings ) )
-				{
-					if ( ! empty($option) )
-					{
-						if ( array_key_exists( $option , $settings[$section] ) )
-						{
-							return $settings[$section][$option];
-						}
-						else
-						{
+				if ( array_key_exists( $section, $settings ) ) {
+					if ( ! empty( $option ) ) {
+						if ( array_key_exists( $option, $settings[ $section ] ) ) {
+							return $settings[ $section ][ $option ];
+						} else {
 							return FALSE;
 						}
+					} else {
+						return $settings[ $section ];
 					}
-					else
-					{
-						return $settings[$section];
-					}
-				}
-				else
-				{
+				} else {
 					return FALSE;
 				}
 			}

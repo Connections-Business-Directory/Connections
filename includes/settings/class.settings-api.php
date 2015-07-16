@@ -252,16 +252,17 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * 	}
 		 *
 		 * SUPPORTED FIELD TYPES:
-		 * 	checkbox
-		 * 	multicheckbox
-		 * 	radio
-		 * 	select
-		 * 	multiselect
-		 * 	text
-		 * 	textarea
-		 * 	quicktag
-		 * 	rte
-		 * 	page [shows a drop down with the WordPress pages.]
+		 *  checkbox
+		 *  multicheckbox
+		 *  radio
+		 *  select
+		 *  multiselect
+		 *  text
+		 *  textarea
+		 *  quicktag
+		 *  rte
+		 *  page [shows a drop down with the WordPress pages.]
+		 *  category [shows a drop down of Connections categories]
 		 *
 		 * RECOMMENDED: The following sanitize_callback to use based on field type.
 		 * 	Reference: http://codex.wordpress.org/Data_Validation
@@ -770,6 +771,24 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 				case 'page':
 					$out .= wp_dropdown_pages( array( 'name' => $name, 'echo' => 0, 'show_option_none' => $field['show_option_none'], 'option_none_value' => $field['option_none_value'], 'selected' => $value ) );
+
+					break;
+
+				case 'category':
+
+					$out .= cnTemplatePart::walker(
+						'term-select',
+						array(
+							'hide_empty'    => 0,
+							'hide_if_empty' => FALSE,
+							'name'          => $name,
+							'orderby'       => 'name',
+							'taxonomy'      => 'category',
+							'selected'      => $value,
+							'hierarchical'  => TRUE,
+							'return'        => TRUE,
+						)
+					);
 
 					break;
 

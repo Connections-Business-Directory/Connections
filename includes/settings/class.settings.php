@@ -1538,28 +1538,6 @@ class cnRegisterSettings
 	}
 
 	/**
-     * Get all the pages
-     *
-     * @access private
-     * @since 0.7.3
-     * @uses get_pages()
-     * @return array page names with key value pairs
-     */
-	private function getPages() {
-
-	    $pages = get_pages();
-	    $options = array( 0 => 'Select Page' );
-
-		if ( ! empty($pages) ) {
-	        foreach ( $pages as $page ) {
-	            $options[$page->ID] = $page->post_title;
-	        }
-	    }
-
-	    return $options;
-	}
-
-	/**
 	 * Callback for the "Login Required" settings field.
 	 * This ensure all roles are set to have the connections_view_public
 	 * capability to ensures all roles can at least view the public entries.

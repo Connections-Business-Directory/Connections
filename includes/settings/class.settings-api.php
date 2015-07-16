@@ -442,11 +442,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				foreach ( $options as $optionName => $value ) {
 
 					// TRUE and FALSE should be stored as 1 and 0 in the db so get_option must be strictly compared.
-					if ( get_option($optionName) === FALSE ) {
+					if ( get_option( $optionName ) === FALSE ) {
 
-						if ( ! empty($value) ) {
+						if ( ! empty( $value ) ) {
 							// If the option doesn't exist, the default values can safely be saved.
-							update_option( $optionName , $value );
+							update_option( $optionName, $value );
 						} else {
 							add_option( $optionName );
 						}

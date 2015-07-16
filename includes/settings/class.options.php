@@ -638,6 +638,84 @@ class cnOptions {
 	}
 
 	/**
+	 * Get the default category ID.
+	 *
+	 * NOTE: This is also the callback for the `default_option_{name}` filter @see get_option().
+	 *
+	 * NOTE: Uses the @see get_option() and @see update_option() functions instead of the @see cnSettingsAPI()
+	 *       because it is used in places where the cnSettingsAPI() has not yet been fully initialized.
+	 *
+	 * @access public
+	 * @since  8.3.3
+	 * @static
+	 *
+	 * @uses   remove_filter()
+	 * @uses   get_option()
+	 * @uses   cnTerm::exists()
+	 * @uses   cnTerm::getBy()
+	 * @uses   cnTerm::insert()
+	 * @uses   update_option()
+	 * @uses   is_wp_error()
+	 * @uses   add_filter()
+	 *
+	 * @return int
+	 */
+	public static function getDefaultCategoryID() {
+
+		$id = 0;
+
+		// Remove filter to prevent an infinite loop.
+		remove_filter( 'default_option_cn_default_category', array( __CLASS__, 'getDefaultCategoryID' ) );
+
+		// Use get_option() rather than cnSettingsAPI::get() because the class may not yet be initialized.
+		$category = get_option( 'connections_category' );
+
+		// Check to ensure the default category ID is saved in the options table before returning it.
+		if ( FALSE === $category || ! isset( $category['default'] ) || empty( $category['default'] ) ) {
+
+			// If there was no default category set, check for the "Uncategorized" category. If it exists return its
+			// `id` and if it does not, then create it an return the `id`.
+			if ( cnTerm::exists( 'uncategorized', 'category' ) ) {
+
+				$category = cnTerm::getBy( 'slug', 'uncategorized', 'category', ARRAY_A );
+
+				// Ensure nothing went wrong when checking for the "Uncategorized" category.
+				// If not, save the `id` in the options table.
+				if ( FALSE !== $category  ) {
+
+					$id = $category['term_id'];
+
+					// Use update_option() rather than cnSettingsAPI::set() because the class may not yet be initialized.
+					update_option( 'connections_category', array( 'default' => $id ) );
+				}
+
+			} else {
+
+				$category = cnTerm::insert( __( 'Uncategorized', 'connections' ), 'category' );
+
+				// Ensure nothing went wrong when inserting the "Uncategorized" category.
+				// If not, save the `id` in the options table.
+				if ( ! is_wp_error( $category ) ) {
+
+					$id = $category['term_id'];
+
+					// Use update_option() rather than cnSettingsAPI::set() because the class may not yet be initialized.
+					update_option( 'connections_category', array( 'default' => $id ) );
+				}
+			}
+
+		} else {
+
+			$id = $category['default'];
+		}
+
+		// Add the filter back.
+		add_filter( 'default_option_cn_default_category', array( __CLASS__, 'getDefaultCategoryID' ) );
+
+		return $id;
+	}
+
+	/**
 	 * Get Base Country
 	 *
 	 * @since

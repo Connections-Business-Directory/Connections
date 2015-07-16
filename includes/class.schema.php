@@ -136,7 +136,7 @@ class cnSchema {
 	}
 
 	/**
-	 * Add the "Uncategorized" category"
+	 * Create the default category.
 	 *
 	 * @access private
 	 * @since  0.7.5
@@ -145,16 +145,12 @@ class cnSchema {
 	 */
 	private static function addDefaultCategory() {
 
-		$term = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
-
-		if ( ! $term ) {
-
-			$attributes['slug'] = '';
-			$attributes['parent'] = 0;
-			$attributes['description'] = __( 'Entries not assigned to a category will automatically be assigned to this category and deleting a category which has been assigned to an entry will reassign that entry to this category. This category can not be edited or deleted.', 'connections' ) ;
-
-			cnTerm::insert( __( 'Uncategorized', 'connections' ) , 'category', $attributes );
-		}
+		/**
+		 * Simply calling @see cnOptions::getDefaultCategoryID() is sufficient for creating the default category.
+		 * This is deu to the logic within the method. If a default category is not found or set, it will create
+		 * an "Uncategorized" category and set it as the default category.
+		 */
+		cnOptions::getDefaultCategoryID();
 	}
 
 	/**

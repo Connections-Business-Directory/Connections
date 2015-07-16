@@ -105,14 +105,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 			)
 		);
 
-		// @todo Add option for user to get the default category.
-		//$this->default_term = get_option( "cn_default_{$taxonomy}" );
-
-		// Temporarily hard code the default category to the Uncategorized category
-		// and ensure it can not be deleted. This should be removed when the default
-		// category can be set by the user.
-		$default_term       = cnTerm::getBy( 'slug', 'uncategorized', $this->taxonomy );
-		$this->default_term = $default_term->term_id;
+		$this->default_term = get_option( "cn_default_{$this->taxonomy}" );
 	}
 
 	/**
@@ -551,29 +544,27 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		 */
 		$name = apply_filters( 'cn_term_name', $pad . ' ' . $term->name, $term );
 
-		if ( $term->term_id != $this->default_term ) {
+		$editURL   = $form->tokenURL(
+			'admin.php?page=connections_categories&cn-action=edit_category&id=' . $term->term_id,
+			'category_edit_' . $term->term_id
+		);
 
-			$editURL   = $form->tokenURL(
-				'admin.php?page=connections_categories&cn-action=edit_category&id=' . $term->term_id,
-				'category_edit_' . $term->term_id
-			);
+		$out .= '<strong><a class="row-title" href="' . $editURL . '" title="' .
+		        esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
+
+		$actions['edit']   = '<a href="' . $editURL . '">' . __( 'Edit', 'connections' ) . '</a>';
+
+		if ( $term->term_id != $this->default_term ) {
 
 			$deleteURL = $form->tokenURL(
 				'admin.php?cn-action=delete_category&id=' . $term->term_id,
 				'category_delete_' . $term->term_id
 			);
 
-			$out .= '<strong><a class="row-title" href="' . $editURL . '" title="' .
-			        esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
-
-			$actions['edit']   = '<a href="' . $editURL . '">' . __( 'Edit', 'connections' ) . '</a>';
 			$actions['delete'] = "<a class='delete-tag' href='" . $deleteURL . "'>" . __( 'Delete', 'connections' ) . "</a>";
-			$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View', 'connections' ) . '</a>';
-
-		} else {
-
-			$out .= '<strong>' . $name . '</strong><br>';
 		}
+
+		$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View', 'connections' ) . '</a>';
 
 		/**
 		 * Filter the action links displayed for each term in the terms list table.

@@ -2069,14 +2069,7 @@ class cnTerm {
 
 		if ( 'category' == $taxonomy ) {
 
-			// @todo Add option for user to set the default category, which should not be able to be deleted.
-			//$defaults['default'] = get_option( 'cn_default_category' );
-
-			// Temporarily hard code the default category to the Uncategorized category
-			// and ensure it can not be deleted. This should be removed when the default
-			// category can be set by the user.
-			$default_category   = self::getBy( 'slug', 'uncategorized', 'category' );
-			$defaults['default'] = $default_category->term_id;
+			$defaults['default'] = get_option( 'cn_default_category' );
 
 			// Don't delete the default category
 			if ( $defaults['default'] == $term ) {
@@ -2120,7 +2113,7 @@ class cnTerm {
 			$edit_tt_ids = $wpdb->get_col(
 				"SELECT term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " WHERE parent = " . (int) $term_obj->term_id
 			);
-			//var_dump($term_obj);die();
+
 			/**
 			 * Fires immediately before a term to delete's children are reassigned a parent.
 			 *

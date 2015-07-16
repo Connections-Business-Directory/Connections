@@ -144,6 +144,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public $lastQuery;
 		public $lastQueryError;
 		public $lastInsertID;
+		public $resultCount;
+		public $resultCountNoLimit;
 
 		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.

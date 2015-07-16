@@ -861,6 +861,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				$this->options->defaultCapabilitiesSet( TRUE );
 			}
 
+			/**
+			 * @todo NOTE: Update BUG!!!
+			 *
+			 *       If a user updates an old version of Connections while deactivated, when activated the db version will
+			 *       be incremented and since the version is incremented to the current version NONE of the db update
+			 *       routines will be run.
+			 */
+
 			// Increment the version number.
 			$this->options->setVersion( CN_CURRENT_VERSION );
 

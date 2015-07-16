@@ -1079,7 +1079,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 				foreach ( self::$registry[ $pluginID ] as $optionName => $values ) {
 
-					delete_option( $optionName, $values );
+					delete_option( $optionName );
 				}
 			}
 		}

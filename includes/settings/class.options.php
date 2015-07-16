@@ -102,6 +102,11 @@ class cnOptions {
 		$mySQLTimeStamp = $wpdb->get_results( 'SELECT NOW() as timestamp' );
 		$this->sqlCurrentTime = strtotime( $mySQLTimeStamp[0]->timestamp );
 		$this->sqlTimeOffset = time() - $this->sqlCurrentTime;
+
+		/*
+		 * Add `default_option_{option}` hooks to make getting a few core settings quick and easy.
+		 */
+		add_filter( 'default_option_cn_default_category', array( __CLASS__, 'getDefaultCategoryID' ) );
 	}
 
 	/**

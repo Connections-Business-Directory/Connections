@@ -1037,6 +1037,41 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			}
 
 			return $settings;
+		}
+
+		/**
+		 * Set an option.
+		 *
+		 * NOTE: This is no finished and should not be usd yet.
+		 *
+		 * @todo Finish this method.
+		 *
+		 * @access public
+		 * @since  8.3.3
+		 * @static
+		 *
+		 * @param string $pluginID
+		 * @param string $section
+		 * @param string $option
+		 * @param mixed  $value
+		 */
+		public static function set( $pluginID, $section, $option, $value ) {
+
+			$optionName = "{$pluginID}_{$section}";
+
+			if ( FALSE !== $result = get_option( $optionName ) ) {
+
+				if ( is_array( $result ) ) {
+
+					$result[ $option ] = $value;
+
+				} else {
+
+					$result = $value;
+				}
+
+				update_option( $optionName, $result );
+			}
 
 		}
 

@@ -13,8 +13,11 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnRegisterSettings
-{
+/**
+ * Class cnRegisterSettings
+ */
+class cnRegisterSettings {
+
 	/**
 	 * Register the tabs for the Connections : Settings admin page.
 	 *
@@ -92,38 +95,57 @@ class cnRegisterSettings
 			'tab'       => 'general',
 			'id'        => 'connections_home_page',
 			'position'  => 5,
-			'title'     => __( 'Home' , 'connections' ),
+			'title'     => __( 'Home', 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo "' . __( 'Choose the page where your directory is located. This should be the page where you used the [connections] shortcode.', 'connections' ) . '";'
-				),
+				'echo "' . __(
+					'Choose the page where your directory is located. This should be the page where you used the [connections] shortcode.',
+					'connections'
+				) . '";'
+			),
 			'page_hook' => $settings
 		);
+
 		$sections[] = array(
 			'tab'       => 'general',
 			'id'        => 'connections_login',
 			'position'  => 10,
-			'title'     => __( 'Require Login' , 'connections' ),
+			'title'     => __( 'Require Login', 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings
 		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'general',
+			'id'        => 'category',
+			'position'  => 20,
+			'title'     => __( 'Default Category', 'connections' ),
+			'callback'  => '',
+			'page_hook' => $settings,
+		);
+
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'general',
 			'id'        => 'geo',
-			'position'  => 20,
-			'title'     => __( 'Base country and region.' , 'connections' ),
+			'position'  => 30,
+			'title'     => __( 'Base country and region.', 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings
 		);
+
 		$sections[] = array(
 			'tab'       => 'general',
 			'id'        => 'connections_visibility',
-			'position'  => 30,
-			'title'     => __( 'Shortcode Visibility Overrides' , 'connections' ),
+			'position'  => 40,
+			'title'     => __( 'Shortcode Visibility Overrides', 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo "' . __( 'The [connections] shortcode has two options available to show an entry or an entire directory if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, will only be applied to the current shortcode instance.', 'connections' ) . '";'
+				'echo "' . __(
+					'The [connections] shortcode has two options available to show an entry or an entire directory if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, will only be applied to the current shortcode instance.',
+					'connections'
+				) . '";'
 			),
 			'page_hook' => $settings
 		);
@@ -412,6 +434,20 @@ class cnRegisterSettings
 			'help'      => '',
 			'type'      => 'rte',
 			'default'   => 'Please login to view the directory.'
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'default',
+			'position'  => 5,
+			'page_hook' => $settings,
+			'tab'       => 'general',
+			'section'   => 'category',
+			'title'     => __( 'Category', 'connections' ),
+			'desc'      => '',
+			'help'      => '',
+			'type'      => 'category',
+			'default'   => get_option( 'cn_default_category' ),
 		);
 
 		$fields[] = array(

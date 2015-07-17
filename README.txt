@@ -197,6 +197,25 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.3.3 07/17/2015 =
+* FEATURE: The default category "Uncategorized" can now be renamed.
+* FEATURE: The default category can now be changed to any category.
+* NEW: Add support for a category field type in the Settings API.
+* NEW: Introduce cnSettingsAPI::set().
+* NEW: Introduce cnOptions::getDefaultCategoryID().
+* BUG: Correct the label for attribute for the search input on the Connections : Manage admin page.
+* BUG: Remove unused param when using delete_option().
+* TWEAK: Remove dead code, cnRegisterSettings::getPage().
+* TWEAK: Remove use of deprecated use of get_screen_icon() on the Connections : Manage admin page.
+* OTHER: Correct a few more misspellings in inline code comments.
+* I18N: Update the POT file.
+* I18N: Update the MO files.
+* DEV: Correct code spacing in cnRegisterSettings::registerSettingsFields() to bring it up to coding standards.
+* DEV: Add a couple more properties to the connectionsLoad class that are being set by cnRetrieve::entries() so they are documented.
+* DEV: Add phpDoc for the global $connections var in cnScript::registerScripts().
+* DEV: Correct code spacing in cnSettingsAPI::get() to bring it up to coding standards.
+* DEV: Correct code spacing in cnSettingsAPI::registerFields() to bring it up to coding standards.
+
 = 8.3.2 07/14/2015 =
 * BUG: Fix PHP ternary to be compatible with older version of PHP. This could cause the Connections : Tools admin page to not display.
 * BUG: Correct anchor target when a link is linked to the image or logo.
@@ -969,41 +988,6 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * OTHER: Add experimental code (disabled) to speedup cnImage when called thru a URL query.
 * I18N: Update POT file.
 
-= 8.1.2 09/16/2014 =
-* BUG: Fix responsive image CSS bug.
-* BUG: Fix infinite loop bug when uploading images in a WP multi site installation.
-* TWEAK: Check for isDot() before calling. PHP5.2/5.3 compatibility.
-* TWEAK: Change custom template path for multi site back to `blogs.dir`.
-* TWEAK: Re-enable attempting to make writable CN_IMAGE_PATH in the upgrade.php file.
-* TWEAK: Add cnImage::info().
-* TWEAK: Update cnImage::get() to use cnImage::info().
-* TWEAK: Fix crop_focus sanitation in cnImage::get().
-* TWEAK: Add filter cn_get_image_atts.
-* TWEAK: Add action cn_image_get.
-* I18N: Update Turkish (Turkey) translation.
-
-= 8.1.1 09/09/2014 =
-* BUG: Fix responsive image support for IE8.
-* BUG: Fix issue where uploads of PNG file variations would save as JPG instead of PNG.
-* BUG: In multisite the upload subdir s/b sites not blogs.dir.
-* BUG: Set the image stream quality if one was not defined in the image query string.
-* BUG: Take into account default permalink setting when creating the image query string.
-* BUG: Ensure no duplicate meta title and meta desc on internal pages when using WPSEO.
-* TWEAK: Refactor code to use CN_IMAGE_PATH and CN_IMAGE_BASE_URL to support CN_MULTISITE_ENABLED.
-* TWEAK: Add support for registering a content block for list or entry only.
-* TWEAK: Update cnLog to be compatible with changes made in WP_Error in WP 4.0.
-* TWEAK: Escape text in a couple anonymous functions to prevent translations from throwing PHP errors.
-* TWEAK: Force new image uploads to have lowercase file extension. Add support for existing filenames with uppercase file extensions.
-* TWEAK: Increase execution time and memory limit when processing images.
-* TWEAK: Remove use of SKIP_DOTS for PHP < 5.3 compatibility.
-* TWEAK: Support the uploading of GIF/s.
-* TWEAK: Add info() the the cnUpload class to get Connections related upload paths.
-* TWEAK: Use cnUpload::info() to define image upload paths.
-* TWEAK: Disable the admin image check because it somehow prevented access to the plugins/updates.
-* OTHER: Add Spain regions to cnGEO.
-* OTHER: Add error message for when $img_path is not set.
-* I18N: Update POT file.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
@@ -1108,4 +1092,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.0.
 It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 = 8.3.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.0.
+
+= 8.3.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.0.

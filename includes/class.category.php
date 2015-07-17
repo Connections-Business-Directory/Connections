@@ -355,23 +355,6 @@ class cnCategory {
 			return FALSE;
 		}
 
-		// @todo Add option for user to set the default category, which should not be able to be deleted.
-		//$defaults['default'] = get_option( 'cn_default_category' );
-
-		// Temporarily hard code the default category to the Uncategorized category
-		// and ensure it can not be deleted. This should be removed when the default
-		// category can be set by the user.
-		$default_category = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
-		$defaults['default'] = $default_category->term_id;
-
-		// Do not change the default category.
-		// This should be able to be removed after the user configurable default category is implemented.
-		if ( $this->id == $default_category->term_id ) {
-
-			cnMessage::set( 'error', 'category_update_uncategorized' );
-			return FALSE;
-		}
-
 		remove_filter( 'pre_term_description', 'wp_filter_kses' );
 		$result = cnTerm::update( $this->id, 'category', $args );
 
@@ -395,20 +378,11 @@ class cnCategory {
 	 */
 	public function delete() {
 
-		// @todo Add option for user to set the default category, which should not be able to be deleted.
-		//$defaults['default'] = get_option( 'cn_default_category' );
+		$default = get_option( 'cn_default_category' );
 
-		// Temporarily hard code the default category to the Uncategorized category
-		// and ensure it can not be deleted. This should be removed when the default
-		// category can be set by the user.
-		$default_category = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
-		$defaults['default'] = $default_category->term_id;
+		if ( $this->id == $default ) {
 
-		// Do not change the default category.
-		// This should be able to be removed after the user configurable default category is implemented.
-		if ( $this->id == $default_category->term_id ) {
-
-			cnMessage::set( 'error', 'category_delete_uncategorized' );
+			cnMessage::set( 'error', 'category_delete_default' );
 			return FALSE;
 		}
 

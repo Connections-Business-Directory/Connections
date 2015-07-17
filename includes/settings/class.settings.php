@@ -13,8 +13,11 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnRegisterSettings
-{
+/**
+ * Class cnRegisterSettings
+ */
+class cnRegisterSettings {
+
 	/**
 	 * Register the tabs for the Connections : Settings admin page.
 	 *
@@ -92,38 +95,57 @@ class cnRegisterSettings
 			'tab'       => 'general',
 			'id'        => 'connections_home_page',
 			'position'  => 5,
-			'title'     => __( 'Home' , 'connections' ),
+			'title'     => __( 'Home', 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo "' . __( 'Choose the page where your directory is located. This should be the page where you used the [connections] shortcode.', 'connections' ) . '";'
-				),
+				'echo "' . __(
+					'Choose the page where your directory is located. This should be the page where you used the [connections] shortcode.',
+					'connections'
+				) . '";'
+			),
 			'page_hook' => $settings
 		);
+
 		$sections[] = array(
 			'tab'       => 'general',
 			'id'        => 'connections_login',
 			'position'  => 10,
-			'title'     => __( 'Require Login' , 'connections' ),
+			'title'     => __( 'Require Login', 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings
 		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'general',
+			'id'        => 'category',
+			'position'  => 20,
+			'title'     => __( 'Default Category', 'connections' ),
+			'callback'  => '',
+			'page_hook' => $settings,
+		);
+
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'general',
 			'id'        => 'geo',
-			'position'  => 20,
-			'title'     => __( 'Base country and region.' , 'connections' ),
+			'position'  => 30,
+			'title'     => __( 'Base country and region.', 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings
 		);
+
 		$sections[] = array(
 			'tab'       => 'general',
 			'id'        => 'connections_visibility',
-			'position'  => 30,
-			'title'     => __( 'Shortcode Visibility Overrides' , 'connections' ),
+			'position'  => 40,
+			'title'     => __( 'Shortcode Visibility Overrides', 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo "' . __( 'The [connections] shortcode has two options available to show an entry or an entire directory if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, will only be applied to the current shortcode instance.', 'connections' ) . '";'
+				'echo "' . __(
+					'The [connections] shortcode has two options available to show an entry or an entire directory if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, will only be applied to the current shortcode instance.',
+					'connections'
+				) . '";'
 			),
 			'page_hook' => $settings
 		);
@@ -348,8 +370,13 @@ class cnRegisterSettings
 	/**
 	 * Register the settings sections.
 	 *
-	 * @author Steven A. Zahm
-	 * @since 0.7.3.0
+	 * @access private
+	 * @since  0.7.3.0
+	 * @static
+	 *
+	 * @param array $fields
+	 *
+	 * @return array
 	 */
 	public static function registerSettingsFields( $fields ) {
 
@@ -365,13 +392,14 @@ class cnRegisterSettings
 			'page_hook'         => $settings,
 			'tab'               => 'general',
 			'section'           => 'connections_home_page',
-			'title'             => __('Page', 'connections'),
+			'title'             => __( 'Page', 'connections' ),
 			'desc'              => '',
 			'help'              => '',
 			'type'              => 'page',
-			'show_option_none'  => __('Select Page', 'connections'),
+			'show_option_none'  => __( 'Select Page', 'connections' ),
 			'option_none_value' => '0'
 		);
+
 		$fields[] = array(
 			'plugin_id'         => 'connections',
 			'id'                => 'required',
@@ -379,13 +407,18 @@ class cnRegisterSettings
 			'page_hook'         => $settings,
 			'tab'               => 'general',
 			'section'           => 'connections_login',
-			'title'             => __('Login Required', 'connections'),
-			'desc'              => __('Require registered users to login before showing the directory.', 'connections'),
+			'title'             => __( 'Login Required', 'connections' ),
+			'desc'              => __(
+				'Require registered users to login before showing the directory.',
+				'connections'
+			),
 			'help'              => '',
 			'type'              => 'checkbox',
 			'default'           => 0,
-			'sanitize_callback' => array( 'cnRegisterSettings' , 'setAllowPublic' ) // Only need to add this once on this tab, otherwise it would be run for each field.
+			// Only need to add this once on this tab, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'setAllowPublic' )
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'message',
@@ -393,12 +426,30 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'general',
 			'section'   => 'connections_login',
-			'title'     => __('Message', 'connections'),
-			'desc'      => __('The message to display to site visitors or registered users not logged in.', 'connections'),
+			'title'     => __( 'Message', 'connections' ),
+			'desc'      => __(
+				'The message to display to site visitors or registered users not logged in.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'rte',
 			'default'   => 'Please login to view the directory.'
 		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'default',
+			'position'  => 5,
+			'page_hook' => $settings,
+			'tab'       => 'general',
+			'section'   => 'category',
+			'title'     => __( 'Category', 'connections' ),
+			'desc'      => '',
+			'help'      => '',
+			'type'      => 'category',
+			'default'   => get_option( 'cn_default_category' ),
+		);
+
 		$fields[] = array(
 			'plugin_id'         => 'connections',
 			'id'                => 'base_country',
@@ -406,13 +457,14 @@ class cnRegisterSettings
 			'page_hook'         => $settings,
 			'tab'               => 'general',
 			'section'           => 'geo',
-			'title'             => __('Base Country', 'connections'),
+			'title'             => __( 'Base Country', 'connections' ),
 			'desc'              => '',
 			'help'              => '',
 			'type'              => 'select',
 			'options'           => cnGEO::getCountries(),
 			'default'           => 'US',
-			'sanitize_callback' => array( 'cnRegisterSettings' , 'setGEOBase' ) // Only need to add this once per image size, otherwise it would be run for each field.
+			// Only need to add this once per image size, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'setGEOBase' )
 		);
 
 		// cnGEO::getRegions() when called without the $country code @param
@@ -430,7 +482,7 @@ class cnRegisterSettings
 				'page_hook' => $settings,
 				'tab'       => 'general',
 				'section'   => 'geo',
-				'title'     => __('Base Region', 'connections'),
+				'title'     => __( 'Base Region', 'connections' ),
 				'desc'      => '',
 				'help'      => '',
 				'type'      => 'select',
@@ -446,12 +498,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'general',
 			'section'   => 'connections_visibility',
-			'title'     => __('Enable public_override', 'connections'),
-			'desc'      => __('By default all entries whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>public_override</em> shortcode option allows you to override requiring the site vistor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connections'),
+			'title'     => __( 'Enable public_override', 'connections' ),
+			'desc'      => __(
+				'By default all entries whose status is Public will be visible to all site visitors or registered users not logged in. If the option to require login has been enabled, the <em>public_override</em> shortcode option allows you to override requiring the site vistor to be logged in. This setting is useful in multi author sites where those authors may have a need to display specific entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'allow_private_override',
@@ -459,8 +515,11 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'general',
 			'section'   => 'connections_visibility',
-			'title'     => __('Enable private_override', 'connections'),
-			'desc'      => __('Entries can be set to a Private status which requires the user to be logged in to the site in order for them to be able to view those entries. The <em>private_override</em> shortcode option allows you to override their "Private" status. This setting is useful in multi author sites where those authors may have a need to display specific private entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.', 'connections'),
+			'title'     => __( 'Enable private_override', 'connections' ),
+			'desc'      => __(
+				'Entries can be set to a Private status which requires the user to be logged in to the site in order for them to be able to view those entries. The <em>private_override</em> shortcode option allows you to override their "Private" status. This setting is useful in multi author sites where those authors may have a need to display specific private entries to the public. For security reasons this option is disabled by default. If checked, this enables this shortcode option.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
@@ -476,12 +535,15 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'display',
 			'section'   => 'connections_display_general',
-			'title'     => __('Date Format', 'connections'),
-			'desc'      => __('<a href="http://codex.wordpress.org/Formatting_Date_and_Time" target="_blank">Documentation on date and time formatting</a>.', 'connections'),
+			'title'     => __( 'Date Format', 'connections' ),
+			'desc'      => __(
+				'<a href="http://codex.wordpress.org/Formatting_Date_and_Time" target="_blank">Documentation on date and time formatting</a>.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => esc_attr( get_option('date_format') )
+			'default'   => esc_attr( get_option( 'date_format' ) )
 		);
 
 		$fields[] = array(
@@ -491,12 +553,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'display',
 			'section'   => 'display_results',
-			'title'     => __('Show Clear Search Message', 'connections'),
-			'desc'      => __('Display a message box above the search results with information about the current query and the option (a button) to clear results.', 'connections'),
+			'title'     => __( 'Show Clear Search Message', 'connections' ),
+			'desc'      => __(
+				'Display a message box above the search results with information about the current query and the option (a button) to clear results.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'cat_desc',
@@ -504,12 +570,13 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'display',
 			'section'   => 'connections_display_results',
-			'title'     => __('Category Description', 'connections'),
-			'desc'      => __('Display the current category description before the results list.', 'connections'),
+			'title'     => __( 'Category Description', 'connections' ),
+			'desc'      => __( 'Display the current category description before the results list.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'index',
@@ -517,12 +584,13 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'display',
 			'section'   => 'connections_display_results',
-			'title'     => __('Character Index', 'connections'),
-			'desc'      => __('Show the character index at the top of the results list.', 'connections'),
+			'title'     => __( 'Character Index', 'connections' ),
+			'desc'      => __( 'Show the character index at the top of the results list.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'index_repeat',
@@ -531,11 +599,12 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'connections_display_results',
 			'title'     => '',
-			'desc'      => __('Repeat the character index at the beginning of each character group.', 'connections'),
+			'desc'      => __( 'Repeat the character index at the beginning of each character group.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'show_current_character',
@@ -544,13 +613,21 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'connections_display_results',
 			'title'     => '',
-			'desc'      => __('Show the current character at the beginning of each character group.', 'connections'),
+			'desc'      => __( 'Show the current character at the beginning of each character group.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
 
-		$listActionsOptions['items']    = apply_filters( 'cn_list_action_options', array( 'view_all' => __('Show a "View All" link. When this option is enabled a "View All" link will be displayed.', 'connections') ) );
+		$listActionsOptions['items']    = apply_filters(
+			'cn_list_action_options',
+			array(
+				'view_all' => __(
+					'Show a "View All" link. When this option is enabled a "View All" link will be displayed.',
+					'connections'
+				)
+			)
+		);
 		$listActionsOptions['required'] = apply_filters( 'cn_list_action_options_required', array() );
 
 		$fields[] = array(
@@ -561,10 +638,13 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'list_actions',
 			'title'     => '',
-			'desc'      => __( 'Whether or not a list action should be shown. Actions can be dragged and dropped in the desired order to be shown.', 'connections' ),
+			'desc'      => __(
+				'Whether or not a list action should be shown. Actions can be dragged and dropped in the desired order to be shown.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  $listActionsOptions,
+			'options'   => $listActionsOptions,
 			'default'   => 0,
 		);
 
@@ -576,16 +656,24 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'connections_display_list',
 			'title'     => __( 'Content Blocks', 'connections' ),
-			'desc'      => __( 'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.', 'connections' ),
+			'desc'      => __(
+				'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  cnOptions::getContentBlocks( NULL, 'list' ),
+			'options'   => cnOptions::getContentBlocks( NULL, 'list' ),
 			'default'   => 0,
 		);
 
-		$entryActionsOptions['items'] = apply_filters( 'cn_entry_action_options', array(
-			'back'  => __( 'Show the "Back to Directory" link.', 'connections' ),
-			'vcard' => __( 'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.', 'connections' ),
+		$entryActionsOptions['items']    = apply_filters(
+			'cn_entry_action_options',
+			array(
+				'back'  => __( 'Show the "Back to Directory" link.', 'connections' ),
+				'vcard' => __(
+					'Show the "Add to Address Book" link. This link allows the download of the entry\'s vCard.',
+					'connections'
+				),
 			)
 		);
 		$entryActionsOptions['required'] = apply_filters( 'cn_entry_action_options_required', array() );
@@ -598,20 +686,23 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'entry_actions',
 			'title'     => '',
-			'desc'      => __( 'Whether or not an entry action should be shown. Actions can be dragged and dropped in the desired order to be shown.', 'connections' ),
+			'desc'      => __(
+				'Whether or not an entry action should be shown. Actions can be dragged and dropped in the desired order to be shown.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  $entryActionsOptions,
+			'options'   => $entryActionsOptions,
 			'default'   => array(
-				'order' => array(
+				'order'  => array(
 					'back',
 					'vcard',
-					),
+				),
 				'active' => array(
 					'back',
 					'vcard',
-					),
 				),
+			),
 		);
 
 		$fields[] = array(
@@ -622,7 +713,10 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'connections_display_single',
 			'title'     => __( 'Template', 'connections' ),
-			'desc'      => __( 'Display a single entry using the active template based on entry type. For example, if the entry is an organization it will be displayed using the template that is activated for the "Organization" template type found on the Connections : Templates admin page.', 'connections' ),
+			'desc'      => __(
+				'Display a single entry using the active template based on entry type. For example, if the entry is an organization it will be displayed using the template that is activated for the "Organization" template type found on the Connections : Templates admin page.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
@@ -636,10 +730,13 @@ class cnRegisterSettings
 			'tab'       => 'display',
 			'section'   => 'connections_display_single',
 			'title'     => __( 'Content Blocks', 'connections' ),
-			'desc'      => __( 'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.', 'connections' ),
+			'desc'      => __(
+				'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
-			'options'   =>  cnOptions::getContentBlocks( NULL, 'single' ),
+			'options'   => cnOptions::getContentBlocks( NULL, 'single' ),
 			'default'   => 0,
 		);
 
@@ -653,14 +750,16 @@ class cnRegisterSettings
 			'page_hook'         => $settings,
 			'tab'               => 'images',
 			'section'           => 'connections_image_thumbnail',
-			'title'             => __('JPEG Quality', 'connections'),
+			'title'             => __( 'JPEG Quality', 'connections' ),
 			'desc'              => '%',
 			'help'              => '',
 			'type'              => 'text',
 			'size'              => 'small',
 			'default'           => 80,
-			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeImageSettings' ) // Only need to add this once per image size, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' )
+			// Only need to add this once per image size, otherwise it would be run for each field.
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'width',
@@ -668,13 +767,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_thumbnail',
-			'title'     => __('Width', 'connections'),
-			'desc'      => __('px', 'connections'),
+			'title'     => __( 'Width', 'connections' ),
+			'desc'      => __( 'px', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 80
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'height',
@@ -682,13 +782,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_thumbnail',
-			'title'     => __('Height', 'connections'),
-			'desc'      => __('px', 'connections'),
+			'title'     => __( 'Height', 'connections' ),
+			'desc'      => __( 'px', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 54
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'ratio',
@@ -696,18 +797,28 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_thumbnail',
-			'title'     => __('Crop Mode', 'connections'),
+			'title'     => __( 'Crop Mode', 'connections' ),
 			'desc'      => '',
 			'help'      => '',
 			'type'      => 'radio',
 			'options'   => array(
-				'crop'      => __('Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.', 'connections'),
-				'fill'      => __('Resize proportionally to fit entire image into the specified dimensions and add margins if required.', 'connections'),
-				'fit'       => __('Resize proportionally adjusting the size of scaled image so there are no margins added.', 'connections'),
-				'none'      => __('Resize to fit the specified dimensions (no cropping).', 'connections')
+				'crop' => __(
+					'Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.',
+					'connections'
+				),
+				'fill' => __(
+					'Resize proportionally to fit entire image into the specified dimensions and add margins if required.',
+					'connections'
+				),
+				'fit'  => __(
+					'Resize proportionally adjusting the size of scaled image so there are no margins added.',
+					'connections'
+				),
+				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
 			),
 			'default'   => 'crop'
 		);
+
 		$fields[] = array(
 			'plugin_id'         => 'connections',
 			'id'                => 'quality',
@@ -715,14 +826,16 @@ class cnRegisterSettings
 			'page_hook'         => $settings,
 			'tab'               => 'images',
 			'section'           => 'connections_image_medium',
-			'title'             => __('JPEG Quality', 'connections'),
+			'title'             => __( 'JPEG Quality', 'connections' ),
 			'desc'              => '%',
 			'help'              => '',
 			'type'              => 'text',
 			'size'              => 'small',
 			'default'           => 80,
-			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeImageSettings' ) // Only need to add this once per image size, otherwise it would be run for each field.
+			// Only need to add this once per image size, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' )
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'width',
@@ -730,13 +843,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_medium',
-			'title'     => __('Width', 'connections'),
-			'desc'      => __('px', 'connections'),
+			'title'     => __( 'Width', 'connections' ),
+			'desc'      => __( 'px', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 225
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'height',
@@ -744,13 +858,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_medium',
-			'title'     => __('Height', 'connections'),
-			'desc'      => __('px', 'connections'),
+			'title'     => __( 'Height', 'connections' ),
+			'desc'      => __( 'px', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 150
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'ratio',
@@ -758,18 +873,28 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_medium',
-			'title'     => __('Crop Mode', 'connections'),
+			'title'     => __( 'Crop Mode', 'connections' ),
 			'desc'      => '',
 			'help'      => '',
 			'type'      => 'radio',
 			'options'   => array(
-				'crop'      => __('Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.', 'connections'),
-				'fill'      => __('Resize proportionally to fit entire image into the specified dimensions and add margins if required.', 'connections'),
-				'fit'       => __('Resize proportionally adjusting the size of scaled image so there are no margins added.', 'connections'),
-				'none'      => __('Resize to fit the specified dimensions (no cropping).', 'connections')
+				'crop' => __(
+					'Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.',
+					'connections'
+				),
+				'fill' => __(
+					'Resize proportionally to fit entire image into the specified dimensions and add margins if required.',
+					'connections'
+				),
+				'fit'  => __(
+					'Resize proportionally adjusting the size of scaled image so there are no margins added.',
+					'connections'
+				),
+				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
 			),
 			'default'   => 'crop'
 		);
+
 		$fields[] = array(
 			'plugin_id'         => 'connections',
 			'id'                => 'quality',
@@ -777,14 +902,16 @@ class cnRegisterSettings
 			'page_hook'         => $settings,
 			'tab'               => 'images',
 			'section'           => 'connections_image_large',
-			'title'             => __('JPEG Quality', 'connections'),
+			'title'             => __( 'JPEG Quality', 'connections' ),
 			'desc'              => '%',
 			'help'              => '',
 			'type'              => 'text',
 			'size'              => 'small',
 			'default'           => 80,
-			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeImageSettings' ) // Only need to add this once per image size, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' )
+			// Only need to add this once per image size, otherwise it would be run for each field.
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'width',
@@ -792,13 +919,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_large',
-			'title'     => __('Width', 'connections'),
-			'desc'      => __('px', 'connections'),
+			'title'     => __( 'Width', 'connections' ),
+			'desc'      => __( 'px', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 300
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'height',
@@ -806,13 +934,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_large',
-			'title'     => __('Height', 'connections'),
-			'desc'      => __('px', 'connections'),
+			'title'     => __( 'Height', 'connections' ),
+			'desc'      => __( 'px', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 225
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'ratio',
@@ -820,18 +949,28 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_large',
-			'title'     => __('Crop Mode', 'connections'),
+			'title'     => __( 'Crop Mode', 'connections' ),
 			'desc'      => '',
 			'help'      => '',
 			'type'      => 'radio',
 			'options'   => array(
-				'crop'      => __('Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.', 'connections'),
-				'fill'      => __('Resize proportionally to fit entire image into the specified dimensions and add margins if required.', 'connections'),
-				'fit'       => __('Resize proportionally adjusting the size of scaled image so there are no margins added.', 'connections'),
-				'none'      => __('Resize to fit the specified dimensions (no cropping).', 'connections')
+				'crop' => __(
+					'Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.',
+					'connections'
+				),
+				'fill' => __(
+					'Resize proportionally to fit entire image into the specified dimensions and add margins if required.',
+					'connections'
+				),
+				'fit'  => __(
+					'Resize proportionally adjusting the size of scaled image so there are no margins added.',
+					'connections'
+				),
+				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
 			),
 			'default'   => 'crop'
 		);
+
 		$fields[] = array(
 			'plugin_id'         => 'connections',
 			'id'                => 'quality',
@@ -839,14 +978,16 @@ class cnRegisterSettings
 			'page_hook'         => $settings,
 			'tab'               => 'images',
 			'section'           => 'connections_image_logo',
-			'title'             => __('JPEG Quality', 'connections'),
+			'title'             => __( 'JPEG Quality', 'connections' ),
 			'desc'              => '%',
 			'help'              => '',
 			'type'              => 'text',
 			'size'              => 'small',
 			'default'           => 80,
-			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeImageSettings' ) // Only need to add this once per image size, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' )
+			// Only need to add this once per image size, otherwise it would be run for each field.
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'width',
@@ -854,13 +995,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_logo',
-			'title'     => __('Width', 'connections'),
-			'desc'      => __('px', 'connections'),
+			'title'     => __( 'Width', 'connections' ),
+			'desc'      => __( 'px', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 225
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'height',
@@ -868,13 +1010,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_logo',
-			'title'     => __('Height', 'connections'),
-			'desc'      => __('px', 'connections'),
+			'title'     => __( 'Height', 'connections' ),
+			'desc'      => __( 'px', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
 			'default'   => 150
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'ratio',
@@ -882,15 +1025,24 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'images',
 			'section'   => 'connections_image_logo',
-			'title'     => __('Crop Mode', 'connections'),
+			'title'     => __( 'Crop Mode', 'connections' ),
 			'desc'      => '',
 			'help'      => '',
 			'type'      => 'radio',
 			'options'   => array(
-				'crop'      => __('Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.', 'connections'),
-				'fill'      => __('Resize proportionally to fit entire image into the specified dimensions and add margins if required.', 'connections'),
-				'fit'       => __('Resize proportionally adjusting the size of scaled image so there are no margins added.', 'connections'),
-				'none'      => __('Resize to fit the specified dimensions (no cropping).', 'connections')
+				'crop' => __(
+					'Crop and resize proportionally to best fit the specified dimensions, maintaining the aspect ratio.',
+					'connections'
+				),
+				'fill' => __(
+					'Resize proportionally to fit entire image into the specified dimensions and add margins if required.',
+					'connections'
+				),
+				'fit'  => __(
+					'Resize proportionally adjusting the size of scaled image so there are no margins added.',
+					'connections'
+				),
+				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
 			),
 			'default'   => 'fill'
 		);
@@ -899,38 +1051,38 @@ class cnRegisterSettings
 		 * The Search tab fields.
 		 */
 		$fields[] = array(
-			'plugin_id'          => 'connections',
-			'id'                 => 'fields',
-			'position'           => 10,
-			'page_hook'          => $settings,
-			'tab'                => 'search',
-			'section'            => 'connections_search',
-			'title'              => __('Fields', 'connections'),
-			'desc'               => __('The selected fields will be searched.', 'connections'),
-			'help'               => '',
-			'type'               => 'multicheckbox',
-			'options'            => array(
-			'family_name'        => __('Family Name', 'connections'),
-			'first_name'         => __('First Name', 'connections'),
-			'middle_name'        => __('Middle Name', 'connections'),
-			'last_name'          => __('Last Name', 'connections'),
-			'title'              => __('Title', 'connections'),
-			'organization'       => __('Organization', 'connections'),
-			'department'         => __('Department', 'connections'),
-			'contact_first_name' => __('Contact First Name', 'connections'),
-			'contact_last_name'  => __('Contact Last Name', 'connections'),
-			'bio'                => __('Biography', 'connections'),
-			'notes'              => __('Notes', 'connections'),
-			'address_line_1'     => __('Address Line One', 'connections'),
-			'address_line_2'     => __('Address Line Two', 'connections'),
-			'address_line_3'     => __('Address Line Three', 'connections'),
-			'address_city'       => __('Address City', 'connections'),
-			'address_state'      => __('Address State', 'connections'),
-			'address_zipcode'    => __('Address Zip Code', 'connections'),
-			'address_country'    => __('Address Country', 'connections'),
-			'phone_number'       => __('Phone Number', 'connections')
+			'plugin_id'         => 'connections',
+			'id'                => 'fields',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'search',
+			'section'           => 'connections_search',
+			'title'             => __( 'Fields', 'connections' ),
+			'desc'              => __( 'The selected fields will be searched.', 'connections' ),
+			'help'              => '',
+			'type'              => 'multicheckbox',
+			'options'           => array(
+				'family_name'        => __( 'Family Name', 'connections' ),
+				'first_name'         => __( 'First Name', 'connections' ),
+				'middle_name'        => __( 'Middle Name', 'connections' ),
+				'last_name'          => __( 'Last Name', 'connections' ),
+				'title'              => __( 'Title', 'connections' ),
+				'organization'       => __( 'Organization', 'connections' ),
+				'department'         => __( 'Department', 'connections' ),
+				'contact_first_name' => __( 'Contact First Name', 'connections' ),
+				'contact_last_name'  => __( 'Contact Last Name', 'connections' ),
+				'bio'                => __( 'Biography', 'connections' ),
+				'notes'              => __( 'Notes', 'connections' ),
+				'address_line_1'     => __( 'Address Line One', 'connections' ),
+				'address_line_2'     => __( 'Address Line Two', 'connections' ),
+				'address_line_3'     => __( 'Address Line Three', 'connections' ),
+				'address_city'       => __( 'Address City', 'connections' ),
+				'address_state'      => __( 'Address State', 'connections' ),
+				'address_zipcode'    => __( 'Address Zip Code', 'connections' ),
+				'address_country'    => __( 'Address Country', 'connections' ),
+				'phone_number'       => __( 'Phone Number', 'connections' )
 			),
-			'default'            => array(
+			'default'           => array(
 				'family_name',
 				'first_name',
 				'middle_name',
@@ -951,7 +1103,8 @@ class cnRegisterSettings
 				'address_country',
 				'phone_number'
 			),
-			'sanitize_callback'  => array( 'cnRegisterSettings' , 'setSearchFields' ) // Only need to add this once, otherwise it would be run for each field.
+			// Only need to add this once, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'setSearchFields' )
 		);
 
 		$fields[] = array(
@@ -961,8 +1114,8 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'search',
 			'section'   => 'connections_search',
-			'title'     => __('FULLTEXT', 'connections'),
-			'desc'      => __('Enable FULLTEXT query support.', 'connections'),
+			'title'     => __( 'FULLTEXT', 'connections' ),
+			'desc'      => __( 'Enable FULLTEXT query support.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
@@ -975,8 +1128,11 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'search',
 			'section'   => 'connections_search',
-			'title'     => __('Keyword Search', 'connections'),
-			'desc'      => __( 'Enable LIKE query support. Disabling this option can improve search results if the server configuration supports FULLTEXT queries. If you disable this option and searches do not yield results, this indicates that the server does not support FULLTEXT queries. If that is the case, re-enable this option and disable the FULLTEXT option. NOTE: If the FULLTEXT option is disabled, this option must be enabled. Additionally, search terms with three characters or less will be ignored. This can not be changed as this is a database limitation.', 'connections' ),
+			'title'     => __( 'Keyword Search', 'connections' ),
+			'desc'      => __(
+				'Enable LIKE query support. Disabling this option can improve search results if the server configuration supports FULLTEXT queries. If you disable this option and searches do not yield results, this indicates that the server does not support FULLTEXT queries. If that is the case, re-enable this option and disable the FULLTEXT option. NOTE: If the FULLTEXT option is disabled, this option must be enabled. Additionally, search terms with three characters or less will be ignored. This can not be changed as this is a database limitation.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
@@ -992,12 +1148,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'seo',
 			'section'   => 'connections_seo_meta',
-			'title'     => __('Page Title', 'connections'),
-			'desc'      => __( 'Update the browser tab/window title to reflect the current location being viewed in the directory. For example, the current category name.', 'connections' ),
+			'title'     => __( 'Page Title', 'connections' ),
+			'desc'      => __(
+				'Update the browser tab/window title to reflect the current location being viewed in the directory. For example, the current category name.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'page_desc',
@@ -1005,8 +1165,11 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'seo',
 			'section'   => 'connections_seo_meta',
-			'title'     => __('Page Description', 'connections'),
-			'desc'      => __( 'Use an excerpt of the current category description or current entry bio.', 'connections' ),
+			'title'     => __( 'Page Description', 'connections' ),
+			'desc'      => __(
+				'Use an excerpt of the current category description or current entry bio.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
@@ -1019,8 +1182,11 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'seo',
 			'section'   => 'connections_seo',
-			'title'     => __('Page Title', 'connections'),
-			'desc'      => __( 'Update the page title to reflect the current location being viewed in the directory. For example, the current entry name.', 'connections' ),
+			'title'     => __( 'Page Title', 'connections' ),
+			'desc'      => __(
+				'Update the page title to reflect the current location being viewed in the directory. For example, the current entry name.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
@@ -1036,14 +1202,19 @@ class cnRegisterSettings
 			'page_hook'         => $settings,
 			'tab'               => 'advanced',
 			'section'           => 'connections_permalink',
-			'title'             => __('Character Base', 'connections'),
-			'desc'              => __('Enter a custom structure for the initial character in the URL.', 'connections'),
+			'title'             => __( 'Character Base', 'connections' ),
+			'desc'              => __(
+				'Enter a custom structure for the initial character in the URL.',
+				'connections'
+			),
 			'help'              => '',
 			'type'              => 'text',
 			'size'              => 'regular',
 			'default'           => 'char',
-			'sanitize_callback' => array( 'cnRegisterSettings' , 'sanitizeURLBase' ) // Only need to add this once, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeURLBase' )
+			// Only need to add this once, otherwise it would be run for each field.
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'category_base',
@@ -1051,13 +1222,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_permalink',
-			'title'     => __('Category Base', 'connections'),
-			'desc'      => __('Enter a custom structure for the category in the URL.', 'connections'),
+			'title'     => __( 'Category Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the category in the URL.', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
 			'default'   => 'cat'
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'country_base',
@@ -1065,13 +1237,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_permalink',
-			'title'     => __('Country Base', 'connections'),
-			'desc'      => __('Enter a custom structure for the country in the URL.', 'connections'),
+			'title'     => __( 'Country Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the country in the URL.', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
 			'default'   => 'country'
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'region_base',
@@ -1079,13 +1252,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_permalink',
-			'title'     => __('Region Base', 'connections'),
-			'desc'      => __('Enter a custom structure for the region (state/province) in the URL.', 'connections'),
+			'title'     => __( 'Region Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the region (state/province) in the URL.', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
 			'default'   => 'region'
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'locality_base',
@@ -1093,13 +1267,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_permalink',
-			'title'     => __('Locality Base', 'connections'),
-			'desc'      => __('Enter a custom structure for the locality (city) in the URL.', 'connections'),
+			'title'     => __( 'Locality Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the locality (city) in the URL.', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
 			'default'   => 'locality'
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'postal_code_base',
@@ -1107,13 +1282,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_permalink',
-			'title'     => __('Postal Code Base', 'connections'),
-			'desc'      => __('Enter a custom structure for the postal code in the URL.', 'connections'),
+			'title'     => __( 'Postal Code Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the postal code in the URL.', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
 			'default'   => 'postal-code'
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'organization_base',
@@ -1121,13 +1297,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_permalink',
-			'title'     => __('Organization Base', 'connections'),
-			'desc'      => __('Enter a custom structure for the organization in the URL.', 'connections'),
+			'title'     => __( 'Organization Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the organization in the URL.', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
 			'default'   => 'organization'
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'department_base',
@@ -1135,13 +1312,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_permalink',
-			'title'     => __('Department Base', 'connections'),
-			'desc'      => __('Enter a custom structure for the department in the URL.', 'connections'),
+			'title'     => __( 'Department Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the department in the URL.', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
 			'default'   => 'department'
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'name_base',
@@ -1149,8 +1327,8 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_permalink',
-			'title'     => __('Name Base', 'connections'),
-			'desc'      => __('Enter a custom structure for the entry slug in the URL.', 'connections'),
+			'title'     => __( 'Name Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the entry slug in the URL.', 'connections' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
@@ -1164,12 +1342,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_link',
-			'title'     => __('Name', 'connections'),
-			'desc'      => __('Enabling this option will turn the name of every entry into a link. Clicking the link will take you to the page with only that entry.', 'connections'),
+			'title'     => __( 'Name', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the name of every entry into a link. Clicking the link will take you to the page with only that entry.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'organization',
@@ -1177,12 +1359,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_link',
-			'title'     => __('Organization', 'connections'),
-			'desc'      => __('Enabling this option will turn the name of organization into a link. Clicking the link will take you to the page filtered by that organization.', 'connections'),
+			'title'     => __( 'Organization', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the name of organization into a link. Clicking the link will take you to the page filtered by that organization.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'department',
@@ -1190,12 +1376,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_link',
-			'title'     => __('Department', 'connections'),
-			'desc'      => __('Enabling this option will turn the name of department into a link. Clicking the link will take you to the page filtered by that department.', 'connections'),
+			'title'     => __( 'Department', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the name of department into a link. Clicking the link will take you to the page filtered by that department.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'locality',
@@ -1203,12 +1393,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_link',
-			'title'     => __('Locality', 'connections'),
-			'desc'      => __('Enabling this option will turn the name of locality (city) into a link. Clicking the link will take you to the page filtered by that locality.', 'connections'),
+			'title'     => __( 'Locality', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the name of locality (city) into a link. Clicking the link will take you to the page filtered by that locality.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'region',
@@ -1216,12 +1410,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_link',
-			'title'     => __('Region', 'connections'),
-			'desc'      => __('Enabling this option will turn the name of region (state/province) into a link. Clicking the link will take you to the page filtered by that region.', 'connections'),
+			'title'     => __( 'Region', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the name of region (state/province) into a link. Clicking the link will take you to the page filtered by that region.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'postal_code',
@@ -1229,12 +1427,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_link',
-			'title'     => __('Postal Code', 'connections'),
-			'desc'      => __('Enabling this option will turn the postal code into a link. Clicking the link will take you to the page filtered by that postal code.', 'connections'),
+			'title'     => __( 'Postal Code', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the postal code into a link. Clicking the link will take you to the page filtered by that postal code.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'country',
@@ -1242,8 +1444,11 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_link',
-			'title'     => __('Country', 'connections'),
-			'desc'      => __('Enabling this option will turn the name of country into a link. Clicking the link will take you to the page filtered by that country.', 'connections'),
+			'title'     => __( 'Country', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the name of country into a link. Clicking the link will take you to the page filtered by that country.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
@@ -1256,8 +1461,11 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_link',
-			'title'     => __('Telephone Number', 'connections'),
-			'desc'      => __('Enabling this option will turn every telephone number into a link that when clicked by the user on a mobile phone or computer with a telephony application installed will dial the number.', 'connections'),
+			'title'     => __( 'Telephone Number', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn every telephone number into a link that when clicked by the user on a mobile phone or computer with a telephony application installed will dial the number.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
@@ -1270,12 +1478,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_compatibility',
-			'title'     => __('Google Maps API v3', 'connections'),
-			'desc'      => __('If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. This could prevent potential conflicts. NOTE: This only applies to templates that utilize Google Maps.', 'connections'),
+			'title'     => __( 'Google Maps API v3', 'connections' ),
+			'desc'      => __(
+				'If the current active theme or another plugin loads the Google Maps API v3 uncheck this to prevent Connections from loading the Google Maps API. This could prevent potential conflicts. NOTE: This only applies to templates that utilize Google Maps.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'javascript_footer',
@@ -1283,12 +1495,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_compatibility',
-			'title'     => __('JavaScript', 'connections'),
-			'desc'      => __('By default Connections loads it\'s JavaScripts in the page footer uncheck this box to load them in the page header.', 'connections'),
+			'title'     => __( 'JavaScript', 'connections' ),
+			'desc'      => __(
+				'By default Connections loads it\'s JavaScripts in the page footer uncheck this box to load them in the page header.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'css',
@@ -1297,11 +1513,15 @@ class cnRegisterSettings
 			'tab'       => 'advanced',
 			'section'   => 'compatibility',
 			'title'     => 'CSS',
-			'desc'      => __('Enqueue the core styles. Disable this option if you do not want the core styles to be loaded.', 'connections'),
+			'desc'      => __(
+				'Enqueue the core styles. Disable this option if you do not want the core styles to be loaded.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'jquery',
@@ -1310,11 +1530,15 @@ class cnRegisterSettings
 			'tab'       => 'advanced',
 			'section'   => 'connections_compatibility',
 			'title'     => 'jQuery',
-			'desc'      => __('Themes and plugins sometimes load a version of jQuery that is not bundled with WordPress. This is generally considered bad practice which can result in breaking plugins. Enabling this option will attempt to fix this issue. You should only enable this option at the direction of support.', 'connections'),
+			'desc'      => __(
+				'Themes and plugins sometimes load a version of jQuery that is not bundled with WordPress. This is generally considered bad practice which can result in breaking plugins. Enabling this option will attempt to fix this issue. You should only enable this option at the direction of support.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'strip_rnt',
@@ -1322,12 +1546,16 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_compatibility',
-			'title'     => __('Templates', 'connections'),
-			'desc'      => __('Themes can break plugin shortcodes that output content on the page causing the content not to render correctly. If the templates do not display as expected try enabling this option.', 'connections'),
+			'title'     => __( 'Templates', 'connections' ),
+			'desc'      => __(
+				'Themes can break plugin shortcodes that output content on the page causing the content not to render correctly. If the templates do not display as expected try enabling this option.',
+				'connections'
+			),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
+
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'debug_messages',
@@ -1335,36 +1563,14 @@ class cnRegisterSettings
 			'page_hook' => $settings,
 			'tab'       => 'advanced',
 			'section'   => 'connections_debug',
-			'title'     => __('Debug Messages', 'connections'),
-			'desc'      => __('Display debug messages.', 'connections'),
+			'title'     => __( 'Debug Messages', 'connections' ),
+			'desc'      => __( 'Display debug messages.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0
 		);
 
 		return $fields;
-	}
-
-	/**
-     * Get all the pages
-     *
-     * @access private
-     * @since 0.7.3
-     * @uses get_pages()
-     * @return array page names with key value pairs
-     */
-	private function getPages() {
-
-	    $pages = get_pages();
-	    $options = array( 0 => 'Select Page' );
-
-		if ( ! empty($pages) ) {
-	        foreach ( $pages as $page ) {
-	            $options[$page->ID] = $page->post_title;
-	        }
-	    }
-
-	    return $options;
 	}
 
 	/**

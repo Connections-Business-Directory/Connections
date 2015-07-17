@@ -125,9 +125,7 @@ class cnMessage extends WP_Error {
 
 		$instance->add( 'category_duplicate_name', __( 'The category you are trying to create already exists.', 'connections' ) );
 		$instance->add( 'category_self_parent', __( 'Category can not be a parent of itself.', 'connections' ) );
-		$instance->add( 'category_delete_uncategorized', __( 'The Uncategorized category can not be deleted.', 'connections' ) );
-		$instance->add( 'category_update_uncategorized', __( 'The Uncategorized category can not be altered.', 'connections' ) );
-		$instance->add( 'category_add_uncategorized', __( 'The Uncategorized category already exists.', 'connections' ) );
+		$instance->add( 'category_delete_default', __( 'The default category can not be deleted.', 'connections' ) );
 		$instance->add( 'category_add_failed', __( 'Failed to add category.', 'connections' ) );
 		$instance->add( 'category_update_failed', __( 'Failed to update category.', 'connections' ) );
 		$instance->add( 'category_delete_failed', __( 'Failed to delete category.', 'connections' ) );

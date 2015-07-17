@@ -258,7 +258,7 @@ function connectionsShowViewPage( $action = NULL ) {
 			$offset = ( $page->current - 1 ) * $page->limit;
 
 			echo '<div class="wrap">';
-			echo get_screen_icon( 'connections' );
+
 			echo '<h2>Connections : ' , __( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __( 'Add New', 'connections' ) , '</a></h2>';
 
 			/*
@@ -315,7 +315,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				<form method="post">
 
 					<p class="search-box">
-						<label class="screen-reader-text" for="post-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
+						<label class="screen-reader-text" for="entry-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
 						<input type="search" id="entry-search-input" name="s" value="<?php if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) echo $_GET['s'] ; ?>" />
 						<input type="submit" name="" id="search-submit" class="button" value="<?php _e( 'Search Entries', 'connections' ); ?>"  />
 					</p>
@@ -354,7 +354,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							);
 
 							/*
-							 * Builds the visibilty select list base on current user capabilities.
+							 * Builds the visibility select list base on current user capabilities.
 							 */
 							if ( current_user_can( 'connections_view_public' ) || $instance->options->getAllowPublic() ) $visibilitySelect['public'] = __( 'Show Public', 'connections' );
 							if ( current_user_can( 'connections_view_private' ) ) $visibilitySelect['private'] = __( 'Show Private', 'connections' );
@@ -384,7 +384,7 @@ function connectionsShowViewPage( $action = NULL ) {
 							/*
 							 * // START --> Pagination
 							 *
-							 * Grab the pagination data again incase a filter reset the values
+							 * Grab the pagination data again in case a filter reset the values
 							 * or the user input an invalid number which the retrieve query would have reset.
 							 */
 							$page = $instance->currentUser->getFilterPage( 'manage' );
@@ -409,7 +409,7 @@ function connectionsShowViewPage( $action = NULL ) {
 								( $page->current < $pageCount ) ? $pageDisabled['last_page'] = '' : $pageDisabled['last_page'] = ' disabled';
 
 								/*
-								 * Genreate the page link token URL.
+								 * Generate the page link token URL.
 								 */
 								$pageFilterURL['first_page']    = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) , 'filter' ) );
 								$pageFilterURL['previous_page'] = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['previous_page'] ) , $currentPageURL ) , 'filter' ) );

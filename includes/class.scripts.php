@@ -106,6 +106,10 @@ class cnScript {
 	 * @return void
 	 */
 	public static function registerScripts() {
+
+		/**
+		 * @global connectionsLoad $connections
+		 */
 		global $connections;
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.

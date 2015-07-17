@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.3.2
+ * Version: 8.3.3
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.3.2
+ * @version 8.3.3
  */
 
 // Exit if accessed directly
@@ -144,6 +144,8 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		public $lastQuery;
 		public $lastQueryError;
 		public $lastInsertID;
+		public $resultCount;
+		public $resultCountNoLimit;
 
 		/**
 		 * A dummy constructor to prevent the class from being loaded more than once.
@@ -224,7 +226,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.3.2' );
+			define( 'CN_CURRENT_VERSION', '8.3.3' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -858,6 +860,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				cnRole::reset();
 				$this->options->defaultCapabilitiesSet( TRUE );
 			}
+
+			/**
+			 * @todo NOTE: Update BUG!!!
+			 *
+			 *       If a user updates an old version of Connections while deactivated, when activated the db version will
+			 *       be incremented and since the version is incremented to the current version NONE of the db update
+			 *       routines will be run.
+			 */
 
 			// Increment the version number.
 			$this->options->setVersion( CN_CURRENT_VERSION );

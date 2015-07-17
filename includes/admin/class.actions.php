@@ -562,15 +562,9 @@ class cnAdminActions {
 
 		} else {
 
-			// @todo Add option for user to set the default category, which should not be able to be deleted.
-			//$defaults['default'] = get_option( 'cn_default_category' );
+			$default = get_option( 'cn_default_category' );
 
-			// Temporarily hard code the default category to the Uncategorized category
-			// and ensure it can not be deleted. This should be removed when the default
-			// category can be set by the user.
-			$default_category = cnTerm::getBy( 'slug', 'uncategorized', 'category' );
-
-			$instance->term->setTermRelationships( $id,  $default_category->term_id, 'category' );
+			$instance->term->setTermRelationships( $id, $default, 'category' );
 		}
 
 	}

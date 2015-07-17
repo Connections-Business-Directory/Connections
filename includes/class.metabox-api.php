@@ -205,7 +205,9 @@ class cnMetaboxAPI {
 	 * Return self::$metaboxes array.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
+	 *
+	 * @param null $id
 	 *
 	 * @return array
 	 */
@@ -293,7 +295,8 @@ class cnMetaboxAPI {
 	 *
 	 * @access private
 	 * @since 0.8
-	 * @global $hook_suffix	The current admin page hook.
+	 *
+	 * @global string $hook_suffix The current admin page hook.
 	 *
 	 * @return void
 	 */
@@ -316,7 +319,7 @@ class cnMetaboxAPI {
 
 	/**
 	 * All registered fields thru this class are considered to be private.
-	 * This filter checks the suppled `key` against all registered fields
+	 * This filter checks the supplied `key` against all registered fields
 	 * and return a bool indicating whether or not the `$key` is private.
 	 *
 	 * @access private
@@ -442,7 +445,10 @@ class cnMetabox_Render {
 	 */
 	private static $slider = array();
 
-	public function __construct() { /* Intentially left blank. */ }
+	/**
+	 * Blank constructor.
+	 */
+	public function __construct() { /* Intentionally left blank. */ }
 
 	/**
 	 * Register the metaboxes with WordPress.
@@ -612,9 +618,10 @@ class cnMetabox_Render {
 	 * Render the metabox.
 	 *
 	 * @access private
-	 * @since 0.8
+	 * @since  0.8
 	 *
-	 * @return void
+	 * @param $object
+	 * @param $metabox
 	 */
 	public function render( $object, $metabox ) {
 

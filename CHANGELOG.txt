@@ -1,5 +1,24 @@
 == Changelog ==
 
+= 8.3.3 07/17/2015 =
+* FEATURE: The default category "Uncategorized" can now be renamed.
+* FEATURE: The default category can now be changed to any category.
+* NEW: Add support for a category field type in the Settings API.
+* NEW: Introduce cnSettingsAPI::set().
+* NEW: Introduce cnOptions::getDefaultCategoryID().
+* BUG: Correct the label for attribute for the search input on the Connections : Manage admin page.
+* BUG: Remove unused param when using delete_option().
+* TWEAK: Remove dead code, cnRegisterSettings::getPage().
+* TWEAK: Remove use of deprecated use of get_screen_icon() on the Connections : Manage admin page.
+* OTHER: Correct a few more misspellings in inline code comments.
+* I18N: Update the POT file.
+* I18N: Update the MO files.
+* DEV: Correct code spacing in cnRegisterSettings::registerSettingsFields() to bring it up to coding standards.
+* DEV: Add a couple more properties to the connectionsLoad class that are being set by cnRetrieve::entries() so they are documented.
+* DEV: Add phpDoc for the global $connections var in cnScript::registerScripts().
+* DEV: Correct code spacing in cnSettingsAPI::get() to bring it up to coding standards.
+* DEV: Correct code spacing in cnSettingsAPI::registerFields() to bring it up to coding standards.
+
 = 8.3.2 07/14/2015 =
 * BUG: Fix PHP ternary to be compatible with older version of PHP. This could cause the Connections : Tools admin page to not display.
 * BUG: Correct anchor target when a link is linked to the image or logo.

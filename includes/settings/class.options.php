@@ -717,7 +717,14 @@ class cnOptions {
 		// Add the filter back.
 		add_filter( 'default_option_cn_default_category', array( __CLASS__, 'getDefaultCategoryID' ) );
 
-		return $id;
+		/**
+		 * Allows the opportunity to change the default category.
+		 *
+		 * @since 8.3.3
+		 *
+		 * @param int $id The default category ID.
+		 */
+		return apply_filters( 'cn_default_category', $id );
 	}
 
 	/**

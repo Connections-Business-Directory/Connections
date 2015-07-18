@@ -948,7 +948,7 @@ class cnTemplate {
 			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory . trailingslashit( $this->slug );
 		}
 
-		$path[20]  =  trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug );
+		$path[20]  = trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug );
 		$path[40]  = trailingslashit( $upload_dir['basedir'] ) . $template_directory . trailingslashit( $this->slug );
 		$path[80]  = CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug );
 		$path[100] = $this->getPath();

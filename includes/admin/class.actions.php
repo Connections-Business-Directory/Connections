@@ -112,7 +112,6 @@ class cnAdminActions {
 
 		// Template Actions
 		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
-		add_action( 'cn_install_template', array( __CLASS__, 'installTemplate' ) );
 		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
 
 		// Term Meta Actions
@@ -1240,55 +1239,6 @@ class cnAdminActions {
 			cnMessage::set( 'error', 'capability_categories' );
 		}
 
-	}
-
-	/**
-	 * Install a legacy template.
-	 *
-	 * @access public
-	 * @since 0.7.7
-	 * @uses current_user_can()
-	 * @uses check_admin_referer()
-	 * @uses unzip_file()
-	 * @uses delete_transient()
-	 * @uses wp_redirect()
-	 * @uses get_admin_url()
-	 * @uses get_current_blog_id()
-	 * @uses add_query_arg()
-	 * @return void
-	 */
-	public static function installTemplate() {
-		$form = new cnFormObjects();
-
-		/*
-		 * Check whether user can manage Templates
-		 */
-		if ( current_user_can( 'connections_manage_template' ) ) {
-
-			check_admin_referer( $form->getNonce( 'install_template' ), '_cn_wpnonce' );
-
-			require_once ABSPATH . 'wp-admin/includes/file.php';
-
-			WP_Filesystem();
-
-			if ( unzip_file( $_FILES['template']['tmp_name'], CN_CUSTOM_TEMPLATE_PATH ) ) {
-				cnMessage::set( 'success', 'template_installed' );
-			} else {
-				cnMessage::set( 'error', 'template_install_failed' );
-			}
-
-			delete_transient( 'cn_legacy_templates' );
-
-			! isset( $_GET['type'] ) ? $tab = 'all' : $tab = esc_attr( $_GET['type'] );
-
-			wp_redirect( get_admin_url( get_current_blog_id(), add_query_arg( array( 'type' => $tab ) , 'admin.php?page=connections_templates' ) ) );
-
-			exit();
-
-		} else {
-
-			cnMessage::set( 'error', 'capability_settings' );
-		}
 	}
 
 	/**

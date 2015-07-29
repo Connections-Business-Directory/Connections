@@ -49,6 +49,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 * [Income Level](http://wordpress.org/plugins/connections-business-directory-income-levels/) :: Add an income level.
 * [Education Level](http://wordpress.org/plugins/connections-business-directory-education-levels/) :: Add an education level.
 * [Languages](http://wordpress.org/plugins/connections-business-directory-languages/) :: Add languages spoken.
+* [Hobbies](https://wordpress.org/plugins/connections-business-directory-hobbies/) :: Add hobbies.
 
 **Misc**
 

@@ -662,9 +662,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Must include BEFORE class.template-api.php.
 			include_once CN_PATH . 'templates/names/names.php';
 			include_once CN_PATH . 'templates/card/card-default.php';
-			include_once CN_PATH . 'templates/card-bio/card-bio.php';
-			include_once CN_PATH . 'templates/card-single/card-single-default.php';
-			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
 			include_once CN_PATH . 'templates/profile/profile.php';
 			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
 			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';

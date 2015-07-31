@@ -543,7 +543,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				{
 					echo '<h2 class="nav-tab-wrapper">';
 
-					// Store the position values so an array multi sort can be done to postion the tabs in the desired order.
+					// Store the position values so an array multi sort can be done to position the tabs in the desired order.
 					foreach ( $tabs as $key => $tab )
 					{
 						$sort[] = ( isset( $tab['position'] ) && ! empty( $tab['position'] ) ) ? $tab['position'] : 0;

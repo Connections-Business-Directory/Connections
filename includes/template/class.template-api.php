@@ -95,7 +95,6 @@ class cnTemplateFactory {
 			// Plugins can hook into this action to register templates.
 			do_action( 'cn_register_template', self::$instance );
 		}
-
 	}
 
 	/**

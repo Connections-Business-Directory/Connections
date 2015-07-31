@@ -589,6 +589,11 @@ class cnTemplate {
 	 */
 	private function checkForMinified( $filePath ) {
 
+		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+
+			return $filePath;
+		}
+
 		$file = pathinfo( $filePath );
 
 		if ( 'css' == $file['extension'] || 'js' == $file['extension'] ) {

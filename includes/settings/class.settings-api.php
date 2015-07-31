@@ -323,7 +323,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			foreach ( $fields as $key => $field ) {
 				// Store the position values so an array multi sort can be done to position the fields in the desired order.
-				( isset( $field['position'] ) && ! empty( $field['position'] ) ) ? $sort[] = $field['position'] : $field[] = 0;
+				$sort[] = ( isset( $field['position'] ) && ! empty( $field['position'] ) ) ? $field['position'] : 0;
 			}
 
 			array_multisort( $sort, $fields );

@@ -428,8 +428,6 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				}
 			}
 
-			//var_dump(self::registry);
-
 			/*
 			 * Add the options and the default values to the db.
 			 *

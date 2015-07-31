@@ -1200,12 +1200,22 @@ class cnAdminActions {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
+		if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
+
+			$action = $_REQUEST['action'];
+
+		} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
+
+			$action = $_REQUEST['action2'];
+
+		}
+
 		/*
 		 * Check whether user can edit Settings
 		 */
 		if ( current_user_can( 'connections_edit_categories' ) ) {
 
-			switch ( $_POST['action'] ) {
+			switch ( $action ) {
 
 				case 'delete':
 

@@ -490,7 +490,7 @@ class cnOutput extends cnEntry {
 
 		$out = apply_filters( 'cn_output_image', $out, $atts, $this );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}

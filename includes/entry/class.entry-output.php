@@ -934,14 +934,9 @@ class cnOutput extends cnEntry {
 
 				// The `notranslate` class is added to prevent Google Translate from translating the text.
 				$out .= '<span class="organization-unit notranslate">' . $department . '</span>';
-
 			}
 
 			$out .= '</span>';
-
-		} else {
-
-			return '';
 		}
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;

@@ -2549,6 +2549,8 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $categories ) ) return $out;
 
+		$out .= '<div class="cn-categories">';
+
 		$out .= $atts['before'];
 
 		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
@@ -2570,6 +2572,8 @@ class cnOutput extends cnEntry {
 		}
 
 		$out .= $atts['after'];
+
+		$out .= '</div>';
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}

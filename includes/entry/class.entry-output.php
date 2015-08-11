@@ -910,10 +910,7 @@ class cnOutput extends cnEntry {
 
 				// The `notranslate` class is added to prevent Google Translate from translating the text.
 				$out .= '<span class="organization-name notranslate"' . ( $this->getEntryType() == 'organization' ? ' style="display: none;"' : '' ) . '>' . $organization . '</span>';
-
 			}
-
-			// if ( ! empty( $dept ) ) $out .= '<span class="organization-unit">' . $dept . '</span>';
 
 			if ( ! empty( $dept ) ) {
 

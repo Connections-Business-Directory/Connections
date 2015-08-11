@@ -536,7 +536,7 @@ class cnTemplateFactory {
 	 */
 	public static function loadTemplate( $atts ) {
 
-		$atts = apply_filters( 'cn_list_template_init', $atts );
+		$atts = apply_filters( 'cn_load_template', $atts );
 
 		$defaults = array(
 			'list_type'     => NULL,

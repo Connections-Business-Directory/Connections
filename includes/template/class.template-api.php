@@ -536,6 +536,14 @@ class cnTemplateFactory {
 	 */
 	public static function loadTemplate( $atts ) {
 
+		/**
+		 * @since 0.7.9.4
+		 *
+		 * @param array $atts {
+		 *     @type string $list_type The shortcode list_type attribute value.
+		 *     @type string $template  The template slug.
+		 * }
+		 */
 		$atts = apply_filters( 'cn_load_template', $atts );
 
 		$defaults = array(

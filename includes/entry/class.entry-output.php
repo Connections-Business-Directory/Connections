@@ -856,21 +856,22 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getOrgUnitBlock( $atts = array() ) {
+
 		$out = '';
-		$org = $this->getOrganization();
-		$dept = $this->getDepartment();
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'before' => '',
-			'after'  => '',
-			'link'   => array(
+			'before'    => '',
+			'after'     => '',
+			'show_org'  => TRUE,
+			'show_dept' => TRUE,
+			'link'      => array(
 				'organization' => cnSettingsAPI::get( 'connections', 'connections_link', 'organization' ),
 				'department'   => cnSettingsAPI::get( 'connections', 'connections_link', 'department' )
-				),
-			'return' => FALSE
+			),
+			'return'    => FALSE
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_orgunit' , $defaults );
@@ -880,11 +881,12 @@ class cnOutput extends cnEntry {
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
+		$org  = $atts['show_org'] ? $this->getOrganization() : '';
+		$dept = $atts['show_dept'] ? $this->getDepartment() : '';
+
 		if ( ! empty( $org ) || ! empty( $dept ) ) {
 
 			$out .= '<span class="org">';
-
-			// if ( ! empty( $org ) ) $out .= '<span class="organization-name"' . ( ( $this->getEntryType() == 'organization' ) ? ' style="display: none;"' : '' ) . '>' . $org . '</span>';
 
 			if ( ! empty( $org ) ) {
 

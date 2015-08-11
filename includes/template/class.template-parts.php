@@ -654,7 +654,7 @@ class cnTemplatePart {
 			// Display the Entry Actions.
 			if ( get_query_var( 'cn-entry-slug' ) ) {
 
-				do_action( 'cn_action_entry_actions-after', $atts, $entry );
+				do_action( 'cn_entry_actions-after', $atts, $entry );
 			}
 
 			$out .= ob_get_clean();

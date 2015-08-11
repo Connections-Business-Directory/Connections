@@ -459,6 +459,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * Add all fields registered using this API.
 		 * This method is run on the admin_init action hook.
 		 *
+		 * @link http://codex.wordpress.org/Function_Reference/add_settings_field
+		 *
 		 * @return void
 		 */
 		public static function addSettingsField() {

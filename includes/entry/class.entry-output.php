@@ -2465,8 +2465,8 @@ class cnOutput extends cnEntry {
 	public function getNotesBlock( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '<div class="note">',
-			'after'     => '</div>',
+			'before'    => '',
+			'after'     => '',
 			'return'    => FALSE
 		);
 
@@ -2476,7 +2476,7 @@ class cnOutput extends cnEntry {
 
 		$out = apply_filters( 'cn_output_notes', $this->getNotes() );
 
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		$out = '<div class="cn-notes">' . $atts['before'] . $out .  $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}

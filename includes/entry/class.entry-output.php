@@ -2497,8 +2497,8 @@ class cnOutput extends cnEntry {
 	public function getBioBlock( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '<div class="bio">',
-			'after'     => '</div>',
+			'before'    => '',
+			'after'     => '',
 			'return'    => FALSE
 		);
 
@@ -2508,7 +2508,7 @@ class cnOutput extends cnEntry {
 
 		$out = apply_filters( 'cn_output_bio', $this->getBio() );
 
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		$out = '<div class="cn-biography">' . $atts['before'] . $out . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}

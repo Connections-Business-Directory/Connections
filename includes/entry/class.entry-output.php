@@ -601,21 +601,21 @@ class cnOutput extends cnEntry {
 
 			default:
 
-				$replace[] = empty( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
+				$replace[] = 0 == strlen( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
-				$replace[] = empty( $first ) ? '' : '<span class="given-name">' . $first . '</span>';
+				$replace[] = 0 == strlen( $first ) ? '' : '<span class="given-name">' . $first . '</span>';
 
-				$replace[] = empty( $middle ) ? '' : '<span class="additional-name">' . $middle . '</span>';
+				$replace[] = 0 == strlen( $middle ) ? '' : '<span class="additional-name">' . $middle . '</span>';
 
-				$replace[] = empty( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
+				$replace[] = 0 == strlen( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
 
-				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+				$replace[] = 0 == strlen( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
-				$replace[] = empty( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
+				$replace[] = 0 == strlen( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
 
-				$replace[] = empty( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
+				$replace[] = 0 == strlen( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
 
-				$replace[] = empty( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
+				$replace[] = 0 == strlen( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
 
 				$html = str_ireplace(
 					$search,

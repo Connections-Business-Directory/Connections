@@ -272,7 +272,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 				/** This filter is documented in includes/template/class.template-walker-term-select.php */
 				$show_option_all = apply_filters( 'cn_list_cats', $atts['show_option_all'] );
-				$selected        = ! $atts['enhanced'] && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
+				$selected        = ! $atts['enhanced'] && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
 				$select         .= "\t<option value='0'$selected>$show_option_all</option>" . PHP_EOL;
 			}
 

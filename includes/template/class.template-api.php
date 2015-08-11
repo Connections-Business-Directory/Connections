@@ -474,13 +474,13 @@ class cnTemplateFactory {
 
 		/**
 		 * Filter the template to get based on its slug.
-		 * 
+		 *
 		 * @since 8.4
 		 *
 		 * @param string $slug The template slug.
 		 * @param string $type The template type.
 		 */
-		$slug = apply_filters( 'cn_get_template_slug', $slug, $type );
+		$slug = apply_filters( 'cn_get_template', $slug, $type );
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();

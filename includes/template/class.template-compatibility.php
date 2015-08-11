@@ -29,7 +29,7 @@ class cnTemplate_Compatibility {
 
 		add_filter( 'cn_template_required_js-tile-plus', array( __CLASS__, 'enqueueChosen' ), 99 );
 
-		add_filter( 'cn_get_template_slug', array( __CLASS__, 'deprecatedTemplates' ) );
+		add_filter( 'cn_get_template', array( __CLASS__, 'deprecatedTemplates' ) );
 	}
 
 	public static function enqueueChosen( $required ) {

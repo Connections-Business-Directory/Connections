@@ -2555,19 +2555,30 @@ class cnOutput extends cnEntry {
 
 		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
 
-		if ( empty( $atts['separator'] ) ) {
-			$atts['list'] === 'unordered' ? $out .= '<ul class="cn_category_list">' : $out .= '<ol class="cn_category_list">';
+		if ( is_null( $atts['separator'] ) ) {
+
+			$out .= $atts['list'] === 'unordered' ? '<ul class="cn_category_list">' : '<ol class="cn_category_list">';
 
 			foreach ( $categories as $category ) {
 				$out .= '<li class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . '</li>';
 			}
 
-			$atts['list'] === 'unordered' ? $out .= '</ul>' : $out .= '</ol>';
+			$out .= $atts['list'] === 'unordered' ? '</ul>' : '</ol>';
+
 		} else {
-			$i = 1;
+
+			$count = count( $categories );
+			$i     = 1;
 
 			foreach ( $categories as $category ) {
-				$out .= '<span class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . ( count( $categories ) > $i++ && ! empty( $atts['separator'] ) ? $atts['separator'] : '' ) . '</span>';
+
+				// The `cn_category` class is named with an underscore for backward compatibility.
+				$out .= sprintf(
+					'<span class="cn-category-name cn_category" id="cn-category-%1$d">%2$s%3$s</span>',
+					$category->term_id,
+					esc_html( $category->name ),
+					$count > $i++ && ! is_null( $atts['separator'] ) ? $atts['separator'] : ''
+					);
 			}
 		}
 

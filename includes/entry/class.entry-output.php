@@ -1017,13 +1017,13 @@ class cnOutput extends cnEntry {
 			return '';
 		}
 
-		$replace[] = empty( $first ) && empty( $last ) ? '' : '<span class="contact-label">' . $atts['label'] . '</span>';
+		$replace[] = 0 == strlen( $first ) && 0 == strlen( $last ) ? '' : '<span class="contact-label">' . $atts['label'] . '</span>';
 
 		// The `notranslate` class is added to prevent Google Translate from translating the text.
-		$replace[] = empty( $first ) ? '' : '<span class="contact-given-name notranslate">' . $first . '</span>';
+		$replace[] = 0 == strlen( $first ) ? '' : '<span class="contact-given-name notranslate">' . $first . '</span>';
 
 		// The `notranslate` class is added to prevent Google Translate from translating the text.
-		$replace[] = empty( $last ) ? '' : '<span class="contact-family-name notranslate">' . $last . '</span>';
+		$replace[] = 0 == strlen( $last ) ? '' : '<span class="contact-family-name notranslate">' . $last . '</span>';
 
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 

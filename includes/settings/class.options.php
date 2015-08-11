@@ -298,8 +298,9 @@ class cnOptions {
 	/**
 	 * Returns the active templates by type.
 	 *
-	 * @param string  $type
-	 * @return array
+	 * @param string $type
+	 *
+	 * @return string
 	 */
 	public function getActiveTemplate( $type ) {
 		return empty( $this->activeTemplates[ $type ]['slug'] ) ? '' : $this->activeTemplates[ $type ]['slug'];

@@ -170,6 +170,7 @@ table.connections .vevent .summary {
 	margin-bottom: 1.5em;
 	margin-left: 0;
 	width: 150px;
+	height: auto;
 }
 
 #currenttheme a,

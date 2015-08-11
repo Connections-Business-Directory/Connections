@@ -536,6 +536,12 @@ class cnTemplateFactory {
 	 */
 	public static function loadTemplate( $atts ) {
 
+		$type     = 'all';
+		$defaults = array(
+			'list_type'     => NULL,
+			'template'      => NULL,
+		);
+
 		/**
 		 * @since 0.7.9.4
 		 *
@@ -544,16 +550,8 @@ class cnTemplateFactory {
 		 *     @type string $template  The template slug.
 		 * }
 		 */
-		$atts = apply_filters( 'cn_load_template', $atts );
-
-		$defaults = array(
-			'list_type'     => NULL,
-			'template'      => NULL,
-		);
-
-		$type = 'all';
-
-		$atts = shortcode_atts( $defaults, $atts );
+		$defaults = apply_filters( 'cn_load_template', $defaults );
+		$atts     = shortcode_atts( $defaults, $atts );
 
 		if ( ! empty( $atts['list_type'] ) ) {
 

@@ -50,6 +50,16 @@ class cnTemplate_Compatibility {
 		return $required;
 	}
 
+	/**
+	 * Callback for the `cn_get_template` filter which will substitute the default template when a removed template is requested.
+	 *
+	 * @access private
+	 * @since  8.4
+	 *
+	 * @param string $slug
+	 *
+	 * @return string
+	 */
 	public static function deprecatedTemplates( $slug ) {
 
 		$deprecated = array(

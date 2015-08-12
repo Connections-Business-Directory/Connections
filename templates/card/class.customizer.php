@@ -42,7 +42,7 @@ class cnCard_Customizer {
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize,
-				'cn_card_border_width',
+				"cn_{$slug}_card_border_width",
 				array(
 					'label'       => __( 'Border Width', 'connections' ),
 					'type'        => 'number',
@@ -68,7 +68,7 @@ class cnCard_Customizer {
 		$wp_customize->add_control(
 			new WP_Customize_Color_Control(
 				$wp_customize,
-				'cn_card_border_color',
+				"cn_{$slug}_card_border_color",
 				array(
 					'label'       => __( 'Border Color', 'connections' ),
 					//'type'        => 'number',
@@ -94,7 +94,7 @@ class cnCard_Customizer {
 		$wp_customize->add_control(
 			new WP_Customize_Control(
 				$wp_customize,
-				'cn_card_border_radius',
+				"cn_{$slug}_card_border_radius",
 				array(
 					'label'       => __( 'Border Radius', 'connections' ),
 					'type'        => 'number',

@@ -156,7 +156,8 @@ class cnTemplateFactory {
 			'url'         => '',
 			'thumbnail'   => '',
 			'functions'   => '',
-			'parts'       => array()
+			'parts'       => array(),
+			'supports'    => array(),
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );

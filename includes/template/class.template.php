@@ -631,7 +631,7 @@ class cnTemplate {
 	 */
 	private function checkForMinified( $filePath ) {
 
-		if ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) {
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 
 			return $filePath;
 		}

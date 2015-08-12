@@ -2577,8 +2577,8 @@ class cnOutput extends cnEntry {
 					'<span class="cn-category-name cn_category" id="cn-category-%1$d">%2$s%3$s</span>',
 					$category->term_id,
 					esc_html( $category->name ),
-					$count > $i++ && ! is_null( $atts['separator'] ) ? $atts['separator'] : ''
-					);
+					$count > $i ++ && ! is_null( $atts['separator'] ) ? $atts['separator'] : ''
+				);
 			}
 		}
 

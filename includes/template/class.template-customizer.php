@@ -1866,8 +1866,6 @@ class cnTemplate_Customizer {
 	 *
 	 * @param array    $atts
 	 * @param cnOutput $entry Instance of the cnEntry class.
-	 *
-	 * @return string
 	 */
 	public function singleActions( $atts = array(), $entry ) {
 

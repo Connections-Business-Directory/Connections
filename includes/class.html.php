@@ -216,8 +216,8 @@ class cnHTML {
 	 * @uses   sanitize_html_class()
 	 * @uses   esc_attr()
 	 *
-	 * @param  string $type  The attribute name.
-	 * @param  string $value The attribute value.
+	 * @param  string       $type  The attribute name.
+	 * @param  array|string $value The attribute value.
 	 *
 	 * @return string        The rendered attribute.
 	 */

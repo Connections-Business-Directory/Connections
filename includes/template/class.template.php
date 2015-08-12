@@ -1022,17 +1022,27 @@ class cnTemplate {
 
 		// Ensure the core CSS is added as a required CSS file when enqueueing the template's CSS.
 		$required = cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ? array( 'cn-public' ) : array();
-
 		$required = apply_filters( 'cn_template_required_css-' . $this->slug, $required, $this );
+		$handle   = "cnt-{$this->slug}";
 
-		wp_enqueue_style( "cnt-{$this->slug}", $this->parts['css-url'], $required, $this->version );
-
+		wp_enqueue_style( $handle, $this->parts['css-url'], $required, $this->version );
 
 		if ( isset( $this->parts['css-custom-url'] ) ) {
 
 			wp_enqueue_style( "cnt-{$this->slug}-custom", $this->parts['css-custom-url'], array( "cnt-{$this->slug}" ), $this->version );
 		}
 
+		/**
+		 * Runs after the template's CSS and custom CSS have been enqueued.
+		 *
+		 * The variable part of the hook name is the template's slug.
+		 * 
+		 * @since 8.4
+		 *
+		 * @param string $handle   The template's registered CSS handle.
+		 * @param array  $required The template's registered dependencies.
+		 */
+		do_action( 'cn_template_enqueue_css-' . $this->slug, $handle, $required );
 	}
 
 	/**

@@ -446,8 +446,11 @@ class cnTemplate {
 	public function getThumbnail() {
 		$thumbnail = array();
 
-		$thumbnail['name'] = $this->thumbnail;
-		$thumbnail['url']  = $this->url . $this->thumbnail;
+		if ( $this->thumbnail ) {
+
+			$thumbnail['name'] = $this->thumbnail;
+			$thumbnail['url']  = $this->url . $this->thumbnail;
+		}
 
 		return $thumbnail;
 	}

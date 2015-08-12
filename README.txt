@@ -198,6 +198,56 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.4 08/12/2015 =
+* FEATURE: Introduce the Template Customizer.
+* FEATURE: Complete rewrite of the Default Entry Card template to support the new Template Customizer.
+* NEW: Add action which runs after the template's registered CSS and custom CSS files have been enqueued.
+* BUG: Fix the bottom bulk action control on the categories admin page.
+* BUG: Check that $atts['selected'] is numeric in CN_Walker_Term_Select_List_Enhanced::render() to prevent PHP notice.
+* TWEAK: Code cleanup of cnHTML to better meet coding standards and code de-duplication.
+* TWEAK: Code cleanup of cnMetaboxRender::fields() to better meet coding standards and reduce code duplication by utilizing cnHTML.
+* TWEAK: cnHTML::echoOrReturn() should be a static method.
+* TWEAK: Remove the legacy template installer admin action.
+* TWEAK: Remove the Template and Extension Dashboard metaboxes since they are no longer relevant.
+* TWEAK: Add link to the new Hobbies extension to the readme.txt file.
+* TWEAK: Remove deprecated templates.
+* TWEAK: Add filter to the template to get via the template slug.
+* TWEAK: Add compatibility filter to used the default template if a deprecated/removed template is being used.
+* TWEAK: If script debugging is enabled to not check for minified CSS and JS files when loading template assets.
+* TWEAK: Remove unused var_dump().
+* TWEAK: Simplify ternary in cnSettingsAPI::registerFields().
+* TWEAK: Remove padding from the last table row in the metaboxes.
+* TWEAK: Set height of template thumbnail to auto.
+* TWEAK: Rename filter `cn_list_template_init` to `cn_load_template`.
+* TWEAK: Apply `cn_load_template` filter to the function defaults rather than the function $atts.
+* TWEAK: Tweak to cnOutput::getNotesBlock(). Move the before/after attributes to be hard coded making the attributes empty. This makes it consistent with the other output functions.
+* TWEAK: Tweak to cnOutput::getBioBlock(). Move the before/after attributes to be hard coded making the attributes empty. This makes it consistent with the other output functions.
+* TWEAK: Simplify logic which appends the before/after attributes to the output of cnOutput::getImage().
+* TWEAK: Small Tweak to cnOutput::getOrgUnitBlock() to allow suppression of either/or the org or unit (dept).
+* TWEAK: Check for string length rather than using empty when checking for the parts of the name so values of `0` are valid.
+* TWEAK: Check for string length rather than using empty when checking for the parts of the contact name so values of `0` are valid.
+* TWEAK: Add a containing div around the output of cnOutput::getCategoryBlock().
+* TWEAK: Simplify logic of cnOutput::getCategoryBlock().
+* TWEAK: Rename action `cn_action_entry_actions-after` to `cn_entry_actions-after` to match naming style.
+* TWEAK: Make logic for determining if the requested template has been found by checking if it is an object instance of cnTemplate.
+* TWEAK: Add support to the Settings API for applying settings defaults for the Template Customizer.
+* TWEAK: Add filter so active template can be overridden and set to the correct template being customized.
+* TWEAK: Disable the output of the template parts form open/close if the current view is the Customizer preview.
+* TWEAK: Add the supports property default when a template is registered with cnTemplateFactory.
+* TWEAK: Complete refactor of the code for the Templates admin page to make it cleaner and more maintainable and enable support for the Template Customizer.
+* TWEAK: Misc CSS tweaks.
+* TWEAK: Tweak logic to cnTemplate::getThumbnail()  so it only returns a populated array if a thumbnail exists.
+* OTHER: Remove extra whitespace.
+* OTHER: Correct misspelling in phpDoc.
+* OTHER: Update minified CSS files.
+* I18N: Update the POT file.
+* I18N: Update the MO files.
+* DEV: Minor phpDoc fixes in the Metabox API classes.
+* DEV: Add phpDoc to filter `cn_load_template`.
+* DEV: Correct phpDoc for cnOptions::getActivateTemplate().
+* DEV: Add @link to phpDoc for cnSettingsAPI::addSettingsField().
+* DEV: Correct param type in phpDoc for cnHTML::attribute().
+
 = 8.3.3 07/17/2015 =
 * FEATURE: The default category "Uncategorized" can now be renamed.
 * FEATURE: The default category can now be changed to any category.

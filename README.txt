@@ -1022,74 +1022,9 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * BUG: Fix version in changelog and readme.
 * TWEAK: Add `tag` option to getTitleBlock();.
 
-= 8.1.3 10/01/2014 =
-* BUG: Add `style` that should not be added to the img tag attributes.
-* BUG: Update cnLog to be compatible with change made in WP_Error in WP 4.0 when WP_DEBUG is not defined or FALSE.
-* BUG: Fixed undefined index error.
-* TWEAK: Refactor and add filters to cnRetrieve::search().
-* TWEAK: Move the image style from the span to the img.
-* TWEAK: Change `cn-list-actions` from id to class.
-* TWEAK: Update image_path_exists_failed and image_path_writeable_failed error messages.
-* OTHER: Prevent themes from setting spans as blocks within Connections HTML markup.
-* OTHER: Add the `cn_list_body_class` filter.
-* OTHER: Add the `cn_list_row_class` filter.
-* OTHER: Add `limit` support when querying phone numbers.
-* OTHER: Add `limit` support when querying email addresses.
-* OTHER: Temporarily disable the HiDPI image in srcset.
-* OTHER: Add experimental code (disabled) to speedup cnImage when called thru a URL query.
-* I18N: Update POT file.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 0.8.3 =
-This a major update to Connections it is recommended to backup before updating.
-
-= 0.8.4 =
-This a major update to Connections it is recommended to backup before updating.
-
-= 0.8.5 =
-This a major update to Connections it is recommended to backup before updating.
-
-= 0.8.6 =
-This a major update to Connections it is recommended to backup before updating.
-
-= 0.8.7 =
-This a major update to Connections it is recommended to backup before updating.
-
-= 0.8.8 =
-This a major update to Connections it is recommended to backup before updating.
-
-= 0.8.9 =
-This a major update to Connections it is recommended to backup before updating.
-
-= 0.8.10 =
-If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
-
-= 0.8.11 =
-If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
-
-= 0.8.12 =
-If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
-
-= 0.8.13 =
-If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update.
-
-= 0.8.14 =
-If you are updating from a version less than 0.8, it is recommended to backup before updating as this is a major update. Requires WordPress >= 3.8.
-
-= 8.1 =
-This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
-
-= 8.1.1 =
-This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
-
-= 8.1.2 =
-This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
-
-= 8.1.3 =
-This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
 
 = 8.1.4 =
 This a major update to Connections it is recommended to backup before updating. Requires WordPress >= 3.8.
@@ -1146,4 +1081,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.0.
 It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 = 8.3.3 =
+It is recommended to backup before updating. Requires WordPress >= 4.0.
+
+= 8.4 =
 It is recommended to backup before updating. Requires WordPress >= 4.0.

@@ -23,7 +23,7 @@
 #cn-list div.cn-list-section-head h4 {
 	font-size: 16px;
 	padding: 0;
-	margin-bottom: .8em;
+	margin: .8em 0;
 }
 
 #cn-list div.cn-alphaindex {
@@ -88,7 +88,7 @@ img.cn-image {
  * Name and Org Styles
  */
 #cn-list span.fn {
-	display: block;
+	display: inline-block;
 }
 
 #cn-list span.org {
@@ -449,7 +449,7 @@ input#cn-search-submit {
 	/*clear: both;*/
 	display: block;
 	font-size: 12px;
-	margin: 10px 0;
+	margin: 20px 0;
 	text-align: center;
 }
 

@@ -393,7 +393,14 @@ class cnTemplateFactory {
 	 * @return object
 	 */
 	public static function getCatalog( $types = array() ) {
+
 		$templates = new stdClass();
+
+		// Purge the transient so the page is freshly scanned by the template API.
+		delete_transient( 'cn_legacy_templates' );
+
+		self::registerLegacy();
+		//self::activateOLD();
 
 		// Convert to an array.
 		if ( ! is_array( $types ) ) {

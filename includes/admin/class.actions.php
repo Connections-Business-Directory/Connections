@@ -1199,6 +1199,7 @@ class cnAdminActions {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
+		$action   = '';
 
 		if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
 
@@ -1207,7 +1208,6 @@ class cnAdminActions {
 		} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
 
 			$action = $_REQUEST['action2'];
-
 		}
 
 		/*

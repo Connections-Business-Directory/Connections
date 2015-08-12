@@ -269,7 +269,10 @@ class cnTemplate_Customizer {
 
 			$features = $this->getSupportsOptions( 'customizer' );
 
-			$this->registerFeatures( $features, $wp_customize );
+			if ( FALSE !== $features ) {
+
+				$this->registerFeatures( $features, $wp_customize );
+			}
 		}
 	}
 

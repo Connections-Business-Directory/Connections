@@ -366,7 +366,8 @@ span.date-name {
 /*
  * Search Message
  */
-#cn-search-messages {
+#cn-search-messages,
+#cn-customizer-messages {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-left: 4px solid #FFBA00;
 	padding: 10px 12px;

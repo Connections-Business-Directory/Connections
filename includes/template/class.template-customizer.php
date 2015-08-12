@@ -422,7 +422,7 @@ class cnTemplate_Customizer {
 		 *
 		 * @param WP_Customize_Manager $wp_customize
 		 */
-		do_action('cn_template_customizer_sections_before', $wp_customize );
+		do_action( 'cn_template_customizer_sections_before', $wp_customize );
 
 		/**
 		 * Register Customizer sections before the core Template Customizer sections.
@@ -434,7 +434,7 @@ class cnTemplate_Customizer {
 		 * @param WP_Customize_Manager $wp_customize
 		 * @param string               $slug         The template that is being customized slug.
 		 */
-		do_action('cn_template_customizer_sections_before-' . $this->slug, $wp_customize );
+		do_action( 'cn_template_customizer_sections_before-' . $this->slug, $wp_customize );
 
 		$wp_customize->add_section(
 			'cn_template_customizer_section_global_display',
@@ -542,7 +542,7 @@ class cnTemplate_Customizer {
 		 *
 		 * @param WP_Customize_Manager $wp_customize
 		 */
-		do_action('cn_template_customizer_sections_after-' . $this->slug, $wp_customize );
+		do_action( 'cn_template_customizer_sections_after-' . $this->slug, $wp_customize );
 
 		/**
 		 * Register Customizer sections after the core Template Customizer sections.
@@ -554,7 +554,7 @@ class cnTemplate_Customizer {
 		 * @param WP_Customize_Manager $wp_customize
 		 * @param string               $slug         The template that is being customized slug.
 		 */
-		do_action('cn_template_customizer_sections_after', $wp_customize );
+		do_action( 'cn_template_customizer_sections_after', $wp_customize );
 
 		self::registerGlobalDisplayControl( $wp_customize );
 	}

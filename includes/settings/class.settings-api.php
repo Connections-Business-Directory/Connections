@@ -323,7 +323,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			foreach ( $fields as $key => $field ) {
 				// Store the position values so an array multi sort can be done to position the fields in the desired order.
-				( isset( $field['position'] ) && ! empty( $field['position'] ) ) ? $sort[] = $field['position'] : $field[] = 0;
+				$sort[] = ( isset( $field['position'] ) && ! empty( $field['position'] ) ) ? $field['position'] : 0;
 			}
 
 			array_multisort( $sort, $fields );
@@ -366,7 +366,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					'id'                => $field['id'],
 					'type'              => $field['type'],
 					'size'              => isset( $field['size'] ) ? $field['size'] : NULL,
-					'title'             => $field['title'],
+					'title'             => isset( $field['title'] ) ? $field['title'] : '',
 					'desc'              => isset( $field['desc'] ) ? $field['desc'] : '',
 					'help'              => isset( $field['help'] ) ? $field['help'] : '',
 					'show_option_none'  => isset( $field['show_option_none'] ) ? $field['show_option_none'] : '',
@@ -375,35 +375,26 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					'default'           => isset( $field['default'] ) && ! empty( $field['default'] ) ? $field['default'] : FALSE,*/
 				);
 
-				/*
-				 * Reference:
-				 * http://codex.wordpress.org/Function_Reference/add_settings_field
-				 */
-				/*add_settings_field(
-					$field['id'],
-					$field['title'],
-					array(&$this, 'field'),
-					$field['page_hook'],
-					$section,
-					$options
-				);*/
-
 				// Set the field sanitation callback.
 				$callback = isset( $field['sanitize_callback'] ) && ! empty( $field['sanitize_callback'] ) ? $field['sanitize_callback'] : '';
 
-				// Register the settings.
-				//register_setting( $field['page_hook'], $optionName, $callback );
+				/**
+				 * Since this setting is handled by the Customizer API, no need to add it to the fields
+				 * to be registered with the WordPress Settings API.
+				 */
+				if ( 'customizer' !== $field['type'] ) {
 
-				self::$fields[] = array(
-					'id'                => $field['id'],
-					'title'             => $field['title'],
-					'callback'          => array( __CLASS__, 'field' ),
-					'page_hook'         => $field['page_hook'],
-					'section'           => $section,
-					'options'           => $options,
-					'option_name'       => $optionName,
-					'sanitize_callback' => $callback
+					self::$fields[] = array(
+						'id'                => $field['id'],
+						'title'             => $field['title'],
+						'callback'          => array( __CLASS__, 'field' ),
+						'page_hook'         => $field['page_hook'],
+						'section'           => $section,
+						'options'           => $options,
+						'option_name'       => $optionName,
+						'sanitize_callback' => $callback
 					);
+				}
 
 				/*
 				 * Store the default settings values.
@@ -427,8 +418,6 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					self::$registry[$field['plugin_id']][$optionName][$field['id']] = $defaultValue;
 				}
 			}
-
-			//var_dump(self::registry);
 
 			/*
 			 * Add the options and the default values to the db.
@@ -460,6 +449,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		/**
 		 * Add all fields registered using this API.
 		 * This method is run on the admin_init action hook.
+		 *
+		 * @link http://codex.wordpress.org/Function_Reference/add_settings_field
 		 *
 		 * @return void
 		 */
@@ -543,7 +534,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				{
 					echo '<h2 class="nav-tab-wrapper">';
 
-					// Store the position values so an array multi sort can be done to postion the tabs in the desired order.
+					// Store the position values so an array multi sort can be done to position the tabs in the desired order.
 					foreach ( $tabs as $key => $tab )
 					{
 						$sort[] = ( isset( $tab['position'] ) && ! empty( $tab['position'] ) ) ? $tab['position'] : 0;

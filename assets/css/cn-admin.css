@@ -170,6 +170,7 @@ table.connections .vevent .summary {
 	margin-bottom: 1.5em;
 	margin-left: 0;
 	width: 150px;
+	height: auto;
 }
 
 #currenttheme a,
@@ -936,6 +937,11 @@ span.cn-radio-option {
 .cn-metabox-section table tr th,
 .cn-metabox-section table tr td {
 	padding-bottom: 20px;
+}
+
+.cn-metabox-section table tr:last-child th,
+.cn-metabox-section table tr:last-child td {
+	padding-bottom: 0;
 }
 
 /*------------------------------------------------------------------------------

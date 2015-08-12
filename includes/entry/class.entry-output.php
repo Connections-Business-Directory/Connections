@@ -490,7 +490,7 @@ class cnOutput extends cnEntry {
 
 		$out = apply_filters( 'cn_output_image', $out, $atts, $this );
 
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -601,21 +601,21 @@ class cnOutput extends cnEntry {
 
 			default:
 
-				$replace[] = empty( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
+				$replace[] = 0 == strlen( $honorificPrefix ) ? '' : '<span class="honorific-prefix">' . $honorificPrefix . '</span>';
 
-				$replace[] = empty( $first ) ? '' : '<span class="given-name">' . $first . '</span>';
+				$replace[] = 0 == strlen( $first ) ? '' : '<span class="given-name">' . $first . '</span>';
 
-				$replace[] = empty( $middle ) ? '' : '<span class="additional-name">' . $middle . '</span>';
+				$replace[] = 0 == strlen( $middle ) ? '' : '<span class="additional-name">' . $middle . '</span>';
 
-				$replace[] = empty( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
+				$replace[] = 0 == strlen( $last ) ? '' : '<span class="family-name">' . $last . '</span>';
 
-				$replace[] = empty( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
+				$replace[] = 0 == strlen( $honorificSuffix ) ? '' : '<span class="honorific-suffix">' . $honorificSuffix . '</span>';
 
-				$replace[] = empty( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
+				$replace[] = 0 == strlen( $first ) ? '' : '<span class="given-name-initial">' . $first[0] . '</span>';
 
-				$replace[] = empty( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
+				$replace[] = 0 == strlen( $middle ) ? '' : '<span class="additional-name-initial">' . $middle[0] . '</span>';
 
-				$replace[] = empty( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
+				$replace[] = 0 == strlen( $last ) ? '' : '<span class="family-name-initial">' . $last[0] . '</span>';
 
 				$html = str_ireplace(
 					$search,
@@ -856,21 +856,22 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getOrgUnitBlock( $atts = array() ) {
+
 		$out = '';
-		$org = $this->getOrganization();
-		$dept = $this->getDepartment();
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'before' => '',
-			'after'  => '',
-			'link'   => array(
+			'before'    => '',
+			'after'     => '',
+			'show_org'  => TRUE,
+			'show_dept' => TRUE,
+			'link'      => array(
 				'organization' => cnSettingsAPI::get( 'connections', 'connections_link', 'organization' ),
 				'department'   => cnSettingsAPI::get( 'connections', 'connections_link', 'department' )
-				),
-			'return' => FALSE
+			),
+			'return'    => FALSE
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_orgunit' , $defaults );
@@ -880,11 +881,12 @@ class cnOutput extends cnEntry {
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
 
+		$org  = $atts['show_org'] ? $this->getOrganization() : '';
+		$dept = $atts['show_dept'] ? $this->getDepartment() : '';
+
 		if ( ! empty( $org ) || ! empty( $dept ) ) {
 
 			$out .= '<span class="org">';
-
-			// if ( ! empty( $org ) ) $out .= '<span class="organization-name"' . ( ( $this->getEntryType() == 'organization' ) ? ' style="display: none;"' : '' ) . '>' . $org . '</span>';
 
 			if ( ! empty( $org ) ) {
 
@@ -908,10 +910,7 @@ class cnOutput extends cnEntry {
 
 				// The `notranslate` class is added to prevent Google Translate from translating the text.
 				$out .= '<span class="organization-name notranslate"' . ( $this->getEntryType() == 'organization' ? ' style="display: none;"' : '' ) . '>' . $organization . '</span>';
-
 			}
-
-			// if ( ! empty( $dept ) ) $out .= '<span class="organization-unit">' . $dept . '</span>';
 
 			if ( ! empty( $dept ) ) {
 
@@ -935,14 +934,9 @@ class cnOutput extends cnEntry {
 
 				// The `notranslate` class is added to prevent Google Translate from translating the text.
 				$out .= '<span class="organization-unit notranslate">' . $department . '</span>';
-
 			}
 
 			$out .= '</span>';
-
-		} else {
-
-			return '';
 		}
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
@@ -1023,13 +1017,13 @@ class cnOutput extends cnEntry {
 			return '';
 		}
 
-		$replace[] = empty( $first ) && empty( $last ) ? '' : '<span class="contact-label">' . $atts['label'] . '</span>';
+		$replace[] = 0 == strlen( $first ) && 0 == strlen( $last ) ? '' : '<span class="contact-label">' . $atts['label'] . '</span>';
 
 		// The `notranslate` class is added to prevent Google Translate from translating the text.
-		$replace[] = empty( $first ) ? '' : '<span class="contact-given-name notranslate">' . $first . '</span>';
+		$replace[] = 0 == strlen( $first ) ? '' : '<span class="contact-given-name notranslate">' . $first . '</span>';
 
 		// The `notranslate` class is added to prevent Google Translate from translating the text.
-		$replace[] = empty( $last ) ? '' : '<span class="contact-family-name notranslate">' . $last . '</span>';
+		$replace[] = 0 == strlen( $last ) ? '' : '<span class="contact-family-name notranslate">' . $last . '</span>';
 
 		$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
@@ -2465,8 +2459,8 @@ class cnOutput extends cnEntry {
 	public function getNotesBlock( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '<div class="note">',
-			'after'     => '</div>',
+			'before'    => '',
+			'after'     => '',
 			'return'    => FALSE
 		);
 
@@ -2476,7 +2470,7 @@ class cnOutput extends cnEntry {
 
 		$out = apply_filters( 'cn_output_notes', $this->getNotes() );
 
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		$out = '<div class="cn-notes">' . $atts['before'] . $out .  $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2497,8 +2491,8 @@ class cnOutput extends cnEntry {
 	public function getBioBlock( $atts = array() ) {
 
 		$defaults = array(
-			'before'    => '<div class="bio">',
-			'after'     => '</div>',
+			'before'    => '',
+			'after'     => '',
 			'return'    => FALSE
 		);
 
@@ -2508,7 +2502,7 @@ class cnOutput extends cnEntry {
 
 		$out = apply_filters( 'cn_output_bio', $this->getBio() );
 
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		$out = '<div class="cn-biography">' . $atts['before'] . $out . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}
@@ -2555,27 +2549,42 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $categories ) ) return $out;
 
+		$out .= '<div class="cn-categories">';
+
 		$out .= $atts['before'];
 
 		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
 
-		if ( empty( $atts['separator'] ) ) {
-			$atts['list'] === 'unordered' ? $out .= '<ul class="cn_category_list">' : $out .= '<ol class="cn_category_list">';
+		if ( is_null( $atts['separator'] ) ) {
+
+			$out .= $atts['list'] === 'unordered' ? '<ul class="cn_category_list">' : '<ol class="cn_category_list">';
 
 			foreach ( $categories as $category ) {
 				$out .= '<li class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . '</li>';
 			}
 
-			$atts['list'] === 'unordered' ? $out .= '</ul>' : $out .= '</ol>';
+			$out .= $atts['list'] === 'unordered' ? '</ul>' : '</ol>';
+
 		} else {
-			$i = 1;
+
+			$count = count( $categories );
+			$i     = 1;
 
 			foreach ( $categories as $category ) {
-				$out .= '<span class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . ( count( $categories ) > $i++ && ! empty( $atts['separator'] ) ? $atts['separator'] : '' ) . '</span>';
+
+				// The `cn_category` class is named with an underscore for backward compatibility.
+				$out .= sprintf(
+					'<span class="cn-category-name cn_category" id="cn-category-%1$d">%2$s%3$s</span>',
+					$category->term_id,
+					esc_html( $category->name ),
+					$count > $i ++ && ! is_null( $atts['separator'] ) ? $atts['separator'] : ''
+				);
 			}
 		}
 
 		$out .= $atts['after'];
+
+		$out .= '</div>';
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}

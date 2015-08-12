@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.3.3
+ * Version: 8.4
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.3.3
+ * @version 8.4
  */
 
 // Exit if accessed directly
@@ -226,7 +226,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.3.3' );
+			define( 'CN_CURRENT_VERSION', '8.4' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -662,9 +662,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Must include BEFORE class.template-api.php.
 			include_once CN_PATH . 'templates/names/names.php';
 			include_once CN_PATH . 'templates/card/card-default.php';
-			include_once CN_PATH . 'templates/card-bio/card-bio.php';
-			include_once CN_PATH . 'templates/card-single/card-single-default.php';
-			include_once CN_PATH . 'templates/card-tableformat/card-table-format.php';
 			include_once CN_PATH . 'templates/profile/profile.php';
 			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
 			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
@@ -684,6 +681,34 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// System Info
 			require_once CN_PATH . 'includes/system-info/class.system-info.php';
+
+			// Include the Template Customizer files.
+			add_action( 'plugins_loaded', array( __CLASS__, 'includeCustomizer' ) );
+		}
+
+		/**
+		 * This callback run on the plugins_loaded hook to include the Customizer classes.
+		 *
+		 * Matches core WordPress @see _wp_customize_include().
+		 *
+		 * @access private
+		 * @since  8.4
+		 */
+		public static function includeCustomizer() {
+
+			if ( ! ( ( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] ) ||
+			         ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) ) ) ) {
+				return;
+			}
+
+			require_once CN_PATH . 'includes/template/class.template-customizer.php';
+
+			/**
+			 * Convenience actions that templates can hook into to load their Customizer config files.
+			 *
+			 * @since 8.4
+			 */
+			do_action( 'cn_template_customizer_include' );
 		}
 
 		/**

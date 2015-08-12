@@ -343,19 +343,28 @@ class cnTemplatePart {
 
 		$out = '';
 
-		// Get the directory home page ID.
-		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
+		if ( is_customize_preview() ) {
 
-		$addAction = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
+			return self::echoOrReturn( $atts['return'], $out );
+		}
+
+		// Get the directory home page ID.
+		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ) : $atts['home_id'];
 
 		// The base post permalink is required, do not filter the permalink thru cnSEO.
 		cnSEO::doFilterPermalink( FALSE );
 
-		$permalink = get_permalink( $homeID );
-
-		//$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
-
 		if ( $wp_rewrite->using_permalinks() ) {
+
+			$addAction = $homeID != $atts['home_id'] ? TRUE : FALSE;
+			$permalink = get_permalink( $homeID );
+			//$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
+
+			//if ( is_customize_preview() ) {
+			//
+			//	$addAction = TRUE;
+			//	$permalink = get_permalink( $homeID );
+			//}
 
 			$out .= '<form class="cn-form" id="cn-cat-select" action="' . ( $addAction || $atts['force_home'] ? $permalink : '' ) . '" method="get">';
 			if ( is_front_page() ) $out .= '<input type="hidden" name="page_id" value="' . $homeID .'">';
@@ -365,6 +374,12 @@ class cnTemplatePart {
 			$out .= '<form class="cn-form" id="cn-cat-select" method="get">';
 			$out .= '<input type="hidden" name="' . ( is_page() ? 'page_id' : 'p' ) . '" value="' . $homeID .'">';
 		}
+
+		//if ( is_customize_preview() ) {
+		//
+		//	$out .= '<input type="hidden" name="cn-customize-template" value="true">';
+		//	$out .= '<input type="hidden" name="cn-template" value="cmap">';
+		//}
 
 		// Add the cnSEO permalink filter.
 		cnSEO::doFilterPermalink();
@@ -391,6 +406,11 @@ class cnTemplatePart {
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( is_customize_preview() ) {
+
+			return self::echoOrReturn( $atts['return'], '' );
+		}
 
 		$out = '</form>';
 
@@ -654,7 +674,7 @@ class cnTemplatePart {
 			// Display the Entry Actions.
 			if ( get_query_var( 'cn-entry-slug' ) ) {
 
-				do_action( 'cn_action_entry_actions-after', $atts, $entry );
+				do_action( 'cn_entry_actions-after', $atts, $entry );
 			}
 
 			$out .= ob_get_clean();

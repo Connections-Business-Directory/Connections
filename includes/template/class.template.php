@@ -145,6 +145,7 @@ class cnTemplate {
 	 */
 	public $parts = array();
 
+	private $supports = array();
 
 	/**
 	 * Setup the template.
@@ -171,6 +172,14 @@ class cnTemplate {
 		$this->thumbnail   = $atts->thumbnail;
 		$this->functions   = $atts->functions;
 		$this->parts       = $atts->parts;
+		//$this->supports    = $atts->supports;
+
+		/**
+		 * @todo This code is commented out for now because it was implemented in @see cnTemplate_Customizer().
+		 *       What needs to be done is the code extracted out of the cnTemplate_Customizer class into its own class
+		 *       so it can be shared with this class and cnTemplate_Customizer.
+		 */
+		$this->setupTemplateFeatures( $atts->supports );
 
 		// This filter is to make sure the legacy template file names are added to the search paths.
 		add_filter( 'cn_template_file_names-' . $this->slug, array( $this, 'legacyFileNames' ), 10, 5 );
@@ -446,10 +455,43 @@ class cnTemplate {
 	public function getThumbnail() {
 		$thumbnail = array();
 
-		$thumbnail['name'] = $this->thumbnail;
-		$thumbnail['url']  = $this->url . $this->thumbnail;
+		if ( $this->thumbnail ) {
+
+			$thumbnail['name'] = $this->thumbnail;
+			$thumbnail['url']  = $this->url . $this->thumbnail;
+		}
 
 		return $thumbnail;
+	}
+
+	public function setupTemplateFeatures( $features ) {
+
+		if ( is_array( $features ) ) {
+
+			foreach ( $features as $feature => $options ) {
+
+				$this->supports[ $feature ] = $options;
+			}
+
+		} else {
+
+			$this->supports[ $features ] = TRUE;
+		}
+	}
+
+	public function supports( $feature ) {
+
+		return array_key_exists( $feature, $this->supports );
+	}
+
+	public function getSupportsOptions( $feature ) {
+
+		if ( $this->supports( $feature ) ) {
+
+			return $this->supports[ $feature ];
+		}
+
+		return FALSE;
 	}
 
 	/**
@@ -588,6 +630,11 @@ class cnTemplate {
 	 * @return string
 	 */
 	private function checkForMinified( $filePath ) {
+
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+
+			return $filePath;
+		}
 
 		$file = pathinfo( $filePath );
 
@@ -948,7 +995,7 @@ class cnTemplate {
 			$path[5] = trailingslashit( get_stylesheet_directory() ) . $template_directory . trailingslashit( $this->slug );
 		}
 
-		$path[20]  =  trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug );
+		$path[20]  = trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug );
 		$path[40]  = trailingslashit( $upload_dir['basedir'] ) . $template_directory . trailingslashit( $this->slug );
 		$path[80]  = CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug );
 		$path[100] = $this->getPath();
@@ -1017,17 +1064,27 @@ class cnTemplate {
 
 		// Ensure the core CSS is added as a required CSS file when enqueueing the template's CSS.
 		$required = cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ? array( 'cn-public' ) : array();
-
 		$required = apply_filters( 'cn_template_required_css-' . $this->slug, $required, $this );
+		$handle   = "cnt-{$this->slug}";
 
-		wp_enqueue_style( "cnt-{$this->slug}", $this->parts['css-url'], $required, $this->version );
-
+		wp_enqueue_style( $handle, $this->parts['css-url'], $required, $this->version );
 
 		if ( isset( $this->parts['css-custom-url'] ) ) {
 
 			wp_enqueue_style( "cnt-{$this->slug}-custom", $this->parts['css-custom-url'], array( "cnt-{$this->slug}" ), $this->version );
 		}
 
+		/**
+		 * Runs after the template's CSS and custom CSS have been enqueued.
+		 *
+		 * The variable part of the hook name is the template's slug.
+		 *
+		 * @since 8.4
+		 *
+		 * @param string $handle   The template's registered CSS handle.
+		 * @param array  $required The template's registered dependencies.
+		 */
+		do_action( 'cn_template_enqueue_css-' . $this->slug, $handle, $required );
 	}
 
 	/**

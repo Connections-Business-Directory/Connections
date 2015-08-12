@@ -11,8 +11,13 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+/**
+ * Class cnHTML
+ */
 class cnHTML {
 
 	/**
@@ -20,8 +25,9 @@ class cnHTML {
 	 * dynamically call the correct field type to render.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @param  array  $atts  The field attirbutes array.
+	 * @since  0.8
+	 *
+	 * @param  array  $atts  The field attributes array.
 	 * @param  string $value The field value.
 	 *
 	 * @return string        The rendered field.
@@ -43,6 +49,7 @@ class cnHTML {
 				break;
 
 			case 'checkbox_group':
+			case 'checkbox-group':
 
 				return self::checkboxGroup( $atts, $value );
 
@@ -88,7 +95,8 @@ class cnHTML {
 	 * Renders a text input field.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
+	 *
 	 * @param  array  $atts  The field attributes.
 	 * @param  string $value The field value.
 	 *
@@ -105,7 +113,8 @@ class cnHTML {
 	 * Renders a checkbox field.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
+	 *
 	 * @param  array  $atts  The field attributes.
 	 * @param  string $value The field value.
 	 *
@@ -123,10 +132,11 @@ class cnHTML {
 	/**
 	 * Renders a group of checkboxes.
 	 *
-	 * @todo This has not been tested att all, will likely contain bugs or not work correctly at all.
+	 * @todo   This has not been tested att all, will likely contain bugs or not work correctly at all.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
+	 *
 	 * @param  array  $atts  The field attributes.
 	 * @param  string $value The field value.
 	 *
@@ -143,7 +153,8 @@ class cnHTML {
 	 * Renders a radio group.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
+	 *
 	 * @param  array  $atts  The field attributes.
 	 * @param  string $value The field value.
 	 *
@@ -160,20 +171,24 @@ class cnHTML {
 	 * Prefixes the supplied string with the defined prefix.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @uses wp_parse_args()
-	 * @param  mixed  $value string | array  The value to add the defined prefix to.
-	 * @param  array  $atts  The attrubutes array.
+	 * @since  0.8
+	 *
+	 * @uses   wp_parse_args()
+	 *
+	 * @param  mixed $value string | array  The value to add the defined prefix to.
+	 * @param  array $atts  The attrubutes array.
 	 *
 	 * @return mixed         string | array
 	 */
 	public static function prefix( $value, $atts = array() ) {
 
-		if ( empty( $value ) ) return;
+		if ( empty( $value ) ) {
+			return '';
+		}
 
 		$defaults = array(
-			'prefix'   => 'cn-',
-			);
+			'prefix' => 'cn-',
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
@@ -196,11 +211,13 @@ class cnHTML {
 	 * Renders a HTML tag attribute.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @uses sanitize_html_class()
-	 * @uses esc_attr()
-	 * @param  string $type  The attribute name.
-	 * @param  string $value The attribute value.
+	 * @since  0.8
+	 *
+	 * @uses   sanitize_html_class()
+	 * @uses   esc_attr()
+	 *
+	 * @param  string       $type  The attribute name.
+	 * @param  array|string $value The attribute value.
 	 *
 	 * @return string        The rendered attribute.
 	 */
@@ -282,30 +299,58 @@ class cnHTML {
 	}
 
 	/**
+	 * Echo or return the supplied string.
+	 *
+	 * @access private
+	 * @since  8.3.4
+	 *
+	 * @param bool   $return
+	 * @param string $html
+	 *
+	 * @return string
+	 */
+	private static function echoOrReturn( $return, $html ) {
+
+		if ( $return ) {
+
+			return $html;
+
+		} else {
+
+			echo $html;
+
+			return '';
+		}
+	}
+
+	/**
 	 * Render a field lsbel.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @uses wp_parse_args()
-	 * @uses esc_attr()
-	 * @param  array $atts  The label attributes.
+	 * @since  0.8
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   esc_attr()
+	 *
+	 * @param  array $atts The label attributes.
 	 *
 	 * @return string       The rendered label.
 	 */
 	public static function label( $atts ) {
 
 		$defaults = array(
-			'for'      => '',
-			'class'    => array(),
-			'id'       => '',
-			'style'    => array(),
-			'label'    => '',
-			'return'   => FALSE,
-			);
+			'for'    => '',
+			'class'  => array(),
+			'id'     => '',
+			'style'  => array(),
+			'label'  => '',
+			'return' => FALSE,
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = sprintf( '<label %1$s %2$s %3$s %4$s>%5$s</label>',
+		$out = sprintf(
+			'<label %1$s %2$s %3$s %4$s>%5$s</label>',
 			self::attribute( 'for', $atts['for'] ),
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
@@ -313,19 +358,19 @@ class cnHTML {
 			esc_attr( $atts['label'] )
 		);
 
-		/*
-		 * Return or echo the string.
-		 */
-		if ( $atts['return'] ) return $out;
-		echo $out;
+		$out = cnString::replaceWhatWith( $out, ' ' );
+
+		return self::echoOrReturn( $atts['return'], $out );
 	}
 
 	/**
 	 * Renders an input field of the supplied type.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @uses wp_parse_args()
+	 * @since  0.8
+	 *
+	 * @uses   wp_parse_args()
+	 *
 	 * @param  array  $atts  The field attributes.
 	 * @param  string $value The field value.
 	 *
@@ -351,12 +396,14 @@ class cnHTML {
 			'parts'        => array( '%label%', '%field%' ),
 			'layout'       => '%label%%field%',
 			'return'       => FALSE,
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// If no `id` was supplied, bail.
-		if ( empty( $atts['id'] ) ) return '';
+		if ( empty( $atts['id'] ) ) {
+			return '';
+		}
 
 		// The field name. If not supplied, use the id.
 		$name = ! empty( $atts['name'] ) ? $atts['name'] : $atts['id'];
@@ -377,12 +424,13 @@ class cnHTML {
 		// Add "required" to any classes that may have been supplied.
 		// If the field is required, cast $atts['class'] as an array in case a string was supplied
 		// and then tack the "required" value to the end of the array.
-		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array('required') ) : $atts['class'];
+		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array( 'required' ) ) : $atts['class'];
 
 		// Create the field label, if supplied.
 		$replace[] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
 
-		$replace[] = sprintf( '<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s/>',
+		$replace[] = sprintf(
+			'<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s/>',
 			self::attribute( 'type', $atts['type'] ),
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
@@ -397,11 +445,11 @@ class cnHTML {
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
-		/*
-		 * Return or echo the string.
-		 */
-		if ( $atts['return'] ) return ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
-		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
+		$out = cnString::replaceWhatWith( $out, ' ' );
+
+		$html = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	public static function textarea( $atts = array(), $value = '' ) {
@@ -426,12 +474,14 @@ class cnHTML {
 			'parts'       => array( '%label%', '%field%' ),
 			'layout'      => '%label%%field%',
 			'return'      => FALSE,
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// If no `id` was supplied, bail.
-		if ( empty( $atts['id'] ) ) return '';
+		if ( empty( $atts['id'] ) ) {
+			return '';
+		}
 
 		// The field name. If not supplied, use the id.
 		$name = ! empty( $atts['name'] ) ? $atts['name'] : $atts['id'];
@@ -452,12 +502,13 @@ class cnHTML {
 		// Add "required" to any classes that may have been supplied.
 		// If the field is required, cast $atts['class'] as an array in case a string was supplied
 		// and then tack the "required" value to the end of the array.
-		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array('required') ) : $atts['class'];
+		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array( 'required' ) ) : $atts['class'];
 
 		// Create the field label, if supplied.
 		$replace[] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
 
-		$replace[] = sprintf( '<textarea %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s>%7$s</textarea>',
+		$replace[] = sprintf(
+			'<textarea %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s>%7$s</textarea>',
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
@@ -473,29 +524,29 @@ class cnHTML {
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
-		/*
-		 * Return or echo the string.
-		 */
-		if ( $atts['return'] ) return ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
-		echo ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] );
+		$out = cnString::replaceWhatWith( $out, ' ' );
+
+		$html = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
 	 * Renders either a radio or checkbox group.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @uses wp_parse_args()
-	 * @uses esc_attr()
-	 * @uses checked()
+	 * @since  0.8
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   esc_attr()
+	 * @uses   checked()
+	 *
 	 * @param  array  $atts  The group attributes.
 	 * @param  string $value The group item that will be marked as "CHECKED".
 	 *
 	 * @return string        The rendered group.
 	 */
 	private static function group( $atts, $value = '' ) {
-
-		$out = '';
 
 		$defaults = array(
 			'type'     => 'radio',
@@ -512,12 +563,14 @@ class cnHTML {
 			'parts'    => array( '%label%', '%field%' ),
 			'layout'   => '%field%%label%',
 			'return'   => FALSE,
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// If no `id` was supplied, bail.
-		if ( empty( $atts['id'] ) ) return '';
+		if ( empty( $atts['id'] ) ) {
+			return '';
+		}
 
 		// The field name.
 		$name = ! empty( $atts['name'] ) ? $atts['name'] : $atts['id'];
@@ -535,16 +588,18 @@ class cnHTML {
 		// Add "required" to any classes that may have been supplied.
 		// If the field is required, cast $atts['class'] as an array in case a string was supplied
 		// and then tack the "required" value to the end of the array.
-		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array('required') ) : $atts['class'];
+		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array( 'required' ) ) : $atts['class'];
 
-		$out .= '<span class="cn-' . esc_attr( $atts['type'] ) . '-group" style="display: ' . esc_attr( $atts['display'] ) . ';">';
+		$tag = 'block' == $atts['display'] ? 'div' : 'span';
+
+		$out = '<' . $tag . ' class="cn-' . esc_attr( $atts['type'] ) . '-group">' . PHP_EOL;
 
 		foreach ( $atts['options'] as $key => $label ) {
 
 			// An array to store the replacement strings for the label and field.
 			$replace = array();
 
-			$out .= '<span class="cn-' . esc_attr( $atts['type'] ) . '-option" style="display: ' . esc_attr( $atts['display'] ) . ';">';
+			$out .= "\t" . '<' . $tag . ' class="cn-' . esc_attr( $atts['type'] ) . '-option">';
 
 			// Create the field label, if supplied.
 			$replace[] = ! empty( $label ) ? self::label( array( 'for' => $atts['id'] . '[' . $key . ']', 'label' => $label, 'return' => TRUE ) ) : '';
@@ -558,43 +613,43 @@ class cnHTML {
 					'name'    => $name,
 					'style'   => $atts['style'],
 					'value'   => $value,
-					'checked' => checked( TRUE , in_array( $key, (array) $value ) , FALSE ),
+					'checked' => checked( TRUE, in_array( $key, (array) $value ), FALSE ),
 					'return'  => TRUE,
-					),
+				),
 				$key
 			);
 
 			$out .= str_ireplace( $search, $replace, $atts['layout'] );
 
-			$out .= '</span>' . PHP_EOL;
+			$out .= "</$tag>" . PHP_EOL;
 		}
 
-		$out .= '</span>';
+		$out .= "</$tag>";
 
-		/*
-		 * Return or echo the string.
-		 */
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = cnString::replaceWhatWith( $out, ' ' );
+
+		$html = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
 	 * Renders a select field.
 	 *
 	 * @access public
-	 * @since 0.8
-	 * @uses wp_parse_args()
-	 * @uses esc_attr()
-	 * @uses selected()
-	 * @uses esc_html()
+	 * @since  0.8
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   esc_attr()
+	 * @uses   selected()
+	 * @uses   esc_html()
+	 *
 	 * @param  array  $atts  The field attributes.
 	 * @param  string $value The selected option.
 	 *
 	 * @return string        The rendered field.
 	 */
 	public static function select( $atts, $value = '' ) {
-
-		$out = '';
 
 		$defaults = array(
 			'prefix'   => 'cn-',
@@ -610,12 +665,14 @@ class cnHTML {
 			'parts'    => array( '%label%', '%field%' ),
 			'layout'   => '%label%%field%',
 			'return'   => FALSE,
-			);
+		);
 
 		$atts = wp_parse_args( $atts, $defaults );
 
 		// If no `id` was supplied, bail.
-		if ( empty( $atts['id'] ) ) return '';
+		if ( empty( $atts['id'] ) ) {
+			return '';
+		}
 
 		// The field name.
 		$name = ! empty( $atts['name'] ) ? $atts['name'] : $atts['id'];
@@ -627,7 +684,10 @@ class cnHTML {
 		$replace = array();
 
 		// Add the 'cn-enhanced-select' class for the jQuery Chosen Plugin will enhance the drop down.
-		if ( $atts['enhanced'] ) $atts['class'] = array_merge( (array) $atts['class'], array('enhanced-select') );
+		if ( $atts['enhanced'] ) {
+
+			$atts['class'] = array_merge( (array) $atts['class'], array( 'enhanced-select' ) );
+		}
 
 		// Prefix the `class` and `id` attribute.
 		if ( ! empty( $atts['prefix'] ) ) {
@@ -640,37 +700,35 @@ class cnHTML {
 		$replace['label'] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
 
 		// Open the select.
-		$replace['field'] = sprintf( '<select %1$s %2$s %3$s %4$s %5$s>',
+		$replace['field'] = sprintf(
+			'<select %1$s %2$s %3$s %4$s %5$s>',
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
 			self::attribute( 'style', $atts['style'] ),
 			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( $atts['default'] ) . '"' : ''
-			);
-
-		/*
-		 * Build the select drop down options.
-		 */
+		);
 
 		// If the select is NOT a Chosen enhanced select; prepend the default option to the top of the options array.
-		if ( ! empty( $atts['default'] ) && ! $atts['enhanced'] ) $atts['options'] = (array) $atts['default'] + $atts['options'];
+		if ( ! empty( $atts['default'] ) && ! $atts['enhanced'] ) {
+
+			$atts['options'] = (array) $atts['default'] + $atts['options'];
+		}
 
 		// If the select IS a Chosen enhanced select; prepend the blank option required for Chosen.
-		if ( ! empty( $atts['default'] ) && $atts['enhanced'] ) $atts['options'] = array( '' => '' ) + $atts['options'];
+		if ( ! empty( $atts['default'] ) && $atts['enhanced'] ) {
 
-		// This fancy bit of code builds the options for the select.
-		// array_walk( $atts['options'], create_function( '&$i, $key', '$i = "<option value=\"$key\">$i</option>";' ) );
+			$atts['options'] = array( '' => '' ) + $atts['options'];
+		}
 
-		// Lastly, create the options as a string for output.
-		// $out .= PHP_EOL . implode( $atts['options'], PHP_EOL ) . PHP_EOL;
+		foreach ( $atts['options'] as $key => $label ) {
 
-		foreach ( $atts['options'] as $key => $label )	{
-
-			$replace['field'] .= sprintf( '<option value="%1$s" %2$s>%3$s</option>',
+			$replace['field'] .= sprintf(
+				'<option value="%1$s" %2$s>%3$s</option>',
 				esc_attr( $key ),
 				selected( $value, $key, FALSE ),
 				esc_html( $label )
-				);
+			);
 		}
 
 		// Close the select.
@@ -678,10 +736,10 @@ class cnHTML {
 
 		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
-		/*
-		 * Return or echo the string.
-		 */
-		if ( $atts['return'] ) return PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-		echo PHP_EOL . ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
+		$out = cnString::replaceWhatWith( $out, ' ' );
+
+		$html = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 }

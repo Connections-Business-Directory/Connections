@@ -23,7 +23,7 @@
 #cn-list div.cn-list-section-head h4 {
 	font-size: 16px;
 	padding: 0;
-	margin-bottom: .8em;
+	margin: .8em 0;
 }
 
 #cn-list div.cn-alphaindex {
@@ -88,7 +88,7 @@ img.cn-image {
  * Name and Org Styles
  */
 #cn-list span.fn {
-	display: block;
+	display: inline-block;
 }
 
 #cn-list span.org {
@@ -366,7 +366,8 @@ span.date-name {
 /*
  * Search Message
  */
-#cn-search-messages {
+#cn-search-messages,
+#cn-customizer-messages {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	border-left: 4px solid #FFBA00;
 	padding: 10px 12px;
@@ -448,7 +449,7 @@ input#cn-search-submit {
 	/*clear: both;*/
 	display: block;
 	font-size: 12px;
-	margin: 10px 0;
+	margin: 20px 0;
 	text-align: center;
 }
 

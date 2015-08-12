@@ -28,6 +28,8 @@ class cnTemplate_Compatibility {
 		add_filter( 'cn_template_required_js-slim-plus', array( __CLASS__, 'enqueueChosen' ), 99 );
 
 		add_filter( 'cn_template_required_js-tile-plus', array( __CLASS__, 'enqueueChosen' ), 99 );
+
+		add_filter( 'cn_get_template', array( __CLASS__, 'deprecatedTemplates' ) );
 	}
 
 	public static function enqueueChosen( $required ) {
@@ -46,6 +48,32 @@ class cnTemplate_Compatibility {
 		if ( $key = array_search( 'jquery-gomap-min', $required ) ) unset( $required[ $key ] );
 
 		return $required;
+	}
+
+	/**
+	 * Callback for the `cn_get_template` filter which will substitute the default template when a removed template is requested.
+	 *
+	 * @access private
+	 * @since  8.4
+	 *
+	 * @param string $slug
+	 *
+	 * @return string
+	 */
+	public static function deprecatedTemplates( $slug ) {
+
+		$deprecated = array(
+			'card-bio',
+			'card-single',
+			'card-tableformat',
+		);
+
+		if ( in_array( $slug, $deprecated ) ) {
+
+			$slug = 'card';
+		}
+
+		return $slug;
 	}
 }
 

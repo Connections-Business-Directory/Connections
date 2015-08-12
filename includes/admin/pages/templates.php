@@ -1,25 +1,33 @@
 <?php
-
 /**
  * The templates admin page.
  *
  * @package     Connections
  * @subpackage  The templates admin page.
- * @copyright   Copyright (c) 2013, Steven A. Zahm
+ * @copyright   Copyright (c) 2015, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       unknown
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+/**
+ * Renders the Template admin page.
+ *
+ * @access private
+ * @since  unknown
+ */
 function connectionsShowTemplatesPage() {
 
 	/*
 	 * Check whether user can edit Settings
 	 */
-	if ( !current_user_can( 'connections_manage_template' ) ) {
-		wp_die( '<p id="error-page" style="-moz-background-clip:border;
+	if ( ! current_user_can( 'connections_manage_template' ) ) {
+		wp_die(
+			'<p id="error-page" style="-moz-background-clip:border;
 				-moz-border-radius:11px;
 				background:#FFFFFF none repeat scroll 0 0;
 				border:1px solid #DFDFDF;
@@ -30,33 +38,60 @@ function connectionsShowTemplatesPage() {
 				margin:25px auto 20px;
 				padding:1em 2em;
 				text-align:center;
-				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
+				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>'
+		);
 	} else {
-		global $connections;
 
-		// Purge the transient so the page is freshly scanned by the template API.
-		delete_transient( 'cn_legacy_templates' );
-		// cnTemplateFactory::$templates = new stdClass();
-		cnTemplateFactory::registerLegacy();
+		// Grab an instance of the Connections object.
+		$instance      = Connections_Directory();
 
-		$form = new cnFormObjects();
+		$type          = isset( $_GET['type'] ) ? esc_attr( $_GET['type'] ) : 'all';
+		$templates     = cnTemplateFactory::getCatalog( $type );
+		$adminURL      = self_admin_url( 'admin.php' );
+		$pageURL       = add_query_arg( 'page', 'connections_templates', $adminURL );
+		$homeID        = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' );
+		$homeURL       = get_permalink( $homeID );
+		$customizerURL = add_query_arg( 'cn-customize-template', 'true', $homeURL );
 
-		$type = isset( $_GET['type'] ) ? esc_attr( $_GET['type'] ) : 'all';
-		$template = cnTemplateFactory::getCatalog( $type );
 
-	?>
+		?>
 		<div class="wrap">
-			<?php echo get_screen_icon( 'connections' ); ?>
 
-			<h2>Connections : <?php _e( 'Templates', 'connections' ); ?> <a class="button add-new-h2" href="http://connections-pro.com/templates/" target="_blank"><?php _e( 'Get More', 'connections' ); ?></a></h2>
+			<h2>Connections : <?php _e( 'Templates', 'connections' ); ?>
+				<a class="button add-new-h2" href="http://connections-pro.com/templates/" target="_blank"><?php _e( 'Get More', 'connections' ); ?></a>
+			</h2>
 
 			<ul class="subsubsub">
-				<li><a <?php if ( $type === 'all' ) echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=all"><?php _e( 'All', 'connections' ); ?></a> | </li>
-				<li><a <?php if ( $type === 'individual' ) echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=individual"><?php _e( 'Individual', 'connections' ); ?></a> | </li>
-				<li><a <?php if ( $type === 'organization' ) echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=organization"><?php _e( 'Organization', 'connections' ); ?></a> | </li>
-				<li><a <?php if ( $type === 'family' ) echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=family"><?php _e( 'Family', 'connections' ); ?></a> | </li>
-				<li><a <?php if ( $type === 'anniversary' ) echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=anniversary"><?php _e( 'Anniversary', 'connections' ); ?></a> | </li>
-				<li><a <?php if ( $type === 'birthday' ) echo 'class="current" ' ?>href="admin.php?page=connections_templates&type=birthday"><?php _e( 'Birthday', 'connections' ); ?></a></li>
+				<li>
+					<a <?php if ( 'all' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'all', $pageURL ) ) ?>">
+						<?php _e( 'All', 'connections' ); ?>
+					</a> |
+				</li>
+				<li>
+					<a <?php if ( 'individual' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'individual', $pageURL ) ) ?>">
+						<?php _e( 'Individual', 'connections' ); ?>
+					</a> |
+				</li>
+				<li>
+					<a <?php if ( 'organization' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'organization', $pageURL ) ) ?>">
+						<?php _e( 'Organization', 'connections' ); ?>
+					</a> |
+				</li>
+				<li>
+					<a <?php if ( 'family' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'family', $pageURL ) ) ?>">
+						<?php _e( 'Family', 'connections' ); ?>
+					</a> |
+				</li>
+				<li>
+					<a <?php if ( 'anniversary' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'anniversary', $pageURL ) ) ?>">
+						<?php _e( 'Anniversary', 'connections' ); ?>
+					</a> |
+				</li>
+				<li>
+					<a <?php if ( 'birthday' == $type ) echo 'class="current" ' ?>href="<?php echo esc_url( add_query_arg( 'type', 'birthday', $pageURL ) ) ?>">
+						<?php _e( 'Birthday', 'connections' ); ?>
+					</a>
+				</li>
 			</ul>
 
 			<br class="clear">
@@ -69,45 +104,36 @@ function connectionsShowTemplatesPage() {
 
 							<div id="current-template">
 								<?php
-									$slug = $connections->options->getActiveTemplate( $type );
+								$slug = $instance->options->getActiveTemplate( $type );
 
-									$activeTemplate = cnTemplateFactory::getTemplate( $slug );
-									// var_dump( $activeTemplate );
+								/** @var cnTemplate $activeTemplate */
+								$activeTemplate = cnTemplateFactory::getTemplate( $slug );
 
-									if ( $activeTemplate ) {
+								if ( $activeTemplate ) {
 
-										if ( $activeTemplate->getThumbnail() ) {
+									cnTemplateThumbnail( $activeTemplate );
+									cnTemplateAuthor( $activeTemplate );
+									cnTemplateDescription( $activeTemplate );
 
-											$thumbnail = $activeTemplate->getThumbnail();
+									cnTemplateCustomizerButton( $activeTemplate, $customizerURL, $pageURL );
 
-											if ( ! empty( $thumbnail['name'] ) ) {
-												echo '<div class="center-thumbnail"><img class="template-thumbnail" src="' , $thumbnail['url'] , '" /></div>';
-											} else {
-												echo '<div class="center-thumbnail"><div class="template-thumbnail-none">' , __( 'Thumbnail Not Available', 'connections' ) , '</div></div>';
-											}
-										}
+									// Remove the current template so it does not show in the available templates.
+									unset( $templates->{$activeTemplate->getSlug()} );
 
-										if ( $activeTemplate->getAuthorURL() ) {
-											$author = '<a title="' . __( 'Visit author\'s homepage.', 'connections' ) . '" href="' . $activeTemplate->getAuthorURL() . '">' . $activeTemplate->getAuthor() . '</a>';
-										} else {
-											$author = $activeTemplate->getAuthor();
-										}
+								} else {
 
-										echo '<h3>', $activeTemplate->getName() , ' ' , $activeTemplate->getVersion() , ' by ' , $author, '</h3>';
-										echo '<p class="theme-description">', $activeTemplate->getDescription() , '</p>';
-
-										// Remove the current template so it does not show in the available templates.
-										unset( $template->{ $activeTemplate->getSlug() } );
-									} else {
-										echo '<h3 class="error"> Template ' , esc_attr( $slug ) , ' can not be found.</h3>';
-									}
-							?>
+									echo '<h3 class="error"> Template ', esc_attr( $slug ), ' can not be found.</h3>';
+								}
+								?>
 							</div>
 							<div class="clear"></div>
 						</td>
 
 						<td class="template_instructions" colspan="2">
-							<p><strong><?php _e( 'Instructions', 'connections' ); ?>:</strong></p>
+							<p>
+								<strong><?php _e( 'Instructions', 'connections' ); ?>:</strong>
+							</p>
+
 							<p>
 								<?php _e( 'By default the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/">[connections]</a></code> shortcode will show all entries types. To change the template used when displaying all entry types, select the "All" tab and activate the template. When the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/list_type/">list_type</a></code>shortcode option is used to filter the entries based on the entry type, the template for that entry type will be used. To change the template used for a specific entry type, select the appropriate tab and then activate the template. If multiple entry types are specified in the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/list_type/">list_type</a></code> shortcode option, the template for the entry type listed first will be used to display the entry list.', 'connections' ); ?>
 							</p>
@@ -122,7 +148,7 @@ function connectionsShowTemplatesPage() {
 						</td>
 					</tr>
 				</tbody>
-			</table>
+			</table> <!-- /#currenttheme -->
 
 			<table cellspacing="0" cellpadding="0" id="availablethemes">
 				<tbody>
@@ -133,144 +159,274 @@ function connectionsShowTemplatesPage() {
 					</tr>
 
 					<?php
-						$slugs = array_keys( (array) $template );
-						natcasesort( $slugs );
+					$slugs = array_keys( (array) $templates );
+					natcasesort( $slugs );
 
-						$table = array();
-						$rows = ceil( count( $slugs ) / 3 );
+					$table = array();
+					$rows  = ceil( count( $slugs ) / 3 );
 
-						for ( $row = 1; $row <= $rows; $row++ )
-							for ( $col = 1; $col <= 3; $col++ )
-								$table[$row][$col] = array_shift( $slugs );
+					for ( $row = 1; $row <= $rows; $row ++ ) {
+						for ( $col = 1; $col <= 3; $col ++ ) {
+							$table[ $row ][ $col ] = array_shift( $slugs );
+						}
+					}
 
-						foreach ( $table as $row => $cols ) {
-					?>
+					foreach ( $table as $row => $cols ) {
+						?>
 						<tr>
 							<?php
-								foreach ( $cols as $col => $slug ) {
-									$activateTokenURL = '';
-									$deleteTokenURL = '';
+							foreach ( $cols as $col => $slug ) {
 
-									$class = array( 'available-theme' );
-									if ( $row == 1 ) $class[] = 'top';
-									if ( $row == $rows ) $class[] = 'bottom';
-									if ( $col == 1 ) $class[] = 'left';
-									if ( $col == 3 ) $class[] = 'right';
-							?>
+								if ( ! isset( $templates->$slug ) ) {
+									continue;
+								}
 
-								<td class="<?php echo join( ' ', $class ); ?>">
+								/** @var cnTemplate $template */
+								$template = $templates->{$slug};
+
+								$class = array( 'available-theme' );
+								if ( $row == 1 ) $class[]     = 'top';
+								if ( $row == $rows ) $class[] = 'bottom';
+								if ( $col == 1 ) $class[]     = 'left';
+								if ( $col == 3 ) $class[]     = 'right';
+								?>
+
+								<td <?php echo cnHTML::attribute( 'class', $class ); ?>>
 
 									<?php
-										if ( ! isset( $template->{ $slug } ) ) continue;
-										// var_dump( $template->{ $slug } );
-
-										if ( $template->{ $slug }->getThumbnail() ) {
-
-											$thumbnail = $template->{ $slug }->getThumbnail();
-
-											if ( ! empty( $thumbnail['name'] ) ) {
-												echo '<div class="center-thumbnail"><img class="template-thumbnail" src="' , $thumbnail['url'] , '" width="300" height="225"></div>';
-											} else {
-												echo '<div class="center-thumbnail"><div class="template-thumbnail-none" style="width: 300px; height: 225px"><p>' , __( 'Thumbnail Not Available', 'connections' ) , '</p></div></div>';
-											}
-										}
-
-										if ( $template->{ $slug }->getAuthorURL() ) {
-											$author = '<a title="Visit author\'s homepage." href="' . $template->{ $slug }->getAuthorURL() . '">' . $template->{ $slug }->getAuthor() . '</a>';
-										} else {
-											$author = $template->{ $slug }->getAuthor();
-										}
-
-										echo '<h3>', $template->{ $slug }->getName() , ' ' , $template->{ $slug }->getVersion() , ' by ', $author , '</h3>';
-										echo '<p class="description">' , $template->{ $slug }->getDescription() , '</p>';
-										echo '<p>' , __( 'Shortcode Override:', 'connections' ) , '<code> template="' ,  $slug , '"</code></p>';
-
-
-
+									cnTemplateThumbnail( $template );
+									cnTemplateAuthor( $template );
+									cnTemplateDescription( $template );
+									cnTemplateDeactivateText( $template );
+									cnTemplateShortcodeOverride( $template );
 									?>
 
 									<span class="action-links">
 										<?php
-											$activateTokenURL = $form->tokenURL( 'admin.php?cn-action=activate_template&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'activate_' . $template->{ $slug }->getSlug() );
-
-											if ( $template->{ $slug }->isCustom() === TRUE && $template->{ $slug }->isLegacy() === TRUE ) {
-												$deleteTokenURL = $form->tokenURL( 'admin.php?cn-action=delete_template&type=' . $type . '&template=' . $template->{ $slug }->getSlug(), 'delete_' .  $template->{ $slug }->getSlug() );
-											}
-
-										?>
-
-										<a class="button-primary" href="<?php echo esc_attr( $activateTokenURL ); ?>" title="Activate '<?php echo esc_attr( $template->$slug->getName() ); ?>'"><?php _e( 'Activate', 'connections' ); ?></a>
-
-										<?php
-											if ( ! empty( $deleteTokenURL ) ) {
-										?>
-											 | <a class="button button-warning" href="<?php echo esc_attr( $deleteTokenURL ); ?>" title="Delete '<?php echo esc_attr( $template->$slug->getName() ); ?>'" onclick="return confirm('You are about to delete this theme \'<?php echo esc_attr( $template->$slug->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">Delete</a>
-										<?php
-											}
+										cntemplateActivateButton( $template );
+										cnTemplateDeleteButton( $template );
+										cnTemplateCustomizerButton( $template, $customizerURL, $pageURL );
 										?>
 									</span>
-							<?php
-									if ( $template->{ $slug }->isCustom() === FALSE ) {
-										echo '<p class="description">' , __( 'This a core template and can not be deleted.', 'connections') , '</p>';
-									} else if ( $template->{ $slug }->isCustom() === TRUE && $template->{ $slug }->isLegacy() === FALSE ) {
-										echo '<p class="description">' , __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections') , '</p>';
-									}
-								}
-							?>
 								</td>
+								<?php
+							} ?>
 						</tr>
-					<?php
-						}
+						<?php
+					}
 					?>
-
-
 				</tbody>
-			</table>
-
-			<?php
-			if ( file_exists( CN_CUSTOM_TEMPLATE_PATH ) && is_writeable( CN_CUSTOM_TEMPLATE_PATH ) ) {
-			?>
-
-			<table cellspacing="0" cellpadding="0" id="installthemes">
-				<tbody>
-					<tr>
-						<td class="install_template" colspan="3">
-							<h2><?php _e( 'Install Legacy Template', 'connections' ); ?></h2>
-
-							<p><?php printf( __( "If you puchased your template after 3.25.2013, please follow these <a href='%s'>installation instructions</a>. If you are upgrading your template purchased prior to 3.25.2013, please take note of the special upgrade instructions found on the same page.", 'connections' ), 'http://connections-pro.com/documentation/plugin/install/templates/' ) ; ?></p>
-
-							<?php
-									$formAttr = array(
-										'action' => '',
-										'method' => 'post',
-										'enctype' => 'multipart/form-data'
-									);
-
-									$form->open( $formAttr );
-									$form->tokenField( 'install_template' );
-							?>
-
-							<p>
-								<input type="hidden" name="cn-action" value="install_template"/>
-
-								<label for='template'><?php _e( 'Select Template:', 'connections' ); ?>
-									<input type='file' value='' name='template' size='25' />
-								</label>
-								<input type="submit" value="<?php _e( 'Install Now', 'connections' ); ?>" class="button">
-							</p>
-
-							<?php $form->close(); ?>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<?php
-			}
-			?>
-
-		</div>
-	<?php
+			</table> <!-- /#availablethemes -->
+		</div> <!-- /.wrap -->
+		<?php
 	}
 }
-?>
+
+/**
+ * Renders the template thumbnail.
+ *
+ * @access private
+ * @since  8.4
+ *
+ * @param cnTemplate $template
+ */
+function cnTemplateThumbnail( $template ) {
+
+	if ( $template->getThumbnail() ) :
+
+		$thumbnail = $template->getThumbnail(); ?>
+
+		<div class="center-thumbnail">
+			<img class="template-thumbnail" src="<?php echo esc_url( $thumbnail['url'] ) ?>" width="300" height="225">
+		</div>
+
+	<?php else : ?>
+
+		<div class="center-thumbnail">
+			<div class="template-thumbnail-none" style="width: 300px; height: 225px">
+				<p><?php _e( 'Thumbnail Not Available', 'connections' ); ?></p>
+			</div>
+		</div>
+
+	<?php endif;
+}
+
+/**
+ * Renders the template author name and link.
+ *
+ * @access private
+ * @since  8.4
+ *
+ * @param cnTemplate $template
+ */
+function cnTemplateAuthor( $template ) {
+
+	if ( $template->getAuthorURL() ) {
+
+		$author = '<a title="' . __( 'Visit author\'s homepage.', 'connections' ) . '" href="' . esc_url( $template->getAuthorURL() ) . '">' .
+		          esc_html( $template->getAuthor() ) .
+		          '</a>';
+	} else {
+
+		$author = esc_html( $template->getAuthor() );
+	}
+	?>
+
+	<h3><?php echo esc_html( $template->getName() );?> <?php echo esc_html( $template->getVersion() ); ?> by <?php echo $author; ?></h3>
+	<?php
+}
+
+/**
+ * Renders the template description.
+ *
+ * @access private
+ * @since  8.4
+ *
+ * @param cnTemplate $template
+ */
+function cnTemplateDescription( $template ) {
+
+	echo '<p>' . esc_html( $template->getDescription() ) . '</p>';
+}
+
+/**
+ * Renders the deactivate instructions.
+ *
+ * @access private
+ * @since  8.4
+ *
+ * @param cnTemplate $template
+ */
+function cnTemplateDeactivateText( $template ) {
+
+	if ( $template->isCustom() === FALSE ) {
+
+		echo '<p class="description">', __( 'This a core template and can not be deleted.', 'connections' ), '</p>';
+
+	} elseif ( $template->isCustom() === TRUE && $template->isLegacy() === FALSE ) {
+
+		echo '<p class="description">', __( 'This template is a plugin. You can deactivate and delete the template from the Plugins admin page.', 'connections' ), '</p>';
+	}
+}
+
+/**
+ * Renders the shortcode override.
+ *
+ * @access private
+ * @since  8.4
+ *
+ * @param cnTemplate $template
+ */
+function cnTemplateShortcodeOverride( $template ) {
+
+	?>
+
+	<p>
+		<?php _e( 'Shortcode Override:', 'connections' ); ?>
+		<input readonly
+		       value='template="<?php echo $template->getSlug()  ?>"'
+		       onclick="this.focus();this.select()"
+		       title="<?php _e(
+		           'To copy, click and then press Ctrl + C (PC) or Cmd + C (Mac).',
+		           'connections'
+		       ); ?>">
+	</p>
+
+	<?php
+}
+
+/**
+ * Renders the "Activate" button.
+ *
+ * @access private
+ * @since  8.4
+ *
+ * @param cnTemplate $template
+ */
+function cnTemplateActivateButton( $template ) {
+
+	$form = new cnFormObjects();
+
+	$url = $form->tokenURL( 'admin.php?cn-action=activate_template&type=' . $template->getType() . '&template=' . $template->getSlug(), 'activate_' . $template->getSlug() );
+
+	?>
+
+	<a class="button-primary"
+	   href="<?php echo esc_url( $url ); ?>"
+	   title="Activate '<?php echo esc_attr( $template->getName() ); ?>'">
+		<?php _e( 'Activate', 'connections' ); ?>
+	</a>
+
+	<?php
+}
+
+/**
+ * Renders the "Delete" button.
+ *
+ * @access private
+ * @since  8.4
+ *
+ * @param cnTemplate $template
+ */
+function cnTemplateDeleteButton( $template ) {
+
+	$form = new cnFormObjects();
+
+	if ( $template->isCustom() === TRUE && $template->isLegacy() === TRUE ) {
+
+		$url = $form->tokenURL( 'admin.php?cn-action=delete_template&type=' . $template->getType() . '&template=' . $template->getSlug(), 'delete_' . $template->getSlug() );
+
+		?>
+
+		<a class="button button-warning"
+		   href="<?php echo esc_url( $url ); ?>"
+		   title="Delete '<?php echo esc_attr( $template->getName() ); ?>'"
+		   onclick="return confirm('You are about to delete this template \'<?php echo esc_attr( $template->getName() ); ?>\'\n  \'Cancel\' to stop, \'OK\' to delete.');">
+			<?php _e( 'Delete', 'connections' ); ?>
+		</a>
+		<?php
+	}
+}
+
+/**
+ * Renders the "Customize" button.
+ *
+ * @access private
+ * @since  8.4
+ *
+ * @param cnTemplate $template
+ * @param string     $customizerURL
+ * @param string     $returnURL
+ */
+function cnTemplateCustomizerButton( $template, $customizerURL, $returnURL ) {
+
+	if ( $template->supports( 'customizer' ) ) {
+
+		$href = add_query_arg(
+			array(
+				'url'         => urlencode( add_query_arg( 'cn-template', $template->getSlug(), $customizerURL ) ),
+				'cn-template' => $template->getSlug(),
+				'return'      => urlencode( $returnURL ),
+			),
+			'customize.php'
+		);
+
+		/**
+		 * NOTE: According to the docs for the JavaScript Customizer API, you can auto focus
+		 *       to the panel, section or control you wish via the URL. Which does work.
+		 *
+		 *       However, if you add this via @see add_query_arg() or escape it using
+		 *       @see esc_url() the required bracket will be removed which are required
+		 *       for auto focusing via the URL too function. This is why I added it after
+		 *       escaping the URL.
+		 *
+		 * @link https://make.wordpress.org/core/2014/10/27/toward-a-complete-javascript-api-for-the-customizer/#focusing
+		 */
+
+		?>
+		<a class="button"
+		   href="<?php echo esc_url( $href ) . '&autofocus[section]=cn_template_customizer_section_display'; ?>"
+		   title="Customize '<?php echo esc_attr( $template->getName() ); ?>'"><?php _e( 'Customize', 'connections' ); ?></a>
+		<?php
+	}
+}

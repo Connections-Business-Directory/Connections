@@ -70,26 +70,6 @@ class cnDashboardMetabox {
 		);
 
 		self::$metaboxes[] = array(
-			'id'       => 'metabox-upgrade-modules',
-			'title'    => __( 'Extension Update Notices', 'connections' ),
-			'pages'    => array( $pages ),
-			'context'  => 'left',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'feed' ),
-			'feed'     => 'http://feeds.feedburner.com/connections-pro-modules',
-		);
-
-		self::$metaboxes[] = array(
-			'id'       => 'metabox-upgrade-templates',
-			'title'    => __( 'Template Update Notices', 'connections' ),
-			'pages'    => array( $pages ),
-			'context'  => 'left',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'feed' ),
-			'feed'     => 'http://feeds.feedburner.com/connections-templates',
-		);
-
-		self::$metaboxes[] = array(
 			'id'       => 'metabox-moderate',
 			'title'    => __( 'Awaiting Moderation', 'connections' ),
 			'pages'    => array( $pages ),

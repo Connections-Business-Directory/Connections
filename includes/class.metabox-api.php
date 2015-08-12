@@ -205,7 +205,9 @@ class cnMetaboxAPI {
 	 * Return self::$metaboxes array.
 	 *
 	 * @access public
-	 * @since 0.8
+	 * @since  0.8
+	 *
+	 * @param null $id
 	 *
 	 * @return array
 	 */
@@ -293,7 +295,8 @@ class cnMetaboxAPI {
 	 *
 	 * @access private
 	 * @since 0.8
-	 * @global $hook_suffix	The current admin page hook.
+	 *
+	 * @global string $hook_suffix The current admin page hook.
 	 *
 	 * @return void
 	 */
@@ -316,7 +319,7 @@ class cnMetaboxAPI {
 
 	/**
 	 * All registered fields thru this class are considered to be private.
-	 * This filter checks the suppled `key` against all registered fields
+	 * This filter checks the supplied `key` against all registered fields
 	 * and return a bool indicating whether or not the `$key` is private.
 	 *
 	 * @access private
@@ -442,7 +445,10 @@ class cnMetabox_Render {
 	 */
 	private static $slider = array();
 
-	public function __construct() { /* Intentially left blank. */ }
+	/**
+	 * Blank constructor.
+	 */
+	public function __construct() { /* Intentionally left blank. */ }
 
 	/**
 	 * Register the metaboxes with WordPress.
@@ -612,9 +618,10 @@ class cnMetabox_Render {
 	 * Render the metabox.
 	 *
 	 * @access private
-	 * @since 0.8
+	 * @since  0.8
 	 *
-	 * @return void
+	 * @param $object
+	 * @param $metabox
 	 */
 	public function render( $object, $metabox ) {
 
@@ -740,6 +747,14 @@ class cnMetabox_Render {
 
 		foreach ( $fields as $field ) {
 
+			$defaults = array(
+				'before' => '',
+				'after'  => '',
+				'desc'   => '',
+			);
+
+			$field = wp_parse_args( $field, $defaults );
+
 			// If the meta field has a specific method defined call the method and set the field value.
 			// Otherwise, assume pulling from the meta table of the supplied object.
 			if ( isset( $field['value'] ) && ! empty( $field['value'] ) ) {
@@ -753,9 +768,42 @@ class cnMetabox_Render {
 
 			if ( empty( $value ) ) $value = isset( $field['default'] ) ? $field['default'] : '';
 
-			$value = apply_filters( 'cn_meta_field_value-' . $field['type'], $value, $field );
+			/**
+			 * Apply custom classes to a metabox table.
+			 *
+			 * @since 8.3.4
+			 *
+			 * @param array  $class An indexed array of classes that should applied to the table element.
+			 * @param string $type  The field type.
+			 * @param string $id    The field id.
+			 */
+			$class = apply_filters( 'cn_metabox_table_class', array( 'cn-metabox-type-' . $field['type'] ), $field['type'], $field['id'] );
 
-			echo '<tr class="cn-metabox-type-'. sanitize_html_class( $field['type'] ) .'" id="cn-metabox-id-'. sanitize_html_class( $field['id'] ) .'">';
+			/**
+			 * Apply a custom id to a metabox table.
+			 *
+			 * @since 8.3.4
+			 *
+			 * @param string $id The field id.
+			 */
+			$id    = apply_filters( 'cn_metabox_table_id', 'cn-metabox-id-' . $field['id'] );
+
+			/**
+			 * Apply custom classes to a metabox table.
+			 *
+			 * @since 8.3.4
+			 *
+			 * @param array  $style An associative array of inline style attributes where the array key is the property and the array value is the property value.
+			 * @param string $type  The field type.
+			 * @param string $id    The field id.
+			 */
+			$style = apply_filters( 'cn_metabox_table_style', array(), $field['type'], $field['id'] );
+
+			$class = cnHTML::attribute( 'class', $class );
+			$id    = cnHTML::attribute( 'id', $id );
+			$style = cnHTML::attribute( 'style', $style );
+
+			echo '<tr' . $class . $id . $style . '>';
 
 			// For a label to be rendered the $field['name'] has to be supplied.
 			// Show the label if $field['show_label'] is TRUE, OR, if it is not supplied assume TRUE and show it anyway.
@@ -777,159 +825,161 @@ class cnMetabox_Render {
 
 			echo empty( $field['before'] ) ? '' : $field['before'];
 
+			/**
+			 * Apply custom classes to the field type container element.
+			 *
+			 * NOTE: The dynamic portion of the hook is the field type.
+			 *
+			 * @since 8.3.4
+			 *
+			 * @param array  $class An indexed array of classes that should applied to the element.
+			 * @param string $id    The field id.
+			 */
+			$class = apply_filters( "cn_metabox_{$field['type']}_class", array( "cn-meta-field-type-{$field['type']}" ), $field['id'] );
+
+			/**
+			 * Apply a custom id to the field type container element.
+			 *
+			 * NOTE: The dynamic portion of the hook is the field type.
+			 *
+			 * @since 8.3.4
+			 *
+			 * @param string $id The field id.
+			 */
+			$id    = apply_filters( "cn_metabox_{$field['type']}_id", '' );
+
+			/**
+			 * Apply custom classes to a field type container element.
+			 *
+			 * NOTE: The dynamic portion of the hook is the field type.
+			 *
+			 * @since 8.3.4
+			 *
+			 * @param array  $style An associative array of inline style attributes
+			 *                      where the array key is the property and the array value is the property value.
+			 * @param string $id    The field id.
+			 */
+			$style = apply_filters( "cn_metabox_{$field['type']}_style", array(), $field['id'] );
+
+			$class = cnHTML::attribute( 'class', $class );
+			$id    = cnHTML::attribute( 'id', $id );
+			$style = cnHTML::attribute( 'style', $style );
+
+			/**
+			 * Chance to manipulate the field value before rendering the field.
+			 *
+			 * NOTE: The dynamic portion of the hook is the field type.
+			 *
+			 * @since 0.8
+			 *
+			 * @param mixed $value The field value.
+			 * @param array $field The field attributes array.
+			 */
+			$value = apply_filters( "cn_meta_field_value-{$field['type']}", $value, $field );
+
 			switch ( $field['type'] ) {
 
 				case 'checkbox':
 
-					printf( '<input type="checkbox" class="checkbox" id="%1$s" name="%1$s" value="1" %2$s/>',
-						esc_attr( $field['id'] ),
-						checked( '1', $value, FALSE )
+					cnHTML::field(
+						array(
+							'type'    => 'checkbox',
+							'prefix'  => '',
+							'class'   => 'cn-checkbox',
+							'id'      => $field['id'],
+							'name'    => $field['id'],
+							'label'   => $field['desc'],
+							'before'  => '<div' . $class . $id . $style . '>',
+							'after'   => '</div>',
+						),
+						$value
 					);
-
-					// For a single checkbox we want to render the description as the label.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<label for="%1$s"> %2$s</label>',
-							esc_attr( $field['id'] ),
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
 
 					break;
 
 				case 'checkboxgroup':
+				case 'checkbox-group':
 
-					// For input groups we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+				self::fieldDescription( $field['desc'] );
 
-						printf( '<p class="description">%1$s</p>',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					echo '<div class="cn-checkbox-group">';
-
-					foreach ( $field['options'] as $key => $label ) {
-
-						echo '<div class="cn-checkbox-option">';
-
-						printf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							checked( TRUE , ( is_array( $value ) ) ? ( in_array( $key, $value ) ) : ( $key == $value ) , FALSE )
-						);
-
-						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							esc_html( $label )
-						);
-
-						echo '</div>';
-					}
-
-					echo '</div>';
+					cnHTML::field(
+						array(
+							'type'    => 'checkbox-group',
+							'prefix'  => '',
+							'class'   => 'cn-checkbox',
+							'id'      => $field['id'],
+							'name'    => $field['id'] . '[]',
+							'display' => 'block',
+							'options' => $field['options'],
+							'before'  => '<div' . $class . $id . $style . '>',
+							'after'   => '</div>',
+						),
+						$value
+					);
 
 					break;
 
 				case 'radio':
 
-					// For input groups we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+					self::fieldDescription( $field['desc'] );
 
-						printf( '<p class="description">%1$s</p>',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					echo '<div class="cn-radio-group">';
-
-					foreach ( $field['options'] as $key => $label ) {
-
-						echo '<div class="cn-radio-option">';
-
-						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							checked( $key, ( $value = empty( $value ) ? $key : $value ), FALSE )
-						);
-
-						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							esc_html( $label )
-						);
-
-						echo '</div>';
-					}
-
-					echo '</div>';
+					cnHTML::field(
+						array(
+							'type'    => 'radio',
+							'prefix'  => '',
+							'class'   => 'cn-radio-option',
+							'id'      => $field['id'],
+							'name'    => $field['id'] . '[]',
+							'display' => 'block',
+							'options' => $field['options'],
+							'before'  => '<div' . $class . $id . $style . '>',
+							'after'   => '</div>',
+						),
+						$value
+					);
 
 					break;
 
 				case 'radio_inline':
+				case 'radio-inline':
 
-					// For input groups we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+					self::fieldDescription( $field['desc'] );
 
-						printf( '<p class="description">%1$s</p>',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					echo '<div class="cn-radio-group">';
-
-					foreach ( $field['options'] as $key => $label ) {
-
-						echo '<span class="cn-radio-option">';
-
-						printf( '<input type="radio" class="checkbox" id="%1$s[%2$s]" name="%1$s" value="%2$s"%3$s/>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							checked( $key, ( $value = empty( $value ) ? $key : $value ), FALSE )
-						);
-
-						printf( '<label for="%1$s[%2$s]"> %3$s</label>',
-							esc_attr( $field['id'] ),
-							esc_attr( $key ),
-							esc_html( $label )
-						);
-
-						echo '</span>';
-					}
-
-					echo '</div>';
+					cnHTML::field(
+						array(
+							'type'    => 'radio',
+							'prefix'  => '',
+							'class'   => 'cn-radio-option',
+							'id'      => $field['id'],
+							'name'    => $field['id'] . '[]',
+							'display' => 'inline',
+							'options' => $field['options'],
+							'before'  => '<div' . $class . $id . $style . '>',
+							'after'   => '</div>',
+						),
+						$value
+					);
 
 					break;
 
 				case 'select':
 
-					// if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description">%1$s</span><br />', $field['desc'] );
+					cnHTML::field(
+						array(
+							'type'    => 'select',
+							'prefix'  => '',
+							'class'   => 'cn-select',
+							'id'      => $field['id'],
+							'name'    => $field['id'],
+							'display' => 'inline',
+							'options' => $field['options'],
+							'before'  => '<div' . $class . $id . $style . '>',
+							'after'   => '</div>',
+						),
+						$value
+					);
 
-					printf( '<select name="%1$s" id="%1$s">', $field['id'] );
-
-					foreach ( $field['options'] as $key => $label ) {
-
-						printf( '<option value="%1$s" %2$s>%3$s</option>',
-							$key,
-							selected( $key, ( $value = empty( $value ) ? $key : $value ), FALSE ),
-							$label
-						);
-					}
-
-					echo '</select>';
+					self::fieldDescription( $field['desc'] );
 
 					break;
 
@@ -937,11 +987,20 @@ class cnMetabox_Render {
 
 					$sizes = array( 'small', 'regular', 'large' );
 
-					printf( '<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>',
-						isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) : 'large',
-						esc_attr( $field['id'] ),
-						sanitize_text_field( $value )
+					cnHTML::field(
+						array(
+							'type'    => 'text',
+							'prefix'  => '',
+							'class'   => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'large-text',
+							'id'      => $field['id'],
+							'name'    => $field['id'],
+							'before'  => '<div' . $class . $id . $style . '>',
+							'after'   => '</div>',
+						),
+						$value
 					);
+
+					self::fieldDescription( $field['desc'] );
 
 					break;
 
@@ -949,21 +1008,21 @@ class cnMetabox_Render {
 
 					$sizes = array( 'small', 'large' );
 
-					// For text areas we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+					self::fieldDescription( $field['desc'] );
 
-						printf( '<p class="description">%1$s</p>',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
-
-					printf( '<textarea rows="10" cols="50" class="%1$s-text" id="%2$s" name="%2$s">%3$s</textarea>',
-						isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) : 'small',
-						esc_attr( $field['id'] ),
-						esc_textarea( $value )
+					cnHTML::field(
+						array(
+							'type'    => 'textarea',
+							'prefix'  => '',
+							'class'   => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'small-text',
+							'id'      => $field['id'],
+							'name'    => $field['id'],
+							'rows'    => 10,
+							'cols'    => 50,
+							'before'  => '<div' . $class . $id . $style . '>',
+							'after'   => '</div>',
+						),
+						$value
 					);
 
 					break;
@@ -982,20 +1041,13 @@ class cnMetabox_Render {
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'datepickerJS' ) );
 					add_action( 'wp_footer' , array( __CLASS__ , 'datepickerJS' ) );
 
+					self::fieldDescription( $field['desc'] );
+
 					break;
 
 				case 'colorpicker':
 
-					// For color picker areas we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<p class="description">%1$s</p>',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
+					self::fieldDescription( $field['desc'] );
 
 					printf('<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"/>',
 						esc_attr( $field['id'] ),
@@ -1064,6 +1116,8 @@ class cnMetabox_Render {
 						absint( $value )
 					);
 
+					self::fieldDescription( $field['desc'] );
+
 					$field['options']['value'] = absint( $value );
 
 					self::$slider[ $field['id'] ] = $field['options'];
@@ -1076,16 +1130,7 @@ class cnMetabox_Render {
 
 				case 'quicktag':
 
-					// For text areas we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<p class="description">%1$s</p>',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
+					self::fieldDescription( $field['desc'] );
 
 					echo '<div class="wp-editor-container">';
 
@@ -1106,16 +1151,7 @@ class cnMetabox_Render {
 
 				case 'rte':
 
-					// For text areas we want to render the description before the field.
-					// Lets render it and unset it so it does not render twice.
-					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-						printf( '<p class="description">%1$s</p>',
-							esc_html( $field['desc'] )
-						);
-
-						unset( $field['desc'] );
-					}
+					self::fieldDescription( $field['desc'] );
 
 					if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
 
@@ -1212,20 +1248,28 @@ class cnMetabox_Render {
 					break;
 			}
 
-			if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
-
-				printf( '<span class="description"> %1$s</span>',
-					esc_html( $field['desc'] )
-				);
-			}
-
-
 			echo empty( $field['after'] ) ? '' : $field['after'];
 
 			echo '</td>' , '</tr>';
 		}
 
 		// do_action( 'cn_metabox_table_after', $entry, $meta, $this->metabox );
+	}
+
+	/**
+	 * Print the field description.
+	 *
+	 * @access private
+	 * @since  8.3.4
+	 *
+	 * @param string $desc
+	 */
+	private static function fieldDescription( $desc ) {
+
+		if ( ! empty( $desc ) ) {
+
+			printf( '<p class="description"> %1$s</p>', esc_html( $desc ) );
+		}
 	}
 
 	/**

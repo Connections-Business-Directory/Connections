@@ -420,7 +420,7 @@ class cnImage {
 	 * 	smooth (int) Apply the smooth filter. Valid range is -100–100 (-100 = max smooth, 100 = min smooth). Default: NULL
 	 * 	opacity (int) Set the image opacity. Valid range is 0–100 (0 = fully transparent, 100 = fully opaque). Default: 100
 	 *
-	 * 	crop_mode (int) Which crop mode to utilitize when rescaling the image. Valid range is 0–3. Default: 1
+	 * 	crop_mode (int) Which crop mode to utilize when rescaling the image. Valid range is 0–3. Default: 1
 	 * 		0 == Resize to Fit specified dimensions with no cropping. Aspect ratio will not be maintained.
 	 * 		1 == Crop and resize to best fit dimensions maintaining aspect ration. Default.
 	 * 		2 == Resize proportionally to fit entire image into specified dimensions, and add margins if required.

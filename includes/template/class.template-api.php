@@ -95,7 +95,6 @@ class cnTemplateFactory {
 			// Plugins can hook into this action to register templates.
 			do_action( 'cn_register_template', self::$instance );
 		}
-
 	}
 
 	/**
@@ -157,7 +156,8 @@ class cnTemplateFactory {
 			'url'         => '',
 			'thumbnail'   => '',
 			'functions'   => '',
-			'parts'       => array()
+			'parts'       => array(),
+			'supports'    => array(),
 			);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -393,7 +393,14 @@ class cnTemplateFactory {
 	 * @return object
 	 */
 	public static function getCatalog( $types = array() ) {
+
 		$templates = new stdClass();
+
+		// Purge the transient so the page is freshly scanned by the template API.
+		delete_transient( 'cn_legacy_templates' );
+
+		self::registerLegacy();
+		//self::activateOLD();
 
 		// Convert to an array.
 		if ( ! is_array( $types ) ) {
@@ -473,6 +480,16 @@ class cnTemplateFactory {
 
 		/** @var $template cnTemplate */
 
+		/**
+		 * Filter the template to get based on its slug.
+		 *
+		 * @since 8.4
+		 *
+		 * @param string $slug The template slug.
+		 * @param string $type The template type.
+		 */
+		$slug = apply_filters( 'cn_get_template', $slug, $type );
+
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
@@ -502,15 +519,18 @@ class cnTemplateFactory {
 		 * returning it because it is possible the cached path no longer exists because the
 		 * WP install was moved; for example, a  server migration or a site migration.
 		 */
-		if ( $template && $template->isLegacy() ) {
+		if ( is_a( $template, 'cnTemplate' ) && $template->isLegacy() ) {
 
 			return isset( $template ) && ( is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
+
+		} elseif ( is_a( $template, 'cnTemplate' ) ) {
+
+			return $template;
 
 		} else {
 
 			return $template;
 		}
-
 	}
 
 	/**
@@ -527,16 +547,22 @@ class cnTemplateFactory {
 	 */
 	public static function loadTemplate( $atts ) {
 
-		$atts = apply_filters( 'cn_list_template_init', $atts );
-
+		$type     = 'all';
 		$defaults = array(
 			'list_type'     => NULL,
 			'template'      => NULL,
 		);
 
-		$type = 'all';
-
-		$atts = shortcode_atts( $defaults, $atts );
+		/**
+		 * @since 0.7.9.4
+		 *
+		 * @param array $atts {
+		 *     @type string $list_type The shortcode list_type attribute value.
+		 *     @type string $template  The template slug.
+		 * }
+		 */
+		$defaults = apply_filters( 'cn_load_template', $defaults );
+		$atts     = shortcode_atts( $defaults, $atts );
 
 		if ( ! empty( $atts['list_type'] ) ) {
 

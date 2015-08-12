@@ -29,6 +29,21 @@ class cnShortcode_Connections extends cnShortcode {
 		$instance = Connections_Directory();
 
 		$html     = '';
+
+		if ( is_customize_preview() ) {
+
+			/**
+			 * Hook to allow the active template to be overridden and set to the current template being customized.
+			 *
+			 * @since 8.4
+			 *
+			 * @param array $atts {
+			 *     @type string $template The template slug of the template being customized.
+			 * }
+			 */
+			$atts = apply_filters( 'cn_template_customizer_template', $atts );
+		}
+
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
 		if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $atts );

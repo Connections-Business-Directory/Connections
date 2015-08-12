@@ -390,7 +390,7 @@ function cnTemplateDeleteButton( $template ) {
 
 /**
  * Renders the "Customize" button.
- * 
+ *
  * @access private
  * @since  8.4
  *

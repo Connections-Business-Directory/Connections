@@ -34,7 +34,7 @@ class cnShortcode_Connections extends cnShortcode {
 
 			/**
 			 * Hook to allow the active template to be overridden and set to the current template being customized.
-			 * 
+			 *
 			 * @since 8.4
 			 *
 			 * @param array $atts {

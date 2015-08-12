@@ -313,7 +313,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 
 		/**
 		 * Include the Template Customizer support file if the template is being customized.
-		 * 
+		 *
 		 * @access private
 		 * @since  3.0
 		 */

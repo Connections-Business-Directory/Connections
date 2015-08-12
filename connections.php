@@ -681,6 +681,34 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// System Info
 			require_once CN_PATH . 'includes/system-info/class.system-info.php';
+
+			// Include the Template Customizer files.
+			add_action( 'plugins_loaded', array( __CLASS__, 'includeCustomizer' ) );
+		}
+
+		/**
+		 * This callback run on the plugins_loaded hook to include the Customizer classes.
+		 *
+		 * Matches core WordPress @see _wp_customize_include().
+		 *
+		 * @access private
+		 * @since  8.4
+		 */
+		public static function includeCustomizer() {
+
+			if ( ! ( ( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] ) ||
+			         ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) ) ) ) {
+				return;
+			}
+
+			require_once CN_PATH . 'includes/template/class.template-customizer.php';
+
+			/**
+			 * Convenience actions that templates can hook into to load their Customizer config files.
+			 *
+			 * @since 8.4
+			 */
+			do_action( 'cn_template_customizer_include' );
 		}
 
 		/**

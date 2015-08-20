@@ -203,7 +203,7 @@ function connectionsShowTemplatesPage() {
 
 									<span class="action-links">
 										<?php
-										cntemplateActivateButton( $template );
+										cntemplateActivateButton( $template, $type );
 										cnTemplateDeleteButton( $template );
 										cnTemplateCustomizerButton( $template, $customizerURL, $pageURL );
 										?>
@@ -342,12 +342,13 @@ function cnTemplateShortcodeOverride( $template ) {
  * @since  8.4
  *
  * @param cnTemplate $template
+ * @param string     $type
  */
-function cnTemplateActivateButton( $template ) {
+function cnTemplateActivateButton( $template, $type = 'all' ) {
 
 	$form = new cnFormObjects();
 
-	$url = $form->tokenURL( 'admin.php?cn-action=activate_template&type=' . $template->getType() . '&template=' . $template->getSlug(), 'activate_' . $template->getSlug() );
+	$url = $form->tokenURL( 'admin.php?cn-action=activate_template&type=' . $type . '&template=' . $template->getSlug(), 'activate_' . $template->getSlug() );
 
 	?>
 

@@ -8,7 +8,7 @@
   
 **Tested up to:** 4.3
   
-**Stable tag:** 8.4
+**Stable tag:** 8.4.1
   
 **License:** GPLv2 or later
   
@@ -39,7 +39,7 @@ Quite simply, Connections Business Directory is the [best directory plugin avail
 * Displaying your entries on the frontend is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The shortcode provides a dizzying array of options that are just too numerous to list. To learn more, [go here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
 * **[Extensible](http://connections-pro.com/extensions/)** and developer friendly.
-* Robust **templating support**. Several basic templates are provided to get you started with many more [premium templates available](http://connections-pro.com/templates/).
+* Robust **templating support** with the [Template Customizer](http://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with many more [premium templates available](http://connections-pro.com/templates/).
 
 ### Extensible ###
 
@@ -225,6 +225,15 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 ## Changelog ##
+
+### 8.4.1 08/24/2015 ###
+BUG: Fix the home_id shortcode option in cnTemplatePart::formOpen().
+BUG: Remove a PHP_EOL in cnHTML::input() which was causing unnecessary spaces to be added between input fields.
+BUG: Correct bug preventing activation of individual template types.
+TWEAK: Set default template image placeholder to not display by default matching implementation of previous version.
+TWEAK: Add default style to remove box styles applied to images by themes.
+TWEAK: The category select customizer message needs to be displayed only on the results list view.
+
 
 ### 8.4 08/12/2015 ###
 * FEATURE: Introduce the Template Customizer.
@@ -1113,3 +1122,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 ### 8.4 ###
 It is recommended to backup before updating. Requires WordPress >= 4.0.
+
+### 8.4 ###
+It is recommended to backup before updating. Requires WordPress >= 4.1.

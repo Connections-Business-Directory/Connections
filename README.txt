@@ -198,6 +198,15 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.4.1 08/24/2015 =
+BUG: Fix the home_id shortcode option in cnTemplatePart::formOpen().
+BUG: Remove a PHP_EOL in cnHTML::input() which was causing unnecessary spaces to be added between input fields.
+BUG: Correct bug preventing activation of individual template types.
+TWEAK: Set default template image placeholder to not display by default matching implementation of previous version.
+TWEAK: Add default style to remove box styles applied to images by themes.
+TWEAK: The category select customizer message needs to be displayed only on the results list view.
+
+
 = 8.4 08/12/2015 =
 * FEATURE: Introduce the Template Customizer.
 * FEATURE: Complete rewrite of the Default Entry Card template to support the new Template Customizer.
@@ -1085,3 +1094,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 = 8.4 =
 It is recommended to backup before updating. Requires WordPress >= 4.0.
+
+= 8.4 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.

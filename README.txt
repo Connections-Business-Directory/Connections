@@ -32,7 +32,7 @@ Quite simply, Connections Business Directory is the [best directory plugin avail
 * Displaying your entries on the frontend is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The shortcode provides a dizzying array of options that are just too numerous to list. To learn more, [go here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
 * **[Extensible](http://connections-pro.com/extensions/)** and developer friendly.
-* Robust **templating support**. Several basic templates are provided to get you started with many more [premium templates available](http://connections-pro.com/templates/).
+* Robust **templating support** with the [Template Customizer](http://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with many more [premium templates available](http://connections-pro.com/templates/).
 
 = Extensible =
 

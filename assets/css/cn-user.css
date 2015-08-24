@@ -71,6 +71,10 @@
 	text-shadow: 1px 1px 0 #FFFFFF;
 }
 
+#cn-list img {
+	box-shadow: none;
+}
+
 img.cn-image {
 	border: none !important;
 	height: auto !important;

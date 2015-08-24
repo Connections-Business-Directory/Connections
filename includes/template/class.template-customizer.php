@@ -1938,7 +1938,7 @@ class cnTemplate_Customizer {
 	 */
 	public function categoryMessage() {
 
-		if ( $this->supports( 'category-select' ) ) {
+		if ( $this->supports( 'category-select' ) && ! get_query_var( 'cn-entry-slug' ) ) {
 			?>
 
 			<div id="cn-customizer-messages">

@@ -447,7 +447,7 @@ class cnHTML {
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$html = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		$html = $atts['before'] . $out . $atts['after'];
 
 		return self::echoOrReturn( $atts['return'], $html );
 	}

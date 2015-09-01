@@ -723,6 +723,31 @@ class cnURL {
 	}
 
 	/**
+	 * Remove the protocol from the supplied URL.
+	 *
+	 * @access public
+	 * @since  8.4.2
+	 * @static
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	public static function makeRelative( $url ) {
+
+		$url = str_replace(
+			array(
+				set_url_scheme( home_url(), 'http' ),
+				set_url_scheme( home_url(), 'https' ),
+			),
+			set_url_scheme( home_url(), 'relative' ),
+			$url
+		);
+
+		return $url;
+	}
+
+	/**
 	 * Create the URL to a file from its absolute system path.
 	 *
 	 * @access public

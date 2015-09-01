@@ -55,11 +55,11 @@ $notes = $entry->getNotes();
 
 		if ( $atts['show_im'] ) $entry->getImBlock();
 
-		if ( $atts['show_social_media'] ) $entry->getSocialMediaBlock();
-
 		if ( $atts['show_dates'] ) $entry->getDateBlock( array( 'format' => $atts['date_format'], 'type' => $atts['date_types'] ) );
 
 		if ( $atts['show_links'] ) $entry->getLinkBlock( array( 'format' => $atts['link_format'], 'type' => $atts['link_types'] ) );
+
+		if ( $atts['show_social_media'] ) $entry->getSocialMediaBlock();
 
 		?>
 

@@ -329,8 +329,29 @@ class cnTemplateFactory {
 		 */
 		$templatePaths = array( CN_TEMPLATE_PATH , CN_CUSTOM_TEMPLATE_PATH );
 		$templates     = new stdClass();
+		$baseDirs      = array();
+
+		if ( 0 < strlen( ini_get( 'open_basedir' ) ) ) {
+
+			$baseDirs = explode( PATH_SEPARATOR, ini_get( 'open_basedir' ) );
+
+			foreach ( $baseDirs as $key => $path ) {
+
+				$baseDirs[ $key ] = wp_normalize_path( $path );
+			}
+		}
 
 		foreach ( $templatePaths as $templatePath ) {
+
+			$templatePath = wp_normalize_path( $templatePath );
+
+			foreach ( $baseDirs as $path ) {
+
+				if ( FALSE === stripos( $templatePath, $path ) ) {
+					continue;
+				}
+			}
+
 			if ( ! is_dir( $templatePath ) && ! is_readable( $templatePath ) ) continue;
 
 			if ( ! $templateDirectories = @opendir( $templatePath ) ) continue;
@@ -342,7 +363,7 @@ class cnTemplateFactory {
 
 				$path = trailingslashit( $templatePath . $templateDirectory );
 
-				if ( is_dir( $path ) && is_readable( $path ) ) {
+				if ( @is_dir( $path ) && @is_readable( $path ) ) {
 
 					if ( file_exists( $path . 'meta.php' ) && file_exists( $path . 'template.php' ) ) {
 

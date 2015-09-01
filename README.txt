@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 8.4.1
+Stable tag: 8.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -198,14 +198,21 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
-= 8.4.1 08/24/2015 =
-BUG: Fix the home_id shortcode option in cnTemplatePart::formOpen().
-BUG: Remove a PHP_EOL in cnHTML::input() which was causing unnecessary spaces to be added between input fields.
-BUG: Correct bug preventing activation of individual template types.
-TWEAK: Set default template image placeholder to not display by default matching implementation of previous version.
-TWEAK: Add default style to remove box styles applied to images by themes.
-TWEAK: The category select customizer message needs to be displayed only on the results list view.
+= 8.4.2 08/31/2015 =
+* BUG: Properly set form action when using the `home_id` shortcode option.
+* NEW: Introduce cnURL::makeRelative().
+* TWEAK: Move the social media icons to the bottom of the entry contact info in the Default Entry Card.
+* TWEAK: Hopefully properly deal with hosts that force open_basedir in cnTemplateFactory::scan().
+* OTHER: Update minified CSS file.
+* I18N: Fix to make the image/logo hover string translation ready.
 
+= 8.4.1 08/24/2015 =
+* BUG: Fix the home_id shortcode option in cnTemplatePart::formOpen().
+* BUG: Remove a PHP_EOL in cnHTML::input() which was causing unnecessary spaces to be added between input fields.
+* BUG: Correct bug preventing activation of individual template types.
+* TWEAK: Set default template image placeholder to not display by default matching implementation of previous version.
+* TWEAK: Add default style to remove box styles applied to images by themes.
+* TWEAK: The category select customizer message needs to be displayed only on the results list view.
 
 = 8.4 08/12/2015 =
 * FEATURE: Introduce the Template Customizer.
@@ -1095,5 +1102,8 @@ It is recommended to backup before updating. Requires WordPress >= 4.0.
 = 8.4 =
 It is recommended to backup before updating. Requires WordPress >= 4.0.
 
-= 8.4 =
+= 8.4.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.4.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

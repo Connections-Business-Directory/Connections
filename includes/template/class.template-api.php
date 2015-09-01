@@ -347,7 +347,7 @@ class cnTemplateFactory {
 
 			foreach ( $baseDirs as $path ) {
 
-				if ( stripos( $templatePath, $path ) === FALSE ) {
+				if ( FALSE === stripos( $templatePath, $path ) ) {
 					continue;
 				}
 			}

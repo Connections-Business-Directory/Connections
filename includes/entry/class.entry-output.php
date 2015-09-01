@@ -175,8 +175,8 @@ class cnOutput extends cnEntry {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'cn-image photo';
-					$atts['alt']   = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
-					$atts['title'] = __( sprintf( 'Photo of %s', $this->getName() ), 'connections' );
+					$atts['alt']   = sprintf( __( 'Photo of %s', 'connections' ), $this->getName() );
+					$atts['title'] = sprintf( __( 'Photo of %s', 'connections' ), $this->getName() );
 
 					$atts['alt']   = apply_filters( 'cn_photo_alt', $atts['alt'], $this );
 					$atts['title'] = apply_filters( 'cn_photo_title', $atts['title'], $this );
@@ -277,8 +277,8 @@ class cnOutput extends cnEntry {
 
 					$displayImage  = TRUE;
 					$atts['class'] = 'cn-image logo';
-					$atts['alt']   = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
-					$atts['title'] = __( sprintf( 'Logo for %s', $this->getName() ), 'connections' );
+					$atts['alt']   = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
+					$atts['title'] = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
 					$cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 					$atts['alt']   = apply_filters( 'cn_logo_alt', $atts['alt'], $this );

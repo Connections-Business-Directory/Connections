@@ -184,6 +184,9 @@ Cache Path Exists:          <?php echo cnFormatting::toYesNo( is_dir( CN_CACHE_P
 Cache Path Writeable:       <?php echo cnFormatting::toYesNo( is_writeable( CN_CACHE_PATH ) ) . PHP_EOL; ?>
 
 <?php
+// Get plugins that have an update
+$updates = get_plugin_updates();
+
 // Must-use plugins
 $muplugins = get_mu_plugins();
 
@@ -210,7 +213,9 @@ foreach ( $plugins as $plugin_path => $plugin ) {
 		continue;
 	}
 
-	echo $plugin['Name'] . ': ' . $plugin['Version'] . PHP_EOL;
+	$update = array_key_exists( $plugin_path, $updates ) ? ' (Update Available - ' . $updates[ $plugin_path ]->update->new_version . ')' : '';
+
+	echo $plugin['Name'] . ': ' . $plugin['Version'] . $update . PHP_EOL;
 }
 
 do_action( 'cn_sysinfo_after_wordpress_plugins' );
@@ -225,7 +230,9 @@ foreach ( $plugins as $plugin_path => $plugin ) {
 		continue;
 	}
 
-	echo $plugin['Name'] . ': ' . $plugin['Version'] . PHP_EOL;
+	$update = array_key_exists( $plugin_path, $updates ) ? ' (Update Available - ' . $updates[ $plugin_path ]->update->new_version . ')' : '';
+
+	echo $plugin['Name'] . ': ' . $plugin['Version'] . $update . PHP_EOL;
 }
 
 do_action( 'cn_sysinfo_after_wordpress_plugins_inactive' );
@@ -246,8 +253,10 @@ if ( is_multisite() ) : ?>
 			continue;
 		}
 
+		$update = array_key_exists( $plugin_path, $updates ) ? ' (Update Available - ' . $updates[ $plugin_path ]->update->new_version . ')' : '';
+
 		$plugin = get_plugin_data( $plugin_path );
-		echo $plugin['Name'] . ': ' . $plugin['Version'] . PHP_EOL;
+		echo $plugin['Name'] . ': ' . $plugin['Version'] . $update . PHP_EOL;
 	}
 
 	do_action( 'cn_sysinfo_after_wordpress_ms_plugins' );

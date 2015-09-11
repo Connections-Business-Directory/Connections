@@ -1030,7 +1030,7 @@ class cnOutput extends cnEntry {
 		$out = str_ireplace(
 			$search,
 			$replace,
-			empty( $atts['format'] ) ? '%label%%separator% %first% %last%' : $atts['format']
+			empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %first% %last%' : $defaults['format'] ) : $atts['format']
 		);
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
@@ -1276,7 +1276,7 @@ class cnOutput extends cnEntry {
 			$out .= str_ireplace(
 				$search,
 				$replace,
-				empty( $atts['format'] ) ? '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%' : $atts['format']
+				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%' : $defaults['format'] ) : $atts['format']
 			);
 
 			// Set the hCard Address Type.
@@ -1515,7 +1515,7 @@ class cnOutput extends cnEntry {
 			$row .= str_ireplace(
 				$search,
 				$replace,
-				empty( $atts['format'] ) ? '%label%%separator% %number%' : $atts['format']
+				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %number%' : $defaults['format'] ) : $atts['format']
 			);
 
 			// Set the hCard Phone Number Type.
@@ -1729,7 +1729,7 @@ class cnOutput extends cnEntry {
 			$row .= str_ireplace(
 				$search,
 				$replace,
-				empty( $atts['format'] ) ? '%label%%separator% %address%' : $atts['format']
+				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %address%' : $defaults['format'] ) : $atts['format']
 			);
 
 			// Set the hCard Email Address Type.
@@ -1856,7 +1856,7 @@ class cnOutput extends cnEntry {
 			$out .= str_ireplace(
 				$search,
 				$replace,
-				empty( $atts['format'] ) ? '%label%%separator% %id%' : $atts['format']
+				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %id%' : $defaults['format'] ) : $atts['format']
 			);
 
 			$out .= '</span>' . PHP_EOL;
@@ -2162,7 +2162,7 @@ class cnOutput extends cnEntry {
 			$row .= str_ireplace(
 				$search,
 				$replace,
-				empty( $atts['format'] ) ? '%label%%separator% %title%' : $atts['format']
+				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %title%' : $defaults['format'] ) : $atts['format']
 			);
 
 			$row .= '</span>';
@@ -2269,7 +2269,7 @@ class cnOutput extends cnEntry {
 			$out .= str_ireplace(
 				$search,
 				$replace,
-				empty( $atts['format'] ) ? '%label%%separator% %date%' : $atts['format']
+				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %date%' : $defaults['format'] ) : $atts['format']
 			);
 
 			$out .= '</span>' . PHP_EOL;

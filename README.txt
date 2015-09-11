@@ -198,6 +198,15 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.4.3 09/11/2015 =
+* NEW: Introduce cnURL::makeProtocolRelative().
+* NEW: Introduce cnImage::insertIntoMediaLigrary(). Required further development, to be used in future versions.
+* BUG: Address bug that prevented the default format attribute from being changed via a filter.
+* TWEAK: Add updated jQuery UI styles to match the current WP admin style and color schemes.
+* TWEAK: Add plugin update available info to the System Info.
+* TWEAK: Update the mshot API URL.
+* TWEAK: Enqueue the jQuery data picker by handle only when rendering the metabox datepicker control.
+
 = 8.4.2 08/31/2015 =
 * BUG: Properly set form action when using the `home_id` shortcode option.
 * NEW: Introduce cnURL::makeRelative().
@@ -1106,4 +1115,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.0.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.4.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.4.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

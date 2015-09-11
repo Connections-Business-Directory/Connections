@@ -748,6 +748,24 @@ class cnURL {
 	}
 
 	/**
+	 * Return a URL with the protocol scheme removed to make it a protocol relative URL.
+	 *
+	 * This is useful when enqueueing CSS and JavaScript files.
+	 *
+	 * @access public
+	 * @since  8.4.3
+	 * @static
+	 *
+	 * @param string $url
+	 *
+	 * @return mixed string|NULL The URL without the protocol scheme, NULL on error.
+	 */
+	public static function makeProtocolRelative( $url ) {
+
+		return preg_replace( '(https?://)', '//', $url );
+	}
+
+	/**
 	 * Create the URL to a file from its absolute system path.
 	 *
 	 * @access public

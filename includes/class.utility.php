@@ -2075,7 +2075,7 @@ class cnSiteShot {
 	 *
 	 * var string
 	 */
-	const API = 'http://s.wordpress.com/mshots/v1/';
+	const API = '//s0.wordpress.com/mshots/v1/';
 
 	/**
 	 * The URL to take a screenshot of.

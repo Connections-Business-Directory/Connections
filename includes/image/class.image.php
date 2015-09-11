@@ -1904,6 +1904,67 @@ class cnImage {
 	}
 
 	/**
+	 * Private, do not use, for use in future development.
+	 *
+	 * @link http://wordpress.stackexchange.com/a/196890
+	 * @link https://wordpress.org/plugins/auto-upload-images/
+	 * @link https://wordpress.org/plugins/rajoshik-post-feature-image-from-url/
+	 *
+	 * @param string $url
+	 *
+	 * @return int|mixed|object|string
+	 */
+	private static function insertIntoMediaLibrary( $url ) {
+
+		/** Require dependencies */
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+
+		// Save as a temporary file
+		$tmp = download_url( $url );
+
+		// Check for download errors
+		if ( is_wp_error( $tmp ) ) {
+
+			return $tmp;
+		}
+
+		// Image name (just random-number)
+		$name = rand( 0, 100000 ) . ".jpg";
+
+		// Take care of image files without extension:
+		$path = pathinfo( $tmp );
+		if ( ! isset( $path['extension'] ) ):
+			$tmpnew = $tmp . '.tmp';
+			if ( ! rename( $tmp, $tmpnew ) ):
+				return '';
+			else:
+				$name = rand( 0, 100000 ) . ".jpg";
+				$tmp  = $tmpnew;
+			endif;
+		endif;
+
+		// Upload the image into the WordPress Media Library:
+		$file_array = array(
+			'name'     => $name,
+			'tmp_name' => $tmp,
+		);
+
+		$id = media_handle_sideload( $file_array, 0 );
+		$attachment_url = wp_get_attachment_url( $id );
+
+		// Check for handle sideload errors:
+		if ( is_wp_error( $id ) ) {
+			@unlink( $file_array['tmp_name'] );
+
+			return $id;
+		}
+
+		return $id;
+	}
+
+	/**
 	 * Force image filename extensions to lower case because the core image editor
 	 * will save file extensions as lowercase.
 	 *

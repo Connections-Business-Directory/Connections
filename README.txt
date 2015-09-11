@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 8.4.2
+Stable tag: 8.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -197,6 +197,15 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.4.3 09/11/2015 =
+* NEW: Introduce cnURL::makeProtocolRelative().
+* NEW: Introduce cnImage::insertIntoMediaLigrary(). Required further development, to be used in future versions.
+* BUG: Address bug that prevented the default format attribute from being changed via a filter.
+* TWEAK: Add updated jQuery UI styles to match the current WP admin style and color schemes.
+* TWEAK: Add plugin update available info to the System Info.
+* TWEAK: Update the mshot API URL.
+* TWEAK: Enqueue the jQuery data picker by handle only when rendering the metabox datepicker control.
 
 = 8.4.2 08/31/2015 =
 * BUG: Properly set form action when using the `home_id` shortcode option.
@@ -1106,4 +1115,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.0.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.4.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.4.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

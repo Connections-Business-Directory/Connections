@@ -227,6 +227,7 @@ class cnScript {
 
 			wp_register_style( 'cn-admin', CN_URL . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
 			wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
+			wp_register_style( 'cn-admin-jquery-datepicker', CN_URL . "assets/css/datepicker$min.css", array( 'cn-admin-jquery-ui' ), CN_CURRENT_VERSION );
 
 			if ( is_rtl() ) {
 
@@ -480,6 +481,7 @@ class cnScript {
 
 			wp_enqueue_style( 'cn-admin' );
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
+			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-font-awesome' );
 
 			if ( is_rtl() ) {

@@ -127,12 +127,12 @@ class cnScript {
 
 			wp_register_script( 'cn-google-maps-api', '//maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 
-			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.3', $connections->options->getJavaScriptFooter() );
 			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 
 		} else {
 
-			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap-1.3.2$min.js", array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' ), '1.3.3', $connections->options->getJavaScriptFooter() );
 			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 		}
 

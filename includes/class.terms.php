@@ -2811,7 +2811,7 @@ class cnTerm {
 	 * @uses   wp_parse_id_list()
 	 * @uses   sanitize_title()
 	 * @uses   wpdb::prepare()
-	 * @uses   like_escape()
+	 * @uses   $wpdb::esc_like()
 	 * @uses   absint()
 	 * @uses   wpdb::get_results()
 	 * @uses   cnTerm::filter()
@@ -3202,14 +3202,16 @@ class cnTerm {
 
 		if ( ! empty( $atts['name__like'] ) ) {
 
-			$atts['name__like'] = like_escape( $atts['name__like'] );
-			$where[]            = $wpdb->prepare( 'AND t.name LIKE %s', '%' . $atts['name__like'] . '%' );
+			//$atts['name__like'] = like_escape( $atts['name__like'] );
+			$where[] = $wpdb->prepare( " AND t.name LIKE %s", '%' . $wpdb->esc_like( $atts['name__like'] ) . '%' );
+			//$where[]            = $wpdb->prepare( 'AND t.name LIKE %s', '%' . $atts['name__like'] . '%' );
 		}
 
 		if ( ! empty( $atts['description__like'] ) ) {
 
-			$atts['description__like'] = like_escape( $atts['description__like'] );
-			$where[]                   = $wpdb->prepare( 'AND tt.description LIKE %s', '%' . $atts['description__like'] . '%' );
+			//$atts['description__like'] = like_escape( $atts['description__like'] );
+			$where[] = $wpdb->prepare( " AND tt.description LIKE %s", '%' . $wpdb->esc_like( $atts['description__like'] ) . '%' );
+			//$where[]                   = $wpdb->prepare( 'AND tt.description LIKE %s', '%' . $atts['description__like'] . '%' );
 		}
 
 		if ( '' !== $atts['parent'] ) {
@@ -3249,7 +3251,8 @@ class cnTerm {
 
 		if ( ! empty( $atts['search'] ) ) {
 
-			$atts['search'] = like_escape( $atts['search'] );
+			//$atts['search'] = like_escape( $atts['search'] );
+			$atts['search'] = $wpdb->esc_like( $atts['search'] );
 			$where[]        = $wpdb->prepare( 'AND ( (t.name LIKE %s) OR (t.slug LIKE %s) )', '%' . $atts['search'] . '%', '%' . $atts['search'] . '%' );
 		}
 

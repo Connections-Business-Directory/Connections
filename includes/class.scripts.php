@@ -114,6 +114,7 @@ class cnScript {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		/*
 		 * If the Google Maps API is disabled, do not register it and change the dependencies of
@@ -124,25 +125,22 @@ class cnScript {
 		 */
 		if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
 
-			if ( ! is_ssl() ) wp_register_script( 'cn-google-maps-api', 'http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
-			if ( is_ssl() ) wp_register_script( 'cn-google-maps-api', 'https://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'cn-google-maps-api', '//maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 
-			wp_register_script( 'jquery-gomap', CN_URL . "vendor/jquery-gomap/jquery.gomap-1.3.2$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-markerclusterer', CN_URL . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.3', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.1.2', $connections->options->getJavaScriptFooter() );
 
 		} else {
 
-			wp_register_script( 'jquery-gomap', CN_URL . "vendor/jquery-gomap/jquery.gomap-1.3.2$min.js", array( 'jquery' ), '1.3.2', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-markerclusterer', CN_URL . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' ), '1.3.3', $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 		}
-
-		// wp_register_script( 'jquery-preloader', CN_URL . "vendor/jquery-preloader/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
 
 		if ( is_admin() ) {
 
-			wp_register_script( 'cn-ui-admin', CN_URL . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate' ), CN_CURRENT_VERSION, TRUE );
-			wp_register_script( 'cn-system-info', CN_URL . "assets/js/cn-system-info$min.js", array( 'jquery', 'jquery-validate', 'jquery-form', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
-			wp_register_script( 'cn-widget', CN_URL . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-ui-admin', $url . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-system-info', $url . "assets/js/cn-system-info$min.js", array( 'jquery', 'jquery-validate', 'jquery-form', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 
 			$strings = array(
 				'showDetails'              => __( 'Show Details', 'connections' ),
@@ -178,21 +176,18 @@ class cnScript {
 
 		} else {
 
-			wp_register_script( 'cn-ui', CN_URL . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+			wp_register_script( 'cn-ui', $url . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 		}
 
-		wp_register_script( 'jquery-qtip', CN_URL . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
-
-		// Disable this for now, Elegant Theme uses the same hook name in the admin which causes errors.
-		// wp_register_script('jquery-spin', CN_URL . 'vendor/jquery-spin/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '2.2.1', $connections->options->getJavaScriptFooter() );
 
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
-		wp_register_script( 'jquery-chosen', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
-		wp_register_script( 'jquery-chosen-min', CN_URL . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-chosen', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.4.2', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-chosen-min', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.4.2', $connections->options->getJavaScriptFooter() );
 
-		wp_register_script( 'jquery-validate' , CN_URL . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.11.1' , $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.14.0' , $connections->options->getJavaScriptFooter() );
 
-		wp_register_script( 'picturefill', CN_URL . "vendor/picturefill/picturefill$min.js", array(), '2.1.0', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'picturefill', $url . "vendor/picturefill/picturefill$min.js", array(), '2.3.1', $connections->options->getJavaScriptFooter() );
 	}
 
 	/**
@@ -222,16 +217,17 @@ class cnScript {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		if ( is_admin() ) {
 
-			wp_register_style( 'cn-admin', CN_URL . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
-			wp_register_style( 'cn-admin-jquery-ui', CN_URL . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
-			wp_register_style( 'cn-admin-jquery-datepicker', CN_URL . "assets/css/datepicker$min.css", array( 'cn-admin-jquery-ui' ), CN_CURRENT_VERSION );
+			wp_register_style( 'cn-admin', $url . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
+			wp_register_style( 'cn-admin-jquery-ui', $url . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
+			wp_register_style( 'cn-admin-jquery-datepicker', $url . "assets/css/datepicker$min.css", array( 'cn-admin-jquery-ui' ), CN_CURRENT_VERSION );
 
 			if ( is_rtl() ) {
 
-				wp_register_style( 'cn-admin-rtl', CN_URL . "assets/css/cn-admin-rtl$min.css", array('cn-admin'), CN_CURRENT_VERSION );
+				wp_register_style( 'cn-admin-rtl', $url . "assets/css/cn-admin-rtl$min.css", array('cn-admin'), CN_CURRENT_VERSION );
 			}
 
 		} else {
@@ -265,9 +261,9 @@ class cnScript {
 
 		}
 
-		wp_register_style( 'cn-qtip', CN_URL . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '2.0.1' );
-		wp_register_style( 'cn-chosen', CN_URL . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
-		wp_register_style( 'cn-font-awesome', CN_URL . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.0.3' );
+		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '2.2.1' );
+		wp_register_style( 'cn-chosen', $url . "vendor/chosen/chosen$min.css", array(), '1.4.2' );
+		wp_register_style( 'cn-font-awesome', $url . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.4.0' );
 
 		// Remove the filter that adds the core CSS path to cnLocate.
 		remove_filter( 'cn_locate_file_paths', array( __CLASS__, 'coreCSSPath' ) );

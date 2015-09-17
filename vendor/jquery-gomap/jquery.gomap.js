@@ -3,7 +3,7 @@
  *
  * @url		http://www.pittss.lv/jquery/gomap/
  * @author	Jevgenijs Shtrauss <pittss@gmail.com>
- * @version	1.3.2 2011.07.01
+ * @version	1.3.3 2014.11.27
  * This software is released under the MIT License <http://www.opensource.org/licenses/mit-license.php>
  */
 
@@ -47,7 +47,7 @@
 		    navigationControl:			true, // Show or hide navigation control
 			navigationControlOptions:	{
 				position:	'TOP_LEFT', // TOP, TOP_LEFT, TOP_RIGHT, BOTTOM, BOTTOM_LEFT, BOTTOM_RIGHT, LEFT, RIGHT
-				style:		'DEFAULT' 	// DEFAULT, ANDROID, SMALL, ZOOM_PAN
+				style:		'DEFAULT' 	// DEFAULT, SMALL, LARGE
 			},
 		    mapTypeControl: 			true, // Show or hide map control
 			mapTypeControlOptions:		{
@@ -89,7 +89,7 @@
 				fillOpacity:	0.2
 			},
 			maptype:					'HYBRID', // Map type - HYBRID, ROADMAP, SATELLITE, TERRAIN
-			html_prepend:				'<div class=gomapMarker>',
+			html_prepend:				'<div class="gomapMarker">',
 			html_append:				'</div>',
 			addMarker:					false
 		},		
@@ -142,10 +142,14 @@
 					style:		google.maps.MapTypeControlStyle[opts.mapTypeControlOptions.style.toUpperCase()]
 				},
 				mapTypeId:				google.maps.MapTypeId[opts.maptype.toUpperCase()],
-        		navigationControl:		opts.navigationControl,
-				navigationControlOptions: {
+				panControl: 			opts.navigationControl,
+				zoomControl:			opts.navigationControl,
+				panControlOptions: {
+					position:	google.maps.ControlPosition[opts.navigationControlOptions.position.toUpperCase()]
+				},
+				zoomControlOptions: {
 					position:	google.maps.ControlPosition[opts.navigationControlOptions.position.toUpperCase()],
-					style:		google.maps.NavigationControlStyle[opts.navigationControlOptions.style.toUpperCase()]
+					style:		google.maps.ZoomControlStyle[opts.navigationControlOptions.style.toUpperCase()]
 				},
 		        scaleControl:			opts.scaleControl,
 		        scrollwheel:			opts.scrollwheel,
@@ -279,12 +283,22 @@
 			if(options.mapTypeControlOptions && options.mapTypeControlOptions.style)
 				options.mapTypeControlOptions.style = google.maps.MapTypeControlStyle[options.mapTypeControlOptions.style.toUpperCase()];
 
-			if(options.navigationControlOptions && options.navigationControlOptions.position)
-				options.navigationControlOptions.position = google.maps.ControlPosition[options.navigationControlOptions.position.toUpperCase()];
+			if(typeof options.navigationControl !== 'undefined') {
+				options.panControl = options.navigationControl;
+				options.zoomControl = options.navigationControl;
+			}
+			
+			if(options.navigationControlOptions && options.navigationControlOptions.position) {
+				options.panControlOptions = {position: google.maps.ControlPosition[options.navigationControlOptions.position.toUpperCase()]};
+				options.zoomControlOptions = {position: google.maps.ControlPosition[options.navigationControlOptions.position.toUpperCase()]};
+			}
 
-			if(options.navigationControlOptions && options.navigationControlOptions.style)
-				options.navigationControlOptions.style = google.maps.NavigationControlStyle[options.navigationControlOptions.style.toUpperCase()];
-
+			if(options.navigationControlOptions && options.navigationControlOptions.style) {
+				if(typeof options.zoomControlOptions === 'undefined')
+					options.zoomControlOptions = {style: google.maps.ZoomControlStyle[options.navigationControlOptions.style.toUpperCase()]};
+				else
+					options.zoomControlOptions.style = google.maps.ZoomControlStyle[options.navigationControlOptions.style.toUpperCase()];
+			}
 			this.map.setOptions(options);
 		},
 
@@ -344,6 +358,7 @@
 		},
 
 		openWindow: function(infowindow, marker, html) {
+			var goMap = this;
 			if(this.opts.oneInfoWindow)
 				this.clearInfo();
 
@@ -352,12 +367,12 @@
 				$.ajax({
 					url: html.ajax,
 					success: function(html) {
-						infowindow.setContent(html);
+						infowindow.setContent(goMap.opts.html_prepend + html + goMap.opts.html_append);
 					}
 				});
 			}
 			else if (html.id) {
-				infowindow.setContent($(html.id).html());
+				infowindow.setContent(goMap.opts.html_prepend + $(html.id).html() + goMap.opts.html_append);
 				infowindow.open(this.map, marker);
 			}
 			else
@@ -368,9 +383,9 @@
 			var info = $(this.mapId).data(id + 'info');
 
 			if(typeof text == 'object')
-				info.setOptions(text);
+				info.setOptions(goMap.opts.html_prepend + text + goMap.opts.html_append);
 			else
-				info.setContent(text);
+				info.setContent(goMap.opts.html_prepend + text  + goMap.opts.html_append);
 		},
 
 		getInfo: function(id, hideDiv) {

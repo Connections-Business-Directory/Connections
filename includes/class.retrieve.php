@@ -571,7 +571,7 @@ class cnRetrieve {
 
 		if ( 0 < strlen( $atts['char'] ) ) {
 
-			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s', like_escape( $atts['char'] ) . '%' );
+			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s', $wpdb->esc_like( $atts['char'] ) . '%' );
 		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied filters.
@@ -2454,7 +2454,7 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), like_escape( $word ) . '%' ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $wpdb->esc_like( $word ) . '%' ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
@@ -2514,7 +2514,7 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), like_escape( $word ) . '%' ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $wpdb->esc_like( $word ) . '%' ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
@@ -2579,7 +2579,7 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), like_escape( $word ) . '%' ) );
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $wpdb->esc_like( $word ) . '%' ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
@@ -2643,7 +2643,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['entry'] ) , '%' . like_escape( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['entry'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
 				$sql =  'SELECT ' . CN_ENTRY_TABLE . '.id
@@ -2669,7 +2669,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['address'] ) , '%' . like_escape( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['address'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
 				$sql =  'SELECT ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id
@@ -2695,7 +2695,7 @@ class cnRetrieve {
 					 * Since $wpdb->prepare() required var for each directive in the query string we'll use array_fill
 					 * where the count based on the number of columns that will be searched.
 					 */
-					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['phone'] ) , '%' . like_escape( $term ) . '%' ) );
+					$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ' , array_fill( 0 , count( $atts['fields']['phone'] ) , '%' . $wpdb->esc_like( $term ) . '%' ) );
 				}
 
 				$sql =  'SELECT ' . CN_ENTRY_PHONE_TABLE . '.entry_id

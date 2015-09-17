@@ -81,8 +81,8 @@ class cnGeo {
 			if ( $body ) {
 				$json = json_decode( $body );
 
-				if ( $json->status === 'OK' ) {
-					// Rewrite the responce from the Google API to be a bit more user friendly even though the nomenclature may not be the most accurate.
+				if ( is_object( $json ) && 'OK' === $json->status ) {
+					// Rewrite the response from the Google API to be a bit more user friendly even though the nomenclature may not be the most accurate.
 					// Address types from the API are documented here:  https://developers.google.com/maps/documentation/geocoding/#Types
 
 					// The formatted address.

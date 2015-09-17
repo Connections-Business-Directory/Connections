@@ -7,7 +7,7 @@
   
 **Tested up to:** 4.3
   
-**Stable tag:** 8.4.3
+**Stable tag:** 8.4.4
   
 **License:** GPLv2 or later
   
@@ -224,6 +224,22 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 ## Changelog ##
+
+### 8.4.4 09/17/2015 ###
+* TWEAK: Remove use of deprecated like_escape() throughout.
+* TWEAK: Check that json_decode() returned an object before checking value of a property in cnGeo.
+* TWEAK: Enqueue CSS and JavaScript using relative protocol URL/s.
+* OTHER: Update Chosen to 1.4.2.
+* OTHER: Update Font Awesome to 4.4.0.
+* OTHER: Update jQuery goMap to 1.3.3.
+* OTHER: Update jQuery qTip to 2.2.1.
+* OTHER: Update MarkerClustererPlus to 2.1.2.
+* OTHER: Update picturefill to 2.3.1.
+* OTHER: Update jQuery validate to 1.14.0.
+* OTHER: Remove unused jQuery Preload.
+* OTHER: Remove unused jQuery preloader.
+* OTHER: Remove unused jQuery spin.
+* OTHER: Remove unused jQuery spin.js.
 
 ### 8.4.3 09/11/2015 ###
 * NEW: Introduce cnURL::makeProtocolRelative().
@@ -1145,4 +1161,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 ### 8.4.3 ###
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+### 8.4.4 ###
 It is recommended to backup before updating. Requires WordPress >= 4.1.

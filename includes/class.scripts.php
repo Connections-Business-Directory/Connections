@@ -187,8 +187,8 @@ class cnScript {
 		// wp_register_script('jquery-spin', CN_URL . 'vendor/jquery-spin/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
 
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
-		wp_register_script( 'jquery-chosen', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
-		wp_register_script( 'jquery-chosen-min', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.1.0', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-chosen', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.4.2', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-chosen-min', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.4.2', $connections->options->getJavaScriptFooter() );
 
 		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.11.1' , $connections->options->getJavaScriptFooter() );
 

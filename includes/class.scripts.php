@@ -181,9 +181,6 @@ class cnScript {
 
 		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '2.0.1', $connections->options->getJavaScriptFooter() );
 
-		// Disable this for now, Elegant Theme uses the same hook name in the admin which causes errors.
-		// wp_register_script('jquery-spin', CN_URL . 'vendor/jquery-spin/jquery.spin.js', array('jquery'), '1.2.5', $connections->options->getJavaScriptFooter() );
-
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
 		wp_register_script( 'jquery-chosen', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.4.2', $connections->options->getJavaScriptFooter() );
 		wp_register_script( 'jquery-chosen-min', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.4.2', $connections->options->getJavaScriptFooter() );

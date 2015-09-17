@@ -268,7 +268,7 @@ class cnScript {
 
 		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '2.0.1' );
 		wp_register_style( 'cn-chosen', $url . "vendor/chosen/chosen$min.css", array(), '1.1.0' );
-		wp_register_style( 'cn-font-awesome', $url . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.0.3' );
+		wp_register_style( 'cn-font-awesome', $url . "vendor/font-awesome/css/font-awesome$min.css", array(), '4.4.0' );
 
 		// Remove the filter that adds the core CSS path to cnLocate.
 		remove_filter( 'cn_locate_file_paths', array( __CLASS__, 'coreCSSPath' ) );

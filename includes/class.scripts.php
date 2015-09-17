@@ -136,8 +136,6 @@ class cnScript {
 			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 		}
 
-		// wp_register_script( 'jquery-preloader', CN_URL . "vendor/jquery-preloader/jquery.preloader$min.js", array( 'jquery' ), '1.1', $connections->options->getJavaScriptFooter() );
-
 		if ( is_admin() ) {
 
 			wp_register_script( 'cn-ui-admin', $url . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate' ), CN_CURRENT_VERSION, TRUE );

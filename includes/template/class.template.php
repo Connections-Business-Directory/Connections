@@ -1066,12 +1066,15 @@ class cnTemplate {
 		$required = cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ? array( 'cn-public' ) : array();
 		$required = apply_filters( 'cn_template_required_css-' . $this->slug, $required, $this );
 		$handle   = "cnt-{$this->slug}";
+		$url      = cnURL::makeProtocolRelative( $this->parts['css-url'] );
 
-		wp_enqueue_style( $handle, $this->parts['css-url'], $required, $this->version );
+		wp_enqueue_style( $handle, $url, $required, $this->version );
 
 		if ( isset( $this->parts['css-custom-url'] ) ) {
 
-			wp_enqueue_style( "cnt-{$this->slug}-custom", $this->parts['css-custom-url'], array( "cnt-{$this->slug}" ), $this->version );
+			$customURL = cnURL::makeProtocolRelative( $this->parts['css-custom-url'] );
+
+			wp_enqueue_style( "cnt-{$this->slug}-custom", $customURL, array( "cnt-{$this->slug}" ), $this->version );
 		}
 
 		/**
@@ -1097,8 +1100,9 @@ class cnTemplate {
 	public function enqueueScript() {
 
 		$required = apply_filters( 'cn_template_required_js-' . $this->slug, array(), $this );
+		$url      = cnURL::makeProtocolRelative( $this->parts['js-url'] );
 
-		wp_enqueue_script( "cnt-{$this->slug}", $this->parts['js-url'], $required, $this->version, TRUE );
+		wp_enqueue_script( "cnt-{$this->slug}", $url, $required, $this->version, TRUE );
 	}
 
 }

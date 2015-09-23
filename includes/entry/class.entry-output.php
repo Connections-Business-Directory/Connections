@@ -1406,7 +1406,7 @@ class cnOutput extends cnEntry {
 			$out .= '</span></span>';
 		}
 		else {
-			$attr[] = 'id="map-' . $this->getRuid() . '"';
+			$attr[] = 'class="cn-gmap" id="map-' . $this->getRuid() . '"';
 			if ( ! empty( $addr ) ) $attr[] = 'data-address="' . implode( ', ', $addr ) .'"';
 			if ( ! empty( $geo['latitude'] ) ) $attr[] = 'data-latitude="' . $geo['latitude'] .'"';
 			if ( ! empty( $geo['longitude'] ) ) $attr[] = 'data-longitude="' . $geo['longitude'] .'"';

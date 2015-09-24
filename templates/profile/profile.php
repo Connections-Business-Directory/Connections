@@ -6,13 +6,13 @@
  * @since      0.7.9
  * @license    GPL-2.0+
  * @link       http://connections-pro.com
- * @copyright  2013 Steven A. Zahm
+ * @copyright  2015 Steven A. Zahm
  *
  * @wordpress-plugin
  * Plugin Name:       Connections Profile - Template
  * Plugin URI:        http://connections-pro.com
  * Description:       This will show the entries in a profile format.
- * Version:           2.0.1
+ * Version:           3.0
  * Author:            Steven A. Zahm
  * Author URI:        http://connections-pro.com
  * License:           GPL-2.0+
@@ -26,14 +26,19 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 
 	class CN_Profile_Template {
 
+		/**
+		 * @var string
+		 */
+		const SLUG = 'profile';
+
 		public static function register() {
 
 			$atts = array(
-				'class'       => 'CN_Profile_Template',
+				'class'       => __CLASS__,
 				'name'        => 'Profile Entry Card',
-				'slug'        => 'profile',
+				'slug'        => self::SLUG,
 				'type'        => 'all',
-				'version'     => '2.0.1',
+				'version'     => '3.0',
 				'author'      => 'Steven A. Zahm',
 				'authorURL'   => 'connections-pro.com',
 				'description' => 'This will show the entries in a profile format.',
@@ -42,44 +47,239 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 				'url'         => plugin_dir_url( __FILE__ ),
 				'thumbnail'   => 'thumbnail.png',
 				'parts'       => array(),
+				'supports'    => array(
+					'customizer' => array(
+						'view' => array(
+							'card'   => array(
+								'display' => array(
+									'title',
+									'org',
+									'dept',
+									'categories',
+									'last_updated',
+								),
+								'image' => array(
+									'type',
+									'width',
+									'height',
+									'crop_mode',
+									'fallback',
+								),
+								'advanced' => array(
+									'name_format',
+								),
+							),
+							'single' => array(
+								'display' => array(
+									'title',
+									'org',
+									'dept',
+									'contact_name',
+									'family',
+									'addresses',
+									'phone_numbers',
+									'email',
+									'im',
+									'social_media',
+									'links',
+									'dates',
+									'bio',
+									'notes',
+									'categories',
+									'last_updated',
+								),
+								'image' => array(
+									'type',
+									'width',
+									'height',
+									'crop_mode',
+									'fallback',
+								),
+								'advanced' => array(
+									'name_format',
+									'contact_name_format',
+									'address_format',
+									'address_types',
+									'email_format',
+									'email_types',
+									'phone_format',
+									'phone_types',
+									'link_format',
+									'link_types',
+									'date_format',
+									'date_types'
+								),
+							),
+						),
+					),
+					'single',
+				),
 				);
 
 			cnTemplateFactory::register( $atts );
+
+			add_filter( 'cn_register_settings_fields', array( __CLASS__, 'registerSettingsDefaults' ) );
 		}
 
+		/**
+		 * @param cnTemplate $template
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
 
-			$template->part( array( 'tag' => 'card', 'type' => 'action', 'callback' => array( __CLASS__, 'card' ) ) );
+			add_filter( 'cn_list_atts-' . $template->getSlug() , array( __CLASS__, 'initOptions') );
 		}
 
-		public static function card( $entry ) {
+		/**
+		 * Save the template settings defaults using @see cnSettingsAPI::registerFields().
+		 *
+		 * @param array $fields
+		 *
+		 * @return array
+		 */
+		public static function registerSettingsDefaults( $fields ) {
 
-			?>
+			$fields[] = array(
+				'plugin_id' => 'connections_template',
+				'section'   => self::SLUG,
+				'id'        => 'card',
+				'type'      => 'customizer',
+				'default'   => array(
+					'show_title'            => TRUE,
+					'show_org'              => TRUE,
+					'show_dept'             => TRUE,
+					'show_categories'       => FALSE,
+					'show_last_updated'     => FALSE,
+					'image_type'            => 'photo',
+					'image_width'           => NULL,
+					'image_height'          => NULL,
+					'image_crop_mode'       => '1',
+					'image_fallback'        => FALSE,
+					'image_fallback_string' => __( 'No Image Available', 'connections' ),
+					'name_format'           => '',
+					'border_width'          => 1,
+					'border_color'          => '#E3E3E3',
+					'border_radius'         => 4,
+				)
+			);
 
-			<div class="cn-entry" style="-moz-border-radius:4px; background-color:#FFFFFF; border:1px solid #E3E3E3; color: #000000; margin:8px 0px; padding:6px; position: relative;">
+			$fields[] = array(
+				'plugin_id' => 'connections_template',
+				'section'   => self::SLUG,
+				'id'        => 'single',
+				'type'      => 'customizer',
+				'default'   => array(
+					'show_title'         => TRUE,
+					'show_org'           => TRUE,
+					'show_dept'          => TRUE,
+					'show_contact_name'  => TRUE,
+					'show_family'        => TRUE,
+					'show_addresses'     => TRUE,
+					'show_phone_numbers' => TRUE,
+					'show_email'         => TRUE,
+					'show_im'            => TRUE,
+					'show_social_media'  => TRUE,
+					'show_links'         => TRUE,
+					'show_dates'         => TRUE,
+					'show_bio'           => TRUE,
+					'show_notes'         => FALSE,
+					'show_categories'    => TRUE,
+					'show_last_updated'  => TRUE,
+					'image_type'         => 'photo',
+					'image_width'        => NULL,
+					'image_height'       => NULL,
+					'image_crop_mode'    => '1',
+					'image_fallback'     => FALSE,
+					'image_fallback_string' => __( 'No Image Available', 'connections' ),
+					'name_format'           => '',
+					'contact_name_format'   => '',
+					'address_format'        => '',
+					'address_types'         => '',
+					'phone_format'          => '',
+					'phone_types'           => '',
+					'email_format'          => '',
+					'email_types'           => '',
+					'date_format'           => '',
+					'date_types'            => '',
+					'link_format'           => '',
+					'link_types'            => '',
+				)
+			);
 
-					<span style="float: <?php echo is_rtl() ? 'right' : 'left'; ?>; margin-right: 10px;"><?php $entry->getImage( array( 'preset' => 'profile' ) ); ?></span>
+			return $fields;
+		}
 
-					<div style="margin-left: 10px;">
-						<span style="font-size:larger;font-variant: small-caps"><strong><?php $entry->getNameBlock(); ?></strong></span>
-						<div style="margin-bottom: 20px;">
-							<?php $entry->getTitleBlock() ?>
-							<?php $entry->getOrgUnitBlock(); ?>
-						</div>
-						<?php echo $entry->getBioBlock(); ?>
-					</div>
+		/**
+		 * Initiate the template options using the option values.
+		 *
+		 * @access private
+		 * @since  3.0
+		 *
+		 * @param  array $atts The shortcode $atts array.
+		 *
+		 * @return array
+		 */
+		public static function initOptions( $atts ) {
 
+			if ( get_query_var( 'cn-entry-slug' ) ) {
 
-				<div style="clear:both"></div>
-			</div>
+				/**
+				 * @var cnOutput $entry
+				 * @var array $option
+				 */
+				$options = cnSettingsAPI::get( 'connections_template', self::SLUG, 'single' );
 
-			<?php
+			} else {
+
+				/**
+				 * @var cnOutput $entry
+				 * @var array $option
+				 */
+				$options = cnSettingsAPI::get( 'connections_template', self::SLUG, 'card' );
+				$style   = array(
+					'background-color' => '#FFF',
+					'border'           => $options['border_width'] . 'px solid ' . $options['border_color'],
+					'border-radius'    => $options['border_radius'] . 'px',
+					'color'            => '#000',
+					'margin'           => '8px 0',
+					'padding'          => '10px',
+					'position'         => 'relative',
+				);
+
+				if ( is_array( $style ) ) {
+
+					$atts = wp_parse_args( $style, $atts );
+				}
+			}
+
+			if ( is_array( $options ) ) {
+
+				$atts = wp_parse_args( $options, $atts );
+			}
+
+			return $atts;
+		}
+
+		/**
+		 * Include the Template Customizer support file if the template is being customized.
+		 *
+		 * @access private
+		 * @since  3.0
+		 */
+		public static function includeCustomizer() {
+
+			if ( isset( $_REQUEST['cn-template'] ) && self::SLUG == $_REQUEST['cn-template'] ) {
+
+				require_once CN_PATH . 'templates/profile/class.customizer.php';
+			}
 		}
 
 	}
 
 	// Register the template.
 	add_action( 'cn_register_template', array( 'CN_Profile_Template', 'register' ) );
+
+	// Include the Customizer configuration file for the template.
+	add_action( 'cn_template_customizer_include', array( 'CN_Profile_Template', 'includeCustomizer' ) );
 }

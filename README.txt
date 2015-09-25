@@ -198,6 +198,14 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.4.5 09/25/2015 =
+* NEW: Update the Profile template to support the Template Customizer.
+* BUG: Require the plugin update API in remote viewing of system info.
+* BUG: Prevent duplicate content on single entry profile detail page.
+* TWEAK: Add the cn-gmap class to the map block so it can easily be selected with CSS.
+* OTHER: Correct misspelling.
+
+
 = 8.4.4 09/17/2015 =
 * TWEAK: Remove use of deprecated like_escape() throughout.
 * TWEAK: Check that json_decode() returned an object before checking value of a property in cnGeo.
@@ -1137,4 +1145,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.4.4 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.4.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

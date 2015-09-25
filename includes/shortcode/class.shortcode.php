@@ -34,6 +34,9 @@ class cnShortcode {
 
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 		// remove_filter( 'the_content', 'wpautop' );
+
+		// Run this early, before core WP filters.
+		add_filter( 'the_content', array( __CLASS__, 'single' ), 7 );
 	}
 
 	/**
@@ -56,6 +59,132 @@ class cnShortcode {
 
 		add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
 		add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
+	}
+
+	/**
+	 * Find the shortcode tag within the supplied string.
+	 *
+	 * @access public
+	 * @since  8.4.5
+	 * @static
+	 *
+	 * @param string $tag     The shortcode tag.
+	 * @param string $content The string to find the shortcode tag in.
+	 * @param string $return  What to return:
+	 *                        Default: bool
+	 *                        Accepts: atts, bool, matches
+	 *
+	 * @return array|bool     FALSE if shortcode tag is not found. Array of atts for each instance found or array of all
+	 *                        matches found for the supplied shortcode tag.
+	 */
+	public static function find( $tag, $content, $return = 'bool' ) {
+
+		// Exit early if the shortcode does not exist in content.
+		if ( FALSE === strpos( $content, "[$tag" ) ) {
+
+			return FALSE;
+		}
+
+		$pattern = get_shortcode_regex();
+		$found   = array();
+
+		if ( preg_match_all( '/'. $pattern .'/s', $content, $matches, PREG_SET_ORDER ) ) {
+
+			if ( empty( $matches ) ) {
+
+				return FALSE;
+			}
+
+			foreach ( $matches as $shortcode ) {
+
+				/*
+				 * $shortcode[0] == If self-closing, The entire shortcode and options, including the opening and closing brackets.
+				 *                  If enclosing, The entire shortcode and options, including the opening/closing brackets, content and closing shortcode.
+				 * $shortcode[1] == Unknown.
+				 * $shortcode[2] == The shortcode tag.
+				 * $shortcode[3] == The shortcode options and their values as a string.
+				 * $shortcode[4] == Unknown.
+				 * $shortcode[5] == If self-closing, unknown.
+				 *                  If enclosing, the opening shortcode and options, including the opening/closing brackets and the content.
+				 * $shortcode[6] == Unknown.
+				 */
+
+				if ( $tag === $shortcode[2] ) {
+
+					$found[] = $shortcode;
+
+				} elseif ( ! empty( $shortcode[5] ) && has_shortcode( $shortcode[5], $tag ) ) {
+
+					$found[] = $shortcode;
+				}
+			}
+		}
+
+		switch ( $return ) {
+
+			case 'atts':
+
+				$atts = array();
+
+				foreach ( $found as $shortcode ) {
+
+					// Parse the shortcode atts.
+					$atts[] = shortcode_parse_atts( $shortcode[3] );
+				}
+
+				return $atts;
+
+			case 'bool':
+				return ! empty( $found );
+
+			case 'matches':
+				return $found;
+
+			default:
+				return FALSE;
+		}
+	}
+
+	/**
+	 * Programmatically write a shortcode.
+	 *
+	 * @access public
+	 * @since  8.4.5
+	 * @static
+	 *
+	 * @param string $shortcode The shortcode tag.
+	 * @param array  $atts      An associative array where the key is the option name and the value is the option value.
+	 *
+	 * @return string
+	 */
+	public static function write( $shortcode, $atts ) {
+
+		// Rewrite the $atts array to prep it to be imploded.
+		array_walk( $atts, create_function( '&$i,$k','$i="$k=\"$i\"";' ) );
+
+		return '[' . $shortcode . ' ' . implode( ' ', $atts ) . ']';
+	}
+
+	/**
+	 * Callback for `the_content` filter.
+	 *
+	 * Checks for the `cn-entry-slug` query var and if it is set. replace the post content with a shortcode to query
+	 * only the queried entry.
+	 *
+	 * @param string $content Post content.
+	 *
+	 * @return string
+	 */
+	public static function single( $content ) {
+
+		$slug = get_query_var( 'cn-entry-slug' );
+
+		if ( $slug && FALSE !== self::find( 'connections', $content ) ) {
+
+			$content = self::write( 'connections', array( 'slug', sanitize_title( $slug ) ) );
+		}
+
+		return $content;
 	}
 
 	/**
@@ -105,7 +234,7 @@ class cnShortcode {
 					}
 
 
-					// Show the just the search form w/o showing the intial results?
+					// Show the just the search form w/o showing the initial results?
 					// If a Connections query var is set, show the results instead.
 					// if ( isset( $atts['initial_results'] )
 					// 	&& strtolower( $atts['initial_results'] ) == 'false'

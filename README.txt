@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 8.4.4
+Stable tag: 8.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -197,6 +197,14 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.4.5 09/25/2015 =
+* NEW: Update the Profile template to support the Template Customizer.
+* BUG: Require the plugin update API in remote viewing of system info.
+* BUG: Prevent duplicate content on single entry profile detail page.
+* TWEAK: Add the cn-gmap class to the map block so it can easily be selected with CSS.
+* OTHER: Correct misspelling.
+
 
 = 8.4.4 09/17/2015 =
 * TWEAK: Remove use of deprecated like_escape() throughout.
@@ -1137,4 +1145,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.4.4 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.4.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

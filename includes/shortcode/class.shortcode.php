@@ -105,7 +105,7 @@ class cnShortcode {
 					}
 
 
-					// Show the just the search form w/o showing the intial results?
+					// Show the just the search form w/o showing the initial results?
 					// If a Connections query var is set, show the results instead.
 					// if ( isset( $atts['initial_results'] )
 					// 	&& strtolower( $atts['initial_results'] ) == 'false'

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * EDD_Export Class
+ * cnCSV_Export Class
  *
  * @since 8.5
  */

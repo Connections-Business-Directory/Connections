@@ -203,7 +203,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 		$data     = $this->getData();
 		$cols     = $this->getColumns();
 
-		if ( $data ) {
+		if ( ! empty( $data ) ) {
 
 			foreach ( $data as $row ) {
 

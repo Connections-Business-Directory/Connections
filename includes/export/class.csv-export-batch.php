@@ -155,7 +155,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 
 		$rows = $this->writeRows();
 
-		if ( ! $rows ) {
+		if ( FALSE === $rows ) {
 
 			return FALSE;
 		}

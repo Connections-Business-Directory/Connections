@@ -127,6 +127,13 @@ class cnAdminActions {
 		add_action( 'wp_ajax_export_settings', array( __CLASS__, 'downloadSettings' ) );
 		add_action( 'wp_ajax_import_settings', array( __CLASS__, 'importSettings' ) );
 
+		// Actions for export/import.
+		add_action( 'wp_ajax_export_csv_addresses', array( __CLASS__, 'csvExportAddresses' ) );
+		add_action( 'wp_ajax_export_csv_phone_numbers', array( __CLASS__, 'csvExportPhoneNumbers' ) );
+		add_action( 'wp_ajax_export_csv_email', array( __CLASS__, 'csvExportEmail' ) );
+		add_action( 'wp_ajax_export_csv_dates', array( __CLASS__, 'csvExportDates' ) );
+		add_action( 'cn_download_batch_export', array( __CLASS__, 'csvExportBatchDownload' ) );
+
 		// Register the action to delete a single log.
 		add_action( 'cn_log_bulk_actions', array( __CLASS__, 'logManagement' ) );
 		add_action( 'cn_delete_log', array( __CLASS__, 'deleteLog' ) );
@@ -348,6 +355,280 @@ class cnAdminActions {
 		} else {
 
 			wp_send_json( $result );
+		}
+	}
+
+	/**
+	 * Admin ajax callback to download the CSV file.
+	 *
+	 * @access private
+	 * @since  8.5
+	 *
+	 * @uses   do_action()
+	 * @uses   wp_verify_nonce()
+	 * @uses   wp_die()
+	 * @uses   __()
+	 * @uses   cnCSV_Batch_Export_Addresses()
+	 * @uses   cnCSV_Batch_Export_Phone_Numbers()
+	 * @uses   cnCSV_Batch_Export_Email()
+	 * @uses   cnCSV_Batch_Export_Dates()
+	 */
+	public static function csvExportBatchDownload() {
+
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'cn-batch-export-download' ) ) {
+
+			wp_die( __( 'Nonce verification failed.', 'connections' ), __( 'Error', 'connections' ), array( 'response' => 403 ) );
+		}
+
+		require_once CN_PATH . 'includes/export/class.csv-export.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
+
+		switch ( $_REQUEST['type'] ) {
+
+			case 'address':
+
+				require_once CN_PATH . 'includes/export/class.csv-export-batch-addresses.php';
+
+				$export = new cnCSV_Batch_Export_Addresses();
+				$export->download();
+				break;
+
+			case 'phone':
+
+				require_once CN_PATH . 'includes/export/class.csv-export-batch-phone-numbers.php';
+
+				$export = new cnCSV_Batch_Export_Phone_Numbers();
+				$export->download();
+				break;
+
+			case 'email':
+
+				require_once CN_PATH . 'includes/export/class.csv-export-batch-email.php';
+
+				$export = new cnCSV_Batch_Export_Email();
+				$export->download();
+				break;
+
+			case 'date':
+
+				require_once CN_PATH . 'includes/export/class.csv-export-batch-dates.php';
+
+				$export = new cnCSV_Batch_Export_Dates();
+				$export->download();
+				break;
+
+			default:
+
+				/**
+				 * All plugins to run their own download callback function.
+				 *
+				 * @since 8.5
+				 */
+				do_action( 'cn_csv_batch_export_download' );
+				break;
+		}
+	}
+
+	/**
+	 * Admin ajax callback to batch export the addresses.
+	 *
+	 * @access private
+	 * @since  8.5
+	 *
+	 * @uses   check_ajax_referer()
+	 * @uses   absint()
+	 * @uses   cnCSV_Batch_Export_Addresses()
+	 * @uses   wp_create_nonce()
+	 * @uses   cnAdminActions::csvBatchExport()
+	 */
+	public static function csvExportAddresses() {
+
+		check_ajax_referer( 'export_csv_addresses' );
+
+		require_once CN_PATH . 'includes/export/class.csv-export.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch-addresses.php';
+
+		$step   = absint( $_POST['step'] );
+		$export = new cnCSV_Batch_Export_Addresses();
+		$nonce  = wp_create_nonce( 'export_csv_addresses' );
+
+		self::csvBatchExport( $export, 'address', $step, $nonce );
+	}
+
+	/**
+	 * Admin ajax callback to batch export the phone numbers.
+	 *
+	 * @access private
+	 * @since  8.5
+	 *
+	 * @uses   check_ajax_referer()
+	 * @uses   absint()
+	 * @uses   cnCSV_Batch_Export_Phone_Numbers()
+	 * @uses   wp_create_nonce()
+	 * @uses   cnAdminActions::csvBatchExport()
+	 */
+	public static function csvExportPhoneNumbers() {
+
+		check_ajax_referer( 'export_csv_phone_numbers' );
+
+		require_once CN_PATH . 'includes/export/class.csv-export.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch-phone-numbers.php';
+
+		$step   = absint( $_POST['step'] );
+		$export = new cnCSV_Batch_Export_Phone_Numbers();
+		$nonce  = wp_create_nonce( 'export_csv_phone_numbers' );
+
+		self::csvBatchExport( $export, 'phone', $step, $nonce );
+	}
+
+	/**
+	 * Admin ajax callback to batch export the email addresses.
+	 *
+	 * @access private
+	 * @since  8.5
+	 *
+	 * @uses   check_ajax_referer()
+	 * @uses   absint()
+	 * @uses   cnCSV_Batch_Export_Email()
+	 * @uses   wp_create_nonce()
+	 * @uses   cnAdminActions::csvBatchExport()
+	 */
+	public static function csvExportEmail() {
+
+		check_ajax_referer( 'export_csv_email' );
+
+		require_once CN_PATH . 'includes/export/class.csv-export.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch-email.php';
+
+		$step   = absint( $_POST['step'] );
+		$export = new cnCSV_Batch_Export_Email();
+		$nonce  = wp_create_nonce( 'export_csv_email' );
+
+		self::csvBatchExport( $export, 'email', $step, $nonce );
+	}
+
+	/**
+	 * Admin ajax callback to batch export the dates.
+	 *
+	 * @access private
+	 * @since  8.5
+	 *
+	 * @uses   check_ajax_referer()
+	 * @uses   absint()
+	 * @uses   cnCSV_Batch_Export_Dates()
+	 * @uses   wp_create_nonce()
+	 * @uses   cnAdminActions::csvBatchExport()
+	 */
+	public static function csvExportDates() {
+
+		check_ajax_referer( 'export_csv_dates' );
+
+		require_once CN_PATH . 'includes/export/class.csv-export.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch-dates.php';
+
+		$step   = absint( $_POST['step'] );
+		$export = new cnCSV_Batch_Export_Dates();
+		$nonce  = wp_create_nonce( 'export_csv_dates' );
+
+		self::csvBatchExport( $export, 'date', $step, $nonce );
+	}
+
+	/**
+	 * Common CSV batch export code to start the batch export step and provide the JSON response.
+	 *
+	 * @access private
+	 * @since  8.5
+	 *
+	 * @uses   wp_send_json_error()
+	 * @uses   is_wp_error()
+	 * @uses   wp_send_json_success()
+	 * @uses   wp_create_nonce()
+	 * @uses   self_admin_url()
+	 *
+	 * @param cnCSV_Batch_Export $export
+	 * @param string             $type
+	 * @param int                $step
+	 * @param string             $nonce
+	 */
+	private static function csvBatchExport( $export, $type, $step, $nonce ) {
+
+		if ( ! $export->can_export() ) {
+
+			wp_send_json_error(
+				array(
+					'message' => __( 'You do not have permission to export data.', 'connections' ),
+				)
+			);
+		}
+
+		if ( ! $export->is_writable ) {
+
+			wp_send_json_error(
+				array(
+					'message' => __( 'Export location or file not writable.', 'connections' ),
+				)
+			);
+		}
+
+		$result = $export->process( $step );
+
+		if ( is_wp_error( $result ) ) {
+
+			wp_send_json_error(
+				array(
+					'message' => $result->get_error_message(),
+				)
+			);
+		}
+
+		$count      = $export->getCount();
+		$exported   = $count > $step * $export->limit ? $step * $export->limit : $count;
+		$remaining  = 0 < $count - $exported ? $count - $exported : $count;
+		$percentage = $export->getPercentageComplete();
+
+		if ( $result ) {
+
+			$step += 1;
+
+			wp_send_json_success(
+				array(
+					'step'       => $step,
+					'count'      => $count,
+					'exported'   => $exported,
+					'remaining'  => $remaining,
+					'percentage' => $percentage,
+					'nonce'      => $nonce,
+				)
+			);
+
+		} elseif ( TRUE === $export->is_empty ) {
+
+			wp_send_json_error(
+				array(
+					'message' => __( 'No data found for export parameters.', 'connections' )
+				)
+			);
+
+		} else {
+
+			$args = array(
+				'cn-action' => 'download_batch_export',
+				'type'      => $type,
+				'nonce'     => wp_create_nonce( 'cn-batch-export-download' ),
+			);
+
+			$url = add_query_arg( $args, self_admin_url() );
+
+			wp_send_json_success(
+				array(
+					'step' => 'completed',
+					'url'  => $url,
+				)
+			);
 		}
 	}
 

@@ -1207,3 +1207,64 @@ table.cn_metabox .cn_media_status .img_status .cn_remove_file_button, table.cn_m
 	border: 1px solid #ccc;
 	background-color: white;
 }
+
+/*------------------------------------------------------------------------------
+  Export Tools Tab
+------------------------------------------------------------------------------*/
+
+.status {
+	background-color: #F4F4F4;
+	padding: 12px 12px;
+	margin: 20px -12px -23px;
+	border-style: solid;
+	border-width: 1px 0;
+	border-color: #EAE9E9;
+	overflow: auto;
+	position: relative;
+}
+
+.status .spinner {
+	margin: 0 10px;
+}
+
+.export-progress {
+	background: #DDDDDD;
+	position: absolute;
+	bottom: 15px;
+	height: 15px;
+	width: 95%;
+}
+
+.export-progress div {
+	height: 100%;
+	background: #CCCCCC;
+	width: 0;
+}
+
+.admin-color-fresh .export-progress div {
+	background: #0073AA;
+}
+
+.admin-color-light .export-progress div {
+	background: #888888;
+}
+
+.admin-color-blue .export-progress div {
+	background: #096484;
+}
+
+.admin-color-coffee .export-progress div {
+	background: #C7A589;
+}
+
+.admin-color-ectoplasm .export-progress div {
+	background: #A3B745;
+}
+
+.admin-color-midnight .export-progress div {
+	background: #E14D43;
+}
+
+.admin-color-sunrise .export-progress div {
+	background: #DD823B;
+}

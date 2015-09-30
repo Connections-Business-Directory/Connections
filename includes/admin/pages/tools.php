@@ -39,7 +39,7 @@ function connectionsShowToolsPage() {
 
 	} else {
 
-		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'system_info';
+		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'export';
 		$current_page = self_admin_url( 'admin.php?page=connections_tools' );
 
 		?>
@@ -147,6 +147,10 @@ class cnAdmin_Tools {
 	private static function registerTabs() {
 
 		$tabs = array(
+			array( 'id'       => 'export',
+			       'name'     => __( 'Export', 'connections' ),
+			       'callback' => array( __CLASS__, 'export' )
+			),
 			array( 'id'       => 'system_info',
 			       'name'     => __( 'System Information', 'connections' ),
 			       'callback' => array( __CLASS__, 'systemInfo' )
@@ -187,6 +191,145 @@ class cnAdmin_Tools {
 	public static function getTabs() {
 
 		return self::registerTabs();
+	}
+
+	/**
+	 * Callback to render export data tools.
+	 *
+	 * @access public
+	 * @since  8.5
+	 * @static
+	 *
+	 * @uses   current_user_can()
+	 * @uses   do_action()
+	 * @uses   _e()
+	 * @uses   wp_create_nonce()
+	 */
+	public static function export() {
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			return;
+		}
+
+		do_action( 'cn_tools_export_before' );
+
+		?>
+		<div class="postbox">
+			<h3><span><?php _e( 'Export Addresses', 'connections' ); ?></span></h3>
+
+			<div class="inside">
+
+				<form id="cn-export-addresses" class="cn-export-form" method="post">
+
+					<p>
+						<?php
+						_e(
+							'Export the entry names and their addresses as a CSV File.',
+							'connections'
+						);
+						?>
+					</p>
+
+					<p class="submit">
+						<input type="submit" class="button-secondary" name="csv-export-addresses"
+						       value="<?php _e( 'Export', 'connections' ) ?>"
+						       data-action="export_csv_addresses"
+						       data-nonce="<?php echo wp_create_nonce( 'export_csv_addresses' ); ?>"/>
+					</p>
+
+				</form>
+
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+
+		<div class="postbox">
+			<h3><span><?php _e( 'Export Phone Numbers', 'connections' ); ?></span></h3>
+
+			<div class="inside">
+
+				<form id="cn-export-phone-numbers" class="cn-export-form" method="post">
+
+					<p>
+						<?php
+						_e(
+							'Export the entry names and their phone numbers as a CSV File.',
+							'connections'
+						);
+						?>
+					</p>
+
+					<p class="submit">
+						<input type="submit" class="button-secondary" name="csv-export-phone-numbers"
+						       value="<?php _e( 'Export', 'connections' ) ?>"
+						       data-action="export_csv_phone_numbers"
+						       data-nonce="<?php echo wp_create_nonce( 'export_csv_phone_numbers' ); ?>"/>
+					</p>
+
+				</form>
+
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+
+		<div class="postbox">
+			<h3><span><?php _e( 'Export Email Addresses', 'connections' ); ?></span></h3>
+
+			<div class="inside">
+
+				<form id="cn-export-email" class="cn-export-form" method="post">
+
+					<p>
+						<?php
+						_e(
+							'Export the entry names and email addresses as a CSV File.',
+							'connections'
+						);
+						?>
+					</p>
+
+					<p class="submit">
+						<input type="submit" class="button-secondary" name="csv-export-email"
+						       value="<?php _e( 'Export', 'connections' ) ?>"
+						       data-action="export_csv_email"
+						       data-nonce="<?php echo wp_create_nonce( 'export_csv_email' ); ?>"/>
+					</p>
+
+				</form>
+
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+
+		<div class="postbox">
+			<h3><span><?php _e( 'Export Dates', 'connections' ); ?></span></h3>
+
+			<div class="inside">
+
+				<form id="cn-export-dates" class="cn-export-form" method="post">
+
+					<p>
+						<?php
+						_e(
+							'Export the entry names and dates as a CSV File.',
+							'connections'
+						);
+						?>
+					</p>
+
+					<p class="submit">
+						<input type="submit" class="button-secondary" name="csv-export-dates"
+						       value="<?php _e( 'Export', 'connections' ) ?>"
+						       data-action="export_csv_dates"
+						       data-nonce="<?php echo wp_create_nonce( 'export_csv_dates' ); ?>"/>
+					</p>
+
+				</form>
+
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+
+		<?php
+		wp_enqueue_script( 'cn-csv-export' );
+		do_action( 'cn_tools_export_after' );
 	}
 
 	/**

@@ -151,9 +151,9 @@ class cnAdmin_Tools {
 			       'name'     => __( 'System Information', 'connections' ),
 			       'callback' => array( __CLASS__, 'systemInfo' )
 			),
-			array( 'id'       => 'import_export',
+			array( 'id'       => 'settings_import_export',
 			       'name'     => __( 'Settings Import/Export', 'connections' ),
-			       'callback' => array( __CLASS__, 'importExport' )
+			       'callback' => array( __CLASS__, 'settingsImportExport' )
 			),
 			array( 'id'       => 'logs',
 			       'name'     => __( 'Logs', 'connections' ),
@@ -410,7 +410,7 @@ cnSystem_Info::display();
 	 * @uses   wp_nonce_field()
 	 * @uses   submit_button()
 	 */
-	public static function importExport() {
+	public static function settingsImportExport() {
 
 		if ( ! current_user_can( 'install_plugins' ) ) {
 

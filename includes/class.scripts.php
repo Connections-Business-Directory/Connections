@@ -333,11 +333,6 @@ class cnScript {
 			add_action( 'admin_footer-' . $instance->pageHook->manage, array( __CLASS__ , 'adminFooterScript' ) );
 			add_action( 'admin_footer-' . $instance->pageHook->add, array( __CLASS__ , 'adminFooterScript' ) );
 		}
-
-		if ( $pageHook == $instance->pageHook->tools ) {
-
-			wp_enqueue_script( 'cn-system-info' );
-		}
 	}
 
 	/**

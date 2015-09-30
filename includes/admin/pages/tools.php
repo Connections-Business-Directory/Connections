@@ -242,6 +242,8 @@ cnSystem_Info::display();
 
 		<?php
 
+		wp_enqueue_script( 'cn-system-info' );
+
 		/**
 		 * Run after the display of the system info.
 		 *

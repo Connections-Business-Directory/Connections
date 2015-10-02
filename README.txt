@@ -211,7 +211,6 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * TWEAK: Add the cn-gmap class to the map block so it can easily be selected with CSS.
 * OTHER: Correct misspelling.
 
-
 = 8.4.4 09/17/2015 =
 * TWEAK: Remove use of deprecated like_escape() throughout.
 * TWEAK: Check that json_decode() returned an object before checking value of a property in cnGeo.

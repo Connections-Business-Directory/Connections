@@ -1051,31 +1051,6 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * I18N: Add Thai translation.
 * I18N: Add Romanian (Romania) translation.
 
-= 8.1.5 10/16/2014 =
-* FEATURE: Add cnFormatting::excerpt().
-* BUG: Fix the use of UTF8 Cyrillic entry slugs throughout. Addresses issue where URL encoded folder names would be created for the images uploaded to an entry.
-* BUG: The output of get_query_var( 'cn-s' ) does not need to be urldecode().
-* BUG: Check for empty search terms array after shortwords are removed to prevent invalid db queries.
-* BUG: Reset the $like array var to ensure valid queries when performing a keyword search.
-* TWEAK: Use cnFormatting::excerpt() to create the entry bio for improved excerpt creation form several of the premium templates.
-* TWEAK: Add support autocomplete in cnHTML::input().
-* OTHER: Remove whitespace.
-* OTHER: Add .editorconfig.
-
-= 8.1.4 10/08/2014 =
-* BUG: Ensure image is not a WP_Error before trying to access its process log.
-* BUG: Fix error report when creating entry images. Was not calling correct object.
-* BUG: Ensure no double slash in paths when uploading an image.
-* BUG: Make cnEntry_Action::deleteImages() is PHP <= 5.2 compatible.
-* BUG: Ensure neither $filename or $source are empty in cnEntry_Action::deleteImages().
-* BUG: Fix undefined index notices when processing new images.
-* BUG: Fix the "Resize to fit the specified dimensions (no cropping)." image option.
-* BUG: Fix unclosed `br` tag in error message triggered when adding images to entries.
-* BUG: Fix missing %separator% token in replacement string for getLinkBlock() and getContactNameBlock().
-* BUG: Run setTermRelationships() thru $wpdb->prepare().
-* BUG: Fix version in changelog and readme.
-* TWEAK: Add `tag` option to getTitleBlock();.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==

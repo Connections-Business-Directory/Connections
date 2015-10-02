@@ -1154,3 +1154,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.4.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.

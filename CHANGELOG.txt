@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 8.5 10/2/2015 =
+* FEATURE: CSV batch export addresses, phone numbers, email address and dates.
+* BUG: Do not double encode the edit entry URL.
+* TWEAK: Change the settings export/import tab ID and callback to be more specific to make way for the CSV export tab and callback.
+* TWEAK: Enqueue the System Info in the System Info tab callback so it only loads on its tab.
+
 = 8.4.5 09/25/2015 =
 * NEW: Update the Profile template to support the Template Customizer.
 * BUG: Require the plugin update API in remote viewing of system info.

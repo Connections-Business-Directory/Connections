@@ -129,7 +129,7 @@ class cnShortcode {
 				foreach ( $found as $shortcode ) {
 
 					// Parse the shortcode atts.
-					$atts[] = shortcode_parse_atts( $shortcode[3] );
+					$atts = shortcode_parse_atts( $shortcode[3] );
 				}
 
 				return $atts;

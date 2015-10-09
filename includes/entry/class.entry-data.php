@@ -3493,11 +3493,20 @@ class cnEntry {
 	 */
 	public function getBirthday( $format = 'F jS' ) {
 
-		if ( ! empty( $this->birthday ) ) {
-			return $this->getUpcoming( 'birthday', $format );
-		} else {
-			return '';
+		if ( empty( $this->anniversary ) ) {
+
+			$anniversaries = $this->getDates( array( 'type' => 'birthday' ) );
+
+			if ( ! empty( $anniversaries ) ) {
+
+				$date = date_create( $anniversaries[0]->date );
+
+				$this->setBirthday( date_format( $date, 'd' ), date_format( $date, 'm' ) );
+			}
+
 		}
+
+		return $this->getUpcoming( 'birthday', $format );
 	}
 
 	/**

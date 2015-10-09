@@ -467,7 +467,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			$fields[ $key ] = 'Date | ' . $dateName;
 		}
 
-		$this->headerNames =  apply_filters( 'cn_csv_export_fields', $fields );
+		$this->headerNames = apply_filters( 'cn_csv_export_fields', $fields );
 	}
 
 	/**
@@ -489,7 +489,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		for ( $i = 0; $i < $count; $i++ ) {
 
 			// If there is a special type, export it, otherwise, just draw it
-			$header .= $this->explodeBreakoutHeader( $this->fields[ $i ] ) ;
+			$header .= $this->explodeBreakoutHeader( $this->fields[ $i ] );
 		}
 
 		// Trim the hanging comma and space.

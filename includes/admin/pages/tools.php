@@ -327,6 +327,34 @@ class cnAdmin_Tools {
 			</div><!-- .inside -->
 		</div><!-- .postbox -->
 
+		<div class="postbox">
+			<h3><span><?php _e( 'Export All', 'connections' ); ?></span></h3>
+
+			<div class="inside">
+
+				<form id="cn-export-all" class="cn-export-form" method="post">
+
+					<p>
+						<?php
+						_e(
+							'Export the entry data as a CSV File.',
+							'connections'
+						);
+						?>
+					</p>
+
+					<p class="submit">
+						<input type="submit" class="button-secondary" name="csv-export-all"
+						       value="<?php _e( 'Export', 'connections' ) ?>"
+						       data-action="export_csv_all"
+						       data-nonce="<?php echo wp_create_nonce( 'export_csv_all' ); ?>"/>
+					</p>
+
+				</form>
+
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+
 		<?php
 		wp_enqueue_script( 'cn-csv-export' );
 		do_action( 'cn_tools_export_after' );

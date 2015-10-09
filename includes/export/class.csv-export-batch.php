@@ -332,6 +332,9 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 */
 	public function download() {
 
+		// Clear the fields and types query caches.
+		cnCache::clear( TRUE, 'transient', 'cn-csv' );
+
 		$this->headers();
 
 		$file = $this->fileContents();

@@ -425,7 +425,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			$fields[ $key ] = 'Messenger | ' . $IMName;
 		}
 
-
 		/*
 		 * Build the array of core social media fields for mapping during import.
 		 */
@@ -440,7 +439,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			$fields[ $key ] = 'Social Network | ' . $socialName;
 		}
 
-
 		/*
 		 * Build the array of core link fields for mapping during import.
 		 */
@@ -454,7 +452,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 			$fields[ $key ] = 'Link | ' . $linkName;
 		}
-
 
 		/*
 		 * Build the array of core date fields for mapping during import.

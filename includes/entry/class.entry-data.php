@@ -3543,7 +3543,7 @@ class cnEntry {
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) );
 		}
 
-		// Convert the date to a string to convert to a sting again.
+		// Convert the date to a string to convert to a string again.
 		// Why? Because doing it this way should keep PHP from timezone adjusting the output.
 		// date_default_timezone_set('UTC')
 		return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );

@@ -58,9 +58,9 @@ class cnCSV_Export {
 	 *
 	 * @return string
 	 */
-	public function addSlashesAndQuote( $string ) {
+	public function escapeAndQuote( $string ) {
 
-		return $this->addQuotes( addslashes( $string ) );
+		return $this->addQuotes( $this->escape( addslashes( $string ) ) );
 	}
 
 	/**

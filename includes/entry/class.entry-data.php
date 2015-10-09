@@ -3441,11 +3441,20 @@ class cnEntry {
 	 */
 	public function getAnniversary( $format = 'F jS' ) {
 
-		if ( ! empty( $this->anniversary ) ) {
-			return $this->getUpcoming( 'anniversary', $format );
-		} else {
-			return '';
+		if ( empty( $this->anniversary ) ) {
+
+			$anniversaries = $this->getDates( array( 'type' => 'anniversary' ) );
+
+			if ( ! empty( $anniversaries ) ) {
+
+				$date = date_create( $anniversaries[0]->date );
+
+				$this->setAnniversary( date_format( $date, 'd' ), date_format( $date, 'm' ) );
+			}
+
 		}
+
+		return $this->getUpcoming( 'anniversary', $format );
 	}
 
 	/**

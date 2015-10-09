@@ -64,6 +64,21 @@ class cnCSV_Export {
 	}
 
 	/**
+	 * Escape the double-quotes.
+	 *
+	 * @access public
+	 * @since  8.5.1
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	public function escape( $string ) {
+
+		return str_replace( '"', '""', $string );
+	}
+
+	/**
 	 * Can the current user export.
 	 *
 	 * @access public

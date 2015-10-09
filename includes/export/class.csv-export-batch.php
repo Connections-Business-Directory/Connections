@@ -171,8 +171,6 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 *
 	 * @uses   cnCSV_Export::getColumns()
 	 * @uses   cnCSV_Batch_Export::write()
-	 *
-	 * @return string
 	 */
 	public function writeHeaders() {
 
@@ -180,8 +178,6 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 		$headers = implode( ',', $headers ) . "\r\n";
 
 		$this->write( $headers );
-
-		return $headers;
 	}
 
 	/**

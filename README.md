@@ -226,6 +226,23 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 ## Changelog ##
 
+### 8.5.1 10/10/2015 ###
+* FEATURE: Add a new CSV export option which can be used to export most entry data into a single CSv file.
+* NEW: Introduce cnCSV_Export::escape().
+* BUG: Fix the `atts` return option in cnShortcode::find().
+* BUG: Make sure to pass all shortcode options (+slug) so the single entry view to provide backwards compatibility to all shortcode options based templates.
+* TWEAK: Improve backward support for legacy anniversary field.
+* TWEAK: Improve backward support for legacy birthday field.
+* TWEAK: Add the entry type, family name and organization fields to the CSV export for addresses.
+* TWEAK: Add the entry type, family name and organization fields to the CSV export for dates.
+* TWEAK: Add the entry type, family name and organization fields to the CSV export for phone numbers.
+* TWEAK: Add the entry type, family name and organization fields to the CSV export for email.
+* TWEAK: Rename cnCSV_Export::addSlashesAndQuote() to cnCSV_Export::escapeAndQuote(). Use cnCSV_Export::escape() to excape the CSV text string.
+* TWEAK: Change usage of cnCSV_Export::addSlashesAndQuote() to cnCSV_Export::escapeAndQuote() throughout.
+* TWEAK: Remove unnecessary return string in cnCSV_Batch_Export::writeHeaders().
+* OTHER: Update EDD-SL library to latest version.
+* OTHER: Correct misspelling.
+
 ### 8.5 10/2/2015 ###
 * FEATURE: CSV batch export addresses, phone numbers, email address and dates.
 * BUG: Do not double encode the edit entry URL.
@@ -1159,4 +1176,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 ### 8.5 ###
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+### 8.5.1 ###
 It is recommended to backup before updating. Requires WordPress >= 4.1.

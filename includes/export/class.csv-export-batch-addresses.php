@@ -44,24 +44,27 @@ class cnCSV_Batch_Export_Addresses extends cnCSV_Batch_Export {
 	public function columns() {
 
 		$columns = array(
-			'id'         => __( 'ID', 'connections' ),
-			'prefix'     => __( 'Prefix', 'connections' ),
-			'first'      => __( 'First', 'connections' ),
-			'middle'     => __( 'Middle', 'connections' ),
-			'last'       => __( 'Last', 'connections' ),
-			'suffix'     => __( 'Suffix', 'connections' ),
-			'type'       => __( 'Type', 'connections' ),
-			'line_1'     => __( 'Line One', 'connections' ),
-			'line_2'     => __( 'Line Two', 'connections' ),
-			'line_3'     => __( 'Line Three', 'connections' ),
-			'city'       => __( 'City', 'connections' ),
-			'state'      => __( 'State', 'connections' ),
-			'zipcode'    => __( 'Zipcode', 'connections' ),
-			'country'    => __( 'Country', 'connections' ),
-			'latitude'   => __( 'Latitude', 'connections' ),
-			'longitude'  => __( 'Longitude', 'connections' ),
-			'preferred'  => __( 'Preferred', 'connections' ),
-			'visibility' => __( 'Visibility', 'connections' ),
+			'id'           => __( 'ID', 'connections' ),
+			'entry_type'   => __( 'Entry Type', 'connections' ),
+			'family_name'       => __( 'Family Name', 'connections' ),
+			'prefix'       => __( 'Prefix', 'connections' ),
+			'first'        => __( 'First', 'connections' ),
+			'middle'       => __( 'Middle', 'connections' ),
+			'last'         => __( 'Last', 'connections' ),
+			'suffix'       => __( 'Suffix', 'connections' ),
+			'organization' => __( 'Organization', 'connections' ),
+			'type'         => __( 'Address Type', 'connections' ),
+			'line_1'       => __( 'Line One', 'connections' ),
+			'line_2'       => __( 'Line Two', 'connections' ),
+			'line_3'       => __( 'Line Three', 'connections' ),
+			'city'         => __( 'City', 'connections' ),
+			'state'        => __( 'State', 'connections' ),
+			'zipcode'      => __( 'Zipcode', 'connections' ),
+			'country'      => __( 'Country', 'connections' ),
+			'latitude'     => __( 'Latitude', 'connections' ),
+			'longitude'    => __( 'Longitude', 'connections' ),
+			'preferred'    => __( 'Preferred', 'connections' ),
+			'visibility'   => __( 'Visibility', 'connections' ),
 		);
 
 		return $columns;
@@ -85,7 +88,7 @@ class cnCSV_Batch_Export_Addresses extends cnCSV_Batch_Export {
 		$offset = $this->limit * ( $this->step - 1 );
 
 		$sql = $wpdb->prepare(
-			'SELECT SQL_CALC_FOUND_ROWS entry.id, entry.honorific_prefix, entry.first_name, entry.middle_name, entry.last_name, entry.honorific_suffix, address.*
+			'SELECT SQL_CALC_FOUND_ROWS entry.id, entry.entry_type, entry.family_name, entry.honorific_prefix, entry.first_name, entry.middle_name, entry.last_name, entry.honorific_suffix, entry.organization, address.*
 			 FROM ' . CN_ENTRY_TABLE . ' AS entry
 			 INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' AS address
 			 ON entry.id = address.entry_id
@@ -111,24 +114,27 @@ class cnCSV_Batch_Export_Addresses extends cnCSV_Batch_Export {
 
 		foreach ( $results as $entry ) {
 
-			$data[ $i ]['id']         = $entry->entry_id;
-			$data[ $i ]['prefix']     = $entry->honorific_prefix;
-			$data[ $i ]['first']      = $entry->first_name;
-			$data[ $i ]['middle']     = $entry->middle_name;
-			$data[ $i ]['last']       = $entry->last_name;
-			$data[ $i ]['suffix']     = $entry->honorific_suffix;
-			$data[ $i ]['type']       = $entry->type;
-			$data[ $i ]['line_1']     = $entry->line_1;
-			$data[ $i ]['line_2']     = $entry->line_2;
-			$data[ $i ]['line_3']     = $entry->line_3;
-			$data[ $i ]['city']       = $entry->city;
-			$data[ $i ]['state']      = $entry->state;
-			$data[ $i ]['zipcode']    = $entry->zipcode;
-			$data[ $i ]['country']    = $entry->country;
-			$data[ $i ]['latitude']   = $entry->latitude;
-			$data[ $i ]['longitude']  = $entry->longitude;
-			$data[ $i ]['preferred']  = $entry->preferred ? 'yes' : 'no';
-			$data[ $i ]['visibility'] = $entry->visibility;
+			$data[ $i ]['id']           = $entry->entry_id;
+			$data[ $i ]['entry_type']   = $entry->entry_type;
+			$data[ $i ]['family_name']  = $entry->family_name;
+			$data[ $i ]['prefix']       = $entry->honorific_prefix;
+			$data[ $i ]['first']        = $entry->first_name;
+			$data[ $i ]['middle']       = $entry->middle_name;
+			$data[ $i ]['last']         = $entry->last_name;
+			$data[ $i ]['suffix']       = $entry->honorific_suffix;
+			$data[ $i ]['organization'] = $entry->organization;
+			$data[ $i ]['type']         = $entry->type;
+			$data[ $i ]['line_1']       = $entry->line_1;
+			$data[ $i ]['line_2']       = $entry->line_2;
+			$data[ $i ]['line_3']       = $entry->line_3;
+			$data[ $i ]['city']         = $entry->city;
+			$data[ $i ]['state']        = $entry->state;
+			$data[ $i ]['zipcode']      = $entry->zipcode;
+			$data[ $i ]['country']      = $entry->country;
+			$data[ $i ]['latitude']     = $entry->latitude;
+			$data[ $i ]['longitude']    = $entry->longitude;
+			$data[ $i ]['preferred']    = $entry->preferred ? 'yes' : 'no';
+			$data[ $i ]['visibility']   = $entry->visibility;
 
 			$i++;
 		}

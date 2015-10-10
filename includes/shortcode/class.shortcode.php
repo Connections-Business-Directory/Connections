@@ -129,7 +129,7 @@ class cnShortcode {
 				foreach ( $found as $shortcode ) {
 
 					// Parse the shortcode atts.
-					$atts[] = shortcode_parse_atts( $shortcode[3] );
+					$atts = shortcode_parse_atts( $shortcode[3] );
 				}
 
 				return $atts;
@@ -179,9 +179,11 @@ class cnShortcode {
 
 		$slug = get_query_var( 'cn-entry-slug' );
 
-		if ( $slug && FALSE !== self::find( 'connections', $content ) ) {
+		if ( $slug && ! empty( $atts = self::find( 'connections', $content, 'atts' ) ) ) {
 
-			$content = self::write( 'connections', array( 'slug', sanitize_title( $slug ) ) );
+			$atts['slug'] = sanitize_title( $slug );
+
+			$content = self::write( 'connections', $atts );
 		}
 
 		return $content;

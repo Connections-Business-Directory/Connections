@@ -44,16 +44,19 @@ class cnCSV_Batch_Export_Phone_Numbers extends cnCSV_Batch_Export {
 	public function columns() {
 
 		$columns = array(
-			'id'         => __( 'ID', 'connections' ),
-			'prefix'     => __( 'Prefix', 'connections' ),
-			'first'      => __( 'First', 'connections' ),
-			'middle'     => __( 'Middle', 'connections' ),
-			'last'       => __( 'Last', 'connections' ),
-			'suffix'     => __( 'Suffix', 'connections' ),
-			'number'     => __( 'Number', 'connections' ),
-			'type'       => __( 'Type', 'connections' ),
-			'preferred'  => __( 'Preferred', 'connections' ),
-			'visibility' => __( 'Visibility', 'connections' ),
+			'id'           => __( 'ID', 'connections' ),
+			'entry_type'   => __( 'Entry Type', 'connections' ),
+			'family_name'  => __( 'Family Name', 'connections' ),
+			'prefix'       => __( 'Prefix', 'connections' ),
+			'first'        => __( 'First', 'connections' ),
+			'middle'       => __( 'Middle', 'connections' ),
+			'last'         => __( 'Last', 'connections' ),
+			'suffix'       => __( 'Suffix', 'connections' ),
+			'organization' => __( 'Organization', 'connections' ),
+			'number'       => __( 'Number', 'connections' ),
+			'type'         => __( 'Type', 'connections' ),
+			'preferred'    => __( 'Preferred', 'connections' ),
+			'visibility'   => __( 'Visibility', 'connections' ),
 		);
 
 		return $columns;
@@ -77,7 +80,7 @@ class cnCSV_Batch_Export_Phone_Numbers extends cnCSV_Batch_Export {
 		$offset = $this->limit * ( $this->step - 1 );
 
 		$sql = $wpdb->prepare(
-			'SELECT SQL_CALC_FOUND_ROWS entry.id, entry.honorific_prefix, entry.first_name, entry.middle_name, entry.last_name, entry.honorific_suffix, phone.*
+			'SELECT SQL_CALC_FOUND_ROWS entry.id, entry.entry_type, entry.family_name, entry.honorific_prefix, entry.first_name, entry.middle_name, entry.last_name, entry.honorific_suffix, entry.organization, phone.*
 			 FROM ' . CN_ENTRY_TABLE . ' AS entry
 			 INNER JOIN ' . CN_ENTRY_PHONE_TABLE . ' AS phone
 			 ON entry.id = phone.entry_id
@@ -96,16 +99,19 @@ class cnCSV_Batch_Export_Phone_Numbers extends cnCSV_Batch_Export {
 
 		foreach ( $results as $entry ) {
 
-			$data[ $i ]['id']         = $entry->entry_id;
-			$data[ $i ]['prefix']     = $entry->honorific_prefix;
-			$data[ $i ]['first']      = $entry->first_name;
-			$data[ $i ]['middle']     = $entry->middle_name;
-			$data[ $i ]['last']       = $entry->last_name;
-			$data[ $i ]['suffix']     = $entry->honorific_suffix;
-			$data[ $i ]['number']     = $entry->number;
-			$data[ $i ]['type']       = $entry->type;
-			$data[ $i ]['preferred']  = $entry->preferred ? 'yes' : 'no';
-			$data[ $i ]['visibility'] = $entry->visibility;
+			$data[ $i ]['id']           = $entry->entry_id;
+			$data[ $i ]['entry_type']   = $entry->entry_type;
+			$data[ $i ]['family_name']  = $entry->family_name;
+			$data[ $i ]['prefix']       = $entry->honorific_prefix;
+			$data[ $i ]['first']        = $entry->first_name;
+			$data[ $i ]['middle']       = $entry->middle_name;
+			$data[ $i ]['last']         = $entry->last_name;
+			$data[ $i ]['suffix']       = $entry->honorific_suffix;
+			$data[ $i ]['organization'] = $entry->organization;
+			$data[ $i ]['number']       = $entry->number;
+			$data[ $i ]['type']         = $entry->type;
+			$data[ $i ]['preferred']    = $entry->preferred ? 'yes' : 'no';
+			$data[ $i ]['visibility']   = $entry->visibility;
 
 			$i++;
 		}

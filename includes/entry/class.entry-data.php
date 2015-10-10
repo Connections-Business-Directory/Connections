@@ -3441,11 +3441,20 @@ class cnEntry {
 	 */
 	public function getAnniversary( $format = 'F jS' ) {
 
-		if ( ! empty( $this->anniversary ) ) {
-			return $this->getUpcoming( 'anniversary', $format );
-		} else {
-			return '';
+		if ( empty( $this->anniversary ) ) {
+
+			$anniversaries = $this->getDates( array( 'type' => 'anniversary' ) );
+
+			if ( ! empty( $anniversaries ) ) {
+
+				$date = date_create( $anniversaries[0]->date );
+
+				$this->setAnniversary( date_format( $date, 'd' ), date_format( $date, 'm' ) );
+			}
+
 		}
+
+		return $this->getUpcoming( 'anniversary', $format );
 	}
 
 	/**
@@ -3484,11 +3493,20 @@ class cnEntry {
 	 */
 	public function getBirthday( $format = 'F jS' ) {
 
-		if ( ! empty( $this->birthday ) ) {
-			return $this->getUpcoming( 'birthday', $format );
-		} else {
-			return '';
+		if ( empty( $this->anniversary ) ) {
+
+			$anniversaries = $this->getDates( array( 'type' => 'birthday' ) );
+
+			if ( ! empty( $anniversaries ) ) {
+
+				$date = date_create( $anniversaries[0]->date );
+
+				$this->setBirthday( date_format( $date, 'd' ), date_format( $date, 'm' ) );
+			}
+
 		}
+
+		return $this->getUpcoming( 'birthday', $format );
 	}
 
 	/**
@@ -3543,7 +3561,7 @@ class cnEntry {
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) );
 		}
 
-		// Convert the date to a string to convert to a sting again.
+		// Convert the date to a string to convert to a string again.
 		// Why? Because doing it this way should keep PHP from timezone adjusting the output.
 		// date_default_timezone_set('UTC')
 		return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );

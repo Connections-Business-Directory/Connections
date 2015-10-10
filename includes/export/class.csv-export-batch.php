@@ -171,17 +171,13 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 *
 	 * @uses   cnCSV_Export::getColumns()
 	 * @uses   cnCSV_Batch_Export::write()
-	 *
-	 * @return string
 	 */
 	public function writeHeaders() {
 
-		$headers = array_map( array( $this, 'addSlashesAndQuote' ), $this->getColumns() );
+		$headers = array_map( array( $this, 'escapeAndQuote' ), $this->getColumns() );
 		$headers = implode( ',', $headers ) . "\r\n";
 
 		$this->write( $headers );
-
-		return $headers;
 	}
 
 	/**
@@ -192,7 +188,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 *
 	 * @uses   cnCSV_Export::getData()
 	 * @uses   cnCSV_Export::getColumns()
-	 * @uses   cnCSV_Export::addSlashesAndQuote()
+	 * @uses   cnCSV_Export::escapeAndQuote()
 	 * @uses   cnCSV_Batch_Export::write()
 	 *
 	 * @return string|false
@@ -215,7 +211,7 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 					// Make sure the column is valid.
 					if ( array_key_exists( $col_id, $cols ) ) {
 
-						$row_data .= $this->addSlashesAndQuote( $column );
+						$row_data .= $this->escapeAndQuote( $column );
 						$row_data .= $i == $count ? '' : ',';
 						$i++;
 					}
@@ -335,6 +331,9 @@ class cnCSV_Batch_Export extends cnCSV_Export {
 	 * @uses   cnCSV_Batch_Export::fileContents()
 	 */
 	public function download() {
+
+		// Clear the fields and types query caches.
+		cnCache::clear( TRUE, 'transient', 'cn-csv' );
 
 		$this->headers();
 

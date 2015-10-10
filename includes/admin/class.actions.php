@@ -132,6 +132,7 @@ class cnAdminActions {
 		add_action( 'wp_ajax_export_csv_phone_numbers', array( __CLASS__, 'csvExportPhoneNumbers' ) );
 		add_action( 'wp_ajax_export_csv_email', array( __CLASS__, 'csvExportEmail' ) );
 		add_action( 'wp_ajax_export_csv_dates', array( __CLASS__, 'csvExportDates' ) );
+		add_action( 'wp_ajax_export_csv_all', array( __CLASS__, 'csvExportAll' ) );
 		add_action( 'cn_download_batch_export', array( __CLASS__, 'csvExportBatchDownload' ) );
 
 		// Register the action to delete a single log.
@@ -380,10 +381,12 @@ class cnAdminActions {
 			wp_die( __( 'Nonce verification failed.', 'connections' ), __( 'Error', 'connections' ), array( 'response' => 403 ) );
 		}
 
+		$type = $_REQUEST['type'];
+
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
 
-		switch ( $_REQUEST['type'] ) {
+		switch ( $type ) {
 
 			case 'address':
 
@@ -417,14 +420,24 @@ class cnAdminActions {
 				$export->download();
 				break;
 
+			case 'all':
+
+				require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
+
+				$export = new cnCSV_Batch_Export_All();
+				$export->download();
+				break;
+
 			default:
 
 				/**
 				 * All plugins to run their own download callback function.
 				 *
+				 * The dynamic part of the hook is the import type.
+				 *
 				 * @since 8.5
 				 */
-				do_action( 'cn_csv_batch_export_download' );
+				do_action( "cn_csv_batch_export_download-$type" );
 				break;
 		}
 	}
@@ -535,6 +548,33 @@ class cnAdminActions {
 		$nonce  = wp_create_nonce( 'export_csv_dates' );
 
 		self::csvBatchExport( $export, 'date', $step, $nonce );
+	}
+
+	/**
+	 * Admin ajax callback to batch export the all entry data.
+	 *
+	 * @access private
+	 * @since  8.5.1
+	 *
+	 * @uses   check_ajax_referer()
+	 * @uses   absint()
+	 * @uses   cnCSV_Batch_Export_Dates()
+	 * @uses   wp_create_nonce()
+	 * @uses   cnAdminActions::csvBatchExport()
+	 */
+	public static function csvExportAll() {
+
+		check_ajax_referer( 'export_csv_all' );
+
+		require_once CN_PATH . 'includes/export/class.csv-export.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
+
+		$step   = absint( $_POST['step'] );
+		$export = new cnCSV_Batch_Export_All();
+		$nonce  = wp_create_nonce( 'export_csv_all' );
+
+		self::csvBatchExport( $export, 'all', $step, $nonce );
 	}
 
 	/**

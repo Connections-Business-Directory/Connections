@@ -3,6 +3,9 @@
 // uncomment this line for testing
 //set_site_transient( 'update_plugins', null );
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /**
  * Allows plugins to use their own update API.
  *
@@ -14,6 +17,7 @@ class EDD_SL_Plugin_Updater {
     private $api_data  = array();
     private $name      = '';
     private $slug      = '';
+    private $version   = '';
 
     /**
      * Class constructor.
@@ -24,7 +28,6 @@ class EDD_SL_Plugin_Updater {
      * @param string  $_api_url     The URL pointing to the custom API endpoint.
      * @param string  $_plugin_file Path to the plugin file.
      * @param array   $_api_data    Optional data to send with API calls.
-     * @return void
      */
     function __construct( $_api_url, $_plugin_file, $_api_data = null ) {
         $this->api_url  = trailingslashit( $_api_url );
@@ -84,9 +87,11 @@ class EDD_SL_Plugin_Updater {
 
             if ( false !== $version_info && is_object( $version_info ) && isset( $version_info->new_version ) ) {
 
-                $this->did_check = true;
-
                 if( version_compare( $this->version, $version_info->new_version, '<' ) ) {
+
+                    if ( empty( $version_info->plugin ) ) {
+                        $version_info->plugin = $this->name;
+                    }
 
                     $_transient_data->response[ $this->name ] = $version_info;
 
@@ -174,14 +179,14 @@ class EDD_SL_Plugin_Updater {
 
             if ( empty( $version_info->download_link ) ) {
                 printf(
-                    __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'edd' ),
+                    __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'easy-digital-downloads' ),
                     esc_html( $version_info->name ),
                     esc_url( $changelog_link ),
                     esc_html( $version_info->new_version )
                 );
             } else {
                 printf(
-                    __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'edd' ),
+                    __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'easy-digital-downloads' ),
                     esc_html( $version_info->name ),
                     esc_url( $changelog_link ),
                     esc_html( $version_info->new_version ),
@@ -262,7 +267,7 @@ class EDD_SL_Plugin_Updater {
      *
      * @param string  $_action The requested action.
      * @param array   $_data   Parameters for the API action.
-     * @return false||object
+     * @return false|object
      */
     private function api_request( $_action, $_data ) {
 
@@ -321,7 +326,7 @@ class EDD_SL_Plugin_Updater {
         }
 
         if( ! current_user_can( 'update_plugins' ) ) {
-            wp_die( __( 'You do not have permission to install plugin updates', 'edd' ), __( 'Error', 'edd' ), array( 'response' => 403 ) );
+            wp_die( __( 'You do not have permission to install plugin updates', 'easy-digital-downloads' ), __( 'Error', 'easy-digital-downloads' ), array( 'response' => 403 ) );
         }
 
         $response = $this->api_request( 'plugin_latest_version', array( 'slug' => $_REQUEST['slug'] ) );

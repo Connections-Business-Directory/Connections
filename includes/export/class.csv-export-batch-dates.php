@@ -113,7 +113,7 @@ class cnCSV_Batch_Export_Dates extends cnCSV_Batch_Export {
 			$data[ $i ]['preferred']    = $entry->preferred ? 'yes' : 'no';
 			$data[ $i ]['visibility']   = $entry->visibility;
 
-			$i ++;
+			$i++;
 		}
 
 		// The number of rows returned by the last query without the limit clause set

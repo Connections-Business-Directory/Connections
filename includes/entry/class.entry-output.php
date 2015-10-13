@@ -2553,7 +2553,7 @@ class cnOutput extends cnEntry {
 
 		$out .= $atts['before'];
 
-		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span>';
+		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span> ';
 
 		if ( is_null( $atts['separator'] ) ) {
 

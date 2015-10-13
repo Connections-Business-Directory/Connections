@@ -98,10 +98,10 @@ class cnRegisterSettings {
 			'title'     => __( 'Home', 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo "' . __(
+				'echo \'' . __(
 					'Choose the page where your directory is located. This should be the page where you used the [connections] shortcode.',
 					'connections'
-				) . '";'
+				) . '\';'
 			),
 			'page_hook' => $settings
 		);
@@ -142,10 +142,10 @@ class cnRegisterSettings {
 			'title'     => __( 'Shortcode Visibility Overrides', 'connections' ),
 			'callback'  => create_function(
 				'',
-				'echo "' . __(
+				'echo \'' . __(
 					'The [connections] shortcode has two options available to show an entry or an entire directory if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, will only be applied to the current shortcode instance.',
 					'connections'
-				) . '";'
+				) . '\';'
 			),
 			'page_hook' => $settings
 		);

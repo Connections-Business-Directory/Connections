@@ -1,7 +1,7 @@
 == Changelog ==
 
 = 8.5.1 10/10/2015 =
-* FEATURE: Add a new CSV export option which can be used to export most entry data into a single CSv file.
+* FEATURE: Add a new CSV export option which can be used to export most entry data into a single CSV file.
 * NEW: Introduce cnCSV_Export::escape().
 * BUG: Fix the `atts` return option in cnShortcode::find().
 * BUG: Make sure to pass all shortcode options (+slug) so the single entry view to provide backwards compatibility to all shortcode options based templates.

@@ -178,8 +178,9 @@ class cnShortcode {
 	public static function single( $content ) {
 
 		$slug = get_query_var( 'cn-entry-slug' );
+		$atts = self::find( 'connections', $content, 'atts' );
 
-		if ( $slug && ! empty( $atts = self::find( 'connections', $content, 'atts' ) ) ) {
+		if ( $slug && ! empty( $atts ) ) {
 
 			$atts['slug'] = sanitize_title( $slug );
 

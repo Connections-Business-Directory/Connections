@@ -382,7 +382,12 @@ class cnSEO {
 			return $title;
 		}
 
-		if ( ! is_object( $post ) || $wp_query->post->ID != $id || ! self::$filterPermalink ) return $title;
+		if ( ! is_object( $post ) ||
+		     ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
+		     ! self::$filterPermalink ) {
+
+			return $title;
+		}
 
 		// Coerce $title to be an array.
 		$title = (array) $title;

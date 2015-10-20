@@ -70,7 +70,7 @@ class cnvCard extends cnEntry_HTML {
 			'other_state'            => NULL,
 			'other_postal_code'      => NULL,
 			'other_country'          => NULL,
-			'latitute'               => NULL,
+			'latitude'               => NULL,
 			'longitude'              => NULL,
 			'work_tel'               => NULL,
 			'home_tel'               => NULL,

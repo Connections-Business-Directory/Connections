@@ -293,7 +293,7 @@ function connectionsShowCategoriesPage() {
 
 							<div class="form-wrap">
 								<p><?php _e(
-										'<strong>Note:</strong><br/>Deleting a category which has been assigned to an entry will reassign that entry as <strong>Uncategorized</strong>.',
+										'<strong>Note:</strong><br/>Deleting a category which has been assigned to an entry will reassign that entry to the default category.',
 										'connections'
 									); ?></p>
 							</div>

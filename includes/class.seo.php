@@ -125,7 +125,7 @@ class cnSEO {
 	public static function filterPermalink( $link, $ID, /** @noinspection PhpUnusedParameterInspection */ $sample ) {
 
 		/** @var WP_rewrite $wp_rewrite */
-		global $wp_rewrite, $post/*, $connections*/;
+		global $wp_rewrite, $post;
 
 		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
 		// Same for the links in the nav, do not change those.

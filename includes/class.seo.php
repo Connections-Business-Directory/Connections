@@ -236,6 +236,12 @@ class cnSEO {
 
 			$result = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
 
+			// Make sure an entry is returned and if not, return $posts unaltered.
+			if ( empty( $result ) ) {
+
+				return $posts;
+			}
+
 			$modified = $result[0]->ts;
 			$created  = $result[0]->date_added ? date( 'Y-m-d H:i:s', $result[0]->date_added ) : $result[0]->ts;
 

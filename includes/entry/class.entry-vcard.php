@@ -538,23 +538,6 @@ class cnvCard extends cnEntry_HTML {
 		if ( $this->getWebsites() ) {
 			$website           = $this->getWebsites();
 			$this->data['url'] = $website[0]->url;
-
-			/*foreach ($this->getWebsites() as $website)
-			{
-				switch ($website->type)
-				{
-					case 'personal':
-						$this->data['url'] = $website->url;
-					break;
-
-					default:
-						$this->data['url'] = $website->url;
-					break;
-				}
-
-				break; // Only return the first website url.
-			}*/
-
 		}
 	}
 

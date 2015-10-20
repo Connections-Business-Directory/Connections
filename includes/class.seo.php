@@ -439,7 +439,15 @@ class cnSEO {
 
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
-			$result = $connections->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			// Make sure an entry is returned and if not, return $title unaltered.
+			if ( empty( $result ) ) {
+
+				return implode( ' &raquo; ', $title );
+			}
 
 			$entry = new cnEntry( $result[0] );
 

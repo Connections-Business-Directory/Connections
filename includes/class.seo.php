@@ -508,11 +508,17 @@ class cnSEO {
 
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
-			$result = $connections->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
 
-			$entry = new cnEntry( $result[0] );
+			// Make sure an entry is returned and then echo the meta desc.
+			if ( ! empty( $result ) ) {
 
-			$description = $entry->getExcerpt( array( 'length' => 160 ) );
+				$entry = new cnEntry( $result[0] );
+
+				$description = $entry->getExcerpt( array( 'length' => 160 ) );
+			}
 		}
 
 		if ( empty( $description ) ) return;

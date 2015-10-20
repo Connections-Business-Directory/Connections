@@ -477,6 +477,8 @@ class cnSEO {
 			return;
 		}
 
+		$description = '';
+
 		if ( get_query_var( 'cn-cat-slug' ) ) {
 
 			// If the category slug is a descendant, use the last slug from the URL for the query.

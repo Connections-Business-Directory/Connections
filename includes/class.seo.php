@@ -283,7 +283,10 @@ class cnSEO {
 		global $connections;
 
 		// Whether or not to filter the page meta title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo_meta', 'page_title' ) ) return $title;
+		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {
+
+			return $title;
+		}
 
 		// Coerce $title to be an array.
 		$title = (array) $title;
@@ -366,7 +369,10 @@ class cnSEO {
 		global $wp_query, $post, $connections;
 
 		// Whether or not to filter the page title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo', 'page_title' ) ) return $title;
+		if ( ! cnSettingsAPI::get( 'connections', 'seo', 'page_title' ) ) {
+
+			return $title;
+		}
 
 		if ( ! is_object( $post ) || $wp_query->post->ID != $id || ! self::$filterPermalink ) return $title;
 
@@ -447,7 +453,10 @@ class cnSEO {
 		global $connections;
 
 		// Whether or not to filter the page title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo_meta', 'page_desc' ) ) return;
+		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_desc' ) ) {
+
+			return;
+		}
 
 		if ( get_query_var( 'cn-cat-slug' ) ) {
 

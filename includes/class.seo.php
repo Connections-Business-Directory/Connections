@@ -280,7 +280,6 @@ class cnSEO {
 	 * @return string
 	 */
 	public static function filterMetaTitle( $title, $sep = '&raquo;', /** @noinspection PhpUnusedParameterInspection */ $seplocation = '' ) {
-		global $connections;
 
 		// Whether or not to filter the page meta title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {
@@ -374,7 +373,7 @@ class cnSEO {
 	 * @return string
 	 */
 	public static function filterPostTitle( $title, $id = 0 ) {
-		global $wp_query, $post, $connections;
+		global $wp_query, $post;
 
 		// Whether or not to filter the page title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo', 'page_title' ) ) {
@@ -471,7 +470,6 @@ class cnSEO {
 	 * @return string
 	 */
 	public static function metaDesc() {
-		global $connections;
 
 		// Whether or not to filter the page title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_desc' ) ) {

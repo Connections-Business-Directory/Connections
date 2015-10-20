@@ -457,7 +457,7 @@ class cnSEO {
 	}
 
 	/**
-	 * Add the the current Connections category description or entry bio excerpt  as the page meta description.
+	 * Add the the current Connections category description or entry bio excerpt as the page meta description.
 	 *
 	 * @access private
 	 * @since  0.7.8
@@ -466,8 +466,6 @@ class cnSEO {
 	 * @uses   get_query_var()
 	 * @uses   esc_attr()
 	 * @uses   strip_shortcodes()
-	 *
-	 * @return string
 	 */
 	public static function metaDesc() {
 

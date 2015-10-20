@@ -522,7 +522,6 @@ class cnSEO {
 		if ( 0 == strlen( $description ) ) return;
 
 		echo '<meta name="description" content="' . esc_attr( trim( strip_shortcodes( strip_tags( stripslashes( $description ) ) ) ) ) . '"/>' . "\n";
-
 	}
 
 	/**

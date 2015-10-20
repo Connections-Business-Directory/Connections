@@ -289,7 +289,7 @@ class cnSEO {
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
-			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -302,7 +302,7 @@ class cnSEO {
 
 			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
+			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -374,7 +374,7 @@ class cnSEO {
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
-			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -387,7 +387,7 @@ class cnSEO {
 
 			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
+			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -450,7 +450,7 @@ class cnSEO {
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
-			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -463,7 +463,7 @@ class cnSEO {
 
 			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
+			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 

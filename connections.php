@@ -646,6 +646,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// The class for managing license keys and settings.
 				require_once CN_PATH . 'includes/admin/class.license.php';
 
+				// The Term Meta UI class.
+				require_once CN_PATH . 'includes/admin/class.term-meta-ui.php';
+
 				// Load the templates used on the Dashboard admin page.
 				include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
 				include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';

@@ -79,7 +79,7 @@ function connectionsShowCategoriesPage() {
 
 			<div class="wrap">
 				<div class="form-wrap" style="width:600px; margin: 0 auto;">
-					<h2><a name="new"></a><?php _e( 'Edit Category', 'connections' ); ?></h2>
+					<h1><a name="new"></a><?php _e( 'Edit Category', 'connections' ); ?></h1>
 
 					<?php
 					$attr = array(
@@ -242,7 +242,7 @@ function connectionsShowCategoriesPage() {
 			?>
 			<div class="wrap nosubsub">
 
-				<h2>Connections : <?php _e( 'Categories', 'connections' ); ?></h2>
+				<h1>Connections : <?php _e( 'Categories', 'connections' ); ?></h1>
 
 				<form class="search-form" action="" method="get">
 

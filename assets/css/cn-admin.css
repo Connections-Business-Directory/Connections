@@ -611,10 +611,14 @@ and (max-width: 780px) {
 	padding: 10px;
 }
 
-#visibility {
+#submitdiv #visibility {
 	border: 1px solid #DFDFDF;
 	margin: 6px;
 	padding: 10px;
+}
+
+#submitdiv #visibility:before {
+	content: none;
 }
 
 /*#minor-publishing label {*/

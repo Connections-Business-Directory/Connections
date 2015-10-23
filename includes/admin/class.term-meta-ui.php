@@ -128,15 +128,16 @@ class cnTerm_Meta_UI {
 	 * @since  8.5.2
 	 *
 	 * @param object $term
-	 * @param string $custom_column
+	 * @param string $column_name
 	 * @param int    $term_id
 	 *
 	 * @return mixed
 	 */
-	public function columnValue( $term, $custom_column, $term_id ) {
+	public function columnValue( $term, $column_name, $term_id ) {
 
 		// Bail if no taxonomy passed or not on the `meta_key` column
-		if ( ( $this->meta_key !== $custom_column ) || ! empty( $empty ) ) {
+		if ( $this->meta_key !== $column_name ) {
+
 			return;
 		}
 

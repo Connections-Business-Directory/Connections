@@ -1937,7 +1937,7 @@ class cnTerm {
 		// Clean the relationship caches for all object types using this term
 		$objects = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT object_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
+				"SELECT entry_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
 				$tt_id
 			)
 		);

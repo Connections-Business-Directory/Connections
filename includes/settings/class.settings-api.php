@@ -479,19 +479,6 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * Output the settings page, if one has been hooked to the current admin page, and output
 		 * the settings sections hooked to the current admin page/tab.
 		 *
-		 * WordPress core icons that can be used for the page and tab icons.
-		 * 	- index
-		 * 	- tools
-		 * 	- edit
-		 * 	- upload
-		 * 	- link-manager
-		 * 	- edit-pages
-		 * 	- edit-comments
-		 * 	- themes
-		 * 	- plugins
-		 * 	- users
-		 * 	- options-general
-		 *
 		 * @author Steven A. Zahm
 		 * @since 0.7.3.0
 		 * @param string $pageHook
@@ -502,8 +489,6 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		{
 			$defaults = array(
 				'page_title' => '',
-				'page_icon' => '',
-				'tab_icon' => ''
 				);
 
 			$args = wp_parse_args( $args , $defaults );
@@ -512,17 +497,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			$out = '';
 			$sort = array();
 
-			// Page icon.
-			if ( ! empty( $args['page_icon'] ) ) echo get_screen_icon( $args['page_icon'] );
-
 			// Page title.
-			if ( ! empty( $args['page_title'] ) ) echo '<h2>' , $args['page_title'] , '</h2>';
+			if ( ! empty( $args['page_title'] ) ) echo '<h1>' , $args['page_title'] , '</h1>';
 
 			// Display any registered settings errors and success messages.
 			settings_errors();
-
-			// Display the tab icon
-			if ( ! empty( $args['tab_icon'] ) ) echo get_screen_icon( $args['tab_icon'] );
 
 			// If the page hook was not supplied echo an empty string.
 			if ( ! empty( $pageHook ) )

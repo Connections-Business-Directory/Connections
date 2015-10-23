@@ -1130,8 +1130,14 @@ class cnEntry_Action {
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
 			// Grab an instance of the Connections object.
-			$instance   = Connections_Directory();
-			$entry      = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ), 'status' => 'approved,pending' ) );
+			$instance = Connections_Directory();
+			$entry    = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ), 'status' => 'approved,pending' ) );
+
+			// Make sure an entry is returned and if not, return $title unaltered.
+			if ( empty( $entry ) ) {
+
+				return;
+			}
 
 			// preg_match( '/href="(.*?)"/', cnURL::permalink( array( 'slug' => $entry->slug, 'return' => TRUE ) ), $matches );
 			// $permalink = $matches[1];

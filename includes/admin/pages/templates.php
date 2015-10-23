@@ -57,9 +57,9 @@ function connectionsShowTemplatesPage() {
 		?>
 		<div class="wrap">
 
-			<h2>Connections : <?php _e( 'Templates', 'connections' ); ?>
+			<h1>Connections : <?php _e( 'Templates', 'connections' ); ?>
 				<a class="button add-new-h2" href="http://connections-pro.com/templates/" target="_blank"><?php _e( 'Get More', 'connections' ); ?></a>
-			</h2>
+			</h1>
 
 			<ul class="subsubsub">
 				<li>

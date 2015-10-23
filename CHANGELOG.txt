@@ -1,7 +1,44 @@
 == Changelog ==
 
+= 8.5.2 10/23/2015 =
+* NEW: Add support for term meta queries.
+* NEW: Introduce the Term Meta UI API.
+* COMPATIBILITY: Dequeue the Themify Customizer scripts because it takes over the Customizer panel when loaded.
+* BUG: Correct variable names in cnEntry::getBirthday(). Copy/paste strikes again :/
+* BUG: Change the way the callback strings for a couple settings are escaped because they were causing PHP notices to be displayed for a user.
+* BUG: Simplify an if statement because wp.org would not allow it to commit as structured.
+* BUG: Check that an entry was returned before changing post's dates in cnSEO::postDates().
+* BUG: Check to ensure entry was returned before adjusting the meta page title in cnSEO::filterMetaTitle().
+* BUG: Check the post and post ID properties are set before checking against them in cnSEO::filterPostTitle().
+* BUG: Check to ensure entry was returned before adjusting the page title in cnSEO::filterPostTitle().
+* BUG: Check to ensure entry was returned before adjusting adding page meta desc in cnSEO::metaDesc().
+* BUG: Ensure $description is set before using to prevent PHP warning in cnSEO::metaDesc().
+* BUG: Check to ensure entry was returned before added the admin menu node in cnEntry_Action::adminBarMenuItems().
+* BUG: Correct column ID when selecting a term after it being edited.
+* BUG: Correct `cn_excerpt` filter name, removed the double underscore.
+* TWEAK: Remove used of deprecated methods in cnSEO.
+* TWEAK: Remove the plugin prefix from Settings API calls in cnSEO.
+* TWEAK: Check for string length 0 to be more explicit in cnSEO::metaDesc().
+* TWEAK: Remove unused global $connections var throughout cnSEO.
+* TWEAK: Update category note about deleting a category that the assigned entries will be reassigned to the default category.
+* TWEAK: Change admin page titles from h2 tags to h1 tags to be WordPress 4.3+ compliant.
+* TWEAK: Remove use of deprecated core WP function get_screen_icon() from the Roles admin page.
+* TWEAK: Remove use of the core WP deprecated function get_screen_icon from the Settings API.
+* TWEAK: Add `id` attributes to the list actions and entry actions so they can be easily targets with CSS `id` selectors.
+* TWEAK: Make cnShortcode::find() more robust by altering the regex to search only for the tag being searched for rather than all registered shortcode tags.
+* TWEAK: Alter cnShortcode::single() to work with the $matches returned from cnShortcode::find() instead of the found tag attributes.
+* TWEAK: Refactor cnFormatting::toBoolean() to use filter_var() to simplify method using a core PHP function.
+* TWEAK: Tweak the admin publish metabox visibility section so it does not interfere with the Term Meta UI.
+* TWEAK: Remove unused commented out code in cnvCard.
+* OTHER: Correct capitalization of CSV in readme.txt and changelog.txt.
+* OTHER: Correct misspelling of latitude in cnvCard.
+* I18N: Update POT file.
+* I18N: Update all MO files.
+* I18N Add Greek translation.
+* DEV: phpDoc fixes for cnSEO::metaDesc().
+
 = 8.5.1 10/10/2015 =
-* FEATURE: Add a new CSV export option which can be used to export most entry data into a single CSv file.
+* FEATURE: Add a new CSV export option which can be used to export most entry data into a single CSV file.
 * NEW: Introduce cnCSV_Export::escape().
 * BUG: Fix the `atts` return option in cnShortcode::find().
 * BUG: Make sure to pass all shortcode options (+slug) so the single entry view to provide backwards compatibility to all shortcode options based templates.

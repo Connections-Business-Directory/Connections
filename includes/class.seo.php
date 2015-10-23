@@ -125,7 +125,7 @@ class cnSEO {
 	public static function filterPermalink( $link, $ID, /** @noinspection PhpUnusedParameterInspection */ $sample ) {
 
 		/** @var WP_rewrite $wp_rewrite */
-		global $wp_rewrite, $post/*, $connections*/;
+		global $wp_rewrite, $post;
 
 		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
 		// Same for the links in the nav, do not change those.
@@ -236,6 +236,12 @@ class cnSEO {
 
 			$result = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
 
+			// Make sure an entry is returned and if not, return $posts unaltered.
+			if ( empty( $result ) ) {
+
+				return $posts;
+			}
+
 			$modified = $result[0]->ts;
 			$created  = $result[0]->date_added ? date( 'Y-m-d H:i:s', $result[0]->date_added ) : $result[0]->ts;
 
@@ -274,10 +280,12 @@ class cnSEO {
 	 * @return string
 	 */
 	public static function filterMetaTitle( $title, $sep = '&raquo;', /** @noinspection PhpUnusedParameterInspection */ $seplocation = '' ) {
-		global $connections;
 
 		// Whether or not to filter the page meta title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo_meta', 'page_title' ) ) return $title;
+		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {
+
+			return $title;
+		}
 
 		// Coerce $title to be an array.
 		$title = (array) $title;
@@ -289,7 +297,7 @@ class cnSEO {
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
-			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -302,7 +310,7 @@ class cnSEO {
 
 			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
+			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -329,7 +337,15 @@ class cnSEO {
 
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
-			$result = $connections->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			// Make sure an entry is returned and if not, return $posts unaltered.
+			if ( empty( $result ) ) {
+
+				return implode( " $sep ", $title );
+			}
 
 			$entry = new cnEntry( $result[0] );
 
@@ -357,12 +373,20 @@ class cnSEO {
 	 * @return string
 	 */
 	public static function filterPostTitle( $title, $id = 0 ) {
-		global $wp_query, $post, $connections;
+		global $wp_query, $post;
 
 		// Whether or not to filter the page title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo', 'page_title' ) ) return $title;
+		if ( ! cnSettingsAPI::get( 'connections', 'seo', 'page_title' ) ) {
 
-		if ( ! is_object( $post ) || $wp_query->post->ID != $id || ! self::$filterPermalink ) return $title;
+			return $title;
+		}
+
+		if ( ! is_object( $post ) ||
+		     ( ! isset( $wp_query->post ) || ! isset( $wp_query->post->ID ) || $wp_query->post->ID != $id ) ||
+		     ! self::$filterPermalink ) {
+
+			return $title;
+		}
 
 		// Coerce $title to be an array.
 		$title = (array) $title;
@@ -374,7 +398,7 @@ class cnSEO {
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
-			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -387,7 +411,7 @@ class cnSEO {
 
 			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
+			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -414,7 +438,15 @@ class cnSEO {
 
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
-			$result = $connections->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+
+			// Make sure an entry is returned and if not, return $title unaltered.
+			if ( empty( $result ) ) {
+
+				return implode( ' &raquo; ', $title );
+			}
 
 			$entry = new cnEntry( $result[0] );
 
@@ -425,7 +457,7 @@ class cnSEO {
 	}
 
 	/**
-	 * Add the the current Connections category description or entry bio excerpt  as the page meta description.
+	 * Add the the current Connections category description or entry bio excerpt as the page meta description.
 	 *
 	 * @access private
 	 * @since  0.7.8
@@ -434,14 +466,16 @@ class cnSEO {
 	 * @uses   get_query_var()
 	 * @uses   esc_attr()
 	 * @uses   strip_shortcodes()
-	 *
-	 * @return string
 	 */
 	public static function metaDesc() {
-		global $connections;
 
 		// Whether or not to filter the page title with the current directory location.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_seo_meta', 'page_desc' ) ) return;
+		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_desc' ) ) {
+
+			return;
+		}
+
+		$description = '';
 
 		if ( get_query_var( 'cn-cat-slug' ) ) {
 
@@ -450,7 +484,7 @@ class cnSEO {
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
-			$term = $connections->term->getTermBy( 'slug', $categorySlug, 'category' );
+			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -463,7 +497,7 @@ class cnSEO {
 
 			$categoryID = get_query_var( 'cn-cat' );
 
-			$term = $connections->term->getTermBy( 'id', $categoryID, 'category' );
+			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
 			$category = new cnCategory( $term );
 
@@ -472,17 +506,22 @@ class cnSEO {
 
 		if ( get_query_var( 'cn-entry-slug' ) ) {
 
-			$result = $connections->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
 
-			$entry = new cnEntry( $result[0] );
+			// Make sure an entry is returned and then echo the meta desc.
+			if ( ! empty( $result ) ) {
 
-			$description = $entry->getExcerpt( array( 'length' => 160 ) );
+				$entry = new cnEntry( $result[0] );
+
+				$description = $entry->getExcerpt( array( 'length' => 160 ) );
+			}
 		}
 
-		if ( empty( $description ) ) return;
+		if ( 0 == strlen( $description ) ) return;
 
 		echo '<meta name="description" content="' . esc_attr( trim( strip_shortcodes( strip_tags( stripslashes( $description ) ) ) ) ) . '"/>' . "\n";
-
 	}
 
 	/**

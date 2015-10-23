@@ -102,32 +102,11 @@ class cnFormatting {
 		// Already a bool, return it.
 		if ( is_bool( $value ) ) return $value;
 
-		switch ( strtolower( $value ) ) {
+		$value = filter_var( strtolower( $value ), FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
 
-			case 'yes':
-				$value = TRUE;
-				break;
+		if ( is_null( $value ) ) {
 
-			case 'no':
-				$value = FALSE;
-				break;
-
-			case 'true':
-				$value = TRUE;
-				break;
-
-			case 'false':
-				$value = FALSE;
-				break;
-
-			case '1':
-				$value = TRUE;
-				break;
-
-			case '0':
-				$value = FALSE;
-				break;
-
+			$value = FALSE;
 		}
 
 		return $value;
@@ -1876,7 +1855,7 @@ class cnString {
 			}
 		}
 
-		return apply_filters( 'cn__excerpt', $excerpt, $raw, $atts );
+		return apply_filters( 'cn_excerpt', $excerpt, $raw, $atts );
 	}
 
 	/**

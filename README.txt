@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 8.5.1
+Stable tag: 8.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -93,29 +93,30 @@ Templates and CSS overriding is very granular and update safe. Check out these l
 
 Connections Business Directory has been embraced around the world and has been translated by its users in the following languages.
 
-* Arabic [86% Complete]
-* Catalan [76% Complete]
-* Croatian (Croatia) [35% Complete]
-* Danish [46% Complete]
-* Danish (Denmark) [40% Complete]
-* Dutch (Netherlands) [71% Complete]
-* French (France) [85% Complete]
-* German (Germany) [68% Complete]
-* Hebrew (Israel) [88% Complete]
-* Hungarian (Hungry) [75% Complete]
-* Italian (Italy) [45% Complete]
-* Norwegian [18% Complete]
-* Persian (Iran) [75% Complete]
-* Polish (Poland) [76% Complete]
-* Portuguese (Brazil) [72% Complete]
-* Portuguese (Portugal) [34% Complete]
-* Romanian (Romania) [99% Complete]
-* Russian (Russia) [39% Complete]
+* Arabic [63% Complete]
+* Catalan [55% Complete]
+* Croatian (Croatia) [23% Complete]
+* Danish [32% Complete]
+* Danish (Denmark) [30% Complete]
+* Dutch (Netherlands) [51% Complete]
+* French (France) [64% Complete]
+* German (Germany) [49% Complete]
+* Greek (Greece) [72% Complete]
+* Hebrew (Israel) [64% Complete]
+* Hungarian (Hungry) [54% Complete]
+* Italian (Italy) [31% Complete]
+* Norwegian [13% Complete]
+* Persian (Iran) [64% Complete]
+* Polish (Poland) [55% Complete]
+* Portuguese (Brazil) [52% Complete]
+* Portuguese (Portugal) [24% Complete]
+* Romanian (Romania) [73% Complete]
+* Russian (Russia) [28% Complete]
 * Serbian (Latin) [3% Complete]
-* Spanish (Latin America) [71% Complete]
-* Spanish (Spain) [88% Complete]
+* Spanish (Latin America) [51% Complete]
+* Spanish (Spain) [68% Complete]
 * Thai [1% Complete]
-* Turkish (Turkey) [83% Complete]
+* Turkish (Turkey) [60% Complete]
 
 == Credits: ==
 * This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
@@ -199,8 +200,47 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+== Changelog ==
+
+= 8.5.2 10/23/2015 =
+* NEW: Add support for term meta queries.
+* NEW: Introduce the Term Meta UI API.
+* COMPATIBILITY: Dequeue the Themify Customizer scripts because it takes over the Customizer panel when loaded.
+* BUG: Correct variable names in cnEntry::getBirthday(). Copy/paste strikes again :/
+* BUG: Change the way the callback strings for a couple settings are escaped because they were causing PHP notices to be displayed for a user.
+* BUG: Simplify an if statement because wp.org would not allow it to commit as structured.
+* BUG: Check that an entry was returned before changing post's dates in cnSEO::postDates().
+* BUG: Check to ensure entry was returned before adjusting the meta page title in cnSEO::filterMetaTitle().
+* BUG: Check the post and post ID properties are set before checking against them in cnSEO::filterPostTitle().
+* BUG: Check to ensure entry was returned before adjusting the page title in cnSEO::filterPostTitle().
+* BUG: Check to ensure entry was returned before adjusting adding page meta desc in cnSEO::metaDesc().
+* BUG: Ensure $description is set before using to prevent PHP warning in cnSEO::metaDesc().
+* BUG: Check to ensure entry was returned before added the admin menu node in cnEntry_Action::adminBarMenuItems().
+* BUG: Correct column ID when selecting a term after it being edited.
+* BUG: Correct `cn_excerpt` filter name, removed the double underscore.
+* TWEAK: Remove used of deprecated methods in cnSEO.
+* TWEAK: Remove the plugin prefix from Settings API calls in cnSEO.
+* TWEAK: Check for string length 0 to be more explicit in cnSEO::metaDesc().
+* TWEAK: Remove unused global $connections var throughout cnSEO.
+* TWEAK: Update category note about deleting a category that the assigned entries will be reassigned to the default category.
+* TWEAK: Change admin page titles from h2 tags to h1 tags to be WordPress 4.3+ compliant.
+* TWEAK: Remove use of deprecated core WP function get_screen_icon() from the Roles admin page.
+* TWEAK: Remove use of the core WP deprecated function get_screen_icon from the Settings API.
+* TWEAK: Add `id` attributes to the list actions and entry actions so they can be easily targets with CSS `id` selectors.
+* TWEAK: Make cnShortcode::find() more robust by altering the regex to search only for the tag being searched for rather than all registered shortcode tags.
+* TWEAK: Alter cnShortcode::single() to work with the $matches returned from cnShortcode::find() instead of the found tag attributes.
+* TWEAK: Refactor cnFormatting::toBoolean() to use filter_var() to simplify method using a core PHP function.
+* TWEAK: Tweak the admin publish metabox visibility section so it does not interfere with the Term Meta UI.
+* TWEAK: Remove unused commented out code in cnvCard.
+* OTHER: Correct capitalization of CSV in readme.txt and changelog.txt.
+* OTHER: Correct misspelling of latitude in cnvCard.
+* I18N: Update POT file.
+* I18N: Update all MO files.
+* I18N Add Greek translation.
+* DEV: phpDoc fixes for cnSEO::metaDesc().
+
 = 8.5.1 10/10/2015 =
-* FEATURE: Add a new CSV export option which can be used to export most entry data into a single CSv file.
+* FEATURE: Add a new CSV export option which can be used to export most entry data into a single CSV file.
 * NEW: Introduce cnCSV_Export::escape().
 * BUG: Fix the `atts` return option in cnShortcode::find().
 * BUG: Make sure to pass all shortcode options (+slug) so the single entry view to provide backwards compatibility to all shortcode options based templates.
@@ -1152,4 +1192,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

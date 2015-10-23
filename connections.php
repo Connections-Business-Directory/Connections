@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.5.1
+ * Version: 8.5.2
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.5.1
+ * @version 8.5.2
  */
 
 // Exit if accessed directly
@@ -226,7 +226,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.1' );
+			define( 'CN_CURRENT_VERSION', '8.5.2' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -645,6 +645,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				// The class for managing license keys and settings.
 				require_once CN_PATH . 'includes/admin/class.license.php';
+
+				// The Term Meta UI class.
+				require_once CN_PATH . 'includes/admin/class.term-meta-ui.php';
 
 				// Load the templates used on the Dashboard admin page.
 				include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';

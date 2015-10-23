@@ -1937,7 +1937,7 @@ class cnTerm {
 		// Clean the relationship caches for all object types using this term
 		$objects = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT object_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
+				"SELECT entry_id FROM " . CN_TERM_RELATIONSHIP_TABLE . " WHERE term_taxonomy_id = %d",
 				$tt_id
 			)
 		);
@@ -2859,6 +2859,7 @@ class cnTerm {
 			'hierarchical' => TRUE,
 			'child_of'     => 0,
 			'name__like'   => '',
+			'meta_query'   => array(),
 			'pad_counts'   => FALSE,
 			'offset'       => 0,
 			'number'       => 0,
@@ -4334,4 +4335,42 @@ class cnTerm {
 
 		return $tree;
 	}
+
+	/**
+	 * Filter `cn_terms_clauses` and add support for a `meta_query` argument.
+	 *
+	 * @todo This can be integrated into @see cnTerm::getTaxonomyTerms(), for now it is fine as a filter.
+	 *
+	 * @access private
+	 * @since  8.5.2
+	 *
+	 * @param array $pieces     Terms query SQL clauses.
+	 * @param array $taxonomies An array of taxonomies.
+	 * @param array $args       An array of terms query arguments.
+	 *
+	 * @return Array of query pieces, maybe modified.
+	 */
+	public static function getTaxonomyTermsClauses( $pieces = array(), $taxonomies = array(), $args = array() ) {
+
+		if ( ! empty( $args['meta_query'] ) ) {
+
+			// Get the meta query parts
+			$meta_query = new cnMeta_Query( $args['meta_query'] );
+			$meta_query->parse_query_vars( $args );
+
+			// Combine pieces & meta-query clauses.
+			if ( ! empty( $meta_query->queries ) ) {
+
+				$meta_clauses = $meta_query->get_sql( 'term', 'tt', 'term_id', $taxonomies );
+
+				$pieces['join']   .= $meta_clauses['join'];
+				$pieces['where'][] = $meta_clauses['where'];
+			}
+		}
+
+		return $pieces;
+	}
 }
+
+// Make `meta_query` arguments work.
+add_filter( 'cn_terms_clauses',  array( 'cnTerm', 'getTaxonomyTermsClauses'  ), 10, 3 );

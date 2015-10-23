@@ -37,7 +37,7 @@ function connectionsShowDashboardPage() {
 		?>
 		<div class="wrap">
 
-			<h2>Connections : <?php _e( 'Dashboard', 'connections' ); ?></h2>
+			<h1>Connections : <?php _e( 'Dashboard', 'connections' ); ?></h1>
 
 			<div id="dashboard-widgets-wrap">
 

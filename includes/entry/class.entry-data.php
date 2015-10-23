@@ -3493,13 +3493,13 @@ class cnEntry {
 	 */
 	public function getBirthday( $format = 'F jS' ) {
 
-		if ( empty( $this->anniversary ) ) {
+		if ( empty( $this->birthday ) ) {
 
-			$anniversaries = $this->getDates( array( 'type' => 'birthday' ) );
+			$birthdays = $this->getDates( array( 'type' => 'birthday' ) );
 
-			if ( ! empty( $anniversaries ) ) {
+			if ( ! empty( $birthdays ) ) {
 
-				$date = date_create( $anniversaries[0]->date );
+				$date = date_create( $birthdays[0]->date );
 
 				$this->setBirthday( date_format( $date, 'd' ), date_format( $date, 'm' ) );
 			}

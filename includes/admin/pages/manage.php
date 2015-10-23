@@ -25,7 +25,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 		case 'add_entry':
 
-			echo '<h2>Connections : ' , __( 'Add Entry', 'connections' ) , '</h2>';
+			echo '<h1>Connections : ' , __( 'Add Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether current user can add an entry.
@@ -100,7 +100,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 			echo '<div class="wrap">';
 
-			echo '<h2>Connections : ' , __( 'Copy Entry', 'connections' ) , '</h2>';
+			echo '<h1>Connections : ' , __( 'Copy Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether current user can add an entry.
@@ -176,7 +176,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 		case 'edit_entry':
 
-			echo '<h2>Connections : ' , __( 'Edit Entry', 'connections' ) , '</h2>';
+			echo '<h1>Connections : ' , __( 'Edit Entry', 'connections' ) , '</h1>';
 
 			/*
 			 * Check whether the current user can edit entries.
@@ -259,7 +259,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 			echo '<div class="wrap">';
 
-			echo '<h2>Connections : ' , __( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __( 'Add New', 'connections' ) , '</a></h2>';
+			echo '<h1>Connections : ' , __( 'Manage', 'connections' ) , ' <a class="button add-new-h2" href="admin.php?page=connections_add">' , __( 'Add New', 'connections' ) , '</a></h1>';
 
 			/*
 			 * Check whether user can view the entry list

@@ -73,6 +73,8 @@ class cnTemplate_Customizer {
 		//add_action( 'customize_controls_enqueue_scripts', $this->customizer, 'enqueue_scripts' );
 		//add_action( 'customize_preview_init', $this->customizer, 'enqueue_template_scripts', 99 );
 
+		add_action( 'customize_controls_enqueue_scripts', array( $this, 'themeCompatibility' ), 9999 );
+
 		//add_action( 'wp_print_styles', array( $this', 'remove_all_styles'), 9999 );
 		//add_action( 'wp_print_scripts', array( $this, 'remove_all_scripts'), 9999 );
 
@@ -1825,6 +1827,24 @@ class cnTemplate_Customizer {
 	//		wp_dequeue_style( array_diff( $wp_styles->queue, $exceptions ) );
 	//	}
 	//}
+
+	/**
+	 * Dequeue the Themify Customizer scripts because it takes over the Customizer panel when loaded.
+	 *
+	 * @link http://connections-pro.com/support/topic/pro-pack-install-widget-template-issues/
+	 *
+	 * @access private
+	 * @since  8.5.2
+	 */
+	public function themeCompatibility() {
+
+		//if ( isset( $GLOBALS['themify_customizer'] ) ) {
+
+			//$Themify_Customizer = $GLOBALS['themify_customizer'];
+
+			wp_dequeue_script( 'themify-customize-control' );
+		//}
+	}
 
 	/**
 	 * Remove all footer actions except those that are required for the Customizer and the template to function.

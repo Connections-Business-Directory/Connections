@@ -1855,7 +1855,7 @@ class cnString {
 			}
 		}
 
-		return apply_filters( 'cn__excerpt', $excerpt, $raw, $atts );
+		return apply_filters( 'cn_excerpt', $excerpt, $raw, $atts );
 	}
 
 	/**

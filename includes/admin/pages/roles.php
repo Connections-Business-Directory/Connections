@@ -38,7 +38,6 @@ function connectionsShowRolesPage() {
 
 ?>
 		<div class="wrap cn-roles">
-			<?php echo get_screen_icon( 'connections' ); ?>
 
 			<h1>Connections : <?php _e( 'Roles &amp; Capabilities', 'connections' ); ?></h1>
 

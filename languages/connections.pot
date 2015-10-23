@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.3.3\n"
+"Project-Id-Version: Connections 8.5.1\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2015-08-12 20:25:35+00:00\n"
+"POT-Creation-Date: 2015-10-23 17:53:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,46 +32,70 @@ msgstr ""
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: includes/admin/class.actions.php:171
+#: includes/admin/class.actions.php:179
 msgid "You do not have sufficient permissions to download system information."
 msgstr ""
 
-#: includes/admin/class.actions.php:241 includes/admin/class.actions.php:281
-#: includes/class.scripts.php:168
+#: includes/admin/class.actions.php:249 includes/admin/class.actions.php:289
+#: includes/class.scripts.php:167
 msgid "Invalid AJAX action or nonce validation failed."
 msgstr ""
 
-#: includes/admin/class.actions.php:246 includes/admin/class.actions.php:286
-#: includes/class.scripts.php:172
+#: includes/admin/class.actions.php:254 includes/admin/class.actions.php:294
+#: includes/class.scripts.php:171
 msgid "You do not have sufficient permissions to perform this action."
 msgstr ""
 
-#: includes/admin/class.actions.php:265
+#: includes/admin/class.actions.php:273
 msgid "Secret URL has been created."
 msgstr ""
 
-#: includes/admin/class.actions.php:291
+#: includes/admin/class.actions.php:299
 msgid "Secret URL has been revoked."
 msgstr ""
 
-#: includes/admin/class.actions.php:307
+#: includes/admin/class.actions.php:315
 msgid "You do not have sufficient permissions to export the settings."
 msgstr ""
 
-#: includes/admin/class.actions.php:326
+#: includes/admin/class.actions.php:334
 msgid "You do not have sufficient permissions to import the settings."
 msgstr ""
 
-#: includes/admin/class.actions.php:331
+#: includes/admin/class.actions.php:339
 msgid "Please upload a .json file."
 msgstr ""
 
-#: includes/admin/class.actions.php:338
+#: includes/admin/class.actions.php:346
 msgid "Please select a file to import."
 msgstr ""
 
-#: includes/admin/class.actions.php:346
+#: includes/admin/class.actions.php:354
 msgid "Settings have been imported."
+msgstr ""
+
+#: includes/admin/class.actions.php:381
+msgid "Nonce verification failed."
+msgstr ""
+
+#: includes/admin/class.actions.php:381
+#: includes/export/class.csv-export.php:265
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:329
+msgid "Error"
+msgstr ""
+
+#: includes/admin/class.actions.php:603
+#: includes/export/class.csv-export-batch.php:146
+#: includes/export/class.csv-export.php:264
+msgid "You do not have permission to export data."
+msgstr ""
+
+#: includes/admin/class.actions.php:612
+msgid "Export location or file not writable."
+msgstr ""
+
+#: includes/admin/class.actions.php:652
+msgid "No data found for export parameters."
 msgstr ""
 
 #: includes/admin/class.capabilities.php:58
@@ -97,8 +121,8 @@ msgid "Add Entry Moderated"
 msgstr ""
 
 #: includes/admin/class.capabilities.php:63 includes/admin/pages/manage.php:179
-#: includes/entry/class.entry-actions.php:1145
-#: includes/entry/class.entry-actions.php:1149
+#: includes/entry/class.entry-actions.php:1151
+#: includes/entry/class.entry-actions.php:1155
 msgid "Edit Entry"
 msgstr ""
 
@@ -265,7 +289,7 @@ msgstr ""
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/class.license.php:424 includes/admin/pages/templates.php:357
+#: includes/admin/class.license.php:424 includes/admin/pages/templates.php:358
 msgid "Activate"
 msgstr ""
 
@@ -315,7 +339,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class.message.php:120 includes/admin/pages/manage.php:249
-#: includes/shortcode/class.shortcode.php:305
+#: includes/shortcode/class.shortcode.php:457
 msgid ""
 "You are not authorized to edit entries. Please contact the admin if you "
 "received this message in error."
@@ -777,7 +801,7 @@ msgstr ""
 #: includes/admin/pages/categories.php:139
 #: includes/admin/pages/categories.php:384 includes/log/class.log-email.php:295
 #: includes/log/class.log-email.php:602 includes/log/class.log-email.php:620
-#: includes/template/class.template-customizer.php:1142
+#: includes/template/class.template-customizer.php:1144
 msgid "None"
 msgstr ""
 
@@ -804,7 +828,7 @@ msgstr ""
 #: includes/admin/pages/categories.php:295
 msgid ""
 "<strong>Note:</strong><br/>Deleting a category which has been assigned to "
-"an entry will reassign that entry as <strong>Uncategorized</strong>."
+"an entry will reassign that entry to the default category."
 msgstr ""
 
 #: includes/admin/pages/categories.php:335
@@ -837,7 +861,7 @@ msgid "Search Entries"
 msgstr ""
 
 #: includes/admin/pages/manage.php:336
-#: includes/template/class.template-parts.php:1931
+#: includes/template/class.template-parts.php:1936
 msgid "Show All Categories"
 msgstr ""
 
@@ -926,7 +950,7 @@ msgid "Set Unlisted"
 msgstr ""
 
 #: includes/admin/pages/manage.php:460 includes/admin/pages/manage.php:588
-#: includes/admin/pages/templates.php:385 includes/class.metabox-entry.php:3150
+#: includes/admin/pages/templates.php:386 includes/class.metabox-entry.php:3150
 #: includes/class.metabox-entry.php:3179
 #: includes/template/class.template-list-table-email-log.php:341
 #: includes/template/class.template-list-table-email-log.php:531
@@ -951,11 +975,11 @@ msgstr ""
 msgid "No Photo Available"
 msgstr ""
 
-#: includes/admin/pages/manage.php:573 includes/class.scripts.php:150
+#: includes/admin/pages/manage.php:573 includes/class.scripts.php:149
 msgid "Click to show details."
 msgstr ""
 
-#: includes/admin/pages/manage.php:573 includes/class.scripts.php:148
+#: includes/admin/pages/manage.php:573 includes/class.scripts.php:147
 msgid "Show Details"
 msgstr ""
 
@@ -998,6 +1022,10 @@ msgstr ""
 #: includes/class.metabox-entry.php:2501 includes/class.metabox-entry.php:2609
 #: includes/class.metabox-entry.php:2768 includes/class.metabox-entry.php:2942
 #: includes/class.metabox-entry.php:3034
+#: includes/export/class.csv-export-batch-addresses.php:67
+#: includes/export/class.csv-export-batch-dates.php:59
+#: includes/export/class.csv-export-batch-email.php:59
+#: includes/export/class.csv-export-batch-phone-numbers.php:59
 msgid "Visibility"
 msgstr ""
 
@@ -1019,6 +1047,10 @@ msgstr ""
 #: includes/admin/pages/manage.php:688 includes/admin/pages/templates.php:77
 #: includes/class.metabox-entry.php:281 includes/class.metabox-entry.php:520
 #: includes/class.metabox-entry.php:550
+#: includes/export/class.csv-export-batch-addresses.php:55
+#: includes/export/class.csv-export-batch-dates.php:55
+#: includes/export/class.csv-export-batch-email.php:55
+#: includes/export/class.csv-export-batch-phone-numbers.php:55
 #: includes/settings/class.settings.php:1070
 #: includes/settings/class.settings.php:1362
 msgid "Organization"
@@ -1034,12 +1066,14 @@ msgstr ""
 #: includes/admin/pages/manage.php:713 includes/class.metabox-entry.php:1306
 #: includes/class.metabox-entry.php:1535
 #: includes/entry/class.entry-output.php:1269
+#: includes/export/class.csv-export-batch-addresses.php:64
 msgid "Latitude"
 msgstr ""
 
 #: includes/admin/pages/manage.php:713 includes/class.metabox-entry.php:1319
 #: includes/class.metabox-entry.php:1549
 #: includes/entry/class.entry-output.php:1270
+#: includes/export/class.csv-export-batch-addresses.php:65
 msgid "Longitude"
 msgstr ""
 
@@ -1049,7 +1083,7 @@ msgstr ""
 
 #: includes/admin/pages/manage.php:805 includes/class.metabox-entry.php:227
 #: includes/settings/class.settings.php:1075 templates/card/card-single.php:112
-#: templates/card/card.php:119
+#: templates/card/card.php:119 templates/profile/card-single.php:112
 msgid "Notes"
 msgstr ""
 
@@ -1074,38 +1108,38 @@ msgid "Image Linked"
 msgstr ""
 
 #: includes/admin/pages/manage.php:812 includes/admin/pages/manage.php:813
-#: includes/class.utility.php:154
+#: includes/class.utility.php:133
 msgid "No"
 msgstr ""
 
 #: includes/admin/pages/manage.php:812 includes/admin/pages/manage.php:813
-#: includes/class.utility.php:150
+#: includes/class.utility.php:129
 msgid "Yes"
 msgstr ""
 
 #: includes/admin/pages/manage.php:813 includes/class.metabox-entry.php:860
 #: includes/class.metabox-entry.php:926 includes/settings/class.settings.php:44
-#: includes/template/class.template-customizer.php:486
+#: includes/template/class.template-customizer.php:488
 msgid "Display"
 msgstr ""
 
-#: includes/admin/pages/roles.php:43
+#: includes/admin/pages/roles.php:42
 msgid "Roles &amp; Capabilities"
 msgstr ""
 
-#: includes/admin/pages/roles.php:60
+#: includes/admin/pages/roles.php:59
 msgid "Save Changes or Reset"
 msgstr ""
 
-#: includes/admin/pages/roles.php:68
+#: includes/admin/pages/roles.php:67
 msgid "Reset All Role Capabilities"
 msgstr ""
 
-#: includes/admin/pages/roles.php:75 includes/class.metabox-entry.php:355
+#: includes/admin/pages/roles.php:74 includes/class.metabox-entry.php:355
 msgid "Update"
 msgstr ""
 
-#: includes/admin/pages/roles.php:120
+#: includes/admin/pages/roles.php:119
 msgid "Reset %s Capabilities"
 msgstr ""
 
@@ -1212,134 +1246,177 @@ msgstr ""
 msgid "To copy, click and then press Ctrl + C (PC) or Cmd + C (Mac)."
 msgstr ""
 
-#: includes/admin/pages/templates.php:429
+#: includes/admin/pages/templates.php:430
 msgid "Customize"
 msgstr ""
 
-#: includes/admin/pages/tools.php:151 includes/admin/pages/tools.php:217
+#: includes/admin/pages/tools.php:151 includes/admin/pages/tools.php:236
+#: includes/admin/pages/tools.php:264 includes/admin/pages/tools.php:292
+#: includes/admin/pages/tools.php:320 includes/admin/pages/tools.php:348
+#: includes/admin/pages/tools.php:610
+msgid "Export"
+msgstr ""
+
+#: includes/admin/pages/tools.php:155 includes/admin/pages/tools.php:388
 msgid "System Information"
 msgstr ""
 
-#: includes/admin/pages/tools.php:155
+#: includes/admin/pages/tools.php:159
 msgid "Settings Import/Export"
 msgstr ""
 
-#: includes/admin/pages/tools.php:159 includes/log/class.log.php:329
+#: includes/admin/pages/tools.php:163 includes/log/class.log.php:329
 msgid "Logs"
 msgstr ""
 
-#: includes/admin/pages/tools.php:223
+#: includes/admin/pages/tools.php:219
+msgid "Export Addresses"
+msgstr ""
+
+#: includes/admin/pages/tools.php:227
+msgid "Export the entry names and their addresses as a CSV File."
+msgstr ""
+
+#: includes/admin/pages/tools.php:247
+msgid "Export Phone Numbers"
+msgstr ""
+
+#: includes/admin/pages/tools.php:255
+msgid "Export the entry names and their phone numbers as a CSV File."
+msgstr ""
+
+#: includes/admin/pages/tools.php:275
+msgid "Export Email Addresses"
+msgstr ""
+
+#: includes/admin/pages/tools.php:283
+msgid "Export the entry names and email addresses as a CSV File."
+msgstr ""
+
+#: includes/admin/pages/tools.php:303
+msgid "Export Dates"
+msgstr ""
+
+#: includes/admin/pages/tools.php:311
+msgid "Export the entry names and dates as a CSV File."
+msgstr ""
+
+#: includes/admin/pages/tools.php:331
+msgid "Export All"
+msgstr ""
+
+#: includes/admin/pages/tools.php:339
+msgid "Export the entry data as a CSV File."
+msgstr ""
+
+#: includes/admin/pages/tools.php:394
 msgid ""
 "To copy the System Info, click below then press Ctrl + C (PC) or Cmd + C "
 "(Mac)."
 msgstr ""
 
-#: includes/admin/pages/tools.php:238
+#: includes/admin/pages/tools.php:409
 msgid "Download System Info as Text File"
 msgstr ""
 
-#: includes/admin/pages/tools.php:281
+#: includes/admin/pages/tools.php:454
 msgid "Send to:"
 msgstr ""
 
-#: includes/admin/pages/tools.php:292 includes/class.metabox-entry.php:2029
+#: includes/admin/pages/tools.php:465 includes/class.metabox-entry.php:2029
 #: includes/class.metabox-entry.php:2121
 msgid "Email Address"
 msgstr ""
 
-#: includes/admin/pages/tools.php:296
+#: includes/admin/pages/tools.php:469
 msgid "user@email.com"
 msgstr ""
 
-#: includes/admin/pages/tools.php:302 includes/admin/pages/tools.php:306
+#: includes/admin/pages/tools.php:475 includes/admin/pages/tools.php:479
 #: includes/template/class.template-list-table-email-log.php:255
 msgid "Subject"
 msgstr ""
 
-#: includes/admin/pages/tools.php:312
+#: includes/admin/pages/tools.php:485
 msgid "Additional Message"
 msgstr ""
 
-#: includes/admin/pages/tools.php:316
+#: includes/admin/pages/tools.php:489
 msgid "Enter additional message here."
 msgstr ""
 
-#: includes/admin/pages/tools.php:319
+#: includes/admin/pages/tools.php:492
 msgid "Your system information will be attached automatically to this email."
 msgstr ""
 
-#: includes/admin/pages/tools.php:330 includes/class.scripts.php:165
+#: includes/admin/pages/tools.php:503 includes/class.scripts.php:164
 msgid "Send Email"
 msgstr ""
 
-#: includes/admin/pages/tools.php:360
+#: includes/admin/pages/tools.php:533
 msgid "Remote Viewing"
 msgstr ""
 
-#: includes/admin/pages/tools.php:367
+#: includes/admin/pages/tools.php:540
 msgid ""
 "Create a secret URL that support can use to remotely view your system "
 "information. The secret URL will expire after 72 hours and can be revoked "
 "at any time."
 msgstr ""
 
-#: includes/admin/pages/tools.php:376
+#: includes/admin/pages/tools.php:549
 msgid "To copy the URL, click then press Ctrl + C (PC) or Cmd + C (Mac)."
 msgstr ""
 
-#: includes/admin/pages/tools.php:380
+#: includes/admin/pages/tools.php:553
 msgid "Test"
 msgstr ""
 
-#: includes/admin/pages/tools.php:385
+#: includes/admin/pages/tools.php:558
 msgid "Generate URL"
 msgstr ""
 
-#: includes/admin/pages/tools.php:388
+#: includes/admin/pages/tools.php:561
 msgid "Revoke URL"
 msgstr ""
 
-#: includes/admin/pages/tools.php:424
+#: includes/admin/pages/tools.php:597
 msgid "Export Settings"
 msgstr ""
 
-#: includes/admin/pages/tools.php:428
+#: includes/admin/pages/tools.php:601
 msgid ""
 "Export the for this site as a .json file. This allows you to easily import "
 "the configuration into another site."
 msgstr ""
 
-#: includes/admin/pages/tools.php:437
-msgid "Export"
-msgstr ""
-
-#: includes/admin/pages/tools.php:443
+#: includes/admin/pages/tools.php:616
 msgid "Import Settings"
 msgstr ""
 
-#: includes/admin/pages/tools.php:450
+#: includes/admin/pages/tools.php:623
 msgid ""
 "Import the settings from a .json file. This file can be obtained by "
 "exporting the settings on another site using the form above."
 msgstr ""
 
-#: includes/admin/pages/tools.php:463
+#: includes/admin/pages/tools.php:636
 msgid "Import"
 msgstr ""
 
-#: includes/class.metabox-api.php:1089
+#: includes/class.metabox-api.php:1087
 msgid "Clear"
 msgstr ""
 
-#: includes/class.metabox-api.php:1090
+#: includes/class.metabox-api.php:1088
 msgid "Default"
 msgstr ""
 
-#: includes/class.metabox-api.php:1091
+#: includes/class.metabox-api.php:1089
 msgid "Select Color"
 msgstr ""
 
-#: includes/class.metabox-api.php:1092
+#: includes/class.metabox-api.php:1090
 msgid "Current Color"
 msgstr ""
 
@@ -1348,13 +1425,13 @@ msgid "Publish"
 msgstr ""
 
 #: includes/class.metabox-entry.php:119
-#: includes/template/class.template-customizer.php:508
+#: includes/template/class.template-customizer.php:510
 msgid "Image"
 msgstr ""
 
 #: includes/class.metabox-entry.php:128
 #: includes/settings/class.settings.php:270
-#: includes/template/class.template-customizer.php:1144
+#: includes/template/class.template-customizer.php:1146
 msgid "Logo"
 msgstr ""
 
@@ -1388,7 +1465,7 @@ msgid "Dates"
 msgstr ""
 
 #: includes/class.metabox-entry.php:200 templates/card/card-single.php:101
-#: templates/card/card.php:108
+#: templates/card/card.php:108 templates/profile/card-single.php:101
 msgid "Biographical Info"
 msgstr ""
 
@@ -1403,24 +1480,29 @@ msgid ""
 msgstr ""
 
 #: includes/class.metabox-entry.php:331
-#: includes/entry/class.entry-data.php:3667
+#: includes/entry/class.entry-data.php:3685
 #: includes/settings/class.options.php:206
 msgid "Public"
 msgstr ""
 
 #: includes/class.metabox-entry.php:332
-#: includes/entry/class.entry-data.php:3668
+#: includes/entry/class.entry-data.php:3686
 #: includes/settings/class.options.php:207
 msgid "Private"
 msgstr ""
 
 #: includes/class.metabox-entry.php:333
-#: includes/entry/class.entry-data.php:3666
+#: includes/entry/class.entry-data.php:3684
 #: includes/settings/class.options.php:208
 msgid "Unlisted"
 msgstr ""
 
 #: includes/class.metabox-entry.php:448
+#: includes/export/class.csv-export-batch-addresses.php:50
+#: includes/export/class.csv-export-batch-dates.php:50
+#: includes/export/class.csv-export-batch-email.php:50
+#: includes/export/class.csv-export-batch-phone-numbers.php:50
+#: includes/export/class.csv-export.php:109
 msgid "Prefix"
 msgstr ""
 
@@ -1440,6 +1522,11 @@ msgid "Last Name"
 msgstr ""
 
 #: includes/class.metabox-entry.php:492
+#: includes/export/class.csv-export-batch-addresses.php:54
+#: includes/export/class.csv-export-batch-dates.php:54
+#: includes/export/class.csv-export-batch-email.php:54
+#: includes/export/class.csv-export-batch-phone-numbers.php:54
+#: includes/export/class.csv-export.php:113
 msgid "Suffix"
 msgstr ""
 
@@ -1454,6 +1541,10 @@ msgid "Contact Last Name"
 msgstr ""
 
 #: includes/class.metabox-entry.php:727
+#: includes/export/class.csv-export-batch-addresses.php:49
+#: includes/export/class.csv-export-batch-dates.php:49
+#: includes/export/class.csv-export-batch-email.php:49
+#: includes/export/class.csv-export-batch-phone-numbers.php:49
 #: includes/settings/class.settings.php:1065
 msgid "Family Name"
 msgstr ""
@@ -1499,6 +1590,7 @@ msgid "Select Logo"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1155 includes/class.metabox-entry.php:1375
+#: includes/export/class.csv-export-batch-addresses.php:56
 msgid "Address Type"
 msgstr ""
 
@@ -1509,6 +1601,10 @@ msgstr ""
 #: includes/class.metabox-entry.php:2390 includes/class.metabox-entry.php:2481
 #: includes/class.metabox-entry.php:2590 includes/class.metabox-entry.php:2748
 #: includes/class.metabox-entry.php:2923 includes/class.metabox-entry.php:3014
+#: includes/export/class.csv-export-batch-addresses.php:66
+#: includes/export/class.csv-export-batch-dates.php:58
+#: includes/export/class.csv-export-batch-email.php:58
+#: includes/export/class.csv-export-batch-phone-numbers.php:58
 msgid "Preferred"
 msgstr ""
 
@@ -1525,18 +1621,22 @@ msgid "Address Line 3"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1250 includes/class.metabox-entry.php:1475
+#: includes/export/class.csv-export-batch-addresses.php:60
 msgid "City"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1263 includes/class.metabox-entry.php:1489
+#: includes/export/class.csv-export-batch-addresses.php:61
 msgid "State"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1276 includes/class.metabox-entry.php:1503
+#: includes/export/class.csv-export-batch-addresses.php:62
 msgid "Zipcode"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1291 includes/class.metabox-entry.php:1519
+#: includes/export/class.csv-export-batch-addresses.php:63
 #: includes/settings/class.settings.php:1447
 msgid "Country"
 msgstr ""
@@ -1601,7 +1701,10 @@ msgstr ""
 
 #: includes/class.metabox-entry.php:2579 includes/class.metabox-entry.php:2736
 #: includes/class.metabox-entry.php:2912 includes/class.metabox-entry.php:3002
-#: includes/template/class.template-customizer.php:1136
+#: includes/export/class.csv-export-batch-dates.php:57
+#: includes/export/class.csv-export-batch-email.php:57
+#: includes/export/class.csv-export-batch-phone-numbers.php:57
+#: includes/template/class.template-customizer.php:1138
 msgid "Type"
 msgstr ""
 
@@ -1630,6 +1733,7 @@ msgid "Add Link"
 msgstr ""
 
 #: includes/class.metabox-entry.php:2962 includes/class.metabox-entry.php:3054
+#: includes/export/class.csv-export-batch-dates.php:56
 #: includes/template/class.template-list-table-email-log.php:254
 msgid "Date"
 msgstr ""
@@ -1667,39 +1771,39 @@ msgstr ""
 msgid "Value not sanitized."
 msgstr ""
 
-#: includes/class.scripts.php:149
+#: includes/class.scripts.php:148
 msgid "Hide Details"
 msgstr ""
 
-#: includes/class.scripts.php:151
+#: includes/class.scripts.php:150
 msgid "Click to hide details."
 msgstr ""
 
-#: includes/class.scripts.php:166
+#: includes/class.scripts.php:165
 msgid "Sending..."
 msgstr ""
 
-#: includes/class.scripts.php:167
+#: includes/class.scripts.php:166
 msgid "Your message has been sent. Thank You!"
 msgstr ""
 
-#: includes/class.scripts.php:169
+#: includes/class.scripts.php:168
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: includes/class.scripts.php:170
+#: includes/class.scripts.php:169
 msgid "Please enter a subject."
 msgstr ""
 
-#: includes/class.scripts.php:171
+#: includes/class.scripts.php:170
 msgid "Please enter a message."
 msgstr ""
 
-#: includes/class.scripts.php:173
+#: includes/class.scripts.php:172
 msgid "Unknown error has occurred!"
 msgstr ""
 
-#: includes/class.scripts.php:174
+#: includes/class.scripts.php:173
 msgid "AJAX Headers not set."
 msgstr ""
 
@@ -1736,48 +1840,48 @@ msgstr ""
 msgid "The slug &#8220;%s&#8221; is already in use by another term"
 msgstr ""
 
-#: includes/class.terms.php:2596 includes/class.terms.php:3632
-#: includes/class.terms.php:4167
+#: includes/class.terms.php:2596 includes/class.terms.php:3636
+#: includes/class.terms.php:4171
 msgid "Empty Term"
 msgstr ""
 
-#: includes/class.utility.php:1742
+#: includes/class.utility.php:1767
 msgid "&hellip;"
 msgstr ""
 
-#: includes/class.utility.php:1860
+#: includes/class.utility.php:1885
 msgid "Unable to generate random string."
 msgstr ""
 
-#: includes/class.utility.php:1994
+#: includes/class.utility.php:2019
 msgid "Maximum stack depth exceeded."
 msgstr ""
 
-#: includes/class.utility.php:1998
+#: includes/class.utility.php:2023
 msgid "Underflow or the modes mismatch."
 msgstr ""
 
-#: includes/class.utility.php:2002
+#: includes/class.utility.php:2027
 msgid "Unexpected control character found."
 msgstr ""
 
-#: includes/class.utility.php:2006
+#: includes/class.utility.php:2031
 msgid "Syntax error, malformed JSON."
 msgstr ""
 
-#: includes/class.utility.php:2010
+#: includes/class.utility.php:2035
 msgid "Malformed UTF-8 characters, possibly incorrectly encoded."
 msgstr ""
 
-#: includes/class.utility.php:2014
+#: includes/class.utility.php:2039
 msgid "Unknown error."
 msgstr ""
 
-#: includes/class.utility.php:2202
+#: includes/class.utility.php:2227
 msgid "Invalid URL."
 msgstr ""
 
-#: includes/class.utility.php:2317
+#: includes/class.utility.php:2342
 msgid "No URL or width."
 msgstr ""
 
@@ -1785,12 +1889,22 @@ msgstr ""
 msgid "Image copy failed."
 msgstr ""
 
-#: includes/entry/class.entry-data.php:4543
+#: includes/entry/class.entry-data.php:4561
 msgid "Unknown"
+msgstr ""
+
+#: includes/entry/class.entry-output.php:178
+#: includes/entry/class.entry-output.php:179
+msgid "Photo of %s"
 msgstr ""
 
 #: includes/entry/class.entry-output.php:250
 msgid "Photo present %s is not valid."
+msgstr ""
+
+#: includes/entry/class.entry-output.php:280
+#: includes/entry/class.entry-output.php:281
+msgid "Logo for %s"
 msgstr ""
 
 #: includes/entry/class.entry-output.php:2538
@@ -1805,9 +1919,92 @@ msgstr ""
 msgid "Download vCard"
 msgstr ""
 
-#: includes/entry/class.entry-vcard.php:644
-#: includes/entry/class.entry-vcard.php:656
+#: includes/entry/class.entry-vcard.php:627
+#: includes/entry/class.entry-vcard.php:639
 msgid "vCard not available for download."
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:47
+#: includes/export/class.csv-export-batch-dates.php:47
+#: includes/export/class.csv-export-batch-email.php:47
+#: includes/export/class.csv-export-batch-phone-numbers.php:47
+#: includes/export/class.csv-export.php:108
+#: includes/template/class.template-list-table-email-log.php:253
+#: includes/template/class.template-list-table-term-admin.php:280
+msgid "ID"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:48
+#: includes/export/class.csv-export-batch-dates.php:48
+#: includes/export/class.csv-export-batch-email.php:48
+#: includes/export/class.csv-export-batch-phone-numbers.php:48
+msgid "Entry Type"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:51
+#: includes/export/class.csv-export-batch-dates.php:51
+#: includes/export/class.csv-export-batch-email.php:51
+#: includes/export/class.csv-export-batch-phone-numbers.php:51
+#: includes/export/class.csv-export.php:110
+msgid "First"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:52
+#: includes/export/class.csv-export-batch-dates.php:52
+#: includes/export/class.csv-export-batch-email.php:52
+#: includes/export/class.csv-export-batch-phone-numbers.php:52
+#: includes/export/class.csv-export.php:111
+msgid "Middle"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:53
+#: includes/export/class.csv-export-batch-dates.php:53
+#: includes/export/class.csv-export-batch-email.php:53
+#: includes/export/class.csv-export-batch-phone-numbers.php:53
+#: includes/export/class.csv-export.php:112
+msgid "Last"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:57
+msgid "Line One"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:58
+msgid "Line Two"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:59
+msgid "Line Three"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-email.php:56
+#: includes/export/class.csv-export.php:114
+msgid "Address"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-phone-numbers.php:56
+msgid "Number"
+msgstr ""
+
+#: includes/export/class.csv-export.php:155
+msgid "John"
+msgstr ""
+
+#: includes/export/class.csv-export.php:156
+msgid "Q."
+msgstr ""
+
+#: includes/export/class.csv-export.php:157
+#: includes/export/class.csv-export.php:166
+msgid "Doe"
+msgstr ""
+
+#: includes/export/class.csv-export.php:164
+msgid "Jane"
+msgstr ""
+
+#: includes/export/class.csv-export.php:165
+msgid "A."
 msgstr ""
 
 #: includes/image/class.image.php:504
@@ -2236,8 +2433,8 @@ msgid "Email Logs"
 msgstr ""
 
 #: includes/log/class.log-email.php:202 includes/settings/class.settings.php:58
-#: includes/template/class.template-customizer.php:453
-#: includes/template/class.template-parts.php:1545
+#: includes/template/class.template-customizer.php:455
+#: includes/template/class.template-parts.php:1550
 msgid "Search"
 msgstr ""
 
@@ -2646,7 +2843,7 @@ msgid "SEO"
 msgstr ""
 
 #: includes/settings/class.settings.php:72
-#: includes/template/class.template-customizer.php:530
+#: includes/template/class.template-customizer.php:532
 msgid "Advanced"
 msgstr ""
 
@@ -2877,7 +3074,7 @@ msgid ""
 msgstr ""
 
 #: includes/settings/class.settings.php:538
-#: includes/template/class.template-customizer.php:1560
+#: includes/template/class.template-customizer.php:1562
 msgid "Date Format"
 msgstr ""
 
@@ -2906,22 +3103,22 @@ msgid "Display the current category description before the results list."
 msgstr ""
 
 #: includes/settings/class.settings.php:587
-#: includes/template/class.template-customizer.php:611
+#: includes/template/class.template-customizer.php:613
 msgid "Character Index"
 msgstr ""
 
 #: includes/settings/class.settings.php:588
-#: includes/template/class.template-customizer.php:615
+#: includes/template/class.template-customizer.php:617
 msgid "Show the character index at the top of the results list."
 msgstr ""
 
 #: includes/settings/class.settings.php:602
-#: includes/template/class.template-customizer.php:640
+#: includes/template/class.template-customizer.php:642
 msgid "Repeat the character index at the beginning of each character group."
 msgstr ""
 
 #: includes/settings/class.settings.php:616
-#: includes/template/class.template-customizer.php:665
+#: includes/template/class.template-customizer.php:667
 msgid "Show the current character at the beginning of each character group."
 msgstr ""
 
@@ -2992,7 +3189,7 @@ msgstr ""
 #: includes/settings/class.settings.php:846
 #: includes/settings/class.settings.php:922
 #: includes/settings/class.settings.php:998
-#: includes/template/class.template-customizer.php:1171
+#: includes/template/class.template-customizer.php:1173
 msgid "Width"
 msgstr ""
 
@@ -3011,7 +3208,7 @@ msgstr ""
 #: includes/settings/class.settings.php:861
 #: includes/settings/class.settings.php:937
 #: includes/settings/class.settings.php:1013
-#: includes/template/class.template-customizer.php:1201
+#: includes/template/class.template-customizer.php:1203
 msgid "Height"
 msgstr ""
 
@@ -3019,7 +3216,7 @@ msgstr ""
 #: includes/settings/class.settings.php:876
 #: includes/settings/class.settings.php:952
 #: includes/settings/class.settings.php:1028
-#: includes/template/class.template-customizer.php:1231
+#: includes/template/class.template-customizer.php:1233
 msgid "Crop Mode"
 msgstr ""
 
@@ -3027,7 +3224,7 @@ msgstr ""
 #: includes/settings/class.settings.php:881
 #: includes/settings/class.settings.php:957
 #: includes/settings/class.settings.php:1033
-#: includes/template/class.template-customizer.php:1237
+#: includes/template/class.template-customizer.php:1239
 msgid ""
 "Crop and resize proportionally to best fit the specified dimensions, "
 "maintaining the aspect ratio."
@@ -3037,7 +3234,7 @@ msgstr ""
 #: includes/settings/class.settings.php:885
 #: includes/settings/class.settings.php:961
 #: includes/settings/class.settings.php:1037
-#: includes/template/class.template-customizer.php:1241
+#: includes/template/class.template-customizer.php:1243
 msgid ""
 "Resize proportionally to fit entire image into the specified dimensions and "
 "add margins if required."
@@ -3047,7 +3244,7 @@ msgstr ""
 #: includes/settings/class.settings.php:889
 #: includes/settings/class.settings.php:965
 #: includes/settings/class.settings.php:1041
-#: includes/template/class.template-customizer.php:1245
+#: includes/template/class.template-customizer.php:1247
 msgid ""
 "Resize proportionally adjusting the size of scaled image so there are no "
 "margins added."
@@ -3057,7 +3254,7 @@ msgstr ""
 #: includes/settings/class.settings.php:893
 #: includes/settings/class.settings.php:969
 #: includes/settings/class.settings.php:1045
-#: includes/template/class.template-customizer.php:1249
+#: includes/template/class.template-customizer.php:1251
 msgid "Resize to fit the specified dimensions (no cropping)."
 msgstr ""
 
@@ -3352,23 +3549,23 @@ msgstr ""
 msgid "An error has occured while creating the thumbnail."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:199
+#: includes/shortcode/class.shortcode.php:351
 msgid "Future home of front end submissions."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:206
+#: includes/shortcode/class.shortcode.php:358
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:222
+#: includes/shortcode/class.shortcode.php:374
 msgid "Future home of the search page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:239
+#: includes/shortcode/class.shortcode.php:391
 msgid "Future home of the search results landing page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:296
+#: includes/shortcode/class.shortcode.php:448
 msgid ""
 "Your entry submission is currently under review, however, you can continue "
 "to make edits to your entry submission while your submission is under "
@@ -3381,12 +3578,12 @@ msgid "ERROR: Template %1$s not found."
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:145
-#: includes/template/class.template-parts.php:1221
+#: includes/template/class.template-parts.php:1226
 msgid "No results."
 msgstr ""
 
-#: includes/system-info/class.system-info.php:226
-#: includes/system-info/class.system-info.php:243
+#: includes/system-info/class.system-info.php:227
+#: includes/system-info/class.system-info.php:244
 msgid "System Info Email"
 msgstr ""
 
@@ -3398,384 +3595,380 @@ msgstr ""
 msgid "FALSE"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:413
+#: includes/template/class.template-customizer.php:415
 msgid "Connections Template"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:414
+#: includes/template/class.template-customizer.php:416
 msgid ""
 "The Template Customizer allows you to preview and save changes to how the "
 "template will appear on your site."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:442
+#: includes/template/class.template-customizer.php:444
 msgid "Global Options"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:443
+#: includes/template/class.template-customizer.php:445
 msgid "These options are global and will affect all templates."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:464
+#: includes/template/class.template-customizer.php:466
 msgid "Category Select"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:465
+#: includes/template/class.template-customizer.php:467
 msgid "Configure the template's category select features."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:475
+#: includes/template/class.template-customizer.php:477
 msgid "Pagination"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:476
+#: includes/template/class.template-customizer.php:478
 msgid "Configure the template's pagination features."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:487
+#: includes/template/class.template-customizer.php:489
 msgid "These options will only affect the template being customized."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:497
+#: includes/template/class.template-customizer.php:499
 msgid "Style"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:498
+#: includes/template/class.template-customizer.php:500
 msgid "Change the visual appearance of the template."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:509
+#: includes/template/class.template-customizer.php:511
 msgid ""
 "These options will override the settings found on the Connections : "
 "Settings admin page."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:519
+#: includes/template/class.template-customizer.php:521
 msgid "Strings"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:520
+#: includes/template/class.template-customizer.php:522
 msgid "Customize the template's strings."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:531
+#: includes/template/class.template-customizer.php:533
 msgid ""
 "Customize various advanced template features. Adjusting any of the "
 "following settings will override the global defaults in the template."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:636
+#: includes/template/class.template-customizer.php:638
 msgid "Character Index Repeat"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:661
-#: includes/template/class.template-parts.php:1705
+#: includes/template/class.template-customizer.php:663
+#: includes/template/class.template-parts.php:1710
 msgid "Current Character"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:750
+#: includes/template/class.template-customizer.php:752
 msgid "Enable Category Filter"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:754
+#: includes/template/class.template-customizer.php:756
 msgid "Whether or not to enable the category select drop down."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:776
+#: includes/template/class.template-customizer.php:778
 msgid "Show Empty"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:780
+#: includes/template/class.template-customizer.php:782
 msgid "Whether or not to display categories which have not entries assigned."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:802
+#: includes/template/class.template-customizer.php:804
 msgid "Show Count"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:806
+#: includes/template/class.template-customizer.php:808
 msgid "Whether or not to display the number of entries assigned to the categories."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:892
+#: includes/template/class.template-customizer.php:894
 msgid "Enable"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:896
+#: includes/template/class.template-customizer.php:898
 msgid "Whether or not to display the search control"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:982
+#: includes/template/class.template-customizer.php:984
 msgid "Enable Pagination Support"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:986
+#: includes/template/class.template-customizer.php:988
 msgid "Whether or not to enable pagination support."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1008
+#: includes/template/class.template-customizer.php:1010
 msgid "Page Limit"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1012
+#: includes/template/class.template-customizer.php:1014
 msgid "The maximum number of entries to display per page."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1140
+#: includes/template/class.template-customizer.php:1142
 msgid "Select image type to display."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1143
+#: includes/template/class.template-customizer.php:1145
 msgid "Photo"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1175
+#: includes/template/class.template-customizer.php:1177
 msgid "Set the image width in pixels."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1205
+#: includes/template/class.template-customizer.php:1207
 msgid "Set the image height in pixels."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1235
+#: includes/template/class.template-customizer.php:1237
 msgid "Select the image crop mode."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1276
+#: includes/template/class.template-customizer.php:1278
 msgid "Image Placeholder"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1280
+#: includes/template/class.template-customizer.php:1282
 msgid ""
 "Whether or not an image placeholder is displayed if the selected image type "
 "does not exist."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1291
+#: includes/template/class.template-customizer.php:1293
 #: templates/card/card-default.php:197 templates/card/card-default.php:244
+#: templates/profile/profile.php:159 templates/profile/profile.php:194
 msgid "No Image Available"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1306
+#: includes/template/class.template-customizer.php:1308
 msgid "Image Placeholder Text"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1310
+#: includes/template/class.template-customizer.php:1312
 msgid "The text to display if no image is available."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1468
+#: includes/template/class.template-customizer.php:1470
 msgid "Show the entry title."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1469
+#: includes/template/class.template-customizer.php:1471
 msgid "Whether or not to display the Title field."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1472
+#: includes/template/class.template-customizer.php:1474
 msgid "Show the entry organization."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1473
+#: includes/template/class.template-customizer.php:1475
 msgid "Whether or not to display the Organization field."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1476
+#: includes/template/class.template-customizer.php:1478
 msgid "Show the entry department."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1477
+#: includes/template/class.template-customizer.php:1479
 msgid "Whether or not to display the Department field."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1480
+#: includes/template/class.template-customizer.php:1482
 msgid "Show the entry contact name."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1481
+#: includes/template/class.template-customizer.php:1483
 msgid "Whether or not to display the Contact First and Last Name fields."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1484
+#: includes/template/class.template-customizer.php:1486
 msgid "Show the entry family members."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1485
+#: includes/template/class.template-customizer.php:1487
 msgid "Whether or not to display the family members."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1488
+#: includes/template/class.template-customizer.php:1490
 msgid "Show the addresses."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1489
+#: includes/template/class.template-customizer.php:1491
 msgid "Whether or not to display the addresses."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1492
+#: includes/template/class.template-customizer.php:1494
 msgid "Show the phone numbers."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1493
+#: includes/template/class.template-customizer.php:1495
 msgid "Whether or not to display the phone numbers."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1496
+#: includes/template/class.template-customizer.php:1498
 msgid "Show the email addresses."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1497
+#: includes/template/class.template-customizer.php:1499
 msgid "Whether or not to display the email addresses."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1500
+#: includes/template/class.template-customizer.php:1502
 msgid "Show the IM addresses."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1501
+#: includes/template/class.template-customizer.php:1503
 msgid "Whether or not to display the IM addresses."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1504
+#: includes/template/class.template-customizer.php:1506
 msgid "Show the social networks."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1505
+#: includes/template/class.template-customizer.php:1507
 msgid "Whether or not to display the social networks."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1508
+#: includes/template/class.template-customizer.php:1510
 msgid "Show the links."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1509
+#: includes/template/class.template-customizer.php:1511
 msgid "Whether or not to display the links."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1512
+#: includes/template/class.template-customizer.php:1514
 msgid "Show the dates."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1513
+#: includes/template/class.template-customizer.php:1515
 msgid "Whether or not to display the dates."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1516
+#: includes/template/class.template-customizer.php:1518
 msgid "Show the bio."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1517
+#: includes/template/class.template-customizer.php:1519
 msgid "Whether or not to display the bio field."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1520
+#: includes/template/class.template-customizer.php:1522
 msgid "Show the notes."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1521
+#: includes/template/class.template-customizer.php:1523
 msgid "Whether or not to display the notes field."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1524
+#: includes/template/class.template-customizer.php:1526
 msgid "Show the categories assigned to the entry."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1525
+#: includes/template/class.template-customizer.php:1527
 msgid "Whether or not to display the categories."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1528
+#: includes/template/class.template-customizer.php:1530
 msgid "Show the last updated message."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1529
+#: includes/template/class.template-customizer.php:1531
 msgid "Whether or not to display the last updated message."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1532
+#: includes/template/class.template-customizer.php:1534
 msgid "Show display to top."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1533
+#: includes/template/class.template-customizer.php:1535
 msgid "Whether or not to display the return to top arrow."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1536
+#: includes/template/class.template-customizer.php:1538
 msgid "Name Format"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1540
+#: includes/template/class.template-customizer.php:1542
 msgid "Contact Name Format"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1544
+#: includes/template/class.template-customizer.php:1546
 msgid "Address Format"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1548
+#: includes/template/class.template-customizer.php:1550
 msgid "Email Format"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1552
+#: includes/template/class.template-customizer.php:1554
 msgid "Phone Format"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1556
+#: includes/template/class.template-customizer.php:1558
 msgid "Link Format"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1564
+#: includes/template/class.template-customizer.php:1566
 msgid "Display Address Types"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1568
+#: includes/template/class.template-customizer.php:1570
 msgid "Display Phone Types"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1572
+#: includes/template/class.template-customizer.php:1574
 msgid "Display Email Types"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1576
+#: includes/template/class.template-customizer.php:1578
 msgid "Display Date Types"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1580
+#: includes/template/class.template-customizer.php:1582
 msgid "Display Link Types"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1877
+#: includes/template/class.template-customizer.php:1889
 msgid "Go Back"
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1899
+#: includes/template/class.template-customizer.php:1911
 msgid ""
 "Do not navigate away from the template customizer preview doing so could "
 "mean the loss of any unsaved changes."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1900
+#: includes/template/class.template-customizer.php:1912
 msgid ""
 "If any shortcode override options have been used, they will have priority "
 "and the Template Customizer options will not have any effect."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1922
+#: includes/template/class.template-customizer.php:1934
 msgid ""
 "<strong>NOTE:</strong> Template supports single view. You can click an "
 "entry name and customize the single entry view independently from the "
 "results list view."
 msgstr ""
 
-#: includes/template/class.template-customizer.php:1946
+#: includes/template/class.template-customizer.php:1958
 msgid ""
 "<strong>NOTE:</strong> Category select is for customization purposes only. "
 "It will not filter the results."
-msgstr ""
-
-#: includes/template/class.template-list-table-email-log.php:253
-#: includes/template/class.template-list-table-term-admin.php:280
-msgid "ID"
 msgstr ""
 
 #: includes/template/class.template-list-table-email-log.php:256
@@ -3795,7 +3988,7 @@ msgid "BCC"
 msgstr ""
 
 #: includes/template/class.template-list-table-email-log.php:369
-#: includes/template/class.template-parts.php:865
+#: includes/template/class.template-parts.php:869
 msgid "View All"
 msgstr ""
 
@@ -3820,73 +4013,73 @@ msgstr ""
 msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:960
+#: includes/template/class.template-parts.php:965
 msgid "Go back to directory."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1131
+#: includes/template/class.template-parts.php:1136
 msgid "You are searching within category(ies): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1142
+#: includes/template/class.template-parts.php:1147
 msgid "You are searching for the keyword(s): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1147
+#: includes/template/class.template-parts.php:1152
 msgid "The results are being filtered by the character: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1152
+#: includes/template/class.template-parts.php:1157
 msgid "The results are being filtered by the organization: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1157
+#: includes/template/class.template-parts.php:1162
 msgid "The results are being filtered by the department: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1162
+#: includes/template/class.template-parts.php:1167
 msgid "The results are being filtered by the locality: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1167
+#: includes/template/class.template-parts.php:1172
 msgid "The results are being filtered by the region: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1172
+#: includes/template/class.template-parts.php:1177
 msgid "The results are being filtered by the postal code: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1177
+#: includes/template/class.template-parts.php:1182
 msgid "The results are being filtered by the country: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1189
+#: includes/template/class.template-parts.php:1194
 msgid "Clear Search"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1344
-#: includes/template/class.template-parts.php:1345
+#: includes/template/class.template-parts.php:1349
+#: includes/template/class.template-parts.php:1350
 #: includes/template/class.template-shortcode.php:103
 msgid "Return to top."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1426
+#: includes/template/class.template-parts.php:1431
 msgid "Updated %1$s ago."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1573
+#: includes/template/class.template-parts.php:1578
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1753
+#: includes/template/class.template-parts.php:1758
 msgid "&laquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1754
+#: includes/template/class.template-parts.php:1759
 msgid "&raquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1929
+#: includes/template/class.template-parts.php:1934
 #: includes/template/class.template-walker-term-radio-group.php:108
 #: includes/template/class.template-walker-term-select-enhanced.php:162
 msgid "Select Category"
@@ -3939,41 +4132,42 @@ msgid "No categories"
 msgstr ""
 
 #: templates/card/class.customizer.php:47
+#: templates/profile/class.customizer.php:47
 msgid "Border Width"
 msgstr ""
 
 #: templates/card/class.customizer.php:51
 #: templates/card/class.customizer.php:103
+#: templates/profile/class.customizer.php:51
+#: templates/profile/class.customizer.php:103
 msgid "Enter border width in pixels."
 msgstr ""
 
 #: templates/card/class.customizer.php:73
+#: templates/profile/class.customizer.php:73
 msgid "Border Color"
 msgstr ""
 
 #: templates/card/class.customizer.php:99
+#: templates/profile/class.customizer.php:99
 msgid "Border Radius"
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:177
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:182
 msgid ""
 "There is a new version of %1$s available. <a target=\"_blank\" "
 "class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:184
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:189
 msgid ""
 "There is a new version of %1$s available. <a target=\"_blank\" "
 "class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a "
 "href=\"%4$s\">update now</a>."
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:324
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:329
 msgid "You do not have permission to install plugin updates"
-msgstr ""
-
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:324
-msgid "Error"
 msgstr ""
 
 #. Description of the plugin/theme

@@ -79,11 +79,21 @@ class cnShortcode {
 	 */
 	public static function find( $tag, $content, $return = 'bool' ) {
 
+		global $shortcode_tags;
+
 		// Exit early if the shortcode does not exist in content.
-		if ( FALSE === strpos( $content, "[$tag" ) ) {
+		if ( FALSE === strpos( $content, "[$tag" ) && ! isset( $shortcode_tags[ $tag ] ) ) {
 
 			return FALSE;
 		}
+
+		// Backup the registered shortcode tags, so they can be restored after searching for the requested shortcode.
+		$registeredTags = $shortcode_tags;
+
+		// Set the registered shortcodes to only the shortcode being searched for because this effects the results
+		// returned by get_shortcode_regex() as it sets up the pattern to search for all registered shortcodes.
+		// Limiting it to only the shortcode being searched for greatly improves this methods accuracy.
+		$shortcode_tags = array( $tag => $shortcode_tags[ $tag ] );
 
 		$pattern = get_shortcode_regex();
 		$found   = array();
@@ -120,6 +130,9 @@ class cnShortcode {
 			}
 		}
 
+		// Restore the registered shortcodes from the backup.
+		$shortcode_tags = $registeredTags;
+
 		switch ( $return ) {
 
 			case 'atts':
@@ -129,7 +142,7 @@ class cnShortcode {
 				foreach ( $found as $shortcode ) {
 
 					// Parse the shortcode atts.
-					$atts = shortcode_parse_atts( $shortcode[3] );
+					$atts[] = shortcode_parse_atts( $shortcode[3] );
 				}
 
 				return $atts;

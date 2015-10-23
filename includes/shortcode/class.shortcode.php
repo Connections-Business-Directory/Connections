@@ -190,16 +190,23 @@ class cnShortcode {
 	 */
 	public static function single( $content ) {
 
-		$slug = get_query_var( 'cn-entry-slug' );
-		$atts = self::find( 'connections', $content, 'atts' );
+		$slug    = get_query_var( 'cn-entry-slug' );
+		$matches = self::find( 'connections', $content, 'matches' );
+		//$x       = $content;
 
-		if ( $slug && ! empty( $atts ) ) {
+		if ( $slug && $matches ) {
+
+			$atts = shortcode_parse_atts( $matches[0][3] );
 
 			$atts['slug'] = sanitize_title( $slug );
 
-			$content = self::write( 'connections', $atts );
+			$shortcode = self::write( 'connections', $atts );
+
+			//$content = str_replace( $matches[0][0], $shortcode, $content );
+			$content = $shortcode;
 		}
 
+		//return '<!-- [connections]' . print_r( $atts, true ) . ' $content: ' . $content . ' $old: ' . $x .' -->' . $content;
 		return $content;
 	}
 

@@ -96,6 +96,26 @@ class cnEntryMetabox {
 			$tinymcePlugins = array( 'tabfocus', 'paste', 'wordpress', 'wplink', 'wpdialogs' );
 		}
 
+		if ( current_user_can( 'unfiltered_html' ) ) {
+
+			$rteOptions = array();
+
+		} else {
+
+			$rteOptions = array(
+				'media_buttons' => current_user_can( 'unfiltered_html' ) ? TRUE : FALSE,
+				'tinymce'       => array(
+					'editor_selector'   => 'tinymce',
+					'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
+					'toolbar2'          => '',
+					'inline_styles'     => TRUE,
+					'relative_urls'     => FALSE,
+					'remove_linebreaks' => FALSE,
+					'plugins'           => implode( ',', $tinymcePlugins )
+				)
+			);
+		}
+
 		self::$metaboxes[] = array(
 			'id'       => 'submitdiv',
 			'title'    => __( 'Publish', 'connections' ),
@@ -206,18 +226,7 @@ class cnEntryMetabox {
 					'id'         => 'bio',
 					'type'       => 'rte',
 					'value'      => 'getBio',
-					'options'    => array(
-						'media_buttons' => current_user_can( 'unfiltered_html' ) ? TRUE : FALSE,
-						'tinymce'       => array(
-							'editor_selector'   => 'tinymce',
-							'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
-							'toolbar2'          => '',
-							'inline_styles'     => TRUE,
-							'relative_urls'     => FALSE,
-							'remove_linebreaks' => FALSE,
-							'plugins'           => implode( ',', $tinymcePlugins )
-						)
-					),
+					'options'    => $rteOptions,
 				),
 			),
 		);
@@ -233,18 +242,7 @@ class cnEntryMetabox {
 					'id'         => 'notes',
 					'type'       => 'rte',
 					'value'      => 'getNotes',
-					'options'    => array(
-						'media_buttons' => current_user_can( 'unfiltered_html' ) ? TRUE : FALSE,
-						'tinymce'       => array(
-							'editor_selector'   => 'tinymce',
-							'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',
-							'toolbar2'          => '',
-							'inline_styles'     => TRUE,
-							'relative_urls'     => FALSE,
-							'remove_linebreaks' => FALSE,
-							'plugins'           => implode( ',', $tinymcePlugins )
-						)
-					),
+					'options'    => $rteOptions,
 				),
 			),
 		);

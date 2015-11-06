@@ -1838,13 +1838,15 @@ class cnString {
 		/** @noinspection PhpInternalEntityUsedInspection */
 		$excerpt = trim( force_balance_tags( $excerpt ) );
 
-		$pos = strrpos( $excerpt, '</' );
+		$lastCloseTag = strrpos( $excerpt, '</' );
+		$lastSpace    = strrpos( $excerpt, ' ' );
 
-		if ( FALSE !== $pos ) {
+		// Determine if the string ends with and HTML tag or word.
+		if ( FALSE !== $lastCloseTag && ( FALSE !== $lastSpace && $lastCloseTag > $lastSpace ) ) {
 
 			// Inside last HTML tag
 			if ( $appendMore ) {
-				$excerpt = substr_replace( $excerpt, $atts['more'], $pos, 0 );
+				$excerpt = substr_replace( $excerpt, $atts['more'], $lastCloseTag, 0 );
 			}
 
 		} else {

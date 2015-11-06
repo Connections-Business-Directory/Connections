@@ -1407,6 +1407,7 @@ class cnGeo {
 			'TK' => 'Taranaki',
 			'TM' => 'Tasman',
 			'WA' => 'Waikato',
+			'WR' => 'Wairarapa',
 			'WE' => 'Wellington',
 			'WC' => 'West Coast'
 		);

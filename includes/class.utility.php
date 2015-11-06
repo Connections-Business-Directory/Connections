@@ -1861,6 +1861,231 @@ class cnString {
 	}
 
 	/**
+	 * Truncates string.
+	 *
+	 * Cuts a string to the length of $length and replaces the last characters
+	 * with the ellipsis if the text is longer than length.
+	 *
+	 * Filters:
+	 *   cn_excerpt_length       => change the default excerpt length of 55 words.
+	 *   cn_excerpt_more         => change the default more string of &hellip;
+	 *   cn_excerpt_allowed_tags => change the allowed HTML tags.
+	 *   cn_entry_excerpt        => change returned excerpt
+	 *
+	 * Credit:
+	 * @link http://book.cakephp.org/3.0/en/core-libraries/text.html#truncating-text
+	 *
+	 * @access public
+	 * @since  8.5.3
+	 * @static
+	 *
+	 * @param string $string String to truncate.
+	 * @param array  $atts {
+	 *     Optional. An array of arguments.
+	 *
+	 *     @type int    $length       The length, number of characters to limit the string to.
+	 *     @type string $more         The string appended to the end of the excerpt when $length is exceeded.
+	 *                                Default: &hellip
+	 *     @type bool   $exact        If FALSE, the truncation will occur at the first whitespace after the point at which $length is exceeded.
+	 *                                Default: false
+	 *     @type bool   $html         If TRUE, HTML tags will be respected and will not be cut off.
+	 *                                Default: true
+	 *     @type array  $allowed_tags An array containing the permitted tags.
+	 * }
+	 *
+	 * @return string
+	 */
+	public static function truncate( $string, $atts = array() ) {
+
+		$defaults = array(
+			'length'       => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'         => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
+			'exact'        => FALSE,
+			'html'         => TRUE,
+			'allowed_tags' => apply_filters(
+				'cn_excerpt_allowed_tags',
+				array(
+					'style',
+					'br',
+					'em',
+					'strong',
+					'i',
+					'ul',
+					'ol',
+					'li',
+					'a',
+					'p',
+					'img',
+					'video',
+					'audio',
+				)
+			),
+		);
+
+		if ( ! empty( $defaults['html'] ) && 'utf-8' ===  strtolower( mb_internal_encoding() ) ) {
+
+			$defaults['ellipsis'] = "\xe2\x80\xa6";
+		}
+
+		$atts = wp_parse_args( $atts, $defaults );
+
+		// Strip all shortcode from the text.
+		$string = strip_shortcodes( $string );
+
+		// Strip escaped shortcodes.
+		$string = str_replace( ']]>', ']]&gt;', $string );
+
+		if ( $atts['html'] ) {
+
+			if ( mb_strlen( preg_replace( '/<.*?>/', '', $string ) ) <= $atts['length'] ) {
+
+				return $string;
+			}
+
+			$totalLength = mb_strlen( strip_tags( $atts['more'] ) );
+			$openTags    = array();
+			$truncate    = '';
+
+			$string = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+
+			preg_match_all( '/(<\/?([\w+]+)[^>]*>)?([^<>]*)/', $string, $tags, PREG_SET_ORDER );
+
+			foreach ( $tags as $tag ) {
+
+				if ( ! preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
+
+					if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
+
+						array_unshift( $openTags, $tag[2] );
+
+					} elseif ( preg_match( '/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
+
+						$pos = array_search( $closeTag[1], $openTags );
+
+						if ( $pos !== FALSE ) {
+
+							array_splice( $openTags, $pos, 1 );
+						}
+					}
+
+				}
+
+				$truncate .= $tag[1];
+				$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
+
+				if ( $contentLength + $totalLength > $atts['length'] ) {
+
+					$left           = $atts['length'] - $totalLength;
+					$entitiesLength = 0;
+
+					if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
+
+						foreach ( $entities[0] as $entity ) {
+
+							if ( $entity[1] + 1 - $entitiesLength <= $left ) {
+
+								$left --;
+								$entitiesLength += mb_strlen( $entity[0] );
+
+							} else {
+
+								break;
+							}
+						}
+					}
+
+					$truncate .= mb_substr( $tag[3], 0, $left + $entitiesLength );
+					break;
+
+				} else {
+
+					$truncate .= $tag[3];
+					$totalLength += $contentLength;
+				}
+
+				if ( $totalLength >= $atts['length'] ) {
+					break;
+				}
+
+			}
+
+		} else {
+
+			if ( mb_strlen( $string ) <= $atts['length'] ) {
+
+				return $string;
+			}
+
+			$truncate = mb_substr( $string, 0, $atts['length'] - mb_strlen( $atts['more'] ) );
+		}
+
+		if ( ! $atts['exact'] ) {
+
+			$spacepos = mb_strrpos( $truncate, ' ' );
+
+			if ( $atts['html'] ) {
+
+				$truncateCheck = mb_substr( $truncate, 0, $spacepos );
+				$lastOpenTag   = mb_strrpos( $truncateCheck, '<' );
+				$lastCloseTag  = mb_strrpos( $truncateCheck, '>' );
+
+				if ( $lastOpenTag > $lastCloseTag ) {
+
+					preg_match_all( '/<[\w]+[^>]*>/s', $truncate, $lastTagMatches );
+
+					$lastTag  = array_pop( $lastTagMatches[0] );
+					$spacepos = mb_strrpos( $truncate, $lastTag ) + mb_strlen( $lastTag );
+				}
+
+				$bits = mb_substr( $truncate, $spacepos );
+
+				preg_match_all( '/<\/([a-z]+)>/', $bits, $droppedTags, PREG_SET_ORDER );
+
+				if ( ! empty( $droppedTags ) ) {
+
+					if ( ! empty( $openTags ) ) {
+
+						foreach ( $droppedTags as $closingTag ) {
+
+							if ( ! in_array( $closingTag[1], $openTags ) ) {
+
+								array_unshift( $openTags, $closingTag[1] );
+							}
+						}
+
+					} else {
+
+						foreach ( $droppedTags as $closingTag ) {
+
+							$openTags[] = $closingTag[1];
+						}
+					}
+				}
+			}
+
+			$truncate = mb_substr( $truncate, 0, $spacepos );
+
+			// If truncate still empty, then we don't need to count ellipsis in the cut.
+			if ( 0 === mb_strlen( $truncate ) ) {
+
+				$truncate = mb_substr( $string, 0, $atts['length'] );
+			}
+		}
+
+		$truncate .= $atts['more'];
+
+		if ( $atts['html'] ) {
+
+			foreach ( $openTags as $tag ) {
+
+				$truncate .= '</' . $tag . '>';
+			}
+		}
+
+		return $truncate;
+	}
+
+	/**
 	 * Generate a more truly "random" alpha-numeric string.
 	 *
 	 * NOTE:  If @see openssl_random_pseudo_bytes() does not exist, this will silently fallback to

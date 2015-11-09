@@ -1,6 +1,7 @@
 /*
  * Common
  */
+#cn-list div.vcard,
 #cn-list .vcard span {
 	display: initial;
 }

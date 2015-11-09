@@ -1922,7 +1922,7 @@ class cnString {
 			),
 		);
 
-		if ( ! empty( $defaults['html'] ) && 'utf-8' ===  strtolower( mb_internal_encoding() ) ) {
+		if ( ! empty( $defaults['html'] ) && 'utf-8' === strtolower( mb_internal_encoding() ) ) {
 
 			$defaults['ellipsis'] = "\xe2\x80\xa6";
 		}

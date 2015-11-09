@@ -161,6 +161,8 @@ jQuery(document).ready( function($) {
 				e.preventDefault();
 			});
 
+			$('#cn-relations').sortable();
+
 			// Hook in the jQuery Validate on the form.
 			CN_Form.validate( $( '#cn-form' ) );
 
@@ -434,7 +436,7 @@ jQuery(document).ready( function($) {
 				token
 				);
 
-			$('#cn-relations').append( '<div id="relation-row-' + token + '" class="relation" style="display: none;">' + template + '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' + token + '">Remove</a>' + '</div>' );
+			$('#cn-relations').append( '<li id="relation-row-' + token + '" class="cn-relation" style="display: none;"><i class="fa fa-sort"></i> ' + template + '<a href="#" class="cn-remove cn-button button button-warning" data-type="relation" data-token="' + token + '">Remove</a>' + '</li>' );
 			$('#relation-row-' + token).slideDown();
 
 			// Add jQuery Chosen to the family name and relation fields.

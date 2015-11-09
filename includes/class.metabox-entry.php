@@ -722,38 +722,38 @@ class cnEntryMetabox {
 
 		$html .= '<div class="cn-metabox" id="cn-metabox-section-family">';
 
-			$html .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
-			$html .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
-
-			$html .= '<div id="cn-relations">';
-
 			// --> Start template for Family <-- \\
 			$html .= '<textarea id="cn-relation-template" style="display: none">';
 
-				$html .= cnHTML::select(
-						array(
-							'class'    => 'family-member-name',
-							'id'       => 'family_member[::FIELD::][entry_id]',
-							'default'  => __( 'Select Entry', 'connections' ),
-							'options'  => $individuals,
-							'enhanced' => TRUE,
-							'return'   => TRUE,
-							)
-						);
+			$html .= cnHTML::select(
+				array(
+					'class'    => 'family-member-name',
+					'id'       => 'family_member[::FIELD::][entry_id]',
+					'default'  => __( 'Select Entry', 'connections' ),
+					'options'  => $individuals,
+					'enhanced' => TRUE,
+					'return'   => TRUE,
+				)
+			);
 
-				$html .= cnHTML::select(
-						array(
-							'class'    => 'family-member-relation',
-							'id'       => 'family_member[::FIELD::][relation]',
-							'default'  => __( 'Select Relation', 'connections' ),
-							'options'  => $relations,
-							'enhanced' => TRUE,
-							'return'   => TRUE,
-							)
-						);
+			$html .= cnHTML::select(
+				array(
+					'class'    => 'family-member-relation',
+					'id'       => 'family_member[::FIELD::][relation]',
+					'default'  => __( 'Select Relation', 'connections' ),
+					'options'  => $relations,
+					'enhanced' => TRUE,
+					'return'   => TRUE,
+				)
+			);
 
 			$html .= '</textarea>';
 			// --> End template for Family <-- \\
+
+			$html .= '<label for="family_name">' . __( 'Family Name', 'connections' ) . ':</label>';
+			$html .= '<input type="text" name="family_name" value="' . $entry->getFamilyName() . '" />';
+
+			$html .= '<ul id="cn-relations">';
 
 			if ( $entry->getFamilyMembers() ) {
 
@@ -763,7 +763,7 @@ class cnEntryMetabox {
 
 					if ( array_key_exists( $key, $individuals ) ) {
 
-						$html .= '<div id="relation-row-' . $token . '" class="relation">';
+						$html .= '<li id="relation-row-' . $token . '" class="cn-relation"><i class="fa fa-sort"></i> ';
 
 							$html .= cnHTML::select(
 								array(
@@ -791,12 +791,12 @@ class cnEntryMetabox {
 
 							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
 
-						$html .= '</div>';
+						$html .= '</li>';
 					}
 				}
 			}
 
-			$html .= '</div>';
+			$html .= '</ul>';
 
 			$html .= '<p class="add"><a id="add-relation" class="button">' . __( 'Add Relation', 'connections' ) . '</a></p>';
 

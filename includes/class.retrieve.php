@@ -759,6 +759,9 @@ class cnRetrieve {
 		// If a geo-bound query is being performed the `radius` order field can be used.
 		if ( ! empty( $atts['latitude'] ) && ! empty( $atts['longitude'] ) ) array_push( $orderFields, 'distance' );
 
+		// Get registered date types.
+		$dateTypes = array_keys( $instance->options->getDateOptions() );
+
 		// Convert to an array
 		if ( ! is_array( $atts['order_by'] ) ) {
 			// Trim the space characters if present.
@@ -812,9 +815,17 @@ class cnRetrieve {
 
 				// If we're ordering by anniversary or birthday, we need to convert the string to a UNIX timestamp so it is properly ordered.
 				// Otherwise, it is sorted as a string which can give some very odd results compared to what is expected.
-				if ( $field[0] == 'anniversary' || $field[0] == 'birthday' ) {
+				//if ( $field[0] == 'anniversary' || $field[0] == 'birthday' ) {
+				//
+				//	$field[0] = 'FROM_UNIXTIME( ' . $field[0] . ' )';
+				//}
 
-					$field[0] = 'FROM_UNIXTIME( ' . $field[0] . ' )';
+				if ( in_array( $field[0], $dateTypes ) ) {
+
+					if ( ! isset( $join['date'] ) ) $join['date'] = 'INNER JOIN ' . CN_ENTRY_DATE_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_DATE_TABLE . '.entry_id )';
+					$where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_DATE_TABLE . '.type = %s', $field[0] );
+
+					$field[0] = 'date';
 				}
 
 				// Check to see if an order flag was set and is a valid order flag.

@@ -808,7 +808,7 @@ class cnGeo {
 			'NG' => 'Nigeria',
 			'NU' => 'Niue',
 			'NF' => 'Norfolk Island',
-			'KR' => 'North Korea',
+			'KP' => 'North Korea',
 			'MP' => 'Northern Mariana Islands',
 			'NO' => 'Norway',
 			'OM' => 'Oman',
@@ -851,7 +851,7 @@ class cnGeo {
 			'SO' => 'Somalia',
 			'ZA' => 'South Africa',
 			'GS' => 'South Georgia',
-			'KP' => 'South Korea',
+			'KR' => 'South Korea',
 			'SS' => 'South Sudan',
 			'ES' => 'Spain',
 			'LK' => 'Sri Lanka',
@@ -1407,6 +1407,7 @@ class cnGeo {
 			'TK' => 'Taranaki',
 			'TM' => 'Tasman',
 			'WA' => 'Waikato',
+			'WR' => 'Wairarapa',
 			'WE' => 'Wellington',
 			'WC' => 'West Coast'
 		);

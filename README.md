@@ -7,7 +7,7 @@
   
 **Tested up to:** 4.3
   
-**Stable tag:** 8.5.2
+**Stable tag:** 8.5.3
   
 **License:** GPLv2 or later
   
@@ -121,7 +121,7 @@ Connections Business Directory has been embraced around the world and has been t
 * Serbian (Latin) [3% Complete]
 * Spanish (Latin America) [51% Complete]
 * Spanish (Spain) [68% Complete]
-* Thai [1% Complete]
+* Sweden (Swedish) [1% Complete]
 * Turkish (Turkey) [60% Complete]
 
 ## Credits: ##
@@ -228,6 +228,25 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 ## Changelog ##
 
 ## Changelog ##
+
+### 8.5.3 11/09/2015 ###
+* FEATURE: Family relations are now sortable when adding/editing a Family entry.
+* FEATURE: Enable support to order_by all date types.
+* NEW: Introduce cnString::truncate().
+* BUG: Fix bug where the "more" string would be inserted mid excerpt.
+* BUG: Correct country codes for North/South Korea.
+* TWEAK: Add Wairarapa to NZ regions.
+* TWEAK: Allow users with the `unfiltered_html` capability to have access to the full rich text editor.
+* TWEAK: Add logic to the cnShortcode::single() filter to basically ignore the Divi theme. A better fix will have to be implemented at a later date but this will be more than sufficient for now.
+* TWEAK: Add `jquery-ui-sortable` as an admin dependency.
+* TWEAK: Add additional CSS to help ensure themes do not hide the vcard class used within the shortcode.
+* OTHER: Update minified CSS/JS files.
+* I18N: Update the POT file.
+* I18N: Update MO files.
+* I18N: Correct textdomain on string.
+* I18N: Add Swedish (Sweden) translation.
+* I18N: Remove Thai translation.
+* I18N: Update translations completion in readme.txt.
 
 ### 8.5.2 10/23/2015 ###
 * NEW: Add support for term meta queries.
@@ -1222,4 +1241,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 ### 8.5.2 ###
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+### 8.5.3 ###
 It is recommended to backup before updating. Requires WordPress >= 4.1.

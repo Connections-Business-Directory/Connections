@@ -679,17 +679,17 @@ and (max-width: 780px) {
 
 /* Family entry/relations. */
 #cn-relations {
-	text-align: center
+	/*text-align: center*/
 }
 
 #cn-relations select {
-	text-align: left;
+	/*text-align: left;*/
 	width: 250px;
 }
 
 #cn-relations li {
-	text-align: left;
-	width: 250px;
+	/*text-align: left;*/
+	/*width: 250px;*/
 }
 
 /* The "Address" metabox. */
@@ -859,7 +859,9 @@ form .add {
 	vertical-align: baseline;
 }
 
+#cn-relations .fa-sort,
 .cn-sortable-checklist .fa-sort {
+	cursor: move;
 	padding-bottom: 4px;
 	vertical-align: middle;
 }

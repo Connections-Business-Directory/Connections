@@ -181,8 +181,14 @@ class cnShortcode {
 	/**
 	 * Callback for `the_content` filter.
 	 *
-	 * Checks for the `cn-entry-slug` query var and if it is set. replace the post content with a shortcode to query
+	 * Checks for the `cn-entry-slug` query var and if it is set. Replace the post content with a shortcode to query
 	 * only the queried entry.
+	 *
+	 * NOTE: The Divi theme has a visual page layout builder which uses shortcodes to generate the layout.
+	 *       So if Divi is the child or root theme, replace just the shortcode instance rather than the post contents.
+	 *       BUG: If multiple instances of the shortcode are on the page, only the first instance will be replaced,
+	 *       defeating the purpose of this code -- to only display the first instance on the shortcode.
+	 *       Possible solution is to check for multiple matches and replace all but the initial match with an empty string.
 	 *
 	 * @param string $content Post content.
 	 *
@@ -202,8 +208,30 @@ class cnShortcode {
 
 			$shortcode = self::write( 'connections', $atts );
 
-			//$content = str_replace( $matches[0][0], $shortcode, $content );
-			$content = $shortcode;
+			$theme  = wp_get_theme();
+			$parent = $theme->parent();
+
+			if ( FALSE === $parent ) {
+
+				$replace = 'Divi' === $theme->get( 'Name' ) ? TRUE : FALSE;
+
+			} elseif ( $parent instanceof WP_Theme ) {
+
+				$replace = 'Divi' === $parent->get( 'Name' ) ? TRUE : FALSE;
+
+			} else {
+
+				$replace = FALSE;
+			}
+
+			if ( $replace ) {
+
+				$content = str_replace( $matches[0][0], $shortcode, $content );
+
+			} else {
+
+				$content = $shortcode;
+			}
 		}
 
 		//return '<!-- [connections]' . print_r( $atts, true ) . ' $content: ' . $content . ' $old: ' . $x .' -->' . $content;

@@ -115,7 +115,7 @@ Connections Business Directory has been embraced around the world and has been t
 * Serbian (Latin) [3% Complete]
 * Spanish (Latin America) [51% Complete]
 * Spanish (Spain) [68% Complete]
-* Thai [1% Complete]
+* Sweden (Swedish) [1% Complete]
 * Turkish (Turkey) [60% Complete]
 
 == Credits: ==

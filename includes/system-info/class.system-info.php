@@ -342,6 +342,121 @@ class cnSystem_Info {
 		return $host;
 	}
 
+	/**
+	 * Render the result of the DESCRIBE `$table_name` to mimic the output from the commandline.
+	 *
+	 * @access public
+	 * @since  8.5.4
+	 * @static
+	 *
+	 * @param string $tableName The table name to render the DESCRIBE query result.
+	 *
+	 * @return string
+	 */
+	public static function describeTable( $tableName ) {
+
+		/** var wpdb $wpdb */
+		global $wpdb;
+
+		$table  = '';
+		$column = array();
+
+		$structure = $wpdb->get_results( 'DESCRIBE ' . $tableName, ARRAY_A );
+		$headers   = self::getTableHeaders( array_shift( $structure ) );
+		$widths    = self::getColumnWidths( $structure );
+
+		foreach ( $headers as $header ) {
+
+			$column[] = str_pad( '', $widths[ $header ], '-', STR_PAD_RIGHT );
+		}
+
+		$divider = '+-' . implode( '-+-', $column ) . '-+' . PHP_EOL;
+
+		$table .= $divider;
+		$column = array();
+
+		foreach ( $headers as $header ) {
+
+			$column[] = str_pad( $header, $widths[ $header ], ' ', STR_PAD_RIGHT );
+		}
+
+		$table .= '| ' . implode( ' | ', $column ) . ' |' . PHP_EOL;
+		$table .= $divider;
+		$column = array();
+
+		foreach ( $structure as $row ) {
+
+			foreach ( $row as $header => $cell ) {
+
+				$column[] = str_pad( $cell, $widths[ $header ], ' ', STR_PAD_RIGHT );
+			}
+
+			$table .= '| ' . implode( ' | ', $column ) . ' |' . PHP_EOL;
+			$table .= $divider;
+			$column = array();
+		}
+
+		return $table;
+	}
+
+	/**
+	 * Use to get the column header names.
+	 *
+	 * @access private
+	 * @since  8.5.4
+	 * @static
+	 *
+	 * @param array $structure The result a $wpdb->get_results( 'DESCRIBE ' . $tableName, ARRAY_A ) query.
+	 *
+	 * @return array
+	 */
+	private static function getTableHeaders( $structure ) {
+
+		$headers = array_keys( $structure );
+
+		return $headers;
+	}
+
+	/**
+	 * Get the max column width.
+	 *
+	 * @access private
+	 * @since  8.5.4
+	 * @static
+	 *
+	 * @param array $structure The result a $wpdb->get_results( 'DESCRIBE ' . $tableName, ARRAY_A ) query.
+	 *
+	 * @return array
+	 */
+	private static function getColumnWidths( $structure ) {
+
+		$widths = array();
+
+		// Loop through the data for each column meta.
+		foreach ( $structure as $row ) {
+
+			// Loop through the meta for each column.
+			foreach ( $row as $header => $value ) {
+
+				// Check to see if the column width for column meta was already recorded.
+				if ( isset( $widths[ $header ] ) ) {
+
+					// Check the existing recorded column width  against the current value width, record the larger of the two.
+					$widths[ $header ] = strlen( $value ) > $widths[ $header ] ? strlen( $value ) : $widths[ $header ];
+
+				} else {
+
+					// Record the column width of the meta value.
+					$widths[ $header ] = strlen( $value );
+				}
+
+				// In case there is no value, use the column name as the column width.
+				$widths[ $header ] = strlen( $header ) > $widths[ $header ] ? strlen( $header ) : $widths[ $header ];
+			}
+		}
+
+		return $widths;
+	}
 }
 
 // Register email log type.

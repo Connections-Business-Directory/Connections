@@ -148,18 +148,6 @@ Version:                    <?php echo $instance->options->getVersion() . PHP_EO
 DB Version:                 <?php echo $instance->options->getDBVersion() . PHP_EOL; ?>
 
 CN_MULTISITE_ENABLED:       <?php echo CN_MULTISITE_ENABLED ? __( 'TRUE', 'connections') : __( 'FALSE', 'connections' ) . PHP_EOL; ?>
-CN_ENTRY_TABLE:             <?php echo CN_ENTRY_TABLE . PHP_EOL; ?>
-CN_ENTRY_ADDRESS_TABLE:     <?php echo CN_ENTRY_ADDRESS_TABLE . PHP_EOL; ?>
-CN_ENTRY_PHONE_TABLE:       <?php echo CN_ENTRY_PHONE_TABLE . PHP_EOL; ?>
-CN_ENTRY_EMAIL_TABLE:       <?php echo CN_ENTRY_EMAIL_TABLE . PHP_EOL; ?>
-CN_ENTRY_MESSENGER_TABLE:   <?php echo CN_ENTRY_MESSENGER_TABLE . PHP_EOL; ?>
-CN_ENTRY_SOCIAL_TABLE:      <?php echo CN_ENTRY_SOCIAL_TABLE . PHP_EOL; ?>
-CN_ENTRY_LINK_TABLE:        <?php echo CN_ENTRY_LINK_TABLE . PHP_EOL; ?>
-CN_ENTRY_DATE_TABLE:        <?php echo CN_ENTRY_DATE_TABLE . PHP_EOL; ?>
-CN_ENTRY_TABLE_META:        <?php echo CN_ENTRY_TABLE_META . PHP_EOL; ?>
-CN_TERMS_TABLE:             <?php echo CN_TERMS_TABLE . PHP_EOL; ?>
-CN_TERM_TAXONOMY_TABLE:     <?php echo CN_TERM_TAXONOMY_TABLE . PHP_EOL; ?>
-CN_TERM_RELATIONSHIP_TABLE: <?php echo CN_TERM_RELATIONSHIP_TABLE . PHP_EOL; ?>
 CN_DIR_NAME:                <?php echo CN_DIR_NAME . PHP_EOL; ?>
 CN_BASE_NAME:               <?php echo CN_BASE_NAME . PHP_EOL; ?>
 CN_PATH:                    <?php echo CN_PATH . PHP_EOL; ?>
@@ -172,6 +160,57 @@ CN_TEMPLATE_PATH:           <?php echo CN_TEMPLATE_PATH . PHP_EOL; ?>
 CN_TEMPLATE_URL:            <?php echo CN_TEMPLATE_URL . PHP_EOL; ?>
 CN_TEMPLATE_RELATIVE_URL:   <?php echo CN_TEMPLATE_RELATIVE_URL . PHP_EOL; ?>
 
+-- Connections Table Structure
+
+CN_ENTRY_TABLE:             <?php echo CN_ENTRY_TABLE . PHP_EOL; ?>
+CN_ENTRY_ADDRESS_TABLE:     <?php echo CN_ENTRY_ADDRESS_TABLE . PHP_EOL; ?>
+CN_ENTRY_PHONE_TABLE:       <?php echo CN_ENTRY_PHONE_TABLE . PHP_EOL; ?>
+CN_ENTRY_EMAIL_TABLE:       <?php echo CN_ENTRY_EMAIL_TABLE . PHP_EOL; ?>
+CN_ENTRY_MESSENGER_TABLE:   <?php echo CN_ENTRY_MESSENGER_TABLE . PHP_EOL; ?>
+CN_ENTRY_SOCIAL_TABLE:      <?php echo CN_ENTRY_SOCIAL_TABLE . PHP_EOL; ?>
+CN_ENTRY_LINK_TABLE:        <?php echo CN_ENTRY_LINK_TABLE . PHP_EOL; ?>
+CN_ENTRY_DATE_TABLE:        <?php echo CN_ENTRY_DATE_TABLE . PHP_EOL; ?>
+CN_ENTRY_TABLE_META:        <?php echo CN_ENTRY_TABLE_META . PHP_EOL; ?>
+CN_TERMS_TABLE:             <?php echo CN_TERMS_TABLE . PHP_EOL; ?>
+CN_TERM_TAXONOMY_TABLE:     <?php echo CN_TERM_TAXONOMY_TABLE . PHP_EOL; ?>
+CN_TERM_RELATIONSHIP_TABLE: <?php echo CN_TERM_RELATIONSHIP_TABLE . PHP_EOL; ?>
+
+DESCRIBE <?php echo CN_ENTRY_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_TABLE ); ?>
+
+DESCRIBE <?php echo CN_ENTRY_ADDRESS_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_ADDRESS_TABLE ); ?>
+
+DESCRIBE <?php echo CN_ENTRY_PHONE_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_PHONE_TABLE ); ?>
+
+DESCRIBE <?php echo CN_ENTRY_EMAIL_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_EMAIL_TABLE ); ?>
+
+DESCRIBE <?php echo CN_ENTRY_MESSENGER_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_MESSENGER_TABLE ); ?>
+
+DESCRIBE <?php echo CN_ENTRY_SOCIAL_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_SOCIAL_TABLE ); ?>
+
+DESCRIBE <?php echo CN_ENTRY_LINK_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_LINK_TABLE ); ?>
+
+DESCRIBE <?php echo CN_ENTRY_DATE_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_DATE_TABLE ); ?>
+
+DESCRIBE <?php echo CN_ENTRY_TABLE_META . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_ENTRY_TABLE_META ); ?>
+
+DESCRIBE <?php echo CN_TERMS_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_TERMS_TABLE ); ?>
+
+DESCRIBE <?php echo CN_TERM_TAXONOMY_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_TERM_TAXONOMY_TABLE ); ?>
+
+DESCRIBE <?php echo CN_TERM_RELATIONSHIP_TABLE . PHP_EOL; ?>
+<?php echo cnSystem_Info::describeTable( CN_TERM_RELATIONSHIP_TABLE ); ?>
+
 -- Connections Folder Permissions
 
 Image Path Exists:          <?php echo cnFormatting::toYesNo( is_dir( CN_IMAGE_PATH ) ) . PHP_EOL; ?>
@@ -182,7 +221,6 @@ Template Path Writeable:    <?php echo cnFormatting::toYesNo( is_writeable( CN_C
 
 Cache Path Exists:          <?php echo cnFormatting::toYesNo( is_dir( CN_CACHE_PATH ) ) . PHP_EOL; ?>
 Cache Path Writeable:       <?php echo cnFormatting::toYesNo( is_writeable( CN_CACHE_PATH ) ) . PHP_EOL; ?>
-
 <?php
 // Get plugins that have an update
 $updates = get_plugin_updates();

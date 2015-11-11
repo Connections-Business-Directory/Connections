@@ -189,7 +189,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			foreach ( $sections as $key => $section ) {
 
-				// Store the position values so an array multi sort can be done to postion the tab sections in the desired order.
+				// Store the position values so an array multi sort can be done to position the tab sections in the desired order.
 				( isset( $section['position'] ) && ! empty( $section['position'] ) ) ? $sort[] = $section['position'] : $sort[] = 0;
 			}
 

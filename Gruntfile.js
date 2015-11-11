@@ -259,9 +259,9 @@ module.exports = function(grunt) {
 				cwd: config.uglify.core.src,
 				src: [ '*.js', '!*.min.js' ]
 			}
-		}/*,
+		},
 
-		log: {
+		/*log: {
 			lint_css: {
 				options: {
 					keepColors: false,
@@ -270,6 +270,14 @@ module.exports = function(grunt) {
 				}
 			}
 		}*/
+
+		wp_readme_to_markdown: {
+			your_target: {
+				files: {
+					'readme.md': 'readme.txt'
+				}
+			}
+		}
 	});
 
 	//require('logfile-grunt')(grunt);
@@ -317,4 +325,6 @@ module.exports = function(grunt) {
 
 	// Build task(s).
 	grunt.registerTask('build', ['clean', 'copy', 'compress']);
+
+	grunt.registerTask( 'readme-to-md', ['wp_readme_to_markdown'] );
 };

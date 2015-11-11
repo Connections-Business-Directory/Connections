@@ -202,6 +202,17 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.5.4 11/11/2015 =
+* NEW: Add DESCRIBE table_name output to the system info output.
+* TWEAK: Use HTML entity code for brackets in template help text to prevent plugins that add the do_shortcode callback to the gettext filter. This will prevent WordPress from attempting to embed the directory instead of displaying the text.
+* TWEAK: Adjust CSS so themes do not hide the vcard class while not breaking the layout of the Circled template.
+* OTHER: Removed `sensor` query var when registering the URL for the Google Maps API as it is not longer required.
+* OTHER: Trim changelog section readme.txt because it was too long for wp.org to parse properly.
+* OTHER: Correct misspelling in inline code doc.
+* I18N: Use `esc_html__()` for the settings section description callbacks to prevent translations from  causing an invalid syntax PHP error.
+* I18N: Update the POT file.
+* I18N: Update MO files.
+
 = 8.5.3 11/09/2015 =
 * FEATURE: Family relations are now sortable when adding/editing a Family entry.
 * FEATURE: Enable support to order_by all date types.
@@ -748,4 +759,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.3 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.4 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

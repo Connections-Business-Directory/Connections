@@ -277,6 +277,14 @@ module.exports = function(grunt) {
 					'readme.md': 'readme.txt'
 				}
 			}
+		},
+
+		phpdocumentor: {
+			dist: {
+				options: {
+					ignore: 'node_modules'
+				}
+			}
 		}
 	});
 
@@ -326,5 +334,9 @@ module.exports = function(grunt) {
 	// Build task(s).
 	grunt.registerTask('build', ['clean', 'copy', 'compress']);
 
+	// Convert the readme.txt file to Markdown.
 	grunt.registerTask( 'readme-to-md', ['wp_readme_to_markdown'] );
+
+	// Build the docs with phpdocumentor.
+	grunt.registerTask( 'docs', ['phpdocumentor:dist'] );
 };

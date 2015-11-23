@@ -132,6 +132,7 @@ class cnAdminActions {
 		add_action( 'wp_ajax_export_csv_phone_numbers', array( __CLASS__, 'csvExportPhoneNumbers' ) );
 		add_action( 'wp_ajax_export_csv_email', array( __CLASS__, 'csvExportEmail' ) );
 		add_action( 'wp_ajax_export_csv_dates', array( __CLASS__, 'csvExportDates' ) );
+		add_action( 'wp_ajax_export_csv_term', array( __CLASS__, 'csvExportTerm' ) );
 		add_action( 'wp_ajax_export_csv_all', array( __CLASS__, 'csvExportAll' ) );
 		add_action( 'cn_download_batch_export', array( __CLASS__, 'csvExportBatchDownload' ) );
 
@@ -420,6 +421,14 @@ class cnAdminActions {
 				$export->download();
 				break;
 
+			case 'category':
+
+				require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
+
+				$export = new cnCSV_Batch_Export_Term();
+				$export->download();
+				break;
+
 			case 'all':
 
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
@@ -548,6 +557,33 @@ class cnAdminActions {
 		$nonce  = wp_create_nonce( 'export_csv_dates' );
 
 		self::csvBatchExport( $export, 'date', $step, $nonce );
+	}
+
+	/**
+	 * Admin ajax callback to batch export the category data.
+	 *
+	 * @access private
+	 * @since  8.5.5
+	 *
+	 * @uses   check_ajax_referer()
+	 * @uses   absint()
+	 * @uses   cnCSV_Batch_Export_Dates()
+	 * @uses   wp_create_nonce()
+	 * @uses   cnAdminActions::csvBatchExport()
+	 */
+	public static function csvExportTerm() {
+
+		check_ajax_referer( 'export_csv_term' );
+
+		require_once CN_PATH . 'includes/export/class.csv-export.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
+
+		$step   = absint( $_POST['step'] );
+		$export = new cnCSV_Batch_Export_Term();
+		$nonce  = wp_create_nonce( 'export_csv_term' );
+
+		self::csvBatchExport( $export, 'category', $step, $nonce );
 	}
 
 	/**

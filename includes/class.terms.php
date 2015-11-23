@@ -2820,7 +2820,7 @@ class cnTerm {
 	 * @uses   cnTerm::padCounts()
 	 * @uses   cnTerm::children()
 	 *
-	 * @return array|WP_Error Indexed array of term objects. Will return WP_Error, if any of $taxonomies do not exist.*
+	 * @return array|int|WP_Error Indexed array of term objects. Will return WP_Error, if any of $taxonomies do not exist.*
 	 */
 	public static function getTaxonomyTerms( $taxonomies = array( 'category' ), $atts = array() ) {
 
@@ -3332,7 +3332,7 @@ class cnTerm {
 
 			$term_count = $wpdb->get_var( $sql );
 
-			return $term_count;
+			return absint( $term_count );
 		}
 
 		$terms = $wpdb->get_results( $sql );

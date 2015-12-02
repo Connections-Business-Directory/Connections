@@ -3250,10 +3250,7 @@ class cnRetrieve {
 	 */
 	public function categories() {
 
-		/** @var $connections connectionsLoad */
-		global $connections;
-
-		return $connections->term->getTerms( 'category' );
+		return cnTerm::tree( 'category' );
 	}
 
 	/**
@@ -3263,9 +3260,8 @@ class cnRetrieve {
 	 * @return object
 	 */
 	public function category( $id ) {
-		global $connections;
 
-		return $connections->term->getTerm( $id, 'category' );
+		return cnTerm::get( $id, 'category' );
 	}
 
 	/**

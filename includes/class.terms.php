@@ -1624,7 +1624,7 @@ class cnTerm {
 		/**
 		 * Fires immediately after a new term is created, before the term cache is cleaned.
 		 *
-		 * @since 8.6.1
+		 * @since 8.1.6
 		 *
 		 * @param int    $term_id  Term ID.
 		 * @param int    $tt_id    Term taxonomy ID.
@@ -1638,7 +1638,7 @@ class cnTerm {
 		 * The dynamic portion of the hook name, $taxonomy, refers
 		 * to the slug of the taxonomy the term was created for.
 		 *
-		 * @since 8.6.1
+		 * @since 8.1.6
 		 *
 		 * @param int $term_id Term ID.
 		 * @param int $tt_id   Term taxonomy ID.
@@ -1648,7 +1648,7 @@ class cnTerm {
 		/**
 		 * Filter the term ID after a new term is created.
 		 *
-		 * @since 8.6.1
+		 * @since 8.1.6
 		 *
 		 * @param int $term_id Term ID.
 		 * @param int $tt_id   Taxonomy term ID.
@@ -1660,7 +1660,7 @@ class cnTerm {
 		/**
 		 * Fires after a new term is created, and after the term cache has been cleaned.
 		 *
-		 * @since 8.6.1
+		 * @since 8.1.6
 		 */
 		do_action( "cn_created_term", $term_id, $tt_id, $taxonomy );
 
@@ -1668,7 +1668,7 @@ class cnTerm {
 		 * Fires after a new term in a specific taxonomy is created, and after the term
 		 * cache has been cleaned.
 		 *
-		 * @since 8.6.1
+		 * @since 8.1.6
 		 *
 		 * @param int $term_id Term ID.
 		 * @param int $tt_id   Term taxonomy ID.

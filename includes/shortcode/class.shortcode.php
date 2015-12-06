@@ -36,7 +36,7 @@ class cnShortcode {
 		// remove_filter( 'the_content', 'wpautop' );
 
 		// Run this early, before core WP filters.
-		add_filter( 'the_content', array( __CLASS__, 'single' ), 7 );
+		add_filter( 'the_content', array( __CLASS__, 'single' ), 6 );
 	}
 
 	/**

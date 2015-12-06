@@ -310,7 +310,7 @@ module.exports = function(grunt) {
 	grunt.registerTask( 'minify-css:jqueryui', [ 'cssmin:jqueryui' ] );
 
 	// Minify JavaScript
-	grunt.registerTask('minify-js', 'uglify');
+	grunt.registerTask( 'minify-js', 'uglify' );
 
 	// Autoprefix CSS
 	grunt.registerTask( 'prefix-css', [ 'autoprefixer:core', 'autoprefixer:jqueryui' ] );

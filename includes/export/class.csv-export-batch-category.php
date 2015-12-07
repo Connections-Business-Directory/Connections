@@ -135,7 +135,8 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 
 		foreach ( $terms as $term ) {
 
-			$text = "{$term->name}|{$term->slug}";
+			//$text = "{$term->name}|{$term->slug}";
+			$text = '';
 
 			$this->_buildHierarchy( $term, $text );
 
@@ -159,7 +160,15 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 		if ( $term->parent ) {
 
 			$parent = cnTerm::get( $term->parent, $term->taxonomy );
-			$text   = "{$parent->name}|{$parent->slug}" . ' > ' . $text;
+
+			if ( 0 == strlen( $text ) ) {
+
+				$text = "{$parent->name}|{$parent->slug}";
+
+			} else {
+
+				$text = "{$parent->name}|{$parent->slug}" . ' > ' . $text;
+			}
 
 			$this->_buildHierarchy( $parent, $text );
 		}

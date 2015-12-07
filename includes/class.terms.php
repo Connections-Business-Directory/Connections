@@ -1181,6 +1181,10 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see term_exists() in WordPress core ../wp-includes/taxonomy.php
 	 *
+	 * NOTE:
+	 *     By default MySQL string comparisons are case insensitive unless the table collation is case sensitive.
+	 *     If a case sensitive search is required and the table collation is case insensitive then set strict to TRUE.
+	 *
 	 * @access public
 	 * @since  8.1.6
 	 * @static
@@ -1196,12 +1200,13 @@ class cnTerm {
 	 * @param int|string $term     The term to check.
 	 * @param string     $taxonomy The taxonomy name.
 	 * @param int        $parent   ID of parent term under which to confine the exists search.
+	 * @param bool       $strict   Whether or not to perform a case sensitive query.
 	 *
 	 * @return mixed Returns 0 if the term does not exist. Returns the term ID if no taxonomy is specified
 	 *               and the term ID exists. Returns an array of the term ID and the term taxonomy ID
 	 *               if the taxonomy is specified and the pairing exists.
 	 */
-	public static function exists( $term, $taxonomy = '', $parent = 0 ) {
+	public static function exists( $term, $taxonomy = '', $parent = 0, $strict = FALSE ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
@@ -1237,8 +1242,9 @@ class cnTerm {
 			return 0;
 		}
 
-		$where             = 't.slug = %s';
-		$else_where        = 't.name = %s';
+		$binary            = $strict ? 'BINARY ' : '';
+		$where             = $binary . 't.slug = %s';
+		$else_where        = $binary .'t.name = %s';
 		$where_fields      = array( $slug );
 		$else_where_fields = array( $term );
 

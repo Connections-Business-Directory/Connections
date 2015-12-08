@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.1
 Tested up to: 4.3
-Stable tag: 8.5.4
+Stable tag: 8.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -201,6 +201,29 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 == Changelog ==
 
 == Changelog ==
+
+= 8.5.5 12/08/2015 =
+* NEW: Bulk export the categories as a SCV file.
+* NEW: Add support to bulk import **nested** categories.
+* BUG: When querying the term count field, return an int instead of string.
+* TWEAK: Increase the filter priority for processing single entry view.
+* TWEAK: Allow case sensitive term exists checks on case insensitive table collations.
+* TWEAK: Remove the unfiltered_upload capability from users in cnUpload::file() to enforce the file mime type check.
+* TWEAK: Another CSS tweak to help ensure themes do not hide the vcard class.
+* TWEAK: Add delimiter option to cnFunction::parseStringList().
+* TWEAK: Update cnRetrieve::entries() to use cnFunction::parseStringList() to simplify code.
+* OTHER: Remove use of deprecated methods in cnRetrieve::categories() and cnRetrieve::category().
+* OTHER: Update minified files.
+* DEV: Update .gitignore to ignore the /docs directory.
+* DEV: Update .gitiattributes to ignore the /docs directory.
+* DEV: Add grunt-phpdocumentor task.
+* DEV: phpDoc fixes in cnRetrieve.
+* DEV: phpDoc fixes for filters in cnTerm::insert().
+* DEV: Add missing phpDoc  to cnUpload::result().
+* DEV: Correct misspelling in phpDoc.
+* DEV: First pass at cleaning up the cnUser class.
+* I18N: Update the POT file.
+* I18N: Update MO files.
 
 = 8.5.4 11/11/2015 =
 * NEW: Add DESCRIBE table_name output to the system info output.
@@ -762,4 +785,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.4 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

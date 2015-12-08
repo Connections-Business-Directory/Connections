@@ -2188,7 +2188,7 @@ class cnFunction {
 	}
 
 	/**
-	 * Clean up an array, comma- or space-separated list of strings.
+	 * Clean up an array, comma list of strings.
 	 *
 	 * @access public
 	 * @since  8.2.9
@@ -2196,14 +2196,16 @@ class cnFunction {
 	 *
 	 * @param string|array $list
 	 *
+	 * @param string       $delimiters The characters in which to split the supplied string. Should be preg_split() safe.
+	 *
 	 * @return array
 	 */
-	public static function parseStringList( &$list ) {
+	public static function parseStringList( &$list, $delimiters = '\s,' ) {
 
 		// Convert to an array if the supplied list is not.
 		if ( ! is_array( $list ) ) {
 
-			$list = preg_split( '/[\s,]+/', $list );
+			$list = preg_split( '/[' . $delimiters . ']+/', $list );
 		}
 
 		// Remove NULL, FALSE and empty strings (""), but leave values of 0 (zero).

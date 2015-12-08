@@ -13,48 +13,46 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnUser
-{
-	/**
-	 * @TODO: Initialize the cnUser class with the current user ID and
-	 * add a method to make a single call to get_user_meta() rather than
-	 * making multiples calls to reduce db accesses.
-	 */
+/**
+ * Class cnUser
+ */
+class cnUser {
 
 	/**
-	 * Interger: stores the current WP user ID
-	 * @var interger
+	 * Integer: stores the current WP user ID
+	 *
+	 * @var int
 	 */
 	private $ID;
 
 	/**
-	 * String: holds the last set entry type for the persistant filter
-	 * @var string
+	 *
 	 */
-	private $filterEntryType;
-
-	/**
-	 * String: holds the last set visibility type for the persistant filter
-	 * @var string
-	 */
-	private $filterVisibility;
-
 	public function __construct() {
 
-		add_action( 'plugins_loaded', array( $this, 'setID' ) );
+		add_action( 'init', array( $this, 'setID' ) );
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getID() {
 
-        return get_current_user_id();
-    }
+		return get_current_user_id();
+	}
 
+	/**
+	 *
+	 */
 	public function setID() {
 
 		$this->ID = get_current_user_id();
 	}
 
-	public function getFilterEntryType()  {
+	/**
+	 * @return string
+	 */
+	public function getFilterEntryType() {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
@@ -63,32 +61,41 @@ class cnUser
 		} else {
 			return 'all';
 		}
-    }
+	}
 
-    public function setFilterEntryType( $entryType ) {
+	/**
+	 * @param $entryType
+	 *
+	 * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
+	 */
+	public function setFilterEntryType( $entryType ) {
+
 		$permittedEntryTypes = array( 'all', 'individual', 'organization', 'family' );
-		$entryType = esc_attr( $entryType );
+		$entryType           = esc_attr( $entryType );
 
-		if ( ! in_array( $entryType, $permittedEntryTypes ) ) return FALSE;
+		if ( ! in_array( $entryType, $permittedEntryTypes ) ) {
+			return FALSE;
+		}
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		$user_meta['filter']['entry_type'] = $entryType;
 
-		update_user_meta($this->ID, 'connections', $user_meta);
+		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
 		//$this->resetFilterPage();
-    }
+	}
 
 	/**
-	 * Returns the cached visibility filter setting as string or FALSE depending if the current user has sufficient permission.
+	 * Returns the cached visibility filter setting as string or FALSE depending if the current user has sufficient
+	 * permission.
 	 *
-	 * @return string || bool
+	 * @return mixed string|bool
 	 */
 	public function getFilterVisibility() {
 
-        $user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter']['visibility'] ) ) {
 			/*
@@ -96,7 +103,7 @@ class cnUser
 			 */
 			switch ( $user_meta['filter']['visibility'] ) {
 				case 'public':
-					if ( ! current_user_can('connections_view_public') ) {
+					if ( ! current_user_can( 'connections_view_public' ) ) {
 						return FALSE;
 					} else {
 						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
@@ -104,7 +111,7 @@ class cnUser
 					break;
 
 				case 'private':
-					if ( ! current_user_can('connections_view_private') ) {
+					if ( ! current_user_can( 'connections_view_private' ) ) {
 						return FALSE;
 					} else {
 						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
@@ -112,7 +119,7 @@ class cnUser
 					break;
 
 				case 'unlisted':
-					if ( ! current_user_can('connections_view_unlisted') ) {
+					if ( ! current_user_can( 'connections_view_unlisted' ) ) {
 						return FALSE;
 					} else {
 						return isset( $user_meta['filter']['visibility'] ) ? $user_meta['filter']['visibility'] : FALSE;
@@ -126,24 +133,31 @@ class cnUser
 		} else {
 			return FALSE;
 		}
-    }
+	}
 
-    public function setFilterVisibility( $visibility )  {
+	/**
+	 * @param $visibility
+	 *
+	 * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
+	 */
+	public function setFilterVisibility( $visibility ) {
+
 		$permittedVisibility = array( 'all', 'public', 'private', 'unlisted' );
-		$visibility = esc_attr( $visibility );
+		$visibility          = esc_attr( $visibility );
 
-		if ( ! in_array($visibility, $permittedVisibility) ) return FALSE;
+		if ( ! in_array( $visibility, $permittedVisibility ) ) {
+			return FALSE;
+		}
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		$user_meta['filter']['visibility'] = $visibility;
 
-		update_user_meta( $this->ID, 'connections', $user_meta );
+		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
 		//$this->resetFilterPage();
-    }
-
+	}
 
 	/**
 	 * Returns the current set filter to be used to display the entries.
@@ -160,39 +174,55 @@ class cnUser
 		} else {
 			return 'approved';
 		}
-    }
+	}
 
+	/**
+	 * @param $status
+	 *
+	 * @return int|bool Meta ID if the key didn't exist, true on successful update, false on failure.
+	 */
 	public function setFilterStatus( $status ) {
 
-		$permittedVisibility = array('all', 'approved', 'pending');
-		$status = esc_attr( $status );
+		$permittedVisibility = array( 'all', 'approved', 'pending' );
+		$status              = esc_attr( $status );
 
-		if ( ! in_array( $status, $permittedVisibility ) ) return FALSE;
+		if ( ! in_array( $status, $permittedVisibility ) ) {
+			return FALSE;
+		}
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		$user_meta['filter']['status'] = $status;
 
-		update_user_meta( $this->ID, 'connections', $user_meta );
+		return update_user_meta( $this->ID, 'connections', $user_meta );
 
 		// Reset the current user's admin manage page.
 		//$this->resetFilterPage();
-    }
+	}
 
+	/**
+	 * @return string
+	 */
 	public function getFilterCategory() {
 
-        $user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
 		if ( ! $user_meta == NULL && isset( $user_meta['filter'] ) ) {
 			return isset( $user_meta['filter']['category'] ) ? $user_meta['filter']['category'] : '';
 		} else {
 			return '';
 		}
-    }
+	}
 
-    public function setFilterCategory( $id ) {
-        // If value is -1 from drop down, set to NULL
-		if ( $id === 0 ) $id = 0;
+	/**
+	 * @param int $id
+	 */
+	public function setFilterCategory( $id ) {
+
+		// If value is -1 from drop down, set to NULL
+		if ( $id === 0 ) {
+			$id = 0;
+		}
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
@@ -202,12 +232,13 @@ class cnUser
 
 		// Reset the current user's admin manage page.
 		//$this->resetFilterPage();
-    }
+	}
 
 	/**
 	 * Returns the current page and page limit of the supplied page name.
 	 *
-	 * @param string $page
+	 * @param string $pageName
+	 *
 	 * @return object
 	 */
 	public function getFilterPage( $pageName ) {
@@ -217,45 +248,63 @@ class cnUser
 		if ( ! $user_meta == NULL && isset( $user_meta['filter'][ $pageName ] ) ) {
 			$page = (object) $user_meta['filter'][ $pageName ];
 
-			if ( ! isset( $page->limit ) || empty( $page->limit ) ) $page->limit = 50;
-			if ( ! isset( $page->current ) || empty( $page->current ) ) $page->current = 1;
+			if ( ! isset( $page->limit ) || empty( $page->limit ) ) {
+				$page->limit = 50;
+			}
+			if ( ! isset( $page->current ) || empty( $page->current ) ) {
+				$page->current = 1;
+			}
 
 			return $page;
 		} else {
 			$page = new stdClass();
 
-			$page->limit = 50;
+			$page->limit   = 50;
 			$page->current = 1;
 
 			return $page;
 		}
-    }
+	}
 
 	/**
-	 *@param object $page
+	 * @param object $page
 	 */
 	public function setFilterPage( $page ) {
 
 		// If the page name has not been supplied, no need to process further.
-		if ( ! isset($page->name) ) return;
+		if ( ! isset( $page->name ) ) {
+			return;
+		}
 
 		$page->name = sanitize_title( $page->name );
 
-		if ( isset( $page->current ) ) $page->current = absint( $page->current );
-		if ( isset( $page->limit ) ) $page->limit = absint( $page->limit );
+		if ( isset( $page->current ) ) {
+			$page->current = absint( $page->current );
+		}
+		if ( isset( $page->limit ) ) {
+			$page->limit = absint( $page->limit );
+		}
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
-		if ( isset( $page->current ) ) $user_meta['filter'][ $page->name ]['current'] = $page->current;
-		if ( isset( $page->limit ) ) $user_meta['filter'][ $page->name ]['limit'] = $page->limit;
+		if ( isset( $page->current ) ) {
+			$user_meta['filter'][ $page->name ]['current'] = $page->current;
+		}
+		if ( isset( $page->limit ) ) {
+			$user_meta['filter'][ $page->name ]['limit'] = $page->limit;
+		}
 
-		update_user_meta($this->ID, 'connections', $user_meta);
-    }
+		update_user_meta( $this->ID, 'connections', $user_meta );
+	}
 
+	/**
+	 * @param $pageName
+	 */
 	public function resetFilterPage( $pageName ) {
+
 		$page = $this->getFilterPage( $pageName );
 
-		$page->name = $pageName;
+		$page->name    = $pageName;
 		$page->current = 1;
 
 		$this->setFilterPage( $page );
@@ -265,12 +314,12 @@ class cnUser
 	 * Reset any messages stored in the user's meta.
 	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
 	 *
-	 * @access public
-	 * @since unknown
+	 * @access     public
+	 * @since      unknown
 	 * @deprecated 0.7.6
-	 * @return (void)
 	 */
 	public function resetMessages() {
+
 		cnMessage::reset();
 	}
 }

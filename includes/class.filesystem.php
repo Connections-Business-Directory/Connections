@@ -472,6 +472,9 @@ class cnUpload {
 		// Add filter to process the data array returned by wp_handle_upload()
 		add_filter( 'wp_handle_upload', array( $this, 'uploadData' ), 10, 2 );
 
+		// Remove the unfiltered_upload capability to enforce the file mime type check.
+		add_filter( 'map_meta_cap', array( $this, 'map_meta_cap' ), 10, 4 );
+
 		// Set the sub directory/folder in which to upload the file to.
 		// If empty, it'll use the WP core default.
 		if ( ! empty( $atts['sub_dir'] ) ) $this->subDirectory = $atts['sub_dir'];
@@ -483,7 +486,7 @@ class cnUpload {
 		$options['action']    = empty( $atts['action'] ) ? '' : $atts['action'];
 		$options['test_form'] = empty( $atts['post_action'] ) ? FALSE : $atts['post_action'];
 
-		if ( ! empty( $atts['mimes'] ) && is_array( $atts['mimes']) ) $options['mimes']   = $atts['mimes'];
+		if ( ! empty( $atts['mimes'] ) && is_array( $atts['mimes'] ) ) $options['mimes']  = $atts['mimes'];
 		if ( ! empty( $atts['error_callback'] ) ) $options['upload_error_handler']        = $atts['error_callback'];
 		if ( ! empty( $atts['filename_callback'] ) ) $options['unique_filename_callback'] = $atts['filename_callback'];
 
@@ -513,7 +516,10 @@ class cnUpload {
 		remove_filter( 'upload_dir', array( $this, 'subDirectory' ) );
 
 		// Remove the data array filter.
-		remove_filter( 'wp_handle_upload', array( $this, 'uploadData' ), 10, 2 );
+		remove_filter( 'wp_handle_upload', array( $this, 'uploadData' ), 10 );
+
+		// Remove the filter which removed the unfiltered_upload capability.
+		remove_filter( 'map_meta_cap', array( $this, 'map_meta_cap' ), 10 );
 
 		/*
 		 * Be a good citizen and add the filters that were hooked back to into upload_dir filter.
@@ -595,6 +601,29 @@ class cnUpload {
 	}
 
 	/**
+	 * The callback for the map_meta_cap filter to remove the unfiltered_upload capability from the current user.
+	 *
+	 * @access private
+	 * @since  8.5.5
+	 *
+	 * @param array  $caps    Returns the user's actual capabilities.
+	 * @param string $cap     Capability name.
+	 * @param int    $user_id The user ID.
+	 * @param array  $args    Adds the context to the cap. Typically the object ID.
+	 *
+	 * @return array
+	 */
+	public static function map_meta_cap( $caps, $cap, $user_id, $args ) {
+
+		if ( 'unfiltered_upload' == $cap ) {
+
+			$caps = array('');
+		}
+
+		return $caps;
+	}
+
+	/**
 	 * Unique filename callback function.
 	 *
 	 * Change to add a hyphen before the number.
@@ -632,6 +661,14 @@ class cnUpload {
 		return $filename;
 	}
 
+	/**
+	 * Returns the file meta data of a successful file upload.
+	 *
+	 * @access public
+	 * @since  8.1
+	 *
+	 * @return mixed array|WP_Error On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
+	 */
 	public function result() {
 
 		return $this->result;

@@ -141,6 +141,7 @@ class cnScript {
 			wp_register_script( 'cn-ui-admin', $url . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate', 'jquery-ui-sortable' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-system-info', $url . "assets/js/cn-system-info$min.js", array( 'jquery', 'jquery-validate', 'jquery-form', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 
 			$strings = array(

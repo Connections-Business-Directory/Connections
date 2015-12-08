@@ -132,8 +132,12 @@ class cnAdminActions {
 		add_action( 'wp_ajax_export_csv_phone_numbers', array( __CLASS__, 'csvExportPhoneNumbers' ) );
 		add_action( 'wp_ajax_export_csv_email', array( __CLASS__, 'csvExportEmail' ) );
 		add_action( 'wp_ajax_export_csv_dates', array( __CLASS__, 'csvExportDates' ) );
+		add_action( 'wp_ajax_export_csv_term', array( __CLASS__, 'csvExportTerm' ) );
 		add_action( 'wp_ajax_export_csv_all', array( __CLASS__, 'csvExportAll' ) );
 		add_action( 'cn_download_batch_export', array( __CLASS__, 'csvExportBatchDownload' ) );
+
+		add_action( 'wp_ajax_csv_upload', array( __CLASS__, 'uploadCSV' ) );
+		add_action( 'wp_ajax_import_csv_term', array( __CLASS__, 'csvImportTerm' ) );
 
 		// Register the action to delete a single log.
 		add_action( 'cn_log_bulk_actions', array( __CLASS__, 'logManagement' ) );
@@ -420,6 +424,14 @@ class cnAdminActions {
 				$export->download();
 				break;
 
+			case 'category':
+
+				require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
+
+				$export = new cnCSV_Batch_Export_Term();
+				$export->download();
+				break;
+
 			case 'all':
 
 				require_once CN_PATH . 'includes/export/class.csv-export-batch-all.php';
@@ -551,6 +563,95 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Admin ajax callback to batch export the category data.
+	 *
+	 * @access private
+	 * @since  8.5.5
+	 *
+	 * @uses   check_ajax_referer()
+	 * @uses   absint()
+	 * @uses   cnCSV_Batch_Export_Dates()
+	 * @uses   wp_create_nonce()
+	 * @uses   cnAdminActions::csvBatchExport()
+	 */
+	public static function csvExportTerm() {
+
+		check_ajax_referer( 'export_csv_term' );
+
+		require_once CN_PATH . 'includes/export/class.csv-export.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
+		require_once CN_PATH . 'includes/export/class.csv-export-batch-category.php';
+
+		$step   = absint( $_POST['step'] );
+		$export = new cnCSV_Batch_Export_Term();
+		$nonce  = wp_create_nonce( 'export_csv_term' );
+
+		self::csvBatchExport( $export, 'category', $step, $nonce );
+	}
+
+	/**
+	 * Admin ajax callback to batch import the term data.
+	 *
+	 * @access private
+	 * @since  8.5.5
+	 *
+	 * @uses   check_ajax_referer()
+	 * @uses   absint()
+	 * @uses   cnCSV_Batch_Export_Dates()
+	 * @uses   wp_create_nonce()
+	 * @uses   cnAdminActions::csvBatchExport()
+	 */
+	public static function csvImportTerm() {
+
+		check_ajax_referer( 'import_csv_term' );
+
+		if ( ! wp_verify_nonce( $_REQUEST['_ajax_nonce'], 'import_csv_term' ) ) {
+
+			wp_send_json_error( array( 'message' => __( 'Nonce verification failed', 'connections' ) ) );
+		}
+
+		if ( empty( $_REQUEST['file'] ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'Missing import file. Please provide an import file.', 'connections' ),
+					'request' => $_REQUEST,
+				)
+			);
+		}
+
+		if ( empty( $_REQUEST['file']['type'] ) ||
+		     ( ! in_array( wp_unslash( $_REQUEST['file']['type'] ), array( 'text/csv', 'text/plain' ), TRUE ) ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __( 'The uploaded file does not appear to be a CSV file.', 'connections' ),
+					'request' => $_REQUEST,
+				)
+			);
+		}
+
+		if ( ! file_exists( $_REQUEST['file']['path'] ) ) {
+			wp_send_json_error(
+				array(
+					'message' => __(
+						'Something went wrong during the upload process, please try again.',
+						'connections'
+					),
+					'request' => $_REQUEST,
+				)
+			);
+		}
+
+		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
+		require_once CN_PATH . 'includes/import/class.csv-import-batch-category.php';
+
+		$step   = absint( $_REQUEST['step'] );
+		$import = new cnCSV_Batch_Import_Term( $_REQUEST['file']['path'] );
+		$nonce  = wp_create_nonce( 'import_csv_term' );
+
+		self::csvBatchImport( $import, 'category', $step, $nonce );
+	}
+
+	/**
 	 * Admin ajax callback to batch export the all entry data.
 	 *
 	 * @access private
@@ -667,6 +768,188 @@ class cnAdminActions {
 				array(
 					'step' => 'completed',
 					'url'  => $url,
+				)
+			);
+		}
+	}
+
+	public static function uploadCSV() {
+
+		//if ( ! function_exists( 'wp_handle_upload' ) ) {
+		//
+		//	require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		//}
+
+		require_once CN_PATH . 'includes/import/class.csv-import-batch.php';
+
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'csv_upload' ) ) {
+
+			wp_send_json_error(
+				array(
+					'form'    => $_POST,
+					'message' => __( 'Nonce verification failed', 'connections' )
+				)
+			);
+		}
+
+		if ( ! (bool) apply_filters( 'cn_csv_import_capability', current_user_can( 'manage_options' ) ) ) {
+
+			wp_send_json_error(
+				array(
+					'form'    => $_POST,
+					'message' => __( 'You do not have permission to import data.', 'connections' )
+				)
+			);
+		}
+
+		if ( empty( $_FILES ) ) {
+			wp_send_json_error(
+				array(
+					'form'    => $_POST,
+					'message' => __( 'No file file selected. Please select a file to import.', 'connections' ),
+					'request' => $_REQUEST,
+				)
+			);
+		}
+
+		$upload = new cnUpload(
+			$_FILES['cn-import-file'],
+			array(
+				'mimes' => array(
+					'csv' => 'text/csv',
+					'txt' => 'text/plain',
+				),
+			)
+		);
+
+		$result = $upload->result();
+
+		if ( ! is_wp_error( $result ) ) {
+
+			$import  = new cnCSV_Batch_Import( $result['path'] );
+			$headers = $import->getHeaders();
+
+			if ( is_wp_error( $headers ) ) {
+
+				error_log( print_r( $headers, TRUE ) );
+
+				wp_send_json_error(
+					array(
+						'form'    => $_POST,
+						'message' => $headers->get_error_message(),
+					)
+				);
+			}
+
+			wp_send_json_success(
+				array(
+					'form'    => $_POST,
+					'file'    => $result,
+					'fields'  => array(
+						'-1'     => esc_html__( 'Do Not Import', 'connections' ),
+						'name'   => esc_html__( 'Name', 'connections' ),
+						'slug'   => esc_html__( 'Slug', 'connections' ),
+						'desc'   => esc_html__( 'Description', 'connections' ),
+						'parent' => esc_html__( 'Parent', 'connections' ),
+					),
+					'headers' => $headers,
+					'nonce'   => wp_create_nonce( 'import_csv_term' ),
+				)
+			);
+
+		} else {
+
+			wp_send_json_error(
+				array(
+					'form'    => $_POST,
+					'message' => $result->get_error_message()
+				)
+			);
+		}
+
+		exit;
+	}
+
+	/**
+	 * Common CSV batch import code to start the batch import step and provide the JSON response.
+	 *
+	 * @access private
+	 * @since  8.5.5
+	 *
+	 * @uses   wp_send_json_error()
+	 * @uses   is_wp_error()
+	 * @uses   wp_send_json_success()
+	 * @uses   wp_create_nonce()
+	 * @uses   self_admin_url()
+	 *
+	 * @param cnCSV_Batch_Import $import
+	 * @param string             $taxonomy
+	 * @param int                $step
+	 * @param string             $nonce
+	 */
+	private static function csvBatchImport( $import, $taxonomy, $step, $nonce ) {
+
+		if ( ! $import->can_import() ) {
+
+			wp_send_json_error(
+				array(
+					'form'    => $_POST,
+					'message' => __( 'You do not have permission to export data.', 'connections' ),
+				)
+			);
+		}
+
+		/**
+		 * Prevent the taxonomy hierarchy from being purged and built after each term insert because
+		 * it severely slows down the import as the number of terms being imported increases.
+		 * @see cnTerm::cleanCache()
+		 */
+		add_filter( "pre_option_cn_{$taxonomy}_children", '__return_empty_array' );
+
+		$import->setMap( json_decode( wp_unslash( $_REQUEST['map'] ) ) );
+
+		$result = $import->process( $step );
+
+		if ( is_wp_error( $result ) ) {
+
+			wp_send_json_error(
+				array(
+					'form'    => $_POST,
+					'message' => $result->get_error_message(),
+				)
+			);
+		}
+
+		if ( $result ) {
+
+			$count      = $import->getCount();
+			$imported   = $step * $import->limit > $count ? $count : $step * $import->limit;
+			$remaining  = 0 < $count - $imported ? $count - $imported : 0;
+			$percentage = $import->getPercentageComplete();
+
+			$step += 1;
+
+			wp_send_json_success(
+				array(
+					'map'        => json_encode( $import->getMap() ),
+					'step'       => $step,
+					'count'      => $count,
+					'imported'   => $imported,
+					'remaining'  => $remaining,
+					'percentage' => $percentage,
+					'nonce'      => $nonce,
+				)
+			);
+
+		} else {
+
+			$url = add_query_arg( array( 'page' => 'connections_tools', 'tab' => 'import' ), self_admin_url( 'admin.php' ) );
+
+			wp_send_json_success(
+				array(
+					'step'    => 'completed',
+					'message' => esc_html__( 'Import completed.', 'connections' ),
+					'url'     => $url,
 				)
 			);
 		}
@@ -1300,7 +1583,7 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Save user filteres.
+	 * Save user filters.
 	 *
 	 * @access public
 	 * @since  0.7.8

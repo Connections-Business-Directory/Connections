@@ -151,6 +151,10 @@ class cnAdmin_Tools {
 			       'name'     => __( 'Export', 'connections' ),
 			       'callback' => array( __CLASS__, 'export' )
 			),
+			array( 'id'       => 'import',
+			       'name'     => __( 'Import', 'connections' ),
+			       'callback' => array( __CLASS__, 'import' )
+			),
 			array( 'id'       => 'system_info',
 			       'name'     => __( 'System Information', 'connections' ),
 			       'callback' => array( __CLASS__, 'systemInfo' )
@@ -328,6 +332,34 @@ class cnAdmin_Tools {
 		</div><!-- .postbox -->
 
 		<div class="postbox">
+			<h3><span><?php _e( 'Export Categories', 'connections' ); ?></span></h3>
+
+			<div class="inside">
+
+				<form id="cn-export-term" class="cn-export-form" method="post">
+
+					<p>
+						<?php
+						_e(
+							'Export the categories as a CSV File.',
+							'connections'
+						);
+						?>
+					</p>
+
+					<p class="submit">
+						<input type="submit" class="button-secondary" name="csv-export-term"
+						       value="<?php _e( 'Export', 'connections' ) ?>"
+						       data-action="export_csv_term"
+						       data-nonce="<?php echo wp_create_nonce( 'export_csv_term' ); ?>"/>
+					</p>
+
+				</form>
+
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+
+		<div class="postbox">
 			<h3><span><?php _e( 'Export All', 'connections' ); ?></span></h3>
 
 			<div class="inside">
@@ -358,6 +390,81 @@ class cnAdmin_Tools {
 		<?php
 		wp_enqueue_script( 'cn-csv-export' );
 		do_action( 'cn_tools_export_after' );
+	}
+
+	/**
+	 * Callback to render import data tools.
+	 *
+	 * @access public
+	 * @since  8.5.5
+	 * @static
+	 *
+	 * @uses   current_user_can()
+	 * @uses   do_action()
+	 * @uses   _e()
+	 * @uses   wp_create_nonce()
+	 */
+	public static function import() {
+
+		if ( ! current_user_can( 'install_plugins' ) ) {
+
+			return;
+		}
+
+		do_action( 'cn_tools_import_before' );
+		?>
+
+		<div class="postbox">
+			<h3><span><?php _e( 'Import Categories', 'connections' ); ?></span></h3>
+
+			<div class="inside">
+
+				<form id="cn-import-category" class="cn-import-form"
+				      action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>"
+				      method="post"
+				      enctype="multipart/form-data">
+
+					<div class="cn-upload-file">
+
+						<p>
+							<?php esc_html_e( 'Bulk import categories from a CSV File.', 'connections' ); ?>
+						</p>
+
+						<p>
+							<input name="cn-import-file" id="cn-import-file-term" type="file" />
+							<input type="hidden" name="id" value="cn-import-category" />
+							<input type="hidden" name="action" value="csv_upload" />
+							<input type="hidden" name="type" value="category" />
+							<?php wp_nonce_field( 'csv_upload', 'nonce' ); ?>
+						</p>
+
+						<?php submit_button( esc_html__( 'Upload', 'connections' ), 'secondary', 'cn-upload-csv-category' ) ?>
+
+					</div>
+
+					<div class="cn-import-options" id="cn-import-category-options" style="display: none;">
+						<table class="widefat cn-repeatable-table" width="100%" cellpadding="0" cellspacing="0" style="table-layout: auto; width: auto;">
+							<thead>
+							<tr>
+								<th><?php _e( 'CSV Column', 'connections' ); ?></th>
+								<th style="width: 100%"><?php _e( 'Import into field:', 'connections' ); ?></th>
+							</tr>
+							</thead>
+							<tbody>
+							<!--<tr class="cn-repeatable-row"> Rows will be added dynamically via JS. </tr>-->
+							</tbody>
+						</table>
+						<?php submit_button( esc_html__( 'Import', 'connections' ) ); ?>
+					</div>
+
+				</form>
+
+			</div><!-- .inside -->
+		</div><!-- .postbox -->
+
+		<?php
+		wp_enqueue_script( 'cn-csv-import' );
+		do_action( 'cn_tools_import_after' );
 	}
 
 	/**

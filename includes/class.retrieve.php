@@ -271,16 +271,12 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['category_name'] ) ) {
 
-			// If value is a string convert to an array.
-			if ( ! is_array( $atts['category_name'] ) ) {
-
-				$atts['category_name'] = explode( ',', $atts['category_name'] );
-			}
+			cnFunction::parseStringList( $atts['category_name'], ',' );
 
 			foreach ( $atts['category_name'] as $categoryName ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name just in case the user added it when using the shortcode.
-				$categoryNames[] = $wpdb->prepare( '%s', trim( $categoryName ) );
+				$categoryNames[] = $wpdb->prepare( '%s', htmlspecialchars( $categoryName ) );
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'name', $categoryName );
@@ -300,16 +296,12 @@ class cnRetrieve {
 
 			$categorySlugs = array();
 
-			// If value is a string convert to an array.
-			if ( ! is_array( $atts['category_slug'] ) ) {
-
-				$atts['category_slug'] = explode( ',', $atts['category_slug'] );
-			}
+			cnFunction::parseStringList( $atts['category_slug'], ',' );
 
 			foreach ( $atts['category_slug'] as $categorySlug ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name in case the user added it when using the shortcode.
-				$categorySlugs[] = sanitize_title( trim( $categorySlug ) );
+				$categorySlugs[] = sanitize_title( $categorySlug );
 
 				// Retrieve the children categories.
 				$results = $this->categoryChildren( 'slug', $categorySlug );
@@ -1053,6 +1045,11 @@ class cnRetrieve {
 		}
 	}
 
+	/**
+	 * @param array $atts
+	 *
+	 * @return array
+	 */
 	public static function individuals( $atts = array() ) {
 
 		/** @var wpdb $wpdb */
@@ -1096,7 +1093,9 @@ class cnRetrieve {
 	 * Retrieve the unique initial characters of all entries in the entry table sorted by character.
 	 *
 	 * @access public
-	 * @since 0.7.4
+	 * @since  0.7.4
+	 *
+	 * @param array $atts
 	 *
 	 * @return array
 	 */
@@ -1707,12 +1706,15 @@ class cnRetrieve {
 	 * $atts['type'] (array) || (string) Retrieve specific phone number types, id must be supplied.
 	 *
 	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnIDs    Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the phone number data will be returned.
+	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the phone number data will be returned.
 	 * @return array
 	 */
 	public function phoneNumbers( $suppliedAttr , $returnData = TRUE ) {
 
-		/** @var wpdb $wpdb */
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb $wpdb
+		 */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -1806,12 +1808,15 @@ class cnRetrieve {
 	 * $atts['type'] (array) || (string) Retrieve specific address types, id must be supplied.
 	 *
 	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnIDs    Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the email address data will be returned.
+	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the email address data will be returned.
 	 * @return array
 	 */
 	public function emailAddresses( $suppliedAttr , $returnData = TRUE ) {
 
-		/** @var wpdb $wpdb */
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb $wpdb
+		 */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -1910,7 +1915,10 @@ class cnRetrieve {
 	 */
 	public function imIDs( $suppliedAttr , $returnData = TRUE ) {
 
-		/** @var wpdb $wpdb */
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb $wpdb
+		 */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -2006,7 +2014,10 @@ class cnRetrieve {
 	 */
 	public function socialMedia( $suppliedAttr , $returnData = TRUE ) {
 
-		/** @var wpdb $wpdb */
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb $wpdb
+		 */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -2102,7 +2113,10 @@ class cnRetrieve {
 	 */
 	public function links( $suppliedAttr , $returnData = TRUE ) {
 
-		/** @var wpdb $wpdb */
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb $wpdb
+		 */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -2204,12 +2218,16 @@ class cnRetrieve {
 	 * $atts['type'] (array) || (string) Retrieve specific date types, id must be supplied.
 	 *
 	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnIDs    Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the date data will be returned.
+	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the date data will be returned.
+	 *
 	 * @return array
 	 */
 	public function dates( $suppliedAttr , $returnData = TRUE ) {
 
-		/** @var wpdb $wpdb */
+		/**
+		 * @var connectionsLoad $connections
+		 * @var wpdb $wpdb
+		 */
 		global $wpdb, $connections, $current_user;
 
 		get_currentuserinfo();
@@ -2354,7 +2372,7 @@ class cnRetrieve {
 
 		$atts = wp_parse_args( $atts, apply_filters( 'cn_search_atts', $defaults ) );
 
-		// @todo Validate each fiels array to ensure only permitted fields will be used.
+		// @todo Validate each fields array to ensure only permitted fields will be used.
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -3088,17 +3106,26 @@ class cnRetrieve {
 	 * Total record count based on current user permissions.
 	 *
 	 * @access public
-	 * @since unknown
+	 * @since  unknown
+	 *
 	 * @global $wpdb
 	 * @global $connections
-	 * @uses wp_parse_args()
-	 * @uses is_user_logged_in()
-	 * @uses current_user_can()
-	 * @uses $wpdb->get_var()
-	 * @param (array)
-	 * @return (integer)
+	 *
+	 * @uses   wp_parse_args()
+	 * @uses   is_user_logged_in()
+	 * @uses   current_user_can()
+	 * @uses   $wpdb->get_var()
+	 *
+	 * @param  (array)
+	 *
+	 * @return int
 	 */
 	public static function recordCount( $atts ) {
+
+		/**
+		 * @var wpdb $wpdb
+		 * @var connectionsLoad $connections
+		 */
 		global $wpdb, $connections;
 
 		$where[]    = 'WHERE 1=1';
@@ -3215,10 +3242,7 @@ class cnRetrieve {
 	 */
 	public function categories() {
 
-		/** @var $connections connectionsLoad */
-		global $connections;
-
-		return $connections->term->getTerms( 'category' );
+		return cnTerm::tree( 'category' );
 	}
 
 	/**
@@ -3228,18 +3252,21 @@ class cnRetrieve {
 	 * @return object
 	 */
 	public function category( $id ) {
-		global $connections;
 
-		return $connections->term->getTerm( $id, 'category' );
+		return cnTerm::get( $id, 'category' );
 	}
 
 	/**
 	 * Retrieve the children of the supplied parent.
 	 *
-	 * @param interger $id
+	 * @param string $field
+	 * @param mixed  int|string $value
+	 *
 	 * @return array
 	 */
 	public function categoryChildren( $field, $value ) {
+
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		return $connections->term->getTermChildrenBy( $field, $value, 'category' );

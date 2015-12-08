@@ -393,10 +393,10 @@ class cnAdmin_Tools {
 	}
 
 	/**
-	 * Callback to render export data tools.
+	 * Callback to render import data tools.
 	 *
 	 * @access public
-	 * @since  8.5
+	 * @since  8.5.5
 	 * @static
 	 *
 	 * @uses   current_user_can()
@@ -412,7 +412,6 @@ class cnAdmin_Tools {
 		}
 
 		do_action( 'cn_tools_import_before' );
-
 		?>
 
 		<div class="postbox">
@@ -420,23 +419,43 @@ class cnAdmin_Tools {
 
 			<div class="inside">
 
-				<form id="cn-import-term" class="cn-import-form" method="post">
+				<form id="cn-import-category" class="cn-import-form"
+				      action="<?php echo esc_url( self_admin_url( 'admin-ajax.php' ) ); ?>"
+				      method="post"
+				      enctype="multipart/form-data">
 
-					<p>
-						<?php
-						_e(
-							'Bulk import categories from a CSV File.',
-							'connections'
-						);
-						?>
-					</p>
+					<div class="cn-upload-file">
 
-					<p class="submit">
-						<input type="submit" class="button-secondary" name="csv-export-term"
-						       value="<?php _e( 'Import', 'connections' ) ?>"
-						       data-action="import_csv_term"
-						       data-nonce="<?php echo wp_create_nonce( 'import_csv_term' ); ?>"/>
-					</p>
+						<p>
+							<?php esc_html_e( 'Bulk import categories from a CSV File.', 'connections' ); ?>
+						</p>
+
+						<p>
+							<input name="cn-import-file" id="cn-import-file-term" type="file" />
+							<input type="hidden" name="id" value="cn-import-category" />
+							<input type="hidden" name="action" value="csv_upload" />
+							<input type="hidden" name="type" value="category" />
+							<?php wp_nonce_field( 'csv_upload', 'nonce' ); ?>
+						</p>
+
+						<?php submit_button( esc_html__( 'Upload', 'connections' ), 'secondary', 'cn-upload-csv-category' ) ?>
+
+					</div>
+
+					<div class="cn-import-options" id="cn-import-category-options" style="display: none;">
+						<table class="widefat cn-repeatable-table" width="100%" cellpadding="0" cellspacing="0" style="table-layout: auto; width: auto;">
+							<thead>
+							<tr>
+								<th><?php _e( 'CSV Column', 'connections' ); ?></th>
+								<th style="width: 100%"><?php _e( 'Import into field:', 'connections' ); ?></th>
+							</tr>
+							</thead>
+							<tbody>
+							<!--<tr class="cn-repeatable-row"> Rows will be added dynamically via JS. </tr>-->
+							</tbody>
+						</table>
+						<?php submit_button( esc_html__( 'Import', 'connections' ) ); ?>
+					</div>
 
 				</form>
 

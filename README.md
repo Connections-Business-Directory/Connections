@@ -215,6 +215,29 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 ## Changelog ##
 
+### 8.5.5 12/08/2015 ###
+* NEW: Bulk export the categories as a SCV file.
+* NEW: Add support to bulk import **nested** categories.
+* BUG: When querying the term count field, return an int instead of string.
+* TWEAK: Increase the filter priority for processing single entry view.
+* TWEAK: Allow case sensitive term exists checks on case insensitive table collations.
+* TWEAK: Remove the unfiltered_upload capability from users in cnUpload::file() to enforce the file mime type check.
+* TWEAK: Another CSS tweak to help ensure themes do not hide the vcard class.
+* TWEAK: Add delimiter option to cnFunction::parseStringList().
+* TWEAK: Update cnRetrieve::entries() to use cnFunction::parseStringList() to simplify code.
+* OTHER: Remove use of deprecated methods in cnRetrieve::categories() and cnRetrieve::category().
+* OTHER: Update minified files.
+* DEV: Update .gitignore to ignore the /docs directory.
+* DEV: Update .gitiattributes to ignore the /docs directory.
+* DEV: Add grunt-phpdocumentor task.
+* DEV: phpDoc fixes in cnRetrieve.
+* DEV: phpDoc fixes for filters in cnTerm::insert().
+* DEV: Add missing phpDoc  to cnUpload::result().
+* DEV: Correct misspelling in phpDoc.
+* DEV: First pass at cleaning up the cnUser class.
+* I18N: Update the POT file.
+* I18N: Update MO files.
+
 ### 8.5.4 11/11/2015 ###
 * NEW: Add DESCRIBE table_name output to the system info output.
 * TWEAK: Use HTML entity code for brackets in template help text to prevent plugins that add the do_shortcode callback to the gettext filter. This will prevent WordPress from attempting to embed the directory instead of displaying the text.
@@ -775,4 +798,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 ### 8.5.4 ###
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+### 8.5.5 ###
 It is recommended to backup before updating. Requires WordPress >= 4.1.

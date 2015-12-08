@@ -663,7 +663,7 @@ class cnUpload {
 
 	/**
 	 * Returns the file meta data of a successful file upload.
-	 * 
+	 *
 	 * @access public
 	 * @since  8.1
 	 *

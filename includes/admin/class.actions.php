@@ -1583,7 +1583,7 @@ class cnAdminActions {
 	}
 
 	/**
-	 * Save user filteres.
+	 * Save user filters.
 	 *
 	 * @access public
 	 * @since  0.7.8

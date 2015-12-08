@@ -271,16 +271,12 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['category_name'] ) ) {
 
-			// If value is a string convert to an array.
-			if ( ! is_array( $atts['category_name'] ) ) {
-
-				$atts['category_name'] = explode( ',', $atts['category_name'] );
-			}
+			cnFunction::parseStringList( $atts['category_name'], ',' );
 
 			foreach ( $atts['category_name'] as $categoryName ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name just in case the user added it when using the shortcode.
-				$categoryNames[] = $wpdb->prepare( '%s', trim( $categoryName ) );
+				$categoryNames[] = $wpdb->prepare( '%s', htmlspecialchars( $categoryName ) );
 
 				// Retrieve the children categories
 				$results = $this->categoryChildren( 'name', $categoryName );
@@ -300,16 +296,12 @@ class cnRetrieve {
 
 			$categorySlugs = array();
 
-			// If value is a string convert to an array.
-			if ( ! is_array( $atts['category_slug'] ) ) {
-
-				$atts['category_slug'] = explode( ',', $atts['category_slug'] );
-			}
+			cnFunction::parseStringList( $atts['category_slug'], ',' );
 
 			foreach ( $atts['category_slug'] as $categorySlug ) {
 
 				// Add the parent category to the array and remove any whitespace from the beginning/end of the name in case the user added it when using the shortcode.
-				$categorySlugs[] = sanitize_title( trim( $categorySlug ) );
+				$categorySlugs[] = sanitize_title( $categorySlug );
 
 				// Retrieve the children categories.
 				$results = $this->categoryChildren( 'slug', $categorySlug );

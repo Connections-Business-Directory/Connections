@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.5.3\n"
+"Project-Id-Version: Connections 8.5.4\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2015-11-11 20:56:45+00:00\n"
+"POT-Creation-Date: 2015-12-08 22:02:01+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,70 +32,130 @@ msgstr ""
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: includes/admin/class.actions.php:179
+#: includes/admin/class.actions.php:183
 msgid "You do not have sufficient permissions to download system information."
 msgstr ""
 
-#: includes/admin/class.actions.php:249 includes/admin/class.actions.php:289
-#: includes/class.scripts.php:167
+#: includes/admin/class.actions.php:253 includes/admin/class.actions.php:293
+#: includes/class.scripts.php:168
 msgid "Invalid AJAX action or nonce validation failed."
 msgstr ""
 
-#: includes/admin/class.actions.php:254 includes/admin/class.actions.php:294
-#: includes/class.scripts.php:171
+#: includes/admin/class.actions.php:258 includes/admin/class.actions.php:298
+#: includes/class.scripts.php:172
 msgid "You do not have sufficient permissions to perform this action."
 msgstr ""
 
-#: includes/admin/class.actions.php:273
+#: includes/admin/class.actions.php:277
 msgid "Secret URL has been created."
 msgstr ""
 
-#: includes/admin/class.actions.php:299
+#: includes/admin/class.actions.php:303
 msgid "Secret URL has been revoked."
 msgstr ""
 
-#: includes/admin/class.actions.php:315
+#: includes/admin/class.actions.php:319
 msgid "You do not have sufficient permissions to export the settings."
 msgstr ""
 
-#: includes/admin/class.actions.php:334
+#: includes/admin/class.actions.php:338
 msgid "You do not have sufficient permissions to import the settings."
 msgstr ""
 
-#: includes/admin/class.actions.php:339
+#: includes/admin/class.actions.php:343
 msgid "Please upload a .json file."
 msgstr ""
 
-#: includes/admin/class.actions.php:346
+#: includes/admin/class.actions.php:350
 msgid "Please select a file to import."
 msgstr ""
 
-#: includes/admin/class.actions.php:354
+#: includes/admin/class.actions.php:358
 msgid "Settings have been imported."
 msgstr ""
 
-#: includes/admin/class.actions.php:381
+#: includes/admin/class.actions.php:385
 msgid "Nonce verification failed."
 msgstr ""
 
-#: includes/admin/class.actions.php:381
+#: includes/admin/class.actions.php:385
 #: includes/export/class.csv-export.php:265
 #: vendor/edd-sl/EDD_SL_Plugin_Updater.php:329
 msgid "Error"
 msgstr ""
 
-#: includes/admin/class.actions.php:603
+#: includes/admin/class.actions.php:610 includes/admin/class.actions.php:790
+msgid "Nonce verification failed"
+msgstr ""
+
+#: includes/admin/class.actions.php:616
+msgid "Missing import file. Please provide an import file."
+msgstr ""
+
+#: includes/admin/class.actions.php:626
+msgid "The uploaded file does not appear to be a CSV file."
+msgstr ""
+
+#: includes/admin/class.actions.php:635
+msgid "Something went wrong during the upload process, please try again."
+msgstr ""
+
+#: includes/admin/class.actions.php:704 includes/admin/class.actions.php:897
 #: includes/export/class.csv-export-batch.php:146
 #: includes/export/class.csv-export.php:264
 msgid "You do not have permission to export data."
 msgstr ""
 
-#: includes/admin/class.actions.php:612
+#: includes/admin/class.actions.php:713
 msgid "Export location or file not writable."
 msgstr ""
 
-#: includes/admin/class.actions.php:652
+#: includes/admin/class.actions.php:753
 msgid "No data found for export parameters."
+msgstr ""
+
+#: includes/admin/class.actions.php:800
+msgid "You do not have permission to import data."
+msgstr ""
+
+#: includes/admin/class.actions.php:809
+msgid "No file file selected. Please select a file to import."
+msgstr ""
+
+#: includes/admin/class.actions.php:849
+msgid "Do Not Import"
+msgstr ""
+
+#: includes/admin/class.actions.php:850 includes/admin/pages/categories.php:107
+#: includes/admin/pages/categories.php:356 includes/admin/pages/manage.php:48
+#: includes/admin/pages/manage.php:126 includes/admin/pages/manage.php:203
+#: includes/admin/pages/manage.php:494 includes/admin/pages/manage.php:503
+#: includes/class.metabox-entry.php:3124 includes/class.metabox-entry.php:3197
+#: includes/export/class.csv-export-batch-category.php:56
+#: includes/settings/class.settings.php:1345
+msgid "Name"
+msgstr ""
+
+#: includes/admin/class.actions.php:851 includes/admin/pages/categories.php:115
+#: includes/admin/pages/categories.php:364
+#: includes/export/class.csv-export-batch-category.php:58
+#: includes/template/class.template-list-table-term-admin.php:278
+msgid "Slug"
+msgstr ""
+
+#: includes/admin/class.actions.php:852
+#: includes/export/class.csv-export-batch-category.php:57
+#: includes/template/class.template-list-table-term-admin.php:277
+msgid "Description"
+msgstr ""
+
+#: includes/admin/class.actions.php:853 includes/admin/pages/categories.php:125
+#: includes/admin/pages/categories.php:374
+msgid "Parent"
+msgstr ""
+
+#: includes/admin/class.actions.php:951
+msgid "Import completed."
 msgstr ""
 
 #: includes/admin/class.capabilities.php:58
@@ -766,24 +826,9 @@ msgstr ""
 msgid "Edit Category"
 msgstr ""
 
-#: includes/admin/pages/categories.php:107
-#: includes/admin/pages/categories.php:356 includes/admin/pages/manage.php:48
-#: includes/admin/pages/manage.php:126 includes/admin/pages/manage.php:203
-#: includes/admin/pages/manage.php:494 includes/admin/pages/manage.php:503
-#: includes/class.metabox-entry.php:3124 includes/class.metabox-entry.php:3197
-#: includes/settings/class.settings.php:1345
-msgid "Name"
-msgstr ""
-
 #: includes/admin/pages/categories.php:111
 #: includes/admin/pages/categories.php:360
 msgid "The name is how it appears on your site."
-msgstr ""
-
-#: includes/admin/pages/categories.php:115
-#: includes/admin/pages/categories.php:364
-#: includes/template/class.template-list-table-term-admin.php:278
-msgid "Slug"
 msgstr ""
 
 #: includes/admin/pages/categories.php:118
@@ -791,11 +836,6 @@ msgstr ""
 msgid ""
 "The “slug” is the URL-friendly version of the name. It is usually all "
 "lowercase and contains only letters, numbers, and hyphens."
-msgstr ""
-
-#: includes/admin/pages/categories.php:125
-#: includes/admin/pages/categories.php:374
-msgid "Parent"
 msgstr ""
 
 #: includes/admin/pages/categories.php:139
@@ -975,11 +1015,11 @@ msgstr ""
 msgid "No Photo Available"
 msgstr ""
 
-#: includes/admin/pages/manage.php:573 includes/class.scripts.php:149
+#: includes/admin/pages/manage.php:573 includes/class.scripts.php:150
 msgid "Click to show details."
 msgstr ""
 
-#: includes/admin/pages/manage.php:573 includes/class.scripts.php:147
+#: includes/admin/pages/manage.php:573 includes/class.scripts.php:148
 msgid "Show Details"
 msgstr ""
 
@@ -1251,158 +1291,187 @@ msgstr ""
 msgid "Customize"
 msgstr ""
 
-#: includes/admin/pages/tools.php:151 includes/admin/pages/tools.php:236
-#: includes/admin/pages/tools.php:264 includes/admin/pages/tools.php:292
-#: includes/admin/pages/tools.php:320 includes/admin/pages/tools.php:348
-#: includes/admin/pages/tools.php:610
+#: includes/admin/pages/tools.php:151 includes/admin/pages/tools.php:240
+#: includes/admin/pages/tools.php:268 includes/admin/pages/tools.php:296
+#: includes/admin/pages/tools.php:324 includes/admin/pages/tools.php:352
+#: includes/admin/pages/tools.php:380 includes/admin/pages/tools.php:717
 msgid "Export"
 msgstr ""
 
-#: includes/admin/pages/tools.php:155 includes/admin/pages/tools.php:388
+#: includes/admin/pages/tools.php:155 includes/admin/pages/tools.php:457
+#: includes/admin/pages/tools.php:743
+msgid "Import"
+msgstr ""
+
+#: includes/admin/pages/tools.php:159 includes/admin/pages/tools.php:495
 msgid "System Information"
 msgstr ""
 
-#: includes/admin/pages/tools.php:159
+#: includes/admin/pages/tools.php:163
 msgid "Settings Import/Export"
 msgstr ""
 
-#: includes/admin/pages/tools.php:163 includes/log/class.log.php:329
+#: includes/admin/pages/tools.php:167 includes/log/class.log.php:329
 msgid "Logs"
 msgstr ""
 
-#: includes/admin/pages/tools.php:219
+#: includes/admin/pages/tools.php:223
 msgid "Export Addresses"
 msgstr ""
 
-#: includes/admin/pages/tools.php:227
+#: includes/admin/pages/tools.php:231
 msgid "Export the entry names and their addresses as a CSV File."
 msgstr ""
 
-#: includes/admin/pages/tools.php:247
+#: includes/admin/pages/tools.php:251
 msgid "Export Phone Numbers"
 msgstr ""
 
-#: includes/admin/pages/tools.php:255
+#: includes/admin/pages/tools.php:259
 msgid "Export the entry names and their phone numbers as a CSV File."
 msgstr ""
 
-#: includes/admin/pages/tools.php:275
+#: includes/admin/pages/tools.php:279
 msgid "Export Email Addresses"
 msgstr ""
 
-#: includes/admin/pages/tools.php:283
+#: includes/admin/pages/tools.php:287
 msgid "Export the entry names and email addresses as a CSV File."
 msgstr ""
 
-#: includes/admin/pages/tools.php:303
+#: includes/admin/pages/tools.php:307
 msgid "Export Dates"
 msgstr ""
 
-#: includes/admin/pages/tools.php:311
+#: includes/admin/pages/tools.php:315
 msgid "Export the entry names and dates as a CSV File."
 msgstr ""
 
-#: includes/admin/pages/tools.php:331
+#: includes/admin/pages/tools.php:335
+msgid "Export Categories"
+msgstr ""
+
+#: includes/admin/pages/tools.php:343
+msgid "Export the categories as a CSV File."
+msgstr ""
+
+#: includes/admin/pages/tools.php:363
 msgid "Export All"
 msgstr ""
 
-#: includes/admin/pages/tools.php:339
+#: includes/admin/pages/tools.php:371
 msgid "Export the entry data as a CSV File."
 msgstr ""
 
-#: includes/admin/pages/tools.php:394
+#: includes/admin/pages/tools.php:418
+msgid "Import Categories"
+msgstr ""
+
+#: includes/admin/pages/tools.php:430
+msgid "Bulk import categories from a CSV File."
+msgstr ""
+
+#: includes/admin/pages/tools.php:441
+msgid "Upload"
+msgstr ""
+
+#: includes/admin/pages/tools.php:449
+msgid "CSV Column"
+msgstr ""
+
+#: includes/admin/pages/tools.php:450
+msgid "Import into field:"
+msgstr ""
+
+#: includes/admin/pages/tools.php:501
 msgid ""
 "To copy the System Info, click below then press Ctrl + C (PC) or Cmd + C "
 "(Mac)."
 msgstr ""
 
-#: includes/admin/pages/tools.php:409
+#: includes/admin/pages/tools.php:516
 msgid "Download System Info as Text File"
 msgstr ""
 
-#: includes/admin/pages/tools.php:454
+#: includes/admin/pages/tools.php:561
 msgid "Send to:"
 msgstr ""
 
-#: includes/admin/pages/tools.php:465 includes/class.metabox-entry.php:2027
+#: includes/admin/pages/tools.php:572 includes/class.metabox-entry.php:2027
 #: includes/class.metabox-entry.php:2119
 msgid "Email Address"
 msgstr ""
 
-#: includes/admin/pages/tools.php:469
+#: includes/admin/pages/tools.php:576
 msgid "user@email.com"
 msgstr ""
 
-#: includes/admin/pages/tools.php:475 includes/admin/pages/tools.php:479
+#: includes/admin/pages/tools.php:582 includes/admin/pages/tools.php:586
 #: includes/template/class.template-list-table-email-log.php:255
 msgid "Subject"
 msgstr ""
 
-#: includes/admin/pages/tools.php:485
+#: includes/admin/pages/tools.php:592
 msgid "Additional Message"
 msgstr ""
 
-#: includes/admin/pages/tools.php:489
+#: includes/admin/pages/tools.php:596
 msgid "Enter additional message here."
 msgstr ""
 
-#: includes/admin/pages/tools.php:492
+#: includes/admin/pages/tools.php:599
 msgid "Your system information will be attached automatically to this email."
 msgstr ""
 
-#: includes/admin/pages/tools.php:503 includes/class.scripts.php:164
+#: includes/admin/pages/tools.php:610 includes/class.scripts.php:165
 msgid "Send Email"
 msgstr ""
 
-#: includes/admin/pages/tools.php:533
+#: includes/admin/pages/tools.php:640
 msgid "Remote Viewing"
 msgstr ""
 
-#: includes/admin/pages/tools.php:540
+#: includes/admin/pages/tools.php:647
 msgid ""
 "Create a secret URL that support can use to remotely view your system "
 "information. The secret URL will expire after 72 hours and can be revoked "
 "at any time."
 msgstr ""
 
-#: includes/admin/pages/tools.php:549
+#: includes/admin/pages/tools.php:656
 msgid "To copy the URL, click then press Ctrl + C (PC) or Cmd + C (Mac)."
 msgstr ""
 
-#: includes/admin/pages/tools.php:553
+#: includes/admin/pages/tools.php:660
 msgid "Test"
 msgstr ""
 
-#: includes/admin/pages/tools.php:558
+#: includes/admin/pages/tools.php:665
 msgid "Generate URL"
 msgstr ""
 
-#: includes/admin/pages/tools.php:561
+#: includes/admin/pages/tools.php:668
 msgid "Revoke URL"
 msgstr ""
 
-#: includes/admin/pages/tools.php:597
+#: includes/admin/pages/tools.php:704
 msgid "Export Settings"
 msgstr ""
 
-#: includes/admin/pages/tools.php:601
+#: includes/admin/pages/tools.php:708
 msgid ""
 "Export the for this site as a .json file. This allows you to easily import "
 "the configuration into another site."
 msgstr ""
 
-#: includes/admin/pages/tools.php:616
+#: includes/admin/pages/tools.php:723
 msgid "Import Settings"
 msgstr ""
 
-#: includes/admin/pages/tools.php:623
+#: includes/admin/pages/tools.php:730
 msgid ""
 "Import the settings from a .json file. This file can be obtained by "
 "exporting the settings on another site using the form above."
-msgstr ""
-
-#: includes/admin/pages/tools.php:636
-msgid "Import"
 msgstr ""
 
 #: includes/class.metabox-api.php:1087
@@ -1772,77 +1841,77 @@ msgstr ""
 msgid "Value not sanitized."
 msgstr ""
 
-#: includes/class.scripts.php:148
+#: includes/class.scripts.php:149
 msgid "Hide Details"
 msgstr ""
 
-#: includes/class.scripts.php:150
+#: includes/class.scripts.php:151
 msgid "Click to hide details."
 msgstr ""
 
-#: includes/class.scripts.php:165
+#: includes/class.scripts.php:166
 msgid "Sending..."
 msgstr ""
 
-#: includes/class.scripts.php:166
+#: includes/class.scripts.php:167
 msgid "Your message has been sent. Thank You!"
 msgstr ""
 
-#: includes/class.scripts.php:168
+#: includes/class.scripts.php:169
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: includes/class.scripts.php:169
+#: includes/class.scripts.php:170
 msgid "Please enter a subject."
 msgstr ""
 
-#: includes/class.scripts.php:170
+#: includes/class.scripts.php:171
 msgid "Please enter a message."
 msgstr ""
 
-#: includes/class.scripts.php:172
+#: includes/class.scripts.php:173
 msgid "Unknown error has occurred!"
 msgstr ""
 
-#: includes/class.scripts.php:173
+#: includes/class.scripts.php:174
 msgid "AJAX Headers not set."
 msgstr ""
 
-#: includes/class.terms.php:1397
+#: includes/class.terms.php:1403
 msgid "Invalid term ID"
 msgstr ""
 
-#: includes/class.terms.php:1402 includes/class.terms.php:1802
+#: includes/class.terms.php:1408 includes/class.terms.php:1808
 msgid "A name is required for this term"
 msgstr ""
 
-#: includes/class.terms.php:1416
+#: includes/class.terms.php:1422
 msgid "Parent term does not exist."
 msgstr ""
 
-#: includes/class.terms.php:1517
+#: includes/class.terms.php:1523
 msgid "A term with the name and slug provided already exists with this parent."
 msgstr ""
 
-#: includes/class.terms.php:1525
+#: includes/class.terms.php:1531
 msgid "A term with the name provided already exists with this parent."
 msgstr ""
 
-#: includes/class.terms.php:1538 includes/class.terms.php:1555
-#: includes/class.terms.php:1582
+#: includes/class.terms.php:1544 includes/class.terms.php:1561
+#: includes/class.terms.php:1588
 msgid "Could not insert term into the database"
 msgstr ""
 
-#: includes/class.terms.php:1567
+#: includes/class.terms.php:1573
 msgid "A term with the name and slug provided already exists."
 msgstr ""
 
-#: includes/class.terms.php:1882
+#: includes/class.terms.php:1888
 msgid "The slug &#8220;%s&#8221; is already in use by another term"
 msgstr ""
 
-#: includes/class.terms.php:2596 includes/class.terms.php:3636
-#: includes/class.terms.php:4171
+#: includes/class.terms.php:2602 includes/class.terms.php:3642
+#: includes/class.terms.php:4177
 msgid "Empty Term"
 msgstr ""
 
@@ -1854,35 +1923,35 @@ msgstr ""
 msgid "Unable to generate random string."
 msgstr ""
 
-#: includes/class.utility.php:2246
+#: includes/class.utility.php:2248
 msgid "Maximum stack depth exceeded."
 msgstr ""
 
-#: includes/class.utility.php:2250
+#: includes/class.utility.php:2252
 msgid "Underflow or the modes mismatch."
 msgstr ""
 
-#: includes/class.utility.php:2254
+#: includes/class.utility.php:2256
 msgid "Unexpected control character found."
 msgstr ""
 
-#: includes/class.utility.php:2258
+#: includes/class.utility.php:2260
 msgid "Syntax error, malformed JSON."
 msgstr ""
 
-#: includes/class.utility.php:2262
+#: includes/class.utility.php:2264
 msgid "Malformed UTF-8 characters, possibly incorrectly encoded."
 msgstr ""
 
-#: includes/class.utility.php:2266
+#: includes/class.utility.php:2268
 msgid "Unknown error."
 msgstr ""
 
-#: includes/class.utility.php:2454
+#: includes/class.utility.php:2456
 msgid "Invalid URL."
 msgstr ""
 
-#: includes/class.utility.php:2569
+#: includes/class.utility.php:2571
 msgid "No URL or width."
 msgstr ""
 
@@ -1926,6 +1995,7 @@ msgid "vCard not available for download."
 msgstr ""
 
 #: includes/export/class.csv-export-batch-addresses.php:47
+#: includes/export/class.csv-export-batch-category.php:55
 #: includes/export/class.csv-export-batch-dates.php:47
 #: includes/export/class.csv-export-batch-email.php:47
 #: includes/export/class.csv-export-batch-phone-numbers.php:47
@@ -1976,6 +2046,10 @@ msgstr ""
 
 #: includes/export/class.csv-export-batch-addresses.php:59
 msgid "Line Three"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-category.php:59
+msgid "Hierarchy"
 msgstr ""
 
 #: includes/export/class.csv-export-batch-email.php:56
@@ -4002,10 +4076,6 @@ msgstr ""
 msgid "View &#8220;%s&#8221;"
 msgstr ""
 
-#: includes/template/class.template-list-table-term-admin.php:277
-msgid "Description"
-msgstr ""
-
 #: includes/template/class.template-list-table-term-admin.php:279
 msgid "Count"
 msgstr ""
@@ -4175,7 +4245,7 @@ msgstr ""
 msgid "A business directory and address book manager."
 msgstr ""
 
-#: includes/class.retrieve.php:2786
+#: includes/class.retrieve.php:2804
 #. translators: This is a comma-separated list of very common words that should
 #. be excluded from a search,
 #. * like a, an, and the. These are usually called "stopwords". You should

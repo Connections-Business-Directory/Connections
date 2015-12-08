@@ -243,7 +243,7 @@ class cnCSV_Batch_Import {
 		//$csv->fields = $csv->titles;
 		//$csv->parse( $data );
 
-		if ( $data ) {
+		if ( ! empty( $data ) ) {
 
 			$more = TRUE;
 			$this->import( $data );

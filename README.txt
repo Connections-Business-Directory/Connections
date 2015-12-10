@@ -29,6 +29,7 @@ Quite simply, Connections Business Directory is the [best directory plugin avail
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
 * **Category support.** Categories can be hierarchical and entries can be assigned to any number of categories.
 * **CSV Export** of addresses, phone numbers, email addresses and dates.
+* **CSV Import** of **nested** categories.
 * **Role capability support**.
 * Displaying your entries on the frontend is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The shortcode provides a dizzying array of options that are just too numerous to list. To learn more, [go here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.

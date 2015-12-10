@@ -346,6 +346,19 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Gets the name of the default primary column.
+	 *
+	 * @access protected
+	 * @since  8.5.6
+	 *
+	 * @return string Name of the default primary column.
+	 */
+	protected function get_default_primary_column_name() {
+
+		return 'name';
+	}
+
+	/**
 	 * Render the body of the table.
 	 *
 	 * @access public

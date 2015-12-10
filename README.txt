@@ -3,8 +3,8 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.1
-Tested up to: 4.3
-Stable tag: 8.5.5
+Tested up to: 4.4
+Stable tag: 8.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,7 @@ Quite simply, Connections Business Directory is the [best directory plugin avail
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
 * **Category support.** Categories can be hierarchical and entries can be assigned to any number of categories.
 * **CSV Export** of addresses, phone numbers, email addresses and dates.
+* **CSV Import** of **nested** categories.
 * **Role capability support**.
 * Displaying your entries on the frontend is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The shortcode provides a dizzying array of options that are just too numerous to list. To learn more, [go here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
@@ -201,6 +202,13 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 == Changelog ==
 
 == Changelog ==
+
+= 8.5.6 12/10/2015 =
+* COMPATIBILITY: Fix for WordPress 4.4. Use an empty string instead of NULL when inserting data for an entry with no value.
+* TWEAK: Change the checkbox header/footer column from th to td so the correct styling is applied by WP.
+* TWEAK: Change the column name from "Hierarchy" to "Parent" in the category CSV export.
+* TWEAK: Add default primary column name to list table classes.
+* TWEAK: Revert CSS tweaks designed to prevent themes from hiding the vcard class due to it breaking templates layouts.
 
 = 8.5.5 12/08/2015 =
 * NEW: Bulk export the categories as a SCV file.
@@ -788,4 +796,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.5 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.6 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

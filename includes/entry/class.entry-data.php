@@ -100,23 +100,23 @@ class cnEntry {
 	/**
 	 * Associative array of addresses
 	 *
-	 * @var null|string
+	 * @var string
 	 */
-	private $addresses;
+	private $addresses = '';
 
 	/**
 	 * Associative array of phone numbers
 	 *
-	 * @var null|string
+	 * @var string
 	 */
-	private $phoneNumbers;
+	private $phoneNumbers = '';
 
 	/**
 	 * Associative array of email addresses
 	 *
 	 * @var
 	 */
-	private $emailAddresses;
+	private $emailAddresses = '';
 
 	/**
 	 * Associative array of websites
@@ -129,21 +129,21 @@ class cnEntry {
 	/**
 	 * Associative array of links
 	 *
-	 * @var null|string
+	 * @var string
 	 */
-	private $links;
+	private $links = '';
 
 	/**
 	 * Associative array of instant messengers IDs
 	 *
-	 * @var null|string
+	 * @var string
 	 */
-	private $im;
+	private $im = '';
 
 	/**
-	 * @var null|string
+	 * @var string
 	 */
-	private $socialMedia;
+	private $socialMedia = '';
 
 	/**
 	 * Unix time: Birthday.
@@ -162,11 +162,11 @@ class cnEntry {
 	/**
 	 * The date data stored serialized array.
 	 *
-	 * @var null|string
+	 * @var string
 	 *
 	 * @since 0.7.3.0
 	 */
-	private $dates;
+	private $dates = '';
 
 	/**
 	 * String: Entry notes.
@@ -1581,7 +1581,7 @@ class cnEntry {
 			}
 		}
 
-		$this->addresses = ! empty( $addresses ) ? serialize( apply_filters( 'cn_set_addresses', $addresses ) ) : NULL;
+		$this->addresses = ! empty( $addresses ) ? serialize( apply_filters( 'cn_set_addresses', $addresses ) ) : '';
 	}
 
 	/**
@@ -1865,7 +1865,7 @@ class cnEntry {
 			}
 		}
 
-		$this->phoneNumbers = ! empty( $phoneNumbers ) ? serialize( $phoneNumbers ) : NULL;
+		$this->phoneNumbers = ! empty( $phoneNumbers ) ? serialize( $phoneNumbers ) : '';
 	}
 
 	/**
@@ -2118,7 +2118,7 @@ class cnEntry {
 			}
 		}
 
-		( ! empty( $emailAddresses ) ) ? $this->emailAddresses = serialize( $emailAddresses ) : $this->emailAddresses = NULL;
+		$this->emailAddresses = ! empty( $emailAddresses ) ? serialize( $emailAddresses ) : '';
 	}
 
 	/**
@@ -2404,7 +2404,7 @@ class cnEntry {
 			}
 		}
 
-		$this->im = ! empty( $im ) ? serialize( $im ) : NULL;
+		$this->im = ! empty( $im ) ? serialize( $im ) : '';
 	}
 
 	/**
@@ -2670,7 +2670,7 @@ class cnEntry {
 			}
 		}
 
-		$this->socialMedia = ! empty( $socialNetworks ) ? serialize( $socialNetworks ) : NULL;
+		$this->socialMedia = ! empty( $socialNetworks ) ? serialize( $socialNetworks ) : '';
 	}
 
 	/**
@@ -3054,7 +3054,7 @@ class cnEntry {
 			}
 		}
 
-		$this->links = ! empty( $links ) ? serialize( $links ) : NULL;
+		$this->links = ! empty( $links ) ? serialize( $links ) : '';
 		//print_r($links); die;
 	}
 
@@ -3385,8 +3385,8 @@ class cnEntry {
 		 * If no anniversary or birthday date types were set, ensure the dates stored are emptied
 		 * for backward compatibility with version 0.7.2.6 and older.
 		 */
-		if ( empty( $anniversary ) ) $this->anniversary = NULL;
-		if ( empty( $birthday ) ) $this->birthday = NULL;
+		if ( empty( $anniversary ) ) $this->anniversary = '';
+		if ( empty( $birthday ) ) $this->birthday = '';
 
 		/*
 		 * Before storing the data, add back into the array from the cache the dates
@@ -3420,7 +3420,7 @@ class cnEntry {
 			}
 		}
 
-		$this->dates = ! empty( $dates ) ? serialize( $dates ) : NULL;
+		$this->dates = ! empty( $dates ) ? serialize( $dates ) : '';
 	}
 
 	/**
@@ -3472,7 +3472,7 @@ class cnEntry {
 	public function setAnniversary( $day, $month ) {
 
 		//Create the anniversary with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
-		$this->anniversary = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1970 ) : NULL;
+		$this->anniversary = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1970 ) : '';
 	}
 
 	/**
@@ -3524,7 +3524,7 @@ class cnEntry {
 	public function setBirthday( $day, $month ) {
 
 		//Create the birthday with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
-		$this->birthday = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1970 ) : NULL;
+		$this->birthday = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1970 ) : '';
 	}
 
 	/**

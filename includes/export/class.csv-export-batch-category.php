@@ -56,7 +56,7 @@ class cnCSV_Batch_Export_Term extends cnCSV_Batch_Export {
 			'name'      => __( 'Name', 'connections' ),
 			'desc'      => __( 'Description', 'connections' ),
 			'slug'      => __( 'Slug', 'connections' ),
-			'hierarchy' => __( 'Hierarchy', 'connections' ),
+			'hierarchy' => __( 'Parent', 'connections' ),
 		);
 
 		return $columns;

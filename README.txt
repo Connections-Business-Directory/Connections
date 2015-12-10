@@ -202,6 +202,13 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.5.6 12/10/2015 =
+* COMPATIBILITY: Fix for WordPress 4.4. Use an empty string instead of NULL when inserting data for an entry with no value.
+* TWEAK: Change the checkbox header/footer column from th to td so the correct styling is applied by WP.
+* TWEAK: Change the column name from "Hierarchy" to "Parent" in the category CSV export.
+* TWEAK: Add default primary column name to list table classes.
+* TWEAK: Revert CSS tweaks designed to prevent themes from hiding the vcard class due to it breaking templates layouts.
+
 = 8.5.5 12/08/2015 =
 * NEW: Bulk export the categories as a SCV file.
 * NEW: Add support to bulk import **nested** categories.
@@ -788,4 +795,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.5 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.6 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

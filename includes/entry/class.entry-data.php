@@ -150,14 +150,14 @@ class cnEntry {
 	 *
 	 * @var int|string unix time
 	 */
-	private $birthday;
+	private $birthday = '';
 
 	/**
 	 * Unix time: Anniversary.
 	 *
 	 * @var int|string unix time
 	 */
-	private $anniversary;
+	private $anniversary = '';
 
 	/**
 	 * The date data stored serialized array.
@@ -173,14 +173,14 @@ class cnEntry {
 	 *
 	 * @var string
 	 */
-	private $bio;
+	private $bio = '';
 
 	/**
 	 * String: Entry biography.
 	 *
 	 * @var string
 	 */
-	private $notes;
+	private $notes = '';
 
 	/**
 	 * String: Visibility Type; public, private, unlisted

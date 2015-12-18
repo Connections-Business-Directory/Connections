@@ -318,14 +318,17 @@ class cnShortcode {
 	}
 
 	/**
-	 * Display results based on qurey var `cn-view`.
+	 * Display results based on query var `cn-view`.
 	 *
 	 * @access public
 	 * @since  0.7.3
 	 * @static
+	 *
 	 * @uses   get_query_var()
-	 * @param  array $atts
-	 * @param  string $content [optional]
+	 *
+	 * @param array  $atts
+	 * @param string $content [optional]
+	 * @param string $tag
 	 *
 	 * @return string
 	 */

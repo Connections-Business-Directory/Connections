@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.1
 Tested up to: 4.4
-Stable tag: 8.5.6
+Stable tag: 8.5.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -201,7 +201,13 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
-== Changelog ==
+= 8.5.7 12/18/2015 =
+* Compatibility: Set the remaining cnEntry properties to an empty string rather than the default NULL for WP 4.4 compatibility.
+* TWEAK: Add WP max memory limit constant to system info.
+* OTHER: Remove image setting instructions since they no longer apply.
+* DEV: Update phpDoc for cnShortcode::view().
+* I18N: Update POT file.
+* I18N: Update MO files.
 
 = 8.5.6 12/10/2015 =
 * COMPATIBILITY: Fix for WordPress 4.4. Use an empty string instead of NULL when inserting data for an entry with no value.
@@ -799,4 +805,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.6 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.7 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

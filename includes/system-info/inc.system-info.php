@@ -139,6 +139,7 @@ Table Prefix:               <?php echo 'Length: ' . strlen( $wpdb->prefix ) . ' 
 Admin AJAX:                 <?php echo /*( edd_test_ajax_works() ? 'Accessible' : 'Inaccessible' ) . */PHP_EOL; ?>
 WP_DEBUG:                   <?php echo ( defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' : 'Disabled' : 'Not set' ) . PHP_EOL; ?>
 Memory Limit:               <?php echo WP_MEMORY_LIMIT . PHP_EOL; ?>
+Max Memory Limit:           <?php echo WP_MAX_MEMORY_LIMIT . PHP_EOL; ?>
 Registered Post Stati:      <?php echo implode( ', ', get_post_stati() ) . PHP_EOL; ?>
 <?php do_action( 'edd_sysinfo_after_wordpress_config' ); ?>
 

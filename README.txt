@@ -201,7 +201,13 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
-== Changelog ==
+= 8.5.7 12/18/2015 =
+* Compatibility: Set the remaining cnEntry properties to an empty string rather than the default NULL for WP 4.4 compatibility.
+* TWEAK: Add WP max memory limit constant to system info.
+* OTHER: Remove image setting instructions since they no longer apply.
+* DEV: Update phpDoc for cnShortcode::view().
+* I18N: Update POT file.
+* I18N: Update MO files.
 
 = 8.5.6 12/10/2015 =
 * COMPATIBILITY: Fix for WordPress 4.4. Use an empty string instead of NULL when inserting data for an entry with no value.
@@ -799,4 +805,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.6 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.7 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

@@ -221,17 +221,6 @@ class cnRegisterSettings {
 		 */
 		$sections[] = array(
 			'tab'       => 'images',
-			'id'        => 'connections_image_instructions',
-			'position'  => 10,
-			'title'     => __( 'Image and Logo Instructions' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'When an image or logo is uploaded to an entry, various sizes are created and cached. This helps to reduce server load during the rendering of the directory. If these settings are changed, they will only affect images uploaded after the change has been made. All previous images will remain at their previously cached sizes. NOTE: the active template will determine which image(s) is used or may dynaically create a custom image size.', 'connections' ) . '\';'
-				),
-			'page_hook' => $settings
-		);
-		$sections[] = array(
-			'tab'       => 'images',
 			'id'        => 'connections_image_thumbnail',
 			'position'  => 10,
 			'title'     => __( 'Thumbnail Image' , 'connections' ),

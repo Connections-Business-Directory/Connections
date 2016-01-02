@@ -527,7 +527,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		}
 
 		// Trim the hanging comma and space.
-		$header = rtrim( $header, ', ');
+		$header = rtrim( $header, ',' );
 
 		// Now write the header...
 		$this->write( $header . "\r\n" );
@@ -553,14 +553,14 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		switch ( $atts['type'] ) {
 
 			case 0:
-				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ', ';
+				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ',';
 				break;
 
 			// Explode all field columns and types...
 			case 1:
 				foreach ( $breakoutTypes as $type ) {
 					foreach ( $breakoutFields as $field ) {
-						$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field, $type ) ) . ', ';
+						$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field, $type ) ) . ',';
 					}
 				}
 				break;

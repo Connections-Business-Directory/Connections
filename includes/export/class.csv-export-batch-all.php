@@ -247,21 +247,21 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			array(
 				'field'  => 'address',
 				'type'   => 1,
-				'fields' => 'line_1;line_2;line_3;city;state;zipcode',
+				'fields' => 'line_1;line_2;line_3;city;state;zipcode;visibility',
 				'table'  => CN_ENTRY_ADDRESS_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'phone',
 				'type'   => 1,
-				'fields' => 'number',
+				'fields' => 'number;visibility',
 				'table'  => CN_ENTRY_PHONE_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'email',
 				'type'   => 1,
-				'fields' => 'address',
+				'fields' => 'address;visibility',
 				'table'  => CN_ENTRY_EMAIL_TABLE,
 				'types'  => NULL,
 			),
@@ -289,7 +289,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			array(
 				'field'  => 'dates',
 				'type'   => 1,
-				'fields' => 'date',
+				'fields' => 'date;visibility',
 				'table'  => CN_ENTRY_DATE_TABLE,
 				'types'  => NULL,
 			),
@@ -368,6 +368,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			'country'   => 'Country',
 			'latitude'  => 'Latitude',
 			'longitude' => 'Longitude',
+			'visibility' => 'Visibility',
 		);
 
 		/*
@@ -388,13 +389,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$corePhoneTypes = $instance->options->getDefaultPhoneNumberValues();
+		$phoneFields    = array(
+			'number'     => 'Number',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core phone types to the field array.
 		foreach ( $corePhoneTypes as $phoneType => $phoneName ) {
 
-			$key = 'phone_' . $phoneType . '_number';
+			//$key = 'phone_' . $phoneType . '_number';
 
-			$fields[ $key ] = 'Phone | ' . $phoneName;
+			//$fields[ $key ] = 'Phone | ' . $phoneName;
+
+			foreach ( $phoneFields as $phoneFieldType => $phoneFieldName ) {
+
+				$key = 'phone_' . $phoneType . '_' . $phoneFieldType;
+
+				$fields[ $key ] = 'Phone | ' . $phoneName . ' | ' . $phoneFieldName;
+			}
 		}
 
 		/*
@@ -402,13 +414,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreEmailTypes = $instance->options->getDefaultEmailValues();
+		$emailFields    = array(
+			'address'    => 'Address',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core email types to the field array.
 		foreach ( $coreEmailTypes as $emailType => $emailName ) {
 
-			$key = 'email_' . $emailType . '_address';
+			//$key = 'email_' . $emailType . '_address';
 
-			$fields[ $key ] = 'Email | ' . $emailName;
+			//$fields[ $key ] = 'Email | ' . $emailName;
+
+			foreach ( $emailFields as $emailFieldType => $emailFieldName ) {
+
+				$key = 'email_' . $emailType . '_' . $emailFieldType;
+
+				$fields[ $key ] = 'Email | ' . $emailName . ' | ' . $emailFieldName;
+			}
 		}
 
 		/*
@@ -458,13 +481,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreDateTypes = $instance->options->getDateOptions();
+		$dateFields    = array(
+			'date'       => 'Date',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core date types to the field array.
 		foreach ( $coreDateTypes as $dateType => $dateName ) {
 
-			$key = 'dates_' . $dateType . '_date';
+			//$key = 'dates_' . $dateType . '_date';
+			//
+			//$fields[ $key ] = 'Date | ' . $dateName;
 
-			$fields[ $key ] = 'Date | ' . $dateName;
+			foreach ( $dateFields as $dateFieldType => $dateFieldName ) {
+
+				$key = 'dates_' . $dateType . '_' . $dateFieldType;
+
+				$fields[ $key ] = 'Date | ' . $dateName . ' | ' . $dateFieldName;
+			}
 		}
 
 		$this->headerNames = apply_filters( 'cn_csv_export_fields', $fields );

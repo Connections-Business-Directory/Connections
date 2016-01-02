@@ -533,7 +533,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 			// Joined from another table
 			case 2:
-				$header .= $this->escapeAndQuote( $atts['header'] ) . ', ';
+				$header .= $this->escapeAndQuote( $atts['header'] ) . ',';
 				break;
 
 			// Breakout a list in the header...
@@ -544,7 +544,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				// Finally, write a list of fields for each category...
 				for ( $i = 0; $i < $count + 1; $i++ ) {
 
-					$header .= $this->escapeAndQuote( 'Category' ) . ', ';
+					$header .= $this->escapeAndQuote( 'Category' ) . ',';
 				}
 
 				break;
@@ -674,7 +674,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 								$terms[] = $term->name;
 							}
 
-							$row .= $this->escapeAndQuote( implode( ', ', $terms ) ) . ', ';
+							$row .= $this->escapeAndQuote( implode( ',', $terms ) ) . ',';
 							break;
 
 						case 3:
@@ -687,7 +687,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 							for ( $j = 0; $j < $count + 1; $j++ ) {
 
 								// Make an array filled with empty cells
-								$terms[ $j ] = '"", ';
+								$terms[ $j ] = '"",';
 							}
 
 							// Now start filling in the empty cells with data...
@@ -697,7 +697,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 							foreach ( $row as $result ) {
 
-								$terms[ $j ] = $this->escapeAndQuote( $result->name ) . ', ';
+								$terms[ $j ] = $this->escapeAndQuote( $result->name ) . ',';
 
 								$j++;
 							}
@@ -707,14 +707,14 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 						default:
 							// If no breakout type is defined, only display the cell data...
-							$row .= $this->escapeAndQuote( $entry->{ $this->fields[ $i ]['field'] } ) . ', ';
+							$row .= $this->escapeAndQuote( $entry->{ $this->fields[ $i ]['field'] } ) . ',';
 							break;
 					}
 
 				}
 
 				// Trim the trailing comma and space, then add newline.
-				$rows .= rtrim( $row, ', ' ) . "\r\n";
+				$rows .= rtrim( $row, ',' ) . "\r\n";
 			}
 
 			// Now write the data...
@@ -758,7 +758,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			for ( $j = 0; $j < $countFields; $j++ ) {
 
 				// Go through each field in each type...
-				$type .= '"", ';
+				$type .= '"",';
 			}
 
 			// Write the type to the type array...
@@ -789,7 +789,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 					// Loop through each field and record it...
 					for ( $j = 0; $j < $countFields; $j++ ) {
 
-						$type .= $this->escapeAndQuote( $result->$breakoutFields[ $j ] ) . ', ';
+						$type .= $this->escapeAndQuote( $result->$breakoutFields[ $j ] ) . ',';
 					}
 
 					$breakoutTypeField[ $i ] = $type;

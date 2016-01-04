@@ -578,9 +578,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	 */
 	private function explodeBreakoutHeader( $atts ) {
 
-		$breakoutFields = $this->getFieldsToExport( $atts );
-		$breakoutTypes  = $this->getTypesToExport( $atts );
-
 		$header = '';
 
 		switch ( $atts['type'] ) {
@@ -591,6 +588,10 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 			// Explode all field columns and types...
 			case 1:
+
+				$breakoutFields = $this->getFieldsToExport( $atts );
+				$breakoutTypes  = $this->getTypesToExport( $atts );
+
 				foreach ( $breakoutTypes as $type ) {
 					foreach ( $breakoutFields as $field ) {
 						$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field, $type ) ) . ',';

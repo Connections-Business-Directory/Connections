@@ -268,21 +268,21 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			array(
 				'field'  => 'social',
 				'type'   => 1,
-				'fields' => 'url',
+				'fields' => 'url;visibility',
 				'table'  => CN_ENTRY_SOCIAL_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'im',
 				'type'   => 1,
-				'fields' => 'uid',
+				'fields' => 'uid;visibility',
 				'table'  => CN_ENTRY_MESSENGER_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'links',
 				'type'   => 1,
-				'fields' => 'url',
+				'fields' => 'url;visibility',
 				'table'  => CN_ENTRY_LINK_TABLE,
 				'types'  => NULL,
 			),
@@ -439,13 +439,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreIMTypes = $instance->options->getDefaultIMValues();
+		$IMFields    = array(
+			'uid'        => 'User ID',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core IM types to the field array.
 		foreach ( $coreIMTypes as $IMType => $IMName ) {
 
-			$key = 'im_' . $IMType . '_uid';
+			//$key = 'im_' . $IMType . '_uid';
+			//
+			//$fields[ $key ] = 'Messenger | ' . $IMName;
 
-			$fields[ $key ] = 'Messenger | ' . $IMName;
+			foreach ( $IMFields as $IMFieldType => $IMFieldName ) {
+
+				$key = 'im_' . $IMType . '_' . $IMFieldType;
+
+				$fields[ $key ] = 'Messenger | ' . $IMName . ' | ' . $IMFieldName;
+			}
 		}
 
 		/*
@@ -453,13 +464,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreSocialTypes = $instance->options->getDefaultSocialMediaValues();
+		$socialFields    = array(
+			'url'        => 'URL',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core email types to the field array.
 		foreach ( $coreSocialTypes as $socialType => $socialName ) {
 
-			$key = 'social_' . $socialType . '_url';
+			//$key = 'social_' . $socialType . '_url';
+			//
+			//$fields[ $key ] = 'Social Network | ' . $socialName;
 
-			$fields[ $key ] = 'Social Network | ' . $socialName;
+			foreach ( $socialFields as $socialFieldType => $socialFieldName ) {
+
+				$key = 'social_' . $socialType . '_' . $socialFieldType;
+
+				$fields[ $key ] = 'Social Network | ' . $socialName . ' | ' . $socialFieldName;
+			}
 		}
 
 		/*
@@ -467,13 +489,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreLinkTypes = $instance->options->getDefaultLinkValues();
+		$linkFields    = array(
+			'url'        => 'URL',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core email types to the field array.
 		foreach ( $coreLinkTypes as $linkType => $linkName ) {
 
-			$key = 'links_' . $linkType . '_url';
+			//$key = 'links_' . $linkType . '_url';
+			//
+			//$fields[ $key ] = 'Link | ' . $linkName;
 
-			$fields[ $key ] = 'Link | ' . $linkName;
+			foreach ( $linkFields as $linkFieldType => $linkFieldName ) {
+
+				$key = 'links_' . $linkType . '_' . $linkFieldType;
+
+				$fields[ $key ] = 'Link | ' . $linkName . ' | ' . $linkFieldName;
+			}
 		}
 
 		/*

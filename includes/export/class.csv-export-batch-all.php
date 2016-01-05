@@ -126,6 +126,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *                              NOTE: Only use this to export terms from the taxonomy tables.
 		 *                          3 - Export the terms into separate cells. One term per cell.
 		 *                              NOTE: Only use this to export terms from the taxonomy tables.
+		 *                          4 - Export data stored in the CN_ENTRY_TABLE options column for an entry.
 		 *     @type string $fields The fields to export from the indicated $table.
 		 *                          Use to export data from the specified $fields from the supporting field type tables,
 		 *                          such as CN_ENTRY_ADDRESS_TABLE, CN_ENTRY_PHONE_TABLE and so on.
@@ -304,6 +305,13 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				'field'  => 'notes',
 				'type'   => 0,
 				'fields' => NULL,
+				'table'  => CN_ENTRY_TABLE,
+				'types'  => NULL,
+			),
+			array(
+				'field'  => 'options',
+				'type'   => 4,
+				'fields' => 'image_url;logo_url',
 				'table'  => CN_ENTRY_TABLE,
 				'types'  => NULL,
 			),
@@ -534,6 +542,9 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			}
 		}
 
+		$fields['options_image_url'] = 'Photo URL';
+		$fields['options_logo_url']  = 'Logo URL';
+
 		$this->headerNames = apply_filters( 'cn_csv_export_fields', $fields );
 	}
 
@@ -613,6 +624,16 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				for ( $i = 0; $i < $count + 1; $i++ ) {
 
 					$header .= $this->escapeAndQuote( 'Category' ) . ',';
+				}
+
+				break;
+
+			case 4:
+
+				$fields = explode( ';', $atts['fields'] );
+
+				foreach ( $fields as $field ) {
+					$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field ) ) . ',';
 				}
 
 				break;
@@ -771,6 +792,11 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 							}
 
 							$row .= implode( '', $terms );
+							break;
+
+						case 4:
+							// Export breakout data from the serialized option cell.
+							$row .= $this->exportBreakoutOptionsCell( $this->fields[ $i ], $entry );
 							break;
 
 						default:
@@ -984,6 +1010,54 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		}
 
 		return $types;
+	}
+
+	/**
+	 * Export the values stored in the CN_ENTRY_TABLE options column for an entry.
+	 *
+	 * @access private
+	 * @since  8.5.8
+	 *
+	 * @uses   maybe_unserialize()
+	 *
+	 * @param array  $atts  The field options set in @see cnCSV_Batch_Export_All::initConfig().
+	 * @param object $entry The entry data retrieved from @see cnCSV_Batch_Export_All::getData().
+	 *
+	 * @return string
+	 */
+	private function exportBreakoutOptionsCell( $atts, $entry ) {
+
+		$options = maybe_unserialize( $entry->options );
+		$fields  = explode( ';', $atts['fields'] );
+		$cell    = array();
+
+		foreach ( $fields as $field ) {
+
+			$url = '';
+
+			switch ( $field ) {
+
+				case 'image_url':
+
+					if ( isset( $options['image']['meta']['original']['name'] ) && ! empty( $options['image']['meta']['original']['name'] ) ) {
+						$url = CN_IMAGE_BASE_URL . $entry->slug . '/' . $options['image']['meta']['original']['name'];
+					}
+
+					break;
+
+				case 'logo_url':
+
+					if ( isset( $options['logo']['meta']['name'] ) && ! empty( $options['logo']['meta']['name'] ) ) {
+						$url = CN_IMAGE_BASE_URL . $entry->slug . '/' . $options['logo']['meta']['name'];
+					}
+
+					break;
+			}
+
+			$cell[] = $this->escapeAndQuote( $url ) . ',';
+		}
+
+		return implode( '', $cell );
 	}
 
 	/**

@@ -481,6 +481,10 @@ class cnAdmin_Tools {
 	 */
 	public static function systemInfo() {
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		/**
 		 * Run before the display of the system info
 		 *
@@ -627,6 +631,10 @@ cnSystem_Info::display();
 	 * @uses   wp_create_nonce()
 	 */
 	public static function systemInfoRemote() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 
 		$token = cnCache::get( 'system_info_remote_token', 'option-cache' );
 		$url   = $token ? home_url() . '/?cn-system-info=' . $token : '';

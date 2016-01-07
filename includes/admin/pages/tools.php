@@ -39,7 +39,9 @@ function connectionsShowToolsPage() {
 
 	} else {
 
-		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'export';
+		$tabs       = cnAdmin_Tools::getTabs();
+		$first_tab  = $tabs[0];
+		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $first_tab['id'];
 		$current_page = self_admin_url( 'admin.php?page=connections_tools' );
 
 		?>
@@ -48,7 +50,7 @@ function connectionsShowToolsPage() {
 			<h2 class="nav-tab-wrapper">
 				<?php
 
-				foreach ( cnAdmin_Tools::getTabs() as $tab ) {
+				foreach ( $tabs as $tab ) {
 
 					$tab_url = add_query_arg( array( 'tab' => $tab['id'] ), $current_page );
 

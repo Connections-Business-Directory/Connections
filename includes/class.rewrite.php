@@ -72,7 +72,7 @@ class cnRewrite {
 		$var[] = 'cn-radius';  // distance
 		$var[] = 'cn-unit';   // unit of distance
 
-		// Timthumb query vars for cnImage.
+		// Query vars for cnImage.
 		$var[] = 'src';
 		$var[] = 'w';
 		$var[] = 'h';

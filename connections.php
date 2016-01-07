@@ -996,9 +996,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// cnFileSystem::noIndexes( CN_IMAGE_PATH ); // Causes some servers to respond w/ 403 when serving images.
 			// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
 
-			// Create a .htaccess file in the TimThumb folder to allow it to be called directly.
-			//cnFileSystem::permitTimThumb( CN_PATH . 'vendor/timthumb' );
-
 			$connections->initOptions();
 
 			/*

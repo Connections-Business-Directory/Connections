@@ -149,23 +149,28 @@ class cnAdmin_Tools {
 		$tabs = array(
 			array( 'id'       => 'export',
 			       'name'     => __( 'Export', 'connections' ),
-			       'callback' => array( __CLASS__, 'export' )
+			       'callback' => array( __CLASS__, 'export' ),
+			       'capability' => 'export',
 			),
 			array( 'id'       => 'import',
 			       'name'     => __( 'Import', 'connections' ),
-			       'callback' => array( __CLASS__, 'import' )
+			       'callback' => array( __CLASS__, 'import' ),
+			       'capability' => 'import',
 			),
 			array( 'id'       => 'system_info',
 			       'name'     => __( 'System Information', 'connections' ),
-			       'callback' => array( __CLASS__, 'systemInfo' )
+			       'callback' => array( __CLASS__, 'systemInfo' ),
+			       'capability' => 'manage_options',
 			),
 			array( 'id'       => 'settings_import_export',
 			       'name'     => __( 'Settings Import/Export', 'connections' ),
-			       'callback' => array( __CLASS__, 'settingsImportExport' )
+			       'callback' => array( __CLASS__, 'settingsImportExport' ),
+			       'capability' => 'manage_options',
 			),
 			array( 'id'       => 'logs',
 			       'name'     => __( 'Logs', 'connections' ),
-			       'callback' => array( __CLASS__, 'logs' )
+			       'callback' => array( __CLASS__, 'logs' ),
+			       'capability' => 'manage_options',
 			),
 		);
 
@@ -194,7 +199,17 @@ class cnAdmin_Tools {
 	 */
 	public static function getTabs() {
 
-		return self::registerTabs();
+		$tabs = array();
+
+		foreach ( self::registerTabs() as $tab ) {
+
+			if ( current_user_can( $tab['capability'] ) ) {
+
+				$tabs[] = $tab;
+			}
+		}
+
+		return $tabs;
 	}
 
 	/**

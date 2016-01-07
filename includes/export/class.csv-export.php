@@ -91,7 +91,7 @@ class cnCSV_Export {
 	 */
 	public function can_export() {
 
-		return (bool) apply_filters( 'cn_csv_export_capability', current_user_can( 'manage_options' ) );
+		return (bool) apply_filters( 'cn_csv_export_capability', current_user_can( 'export' ) );
 	}
 
 	/**

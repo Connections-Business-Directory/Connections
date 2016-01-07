@@ -211,8 +211,7 @@ class cnAdmin_Tools {
 	 */
 	public static function export() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
-
+		if ( ! current_user_can( 'export' ) ) {
 			return;
 		}
 
@@ -406,8 +405,7 @@ class cnAdmin_Tools {
 	 */
 	public static function import() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
-
+		if ( ! current_user_can( 'import' ) ) {
 			return;
 		}
 
@@ -546,8 +544,7 @@ cnSystem_Info::display();
 	 */
 	public static function systemInfoEmail() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
-
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
@@ -692,8 +689,7 @@ cnSystem_Info::display();
 	 */
 	public static function settingsImportExport() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
-
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
@@ -767,7 +763,7 @@ cnSystem_Info::display();
 	 */
 	public static function logs() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 

@@ -201,6 +201,23 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.5.8 01/08/2016 =
+* NEW: CSV export will now export the visibility of address, phone, email and dates.
+* NEW: CSV export will now export the visibility status of social media, instant messenger and links.
+* NEW: CSV export will now export the image and logo URL/s.
+* COMPATIBILITY: Remove spaces after delimiter in CSV export for Excel compatibility.
+* BUG: Correct bug in setting the radio group name attribute.
+* BUG: Properly sanitize the address fields when saving an entry.
+* TWEAK: Remove unused global var $current_user in several methods in cnRetrieve. Remove unused calls to get_currentuserinfo() which will be deprecated in WordPress 4.5.
+* TWEAK: Move the header breakout fields and field types to be within their switch case so they are only run when needed instead on every field export type.
+* TWEAK: Correct the user capabilities for the Tools admin page to better align with the core WordPress user capabilities for the same functions.
+* TWEAK: Add missing user capability checks for system info and remote system info tools.
+* OTHER: Tweak the default tool tab to be the first registered tab rather than being hard coded.
+* OTHER: Update link to the documentation page.
+* OTHER: Remove TimThumb from the vendors folder and most references to it from the code and text since it has not been needed for well over a year now.
+* DEV: Add ability to register a tab with a user role capability so the user must have that capability in order to access that tool tab.
+
+
 = 8.5.7 12/18/2015 =
 * Compatibility: Set the remaining cnEntry properties to an empty string rather than the default NULL for WP 4.4 compatibility.
 * TWEAK: Add WP max memory limit constant to system info.
@@ -808,4 +825,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.7 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.8 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

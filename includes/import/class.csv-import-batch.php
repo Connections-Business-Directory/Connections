@@ -116,7 +116,7 @@ class cnCSV_Batch_Import {
 	 */
 	public function can_import() {
 
-		return (bool) apply_filters( 'cn_csv_import_capability', current_user_can( 'manage_options' ) );
+		return (bool) apply_filters( 'cn_csv_import_capability', current_user_can( 'import' ) );
 	}
 
 	/**

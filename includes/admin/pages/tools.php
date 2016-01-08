@@ -39,7 +39,9 @@ function connectionsShowToolsPage() {
 
 	} else {
 
-		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'export';
+		$tabs       = cnAdmin_Tools::getTabs();
+		$first_tab  = $tabs[0];
+		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $first_tab['id'];
 		$current_page = self_admin_url( 'admin.php?page=connections_tools' );
 
 		?>
@@ -48,7 +50,7 @@ function connectionsShowToolsPage() {
 			<h2 class="nav-tab-wrapper">
 				<?php
 
-				foreach ( cnAdmin_Tools::getTabs() as $tab ) {
+				foreach ( $tabs as $tab ) {
 
 					$tab_url = add_query_arg( array( 'tab' => $tab['id'] ), $current_page );
 
@@ -149,23 +151,28 @@ class cnAdmin_Tools {
 		$tabs = array(
 			array( 'id'       => 'export',
 			       'name'     => __( 'Export', 'connections' ),
-			       'callback' => array( __CLASS__, 'export' )
+			       'callback' => array( __CLASS__, 'export' ),
+			       'capability' => 'export',
 			),
 			array( 'id'       => 'import',
 			       'name'     => __( 'Import', 'connections' ),
-			       'callback' => array( __CLASS__, 'import' )
+			       'callback' => array( __CLASS__, 'import' ),
+			       'capability' => 'import',
 			),
 			array( 'id'       => 'system_info',
 			       'name'     => __( 'System Information', 'connections' ),
-			       'callback' => array( __CLASS__, 'systemInfo' )
+			       'callback' => array( __CLASS__, 'systemInfo' ),
+			       'capability' => 'manage_options',
 			),
 			array( 'id'       => 'settings_import_export',
 			       'name'     => __( 'Settings Import/Export', 'connections' ),
-			       'callback' => array( __CLASS__, 'settingsImportExport' )
+			       'callback' => array( __CLASS__, 'settingsImportExport' ),
+			       'capability' => 'manage_options',
 			),
 			array( 'id'       => 'logs',
 			       'name'     => __( 'Logs', 'connections' ),
-			       'callback' => array( __CLASS__, 'logs' )
+			       'callback' => array( __CLASS__, 'logs' ),
+			       'capability' => 'manage_options',
 			),
 		);
 
@@ -194,7 +201,17 @@ class cnAdmin_Tools {
 	 */
 	public static function getTabs() {
 
-		return self::registerTabs();
+		$tabs = array();
+
+		foreach ( self::registerTabs() as $tab ) {
+
+			if ( current_user_can( $tab['capability'] ) ) {
+
+				$tabs[] = $tab;
+			}
+		}
+
+		return $tabs;
 	}
 
 	/**
@@ -211,8 +228,7 @@ class cnAdmin_Tools {
 	 */
 	public static function export() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
-
+		if ( ! current_user_can( 'export' ) ) {
 			return;
 		}
 
@@ -406,8 +422,7 @@ class cnAdmin_Tools {
 	 */
 	public static function import() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
-
+		if ( ! current_user_can( 'import' ) ) {
 			return;
 		}
 
@@ -483,6 +498,10 @@ class cnAdmin_Tools {
 	 */
 	public static function systemInfo() {
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		/**
 		 * Run before the display of the system info
 		 *
@@ -546,8 +565,7 @@ cnSystem_Info::display();
 	 */
 	public static function systemInfoEmail() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
-
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
@@ -631,6 +649,10 @@ cnSystem_Info::display();
 	 */
 	public static function systemInfoRemote() {
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		$token = cnCache::get( 'system_info_remote_token', 'option-cache' );
 		$url   = $token ? home_url() . '/?cn-system-info=' . $token : '';
 
@@ -692,8 +714,7 @@ cnSystem_Info::display();
 	 */
 	public static function settingsImportExport() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
-
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
@@ -767,7 +788,7 @@ cnSystem_Info::display();
 	 */
 	public static function logs() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 

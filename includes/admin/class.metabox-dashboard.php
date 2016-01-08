@@ -321,7 +321,7 @@ class cnDashboardMetabox {
 		?>
 		<div class="one-third">
 			<p class="center">
-				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="http://connections-pro.com/documentation/plugin/"><span><?php _e( 'Documentation', 'connections' ); ?></span></a>
+				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="http://connections-pro.com/documentation/contents/"><span><?php _e( 'Documentation', 'connections' ); ?></span></a>
 			</p>
 		</div>
 

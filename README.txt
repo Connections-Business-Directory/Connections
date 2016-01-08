@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
 Requires at least: 4.1
 Tested up to: 4.4
-Stable tag: 8.5.7
+Stable tag: 8.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -200,6 +200,23 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 == Changelog ==
+
+= 8.5.8 01/08/2016 =
+* NEW: CSV export will now export the visibility of address, phone, email and dates.
+* NEW: CSV export will now export the visibility status of social media, instant messenger and links.
+* NEW: CSV export will now export the image and logo URL/s.
+* COMPATIBILITY: Remove spaces after delimiter in CSV export for Excel compatibility.
+* BUG: Correct bug in setting the radio group name attribute.
+* BUG: Properly sanitize the address fields when saving an entry.
+* TWEAK: Remove unused global var $current_user in several methods in cnRetrieve. Remove unused calls to get_currentuserinfo() which will be deprecated in WordPress 4.5.
+* TWEAK: Move the header breakout fields and field types to be within their switch case so they are only run when needed instead on every field export type.
+* TWEAK: Correct the user capabilities for the Tools admin page to better align with the core WordPress user capabilities for the same functions.
+* TWEAK: Add missing user capability checks for system info and remote system info tools.
+* OTHER: Tweak the default tool tab to be the first registered tab rather than being hard coded.
+* OTHER: Update link to the documentation page.
+* OTHER: Remove TimThumb from the vendors folder and most references to it from the code and text since it has not been needed for well over a year now.
+* DEV: Add ability to register a tab with a user role capability so the user must have that capability in order to access that tool tab.
+
 
 = 8.5.7 12/18/2015 =
 * Compatibility: Set the remaining cnEntry properties to an empty string rather than the default NULL for WP 4.4 compatibility.
@@ -808,4 +825,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.7 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.8 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

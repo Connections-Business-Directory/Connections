@@ -98,45 +98,6 @@ class cnFileSystem {
 	}
 
 	/**
-	 * Create a .htaccess file in the timthumb folder to allow it to be called directly.
-	 *
-	 * This will ensure TimThumb is allowed to run if the .htaccess file added in: ../wp-content/ by Sucuri WP Plugin which contains:
-	 *
-	 * <Files *.php>
-	 * deny from all
-	 * </Files>
-	 *
-	 * @access public
-	 * @since 0.7.7
-	 * @uses trailingslashit()
-	 * @param (string) $path The path in which the file is to be created in.
-	 * @return void
-	 */
-	public static function permitTimThumb( $path ) {
-		$path = trailingslashit( $path );
-
-		$rules = array(
-			'<Files *.php>',
-			'Order Deny,Allow',
-			'Deny from all',
-			'Allow from 127.0.0.1',
-			'</Files>',
-			'',
-			'<Files timthumb.php>',
-			'Order Allow,Deny',
-			'Allow from all',
-			'</Files>',
-			'',
-			'<IfModule mod_security.c>',
-			'SecFilterEngine Off',
-			'SecFilterScanPOST Off',
-			'</IfModule>'
-			);
-
-		@file_put_contents( $path . '.htaccess', implode( PHP_EOL, $rules ) );
-	}
-
-	/**
 	 * Attempt to set the folder writable per
 	 *
 	 * @link http://codex.wordpress.org/Changing_File_Permissions#Using_the_Command_Line

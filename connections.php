@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.5.7
+ * Version: 8.5.8
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.5.7
+ * @version 8.5.8
  */
 
 // Exit if accessed directly
@@ -226,7 +226,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.7' );
+			define( 'CN_CURRENT_VERSION', '8.5.8' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -995,9 +995,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// Add an .htaccess file, create it if one doesn't exist, and add the no indexes option.
 			// cnFileSystem::noIndexes( CN_IMAGE_PATH ); // Causes some servers to respond w/ 403 when serving images.
 			// cnFileSystem::noIndexes( CN_CUSTOM_TEMPLATE_PATH );
-
-			// Create a .htaccess file in the TimThumb folder to allow it to be called directly.
-			//cnFileSystem::permitTimThumb( CN_PATH . 'vendor/timthumb' );
 
 			$connections->initOptions();
 

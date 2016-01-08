@@ -126,6 +126,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *                              NOTE: Only use this to export terms from the taxonomy tables.
 		 *                          3 - Export the terms into separate cells. One term per cell.
 		 *                              NOTE: Only use this to export terms from the taxonomy tables.
+		 *                          4 - Export data stored in the CN_ENTRY_TABLE options column for an entry.
 		 *     @type string $fields The fields to export from the indicated $table.
 		 *                          Use to export data from the specified $fields from the supporting field type tables,
 		 *                          such as CN_ENTRY_ADDRESS_TABLE, CN_ENTRY_PHONE_TABLE and so on.
@@ -247,49 +248,49 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			array(
 				'field'  => 'address',
 				'type'   => 1,
-				'fields' => 'line_1;line_2;line_3;city;state;zipcode',
+				'fields' => 'line_1;line_2;line_3;city;state;zipcode;visibility',
 				'table'  => CN_ENTRY_ADDRESS_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'phone',
 				'type'   => 1,
-				'fields' => 'number',
+				'fields' => 'number;visibility',
 				'table'  => CN_ENTRY_PHONE_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'email',
 				'type'   => 1,
-				'fields' => 'address',
+				'fields' => 'address;visibility',
 				'table'  => CN_ENTRY_EMAIL_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'social',
 				'type'   => 1,
-				'fields' => 'url',
+				'fields' => 'url;visibility',
 				'table'  => CN_ENTRY_SOCIAL_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'im',
 				'type'   => 1,
-				'fields' => 'uid',
+				'fields' => 'uid;visibility',
 				'table'  => CN_ENTRY_MESSENGER_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'links',
 				'type'   => 1,
-				'fields' => 'url',
+				'fields' => 'url;visibility',
 				'table'  => CN_ENTRY_LINK_TABLE,
 				'types'  => NULL,
 			),
 			array(
 				'field'  => 'dates',
 				'type'   => 1,
-				'fields' => 'date',
+				'fields' => 'date;visibility',
 				'table'  => CN_ENTRY_DATE_TABLE,
 				'types'  => NULL,
 			),
@@ -304,6 +305,13 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				'field'  => 'notes',
 				'type'   => 0,
 				'fields' => NULL,
+				'table'  => CN_ENTRY_TABLE,
+				'types'  => NULL,
+			),
+			array(
+				'field'  => 'options',
+				'type'   => 4,
+				'fields' => 'image_url;logo_url',
 				'table'  => CN_ENTRY_TABLE,
 				'types'  => NULL,
 			),
@@ -368,6 +376,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			'country'   => 'Country',
 			'latitude'  => 'Latitude',
 			'longitude' => 'Longitude',
+			'visibility' => 'Visibility',
 		);
 
 		/*
@@ -388,13 +397,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$corePhoneTypes = $instance->options->getDefaultPhoneNumberValues();
+		$phoneFields    = array(
+			'number'     => 'Number',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core phone types to the field array.
 		foreach ( $corePhoneTypes as $phoneType => $phoneName ) {
 
-			$key = 'phone_' . $phoneType . '_number';
+			//$key = 'phone_' . $phoneType . '_number';
 
-			$fields[ $key ] = 'Phone | ' . $phoneName;
+			//$fields[ $key ] = 'Phone | ' . $phoneName;
+
+			foreach ( $phoneFields as $phoneFieldType => $phoneFieldName ) {
+
+				$key = 'phone_' . $phoneType . '_' . $phoneFieldType;
+
+				$fields[ $key ] = 'Phone | ' . $phoneName . ' | ' . $phoneFieldName;
+			}
 		}
 
 		/*
@@ -402,13 +422,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreEmailTypes = $instance->options->getDefaultEmailValues();
+		$emailFields    = array(
+			'address'    => 'Address',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core email types to the field array.
 		foreach ( $coreEmailTypes as $emailType => $emailName ) {
 
-			$key = 'email_' . $emailType . '_address';
+			//$key = 'email_' . $emailType . '_address';
 
-			$fields[ $key ] = 'Email | ' . $emailName;
+			//$fields[ $key ] = 'Email | ' . $emailName;
+
+			foreach ( $emailFields as $emailFieldType => $emailFieldName ) {
+
+				$key = 'email_' . $emailType . '_' . $emailFieldType;
+
+				$fields[ $key ] = 'Email | ' . $emailName . ' | ' . $emailFieldName;
+			}
 		}
 
 		/*
@@ -416,13 +447,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreIMTypes = $instance->options->getDefaultIMValues();
+		$IMFields    = array(
+			'uid'        => 'User ID',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core IM types to the field array.
 		foreach ( $coreIMTypes as $IMType => $IMName ) {
 
-			$key = 'im_' . $IMType . '_uid';
+			//$key = 'im_' . $IMType . '_uid';
+			//
+			//$fields[ $key ] = 'Messenger | ' . $IMName;
 
-			$fields[ $key ] = 'Messenger | ' . $IMName;
+			foreach ( $IMFields as $IMFieldType => $IMFieldName ) {
+
+				$key = 'im_' . $IMType . '_' . $IMFieldType;
+
+				$fields[ $key ] = 'Messenger | ' . $IMName . ' | ' . $IMFieldName;
+			}
 		}
 
 		/*
@@ -430,13 +472,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreSocialTypes = $instance->options->getDefaultSocialMediaValues();
+		$socialFields    = array(
+			'url'        => 'URL',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core email types to the field array.
 		foreach ( $coreSocialTypes as $socialType => $socialName ) {
 
-			$key = 'social_' . $socialType . '_url';
+			//$key = 'social_' . $socialType . '_url';
+			//
+			//$fields[ $key ] = 'Social Network | ' . $socialName;
 
-			$fields[ $key ] = 'Social Network | ' . $socialName;
+			foreach ( $socialFields as $socialFieldType => $socialFieldName ) {
+
+				$key = 'social_' . $socialType . '_' . $socialFieldType;
+
+				$fields[ $key ] = 'Social Network | ' . $socialName . ' | ' . $socialFieldName;
+			}
 		}
 
 		/*
@@ -444,13 +497,24 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreLinkTypes = $instance->options->getDefaultLinkValues();
+		$linkFields    = array(
+			'url'        => 'URL',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core email types to the field array.
 		foreach ( $coreLinkTypes as $linkType => $linkName ) {
 
-			$key = 'links_' . $linkType . '_url';
+			//$key = 'links_' . $linkType . '_url';
+			//
+			//$fields[ $key ] = 'Link | ' . $linkName;
 
-			$fields[ $key ] = 'Link | ' . $linkName;
+			foreach ( $linkFields as $linkFieldType => $linkFieldName ) {
+
+				$key = 'links_' . $linkType . '_' . $linkFieldType;
+
+				$fields[ $key ] = 'Link | ' . $linkName . ' | ' . $linkFieldName;
+			}
 		}
 
 		/*
@@ -458,14 +522,28 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreDateTypes = $instance->options->getDateOptions();
+		$dateFields    = array(
+			'date'       => 'Date',
+			'visibility' => 'Visibility',
+		);
 
 		// Add the core date types to the field array.
 		foreach ( $coreDateTypes as $dateType => $dateName ) {
 
-			$key = 'dates_' . $dateType . '_date';
+			//$key = 'dates_' . $dateType . '_date';
+			//
+			//$fields[ $key ] = 'Date | ' . $dateName;
 
-			$fields[ $key ] = 'Date | ' . $dateName;
+			foreach ( $dateFields as $dateFieldType => $dateFieldName ) {
+
+				$key = 'dates_' . $dateType . '_' . $dateFieldType;
+
+				$fields[ $key ] = 'Date | ' . $dateName . ' | ' . $dateFieldName;
+			}
 		}
+
+		$fields['options_image_url'] = 'Photo URL';
+		$fields['options_logo_url']  = 'Logo URL';
 
 		$this->headerNames = apply_filters( 'cn_csv_export_fields', $fields );
 	}
@@ -493,7 +571,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		}
 
 		// Trim the hanging comma and space.
-		$header = rtrim( $header, ', ');
+		$header = rtrim( $header, ',' );
 
 		// Now write the header...
 		$this->write( $header . "\r\n" );
@@ -511,29 +589,30 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	 */
 	private function explodeBreakoutHeader( $atts ) {
 
-		$breakoutFields = $this->getFieldsToExport( $atts );
-		$breakoutTypes  = $this->getTypesToExport( $atts );
-
 		$header = '';
 
 		switch ( $atts['type'] ) {
 
 			case 0:
-				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ', ';
+				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ',';
 				break;
 
 			// Explode all field columns and types...
 			case 1:
+
+				$breakoutFields = $this->getFieldsToExport( $atts );
+				$breakoutTypes  = $this->getTypesToExport( $atts );
+
 				foreach ( $breakoutTypes as $type ) {
 					foreach ( $breakoutFields as $field ) {
-						$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field, $type ) ) . ', ';
+						$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field, $type ) ) . ',';
 					}
 				}
 				break;
 
 			// Joined from another table
 			case 2:
-				$header .= $this->escapeAndQuote( $atts['header'] ) . ', ';
+				$header .= $this->escapeAndQuote( $atts['header'] ) . ',';
 				break;
 
 			// Breakout a list in the header...
@@ -544,7 +623,17 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				// Finally, write a list of fields for each category...
 				for ( $i = 0; $i < $count + 1; $i++ ) {
 
-					$header .= $this->escapeAndQuote( 'Category' ) . ', ';
+					$header .= $this->escapeAndQuote( 'Category' ) . ',';
+				}
+
+				break;
+
+			case 4:
+
+				$fields = explode( ';', $atts['fields'] );
+
+				foreach ( $fields as $field ) {
+					$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field ) ) . ',';
 				}
 
 				break;
@@ -674,7 +763,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 								$terms[] = $term->name;
 							}
 
-							$row .= $this->escapeAndQuote( implode( ', ', $terms ) ) . ', ';
+							$row .= $this->escapeAndQuote( implode( ',', $terms ) ) . ',';
 							break;
 
 						case 3:
@@ -687,7 +776,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 							for ( $j = 0; $j < $count + 1; $j++ ) {
 
 								// Make an array filled with empty cells
-								$terms[ $j ] = '"", ';
+								$terms[ $j ] = '"",';
 							}
 
 							// Now start filling in the empty cells with data...
@@ -697,7 +786,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 							foreach ( $row as $result ) {
 
-								$terms[ $j ] = $this->escapeAndQuote( $result->name ) . ', ';
+								$terms[ $j ] = $this->escapeAndQuote( $result->name ) . ',';
 
 								$j++;
 							}
@@ -705,16 +794,21 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 							$row .= implode( '', $terms );
 							break;
 
+						case 4:
+							// Export breakout data from the serialized option cell.
+							$row .= $this->exportBreakoutOptionsCell( $this->fields[ $i ], $entry );
+							break;
+
 						default:
 							// If no breakout type is defined, only display the cell data...
-							$row .= $this->escapeAndQuote( $entry->{ $this->fields[ $i ]['field'] } ) . ', ';
+							$row .= $this->escapeAndQuote( $entry->{ $this->fields[ $i ]['field'] } ) . ',';
 							break;
 					}
 
 				}
 
 				// Trim the trailing comma and space, then add newline.
-				$rows .= rtrim( $row, ', ' ) . "\r\n";
+				$rows .= rtrim( $row, ',' ) . "\r\n";
 			}
 
 			// Now write the data...
@@ -758,7 +852,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			for ( $j = 0; $j < $countFields; $j++ ) {
 
 				// Go through each field in each type...
-				$type .= '"", ';
+				$type .= '"",';
 			}
 
 			// Write the type to the type array...
@@ -789,7 +883,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 					// Loop through each field and record it...
 					for ( $j = 0; $j < $countFields; $j++ ) {
 
-						$type .= $this->escapeAndQuote( $result->$breakoutFields[ $j ] ) . ', ';
+						$type .= $this->escapeAndQuote( $result->$breakoutFields[ $j ] ) . ',';
 					}
 
 					$breakoutTypeField[ $i ] = $type;
@@ -916,6 +1010,54 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		}
 
 		return $types;
+	}
+
+	/**
+	 * Export the values stored in the CN_ENTRY_TABLE options column for an entry.
+	 *
+	 * @access private
+	 * @since  8.5.8
+	 *
+	 * @uses   maybe_unserialize()
+	 *
+	 * @param array  $atts  The field options set in @see cnCSV_Batch_Export_All::initConfig().
+	 * @param object $entry The entry data retrieved from @see cnCSV_Batch_Export_All::getData().
+	 *
+	 * @return string
+	 */
+	private function exportBreakoutOptionsCell( $atts, $entry ) {
+
+		$options = maybe_unserialize( $entry->options );
+		$fields  = explode( ';', $atts['fields'] );
+		$cell    = array();
+
+		foreach ( $fields as $field ) {
+
+			$url = '';
+
+			switch ( $field ) {
+
+				case 'image_url':
+
+					if ( isset( $options['image']['meta']['original']['name'] ) && ! empty( $options['image']['meta']['original']['name'] ) ) {
+						$url = CN_IMAGE_BASE_URL . $entry->slug . '/' . $options['image']['meta']['original']['name'];
+					}
+
+					break;
+
+				case 'logo_url':
+
+					if ( isset( $options['logo']['meta']['name'] ) && ! empty( $options['logo']['meta']['name'] ) ) {
+						$url = CN_IMAGE_BASE_URL . $entry->slug . '/' . $options['logo']['meta']['name'];
+					}
+
+					break;
+			}
+
+			$cell[] = $this->escapeAndQuote( $url ) . ',';
+		}
+
+		return implode( '', $cell );
 	}
 
 	/**

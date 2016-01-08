@@ -178,7 +178,7 @@ class cnAdminActions {
 
 		check_ajax_referer( 'download_system_info' );
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 
 			wp_send_json( __( 'You do not have sufficient permissions to download system information.', 'connections' ) );
 		}
@@ -199,7 +199,7 @@ class cnAdminActions {
 
 		check_ajax_referer( $form->getNonce( 'email_system_info' ), 'nonce' );
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 
 			wp_send_json( -2 );
 		}
@@ -253,7 +253,7 @@ class cnAdminActions {
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 
 			wp_send_json_error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ) );
 		}
@@ -293,7 +293,7 @@ class cnAdminActions {
 			wp_send_json_error( __( 'Invalid AJAX action or nonce validation failed.', 'connections' ) );
 		}
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 
 			wp_send_json_error( __( 'You do not have sufficient permissions to perform this action.', 'connections' ) );
 		}
@@ -314,7 +314,7 @@ class cnAdminActions {
 
 		check_ajax_referer( 'export_settings' );
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 
 			wp_send_json( __( 'You do not have sufficient permissions to export the settings.', 'connections' ) );
 		}
@@ -333,7 +333,7 @@ class cnAdminActions {
 
 		check_ajax_referer( 'import_settings' );
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
 
 			wp_send_json( __( 'You do not have sufficient permissions to import the settings.', 'connections' ) );
 		}
@@ -792,7 +792,7 @@ class cnAdminActions {
 			);
 		}
 
-		if ( ! (bool) apply_filters( 'cn_csv_import_capability', current_user_can( 'manage_options' ) ) ) {
+		if ( ! (bool) apply_filters( 'cn_csv_import_capability', current_user_can( 'import' ) ) ) {
 
 			wp_send_json_error(
 				array(

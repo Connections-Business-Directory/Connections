@@ -66,12 +66,10 @@ class cnRetrieve {
 	public function entries( $atts = array() ) {
 
 		/** @var $wpdb wpdb */
-		global $wpdb, $current_user;
+		global $wpdb;
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
-
-		get_currentuserinfo();
 
 		$select[]             = CN_ENTRY_TABLE . '.*';
 		$from[]               = CN_ENTRY_TABLE;
@@ -1715,9 +1713,8 @@ class cnRetrieve {
 		 * @var connectionsLoad $connections
 		 * @var wpdb $wpdb
 		 */
-		global $wpdb, $connections, $current_user;
+		global $wpdb, $connections;
 
-		get_currentuserinfo();
 		$validate = new cnValidate();
 		$where[] = 'WHERE 1=1';
 
@@ -1817,9 +1814,8 @@ class cnRetrieve {
 		 * @var connectionsLoad $connections
 		 * @var wpdb $wpdb
 		 */
-		global $wpdb, $connections, $current_user;
+		global $wpdb, $connections;
 
-		get_currentuserinfo();
 		$validate = new cnValidate();
 		$where[] = 'WHERE 1=1';
 
@@ -1919,9 +1915,8 @@ class cnRetrieve {
 		 * @var connectionsLoad $connections
 		 * @var wpdb $wpdb
 		 */
-		global $wpdb, $connections, $current_user;
+		global $wpdb, $connections;
 
-		get_currentuserinfo();
 		$validate = new cnValidate();
 		$where[] = 'WHERE 1=1';
 
@@ -2018,9 +2013,8 @@ class cnRetrieve {
 		 * @var connectionsLoad $connections
 		 * @var wpdb $wpdb
 		 */
-		global $wpdb, $connections, $current_user;
+		global $wpdb, $connections;
 
-		get_currentuserinfo();
 		$validate = new cnValidate();
 		$where[] = 'WHERE 1=1';
 
@@ -2117,9 +2111,8 @@ class cnRetrieve {
 		 * @var connectionsLoad $connections
 		 * @var wpdb $wpdb
 		 */
-		global $wpdb, $connections, $current_user;
+		global $wpdb, $connections;
 
-		get_currentuserinfo();
 		$validate = new cnValidate();
 		$where[] = 'WHERE 1=1';
 
@@ -2228,9 +2221,8 @@ class cnRetrieve {
 		 * @var connectionsLoad $connections
 		 * @var wpdb $wpdb
 		 */
-		global $wpdb, $connections, $current_user;
+		global $wpdb, $connections;
 
-		get_currentuserinfo();
 		$validate = new cnValidate();
 		$where[] = 'WHERE 1=1';
 

@@ -1528,6 +1528,15 @@ class cnEntry {
 				// Permit only the valid fields.
 				$addresses[ $key ] = cnSanitize::args( $address, $validFields );
 
+				// Sanitize the address text fields.
+				$addresses[ $key ]['line_1']  = cnSanitize::field( 'street', $addresses[ $key ]['line_1'], $context );
+				$addresses[ $key ]['line_2']  = cnSanitize::field( 'street', $addresses[ $key ]['line_2'], $context );
+				$addresses[ $key ]['line_3']  = cnSanitize::field( 'street', $addresses[ $key ]['line_3'], $context );
+				$addresses[ $key ]['city']    = cnSanitize::field( 'locality', $addresses[ $key ]['city'], $context );
+				$addresses[ $key ]['state']   = cnSanitize::field( 'region', $addresses[ $key ]['state'], $context );
+				$addresses[ $key ]['zipcode'] = cnSanitize::field( 'postal-code', $addresses[ $key ]['zipcode'], $context );
+				$addresses[ $key ]['country'] = cnSanitize::field( 'country', $addresses[ $key ]['country'], $context );
+
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
 

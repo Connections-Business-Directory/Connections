@@ -766,6 +766,7 @@ cnSystem_Info::display();
 			</div><!-- .inside -->
 		</div><!-- .postbox -->
 		<?php
+		wp_enqueue_script( 'cn-system-info' );
 		do_action( 'cn_tools_import_export_settings_after' );
 	}
 

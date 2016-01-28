@@ -650,9 +650,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				require_once CN_PATH . 'includes/admin/class.term-meta-ui.php';
 
 				// Load the templates used on the Dashboard admin page.
-				include_once CN_PATH . 'templates/dashboard-recent-added/dashboard-recent-added.php';
-				include_once CN_PATH . 'templates/dashboard-recent-modified/dashboard-recent-modified.php';
-				include_once CN_PATH . 'templates/dashboard-upcoming/dashboard-upcoming.php';
+				include_once CN_TEMPLATE_PATH . 'dashboard-recent-added/dashboard-recent-added.php';
+				include_once CN_TEMPLATE_PATH . 'dashboard-recent-modified/dashboard-recent-modified.php';
+				include_once CN_TEMPLATE_PATH . 'dashboard-upcoming/dashboard-upcoming.php';
 
 			} else {
 
@@ -663,13 +663,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Include the core templates that use the Template APIs introduced in 0.7.6
 			// Must include BEFORE class.template-api.php.
-			include_once CN_PATH . 'templates/names/names.php';
-			include_once CN_PATH . 'templates/card/card-default.php';
-			include_once CN_PATH . 'templates/profile/profile.php';
-			include_once CN_PATH . 'templates/anniversary-dark/anniversary-dark.php';
-			include_once CN_PATH . 'templates/anniversary-light/anniversary-light.php';
-			include_once CN_PATH . 'templates/birthday-dark/birthday-dark.php';
-			include_once CN_PATH . 'templates/birthday-light/birthday-light.php';
+			include_once CN_TEMPLATE_PATH . 'names/names.php';
+			include_once CN_TEMPLATE_PATH . 'card/card-default.php';
+			include_once CN_TEMPLATE_PATH . 'profile/profile.php';
+			include_once CN_TEMPLATE_PATH . 'anniversary-dark/anniversary-dark.php';
+			include_once CN_TEMPLATE_PATH . 'anniversary-light/anniversary-light.php';
+			include_once CN_TEMPLATE_PATH . 'birthday-dark/birthday-dark.php';
+			include_once CN_TEMPLATE_PATH . 'birthday-light/birthday-light.php';
 
 			// Template APIs.
 			// Must require AFTER the core templates.

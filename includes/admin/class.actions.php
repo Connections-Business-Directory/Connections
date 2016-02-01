@@ -2023,9 +2023,9 @@ class cnAdminActions {
 						if ( $role == 'administrator' ) continue;
 
 						if ( $grant == 'true' ) {
-							cnRole::add( $role, $capability );
+							cnRole::add( esc_attr( $role ), esc_attr( $capability ) );
 						} else {
-							cnRole::remove( $role, $capability );
+							cnRole::remove( esc_attr( $role ), esc_attr( $capability ) );
 						}
 
 					}

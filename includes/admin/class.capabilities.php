@@ -145,14 +145,14 @@ class cnRole extends WP_Roles {
 
 		/**
 		 * These are the roles that will default to having full access
-		 * to all capabilites. This is to maintain plugin behavior that
+		 * to all capabilities. This is to maintain plugin behavior that
 		 * exisited prior to adding role/capability support.
 		 */
 		$coreRoles = array( 'administrator', 'editor', 'author' );
 
 		/**
 		 * If no roles are supplied to the method to reset; the method
-		 * will reset the capabilies of all roles defined.
+		 * will reset the capabilities of all roles defined.
 		 */
 		if ( empty( $roles ) ) $roles = $instance->get_names();
 
@@ -160,7 +160,7 @@ class cnRole extends WP_Roles {
 
 		foreach ( $roles as $role => $key ) {
 
-			// If the current role is one of the defined core roles, grant them all capabilites
+			// If the current role is one of the defined core roles, grant them all capabilities
 			$grant = in_array( $role, $coreRoles ) ? TRUE : FALSE;
 
 			if ( in_array( $role, $coreRoles ) ) {

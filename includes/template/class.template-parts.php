@@ -1074,13 +1074,21 @@ class cnTemplatePart {
 		// Check whether or not the category description should be displayed or not.
 		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'search_message' ) ) return '';
 
+		$html     = '';
+		$messages = array();
 		$defaults = array(
-			'return' => FALSE
+			'header'        => '',
+			'header_tag'    => 'h3',
+			'container_tag' => 'ul',
+			'item_tag'      => 'li',
+			'before'        => '',
+			'before-item'   => '',
+			'after-item'    => '',
+			'after'         => '',
+			'return'        => FALSE
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
-
-		$out = array();
+		$atts = wp_parse_args( $atts, apply_filters( 'cn_search_results_atts', $defaults ) );
 
 		// Get the directory home page ID.
 		$homeID = $atts['force_home'] ? cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ) : $atts['home_id'];
@@ -1112,6 +1120,8 @@ class cnTemplatePart {
 		// if ( get_query_var('cn-radius') ) $queryVars['cn-radius']             = get_query_var('cn-radius');
 		// if ( get_query_var('cn-unit') ) $queryVars['cn-unit']                 = get_query_var('cn-unit');
 
+		$messages = apply_filters( 'cn_search_results_messages-before', $messages, $atts, $results, $template );
+
 		if ( $queryVars['cn-cat'] ) {
 
 			$categoryID = $queryVars['cn-cat'];
@@ -1133,7 +1143,7 @@ class cnTemplatePart {
 				$terms[] = esc_html( $term->name );
 			}
 
-			$out[] = sprintf( __( 'You are searching within category(ies): %s', 'connections' ), implode( ', ', $terms ) );
+			$messages['cn-cat'] = sprintf( __( 'You are searching within category(ies): %s', 'connections' ), implode( ', ', $terms ) );
 		}
 
 		if ( $queryVars['cn-s'] ) {
@@ -1144,64 +1154,120 @@ class cnTemplatePart {
 			// Trim any white space from around the terms in the array.
 			array_walk( $queryVars['cn-s'] , 'trim' );
 
-			$out[] = sprintf( __( 'You are searching for the keyword(s): %s', 'connections' ), implode( ', ', $queryVars['cn-s'] ) );
+			$messages['cn-s'] = sprintf(
+				__( 'You are searching for the keyword(s): %s', 'connections' ),
+				esc_html( implode( ', ', $queryVars['cn-s'] ) )
+			);
 		}
 
 		if ( $queryVars['cn-char'] ) {
 
-			$out[] = sprintf( __( 'The results are being filtered by the character: %s', 'connections' ), $queryVars['cn-char'] );
+			$messages['cn-char'] = sprintf(
+				__( 'The results are being filtered by the character: %s', 'connections' ),
+				$queryVars['cn-char']
+			);
 		}
 
 		if ( $queryVars['cn-organization'] ) {
 
-			$out[] = sprintf( __( 'The results are being filtered by the organization: %s', 'connections' ), $queryVars['cn-organization'] );
+			$messages['cn-organization'] = sprintf(
+				__( 'The results are being filtered by the organization: %s', 'connections' ),
+				$queryVars['cn-organization']
+			);
 		}
 
 		if ( $queryVars['cn-department'] ) {
 
-			$out[] = sprintf( __( 'The results are being filtered by the department: %s', 'connections' ), $queryVars['cn-department'] );
+			$messages['cn-department'] = sprintf(
+				__( 'The results are being filtered by the department: %s', 'connections' ),
+				$queryVars['cn-department']
+			);
 		}
 
 		if ( $queryVars['cn-locality'] ) {
 
-			$out[] = sprintf( __( 'The results are being filtered by the locality: %s', 'connections' ), $queryVars['cn-locality'] );
+			$messages['cn-locality'] = sprintf(
+				__( 'The results are being filtered by the locality: %s', 'connections' ),
+				$queryVars['cn-locality']
+			);
 		}
 
 		if ( $queryVars['cn-region'] ) {
 
-			$out[] = sprintf( __( 'The results are being filtered by the region: %s', 'connections' ), $queryVars['cn-region'] );
+			$messages['cn-region'] = sprintf(
+				__( 'The results are being filtered by the region: %s', 'connections' ),
+				$queryVars['cn-region']
+			);
 		}
 
 		if ( $queryVars['cn-postal-code'] ) {
 
-			$out[] = sprintf( __( 'The results are being filtered by the postal code: %s', 'connections' ), $queryVars['cn-postal-code'] );
+			$messages['cn-postal-code'] = sprintf(
+				__( 'The results are being filtered by the postal code: %s', 'connections' ),
+				$queryVars['cn-postal-code']
+			);
 		}
 
 		if ( $queryVars['cn-country'] ) {
 
-			$out[] = sprintf( __( 'The results are being filtered by the country: %s', 'connections' ), $queryVars['cn-country'] );
+			$messages['cn-country'] = sprintf(
+				__( 'The results are being filtered by the country: %s', 'connections' ),
+				$queryVars['cn-country']
+			);
 		}
 
-		// Convert the search messages in a HTML UL list.
-		if ( ! empty( $out ) ) {
+		$messages = apply_filters( 'cn_search_results_messages-after', $messages, $atts, $results, $template );
+		$messages = apply_filters( 'cn_search_results_messages', $messages, $atts, $results, $template );
 
-			$out = '<li class="cn-search-message">' . implode( '</li><li class="cn-search-message">', $out ) . '</li>';
-			$out = '<ul id="cn-search-message-list">' . $out . '</ul>';
+		if ( ! empty( $messages ) ) {
 
-			$out .= sprintf(
-				'<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>',
+			if ( 0 < strlen( $atts['header'] ) ) {
+
+				$header = sprintf(
+					'<%1$s class="cn-search-message-header">%2$s</%1$s>',
+					$atts['header_tag'],
+					esc_html( $atts['header'] )
+				);
+
+			} else {
+
+				$header = '';
+			}
+
+			// Render the HTML <li> items.
+			foreach ( $messages as $key => $message ) {
+
+				$html .= sprintf(
+					PHP_EOL . "\t" . '<%2$s class="cn-search-message-list-item" id="cn-search-message-list-item-%3$s">%1$s%4$s%5$s</%2$s>',
+					$atts['before-item'],
+					$atts['item_tag'],
+					esc_attr( $key ),
+					esc_html( $message ),
+					$atts['after-item']
+				);
+			}
+
+			// Wrap the <li> items in a <ul>.
+			$html = sprintf(
+				'<%1$s class="cn-search-message-list">%2$s' . PHP_EOL . '</%1$s>',
+				$atts['container_tag'],
+				$html
+			);
+
+			// Add the clear search button.
+			$html .= sprintf(
+				'<div id="cn-clear-search"><a class="button btn" id="cn-clear-search-button" href="%1$s">%2$s</a></div>' . PHP_EOL,
 				esc_url( $permalink ),
 				__( 'Clear Search', 'connections' )
 			);
 
-			$out = '<div id="cn-search-messages">' . $out . '</div>';
-
-		} else {
-
-			$out = '';
+			// Wrap it all in a <div>.
+			$html = '<div id="cn-search-messages">' . $header . $html . '</div>' . PHP_EOL;
 		}
 
-		return self::echoOrReturn( $atts['return'], $out );
+		$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
+
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

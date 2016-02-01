@@ -20,7 +20,7 @@ function connectionsShowToolsPage() {
 	/*
 	 * Check whether user can edit Settings
 	 */
-	if ( ! current_user_can( 'install_plugins' ) ) {
+	if ( ! current_user_can( 'edit_posts' ) ) {
 
 		wp_die(
 			'<p id="error-page" style="-moz-background-clip:border;

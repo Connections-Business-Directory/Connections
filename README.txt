@@ -1,7 +1,7 @@
 === Connections Business Directory ===
 Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
-Tags: addresses, address book, addressbook, bio, bios, biographies, business, businesses, business directory, business-directory, business directory plugin, directory widget, chamber of commerce, church, contact, contacts, connect, connections, directory, directories, hcalendar, hcard, ical, icalendar, image, images, list, lists, listings, member directory, members directory, members directories, microformat, microformats, page, pages, people, profile, profiles, post, posts, plugin, shortcode, staff, user, users, vcard, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress business directory, wordpress local directory plugin
+Tags: address book, business directory, chamber of commerce, church directory, contact directory, directory, member directory, staff directory
 Requires at least: 4.1
 Tested up to: 4.4
 Stable tag: 8.5.8

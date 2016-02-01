@@ -23,9 +23,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *    -Add Link to personal profile in popup for each member displayed, NOT FOR MOBILE VIEWING
  */
 
+/** @var cnEntry $entry */
 if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
-	// Get the plugins dir URL for the site
-	$plugindir = get_bloginfo( 'wpurl' ) . '/wp-content/plugins';
 
 	// create the div
 	$member_listing        = '<div class="member-entry">';

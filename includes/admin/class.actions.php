@@ -385,7 +385,7 @@ class cnAdminActions {
 			wp_die( __( 'Nonce verification failed.', 'connections' ), __( 'Error', 'connections' ), array( 'response' => 403 ) );
 		}
 
-		$type = $_REQUEST['type'];
+		$type = esc_attr( $_REQUEST['type'] );
 
 		require_once CN_PATH . 'includes/export/class.csv-export.php';
 		require_once CN_PATH . 'includes/export/class.csv-export-batch.php';
@@ -2023,16 +2023,16 @@ class cnAdminActions {
 						if ( $role == 'administrator' ) continue;
 
 						if ( $grant == 'true' ) {
-							cnRole::add( $role, $capability );
+							cnRole::add( esc_attr( $role ), esc_attr( $capability ) );
 						} else {
-							cnRole::remove( $role, $capability );
+							cnRole::remove( esc_attr( $role ), esc_attr( $capability ) );
 						}
 
 					}
 				}
 			}
 
-			if ( isset( $_POST['reset'] ) ) cnRole::reset( $_POST['reset'] );
+			if ( isset( $_POST['reset'] ) ) cnRole::reset( array_map( 'esc_attr', $_POST['reset'] ) );
 
 			if ( isset( $_POST['reset_all'] ) ) cnRole::reset();
 

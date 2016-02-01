@@ -269,7 +269,7 @@ function connectionsShowViewPage( $action = NULL ) {
 				$retrieveAttr['list_type']  = $instance->currentUser->getFilterEntryType();
 				$retrieveAttr['category']   = $instance->currentUser->getFilterCategory();
 
-				$retrieveAttr['char']       = isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ? $_GET['cn-char'] : '';
+				$retrieveAttr['char']       = isset( $_GET['cn-char'] ) && 0 < strlen( $_GET['cn-char'] ) ? esc_attr( $_GET['cn-char'] ) : '';
 				$retrieveAttr['visibility'] = $instance->currentUser->getFilterVisibility();
 				$retrieveAttr['status']     = $instance->currentUser->getFilterStatus();
 
@@ -314,9 +314,11 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				<form method="post">
 
+					<?php $searchTerm = isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ? $_GET['s'] : ''; ?>
+
 					<p class="search-box">
 						<label class="screen-reader-text" for="entry-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
-						<input type="search" id="entry-search-input" name="s" value="<?php if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) echo $_GET['s'] ; ?>" />
+						<input type="search" id="entry-search-input" name="s" value="<?php esc_attr_e( $searchTerm ); ?>" />
 						<input type="submit" name="" id="search-submit" class="button" value="<?php _e( 'Search Entries', 'connections' ); ?>"  />
 					</p>
 

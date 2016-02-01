@@ -79,7 +79,7 @@ class cnAdminMenu {
 		$submenu[60]  = array( 'hook' => 'categories', 'page_title' => 'Connections : ' . __( 'Categories', 'connections' ), 'menu_title' => __( 'Categories', 'connections' ), 'capability' => 'connections_edit_categories', 'menu_slug' => 'connections_categories', 'function' => array( __CLASS__, 'showPage' ) );
 		$submenu[80]  = array( 'hook' => 'templates', 'page_title' => 'Connections : ' . __( 'Templates', 'connections' ), 'menu_title' => __( 'Templates', 'connections' ), 'capability' => 'connections_manage_template', 'menu_slug' => 'connections_templates', 'function' => array( __CLASS__, 'showPage' ) );
 		$submenu[100] = array( 'hook' => 'roles', 'page_title' => 'Connections : ' . __( 'Roles &amp; Capabilites', 'connections' ), 'menu_title' => __( 'Roles', 'connections' ), 'capability' => 'connections_change_roles', 'menu_slug' => 'connections_roles', 'function' => array( __CLASS__, 'showPage' ) );
-		$submenu[110] = array( 'hook' => 'tools', 'page_title' => 'Connections : ' . __( 'Tools', 'connections' ), 'menu_title' => __( 'Tools', 'connections' ), 'capability' => 'manage_options', 'menu_slug' => 'connections_tools', 'function' => array( __CLASS__, 'showPage' ) );
+		$submenu[110] = array( 'hook' => 'tools', 'page_title' => 'Connections : ' . __( 'Tools', 'connections' ), 'menu_title' => __( 'Tools', 'connections' ), 'capability' => 'edit_posts', 'menu_slug' => 'connections_tools', 'function' => array( __CLASS__, 'showPage' ) );
 		$submenu[120] = array( 'hook' => 'settings', 'page_title' => 'Connections : ' . __( 'Settings', 'connections' ), 'menu_title' => __( 'Settings', 'connections' ), 'capability' => 'connections_change_settings', 'menu_slug' => 'connections_settings', 'function' => array( __CLASS__, 'showPage' ) );
 
 		$submenu = apply_filters( 'cn_submenu', $submenu );
@@ -132,7 +132,7 @@ class cnAdminMenu {
 			case 'connections_manage':
 				include_once CN_PATH . 'includes/admin/pages/manage.php';
 				$action = ( isset( $_GET['cn-action'] ) && ! empty( $_GET['cn-action'] ) ) ? $_GET['cn-action'] : '';
-				connectionsShowViewPage( $action );
+				connectionsShowViewPage( esc_attr( $action ) );
 				break;
 
 			case 'connections_add':

@@ -106,6 +106,7 @@ Session:                    <?php echo ( isset( $_SESSION ) ? 'Enabled' : 'Disab
 
 Version:                    <?php echo get_bloginfo( 'version' ) . PHP_EOL; ?>
 Language:                   <?php echo ( defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US' ) . PHP_EOL; ?>
+ABSPATH                     <?php echo ABSPATH . PHP_EOL ?>
 Permalink Structure:        <?php echo ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . PHP_EOL; ?>
 Active Theme:               <?php echo $theme . PHP_EOL; ?>
 Show On Front:              <?php echo get_option( 'show_on_front' ) . PHP_EOL; ?>

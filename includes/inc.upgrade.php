@@ -30,9 +30,7 @@ function connectionsShowUpgradePage() {
 				padding:1em 2em;
 				text-align:center;
 				width:700px">' . __( 'You do not have sufficient permissions to access this page.', 'connections' ) . '</p>' );
-	}
-	else {
-		global $connections;
+	} else {
 
 ?>
 
@@ -41,22 +39,15 @@ function connectionsShowUpgradePage() {
 
 				<div id="connections-upgrade">
 
-					<?php
-		$urlPath = admin_url() . 'admin.php?page=' . $_GET['page'];
-
-		if ( isset( $_GET['upgrade-db'] ) && $_GET['upgrade-db'] === 'do' ) {
-			cnRunDBUpgrade();
-		}
-		else {
-?>
-								<?php echo '<h3>' , __( 'Upgrade Required', 'connections' ) , '!</h3>'; ?>
-								<p><?php _e( 'Your database tables are out of date and must be upgraded before you can continue.', 'connections' ); ?></p>
-								<p><?php _e( 'If you would like to downgrade later, please first make a complete backup of your database tables.', 'connections' ); ?></p>
-								<h4><a class="button-primary" href="<?php echo $urlPath;?>&amp;upgrade-db=do"><?php _e( 'Start Upgrade', 'connections' ); ?></a></h4>
-							<?php
-		}
-
-?>
+					<?php if ( 'do' === isset( $_GET['upgrade-db'] ) && $_GET['upgrade-db'] ) :
+						cnRunDBUpgrade();
+					else : ?>
+						<?php $urlPath = admin_url() . 'admin.php?page=' . $_GET['page']; ?>
+						<?php echo '<h3>' , __( 'Upgrade Required', 'connections' ) , '!</h3>'; ?>
+						<p><?php _e( 'Your database tables are out of date and must be upgraded before you can continue.', 'connections' ); ?></p>
+						<p><?php _e( 'If you would like to downgrade later, please first make a complete backup of your database tables.', 'connections' ); ?></p>
+						<h4><a class="button-primary" href="<?php echo esc_url( $urlPath );?>&amp;upgrade-db=do"><?php _e( 'Start Upgrade', 'connections' ); ?></a></h4>
+					<?php endif; ?>
 
 				</div>
 			</div>
@@ -809,7 +800,7 @@ function cnRunDBUpgrade() {
 		$connections->options->saveOptions();
 
 		echo '<h4>' , __( 'Upgrade completed.', 'connections' ) , "</h4>\n";
-		echo '<h4><a class="button-primary" href="' . $urlPath . '">' , __( 'Continue', 'connections' ) , '</a></h4>';
+		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , __( 'Continue', 'connections' ) , '</a></h4>';
 
 		$wpdb->hide_errors();
 	}

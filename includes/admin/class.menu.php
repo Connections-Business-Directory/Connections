@@ -132,7 +132,7 @@ class cnAdminMenu {
 			case 'connections_manage':
 				include_once CN_PATH . 'includes/admin/pages/manage.php';
 				$action = ( isset( $_GET['cn-action'] ) && ! empty( $_GET['cn-action'] ) ) ? $_GET['cn-action'] : '';
-				connectionsShowViewPage( $action );
+				connectionsShowViewPage( esc_attr( $action ) );
 				break;
 
 			case 'connections_add':

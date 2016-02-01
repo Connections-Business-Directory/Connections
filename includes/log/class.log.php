@@ -739,9 +739,9 @@ final class cnLog {
 	 *
 	 * @return array|bool|WP_Post
 	 */
-	public static function delete( $id  ) {
+	public static function delete( $id ) {
 
-		return wp_delete_post( $id, TRUE );
+		return wp_delete_post( absint( $id ), TRUE );
 	}
 
 	/**

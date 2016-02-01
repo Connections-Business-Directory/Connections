@@ -39,14 +39,20 @@ function connectionsShowToolsPage() {
 
 	} else {
 
-		$tabs       = cnAdmin_Tools::getTabs();
-		$first_tab  = $tabs[0];
-		$active_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : $first_tab['id'];
-		$current_page = self_admin_url( 'admin.php?page=connections_tools' );
+		$tabs = cnAdmin_Tools::getTabs();
 
 		?>
-
 		<div class="wrap">
+		<?php
+
+		if ( ! empty( $tabs ) ) {
+
+			$first_tab  = $tabs[0];
+			$active_tab = isset( $_GET['tab'] ) ? esc_attr( $_GET['tab'] ) : $first_tab['id'];
+			$current_page = self_admin_url( 'admin.php?page=connections_tools' );
+
+			?>
+
 			<h2 class="nav-tab-wrapper">
 				<?php
 
@@ -65,6 +71,31 @@ function connectionsShowToolsPage() {
 			<div class="metabox-holder">
 				<?php do_action( 'cn_tools_tab_' . $active_tab );?>
 			</div><!-- .metabox-holder -->
+
+			<?php
+
+		} else {
+
+			?>
+
+			<p id="error-page" style="-moz-background-clip:border;
+			-moz-border-radius:11px;
+			background:#FFFFFF none repeat scroll 0 0;
+			border:1px solid #DFDFDF;
+			color:#333333;
+			display:block;
+			font-size:12px;
+			line-height:18px;
+			margin:25px auto 20px;
+			padding:1em 2em;
+			text-align:center;
+			width:700px"><?php esc_html_e( 'There are no tools available for your to use.', 'connections' ) ?></p>
+
+			<?php
+
+		}
+
+		?>
 		</div><!-- .wrap -->
 
 	<?php }

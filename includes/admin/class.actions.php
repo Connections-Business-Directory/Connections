@@ -2032,7 +2032,7 @@ class cnAdminActions {
 				}
 			}
 
-			if ( isset( $_POST['reset'] ) ) cnRole::reset( $_POST['reset'] );
+			if ( isset( $_POST['reset'] ) ) cnRole::reset( array_map( 'esc_attr', $_POST['reset'] ) );
 
 			if ( isset( $_POST['reset_all'] ) ) cnRole::reset();
 

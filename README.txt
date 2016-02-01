@@ -201,6 +201,33 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 
 == Changelog ==
 
+= 8.5.9 02/01/2016 =
+* NEW: Add ABSPATH to the System Info.
+* NEW: Refactor cnTemplatePart::searchingMessage() to add filters and hooks to make it more configurable for developers.
+* BUG: Enqueue the JavaScript on the Settings Import/Export admin page.
+* BUG: Use CN_TEMPLATE_PATH instead of CN_PATH to include the core templates. Remove, the double forward slash.
+* BUG: Fix unescaped user search term in the admin. Unfiltered user input for the search field being sent directly via echo back to the user's browser.
+* BUG: Escape role names and capabilities submitted by the Connections : Roles admin page when adding/removing a role capability.
+* TWEAK: Tweak logic in cnUtility::getUUID() so if openssl_random_pseudo_bytes() fails, it'll gracefully fallback to the compatibility method rather than failing.
+* TWEAK: Remove instance of `$plugindir = get_bloginfo( 'wpurl' ) . '/wp-content/plugins';` as requested by wp.org.
+* TWEAK: Remove unused global from cnRole::reset().
+* TWEAK: Add message for user if they do not have access to any admin tools.
+* TWEAK: Correct the user capabilities for the Tools admin page to better align with the core WordPress user capabilities for the same functions.
+* TWEAK: Escape role names before resetting them.
+* TWEAK: Escape URL use to kickoff a DB upgrade.
+* TWEAK: Code cleanup of the DB upgrade message to make it more readable.
+* TWEAK: Escape CSV Export type before processing.
+* TWEAK: Escape Connections : Manage admin page view action.
+* TWEAK: Escape the output for the current character on the Connections : Manage admin page.
+* TWEAK: Escape the current log type being viewed.
+* TWEAK: Run absint() on log post ID.
+* OTHER: Reduce tags as requested by wp.org.
+* OTHER: Correct misspelling in cnRole::reset().
+* OTHER: Add newline at EOF in class.capabilities.php.
+* OTHER: Remove an extra space.
+* DEV: Use minified files instead of vendor supplied packed files for jQuery goMap and MarkerClusterer per wp.org guidelines.
+* DEV: Use Yoda condition.
+
 = 8.5.8 01/08/2016 =
 * NEW: CSV export will now export the visibility of address, phone, email and dates.
 * NEW: CSV export will now export the visibility status of social media, instant messenger and links.
@@ -828,4 +855,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.8 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.9 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

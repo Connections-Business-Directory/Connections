@@ -139,7 +139,6 @@ class cnRole extends WP_Roles {
 	 * @return void
 	 */
 	public static function reset( $roles = array() ) {
-		global $connections;
 
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();

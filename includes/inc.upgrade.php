@@ -809,7 +809,7 @@ function cnRunDBUpgrade() {
 		$connections->options->saveOptions();
 
 		echo '<h4>' , __( 'Upgrade completed.', 'connections' ) , "</h4>\n";
-		echo '<h4><a class="button-primary" href="' . $urlPath . '">' , __( 'Continue', 'connections' ) , '</a></h4>';
+		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , __( 'Continue', 'connections' ) , '</a></h4>';
 
 		$wpdb->hide_errors();
 	}

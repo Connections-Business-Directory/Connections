@@ -853,7 +853,7 @@ cnSystem_Info::display();
 						'id'      => 'view',
 						'options' => array_diff_assoc( $allLogTypes, $emailLogTypes ),
 					),
-					$current
+					esc_attr( $current )
 				);
 
 				submit_button(

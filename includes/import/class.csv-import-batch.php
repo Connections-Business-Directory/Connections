@@ -100,7 +100,7 @@ class cnCSV_Batch_Import {
 			require_once CN_PATH . 'vendor/parse-csv/cn-parsecsv.lib.php';
 		}
 
-		$this->file =  $file;
+		$this->file = $file;
 	}
 
 	/**

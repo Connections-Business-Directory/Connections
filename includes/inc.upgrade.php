@@ -39,7 +39,7 @@ function connectionsShowUpgradePage() {
 
 				<div id="connections-upgrade">
 
-					<?php if ( isset( $_GET['upgrade-db'] ) && $_GET['upgrade-db'] === 'do' ) :
+					<?php if ( 'do' === isset( $_GET['upgrade-db'] ) && $_GET['upgrade-db'] ) :
 						cnRunDBUpgrade();
 					else : ?>
 						<?php $urlPath = admin_url() . 'admin.php?page=' . $_GET['page']; ?>

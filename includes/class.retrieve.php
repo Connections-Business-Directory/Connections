@@ -339,10 +339,11 @@ class cnRetrieve {
 		if ( ! empty( $atts['exclude_category'] ) ) {
 
 			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
+			$categoryExcludeIDs = array();
 
 			$atts['exclude_category'] = wp_parse_id_list( $atts['exclude_category'] );
 
-			$categoryIDs = array_diff( (array) $categoryIDs, $atts['exclude_category'] );
+			$categoryIDs = array_diff( $categoryIDs, $atts['exclude_category'] );
 
 			foreach ( $atts['exclude_category'] as $categoryID ) {
 
@@ -350,21 +351,15 @@ class cnRetrieve {
 				$categoryExcludeIDs[] = absint( $categoryID );
 
 				// Retrieve the children categories
-				$results = $this->categoryChildren( 'term_id', $categoryID );
-				// var_dump($results);
+				$termChildren = cnTerm::children( $categoryID, 'category' );
 
-				foreach ( (array) $results as $term ) {
+				if ( ! is_a( $termChildren, 'WP_Error' ) && ! empty( $termChildren ) ) {
 
-					// Only add the ID if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = absint( $term->term_id );
+					$categoryExcludeIDs = array_merge( $categoryExcludeIDs, $termChildren );
 				}
 			}
 
-			// Merge the children of the excluded category into the excluded category ID array.
-			$atts['exclude_category'] = array_merge( $atts['exclude_category'], (array) $categoryExcludeIDs );
-
-			// Ensure unique values only.
-			$atts['exclude_category'] = array_unique( $atts['exclude_category'] );
+			$atts['exclude_category'] = array_unique( $categoryExcludeIDs );
 
 			$sql = 'SELECT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
 					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
@@ -377,9 +372,7 @@ class cnRetrieve {
 			if ( ! empty( $results ) ) {
 
 				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ", ", $results ) . ')';
-			} /*else {
-				$where[] = 'AND 1=2';
-			}*/
+			}
 		}
 
 		// Convert the supplied category IDs $atts['category_in'] to an array.

@@ -3835,6 +3835,8 @@ class cnTerm {
 	/**
 	 * Retrieves children of taxonomy as term IDs.
 	 *
+	 * NOTE: This is the Connections equivalent of @see _get_term_hierarchy() in WordPress core ../wp-includes/taxonomy.php
+	 *
 	 * @access private
 	 * @since  8.1
 	 * @static
@@ -3881,6 +3883,8 @@ class cnTerm {
 	 *
 	 * If $terms is an array of objects, then _children returns an array of objects.
 	 * If $terms is an array of IDs, then _children returns an array of IDs.
+	 *
+	 * NOTE: This is the Connections equivalent of @see _get_term_children() in WordPress core ../wp-includes/taxonomy.php
 	 *
 	 * @access private
 	 * @since  8.1

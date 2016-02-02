@@ -13,8 +13,10 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class cnTerms
-{
+/**
+ * Class cnTerms
+ */
+class cnTerms {
 
 	/**
 	 * Returns all the terms under a taxonomy type.

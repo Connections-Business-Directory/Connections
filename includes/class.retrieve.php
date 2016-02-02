@@ -1089,7 +1089,6 @@ class cnRetrieve {
 		// Limit the characters that are queried based on if the current user can view approved and/or pending entries.
 		$where = self::setQueryStatus( $where, $atts );
 
-
 		$select = 'SUBSTRING( CASE `entry_type`
 					  WHEN \'individual\' THEN `last_name`
 					  WHEN \'organization\' THEN `organization`

@@ -81,7 +81,6 @@ class cnRetrieve {
 		$visibility           = array();
 
 		$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
-		$permittedEntryStatus = array( 'approved', 'pending' );
 
 		/*
 		 * // START -- Set the default attributes array. \\
@@ -610,46 +609,27 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries based on status.
 		 */
-		// Convert the supplied entry statuses $atts['status'] to an array.
-		if ( ! is_array( $atts['status'] ) /*&& ! empty($atts['status'])*/ ) {
-			// Trim the space characters if present.
-			$atts['status'] = str_replace( ' ', '', $atts['status'] );
+		cnFunction::parseStringList( $atts['status'], ',' );
 
-			// Convert to array.
-			$atts['status'] = explode( ',', $atts['status'] );
-		}
-		/*else
-			{
-				// Query the approved entries
-				$atts['status'] = array('approved');
-			}*/
+		$permittedEntryStatus     = array( 'approved', 'pending' );
+		$userPermittedEntryStatus = array( 'approved' );
 
 		if ( is_user_logged_in() ) {
-			// if 'all' was supplied, set the array to all the permitted entry status types.
-			if ( in_array( 'all', $atts['status'] ) ) $atts['status'] = $permittedEntryStatus;
+
+			// If 'all' was supplied, set the array to all the permitted entry status types.
+			if ( in_array( 'all', $atts['status'] ) ) {
+
+				$atts['status'] = $permittedEntryStatus;
+			}
 
 			// Limit the viewable status per role capability assigned to the current user.
-			if ( current_user_can( 'connections_edit_entry' ) ) {
+			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+
 				$userPermittedEntryStatus = array( 'approved', 'pending' );
-
-				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
-			}
-			elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-				$userPermittedEntryStatus = array( 'approved', 'pending' );
-
-				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
-			}
-			else {
-				$userPermittedEntryStatus = array( 'approved' );
-
-				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
 			}
 		}
-		/*else
-			{
-				// If no user is logged in, set the status for the query to approved.
-				$atts['status'] = array('approved');
-			}*/
+
+		$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
 
 		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $atts['status'] ) . '\')';
 		/*

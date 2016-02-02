@@ -1223,6 +1223,9 @@ class cnRetrieve {
 
 		$status = array_intersect( $permitted, $status );
 
+		// Permit only the supported statuses to be queried.
+		$status = array_intersect( $status, $valid );
+
 		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $status ) . '\')';
 
 		return $where;

@@ -3052,77 +3052,21 @@ class cnRetrieve {
 	 */
 	public static function recordCount( $atts ) {
 
-		/**
-		 * @var wpdb $wpdb
-		 * @var connectionsLoad $connections
-		 */
-		global $wpdb, $connections;
+		/**  @var wpdb $wpdb */
+		global $wpdb;
 
 		$where[]    = 'WHERE 1=1';
-		$visibility = array();
-		$permitted  = array( 'approved', 'pending' );
 
 		$defaults = array(
 			'public_override'  => TRUE,
 			'private_override' => TRUE,
 			'status'           => array(),
-			 );
+		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = cnSanitize::args( $atts, $defaults );
 
-		// Convert the supplied statuses into an array.
-		if ( ! is_array( $atts['status'] ) ) {
-
-			// Remove whitespace.
-			$atts['status'] = trim( str_replace( ' ', '', $atts['status'] ) );
-
-			$atts['status'] = explode( ',', $atts['status'] );
-		}
-
-		// Permit only the support status to be queried.
-		$atts['status'] = array_intersect( $atts['status'], $permitted );
-
-		if ( is_user_logged_in() ) {
-
-			if ( current_user_can( 'connections_view_public' ) ) $visibility[]                 = 'public';
-			if ( current_user_can( 'connections_view_private' ) ) $visibility[]                = 'private';
-			if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-
-			// Set query status per role capability assigned to the current user.
-			if ( current_user_can( 'connections_edit_entry' ) ) {
-
-				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermitted = array( 'approved', 'pending' );
-
-				$status = array_intersect( $userPermitted, $atts['status'] );
-
-			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-
-				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermitted = array( 'approved' );
-
-				$status = array_intersect( $userPermitted, $atts['status'] );
-
-			} else {
-
-				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermitted = array( 'approved' );
-
-				$status = array_intersect( $userPermitted, $atts['status'] );
-			}
-
-		} else {
-
-			if ( $connections->options->getAllowPublic() )                                               $visibility[] = 'public';
-			if ( $atts['public_override'] == TRUE && $connections->options->getAllowPublicOverride() )   $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
-
-			$status = array( 'approved' );
-		}
-
-		if ( ! empty( $status ) )     $where[] = 'AND `status` IN (\'' . implode( "', '", $status ) . '\')';
-
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", $visibility ) . '\')';
+		$where = self::setQueryVisibility( $where, $atts );
+		$where = self::setQueryStatus( $where, $atts );
 
 		$results = $wpdb->get_var( 'SELECT COUNT(`id`) FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) );
 

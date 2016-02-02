@@ -1175,59 +1175,53 @@ class cnRetrieve {
 	/**
 	 * Set up the query to only return the entries based on status.
 	 *
-	 * @param array $where
-	 * @param array $atts
-	 *
 	 * @access private
-	 * @since 0.7.4
+	 * @since  0.7.4
+	 * @static
 	 *
 	 * @uses wp_parse_args()
 	 * @uses is_user_logged_in()
 	 * @uses current_user_can()
 	 *
+	 * @param array $where
+	 * @param array $atts
+	 *
 	 * @return array
 	 */
 	public static function setQueryStatus( $where, $atts = array() ) {
-		$valid = array( 'approved', 'pending' );
 
-		$defaults = array(
+		$valid     = array( 'approved', 'pending' );
+		$permitted = array( 'approved' );
+		$defaults  = array(
 			'status' => array( 'approved' )
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		// Convert the supplied entry statuses $atts['status'] to an array.
-		if ( ! is_array( $atts['status'] ) ) {
-			// Trim the space characters if present.
-			$status = str_replace( ' ', '', $atts['status'] );
-
-			// Convert to array.
-			$status = explode( ',', $status );
-		} else {
-			$status = $atts['status'];
-		}
+		$status = cnFunction::parseStringList( $atts['status'], ',' );
 
 		if ( is_user_logged_in() ) {
+
 			// If 'all' was supplied, set the array to all the permitted entry status types.
-			if ( in_array( 'all', $status ) ) $status = $valid;
+			if ( in_array( 'all', $status ) ) {
 
-			// Limit the viewable status per role capability assigned to the current user.
-			if ( current_user_can( 'connections_edit_entry' ) ) {
-				$permitted = array( 'approved', 'pending' );
-
-				$status = array_intersect( $permitted, $status );
-
-			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-				$permitted = array( 'approved' );
-
-				$status = array_intersect( $permitted, $status );
-
-			} else {
-				$permitted = array( 'approved' );
-
-				$status = array_intersect( $permitted, $status );
+				$status = $valid;
 			}
+
+			// If the current user can edit entries, then they should have permission to view both approved and pending.
+			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+
+				$permitted = array( 'approved', 'pending' );
+			}
+
+		} else {
+
+			// A non-logged in user should only have permission to view approved entries.
+			$status = array( 'approved' );
 		}
+
+		$status = array_intersect( $permitted, $status );
 
 		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $status ) . '\')';
 

@@ -80,8 +80,6 @@ class cnRetrieve {
 		$random               = FALSE;
 		$visibility           = array();
 
-		$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
-
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -519,21 +517,21 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries that match the supplied entry type.
 		 */
-		// Convert the supplied entry types $atts['list_type'] to an array.
-		if ( ! is_array( $atts['list_type'] ) && ! empty( $atts['list_type'] ) ) {
-			// Trim the space characters if present.
-			$atts['list_type'] = str_replace( ' ', '', $atts['list_type'] );
+		if ( ! empty( $atts['list_type'] ) ) {
 
-			// Convert to array.
-			$atts['list_type'] = explode( ',', $atts['list_type'] );
-		}
+			cnFunction::parseStringList( $atts['list_type'], ',' );
 
-		// Set query string for entry type.
-		if ( ! empty( $atts['list_type'] ) && (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {
-			// Compatibility code to make sure any occurrences of the deprecated entry type connections_group is changed to entry type family
-			$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
+			$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
 
-			$where[] = 'AND `entry_type` IN (\'' . implode( "', '", (array) $atts['list_type'] ) . '\')';
+			// Set query string for entry type.
+			if ( (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {
+
+				// Compatibility code to make sure any occurrences of the deprecated entry type connections_group
+				// is changed to entry type family
+				$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
+
+				$where[] = 'AND `entry_type` IN (\'' . implode( "', '", (array) $atts['list_type'] ) . '\')';
+			}
 		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied entry type.

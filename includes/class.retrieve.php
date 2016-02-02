@@ -3030,36 +3030,6 @@ class cnRetrieve {
 	}
 
 	/**
-	 * Sorts terms by name.
-	 *
-	 * @param object  $a
-	 * @param object  $b
-	 * @return integer
-	 */
-	private function sortTermsByName( $a, $b ) {
-		return strcmp( $a->name, $b->name );
-	}
-
-	/**
-	 * Sorts terms by ID.
-	 *
-	 * @param object  $a
-	 * @param object  $b
-	 * @return integer
-	 */
-	private function sortTermsByID( $a, $b ) {
-		if ( $a->term_id > $b->term_id ) {
-			return 1;
-		}
-		elseif ( $a->term_id < $b->term_id ) {
-			return -1;
-		}
-		else {
-			return 0;
-		}
-	}
-
-	/**
 	 * Total record count based on current user permissions.
 	 *
 	 * @access public
@@ -3154,23 +3124,6 @@ class cnRetrieve {
 		$results = $wpdb->get_var( 'SELECT COUNT(`id`) FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) );
 
 		return ! empty( $results ) ? $results : 0;
-	}
-
-	/**
-	 * Limit the returned results.
-	 *
-	 * This is more or less a hack until limit is properly implemented in the retrieve query.
-	 *
-	 * @access private
-	 * @version 1.0
-	 * @since 0.7.1.6
-	 * @param array   $results
-	 * @return array
-	 */
-	public function limitList( $results ) {
-		$limit = 12;
-
-		return array_slice( $results, 0, $limit, TRUE );
 	}
 
 	/**

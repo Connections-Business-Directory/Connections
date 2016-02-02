@@ -314,6 +314,8 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['category'] ) ) {
 
+			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
+
 			$atts['category'] = wp_parse_id_list( $atts['category'] );
 
 			foreach ( $atts['category'] as $categoryID ) {
@@ -322,13 +324,11 @@ class cnRetrieve {
 				$categoryIDs[] = absint( $categoryID );
 
 				// Retrieve the children categories
-				$results = $this->categoryChildren( 'term_id', $categoryID );
-				//print_r($results);
+				$termChildren = cnTerm::children( $categoryID, 'category' );
 
-				foreach ( (array) $results as $term ) {
+				if ( ! is_a( $termChildren, 'WP_Error' ) && ! empty( $termChildren ) ) {
 
-					// Only add the ID if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = absint( $term->term_id );
+					$categoryIDs = array_merge( $categoryIDs, $termChildren );
 				}
 			}
 		}

@@ -1934,98 +1934,94 @@ class cnRetrieve {
 	/**
 	 * Returns as an array of objects containing the social media networks per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the social of the specified entry by entry id.
-	 * $atts['preferred'] (bool) Retrieve the preferred entry social network; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific social network types, id must be supplied.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the social network data will be returned.
+	 *     @type int          $id        The entry ID in which to retrieve the social media networks for.
+	 *     @type bool         $preferred Whether or not to return only the preferred social media networks.
+	 *                                   Default: false
+	 *     @type array|string $type      The types to return.
+	 *                                   Default: array() which will return all registered types.
+	 *                                   Accepts: Any other registered types.
+	 *     @type int          $limit     The number to limit the results to.
+	 * }
+	 *
 	 * @return array
 	 */
-	public function socialMedia( $suppliedAttr , $returnData = TRUE ) {
+	public static function socialMedia( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$where = array( 'WHERE 1=1' );
+
+		$defaults = array(
+			'fields'    => 'all',
+			'id'        => NULL,
+			'preferred' => FALSE,
+			'type'      => array(),
+			'limit'     => NULL,
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb $wpdb
+		 * @var string       $fields
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var array|string $type
+		 * @var null|int     $limit
 		 */
-		global $wpdb, $connections;
-
-		$validate = new cnValidate();
-		$where[] = 'WHERE 1=1';
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['type'] = NULL;
-
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
-
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		cnFunction::parseStringList( $type );
 
-		if ( ! empty( $id ) ) {
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 's.id', 's.entry_id' );
+				break;
+
+			case 'url':
+				$select = array( 's.url' );
+				break;
+
+			default:
+				$select = array( 's.*' );
+		}
+
+		if ( is_numeric( $id ) && ! empty( $id ) ) {
+
 			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
-
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
-			}
-
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
-
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		if ( $preferred ) {
+
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
 		}
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		if ( ! empty( $type ) ) {
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_SOCIAL_TABLE . '.*
-
-					FROM ' . CN_ENTRY_SOCIAL_TABLE . ' ' . ' ' .
-
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`';
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_SOCIAL_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_SOCIAL_TABLE . ' ' . ' ' . implode( ' ', $where );
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( empty( $results ) ) return array();
+		$where = self::setQueryVisibility( $where, array( 'table' => 's' ) );
 
-		//print_r($results);
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS s %3$s ORDER BY `order`%4$s',
+			implode( ', ', $select ),
+			CN_ENTRY_SOCIAL_TABLE,
+			implode( ' ', $where ),
+			$limit
+		);
+
+		$results = $wpdb->get_results( $sql );
+
 		return $results;
 	}
 

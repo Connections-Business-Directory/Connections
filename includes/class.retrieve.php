@@ -1760,7 +1760,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public static function emailAddresses( $atts ) {
+	public static function emailAddresses( $atts = array() ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

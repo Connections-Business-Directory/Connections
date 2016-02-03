@@ -2160,6 +2160,9 @@ class cnEntry {
 	 */
 	public function getIm( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
+		/**
+		 * @var connectionsLoad $connections
+		 */
 		global $connections;
 
 		$results = array();

@@ -1678,7 +1678,7 @@ class cnRetrieve {
 			'id'        => NULL,
 			'preferred' => FALSE,
 			'type'      => array(),
-			'limit'     => array(),
+			'limit'     => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );

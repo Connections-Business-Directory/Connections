@@ -1655,8 +1655,8 @@ class cnRetrieve {
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
 	 *
-	 *     @type int          $id        The entry ID in which to retrieve the addresses for.
-	 *     @type bool         $preferred Whether or not to return only the preferred address.
+	 *     @type int          $id        The entry ID in which to retrieve the phone numbers for.
+	 *     @type bool         $preferred Whether or not to return only the preferred phone numbers.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.
@@ -1749,8 +1749,8 @@ class cnRetrieve {
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
 	 *
-	 *     @type int          $id        The entry ID in which to retrieve the addresses for.
-	 *     @type bool         $preferred Whether or not to return only the preferred address.
+	 *     @type int          $id        The entry ID in which to retrieve the email addresses for.
+	 *     @type bool         $preferred Whether or not to return only the preferred email address.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.
@@ -1843,8 +1843,8 @@ class cnRetrieve {
 	 * @param array $atts {
 	 *     Optional. An array of arguments.
 	 *
-	 *     @type int          $id        The entry ID in which to retrieve the addresses for.
-	 *     @type bool         $preferred Whether or not to return only the preferred address.
+	 *     @type int          $id        The entry ID in which to retrieve the messenger IDs for.
+	 *     @type bool         $preferred Whether or not to return only the preferred messenger IDs.
 	 *                                   Default: false
 	 *     @type array|string $type      The types to return.
 	 *                                   Default: array() which will return all registered types.

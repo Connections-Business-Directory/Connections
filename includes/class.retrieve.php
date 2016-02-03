@@ -1516,7 +1516,7 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public function addresses( $atts = array() ) {
+	public static function addresses( $atts = array() ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

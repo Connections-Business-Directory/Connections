@@ -314,7 +314,7 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['category'] ) ) {
 
-			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
+			$categoryIDs = array();
 
 			$atts['category'] = wp_parse_id_list( $atts['category'] );
 

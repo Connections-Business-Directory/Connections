@@ -2028,108 +2028,108 @@ class cnRetrieve {
 	/**
 	 * Returns as an array of objects containing the links per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the links for the specified entry by id.
-	 * $atts['preferred'] (bool) Retrieve the preferred entry link; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific link, id must be supplied.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the link data will be returned.
+	 *     @type int          $id        The entry ID in which to retrieve the links for.
+	 *     @type bool         $preferred Whether or not to return only the preferred links.
+	 *                                   Default: false
+	 *     @type array|string $type      The types to return.
+	 *                                   Default: array() which will return all registered types.
+	 *                                   Accepts: blog, website and any other registered types.
+	 *     @type int          $limit     The number to limit the results to.
+	 * }
+	 *
 	 * @return array
 	 */
-	public function links( $suppliedAttr , $returnData = TRUE ) {
+	public static function links( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$where = array( 'WHERE 1=1' );
+
+		$defaults = array(
+			'fields'    => 'all',
+			'id'        => NULL,
+			'preferred' => FALSE,
+			'image'     => FALSE,
+			'logo'      => FALSE,
+			'type'      => array(),
+			'limit'     => NULL,
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb $wpdb
+		 * @var string       $fields
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var bool         $image
+		 * @var bool         $logo
+		 * @var array|string $type
+		 * @var null|int     $limit
 		 */
-		global $wpdb, $connections;
-
-		$validate = new cnValidate();
-		$where[] = 'WHERE 1=1';
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['image'] = NULL;
-		$defaultAttr['logo'] = NULL;
-		$defaultAttr['type'] = NULL;
-
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
-
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		cnFunction::parseStringList( $type );
 
-		if ( ! empty( $id ) ) {
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 'l.id', 'l.entry_id' );
+				break;
+
+			case 'url':
+				$select = array( 'l.url' );
+				break;
+
+			default:
+				$select = array( 'l.*' );
+		}
+
+		if ( is_numeric( $id ) && ! empty( $id ) ) {
+
 			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
-
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
-			}
-
-			if ( ! empty( $image ) ) {
-				$where[] = $wpdb->prepare( 'AND `image` = %d', (bool) $image );
-			}
-
-			if ( ! empty( $logo ) ) {
-				$where[] = $wpdb->prepare( 'AND `logo` = %d', (bool) $logo );
-			}
-
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
-
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		if ( $preferred ) {
+
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
 		}
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		if ( $image ) {
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_LINK_TABLE . '.*
-
-					FROM ' . CN_ENTRY_LINK_TABLE . ' ' . ' ' .
-
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`';
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_LINK_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_LINK_TABLE . ' ' . ' ' . implode( ' ', $where );
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
+			$where[] = $wpdb->prepare( 'AND `image` = %d', (bool) $image );
 		}
 
-		if ( empty( $results ) ) return array();
+		if ( $logo ) {
 
-		//print_r($results);
+			$where[] = $wpdb->prepare( 'AND `logo` = %d', (bool) $logo );
+		}
+
+		if ( ! empty( $type ) ) {
+
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+		}
+
+		$where = self::setQueryVisibility( $where, array( 'table' => 'l' ) );
+
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS l %3$s ORDER BY `order`%4$s',
+			implode( ', ', $select ),
+			CN_ENTRY_LINK_TABLE,
+			implode( ' ', $where ),
+			$limit
+		);
+
+		$results = $wpdb->get_results( $sql );
+
 		return $results;
 	}
 

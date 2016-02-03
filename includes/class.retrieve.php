@@ -1539,6 +1539,7 @@ class cnRetrieve {
 		$atts = cnSanitize::args( $atts, $defaults );
 
 		/**
+		 * @var string       $fields
 		 * @var int          $id
 		 * @var bool         $preferred
 		 * @var array|string $type

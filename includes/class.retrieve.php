@@ -1555,19 +1555,10 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		/** @var array $type */
 		cnFunction::parseStringList( $type );
-
-		/** @var array $city */
 		cnFunction::parseStringList( $city );
-
-		/** @var array $state */
 		cnFunction::parseStringList( $state );
-
-		/** @var array $zipcode */
 		cnFunction::parseStringList( $zipcode );
-
-		/** @var array $country */
 		cnFunction::parseStringList( $country );
 
 		switch ( $atts['fields'] ) {

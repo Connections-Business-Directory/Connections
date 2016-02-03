@@ -1523,9 +1523,6 @@ class cnRetrieve {
 
 		$where = array( 'WHERE 1=1' );
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'fields'      => 'all',
 			'id'          => NULL,
@@ -1540,9 +1537,6 @@ class cnRetrieve {
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		/**
 		 * @var int          $id

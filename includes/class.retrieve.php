@@ -2249,12 +2249,9 @@ class cnRetrieve {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
 		$results    = array();
 		$scored     = array();
-		$fields     = $instance->options->getSearchFields();
+		$fields     = cnSettingsAPI::get( 'connections', 'search', 'fields' );
 
 		$fields     = apply_filters( 'cn_search_fields', $fields );
 

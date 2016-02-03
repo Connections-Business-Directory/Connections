@@ -1684,16 +1684,17 @@ class cnRetrieve {
 		$atts = cnSanitize::args( $atts, $defaults );
 
 		/**
+		 * @var string       $fields
 		 * @var int          $id
 		 * @var bool         $preferred
-		 * @var string|array $type
+		 * @var array|string $type
+		 * @var null|int     $limit
 		 */
 		extract( $atts );
 
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		/** @var array $type */
 		cnFunction::parseStringList( $type );
 
 		switch ( $atts['fields'] ) {

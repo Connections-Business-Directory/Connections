@@ -2598,10 +2598,8 @@ class cnTerm {
 	 *
 	 * @access private
 	 * @since  8.1.6
+	 * @deprecated 8.5.10 Use @see cnTerm::childrenIDs()
 	 * @static
-	 *
-	 * @uses   update_option()
-	 * @uses   cnTerm::getTaxonomyTerms()
 	 *
 	 * @param  string $taxonomy Taxonomy Name.
 	 *
@@ -2609,35 +2607,7 @@ class cnTerm {
 	 */
 	public static function get_hierarchy( $taxonomy ) {
 
-		// Implement taxonomy check.
-		//if ( !is_taxonomy_hierarchical($taxonomy) )
-		//	return array();
-
-		$children = get_option( "cn_{$taxonomy}_children" );
-
-		if ( is_array( $children ) ) {
-
-			return $children;
-		}
-
-		$children = array();
-
-		$terms    = self::getTaxonomyTerms(
-			$taxonomy,
-			array( 'get' => 'all', 'orderby' => 'id', 'fields' => 'id=>parent' )
-		);
-
-		foreach ( $terms as $term_id => $parent ) {
-
-			if ( $parent > 0 ) {
-
-				$children[ $parent ][] = $term_id;
-			}
-		}
-
-		update_option( "cn_{$taxonomy}_children", $children );
-
-		return $children;
+		return self::childrenIDs( $taxonomy );
 	}
 
 	/**

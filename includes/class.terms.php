@@ -2516,7 +2516,7 @@ class cnTerm {
 				delete_option( "cn_{$taxonomy}_children" );
 
 				// Regenerate {$taxonomy}_children
-				self::get_hierarchy( $taxonomy );
+				self::childrenIDs( $taxonomy );
 			}
 
 			/**

@@ -4360,7 +4360,7 @@ class cnTerm {
 	 * @param array $taxonomies An array of taxonomies.
 	 * @param array $args       An array of terms query arguments.
 	 *
-	 * @return Array of query pieces, maybe modified.
+	 * @return array of query pieces, maybe modified.
 	 */
 	public static function getTaxonomyTermsClauses( $pieces = array(), $taxonomies = array(), $args = array() ) {
 

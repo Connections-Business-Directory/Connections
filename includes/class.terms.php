@@ -2794,103 +2794,84 @@ class cnTerm {
 	 *        Passes: (array) $pieces, (array) $taxonomies, (array) $atts
 	 *        Return: $pieces
 	 *
-	 * Accepted option for the $atts property are:
-	 *
-	 *    get ( string )
-	 *        Default: ''
-	 *        Valid:   all
-	 *        If set to 'all' instead of its default empty string,
-	 *        returns terms regardless of ancestry or whether the terms are empty.
-	 *
-	 *    fields ( string )
-	 *        Default: 'all'
-	 *        Valid:   all | ids | id=>parent | names | count | id=>name | id=>slug
-	 *        Default is 'all', which returns an array of term objects.
-	 *        If 'fields' is 'ids' or 'names', returns an array of integers or strings, respectively.
-	 *
-	 *    include ( string | array )
-	 *        Default: array()
-	 *        Valid:   An indexed array, comma- or space-delimited string of term_id.
-	 *
-	 *    exclude_tree ( string | array )
-	 *        Default: array()
-	 *        Valid:   An indexed array, comma- or space-delimited string of term_id.
-	 *        If 'include' is non-empty, 'exclude_tree' is ignored.
-	 *
-	 *    exclude ( string | array )
-	 *        Default: array()
-	 *        Valid:   An indexed array, comma- or space-delimited string of term_id.
-	 *        If 'include' is non-empty, 'exclude' is ignored.
-	 *
-	 *    slug ( string | array  )
-	 *        Default: ''
-	 *        Slug or array of slugs to return term(s) for.
-	 *
-	 *    hide_empty ( bool )
-	 *        Default: TRUE
-	 *        Will not return empty terms, which means terms whose count is 0.
-	 *
-	 *    hierarchical ( bool )
-	 *        Default: TRUE
-	 *        Whether to include terms that have non-empty descendants, even if 'hide_empty' is set to TRUE.
-	 *
-	 *    orderby ( string | array )
-	 *        Default: name
-	 *        Valid:   term_id | name | slug | term_group | parent | count | include
-	 *
-	 *    order ( string | array )
-	 *        Default: ASC
-	 *        Valid:   ASC | DESC
-	 *
-	 *    number ( int )
-	 *        Default: 0
-	 *        The maximum number of terms to return. Default is to return them all.
-	 *
-	 *    offset ( int )
-	 *        Default: 0
-	 *        The number by which to offset the terms query.
-	 *
-	 *    search ( string )
-	 *        Default: ''
-	 *        Returned terms' names will contain the value of 'search', case-insensitive.
-	 *
-	 *    name__like ( string )
-	 *        Default: ''
-	 *        Return terms' names will contain the value of 'name__like', case-insensitive.
-	 *
-	 *    description__like ( string )
-	 *        Default: ''
-	 *        Return terms' descriptions will contain the value of 'description__like', case-insensitive.
-	 *
-	 *    child_of ( int )
-	 *        Default: 0
-	 *        The 'child_of' argument, when used, should be set to the integer of a term ID.
-	 *        If set to a non-zero value, all returned terms will be descendants
-	 *        of that term according to the given taxonomy.
-	 *        Hence 'child_of' is set to 0 if more than one taxonomy is passed in $taxonomies,
-	 *        because multiple taxonomies make term ancestry ambiguous.
-	 *
-	 *    parent ( string | int )
-	 *        Default: ''
-	 *        The integer of a term ID.
-	 *        If set to an integer value, all returned terms will have as an immediate
-	 *        ancestor the term whose ID is specified by that integer according to the given taxonomy.
-	 *        The 'parent' argument is different from 'child_of' in that a term X is considered a 'parent'
-	 *        of term Y only if term X is the father of term Y, not its grandfather or great-grandfather, etc.
-	 *
-	 *    pad_counts ( bool )
-	 *        Default: FALSE
-	 *        If set to true, include the quantity of a term's children
-	 *        in the quantity of each term's 'count' property.
-	 *
 	 * @access public
 	 * @since  8.1
+	 * @since  8.5.10 Introduced 'name' and 'childless' parameters.
+	 *                Introduced the 'meta_query' and 'update_meta_cache' parameters.
+	 *                Converted to return a list of cnTerm_Object objects.
 	 * @static
 	 *
-	 * @global $wpdb
+	 * @global wpdb $wpdb
 	 *
 	 * @param  string|array $taxonomies Taxonomy name or array of taxonomy names.
-	 * @param  array        $atts
+	 * @param  array        $atts {
+	 *     Optional. Array or string of arguments to get terms.
+	 *
+	 *     @type string       $get                    Whether to return terms regardless of ancestry or whether the terms are empty.
+	 *                                                Accepts: 'all' | ''
+	 *                                                Default: ''
+	 *     @type array|string $orderby                Field(s) to order terms by.
+	 *                                                Use 'include' to match the 'order' of the $include param, or 'none' to skip ORDER BY.
+	 *                                                Accepts: term_id | name | slug | term_group | parent | count | include | none
+	 *                                                Default: 'name
+	 *     @type string       $order                  Whether to order terms in ascending or descending order.
+	 *                                                Accepts: 'ASC' | 'DESC'
+	 *                                                Default: 'ASC'
+	 *     @type bool|int     $hide_empty             Whether to hide terms not assigned to any posts.
+	 *                                                Accepts: 1|true || 0|false
+	 *                                                Default: TRUE.
+	 *     @type array|string $include                Array or comma/space-separated string of term ids to include.
+	 *                                                Default: array()
+	 *     @type array|string $exclude                Array or comma/space-separated string of term ids to exclude.
+	 *                                                If $include is non-empty, $exclude is ignored.
+	 *                                                Default empty array.
+	 *     @type array|string $exclude_tree           Array or comma/space-separated string of term ids to exclude
+	 *                                                along with all of their descendant terms. If $include is
+	 *                                                non-empty, $exclude_tree is ignored. Default empty array.
+	 *     @type int|string   $number                 Maximum number of terms to return.
+	 *                                                Accepts: ''|0 (all) or any positive number.
+	 *                                                Default: 0
+	 *     @type int          $offset                 The number by which to offset the terms query.
+	 *                                                Accepts: integers.
+	 *                                                Default: 0
+	 *     @type string       $fields                 Term fields to query for.
+	 *                                                Accepts: 'all' (returns an array of complete term objects),
+	 *                                                         'ids' (returns an array of ids),
+	 *                                                         'id=>parent' (returns an associative array with ids as keys, parent term IDs as values),
+	 *                                                         'names' (returns an array of term names),
+	 *                                                         'count' (returns the number of matching terms),
+	 *                                                         'id=>name' (returns an associative array with ids as keys, term names as values),
+	 *                                                         'id=>slug' (returns an associative array with ids as keys, term slugs as values).
+	 *                                                Default: 'all'.
+	 *     @type string|array $name                   Name or array of names to return term(s) for.
+	 *                                                Default: ''
+	 *     @type string|array $slug                   Slug or array of slugs to return term(s) for.
+	 *                                                Default: ''.
+	 *     @type bool         $hierarchical           Whether to include terms that have non-empty descendants (even if $hide_empty is set to true).
+	 *                                                Default: TRUE
+	 *     @type string       $search                 Search criteria to match terms. Will be SQL-formatted with wildcards before and after.
+	 *                                                Default: ''
+	 *     @type string       $name__like             Retrieve terms with criteria by which a term is LIKE $name__like.
+	 *                                                Default: ''
+	 *     @type string       $description__like      Retrieve terms where the description is LIKE $description__like.
+	 *                                                Default: ''
+	 *     @type int|string   $parent                 Parent term ID to retrieve direct-child terms of.
+	 *                                                Default: ''
+	 *     @type bool         $childless              True to limit results to terms that have no children.
+	 *                                                This parameter has no effect on non-hierarchical taxonomies.
+	 *                                                Default: FALSE
+	 *     @type int          $child_of               Term ID to retrieve child terms of.
+	 *                                                If multiple taxonomies are passed, $child_of is ignored.
+	 *                                                Default: 0
+	 *     @type bool         $pad_counts             Whether to pad the quantity of a term's children in the quantity
+	 *                                                of each term's "count" object variable.
+	 *                                                Default: FALSE
+	 *     @type bool         $update_meta_cache      Whether to prime meta caches for matched terms.
+	 *                                                Default: TRUE
+	 *     @type array        $meta_query             Meta query clauses to limit retrieved terms by.
+	 *                                                @see cnMeta_Query.
+	 *                                                Default: array()
+	 * }
 	 *
 	 * @uses   apply_filters()
 	 * @uses   wp_parse_args()
@@ -2910,7 +2891,6 @@ class cnTerm {
 	 */
 	public static function getTaxonomyTerms( $taxonomies = array( 'category' ), $atts = array() ) {
 
-		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$select        = array();
@@ -2932,24 +2912,28 @@ class cnTerm {
 		}
 
 		$defaults = array(
-			'get'          => '',
-			'orderby'      => 'name',
-			'order'        => 'ASC',
-			'hide_empty'   => TRUE,
-			'exclude'      => array(),
-			'exclude_tree' => array(),
-			'include'      => array(),
-			'fields'       => 'all',
-			'slug'         => '',
-			'parent'       => '',
-			'hierarchical' => TRUE,
-			'child_of'     => 0,
-			'name__like'   => '',
-			'meta_query'   => array(),
-			'pad_counts'   => FALSE,
-			'offset'       => 0,
-			'number'       => 0,
-			'search'       => '',
+			'get'               => '',
+			'orderby'           => 'name',
+			'order'             => 'ASC',
+			'hide_empty'        => TRUE,
+			'include'           => array(),
+			'exclude'           => array(),
+			'exclude_tree'      => array(),
+			'number'            => 0,
+			'offset'            => 0,
+			'fields'            => 'all',
+			'name'              => '',
+			'slug'              => '',
+			'hierarchical'      => TRUE,
+			'search'            => '',
+			'name__like'        => '',
+			'description__like' => '',
+			'parent'            => '',
+			'childless'         => FALSE,
+			'child_of'          => 0,
+			'pad_counts'        => FALSE,
+			'meta_query'        => array(),
+			'update_meta_cache' => TRUE,
 		);
 
 		/**
@@ -2977,6 +2961,7 @@ class cnTerm {
 
 		if ( 'all' == $atts['get'] ) {
 
+			$atts['childless']    = FALSE;
 			$atts['child_of']     = 0;
 			$atts['hide_empty']   = 0;
 			$atts['hierarchical'] = FALSE;
@@ -3045,6 +3030,10 @@ class cnTerm {
 
 				switch ( $value ) {
 
+					case 'name':
+						$orderField = 't.name';
+						break;
+
 					case 'id':
 					case 'term_id':
 						$orderField = 't.term_id';
@@ -3110,6 +3099,10 @@ class cnTerm {
 
 			switch ( $atts['orderby'] ) {
 
+				case 'name':
+					$atts['orderby'] = 't.name';
+					break;
+
 				case 'id':
 				case 'term_id':
 					$atts['orderby'] = 't.term_id';
@@ -3166,7 +3159,7 @@ class cnTerm {
 
 		}
 
-		/*
+		/**
 		 * Filter the ORDER BY clause of the terms query.
 		 *
 		 * @since 8.1
@@ -3219,7 +3212,7 @@ class cnTerm {
 		/*
 		 * Define the excluded terms.
 		 */
-		$exclusions = '';
+		$exclusions = array();
 
 		if ( ! empty( $atts['exclude_tree'] ) ) {
 
@@ -3234,26 +3227,33 @@ class cnTerm {
 				);
 			}
 
-			$exclusions = implode( ',', array_map( 'intval', $excluded_children ) );
+			$exclusions = array_merge( $excluded_children, $exclusions );
 		}
 
 		if ( ! empty( $atts['exclude'] ) ) {
 
-			$exterms = wp_parse_id_list( $atts['exclude'] );
+			$exclusions = array_merge( wp_parse_id_list( $atts['exclude'] ), $exclusions );
+		}
 
-			if ( empty( $exclusions ) ) {
+		// 'childless' terms are those without an entry in the flattened term hierarchy.
+		$childless = (bool) $atts['childless'];
 
-				$exclusions = implode( ',', $exterms );
+		if ( $childless ) {
 
-			} else {
+			foreach ( $taxonomies as $_tax ) {
 
-				$exclusions .= ', ' . implode( ',', $exterms );
+				$term_hierarchy = self::childrenIDs( $_tax );
+				$exclusions = array_merge( array_keys( $term_hierarchy ), $exclusions );
 			}
 		}
 
 		if ( ! empty( $exclusions ) ) {
 
-			$exclusions = 'AND t.term_id NOT IN (' . $exclusions . ')';
+			$exclusions = ' AND t.term_id NOT IN (' . implode( ',', array_map( 'intval', $exclusions ) ) . ')';
+
+		} else {
+
+			$exclusions = '';
 		}
 
 		/**
@@ -3270,6 +3270,18 @@ class cnTerm {
 		if ( ! empty( $exclusions ) ) {
 
 			$where[] = $exclusions;
+		}
+
+		if ( ! empty( $atts['name'] ) ) {
+
+			$names = (array) $atts['name'];
+
+			foreach ( $names as &$_name ) {
+
+				$_name = sanitize_term_field( 'name', $_name, 0, reset( $taxonomies ), 'db' );
+			}
+
+			$where[] = "AND t.name IN ('" . implode( "', '", array_map( 'esc_sql', $names ) ) . "')";
 		}
 
 		if ( ! empty( $atts['slug'] ) ) {
@@ -3289,16 +3301,12 @@ class cnTerm {
 
 		if ( ! empty( $atts['name__like'] ) ) {
 
-			//$atts['name__like'] = like_escape( $atts['name__like'] );
 			$where[] = $wpdb->prepare( " AND t.name LIKE %s", '%' . $wpdb->esc_like( $atts['name__like'] ) . '%' );
-			//$where[]            = $wpdb->prepare( 'AND t.name LIKE %s', '%' . $atts['name__like'] . '%' );
 		}
 
 		if ( ! empty( $atts['description__like'] ) ) {
 
-			//$atts['description__like'] = like_escape( $atts['description__like'] );
 			$where[] = $wpdb->prepare( " AND tt.description LIKE %s", '%' . $wpdb->esc_like( $atts['description__like'] ) . '%' );
-			//$where[]                   = $wpdb->prepare( 'AND tt.description LIKE %s', '%' . $atts['description__like'] . '%' );
 		}
 
 		if ( '' !== $atts['parent'] ) {
@@ -3343,6 +3351,19 @@ class cnTerm {
 			$where[]        = $wpdb->prepare( 'AND ( (t.name LIKE %s) OR (t.slug LIKE %s) )', '%' . $atts['search'] . '%', '%' . $atts['search'] . '%' );
 		}
 
+		// Meta query support.
+		$distinct = '';
+		$join     = '';
+
+		if ( ! empty( $atts['meta_query'] ) ) {
+
+			$meta_query   = new cnMeta_Query( $atts['meta_query'] );
+			$meta_clauses = $meta_query->get_sql( 'term', 't', 'term_id' );
+
+			$distinct .= 'DISTINCT ';
+			$join     .= $meta_clauses['join'];
+			$where[]   = $meta_clauses['where'];
+		}
 
 		switch ( $atts['fields'] ) {
 
@@ -3385,7 +3406,7 @@ class cnTerm {
 		 */
 		$fields = implode( ', ', apply_filters( 'cn_get_terms_fields', $select, $atts, $taxonomies ) );
 
-		$join   = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
+		$join  .= 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
 
 		$pieces = array( 'fields', 'join', 'where', 'orderBy', 'limit' );
 
@@ -3406,7 +3427,7 @@ class cnTerm {
 		}
 
 		$sql = sprintf( 'SELECT %1$s FROM %2$s AS t %3$s WHERE %4$s %5$s%6$s',
-			$fields,
+			$distinct . $fields,
 			CN_TERMS_TABLE,
 			$join,
 			implode( ' ', $where ),
@@ -3430,6 +3451,13 @@ class cnTerm {
 				update_term_cache( $terms, 'cn_' . $taxonomy );
 			}
 
+		}
+
+		// Prime term meta cache.
+		if ( $atts['update_meta_cache'] ) {
+
+			$term_ids = wp_list_pluck( $terms, 'term_id' );
+			cnMeta::updateCache( 'term', $term_ids );
 		}
 
 		if ( empty( $terms ) ) {

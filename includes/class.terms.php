@@ -4436,7 +4436,7 @@ class cnTerm {
 }
 
 // Make `meta_query` arguments work.
-add_filter( 'cn_terms_clauses',  array( 'cnTerm', 'getTaxonomyTermsClauses'  ), 10, 3 );
+//add_filter( 'cn_terms_clauses',  array( 'cnTerm', 'getTaxonomyTermsClauses'  ), 10, 3 );
 
 /**
  * Core class used to implement the cnTerm_Object object.

@@ -3712,9 +3712,9 @@ class cnTerm {
 	 *
 	 * @access public
 	 * @since  8.1.6
+	 * @since  8.5.10 Converted to return a cnTerm_Object object if `$output` is `OBJECT`.
+	 *                The `$taxonomy` parameter was made optional.
 	 * @static
-	 *
-	 * @global $wpdb
 	 *
 	 * @uses  WP_Error
 	 * @uses  wp_cache_get()
@@ -3727,13 +3727,11 @@ class cnTerm {
 	 * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N
 	 * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
 	 *
-	 * @return mixed|null|WP_Error Term Row from database. Will return null if $term is empty. If taxonomy does not
-	 * exist then WP_Error will be returned.
+	 * @return array|null|cnTerm_Object|WP_Error Term Row from database.
+	 *                                           Will return null if $term is empty.
+	 *                                           If taxonomy does not exist then WP_Error will be returned.
 	 */
-	public static function get( $term, $taxonomy, $output = OBJECT, $filter = 'raw' ) {
-
-		/** @var $wpdb wpdb */
-		global $wpdb;
+	public static function get( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 
 		if ( empty( $term ) ) {
 
@@ -3746,47 +3744,41 @@ class cnTerm {
 		//	return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
 		//}
 
-		if ( is_object( $term ) && empty( $term->filter ) ) {
-
-			wp_cache_add( $term->term_id, $term, 'cn_' . $taxonomy );
+		if ( $term instanceof cnTerm_Object ) {
 
 			$_term = $term;
 
+		} elseif ( is_object( $term ) ) {
+
+			if ( empty( $term->filter ) || 'raw' === $term->filter ) {
+
+				$_term = sanitize_term( $term, 'cn_' . $taxonomy, 'raw' );
+				$_term = new cnTerm_Object( $_term );
+
+			} else {
+
+				$_term = cnTerm_Object::get( $term->term_id );
+			}
+
 		} else {
 
-			if ( is_object( $term ) ) {
+			$_term = cnTerm_Object::get( $term, $taxonomy );
+		}
 
-				$term = $term->term_id;
-			}
+		if ( is_wp_error( $_term ) ) {
 
-			if ( ! $term = (int) $term ) {
+			return $_term;
 
-				return NULL;
-			}
+		} elseif ( ! $_term ) {
 
-			if ( ! $_term = wp_cache_get( $term, 'cn_' . $taxonomy ) ) {
-
-				$_term = $wpdb->get_row(
-					$wpdb->prepare(
-						"SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND t.term_id = %d LIMIT 1",
-						$taxonomy,
-						$term
-					)
-				);
-
-				if ( ! $_term ) {
-
-					return NULL;
-				}
-
-				wp_cache_add( $term, $_term, 'cn_' . $taxonomy );
-			}
+			return NULL;
 		}
 
 		/**
 		 * Filter a term.
 		 *
 		 * @since 8.1.6
+		 * @since 8.5.10 `$_term` can now also be cnTerm_Object.
 		 *
 		 * @param int|object $_term    Term object or ID.
 		 * @param string     $taxonomy The taxonomy slug.
@@ -3800,34 +3792,26 @@ class cnTerm {
 		 * to the taxonomy slug.
 		 *
 		 * @since 8.1.6
+		 * @since 8.5.10 `$_term` can now also be cnTerm_Object.
 		 *
 		 * @param int|object $_term    Term object or ID.
 		 * @param string     $taxonomy The taxonomy slug.
 		 */
 		$_term = apply_filters( "cn_get_$taxonomy", $_term, $taxonomy );
-		$_term = sanitize_term( $_term, 'cn_' . $taxonomy, $filter );
 
-		if ( $output == OBJECT ) {
+		// Sanitize term, according to the specified filter.
+		$_term->filter( $filter );
 
-			return $_term;
+		if ( $output == ARRAY_A ) {
 
-		} elseif ( $output == ARRAY_A ) {
-
-			$__term = get_object_vars( $_term );
-
-
-			return $__term;
+			return $_term->to_array();
 
 		} elseif ( $output == ARRAY_N ) {
 
-			$__term = array_values( get_object_vars( $_term ) );
-
-			return $__term;
-
-		} else {
-
-			return $_term;
+			return array_values( $_term->to_array() );
 		}
+
+		return $_term;
 	}
 
 	/**

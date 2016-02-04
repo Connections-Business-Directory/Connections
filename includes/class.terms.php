@@ -913,7 +913,7 @@ class cnTerm {
 	 *
 	 * @param int              $object_id The ID of the object from which the terms will be removed.
 	 * @param array|int|string $terms     The slug(s) or ID(s) of the term(s) to remove.
-	 * @param array            $taxonomy  Taxonomy name.
+	 * @param string           $taxonomy  Taxonomy name.
 	 *
 	 * @return bool|WP_Error True on success, false or WP_Error on failure.
 	 */

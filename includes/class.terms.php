@@ -3593,6 +3593,8 @@ class cnTerm {
 	 *
 	 * @access public
 	 * @since  8.1.6
+	 * @since  8.5.10 `$taxonomy` is optional if `$field` is 'term_taxonomy_id'.
+	 *                Converted to return a cnTerm_Object object if `$output` is `OBJECT`.
 	 * @static
 	 *
 	 * @global $wpdb
@@ -3610,17 +3612,23 @@ class cnTerm {
 	 * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N
 	 * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
 	 *
-	 * @return mixed Term Row from database. Will return false if $taxonomy does not exist or $term was not found.
+	 * @return array|null|cnTerm_Object|WP_Error Term Row from database.
+	 *                                           Will return null if $term is empty.
+	 *                                           If taxonomy does not exist then WP_Error will be returned.
 	 */
-	public static function getBy( $field, $value, $taxonomy, $output = OBJECT, $filter = 'raw' ) {
+	public static function getBy( $field, $value, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		// @todo Implement the taxonomy check.
-		//if ( ! taxonomy_exists( $taxonomy ) ) {
+		// 'term_taxonomy_id' lookups don't require taxonomy checks.
+		//if ( 'term_taxonomy_id' !== $field && ! taxonomy_exists( $taxonomy ) ) {
+		//
 		//	return FALSE;
 		//}
+
+		$tax_clause = $wpdb->prepare( 'AND tt.taxonomy = %s', $taxonomy );
 
 		if ( 'slug' == $field ) {
 
@@ -3643,11 +3651,15 @@ class cnTerm {
 			$value = (int) $value;
 			$field = 'tt.term_taxonomy_id';
 
+			// No `taxonomy` clause when searching by 'term_taxonomy_id'.
+			$tax_clause = '';
+
 		} else {
 
 			$term = self::get( (int) $value, $taxonomy, $output, $filter );
 
 			if ( is_wp_error( $term ) ) {
+
 				$term = FALSE;
 			}
 
@@ -3656,8 +3668,7 @@ class cnTerm {
 
 		$term = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy = %s AND $field = %s LIMIT 1",
-				$taxonomy,
+				"SELECT t.*, tt.* FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE $field = %s $tax_clause LIMIT 1",
 				$value
 			)
 		);
@@ -3669,28 +3680,7 @@ class cnTerm {
 
 		wp_cache_add( $term->term_id, $term, 'cn_' . $taxonomy );
 
-		$term = apply_filters( 'cn_get_term', $term, $taxonomy );
-
-		$term = apply_filters( "cn_get_$taxonomy", $term, $taxonomy );
-
-		$term = sanitize_term( $term, 'cn_' . $taxonomy, $filter );
-
-		if ( $output == OBJECT ) {
-
-			return $term;
-
-		} elseif ( $output == ARRAY_A ) {
-
-			return get_object_vars( $term );
-
-		} elseif ( $output == ARRAY_N ) {
-
-			return array_values( get_object_vars( $term ) );
-
-		} else {
-
-			return $term;
-		}
+		return self::get( $term, $taxonomy, $output, $filter );
 	}
 
 	/**

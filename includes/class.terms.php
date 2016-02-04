@@ -3919,8 +3919,9 @@ class cnTerm {
 	 *
 	 * NOTE: This is the Connections equivalent of @see _get_term_hierarchy() in WordPress core ../wp-includes/taxonomy.php
 	 *
-	 * @access private
+	 * @access public
 	 * @since  8.1
+	 * @since  8.5.10 Define method as public.
 	 * @static
 	 *
 	 * @uses   get_option()
@@ -3931,7 +3932,7 @@ class cnTerm {
 	 *
 	 * @return array  Empty if $taxonomy isn't hierarchical or returns children as term IDs.
 	 */
-	private static function childrenIDs( $taxonomy ) {
+	public static function childrenIDs( $taxonomy ) {
 
 		// if ( !is_taxonomy_hierarchical($taxonomy) )
 		// 	return array();
@@ -3955,7 +3956,7 @@ class cnTerm {
 
 		}
 
-		 update_option ("cn_{$taxonomy}_children", $children );
+		 update_option ( "cn_{$taxonomy}_children", $children );
 
 		return $children;
 	}

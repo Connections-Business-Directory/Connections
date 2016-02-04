@@ -53,14 +53,14 @@ class cnTerms {
 	}
 
 	/**
-	 * Get term data by 'name', 'id' or 'slug'.
+	 * Get term object by 'name', 'id' or 'slug'.
 	 *
 	 * @deprecated 8.1.6 Use {@see cnTerm::getBy()} instead.
 	 * @see cnTerm::getBy()
 	 *
-	 * @param string $field
-	 * @param string | int -- Search term
-	 * @param string $taxonomy
+	 * @param string     $field
+	 * @param string|int $value Search term
+	 * @param string     $taxonomy
 	 *
 	 * @return mixed | False or term object
 	 */
@@ -913,7 +913,7 @@ class cnTerm {
 	 *
 	 * @param int              $object_id The ID of the object from which the terms will be removed.
 	 * @param array|int|string $terms     The slug(s) or ID(s) of the term(s) to remove.
-	 * @param array|string     $taxonomy  Taxonomy name.
+	 * @param array            $taxonomy  Taxonomy name.
 	 *
 	 * @return bool|WP_Error True on success, false or WP_Error on failure.
 	 */
@@ -1282,9 +1282,9 @@ class cnTerm {
 	 * @param int        $parent   ID of parent term under which to confine the exists search.
 	 * @param bool       $strict   Whether or not to perform a case sensitive query.
 	 *
-	 * @return mixed Returns 0 if the term does not exist. Returns the term ID if no taxonomy is specified
-	 *               and the term ID exists. Returns an array of the term ID and the term taxonomy ID
-	 *               if the taxonomy is specified and the pairing exists.
+	 * @return array|int Returns 0 if the term does not exist. Returns the term ID if no taxonomy is specified
+	 *                   and the term ID exists. Returns an array of the term ID and the term taxonomy ID
+	 *                   if the taxonomy is specified and the pairing exists.
 	 */
 	public static function exists( $term, $taxonomy = '', $parent = 0, $strict = FALSE ) {
 
@@ -2543,13 +2543,13 @@ class cnTerm {
 	 * term IDs have to exist within the taxonomy $object_type for the deletion to
 	 * take place.
 	 *
-	 * NOTE: This is the Connections equivalent of @see get_object_taxonomies() in WordPress core ../wp-includes/taxonomy.php
+	 * NOTE: This is the Connections equivalent of @see clean_object_term_cache() in WordPress core ../wp-includes/taxonomy.php
 	 *
 	 * @access public
 	 * @since  8.2
 	 * @static
 	 *
-	 * @param int|array    $object_ids  Single or list of term object ID(s)
+	 * @param array|int    $object_ids  Single or list of term object ID(s)
 	 * @param array|string $object_type The taxonomy object type
 	 */
 	public static function cleanRelationshipCache( $object_ids, $object_type ) {

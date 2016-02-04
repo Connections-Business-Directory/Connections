@@ -133,7 +133,7 @@ class CN_Walker_Term_Select_List extends Walker {
 
 		$tab_index_attribute = (int) $atts['tab_index'] > 0 ? " tabindex=\"{$atts['tab_index']}\"" : '';
 
-		$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], $atts );
+		$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], array_merge( $atts, array( 'name' => '' ) ) );
 		$name  = esc_attr( $atts['name'] );
 		$class = sanitize_html_class( $atts['class'] );
 		$id    = $atts['id'] ? esc_attr( $atts['id'] ) : $name;

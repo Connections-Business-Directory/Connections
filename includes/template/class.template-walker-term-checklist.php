@@ -104,7 +104,8 @@ class CN_Walker_Term_Check_List extends Walker {
 
 		$walker->tree_type = $atts['taxonomy'];
 
-		$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], $atts );
+		// Reset the name attribute so the results from cnTerm::getTaxonomyTerms() are not limited by the select attribute name.
+		$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], array_merge( $atts, array( 'name' => '' ) ) );
 
 		if ( ! empty( $terms ) ) {
 

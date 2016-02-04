@@ -315,9 +315,13 @@ class cnTerm {
 	 *
 	 * @access public
 	 * @since  8.1.6
+	 * @since  8.5.10 Added support for 'taxonomy', 'parent', and 'term_taxonomy_id' values of `$orderby`.
+	 *                Introduced `$parent` argument.
+	 *                Introduced `$meta_query` and `$update_term_meta_cache` arguments.
+	 *                When `$fields` is 'all' or 'all_with_entry_id', an array of `cnTerm_Object` objects will be returned.
 	 * @static
 	 *
-	 * @global $wpdb
+	 * @global wpdb $wpdb
 	 *
 	 * @uses   wp_parse_args()
 	 * @uses   wpdb::get_results()
@@ -330,18 +334,25 @@ class cnTerm {
 	 * @param int|array    $object_ids The ID(s) of the object(s) to retrieve.
 	 * @param string|array $taxonomies The taxonomies to retrieve terms from.
 	 * @param array|string $args {
-	 *    Optional. Change what is returned
+	 *     Optional. Change what is returned
 	 *
-	 *    @type string 'orderby' Default: name. Accepts: name | slug | term_id | term_group | term_order | count | none
-	 *    @type string 'order'   Default: ASC. Accepts: ASC | DESC
-	 *    @type string 'fields'  Default: all. Accepts: all | ids | names | slugs | all_with_entry_id
+	 *     @type string $orderby Accepts: Accepts 'name', 'count', 'slug', 'term_group', 'term_order', 'taxonomy', 'parent', or 'term_taxonomy_id'.
+	 *                           Default: name
+	 *     @type string $order   Accepts: ASC | DESC
+	 *                           Default: ASC
+	 *     @type string $fields  Accepts 'all', 'ids', 'names', and 'all_with_entry_id'.
+	 *                           Note that 'all' or 'all_with_entry_id' will result in an array of term objects being
+	 *                           returned, 'ids' will return an array of integers, and 'names' an array of strings.
+	 *                           Default: all
+	 *     @type int    $parent  Optional. Limit results to the direct children of a given term ID.
+	 *                           Default: empty string
 	 * }
 	 *
-	 * @return array|WP_Error The requested term data or empty array if no terms found. WP_Error if any of the $taxonomies don't exist.
+	 * @return array|WP_Error The requested term data or empty array if no terms found.
+	 *                        WP_Error if any of the $taxonomies don't exist.
 	 */
 	public static function getRelationships( $object_ids, $taxonomies, $args = array() ) {
 
-		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$select = array();
@@ -357,11 +368,23 @@ class cnTerm {
 		}
 
 		// @todo Add the taxonomy check.
-		foreach ( $taxonomies as $taxonomy ) {
+		//foreach ( $taxonomies as $taxonomy ) {
 
 			//if ( ! taxonomy_exists($taxonomy) )
 			//	return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
-		}
+		//}
+
+		/**
+		 * NOTE: There is very likely a bug in the code that uses the $taxonomy var as it is never explicitly set.
+		 *
+		 * The $taxonomy var is from the supplied $taxonomies var required by this method. The $taxonomies var can
+		 * be an array or a string, when supplied as a string it is converted to an array. The $taxonomy var
+		 * only happens to be set because it is being set in a foreach loop. The likely bug is that if multiple
+		 * taxonomies are supplied, only the last one supplied will be used in the sanitize_term() and sanitize_term_field()
+		 * calls.
+		 */
+		$taxonomy = end( $taxonomies );
+		reset( $taxonomies );
 
 		if ( ! is_array( $object_ids ) ) {
 
@@ -371,9 +394,12 @@ class cnTerm {
 		$object_ids = array_map( 'intval', $object_ids );
 
 		$defaults = array(
-			'orderby' => 'name',
-			'order'   => 'ASC',
-			'fields'  => 'all'
+			'orderby'           => 'name',
+			'order'             => 'ASC',
+			'fields'            => 'all',
+			'parent'            => '',
+			'meta_query'        => '',
+			'update_meta_cache' => TRUE,
 		);
 
 		$args     = wp_parse_args( $args, $defaults );
@@ -399,20 +425,25 @@ class cnTerm {
 		$order   = $args['order'];
 		//$fields  = $args['fields'];
 
-		if ( 'count' == $orderby ) {
-			$orderby = 'tt.count';
-		} else if ( 'name' == $orderby ) {
-			$orderby = 't.name';
-		} else if ( 'slug' == $orderby ) {
-			$orderby = 't.slug';
-		} else if ( 'term_group' == $orderby ) {
-			$orderby = 't.term_group';
-		} else if ( 'term_order' == $orderby ) {
+		if ( in_array( $orderby, array( 'term_id', 'name', 'slug', 'term_group' ) ) ) {
+
+			$orderby = "t.$orderby";
+
+		} elseif ( in_array( $orderby, array( 'count', 'parent', 'taxonomy', 'term_taxonomy_id' ) ) ) {
+
+			$orderby = "tt.$orderby";
+
+		} elseif ( 'term_order' === $orderby ) {
+
 			$orderby = 'tr.term_order';
-		} else if ( 'none' == $orderby ) {
+
+		} elseif ( 'none' === $orderby ) {
+
 			$orderby = '';
 			$order   = '';
+
 		} else {
+
 			$orderby = 't.term_id';
 		}
 
@@ -478,7 +509,26 @@ class cnTerm {
 
 		$join    = 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id';
 
-		$where   = array( "tt.taxonomy IN ($taxonomies) AND tr.entry_id IN ($object_ids)" );
+		$where   = array(
+			"tt.taxonomy IN ($taxonomies)",
+			"AND tr.entry_id IN ($object_ids)",
+		);
+
+		if ( '' !== $args['parent'] ) {
+
+			$where[] = $wpdb->prepare( 'AND tt.parent = %d', $args['parent'] );
+		}
+
+		// Meta query support.
+		if ( ! empty( $args['meta_query'] ) ) {
+
+			$mquery = new cnMeta_Query( $args['meta_query'] );
+			$mq_sql = $mquery->get_sql( 'term', 't', 'term_id' );
+			$join  .= $mq_sql['join'];
+
+			// Strip leading AND.
+			$where[] = $mq_sql['where'];
+		}
 
 		$orderBy = "$orderby $order";
 
@@ -513,31 +563,42 @@ class cnTerm {
 		 * --> END <--
 		 */
 
-		//$query = "SELECT $select_this FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON tt.term_id = t.term_id INNER JOIN " . CN_TERM_RELATIONSHIP_TABLE . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tr.entry_id IN ($object_ids) $orderby $order";
-
 		$objects = FALSE;
-
-		/*
-		 * @todo There is very likely a bug in the code that uses the $taxonomy var as it is never explicitly set.
-		 * The $taxonomy var is from the supplied $taxonomies var required by this method. The $taxonomies var can
-		 * be an array or a string, when supplied as a string it is converted to an array. The $taxonomy var
-		 * only happens to be set because it is being set in a foreach loop. The likely bug is that if multiple
-		 * taxonomies are supplied, only the last one supplied will be used in the sanitize_term() and sanitize_term_field()
-		 * calls.
-		 */
 
 		if ( 'all' == $args['fields'] || 'all_with_entry_id' == $args['fields'] ) {
 
-			$_terms = $wpdb->get_results( $query );
+			$_terms          = $wpdb->get_results( $query );
+			$object_id_index = array();
 
 			foreach ( $_terms as $key => $term ) {
 
 				$_terms[ $key ] = sanitize_term( $term, 'cn_' . $taxonomy, 'raw' );
+
+				$_terms[ $key ] = $term;
+
+				if ( isset( $term->object_id ) ) {
+
+					$object_id_index[ $key ] = $term->object_id;
+				}
+			}
+
+			update_term_cache( $_terms, 'cn_' . $taxonomy );
+
+			$_terms = array_map( array( 'cnTerm', 'get' ), $_terms );
+
+			// Re-add the object_id data, which is lost when fetching terms from cache.
+			if ( 'all_with_entry_id' === $fields ) {
+
+				foreach ( $_terms as $key => $_term ) {
+
+					if ( isset( $object_id_index[ $key ] ) ) {
+
+						$_term->object_id = $object_id_index[ $key ];
+					}
+				}
 			}
 
 			$terms = array_merge( $terms, $_terms );
-
-			update_term_cache( $terms, 'cn_' . $taxonomy );
 
 			$objects = TRUE;
 
@@ -570,6 +631,21 @@ class cnTerm {
 				); // 0 should be the term id, however is not needed when using raw context.
 
 			}
+		}
+
+		// Update term meta cache, if necessary.
+		if ( $args['update_meta_cache'] && ( in_array( $args['fields'] , array( 'all', 'all_with_entry_ids', 'term_id' ) )  ) ) {
+
+			if ( 'term_id' === $fields ) {
+
+				$term_ids = $fields;
+
+			} else {
+
+				$term_ids = wp_list_pluck( $terms, 'term_id' );
+			}
+
+			cnMeta::updateCache( 'term', $term_ids );
 		}
 
 		if ( ! $terms ) {

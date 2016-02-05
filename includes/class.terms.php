@@ -219,7 +219,7 @@ class cnTerms {
 	 * @param int    $id       Term parent ID.
 	 * @param string $taxonomy Taxonomy name.
 	 *
-	 * @return bool
+	 * @return bool|WP_Error
 	 */
 	public function deleteTerm( $id, $parent, $taxonomy ) {
 
@@ -241,7 +241,7 @@ class cnTerms {
 	 * @param array  $termIDs
 	 * @param string $taxonomy
 	 *
-	 * @return bool
+	 * @return array|WP_Error
 	 */
 	public function setTermRelationships( $entryID, $termIDs, $taxonomy ) {
 
@@ -285,7 +285,7 @@ class cnTerms {
 	 *
 	 * @param integer $entryID
 	 *
-	 * @return bool
+	 * @return bool|WP_Error
 	 */
 	public function deleteTermRelationships( $entryID ) {
 

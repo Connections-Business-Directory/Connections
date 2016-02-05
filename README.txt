@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce, church directory, contact directory, directory, member directory, staff directory
 Requires at least: 4.1
 Tested up to: 4.4
-Stable tag: 8.5.9
+Stable tag: 8.5.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

@@ -3720,7 +3720,7 @@ class cnEntry {
 
 			$terms = cnRetrieve::entryTerms( $this->getId(), 'category' );
 
-			if ( ! is_wp_error( $terms ) ) {
+			if ( ! is_wp_error( $terms ) && is_array( $terms ) ) {
 
 				$this->categories = $terms;
 			}

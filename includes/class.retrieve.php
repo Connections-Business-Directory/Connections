@@ -1458,7 +1458,7 @@ class cnRetrieve {
 	 * @param string $taxonomy
 	 * @param array  $atts     Optional. An array of arguments. @see cnTerm::getRelationships() for accepted arguments.
 	 *
-	 * @return mixed array|WP_Error An array of terms by taxonomy associated to an entry.
+	 * @return array|false|WP_Error An array of terms by taxonomy associated to an entry.
 	 */
 	public static function entryTerms( $id, $taxonomy, $atts = array() ) {
 

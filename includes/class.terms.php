@@ -45,7 +45,7 @@ class cnTerms {
 	 * @param $id
 	 * @param $taxonomy
 	 *
-	 * @return mixed|null|WP_Error
+	 * @return array|null|cnTerm_Object|WP_Error
 	 */
 	public function getTerm($id, $taxonomy) {
 
@@ -62,7 +62,7 @@ class cnTerms {
 	 * @param string|int $value Search term
 	 * @param string     $taxonomy
 	 *
-	 * @return mixed | False or term object
+	 * @return array|null|cnTerm_Object|WP_Error
 	 */
 	public function getTermBy( $field, $value, $taxonomy ) {
 
@@ -171,7 +171,7 @@ class cnTerms {
 	 * @param string $taxonomy
 	 * @param array  $attributes
 	 *
-	 * @return int                The term id.
+	 * @return int The term id.
 	 */
 	public function addTerm( $term, $taxonomy, $attributes ) {
 
@@ -197,7 +197,7 @@ class cnTerms {
 	 * @param string $taxonomy
 	 * @param array  $attributes
 	 *
-	 * @return bool
+	 * @return array|WP_Error
 	 */
 	public function updateTerm( $termID, $taxonomy, $attributes ) {
 

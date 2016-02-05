@@ -3716,9 +3716,11 @@ class cnEntry {
 	 */
 	public function getCategory() {
 
-		if ( ! empty( $this->getId() ) ) {
+		$id = $this->getId();
 
-			$terms = cnRetrieve::entryTerms( $this->getId(), 'category' );
+		if ( ! empty( $id ) ) {
+
+			$terms = cnRetrieve::entryTerms( $id, 'category' );
 
 			if ( ! is_wp_error( $terms ) && is_array( $terms ) ) {
 

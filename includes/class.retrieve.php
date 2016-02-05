@@ -1438,7 +1438,7 @@ class cnRetrieve {
 	 *
 	 * @param int $id
 	 *
-	 * @return mixed array|WP_Error An array of categories associated to an entry.
+	 * @return array|false|WP_Error An array of categories associated to an entry.
 	 */
 	public function entryCategories( $id ) {
 

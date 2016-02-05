@@ -62,7 +62,7 @@ class cnTerms {
 	 * @param string|int $value Search term
 	 * @param string     $taxonomy
 	 *
-	 * @return array|null|cnTerm_Object|WP_Error
+	 * @return array|false|null|cnTerm_Object|WP_Error
 	 */
 	public function getTermBy( $field, $value, $taxonomy ) {
 
@@ -219,7 +219,7 @@ class cnTerms {
 	 * @param int    $id       Term parent ID.
 	 * @param string $taxonomy Taxonomy name.
 	 *
-	 * @return bool|WP_Error
+	 * @return bool|int|WP_Error
 	 */
 	public function deleteTerm( $id, $parent, $taxonomy ) {
 
@@ -270,7 +270,7 @@ class cnTerms {
 	 *
 	 * @param integer $entryID
 	 *
-	 * @return mixed | False or array of term relationships.
+	 * @return array|WP_Error Array of term relationships.
 	 */
 	public function getTermRelationships( $entryID ) {
 
@@ -2098,7 +2098,7 @@ class cnTerm {
 	 * @param string       $taxonomy Taxonomy Name
 	 * @param array|string $args     Optional. Change 'default' term id and override found term ids.
 	 *
-	 * @return bool|WP_Error Returns false if not term; true if completes delete action.
+	 * @return bool|int|WP_Error Returns false if not term; true if completes delete action.
 	 */
 	public static function delete( $term, $taxonomy, $args = array() ) {
 
@@ -2985,8 +2985,7 @@ class cnTerm {
 
 		// $args can be whatever, only use the args defined in defaults to compute the key
 		$filter_key   = ( has_filter( 'cn_term_exclusions' ) ) ? serialize( $GLOBALS['wp_filter']['cn_term_exclusions'] ) : '';
-		$key          = md5( serialize( wp_array_slice_assoc( $atts,
-		                                                      array_keys( $defaults ) ) ) . serialize( $taxonomies ) . $filter_key );
+		$key          = md5( serialize( wp_array_slice_assoc( $atts, array_keys( $defaults ) ) ) . serialize( $taxonomies ) . $filter_key );
 		$last_changed = wp_cache_get( 'last_changed', 'cn_terms' );
 
 		if ( ! $last_changed ) {
@@ -3618,9 +3617,9 @@ class cnTerm {
 	 * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N
 	 * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
 	 *
-	 * @return array|null|cnTerm_Object|WP_Error Term Row from database.
-	 *                                           Will return null if $term is empty.
-	 *                                           If taxonomy does not exist then WP_Error will be returned.
+	 * @return array|false|null|cnTerm_Object|WP_Error Term Row from database.
+	 *                                                 Will return null if $term is empty.
+	 *                                                 If taxonomy does not exist then WP_Error will be returned.
 	 */
 	public static function getBy( $field, $value, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 
@@ -3991,7 +3990,7 @@ class cnTerm {
 	 *                           to prevent infinite recursion loops. For performance, `term_ids` are used as array keys,
 	 *                           with 1 as value. Default empty array.
 	 *
-	 * @return array  The subset of $terms that are descendants of $term_id.
+	 * @return array|WP_Error  The subset of $terms that are descendants of $term_id.
 	 */
 	private static function descendants( $term_id, $terms, $taxonomy, &$ancestors = array() ) {
 

@@ -238,10 +238,11 @@ class cnEntry {
 	private $familyMembers;
 
 	/**
+	 * An array of categories associated to an entry.
 	 * @since unknown
-	 * @var mixed array|WP_Error An array of categories associated to an entry.
+	 * @var array
 	 */
-	private $categories;
+	private $categories = array();
 
 	/**
 	 * @since unknown
@@ -396,7 +397,7 @@ class cnEntry {
 				if ( isset( $this->options['group']['family'] ) ) $this->familyMembers = $this->options['group']['family'];
 			}
 
-			if ( isset( $entry->id ) ) $this->categories = $connections->retrieve->entryCategories( $this->getId() );
+			//if ( isset( $entry->id ) ) $this->categories = $connections->retrieve->entryCategories( $this->getId() );
 
 			if ( isset( $entry->added_by ) ) $this->addedBy = $entry->added_by;
 			if ( isset( $entry->edited_by ) ) $this->editedBy = $entry->edited_by;
@@ -3704,11 +3705,27 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns $category.
+	 * Returns the categories assigned to the entry.
+	 *
+	 * @access public
+	 * @since  unknown
 	 *
 	 * @see cnEntry::$category
+	 *
+	 * @return array
 	 */
 	public function getCategory() {
+
+		if ( ! empty( $this->getId() ) ) {
+
+			$terms = cnRetrieve::entryTerms( $this->getId(), 'category' );
+
+			if ( ! is_wp_error( $terms ) ) {
+
+				$this->categories = $terms;
+			}
+		}
+
 		return $this->categories;
 	}
 

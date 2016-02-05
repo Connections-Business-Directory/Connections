@@ -1269,7 +1269,7 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @global $wpdb
+	 * @global wpdb $wpdb
 	 *
 	 * @uses   wpdb::get_row()
 	 * @uses   wpdb::prepare()
@@ -1279,16 +1279,14 @@ class cnTerm {
 	 *
 	 * @param int|string $term     The term to check.
 	 * @param string     $taxonomy The taxonomy name.
-	 * @param int        $parent   ID of parent term under which to confine the exists search.
-	 * @param bool       $strict   Whether or not to perform a case sensitive query.
+	 * @param int|null   $parent   ID of parent term under which to confine the exists search.
 	 *
 	 * @return array|int Returns 0 if the term does not exist. Returns the term ID if no taxonomy is specified
 	 *                   and the term ID exists. Returns an array of the term ID and the term taxonomy ID
 	 *                   if the taxonomy is specified and the pairing exists.
 	 */
-	public static function exists( $term, $taxonomy = '', $parent = 0, $strict = FALSE ) {
+	public static function exists( $term, $taxonomy = '', $parent = NULL ) {
 
-		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$select     = "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE ";
@@ -1316,63 +1314,43 @@ class cnTerm {
 		}
 
 		$term = trim( wp_unslash( $term ) );
+		$slug = sanitize_title( $term );
 
-		if ( '' === $slug = sanitize_title( $term ) ) {
-
-			return 0;
-		}
-
-		$binary            = $strict ? 'BINARY ' : '';
-		$where             = $binary . 't.slug = %s';
-		$else_where        = $binary .'t.name = %s';
+		$where             = 't.slug = %s';
+		$else_where        = 't.name = %s';
 		$where_fields      = array( $slug );
 		$else_where_fields = array( $term );
+		$orderby           = 'ORDER BY t.term_id ASC';
+		$limit             = 'LIMIT 1';
 
 		if ( ! empty( $taxonomy ) ) {
 
-			$parent = (int) $parent;
+			if ( is_numeric( $parent ) ) {
 
-			if ( $parent > 0 ) {
-
+				$parent              = (int) $parent;
 				$where_fields[]      = $parent;
 				$else_where_fields[] = $parent;
-				$where .= ' AND tt.parent = %d';
-				$else_where .= ' AND tt.parent = %d';
+				$where              .= ' AND tt.parent = %d';
+				$else_where         .= ' AND tt.parent = %d';
 			}
 
 			$where_fields[]      = $taxonomy;
 			$else_where_fields[] = $taxonomy;
 
-			if ( $result = $wpdb->get_row(
-				$wpdb->prepare(
-					"SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s",
-					$where_fields
-				),
-				ARRAY_A
-			)
-			) {
+			if ( $result = $wpdb->get_row( $wpdb->prepare("SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $where AND tt.taxonomy = %s $orderby $limit", $where_fields), ARRAY_A ) ){
+
 				return $result;
 			}
 
-			return $wpdb->get_row(
-				$wpdb->prepare(
-					"SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $else_where AND tt.taxonomy = %s",
-					$else_where_fields
-				),
-				ARRAY_A
-			);
+			return $wpdb->get_row( $wpdb->prepare("SELECT tt.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " as tt ON tt.term_id = t.term_id WHERE $else_where AND tt.taxonomy = %s $orderby $limit", $else_where_fields), ARRAY_A );
 		}
 
-		if ( $result = $wpdb->get_var(
-			$wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $where", $where_fields )
-		)
-		) {
+		if ( $result = $wpdb->get_var( $wpdb->prepare("SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $where $orderby $limit", $where_fields) ) ) {
+
 			return $result;
 		}
 
-		return $wpdb->get_var(
-			$wpdb->prepare( "SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $else_where", $else_where_fields )
-		);
+		return $wpdb->get_var( $wpdb->prepare("SELECT term_id FROM " . CN_TERMS_TABLE . " as t WHERE $else_where $orderby $limit", $else_where_fields) );
 	}
 
 	/**
@@ -1497,7 +1475,7 @@ class cnTerm {
 
 		$args = wp_parse_args( $args, $defaults );
 
-		if ( $args['parent'] > 0 && ! self::exists( (int) $args['parent'] ) ) {
+		if ( 0 < $args['parent'] && ! self::exists( (int) $args['parent'] ) ) {
 
 			return new WP_Error( 'missing_parent', __( 'Parent term does not exist.', 'connections' ) );
 		}
@@ -1515,17 +1493,7 @@ class cnTerm {
 
 		if ( ! $slug_provided ) {
 
-			$_name         = trim( $name );
-			$existing_term = self::getBy( 'name', $_name, $taxonomy );
-
-			if ( $existing_term ) {
-
-				$slug = $existing_term->slug;
-
-			} else {
-
-				$slug = sanitize_title( $name );
-			}
+			$slug = sanitize_title( $name );
 
 		} else {
 
@@ -1536,143 +1504,90 @@ class cnTerm {
 
 		if ( $args['alias_of'] ) {
 
-			$alias = $wpdb->get_row(
-				$wpdb->prepare(
-					"SELECT term_id, term_group FROM " . CN_TERMS_TABLE . " WHERE slug = %s",
-					$args['alias_of']
-				)
-			);
+			$alias = cnTerm::getBy( 'slug', $args['alias_of'], $taxonomy );
 
-			if ( $alias->term_group ) {
+			if ( ! empty( $alias->term_group ) ) {
 
 				// The alias we want is already in a group, so let's use that one.
 				$term_group = $alias->term_group;
 
-			} else {
+			} elseif ( ! empty( $alias->term_id ) ) {
 
-				// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
-				$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM " . CN_TERMS_TABLE ) + 1;
-
-				/**
-				 * Fires immediately before the given terms are edited.
-				 *
-				 * @since 8.1.6
-				 *
-				 * @param int    $term_id  Term ID.
-				 * @param string $taxonomy Taxonomy slug.
+				/*
+				 * The alias is not in a group, so we create a new one and add the alias to it.
 				 */
-				do_action( 'cn_edit_terms', $alias->term_id, $taxonomy );
+				$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM $wpdb->terms")  + 1;
 
-				$wpdb->update( CN_TERMS_TABLE, compact( 'term_group' ), array( 'term_id' => $alias->term_id ) );
-
-				/**
-				 * Fires immediately after the given terms are edited.
-				 *
-				 * @since 8.1.6
-				 *
-				 * @param int    $term_id  Term ID
-				 * @param string $taxonomy Taxonomy slug.
-				 */
-				do_action( 'cn_edited_terms', $alias->term_id, $taxonomy );
+				cnTerm::update( $alias->term_id, $taxonomy, array( 'term_group' => $term_group, ) );
 			}
 		}
 
-		if ( $term_id = self::exists( $slug ) ) {
+		/*
+		 * Prevent the creation of terms with duplicate names at the same level of a taxonomy hierarchy,
+		 * unless a unique slug has been explicitly provided.
+		 */
+		$name_matches = self::getTaxonomyTerms( $taxonomy, array( 'name' => $name, 'hide_empty' => false, ) );
 
-			$existing_term = $wpdb->get_row(
-				$wpdb->prepare( "SELECT name FROM " . CN_TERMS_TABLE . " WHERE term_id = %d", $term_id ),
-				ARRAY_A
-			);
+		/*
+		 * The `name` match in `self::getTaxonomyTerms()` doesn't differentiate accented characters,
+		 * so we do a stricter comparison here.
+		 */
+		$name_match = NULL;
 
-			// We've got an existing term in the same taxonomy, which matches the name of the new term:
-			if ( /*is_taxonomy_hierarchical($taxonomy) &&*/
-				$existing_term['name'] == $name && $exists = self::exists( (int) $term_id, $taxonomy )
-			) {
+		if ( $name_matches ) {
 
-				// Hierarchical, and it matches an existing term, Do not allow same "name" in the same level.
-				$siblings = self::getTaxonomyTerms(
-					$taxonomy,
-					array( 'fields' => 'names', 'get' => 'all', 'parent' => $parent )
-				);
+			foreach ( $name_matches as $_match ) {
 
-				if ( in_array( $name, $siblings ) ) {
+				if ( strtolower( $name ) === strtolower( $_match->name ) ) {
 
-					if ( $slug_provided ) {
-						return new WP_Error(
-							'term_exists',
-							__( 'A term with the name and slug provided already exists with this parent.', 'connections' ),
-							$exists['term_id']
-						);
+					/** @var cnTerm_Object $name_match */
+					$name_match = $_match;
+					break;
+				}
+			}
+		}
 
-					} else {
+		if ( $name_match ) {
 
-						return new WP_Error(
-							'term_exists',
-							__( 'A term with the name provided already exists with this parent.', 'connections' ),
-							$exists['term_id']
-						);
+			$slug_match = cnTerm::getBy( 'slug', $slug, $taxonomy );
+
+			if ( ! $slug_provided || $name_match->slug === $slug || $slug_match ) {
+
+				if ( is_taxonomy_hierarchical( $taxonomy ) ) {
+
+					$siblings = self::getTaxonomyTerms( $taxonomy, array( 'get' => 'all', 'parent' => $parent ) );
+
+					$existing_term = NULL;
+
+					if ( $name_match->slug === $slug && in_array( $name, wp_list_pluck( $siblings, 'name' ) ) ) {
+
+						$existing_term = $name_match;
+
+					} elseif ( $slug_match && in_array( $slug, wp_list_pluck( $siblings, 'slug' ) ) ) {
+
+						$existing_term = $slug_match;
+					}
+
+					if ( $existing_term ) {
+
+						return new WP_Error( 'term_exists', __( 'A term with the name provided already exists with this parent.', 'connections' ), $existing_term->term_id );
 					}
 
 				} else {
 
-					$slug = self::unique_slug( $slug, (object) $args );
-
-					if ( FALSE === $wpdb->insert( CN_TERMS_TABLE, compact( 'name', 'slug', 'term_group' ) ) ) {
-
-						return new WP_Error(
-							'db_insert_error',
-							__( 'Could not insert term into the database', 'connections' ),
-							$wpdb->last_error
-						);
-					}
-
-					$term_id = (int) $wpdb->insert_id;
+					return new WP_Error( 'term_exists', __( 'A term with the name provided already exists in this taxonomy.', 'connections' ), $name_match->term_id );
 				}
-
-			} elseif ( $existing_term['name'] != $name ) {
-
-				// We've got an existing term, with a different name, Create the new term.
-				$slug = self::unique_slug( $slug, (object) $args );
-
-				if ( FALSE === $wpdb->insert( CN_TERMS_TABLE, compact( 'name', 'slug', 'term_group' ) ) ) {
-
-					return new WP_Error(
-						'db_insert_error',
-						__( 'Could not insert term into the database', 'connections' ),
-						$wpdb->last_error
-					);
-				}
-
-				$term_id = (int) $wpdb->insert_id;
-
-			} elseif ( $exists = self::exists( (int) $term_id, $taxonomy ) ) {
-
-				// Same name, same slug.
-				return new WP_Error(
-					'term_exists',
-					__( 'A term with the name and slug provided already exists.', 'connections' ),
-					$exists['term_id']
-				);
-
 			}
-
-		} else {
-
-			// This term does not exist at all in the database, Create it.
-			$slug = self::unique_slug( $slug, (object) $args );
-
-			if ( FALSE === $wpdb->insert( CN_TERMS_TABLE, compact( 'name', 'slug', 'term_group' ) ) ) {
-
-				return new WP_Error(
-					'db_insert_error',
-					__( 'Could not insert term into the database', 'connections' ),
-					$wpdb->last_error
-				);
-
-			}
-
-			$term_id = (int) $wpdb->insert_id;
 		}
+
+		$slug = cnTerm::unique_slug( $slug, (object) $args );
+
+		if ( FALSE === $wpdb->insert( CN_TERMS_TABLE, compact( 'name', 'slug', 'term_group' ) ) ) {
+
+			return new WP_Error( 'db_insert_error', __( 'Could not insert term into the database', 'connections' ), $wpdb->last_error );
+		}
+
+		$term_id = (int) $wpdb->insert_id;
 
 		// Seems unreachable, However, Is used in the case that a term name is provided, which sanitizes to an empty string.
 		if ( empty( $slug ) ) {
@@ -1706,6 +1621,36 @@ class cnTerm {
 		);
 
 		$tt_id = (int) $wpdb->insert_id;
+
+		/*
+	 * Sanity check: if we just created a term with the same parent + taxonomy + slug but a higher term_id than
+	 * an existing term, then we have unwittingly created a duplicate term. Delete the dupe, and use the term_id
+	 * and term_taxonomy_id of the older term instead. Then return out of the function so that the "create" hooks
+	 * are not fired.
+	 */
+		$duplicate_term = $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT t.term_id, tt.term_taxonomy_id FROM " . CN_TERMS_TABLE . " t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " tt ON ( tt.term_id = t.term_id ) WHERE t.slug = %s AND tt.parent = %d AND tt.taxonomy = %s AND t.term_id < %d AND tt.term_taxonomy_id != %d",
+				$slug,
+				$parent,
+				$taxonomy,
+				$term_id,
+				$tt_id
+			)
+		);
+
+		if ( $duplicate_term ) {
+
+			$wpdb->delete( $wpdb->terms, array( 'term_id' => $term_id ) );
+			$wpdb->delete( $wpdb->term_taxonomy, array( 'term_taxonomy_id' => $tt_id ) );
+
+			$term_id = (int) $duplicate_term->term_id;
+			$tt_id   = (int) $duplicate_term->term_taxonomy_id;
+
+			cnTerm::cleanCache( $term_id, $taxonomy );
+
+			return array( 'term_id' => $term_id, 'term_taxonomy_id' => $tt_id );
+		}
 
 		/**
 		 * Fires immediately after a new term is created, before the term cache is cleaned.
@@ -1826,7 +1771,7 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @global       $wpdb
+	 * @global wpdb $wpdb
 	 *
 	 * @param int    $term_id  The ID of the term
 	 * @param string $taxonomy The context in which to relate the term to the object.
@@ -1848,7 +1793,6 @@ class cnTerm {
 	 */
 	public static function update( $term_id, $taxonomy, $args = array() ) {
 
-		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		//@todo Add taxonomy check.
@@ -1858,12 +1802,19 @@ class cnTerm {
 		$term_id = (int) $term_id;
 
 		// First, get all of the original args
-		$term = self::get( $term_id, $taxonomy, ARRAY_A );
+		$term = self::get( $term_id, $taxonomy );
 
 		if ( is_wp_error( $term ) ) {
 
 			return $term;
 		}
+
+		if ( ! $term ) {
+
+			return new WP_Error( 'invalid_term', __( 'Empty Term', 'connections' ) );
+		}
+
+		$term = (array) $term->data;
 
 		// Escape data pulled from DB.
 		$term = wp_slash( $term );
@@ -1888,6 +1839,11 @@ class cnTerm {
 			return new WP_Error( 'empty_term_name', __( 'A name is required for this term', 'connections' ) );
 		}
 
+		if ( 0 < $parsed_args['parent'] && ! cnTerm::exists( (int) $parsed_args['parent'] ) ) {
+
+			return new WP_Error( 'missing_parent', __( 'Parent term does not exist.', 'connections' ) );
+		}
+
 		$empty_slug = FALSE;
 
 		if ( empty( $args['slug'] ) ) {
@@ -1906,29 +1862,21 @@ class cnTerm {
 
 		if ( $args['alias_of'] ) {
 
-			$alias = $wpdb->get_row(
-				$wpdb->prepare(
-					"SELECT term_id, term_group FROM " . CN_TERMS_TABLE . " WHERE slug = %s",
-					$args['alias_of']
-				)
-			);
+			$alias = cnTerm::getBy( 'slug', $args['alias_of'], $taxonomy );
 
-			if ( $alias->term_group ) {
+			if ( ! empty( $alias->term_group ) ) {
 
 				// The alias we want is already in a group, so let's use that one.
 				$term_group = $alias->term_group;
 
-			} else {
+			} elseif ( ! empty( $alias->term_id ) ) {
 
-				// The alias isn't in a group, so let's create a new one and firstly add the alias term to it.
-				$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM " . CN_TERMS_TABLE ) + 1;
+				/*
+				 * The alias is not in a group, so we create a new one and add the alias to it.
+				 */
+				$term_group = $wpdb->get_var( "SELECT MAX(term_group) FROM $wpdb->terms" ) + 1;
 
-				/** @see cnTerm::insert() */
-				do_action( 'cn_edit_terms', $alias->term_id, $taxonomy );
-				$wpdb->update( CN_TERMS_TABLE, compact( 'term_group' ), array( 'term_id' => $alias->term_id ) );
-
-				/** @see cnTerm::insert() */
-				do_action( 'cn_edited_terms', $alias->term_id, $taxonomy );
+				cnTerm::update( $alias->term_id, $taxonomy, array( 'term_group' => $term_group, ) );
 			}
 
 			$parsed_args['term_group'] = $term_group;
@@ -1972,7 +1920,28 @@ class cnTerm {
 			}
 		}
 
-		/** @see cnTerm::insert() */
+		$tt_id = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT tt.term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " AS tt INNER JOIN " . CN_TERMS_TABLE . " AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d",
+				$taxonomy,
+				$term_id
+			)
+		);
+
+		// Check whether this is a shared term that needs splitting.
+		//$_term_id = _split_shared_term( $term_id, $tt_id );
+		//if ( ! is_wp_error( $_term_id ) ) {
+		//	$term_id = $_term_id;
+		//}
+
+		/**
+		 * Fires immediately before the given terms are edited.
+		 *
+		 * @since 8.1.6
+		 *
+		 * @param int    $term_id  Term ID.
+		 * @param string $taxonomy Taxonomy slug.
+		 */
 		do_action( 'cn_edit_terms', $term_id, $taxonomy );
 
 		$wpdb->update( CN_TERMS_TABLE, compact( 'name', 'slug', 'term_group' ), compact( 'term_id' ) );
@@ -1983,16 +1952,15 @@ class cnTerm {
 			$wpdb->update( CN_TERMS_TABLE, compact( 'slug' ), compact( 'term_id' ) );
 		}
 
-		/** @see cnTerm::insert() */
+		/**
+		 * Fires immediately after the given terms are edited.
+		 *
+		 * @since 8.1.6
+		 *
+		 * @param int    $term_id  Term ID
+		 * @param string $taxonomy Taxonomy slug.
+		 */
 		do_action( 'cn_edited_terms', $term_id, $taxonomy );
-
-		$tt_id = $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT tt.term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " AS tt INNER JOIN " . CN_TERMS_TABLE . " AS t ON tt.term_id = t.term_id WHERE tt.taxonomy = %s AND t.term_id = %d",
-				$taxonomy,
-				$term_id
-			)
-		);
 
 		/**
 		 * Fires immediate before a term-taxonomy relationship is updated.
@@ -2109,7 +2077,7 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @global $wpdb
+	 * @global wpdb $wpdb
 	 *
 	 * @uses   cnTerm::exists()
 	 * @uses   is_wp_error()
@@ -2134,7 +2102,6 @@ class cnTerm {
 	 */
 	public static function delete( $term, $taxonomy, $args = array() ) {
 
-		/** @var $wpdb wpdb */
 		global $wpdb;
 
 		$term = (int) $term;
@@ -2160,7 +2127,7 @@ class cnTerm {
 			// Don't delete the default category
 			if ( $defaults['default'] == $term ) {
 
-				return FALSE;
+				return 0;
 			}
 
 		}
@@ -2182,6 +2149,16 @@ class cnTerm {
 			$force_default = $args['force_default'];
 		}
 
+		/**
+		 * Fires when deleting a term, before any modifications are made to posts or terms.
+		 *
+		 * @since 8.5.10
+		 *
+		 * @param int    $term     Term ID.
+		 * @param string $taxonomy Taxonomy Name.
+		 */
+		do_action( 'cn_pre_delete_term', $term, $taxonomy );
+
 		//@todo Implement the is_taxonomy_hierarchical() conditional statement.
 		// Update children to point to new parent
 		//if ( is_taxonomy_hierarchical($taxonomy) ) {
@@ -2196,9 +2173,8 @@ class cnTerm {
 
 			$parent = $term_obj->parent;
 
-			$edit_tt_ids = $wpdb->get_col(
-				"SELECT term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " WHERE parent = " . (int) $term_obj->term_id
-			);
+			$edit_ids = $wpdb->get_results( "SELECT term_id, term_taxonomy_id FROM " . CN_TERM_TAXONOMY_TABLE . " WHERE `parent` = " . (int) $term_obj->term_id );
+			$edit_tt_ids = wp_list_pluck( $edit_ids, 'term_taxonomy_id' );
 
 			/**
 			 * Fires immediately before a term to delete's children are reassigned a parent.
@@ -2215,6 +2191,10 @@ class cnTerm {
 				array( 'parent' => $term_obj->term_id ) + compact( 'taxonomy' )
 			);
 
+			// Clean the cache for all child terms.
+			$edit_term_ids = wp_list_pluck( $edit_ids, 'term_id' );
+			cnTerm::cleanCache( $edit_term_ids, 'cn_' . $taxonomy );
+
 			/**
 			 * Fires immediately after a term to delete's children are reassigned a parent.
 			 *
@@ -2224,6 +2204,9 @@ class cnTerm {
 			 */
 			do_action( 'cn_edited_term_taxonomies', $edit_tt_ids );
 		}
+
+		// Get the object before deletion so we can pass to actions below
+		$deleted_term = self::get( $term, $taxonomy );
 
 		$objects = $wpdb->get_col(
 			$wpdb->prepare(
@@ -2263,8 +2246,12 @@ class cnTerm {
 		//	self::cleanRelationshipCache( $objects, $object_type );
 			self::cleanRelationshipCache( $objects, $taxonomy ); // Clean the entry/term relationships directly until get_taxonomy() is implemented.
 
-		// Get the object before deletion so we can pass to actions below
-		$deleted_term = self::get( $term, $taxonomy );
+		$term_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->termmeta WHERE term_id = %d ", $term ) );
+
+		foreach ( $term_meta_ids as $mid ) {
+
+			cnMeta::deleteByID( 'term', $mid );
+		}
 
 		/**
 		 * Fires immediately before a term taxonomy ID is deleted.
@@ -2350,7 +2337,7 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @global $wpdb
+	 * @global wpdb $wpdb
 	 *
 	 * @uses   cnTerm::exists()
 	 * @uses   cnTerm::get()
@@ -2365,17 +2352,21 @@ class cnTerm {
 	 */
 	private static function unique_slug( $slug, $term ) {
 
-		/** @var $wpdb wpdb */
 		global $wpdb;
 
-		if ( ! self::exists( $slug ) ) {
+		$needs_suffix  = TRUE;
+		$original_slug = $slug;
 
-			return $slug;
+		if ( ! self::exists( $slug ) || ! cnTerm::getBy( 'slug', $slug, $term->taxonomy )  ) {
+
+			$needs_suffix = FALSE;
 		}
 
 		// If the taxonomy supports hierarchy and the term has a parent, make the slug unique
 		// by incorporating parent slugs.
-		if ( /*is_taxonomy_hierarchical($term->taxonomy) &&*/ ! empty( $term->parent ) ) {
+		$parent_suffix = '';
+
+		if ( $needs_suffix && /*is_taxonomy_hierarchical($term->taxonomy) &&*/ ! empty( $term->parent ) ) {
 
 			$the_parent = $term->parent;
 
@@ -2388,55 +2379,79 @@ class cnTerm {
 					break;
 				}
 
-				$slug .= '-' . $parent_term->slug;
+				$parent_suffix .= '-' . $parent_term->slug;
 
-				if ( ! self::exists( $slug ) ) {
+				if ( ! self::exists( $slug . $parent_suffix ) ) {
 
-					return $slug;
+					break;
 				}
 
 				if ( empty( $parent_term->parent ) ) {
 
 					break;
 				}
+
 				$the_parent = $parent_term->parent;
 			}
 
 		}
 
 		// If we didn't get a unique slug, try appending a number to make it unique.
-		if ( ! empty( $term->term_id ) ) {
 
-			$query = $wpdb->prepare(
-				"SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s AND term_id != %d",
-				$slug,
-				$term->term_id
-			);
+		/**
+		 * Filter whether the proposed unique term slug is bad.
+		 *
+		 * @since 8.5.10
+		 *
+		 * @param bool   $needs_suffix Whether the slug needs to be made unique with a suffix.
+		 * @param string $slug         The slug.
+		 * @param object $term         Term object.
+		 */
+		if ( apply_filters( 'cn_unique_term_slug_is_bad_slug', $needs_suffix, $slug, $term ) ) {
 
-		} else {
+			if ( $parent_suffix ) {
 
-			$query = $wpdb->prepare( "SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s", $slug );
+				$slug .= $parent_suffix;
+
+			} else {
+
+				if ( ! empty( $term->term_id ) ) {
+
+					$query = $wpdb->prepare( "SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s AND term_id != %d", $slug, $term->term_id );
+
+				} else {
+
+					$query = $wpdb->prepare( "SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s", $slug );
+				}
+
+				if ( $wpdb->get_var( $query ) ) {
+
+					$num = 2;
+
+					do {
+
+						$alt_slug = $slug . "-$num";
+						$num++;
+						$slug_check = $wpdb->get_var( $wpdb->prepare( "SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s", $alt_slug ) );
+
+					} while ( $slug_check );
+
+					$slug = $alt_slug;
+				}
+			}
+
 		}
 
-		if ( $wpdb->get_var( $query ) ) {
-
-			$num = 2;
-
-			do {
-
-				$alt_slug = $slug . "-$num";
-				$num ++;
-
-				$slug_check = $wpdb->get_var(
-					$wpdb->prepare( "SELECT slug FROM " . CN_TERMS_TABLE . " WHERE slug = %s", $alt_slug )
-				);
-
-			} while ( $slug_check );
-
-			$slug = $alt_slug;
-		}
-
-		return $slug;
+		/**
+		 * Filter the unique term slug.
+		 *
+		 * @since 8.5.10
+		 *
+		 * @param string $slug          Unique term slug.
+		 * @param object $term          Term object.
+		 * @param string $original_slug Slug originally passed to the function for testing.
+		 */
+		return apply_filters( 'cn_unique_term_slug', $slug, $term, $original_slug );
 	}
 
 	/**
@@ -2448,7 +2463,8 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @global $wpdb
+	 * @global wpdb $wpdb
+	 * @global bool $_wp_suspend_cache_invalidation
 	 *
 	 * @uses   wpdb::get_results()
 	 * @uses   wp_cache_delete()
@@ -2463,8 +2479,12 @@ class cnTerm {
 	 */
 	public static function cleanCache( $ids, $taxonomy = '', $clean_taxonomy = TRUE ) {
 
-		/** @var $wpdb wpdb */
-		global $wpdb;
+		global $wpdb, $_wp_suspend_cache_invalidation;
+
+		if ( ! empty( $_wp_suspend_cache_invalidation ) ) {
+
+			return;
+		}
 
 		if ( ! is_array( $ids ) ) {
 
@@ -2857,7 +2877,7 @@ class cnTerm {
 	 * @uses   cnTerm::padCounts()
 	 * @uses   cnTerm::children()
 	 *
-	 * @return array|int|WP_Error Indexed array of term objects. Will return WP_Error, if any of $taxonomies do not exist.*
+	 * @return array|int|WP_Error Indexed array of cnTerm_Object objects. Will return WP_Error, if any of $taxonomies do not exist.*
 	 */
 	public static function getTaxonomyTerms( $taxonomies = array( 'category' ), $atts = array() ) {
 
@@ -2924,9 +2944,14 @@ class cnTerm {
 			 ( '' !== $atts['parent'] && 0 !== $atts['parent'] )
 			) {
 
-			$atts['child_of']     = 0;
 			$atts['hierarchical'] = FALSE;
 			$atts['pad_counts']   = FALSE;
+		}
+
+		// 'parent' overrides 'child_of'.
+		if ( 0 < intval( $atts['parent'] ) ) {
+
+			$atts['child_of'] = FALSE;
 		}
 
 		if ( 'all' == $atts['get'] ) {
@@ -3357,11 +3382,11 @@ class cnTerm {
 				break;
 
 			case 'id=>name':
-				$select = array( 't.term_id', 't.name' );
+				$select = array( 't.term_id', 't.name', 'tt.count', 'tt.taxonomy' );
 				break;
 
 			case 'id=>slug':
-				$select = array( 't.term_id', 't.slug' );
+				$select = array( 't.term_id', 't.slug', 'tt.count', 'tt.taxonomy' );
 				break;
 		}
 
@@ -3378,7 +3403,7 @@ class cnTerm {
 
 		$join  .= 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
 
-		$pieces = array( 'fields', 'join', 'where', 'orderBy', 'limit' );
+		$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderby', 'order', 'limit' );
 
 		/**
 		 * Filter the terms query SQL clauses.
@@ -3456,7 +3481,10 @@ class cnTerm {
 		// Update term counts to include children.
 		if ( $atts['pad_counts'] && 'all' == $atts['fields'] ) {
 
-			self::padCounts( $terms, reset( $taxonomies ) );
+			foreach ( $taxonomies as $_tax ) {
+
+				self::padCounts( $terms, $_tax );
+			}
 		}
 
 		// Make sure we show empty categories that have children.
@@ -3466,13 +3494,13 @@ class cnTerm {
 
 				if ( ! $term->count ) {
 
-					$children = self::children( $term->term_id, reset( $taxonomies ) );
+					$children = self::children( $term->term_id, $term->taxonomy );
 
 					if ( is_array( $children ) ) {
 
 						foreach ( $children as $child_id ) {
 
-							$child = self::filter( $child_id, reset( $taxonomies ) );
+							$child = self::filter( $child_id, $term->taxonomy );
 
 							if ( $child->count ) {
 
@@ -3487,34 +3515,37 @@ class cnTerm {
 			}
 		}
 
-		reset( $terms );
-
 		$_terms = array();
 
 		if ( 'id=>parent' == $atts['fields'] ) {
 
-			while ( $term = array_shift( $terms ) )
+			foreach ( $terms as $term ) {
 				$_terms[ $term->term_id ] = $term->parent;
+			}
 
 		} elseif ( 'ids' == $atts['fields'] ) {
 
-			while ( $term = array_shift( $terms ) )
+			foreach ( $terms as $term ) {
 				$_terms[] = $term->term_id;
+			}
 
 		} elseif ( 'names' == $atts['fields'] ) {
 
-			while ( $term = array_shift( $terms ) )
+			foreach ( $terms as $term ) {
 				$_terms[] = $term->name;
+			}
 
 		} elseif ( 'id=>name' == $atts['fields'] ) {
 
-			while ( $term = array_shift( $terms ) )
+			foreach ( $terms as $term ) {
 				$_terms[ $term->term_id ] = $term->name;
+			}
 
 		} elseif ( 'id=>slug' == $atts['fields'] ) {
 
-			while ( $term = array_shift( $terms ) )
+			foreach ( $terms as $term ) {
 				$_terms[ $term->term_id ] = $term->slug;
+			}
 		}
 
 		if ( ! empty( $_terms ) ) {
@@ -3528,6 +3559,11 @@ class cnTerm {
 		}
 
 		wp_cache_add( $cache_key, $terms, 'cn_terms', DAY_IN_SECONDS );
+
+		if ( 'all' === $atts['fields'] ) {
+
+			$terms = array_map( array( 'cnTerm', 'get' ), $terms );
+		}
 
 		$terms = apply_filters( 'cn_terms', $terms, $taxonomies, $atts );
 
@@ -3950,10 +3986,14 @@ class cnTerm {
 	 * @param  int    $term_id The ancestor term: all returned terms should be descendants of $term_id.
 	 * @param  array  $terms The set of terms---either an array of term objects or term IDs---from which those that are descendants of $term_id will be chosen.
 	 * @param  string $taxonomy The taxonomy which determines the hierarchy of the terms.
+	 * @param  array  $ancestors Optional. Term ancestors that have already been identified. Passed by reference, to keep
+	 *                           track of found terms when recursing the hierarchy. The array of located ancestors is used
+	 *                           to prevent infinite recursion loops. For performance, `term_ids` are used as array keys,
+	 *                           with 1 as value. Default empty array.
 	 *
 	 * @return array  The subset of $terms that are descendants of $term_id.
 	 */
-	private static function descendants( $term_id, $terms, $taxonomy ) {
+	private static function descendants( $term_id, $terms, $taxonomy, &$ancestors = array() ) {
 
 		if ( empty( $terms ) ) {
 
@@ -3968,13 +4008,19 @@ class cnTerm {
 			return array();
 		}
 
+		// Include the term itself in the ancestors array, so we can properly detect when a loop has occurred.
+		if ( empty( $ancestors ) ) {
+
+			$ancestors[ $term_id ] = 1;
+		}
+
 		foreach ( (array) $terms as $term ) {
 
 			$use_id = FALSE;
 
 			if ( ! is_object( $term ) ) {
 
-				$term = self::filter( $term, $taxonomy );
+				$term = self::get( $term, $taxonomy );
 
 				 if ( is_wp_error( $term ) ) {
 
@@ -3984,7 +4030,8 @@ class cnTerm {
 				$use_id = TRUE;
 			}
 
-			if ( $term->term_id == $term_id ) {
+			// Don't recurse if we've already identified the term as a child - this indicates a loop.
+			if ( isset( $ancestors[ $term->term_id ] ) ) {
 
 				continue;
 			}
@@ -4005,7 +4052,9 @@ class cnTerm {
 					continue;
 				}
 
-				if ( $children = self::descendants( $term->term_id, $terms, $taxonomy ) ) {
+				$ancestors[ $term->term_id ] = 1;
+
+				if ( $children = self::descendants( $term->term_id, $terms, $taxonomy, $ancestors ) ) {
 
 					$term_list = array_merge( $term_list, $children );
 				}
@@ -4082,7 +4131,7 @@ class cnTerm {
 	 * @since  8.1
 	 * @static
 	 *
-	 * @global $wpdb
+	 * @global wpdb $wpdb
 	 *
 	 * @uses   childrenIDs()
 	 * @uses   is_user_logged_in()
@@ -4096,7 +4145,6 @@ class cnTerm {
 	 */
 	private static function padCounts( &$terms, $taxonomy ) {
 
-		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$term_ids   = array();
@@ -4158,9 +4206,12 @@ class cnTerm {
 		// Touch every ancestor's lookup row for each post in each term
 		foreach ( $term_ids as $term_id ) {
 
-			$child = $term_id;
+			$child     = $term_id;
+			$ancestors = array();
 
 			while ( ! empty( $terms_by_id[ $child ] ) && $parent = $terms_by_id[ $child ]->parent ) {
+
+				$ancestors[] = $child;
 
 				if ( ! empty( $term_items[ $term_id ] ) ) {
 
@@ -4171,6 +4222,11 @@ class cnTerm {
 				}
 
 				$child = $parent;
+
+				if ( in_array( $parent, $ancestors ) ) {
+
+					break;
+				}
 			}
 		}
 

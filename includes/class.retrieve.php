@@ -80,9 +80,6 @@ class cnRetrieve {
 		$random               = FALSE;
 		$visibility           = array();
 
-		$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
-		$permittedEntryStatus = array( 'approved', 'pending' );
-
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
@@ -317,6 +314,8 @@ class cnRetrieve {
 		 */
 		if ( ! empty( $atts['category'] ) ) {
 
+			$categoryIDs = array();
+
 			$atts['category'] = wp_parse_id_list( $atts['category'] );
 
 			foreach ( $atts['category'] as $categoryID ) {
@@ -325,13 +324,11 @@ class cnRetrieve {
 				$categoryIDs[] = absint( $categoryID );
 
 				// Retrieve the children categories
-				$results = $this->categoryChildren( 'term_id', $categoryID );
-				//print_r($results);
+				$termChildren = cnTerm::children( $categoryID, 'category' );
 
-				foreach ( (array) $results as $term ) {
+				if ( ! is_a( $termChildren, 'WP_Error' ) && ! empty( $termChildren ) ) {
 
-					// Only add the ID if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->term_id, $categoryIDs ) ) $categoryIDs[] = absint( $term->term_id );
+					$categoryIDs = array_merge( $categoryIDs, $termChildren );
 				}
 			}
 		}
@@ -342,10 +339,11 @@ class cnRetrieve {
 		if ( ! empty( $atts['exclude_category'] ) ) {
 
 			if ( ! isset( $categoryIDs ) ) $categoryIDs = array();
+			$categoryExcludeIDs = array();
 
 			$atts['exclude_category'] = wp_parse_id_list( $atts['exclude_category'] );
 
-			$categoryIDs = array_diff( (array) $categoryIDs, $atts['exclude_category'] );
+			$categoryIDs = array_diff( $categoryIDs, $atts['exclude_category'] );
 
 			foreach ( $atts['exclude_category'] as $categoryID ) {
 
@@ -353,21 +351,15 @@ class cnRetrieve {
 				$categoryExcludeIDs[] = absint( $categoryID );
 
 				// Retrieve the children categories
-				$results = $this->categoryChildren( 'term_id', $categoryID );
-				// var_dump($results);
+				$termChildren = cnTerm::children( $categoryID, 'category' );
 
-				foreach ( (array) $results as $term ) {
+				if ( ! is_a( $termChildren, 'WP_Error' ) && ! empty( $termChildren ) ) {
 
-					// Only add the ID if it doesn't already exist. If it doesn't sanitize and add to the array.
-					if ( ! in_array( $term->term_id, $categoryExcludeIDs ) ) $categoryExcludeIDs[] = absint( $term->term_id );
+					$categoryExcludeIDs = array_merge( $categoryExcludeIDs, $termChildren );
 				}
 			}
 
-			// Merge the children of the excluded category into the excluded category ID array.
-			$atts['exclude_category'] = array_merge( $atts['exclude_category'], (array) $categoryExcludeIDs );
-
-			// Ensure unique values only.
-			$atts['exclude_category'] = array_unique( $atts['exclude_category'] );
+			$atts['exclude_category'] = array_unique( $categoryExcludeIDs );
 
 			$sql = 'SELECT tr.entry_id FROM ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr
 					INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id)
@@ -380,9 +372,7 @@ class cnRetrieve {
 			if ( ! empty( $results ) ) {
 
 				$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (' . implode( ", ", $results ) . ')';
-			} /*else {
-				$where[] = 'AND 1=2';
-			}*/
+			}
 		}
 
 		// Convert the supplied category IDs $atts['category_in'] to an array.
@@ -520,21 +510,21 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries that match the supplied entry type.
 		 */
-		// Convert the supplied entry types $atts['list_type'] to an array.
-		if ( ! is_array( $atts['list_type'] ) && ! empty( $atts['list_type'] ) ) {
-			// Trim the space characters if present.
-			$atts['list_type'] = str_replace( ' ', '', $atts['list_type'] );
+		if ( ! empty( $atts['list_type'] ) ) {
 
-			// Convert to array.
-			$atts['list_type'] = explode( ',', $atts['list_type'] );
-		}
+			cnFunction::parseStringList( $atts['list_type'], ',' );
 
-		// Set query string for entry type.
-		if ( ! empty( $atts['list_type'] ) && (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {
-			// Compatibility code to make sure any occurrences of the deprecated entry type connections_group is changed to entry type family
-			$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
+			$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
 
-			$where[] = 'AND `entry_type` IN (\'' . implode( "', '", (array) $atts['list_type'] ) . '\')';
+			// Set query string for entry type.
+			if ( (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {
+
+				// Compatibility code to make sure any occurrences of the deprecated entry type connections_group
+				// is changed to entry type family
+				$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
+
+				$where[] = 'AND `entry_type` IN (\'' . implode( "', '", (array) $atts['list_type'] ) . '\')';
+			}
 		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied entry type.
@@ -610,46 +600,27 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries based on status.
 		 */
-		// Convert the supplied entry statuses $atts['status'] to an array.
-		if ( ! is_array( $atts['status'] ) /*&& ! empty($atts['status'])*/ ) {
-			// Trim the space characters if present.
-			$atts['status'] = str_replace( ' ', '', $atts['status'] );
+		cnFunction::parseStringList( $atts['status'], ',' );
 
-			// Convert to array.
-			$atts['status'] = explode( ',', $atts['status'] );
-		}
-		/*else
-			{
-				// Query the approved entries
-				$atts['status'] = array('approved');
-			}*/
+		$permittedEntryStatus     = array( 'approved', 'pending' );
+		$userPermittedEntryStatus = array( 'approved' );
 
 		if ( is_user_logged_in() ) {
-			// if 'all' was supplied, set the array to all the permitted entry status types.
-			if ( in_array( 'all', $atts['status'] ) ) $atts['status'] = $permittedEntryStatus;
+
+			// If 'all' was supplied, set the array to all the permitted entry status types.
+			if ( in_array( 'all', $atts['status'] ) ) {
+
+				$atts['status'] = $permittedEntryStatus;
+			}
 
 			// Limit the viewable status per role capability assigned to the current user.
-			if ( current_user_can( 'connections_edit_entry' ) ) {
+			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+
 				$userPermittedEntryStatus = array( 'approved', 'pending' );
-
-				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
-			}
-			elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-				$userPermittedEntryStatus = array( 'approved', 'pending' );
-
-				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
-			}
-			else {
-				$userPermittedEntryStatus = array( 'approved' );
-
-				$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
 			}
 		}
-		/*else
-			{
-				// If no user is logged in, set the status for the query to approved.
-				$atts['status'] = array('approved');
-			}*/
+
+		$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
 
 		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $atts['status'] ) . '\')';
 		/*
@@ -1118,7 +1089,6 @@ class cnRetrieve {
 		// Limit the characters that are queried based on if the current user can view approved and/or pending entries.
 		$where = self::setQueryStatus( $where, $atts );
 
-
 		$select = 'SUBSTRING( CASE `entry_type`
 					  WHEN \'individual\' THEN `last_name`
 					  WHEN \'organization\' THEN `organization`
@@ -1162,7 +1132,7 @@ class cnRetrieve {
 
 		if ( is_user_logged_in() ) {
 
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
+			if ( empty( $atts['visibility'] ) ) {
 
 				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
 				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
@@ -1204,59 +1174,56 @@ class cnRetrieve {
 	/**
 	 * Set up the query to only return the entries based on status.
 	 *
-	 * @param array $where
-	 * @param array $atts
-	 *
 	 * @access private
-	 * @since 0.7.4
+	 * @since  0.7.4
+	 * @static
 	 *
 	 * @uses wp_parse_args()
 	 * @uses is_user_logged_in()
 	 * @uses current_user_can()
 	 *
+	 * @param array $where
+	 * @param array $atts
+	 *
 	 * @return array
 	 */
 	public static function setQueryStatus( $where, $atts = array() ) {
-		$valid = array( 'approved', 'pending' );
 
-		$defaults = array(
+		$valid     = array( 'approved', 'pending' );
+		$permitted = array( 'approved' );
+		$defaults  = array(
 			'status' => array( 'approved' )
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		// Convert the supplied entry statuses $atts['status'] to an array.
-		if ( ! is_array( $atts['status'] ) ) {
-			// Trim the space characters if present.
-			$status = str_replace( ' ', '', $atts['status'] );
-
-			// Convert to array.
-			$status = explode( ',', $status );
-		} else {
-			$status = $atts['status'];
-		}
+		$status = cnFunction::parseStringList( $atts['status'], ',' );
 
 		if ( is_user_logged_in() ) {
+
 			// If 'all' was supplied, set the array to all the permitted entry status types.
-			if ( in_array( 'all', $status ) ) $status = $valid;
+			if ( in_array( 'all', $status ) ) {
 
-			// Limit the viewable status per role capability assigned to the current user.
-			if ( current_user_can( 'connections_edit_entry' ) ) {
-				$permitted = array( 'approved', 'pending' );
-
-				$status = array_intersect( $permitted, $status );
-
-			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-				$permitted = array( 'approved' );
-
-				$status = array_intersect( $permitted, $status );
-
-			} else {
-				$permitted = array( 'approved' );
-
-				$status = array_intersect( $permitted, $status );
+				$status = $valid;
 			}
+
+			// If the current user can edit entries, then they should have permission to view both approved and pending.
+			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+
+				$permitted = array( 'approved', 'pending' );
+			}
+
+		} else {
+
+			// A non-logged in user should only have permission to view approved entries.
+			$status = array( 'approved' );
 		}
+
+		$status = array_intersect( $permitted, $status );
+
+		// Permit only the supported statuses to be queried.
+		$status = array_intersect( $status, $valid );
 
 		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $status ) . '\')';
 
@@ -1471,7 +1438,7 @@ class cnRetrieve {
 	 *
 	 * @param int $id
 	 *
-	 * @return mixed array|WP_Error An array of categories associated to an entry.
+	 * @return array|false|WP_Error An array of categories associated to an entry.
 	 */
 	public function entryCategories( $id ) {
 
@@ -1481,6 +1448,8 @@ class cnRetrieve {
 	/**
 	 * Retrieve the entry terms by taxonomy.
 	 *
+	 * NOTE: This is the Connections equivalent of @see get_the_terms() in WordPress core ../wp-includes/category-template.php
+	 *
 	 * @access public
 	 * @since  8.2
 	 * @static
@@ -1489,7 +1458,7 @@ class cnRetrieve {
 	 * @param string $taxonomy
 	 * @param array  $atts     Optional. An array of arguments. @see cnTerm::getRelationships() for accepted arguments.
 	 *
-	 * @return mixed array|WP_Error An array of terms by taxonomy associated to an entry.
+	 * @return array|false|WP_Error An array of terms by taxonomy associated to an entry.
 	 */
 	public static function entryTerms( $id, $taxonomy, $atts = array() ) {
 
@@ -1504,21 +1473,41 @@ class cnRetrieve {
 
 			$terms = cnTerm::getRelationships( $id, $taxonomy, $atts );
 
-			wp_cache_add( $id, $terms, "cn_{$taxonomy}_relationships" );
+			if ( ! is_wp_error( $terms ) ) {
+
+				$to_cache = array();
+
+				foreach ( $terms as $key => $term ) {
+
+					$to_cache[ $key ] = $term->data;
+				}
+
+				wp_cache_add( $id, $to_cache, "cn_{$taxonomy}_relationships" );
+			}
 
 		} else {
 
-			/**
-			 * Filter the list of terms attached to the given entry.
-			 *
-			 * @since 8.2
-			 *
-			 * @param array|WP_Error $terms    List of attached terms, or WP_Error on failure.
-			 * @param int            $id       Post ID.
-			 * @param string         $taxonomy Name of the taxonomy.
-			 * @param array          $atts     An array of arguments for retrieving terms for the given object.
-			 */
-			$terms = apply_filters( 'cn_get_object_terms', $terms, $id, $taxonomy, $atts );
+			// This differs from the core WP function because $terms only needs run thru cnTerm::get() on a cache hit
+			// otherwise it is unnecessarily run twice. once in cnTerm::getRelationships() on cache miss, once here.
+			// Moving this logic to the else statement make sure it is only fun once on the cache hit.
+			$terms = array_map( array( 'cnTerm', 'get' ), $terms );
+		}
+
+		/**
+		 * Filter the list of terms attached to the given entry.
+		 *
+		 * @since 8.2
+		 *
+		 * @param array|WP_Error $terms    List of attached terms, or WP_Error on failure.
+		 * @param int            $id       Post ID.
+		 * @param string         $taxonomy Name of the taxonomy.
+		 * @param array          $atts     An array of arguments for retrieving terms for the given object.
+		 */
+		$terms = apply_filters( 'cn_get_object_terms', $terms, $id, $taxonomy, $atts );
+
+		if ( empty( $terms ) ) {
+
+			return FALSE;
 		}
 
 		return $terms;
@@ -1549,16 +1538,13 @@ class cnRetrieve {
 	 *
 	 * @return array
 	 */
-	public function addresses( $atts = array() ) {
+	public static function addresses( $atts = array() ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
 		$where = array( 'WHERE 1=1' );
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'fields'      => 'all',
 			'id'          => NULL,
@@ -1573,11 +1559,9 @@ class cnRetrieve {
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		/**
+		 * @var string       $fields
 		 * @var int          $id
 		 * @var bool         $preferred
 		 * @var array|string $type
@@ -1593,19 +1577,10 @@ class cnRetrieve {
 		/*
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
-		/** @var array $type */
 		cnFunction::parseStringList( $type );
-
-		/** @var array $city */
 		cnFunction::parseStringList( $city );
-
-		/** @var array $state */
 		cnFunction::parseStringList( $state );
-
-		/** @var array $zipcode */
 		cnFunction::parseStringList( $zipcode );
-
-		/** @var array $country */
 		cnFunction::parseStringList( $country );
 
 		switch ( $atts['fields'] ) {
@@ -1699,506 +1674,484 @@ class cnRetrieve {
 	/**
 	 * Returns as an array of objects containing the phone numbers per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the phone numbers of the specified entry by entry id.
-	 * $atts['preferred'] (bool) Retrieve the preferred phone number; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific phone number types, id must be supplied.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the phone number data will be returned.
+	 *     @type int          $id        The entry ID in which to retrieve the phone numbers for.
+	 *     @type bool         $preferred Whether or not to return only the preferred phone numbers.
+	 *                                   Default: false
+	 *     @type array|string $type      The types to return.
+	 *                                   Default: array() which will return all registered types.
+	 *                                   Accepts: homephone, homefax, cellphone, workphone, workfax and any other registered types.
+	 *     @type int          $limit     The number to limit the results to.
+	 * }
+	 *
 	 * @return array
 	 */
-	public function phoneNumbers( $suppliedAttr , $returnData = TRUE ) {
+	public static function phoneNumbers( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$where = array( 'WHERE 1=1' );
+
+		$defaults = array(
+			'fields'    => 'all',
+			'id'        => NULL,
+			'preferred' => FALSE,
+			'type'      => array(),
+			'limit'     => NULL,
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb $wpdb
+		 * @var string       $fields
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var array|string $type
+		 * @var null|int     $limit
 		 */
-		global $wpdb, $connections;
-
-		$validate = new cnValidate();
-		$where[] = 'WHERE 1=1';
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['type'] = NULL;
-		$defaultAttr['limit'] = NULL;
-
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
-
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		cnFunction::parseStringList( $type );
 
-		if ( ! empty( $id ) ) {
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 'p.id', 'p.entry_id' );
+				break;
+
+			case 'number':
+				$select = array( 'p.number' );
+				break;
+
+			default:
+				$select = array( 'p.*' );
+		}
+
+		if ( is_numeric( $id ) && ! empty( $id ) ) {
+
 			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
-
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
-			}
-
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
-
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		if ( $preferred ) {
+
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
 		}
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		if ( ! empty( $type ) ) {
+
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+		}
+
+		$where = self::setQueryVisibility( $where, array( 'table' => 'p' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_PHONE_TABLE . '.*
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS p %3$s ORDER BY `order`%4$s',
+			implode( ', ', $select ),
+			CN_ENTRY_PHONE_TABLE,
+			implode( ' ', $where ),
+			$limit
+		);
 
-					FROM ' . CN_ENTRY_PHONE_TABLE . ' ' . ' ' .
+		$results = $wpdb->get_results( $sql );
 
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`' . $limit;
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_PHONE_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_PHONE_TABLE . ' ' . ' ' . implode( ' ', $where ) . $limit;
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
-		}
-
-		if ( empty( $results ) ) return array();
-
-		//print_r($results);
 		return $results;
 	}
 
 	/**
 	 * Returns as an array of objects containing the email addresses per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the addresses of the specified entry by entry id.
-	 * $atts['preferred'] (bool) Retrieve the preferred entry address; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific address types, id must be supplied.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the email address data will be returned.
+	 *     @type int          $id        The entry ID in which to retrieve the email addresses for.
+	 *     @type bool         $preferred Whether or not to return only the preferred email address.
+	 *                                   Default: false
+	 *     @type array|string $type      The types to return.
+	 *                                   Default: array() which will return all registered types.
+	 *                                   Accepts: personal, work and any other registered types.
+	 *     @type int          $limit     The number to limit the results to.
+	 * }
+	 *
 	 * @return array
 	 */
-	public function emailAddresses( $suppliedAttr , $returnData = TRUE ) {
+	public static function emailAddresses( $atts = array() ) {
 
-		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb $wpdb
-		 */
-		global $wpdb, $connections;
+		/** @var wpdb $wpdb */
+		global $wpdb;
 
-		$validate = new cnValidate();
 		$where[] = 'WHERE 1=1';
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['type'] = NULL;
-		$defaultAttr['limit'] = NULL;
+		$defaults = array(
+			'fields'    => 'all',
+			'id'        => NULL,
+			'preferred' => FALSE,
+			'type'      => array(),
+			'limit'     => NULL,
+		);
 
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
+		$atts = cnSanitize::args( $atts, $defaults );
 
+		/**
+		 * @var string       $fields
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var array|string $type
+		 * @var null|int     $limit
+		 */
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		cnFunction::parseStringList( $type );
 
-		if ( ! empty( $id ) ) {
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 'e.id', 'e.entry_id' );
+				break;
+
+			case 'address':
+				$select = array( 'e.address' );
+				break;
+
+			default:
+				$select = array( 'e.*' );
+		}
+
+		if ( is_numeric( $id ) && ! empty( $id ) ) {
+
 			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
-
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = $d', (bool) $preferred );
-			}
-
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
-
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		if ( $preferred ) {
+
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
 		}
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		if ( ! empty( $type ) ) {
+
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+		}
+
+		$where = self::setQueryVisibility( $where, array( 'table' => 'e' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_EMAIL_TABLE . '.*
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS e %3$s ORDER BY `order`%4$s',
+			implode( ', ', $select ),
+			CN_ENTRY_EMAIL_TABLE,
+			implode( ' ', $where ),
+			$limit
+		);
 
-					FROM ' . CN_ENTRY_EMAIL_TABLE . ' ' . ' ' .
+		$results = $wpdb->get_results( $sql );
 
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`' . $limit;
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_EMAIL_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_EMAIL_TABLE . ' ' . ' ' . implode( ' ', $where ) . $limit;
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
-		}
-
-		if ( empty( $results ) ) return array();
-
-		//print_r($results);
 		return $results;
 	}
 
 	/**
 	 * Returns as an array of objects containing the IM IDs per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the IM IDs of the specified entry by entry id.
-	 * $atts['preferred'] (bool) Retrieve the preferred entry IM ID; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific IM ID types, id must be supplied.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the IM IDs data will be returned.
+	 *     @type int          $id        The entry ID in which to retrieve the messenger IDs for.
+	 *     @type bool         $preferred Whether or not to return only the preferred messenger IDs.
+	 *                                   Default: false
+	 *     @type array|string $type      The types to return.
+	 *                                   Default: array() which will return all registered types.
+	 *                                   Accepts: aim, yahoo, jabber, messenger, skype and any other registered types.
+	 *     @type int          $limit     The number to limit the results to.
+	 * }
+	 *
 	 * @return array
 	 */
-	public function imIDs( $suppliedAttr , $returnData = TRUE ) {
+	public static function imIDs( $atts = array() ) {
 
-		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb $wpdb
-		 */
-		global $wpdb, $connections;
+		/**  @var wpdb $wpdb */
+		global $wpdb;
 
-		$validate = new cnValidate();
 		$where[] = 'WHERE 1=1';
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['type'] = NULL;
+		$defaults = array(
+			'fields'    => 'all',
+			'id'        => NULL,
+			'preferred' => FALSE,
+			'type'      => array(),
+			'limit'     => NULL,
+		);
 
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
+		$atts = cnSanitize::args( $atts, $defaults );
 
+		/**
+		 * @var string       $fields
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var array|string $type
+		 * @var null|int     $limit
+		 */
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		cnFunction::parseStringList( $type );
 
-		if ( ! empty( $id ) ) {
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 'i.id', 'i.entry_id' );
+				break;
+
+			case 'uid':
+				$select = array( 'i.uid' );
+				break;
+
+			default:
+				$select = array( 'i.*' );
+		}
+
+		if ( is_numeric( $id ) && ! empty( $id ) ) {
+
 			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
-
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
-			}
-
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
-
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		if ( $preferred ) {
+
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
 		}
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		if ( ! empty( $type ) ) {
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_MESSENGER_TABLE . '.*
-
-					FROM ' . CN_ENTRY_MESSENGER_TABLE . ' ' . ' ' .
-
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`';
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_MESSENGER_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_MESSENGER_TABLE . ' ' . ' ' . implode( ' ', $where );
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( empty( $results ) ) return array();
+		$where = self::setQueryVisibility( $where, array( 'table' => 'i' ) );
 
-		//print_r($results);
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS i %3$s ORDER BY `order`%4$s',
+			implode( ', ', $select ),
+			CN_ENTRY_MESSENGER_TABLE,
+			implode( ' ', $where ),
+			$limit
+		);
+
+		$results = $wpdb->get_results( $sql );
+
 		return $results;
 	}
 
 	/**
 	 * Returns as an array of objects containing the social media networks per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the social of the specified entry by entry id.
-	 * $atts['preferred'] (bool) Retrieve the preferred entry social network; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific social network types, id must be supplied.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the social network data will be returned.
+	 *     @type int          $id        The entry ID in which to retrieve the social media networks for.
+	 *     @type bool         $preferred Whether or not to return only the preferred social media networks.
+	 *                                   Default: false
+	 *     @type array|string $type      The types to return.
+	 *                                   Default: array() which will return all registered types.
+	 *                                   Accepts: Any other registered types.
+	 *     @type int          $limit     The number to limit the results to.
+	 * }
+	 *
 	 * @return array
 	 */
-	public function socialMedia( $suppliedAttr , $returnData = TRUE ) {
+	public static function socialMedia( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$where = array( 'WHERE 1=1' );
+
+		$defaults = array(
+			'fields'    => 'all',
+			'id'        => NULL,
+			'preferred' => FALSE,
+			'type'      => array(),
+			'limit'     => NULL,
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb $wpdb
+		 * @var string       $fields
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var array|string $type
+		 * @var null|int     $limit
 		 */
-		global $wpdb, $connections;
-
-		$validate = new cnValidate();
-		$where[] = 'WHERE 1=1';
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['type'] = NULL;
-
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
-
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		cnFunction::parseStringList( $type );
 
-		if ( ! empty( $id ) ) {
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 's.id', 's.entry_id' );
+				break;
+
+			case 'url':
+				$select = array( 's.url' );
+				break;
+
+			default:
+				$select = array( 's.*' );
+		}
+
+		if ( is_numeric( $id ) && ! empty( $id ) ) {
+
 			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
-
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
-			}
-
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
-
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		if ( $preferred ) {
+
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
 		}
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		if ( ! empty( $type ) ) {
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_SOCIAL_TABLE . '.*
-
-					FROM ' . CN_ENTRY_SOCIAL_TABLE . ' ' . ' ' .
-
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`';
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_SOCIAL_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_SOCIAL_TABLE . ' ' . ' ' . implode( ' ', $where );
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( empty( $results ) ) return array();
+		$where = self::setQueryVisibility( $where, array( 'table' => 's' ) );
 
-		//print_r($results);
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS s %3$s ORDER BY `order`%4$s',
+			implode( ', ', $select ),
+			CN_ENTRY_SOCIAL_TABLE,
+			implode( ' ', $where ),
+			$limit
+		);
+
+		$results = $wpdb->get_results( $sql );
+
 		return $results;
 	}
 
 	/**
 	 * Returns as an array of objects containing the links per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the links for the specified entry by id.
-	 * $atts['preferred'] (bool) Retrieve the preferred entry link; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific link, id must be supplied.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the link data will be returned.
+	 *     @type int          $id        The entry ID in which to retrieve the links for.
+	 *     @type bool         $preferred Whether or not to return only the preferred links.
+	 *                                   Default: false
+	 *     @type array|string $type      The types to return.
+	 *                                   Default: array() which will return all registered types.
+	 *                                   Accepts: blog, website and any other registered types.
+	 *     @type int          $limit     The number to limit the results to.
+	 * }
+	 *
 	 * @return array
 	 */
-	public function links( $suppliedAttr , $returnData = TRUE ) {
+	public static function links( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$where = array( 'WHERE 1=1' );
+
+		$defaults = array(
+			'fields'    => 'all',
+			'id'        => NULL,
+			'preferred' => FALSE,
+			'image'     => FALSE,
+			'logo'      => FALSE,
+			'type'      => array(),
+			'limit'     => NULL,
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb $wpdb
+		 * @var string       $fields
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var bool         $image
+		 * @var bool         $logo
+		 * @var array|string $type
+		 * @var null|int     $limit
 		 */
-		global $wpdb, $connections;
-
-		$validate = new cnValidate();
-		$where[] = 'WHERE 1=1';
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['image'] = NULL;
-		$defaultAttr['logo'] = NULL;
-		$defaultAttr['type'] = NULL;
-
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
-
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		cnFunction::parseStringList( $type );
 
-		if ( ! empty( $id ) ) {
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 'l.id', 'l.entry_id' );
+				break;
+
+			case 'url':
+				$select = array( 'l.url' );
+				break;
+
+			default:
+				$select = array( 'l.*' );
+		}
+
+		if ( is_numeric( $id ) && ! empty( $id ) ) {
+
 			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
-
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
-			}
-
-			if ( ! empty( $image ) ) {
-				$where[] = $wpdb->prepare( 'AND `image` = %d', (bool) $image );
-			}
-
-			if ( ! empty( $logo ) ) {
-				$where[] = $wpdb->prepare( 'AND `logo` = %d', (bool) $logo );
-			}
-
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
-
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		if ( $preferred ) {
+
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
 		}
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		if ( $image ) {
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_LINK_TABLE . '.*
-
-					FROM ' . CN_ENTRY_LINK_TABLE . ' ' . ' ' .
-
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`';
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_LINK_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_LINK_TABLE . ' ' . ' ' . implode( ' ', $where );
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
+			$where[] = $wpdb->prepare( 'AND `image` = %d', (bool) $image );
 		}
 
-		if ( empty( $results ) ) return array();
+		if ( $logo ) {
 
-		//print_r($results);
+			$where[] = $wpdb->prepare( 'AND `logo` = %d', (bool) $logo );
+		}
+
+		if ( ! empty( $type ) ) {
+
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
+		}
+
+		$where = self::setQueryVisibility( $where, array( 'table' => 'l' ) );
+
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS l %3$s ORDER BY `order`%4$s',
+			implode( ', ', $select ),
+			CN_ENTRY_LINK_TABLE,
+			implode( ' ', $where ),
+			$limit
+		);
+
+		$results = $wpdb->get_results( $sql );
+
 		return $results;
 	}
 
@@ -2206,99 +2159,94 @@ class cnRetrieve {
 	/**
 	 * Returns as an array of objects containing the dates per the defined options.
 	 *
-	 * $atts['id'] (int) Retrieve the dates of the specified entry by entry id.
-	 * $atts['preferred'] (bool) Retrieve the preferred date; id must be supplied.
-	 * $atts['type'] (array) || (string) Retrieve specific date types, id must be supplied.
+	 * @param array $atts {
+	 *     Optional. An array of arguments.
 	 *
-	 * @param array   $suppliedAttr Accepted values as noted above.
-	 * @param bool    $returnData   Query just the entry IDs or not. If set to FALSE, only the entry IDs would be returned as an array. If set TRUE, the date data will be returned.
+	 *     @type int          $id        The entry ID in which to retrieve the dates for.
+	 *     @type bool         $preferred Whether or not to return only the preferred dates.
+	 *                                   Default: false
+	 *     @type array|string $type      The types to return.
+	 *                                   Default: array() which will return all registered types.
+	 *                                   Accepts: Any other registered types.
+	 *     @type int          $limit     The number to limit the results to.
+	 * }
 	 *
 	 * @return array
 	 */
-	public function dates( $suppliedAttr , $returnData = TRUE ) {
+	public static function dates( $atts = array() ) {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$where = array( 'WHERE 1=1' );
+
+		$defaults = array(
+			'fields'    => 'all',
+			'id'        => NULL,
+			'preferred' => FALSE,
+			'type'      => array(),
+			'limit'     => NULL,
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		/**
-		 * @var connectionsLoad $connections
-		 * @var wpdb $wpdb
+		 * @var string       $fields
+		 * @var int          $id
+		 * @var bool         $preferred
+		 * @var array|string $type
+		 * @var null|int     $limit
 		 */
-		global $wpdb, $connections;
-
-		$validate = new cnValidate();
-		$where[] = 'WHERE 1=1';
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
-		$defaultAttr['id'] = NULL;
-		$defaultAttr['preferred'] = NULL;
-		$defaultAttr['type'] = NULL;
-
-		$atts = $validate->attributesArray( $defaultAttr, $suppliedAttr );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
-
 		extract( $atts );
 
+		/*
+		 * Convert these to values to an array if they were supplied as a comma delimited string
+		 */
+		cnFunction::parseStringList( $type );
 
-		if ( ! empty( $id ) ) {
+		switch ( $atts['fields'] ) {
+
+			case 'ids':
+				$select = array( 'd.id', 'd.entry_id' );
+				break;
+
+			case 'date':
+				$select = array( 'd.date' );
+				break;
+
+			default:
+				$select = array( 'd.*' );
+		}
+
+		if ( is_numeric( $id ) && ! empty( $id ) ) {
+
 			$where[] = $wpdb->prepare( 'AND `entry_id` = "%d"', $id );
-
-			if ( ! empty( $preferred ) ) {
-				$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
-			}
-
-			if ( ! empty( $type ) ) {
-				if ( ! is_array( $type ) ) $type = explode( ',' , trim( $type ) );
-
-				$where[] = stripslashes( $wpdb->prepare( 'AND `type` IN (\'%s\')', implode( "', '", (array) $type ) ) );
-			}
 		}
 
-		// Set query string for visibility based on user permissions if logged in.
-		if ( is_user_logged_in() ) {
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-			}
-			else {
-				$visibility[] = $atts['visibility'];
-			}
-		}
-		else {
-			if ( $connections->options->getAllowPublic() ) $visibility[] = 'public';
-			if ( $atts['allow_public_override'] == TRUE && $connections->options->getAllowPublicOverride() ) $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
+		if ( $preferred ) {
+
+			$where[] = $wpdb->prepare( 'AND `preferred` = %d', (bool) $preferred );
 		}
 
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		if ( ! empty( $type ) ) {
 
-		if ( $returnData ) {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_DATE_TABLE . '.*
-
-					FROM ' . CN_ENTRY_DATE_TABLE . ' ' . ' ' .
-
-				implode( ' ', $where ) . ' ' .
-
-				'ORDER BY `order`';
-
-			//print_r($sql);
-
-			$results = $wpdb->get_results( $sql );
-		}
-		else {
-			$sql = 'SELECT SQL_CALC_FOUND_ROWS DISTINCT ' . CN_ENTRY_DATE_TABLE . '.entry_id
-
-					FROM ' . CN_ENTRY_DATE_TABLE . ' ' . ' ' . implode( ' ', $where );
-
-			//print_r($sql);
-			$results = $wpdb->get_col( $sql );
+			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		if ( empty( $results ) ) return array();
+		$where = self::setQueryVisibility( $where, array( 'table' => 'd' ) );
 
-		//print_r($results);
+		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
+
+		$sql = sprintf(
+			'SELECT %1$s FROM %2$s AS d %3$s ORDER BY `order`%4$s',
+			implode( ', ', $select ),
+			CN_ENTRY_DATE_TABLE,
+			implode( ' ', $where ),
+			$limit
+		);
+
+		$results = $wpdb->get_results( $sql );
+
 		return $results;
 	}
 
@@ -2323,12 +2271,9 @@ class cnRetrieve {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
 		$results    = array();
 		$scored     = array();
-		$fields     = $instance->options->getSearchFields();
+		$fields     = cnSettingsAPI::get( 'connections', 'search', 'fields' );
 
 		$fields     = apply_filters( 'cn_search_fields', $fields );
 
@@ -3065,36 +3010,6 @@ class cnRetrieve {
 	}
 
 	/**
-	 * Sorts terms by name.
-	 *
-	 * @param object  $a
-	 * @param object  $b
-	 * @return integer
-	 */
-	private function sortTermsByName( $a, $b ) {
-		return strcmp( $a->name, $b->name );
-	}
-
-	/**
-	 * Sorts terms by ID.
-	 *
-	 * @param object  $a
-	 * @param object  $b
-	 * @return integer
-	 */
-	private function sortTermsByID( $a, $b ) {
-		if ( $a->term_id > $b->term_id ) {
-			return 1;
-		}
-		elseif ( $a->term_id < $b->term_id ) {
-			return -1;
-		}
-		else {
-			return 0;
-		}
-	}
-
-	/**
 	 * Total record count based on current user permissions.
 	 *
 	 * @access public
@@ -3114,98 +3029,25 @@ class cnRetrieve {
 	 */
 	public static function recordCount( $atts ) {
 
-		/**
-		 * @var wpdb $wpdb
-		 * @var connectionsLoad $connections
-		 */
-		global $wpdb, $connections;
+		/**  @var wpdb $wpdb */
+		global $wpdb;
 
 		$where[]    = 'WHERE 1=1';
-		$visibility = array();
-		$permitted  = array( 'approved', 'pending' );
 
 		$defaults = array(
 			'public_override'  => TRUE,
 			'private_override' => TRUE,
 			'status'           => array(),
-			 );
+		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = cnSanitize::args( $atts, $defaults );
 
-		// Convert the supplied statuses into an array.
-		if ( ! is_array( $atts['status'] ) ) {
-
-			// Remove whitespace.
-			$atts['status'] = trim( str_replace( ' ', '', $atts['status'] ) );
-
-			$atts['status'] = explode( ',', $atts['status'] );
-		}
-
-		// Permit only the support status to be queried.
-		$atts['status'] = array_intersect( $atts['status'], $permitted );
-
-		if ( is_user_logged_in() ) {
-
-			if ( current_user_can( 'connections_view_public' ) ) $visibility[]                 = 'public';
-			if ( current_user_can( 'connections_view_private' ) ) $visibility[]                = 'private';
-			if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-
-			// Set query status per role capability assigned to the current user.
-			if ( current_user_can( 'connections_edit_entry' ) ) {
-
-				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermitted = array( 'approved', 'pending' );
-
-				$status = array_intersect( $userPermitted, $atts['status'] );
-
-			} elseif ( current_user_can( 'connections_edit_entry_moderated' ) ) {
-
-				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermitted = array( 'approved' );
-
-				$status = array_intersect( $userPermitted, $atts['status'] );
-
-			} else {
-
-				// Set the entry statuses the user is permitted to view based on their role.
-				$userPermitted = array( 'approved' );
-
-				$status = array_intersect( $userPermitted, $atts['status'] );
-			}
-
-		} else {
-
-			if ( $connections->options->getAllowPublic() )                                               $visibility[] = 'public';
-			if ( $atts['public_override'] == TRUE && $connections->options->getAllowPublicOverride() )   $visibility[] = 'public';
-			if ( $atts['private_override'] == TRUE && $connections->options->getAllowPrivateOverride() ) $visibility[] = 'private';
-
-			$status = array( 'approved' );
-		}
-
-		if ( ! empty( $status ) )     $where[] = 'AND `status` IN (\'' . implode( "', '", $status ) . '\')';
-
-		if ( ! empty( $visibility ) ) $where[] = 'AND `visibility` IN (\'' . implode( "', '", $visibility ) . '\')';
+		$where = self::setQueryVisibility( $where, $atts );
+		$where = self::setQueryStatus( $where, $atts );
 
 		$results = $wpdb->get_var( 'SELECT COUNT(`id`) FROM ' . CN_ENTRY_TABLE . ' ' . implode( ' ', $where ) );
 
 		return ! empty( $results ) ? $results : 0;
-	}
-
-	/**
-	 * Limit the returned results.
-	 *
-	 * This is more or less a hack until limit is properly implemented in the retrieve query.
-	 *
-	 * @access private
-	 * @version 1.0
-	 * @since 0.7.1.6
-	 * @param array   $results
-	 * @return array
-	 */
-	public function limitList( $results ) {
-		$limit = 12;
-
-		return array_slice( $results, 0, $limit, TRUE );
 	}
 
 	/**

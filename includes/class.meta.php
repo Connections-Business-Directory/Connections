@@ -141,7 +141,7 @@ class cnMeta {
 	 *
 	 * @return mixed                array|bool Metadata for the specified objects, or FALSE on failure.
 	 */
-	private static function updateCache( $type, $object_ids ) {
+	public static function updateCache( $type, $object_ids ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

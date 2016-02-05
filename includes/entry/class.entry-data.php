@@ -238,10 +238,11 @@ class cnEntry {
 	private $familyMembers;
 
 	/**
+	 * An array of categories associated to an entry.
 	 * @since unknown
-	 * @var mixed array|WP_Error An array of categories associated to an entry.
+	 * @var array
 	 */
-	private $categories;
+	private $categories = array();
 
 	/**
 	 * @since unknown
@@ -396,7 +397,7 @@ class cnEntry {
 				if ( isset( $this->options['group']['family'] ) ) $this->familyMembers = $this->options['group']['family'];
 			}
 
-			if ( isset( $entry->id ) ) $this->categories = $connections->retrieve->entryCategories( $this->getId() );
+			//if ( isset( $entry->id ) ) $this->categories = $connections->retrieve->entryCategories( $this->getId() );
 
 			if ( isset( $entry->added_by ) ) $this->addedBy = $entry->added_by;
 			if ( isset( $entry->edited_by ) ) $this->editedBy = $entry->edited_by;
@@ -2160,6 +2161,9 @@ class cnEntry {
 	 */
 	public function getIm( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
+		/**
+		 * @var connectionsLoad $connections
+		 */
 		global $connections;
 
 		$results = array();
@@ -3481,7 +3485,7 @@ class cnEntry {
 	public function setAnniversary( $day, $month ) {
 
 		//Create the anniversary with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
-		$this->anniversary = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1970 ) : '';
+		$this->anniversary = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1972 ) : '';
 	}
 
 	/**
@@ -3533,7 +3537,7 @@ class cnEntry {
 	public function setBirthday( $day, $month ) {
 
 		//Create the birthday with a default year and time since we don't collect the year. And this is needed so a proper sort can be done when listing them.
-		$this->birthday = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1970 ) : '';
+		$this->birthday = ! empty( $day ) && ! empty( $month ) ? gmmktime( 0, 0, 1, $month, $day, 1972 ) : '';
 	}
 
 	/**
@@ -3701,11 +3705,27 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns $category.
+	 * Returns the categories assigned to the entry.
+	 *
+	 * @access public
+	 * @since  unknown
 	 *
 	 * @see cnEntry::$category
+	 *
+	 * @return array
 	 */
 	public function getCategory() {
+
+		if ( ! empty( $this->getId() ) ) {
+
+			$terms = cnRetrieve::entryTerms( $this->getId(), 'category' );
+
+			if ( ! is_wp_error( $terms ) && is_array( $terms ) ) {
+
+				$this->categories = $terms;
+			}
+		}
+
 		return $this->categories;
 	}
 

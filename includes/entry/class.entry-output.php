@@ -1144,7 +1144,7 @@ class cnOutput extends cnEntry {
 		foreach ( $addresses as $address ) {
 			$replace = array();
 
-			$out .= '<span class="adr">' . PHP_EOL;
+			$out .= '<span class="adr cn-address' . ( $address->preferred ? ' cn-preferred cn-address-preferred' : '' ) . '">' . PHP_EOL;
 
 			// The `notranslate` class is added to prevent Google Translate from translating the text.
 			$replace[] = empty( $address->name ) ? '' : '<span class="address-name">' . $address->name . '</span>' . PHP_EOL;
@@ -1298,7 +1298,7 @@ class cnOutput extends cnEntry {
 	 * Echo or return a <div> with the entry's address within the HTML5 data- attribute. To be used for
 	 * placing a Google Map in with the jQuery goMap plugin.
 	 *
-	 * NOTE: wp_enqueue_script('jquery-gomap-min') must called before use, otherwise just an empty div will be diaplayed.
+	 * NOTE: wp_enqueue_script('jquery-gomap-min') must called before use, otherwise just an empty div will be displayed.
 	 *
 	 * Accepted options for the $atts property are:
 	 *  preferred (bool) Retrieve the preferred entry address.
@@ -1491,7 +1491,7 @@ class cnOutput extends cnEntry {
 		foreach ( $phoneNumbers as $phone ) {
 			$replace = array();
 
-			$row = "\t" . '<span class="tel">';
+			$row = "\t" . '<span class="tel cn-phone-number' . ( $phone->preferred ? ' cn-preferred cn-phone-number-preferred' : '' ) . '">';
 
 			$replace[] = empty( $phone->name ) ? '' : '<span class="phone-name">' . $phone->name . '</span>';
 
@@ -1724,7 +1724,7 @@ class cnOutput extends cnEntry {
 			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-icon"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '"><img src="' . CN_URL . 'assets/images/icons/mail/mail_' . $iconSize . '.png" height="' . $iconSize . '" width="' . $iconSize . '"/></a></span>';
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$row = "\t" . '<span class="email">';
+			$row = "\t" . '<span class="email cn-email-address' . ( $email->preferred ? ' cn-preferred cn-email-address-preferred' : '' ) . '">';
 
 			$row .= str_ireplace(
 				$search,
@@ -1817,7 +1817,7 @@ class cnOutput extends cnEntry {
 		foreach ( $networks as $network ) {
 			$replace = array();
 
-			$out .= "\t" . '<span class="im-network">';
+			$out .= "\t" . '<span class="im-network cn-im-network' . ( $network->preferred ? ' cn-preferred cn-im-network-preferred' : '' ) . '">';
 
 			( empty( $network->name ) ) ? $replace[] = '' : $replace[] = '<span class="im-name">' . $network->name . '</span>';
 
@@ -1980,7 +1980,7 @@ class cnOutput extends cnEntry {
 			$iconClass[] = $iconStyle;
 			$iconClass[] = 'sz-' . $iconSize;
 
-			$out .= "\t" . '<span class="social-media-network">';
+			$out .= "\t" . '<span class="social-media-network cn-social-media-network' . ( $network->preferred ? ' cn-preferred cn-social-media-network-preferred' : '' ) . '">';
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->name . '</a>';
 
@@ -2157,7 +2157,7 @@ class cnOutput extends cnEntry {
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$row = "\t" . '<span class="link ' . $link->type . '">';
+			$row = "\t" . '<span class="link ' . $link->type . ' cn-link' . ( $link->preferred ? ' cn-preferred cn-link-preferred' : '' ) . '">';
 
 			$row .= str_ireplace(
 				$search,
@@ -2258,7 +2258,7 @@ class cnOutput extends cnEntry {
 			// just in case a user manages to input an incorrect date or date format.
 			$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
 
-			$out .= "\t" . '<span class="vevent">';
+			$out .= "\t" . '<span class="vevent cn-date' . ( $date->preferred ? ' cn-preferred cn-date-preferred' : '' ) . '">';
 
 			// Hidden elements are to maintain hCalendar spec compatibility
 			$replace[] = ( empty( $date->name ) ) ? '' : '<span class="date-name">' . $date->name . '</span>';

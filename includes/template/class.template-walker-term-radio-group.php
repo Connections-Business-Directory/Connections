@@ -124,7 +124,7 @@ class CN_Walker_Term_Radio_Group extends Walker {
 
 		if ( empty( $atts['parent_id'] ) ) {
 
-			$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], $atts );
+			$terms = cnTerm::getTaxonomyTerms( $atts['taxonomy'], array_merge( $atts, array( 'name' => '' ) ) );
 
 		} else {
 
@@ -132,7 +132,7 @@ class CN_Walker_Term_Radio_Group extends Walker {
 
 			$terms = cnTerm::getTaxonomyTerms(
 				$atts['taxonomy'],
-				array_merge( $atts, array( 'include' => $atts['parent_id'], 'child_of' => 0 ) )
+				array_merge( $atts, array( 'include' => $atts['parent_id'], 'child_of' => 0, 'name' => '' ) )
 			);
 
 			// If any of the `parent_id` is not a root parent (where $term->parent = 0) set it parent ID to `0`
@@ -146,7 +146,7 @@ class CN_Walker_Term_Radio_Group extends Walker {
 
 				$children = cnTerm::getTaxonomyTerms(
 					$atts['taxonomy'],
-					array_merge( $atts, array( 'child_of' => $termID ) )
+					array_merge( $atts, array( 'child_of' => $termID, 'name' => '' ) )
 				);
 
 				if ( ! is_wp_error( $children ) ) {

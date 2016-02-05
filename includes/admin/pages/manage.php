@@ -655,7 +655,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					/*
 					 * Check if the entry has relations. Count the relations and then cycle thru each relation.
 					 * Before the out check that the related entry still exists. If it does and the current user
-					 * has edit capabilites the edit link will be displayed. If the user does not have edit capabilities
+					 * has edit capabilities the edit link will be displayed. If the user does not have edit capabilities
 					 * the only the relation will be shown. After all relations have been output insert a <br>
 					 * for spacing [@TODO: NOTE: this should be done with styles].
 					 */

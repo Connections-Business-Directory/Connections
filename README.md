@@ -3,7 +3,7 @@
 **Tags:** address book, business directory, chamber of commerce, church directory, contact directory, directory, member directory, staff directory
 **Requires at least:** 4.1
 **Tested up to:** 4.4
-**Stable tag:** 8.5.9
+**Stable tag:** 8.5.10
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -213,6 +213,44 @@ Connections Business Directory has been designed to work with any theme.
 Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
 
 ## Changelog ##
+
+### 8.5.10 02/05/2016 ###
+* NEW: Add preferred class names for entry data that has been set as the preferred option. This will allow them to be targeted with CSS to allow differentiation.
+* NEW: Introduce cnTerm_Object.
+* NEW: Various changes in cnTerm to bring methods back into alignment with WordPress 4.4.
+* BUG: Correct bug that prevented the db upgrade routine from running.
+* BUG: Fix the pagination links when the directory is used on the page set as the WordPress Front Page.
+* TWEAK: Simplify the logic which determines which entries to retrieve based on entry status.
+* TWEAK: Simplify the logic to retrieve entries by type.
+* TWEAK: Simplify the logic to exclude categories which results in fewer db queries.
+* TWEAK: Simplify the logic to include categories which results in fewer db queries.
+* TWEAK: Simplify the logic in cnRetrieve::setQueryStatus().
+* TWEAK: Permit only the supported statuses to be queried in cnRetrieve::setQueryStatus().
+* TWEAK: Simplify cnRetrieve::recordCount() to use setQueryVisibility() and setQueryStatus().
+* TWEAK: Make cnRetrieve::addresses() a static method.
+* TWEAK: Complete refactor of the cnRetrieve::phoneNumbers() method.
+* TWEAK: Complete refactor of cnRetrieve::emailAddresses().
+* TWEAK: Complete refactor of cnRetrieve::imIDs().
+* TWEAK: Complete refactor of cnRetrieve::socialMedia().
+* TWEAK: Complete refactor of cnRetrieve::links().
+* TWEAK: Complete refactor of cnRetrieve::dates().
+* TWEAK: Remove use of deprecated function and unused global var in cnRetrieve::search().
+* TWEAK: Set the default year from 1970 to 1972 for the legacy anniversary/birthday fields to allows for a Feb 29th date on leap years.
+* TWEAK: Change cnMeta::updateCache() from private to public because it is required in cnTerm.
+* TWEAK: Update cnTerm::getRelationships(). Add support for `taxonomy`, `parent` and `term_taxonomy_id` options for the `order_by` param. Add the `parent` param to limit results to a given term ID. Add support for term meta queries.
+* TWEAK: Update cnTerm::getTaxonomyTerms() to support the `name` and `childless` params. Add support for term meta queries. Converted to return an array of cnTerm_Object objects.
+* TWEAK: Update cnTerm::getBy() to make the `$taxonomy` param optional if the `$field` param is set to `term_taxonomy_id`. Convert to return an array of cnTerm_Object objects.
+* TWEAK: Update cnTerm::get() to make the `$taxonomy` param optional. Converted it to return an array of cnTerm_Object objects.
+* TWEAK: Change cnTerm::childrenIDs() to be public.
+* TWEAK Deprecate cnTerm::get_hierarchy() because it is a duplicate of cnTerm::childrenIDs(). Delete code and return cnTerm::childrenIDs().
+* TWEAK: Remove use of deprecated method cnTerm::get_hierarchy(). Use cnTerm::childrenIDs() instead.
+* TWEAK: Remove filter which added support for meta queries cnTerm::getTaxonomyTerms() since it now supports it internally.
+* TWEAK: Ensure the `name` attribute is reset before executing cnTerm::getTaxonomyTerms() in the template walker classes.
+* TWEAK: Refactor cnRetrieve::entryTerms() for better caching of results and update cached results to return array of cnTerm_Object objects.
+* TWEAK: Refactor cnEntry::getCategory() to use cnRetrieve::entryTerms() and to get the term relationships on demand instead of preloading when cnEntry is created.
+* OTHER: Remove unused legacy methods in cnRetrieve.
+* OTHER: Remove unnecessary isset check in cnRetrieve::setQueryVisibility().
+* DEV: Update phpDoc in a couple cnTerm methods to note the WordPress core equivalent function.
 
 ### 8.5.9 02/01/2016 ###
 * NEW: Add ABSPATH to the System Info.
@@ -750,4 +788,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 ### 8.5.9 ###
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+### 8.5.10 ###
 It is recommended to backup before updating. Requires WordPress >= 4.1.

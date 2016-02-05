@@ -628,7 +628,7 @@ class cnUpload {
 	 * @access public
 	 * @since  8.1
 	 *
-	 * @return mixed array|WP_Error On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
+	 * @return array|WP_Error On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
 	public function result() {
 

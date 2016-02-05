@@ -4591,7 +4591,7 @@ final class cnTerm_Object {
 			}
 
 			// If a taxonomy was specified, find a match.
-			if ( $taxonomy ) {
+			if ( ! is_null( $taxonomy ) && is_string( $taxonomy ) && ! empty( $taxonomy ) ) {
 
 				foreach ( $terms as $match ) {
 

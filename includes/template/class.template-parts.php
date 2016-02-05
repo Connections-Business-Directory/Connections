@@ -1921,9 +1921,13 @@ class cnTemplatePart {
 
 					$atts['format'] = '?cn-pg=%#%';
 
-				} elseif ( isset( $wp_query->query ) && ! empty( $wp_query->query ) ) {
+				} elseif ( isset( $wp_query->query ) && ! empty( $wp_query->query ) && ! is_front_page() ) {
 
 					$atts['format'] = '&cn-pg=%#%';
+
+				} elseif ( isset( $wp_query->query ) && ! empty( $wp_query->query ) && is_front_page() ) {
+
+					$atts['format'] = '?cn-pg=%#%';
 
 				} else {
 

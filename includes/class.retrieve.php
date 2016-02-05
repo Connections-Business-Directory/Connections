@@ -1448,6 +1448,8 @@ class cnRetrieve {
 	/**
 	 * Retrieve the entry terms by taxonomy.
 	 *
+	 * NOTE: This is the Connections equivalent of @see get_the_terms() in WordPress core ../wp-includes/category-template.php
+	 *
 	 * @access public
 	 * @since  8.2
 	 * @static
@@ -1471,21 +1473,41 @@ class cnRetrieve {
 
 			$terms = cnTerm::getRelationships( $id, $taxonomy, $atts );
 
-			wp_cache_add( $id, $terms, "cn_{$taxonomy}_relationships" );
+			if ( ! is_wp_error( $terms ) ) {
+
+				$to_cache = array();
+
+				foreach ( $terms as $key => $term ) {
+
+					$to_cache[ $key ] = $term->data;
+				}
+
+				wp_cache_add( $id, $to_cache, "cn_{$taxonomy}_relationships" );
+			}
 
 		} else {
 
-			/**
-			 * Filter the list of terms attached to the given entry.
-			 *
-			 * @since 8.2
-			 *
-			 * @param array|WP_Error $terms    List of attached terms, or WP_Error on failure.
-			 * @param int            $id       Post ID.
-			 * @param string         $taxonomy Name of the taxonomy.
-			 * @param array          $atts     An array of arguments for retrieving terms for the given object.
-			 */
-			$terms = apply_filters( 'cn_get_object_terms', $terms, $id, $taxonomy, $atts );
+			// This differs from the core WP function because $terms only needs run thru cnTerm::get() on a cache hit
+			// otherwise it is unnecessarily run twice. once in cnTerm::getRelationships() on cache miss, once here.
+			// Moving this logic to the else statement make sure it is only fun once on the cache hit.
+			$terms = array_map( array( 'cnTerm', 'get' ), $terms );
+		}
+
+		/**
+		 * Filter the list of terms attached to the given entry.
+		 *
+		 * @since 8.2
+		 *
+		 * @param array|WP_Error $terms    List of attached terms, or WP_Error on failure.
+		 * @param int            $id       Post ID.
+		 * @param string         $taxonomy Name of the taxonomy.
+		 * @param array          $atts     An array of arguments for retrieving terms for the given object.
+		 */
+		$terms = apply_filters( 'cn_get_object_terms', $terms, $id, $taxonomy, $atts );
+
+		if ( empty( $terms ) ) {
+
+			return FALSE;
 		}
 
 		return $terms;

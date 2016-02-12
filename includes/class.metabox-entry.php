@@ -2232,18 +2232,22 @@ class cnEntryMetabox {
 
 			echo '<div class="widget-inside">';
 
-				cnHTML::field(
-					array(
-						'type'     => 'text',
-						'class'    => '',
-						'id'       => 'im[::FIELD::][id]',
-						'required' => FALSE,
-						'label'    => __( 'IM Network ID', 'connections' ),
-						'before'   => '',
-						'after'    => '',
-						'return'   => FALSE,
-					)
-				);
+				echo '<div class="messenger-container">' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'im[::FIELD::][id]',
+							'required' => FALSE,
+							'label'    => __( 'IM Network ID', 'connections' ),
+							'before'   => '',
+							'after'    => '',
+							'return'   => FALSE,
+						)
+					);
+
+				echo '</div>' , PHP_EOL;
 
 				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="im" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
@@ -2323,19 +2327,23 @@ class cnEntryMetabox {
 
 					echo '<div class="widget-inside">' , PHP_EOL;
 
-						cnHTML::field(
-							array(
-								'type'     => 'text',
-								'class'    => '',
-								'id'       => 'im[' . $token . '][id]',
-								'required' => FALSE,
-								'label'    => __( 'IM Network ID', 'connections' ),
-								'before'   => '',
-								'after'    => '',
-								'return'   => FALSE,
-							),
-							$network->id
-						);
+						echo '<div class="messenger-container">' , PHP_EOL;
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'im[' . $token . '][id]',
+									'required' => FALSE,
+									'label'    => __( 'IM Network ID', 'connections' ),
+									'before'   => '',
+									'after'    => '',
+									'return'   => FALSE,
+								),
+								$network->id
+							);
+
+						echo '</div>' , PHP_EOL;
 
 						echo '<input type="hidden" name="im[' , $token , '][uid]" value="' , $network->uid , '">' , PHP_EOL;
 

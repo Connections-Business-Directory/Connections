@@ -629,10 +629,9 @@ and (max-width: 780px) {
 	content: none;
 }
 
-/*#minor-publishing label {*/
-	/*display: block;*/
-	/*margin: 10px 6px;*/
-/*}*/
+#minor-publishing {
+	margin: 10px;
+}
 
 /* The "Name" metabox styles. */
 #metabox-name input[type="text"] {

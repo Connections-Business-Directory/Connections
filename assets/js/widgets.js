@@ -40,7 +40,7 @@ cnWidgets = {
 						css[margin] = 235 - w + 'px';
 					widget.css(css);
 				}*/
-				cnWidgets.fixLabels(widget);
+				//cnWidgets.fixLabels(widget);
 				inside.slideDown('fast');
 			} else {
 					inside.slideUp('fast', function() {

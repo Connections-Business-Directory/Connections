@@ -1819,7 +1819,7 @@ class cnEntryMetabox {
 							'required' => FALSE,
 							'label'    => __( 'Phone Type', 'connections' ),
 							'return'   => FALSE,
-							),
+						),
 						isset( $phone->type ) ? $phone->type : ''
 					);
 
@@ -1834,7 +1834,7 @@ class cnEntryMetabox {
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
 							'return'   => FALSE,
-							),
+						),
 						isset( $phone->preferred ) && $phone->preferred ? $token : ''
 					);
 
@@ -1852,7 +1852,7 @@ class cnEntryMetabox {
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
 								'return'   => FALSE,
-								),
+							),
 							isset( $phone->visibility ) ? $phone->visibility : 'public'
 						);
 					}
@@ -1987,7 +1987,7 @@ class cnEntryMetabox {
 							'required' => FALSE,
 							'label'    => __( 'Email Type', 'connections' ),
 							'return'   => FALSE,
-							),
+						),
 						isset( $email->type ) ? $email->type : ''
 					);
 
@@ -2002,7 +2002,7 @@ class cnEntryMetabox {
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
 							'return'   => FALSE,
-							),
+						),
 						isset( $email->preferred ) && $email->preferred ? $token : ''
 					);
 
@@ -2020,7 +2020,7 @@ class cnEntryMetabox {
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
 								'return'   => FALSE,
-								),
+							),
 							isset( $email->visibility ) ? $email->visibility : 'public'
 						);
 					}
@@ -2048,7 +2048,7 @@ class cnEntryMetabox {
 						'before'   => '',
 						'after'    => '',
 						'return'   => FALSE,
-						),
+					),
 					isset( $email->address ) ? $email->address : ''
 				);
 
@@ -2155,7 +2155,7 @@ class cnEntryMetabox {
 							'required' => FALSE,
 							'label'    => __( 'IM Type', 'connections' ),
 							'return'   => FALSE,
-							),
+						),
 						isset( $network->type ) ? $network->type : ''
 					);
 
@@ -2170,7 +2170,7 @@ class cnEntryMetabox {
 							'before'   => '<span class="preferred">',
 							'after'    => '</span>',
 							'return'   => FALSE,
-							),
+						),
 						isset( $network->preferred ) && $network->preferred ? $token : ''
 					);
 
@@ -2188,7 +2188,7 @@ class cnEntryMetabox {
 								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 								'after'    => '</span>',
 								'return'   => FALSE,
-								),
+							),
 							isset( $network->visibility ) ? $network->visibility : 'public'
 						);
 					}

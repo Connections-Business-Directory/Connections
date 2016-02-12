@@ -1847,7 +1847,6 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$selectName = 'phone['  . $token . '][type]';
 				$preferred  = $phone->preferred ? $token : '';
 
 				echo '<div class="widget phone" id="phone-row-'  . $token . '">' , PHP_EOL;
@@ -2047,7 +2046,6 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$selectName = 'email['  . $token . '][type]';
 				$preferred  = $email->preferred ? $token : '';
 
 				echo '<div class="widget email" id="email-row-'  . $token . '">' , PHP_EOL;
@@ -2247,7 +2245,6 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$selectName = 'im['  . $token . '][type]';
 				$preferred  = $network->preferred ? $token : '';
 
 				echo '<div class="widget im" id="im-row-'  . $token . '">' , PHP_EOL;
@@ -2447,8 +2444,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$selectName = 'social['  . $token . '][type]';
-				$preferred  = $network->preferred ? $token : '';
+				$preferred = $network->preferred ? $token : '';
 
 				echo '<div class="widget social-media" id="social-row-'  . $token . '">' , PHP_EOL;
 
@@ -2712,10 +2708,9 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$selectName = 'link['  . $token . '][type]';
-				$preferred  = $link->preferred ? $token : '';
-				$imageLink  = checked( $link->image, TRUE, FALSE );
-				$logoLink   = checked( $link->logo, TRUE, FALSE );
+				$preferred = $link->preferred ? $token : '';
+				$imageLink = checked( $link->image, TRUE, FALSE );
+				$logoLink  = checked( $link->logo, TRUE, FALSE );
 
 				echo '<div class="widget link" id="link-row-'  . $token . '">' , PHP_EOL;
 

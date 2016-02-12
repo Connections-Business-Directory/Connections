@@ -2253,100 +2253,20 @@ class cnEntryMetabox {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The social media network metabox.
+	 *
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  array   $metabox The metabox options array from self::register().
+	 *
+	 * @return string The social media network metabox.
 	 */
 	public static function social( $entry, $metabox ) {
-
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$socialTypes = $instance->options->getDefaultSocialMediaValues();
 
 		echo '<div class="widgets-sortables ui-sortable" id="social-media">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="social-template" style="display: none;">' , PHP_EOL;
 
-			echo '<div class="widget-top">' , PHP_EOL;
-
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-				echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'social[::FIELD::][type]',
-							'options'  => $socialTypes,
-							'required' => FALSE,
-							'label'    => __( 'Social Network', 'connections' ),
-							'return'   => FALSE,
-						)
-					);
-
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'social[preferred]',
-							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
-							'before'   => '<span class="preferred">',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						)
-					);
-
-					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'social[::FIELD::][visibility]',
-								'options'  => self::$visibility,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							'public'
-						);
-					}
-
-				echo '</h4></div>'  , PHP_EOL;
-
-			echo '</div>' , PHP_EOL;
-
-			echo '<div class="widget-inside">';
-
-				echo '<div class="social-media-container">' , PHP_EOL;
-
-					cnHTML::field(
-						array(
-							'type'     => 'text',
-							'class'    => '',
-							'id'       => 'social[::FIELD::][url]',
-							'required' => FALSE,
-							'label'    => __( 'URL', 'connections' ),
-							'before'   => '',
-							'after'    => '',
-							'return'   => FALSE,
-						)
-					);
-
-				echo '</div>' , PHP_EOL;
-
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="social" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-			echo '</div>' , PHP_EOL;
+			self::socialField( new stdClass() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -2360,91 +2280,9 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$preferred = $network->preferred ? $token : '';
-
 				echo '<div class="widget social-media" id="social-row-'  . $token . '">' , PHP_EOL;
 
-					echo '<div class="widget-top">' , PHP_EOL;
-						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-						echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-						cnHTML::field(
-							array(
-								'type'     => 'select',
-								'class'    => '',
-								'id'       => 'social[' . $token . '][type]',
-								'options'  => $socialTypes,
-								'required' => FALSE,
-								'label'    => __( 'Social Network', 'connections' ),
-								'return'   => FALSE,
-							),
-							$network->type
-						);
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'social[preferred]',
-								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-								'required' => FALSE,
-								'before'   => '<span class="preferred">',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$preferred
-						);
-
-						// Only show this if there are visibility options that the user is permitted to see.
-						if ( ! empty( self::$visibility ) ) {
-
-							cnHTML::field(
-								array(
-									'type'     => 'radio',
-									'format'   => 'inline',
-									'class'    => '',
-									'id'       => 'social[' . $token . '][visibility]',
-									'options'  => self::$visibility,
-									'required' => FALSE,
-									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-									'after'    => '</span>',
-									'return'   => FALSE,
-								),
-								$network->visibility
-							);
-						}
-
-						echo '</h4></div>'  , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
-
-					echo '<div class="widget-inside">' , PHP_EOL;
-
-						echo '<div class="social-media-container">' , PHP_EOL;
-
-							cnHTML::field(
-								array(
-									'type'     => 'text',
-									'class'    => '',
-									'id'       => 'social[' . $token . '][url]',
-									'required' => FALSE,
-									'label'    => __( 'URL', 'connections' ),
-									'before'   => '',
-									'after'    => '',
-									'return'   => FALSE,
-								),
-								$network->url
-							);
-
-						echo '</div>' , PHP_EOL;
-
-						echo '<input type="hidden" name="social[' , $token , '][id]" value="' , $network->id , '">' , PHP_EOL;
-
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="social" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
+					self::socialField( $network, $token );
 
 				echo '</div>' , PHP_EOL;
 			}
@@ -2453,6 +2291,130 @@ class cnEntryMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">' , __( 'Add Social Media ID', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	/**
+	 * Renders the social media network field.
+	 *
+	 * @access private
+	 * @since  8.5.11
+	 *
+	 * @param stdClass $network
+	 * @param string   $token
+	 */
+	private static function socialField( $network, $token = '::FIELD::' ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the email types.
+		$socialTypes = $instance->options->getDefaultSocialMediaValues();
+
+		?>
+
+		<div class="widget-top">
+			<div class="widget-title-action"><a class="widget-action"></a></div>
+
+			<div class="widget-title">
+				<h4>
+
+					<?php
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'social[' . $token . '][type]',
+							'options'  => $socialTypes,
+							'required' => FALSE,
+							'label'    => __( 'Social Network', 'connections' ),
+							'return'   => FALSE,
+						),
+						isset( $network->type ) ? $network->type : ''
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'social[preferred]',
+							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						),
+						isset( $network->preferred ) && $network->preferred ? $token : ''
+					);
+
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'social[' . $token . '][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							isset( $network->visibility ) ? $network->visibility : 'public'
+						);
+					}
+
+					?>
+
+				</h4>
+			</div>
+
+		</div>
+
+		<div class="widget-inside">
+
+			<div class="social-media-container">
+
+				<?php
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'social[' . $token . '][url]',
+						'required' => FALSE,
+						'label'    => __( 'URL', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					),
+					isset( $network->url ) ? $network->url : ''
+				);
+
+				?>
+
+			</div>
+
+			<?php
+
+			if ( isset( $network->id ) ) {
+
+				echo '<input type="hidden" name="social[' , $token , '][id]" value="' , $network->id , '">' , PHP_EOL;
+			}
+			?>
+
+			<p class="cn-remove-button">
+				<a href="#" class="cn-remove cn-button button cn-button-warning"
+				   data-type="social"
+				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+			</p>
+
+		</div>
+
+		<?php
 	}
 
 	/**

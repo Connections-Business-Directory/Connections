@@ -1321,12 +1321,12 @@ class cnEntryMetabox {
 						)
 					);
 
+					if ( is_admin() ) {
+
+						echo '<div class="geocode-button-container"><a class="geocode button" data-uid="::FIELD::" href="#">' , __( 'Geocode', 'connections' ) , '</a></div>';
+					}
+
 				echo '</div>' , PHP_EOL;
-
-				if ( is_admin() ) {
-
-					echo '<a class="geocode button" data-uid="::FIELD::" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
-				}
 
 				echo '<div class="clear"></div>';
 

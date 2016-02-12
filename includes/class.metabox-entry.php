@@ -1853,7 +1853,7 @@ class cnEntryMetabox {
 								'after'    => '</span>',
 								'return'   => FALSE,
 								),
-							isset( $phone->visibility ) ? $phone->visibility : ''
+							isset( $phone->visibility ) ? $phone->visibility : 'public'
 						);
 					}
 

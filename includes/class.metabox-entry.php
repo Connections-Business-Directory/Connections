@@ -1919,94 +1919,12 @@ class cnEntryMetabox {
 	 */
 	public static function email( $entry, $metabox ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$emailTypes = $instance->options->getDefaultEmailValues();
-
 		echo '<div class="widgets-sortables ui-sortable" id="email-addresses">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="email-template" style="display: none;">' , PHP_EOL;
 
-			echo '<div class="widget-top">' , PHP_EOL;
-
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-				echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'email[::FIELD::][type]',
-							'options'  => $emailTypes,
-							'required' => FALSE,
-							'label'    => __( 'Email Type', 'connections' ),
-							'return'   => FALSE,
-						)
-					);
-
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'email[preferred]',
-							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
-							'before'   => '<span class="preferred">',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						)
-					);
-
-					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'email[::FIELD::][visibility]',
-								'options'  => self::$visibility,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							'public'
-						);
-					}
-
-				echo '</h4></div>'  , PHP_EOL;
-
-			echo '</div>' , PHP_EOL;
-
-			echo '<div class="widget-inside">';
-
-				echo '<div class="email-address-container">' , PHP_EOL;
-
-						cnHTML::field(
-							array(
-								'type'     => 'text',
-								'class'    => '',
-								'id'       => 'email[::FIELD::][address]',
-								'required' => FALSE,
-								'label'    => __( 'Email Address', 'connections' ),
-								'before'   => '',
-								'after'    => '',
-								'return'   => FALSE,
-							)
-						);
-
-				echo '</div>' , PHP_EOL;
-
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="email" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-			echo '</div>' , PHP_EOL;
+			self::emailField( new stdClass() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -2020,91 +1938,9 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$preferred  = $email->preferred ? $token : '';
+				echo '<div class="widget email" id="email-row-' . $token . '">' , PHP_EOL;
 
-				echo '<div class="widget email" id="email-row-'  . $token . '">' , PHP_EOL;
-
-					echo '<div class="widget-top">' , PHP_EOL;
-						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-						echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-						cnHTML::field(
-							array(
-								'type'     => 'select',
-								'class'    => '',
-								'id'       => 'email[' . $token . '][type]',
-								'options'  => $emailTypes,
-								'required' => FALSE,
-								'label'    => __( 'Email Type', 'connections' ),
-								'return'   => FALSE,
-							),
-							$email->type
-						);
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'email[preferred]',
-								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-								'required' => FALSE,
-								'before'   => '<span class="preferred">',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$preferred
-						);
-
-						// Only show this if there are visibility options that the user is permitted to see.
-						if ( ! empty( self::$visibility ) ) {
-
-							cnHTML::field(
-								array(
-									'type'     => 'radio',
-									'format'   => 'inline',
-									'class'    => '',
-									'id'       => 'email[' . $token . '][visibility]',
-									'options'  => self::$visibility,
-									'required' => FALSE,
-									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-									'after'    => '</span>',
-									'return'   => FALSE,
-								),
-								$email->visibility
-							);
-						}
-
-						echo '</h4></div>'  , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
-
-					echo '<div class="widget-inside">' , PHP_EOL;
-
-						echo '<div class="email-address-container">' , PHP_EOL;
-
-							cnHTML::field(
-								array(
-									'type'     => 'text',
-									'class'    => '',
-									'id'       => 'email[' . $token . '][address]',
-									'required' => FALSE,
-									'label'    => __( 'Email Address', 'connections' ),
-									'before'   => '',
-									'after'    => '',
-									'return'   => FALSE,
-								),
-								$email->address
-							);
-
-						echo '</div>' , PHP_EOL;
-
-						echo '<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">' , PHP_EOL;
-
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="email" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
+					self::emailField( $email, $token );
 
 				echo '</div>' , PHP_EOL;
 			}
@@ -2113,6 +1949,124 @@ class cnEntryMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	/**
+	 * Renders the email field.
+	 *
+	 * @access private
+	 * @since  8.5.11
+	 *
+	 * @param stdClass $email
+	 * @param string   $token
+	 */
+	private static function emailField( $email, $token = '::FIELD::' ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the email types.
+		$emailTypes = $instance->options->getDefaultEmailValues();
+
+		?>
+
+		<div class="widget-top">
+			<div class="widget-title-action"><a class="widget-action"></a></div>
+
+			<div class="widget-title">
+				<h4>
+
+					<?php
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'email[' . $token . '][type]',
+							'options'  => $emailTypes,
+							'required' => FALSE,
+							'label'    => __( 'Email Type', 'connections' ),
+							'return'   => FALSE,
+							),
+						isset( $email->type ) ? $email->type : ''
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'email[preferred]',
+							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+							),
+						isset( $email->preferred ) && $email->preferred ? $token : ''
+					);
+
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'email[' . $token . '][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+								),
+							isset( $email->visibility ) ? $email->visibility : 'public'
+						);
+					}
+
+					?>
+
+				</h4>
+			</div>
+
+		</div>
+
+		<div class="widget-inside">
+
+			<div class="email-address-container">
+
+				<?php
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'email[' . $token . '][address]',
+						'required' => FALSE,
+						'label'    => __( 'Email Address', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+						),
+					isset( $email->address ) ? $email->address : ''
+				);
+
+				?>
+
+			</div>
+
+			<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">
+
+			<p class="cn-remove-button">
+				<a href="#" class="cn-remove cn-button button cn-button-warning"
+				   data-type="email"
+				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+			</p>
+
+		</div>
+
+		<?php
 	}
 
 	/**

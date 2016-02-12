@@ -1770,7 +1770,7 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				echo '<div class="widget phone" id="phone-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget phone" id="phone-row-' . $token . '">' , PHP_EOL;
 
 					self::phoneField( $phone, $token );
 

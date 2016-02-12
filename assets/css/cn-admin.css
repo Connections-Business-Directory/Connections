@@ -16,6 +16,10 @@
 /*------------------------------------------------------------------------------
   Manage page.
 ------------------------------------------------------------------------------*/
+.tablenav .tablenav-pages a.cn-char {
+	margin-bottom: 6px;
+}
+
 .tablenav .tablenav-pages .cn-char-current {
 	padding: 8px;
 }

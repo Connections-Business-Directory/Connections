@@ -849,8 +849,19 @@ and (max-width: 780px) {
 }
 
 /* The "Social Media Network" metabox. */
+#metabox-social-media .widget-inside .social-media-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-social-media .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
 #metabox-social-media .widget-inside input[type="text"] {
-	width: 80%;
+	display: table-cell;
+	width: 100%;
 }
 
 /* The "Link" metabox. */

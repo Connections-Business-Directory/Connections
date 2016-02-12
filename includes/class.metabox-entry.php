@@ -2439,18 +2439,22 @@ class cnEntryMetabox {
 
 			echo '<div class="widget-inside">';
 
-				cnHTML::field(
-					array(
-						'type'     => 'text',
-						'class'    => '',
-						'id'       => 'social[::FIELD::][url]',
-						'required' => FALSE,
-						'label'    => __( 'URL', 'connections' ),
-						'before'   => '',
-						'after'    => '',
-						'return'   => FALSE,
-					)
-				);
+				echo '<div class="social-media-container">' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'social[::FIELD::][url]',
+							'required' => FALSE,
+							'label'    => __( 'URL', 'connections' ),
+							'before'   => '',
+							'after'    => '',
+							'return'   => FALSE,
+						)
+					);
+
+				echo '</div>' , PHP_EOL;
 
 				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="social" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
@@ -2530,19 +2534,23 @@ class cnEntryMetabox {
 
 					echo '<div class="widget-inside">' , PHP_EOL;
 
-						cnHTML::field(
-							array(
-								'type'     => 'text',
-								'class'    => '',
-								'id'       => 'social[' . $token . '][url]',
-								'required' => FALSE,
-								'label'    => __( 'URL', 'connections' ),
-								'before'   => '',
-								'after'    => '',
-								'return'   => FALSE,
-							),
-							$network->url
-						);
+						echo '<div class="social-media-container">' , PHP_EOL;
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'social[' . $token . '][url]',
+									'required' => FALSE,
+									'label'    => __( 'URL', 'connections' ),
+									'before'   => '',
+									'after'    => '',
+									'return'   => FALSE,
+								),
+								$network->url
+							);
+
+						echo '</div>' , PHP_EOL;
 
 						echo '<input type="hidden" name="social[' , $token , '][id]" value="' , $network->id , '">' , PHP_EOL;
 

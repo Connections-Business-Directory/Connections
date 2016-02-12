@@ -499,11 +499,13 @@ body[class*="connections"] .cn-button-large {
 }
 
 .postbox .cn-remove-button {
-	bottom: 0;
-	display: inline-block;
+	/*bottom: 0;*/
+	/*display: inline-block;*/
+	/*margin: 0;*/
+	/*position: absolute;*/
+	/*right: 10px;*/
 	margin: 0;
-	position: absolute;
-	right: 10px;
+	text-align: right;
 }
 
 /*------------------------------------------------------------------------------

@@ -439,7 +439,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					</div>
 					<div class="clear"></div>
-					<div class="tablenav">
+					<div class="tablenav" style="height: auto;">
 
 						<?php
 
@@ -474,7 +474,7 @@ function connectionsShowViewPage( $action = NULL ) {
 						}
 						?>
 
-						<div class="tablenav-pages">
+						<div class="tablenav-pages" style="height: auto; max-width: 75%; text-align: right;">
 							<?php
 
 							/*

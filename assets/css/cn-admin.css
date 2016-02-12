@@ -16,6 +16,10 @@
 /*------------------------------------------------------------------------------
   Manage page.
 ------------------------------------------------------------------------------*/
+.tablenav .tablenav-pages a.cn-char {
+	margin-bottom: 6px;
+}
+
 .tablenav .tablenav-pages .cn-char-current {
 	padding: 8px;
 }
@@ -495,11 +499,13 @@ body[class*="connections"] .cn-button-large {
 }
 
 .postbox .cn-remove-button {
-	bottom: 0;
-	display: inline-block;
+	/*bottom: 0;*/
+	/*display: inline-block;*/
+	/*margin: 0;*/
+	/*position: absolute;*/
+	/*right: 10px;*/
 	margin: 0;
-	position: absolute;
-	right: 10px;
+	text-align: right;
 }
 
 /*------------------------------------------------------------------------------
@@ -522,8 +528,12 @@ body[class*="connections"] .cn-button-large {
 /* Widget Styles */
 
 /* overqualified selector being used to override core WP style. */
+.widget-top a.widget-action {
+	display: block;
+}
 .widget-top a.widget-action:after {
-	padding: 10px 6px 0;
+	/*padding: 10px 6px 0;*/
+	padding: 0;
 }
 
 .widget-top .widget-title {
@@ -621,10 +631,9 @@ and (max-width: 780px) {
 	content: none;
 }
 
-/*#minor-publishing label {*/
-	/*display: block;*/
-	/*margin: 10px 6px;*/
-/*}*/
+#minor-publishing {
+	margin: 10px;
+}
 
 /* The "Name" metabox styles. */
 #metabox-name input[type="text"] {
@@ -693,62 +702,97 @@ and (max-width: 780px) {
 }
 
 /* The "Address" metabox. */
-#metabox-address .address-local input {
-	width: 80%;
+#metabox-address .address-line {
+	display: table;
+	width: 100%;
+}
+
+#metabox-address .address-line label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
+
+#metabox-address .address-line input {
+	display: table-cell;
+	width: 100%;
+}
+/*#metabox-address .address-local input {*/
+	/*width: 80%;*/
+/*}*/
+
+#metabox-address .address-region {
+	display: table;
 }
 
 #metabox-address .address-city {
-	float: left;
-	width: 28%;
+	/*float: left;*/
+	display: table-cell;
+	width: 29%;
 }
 
 #metabox-address .address-city input {
-	width: 86%;
+	width: 100%;
 }
 
 #metabox-address .address-state {
-	float: left;
+	/*float: left;*/
+	display: table-cell;
 	width: 20%;
 }
 
 #metabox-address .address-state input {
-	width: 74%;
+	width: 100%;
 }
 
 #metabox-address .address-zipcode {
-	float: left;
+	/*float: left;*/
+	display: table-cell;
 	width: 20%;
 }
 
 #metabox-address .address-zipcode input {
-	width: 62%;
+	width: 100%;
 }
 
 #metabox-address .address-country {
-	clear: both;
-	width: 52%;
+	/*clear: both;*/
+	/*width: 52%;*/
+	display: table;
+	width: 100%;
 }
 
 #metabox-address .address-country input {
-	width: 80%;
+	width: 100%;
+}
+
+#metabox-address .address-geo {
+	display: table;
 }
 
 #metabox-address .address-latitude {
-	float: left;
+	/*float: left;*/
+	display: table-cell;
 	width: 29%;
 }
 
 #metabox-address .address-latitude input {
-	width: 75%;
+	width: 100%;
 }
 
 #metabox-address .address-longitude {
-	float: left;
+	/*float: left;*/
+	display: table-cell;
 	width: 29%;
 }
 
 #metabox-address .address-longitude input {
-	width: 70%;
+	width: 100%;
+}
+
+#metabox-address .geocode-button-container {
+	display: table-cell;
+	vertical-align: bottom;
 }
 
 #metabox-address .map {
@@ -759,29 +803,73 @@ and (max-width: 780px) {
 }
 
 /* The "Phone" metabox. */
+#metabox-phone .widget-inside .phone-number-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-phone .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
 #metabox-phone .widget-inside input[type="text"] {
-	width: 80%;
+	display: table-cell;
+	width: 100%;
 }
 
 /* The "Email" metabox. */
+#metabox-email .widget-inside .email-address-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-email .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
 #metabox-email .widget-inside input[type="text"] {
-	width: 80%;
+	display: table-cell;
+	width: 100%;
 }
 
-/* The "Email" metabox. */
+/* The "Messenger" metabox. */
+#metabox-messenger .widget-inside .messenger-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-messenger .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
 #metabox-messenger .widget-inside input[type="text"] {
-	width: 80%;
+	display: table-cell;
+	width: 100%;
 }
 
 /* The "Social Media Network" metabox. */
+#metabox-social-media .widget-inside .social-media-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-social-media .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
 #metabox-social-media .widget-inside input[type="text"] {
-	width: 80%;
+	display: table-cell;
+	width: 100%;
 }
 
 /* The "Link" metabox. */
 #metabox-links .widget-inside input[type="text"] {
-	margin-right: 10px;
-	width: 30%;
+	/*margin-right: 10px;*/
+	width: 100%;
 }
 
 #metabox-links .widget-inside input[type="radio"] {
@@ -790,8 +878,9 @@ and (max-width: 780px) {
 	width: auto;
 }
 
-.link-assignment {
-	margin-top: 10px;
+#metabox-links .link-url-container,
+#metabox-links .link-target-follow-container {
+	margin-bottom: 10px;
 }
 
 /* The "Dates" metabox. */

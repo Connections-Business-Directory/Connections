@@ -213,11 +213,11 @@ class cnShortcode {
 
 			if ( FALSE === $parent ) {
 
-				$replace = 'Divi' === $theme->get( 'Name' ) ? TRUE : FALSE;
+				$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold' ), TRUE ) ? TRUE : FALSE;
 
 			} elseif ( $parent instanceof WP_Theme ) {
 
-				$replace = 'Divi' === $parent->get( 'Name' ) ? TRUE : FALSE;
+				$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold' ), TRUE ) ? TRUE : FALSE;
 
 			} else {
 
@@ -373,6 +373,9 @@ class cnShortcode {
 
 					ob_start();
 
+					/**
+					 * @todo There s/b capability checks just like when editing an entry so users can only submit when they have the permissions.
+					 */
 					do_action( 'cn_submit_entry_form', $atts, $content, $tag );
 
 					return ob_get_clean();

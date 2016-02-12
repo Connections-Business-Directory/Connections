@@ -1699,7 +1699,7 @@ class cnOutput extends cnEntry {
 		if ( empty( $addresses ) ) return '';
 
 		// Replace the 'Name Tokens' with the entry's name.
-		$title = $this->getName(
+		$name = $this->getName(
 			array(
 				'format' => empty( $atts['title'] ) ? '%first% %last% %type% email.' : $atts['title']
 			)
@@ -1715,7 +1715,7 @@ class cnOutput extends cnEntry {
 			$replace = array();
 
 			// Replace the 'Email Tokens' with the email info.
-			$title = str_ireplace( array( '%type%', '%name%' ), array( $email->type, $email->name ), $title );
+			$title = str_ireplace( array( '%type%', '%name%' ), array( $email->type, $email->name ), $name );
 
 			$replace[] = ( empty( $email->name ) ) ? '' : '<span class="email-name">' . $email->name . '</span>';
 			$replace[] = ( empty( $email->address ) ) ? '' : '<span class="email-address"><a class="value" title="' . $title . '" href="mailto:' . $email->address . '">' . $email->address . '</a></span>';

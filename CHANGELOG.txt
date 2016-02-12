@@ -1,5 +1,31 @@
 == Changelog ==
 
+= 8.5.11 02/12/2016 =
+* COMPATIBILITY: Add an Enfold theme compatibility shim when viewing a single entry.'s detail/profile view.
+* BUG: Correct bug for mouseover hover text for email links so they correctly reflect the email type.
+* BUG: Correct an error in the admin javascript which prevented a repeatable field from collapsing.
+* TWEAK: Move the geocode button to be within the `address-geo` div in the Address field metabox.
+* TWEAK: Fix the alpha index with many character from overlapping the table header.
+* TWEAK: Correct the positioning of a the repeatable field toggle arrow.
+* TWEAK: Add a margin the the `#minor-publishing` div to fix the spacing of the role capability reset metabox.
+* TWEAK: Cleanup the address field metabox inputs for a little cleaner presentation.
+* TWEAK: Add missing container div on the geocode button when editing an entry with an existing address.
+* TWEAK: Tweak styling of the phone number field metabox to add more whitespace.
+* TWEAK: Tweak styling of the email address field metabox to add more whitespace.
+* TWEAK: Tweak styling of the instant messenger field metabox to add more whitespace.
+* TWEAK: Tweak styling of the social media network field metabox to add more whitespace.
+* TWEAK: Tweak styling of the link field metabox to add more whitespace.
+* TWEAK: Tweak positioning of the repeatable fields remove button.
+* TWEAK: Refactor cnEntryMetabox::phone() to remove duplicate code.
+* TWEAK: Refactor cnEntryMetabox::email() to remove duplicate code.
+* TWEAK: Refactor cnEntryMetabox::messenger() to remove duplicate code.
+* TWEAK: Refactor cnEntryMetabox::social() to remove duplicate code.
+* OTHER: Correct a few misspellings in cnGeo in the phpDoc.
+* OTHER: Update EDD_SL_Plugin_Updater to 1.6.3.
+* OTHER: Remove unused variables in cnEntryMetabox.
+* DEV: Add a @todo to cnShortcode.
+* DEV: Minor phpDoc fixes in cnEntryMetabox.
+
 = 8.5.10 02/05/2016 =
 * NEW: Add preferred class names for entry data that has been set as the preferred option. This will allow them to be targeted with CSS to allow differentiation.
 * NEW: Introduce cnTerm_Object.

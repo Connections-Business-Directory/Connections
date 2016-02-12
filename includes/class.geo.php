@@ -111,14 +111,14 @@ class cnGeo {
 							// City
 							if ( in_array( 'locality' , $component->types ) ) $result->locality = $component->long_name;
 
-							// State || Province or similar based on country polical boundries.
+							// State || Province or similar based on country political boundaries.
 							if ( in_array( 'administrative_area_level_1' , $component->types ) ) $result->region = $component->long_name;
 							if ( in_array( 'administrative_area_level_1' , $component->types ) ) $result->region_abbr = $component->short_name;
 
-							// County or similar based on country polical boundries.
+							// County or similar based on country political boundaries.
 							if ( in_array( 'administrative_area_level_2' , $component->types ) ) $result->county = $component->long_name;
 
-							// Township or similar based on country polical boundries.
+							// Township or similar based on country political boundaries.
 							if ( in_array( 'administrative_area_level_3' , $component->types ) ) $result->township = $component->long_name;
 
 							// Postal Code
@@ -148,7 +148,7 @@ class cnGeo {
 	}
 
 	/**
-	 * Return formatted address use the supplied latitude and longtude.
+	 * Return formatted address use the supplied latitude and longitude.
 	 *
 	 * $point['lat'] (float) The latitude.
 	 * $point['lng'] (float) The longitude.

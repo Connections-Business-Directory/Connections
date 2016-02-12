@@ -1552,12 +1552,12 @@ class cnEntryMetabox {
 								$address->longitude
 							);
 
+							if ( is_admin() ) {
+
+								echo '<a class="geocode button" data-uid="' , $token , '" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
+							}
+
 						echo '</div>' , PHP_EOL;
-
-						if ( is_admin() ) {
-
-							echo '<a class="geocode button" data-uid="' , $token , '" href="#">' , __( 'Geocode', 'connections' ) , '</a>';
-						}
 
 						echo '<div class="clear"></div>' , PHP_EOL;
 

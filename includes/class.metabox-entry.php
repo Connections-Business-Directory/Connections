@@ -2056,7 +2056,14 @@ class cnEntryMetabox {
 
 			</div>
 
-			<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">
+			<?php
+
+			if ( isset( $email->id ) ) {
+
+				echo '<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">' , PHP_EOL;
+			}
+
+			?>
 
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"

@@ -1785,7 +1785,7 @@ class cnEntryMetabox {
 
 	/**
 	 * Renders the phone field.
-	 * 
+	 *
 	 * @access private
 	 * @since  8.5.11
 	 *

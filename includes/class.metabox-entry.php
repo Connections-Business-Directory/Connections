@@ -2646,7 +2646,7 @@ class cnEntryMetabox {
 
 			echo '<div class="widget-inside">';
 
-				echo '<div>';
+				echo '<div class="link-title-container">';
 
 					cnHTML::field(
 						array(
@@ -2660,6 +2660,10 @@ class cnEntryMetabox {
 							'return'   => FALSE,
 						)
 					);
+
+				echo '</div>';
+
+				echo '<div class="link-url-container">';
 
 					cnHTML::field(
 						array(
@@ -2676,7 +2680,7 @@ class cnEntryMetabox {
 
 				echo '</div>';
 
-				echo '<div>';
+				echo '<div class="link-target-follow-container">';
 
 					cnHTML::field(
 						array(
@@ -2804,7 +2808,7 @@ class cnEntryMetabox {
 
 					echo '<div class="widget-inside">' , PHP_EOL;
 
-						echo '<div>';
+						echo '<div class="link-title-container">';
 
 							cnHTML::field(
 								array(
@@ -2819,6 +2823,10 @@ class cnEntryMetabox {
 								),
 								$link->title
 							);
+
+						echo '</div>';
+
+						echo '<div class="link-url-container">';
 
 							cnHTML::field(
 								array(
@@ -2836,7 +2844,7 @@ class cnEntryMetabox {
 
 						echo '</div>';
 
-						echo '<div>';
+						echo '<div class="link-target-follow-container">';
 
 							cnHTML::field(
 								array(

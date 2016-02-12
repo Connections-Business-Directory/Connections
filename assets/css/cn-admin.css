@@ -866,8 +866,8 @@ and (max-width: 780px) {
 
 /* The "Link" metabox. */
 #metabox-links .widget-inside input[type="text"] {
-	margin-right: 10px;
-	width: 30%;
+	/*margin-right: 10px;*/
+	width: 100%;
 }
 
 #metabox-links .widget-inside input[type="radio"] {
@@ -876,8 +876,9 @@ and (max-width: 780px) {
 	width: auto;
 }
 
-.link-assignment {
-	margin-top: 10px;
+#metabox-links .link-url-container,
+#metabox-links .link-target-follow-container {
+	margin-bottom: 10px;
 }
 
 /* The "Dates" metabox. */

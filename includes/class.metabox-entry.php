@@ -1818,18 +1818,22 @@ class cnEntryMetabox {
 
 			echo '<div class="widget-inside">';
 
-				cnHTML::field(
-					array(
-						'type'     => 'text',
-						'class'    => '',
-						'id'       => 'phone[::FIELD::][number]',
-						'required' => FALSE,
-						'label'    => __( 'Phone Number', 'connections' ),
-						'before'   => '',
-						'after'    => '',
-						'return'   => FALSE,
-					)
-				);
+				echo '<div class="phone-number-container">' , PHP_EOL;
+
+					cnHTML::field(
+						array(
+							'type'     => 'text',
+							'class'    => '',
+							'id'       => 'phone[::FIELD::][number]',
+							'required' => FALSE,
+							'label'    => __( 'Phone Number', 'connections' ),
+							'before'   => '',
+							'after'    => '',
+							'return'   => FALSE,
+						)
+					);
+
+				echo '</div>' , PHP_EOL;
 
 				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="phone" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
@@ -1909,19 +1913,23 @@ class cnEntryMetabox {
 
 					echo '<div class="widget-inside">' , PHP_EOL;
 
-						cnHTML::field(
-							array(
-								'type'     => 'text',
-								'class'    => '',
-								'id'       => 'phone[' . $token . '][number]',
-								'required' => FALSE,
-								'label'    => __( 'Phone Number', 'connections' ),
-								'before'   => '',
-								'after'    => '',
-								'return'   => FALSE,
-							),
-							$phone->number
-						);
+						echo '<div class="phone-number-container">' , PHP_EOL;
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'phone[' . $token . '][number]',
+									'required' => FALSE,
+									'label'    => __( 'Phone Number', 'connections' ),
+									'before'   => '',
+									'after'    => '',
+									'return'   => FALSE,
+								),
+								$phone->number
+							);
+
+						echo '</h4></div>'  , PHP_EOL;
 
 						echo '<input type="hidden" name="phone[' , $token , '][id]" value="' , $phone->id , '">' , PHP_EOL;
 

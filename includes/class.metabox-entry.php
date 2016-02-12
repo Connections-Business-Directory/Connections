@@ -2087,94 +2087,12 @@ class cnEntryMetabox {
 	 */
 	public static function messenger( $entry, $metabox ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$messengerTypes = $instance->options->getDefaultIMValues();
-
 		echo '<div class="widgets-sortables ui-sortable" id="im-ids">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="im-template" style="display: none;">' , PHP_EOL;
 
-			echo '<div class="widget-top">' , PHP_EOL;
-
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-				echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'im[::FIELD::][type]',
-							'options'  => $messengerTypes,
-							'required' => FALSE,
-							'label'    => __( 'IM Type', 'connections' ),
-							'return'   => FALSE,
-						)
-					);
-
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'im[preferred]',
-							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
-							'before'   => '<span class="preferred">',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						)
-					);
-
-					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'im[::FIELD::][visibility]',
-								'options'  => self::$visibility,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							'public'
-						);
-					}
-
-				echo '</h4></div>'  , PHP_EOL;
-
-			echo '</div>' , PHP_EOL;
-
-			echo '<div class="widget-inside">';
-
-				echo '<div class="messenger-container">' , PHP_EOL;
-
-					cnHTML::field(
-						array(
-							'type'     => 'text',
-							'class'    => '',
-							'id'       => 'im[::FIELD::][id]',
-							'required' => FALSE,
-							'label'    => __( 'IM Network ID', 'connections' ),
-							'before'   => '',
-							'after'    => '',
-							'return'   => FALSE,
-						)
-					);
-
-				echo '</div>' , PHP_EOL;
-
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="im" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-			echo '</div>' , PHP_EOL;
+			self::messengerField( new stdClass() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -2188,91 +2106,9 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$preferred  = $network->preferred ? $token : '';
-
 				echo '<div class="widget im" id="im-row-'  . $token . '">' , PHP_EOL;
 
-					echo '<div class="widget-top">' , PHP_EOL;
-						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-						echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-						cnHTML::field(
-							array(
-								'type'     => 'select',
-								'class'    => '',
-								'id'       => 'im[' . $token . '][type]',
-								'options'  => $messengerTypes,
-								'required' => FALSE,
-								'label'    => __( 'IM Type', 'connections' ),
-								'return'   => FALSE,
-							),
-							$network->type
-						);
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'im[preferred]',
-								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-								'required' => FALSE,
-								'before'   => '<span class="preferred">',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$preferred
-						);
-
-						// Only show this if there are visibility options that the user is permitted to see.
-						if ( ! empty( self::$visibility ) ) {
-
-							cnHTML::field(
-								array(
-									'type'     => 'radio',
-									'format'   => 'inline',
-									'class'    => '',
-									'id'       => 'im[' . $token . '][visibility]',
-									'options'  => self::$visibility,
-									'required' => FALSE,
-									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-									'after'    => '</span>',
-									'return'   => FALSE,
-								),
-								$network->visibility
-							);
-						}
-
-						echo '</h4></div>'  , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
-
-					echo '<div class="widget-inside">' , PHP_EOL;
-
-						echo '<div class="messenger-container">' , PHP_EOL;
-
-							cnHTML::field(
-								array(
-									'type'     => 'text',
-									'class'    => '',
-									'id'       => 'im[' . $token . '][id]',
-									'required' => FALSE,
-									'label'    => __( 'IM Network ID', 'connections' ),
-									'before'   => '',
-									'after'    => '',
-									'return'   => FALSE,
-								),
-								$network->id
-							);
-
-						echo '</div>' , PHP_EOL;
-
-						echo '<input type="hidden" name="im[' , $token , '][uid]" value="' , $network->uid , '">' , PHP_EOL;
-
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="im" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
+					self::messengerField( $network, $token );
 
 				echo '</div>' , PHP_EOL;
 			}
@@ -2281,6 +2117,131 @@ class cnEntryMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	/**
+	 * Renders the email field.
+	 *
+	 * @access private
+	 * @since  8.5.11
+	 *
+	 * @param stdClass $network
+	 * @param string   $token
+	 */
+	private static function messengerField( $network, $token = '::FIELD::' ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the email types.
+		$messengerTypes = $instance->options->getDefaultIMValues();
+
+		?>
+
+		<div class="widget-top">
+			<div class="widget-title-action"><a class="widget-action"></a></div>
+
+			<div class="widget-title">
+				<h4>
+
+					<?php
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'im[' . $token . '][type]',
+							'options'  => $messengerTypes,
+							'required' => FALSE,
+							'label'    => __( 'IM Type', 'connections' ),
+							'return'   => FALSE,
+							),
+						isset( $network->type ) ? $network->type : ''
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'im[preferred]',
+							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+							),
+						isset( $network->preferred ) && $network->preferred ? $token : ''
+					);
+
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'im[' . $token . '][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+								),
+							isset( $network->visibility ) ? $network->visibility : 'public'
+						);
+					}
+
+					?>
+
+				</h4>
+			</div>
+
+		</div>
+
+		<div class="widget-inside">
+
+			<div class="messenger-container">
+
+				<?php
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'im[' . $token . '][id]',
+						'required' => FALSE,
+						'label'    => __( 'IM Network ID', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+						),
+					isset( $network->id ) ? $network->id : ''
+				);
+
+				?>
+
+			</div>
+
+			<?php
+
+			if ( isset( $network->uid ) ) {
+
+				echo '<input type="hidden" name="im[', $token, '][uid]" value="', $network->uid, '">' , PHP_EOL;
+			}
+
+			?>
+
+			<p class="cn-remove-button">
+				<a href="#" class="cn-remove cn-button button cn-button-warning"
+				   data-type="im"
+				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+			</p>
+
+		</div>
+
+		<?php
 	}
 
 	/**

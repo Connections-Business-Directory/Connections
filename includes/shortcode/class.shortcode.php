@@ -373,6 +373,9 @@ class cnShortcode {
 
 					ob_start();
 
+					/**
+					 * @todo There s/b capability checks just like when editing an entry so users can only submit when they have the permissions.
+					 */
 					do_action( 'cn_submit_entry_form', $atts, $content, $tag );
 
 					return ob_get_clean();

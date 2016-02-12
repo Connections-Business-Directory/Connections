@@ -526,8 +526,12 @@ body[class*="connections"] .cn-button-large {
 /* Widget Styles */
 
 /* overqualified selector being used to override core WP style. */
+.widget-top a.widget-action {
+	display: block;
+}
 .widget-top a.widget-action:after {
-	padding: 10px 6px 0;
+	/*padding: 10px 6px 0;*/
+	padding: 0;
 }
 
 .widget-top .widget-title {

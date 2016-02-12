@@ -2025,18 +2025,22 @@ class cnEntryMetabox {
 
 			echo '<div class="widget-inside">';
 
-				cnHTML::field(
-					array(
-						'type'     => 'text',
-						'class'    => '',
-						'id'       => 'email[::FIELD::][address]',
-						'required' => FALSE,
-						'label'    => __( 'Email Address', 'connections' ),
-						'before'   => '',
-						'after'    => '',
-						'return'   => FALSE,
-					)
-				);
+				echo '<div class="email-address-container">' , PHP_EOL;
+
+						cnHTML::field(
+							array(
+								'type'     => 'text',
+								'class'    => '',
+								'id'       => 'email[::FIELD::][address]',
+								'required' => FALSE,
+								'label'    => __( 'Email Address', 'connections' ),
+								'before'   => '',
+								'after'    => '',
+								'return'   => FALSE,
+							)
+						);
+
+				echo '</div>' , PHP_EOL;
 
 				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="email" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
 
@@ -2116,19 +2120,23 @@ class cnEntryMetabox {
 
 					echo '<div class="widget-inside">' , PHP_EOL;
 
-						cnHTML::field(
-							array(
-								'type'     => 'text',
-								'class'    => '',
-								'id'       => 'email[' . $token . '][address]',
-								'required' => FALSE,
-								'label'    => __( 'Email Address', 'connections' ),
-								'before'   => '',
-								'after'    => '',
-								'return'   => FALSE,
-							),
-							$email->address
-						);
+						echo '<div class="email-address-container">' , PHP_EOL;
+
+							cnHTML::field(
+								array(
+									'type'     => 'text',
+									'class'    => '',
+									'id'       => 'email[' . $token . '][address]',
+									'required' => FALSE,
+									'label'    => __( 'Email Address', 'connections' ),
+									'before'   => '',
+									'after'    => '',
+									'return'   => FALSE,
+								),
+								$email->address
+							);
+
+						echo '</div>' , PHP_EOL;
 
 						echo '<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">' , PHP_EOL;
 

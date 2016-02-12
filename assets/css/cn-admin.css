@@ -817,8 +817,19 @@ and (max-width: 780px) {
 }
 
 /* The "Email" metabox. */
+#metabox-email .widget-inside .email-address-container {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+}
+#metabox-email .widget-inside label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
 #metabox-email .widget-inside input[type="text"] {
-	width: 80%;
+	display: table-cell;
+	width: 100%;
 }
 
 /* The "Email" metabox. */

@@ -1,36 +1,37 @@
 === Connections Business Directory ===
 Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
-Tags: address book, business directory, chamber of commerce, church directory, contact directory, directory, member directory, staff directory
+Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, custom directory, listings, member directory, staff directory, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress local directory
 Requires at least: 4.1
-Tested up to: 4.4
+Tested up to: 4.4.2
 Stable tag: 8.5.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-An easy to use directory plugin to create an addressbook, business directory, staff directory or church directory.
+An easy to use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
 
 == Description ==
 
-[Homepage](http://connections-pro.com/) | [Showcase](http://connections-pro.com/showcase/) | [Documentation](http://connections-pro.com/documentation/plugin/) | [Support](http://connections-pro.com/support/) | [Templates](http://connections-pro.com/templates/) | [Extensions](http://connections-pro.com/extensions/)
+[Homepage](http://connections-pro.com/) | [Showcase](http://connections-pro.com/showcase/) | [Documentation](http://connections-pro.com/documentation/contents/) | [Support](http://connections-pro.com/support/) | [Templates](http://connections-pro.com/templates/) | [Extensions](http://connections-pro.com/extensions/)
 
-Quite simply, Connections Business Directory is the [best directory plugin available](https://wordpress.org/support/view/plugin-reviews/connections?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff directory and run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
+Quite simply, Connections Business Directory is the [best directory plugin available](https://wordpress.org/support/view/plugin-reviews/connections?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
 
 = Features =
 
 * **Seamless integration** with WordPress.
 * **[Highly rated support.](https://wordpress.org/support/view/plugin-reviews/connections?filter=5)**
-* [Continuously updated](https://wordpress.org/plugins/connections/changelog/) bringing you  new features for free.
-* The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
-* Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays.
-* Multiple entry types from which to choose. They are individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating church directories.
-* **Repeatable fields** for address, phone numbers, email, IM, social media, links and dates.
+* [Continuously updated](https://wordpress.org/plugins/connections/changelog/) bringing you new features for free.
+* Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
+* Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
 * You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
+* **[Repeatable fields](http://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates.
+* Hierarchical (nested) **category support**. Businesses and members in your directory can be added to any number of categories.
+* Include a biographical text for an individual member or business description for each entry in your directory using an easy to use rich text editor.
+* You can easily add a business logo or photo of the staff member for each entry in your directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
-* **Category support.** Categories can be hierarchical and entries can be assigned to any number of categories.
-* **CSV Export** of addresses, phone numbers, email addresses and dates.
-* **CSV Import** of **nested** categories.
-* **Role capability support**.
+* **[CSV Export](http://connections-pro.com/documentation/tools/#Export)** of addresses, phone numbers, email addresses and dates.
+* **[CSV Import](http://connections-pro.com/documentation/tools/#Categories-2)** of **nested** categories.
+* **[Role capability support](http://connections-pro.com/documentation/roles/)**.
 * Displaying your entries on the frontend is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The shortcode provides a dizzying array of options that are just too numerous to list. To learn more, [go here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
 * **[Extensible](http://connections-pro.com/extensions/)** and developer friendly.
@@ -141,13 +142,19 @@ Connections Business Directory has been embraced around the world and has been t
 
 == Screenshots ==
 
-1. The Dashboard admin page. A snapshot of important information about the directory.
-2. The Manage admin page. Here you can manage all the entries within the address book.
-3. The Add New Entry admin page. From here you can add new entries to the addressbook.
-4. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.
-5. The Templates admin page. Here you choose which template that the business directory should use when displaying the directory.
-6. The Settings admin page where you can configure the business directory options.
-7. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.
+1. The many possible faces of your business  directory. Connections supports templates. This screenshot showcases (left to right) [Excerpt Plus](http://connections-pro.com/add-on/excerpt-plus/), [Circled](http://connections-pro.com/add-on/circled/), [Gridder](http://connections-pro.com/add-on/gridder/), [Tile Plus](http://connections-pro.com/add-on/tile-plus/) and [Slim Plus](http://connections-pro.com/add-on/slim-plus/).
+2. Another screenshot showcasing the different templates that can be used to style your business directory. Left to right; [Circled](http://connections-pro.com/add-on/circled/), [cMap](http://connections-pro.com/add-on/cmap/) and [Gridder](http://connections-pro.com/add-on/gridder/).
+3. The Dashboard admin page. A snapshot of important information about the directory.
+4. The Manage admin page. Here you can manage all the entries within the address book.
+5. The Add New Entry admin page. From here you can add new entries to the addressbook.
+6. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.
+7. The Templates admin page. Here you choose which template that the business directory should use when displaying the directory.
+8. The Settings admin page where you can configure the business directory options.
+9. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.
+10. The [Tools :: Export admin page](http://connections-pro.com/documentation/tools/#Export) contains many different CSV export tools to allow you to easily export the data from your business directory.
+11. The [Tools :: Import admin page](http://connections-pro.com/documentation/tools/#Categories-2) allows you to quickly bulk import nested categories into your business directory.
+12. In the event that you need support the [Tools :: System Information admin page](http://connections-pro.com/documentation/tools/#System_Information) contains all the information needs about your directory installation which can be easily and quickly shared.
+13. Need to move the configuration of your business directory from one site to another? The [Tools : Settings Import/Export admin page](http://connections-pro.com/documentation/tools/#Settings_ImportExport) allows you to do it with zero fuss. This will even migrate the Template Customizer settings applied to template and any of the settings for the [premium extensions](http://connections-pro.com/extensions/).
 
 [Connections running on live websites can be found here.](http://connections-pro.com/showcase/)
 
@@ -188,16 +195,27 @@ Connections Business Directory has been embraced around the world and has been t
 
 == Frequently Asked Questions ==
 
-[FAQs can be found here.](http://connections-pro.com/faq/)
+A comprehensive list of [FAQs can be found here.](http://connections-pro.com/faq/)
 
 = How do I display the business directory on my site? =
-We have a [QuickStart](http://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode.
+We have a [QuickStart](http://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
 
 = Will it work with my theme? =
 Connections Business Directory has been designed to work with any theme.
 
 = Is Connections Business Directory translation-ready? =
-Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
+Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/translation/).
+
+= Is Connections Business Directory compatible with WordPress Multisite? =
+Yes it is. However, do not Network activate Connections. Activate it on only the subsites that you wish to use Connections.
+
+= Is it possible to share entries with other sites within a WordPress Multisite installation? =
+Yes this is possible but there is a special setup required to do so. It is recommended this is done before added entries to your business directory.
+
+1. Activate Connections the primary site.
+2. Add `define( 'CN_MULTISITE_ENABLED', FALSE );` to your `wp-config.php` file. **NOTE:** If you have added any entries to any of your subsites, that data will be lost as Connections will read the directory entry data from the primary site's database tables.
+3. Activate Connections on the subsites you wish to use Connections.
+
 
 == Changelog ==
 

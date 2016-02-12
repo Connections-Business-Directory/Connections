@@ -700,62 +700,97 @@ and (max-width: 780px) {
 }
 
 /* The "Address" metabox. */
-#metabox-address .address-local input {
-	width: 80%;
+#metabox-address .address-line {
+	display: table;
+	width: 100%;
+}
+
+#metabox-address .address-line label {
+	display: table-cell;
+	width: 1%;
+	white-space: nowrap;
+}
+
+#metabox-address .address-line input {
+	display: table-cell;
+	width: 100%;
+}
+/*#metabox-address .address-local input {*/
+	/*width: 80%;*/
+/*}*/
+
+#metabox-address .address-region {
+	display: table;
 }
 
 #metabox-address .address-city {
-	float: left;
-	width: 28%;
+	/*float: left;*/
+	display: table-cell;
+	width: 29%;
 }
 
 #metabox-address .address-city input {
-	width: 86%;
+	width: 100%;
 }
 
 #metabox-address .address-state {
-	float: left;
+	/*float: left;*/
+	display: table-cell;
 	width: 20%;
 }
 
 #metabox-address .address-state input {
-	width: 74%;
+	width: 100%;
 }
 
 #metabox-address .address-zipcode {
-	float: left;
+	/*float: left;*/
+	display: table-cell;
 	width: 20%;
 }
 
 #metabox-address .address-zipcode input {
-	width: 62%;
+	width: 100%;
 }
 
 #metabox-address .address-country {
-	clear: both;
-	width: 52%;
+	/*clear: both;*/
+	/*width: 52%;*/
+	display: table;
+	width: 100%;
 }
 
 #metabox-address .address-country input {
-	width: 80%;
+	width: 100%;
+}
+
+#metabox-address .address-geo {
+	display: table;
 }
 
 #metabox-address .address-latitude {
-	float: left;
+	/*float: left;*/
+	display: table-cell;
 	width: 29%;
 }
 
 #metabox-address .address-latitude input {
-	width: 75%;
+	width: 100%;
 }
 
 #metabox-address .address-longitude {
-	float: left;
+	/*float: left;*/
+	display: table-cell;
 	width: 29%;
 }
 
 #metabox-address .address-longitude input {
-	width: 70%;
+	width: 100%;
+}
+
+#metabox-address .geocode-button-container {
+	display: table-cell;
+	vertical-align: bottom;
 }
 
 #metabox-address .map {

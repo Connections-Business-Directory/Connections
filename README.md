@@ -1,35 +1,36 @@
 # Connections Business Directory #
 **Donate link:** http://connections-pro.com/
-**Tags:** address book, business directory, chamber of commerce, church directory, contact directory, directory, member directory, staff directory
+**Tags:** address book, business directory, chamber of commerce, church directory, company directory, contact directory, custom directory, listings, member directory, staff directory, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress local directory
 **Requires at least:** 4.1
-**Tested up to:** 4.4
-**Stable tag:** 8.5.10
+**Tested up to:** 4.4.2
+**Stable tag:** 8.5.11
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
-An easy to use directory plugin to create an addressbook, business directory, staff directory or church directory.
+An easy to use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
 
 ## Description ##
 
-[Homepage](http://connections-pro.com/) | [Showcase](http://connections-pro.com/showcase/) | [Documentation](http://connections-pro.com/documentation/plugin/) | [Support](http://connections-pro.com/support/) | [Templates](http://connections-pro.com/templates/) | [Extensions](http://connections-pro.com/extensions/)
+[Homepage](http://connections-pro.com/) | [Showcase](http://connections-pro.com/showcase/) | [Documentation](http://connections-pro.com/documentation/contents/) | [Support](http://connections-pro.com/support/) | [Templates](http://connections-pro.com/templates/) | [Extensions](http://connections-pro.com/extensions/)
 
-Quite simply, Connections Business Directory is the [best directory plugin available](https://wordpress.org/support/view/plugin-reviews/connections?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff directory and run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
+Quite simply, Connections Business Directory is the [best directory plugin available](https://wordpress.org/support/view/plugin-reviews/connections?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
 
 ### Features ###
 
 * **Seamless integration** with WordPress.
 * **[Highly rated support.](https://wordpress.org/support/view/plugin-reviews/connections?filter=5)**
-* [Continuously updated](https://wordpress.org/plugins/connections/changelog/) bringing you  new features for free.
-* The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
-* Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays.
-* Multiple entry types from which to choose. They are individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating church directories.
-* **Repeatable fields** for address, phone numbers, email, IM, social media, links and dates.
+* [Continuously updated](https://wordpress.org/plugins/connections/changelog/) bringing you new features for free.
+* Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
+* Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
 * You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
+* **[Repeatable fields](http://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates.
+* Hierarchical (nested) **category support**. Businesses and members in your directory can be added to any number of categories.
+* Include a biographical text for an individual member or business description for each entry in your directory using an easy to use rich text editor.
+* You can easily add a business logo or photo of the staff member for each entry in your directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
-* **Category support.** Categories can be hierarchical and entries can be assigned to any number of categories.
-* **CSV Export** of addresses, phone numbers, email addresses and dates.
-* **CSV Import** of **nested** categories.
-* **Role capability support**.
+* **[CSV Export](http://connections-pro.com/documentation/tools/#Export)** of addresses, phone numbers, email addresses and dates.
+* **[CSV Import](http://connections-pro.com/documentation/tools/#Categories-2)** of **nested** categories.
+* **[Role capability support](http://connections-pro.com/documentation/roles/)**.
 * Displaying your entries on the frontend is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The shortcode provides a dizzying array of options that are just too numerous to list. To learn more, [go here](http://connections-pro.com/documentation/plugin/shortcodes/).
 * **SEO.** Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
 * **[Extensible](http://connections-pro.com/extensions/)** and developer friendly.
@@ -140,27 +141,39 @@ Connections Business Directory has been embraced around the world and has been t
 
 ## Screenshots ##
 
-### 1. The Dashboard admin page. A snapshot of important information about the directory. ###
-![The Dashboard admin page. A snapshot of important information about the directory.](http://ps.w.org/connections-business-directory/assets/screenshot-1.png)
+### 1. The many possible faces of your business  directory. Connections supports templates. This screenshot showcases (left to right) [Excerpt Plus](http://connections-pro.com/add-on/excerpt-plus/), [Circled](http://connections-pro.com/add-on/circled/), [Gridder](http://connections-pro.com/add-on/gridder/), [Tile Plus](http://connections-pro.com/add-on/tile-plus/) and [Slim Plus](http://connections-pro.com/add-on/slim-plus/). ###
+![The many possible faces of your business  directory. Connections supports templates. This screenshot showcases (left to right) [Excerpt Plus](http://connections-pro.com/add-on/excerpt-plus/), [Circled](http://connections-pro.com/add-on/circled/), [Gridder](http://connections-pro.com/add-on/gridder/), [Tile Plus](http://connections-pro.com/add-on/tile-plus/) and [Slim Plus](http://connections-pro.com/add-on/slim-plus/).](http://ps.w.org/connections-business-directory/assets/screenshot-1.png)
 
-### 2. The Manage admin page. Here you can manage all the entries within the address book. ###
-![The Manage admin page. Here you can manage all the entries within the address book.](http://ps.w.org/connections-business-directory/assets/screenshot-2.png)
+### 2. Another screenshot showcasing the different templates that can be used to style your business directory. Left to right; [Circled](http://connections-pro.com/add-on/circled/), [cMap](http://connections-pro.com/add-on/cmap/) and [Gridder](http://connections-pro.com/add-on/gridder/). ###
+![Another screenshot showcasing the different templates that can be used to style your business directory. Left to right; [Circled](http://connections-pro.com/add-on/circled/), [cMap](http://connections-pro.com/add-on/cmap/) and [Gridder](http://connections-pro.com/add-on/gridder/).](http://ps.w.org/connections-business-directory/assets/screenshot-2.png)
 
-### 3. The Add New Entry admin page. From here you can add new entries to the addressbook. ###
-![The Add New Entry admin page. From here you can add new entries to the addressbook.](http://ps.w.org/connections-business-directory/assets/screenshot-3.png)
+### 3. The Dashboard admin page. A snapshot of important information about the directory. ###
+![The Dashboard admin page. A snapshot of important information about the directory.](http://ps.w.org/connections-business-directory/assets/screenshot-3.png)
 
-### 4. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships. ###
-![The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.](http://ps.w.org/connections-business-directory/assets/screenshot-4.png)
+### 4. The Manage admin page. Here you can manage all the entries within the address book. ###
+![The Manage admin page. Here you can manage all the entries within the address book.](http://ps.w.org/connections-business-directory/assets/screenshot-4.png)
 
-### 5. The Templates admin page. Here you choose which template that the business directory should use when displaying the directory. ###
-![The Templates admin page. Here you choose which template that the business directory should use when displaying the directory.](http://ps.w.org/connections-business-directory/assets/screenshot-5.png)
+### 5. The Add New Entry admin page. From here you can add new entries to the addressbook. ###
+![The Add New Entry admin page. From here you can add new entries to the addressbook.](http://ps.w.org/connections-business-directory/assets/screenshot-5.png)
 
-### 6. The Settings admin page where you can configure the business directory options. ###
-![The Settings admin page where you can configure the business directory options.](http://ps.w.org/connections-business-directory/assets/screenshot-6.png)
+### 6. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships. ###
+![The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.](http://ps.w.org/connections-business-directory/assets/screenshot-6.png)
 
-### 7. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory. ###
-![The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.](http://ps.w.org/connections-business-directory/assets/screenshot-7.png)
+### 7. The Templates admin page. Here you choose which template that the business directory should use when displaying the directory. ###
+![The Templates admin page. Here you choose which template that the business directory should use when displaying the directory.](http://ps.w.org/connections-business-directory/assets/screenshot-7.png)
 
+### 8. The Settings admin page where you can configure the business directory options. ###
+![The Settings admin page where you can configure the business directory options.](http://ps.w.org/connections-business-directory/assets/screenshot-8.png)
+
+### 9. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory. ###
+![The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.](http://ps.w.org/connections-business-directory/assets/screenshot-9.png)
+
+### 10. The [Tools :: Export admin page](http://connections-pro.com/documentation/tools/ ###
+![The [Tools :: Export admin page](http://connections-pro.com/documentation/tools/](http://ps.w.org/connections-business-directory/assets/screenshot-10.png)
+#Export) contains many different CSV export tools to allow you to easily export the data from your business directory.
+11. The [Tools :: Import admin page](http://connections-pro.com/documentation/tools/#Categories-2) allows you to quickly bulk import nested categories into your business directory.
+12. In the event that you need support the [Tools :: System Information admin page](http://connections-pro.com/documentation/tools/#System_Information) contains all the information needs about your directory installation which can be easily and quickly shared.
+13. Need to move the configuration of your business directory from one site to another? The [Tools : Settings Import/Export admin page](http://connections-pro.com/documentation/tools/#Settings_ImportExport) allows you to do it with zero fuss. This will even migrate the Template Customizer settings applied to template and any of the settings for the [premium extensions](http://connections-pro.com/extensions/).
 
 [Connections running on live websites can be found here.](http://connections-pro.com/showcase/)
 
@@ -201,18 +214,55 @@ Connections Business Directory has been embraced around the world and has been t
 
 ## Frequently Asked Questions ##
 
-[FAQs can be found here.](http://connections-pro.com/faq/)
+A comprehensive list of [FAQs can be found here.](http://connections-pro.com/faq/)
 
 ### How do I display the business directory on my site? ###
-We have a [QuickStart](http://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode.
+We have a [QuickStart](http://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
 
 ### Will it work with my theme? ###
 Connections Business Directory has been designed to work with any theme.
 
 ### Is Connections Business Directory translation-ready? ###
-Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/connections/translation/).
+Yes it is. Connections Business Directory comes with many user supplied translations. We use Transifex to manage translations. This service make it easy for us manage and easy for you to translate. To read more, see [this page](http://connections-pro.com/documentation/translation/).
+
+### Is Connections Business Directory compatible with WordPress Multisite? ###
+Yes it is. However, do not Network activate Connections. Activate it on only the subsites that you wish to use Connections.
+
+### Is it possible to share entries with other sites within a WordPress Multisite installation? ###
+Yes this is possible but there is a special setup required to do so. It is recommended this is done before added entries to your business directory.
+
+1. Activate Connections the primary site.
+2. Add `define( 'CN_MULTISITE_ENABLED', FALSE );` to your `wp-config.php` file. **NOTE:** If you have added any entries to any of your subsites, that data will be lost as Connections will read the directory entry data from the primary site's database tables.
+3. Activate Connections on the subsites you wish to use Connections.
+
 
 ## Changelog ##
+
+### 8.5.11 02/12/2016 ###
+* COMPATIBILITY: Add an Enfold theme compatibility shim when viewing a single entry.'s detail/profile view.
+* BUG: Correct bug for mouseover hover text for email links so they correctly reflect the email type.
+* BUG: Correct an error in the admin javascript which prevented a repeatable field from collapsing.
+* TWEAK: Move the geocode button to be within the `address-geo` div in the Address field metabox.
+* TWEAK: Fix the alpha index with many character from overlapping the table header.
+* TWEAK: Correct the positioning of a the repeatable field toggle arrow.
+* TWEAK: Add a margin the the `#minor-publishing` div to fix the spacing of the role capability reset metabox.
+* TWEAK: Cleanup the address field metabox inputs for a little cleaner presentation.
+* TWEAK: Add missing container div on the geocode button when editing an entry with an existing address.
+* TWEAK: Tweak styling of the phone number field metabox to add more whitespace.
+* TWEAK: Tweak styling of the email address field metabox to add more whitespace.
+* TWEAK: Tweak styling of the instant messenger field metabox to add more whitespace.
+* TWEAK: Tweak styling of the social media network field metabox to add more whitespace.
+* TWEAK: Tweak styling of the link field metabox to add more whitespace.
+* TWEAK: Tweak positioning of the repeatable fields remove button.
+* TWEAK: Refactor cnEntryMetabox::phone() to remove duplicate code.
+* TWEAK: Refactor cnEntryMetabox::email() to remove duplicate code.
+* TWEAK: Refactor cnEntryMetabox::messenger() to remove duplicate code.
+* TWEAK: Refactor cnEntryMetabox::social() to remove duplicate code.
+* OTHER: Correct a few misspellings in cnGeo in the phpDoc.
+* OTHER: Update EDD_SL_Plugin_Updater to 1.6.3.
+* OTHER: Remove unused variables in cnEntryMetabox.
+* DEV: Add a @todo to cnShortcode.
+* DEV: Minor phpDoc fixes in cnEntryMetabox.
 
 ### 8.5.10 02/05/2016 ###
 * NEW: Add preferred class names for entry data that has been set as the preferred option. This will allow them to be targeted with CSS to allow differentiation.
@@ -668,55 +718,6 @@ Yes it is. Connections Business Directory comes with many user supplied translat
 * DEV: Cleanup phpDoc for cnRetrieve::setQueryStatus().
 * DEV: Update phpDoc for cnRetrieve::addresses().
 
-### 8.2.8 06/05/2015 ###
-* BUG: Escape URL for search message clear message button.
-* BUG: Refactor cnTemplate::locate() to fix inconsistencies in the priority loading order of template override resource files.
-* TWEAK: Remove use of deprecated function in cnTemplate::filenames().
-* TWEAK: Add support for the `license_not_activable` error message response from EDD-SL.
-* TWEAK: Add support for base name in cnLocate when searching for template files.
-* TWEAK: Add a filter to cnURL::permalink() so the URL can be filtered.
-* TWEAK: Add a filter to the URL for cnTemplatePart::searchingMessage().
-* TWEAK: Set the default template type to 'all' and only override if the `list_type` option is set in cnTemplateFactory::loadTemplate().
-* TWEAK: Clear the options/transient caches when the permalink structure is changed.
-* TWEAK: Remove the notranslate class from a link title.
-* TWEAK: Remove use of deprecated function in cnLocate::fileNames().
-* TWEAK: Prefix the contact-block class.
-* TWEAK: Tweaks to cnOutput::getLinkBlock() so filters to output could be added.
-* TWEAK: And additional filters to cnOutput::getEmailAddressBlock().
-* TWEAK: Tweak to add a bit of padding to the metabox table rows.
-* TWEAK: Tweak logic in cnURL::permalink() to properly id the page_id query var to the site's static home page when the directory and/or widgets are added to the static home page.
-* TWEAK: Change cnTemplatePart::echoOrReturn() to be a protect function.
-* TWEAK: Move the before/after action list logic to their own callback functions and add them to the cn_action_list_{before|after} action hooks.
-* TWEAK: Add the cn_list_{before|after}_body action hooks.
-* TWEAK: Allow the results list body to be overridden by using a template override file in cnTemplatePart::body().
-* TWEAK: Remove unnecessary PHP_EOL in cnTemplatePart::body().
-* TWEAK: Assign get_query_var('cn-view') to the $view var for reuse in switch in cnShortcode::view().
-* TWEAK: Make the shortcode view switch pluggable in cnShortcode::view() to allow new views to be registered and processed.
-* TWEAK: Change the default view from card to list to cleanup nomenclature for the forthcoming List View extension.
-* OTHER: Fix misspelling of search in phpDoc.
-* OTHER: Fix misspelling in code comment in cnTemplate::getPath().
-* OTHER: Fix misspelling in phpDoc.
-* OTHER: Correct misspelling in phpDoc in cnLocate.
-* OTHER: Fix misspellings in code comment.
-* DEV: Stub phpDoc for class cnTemplate.
-* DEV: Fix phpDoc for cnTemplate::__construct().
-* DEV: Cleanup phpDoc for cnTemplate::getAuthorURL().
-* DEV: Cleanup phpDoc for cnTemplate::getThumbnail().
-* DEV: Add a no inspection flag for phpStorm.
-* DEV: Add basic phpDoc to the Names template.
-* DEV: Refactor cnOutput::getEmailAddressBlock(). Cleanup code and add additional filters.
-* DEV: Refactor cnTemplatePart::listAction_ViewAll() to be more readable and add default options so the permalink would be properly resolve to the correct page.
-* DEV: Refactor cnTemplatePart::entryAction_Back() to be more readable by flowing options on multiple lines.
-
-### 8.2.7 05/12/2015 ###
-* BUG: Add missing $default_term property to CN_Term_Admin_List_Table.
-* BUG: Set maximum character for indexes to 191 when creating indexes to support WordPress 4.2 move to utf8mb4.
-* BUG: Correct LinkedIn spelling.
-* BUG: Fix undefined index notice when updating entry meta.
-* TWEAK: Small schema tweaks when creating the db taxonomy tables.
-* TWEAK: Add support for WP Mailto Links plugin via a CSS tweak.
-* OTHER: Fix misspelling of urlencode().
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 ## Upgrade Notice ##
@@ -791,4 +792,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 ### 8.5.10 ###
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+### 8.5.11 ###
 It is recommended to backup before updating. Requires WordPress >= 4.1.

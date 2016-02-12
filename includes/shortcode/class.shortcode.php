@@ -213,11 +213,11 @@ class cnShortcode {
 
 			if ( FALSE === $parent ) {
 
-				$replace = 'Divi' === $theme->get( 'Name' ) ? TRUE : FALSE;
+				$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold' ), TRUE ) ? TRUE : FALSE;
 
 			} elseif ( $parent instanceof WP_Theme ) {
 
-				$replace = 'Divi' === $parent->get( 'Name' ) ? TRUE : FALSE;
+				$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold' ), TRUE ) ? TRUE : FALSE;
 
 			} else {
 

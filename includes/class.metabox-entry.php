@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnEntryMetabox
+ */
 class cnEntryMetabox {
 
 	/**
@@ -37,8 +40,7 @@ class cnEntryMetabox {
 	 * Initiate the core metaboxes and fields.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @param  object $metabox Instance of the cnMetaboxAPI.
+	 * @since  0.8
 	 *
 	 * @return void
 	 */

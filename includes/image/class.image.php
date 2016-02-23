@@ -534,7 +534,7 @@ class cnImage {
 			'crop_focus'    => array( .5, .5 ),
 			'crop_only'     => FALSE,
 			'canvas_color'  => '#FFFFFF',
-			'quality'       => 90,
+			'quality'       => 82,
 			'sub_dir'       => '',
 		);
 
@@ -785,7 +785,7 @@ class cnImage {
 			     array( 'options' => array( 'min_range' => 1, 'max_range' => 100 ) )
 		     ) === FALSE ) {
 
-			$quality = 90;
+			$quality = 82;
 		}
 
 		/*

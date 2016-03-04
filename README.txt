@@ -1,7 +1,7 @@
 === Connections Business Directory ===
 Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
-Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, custom directory, listings, member directory, staff directory, wordpress business directory, wordpress directory, wordpress directory plugin, wordpress local directory
+Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, custom directory, directory, listings directory, local directory, link directory, member directory, staff directory
 Requires at least: 4.1
 Tested up to: 4.4.2
 Stable tag: 8.5.11

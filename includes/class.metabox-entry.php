@@ -2432,159 +2432,12 @@ class cnEntryMetabox {
 	 */
 	public static function links( $entry, $metabox ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$linkTypes = $instance->options->getDefaultLinkValues();
-
 		echo '<div class="widgets-sortables ui-sortable" id="links">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="link-template" style="display: none;">' , PHP_EOL;
 
-			echo '<div class="widget-top">' , PHP_EOL;
-
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-				echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'link[::FIELD::][type]',
-							'options'  => $linkTypes,
-							'required' => FALSE,
-							'label'    => __( 'Type', 'connections' ),
-							'return'   => FALSE,
-						)
-					);
-
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'link[preferred]',
-							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
-							'before'   => '<span class="preferred">',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						)
-					);
-
-					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'link[::FIELD::][visibility]',
-								'options'  => self::$visibility,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							'public'
-						);
-					}
-
-				echo '</h4></div>'  , PHP_EOL;
-
-			echo '</div>' , PHP_EOL;
-
-			echo '<div class="widget-inside">';
-
-				echo '<div class="link-title-container">';
-
-					cnHTML::field(
-						array(
-							'type'     => 'text',
-							'class'    => '',
-							'id'       => 'link[::FIELD::][title]',
-							'required' => FALSE,
-							'label'    => __( 'Title', 'connections' ),
-							'before'   => '',
-							'after'    => '',
-							'return'   => FALSE,
-						)
-					);
-
-				echo '</div>';
-
-				echo '<div class="link-url-container">';
-
-					cnHTML::field(
-						array(
-							'type'     => 'text',
-							'class'    => '',
-							'id'       => 'link[::FIELD::][url]',
-							'required' => FALSE,
-							'label'    => __( 'URL', 'connections' ),
-							'before'   => '',
-							'after'    => '',
-							'return'   => FALSE,
-						)
-					);
-
-				echo '</div>';
-
-				echo '<div class="link-target-follow-container">';
-
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'link[::FIELD::][target]',
-							'options'  => array(
-								'new'  => __( 'New Window', 'connections' ),
-								'same' => __( 'Same Window', 'connections' ),
-								),
-							'required' => FALSE,
-							'label'    => __( 'Target', 'connections' ),
-							'before'   => '<span class="target">',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'same'
-					);
-
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'link[::FIELD::][follow]',
-							'options'  => array(
-								'nofollow' => 'nofollow',
-								'dofollow' => 'dofollow',
-								),
-							'required' => FALSE,
-							'label'    => '',
-							'before'   => '<span class="follow">',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						),
-						'nofollow'
-					);
-
-				echo '</div>';
-
-				echo '<div class="link-assignment">';
-
-					echo '<label><input type="radio" name="link[image]" value="::FIELD::">' , __( 'Assign link to the image.', 'connections' ) , '</label>';
-					echo '<label><input type="radio" name="link[logo]" value="::FIELD::">' , __( 'Assign link to the logo.', 'connections' ) , '</label>';
-					// echo '<label><input type="checkbox" name="link[none]" value="::FIELD::">' , __( 'None', 'connections' ) , '</label>';
-
-				echo '</div>';
-
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="link" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-			echo '</div>' , PHP_EOL;
+			self::linkField( new stdClass() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -2598,159 +2451,9 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$preferred = $link->preferred ? $token : '';
-				$imageLink = checked( $link->image, TRUE, FALSE );
-				$logoLink  = checked( $link->logo, TRUE, FALSE );
-
 				echo '<div class="widget link" id="link-row-'  . $token . '">' , PHP_EOL;
 
-					echo '<div class="widget-top">' , PHP_EOL;
-						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-						echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-						cnHTML::field(
-							array(
-								'type'     => 'select',
-								'class'    => '',
-								'id'       => 'link[' . $token . '][type]',
-								'options'  => $linkTypes,
-								'required' => FALSE,
-								'label'    => __( 'Type', 'connections' ),
-								'return'   => FALSE,
-							),
-							$link->type
-						);
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'link[preferred]',
-								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-								'required' => FALSE,
-								'before'   => '<span class="preferred">',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$preferred
-						);
-
-						// Only show this if there are visibility options that the user is permitted to see.
-						if ( ! empty( self::$visibility ) ) {
-
-							cnHTML::field(
-								array(
-									'type'     => 'radio',
-									'format'   => 'inline',
-									'class'    => '',
-									'id'       => 'link[' . $token . '][visibility]',
-									'options'  => self::$visibility,
-									'required' => FALSE,
-									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-									'after'    => '</span>',
-									'return'   => FALSE,
-								),
-								$link->visibility
-							);
-						}
-
-						echo '</h4></div>'  , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
-
-					echo '<div class="widget-inside">' , PHP_EOL;
-
-						echo '<div class="link-title-container">';
-
-							cnHTML::field(
-								array(
-									'type'     => 'text',
-									'class'    => '',
-									'id'       => 'link[' . $token . '][title]',
-									'required' => FALSE,
-									'label'    => __( 'Title', 'connections' ),
-									'before'   => '',
-									'after'    => '',
-									'return'   => FALSE,
-								),
-								$link->title
-							);
-
-						echo '</div>';
-
-						echo '<div class="link-url-container">';
-
-							cnHTML::field(
-								array(
-									'type'     => 'text',
-									'class'    => '',
-									'id'       => 'link[' . $token . '][url]',
-									'required' => FALSE,
-									'label'    => __( 'URL', 'connections' ),
-									'before'   => '',
-									'after'    => '',
-									'return'   => FALSE,
-								),
-								$link->url
-							);
-
-						echo '</div>';
-
-						echo '<div class="link-target-follow-container">';
-
-							cnHTML::field(
-								array(
-									'type'     => 'select',
-									'class'    => '',
-									'id'       => 'link[' . $token . '][target]',
-									'options'  => array(
-										'new'  => __( 'New Window', 'connections' ),
-										'same' => __( 'Same Window', 'connections' ),
-										),
-									'required' => FALSE,
-									'label'    => __( 'Target', 'connections' ),
-									'before'   => '<span class="target">',
-									'after'    => '</span>',
-									'return'   => FALSE,
-								),
-								$link->target
-							);
-
-							cnHTML::field(
-								array(
-									'type'     => 'select',
-									'class'    => '',
-									'id'       => 'link[' . $token . '][follow]',
-									'options'  => array(
-										'nofollow' => 'nofollow',
-										'dofollow' => 'dofollow',
-										),
-									'required' => FALSE,
-									'label'    => '',
-									'before'   => '<span class="follow">',
-									'after'    => '</span>',
-									'return'   => FALSE,
-								),
-								$link->followString
-							);
-
-						echo '</div>';
-
-						echo '<div class="link-assignment">';
-
-							echo '<label><input type="radio" name="link[image]" value="' , $token , '" ' , $imageLink , '>' , __( 'Assign link to the image.', 'connections' ) , '</label>';
-							echo '<label><input type="radio" name="link[logo]" value="' , $token , '" ' , $logoLink , '>' , __( 'Assign link to the logo.', 'connections' ) , '</label>';
-							// echo '<label><input type="checkbox" name="link[none]" value="' , $token , '">' , __( 'None', 'connections' ) , '</label>';
-
-						echo '</div>';
-
-						echo '<input type="hidden" name="link[' , $token , '][id]" value="' , $link->id , '">' , PHP_EOL;
-
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="link" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
+					self::linkField( $link, $token );
 
 				echo '</div>' , PHP_EOL;
 			}
@@ -2759,6 +2462,203 @@ class cnEntryMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	/**
+	 * Renders the link field.
+	 *
+	 * @access private
+	 * @since  8.5.12
+	 *
+	 * @param stdClass $link
+	 * @param string   $token
+	 */
+	private static function linkField( $link, $token = '::FIELD::' ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the email types.
+		$linkTypes = $instance->options->getDefaultLinkValues();
+
+		?>
+
+		<div class="widget-top">
+			<div class="widget-title-action"><a class="widget-action"></a></div>
+
+			<div class="widget-title">
+				<h4>
+
+					<?php
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'link[' . $token . '][type]',
+							'options'  => $linkTypes,
+							'required' => FALSE,
+							'label'    => __( 'Type', 'connections' ),
+							'return'   => FALSE,
+						),
+						isset( $link->type ) ? $link->type : ''
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'link[preferred]',
+							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						),
+						isset( $link->preferred ) && $link->preferred ? $token : ''
+					);
+
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'link[' . $token . '][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							isset( $link->visibility ) ? $link->visibility : ''
+						);
+					}
+
+					?>
+
+				</h4>
+			</div>
+
+		</div>
+
+		<div class="widget-inside">
+
+			<div class="link-title-container">
+
+				<?php
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'link[' . $token . '][title]',
+						'required' => FALSE,
+						'label'    => __( 'Title', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					),
+					isset( $link->title ) ? $link->title : ''
+				);
+
+				?>
+
+			</div>
+
+			<div class="link-url-container">
+
+				<?php
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'link[' . $token . '][url]',
+						'required' => FALSE,
+						'label'    => __( 'URL', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					),
+					isset( $link->url ) ? $link->url : ''
+				);
+
+				?>
+
+			</div>
+
+			<div class="link-target-follow-container">
+
+				<?php
+
+				cnHTML::field(
+					array(
+						'type'     => 'select',
+						'class'    => '',
+						'id'       => 'link[' . $token . '][target]',
+						'options'  => array(
+							'new'  => __( 'New Window', 'connections' ),
+							'same' => __( 'Same Window', 'connections' ),
+						),
+						'required' => FALSE,
+						'label'    => __( 'Target', 'connections' ),
+						'before'   => '<span class="target">',
+						'after'    => '</span>',
+						'return'   => FALSE,
+					),
+					isset( $link->target ) ? $link->target : ''
+				);
+
+				cnHTML::field(
+					array(
+						'type'     => 'select',
+						'class'    => '',
+						'id'       => 'link[' . $token . '][follow]',
+						'options'  => array(
+							'nofollow' => 'nofollow',
+							'dofollow' => 'dofollow',
+						),
+						'required' => FALSE,
+						'label'    => '',
+						'before'   => '<span class="follow">',
+						'after'    => '</span>',
+						'return'   => FALSE,
+					),
+					isset( $link->followString ) ? $link->followString : ''
+				);
+
+				?>
+
+			</div>
+
+			<div class="link-assignment">
+
+				<label>
+					<input type="radio" name="link[image]" value="<?php echo $token; ?>" <?php if ( isset( $link->image ) ) checked( $link->image, TRUE ); ?>>
+					<?php esc_html_e( 'Assign link to the image.', 'connections' ); ?>
+				</label>
+				<label>
+					<input type="radio" name="link[logo]" value="<?php echo $token; ?>" <?php if ( isset( $link->logo ) ) checked( $link->logo, TRUE ); ?>>
+					<?php esc_html_e( 'Assign link to the logo.', 'connections' ); ?>
+				</label>
+
+			</div>
+
+			<input type="hidden" name="link[<?php echo $token; ?>][id]" value="' , $link->id , '">
+
+			<p class="cn-remove-button">
+				<a href="#" class="cn-remove cn-button button cn-button-warning"
+				   data-type="link"
+				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+			</p>
+
+		</div>
+
+		<?php
 	}
 
 	/**

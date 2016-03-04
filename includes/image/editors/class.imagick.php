@@ -1,19 +1,12 @@
 <?php
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
+ * Class CN_Image_Editor_Imagick
+ */
 class CN_Image_Editor_Imagick extends WP_Image_Editor_Imagick {
-
-	/**
-	 * Gets the currently set image quality value that will be used when saving a file.
-	 *
-	 * @access public
-	 * @since  8.1
-	 *
-	 * @return int The image quality value.
-	 */
-	public function get_quality() {
-
-		return $this->quality;
-	}
 
 	/**
 	 * Changes the opacity of the image

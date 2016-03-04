@@ -603,11 +603,11 @@ function connectionsShowViewPage( $action = NULL ) {
 
 						foreach ( $categories as $category ) {
 							/*
-							 * Genreate the category link token URL.
+							 * Generate the category link token URL.
 							 */
 							$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $category->term_id, 'filter' );
 
-							echo '<a href="' . $categoryFilterURL . '">' . $category->name . '</a>';
+							echo '<a href="' . esc_url( $categoryFilterURL ) . '">' . $category->name . '</a>';
 
 							$i++;
 							if ( count( $categories ) > $i ) echo ', ';

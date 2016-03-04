@@ -115,7 +115,7 @@ function connectionsShowTemplatesPage() {
 									cnTemplateAuthor( $activeTemplate );
 									cnTemplateDescription( $activeTemplate );
 
-									cnTemplateCustomizerButton( $activeTemplate, $customizerURL, $pageURL );
+									echo '<p class="clear">' , cnTemplateCustomizerButton( $activeTemplate, $customizerURL, $pageURL ) , '</p>';
 
 									// Remove the current template so it does not show in the available templates.
 									unset( $templates->{$activeTemplate->getSlug()} );
@@ -131,19 +131,11 @@ function connectionsShowTemplatesPage() {
 
 						<td class="template_instructions" colspan="2">
 							<p>
-								<strong><?php _e( 'Instructions', 'connections' ); ?>:</strong>
+								<strong><?php esc_html_e( 'Instructions', 'connections' ); ?>:</strong>
 							</p>
 
 							<p>
-								<?php _e( 'By default the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/">&#91;connections&#93;</a></code> shortcode will show all entries types. To change the template used when displaying all entry types, select the "All" tab and activate the template. When the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/list_type/">list_type</a></code>shortcode option is used to filter the entries based on the entry type, the template for that entry type will be used. To change the template used for a specific entry type, select the appropriate tab and then activate the template. If multiple entry types are specified in the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/list_type/">list_type</a></code> shortcode option, the template for the entry type listed first will be used to display the entry list.', 'connections' ); ?>
-							</p>
-
-							<p>
-								<?php _e( 'The <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-upcoming-list/">[upcoming_list]</a></code> shortcode which displays the upcoming anniversaries and birthdays will be displayed with the template that is activated under their respective tabs.', 'connections' ); ?>
-							</p>
-
-							<p>
-								<?php _e( 'The current active template for each template type can be overridden by using the <code><a href="http://connections-pro.com/documentation/connections/shortcodes/shortcode-connections/template-option/">template</a></code> shortcode option.', 'connections' ); ?>
+								<?php printf( __( 'To learn more, please refer to the <a href="%s">documentation</a>.', 'connections' ), 'http://connections-pro.com/documentation/templates/' ); ?>
 							</p>
 						</td>
 					</tr>

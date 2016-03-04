@@ -76,7 +76,7 @@ class cnDashboardMetabox {
 			'context'  => 'left',
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'recent' ),
-			'order_by' => 'date_added|SORT_ASC',
+			'order_by' => 'date_added|SORT_DESC',
 			'template' => 'dashboard-recent-added',
 			'limit'    => 10,
 			'status'   => 'pending',
@@ -92,7 +92,7 @@ class cnDashboardMetabox {
 			'order_by' => 'date_added|SORT_DESC',
 			'template' => 'dashboard-recent-added',
 			'limit'    => 10,
-			'status'   => 'all',
+			'status'   => 'approved',
 		);
 
 		self::$metaboxes[] = array(
@@ -105,7 +105,7 @@ class cnDashboardMetabox {
 			'order_by' => 'date_modified|SORT_DESC',
 			'template' => 'dashboard-recent-modified',
 			'limit'    => 10,
-			'status'   => 'all',
+			'status'   => 'approved',
 		);
 
 		self::$metaboxes[] = array(

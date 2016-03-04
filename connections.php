@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.5.11
+ * Version: 8.5.12
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.5.11
+ * @version 8.5.12
  */
 
 // Exit if accessed directly
@@ -226,7 +226,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.11' );
+			define( 'CN_CURRENT_VERSION', '8.5.12' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.2' );
@@ -390,7 +390,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				if ( ! $url = get_option( 'upload_url_path' ) ) {
 
-					if ( empty($upload_path) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) ) {
+					if ( empty( $upload_path ) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) ) {
 
 						$url = content_url( '/uploads' );
 

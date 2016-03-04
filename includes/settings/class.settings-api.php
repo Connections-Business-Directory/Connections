@@ -319,7 +319,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			$fields = apply_filters('cn_filter_settings_fields', $fields); // @todo:  At some point delete this line
 			//var_dump($fields);
 
-			if ( empty($fields) ) return;
+			if ( empty( $fields ) ) return;
 
 			foreach ( $fields as $key => $field ) {
 				// Store the position values so an array multi sort can be done to position the fields in the desired order.
@@ -605,12 +605,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					$checked = isset( $value ) ? checked(1, $value, FALSE) : '';
 
 					$out .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s" name="%1$s" value="1" %2$s/>', $name, $checked );
-					if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<label for="%1$s"> %2$s</label>', $name, $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<label for="%1$s"> %2$s</label>', $name, $field['desc'] );
 
 					break;
 
 				case 'multicheckbox':
-					if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
 
 					foreach ( $field['options'] as $key => $label )
 					{
@@ -623,7 +623,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					break;
 
 				case 'radio':
-					if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
 
 					foreach ( $field['options'] as $key => $label )
 					{
@@ -634,7 +634,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					break;
 
 				case 'select':
-					if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description">%1$s</span><br />', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%1$s</span><br />', $field['desc'] );
 
 					$out .= sprintf( '<select name="%1$s" id="%1$s">', $name );
 
@@ -648,7 +648,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					break;
 
 				case 'multiselect':
-					if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
 
 					$out .= '<span style="background-color: white; border-color: #DFDFDF; border-radius: 3px; border-width: 1px; border-style: solid; display: block; height: 90px; padding: 0 3px; overflow: auto; width: 25em;">';
 
@@ -667,18 +667,18 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
 
 					$out .= sprintf( '<input type="text" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
-					if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );
 
 					break;
 
 				case 'textarea':
-					if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description"> %1$s</span><br />', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description"> %1$s</span><br />', $field['desc'] );
 					$out .= sprintf( '<textarea rows="10" cols="50" class="%1$s-text" id="%2$s" name="%2$s">%3$s</textarea>', 'large', $name, $value );
 
 					break;
 
 				case 'quicktag':
-					if ( isset($field['desc']) && ! empty($field['desc']) ) $out .= sprintf( '<span class="description"> %1$s</span><br />', $field['desc'] );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description"> %1$s</span><br />', $field['desc'] );
 
 					$out .= '<div class="wp-editor-container">';
 					$out .= sprintf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>', $name, $value );

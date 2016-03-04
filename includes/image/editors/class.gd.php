@@ -1,19 +1,12 @@
 <?php
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
+ * Class CN_Image_Editor_GD
+ */
 class CN_Image_Editor_GD extends WP_Image_Editor_GD {
-
-	/**
-	 * Gets the currently set image quality value that will be used when saving a file.
-	 *
-	 * @access public
-	 * @since  8.1
-	 *
-	 * @return int The image quality value.
-	 */
-	public function get_quality() {
-
-		return $this->quality;
-	}
 
 	/**
 	 * Resizes current image padded.

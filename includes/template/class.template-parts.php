@@ -2319,7 +2319,7 @@ class cnTemplatePart {
 
 		foreach ( $categories as $key => $category ) {
 			// Remove any empty root parent categories so the table builds correctly.
-			if ( ! $atts['show_empty'] && ( empty($category->count ) && empty( $category->children ) ) ) unset( $categories[ $key ] );
+			if ( ! $atts['show_empty'] && ( empty( $category->count ) && empty( $category->children ) ) ) unset( $categories[ $key ] );
 
 			// Limit the category tree to only the supplied root parent categories.
 			if ( ! empty( $atts['parent_id'] ) && ! in_array( $category->term_id, $atts['parent_id'] ) ) unset( $categories[ $key ] );
@@ -2595,7 +2595,7 @@ class cnTemplatePart {
 		// Do not show the excluded category as options.
 		if ( ! empty( $atts['exclude'] ) && in_array( $category->term_id, $atts['exclude'] ) ) return $out;
 
-		if ( $atts['show_empty'] || ! empty( $category->count ) || ! empty ( $category->children ) ) {
+		if ( $atts['show_empty'] || ! empty( $category->count ) || ! empty( $category->children ) ) {
 
 			$count = ( $atts['show_count'] ) ? ' (' . $category->count . ')' : '';
 

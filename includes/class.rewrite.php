@@ -123,8 +123,8 @@ class cnRewrite {
 		// does some strange things. Let's fix that.
 		// @url http://wordpress.stackexchange.com/a/91195
 		if ( isset( $var[ CN_IMAGE_ENDPOINT ] ) ||
-			( isset ( $var['pagename'] ) && CN_IMAGE_ENDPOINT === $var['pagename'] ) ||
-			( isset ( $var['name'] ) && CN_IMAGE_ENDPOINT === $var['name'] )
+			( isset( $var['pagename'] ) && CN_IMAGE_ENDPOINT === $var['pagename'] ) ||
+			( isset( $var['name'] ) && CN_IMAGE_ENDPOINT === $var['name'] )
 			)
 		{
 			// In some cases WP misinterprets the request as a page request and returns a 404.

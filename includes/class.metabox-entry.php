@@ -2534,7 +2534,7 @@ class cnEntryMetabox {
 								'after'    => '</span>',
 								'return'   => FALSE,
 							),
-							isset( $link->visibility ) ? $link->visibility : ''
+							isset( $link->visibility ) ? $link->visibility : 'public'
 						);
 					}
 
@@ -2648,7 +2648,9 @@ class cnEntryMetabox {
 
 			</div>
 
-			<input type="hidden" name="link[<?php echo $token; ?>][id]" value="' , $link->id , '">
+			<?php if ( isset( $link->id ) ) : ?>
+			<input type="hidden" name="link[<?php echo $token; ?>][id]" value="<?php echo $link->id; ?>">
+			<?php endif; ?>
 
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"

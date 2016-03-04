@@ -3020,7 +3020,7 @@ class cnTerm {
 
 			foreach ( $atts['orderby'] as $i => $value ) {
 
-				if ( ! isset ( $order ) ) $order = 'ASC';
+				if ( ! isset( $order ) ) $order = 'ASC';
 
 				switch ( $value ) {
 

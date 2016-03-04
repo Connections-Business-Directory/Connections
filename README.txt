@@ -219,6 +219,23 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.12 03/04/2016 =
+* BUG: Set format to string for lat/lng instead of float when passing the values thru wpdb->prepare() to prevent them from being rounded at 6 decimal places.
+* BUG: The "Recently Added" Dashboard widget would show entries in the moderation queue.
+* BUG: The "Recently Modified" Dashboard widget would show entries in the moderation queue.
+* BUG: Correct bug in the cnHTML::textarea() method.
+* TWEAK: Reduce image quality default from 90 to 82 to match upcoming change to WordPress to reduce image sizes without adversely affecting perceived image quality.
+* TWEAK Check for ABSPATH at top of image editor classes to help prevent direct access.
+* TWEAK: Escape URL on the Manage admin page for filter by category.
+* TWEAK: Minor tweaks to the Templates admin page.
+* TWEAK: The "Awaiting Moderation" Dashboard widget will now show the newest first instead of the oldest.
+* TWEAK: Refactor cnEntryMetabox::links() to remove duplicate code.
+* TWEAK: Refactor cnEntryMetabox::dates() to remove duplicate code.
+* TWEAK: CSS tweaks to the Templates admin page.
+* OTHER: Correct misspelling.
+* OTHER: Update the minified CSS and JS files.
+* DEV: Couple minor phpDoc fixes.
+
 = 8.5.11 02/12/2016 =
 * COMPATIBILITY: Add an Enfold theme compatibility shim when viewing a single entry.'s detail/profile view.
 * BUG: Correct bug for mouseover hover text for email links so they correctly reflect the email type.
@@ -776,4 +793,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.11 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.12 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

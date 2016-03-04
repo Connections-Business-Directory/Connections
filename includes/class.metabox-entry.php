@@ -2674,90 +2674,12 @@ class cnEntryMetabox {
 	 */
 	public static function date( $entry, $metabox ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$dateTypes = $instance->options->getDateOptions();
-
 		echo '<div class="widgets-sortables ui-sortable" id="dates">' , PHP_EOL;
 
 		// --> Start template <-- \\
 		echo '<textarea id="date-template" style="display: none;">' , PHP_EOL;
 
-			echo '<div class="widget-top">' , PHP_EOL;
-
-				echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-				echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'date[::FIELD::][type]',
-							'options'  => $dateTypes,
-							'required' => FALSE,
-							'label'    => __( 'Type', 'connections' ),
-							'return'   => FALSE,
-						)
-					);
-
-					cnHTML::field(
-						array(
-							'type'     => 'radio',
-							'format'   => 'inline',
-							'class'    => '',
-							'id'       => 'date[preferred]',
-							'options'  => array( '::FIELD::' => __( 'Preferred', 'connections' ) ),
-							'required' => FALSE,
-							'before'   => '<span class="preferred">',
-							'after'    => '</span>',
-							'return'   => FALSE,
-						)
-					);
-
-					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'date[::FIELD::][visibility]',
-								'options'  => self::$visibility,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							'public'
-						);
-					}
-
-				echo '</h4></div>'  , PHP_EOL;
-
-			echo '</div>' , PHP_EOL;
-
-			echo '<div class="widget-inside">';
-
-				cnHTML::field(
-					array(
-						'type'     => 'text',
-						'class'    => 'datepicker',
-						'id'       => 'date[::FIELD::][date]',
-						'required' => FALSE,
-						'label'    => __( 'Date', 'connections' ),
-						'before'   => '',
-						'after'    => '',
-						'return'   => FALSE,
-					)
-				);
-
-				echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="date" data-token="::FIELD::">' , __( 'Remove', 'connections' ) , '</a></p>';
-
-			echo '</div>' , PHP_EOL;
+			self::dateField( new stdClass() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -2771,88 +2693,9 @@ class cnEntryMetabox {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				$selectName = 'date['  . $token . '][type]';
-				$preferred  = $date->preferred ? $token : '';
-
 				echo '<div class="widget date" id="date-row-'  . $token . '">' , PHP_EOL;
 
-					echo '<div class="widget-top">' , PHP_EOL;
-						echo '<div class="widget-title-action"><a class="widget-action"></a></div>' , PHP_EOL;
-
-						echo '<div class="widget-title"><h4>' , PHP_EOL;
-
-						cnHTML::field(
-							array(
-								'type'     => 'select',
-								'class'    => '',
-								'id'       => 'date[' . $token . '][type]',
-								'options'  => $dateTypes,
-								'required' => FALSE,
-								'label'    => __( 'Type', 'connections' ),
-								'return'   => FALSE,
-							),
-							$date->type
-						);
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'date[preferred]',
-								'options'  => array( $token => __( 'Preferred', 'connections' ) ),
-								'required' => FALSE,
-								'before'   => '<span class="preferred">',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							$preferred
-						);
-
-						// Only show this if there are visibility options that the user is permitted to see.
-						if ( ! empty( self::$visibility ) ) {
-
-							cnHTML::field(
-								array(
-									'type'     => 'radio',
-									'format'   => 'inline',
-									'class'    => '',
-									'id'       => 'date[' . $token . '][visibility]',
-									'options'  => self::$visibility,
-									'required' => FALSE,
-									'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-									'after'    => '</span>',
-									'return'   => FALSE,
-								),
-								$date->visibility
-							);
-						}
-
-						echo '</h4></div>'  , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
-
-					echo '<div class="widget-inside">' , PHP_EOL;
-
-						cnHTML::field(
-							array(
-								'type'     => 'text',
-								'class'    => 'datepicker',
-								'id'       => 'date[' . $token . '][date]',
-								'required' => FALSE,
-								'label'    => __( 'Date', 'connections' ),
-								'before'   => '',
-								'after'    => '',
-								'return'   => FALSE,
-							),
-							date( 'm/d/Y', strtotime( $date->date ) )
-						);
-
-						echo '<input type="hidden" name="date[' , $token , '][id]" value="' , $date->id , '">' , PHP_EOL;
-
-						echo '<p class="cn-remove-button"><a href="#" class="cn-remove cn-button button cn-button-warning" data-type="date" data-token="' . $token . '">' , __( 'Remove', 'connections' ) , '</a></p>' , PHP_EOL;
-
-					echo '</div>' , PHP_EOL;
+					self::dateField( $date, $token );
 
 				echo '</div>' , PHP_EOL;
 			}
@@ -2861,6 +2704,122 @@ class cnEntryMetabox {
 		echo  '</div>' , PHP_EOL;
 
 		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
+	}
+
+	/**
+	 * Renders the social media network field.
+	 *
+	 * @access private
+	 * @since  8.5.11
+	 *
+	 * @param stdClass $date
+	 * @param string   $token
+	 */
+	private static function dateField( $date, $token = '::FIELD::' ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		// Grab the date types.
+		$dateTypes = $instance->options->getDateOptions();
+
+		?>
+
+		<div class="widget-top">
+			<div class="widget-title-action"><a class="widget-action"></a></div>
+
+			<div class="widget-title">
+				<h4>
+
+					<?php
+
+					cnHTML::field(
+						array(
+							'type'     => 'select',
+							'class'    => '',
+							'id'       => 'date[' . $token . '][type]',
+							'options'  => $dateTypes,
+							'required' => FALSE,
+							'label'    => __( 'Type', 'connections' ),
+							'return'   => FALSE,
+						),
+						isset( $date->type ) ? $date->type : ''
+					);
+
+					cnHTML::field(
+						array(
+							'type'     => 'radio',
+							'format'   => 'inline',
+							'class'    => '',
+							'id'       => 'date[preferred]',
+							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+							'required' => FALSE,
+							'before'   => '<span class="preferred">',
+							'after'    => '</span>',
+							'return'   => FALSE,
+						),
+						isset( $date->preferred ) && $date->preferred ? $token : ''
+					);
+
+					// Only show this if there are visibility options that the user is permitted to see.
+					if ( ! empty( self::$visibility ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'radio',
+								'format'   => 'inline',
+								'class'    => '',
+								'id'       => 'date[' . $token . '][visibility]',
+								'options'  => self::$visibility,
+								'required' => FALSE,
+								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
+								'after'    => '</span>',
+								'return'   => FALSE,
+							),
+							isset( $date->visibility ) ? $date->visibility : 'public'
+						);
+					}
+
+					?>
+
+				</h4>
+			</div>
+
+		</div>
+
+		<div class="widget-inside">
+
+			<?php
+
+			cnHTML::field(
+				array(
+					'type'     => 'text',
+					'class'    => 'datepicker',
+					'id'       => 'date[' . $token . '][date]',
+					'required' => FALSE,
+					'label'    => __( 'Date', 'connections' ),
+					'before'   => '',
+					'after'    => '',
+					'return'   => FALSE,
+				),
+				isset( $date->date ) ? date( 'm/d/Y', strtotime( $date->date ) ) : ''
+			);
+
+			?>
+
+			<?php if ( isset( $date->id ) ) : ?>
+				<input type="hidden" name="date[<?php echo $token; ?>][id]" value="<?php echo $date->id; ?>">
+			<?php endif; ?>
+
+			<p class="cn-remove-button">
+				<a href="#" class="cn-remove cn-button button cn-button-warning"
+				   data-type="date"
+				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
+			</p>
+
+		</div>
+
+		<?php
 	}
 
 	/**

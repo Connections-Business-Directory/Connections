@@ -14,14 +14,18 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnMessage
+ */
 class cnMessage extends WP_Error {
 
 	/**
 	 * Stores the instance of this class.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @var (object)
+	 * @since  0.7.5
+	 *
+	 * @var cnMessage
 	*/
 	private static $instance;
 
@@ -29,16 +33,18 @@ class cnMessage extends WP_Error {
 	 * The meta_key name that the user messages are stored in in the usermeta table.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @var (string)
+	 * @since  0.7.5
+	 *
+	 * @var string
 	 */
-	private static $meta_key;
+	private static $meta_key = 'connections_messages';
 
 	/**
 	 * The current user ID.
 	 *
 	 * @access private
-	 * @since 0.7.5
+	 * @since  0.7.5
+	 *
 	 * @var int
 	 */
 	private static $id;
@@ -47,25 +53,24 @@ class cnMessage extends WP_Error {
 	 * A dummy constructor to prevent the class from being loaded more than once.
 	 *
 	 * @access public
-	 * @since 0.7.5
+	 * @since  0.7.5
+	 *
 	 * @see cnMessage::getInstance()
 	 * @see cnMessage();
 	 */
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Setup the class, if it has already been initialized, return the intialized instance.
+	 * Setup the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @access public
-	 * @since 0.7.5
+	 * @since  0.7.5
 	 */
 	public static function init() {
 
 		if ( ! isset( self::$instance ) ) {
 
 			self::$instance = new self;
-
-			self::$meta_key = 'connections_messages';
 
 			/*
 			 * Add the error codes and messages.
@@ -90,8 +95,9 @@ class cnMessage extends WP_Error {
 	 * Return an instance of the class.
 	 *
 	 * @access public
-	 * @since 0.7.5
-	 * @return object cnMessage
+	 * @since  0.7.5
+	 *
+	 * @return cnMessage
 	 */
 	public static function getInstance() {
 
@@ -102,8 +108,7 @@ class cnMessage extends WP_Error {
 	 * Add all the predefined action/error messages to the WP_Error class.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @return void
+	 * @since  0.7.5
 	 */
 	private static function addCoreMessages() {
 
@@ -207,8 +212,8 @@ class cnMessage extends WP_Error {
 	 * Setup the current user ID.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses wp_get_current_user()
+	 * @since  0.7.5
+	 *
 	 * @return int
 	 */
 	private static function setUserID() {
@@ -226,7 +231,8 @@ class cnMessage extends WP_Error {
 	 * Display the stored action/error messages.
 	 *
 	 * @access private
-	 * @since 0.7.5
+	 * @since  0.7.5
+	 *
 	 * @return string The action/error message created to match the admin notices style.
 	 */
 	private static function display() {
@@ -251,13 +257,14 @@ class cnMessage extends WP_Error {
 	 * Create an admin message adding to the admin_notices action hook.
 	 *
 	 * @access public
-	 * @since 0.7.5
-	 * @uses add_action()
+	 * @since  0.7.5
+	 *
 	 * @param  string $type The $type must be either "error" or "success" or "notice".
 	 * @param  string $message The message to be displayed. || A message code registered in self::init().
+	 *
 	 * @return string The name of the lambda function.
 	 */
-	public static function create( $type , $message ) {
+	public static function create( $type, $message ) {
 
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
@@ -292,7 +299,11 @@ class cnMessage extends WP_Error {
 	 * Display an action/error message.
 	 *
 	 * @access public
-	 * @since 0.7.5
+	 * @since  0.7.5
+	 *
+	 * @param string $type
+	 * @param string $message
+	 *
 	 * @return string The action/error message created to match the admin notices style.
 	 */
 	public static function render( $type, $message ) {
@@ -320,107 +331,140 @@ class cnMessage extends WP_Error {
 				echo '<div id="message" class="updated fade"><p>' . $message . '</p></div>';
 				break;
 		}
-
 	}
 
 	/**
 	 * Store a custom action/error message.
 	 *
 	 * @access public
-	 * @since 0.7.5
-	 * @param  (string) $type The $type must be either "error_runtime" or "success_runtime".
-	 * @param  (string) $message The message to be stored.
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @param string $type    The $type must be either "error_runtime" or "success_runtime".
+	 * @param string $message The message to be stored.
+	 *
+	 * @return int|bool
 	 */
-	public static function runtime( $type , $message ) {
+	public static function runtime( $type, $message ) {
 
-		self::store( array( $type => $message ) );
+		return self::store( array( $type => $message ) );
 	}
 
 	/**
 	 * Store a predefined action/error message.
 	 *
 	 * @access public
-	 * @since 0.7.5
-	 * @param (string) $type The $type must be either "error" or "success" or "notice".
-	 * @param (string) $code The message code as registered in the constructor.
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @param string $type The $type must be either "error" or "success" or "notice".
+	 * @param string $code The message code as registered in the constructor.
+	 *
+	 * @return int|bool
 	 */
-	public static function set( $type , $code ) {
+	public static function set( $type, $code ) {
 
 		$messages = self::get();
+		$result   = FALSE;
 
 		switch ( $type ) {
+
 			case 'error':
+
 				// If the error message is already stored, no need to store it twice.
-				if ( ! in_array( array( 'error' => $code ) , $messages ) ) self::store( array( 'error' => $code ) );
+				if ( ! in_array( array( 'error' => $code ) , $messages ) ) {
+
+					$result = self::store( array( 'error' => $code ) );
+				}
+
 				break;
 
 			case 'success':
+
 				// If the success message is already stored, no need to store it twice.
-				if ( ! in_array( array( 'success' => $code ) , $messages ) ) self::store( array( 'success' => $code ) );
+				if ( ! in_array( array( 'success' => $code ) , $messages ) ) {
+
+					$result = self::store( array( 'success' => $code ) );
+				}
+
 				break;
 
 			case 'notice':
+
 				// If the notice message is already stored, no need to store it twice.
-				if ( ! in_array( array( 'notice' => $code ) , $messages ) ) self::store( array( 'notice' => $code ) );
+				if ( ! in_array( array( 'notice' => $code ) , $messages ) ) {
+
+					$result = self::store( array( 'notice' => $code ) );
+				}
+
 				break;
 		}
 
+		return $result;
 	}
 
 	/**
 	 * Store the message in the current user meta.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses get_user_meta()
-	 * @uses update_user_meta()
-	 * @param  (string) $message
-	 * @return void
+	 * @since  0.7.5
+	 *
+	 * @param string $message
+	 *
+	 * @return int|bool
 	 */
 	private static function store( $message ) {
 
 		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
 
+		if ( empty( $user_meta ) ) {
+
+			$user_meta = array( 'messages' => array() );
+		}
+
+		if ( ! isset( $user_meta['messages'] ) ) {
+
+			$user_meta['messages'] = array();
+		}
+
 		$user_meta['messages'][] = $message;
 
-		update_user_meta( self::$id, self::$meta_key, $user_meta );
+		return update_user_meta( self::$id, self::$meta_key, $user_meta );
 	}
 
 	/**
 	 * Get the messages stored in the user meta.
 	 *
-	 * @access private
-	 * @since 0.7.5
-	 * @uses get_user_meta()
+	 * @access public
+	 * @since  0.7.5
+	 *
 	 * @return array
 	 */
 	public static function get() {
 
 		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
+		$messages  = array();
 
-		if ( ! empty( $user_meta['messages'] ) ) {
-			return $user_meta['messages'];
-		} else {
-			return array();
+		if ( isset( $user_meta['messages'] ) && ! empty( $user_meta['messages'] ) ) {
+
+			$messages = $user_meta['messages'];
 		}
+
+		return $messages;
 	}
 
 	/**
 	 * Remove any messages stored in the user meta.
 	 *
 	 * @access public
-	 * @since 0.7.5
-	 * @uses get_user_meta()
-	 * @uses update_user_meta()
-	 * @return void
+	 * @since  0.7.5
 	 */
 	public static function reset() {
 
 		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
 
-		if ( isset( $user_meta['messages']) ) unset( $user_meta['messages'] );
+		if ( isset( $user_meta['messages'] ) ) {
+
+			unset( $user_meta['messages'] );
+		}
 
 		update_user_meta( self::$id, self::$meta_key, $user_meta );
 	}

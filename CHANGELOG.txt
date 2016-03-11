@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 8.5.13 03/11/2016 =
+* TWEAK: General code cleanup of cnMessage to fix phpDoc and correct potential PHP warning/error notices by checking for existing array indexes before working with them.
+* TWEAK: Refactor cnEntryMetabox::address() to remove duplicate code.
+* DEV: Add a missing class phpDoc header.
+* I18N: Update POT file.
+* I18N: Update MO files.
+
 = 8.5.12 03/04/2016 =
 * BUG: Set format to string for lat/lng instead of float when passing the values thru wpdb->prepare() to prevent them from being rounded at 6 decimal places.
 * BUG: The "Recently Added" Dashboard widget would show entries in the moderation queue.

@@ -1133,6 +1133,9 @@ class cnURL {
 	}
 }
 
+/**
+ * Class cnUtility
+ */
 class cnUtility {
 
 	/**

@@ -264,7 +264,7 @@ class cnMessage extends WP_Error {
 	 *
 	 * @return string The name of the lambda function.
 	 */
-	public static function create( $type , $message ) {
+	public static function create( $type, $message ) {
 
 		// Bring a copy of this into scope.
 		$instance = self::getInstance();
@@ -344,7 +344,7 @@ class cnMessage extends WP_Error {
 	 *
 	 * @return int|bool
 	 */
-	public static function runtime( $type , $message ) {
+	public static function runtime( $type, $message ) {
 
 		return self::store( array( $type => $message ) );
 	}
@@ -360,7 +360,7 @@ class cnMessage extends WP_Error {
 	 *
 	 * @return int|bool
 	 */
-	public static function set( $type , $code ) {
+	public static function set( $type, $code ) {
 
 		$messages = self::get();
 		$result   = FALSE;

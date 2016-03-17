@@ -41,8 +41,11 @@ class cnRewrite {
 	 * Register the valid query variables.
 	 *
 	 * @access private
-	 * @since 0.7.3.2
-	 * @param array Provide information about a function parameter.	$var
+	 * @since  0.7.3.2
+	 * @static
+	 *
+	 * @param array $var Provide information about a function parameter.
+	 *
 	 * @return array
 	 */
 	public static function queryVars( $var ) {

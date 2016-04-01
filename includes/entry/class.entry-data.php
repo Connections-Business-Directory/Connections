@@ -320,11 +320,6 @@ class cnEntry {
 	 */
 	public function __construct( $entry = NULL ) {
 
-		/**
-		 * @var connectionsLoad $connections
-		 */
-		global $connections;
-
 		// Load the formatting class for sanitizing the get methods.
 		$this->format = new cnFormatting();
 

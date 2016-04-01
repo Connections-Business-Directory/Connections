@@ -233,6 +233,9 @@ class cnEntryMetabox {
 			),
 		);
 
+		// Do not save this as meta.
+		add_filter( 'cn_pre_save_meta_skip-bio', '__return_true' );
+
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-note',
 			'title'    => __( 'Notes', 'connections' ),
@@ -248,6 +251,9 @@ class cnEntryMetabox {
 				),
 			),
 		);
+
+		// Do not save this as meta.
+		add_filter( 'cn_pre_save_meta_skip-notes', '__return_true' );
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-meta',

@@ -1475,6 +1475,17 @@ class cnMetabox_Process {
 
 		foreach ( $fields as $field ) {
 
+			/**
+			 * Filter field meta before it is inserted into the database.
+			 *
+			 * @since 8.5.14
+			 *
+			 * @param array  $field  An array of the registered field attributes.
+			 * @param int    $id     The object ID.
+			 * @param string $action The action being performed.
+			 */
+			$field = apply_filters( 'cn_pre_save_meta', $field, $id, $action );
+
 			if ( ! $id = absint( $id ) ) return FALSE;
 
 			// Quick and dirty hack to prevent the bio and notes fields from being saved in the meta table.

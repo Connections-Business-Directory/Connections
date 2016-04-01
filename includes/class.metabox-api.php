@@ -1492,6 +1492,19 @@ class cnMetabox_Process {
 			// @todo Think of something better to do here.
 			// There should be some type of flag to check before saving as meta.
 			if ( $field['id'] === 'bio' || $field['id'] === 'notes' ) continue;
+			/**
+			 * Filter to allow meta to not be saved.
+			 *
+			 * The dynamic portion of the filter name is so saving meta can be skipped based on the field ID.
+			 *
+			 * @since 8.5.14
+			 *
+			 * @param false $false Return TRUE to not save the field meta.
+			 */
+			if ( apply_filters( 'cn_pre_save_meta_skip', FALSE ) || apply_filters( 'cn_pre_save_meta_skip-' . $field['id'], FALSE ) ) {
+
+				continue;
+			}
 
 			$value = $this->sanitize(
 				$field['type'],

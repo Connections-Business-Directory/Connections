@@ -1463,12 +1463,13 @@ class cnMetabox_Process {
 	 * based on the action being performed to the object.
 	 *
 	 * @access private
-	 * @since 0.8
+	 * @since  0.8
+	 *
 	 * @param  string $action The action being performed.
 	 * @param  int    $id     The object ID.
 	 * @param  array  $fields An array of the registered fields to save and or update.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	private function save( $action, $id, $fields ) {
 

@@ -822,6 +822,26 @@ function cnRunDBUpgrade() {
 			$connections->options->saveOptions();
 		}
 
+		if ( version_compare( $dbVersion, '0.3', '<' ) ) {
+
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version 0.3.', 'connections' ) , $connections->options->getDBVersion() ) , '</h4>' . PHP_EOL;
+
+			echo '<ul>' . PHP_EOL;
+
+			echo '<li>' , esc_html__( 'Adding column... "ordo" (Latin for order. Correct Spelling is ōrdō)', 'connections' ) , '</li>' . PHP_EOL;
+
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'ordo', 'int(11) NOT NULL default \'0\' AFTER date_added' ) ) {
+
+				echo '<ul><li>' , esc_html__( 'SUCCESS', 'connections' ) , '</li></ul>' . PHP_EOL;
+
+				$connections->options->setDBVersion( '0.3' );
+
+				// Save the options
+				$connections->options->saveOptions();
+			}
+
+			echo '</ul>' . PHP_EOL;
+		}
 
 		echo '<h4>' , __( 'Upgrade completed.', 'connections' ) , "</h4>\n";
 		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , __( 'Continue', 'connections' ) , '</a></h4>';

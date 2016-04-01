@@ -204,6 +204,9 @@ function cnRunDBUpgrade() {
 			echo '</ul>';
 
 			$connections->options->setDBVersion( '0.1.3' );
+
+			// Save the options
+			$connections->options->saveOptions();
 		}
 
 		if ( version_compare( $dbVersion, '0.1.4', '<' ) ) {

@@ -467,7 +467,7 @@ class cnEntry_Action {
 	 * @param  array  $data [optional] The data to be used when adding / editing / duplicating an entry.
 	 * @param  int    $id [optional] If editing/duplicating an entry, the entry ID.
 	 *
-	 * @return bool
+	 * @return bool|int FALSE on failure. Entry ID on success.
 	 */
 	private static function process( $action, $data = array(), $id = 0 ) {
 		global $connections;

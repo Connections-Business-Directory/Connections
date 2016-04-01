@@ -769,6 +769,7 @@ function cnRunDBUpgrade() {
 			echo '<ul>';
 
 			if ( $wpdb->get_var( "SHOW TABLES LIKE '" . CN_ENTRY_DATE_TABLE . "'" ) != CN_ENTRY_DATE_TABLE ) {
+
 				echo '<li>' , __( 'Add the date table.', 'connections' ) , "</li>\n";
 
 				$entryTableDate = "CREATE TABLE " . CN_ENTRY_DATE_TABLE . " (
@@ -787,10 +788,18 @@ function cnRunDBUpgrade() {
 			}
 
 			echo '<li>' , __( 'Adding column... "user"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'user', 'tinytext NOT NULL AFTER owner' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'user', 'tinytext NOT NULL AFTER owner' ) ) {
+
+				echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			}
 
 			echo '<li>' , __( 'Adding column... "dates"', 'connections' ) , "</li>\n";
-			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'dates', 'longtext NOT NULL AFTER links' ) ) echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'dates', 'longtext NOT NULL AFTER links' ) ) {
+
+				echo '<ul><li>' , __( 'SUCCESS', 'connections' ) , '</li></ul>';
+			}
 
 			echo '</ul>';
 

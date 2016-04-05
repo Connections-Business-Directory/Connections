@@ -14,6 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists('cnSettingsAPI') ) {
 
+	/**
+	 * Class cnSettingsAPI
+	 */
 	class cnSettingsAPI {
 
 		/**
@@ -124,9 +127,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * 		'page_hook' => 'string'		// Admin page on which to add this section of options
 		 * 	}
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @return array
+		 * @access private
+		 * @since  0.7.3.0
 		 */
 		public static function registerTabs() {
 
@@ -172,9 +174,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * 	page_hook: reading
 		 * 	page_hook: writing
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @return void
+		 * @access private
+		 * @since  0.7.3.0
 		 */
 		public static function registerSections() {
 
@@ -305,9 +306,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * 	without being registered to a section it would be best practice to avoid doing this. It is recommended
 		 *	that sections be registered and then settings fields be hooked to those sections.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @return void
+		 * @access private
+		 * @since  0.7.3.0
 		 */
 		public static function registerFields() {
 
@@ -479,10 +479,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * Output the settings page, if one has been hooked to the current admin page, and output
 		 * the settings sections hooked to the current admin page/tab.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
+		 * @access public
+		 * @since  0.7.3.0
+		 *
 		 * @param string $pageHook
-		 * @param bool $return [optional]
+		 * @param array  $args
+		 *
 		 * @return string
 		 */
 		public function form( $pageHook , $args = array() )
@@ -571,7 +573,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		}
 
 		/**
-		 * The call back used to render the settings field types.
+		 * The callback used to render the settings field types.
 		 *
 		 * Credit to Tareq. Some of the code to render the form fields were pickup from his Settings API
 		 * 	http://tareq.wedevs.com/2012/06/wordpress-settings-api-php-class/

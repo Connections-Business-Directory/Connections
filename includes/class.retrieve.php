@@ -882,6 +882,22 @@ class cnRetrieve {
 		 * // END --> Build the SELECT query segment.
 		 */
 
+		$pieces = array( 'select', 'from', 'join', 'where', 'having', 'orderBy', 'limit', 'offset' );
+
+		/**
+		 * Filter the query SQL clauses.
+		 *
+		 * @since 8.5.14
+		 *
+		 * @param array $pieces Terms query SQL clauses.
+		 */
+		$clauses = apply_filters( 'cn_entry_query_clauses', compact( $pieces ) );
+
+		foreach ( $pieces as $piece ) {
+
+			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
+		}
+
 		/**
 		 * NOTES:
 		 *

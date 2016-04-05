@@ -889,12 +889,12 @@ class cnRetrieve {
 		 * For example an entry maybe return once for each category it is assigned or once for each
 		 * address an entry has that is within the search radius.
 		 *
-		 * Simple adding `GROUP BY CN_ENTRY_TABLE.id seems to fix this, but may be incorrect and might fail
+		 * Simply adding `GROUP BY CN_ENTRY_TABLE.id seems to fix this, but may be incorrect and might fail
 		 * on db/s other than MySQL such as Oracle.
 		 *
 		 * Very useful links that provide more details that require further study:
 		 *
-		 *@link http://www.psce.com/blog/2012/05/15/mysql-mistakes-do-you-use-group-by-correctly/
+		 * @link http://www.psce.com/blog/2012/05/15/mysql-mistakes-do-you-use-group-by-correctly/
 		 * @link http://rpbouman.blogspot.com/2007/05/debunking-group-by-myths.html
 		 */
 

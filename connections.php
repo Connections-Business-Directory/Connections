@@ -512,6 +512,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//Category Objects
 			require_once CN_PATH . 'includes/class.category.php'; // Required for activation, entry list
 			//Retrieve objects from the db.
+			require_once CN_PATH . 'includes/class.query.php'; // Required for activation
 			require_once CN_PATH . 'includes/class.retrieve.php'; // Required for activation
 			//HTML FORM objects
 			require_once CN_PATH . 'includes/class.form.php'; // Required for activation

@@ -742,7 +742,16 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					break;
 
 				case 'page':
-					$out .= wp_dropdown_pages( array( 'name' => $name, 'echo' => 0, 'show_option_none' => $field['show_option_none'], 'option_none_value' => $field['option_none_value'], 'selected' => $value ) );
+
+					$out .= wp_dropdown_pages(
+						array(
+							'name'              => $name,
+							'echo'              => 0,
+							'show_option_none'  => $field['show_option_none'],
+							'option_none_value' => $field['option_none_value'],
+							'selected'          => $value,
+						)
+					);
 
 					break;
 

@@ -179,7 +179,7 @@ class cnImage {
 	 * @since  8.1
 	 * @static
 	 *
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 * @uses   path_is_absolute()
 	 * @uses   cnColor::rgb2hex2rgb()
 	 * @uses   self::get()
@@ -190,9 +190,9 @@ class cnImage {
 		/** @var wpdb $wpdb */
 		global $wpdb;
 
-		if ( get_query_var( CN_IMAGE_ENDPOINT ) ) {
+		if ( cnQuery::getVar( CN_IMAGE_ENDPOINT ) ) {
 
-			if ( path_is_absolute( get_query_var( 'src' ) ) ) {
+			if ( path_is_absolute( cnQuery::getVar( 'src' ) ) ) {
 
 				header( $_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request' );
 				echo '<h1>ERROR/s:</h1><ul><li>Source is file path. Source must be a local file URL.</li></ul>';
@@ -202,11 +202,11 @@ class cnImage {
 
 			$atts = array();
 
-			if ( get_query_var( 'cn-entry-slug' ) ) {
+			if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 				$sql = $wpdb->prepare(
 					'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug=%s',
-					get_query_var( 'cn-entry-slug' )
+					cnQuery::getVar( 'cn-entry-slug' )
 				);
 
 				$result = $wpdb->get_var( $sql );
@@ -225,44 +225,44 @@ class cnImage {
 
 			}
 
-			if ( get_query_var( 'w' ) ) {
-				$atts['width'] = get_query_var( 'w' );
+			if ( cnQuery::getVar( 'w' ) ) {
+				$atts['width'] = cnQuery::getVar( 'w' );
 			}
 
-			if ( get_query_var( 'h' ) ) {
-				$atts['height'] = get_query_var( 'h' );
+			if ( cnQuery::getVar( 'h' ) ) {
+				$atts['height'] = cnQuery::getVar( 'h' );
 			}
 
-			if ( get_query_var( 'zc' ) || get_query_var( 'zc' ) === '0' ) {
-				$atts['crop_mode'] = get_query_var( 'zc' );
+			if ( cnQuery::getVar( 'zc' ) || cnQuery::getVar( 'zc' ) === '0' ) {
+				$atts['crop_mode'] = cnQuery::getVar( 'zc' );
 			}
 
-			if ( get_query_var( 'a' ) ) {
+			if ( cnQuery::getVar( 'a' ) ) {
 
 				$atts['crop_focus'] = array( 'center', 'center' );
 
-				if ( strpos( get_query_var( 'a' ), 't' ) !== FALSE ) {
+				if ( strpos( cnQuery::getVar( 'a' ), 't' ) !== FALSE ) {
 					$atts['crop_focus'][1] = 'top';
 				}
 
-				if ( strpos( get_query_var( 'a' ), 'r' ) !== FALSE ) {
+				if ( strpos( cnQuery::getVar( 'a' ), 'r' ) !== FALSE ) {
 					$atts['crop_focus'][0] = 'right';
 				}
 
-				if ( strpos( get_query_var( 'a' ), 'b' ) !== FALSE ) {
+				if ( strpos( cnQuery::getVar( 'a' ), 'b' ) !== FALSE ) {
 					$atts['crop_focus'][1] = 'bottom';
 				}
 
-				if ( strpos( get_query_var( 'a' ), 'l' ) !== FALSE ) {
+				if ( strpos( cnQuery::getVar( 'a' ), 'l' ) !== FALSE ) {
 					$atts['crop_focus'][0] = 'left';
 				}
 
 				$atts['crop_focus'] = implode( ',', $atts['crop_focus'] );
 			}
 
-			if ( get_query_var( 'f' ) ) {
+			if ( cnQuery::getVar( 'f' ) ) {
 
-				$filters = explode( '|', get_query_var( 'f' ) );
+				$filters = explode( '|', cnQuery::getVar( 'f' ) );
 
 				foreach ( $filters as $filter ) {
 
@@ -328,29 +328,29 @@ class cnImage {
 				}
 			}
 
-			if ( get_query_var( 's' ) && get_query_var( 's' ) === '1' ) {
+			if ( cnQuery::getVar( 's' ) && cnQuery::getVar( 's' ) === '1' ) {
 				$atts['sharpen'] = TRUE;
 			}
 
-			if ( get_query_var( 'o' ) ) {
-				$atts['opacity'] = get_query_var( 'o' );
+			if ( cnQuery::getVar( 'o' ) ) {
+				$atts['opacity'] = cnQuery::getVar( 'o' );
 			}
 
-			if ( get_query_var( 'q' ) ) {
-				$atts['quality'] = get_query_var( 'q' );
+			if ( cnQuery::getVar( 'q' ) ) {
+				$atts['quality'] = cnQuery::getVar( 'q' );
 			}
 
-			if ( get_query_var( 'cc' ) ) {
-				$atts['canvas_color'] = get_query_var( 'cc' );
+			if ( cnQuery::getVar( 'cc' ) ) {
+				$atts['canvas_color'] = cnQuery::getVar( 'cc' );
 			}
 
 			// This needs to be set after the `cc` query var because it should override any value set using the `cc` query var, just like TimThumb.
-			if ( get_query_var( 'ct' ) && get_query_var( 'ct' ) === '1' ) {
+			if ( cnQuery::getVar( 'ct' ) && cnQuery::getVar( 'ct' ) === '1' ) {
 				$atts['canvas_color'] = 'transparent';
 			}
 
 			// Process the image.
-			$image = self::get( get_query_var( 'src' ), $atts, 'editor' );
+			$image = self::get( cnQuery::getVar( 'src' ), $atts, 'editor' );
 
 			// If there been an error
 			if ( is_wp_error( $image ) ) {
@@ -365,7 +365,7 @@ class cnImage {
 			}
 
 			// Ensure a stream quality is set otherwise we get a block mess as an image when serving a cached image.
-			$quality = get_query_var( 'q' ) ? get_query_var( 'q' ) : 90;
+			$quality = cnQuery::getVar( 'q' ) ? cnQuery::getVar( 'q' ) : 90;
 
 			// Ensure valid value for $quality. If invalid valid is supplied reset to the default of 90, matching WP core.
 			if ( filter_var(

@@ -272,7 +272,7 @@ if ( ! class_exists( 'CN_Card_Template' ) ) {
 		 */
 		public static function initOptions( $atts ) {
 
-			if ( get_query_var( 'cn-entry-slug' ) ) {
+			if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 				/**
 				 * @var cnOutput $entry

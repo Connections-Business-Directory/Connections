@@ -2787,7 +2787,7 @@ class cnOutput extends cnEntry {
 
 		$blockContainerContent = '';
 
-		if ( get_query_var( 'cn-entry-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 			$settings = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
 

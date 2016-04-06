@@ -112,7 +112,7 @@ class cnSEO {
 	 *
 	 * @uses   get_option()
 	 * @uses   trailingslashit()
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 * @uses   user_trailingslashit()
 	 * @uses   esc_url()
 	 *
@@ -139,72 +139,72 @@ class cnSEO {
 
 			$link = trailingslashit( $link );
 
-			if ( get_query_var( 'cn-cat-slug' ) )
-				$link = esc_url( trailingslashit( $link . $base['category_base'] . '/' . get_query_var( 'cn-cat-slug' ) ) );
+			if ( cnQuery::getVar( 'cn-cat-slug' ) )
+				$link = esc_url( trailingslashit( $link . $base['category_base'] . '/' . cnQuery::getVar( 'cn-cat-slug' ) ) );
 
 
-			if ( get_query_var( 'cn-country' ) )
-				$link = esc_url( trailingslashit( $link . $base['country_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-country' ) ) ) ) );
+			if ( cnQuery::getVar( 'cn-country' ) )
+				$link = esc_url( trailingslashit( $link . $base['country_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-country' ) ) ) ) );
 
 
-			if ( get_query_var( 'cn-region' ) )
-				$link = esc_url( trailingslashit( $link . $base['region_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-region' ) ) ) ) );
+			if ( cnQuery::getVar( 'cn-region' ) )
+				$link = esc_url( trailingslashit( $link . $base['region_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-region' ) ) ) ) );
 
 
-			if ( get_query_var( 'cn-locality' ) )
-				$link = esc_url( trailingslashit( $link . $base['locality_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-locality' ) ) ) ) );
+			if ( cnQuery::getVar( 'cn-locality' ) )
+				$link = esc_url( trailingslashit( $link . $base['locality_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-locality' ) ) ) ) );
 
 
-			if ( get_query_var( 'cn-postal-code' ) )
-				$link = esc_url( trailingslashit( $link . $base['postal_code_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-postal-code' ) ) ) ) );
+			if ( cnQuery::getVar( 'cn-postal-code' ) )
+				$link = esc_url( trailingslashit( $link . $base['postal_code_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ) ) );
 
 
-			if ( get_query_var( 'cn-organization' ) )
-				$link = esc_url( trailingslashit( $link . $base['organization_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-organization' ) ) ) ) );
+			if ( cnQuery::getVar( 'cn-organization' ) )
+				$link = esc_url( trailingslashit( $link . $base['organization_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-organization' ) ) ) ) );
 
 
-			if ( get_query_var( 'cn-department' ) )
-				$link = esc_url( trailingslashit( $link . $base['department_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-department' ) ) ) ) );
+			if ( cnQuery::getVar( 'cn-department' ) )
+				$link = esc_url( trailingslashit( $link . $base['department_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-department' ) ) ) ) );
 
 
-			if ( get_query_var( 'cn-entry-slug' ) )
-				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( get_query_var( 'cn-entry-slug' ) ) ) ) );
+			if ( cnQuery::getVar( 'cn-entry-slug' ) )
+				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) ) );
 
 
 			$link = user_trailingslashit( $link, 'page' );
 
 		} else {
 
-			if ( get_query_var( 'cn-cat-slug' ) )
-				$link = esc_url( add_query_arg( array( 'cn-cat-slug' => get_query_var( 'cn-cat-slug' ) ) , $link ) );
+			if ( cnQuery::getVar( 'cn-cat-slug' ) )
+				$link = esc_url( add_query_arg( array( 'cn-cat-slug' => cnQuery::getVar( 'cn-cat-slug' ) ) , $link ) );
 
 
-			if ( get_query_var( 'cn-country' ) )
-				$link = esc_url( add_query_arg( array( 'cn-country' => urldecode( get_query_var( 'cn-country' ) ) ), $link ) );
+			if ( cnQuery::getVar( 'cn-country' ) )
+				$link = esc_url( add_query_arg( array( 'cn-country' => urldecode( cnQuery::getVar( 'cn-country' ) ) ), $link ) );
 
 
-			if ( get_query_var( 'cn-region' ) )
-				$link = esc_url( add_query_arg( array( 'cn-region' => urldecode( get_query_var( 'cn-region' ) ) ), $link ) );
+			if ( cnQuery::getVar( 'cn-region' ) )
+				$link = esc_url( add_query_arg( array( 'cn-region' => urldecode( cnQuery::getVar( 'cn-region' ) ) ), $link ) );
 
 
-			if ( get_query_var( 'cn-locality' ) )
-				$link = esc_url( add_query_arg( array( 'cn-locality' => urldecode( get_query_var( 'cn-locality' ) ) ), $link ) );
+			if ( cnQuery::getVar( 'cn-locality' ) )
+				$link = esc_url( add_query_arg( array( 'cn-locality' => urldecode( cnQuery::getVar( 'cn-locality' ) ) ), $link ) );
 
 
-			if ( get_query_var( 'cn-postal-code' ) )
-				$link = esc_url( add_query_arg( array( 'cn-postal-code' => urldecode( get_query_var( 'cn-postal-code' ) ) ), $link ) );
+			if ( cnQuery::getVar( 'cn-postal-code' ) )
+				$link = esc_url( add_query_arg( array( 'cn-postal-code' => urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ), $link ) );
 
 
-			if ( get_query_var( 'cn-organization' ) )
-				$link = esc_url( add_query_arg( array( 'cn-organization' => urldecode( get_query_var( 'cn-organization' ) ) ), $link ) );
+			if ( cnQuery::getVar( 'cn-organization' ) )
+				$link = esc_url( add_query_arg( array( 'cn-organization' => urldecode( cnQuery::getVar( 'cn-organization' ) ) ), $link ) );
 
 
-			if ( get_query_var( 'cn-department' ) )
-				$link = esc_url( add_query_arg( array( 'cn-department' => urldecode( get_query_var( 'cn-department' ) ) ), $link ) );
+			if ( cnQuery::getVar( 'cn-department' ) )
+				$link = esc_url( add_query_arg( array( 'cn-department' => urldecode( cnQuery::getVar( 'cn-department' ) ) ), $link ) );
 
 
-			if ( get_query_var( 'cn-entry-slug' ) )
-				$link = esc_url( add_query_arg( array( 'cn-entry-slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ), $link ) );
+			if ( cnQuery::getVar( 'cn-entry-slug' ) )
+				$link = esc_url( add_query_arg( array( 'cn-entry-slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ), $link ) );
 
 		}
 
@@ -219,7 +219,7 @@ class cnSEO {
 	 * @static
 	 *
 	 * @uses   is_main_query()
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 * @uses   get_gmt_from_date()
 	 *
 	 * @param  array  $posts    An array of WP_Post objects.
@@ -232,9 +232,9 @@ class cnSEO {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		if ( $wp_query->is_main_query() && get_query_var( 'cn-entry-slug' ) ) {
+		if ( $wp_query->is_main_query() && cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$result = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			$result = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
 
 			// Make sure an entry is returned and if not, return $posts unaltered.
 			if ( empty( $result ) ) {
@@ -271,7 +271,7 @@ class cnSEO {
 	 * @since  0.7.8
 	 * @static
 	 *
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 *
 	 * @param  string $title The browser tab/window title.
 	 * @param  string $sep [optional] The title separator.
@@ -290,10 +290,10 @@ class cnSEO {
 		// Coerce $title to be an array.
 		$title = (array) $title;
 
-		if ( get_query_var( 'cn-cat-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
 			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
@@ -304,11 +304,11 @@ class cnSEO {
 			array_unshift( $title, $category->getName() );
 		}
 
-		if ( get_query_var( 'cn-cat' ) ) {
+		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			if ( is_array( get_query_var( 'cn-cat' ) ) ) return implode( '', $title );
+			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return implode( '', $title );
 
-			$categoryID = get_query_var( 'cn-cat' );
+			$categoryID = cnQuery::getVar( 'cn-cat' );
 
 			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
@@ -317,29 +317,29 @@ class cnSEO {
 			array_unshift( $title, $category->getName() );
 		}
 
-		if ( get_query_var( 'cn-country' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-country' ) ) );
+		if ( cnQuery::getVar( 'cn-country' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-country' ) ) );
 
-		if ( get_query_var( 'cn-postal-code' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-postal-code' ) ) );
+		if ( cnQuery::getVar( 'cn-postal-code' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-postal-code' ) ) );
 
-		if ( get_query_var( 'cn-region' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-region' ) ) );
+		if ( cnQuery::getVar( 'cn-region' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-region' ) ) );
 
-		if ( get_query_var( 'cn-locality' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-locality' ) ) );
+		if ( cnQuery::getVar( 'cn-locality' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-locality' ) ) );
 
-		if ( get_query_var( 'cn-organization' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-organization' ) ) );
+		if ( cnQuery::getVar( 'cn-organization' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-organization' ) ) );
 
-		if ( get_query_var( 'cn-department' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-department' ) ) );
+		if ( cnQuery::getVar( 'cn-department' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-department' ) ) );
 
-		if ( get_query_var( 'cn-entry-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 			// Grab an instance of the Connections object.
 			$instance = Connections_Directory();
-			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
 
 			// Make sure an entry is returned and if not, return $posts unaltered.
 			if ( empty( $result ) ) {
@@ -365,7 +365,7 @@ class cnSEO {
 	 * @since  0.7.8
 	 * @static
 	 *
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 *
 	 * @param  string $title The browser tab/window title.
 	 * @param  int    $id    The page/post ID.
@@ -391,10 +391,10 @@ class cnSEO {
 		// Coerce $title to be an array.
 		$title = (array) $title;
 
-		if ( get_query_var( 'cn-cat-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
 			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
@@ -405,11 +405,11 @@ class cnSEO {
 			array_unshift( $title, $category->getName() );
 		}
 
-		if ( get_query_var( 'cn-cat' ) ) {
+		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			if ( is_array( get_query_var( 'cn-cat' ) ) ) return implode( '', $title );
+			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return implode( '', $title );
 
-			$categoryID = get_query_var( 'cn-cat' );
+			$categoryID = cnQuery::getVar( 'cn-cat' );
 
 			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
@@ -418,29 +418,29 @@ class cnSEO {
 			array_unshift( $title, $category->getName() );
 		}
 
-		if ( get_query_var( 'cn-country' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-country' ) ) );
+		if ( cnQuery::getVar( 'cn-country' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-country' ) ) );
 
-		if ( get_query_var( 'cn-postal-code' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-postal-code' ) ) );
+		if ( cnQuery::getVar( 'cn-postal-code' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-postal-code' ) ) );
 
-		if ( get_query_var( 'cn-region' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-region' ) ) );
+		if ( cnQuery::getVar( 'cn-region' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-region' ) ) );
 
-		if ( get_query_var( 'cn-locality' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-locality' ) ) );
+		if ( cnQuery::getVar( 'cn-locality' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-locality' ) ) );
 
-		if ( get_query_var( 'cn-organization' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-organization' ) ) );
+		if ( cnQuery::getVar( 'cn-organization' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-organization' ) ) );
 
-		if ( get_query_var( 'cn-department' ) )
-			array_unshift( $title, urldecode( get_query_var( 'cn-department' ) ) );
+		if ( cnQuery::getVar( 'cn-department' ) )
+			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-department' ) ) );
 
-		if ( get_query_var( 'cn-entry-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 			// Grab an instance of the Connections object.
 			$instance = Connections_Directory();
-			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
 
 			// Make sure an entry is returned and if not, return $title unaltered.
 			if ( empty( $result ) ) {
@@ -463,7 +463,7 @@ class cnSEO {
 	 * @since  0.7.8
 	 * @static
 	 *
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 * @uses   esc_attr()
 	 * @uses   strip_shortcodes()
 	 */
@@ -477,10 +477,10 @@ class cnSEO {
 
 		$description = '';
 
-		if ( get_query_var( 'cn-cat-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
 			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , get_query_var( 'cn-cat-slug' ) );
+			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
 
 			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
 
@@ -491,11 +491,11 @@ class cnSEO {
 			$description = $category->getExcerpt( array( 'length' => 160 ) );
 		}
 
-		if ( get_query_var( 'cn-cat' ) ) {
+		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			if ( is_array( get_query_var( 'cn-cat' ) ) ) return;
+			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return;
 
-			$categoryID = get_query_var( 'cn-cat' );
+			$categoryID = cnQuery::getVar( 'cn-cat' );
 
 			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
 
@@ -504,11 +504,11 @@ class cnSEO {
 			$description = $category->getExcerpt( array( 'length' => 160 ) );
 		}
 
-		if ( get_query_var( 'cn-entry-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 			// Grab an instance of the Connections object.
 			$instance = Connections_Directory();
-			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( get_query_var( 'cn-entry-slug' ) ) ) );
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
 
 			// Make sure an entry is returned and then echo the meta desc.
 			if ( ! empty( $result ) ) {

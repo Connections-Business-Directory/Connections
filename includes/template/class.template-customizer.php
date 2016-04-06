@@ -1934,7 +1934,7 @@ class cnTemplate_Customizer {
 	 */
 	public function singleView() {
 
-		if ( $this->supports( 'single' ) && ! get_query_var( 'cn-entry-slug' ) ) {
+		if ( $this->supports( 'single' ) && ! cnQuery::getVar( 'cn-entry-slug' ) ) {
 			?>
 
 			<div id="cn-customizer-messages">
@@ -1958,7 +1958,7 @@ class cnTemplate_Customizer {
 	 */
 	public function categoryMessage() {
 
-		if ( $this->supports( 'category-select' ) && ! get_query_var( 'cn-entry-slug' ) ) {
+		if ( $this->supports( 'category-select' ) && ! cnQuery::getVar( 'cn-entry-slug' ) ) {
 			?>
 
 			<div id="cn-customizer-messages">

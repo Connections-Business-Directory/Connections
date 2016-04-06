@@ -136,7 +136,7 @@ class cnLocate {
 	 * @since  0.8
 	 * @static
 	 * @uses   apply_filters()
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 * @param  string $base The base file name. Typically `card` for a template file and the template slug for CSS and JS files.
 	 * @param  string $name The template part name; such as `single` or `category`.
 	 * @param  string $slug The template part slug; such as an entry slug or category slug.
@@ -148,9 +148,9 @@ class cnLocate {
 
 		$files = array();
 
-		if ( get_query_var( 'cn-cat' ) ) {
+		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			$categoryID = get_query_var( 'cn-cat' );
+			$categoryID = cnQuery::getVar( 'cn-cat' );
 
 			// Since the `cn-cat` query var can be an array, we'll only add the category slug
 			// template name when querying a single category.
@@ -165,70 +165,70 @@ class cnLocate {
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-cat-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-			$files[] = self::fileName( $base, 'category', get_query_var( 'cn-cat-slug'), $ext );
+			$files[] = self::fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug'), $ext );
 			$files[] = self::fileName( $base, 'category', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-country' ) ) {
+		if ( cnQuery::getVar( 'cn-country' ) ) {
 
-			$country = self::queryVarSlug( get_query_var( 'cn-country' ) );
+			$country = self::queryVarSlug( cnQuery::getVar( 'cn-country' ) );
 
 			$files[] = self::fileName( $base, 'country', $country, $ext );
 			$files[] = self::fileName( $base, 'country', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-region' ) ) {
+		if ( cnQuery::getVar( 'cn-region' ) ) {
 
-			$region  = self::queryVarSlug( get_query_var( 'cn-region' ) );
+			$region  = self::queryVarSlug( cnQuery::getVar( 'cn-region' ) );
 
 			$files[] = self::fileName( $base, 'region', $region, $ext );
 			$files[] = self::fileName( $base, 'region', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-postal-code' ) ) {
+		if ( cnQuery::getVar( 'cn-postal-code' ) ) {
 
-			$zipcode = self::queryVarSlug( get_query_var( 'cn-postal-code' ) );
+			$zipcode = self::queryVarSlug( cnQuery::getVar( 'cn-postal-code' ) );
 
 			$files[] = self::fileName( $base, 'postal-code', $zipcode, $ext );
 			$files[] = self::fileName( $base, 'postal-code', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-locality' ) ) {
+		if ( cnQuery::getVar( 'cn-locality' ) ) {
 
-			$locality = self::queryVarSlug( get_query_var( 'cn-locality' ) );
+			$locality = self::queryVarSlug( cnQuery::getVar( 'cn-locality' ) );
 
 			$files[] = self::fileName( $base, 'locality', $locality, $ext );
 			$files[] = self::fileName( $base, 'locality', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-organization' ) ) {
+		if ( cnQuery::getVar( 'cn-organization' ) ) {
 
-			$organization = self::queryVarSlug( get_query_var( 'cn-organization' ) );
+			$organization = self::queryVarSlug( cnQuery::getVar( 'cn-organization' ) );
 
 			$files[] = self::fileName( $base, 'organization', $organization, $ext );
 			$files[] = self::fileName( $base, 'organization', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-department' ) ) {
+		if ( cnQuery::getVar( 'cn-department' ) ) {
 
-			$department = self::queryVarSlug( get_query_var( 'cn-department' ) );
+			$department = self::queryVarSlug( cnQuery::getVar( 'cn-department' ) );
 
 			$files[] = self::fileName( $base, 'department', $department, $ext );
 			$files[] = self::fileName( $base, 'department', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-entry-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$files[] = self::fileName( $base, NULL, get_query_var( 'cn-entry-slug'), $ext );
+			$files[] = self::fileName( $base, NULL, cnQuery::getVar( 'cn-entry-slug'), $ext );
 			$files[] = self::fileName( $base, 'single', NULL, $ext );
 			// var_dump( $files );
 		}

@@ -599,13 +599,13 @@ class cnvCard extends cnEntry_HTML {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$process = get_query_var( 'cn-process' );
-		$token   = get_query_var( 'cn-token' );
-		$id      = absint( get_query_var( 'cn-id' ) );
+		$process = cnQuery::getVar( 'cn-process' );
+		$token   = cnQuery::getVar( 'cn-token' );
+		$id      = absint( cnQuery::getVar( 'cn-id' ) );
 
 		if ( 'vcard' === $process ) {
 
-			$slug = get_query_var( 'cn-entry-slug' ); //var_dump($slug);
+			$slug = cnQuery::getVar( 'cn-entry-slug' ); //var_dump($slug);
 
 			/*
 			 * If the token and id values were set, the link was likely from the admin.

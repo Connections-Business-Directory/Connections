@@ -1129,11 +1129,11 @@ class cnEntry_Action {
 	 */
 	public static function adminBarMenuItems( $admin_bar ) {
 
-		if ( get_query_var( 'cn-entry-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 			// Grab an instance of the Connections object.
 			$instance = Connections_Directory();
-			$entry    = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ), 'status' => 'approved,pending' ) );
+			$entry    = $instance->retrieve->entries( array( 'slug' => rawurldecode( cnQuery::getVar( 'cn-entry-slug' ) ), 'status' => 'approved,pending' ) );
 
 			// Make sure an entry is returned and if not, return $title unaltered.
 			if ( empty( $entry ) ) {

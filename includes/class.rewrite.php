@@ -564,7 +564,7 @@ class cnRewrite {
 	 * @uses is_page()
 	 * @uses is_404()
 	 * @uses is_ssl()
-	 * @uses get_query_var()
+	 * @uses cnQuery::getVar()
 	 * @uses get_option()
 	 * @uses remove_query_arg()
 	 * @uses user_trailingslashit()
@@ -604,10 +604,10 @@ class cnRewrite {
 			$base = get_option( 'connections_permalink' );
 
 			// Categories
-			if ( get_query_var( 'cn-cat' ) ) {
+			if ( cnQuery::getVar( 'cn-cat' ) ) {
 
 				$slug = array();
-				$categoryID = (int) get_query_var( 'cn-cat' );
+				$categoryID = (int) cnQuery::getVar( 'cn-cat' );
 				$parsedURL['query'] = remove_query_arg( 'cn-cat', $parsedURL['query'] );
 
 				$category = $connections->retrieve->category( $categoryID );
@@ -630,9 +630,9 @@ class cnRewrite {
 			}
 
 			// If paged, append pagination
-			if ( get_query_var( 'cn-pg' ) ) {
+			if ( cnQuery::getVar( 'cn-pg' ) ) {
 
-				$page = (int) get_query_var('cn-pg');
+				$page = (int) cnQuery::getVar('cn-pg');
 				$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 
 				if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
@@ -665,7 +665,7 @@ class cnRewrite {
 	 *
 	 * @access private
 	 * @since 0.7.3.2
-	 * @uses get_query_var()
+	 * @uses cnQuery::getVar()
 	 * @uses remove_query_arg()
 	 * @uses user_trailingslashit()
 	 * @param string  $redirectURL
@@ -685,9 +685,9 @@ class cnRewrite {
 		if( ! isset( $parsedURL['query'] ) ) $parsedURL['query'] ='';
 
 		// If paged, append pagination
-		if ( get_query_var( 'cn-pg' ) ) {
+		if ( cnQuery::getVar( 'cn-pg' ) ) {
 
-			$page = (int) get_query_var('cn-pg');
+			$page = (int) cnQuery::getVar('cn-pg');
 			$parsedURL['query'] = remove_query_arg( 'cn-pg', $parsedURL['query'] );
 			if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
 

@@ -380,11 +380,11 @@ class cnRegisterSettings {
 			'position'          => 5,
 			'page_hook'         => $settings,
 			'tab'               => 'general',
-			'section'           => 'connections_home_page',
+			'section'           => 'home_page',
 			'title'             => __( 'Page', 'connections' ),
 			'desc'              => '',
 			'help'              => '',
-			'type'              => 'page',
+			'type'              => 'cpt-pages',
 			'show_option_none'  => __( 'Select Page', 'connections' ),
 			'option_none_value' => '0'
 		);

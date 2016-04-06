@@ -731,6 +731,72 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					break;
 
+				case 'cpt-pages':
+
+					$defaults = array(
+						'depth'                 => 0,
+						'child_of'              => 0,
+						'selected'              => $value,
+						'echo'                  => 0,
+						'name'                  => $name,
+						'id'                    => '',
+						'class'                 => '',
+						'show_option_none'      => '',
+						'show_option_no_change' => '',
+						'option_none_value'     => '',
+						'value_field'           => 'ID',
+					);
+
+					$atts = wp_parse_args( $field, $defaults );
+
+					$postTypes = get_post_types(
+						array(
+							//'public'   => TRUE,
+							//'_builtin' => TRUE,
+						),
+						'objects'
+					);
+
+					$class = ( ! empty( $atts['class'] ) ) ? " class='" . esc_attr( $atts['class'] ) . "'" : '';
+
+					$select = "<select name='" . esc_attr( $atts['name'] ) . "'" . $class . " id='" . esc_attr( $atts['id'] ) . "'>\n";
+
+					if ( $atts['show_option_no_change'] ) {
+
+						$select .= "\t<option value=\"-1\">" . $atts['show_option_no_change'] . "</option>\n";
+					}
+
+					if ( $atts['show_option_none'] ) {
+
+						$select .= "\t<option value=\"" . esc_attr( $atts['option_none_value'] ) . '">' . $atts['show_option_none'] . "</option>\n";
+					}
+
+					foreach ( $postTypes as $type ) {
+
+						if ( in_array( $type->name, array( 'attachment', 'revision', 'nav_menu_item', 'post' ) ) ) {
+
+							continue;
+						}
+
+						$select .= '<optgroup label="' . esc_attr( $type->labels->name ) . '">' . PHP_EOL;
+
+						$atts['post_type'] = $type->name;
+						$posts = get_pages( $atts );
+
+						if ( ! empty( $posts ) ) {
+
+							$select .= walk_page_dropdown_tree( $posts, $atts['depth'], $atts );
+						}
+
+						$select .= '</optgroup>' . PHP_EOL;
+					}
+
+					$select .= '</select>' . PHP_EOL;
+
+					$out = $select;
+
+					break;
+
 				case 'category':
 
 					$out .= cnTemplatePart::walker(

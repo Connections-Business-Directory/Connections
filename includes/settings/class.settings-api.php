@@ -586,7 +586,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @return string
 		 */
 		public static function field( $field ) {
-			global $wp_version;
+
 			$out = '';
 
 			if ( in_array( $field['section'] , self::$coreSections ) ) {
@@ -694,8 +694,6 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 				case 'rte':
 
-					$size = isset( $field['size'] ) && $field['size'] != 'regular' ? $field['size'] : 'regular';
-
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
 						printf( '<div class="description"> %1$s</div>',
@@ -704,40 +702,18 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					}
 
-					if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
+					// Set the rte defaults.
+					$defaults = array(
+						'textarea_name' => sprintf( '%1$s' , $name ),
+					);
 
-						// Set the rte defaults.
-						$defaults = array(
-							'textarea_name' => sprintf( '%1$s' , $name ),
-						);
+					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
-						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
-
-						wp_editor(
-							wp_kses_post( $value ),
-							esc_attr( $field['id'] ),
-							$atts
-						);
-
-					} else {
-
-						/*
-						 * If this is pre WP 3.3, lets drop in the quick tag editor instead.
-						 */
-						echo '<div class="wp-editor-container">';
-
-						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
-							esc_attr( $name ),
-							wp_kses_data( $value )
-						);
-
-						echo '</div>';
-
-						self::$quickTagIDs[] = esc_attr( $name );
-
-						wp_enqueue_script('jquery');
-						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-					}
+					wp_editor(
+						wp_kses_post( $value ),
+						esc_attr( $field['id'] ),
+						$atts
+					);
 
 					break;
 

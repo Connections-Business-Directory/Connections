@@ -139,13 +139,15 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			$tabs = apply_filters( 'cn_filter_settings_tabs', $tabs );
 			//var_dump($tabs);
 
-			if ( empty( $tabs ) ) return array();
+			if ( ! empty( $tabs ) ) {
 
-			foreach ( $tabs as $key => $tab ) {
-				$out[ $tab['page_hook'] ][] = $tab;
+				foreach ( $tabs as $key => $tab ) {
+
+					$out[ $tab['page_hook'] ][] = $tab;
+				}
+
+				self::$tabs = $out;
 			}
-
-			self::$tabs = $out;
 		}
 
 		/**
@@ -487,16 +489,15 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 *
 		 * @return string
 		 */
-		public function form( $pageHook , $args = array() )
-		{
+		public function form( $pageHook , $args = array() ) {
+
 			$defaults = array(
 				'page_title' => '',
-				);
+			);
 
 			$args = wp_parse_args( $args , $defaults );
 			//var_dump($args);
 
-			$out = '';
 			$sort = array();
 
 			// Page title.
@@ -567,7 +568,6 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			do_settings_sections( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook );
 
 			submit_button();
-
 
 			echo '</form>';
 		}

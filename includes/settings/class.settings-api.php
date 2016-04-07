@@ -751,7 +751,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					$postTypes = get_post_types(
 						array(
-							//'public'   => TRUE,
+							'public'   => TRUE,
 							//'_builtin' => TRUE,
 						),
 						'objects'

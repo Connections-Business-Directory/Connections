@@ -611,6 +611,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					break;
 
+				case 'checkbox-group':
 				case 'multicheckbox':
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
 

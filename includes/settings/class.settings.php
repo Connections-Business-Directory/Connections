@@ -1604,8 +1604,6 @@ class cnRegisterSettings {
 	 */
 	public static function sanitizeImageSettings( $settings ) {
 
-		$validate = new cnValidate();
-
 		$defaults = array(
 			'quality' => 80,
 			'height'  => 150,
@@ -1613,8 +1611,7 @@ class cnRegisterSettings {
 			'ratio'   => 'crop'
 			);
 
-		// Use this instead of wp_parse_args since it doesn't drop invalid atts. NOTE: could use shortcode_atts() instead, I suppose.
-		$settings = $validate->attributesArray( $defaults, $settings );
+		$settings = cnSanitize::args( $settings, $defaults );
 
 		// Ensure positive int values
 		$settings['quality'] = absint( $settings['quality'] );

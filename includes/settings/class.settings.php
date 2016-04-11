@@ -308,7 +308,7 @@ class cnRegisterSettings {
 		);
 
 		/*
-		 * The sections registered to the Advance tab.
+		 * The sections registered to the Advanced tab.
 		 */
 		$sections[] = array(
 			'tab'       => 'advanced',

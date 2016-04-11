@@ -1568,7 +1568,10 @@ class cnRegisterSettings {
 	 * capability to ensures all roles can at least view the public entries.
 	 *
 	 * @access private
-	 * @since 0.7.3
+	 * @since  0.7.3
+	 *
+	 * @param $loginRequired
+	 *
 	 * @return int
 	 */
 	public static function setAllowPublic( $loginRequired ) {
@@ -1589,6 +1592,16 @@ class cnRegisterSettings {
 		return $loginRequired;
 	}
 
+	/**
+	 * Callback function to sanitize the image settings.
+	 *
+	 * @access private
+	 * @since  0.7.7
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
 	public static function sanitizeImageSettings( $settings ) {
 
 		$validate = new cnValidate();

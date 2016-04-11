@@ -137,14 +137,14 @@ class CN_Walker_Term_List extends Walker {
 
 		} else {
 
-			if ( get_query_var( 'cn-cat-slug' ) ) {
+			if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
+				$slug = explode( '/', cnQuery::getVar( 'cn-cat-slug' ) );
 
 				// If the category slug is a descendant, use the last slug from the URL for the query.
 				$atts['current_category'] = end( $slug );
 
-			} elseif ( $catIDs = get_query_var( 'cn-cat' ) ) {
+			} elseif ( $catIDs = cnQuery::getVar( 'cn-cat' ) ) {
 
 				if ( is_array( $catIDs ) ) {
 

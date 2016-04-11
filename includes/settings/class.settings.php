@@ -450,7 +450,7 @@ class cnRegisterSettings {
 			'desc'              => '',
 			'help'              => '',
 			'type'              => 'select',
-			'options'           => cnGEO::getCountries(),
+			'options'           => cnGeo::getCountries(),
 			'default'           => 'US',
 			// Only need to add this once per image size, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'setGEOBase' )
@@ -460,7 +460,7 @@ class cnRegisterSettings {
 		// will use the result from cnOptions::getBaseCountry() to define which
 		// regions to return. If there are no regions an empty array will be returned.
 		// So, if there are no regions, the is no reason to render this option.
-		$regions = cnGEO::getRegions();
+		$regions = cnGeo::getRegions();
 
 		if ( ! empty( $regions ) ) {
 
@@ -475,7 +475,7 @@ class cnRegisterSettings {
 				'desc'      => '',
 				'help'      => '',
 				'type'      => 'select',
-				'options'   => cnGEO::getRegions(),
+				'options'   => cnGeo::getRegions(),
 				'default'   => cnOptions::getBaseRegion()
 			);
 		}
@@ -1801,7 +1801,7 @@ class cnRegisterSettings {
 
 	public static function setGEOBase( $settings ) {
 
-		$regions = cnGEO::getRegions( $settings['base_country'] );
+		$regions = cnGeo::getRegions( $settings['base_country'] );
 
 		if ( ! array_key_exists( $settings['base_region'], $regions ) ) {
 

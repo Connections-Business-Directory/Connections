@@ -625,6 +625,39 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					break;
 
+				/*
+				 * Renders a checkbox group with the registered CPT/s.
+				 * The options are set here rather than when registering the setting because settings are registered
+				 * before CPT/s are registered with WordPress so `get_post_types()` would return `NULL`.
+				 *
+				 * Once the CTP options are set, this simply loops back and calls itself with the `checkbox-group`
+				 * field type.
+				 */
+				case 'cpt-checkbox-group':
+
+					$postTypes = get_post_types(
+						array(
+							'public'       => TRUE,
+							'show_in_menu' => TRUE,
+							'_builtin'     => FALSE,
+						),
+						'objects'
+					);
+
+					$postTypeOptions = array();
+
+					foreach ( $postTypes as $type ) {
+
+						$postTypeOptions[ $type->name ] = $type->labels->name;
+					}
+
+					$field['type']    = 'checkbox-group';
+					$field['options'] = $postTypeOptions;
+
+					$out .= self::field( $field );
+
+					break;
+
 				case 'radio':
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
 

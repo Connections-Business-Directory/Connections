@@ -358,9 +358,10 @@ class cnRewrite {
 	 * This *should* prevent any rule conflicts.
 	 *
 	 * @access private
-	 * @since 0.7.3
-	 * @uses get_option()
-	 * @param array   $page_rewrite
+	 * @since  0.7.3
+	 *
+	 * @param array $page_rewrite
+	 *
 	 * @return array
 	 */
 	public static function addPageRewriteRules( $page_rewrite ) {

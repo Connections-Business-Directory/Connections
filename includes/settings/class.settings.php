@@ -1667,6 +1667,17 @@ class cnRegisterSettings {
 	}
 
 	/**
+	 * This option is added for a check that will force a flush_rewrite() in connectionsLoad::adminInit().
+	 *
+	 * @access private
+	 * @since  8.5.14
+	 */
+	private static function flushRewriteRules() {
+
+		update_option('connections_flush_rewrite', '1');
+	}
+
+	/**
 	 * Callback for the settings search fields.
 	 * Saves the user's search field choices and sets up the FULLTEXT indexes.
 	 *

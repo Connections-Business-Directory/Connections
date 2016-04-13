@@ -960,7 +960,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 							$key,
 							$hidden,
 							$checkbox
-							);
+						);
 					}
 
 					$out .= '</ul>';

@@ -807,7 +807,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					foreach ( $postTypes as $type ) {
 
-						if ( in_array( $type->name, array( 'attachment', 'revision', 'nav_menu_item', 'post' ) ) ) {
+						if ( in_array( $type->name, $atts['options']['exclude_cpt'] ) ) {
+
+							continue;
+						}
+
+						if ( ! in_array( $type->name, $atts['options']['include_cpt'] ) ) {
 
 							continue;
 						}

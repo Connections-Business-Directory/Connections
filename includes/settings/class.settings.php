@@ -337,6 +337,15 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'advanced',
+			'id'        => 'cpt',
+			'position'  => 18,
+			'title'     => esc_html__( 'Custom Post Type Support' , 'connections' ),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'advanced',
 			'id'        => 'compatibility',
 			'position'  => 20,
 			'title'     => __( 'Compatibility' , 'connections' ),
@@ -371,6 +380,21 @@ class cnRegisterSettings {
 
 		$settings = 'connections_page_connections_settings';
 
+		$homePageType = 'page';
+		$excludeCPT   = array( 'attachment', 'revision', 'nav_menu_item', 'post' );
+		$includeCPT   = array( 'page' );
+		$cptOptions   = get_option( 'connections_cpt' );
+
+		if ( isset( $cptOptions['enabled'] ) && 1 == $cptOptions['enabled'] ) {
+
+			$homePageType = 'cpt-pages';
+		}
+
+		if ( isset( $cptOptions['supported'] ) && ! empty( $cptOptions['supported'] ) && is_array( $cptOptions['supported'] ) ) {
+
+			$includeCPT = array_merge( $cptOptions['supported'], $includeCPT );
+		}
+
 		/*
 		 * The General tab fields.
 		 */
@@ -384,7 +408,11 @@ class cnRegisterSettings {
 			'title'             => __( 'Page', 'connections' ),
 			'desc'              => '',
 			'help'              => '',
-			'type'              => 'cpt-pages',
+			'type'              => $homePageType,
+			'options'           => array(
+				'exclude_cpt'       => $excludeCPT,
+				'include_cpt'       => $includeCPT,
+			),
 			'show_option_none'  => __( 'Select Page', 'connections' ),
 			'option_none_value' => '0'
 		);
@@ -1462,6 +1490,39 @@ class cnRegisterSettings {
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'enabled',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'cpt',
+			'title'     => esc_html__( 'Enable?', 'connections' ),
+			'desc'      => esc_html__(
+				'To add support for Custom Post Types, enable this option.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+
+		$fields[] = array(
+			'plugin_id'         => 'connections',
+			'id'                => 'supported',
+			'position'          => 20,
+			'page_hook'         => $settings,
+			'tab'               => 'advanced',
+			'section'           => 'cpt',
+			'title'             => esc_html__( 'Enable support for:', 'connections' ),
+			'help'              => '',
+			'type'              => 'cpt-checkbox-group',
+			'options'           => array(),
+			'default'           => array(),
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSupportedCPTs' )
+			// Only need to add this once, otherwise it would be run for each field.
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'google_maps_api',
 			'position'  => 10,
 			'page_hook' => $settings,
@@ -1665,6 +1726,15 @@ class cnRegisterSettings {
 		return $settings;
 	}
 
+	/**
+	 * Callback action to sanitize the user selected supported CTPs.
+	 *
+	 * @access private
+	 * @since  8.5.14
+	 */
+	public static function sanitizeSupportedCPTs( $settings ) {
+
+		self::flushRewriteRules();
 
 		return $settings;
 	}

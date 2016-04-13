@@ -3,7 +3,7 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.1
-Tested up to: 4.4.2
+Tested up to: 4.5
 Stable tag: 8.5.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

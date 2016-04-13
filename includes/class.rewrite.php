@@ -502,7 +502,7 @@ class cnRewrite {
 		$rule['(.?.+?)/' . $organization . '/([^/]*)?/?$']
 			= 'index.php?pagename=$matches[1]&cn-organization=$matches[2]&cn-view=card';
 
-		// Deparment rewrite rules.
+		// Department rewrite rules.
 		$rule['(.?.+?)/' . $department . '/([^/]*)/pg/?([0-9]{1,})/?$']
 			= 'index.php?pagename=$matches[1]&cn-department=$matches[2]&cn-pg=$matches[3]&cn-view=card';
 		$rule['(.?.+?)/' . $department . '/([^/]*)?/?$']

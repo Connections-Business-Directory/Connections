@@ -133,7 +133,7 @@ class cnRetrieve {
 		if ( ( ( defined( 'DOING_AJAX' ) && DOING_AJAX ) || ! is_admin() ) && ! $atts['lock'] ) {
 
 			// Category slug
-			$queryCategorySlug = get_query_var( 'cn-cat-slug' );
+			$queryCategorySlug = cnQuery::getVar( 'cn-cat-slug' );
 
 			if ( ! empty( $queryCategorySlug ) ) {
 
@@ -144,60 +144,60 @@ class cnRetrieve {
 			}
 
 			// Category ID
-			$queryCategoryID = get_query_var( 'cn-cat' );
+			$queryCategoryID = cnQuery::getVar( 'cn-cat' );
 			if ( ! empty( $queryCategoryID ) ) $atts['category'] = $queryCategoryID;
 
 			// Category in
-			$queryCategoryIn = get_query_var( 'cn-cat-in' );
+			$queryCategoryIn = cnQuery::getVar( 'cn-cat-in' );
 			if ( ! empty( $queryCategoryIn ) ) {
 
-				$atts['category_in'] = get_query_var( 'cn-cat-in' );
+				$atts['category_in'] = cnQuery::getVar( 'cn-cat-in' );
 			}
 
 			// Country
-			$queryCountry = get_query_var( 'cn-country' );
+			$queryCountry = cnQuery::getVar( 'cn-country' );
 			if ( ! empty( $queryCountry ) ) $atts['country'] = urldecode( $queryCountry );
 
 			// Postal Code
-			$queryPostalCode = get_query_var( 'cn-postal-code' );
+			$queryPostalCode = cnQuery::getVar( 'cn-postal-code' );
 			if ( ! empty( $queryPostalCode ) ) $atts['zip_code'] = urldecode( $queryPostalCode );
 
 			// Region [State]
-			$queryRegion = get_query_var( 'cn-region' );
+			$queryRegion = cnQuery::getVar( 'cn-region' );
 			if ( ! empty( $queryRegion ) ) $atts['state'] = urldecode( $queryRegion );
 
 			// Locality [City]
-			$queryLocality = get_query_var( 'cn-locality' );
+			$queryLocality = cnQuery::getVar( 'cn-locality' );
 			if ( ! empty( $queryLocality ) ) $atts['city'] = urldecode( $queryLocality );
 
 			// Organization
-			$queryOrganization = get_query_var( 'cn-organization' );
+			$queryOrganization = cnQuery::getVar( 'cn-organization' );
 			if ( ! empty( $queryOrganization ) ) $atts['organization'] = urldecode( $queryOrganization );
 
 			// Department
-			$queryDeparment = get_query_var( 'cn-department' );
+			$queryDeparment = cnQuery::getVar( 'cn-department' );
 			if ( ! empty( $queryDeparment ) ) $atts['department'] = urldecode( $queryDeparment );
 
 			// Entry slug
 			// NOTE: The entry slug is saved in the DB URL encoded, so there's no need to urldecode().
-			$queryEntrySlug = get_query_var( 'cn-entry-slug' );
+			$queryEntrySlug = cnQuery::getVar( 'cn-entry-slug' );
 			if ( ! empty( $queryEntrySlug ) ) $atts['slug'] = $queryEntrySlug;
 
 			// Initial character.
-			$queryInitialChar = get_query_var( 'cn-char' );
+			$queryInitialChar = cnQuery::getVar( 'cn-char' );
 			if ( ! empty( $queryInitialChar ) ) $atts['char'] = urldecode( $queryInitialChar );
 
 			// Pagination
-			$queryPage = get_query_var( 'cn-pg' );
+			$queryPage = cnQuery::getVar( 'cn-pg' );
 			$atts['offset'] = ( ! empty( $queryPage ) ) ? ( $queryPage - 1 ) * $atts['limit'] : $atts['offset'];
 			$atts['offset'] = ( $atts['offset'] > 0 ) ? $atts['offset'] : NULL;
 
 			// Search terms
-			$searchTerms = get_query_var( 'cn-s' );
+			$searchTerms = cnQuery::getVar( 'cn-s' );
 			if ( ! empty( $searchTerms ) ) $atts['search_terms'] = $searchTerms;
 
 			// Geo-location
-			$queryCoord = get_query_var( 'cn-near-coord' );
+			$queryCoord = cnQuery::getVar( 'cn-near-coord' );
 
 			if ( ! empty( $queryCoord ) ) {
 
@@ -206,10 +206,10 @@ class cnRetrieve {
 				$atts['longitude'] = $wpdb->prepare( '%f', $queryCoord[1] );
 
 				// Get the radius, otherwise the default of 10.
-				if ( get_query_var( 'cn-radius' ) ) $atts['radius'] = $wpdb->prepare( '%d', get_query_var( 'cn-radius' ) );
+				if ( cnQuery::getVar( 'cn-radius' ) ) $atts['radius'] = $wpdb->prepare( '%d', cnQuery::getVar( 'cn-radius' ) );
 
 				// Sanitize and set the unit.
-				$atts['unit'] = get_query_var( 'cn-unit' ) ? sanitize_key( get_query_var( 'cn-unit' ) ) : sanitize_key( $atts['unit'] );
+				$atts['unit'] = cnQuery::getVar( 'cn-unit' ) ? sanitize_key( cnQuery::getVar( 'cn-unit' ) ) : sanitize_key( $atts['unit'] );
 			}
 		}
 		/*
@@ -882,6 +882,22 @@ class cnRetrieve {
 		 * // END --> Build the SELECT query segment.
 		 */
 
+		$pieces = array( 'select', 'from', 'join', 'where', 'having', 'orderBy', 'limit', 'offset' );
+
+		/**
+		 * Filter the query SQL clauses.
+		 *
+		 * @since 8.5.14
+		 *
+		 * @param array $pieces Terms query SQL clauses.
+		 */
+		$clauses = apply_filters( 'cn_entry_query_clauses', compact( $pieces ) );
+
+		foreach ( $pieces as $piece ) {
+
+			$$piece = isset( $clauses[ $piece ] ) ? $clauses[ $piece ] : '';
+		}
+
 		/**
 		 * NOTES:
 		 *
@@ -889,12 +905,12 @@ class cnRetrieve {
 		 * For example an entry maybe return once for each category it is assigned or once for each
 		 * address an entry has that is within the search radius.
 		 *
-		 * Simple adding `GROUP BY CN_ENTRY_TABLE.id seems to fix this, but may be incorrect and might fail
+		 * Simply adding `GROUP BY CN_ENTRY_TABLE.id seems to fix this, but may be incorrect and might fail
 		 * on db/s other than MySQL such as Oracle.
 		 *
 		 * Very useful links that provide more details that require further study:
 		 *
-		 *@link http://www.psce.com/blog/2012/05/15/mysql-mistakes-do-you-use-group-by-correctly/
+		 * @link http://www.psce.com/blog/2012/05/15/mysql-mistakes-do-you-use-group-by-correctly/
 		 * @link http://rpbouman.blogspot.com/2007/05/debunking-group-by-myths.html
 		 */
 

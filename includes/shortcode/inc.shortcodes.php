@@ -70,6 +70,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 			'days'             => '30',
 			'include_today'    => TRUE,
 			'private_override' => FALSE,
+			'name_format'      => '',
 			'date_format'      => 'F jS',
 			'show_lastname'    => FALSE,
 			'show_title'       => TRUE,
@@ -88,6 +89,11 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	cnFormatting::toBoolean( $atts['show_lastname'] );
 	cnFormatting::toBoolean( $atts['repeat_alphaindex'] );
 	cnFormatting::toBoolean( $atts['show_title'] );
+
+	if ( 0 == strlen( $atts['name_format'] ) ) {
+
+		$atts['name_format'] = $atts['show_lastname'] ? '%first% %last%' : '%first%';
+	}
 
 	/*
 	 * If a list type was specified in the shortcode, load the template based on that type.
@@ -153,10 +159,10 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		After a new list is built, it is resorted based on the date.*/
 		foreach ( $results as $key => $row ) {
 
-			if ( gmmktime(23, 59, 59, gmdate('m', $row->$atts['list_type']), gmdate('d', $row->$atts['list_type']), gmdate('Y', $connections->options->wpCurrentTime) ) < $connections->options->wpCurrentTime ) {
-				$dateSort[] = $row->$atts['list_type'] = gmmktime(0, 0, 0, gmdate('m', $row->$atts['list_type']), gmdate('d', $row->$atts['list_type']), gmdate('Y', $connections->options->wpCurrentTime) + 1 );
+			if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) ) < $connections->options->wpCurrentTime ) {
+				$dateSort[] = $row->{$atts['list_type']} = gmmktime( 0, 0, 0, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) + 1 );
 			} else {
-				$dateSort[] = $row->$atts['list_type'] = gmmktime(0, 0, 0, gmdate('m', $row->$atts['list_type']), gmdate('d', $row->$atts['list_type']), gmdate('Y', $connections->options->wpCurrentTime) );
+				$dateSort[] = $row->{$atts['list_type']} = gmmktime( 0, 0, 0, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) );
 			}
 		}
 
@@ -212,16 +218,18 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 						$entry = new cnvCard($row);
 						$vCard =& $entry;
 
-						$entry->name = '';
+						if ( ! $atts['show_lastname'] ) {
+
+							$entry->setLastName( '' );
+						}
+
+						$entry->name = $entry->getName(
+							array(
+								'format' => $atts['name_format']
+							)
+						);
 
 						$alternate == '' ? $alternate = '-alternate' : $alternate = '';
-
-						/*
-						 * Whether or not to show the last name.
-						 * Setting $entry->name is for compatibility to versions prior to 0.7.1.6
-						 */
-						( ! $atts['show_lastname'] ) ? $entry->name = $entry->getFirstName() : $entry->name = $entry->getFullFirstLastName();
-						if ( ! $atts['show_lastname'] ) $entry->setLastName('');
 
 						$out .= '<div class="cn-upcoming-row' . $alternate . ' vcard ' . '">' . "\n";
 							ob_start();

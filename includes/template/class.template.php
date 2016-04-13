@@ -709,7 +709,7 @@ class cnTemplate {
 	 * @access private
 	 * @since  0.8
 	 * @uses   apply_filters()
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 * @param  string $base The base file name. Typically `card` for a template file and the template slug for CSS and JS files.
 	 * @param  string $name The template part name; such as `single` or `category`.
 	 * @param  string $slug The template part slug; such as an entry slug or category slug.
@@ -721,9 +721,9 @@ class cnTemplate {
 
 		$files = array();
 
-		if ( get_query_var( 'cn-cat' ) ) {
+		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			$categoryID = get_query_var( 'cn-cat' );
+			$categoryID = cnQuery::getVar( 'cn-cat' );
 
 			// Since the `cn-cat` query var can be an array, we'll only add the category slug
 			// template name when querying a single category.
@@ -738,70 +738,70 @@ class cnTemplate {
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-cat-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-			$files[] = $this->fileName( $base, 'category', get_query_var( 'cn-cat-slug'), $ext );
+			$files[] = $this->fileName( $base, 'category', cnQuery::getVar( 'cn-cat-slug'), $ext );
 			$files[] = $this->fileName( $base, 'category', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-country' ) ) {
+		if ( cnQuery::getVar( 'cn-country' ) ) {
 
-			$country = $this->queryVarSlug( get_query_var( 'cn-country' ) );
+			$country = $this->queryVarSlug( cnQuery::getVar( 'cn-country' ) );
 
 			$files[] = $this->fileName( $base, 'country', $country, $ext );
 			$files[] = $this->fileName( $base, 'country', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-region' ) ) {
+		if ( cnQuery::getVar( 'cn-region' ) ) {
 
-			$region  = $this->queryVarSlug( get_query_var( 'cn-region' ) );
+			$region  = $this->queryVarSlug( cnQuery::getVar( 'cn-region' ) );
 
 			$files[] = $this->fileName( $base, 'region', $region, $ext );
 			$files[] = $this->fileName( $base, 'region', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-postal-code' ) ) {
+		if ( cnQuery::getVar( 'cn-postal-code' ) ) {
 
-			$zipcode = $this->queryVarSlug( get_query_var( 'cn-postal-code' ) );
+			$zipcode = $this->queryVarSlug( cnQuery::getVar( 'cn-postal-code' ) );
 
 			$files[] = $this->fileName( $base, 'postal-code', $zipcode, $ext );
 			$files[] = $this->fileName( $base, 'postal-code', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-locality' ) ) {
+		if ( cnQuery::getVar( 'cn-locality' ) ) {
 
-			$locality = $this->queryVarSlug( get_query_var( 'cn-locality' ) );
+			$locality = $this->queryVarSlug( cnQuery::getVar( 'cn-locality' ) );
 
 			$files[] = $this->fileName( $base, 'locality', $locality, $ext );
 			$files[] = $this->fileName( $base, 'locality', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-organization' ) ) {
+		if ( cnQuery::getVar( 'cn-organization' ) ) {
 
-			$organization = $this->queryVarSlug( get_query_var( 'cn-organization' ) );
+			$organization = $this->queryVarSlug( cnQuery::getVar( 'cn-organization' ) );
 
 			$files[] = $this->fileName( $base, 'organization', $organization, $ext );
 			$files[] = $this->fileName( $base, 'organization', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-department' ) ) {
+		if ( cnQuery::getVar( 'cn-department' ) ) {
 
-			$department = $this->queryVarSlug( get_query_var( 'cn-department' ) );
+			$department = $this->queryVarSlug( cnQuery::getVar( 'cn-department' ) );
 
 			$files[] = $this->fileName( $base, 'department', $department, $ext );
 			$files[] = $this->fileName( $base, 'department', NULL, $ext );
 			// var_dump( $files );
 		}
 
-		if ( get_query_var( 'cn-entry-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$files[] = $this->fileName( $base, NULL, get_query_var( 'cn-entry-slug'), $ext );
+			$files[] = $this->fileName( $base, NULL, cnQuery::getVar( 'cn-entry-slug'), $ext );
 			$files[] = $this->fileName( $base, 'single', NULL, $ext );
 			// var_dump( $files );
 		}

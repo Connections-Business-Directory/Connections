@@ -137,14 +137,14 @@ class CN_Walker_Term_List extends Walker {
 
 		} else {
 
-			if ( get_query_var( 'cn-cat-slug' ) ) {
+			if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
-				$slug = explode( '/', get_query_var( 'cn-cat-slug' ) );
+				$slug = explode( '/', cnQuery::getVar( 'cn-cat-slug' ) );
 
 				// If the category slug is a descendant, use the last slug from the URL for the query.
 				$atts['current_category'] = end( $slug );
 
-			} elseif ( $catIDs = get_query_var( 'cn-cat' ) ) {
+			} elseif ( $catIDs = cnQuery::getVar( 'cn-cat' ) ) {
 
 				if ( is_array( $catIDs ) ) {
 
@@ -255,6 +255,13 @@ class CN_Walker_Term_List extends Walker {
 			if ( is_numeric( $args['current_category'] ) ) {
 
 				$_current_category = cnTerm::get( $args['current_category'], $term->taxonomy );
+
+				// cnTerm::get() can return NULL || an instance of WP_Error, so, lets check for that.
+				if ( is_null( $_current_category ) || is_wp_error( $_current_category ) ) {
+
+					$_current_category = new stdClass();
+					$_current_category->parent = 0;
+				}
 
 			} else {
 

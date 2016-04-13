@@ -308,7 +308,7 @@ class cnRegisterSettings {
 		);
 
 		/*
-		 * The sections registered to the Advance tab.
+		 * The sections registered to the Advanced tab.
 		 */
 		$sections[] = array(
 			'tab'       => 'advanced',
@@ -331,6 +331,15 @@ class cnRegisterSettings {
 				'',
 				'echo \'' . esc_html__( 'Enable certain entry data to become links.' , 'connections' ) . '\';'
 				),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'advanced',
+			'id'        => 'cpt',
+			'position'  => 18,
+			'title'     => esc_html__( 'Custom Post Type Support' , 'connections' ),
 			'page_hook' => $settings
 		);
 
@@ -371,6 +380,21 @@ class cnRegisterSettings {
 
 		$settings = 'connections_page_connections_settings';
 
+		$homePageType = 'page';
+		$excludeCPT   = array( 'attachment', 'revision', 'nav_menu_item', 'post' );
+		$includeCPT   = array( 'page' );
+		$cptOptions   = get_option( 'connections_cpt' );
+
+		if ( isset( $cptOptions['enabled'] ) && 1 == $cptOptions['enabled'] ) {
+
+			$homePageType = 'cpt-pages';
+		}
+
+		if ( isset( $cptOptions['supported'] ) && ! empty( $cptOptions['supported'] ) && is_array( $cptOptions['supported'] ) ) {
+
+			$includeCPT = array_merge( $cptOptions['supported'], $includeCPT );
+		}
+
 		/*
 		 * The General tab fields.
 		 */
@@ -380,11 +404,15 @@ class cnRegisterSettings {
 			'position'          => 5,
 			'page_hook'         => $settings,
 			'tab'               => 'general',
-			'section'           => 'connections_home_page',
+			'section'           => 'home_page',
 			'title'             => __( 'Page', 'connections' ),
 			'desc'              => '',
 			'help'              => '',
-			'type'              => 'page',
+			'type'              => $homePageType,
+			'options'           => array(
+				'exclude_cpt'       => $excludeCPT,
+				'include_cpt'       => $includeCPT,
+			),
 			'show_option_none'  => __( 'Select Page', 'connections' ),
 			'option_none_value' => '0'
 		);
@@ -450,7 +478,7 @@ class cnRegisterSettings {
 			'desc'              => '',
 			'help'              => '',
 			'type'              => 'select',
-			'options'           => cnGEO::getCountries(),
+			'options'           => cnGeo::getCountries(),
 			'default'           => 'US',
 			// Only need to add this once per image size, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'setGEOBase' )
@@ -460,7 +488,7 @@ class cnRegisterSettings {
 		// will use the result from cnOptions::getBaseCountry() to define which
 		// regions to return. If there are no regions an empty array will be returned.
 		// So, if there are no regions, the is no reason to render this option.
-		$regions = cnGEO::getRegions();
+		$regions = cnGeo::getRegions();
 
 		if ( ! empty( $regions ) ) {
 
@@ -475,7 +503,7 @@ class cnRegisterSettings {
 				'desc'      => '',
 				'help'      => '',
 				'type'      => 'select',
-				'options'   => cnGEO::getRegions(),
+				'options'   => cnGeo::getRegions(),
 				'default'   => cnOptions::getBaseRegion()
 			);
 		}
@@ -1462,6 +1490,39 @@ class cnRegisterSettings {
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'enabled',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'cpt',
+			'title'     => esc_html__( 'Enable?', 'connections' ),
+			'desc'      => esc_html__(
+				'To add support for Custom Post Types, enable this option.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+
+		$fields[] = array(
+			'plugin_id'         => 'connections',
+			'id'                => 'supported',
+			'position'          => 20,
+			'page_hook'         => $settings,
+			'tab'               => 'advanced',
+			'section'           => 'cpt',
+			'title'             => esc_html__( 'Enable support for:', 'connections' ),
+			'help'              => '',
+			'type'              => 'cpt-checkbox-group',
+			'options'           => array(),
+			'default'           => array(),
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSupportedCPTs' )
+			// Only need to add this once, otherwise it would be run for each field.
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'google_maps_api',
 			'position'  => 10,
 			'page_hook' => $settings,
@@ -1568,7 +1629,10 @@ class cnRegisterSettings {
 	 * capability to ensures all roles can at least view the public entries.
 	 *
 	 * @access private
-	 * @since 0.7.3
+	 * @since  0.7.3
+	 *
+	 * @param $loginRequired
+	 *
 	 * @return int
 	 */
 	public static function setAllowPublic( $loginRequired ) {
@@ -1589,9 +1653,17 @@ class cnRegisterSettings {
 		return $loginRequired;
 	}
 
+	/**
+	 * Callback function to sanitize the image settings.
+	 *
+	 * @access private
+	 * @since  0.7.7
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
 	public static function sanitizeImageSettings( $settings ) {
-
-		$validate = new cnValidate();
 
 		$defaults = array(
 			'quality' => 80,
@@ -1600,8 +1672,7 @@ class cnRegisterSettings {
 			'ratio'   => 'crop'
 			);
 
-		// Use this instead of wp_parse_args since it doesn't drop invalid atts. NOTE: could use shortcode_atts() instead, I suppose.
-		$settings = $validate->attributesArray( $defaults, $settings );
+		$settings = cnSanitize::args( $settings, $defaults );
 
 		// Ensure positive int values
 		$settings['quality'] = absint( $settings['quality'] );
@@ -1650,10 +1721,37 @@ class cnRegisterSettings {
 
 		$settings = array_map( array( 'cnFormatting', 'sanitizeStringStrong' ), $settings );
 
-		// This option is added for a check that will force a flush_rewrite() in connectionsLoad::adminInit().
-		update_option('connections_flush_rewrite', '1');
+		self::flushRewriteRules();
 
 		return $settings;
+	}
+
+	/**
+	 * Callback action to sanitize the user selected supported CTPs.
+	 *
+	 * @access private
+	 * @since  8.5.14
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
+	public static function sanitizeSupportedCPTs( $settings ) {
+
+		self::flushRewriteRules();
+
+		return $settings;
+	}
+
+	/**
+	 * This option is added for a check that will force a flush_rewrite() in connectionsLoad::adminInit().
+	 *
+	 * @access private
+	 * @since  8.5.14
+	 */
+	private static function flushRewriteRules() {
+
+		update_option('connections_flush_rewrite', '1');
 	}
 
 	/**
@@ -1801,7 +1899,7 @@ class cnRegisterSettings {
 
 	public static function setGEOBase( $settings ) {
 
-		$regions = cnGEO::getRegions( $settings['base_country'] );
+		$regions = cnGeo::getRegions( $settings['base_country'] );
 
 		if ( ! array_key_exists( $settings['base_region'], $regions ) ) {
 

@@ -14,6 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists('cnSettingsAPI') ) {
 
+	/**
+	 * Class cnSettingsAPI
+	 */
 	class cnSettingsAPI {
 
 		/**
@@ -124,9 +127,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * 		'page_hook' => 'string'		// Admin page on which to add this section of options
 		 * 	}
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @return array
+		 * @access private
+		 * @since  0.7.3.0
 		 */
 		public static function registerTabs() {
 
@@ -137,13 +139,15 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			$tabs = apply_filters( 'cn_filter_settings_tabs', $tabs );
 			//var_dump($tabs);
 
-			if ( empty( $tabs ) ) return array();
+			if ( ! empty( $tabs ) ) {
 
-			foreach ( $tabs as $key => $tab ) {
-				$out[ $tab['page_hook'] ][] = $tab;
+				foreach ( $tabs as $key => $tab ) {
+
+					$out[ $tab['page_hook'] ][] = $tab;
+				}
+
+				self::$tabs = $out;
 			}
-
-			self::$tabs = $out;
 		}
 
 		/**
@@ -172,9 +176,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * 	page_hook: reading
 		 * 	page_hook: writing
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @return void
+		 * @access private
+		 * @since  0.7.3.0
 		 */
 		public static function registerSections() {
 
@@ -305,9 +308,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * 	without being registered to a section it would be best practice to avoid doing this. It is recommended
 		 *	that sections be registered and then settings fields be hooked to those sections.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
-		 * @return void
+		 * @access private
+		 * @since  0.7.3.0
 		 */
 		public static function registerFields() {
 
@@ -479,22 +481,23 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * Output the settings page, if one has been hooked to the current admin page, and output
 		 * the settings sections hooked to the current admin page/tab.
 		 *
-		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
+		 * @access public
+		 * @since  0.7.3.0
+		 *
 		 * @param string $pageHook
-		 * @param bool $return [optional]
+		 * @param array  $args
+		 *
 		 * @return string
 		 */
-		public function form( $pageHook , $args = array() )
-		{
+		public function form( $pageHook , $args = array() ) {
+
 			$defaults = array(
 				'page_title' => '',
-				);
+			);
 
 			$args = wp_parse_args( $args , $defaults );
 			//var_dump($args);
 
-			$out = '';
 			$sort = array();
 
 			// Page title.
@@ -566,12 +569,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			submit_button();
 
-
 			echo '</form>';
 		}
 
 		/**
-		 * The call back used to render the settings field types.
+		 * The callback used to render the settings field types.
 		 *
 		 * Credit to Tareq. Some of the code to render the form fields were pickup from his Settings API
 		 * 	http://tareq.wedevs.com/2012/06/wordpress-settings-api-php-class/
@@ -584,7 +586,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @return string
 		 */
 		public static function field( $field ) {
-			global $wp_version;
+
 			$out = '';
 
 			if ( in_array( $field['section'] , self::$coreSections ) ) {
@@ -609,6 +611,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					break;
 
+				case 'checkbox-group':
 				case 'multicheckbox':
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
 
@@ -619,6 +622,39 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$out .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>', $name, $key, $checked );
 						$out .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label><br />', $name, $key, $label );
 					}
+
+					break;
+
+				/*
+				 * Renders a checkbox group with the registered CPT/s.
+				 * The options are set here rather than when registering the setting because settings are registered
+				 * before CPT/s are registered with WordPress so `get_post_types()` would return `NULL`.
+				 *
+				 * Once the CTP options are set, this simply loops back and calls itself with the `checkbox-group`
+				 * field type.
+				 */
+				case 'cpt-checkbox-group':
+
+					$postTypes = get_post_types(
+						array(
+							'public'       => TRUE,
+							'show_in_menu' => TRUE,
+							'_builtin'     => FALSE,
+						),
+						'objects'
+					);
+
+					$postTypeOptions = array();
+
+					foreach ( $postTypes as $type ) {
+
+						$postTypeOptions[ $type->name ] = $type->labels->name;
+					}
+
+					$field['type']    = 'checkbox-group';
+					$field['options'] = $postTypeOptions;
+
+					$out .= self::field( $field );
 
 					break;
 
@@ -692,8 +728,6 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 				case 'rte':
 
-					$size = isset( $field['size'] ) && $field['size'] != 'regular' ? $field['size'] : 'regular';
-
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
 						printf( '<div class="description"> %1$s</div>',
@@ -702,45 +736,103 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					}
 
-					if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
+					// Set the rte defaults.
+					$defaults = array(
+						'textarea_name' => sprintf( '%1$s' , $name ),
+					);
 
-						// Set the rte defaults.
-						$defaults = array(
-							'textarea_name' => sprintf( '%1$s' , $name ),
-						);
+					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
-						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
-
-						wp_editor(
-							wp_kses_post( $value ),
-							esc_attr( $field['id'] ),
-							$atts
-						);
-
-					} else {
-
-						/*
-						 * If this is pre WP 3.3, lets drop in the quick tag editor instead.
-						 */
-						echo '<div class="wp-editor-container">';
-
-						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
-							esc_attr( $name ),
-							wp_kses_data( $value )
-						);
-
-						echo '</div>';
-
-						self::$quickTagIDs[] = esc_attr( $name );
-
-						wp_enqueue_script('jquery');
-						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-					}
+					wp_editor(
+						wp_kses_post( $value ),
+						esc_attr( $field['id'] ),
+						$atts
+					);
 
 					break;
 
 				case 'page':
-					$out .= wp_dropdown_pages( array( 'name' => $name, 'echo' => 0, 'show_option_none' => $field['show_option_none'], 'option_none_value' => $field['option_none_value'], 'selected' => $value ) );
+
+					$out .= wp_dropdown_pages(
+						array(
+							'name'              => $name,
+							'echo'              => 0,
+							'show_option_none'  => $field['show_option_none'],
+							'option_none_value' => $field['option_none_value'],
+							'selected'          => $value,
+						)
+					);
+
+					break;
+
+				case 'cpt-pages':
+
+					$defaults = array(
+						'depth'                 => 0,
+						'child_of'              => 0,
+						'selected'              => $value,
+						'echo'                  => 0,
+						'name'                  => $name,
+						'id'                    => '',
+						'class'                 => '',
+						'show_option_none'      => '',
+						'show_option_no_change' => '',
+						'option_none_value'     => '',
+						'value_field'           => 'ID',
+					);
+
+					$atts = wp_parse_args( $field, $defaults );
+
+					$postTypes = get_post_types(
+						array(
+							'public'       => TRUE,
+							'show_in_menu' => TRUE,
+						),
+						'objects'
+					);
+
+					$class = ( ! empty( $atts['class'] ) ) ? " class='" . esc_attr( $atts['class'] ) . "'" : '';
+
+					$select = "<select name='" . esc_attr( $atts['name'] ) . "'" . $class . " id='" . esc_attr( $atts['id'] ) . "'>\n";
+
+					if ( $atts['show_option_no_change'] ) {
+
+						$select .= "\t<option value=\"-1\">" . $atts['show_option_no_change'] . "</option>\n";
+					}
+
+					if ( $atts['show_option_none'] ) {
+
+						$select .= "\t<option value=\"" . esc_attr( $atts['option_none_value'] ) . '">' . $atts['show_option_none'] . "</option>\n";
+					}
+
+					foreach ( $postTypes as $type ) {
+
+						if ( in_array( $type->name, $atts['options']['exclude_cpt'] ) ) {
+
+							continue;
+						}
+
+						if ( ! in_array( $type->name, $atts['options']['include_cpt'] ) ) {
+
+							continue;
+						}
+
+						$select .= '<optgroup label="' . esc_attr( $type->labels->name ) . '">' . PHP_EOL;
+
+						$atts['post_type'] = $type->name;
+						$posts = get_pages( $atts );
+
+						if ( ! empty( $posts ) ) {
+
+							$select .= walk_page_dropdown_tree( $posts, $atts['depth'], $atts );
+						}
+
+						$select .= '</optgroup>' . PHP_EOL;
+					}
+
+					$select .= '</select>' . PHP_EOL;
+
+					$out = $select;
 
 					break;
 
@@ -868,7 +960,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 							$key,
 							$hidden,
 							$checkbox
-							);
+						);
 					}
 
 					$out .= '</ul>';

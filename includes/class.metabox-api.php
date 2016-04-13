@@ -1463,23 +1463,44 @@ class cnMetabox_Process {
 	 * based on the action being performed to the object.
 	 *
 	 * @access private
-	 * @since 0.8
+	 * @since  0.8
+	 *
 	 * @param  string $action The action being performed.
 	 * @param  int    $id     The object ID.
 	 * @param  array  $fields An array of the registered fields to save and or update.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	private function save( $action, $id, $fields ) {
 
 		foreach ( $fields as $field ) {
 
+			/**
+			 * Filter field meta before it is inserted into the database.
+			 *
+			 * @since 8.5.14
+			 *
+			 * @param array  $field  An array of the registered field attributes.
+			 * @param int    $id     The object ID.
+			 * @param string $action The action being performed.
+			 */
+			$field = apply_filters( 'cn_pre_save_meta', $field, $id, $action );
+
 			if ( ! $id = absint( $id ) ) return FALSE;
 
-			// Quick and dirty hack to prevent the bio and notes fields from being saved in the meta table.
-			// @todo Think of something better to do here.
-			// There should be some type of flag to check before saving as meta.
-			if ( $field['id'] === 'bio' || $field['id'] === 'notes' ) continue;
+			/**
+			 * Filter to allow meta to not be saved.
+			 *
+			 * The dynamic portion of the filter name is so saving meta can be skipped based on the field ID.
+			 *
+			 * @since 8.5.14
+			 *
+			 * @param false $false Return TRUE to not save the field meta.
+			 */
+			if ( apply_filters( 'cn_pre_save_meta_skip', FALSE ) || apply_filters( 'cn_pre_save_meta_skip-' . $field['id'], FALSE ) ) {
+
+				continue;
+			}
 
 			$value = $this->sanitize(
 				$field['type'],

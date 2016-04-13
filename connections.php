@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.5.13
+ * Version: 8.5.14
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.5.13
+ * @version 8.5.14
  */
 
 // Exit if accessed directly
@@ -226,10 +226,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.13' );
+			define( 'CN_CURRENT_VERSION', '8.5.14' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
-			define( 'CN_DB_VERSION', '0.2' );
+			define( 'CN_DB_VERSION', '0.3' );
 
 			/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
 			define( 'CN_UPDATE_URL', 'http://connections-pro.com/edd-sl-api' );
@@ -512,6 +512,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			//Category Objects
 			require_once CN_PATH . 'includes/class.category.php'; // Required for activation, entry list
 			//Retrieve objects from the db.
+			require_once CN_PATH . 'includes/class.query.php'; // Required for activation
 			require_once CN_PATH . 'includes/class.retrieve.php'; // Required for activation
 			//HTML FORM objects
 			require_once CN_PATH . 'includes/class.form.php'; // Required for activation

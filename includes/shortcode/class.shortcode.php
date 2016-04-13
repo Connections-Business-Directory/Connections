@@ -51,14 +51,17 @@ class cnShortcode {
 	 */
 	public static function register() {
 
-		// Register the core shortcodes.
-		add_shortcode( 'connections', array( __CLASS__, 'view' ) );
-		add_shortcode( 'upcoming_list', '_upcoming_list' );
-		add_shortcode( 'connections_vcard', '_connections_vcard' ); /* Experimental. Do NOT use. */
-		add_shortcode( 'connections_qtip', '_connections_qtip' ); /* Experimental. Do NOT use. */
+		if ( ! is_admin() ) {
 
-		add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
-		add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
+			// Register the core shortcodes.
+			add_shortcode( 'connections', array( __CLASS__, 'view' ) );
+			add_shortcode( 'upcoming_list', '_upcoming_list' );
+			add_shortcode( 'connections_vcard', '_connections_vcard' ); /* Experimental. Do NOT use. */
+			add_shortcode( 'connections_qtip', '_connections_qtip' ); /* Experimental. Do NOT use. */
+
+			add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
+			add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
+		}
 	}
 
 	/**
@@ -196,7 +199,7 @@ class cnShortcode {
 	 */
 	public static function single( $content ) {
 
-		$slug    = get_query_var( 'cn-entry-slug' );
+		$slug    = cnQuery::getVar( 'cn-entry-slug' );
 		$matches = self::find( 'connections', $content, 'matches' );
 		//$x       = $content;
 
@@ -324,7 +327,7 @@ class cnShortcode {
 	 * @since  0.7.3
 	 * @static
 	 *
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 *
 	 * @param array  $atts
 	 * @param string $content [optional]
@@ -363,7 +366,7 @@ class cnShortcode {
 			return $message;
 		}
 
-		$view = get_query_var('cn-view');
+		$view = cnQuery::getVar('cn-view');
 
 		switch ( $view ) {
 
@@ -450,7 +453,7 @@ class cnShortcode {
 			// Show the entry detail using a template based on the entry type.
 			case 'detail':
 
-				switch ( get_query_var('cn-process') ) {
+				switch ( cnQuery::getVar('cn-process') ) {
 
 					case 'edit':
 

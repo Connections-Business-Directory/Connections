@@ -3,8 +3,8 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.1
-Tested up to: 4.4.2
-Stable tag: 8.5.13
+Tested up to: 4.5
+Stable tag: 8.5.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ An easy to use directory plugin to create an addressbook, business directory, me
 
 [Homepage](http://connections-pro.com/) | [Showcase](http://connections-pro.com/showcase/) | [Documentation](http://connections-pro.com/documentation/contents/) | [Support](http://connections-pro.com/support/) | [Templates](http://connections-pro.com/templates/) | [Extensions](http://connections-pro.com/extensions/)
 
-Quite simply, Connections Business Directory is the [best directory plugin available](https://wordpress.org/support/view/plugin-reviews/connections?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections has to offer...
+Quite simply, Connections Business Directory is the [best directory plugin available](https://wordpress.org/support/view/plugin-reviews/connections?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections Business Directory for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections Business Directory was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections Business Directory has to offer...
 
 = Features =
 
@@ -39,7 +39,7 @@ Quite simply, Connections Business Directory is the [best directory plugin avail
 
 = Extensible =
 
-Here are some great **free extensions** (with more on the way) that enhance your experience with the business directory:
+Here are some great **free extensions** (with more on the way) that enhance your experience with Connections Business Directory:
 
 **Utility**
 
@@ -83,7 +83,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 * Email API.
 * Settings API.
 
-The directory has a very flexible template engine. The loading of template and CSS are context aware. This means you could create specific templates that load when a user visits a specific entry, category, postal code and more.
+Connections Business Directory has a very flexible template engine. The loading of template and CSS are context aware. This means you could create specific templates that load when a user visits a specific entry, category, postal code and more.
 
 Templates and CSS overriding is very granular and update safe. Check out these links for the details:
 
@@ -121,19 +121,15 @@ Connections Business Directory has been embraced around the world and has been t
 * Turkish (Turkey) [60% Complete]
 
 == Credits: ==
-* This plugin was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
+* Connection Business Directory was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
 * vCard class is a modified version by [Troy Wolf](http://www.troywolf.com/articles/php/class_vcard/).
-* Image uploading and processing done by the class.upload.php by [Colin Verot](http://www.verot.net/php_class_upload.htm).
 * Update Notice in plugin admin inspired by Changelogger 1.2.8 by [Oliver Schlöbe](http://wordpress.org/extend/plugins/changelogger/).
-* TimThumb by [Ben Gillbanks and Mark Maunder](http://code.google.com/p/timthumb/).
 * Screen Options class by [Janis Elsts](http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/).
-* spin.js by [Felix Gnass](http://fgnass.github.com/spin.js/).
 * $.goMap() jQuery Google Maps Plugin by [Jevgenijs Shtrauss](http://www.pittss.lv/jquery/gomap/).
 * MarkerClustererPlus jQuery Google Maps Marker Clustering Plugin by [Gary Little](http://gmaps-utility-library-dev.googlecode.com/svn/tags/markerclusterer/).
 * Validation jQuery plugin by [Jörn Zaefferer](http://bassistance.de/jquery-plugins/jquery-plugin-validation/).
 * Chosen jQuery plugin by [Harvest](https://github.com/harvesthq/chosen/).
 * qTip jQuery plugin by [Craig Thompson](http://craigsworks.com/projects/qtip2/).
-* Preloading GIF generated by [Preloaders.net](http://www.preloaders.net/).
 * Email and URL validation methods by [Gizmo Digital Fusion](http://wpcodesnippets.info/blog/two-useful-php-validation-functions.html).
 * Social media icons by [WPZOOM.com](http://www.wpzoom.com/wpzoom/500-free-icons-wpzoom-social-networking-icon-set/); license [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/).
 * iTunes icon by [Paul Robert Lloyd](http://paulrobertlloyd.com/); license [Attribution-ShareAlike 2.0 UK: England & Wales (CC BY-SA 2.0)](http://creativecommons.org/licenses/by-sa/2.0/uk/).
@@ -142,15 +138,15 @@ Connections Business Directory has been embraced around the world and has been t
 
 == Screenshots ==
 
-1. The many possible faces of your business  directory. Connections supports templates. This screenshot showcases (left to right) [Excerpt Plus](http://connections-pro.com/add-on/excerpt-plus/), [Circled](http://connections-pro.com/add-on/circled/), [Gridder](http://connections-pro.com/add-on/gridder/), [Tile Plus](http://connections-pro.com/add-on/tile-plus/) and [Slim Plus](http://connections-pro.com/add-on/slim-plus/).
+1. The many possible faces of your business directory. Connections Business Directory supports templates. This screenshot showcases (left to right) [Excerpt Plus](http://connections-pro.com/add-on/excerpt-plus/), [Circled](http://connections-pro.com/add-on/circled/), [Gridder](http://connections-pro.com/add-on/gridder/), [Tile Plus](http://connections-pro.com/add-on/tile-plus/) and [Slim Plus](http://connections-pro.com/add-on/slim-plus/).
 2. Another screenshot showcasing the different templates that can be used to style your business directory. Left to right; [Circled](http://connections-pro.com/add-on/circled/), [cMap](http://connections-pro.com/add-on/cmap/) and [Gridder](http://connections-pro.com/add-on/gridder/).
-3. The Dashboard admin page. A snapshot of important information about the directory.
-4. The Manage admin page. Here you can manage all the entries within the address book.
-5. The Add New Entry admin page. From here you can add new entries to the addressbook.
-6. The Categories admin page. Add as many categories as you wish to the directory. Categories do support parent/child relationships.
-7. The Templates admin page. Here you choose which template that the business directory should use when displaying the directory.
-8. The Settings admin page where you can configure the business directory options.
-9. The Role and Capabilities admin page. Here you can assign which roles have which capabilities in viewing and managing the directory.
+3. The [Dashboard admin page](http://connections-pro.com/documentation/dashboard/). A snapshot of important information about the business directory.
+4. The [Manage admin page](http://connections-pro.com/documentation/manage/). Here you can manage all the entries within the address book.
+5. The [Add New Entry admin page](http://connections-pro.com/documentation/add-entry/). From here you can add new entries to the addressbook.
+6. The [Categories admin page](http://connections-pro.com/documentation/categories/). Add as many categories as you wish to the directory. Categories do support parent/child relationships.
+7. The [Templates admin page](http://connections-pro.com/documentation/templates/). Here you choose which template that the business directory should use when displaying the directory.
+8. The [Settings admin page](http://connections-pro.com/documentation/settings/) where you can configure the business directory options.
+9. The [Role and Capabilities admin page](http://connections-pro.com/documentation/roles/). Here you can assign which roles have which capabilities in viewing and managing the directory.
 10. The [Tools :: Export admin page](http://connections-pro.com/documentation/tools/#Export) contains many different CSV export tools to allow you to easily export the data from your business directory.
 11. The [Tools :: Import admin page](http://connections-pro.com/documentation/tools/#Categories-2) allows you to quickly bulk import nested categories into your business directory.
 12. In the event that you need support the [Tools :: System Information admin page](http://connections-pro.com/documentation/tools/#System_Information) contains all the information needs about your directory installation which can be easily and quickly shared.
@@ -189,9 +185,9 @@ Connections Business Directory has been embraced around the world and has been t
 
 = Requirements =
 
-* **WordPress version:** >= 3.8
+* **WordPress version:** >= 4.1
 * **PHP version:** >= 5.2.4
-* **NOTE:** Upgrading from version 0.6.1 and newer only is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
+* **NOTE:** Upgrading from version 0.6.1 and newer only, is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
 
 == Frequently Asked Questions ==
 
@@ -212,12 +208,48 @@ Yes it is. However, do not Network activate Connections. Activate it on only the
 = Is it possible to share entries with other sites within a WordPress Multisite installation? =
 Yes this is possible but there is a special setup required to do so. It is recommended this is done before added entries to your business directory.
 
-1. Activate Connections the primary site.
+1. Activate Connections Business Directory the primary site.
 2. Add `define( 'CN_MULTISITE_ENABLED', FALSE );` to your `wp-config.php` file. **NOTE:** If you have added any entries to any of your subsites, that data will be lost as Connections will read the directory entry data from the primary site's database tables.
-3. Activate Connections on the subsites you wish to use Connections.
+3. Activate Connections Business Directory on the subsites you wish to use Connections.
 
 
 == Changelog ==
+
+= 8.5.14 04/13/2016 =
+* NEW: Add support for the `name_format` option to the `[upcoming_list]` shortcode.
+* NEW: Introduce the `cn_pre_save_meta` filter.
+* NEW: Introduce the `cn_pre_save_meta_skip` and `cn_pre_save_meta_skip-{fieldID}` filters.
+* NEW: Introduce the `cn_entry_query_clauses` filter.
+* NEW: Introduce the cnQuery class.
+* NEW: Add support for CPT posts drop down in the cnSettingsAPI.
+* NEW: Add field alias checkbox-group in cnSettingsAPI.
+* NEW: Introduce the `cpt-checkbox-group` field type in cnSettingsAPI.
+* NEW: Introduce the `cn_form_open_default_atts` and `cn_form_open_atts` filters.
+* NEW: Introduce the `cn_pagination_default_atts` and `cn_pagination_atts` filters.
+* NEW: Introduce cnSettingsAPI::flushRewriteRules() which can be called to set the option to tell Connections to flush the rewrite rules.
+* NEW: Add a new advanced setting options to enable CPT support and define which CPT/s to add support for.
+* TWEAK: Replace get_query_var() with cnQuery::getVar() throughout to help prevent poorly coded plugins and themes from breaking Connections.
+* TWEAK: Register the shortcodes on on the frontend to prevent other plugins from running them in the admin.
+* TWEAK: User filters to prevent the bio and notes fields from being saved as meta.
+* TWEAK: Remove the hack that was in place to prevent the bio notes fields from being save as meta.
+* TWEAK: Add the ordo (Latin for order since ORDER is a SQL reserved keyword) column to the CN_ENTRY_TABLE. Add the upgrade routine to add the column to existing installations. Bump the DB version to 0.3.
+* TWEAK: Change the home page id select drop down to use the new cpt-pages select drop down field type so CPT posts will be list as options for the directory home page.
+* TWEAK: Remove use of deprecated function in cnRegisterSettings::sanitizeImageSettings().
+* TWEAK: Update cnRegisterSettings::sanitizeURLBase() to use cnRegisterSettings::flushRewriteRules().
+* TWEAK: Add the necessary rewrite rules for the user defined CPT/s to support.
+* TWEAK: cnTerm::get() used in CN_Walker_Term_List::start_el() can return NULL || an instance of WP_Error, so, lets check for that.
+* BUG: Remove unused global var in cnEntry.
+* BUG: Remove errant saveOptions() call in the db upgrade routine. Possible responsible for db upgrades being skipped in rare cases.
+* BUG: Add a missing saveOptions call in one of the upgrade routines.
+* BUG: Correct the name cnGEO to cnGeo class call in cnRegisterSettings.
+* BUG: Fix double POST requests for extension/template update checks.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* OTHER: Fix some minor whitespace issues in the inc.upgrade.php file.
+* OTHER: Few code styling fixes in cnSettingsAPI.
+* OTHER: Remove support for WordPress 3.3 in the cnSettingsAPI.
+* OTHER: Correct misspellings.
+* DEV: phpDoc fixes.
 
 = 8.5.13 03/11/2016 =
 * TWEAK: General code cleanup of cnMessage to fix phpDoc and correct potential PHP warning/error notices by checking for existing array indexes before working with them.
@@ -752,4 +784,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.13 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.14 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

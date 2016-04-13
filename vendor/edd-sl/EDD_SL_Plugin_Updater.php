@@ -57,7 +57,7 @@ class EDD_SL_Plugin_Updater {
 
         add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ) );
         add_filter( 'plugins_api', array( $this, 'plugins_api_filter' ), 10, 3 );
-        remove_action( 'after_plugin_row_' . $this->name, 'wp_plugin_update_row', 10, 2 );
+        remove_action( 'after_plugin_row_' . $this->name, 'wp_plugin_update_row', 10 );
         add_action( 'after_plugin_row_' . $this->name, array( $this, 'show_update_notification' ), 10, 2 );
         add_action( 'admin_init', array( $this, 'show_changelog' ) );
 
@@ -242,10 +242,23 @@ class EDD_SL_Plugin_Updater {
             )
         );
 
-        $api_response = $this->api_request( 'plugin_information', $to_send );
+        $cache_key = 'edd_api_request_' . substr( md5( serialize( $this->slug ) ), 0, 15 );
 
-        if ( false !== $api_response ) {
-            $_data = $api_response;
+        //Get the transient where we store the api request for this plugin for 24 hours
+        $edd_api_request_transient = get_site_transient( $cache_key );
+
+        //If we have no transient-saved value, run the API, set a fresh transient with the API value, and return that value too right now.
+        if ( empty( $edd_api_request_transient ) ){
+
+            $api_response = $this->api_request( 'plugin_information', $to_send );
+
+            //Expires in 1 day
+            set_site_transient( $cache_key, $api_response, DAY_IN_SECONDS );
+
+            if ( false !== $api_response ) {
+                $_data = $api_response;
+            }
+
         }
 
         return $_data;

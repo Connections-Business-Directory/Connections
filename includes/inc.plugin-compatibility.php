@@ -24,9 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function cn_remove_wpseo_head() {
 
-	if ( get_query_var( 'cn-entry-slug' ) ||
-		 get_query_var( 'cn-cat-slug' ) ||
-		 get_query_var( 'cn-cat' ) ) {
+	if ( cnQuery::getVar( 'cn-entry-slug' ) ||
+		 cnQuery::getVar( 'cn-cat-slug' ) ||
+		 cnQuery::getVar( 'cn-cat' ) ) {
 
 		if ( isset( $GLOBALS['wpseo_front'] ) ) remove_action( 'wp_head', array( $GLOBALS['wpseo_front'], 'head' ), 1 );
 	}

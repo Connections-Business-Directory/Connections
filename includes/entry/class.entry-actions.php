@@ -467,7 +467,7 @@ class cnEntry_Action {
 	 * @param  array  $data [optional] The data to be used when adding / editing / duplicating an entry.
 	 * @param  int    $id [optional] If editing/duplicating an entry, the entry ID.
 	 *
-	 * @return bool
+	 * @return bool|int FALSE on failure. Entry ID on success.
 	 */
 	private static function process( $action, $data = array(), $id = 0 ) {
 		global $connections;
@@ -478,6 +478,8 @@ class cnEntry_Action {
 		// If copying/editing an entry, the entry data is loaded into the class
 		// properties and then properties are overwritten by the data as needed.
 		if ( ! empty( $id ) ) $entry->set( absint( $id ) );
+
+		isset( $data['order'] ) ? $entry->setOrder( $data['order'] ) : 0;
 
 		if ( isset( $data['entry_type'] ) ) $entry->setEntryType( $data['entry_type'] );
 		if ( isset( $data['family_name'] ) ) $entry->setFamilyName( $data['family_name'] );
@@ -1127,11 +1129,11 @@ class cnEntry_Action {
 	 */
 	public static function adminBarMenuItems( $admin_bar ) {
 
-		if ( get_query_var( 'cn-entry-slug' ) ) {
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
 			// Grab an instance of the Connections object.
 			$instance = Connections_Directory();
-			$entry    = $instance->retrieve->entries( array( 'slug' => rawurldecode( get_query_var( 'cn-entry-slug' ) ), 'status' => 'approved,pending' ) );
+			$entry    = $instance->retrieve->entries( array( 'slug' => rawurldecode( cnQuery::getVar( 'cn-entry-slug' ) ), 'status' => 'approved,pending' ) );
 
 			// Make sure an entry is returned and if not, return $title unaltered.
 			if ( empty( $entry ) ) {

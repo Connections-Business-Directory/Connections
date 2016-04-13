@@ -775,7 +775,7 @@ final class cnLog {
 	 *
 	 * @uses   wp_parse_args()
 	 * @uses   get_posts()
-	 * @uses   get_query_var()
+	 * @uses   cnQuery::getVar()
 	 * @uses   cnLog::valid()
 	 *
 	 * @param array $atts
@@ -789,7 +789,7 @@ final class cnLog {
 			'post_type'      => self::POST_TYPE,
 			'posts_per_page' => 20,
 			'post_status'    => 'publish',
-			'paged'          => get_query_var( 'paged' ),
+			'paged'          => cnQuery::getVar( 'paged' ),
 			'type'           => FALSE
 		);
 

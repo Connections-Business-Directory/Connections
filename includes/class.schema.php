@@ -175,6 +175,7 @@ class cnSchema {
 			id bigint(20) NOT NULL AUTO_INCREMENT,
 			ts TIMESTAMP,
 			date_added tinytext NOT NULL,
+			ordo int(11) NOT NULL default '0',
 			entry_type tinytext NOT NULL,
 			visibility tinytext NOT NULL,
 			slug tinytext NOT NULL,

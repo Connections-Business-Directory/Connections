@@ -43,6 +43,12 @@ class cnEntry {
 	private $dateAdded;
 
 	/**
+	 * @since 8.5.14
+	 * @var int
+	 */
+	private $order;
+
+	/**
 	 * @var string
 	 */
 	private $honorificPrefix = '';
@@ -320,11 +326,6 @@ class cnEntry {
 	 */
 	public function __construct( $entry = NULL ) {
 
-		/**
-		 * @var connectionsLoad $connections
-		 */
-		global $connections;
-
 		// Load the formatting class for sanitizing the get methods.
 		$this->format = new cnFormatting();
 
@@ -337,6 +338,7 @@ class cnEntry {
 			if ( isset( $entry->user ) ) $this->user = (integer) $entry->user;
 			if ( isset( $entry->ts ) ) $this->timeStamp = $entry->ts;
 			if ( isset( $entry->date_added ) ) $this->dateAdded = (integer) $entry->date_added;
+			if ( isset( $entry->ordo ) ) $this->order = (integer) $entry->ordo;
 
 			if ( isset( $entry->slug ) ) $this->slug = $entry->slug;
 
@@ -518,6 +520,35 @@ class cnEntry {
 
 			return 'Unknown';
 		}
+	}
+
+	/**
+	 * Get the order assigned to the entry.
+	 *
+	 * @access public
+	 * @since  8.5.14
+	 *
+	 * @return int
+	 */
+	public function getOrder() {
+
+		$order = is_null( $this->order ) ? 0 : $this->order;
+
+		return cnSanitize::integer( $order );
+	}
+
+	/**
+	 * Set the order assigned to the entry.
+	 *
+	 * @access public
+	 * @since  8.5.14
+	 *
+	 *
+	 * @param int $order
+	 */
+	public function setOrder( $order ) {
+
+		$this->order = cnSanitize::integer( $order );
 	}
 
 	/**
@@ -4734,6 +4765,7 @@ class cnEntry {
 			CN_ENTRY_TABLE,
 			array(
 				'ts'                 => current_time( 'mysql' ),
+				'ordo'               => $this->getOrder(),
 				'entry_type'         => $this->entryType,
 				'visibility'         => $this->getVisibility(),
 				'slug'               => $this->getSlug(),
@@ -4769,6 +4801,7 @@ class cnEntry {
 			),
 			array(
 				'%s',
+				'%d',
 				'%s',
 				'%s',
 				'%s',
@@ -4964,6 +4997,7 @@ class cnEntry {
 			array(
 				'ts'                 => current_time( 'mysql' ),
 				'date_added'         => current_time( 'timestamp' ),
+				'ordo'               => $this->getOrder(),
 				'entry_type'         => $this->entryType,
 				'visibility'         => $this->getVisibility(),
 				'slug'               => $this->getSlug(), /* NOTE: When adding a new entry, a new unique slug should always be created and set. */
@@ -4998,6 +5032,7 @@ class cnEntry {
 			),
 			array(
 				'%s',
+				'%d',
 				'%d',
 				'%s',
 				'%s',

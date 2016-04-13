@@ -256,6 +256,13 @@ class CN_Walker_Term_List extends Walker {
 
 				$_current_category = cnTerm::get( $args['current_category'], $term->taxonomy );
 
+				// cnTerm::get() can return NULL || an instance of WP_Error, so, lets check for that.
+				if ( is_null( $_current_category ) || is_wp_error( $_current_category ) ) {
+
+					$_current_category = new stdClass();
+					$_current_category->parent = 0;
+				}
+
 			} else {
 
 				$_current_category = new stdClass();

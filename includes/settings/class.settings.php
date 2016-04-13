@@ -1660,8 +1660,11 @@ class cnRegisterSettings {
 
 		$settings = array_map( array( 'cnFormatting', 'sanitizeStringStrong' ), $settings );
 
-		// This option is added for a check that will force a flush_rewrite() in connectionsLoad::adminInit().
-		update_option('connections_flush_rewrite', '1');
+		self::flushRewriteRules();
+
+		return $settings;
+	}
+
 
 		return $settings;
 	}

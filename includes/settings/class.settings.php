@@ -1731,6 +1731,10 @@ class cnRegisterSettings {
 	 *
 	 * @access private
 	 * @since  8.5.14
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
 	 */
 	public static function sanitizeSupportedCPTs( $settings ) {
 

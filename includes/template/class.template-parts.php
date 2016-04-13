@@ -339,7 +339,21 @@ class cnTemplatePart {
 			'return' => FALSE
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		/**
+		 * Filter the default attributes array.
+		 *
+		 * @since 8.5.14
+		 */
+		$defaults = apply_filters( 'cn_form_open_default_atts', $defaults );
+
+		$atts     = wp_parse_args( $atts, $defaults );
+
+		/**
+		 * Filter the user supplied attributes.
+		 *
+		 * @since 8.5.14
+		 */
+		$atts     = apply_filters( 'cn_form_open_atts', $atts );
 
 		$out = '';
 

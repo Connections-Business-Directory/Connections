@@ -1857,8 +1857,21 @@ class cnTemplatePart {
 			'return'             => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_pagination_atts', $defaults );
+		/**
+		 * Filter the default attributes array.
+		 *
+		 * @since 8.5.14
+		 */
+		$defaults = apply_filters( 'cn_pagination_default_atts', $defaults );
+
 		$atts     = wp_parse_args( $atts, $defaults );
+
+		/**
+		 * Filter the user supplied attributes.
+		 *
+		 * @since 8.5.14
+		 */
+		$atts     = apply_filters( 'cn_pagination_atts', $atts );
 
 		$total     = $connections->retrieve->resultCountNoLimit;
 		$pageCount = absint( $atts['limit'] ) ? ceil( $total / $atts['limit'] ) : 0;

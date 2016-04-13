@@ -344,8 +344,7 @@ class cnRewrite {
 		/*$rule['pg/([0-9]{1,})/?$']
 			= 'index.php?cn-pg=$matches[1]&cn-view=card';*/
 
-
-		// Add the Connections rewite rules to before the default page rewrite rules.
+		// Add the Connections rewrite rules to before the default page rewrite rules.
 		$root_rewrite = array_merge( $root_rewrite, $rule );
 
 		// var_dump($page_rewrite);

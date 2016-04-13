@@ -1,5 +1,41 @@
 == Changelog ==
 
+= 8.5.14 04/13/2016 =
+* NEW: Add support for the `name_format` option to the `[upcoming_list]` shortcode.
+* NEW: Introduce the `cn_pre_save_meta` filter.
+* NEW: Introduce the `cn_pre_save_meta_skip` and `cn_pre_save_meta_skip-{fieldID}` filters.
+* NEW: Introduce the `cn_entry_query_clauses` filter.
+* NEW: Introduce the cnQuery class.
+* NEW: Add support for CPT posts drop down in the cnSettingsAPI.
+* NEW: Add field alias checkbox-group in cnSettingsAPI.
+* NEW: Introduce the `cpt-checkbox-group` field type in cnSettingsAPI.
+* NEW: Introduce the `cn_form_open_default_atts` and `cn_form_open_atts` filters.
+* NEW: Introduce the `cn_pagination_default_atts` and `cn_pagination_atts` filters.
+* NEW: Introduce cnSettingsAPI::flushRewriteRules() which can be called to set the option to tell Connections to flush the rewrite rules.
+* NEW: Add a new advanced setting options to enable CPT support and define which CPT/s to add support for.
+* TWEAK: Replace get_query_var() with cnQuery::getVar() throughout to help prevent poorly coded plugins and themes from breaking Connections.
+* TWEAK: Register the shortcodes on on the frontend to prevent other plugins from running them in the admin.
+* TWEAK: User filters to prevent the bio and notes fields from being saved as meta.
+* TWEAK: Remove the hack that was in place to prevent the bio notes fields from being save as meta.
+* TWEAK: Add the ordo (Latin for order since ORDER is a SQL reserved keyword) column to the CN_ENTRY_TABLE. Add the upgrade routine to add the column to existing installations. Bump the DB version to 0.3.
+* TWEAK: Change the home page id select drop down to use the new cpt-pages select drop down field type so CPT posts will be list as options for the directory home page.
+* TWEAK: Remove use of deprecated function in cnRegisterSettings::sanitizeImageSettings().
+* TWEAK: Update cnRegisterSettings::sanitizeURLBase() to use cnRegisterSettings::flushRewriteRules().
+* TWEAK: Add the necessary rewrite rules for the user defined CPT/s to support.
+* TWEAK: cnTerm::get() used in CN_Walker_Term_List::start_el() can return NULL || an instance of WP_Error, so, lets check for that.
+* BUG: Remove unused global var in cnEntry.
+* BUG: Remove errant saveOptions() call in the db upgrade routine. Possible responsible for db upgrades being skipped in rare cases.
+* BUG: Add a missing saveOptions call in one of the upgrade routines.
+* BUG: Correct the name cnGEO to cnGeo class call in cnRegisterSettings.
+* BUG: Fix double POST requests for extension/template update checks.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* OTHER: Fix some minor whitespace issues in the inc.upgrade.php file.
+* OTHER: Few code styling fixes in cnSettingsAPI.
+* OTHER: Remove support for WordPress 3.3 in the cnSettingsAPI.
+* OTHER: Correct misspellings.
+* DEV: phpDoc fixes.
+
 = 8.5.13 03/11/2016 =
 * TWEAK: General code cleanup of cnMessage to fix phpDoc and correct potential PHP warning/error notices by checking for existing array indexes before working with them.
 * TWEAK: Refactor cnEntryMetabox::address() to remove duplicate code.

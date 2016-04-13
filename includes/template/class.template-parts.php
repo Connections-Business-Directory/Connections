@@ -1781,23 +1781,37 @@ class cnTemplatePart {
 	/**
 	 * Creates the pagination controls.
 	 *
-	 * Accepted option for the $atts property are:
-	 * 	limit (int) The pagination page limit.
-	 * 	return (bool) Whether or not to return or echo the result.
-	 *
 	 * @access public
 	 * @since  0.7.3
 	 * @static
-	 * @uses   apply_filters
-	 * @uses   wp_parse_args()
-	 * @uses   get_permalink()
-	 * @uses   cnQuery::getVar()
-	 * @uses   add_query_arg()
-	 * @uses   absint()
-	 * @uses   trailingslashit()
-	 * @uses   paginate_links()
-	 * @param  array  $atts [optional]
-	 * -
+	 *
+	 * @param array $atts {
+	 *     Optional. Array or string of arguments for generating paginated links for archives.
+	 *
+	 *     @type int    $limit              The number of entries per page to be displayed.
+	 *                                      Default: 20
+	 *     @type bool   $show_all           Whether to show all pages.
+	 *                                      Default: FALSE
+	 *     @type int    $end_size           How many numbers on either the start and the end list edges.
+	 *                                      Default: 2
+	 *     @type int    $mid_size           How many numbers to either side of the current pages.
+	 *                                      Default: 2
+	 *     @type bool   $prev_next          Whether to include the previous and next links in the list.
+	 *                                      Default: TRUE
+	 *     @type bool   $prev_text          The previous page text.
+	 *                                      Default: '«'
+	 *     @type bool   $next_text          The next page text.
+	 *                                      Default: '«'
+	 *     @type string $add_fragment       A string to append to each link.
+	 *                                      Default: empty
+	 *     @type string $before_page_number A string to appear before the page number.
+	 *                                      Default: empty
+	 *     @type string $after_page_number  A string to append after the page number.
+	 *                                      Default: empty
+	 *     @type bool   $return             Whether or not to return or echo the pagination control. Set to TRUE to return instead of echo.
+	 *                                      Default: FALSE
+	 * }
+	 *
 	 * @return string
 	 */
 	public static function pagination( $atts = array() ) {

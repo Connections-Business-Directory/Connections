@@ -1938,7 +1938,7 @@ class cnTemplatePart {
 
 				$args = array(
 					'base'               => $permalink . '%_%',
-					'format'             => 'pg/%#%',
+					'format'             => user_trailingslashit( 'pg/%#%', 'cn-paged' ),
 					'total'              => $pageCount,
 					'current'            => $current,
 					'show_all'           => $atts['show_all'],

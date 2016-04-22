@@ -44,6 +44,7 @@ class cnShortcode_Connections extends cnShortcode {
 			$atts = apply_filters( 'cn_template_customizer_template', $atts );
 		}
 
+		/** @var cnTemplate $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
 		if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $atts );

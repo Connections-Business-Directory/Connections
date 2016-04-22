@@ -100,7 +100,7 @@ class cnShortcode_Connections extends cnShortcode {
 			'width'                 => NULL,
 			'lock'                  => FALSE,
 			'force_home'            => FALSE,
-			'home_id'               => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
+			'home_id'               => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 		);
 
 		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );

@@ -1124,10 +1124,6 @@ class cnRetrieve {
 	 * @access private
 	 * @since 0.7.4
 	 *
-	 * @uses wp_parse_args()
-	 * @uses is_user_logged_in()
-	 * @uses current_user_can()
-	 *
 	 * @return array
 	 */
 	public static function setQueryVisibility( $where, $atts = array() ) {
@@ -1193,10 +1189,6 @@ class cnRetrieve {
 	 * @access private
 	 * @since  0.7.4
 	 * @static
-	 *
-	 * @uses wp_parse_args()
-	 * @uses is_user_logged_in()
-	 * @uses current_user_can()
 	 *
 	 * @param array $where
 	 * @param array $atts

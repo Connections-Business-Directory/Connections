@@ -474,7 +474,7 @@ class cnShortcode {
 							 */
 
 							if ( is_user_logged_in() &&
-								( current_user_can( 'connections_manage' ) || $entryID == $results[0]->id ) &&
+								( current_user_can( 'connections_manage' ) || ( (int) $entryID == (int) $results[0]->id ) ) &&
 								( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 								) {
 

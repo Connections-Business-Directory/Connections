@@ -46,7 +46,7 @@ class cnGeo {
 	public static function address( $address , $atts = array() ) {
 		$result = new stdClass();
 		$query = array();
-		$googleAddrURL = 'http://maps.googleapis.com/maps/api/geocode/%s?address=%s&sensor=false';
+		$googleAddrURL = 'https://maps.googleapis.com/maps/api/geocode/%s?address=%s';
 
 		$defaults = array(
 			'provider' => 'google',

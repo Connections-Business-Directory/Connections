@@ -1314,7 +1314,7 @@ class cnRetrieve {
 			absint( $atts['days'] ),
 			$date,
 			$date
-			);
+		);
 		// print_r($sql);
 
 		$upcoming = $wpdb->get_results( $sql );
@@ -1374,7 +1374,7 @@ class cnRetrieve {
 				absint( $atts['days'] ),
 				$date,
 				$date
-				);
+			);
 			// print_r($sql);
 
 			$legacy = $wpdb->get_results( $sql );
@@ -2418,7 +2418,7 @@ class cnRetrieve {
 					$where[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['entry'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
-						);
+					);
 				}
 
 				/*
@@ -2465,7 +2465,7 @@ class cnRetrieve {
 					$select[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['address'] ) . ') AGAINST (%s) AS score',
 						$terms
-						);
+					);
 				}
 
 				$from[] = CN_ENTRY_ADDRESS_TABLE;
@@ -2478,7 +2478,7 @@ class cnRetrieve {
 					$where[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['address'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
-						);
+					);
 				}
 
 				/*
@@ -2530,7 +2530,7 @@ class cnRetrieve {
 					$select[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['phone'] ) . ') AGAINST (%s) AS score',
 						$terms
-						);
+					);
 				}
 
 				$from[] = CN_ENTRY_PHONE_TABLE;
@@ -2543,7 +2543,7 @@ class cnRetrieve {
 					$where[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['phone'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
-						);
+					);
 				}
 
 				/*

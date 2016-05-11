@@ -53,6 +53,13 @@ class cnGeo {
 			'output' => 'json'
 		);
 
+		$key = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'server_key' );
+
+		if ( 0 < strlen( $key ) ) {
+
+			$googleAddrURL = $googleAddrURL . '&key=' . urlencode( $key );
+		}
+
 		$atts = wp_parse_args( $atts, $defaults );
 
 		if ( is_array( $address ) ) $address = (object) $address;

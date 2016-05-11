@@ -165,17 +165,16 @@ class cnShortcode_Connections extends cnShortcode {
 
 		$html .= ob_get_clean();
 
-
 		$html .= sprintf( '<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s"%3$s>',
 				$instance->options->getVersion(),
 				$instance->options->getDBVersion(),
 				empty( $atts['width'] ) ? '' : ' style="width: ' . $atts['width'] . 'px;"'
-			);
+		);
 
 		$html .= sprintf( '<div class="cn-template cn-%1$s" id="cn-%1$s" data-template-version="%2$s">',
 				$template->getSlug(),
 				$template->getVersion()
-			);
+		);
 
 		// The filter should check $content that content is not empty before processing $content.
 		// And if it is empty the filter should return (bool) FALSE, so the core template parts can be executed.
@@ -201,11 +200,9 @@ class cnShortcode_Connections extends cnShortcode {
 			$html .= $content;
 		}
 
-
 		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $template->getSlug() . ' -->' : '' ) . PHP_EOL;
 
 		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . PHP_EOL;
-
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.

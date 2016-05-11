@@ -283,7 +283,9 @@ class CN_Walker_Term_List extends Walker {
 			}
 		}
 
-		$output .= "$indent<li" . ' class="' . $class . '"' . ">$link</li>" . PHP_EOL;
+		$output .= "$indent<li" . ' class="' . $class . '"' . ">$link"; // Do not add EOL here, it'll add unwanted whitespace if terms are inline.
+	}
+
 	/**
 	 * Ends the element output.
 	 *

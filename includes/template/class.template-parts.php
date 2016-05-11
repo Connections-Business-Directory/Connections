@@ -373,7 +373,13 @@ class cnTemplatePart {
 			//$addAction = $homeID != $atts['home_id'] ? TRUE : FALSE;
 			$addAction = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
 			$permalink = get_permalink( $homeID );
-			//$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
+
+			/**
+			 * Filter the form action attribute.
+			 *
+			 * @since 8.5.15
+			 */
+			$permalink = apply_filters( 'cn_form_open_action', $permalink, $atts );
 
 			$permalink = cnURL::makeRelative( $permalink );
 

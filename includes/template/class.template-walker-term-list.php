@@ -245,7 +245,7 @@ class CN_Walker_Term_List extends Walker {
 			'<a href="%1$s" title="%2$s">%3$s</a>',
 			$url,
 			esc_attr( $term->name ),
-			esc_html( $term->name . $count )
+			$term->name . '<span class="cn-cat-count">' . esc_html( $count ) . '</span>'
 		);
 
 		$class = 'cat-item cat-item-' . $term->term_id . ' cn-cat-parent';

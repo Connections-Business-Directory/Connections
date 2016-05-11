@@ -73,9 +73,11 @@ class cnGeo {
 
 			// Remove non alpha numeric chars such as extra spaces and replace w/ a plus.
 			//$query = preg_replace("[^A-Za-z0-9]", '+', $query );
-			$query = urlencode( utf8_encode( str_replace( ' ', '+', $query ) ) );
+			//$query = urlencode( utf8_encode( str_replace( ' ', '+', $query ) ) );
+			$query = urlencode( $query );
+			$query = sprintf( $googleAddrURL , $atts['output'] , $query );
 
-			$request = wp_remote_get( sprintf( $googleAddrURL , $atts['output'] , $query ) );
+			$request = wp_remote_get( $query );
 			$body = wp_remote_retrieve_body( $request );
 
 			if ( $body ) {

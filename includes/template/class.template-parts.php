@@ -1692,10 +1692,11 @@ class cnTemplatePart {
 		$styles  = '';
 
 		$defaults = array(
-			'status' => array( 'approved' ),
-			'tag'    => 'div',
-			'style'  => array(),
-			'return' => FALSE,
+			'status'     => array( 'approved' ),
+			'visibility' => array(),
+			'tag'        => 'div',
+			'style'      => array(),
+			'return'     => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

@@ -1256,7 +1256,7 @@ class cnTemplatePart {
 					$atts['before-item'],
 					$atts['item_tag'],
 					esc_attr( $key ),
-					esc_html( $message ),
+					wp_kses_post( $message ),
 					$atts['after-item']
 				);
 			}

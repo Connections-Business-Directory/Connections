@@ -289,7 +289,7 @@ class cnSEO {
 			return $title;
 		}
 
-		$pieces =  array( $title );
+		$pieces = array( $title );
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
@@ -421,7 +421,7 @@ class cnSEO {
 			return $title;
 		}
 
-		$pieces =  array( $title );
+		$pieces = array( $title );
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 

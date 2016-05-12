@@ -1339,11 +1339,11 @@ class cnTemplatePart {
 	 * Outputs entry data JSON encoded in HTML data attribute.
 	 * This is an action called by the `cn_action_entry_after` hook.
 	 *
-	 * @access  public
+	 * @access public
 	 * @since  0.8
-	 * @uses   wp_parse_args()
-	 * @param array  $atts  Shortcode $atts passed by the `cn_action_entry_after` action hook.
-	 * @param object $entry An instance the the cnEntry object.
+	 *
+	 * @param array   $atts  Shortcode $atts passed by the `cn_action_entry_after` action hook.
+	 * @param cnEntry $entry An instance the the cnEntry object.
 	 *
 	 * @return string
 	 */

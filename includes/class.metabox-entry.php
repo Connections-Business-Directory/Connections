@@ -702,9 +702,11 @@ class cnEntryMetabox {
 	 * Called from self::name()
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox attributes array set in self::register(). Passed from self::name().
+	 * @since  0.8
+	 *
+	 * @param  cnEntry $entry An instance of the cnEntry object.
+	 * @param  array   $atts  The metabox attributes array set in self::register(). Passed from self::name().
+	 *
 	 * @return void
 	 */
 	public static function family( $entry, $atts ) {

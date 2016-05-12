@@ -55,9 +55,10 @@ class cnEntry_Shortcode {
 	 * replacement process using the WordPress shortcode API.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @param object $entry   An instance of the cnEntry object.
-	 * @param string $content The content to be processed.
+	 * @since  0.8
+	 *
+	 * @param cnEntry $entry   An instance of the cnEntry object.
+	 * @param string  $content The content to be processed.
 	 */
 	private function __construct( $entry, $content ) {
 

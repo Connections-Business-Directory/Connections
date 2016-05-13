@@ -90,6 +90,7 @@ class cnShortcode_Connections extends cnShortcode {
 			'state'                 => NULL,
 			'zip_code'              => NULL,
 			'country'               => NULL,
+			'meta_query'            => '',
 			'content'               => '',
 			'near_addr'             => NULL,
 			'latitude'              => NULL,
@@ -138,6 +139,18 @@ class cnShortcode_Connections extends cnShortcode {
 		$atts['zip_code']      = html_entity_decode( $atts['zip_code'] );
 		$atts['country']       = html_entity_decode( $atts['country'] );
 		$atts['category_name'] = html_entity_decode( $atts['category_name'] );
+
+		if ( 0 < strlen( $atts['meta_query'] ) ) {
+
+			// The meta query syntax follows the JSON standard, except, the WordPress Shortcode API does not allow
+			// brackets within shortcode options, so parenthesis have to be used instead, so, lets swap them
+			// that was json_decode can be ran and the resulting array used in cnRetrieve::entries().
+			$atts['meta_query'] = str_replace( array( '(', ')' ), array( '[', ']' ), $atts['meta_query'] );
+
+			$metaQuery = cnFormatting::maybeJSONdecode( $atts['meta_query'] );
+
+			$atts['meta_query'] = is_array( $metaQuery ) ? $metaQuery : array();
+		}
 
 		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
 		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );

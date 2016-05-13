@@ -1101,7 +1101,7 @@ class cnRetrieve {
 				// Convert the supplied entry statuses $atts['visibility'] to an array.
 				cnFunction::parseStringList( $atts['visibility'] );
 
-				$visibility[] = $atts['visibility'];
+				$visibility = $atts['visibility'];
 			}
 
 		} else {

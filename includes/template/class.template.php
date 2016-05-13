@@ -687,6 +687,7 @@ class cnTemplate {
 		}
 
 		$path[10]  = trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug );
+		$path[40]  = trailingslashit( WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'connections-templates' . DIRECTORY_SEPARATOR . $this->slug );
 		$path[50]  = trailingslashit( $upload_dir['basedir'] ) . $template_directory . trailingslashit( $this->slug );
 		$path[99]  = CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug );
 		$path[100] = $this->getPath();
@@ -996,6 +997,7 @@ class cnTemplate {
 		}
 
 		$path[20]  = trailingslashit( get_template_directory() ) . $template_directory . trailingslashit( $this->slug );
+		$path[30]  = trailingslashit( WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'connections-templates' . DIRECTORY_SEPARATOR . $this->slug );
 		$path[40]  = trailingslashit( $upload_dir['basedir'] ) . $template_directory . trailingslashit( $this->slug );
 		$path[80]  = CN_CUSTOM_TEMPLATE_PATH . trailingslashit( $this->slug );
 		$path[100] = $this->getPath();

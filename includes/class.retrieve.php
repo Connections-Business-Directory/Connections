@@ -523,7 +523,7 @@ class cnRetrieve {
 				// is changed to entry type family
 				$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
 
-				$where[] = 'AND `entry_type` IN (\'' . implode( "', '", (array) $atts['list_type'] ) . '\')';
+				$where[] = cnQuery::where( array( 'field' => 'entry_type', 'value' => $atts['list_type'] ) );
 			}
 		}
 		/*
@@ -533,20 +533,20 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries that match the supplied filters.
 		 */
-		if ( ! empty( $atts['family_name'] ) ) $where[]  = $wpdb->prepare( 'AND `family_name` = %s' , $atts['family_name'] );
-		if ( ! empty( $atts['last_name'] ) ) $where[]    = $wpdb->prepare( 'AND `last_name` = %s' , $atts['last_name'] );
-		if ( ! empty( $atts['title'] ) ) $where[]        = $wpdb->prepare( 'AND `title` = %s' , $atts['title'] );
-		if ( ! empty( $atts['organization'] ) ) $where[] = $wpdb->prepare( 'AND `organization` = %s' , $atts['organization'] );
-		if ( ! empty( $atts['department'] ) ) $where[]   = $wpdb->prepare( 'AND `department` = %s' , $atts['department'] );
+		$where[] = cnQuery::where( array( 'field' => 'family_name', 'value' => $atts['family_name'] ) );
+		$where[] = cnQuery::where( array( 'field' => 'last_name', 'value' => $atts['last_name'] ) );
+		$where[] = cnQuery::where( array( 'field' => 'title', 'value' => $atts['title'] ) );
+		$where[] = cnQuery::where( array( 'field' => 'organization', 'value' => $atts['organization'] ) );
+		$where[] = cnQuery::where( array( 'field' => 'department', 'value' => $atts['department'] ) );
 
 		if ( ! empty( $atts['city'] ) || ! empty( $atts['state'] ) || ! empty( $atts['zip_code'] ) || ! empty( $atts['country'] ) ) {
 
 			if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
 
-			if ( ! empty( $atts['city'] ) ) $where[]     = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.city = %s' , $atts['city'] );
-			if ( ! empty( $atts['state'] ) ) $where[]    = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.state = %s' , $atts['state'] );
-			if ( ! empty( $atts['zip_code'] ) ) $where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.zipcode = %s' , $atts['zip_code'] );
-			if ( ! empty( $atts['country'] ) ) $where[]  = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.country = %s' , $atts['country'] );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'city', 'value' => $atts['city'] ) );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'state', 'value' => $atts['state'] ) );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'zipcode', 'value' => $atts['zip_code'] ) );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'country', 'value' => $atts['country'] ) );
 		}
 
 		if ( 0 < strlen( $atts['char'] ) ) {
@@ -1124,7 +1124,7 @@ class cnRetrieve {
 
 		}
 
-		$where[] = 'AND ' . $atts['table'] . '.visibility IN (\'' . implode( "', '", $visibility ) . '\')';
+		$where[] = cnQuery::where( array( 'table' => $atts['table'], 'field' => 'visibility', 'value' => $visibility ) );
 
 		return $where;
 	}
@@ -1179,7 +1179,7 @@ class cnRetrieve {
 		// Permit only the supported statuses to be queried.
 		$status = array_intersect( $status, $valid );
 
-		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $status ) . '\')';
+		$where[] = cnQuery::where( array( 'field' => 'status', 'value' => $status ) );
 
 		return $where;
 	}

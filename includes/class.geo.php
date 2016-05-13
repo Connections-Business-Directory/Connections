@@ -46,12 +46,19 @@ class cnGeo {
 	public static function address( $address , $atts = array() ) {
 		$result = new stdClass();
 		$query = array();
-		$googleAddrURL = 'http://maps.googleapis.com/maps/api/geocode/%s?address=%s&sensor=false';
+		$googleAddrURL = 'https://maps.googleapis.com/maps/api/geocode/%s?address=%s';
 
 		$defaults = array(
 			'provider' => 'google',
 			'output' => 'json'
 		);
+
+		$key = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'server_key' );
+
+		if ( 0 < strlen( $key ) ) {
+
+			$googleAddrURL = $googleAddrURL . '&key=' . urlencode( $key );
+		}
 
 		$atts = wp_parse_args( $atts, $defaults );
 
@@ -73,9 +80,11 @@ class cnGeo {
 
 			// Remove non alpha numeric chars such as extra spaces and replace w/ a plus.
 			//$query = preg_replace("[^A-Za-z0-9]", '+', $query );
-			$query = urlencode( utf8_encode( str_replace( ' ', '+', $query ) ) );
+			//$query = urlencode( utf8_encode( str_replace( ' ', '+', $query ) ) );
+			$query = urlencode( $query );
+			$query = sprintf( $googleAddrURL , $atts['output'] , $query );
 
-			$request = wp_remote_get( sprintf( $googleAddrURL , $atts['output'] , $query ) );
+			$request = wp_remote_get( $query );
 			$body = wp_remote_retrieve_body( $request );
 
 			if ( $body ) {

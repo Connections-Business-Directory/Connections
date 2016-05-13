@@ -481,7 +481,13 @@ function connectionsShowViewPage( $action = NULL ) {
 							 * Display the character filter control.
 							 */
 							echo '<span class="displaying-num">' , __( 'Filter by character:', 'connections' ) , '</span>';
-							cnTemplatePart::index( array( 'status' => $instance->currentUser->getFilterStatus(), 'tag' => 'span' ) );
+							cnTemplatePart::index(
+								array(
+									'status' => $instance->currentUser->getFilterStatus(),
+									'visibility' => $instance->currentUser->getFilterVisibility(),
+									'tag' => 'span',
+								)
+							);
 							cnTemplatePart::currentCharacter();
 							?>
 						</div>
@@ -652,37 +658,31 @@ function connectionsShowViewPage( $action = NULL ) {
 					//echo "<td >&nbsp;</td> \n";
 					echo '<td colspan="2">';
 
-					/*
-					 * Check if the entry has relations. Count the relations and then cycle thru each relation.
-					 * Before the out check that the related entry still exists. If it does and the current user
-					 * has edit capabilities the edit link will be displayed. If the user does not have edit capabilities
-					 * the only the relation will be shown. After all relations have been output insert a <br>
-					 * for spacing [@TODO: NOTE: this should be done with styles].
-					 */
-					if ( $entry->getFamilyMembers() ) {
-						$count = count( $entry->getFamilyMembers() );
-						$i = 0;
+					if ( $relations = $entry->getFamilyMembers() ) {
 
-						foreach ( $entry->getFamilyMembers() as $key => $value ) {
+						$relationsHTML = array();
+
+						foreach ( $relations as $relationData ) {
+
 							$relation = new cnEntry();
-							$relation->set( $key );
-							$editRelationTokenURL = $form->tokenURL( 'admin.php?page=connections&action=edit&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() );
+							$relation->set( $relationData['entry_id'] );
 
 							if ( $relation->getId() ) {
+
 								if ( current_user_can( 'connections_edit_entry' ) ) {
-									echo '<strong>' . $instance->options->getFamilyRelation( $value ) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getFullFirstLastName() . '">' . $relation->getFullFirstLastName() . '</a><br />' . "\n";
-								}
-								else {
-									echo '<strong>' . $instance->options->getFamilyRelation( $value ) . ':</strong> ' . $relation->getFullFirstLastName() . '<br />' . "\n";
+
+									$editRelationTokenURL = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() ) );
+
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
+
+								} else {
+
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> ' . $relation->getName();
 								}
 							}
-
-							if ( $count - 1 == $i ) echo '<br />'; // Insert a break after all connections are listed.
-							$i++;
-							unset( $relation );
 						}
-						unset( $i );
-						unset( $count );
+
+						if ( ! empty( $relationsHTML ) ) echo implode( '<br />' . PHP_EOL, $relationsHTML );
 					}
 
 					if ( $entry->getContactFirstName() || $entry->getContactLastName() ) echo '<strong>' . __( 'Contact', 'connections' ) . ':</strong> ' . $entry->getContactFirstName() . ' ' . $entry->getContactLastName() . '<br />';

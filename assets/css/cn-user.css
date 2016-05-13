@@ -602,3 +602,66 @@ input#cn-submit {
 	height: 196px;
 	width: 99%;
 }
+
+/*
+ * Turns the term list into a column.
+ * DISABLE b/c it's experimental.
+ */
+/*ul.cn-cat-tree {*/
+	/*-moz-columns: 4 250px;*/
+	/*-moz-column-gap: 20px;*/
+	/*-webkit-columns: 4 250px;*/
+	/*-webkit-column-gap: 20px;*/
+	/*columns: 4 250px;*/
+	/*column-gap: 20px;*/
+	/*font-weight: 700;*/
+	/*text-align: left;*/
+/*}*/
+
+/*ul.cn-cat-tree ul {*/
+	/*margin: 0;*/
+/*}*/
+
+/*ul.cn-cat-tree li a {*/
+	/*color: rgb(18,97,161) !important;*/
+	/*text-decoration: underline;*/
+/*}*/
+
+/*
+ * Prevent child terms from breaking into next column.
+ *
+ * ref: http://stackoverflow.com/a/7785711/5351316
+ */
+/*ul.cn-cat-tree li {*/
+	/*margin: 0;*/
+	/*-webkit-column-break-inside: avoid; !* Chrome, Safari *!*/
+	/*page-break-inside: avoid;           !* Theoretically FF 20+ *!*/
+	/*break-inside: avoid-column;         !* IE 11 *!*/
+	/*display: table;                     !* Actually FF 20+ *!*/
+	/*padding-bottom: 18px;*/
+/*}*/
+
+/*ul.children.cn-cat-children li {*/
+	/*display: inline-block;*/
+	/*font-weight: 500;*/
+	/*padding-bottom: 0;*/
+/*}*/
+
+/*ul.children.cn-cat-children li a {*/
+	/*text-decoration: none;*/
+/*}*/
+
+/*ul.children.cn-cat-children li .cn-cat-count {*/
+	/*display: none;*/
+/*}*/
+
+/*
+ * Add content to the end of every child term item except the last one.
+ *
+ * ref: http://stackoverflow.com/a/22730212/5351316
+ */
+/*ul.children.cn-cat-children li:not(:last-child):after {*/
+	/*content: ",";*/
+	/*margin: 0;*/
+	/*padding: 0;*/
+/*}*/

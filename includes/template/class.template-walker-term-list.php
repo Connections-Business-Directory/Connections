@@ -245,7 +245,7 @@ class CN_Walker_Term_List extends Walker {
 			'<a href="%1$s" title="%2$s">%3$s</a>',
 			$url,
 			esc_attr( $term->name ),
-			esc_html( $term->name . $count )
+			$term->name . '<span class="cn-cat-count">' . esc_html( $count ) . '</span>'
 		);
 
 		$class = 'cat-item cat-item-' . $term->term_id . ' cn-cat-parent';
@@ -283,6 +283,23 @@ class CN_Walker_Term_List extends Walker {
 			}
 		}
 
-		$output .= "$indent<li" . ' class="' . $class . '"' . ">$link</li>" . PHP_EOL;
+		$output .= "$indent<li" . ' class="' . $class . '"' . ">$link"; // Do not add EOL here, it'll add unwanted whitespace if terms are inline.
+	}
+
+	/**
+	 * Ends the element output.
+	 *
+	 * @see   Walker::start_el()
+	 *
+	 * @since 8.5.15
+	 *
+	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param object $object Term object.
+	 * @param int    $depth  Depth of category in reference to parents. Default 0.
+	 * @param array  $args   An array of arguments. @see CN_Walker_Term_List::render()
+	 */
+	public function end_el( &$output, $object, $depth = 0, $args = array() ) {
+
+		$output .= "</li>" . PHP_EOL;
 	}
 }

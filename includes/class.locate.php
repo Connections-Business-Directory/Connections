@@ -114,6 +114,7 @@ class cnLocate {
 		}
 
 		$path[30] = trailingslashit( get_template_directory() ) . $template_directory;
+		$path[40] = trailingslashit( WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'connections-templates' );
 		$path[50] = trailingslashit( $upload_dir['basedir'] ) . $template_directory;
 		$path[90] = CN_CUSTOM_TEMPLATE_PATH;
 

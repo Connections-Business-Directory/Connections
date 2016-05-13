@@ -273,13 +273,15 @@ class cnSEO {
 	 *
 	 * @uses   cnQuery::getVar()
 	 *
-	 * @param  string $title The browser tab/window title.
-	 * @param  string $sep [optional] The title separator.
+	 * @param  string $title       The browser tab/window title.
+	 * @param  string $separator   [optional] The title separator.
 	 * @param  string $seplocation [optional] The separator location.
 	 *
 	 * @return string
 	 */
-	public static function filterMetaTitle( $title, $sep = '&raquo;', /** @noinspection PhpUnusedParameterInspection */ $seplocation = '' ) {
+	public static function filterMetaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
+
+		$original  = $title;
 
 		// Whether or not to filter the page meta title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {
@@ -287,8 +289,7 @@ class cnSEO {
 			return $title;
 		}
 
-		// Coerce $title to be an array.
-		$title = (array) $title;
+		$pieces = array( $title );
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
@@ -301,7 +302,7 @@ class cnSEO {
 
 			$category = new cnCategory( $term );
 
-			array_unshift( $title, $category->getName() );
+			$pieces = array_merge( array( 'term-category-name' => $category->getName() ), $pieces );
 		}
 
 		if ( cnQuery::getVar( 'cn-cat' ) ) {
@@ -314,26 +315,38 @@ class cnSEO {
 
 			$category = new cnCategory( $term );
 
-			array_unshift( $title, $category->getName() );
+			$pieces = array_merge( array( 'term-category-name' => $category->getName() ), $pieces );
 		}
 
-		if ( cnQuery::getVar( 'cn-country' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-country' ) ) );
+		if ( cnQuery::getVar( 'cn-country' ) ) {
 
-		if ( cnQuery::getVar( 'cn-postal-code' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-postal-code' ) ) );
+			$pieces = array_merge( array( 'country' => urldecode( cnQuery::getVar( 'cn-country' ) ) ), $pieces );
+		}
 
-		if ( cnQuery::getVar( 'cn-region' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-region' ) ) );
+		if ( cnQuery::getVar( 'cn-postal-code' ) ) {
 
-		if ( cnQuery::getVar( 'cn-locality' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-locality' ) ) );
+			$pieces = array_merge( array( 'postal-code' => urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ), $pieces );
+		}
 
-		if ( cnQuery::getVar( 'cn-organization' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-organization' ) ) );
+		if ( cnQuery::getVar( 'cn-region' ) ) {
 
-		if ( cnQuery::getVar( 'cn-department' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-department' ) ) );
+			$pieces = array_merge( array( 'region' => urldecode( cnQuery::getVar( 'cn-region' ) ) ), $pieces );
+		}
+
+		if ( cnQuery::getVar( 'cn-locality' ) ) {
+
+			$pieces = array_merge( array( 'locality' => urldecode( cnQuery::getVar( 'cn-locality' ) ) ), $pieces );
+		}
+
+		if ( cnQuery::getVar( 'cn-organization' ) ) {
+
+			$pieces = array_merge( array( 'organization' => urldecode( cnQuery::getVar( 'cn-organization' ) ) ), $pieces );
+		}
+
+		if ( cnQuery::getVar( 'cn-department' ) ) {
+
+			$pieces = array_merge( array( 'department' => urldecode( cnQuery::getVar( 'cn-department' ) ) ), $pieces );
+		}
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
@@ -341,18 +354,27 @@ class cnSEO {
 			$instance = Connections_Directory();
 			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
 
-			// Make sure an entry is returned and if not, return $posts unaltered.
 			if ( empty( $result ) ) {
 
-				return implode( " $sep ", $title );
+				return apply_filters( 'cn_meta_title', implode( " $separator ", $pieces ), $pieces, $original, $separator, $seplocation );
 			}
 
-			$entry = new cnEntry( $result[0] );
-
-			array_unshift( $title, $entry->getName() );
+			$entry  = new cnEntry( $result[0] );
+			$pieces = array_merge( array( 'name' => $entry->getName() ), $pieces );
 		}
 
-		return implode( " $sep ", $title );
+		/**
+		 * Filter the parts of the page title.
+		 *
+		 * @since 8.5.15
+		 *
+		 * @param string $title       The page title.
+		 * @param array  $pieces      The pieces of the title.
+		 * @param string $original    The original title. May have been altered by other filters hooked into the `the_title` filter.
+		 * @param string $separator   The title separator.
+		 * @param string $seplocation Location of the separator (left or right).
+		 */
+		return apply_filters( 'cn_page_meta_title', implode( " $separator ", $pieces ), $pieces, $original, $separator, $seplocation );
 	}
 
 	/**
@@ -375,6 +397,17 @@ class cnSEO {
 	public static function filterPostTitle( $title, $id = 0 ) {
 		global $wp_query, $post;
 
+		$original = $title;
+
+		/**
+		 * Filter to allow the page title separator to be changed.
+		 *
+		 * @since 8.5.15
+		 *
+		 * @param string $separator The title separator.
+		 */
+		$separator = apply_filters( 'cn_page_title_separator', '&raquo;' );
+
 		// Whether or not to filter the page title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo', 'page_title' ) ) {
 
@@ -388,8 +421,7 @@ class cnSEO {
 			return $title;
 		}
 
-		// Coerce $title to be an array.
-		$title = (array) $title;
+		$pieces = array( $title );
 
 		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
 
@@ -402,12 +434,12 @@ class cnSEO {
 
 			$category = new cnCategory( $term );
 
-			array_unshift( $title, $category->getName() );
+			$pieces = array_merge( array( 'term-category-name' => $category->getName() ), $pieces );
 		}
 
 		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return implode( '', $title );
+			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return implode( '', $pieces );
 
 			$categoryID = cnQuery::getVar( 'cn-cat' );
 
@@ -415,26 +447,38 @@ class cnSEO {
 
 			$category = new cnCategory( $term );
 
-			array_unshift( $title, $category->getName() );
+			$pieces = array_merge( array( 'term-category-name' => $category->getName() ), $pieces );
 		}
 
-		if ( cnQuery::getVar( 'cn-country' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-country' ) ) );
+		if ( cnQuery::getVar( 'cn-country' ) ) {
 
-		if ( cnQuery::getVar( 'cn-postal-code' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-postal-code' ) ) );
+			$pieces = array_merge( array( 'country' => urldecode( cnQuery::getVar( 'cn-country' ) ) ), $pieces );
+		}
 
-		if ( cnQuery::getVar( 'cn-region' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-region' ) ) );
+		if ( cnQuery::getVar( 'cn-postal-code' ) ) {
 
-		if ( cnQuery::getVar( 'cn-locality' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-locality' ) ) );
+			$pieces = array_merge( array( 'postal-code' => urldecode( cnQuery::getVar( 'cn-postal-code' ) ) ), $pieces );
+		}
 
-		if ( cnQuery::getVar( 'cn-organization' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-organization' ) ) );
+		if ( cnQuery::getVar( 'cn-region' ) ) {
 
-		if ( cnQuery::getVar( 'cn-department' ) )
-			array_unshift( $title, urldecode( cnQuery::getVar( 'cn-department' ) ) );
+			$pieces = array_merge( array( 'region' => urldecode( cnQuery::getVar( 'cn-region' ) ) ), $pieces );
+		}
+
+		if ( cnQuery::getVar( 'cn-locality' ) ) {
+
+			$pieces = array_merge( array( 'locality' => urldecode( cnQuery::getVar( 'cn-locality' ) ) ), $pieces );
+		}
+
+		if ( cnQuery::getVar( 'cn-organization' ) ) {
+
+			$pieces = array_merge( array( 'organization' => urldecode( cnQuery::getVar( 'cn-organization' ) ) ), $pieces );
+		}
+
+		if ( cnQuery::getVar( 'cn-department' ) ) {
+
+			$pieces = array_merge( array( 'department' => urldecode( cnQuery::getVar( 'cn-department' ) ) ), $pieces );
+		}
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
@@ -445,15 +489,27 @@ class cnSEO {
 			// Make sure an entry is returned and if not, return $title unaltered.
 			if ( empty( $result ) ) {
 
-				return implode( ' &raquo; ', $title );
+				return apply_filters( 'cn_page_title', implode( " $separator ", $pieces ), $pieces, $separator, $original, $id );
 			}
 
-			$entry = new cnEntry( $result[0] );
-
-			array_unshift( $title, $entry->getName() );
+			$entry  = new cnEntry( $result[0] );
+			$pieces = array_merge( array( 'name' => $entry->getName() ), $pieces );
 		}
 
-		return implode( ' &raquo; ', $title );
+		/**
+		 * Filter the parts of the page title.
+		 *
+		 * @since 8.5.15
+		 *
+		 * @param string $title     The page title.
+		 * @param array  $pieces    The pieces of the title.
+		 * @param string $separator The title separator.
+		 * @param string $original  The original title. May have been altered by other filters hooked into the `the_title` filter.
+		 * @param int    $id        The post ID.
+		 */
+		$title = apply_filters( 'cn_page_title', implode( " $separator ", $pieces ), $pieces, $separator, $original, $id );
+
+		return $title;
 	}
 
 	/**

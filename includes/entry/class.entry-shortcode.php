@@ -19,10 +19,11 @@ class cnEntry_Shortcode {
 	 * An instance of the cnEntry object
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @var object
+	 * @since  0.8
+	 *
+	 * @var cnEntry
 	 */
-	private $entry = NULL;
+	private $entry;
 
 	/**
 	 * The resulting content after being process thru the entry shortcodes.
@@ -55,9 +56,10 @@ class cnEntry_Shortcode {
 	 * replacement process using the WordPress shortcode API.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @param object $entry   An instance of the cnEntry object.
-	 * @param string $content The content to be processed.
+	 * @since  0.8
+	 *
+	 * @param cnEntry $entry   An instance of the cnEntry object.
+	 * @param string  $content The content to be processed.
 	 */
 	private function __construct( $entry, $content ) {
 
@@ -145,7 +147,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'family_relationships':
-				$out = $this->entry->getFamilyMembers( $atts );
+				$out = $this->entry->getFamilyMembers();
 				break;
 
 			case 'addresses':

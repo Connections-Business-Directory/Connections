@@ -24,18 +24,18 @@ Quite simply, Connections Business Directory is the [best directory plugin avail
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
 * You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
-* **[Repeatable fields](http://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates.
-* Hierarchical (nested) **category support**. Businesses and members in your directory can be added to any number of categories.
-* Include a biographical text for an individual member or business description for each entry in your directory using an easy to use rich text editor.
-* You can easily add a business logo or photo of the staff member for each entry in your directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
+* **[Repeatable fields](http://connections-pro.com/documentation/add-entry/#Repeatable_Fields)** for address, phone numbers, email, IM, social media, links and dates which allow you to add as much or as little as you need for each business in your business directory.
+* Hierarchical (nested) **category support**. Businesses and members in your business directory can be added to any number of categories.
+* Include a biographical text for an individual member or business description for each entry in your business directory using an easy to use rich text editor.
+* You can easily add a business logo or photo of the staff member for each entry in your business directory or staff directory. The photo and logo images are fully responsive with **HiDPI (Retina) display support**.
 * **Scalable,** manage directories which [contain hundreds of thousands of entries](https://wordpress.org/support/topic/scales-to-at-least-250000-entries).
 * **[CSV Export](http://connections-pro.com/documentation/tools/#Export)** of addresses, phone numbers, email addresses and dates.
 * **[CSV Import](http://connections-pro.com/documentation/tools/#Categories-2)** of **nested** categories.
 * **[Role capability support](http://connections-pro.com/documentation/roles/)**.
-* Displaying your entries on the frontend is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The shortcode provides a dizzying array of options that are just too numerous to list. To learn more, [go here](http://connections-pro.com/documentation/plugin/shortcodes/).
-* **SEO.** Every entry outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
+* Displaying your business directory on the frontend is as simple as putting a shortcode on a page. Don't let this simplicity fool you. The shortcode provides a large array of options that are just too numerous to list. To learn more, [go here](http://connections-pro.com/documentation/plugin/shortcodes/).
+* **SEO.** Every entry in your business directory outputs following the [hCard](http://microformats.org/wiki/hcard) spec. Soon to be updated to following Schema.org.
 * **[Extensible](http://connections-pro.com/extensions/)** and developer friendly.
-* Robust **templating support** with the [Template Customizer](http://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with many more [premium templates available](http://connections-pro.com/templates/).
+* Robust **templating support** with the [Template Customizer](http://connections-pro.com/2015/07/27/feature-preview-template-customizer/). Several basic templates are provided to get you started with you business directory with many more [premium templates available](http://connections-pro.com/templates/) to really make your business directory shine.
 
 = Extensible =
 

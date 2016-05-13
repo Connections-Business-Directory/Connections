@@ -346,6 +346,15 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'advanced',
+			'id'        => 'google_maps_geocoding_api',
+			'position'  => 19,
+			'title'     => esc_html__( 'Google Maps Geocoding API' , 'connections' ),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'advanced',
 			'id'        => 'compatibility',
 			'position'  => 20,
 			'title'     => __( 'Compatibility' , 'connections' ),
@@ -1519,6 +1528,36 @@ class cnRegisterSettings {
 			'default'           => array(),
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSupportedCPTs' )
 			// Only need to add this once, otherwise it would be run for each field.
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'server_key',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'google_maps_geocoding_api',
+			'title'     => esc_html__( 'Server Key', 'connections' ),
+			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Server Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/geocoding/get-api-key' ),
+			'help'      => '',
+			'type'      => 'text',
+			'size'      => 'large',
+			'default'   => '',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'browser_key',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'google_maps_geocoding_api',
+			'title'     => esc_html__( 'Browser Key', 'connections' ),
+			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Browser Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/geocoding/get-api-key' ),
+			'help'      => '',
+			'type'      => 'text',
+			'size'      => 'large',
+			'default'   => '',
 		);
 
 		$fields[] = array(

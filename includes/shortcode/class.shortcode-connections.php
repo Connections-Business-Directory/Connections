@@ -44,6 +44,7 @@ class cnShortcode_Connections extends cnShortcode {
 			$atts = apply_filters( 'cn_template_customizer_template', $atts );
 		}
 
+		/** @var cnTemplate $template */
 		$template = cnTemplateFactory::loadTemplate( $atts );
 
 		if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $atts );
@@ -89,6 +90,7 @@ class cnShortcode_Connections extends cnShortcode {
 			'state'                 => NULL,
 			'zip_code'              => NULL,
 			'country'               => NULL,
+			'meta_query'            => '',
 			'content'               => '',
 			'near_addr'             => NULL,
 			'latitude'              => NULL,
@@ -99,7 +101,7 @@ class cnShortcode_Connections extends cnShortcode {
 			'width'                 => NULL,
 			'lock'                  => FALSE,
 			'force_home'            => FALSE,
-			'home_id'               => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
+			'home_id'               => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
 		);
 
 		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
@@ -138,6 +140,18 @@ class cnShortcode_Connections extends cnShortcode {
 		$atts['country']       = html_entity_decode( $atts['country'] );
 		$atts['category_name'] = html_entity_decode( $atts['category_name'] );
 
+		if ( 0 < strlen( $atts['meta_query'] ) ) {
+
+			// The meta query syntax follows the JSON standard, except, the WordPress Shortcode API does not allow
+			// brackets within shortcode options, so parenthesis have to be used instead, so, lets swap them
+			// that was json_decode can be ran and the resulting array used in cnRetrieve::entries().
+			$atts['meta_query'] = str_replace( array( '(', ')' ), array( '[', ']' ), $atts['meta_query'] );
+
+			$metaQuery = cnFormatting::maybeJSONdecode( $atts['meta_query'] );
+
+			$atts['meta_query'] = is_array( $metaQuery ) ? $metaQuery : array();
+		}
+
 		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
 		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );
 
@@ -164,17 +178,16 @@ class cnShortcode_Connections extends cnShortcode {
 
 		$html .= ob_get_clean();
 
-
 		$html .= sprintf( '<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s"%3$s>',
 				$instance->options->getVersion(),
 				$instance->options->getDBVersion(),
 				empty( $atts['width'] ) ? '' : ' style="width: ' . $atts['width'] . 'px;"'
-			);
+		);
 
 		$html .= sprintf( '<div class="cn-template cn-%1$s" id="cn-%1$s" data-template-version="%2$s">',
 				$template->getSlug(),
 				$template->getVersion()
-			);
+		);
 
 		// The filter should check $content that content is not empty before processing $content.
 		// And if it is empty the filter should return (bool) FALSE, so the core template parts can be executed.
@@ -200,11 +213,9 @@ class cnShortcode_Connections extends cnShortcode {
 			$html .= $content;
 		}
 
-
 		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $template->getSlug() . ' -->' : '' ) . PHP_EOL;
 
 		$html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . PHP_EOL;
-
 
 		// Clear any filters that have been added.
 		// This allows support using the shortcode multiple times on the same page.

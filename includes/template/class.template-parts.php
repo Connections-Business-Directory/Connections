@@ -373,7 +373,13 @@ class cnTemplatePart {
 			//$addAction = $homeID != $atts['home_id'] ? TRUE : FALSE;
 			$addAction = cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ) != $atts['home_id'] ? TRUE : FALSE ;
 			$permalink = get_permalink( $homeID );
-			//$permalink = apply_filters( 'cn_permalink', $permalink, $atts );
+
+			/**
+			 * Filter the form action attribute.
+			 *
+			 * @since 8.5.15
+			 */
+			$permalink = apply_filters( 'cn_form_open_action', $permalink, $atts );
 
 			$permalink = cnURL::makeRelative( $permalink );
 
@@ -1256,7 +1262,7 @@ class cnTemplatePart {
 					$atts['before-item'],
 					$atts['item_tag'],
 					esc_attr( $key ),
-					esc_html( $message ),
+					wp_kses_post( $message ),
 					$atts['after-item']
 				);
 			}
@@ -1333,11 +1339,11 @@ class cnTemplatePart {
 	 * Outputs entry data JSON encoded in HTML data attribute.
 	 * This is an action called by the `cn_action_entry_after` hook.
 	 *
-	 * @access  public
+	 * @access public
 	 * @since  0.8
-	 * @uses   wp_parse_args()
-	 * @param array  $atts  Shortcode $atts passed by the `cn_action_entry_after` action hook.
-	 * @param object $entry An instance the the cnEntry object.
+	 *
+	 * @param array   $atts  Shortcode $atts passed by the `cn_action_entry_after` action hook.
+	 * @param cnEntry $entry An instance the the cnEntry object.
 	 *
 	 * @return string
 	 */
@@ -1692,10 +1698,11 @@ class cnTemplatePart {
 		$styles  = '';
 
 		$defaults = array(
-			'status' => array( 'approved' ),
-			'tag'    => 'div',
-			'style'  => array(),
-			'return' => FALSE,
+			'status'     => array( 'approved' ),
+			'visibility' => array(),
+			'tag'        => 'div',
+			'style'      => array(),
+			'return'     => FALSE,
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1938,7 +1945,7 @@ class cnTemplatePart {
 
 				$args = array(
 					'base'               => $permalink . '%_%',
-					'format'             => 'pg/%#%',
+					'format'             => user_trailingslashit( 'pg/%#%', 'cn-paged' ),
 					'total'              => $pageCount,
 					'current'            => $current,
 					'show_all'           => $atts['show_all'],

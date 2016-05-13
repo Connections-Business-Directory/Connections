@@ -514,7 +514,7 @@ class cnRetrieve {
 
 			cnFunction::parseStringList( $atts['list_type'], ',' );
 
-			$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
+			$permittedEntryTypes = array( 'individual', 'organization', 'family', 'connection_group' );
 
 			// Set query string for entry type.
 			if ( (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {
@@ -523,7 +523,7 @@ class cnRetrieve {
 				// is changed to entry type family
 				$atts['list_type'] = str_replace( 'connection_group', 'family', $atts['list_type'] );
 
-				$where[] = 'AND `entry_type` IN (\'' . implode( "', '", (array) $atts['list_type'] ) . '\')';
+				$where[] = cnQuery::where( array( 'field' => 'entry_type', 'value' => $atts['list_type'] ) );
 			}
 		}
 		/*
@@ -533,20 +533,20 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries that match the supplied filters.
 		 */
-		if ( ! empty( $atts['family_name'] ) ) $where[]  = $wpdb->prepare( 'AND `family_name` = %s' , $atts['family_name'] );
-		if ( ! empty( $atts['last_name'] ) ) $where[]    = $wpdb->prepare( 'AND `last_name` = %s' , $atts['last_name'] );
-		if ( ! empty( $atts['title'] ) ) $where[]        = $wpdb->prepare( 'AND `title` = %s' , $atts['title'] );
-		if ( ! empty( $atts['organization'] ) ) $where[] = $wpdb->prepare( 'AND `organization` = %s' , $atts['organization'] );
-		if ( ! empty( $atts['department'] ) ) $where[]   = $wpdb->prepare( 'AND `department` = %s' , $atts['department'] );
+		$where[] = cnQuery::where( array( 'field' => 'family_name', 'value' => $atts['family_name'] ) );
+		$where[] = cnQuery::where( array( 'field' => 'last_name', 'value' => $atts['last_name'] ) );
+		$where[] = cnQuery::where( array( 'field' => 'title', 'value' => $atts['title'] ) );
+		$where[] = cnQuery::where( array( 'field' => 'organization', 'value' => $atts['organization'] ) );
+		$where[] = cnQuery::where( array( 'field' => 'department', 'value' => $atts['department'] ) );
 
 		if ( ! empty( $atts['city'] ) || ! empty( $atts['state'] ) || ! empty( $atts['zip_code'] ) || ! empty( $atts['country'] ) ) {
 
 			if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
 
-			if ( ! empty( $atts['city'] ) ) $where[]     = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.city = %s' , $atts['city'] );
-			if ( ! empty( $atts['state'] ) ) $where[]    = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.state = %s' , $atts['state'] );
-			if ( ! empty( $atts['zip_code'] ) ) $where[] = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.zipcode = %s' , $atts['zip_code'] );
-			if ( ! empty( $atts['country'] ) ) $where[]  = $wpdb->prepare( 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.country = %s' , $atts['country'] );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'city', 'value' => $atts['city'] ) );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'state', 'value' => $atts['state'] ) );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'zipcode', 'value' => $atts['zip_code'] ) );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'country', 'value' => $atts['country'] ) );
 		}
 
 		if ( 0 < strlen( $atts['char'] ) ) {
@@ -560,39 +560,7 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries based on user permissions.
 		 */
-		if ( is_user_logged_in() ) {
-
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[]                 = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[]                = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-
-			} else {
-
-				$visibility[] = $atts['visibility'];
-			}
-
-		} else {
-			//var_dump( $instance->options->getAllowPublic() ); die;
-
-			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $instance->options->getAllowPublic() ) $visibility[] = 'public';
-
-			// Display the 'public' entries if the public override shortcode option is enabled.
-			if ( $instance->options->getAllowPublicOverride() ) {
-				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
-			}
-
-			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
-			if ( $instance->options->getAllowPrivateOverride() ) {
-				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
-				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
-				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
-			}
-		}
-
-		$where[] = 'AND ' . CN_ENTRY_TABLE . '.visibility IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		$where = self::setQueryVisibility( $where, $atts );
 		/*
 		 * // END --> Set up the query to only return the entries based on user permissions.
 		 */
@@ -600,29 +568,7 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries based on status.
 		 */
-		cnFunction::parseStringList( $atts['status'], ',' );
-
-		$permittedEntryStatus     = array( 'approved', 'pending' );
-		$userPermittedEntryStatus = array( 'approved' );
-
-		if ( is_user_logged_in() ) {
-
-			// If 'all' was supplied, set the array to all the permitted entry status types.
-			if ( in_array( 'all', $atts['status'] ) ) {
-
-				$atts['status'] = $permittedEntryStatus;
-			}
-
-			// Limit the viewable status per role capability assigned to the current user.
-			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
-
-				$userPermittedEntryStatus = array( 'approved', 'pending' );
-			}
-		}
-
-		$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
-
-		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $atts['status'] ) . '\')';
+		$where = self::setQueryStatus( $where, $atts );
 		/*
 		 * // END --> Set up the query to only return the entries based on status.
 		 */
@@ -1124,10 +1070,6 @@ class cnRetrieve {
 	 * @access private
 	 * @since 0.7.4
 	 *
-	 * @uses wp_parse_args()
-	 * @uses is_user_logged_in()
-	 * @uses current_user_can()
-	 *
 	 * @return array
 	 */
 	public static function setQueryVisibility( $where, $atts = array() ) {
@@ -1159,7 +1101,7 @@ class cnRetrieve {
 				// Convert the supplied entry statuses $atts['visibility'] to an array.
 				cnFunction::parseStringList( $atts['visibility'] );
 
-				$visibility[] = $atts['visibility'];
+				$visibility = $atts['visibility'];
 			}
 
 		} else {
@@ -1182,7 +1124,7 @@ class cnRetrieve {
 
 		}
 
-		$where[] = 'AND ' . $atts['table'] . '.visibility IN (\'' . implode( "', '", $visibility ) . '\')';
+		$where[] = cnQuery::where( array( 'table' => $atts['table'], 'field' => 'visibility', 'value' => $visibility ) );
 
 		return $where;
 	}
@@ -1193,10 +1135,6 @@ class cnRetrieve {
 	 * @access private
 	 * @since  0.7.4
 	 * @static
-	 *
-	 * @uses wp_parse_args()
-	 * @uses is_user_logged_in()
-	 * @uses current_user_can()
 	 *
 	 * @param array $where
 	 * @param array $atts
@@ -1241,7 +1179,7 @@ class cnRetrieve {
 		// Permit only the supported statuses to be queried.
 		$status = array_intersect( $status, $valid );
 
-		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $status ) . '\')';
+		$where[] = cnQuery::where( array( 'field' => 'status', 'value' => $status ) );
 
 		return $where;
 	}
@@ -1322,7 +1260,7 @@ class cnRetrieve {
 			absint( $atts['days'] ),
 			$date,
 			$date
-			);
+		);
 		// print_r($sql);
 
 		$upcoming = $wpdb->get_results( $sql );
@@ -1382,7 +1320,7 @@ class cnRetrieve {
 				absint( $atts['days'] ),
 				$date,
 				$date
-				);
+			);
 			// print_r($sql);
 
 			$legacy = $wpdb->get_results( $sql );
@@ -2413,7 +2351,7 @@ class cnRetrieve {
 					$select[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['entry'] ) . ') AGAINST (%s) AS score',
 						$terms
-						);
+					);
 				}
 
 				$from[] = CN_ENTRY_TABLE;
@@ -2426,7 +2364,7 @@ class cnRetrieve {
 					$where[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['entry'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
-						);
+					);
 				}
 
 				/*
@@ -2473,7 +2411,7 @@ class cnRetrieve {
 					$select[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['address'] ) . ') AGAINST (%s) AS score',
 						$terms
-						);
+					);
 				}
 
 				$from[] = CN_ENTRY_ADDRESS_TABLE;
@@ -2486,7 +2424,7 @@ class cnRetrieve {
 					$where[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['address'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
-						);
+					);
 				}
 
 				/*
@@ -2519,7 +2457,7 @@ class cnRetrieve {
 			}
 
 			/*
-			 * Only search the phone records if thefield is selected to be search.
+			 * Only search the phone records if the field is selected to be search.
 			 */
 			if ( ! empty( $atts['fields']['phone'] ) ) {
 
@@ -2538,7 +2476,7 @@ class cnRetrieve {
 					$select[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['phone'] ) . ') AGAINST (%s) AS score',
 						$terms
-						);
+					);
 				}
 
 				$from[] = CN_ENTRY_PHONE_TABLE;
@@ -2551,7 +2489,7 @@ class cnRetrieve {
 					$where[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['phone'] ) . ') AGAINST (%s IN BOOLEAN MODE)',
 						$terms
-						);
+					);
 				}
 
 				/*

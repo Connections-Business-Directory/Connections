@@ -216,11 +216,11 @@ class cnShortcode {
 
 			if ( FALSE === $parent ) {
 
-				$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold' ), TRUE ) ? TRUE : FALSE;
+				$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
 
 			} elseif ( $parent instanceof WP_Theme ) {
 
-				$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold' ), TRUE ) ? TRUE : FALSE;
+				$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
 
 			} else {
 
@@ -463,7 +463,6 @@ class cnShortcode {
 							$entryID = get_user_meta( get_current_user_id(), 'connections_entry_id', TRUE );
 							// var_dump( $entryID );
 
-							//
 							$results = $instance->retrieve->entries( array( 'status' => 'approved,pending' ) );
 							// var_dump( $results );
 
@@ -474,7 +473,7 @@ class cnShortcode {
 							 */
 
 							if ( is_user_logged_in() &&
-								( current_user_can( 'connections_manage' ) || $entryID == $results[0]->id ) &&
+								( current_user_can( 'connections_manage' ) || ( (int) $entryID == (int) $results[0]->id ) ) &&
 								( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 								) {
 

@@ -702,9 +702,11 @@ class cnEntryMetabox {
 	 * Called from self::name()
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox attributes array set in self::register(). Passed from self::name().
+	 * @since  0.8
+	 *
+	 * @param  cnEntry $entry An instance of the cnEntry object.
+	 * @param  array   $atts  The metabox attributes array set in self::register(). Passed from self::name().
+	 *
 	 * @return void
 	 */
 	public static function family( $entry, $atts ) {
@@ -726,7 +728,7 @@ class cnEntryMetabox {
 		$individuals = cnRetrieve::individuals();
 
 		// Get the core entry relations.
-		$relations   = $instance->options->getDefaultFamilyRelationValues();
+		$options = $instance->options->getDefaultFamilyRelationValues();
 
 		$html .= '<div class="cn-metabox" id="cn-metabox-section-family">';
 
@@ -749,7 +751,7 @@ class cnEntryMetabox {
 					'class'    => 'family-member-relation',
 					'id'       => 'family_member[::FIELD::][relation]',
 					'default'  => __( 'Select Relation', 'connections' ),
-					'options'  => $relations,
+					'options'  => $options,
 					'enhanced' => TRUE,
 					'return'   => TRUE,
 				)
@@ -763,13 +765,13 @@ class cnEntryMetabox {
 
 			$html .= '<ul id="cn-relations">';
 
-			if ( $entry->getFamilyMembers() ) {
+			if ( $relations = $entry->getFamilyMembers() ) {
 
-				foreach ( $entry->getFamilyMembers() as $key => $value ) {
+				foreach ( $relations as $relationData ) {
 
 					$token = str_replace( '-', '', cnUtility::getUUID() );
 
-					if ( array_key_exists( $key, $individuals ) ) {
+					if ( array_key_exists( $relationData['entry_id'], $individuals ) ) {
 
 						$html .= '<li id="relation-row-' . $token . '" class="cn-relation"><i class="fa fa-sort"></i> ';
 
@@ -782,20 +784,20 @@ class cnEntryMetabox {
 									'enhanced' => TRUE,
 									'return'   => TRUE,
 									),
-									$key
-								);
+								$relationData['entry_id']
+							);
 
 							$html .= cnHTML::select(
 								array(
-									'class'   => 'family-member-relation',
-									'id'      => 'family_member[' . $token . '][relation]',
+									'class'    => 'family-member-relation',
+									'id'       => 'family_member[' . $token . '][relation]',
 									'default'  => __( 'Select Relation', 'connections' ),
-									'options' => $relations,
+									'options'  => $options,
 									'enhanced' => TRUE,
 									'return'   => TRUE,
 									),
-									$value
-								);
+								$relationData['relation']
+							);
 
 							$html .= '<a href="#" class="cn-remove cn-button button cn-button-warning" data-type="relation" data-token="' . $token . '">' . __( 'Remove', 'connections' ) . '</a>';
 
@@ -839,8 +841,8 @@ class cnEntryMetabox {
 							'image'  => 'photo',
 							'preset' => 'profile',
 							'action' => 'edit',
-							)
-						);
+						)
+					);
 
 				} else {
 
@@ -853,8 +855,8 @@ class cnEntryMetabox {
 							'image'  => 'photo',
 							'preset' => 'profile',
 							'action' => 'edit',
-							)
-						);
+						)
+					);
 
 				}
 
@@ -907,8 +909,8 @@ class cnEntryMetabox {
 						array(
 							'image'  => 'logo',
 							'action' => 'edit',
-							)
-						);
+						)
+					);
 
 				} else {
 
@@ -920,8 +922,8 @@ class cnEntryMetabox {
 						array(
 							'image'  => 'logo',
 							'action' => 'edit',
-							)
-						);
+						)
+					);
 				}
 
 				cnHTML::radio(

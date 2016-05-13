@@ -216,11 +216,11 @@ class cnShortcode {
 
 			if ( FALSE === $parent ) {
 
-				$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold' ), TRUE ) ? TRUE : FALSE;
+				$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
 
 			} elseif ( $parent instanceof WP_Theme ) {
 
-				$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold' ), TRUE ) ? TRUE : FALSE;
+				$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
 
 			} else {
 

@@ -568,29 +568,7 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries based on status.
 		 */
-		cnFunction::parseStringList( $atts['status'], ',' );
-
-		$permittedEntryStatus     = array( 'approved', 'pending' );
-		$userPermittedEntryStatus = array( 'approved' );
-
-		if ( is_user_logged_in() ) {
-
-			// If 'all' was supplied, set the array to all the permitted entry status types.
-			if ( in_array( 'all', $atts['status'] ) ) {
-
-				$atts['status'] = $permittedEntryStatus;
-			}
-
-			// Limit the viewable status per role capability assigned to the current user.
-			if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
-
-				$userPermittedEntryStatus = array( 'approved', 'pending' );
-			}
-		}
-
-		$atts['status'] = array_intersect( $userPermittedEntryStatus, $atts['status'] );
-
-		$where[] = 'AND ' . CN_ENTRY_TABLE . '.status IN (\'' . implode( "', '", $atts['status'] ) . '\')';
+		$where = self::setQueryStatus( $where, $atts );
 		/*
 		 * // END --> Set up the query to only return the entries based on status.
 		 */

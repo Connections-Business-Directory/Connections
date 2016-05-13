@@ -94,4 +94,72 @@ class cnQuery {
 			$GLOBALS['wp_the_query']->query_vars[ $var ] = $value;
 		}
 	}
+
+	/**
+	 * @access public
+	 * @since  8.5.15
+	 *
+	 * @global wpdb $wpdb
+	 *
+	 * @param array  $atts
+	 *
+	 * @return string
+	 */
+	public static function where( $atts = array() ) {
+
+		global $wpdb;
+
+		$defaults = array(
+			'table'     => CN_ENTRY_TABLE,
+			'field'     => '',
+			'value'     => '',
+			'format'    => '%s',
+			'relation'  => 'AND',
+			'delimiter' => '|',
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
+
+		$where = '';
+
+		$atts['relation'] = in_array( $atts['relation'], array( 'AND', 'OR' ) ) ? strtoupper( $atts['relation'] ) : 'AND';
+
+		if ( 0 < strlen( $atts['field'] ) && 0 < count( $atts['value'] ) ) {
+
+			$value = cnFunction::parseStringList( $atts['value'], $atts['delimiter'] );
+			$count = count( $value );
+
+			if ( 1 < $count ) {
+
+				$where = $atts['relation'] . ' ' . $atts['table'] . '.' . $atts['field'] . ' ' . self::in( $value, $atts['format'] );
+
+			} elseif ( 1 == $count ) {
+
+				$where = $wpdb->prepare( $atts['relation'] . ' ' . $atts['table'] . '.' . $atts['field'] . ' = ' . $atts['format'], $value );
+			}
+		}
+
+		return $where;
+	}
+
+	/**
+	 * @access public
+	 * @since  8.5.15
+	 *
+	 * @global wpdb $wpdb
+	 *
+	 * @param array $values
+	 * @param array $format
+	 * @param bool  $in
+	 *
+	 * @return string|void
+	 */
+	public static function in( $values, $format, $in = TRUE ) {
+
+		global $wpdb;
+
+		$relation = $in ? 'IN' : 'NOT IN';
+
+		return $wpdb->prepare( $relation . ' ( ' . implode( ', ', array_fill( 0, count( $values ), $format ) ) . ' )', $values );
+	}
 }

@@ -659,32 +659,27 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<td colspan="2">';
 
 					if ( $relations = $entry->getFamilyMembers() ) {
-//var_dump( $relations );
+
 						$relationsHTML = array();
 
 						foreach ( $relations as $relationData ) {
-//var_dump( $relationData );
-							//foreach ( $relationData as $key => $value ) {
 
-								$relation = new cnEntry();
-								$relation->set( $relationData['entry_id'] );
+							$relation = new cnEntry();
+							$relation->set( $relationData['entry_id'] );
 
-								if ( $relation->getId() ) {
+							if ( $relation->getId() ) {
 
-									if ( current_user_can( 'connections_edit_entry' ) ) {
+								if ( current_user_can( 'connections_edit_entry' ) ) {
 
-										$editRelationTokenURL = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() ) );
+									$editRelationTokenURL = esc_url( $form->tokenURL( 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $relation->getId(), 'entry_edit_' . $relation->getId() ) );
 
-										$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> ' . '<a href="' . $editRelationTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $relation->getName() . '">' . $relation->getName() . '</a>';
 
-									} else {
+								} else {
 
-										$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> ' . $relation->getName();
-									}
+									$relationsHTML[] = '<strong>' . $instance->options->getFamilyRelation( $relationData['relation'] ) . ':</strong> ' . $relation->getName();
 								}
-
-							//}
-
+							}
 						}
 
 						if ( ! empty( $relationsHTML ) ) echo implode( '<br />' . PHP_EOL, $relationsHTML );

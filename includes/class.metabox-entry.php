@@ -841,8 +841,8 @@ class cnEntryMetabox {
 							'image'  => 'photo',
 							'preset' => 'profile',
 							'action' => 'edit',
-							)
-						);
+						)
+					);
 
 				} else {
 
@@ -855,8 +855,8 @@ class cnEntryMetabox {
 							'image'  => 'photo',
 							'preset' => 'profile',
 							'action' => 'edit',
-							)
-						);
+						)
+					);
 
 				}
 
@@ -909,8 +909,8 @@ class cnEntryMetabox {
 						array(
 							'image'  => 'logo',
 							'action' => 'edit',
-							)
-						);
+						)
+					);
 
 				} else {
 
@@ -922,8 +922,8 @@ class cnEntryMetabox {
 						array(
 							'image'  => 'logo',
 							'action' => 'edit',
-							)
-						);
+						)
+					);
 				}
 
 				cnHTML::radio(

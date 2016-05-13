@@ -2351,7 +2351,7 @@ class cnRetrieve {
 					$select[] = $wpdb->prepare(
 						'MATCH (' . implode( ', ', $atts['fields']['entry'] ) . ') AGAINST (%s) AS score',
 						$terms
-						);
+					);
 				}
 
 				$from[] = CN_ENTRY_TABLE;

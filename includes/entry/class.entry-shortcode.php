@@ -147,7 +147,7 @@ class cnEntry_Shortcode {
 				break;
 
 			case 'family_relationships':
-				$out = $this->entry->getFamilyMembers( $atts );
+				$out = $this->entry->getFamilyMembers();
 				break;
 
 			case 'addresses':

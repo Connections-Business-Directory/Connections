@@ -19,10 +19,11 @@ class cnEntry_Shortcode {
 	 * An instance of the cnEntry object
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @var object
+	 * @since  0.8
+	 *
+	 * @var cnEntry
 	 */
-	private $entry = NULL;
+	private $entry;
 
 	/**
 	 * The resulting content after being process thru the entry shortcodes.

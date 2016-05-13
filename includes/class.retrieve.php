@@ -514,7 +514,7 @@ class cnRetrieve {
 
 			cnFunction::parseStringList( $atts['list_type'], ',' );
 
-			$permittedEntryTypes  = array( 'individual', 'organization', 'family', 'connection_group' );
+			$permittedEntryTypes = array( 'individual', 'organization', 'family', 'connection_group' );
 
 			// Set query string for entry type.
 			if ( (bool) array_intersect( $atts['list_type'], $permittedEntryTypes ) ) {

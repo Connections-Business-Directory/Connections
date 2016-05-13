@@ -733,19 +733,19 @@ class cnOutput extends cnEntry {
 		$html   = '';
 		$search = array( '%relation%', '%name%', '%separator%' );
 
-		if ( $this->getFamilyMembers() ) {
+		if ( $relations = $this->getFamilyMembers() ) {
 
 			// Grab an instance of the Connections object.
 			$instance = Connections_Directory();
 
-			foreach ( $this->getFamilyMembers() as $key => $value ) {
+			foreach ( $relations as $relationData ) {
 
 				$relation = new cnEntry();
 				$replace  = array();
 
-				if ( $relation->set( $key ) ) {
+				if ( $relation->set( $relationData['entry_id'] ) ) {
 
-					$replace[] = $instance->options->getFamilyRelation( $value );
+					$replace[] = $instance->options->getFamilyRelation( $relationData['relation'] );
 
 					$replace[] = cnURL::permalink(
 						array(

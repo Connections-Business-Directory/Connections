@@ -43,17 +43,17 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 	// Set a counter
 	$counter = 0;
 
-	foreach ( $entry->getFamilyMembers() as $key_member_group => $value_member_group ) {
+	foreach ( $entry->getFamilyMembers() as $relationData ) {
 		// Increment
 		$counter ++;
 
 		// Set family member id
-		$member_group->set( $key_member_group );
+		$member_group->set( $relationData['entry_id'] );
 
 		if ( $counter > 1 ) {
-			$member_list_first_names .= ", " . $member_group->getFirstName();
+			$member_list_first_names .= ", " . $member_group->getName( array( 'format' => '%first%' ) );
 		} else {
-			$member_list_first_names = $member_group->getFirstName();
+			$member_list_first_names = $member_group->getName( array( 'format' => '%first%' ) );
 		}
 	}
 
@@ -151,10 +151,10 @@ if ( sizeof( $entry->getFamilyMembers() ) > 0 ) {
 	}
 
 	// Search for member info
-	foreach ( $entry->getFamilyMembers() as $key_member_group => $value_member_group ) {
+	foreach ( $entry->getFamilyMembers() as $relationData ) {
 
 		// Set family member id
-		$member_group->set( $key_member_group );
+		$member_group->set( $relationData['entry_id'] );
 
 		// Clear temp vars
 		$member_name          = '';

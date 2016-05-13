@@ -1207,22 +1207,38 @@ class cnEntry {
 	 * Returns family member member entry ID and relation.
 	 */
 	public function getFamilyMembers() {
+
+		$relations = array();
+
 		if ( ! empty( $this->familyMembers ) ) {
-			return $this->familyMembers;
+
+			/*
+			 * The family relationship data was saved as an associative array where key was the entry ID and the value was
+			 * the relationship key.
+			 *
+			 * The data is now saved in a multidimensional array. What this nifty little count dos is compare the array
+			 * count and against a recursive array count and if they are equal, it should be of the older data format
+			 * so loop thru it and put it in the new data format.
+			 */
+			if ( count( $this->familyMembers ) == count( $this->familyMembers, COUNT_RECURSIVE ) ) {
+
+				foreach ( $this->familyMembers as $key => $relation ) {
+
+					$relations[] = array( 'entry_id' => $key, 'relation' => $relation );
+				}
+
+			} else {
+
+				$relations = $this->familyMembers;
+			}
+
 		}
-		else {
-			return array();
-		}
+
+		return $relations;
 	}
 
 	/**
-	 * The form to capture the user IDs and relationship stores the data
-	 * in a two-dimensional array as follows:
-	 * 		array[0]
-	 * 			array[entry_id]
-	 * 				 [relation]
-	 *
-	 * This re-writes the data into an associative array entry_id => relation.
+	 * Saves the family relational data.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -1237,7 +1253,7 @@ class cnEntry {
 
 			foreach ( $relations as $relation ) {
 
-				$family[ $relation['entry_id'] ] = $relation['relation'];
+				$family[] = array( 'entry_id' => $relation['entry_id'], 'relation' => $relation['relation'] );
 			}
 		}
 

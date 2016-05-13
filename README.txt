@@ -215,6 +215,35 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.15 05/13/2016 =
+* NEW: Introduce the `cn_page_meta_title`, `cn_page_title_separator` and `cn_page_title` filters in cnSEO.
+* NEW: Add support for Google Maps API browser and server keys.
+* NEW: Introduce the `cn_form_open_action` filter.
+* NEW: Introduce `cnQuery::where()` and `cnQuery::in()` methods.
+* NEW: Introduce meta_query support to the `[connections]` shortcode.
+* TWEAK: Send geocoding queries using https and remove the unneeded sensor parameter.
+* TWEAK: Use `wp_kses_post()` rather than `esc_html()` when escaping search results messages to allow HTML in the messages.
+* TWEAK: Wrap the term count in a span so it can be selected with CSS.
+* TWEAK: Remove an PHP_EOL so there is no whitespace between terms in the list in class CN_Walker_Term_List.
+* TWEAK: When displaying the character index, take into account the users selected visibility filter on the Manage admin page.
+* TWEAK: Add the `wp-content` folder as a searchable path for `connections-templates`.
+* TWEAK: Add the Kleo template to the template compatibility list for the single shortcode filter.
+* TWEAK: Utilize `cnRetrieve::setQueryVisiblity()` in `cnRetrieve::entries()` to reduce code duplication.
+* TWEAK: Utilize `cnRetrieve::setQueryStatus()` in `cnRetrieve::entries()` to reduce code duplication.
+* TWEAK: Utilize `cnQuery::where()` where possible in cnRetrieve to reduce code complexity.
+* TWEAK: Refactor the way the entry relationship are saved and read to allow an individual to be added to a family multiple times.
+* TWEAK: When displaying the character index on the Manage admin page it should take into account the users selected visibility filter.
+* BUG: Correct geocoding query encoding by not double encoding it.
+* BUG: Correct misspelling of get_the_ID().
+* BUG: Ensure trailing slash on pagination permalinks.
+* BUG: Must use a strict check for the linked user meta entry ID and the entry ID retrieved from the Connections table because false = 0 in PHP.
+* BUG: Add `end_el()` to the CN_Walker_Term_List class so the children terms are added as child unordered lists within the parent term list item.
+* BUG: Fix bug in `cnRetrieve::setQueryVisibility()`.
+* BUG: Do not pass `$atts` to `cnEntry::getFamilyMemebers()` as it is unneeded.
+* OTHER: Correct spelling error.
+* DEV: phpDoc fixes.
+* DEV: Correct code alignment and remove extra blanks lines.
+
 = 8.5.14 04/13/2016 =
 * NEW: Add support for the `name_format` option to the `[upcoming_list]` shortcode.
 * NEW: Introduce the `cn_pre_save_meta` filter.
@@ -675,44 +704,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Prettify cnvCard() to better meet coding standards.
 * DEV: Stub phpDoc for cnAdminAction class.
 
-= 8.2.10 06/26/2015 =
-* FEATURE: Allow admins and editors (roles with unfiltered_html capability) to use the Media Manager to insert images in the Bio and Notes fields.
-* NEW: Introduce the new stateful cnLog().
-* NEW: Introduce logging of email sent using cnEmail(). This will enable logging of email sent via Contact and Form.
-* COMPATIBILITY: Add support for the WP Mail Logging plugin.
-* COMPATIBILITY: Add support for the Email Log plugin.
-* COMPATIBILITY: Add support for the Log Emails plugin.
-* COMPATIBILITY: Prevent WP Super Cache from purging the page cache when a log in added/updated by cnLog().
-* COMPATIBILITY: Prevent WP Rocket from purging the page cache when a log in added/updated by cnLog().
-* BUG: Ensure bio and notes fields are unslashed before displayed.
-* BUG: Fix admin sortable repeatable fieldsets.
-* BUG: Fix limit bug when retrieving phone numbers by type.
-* BUG: Fix limit bug when retrieving email addresses by type.
-* BUG: Correct the defaults array initialization in cnOutput::getAddressBlock().
-* BUG: Remove unused param in cnOutput::getLogoImage().
-* BUG: Remove unused global cnOutput::getImage().
-* BUG: Properly init arrays throughout cnOutput().
-* TWEAK: Add limit support when retrieving addresses.
-* TWEAK: Remove use of deprecated args sanitation function in cnOutput::getAddressBlock().
-* TWEAK: Remove use of deprecated function in cnOutput::getImage().
-* TWEAK: Remove use of deprecated args sanitization function throughout cnOutput().
-* TWEAK: Rename cnLog() to cnLog_Stateless(), move it to its own folder/file and update its usage in cnImage().
-* TWEAK: Refactor cnEmail::send(), break it apart into smaller more maintainable methods.
-* I18N: Update POT file.
-* I18N: Update all MO files.
-* I18N: Remove orphaned MO file.
-* DEV: Cleanup code alignment in cnOutput::getAddressBlock().
-* DEV: Fix code alignment of defaults array in cnOutput::getImage().
-* DEV: Correct several phpDoc params errors in cnOutput().
-* DEV: Adjust filters and actions in cnEmail::send() for better compatibility.
-* DEV: Prettify code in cnDate() to better meet coding standards.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.2.10 =
-It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 = 8.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.0.
@@ -787,4 +781,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.14 =
+It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.15 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.

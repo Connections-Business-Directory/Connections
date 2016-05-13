@@ -560,39 +560,7 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries based on user permissions.
 		 */
-		if ( is_user_logged_in() ) {
-
-			if ( ! isset( $atts['visibility'] ) || empty( $atts['visibility'] ) ) {
-
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[]                 = 'public';
-				if ( current_user_can( 'connections_view_private' ) ) $visibility[]                = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
-
-			} else {
-
-				$visibility[] = $atts['visibility'];
-			}
-
-		} else {
-			//var_dump( $instance->options->getAllowPublic() ); die;
-
-			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $instance->options->getAllowPublic() ) $visibility[] = 'public';
-
-			// Display the 'public' entries if the public override shortcode option is enabled.
-			if ( $instance->options->getAllowPublicOverride() ) {
-				if ( $atts['allow_public_override'] == TRUE ) $visibility[] = 'public';
-			}
-
-			// Display the 'public' & 'private' entries if the private override shortcode option is enabled.
-			if ( $instance->options->getAllowPrivateOverride() ) {
-				// If the user can view private entries then they should be able to view public entries too, so we'll add it. Just check to see if it is already set first.
-				if ( ! in_array( 'public', $visibility ) && $atts['private_override'] == TRUE ) $visibility[] = 'public';
-				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
-			}
-		}
-
-		$where[] = 'AND ' . CN_ENTRY_TABLE . '.visibility IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+		$where = self::setQueryVisibility( $where, $atts );
 		/*
 		 * // END --> Set up the query to only return the entries based on user permissions.
 		 */

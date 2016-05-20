@@ -612,7 +612,8 @@ class cnRetrieve {
 			// This is required otherwise addresses the user may not have permissions to view will be included in the query
 			// which could be confusing since entries could appear to be outside of the search radius when in fact the entry
 			// is within the search radius, it is just the address used to determine that is not viewable to the user.
-			$where[] = 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.visibility IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+			//$where[] = 'AND ' . CN_ENTRY_ADDRESS_TABLE . '.visibility IN (\'' . implode( "', '", (array) $visibility ) . '\')';
+			$where = self::setQueryVisibility( $where, array( 'table' => CN_ENTRY_ADDRESS_TABLE ) );
 
 			// Temporarily set the sort order to 'radius' for testing.
 			//$atts['order_by'] = array('radius');

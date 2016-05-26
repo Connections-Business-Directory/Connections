@@ -980,14 +980,16 @@ class cnTemplatePart {
 	 */
 	public static function entryAction_Back( $atts, $entry ) {
 
-		cnURL::permalink(
-			array(
-				'type' => 'home',
-				'text' => __( 'Go back to directory.', 'connections' ),
-				'on_click' => 'history.back();return false;',
-				'return' => FALSE
-			)
+		$defaults = array(
+			'type'     => 'home',
+			'text'     => __( 'Go back to directory.', 'connections' ),
+			'on_click' => 'history.back();return false;',
+			'return'   => FALSE,
 		);
+
+		$atts = cnSanitize::args( apply_filters( 'cn_entry_action_back_atts', $defaults ), $defaults );
+
+		cnURL::permalink( $atts );
 	}
 
 	/**

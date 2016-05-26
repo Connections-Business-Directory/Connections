@@ -981,9 +981,11 @@ class cnTemplatePart {
 	public static function entryAction_Back( $atts, $entry ) {
 
 		$defaults = array(
-			'type'     => 'home',
-			'text'     => __( 'Go back to directory.', 'connections' ),
+			'type'       => 'home',
+			'text'       => __( 'Go back to directory.', 'connections' ),
 			//'on_click' => 'history.back();return false;',
+			'force_home' => $atts['force_home'],
+			'home_id'    => $atts['home_id'],
 			'return'   => FALSE,
 		);
 

@@ -149,7 +149,7 @@ Registered Post Stati:      <?php echo implode( ', ', get_post_stati() ) . PHP_E
 Version:                    <?php echo $instance->options->getVersion() . PHP_EOL; ?>
 DB Version:                 <?php echo $instance->options->getDBVersion() . PHP_EOL; ?>
 
-CN_MULTISITE_ENABLED:       <?php echo CN_MULTISITE_ENABLED ? __( 'TRUE', 'connections') : __( 'FALSE', 'connections' ) . PHP_EOL; ?>
+CN_MULTISITE_ENABLED:       <?php echo CN_MULTISITE_ENABLED ? __( 'TRUE', 'connections') . PHP_EOL : __( 'FALSE', 'connections' ) . PHP_EOL; ?>
 CN_DIR_NAME:                <?php echo CN_DIR_NAME . PHP_EOL; ?>
 CN_BASE_NAME:               <?php echo CN_BASE_NAME . PHP_EOL; ?>
 CN_PATH:                    <?php echo CN_PATH . PHP_EOL; ?>

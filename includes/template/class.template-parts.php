@@ -983,7 +983,7 @@ class cnTemplatePart {
 		$defaults = array(
 			'type'     => 'home',
 			'text'     => __( 'Go back to directory.', 'connections' ),
-			'on_click' => 'history.back();return false;',
+			//'on_click' => 'history.back();return false;',
 			'return'   => FALSE,
 		);
 

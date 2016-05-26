@@ -971,11 +971,12 @@ class cnTemplatePart {
 	/**
 	 * Callback for the cn_entry_action-back action which outputs the "Go back to directory." link.
 	 *
-	 * @access  private
+	 * @access private
 	 * @since  0.8
-	 * @param  array  $atts  The $atts from self::entryActions() passed by the action callback.
-	 * @param  object $entry An instance of the cnEntry object; passed by the action callback.
-	 * @return void
+	 * @static
+	 *
+	 * @param array  $atts  The $atts from self::entryActions() passed by the action callback.
+	 * @param object $entry An instance of the cnEntry object; passed by the action callback.
 	 */
 	public static function entryAction_Back( $atts, $entry ) {
 

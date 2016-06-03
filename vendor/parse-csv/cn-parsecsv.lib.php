@@ -8,6 +8,15 @@
 class CN_parseCSV extends parseCSV {
 
 	/**
+	 * Remove BOM
+	 * Strip off BOM (UTF-8)
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $remove_bom = FALSE;
+
+	/**
 	 * Parse CSV strings to arrays.
 	 *
 	 * Override the core class to implement the header fix when using offset.
@@ -183,5 +192,67 @@ class CN_parseCSV extends parseCSV {
 		}
 
 		return $rows;
+	}
+
+	/**
+	 * Load local file or string
+	 *
+	 * Override the core class to implement BOM stripping.
+	 *
+	 * @link https://github.com/parsecsv/parsecsv-for-php/pull/40
+	 * @link https://github.com/parsecsv/parsecsv-for-php/pull/83
+	 *
+	 * @access public
+	 *
+	 * @param  string $input
+	 *
+	 * @return  bool
+	 */
+	public function load_data($input = null) {
+		$data = null;
+		$file = null;
+		if (is_null($input)) {
+			$file = $this->file;
+		} elseif (file_exists($input)) {
+			$file = $input;
+		} else {
+			$data = $input;
+		}
+		if (!empty($data) || $data = $this->_rfile($file)) {
+			if ($this->file != $file) {
+				$this->file = $file;
+			}
+			if (preg_match('/\.php$/i', $file) && preg_match('/<\?.*?\?>(.*)/ims', $data, $strip)) {
+				$data = ltrim($strip[1]);
+			}
+			if ($this->convert_encoding) {
+				$data = iconv($this->input_encoding, $this->output_encoding, $data);
+			}
+			if (substr($data, -1) != "\n") {
+				$data .= "\n";
+			}
+
+			if($this->remove_bom !== FALSE){
+				// strip off BOM (UTF-8)
+				if (strpos($data, "\xef\xbb\xbf") !== FALSE) {
+					$data = substr($data, 3);
+					//break;
+				}
+				// strip off BOM (UTF-16)
+				else if (strpos($data, "\xff\xfe") !== FALSE) {
+					$data = substr($data, 2);
+					//break;
+				}
+				// strip off BOM (UTF-16)
+				else if (strpos($data, "\xfe\xff") !== FALSE) {
+					$data = substr($data, 2);
+					//break;
+				}
+			}
+
+			$this->file_data = &$data;
+			return true;
+		}
+		return false;
 	}
 }

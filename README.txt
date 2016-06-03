@@ -215,6 +215,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.16 06/03/2016 =
+* NEW: Introduce the `cn_entry_action_back_atts` filter.
+* TWEAK: Remove the on_click event handler attached to the back to directory link.
+* TWEAK: Pass the `home_id` and `force_home` shortcode options when creating the back to directory link.
+* TWEAK: Refactor cnTemplateParts::entryAction_Back method to introduce the `cn_entry_action_back_atts` filter.
+* TWEAK: Override the parseCSV core class to implement BOM stripping in the load_data() method.
+* TWEAK: Remove PHP4 style constructor in the Browser library.
+* BUG: Correct query bug in cnRetrieve::entries when querying entries by radius.
+* BUG: Add missing EOL when CN_MULTISITE_ENABLED is TRUE.
+* OTHER: Remove stray extra spaces.
+* DEV: phpDoc fixes.
+
 = 8.5.15 05/13/2016 =
 * NEW: Introduce the `cn_page_meta_title`, `cn_page_title_separator` and `cn_page_title` filters in cnSEO.
 * NEW: Add support for Google Maps API browser and server keys.
@@ -785,3 +797,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.15 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+= 8.5.16 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.

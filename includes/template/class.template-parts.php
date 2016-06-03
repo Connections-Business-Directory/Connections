@@ -971,22 +971,27 @@ class cnTemplatePart {
 	/**
 	 * Callback for the cn_entry_action-back action which outputs the "Go back to directory." link.
 	 *
-	 * @access  private
+	 * @access private
 	 * @since  0.8
-	 * @param  array  $atts  The $atts from self::entryActions() passed by the action callback.
-	 * @param  object $entry An instance of the cnEntry object; passed by the action callback.
-	 * @return void
+	 * @static
+	 *
+	 * @param array  $atts  The $atts from self::entryActions() passed by the action callback.
+	 * @param object $entry An instance of the cnEntry object; passed by the action callback.
 	 */
 	public static function entryAction_Back( $atts, $entry ) {
 
-		cnURL::permalink(
-			array(
-				'type' => 'home',
-				'text' => __( 'Go back to directory.', 'connections' ),
-				'on_click' => 'history.back();return false;',
-				'return' => FALSE
-			)
+		$defaults = array(
+			'type'       => 'home',
+			'text'       => __( 'Go back to directory.', 'connections' ),
+			//'on_click' => 'history.back();return false;',
+			'force_home' => $atts['force_home'],
+			'home_id'    => $atts['home_id'],
+			'return'   => FALSE,
 		);
+
+		$atts = cnSanitize::args( apply_filters( 'cn_entry_action_back_atts', $defaults ), $defaults );
+
+		cnURL::permalink( $atts );
 	}
 
 	/**

@@ -3942,12 +3942,12 @@ class cnTerm {
 		// if ( !is_taxonomy_hierarchical($taxonomy) )
 		// 	return array();
 
-		 $children = get_option( "cn_{$taxonomy}_children" );
+		$children = get_option( "cn_{$taxonomy}_children" );
 
-		 if ( is_array( $children ) ) {
+		if ( is_array( $children ) ) {
 
-		 	return $children;
-		 }
+			return $children;
+		}
 
 		$children = array();
 		$terms    = self::getTaxonomyTerms( $taxonomy, array( 'get' => 'all', 'orderby' => 'id', 'fields' => 'id=>parent') );

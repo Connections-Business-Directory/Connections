@@ -2192,7 +2192,7 @@ class cnFunction {
 	}
 
 	/**
-	 * Clean up an array, comma list of strings.
+	 * Clean up an array, comma- or space-separated list of IDs.
 	 *
 	 * @access public
 	 * @since  8.2.9
@@ -2201,6 +2201,7 @@ class cnFunction {
 	 * @param string|array $list
 	 *
 	 * @param string       $delimiters The characters in which to split the supplied string. Should be preg_split() safe.
+	 *                                 Default: '\s,' This will split strings delimited with comma and spaces to an array.
 	 *
 	 * @return array
 	 */

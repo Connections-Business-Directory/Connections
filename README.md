@@ -1,9 +1,9 @@
 # Connections Business Directory #
 **Donate link:** http://connections-pro.com/
 **Tags:** address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, listings directory, local business directory, link directory, member directory, staff directory
-**Requires at least:** 4.1
+**Requires at least:** 4.2
 **Tested up to:** 4.5
-**Stable tag:** 8.5.15
+**Stable tag:** 8.5.16
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 ## Changelog ##
+
+### 8.5.16 06/03/2016 ###
+* NEW: Introduce the `cn_entry_action_back_atts` filter.
+* TWEAK: Remove the on_click event handler attached to the back to directory link.
+* TWEAK: Pass the `home_id` and `force_home` shortcode options when creating the back to directory link.
+* TWEAK: Refactor cnTemplateParts::entryAction_Back method to introduce the `cn_entry_action_back_atts` filter.
+* TWEAK: Override the parseCSV core class to implement BOM stripping in the load_data() method.
+* TWEAK: Remove PHP4 style constructor in the Browser library.
+* BUG: Correct query bug in cnRetrieve::entries when querying entries by radius.
+* BUG: Add missing EOL when CN_MULTISITE_ENABLED is TRUE.
+* OTHER: Remove stray extra spaces.
+* DEV: phpDoc fixes.
 
 ### 8.5.15 05/13/2016 ###
 * NEW: Introduce the `cn_page_meta_title`, `cn_page_title_separator` and `cn_page_title` filters in cnSEO.
@@ -657,87 +669,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add @link to phpDoc for cnSettingsAPI::addSettingsField().
 * DEV: Correct param type in phpDoc for cnHTML::attribute().
 
-### 8.3.3 07/17/2015 ###
-* FEATURE: The default category "Uncategorized" can now be renamed.
-* FEATURE: The default category can now be changed to any category.
-* NEW: Add support for a category field type in the Settings API.
-* NEW: Introduce cnSettingsAPI::set().
-* NEW: Introduce cnOptions::getDefaultCategoryID().
-* BUG: Correct the label for attribute for the search input on the Connections : Manage admin page.
-* BUG: Remove unused param when using delete_option().
-* TWEAK: Remove dead code, cnRegisterSettings::getPage().
-* TWEAK: Remove use of deprecated use of get_screen_icon() on the Connections : Manage admin page.
-* OTHER: Correct a few more misspellings in inline code comments.
-* I18N: Update the POT file.
-* I18N: Update the MO files.
-* DEV: Correct code spacing in cnRegisterSettings::registerSettingsFields() to bring it up to coding standards.
-* DEV: Add a couple more properties to the connectionsLoad class that are being set by cnRetrieve::entries() so they are documented.
-* DEV: Add phpDoc for the global $connections var in cnScript::registerScripts().
-* DEV: Correct code spacing in cnSettingsAPI::get() to bring it up to coding standards.
-* DEV: Correct code spacing in cnSettingsAPI::registerFields() to bring it up to coding standards.
-
-### 8.3.2 07/14/2015 ###
-* BUG: Fix PHP ternary to be compatible with older version of PHP. This could cause the Connections : Tools admin page to not display.
-* BUG: Correct anchor target when a link is linked to the image or logo.
-* BUG: Correct CN_Email_Log_List_Table::column_default() to be compatible with parent::column_default().
-* BUG: Remove indentation comment from displaying in the System Information.
-* TWEAK: Ensure data for registering a log type is valid before attempting to register it.
-* TWEAK: Ensure data for registering an email log type is valid before attempting to register it.
-* DEV: Prettify class cnImage() to better meet coding standards.
-
-### 8.3.1 07/10/2015 ###
-* BUG: Fix PHP error `Parse error: syntax error, unexpected T_STATIC in ../wp-content/plugins/connections/includes/class.utility.php on line 1866` on older versions of PHP.
-
-### 8.3 07/09/2015 ###
-* FEATURE: Add the Tools admin page with the System Info tab with the ability to email and/or share a secret URL to share the system info.
-* FEATURE: Introduce the ability to export/import the settings.
-* FEATURE: Introduce the ability for an admin to view and manage the email logs.
-* NEW: Introduce cnString::quickRandom().
-* NEW: Introduce cnString::random().
-* NEW: Introduce cnFunction::decodeJSON().
-* NEW: Introduce cnSettingsAPI::getAll(), cnSettingsAPI::download() and cnSettingsAPI::import().
-* NEW: Introduce cnLog::delete().
-* NEW: Introduce cnLog::views().
-* COMPATIBILITY: Include theme compatibility file with a filter to make images and logos compatible in the ProPhoto theme.
-* BUG: Fix bug in cnOutput::getContentBlock() that prevented the use of the content block name if the content block was registered as a single entry view content block.
-* BUG: Fix bug throughout cnEmail referring to a nonexistent charSet var.
-* BUG: Correct param default in cnAdminActions::setEntryStatus().
-* BUG: Fix reference bug in cnLog::deleteConnected().
-* TWEAK: Change cnFormatting::toYesNo() to a static method.
-* TWEAK: Do not create the .htaccess file in the TimThumb folder since it is no longer needed.
-* TWEAK: Move the vCard download template_redirect action callback function to static method cnvCard::download().
-* TWEAK: Remove the dead code in the deactivation callback.
-* TWEAK: Remove the Dashboard System widget.
-* TWEAK: Remove use of the cnvCard class on the Manage admin page since it is no longer needed.
-* TWEAK: Refactor cnOutput::getPhoneNumberBlock() to cleanup code and added a couple new filters.
-* TWEAK: Update cnLog::getConnected() to support getting logs of multiple types.
-* TWEAK: Update cnLog::getCount() to support getting log count of multiple types.
-* TWEAK: Make cnLog::types() a public method.
-* OTHER: Correct misspellings in inline code comments.
-* I18N: Update the POT file.
-* I18N: Update all MO files.
-* DEV: Include the Browser class by Chris Schuld.
-* DEV: phpDoc fixes.
-* DEV: Add phpDoc for the vars being extracted in cnAdminMenu::menu().
-* DEV: Use Yoda conditions.
-* DEV: Prettify cnvCard() to better meet coding standards.
-* DEV: Stub phpDoc for cnAdminAction class.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 ## Upgrade Notice ##
-
-### 8.3 ###
-It is recommended to backup before updating. Requires WordPress >= 4.0.
-
-### 8.3.1 ###
-It is recommended to backup before updating. Requires WordPress >= 4.0.
-
-### 8.3.2 ###
-It is recommended to backup before updating. Requires WordPress >= 4.0.
-
-### 8.3.3 ###
-It is recommended to backup before updating. Requires WordPress >= 4.0.
 
 ### 8.4 ###
 It is recommended to backup before updating. Requires WordPress >= 4.0.
@@ -804,3 +738,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 ### 8.5.15 ###
 It is recommended to backup before updating. Requires WordPress >= 4.1.
+
+### 8.5.16 ###
+It is recommended to backup before updating. Requires WordPress >= 4.2.

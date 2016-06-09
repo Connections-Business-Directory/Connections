@@ -256,6 +256,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 *
 		 * SUPPORTED FIELD TYPES:
 		 *  checkbox
+		 *  number
 		 *  multicheckbox
 		 *  radio
 		 *  select
@@ -622,6 +623,15 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$out .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>', $name, $key, $checked );
 						$out .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label><br />', $name, $key, $label );
 					}
+
+					break;
+
+				case 'number':
+
+					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
+
+					$out .= sprintf( '<input type="number" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );
 
 					break;
 

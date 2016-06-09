@@ -4264,13 +4264,21 @@ class cnTerm {
 	 *
 	 * @param object|int|string $term
 	 * @param string            $taxonomy (optional if $term is object)
+	 * @param array             $atts
 	 *
 	 * @return string|WP_Error URL  to taxonomy term on success, WP_Error if term does not exist.
 	 */
-	public static function permalink( $term, $taxonomy = '' ) {
+	public static function permalink( $term, $taxonomy = '', $atts = array() ) {
 
 		/** @var $wp_rewrite WP_Rewrite */
 		//global $wp_rewrite;
+
+		$defaults = array(
+			'force_home' => FALSE,
+			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		if ( ! is_object( $term ) ) {
 
@@ -4336,12 +4344,14 @@ class cnTerm {
 
 				$link = cnURL::permalink(
 					array(
-						'type'   => 'category',
-						'slug'   => implode( '/', $slugs ),
-						'title'  => $term->name,
-						'text'   => $term->name,
-						'data'   => 'url',
-						'return' => TRUE,
+						'type'       => 'category',
+						'slug'       => implode( '/', $slugs ),
+						'title'      => $term->name,
+						'text'       => $term->name,
+						'data'       => 'url',
+						'force_home' => $atts['force_home'],
+						'home_id'    => $atts['home_id'],
+						'return'     => TRUE,
 					)
 				);
 

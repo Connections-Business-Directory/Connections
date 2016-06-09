@@ -2273,10 +2273,18 @@ class cnRetrieve {
 		if ( empty( $atts['terms'] ) ) return array();
 
 		// If value is a string, stripe the white space and covert to an array.
-		if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ', trim( $atts['terms'] ) );
+		//if ( ! is_array( $atts['terms'] ) ) $atts['terms'] = explode( ' ', trim( $atts['terms'] ) );
 
 		// Trim any white space from around the terms in the array.
-		array_walk( $atts['terms'] , 'trim' );
+		//array_walk( $atts['terms'] , 'trim' );
+
+		$original = $atts['terms'];
+
+		$atts['terms'] = cnFunction::parseStringList( $atts['terms'], '\s' );
+
+		array_unshift( $atts['terms'], $original );
+
+		$atts['terms'] = array_unique( $atts['terms'] );
 
 		$atts['terms'] = apply_filters( 'cn_search_terms', $atts['terms'] );
 

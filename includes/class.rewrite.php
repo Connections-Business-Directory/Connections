@@ -582,6 +582,15 @@ class cnRewrite {
 		$rule['(.?.+?)/view/all/?$']
 			= 'index.php?pagename=$matches[1]&cn-view=all';
 
+		/**
+		 * Allows extensions to insert custom view pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule The page rewrite rules.
+		 */
+		$rule = apply_filters( 'cn_page_rewrite_rule-view', $rule );
+
 		// Base Pagination.
 		$rule['(.?.+?)/pg/([0-9]{1,})/?$']
 			= 'index.php?pagename=$matches[1]&cn-pg=$matches[2]&cn-view=card';

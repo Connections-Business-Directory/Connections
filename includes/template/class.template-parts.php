@@ -2641,6 +2641,8 @@ class cnTemplatePart {
 			'show_empty' => TRUE,
 			'show_count' => TRUE,
 			'exclude'    => array(),
+			'force_home' => FALSE,
+			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 		);
 
 		$atts = wp_parse_args($atts, $defaults);
@@ -2690,12 +2692,15 @@ class cnTemplatePart {
 			$out .= '<li class="cat-item cat-item-' . $category->term_id . ( $currentCategory == $category->slug || $currentCategory == $category->term_id ? ' current-cat' : '' ) . ' cn-cat-parent">';
 
 			// Create the permalink anchor.
-			$out .= $connections->url->permalink( array(
-				'type'   => 'category',
-				'slug'   => implode( '/' , $slug ),
-				'title'  => $category->name,
-				'text'   => $category->name . $count,
-				'return' => TRUE
+			$out .= $connections->url->permalink(
+				array(
+					'type'       => 'category',
+					'slug'       => implode( '/', $slug ),
+					'title'      => $category->name,
+					'text'       => $category->name . $count,
+					'home_id'    => $atts['home_id'],
+					'force_home' => $atts['force_home'],
+					'return'     => TRUE,
 				)
 			);
 

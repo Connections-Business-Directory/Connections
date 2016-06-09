@@ -864,9 +864,7 @@ class cnRewrite {
 		$redirectURL = explode( '?', $requestedURL );
 		$redirectURL = trailingslashit( $redirectURL[0] );
 
-
 		if ( FALSE === $originalURL ) return FALSE;
-
 
 		// We only need to process the URL and redirect  if the user is using pretty permalinks.
 		if ( is_object ( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
@@ -897,7 +895,6 @@ class cnRewrite {
 
 				if ( ! empty( $slug ) && ! stripos( $redirectURL , $base['category_base'] . '/' . implode( '/', $slug ) ) ) $redirectURL .= user_trailingslashit( $base['category_base'] . '/' . implode( '/', $slug ) );
 				// var_dump( $redirectURL ); //exit();
-
 			}
 
 			// If paged, append pagination
@@ -908,9 +905,7 @@ class cnRewrite {
 
 				if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
 				// var_dump( $redirectURL ); //exit();
-
 			}
-
 		}
 
 		// Add back on to the URL any remaining query string values.
@@ -948,7 +943,6 @@ class cnRewrite {
 		$originalURL = $redirectURL;
 		$parsedURL   = @parse_url( $requestedURL );
 
-
 		$redirectURL = explode( '?', $redirectURL );
 		$redirectURL = $redirectURL[0];
 
@@ -964,7 +958,6 @@ class cnRewrite {
 
 			// var_dump( $redirectURL );
 			// exit();
-
 		}
 
 		// Add back on to the URL any remaining query string values.
@@ -1004,11 +997,9 @@ class cnRewrite {
 		if ( is_front_page() && get_option( 'show_on_front' ) == 'page' ) {
 
 			return $requestedURL;
-
 		}
 
 		return $redirectURL;
-
 	}
 }
 

@@ -2633,7 +2633,7 @@ class cnTemplatePart {
 		 * @var WP_Rewrite $wp_rewrite
 		 * @var connectionsLoad $connections
 		 */
-		global $wp_rewrite, $connections;
+		global $wp_rewrite;
 
 		$out = '';
 
@@ -2692,7 +2692,7 @@ class cnTemplatePart {
 			$out .= '<li class="cat-item cat-item-' . $category->term_id . ( $currentCategory == $category->slug || $currentCategory == $category->term_id ? ' current-cat' : '' ) . ' cn-cat-parent">';
 
 			// Create the permalink anchor.
-			$out .= $connections->url->permalink(
+			$out .= cnURL::permalink(
 				array(
 					'type'       => 'category',
 					'slug'       => implode( '/', $slug ),

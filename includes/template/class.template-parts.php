@@ -1747,7 +1747,7 @@ class cnTemplatePart {
 					'title'      => $char,
 					'class'      => ( $current == $char ? 'cn-char-current' : 'cn-char' ),
 					'text'       => $char,
-					'home_id'    => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+					'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 					'force_home' => FALSE,
 					'return'     => TRUE,
 					)

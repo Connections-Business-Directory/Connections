@@ -513,7 +513,7 @@ class cnTemplatePart {
 		$class = apply_filters( 'cn_list_body_class-' . $template->getSlug(), $class );
 		cnShortcode::addFilterRegistry( 'cn_list_body_class-' . $template->getSlug() );
 
-		array_walk( $class, 'esc_attr' );
+		array_walk( $class, 'sanitize_html_class' );
 
 		$out = '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
 
@@ -664,7 +664,7 @@ class cnTemplatePart {
 			$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
 			cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
 
-			array_walk( $class, 'esc_attr' );
+			array_walk( $class, 'sanitize_html_class' );
 
 			$out .= sprintf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',

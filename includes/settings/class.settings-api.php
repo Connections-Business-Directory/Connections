@@ -871,14 +871,16 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						$out .= sprintf( '<p class="description"> %1$s</p>',
+						$out .= sprintf(
+							'<p class="description"> %1$s</p>',
 							esc_html( $field['desc'] )
-							);
+						);
 					}
 
-					$out .= sprintf( '<ul class="cn-sortable-checklist" id="%1$s">',
+					$out .= sprintf(
+						'<ul class="cn-sortable-checklist" id="%1$s">',
 						esc_attr( $name )
-						);
+					);
 
 					// Create the array to be used to render the output in the correct order.
 					// This will have to take into account content blocks being added and removed.
@@ -919,9 +921,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'label'   => $label,
 									'layout'  => '%field%%label%',
 									'return'  => TRUE,
-									),
+								),
 								$key
-								);
+							);
 
 							$checkbox .= cnHTML::input(
 								array(
@@ -932,9 +934,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									'layout'  => '%field%',
 									'return'  => TRUE,
-									),
+								),
 								$key
-								);
+							);
 
 						} else {
 
@@ -948,9 +950,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'label'   => $label,
 									'layout'  => '%field%%label%',
 									'return'  => TRUE,
-									),
+								),
 								$key
-								);
+							);
 						}
 
 						$hidden = cnHTML::input(
@@ -962,11 +964,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								'label'   => '',
 								'layout'  => '%field%',
 								'return'  => TRUE,
-								),
+							),
 							$key
-							);
+						);
 
-						$out .= sprintf( '<li value="%1$s"><i class="fa fa-sort"></i> %2$s%3$s</li>',
+						$out .= sprintf(
+							'<li value="%1$s"><i class="fa fa-sort"></i> %2$s%3$s</li>',
 							$key,
 							$hidden,
 							$checkbox

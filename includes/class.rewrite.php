@@ -648,6 +648,16 @@ class cnRewrite {
 		$rule[ $slug . '/(.+?)/results/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-view=results';
 
+		/**
+		 * Allows extensions to insert custom landing pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule The root page rewrite rules.
+		 * @param int   $slug The CPT slug.
+		 */
+		$rule = apply_filters( 'cn_cpt_rewrite_rule-landing', $rule, $slug );
+
 		// Category root rewrite rules.
 		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-cat-slug=$matches[2]&cn-country=$matches[3]&cn-region=$matches[4]&cn-postal-code=$matches[5]&cn-pg=$matches[6]&cn-view=card';

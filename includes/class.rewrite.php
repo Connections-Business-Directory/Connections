@@ -200,6 +200,16 @@ class cnRewrite {
 		$rule['results/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-view=results';
 
+		/**
+		 * Allows extensions to insert custom landing pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule   The root page rewrite rules.
+		 * @param int   $pageID The front page ID.
+		 */
+		$rule = apply_filters( 'cn_root_rewrite_rule-landing', $rule, $pageID );
+
 		// Category root rewrite rules.
 		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-postal-code=$matches[4]&cn-pg=$matches[5]&cn-view=card';
@@ -346,6 +356,16 @@ class cnRewrite {
 		$rule[ 'view/all/?$']
 			= 'index.php?&page_id=' . $pageID . '&cn-view=all';
 
+		/**
+		 * Allows extensions to insert custom view pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule   The root page rewrite rules.
+		 * @param int   $pageID The front page ID.
+		 */
+		$rule = apply_filters( 'cn_root_rewrite_rule-view', $rule, $pageID );
+
 		// Base Pagination.
 		$rule['pg/([0-9]{1,})/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-pg=$matches[1]&cn-view=card';
@@ -406,6 +426,15 @@ class cnRewrite {
 		// Search results page.
 		$rule['(.?.+?)/results/?$']
 			= 'index.php?pagename=$matches[1]&cn-view=results';
+
+		/**
+		 * Allows extensions to insert custom landing pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule The page rewrite rules.
+		 */
+		$rule = apply_filters( 'cn_page_rewrite_rule-landing', $rule );
 
 		// Category root rewrite rules.
 		$rule['(.?.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
@@ -553,6 +582,15 @@ class cnRewrite {
 		$rule['(.?.+?)/view/all/?$']
 			= 'index.php?pagename=$matches[1]&cn-view=all';
 
+		/**
+		 * Allows extensions to insert custom view pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule The page rewrite rules.
+		 */
+		$rule = apply_filters( 'cn_page_rewrite_rule-view', $rule );
+
 		// Base Pagination.
 		$rule['(.?.+?)/pg/([0-9]{1,})/?$']
 			= 'index.php?pagename=$matches[1]&cn-pg=$matches[2]&cn-view=card';
@@ -609,6 +647,16 @@ class cnRewrite {
 		// Search results page.
 		$rule[ $slug . '/(.+?)/results/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-view=results';
+
+		/**
+		 * Allows extensions to insert custom landing pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule The root page rewrite rules.
+		 * @param int   $slug The CPT slug.
+		 */
+		$rule = apply_filters( 'cn_cpt_rewrite_rule-landing', $rule, $slug );
 
 		// Category root rewrite rules.
 		$rule[ $slug . '/(.+?)/' . $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
@@ -756,6 +804,16 @@ class cnRewrite {
 		$rule[ $slug . '/(.+?)/view/all/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-view=all';
 
+		/**
+		 * Allows extensions to insert custom view pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule The root page rewrite rules.
+		 * @param int   $slug The CPT slug.
+		 */
+		$rule = apply_filters( 'cn_cpt_rewrite_rule-view', $rule, $slug );
+
 		// Base Pagination.
 		$rule[ $slug . '/(.+?)/pg/([0-9]{1,})/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-pg=$matches[2]&cn-view=card';
@@ -806,9 +864,7 @@ class cnRewrite {
 		$redirectURL = explode( '?', $requestedURL );
 		$redirectURL = trailingslashit( $redirectURL[0] );
 
-
 		if ( FALSE === $originalURL ) return FALSE;
-
 
 		// We only need to process the URL and redirect  if the user is using pretty permalinks.
 		if ( is_object ( $wp_rewrite ) && $wp_rewrite->using_permalinks() ) {
@@ -839,7 +895,6 @@ class cnRewrite {
 
 				if ( ! empty( $slug ) && ! stripos( $redirectURL , $base['category_base'] . '/' . implode( '/', $slug ) ) ) $redirectURL .= user_trailingslashit( $base['category_base'] . '/' . implode( '/', $slug ) );
 				// var_dump( $redirectURL ); //exit();
-
 			}
 
 			// If paged, append pagination
@@ -850,9 +905,7 @@ class cnRewrite {
 
 				if ( $page > 1 && ! stripos( $redirectURL , "pg/$page" ) ) $redirectURL .= user_trailingslashit( "pg/$page", 'page' );
 				// var_dump( $redirectURL ); //exit();
-
 			}
-
 		}
 
 		// Add back on to the URL any remaining query string values.
@@ -890,7 +943,6 @@ class cnRewrite {
 		$originalURL = $redirectURL;
 		$parsedURL   = @parse_url( $requestedURL );
 
-
 		$redirectURL = explode( '?', $redirectURL );
 		$redirectURL = $redirectURL[0];
 
@@ -906,7 +958,6 @@ class cnRewrite {
 
 			// var_dump( $redirectURL );
 			// exit();
-
 		}
 
 		// Add back on to the URL any remaining query string values.
@@ -946,11 +997,9 @@ class cnRewrite {
 		if ( is_front_page() && get_option( 'show_on_front' ) == 'page' ) {
 
 			return $requestedURL;
-
 		}
 
 		return $redirectURL;
-
 	}
 }
 

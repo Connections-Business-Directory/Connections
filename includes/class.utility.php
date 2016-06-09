@@ -1066,6 +1066,25 @@ class cnURL {
 				}
 
 				break;
+
+			default:
+
+				if ( has_filter( "cn_permalink-{$atts['type']}" ) ) {
+
+					/**
+					 * Allow extensions to add custom permalink types.
+					 *
+					 * The variable portion of the filter name if the permalink type being created.
+					 *
+					 * @since 8.5.17
+					 *
+					 * @param string $permalink The permalink.
+					 * @param array  $atts      The attributes array.
+					 */
+					$permalink = apply_filters( "cn_permalink-{$atts['type']}", $permalink, $atts );
+				}
+
+				break;
 		}
 
 		$permalink = apply_filters( 'cn_permalink', $permalink, $atts );

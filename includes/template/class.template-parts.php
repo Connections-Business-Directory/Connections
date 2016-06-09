@@ -513,7 +513,7 @@ class cnTemplatePart {
 		$class = apply_filters( 'cn_list_body_class-' . $template->getSlug(), $class );
 		cnShortcode::addFilterRegistry( 'cn_list_body_class-' . $template->getSlug() );
 
-		array_walk( $class, 'esc_attr' );
+		array_walk( $class, 'sanitize_html_class' );
 
 		$out = '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
 
@@ -664,7 +664,7 @@ class cnTemplatePart {
 			$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
 			cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
 
-			array_walk( $class, 'esc_attr' );
+			array_walk( $class, 'sanitize_html_class' );
 
 			$out .= sprintf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
@@ -1747,7 +1747,7 @@ class cnTemplatePart {
 					'title'      => $char,
 					'class'      => ( $current == $char ? 'cn-char-current' : 'cn-char' ),
 					'text'       => $char,
-					'home_id'    => in_the_loop() && is_page() ? get_the_id() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+					'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 					'force_home' => FALSE,
 					'return'     => TRUE,
 					)
@@ -2633,7 +2633,7 @@ class cnTemplatePart {
 		 * @var WP_Rewrite $wp_rewrite
 		 * @var connectionsLoad $connections
 		 */
-		global $wp_rewrite, $connections;
+		global $wp_rewrite;
 
 		$out = '';
 
@@ -2641,6 +2641,8 @@ class cnTemplatePart {
 			'show_empty' => TRUE,
 			'show_count' => TRUE,
 			'exclude'    => array(),
+			'force_home' => FALSE,
+			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 		);
 
 		$atts = wp_parse_args($atts, $defaults);
@@ -2690,12 +2692,15 @@ class cnTemplatePart {
 			$out .= '<li class="cat-item cat-item-' . $category->term_id . ( $currentCategory == $category->slug || $currentCategory == $category->term_id ? ' current-cat' : '' ) . ' cn-cat-parent">';
 
 			// Create the permalink anchor.
-			$out .= $connections->url->permalink( array(
-				'type'   => 'category',
-				'slug'   => implode( '/' , $slug ),
-				'title'  => $category->name,
-				'text'   => $category->name . $count,
-				'return' => TRUE
+			$out .= cnURL::permalink(
+				array(
+					'type'       => 'category',
+					'slug'       => implode( '/', $slug ),
+					'title'      => $category->name,
+					'text'       => $category->name . $count,
+					'home_id'    => $atts['home_id'],
+					'force_home' => $atts['force_home'],
+					'return'     => TRUE,
 				)
 			);
 

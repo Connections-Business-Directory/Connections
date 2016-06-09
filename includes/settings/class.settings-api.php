@@ -256,6 +256,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 *
 		 * SUPPORTED FIELD TYPES:
 		 *  checkbox
+		 *  number
 		 *  multicheckbox
 		 *  radio
 		 *  select
@@ -401,7 +402,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				/*
 				 * Store the default settings values.
 				 */
-				$defaultValue = ( isset( $field['default'] ) && ! empty( $field['default'] ) ) ? $field['default'] : '';
+				$defaultValue = ( isset( $field['default'] ) /*&& ! empty( $field['default'] )*/ ) ? $field['default'] : '';
 
 				// Register the plugin.
 				if ( ! array_key_exists( $field['plugin_id'], self::$registry ) ) self::$registry[$field['plugin_id']] = array();
@@ -622,6 +623,15 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$out .= sprintf( '<input type="checkbox" class="checkbox" id="%1$s[%2$s]" name="%1$s[]" value="%2$s"%3$s/>', $name, $key, $checked );
 						$out .= sprintf( '<label for="%1$s[%2$s]"> %3$s</label><br />', $name, $key, $label );
 					}
+
+					break;
+
+				case 'number':
+
+					$size = isset( $field['size'] ) && ! empty( $field['size'] ) ? $field['size'] : 'regular';
+
+					$out .= sprintf( '<input type="number" class="%1$s-text" id="%2$s" name="%2$s" value="%3$s"/>', $size, $name, $value );
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span  class="description"> %1$s</span>', $field['desc'] );
 
 					break;
 
@@ -861,14 +871,16 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
-						$out .= sprintf( '<p class="description"> %1$s</p>',
+						$out .= sprintf(
+							'<p class="description"> %1$s</p>',
 							esc_html( $field['desc'] )
-							);
+						);
 					}
 
-					$out .= sprintf( '<ul class="cn-sortable-checklist" id="%1$s">',
+					$out .= sprintf(
+						'<ul class="cn-sortable-checklist" id="%1$s">',
 						esc_attr( $name )
-						);
+					);
 
 					// Create the array to be used to render the output in the correct order.
 					// This will have to take into account content blocks being added and removed.
@@ -909,9 +921,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'label'   => $label,
 									'layout'  => '%field%%label%',
 									'return'  => TRUE,
-									),
+								),
 								$key
-								);
+							);
 
 							$checkbox .= cnHTML::input(
 								array(
@@ -922,9 +934,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									'layout'  => '%field%',
 									'return'  => TRUE,
-									),
+								),
 								$key
-								);
+							);
 
 						} else {
 
@@ -938,9 +950,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'label'   => $label,
 									'layout'  => '%field%%label%',
 									'return'  => TRUE,
-									),
+								),
 								$key
-								);
+							);
 						}
 
 						$hidden = cnHTML::input(
@@ -952,11 +964,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								'label'   => '',
 								'layout'  => '%field%',
 								'return'  => TRUE,
-								),
+							),
 							$key
-							);
+						);
 
-						$out .= sprintf( '<li value="%1$s"><i class="fa fa-sort"></i> %2$s%3$s</li>',
+						$out .= sprintf(
+							'<li value="%1$s"><i class="fa fa-sort"></i> %2$s%3$s</li>',
 							$key,
 							$hidden,
 							$checkbox

@@ -88,6 +88,8 @@ class CN_Walker_Term_List extends Walker {
 			'depth'            => 0,
 			'parent_id'        => array(),
 			'taxonomy'         => 'category',
+			'force_home'       => FALSE,
+			'home_id'          => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
 			'return'           => FALSE,
 		);
 
@@ -239,7 +241,7 @@ class CN_Walker_Term_List extends Walker {
 
 		$count = $args['show_count'] ? '&nbsp;(' . number_format_i18n( $term->count ) . ')' : '';
 
-		$url = cnTerm::permalink( $term, 'category' );
+		$url = cnTerm::permalink( $term, 'category', $args );
 
 		$link = sprintf(
 			'<a href="%1$s" title="%2$s">%3$s</a>',

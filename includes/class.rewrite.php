@@ -200,6 +200,16 @@ class cnRewrite {
 		$rule['results/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-view=results';
 
+		/**
+		 * Allows extensions to insert custom landing pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule   The root page rewrite rules.
+		 * @param int   $pageID The front page ID.
+		 */
+		$rule = apply_filters( 'cn_root_rewrite_rule-landing', $rule, $pageID );
+
 		// Category root rewrite rules.
 		$rule[ $category . '/(.+?)/' . $country . '/([^/]*)/' . $region . '/([^/]*)/' . $postal . '/([^/]*)/pg/([0-9]{1,})/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-cat-slug=$matches[1]&cn-country=$matches[2]&cn-region=$matches[3]&cn-postal-code=$matches[4]&cn-pg=$matches[5]&cn-view=card';

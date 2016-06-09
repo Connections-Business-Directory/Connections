@@ -402,7 +402,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				/*
 				 * Store the default settings values.
 				 */
-				$defaultValue = ( isset( $field['default'] ) && ! empty( $field['default'] ) ) ? $field['default'] : '';
+				$defaultValue = ( isset( $field['default'] ) /*&& ! empty( $field['default'] )*/ ) ? $field['default'] : '';
 
 				// Register the plugin.
 				if ( ! array_key_exists( $field['plugin_id'], self::$registry ) ) self::$registry[$field['plugin_id']] = array();

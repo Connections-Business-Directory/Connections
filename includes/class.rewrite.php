@@ -804,6 +804,16 @@ class cnRewrite {
 		$rule[ $slug . '/(.+?)/view/all/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-view=all';
 
+		/**
+		 * Allows extensions to insert custom view pages.
+		 *
+		 * @since 8.5.17
+		 *
+		 * @param array $rule The root page rewrite rules.
+		 * @param int   $slug The CPT slug.
+		 */
+		$rule = apply_filters( 'cn_cpt_rewrite_rule-view', $rule, $slug );
+
 		// Base Pagination.
 		$rule[ $slug . '/(.+?)/pg/([0-9]{1,})/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-pg=$matches[2]&cn-view=card';

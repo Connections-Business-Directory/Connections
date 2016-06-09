@@ -1,5 +1,27 @@
 == Changelog ==
 
+= 8.5.17 06/09/2016 =
+* NEW: Add support for a number field within the Settings API.
+* NEW: Introduce the `cn_root_rewrite_rule-landing` filter.
+* NEW: Introduce the `cn_root_rewrite_rule-view` filter.
+* NEW: Introduce the `cn_page_rewrite_rule-landing` filter.
+* NEW: Introduce the `cn_page_rewrite_rule-view` filter.
+* NEW: Introduce the `cn_cpt_rewrite_rule-landing` filter.
+* NEW: Introduce the `cn_cpt_rewrite_rule-view` filter.
+* NEW: Introduce the `cn_permalink-{type}` filter.
+* TWEAK: Use `sanitize_html_class()` rather than `esc_attr()` when outputting HTML class attributes.
+* TWEAK: Tweak to search which should give preference to full string results over individual terms within the string.
+* TWEAK: Allow `0` to be set as a default value of a setting.
+* TWEAK: Add support for the `force_home` and `home_id` parameters in cnTemplatePart::categoryLinkDescendant() to be passed when creating the category permalinks.
+* TWEAK: Remove use of the `$connections` global var in cnTemplateParts::categoryLinkDescendant().
+* TWEAK: Add support for the `force_home` and `home_id` parameters in cnTerm::permalink() to be passed when creating the category permalinks.
+* TWEAK: Add support for the `force_home` and `home_id` parameters in CN_Walker_Term_List::render() to be passed when creating the category permalinks.
+* BUG: Use proper capitalization for `get_the_ID()`.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* OTHER: Remove several blank lines.
+* DEV: Fix some minor code alignment issues in cnSettingsAPI.
+
 = 8.5.16 06/03/2016 =
 * NEW: Introduce the `cn_entry_action_back_atts` filter.
 * TWEAK: Remove the on_click event handler attached to the back to directory link.

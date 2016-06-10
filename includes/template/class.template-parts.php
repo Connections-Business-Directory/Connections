@@ -1174,7 +1174,12 @@ class cnTemplatePart {
 		if ( $queryVars['cn-s'] ) {
 
 			// If value is a string, string the white space and covert to an array.
-			if ( ! is_array( $queryVars['cn-s'] ) ) $queryVars['cn-s'] = explode( ' ' , trim( $queryVars['cn-s'] ) );
+			if ( ! is_array( $queryVars['cn-s'] ) ) {
+
+				$originalString = array( $queryVars['cn-s'] );
+				$queryVars['cn-s'] = cnFunction::parseStringList( $queryVars['cn-s'], '\s' );
+				$queryVars['cn-s'] = array_merge( $originalString, $queryVars['cn-s'] );
+			}
 
 			// Trim any white space from around the terms in the array.
 			array_walk( $queryVars['cn-s'] , 'trim' );

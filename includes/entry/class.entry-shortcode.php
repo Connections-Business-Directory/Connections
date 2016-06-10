@@ -231,7 +231,7 @@ class cnEntry_Shortcode {
 			default:
 
 				// Custom shortcodes can be applied to the content using this filter.
-				$out = apply_filters( 'cn_entry_part-' . $part, $content, $atts, $this->entry );
+				$out = apply_filters( 'cn_entry_part-' . $atts['part'], $content, $atts, $this->entry );
 
 				break;
 		}

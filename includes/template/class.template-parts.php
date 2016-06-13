@@ -1014,19 +1014,20 @@ class cnTemplatePart {
 	 * @access public
 	 * @since  0.7.8
 	 *
-	 * @uses   cnQuery::getVar()
-	 *
-	 * @param  array  $atts [optional]
-	 * @param  array  $results [optional]
+	 * @param array $atts [optional]
+	 * @param array $results [optional]
 	 *
 	 * @return string
 	 */
 	public static function categoryDescription( $atts = array(), $results = array() ) {
 
-		// Check whether or not the category description should be displayed or not.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) return '';
+		$html = '';
 
-		$out = '';
+		// Check whether or not the category description should be displayed or not.
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) {
+
+			return $html;
+		}
 
 		$defaults = array(
 			'before' => '',
@@ -1036,49 +1037,20 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
+		if ( FALSE !== $current = cnCategory::getCurrent() ) {
 
-			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
+			$category = new cnCategory( $current );
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
-
-			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
-
-			$category = new cnCategory( $term );
-
-			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
+			$html = $category->getDescriptionBlock(
+				array(
+					'return' => TRUE,
+				)
+			);
 		}
 
-		if ( cnQuery::getVar( 'cn-cat' ) ) {
+		$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
 
-			$categoryID = cnQuery::getVar( 'cn-cat' );
-
-			if ( is_array( $categoryID ) ) {
-
-				if ( empty( $categoryID ) ) {
-
-					return $out;
-
-				} else {
-
-					$categoryID = $categoryID[0];
-
-					if ( empty( $categoryID ) ) return $out;
-				}
-
-			}
-
-			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
-
-			$category = new cnCategory( $term );
-
-			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
-		}
-
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-
-		return self::echoOrReturn( $atts['return'], $out );
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

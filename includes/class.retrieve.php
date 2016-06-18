@@ -2337,7 +2337,7 @@ class cnRetrieve {
 			if ( ! empty( $atts['terms'] ) ) {
 
 				// Make each term required, functional AND query.
-				$terms = apply_filters( 'cn_search_fulltext_terms', '+' . implode( ' +', $atts['terms'] ) );
+				$terms = apply_filters( 'cn_search_fulltext_terms', '+' . implode( ' +', $atts['terms'] ), $atts['terms'] );
 			}
 
 			/*

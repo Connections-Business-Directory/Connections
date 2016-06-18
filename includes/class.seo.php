@@ -307,7 +307,10 @@ class cnSEO {
 
 		if ( cnQuery::getVar( 'cn-cat' ) ) {
 
-			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) return implode( '', $title );
+			if ( is_array( cnQuery::getVar( 'cn-cat' ) ) ) {
+
+				return $title;
+			}
 
 			$categoryID = cnQuery::getVar( 'cn-cat' );
 

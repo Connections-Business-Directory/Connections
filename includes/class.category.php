@@ -194,7 +194,7 @@ class cnCategory {
 	 *
 	 * @see cnCategory::$id
 	 */
-	public function getId() {
+	public function getID() {
 		return $this->id;
 	}
 

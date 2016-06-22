@@ -1029,9 +1029,10 @@ class cnMetabox_Render {
 
 				case 'datepicker':
 
-					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"/>',
+					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s" %3$s/>',
 						esc_attr( $field['id'] ),
-						! empty( $value ) ? date( 'm/d/Y', strtotime( $value ) ) : ''
+						! empty( $value ) ? date( 'm/d/Y', strtotime( $value ) ) : '',
+						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? 'readonly="readonly"' : ''
 					);
 
 					wp_enqueue_script('jquery-ui-datepicker');
@@ -1311,7 +1312,8 @@ class cnMetabox_Render {
 				changeYear: true,
 				showOtherMonths: true,
 				selectOtherMonths: true,
-				yearRange: 'c-100:c+10'
+				yearRange: 'c-100:c+10',
+				beforeShow: function(i) { if ( $( i ).attr('readonly') ) { return false; } }
 			});
 
 			e.preventDefault();

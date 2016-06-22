@@ -426,7 +426,7 @@ class cnMetabox_Render {
 	private $meta = array();
 
 	/**
-	 * The array of all registerd quicktag textareas.
+	 * The array of all registered quicktag textareas.
 	 *
 	 * @access private
 	 * @since 0.8

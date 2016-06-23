@@ -2000,6 +2000,81 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Retrieve category parents with separator.
+	 *
+	 * NOTE: This is the Connections equivalent of @see get_category_parents() in WordPress core ../wp-includes/category-template.php
+	 *
+	 * @access public
+	 * @since  8.5.18
+	 * @static
+	 *
+	 * @param int    $id        Category ID.
+	 * @param array  $atts      The attributes array. {
+	 *
+	 *     @type bool   $link       Whether to format as link or as a string.
+	 *                              Default: FALSE
+	 *     @type string $separator  How to separate categories.
+	 *                              Default: '/'
+	 *     @type bool   $nicename   Whether to use nice name for display.
+	 *                              Default: FALSE
+	 *     @type array  $visited    Already linked to categories to prevent duplicates.
+	 *                              Default: array()
+	 *     @type bool   $force_home Default: FALSE
+	 *     @type int    $home_id    Default: The page set as the directory home page.
+	 * }
+	 *
+	 * @return string|WP_Error A list of category parents on success, WP_Error on failure.
+	 */
+	public static function getCategoryParents( $id, $atts = array() ) {
+
+		$defaults = array(
+			'link'       => FALSE,
+			'separator'  => '/',
+			'nicename'   => FALSE,
+			'visited'    => array(),
+			'force_home' => FALSE,
+			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
+
+		$chain  = '';
+		$parent = cnTerm::get( $id, 'category' );
+
+		if ( is_wp_error( $parent ) ) {
+
+			return $parent;
+		}
+
+		if ( $atts['nicename'] ) {
+
+			$name = $parent->slug;
+
+		} else {
+
+			$name = $parent->name;
+		}
+
+		if ( $parent->parent && ( $parent->parent != $parent->term_id ) && ! in_array( $parent->parent,  $atts['visited'] ) ) {
+
+			$visited[] = $parent->parent;
+
+			$chain .= self::getCategoryParents( $parent->parent, $atts );
+		}
+
+		if ( $atts['link'] ) {
+
+			$chain .= '<a href="' . esc_url( cnTerm::permalink( $parent->term_id, 'category', $atts ) ) . '">' . $name . '</a>' . $atts['separator'];
+
+		} else {
+
+			$chain .= $name . esc_html( $atts['separator'] );
+		}
+
+		return $chain;
+	}
+
+	/**
 	 * Parent public function that outputs the various categories output formats.
 	 *
 	 * Accepted option for the $atts property are:

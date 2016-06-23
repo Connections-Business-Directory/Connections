@@ -2000,6 +2000,79 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Render the category breadcrumb.
+	 *
+	 * @access public
+	 * @since  8.5.18
+	 * @static
+	 *
+	 * @param array  $atts      The attributes array. {
+	 *
+	 *     @type bool   $link       Whether to format as link or as a string.
+	 *                              Default: FALSE
+	 *     @type string $separator  How to separate categories.
+	 *                              Default: '/'
+	 *     @type bool   $force_home Default: FALSE
+	 *     @type int    $home_id    Default: The page set as the directory home page.
+	 *     @type bool   $return     Whether or not to return or echo the pagination control. Set to TRUE to return instead of echo.
+	 *                              Default: FALSE
+	 * }
+	 *
+	 * @return string|WP_Error A list of category parents on success, WP_Error on failure.
+	 */
+	public static function categoryBreadcrumb( $atts ) {
+
+		$defaults = array(
+			'link'       => FALSE,
+			'separator'  => '/',
+			'force_home' => FALSE,
+			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+			'return'     => FALSE,
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
+
+		$html = '';
+
+		if ( $current = cnCategory::getCurrent() ) {
+
+			$home = cnURL::permalink(
+				array(
+					'type'       => 'home',
+					'title'      => esc_html__( 'Home', 'connections' ),
+					'text'       => esc_html__( 'Home', 'connections' ),
+					'force_home' => $atts['force_home'],
+					'home_id'    => $atts['home_id'],
+					'return'     => TRUE,
+				)
+			);
+
+			$breadcrumb = cnTemplatePart::getCategoryParents(
+				$current->parent,
+				array(
+					'link'       => $atts['link'],
+					'separator'  => $atts['separator'],
+					'force_home' => $atts['force_home'],
+					'home_id'    => $atts['home_id'],
+				)
+			);
+
+			if ( is_wp_error( $breadcrumb ) ) {
+
+				$breadcrumb = '';
+			}
+
+			$currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
+
+			$html = $home . $atts['separator'] . $breadcrumb . $currentLink;
+
+			$html = '<div class="cn-category-breadcrumb">' . $html . '</div>';
+		}
+
+		return self::echoOrReturn( $atts['return'], $html );
+	}
+
+	/**
 	 * Retrieve category parents with separator.
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_category_parents() in WordPress core ../wp-includes/category-template.php

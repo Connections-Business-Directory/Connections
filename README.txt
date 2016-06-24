@@ -227,6 +227,48 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.18 06/24/2016 =
+* NEW: Introduce cnCategory::getCurrent().
+* NEW: Introduce cnSanitize::htmlClass().
+* NEW: Introduce cnFunction::escAttributeDeep().
+* NEW: Add readonly support to the datapicker custom field type.
+* NEW: Introduce cnTemplatePart::getCategoryParents().
+* NEW: Introduce cnTemplatePart::categoryBreadcrumb().
+* NEW: Introduce the `cn_term_list_class` filter.
+* NEW: Introduce the `cn_term_children_list_class` filter.
+* NEW: Introduce the `cn_term_list_item_class` filter.
+* NEW: Introduce the `cn_term_list_item` filter.
+* NEW: Introduce the `cn_output_name_default_atts` filter.
+* NEW: Introduce the `cn_output_family_default_atts` filter.
+* NEW: Introduce the `cn_output_atts_title` filter.
+* NEW: Introduce the `cn_output_atts_orgunit` filter.
+* NEW: Introduce the `cn_output_atts_contact_name` filter.
+* NEW: Introduce the `cn_output_atts_address` filter.
+* NEW: Introduce the `cn_output_atts_map` filter.
+* NEW: Introduce the `cn_output_atts_phone` filter.
+* NEW: Introduce the `cn_output_atts_email` filter.
+* NEW: Introduce the `cn_output_atts_im` filter.
+* NEW: Introduce the `cn_output_atts_socialmedia` filter.
+* NEW: Introduce the `cn_output_atts_link` filter.
+* NEW: Introduce the `cn_output_atts_date` filter.
+* NEW: Introduce the `cn_output_atts_notes` filter.
+* NEW: Introduce the `cn_output_atts_bio` filter.
+* TWEAK: Simplify `cnTemplatePart::categoryDescription()` utilizing `cnCategory::getCurrent()`.
+* TWEAK: The term count span should not be rendered if the show count option false.
+* TWEAK: Change the form id name for the add/edit categories admin form.
+* TWEAK: Add file, url, path and basename properties to the cnTerm_Meta_UI class.
+* TWEAK: Complete refactor of cnOutput::getCategoryBlock().
+* TWEAK: Add line_4, district and county to permitted valid field in cnEntry::setAddresses() as prep for when those fields are added.
+* BUG: Search results message should display full query string as first search term.
+* BUG: Correct the `cn_entry_part-($part}` filter name. It was using an unset variable rendering it useless.
+* BUG: Pass the search terms in the `cn_search_fulltext_terms` filters.
+* BUG: The page meta title should be returned unchanged when querying by multiple category IDs.
+* BUG: Correct capitalization of cnCategory::getID().
+* I18N: Update POT file.
+* I18N: Update MO file.
+* OTHER: Correct misspelling.
+* DEV: phpDoc fix.
+
 = 8.5.17 06/09/2016 =
 * NEW: Add support for a number field within the Settings API.
 * NEW: Introduce the `cn_root_rewrite_rule-landing` filter.
@@ -758,4 +800,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.1.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.17 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+= 8.5.18 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.

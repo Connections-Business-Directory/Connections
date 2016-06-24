@@ -42,12 +42,43 @@ class cnTerm_Meta_UI {
 	);
 
 	/**
+	 * @since 8.5.18
+	 * @var string File for plugin
+	 */
+	public $file = '';
+
+	/**
+	 * @since 8.5.18
+	 * @var string URL to plugin
+	 */
+	public $url = '';
+
+	/**
+	 * @since 8.5.18
+	 * @var string Path to plugin
+	 */
+	public $path = '';
+
+	/**
+	 * @since 8.5.18
+	 * @var string Basename for plugin
+	 */
+	public $basename = '';
+
+	/**
 	 * Hook into queries, admin screens, and more.
 	 *
 	 * @access public
 	 * @since  8.5.2
+	 *
+	 * @param string $file
 	 */
-	public function __construct() {
+	public function __construct( $file = '' ) {
+
+		$this->file       = $file;
+		$this->url        = plugin_dir_url( $this->file );
+		$this->path       = plugin_dir_path( $this->file );
+		$this->basename   = plugin_basename( $this->file );
 
 		// Register the column header.
 		add_filter( 'cn_category_table_columns', array( $this, 'columnHeader' ) );

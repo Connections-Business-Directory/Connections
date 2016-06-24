@@ -275,6 +275,18 @@ class CN_Walker_Term_List extends Walker {
 			$term->name . '<span class="cn-cat-count">' . esc_html( $count ) . '</span>'
 		);
 
+		/**
+		 * Allows extensions to alter the HTML of term list item.
+		 *
+		 * @since 8.5.18
+		 *
+		 * @param string        $html  The HTML.
+		 * @param cnTerm_Object $term  The current term.
+		 * @param int           $depth Depth of category. Used for tab indentation.
+		 * @param array         $args  The method attributes.
+		 */
+		$html = apply_filters( 'cn_term_list_item', $html, $term, $depth, $args );
+
 		$class = array( 'cat-item', 'cat-item-' . $term->term_id, 'cn-cat-parent' );
 
 		if ( ! empty( $args['current_category'] ) ) {

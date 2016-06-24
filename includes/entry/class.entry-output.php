@@ -993,9 +993,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getContactNameBlock( $atts = array() ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'format'    => '',
 			'label'     => __( 'Contact', 'connections' ),
@@ -1006,12 +1003,14 @@ class cnOutput extends cnEntry {
 		);
 
 		/**
+		 * All extensions to filter the method default and supplied args.
 		 *
+		 * @since 8.5.18
 		 */
-		$atts = cnSanitize::args( $atts, apply_filters( 'cn_output_default_atts_contact_name', $defaults ) );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_contact_name', $atts ),
+			apply_filters( 'cn_output_default_atts_contact_name', $defaults )
+		);
 
 		$search  = array( '%label%', '%first%', '%last%', '%separator%' );
 		$replace = array();

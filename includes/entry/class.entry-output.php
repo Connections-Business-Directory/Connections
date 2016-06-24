@@ -2478,9 +2478,15 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_notes' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_notes', $atts ),
+			apply_filters( 'cn_output_default_atts_notes', $defaults )
+		);
 
 		$out = apply_filters( 'cn_output_notes', $this->getNotes() );
 

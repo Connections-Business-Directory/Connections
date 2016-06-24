@@ -865,9 +865,6 @@ class cnOutput extends cnEntry {
 
 		$out = '';
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'before'    => '',
 			'after'     => '',
@@ -880,12 +877,15 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_orgunit' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_orgunit', $atts ),
+			apply_filters( 'cn_output_default_atts_orgunit', $defaults )
+		);
 
 		$org  = $atts['show_org'] ? $this->getOrganization() : '';
 		$dept = $atts['show_dept'] ? $this->getDepartment() : '';

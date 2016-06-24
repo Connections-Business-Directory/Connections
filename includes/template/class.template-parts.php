@@ -2018,7 +2018,7 @@ class cnTemplatePart {
 	 *                              Default: FALSE
 	 * }
 	 *
-	 * @return string|WP_Error A list of category parents on success, WP_Error on failure.
+	 * @return string A list of category parents on success.
 	 */
 	public static function categoryBreadcrumb( $atts ) {
 

@@ -1093,9 +1093,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getAddressBlock( $atts = array(), $cached = TRUE ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred'   => NULL,
 			'type'        => NULL,
@@ -1118,14 +1115,18 @@ class cnOutput extends cnEntry {
 			'return'      => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_address' , $defaults );
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_address', $atts ),
+			apply_filters( 'cn_output_default_atts_address', $defaults )
+		);
 
-		$atts         = cnSanitize::args( $atts, $defaults );
 		$atts['link'] = cnSanitize::args( $atts['link'], $defaults['link'] );
 		$atts['id']   = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		$out       = '';
 		$addresses = $this->getAddresses( $atts, $cached );

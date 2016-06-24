@@ -275,7 +275,7 @@ class CN_Walker_Term_List extends Walker {
 			$term->name . '<span class="cn-cat-count">' . esc_html( $count ) . '</span>'
 		);
 
-		$class = 'cat-item cat-item-' . $term->term_id . ' cn-cat-parent';
+		$class = array( 'cat-item', 'cat-item-' . $term->term_id, 'cn-cat-parent' );
 
 		if ( ! empty( $args['current_category'] ) ) {
 
@@ -298,19 +298,32 @@ class CN_Walker_Term_List extends Walker {
 
 			if ( $term->slug == $args['current_category'] ) {
 
-				$class .= ' current-cat';
+				$class[] = ' current-cat';
 
 			} elseif ( $term->term_id == $args['current_category'] ) {
 
-				$class .= ' current-cat';
+				$class[] = ' current-cat';
 
 			} elseif ( $term->term_id == $_current_category->parent ) {
 
-				$class .= ' current-cat-parent';
+				$class[] = ' current-cat-parent';
 			}
 		}
 
-		$output .= "$indent<li" . ' class="' . $class . '"' . ">$link"; // Do not add EOL here, it'll add unwanted whitespace if terms are inline.
+		/**
+		 * Allows extensions to add/remove class names to the current term list item.
+		 *
+		 * @since 8.5.18
+		 *
+		 * @param array         $class The array of class names.
+		 * @param cnTerm_Object $term  The current term.
+		 * @param int           $depth Depth of category. Used for tab indentation.
+		 * @param array         $args  The method attributes.
+		 */
+		$class = apply_filters( 'cn_term_list_item_class', $class, $term, $depth, $args );
+		$class = cnSanitize::htmlClass( $class );
+
+		$output .= "$indent<li" . ' class="' . cnFunction::escAttributeDeep( $class ) . '"' . ">$html"; // Do not add EOL here, it'll add unwanted whitespace if terms are inline.
 	}
 
 	/**

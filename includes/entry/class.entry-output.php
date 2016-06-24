@@ -731,7 +731,10 @@ class cnOutput extends cnEntry {
 		 *
 		 * @param array $atts An array of arguments.
 		 */
-		$atts = cnSanitize::args( apply_filters( 'cn_output_family_atts', $atts ), $defaults );
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_family_atts', $atts ),
+			apply_filters( 'cn_output_family_default_atts', $defaults )
+		);
 
 		$html   = '';
 		$search = array( '%relation%', '%name%', '%separator%' );

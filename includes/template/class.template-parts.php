@@ -2062,9 +2062,9 @@ class cnTemplatePart {
 				$breadcrumb = '';
 			}
 
-			$currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
+			//$currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
 
-			$html = $home . $atts['separator'] . $breadcrumb . $currentLink;
+			$html = $home . $atts['separator'] . $breadcrumb . esc_html( $current->name );
 
 			$html = '<div class="cn-category-breadcrumb">' . $html . '</div>';
 		}

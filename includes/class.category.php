@@ -194,7 +194,7 @@ class cnCategory {
 	 *
 	 * @see cnCategory::$id
 	 */
-	public function getId() {
+	public function getID() {
 		return $this->id;
 	}
 
@@ -399,5 +399,66 @@ class cnCategory {
 			return TRUE;
 		}
 
+	}
+
+	/**
+	 * Returns the current category being viewed.
+	 *
+	 * @access public
+	 * @since  8.5.18
+	 * @static
+	 *
+	 * @return false|cnTerm_Object
+	 */
+	public static function getCurrent() {
+
+		$current = FALSE;
+
+		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
+
+			$slug = explode( '/', cnQuery::getVar( 'cn-cat-slug' ) );
+
+			// If the category slug is a descendant, use the last slug from the URL for the query.
+			$current = end( $slug );
+
+		} elseif ( $catIDs = cnQuery::getVar( 'cn-cat' ) ) {
+
+			if ( is_array( $catIDs ) ) {
+
+				// If value is a string, strip the white space and covert to an array.
+				$catIDs = wp_parse_id_list( $catIDs );
+
+				// Use the first element
+				$current = reset( $catIDs );
+
+			} else {
+
+				$current = $catIDs;
+			}
+
+		}
+
+		if ( ! empty( $current ) ) {
+
+			if ( ctype_digit( (string) $current ) ) {
+
+				$field = 'id';
+
+			} else {
+
+				$field = 'slug';
+			}
+
+			$current = cnTerm::getBy( $field, $current, 'category' );
+
+			// cnTerm::getBy() can return NULL || an instance of WP_Error, so, lets check for that.
+			if ( ! is_a( $current, 'cnTerm_Object' ) ) {
+
+				$current = FALSE;
+			}
+
+		}
+
+		return $current;
 	}
 }

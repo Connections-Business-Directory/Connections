@@ -2295,6 +2295,39 @@ class cnFunction {
 
 		return $result;
 	}
+
+	/**
+	 * Escapes HTML attribute value or array of attribute values.
+	 *
+	 * @access public
+	 * @since  8.5.18
+	 * @static
+	 *
+	 * @param array|string $attr
+	 *
+	 * @param string $glue
+	 *
+	 * @return array|string
+	 */
+	public static function escAttributeDeep( $attr, $glue = ' ' ) {
+
+		if ( is_array( $attr ) ) {
+
+			// Ensure all IDs are positive integers.
+			$attr = array_map( 'esc_attr', $attr );
+
+			// Remove any empty array values.
+			$attr = array_filter( $attr );
+
+			$attr = implode( $glue, $attr );
+
+		} else {
+
+			$attr = esc_attr( $attr );
+		}
+
+		return $attr;
+	}
 }
 
 /**

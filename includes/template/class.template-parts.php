@@ -1014,19 +1014,20 @@ class cnTemplatePart {
 	 * @access public
 	 * @since  0.7.8
 	 *
-	 * @uses   cnQuery::getVar()
-	 *
-	 * @param  array  $atts [optional]
-	 * @param  array  $results [optional]
+	 * @param array $atts [optional]
+	 * @param array $results [optional]
 	 *
 	 * @return string
 	 */
 	public static function categoryDescription( $atts = array(), $results = array() ) {
 
-		// Check whether or not the category description should be displayed or not.
-		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) return '';
+		$html = '';
 
-		$out = '';
+		// Check whether or not the category description should be displayed or not.
+		if ( ! cnSettingsAPI::get( 'connections', 'connections_display_results', 'cat_desc' ) ) {
+
+			return $html;
+		}
 
 		$defaults = array(
 			'before' => '',
@@ -1036,49 +1037,20 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		if ( cnQuery::getVar( 'cn-cat-slug' ) ) {
+		if ( FALSE !== $current = cnCategory::getCurrent() ) {
 
-			// If the category slug is a descendant, use the last slug from the URL for the query.
-			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
+			$category = new cnCategory( $current );
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
-
-			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
-
-			$category = new cnCategory( $term );
-
-			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
+			$html = $category->getDescriptionBlock(
+				array(
+					'return' => TRUE,
+				)
+			);
 		}
 
-		if ( cnQuery::getVar( 'cn-cat' ) ) {
+		$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
 
-			$categoryID = cnQuery::getVar( 'cn-cat' );
-
-			if ( is_array( $categoryID ) ) {
-
-				if ( empty( $categoryID ) ) {
-
-					return $out;
-
-				} else {
-
-					$categoryID = $categoryID[0];
-
-					if ( empty( $categoryID ) ) return $out;
-				}
-
-			}
-
-			$term = cnTerm::getBy( 'id', $categoryID, 'category' );
-
-			$category = new cnCategory( $term );
-
-			$out = $category->getDescriptionBlock( array( 'return' => TRUE ) );
-		}
-
-		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
-
-		return self::echoOrReturn( $atts['return'], $out );
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -1174,7 +1146,12 @@ class cnTemplatePart {
 		if ( $queryVars['cn-s'] ) {
 
 			// If value is a string, string the white space and covert to an array.
-			if ( ! is_array( $queryVars['cn-s'] ) ) $queryVars['cn-s'] = explode( ' ' , trim( $queryVars['cn-s'] ) );
+			if ( ! is_array( $queryVars['cn-s'] ) ) {
+
+				$originalString = array( $queryVars['cn-s'] );
+				$queryVars['cn-s'] = cnFunction::parseStringList( $queryVars['cn-s'], '\s' );
+				$queryVars['cn-s'] = array_merge( $originalString, $queryVars['cn-s'] );
+			}
 
 			// Trim any white space from around the terms in the array.
 			array_walk( $queryVars['cn-s'] , 'trim' );
@@ -2020,6 +1997,154 @@ class cnTemplatePart {
 		if ( ! is_admin() ) cnSEO::doFilterPermalink();
 
 		return self::echoOrReturn( $atts['return'], $out );
+	}
+
+	/**
+	 * Render the category breadcrumb.
+	 *
+	 * @access public
+	 * @since  8.5.18
+	 * @static
+	 *
+	 * @param array  $atts      The attributes array. {
+	 *
+	 *     @type bool   $link       Whether to format as link or as a string.
+	 *                              Default: FALSE
+	 *     @type string $separator  How to separate categories.
+	 *                              Default: '/'
+	 *     @type bool   $force_home Default: FALSE
+	 *     @type int    $home_id    Default: The page set as the directory home page.
+	 *     @type bool   $return     Whether or not to return or echo the pagination control. Set to TRUE to return instead of echo.
+	 *                              Default: FALSE
+	 * }
+	 *
+	 * @return string A list of category parents on success.
+	 */
+	public static function categoryBreadcrumb( $atts ) {
+
+		$defaults = array(
+			'link'       => FALSE,
+			'separator'  => '/',
+			'force_home' => FALSE,
+			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+			'return'     => FALSE,
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
+
+		$html = '';
+
+		if ( $current = cnCategory::getCurrent() ) {
+
+			$home = cnURL::permalink(
+				array(
+					'type'       => 'home',
+					'title'      => esc_html__( 'Home', 'connections' ),
+					'text'       => esc_html__( 'Home', 'connections' ),
+					'force_home' => $atts['force_home'],
+					'home_id'    => $atts['home_id'],
+					'return'     => TRUE,
+				)
+			);
+
+			$breadcrumb = cnTemplatePart::getCategoryParents(
+				$current->parent,
+				array(
+					'link'       => $atts['link'],
+					'separator'  => $atts['separator'],
+					'force_home' => $atts['force_home'],
+					'home_id'    => $atts['home_id'],
+				)
+			);
+
+			if ( is_wp_error( $breadcrumb ) ) {
+
+				$breadcrumb = '';
+			}
+
+			//$currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
+
+			$html = $home . $atts['separator'] . $breadcrumb . esc_html( $current->name );
+
+			$html = '<div class="cn-category-breadcrumb">' . $html . '</div>';
+		}
+
+		return self::echoOrReturn( $atts['return'], $html );
+	}
+
+	/**
+	 * Retrieve category parents with separator.
+	 *
+	 * NOTE: This is the Connections equivalent of @see get_category_parents() in WordPress core ../wp-includes/category-template.php
+	 *
+	 * @access public
+	 * @since  8.5.18
+	 * @static
+	 *
+	 * @param int    $id        Category ID.
+	 * @param array  $atts      The attributes array. {
+	 *
+	 *     @type bool   $link       Whether to format as link or as a string.
+	 *                              Default: FALSE
+	 *     @type string $separator  How to separate categories.
+	 *                              Default: '/'
+	 *     @type bool   $nicename   Whether to use nice name for display.
+	 *                              Default: FALSE
+	 *     @type array  $visited    Already linked to categories to prevent duplicates.
+	 *                              Default: array()
+	 *     @type bool   $force_home Default: FALSE
+	 *     @type int    $home_id    Default: The page set as the directory home page.
+	 * }
+	 *
+	 * @return string|WP_Error A list of category parents on success, WP_Error on failure.
+	 */
+	public static function getCategoryParents( $id, $atts = array() ) {
+
+		$defaults = array(
+			'link'       => FALSE,
+			'separator'  => '/',
+			'nicename'   => FALSE,
+			'visited'    => array(),
+			'force_home' => FALSE,
+			'home_id'    => cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' ),
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
+
+		$chain  = '';
+		$parent = cnTerm::get( $id, 'category' );
+
+		if ( is_wp_error( $parent ) ) {
+
+			return $parent;
+		}
+
+		if ( $atts['nicename'] ) {
+
+			$name = $parent->slug;
+
+		} else {
+
+			$name = $parent->name;
+		}
+
+		if ( $parent->parent && ( $parent->parent != $parent->term_id ) && ! in_array( $parent->parent,  $atts['visited'] ) ) {
+
+			$atts['visited'][] = $parent->parent;
+
+			$chain .= self::getCategoryParents( $parent->parent, $atts );
+		}
+
+		if ( $atts['link'] ) {
+
+			$chain .= '<a href="' . esc_url( cnTerm::permalink( $parent->term_id, 'category', $atts ) ) . '">' . $name . '</a>' . $atts['separator'];
+
+		} else {
+
+			$chain .= $name . esc_html( $atts['separator'] );
+		}
+
+		return $chain;
 	}
 
 	/**

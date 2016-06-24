@@ -565,7 +565,10 @@ class cnOutput extends cnEntry {
 		 *
 		 * @param array $atts An array of arguments.
 		 */
-		$atts = cnSanitize::args( apply_filters( 'cn_output_name_atts', $atts ), $defaults );
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_name_atts', $atts ),
+			apply_filters( 'cn_output_name_default_atts', $defaults )
+		);
 
 		$search = array(
 			'%prefix%',
@@ -728,7 +731,10 @@ class cnOutput extends cnEntry {
 		 *
 		 * @param array $atts An array of arguments.
 		 */
-		$atts = cnSanitize::args( apply_filters( 'cn_output_family_atts', $atts ), $defaults );
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_family_atts', $atts ),
+			apply_filters( 'cn_output_family_default_atts', $defaults )
+		);
 
 		$html   = '';
 		$search = array( '%relation%', '%name%', '%separator%' );
@@ -803,9 +809,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getTitleBlock( $atts = array() ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'tag'    => 'span',
 			'before' => '',
@@ -813,12 +816,15 @@ class cnOutput extends cnEntry {
 			'return' => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_title' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_title', $atts ),
+			apply_filters( 'cn_output_default_atts_title', $defaults )
+		);
 
 		$title = $this->getTitle();
 
@@ -859,9 +865,6 @@ class cnOutput extends cnEntry {
 
 		$out = '';
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'before'    => '',
 			'after'     => '',
@@ -874,12 +877,15 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_orgunit' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_orgunit', $atts ),
+			apply_filters( 'cn_output_default_atts_orgunit', $defaults )
+		);
 
 		$org  = $atts['show_org'] ? $this->getOrganization() : '';
 		$dept = $atts['show_dept'] ? $this->getDepartment() : '';
@@ -987,9 +993,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getContactNameBlock( $atts = array() ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'format'    => '',
 			'label'     => __( 'Contact', 'connections' ),
@@ -1000,12 +1003,14 @@ class cnOutput extends cnEntry {
 		);
 
 		/**
+		 * All extensions to filter the method default and supplied args.
 		 *
+		 * @since 8.5.18
 		 */
-		$atts = cnSanitize::args( $atts, apply_filters( 'cn_output_default_atts_contact_name', $defaults ) );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_contact_name', $atts ),
+			apply_filters( 'cn_output_default_atts_contact_name', $defaults )
+		);
 
 		$search  = array( '%label%', '%first%', '%last%', '%separator%' );
 		$replace = array();
@@ -1088,9 +1093,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getAddressBlock( $atts = array(), $cached = TRUE ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred'   => NULL,
 			'type'        => NULL,
@@ -1113,14 +1115,18 @@ class cnOutput extends cnEntry {
 			'return'      => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_address' , $defaults );
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_address', $atts ),
+			apply_filters( 'cn_output_default_atts_address', $defaults )
+		);
 
-		$atts         = cnSanitize::args( $atts, $defaults );
 		$atts['link'] = cnSanitize::args( $atts['link'], $defaults['link'] );
 		$atts['id']   = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		$out       = '';
 		$addresses = $this->getAddresses( $atts, $cached );
@@ -1333,9 +1339,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getMapBlock( $atts = array(), $cached = TRUE ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
@@ -1349,13 +1352,17 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_contact_name' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_map', $atts ),
+			apply_filters( 'cn_output_default_atts_map', $defaults )
+		);
+
+		$atts['id'] = $this->getId();
 
 		$out = '';
 		$attr = array();
@@ -1460,9 +1467,6 @@ class cnOutput extends cnEntry {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
@@ -1474,13 +1478,17 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_phone' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_phone', $atts ),
+			apply_filters( 'cn_output_default_atts_phone', $defaults )
+		);
+
+		$atts['id'] = $this->getId();
 
 		$rows         = array();
 		$phoneNumbers = $this->getPhoneNumbers( $atts, $cached );
@@ -1667,9 +1675,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getEmailAddressBlock( $atts = array(), $cached = TRUE ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
@@ -1683,13 +1688,17 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_email' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_email', $atts ),
+			apply_filters( 'cn_output_default_atts_email', $defaults )
+		);
+
+		$atts['id'] = $this->getId();
 
 		$rows      = array();
 		$addresses = $this->getEmailAddresses( $atts, $cached );
@@ -1785,9 +1794,7 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getImBlock( $atts = array(), $cached = TRUE ) {
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
+
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
@@ -1798,13 +1805,17 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_im' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_im', $atts ),
+			apply_filters( 'cn_output_default_atts_im', $defaults )
+		);
+
+		$atts['id'] = $this->getId();
 
 		$out = '';
 		$networks = $this->getIm( $atts , $cached );
@@ -1930,9 +1941,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getSocialMediaBlock( $atts = array(), $cached = TRUE ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
@@ -1945,13 +1953,17 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_socialmedia' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_socialmedia', $atts ),
+			apply_filters( 'cn_output_default_atts_socialmedia', $defaults )
+		);
+
+		$atts['id'] = $this->getId();
 
 		$networks = $this->getSocialMedia( $atts , $cached );
 		$search = array( '%label%' , '%url%' , '%icon%' , '%separator%' );
@@ -2059,9 +2071,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getLinkBlock( $atts = array(), $cached = TRUE ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
@@ -2075,13 +2084,17 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_link', $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_link', $atts ),
+			apply_filters( 'cn_output_default_atts_link', $defaults )
+		);
+
+		$atts['id'] = $this->getId();
 
 		$rows          = array();
 		$links         = $this->getLinks( $atts, $cached );
@@ -2220,9 +2233,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getDateBlock( $atts = array(), $cached = TRUE ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred'   => NULL,
 			'type'        => NULL,
@@ -2235,13 +2245,17 @@ class cnOutput extends cnEntry {
 			'return'      => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_date' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_date', $atts ),
+			apply_filters( 'cn_output_default_atts_date', $defaults )
+		);
+
+		$atts['id'] = $this->getId();
 
 		$dates = $this->getDates( $atts , $cached );
 		$search = array( '%label%' , '%date%' , '%separator%' );
@@ -2464,9 +2478,15 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_notes' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_notes', $atts ),
+			apply_filters( 'cn_output_default_atts_notes', $defaults )
+		);
 
 		$out = apply_filters( 'cn_output_notes', $this->getNotes() );
 
@@ -2496,9 +2516,15 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_bio' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_bio', $atts ),
+			apply_filters( 'cn_output_default_atts_bio', $defaults )
+		);
 
 		$out = apply_filters( 'cn_output_bio', $this->getBio() );
 
@@ -2508,85 +2534,183 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 * Displays the category list in a HTML list or custom format
+	 * Displays the category list in a HTML list or custom format.
 	 *
-	 * @TODO: Implement $parents.
-	 *
-	 * Accepted option for the $atts property are:
-	 *   list == string -- The list type to output. Accepted values are ordered || unordered.
-	 *   separator == string -- The category separator.
-	 *   before == string -- HTML to output before the category list.
-	 *   after == string -- HTML to output after the category list.
-	 *   label == string -- String to display after the before attribute but before the category list.
-	 *   parents == bool -- Display the parents
-	 *   return == TRUE || FALSE -- Return string if set to TRUE instead of echo string.
+	 * NOTE: This is the Connections equivalent of @see get_the_category_list() in WordPress core ../wp-includes/category-template.php
 	 *
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param array $atts
+	 * @param array $atts {
+	 * Optional. An array of arguments.
+	 *
+	 *     @type string $container_tag    The HTML tag to be used for the container element.
+	 *                                    Default: div
+	 *     @type string $label_tag        The HTML tag to be used for the category label element.
+	 *                                    Default: span
+	 *     @type string $item_tag         The HTML tag to be used for the category element.
+	 *                                    Default: span
+	 *     @type string $type             The display type to be used to display the categories.
+	 *                                    Accepts: block|list
+	 *                                    Default: block
+	 *     @type string $list             If the $type is list, which type?
+	 *                                    Accepts: ordered|unordered
+	 *                                    Default: unordered
+	 *     @type string $label            The label to be displayed before the categories.
+	 *                                    Default: Categories:
+	 *     @type string $separator        The category separator used when separating categories when $type == list
+	 *                                    Default: ', '
+	 *     @type string $parent_separator The separator to be used when displaying the category's hierarchy.
+	 *                                    Default: ' &raquo; '
+	 *     @type string $before           String content to display before the categories.
+	 *     @type string $after            String content to display after the categories.
+	 *     @type bool   $link             Whether or not render the categories as permalinks.
+	 *                                    Default: false
+	 *     @type bool   $parents          Whether or not to display the category hierarchy.
+	 *                                    Default: false
+	 *     @type bool   $return           Whether or not to echo or return the HTML.
+	 *                                    Default: false
+	 * }
 	 *
 	 * @return string
 	 */
 	public function getCategoryBlock( $atts = array() ) {
 
+		global $wp_rewrite;
+
 		$defaults = array(
-			'list'      => 'unordered',
-			'separator' => NULL,
-			'before'    => '',
-			'after'     => '',
-			'label'     => __( 'Categories:', 'connections') . ' ',
-			'parents'   => FALSE,
-			'return'    => FALSE
+			'container_tag'    => 'div',
+			'label_tag'        => 'span',
+			'item_tag'         => 'span',
+			'type'             => 'block',
+			'list'             => 'unordered',
+			'label'            => __( 'Categories:', 'connections' ) . ' ',
+			'separator'        => ', ',
+			'parent_separator' => ' &raquo; ',
+			'before'           => '',
+			'after'            => '',
+			'link'             => FALSE,
+			'parents'          => FALSE,
+			'return'           => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_category' , $defaults );
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_category', $atts ),
+			apply_filters( 'cn_output_default_atts_category', $defaults )
+		);
 
-		$atts = cnSanitize::args( $atts, $defaults );
-
-		$out = '';
 		$categories = $this->getCategory();
+		$count      = count( $categories );
+		$html       = '';
+		$label      = '';
+		$items      = array();
 
-		if ( empty( $categories ) ) return $out;
+		if ( empty( $categories ) ) {
 
-		$out .= '<div class="cn-categories">';
+			return $html;
+		}
 
-		$out .= $atts['before'];
+		if ( 'list' == $atts['type'] ) {
 
-		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span> ';
+			$atts['item_tag'] = 'li';
+		}
 
-		if ( is_null( $atts['separator'] ) ) {
+		if ( 0 < strlen( $atts['label'] ) ) {
 
-			$out .= $atts['list'] === 'unordered' ? '<ul class="cn_category_list">' : '<ol class="cn_category_list">';
+			$label = sprintf(
+				'<%1$s class="cn_category_label">%2$s</%1$s> ',
+				$atts['label_tag'],
+				esc_html( $atts['label'] )
+			);
+		}
 
-			foreach ( $categories as $category ) {
-				$out .= '<li class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . '</li>';
+		$i = 1;
+
+		foreach ( $categories as $category ) {
+
+			$text = '';
+
+			if ( $atts['parents'] ) {
+
+				$text .= cnTemplatePart::getCategoryParents(
+					$category->parent,
+					array(
+						'link'       => $atts['link'],
+						'separator'  => $atts['parent_separator'],
+						'force_home' => $this->directoryHome['force_home'],
+						'home_id'    => $this->directoryHome['page_id'],
+					)
+				);
 			}
 
-			$out .= $atts['list'] === 'unordered' ? '</ul>' : '</ol>';
+			if ( $atts['link'] ) {
+
+				$rel = is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() ? 'rel="category tag"' : 'rel="category"';
+
+				$url = cnTerm::permalink(
+					$category,
+					'category',
+					array(
+						'force_home' => $this->directoryHome['force_home'],
+						'home_id'    => $this->directoryHome['page_id'],
+					)
+				);
+
+				$text .= '<a href="' . $url . '" ' . $rel . '>' . esc_html( $category->name ) . '</a>';
+
+			} else {
+
+				$text .= esc_html( $category->name );
+			}
+
+			$items[] = apply_filters(
+				'cn_entry_output_category_item',
+				sprintf(
+					'<%1$s class="cn-category-name cn_category" id="cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
+					$atts['item_tag'],
+					$category->term_id,
+					$text,
+					$count > $i && 'list' !== $atts['type'] ? esc_html( $atts['separator'] ) : ''
+				),
+				$category,
+				$count,
+				$i,
+				$atts,
+				$this
+			);
+
+			$i++; // Increment here so the correct value is passed to the filter.
+		}
+
+		if ( 'list' == $atts['type'] ) {
+
+			$html .= sprintf(
+				'<%1$s class="cn-category-list">%2$s</%1$s>',
+				'unordered' === $atts['list'] ? 'ul' : 'ol',
+				implode( '', $items )
+			);
 
 		} else {
 
-			$count = count( $categories );
-			$i     = 1;
-
-			foreach ( $categories as $category ) {
-
-				// The `cn_category` class is named with an underscore for backward compatibility.
-				$out .= sprintf(
-					'<span class="cn-category-name cn_category" id="cn-category-%1$d">%2$s%3$s</span>',
-					$category->term_id,
-					esc_html( $category->name ),
-					$count > $i ++ && ! is_null( $atts['separator'] ) ? $atts['separator'] : ''
-				);
-			}
+			$html .= implode( '', $items );
 		}
 
-		$out .= $atts['after'];
+		$html = apply_filters(
+			'cn_entry_output_category_container',
+			sprintf(
+				'<%1$s class="cn-categories">%2$s</%1$s>' . PHP_EOL,
+				$atts['container_tag'],
+				$atts['before'] . $label . $html . $atts['after']
+			),
+			$atts
+		);
 
-		$out .= '</div>';
-
-		return $this->echoOrReturn( $atts['return'], $out );
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

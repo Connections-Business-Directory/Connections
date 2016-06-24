@@ -19,6 +19,10 @@
 	position: relative;
 }
 
+#cn-list .cn-category-breadcrumb {
+	margin: 20px auto;
+}
+
 /*#cn-list div.cn-list-section-head { position: relative; }*/
 #cn-list div.cn-list-section-head h4 {
 	font-size: 16px;

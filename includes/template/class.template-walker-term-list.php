@@ -210,7 +210,20 @@ class CN_Walker_Term_List extends Walker {
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 
 		$indent = str_repeat( "\t", $depth );
-		$output .= "$indent<ul class='children cn-cat-children'>" . PHP_EOL;
+
+		/**
+		 * Allows extensions to add/remove class names to the children term tree list.
+		 *
+		 * @since 8.5.18
+		 *
+		 * @param array $class The array of class names.
+		 * @param int   $depth The current term hierarchy depth.
+		 * @param array $args  The method attributes.
+		 */
+		$class = apply_filters( 'cn_term_children_list_class', array( 'children', 'cn-cat-children' ), $depth, $args );
+		$class = cnSanitize::htmlClass( $class );
+
+		$output .= $indent . '<ul class="' . cnFunction::escAttributeDeep( $class ) . '">' . PHP_EOL;
 	}
 
 	/**

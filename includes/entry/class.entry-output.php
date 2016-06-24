@@ -2508,85 +2508,183 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 * Displays the category list in a HTML list or custom format
+	 * Displays the category list in a HTML list or custom format.
 	 *
-	 * @TODO: Implement $parents.
-	 *
-	 * Accepted option for the $atts property are:
-	 *   list == string -- The list type to output. Accepted values are ordered || unordered.
-	 *   separator == string -- The category separator.
-	 *   before == string -- HTML to output before the category list.
-	 *   after == string -- HTML to output after the category list.
-	 *   label == string -- String to display after the before attribute but before the category list.
-	 *   parents == bool -- Display the parents
-	 *   return == TRUE || FALSE -- Return string if set to TRUE instead of echo string.
+	 * NOTE: This is the Connections equivalent of @see get_the_category_list() in WordPress core ../wp-includes/category-template.php
 	 *
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @param array $atts
+	 * @param array $atts {
+	 * Optional. An array of arguments.
+	 *
+	 *     @type string $container_tag    The HTML tag to be used for the container element.
+	 *                                    Default: div
+	 *     @type string $label_tag        The HTML tag to be used for the category label element.
+	 *                                    Default: span
+	 *     @type string $item_tag         The HTML tag to be used for the category element.
+	 *                                    Default: span
+	 *     @type string $type             The display type to be used to display the categories.
+	 *                                    Accepts: block|list
+	 *                                    Default: block
+	 *     @type string $list             If the $type is list, which type?
+	 *                                    Accepts: ordered|unordered
+	 *                                    Default: unordered
+	 *     @type string $label            The label to be displayed before the categories.
+	 *                                    Default: Categories:
+	 *     @type string $separator        The category separator used when separating categories when $type == list
+	 *                                    Default: ', '
+	 *     @type string $parent_separator The separator to be used when displaying the category's hierarchy.
+	 *                                    Default: ' &raquo; '
+	 *     @type string $before           String content to display before the categories.
+	 *     @type string $after            String content to display after the categories.
+	 *     @type bool   $link             Whether or not render the categories as permalinks.
+	 *                                    Default: false
+	 *     @type bool   $parents          Whether or not to display the category hierarchy.
+	 *                                    Default: false
+	 *     @type bool   $return           Whether or not to echo or return the HTML.
+	 *                                    Default: false
+	 * }
 	 *
 	 * @return string
 	 */
 	public function getCategoryBlock( $atts = array() ) {
 
+		global $wp_rewrite;
+
 		$defaults = array(
-			'list'      => 'unordered',
-			'separator' => NULL,
-			'before'    => '',
-			'after'     => '',
-			'label'     => __( 'Categories:', 'connections') . ' ',
-			'parents'   => FALSE,
-			'return'    => FALSE
+			'container_tag'    => 'div',
+			'label_tag'        => 'span',
+			'item_tag'         => 'span',
+			'type'             => 'block',
+			'list'             => 'unordered',
+			'label'            => __( 'Categories:', 'connections' ) . ' ',
+			'separator'        => ', ',
+			'parent_separator' => ' &raquo; ',
+			'before'           => '',
+			'after'            => '',
+			'link'             => FALSE,
+			'parents'          => FALSE,
+			'return'           => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_category' , $defaults );
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_category', $atts ),
+			apply_filters( 'cn_output_default_atts_category', $defaults )
+		);
 
-		$atts = cnSanitize::args( $atts, $defaults );
-
-		$out = '';
 		$categories = $this->getCategory();
+		$count      = count( $categories );
+		$html       = '';
+		$label      = '';
+		$items      = array();
 
-		if ( empty( $categories ) ) return $out;
+		if ( empty( $categories ) ) {
 
-		$out .= '<div class="cn-categories">';
+			return $html;
+		}
 
-		$out .= $atts['before'];
+		if ( 'list' == $atts['type'] ) {
 
-		if ( ! empty( $atts['label'] ) ) $out .= '<span class="cn_category_label">' . $atts['label'] . '</span> ';
+			$atts['item_tag'] = 'li';
+		}
 
-		if ( is_null( $atts['separator'] ) ) {
+		if ( 0 < strlen( $atts['label'] ) ) {
 
-			$out .= $atts['list'] === 'unordered' ? '<ul class="cn_category_list">' : '<ol class="cn_category_list">';
+			$label = sprintf(
+				'<%1$s class="cn_category_label">%2$s</%1$s> ',
+				$atts['label_tag'],
+				esc_html( $atts['label'] )
+			);
+		}
 
-			foreach ( $categories as $category ) {
-				$out .= '<li class="cn_category" id="cn_category_' . $category->term_id . '">' . $category->name . '</li>';
+		$i = 1;
+
+		foreach ( $categories as $category ) {
+
+			$text = '';
+
+			if ( $atts['parents'] ) {
+
+				$text .= cnTemplatePart::getCategoryParents(
+					$category->parent,
+					array(
+						'link'       => $atts['link'],
+						'separator'  => $atts['parent_separator'],
+						'force_home' => $this->directoryHome['force_home'],
+						'home_id'    => $this->directoryHome['page_id'],
+					)
+				);
 			}
 
-			$out .= $atts['list'] === 'unordered' ? '</ul>' : '</ol>';
+			if ( $atts['link'] ) {
+
+				$rel = is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() ? 'rel="category tag"' : 'rel="category"';
+
+				$url = cnTerm::permalink(
+					$category,
+					'category',
+					array(
+						'force_home' => $this->directoryHome['force_home'],
+						'home_id'    => $this->directoryHome['page_id'],
+					)
+				);
+
+				$text .= '<a href="' . $url . '" ' . $rel . '>' . esc_html( $category->name ) . '</a>';
+
+			} else {
+
+				$text .= esc_html( $category->name );
+			}
+
+			$items[] = apply_filters(
+				'cn_entry_output_category_item',
+				sprintf(
+					'<%1$s class="cn-category-name cn_category" id="cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
+					$atts['item_tag'],
+					$category->term_id,
+					$text,
+					$count > $i && 'list' !== $atts['type'] ? esc_html( $atts['separator'] ) : ''
+				),
+				$category,
+				$count,
+				$i,
+				$atts,
+				$this
+			);
+
+			$i++; // Increment here so the correct value is passed to the filter.
+		}
+
+		if ( 'list' == $atts['type'] ) {
+
+			$html .= sprintf(
+				'<%1$s class="cn-category-list">%2$s</%1$s>',
+				'unordered' === $atts['list'] ? 'ul' : 'ol',
+				implode( '', $items )
+			);
 
 		} else {
 
-			$count = count( $categories );
-			$i     = 1;
-
-			foreach ( $categories as $category ) {
-
-				// The `cn_category` class is named with an underscore for backward compatibility.
-				$out .= sprintf(
-					'<span class="cn-category-name cn_category" id="cn-category-%1$d">%2$s%3$s</span>',
-					$category->term_id,
-					esc_html( $category->name ),
-					$count > $i ++ && ! is_null( $atts['separator'] ) ? $atts['separator'] : ''
-				);
-			}
+			$html .= implode( '', $items );
 		}
 
-		$out .= $atts['after'];
+		$html = apply_filters(
+			'cn_entry_output_category_container',
+			sprintf(
+				'<%1$s class="cn-categories">%2$s</%1$s>' . PHP_EOL,
+				$atts['container_tag'],
+				$atts['before'] . $label . $html . $atts['after']
+			),
+			$atts
+		);
 
-		$out .= '</div>';
-
-		return $this->echoOrReturn( $atts['return'], $out );
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

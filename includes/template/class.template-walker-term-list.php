@@ -264,15 +264,15 @@ class CN_Walker_Term_List extends Walker {
 
 		$indent = str_repeat( "\t", $depth );
 
-		$count = $args['show_count'] ? '&nbsp;(' . number_format_i18n( $term->count ) . ')' : '';
+		$count = $args['show_count'] ? '<span class="cn-cat-count">&nbsp;(' . esc_html( number_format_i18n( $term->count ) ) . ')</span>' : '';
 
 		$url = cnTerm::permalink( $term, 'category', $args );
 
-		$link = sprintf(
+		$html = sprintf(
 			'<a href="%1$s" title="%2$s">%3$s</a>',
 			$url,
 			esc_attr( $term->name ),
-			$term->name . '<span class="cn-cat-count">' . esc_html( $count ) . '</span>'
+			esc_html( $term->name ) . $count
 		);
 
 		/**

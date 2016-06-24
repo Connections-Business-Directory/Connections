@@ -85,7 +85,7 @@ function connectionsShowCategoriesPage() {
 					$attr = array(
 						'action' => '',
 						'method' => 'post',
-						'id'     => 'addcat',
+						'id'     => 'edit-term',
 						'name'   => 'updatecategory'
 					);
 
@@ -336,6 +336,7 @@ function connectionsShowCategoriesPage() {
 
 								<?php
 								$attr = array(
+									'id'     => 'add-term',
 									'action' => '',
 									'method' => 'post'
 								);

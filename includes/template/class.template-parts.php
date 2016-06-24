@@ -2130,7 +2130,7 @@ class cnTemplatePart {
 
 		if ( $parent->parent && ( $parent->parent != $parent->term_id ) && ! in_array( $parent->parent,  $atts['visited'] ) ) {
 
-			$visited[] = $parent->parent;
+			$atts['visited'][] = $parent->parent;
 
 			$chain .= self::getCategoryParents( $parent->parent, $atts );
 		}

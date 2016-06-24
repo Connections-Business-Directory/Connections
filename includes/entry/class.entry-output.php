@@ -1941,9 +1941,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getSocialMediaBlock( $atts = array(), $cached = TRUE ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
@@ -1956,13 +1953,17 @@ class cnOutput extends cnEntry {
 			'return'    => FALSE,
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_socialmedia' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_socialmedia', $atts ),
+			apply_filters( 'cn_output_default_atts_socialmedia', $defaults )
+		);
+
+		$atts['id'] = $this->getId();
 
 		$networks = $this->getSocialMedia( $atts , $cached );
 		$search = array( '%label%' , '%url%' , '%icon%' , '%separator%' );

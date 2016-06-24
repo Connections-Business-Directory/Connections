@@ -131,7 +131,19 @@ class CN_Walker_Term_List extends Walker {
 			}
 		}
 
-		$out .= '<ul class="cn-cat-tree">' . PHP_EOL;
+		/**
+		 * Allows extensions to add/remove class names to the term tree list.
+		 *
+		 * @since 8.5.18
+		 *
+		 * @param array $class The array of class names.
+		 * @param array $terms The array of terms.
+		 * @param array $atts  The method attributes.
+		 */
+		$class = apply_filters( 'cn_term_list_class', array( 'cn-cat-tree' ), $terms, $atts );
+		$class = cnSanitize::htmlClass( $class );
+
+		$out .= '<ul class="' . cnFunction::escAttributeDeep( $class ) . '">' . PHP_EOL;
 
 		if ( empty( $terms ) ) {
 

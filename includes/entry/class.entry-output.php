@@ -809,9 +809,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getTitleBlock( $atts = array() ) {
 
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'tag'    => 'span',
 			'before' => '',
@@ -819,12 +816,15 @@ class cnOutput extends cnEntry {
 			'return' => FALSE
 		);
 
-		$defaults = apply_filters( 'cn_output_default_atts_title' , $defaults );
-
-		$atts = cnSanitize::args( $atts, $defaults );
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.18
 		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_title', $atts ),
+			apply_filters( 'cn_output_default_atts_title', $defaults )
+		);
 
 		$title = $this->getTitle();
 

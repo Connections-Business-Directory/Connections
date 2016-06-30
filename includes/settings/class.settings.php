@@ -1318,6 +1318,36 @@ class cnRegisterSettings {
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'district_base',
+			'position'  => 59,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_permalink',
+			'title'     => __( 'District Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the district in the URL.', 'connections' ),
+			'help'      => '',
+			'type'      => 'text',
+			'size'      => 'regular',
+			'default'   => 'district'
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'county_base',
+			'position'  => 59,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_permalink',
+			'title'     => __( 'County Base', 'connections' ),
+			'desc'      => __( 'Enter a custom structure for the county in the URL.', 'connections' ),
+			'help'      => '',
+			'type'      => 'text',
+			'size'      => 'regular',
+			'default'   => 'county'
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'organization_base',
 			'position'  => 60,
 			'page_hook' => $settings,
@@ -1405,6 +1435,40 @@ class cnRegisterSettings {
 			'title'     => __( 'Department', 'connections' ),
 			'desc'      => __(
 				'Enabling this option will turn the name of department into a link. Clicking the link will take you to the page filtered by that department.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'district',
+			'position'  => 19,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_link',
+			'title'     => __( 'District', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the name of district into a link. Clicking the link will take you to the page filtered by that district.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'county',
+			'position'  => 19,
+			'page_hook' => $settings,
+			'tab'       => 'advanced',
+			'section'   => 'connections_link',
+			'title'     => __( 'County', 'connections' ),
+			'desc'      => __(
+				'Enabling this option will turn the name of county into a link. Clicking the link will take you to the page filtered by that county.',
 				'connections'
 			),
 			'help'      => '',
@@ -1754,6 +1818,8 @@ class cnRegisterSettings {
 		if ( ! isset( $settings['region_base'] ) || empty( $settings['region_base'] ) ) $settings['region_base']                   = 'region';
 		if ( ! isset( $settings['locality_base'] ) || empty( $settings['locality_base'] ) ) $settings['locality_base']             = 'locality';
 		if ( ! isset( $settings['postal_code_base'] ) || empty( $settings['postal_code_base'] ) ) $settings['postal_code_base']    = 'postal_code';
+		if ( ! isset( $settings['district_base'] ) || empty( $settings['district_base'] ) ) $settings['district_base']             = 'district';
+		if ( ! isset( $settings['county_base'] ) || empty( $settings['county_base'] ) ) $settings['county_base']                   = 'county';
 		if ( ! isset( $settings['name_base'] ) || empty( $settings['name_base'] ) ) $settings['name_base']                         = 'name';
 		if ( ! isset( $settings['organization_base'] ) || empty( $settings['organization_base'] ) ) $settings['organization_base'] = 'organization';
 		if ( ! isset( $settings['department_base'] ) || empty( $settings['department_base'] ) ) $settings['department_base']       = 'department';

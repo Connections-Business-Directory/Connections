@@ -1389,7 +1389,6 @@ class cnRetrieve {
 						)
 					);
 
-					break;
 			}
 
 		}

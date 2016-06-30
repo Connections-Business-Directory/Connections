@@ -704,6 +704,10 @@ function connectionsShowViewPage( $action = NULL ) {
 							if ( ! empty( $address->line_1 ) ) echo '<span style="display: block">' , $address->line_1 , '</span>';
 							if ( ! empty( $address->line_2 ) ) echo '<span style="display: block">' , $address->line_2 , '</span>';
 							if ( ! empty( $address->line_3 ) ) echo '<span style="display: block">' , $address->line_3 , '</span>';
+							if ( 0 < strlen( $address->line_4 ) ) echo '<span style="display: block">' , $address->line_4 , '</span>';
+
+							if ( 0 < strlen( $address->district ) ) echo '<span style="display: block">' , $address->district , '</span>';
+							if ( 0 < strlen( $address->county ) ) echo '<span style="display: block">' , $address->county , '</span>';
 
 							if ( ! empty( $address->city ) ) $outCache[] = '<span>' . $address->city . '</span>';
 							if ( ! empty( $address->state ) ) $outCache[] = '<span>' . $address->state . '</span>';

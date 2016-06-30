@@ -2602,6 +2602,50 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
+	 * Renders an excerpt of the bio or supplied string.
+	 *
+	 * @access public
+	 * @since  8.5.19
+	 *
+	 * @param array  $atts
+	 * @param string $text
+	 *
+	 * @return string
+	 */
+	public function excerpt( $atts = array(), $text = '' ) {
+
+		$defaults = array(
+			'before'    => '',
+			'after'     => '',
+			'length'    => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'      => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
+			'return'    => FALSE
+		);
+
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.19
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_excerpt', $atts ),
+			apply_filters( 'cn_output_default_atts_excerpt', $defaults )
+		);
+
+		$text = 0 < strlen( $text ) ? $this->getBio() : $text;
+
+		/**
+		 * Apply the default filters.
+		 *
+		 * @since 8.5.19
+		 */
+		$text = apply_filters( 'cn_output_excerpt', $text );
+		$html = cnString::excerpt( $text, $atts );
+
+		return $this->echoOrReturn( $atts['return'], $html );
+	}
+
+	/**
 	 * Displays the category list in a HTML list or custom format.
 	 *
 	 * NOTE: This is the Connections equivalent of @see get_the_category_list() in WordPress core ../wp-includes/category-template.php

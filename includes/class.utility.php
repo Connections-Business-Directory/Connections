@@ -1017,6 +1017,26 @@ class cnURL {
 
 				break;
 
+			case 'district':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['district_base'] . '/' . urlencode( $atts['slug'] ) );
+				} else {
+					$permalink = add_query_arg( 'cn-district', urlencode( $atts['slug'] ) , $permalink );
+				}
+
+				break;
+
+			case 'county':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['county_base'] . '/' . urlencode( $atts['slug'] ) );
+				} else {
+					$permalink = add_query_arg( 'cn-county', urlencode( $atts['slug'] ) , $permalink );
+				}
+
+				break;
+
 			case 'locality':
 
 				if ( $wp_rewrite->using_permalinks() ) {

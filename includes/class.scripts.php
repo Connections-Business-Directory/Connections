@@ -125,7 +125,15 @@ class cnScript {
 		 */
 		if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
 
-			wp_register_script( 'cn-google-maps-api', '//maps.googleapis.com/maps/api/js?libraries=geometry', array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+			$endpoint = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
+			$key      = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
+
+			if ( 0 < strlen( $key ) ) {
+
+				$endpoint = $endpoint . '&key=' . urlencode( $key );
+			}
+
+			wp_register_script( 'cn-google-maps-api', $endpoint, array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 
 			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.3', $connections->options->getJavaScriptFooter() );
 			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.1.2', $connections->options->getJavaScriptFooter() );

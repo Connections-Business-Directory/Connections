@@ -186,6 +186,8 @@ class cnSanitize {
 
 					case 'name':
 					case 'street':
+					case 'district':
+					case 'county':
 					case 'locality':
 					case 'region':
 					case 'postal-code':
@@ -216,7 +218,6 @@ class cnSanitize {
 						 * Match the post content sanitation before being inserted in the db.
 						 * See the `content_save_pre` filters.
 						 */
-
 						if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
 
 							$value = wp_filter_post_kses( $value );
@@ -226,6 +227,8 @@ class cnSanitize {
 
 					case 'name';
 					case 'street':
+					case 'district':
+					case 'county':
 					case 'locality':
 					case 'region':
 					case 'postal-code':
@@ -259,6 +262,8 @@ class cnSanitize {
 
 					case 'name':
 					case 'street':
+					case 'district':
+					case 'county':
 					case 'locality':
 					case 'region':
 					case 'postal-code':

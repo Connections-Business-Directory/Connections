@@ -877,6 +877,16 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 					update_option( 'connections_display_results', $options );
 					unset( $options );
+
+				/** @noinspection PhpMissingBreakStatementInspection */
+				case ( version_compare( $version, '8.5.19', '<' ) ) :
+
+					$options = get_option( 'connections_permalink' );
+
+					$options['district_base'] = 'district';
+					$options['county_base']   = 'county';
+
+					update_option( 'connections_permalink', $options );
 			}
 
 			if ( NULL === $this->options->getDefaultTemplatesSet() ) $this->options->setDefaultTemplates();

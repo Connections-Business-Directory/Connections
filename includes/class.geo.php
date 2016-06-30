@@ -177,7 +177,7 @@ class cnGeo {
 	public static function reverse( $point , $atts = array() ) {
 		$result = new stdClass();
 		$query = array();
-		$googleLatLngURL = 'http://maps.googleapis.com/maps/api/geocode/%s?latlng=%s&sensor=false';
+		$googleLatLngURL = 'https://maps.googleapis.com/maps/api/geocode/%s?latlng=%s&sensor=false';
 
 		$defaults = array(
 			'provider' => 'google',

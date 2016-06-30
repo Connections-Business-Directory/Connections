@@ -124,7 +124,7 @@ class cnRewrite {
 	 * @access private
 	 * @since  8.1
 	 * @static
-	 * @param  array $var An associtive array of the parsed query vars where the key is the query var key.
+	 * @param  array $var An associative array of the parsed query vars where the key is the query var key.
 	 * @return array $var
 	 */
 	public static function setImageEndpointQueryVar( $var ) {

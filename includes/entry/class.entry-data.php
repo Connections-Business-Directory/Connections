@@ -1305,6 +1305,8 @@ class cnEntry {
 		$defaults = array(
 			'preferred'   => FALSE,
 			'type'        => array(),
+			'district'    => array(),
+			'county'      => array(),
 			'city'        => array(),
 			'state'       => array(),
 			'zipcode'     => array(),
@@ -1329,6 +1331,8 @@ class cnEntry {
 				/**
 				 * @var bool         $preferred
 				 * @var array|string $type
+				 * @var array|string $district
+				 * @var array|string $county
 				 * @var array|string $city
 				 * @var array|string $state
 				 * @var array|string $zipcode
@@ -1341,6 +1345,8 @@ class cnEntry {
 				 * Covert these to values to an array if they were supplied as a comma delimited string
 				 */
 				cnFunction::parseStringList( $type );
+				cnFunction::parseStringList( $district );
+				cnFunction::parseStringList( $county );
 				cnFunction::parseStringList( $city );
 				cnFunction::parseStringList( $state );
 				cnFunction::parseStringList( $zipcode );
@@ -1374,6 +1380,9 @@ class cnEntry {
 					$row->line_1     = isset( $address['line_1'] ) ? cnSanitize::field( 'street', $address['line_1'], $context ) : '';
 					$row->line_2     = isset( $address['line_2'] ) ? cnSanitize::field( 'street', $address['line_2'], $context ) : '';
 					$row->line_3     = isset( $address['line_3'] ) ? cnSanitize::field( 'street', $address['line_3'], $context ) : '';
+					$row->line_4     = isset( $address['line_4'] ) ? cnSanitize::field( 'street', $address['line_4'], $context ) : '';
+					$row->district   = isset( $address['district'] ) ? cnSanitize::field( 'district', $address['district'], $context ) : '';
+					$row->county     = isset( $address['county'] ) ? cnSanitize::field( 'county', $address['county'], $context ) : '';
 					$row->city       = isset( $address['city'] ) ? cnSanitize::field( 'locality', $address['city'], $context ) : '';
 					$row->state      = isset( $address['state'] ) ? cnSanitize::field( 'region', $address['state'], $context ) : '';
 					$row->zipcode    = isset( $address['zipcode'] ) ? cnSanitize::field( 'postal-code', $address['zipcode'], $context ) : '';
@@ -1412,6 +1421,8 @@ class cnEntry {
 					 */
 					if ( $preferred && ! $row->preferred ) continue;
 					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
+					if ( ! empty( $district ) && ! in_array( $row->district, $district ) ) continue;
+					if ( ! empty( $county ) && ! in_array( $row->county, $county ) ) continue;
 					if ( ! empty( $city ) && ! in_array( $row->city, $city ) ) continue;
 					if ( ! empty( $state ) && ! in_array( $row->state, $state ) ) continue;
 					if ( ! empty( $zipcode ) && ! in_array( $row->zipcode, $zipcode ) ) continue;
@@ -1435,6 +1446,9 @@ class cnEntry {
 					 *     @type string $line_1     Address line 1.
 					 *     @type string $line_2     Address line 2.
 					 *     @type string $line_3     Address line 3.
+					 *     @type string $line_4     Address line 4.
+					 *     @type string $district   The address district.
+					 *     @type string $county     The address county.
 					 *     @type string $city       The address locality.
 					 *     @type string $state      The address region.
 					 *     @type string $country    The address country.
@@ -1474,6 +1488,9 @@ class cnEntry {
 				$address->line_1     = cnSanitize::field( 'street', $address->line_1, $context );
 				$address->line_2     = cnSanitize::field( 'street', $address->line_2, $context );
 				$address->line_3     = cnSanitize::field( 'street', $address->line_3, $context );
+				$address->line_4     = cnSanitize::field( 'street', $address->line_4, $context );
+				$address->district   = cnSanitize::field( 'district', $address->district, $context );
+				$address->county     = cnSanitize::field( 'county', $address->county, $context );
 				$address->city       = cnSanitize::field( 'locality', $address->city, $context );
 				$address->state      = cnSanitize::field( 'region', $address->state, $context );
 				$address->zipcode    = cnSanitize::field( 'postal-code', $address->zipcode, $context );
@@ -1529,6 +1546,9 @@ class cnEntry {
 	 *     @type string $line_1     Address line 1.
 	 *     @type string $line_2     Address line 2.
 	 *     @type string $line_3     Address line 3.
+	 *     @type string $line_4     Address line 4.
+	 *     @type string $district   The address district.
+	 *     @type string $country    The address county.
 	 *     @type string $city       The address locality.
 	 *     @type string $state      The address region.
 	 *     @type string $country    The address country.
@@ -1580,13 +1600,16 @@ class cnEntry {
 				$addresses[ $key ] = cnSanitize::args( $address, $validFields );
 
 				// Sanitize the address text fields.
-				$addresses[ $key ]['line_1']  = cnSanitize::field( 'street', $addresses[ $key ]['line_1'], $context );
-				$addresses[ $key ]['line_2']  = cnSanitize::field( 'street', $addresses[ $key ]['line_2'], $context );
-				$addresses[ $key ]['line_3']  = cnSanitize::field( 'street', $addresses[ $key ]['line_3'], $context );
-				$addresses[ $key ]['city']    = cnSanitize::field( 'locality', $addresses[ $key ]['city'], $context );
-				$addresses[ $key ]['state']   = cnSanitize::field( 'region', $addresses[ $key ]['state'], $context );
-				$addresses[ $key ]['zipcode'] = cnSanitize::field( 'postal-code', $addresses[ $key ]['zipcode'], $context );
-				$addresses[ $key ]['country'] = cnSanitize::field( 'country', $addresses[ $key ]['country'], $context );
+				$addresses[ $key ]['line_1']   = cnSanitize::field( 'street', $addresses[ $key ]['line_1'], $context );
+				$addresses[ $key ]['line_2']   = cnSanitize::field( 'street', $addresses[ $key ]['line_2'], $context );
+				$addresses[ $key ]['line_3']   = cnSanitize::field( 'street', $addresses[ $key ]['line_3'], $context );
+				$addresses[ $key ]['line_4']   = cnSanitize::field( 'street', $addresses[ $key ]['line_4'], $context );
+				$addresses[ $key ]['district'] = cnSanitize::field( 'district', $addresses[ $key ]['district'], $context );
+				$addresses[ $key ]['county']   = cnSanitize::field( 'county', $addresses[ $key ]['county'], $context );
+				$addresses[ $key ]['city']     = cnSanitize::field( 'locality', $addresses[ $key ]['city'], $context );
+				$addresses[ $key ]['state']    = cnSanitize::field( 'region', $addresses[ $key ]['state'], $context );
+				$addresses[ $key ]['zipcode']  = cnSanitize::field( 'postal-code', $addresses[ $key ]['zipcode'], $context );
+				$addresses[ $key ]['country']  = cnSanitize::field( 'country', $addresses[ $key ]['country'], $context );
 
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
@@ -4875,6 +4898,9 @@ class cnEntry {
 					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
 					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
 					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
+					'line_4'     => array( 'key' => 'line_4' , 'format' => '%s' ),
+					'district'   => array( 'key' => 'district' , 'format' => '%s' ),
+					'county'     => array( 'key' => 'county' , 'format' => '%s' ),
 					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
 					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
 					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
@@ -5125,6 +5151,9 @@ class cnEntry {
 					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
 					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
 					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
+					'line_4'     => array( 'key' => 'line_4' , 'format' => '%s' ),
+					'district'   => array( 'key' => 'district' , 'format' => '%s' ),
+					'county'     => array( 'key' => 'county' , 'format' => '%s' ),
 					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
 					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
 					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
@@ -5133,7 +5162,7 @@ class cnEntry {
 					'longitude'  => array( 'key' => 'longitude' , 'format' => '%s' ),
 					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
 				),
-				$this->getAddresses( array(), TRUE, TRUE )
+				$this->getAddresses( array(), TRUE, TRUE, 'db' )
 			);
 
 			$cnDb->insert(

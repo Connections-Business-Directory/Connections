@@ -543,11 +543,11 @@ class cnSanitize {
 
 	/**
 	 * Sanitize HTML class name or array of class names.
-	 * 
+	 *
 	 * @access public
 	 * @since  8.5.18
 	 * @static
-	 *         
+	 *
 	 * @param array|string $name
 	 *
 	 * @return array|string

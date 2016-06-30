@@ -843,6 +843,30 @@ function cnRunDBUpgrade() {
 			echo '</ul>' . PHP_EOL;
 		}
 
+		if ( version_compare( $dbVersion, '0.4', '<' ) ) {
+
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ) , $connections->options->getDBVersion(), CN_DB_VERSION ) , '</h4>' . PHP_EOL;
+
+			echo '<ul>' . PHP_EOL;
+
+			echo '<li>' , esc_html__( 'Adding columns... "line_4", "district" and "county"', 'connections' ) , '</li>' . PHP_EOL;
+
+			if ( cnAddTableColumn( CN_ENTRY_ADDRESS_TABLE, 'line_4', 'tinytext NOT NULL AFTER line_3' ) &&
+			     cnAddTableColumn( CN_ENTRY_ADDRESS_TABLE, 'district', 'tinytext NOT NULL AFTER line_4' ) &&
+			     cnAddTableColumn( CN_ENTRY_ADDRESS_TABLE, 'county', 'tinytext NOT NULL AFTER district' )
+			     ) {
+
+				echo '<ul><li>' , esc_html__( 'SUCCESS', 'connections' ) , '</li></ul>' . PHP_EOL;
+
+				$connections->options->setDBVersion( '0.4' );
+
+				// Save the options
+				$connections->options->saveOptions();
+			}
+
+			echo '</ul>' . PHP_EOL;
+		}
+
 		echo '<h4>' , __( 'Upgrade completed.', 'connections' ) , "</h4>\n";
 		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , __( 'Continue', 'connections' ) , '</a></h4>';
 

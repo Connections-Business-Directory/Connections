@@ -293,7 +293,6 @@ class cnHTML {
 					return '';
 				}
 
-				break;
 		}
 
 	}

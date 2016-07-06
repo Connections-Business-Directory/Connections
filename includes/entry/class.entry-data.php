@@ -1741,6 +1741,7 @@ class cnEntry {
 				cnFunction::parseStringList( $type );
 
 				foreach ( (array) $phoneNumbers as $key => $number ) {
+
 					/*
 					 * Previous versions stored empty arrays for phone numbers, check for a number, continue if not found.
 					 */
@@ -1809,6 +1810,7 @@ class cnEntry {
 			}
 
 		} else {
+
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all phone numbers will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -1925,7 +1927,9 @@ class cnEntry {
 		$cached = unserialize( $this->phoneNumbers );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $phone ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */
@@ -1935,10 +1939,12 @@ class cnEntry {
 				 */
 
 				if ( ! $this->validate->userPermitted( $phone['visibility'] ) ) {
+
 					$phoneNumbers[] = $phone;
 
 					// If the number is preferred, it takes precedence, so the user's choice is overridden.
 					if ( ! empty( $preferred ) && $phone['preferred'] ) {
+
 						$phoneNumbers[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
@@ -2178,7 +2184,9 @@ class cnEntry {
 		$cached = unserialize( $this->emailAddresses );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $email ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */

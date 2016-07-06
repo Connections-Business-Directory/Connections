@@ -1216,7 +1216,7 @@ class cnEntry {
 			 * The family relationship data was saved as an associative array where key was the entry ID and the value was
 			 * the relationship key.
 			 *
-			 * The data is now saved in a multidimensional array. What this nifty little count dos is compare the array
+			 * The data is now saved in a multidimensional array. What this nifty little count does is compare the array
 			 * count and against a recursive array count and if they are equal, it should be of the older data format
 			 * so loop thru it and put it in the new data format.
 			 */

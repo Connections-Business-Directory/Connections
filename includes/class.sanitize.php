@@ -243,6 +243,10 @@ class cnSanitize {
 					case 'url';
 
 						return esc_url_raw( $value );
+
+					case 'attribute':
+
+						return esc_attr( $value );
 				}
 
 				break;

@@ -3351,6 +3351,15 @@ class cnEntry {
 
 				foreach ( (array) $dates as $key => $date ) {
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $date
+					 */
+					$date = apply_filters( 'cn_date-pre_setup', $date );
+
 					$row = new stdClass();
 
 					( isset( $date['id'] ) ) ? $row->id = (int) $date['id'] : $row->id = 0;
@@ -3413,6 +3422,9 @@ class cnEntry {
 			if ( empty( $dates ) ) return $results;
 
 			foreach ( $dates as $date ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$date = apply_filters( 'cn_date-pre_setup', $date );
 
 				$date->id = (int) $date->id;
 				$date->order = (int) $date->order;
@@ -3590,6 +3602,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$date = apply_filters( 'cn_date-pre_setup', $date );
 
 				if ( ! $this->validate->userPermitted( $date['visibility'] ) ) {
 					//$dates[] = $date;

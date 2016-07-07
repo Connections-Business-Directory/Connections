@@ -227,6 +227,49 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.19 07/07/2016 =
+* NEW: Update database schema to support address line 4, district and county fields.
+* NEW: Introduce cnOutput::excerpt().
+* NEW: Introduce cnFormatting::toCamelCase().
+* NEW: Introduce cnFunction::isDimensionalArray().
+* NEW: Introduce the `cn_address-pre_setup` filter.
+* NEW: Introduce the `cn_phone-pre_setup` filter.
+* NEW: Introduce the `cn_email-pre_setup` filter.
+* NEW: Introduce the `cn_im-pre_setup` filter.
+* NEW: Introduce the `cn_social_network-pre_setup` filter.
+* NEW: Introduce the `cn_link-pre_setup` filter.
+* NEW: Introduce the `cn_date-pre_setup` filter.
+* NEW: Add support to cnHTML::attribute() for the HTML5 `data` attribute.
+* NEW: Add support to cnHTML::select() for the the HTML5 `data` attribute.
+* TWEAK: Use https when reverse geocoding an address utilizing the Google Maps API.
+* TWEAK: Register the `cn-district` and `cn-county` query vars.
+* TWEAK: Add the rewrite rules for district and county.
+* TWEAK: Add support for district and county permalinks in cnURL::permalink().
+* TWEAK: Add settings for the district and county permalink base as well as the options to enable/disable their permalinks when displaying.
+* TWEAK: Add support for display/db sanitation option in cnSanitize::field().
+* TWEAK: Add support for adding/updating addess line 4, district and county in cnEntry.
+* TWEAK: Display the address line 4, district and county field in the Manage admin page.
+* TWEAK: Update cnOutput::getAddressBlock() to display address line 4, county and district.
+* TWEAK: Add support for the address district and country fields in cnRetrieve::entries() and cnRetrieve::addresses().
+* TWEAK: Add the district and county permalink base to the option on update.
+* TWEAK: Update the admin CSS to tweak the display of the address district and county fields when adding/editing an entry.
+* TWEAK: Add the Google Maps API browser API key to the query string if it was added in the settings.
+* TWEAK: When updating an entry, get addresses in the `db` context for proper sanitization.
+* TWEAK: Change how spacing is applied for the `readonly` attribute for the date picker.
+* TWEAK: Add `readonly` support to the quicktag field.
+* TWEAK: Remove pre WP 3.3 backwards compatibility for the rte field.
+* TWEAK: Add support for the `readonly` attribute in cnHTML::group().
+* TWEAK: Add support for registering a field as read only when registering a custom field.
+* BUG: Fix bug that always set the user to none when adding/editing a linked entry.
+* BUG: Add missing `attribute` type in `db` content in cnSanitize::field().
+* OTHER: Correct misspelling.
+* OTHER: Remove stray whitespace.
+* OTHER: Remove unnecessary break.
+* OTHER: Update EDD-SL Updater library.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phpDoc fix.
+
 = 8.5.18 06/24/2016 =
 * NEW: Introduce cnCategory::getCurrent().
 * NEW: Introduce cnSanitize::htmlClass().
@@ -628,104 +671,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Change the settings export/import tab ID and callback to be more specific to make way for the CSV export tab and callback.
 * TWEAK: Enqueue the System Info in the System Info tab callback so it only loads on its tab.
 
-= 8.4.5 09/25/2015 =
-* NEW: Update the Profile template to support the Template Customizer.
-* BUG: Require the plugin update API in remote viewing of system info.
-* BUG: Prevent duplicate content on single entry profile detail page.
-* TWEAK: Add the cn-gmap class to the map block so it can easily be selected with CSS.
-* OTHER: Correct misspelling.
-
-= 8.4.4 09/17/2015 =
-* TWEAK: Remove use of deprecated like_escape() throughout.
-* TWEAK: Check that json_decode() returned an object before checking value of a property in cnGeo.
-* TWEAK: Enqueue CSS and JavaScript using relative protocol URL/s.
-* OTHER: Update Chosen to 1.4.2.
-* OTHER: Update Font Awesome to 4.4.0.
-* OTHER: Update jQuery goMap to 1.3.3.
-* OTHER: Update jQuery qTip to 2.2.1.
-* OTHER: Update MarkerClustererPlus to 2.1.2.
-* OTHER: Update picturefill to 2.3.1.
-* OTHER: Update jQuery validate to 1.14.0.
-* OTHER: Remove unused jQuery Preload.
-* OTHER: Remove unused jQuery preloader.
-* OTHER: Remove unused jQuery spin.
-* OTHER: Remove unused jQuery spin.js.
-
-= 8.4.3 09/11/2015 =
-* NEW: Introduce cnURL::makeProtocolRelative().
-* NEW: Introduce cnImage::insertIntoMediaLigrary(). Required further development, to be used in future versions.
-* BUG: Address bug that prevented the default format attribute from being changed via a filter.
-* TWEAK: Add updated jQuery UI styles to match the current WP admin style and color schemes.
-* TWEAK: Add plugin update available info to the System Info.
-* TWEAK: Update the mshot API URL.
-* TWEAK: Enqueue the jQuery data picker by handle only when rendering the metabox datepicker control.
-
-= 8.4.2 08/31/2015 =
-* BUG: Properly set form action when using the `home_id` shortcode option.
-* NEW: Introduce cnURL::makeRelative().
-* TWEAK: Move the social media icons to the bottom of the entry contact info in the Default Entry Card.
-* TWEAK: Hopefully properly deal with hosts that force open_basedir in cnTemplateFactory::scan().
-* OTHER: Update minified CSS file.
-* I18N: Fix to make the image/logo hover string translation ready.
-
-= 8.4.1 08/24/2015 =
-* BUG: Fix the home_id shortcode option in cnTemplatePart::formOpen().
-* BUG: Remove a PHP_EOL in cnHTML::input() which was causing unnecessary spaces to be added between input fields.
-* BUG: Correct bug preventing activation of individual template types.
-* TWEAK: Set default template image placeholder to not display by default matching implementation of previous version.
-* TWEAK: Add default style to remove box styles applied to images by themes.
-* TWEAK: The category select customizer message needs to be displayed only on the results list view.
-
-= 8.4 08/12/2015 =
-* FEATURE: Introduce the Template Customizer.
-* FEATURE: Complete rewrite of the Default Entry Card template to support the new Template Customizer.
-* NEW: Add action which runs after the template's registered CSS and custom CSS files have been enqueued.
-* BUG: Fix the bottom bulk action control on the categories admin page.
-* BUG: Check that $atts['selected'] is numeric in CN_Walker_Term_Select_List_Enhanced::render() to prevent PHP notice.
-* TWEAK: Code cleanup of cnHTML to better meet coding standards and code de-duplication.
-* TWEAK: Code cleanup of cnMetaboxRender::fields() to better meet coding standards and reduce code duplication by utilizing cnHTML.
-* TWEAK: cnHTML::echoOrReturn() should be a static method.
-* TWEAK: Remove the legacy template installer admin action.
-* TWEAK: Remove the Template and Extension Dashboard metaboxes since they are no longer relevant.
-* TWEAK: Add link to the new Hobbies extension to the readme.txt file.
-* TWEAK: Remove deprecated templates.
-* TWEAK: Add filter to the template to get via the template slug.
-* TWEAK: Add compatibility filter to used the default template if a deprecated/removed template is being used.
-* TWEAK: If script debugging is enabled to not check for minified CSS and JS files when loading template assets.
-* TWEAK: Remove unused var_dump().
-* TWEAK: Simplify ternary in cnSettingsAPI::registerFields().
-* TWEAK: Remove padding from the last table row in the metaboxes.
-* TWEAK: Set height of template thumbnail to auto.
-* TWEAK: Rename filter `cn_list_template_init` to `cn_load_template`.
-* TWEAK: Apply `cn_load_template` filter to the function defaults rather than the function $atts.
-* TWEAK: Tweak to cnOutput::getNotesBlock(). Move the before/after attributes to be hard coded making the attributes empty. This makes it consistent with the other output functions.
-* TWEAK: Tweak to cnOutput::getBioBlock(). Move the before/after attributes to be hard coded making the attributes empty. This makes it consistent with the other output functions.
-* TWEAK: Simplify logic which appends the before/after attributes to the output of cnOutput::getImage().
-* TWEAK: Small Tweak to cnOutput::getOrgUnitBlock() to allow suppression of either/or the org or unit (dept).
-* TWEAK: Check for string length rather than using empty when checking for the parts of the name so values of `0` are valid.
-* TWEAK: Check for string length rather than using empty when checking for the parts of the contact name so values of `0` are valid.
-* TWEAK: Add a containing div around the output of cnOutput::getCategoryBlock().
-* TWEAK: Simplify logic of cnOutput::getCategoryBlock().
-* TWEAK: Rename action `cn_action_entry_actions-after` to `cn_entry_actions-after` to match naming style.
-* TWEAK: Make logic for determining if the requested template has been found by checking if it is an object instance of cnTemplate.
-* TWEAK: Add support to the Settings API for applying settings defaults for the Template Customizer.
-* TWEAK: Add filter so active template can be overridden and set to the correct template being customized.
-* TWEAK: Disable the output of the template parts form open/close if the current view is the Customizer preview.
-* TWEAK: Add the supports property default when a template is registered with cnTemplateFactory.
-* TWEAK: Complete refactor of the code for the Templates admin page to make it cleaner and more maintainable and enable support for the Template Customizer.
-* TWEAK: Misc CSS tweaks.
-* TWEAK: Tweak logic to cnTemplate::getThumbnail()  so it only returns a populated array if a thumbnail exists.
-* OTHER: Remove extra whitespace.
-* OTHER: Correct misspelling in phpDoc.
-* OTHER: Update minified CSS files.
-* I18N: Update the POT file.
-* I18N: Update the MO files.
-* DEV: Minor phpDoc fixes in the Metabox API classes.
-* DEV: Add phpDoc to filter `cn_load_template`.
-* DEV: Correct phpDoc for cnOptions::getActivateTemplate().
-* DEV: Add @link to phpDoc for cnSettingsAPI::addSettingsField().
-* DEV: Correct param type in phpDoc for cnHTML::attribute().
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
@@ -803,4 +748,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.18 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+= 8.5.19 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.

@@ -729,6 +729,22 @@ and (max-width: 780px) {
 	/*width: 80%;*/
 /*}*/
 
+#metabox-address .address-local-extended {
+	display: table;
+	width: 100%;
+}
+
+#metabox-address .address-district,
+#metabox-address .address-county {
+	display: table-cell;
+	width: 50%;
+}
+
+#metabox-address .address-district input,
+#metabox-address .address-county input {
+	width: 100%;
+}
+
 #metabox-address .address-region {
 	display: table;
 }

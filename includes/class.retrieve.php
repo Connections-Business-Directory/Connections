@@ -98,6 +98,8 @@ class cnRetrieve {
 		$defaults['title']                 = NULL;
 		$defaults['organization']          = NULL;
 		$defaults['department']            = NULL;
+		$defaults['district']              = NULL;
+		$defaults['county']                = NULL;
 		$defaults['city']                  = NULL;
 		$defaults['state']                 = NULL;
 		$defaults['zip_code']              = NULL;
@@ -169,6 +171,14 @@ class cnRetrieve {
 			// Locality [City]
 			$queryLocality = cnQuery::getVar( 'cn-locality' );
 			if ( ! empty( $queryLocality ) ) $atts['city'] = urldecode( $queryLocality );
+
+			// County
+			$queryCounty = cnQuery::getVar( 'cn-county' );
+			if ( ! empty( $queryCounty ) ) $atts['county'] = urldecode( $queryCounty );
+
+			// District
+			$queryDistrict = cnQuery::getVar( 'cn-district' );
+			if ( ! empty( $queryDistrict ) ) $atts['district'] = urldecode( $queryDistrict );
 
 			// Organization
 			$queryOrganization = cnQuery::getVar( 'cn-organization' );
@@ -539,10 +549,12 @@ class cnRetrieve {
 		$where[] = cnQuery::where( array( 'field' => 'organization', 'value' => $atts['organization'] ) );
 		$where[] = cnQuery::where( array( 'field' => 'department', 'value' => $atts['department'] ) );
 
-		if ( ! empty( $atts['city'] ) || ! empty( $atts['state'] ) || ! empty( $atts['zip_code'] ) || ! empty( $atts['country'] ) ) {
+		if ( ! empty( $atts['district'] ) || ! empty( $atts['county'] ) || ! empty( $atts['city'] ) || ! empty( $atts['state'] ) || ! empty( $atts['zip_code'] ) || ! empty( $atts['country'] ) ) {
 
 			if ( ! isset( $join['address'] ) ) $join['address'] = 'INNER JOIN ' . CN_ENTRY_ADDRESS_TABLE . ' ON ( ' . CN_ENTRY_TABLE . '.id = ' . CN_ENTRY_ADDRESS_TABLE . '.entry_id )';
 
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'district', 'value' => $atts['district'] ) );
+			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'county', 'value' => $atts['county'] ) );
 			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'city', 'value' => $atts['city'] ) );
 			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'state', 'value' => $atts['state'] ) );
 			$where[] = cnQuery::where( array( 'table' => CN_ENTRY_ADDRESS_TABLE, 'field' => 'zipcode', 'value' => $atts['zip_code'] ) );
@@ -1377,7 +1389,6 @@ class cnRetrieve {
 						)
 					);
 
-					break;
 			}
 
 		}
@@ -1481,6 +1492,8 @@ class cnRetrieve {
 	 *     @type array|string $type      The address types to return.
 	 *                                   Default: array() which will return all registered address types.
 	 *                                   Accepts: home, work, school, other and any other registered types.
+	 *     @type array|string $district  Return address in the defined districts.
+	 *     @type array|string $county    Return address in the defined counties.
 	 *     @type array|string $city      Return address in the defined cities.
 	 *     @type array|string $state     Return address in the defined states.
 	 *     @type array|string $country   Return address in the defined countries.
@@ -1505,6 +1518,8 @@ class cnRetrieve {
 			'id'          => NULL,
 			'preferred'   => FALSE,
 			'type'        => array(),
+			'district'    => array(),
+			'county'      => array(),
 			'city'        => array(),
 			'state'       => array(),
 			'zipcode'     => array(),
@@ -1520,6 +1535,8 @@ class cnRetrieve {
 		 * @var int          $id
 		 * @var bool         $preferred
 		 * @var array|string $type
+		 * @var array|string $district
+		 * @var array|string $county
 		 * @var array|string $city
 		 * @var array|string $state
 		 * @var array|string $zipcode
@@ -1533,6 +1550,8 @@ class cnRetrieve {
 		 * Convert these to values to an array if they were supplied as a comma delimited string
 		 */
 		cnFunction::parseStringList( $type );
+		cnFunction::parseStringList( $district );
+		cnFunction::parseStringList( $county );
 		cnFunction::parseStringList( $city );
 		cnFunction::parseStringList( $state );
 		cnFunction::parseStringList( $zipcode );
@@ -1542,6 +1561,14 @@ class cnRetrieve {
 
 			case 'ids':
 				$select = array( 'a.id', 'a.entry_id' );
+				break;
+
+			case 'district':
+				$select = array( 'a.district' );
+				break;
+
+			case 'county':
+				$select = array( 'a.county' );
 				break;
 
 			case 'locality':

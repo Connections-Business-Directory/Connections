@@ -1127,6 +1127,56 @@ class cnEntryMetabox {
 					isset( $address->line_3 ) ? $address->line_3 : ''
 				);
 
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'address[' . $token . '][line_4]',
+						'required' => FALSE,
+						'label'    => __( 'Address Line 4', 'connections' ),
+						'before'   => '<div class="address-line">',
+						'after'    => '</div>',
+						'return'   => FALSE,
+					),
+					isset( $address->line_4 ) ? $address->line_4 : ''
+				);
+
+				?>
+
+			</div>
+
+			<div class="address-local-extended">
+
+				<?php
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'address[' . $token . '][district]',
+						'required' => FALSE,
+						'label'    => __( 'District', 'connections' ),
+						'before'   => '<div class="address-district">',
+						'after'    => '</div>',
+						'return'   => FALSE,
+					),
+					isset( $address->district ) ? $address->district : ''
+				);
+
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => '',
+						'id'       => 'address[' . $token . '][county]',
+						'required' => FALSE,
+						'label'    => __( 'County', 'connections' ),
+						'before'   => '<div class="address-county">',
+						'after'    => '</div>',
+						'return'   => FALSE,
+					),
+					isset( $address->county ) ? $address->county : ''
+				);
+
 				?>
 
 			</div>

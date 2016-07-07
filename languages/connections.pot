@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.5.17\n"
+"Project-Id-Version: Connections 8.5.18\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2016-06-24 15:51:54+00:00\n"
+"POT-Creation-Date: 2016-07-07 17:46:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,12 +37,12 @@ msgid "You do not have sufficient permissions to download system information."
 msgstr ""
 
 #: includes/admin/class.actions.php:253 includes/admin/class.actions.php:293
-#: includes/class.scripts.php:168
+#: includes/class.scripts.php:176
 msgid "Invalid AJAX action or nonce validation failed."
 msgstr ""
 
 #: includes/admin/class.actions.php:258 includes/admin/class.actions.php:298
-#: includes/class.scripts.php:172
+#: includes/class.scripts.php:180
 msgid "You do not have sufficient permissions to perform this action."
 msgstr ""
 
@@ -80,7 +80,7 @@ msgstr ""
 
 #: includes/admin/class.actions.php:385
 #: includes/export/class.csv-export.php:265
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:350
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:351
 msgid "Error"
 msgstr ""
 
@@ -130,9 +130,9 @@ msgstr ""
 #: includes/admin/pages/categories.php:357 includes/admin/pages/manage.php:48
 #: includes/admin/pages/manage.php:126 includes/admin/pages/manage.php:203
 #: includes/admin/pages/manage.php:502 includes/admin/pages/manage.php:511
-#: includes/class.metabox-entry.php:2396 includes/class.metabox-entry.php:2469
+#: includes/class.metabox-entry.php:2446 includes/class.metabox-entry.php:2519
 #: includes/export/class.csv-export-batch-category.php:56
-#: includes/settings/class.settings.php:1371
+#: includes/settings/class.settings.php:1401
 msgid "Name"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgstr ""
 #: includes/admin/class.functions.php:168 includes/admin/class.menu.php:80
 #: includes/admin/class.metabox-dashboard.php:357
 #: includes/admin/pages/templates.php:60
-#: includes/settings/class.settings.php:1638
+#: includes/settings/class.settings.php:1702
 msgid "Templates"
 msgstr ""
 
@@ -712,7 +712,7 @@ msgstr ""
 #: includes/inc.upgrade.php:700 includes/inc.upgrade.php:703
 #: includes/inc.upgrade.php:756 includes/inc.upgrade.php:759
 #: includes/inc.upgrade.php:797 includes/inc.upgrade.php:804
-#: includes/inc.upgrade.php:835
+#: includes/inc.upgrade.php:835 includes/inc.upgrade.php:859
 msgid "SUCCESS"
 msgstr ""
 
@@ -855,7 +855,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/pages/categories.php:226 includes/class.metabox-entry.php:360
-#: includes/class.metabox-entry.php:368 includes/class.metabox-entry.php:2482
+#: includes/class.metabox-entry.php:368 includes/class.metabox-entry.php:2532
 msgid "Cancel"
 msgstr ""
 
@@ -992,8 +992,8 @@ msgid "Set Unlisted"
 msgstr ""
 
 #: includes/admin/pages/manage.php:462 includes/admin/pages/manage.php:596
-#: includes/admin/pages/templates.php:378 includes/class.metabox-entry.php:2420
-#: includes/class.metabox-entry.php:2449
+#: includes/admin/pages/templates.php:378 includes/class.metabox-entry.php:2470
+#: includes/class.metabox-entry.php:2499
 #: includes/template/class.template-list-table-email-log.php:354
 #: includes/template/class.template-list-table-email-log.php:544
 #: includes/template/class.template-list-table-term-admin.php:237
@@ -1017,11 +1017,11 @@ msgstr ""
 msgid "No Photo Available"
 msgstr ""
 
-#: includes/admin/pages/manage.php:581 includes/class.scripts.php:150
+#: includes/admin/pages/manage.php:581 includes/class.scripts.php:158
 msgid "Click to show details."
 msgstr ""
 
-#: includes/admin/pages/manage.php:581 includes/class.scripts.php:148
+#: includes/admin/pages/manage.php:581 includes/class.scripts.php:156
 msgid "Show Details"
 msgstr ""
 
@@ -1057,9 +1057,9 @@ msgid "By"
 msgstr ""
 
 #: includes/admin/pages/manage.php:629 includes/class.metabox-entry.php:1067
-#: includes/class.metabox-entry.php:1374 includes/class.metabox-entry.php:1544
-#: includes/class.metabox-entry.php:1714 includes/class.metabox-entry.php:1884
-#: includes/class.metabox-entry.php:2053 includes/class.metabox-entry.php:2297
+#: includes/class.metabox-entry.php:1424 includes/class.metabox-entry.php:1594
+#: includes/class.metabox-entry.php:1764 includes/class.metabox-entry.php:1934
+#: includes/class.metabox-entry.php:2103 includes/class.metabox-entry.php:2347
 #: includes/export/class.csv-export-batch-addresses.php:67
 #: includes/export/class.csv-export-batch-dates.php:59
 #: includes/export/class.csv-export-batch-email.php:59
@@ -1077,7 +1077,7 @@ msgid "Contact"
 msgstr ""
 
 #: includes/admin/pages/manage.php:689 includes/class.metabox-entry.php:513
-#: includes/class.metabox-entry.php:2080
+#: includes/class.metabox-entry.php:2130
 #: includes/settings/class.settings.php:1095
 msgid "Title"
 msgstr ""
@@ -1090,70 +1090,70 @@ msgstr ""
 #: includes/export/class.csv-export-batch-email.php:55
 #: includes/export/class.csv-export-batch-phone-numbers.php:55
 #: includes/settings/class.settings.php:1096
-#: includes/settings/class.settings.php:1388
+#: includes/settings/class.settings.php:1418
 msgid "Organization"
 msgstr ""
 
 #: includes/admin/pages/manage.php:691 includes/class.metabox-entry.php:539
 #: includes/class.metabox-entry.php:569
 #: includes/settings/class.settings.php:1097
-#: includes/settings/class.settings.php:1405
+#: includes/settings/class.settings.php:1435
 msgid "Department"
 msgstr ""
 
-#: includes/admin/pages/manage.php:715 includes/class.metabox-entry.php:1212
-#: includes/entry/class.entry-output.php:1275
+#: includes/admin/pages/manage.php:719 includes/class.metabox-entry.php:1262
+#: includes/entry/class.entry-output.php:1343
 #: includes/export/class.csv-export-batch-addresses.php:64
 msgid "Latitude"
 msgstr ""
 
-#: includes/admin/pages/manage.php:715 includes/class.metabox-entry.php:1226
-#: includes/entry/class.entry-output.php:1276
+#: includes/admin/pages/manage.php:719 includes/class.metabox-entry.php:1276
+#: includes/entry/class.entry-output.php:1344
 #: includes/export/class.csv-export-batch-addresses.php:65
 msgid "Longitude"
 msgstr ""
 
-#: includes/admin/pages/manage.php:806
+#: includes/admin/pages/manage.php:810
 msgid "Bio"
 msgstr ""
 
-#: includes/admin/pages/manage.php:807 includes/class.metabox-entry.php:241
+#: includes/admin/pages/manage.php:811 includes/class.metabox-entry.php:241
 #: includes/settings/class.settings.php:1101 templates/card/card-single.php:112
 #: templates/card/card.php:119 templates/profile/card-single.php:112
 msgid "Notes"
 msgstr ""
 
-#: includes/admin/pages/manage.php:810
+#: includes/admin/pages/manage.php:814
 msgid "Entry ID"
 msgstr ""
 
-#: includes/admin/pages/manage.php:811
+#: includes/admin/pages/manage.php:815
 msgid "Entry Slug"
 msgstr ""
 
-#: includes/admin/pages/manage.php:812
+#: includes/admin/pages/manage.php:816
 msgid "Date Added"
 msgstr ""
 
-#: includes/admin/pages/manage.php:813
+#: includes/admin/pages/manage.php:817
 msgid "Added By"
 msgstr ""
 
-#: includes/admin/pages/manage.php:814
+#: includes/admin/pages/manage.php:818
 msgid "Image Linked"
 msgstr ""
 
-#: includes/admin/pages/manage.php:814 includes/admin/pages/manage.php:815
+#: includes/admin/pages/manage.php:818 includes/admin/pages/manage.php:819
 #: includes/class.utility.php:133
 msgid "No"
 msgstr ""
 
-#: includes/admin/pages/manage.php:814 includes/admin/pages/manage.php:815
+#: includes/admin/pages/manage.php:818 includes/admin/pages/manage.php:819
 #: includes/class.utility.php:129
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/pages/manage.php:815 includes/class.metabox-entry.php:868
+#: includes/admin/pages/manage.php:819 includes/class.metabox-entry.php:868
 #: includes/class.metabox-entry.php:934 includes/settings/class.settings.php:44
 #: includes/template/class.template-customizer.php:488
 msgid "Display"
@@ -1192,17 +1192,17 @@ msgid "Family"
 msgstr ""
 
 #: includes/admin/pages/templates.php:87
-#: includes/entry/class.entry-data.php:3189
-#: includes/entry/class.entry-output.php:2438
-#: includes/entry/class.entry-output.php:2451
+#: includes/entry/class.entry-data.php:3311
+#: includes/entry/class.entry-output.php:2506
+#: includes/entry/class.entry-output.php:2519
 #: includes/settings/class.options.php:545
 msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:92
-#: includes/entry/class.entry-data.php:3204
-#: includes/entry/class.entry-output.php:2359
-#: includes/entry/class.entry-output.php:2370
+#: includes/entry/class.entry-data.php:3326
+#: includes/entry/class.entry-output.php:2427
+#: includes/entry/class.entry-output.php:2438
 #: includes/settings/class.options.php:547
 msgid "Birthday"
 msgstr ""
@@ -1363,7 +1363,7 @@ msgstr ""
 msgid "Send to:"
 msgstr ""
 
-#: includes/admin/pages/tools.php:621 includes/class.metabox-entry.php:1571
+#: includes/admin/pages/tools.php:621 includes/class.metabox-entry.php:1621
 msgid "Email Address"
 msgstr ""
 
@@ -1388,7 +1388,7 @@ msgstr ""
 msgid "Your system information will be attached automatically to this email."
 msgstr ""
 
-#: includes/admin/pages/tools.php:659 includes/class.scripts.php:165
+#: includes/admin/pages/tools.php:659 includes/class.scripts.php:173
 msgid "Send Email"
 msgstr ""
 
@@ -1439,19 +1439,19 @@ msgid ""
 "exporting the settings on another site using the form above."
 msgstr ""
 
-#: includes/class.metabox-api.php:1088
+#: includes/class.metabox-api.php:1096
 msgid "Clear"
 msgstr ""
 
-#: includes/class.metabox-api.php:1089
+#: includes/class.metabox-api.php:1097
 msgid "Default"
 msgstr ""
 
-#: includes/class.metabox-api.php:1090
+#: includes/class.metabox-api.php:1098
 msgid "Select Color"
 msgstr ""
 
-#: includes/class.metabox-api.php:1091
+#: includes/class.metabox-api.php:1099
 msgid "Current Color"
 msgstr ""
 
@@ -1515,19 +1515,19 @@ msgid ""
 msgstr ""
 
 #: includes/class.metabox-entry.php:337
-#: includes/entry/class.entry-data.php:3748
+#: includes/entry/class.entry-data.php:3885
 #: includes/settings/class.options.php:206
 msgid "Public"
 msgstr ""
 
 #: includes/class.metabox-entry.php:338
-#: includes/entry/class.entry-data.php:3749
+#: includes/entry/class.entry-data.php:3886
 #: includes/settings/class.options.php:207
 msgid "Private"
 msgstr ""
 
 #: includes/class.metabox-entry.php:339
-#: includes/entry/class.entry-data.php:3747
+#: includes/entry/class.entry-data.php:3884
 #: includes/settings/class.options.php:208
 msgid "Unlisted"
 msgstr ""
@@ -1593,10 +1593,10 @@ msgid "Family Name"
 msgstr ""
 
 #: includes/class.metabox-entry.php:802 includes/class.metabox-entry.php:870
-#: includes/class.metabox-entry.php:936 includes/class.metabox-entry.php:1257
-#: includes/class.metabox-entry.php:1425 includes/class.metabox-entry.php:1595
-#: includes/class.metabox-entry.php:1765 includes/class.metabox-entry.php:1934
-#: includes/class.metabox-entry.php:2178 includes/class.metabox-entry.php:2339
+#: includes/class.metabox-entry.php:936 includes/class.metabox-entry.php:1307
+#: includes/class.metabox-entry.php:1475 includes/class.metabox-entry.php:1645
+#: includes/class.metabox-entry.php:1815 includes/class.metabox-entry.php:1984
+#: includes/class.metabox-entry.php:2228 includes/class.metabox-entry.php:2389
 msgid "Remove"
 msgstr ""
 
@@ -1629,10 +1629,10 @@ msgstr ""
 msgid "Address Type"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1047 includes/class.metabox-entry.php:1354
-#: includes/class.metabox-entry.php:1524 includes/class.metabox-entry.php:1694
-#: includes/class.metabox-entry.php:1864 includes/class.metabox-entry.php:2033
-#: includes/class.metabox-entry.php:2277
+#: includes/class.metabox-entry.php:1047 includes/class.metabox-entry.php:1404
+#: includes/class.metabox-entry.php:1574 includes/class.metabox-entry.php:1744
+#: includes/class.metabox-entry.php:1914 includes/class.metabox-entry.php:2083
+#: includes/class.metabox-entry.php:2327
 #: includes/export/class.csv-export-batch-addresses.php:66
 #: includes/export/class.csv-export-batch-dates.php:58
 #: includes/export/class.csv-export-batch-email.php:58
@@ -1652,85 +1652,99 @@ msgstr ""
 msgid "Address Line 3"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1144
+#: includes/class.metabox-entry.php:1136
+msgid "Address Line 4"
+msgstr ""
+
+#: includes/class.metabox-entry.php:1158
+#: includes/settings/class.settings.php:1452
+msgid "District"
+msgstr ""
+
+#: includes/class.metabox-entry.php:1172
+#: includes/settings/class.settings.php:1469
+msgid "County"
+msgstr ""
+
+#: includes/class.metabox-entry.php:1194
 #: includes/export/class.csv-export-batch-addresses.php:60
 msgid "City"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1158
+#: includes/class.metabox-entry.php:1208
 #: includes/export/class.csv-export-batch-addresses.php:61
 msgid "State"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1172
+#: includes/class.metabox-entry.php:1222
 #: includes/export/class.csv-export-batch-addresses.php:62
 msgid "Zipcode"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1192
+#: includes/class.metabox-entry.php:1242
 #: includes/export/class.csv-export-batch-addresses.php:63
-#: includes/settings/class.settings.php:1473
+#: includes/settings/class.settings.php:1537
 msgid "Country"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1238
+#: includes/class.metabox-entry.php:1288
 msgid "Geocode"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1247
+#: includes/class.metabox-entry.php:1297
 msgid "Geocoding Address."
 msgstr ""
 
-#: includes/class.metabox-entry.php:1305
+#: includes/class.metabox-entry.php:1355
 msgid "Add Phone Number"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1342
+#: includes/class.metabox-entry.php:1392
 msgid "Phone Type"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1401
+#: includes/class.metabox-entry.php:1451
 #: includes/settings/class.settings.php:1109
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1475
+#: includes/class.metabox-entry.php:1525
 msgid "Add Email Address"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1512
+#: includes/class.metabox-entry.php:1562
 msgid "Email Type"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1645
+#: includes/class.metabox-entry.php:1695
 msgid "Add Messenger ID"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1682
+#: includes/class.metabox-entry.php:1732
 msgid "IM Type"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1741
+#: includes/class.metabox-entry.php:1791
 msgid "IM Network ID"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1815
+#: includes/class.metabox-entry.php:1865
 msgid "Add Social Media ID"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1852
+#: includes/class.metabox-entry.php:1902
 msgid "Social Network"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1911 includes/class.metabox-entry.php:2102
+#: includes/class.metabox-entry.php:1961 includes/class.metabox-entry.php:2152
 msgid "URL"
 msgstr ""
 
-#: includes/class.metabox-entry.php:1984
+#: includes/class.metabox-entry.php:2034
 msgid "Add Link"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2021 includes/class.metabox-entry.php:2265
+#: includes/class.metabox-entry.php:2071 includes/class.metabox-entry.php:2315
 #: includes/export/class.csv-export-batch-dates.php:57
 #: includes/export/class.csv-export-batch-email.php:57
 #: includes/export/class.csv-export-batch-phone-numbers.php:57
@@ -1738,98 +1752,98 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2124
+#: includes/class.metabox-entry.php:2174
 msgid "New Window"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2125
+#: includes/class.metabox-entry.php:2175
 msgid "Same Window"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2128
+#: includes/class.metabox-entry.php:2178
 msgid "Target"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2162
+#: includes/class.metabox-entry.php:2212
 msgid "Assign link to the image."
 msgstr ""
 
-#: includes/class.metabox-entry.php:2166
+#: includes/class.metabox-entry.php:2216
 msgid "Assign link to the logo."
 msgstr ""
 
-#: includes/class.metabox-entry.php:2228
+#: includes/class.metabox-entry.php:2278
 msgid "Add Date"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2322
+#: includes/class.metabox-entry.php:2372
 #: includes/export/class.csv-export-batch-dates.php:56
 #: includes/template/class.template-list-table-email-log.php:254
 msgid "Date"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2384
+#: includes/class.metabox-entry.php:2434
 msgid "Select"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2397 includes/class.metabox-entry.php:2425
-#: includes/class.metabox-entry.php:2455 includes/class.metabox-entry.php:2470
+#: includes/class.metabox-entry.php:2447 includes/class.metabox-entry.php:2475
+#: includes/class.metabox-entry.php:2505 includes/class.metabox-entry.php:2520
 msgid "Value"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2417 includes/class.metabox-entry.php:2446
+#: includes/class.metabox-entry.php:2467 includes/class.metabox-entry.php:2496
 msgid "Key"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2464
+#: includes/class.metabox-entry.php:2514
 msgid "Add New Custom Field:"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2482
+#: includes/class.metabox-entry.php:2532
 msgid "Enter New"
 msgstr ""
 
-#: includes/class.metabox-entry.php:2497
+#: includes/class.metabox-entry.php:2547
 msgid "Add Custom Field"
 msgstr ""
 
-#: includes/class.sanitize.php:286
+#: includes/class.sanitize.php:295
 msgid "Value not sanitized."
 msgstr ""
 
-#: includes/class.scripts.php:149
+#: includes/class.scripts.php:157
 msgid "Hide Details"
 msgstr ""
 
-#: includes/class.scripts.php:151
+#: includes/class.scripts.php:159
 msgid "Click to hide details."
 msgstr ""
 
-#: includes/class.scripts.php:166
+#: includes/class.scripts.php:174
 msgid "Sending..."
 msgstr ""
 
-#: includes/class.scripts.php:167
+#: includes/class.scripts.php:175
 msgid "Your message has been sent. Thank You!"
 msgstr ""
 
-#: includes/class.scripts.php:169
+#: includes/class.scripts.php:177
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: includes/class.scripts.php:170
+#: includes/class.scripts.php:178
 msgid "Please enter a subject."
 msgstr ""
 
-#: includes/class.scripts.php:171
+#: includes/class.scripts.php:179
 msgid "Please enter a message."
 msgstr ""
 
-#: includes/class.scripts.php:173
+#: includes/class.scripts.php:181
 msgid "Unknown error has occurred!"
 msgstr ""
 
-#: includes/class.scripts.php:174
+#: includes/class.scripts.php:182
 msgid "AJAX Headers not set."
 msgstr ""
 
@@ -1870,43 +1884,44 @@ msgstr ""
 msgid "Term ID is shared between multiple taxonomies"
 msgstr ""
 
-#: includes/class.utility.php:1790 includes/class.utility.php:1925
+#: includes/class.utility.php:1837 includes/class.utility.php:1972
+#: includes/entry/class.entry-output.php:2621
 msgid "&hellip;"
 msgstr ""
 
-#: includes/class.utility.php:2135
+#: includes/class.utility.php:2182
 msgid "Unable to generate random string."
 msgstr ""
 
-#: includes/class.utility.php:2272
+#: includes/class.utility.php:2335
 msgid "Maximum stack depth exceeded."
 msgstr ""
 
-#: includes/class.utility.php:2276
+#: includes/class.utility.php:2339
 msgid "Underflow or the modes mismatch."
 msgstr ""
 
-#: includes/class.utility.php:2280
+#: includes/class.utility.php:2343
 msgid "Unexpected control character found."
 msgstr ""
 
-#: includes/class.utility.php:2284
+#: includes/class.utility.php:2347
 msgid "Syntax error, malformed JSON."
 msgstr ""
 
-#: includes/class.utility.php:2288
+#: includes/class.utility.php:2351
 msgid "Malformed UTF-8 characters, possibly incorrectly encoded."
 msgstr ""
 
-#: includes/class.utility.php:2292
+#: includes/class.utility.php:2355
 msgid "Unknown error."
 msgstr ""
 
-#: includes/class.utility.php:2513
+#: includes/class.utility.php:2576
 msgid "Invalid URL."
 msgstr ""
 
-#: includes/class.utility.php:2628
+#: includes/class.utility.php:2691
 msgid "No URL or width."
 msgstr ""
 
@@ -1914,7 +1929,7 @@ msgstr ""
 msgid "Image copy failed."
 msgstr ""
 
-#: includes/entry/class.entry-data.php:4642
+#: includes/entry/class.entry-data.php:4779
 msgid "Unknown"
 msgstr ""
 
@@ -1932,15 +1947,15 @@ msgstr ""
 msgid "Logo for %s"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2587
+#: includes/entry/class.entry-output.php:2699
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:3209
+#: includes/entry/class.entry-output.php:3321
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:3210
+#: includes/entry/class.entry-output.php:3322
 msgid "Download vCard"
 msgstr ""
 
@@ -2445,15 +2460,23 @@ msgstr ""
 msgid "Adding column... \"ordo\" (Latin for order. Correct Spelling is ōrdō)"
 msgstr ""
 
-#: includes/inc.upgrade.php:846
+#: includes/inc.upgrade.php:848
+msgid "Upgrade from database version %1$s to database version %2$s."
+msgstr ""
+
+#: includes/inc.upgrade.php:852
+msgid "Adding columns... \"line_4\", \"district\" and \"county\""
+msgstr ""
+
+#: includes/inc.upgrade.php:870
 msgid "Upgrade completed."
 msgstr ""
 
-#: includes/inc.upgrade.php:847
+#: includes/inc.upgrade.php:871
 msgid "Continue"
 msgstr ""
 
-#: includes/inc.upgrade.php:890
+#: includes/inc.upgrade.php:914
 msgid "Could not add column %1$s in table %2$s."
 msgstr ""
 
@@ -3426,131 +3449,159 @@ msgid "Enter a custom structure for the postal code in the URL."
 msgstr ""
 
 #: includes/settings/class.settings.php:1326
-msgid "Organization Base"
+msgid "District Base"
 msgstr ""
 
 #: includes/settings/class.settings.php:1327
-msgid "Enter a custom structure for the organization in the URL."
+msgid "Enter a custom structure for the district in the URL."
 msgstr ""
 
 #: includes/settings/class.settings.php:1341
-msgid "Department Base"
+msgid "County Base"
 msgstr ""
 
 #: includes/settings/class.settings.php:1342
-msgid "Enter a custom structure for the department in the URL."
+msgid "Enter a custom structure for the county in the URL."
 msgstr ""
 
 #: includes/settings/class.settings.php:1356
-msgid "Name Base"
+msgid "Organization Base"
 msgstr ""
 
 #: includes/settings/class.settings.php:1357
-msgid "Enter a custom structure for the entry slug in the URL."
+msgid "Enter a custom structure for the organization in the URL."
+msgstr ""
+
+#: includes/settings/class.settings.php:1371
+msgid "Department Base"
 msgstr ""
 
 #: includes/settings/class.settings.php:1372
+msgid "Enter a custom structure for the department in the URL."
+msgstr ""
+
+#: includes/settings/class.settings.php:1386
+msgid "Name Base"
+msgstr ""
+
+#: includes/settings/class.settings.php:1387
+msgid "Enter a custom structure for the entry slug in the URL."
+msgstr ""
+
+#: includes/settings/class.settings.php:1402
 msgid ""
 "Enabling this option will turn the name of every entry into a link. "
 "Clicking the link will take you to the page with only that entry."
 msgstr ""
 
-#: includes/settings/class.settings.php:1389
+#: includes/settings/class.settings.php:1419
 msgid ""
 "Enabling this option will turn the name of organization into a link. "
 "Clicking the link will take you to the page filtered by that organization."
 msgstr ""
 
-#: includes/settings/class.settings.php:1406
+#: includes/settings/class.settings.php:1436
 msgid ""
 "Enabling this option will turn the name of department into a link. Clicking "
 "the link will take you to the page filtered by that department."
 msgstr ""
 
-#: includes/settings/class.settings.php:1422
+#: includes/settings/class.settings.php:1453
+msgid ""
+"Enabling this option will turn the name of district into a link. Clicking "
+"the link will take you to the page filtered by that district."
+msgstr ""
+
+#: includes/settings/class.settings.php:1470
+msgid ""
+"Enabling this option will turn the name of county into a link. Clicking the "
+"link will take you to the page filtered by that county."
+msgstr ""
+
+#: includes/settings/class.settings.php:1486
 msgid "Locality"
 msgstr ""
 
-#: includes/settings/class.settings.php:1423
+#: includes/settings/class.settings.php:1487
 msgid ""
 "Enabling this option will turn the name of locality (city) into a link. "
 "Clicking the link will take you to the page filtered by that locality."
 msgstr ""
 
-#: includes/settings/class.settings.php:1439
+#: includes/settings/class.settings.php:1503
 msgid "Region"
 msgstr ""
 
-#: includes/settings/class.settings.php:1440
+#: includes/settings/class.settings.php:1504
 msgid ""
 "Enabling this option will turn the name of region (state/province) into a "
 "link. Clicking the link will take you to the page filtered by that region."
 msgstr ""
 
-#: includes/settings/class.settings.php:1456
+#: includes/settings/class.settings.php:1520
 msgid "Postal Code"
 msgstr ""
 
-#: includes/settings/class.settings.php:1457
+#: includes/settings/class.settings.php:1521
 msgid ""
 "Enabling this option will turn the postal code into a link. Clicking the "
 "link will take you to the page filtered by that postal code."
 msgstr ""
 
-#: includes/settings/class.settings.php:1474
+#: includes/settings/class.settings.php:1538
 msgid ""
 "Enabling this option will turn the name of country into a link. Clicking "
 "the link will take you to the page filtered by that country."
 msgstr ""
 
-#: includes/settings/class.settings.php:1490
+#: includes/settings/class.settings.php:1554
 msgid "Telephone Number"
 msgstr ""
 
-#: includes/settings/class.settings.php:1491
+#: includes/settings/class.settings.php:1555
 msgid ""
 "Enabling this option will turn every telephone number into a link that when "
 "clicked by the user on a mobile phone or computer with a telephony "
 "application installed will dial the number."
 msgstr ""
 
-#: includes/settings/class.settings.php:1507
+#: includes/settings/class.settings.php:1571
 msgid "Enable?"
 msgstr ""
 
-#: includes/settings/class.settings.php:1508
+#: includes/settings/class.settings.php:1572
 msgid "To add support for Custom Post Types, enable this option."
 msgstr ""
 
-#: includes/settings/class.settings.php:1524
+#: includes/settings/class.settings.php:1588
 msgid "Enable support for:"
 msgstr ""
 
-#: includes/settings/class.settings.php:1540
+#: includes/settings/class.settings.php:1604
 msgid "Server Key"
 msgstr ""
 
-#: includes/settings/class.settings.php:1541
+#: includes/settings/class.settings.php:1605
 msgid ""
 "Enter your Google Maps Geocoding API <strong>Server Key</strong>. Learn how "
 "to <a href=\"%s\">get a key</a>."
 msgstr ""
 
-#: includes/settings/class.settings.php:1555
+#: includes/settings/class.settings.php:1619
 msgid "Browser Key"
 msgstr ""
 
-#: includes/settings/class.settings.php:1556
+#: includes/settings/class.settings.php:1620
 msgid ""
 "Enter your Google Maps Geocoding API <strong>Browser Key</strong>. Learn "
 "how to <a href=\"%s\">get a key</a>."
 msgstr ""
 
-#: includes/settings/class.settings.php:1570
+#: includes/settings/class.settings.php:1634
 msgid "Google Maps API v3"
 msgstr ""
 
-#: includes/settings/class.settings.php:1571
+#: includes/settings/class.settings.php:1635
 msgid ""
 "If the current active theme or another plugin loads the Google Maps API v3 "
 "uncheck this to prevent Connections from loading the Google Maps API. This "
@@ -3558,23 +3609,23 @@ msgid ""
 "that utilize Google Maps."
 msgstr ""
 
-#: includes/settings/class.settings.php:1587
+#: includes/settings/class.settings.php:1651
 msgid "JavaScript"
 msgstr ""
 
-#: includes/settings/class.settings.php:1588
+#: includes/settings/class.settings.php:1652
 msgid ""
 "By default Connections loads it's JavaScripts in the page footer uncheck "
 "this box to load them in the page header."
 msgstr ""
 
-#: includes/settings/class.settings.php:1605
+#: includes/settings/class.settings.php:1669
 msgid ""
 "Enqueue the core styles. Disable this option if you do not want the core "
 "styles to be loaded."
 msgstr ""
 
-#: includes/settings/class.settings.php:1622
+#: includes/settings/class.settings.php:1686
 msgid ""
 "Themes and plugins sometimes load a version of jQuery that is not bundled "
 "with WordPress. This is generally considered bad practice which can result "
@@ -3582,18 +3633,18 @@ msgid ""
 "You should only enable this option at the direction of support."
 msgstr ""
 
-#: includes/settings/class.settings.php:1639
+#: includes/settings/class.settings.php:1703
 msgid ""
 "Themes can break plugin shortcodes that output content on the page causing "
 "the content not to render correctly. If the templates do not display as "
 "expected try enabling this option."
 msgstr ""
 
-#: includes/settings/class.settings.php:1655
+#: includes/settings/class.settings.php:1719
 msgid "Debug Messages"
 msgstr ""
 
-#: includes/settings/class.settings.php:1656
+#: includes/settings/class.settings.php:1720
 msgid "Display debug messages."
 msgstr ""
 
@@ -4211,17 +4262,17 @@ msgstr ""
 msgid "Border Radius"
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:186
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:189
 msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:194
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:197
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s "
 "or %5$supdate now%6$s."
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:350
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:351
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
@@ -4229,7 +4280,7 @@ msgstr ""
 msgid "A business directory and address book manager."
 msgstr ""
 
-#: includes/class.retrieve.php:2704
+#: includes/class.retrieve.php:2731
 #. translators: This is a comma-separated list of very common words that should
 #. be excluded from a search,
 #. * like a, an, and the. These are usually called "stopwords". You should

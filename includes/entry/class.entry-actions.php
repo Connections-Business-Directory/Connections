@@ -508,7 +508,7 @@ class cnEntry_Action {
 		if ( isset( $data['notes'] ) ) $entry->setNotes( $data['notes'] );
 		if ( isset( $data['visibility'] ) ) $entry->setVisibility( $data['visibility'] );
 
-		( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->setUser( 0 );
+		( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->getUser();
 
 		switch ( $action ) {
 

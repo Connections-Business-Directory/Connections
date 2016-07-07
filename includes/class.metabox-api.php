@@ -888,6 +888,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-checkbox',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'label'   => $field['desc'],
 							'before'  => '<div' . $class . $id . $style . '>',
 							'after'   => '</div>',
@@ -909,6 +910,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-checkbox',
 							'id'      => $field['id'],
 							'name'    => $field['id'] . '[]',
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'display' => 'block',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',
@@ -930,6 +932,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-radio-option',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'display' => 'block',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',
@@ -952,6 +955,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-radio-option',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'display' => 'inline',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',
@@ -971,6 +975,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-select',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'display' => 'inline',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',
@@ -994,6 +999,7 @@ class cnMetabox_Render {
 							'class'   => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'large-text',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'before'  => '<div' . $class . $id . $style . '>',
 							'after'   => '</div>',
 						),
@@ -1012,15 +1018,16 @@ class cnMetabox_Render {
 
 					cnHTML::field(
 						array(
-							'type'    => 'textarea',
-							'prefix'  => '',
-							'class'   => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'small-text',
-							'id'      => $field['id'],
-							'name'    => $field['id'],
-							'rows'    => 10,
-							'cols'    => 50,
-							'before'  => '<div' . $class . $id . $style . '>',
-							'after'   => '</div>',
+							'type'     => 'textarea',
+							'prefix'   => '',
+							'class'    => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'small-text',
+							'id'       => $field['id'],
+							'name'     => $field['id'],
+							'rows'     => 10,
+							'cols'     => 50,
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
+							'before'   => '<div' . $class . $id . $style . '>',
+							'after'    => '</div>',
 						),
 						$value
 					);
@@ -1029,10 +1036,10 @@ class cnMetabox_Render {
 
 				case 'datepicker':
 
-					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s" %3$s/>',
+					printf( '<input type="text" class="cn-datepicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
 						! empty( $value ) ? date( 'm/d/Y', strtotime( $value ) ) : '',
-						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? 'readonly="readonly"' : ''
+						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					wp_enqueue_script('jquery-ui-datepicker');
@@ -1048,9 +1055,10 @@ class cnMetabox_Render {
 
 					self::fieldDescription( $field['desc'] );
 
-					printf('<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"/>',
+					printf('<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
-						esc_attr( $value )
+						esc_attr( $value ),
+						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					wp_enqueue_style('wp-color-picker');
@@ -1110,9 +1118,10 @@ class cnMetabox_Render {
 
 					$field['options'] = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
-					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"/>',
+					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
-						absint( $value )
+						absint( $value ),
+						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					self::fieldDescription( $field['desc'] );
@@ -1133,8 +1142,9 @@ class cnMetabox_Render {
 
 					echo '<div class="wp-editor-container">';
 
-					printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
+					printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s"%2$s>%3$s</textarea>',
 						esc_attr( $field['id'] ),
+						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : '',
 						wp_kses_data( $value )
 					);
 
@@ -1152,42 +1162,18 @@ class cnMetabox_Render {
 
 					self::fieldDescription( $field['desc'] );
 
-					if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
+					// Set the rte defaults.
+					$defaults = array(
+						'textarea_name' => sprintf( '%1$s' , $field['id'] ),
+					);
 
-						// Set the rte defaults.
-						$defaults = array(
-							'textarea_name' => sprintf( '%1$s' , $field['id'] ),
-						);
+					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
-						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
-
-						wp_editor(
-							cnSanitize::html( $value ),
-							sprintf( '%1$s' , $field['id'] ),
-							$atts
-						);
-
-					} else {
-
-						/*
-						 * If this is pre WP 3.3, lets drop in the quick tag editor instead.
-						 */
-
-						echo '<div class="wp-editor-container">';
-
-						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
-							esc_attr( $field['id'] ),
-							cnSanitize::quicktag( $value )
-						);
-
-						echo '</div>';
-
-						self::$quickTagIDs[] = esc_attr( $field['id'] );
-
-						wp_enqueue_script('jquery');
-						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-						add_action( 'wp_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-					}
+					wp_editor(
+						cnSanitize::html( $value ),
+						sprintf( '%1$s' , $field['id'] ),
+						$atts
+					);
 
 					break;
 

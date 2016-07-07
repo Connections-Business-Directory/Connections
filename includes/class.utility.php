@@ -271,6 +271,33 @@ class cnFormatting {
 
 		return implode( ', ', $placeholders );
 	}
+
+	/**
+	 * Convert supplied string to camelCase.
+	 *
+	 * @access public
+	 * @since  8.5.19
+	 * @static
+	 *
+	 * @link http://stackoverflow.com/a/2792045/5351316
+	 *
+	 * @param string $string
+	 * @param bool   $capitaliseInitial
+	 *
+	 * @return string
+	 */
+	public static function toCamelCase( $string, $capitaliseInitial = FALSE ) {
+
+		$string = self::sanitizeStringStrong( $string );
+		$string = str_replace( ' ', '', ucwords( str_replace( array( '_', '-' ), ' ', $string ) ) );
+
+		if ( ! $capitaliseInitial ) {
+
+			$string[0] = strtolower( $string[0] );
+		}
+
+		return $string;
+	}
 }
 
 class cnValidate {
@@ -1013,6 +1040,26 @@ class cnURL {
 					$permalink = trailingslashit( $permalink . $base['category_base'] . '/' . $atts['slug'] );
 				} else {
 					$permalink = add_query_arg( 'cn-cat-slug', $atts['slug'] , $permalink );
+				}
+
+				break;
+
+			case 'district':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['district_base'] . '/' . urlencode( $atts['slug'] ) );
+				} else {
+					$permalink = add_query_arg( 'cn-district', urlencode( $atts['slug'] ) , $permalink );
+				}
+
+				break;
+
+			case 'county':
+
+				if ( $wp_rewrite->using_permalinks() ) {
+					$permalink = trailingslashit( $permalink . $base['county_base'] . '/' . urlencode( $atts['slug'] ) );
+				} else {
+					$permalink = add_query_arg( 'cn-county', urlencode( $atts['slug'] ) , $permalink );
 				}
 
 				break;
@@ -2173,6 +2220,22 @@ class cnString {
  * @since  8.2
  */
 class cnFunction {
+
+	/**
+	 * Determine if supplied array is a multidimensional array or not.
+	 *
+	 * @access public
+	 * @since  8.5.19
+	 * @static
+	 *
+	 * @param array $value
+	 *
+	 * @return bool
+	 */
+	public static function isDimensionalArray( array $value ) {
+
+		return ! ( count( $value ) === count( $value, COUNT_RECURSIVE ) );
+	}
 
 	/**
 	 * Recursively implode a multi-dimensional array.

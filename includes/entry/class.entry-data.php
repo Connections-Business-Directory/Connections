@@ -1216,7 +1216,7 @@ class cnEntry {
 			 * The family relationship data was saved as an associative array where key was the entry ID and the value was
 			 * the relationship key.
 			 *
-			 * The data is now saved in a multidimensional array. What this nifty little count dos is compare the array
+			 * The data is now saved in a multidimensional array. What this nifty little count does is compare the array
 			 * count and against a recursive array count and if they are equal, it should be of the older data format
 			 * so loop thru it and put it in the new data format.
 			 */
@@ -1305,6 +1305,8 @@ class cnEntry {
 		$defaults = array(
 			'preferred'   => FALSE,
 			'type'        => array(),
+			'district'    => array(),
+			'county'      => array(),
 			'city'        => array(),
 			'state'       => array(),
 			'zipcode'     => array(),
@@ -1329,6 +1331,8 @@ class cnEntry {
 				/**
 				 * @var bool         $preferred
 				 * @var array|string $type
+				 * @var array|string $district
+				 * @var array|string $county
 				 * @var array|string $city
 				 * @var array|string $state
 				 * @var array|string $zipcode
@@ -1341,6 +1345,8 @@ class cnEntry {
 				 * Covert these to values to an array if they were supplied as a comma delimited string
 				 */
 				cnFunction::parseStringList( $type );
+				cnFunction::parseStringList( $district );
+				cnFunction::parseStringList( $county );
 				cnFunction::parseStringList( $city );
 				cnFunction::parseStringList( $state );
 				cnFunction::parseStringList( $zipcode );
@@ -1365,6 +1371,15 @@ class cnEntry {
 						empty( $address['latitude'] ) &&
 						empty( $address['longitude'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $address
+					 */
+					$address = apply_filters( 'cn_address-pre_setup', $address );
+
 					$row = new stdClass();
 
 					$row->id         = isset( $address['id'] ) ? (int) $address['id'] : 0;
@@ -1374,6 +1389,9 @@ class cnEntry {
 					$row->line_1     = isset( $address['line_1'] ) ? cnSanitize::field( 'street', $address['line_1'], $context ) : '';
 					$row->line_2     = isset( $address['line_2'] ) ? cnSanitize::field( 'street', $address['line_2'], $context ) : '';
 					$row->line_3     = isset( $address['line_3'] ) ? cnSanitize::field( 'street', $address['line_3'], $context ) : '';
+					$row->line_4     = isset( $address['line_4'] ) ? cnSanitize::field( 'street', $address['line_4'], $context ) : '';
+					$row->district   = isset( $address['district'] ) ? cnSanitize::field( 'district', $address['district'], $context ) : '';
+					$row->county     = isset( $address['county'] ) ? cnSanitize::field( 'county', $address['county'], $context ) : '';
 					$row->city       = isset( $address['city'] ) ? cnSanitize::field( 'locality', $address['city'], $context ) : '';
 					$row->state      = isset( $address['state'] ) ? cnSanitize::field( 'region', $address['state'], $context ) : '';
 					$row->zipcode    = isset( $address['zipcode'] ) ? cnSanitize::field( 'postal-code', $address['zipcode'], $context ) : '';
@@ -1412,6 +1430,8 @@ class cnEntry {
 					 */
 					if ( $preferred && ! $row->preferred ) continue;
 					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
+					if ( ! empty( $district ) && ! in_array( $row->district, $district ) ) continue;
+					if ( ! empty( $county ) && ! in_array( $row->county, $county ) ) continue;
 					if ( ! empty( $city ) && ! in_array( $row->city, $city ) ) continue;
 					if ( ! empty( $state ) && ! in_array( $row->state, $state ) ) continue;
 					if ( ! empty( $zipcode ) && ! in_array( $row->zipcode, $zipcode ) ) continue;
@@ -1435,6 +1455,9 @@ class cnEntry {
 					 *     @type string $line_1     Address line 1.
 					 *     @type string $line_2     Address line 2.
 					 *     @type string $line_3     Address line 3.
+					 *     @type string $line_4     Address line 4.
+					 *     @type string $district   The address district.
+					 *     @type string $county     The address county.
 					 *     @type string $city       The address locality.
 					 *     @type string $state      The address region.
 					 *     @type string $country    The address country.
@@ -1467,6 +1490,9 @@ class cnEntry {
 
 			foreach ( $addresses as $address ) {
 
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$address = apply_filters( 'cn_address-pre_setup', $address );
+
 				$address->id         = (int) $address->id;
 				$address->order      = (int) $address->order;
 				$address->preferred  = (bool) $address->preferred;
@@ -1474,6 +1500,9 @@ class cnEntry {
 				$address->line_1     = cnSanitize::field( 'street', $address->line_1, $context );
 				$address->line_2     = cnSanitize::field( 'street', $address->line_2, $context );
 				$address->line_3     = cnSanitize::field( 'street', $address->line_3, $context );
+				$address->line_4     = cnSanitize::field( 'street', $address->line_4, $context );
+				$address->district   = cnSanitize::field( 'district', $address->district, $context );
+				$address->county     = cnSanitize::field( 'county', $address->county, $context );
 				$address->city       = cnSanitize::field( 'locality', $address->city, $context );
 				$address->state      = cnSanitize::field( 'region', $address->state, $context );
 				$address->zipcode    = cnSanitize::field( 'postal-code', $address->zipcode, $context );
@@ -1529,6 +1558,9 @@ class cnEntry {
 	 *     @type string $line_1     Address line 1.
 	 *     @type string $line_2     Address line 2.
 	 *     @type string $line_3     Address line 3.
+	 *     @type string $line_4     Address line 4.
+	 *     @type string $district   The address district.
+	 *     @type string $country    The address county.
 	 *     @type string $city       The address locality.
 	 *     @type string $state      The address region.
 	 *     @type string $country    The address country.
@@ -1580,13 +1612,16 @@ class cnEntry {
 				$addresses[ $key ] = cnSanitize::args( $address, $validFields );
 
 				// Sanitize the address text fields.
-				$addresses[ $key ]['line_1']  = cnSanitize::field( 'street', $addresses[ $key ]['line_1'], $context );
-				$addresses[ $key ]['line_2']  = cnSanitize::field( 'street', $addresses[ $key ]['line_2'], $context );
-				$addresses[ $key ]['line_3']  = cnSanitize::field( 'street', $addresses[ $key ]['line_3'], $context );
-				$addresses[ $key ]['city']    = cnSanitize::field( 'locality', $addresses[ $key ]['city'], $context );
-				$addresses[ $key ]['state']   = cnSanitize::field( 'region', $addresses[ $key ]['state'], $context );
-				$addresses[ $key ]['zipcode'] = cnSanitize::field( 'postal-code', $addresses[ $key ]['zipcode'], $context );
-				$addresses[ $key ]['country'] = cnSanitize::field( 'country', $addresses[ $key ]['country'], $context );
+				$addresses[ $key ]['line_1']   = cnSanitize::field( 'street', $addresses[ $key ]['line_1'], $context );
+				$addresses[ $key ]['line_2']   = cnSanitize::field( 'street', $addresses[ $key ]['line_2'], $context );
+				$addresses[ $key ]['line_3']   = cnSanitize::field( 'street', $addresses[ $key ]['line_3'], $context );
+				$addresses[ $key ]['line_4']   = cnSanitize::field( 'street', $addresses[ $key ]['line_4'], $context );
+				$addresses[ $key ]['district'] = cnSanitize::field( 'district', $addresses[ $key ]['district'], $context );
+				$addresses[ $key ]['county']   = cnSanitize::field( 'county', $addresses[ $key ]['county'], $context );
+				$addresses[ $key ]['city']     = cnSanitize::field( 'locality', $addresses[ $key ]['city'], $context );
+				$addresses[ $key ]['state']    = cnSanitize::field( 'region', $addresses[ $key ]['state'], $context );
+				$addresses[ $key ]['zipcode']  = cnSanitize::field( 'postal-code', $addresses[ $key ]['zipcode'], $context );
+				$addresses[ $key ]['country']  = cnSanitize::field( 'country', $addresses[ $key ]['country'], $context );
 
 				// Store the order attribute as supplied in the addresses array.
 				$addresses[ $key ]['order'] = $order;
@@ -1624,6 +1659,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$address = apply_filters( 'cn_address-pre_setup', $address );
 
 				if ( ! $this->validate->userPermitted( $address['visibility'] ) ) {
 
@@ -1718,10 +1756,20 @@ class cnEntry {
 				cnFunction::parseStringList( $type );
 
 				foreach ( (array) $phoneNumbers as $key => $number ) {
+
 					/*
 					 * Previous versions stored empty arrays for phone numbers, check for a number, continue if not found.
 					 */
 					if ( ! isset( $number['number'] ) || empty( $number['number'] ) ) continue;
+
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $number
+					 */
+					$number = apply_filters( 'cn_phone-pre_setup', $number );
 
 					$row = new stdClass();
 
@@ -1786,6 +1834,7 @@ class cnEntry {
 			}
 
 		} else {
+
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all phone numbers will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
@@ -1794,6 +1843,10 @@ class cnEntry {
 			if ( empty( $phoneNumbers ) ) return $results;
 
 			foreach ( $phoneNumbers as $phone ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$phone = apply_filters( 'cn_phone-pre_setup', $phone );
+
 				$phone->id = (int) $phone->id;
 				$phone->order = (int) $phone->order;
 				$phone->preferred = (bool) $phone->preferred;
@@ -1902,7 +1955,9 @@ class cnEntry {
 		$cached = unserialize( $this->phoneNumbers );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $phone ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */
@@ -1911,11 +1966,16 @@ class cnEntry {
 				 * // END -- Compatibility for previous versions.
 				 */
 
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$phone = apply_filters( 'cn_phone-pre_setup', $phone );
+
 				if ( ! $this->validate->userPermitted( $phone['visibility'] ) ) {
+
 					$phoneNumbers[] = $phone;
 
 					// If the number is preferred, it takes precedence, so the user's choice is overridden.
 					if ( ! empty( $preferred ) && $phone['preferred'] ) {
+
 						$phoneNumbers[ $userPreferred ]['preferred'] = FALSE;
 
 						// Throw the user a message so they know why their choice was overridden.
@@ -2004,6 +2064,15 @@ class cnEntry {
 					 */
 					if ( ! isset( $email['address'] ) || empty( $email['address'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $email
+					 */
+					$email = apply_filters( 'cn_email-pre_setup', $email );
+
 					$row = new stdClass();
 
 					( isset( $email['id'] ) ) ? $row->id = (int) $email['id'] : $row->id = 0;
@@ -2064,6 +2133,9 @@ class cnEntry {
 			if ( empty( $emailAddresses ) ) return $results;
 
 			foreach ( $emailAddresses as $email ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$email = apply_filters( 'cn_email-pre_setup', $email );
 
 				$email->id = (int) $email->id;
 				$email->order = (int) $email->order;
@@ -2155,7 +2227,9 @@ class cnEntry {
 		$cached = unserialize( $this->emailAddresses );
 
 		if ( ! empty( $cached ) ) {
+
 			foreach ( $cached as $email ) {
+
 				/*
 				 * // START -- Compatibility for previous versions.
 				 */
@@ -2163,6 +2237,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$email = apply_filters( 'cn_email-pre_setup', $email );
 
 				if ( ! $this->validate->userPermitted( $email['visibility'] ) ) {
 					$emailAddresses[] = $email;
@@ -2261,6 +2338,15 @@ class cnEntry {
 					 */
 					if ( ! isset( $network['id'] ) || empty( $network['id'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $network
+					 */
+					$network = apply_filters( 'cn_im-pre_setup', $network );
+
 					$row = new stdClass();
 
 					// This stores the table `id` value.
@@ -2333,6 +2419,9 @@ class cnEntry {
 			if ( empty( $imIDs ) ) return $results;
 
 			foreach ( $imIDs as $network ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$network = apply_filters( 'cn_im-pre_setup', $network );
 
 				/*
 				 * This will probably forever give me headaches,
@@ -2451,6 +2540,9 @@ class cnEntry {
 				 * // END -- Compatibility for previous versions.
 				 */
 
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$network = apply_filters( 'cn_im-pre_setup', $network );
+
 				if ( ! $this->validate->userPermitted( $network['visibility'] ) ) {
 
 					$im[] = $network;
@@ -2558,6 +2650,15 @@ class cnEntry {
 					 */
 					if ( ! isset( $network['url'] ) || empty( $network['url'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $network
+					 */
+					$network = apply_filters( 'cn_social_network-pre_setup', $network );
+
 					$row = new stdClass();
 
 					( isset( $network['id'] ) ) ? $row->id = (int) $network['id'] : $row->id = 0;
@@ -2609,6 +2710,9 @@ class cnEntry {
 			if ( empty( $socialMedia ) ) return $results;
 
 			foreach ( $socialMedia as $network ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$network = apply_filters( 'cn_social_network-pre_setup', $network );
 
 				$network->id = (int) $network->id;
 				$network->order = (int) $network->order;
@@ -2716,6 +2820,9 @@ class cnEntry {
 				 * // END -- Compatibility for previous versions.
 				 */
 
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$network = apply_filters( 'cn_social_network-pre_setup', $network );
+
 				// Add back to the data array the networks that user does not have permission to view and edit.
 				if ( ! $this->validate->userPermitted( $network['visibility'] ) ) {
 
@@ -2818,6 +2925,15 @@ class cnEntry {
 
 					$row = new stdClass();
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $link
+					 */
+					$link = apply_filters( 'cn_link-pre_setup', $link );
+
 					$row->id         = isset( $link['id'] ) ? (int) $link['id'] : 0;
 					$row->order      = isset( $link['order'] ) ? (int) $link['order'] : 0;
 					$row->preferred  = isset( $link['preferred'] ) ? (bool) $link['preferred'] : FALSE;
@@ -2886,6 +3002,9 @@ class cnEntry {
 			if ( empty( $links ) ) return $results;
 
 			foreach ( $links as $link ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$link = apply_filters( 'cn_link-pre_setup', $link );
 
 				$link->id         = (int) $link->id;
 				$link->order      = (int) $link->order;
@@ -3088,6 +3207,9 @@ class cnEntry {
 				 * // END -- Compatibility for previous versions.
 				 */
 
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$link = apply_filters( 'cn_link-pre_setup', $link );
+
 				// Add back to the data array the networks that user does not have permission to view and edit.
 				if ( ! cnValidate::userPermitted( $link['visibility'] ) ) {
 					$links[] = $link;
@@ -3229,6 +3351,15 @@ class cnEntry {
 
 				foreach ( (array) $dates as $key => $date ) {
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $date
+					 */
+					$date = apply_filters( 'cn_date-pre_setup', $date );
+
 					$row = new stdClass();
 
 					( isset( $date['id'] ) ) ? $row->id = (int) $date['id'] : $row->id = 0;
@@ -3291,6 +3422,9 @@ class cnEntry {
 			if ( empty( $dates ) ) return $results;
 
 			foreach ( $dates as $date ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$date = apply_filters( 'cn_date-pre_setup', $date );
 
 				$date->id = (int) $date->id;
 				$date->order = (int) $date->order;
@@ -3468,6 +3602,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$date = apply_filters( 'cn_date-pre_setup', $date );
 
 				if ( ! $this->validate->userPermitted( $date['visibility'] ) ) {
 					//$dates[] = $date;
@@ -4875,6 +5012,9 @@ class cnEntry {
 					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
 					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
 					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
+					'line_4'     => array( 'key' => 'line_4' , 'format' => '%s' ),
+					'district'   => array( 'key' => 'district' , 'format' => '%s' ),
+					'county'     => array( 'key' => 'county' , 'format' => '%s' ),
 					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
 					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
 					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
@@ -4883,7 +5023,7 @@ class cnEntry {
 					'longitude'  => array( 'key' => 'longitude' , 'format' => '%s' ),
 					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
 				),
-				$this->getAddresses( array(), TRUE, TRUE ),
+				$this->getAddresses( array(), TRUE, TRUE, 'db' ),
 				array(
 					'id' => array( 'key' => 'id', 'format' => '%d' )
 				)
@@ -5125,6 +5265,9 @@ class cnEntry {
 					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
 					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
 					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
+					'line_4'     => array( 'key' => 'line_4' , 'format' => '%s' ),
+					'district'   => array( 'key' => 'district' , 'format' => '%s' ),
+					'county'     => array( 'key' => 'county' , 'format' => '%s' ),
 					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
 					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
 					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
@@ -5133,7 +5276,7 @@ class cnEntry {
 					'longitude'  => array( 'key' => 'longitude' , 'format' => '%s' ),
 					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
 				),
-				$this->getAddresses( array(), TRUE, TRUE )
+				$this->getAddresses( array(), TRUE, TRUE, 'db' )
 			);
 
 			$cnDb->insert(

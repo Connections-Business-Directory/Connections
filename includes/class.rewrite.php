@@ -67,6 +67,8 @@ class cnRewrite {
 		$var[] = 'cn-region';  // state
 		$var[] = 'cn-locality';  // city
 		$var[] = 'cn-postal-code'; // zipcode
+		$var[] = 'cn-county';
+		$var[] = 'cn-district';
 		$var[] = 'cn-organization'; // organization
 		$var[] = 'cn-department'; // department
 		$var[] = 'cn-char'; // initial character
@@ -122,7 +124,7 @@ class cnRewrite {
 	 * @access private
 	 * @since  8.1
 	 * @static
-	 * @param  array $var An associtive array of the parsed query vars where the key is the query var key.
+	 * @param  array $var An associative array of the parsed query vars where the key is the query var key.
 	 * @return array $var
 	 */
 	public static function setImageEndpointQueryVar( $var ) {
@@ -180,6 +182,8 @@ class cnRewrite {
 		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
 		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
 		$postal       = isset( $base['postal_code_base'] ) && $base['postal_code_base'] ? $base['postal_code_base'] : 'postal_code';
+		$district     = isset( $base['district_base'] ) && $base['district_base'] ? $base['district_base'] : 'district';
+		$county       = isset( $base['county_base'] ) && $base['county_base'] ? $base['county_base'] : 'county';
 		$organization = isset( $base['organization_base'] ) && $base['organization_base'] ? $base['organization_base'] : 'organization';
 		$department   = isset( $base['department_base'] ) && $base['department_base'] ? $base['department_base'] : 'department';
 		$name         = isset( $base['name_base'] ) && $base['name_base'] ? $base['name_base'] : 'name';
@@ -310,6 +314,18 @@ class cnRewrite {
 		$rule[ $locality . '/([^/]*)?/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-locality=$matches[1]&cn-view=card';
 
+		// District rewrite rules.
+		$rule[ $district . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-district=$matches[1]&cn-pg=$matches[2]&cn-view=card';
+		$rule[ $district . '/([^/]*)?/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-district=$matches[1]&cn-view=card';
+
+		// County rewrite rules.
+		$rule[ $county . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-county=$matches[1]&cn-pg=$matches[2]&cn-view=card';
+		$rule[ $county . '/([^/]*)?/?$']
+			= 'index.php?page_id=' . $pageID . '&cn-county=$matches[1]&cn-view=card';
+
 		// Organization rewrite rules.
 		$rule[ $organization . '/([^/]*)/pg/?([0-9]{1,})/?$']
 			= 'index.php?page_id=' . $pageID . '&cn-organization=$matches[1]&cn-pg=$matches[2]&cn-view=card';
@@ -407,6 +423,8 @@ class cnRewrite {
 		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
 		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
 		$postal       = isset( $base['postal_code_base'] ) && $base['postal_code_base'] ? $base['postal_code_base'] : 'postal_code';
+		$district     = isset( $base['district_base'] ) && $base['district_base'] ? $base['district_base'] : 'district';
+		$county       = isset( $base['county_base'] ) && $base['county_base'] ? $base['county_base'] : 'county';
 		$organization = isset( $base['organization_base'] ) && $base['organization_base'] ? $base['organization_base'] : 'organization';
 		$department   = isset( $base['department_base'] ) && $base['department_base'] ? $base['department_base'] : 'department';
 		$name         = isset( $base['name_base'] ) && $base['name_base'] ? $base['name_base'] : 'name';
@@ -536,6 +554,18 @@ class cnRewrite {
 		$rule['(.?.+?)/' . $locality . '/([^/]*)?/?$']
 			= 'index.php?pagename=$matches[1]&cn-locality=$matches[2]&cn-view=card';
 
+		// District rewrite rules.
+		$rule['(.?.+?)/' . $district . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?pagename=$matches[1]&cn-district=$matches[2]&cn-pg=$matches[3]&cn-view=card';
+		$rule['(.?.+?)/' . $district . '/([^/]*)?/?$']
+			= 'index.php?pagename=$matches[1]&cn-district=$matches[2]&cn-view=card';
+
+		// County rewrite rules.
+		$rule['(.?.+?)/' . $county . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?pagename=$matches[1]&cn-county=$matches[2]&cn-pg=$matches[3]&cn-view=card';
+		$rule['(.?.+?)/' . $county . '/([^/]*)?/?$']
+			= 'index.php?pagename=$matches[1]&cn-county=$matches[2]&cn-view=card';
+
 		// Organization rewrite rules.
 		$rule['(.?.+?)/' . $organization . '/([^/]*)/pg/?([0-9]{1,})/?$']
 			= 'index.php?pagename=$matches[1]&cn-organization=$matches[2]&cn-pg=$matches[3]&cn-view=card';
@@ -628,6 +658,8 @@ class cnRewrite {
 		$region       = isset( $base['region_base'] ) && $base['region_base'] ? $base['region_base'] : 'region';
 		$locality     = isset( $base['locality_base'] ) && $base['locality_base'] ? $base['locality_base'] : 'locality';
 		$postal       = isset( $base['postal_code_base'] ) && $base['postal_code_base'] ? $base['postal_code_base'] : 'postal_code';
+		$district     = isset( $base['district_base'] ) && $base['district_base'] ? $base['district_base'] : 'district';
+		$county       = isset( $base['county_base'] ) && $base['county_base'] ? $base['county_base'] : 'county';
 		$organization = isset( $base['organization_base'] ) && $base['organization_base'] ? $base['organization_base'] : 'organization';
 		$department   = isset( $base['department_base'] ) && $base['department_base'] ? $base['department_base'] : 'department';
 		$name         = isset( $base['name_base'] ) && $base['name_base'] ? $base['name_base'] : 'name';
@@ -758,6 +790,18 @@ class cnRewrite {
 		$rule[ $slug . '/(.+?)/' . $locality . '/([^/]*)?/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-locality=$matches[2]&cn-view=card';
 
+		// District rewrite rules.
+		$rule[ $slug . '/(.+?)/' . $district . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?' . $slug . '=$matches[1]&cn-district=$matches[2]&cn-pg=$matches[3]&cn-view=card';
+		$rule[ $slug . '/(.+?)/' . $district . '/([^/]*)?/?$']
+			= 'index.php?' . $slug . '=$matches[1]&cn-district=$matches[2]&cn-view=card';
+
+		// County rewrite rules.
+		$rule[ $slug . '/(.+?)/' . $county . '/([^/]*)/pg/?([0-9]{1,})/?$']
+			= 'index.php?' . $slug . '=$matches[1]&cn-county=$matches[2]&cn-pg=$matches[3]&cn-view=card';
+		$rule[ $slug . '/(.+?)/' . $county . '/([^/]*)?/?$']
+			= 'index.php?' . $slug . '=$matches[1]&cn-county=$matches[2]&cn-view=card';
+		
 		// Organization rewrite rules.
 		$rule[ $slug . '/(.+?)/' . $organization . '/([^/]*)/pg/?([0-9]{1,})/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-organization=$matches[2]&cn-pg=$matches[3]&cn-view=card';

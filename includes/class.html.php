@@ -276,6 +276,48 @@ class cnHTML {
 
 				break;
 
+			case 'data':
+
+				$data = array();
+
+				/**
+				 * Create valid HTML5 data attributes.
+				 *
+				 * @link http://stackoverflow.com/a/22753630/5351316
+				 * @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset
+				 */
+				if ( cnFunction::isDimensionalArray( $value ) ) {
+
+					foreach ( $value as $_value ) {
+
+						if ( isset( $_value['name'] ) && 0 < strlen( $_value['name'] ) ) {
+
+							$name = 'data-' . cnFormatting::toCamelCase( $_value['name'] );
+							$data[ $name ] = $_value['value'];
+						}
+
+					}
+
+				} else {
+
+					if ( isset( $value['name'] ) && 0 < strlen( $value['name'] ) ) {
+
+						$name = 'data-' . cnFormatting::toCamelCase( $value['name'] );
+						$data[ $name ] = $value['value'];
+					}
+				}
+
+				if ( ! empty( $data ) ) {
+
+					array_walk( $data, create_function( '&$i, $name', '$i = $name . \'="\' . esc_attr( $i ) . \'"\';' ) );
+
+					return ' ' . implode( $data, ' ' );
+				}
+
+				return '';
+
+				break;
+
 			default:
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
@@ -293,7 +335,6 @@ class cnHTML {
 					return '';
 				}
 
-				break;
 		}
 
 	}
@@ -606,15 +647,16 @@ class cnHTML {
 
 			$replace[] = self::input(
 				array(
-					'type'    => $atts['type'],
-					'prefix'  => '',
-					'class'   => $atts['class'],
-					'id'      => $atts['id'] . '[' . $key . ']',
-					'name'    => $name,
-					'style'   => $atts['style'],
-					'value'   => $value,
-					'checked' => checked( TRUE, in_array( $key, (array) $value ), FALSE ),
-					'return'  => TRUE,
+					'type'     => $atts['type'],
+					'prefix'   => '',
+					'class'    => $atts['class'],
+					'id'       => $atts['id'] . '[' . $key . ']',
+					'name'     => $name,
+					'style'    => $atts['style'],
+					'readonly' => $atts['readonly'],
+					'value'    => $value,
+					'checked'  => checked( TRUE, in_array( $key, (array) $value ), FALSE ),
+					'return'   => TRUE,
 				),
 				$key
 			);
@@ -658,6 +700,7 @@ class cnHTML {
 			'style'    => array(),
 			'default'  => '',
 			'options'  => array(),
+			'data'     => array(),
 			'enhanced' => FALSE,
 			'label'    => '',
 			'before'   => '',
@@ -701,11 +744,12 @@ class cnHTML {
 
 		// Open the select.
 		$replace['field'] = sprintf(
-			'<select %1$s %2$s %3$s %4$s %5$s>',
+			'<select %1$s %2$s %3$s %4$s %5$s %6$s>',
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
 			self::attribute( 'style', $atts['style'] ),
+			self::attribute( 'data', $atts['data'] ),
 			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( $atts['default'] ) . '"' : ''
 		);
 

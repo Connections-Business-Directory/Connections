@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.5.18
+ * Version: 8.5.19
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.5.18
+ * @version 8.5.19
  */
 
 // Exit if accessed directly
@@ -226,10 +226,10 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.18' );
+			define( 'CN_CURRENT_VERSION', '8.5.19' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
-			define( 'CN_DB_VERSION', '0.3' );
+			define( 'CN_DB_VERSION', '0.4' );
 
 			/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
 			define( 'CN_UPDATE_URL', 'http://connections-pro.com/edd-sl-api' );
@@ -877,6 +877,16 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 					update_option( 'connections_display_results', $options );
 					unset( $options );
+
+				/** @noinspection PhpMissingBreakStatementInspection */
+				case ( version_compare( $version, '8.5.19', '<' ) ) :
+
+					$options = get_option( 'connections_permalink' );
+
+					$options['district_base'] = 'district';
+					$options['county_base']   = 'county';
+
+					update_option( 'connections_permalink', $options );
 			}
 
 			if ( NULL === $this->options->getDefaultTemplatesSet() ) $this->options->setDefaultTemplates();

@@ -1058,6 +1058,8 @@ class cnOutput extends cnEntry {
 	 *    work
 	 *    school
 	 *    other
+	 *  district (array) || (string) Retrieve addresses in a specific district.
+	 *  county (array) || (string) Retrieve addresses in a specific county.
 	 *  city (array) || (string) Retrieve addresses in a specific city.
 	 *  state (array) || (string) Retrieve addresses in a specific state..
 	 *  zipcode (array) || (string) Retrieve addresses in a specific zipcode.
@@ -1097,6 +1099,8 @@ class cnOutput extends cnEntry {
 			'preferred'   => NULL,
 			'type'        => NULL,
 			'limit'       => NULL,
+			'district'    => NULL,
+			'county'      => NULL,
 			'city'        => NULL,
 			'state'       => NULL,
 			'zipcode'     => NULL,
@@ -1104,6 +1108,8 @@ class cnOutput extends cnEntry {
 			'coordinates' => array(),
 			'format'      => '',
 			'link'        => array(
+				'district'    => cnSettingsAPI::get( 'connections', 'link', 'district' ),
+				'county'      => cnSettingsAPI::get( 'connections', 'link', 'county' ),
 				'locality'    => cnSettingsAPI::get( 'connections', 'link', 'locality' ),
 				'region'      => cnSettingsAPI::get( 'connections', 'link', 'region' ),
 				'postal_code' => cnSettingsAPI::get( 'connections', 'link', 'postal_code' ),
@@ -1135,6 +1141,9 @@ class cnOutput extends cnEntry {
 			'%line1%',
 			'%line2%',
 			'%line3%',
+			'%line4%',
+			'%district%',
+			'%county%',
 			'%city%',
 			'%state%',
 			'%zipcode%',
@@ -1157,6 +1166,65 @@ class cnOutput extends cnEntry {
 			$replace[] = empty( $address->line_1 ) ? '' : '<span class="street-address notranslate">' . $address->line_1 . '</span>' . PHP_EOL;
 			$replace[] = empty( $address->line_2 ) ? '' : '<span class="street-address notranslate">' . $address->line_2 . '</span>' . PHP_EOL;
 			$replace[] = empty( $address->line_3 ) ? '' : '<span class="street-address notranslate">' . $address->line_3 . '</span>' . PHP_EOL;
+			$replace[] = empty( $address->line_4 ) ? '' : '<span class="street-address notranslate">' . $address->line_4 . '</span>' . PHP_EOL;
+
+			if ( 0 == strlen( $address->district ) ) {
+
+				$replace[] = '';
+
+			} else {
+
+				if ( $atts['link']['district'] ) {
+
+					$district = cnURL::permalink(
+						array(
+							'type'       => 'district',
+							'slug'       => $address->district,
+							'title'      => $address->district,
+							'text'       => $address->district,
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE
+						)
+					);
+
+				} else {
+
+					$district = $address->district;
+				}
+
+				$replace[] = '<span class="district notranslate">' . $district . '</span>' . PHP_EOL;
+
+			}
+
+			if ( 0 == strlen( $address->county ) ) {
+
+				$replace[] = '';
+
+			} else {
+
+				if ( $atts['link']['county'] ) {
+
+					$county = cnURL::permalink(
+						array(
+							'type'       => 'county',
+							'slug'       => $address->county,
+							'title'      => $address->county,
+							'text'       => $address->county,
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'return'     => TRUE
+						)
+					);
+
+				} else {
+
+					$county = $address->county;
+				}
+
+				$replace[] = '<span class="county notranslate">' . $county . '</span>' . PHP_EOL;
+
+			}
 
 			if ( empty( $address->city ) ) {
 
@@ -1282,7 +1350,7 @@ class cnOutput extends cnEntry {
 			$out .= str_ireplace(
 				$search,
 				$replace,
-				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label% %line1% %line2% %line3% %city% %state%  %zipcode% %country%' : $defaults['format'] ) : $atts['format']
+				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label% %line1% %line2% %line3% %line4% %district% %county% %city% %state%  %zipcode% %country%' : $defaults['format'] ) : $atts['format']
 			);
 
 			// Set the hCard Address Type.
@@ -2531,6 +2599,50 @@ class cnOutput extends cnEntry {
 		$out = '<div class="cn-biography">' . $atts['before'] . $out . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $out );
+	}
+
+	/**
+	 * Renders an excerpt of the bio or supplied string.
+	 *
+	 * @access public
+	 * @since  8.5.19
+	 *
+	 * @param array  $atts
+	 * @param string $text
+	 *
+	 * @return string
+	 */
+	public function excerpt( $atts = array(), $text = '' ) {
+
+		$defaults = array(
+			'before'    => '',
+			'after'     => '',
+			'length'    => apply_filters( 'cn_excerpt_length', 55 ),
+			'more'      => apply_filters( 'cn_excerpt_more', __( '&hellip;', 'connections' ) ),
+			'return'    => FALSE
+		);
+
+		/**
+		 * All extensions to filter the method default and supplied args.
+		 *
+		 * @since 8.5.19
+		 */
+		$atts = cnSanitize::args(
+			apply_filters( 'cn_output_atts_excerpt', $atts ),
+			apply_filters( 'cn_output_default_atts_excerpt', $defaults )
+		);
+
+		$text = 0 < strlen( $text ) ? $this->getBio() : $text;
+
+		/**
+		 * Apply the default filters.
+		 *
+		 * @since 8.5.19
+		 */
+		$text = apply_filters( 'cn_output_excerpt', $text );
+		$html = cnString::excerpt( $text, $atts );
+
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

@@ -876,7 +876,8 @@ class cnMetabox_Render {
 			 * @param array $field The field attributes array.
 			 */
 			$value = apply_filters( "cn_meta_field_value-{$field['type']}", $value, $field );
-
+			/** @todo Add the readonly attribute to all support field types which support the
+			 * readonly attribute matching the datepicker field type. */
 			switch ( $field['type'] ) {
 
 				case 'checkbox':
@@ -1012,15 +1013,16 @@ class cnMetabox_Render {
 
 					cnHTML::field(
 						array(
-							'type'    => 'textarea',
-							'prefix'  => '',
-							'class'   => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'small-text',
-							'id'      => $field['id'],
-							'name'    => $field['id'],
-							'rows'    => 10,
-							'cols'    => 50,
-							'before'  => '<div' . $class . $id . $style . '>',
-							'after'   => '</div>',
+							'type'     => 'textarea',
+							'prefix'   => '',
+							'class'    => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'small-text',
+							'id'       => $field['id'],
+							'name'     => $field['id'],
+							'rows'     => 10,
+							'cols'     => 50,
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
+							'before'   => '<div' . $class . $id . $style . '>',
+							'after'    => '</div>',
 						),
 						$value
 					);
@@ -1153,42 +1155,18 @@ class cnMetabox_Render {
 
 					self::fieldDescription( $field['desc'] );
 
-					if ( $wp_version >= 3.3 && function_exists('wp_editor') ) {
+					// Set the rte defaults.
+					$defaults = array(
+						'textarea_name' => sprintf( '%1$s' , $field['id'] ),
+					);
 
-						// Set the rte defaults.
-						$defaults = array(
-							'textarea_name' => sprintf( '%1$s' , $field['id'] ),
-						);
+					$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
-						$atts = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
-
-						wp_editor(
-							cnSanitize::html( $value ),
-							sprintf( '%1$s' , $field['id'] ),
-							$atts
-						);
-
-					} else {
-
-						/*
-						 * If this is pre WP 3.3, lets drop in the quick tag editor instead.
-						 */
-
-						echo '<div class="wp-editor-container">';
-
-						printf( '<textarea class="wp-editor-area" rows="20" cols="40" id="%1$s" name="%1$s">%2$s</textarea>',
-							esc_attr( $field['id'] ),
-							cnSanitize::quicktag( $value )
-						);
-
-						echo '</div>';
-
-						self::$quickTagIDs[] = esc_attr( $field['id'] );
-
-						wp_enqueue_script('jquery');
-						add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-						add_action( 'wp_print_footer_scripts' , array( __CLASS__ , 'quickTagJS' ) );
-					}
+					wp_editor(
+						cnSanitize::html( $value ),
+						sprintf( '%1$s' , $field['id'] ),
+						$atts
+					);
 
 					break;
 

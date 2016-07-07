@@ -2338,6 +2338,15 @@ class cnEntry {
 					 */
 					if ( ! isset( $network['id'] ) || empty( $network['id'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $network
+					 */
+					$network = apply_filters( 'cn_im-pre_setup', $network );
+
 					$row = new stdClass();
 
 					// This stores the table `id` value.
@@ -2410,6 +2419,9 @@ class cnEntry {
 			if ( empty( $imIDs ) ) return $results;
 
 			foreach ( $imIDs as $network ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$network = apply_filters( 'cn_im-pre_setup', $network );
 
 				/*
 				 * This will probably forever give me headaches,
@@ -2527,6 +2539,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$network = apply_filters( 'cn_im-pre_setup', $network );
 
 				if ( ! $this->validate->userPermitted( $network['visibility'] ) ) {
 

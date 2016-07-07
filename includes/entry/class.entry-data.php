@@ -2650,6 +2650,15 @@ class cnEntry {
 					 */
 					if ( ! isset( $network['url'] ) || empty( $network['url'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $network
+					 */
+					$network = apply_filters( 'cn_social_network-pre_setup', $network );
+
 					$row = new stdClass();
 
 					( isset( $network['id'] ) ) ? $row->id = (int) $network['id'] : $row->id = 0;
@@ -2701,6 +2710,9 @@ class cnEntry {
 			if ( empty( $socialMedia ) ) return $results;
 
 			foreach ( $socialMedia as $network ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$network = apply_filters( 'cn_social_network-pre_setup', $network );
 
 				$network->id = (int) $network->id;
 				$network->order = (int) $network->order;
@@ -2807,6 +2819,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$network = apply_filters( 'cn_social_network-pre_setup', $network );
 
 				// Add back to the data array the networks that user does not have permission to view and edit.
 				if ( ! $this->validate->userPermitted( $network['visibility'] ) ) {

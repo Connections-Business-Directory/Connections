@@ -2925,6 +2925,15 @@ class cnEntry {
 
 					$row = new stdClass();
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $link
+					 */
+					$link = apply_filters( 'cn_link-pre_setup', $link );
+
 					$row->id         = isset( $link['id'] ) ? (int) $link['id'] : 0;
 					$row->order      = isset( $link['order'] ) ? (int) $link['order'] : 0;
 					$row->preferred  = isset( $link['preferred'] ) ? (bool) $link['preferred'] : FALSE;
@@ -2993,6 +3002,9 @@ class cnEntry {
 			if ( empty( $links ) ) return $results;
 
 			foreach ( $links as $link ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$link = apply_filters( 'cn_link-pre_setup', $link );
 
 				$link->id         = (int) $link->id;
 				$link->order      = (int) $link->order;
@@ -3194,6 +3206,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$link = apply_filters( 'cn_link-pre_setup', $link );
 
 				// Add back to the data array the networks that user does not have permission to view and edit.
 				if ( ! cnValidate::userPermitted( $link['visibility'] ) ) {

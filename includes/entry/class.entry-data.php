@@ -1371,6 +1371,15 @@ class cnEntry {
 						empty( $address['latitude'] ) &&
 						empty( $address['longitude'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $address
+					 */
+					$address = apply_filters( 'cn_address-pre_setup', $address );
+
 					$row = new stdClass();
 
 					$row->id         = isset( $address['id'] ) ? (int) $address['id'] : 0;
@@ -1480,6 +1489,9 @@ class cnEntry {
 			if ( empty( $addresses ) ) return $results;
 
 			foreach ( $addresses as $address ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$address = apply_filters( 'cn_address-pre_setup', $address );
 
 				$address->id         = (int) $address->id;
 				$address->order      = (int) $address->order;
@@ -1647,6 +1659,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$address = apply_filters( 'cn_address-pre_setup', $address );
 
 				if ( ! $this->validate->userPermitted( $address['visibility'] ) ) {
 

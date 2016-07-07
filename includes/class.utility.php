@@ -2222,6 +2222,22 @@ class cnString {
 class cnFunction {
 
 	/**
+	 * Determine if supplied array is a multidimensional array or not.
+	 *
+	 * @access public
+	 * @since  8.5.19
+	 * @static
+	 *
+	 * @param array $value
+	 *
+	 * @return bool
+	 */
+	public static function isDimensionalArray( array $value ) {
+
+		return ! ( count( $value ) === count( $value, COUNT_RECURSIVE ) );
+	}
+
+	/**
 	 * Recursively implode a multi-dimensional array.
 	 *
 	 * @access public

@@ -699,6 +699,7 @@ class cnHTML {
 			'style'    => array(),
 			'default'  => '',
 			'options'  => array(),
+			'data'     => array(),
 			'enhanced' => FALSE,
 			'label'    => '',
 			'before'   => '',
@@ -742,11 +743,12 @@ class cnHTML {
 
 		// Open the select.
 		$replace['field'] = sprintf(
-			'<select %1$s %2$s %3$s %4$s %5$s>',
+			'<select %1$s %2$s %3$s %4$s %5$s %6$s>',
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
 			self::attribute( 'style', $atts['style'] ),
+			self::attribute( 'data', $atts['data'] ),
 			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( $atts['default'] ) . '"' : ''
 		);
 

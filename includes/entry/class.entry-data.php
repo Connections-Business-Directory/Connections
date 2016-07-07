@@ -4917,7 +4917,7 @@ class cnEntry {
 					'longitude'  => array( 'key' => 'longitude' , 'format' => '%s' ),
 					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
 				),
-				$this->getAddresses( array(), TRUE, TRUE ),
+				$this->getAddresses( array(), TRUE, TRUE, 'db' ),
 				array(
 					'id' => array( 'key' => 'id', 'format' => '%d' )
 				)

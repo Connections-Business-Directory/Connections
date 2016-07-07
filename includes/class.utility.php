@@ -284,7 +284,7 @@ class cnFormatting {
 	 * @param string $string
 	 * @param bool   $capitaliseInitial
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public static function toCamelCase( $string, $capitaliseInitial = FALSE ) {
 

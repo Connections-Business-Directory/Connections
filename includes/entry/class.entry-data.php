@@ -1762,6 +1762,15 @@ class cnEntry {
 					 */
 					if ( ! isset( $number['number'] ) || empty( $number['number'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $number
+					 */
+					$number = apply_filters( 'cn_phone-pre_setup', $number );
+
 					$row = new stdClass();
 
 					( isset( $number['id'] ) ) ? $row->id = (int) $number['id'] : $row->id = 0;
@@ -1834,6 +1843,10 @@ class cnEntry {
 			if ( empty( $phoneNumbers ) ) return $results;
 
 			foreach ( $phoneNumbers as $phone ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$phone = apply_filters( 'cn_phone-pre_setup', $phone );
+
 				$phone->id = (int) $phone->id;
 				$phone->order = (int) $phone->order;
 				$phone->preferred = (bool) $phone->preferred;
@@ -1952,6 +1965,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$phone = apply_filters( 'cn_phone-pre_setup', $phone );
 
 				if ( ! $this->validate->userPermitted( $phone['visibility'] ) ) {
 

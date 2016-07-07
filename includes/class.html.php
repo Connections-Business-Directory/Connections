@@ -647,15 +647,16 @@ class cnHTML {
 
 			$replace[] = self::input(
 				array(
-					'type'    => $atts['type'],
-					'prefix'  => '',
-					'class'   => $atts['class'],
-					'id'      => $atts['id'] . '[' . $key . ']',
-					'name'    => $name,
-					'style'   => $atts['style'],
-					'value'   => $value,
-					'checked' => checked( TRUE, in_array( $key, (array) $value ), FALSE ),
-					'return'  => TRUE,
+					'type'     => $atts['type'],
+					'prefix'   => '',
+					'class'    => $atts['class'],
+					'id'       => $atts['id'] . '[' . $key . ']',
+					'name'     => $name,
+					'style'    => $atts['style'],
+					'readonly' => $atts['readonly'],
+					'value'    => $value,
+					'checked'  => checked( TRUE, in_array( $key, (array) $value ), FALSE ),
+					'return'   => TRUE,
 				),
 				$key
 			);

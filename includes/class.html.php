@@ -314,7 +314,7 @@ class cnHTML {
 					return ' ' . implode( $data, ' ' );
 				}
 
-				return'';
+				return '';
 
 				break;
 

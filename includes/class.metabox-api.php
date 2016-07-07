@@ -876,8 +876,7 @@ class cnMetabox_Render {
 			 * @param array $field The field attributes array.
 			 */
 			$value = apply_filters( "cn_meta_field_value-{$field['type']}", $value, $field );
-			/** @todo Add the readonly attribute to all support field types which support the
-			 * readonly attribute matching the datepicker field type. */
+
 			switch ( $field['type'] ) {
 
 				case 'checkbox':
@@ -889,6 +888,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-checkbox',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'label'   => $field['desc'],
 							'before'  => '<div' . $class . $id . $style . '>',
 							'after'   => '</div>',
@@ -910,6 +910,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-checkbox',
 							'id'      => $field['id'],
 							'name'    => $field['id'] . '[]',
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'display' => 'block',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',
@@ -931,6 +932,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-radio-option',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'display' => 'block',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',
@@ -953,6 +955,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-radio-option',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'display' => 'inline',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',
@@ -972,6 +975,7 @@ class cnMetabox_Render {
 							'class'   => 'cn-select',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'display' => 'inline',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',
@@ -995,6 +999,7 @@ class cnMetabox_Render {
 							'class'   => isset( $field['size'] ) && ! empty( $field['size'] ) && in_array( $field['size'], $sizes ) ? esc_attr( $field['size'] ) . '-text' : 'large-text',
 							'id'      => $field['id'],
 							'name'    => $field['id'],
+							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
 							'before'  => '<div' . $class . $id . $style . '>',
 							'after'   => '</div>',
 						),
@@ -1050,9 +1055,10 @@ class cnMetabox_Render {
 
 					self::fieldDescription( $field['desc'] );
 
-					printf('<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"/>',
+					printf('<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
-						esc_attr( $value )
+						esc_attr( $value ),
+						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					wp_enqueue_style('wp-color-picker');
@@ -1112,9 +1118,10 @@ class cnMetabox_Render {
 
 					$field['options'] = wp_parse_args( isset( $field['options'] ) ? $field['options'] : array(), $defaults );
 
-					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"/>',
+					printf( '<div class="cn-slider-container" id="cn-slider-%1$s"></div><input type="text" class="small-text" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
 						esc_attr( $field['id'] ),
-						absint( $value )
+						absint( $value ),
+						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
 					);
 
 					self::fieldDescription( $field['desc'] );

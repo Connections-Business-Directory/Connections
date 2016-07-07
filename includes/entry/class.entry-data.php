@@ -2064,6 +2064,15 @@ class cnEntry {
 					 */
 					if ( ! isset( $email['address'] ) || empty( $email['address'] ) ) continue;
 
+					/**
+					 * Allow plugins to filter raw data before object is setup.
+					 *
+					 * @since 8.5.19
+					 *
+					 * @param array $email
+					 */
+					$email = apply_filters( 'cn_email-pre_setup', $email );
+
 					$row = new stdClass();
 
 					( isset( $email['id'] ) ) ? $row->id = (int) $email['id'] : $row->id = 0;
@@ -2124,6 +2133,9 @@ class cnEntry {
 			if ( empty( $emailAddresses ) ) return $results;
 
 			foreach ( $emailAddresses as $email ) {
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$email = apply_filters( 'cn_email-pre_setup', $email );
 
 				$email->id = (int) $email->id;
 				$email->order = (int) $email->order;
@@ -2225,6 +2237,9 @@ class cnEntry {
 				/*
 				 * // END -- Compatibility for previous versions.
 				 */
+
+				/** This filter is documented in ../includes/entry/class.entry-data.php */
+				$email = apply_filters( 'cn_email-pre_setup', $email );
 
 				if ( ! $this->validate->userPermitted( $email['visibility'] ) ) {
 					$emailAddresses[] = $email;

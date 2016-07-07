@@ -271,6 +271,33 @@ class cnFormatting {
 
 		return implode( ', ', $placeholders );
 	}
+
+	/**
+	 * Convert supplied string to camelCase.
+	 *
+	 * @access public
+	 * @since  8.5.19
+	 * @static
+	 *
+	 * @link http://stackoverflow.com/a/2792045/5351316
+	 *
+	 * @param string $string
+	 * @param bool   $capitaliseInitial
+	 *
+	 * @return mixed
+	 */
+	public static function toCamelCase( $string, $capitaliseInitial = FALSE ) {
+
+		$string = self::sanitizeStringStrong( $string );
+		$string = str_replace( ' ', '', ucwords( str_replace( array( '_', '-' ), ' ', $string ) ) );
+
+		if ( ! $capitaliseInitial ) {
+
+			$string[0] = strtolower( $string[0] );
+		}
+
+		return $string;
+	}
 }
 
 class cnValidate {

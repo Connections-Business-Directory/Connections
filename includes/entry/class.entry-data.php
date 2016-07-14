@@ -2776,7 +2776,8 @@ class cnEntry {
 				$network = cnSanitize::args( $network, $validFields );
 
 				// If the URL is empty, no need to save it.
-				if ( empty( $network['url'] ) || 'http://' == $network['url'] ) {
+				if ( 0 == strlen( $network['url'] ) ) {
+
 					unset( $socialNetworks[ $key ] );
 					continue;
 				}

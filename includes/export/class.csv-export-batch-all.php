@@ -248,7 +248,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			array(
 				'field'  => 'address',
 				'type'   => 1,
-				'fields' => 'line_1;line_2;line_3;city;state;zipcode;visibility',
+				'fields' => 'line_1;line_2;line_3;line_4;district;county;city;state;zipcode;country;latitude;longitude;visibility',
 				'table'  => CN_ENTRY_ADDRESS_TABLE,
 				'types'  => NULL,
 			),
@@ -366,16 +366,19 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 */
 
 		$coreAddressTypes = $instance->options->getDefaultAddressValues();
-		$addressFields = array(
-			'line_1'    => 'Line One',
-			'line_2'    => 'Line Two',
-			'line_3'    => 'Line Three',
-			'city'      => 'City',
-			'state'     => 'State',
-			'zipcode'   => 'Zipcode',
-			'country'   => 'Country',
-			'latitude'  => 'Latitude',
-			'longitude' => 'Longitude',
+		$addressFields    = array(
+			'line_1'     => 'Line One',
+			'line_2'     => 'Line Two',
+			'line_3'     => 'Line Three',
+			'line_4'     => 'Line Four',
+			'district'   => 'District',
+			'county'     => 'County',
+			'city'       => 'City',
+			'state'      => 'State',
+			'zipcode'    => 'Zipcode',
+			'country'    => 'Country',
+			'latitude'   => 'Latitude',
+			'longitude'  => 'Longitude',
 			'visibility' => 'Visibility',
 		);
 

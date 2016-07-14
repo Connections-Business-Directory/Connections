@@ -876,7 +876,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		foreach ( $row as $result ) {
 
 			// Go through all the types that are supposed to be exported...
-			for ( $i = 0; $i < $countTypes; $i ++ ) {
+			for ( $i = 0; $i < $countTypes; $i++ ) {
 
 				$type = '';
 

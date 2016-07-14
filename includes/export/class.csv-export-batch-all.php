@@ -886,7 +886,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 					// Loop through each field and record it...
 					for ( $j = 0; $j < $countFields; $j++ ) {
 
-						$type .= $this->escapeAndQuote( $result->$breakoutFields[ $j ] ) . ',';
+						$type .= $this->escapeAndQuote( $result->{$breakoutFields[ $j ]} ) . ',';
 					}
 
 					$breakoutTypeField[ $i ] = $type;

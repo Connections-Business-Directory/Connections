@@ -46,7 +46,7 @@ class cnCSV_Batch_Export_Addresses extends cnCSV_Batch_Export {
 		$columns = array(
 			'id'           => __( 'ID', 'connections' ),
 			'entry_type'   => __( 'Entry Type', 'connections' ),
-			'family_name'       => __( 'Family Name', 'connections' ),
+			'family_name'  => __( 'Family Name', 'connections' ),
 			'prefix'       => __( 'Prefix', 'connections' ),
 			'first'        => __( 'First', 'connections' ),
 			'middle'       => __( 'Middle', 'connections' ),

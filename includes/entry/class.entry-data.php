@@ -3156,7 +3156,7 @@ class cnEntry {
 				$link = cnSanitize::args( $link, $validFields );
 
 				// If the URL is empty, no need to save it.
-				if ( empty( $link['url'] ) || 'http://' == $link['url'] ) {
+				if ( 0 == strlen( $link['url'] ) ) {
 					unset( $links[ $key ] );
 					continue;
 				}

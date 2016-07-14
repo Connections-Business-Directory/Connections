@@ -43,7 +43,7 @@ Max Input Vars:             <?php echo ini_get( 'max_input_vars' ) . PHP_EOL; ?>
 Allow URL fopen:            <?php echo cnFormatting::toYesNo( ini_get( 'allow_url_fopen' ) ) . PHP_EOL; ?>
 PCRE Backtrack Limit        <?php echo ini_get( 'pcre.backtrack_limit' ). PHP_EOL; ?>
 Display Errors:             <?php echo ( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ) . PHP_EOL; ?>
-<?php do_action( 'edd_sysinfo_after_php_config' ); ?>
+<?php do_action( 'cn_sysinfo_after_php_config' ); ?>
 
 -- PHP Extensions
 
@@ -137,12 +137,12 @@ if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $resp
 } ?>
 Remote Post:                <?php echo $WP_REMOTE_POST . PHP_EOL; ?>
 Table Prefix:               <?php echo 'Length: ' . strlen( $wpdb->prefix ) . '   Status: ' . ( strlen( $wpdb->prefix ) > 16 ? 'ERROR: Too long' : 'Acceptable' ) . PHP_EOL; ?>
-Admin AJAX:                 <?php echo /*( edd_test_ajax_works() ? 'Accessible' : 'Inaccessible' ) . */PHP_EOL; ?>
+Admin AJAX:                 <?php echo /*( cn_test_ajax_works() ? 'Accessible' : 'Inaccessible' ) . */PHP_EOL; ?>
 WP_DEBUG:                   <?php echo ( defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' : 'Disabled' : 'Not set' ) . PHP_EOL; ?>
 Memory Limit:               <?php echo WP_MEMORY_LIMIT . PHP_EOL; ?>
 Max Memory Limit:           <?php echo WP_MAX_MEMORY_LIMIT . PHP_EOL; ?>
 Registered Post Stati:      <?php echo implode( ', ', get_post_stati() ) . PHP_EOL; ?>
-<?php do_action( 'edd_sysinfo_after_wordpress_config' ); ?>
+<?php do_action( 'cn_sysinfo_after_wordpress_config' ); ?>
 
 -- Connections Configuration
 

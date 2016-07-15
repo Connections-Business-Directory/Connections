@@ -113,6 +113,8 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *     @type string $field  The field id from the table to export.
 		 *                          NOTE: The `category` field indicates special processing used to export the categories
 		 *                                from the terms table.
+		 *                          NOTE: When exporting from CN_ENTRY_TABLE_META, this is to be set to the `meta_key`
+		 *                                value to be exported.
 		 *     @type string $header The header to use if the field does not have a registered header name.
 		 *                          @see cnCSV_Batch_export_All::setHeaderNames()
 		 *                          NOTE: Currently only used when exporting the categories into a single cell.
@@ -127,10 +129,12 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *                          3 - Export the terms into separate cells. One term per cell.
 		 *                              NOTE: Only use this to export terms from the taxonomy tables.
 		 *                          4 - Export data stored in the CN_ENTRY_TABLE options column for an entry.
+		 *                          5 - Export data stored in the CN_ENTRY_TABLE_META by `meta_key` name for an entry.
 		 *     @type string $fields The fields to export from the indicated $table.
 		 *                          Use to export data from the specified $fields from the supporting field type tables,
 		 *                          such as CN_ENTRY_ADDRESS_TABLE, CN_ENTRY_PHONE_TABLE and so on.
 		 *                          NOTE: These should be provided as a semi-colon delimited string of field id.
+		 *                          NOTE: Leave blank when exporting `meta_key` values from CN_ENTRY_TABLE_META.
 		 *     @type string $table  The table to export data from.
 		 *     @type string $types  The data types to export.
 		 *                          EXAMPLE: If you only want work and home addresses,  put "work;home" in this field,
@@ -624,6 +628,10 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				}
 
 				break;
+
+			case 5:
+				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ',';
+				break;
 		}
 
 		return $header;
@@ -784,6 +792,20 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 						case 4:
 							// Export breakout data from the serialized option cell.
 							$row .= $this->exportBreakoutOptionsCell( $this->fields[ $i ], $entry );
+							break;
+
+						case 5:
+
+							$data = '';
+							$meta = cnMeta::get( 'entry', $entry->id, $this->fields[ $i ]['field'], TRUE );
+
+							if ( ! empty( $meta ) ) {
+
+								$data = cnFormatting::maybeJSONencode( $meta );
+
+							}
+
+							$row .= $this->escapeAndQuote( $data ) . ',';
 							break;
 
 						default:

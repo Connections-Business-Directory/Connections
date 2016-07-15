@@ -3,7 +3,7 @@
 **Tags:** address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory  
 **Requires at least:** 4.2  
 **Tested up to:** 4.5  
-**Stable tag:** 8.5.19  
+**Stable tag:** 8.5.20  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -106,30 +106,32 @@ Templates and CSS overriding is very granular and update safe. Check out these l
 
 Connections Business Directory has been embraced around the world and has been translated by its users in the following languages.
 
-* Arabic [63% Complete]
-* Catalan [55% Complete]
-* Croatian (Croatia) [23% Complete]
-* Danish [32% Complete]
-* Danish (Denmark) [30% Complete]
-* Dutch (Netherlands) [51% Complete]
-* French (France) [64% Complete]
-* German (Germany) [49% Complete]
-* Greek (Greece) [72% Complete]
-* Hebrew (Israel) [64% Complete]
-* Hungarian (Hungry) [54% Complete]
-* Italian (Italy) [31% Complete]
+* Arabic [60% Complete]
+* Catalan [52% Complete]
+* Croatian (Croatia) [22% Complete]
+* Danish [31% Complete]
+* Danish (Denmark) [29% Complete]
+* Dutch (Netherlands) [49% Complete]
+* Finnish [78% Complete]
+* French (France) [90% Complete]
+* German (Germany) [86% Complete]
+* Greek (Greece) [69% Complete]
+* Hebrew (Israel) [61% Complete]
+* Hungarian (Hungry) [52% Complete]
+* Italian (Italy) [58% Complete]
 * Norwegian [13% Complete]
-* Persian (Iran) [64% Complete]
-* Polish (Poland) [55% Complete]
-* Portuguese (Brazil) [52% Complete]
+* Persian (Iran) [52% Complete]
+* Polish (Poland) [52% Complete]
+* Portuguese (Brazil) [77% Complete]
 * Portuguese (Portugal) [24% Complete]
-* Romanian (Romania) [73% Complete]
-* Russian (Russia) [28% Complete]
-* Serbian (Latin) [3% Complete]
-* Spanish (Latin America) [51% Complete]
-* Spanish (Spain) [68% Complete]
-* Sweden (Swedish) [1% Complete]
-* Turkish (Turkey) [60% Complete]
+* Romanian (Romania) [69% Complete]
+* Russian (Russia) [40% Complete]
+* Serbian (Latin) [2% Complete]
+* Spanish (Latin America) [49% Complete]
+* Spanish (Mexico) [99% Complete]
+* Spanish (Spain) [99% Complete]
+* Sweden (Swedish) [96% Complete]
+* Turkish (Turkey) [58% Complete]
 
 ## Credits: ##
 * Connection Business Directory was based off LBB, ["Little Black Book"](http://wordpress.org/extend/plugins/lbb-little-black-book/); which was based on [Addressbook](http://wordpress.org/extend/plugins/addressbook/), both of which can be found in the Plugin Directory.
@@ -245,6 +247,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 ## Changelog ##
+
+### 8.5.20 07/15/2016 ###
+* NEW: Introduce the `cn_csv_export_fields_config` filter.
+* NEW: Add ability to the CSV Export All tool to export entry meta when registered by plugins.
+* COMPATIBILITY: Add a custom CSS file for the Enfold theme to help ensure the core Chosen styles are not broken by Enfold.
+* TWEAK: Export the address line 4, district and county fields when exporting addresses.
+* TWEAK: Use `strlen()` when checking for empty URLs before adding a social network link.
+* TWEAK: Use `strlen()` when checking for empty URLs before adding a link.
+* TWEAK: Add `placeholder_option` attribute in CN_Walker_Term_Select_List_Enhanced.
+* TWEAK: Add a `readonly` attribute to cnHTML::group().
+* TWEAK: Setup the `$fields` array to be passed to the `cn_csv_export_fields_config` filter.
+* BUG: Bracket variable to prevent export errors.
+* BUG: Correct some action name prefixes in the system info code.
+* OTHER: Update Chosen to 1.6.1.
+* OTHER: Remove dead unused code.
+* DEV: Fix array alignment.
+* I18N: Include Spanish (Mexico) translation.
+* I18N: Update POT file.
+* I18N: Update MO files.
 
 ### 8.5.19 07/07/2016 ###
 * NEW: Update database schema to support address line 4, district and county fields.
@@ -770,4 +791,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 ### 8.5.19 ###
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+### 8.5.20 ###
 It is recommended to backup before updating. Requires WordPress >= 4.2.

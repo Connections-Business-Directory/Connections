@@ -46,7 +46,7 @@ class cnCSV_Batch_Export_Addresses extends cnCSV_Batch_Export {
 		$columns = array(
 			'id'           => __( 'ID', 'connections' ),
 			'entry_type'   => __( 'Entry Type', 'connections' ),
-			'family_name'       => __( 'Family Name', 'connections' ),
+			'family_name'  => __( 'Family Name', 'connections' ),
 			'prefix'       => __( 'Prefix', 'connections' ),
 			'first'        => __( 'First', 'connections' ),
 			'middle'       => __( 'Middle', 'connections' ),
@@ -57,6 +57,9 @@ class cnCSV_Batch_Export_Addresses extends cnCSV_Batch_Export {
 			'line_1'       => __( 'Line One', 'connections' ),
 			'line_2'       => __( 'Line Two', 'connections' ),
 			'line_3'       => __( 'Line Three', 'connections' ),
+			'line_4'       => __( 'Line Four', 'connections' ),
+			'district'     => __( 'District', 'connections' ),
+			'county'       => __( 'County', 'connections' ),
 			'city'         => __( 'City', 'connections' ),
 			'state'        => __( 'State', 'connections' ),
 			'zipcode'      => __( 'Zipcode', 'connections' ),
@@ -96,6 +99,9 @@ class cnCSV_Batch_Export_Addresses extends cnCSV_Batch_Export {
 			 AND ( address.line_1 != ""
 			 OR address.line_2 != ""
 			 OR address.line_3 != ""
+			 OR address.line_4 != ""
+			 OR address.district != ""
+			 OR address.county != ""
 			 OR address.city != ""
 			 OR address.state != ""
 			 OR address.zipcode != ""
@@ -127,6 +133,9 @@ class cnCSV_Batch_Export_Addresses extends cnCSV_Batch_Export {
 			$data[ $i ]['line_1']       = $entry->line_1;
 			$data[ $i ]['line_2']       = $entry->line_2;
 			$data[ $i ]['line_3']       = $entry->line_3;
+			$data[ $i ]['line_4']       = $entry->line_4;
+			$data[ $i ]['district']     = $entry->district;
+			$data[ $i ]['county']       = $entry->county;
 			$data[ $i ]['city']         = $entry->city;
 			$data[ $i ]['state']        = $entry->state;
 			$data[ $i ]['zipcode']      = $entry->zipcode;

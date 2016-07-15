@@ -70,69 +70,71 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 	 *     Optional. An array of arguments.
 	 *     NOTE: Additionally, all valid options as supported in @see cnTerm::getTaxonomyTerms().
 	 *
-	 * @type string $taxonomy          The taxonomy tree to display.
-	 *                                 Default: 'category'
-	 * @type bool   $hierarchical      Whether to include terms that have non-empty descendants, even if 'hide_empty' is set to TRUE.
-	 *                                 Default: TRUE
-	 * @type string $type              The output type of the categories.
-	 *                                 Default: select
-	 *                                 Accepts: select || multiselect
-	 * @type bool   $group             Whether or not to create option groups using the root parent as the group label.
-	 *                                 Default: FALSE
-	 * @type bool   $hide_if_empty     Whether or not to show the select if no terms are returned by term query.
-	 *                                 Default: FALSE
-	 * @type string $name              The select name attribute.
-	 *                                 Default: 'cn-cat'
-	 * @type string $id                The select id attribute.
-	 *                                 Default: ''
-	 * @type array  $class             An array if classes to applied to the select.
-	 *                                 Default: array('cn-category-select')
-	 * @type array  $style             An array of style to applied inline where the key is the style attribute and the value is the style attribute value.
-	 *                                 Default: array()
-	 * @type bool   $enhanced          Whether of not apply the required attributes for the Chosen jQuery plugin.
-	 *                                 Default: TRUE
-	 * @type string $on_change         An inline JavaScript on_change event.
-	 *                                 Default: ''
-	 *                                 Accepts: Any valid inline JavaScript.
-	 * @type int    $tab_index         The tab index of the select.
-	 *                                 Default: 0
-	 * @type bool   $show_select_all   Whether or not to render the $show_option_all option.
-	 *                                 Default: TRUE
-	 * @type string $show_option_all   A non-blank value causes the display of a link to the directory home page.
-	 *                                 Default: ''. The default is not to display a link.
-	 *                                 Accepts: Any valid string.
-	 * @type string $show_option_none  Set the text to show when no categories are listed.
-	 *                                 Default: 'No Categories'
-	 *                                 Accepts: Any valid string.
-	 * @type string $option_none_value Value to use when no term is selected.
-	 *                                 Default: -1
-	 *                                 Accepts: Any valid int/string for an option value attribute.
-	 * @type string $default           The default string to show as the first item in the list.
-	 *                                 Default: 'Select Category'
-	 * @type bool   $show_count        Whether or not to display the category count.
-	 *                                 Default: FALSE
-	 * @type bool   $hide_empty        Whether or not to display empty terms.
-	 *                                 Default: FALSE
-	 * @type int    $depth             Controls how many levels in the hierarchy of categories are to be included in the list.
-	 *                                 Default: 0
-	 *                                 Accepts: 0  - All categories and child categories.
-	 *                                          -1 - All Categories displayed  flat, not showing the parent/child relationships.
-	 *                                          1  - Show only top level/root parent categories.
-	 *                                          n  - Value of n (int) specifies the depth (or level) to descend in displaying the categories.
+	 * @type string $taxonomy           The taxonomy tree to display.
+	 *                                  Default: 'category'
+	 * @type bool   $hierarchical       Whether to include terms that have non-empty descendants, even if 'hide_empty' is set to TRUE.
+	 *                                  Default: TRUE
+	 * @type string $type               The output type of the categories.
+	 *                                  Default: select
+	 *                                  Accepts: select || multiselect
+	 * @type bool   $group              Whether or not to create option groups using the root parent as the group label.
+	 *                                  Default: FALSE
+	 * @type bool   $hide_if_empty      Whether or not to show the select if no terms are returned by term query.
+	 *                                  Default: FALSE
+	 * @type string $name               The select name attribute.
+	 *                                  Default: 'cn-cat'
+	 * @type string $id                 The select id attribute.
+	 *                                  Default: ''
+	 * @type array  $class              An array if classes to applied to the select.
+	 *                                  Default: array('cn-category-select')
+	 * @type array  $style              An array of style to applied inline where the key is the style attribute and the value is the style attribute value.
+	 *                                  Default: array()
+	 * @type bool   $enhanced           Whether of not apply the required attributes for the Chosen jQuery plugin.
+	 *                                  Default: TRUE
+	 * @type string $on_change          An inline JavaScript on_change event.
+	 *                                  Default: ''
+	 *                                  Accepts: Any valid inline JavaScript.
+	 * @type int    $tab_index          The tab index of the select.
+	 *                                  Default: 0
+	 * @type bool   $placeholder_option Whether or not to add a blank <option> item at the top of the list for Chosen/Select2
+	 *                                  Default: FALSE
+	 * @type bool   $show_select_all    Whether or not to render the $show_option_all option.
+	 *                                  Default: TRUE
+	 * @type string $show_option_all    A non-blank value causes the display of a link to the directory home page.
+	 *                                  Default: ''. The default is not to display a link.
+	 *                                  Accepts: Any valid string.
+	 * @type string $show_option_none   Set the text to show when no categories are listed.
+	 *                                  Default: 'No Categories'
+	 *                                  Accepts: Any valid string.
+	 * @type string $option_none_value  Value to use when no term is selected.
+	 *                                  Default: -1
+	 *                                  Accepts: Any valid int/string for an option value attribute.
+	 * @type string $default            The default string to show as the first item in the list.
+	 *                                  Default: 'Select Category'
+	 * @type bool   $show_count         Whether or not to display the category count.
+	 *                                  Default: FALSE
+	 * @type bool   $hide_empty         Whether or not to display empty terms.
+	 *                                  Default: FALSE
+	 * @type int    $depth              Controls how many levels in the hierarchy of categories are to be included in the list.
+	 *                                  Default: 0
+	 *                                  Accepts: 0  - All categories and child categories.
+	 *                                           -1 - All Categories displayed  flat, not showing the parent/child relationships.
+	 *                                           1  - Show only top level/root parent categories.
+	 *                                           n  - Value of n (int) specifies the depth (or level) to descend in displaying the categories.
 	 * @type array  $parent_id
-	 * @type array  $selected          The selected term IDs.
-	 *                                 Default: 0
-	 * @type string $label             The label to render with the select.
-	 *                                 Default: ''
-	 * @type string $before            Content to be render before the label and select.
-	 *                                 Default: ''
-	 * @type string $after             Content to be render after the label and select.
-	 *                                 Default: ''
-	 * @type string $layout            Tokens which can be sued to control the order of the label and select.
-	 *                                 Default: '%label%%field%'
-	 *                                 Accepts: %label% %field%
-	 * @type bool   $return            Whether or not to return or echo the resulting HTML.
-	 *                                 Default: FALSE
+	 * @type array  $selected           The selected term IDs.
+	 *                                  Default: 0
+	 * @type string $label              The label to render with the select.
+	 *                                  Default: ''
+	 * @type string $before             Content to be render before the label and select.
+	 *                                  Default: ''
+	 * @type string $after              Content to be render after the label and select.
+	 *                                  Default: ''
+	 * @type string $layout             Tokens which can be sued to control the order of the label and select.
+	 *                                  Default: '%label%%field%'
+	 *                                  Accepts: %label% %field%
+	 * @type bool   $return             Whether or not to return or echo the resulting HTML.
+	 *                                  Default: FALSE
 	 * }
 	 *
 	 * @return string
@@ -155,6 +157,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 			'enhanced'          => TRUE,
 			'on_change'         => '',
 			'tab_index'         => 0,
+			'placeholder_option' => TRUE,
 			'show_select_all'   => TRUE,
 			'show_option_all'   => '',
 			'show_option_none'  => '',
@@ -266,7 +269,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( ! empty( $terms ) ) {
 
-			if ( $atts['enhanced'] ) $select .= "\t" . '<option value=""></option>';
+			if ( $atts['enhanced'] || $atts['placeholder_option'] ) $select .= "\t" . '<option value=""></option>';
 
 			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {
 

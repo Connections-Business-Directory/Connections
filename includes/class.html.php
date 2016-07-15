@@ -596,6 +596,7 @@ class cnHTML {
 			'id'       => '',
 			'style'    => array(),
 			'options'  => array(),
+			'readonly' => FALSE,
 			'required' => FALSE,
 			'label'    => '',
 			'before'   => '',

@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.5.18\n"
+"Project-Id-Version: Connections 8.5.19\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2016-07-07 17:46:40+00:00\n"
+"POT-Creation-Date: 2016-07-15 15:25:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1060,7 +1060,7 @@ msgstr ""
 #: includes/class.metabox-entry.php:1424 includes/class.metabox-entry.php:1594
 #: includes/class.metabox-entry.php:1764 includes/class.metabox-entry.php:1934
 #: includes/class.metabox-entry.php:2103 includes/class.metabox-entry.php:2347
-#: includes/export/class.csv-export-batch-addresses.php:67
+#: includes/export/class.csv-export-batch-addresses.php:70
 #: includes/export/class.csv-export-batch-dates.php:59
 #: includes/export/class.csv-export-batch-email.php:59
 #: includes/export/class.csv-export-batch-phone-numbers.php:59
@@ -1103,13 +1103,13 @@ msgstr ""
 
 #: includes/admin/pages/manage.php:719 includes/class.metabox-entry.php:1262
 #: includes/entry/class.entry-output.php:1343
-#: includes/export/class.csv-export-batch-addresses.php:64
+#: includes/export/class.csv-export-batch-addresses.php:67
 msgid "Latitude"
 msgstr ""
 
 #: includes/admin/pages/manage.php:719 includes/class.metabox-entry.php:1276
 #: includes/entry/class.entry-output.php:1344
-#: includes/export/class.csv-export-batch-addresses.php:65
+#: includes/export/class.csv-export-batch-addresses.php:68
 msgid "Longitude"
 msgstr ""
 
@@ -1192,7 +1192,7 @@ msgid "Family"
 msgstr ""
 
 #: includes/admin/pages/templates.php:87
-#: includes/entry/class.entry-data.php:3311
+#: includes/entry/class.entry-data.php:3312
 #: includes/entry/class.entry-output.php:2506
 #: includes/entry/class.entry-output.php:2519
 #: includes/settings/class.options.php:545
@@ -1200,7 +1200,7 @@ msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:92
-#: includes/entry/class.entry-data.php:3326
+#: includes/entry/class.entry-data.php:3327
 #: includes/entry/class.entry-output.php:2427
 #: includes/entry/class.entry-output.php:2438
 #: includes/settings/class.options.php:547
@@ -1515,19 +1515,19 @@ msgid ""
 msgstr ""
 
 #: includes/class.metabox-entry.php:337
-#: includes/entry/class.entry-data.php:3885
+#: includes/entry/class.entry-data.php:3886
 #: includes/settings/class.options.php:206
 msgid "Public"
 msgstr ""
 
 #: includes/class.metabox-entry.php:338
-#: includes/entry/class.entry-data.php:3886
+#: includes/entry/class.entry-data.php:3887
 #: includes/settings/class.options.php:207
 msgid "Private"
 msgstr ""
 
 #: includes/class.metabox-entry.php:339
-#: includes/entry/class.entry-data.php:3884
+#: includes/entry/class.entry-data.php:3885
 #: includes/settings/class.options.php:208
 msgid "Unlisted"
 msgstr ""
@@ -1633,7 +1633,7 @@ msgstr ""
 #: includes/class.metabox-entry.php:1574 includes/class.metabox-entry.php:1744
 #: includes/class.metabox-entry.php:1914 includes/class.metabox-entry.php:2083
 #: includes/class.metabox-entry.php:2327
-#: includes/export/class.csv-export-batch-addresses.php:66
+#: includes/export/class.csv-export-batch-addresses.php:69
 #: includes/export/class.csv-export-batch-dates.php:58
 #: includes/export/class.csv-export-batch-email.php:58
 #: includes/export/class.csv-export-batch-phone-numbers.php:58
@@ -1657,32 +1657,34 @@ msgid "Address Line 4"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1158
+#: includes/export/class.csv-export-batch-addresses.php:61
 #: includes/settings/class.settings.php:1452
 msgid "District"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1172
+#: includes/export/class.csv-export-batch-addresses.php:62
 #: includes/settings/class.settings.php:1469
 msgid "County"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1194
-#: includes/export/class.csv-export-batch-addresses.php:60
+#: includes/export/class.csv-export-batch-addresses.php:63
 msgid "City"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1208
-#: includes/export/class.csv-export-batch-addresses.php:61
+#: includes/export/class.csv-export-batch-addresses.php:64
 msgid "State"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1222
-#: includes/export/class.csv-export-batch-addresses.php:62
+#: includes/export/class.csv-export-batch-addresses.php:65
 msgid "Zipcode"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1242
-#: includes/export/class.csv-export-batch-addresses.php:63
+#: includes/export/class.csv-export-batch-addresses.php:66
 #: includes/settings/class.settings.php:1537
 msgid "Country"
 msgstr ""
@@ -1884,44 +1886,44 @@ msgstr ""
 msgid "Term ID is shared between multiple taxonomies"
 msgstr ""
 
-#: includes/class.utility.php:1837 includes/class.utility.php:1972
+#: includes/class.utility.php:1839 includes/class.utility.php:1974
 #: includes/entry/class.entry-output.php:2621
 msgid "&hellip;"
 msgstr ""
 
-#: includes/class.utility.php:2182
+#: includes/class.utility.php:2184
 msgid "Unable to generate random string."
 msgstr ""
 
-#: includes/class.utility.php:2335
+#: includes/class.utility.php:2337
 msgid "Maximum stack depth exceeded."
 msgstr ""
 
-#: includes/class.utility.php:2339
+#: includes/class.utility.php:2341
 msgid "Underflow or the modes mismatch."
 msgstr ""
 
-#: includes/class.utility.php:2343
+#: includes/class.utility.php:2345
 msgid "Unexpected control character found."
 msgstr ""
 
-#: includes/class.utility.php:2347
+#: includes/class.utility.php:2349
 msgid "Syntax error, malformed JSON."
 msgstr ""
 
-#: includes/class.utility.php:2351
+#: includes/class.utility.php:2353
 msgid "Malformed UTF-8 characters, possibly incorrectly encoded."
 msgstr ""
 
-#: includes/class.utility.php:2355
+#: includes/class.utility.php:2357
 msgid "Unknown error."
 msgstr ""
 
-#: includes/class.utility.php:2576
+#: includes/class.utility.php:2578
 msgid "Invalid URL."
 msgstr ""
 
-#: includes/class.utility.php:2691
+#: includes/class.utility.php:2693
 msgid "No URL or width."
 msgstr ""
 
@@ -1929,7 +1931,7 @@ msgstr ""
 msgid "Image copy failed."
 msgstr ""
 
-#: includes/entry/class.entry-data.php:4779
+#: includes/entry/class.entry-data.php:4780
 msgid "Unknown"
 msgstr ""
 
@@ -2016,6 +2018,10 @@ msgstr ""
 
 #: includes/export/class.csv-export-batch-addresses.php:59
 msgid "Line Three"
+msgstr ""
+
+#: includes/export/class.csv-export-batch-addresses.php:60
+msgid "Line Four"
 msgstr ""
 
 #: includes/export/class.csv-export-batch-email.php:56
@@ -4190,7 +4196,7 @@ msgstr ""
 
 #: includes/template/class.template-parts.php:2182
 #: includes/template/class.template-walker-term-radio-group.php:108
-#: includes/template/class.template-walker-term-select-enhanced.php:162
+#: includes/template/class.template-walker-term-select-enhanced.php:165
 msgid "Select Category"
 msgstr ""
 

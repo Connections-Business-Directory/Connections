@@ -324,6 +324,14 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			//),
 		);
 
+		/**
+		 * Allows plugins to alter/add to the field configuration.
+		 *
+		 * @since 8.5.20
+		 *
+		 * @param array $fields
+		 */
+		$this->fields = apply_filters( 'cn_csv_export_fields_config', $fields );
 	}
 
 	/**

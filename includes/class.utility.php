@@ -714,6 +714,8 @@ class cnURL {
 	 * Take a URL and see if it's prefixed with a protocol, if it's not then it will add the default prefix to the
 	 * start of the string.
 	 *
+	 * @todo Refactor to use @see set_url_scheme()
+	 *
 	 * @access public
 	 * @since  0.8
 	 * @static

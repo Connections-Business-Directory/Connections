@@ -138,7 +138,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 * }
 		 */
 
-		$this->fields = array(
+		$fields = array(
 			array(
 				'field'  => 'id',
 				'type'   => 0,

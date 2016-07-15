@@ -408,10 +408,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		// Add the core phone types to the field array.
 		foreach ( $corePhoneTypes as $phoneType => $phoneName ) {
 
-			//$key = 'phone_' . $phoneType . '_number';
-
-			//$fields[ $key ] = 'Phone | ' . $phoneName;
-
 			foreach ( $phoneFields as $phoneFieldType => $phoneFieldName ) {
 
 				$key = 'phone_' . $phoneType . '_' . $phoneFieldType;
@@ -432,10 +428,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		// Add the core email types to the field array.
 		foreach ( $coreEmailTypes as $emailType => $emailName ) {
-
-			//$key = 'email_' . $emailType . '_address';
-
-			//$fields[ $key ] = 'Email | ' . $emailName;
 
 			foreach ( $emailFields as $emailFieldType => $emailFieldName ) {
 
@@ -458,10 +450,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		// Add the core IM types to the field array.
 		foreach ( $coreIMTypes as $IMType => $IMName ) {
 
-			//$key = 'im_' . $IMType . '_uid';
-			//
-			//$fields[ $key ] = 'Messenger | ' . $IMName;
-
 			foreach ( $IMFields as $IMFieldType => $IMFieldName ) {
 
 				$key = 'im_' . $IMType . '_' . $IMFieldType;
@@ -482,10 +470,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		// Add the core email types to the field array.
 		foreach ( $coreSocialTypes as $socialType => $socialName ) {
-
-			//$key = 'social_' . $socialType . '_url';
-			//
-			//$fields[ $key ] = 'Social Network | ' . $socialName;
 
 			foreach ( $socialFields as $socialFieldType => $socialFieldName ) {
 
@@ -508,10 +492,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		// Add the core email types to the field array.
 		foreach ( $coreLinkTypes as $linkType => $linkName ) {
 
-			//$key = 'links_' . $linkType . '_url';
-			//
-			//$fields[ $key ] = 'Link | ' . $linkName;
-
 			foreach ( $linkFields as $linkFieldType => $linkFieldName ) {
 
 				$key = 'links_' . $linkType . '_' . $linkFieldType;
@@ -532,10 +512,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		// Add the core date types to the field array.
 		foreach ( $coreDateTypes as $dateType => $dateName ) {
-
-			//$key = 'dates_' . $dateType . '_date';
-			//
-			//$fields[ $key ] = 'Date | ' . $dateName;
 
 			foreach ( $dateFields as $dateFieldType => $dateFieldName ) {
 

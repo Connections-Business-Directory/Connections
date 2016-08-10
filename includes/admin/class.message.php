@@ -413,21 +413,32 @@ class cnMessage extends WP_Error {
 	 */
 	private static function store( $message ) {
 
-		$user_meta = get_user_meta( self::$id, self::$meta_key, TRUE );
+		/** @var array|string|false $meta */
+		$meta = get_user_meta( self::$id, self::$meta_key, TRUE );
 
-		if ( empty( $user_meta ) ) {
+		/*
+		 * Since get_user_meta() can return array|string|false but we expect only an array,
+		 * check for the other possible return values and if found setup the array.
+		 */
+		if ( is_string( $meta ) || FALSE === $meta ) {
 
-			$user_meta = array( 'messages' => array() );
+			$meta = array( 'messages' => array() );
 		}
 
-		if ( ! isset( $user_meta['messages'] ) ) {
+		/*
+		 * If the `messages` key does not exist or is not an array, ensure it does.
+		 */
+		if ( ! isset( $meta['messages'] ) || ! is_array( $meta['messages'] ) ) {
 
-			$user_meta['messages'] = array();
+			$meta['messages'] = array();
 		}
 
-		$user_meta['messages'][] = $message;
+		/*
+		 * It finally should be safe to add the message to the array.
+		 */
+		$meta['messages'][] = $message;
 
-		return update_user_meta( self::$id, self::$meta_key, $user_meta );
+		return update_user_meta( self::$id, self::$meta_key, $meta );
 	}
 
 	/**

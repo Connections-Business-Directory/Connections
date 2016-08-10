@@ -269,7 +269,7 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( ! empty( $terms ) ) {
 
-			if ( $atts['enhanced'] || $atts['placeholder_option'] ) $select .= "\t" . '<option value=""></option>';
+			if ( $atts['enhanced'] || $atts['placeholder_option'] ) $select .= "\t" . '<option value="">' . ( $atts['enhanced'] ? '' : $atts['default'] ) . '</option>';
 
 			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {
 

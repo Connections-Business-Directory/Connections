@@ -29,13 +29,12 @@ class cnLicense {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  string $file      The main plugin file used for EDD SL Updater.
-	 * @param  string $name      The plugin name exactly as in the store.
-	 * @param  string $version   The current plugin version; not, the latest version.
-	 * @param  string $author    The plugin author.
-	 * @param  string $updateURL The EDD SL API Updater URL.
 	 *
-	 * @return void
+	 * @param string $file      The main plugin file used for EDD SL Updater.
+	 * @param string $name      The plugin name exactly as in the store.
+	 * @param string $version   The current plugin version; not, the latest version.
+	 * @param string $author    The plugin author.
+	 * @param string $updateURL The EDD SL API Updater URL.
 	 */
 	public function __construct( $file, $name, $version, $author, $updateURL = NULL ) {
 
@@ -163,7 +162,9 @@ class cnLicense {
 	 * @since  0.8
 	 * @static
 	 *
-	 * @return array   The settings tabs options array.
+	 * @param array $tabs
+	 *
+	 * @return array The settings tabs options array.
 	 */
 	public static function registerSettingsTab( $tabs ) {
 
@@ -207,9 +208,11 @@ class cnLicense {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  array   $settings
 	 *
-	 * @return array   The field settings array.
+	 * @param $fields
+	 *
+	 * @return array The field settings array.
+	 * @internal param array $settings
 	 */
 	public function registerSettingsFields( $fields ) {
 

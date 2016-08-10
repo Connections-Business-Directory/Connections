@@ -138,7 +138,7 @@ class cnLicense {
 	}
 
 	/**
-	 * Resiters the Lecenses settings tab and section.
+	 * Reciters the Licenses settings tab and section.
 	 * This function in ran only once and is called by the
 	 * `cn_register_licenses_tab` action hook in $this->hooks()
 	 *
@@ -434,7 +434,7 @@ class cnLicense {
 	}
 
 	/**
-	 * Get the license current status. This staus will be refreshed once per day.
+	 * Get the license current status. This status will be refreshed once per day.
 	 *
 	 * @access public
 	 * @since  0.8
@@ -711,7 +711,7 @@ class cnLicense {
 				// EDD SL reports either 'deactivated' or 'failed' as the license status.
 				// Unlike when activating a license, EDD does not report and error and its message.
 				// So...
-				// We'll do a status check, set 'succes' as false and set the message to the license
+				// We'll do a status check, set 'success' as false and set the message to the license
 				// status returned by doing a license check.
 				if ( $data->license == 'failed' ) {
 

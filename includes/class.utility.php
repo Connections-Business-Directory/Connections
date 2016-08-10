@@ -1913,8 +1913,9 @@ class cnString {
 		$lastCloseTag = strrpos( $excerpt, '</' );
 		$lastSpace    = strrpos( $excerpt, ' ' );
 
-		// Determine if the string ends with and HTML tag or word.
-		if ( FALSE !== $lastCloseTag && ( FALSE !== $lastSpace && $lastCloseTag > $lastSpace ) ) {
+		// Determine if the string ends with a HTML tag or word.
+		if ( ( ! preg_match('/[\s\?\.\!]$/', $excerpt ) ) &&
+		     ( FALSE !== $lastCloseTag && ( FALSE !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
 
 			// Inside last HTML tag
 			if ( $appendMore ) {

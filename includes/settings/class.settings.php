@@ -1617,7 +1617,7 @@ class cnRegisterSettings {
 			'tab'       => 'advanced',
 			'section'   => 'google_maps_geocoding_api',
 			'title'     => esc_html__( 'Browser Key', 'connections' ),
-			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Browser Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/geocoding/get-api-key' ),
+			'desc'      => sprintf( __( 'Enter your Google Maps Geocoding API <strong>Browser Key</strong>. Learn how to <a href="%s">get a key</a>.', 'connections' ), 'https://developers.google.com/maps/documentation/javascript/get-api-key' ),
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'large',

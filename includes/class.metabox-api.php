@@ -492,7 +492,7 @@ class cnMetabox_Render {
 	private static $quickTagIDs = array();
 
 	/**
-	 * The array of all registerd slider settings.
+	 * The array of all registered slider settings.
 	 *
 	 * @access private
 	 * @since 0.8

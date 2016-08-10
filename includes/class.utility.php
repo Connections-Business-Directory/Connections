@@ -1878,7 +1878,7 @@ class cnString {
 
 		} else {
 
-			$string  = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$string  = wp_strip_all_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
 			$tokens  = array();
 			$excerpt = '';
 			$count   = 0;

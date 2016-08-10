@@ -1852,9 +1852,9 @@ class cnString {
 					'p',
 					'img',
 					'video',
-					'audio'
+					'audio',
 				)
-			)
+			),
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );

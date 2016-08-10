@@ -612,7 +612,7 @@ class cnLicense {
 		if ( isset( $_POST[ $this->slug . '-deactivate_license' ] ) ) {
 
 			// Retrieve license keys and data.
-			$keys = get_option( 'connections_licenses' );
+			//$keys = get_option( 'connections_licenses' );
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `deactivated`, no need to attempt to deactivate the key again; bail.

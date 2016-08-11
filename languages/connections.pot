@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.5.19\n"
+"Project-Id-Version: Connections 8.5.20\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2016-07-15 15:25:10+00:00\n"
+"POT-Creation-Date: 2016-08-11 20:07:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -80,7 +80,7 @@ msgstr ""
 
 #: includes/admin/class.actions.php:385
 #: includes/export/class.csv-export.php:265
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:351
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:358
 msgid "Error"
 msgstr ""
 
@@ -268,89 +268,89 @@ msgid ""
 "href=\"%2$s\" target=\"_blank\">WordPress.org</a>"
 msgstr ""
 
-#: includes/admin/class.license.php:173
+#: includes/admin/class.license.php:174
 msgid "Licenses"
 msgstr ""
 
-#: includes/admin/class.license.php:269 includes/admin/class.license.php:330
+#: includes/admin/class.license.php:272 includes/admin/class.license.php:333
 msgid "License has expired."
 msgstr ""
 
-#: includes/admin/class.license.php:275 includes/admin/class.license.php:336
+#: includes/admin/class.license.php:278 includes/admin/class.license.php:339
 msgid "Renew license."
 msgstr ""
 
-#: includes/admin/class.license.php:284 includes/admin/class.license.php:360
+#: includes/admin/class.license.php:287 includes/admin/class.license.php:363
 msgid "License entered is not for this item."
 msgstr ""
 
-#: includes/admin/class.license.php:289
+#: includes/admin/class.license.php:292
 msgid "Invalid license."
 msgstr ""
 
-#: includes/admin/class.license.php:294
+#: includes/admin/class.license.php:297
 msgid "License has been revoked."
 msgstr ""
 
-#: includes/admin/class.license.php:299
+#: includes/admin/class.license.php:302
 msgid "License activation limit has been reached."
 msgstr ""
 
-#: includes/admin/class.license.php:304
+#: includes/admin/class.license.php:307
 msgid "License key mismatch."
 msgstr ""
 
-#: includes/admin/class.license.php:309
+#: includes/admin/class.license.php:312
 msgid "Bundle license keys can not be activated. Use item license key instead."
 msgstr ""
 
-#: includes/admin/class.license.php:314
+#: includes/admin/class.license.php:317
 msgid "An unknown error has occurred."
 msgstr ""
 
-#: includes/admin/class.license.php:325
+#: includes/admin/class.license.php:328
 msgid "License key invalid."
 msgstr ""
 
-#: includes/admin/class.license.php:345
+#: includes/admin/class.license.php:348
 msgid "License is not active."
 msgstr ""
 
-#: includes/admin/class.license.php:350
+#: includes/admin/class.license.php:353
 msgid "License has been disabled."
 msgstr ""
 
-#: includes/admin/class.license.php:355
+#: includes/admin/class.license.php:358
 msgid "License is not active on this site."
 msgstr ""
 
-#: includes/admin/class.license.php:369
+#: includes/admin/class.license.php:372
 msgid ""
 "License is valid and you are receiving updates. Your support license key "
 "will expire on %s."
 msgstr ""
 
-#: includes/admin/class.license.php:373
+#: includes/admin/class.license.php:376
 msgid "Lifetime license is valid and you are receiving updates."
 msgstr ""
 
-#: includes/admin/class.license.php:377
+#: includes/admin/class.license.php:380
 msgid "License is valid"
 msgstr ""
 
-#: includes/admin/class.license.php:384
+#: includes/admin/class.license.php:387
 msgid "License is deactivated."
 msgstr ""
 
-#: includes/admin/class.license.php:389
+#: includes/admin/class.license.php:392
 msgid "License validation failed."
 msgstr ""
 
-#: includes/admin/class.license.php:415
+#: includes/admin/class.license.php:418
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/class.license.php:424 includes/admin/pages/templates.php:350
+#: includes/admin/class.license.php:427 includes/admin/pages/templates.php:350
 msgid "Activate"
 msgstr ""
 
@@ -380,96 +380,96 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: includes/admin/class.message.php:121
+#: includes/admin/class.message.php:124
 msgid ""
 "You are not authorized to view the entry list. Please contact the admin if "
 "you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:123 includes/admin/pages/manage.php:94
+#: includes/admin/class.message.php:126 includes/admin/pages/manage.php:94
 #: includes/admin/pages/manage.php:172
 msgid ""
 "You are not authorized to add entries. Please contact the admin if you "
 "received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:124
+#: includes/admin/class.message.php:127
 msgid ""
 "You are not authorized to delete entries. Please contact the admin if you "
 "received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:125 includes/admin/pages/manage.php:249
-#: includes/shortcode/class.shortcode.php:493
+#: includes/admin/class.message.php:128 includes/admin/pages/manage.php:249
+#: includes/shortcode/class.shortcode.php:689
 msgid ""
 "You are not authorized to edit entries. Please contact the admin if you "
 "received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:126
+#: includes/admin/class.message.php:129
 msgid ""
 "You are not authorized to edit the categories. Please contact the admin if "
 "you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:127
+#: includes/admin/class.message.php:130
 msgid ""
 "You are not authorized to edit the settings. Please contact the admin if "
 "you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:128
+#: includes/admin/class.message.php:131
 msgid ""
 "You are not authorized to edit role capabilities. Please contact the admin "
 "if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:129
+#: includes/admin/class.message.php:132
 msgid ""
 "You are not authorized to manage logs. Please contact the admin if you "
 "received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:131
+#: includes/admin/class.message.php:134
 msgid "The category you are trying to create already exists."
 msgstr ""
 
-#: includes/admin/class.message.php:132
+#: includes/admin/class.message.php:135
 msgid "Category can not be a parent of itself."
 msgstr ""
 
-#: includes/admin/class.message.php:133
+#: includes/admin/class.message.php:136
 msgid "The default category can not be deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:134
+#: includes/admin/class.message.php:137
 msgid "Failed to add category."
 msgstr ""
 
-#: includes/admin/class.message.php:135
+#: includes/admin/class.message.php:138
 msgid "Failed to update category."
 msgstr ""
 
-#: includes/admin/class.message.php:136
+#: includes/admin/class.message.php:139
 msgid "Failed to delete category."
 msgstr ""
 
-#: includes/admin/class.message.php:138
+#: includes/admin/class.message.php:141
 msgid "Entry could not be added."
 msgstr ""
 
-#: includes/admin/class.message.php:139
+#: includes/admin/class.message.php:142
 msgid "Entry could not be updated."
 msgstr ""
 
-#: includes/admin/class.message.php:141
+#: includes/admin/class.message.php:144
 msgid ""
 "Your preferred setting for a address was overridden because another address "
 "that you are not permitted to view or edit is set as the preferred address. "
 "Please contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:142
+#: includes/admin/class.message.php:145
 msgid ""
 "Your preferred setting for a phone was overridden because another phone "
 "number that you are not permitted to view or edit is set as the preferred "
@@ -477,7 +477,7 @@ msgid ""
 "error."
 msgstr ""
 
-#: includes/admin/class.message.php:143
+#: includes/admin/class.message.php:146
 msgid ""
 "Your preferred setting for an email address was overridden because another "
 "email address that you are not permitted to view or edit is set as the "
@@ -485,14 +485,14 @@ msgid ""
 "message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:144
+#: includes/admin/class.message.php:147
 msgid ""
 "Your preferred setting for a IM Network was overridden because another IM "
 "Network that you are not permitted to view or edit is set as the preferred "
 "IM Network. Please contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:145
+#: includes/admin/class.message.php:148
 msgid ""
 "Your preferred setting for a social media network was overridden because "
 "another social media network that you are not permitted to view or edit is "
@@ -500,206 +500,206 @@ msgid ""
 "received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:146
+#: includes/admin/class.message.php:149
 msgid ""
 "Your preferred setting for a link was overridden because another link that "
 "you are not permitted to view or edit is set as the preferred link. Please "
 "contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:147
+#: includes/admin/class.message.php:150
 msgid ""
 "Your preferred setting for a date was overridden because another date that "
 "you are not permitted to view or edit is set as the preferred date. Please "
 "contact the admin if you received this message in error."
 msgstr ""
 
-#: includes/admin/class.message.php:149
+#: includes/admin/class.message.php:152
 msgid ""
 "The server does not have ImageMagick or GD installed and/or enabled. Either "
 "of these are required for WordPress to be able to resize images. Please "
 "contact your server administrator."
 msgstr ""
 
-#: includes/admin/class.message.php:150
+#: includes/admin/class.message.php:153
 msgid "Image upload failed."
 msgstr ""
 
-#: includes/admin/class.message.php:151
+#: includes/admin/class.message.php:154
 msgid "Uploaded image could not be saved to the destination folder."
 msgstr ""
 
-#: includes/admin/class.message.php:152
+#: includes/admin/class.message.php:155
 msgid "Profile image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: includes/admin/class.message.php:153
+#: includes/admin/class.message.php:156
 msgid "Entry image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: includes/admin/class.message.php:154
+#: includes/admin/class.message.php:157
 msgid "Thumbnail image could not be created and/or saved to the destination folder."
 msgstr ""
 
-#: includes/admin/class.message.php:156
+#: includes/admin/class.message.php:159
 msgid "The template installation has failed."
 msgstr ""
 
-#: includes/admin/class.message.php:157
+#: includes/admin/class.message.php:160
 msgid "The template could not be deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:159
+#: includes/admin/class.message.php:162
 msgid ""
 "The %s folder does not exist. <a class='button-primary' href='%s'>Read "
 "more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:160
+#: includes/admin/class.message.php:163
 msgid ""
 "The %s folder is not writable. <a class='button-primary' href='%s'>Read "
 "more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:162
+#: includes/admin/class.message.php:165
 msgid ""
 "The connections_templates folder does not exist. <a class='button-primary' "
 "href='%s'>Read more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:163
+#: includes/admin/class.message.php:166
 msgid ""
 "The connections_templates folder is not writable. <a class='button-primary' "
 "href='%s'>Read more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:165
+#: includes/admin/class.message.php:168
 msgid ""
 "The cache folder does not exist. <a class='button-primary' href='%s'>Read "
 "more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:166
+#: includes/admin/class.message.php:169
 msgid ""
 "The cache folder is not writable. <a class='button-primary' href='%s'>Read "
 "more.</a>"
 msgstr ""
 
-#: includes/admin/class.message.php:168
+#: includes/admin/class.message.php:171
 msgid ""
 "The Connections directory home page has not been set. Please set it now on "
 "the Connections : Settings page under the General tab."
 msgstr ""
 
-#: includes/admin/class.message.php:173
+#: includes/admin/class.message.php:176
 msgid "The entry has been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:174
+#: includes/admin/class.message.php:177
 msgid "Entry(ies) have been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:175
+#: includes/admin/class.message.php:178
 msgid "The entry status have been set to pending."
 msgstr ""
 
-#: includes/admin/class.message.php:176
+#: includes/admin/class.message.php:179
 msgid "Entry(ies) status have been set to pending."
 msgstr ""
 
-#: includes/admin/class.message.php:177
+#: includes/admin/class.message.php:180
 msgid "The entry has been approved."
 msgstr ""
 
-#: includes/admin/class.message.php:178
+#: includes/admin/class.message.php:181
 msgid "Entry(ies) have been approved."
 msgstr ""
 
-#: includes/admin/class.message.php:179
+#: includes/admin/class.message.php:182
 msgid "Entry(ies) visibility have been updated."
 msgstr ""
 
-#: includes/admin/class.message.php:181
+#: includes/admin/class.message.php:184
 msgid "Category(ies) have been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:182
+#: includes/admin/class.message.php:185
 msgid "Category has been updated."
 msgstr ""
 
-#: includes/admin/class.message.php:183
+#: includes/admin/class.message.php:186
 msgid "Category has been added."
 msgstr ""
 
-#: includes/admin/class.message.php:185
+#: includes/admin/class.message.php:188
 msgid "Entry has been added."
 msgstr ""
 
-#: includes/admin/class.message.php:186
+#: includes/admin/class.message.php:189
 msgid "Pending review entry will be added."
 msgstr ""
 
-#: includes/admin/class.message.php:187
+#: includes/admin/class.message.php:190
 msgid "Entry has been updated."
 msgstr ""
 
-#: includes/admin/class.message.php:188
+#: includes/admin/class.message.php:191
 msgid "Pending review entry will be updated."
 msgstr ""
 
-#: includes/admin/class.message.php:190
+#: includes/admin/class.message.php:193
 msgid "Uploaded image saved."
 msgstr ""
 
-#: includes/admin/class.message.php:191
+#: includes/admin/class.message.php:194
 msgid "Profile image created and saved."
 msgstr ""
 
-#: includes/admin/class.message.php:192
+#: includes/admin/class.message.php:195
 msgid "Entry image created and saved."
 msgstr ""
 
-#: includes/admin/class.message.php:193
+#: includes/admin/class.message.php:196
 msgid "Thumbnail image created and saved."
 msgstr ""
 
-#: includes/admin/class.message.php:195
+#: includes/admin/class.message.php:198
 msgid "Role capabilities have been updated."
 msgstr ""
 
-#: includes/admin/class.message.php:197
+#: includes/admin/class.message.php:200
 msgid "The default active template has been changed."
 msgstr ""
 
-#: includes/admin/class.message.php:198
+#: includes/admin/class.message.php:201
 msgid "A new template has been installed."
 msgstr ""
 
-#: includes/admin/class.message.php:199
+#: includes/admin/class.message.php:202
 msgid "The template has been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:201
+#: includes/admin/class.message.php:204
 msgid "The log has been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:202
+#: includes/admin/class.message.php:205
 msgid "The logs have been deleted."
 msgstr ""
 
-#: includes/admin/class.message.php:207
+#: includes/admin/class.message.php:210
 msgid "Connections database requires updating."
 msgstr ""
 
-#: includes/admin/class.message.php:207
+#: includes/admin/class.message.php:210
 msgid "START"
 msgstr ""
 
-#: includes/admin/class.message.php:277 includes/admin/class.message.php:319
+#: includes/admin/class.message.php:280 includes/admin/class.message.php:322
 msgid "ERROR"
 msgstr ""
 
-#: includes/admin/class.message.php:281 includes/admin/class.message.php:323
+#: includes/admin/class.message.php:284 includes/admin/class.message.php:326
 #: includes/inc.upgrade.php:97 includes/inc.upgrade.php:100
 #: includes/inc.upgrade.php:103 includes/inc.upgrade.php:106
 #: includes/inc.upgrade.php:109 includes/inc.upgrade.php:112
@@ -716,7 +716,7 @@ msgstr ""
 msgid "SUCCESS"
 msgstr ""
 
-#: includes/admin/class.message.php:285 includes/admin/class.message.php:327
+#: includes/admin/class.message.php:288 includes/admin/class.message.php:330
 msgid "NOTICE"
 msgstr ""
 
@@ -1439,19 +1439,19 @@ msgid ""
 "exporting the settings on another site using the form above."
 msgstr ""
 
-#: includes/class.metabox-api.php:1096
+#: includes/class.metabox-api.php:1152
 msgid "Clear"
 msgstr ""
 
-#: includes/class.metabox-api.php:1097
+#: includes/class.metabox-api.php:1153
 msgid "Default"
 msgstr ""
 
-#: includes/class.metabox-api.php:1098
+#: includes/class.metabox-api.php:1154
 msgid "Select Color"
 msgstr ""
 
-#: includes/class.metabox-api.php:1099
+#: includes/class.metabox-api.php:1155
 msgid "Current Color"
 msgstr ""
 
@@ -1886,44 +1886,44 @@ msgstr ""
 msgid "Term ID is shared between multiple taxonomies"
 msgstr ""
 
-#: includes/class.utility.php:1839 includes/class.utility.php:1974
+#: includes/class.utility.php:1839 includes/class.utility.php:1975
 #: includes/entry/class.entry-output.php:2621
 msgid "&hellip;"
 msgstr ""
 
-#: includes/class.utility.php:2184
+#: includes/class.utility.php:2185
 msgid "Unable to generate random string."
 msgstr ""
 
-#: includes/class.utility.php:2337
+#: includes/class.utility.php:2338
 msgid "Maximum stack depth exceeded."
 msgstr ""
 
-#: includes/class.utility.php:2341
+#: includes/class.utility.php:2342
 msgid "Underflow or the modes mismatch."
 msgstr ""
 
-#: includes/class.utility.php:2345
+#: includes/class.utility.php:2346
 msgid "Unexpected control character found."
 msgstr ""
 
-#: includes/class.utility.php:2349
+#: includes/class.utility.php:2350
 msgid "Syntax error, malformed JSON."
 msgstr ""
 
-#: includes/class.utility.php:2353
+#: includes/class.utility.php:2354
 msgid "Malformed UTF-8 characters, possibly incorrectly encoded."
 msgstr ""
 
-#: includes/class.utility.php:2357
+#: includes/class.utility.php:2358
 msgid "Unknown error."
 msgstr ""
 
-#: includes/class.utility.php:2578
+#: includes/class.utility.php:2579
 msgid "Invalid URL."
 msgstr ""
 
-#: includes/class.utility.php:2693
+#: includes/class.utility.php:2694
 msgid "No URL or width."
 msgstr ""
 
@@ -3668,23 +3668,23 @@ msgstr ""
 msgid "An error has occured while creating the thumbnail."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:388
+#: includes/shortcode/class.shortcode.php:584
 msgid "Future home of front end submissions."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:395
+#: includes/shortcode/class.shortcode.php:591
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:411
+#: includes/shortcode/class.shortcode.php:607
 msgid "Future home of the search page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:428
+#: includes/shortcode/class.shortcode.php:624
 msgid "Future home of the search results landing page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:484
+#: includes/shortcode/class.shortcode.php:680
 msgid ""
 "Your entry submission is currently under review, however, you can continue "
 "to make edits to your entry submission while your submission is under "
@@ -4268,17 +4268,17 @@ msgstr ""
 msgid "Border Radius"
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:189
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:196
 msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:197
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:204
 msgid ""
 "There is a new version of %1$s available. %2$sView version %3$s details%4$s "
 "or %5$supdate now%6$s."
 msgstr ""
 
-#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:351
+#: vendor/edd-sl/EDD_SL_Plugin_Updater.php:358
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 

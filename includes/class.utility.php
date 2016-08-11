@@ -1852,9 +1852,9 @@ class cnString {
 					'p',
 					'img',
 					'video',
-					'audio'
+					'audio',
 				)
-			)
+			),
 		);
 
 		$atts = wp_parse_args( $atts, $defaults );
@@ -1878,7 +1878,7 @@ class cnString {
 
 		} else {
 
-			$string  = strip_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$string  = wp_strip_all_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
 			$tokens  = array();
 			$excerpt = '';
 			$count   = 0;
@@ -1888,9 +1888,9 @@ class cnString {
 
 			foreach ( $tokens[0] as $token ) {
 
-				if ( $count >= $atts['length'] && preg_match( '/[\,\;\?\.\!]\s*$/uS', $token ) ) {
+				if ( $count >= $atts['length'] && preg_match( '/[\?\.\!]\s*$/uS', $token ) ) {
 
-					// Limit reached, continue until , ; ? . or ! occur at the end
+					// Limit reached, continue until ? . or ! occur at the end
 					$excerpt .= trim( $token );
 
 					// If the length limit was reached, append the more string.
@@ -1913,8 +1913,9 @@ class cnString {
 		$lastCloseTag = strrpos( $excerpt, '</' );
 		$lastSpace    = strrpos( $excerpt, ' ' );
 
-		// Determine if the string ends with and HTML tag or word.
-		if ( FALSE !== $lastCloseTag && ( FALSE !== $lastSpace && $lastCloseTag > $lastSpace ) ) {
+		// Determine if the string ends with a HTML tag or word.
+		if ( ( ! preg_match( '/[\s\?\.\!]$/', $excerpt ) ) &&
+		     ( FALSE !== $lastCloseTag && ( FALSE !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
 
 			// Inside last HTML tag
 			if ( $appendMore ) {

@@ -35,6 +35,12 @@ class cnShortcode {
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 		// remove_filter( 'the_content', 'wpautop' );
 
+		add_filter( 'content_save_pre',  array( __CLASS__, 'clean' ) );
+		//add_filter( 'the_content',  array( __CLASS__, 'clean' ), 5 ); // Run before cnShortcode::single()
+
+		add_filter( 'content_save_pre', array( __CLASS__, 'removeCodePreTags' ) );
+		add_filter( 'the_content', array( __CLASS__, 'removeCodePreTags' ), 5 ); // Run before cnShortcode::single()
+
 		// Run this early, before core WP filters.
 		add_filter( 'the_content', array( __CLASS__, 'single' ), 6 );
 	}
@@ -51,7 +57,7 @@ class cnShortcode {
 	 */
 	public static function register() {
 
-		if ( ! is_admin() ) {
+		//if ( ! is_admin() ) {
 
 			// Register the core shortcodes.
 			add_shortcode( 'connections', array( __CLASS__, 'view' ) );
@@ -61,7 +67,7 @@ class cnShortcode {
 
 			add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
 			add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
-		}
+		//}
 	}
 
 	/**
@@ -164,21 +170,183 @@ class cnShortcode {
 	/**
 	 * Programmatically write a shortcode.
 	 *
+	 * Rewrite bool strings (true|false) to (TRUE|FALSE) with quotes.
+	 * Rewrite is_numeric() with no quotes.
+	 * Check string to see if it has one or both single or double quotes and ensure to use the opposite when rewriting the value.
+	 *
 	 * @access public
 	 * @since  8.4.5
+	 * @since  8.5.21 Refactor to be more "smart" in writing the option values with/without quotes.
 	 * @static
 	 *
-	 * @param string $shortcode The shortcode tag.
-	 * @param array  $atts      An associative array where the key is the option name and the value is the option value.
+	 * @param string $tag  The shortcode tag.
+	 * @param array  $atts An associative array where the key is the option name and the value is the option value.
 	 *
 	 * @return string
 	 */
-	public static function write( $shortcode, $atts ) {
+	public static function write( $tag, $atts = array() ) {
 
-		// Rewrite the $atts array to prep it to be imploded.
-		array_walk( $atts, create_function( '&$i,$k','$i="$k=\"$i\"";' ) );
+		$options = '';
 
-		return '[' . $shortcode . ' ' . implode( ' ', $atts ) . ']';
+		if ( is_array( $atts) || ! empty( $atts ) ) {
+
+			foreach ( $atts as $key  => $value ) {
+
+				$options .= " $key=";
+
+				if ( 'TRUE' == strtoupper( $value ) ) {
+
+					$options .= "'TRUE'";
+
+				} elseif ( 'FALSE' == strtoupper( $value ) ) {
+
+					$options .= "'FALSE'";
+
+				} elseif ( is_numeric( $value ) ) {
+
+					$options .= $value;
+
+				} elseif ( FALSE === strpos( $value, '"' ) ) {
+
+					$options .= '"' . $value . '"';
+
+				} elseif ( FALSE === strpos( $value, '\'' ) ) {
+
+					$options .= '\'' . $value . '\'';
+
+				} else {
+
+					$options .= '\'' . $value . '\'';
+				}
+			}
+
+		}
+
+		return '[' . $tag . $options . ']';
+	}
+
+	/**
+	 * Callback for `content_save_pre` filter.
+	 * Callback for `the_content` filter.
+	 *
+	 * Users copy/paste shortcode examples from the website into the WP Visual editor.
+	 * When pasting the code/pre tags will also be pasted.
+	 * This filter should help those users by removing those tags when the post is saved and displayed.
+	 *
+	 * The `the_content` filter is used to apply this backwards on posts where the tags have already been saved.
+	 *
+	 * @access public
+	 * @since  8.5.21
+	 * @static
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public static function removeCodePreTags( $content ) {
+
+		$original = $content;
+
+		//$content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/isu', '$2', $content );
+		$content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/iu', '$2', $content );
+
+		/*
+		 * If the pre_replace errors for some reason, return the original content.
+		 */
+		if ( is_null( $content ) ) {
+
+			return $original;
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Callback for `content_save_pre` filter.
+	 *
+	 * Users copy/paste shortcode examples from the website into the WP Visual editor.
+	 * When pasting the fancy "smart" quotes will also be pasted.
+	 * This filter should help those users by removing those when the post is saved.
+	 *
+	 * @link http://stackoverflow.com/a/21491305/5351316
+	 *
+	 * @access public
+	 * @since  8.5.21
+	 * @static
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public static function clean( $content ) {
+
+		//error_log( 'CURRENT FILTER: ' . current_filter() );
+		//error_log( 'PRE-CONTENT: ' . $content );
+
+		/*
+		 * The $content is slashed in the `content_save_pre` filter, need to unslash it.
+		 */
+		$content = 'content_save_pre' == current_filter() ? wp_unslash( $content ) : $content;
+
+		$matches = cnShortcode::find( 'connections', $content, 'matches' );
+		//error_log( 'MATCHES: ' . json_encode( $matches, JSON_PRETTY_PRINT ) );
+
+		if ( $matches ) {
+
+			foreach ( $matches as $match ) {
+
+				//$atts = shortcode_parse_atts( $match[3] );
+				//error_log( 'PRE-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
+
+				$chr_map = array(
+					// Windows codepage 1252
+					"\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
+					"\xC2\x84" => '"', // U+0084⇒U+201E double low-9 quotation mark
+					"\xC2\x8B" => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
+					"\xC2\x91" => "'", // U+0091⇒U+2018 left single quotation mark
+					"\xC2\x92" => "'", // U+0092⇒U+2019 right single quotation mark
+					"\xC2\x93" => '"', // U+0093⇒U+201C left double quotation mark
+					"\xC2\x94" => '"', // U+0094⇒U+201D right double quotation mark
+					"\xC2\x9B" => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
+
+					// Regular Unicode     // U+0022 quotation mark (")
+					// U+0027 apostrophe     (')
+					"\xC2\xAB"     => '"', // U+00AB left-pointing double angle quotation mark
+					"\xC2\xBB"     => '"', // U+00BB right-pointing double angle quotation mark
+					"\xE2\x80\x98" => "'", // U+2018 left single quotation mark
+					"\xE2\x80\x99" => "'", // U+2019 right single quotation mark
+					"\xE2\x80\x9A" => "'", // U+201A single low-9 quotation mark
+					"\xE2\x80\x9B" => "'", // U+201B single high-reversed-9 quotation mark
+					"\xE2\x80\x9C" => '"', // U+201C left double quotation mark
+					"\xE2\x80\x9D" => '"', // U+201D right double quotation mark
+					"\xE2\x80\x9E" => '"', // U+201E double low-9 quotation mark
+					"\xE2\x80\x9F" => '"', // U+201F double high-reversed-9 quotation mark
+					"\xE2\x80\xB9" => "'", // U+2039 single left-pointing angle quotation mark
+					"\xE2\x80\xBA" => "'", // U+203A single right-pointing angle quotation mark
+				);
+
+				$chr = array_keys( $chr_map );   // but: for efficiency you should
+				$rpl = array_values( $chr_map ); // pre-calculate these two arrays
+
+				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, "UTF-8" ) );
+
+				$atts = shortcode_parse_atts( wp_unslash( $match[3] ) );
+				//error_log( 'POST-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
+
+				$shortcode = cnShortcode::write( 'connections', $atts );
+
+				$content = str_replace( $match[0], $shortcode, $content );
+			}
+
+		}
+
+		/*
+		 * The $content is slashed in the `content_save_pre` filter, need to slash it.
+		 */
+		$content = 'content_save_pre' == current_filter() ? wp_slash( $content ) : $content;
+		//error_log( 'POST-CONTENT: ' . $content . PHP_EOL );
+
+		return $content;
 	}
 
 	/**
@@ -193,51 +361,79 @@ class cnShortcode {
 	 *       defeating the purpose of this code -- to only display the first instance on the shortcode.
 	 *       Possible solution is to check for multiple matches and replace all but the initial match with an empty string.
 	 *
+	 * @access private
+	 * @since  unknown
+	 * @since  8.5.21 Refactor to remove theme specific exclusion by remove all but the initial shortcode in the content
+	 *                when viewing a single entry profile page.
+	 * @static
+	 *
 	 * @param string $content Post content.
 	 *
 	 * @return string
 	 */
 	public static function single( $content ) {
 
+		//error_log( 'PRE-SINGLE: ' . $content );
+
 		$slug    = cnQuery::getVar( 'cn-entry-slug' );
 		$matches = self::find( 'connections', $content, 'matches' );
-		//$x       = $content;
 
 		if ( $slug && $matches ) {
 
-			$atts = shortcode_parse_atts( $matches[0][3] );
+			//$atts = shortcode_parse_atts( $matches[0][3] );
 
-			$atts['slug'] = sanitize_title( $slug );
+			//$atts['slug'] = sanitize_title( $slug );
 
-			$shortcode = self::write( 'connections', $atts );
+			//$shortcode = self::write( 'connections', $atts );
+			//
+			//$theme  = wp_get_theme();
+			//$parent = $theme->parent();
+			//
+			//if ( FALSE === $parent ) {
+			//
+			//	$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+			//
+			//} elseif ( $parent instanceof WP_Theme ) {
+			//
+			//	$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+			//
+			//} else {
+			//
+			//	$replace = FALSE;
+			//}
+			//
+			//if ( $replace ) {
+			//
+			//	$content = str_replace( $matches[0][0], $shortcode, $content );
+			//
+			//} else {
+			//
+			//	$content = $shortcode;
+			//}
 
-			$theme  = wp_get_theme();
-			$parent = $theme->parent();
+			foreach ( $matches as $key => $match ) {
 
-			if ( FALSE === $parent ) {
+				// Remove all but the first shortcode from the post content.
+				if ( 0 < $key ) {
 
-				$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+					$content = str_replace( $match[0], '', $content );
 
-			} elseif ( $parent instanceof WP_Theme ) {
+				// Rewrite the shortcode, adding the entry slug to the shortcode.
+				} else {
 
-				$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+					$atts = shortcode_parse_atts( $match[3] );
 
-			} else {
+					$atts['slug'] = sanitize_title( $slug );
 
-				$replace = FALSE;
-			}
+					$shortcode = cnShortcode::write( 'connections', $atts );
 
-			if ( $replace ) {
-
-				$content = str_replace( $matches[0][0], $shortcode, $content );
-
-			} else {
-
-				$content = $shortcode;
+					$content = str_replace( $match[0], $shortcode, $content );
+				}
 			}
 		}
 
-		//return '<!-- [connections]' . print_r( $atts, true ) . ' $content: ' . $content . ' $old: ' . $x .' -->' . $content;
+		//error_log( 'POST-SINGLE: ' . $content );
+
 		return $content;
 	}
 

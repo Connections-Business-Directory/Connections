@@ -86,6 +86,8 @@ class cnShortcode_Connections extends cnShortcode {
 			'title'                 => NULL,
 			'organization'          => NULL,
 			'department'            => NULL,
+			'district'              => NULL,
+			'county'                => NULL,
 			'city'                  => NULL,
 			'state'                 => NULL,
 			'zip_code'              => NULL,

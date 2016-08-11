@@ -15,6 +15,41 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Callback for the `upload_size_limit` filter.
+ *
+ * Add to set WP core constants in case they do not exist.
+ *
+ * @link http://connections-pro.com/support/topic/images-wont-upload-maximum-upload-size/
+ *
+ * @access private
+ * @since  8.2.21
+ *
+ * @param  int $bytes
+ *
+ * @return int An integer byte value.
+ */
+function cn_upload_size_limit( $bytes ) {
+
+	if ( ! defined( 'KB_IN_BYTES' ) )
+		define( 'KB_IN_BYTES', 1024 );
+
+	if ( ! defined( 'MB_IN_BYTES' ) )
+		define( 'MB_IN_BYTES', 1024 * KB_IN_BYTES );
+
+	if ( ! defined( 'GB_IN_BYTES' ) )
+		define( 'GB_IN_BYTES', 1024 * MB_IN_BYTES );
+
+	if ( ! defined( 'TB_IN_BYTES' ) )
+		define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
+
+	$u_bytes = wp_convert_hr_to_bytes( ini_get( 'upload_max_filesize' ) );
+	$p_bytes = wp_convert_hr_to_bytes( ini_get( 'post_max_size' ) );
+
+	return 0 < $bytes ? $bytes : min( $u_bytes, $p_bytes );
+}
+add_filter( 'upload_size_limit', 'cn_upload_size_limit' );
+
+/**
  * Ensure WPSEO header items are not added to internal Connections pages.
  * @todo Should add Connections related header items to mimic WPSEO.
  *

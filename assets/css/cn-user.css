@@ -283,11 +283,15 @@ img.cn-image {
 /*
  * Anniversary/Birthday vEvent Styles
  */
-#cn-list div.vevent abbr {
+#cn-list .vevent abbr {
 	border: 0;
 	cursor: default;
 	text-transform: none;
 	letter-spacing: normal;
+}
+
+#cn-list abbr.dtstart {
+	text-decoration: none;
 }
 
 #cn-list span.vevent {
@@ -296,13 +300,6 @@ img.cn-image {
 
 span.date-name {
 	font-weight: bold;
-}
-
-.vevent abbr {
-	border: 0;
-	cursor: default;
-	text-transform: none;
-	letter-spacing: normal;
 }
 
 /*

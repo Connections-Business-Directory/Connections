@@ -356,6 +356,62 @@ class cnMetaboxAPI {
 		return FALSE;
 	}
 
+	/**
+	 * @access public
+	 * @since  8.5.21
+	 * @static
+	 *
+	 * @param string $id
+	 *
+	 * @return bool|string
+	 */
+	public static function getFieldType( $id ) {
+
+		$type = FALSE;
+
+		if ( is_string( $id ) && strlen( $id ) > 0 ) {
+
+			// Grab the registered metaboxes from the options table.
+			// $metaboxes = get_option( 'connections_metaboxes', array() );
+			$metaboxes = cnMetaboxAPI::get();
+
+			// Loop thru all fields registered as part of a metabox.
+			foreach ( $metaboxes as $metabox ) {
+
+				if ( isset( $metabox['fields'] ) ) {
+
+					foreach ( $metabox['fields'] as $field ) {
+
+						if ( $field['id'] == $id ) {
+
+							// Field found... exit loop.
+							$type = $field['type'];
+							continue;
+						}
+					}
+				}
+
+				if ( isset( $metabox['sections'] ) ) {
+
+					foreach ( $metabox['sections'] as $section ) {
+
+						foreach ( $section['fields'] as $field ) {
+
+							if ( $field['id'] == $id ) {
+
+								// Field found... exit the loops.
+								$type = $field['type'];
+								continue(2);
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		return $type;
+	}
 }
 
 /**
@@ -436,7 +492,7 @@ class cnMetabox_Render {
 	private static $quickTagIDs = array();
 
 	/**
-	 * The array of all registerd slider settings.
+	 * The array of all registered slider settings.
 	 *
 	 * @access private
 	 * @since 0.8

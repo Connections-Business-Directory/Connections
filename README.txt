@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.2
 Tested up to: 4.5
-Stable tag: 8.5.20
+Stable tag: 8.5.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,35 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 == Changelog ==
+
+= 8.5.21 08/11/2016 =
+* NEW: Add support for the district and county filters as shortcode options.
+* NEW: Introduce cnMetaboxAPI::getFieldType().
+* NEW: Introduce `cnShortcode::removeCodePreTags()`.
+* NEW: Introduce `cnShortcode::clean()`.
+* COMPATIBILITY: Add `upload_size_limit` filter to define the core WP constants for KB/MB/GB/TB_IN_BYTES if not set for some reason so the ` wp_max_upload_size()` does not return `0`.
+* TWEAK: Add trailing comma in allowed tags in cnString::excerpt().
+* TWEAK: Use `wp_trip_all_tags()` instead of `strip_tags()` in cnString::excerpt().
+* TWEAK: Change end of sentence characters in cnString::excerpt() from `,;?.!` to `?,!`.
+* TWEAK: Add the default option, if set, to the term select drop regardless if "enhanced" is set and true.
+* TWEAK: Refactor cnMessage::store() to be more robust in order to prevent fatal string to array PHP errors.
+* TWEAK: Refactor `cnShortcode::write()`  to be more "smart" in writing the option values with/without quotes.
+* TWEAK: Add filters to `conten_save_pre` and `the_content` to remove `code` and `pre` tags from around the `[connections]` shortcode.
+* TWEAK: Add filter to `conten_save_pre` to remove fancy/smart quotes from within the `[connections]` shortcode and its options.
+* TWEAK: Refactor to remove theme specific exclusion by remove all but the initial shortcode in the content when viewing a single entry profile page.
+* TWEAK: Remove allow the shortcodes to be registered in the admin again so the clean up filter can be ran against the `[connections]` shortcode.
+* TWEAK: Update CSS to ensure dotted line does not display under the abbr tag.
+* BUG: Remove use of unused variable.
+* BUG: Ensure the read more string is added at end of excerpt. In some cases it would be inserted between a closing HTML tag and end of sentence character.
+* OTHER: Spelling corrections.
+* OTHER: Correct URL to Google Get Browser Key for Google Maps API.
+* OTHER: Update EDD-SL Plugin Updater to 1.6.5.
+* OTHER: Add @todo to cnMessage class.
+* OTHER: Update minified CSS files.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phpDoc fixes.
+* DEV: Code formatting fixes.
 
 = 8.5.20 07/15/2016 =
 * NEW: Introduce the `cn_csv_export_fields_config` filter.
@@ -775,4 +804,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.20 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+= 8.5.21 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.

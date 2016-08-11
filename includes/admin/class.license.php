@@ -29,13 +29,12 @@ class cnLicense {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  string $file      The main plugin file used for EDD SL Updater.
-	 * @param  string $name      The plugin name exactly as in the store.
-	 * @param  string $version   The current plugin version; not, the latest version.
-	 * @param  string $author    The plugin author.
-	 * @param  string $updateURL The EDD SL API Updater URL.
 	 *
-	 * @return void
+	 * @param string $file      The main plugin file used for EDD SL Updater.
+	 * @param string $name      The plugin name exactly as in the store.
+	 * @param string $version   The current plugin version; not, the latest version.
+	 * @param string $author    The plugin author.
+	 * @param string $updateURL The EDD SL API Updater URL.
 	 */
 	public function __construct( $file, $name, $version, $author, $updateURL = NULL ) {
 
@@ -138,7 +137,7 @@ class cnLicense {
 	}
 
 	/**
-	 * Resiters the Lecenses settings tab and section.
+	 * Reciters the Licenses settings tab and section.
 	 * This function in ran only once and is called by the
 	 * `cn_register_licenses_tab` action hook in $this->hooks()
 	 *
@@ -163,7 +162,9 @@ class cnLicense {
 	 * @since  0.8
 	 * @static
 	 *
-	 * @return array   The settings tabs options array.
+	 * @param array $tabs
+	 *
+	 * @return array The settings tabs options array.
 	 */
 	public static function registerSettingsTab( $tabs ) {
 
@@ -207,9 +208,11 @@ class cnLicense {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  array   $settings
 	 *
-	 * @return array   The field settings array.
+	 * @param $fields
+	 *
+	 * @return array The field settings array.
+	 * @internal param array $settings
 	 */
 	public function registerSettingsFields( $fields ) {
 
@@ -434,7 +437,7 @@ class cnLicense {
 	}
 
 	/**
-	 * Get the license current status. This staus will be refreshed once per day.
+	 * Get the license current status. This status will be refreshed once per day.
 	 *
 	 * @access public
 	 * @since  0.8
@@ -609,7 +612,7 @@ class cnLicense {
 		if ( isset( $_POST[ $this->slug . '-deactivate_license' ] ) ) {
 
 			// Retrieve license keys and data.
-			$keys = get_option( 'connections_licenses' );
+			//$keys = get_option( 'connections_licenses' );
 			$data = get_option( 'connections_license_data' );
 
 			// If the status is already `deactivated`, no need to attempt to deactivate the key again; bail.
@@ -711,7 +714,7 @@ class cnLicense {
 				// EDD SL reports either 'deactivated' or 'failed' as the license status.
 				// Unlike when activating a license, EDD does not report and error and its message.
 				// So...
-				// We'll do a status check, set 'succes' as false and set the message to the license
+				// We'll do a status check, set 'success' as false and set the message to the license
 				// status returned by doing a license check.
 				if ( $data->license == 'failed' ) {
 

@@ -1914,7 +1914,7 @@ class cnString {
 		$lastSpace    = strrpos( $excerpt, ' ' );
 
 		// Determine if the string ends with a HTML tag or word.
-		if ( ( ! preg_match('/[\s\?\.\!]$/', $excerpt ) ) &&
+		if ( ( ! preg_match( '/[\s\?\.\!]$/', $excerpt ) ) &&
 		     ( FALSE !== $lastCloseTag && ( FALSE !== $lastSpace && $lastCloseTag > $lastSpace ) ) ) {
 
 			// Inside last HTML tag

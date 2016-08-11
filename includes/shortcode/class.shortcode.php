@@ -295,7 +295,7 @@ class cnShortcode {
 
 			foreach ( $matches as $match ) {
 
-				$atts = shortcode_parse_atts( $match[3] );
+				//$atts = shortcode_parse_atts( $match[3] );
 				//error_log( 'PRE-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
 
 				$chr_map = array(

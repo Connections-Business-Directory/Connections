@@ -15,6 +15,9 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
+ * @todo Incorporate Persist Admin notice Dismissals
+ * @link https://github.com/collizo4sky/persist-admin-notices-dismissal
+ *
  * Class cnMessage
  */
 class cnMessage extends WP_Error {

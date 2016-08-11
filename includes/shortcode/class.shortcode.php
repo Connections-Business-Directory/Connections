@@ -254,6 +254,93 @@ class cnShortcode {
 
 		return $content;
 	}
+
+	/**
+	 * Callback for `content_save_pre` filter.
+	 *
+	 * Users copy/paste shortcode examples from the website into the WP Visual editor.
+	 * When pasting the fancy "smart" quotes will also be pasted.
+	 * This filter should help those users by removing those when the post is saved.
+	 *
+	 * @link http://stackoverflow.com/a/21491305/5351316
+	 *
+	 * @access public
+	 * @since  8.5.21
+	 * @static
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public static function clean( $content ) {
+
+		//error_log( 'CURRENT FILTER: ' . current_filter() );
+		//error_log( 'PRE-CONTENT: ' . $content );
+
+		/*
+		 * The $content is slashed in the `content_save_pre` filter, need to unslash it.
+		 */
+		$content = 'content_save_pre' == current_filter() ? wp_unslash( $content ) : $content;
+
+		$matches = cnShortcode::find( 'connections', $content, 'matches' );
+		//error_log( 'MATCHES: ' . json_encode( $matches, JSON_PRETTY_PRINT ) );
+
+		if ( $matches ) {
+
+			foreach ( $matches as $match ) {
+
+				$atts = shortcode_parse_atts( $match[3] );
+				//error_log( 'PRE-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
+
+				$chr_map = array(
+					// Windows codepage 1252
+					"\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
+					"\xC2\x84" => '"', // U+0084⇒U+201E double low-9 quotation mark
+					"\xC2\x8B" => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
+					"\xC2\x91" => "'", // U+0091⇒U+2018 left single quotation mark
+					"\xC2\x92" => "'", // U+0092⇒U+2019 right single quotation mark
+					"\xC2\x93" => '"', // U+0093⇒U+201C left double quotation mark
+					"\xC2\x94" => '"', // U+0094⇒U+201D right double quotation mark
+					"\xC2\x9B" => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
+
+					// Regular Unicode     // U+0022 quotation mark (")
+					// U+0027 apostrophe     (')
+					"\xC2\xAB"     => '"', // U+00AB left-pointing double angle quotation mark
+					"\xC2\xBB"     => '"', // U+00BB right-pointing double angle quotation mark
+					"\xE2\x80\x98" => "'", // U+2018 left single quotation mark
+					"\xE2\x80\x99" => "'", // U+2019 right single quotation mark
+					"\xE2\x80\x9A" => "'", // U+201A single low-9 quotation mark
+					"\xE2\x80\x9B" => "'", // U+201B single high-reversed-9 quotation mark
+					"\xE2\x80\x9C" => '"', // U+201C left double quotation mark
+					"\xE2\x80\x9D" => '"', // U+201D right double quotation mark
+					"\xE2\x80\x9E" => '"', // U+201E double low-9 quotation mark
+					"\xE2\x80\x9F" => '"', // U+201F double high-reversed-9 quotation mark
+					"\xE2\x80\xB9" => "'", // U+2039 single left-pointing angle quotation mark
+					"\xE2\x80\xBA" => "'", // U+203A single right-pointing angle quotation mark
+				);
+
+				$chr = array_keys( $chr_map );   // but: for efficiency you should
+				$rpl = array_values( $chr_map ); // pre-calculate these two arrays
+
+				$match[3] = str_replace( $chr, $rpl, html_entity_decode( $match[3], ENT_QUOTES, "UTF-8" ) );
+
+				$atts = shortcode_parse_atts( wp_unslash( $match[3] ) );
+				//error_log( 'POST-PARSE: ' . json_encode( $atts, JSON_PRETTY_PRINT ) );
+
+				$shortcode = cnShortcode::write( 'connections', $atts );
+
+				$content = str_replace( $match[0], $shortcode, $content );
+			}
+
+		}
+
+		/*
+		 * The $content is slashed in the `content_save_pre` filter, need to slash it.
+		 */
+		$content = 'content_save_pre' == current_filter() ? wp_slash( $content ) : $content;
+		//error_log( 'POST-CONTENT: ' . $content . PHP_EOL );
+
+		return $content;
 	}
 
 	/**

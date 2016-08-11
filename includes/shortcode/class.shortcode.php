@@ -35,6 +35,9 @@ class cnShortcode {
 		// add_filter( 'the_posts', array( __CLASS__, 'parse' ), 10, 2 );
 		// remove_filter( 'the_content', 'wpautop' );
 
+		add_filter( 'content_save_pre', array( __CLASS__, 'removeCodePreTags' ) );
+		add_filter( 'the_content', array( __CLASS__, 'removeCodePreTags' ), 5 ); // Run before cnShortcode::single()
+
 		// Run this early, before core WP filters.
 		add_filter( 'the_content', array( __CLASS__, 'single' ), 6 );
 	}

@@ -164,8 +164,60 @@ class cnShortcode {
 	/**
 	 * Programmatically write a shortcode.
 	 *
+	 * Rewrite bool strings (true|false) to (TRUE|FALSE) with quotes.
+	 * Rewrite is_numeric() with no quotes.
+	 * Check string to see if it has one or both single or double quotes and ensure to use the opposite when rewriting the value.
+	 *
 	 * @access public
 	 * @since  8.4.5
+	 * @since  8.5.21 Refactor to be more "smart" in writing the option values with/without quotes.
+	 * @static
+	 *
+	 * @param string $tag  The shortcode tag.
+	 * @param array  $atts An associative array where the key is the option name and the value is the option value.
+	 *
+	 * @return string
+	 */
+	public static function write( $tag, $atts = array() ) {
+
+		$options = '';
+
+		if ( is_array( $atts) || ! empty( $atts ) ) {
+
+			foreach ( $atts as $key  => $value ) {
+
+				$options .= " $key=";
+
+				if ( 'TRUE' == strtoupper( $value ) ) {
+
+					$options .= "'TRUE'";
+
+				} elseif ( 'FALSE' == strtoupper( $value ) ) {
+
+					$options .= "'FALSE'";
+
+				} elseif ( is_numeric( $value ) ) {
+
+					$options .= $value;
+
+				} elseif ( FALSE === strpos( $value, '"' ) ) {
+
+					$options .= '"' . $value . '"';
+
+				} elseif ( FALSE === strpos( $value, '\'' ) ) {
+
+					$options .= '\'' . $value . '\'';
+
+				} else {
+
+					$options .= '\'' . $value . '\'';
+				}
+			}
+
+		}
+
+		return '[' . $tag . $options . ']';
+	}
 	 * @static
 	 *
 	 * @param string $shortcode The shortcode tag.

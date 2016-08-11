@@ -57,7 +57,7 @@ class cnShortcode {
 	 */
 	public static function register() {
 
-		if ( ! is_admin() ) {
+		//if ( ! is_admin() ) {
 
 			// Register the core shortcodes.
 			add_shortcode( 'connections', array( __CLASS__, 'view' ) );
@@ -67,7 +67,7 @@ class cnShortcode {
 
 			add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
 			add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
-		}
+		//}
 	}
 
 	/**

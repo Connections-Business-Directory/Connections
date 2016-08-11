@@ -218,19 +218,42 @@ class cnShortcode {
 
 		return '[' . $tag . $options . ']';
 	}
+
+	/**
+	 * Callback for `content_save_pre` filter.
+	 * Callback for `the_content` filter.
+	 *
+	 * Users copy/paste shortcode examples from the website into the WP Visual editor.
+	 * When pasting the code/pre tags will also be pasted.
+	 * This filter should help those users by removing those tags when the post is saved and displayed.
+	 *
+	 * The `the_content` filter is used to apply this backwards on posts where the tags have already been saved.
+	 *
+	 * @access public
+	 * @since  8.5.21
 	 * @static
 	 *
-	 * @param string $shortcode The shortcode tag.
-	 * @param array  $atts      An associative array where the key is the option name and the value is the option value.
+	 * @param string $content
 	 *
 	 * @return string
 	 */
-	public static function write( $shortcode, $atts ) {
+	public static function removeCodePreTags( $content ) {
 
-		// Rewrite the $atts array to prep it to be imploded.
-		array_walk( $atts, create_function( '&$i,$k','$i="$k=\"$i\"";' ) );
+		$original = $content;
 
-		return '[' . $shortcode . ' ' . implode( ' ', $atts ) . ']';
+		//$content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/isu', '$2', $content );
+		$content = preg_replace( '/<(pre|code)(?:.*)>\s*(\[connections(?:.*)\])\s*<\/\1>/iu', '$2', $content );
+
+		/*
+		 * If the pre_replace errors for some reason, return the original content.
+		 */
+		if ( is_null( $content ) ) {
+
+			return $original;
+		}
+
+		return $content;
+	}
 	}
 
 	/**

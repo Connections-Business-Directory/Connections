@@ -361,51 +361,79 @@ class cnShortcode {
 	 *       defeating the purpose of this code -- to only display the first instance on the shortcode.
 	 *       Possible solution is to check for multiple matches and replace all but the initial match with an empty string.
 	 *
+	 * @access private
+	 * @since  unknown
+	 * @since  8.5.21 Refactor to remove theme specific exclusion by remove all but the initial shortcode in the content
+	 *                when viewing a single entry profile page.
+	 * @static
+	 *
 	 * @param string $content Post content.
 	 *
 	 * @return string
 	 */
 	public static function single( $content ) {
 
+		//error_log( 'PRE-SINGLE: ' . $content );
+
 		$slug    = cnQuery::getVar( 'cn-entry-slug' );
 		$matches = self::find( 'connections', $content, 'matches' );
-		//$x       = $content;
 
 		if ( $slug && $matches ) {
 
-			$atts = shortcode_parse_atts( $matches[0][3] );
+			//$atts = shortcode_parse_atts( $matches[0][3] );
 
-			$atts['slug'] = sanitize_title( $slug );
+			//$atts['slug'] = sanitize_title( $slug );
 
-			$shortcode = self::write( 'connections', $atts );
+			//$shortcode = self::write( 'connections', $atts );
+			//
+			//$theme  = wp_get_theme();
+			//$parent = $theme->parent();
+			//
+			//if ( FALSE === $parent ) {
+			//
+			//	$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+			//
+			//} elseif ( $parent instanceof WP_Theme ) {
+			//
+			//	$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+			//
+			//} else {
+			//
+			//	$replace = FALSE;
+			//}
+			//
+			//if ( $replace ) {
+			//
+			//	$content = str_replace( $matches[0][0], $shortcode, $content );
+			//
+			//} else {
+			//
+			//	$content = $shortcode;
+			//}
 
-			$theme  = wp_get_theme();
-			$parent = $theme->parent();
+			foreach ( $matches as $key => $match ) {
 
-			if ( FALSE === $parent ) {
+				// Remove all but the first shortcode from the post content.
+				if ( 0 < $key ) {
 
-				$replace = in_array( $theme->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+					$content = str_replace( $match[0], '', $content );
 
-			} elseif ( $parent instanceof WP_Theme ) {
+				// Rewrite the shortcode, adding the entry slug to the shortcode.
+				} else {
 
-				$replace = in_array( $parent->get( 'Name' ), array( 'Divi', 'Enfold', 'Kleo' ), TRUE ) ? TRUE : FALSE;
+					$atts = shortcode_parse_atts( $match[3] );
 
-			} else {
+					$atts['slug'] = sanitize_title( $slug );
 
-				$replace = FALSE;
-			}
+					$shortcode = cnShortcode::write( 'connections', $atts );
 
-			if ( $replace ) {
-
-				$content = str_replace( $matches[0][0], $shortcode, $content );
-
-			} else {
-
-				$content = $shortcode;
+					$content = str_replace( $match[0], $shortcode, $content );
+				}
 			}
 		}
 
-		//return '<!-- [connections]' . print_r( $atts, true ) . ' $content: ' . $content . ' $old: ' . $x .' -->' . $content;
+		//error_log( 'POST-SINGLE: ' . $content );
+
 		return $content;
 	}
 

@@ -229,6 +229,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.22 08/15/2016 =
+* NEW: Introduce `cnString::stripTags()`.
+* BUG: Correct logic in cnOutput::excerpt() would would prevent the display of a excerpt.
+* TWEAK: Use `cnString::stripTags()` instead of `wp_strip_all_tags()` when creating the excerpt.
+* TWEAK: Allow `span` tags within an excerpt.
+
 = 8.5.21 08/11/2016 =
 * NEW: Add support for the district and county filters as shortcode options.
 * NEW: Introduce cnMetaboxAPI::getFieldType().
@@ -807,4 +813,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.21 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+= 8.5.22 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.

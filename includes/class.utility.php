@@ -1951,11 +1951,11 @@ class cnString {
 	 *
 	 * @param string $string        String containing HTML tags
 	 * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
-	 * @param array  $allowed_tags
+	 * @param string  $allowed_tags Optional. String of tags which will not be stripped.
 	 *
 	 * @return string The processed string.
 	 */
-	public static function stripTags( $string, $remove_breaks = FALSE, $allowed_tags = array() ) {
+	public static function stripTags( $string, $remove_breaks = FALSE, $allowed_tags = '' ) {
 
 		$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
 		$string = strip_tags( $string, $allowed_tags );

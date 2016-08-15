@@ -1841,6 +1841,7 @@ class cnString {
 				'cn_excerpt_allowed_tags',
 				array(
 					'style',
+					'span',
 					'br',
 					'em',
 					'strong',
@@ -1878,7 +1879,7 @@ class cnString {
 
 		} else {
 
-			$string  = wp_strip_all_tags( $string, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
+			$string  = self::stripTags( $string, FALSE, '<' . implode( '><', $atts['allowed_tags'] ) . '>' );
 			$tokens  = array();
 			$excerpt = '';
 			$count   = 0;
@@ -1931,6 +1932,40 @@ class cnString {
 		}
 
 		return apply_filters( 'cn_excerpt', $excerpt, $raw, $atts );
+	}
+
+	/**
+	 * Properly strip all HTML tags including script and style.
+	 *
+	 * This differs from strip_tags() because it removes the contents of
+	 * the `<script>` and `<style>` tags. E.g. `strip_tags( '<script>something</script>' )`
+	 * will return 'something'. wp_strip_all_tags will return ''
+	 *
+	 * NOTE: This is the Connections equivalent of @see wp_strip_all_tags() in WordPress core ../wp-includes/formatting.php
+	 *
+	 * This differs from @see wp_strip_all_tags() in that is adds the `$allowed_tags` param to be passed to `strip_tags()`.
+	 *
+	 * @access public
+	 * @since  8.5.22
+	 * @static
+	 *
+	 * @param string $string        String containing HTML tags
+	 * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
+	 * @param string  $allowed_tags Optional. String of tags which will not be stripped.
+	 *
+	 * @return string The processed string.
+	 */
+	public static function stripTags( $string, $remove_breaks = FALSE, $allowed_tags = '' ) {
+
+		$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+		$string = strip_tags( $string, $allowed_tags );
+
+		if ( $remove_breaks ) {
+
+			$string = preg_replace( '/[\r\n\t ]+/', ' ', $string );
+		}
+
+		return trim( $string );
 	}
 
 	/**

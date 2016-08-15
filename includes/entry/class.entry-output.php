@@ -2632,7 +2632,7 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_excerpt', $defaults )
 		);
 
-		$text = 0 < strlen( $text ) ? $this->getBio() : $text;
+		$text = 0 < strlen( $text ) ? $text : $this->getBio();
 
 		/**
 		 * Apply the default filters.

@@ -3,7 +3,7 @@
 **Tags:** address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory  
 **Requires at least:** 4.2  
 **Tested up to:** 4.5  
-**Stable tag:** 8.5.20  
+**Stable tag:** 8.5.22  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -247,6 +247,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 ## Changelog ##
+
+### 8.5.22 08/15/2016 ###
+* NEW: Introduce `cnString::stripTags()`.
+* BUG: Correct logic in cnOutput::excerpt() would would prevent the display of a excerpt.
+* TWEAK: Use `cnString::stripTags()` instead of `wp_strip_all_tags()` when creating the excerpt.
+* TWEAK: Allow `span` tags within an excerpt.
 
 ### 8.5.21 08/11/2016 ###
 * NEW: Add support for the district and county filters as shortcode options.
@@ -826,4 +832,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 ### 8.5.21 ###
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+### 8.5.22 ###
 It is recommended to backup before updating. Requires WordPress >= 4.2.

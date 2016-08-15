@@ -1841,6 +1841,7 @@ class cnString {
 				'cn_excerpt_allowed_tags',
 				array(
 					'style',
+					'span',
 					'br',
 					'em',
 					'strong',

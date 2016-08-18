@@ -289,6 +289,20 @@ class CN_Walker_Term_List extends Walker {
 
 		$class = array( 'cat-item', 'cat-item-' . $term->term_id, 'cn-cat-parent' );
 
+		$termChildren = cnTerm::getTaxonomyTerms(
+			$term->taxonomy,
+			array(
+				'parent'     => $term->term_id,
+				'hide_empty' => FALSE,
+				'fields'     => 'count',
+				)
+		);
+
+		if ( ! empty( $termChildren ) ) {
+
+			$class[] = 'cn-cat-has-children';
+		}
+
 		if ( ! empty( $args['current_category'] ) ) {
 
 			if ( is_numeric( $args['current_category'] ) ) {

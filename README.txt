@@ -229,6 +229,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.23 08/26/2016 =
+* TWEAK: Add the `cn-cat-has-children` class if a category has children in the term list.
+* TWEAK: Remove any empty items that might exist as the result of the `cn_entry_output_category_item` filter being hooked into.
+* TWEAK: Refactor `cnAdminFunction::managePageLimitSave()` to be more robust in order to prevent fatal string to array PHP errors.
+* BUG: Correct the display of the keyword search term result message by removing the duplicate term display.
+* BUG: Skipped escaped shortcodes in `cnShortcode::find()` to prevent the escaped Connections shortcode from being "cleaned" and unescaping it.
+* I18N: Update POT file.
+* I18N: Update MO files.
+
 = 8.5.22 08/15/2016 =
 * NEW: Introduce `cnString::stripTags()`.
 * BUG: Correct logic in cnOutput::excerpt() would would prevent the display of a excerpt.
@@ -816,4 +825,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.22 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+= 8.5.23 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.

@@ -2799,6 +2799,13 @@ class cnOutput extends cnEntry {
 			$i++; // Increment here so the correct value is passed to the filter.
 		}
 
+		/*
+		 * Remove NULL, FALSE and empty strings (""), but leave values of 0 (zero).
+		 * Filter our these in case someone hooks into the `cn_entry_output_category_item` filter and removes a category
+		 * by returning an empty value.
+		 */
+		$items = array_filter( $items, 'strlen' );
+
 		if ( 'list' == $atts['type'] ) {
 
 			$html .= sprintf(

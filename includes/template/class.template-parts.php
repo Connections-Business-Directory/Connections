@@ -1151,6 +1151,7 @@ class cnTemplatePart {
 				$originalString = array( $queryVars['cn-s'] );
 				$queryVars['cn-s'] = cnFunction::parseStringList( $queryVars['cn-s'], '\s' );
 				$queryVars['cn-s'] = array_merge( $originalString, $queryVars['cn-s'] );
+				$queryVars['cn-s'] = array_unique( $queryVars['cn-s'] );
 			}
 
 			// Trim any white space from around the terms in the array.

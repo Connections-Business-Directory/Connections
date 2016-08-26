@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.5.20\n"
+"Project-Id-Version: Connections 8.5.23\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2016-08-11 20:07:32+00:00\n"
+"POT-Creation-Date: 2016-08-26 19:15:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -261,7 +261,7 @@ msgstr ""
 msgid "Entries"
 msgstr ""
 
-#: includes/admin/class.functions.php:424
+#: includes/admin/class.functions.php:455
 msgid ""
 "Thank you for using <a href=\"%1$s\" target=\"_blank\">Connections Business "
 "Directory</a>! Please <a href=\"%2$s\" target=\"_blank\">rate us</a> on <a "
@@ -400,7 +400,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class.message.php:128 includes/admin/pages/manage.php:249
-#: includes/shortcode/class.shortcode.php:689
+#: includes/shortcode/class.shortcode.php:696
 msgid ""
 "You are not authorized to edit entries. Please contact the admin if you "
 "received this message in error."
@@ -903,7 +903,7 @@ msgid "Search Entries"
 msgstr ""
 
 #: includes/admin/pages/manage.php:338
-#: includes/template/class.template-parts.php:2184
+#: includes/template/class.template-parts.php:2185
 msgid "Show All Categories"
 msgstr ""
 
@@ -1886,44 +1886,44 @@ msgstr ""
 msgid "Term ID is shared between multiple taxonomies"
 msgstr ""
 
-#: includes/class.utility.php:1839 includes/class.utility.php:1975
+#: includes/class.utility.php:1839 includes/class.utility.php:2010
 #: includes/entry/class.entry-output.php:2621
 msgid "&hellip;"
 msgstr ""
 
-#: includes/class.utility.php:2185
+#: includes/class.utility.php:2220
 msgid "Unable to generate random string."
 msgstr ""
 
-#: includes/class.utility.php:2338
+#: includes/class.utility.php:2373
 msgid "Maximum stack depth exceeded."
 msgstr ""
 
-#: includes/class.utility.php:2342
+#: includes/class.utility.php:2377
 msgid "Underflow or the modes mismatch."
 msgstr ""
 
-#: includes/class.utility.php:2346
+#: includes/class.utility.php:2381
 msgid "Unexpected control character found."
 msgstr ""
 
-#: includes/class.utility.php:2350
+#: includes/class.utility.php:2385
 msgid "Syntax error, malformed JSON."
 msgstr ""
 
-#: includes/class.utility.php:2354
+#: includes/class.utility.php:2389
 msgid "Malformed UTF-8 characters, possibly incorrectly encoded."
 msgstr ""
 
-#: includes/class.utility.php:2358
+#: includes/class.utility.php:2393
 msgid "Unknown error."
 msgstr ""
 
-#: includes/class.utility.php:2579
+#: includes/class.utility.php:2614
 msgid "Invalid URL."
 msgstr ""
 
-#: includes/class.utility.php:2694
+#: includes/class.utility.php:2729
 msgid "No URL or width."
 msgstr ""
 
@@ -1953,11 +1953,11 @@ msgstr ""
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:3321
+#: includes/entry/class.entry-output.php:3328
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:3322
+#: includes/entry/class.entry-output.php:3329
 msgid "Download vCard"
 msgstr ""
 
@@ -2497,7 +2497,7 @@ msgstr ""
 
 #: includes/log/class.log-email.php:202 includes/settings/class.settings.php:58
 #: includes/template/class.template-customizer.php:455
-#: includes/template/class.template-parts.php:1618
+#: includes/template/class.template-parts.php:1619
 msgid "Search"
 msgstr ""
 
@@ -2805,8 +2805,8 @@ msgstr ""
 
 #: includes/settings/class.options.php:405
 #: includes/settings/class.settings.php:98
-#: includes/template/class.template-parts.php:2042
 #: includes/template/class.template-parts.php:2043
+#: includes/template/class.template-parts.php:2044
 msgid "Home"
 msgstr ""
 
@@ -3668,23 +3668,23 @@ msgstr ""
 msgid "An error has occured while creating the thumbnail."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:584
+#: includes/shortcode/class.shortcode.php:591
 msgid "Future home of front end submissions."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:591
+#: includes/shortcode/class.shortcode.php:598
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:607
+#: includes/shortcode/class.shortcode.php:614
 msgid "Future home of the search page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:624
+#: includes/shortcode/class.shortcode.php:631
 msgid "Future home of the search results landing page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:680
+#: includes/shortcode/class.shortcode.php:687
 msgid ""
 "Your entry submission is currently under review, however, you can continue "
 "to make edits to your entry submission while your submission is under "
@@ -3697,7 +3697,7 @@ msgid "ERROR: Template %1$s not found."
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:151
-#: includes/template/class.template-parts.php:1294
+#: includes/template/class.template-parts.php:1295
 msgid "No results."
 msgstr ""
 
@@ -3785,7 +3785,7 @@ msgid "Character Index Repeat"
 msgstr ""
 
 #: includes/template/class.template-customizer.php:663
-#: includes/template/class.template-parts.php:1779
+#: includes/template/class.template-parts.php:1780
 msgid "Current Character"
 msgstr ""
 
@@ -4136,65 +4136,65 @@ msgstr ""
 msgid "You are searching within category(ies): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1160
+#: includes/template/class.template-parts.php:1161
 msgid "You are searching for the keyword(s): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1168
+#: includes/template/class.template-parts.php:1169
 msgid "The results are being filtered by the character: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1176
+#: includes/template/class.template-parts.php:1177
 msgid "The results are being filtered by the organization: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1184
+#: includes/template/class.template-parts.php:1185
 msgid "The results are being filtered by the department: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1192
+#: includes/template/class.template-parts.php:1193
 msgid "The results are being filtered by the locality: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1200
+#: includes/template/class.template-parts.php:1201
 msgid "The results are being filtered by the region: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1208
+#: includes/template/class.template-parts.php:1209
 msgid "The results are being filtered by the postal code: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1216
+#: includes/template/class.template-parts.php:1217
 msgid "The results are being filtered by the country: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1263
+#: includes/template/class.template-parts.php:1264
 msgid "Clear Search"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1417
 #: includes/template/class.template-parts.php:1418
+#: includes/template/class.template-parts.php:1419
 #: includes/template/class.template-shortcode.php:103
 msgid "Return to top."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1499
+#: includes/template/class.template-parts.php:1500
 msgid "Updated %1$s ago."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1646
+#: includes/template/class.template-parts.php:1647
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1841
+#: includes/template/class.template-parts.php:1842
 msgid "&laquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1842
+#: includes/template/class.template-parts.php:1843
 msgid "&raquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:2182
+#: includes/template/class.template-parts.php:2183
 #: includes/template/class.template-walker-term-radio-group.php:108
 #: includes/template/class.template-walker-term-select-enhanced.php:165
 msgid "Select Category"

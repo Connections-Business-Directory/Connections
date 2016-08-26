@@ -368,30 +368,61 @@ class cnAdminFunction {
 	}
 
 	/**
+	 * Callback for the `set-screen-option` filter.
+	 *
 	 * Save the user entered value for display n-number of entries on the manage admin page.
 	 *
 	 * @access private
-	 * @since unknown
-	 * @uses get_user_meta()
-	 * @uses absint()
-	 * @param (bool) $false
-	 * @param (string) $option
-	 * @param (int) $value
-	 * @return (array)
+	 * @since  unknown
+	 * @static
+	 *
+	 * @param bool   $false
+	 * @param string $option
+	 * @param int    $value
+	 *
+	 * @return array|false
 	 */
 	public static function managePageLimitSave( $false, $option, $value ) {
 
-		if ( $option !== 'connections' ) return $false;
+		if ( 'connections' !== $option ) {
+
+			return $false;
+		}
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$user_meta = get_user_meta( $instance->currentUser->getID(), 'connections', TRUE );
+		$meta = get_user_meta( $instance->currentUser->getID(), 'connections', TRUE );
 
-		$user_meta['filter']['manage']['limit'] = absint( $value );
-		$user_meta['filter']['manage']['current'] = 1;
+		/*
+		 * Since get_user_meta() can return array|string|false but we expect only an array,
+		 * check for the other possible return values and if found setup the array.
+		 */
+		if ( is_string( $meta ) || FALSE === $meta ) {
 
-		return $user_meta;
+			$meta = array( 'filter' => array( 'manage' => array() ) );
+		}
+
+		/*
+		 * If the `filter` key does not exist or is not an array, ensure it does.
+		 */
+		if ( ! isset( $meta['filter'] ) || ! is_array( $meta['filter'] ) ) {
+
+			$meta['filter'] = array();
+		}
+
+		/*
+		 * If the `manage` key does not exist or is not an array, ensure it does.
+		 */
+		if ( ! isset( $meta['filter']['manage'] ) || ! is_array( $meta['filter']['manage'] ) ) {
+
+			$meta['filter']['manage'] = array();
+		}
+
+		$meta['filter']['manage']['limit']   = absint( $value );
+		$meta['filter']['manage']['current'] = 1;
+
+		return $meta;
 	}
 
 	/**

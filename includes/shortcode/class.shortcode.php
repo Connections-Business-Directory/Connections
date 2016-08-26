@@ -119,14 +119,21 @@ class cnShortcode {
 				/*
 				 * $shortcode[0] == If self-closing, The entire shortcode and options, including the opening and closing brackets.
 				 *                  If enclosing, The entire shortcode and options, including the opening/closing brackets, content and closing shortcode.
-				 * $shortcode[1] == Unknown.
+				 * $shortcode[1] == Second opening bracket for escaping shortcodes: [[tag]].
 				 * $shortcode[2] == The shortcode tag.
 				 * $shortcode[3] == The shortcode options and their values as a string.
-				 * $shortcode[4] == Unknown.
+				 * $shortcode[4] == The `/` of a self closing shortcode.
 				 * $shortcode[5] == If self-closing, unknown.
 				 *                  If enclosing, the opening shortcode and options, including the opening/closing brackets and the content.
-				 * $shortcode[6] == Unknown.
+				 * $shortcode[6] == Second closing bracket for escaping shortcodes: [[tag]].
 				 */
+
+				// Allow [[foo]] syntax for escaping a tag.
+				if ( '[' == $shortcode[1] && ']' == $shortcode[6] ) {
+
+					//$found[] = substr( $shortcode[0], 1, -1 );
+					continue;
+				}
 
 				if ( $tag === $shortcode[2] ) {
 

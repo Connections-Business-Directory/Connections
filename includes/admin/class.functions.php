@@ -109,7 +109,11 @@ class cnAdminFunction {
 			// Add the screen layout filter.
 			add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
 
-			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ) );
+			/*
+			 * Set priority `9` so this is run before the `current_screen` filter in the
+			 * Screen Options class by Janis Elsts which registers the screen options panels.
+			 */
+			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ), 9 );
 
 			add_filter( 'admin_footer_text', array( __CLASS__, 'rateUs' ) );
 		}

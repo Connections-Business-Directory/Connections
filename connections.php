@@ -618,12 +618,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			if ( is_admin() ) {
 
-				/*
-				 * Include the Screen Options class by Janis Elsts
-				 * http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/
-				 */
-				include_once CN_PATH . 'includes/libraries/screen-options/screen-options.php';
-
 				// The class for handling admin notices.
 				require_once CN_PATH . 'includes/admin/class.message.php';
 

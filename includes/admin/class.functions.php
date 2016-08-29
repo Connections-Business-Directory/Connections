@@ -330,7 +330,12 @@ class cnAdminFunction {
 				 * Add the panel to the "Screen Options" box to the manage page.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 */
-				add_screen_options_panel( 'cn-manage-page-limit', 'Show on screen', array( __CLASS__, 'managePageLimit' ), $instance->pageHook->manage );
+				add_screen_options_panel(
+					'cn-manage-page-limit',
+					'Show on screen',
+					array( __CLASS__, 'managePageLimit' ),
+					$instance->pageHook->manage
+				);
 			}
 
 		}

@@ -89,11 +89,11 @@ if ( function_exists( 'gd_info' ) ) {
 
 Session:                    <?php echo ( isset( $_SESSION ) ? 'Enabled' : 'Disabled' ) . PHP_EOL; ?>
 <?php if ( isset( $_SESSION ) ) : ?>
-	Session Name:               <?php echo esc_html( ini_get( 'session.name' ) ) . PHP_EOL; ?>
-	Cookie Path:                <?php echo esc_html( ini_get( 'session.cookie_path' ) ) . PHP_EOL; ?>
-	Save Path:                  <?php echo esc_html( ini_get( 'session.save_path' ) ) . PHP_EOL; ?>
-	Use Cookies:                <?php echo ( ini_get( 'session.use_cookies' ) ? 'On' : 'Off' ) . PHP_EOL; ?>
-	Use Only Cookies:           <?php echo ( ini_get( 'session.use_only_cookies' ) ? 'On' : 'Off' ) . PHP_EOL; ?>
+Session Name:               <?php echo esc_html( ini_get( 'session.name' ) ) . PHP_EOL; ?>
+Cookie Path:                <?php echo esc_html( ini_get( 'session.cookie_path' ) ) . PHP_EOL; ?>
+Save Path:                  <?php echo esc_html( ini_get( 'session.save_path' ) ) . PHP_EOL; ?>
+Use Cookies:                <?php echo ( ini_get( 'session.use_cookies' ) ? 'On' : 'Off' ) . PHP_EOL; ?>
+Use Only Cookies:           <?php echo ( ini_get( 'session.use_only_cookies' ) ? 'On' : 'Off' ) . PHP_EOL; ?>
 <?php endif; ?>
 <?php do_action( 'cn_sysinfo_after_session_config' ); ?>
 

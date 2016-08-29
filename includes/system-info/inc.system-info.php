@@ -98,8 +98,12 @@ Use Only Cookies:           <?php echo ( ini_get( 'session.use_only_cookies' ) ?
 <?php do_action( 'cn_sysinfo_after_session_config' ); ?>
 
 -- User Browser
+<?php /** @var Browser $browser */ ?>
 
-<?php echo $browser; ?>
+Platform:                   <?php echo esc_html( $browser->getPlatform() ) . PHP_EOL; ?>
+Name:                       <?php echo esc_html( $browser->getBrowser() ) . PHP_EOL; ?>
+Version:                    <?php echo esc_html( $browser->getVersion() ) . PHP_EOL; ?>
+User Agent String:          <?php echo esc_html( $browser->getUserAgent() ) . PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_user_browser' ); ?>
 
 -- WordPress Configuration

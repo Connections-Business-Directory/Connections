@@ -341,8 +341,9 @@ class cnAdminFunction {
 	 * NOTE: This relies on the the Screen Options class by Janis Elsts
 	 *
 	 * @access private
-	 * @since unknown
-	 * @return (string)
+	 * @since  unknown
+	 *
+	 * @return string
 	 */
 	public static function managePageLimit() {
 

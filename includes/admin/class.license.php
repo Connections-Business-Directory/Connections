@@ -346,26 +346,6 @@ NOWDOC;
 	public function licenseStatus( $file, $plugin, $context ) {
 		global /*$status, $page, $s,*/ $totals;
 
-		// Retrieve the items license data.
-		$data = get_option( 'connections_license_data' );
-
-		// Retrieve the license keys.
-		$keys = get_option( 'connections_licenses' );
-
-		if ( FALSE !== $data ) {
-
-			/**
-			 * @todo Do something if key not set, save or invalid.
-			 */
-
-
-			if ( isset( $keys[ $this->slug ] ) ) {
-
-				$key = $keys[ $this->slug ];
-				//$status = self::status( $this->name, $key );
-			}
-		}
-
 		$wp_list_table = _get_list_table('WP_Plugins_List_Table');
 		$screen = get_current_screen();
 		$status = self::statusMessage( $this );

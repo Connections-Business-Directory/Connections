@@ -65,6 +65,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 * [CSV Import](http://connections-pro.com/add-on/csv-import/) :: Bulk import your data in to your directory.
 * [Custom Category Order](http://connections-pro.com/add-on/custom-category-order/) :: Order your categories exactly as you need them.
 * [Custom Entry Order](http://connections-pro.com/add-on/custom-entry-order/) :: Allows you to easily define the order that your business directory entries should be displayed.
+* [Enhanced Categories](http://connections-pro.com/add-on/enhanced-categories/) :: Adds many features to the categories.
 * [Form](http://connections-pro.com/add-on/form/) :: Allow site visitor to submit entries to your directory. Also provides frontend editing support.
 * [Link](http://connections-pro.com/add-on/link/) :: Links a WordPress user to an entry so that user can maintain their entry with or without moderation.
 * [ROT13 Encryption](http://connections-pro.com/add-on/rot13-email-encryption/) :: Protect email addresses from being harvested from your business directory by spam bots.

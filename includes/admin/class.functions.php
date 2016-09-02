@@ -37,16 +37,10 @@ class cnAdminFunction {
 	/**
 	 * Setup the class, if it has already been initialized, return the intialized instance.
 	 *
-	 * @access public
-	 * @since 0.7.9
 	 * @see cnAdminFunction()
- 	 * @uses WP_Error()
-	 * @uses get_option()
-	 * @uses delete_option()
-	 * @uses add_action()
-	 * @uses add_filter()
-	 * @uses add_screen_options_panel()
-	 * @return (void)
+	 *
+	 * @access public
+	 * @since  0.7.9
 	 */
 	public static function init() {
 
@@ -184,11 +178,11 @@ class cnAdminFunction {
 	 *
 	 * @access private
 	 * @since  unknown
+	 *
 	 * @uses   plugins_api()
+	 *
 	 * @param  array  $plugin_data An Array of the plugin metadata
 	 * @param  object $r An array of metadata about the available plugin update.
-	 *
-	 * @return string
 	 */
 	public static function displayUpgradeNotice( $plugin_data, $r ) {
 

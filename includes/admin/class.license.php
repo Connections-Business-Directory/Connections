@@ -809,7 +809,7 @@ NOWDOC;
 
 						$expiryDate = strtotime( $data[ $field['id'] ]->expires );
 
-						if ( $expiryDate !== FALSE ) {
+						if ( FALSE !== $expiryDate ) {
 
 							$field['desc'] = sprintf( __( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date('F jS Y', $expiryDate ) );
 

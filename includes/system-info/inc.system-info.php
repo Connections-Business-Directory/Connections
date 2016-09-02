@@ -43,6 +43,7 @@ Max Input Vars:             <?php echo ini_get( 'max_input_vars' ) . PHP_EOL; ?>
 Allow URL fopen:            <?php echo cnFormatting::toYesNo( ini_get( 'allow_url_fopen' ) ) . PHP_EOL; ?>
 PCRE Backtrack Limit        <?php echo ini_get( 'pcre.backtrack_limit' ). PHP_EOL; ?>
 Display Errors:             <?php echo ( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ) . PHP_EOL; ?>
+PHP Arg Seperator:          <?php echo ini_get( 'arg_separator.output' ). PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_php_config' ); ?>
 
 -- PHP Extensions

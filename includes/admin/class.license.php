@@ -346,7 +346,7 @@ NOWDOC;
 	public function licenseStatus( $file, $plugin, $context ) {
 		global /*$status, $page, $s,*/ $totals;
 
-		$wp_list_table = _get_list_table('WP_Plugins_List_Table');
+		$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 		$screen = get_current_screen();
 		$status = self::statusMessage( $this );
 
@@ -636,7 +636,7 @@ NOWDOC;
 
 					if ( $expiryDate !== FALSE ) {
 
-						$message = sprintf( esc_html__( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date('F jS Y', $expiryDate ) );
+						$message = sprintf( esc_html__( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date( 'F jS Y', $expiryDate ) );
 
 					} elseif ( 'lifetime' == $data->expires ) {
 

@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.5.23
+ * Version: 8.5.24
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.5.23
+ * @version 8.5.24
  */
 
 // Exit if accessed directly
@@ -226,7 +226,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.23' );
+			define( 'CN_CURRENT_VERSION', '8.5.24' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.4' );
@@ -617,12 +617,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			// require_once CN_PATH . 'includes/class.results.php';
 
 			if ( is_admin() ) {
-
-				/*
-				 * Include the Screen Options class by Janis Elsts
-				 * http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/
-				 */
-				include_once CN_PATH . 'includes/libraries/screen-options/screen-options.php';
 
 				// The class for handling admin notices.
 				require_once CN_PATH . 'includes/admin/class.message.php';

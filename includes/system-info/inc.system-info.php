@@ -43,6 +43,7 @@ Max Input Vars:             <?php echo ini_get( 'max_input_vars' ) . PHP_EOL; ?>
 Allow URL fopen:            <?php echo cnFormatting::toYesNo( ini_get( 'allow_url_fopen' ) ) . PHP_EOL; ?>
 PCRE Backtrack Limit        <?php echo ini_get( 'pcre.backtrack_limit' ). PHP_EOL; ?>
 Display Errors:             <?php echo ( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ) . PHP_EOL; ?>
+PHP Arg Seperator:          <?php echo ini_get( 'arg_separator.output' ). PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_php_config' ); ?>
 
 -- PHP Extensions
@@ -89,17 +90,21 @@ if ( function_exists( 'gd_info' ) ) {
 
 Session:                    <?php echo ( isset( $_SESSION ) ? 'Enabled' : 'Disabled' ) . PHP_EOL; ?>
 <?php if ( isset( $_SESSION ) ) : ?>
-	Session Name:               <?php echo esc_html( ini_get( 'session.name' ) ) . PHP_EOL; ?>
-	Cookie Path:                <?php echo esc_html( ini_get( 'session.cookie_path' ) ) . PHP_EOL; ?>
-	Save Path:                  <?php echo esc_html( ini_get( 'session.save_path' ) ) . PHP_EOL; ?>
-	Use Cookies:                <?php echo ( ini_get( 'session.use_cookies' ) ? 'On' : 'Off' ) . PHP_EOL; ?>
-	Use Only Cookies:           <?php echo ( ini_get( 'session.use_only_cookies' ) ? 'On' : 'Off' ) . PHP_EOL; ?>
+Session Name:               <?php echo esc_html( ini_get( 'session.name' ) ) . PHP_EOL; ?>
+Cookie Path:                <?php echo esc_html( ini_get( 'session.cookie_path' ) ) . PHP_EOL; ?>
+Save Path:                  <?php echo esc_html( ini_get( 'session.save_path' ) ) . PHP_EOL; ?>
+Use Cookies:                <?php echo ( ini_get( 'session.use_cookies' ) ? 'On' : 'Off' ) . PHP_EOL; ?>
+Use Only Cookies:           <?php echo ( ini_get( 'session.use_only_cookies' ) ? 'On' : 'Off' ) . PHP_EOL; ?>
 <?php endif; ?>
 <?php do_action( 'cn_sysinfo_after_session_config' ); ?>
 
 -- User Browser
+<?php /** @var Browser $browser */ ?>
 
-<?php echo $browser; ?>
+Platform:                   <?php echo esc_html( $browser->getPlatform() ) . PHP_EOL; ?>
+Name:                       <?php echo esc_html( $browser->getBrowser() ) . PHP_EOL; ?>
+Version:                    <?php echo esc_html( $browser->getVersion() ) . PHP_EOL; ?>
+User Agent String:          <?php echo esc_html( $browser->getUserAgent() ) . PHP_EOL; ?>
 <?php do_action( 'cn_sysinfo_after_user_browser' ); ?>
 
 -- WordPress Configuration

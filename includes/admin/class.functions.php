@@ -37,16 +37,10 @@ class cnAdminFunction {
 	/**
 	 * Setup the class, if it has already been initialized, return the intialized instance.
 	 *
-	 * @access public
-	 * @since 0.7.9
 	 * @see cnAdminFunction()
- 	 * @uses WP_Error()
-	 * @uses get_option()
-	 * @uses delete_option()
-	 * @uses add_action()
-	 * @uses add_filter()
-	 * @uses add_screen_options_panel()
-	 * @return (void)
+	 *
+	 * @access public
+	 * @since  0.7.9
 	 */
 	public static function init() {
 
@@ -109,7 +103,11 @@ class cnAdminFunction {
 			// Add the screen layout filter.
 			add_filter( 'screen_layout_columns', array( __CLASS__, 'screenLayout' ), 10, 2 );
 
-			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ) );
+			/*
+			 * Set priority `9` so this is run before the `current_screen` filter in the
+			 * Screen Options class by Janis Elsts which registers the screen options panels.
+			 */
+			add_action( 'current_screen', array( __CLASS__, 'screenOptionsPanel' ), 9 );
 
 			add_filter( 'admin_footer_text', array( __CLASS__, 'rateUs' ) );
 		}
@@ -180,22 +178,23 @@ class cnAdminFunction {
 	 *
 	 * @access private
 	 * @since  unknown
+	 *
 	 * @uses   plugins_api()
+	 *
 	 * @param  array  $plugin_data An Array of the plugin metadata
 	 * @param  object $r An array of metadata about the available plugin update.
-	 *
-	 * @return string
 	 */
 	public static function displayUpgradeNotice( $plugin_data, $r ) {
 
 		// echo '<p>' . print_r( $r, TRUE ) .  '</p>';
 		// echo '<p>' . print_r( $plugin_data, TRUE ) .  '</p>';
+		echo '</p>'; // Required to close the open <p> tag that exists when this action is run.
 
 		// Show the upgrade notice if it exists.
 		if ( isset( $r->upgrade_notice ) ) {
 
-			echo '<p style="margin-top: 1em"><strong>' . sprintf( __( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
-			echo '<ul style="list-style-type: square; margin-left:20px;"><li>' . $r->upgrade_notice . '</li></ul>';
+			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( __( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
+			echo '<ul><li>' . $r->upgrade_notice . '</li></ul>';
 		}
 
 		// Grab the plugin info using the WordPress.org Plugins API.
@@ -230,34 +229,37 @@ class cnAdminFunction {
 		// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
 		// If no changelog is found for the current version, return.
-		if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) return;
+		if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
 
-		preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
-		// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+			preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
+			// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
-		// Make sure the change items were found and not entry before proceeding.
-		if ( ! isset( $matches[1] ) || empty( $matches[1] ) ) return;
+			// Make sure the change items were found and not empty before proceeding.
+			if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
 
-		$ul = FALSE;
+				$ul = FALSE;
 
-		// Finally, lets render the changelog list.
-		foreach ( $matches[1] as $key => $line ) {
+				// Finally, lets render the changelog list.
+				foreach ( $matches[1] as $key => $line ) {
 
-			if ( ! $ul ) {
+					if ( ! $ul ) {
 
-				echo '<p style="margin-top: 1em"><strong>' . __( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
-				echo '<ul style="list-style-type: square; margin-left: 20px;margin-top:0px;">';
-				$ul = TRUE;
+						echo '<p class="cn-update-message-p-clear-before"><strong>' . __( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
+						echo '<ul class="cn-changelog">';
+						$ul = TRUE;
+					}
+
+					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
+				}
+
+				if ( $ul ) {
+
+					echo '</ul><div style="clear: left;"></div>';
+				}
 			}
-
-			echo '<li style="width: 50%; margin: 0; float: left;' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
 		}
 
-		if ( $ul ) {
-
-			echo '</ul><div style="clear: left;">';
-		}
-
+		echo '<p class="cn-update-message-p-clear-before">'; // Required to open a </p> tag that exists when this action is run.
 	}
 
 	/**
@@ -321,10 +323,21 @@ class cnAdminFunction {
 			if ( $screen->id == $instance->pageHook->manage && ! isset( $_GET['cn-action'] ) ) {
 
 				/*
+				 * Include the Screen Options class by Janis Elsts
+				 * http://w-shadow.com/blog/2010/06/29/adding-stuff-to-wordpress-screen-options/
+				 */
+				include_once CN_PATH . 'vendor/screen-options/screen-options.php';
+
+				/*
 				 * Add the panel to the "Screen Options" box to the manage page.
 				 * NOTE: This relies on the the Screen Options class by Janis Elsts
 				 */
-				add_screen_options_panel( 'cn-manage-page-limit', 'Show on screen', array( __CLASS__, 'managePageLimit' ), $instance->pageHook->manage );
+				add_screen_options_panel(
+					'cn-manage-page-limit',
+					'Show on screen',
+					array( __CLASS__, 'managePageLimit' ),
+					$instance->pageHook->manage
+				);
 			}
 
 		}
@@ -335,8 +348,9 @@ class cnAdminFunction {
 	 * NOTE: This relies on the the Screen Options class by Janis Elsts
 	 *
 	 * @access private
-	 * @since unknown
-	 * @return (string)
+	 * @since  unknown
+	 *
+	 * @return string
 	 */
 	public static function managePageLimit() {
 
@@ -477,5 +491,7 @@ add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
  * Add the filter to update the user settings when the "Apply" button is clicked.
  * NOTE: This relies on the the Screen Options class by Janis Elsts
  * NOTE: This filter must be added here otherwise it registers to late to be run.
+ * NOTE: Set priority 99 so the filter will hopefully run last to help prevent other plugins
+ *       which do not hook into `set-screen-option` properly from breaking Connections.
  */
-add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 10, 3 );
+add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 99, 3 );

@@ -3066,15 +3066,7 @@ class cnOutput extends cnEntry {
 
 		} elseif ( ! empty( $atts['order'] ) ) {
 
-			// If `order` was supplied as a comma delimited string, convert it to an array.
-			if ( is_string( $atts['order'] ) ) {
-
-				$blocks = stripos( $atts['order'], ',' ) !== FALSE ? explode( ',', $atts['order'] ) : array( $atts['order'] );
-
-			} else {
-
-				$blocks = $atts['order'];
-			}
+			$blocks = cnFunction::parseStringList( $atts['order'], ',' );
 		}
 
 		// Nothing to render, exit.

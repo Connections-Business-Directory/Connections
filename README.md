@@ -3,7 +3,7 @@
 **Tags:** address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory  
 **Requires at least:** 4.2  
 **Tested up to:** 4.6  
-**Stable tag:** 8.5.23  
+**Stable tag:** 8.5.24  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -64,6 +64,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 * [CSV Import](http://connections-pro.com/add-on/csv-import/) :: Bulk import your data in to your directory.
 * [Custom Category Order](http://connections-pro.com/add-on/custom-category-order/) :: Order your categories exactly as you need them.
 * [Custom Entry Order](http://connections-pro.com/add-on/custom-entry-order/) :: Allows you to easily define the order that your business directory entries should be displayed.
+* [Enhanced Categories](http://connections-pro.com/add-on/enhanced-categories/) :: Adds many features to the categories.
 * [Form](http://connections-pro.com/add-on/form/) :: Allow site visitor to submit entries to your directory. Also provides frontend editing support.
 * [Link](http://connections-pro.com/add-on/link/) :: Links a WordPress user to an entry so that user can maintain their entry with or without moderation.
 * [ROT13 Encryption](http://connections-pro.com/add-on/rot13-email-encryption/) :: Protect email addresses from being harvested from your business directory by spam bots.
@@ -247,6 +248,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 ## Changelog ##
+
+### 8.5.24 09/02/2016 ###
+* BUG: Fix conflict where the Manage admin page Screen Options would disappear when Broken Link Checker was being used.
+* COMPATIBILITY: Set `current_screen` action to priority `9` for compatibility with wsScreenOptions.
+* TWEAK: Set `set-screen-option` filter priority to `99` in order to help prevent other plugins from breaking the Manage admin page settings options.
+* TWEAK: Fix session info alignment in system info.
+* TWEAK: Update browser info in system info to be compatible with Browser.php 2.0.
+* TWEAK: Add PHP Arg separator to the system info report.
+* TWEAK: Use cnFunction::parseStringList() to simplify code in cnOutput::getContentBlock().
+* TWEAK: HTML markup fixes in cnAdminFunction::displayUpgradeNotice().
+* TWEAK: Update cnLicense to render the support license key and the plugin's changelog on the Plugins admin page.
+* OTHER: Update wsScreenOptions to version 1.3 and move to the Vendors folder.
+* OTHER: Update Browser.php to version 2.0.
+* DEV: phpDoc Fixes.
 
 ### 8.5.23 08/26/2016 ###
 * TWEAK: Add the `cn-cat-has-children` class if a category has children in the term list.
@@ -847,4 +862,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 ### 8.5.23 ###
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+### 8.5.24 ###
 It is recommended to backup before updating. Requires WordPress >= 4.2.

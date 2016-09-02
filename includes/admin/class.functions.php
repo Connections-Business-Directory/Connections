@@ -188,12 +188,13 @@ class cnAdminFunction {
 
 		// echo '<p>' . print_r( $r, TRUE ) .  '</p>';
 		// echo '<p>' . print_r( $plugin_data, TRUE ) .  '</p>';
+		echo '</p>'; // Required to close the open <p> tag that exists when this action is run.
 
 		// Show the upgrade notice if it exists.
 		if ( isset( $r->upgrade_notice ) ) {
 
-			echo '<p style="margin-top: 1em"><strong>' . sprintf( __( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
-			echo '<ul style="list-style-type: square; margin-left:20px;"><li>' . $r->upgrade_notice . '</li></ul>';
+			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( __( 'Upgrade notice for version: %s', 'connections' ), $r->new_version ) . '</strong></p>';
+			echo '<ul><li>' . $r->upgrade_notice . '</li></ul>';
 		}
 
 		// Grab the plugin info using the WordPress.org Plugins API.
@@ -228,34 +229,37 @@ class cnAdminFunction {
 		// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
 		// If no changelog is found for the current version, return.
-		if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) return;
+		if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
 
-		preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
-		// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+			preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
+			// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
-		// Make sure the change items were found and not entry before proceeding.
-		if ( ! isset( $matches[1] ) || empty( $matches[1] ) ) return;
+			// Make sure the change items were found and not empty before proceeding.
+			if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
 
-		$ul = FALSE;
+				$ul = FALSE;
 
-		// Finally, lets render the changelog list.
-		foreach ( $matches[1] as $key => $line ) {
+				// Finally, lets render the changelog list.
+				foreach ( $matches[1] as $key => $line ) {
 
-			if ( ! $ul ) {
+					if ( ! $ul ) {
 
-				echo '<p style="margin-top: 1em"><strong>' . __( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
-				echo '<ul style="list-style-type: square; margin-left: 20px;margin-top:0px;">';
-				$ul = TRUE;
+						echo '<p class="cn-update-message-p-clear-before"><strong>' . __( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
+						echo '<ul class="cn-changelog">';
+						$ul = TRUE;
+					}
+
+					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
+				}
+
+				if ( $ul ) {
+
+					echo '</ul><div style="clear: left;"></div>';
+				}
 			}
-
-			echo '<li style="width: 50%; margin: 0; float: left;' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
 		}
 
-		if ( $ul ) {
-
-			echo '</ul><div style="clear: left;">';
-		}
-
+		echo '<p class="cn-update-message-p-clear-before">'; // Required to open a </p> tag that exists when this action is run.
 	}
 
 	/**

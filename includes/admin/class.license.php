@@ -131,7 +131,7 @@ class cnLicense {
 	 */
 	public static function style() {
 
-		$style = <<<'NOWDOC'
+		$style = <<<HERERDOC
 <!-- Added by Connections Business Directory -->
 <style type="text/css">
 	p.cn-update-message-p-clear-before {
@@ -176,7 +176,7 @@ class cnLicense {
 		 * Deal with the "live" search introduced in WP 4.6.
 		 * @link http://stackoverflow.com/a/19401707/5351316 
 		 */
-		var $body = $('body');
+		var body = $('body');
 		var observer = new MutationObserver( function( mutations ) {
 		    mutations.forEach( function( mutation ) {
 		        if ( mutation.attributeName === "class" ) {
@@ -187,7 +187,7 @@ class cnLicense {
 		    });
 		});
 		
-		observer.observe( $body[0], {
+		observer.observe( body[0], {
 		    attributes: true
 		});
 		
@@ -204,7 +204,7 @@ class cnLicense {
 	}
 </script>
 
-NOWDOC;
+HERERDOC;
 
 		echo $style;
 	}

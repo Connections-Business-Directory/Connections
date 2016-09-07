@@ -230,6 +230,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.25 09/07/2016 =
+* BUG: Do not try to get term ancestor hierarchy if the term is a root parent.
+* COMPATIBILITY: Convert NOWDOC block to HEREDOC block for PHP5.2.x holdouts.
+* COMPATIBILITY: Add action which should flush the Wordfence Falcon Cache when an entry/term is added/updated/deleted.
+* TWEAK: Pass WP_Error codes results from `wp_remote_get()` during license status check so they can be displayed.
+
 = 8.5.24 09/02/2016 =
 * BUG: Fix conflict where the Manage admin page Screen Options would disappear when Broken Link Checker was being used.
 * COMPATIBILITY: Set `current_screen` action to priority `9` for compatibility with wsScreenOptions.
@@ -846,4 +852,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.24 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+= 8.5.25 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.

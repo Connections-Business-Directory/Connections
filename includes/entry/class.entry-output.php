@@ -2749,15 +2749,19 @@ class cnOutput extends cnEntry {
 
 			if ( $atts['parents'] ) {
 
-				$text .= cnTemplatePart::getCategoryParents(
-					$category->parent,
-					array(
-						'link'       => $atts['link'],
-						'separator'  => $atts['parent_separator'],
-						'force_home' => $this->directoryHome['force_home'],
-						'home_id'    => $this->directoryHome['page_id'],
-					)
-				);
+				// If the term is a root parent, skip.
+				if ( 0 !== $category->parent ) {
+
+					$text .= cnTemplatePart::getCategoryParents(
+						$category->parent,
+						array(
+							'link'       => $atts['link'],
+							'separator'  => $atts['parent_separator'],
+							'force_home' => $this->directoryHome['force_home'],
+							'home_id'    => $this->directoryHome['page_id'],
+						)
+					);
+				}
 			}
 
 			if ( $atts['link'] ) {

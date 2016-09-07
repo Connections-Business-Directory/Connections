@@ -131,7 +131,7 @@ class cnLicense {
 	 */
 	public static function style() {
 
-		$style = <<<'NOWDOC'
+		$style = <<<HERERDOC
 <!-- Added by Connections Business Directory -->
 <style type="text/css">
 	p.cn-update-message-p-clear-before {
@@ -176,7 +176,7 @@ class cnLicense {
 		 * Deal with the "live" search introduced in WP 4.6.
 		 * @link http://stackoverflow.com/a/19401707/5351316 
 		 */
-		var $body = $('body');
+		var body = $('body');
 		var observer = new MutationObserver( function( mutations ) {
 		    mutations.forEach( function( mutation ) {
 		        if ( mutation.attributeName === "class" ) {
@@ -187,7 +187,7 @@ class cnLicense {
 		    });
 		});
 		
-		observer.observe( $body[0], {
+		observer.observe( body[0], {
 		    attributes: true
 		});
 		
@@ -204,7 +204,7 @@ class cnLicense {
 	}
 </script>
 
-NOWDOC;
+HERERDOC;
 
 		echo $style;
 	}
@@ -494,9 +494,16 @@ NOWDOC;
 		// Retrieve the items license data.
 		$data = get_transient( 'connections_license-' . $license->slug );
 
-		if ( FALSE === $data ) {
+		if ( FALSE == $data ) {
 
 			$data = self::license( 'status', $license->name, $license->key, $license->updateURL );
+
+			if ( is_wp_error( $data ) ) {
+
+				$status['type']    = 'error';
+				$status['message'] = $data->get_error_message();
+				return $status;
+			}
 		}
 
 		// If there was an error message in the EDD SL API response, set the description to the error message.
@@ -762,83 +769,86 @@ NOWDOC;
 
 			} else {
 
-				// If there was no error message, display the current license status.
-				switch ( $status ) {
+				if ( is_wp_error( $status ) ) {
 
-					case 'invalid':
+					$field['desc'] = $status->get_error_message();
 
-						$field['desc'] = __( 'License key invalid.', 'connections' );
-						break;
+				} else {
 
-					case 'expired':
+					// If there was no error message, display the current license status.
+					switch ( $status ) {
 
-						$field['desc'] = __( 'License has expired.', 'connections' );
+						case 'invalid':
 
-						if ( isset( $data[ $field['id'] ]->renewal_url ) ) {
+							$field['desc'] = __( 'License key invalid.', 'connections' );
+							break;
 
-							$field['desc'] .= sprintf( ' <a href="%1$s" title="%2$s">%2$s</a>',
-								esc_url( $data[ $field['id'] ]->renewal_url ),
-								__( 'Renew license.', 'connections' )
-							);
+						case 'expired':
 
-						}
+							$field['desc'] = __( 'License has expired.', 'connections' );
 
-						break;
+							if ( isset( $data[ $field['id'] ]->renewal_url ) ) {
 
-					case 'inactive':
+								$field['desc'] .= sprintf( ' <a href="%1$s" title="%2$s">%2$s</a>', esc_url( $data[ $field['id'] ]->renewal_url ), __( 'Renew license.', 'connections' ) );
 
-						$field['desc'] = __( 'License is not active.', 'connections' );
-						break;
+							}
 
-					case 'disabled':
+							break;
 
-						$field['desc'] = __( 'License has been disabled.', 'connections' );
-						break;
+						case 'inactive':
 
-					case 'site_inactive':
+							$field['desc'] = __( 'License is not active.', 'connections' );
+							break;
 
-						$field['desc'] = __( 'License is not active on this site.', 'connections' );
-						break;
+						case 'disabled':
 
-					case 'item_name_mismatch':
+							$field['desc'] = __( 'License has been disabled.', 'connections' );
+							break;
 
-						$field['desc'] = __( 'License entered is not for this item.', 'connections' );
-						break;
+						case 'site_inactive':
 
-					case 'valid':
+							$field['desc'] = __( 'License is not active on this site.', 'connections' );
+							break;
 
-						$expiryDate = strtotime( $data[ $field['id'] ]->expires );
+						case 'item_name_mismatch':
 
-						if ( FALSE !== $expiryDate ) {
+							$field['desc'] = __( 'License entered is not for this item.', 'connections' );
+							break;
 
-							$field['desc'] = sprintf( __( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date('F jS Y', $expiryDate ) );
+						case 'valid':
 
-						} elseif ( 'lifetime' == $data[ $field['id'] ]->expires ) {
+							$expiryDate = strtotime( $data[ $field['id'] ]->expires );
 
-							$field['desc'] = __( 'Lifetime license is valid and you are receiving updates.', 'connections' );
+							if ( FALSE !== $expiryDate ) {
 
-						} else {
+								$field['desc'] = sprintf( __( 'License is valid and you are receiving updates. Your support license key will expire on %s.', 'connections' ), date( 'F jS Y', $expiryDate ) );
 
-							$field['desc'] = __( 'License is valid', 'connections' );
-						}
+							} elseif ( 'lifetime' == $data[ $field['id'] ]->expires ) {
 
-						break;
+								$field['desc'] = __( 'Lifetime license is valid and you are receiving updates.', 'connections' );
 
-					case 'deactivated':
+							} else {
 
-						$field['desc'] = __( 'License is deactivated.', 'connections' );
-						break;
+								$field['desc'] = __( 'License is valid', 'connections' );
+							}
 
-					case 'failed':
+							break;
 
-						$field['desc'] = __( 'License validation failed.' , 'connections' );
-						break;
+						case 'deactivated':
 
-					default:
-						// $field['desc'] = __( 'License status in unknown.', 'connections' );
-						break;
+							$field['desc'] = __( 'License is deactivated.', 'connections' );
+							break;
+
+						case 'failed':
+
+							$field['desc'] = __( 'License validation failed.', 'connections' );
+							break;
+
+						default:
+							// $field['desc'] = __( 'License status in unknown.', 'connections' );
+							break;
+					}
 				}
-
 			}
 
 		}
@@ -888,7 +898,7 @@ NOWDOC;
 	 * @param  string $name The item name.
 	 * @param  string $key  The item license key.
 	 *
-	 * @return string       The item license status.
+	 * @return string|WP_Error The item license status or WP_Error on failure.
 	 */
 	public static function status( $name, $key ) {
 
@@ -901,12 +911,21 @@ NOWDOC;
 
 		$slug = self::getSlug( $name );
 
-		if ( FALSE === ( $license = get_transient( 'connections_license-' . $slug ) ) ) {
+		$license = get_transient( 'connections_license-' . $slug );
+
+		if ( FALSE == $license ) {
 
 			// Retrieve the items license data.
 			$data = get_option( 'connections_license_data' );
 
-			$data[ $slug ] = self::license( 'status', $name, $key );
+			$response = self::license( 'status', $name, $key );
+
+			if ( is_wp_error( $response ) ) {
+
+				return $response;
+			}
+
+			$data[ $slug ] = $response;
 
 			update_option( 'connections_license_data', $data );
 
@@ -1080,7 +1099,7 @@ NOWDOC;
 	 * @param  string $license The item license key.
 	 * @param  string $url     The EDD SL Updater URL.
 	 *
-	 * @return mixed           bool | object The EDD SL response for the item on success or FALSE on fail.
+	 * @return mixed           object|WP_Error The EDD SL response for the item on success or WP_Error on fail.
 	 */
 	public static function license( $action, $name, $license, $url = NULL ) {
 
@@ -1127,7 +1146,10 @@ NOWDOC;
 		);
 
 		// Make sure there are no errors
-		if ( is_wp_error( $response ) ) return FALSE;
+		if ( is_wp_error( $response ) ) {
+
+			return $response;
+		}
 
 		// Decode the license data
 		$data = json_decode( wp_remote_retrieve_body( $response ) );
@@ -1185,7 +1207,11 @@ NOWDOC;
 				break;
 		}
 
-		return FALSE;
+		return new WP_Error(
+			"cn_license_{$action}_error",
+			sprintf( esc_html__( 'License %s error.', 'connections' ), $action ),
+			$query
+		);
 	}
 
 	/**

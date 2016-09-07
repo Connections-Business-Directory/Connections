@@ -203,3 +203,23 @@ function cn_enable_wp_rocket_purge() {
 		add_action( 'clean_post_cache', 'rocket_clean_post' );
 	}
 }
+
+/**
+ * Clean Wordfence Falcon Cache on entry/term insert/update.
+ *
+ * @since 8.2.25
+ */
+add_action( 'cn_clean_entry_cache', 'wordfence_clean_falcon_cache' );
+add_action( 'cn_clean_term_cache', 'wordfence_clean_falcon_cache' );
+
+function wordfence_clean_falcon_cache() {
+
+	if ( class_exists( 'wfCache' ) &&
+	     method_exists( 'wfCache', 'clearPageCache' ) &&
+	     is_callable( array( 'wfCache', 'clearPageCache' ) )
+	) {
+
+		include 'wp-load.php';
+		wfCache::clearPageCache();
+	}
+}

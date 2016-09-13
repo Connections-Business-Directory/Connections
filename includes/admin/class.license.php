@@ -110,7 +110,7 @@ class cnLicense {
 		 * If it were not limited to register only once, the field would render for each time
 		 * a new instance of this class initiated.
 		 */
-		if ( ! has_action( 'cn_settings_field-license' ) ) add_action( 'cn_settings_field-license', array( $this, 'field' ), 10, 3 );
+		add_action( "cn_settings_field-license_{$this->slug}", array( $this, 'field' ), 10, 3 );
 
 		$file = plugin_basename( $this->file );
 		add_action( "in_plugin_update_message-{$file}", array( __CLASS__, 'changelog'), 10, 2 );
@@ -322,7 +322,7 @@ HERERDOC;
 			'title'             => $this->name,
 			'desc'              => '',
 			'help'              => '',
-			'type'              => 'license',
+			'type'              => "license_{$this->slug}",
 			'default'           => '',
 			'sanitize_callback' => array( $this, 'sanitize' ),
 		);

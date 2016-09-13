@@ -487,90 +487,115 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 *
 		 * @param string $pageHook
 		 * @param array  $args
-		 *
-		 * @return string
 		 */
-		public function form( $pageHook , $args = array() ) {
+		public static function form( $pageHook, $args = array() ) {
 
-			$defaults = array(
-				'page_title' => '',
-			);
+			//$defaults = array(
+			//	'page_title' => '',
+			//);
 
-			$args = wp_parse_args( $args , $defaults );
+			//$args = wp_parse_args( $args , $defaults );
 			//var_dump($args);
 
-			$sort = array();
+			$tabs = self::$tabs[ $pageHook ];
+			//var_dump(self::$tabs[$pageHook]);
+
+			$tabIDs = wp_list_pluck( $tabs, 'id' );
+			//var_dump( $tabIDs );
+
+			// If the current tab isn't set, set the current tab to the initial tab in the array.
+			$currentTab = isset( $_GET['tab'] ) && array_search( $_GET['tab'], $tabIDs ) ? sanitize_text_field( $_GET['tab'] ) : $tabs[0]['id'];
 
 			// Page title.
-			if ( ! empty( $args['page_title'] ) ) echo '<h1>' , $args['page_title'] , '</h1>';
+			//if ( ! empty( $args['page_title'] ) ) echo '<h1>' , $args['page_title'] , '</h1>';
 
 			// Display any registered settings errors and success messages.
 			settings_errors();
 
-			// If the page hook was not supplied echo an empty string.
-			if ( ! empty( $pageHook ) )
-			{
-				$tabs = self::$tabs[$pageHook]; //var_dump(self::$tabs[$pageHook]);
+			?>
+			<div class="wrap <?php echo 'wrap-' . sanitize_html_class( $currentTab ); ?>">
+
+				<?php
 
 				// If there were no tabs returned echo out an empty string.
-				if ( ! empty( $tabs ) )
-				{
-					echo '<h2 class="nav-tab-wrapper">';
+				if ( ! empty( $tabs ) ) { ?>
 
-					// Store the position values so an array multi sort can be done to position the tabs in the desired order.
-					foreach ( $tabs as $key => $tab )
-					{
-						$sort[] = ( isset( $tab['position'] ) && ! empty( $tab['position'] ) ) ? $tab['position'] : 0;
-					}
+					<h1 class="nav-tab-wrapper">
 
-					// Sort the tabs based on their position.
-					array_multisort( $sort , $tabs );
+						<?php
 
-					// If the current tab isn't set, set the current tab to the intial tab in the array.
-					$currentTab = isset( $_GET['tab'] ) ? $_GET['tab'] : $tabs[0]['id'];
+						$sort = array();
 
-					foreach ( $tabs as $tab )
-					{
-						// Only show tabs registered to the current page.
-						if ( ! isset( $tab['page_hook'] ) || $tab['page_hook'] !== $pageHook ) continue;
+						// Store the position values so an array multi sort can be done to position the tabs in the desired order.
+						foreach ( $tabs as $key => $tab ) {
 
-						echo '<a class="nav-tab' . ( $tab['id'] === $currentTab ? ' nav-tab-active' : '' ) . '" href="' . esc_url( add_query_arg( 'tab', $tab['id'] ) ) . '">' . $tab['title'] . '</a>';
-					}
+							$sort[] = ( isset( $tab['position'] ) && ! empty( $tab['position'] ) ) ? $tab['position'] : 0;
+						}
 
-					echo '</h2>';
+						// Sort the tabs based on their position.
+						array_multisort( $sort, $tabs );
+
+						foreach ( $tabs as $tab ) {
+
+							// Only show tabs registered to the current page.
+							if ( ! isset( $tab['page_hook'] ) || $tab['page_hook'] !== $pageHook ) {
+								continue;
+							}
+
+							echo '<a class="nav-tab' . ( $tab['id'] === $currentTab ? ' nav-tab-active' : '' ) . '" href="' . esc_url( add_query_arg( 'tab', $tab['id'] ) ) . '">' . $tab['title'] . '</a>';
+						}
+
+						?>
+					</h1>
+					<?php
 				}
-			}
 
-			echo  '<form method="post" action="options.php">';
+				?>
 
-			/*
-			 * If tabs were registered to the current page, set the hidden fields with the current tab id
-			 * appended to the page hook. If this is not done the settings registered to the current tab will
-			 * not be saved.
-			 */
-			//global $new_whitelist_options;print_r($new_whitelist_options);
-			settings_fields( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook );
+				<div id="tab_container">
 
-			/*
-			 * Output any fields that were not registered to a specific section and defaulted to the default section.
-			 * Mimics default core WP behaviour.
-			 */
-			echo '<table class="form-table">';
-			do_settings_fields( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook , 'default');
-			echo '</table>';
+					<form method="post" action="options.php">
 
-			/*
-			 * Reference:
-			 * http://codex.wordpress.org/Function_Reference/do_settings_sections
-			 *
-			 * If the section is hooked into a tab add the current tab to the page hook
-			 * so only the settings registered to the current tab are displayed.
-			 */
-			do_settings_sections( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook );
+						<?php
+						/*
+						 * If tabs were registered to the current page, set the hidden fields with the current tab id
+						 * appended to the page hook. If this is not done the settings registered to the current tab will
+						 * not be saved.
+						 */
+						//global $new_whitelist_options;print_r($new_whitelist_options);
+						?>
+						<?php settings_fields( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook ); ?>
 
-			submit_button();
+						<?php
+						/*
+						 * Output any fields that were not registered to a specific section and defaulted to the default section.
+						 * Mimics default core WP behaviour.
+						 */
+						?>
 
-			echo '</form>';
+						<table class="form-table">
+
+						<?php do_settings_fields( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook , 'default'); ?>
+
+						</table>
+
+						<?php
+						/*
+						 * Reference:
+						 * http://codex.wordpress.org/Function_Reference/do_settings_sections
+						 *
+						 * If the section is hooked into a tab add the current tab to the page hook
+						 * so only the settings registered to the current tab are displayed.
+						 */
+						?>
+						<?php do_settings_sections( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook ); ?>
+
+					<?php submit_button(); ?>
+					</form>
+
+				</div><!-- #tab_container -->
+			</div><!-- .wrap -->
+			<?php
 		}
 
 		/**

@@ -39,21 +39,6 @@ function connectionsShowSettingsPage() {
 		/** @var connectionsLoad $connections */
 		global $connections;
 
-		?>
-		<div class="wrap">
-
-			<?php
-			$args = array(
-				'page_icon'  => 'connections',
-				'page_title' => 'Connections : ' . __( 'Settings', 'connections' ),
-				'tab_icon'   => 'options-general'
-			);
-
-			$connections->settings->form( $connections->pageHook->settings , $args );
-			?>
-
-		</div>
-
-	<?php }
+		cnSettingsAPI::form( $connections->pageHook->settings );
+	}
 }
-?>

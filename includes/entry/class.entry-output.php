@@ -2787,7 +2787,7 @@ class cnOutput extends cnEntry {
 			$items[] = apply_filters(
 				'cn_entry_output_category_item',
 				sprintf(
-					'<%1$s class="cn-category-name cn_category" id="cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
+					'<%1$s class="cn-category-name cn_category cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
 					$atts['item_tag'],
 					$category->term_id,
 					$text,

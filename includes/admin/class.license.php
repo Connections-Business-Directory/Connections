@@ -477,6 +477,7 @@ HERERDOC;
 		if ( 0 == strlen( $license->key ) ) {
 
 			$status['type'] = 'warning';
+			$status['code'] = 'no_key';
 
 			$message = esc_html__( 'License has not been activated.', 'connections' );
 
@@ -501,6 +502,7 @@ HERERDOC;
 			if ( is_wp_error( $data ) ) {
 
 				$status['type']    = 'error';
+				$status['code']    = $data->get_error_code();
 				$status['message'] = $data->get_error_message();
 				return $status;
 			}
@@ -517,6 +519,7 @@ HERERDOC;
 				case 'expired':
 
 					$status['type'] = 'error';
+					$status['code'] = 'expired';
 
 					$message = esc_html__( 'Support license key has expired. Your are no longer receiving support and in admin updates.', 'connections' );
 
@@ -537,42 +540,49 @@ HERERDOC;
 				case 'item_name_mismatch':
 
 					$status['type']    = 'error';
+					$status['code']    = 'item_name_mismatch';
 					$status['message'] = esc_html__( 'License entered is not for this item.', 'connections' );
 					break;
 
 				case 'missing':
 
 					$status['type']    = 'error';
+					$status['code']    = 'missing';
 					$status['message'] = esc_html__( 'Invalid license.', 'connections' );
 					break;
 
 				case 'revoked':
 
 					$status['type']    = 'error';
+					$status['code']    = 'revoked';
 					$status['message'] = esc_html__( 'License has been revoked.', 'connections' );
 					break;
 
 				case 'no_activations_left':
 
 					$status['type']    = 'warning';
+					$status['code']    = 'no_activations_left';
 					$status['message'] = esc_html__( 'License activation limit has been reached.', 'connections' );
 					break;
 
 				case 'key_mismatch':
 
 					$status['type']    = 'error';
+					$status['code']    = 'key_mismatch';
 					$status['message'] = esc_html__( 'License key mismatch.', 'connections' );
 					break;
 
 				case 'license_not_activable':
 
 					$status['type']    = 'error';
+					$status['code']    = 'license_not_activable';
 					$status['message'] = esc_html__( 'Bundle license keys can not be activated. Use item license key instead.', 'connections' );
 					break;
 
 				default:
 
 					$status['type']    = 'error';
+					$status['code']    = 'unknown_error';
 					$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
 					break;
 			}
@@ -588,12 +598,14 @@ HERERDOC;
 				case 'invalid':
 
 					$status['type']    = 'error';
+					$status['code']    = 'invalid';
 					$status['message'] = esc_html__( 'License key invalid.', 'connections' );
 					break;
 
 				case 'expired':
 
 					$status['type'] = 'error';
+					$status['code'] = 'expired';
 
 					$message = esc_html__( 'Support license key has expired. Your are no longer receiving support and in admin updates.', 'connections' );
 
@@ -614,30 +626,35 @@ HERERDOC;
 				case 'inactive':
 
 					$status['type']    = 'warning';
+					$status['code']    = 'inactive';
 					$status['message'] = esc_html__( 'License is not active.', 'connections' );
 					break;
 
 				case 'disabled':
 
 					$status['type']    = 'error';
+					$status['code']    = 'disabled';
 					$status['message'] = esc_html__( 'License has been disabled.', 'connections' );
 					break;
 
 				case 'site_inactive':
 
 					$status['type']    = 'warning';
+					$status['code']    = 'site_inactive';
 					$status['message'] = esc_html__( 'License is not active on this site.', 'connections' );
 					break;
 
 				case 'item_name_mismatch':
 
 					$status['type']    = 'error';
+					$status['code']    = 'item_name_mismatch';
 					$status['message'] = esc_html__( 'License entered is not for this item.', 'connections' );
 					break;
 
 				case 'valid':
 
 					$status['type'] = 'success';
+					$status['code'] = 'valid';
 
 					$expiryDate = strtotime( $data->expires );
 
@@ -661,24 +678,28 @@ HERERDOC;
 				case 'deactivated':
 
 					$status['type']    = 'warning';
+					$status['code']    = 'deactivated';
 					$status['message'] = esc_html__( 'License is deactivated.', 'connections' );
 					break;
 
 				case 'failed':
 
 					$status['type']    = 'error';
+					$status['code']    = 'failed';
 					$status['message'] = esc_html__( 'License validation failed.' , 'connections' );
 					break;
 
 				default:
 
 					$status['type']    = 'error';
+					$status['code']    = 'unknown_error';
 					$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
 			}
 
 		} else {
 
 			$status['type']    = 'error';
+			$status['code']    = 'unknown_error';
 			$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
 		}
 

@@ -1099,7 +1099,7 @@ HERERDOC;
 	 * @param  string $license The item license key.
 	 * @param  string $url     The EDD SL Updater URL.
 	 *
-	 * @return mixed           object|WP_Error The EDD SL response for the item on success or WP_Error on fail.
+	 * @return object|WP_Error The EDD SL response for the item on success or WP_Error on fail.
 	 */
 	public static function license( $action, $name, $license, $url = NULL ) {
 

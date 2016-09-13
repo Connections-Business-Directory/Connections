@@ -902,6 +902,8 @@ HERERDOC;
 		// Run on activate button press
 		if ( isset( $_POST[ $this->slug . '-activate_license' ] ) ) {
 
+			delete_transient( 'connections_license-' . $this->slug );
+
 			// Retrieve license keys and data.
 			$keys = get_option( 'connections_licenses' );
 			$data = get_option( 'connections_license_data' );
@@ -944,6 +946,8 @@ HERERDOC;
 
 		// Run on deactivate button press
 		if ( isset( $_POST[ $this->slug . '-deactivate_license' ] ) ) {
+
+			delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
 			//$keys = get_option( 'connections_licenses' );

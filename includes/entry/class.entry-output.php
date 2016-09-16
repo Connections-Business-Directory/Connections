@@ -2334,11 +2334,18 @@ class cnOutput extends cnEntry {
 
 		foreach ( $dates as $date ) {
 
-			$replace = array();
+			try {
 
-			// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
-			// just in case a user manages to input an incorrect date or date format.
-			$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
+				// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
+				// just in case a user manages to input an incorrect date or date format.
+				$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
+
+			} catch ( Exception $e ) {
+
+				continue;
+			}
+
+			$replace = array();
 
 			$out .= "\t" . '<span class="vevent cn-date' . ( $date->preferred ? ' cn-preferred cn-date-preferred' : '' ) . '">';
 

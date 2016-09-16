@@ -384,8 +384,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( is_wp_error( $term ) ) {
 
-			// If we're going to inform the client that the term exists, give them the identifier
-			// they can actually use.
+			// If we're going to inform the client that the term exists, give them the identifier they can actually use.
 
 			if ( ( $term_id = $term->get_error_data( 'term_exists' ) ) ) {
 

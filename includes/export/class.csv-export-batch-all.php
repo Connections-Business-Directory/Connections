@@ -632,6 +632,17 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			case 5:
 				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ',';
 				break;
+
+			case 6:
+
+				if ( is_numeric( $atts['child_of'] ) ) {
+
+					$term = cnTerm::get( $atts['child_of'] );
+
+					$header .= $this->escapeAndQuote( $term->name ) . ',';
+				}
+
+				break;
 		}
 
 		return $header;
@@ -806,6 +817,22 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 							}
 
 							$row .= $this->escapeAndQuote( $data ) . ',';
+							break;
+
+						case 6:
+
+							$terms  = array();
+							$parent = $this->fields[ $i ]['child_of'];
+
+							$results = $this->getTerms( $entry->id, 'category' );
+
+							foreach ( $results as $term ) {
+								$terms[] = $parent . ':' . $term->term_id;
+								if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) $terms[] = $term->name;
+							}
+
+							$row .= $this->escapeAndQuote( implode( ',', $terms ) ) . ',';
+
 							break;
 
 						default:
@@ -1086,7 +1113,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		global $wpdb;
 
 		$sql = $wpdb->prepare(
-			'SELECT t.name FROM ' . CN_TERMS_TABLE . ' AS t
+			'SELECT t.term_id, t.name FROM ' . CN_TERMS_TABLE . ' AS t
 			 INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id
 			 INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id
 			 WHERE tt.taxonomy = %s

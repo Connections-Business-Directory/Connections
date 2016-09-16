@@ -15,9 +15,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Class cnvCard
+ */
 class cnvCard extends cnEntry_HTML {
 
+	/**
+	 * @var array
+	 */
 	private $data;
+
+	/**
+	 * @var string
+	 */
 	private $card;
 
 	private function setvCardData() {
@@ -587,6 +597,9 @@ class cnvCard extends cnEntry_HTML {
 		}
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getvCard() {
 
 		$this->setvCardData();

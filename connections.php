@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.5.25
+ * Version: 8.5.26
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.5.25
+ * @version 8.5.26
  */
 
 // Exit if accessed directly
@@ -53,6 +53,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 * @var connectionsLoad
 		 */
 		private static $instance;
+
+		/**
+		 * @access private
+		 * @since  8.5.26
+		 *
+		 * @var cnAPI
+		 */
+		private $api;
 
 		/**
 		 * @access private
@@ -179,6 +187,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::$instance->term        = new cnTerms();
 				self::$instance->template    = new cnTemplatePart();
 				self::$instance->url         = new cnURL();
+				self::$instance->api         = new cnAPI();
 
 				/**
 				 * NOTE: Any calls to load_plugin_textdomain should be in a function attached to the `plugins_loaded` action hook.
@@ -226,7 +235,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.25' );
+			define( 'CN_CURRENT_VERSION', '8.5.26' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.4' );
@@ -682,6 +691,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Include the Template Customizer files.
 			add_action( 'plugins_loaded', array( __CLASS__, 'includeCustomizer' ) );
+
+			// API
+			require_once CN_PATH . 'includes/api/class.api.php';
 		}
 
 		/**

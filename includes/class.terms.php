@@ -1414,9 +1414,9 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @param string $term            The term to add or update.
-	 * @param string $taxonomy        The taxonomy to which to add the term
-	 * @param array  $args            {
+	 * @param string        $term            The term to add or update.
+	 * @param string        $taxonomy        The taxonomy to which to add the term
+	 * @param array|object  $args            {
 	 *    Optional. Arguments to change values of the inserted term.
 	 *
 	 *    @type string 'alias_of'        Slug of the term to make this term an alias of.
@@ -3402,7 +3402,7 @@ class cnTerm {
 
 		$join  .= 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
 
-		$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderby', 'order', 'limit' );
+		$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderBy', 'orderby', 'order', 'limit' );
 
 		/**
 		 * Filter the terms query SQL clauses.

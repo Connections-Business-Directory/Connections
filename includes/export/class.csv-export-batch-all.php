@@ -130,6 +130,8 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *                              NOTE: Only use this to export terms from the taxonomy tables.
 		 *                          4 - Export data stored in the CN_ENTRY_TABLE options column for an entry.
 		 *                          5 - Export data stored in the CN_ENTRY_TABLE_META by `meta_key` name for an entry.
+		 *                          6 - Export terms that are of the defined parent.
+		 *                              NOTE: Only use this to export terms from the taxonomy tables.
 		 *     @type string $fields The fields to export from the indicated $table.
 		 *                          Use to export data from the specified $fields from the supporting field type tables,
 		 *                          such as CN_ENTRY_ADDRESS_TABLE, CN_ENTRY_PHONE_TABLE and so on.
@@ -140,6 +142,25 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		 *                          EXAMPLE: If you only want work and home addresses,  put "work;home" in this field,
 		 *                                   and addresses of any other type will not be included.
 		 * }
+		 */
+
+		/**
+		 * This example illustrates how to use export type `6`.
+		 *
+		 * The result will be the term name of term ID 2071 as teh column header and the row contents will be term
+		 * descendants if they are attached to the the current entry being exported.
+		 *
+		 * @example
+		 *
+		 * <code>
+		 * $fields[] = array(
+		 *     'field'    => 'category',
+		 *     'child_of' => 2071,
+		 *     'type'     => 6,
+		 *     'fields'   => NULL,
+		 *     'table'    => CN_TERMS_TABLE,
+		 *     'types'    => NULL,
+		 * );
 		 */
 
 		$fields = array(
@@ -632,6 +653,17 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			case 5:
 				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ',';
 				break;
+
+			case 6:
+
+				if ( is_numeric( $atts['child_of'] ) ) {
+
+					$term = cnTerm::get( $atts['child_of'] );
+
+					$header .= $this->escapeAndQuote( $term->name ) . ',';
+				}
+
+				break;
 		}
 
 		return $header;
@@ -806,6 +838,22 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 							}
 
 							$row .= $this->escapeAndQuote( $data ) . ',';
+							break;
+
+						case 6:
+
+							$terms  = array();
+							$parent = $this->fields[ $i ]['child_of'];
+
+							$results = $this->getTerms( $entry->id, 'category' );
+
+							foreach ( $results as $term ) {
+								$terms[] = $parent . ':' . $term->term_id;
+								if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) $terms[] = $term->name;
+							}
+
+							$row .= $this->escapeAndQuote( implode( ',', $terms ) ) . ',';
+
 							break;
 
 						default:
@@ -1086,7 +1134,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		global $wpdb;
 
 		$sql = $wpdb->prepare(
-			'SELECT t.name FROM ' . CN_TERMS_TABLE . ' AS t
+			'SELECT t.term_id, t.name FROM ' . CN_TERMS_TABLE . ' AS t
 			 INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id
 			 INNER JOIN ' . CN_TERM_RELATIONSHIP_TABLE . ' AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id
 			 WHERE tt.taxonomy = %s

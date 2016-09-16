@@ -306,10 +306,13 @@ span.date-name {
  * Why o` why do theme's insist on floating and setting form widths globally???
  * Apparently they also love setting inputs to blocks rather than the default inline!
  */
-#cn-list span input, #cn-list span input[type="text"] {
+#cn-list span input,
+#cn-list span input[type="text"] {
 	display: inline;
 	float: none;
+	min-width: 0;
 	width: auto;
+	max-width: 100%;
 }
 
 /*

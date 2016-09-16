@@ -69,7 +69,7 @@ class cnSEO {
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
 		// Filter the meta title to reflect the current Connections filter.
-		// User priority 20 because WordPress SEP by Yoast uses priority 15. This filter should run after.
+		// User priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
 		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 20, 3 );
 
 		// Filter the page title to reflect the current Connection filter.
@@ -78,6 +78,9 @@ class cnSEO {
 		// Remove the page/post specific comments feed w/ registered query vars.
 		add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
 
+		// Trigger 404 if entry is not found.
+		add_action( 'pre_handle_404', array( __CLASS__, 'trigger404' ) );
+
 		// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
 		// remove_action( 'wp_head', 'parent_post_rel_link'); // Removes the prev link
 		// remove_action( 'wp_head', 'start_post_rel_link'); // Removes the start link
@@ -85,6 +88,38 @@ class cnSEO {
 		// remove_action( 'wp_head', 'rel_canonical'); // Remove the canonical link
 		// remove_action( 'wp_head', 'feed_links', 2 ); // Remove the feed links.
 		// remove_action( 'wp_head', 'feed_links_extra', 3 ); // Remove page/post specific comments feed.
+	}
+
+	/**
+	 * If querying a single entry by slug and it is not found, trigger a 404.
+	 *
+	 * @todo This should be expanded to all supported core query vars.
+	 *
+	 * @see WP::handle_404()
+	 *
+	 * @access private
+	 * @since  8.5.26
+	 * @static
+	 */
+	public static function trigger404() {
+
+		global $wp_query;
+
+		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+
+			// Grab an instance of the Connections object.
+			$instance = Connections_Directory();
+			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
+
+			if ( empty( $result ) ) {
+
+				$wp_query->set_404();
+				status_header( 404 );
+				nocache_headers();
+			}
+		}
+
+		return FALSE;
 	}
 
 	/**

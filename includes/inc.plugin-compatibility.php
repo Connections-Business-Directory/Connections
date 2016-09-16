@@ -219,7 +219,6 @@ function wordfence_clean_falcon_cache() {
 	     is_callable( array( 'wfCache', 'clearPageCache' ) )
 	) {
 
-		include 'wp-load.php';
 		wfCache::clearPageCache();
 	}
 }

@@ -22,7 +22,7 @@ $notes = $entry->getNotes();
 ?>
 <div class="cn-entry" <?php echo cnHTML::attribute( 'style', $style ); ?>>
 
-	<div style="width:49%; float:<?php echo is_rtl() ? 'right' : 'left'; ?>">
+	<div class="cn-left" style="width:49%; float:<?php echo is_rtl() ? 'right' : 'left'; ?>">
 		<?php
 
 		if ( 'none' !== $atts['image_type'] ) {
@@ -74,7 +74,7 @@ $notes = $entry->getNotes();
 
 	</div>
 
-	<div align="right">
+	<div class="cn-right" style="text-align: right;">
 
 		<?php
 		if ( $atts['show_addresses'] ) $entry->getAddressBlock( array( 'format' => $atts['address_format'] , 'type' => $atts['address_types'] ) );

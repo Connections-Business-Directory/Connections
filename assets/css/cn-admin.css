@@ -979,6 +979,59 @@ form .add {
 	vertical-align: middle;
 }
 
+.wrap-licenses .form-table,
+.wrap-licenses .form-table caption,
+.wrap-licenses .form-table tbody,
+.wrap-licenses .form-table td,
+.wrap-licenses .form-table tfoot,
+.wrap-licenses .form-table th,
+.wrap-licenses .form-table thead,
+.wrap-licenses .form-table tr {
+	display: block;
+}
+.wrap-licenses .form-table tr {
+	float: left;
+	margin: 0 15px 15px 0;
+	background: #fff;
+	border: 1px solid #ccc;
+	width: 30.5%;
+	max-width: 350px;
+	padding: 14px;
+	min-height: 220px;
+	position: relative;
+	box-sizing: border-box;
+}
+.wrap-licenses .form-table th {
+	background: #f9f9f9;
+	padding: 14px;
+	border-bottom: 1px solid #ccc;
+	margin: -14px -14px 20px;
+	width: 100%;
+}
+.wrap-licenses .form-table td {
+	padding: 0;
+}
+.wrap-licenses .form-table td input.regular-text {
+	margin: 0 0 8px;
+	width: 100%;
+}
+.wrap-licenses .form-table td span.description {
+	display: block;
+	position: absolute;
+	background: #fafafa;
+	padding: 14px;
+	border-top: 1px solid #eee;
+	margin: 20px -14px -14px;
+	min-height: 67px;
+	width: 100%;
+	bottom: 14px;
+	box-sizing: border-box;
+}
+
+.wrap-licenses p.submit {
+	clear: both;
+}
+
 /*------------------------------------------------------------------------------
   Metabox default styling. This is to support the new metabox API for custom fields.
 ------------------------------------------------------------------------------*/

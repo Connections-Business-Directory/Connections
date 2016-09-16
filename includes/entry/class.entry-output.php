@@ -2066,7 +2066,7 @@ class cnOutput extends cnEntry {
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->url . '</a>';
 
-			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . 'px" width="' . $iconSize . 'px" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;"/></a>';
+			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . '" width="' . $iconSize . '" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;" alt="' . $network->name . ' Icon"/></a>';
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
@@ -2334,11 +2334,18 @@ class cnOutput extends cnEntry {
 
 		foreach ( $dates as $date ) {
 
-			$replace = array();
+			try {
 
-			// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
-			// just in case a user manages to input an incorrect date or date format.
-			$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
+				// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
+				// just in case a user manages to input an incorrect date or date format.
+				$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
+
+			} catch ( Exception $e ) {
+
+				continue;
+			}
+
+			$replace = array();
 
 			$out .= "\t" . '<span class="vevent cn-date' . ( $date->preferred ? ' cn-preferred cn-date-preferred' : '' ) . '">';
 
@@ -2787,7 +2794,7 @@ class cnOutput extends cnEntry {
 			$items[] = apply_filters(
 				'cn_entry_output_category_item',
 				sprintf(
-					'<%1$s class="cn-category-name cn_category" id="cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
+					'<%1$s class="cn-category-name cn_category cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
 					$atts['item_tag'],
 					$category->term_id,
 					$text,

@@ -56,6 +56,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 		/**
 		 * @access private
+		 * @since  8.5.26
+		 *
+		 * @var cnAPI
+		 */
+		private $api;
+
+		/**
+		 * @access private
 		 * @since  unknown
 		 *
 		 * @var cnUser
@@ -179,6 +187,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::$instance->term        = new cnTerms();
 				self::$instance->template    = new cnTemplatePart();
 				self::$instance->url         = new cnURL();
+				self::$instance->api         = new cnAPI();
 
 				/**
 				 * NOTE: Any calls to load_plugin_textdomain should be in a function attached to the `plugins_loaded` action hook.
@@ -682,6 +691,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Include the Template Customizer files.
 			add_action( 'plugins_loaded', array( __CLASS__, 'includeCustomizer' ) );
+
+			// API
+			require_once CN_PATH . 'includes/api/class.api.php';
 		}
 
 		/**

@@ -3402,7 +3402,7 @@ class cnTerm {
 
 		$join  .= 'INNER JOIN ' . CN_TERM_TAXONOMY_TABLE . ' AS tt ON t.term_id = tt.term_id';
 
-		$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderby', 'order', 'limit' );
+		$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderBy', 'orderby', 'order', 'limit' );
 
 		/**
 		 * Filter the terms query SQL clauses.

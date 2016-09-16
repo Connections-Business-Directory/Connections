@@ -671,7 +671,7 @@ class cnvCard extends cnEntry_HTML {
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 			header( 'Cache-Control: private' );
 			// header( 'Connection: close' );
-			ob_clean();
+			//ob_clean();
 			flush();
 
 			echo $data;

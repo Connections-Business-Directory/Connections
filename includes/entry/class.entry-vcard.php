@@ -259,6 +259,7 @@ class cnvCard extends cnEntry_HTML {
 
 		// @Author: http://www.hotscripts.com/forums/php/47729-solved-how-create-vcard-photo.html
 		if ( $this->data['photo'] ) {
+
 			$imageTypes = array(
 				IMAGETYPE_JPEG => 'JPEG',
 				IMAGETYPE_GIF  => 'GIF',
@@ -267,31 +268,37 @@ class cnvCard extends cnEntry_HTML {
 			);
 
 			if ( $imageInfo = getimagesize( $this->data['photo'] ) AND isset( $imageTypes[ $imageInfo[2] ] ) ) {
+
 				$photo = base64_encode( file_get_contents( $this->data['photo'] ) );
 				$type  = $imageTypes[ $imageInfo[2] ];
-			}
 
-			//$this->card .= sprintf("PHOTO;ENCODING=BASE64;TYPE=%s:%s\r\n", $type, $photo);
-			$this->card .= sprintf( "PHOTO;ENCODING=BASE64;TYPE=%s:", $type );
+				//$this->card .= sprintf("PHOTO;ENCODING=BASE64;TYPE=%s:%s\r\n", $type, $photo);
+				$this->card .= sprintf( "PHOTO;ENCODING=BASE64;TYPE=%s:", $type );
 
-			$i        = 0;
-			$strphoto = sprintf( $photo );
+				$i        = 0;
+				$strphoto = sprintf( $photo );
 
-			while ( $i < strlen( $strphoto ) ) {
-				if ( $i % 75 == 0 ) {
-					$this->card .= "\r\n " . $strphoto[ $i ];
-				} else {
-					$this->card .= $strphoto[ $i ];
+				while ( $i < strlen( $strphoto ) ) {
+
+					if ( $i % 75 == 0 ) {
+
+						$this->card .= "\r\n " . $strphoto[ $i ];
+
+					} else {
+
+						$this->card .= $strphoto[ $i ];
+					}
+
+					$i ++;
 				}
 
-				$i ++;
+				$this->card .= "\r\n";
+				//$this->card .= "PHOTO;VALUE=uri:".$this->data['photo']."\r\n";
 			}
-
-			$this->card .= "\r\n";
-			//$this->card .= "PHOTO;VALUE=uri:".$this->data['photo']."\r\n";
 		}
 
 		if ( $this->data['logo'] ) {
+
 			$imageTypes = array(
 				IMAGETYPE_JPEG => 'JPEG',
 				IMAGETYPE_GIF  => 'GIF',
@@ -300,26 +307,31 @@ class cnvCard extends cnEntry_HTML {
 			);
 
 			if ( $imageInfo = getimagesize( $this->data['logo'] ) AND isset( $imageTypes[ $imageInfo[2] ] ) ) {
+
 				$photo = base64_encode( file_get_contents( $this->data['logo'] ) );
 				$type  = $imageTypes[ $imageInfo[2] ];
-			}
 
-			$this->card .= sprintf( "LOGO;ENCODING=BASE64;TYPE=%s:", $type );
+				$this->card .= sprintf( "LOGO;ENCODING=BASE64;TYPE=%s:", $type );
 
-			$i        = 0;
-			$strphoto = sprintf( $photo );
+				$i        = 0;
+				$strphoto = sprintf( $photo );
 
-			while ( $i < strlen( $strphoto ) ) {
-				if ( $i % 75 == 0 ) {
-					$this->card .= "\r\n " . $strphoto[ $i ];
-				} else {
-					$this->card .= $strphoto[ $i ];
+				while ( $i < strlen( $strphoto ) ) {
+
+					if ( $i % 75 == 0 ) {
+
+						$this->card .= "\r\n " . $strphoto[ $i ];
+
+					} else {
+
+						$this->card .= $strphoto[ $i ];
+					}
+
+					$i ++;
 				}
 
-				$i ++;
+				$this->card .= "\r\n";
 			}
-
-			$this->card .= "\r\n";
 		}
 
 		if ( $this->data['categories'] ) {

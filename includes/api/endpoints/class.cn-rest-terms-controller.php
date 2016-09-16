@@ -148,11 +148,6 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	 */
 	public function get_items( $request ) {
 
-		if ( ! function_exists( 'is_plugin_active' ) ) {
-
-			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		}
-
 		$prepared_args = array(
 			'exclude'    => $request['exclude'],
 			'include'    => $request['include'],

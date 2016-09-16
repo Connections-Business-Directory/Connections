@@ -32,6 +32,9 @@ class cnvCard extends cnEntry_HTML {
 
 	private function setvCardData() {
 
+		$anniversary = NULL;
+		$birthday    = NULL;
+
 		$day = $this->getDates( array( 'type' => 'anniversary' ) );
 
 		if ( ! empty( $day ) ) {

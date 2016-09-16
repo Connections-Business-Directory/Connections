@@ -1414,9 +1414,9 @@ class cnTerm {
 	 * @since  8.1.6
 	 * @static
 	 *
-	 * @param string $term            The term to add or update.
-	 * @param string $taxonomy        The taxonomy to which to add the term
-	 * @param array  $args            {
+	 * @param string        $term            The term to add or update.
+	 * @param string        $taxonomy        The taxonomy to which to add the term
+	 * @param array|object  $args            {
 	 *    Optional. Arguments to change values of the inserted term.
 	 *
 	 *    @type string 'alias_of'        Slug of the term to make this term an alias of.

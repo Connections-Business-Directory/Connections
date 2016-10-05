@@ -222,14 +222,24 @@ HERERDOC;
 	 */
 	private function updater() {
 
-		new EDD_SL_Plugin_Updater(
-			$this->updateURL,
+		//new EDD_SL_Plugin_Updater(
+		//	$this->updateURL,
+		//	$this->file,
+		//	array(
+		//		'version'   => $this->version,
+		//		'license'   => $this->key,
+		//		'item_name' => $this->name,
+		//		'author'    => $this->author
+		//	)
+		//);
+
+		cnPlugin_Updater::register(
 			$this->file,
 			array(
+				'item_name' => $this->name,
+				'author'    => $this->author,
 				'version'   => $this->version,
 				'license'   => $this->key,
-				'item_name' => $this->name,
-				'author'    => $this->author
 			)
 		);
 	}

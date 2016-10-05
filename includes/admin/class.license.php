@@ -399,59 +399,64 @@ HERERDOC;
 		echo '</p>'; // Required to close the open <p> tag that exists when this action is run.
 
 		// Show the upgrade notice if it exists.
-		if ( isset( $info->upgrade_notice ) && isset( $info->upgrade_notice->{ $info->new_version } ) ) {
+		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
 
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $info->new_version ) . '</strong></p>';
-			echo '<ul><li>' . $info->upgrade_notice->{ $info->new_version } . '</li></ul>';
+			echo '<ul><li>' . $info->upgrade_notice . '</li></ul>';
 		}
 
-		// Create the regex that'll parse the changelog for the latest version.
-		// NOTE: regex to support readme.txt parsing support in EDD-SL.
-		$regex = '~<h([1-6])>' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
-
-		preg_match( $regex, $info->sections['changelog'], $matches );
-		//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
-
-		// NOTE: If readme.txt support was not enabled for plugin, parse the changelog meta added by EDD-SL.
-		if ( ! isset( $matches[2] ) ||  empty( $matches[2] ) ) {
+		//--> START Changelog
+		if ( isset( $info->sections['changelog'] ) && ! empty( $info->sections['changelog'] ) ) {
 
 			// Create the regex that'll parse the changelog for the latest version.
-			$regex = '~<(p)><strong>=\s' . preg_quote( $info->new_version ) . '.+?</strong></\1>(.+?)<p>~is';
+			// NOTE: regex to support readme.txt parsing support in EDD-SL.
+			$regex = '~<h([1-6])>' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
 
 			preg_match( $regex, $info->sections['changelog'], $matches );
 			//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
-		}
 
-		// Check if If changelog is found for the current version.
-		if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
+			// NOTE: If readme.txt support was not enabled for plugin, parse the changelog meta added by EDD-SL.
+			if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) {
 
-			preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
-			// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+				// Create the regex that'll parse the changelog for the latest version.
+				$regex = '~<(p)><strong>=\s' . preg_quote( $info->new_version ) . '.+?</strong></\1>(.+?)<p>~is';
 
-			// Make sure the change items were found and not empty before proceeding.
-			if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
+				preg_match( $regex, $info->sections['changelog'], $matches );
+				//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+			}
 
-				$ul = FALSE;
+			// Check if If changelog is found for the current version.
+			if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
 
-				// Finally, lets render the changelog list.
-				foreach ( $matches[1] as $key => $line ) {
+				preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
+				// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
-					if ( ! $ul ) {
+				// Make sure the change items were found and not empty before proceeding.
+				if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
 
-						echo '<p class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
-						echo '<ul class="cn-changelog">';
-						$ul = TRUE;
+					$ul = FALSE;
+
+					// Finally, lets render the changelog list.
+					foreach ( $matches[1] as $key => $line ) {
+
+						if ( ! $ul ) {
+
+							echo '<p class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
+							echo '<ul class="cn-changelog">';
+							$ul = TRUE;
+						}
+
+						echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
 					}
 
-					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
-				}
+					if ( $ul ) {
 
-				if ( $ul ) {
-
-					echo '</ul><div style="clear: left;"></div>';
+						echo '</ul><div style="clear: left;"></div>';
+					}
 				}
 			}
 		}
+		//--> END Changelog
 
 		echo '<p class="cn-update-message-p-clear-before">'; // Required to open a </p> tag that exists when this action is run.
 	}

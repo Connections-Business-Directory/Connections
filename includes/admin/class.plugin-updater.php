@@ -244,7 +244,7 @@ class cnPlugin_Updater {
 				}
 			}
 
-			if ( isset ( $transient->response ) && is_array( $transient->response ) ) {
+			if ( isset( $transient->response ) && is_array( $transient->response ) ) {
 
 				foreach ( $transient->response as $plugin_file => $update_details ) {
 

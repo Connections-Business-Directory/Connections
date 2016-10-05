@@ -60,7 +60,7 @@ class cnPlugin_Updater {
 	 *     @type string $license   The license key. Optional.
 	 * }
 	 *
-	 * @return true|WP_Error
+	 * @return boolean|WP_Error  TRUE on success, WP_Error on failure.
 	 */
 	public static function register( $file, array $data ) {
 
@@ -323,7 +323,7 @@ class cnPlugin_Updater {
 	 * @param string $action The type of information being requested from the Plugin Install API.
 	 * @param object $args   Plugin API arguments.
 	 *
-	 * @return mixed
+	 * @return boolean|object
 	 */
 	public static function plugins_api_filter( $result, $action, $args ) {
 

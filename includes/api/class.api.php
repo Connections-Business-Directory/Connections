@@ -32,7 +32,7 @@ class cnAPI {
 	/**
 	 * Init REST API.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  8.5.26
 	 */
 	private function init() {
@@ -51,7 +51,7 @@ class cnAPI {
 	/**
 	 * Include REST API classes.
 	 *
-	 * @access public
+	 * @access private
 	 * @since  8.5.26
 	 */
 	private function includes() {

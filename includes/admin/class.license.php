@@ -1048,8 +1048,6 @@ HERERDOC;
 
 				return $data;
 
-				break;
-
 			case 'deactivate':
 
 				// EDD SL reports either 'deactivated' or 'failed' as the license status.
@@ -1075,16 +1073,12 @@ HERERDOC;
 
 				return $data;
 
-				break;
-
 			case 'status':
 
 				// Save license data in transient.
 				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
-
-				break;
 		}
 
 		return new WP_Error(

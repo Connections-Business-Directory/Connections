@@ -344,7 +344,7 @@ class cnPlugin_Updater {
 		// Get the transient where we store the api request for this plugin for 1 hour.
 		$transient = get_site_transient( $cache_key );
 
-		if ( FALSE === $transient ) {
+		if ( FALSE === $transient && FALSE !== $plugin ) {
 
 			$response = self::request( 'info', $plugin );
 

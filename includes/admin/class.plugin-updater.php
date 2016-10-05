@@ -388,11 +388,11 @@ class cnPlugin_Updater {
 			'user-agent' => 'Connections/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 		);
 
-		$path = '/home/conne006/logs/sandbox.connections-pro.cnPlugin_Updater-response.log';
-		$date = date( "d-M-Y G:i:s e" );
-
-		$message = '[' . $date . '] ' . json_encode( $options, JSON_PRETTY_PRINT ) . PHP_EOL;
-		error_log( $message, 3, $path );
+		//$path = '/home/conne006/logs/sandbox.connections-pro.cnPlugin_Updater-response.log';
+		//$date = date( "d-M-Y G:i:s e" );
+		//
+		//$message = '[' . $date . '] ' . json_encode( $options, JSON_PRETTY_PRINT ) . PHP_EOL;
+		//error_log( $message, 3, $path );
 
 		$url = sprintf( 'http://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'info' : 'update-check' ) );
 

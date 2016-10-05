@@ -1018,7 +1018,7 @@ HERERDOC;
 
 		// Call the API
 		$response = wp_remote_get(
-			add_query_arg( $query, $url ),
+			add_query_arg( $query, trailingslashit( $url ) ),
 			array(
 				'timeout'   => 15,
 				'sslverify' => FALSE

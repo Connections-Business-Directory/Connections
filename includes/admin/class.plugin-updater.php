@@ -292,7 +292,7 @@ class cnPlugin_Updater {
 		 * --> END <--
 		 */
 
-		$response = self::request( 'update-check' );
+		$response = self::request();
 
 		if ( FALSE !== $response ) {
 
@@ -362,7 +362,7 @@ class cnPlugin_Updater {
 
 		if ( FALSE === $transient && FALSE !== $plugin ) {
 
-			$response = self::request( 'info', $plugin );
+			$response = self::request( $plugin );
 
 			if ( FALSE !== $response ) {
 
@@ -389,7 +389,7 @@ class cnPlugin_Updater {
 	 *
 	 * @return false|object
 	 */
-	private static function request( $action, $plugin = array() ) {
+	private static function request( $plugin = array() ) {
 
 		$response = FALSE;
 

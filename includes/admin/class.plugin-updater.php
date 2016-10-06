@@ -418,7 +418,7 @@ class cnPlugin_Updater {
 			'timeout'   => $timeout,
 			'body'      => array(
 				'url'        => home_url(),
-				'action'     => $action,
+				'action'     => ! empty( $plugin ) ? 'info' : 'update-check',
 				'plugins'    => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$plugins ),
 			),
 			'user-agent' => 'Connections/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),

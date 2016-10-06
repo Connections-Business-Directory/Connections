@@ -197,7 +197,7 @@ class cnPlugin_Updater {
 		 *
 		 * So, lets set the plugin api URL schema using the same login WP core uses to set it in wp_update_plugins().
 		 */
-		if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
+		if ( wp_http_supports( array( 'ssl' ) ) ) {
 
 			$api_url = set_url_scheme( $api_url, 'https' );
 		}
@@ -485,7 +485,7 @@ class cnPlugin_Updater {
 
 		$url = sprintf( 'http://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'info' : 'update-check' ) );
 
-		if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
+		if ( wp_http_supports( array( 'ssl' ) ) ) {
 
 			$url = set_url_scheme( $url, 'https' );
 		}

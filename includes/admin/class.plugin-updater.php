@@ -332,6 +332,10 @@ class cnPlugin_Updater {
 	/**
 	 * Callback for the `plugins_api` filter.
 	 *
+	 * Queries the plugin information to display when the "View details" or "View version x.x details" thickbox.
+	 *
+	 * Results are cached in a transient for an hour.
+	 *
 	 * Based on @see EDD_SL_Plugin_Updater::plugins_api_filter().
 	 *
 	 * @access private
@@ -386,8 +390,7 @@ class cnPlugin_Updater {
 	 * @access private
 	 * @since  8.5.27
 	 *
-	 * @param string $action
-	 * @param array  $plugin
+	 * @param array $plugin
 	 *
 	 * @return false|object
 	 */
@@ -447,6 +450,7 @@ class cnPlugin_Updater {
 	}
 }
 
+	// Init the plugin updater API!
 	cnPlugin_Updater::init();
 
 endif; // End class_exists check.

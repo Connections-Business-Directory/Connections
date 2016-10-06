@@ -524,7 +524,7 @@ class cnPlugin_Updater {
 
 		/**
 		 * Allow plugin to alter the response return by request.
-		 * 
+		 *
 		 * @since 8.5.27
 		 *
 		 * @param bool|object $response The request response.

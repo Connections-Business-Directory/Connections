@@ -166,6 +166,62 @@ class cnPlugin_Updater {
 
 		add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check' ), 99 );
 		add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
+		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
+	}
+
+	/**
+	 * Do not send plugin info to wp.org
+	 *
+	 * This should prevent accidental plugin "collision" where wp.org plugin matches
+	 * a plugin registered with this updater.
+	 *
+	 * Based on logic from this blog post by Mark Jaquith. Updated logic to deal with values
+	 * being JSON encoded vs. serialized.
+	 *
+	 * @link https://markjaquith.wordpress.com/2009/12/14/excluding-your-plugin-or-theme-from-update-checks/
+	 *
+	 * @access private
+	 * @since  8.5.27
+	 *
+	 * @param array  $r   An array of HTTP request arguments.
+	 * @param string $url The request URL.
+	 *
+	 * @return array
+	 */
+	public static function http_request_args( $r, $url ) {
+
+		$api_url = 'http://api.wordpress.org/plugins/update-check/';
+
+		/*
+		 * WP core sets the plugin api URL to either http or https based on whether the site supports SSL connections.
+		 *
+		 * So, lets set the plugin api URL schema using the same login WP core uses to set it in wp_update_plugins().
+		 */
+		if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
+
+			$api_url = set_url_scheme( $api_url, 'https' );
+		}
+
+		// Not a plugin update request. Bail immediately.
+		if ( 0 !== strpos( $url, $api_url ) ) {
+
+			return $r;
+		}
+
+		$plugins = json_decode( $r['body']['plugins'], TRUE );
+
+		foreach ( self::$plugins as $basename => $plugin ) {
+
+			unset( $plugins['plugins'][ $basename ] );
+			unset( $plugins['active'][ array_search( $basename, $plugins['active'] ) ] );
+		}
+
+		// Rebase array keys after unsetting array values.
+		$plugins['active'] = array_values( $plugins['active'] );
+
+		$r['body']['plugins'] = wp_json_encode( $plugins );
+
+		return $r;
 	}
 
 	/**

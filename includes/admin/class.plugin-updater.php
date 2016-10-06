@@ -414,8 +414,8 @@ class cnPlugin_Updater {
 		}
 
 		$options = array(
-			'sslverify' => FALSE,
 			'timeout'   => $timeout,
+			//'sslverify' => FALSE,
 			'body'      => array(
 				'url'        => home_url(),
 				'action'     => ! empty( $plugin ) ? 'info' : 'update-check',
@@ -426,10 +426,10 @@ class cnPlugin_Updater {
 
 		$url = sprintf( 'http://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'info' : 'update-check' ) );
 
-		//if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
-		//
-		//	$url = set_url_scheme( $url, 'https' );
-		//}
+		if ( $ssl = wp_http_supports( array( 'ssl' ) ) ) {
+
+			$url = set_url_scheme( $url, 'https' );
+		}
 
 		$request = wp_remote_post( $url, $options );
 

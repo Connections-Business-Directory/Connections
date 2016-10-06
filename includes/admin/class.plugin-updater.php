@@ -212,8 +212,6 @@ class cnPlugin_Updater {
 		 * --> START <--
 		 */
 
-		$plugins = get_plugins();
-
 		$new_option = new stdClass;
 		$new_option->last_checked = time();
 
@@ -243,6 +241,7 @@ class cnPlugin_Updater {
 
 		if ( $time_not_changed ) {
 
+			$plugins        = get_plugins();
 			$plugin_changed = FALSE;
 
 			foreach ( $plugins as $file => $p ) {

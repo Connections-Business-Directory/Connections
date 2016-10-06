@@ -217,13 +217,26 @@ class cnPlugin_Updater {
 		$new_option = new stdClass;
 		$new_option->last_checked = time();
 
-		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+		switch ( $pagenow ) {
 
-			$timeout = 0;
+			case 'update-core.php' :
+				$timeout = MINUTE_IN_SECONDS;
+				break;
 
-		} else {
+			case 'plugins.php' :
+				$timeout = HOUR_IN_SECONDS;
+				break;
 
-			$timeout = 12 * HOUR_IN_SECONDS;
+			default :
+
+				if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+
+					$timeout = 0;
+
+				} else {
+
+					$timeout = 12 * HOUR_IN_SECONDS;
+				}
 		}
 
 		$time_not_changed = isset( $transient->last_checked ) && $timeout > ( time() - $transient->last_checked );

@@ -434,6 +434,26 @@ class cnPlugin_Updater {
 			$url = set_url_scheme( $url, 'https' );
 		}
 
+		/**
+		 * Allow plugins to change the API URL.
+		 *
+		 * @since 8.5.27
+		 *
+		 * @param string $url    The plugin updater API URL.
+		 * @param array  $plugin The plugin data to get the version info for.
+		 */
+		$url = apply_filters( 'cn_plugin_updater_request_url', $url, $plugin );
+
+		/**
+		 * Allow plugins to modify the request params before it is made.
+		 *
+		 * @since 8.5.27
+		 *
+		 * @param array $options The options being passed to wp_remote_post().
+		 * @param array $plugin  The plugin data to get the version info for.
+		 */
+		$options = apply_filters( 'cn_plugin_updater_request_options', $options, $plugin );
+
 		$request = wp_remote_post( $url, $options );
 
 		if ( ! is_wp_error( $request ) ) {
@@ -446,7 +466,15 @@ class cnPlugin_Updater {
 			}
 		}
 
-		return $response;
+		/**
+		 * Allow plugin to alter the response return by request.
+		 * 
+		 * @since 8.5.27
+		 *
+		 * @param bool|object $response The request response.
+		 * @param array       $plugin   The plugin data to get the version info for.
+		 */
+		return apply_filters( 'cn_plugin_updater_request_response', $response, $plugin );
 	}
 }
 

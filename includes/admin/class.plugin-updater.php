@@ -395,9 +395,27 @@ class cnPlugin_Updater {
 
 		$response = FALSE;
 
+		/**
+		 * Timeout logic base on WP core.
+		 * @see wp_update_plugins()
+		 */
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+
+			$timeout = 30;
+
+		} elseif ( ! empty( $plugin ) ) {
+
+			$timeout = 5;
+
+		} else {
+
+			// Five seconds, plus one extra second for every 10 plugins.
+			$timeout = 5 + (int) ( count( self::$plugins ) / 10 );
+		}
+
 		$options = array(
-			'timeout'   => 15,
 			'sslverify' => FALSE,
+			'timeout'   => $timeout,
 			'body'      => array(
 				'url'        => home_url(),
 				'action'     => $action,

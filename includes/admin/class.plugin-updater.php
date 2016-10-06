@@ -302,6 +302,10 @@ class cnPlugin_Updater {
 
 					$transient->response[ $plugin->plugin ] = $plugin;
 
+					// Delete the plugin info transient set in the plugin_api filter for the view details/version links.
+					$cache_key = 'cn-edd_sl_rest_request_' . substr( md5( serialize( $plugin->slug ) ), 0, 15 );
+					delete_site_transient( $cache_key );
+
 				} else {
 
 					$transient->no_update[ $plugin->plugin ] = $plugin;

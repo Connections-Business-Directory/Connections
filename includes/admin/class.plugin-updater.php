@@ -414,6 +414,42 @@ class cnPlugin_Updater {
 	}
 
 	/**
+	 * NOTE: Using an option instead of a transient because there are too many sites out there with broken
+	 *       object caching which causes update checks to occur on every page load rather than when transients expire.
+	 *
+	 * @access private
+	 * @since  8.5.27
+	 *
+	 * @param object $transient The update_plugins transient.
+	 *
+	 * @return object
+	 */
+	private static function get_cached_response( $transient ) {
+
+		$timeout = self::get_update_check_timeout();
+
+		$cached = get_option( 'cn_update_plugins', FALSE );
+
+		if ( FALSE !== $cached ) {
+
+			$last_checked = isset( $cached['last_checked'] ) && ! empty( $cached['last_checked'] ) ? $cached['last_checked'] : time() - $timeout;
+
+			if ( $timeout > ( time() - $last_checked ) ) {
+
+				$response  = isset( $cached['response'] )  ? $cached['response']  : array();
+				$no_update = isset( $cached['no_update'] ) ? $cached['no_update'] : array();
+				$checked   = isset( $cached['checked'] )   ? $cached['checked']   : array();
+
+				$transient->response  = isset( $transient->response )  ? array_merge( $transient->response, $response )   : $response;
+				$transient->no_update = isset( $transient->no_update ) ? array_merge( $transient->no_update, $no_update ) : $no_update;
+				$transient->checked   = isset( $transient->checked )   ? array_merge( $transient->checked, $checked )     : $checked;
+			}
+		}
+
+		return $transient;
+	}
+
+	/**
 	 * Callback for the `plugins_api` filter.
 	 *
 	 * Queries the plugin information to display when the "View details" or "View version x.x details" thickbox.

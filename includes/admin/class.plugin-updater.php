@@ -450,6 +450,30 @@ class cnPlugin_Updater {
 	}
 
 	/**
+	 * Retrieve the cached update check response.
+	 *
+	 * @access private
+	 * @since  8.5.27
+	 *
+	 * @param array $updates
+	 * @param array $no_update
+	 * @param array $checked
+	 */
+	private static function set_cached_response( $updates = array(), $no_update = array(), $checked = array() ) {
+
+		update_option(
+			'cn_update_plugins',
+			array(
+				'response'     => $updates,
+				'no_update'    => $no_update,
+				'checked'      => $checked,
+				'last_checked' => time(),
+			),
+			FALSE
+		);
+	}
+
+	/**
 	 * Callback for the `plugins_api` filter.
 	 *
 	 * Queries the plugin information to display when the "View details" or "View version x.x details" thickbox.

@@ -276,9 +276,6 @@ class cnPlugin_Updater {
 		 * --> START <--
 		 */
 
-		$new_option = new stdClass;
-		$new_option->last_checked = time();
-
 		switch ( $pagenow ) {
 
 			case 'update-core.php' :

@@ -375,6 +375,45 @@ class cnPlugin_Updater {
 	}
 
 	/**
+	 * Get the plugin update check timeout.
+	 *
+	 * Based on @see wp_update_plugins().
+	 *
+	 * @access private
+	 * @since  8.5.27
+	 *
+	 * @return int
+	 */
+	private static function get_update_check_timeout() {
+
+		global $pagenow;
+
+		switch ( $pagenow ) {
+
+			case 'update-core.php' :
+				$timeout = MINUTE_IN_SECONDS;
+				break;
+
+			case 'plugins.php' :
+				$timeout = HOUR_IN_SECONDS;
+				break;
+
+			default :
+
+				if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+
+					$timeout = 0;
+
+				} else {
+
+					$timeout = 12 * HOUR_IN_SECONDS;
+				}
+		}
+
+		return $timeout;
+	}
+
+	/**
 	 * Callback for the `plugins_api` filter.
 	 *
 	 * Queries the plugin information to display when the "View details" or "View version x.x details" thickbox.

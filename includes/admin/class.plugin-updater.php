@@ -249,14 +249,6 @@ class cnPlugin_Updater {
 		}
 
 		/*
-		 * Multisite installations are handled separately. Why? Unknown.
-		 */
-		if ( 'plugins.php' == $pagenow && is_multisite() ) {
-
-			return $transient;
-		}
-
-		/*
 		 * Since wp_update_plugins() calls set_site_transient( 'update_plugins', $data ) twice,
 		 * we need to merge the data from the first call back into the second call.
 		 */

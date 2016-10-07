@@ -229,6 +229,7 @@ class cnPlugin_Updater {
 	 *
 	 * NOTE: The @see wp_update_plugins() function calls set_site_transient( 'update_plugins', $data ) twice which causes
 	 *       this filter to run twice when doing plugin update checks.
+	 *
 	 * @access private
 	 * @since  8.5.27
 	 *
@@ -264,7 +265,7 @@ class cnPlugin_Updater {
 		 * --> START <--
 		 */
 
-		$timeout   = self::get_update_check_timeout();
+		$timeout = self::get_update_check_timeout();
 		$checked = array();
 
 		$time_not_changed = isset( $transient->last_checked ) && $timeout > ( time() - $transient->last_checked );

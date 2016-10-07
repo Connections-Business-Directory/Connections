@@ -27,24 +27,6 @@ class cnPlugin_Updater {
 	private static $plugins = array();
 
 	/**
-	 * @since 8.5.27
-	 * @var   array
-	 */
-	private static $response = array();
-
-	/**
-	 * @since 8.5.27
-	 * @var   array
-	 */
-	private static $no_update = array();
-
-	/**
-	 * @since 8.5.27
-	 * @var   array
-	 */
-	private static $checked = array();
-
-	/**
 	 * @access public
 	 * @since  8.5.27
 	 *

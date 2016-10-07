@@ -250,9 +250,7 @@ class cnPlugin_Updater {
 		 * Since wp_update_plugins() calls set_site_transient( 'update_plugins', $data ) twice,
 		 * we need to merge the data from the first call back into the second call.
 		 */
-		$transient->response  = isset( $transient->response )  ? array_merge( $transient->response, self::$response )   : self::$response;
-		$transient->no_update = isset( $transient->no_update ) ? array_merge( $transient->no_update, self::$no_update ) : self::$no_update;
-		$transient->checked   = isset( $transient->checked )   ? array_merge( $transient->checked, self::$checked )     : self::$checked;
+		$transient = self::get_cached_response( $transient );
 
 		/**
 		 * Determine if an update check needs to occur.
@@ -267,6 +265,7 @@ class cnPlugin_Updater {
 		 */
 
 		$timeout   = self::get_update_check_timeout();
+		$checked = array();
 
 		$time_not_changed = isset( $transient->last_checked ) && $timeout > ( time() - $transient->last_checked );
 
@@ -274,7 +273,6 @@ class cnPlugin_Updater {
 
 			$plugins        = get_plugins();
 			$plugin_changed = FALSE;
-			$checked        = array();
 
 			foreach ( $plugins as $file => $p ) {
 
@@ -320,11 +318,15 @@ class cnPlugin_Updater {
 
 		if ( FALSE !== $response ) {
 
+			$update    = array();
+			$no_update = array();
+
 			foreach ( $response as $plugin ) {
 
 				if ( version_compare( self::$plugins[ $plugin->plugin ]['version'], $plugin->new_version, '<' ) ) {
 
 					$transient->response[ $plugin->plugin ] = $plugin;
+					$update[ $plugin->plugin ] = $plugin;
 
 					// Delete the plugin info transient set in the plugin_api filter for the view details/version links.
 					$cache_key = 'cn-edd_sl_rest_request_' . substr( md5( serialize( $plugin->slug ) ), 0, 15 );
@@ -333,6 +335,7 @@ class cnPlugin_Updater {
 				} else {
 
 					$transient->no_update[ $plugin->plugin ] = $plugin;
+					$no_update[ $plugin->plugin ] = $plugin;
 				}
 
 				//$transient->checked[ $plugin->plugin ] = self::$plugins[ $plugin->plugin ]['version'];
@@ -341,10 +344,7 @@ class cnPlugin_Updater {
 			/*
 			 * Cache the results so they can be merged into the transient data if no plugin updates found.
 			 */
-			if ( isset( $transient->response ) ) self::$response = $transient->response;
-			if ( isset( $transient->no_update ) ) self::$no_update = $transient->no_update;
-			//if ( isset( $transient->checked ) ) self::$checked = $transient->checked;
-			if ( isset( $checked ) && ! empty( $checked ) ) self::$checked = $checked;
+			self::set_cached_response( $update, $no_update, $checked );
 
 			if ( ! isset( $transient->last_checked ) ) $transient->last_checked = time();
 		}

@@ -238,8 +238,6 @@ class cnPlugin_Updater {
 	 */
 	public static function check( $transient ) {
 
-		global $pagenow;
-
 		/*
 		 * The update_plugins transient should always be an object, if it is not ensure it is.
 		 */
@@ -268,27 +266,7 @@ class cnPlugin_Updater {
 		 * --> START <--
 		 */
 
-		switch ( $pagenow ) {
-
-			case 'update-core.php' :
-				$timeout = MINUTE_IN_SECONDS;
-				break;
-
-			case 'plugins.php' :
-				$timeout = HOUR_IN_SECONDS;
-				break;
-
-			default :
-
-				if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
-
-					$timeout = 0;
-
-				} else {
-
-					$timeout = 12 * HOUR_IN_SECONDS;
-				}
-		}
+		$timeout   = self::get_update_check_timeout();
 
 		$time_not_changed = isset( $transient->last_checked ) && $timeout > ( time() - $transient->last_checked );
 

@@ -1,14 +1,14 @@
 <?php
 /**
  * License handler for Connections Extensions, Templates and Themes.
- * NOTE: This class depends on the EDD SL Updater class.
  *
- * CREDIT: This class was based on "class-edd-license-handler.php" from
- * 		Easy Digital Downloads.
+ * NOTE: This class depends on the cnPlugin_Updater class.
+ *
+ * CREDIT: This was based on "class-edd-license-handler.php" from Easy Digital Downloads.
  *
  * @package     Connections
  * @subpackage  License
- * @copyright   Copyright (c) 2015, Steven A. Zahm
+ * @copyright   Copyright (c) 2016, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       0.8
  */
@@ -63,7 +63,7 @@ class cnLicense {
 	}
 
 	/**
-	 * Include the EDD SL Updater class.
+	 * Include the Plugin Updater..
 	 *
 	 * @access private
 	 * @since  0.8
@@ -72,7 +72,7 @@ class cnLicense {
 	 */
 	private function includes() {
 
-		if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) require_once CN_PATH . 'vendor/edd-sl/EDD_SL_Plugin_Updater.php';
+		if ( ! class_exists( 'cnPlugin_Updater' ) ) require_once CN_PATH . 'includes/admin/class.plugin-updater.php';
 	}
 
 	/**
@@ -210,24 +210,20 @@ HERERDOC;
 	}
 
 	/**
-	 * Register the extension, template or theme with EDD SL.
+	 * Register the add-on, template or extension, with the Plugin Updater.
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @see    EDD_SL_Plugin_Updater
-	 *
-	 * @return void
 	 */
 	private function updater() {
 
-		new EDD_SL_Plugin_Updater(
-			$this->updateURL,
+		cnPlugin_Updater::register(
 			$this->file,
 			array(
+				'item_name' => $this->name,
+				'author'    => $this->author,
 				'version'   => $this->version,
 				'license'   => $this->key,
-				'item_name' => $this->name,
-				'author'    => $this->author
 			)
 		);
 	}
@@ -308,7 +304,6 @@ HERERDOC;
 	 * @param $fields
 	 *
 	 * @return array The field settings array.
-	 * @internal param array $settings
 	 */
 	public function registerSettingsFields( $fields ) {
 
@@ -399,59 +394,64 @@ HERERDOC;
 		echo '</p>'; // Required to close the open <p> tag that exists when this action is run.
 
 		// Show the upgrade notice if it exists.
-		if ( isset( $info->upgrade_notice ) && isset( $info->upgrade_notice->{ $info->new_version } ) ) {
+		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
 
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $info->new_version ) . '</strong></p>';
-			echo '<ul><li>' . $info->upgrade_notice->{ $info->new_version } . '</li></ul>';
+			echo '<ul><li>' . $info->upgrade_notice . '</li></ul>';
 		}
 
-		// Create the regex that'll parse the changelog for the latest version.
-		// NOTE: regex to support readme.txt parsing support in EDD-SL.
-		$regex = '~<h([1-6])>' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
-
-		preg_match( $regex, $info->sections['changelog'], $matches );
-		//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
-
-		// NOTE: If readme.txt support was not enabled for plugin, parse the changelog meta added by EDD-SL.
-		if ( ! isset( $matches[2] ) ||  empty( $matches[2] ) ) {
+		//--> START Changelog
+		if ( isset( $info->sections['changelog'] ) && ! empty( $info->sections['changelog'] ) ) {
 
 			// Create the regex that'll parse the changelog for the latest version.
-			$regex = '~<(p)><strong>=\s' . preg_quote( $info->new_version ) . '.+?</strong></\1>(.+?)<p>~is';
+			// NOTE: regex to support readme.txt parsing support in EDD-SL.
+			$regex = '~<h([1-6])>' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
 
 			preg_match( $regex, $info->sections['changelog'], $matches );
 			//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
-		}
 
-		// Check if If changelog is found for the current version.
-		if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
+			// NOTE: If readme.txt support was not enabled for plugin, parse the changelog meta added by EDD-SL.
+			if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) {
 
-			preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
-			// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+				// Create the regex that'll parse the changelog for the latest version.
+				$regex = '~<(p)><strong>=\s' . preg_quote( $info->new_version ) . '.+?</strong></\1>(.+?)<p>~is';
 
-			// Make sure the change items were found and not empty before proceeding.
-			if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
+				preg_match( $regex, $info->sections['changelog'], $matches );
+				//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
+			}
 
-				$ul = FALSE;
+			// Check if If changelog is found for the current version.
+			if ( isset( $matches[2] ) && ! empty( $matches[2] ) ) {
 
-				// Finally, lets render the changelog list.
-				foreach ( $matches[1] as $key => $line ) {
+				preg_match_all( '~<li>(.+?)</li>~', $matches[2], $matches );
+				// echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
-					if ( ! $ul ) {
+				// Make sure the change items were found and not empty before proceeding.
+				if ( isset( $matches[1] ) && ! empty( $matches[1] ) ) {
 
-						echo '<p class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
-						echo '<ul class="cn-changelog">';
-						$ul = TRUE;
+					$ul = FALSE;
+
+					// Finally, lets render the changelog list.
+					foreach ( $matches[1] as $key => $line ) {
+
+						if ( ! $ul ) {
+
+							echo '<p class="cn-update-message-p-clear-before"><strong>' . esc_html__( 'Take a minute to update, here\'s why:', 'connections' ) . '</strong></p>';
+							echo '<ul class="cn-changelog">';
+							$ul = TRUE;
+						}
+
+						echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
 					}
 
-					echo '<li style="' . ( $key % 2 == 0 ? ' clear: left;' : '' ) . '">' . $line . '</li>';
-				}
+					if ( $ul ) {
 
-				if ( $ul ) {
-
-					echo '</ul><div style="clear: left;"></div>';
+						echo '</ul><div style="clear: left;"></div>';
+					}
 				}
 			}
 		}
+		//--> END Changelog
 
 		echo '<p class="cn-update-message-p-clear-before">'; // Required to open a </p> tag that exists when this action is run.
 	}
@@ -1018,7 +1018,7 @@ HERERDOC;
 
 		// Call the API
 		$response = wp_remote_get(
-			add_query_arg( $query, $url ),
+			add_query_arg( $query, trailingslashit( $url ) ),
 			array(
 				'timeout'   => 15,
 				'sslverify' => FALSE
@@ -1048,8 +1048,6 @@ HERERDOC;
 
 				return $data;
 
-				break;
-
 			case 'deactivate':
 
 				// EDD SL reports either 'deactivated' or 'failed' as the license status.
@@ -1075,16 +1073,12 @@ HERERDOC;
 
 				return $data;
 
-				break;
-
 			case 'status':
 
 				// Save license data in transient.
 				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
-
-				break;
 		}
 
 		return new WP_Error(

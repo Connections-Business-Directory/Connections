@@ -2410,7 +2410,33 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $wpdb->esc_like( $word ) . '%' ) );
+						/**
+						 * Allow plugins to alter the shortword LIKE query.
+						 *
+						 * By default the shortword LIKE query will only return results with entries matching words that
+						 * begin with the shortword. This is done to match the FULLTEXT search query which only returns
+						 * results with terms that being with the search term.
+						 *
+						 * To alter the LIKE query to return results for shortword where entries contain the shortword,
+						 * rather than begins with, use this example filter:
+						 *
+						 * <code>
+						 * add_filter( 'cn_search_like_shortword', 'my_custom_search_like_shortword', 10, 2 );
+						 * function my_custom_search_like_shortword( $esc_word, $word ) {
+						 *
+						 *     return '%' . $wpdb->esc_like( $word ) . '%';
+						 * }
+						 * </code>
+						 *
+						 * @since 8.5.27
+						 *
+						 * @param string $word The shortword where the $word is escaped for a LIKE query with a
+						 *                     trailing `%` so the LIKE query will return results that begin with $word.
+						 * @param string $word The shortword to perform the LIKE query with.
+						 */
+						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
+
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['entry'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['entry'] ), $word ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
@@ -2470,7 +2496,9 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $wpdb->esc_like( $word ) . '%' ) );
+						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
+
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['address'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['address'] ), $word ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';
@@ -2535,7 +2563,9 @@ class cnRetrieve {
 
 					foreach ( $shortwords as $word ) {
 
-						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $wpdb->esc_like( $word ) . '%' ) );
+						$word = apply_filters( 'cn_search_like_shortword', $wpdb->esc_like( $word ) . '%', $word );
+
+						$like[] = $wpdb->prepare( implode( ' LIKE %s OR ' , $atts['fields']['phone'] ) . ' LIKE %s ', array_fill( 0, count( $atts['fields']['phone'] ), $word ) );
 					}
 
 					$where[] = '( ' . implode( ') OR (' , $like ) . ')';

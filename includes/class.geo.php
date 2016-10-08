@@ -828,7 +828,7 @@ class cnGeo {
 			'PG' => 'Papua New Guinea',
 			'PY' => 'Paraguay',
 			'PE' => 'Peru',
-			'PH' => 'Phillipines',
+			'PH' => 'Philippines',
 			'PN' => 'Pitcairn Island',
 			'PL' => 'Poland',
 			'PT' => 'Portugal',

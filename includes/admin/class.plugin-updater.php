@@ -149,6 +149,7 @@ class cnPlugin_Updater {
 		add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check' ), 99 );
 		add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
 		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
+		add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
 	}
 
 	/**
@@ -432,6 +433,19 @@ class cnPlugin_Updater {
 			),
 			FALSE
 		);
+	}
+
+	/**
+	 * Callback for the `delete_site_transient_update_plugins` filter.
+	 *
+	 * Delete the cached update check response.
+	 *
+	 * @access private
+	 * @since  8.5.27
+	 */
+	public static function clear_cached_response() {
+
+		delete_option( 'cn_update_plugins' );
 	}
 
 	/**

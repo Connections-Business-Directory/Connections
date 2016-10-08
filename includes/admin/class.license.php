@@ -304,7 +304,6 @@ HERERDOC;
 	 * @param $fields
 	 *
 	 * @return array The field settings array.
-	 * @internal param array $settings
 	 */
 	public function registerSettingsFields( $fields ) {
 

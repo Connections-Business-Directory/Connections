@@ -1,10 +1,10 @@
 <?php
 /**
  * License handler for Connections Extensions, Templates and Themes.
- * NOTE: This class depends on the EDD SL Updater class.
  *
- * CREDIT: This class was based on "class-edd-license-handler.php" from
- * 		Easy Digital Downloads.
+ * NOTE: This class depends on the cnPlugin_Updater class.
+ *
+ * CREDIT: This was based on "class-edd-license-handler.php" from Easy Digital Downloads.
  *
  * @package     Connections
  * @subpackage  License
@@ -63,7 +63,7 @@ class cnLicense {
 	}
 
 	/**
-	 * Include the EDD SL Updater class.
+	 * Include the Plugin Updater..
 	 *
 	 * @access private
 	 * @since  0.8
@@ -72,9 +72,7 @@ class cnLicense {
 	 */
 	private function includes() {
 
-		if ( ! class_exists( 'EDD_SL_Plugin_Updater' ) ) require_once CN_PATH . 'vendor/edd-sl/EDD_SL_Plugin_Updater.php';
 		if ( ! class_exists( 'cnPlugin_Updater' ) ) require_once CN_PATH . 'includes/admin/class.plugin-updater.php';
-
 	}
 
 	/**
@@ -212,26 +210,12 @@ HERERDOC;
 	}
 
 	/**
-	 * Register the extension, template or theme with EDD SL.
+	 * Register the add-on, template or extension, with the Plugin Updater.
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @see    EDD_SL_Plugin_Updater
-	 *
-	 * @return void
 	 */
 	private function updater() {
-
-		//new EDD_SL_Plugin_Updater(
-		//	$this->updateURL,
-		//	$this->file,
-		//	array(
-		//		'version'   => $this->version,
-		//		'license'   => $this->key,
-		//		'item_name' => $this->name,
-		//		'author'    => $this->author
-		//	)
-		//);
 
 		cnPlugin_Updater::register(
 			$this->file,

@@ -230,6 +230,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.27 10/08/2016 =
+* NEW: Introduce the `cn_search_like_shortword` filter.
+* NEW: Introduce cnPlugin_Updater class.
+* TWEAK: Switch from using EDD_SL_Plugin_Updater to cnPlugin_Updater..
+* TWEAK: Update WordPress API to 2.0-beta15
+* TWEAK: Tweak the term slug sanitize_callback to use the `WP_REST_Controller::sanitize_slug()` callback.
+* TWEAK: Remove unnecessary break statements in a switch.
+* TWEAK: Ensure trailing slash in cnLicense::license() request.
+* BUG: Ensure changelog section existing before trying to parse it.
+* BUG: The upgrade notice is a string, not an array.
+* OTHER: Correct misspelling.
+* OTHER: Update copyright year in cnLicense.
+* DEV: phpDoc fixes.
+
 = 8.5.26 09/16/2016 =
 * NEW: Add a new CSV export config option to export categories as child_of the defined parent category into their own csv column.
 * NEW: Add support for the WP REST API. This is alpha status and only supports the directory categories.
@@ -713,4 +727,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.26 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+= 8.5.17 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.

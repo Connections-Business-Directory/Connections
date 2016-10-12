@@ -505,19 +505,14 @@ HERERDOC;
 		}
 
 		// Retrieve the items license data.
-		$data = get_transient( 'connections_license-' . $license->slug );
+		$data = cnLicense_Status::get( $license->slug );
 
-		if ( FALSE == $data ) {
+		if ( is_wp_error( $data ) ) {
 
-			$data = self::license( 'status', $license->name, $license->key, $license->updateURL );
-
-			if ( is_wp_error( $data ) ) {
-
-				$status['type']    = 'error';
-				$status['code']    = $data->get_error_code();
-				$status['message'] = $data->get_error_message();
-				return $status;
-			}
+			$status['type']    = 'error';
+			$status['code']    = $data->get_error_code();
+			$status['message'] = $data->get_error_message();
+			return $status;
 		}
 
 		// If there was an error message in the EDD SL API response, set the description to the error message.
@@ -826,8 +821,8 @@ HERERDOC;
 
 			$data[ $this->slug ] = array();
 
-			delete_transient( 'connections_license-' . $this->slug );
 			update_option( 'connections_license_data', $data, FALSE );
+			//delete_transient( 'connections_license-' . $this->slug );
 		}
 
 		return $settings;
@@ -859,7 +854,7 @@ HERERDOC;
 		// Run on activate button press
 		if ( isset( $_POST[ $this->slug . '-activate_license' ] ) ) {
 
-			delete_transient( 'connections_license-' . $this->slug );
+			//delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
 			$keys = get_option( 'connections_licenses' );
@@ -904,7 +899,7 @@ HERERDOC;
 		// Run on deactivate button press
 		if ( isset( $_POST[ $this->slug . '-deactivate_license' ] ) ) {
 
-			delete_transient( 'connections_license-' . $this->slug );
+			//delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
 			//$keys = get_option( 'connections_licenses' );
@@ -1001,7 +996,7 @@ HERERDOC;
 				update_option( 'connections_license_data', $licenses, FALSE );
 
 				// Save license data in transient.
-				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
@@ -1026,14 +1021,14 @@ HERERDOC;
 				update_option( 'connections_license_data', $licenses, FALSE );
 
 				// Save license data in transient.
-				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
 			case 'status':
 
 				// Save license data in transient.
-				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 		}

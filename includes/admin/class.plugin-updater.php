@@ -48,8 +48,8 @@ class cnPlugin_Updater {
 
 		$defaults = array(
 			//'file'      => '',
-			'basename'  => '',
-			'slug'      => '',
+			//'basename'  => '',
+			//'slug'      => '',
 			'item_id'   => 0,
 			'item_name' => '',
 			'author'    => '',

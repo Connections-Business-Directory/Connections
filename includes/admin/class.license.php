@@ -779,63 +779,6 @@ HERERDOC;
 	}
 
 	/**
-	 * Get the license current status. This status will be refreshed once per day.
-	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
-	 *
-	 * @param  string $name The item name.
-	 * @param  string $key  The item license key.
-	 *
-	 * @return string|WP_Error The item license status or WP_Error on failure.
-	 */
-	public static function status( $name, $key ) {
-
-		$status = 'unknown';
-
-		if ( empty( $name ) || empty( $key ) ) {
-
-			return $status;
-		}
-
-		$slug = self::getSlug( $name );
-
-		$license = get_transient( 'connections_license-' . $slug );
-
-		if ( FALSE == $license ) {
-
-			// Retrieve the items license data.
-			$data = get_option( 'connections_license_data' );
-
-			$response = self::license( 'status', $name, $key );
-
-			if ( is_wp_error( $response ) ) {
-
-				return $response;
-			}
-
-			$data[ $slug ] = $response;
-
-			update_option( 'connections_license_data', $data );
-
-			set_transient( 'connections_license-' . $slug, $data[ $slug ], DAY_IN_SECONDS );
-
-			// var_dump($data[ $slug ]);
-			return $data[ $slug ]->license;
-
-		}
-
-		// var_dump( $license );
-		if ( isset( $license->license ) ) {
-
-			return $license->license;
-		}
-
-		return $status;
-	}
-
-	/**
 	 * The filter applied to the sanitize license key when the settings are saved.
 	 * This will also attempt to activate/deactivate license keys.
 	 *

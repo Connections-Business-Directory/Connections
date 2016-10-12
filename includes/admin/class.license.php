@@ -73,6 +73,7 @@ class cnLicense {
 	private function includes() {
 
 		if ( ! class_exists( 'cnPlugin_Updater' ) ) require_once CN_PATH . 'includes/admin/class.plugin-updater.php';
+		if ( ! class_exists( 'cnLicense_Status' ) ) require_once CN_PATH . 'includes/admin/class.license-status.php';
 	}
 
 	/**
@@ -220,6 +221,17 @@ HERERDOC;
 		cnPlugin_Updater::register(
 			$this->file,
 			array(
+				'item_name' => $this->name,
+				'author'    => $this->author,
+				'version'   => $this->version,
+				'license'   => $this->key,
+			)
+		);
+
+		cnLicense_Status::register(
+			$this->file,
+			array(
+				'item_id'   => $this->id,
 				'item_name' => $this->name,
 				'author'    => $this->author,
 				'version'   => $this->version,

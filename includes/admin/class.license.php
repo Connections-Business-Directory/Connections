@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 class cnLicense {
 
 	private $file;
+	private $id = 0;
 	private $name;
 	private $slug;
 	private $version;

@@ -559,6 +559,14 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						<?php
 
 						$optionGroup = isset( $currentTab ) && ! empty( $currentTab ) ? $pageHook . '-' . $currentTab : $pageHook;
+
+						/**
+						 * Allow plugins to fire actions before tab content is displayed.
+						 * 
+						 * @since 8.5.28
+						 */
+						do_action( $optionGroup );
+
 						/*
 						 * If tabs were registered to the current page, set the hidden fields with the current tab id
 						 * appended to the page hook. If this is not done the settings registered to the current tab will

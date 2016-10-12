@@ -557,6 +557,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					<form method="post" action="options.php">
 
 						<?php
+
+						$optionGroup = isset( $currentTab ) && ! empty( $currentTab ) ? $pageHook . '-' . $currentTab : $pageHook;
 						/*
 						 * If tabs were registered to the current page, set the hidden fields with the current tab id
 						 * appended to the page hook. If this is not done the settings registered to the current tab will
@@ -564,7 +566,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						 */
 						//global $new_whitelist_options;print_r($new_whitelist_options);
 						?>
-						<?php settings_fields( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook ); ?>
+						<?php settings_fields( $optionGroup ); ?>
 
 						<?php
 						/*
@@ -575,7 +577,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 						<table class="form-table">
 
-						<?php do_settings_fields( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook , 'default'); ?>
+						<?php do_settings_fields( $optionGroup, 'default'); ?>
 
 						</table>
 
@@ -588,7 +590,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						 * so only the settings registered to the current tab are displayed.
 						 */
 						?>
-						<?php do_settings_sections( ( isset( $currentTab ) && ! empty( $currentTab ) ) ? $pageHook . '-' . $currentTab : $pageHook ); ?>
+						<?php do_settings_sections( $optionGroup ); ?>
 
 					<?php submit_button(); ?>
 					</form>

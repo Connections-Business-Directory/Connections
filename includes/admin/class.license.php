@@ -869,8 +869,8 @@ HERERDOC;
 
 			$data[ $this->slug ] = array();
 
-			update_option( 'connections_license_data', $data );
 			delete_transient( 'connections_license-' . $this->slug );
+			update_option( 'connections_license_data', $data, FALSE );
 		}
 
 		return $settings;
@@ -1041,7 +1041,7 @@ HERERDOC;
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
-				update_option( 'connections_license_data', $licenses );
+				update_option( 'connections_license_data', $licenses, FALSE );
 
 				// Save license data in transient.
 				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
@@ -1066,7 +1066,7 @@ HERERDOC;
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
-				update_option( 'connections_license_data', $licenses );
+				update_option( 'connections_license_data', $licenses, FALSE );
 
 				// Save license data in transient.
 				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );

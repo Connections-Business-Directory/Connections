@@ -562,7 +562,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 						/**
 						 * Allow plugins to fire actions before tab content is displayed.
-						 * 
+						 *
 						 * @since 8.5.28
 						 */
 						do_action( $optionGroup );

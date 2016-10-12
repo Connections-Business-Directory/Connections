@@ -109,7 +109,21 @@ class cnSEO {
 
 			// Grab an instance of the Connections object.
 			$instance = Connections_Directory();
-			$result   = $instance->retrieve->entries( array( 'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) );
+
+			$atts = array(
+				'slug' => urldecode( cnQuery::getVar( 'cn-entry-slug' ) ),
+			);
+
+			/**
+			 * Allow plugins to filter the cnRetrieve::entries() param array.
+			 *
+			 * @since 8.5.28
+			 *
+			 * @param array $atts
+			 */
+			$atts = apply_filters( 'cn_pre_handle_404_retrieve_atts', $atts );
+
+			$result = $instance->retrieve->entries( $atts );
 
 			if ( empty( $result ) ) {
 

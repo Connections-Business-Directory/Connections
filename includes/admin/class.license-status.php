@@ -156,7 +156,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 		 *
 		 * @param string $slug
 		 *
-		 * @return object|WP_Error
+		 * @return object|WP_Error Item status on success. WP_Error on failure.
 		 */
 		public static function get( $slug ) {
 
@@ -245,7 +245,9 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 		 *
 		 * @param array $plugin
 		 *
-		 * @return array|WP_Error
+		 * @return array|object|WP_Error Array of objects if bulk checking all registered items.
+		 *                               Object if checking a single item.
+		 *                               WP_Error on failure.
 		 */
 		private static function request( $plugin = array() ) {
 

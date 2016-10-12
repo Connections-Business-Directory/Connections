@@ -537,6 +537,7 @@ HERERDOC;
 
 					return $status;
 
+				case 'invalid_item_id':
 				case 'item_name_mismatch':
 
 					$status['type']    = 'error';
@@ -644,6 +645,7 @@ HERERDOC;
 					$status['message'] = esc_html__( 'License is not active on this site.', 'connections' );
 					break;
 
+				case 'invalid_item_id':
 				case 'item_name_mismatch':
 
 					$status['type']    = 'error';

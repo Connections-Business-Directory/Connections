@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin update processor for Connections Extensions, Templates and Themes.
+ * Plugin update processor for Connections Extensions, Templates and Connectors.
  *
  * CREDIT: This class was based on "EDD_SL_plugin_Updater.php" from Easy Digital Downloads Software Licenses.
  *
  * @package     Connections
- * @subpackage  Plugin Uppdater
+ * @subpackage  Plugin Updater
  * @copyright   Copyright (c) 2016, Steven A. Zahm
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       8.5.27
@@ -42,14 +42,14 @@ class cnPlugin_Updater {
 	 *     @type string $license   The license key. Optional.
 	 * }
 	 *
-	 * @return boolean|WP_Error  TRUE on success, WP_Error on failure.
+	 * @return bool|WP_Error  TRUE on success, WP_Error on failure.
 	 */
 	public static function register( $file, array $data ) {
 
 		$defaults = array(
 			//'file'      => '',
-			'basename'  => '',
-			'slug'      => '',
+			//'basename'  => '',
+			//'slug'      => '',
 			'item_id'   => 0,
 			'item_name' => '',
 			'author'    => '',

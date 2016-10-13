@@ -241,6 +241,7 @@ class cnRetrieve {
 			$atts['list_type']           = NULL;
 			$atts['category']            = NULL;
 			$atts['category_in']         = NULL;
+			$atts['category_exclude']    = NULL;
 			$atts['wp_current_category'] = NULL;
 		}
 

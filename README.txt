@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.2
 Tested up to: 4.6
-Stable tag: 8.5.27
+Stable tag: 8.5.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -229,6 +229,21 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 == Changelog ==
+
+= 8.5.28 10/12/2016 =
+* NEW: Introduce the `connections_page_connections_settings-{tab_name}` action hook.
+* NEW: Introduce the `cn_pre_handle_404_retrieve_atts` filter hook.
+* NEW: Introduce cnLicense_Status.
+* TWEAK: Improve the page load time of the Plugins admin page by batching together license checks into a single HTTP request.
+* TWEAK: Set option group name one instead of repeating the logic several times in cnSettingsAPI::form().
+* TWEAK: Add support for the `invalid_item_id` error status reported by EDD-SL.
+* TWEAK: Register all item licenses with cnLicense_Status.
+* TWEAK: Remove unused `cnLicense::status()` method.
+* TWEAK: Remove use of transients made obsolete by cnLicense_Status.
+* BUG: Reset the `category_exclude` shortcode option if querying entry by slug.
+* BUG: The `connections_license_data` should not be autoloaded.
+* BUG: The basename and slug array values do not need to be set as defaults because they are auto created from file path and item name.
+* DEV: phpDoc block fixes.
 
 = 8.5.27 10/08/2016 =
 * NEW: Introduce the `cn_search_like_shortword` filter.
@@ -729,5 +744,8 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 = 8.5.26 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
-= 8.5.17 =
+= 8.5.27 =
+It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+= 8.5.28 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.

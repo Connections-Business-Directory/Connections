@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 class cnLicense {
 
 	private $file;
+	private $id = 0;
 	private $name;
 	private $slug;
 	private $version;
@@ -73,6 +74,7 @@ class cnLicense {
 	private function includes() {
 
 		if ( ! class_exists( 'cnPlugin_Updater' ) ) require_once CN_PATH . 'includes/admin/class.plugin-updater.php';
+		if ( ! class_exists( 'cnLicense_Status' ) ) require_once CN_PATH . 'includes/admin/class.license-status.php';
 	}
 
 	/**
@@ -220,6 +222,17 @@ HERERDOC;
 		cnPlugin_Updater::register(
 			$this->file,
 			array(
+				'item_name' => $this->name,
+				'author'    => $this->author,
+				'version'   => $this->version,
+				'license'   => $this->key,
+			)
+		);
+
+		cnLicense_Status::register(
+			$this->file,
+			array(
+				'item_id'   => $this->id,
 				'item_name' => $this->name,
 				'author'    => $this->author,
 				'version'   => $this->version,
@@ -493,19 +506,14 @@ HERERDOC;
 		}
 
 		// Retrieve the items license data.
-		$data = get_transient( 'connections_license-' . $license->slug );
+		$data = cnLicense_Status::get( $license->slug );
 
-		if ( FALSE == $data ) {
+		if ( is_wp_error( $data ) ) {
 
-			$data = self::license( 'status', $license->name, $license->key, $license->updateURL );
-
-			if ( is_wp_error( $data ) ) {
-
-				$status['type']    = 'error';
-				$status['code']    = $data->get_error_code();
-				$status['message'] = $data->get_error_message();
-				return $status;
-			}
+			$status['type']    = 'error';
+			$status['code']    = $data->get_error_code();
+			$status['message'] = $data->get_error_message();
+			return $status;
 		}
 
 		// If there was an error message in the EDD SL API response, set the description to the error message.
@@ -537,6 +545,7 @@ HERERDOC;
 
 					return $status;
 
+				case 'invalid_item_id':
 				case 'item_name_mismatch':
 
 					$status['type']    = 'error';
@@ -644,6 +653,7 @@ HERERDOC;
 					$status['message'] = esc_html__( 'License is not active on this site.', 'connections' );
 					break;
 
+				case 'invalid_item_id':
 				case 'item_name_mismatch':
 
 					$status['type']    = 'error';
@@ -765,63 +775,6 @@ HERERDOC;
 	}
 
 	/**
-	 * Get the license current status. This status will be refreshed once per day.
-	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
-	 *
-	 * @param  string $name The item name.
-	 * @param  string $key  The item license key.
-	 *
-	 * @return string|WP_Error The item license status or WP_Error on failure.
-	 */
-	public static function status( $name, $key ) {
-
-		$status = 'unknown';
-
-		if ( empty( $name ) || empty( $key ) ) {
-
-			return $status;
-		}
-
-		$slug = self::getSlug( $name );
-
-		$license = get_transient( 'connections_license-' . $slug );
-
-		if ( FALSE == $license ) {
-
-			// Retrieve the items license data.
-			$data = get_option( 'connections_license_data' );
-
-			$response = self::license( 'status', $name, $key );
-
-			if ( is_wp_error( $response ) ) {
-
-				return $response;
-			}
-
-			$data[ $slug ] = $response;
-
-			update_option( 'connections_license_data', $data );
-
-			set_transient( 'connections_license-' . $slug, $data[ $slug ], DAY_IN_SECONDS );
-
-			// var_dump($data[ $slug ]);
-			return $data[ $slug ]->license;
-
-		}
-
-		// var_dump( $license );
-		if ( isset( $license->license ) ) {
-
-			return $license->license;
-		}
-
-		return $status;
-	}
-
-	/**
 	 * The filter applied to the sanitize license key when the settings are saved.
 	 * This will also attempt to activate/deactivate license keys.
 	 *
@@ -869,8 +822,8 @@ HERERDOC;
 
 			$data[ $this->slug ] = array();
 
-			update_option( 'connections_license_data', $data );
-			delete_transient( 'connections_license-' . $this->slug );
+			update_option( 'connections_license_data', $data, FALSE );
+			//delete_transient( 'connections_license-' . $this->slug );
 		}
 
 		return $settings;
@@ -902,7 +855,7 @@ HERERDOC;
 		// Run on activate button press
 		if ( isset( $_POST[ $this->slug . '-activate_license' ] ) ) {
 
-			delete_transient( 'connections_license-' . $this->slug );
+			//delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
 			$keys = get_option( 'connections_licenses' );
@@ -947,7 +900,7 @@ HERERDOC;
 		// Run on deactivate button press
 		if ( isset( $_POST[ $this->slug . '-deactivate_license' ] ) ) {
 
-			delete_transient( 'connections_license-' . $this->slug );
+			//delete_transient( 'connections_license-' . $this->slug );
 
 			// Retrieve license keys and data.
 			//$keys = get_option( 'connections_licenses' );
@@ -1041,10 +994,10 @@ HERERDOC;
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
-				update_option( 'connections_license_data', $licenses );
+				update_option( 'connections_license_data', $licenses, FALSE );
 
 				// Save license data in transient.
-				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
@@ -1066,17 +1019,17 @@ HERERDOC;
 				// Add the license data to the licenses data option.
 				$licenses[ $slug ] = $data;
 
-				update_option( 'connections_license_data', $licenses );
+				update_option( 'connections_license_data', $licenses, FALSE );
 
 				// Save license data in transient.
-				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 
 			case 'status':
 
 				// Save license data in transient.
-				set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
+				//set_transient( 'connections_license-' . $slug, $data, DAY_IN_SECONDS );
 
 				return $data;
 		}

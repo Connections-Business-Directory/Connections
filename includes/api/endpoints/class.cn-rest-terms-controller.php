@@ -196,14 +196,6 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		 */
 		$prepared_args = apply_filters( "cn_rest_{$this->taxonomy}_query", $prepared_args, $request );
 
-		// Can we use the cached call?
-		$use_cache = ! empty( $prepared_args['post'] )
-		             && empty( $prepared_args['include'] )
-		             && empty( $prepared_args['exclude'] )
-		             && empty( $prepared_args['hide_empty'] )
-		             && empty( $prepared_args['search'] )
-		             && empty( $prepared_args['slug'] );
-
 		if ( ! empty( $prepared_args['post'] )  ) {
 
 			$query_result = $this->get_terms_for_post( $prepared_args );

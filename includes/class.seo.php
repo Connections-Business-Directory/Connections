@@ -212,8 +212,21 @@ class cnSEO {
 			if ( cnQuery::getVar( 'cn-entry-slug' ) )
 				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) ) );
 
+			if ( 'page' == get_option( 'show_on_front' ) && $ID == get_option( 'page_on_front' ) ) {
 
-			$link = user_trailingslashit( $link, 'page' );
+				$link = trailingslashit( $link );
+
+			} else {
+
+				if ( $wp_rewrite->use_trailing_slashes ) {
+
+					$link = trailingslashit( $link );
+
+				} else {
+
+					$link = untrailingslashit( $link );
+				}
+			}
 
 		} else {
 

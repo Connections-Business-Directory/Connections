@@ -281,7 +281,7 @@ class cnTemplatePart {
 	public static function loadTemplateError( $atts ) {
 
 		$defaults = array(
-			'template'      => NULL,
+			'template' => NULL,
 		);
 
 		$atts = shortcode_atts( $defaults, $atts );

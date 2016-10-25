@@ -1325,8 +1325,8 @@ class cnEntry {
 
 			if ( ! empty( $this->addresses ) ) {
 
-				$addresses = unserialize( $this->addresses );
-				if ( empty( $addresses ) ) return $results;
+				$addresses = @unserialize( $this->addresses );
+				if ( empty( $addresses ) || ! is_array( $addresses ) ) return $results;
 
 				/**
 				 * @var bool         $preferred
@@ -1352,7 +1352,7 @@ class cnEntry {
 				cnFunction::parseStringList( $zipcode );
 				cnFunction::parseStringList( $country );
 
-				foreach ( (array) $addresses as $key => $address ) {
+				foreach ( $addresses as $key => $address ) {
 
 					if ( empty( $address ) ) continue;
 

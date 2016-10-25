@@ -159,12 +159,6 @@ class cnSEO {
 	 * @since  0.7.8
 	 * @static
 	 *
-	 * @uses   get_option()
-	 * @uses   trailingslashit()
-	 * @uses   cnQuery::getVar()
-	 * @uses   user_trailingslashit()
-	 * @uses   esc_url()
-	 *
 	 * @param  string $link   The permalink.
 	 * @param  int    $ID     Page ID.
 	 * @param  bool   $sample Is it a sample permalink.

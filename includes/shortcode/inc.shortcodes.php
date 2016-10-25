@@ -65,21 +65,50 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	$out = '';
 	$alternate = '';
 
-	$atts = shortcode_atts( array(
-			'list_type'        => 'birthday',
-			'days'             => '30',
-			'include_today'    => TRUE,
-			'private_override' => FALSE,
-			'name_format'      => '',
-			'date_format'      => 'F jS',
-			'show_lastname'    => FALSE,
-			'show_title'       => TRUE,
-			'list_title'       => NULL,
-			'template'         => NULL
-		),
-		$atts,
-		$tag
+	$templateTypeDefaults = array(
+		'list_type' => 'birthday',
+		'template'  => NULL,
 	);
+
+	$templateType = cnSanitize::args( $atts, $templateTypeDefaults );
+
+	/*
+	 * If a list type was specified in the shortcode, load the template based on that type.
+	 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified..
+	 */
+	if ( ! empty( $atts['template'] ) ) {
+		$template = cnTemplateFactory::getTemplate( $templateType['template'] );
+	} else {
+		$templateSlug = $connections->options->getActiveTemplate( $templateType['list_type'] );
+		$template = cnTemplateFactory::getTemplate( $templateSlug );
+	}
+
+	// No template found return error message.
+	if ( $template === FALSE ) return cnTemplatePart::loadTemplateError( $templateType );
+
+	$defaults = array(
+		'list_type'        => 'birthday',
+		'days'             => '30',
+		'include_today'    => TRUE,
+		'private_override' => FALSE,
+		'name_format'      => '',
+		'date_format'      => 'F jS',
+		'show_lastname'    => FALSE,
+		'show_title'       => TRUE,
+		'list_title'       => NULL,
+		'template'         => NULL,
+		'content'          => '',
+		'force_home'       => TRUE,
+		'home_id'          => cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
+	);
+
+	$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
+	$defaults = apply_filters( 'cn_list_atts_permitted-' . $template->getSlug(), $defaults );
+
+	$atts = shortcode_atts( $defaults, $atts, $tag );
+
+	$atts = apply_filters( 'cn_list_atts', $atts );
+	$atts = apply_filters( 'cn_list_atts-' . $template->getSlug(), $atts );
 
 	/*
 	 * Convert some of the $atts values in the array to boolean.
@@ -95,20 +124,18 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		$atts['name_format'] = $atts['show_lastname'] ? '%first% %last%' : '%first%';
 	}
 
-	/*
-	 * If a list type was specified in the shortcode, load the template based on that type.
-	 * However, if a specific template was specified, that should preempt the template to be loaded based on the list type if it was specified..
-	 */
-	if ( ! empty( $atts['template'] ) ) {
-		$template = cnTemplateFactory::getTemplate( $atts['template'] );
-	} else {
-		$templateSlug = $connections->options->getActiveTemplate( $atts['list_type'] );
-		$template = cnTemplateFactory::getTemplate( $templateSlug );
-	}
+	/** @var cnTemplate $template */
+	do_action( 'cn_register_legacy_template_parts' );
+	do_action( 'cn_action_include_once-' . $template->getSlug() );
+	do_action( 'cn_action_js-' . $template->getSlug() );
 
-	// No template found return error message.
-	if ( $template == FALSE )
-		return '<p style="color:red; font-weight:bold; text-align:center;">' . sprintf( __( 'ERROR: Template %1$s not found.', 'connections' ), $atts['template'] ) . '</p>';
+	/*
+	 * This filter adds the current template paths to cnLocate so when template
+	 * part file overrides are being searched for, it'll also search in template
+	 * specific paths. This filter is then removed at the end of the shortcode.
+	 */
+	add_filter( 'cn_locate_file_paths', array( $template, 'templatePaths' ) );
+	cnShortcode::addFilterRegistry( 'cn_locate_file_paths' );
 
 	do_action( 'cn_template_include_once-' . $template->getSlug() );
 	do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
@@ -170,7 +197,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 		if ( empty( $atts['list_title'] ) ) {
 
-			switch ($atts['list_type']) {
+			switch ( $atts['list_type'] ) {
 
 				case 'birthday':
 					if ( $atts['days'] >= 1 ) {
@@ -178,7 +205,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 					} else {
 						$list_title = 'Today\'s Birthdays';
 					}
-				break;
+					break;
 
 				case 'anniversary':
 					if ( $atts['days'] >= 1 ) {
@@ -186,14 +213,14 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 					} else {
 						$list_title = 'Today\'s Anniversaries';
 					}
-				break;
+					break;
 
 			}
 
 		} else {
+
 			$list_title = $atts['list_title'];
 		}
-
 
 		ob_start();
 
@@ -217,6 +244,9 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 						$entry = new cnvCard($row);
 						$vCard =& $entry;
+
+						// Configure the page where the entry link to.
+						$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
 
 						if ( ! $atts['show_lastname'] ) {
 
@@ -256,6 +286,10 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		$replace = array( '', '', '', '' );
 		$out = str_replace( $search , $replace , $out );
 	}
+
+	// Clear any filters that have been added.
+	// This allows support using the shortcode multiple times on the same page.
+	cnShortcode::clearFilterRegistry();
 
 	return $out;
 }

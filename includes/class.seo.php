@@ -174,7 +174,6 @@ class cnSEO {
 		// Same for the links in the nav, do not change those.
 		if ( ( isset( $post->ID ) &&  $post->ID != $ID ) || ! self::$filterPermalink ) return $link;
 
-
 		if ( $wp_rewrite->using_permalinks() ) {
 
 			// Get the settings for the base of each data type to be used in the URL.

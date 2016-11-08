@@ -389,7 +389,7 @@ class cnTemplatePart {
 			//	$permalink = get_permalink( $homeID );
 			//}
 
-			$out .= '<form class="cn-form" id="cn-cat-select" action="' . ( $addAction || $atts['force_home'] ? $permalink : '' ) . '" method="get">';
+			$out .= '<form class="cn-form" id="cn-cat-select"' . ( $addAction || $atts['force_home'] ? ' action="' . $permalink . '"' : '' ) . ' method="get">';
 			if ( is_front_page() ) $out .= '<input type="hidden" name="page_id" value="' . $homeID .'">';
 
 		} else {

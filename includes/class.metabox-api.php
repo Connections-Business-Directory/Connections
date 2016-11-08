@@ -1360,7 +1360,7 @@ class cnMetabox_Render {
 
 			e.preventDefault();
 		});
-	};
+	}
 });
 /* ]]> */</script>
 

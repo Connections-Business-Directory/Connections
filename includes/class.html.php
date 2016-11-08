@@ -701,6 +701,7 @@ class cnHTML {
 			'style'    => array(),
 			'default'  => '',
 			'options'  => array(),
+			'readonly' => FALSE,
 			'data'     => array(),
 			'enhanced' => FALSE,
 			'label'    => '',
@@ -745,13 +746,14 @@ class cnHTML {
 
 		// Open the select.
 		$replace['field'] = sprintf(
-			'<select %1$s %2$s %3$s %4$s %5$s %6$s>',
+			'<select %1$s %2$s %3$s %4$s %5$s %6$s %7$s>',
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
 			self::attribute( 'style', $atts['style'] ),
 			self::attribute( 'data', $atts['data'] ),
-			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( $atts['default'] ) . '"' : ''
+			! empty( $atts['default'] ) && $atts['enhanced'] ? ' data-placeholder="' . esc_attr( $atts['default'] ) . '"' : '',
+			$atts['readonly'] ? 'disabled="disabled"' : ''
 		);
 
 		// If the select is NOT a Chosen enhanced select; prepend the default option to the top of the options array.
@@ -782,6 +784,11 @@ class cnHTML {
 		$out = str_ireplace( $search, $replace, $atts['layout'] );
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
+
+		if ( $atts['readonly'] ) {
+
+			$out .= sprintf( '<input type="hidden" name="%1$s" value="%2$s" />', esc_attr( $name ), esc_attr( $value ) );
+		}
 
 		$html = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 

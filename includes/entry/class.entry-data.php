@@ -3276,7 +3276,8 @@ class cnEntry {
 	 */
 	public function getDates( $atts = array(), $cached = TRUE, $saving = FALSE ) {
 
-		global $connections;
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
 
 		$results = array();
 
@@ -3373,7 +3374,7 @@ class cnEntry {
 					/*
 					 * Set the date name based on the type.
 					 */
-					$dateTypes = $connections->options->getDateOptions();
+					$dateTypes = $instance->options->getDateOptions();
 					$row->name = $dateTypes[ $row->type ];
 
 					/*
@@ -3418,7 +3419,7 @@ class cnEntry {
 			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all dates will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
-			$dates = $connections->retrieve->dates( $atts );
+			$dates = $instance->retrieve->dates( $atts, $saving );
 
 			if ( empty( $dates ) ) return $results;
 
@@ -3437,7 +3438,7 @@ class cnEntry {
 				/*
 				 * Set the date name based on the date type.
 				 */
-				$dateTypes = $connections->options->getDateOptions();
+				$dateTypes = $instance->options->getDateOptions();
 				$date->name = $dateTypes[ $date->type ];
 
 				/*

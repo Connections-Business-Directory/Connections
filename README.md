@@ -249,6 +249,26 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 ## Changelog ##
 
+### 8.5.29 11/10/2016 ###
+* NEW: Add filter to the `document_title_parts` filter to properly set the browser tab/window title if `wp_title()` is not being used by the theme.
+* TWEAK: Remove the $cached terms params in the Term REST endpoint.
+* TWEAK: Suppress potential PHP notice from being thrown by `unserialize()` in `cnEntry::getAddresses()`.
+* TWEAK: Ensure the home page URL always has a trailing slash in the callback function for the `page_link` filter.
+* TWEAK: Add readonly support to cnHML::select() by making the actualy select field disabled and adding a new hidden input with the same name and value.
+* TWEAK: Only add the search form action attribute if the directory permalink is being added.
+* TWEAK: Force date format in datepicker because, since WP 4.4, WP sets a default format based on the date format set on the General Settings admin page. Those formats are not compatible with the expected date format to be saved.
+* TWEAK: Remove unnecessary trailing semi-colon from datepicker init function call.
+* TWEAK: Remove usage of deprecated $connections global var from cnEntry::getDates().
+* TWEAK: Set the form action attribute to default to the `home_id` shortcode default so searches are always from the directory root page.
+* TWEAK: Add a saving bool parameter to the cnRetrieve class for addresses, phone numbers and such to allow addresses and such to be queried regardless of current logged user permissions.
+* TWEAK: Update the entries address, phone, etc.. object caches on updates. This is to ensure the ID of each address, phone, etc.. is updated to reflect the ID in the database vs. leaving it as `0`.
+* TWEAK: Convert the WP default date format WP jQuery UI datepicker compatible format.
+* BUG: Update the `[upcoming_list]` shortcode so it will function correctly with templates which support the Template Customizer.
+* BUG: Fix the display of the changelog of add-ons.
+* DEV: phpDoc Block corrections.
+* I18N: Update POT file.
+* I18N: Update MO files.
+
 ### 8.5.28 10/12/2016 ###
 * NEW: Introduce the `connections_page_connections_settings-{tab_name}` action hook.
 * NEW: Introduce the `cn_pre_handle_404_retrieve_atts` filter hook.
@@ -768,3 +788,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 ### 8.5.28 ###
 It is recommended to backup before updating. Requires WordPress >= 4.2.
+
+### 8.5.29 ###
+It is recommended to backup before updating. Requires WordPress >= 4.3.

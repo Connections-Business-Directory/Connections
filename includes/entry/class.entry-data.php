@@ -1484,7 +1484,7 @@ class cnEntry {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
-			$addresses = $instance->retrieve->addresses( $atts );
+			$addresses = $instance->retrieve->addresses( $atts, $saving );
 
 			if ( empty( $addresses ) ) return $results;
 
@@ -1838,7 +1838,7 @@ class cnEntry {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all phone numbers will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
-			$phoneNumbers = $connections->retrieve->phoneNumbers( $atts );
+			$phoneNumbers = $connections->retrieve->phoneNumbers( $atts, $saving );
 
 			if ( empty( $phoneNumbers ) ) return $results;
 
@@ -2127,7 +2127,7 @@ class cnEntry {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
-			$emailAddresses = $connections->retrieve->emailAddresses( $atts );
+			$emailAddresses = $connections->retrieve->emailAddresses( $atts, $saving );
 			//print_r($results);
 
 			if ( empty( $emailAddresses ) ) return $results;
@@ -2413,7 +2413,7 @@ class cnEntry {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
-			$imIDs = $connections->retrieve->imIDs( $atts );
+			$imIDs = $connections->retrieve->imIDs( $atts, $saving );
 			//print_r($results);
 
 			if ( empty( $imIDs ) ) return $results;
@@ -2705,7 +2705,7 @@ class cnEntry {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
-			$socialMedia = $connections->retrieve->socialMedia( $atts );
+			$socialMedia = $connections->retrieve->socialMedia( $atts, $saving );
 
 			if ( empty( $socialMedia ) ) return $results;
 
@@ -2997,7 +2997,7 @@ class cnEntry {
 			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
 			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
 
-			$links = $instance->retrieve->links( $atts );
+			$links = $instance->retrieve->links( $atts, $saving );
 			//print_r($results);
 
 			if ( empty( $links ) ) return $results;
@@ -5125,11 +5125,73 @@ class cnEntry {
 					'id' => array( 'key' => 'id', 'format' => '%d' )
 				)
 			);
+
+			$this->updateObjectCaches();
 		}
 
 		do_action( 'cn_updated-entry', $this );
 
 		return $result;
+	}
+
+	/**
+	 * Update the entries address, phone, etc. object caches on updates.
+	 *
+	 * This is to ensure the ID of each address, phone, etc. is updated to reflect the ID in the database
+	 * vs. leaving it as `0`.
+	 *
+	 * @access private
+	 * @since  8.5.29
+	 */
+	private function updateObjectCaches() {
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		$addresses = $this->getAddresses( array(), FALSE, TRUE, 'db' );
+		$addresses = json_decode( json_encode( $addresses ), TRUE );
+
+		$phoneNumbers = $this->getPhoneNumbers( array(), FALSE, TRUE );
+		$phoneNumbers = json_decode( json_encode( $phoneNumbers ), TRUE );
+
+		$emailAddresses = $this->getEmailAddresses( array(), FALSE, TRUE );
+		$emailAddresses = json_decode( json_encode( $emailAddresses ), TRUE );
+
+		$im = $this->getIm( array(), FALSE, TRUE );
+		$im = json_decode( json_encode( $im ), TRUE );
+
+		$socialNetworks = $this->getSocialMedia( array(), FALSE, TRUE );
+		$socialNetworks = json_decode( json_encode( $socialNetworks ), TRUE );
+
+		$links = $this->getLinks( array(), FALSE, TRUE );
+		$links = json_decode( json_encode( $links ), TRUE );
+
+		$dates = $this->getDates( array(), FALSE, TRUE );
+		$dates = json_decode( json_encode( $dates ), TRUE );
+
+		$this->addresses      = serialize( $addresses );
+		$this->phoneNumbers   = serialize( $phoneNumbers );
+		$this->emailAddresses = serialize( $emailAddresses );
+		$this->im             = serialize( $im );
+		$this->socialMedia    = serialize( $socialNetworks );
+		$this->links          = serialize( $links );
+		$this->dates          = serialize( $dates );
+
+		$wpdb->update(
+			CN_ENTRY_TABLE,
+			array(
+				'addresses'     => $this->addresses,
+				'phone_numbers' => $this->phoneNumbers,
+				'email'         => $this->emailAddresses,
+				'im'            => $this->im,
+				'social'        => $this->socialMedia,
+				'links'         => $this->links,
+				'dates'         => $this->dates,
+			),
+			array( 'id' => $this->id ),
+			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', ),
+			array( '%d' )
+		);
 	}
 
 	/**

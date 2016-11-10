@@ -38,6 +38,11 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 			cnTemplateFactory::register( $atts );
 		}
 
+		/**
+		 * CN_Dashboard_Upcoming_Template constructor.
+		 *
+		 * @param cnTemplate $template
+		 */
 		public function __construct( $template ) {
 
 			$this->template = $template;
@@ -46,6 +51,11 @@ if ( ! class_exists( 'CN_Dashboard_Upcoming_Template' ) ) {
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
 		}
 
+		/**
+		 * @param cnOutput   $entry
+		 * @param cnTemplate $template
+		 * @param array      $atts
+		 */
 		public static function card( $entry, $template, $atts ) {
 
 			if ( is_admin() ) {

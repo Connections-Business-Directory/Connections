@@ -413,14 +413,16 @@ HERERDOC;
 			echo '<ul><li>' . $info->upgrade_notice . '</li></ul>';
 		}
 
+		$sections = maybe_unserialize( $info->sections );
+
 		//--> START Changelog
-		if ( isset( $info->sections['changelog'] ) && ! empty( $info->sections['changelog'] ) ) {
+		if ( isset( $sections['changelog'] ) && ! empty( $sections['changelog'] ) ) {
 
 			// Create the regex that'll parse the changelog for the latest version.
 			// NOTE: regex to support readme.txt parsing support in EDD-SL.
 			$regex = '~<h([1-6])>' . preg_quote( $info->new_version ) . '.+?</h\1>(.+?)<h[1-6]>~is';
 
-			preg_match( $regex, $info->sections['changelog'], $matches );
+			preg_match( $regex, $sections['changelog'], $matches );
 			//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 
 			// NOTE: If readme.txt support was not enabled for plugin, parse the changelog meta added by EDD-SL.
@@ -429,7 +431,7 @@ HERERDOC;
 				// Create the regex that'll parse the changelog for the latest version.
 				$regex = '~<(p)><strong>=\s' . preg_quote( $info->new_version ) . '.+?</strong></\1>(.+?)<p>~is';
 
-				preg_match( $regex, $info->sections['changelog'], $matches );
+				preg_match( $regex, $sections['changelog'], $matches );
 				//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';
 			}
 

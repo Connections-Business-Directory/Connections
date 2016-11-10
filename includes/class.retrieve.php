@@ -1504,10 +1504,11 @@ class cnRetrieve {
 	 *         @type float $longitude
 	 *     }
 	 * }
+	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
-	public static function addresses( $atts = array() ) {
+	public static function addresses( $atts = array(), $saving = FALSE ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -1637,7 +1638,7 @@ class cnRetrieve {
 		}
 
 		// Limit the characters that are queried based on if the current user can view public, private or unlisted entries.
-		$where = self::setQueryVisibility( $where, array( 'table' => 'a' ) );
+		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'a' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -1668,10 +1669,11 @@ class cnRetrieve {
 	 *                                   Accepts: homephone, homefax, cellphone, workphone, workfax and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
+	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
-	public static function phoneNumbers( $atts = array() ) {
+	public static function phoneNumbers( $atts = array(), $saving = FALSE ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -1731,7 +1733,7 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		$where = self::setQueryVisibility( $where, array( 'table' => 'p' ) );
+		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'p' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -1762,10 +1764,11 @@ class cnRetrieve {
 	 *                                   Accepts: personal, work and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
+	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
-	public static function emailAddresses( $atts = array() ) {
+	public static function emailAddresses( $atts = array(), $saving = FALSE ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -1825,7 +1828,7 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		$where = self::setQueryVisibility( $where, array( 'table' => 'e' ) );
+		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'e' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -1856,10 +1859,11 @@ class cnRetrieve {
 	 *                                   Accepts: aim, yahoo, jabber, messenger, skype and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
+	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
-	public static function imIDs( $atts = array() ) {
+	public static function imIDs( $atts = array(), $saving = FALSE ) {
 
 		/**  @var wpdb $wpdb */
 		global $wpdb;
@@ -1919,7 +1923,7 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		$where = self::setQueryVisibility( $where, array( 'table' => 'i' ) );
+		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'i' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -1950,10 +1954,11 @@ class cnRetrieve {
 	 *                                   Accepts: Any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
+	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
-	public static function socialMedia( $atts = array() ) {
+	public static function socialMedia( $atts = array(), $saving = FALSE ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -2013,7 +2018,7 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		$where = self::setQueryVisibility( $where, array( 'table' => 's' ) );
+		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 's' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -2044,10 +2049,11 @@ class cnRetrieve {
 	 *                                   Accepts: blog, website and any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
+	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
-	public static function links( $atts = array() ) {
+	public static function links( $atts = array(), $saving = FALSE ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -2121,7 +2127,7 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		$where = self::setQueryVisibility( $where, array( 'table' => 'l' ) );
+		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'l' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -2153,10 +2159,11 @@ class cnRetrieve {
 	 *                                   Accepts: Any other registered types.
 	 *     @type int          $limit     The number to limit the results to.
 	 * }
+	 * @param bool $saving Set as TRUE if adding a new entry or updating an existing entry.
 	 *
 	 * @return array
 	 */
-	public static function dates( $atts = array() ) {
+	public static function dates( $atts = array(), $saving = FALSE ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;
@@ -2216,7 +2223,7 @@ class cnRetrieve {
 			$where[] = $wpdb->prepare( 'AND `type` IN (' . cnFormatting::prepareINPlaceholders( $type ) . ')', $type );
 		}
 
-		$where = self::setQueryVisibility( $where, array( 'table' => 'd' ) );
+		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'd' ) );
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 

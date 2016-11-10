@@ -350,7 +350,8 @@ jQuery(document).ready( function($) {
 				changeYear: true,
 				showOtherMonths: true,
 				selectOtherMonths: true,
-				yearRange: 'c-100:c+10'
+				yearRange: 'c-100:c+10',
+				dateFormat: 'mm/dd/yy'
 			});
 		},
 		geocode : function( field ) {

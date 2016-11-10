@@ -74,6 +74,7 @@ class cnSEO {
 
 		// Filter the page title to reflect the current Connection filter.
 		add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );
+		add_filter( 'document_title_parts', array( __CLASS__, 'filterDocumentTitle' ), 10 );
 
 		// Remove the page/post specific comments feed w/ registered query vars.
 		add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
@@ -159,12 +160,6 @@ class cnSEO {
 	 * @since  0.7.8
 	 * @static
 	 *
-	 * @uses   get_option()
-	 * @uses   trailingslashit()
-	 * @uses   cnQuery::getVar()
-	 * @uses   user_trailingslashit()
-	 * @uses   esc_url()
-	 *
 	 * @param  string $link   The permalink.
 	 * @param  int    $ID     Page ID.
 	 * @param  bool   $sample Is it a sample permalink.
@@ -179,7 +174,6 @@ class cnSEO {
 		// Only filter the the permalink for the current post/page being viewed otherwise the nex/prev relational links are filtered too, which we don't want.
 		// Same for the links in the nav, do not change those.
 		if ( ( isset( $post->ID ) &&  $post->ID != $ID ) || ! self::$filterPermalink ) return $link;
-
 
 		if ( $wp_rewrite->using_permalinks() ) {
 
@@ -219,8 +213,21 @@ class cnSEO {
 			if ( cnQuery::getVar( 'cn-entry-slug' ) )
 				$link = esc_url( trailingslashit( $link . $base['name_base'] . '/' . urlencode( urldecode( cnQuery::getVar( 'cn-entry-slug' ) ) ) ) );
 
+			if ( 'page' == get_option( 'show_on_front' ) && $ID == get_option( 'page_on_front' ) ) {
 
-			$link = user_trailingslashit( $link, 'page' );
+				$link = trailingslashit( $link );
+
+			} else {
+
+				if ( $wp_rewrite->use_trailing_slashes ) {
+
+					$link = trailingslashit( $link );
+
+				} else {
+
+					$link = untrailingslashit( $link );
+				}
+			}
 
 		} else {
 
@@ -330,13 +337,54 @@ class cnSEO {
 	 */
 	public static function filterMetaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
 
-		$original  = $title;
+		return self::metaTitle( $title, $separator, $seplocation );
+	}
+
+	/**
+	 * Callback for the `document_title_parts` filter.
+	 *
+	 * @access private
+	 * @since  8.5.29
+	 *
+	 * @param array $parts {
+	 *     The document title parts.
+	 *
+	 *     @type string $title   Title of the viewed page.
+	 *     @type string $page    Optional. Page number if paginated.
+	 *     @type string $tagline Optional. Site description when on home page.
+	 *     @type string $site    Optional. Site title when not on home page.
+	 * }
+	 *
+	 * @return array
+	 */
+	public static function  filterDocumentTitle( $parts ) {
+
+		$parts['title'] = self::metaTitle( $parts['title'] );
+
+		return $parts;
+	}
+
+	/**
+	 * Add the the current Connections directory location/query to the page meta title.
+	 *
+	 * @access private
+	 * @since  8.5.29
+	 *
+	 * @param string $title       The browser tab/window title.
+	 * @param string $separator
+	 * @param string $seplocation
+	 *
+	 * @return mixed|void
+	 */
+	private static function metaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
 
 		// Whether or not to filter the page meta title with the current directory location.
 		if ( ! cnSettingsAPI::get( 'connections', 'seo_meta', 'page_title' ) ) {
 
 			return $title;
 		}
+
+		$original = $title;
 
 		$pieces = array( $title );
 

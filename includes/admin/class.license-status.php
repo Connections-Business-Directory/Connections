@@ -173,6 +173,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 				if ( FALSE !== $license ) {
 
+					/** @var WP_Error $response */
 					$response = self::request( $license );
 
 					if ( is_wp_error( $response ) ) {

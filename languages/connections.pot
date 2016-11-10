@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.5.23\n"
+"Project-Id-Version: Connections 8.5.28\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2016-08-26 19:15:12+00:00\n"
+"POT-Creation-Date: 2016-11-10 21:41:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -223,135 +223,169 @@ msgstr ""
 msgid "Change Role Capabilities"
 msgstr ""
 
-#: includes/admin/class.functions.php:149 includes/admin/class.menu.php:83
-#: includes/admin/pages/settings.php:48
+#: includes/admin/class.functions.php:147 includes/admin/class.menu.php:83
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class.functions.php:167
+#: includes/admin/class.functions.php:165
 #: includes/admin/class.metabox-dashboard.php:346
 msgid "Extensions"
 msgstr ""
 
-#: includes/admin/class.functions.php:168 includes/admin/class.menu.php:80
+#: includes/admin/class.functions.php:166 includes/admin/class.menu.php:80
 #: includes/admin/class.metabox-dashboard.php:357
 #: includes/admin/pages/templates.php:60
 #: includes/settings/class.settings.php:1702
 msgid "Templates"
 msgstr ""
 
-#: includes/admin/class.functions.php:169
+#: includes/admin/class.functions.php:167
 #: includes/admin/class.metabox-dashboard.php:324
 msgid "Documentation"
 msgstr ""
 
-#: includes/admin/class.functions.php:170
+#: includes/admin/class.functions.php:168
 msgid "Support Forums"
 msgstr ""
 
-#: includes/admin/class.functions.php:197
+#: includes/admin/class.functions.php:196 includes/admin/class.license.php:412
 msgid "Upgrade notice for version: %s"
 msgstr ""
 
-#: includes/admin/class.functions.php:248
+#: includes/admin/class.functions.php:247 includes/admin/class.license.php:454
 msgid "Take a minute to update, here's why:"
 msgstr ""
 
-#: includes/admin/class.functions.php:348
+#: includes/admin/class.functions.php:362
 msgid "Entries"
 msgstr ""
 
-#: includes/admin/class.functions.php:455
+#: includes/admin/class.functions.php:469
 msgid ""
 "Thank you for using <a href=\"%1$s\" target=\"_blank\">Connections Business "
 "Directory</a>! Please <a href=\"%2$s\" target=\"_blank\">rate us</a> on <a "
 "href=\"%2$s\" target=\"_blank\">WordPress.org</a>"
 msgstr ""
 
-#: includes/admin/class.license.php:174
+#: includes/admin/class.license-status.php:89
+#: includes/admin/class.plugin-updater.php:64
+msgid "Plugin name or ID is required."
+msgstr ""
+
+#: includes/admin/class.license-status.php:94
+#: includes/admin/class.plugin-updater.php:69
+msgid "Plugin version is required."
+msgstr ""
+
+#: includes/admin/class.license-status.php:191
+msgid "Unknown item"
+msgstr ""
+
+#: includes/admin/class.license.php:279
 msgid "Licenses"
 msgstr ""
 
-#: includes/admin/class.license.php:272 includes/admin/class.license.php:333
-msgid "License has expired."
+#: includes/admin/class.license.php:497
+msgid "License has not been activated."
 msgstr ""
 
-#: includes/admin/class.license.php:278 includes/admin/class.license.php:339
-msgid "Renew license."
+#: includes/admin/class.license.php:502
+msgid ""
+"Please activate now in order to receive support and to enable in admin "
+"updates."
 msgstr ""
 
-#: includes/admin/class.license.php:287 includes/admin/class.license.php:363
+#: includes/admin/class.license.php:534 includes/admin/class.license.php:621
+msgid ""
+"Support license key has expired. Your are no longer receiving support and "
+"in admin updates."
+msgstr ""
+
+#: includes/admin/class.license.php:541
+msgid "Click here to renew the support license."
+msgstr ""
+
+#: includes/admin/class.license.php:555 includes/admin/class.license.php:663
 msgid "License entered is not for this item."
 msgstr ""
 
-#: includes/admin/class.license.php:292
+#: includes/admin/class.license.php:562
 msgid "Invalid license."
 msgstr ""
 
-#: includes/admin/class.license.php:297
+#: includes/admin/class.license.php:569
 msgid "License has been revoked."
 msgstr ""
 
-#: includes/admin/class.license.php:302
+#: includes/admin/class.license.php:576
 msgid "License activation limit has been reached."
 msgstr ""
 
-#: includes/admin/class.license.php:307
+#: includes/admin/class.license.php:583
 msgid "License key mismatch."
 msgstr ""
 
-#: includes/admin/class.license.php:312
+#: includes/admin/class.license.php:590
 msgid "Bundle license keys can not be activated. Use item license key instead."
 msgstr ""
 
-#: includes/admin/class.license.php:317
+#: includes/admin/class.license.php:597 includes/admin/class.license.php:708
+#: includes/admin/class.license.php:715
 msgid "An unknown error has occurred."
 msgstr ""
 
-#: includes/admin/class.license.php:328
+#: includes/admin/class.license.php:613
 msgid "License key invalid."
 msgstr ""
 
-#: includes/admin/class.license.php:348
+#: includes/admin/class.license.php:628
+msgid "Click here to renew support license."
+msgstr ""
+
+#: includes/admin/class.license.php:641
 msgid "License is not active."
 msgstr ""
 
-#: includes/admin/class.license.php:353
+#: includes/admin/class.license.php:648
 msgid "License has been disabled."
 msgstr ""
 
-#: includes/admin/class.license.php:358
+#: includes/admin/class.license.php:655
 msgid "License is not active on this site."
 msgstr ""
 
-#: includes/admin/class.license.php:372
+#: includes/admin/class.license.php:675
 msgid ""
 "License is valid and you are receiving updates. Your support license key "
 "will expire on %s."
 msgstr ""
 
-#: includes/admin/class.license.php:376
+#: includes/admin/class.license.php:679
 msgid "Lifetime license is valid and you are receiving updates."
 msgstr ""
 
-#: includes/admin/class.license.php:380
+#: includes/admin/class.license.php:683
 msgid "License is valid"
 msgstr ""
 
-#: includes/admin/class.license.php:387
+#: includes/admin/class.license.php:694
 msgid "License is deactivated."
 msgstr ""
 
-#: includes/admin/class.license.php:392
+#: includes/admin/class.license.php:701
 msgid "License validation failed."
 msgstr ""
 
-#: includes/admin/class.license.php:418
+#: includes/admin/class.license.php:754
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/class.license.php:427 includes/admin/pages/templates.php:350
+#: includes/admin/class.license.php:764 includes/admin/pages/templates.php:350
 msgid "Activate"
+msgstr ""
+
+#: includes/admin/class.license.php:1041
+msgid "License %s error."
 msgstr ""
 
 #: includes/admin/class.menu.php:76 includes/admin/pages/dashboard.php:40
@@ -903,7 +937,7 @@ msgid "Search Entries"
 msgstr ""
 
 #: includes/admin/pages/manage.php:338
-#: includes/template/class.template-parts.php:2185
+#: includes/template/class.template-parts.php:2189
 msgid "Show All Categories"
 msgstr ""
 
@@ -1192,17 +1226,17 @@ msgid "Family"
 msgstr ""
 
 #: includes/admin/pages/templates.php:87
-#: includes/entry/class.entry-data.php:3312
-#: includes/entry/class.entry-output.php:2506
-#: includes/entry/class.entry-output.php:2519
+#: includes/entry/class.entry-data.php:3313
+#: includes/entry/class.entry-output.php:2513
+#: includes/entry/class.entry-output.php:2526
 #: includes/settings/class.options.php:545
 msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:92
-#: includes/entry/class.entry-data.php:3327
-#: includes/entry/class.entry-output.php:2427
-#: includes/entry/class.entry-output.php:2438
+#: includes/entry/class.entry-data.php:3328
+#: includes/entry/class.entry-output.php:2434
+#: includes/entry/class.entry-output.php:2445
 #: includes/settings/class.options.php:547
 msgid "Birthday"
 msgstr ""
@@ -1439,6 +1473,273 @@ msgid ""
 "exporting the settings on another site using the form above."
 msgstr ""
 
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:99
+#: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:88
+#: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:88
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:108
+msgid "Required to be true, as resource does not support trashing."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:123
+msgid "Sorry, you are not allowed to edit these entries."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:358
+msgid "Unique identifier for the entry."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:364
+msgid "Type of entry."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:370
+#: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:288
+#: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:239
+msgid "An alphanumeric identifier for the object unique to its type."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:378
+msgid "The full formatted name of the entry."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:383
+msgid "Name of the entry, as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:388
+msgid "HTML name of the entry, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:395
+msgid "An honorific prefix preceding a person's name such as Dr/Mrs/Mr."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:400
+msgid "Honorific prefix as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:405
+msgid "HTML honorific prefix, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:412
+msgid "Given name. In the U.S., the first name of a person."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:417
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:542
+msgid "First name as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:422
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:547
+msgid "HTML first name, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:429
+msgid "An additional name for a person. The middle name of a person."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:434
+msgid "Middle name as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:439
+msgid "HTML middle name, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:446
+msgid "Family name. In the U.S., the last name of an person."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:451
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:557
+msgid "Last name as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:456
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:562
+msgid "HTML last name, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:463
+msgid "An honorific suffix preceding a person's name such as M.D. /PhD/MSCSW."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:468
+msgid "Honorific suffix as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:473
+msgid "HTML honorific suffix, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:480
+msgid "The job title of the person (for example, Financial Manager)."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:485
+msgid "Job title as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:490
+msgid "HTML job title, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:497
+msgid "The organization object for the entry."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:505
+msgid "Organization name as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:510
+msgid "HTML organization name, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:520
+msgid "Department (organization unit) as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:525
+msgid "HTML department (organization unit), transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:534
+msgid "The contact name object for the entry of type organization."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:590
+#: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:315
+#: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:266
+msgid "Limit result set to entries with a specific slug."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:265
+#: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:216
+msgid "Unique identifier for the object."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:271
+#: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:222
+msgid "The name of the object."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:276
+#: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:227
+msgid "Name of the object, as it exists in the database."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:281
+#: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:232
+msgid "HTML name of the object, transformed for display."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:132
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:287
+msgid "Sorry, you cannot view this resource with edit context."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:310
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:432
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:518
+msgid "Resource doesn't exist."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:336
+msgid "Sorry, you cannot create new resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:364
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:465
+msgid "Parent resource doesn't exist."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:437
+msgid "Sorry, you cannot update resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:523
+msgid "Sorry, you cannot delete resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:545
+msgid "Resource does not support trashing."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:557
+msgid "The resource cannot be deleted."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:780
+msgid "Unique identifier for the resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:786
+msgid "Number of published posts for the resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:792
+msgid "HTML description of the resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:800
+msgid "URL to the resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:807
+msgid "HTML title for the resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:816
+msgid "An alphanumeric identifier for the resource unique to its type."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:824
+msgid "Type attribution for the resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:831
+msgid "The id for the parent of the resource."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:856
+msgid "Ensure result set excludes specific ids."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:863
+msgid "Limit result set to specific ids."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:870
+msgid "Offset the result set by a specific number of items."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:877
+msgid "Order sort attribute ascending or descending."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:889
+msgid "Sort collection by resource attribute."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:906
+msgid "Whether to hide resources not assigned to any posts."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:913
+msgid "Limit result set to resources assigned to a specific parent."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:920
+msgid "Limit result set to resources assigned to a specific post."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:927
+msgid "Limit result set to resources with a specific slug."
+msgstr ""
+
 #: includes/class.metabox-api.php:1152
 msgid "Clear"
 msgstr ""
@@ -1515,19 +1816,19 @@ msgid ""
 msgstr ""
 
 #: includes/class.metabox-entry.php:337
-#: includes/entry/class.entry-data.php:3886
+#: includes/entry/class.entry-data.php:3887
 #: includes/settings/class.options.php:206
 msgid "Public"
 msgstr ""
 
 #: includes/class.metabox-entry.php:338
-#: includes/entry/class.entry-data.php:3887
+#: includes/entry/class.entry-data.php:3888
 #: includes/settings/class.options.php:207
 msgid "Private"
 msgstr ""
 
 #: includes/class.metabox-entry.php:339
-#: includes/entry/class.entry-data.php:3885
+#: includes/entry/class.entry-data.php:3886
 #: includes/settings/class.options.php:208
 msgid "Unlisted"
 msgstr ""
@@ -1887,7 +2188,7 @@ msgid "Term ID is shared between multiple taxonomies"
 msgstr ""
 
 #: includes/class.utility.php:1839 includes/class.utility.php:2010
-#: includes/entry/class.entry-output.php:2621
+#: includes/entry/class.entry-output.php:2628
 msgid "&hellip;"
 msgstr ""
 
@@ -1931,7 +2232,7 @@ msgstr ""
 msgid "Image copy failed."
 msgstr ""
 
-#: includes/entry/class.entry-data.php:4780
+#: includes/entry/class.entry-data.php:4781
 msgid "Unknown"
 msgstr ""
 
@@ -1949,20 +2250,20 @@ msgstr ""
 msgid "Logo for %s"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2699
+#: includes/entry/class.entry-output.php:2706
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:3328
+#: includes/entry/class.entry-output.php:3331
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:3329
+#: includes/entry/class.entry-output.php:3332
 msgid "Download vCard"
 msgstr ""
 
-#: includes/entry/class.entry-vcard.php:627
-#: includes/entry/class.entry-vcard.php:639
+#: includes/entry/class.entry-vcard.php:655
+#: includes/entry/class.entry-vcard.php:667
 msgid "vCard not available for download."
 msgstr ""
 
@@ -2497,7 +2798,7 @@ msgstr ""
 
 #: includes/log/class.log-email.php:202 includes/settings/class.settings.php:58
 #: includes/template/class.template-customizer.php:455
-#: includes/template/class.template-parts.php:1619
+#: includes/template/class.template-parts.php:1623
 msgid "Search"
 msgstr ""
 
@@ -2805,8 +3106,8 @@ msgstr ""
 
 #: includes/settings/class.options.php:405
 #: includes/settings/class.settings.php:98
-#: includes/template/class.template-parts.php:2043
-#: includes/template/class.template-parts.php:2044
+#: includes/template/class.template-parts.php:2047
+#: includes/template/class.template-parts.php:2048
 msgid "Home"
 msgstr ""
 
@@ -3691,13 +3992,8 @@ msgid ""
 "review."
 msgstr ""
 
-#: includes/shortcode/inc.shortcodes.php:111
-#: includes/template/class.template-parts.php:289
-msgid "ERROR: Template %1$s not found."
-msgstr ""
-
-#: includes/shortcode/inc.shortcodes.php:151
-#: includes/template/class.template-parts.php:1295
+#: includes/shortcode/inc.shortcodes.php:178
+#: includes/template/class.template-parts.php:1299
 msgid "No results."
 msgstr ""
 
@@ -3706,11 +4002,11 @@ msgstr ""
 msgid "System Info Email"
 msgstr ""
 
-#: includes/system-info/inc.system-info.php:152
+#: includes/system-info/inc.system-info.php:157
 msgid "TRUE"
 msgstr ""
 
-#: includes/system-info/inc.system-info.php:152
+#: includes/system-info/inc.system-info.php:157
 msgid "FALSE"
 msgstr ""
 
@@ -3785,7 +4081,7 @@ msgid "Character Index Repeat"
 msgstr ""
 
 #: includes/template/class.template-customizer.php:663
-#: includes/template/class.template-parts.php:1780
+#: includes/template/class.template-parts.php:1784
 msgid "Current Character"
 msgstr ""
 
@@ -4107,7 +4403,7 @@ msgid "BCC"
 msgstr ""
 
 #: includes/template/class.template-list-table-email-log.php:382
-#: includes/template/class.template-parts.php:889
+#: includes/template/class.template-parts.php:893
 msgid "View All"
 msgstr ""
 
@@ -4128,73 +4424,77 @@ msgstr ""
 msgid "Edit &#8220;%s&#8221;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:985
+#: includes/template/class.template-parts.php:289
+msgid "ERROR: Template %1$s not found."
+msgstr ""
+
+#: includes/template/class.template-parts.php:989
 msgid "Go back to directory."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1143
+#: includes/template/class.template-parts.php:1147
 msgid "You are searching within category(ies): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1161
+#: includes/template/class.template-parts.php:1165
 msgid "You are searching for the keyword(s): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1169
+#: includes/template/class.template-parts.php:1173
 msgid "The results are being filtered by the character: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1177
+#: includes/template/class.template-parts.php:1181
 msgid "The results are being filtered by the organization: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1185
+#: includes/template/class.template-parts.php:1189
 msgid "The results are being filtered by the department: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1193
+#: includes/template/class.template-parts.php:1197
 msgid "The results are being filtered by the locality: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1201
+#: includes/template/class.template-parts.php:1205
 msgid "The results are being filtered by the region: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1209
+#: includes/template/class.template-parts.php:1213
 msgid "The results are being filtered by the postal code: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1217
+#: includes/template/class.template-parts.php:1221
 msgid "The results are being filtered by the country: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1264
+#: includes/template/class.template-parts.php:1268
 msgid "Clear Search"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1418
-#: includes/template/class.template-parts.php:1419
+#: includes/template/class.template-parts.php:1422
+#: includes/template/class.template-parts.php:1423
 #: includes/template/class.template-shortcode.php:103
 msgid "Return to top."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1500
+#: includes/template/class.template-parts.php:1504
 msgid "Updated %1$s ago."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1647
+#: includes/template/class.template-parts.php:1651
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1842
+#: includes/template/class.template-parts.php:1846
 msgid "&laquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1843
+#: includes/template/class.template-parts.php:1847
 msgid "&raquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:2183
+#: includes/template/class.template-parts.php:2187
 #: includes/template/class.template-walker-term-radio-group.php:108
 #: includes/template/class.template-walker-term-select-enhanced.php:165
 msgid "Select Category"
@@ -4282,11 +4582,102 @@ msgstr ""
 msgid "You do not have permission to install plugin updates"
 msgstr ""
 
+#: vendor/wp-rest-api/class-wp-rest-controller.php:24
+msgid "The register_routes() method must be overriden"
+msgstr ""
+
+#: vendor/wp-rest-api/class-wp-rest-controller.php:34
+#: vendor/wp-rest-api/class-wp-rest-controller.php:44
+#: vendor/wp-rest-api/class-wp-rest-controller.php:54
+#: vendor/wp-rest-api/class-wp-rest-controller.php:64
+#: vendor/wp-rest-api/class-wp-rest-controller.php:74
+#: vendor/wp-rest-api/class-wp-rest-controller.php:84
+#: vendor/wp-rest-api/class-wp-rest-controller.php:94
+#: vendor/wp-rest-api/class-wp-rest-controller.php:104
+#: vendor/wp-rest-api/class-wp-rest-controller.php:114
+#: vendor/wp-rest-api/class-wp-rest-controller.php:124
+#: vendor/wp-rest-api/class-wp-rest-controller.php:134
+#: vendor/wp-rest-api/class-wp-rest-controller.php:145
+msgid "Method '%s' not implemented. Must be over-ridden in subclass."
+msgstr ""
+
+#: vendor/wp-rest-api/class-wp-rest-controller.php:248
+msgid "Current page of the collection."
+msgstr ""
+
+#: vendor/wp-rest-api/class-wp-rest-controller.php:256
+msgid "Maximum number of items to be returned in result set."
+msgstr ""
+
+#: vendor/wp-rest-api/class-wp-rest-controller.php:265
+msgid "Limit results to those matching a string."
+msgstr ""
+
+#: vendor/wp-rest-api/class-wp-rest-controller.php:283
+msgid ""
+"Scope under which the request is made; determines fields present in "
+"response."
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:166
+msgid "%s is not one of %s"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:171
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:175
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:179
+msgid "%s is not of type %s"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:186
+msgid "The date you provided is invalid."
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:192
+msgid "The email address you provided is invalid."
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:197
+msgid "%s is not a valid IP address."
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:206
+msgid "%s must be greater than %d (exclusive)"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:208
+msgid "%s must be greater than %d (inclusive)"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:212
+msgid "%s must be less than %d (exclusive)"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:214
+msgid "%s must be less than %d (inclusive)"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:219
+msgid "%s must be between %d (exclusive) and %d (exclusive)"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:223
+msgid "%s must be between %d (inclusive) and %d (exclusive)"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:227
+msgid "%s must be between %d (exclusive) and %d (inclusive)"
+msgstr ""
+
+#: vendor/wp-rest-api/inc.wp-rest-functions.php:231
+msgid "%s must be between %d (inclusive) and %d (inclusive)"
+msgstr ""
+
 #. Description of the plugin/theme
 msgid "A business directory and address book manager."
 msgstr ""
 
-#: includes/class.retrieve.php:2731
+#: includes/class.retrieve.php:2769
 #. translators: This is a comma-separated list of very common words that should
 #. be excluded from a search,
 #. * like a, an, and the. These are usually called "stopwords". You should

@@ -2290,6 +2290,9 @@ class cnRetrieve {
 		if ( in_array( 'address_line_1', $fields ) ) $defaults['fields']['address'][]   = 'line_1';
 		if ( in_array( 'address_line_2', $fields ) ) $defaults['fields']['address'][]   = 'line_2';
 		if ( in_array( 'address_line_3', $fields ) ) $defaults['fields']['address'][]   = 'line_3';
+		if ( in_array( 'address_line_4', $fields ) ) $defaults['fields']['address'][]   = 'line_4';
+		if ( in_array( 'address_district', $fields ) ) $defaults['fields']['address'][] = 'district';
+		if ( in_array( 'address_county', $fields ) ) $defaults['fields']['address'][]   = 'county';
 		if ( in_array( 'address_city', $fields ) ) $defaults['fields']['address'][]     = 'city';
 		if ( in_array( 'address_state', $fields ) ) $defaults['fields']['address'][]    = 'state';
 		if ( in_array( 'address_zipcode', $fields ) ) $defaults['fields']['address'][]  = 'zipcode';

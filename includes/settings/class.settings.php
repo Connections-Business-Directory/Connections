@@ -1102,6 +1102,9 @@ class cnRegisterSettings {
 				'address_line_1'     => __( 'Address Line One', 'connections' ),
 				'address_line_2'     => __( 'Address Line Two', 'connections' ),
 				'address_line_3'     => __( 'Address Line Three', 'connections' ),
+				'address_line_4'     => __( 'Address Line Four', 'connections' ),
+				'address_district'   => __( 'Address District', 'connections' ),
+				'address_county'     => __( 'Address County', 'connections' ),
 				'address_city'       => __( 'Address City', 'connections' ),
 				'address_state'      => __( 'Address State', 'connections' ),
 				'address_zipcode'    => __( 'Address Zip Code', 'connections' ),
@@ -1123,6 +1126,9 @@ class cnRegisterSettings {
 				'address_line_1',
 				'address_line_2',
 				'address_line_3',
+				'address_line_4',
+				'address_district',
+				'address_county',
 				'address_city',
 				'address_state',
 				'address_zipcode',
@@ -1923,6 +1929,9 @@ class cnRegisterSettings {
 		$search['address_line_1']     = in_array( 'address_line_1' , $fields ) ? TRUE : FALSE;
 		$search['address_line_2']     = in_array( 'address_line_2' , $fields ) ? TRUE : FALSE;
 		$search['address_line_3']     = in_array( 'address_line_3' , $fields ) ? TRUE : FALSE;
+		$search['address_line_4']     = in_array( 'address_line_4' , $fields ) ? TRUE : FALSE;
+		$search['address_district']   = in_array( 'address_district' , $fields ) ? TRUE : FALSE;
+		$search['address_county']     = in_array( 'address_county' , $fields ) ? TRUE : FALSE;
 		$search['address_city']       = in_array( 'address_city' , $fields ) ? TRUE : FALSE;
 		$search['address_state']      = in_array( 'address_state' , $fields ) ? TRUE : FALSE;
 		$search['address_zipcode']    = in_array( 'address_zipcode' , $fields ) ? TRUE : FALSE;
@@ -1964,6 +1973,9 @@ class cnRegisterSettings {
 		if ( $search['address_line_1'] ) $column['address'][]   = 'line_1';
 		if ( $search['address_line_2'] ) $column['address'][]   = 'line_2';
 		if ( $search['address_line_3'] ) $column['address'][]   = 'line_3';
+		if ( $search['address_line_4'] ) $column['address'][]   = 'line_4';
+		if ( $search['address_district'] ) $column['address'][] = 'district';
+		if ( $search['address_county'] ) $column['address'][]   = 'county';
 		if ( $search['address_city'] ) $column['address'][]     = 'city';
 		if ( $search['address_state'] ) $column['address'][]    = 'state';
 		if ( $search['address_zipcode'] ) $column['address'][]  = 'zipcode';

@@ -269,14 +269,32 @@ class CN_Walker_Term_Select_List_Enhanced extends Walker {
 
 		if ( ! empty( $terms ) ) {
 
-			if ( $atts['enhanced'] || $atts['placeholder_option'] ) $select .= "\t" . '<option value="">' . ( $atts['enhanced'] ? '' : $atts['default'] ) . '</option>';
+			if ( $atts['enhanced'] || $atts['placeholder_option'] ) {
+
+				/*
+				 * If a select enhancement library is being used such as Chosen or Select2, add the placeholder option
+				 * to the top of the available options.
+				 *
+				 * When doing a select all, set the placeholder option as the default selected option.
+				 */
+				$selected = ! $atts['enhanced'] && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
+
+				$select  .= "\t" . '<option value="" ' . $selected . '>' . ( $atts['enhanced'] ? '' : $atts['default'] ) . '</option>';
+			}
 
 			if ( $atts['show_select_all'] && $atts['show_option_all'] ) {
 
 				/** This filter is documented in includes/template/class.template-walker-term-select.php */
 				$show_option_all = apply_filters( 'cn_list_cats', $atts['show_option_all'] );
-				$selected        = ! $atts['enhanced'] && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
-				$select         .= "\t<option value='0'$selected>$show_option_all</option>" . PHP_EOL;
+
+				/*
+				 * When doing a select all, set the show all option value as selected.
+				 *
+				 * NOTE: This is only done when the select is not being enhanced by a library such as Chosen or Select2.
+				 * In that case the placeholder option should be the default selected item.
+				 */
+				$selected = ! $atts['enhanced'] && ! isset( $selected ) && is_numeric( $atts['selected'] ) && '0' === strval( $atts['selected'] ) ? " selected='selected'" : '';
+				$select  .= "\t<option value='0'$selected>$show_option_all</option>" . PHP_EOL;
 			}
 
 			if ( $atts['show_option_none'] ) {

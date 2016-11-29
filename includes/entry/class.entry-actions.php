@@ -735,7 +735,7 @@ class cnEntry_Action {
 
 					cnMessage::set( 'success', $messageID );
 					$entryID = (int) $connections->lastInsertID;
-					$entry->setID( $entryID );
+					$entry->setId( $entryID );
 				}
 
 				break;

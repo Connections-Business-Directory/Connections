@@ -3,7 +3,7 @@
 **Tags:** address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory  
 **Requires at least:** 4.3  
 **Tested up to:** 4.7  
-**Stable tag:** 8.5.29  
+**Stable tag:** 8.5.30  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -248,6 +248,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 ## Changelog ##
+
+### 8.5.30 11/29/2016 ###
+* TWEAK: Revert form action to not include the form action.
+* BUG: Ensure enhanced select renders the placeholder values correctly when viewing on a mobile device.
+* BUG: Enable search for the Address Line 4, District and Country fields.
+* OTHER: Correct method capitalization.
+* DEV: Correct inline code doc punctuation.
+* I18N: Update POT file.
+* I18N: Update MO files.
 
 ### 8.5.29 11/10/2016 ###
 * NEW: Add filter to the `document_title_parts` filter to properly set the browser tab/window title if `wp_title()` is not being used by the theme.
@@ -790,4 +799,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 ### 8.5.29 ###
+It is recommended to backup before updating. Requires WordPress >= 4.3.
+
+### 8.5.30 ###
 It is recommended to backup before updating. Requires WordPress >= 4.3.

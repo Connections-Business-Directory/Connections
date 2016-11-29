@@ -1891,7 +1891,7 @@ class cnString {
 
 				if ( $count >= $atts['length'] && preg_match( '/[\?\.\!]\s*$/uS', $token ) ) {
 
-					// Limit reached, continue until ? . or ! occur at the end
+					// Limit reached, continue until ? . or ! occur at the end.
 					$excerpt .= trim( $token );
 
 					// If the length limit was reached, append the more string.
@@ -1900,10 +1900,10 @@ class cnString {
 					break;
 				}
 
-				// Add words to complete sentence
-				$count ++;
+				// Add words to complete sentence.
+				$count++;
 
-				// Append what's left of the token
+				// Append what's left of the token.
 				$excerpt .= $token;
 			}
 		}

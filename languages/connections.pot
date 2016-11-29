@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.5.28\n"
+"Project-Id-Version: Connections 8.5.29\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2016-11-10 21:41:37+00:00\n"
+"POT-Creation-Date: 2016-11-29 17:21:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -132,7 +132,7 @@ msgstr ""
 #: includes/admin/pages/manage.php:502 includes/admin/pages/manage.php:511
 #: includes/class.metabox-entry.php:2446 includes/class.metabox-entry.php:2519
 #: includes/export/class.csv-export-batch-category.php:56
-#: includes/settings/class.settings.php:1401
+#: includes/settings/class.settings.php:1407
 msgid "Name"
 msgstr ""
 
@@ -235,7 +235,7 @@ msgstr ""
 #: includes/admin/class.functions.php:166 includes/admin/class.menu.php:80
 #: includes/admin/class.metabox-dashboard.php:357
 #: includes/admin/pages/templates.php:60
-#: includes/settings/class.settings.php:1702
+#: includes/settings/class.settings.php:1708
 msgid "Templates"
 msgstr ""
 
@@ -937,7 +937,7 @@ msgid "Search Entries"
 msgstr ""
 
 #: includes/admin/pages/manage.php:338
-#: includes/template/class.template-parts.php:2189
+#: includes/template/class.template-parts.php:2194
 msgid "Show All Categories"
 msgstr ""
 
@@ -1124,14 +1124,14 @@ msgstr ""
 #: includes/export/class.csv-export-batch-email.php:55
 #: includes/export/class.csv-export-batch-phone-numbers.php:55
 #: includes/settings/class.settings.php:1096
-#: includes/settings/class.settings.php:1418
+#: includes/settings/class.settings.php:1424
 msgid "Organization"
 msgstr ""
 
 #: includes/admin/pages/manage.php:691 includes/class.metabox-entry.php:539
 #: includes/class.metabox-entry.php:569
 #: includes/settings/class.settings.php:1097
-#: includes/settings/class.settings.php:1435
+#: includes/settings/class.settings.php:1441
 msgid "Department"
 msgstr ""
 
@@ -1959,13 +1959,13 @@ msgstr ""
 
 #: includes/class.metabox-entry.php:1158
 #: includes/export/class.csv-export-batch-addresses.php:61
-#: includes/settings/class.settings.php:1452
+#: includes/settings/class.settings.php:1458
 msgid "District"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1172
 #: includes/export/class.csv-export-batch-addresses.php:62
-#: includes/settings/class.settings.php:1469
+#: includes/settings/class.settings.php:1475
 msgid "County"
 msgstr ""
 
@@ -1986,7 +1986,7 @@ msgstr ""
 
 #: includes/class.metabox-entry.php:1242
 #: includes/export/class.csv-export-batch-addresses.php:66
-#: includes/settings/class.settings.php:1537
+#: includes/settings/class.settings.php:1543
 msgid "Country"
 msgstr ""
 
@@ -2007,7 +2007,7 @@ msgid "Phone Type"
 msgstr ""
 
 #: includes/class.metabox-entry.php:1451
-#: includes/settings/class.settings.php:1109
+#: includes/settings/class.settings.php:1112
 msgid "Phone Number"
 msgstr ""
 
@@ -2798,7 +2798,7 @@ msgstr ""
 
 #: includes/log/class.log-email.php:202 includes/settings/class.settings.php:58
 #: includes/template/class.template-customizer.php:455
-#: includes/template/class.template-parts.php:1623
+#: includes/template/class.template-parts.php:1628
 msgid "Search"
 msgstr ""
 
@@ -3106,8 +3106,8 @@ msgstr ""
 
 #: includes/settings/class.options.php:405
 #: includes/settings/class.settings.php:98
-#: includes/template/class.template-parts.php:2047
-#: includes/template/class.template-parts.php:2048
+#: includes/template/class.template-parts.php:2052
+#: includes/template/class.template-parts.php:2053
 msgid "Home"
 msgstr ""
 
@@ -3643,34 +3643,46 @@ msgid "Address Line Three"
 msgstr ""
 
 #: includes/settings/class.settings.php:1105
-msgid "Address City"
+msgid "Address Line Four"
 msgstr ""
 
 #: includes/settings/class.settings.php:1106
-msgid "Address State"
+msgid "Address District"
 msgstr ""
 
 #: includes/settings/class.settings.php:1107
-msgid "Address Zip Code"
+msgid "Address County"
 msgstr ""
 
 #: includes/settings/class.settings.php:1108
+msgid "Address City"
+msgstr ""
+
+#: includes/settings/class.settings.php:1109
+msgid "Address State"
+msgstr ""
+
+#: includes/settings/class.settings.php:1110
+msgid "Address Zip Code"
+msgstr ""
+
+#: includes/settings/class.settings.php:1111
 msgid "Address Country"
 msgstr ""
 
-#: includes/settings/class.settings.php:1143
+#: includes/settings/class.settings.php:1149
 msgid "FULLTEXT"
 msgstr ""
 
-#: includes/settings/class.settings.php:1144
+#: includes/settings/class.settings.php:1150
 msgid "Enable FULLTEXT query support."
 msgstr ""
 
-#: includes/settings/class.settings.php:1157
+#: includes/settings/class.settings.php:1163
 msgid "Keyword Search"
 msgstr ""
 
-#: includes/settings/class.settings.php:1158
+#: includes/settings/class.settings.php:1164
 msgid ""
 "Enable LIKE query support. Disabling this option can improve search results "
 "if the server configuration supports FULLTEXT queries. If you disable this "
@@ -3682,233 +3694,233 @@ msgid ""
 "is a database limitation."
 msgstr ""
 
-#: includes/settings/class.settings.php:1177
-#: includes/settings/class.settings.php:1211
+#: includes/settings/class.settings.php:1183
+#: includes/settings/class.settings.php:1217
 msgid "Page Title"
 msgstr ""
 
-#: includes/settings/class.settings.php:1178
+#: includes/settings/class.settings.php:1184
 msgid ""
 "Update the browser tab/window title to reflect the current location being "
 "viewed in the directory. For example, the current category name."
 msgstr ""
 
-#: includes/settings/class.settings.php:1194
+#: includes/settings/class.settings.php:1200
 msgid "Page Description"
 msgstr ""
 
-#: includes/settings/class.settings.php:1195
+#: includes/settings/class.settings.php:1201
 msgid "Use an excerpt of the current category description or current entry bio."
 msgstr ""
 
-#: includes/settings/class.settings.php:1212
+#: includes/settings/class.settings.php:1218
 msgid ""
 "Update the page title to reflect the current location being viewed in the "
 "directory. For example, the current entry name."
 msgstr ""
 
-#: includes/settings/class.settings.php:1231
+#: includes/settings/class.settings.php:1237
 msgid "Character Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1232
+#: includes/settings/class.settings.php:1238
 msgid "Enter a custom structure for the initial character in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1251
+#: includes/settings/class.settings.php:1257
 msgid "Category Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1252
+#: includes/settings/class.settings.php:1258
 msgid "Enter a custom structure for the category in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1266
+#: includes/settings/class.settings.php:1272
 msgid "Country Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1267
+#: includes/settings/class.settings.php:1273
 msgid "Enter a custom structure for the country in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1281
+#: includes/settings/class.settings.php:1287
 msgid "Region Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1282
+#: includes/settings/class.settings.php:1288
 msgid "Enter a custom structure for the region (state/province) in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1296
+#: includes/settings/class.settings.php:1302
 msgid "Locality Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1297
+#: includes/settings/class.settings.php:1303
 msgid "Enter a custom structure for the locality (city) in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1311
+#: includes/settings/class.settings.php:1317
 msgid "Postal Code Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1312
+#: includes/settings/class.settings.php:1318
 msgid "Enter a custom structure for the postal code in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1326
+#: includes/settings/class.settings.php:1332
 msgid "District Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1327
+#: includes/settings/class.settings.php:1333
 msgid "Enter a custom structure for the district in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1341
+#: includes/settings/class.settings.php:1347
 msgid "County Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1342
+#: includes/settings/class.settings.php:1348
 msgid "Enter a custom structure for the county in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1356
+#: includes/settings/class.settings.php:1362
 msgid "Organization Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1357
+#: includes/settings/class.settings.php:1363
 msgid "Enter a custom structure for the organization in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1371
+#: includes/settings/class.settings.php:1377
 msgid "Department Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1372
+#: includes/settings/class.settings.php:1378
 msgid "Enter a custom structure for the department in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1386
+#: includes/settings/class.settings.php:1392
 msgid "Name Base"
 msgstr ""
 
-#: includes/settings/class.settings.php:1387
+#: includes/settings/class.settings.php:1393
 msgid "Enter a custom structure for the entry slug in the URL."
 msgstr ""
 
-#: includes/settings/class.settings.php:1402
+#: includes/settings/class.settings.php:1408
 msgid ""
 "Enabling this option will turn the name of every entry into a link. "
 "Clicking the link will take you to the page with only that entry."
 msgstr ""
 
-#: includes/settings/class.settings.php:1419
+#: includes/settings/class.settings.php:1425
 msgid ""
 "Enabling this option will turn the name of organization into a link. "
 "Clicking the link will take you to the page filtered by that organization."
 msgstr ""
 
-#: includes/settings/class.settings.php:1436
+#: includes/settings/class.settings.php:1442
 msgid ""
 "Enabling this option will turn the name of department into a link. Clicking "
 "the link will take you to the page filtered by that department."
 msgstr ""
 
-#: includes/settings/class.settings.php:1453
+#: includes/settings/class.settings.php:1459
 msgid ""
 "Enabling this option will turn the name of district into a link. Clicking "
 "the link will take you to the page filtered by that district."
 msgstr ""
 
-#: includes/settings/class.settings.php:1470
+#: includes/settings/class.settings.php:1476
 msgid ""
 "Enabling this option will turn the name of county into a link. Clicking the "
 "link will take you to the page filtered by that county."
 msgstr ""
 
-#: includes/settings/class.settings.php:1486
+#: includes/settings/class.settings.php:1492
 msgid "Locality"
 msgstr ""
 
-#: includes/settings/class.settings.php:1487
+#: includes/settings/class.settings.php:1493
 msgid ""
 "Enabling this option will turn the name of locality (city) into a link. "
 "Clicking the link will take you to the page filtered by that locality."
 msgstr ""
 
-#: includes/settings/class.settings.php:1503
+#: includes/settings/class.settings.php:1509
 msgid "Region"
 msgstr ""
 
-#: includes/settings/class.settings.php:1504
+#: includes/settings/class.settings.php:1510
 msgid ""
 "Enabling this option will turn the name of region (state/province) into a "
 "link. Clicking the link will take you to the page filtered by that region."
 msgstr ""
 
-#: includes/settings/class.settings.php:1520
+#: includes/settings/class.settings.php:1526
 msgid "Postal Code"
 msgstr ""
 
-#: includes/settings/class.settings.php:1521
+#: includes/settings/class.settings.php:1527
 msgid ""
 "Enabling this option will turn the postal code into a link. Clicking the "
 "link will take you to the page filtered by that postal code."
 msgstr ""
 
-#: includes/settings/class.settings.php:1538
+#: includes/settings/class.settings.php:1544
 msgid ""
 "Enabling this option will turn the name of country into a link. Clicking "
 "the link will take you to the page filtered by that country."
 msgstr ""
 
-#: includes/settings/class.settings.php:1554
+#: includes/settings/class.settings.php:1560
 msgid "Telephone Number"
 msgstr ""
 
-#: includes/settings/class.settings.php:1555
+#: includes/settings/class.settings.php:1561
 msgid ""
 "Enabling this option will turn every telephone number into a link that when "
 "clicked by the user on a mobile phone or computer with a telephony "
 "application installed will dial the number."
 msgstr ""
 
-#: includes/settings/class.settings.php:1571
+#: includes/settings/class.settings.php:1577
 msgid "Enable?"
 msgstr ""
 
-#: includes/settings/class.settings.php:1572
+#: includes/settings/class.settings.php:1578
 msgid "To add support for Custom Post Types, enable this option."
 msgstr ""
 
-#: includes/settings/class.settings.php:1588
+#: includes/settings/class.settings.php:1594
 msgid "Enable support for:"
 msgstr ""
 
-#: includes/settings/class.settings.php:1604
+#: includes/settings/class.settings.php:1610
 msgid "Server Key"
 msgstr ""
 
-#: includes/settings/class.settings.php:1605
+#: includes/settings/class.settings.php:1611
 msgid ""
 "Enter your Google Maps Geocoding API <strong>Server Key</strong>. Learn how "
 "to <a href=\"%s\">get a key</a>."
 msgstr ""
 
-#: includes/settings/class.settings.php:1619
+#: includes/settings/class.settings.php:1625
 msgid "Browser Key"
 msgstr ""
 
-#: includes/settings/class.settings.php:1620
+#: includes/settings/class.settings.php:1626
 msgid ""
 "Enter your Google Maps Geocoding API <strong>Browser Key</strong>. Learn "
 "how to <a href=\"%s\">get a key</a>."
 msgstr ""
 
-#: includes/settings/class.settings.php:1634
+#: includes/settings/class.settings.php:1640
 msgid "Google Maps API v3"
 msgstr ""
 
-#: includes/settings/class.settings.php:1635
+#: includes/settings/class.settings.php:1641
 msgid ""
 "If the current active theme or another plugin loads the Google Maps API v3 "
 "uncheck this to prevent Connections from loading the Google Maps API. This "
@@ -3916,23 +3928,23 @@ msgid ""
 "that utilize Google Maps."
 msgstr ""
 
-#: includes/settings/class.settings.php:1651
+#: includes/settings/class.settings.php:1657
 msgid "JavaScript"
 msgstr ""
 
-#: includes/settings/class.settings.php:1652
+#: includes/settings/class.settings.php:1658
 msgid ""
 "By default Connections loads it's JavaScripts in the page footer uncheck "
 "this box to load them in the page header."
 msgstr ""
 
-#: includes/settings/class.settings.php:1669
+#: includes/settings/class.settings.php:1675
 msgid ""
 "Enqueue the core styles. Disable this option if you do not want the core "
 "styles to be loaded."
 msgstr ""
 
-#: includes/settings/class.settings.php:1686
+#: includes/settings/class.settings.php:1692
 msgid ""
 "Themes and plugins sometimes load a version of jQuery that is not bundled "
 "with WordPress. This is generally considered bad practice which can result "
@@ -3940,18 +3952,18 @@ msgid ""
 "You should only enable this option at the direction of support."
 msgstr ""
 
-#: includes/settings/class.settings.php:1703
+#: includes/settings/class.settings.php:1709
 msgid ""
 "Themes can break plugin shortcodes that output content on the page causing "
 "the content not to render correctly. If the templates do not display as "
 "expected try enabling this option."
 msgstr ""
 
-#: includes/settings/class.settings.php:1719
+#: includes/settings/class.settings.php:1725
 msgid "Debug Messages"
 msgstr ""
 
-#: includes/settings/class.settings.php:1720
+#: includes/settings/class.settings.php:1726
 msgid "Display debug messages."
 msgstr ""
 
@@ -3993,7 +4005,7 @@ msgid ""
 msgstr ""
 
 #: includes/shortcode/inc.shortcodes.php:178
-#: includes/template/class.template-parts.php:1299
+#: includes/template/class.template-parts.php:1304
 msgid "No results."
 msgstr ""
 
@@ -4081,7 +4093,7 @@ msgid "Character Index Repeat"
 msgstr ""
 
 #: includes/template/class.template-customizer.php:663
-#: includes/template/class.template-parts.php:1784
+#: includes/template/class.template-parts.php:1789
 msgid "Current Character"
 msgstr ""
 
@@ -4403,7 +4415,7 @@ msgid "BCC"
 msgstr ""
 
 #: includes/template/class.template-list-table-email-log.php:382
-#: includes/template/class.template-parts.php:893
+#: includes/template/class.template-parts.php:898
 msgid "View All"
 msgstr ""
 
@@ -4428,73 +4440,73 @@ msgstr ""
 msgid "ERROR: Template %1$s not found."
 msgstr ""
 
-#: includes/template/class.template-parts.php:989
+#: includes/template/class.template-parts.php:994
 msgid "Go back to directory."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1147
+#: includes/template/class.template-parts.php:1152
 msgid "You are searching within category(ies): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1165
+#: includes/template/class.template-parts.php:1170
 msgid "You are searching for the keyword(s): %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1173
+#: includes/template/class.template-parts.php:1178
 msgid "The results are being filtered by the character: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1181
+#: includes/template/class.template-parts.php:1186
 msgid "The results are being filtered by the organization: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1189
+#: includes/template/class.template-parts.php:1194
 msgid "The results are being filtered by the department: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1197
+#: includes/template/class.template-parts.php:1202
 msgid "The results are being filtered by the locality: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1205
+#: includes/template/class.template-parts.php:1210
 msgid "The results are being filtered by the region: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1213
+#: includes/template/class.template-parts.php:1218
 msgid "The results are being filtered by the postal code: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1221
+#: includes/template/class.template-parts.php:1226
 msgid "The results are being filtered by the country: %s"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1268
+#: includes/template/class.template-parts.php:1273
 msgid "Clear Search"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1422
-#: includes/template/class.template-parts.php:1423
+#: includes/template/class.template-parts.php:1427
+#: includes/template/class.template-parts.php:1428
 #: includes/template/class.template-shortcode.php:103
 msgid "Return to top."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1504
+#: includes/template/class.template-parts.php:1509
 msgid "Updated %1$s ago."
 msgstr ""
 
-#: includes/template/class.template-parts.php:1651
+#: includes/template/class.template-parts.php:1656
 msgid "Submit"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1846
+#: includes/template/class.template-parts.php:1851
 msgid "&laquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:1847
+#: includes/template/class.template-parts.php:1852
 msgid "&raquo;"
 msgstr ""
 
-#: includes/template/class.template-parts.php:2187
+#: includes/template/class.template-parts.php:2192
 #: includes/template/class.template-walker-term-radio-group.php:108
 #: includes/template/class.template-walker-term-select-enhanced.php:165
 msgid "Select Category"
@@ -4677,7 +4689,7 @@ msgstr ""
 msgid "A business directory and address book manager."
 msgstr ""
 
-#: includes/class.retrieve.php:2769
+#: includes/class.retrieve.php:2772
 #. translators: This is a comma-separated list of very common words that should
 #. be excluded from a search,
 #. * like a, an, and the. These are usually called "stopwords". You should

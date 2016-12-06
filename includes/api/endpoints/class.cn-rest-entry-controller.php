@@ -261,6 +261,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			'rendered' => $entry->getBio(),
 		);
 
+		$data['notes'] = array(
+			'raw'      => $entry->getNotes( 'raw' ),
+			'rendered' => $entry->getNotes(),
+		);
+
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 

@@ -266,6 +266,9 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			'rendered' => $entry->getNotes(),
 		);
 
+		$data['visibility'] = $entry->getVisibility();
+		$data['status']     = $entry->getStatus();
+
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 

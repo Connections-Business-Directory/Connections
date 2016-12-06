@@ -617,7 +617,7 @@ class cnValidate {
 
 				case 'unlisted':
 
-					return is_admin() && current_user_can( 'connections_view_unlisted' );
+					return ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) && current_user_can( 'connections_view_unlisted' );
 
 				default:
 

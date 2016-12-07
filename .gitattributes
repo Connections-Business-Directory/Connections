@@ -34,5 +34,6 @@
 /.editorconfig export-ignore
 /.csslintrc export-ignore
 /.csslintrc-strict export-ignore
+/.travis.yml export-ignore
 /CHANGELOG.txt export-ignore
 /README.md export-ignore

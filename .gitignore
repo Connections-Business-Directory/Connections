@@ -34,7 +34,6 @@ sftp-config.json
 *.pydevproject
 .metadata
 .gradle
-bin/
 tmp/
 *.tmp
 *.bak

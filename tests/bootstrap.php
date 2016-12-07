@@ -16,9 +16,8 @@ tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 require $_tests_dir . '/includes/bootstrap.php';
 
+echo "Activating Connections Business Directory...\n";
 activate_plugin( 'connections/connections.php' );
-
-echo "Installing Connections Business Directory...\n";
 
 global $current_user;
 

@@ -4,7 +4,7 @@
 # However I wish to use an external php code sniffer config, so I need to use the tools param... I think.
 
 filter:
-    excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/* ]
+    excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
 before_commands:
     - git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
 tools:
@@ -22,10 +22,10 @@ tools:
                 too_many_methods:     false
                 excessive_class_complexity:  false
         filter:
-            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/* ]
+            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
     php_analyzer:
         filter:
-            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/* ]
+            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
         config:
             parameter_reference_check: true
             checkstyle: { enabled: true, no_trailing_whitespace: true, naming: { enabled: false, local_variable: '', abstract_class_name: '', utility_class_name: '', constant_name: '', property_name: '', method_name: '', parameter_name: '', interface_name: '', type_name: '', exception_name: '', isser_method_name: '' } }
@@ -48,17 +48,17 @@ tools:
             use_statement_fixes: { enabled: false, remove_unused: false, preserve_multiple: false, order_alphabetically: false }
     php_code_sniffer:
         filter:
-            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/* ]
+            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
         config:
 #            tab_width: '4'
             standard: "WordPress-Extra"
 #            sniffs: { psr1: { files: { side_effects_sniff: false } }, generic: { code_analysis: { for_loop_with_test_function_call_sniff: false, empty_statement_sniff: false, unnecessary_final_modifier_sniff: false, useless_overriding_method_sniff: false, jumbled_incrementer_sniff: false }, php: { deprecated_functions_sniff: false, character_before_php_opening_tag_sniff: false } }, squiz: { scope: { static_this_usage_sniff: false, method_scope_sniff: false, member_var_scope_sniff: false }, classes: { self_member_reference_sniff: false }, php: { non_executable_code_sniff: false } }, wordpress: { arrays: { array_declaration_sniff: true }, classes: { valid_class_name_sniff: true }, files: { file_name_sniff: true }, formatting: { multiple_statement_alignment_sniff: true }, functions: { function_call_signature_sniff: true, function_declaration_argument_spacing_sniff: true }, naming_conventions: { valid_function_name_sniff: true }, objects: { object_instantiation_sniff: true }, php: { discouraged_functions_sniff: true }, strings: { double_quote_usage_sniff: true }, white_space: { control_structure_spacing_sniff: true, operator_spacing_sniff: true, php_indent_sniff: true }, xss: { escape_output_sniff: true } } }
     sensiolabs_security_checker:
         filter:
-            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/* ]
+            excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
     php_loc:
         enabled: true
-        excluded_dirs: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/* ]
+        excluded_dirs: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
     php_cpd:
         enabled: true
-        excluded_dirs: [vendor, languages, includes/libraries, assets, cache]
+        excluded_dirs: [vendor, languages, includes/libraries, assets, cache, tests/*, bin/*]

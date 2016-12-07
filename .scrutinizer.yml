@@ -61,4 +61,4 @@ tools:
         excluded_dirs: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
     php_cpd:
         enabled: true
-        excluded_dirs: [vendor, languages, includes/libraries, assets, cache, tests/*, bin/*]
+        excluded_dirs: [vendor, languages, includes/libraries, assets, cache, tests, bin]

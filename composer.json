@@ -1,0 +1,19 @@
+{
+  "name": "connections/connections",
+  "type": "wordpress-plugin",
+  "description": "Business Directory for WordPress.",
+  "keywords": ["connections"],
+  "homepage": "https://connections-pro.com/",
+  "license": "GPL-2.0+",
+  "support": {
+    "issues": "https://connections-pro.com/support/"
+  },
+  "require": {
+    "php": ">=5.3.0",
+    "composer/installers": "~1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "5.5.*"
+  },
+  "minimum-stability": "dev"
+}

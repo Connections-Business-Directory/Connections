@@ -74,6 +74,5 @@ composer.lock
 /vendor/myclabs
 /vendor/phpunit
 /vendor/bin
-/vendor/phpunit
 /vendor/composer
 /vendor/autoload.php

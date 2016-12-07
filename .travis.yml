@@ -49,4 +49,5 @@ after_script:
 branches:
   only:
     - master
+    - develop
     - /^release\/.*$/

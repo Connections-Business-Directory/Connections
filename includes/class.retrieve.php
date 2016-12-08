@@ -1108,7 +1108,12 @@ class cnRetrieve {
 
 				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
 				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
-				if ( current_user_can( 'connections_view_unlisted' ) && is_admin() ) $visibility[] = 'unlisted';
+
+				if ( current_user_can( 'connections_view_unlisted' ) &&
+				     ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
+
+					$visibility[] = 'unlisted';
+				}
 
 			} else {
 

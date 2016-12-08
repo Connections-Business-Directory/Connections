@@ -1,0 +1,35 @@
+<phpunit
+	bootstrap="tests/bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	>
+	<testsuites>
+		<testsuite>
+			<directory prefix="tests-" suffix=".php">./tests/</directory>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">./includes</directory>
+			<file>connections.php</file>
+			<file>uninstall.php</file>
+			<exclude>
+				<directory>./vendor/</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+	<listeners>
+		<listener class="SpeedTrapListener" file="tests/phpunit/speed-trap-listener.php">
+			<arguments>
+				<array>
+					<element key="slowThreshold">
+						<integer>150</integer>
+					</element>
+				</array>
+			</arguments>
+		</listener>
+	</listeners>
+</phpunit>

@@ -1,11 +1,13 @@
 # Connections Business Directory #
-**Donate link:** http://connections-pro.com/  
-**Tags:** address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory  
-**Requires at least:** 4.3  
-**Tested up to:** 4.7  
-**Stable tag:** 8.5.30  
-**License:** GPLv2 or later  
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
+
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/connections.svg?maxAge=2592000) 
+![Total Downloads](https://img.shields.io/wordpress/plugin/dt/connections.svg?maxAge=2592000) 
+![Plugin Rating](https://img.shields.io/wordpress/plugin/r/connections.svg?maxAge=2592000) 
+![WordPress Compatibility](https://img.shields.io/wordpress/v/connections.svg?maxAge=2592000)
+[![Build Status](https://img.shields.io/travis/Connections-Business-Directory/Connections/develop.svg?maxAge=2592000)](https://travis-ci.org/Connections-Business-Directory/Connections) 
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/connections-business-directory/connections.svg)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/) 
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/connections-business-directory/connections.svg?maxAge=2592000)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/) 
+[![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/Connections-Business-Directory/Connections/blob/master/LICENSE.txt)
 
 An easy to use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.
 
@@ -248,6 +250,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 ## Changelog ##
+
+### 8.5.31 12/08/2016 ###
+* TWEAK: Fix Template Customizer so it loads properly in WordPress 4.7.
+* REST API: More work done to support the entry endpoint for the REST API.
+* PHPUnit: Add framework to support unit testing to help ensure even more stable build releases.
 
 ### 8.5.30 11/29/2016 ###
 * TWEAK: Revert form action to not include the form action.
@@ -802,4 +809,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.3.
 
 ### 8.5.30 ###
+It is recommended to backup before updating. Requires WordPress >= 4.3.
+
+### 8.5.31 ###
 It is recommended to backup before updating. Requires WordPress >= 4.3.

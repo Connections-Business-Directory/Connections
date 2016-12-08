@@ -22,10 +22,29 @@
 *.RTF	 diff=astextplain
 
 # Exclude the following from being included in the archive.
+/bin export-ignore
 /build export-ignore
 /docs export-ignore
 /logs export-ignore
 /node_modules export-ignore
+/tests export-ignore
+
+/composer.json
+/composer.lock
+
+/vendor/symfony export-ignore
+/vendor/doctrine export-ignore
+/vendor/sebastian export-ignore
+/vendor/webmozart export-ignore
+/vendor/phpdocumentor export-ignore
+/vendor/phpspec export-ignore
+/vendor/myclabs export-ignore
+/vendor/phpunit export-ignore
+/vendor/bin export-ignore
+/vendor/phpunit export-ignore
+/vendor/composer export-ignore
+/vendor/autoload.php export-ignore
+
 /.tx export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
@@ -34,5 +53,7 @@
 /.editorconfig export-ignore
 /.csslintrc export-ignore
 /.csslintrc-strict export-ignore
+/.travis.yml export-ignore
 /CHANGELOG.txt export-ignore
 /README.md export-ignore
+/phpunit.xml export-ignore

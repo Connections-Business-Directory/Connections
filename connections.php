@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.5.30
+ * Version: 8.5.31
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.5.30
+ * @version 8.5.31
  */
 
 // Exit if accessed directly
@@ -235,7 +235,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.30' );
+			define( 'CN_CURRENT_VERSION', '8.5.31' );
 
 			/** @var string CN_DB_VERSION The current DB version. */
 			define( 'CN_DB_VERSION', '0.4' );
@@ -706,8 +706,16 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public static function includeCustomizer() {
 
-			if ( ! ( ( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] ) ||
-			         ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) ) ) ) {
+			$is_customize_admin_page = ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) );
+			$should_include = (
+				$is_customize_admin_page
+				||
+				( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )
+				||
+				( ! empty( $_GET['customize_changeset_uuid'] ) || ! empty( $_POST['customize_changeset_uuid'] ) )
+			);
+
+			if ( ! $should_include ) {
 				return;
 			}
 

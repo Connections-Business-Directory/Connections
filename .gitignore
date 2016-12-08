@@ -34,7 +34,6 @@ sftp-config.json
 *.pydevproject
 .metadata
 .gradle
-bin/
 tmp/
 *.tmp
 *.bak
@@ -62,3 +61,18 @@ node_modules
 build
 logs
 docs
+
+# Composer #
+############
+composer.lock
+/vendor/symfony
+/vendor/doctrine
+/vendor/sebastian
+/vendor/webmozart
+/vendor/phpdocumentor
+/vendor/phpspec
+/vendor/myclabs
+/vendor/phpunit
+/vendor/bin
+/vendor/composer
+/vendor/autoload.php

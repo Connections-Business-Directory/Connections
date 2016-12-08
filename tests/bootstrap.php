@@ -11,21 +11,25 @@ require_once $_tests_dir . '/includes/functions.php';
 
 function _manually_load_plugin() {
 
-	global $wpdb;
-	$wpdb->suppress_errors = TRUE;
-	$wpdb->show_errors = FALSE;
+	//global $wpdb;
+	//$wpdb->suppress_errors = TRUE;
+	//$wpdb->show_errors = FALSE;
 
 	require dirname( __FILE__ ) . '/../connections.php';
 
-	$wpdb->suppress_errors = FALSE;
-	$wpdb->show_errors = TRUE;
+	// Create the table structure.
+	require dirname( __FILE__ ) . '/../includes/class.schema.php';
+	cnSchema::create();
+
+	//$wpdb->suppress_errors = FALSE;
+	//$wpdb->show_errors = TRUE;
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
 require $_tests_dir . '/includes/bootstrap.php';
 
-echo "Activating Connections Business Directory...\n";
-activate_plugin( 'connections/connections.php' );
+//echo "Activating Connections Business Directory...\n";
+//activate_plugin( 'connections/connections.php' );
 
 global $current_user;
 

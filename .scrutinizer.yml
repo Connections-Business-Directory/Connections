@@ -56,6 +56,8 @@ tools:
     sensiolabs_security_checker:
         filter:
             excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
+    php_code_coverage: true
+    php_pdepend: true
     php_loc:
         enabled: true
         excluded_dirs: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]

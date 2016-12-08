@@ -118,7 +118,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 			return new WP_Error(
 				'rest_forbidden_context',
-				__( 'Sorry, you are not allowed to edit these entries.', 'connections' ),
+				__( 'Permission denied. Login required.', 'connections' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}

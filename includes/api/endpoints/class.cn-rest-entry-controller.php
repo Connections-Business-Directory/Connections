@@ -290,57 +290,63 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	private function prepare_address_for_response( $entry, $request, $data ) {
 
 		$data['adr'] = array();
-		$display     = $entry->getAddresses();
-		$raw         = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
+		$addresses   = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
 
 		if ( empty( $addresses ) ) return $data;
 
 		foreach ( $addresses as $address ) {
 
 			$item = array(
+				'id'               => $address->id,
+				'order'            => $address->order,
+				'preferred'        => $address->preferred,
+				'type'             => $address->type,
 				'street_address'   => array(
-					'raw'      => '',
-					'rendered' => '',
+					'raw'      => $address->line_1,
+					'rendered' => cnSanitize::field( 'street', $address->line_1, 'display' ),
 				),
 				'extended_address' => array(
-					'raw'      => '',
-					'rendered' => '',
+					'raw'      => $address->line_2,
+					'rendered' => cnSanitize::field( 'street', $address->line_2, 'display' ),
 				),
-				'street_address_3' => array(
-					'raw'      => '',
-					'rendered' => '',
+				'extended_address_2' => array(
+					'raw'      => $address->line_3,
+					'rendered' => cnSanitize::field( 'street', $address->line_3, 'display' ),
 				),
-				'street_address_4' => array(
-					'raw'      => '',
-					'rendered' => '',
-				),
-				'locality'         => array(
-					'raw'      => '',
-					'rendered' => '',
-				),
-				'region'           => array(
-					'raw'      => '',
-					'rendered' => '',
+				'extended_address_3' => array(
+					'raw'      => $address->line_4,
+					'rendered' => cnSanitize::field( 'street', $address->line_4, 'display' ),
 				),
 				'district'         => array(
-					'raw'      => '',
-					'rendered' => '',
+					'raw'      => $address->district,
+					'rendered' => cnSanitize::field( 'district', $address->district, 'display' ),
 				),
 				'county'           => array(
-					'raw'      => '',
-					'rendered' => '',
+					'raw'      => $address->county,
+					'rendered' => cnSanitize::field( 'county', $address->county, 'display' ),
+				),
+				'locality'         => array(
+					'raw'      => $address->city,
+					'rendered' => cnSanitize::field( 'locality', $address->city, 'display' ),
+				),
+				'region'           => array(
+					'raw'      => $address->state,
+					'rendered' => cnSanitize::field( 'region', $address->state, 'display' ),
 				),
 				'postal_code'      => array(
-					'raw'      => '',
-					'rendered' => '',
+					'raw'      => $address->zipcode,
+					'rendered' => cnSanitize::field( 'postal-code', $address->zipcode, 'display' ),
 				),
 				'country_name'     => array(
-					'raw'      => '',
-					'rendered' => '',
+					'raw'      => $address->country,
+					'rendered' => cnSanitize::field( 'country', $address->country, 'display' ),
 				),
+				'latitude'         => $address->latitude,
+				'longitude'        => $address->longitude,
+				'visibility'       => $address->visibility,
 			);
 
-			$data['adr'] = $item;
+			$data['adr'][] = $item;
 		}
 
 		return $data;

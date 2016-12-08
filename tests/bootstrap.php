@@ -24,6 +24,13 @@ require $_tests_dir . '/includes/bootstrap.php';
 //echo "Activating Connections Business Directory...\n";
 //activate_plugin( 'connections/connections.php' );
 
+
+function _disable_http_requests( $status = FALSE, $args = array(), $url = '' ) {
+
+	return new WP_Error( 'no_http_requests_in_unit_tests', __( 'HTTP Requests disabled for unit tests', 'connections' ) );
+}
+add_filter( 'pre_http_request', '_disable_http_requests', 10, 3 );
+
 global $current_user;
 
 $current_user = new WP_User(1);

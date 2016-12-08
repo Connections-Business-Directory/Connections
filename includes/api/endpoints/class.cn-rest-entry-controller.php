@@ -127,26 +127,6 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * @param WP_REST_Request $request Full details about the request.
-	 *
-	 * @return array
-	 */
-	protected function get_entries( $request ) {
-
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		$atts = array(
-			'limit'  => $request['per_page'],
-			'offset' => $request['offset'],
-		);
-
-		$results = $instance->retrieve->entries( $atts );
-
-		return $results;
-	}
-
-	/**
 	 * Get a collection of posts.
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
@@ -170,6 +150,31 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $entries );
 
 		return $response;
+	}
+
+	/**
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @param array           $untrusted
+	 *
+	 * @return array
+	 */
+	protected function get_entries( $request, $untrusted = array() ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		$defaults = array(
+			'id'     => NULL,
+			'limit'  => $request['per_page'],
+			'offset' => $request['offset'],
+		);
+
+		$atts = cnSanitize::args( $untrusted, $defaults );
+
+		$results = $instance->retrieve->entries( $atts );
+
+		return $results;
 	}
 
 	/**

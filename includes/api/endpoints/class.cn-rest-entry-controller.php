@@ -153,6 +153,86 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Checks if a given request has access to read an entry.
+	 *
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return bool|WP_Error True if the request has read access for the item, WP_Error object otherwise.
+	 */
+	public function get_item_permissions_check( $request ) {
+
+		if ( is_user_logged_in() ) {
+
+			/**
+			 * @todo
+			 *
+			 * $request['context'] can be one of: view, embed, edit
+			 * When user logged in, view context should be evaluated to ensure user has
+			 * read capabilities for the requested entry.
+			 */
+
+			if ( 'edit' === $request['context'] &&
+			     ( ! current_user_can( 'connections_edit_entry' ) || ! current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				return new WP_Error(
+					'rest_forbidden_context',
+					__( 'Permission denied. Current user does not have required capability(ies) assigned.', 'connections' ),
+					array( 'status' => rest_authorization_required_code() )
+				);
+			}
+
+		} else {
+
+			if ( cnOptions::loginRequired() ) {
+
+				return new WP_Error(
+					'rest_forbidden_context',
+					__( 'Permission denied. Login required.', 'connections' ),
+					array( 'status' => rest_authorization_required_code() )
+				);
+			}
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * Retrieves a single entry.
+	 *
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function get_item( $request ) {
+
+		$atts = array(
+			'id' => (int) $request['id'],
+		);
+
+		$result = $this->get_entries( $request, $atts );
+
+		if ( empty( $atts['id'] ) || empty( $result ) ) {
+			return new WP_Error( 'rest_entry_invalid_id', __( 'Invalid entry ID.', 'connections' ), array( 'status' => 404 ) );
+		}
+
+		$entry = new cnEntry( $result[0] );
+
+		$data     = $this->prepare_item_for_response( $entry, $request );
+		$response = rest_ensure_response( $data );
+
+		//if ( is_post_type_viewable( get_post_type_object( $post->post_type ) ) ) {
+		//	$response->link_header( 'alternate',  get_permalink( $id ), array( 'type' => 'text/html' ) );
+		//}
+
+		return $response;
+	}
+
+	/**
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
 	 * @param array           $untrusted

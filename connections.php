@@ -706,8 +706,16 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 */
 		public static function includeCustomizer() {
 
-			if ( ! ( ( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] ) ||
-			         ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) ) ) ) {
+			$is_customize_admin_page = ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) );
+			$should_include = (
+				$is_customize_admin_page
+				||
+				( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )
+				||
+				( ! empty( $_GET['customize_changeset_uuid'] ) || ! empty( $_POST['customize_changeset_uuid'] ) )
+			);
+
+			if ( ! $should_include ) {
 				return;
 			}
 

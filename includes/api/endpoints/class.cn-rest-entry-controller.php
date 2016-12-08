@@ -114,9 +114,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 */
 	public function get_items_permissions_check( $request ) {
 
-		if ( 'edit' === $request['context'] &&
-		     ( ! current_user_can( 'connections_edit_entry' ) || ! current_user_can( 'connections_edit_entry_moderated' ) )
-		) {
+		if ( ! is_user_logged_in() && cnOptions::loginRequired() ) {
 
 			return new WP_Error(
 				'rest_forbidden_context',

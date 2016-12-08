@@ -8,7 +8,8 @@ filter:
 before_commands:
     - git clone https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards
 tools:
-    php_pdepend: true
+    external_code_coverage:
+        timeout: 900
     php_mess_detector:
         config:
             code_size_rules:

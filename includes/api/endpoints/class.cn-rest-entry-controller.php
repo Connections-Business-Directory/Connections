@@ -276,6 +276,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		//	)
 		//);
 
+		/**
+		 * @todo `raw` should only be sent in the `edit` context to match WP core API endpoints.
+		 * @link https://github.com/WP-API/WP-API/issues/2948#issuecomment-265433906
+		 */
+
 		$data['id']   = $entry->getId();
 		$data['type'] = $entry->getEntryType();
 		$data['slug'] = $entry->getSlug();

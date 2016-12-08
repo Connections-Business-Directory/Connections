@@ -230,6 +230,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
+= 8.5.31 12/08/2016 =
+* TWEAK: Fix Template Customizer so it loads properly in WordPress 4.7.
+* REST API: More work done to support the entry endpoint for the REST API.
+* PHPUnit: Add framework to support unit testing to help ensure even more stable build releases.
+
 = 8.5.30 11/29/2016 =
 * TWEAK: Revert form action to not include the form action.
 * BUG: Ensure enhanced select renders the placeholder values correctly when viewing on a mobile device.
@@ -783,4 +788,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.2.
 It is recommended to backup before updating. Requires WordPress >= 4.3.
 
 = 8.5.30 =
+It is recommended to backup before updating. Requires WordPress >= 4.3.
+
+= 8.5.31 =
 It is recommended to backup before updating. Requires WordPress >= 4.3.

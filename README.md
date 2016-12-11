@@ -1,12 +1,12 @@
 # Connections Business Directory #
 
-![Plugin Version](https://img.shields.io/wordpress/plugin/v/connections.svg?maxAge=2592000) 
-![Total Downloads](https://img.shields.io/wordpress/plugin/dt/connections.svg?maxAge=2592000) 
-![Plugin Rating](https://img.shields.io/wordpress/plugin/r/connections.svg?maxAge=2592000) 
-![WordPress Compatibility](https://img.shields.io/wordpress/v/connections.svg?maxAge=2592000)
-[![Build Status](https://img.shields.io/travis/Connections-Business-Directory/Connections/develop.svg?maxAge=2592000)](https://travis-ci.org/Connections-Business-Directory/Connections) 
+[![Plugin Version](https://img.shields.io/wordpress/plugin/v/connections.svg)](https://wordpress.org/plugins/connections/)
+[![Total Downloads](https://img.shields.io/wordpress/plugin/dt/connections.svg)](https://wordpress.org/plugins/connections/)
+[![Plugin Rating](https://img.shields.io/wordpress/plugin/r/connections.svg)](https://wordpress.org/support/plugin/connections/reviews/)
+[![WordPress Compatibility](https://img.shields.io/wordpress/v/connections.svg)](https://wordpress.org/plugins/connections/)
+[![Build Status](https://img.shields.io/travis/Connections-Business-Directory/Connections/develop.svg)](https://travis-ci.org/Connections-Business-Directory/Connections) 
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/connections-business-directory/connections.svg)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/) 
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/connections-business-directory/connections.svg?maxAge=2592000)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/) 
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/connections-business-directory/connections.svg)](https://scrutinizer-ci.com/g/Connections-Business-Directory/Connections/) 
 [![License](https://img.shields.io/badge/license-GPL--2.0%2B-red.svg)](https://github.com/Connections-Business-Directory/Connections/blob/master/LICENSE.txt)
 
 An easy to use directory plugin to create an addressbook, business directory, member directory, staff directory or church directory.

@@ -642,18 +642,20 @@ class cnEntry {
 		// If the entry was entered with no name, use the entry ID instead.
 		if ( empty( $slug ) ) return 'cn-id-' . $this->getId();
 
-		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug = %s', $slug );
+		// Query all matching slugs in one database query.
+		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug LIKE %s', $wpdb->esc_like( $slug  ) . '%' );
 
-		if ( $wpdb->get_var( $query ) ) {
+		$slugs = $wpdb->get_col( $query );
+
+		if ( ! empty( $slugs ) ) {
+
 			$num = 2;
-			do {
-				$alt_slug = $slug . "-$num";
-				$num++;
-				$slug_check = $wpdb->get_var( $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug = %s', $alt_slug ) );
-			}
-			while ( $slug_check );
 
-			$slug = $alt_slug;
+			// Keep incrementing $num, until a space for a unique slug is found.
+			while( in_array( ( $slug . '-' . ++$num ), $slugs ) );
+
+			// Update $slug with the suffix.
+			$slug = $slug . "-$num";
 		}
 
 		return $slug;

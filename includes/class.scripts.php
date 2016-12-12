@@ -448,7 +448,7 @@ class cnScript {
 	 *
 	 * @return void
 	 */
-	public static function storeCorejQuery( &$scripts ) {
+	public static function storeCorejQuery( $scripts ) {
 
 		self::$corejQuery['jquery'] = $scripts->registered['jquery'];
 		self::$corejQuery['jquery-core'] = isset( $scripts->registered['jquery-core'] ) && $scripts->registered['jquery-core'] ? $scripts->registered['jquery-core'] : FALSE;

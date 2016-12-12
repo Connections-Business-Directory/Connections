@@ -44,8 +44,15 @@ class cnSystem_Info {
 		$instance = Connections_Directory();
 
 		// Get theme info
-		$theme_data = wp_get_theme();
-		$theme      = $theme_data->Name . ' ' . $theme_data->Version;
+		$theme_data   = wp_get_theme();
+		$theme        = $theme_data->Name . ' ' . $theme_data->Version;
+		$parent_theme = $theme_data->Template;
+
+		if ( ! empty( $parent_theme ) ) {
+
+			$parent_theme_data = wp_get_theme( $parent_theme );
+			$parent_theme      = $parent_theme_data->Name . ' ' . $parent_theme_data->Version;
+		}
 
 		// Try to identify the hosting provider
 		$host = self::getHost();

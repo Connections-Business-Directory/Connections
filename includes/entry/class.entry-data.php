@@ -642,18 +642,20 @@ class cnEntry {
 		// If the entry was entered with no name, use the entry ID instead.
 		if ( empty( $slug ) ) return 'cn-id-' . $this->getId();
 
-		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug = %s', $slug );
+		// Query all matching slugs in one database query.
+		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug LIKE %s', $wpdb->esc_like( $slug  ) . '%' );
 
-		if ( $wpdb->get_var( $query ) ) {
+		$slugs = $wpdb->get_col( $query );
+
+		if ( ! empty( $slugs ) ) {
+
 			$num = 2;
-			do {
-				$alt_slug = $slug . "-$num";
-				$num++;
-				$slug_check = $wpdb->get_var( $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug = %s', $alt_slug ) );
-			}
-			while ( $slug_check );
 
-			$slug = $alt_slug;
+			// Keep incrementing $num, until a space for a unique slug is found.
+			while( in_array( ( $slug . '-' . ++$num ), $slugs ) );
+
+			// Update $slug with the suffix.
+			$slug = $slug . "-$num";
 		}
 
 		return $slug;
@@ -5008,22 +5010,22 @@ class cnEntry {
 			$cnDb->upsert(
 				CN_ENTRY_ADDRESS_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
-					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
-					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
-					'line_4'     => array( 'key' => 'line_4' , 'format' => '%s' ),
-					'district'   => array( 'key' => 'district' , 'format' => '%s' ),
-					'county'     => array( 'key' => 'county' , 'format' => '%s' ),
-					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
-					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
-					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
-					'country'    => array( 'key' => 'country' , 'format' => '%s' ),
-					'latitude'   => array( 'key' => 'latitude' , 'format' => '%s' ),
-					'longitude'  => array( 'key' => 'longitude' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'line_1'     => array( 'key' => 'line_1', 'format' => '%s' ),
+					'line_2'     => array( 'key' => 'line_2', 'format' => '%s' ),
+					'line_3'     => array( 'key' => 'line_3', 'format' => '%s' ),
+					'line_4'     => array( 'key' => 'line_4', 'format' => '%s' ),
+					'district'   => array( 'key' => 'district', 'format' => '%s' ),
+					'county'     => array( 'key' => 'county', 'format' => '%s' ),
+					'city'       => array( 'key' => 'city', 'format' => '%s' ),
+					'state'      => array( 'key' => 'state', 'format' => '%s' ),
+					'zipcode'    => array( 'key' => 'zipcode', 'format' => '%s' ),
+					'country'    => array( 'key' => 'country', 'format' => '%s' ),
+					'latitude'   => array( 'key' => 'latitude', 'format' => '%s' ),
+					'longitude'  => array( 'key' => 'longitude', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getAddresses( array(), TRUE, TRUE, 'db' ),
 				array(
@@ -5034,11 +5036,11 @@ class cnEntry {
 			$cnDb->upsert(
 				CN_ENTRY_PHONE_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'number'     => array( 'key' => 'number' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'number'     => array( 'key' => 'number', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getPhoneNumbers( array(), TRUE, TRUE ),
 				array(
@@ -5049,11 +5051,11 @@ class cnEntry {
 			$cnDb->upsert(
 				CN_ENTRY_EMAIL_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'address'    => array( 'key' => 'address' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'address'    => array( 'key' => 'address', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getEmailAddresses( array(), TRUE, TRUE ),
 				array(
@@ -5064,11 +5066,11 @@ class cnEntry {
 			$cnDb->upsert(
 				CN_ENTRY_MESSENGER_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'uid'        => array( 'key' => 'id' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'uid'        => array( 'key' => 'id', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getIm( array(), TRUE, TRUE ),
 				array(
@@ -5079,11 +5081,11 @@ class cnEntry {
 			$cnDb->upsert(
 				CN_ENTRY_SOCIAL_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'url'        => array( 'key' => 'url', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE ),
 				array(
@@ -5094,16 +5096,16 @@ class cnEntry {
 			$cnDb->upsert(
 				CN_ENTRY_LINK_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'title'      => array( 'key' => 'title' , 'format' => '%s' ),
-					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
-					'target'     => array( 'key' => 'target' , 'format' => '%s' ),
-					'follow'     => array( 'key' => 'follow' , 'format' => '%d' ),
-					'image'      => array( 'key' => 'image' , 'format' => '%d' ),
-					'logo'       => array( 'key' => 'logo' , 'format' => '%d' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'title'      => array( 'key' => 'title', 'format' => '%s' ),
+					'url'        => array( 'key' => 'url', 'format' => '%s' ),
+					'target'     => array( 'key' => 'target', 'format' => '%s' ),
+					'follow'     => array( 'key' => 'follow', 'format' => '%d' ),
+					'image'      => array( 'key' => 'image', 'format' => '%d' ),
+					'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getLinks( array(), TRUE, TRUE ),
 				array(
@@ -5114,11 +5116,11 @@ class cnEntry {
 			$cnDb->upsert(
 				CN_ENTRY_DATE_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'date'       => array( 'key' => 'date' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'date'       => array( 'key' => 'date', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getDates( array(), TRUE, TRUE ),
 				array(
@@ -5323,22 +5325,22 @@ class cnEntry {
 			$cnDb->insert(
 				CN_ENTRY_ADDRESS_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'line_1'     => array( 'key' => 'line_1' , 'format' => '%s' ),
-					'line_2'     => array( 'key' => 'line_2' , 'format' => '%s' ),
-					'line_3'     => array( 'key' => 'line_3' , 'format' => '%s' ),
-					'line_4'     => array( 'key' => 'line_4' , 'format' => '%s' ),
-					'district'   => array( 'key' => 'district' , 'format' => '%s' ),
-					'county'     => array( 'key' => 'county' , 'format' => '%s' ),
-					'city'       => array( 'key' => 'city' , 'format' => '%s' ),
-					'state'      => array( 'key' => 'state' , 'format' => '%s' ),
-					'zipcode'    => array( 'key' => 'zipcode' , 'format' => '%s' ),
-					'country'    => array( 'key' => 'country' , 'format' => '%s' ),
-					'latitude'   => array( 'key' => 'latitude' , 'format' => '%s' ),
-					'longitude'  => array( 'key' => 'longitude' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'line_1'     => array( 'key' => 'line_1', 'format' => '%s' ),
+					'line_2'     => array( 'key' => 'line_2', 'format' => '%s' ),
+					'line_3'     => array( 'key' => 'line_3', 'format' => '%s' ),
+					'line_4'     => array( 'key' => 'line_4', 'format' => '%s' ),
+					'district'   => array( 'key' => 'district', 'format' => '%s' ),
+					'county'     => array( 'key' => 'county', 'format' => '%s' ),
+					'city'       => array( 'key' => 'city', 'format' => '%s' ),
+					'state'      => array( 'key' => 'state', 'format' => '%s' ),
+					'zipcode'    => array( 'key' => 'zipcode', 'format' => '%s' ),
+					'country'    => array( 'key' => 'country', 'format' => '%s' ),
+					'latitude'   => array( 'key' => 'latitude', 'format' => '%s' ),
+					'longitude'  => array( 'key' => 'longitude', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getAddresses( array(), TRUE, TRUE, 'db' )
 			);
@@ -5346,11 +5348,11 @@ class cnEntry {
 			$cnDb->insert(
 				CN_ENTRY_PHONE_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'number'     => array( 'key' => 'number' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'number'     => array( 'key' => 'number', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getPhoneNumbers( array(), TRUE, TRUE )
 			);
@@ -5358,11 +5360,11 @@ class cnEntry {
 			$cnDb->insert(
 				CN_ENTRY_EMAIL_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'address'    => array( 'key' => 'address' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'address'    => array( 'key' => 'address', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getEmailAddresses( array(), TRUE, TRUE )
 			);
@@ -5370,11 +5372,11 @@ class cnEntry {
 			$cnDb->insert(
 				CN_ENTRY_MESSENGER_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'uid'        => array( 'key' => 'id' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'uid'        => array( 'key' => 'id', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getIm( array(), TRUE, TRUE )
 			);
@@ -5382,11 +5384,11 @@ class cnEntry {
 			$cnDb->insert(
 				CN_ENTRY_SOCIAL_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'url'        => array( 'key' => 'url', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE )
 			);
@@ -5394,16 +5396,16 @@ class cnEntry {
 			$cnDb->insert(
 				CN_ENTRY_LINK_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'title'      => array( 'key' => 'title' , 'format' => '%s' ),
-					'url'        => array( 'key' => 'url' , 'format' => '%s' ),
-					'target'     => array( 'key' => 'target' , 'format' => '%s' ),
-					'follow'     => array( 'key' => 'follow' , 'format' => '%d' ),
-					'image'      => array( 'key' => 'image' , 'format' => '%d' ),
-					'logo'       => array( 'key' => 'logo' , 'format' => '%d' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'title'      => array( 'key' => 'title', 'format' => '%s' ),
+					'url'        => array( 'key' => 'url', 'format' => '%s' ),
+					'target'     => array( 'key' => 'target', 'format' => '%s' ),
+					'follow'     => array( 'key' => 'follow', 'format' => '%d' ),
+					'image'      => array( 'key' => 'image', 'format' => '%d' ),
+					'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getLinks( array(), TRUE, TRUE )
 			);
@@ -5411,11 +5413,11 @@ class cnEntry {
 			$cnDb->insert(
 				CN_ENTRY_DATE_TABLE,
 				array(
-					'order'      => array( 'key' => 'order' , 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred' , 'format' => '%d' ),
-					'type'       => array( 'key' => 'type' , 'format' => '%s' ),
-					'date'       => array( 'key' => 'date' , 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility' , 'format' => '%s' )
+					'order'      => array( 'key' => 'order', 'format' => '%d' ),
+					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
+					'type'       => array( 'key' => 'type', 'format' => '%s' ),
+					'date'       => array( 'key' => 'date', 'format' => '%s' ),
+					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getDates( array(), TRUE, TRUE )
 			);

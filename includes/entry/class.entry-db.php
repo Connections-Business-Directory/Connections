@@ -77,6 +77,60 @@ class cnEntry_DB {
 	}
 
 	/**
+	 * Insert an array of data objects into the db. The expected data structure is the output of @see cnEntry::getAddresses()
+	 * and similar.
+	 *
+	 * The difference between this method and insert() is that this method will insert multiple rows as one database insert
+	 * vs. one database insert per record.
+	 *
+	 * @access public
+	 * @since  8.5.32
+	 *
+	 * @uses   cnEntry_DB::insertRow()
+	 *
+	 * @param string $table The table name in which to insert the data.
+	 * @param array  $map   An array which defines the fields in the db to insert and the map to the objects property and the properties format.
+	 *                      Example of structure:
+	 *                      array( 'table column name' => array( 'key' => 'object property name' , 'format' => '%s|%d|%f' ) )
+	 * @param array  $rows  An array of data objects to insert into the table.
+	 *
+	 * @return int|false Number of rows inserted or false on error.
+	 */
+	public function multisert( $table, $map, $rows ) {
+
+		$result = FALSE;
+
+		/** @var wpdb $wpdb */
+		global $wpdb;
+
+		if ( ! empty( $rows ) ) {
+
+			$values = array();
+
+			foreach ( $rows as $row ) {
+
+				$data = $this->fields( $map, $row );
+
+				$data['value']['entry_id'] = $this->id;
+				$data['format'][]          = '%d';
+
+				$format = implode( ', ', $data['format'] );
+
+				$values[] = $wpdb->prepare( '(' . $format . ')', array_values( $data['value'] ) );
+			}
+
+			$fields = '`' . implode( '`, `', array_keys( $map ) ) . '`' . ', `entry_id`';
+			$values = implode( ', ', $values );
+
+			$sql = "INSERT INTO `$table` ($fields) VALUES $values";
+
+			$result = $wpdb->query( $sql );
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Helper function for @see cnEntry_DB::insert() which insert a single object from the supplied array of objects in to the db.
 	 *
 	 * @access private
@@ -317,6 +371,7 @@ class cnEntry_DB {
 			     ( is_object( $data ) && isset( $data->{$row['key']} ) ) ) {
 
 				$out['data'][ $field ] = $data->{$row['key']};
+				$out['value'][ $field ] = $data->{$row['key']};
 				$out['format'][] = $row['format'];
 			}
 		}

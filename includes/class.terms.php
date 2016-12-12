@@ -1553,7 +1553,9 @@ class cnTerm {
 
 			if ( ! $slug_provided || $name_match->slug === $slug || $slug_match ) {
 
-				if ( is_taxonomy_hierarchical( $taxonomy ) ) {
+				//@todo Implement the is_taxonomy_hierarchical() conditional statement.
+				//if ( is_taxonomy_hierarchical( $taxonomy ) ) {
+				if ( TRUE ) { //temp hack...
 
 					$siblings = self::getTaxonomyTerms( $taxonomy, array( 'get' => 'all', 'parent' => $parent ) );
 

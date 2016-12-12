@@ -1103,25 +1103,43 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				 * should be safe for the other field types too since that mimics the WP Settings API.
 				 */
 				foreach ( self::$registry[ $pluginID ] as $optionName => $values ) {
+
 					// TRUE and FALSE should be stored as 1 and 0 in the db so get_option must be strictly compared.
-					if ( get_option( $optionName ) !== FALSE ) {
+					if ( FALSE !== get_option( $optionName ) ) {
+
 						$settings[ $optionName ] = get_option( $optionName );
 
 						if ( is_array( self::$registry[ $pluginID ][ $optionName ] ) ) {
+
 							foreach ( self::$registry[ $pluginID ][ $optionName ] as $key => $value ) {
+
 								if ( ! isset( $settings[ $optionName ][ $key ] ) || empty( $settings[ $optionName ][ $key ] ) ) {
-									$settings[ $optionName ][ $key ] = '';
+
+									if ( ! isset( $settings[ $optionName ] ) || ! is_array( $settings[ $optionName ] ) ) {
+
+										$settings[ $optionName ] = array( $key => '' );
+
+									} else {
+
+										$settings[ $optionName ][ $key ] = '';
+									}
+
 								}
 							}
+
 						} elseif ( ! isset( $settings[ $optionName ] ) || empty( $settings[ $optionName ] ) ) {
+
 							$settings[ $optionName ] = '';
 						}
+
 					} else {
+
 						return FALSE;
 					}
 				}
 
 			} else {
+
 				return FALSE;
 			}
 

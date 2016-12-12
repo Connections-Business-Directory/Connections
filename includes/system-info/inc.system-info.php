@@ -114,6 +114,10 @@ Language:                   <?php echo ( defined( 'WPLANG' ) && WPLANG ? WPLANG 
 ABSPATH                     <?php echo ABSPATH . PHP_EOL ?>
 Permalink Structure:        <?php echo ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . PHP_EOL; ?>
 Active Theme:               <?php echo $theme . PHP_EOL; ?>
+<?php
+if ( $parent_theme !== $theme ) : ?>
+Parent Theme:               <?php echo $parent_theme . PHP_EOL; ?>
+<?php endif; ?>
 Show On Front:              <?php echo get_option( 'show_on_front' ) . PHP_EOL; ?>
 <?php
 //Only show page specs if front page is set to 'page'

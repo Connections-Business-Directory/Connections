@@ -131,7 +131,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 			return new WP_Error(
 				'rest_forbidden_context',
-				__( 'Sorry, you cannot view this resource with edit context.', 'connections' ),
+				__( 'Permission denied. Edit capability required.', 'connections' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -288,7 +288,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 			return new WP_Error(
 				'rest_forbidden_context',
-				__( 'Sorry, you cannot view this resource with edit context.', 'connections' ),
+				__( 'Permission denied. Edit capability required.', 'connections' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -339,7 +339,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! current_user_can( 'connections_edit_categories' ) ) {
 
-			return new WP_Error( 'rest_cannot_create', __( 'Sorry, you cannot create new resource.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_create', __( 'Permission denied. Edit capability required.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -442,7 +442,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! current_user_can( 'connections_edit_categories' ) ) {
 
-			return new WP_Error( 'rest_cannot_update', __( 'Sorry, you cannot update resource.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_update', __( 'Permission denied. Edit capability required.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return TRUE;
@@ -530,7 +530,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! current_user_can( 'connections_edit_categories' ) ) {
 
-			return new WP_Error( 'rest_cannot_delete', __( 'Sorry, you cannot delete resource.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_delete', __( 'Permission denied. Edit capability required.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return TRUE;

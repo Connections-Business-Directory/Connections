@@ -106,7 +106,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 					'args'                => array(
 						'force' => array(
 							'default'     => FALSE,
-							'description' => __( 'Required to be true, as resource does not support trashing.' ),
+							'description' => __( 'Required to be true, as terms do not support trashing.', 'connections' ),
 						),
 					),
 				),
@@ -312,7 +312,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! $term || $term->taxonomy !== $this->taxonomy ) {
 
-			return new WP_Error( 'rest_term_invalid', __( "Resource doesn't exist.", 'connections' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist.", 'connections' ), array( 'status' => 404 ) );
 		}
 
 		if ( is_wp_error( $term ) ) {
@@ -368,7 +368,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 			if ( ! $parent ) {
 
-				return new WP_Error( 'rest_term_invalid', __( "Parent resource doesn't exist.", 'connections' ), array( 'status' => 400 ) );
+				return new WP_Error( 'rest_term_invalid', __( "Parent term doesn't exist.", 'connections' ), array( 'status' => 400 ) );
 			}
 		}
 
@@ -437,7 +437,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! $term ) {
 
-			return new WP_Error( 'rest_term_invalid', __( "Resource doesn't exist.", 'connections' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist.", 'connections' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! current_user_can( 'connections_edit_categories' ) ) {
@@ -471,7 +471,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 			if ( ! $parent ) {
 
-				return new WP_Error( 'rest_term_invalid', __( "Parent resource doesn't exist.", 'connections' ), array( 'status' => 400 ) );
+				return new WP_Error( 'rest_term_invalid', __( "Parent term doesn't exist.", 'connections' ), array( 'status' => 400 ) );
 			}
 		}
 
@@ -525,7 +525,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! $term ) {
 
-			return new WP_Error( 'rest_term_invalid', __( "Resource doesn't exist.", 'connections' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist.", 'connections' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! current_user_can( 'connections_edit_categories' ) ) {
@@ -553,7 +553,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		// We don't support trashing for this type, error out
 		if ( ! $force ) {
 
-			return new WP_Error( 'rest_trash_not_supported', __( 'Resource does not support trashing.', 'connections' ), array( 'status' => 501 ) );
+			return new WP_Error( 'rest_trash_not_supported', __( 'Terms do not support trashing. Set force=true to delete.', 'connections' ), array( 'status' => 501 ) );
 		}
 
 		$term = cnTerm::get( (int) $request['id'], $this->taxonomy );
@@ -565,7 +565,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! $retval ) {
 
-			return new WP_Error( 'rest_cannot_delete', __( 'The resource cannot be deleted.', 'connections' ), array( 'status' => 500 ) );
+			return new WP_Error( 'rest_cannot_delete', __( 'Term cannot be deleted.', 'connections' ), array( 'status' => 500 ) );
 		}
 
 		/**

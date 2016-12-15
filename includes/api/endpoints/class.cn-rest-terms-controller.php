@@ -56,7 +56,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Register the routes for the objects of the controller.
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 */
 	public function register_routes() {
 
@@ -117,7 +118,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to read the terms.
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -140,7 +142,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Get a collection of items
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -272,7 +275,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to read a term.
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -295,7 +299,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Get one item from the collection
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -323,6 +328,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a term
 	 *
+	 * @access public
 	 * @since 8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
@@ -342,7 +348,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Create one item from the collection
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -417,7 +424,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a term
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -443,6 +451,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Update one item from the collection
 	 *
+	 * @access public
 	 * @since 8.5.26
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
@@ -503,7 +512,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a term
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -529,7 +539,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Delete a single term from a taxonomy
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Full details about the request
 	 *
@@ -570,7 +581,10 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Prepare a single term for create or update
+	 * Prepare a single term for create or update.
+	 *
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
@@ -628,7 +642,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare the item for the REST response
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param mixed           $item    WordPress representation of the item.
 	 * @param WP_REST_Request $request Request object.
@@ -695,7 +710,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 8.5.26
+	 * @access protected
+	 * @since  8.5.26
 	 *
 	 * @param object $term Term object.
 	 *
@@ -765,7 +781,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Get the Term's schema, conforming to JSON Schema
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @return array
 	 */
@@ -841,7 +858,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @return array
 	 */

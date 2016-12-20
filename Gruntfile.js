@@ -14,7 +14,7 @@ module.exports = function(grunt) {
 			target: {
 				options: {
 					domainPath: config.makepot.dest, // Where to save the POT file.
-					exclude: [ 'build/.*', 'node_modules/.*' ],
+					exclude: [ 'build/.*', 'node_modules/.*', 'tests/.*' ],
 					mainFile: config.makepot.src, // Main project file.
 					potFilename: config.makepot.domain + '.pot', // Name of the POT file.
 					potHeaders: {
@@ -78,7 +78,8 @@ module.exports = function(grunt) {
 				src: [
 					'**/*.php', // Include all files
 					'!node_modules/**', // Exclude node_modules/
-					'!build/.*' // Exclude build/
+					'!build/.*', // Exclude build/
+					'!tests/.*' // Exclude build/
 				],
 				expand: true
 			}
@@ -125,6 +126,7 @@ module.exports = function(grunt) {
 					'**',
 					'!node_modules/**',
 					'!build/**',
+					'!tests/**',
 					'!.git/**',
 					'!Gruntfile.js',
 					'!package.json',

@@ -412,7 +412,7 @@ jQuery(document).ready( function($) {
 
 			});
 
-			// There has to be a better way than setting a delay. I know I have to use a callback b/c the geocode is an asyn request.
+			// There has to be a better way than setting a delay. I know I have to use a callback b/c the geocode is an async request.
 			setTimeout( function() {
 
 				CN_Form.setGEO( uid );

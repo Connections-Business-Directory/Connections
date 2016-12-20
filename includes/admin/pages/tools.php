@@ -758,7 +758,7 @@ cnSystem_Info::display();
 			<div class="inside">
 				<p>
 					<?php _e(
-						'Export the for this site as a .json file. This allows you to easily import the configuration into another site.',
+						'Export the settings for this site as a .json file. This allows you to easily import the configuration into another site.',
 						'connections'
 					); ?>
 				</p>

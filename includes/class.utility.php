@@ -609,7 +609,7 @@ class cnValidate {
 
 				case 'public':
 
-					return current_user_can( 'connections_view_public' );
+					return ( current_user_can( 'connections_view_public' ) || ! cnOptions::loginRequired() );
 
 				case 'private':
 

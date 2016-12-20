@@ -1106,7 +1106,11 @@ class cnRetrieve {
 
 			if ( empty( $atts['visibility'] ) ) {
 
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
+				if ( current_user_can( 'connections_view_public' ) || ! cnOptions::loginRequired() ) {
+
+					$visibility[] = 'public';
+				}
+
 				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
 
 				if ( current_user_can( 'connections_view_unlisted' ) &&
@@ -1127,7 +1131,7 @@ class cnRetrieve {
 			//var_dump( $connections->options->getAllowPublic() ); die;
 
 			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $instance->options->getAllowPublic() ) $visibility[] = 'public';
+			if ( ! cnOptions::loginRequired() ) $visibility[] = 'public';
 
 			// Display the 'public' entries if the public override shortcode option is enabled.
 			if ( $instance->options->getAllowPublicOverride() ) {

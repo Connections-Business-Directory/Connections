@@ -92,7 +92,7 @@
 			html_prepend:				'<div class="gomapMarker">',
 			html_append:				'</div>',
 			addMarker:					false
-		},		
+		},
 		map:			null,
 		count:			0,
 		markers:		[],
@@ -159,7 +159,7 @@
 			this.map 		= new google.maps.Map(el, myOptions);
 			this.overlay	= new MyOverlay(this.map);
 
-			this.overlays = { 
+			this.overlays = {
 				polyline:	{ id: 'plId', array: 'polylines', 	create: 'createPolyline' },
 				polygon:	{ id: 'pgId', array: 'polygons', 	create: 'createPolygon' },
 				circle:		{ id: 'cId',  array: 'circles',		create: 'createCircle' },
@@ -220,15 +220,15 @@
 		},
 
 		ready: function(f) {
-			google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() { 
+			google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() {
 				return f();
-		    }); 
+		    });
 		},
 
 		geocode: function(address, options) {
 			var goMap = this;
 			setTimeout(function() {
-				geocoder.geocode({'address': address.address}, function(results, status) {
+				geocoder.geocode({'address': address.address, newForwardGeocoder: false, componentRestrictions: { /*postalCode: 'RH20 3NG', country: 'GB'*/ } }, function(results, status) {
 		        	if (status == google.maps.GeocoderStatus.OK && address.center)
 						goMap.map.setCenter(results[0].geometry.location);
 
@@ -287,7 +287,7 @@
 				options.panControl = options.navigationControl;
 				options.zoomControl = options.navigationControl;
 			}
-			
+
 			if(options.navigationControlOptions && options.navigationControlOptions.position) {
 				options.panControlOptions = {position: google.maps.ControlPosition[options.navigationControlOptions.position.toUpperCase()]};
 				options.zoomControlOptions = {position: google.maps.ControlPosition[options.navigationControlOptions.position.toUpperCase()]};
@@ -425,7 +425,7 @@
 						if(this.getVisibleMarker(this.markers[i]))
 							this.bounds.extend($(this.mapId).data(this.markers[i]).position);
 					}
-	
+
 				}
 				else if (type && type == 'markers' && $.isArray(markers)) {
 					for (var i = 0, l = markers.length; i < l; i++) {
@@ -684,7 +684,7 @@
 						var temp = "marker[" + i + "]=" + $(this.mapId).data(this.markers[i]).getPosition().toUrlValue();
 						array.push(temp);
 					}
-					array = array.join("&"); 					
+					array = array.join("&");
 					break;
 				case "visiblesInBounds":
 					for (var i = 0, l = this.markers.length; i < l; i++) {
@@ -739,7 +739,7 @@
 			else if (marker.latitude && marker.longitude || marker.position) {
 				var options = { map:this.map };
 				options.id 			= marker.id;
-				options.group		= marker.group ? marker.group : this.opts.groupId; 
+				options.group		= marker.group ? marker.group : this.opts.groupId;
 				options.zIndex 		= marker.zIndex ? marker.zIndex : 0;
 				options.zIndexOrg	= marker.zIndexOrg ? marker.zIndexOrg : 0;
 

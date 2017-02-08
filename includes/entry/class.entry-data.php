@@ -4921,41 +4921,43 @@ class cnEntry {
 
 		do_action( 'cn_update-entry', $this );
 
+		$data = array(
+			'ts'                 => current_time( 'mysql' ),
+			'ordo'               => $this->getOrder(),
+			'entry_type'         => $this->entryType,
+			'visibility'         => $this->getVisibility(),
+			'slug'               => $this->getSlug(),
+			'honorific_prefix'   => $this->honorificPrefix,
+			'first_name'         => $this->firstName,
+			'middle_name'        => $this->middleName,
+			'last_name'          => $this->lastName,
+			'honorific_suffix'   => $this->honorificSuffix,
+			'title'              => $this->title,
+			'organization'       => $this->organization,
+			'department'         => $this->department,
+			'contact_first_name' => $this->contactFirstName,
+			'contact_last_name'  => $this->contactLastName,
+			'family_name'        => $this->familyName,
+			'birthday'           => $this->birthday,
+			'anniversary'        => $this->anniversary,
+			'addresses'          => $this->addresses,
+			'phone_numbers'      => $this->phoneNumbers,
+			'email'              => $this->emailAddresses,
+			'im'                 => $this->im,
+			'social'             => $this->socialMedia,
+			'links'              => $this->links,
+			'dates'              => $this->dates,
+			'options'            => $this->options,
+			'bio'                => $this->bio,
+			'notes'              => $this->notes,
+			'edited_by'          => $instance->currentUser->getID(),
+			'user'               => $this->getUser(),
+			'status'             => $this->status,
+		);
+
 		$result = $wpdb->update(
 			CN_ENTRY_TABLE,
-			array(
-				'ts'                 => current_time( 'mysql' ),
-				'ordo'               => $this->getOrder(),
-				'entry_type'         => $this->entryType,
-				'visibility'         => $this->getVisibility(),
-				'slug'               => $this->getSlug(),
-				'honorific_prefix'   => $this->honorificPrefix,
-				'first_name'         => $this->firstName,
-				'middle_name'        => $this->middleName,
-				'last_name'          => $this->lastName,
-				'honorific_suffix'   => $this->honorificSuffix,
-				'title'              => $this->title,
-				'organization'       => $this->organization,
-				'department'         => $this->department,
-				'contact_first_name' => $this->contactFirstName,
-				'contact_last_name'  => $this->contactLastName,
-				'family_name'        => $this->familyName,
-				'birthday'           => $this->birthday,
-				'anniversary'        => $this->anniversary,
-				'addresses'          => $this->addresses,
-				'phone_numbers'      => $this->phoneNumbers,
-				'email'              => $this->emailAddresses,
-				'im'                 => $this->im,
-				'social'             => $this->socialMedia,
-				'links'              => $this->links,
-				'dates'              => $this->dates,
-				'options'            => $this->options,
-				'bio'                => $this->bio,
-				'notes'              => $this->notes,
-				'edited_by'          => $instance->currentUser->getID(),
-				'user'               => $this->getUser(),
-				'status'             => $this->status,
-			),
+			$data,
 			array(
 				'id' => $this->id
 			),
@@ -4997,7 +4999,14 @@ class cnEntry {
 			)
 		);
 
-		//print_r($wpdb->last_query);
+		//$table = CN_Table_Manager::get('connections');
+		//$data['middle_name'] = 'CN_DB_Query::update()';
+		//$table->query()->update( $this->id, $data );
+
+		//$temp = Connections\DB\Models\Entry::get( 3 );
+		//$temp->fill( $data );
+		//$temp->save();
+		//error_log( json_encode( $temp, 128 ) );
 
 		/*
 		 * Only update the rest of the entry's data if the update to the ENTRY TABLE was successful.
@@ -5217,44 +5226,46 @@ class cnEntry {
 
 		do_action( 'cn_save-entry', $this );
 
+		$data = array(
+			'ts'                 => current_time( 'mysql' ),
+			'date_added'         => current_time( 'timestamp' ),
+			'ordo'               => $this->getOrder(),
+			'entry_type'         => $this->entryType,
+			'visibility'         => $this->getVisibility(),
+			'slug'               => $this->getSlug(), /* NOTE: When adding a new entry, a new unique slug should always be created and set. */
+			'family_name'        => $this->familyName,
+			'honorific_prefix'   => $this->honorificPrefix,
+			'first_name'         => $this->firstName,
+			'middle_name'        => $this->middleName,
+			'last_name'          => $this->lastName,
+			'honorific_suffix'   => $this->honorificSuffix,
+			'title'              => $this->title,
+			'organization'       => $this->organization,
+			'department'         => $this->department,
+			'contact_first_name' => $this->contactFirstName,
+			'contact_last_name'  => $this->contactLastName,
+			'addresses'          => $this->addresses,
+			'phone_numbers'      => $this->phoneNumbers,
+			'email'              => $this->emailAddresses,
+			'im'                 => $this->im,
+			'social'             => $this->socialMedia,
+			'links'              => $this->links,
+			'dates'              => $this->dates,
+			'birthday'           => $this->birthday,
+			'anniversary'        => $this->anniversary,
+			'bio'                => $this->bio,
+			'notes'              => $this->notes,
+			'options'            => $this->options,
+			'added_by'           => $connections->currentUser->getID(),
+			'edited_by'          => $connections->currentUser->getID(),
+			'owner'              => $connections->currentUser->getID(),
+			'user'               => $this->getUser(),
+			'status'             => $this->status
+		);
+
 		$result = $wpdb->insert(
 			CN_ENTRY_TABLE,
-			array(
-				'ts'                 => current_time( 'mysql' ),
-				'date_added'         => current_time( 'timestamp' ),
-				'ordo'               => $this->getOrder(),
-				'entry_type'         => $this->entryType,
-				'visibility'         => $this->getVisibility(),
-				'slug'               => $this->getSlug(), /* NOTE: When adding a new entry, a new unique slug should always be created and set. */
-				'family_name'        => $this->familyName,
-				'honorific_prefix'   => $this->honorificPrefix,
-				'first_name'         => $this->firstName,
-				'middle_name'        => $this->middleName,
-				'last_name'          => $this->lastName,
-				'honorific_suffix'   => $this->honorificSuffix,
-				'title'              => $this->title,
-				'organization'       => $this->organization,
-				'department'         => $this->department,
-				'contact_first_name' => $this->contactFirstName,
-				'contact_last_name'  => $this->contactLastName,
-				'addresses'          => $this->addresses,
-				'phone_numbers'      => $this->phoneNumbers,
-				'email'              => $this->emailAddresses,
-				'im'                 => $this->im,
-				'social'             => $this->socialMedia,
-				'links'              => $this->links,
-				'dates'              => $this->dates,
-				'birthday'           => $this->birthday,
-				'anniversary'        => $this->anniversary,
-				'bio'                => $this->bio,
-				'notes'              => $this->notes,
-				'options'            => $this->options,
-				'added_by'           => $connections->currentUser->getID(),
-				'edited_by'          => $connections->currentUser->getID(),
-				'owner'              => $connections->currentUser->getID(),
-				'user'               => $this->getUser(),
-				'status'             => $this->status
-			),
+			$data,
 			array(
 				'%s',
 				'%d',
@@ -5344,6 +5355,31 @@ class cnEntry {
 				),
 				$this->getAddresses( array(), TRUE, TRUE, 'db' )
 			);
+
+			//$temp = Connections\DB\Models\Entry::create( $data );
+			//
+			//$temp->add_addresses( $this->getAddresses( array(), TRUE, TRUE, 'db' ) );
+			//$temp->add_phone_numbers( $this->getPhoneNumbers( array(), TRUE, TRUE ) );
+			//$temp->add_email_addresses( $this->getEmailAddresses( array(), TRUE, TRUE ) );
+			//
+			///* Need to swap the `id` and `uid` properties to match table structure. */
+			//foreach ( $im = $this->getIm( array(), TRUE, TRUE ) as &$row ) {
+			//
+			//	$table_id = $row->uid;
+			//	$user_id  = $row->id;
+			//
+			//	$row->id  = $table_id;
+			//	$row->uid = $user_id;
+			//}
+			//
+			//$temp->add_im_ids( $im );
+			//$temp->add_social_networks( $this->getSocialMedia( array(), TRUE, TRUE ) );
+			//$temp->add_links( $this->getLinks( array(), TRUE, TRUE ) );
+			//$temp->add_dates( $this->getDates( array(), TRUE, TRUE ) );
+			//
+			//$temp->term->add( new cnTerm_Object( (object) array( 'name' => '0-Test', 'taxonomy' => 'category' ) ) );
+			//
+			//$temp->save();
 
 			$cnDb->insert(
 				CN_ENTRY_PHONE_TABLE,

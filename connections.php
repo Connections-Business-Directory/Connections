@@ -179,6 +179,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::defineConstants();
 				self::includes();
 
+				/*
+				 * Init the REST API.
+				 */
+				self::initAPI();
+
 				self::$instance->options     = new cnOptions();
 				self::$instance->settings    = cnSettingsAPI::getInstance();
 				self::$instance->pageHook    = new stdClass();
@@ -187,7 +192,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::$instance->term        = new cnTerms();
 				self::$instance->template    = new cnTemplatePart();
 				self::$instance->url         = new cnURL();
-				self::$instance->api         = new cnAPI();
 
 				/**
 				 * NOTE: Any calls to load_plugin_textdomain should be in a function attached to the `plugins_loaded` action hook.
@@ -691,9 +695,81 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Include the Template Customizer files.
 			add_action( 'plugins_loaded', array( __CLASS__, 'includeCustomizer' ) );
+		}
+
+		private static function initAPI() {
+
+			if ( version_compare( PHP_VERSION, '5.3', '<' ) ) return;
 
 			// API
 			require_once CN_PATH . 'includes/api/class.api.php';
+
+			/*
+			 * Init the Database Table Manager and Tables.
+			 */
+			self::initDatabase();
+
+			//self::$instance->api = new cnAPI();
+		}
+
+		private static function initDatabase() {
+
+			/*
+			 * Autoload the dependencies.
+			 */
+			require_once CN_PATH . 'includes/db/autoload.php';
+			require_once CN_PATH . 'includes/vendor/autoload.php';
+
+			/*
+			 * Init the ORM
+			 */
+			require_once CN_PATH . 'includes/vendor/IronBound/DB/load.php';
+
+			/*
+			 * Register base tables.
+			 */
+			IronBound\DB\Manager::register( new Connections\DB\Tables\Entry() );
+			IronBound\DB\Manager::register( new IronBound\DB\Table\Association\TermAssociationTable( IronBound\DB\Manager::get( 'entry' ) ) );
+			IronBound\DB\Manager::register( new Connections\DB\Tables\Address() );
+			IronBound\DB\Manager::register( new Connections\DB\Tables\Phone() );
+			IronBound\DB\Manager::register( new Connections\DB\Tables\Email() );
+			IronBound\DB\Manager::register( new Connections\DB\Tables\IM() );
+			IronBound\DB\Manager::register( new Connections\DB\Tables\Social_Network() );
+			IronBound\DB\Manager::register( new Connections\DB\Tables\Link() );
+			IronBound\DB\Manager::register( new Connections\DB\Tables\Date() );
+
+			//IronBound\DB\Manager::get( 'entry' )->drop();
+			//IronBound\DB\Manager::get( 'address' )->drop();
+			//IronBound\DB\Manager::get( 'phone' )->drop();
+			//IronBound\DB\Manager::get( 'email' )->drop();
+			//IronBound\DB\Manager::get( 'im' )->drop();
+			//IronBound\DB\Manager::get( 'social' )->drop();
+			//IronBound\DB\Manager::get( 'link' )->drop();
+			//IronBound\DB\Manager::get( 'date' )->drop();
+
+			/*
+			 * Create and/or Update the tables as needed.
+			 */
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'entry' ) );
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'entry-terms' ) );
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'address' ) );
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'phone' ) );
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'email' ) );
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'im' ) );
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'social' ) );
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'link' ) );
+			IronBound\DB\Manager::maybe_install_table( IronBound\DB\Manager::get( 'date' ) );
+
+
+			//IronBound\DB\Manager::get( 'entry' )->truncate();
+			//IronBound\DB\Manager::get( 'address' )->truncate();
+			//IronBound\DB\Manager::get( 'phone' )->truncate();
+			//IronBound\DB\Manager::get( 'email' )->truncate();
+			//IronBound\DB\Manager::get( 'im' )->truncate();
+			//IronBound\DB\Manager::get( 'social' )->truncate();
+			//IronBound\DB\Manager::get( 'link' )->truncate();
+			//IronBound\DB\Manager::get( 'date' )->truncate();
+
 		}
 
 		/**

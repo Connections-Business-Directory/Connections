@@ -147,7 +147,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		/**
 		 * This example illustrates how to use export type `6`.
 		 *
-		 * The result will be the term name of term ID 2071 as teh column header and the row contents will be term
+		 * The result will be the term name of term ID 2071 as the column header and the row contents will be term
 		 * descendants if they are attached to the the current entry being exported.
 		 *
 		 * @example

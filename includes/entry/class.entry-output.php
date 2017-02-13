@@ -2710,6 +2710,7 @@ class cnOutput extends cnEntry {
 			'after'            => '',
 			'link'             => FALSE,
 			'parents'          => FALSE,
+			'child_of'         => 0,
 			'return'           => FALSE,
 		);
 
@@ -2723,7 +2724,7 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_category', $defaults )
 		);
 
-		$categories = $this->getCategory();
+		$categories = $this->getCategory( array( 'child_of' => $atts['child_of'] ) );
 		$count      = count( $categories );
 		$html       = '';
 		$label      = '';

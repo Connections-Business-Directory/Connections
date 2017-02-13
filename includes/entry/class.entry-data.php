@@ -3901,11 +3901,19 @@ class cnEntry {
 	 * @access public
 	 * @since  unknown
 	 *
-	 * @see cnEntry::$category
+	 * @see    cnEntry::$category
+	 *
+	 * @param array $atts
 	 *
 	 * @return array
 	 */
-	public function getCategory() {
+	public function getCategory( $atts = array() ) {
+
+		$defaults = array(
+			'child_of' => 0,
+		);
+
+		$atts = wp_parse_args( $atts, $defaults );
 
 		$id = $this->getId();
 
@@ -3914,6 +3922,22 @@ class cnEntry {
 			$terms = cnRetrieve::entryTerms( $id, 'category' );
 
 			if ( ! is_wp_error( $terms ) && is_array( $terms ) ) {
+
+				if ( $atts['child_of'] ) {
+
+					$term_ids = wp_list_pluck( $terms, 'term_id' );
+
+					if ( ! empty( $term_ids ) ) {
+
+						$terms = cnTerm::getTaxonomyTerms(
+							'category',
+							array(
+								'child_of' => $atts['child_of'],
+								'include'  => $term_ids,
+							)
+						);
+					}
+				}
 
 				$this->categories = $terms;
 			}

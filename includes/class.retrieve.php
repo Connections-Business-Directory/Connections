@@ -247,6 +247,7 @@ class cnRetrieve {
 
 		if ( ! empty( $atts['slug'] ) ) {
 
+			$atts['list_type'] = NULL;
 			$atts['near_addr'] = NULL;
 			$atts['latitude']  = NULL;
 			$atts['longitude'] = NULL;

@@ -615,6 +615,21 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				$breakoutFields = $this->getFieldsToExport( $atts );
 				$breakoutTypes  = $this->getTypesToExport( $atts );
 
+				/*
+				 * @todo self::getTypesToExport() can return no types.
+				 *
+				 * If the field type being exported contains no data, incorrect headers are written.
+				 *
+				 * Example:
+				 *
+				 * If no entries have social media networks added, the return types will be empty.
+				 * This results in file headers of "Social Url" and "Social Visibility".
+				 *
+				 * Solution:
+				 * Come up with a method where no types are returned, either skip the column or use the default
+				 * registered types.
+				 */
+
 				foreach ( $breakoutTypes as $type ) {
 					foreach ( $breakoutFields as $field ) {
 						$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field, $type ) ) . ',';

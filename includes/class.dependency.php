@@ -33,7 +33,6 @@ class cnDependency {
 		// Add the default filters.
 		require_once CN_PATH . 'includes/inc.default-filters.php';
 
-
 		// Shortcodes
 		// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
 		require_once CN_PATH . 'includes/shortcode/inc.shortcodes.php';
@@ -79,7 +78,7 @@ class cnDependency {
 		}
 
 		// if the file exists, require it
-		if ( file_exists( $file = CN_PATH . self::classRegistry()[ $class ] ) ) {
+		if ( file_exists( ( $file = CN_PATH . self::classRegistry()[ $class ] ) ) ) {
 
 			require $file;
 

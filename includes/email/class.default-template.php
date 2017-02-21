@@ -39,7 +39,6 @@ class cnEmail_DefaultTemplates {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @return (void)
 	 */
 	public static function init() {
 

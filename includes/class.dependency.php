@@ -72,12 +72,14 @@ class cnDependency {
 	 */
 	public static function autoload( $class ) {
 
-		if ( ! isset( self::classRegistry()[ $class ] ) ) {
+		$hashTable = self::classRegistry();
+
+		if ( ! isset( $hashTable[ $class ] ) ) {
 
 			return;
 		}
 
-		$file = CN_PATH . self::classRegistry()[ $class ];
+		$file = CN_PATH . $hashTable[ $class ];
 
 		// if the file exists, require it
 		if ( file_exists( $file ) ) {

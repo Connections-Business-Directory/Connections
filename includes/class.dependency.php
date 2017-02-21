@@ -77,8 +77,10 @@ class cnDependency {
 			return;
 		}
 
+		$file = CN_PATH . self::classRegistry()[ $class ];
+
 		// if the file exists, require it
-		if ( file_exists( ( $file = CN_PATH . self::classRegistry()[ $class ] ) ) ) {
+		if ( file_exists( $file ) ) {
 
 			require $file;
 

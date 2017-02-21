@@ -42,12 +42,8 @@ final class cnLog_Email {
 	 * @access public
 	 * @since  8.2.10
 	 * @static
-	 *
-	 * @uses   add_action()
-	 *
-	 * @return cnLog_Email
 	 */
-	public static function instance() {
+	public static function init() {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof cnLog_Email ) ) {
 
@@ -69,6 +65,17 @@ final class cnLog_Email {
 			// Add filter to format meta value for display.
 			add_filter( 'cn_log_meta_value', array( __CLASS__, 'metaValue'), 10, 2 );
 		}
+	}
+
+	/**
+	 * Return an instance.
+	 *
+	 * @access public
+	 * @since  8.5.34
+	 *
+	 * @return self
+	 */
+	public static function getInstance() {
 
 		return self::$instance;
 	}
@@ -642,6 +649,3 @@ final class cnLog_Email {
 		return $value;
 	}
 }
-
-// Fire up email logging of email sent through cnEmail.
-cnLog_Email::instance();

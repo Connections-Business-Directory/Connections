@@ -2095,9 +2095,6 @@ class cnImage {
 
 }
 
-// Init the Image API
-cnImage::init();
-
 
 /*add_action( 'plugins_loaded', 'cn_short_init', 99 );
 

@@ -1050,15 +1050,3 @@ final class cnLog {
 
 	}
 }
-
-function cnInitLogAPI() {
-
-	cnLog::instance();
-}
-
-/*
- * Action added in the init hook to allow other plugins time to register there log types.
- * The priority is set at -1 because the post types and taxonomy are registered in the
- * init hook at priority 1.
- */
-add_action( 'init', 'cnInitLogAPI', -1 );

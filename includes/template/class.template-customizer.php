@@ -1971,5 +1971,3 @@ class cnTemplate_Customizer {
 		}
 	}
 }
-
-new cnTemplate_Customizer();

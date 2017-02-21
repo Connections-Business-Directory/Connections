@@ -35,7 +35,7 @@ class cnAdminFunction {
 	public function __construct() { /* Do nothing here */ }
 
 	/**
-	 * Setup the class, if it has already been initialized, return the intialized instance.
+	 * Setup the class, if it has already been initialized, return the initialized instance.
 	 *
 	 * @see cnAdminFunction()
 	 *
@@ -483,15 +483,3 @@ class cnAdminFunction {
 	}
 
 }
-
-// Adds the admin actions and filters.
-add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
-
-/*
- * Add the filter to update the user settings when the "Apply" button is clicked.
- * NOTE: This relies on the the Screen Options class by Janis Elsts
- * NOTE: This filter must be added here otherwise it registers to late to be run.
- * NOTE: Set priority 99 so the filter will hopefully run last to help prevent other plugins
- *       which do not hook into `set-screen-option` properly from breaking Connections.
- */
-add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 99, 3 );

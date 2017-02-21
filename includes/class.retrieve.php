@@ -1388,8 +1388,6 @@ class cnRetrieve {
 
 					return $ids;
 
-					break;
-
 				default:
 
 					return self::entries(
@@ -3022,12 +3020,10 @@ class cnRetrieve {
 
 				$entries = $sortedEntries;
 				return $entries;
-				break;
 
 			case 'RANDOM':
 				shuffle( $entries );
 				return $entries;
-				break;
 			}
 		}
 

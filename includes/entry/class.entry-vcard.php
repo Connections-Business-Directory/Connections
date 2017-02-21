@@ -691,5 +691,3 @@ class cnvCard extends cnEntry_HTML {
 		}
 	}
 }
-
-add_action( 'template_redirect' , array( 'cnvCard', 'download' ) );

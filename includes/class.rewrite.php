@@ -21,7 +21,7 @@ class cnRewrite {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function hooks() {
 
 		// Remove the canonical redirect -- for testing.
 		// remove_filter('template_redirect', 'redirect_canonical');
@@ -801,7 +801,7 @@ class cnRewrite {
 			= 'index.php?' . $slug . '=$matches[1]&cn-county=$matches[2]&cn-pg=$matches[3]&cn-view=card';
 		$rule[ $slug . '/(.+?)/' . $county . '/([^/]*)?/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-county=$matches[2]&cn-view=card';
-		
+
 		// Organization rewrite rules.
 		$rule[ $slug . '/(.+?)/' . $organization . '/([^/]*)/pg/?([0-9]{1,})/?$']
 			= 'index.php?' . $slug . '=$matches[1]&cn-organization=$matches[2]&cn-pg=$matches[3]&cn-view=card';
@@ -1046,6 +1046,3 @@ class cnRewrite {
 		return $redirectURL;
 	}
 }
-
-// Register all valid query variables.
-cnRewrite::init();

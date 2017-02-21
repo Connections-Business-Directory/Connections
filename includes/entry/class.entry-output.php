@@ -751,6 +751,12 @@ class cnOutput extends cnEntry {
 
 				if ( $relation->set( $relationData['entry_id'] ) ) {
 
+					// Ensure the use can only see relationships based on relations status and visibility.
+					if ( 'approved' != $relation->getStatus() || ! cnValidate::userPermitted( $relation->getVisibility() ) ) {
+
+						continue;
+					}
+
 					$replace[] = $instance->options->getFamilyRelation( $relationData['relation'] );
 
 					$replace[] = cnURL::permalink(

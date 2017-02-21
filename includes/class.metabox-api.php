@@ -1670,6 +1670,3 @@ class cnMetabox_Process {
 		return $value;
 	}
 }
-
-// cnMetaboxAPI has to load before cnAdminFunction otherwise the action to save the meta is not added in time to run.
-cnMetaboxAPI::init();

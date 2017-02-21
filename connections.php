@@ -176,8 +176,32 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				self::$instance = new connectionsLoad;
 
-				self::defineConstants();
-				self::includes();
+				require_once plugin_dir_path( __FILE__ ) . 'includes/class.constants.php';
+				cnConstants::define( __FILE__ );
+
+				require_once CN_PATH . 'includes/class.dependency.php';
+				cnDependency::register();
+
+				/*
+				 * cnMetaboxAPI has to load before cnAdminFunction otherwise
+				 * the action to save the meta is not added in time to run.
+				 */
+				cnMetaboxAPI::init();
+
+				// Init the Image API
+				cnImage::init();
+
+				// Init email logging of email sent through cnEmail.
+				cnLog_Email::init();
+
+				// Init the email template API.
+				cnEmail_Template::init();
+
+				// Register the default email templates.
+				cnEmail_DefaultTemplates::init();
+
+				// Register the core action/filter hooks.
+				self::hooks();
 
 				self::$instance->options     = new cnOptions();
 				self::$instance->settings    = cnSettingsAPI::getInstance();
@@ -188,19 +212,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::$instance->template    = new cnTemplatePart();
 				self::$instance->url         = new cnURL();
 				self::$instance->api         = new cnAPI();
-
-				/**
-				 * NOTE: Any calls to load_plugin_textdomain should be in a function attached to the `plugins_loaded` action hook.
-				 * @link http://ottopress.com/2013/language-packs-101-prepwork/
-				 *
-				 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the plugins_loaded action hook or later.
-				 *
-				 * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
-				 *       generally loaded on the `plugins_loaded` action hook, any strings with the `connections` text
-				 *       domain will be merged into it. The purpose is to allow the extensions to use strings known to
-				 *       in the core plugin to reuse those strings and benefit if they are already translated.
-				 */
-				add_action( 'plugins_loaded', array( __CLASS__ , 'loadTextdomain' ), -1 );
 
 				// Activation/Deactivation hooks
 				register_activation_hook( dirname( __FILE__ ) . '/connections.php', array( __CLASS__, 'activate' ) );
@@ -219,514 +230,105 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			return self::$instance;
 		}
 
-		/**
-		 * Define the core constants.
-		 *
-		 * @access private
-		 * @since  unknown
-		 * @return void
-		 */
-		private static function defineConstants() {
-			global $wpdb, $blog_id;
-
-			if ( ! defined( 'CN_LOG' ) ) {
-				/** @var string CN_LOG Whether or not to log actions and results for debugging. */
-				define( 'CN_LOG', FALSE );
-			}
-
-			/** @var string CN_CURRENT_VERSION The current version. */
-			define( 'CN_CURRENT_VERSION', '8.5.32' );
-
-			/** @var string CN_DB_VERSION The current DB version. */
-			define( 'CN_DB_VERSION', '0.4' );
-
-			/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
-			define( 'CN_UPDATE_URL', 'http://connections-pro.com/edd-sl-api' );
-
-			/** @var string CN_BASE_NAME */
-			define( 'CN_BASE_NAME', plugin_basename( __FILE__ ) );
-
-			/** @var string CN_DIR_NAME */
-			define( 'CN_DIR_NAME', dirname( CN_BASE_NAME ) );
-
-			/** @var string CN_PATH */
-			define( 'CN_PATH', plugin_dir_path( __FILE__ ) );
-
-			/** @var string CN_URL */
-			define( 'CN_URL', plugin_dir_url( __FILE__ ) );
-
-			/*
-			 * Core constants that can be overridden by setting in wp-config.php.
-			 */
-			if ( ! defined( 'CN_TEMPLATE_PATH' ) ) {
-
-				/** @var string CN_TEMPLATE_PATH */
-				define( 'CN_TEMPLATE_PATH', CN_PATH . 'templates' . DIRECTORY_SEPARATOR );
-			}
-
-			if ( ! defined( 'CN_TEMPLATE_URL' ) ) {
-
-				/** @var string CN_TEMPLATE_URL */
-				define( 'CN_TEMPLATE_URL', CN_URL . 'templates' . DIRECTORY_SEPARATOR );
-			}
-
-			if ( ! defined( 'CN_CACHE_PATH' ) ) {
-
-				/** @var string CN_CACHE_PATH */
-				define( 'CN_CACHE_PATH', CN_PATH . 'cache' . DIRECTORY_SEPARATOR );
-			}
-
-			if ( ! defined( 'CN_ADMIN_MENU_POSITION' ) ) {
-
-				/** @var int CN_ADMIN_MENU_POSITION */
-				define( 'CN_ADMIN_MENU_POSITION', NULL );
-			}
-
-			/*
-			 * To run Connections in single site mode on multi-site.
-			 * Add to wp-config.php: define('CN_MULTISITE_ENABLED', FALSE);
-			 *
-			 * @credit lancelot-du-lac
-			 * @url http://wordpress.org/support/topic/plugin-connections-support-multisite-in-single-mode
-			 */
-			if ( ! defined( 'CN_MULTISITE_ENABLED' ) ) {
-
-				if ( is_multisite() ) {
-
-					/** @var bool CN_MULTISITE_ENABLED */
-					define( 'CN_MULTISITE_ENABLED', TRUE );
-
-				} else {
-
-					/** @var bool CN_MULTISITE_ENABLED */
-					define( 'CN_MULTISITE_ENABLED', FALSE );
-				}
-			}
-
-			// Set the root image permalink endpoint name.
-			if ( ! defined( 'CN_IMAGE_ENDPOINT' ) ) {
-
-				/** @var string CN_IMAGE_ENDPOINT */
-				define( 'CN_IMAGE_ENDPOINT', 'cn-image' );
-			}
-
-			// Set images subdirectory folder name.
-			if ( ! defined( 'CN_IMAGE_DIR_NAME' ) ){
-
-				/** @var string CN_IMAGE_DIR_NAME */
-				define( 'CN_IMAGE_DIR_NAME', 'connections-images' );
-			}
-
-			/*
-			 * Core constants that can be overridden in wp-config.php
-			 * which enable support for multi-site file locations.
-			 */
-			if ( is_multisite() && CN_MULTISITE_ENABLED ) {
-
-				// Get the core WP uploads info.
-				$uploadInfo = wp_upload_dir();
-
-				if ( ! defined( 'CN_IMAGE_PATH' ) ) {
-
-					/** @var string CN_IMAGE_PATH */
-					define( 'CN_IMAGE_PATH', trailingslashit( $uploadInfo['basedir'] ) . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
-					// define( 'CN_IMAGE_PATH', WP_CONTENT_DIR . '/sites/' . $blog_id . '/connection_images/' );
-				}
-
-				if ( ! defined( 'CN_IMAGE_BASE_URL' ) ) {
-
-					/** @var string CN_IMAGE_BASE_URL */
-					define( 'CN_IMAGE_BASE_URL', trailingslashit( $uploadInfo['baseurl'] ) . CN_IMAGE_DIR_NAME . '/' );
-					// define( 'CN_IMAGE_BASE_URL', network_home_url( '/wp-content/sites/' . $blog_id . '/connection_images/' ) );
-				}
-
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) ) {
-
-					/** @var string CN_CUSTOM_TEMPLATE_PATH */
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connections_templates/' );
-				}
-
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
-
-					/** @var string CN_CUSTOM_TEMPLATE_URL */
-					define( 'CN_CUSTOM_TEMPLATE_URL', network_home_url( '/wp-content/blogs.dir/' . $blog_id . '/connections_templates/' ) );
-				}
-
-				// Define the relative URL/s.
-				/** @var string CN_RELATIVE_URL */
-				define( 'CN_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL ) );
-
-				/** @var string CN_TEMPLATE_RELATIVE_URL */
-				define( 'CN_TEMPLATE_RELATIVE_URL', str_replace( network_home_url(), '', CN_URL . 'templates/' ) );
-
-				/** @var string CN_IMAGE_RELATIVE_URL */
-				define( 'CN_IMAGE_RELATIVE_URL', str_replace( network_home_url(), '', CN_IMAGE_BASE_URL ) );
-
-				/** @var string CN_CUSTOM_TEMPLATE_RELATIVE_URL */
-				define( 'CN_CUSTOM_TEMPLATE_RELATIVE_URL', str_replace( network_home_url(), '', CN_CUSTOM_TEMPLATE_URL ) );
-
-			} else {
-
-				/**
-				 * Pulled this block of code from wp_upload_dir(). Using this rather than simply using wp_upload_dir()
-				 * because @see wp_upload_dir() will always return the upload dir/url (/sites/{id}/) for the current network site.
-				 *
-				 * We do not want this behavior if forcing Connections into single site mode on a multisite
-				 * install of WP. Additionally we do not want the year/month sub dir appended.
-				 *
-				 * A filter could be used, hooked into `upload_dir` but that would be a little heavy as every time the custom
-				 * dir/url would be needed the filter would have to be added and then removed not to mention other plugins could
-				 * interfere by hooking into `upload_dir`.
-				 *
-				 * --> START <--
-				 */
-				$siteurl     = site_url();
-				$upload_path = trim( get_option( 'upload_path' ) );
-
-				if ( empty( $upload_path ) || 'wp-content/uploads' == $upload_path ) {
-
-					$dir = WP_CONTENT_DIR . '/uploads';
-
-				} elseif ( 0 !== strpos( $upload_path, ABSPATH ) ) {
-
-					// $dir is absolute, $upload_path is (maybe) relative to ABSPATH
-					$dir = path_join( ABSPATH, $upload_path );
-
-				} else {
-
-					$dir = $upload_path;
-				}
-
-				if ( ! $url = get_option( 'upload_url_path' ) ) {
-
-					if ( empty( $upload_path ) || ( 'wp-content/uploads' == $upload_path ) || ( $upload_path == $dir ) ) {
-
-						$url = content_url( '/uploads' );
-
-					} else {
-
-						$url = trailingslashit( $siteurl ) . $upload_path;
-					}
-				}
-
-				// Obey the value of UPLOADS. This happens as long as ms-files rewriting is disabled.
-				// We also sometimes obey UPLOADS when rewriting is enabled -- see the next block.
-				if ( defined( 'UPLOADS' ) && ! ( is_multisite() && get_site_option( 'ms_files_rewriting' ) ) ) {
-
-					$dir = ABSPATH . UPLOADS;
-					$url = trailingslashit( $siteurl ) . UPLOADS;
-				}
-				/*
-				 * --> END <--
-				 */
-
-				if ( ! defined( 'CN_IMAGE_PATH' ) ){
-
-					/** @var string CN_IMAGE_PATH */
-					define( 'CN_IMAGE_PATH', $dir . DIRECTORY_SEPARATOR . CN_IMAGE_DIR_NAME . DIRECTORY_SEPARATOR );
-				}
-				if ( ! defined( 'CN_IMAGE_BASE_URL' ) ) {
-
-					/** @var string CN_IMAGE_BASE_URL */
-					define( 'CN_IMAGE_BASE_URL', $url . '/' . CN_IMAGE_DIR_NAME . '/' );
-				}
-
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_PATH' ) ) {
-
-					/** @var string CN_CUSTOM_TEMPLATE_PATH */
-					define( 'CN_CUSTOM_TEMPLATE_PATH', WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'connections_templates' . DIRECTORY_SEPARATOR );
-				}
-
-				if ( ! defined( 'CN_CUSTOM_TEMPLATE_URL' ) ) {
-
-					/** @var string CN_CUSTOM_TEMPLATE_URL */
-					define( 'CN_CUSTOM_TEMPLATE_URL', content_url() . '/connections_templates/' );
-				}
-
-				// Define the relative URL/s.
-				/** @var string CN_RELATIVE_URL */
-				define( 'CN_RELATIVE_URL', str_replace( home_url(), '', CN_URL ) );
-
-				/** @var string CN_TEMPLATE_RELATIVE_URL */
-				define( 'CN_TEMPLATE_RELATIVE_URL', str_replace( home_url(), '', CN_URL . 'templates/' ) );
-
-				/** @var string CN_IMAGE_RELATIVE_URL */
-				define( 'CN_IMAGE_RELATIVE_URL', str_replace( home_url(), '', CN_IMAGE_BASE_URL ) );
-
-				/** @var string CN_CUSTOM_TEMPLATE_RELATIVE_URL */
-				define( 'CN_CUSTOM_TEMPLATE_RELATIVE_URL', str_replace( home_url(), '', CN_CUSTOM_TEMPLATE_URL ) );
-			}
-
-			/*
-			 * Set the table prefix accordingly depending if Connections is installed on a multisite WP installation.
-			 */
-			$prefix = ( is_multisite() && CN_MULTISITE_ENABLED ) ? $wpdb->prefix : $wpdb->base_prefix;
-
-			/*
-			 * Define the constants that can be used to reference the custom tables
-			 */
-			/** @var string CN_ENTRY_TABLE */
-			define( 'CN_ENTRY_TABLE', $prefix . 'connections' );
-
-			/** @var string CN_ENTRY_ADDRESS_TABLE */
-			define( 'CN_ENTRY_ADDRESS_TABLE', $prefix . 'connections_address' );
-
-			/** @var string CN_ENTRY_PHONE_TABLE */
-			define( 'CN_ENTRY_PHONE_TABLE', $prefix . 'connections_phone' );
-
-			/** @var string CN_ENTRY_EMAIL_TABLE */
-			define( 'CN_ENTRY_EMAIL_TABLE', $prefix . 'connections_email' );
-
-			/** @var string CN_ENTRY_MESSENGER_TABLE */
-			define( 'CN_ENTRY_MESSENGER_TABLE', $prefix . 'connections_messenger' );
-
-			/** @var string CN_ENTRY_SOCIAL_TABLE */
-			define( 'CN_ENTRY_SOCIAL_TABLE', $prefix . 'connections_social' );
-
-			/** @var string CN_ENTRY_LINK_TABLE */
-			define( 'CN_ENTRY_LINK_TABLE', $prefix . 'connections_link' );
-
-			/** @var string CN_ENTRY_DATE_TABLE */
-			define( 'CN_ENTRY_DATE_TABLE', $prefix . 'connections_date' );
-
-			/** @var string CN_ENTRY_TABLE_META */
-			define( 'CN_ENTRY_TABLE_META', $prefix . 'connections_meta' );
-
-			/** @var string CN_TERMS_TABLE */
-			define( 'CN_TERMS_TABLE', $prefix . 'connections_terms' );
-
-			/** @var string CN_TERM_TAXONOMY_TABLE */
-			define( 'CN_TERM_TAXONOMY_TABLE', $prefix . 'connections_term_taxonomy' );
-
-			/** @var string CN_TERM_RELATIONSHIP_TABLE */
-			define( 'CN_TERM_RELATIONSHIP_TABLE', $prefix . 'connections_term_relationships' );
-
-			/** @var string CN_TERM_META_TABLE */
-			define( 'CN_TERM_META_TABLE', $prefix . 'connections_term_meta' );
-		}
-
-		private static function includes() {
+		private static function hooks() {
 
 			/**
-			 * @TODO: Load dependencies as needed. For example load only classes needed in the admin and frontend
+			 * NOTE: Any calls to load_plugin_textdomain should be in a function attached to the `plugins_loaded` action hook.
+			 * @link http://ottopress.com/2013/language-packs-101-prepwork/
+			 *
+			 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the plugins_loaded action hook or later.
+			 *
+			 * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
+			 *       generally loaded on the `plugins_loaded` action hook, any strings with the `connections` text
+			 *       domain will be merged into it. The purpose is to allow the extensions to use strings known to
+			 *       in the core plugin to reuse those strings and benefit if they are already translated.
 			 */
-
-			// Add the default filters.
-			require_once CN_PATH . 'includes/inc.default-filters.php';
-
-			//Current User objects
-			require_once CN_PATH . 'includes/class.user.php'; // Required for activation
-			//Terms Objects
-			require_once CN_PATH . 'includes/class.terms.php'; // Required for activation
-			//Category Objects
-			require_once CN_PATH . 'includes/class.category.php'; // Required for activation, entry list
-			//Retrieve objects from the db.
-			require_once CN_PATH . 'includes/class.query.php'; // Required for activation
-			require_once CN_PATH . 'includes/class.retrieve.php'; // Required for activation
-			//HTML FORM objects
-			require_once CN_PATH . 'includes/class.form.php'; // Required for activation
-			//date objects
-			require_once CN_PATH . 'includes/class.date.php'; // Required for activation, entry list, add entry
-			// cnCache
-			require_once CN_PATH . 'includes/class.cache.php';
-
-			// The class for managing metaboxes.
-			// Must require BEFORE class.functions.php.
-			require_once CN_PATH . 'includes/class.metabox-api.php';
-
-			// The class for registering the core metaboxes and fields for the add/edit entry admin pages.
-			// Must require AFTER class.metabox-api.php.
-			require_once CN_PATH . 'includes/class.metabox-entry.php';
-
-			/*
-			 * Entry classes. // --> START <-- \\
-			 */
-
-			// Entry data.
-			require_once CN_PATH . 'includes/entry/class.entry-data.php'; // Required for activation, entry list
-
-			// Entry HTML template blocks.
-			require_once CN_PATH . 'includes/entry/class.entry-output.php'; // Required for activation, entry list
-			require_once CN_PATH . 'includes/entry/class.entry-html.php';
-			require_once CN_PATH . 'includes/entry/class.entry-shortcode.php';
-
-			// Entry vCard.
-			require_once CN_PATH . 'includes/entry/class.entry-vcard.php'; // Required for front end
-
-			// Entry actions.
-			require_once CN_PATH . 'includes/entry/class.entry-actions.php';
-
-			/*
-			 * Entry classes. // --> END <-- \\
-			 */
-
-			// HTML elements class.
-			require_once CN_PATH . 'includes/class.html.php';
-
-			// Meta API
-			require_once CN_PATH . 'includes/class.meta.php';
-
-			//plugin utility objects
-			require_once CN_PATH . 'includes/class.utility.php'; // Required for activation, entry list
-
-			// Sanitation.
-			require_once CN_PATH . 'includes/class.sanitize.php';
-
-			// geocoding
-			require_once CN_PATH . 'includes/class.geo.php'; // Required
-
-			// thumbnails
-			require_once CN_PATH . 'includes/image/class.image.php';
-
-			// Shortcodes
-			// NOTE This is required in both the admin and frontend. The shortcode callback is used on the Dashboard admin page.
-			require_once CN_PATH . 'includes/shortcode/inc.shortcodes.php';
-			require_once CN_PATH . 'includes/shortcode/class.shortcode.php';
-			require_once CN_PATH . 'includes/shortcode/class.shortcode-connections.php';
-			require_once CN_PATH . 'includes/shortcode/class.shortcode-thumbnail.php';
-			require_once CN_PATH . 'includes/shortcode/class.shortcode-thumbnail-responsive.php';
-
-			// require_once CN_PATH . 'includes/class.shortcode-upcoming_list.php';
-
-			// The class that inits the registered query vars, rewrite urls and canonical redirects.
-			require_once CN_PATH . 'includes/class.rewrite.php';
-
-			// Load the Connections Settings API Wrapper Class.
-			require_once CN_PATH . 'includes/settings/class.settings-api.php';
-
-			// plugin option objects
-			require_once CN_PATH . 'includes/settings/class.options.php'; // Required for activation
-
-			// Load the Connections core settings admin page tabs, section and fields using the WordPress Settings API.
-			require_once CN_PATH . 'includes/settings/class.settings.php';
-
-			// Load the class that manages the registration and enqueueing of CSS and JS files.
-			require_once CN_PATH . 'includes/class.locate.php';
-			require_once CN_PATH . 'includes/class.scripts.php';
-
-			// Class for processing email.
-			require_once CN_PATH . 'includes/email/class.email.php';
-
-			// Log APIs.
-			require_once CN_PATH . 'includes/log/class.log.php';
-			require_once CN_PATH . 'includes/log/class.log-stateless.php';
-
-			// Log email sent through the Email API.
-			require_once CN_PATH . 'includes/log/class.log-email.php';
-
-			// Class for handling email template registration and management.
-			require_once CN_PATH . 'includes/email/class.email-template-api.php';
-
-			// Class for registering the core email templates.
-			require_once CN_PATH . 'includes/email/class.default-template.php';
-
-			// The class for working with the file system.
-			require_once CN_PATH . 'includes/class.filesystem.php';
-
-			// require_once CN_PATH . 'includes/class.results.php';
-
-			if ( is_admin() ) {
-
-				// The class for handling admin notices.
-				require_once CN_PATH . 'includes/admin/class.message.php';
-
-				// Class used for managing role capabilities.
-				require_once CN_PATH . 'includes/admin/class.capabilities.php';
-
-				// The class for adding admin menu and registering the menu callbacks.
-				require_once CN_PATH . 'includes/admin/class.menu.php';
-
-				// The class for registering the core metaboxes for the dashboard admin page.
-				// Must require AFTER class.metabox-api.php.
-				require_once CN_PATH . 'includes/admin/class.metabox-dashboard.php';
-
-				// The class for processing admin actions.
-				require_once CN_PATH . 'includes/admin/class.actions.php';
-
-				// The class for registering general admin actions.
-				// Must require AFTER class.metabox-api.php and class.actions.php.
-				require_once CN_PATH . 'includes/admin/class.functions.php';
-
-				// The class for managing license keys and settings.
-				require_once CN_PATH . 'includes/admin/class.license.php';
-
-				// The Term Meta UI class.
-				require_once CN_PATH . 'includes/admin/class.term-meta-ui.php';
-
-				// Load the templates used on the Dashboard admin page.
-				include_once CN_TEMPLATE_PATH . 'dashboard-recent-added/dashboard-recent-added.php';
-				include_once CN_TEMPLATE_PATH . 'dashboard-recent-modified/dashboard-recent-modified.php';
-				include_once CN_TEMPLATE_PATH . 'dashboard-upcoming/dashboard-upcoming.php';
-
-			} else {
-
-				// Class for SEO
-				require_once CN_PATH . 'includes/class.seo.php';
-
-			}
-
-			// Include the core templates that use the Template APIs introduced in 0.7.6
-			// Must include BEFORE class.template-api.php.
-			include_once CN_TEMPLATE_PATH . 'names/names.php';
-			include_once CN_TEMPLATE_PATH . 'card/card-default.php';
-			include_once CN_TEMPLATE_PATH . 'profile/profile.php';
-			include_once CN_TEMPLATE_PATH . 'anniversary-dark/anniversary-dark.php';
-			include_once CN_TEMPLATE_PATH . 'anniversary-light/anniversary-light.php';
-			include_once CN_TEMPLATE_PATH . 'birthday-dark/birthday-dark.php';
-			include_once CN_TEMPLATE_PATH . 'birthday-light/birthday-light.php';
-
-			// Template APIs.
-			// Must require AFTER the core templates.
-			require_once CN_PATH . 'includes/template/class.template-api.php';
-			require_once CN_PATH . 'includes/template/class.template-parts.php';
-			require_once CN_PATH . 'includes/template/class.template-shortcode.php';
-			require_once CN_PATH . 'includes/template/class.template-compatibility.php';
-			require_once CN_PATH . 'includes/template/class.template.php';
-
-			require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
-			require_once CN_PATH . 'includes/inc.theme-compatibility.php';
-
-			// System Info
-			require_once CN_PATH . 'includes/system-info/class.system-info.php';
+			add_action( 'plugins_loaded', array( __CLASS__ , 'loadTextdomain' ), -1 );
 
 			// Include the Template Customizer files.
-			add_action( 'plugins_loaded', array( __CLASS__, 'includeCustomizer' ) );
+			add_action( 'plugins_loaded', array( 'cnDependency', 'customizer' ) );
 
-			// API
-			require_once CN_PATH . 'includes/api/class.api.php';
-		}
-
-		/**
-		 * This callback run on the plugins_loaded hook to include the Customizer classes.
-		 *
-		 * Matches core WordPress @see _wp_customize_include().
-		 *
-		 * @access private
-		 * @since  8.4
-		 */
-		public static function includeCustomizer() {
-
-			$is_customize_admin_page = ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) );
-			$should_include = (
-				$is_customize_admin_page
-				||
-				( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )
-				||
-				( ! empty( $_GET['customize_changeset_uuid'] ) || ! empty( $_POST['customize_changeset_uuid'] ) )
-			);
-
-			if ( ! $should_include ) {
-				return;
-			}
-
-			require_once CN_PATH . 'includes/template/class.template-customizer.php';
-
-			/**
-			 * Convenience actions that templates can hook into to load their Customizer config files.
-			 *
-			 * @since 8.4
+			/*
+			 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
 			 */
-			do_action( 'cn_template_customizer_include' );
+			add_filter( 'cn_register_settings_tabs', array( 'cnRegisterSettings', 'registerSettingsTabs' ), 10, 1 );
+			add_filter( 'cn_register_settings_sections', array( 'cnRegisterSettings', 'registerSettingsSections' ), 10, 1 );
+			add_filter( 'cn_register_settings_fields', array( 'cnRegisterSettings', 'registerSettingsFields' ), 10, 1 );
+
+			// cnAdminMenu must load before the cnMetaboxAPI so the admin page hooks are defined.
+			add_action( 'admin_menu', array( 'cnAdminMenu' , 'init' ) );
+
+			// Register the core entry metabox and fields.
+			add_action( 'cn_metabox', array( 'cnEntryMetabox', 'init' ), 1 );
+
+			// Register the scripts hooks.
+			cnScript::hooks();
+
+			// Add actions which purges caches after adding/editing and entry.
+			add_action( 'cn_post_process_add-entry', array( 'cnEntry_Action', 'clearCache' ) );
+			add_action( 'cn_post_process_update-entry', array( 'cnEntry_Action', 'clearCache' ) );
+			add_action( 'cn_process_status', array( 'cnEntry_Action', 'clearCache' ) );
+			add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'clearCache' ) );
+			add_action( 'cn_process_bulk_delete', array( 'cnEntry_Action', 'clearCache' ) );
+			add_action( 'update_option_permalink_structure' , array( 'cnEntry_Action', 'clearCache' ) );
+
+			// Add actions to update the term taxonomy counts when entry status or visibility has been updated via the bulk actions.
+			add_action( 'cn_process_status', array( 'cnEntry_Action', 'updateTermCount' ) );
+			add_action( 'cn_process_visibility', array( 'cnEntry_Action', 'updateTermCount' ) );
+
+			// Add the "Edit Entry" menu items to the admin bar.
+			add_action( 'admin_bar_menu', array( 'cnEntry_Action', 'adminBarMenuItems' ), 90 );
+
+			// Register the shortcode hooks.
+			cnShortcode::hooks();
+
+			// Register all valid query variables.
+			cnRewrite::hooks();
+
+			/*
+			 * Action added in the init hook to allow other plugins time to register there log types.
+			 * The priority is set at -1 because the post types and taxonomy are registered in the
+			 * init hook at priority 1.
+			 */
+			add_action( 'init', array( 'cnLog', 'instance' ), -1 );
+
+			// Register the Dashboard metaboxes.
+			add_action( 'cn_metabox', array( 'cnDashboardMetabox', 'init' ), 1 );
+
+			// Adds the admin actions and filters.
+			add_action( 'admin_init', array( 'cnAdminFunction', 'init' ) );
+
+			/*
+			 * Add the filter to update the user settings when the "Apply" button is clicked.
+			 * NOTE: This relies on the the Screen Options class by Janis Elsts
+			 * NOTE: Set priority 99 so the filter will hopefully run last to help prevent other plugins
+			 *       which do not hook into `set-screen-option` properly from breaking Connections.
+			 */
+			add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 99, 3 );
+
+			// Init the class.
+			add_action( 'init', array( 'cnSEO', 'hooks' ) );
+
+			// Init the Template Factory API
+			// NOTE: The priority can not be >10 otherwise it will break older templates
+			// which init'd on `plugins_loaded` at priority 11.
+			add_action( 'plugins_loaded', array( 'cnTemplateFactory', 'init' ) );
+
+			// Register the Template Parts API hooks.
+			cnTemplatePart::hooks();
+			cnTemplate_Compatibility::hooks();
+
+			// Register email log type.
+			add_filter( 'cn_email_log_types', array( 'cnSystem_Info', 'registerEmailLogType' ) );
+
+			// Register the log view.
+			add_filter( 'cn_log_views', array( 'cnSystem_Info', 'registerLogView' ) );
+
+			// Register the callback to display the email log detail view.
+			add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );
+
+			// Register the callback to support downloading of vCards
+			add_action( 'template_redirect' , array( 'cnvCard', 'download' ) );
 		}
 
 		/**

@@ -119,6 +119,3 @@ class cnEmail_DefaultTemplates {
 	}
 
 }
-
-// Register the default email templates.
-cnEmail_DefaultTemplates::init();

@@ -27,7 +27,7 @@ class cnShortcode {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function hooks() {
 
 		// Register the core shortcode with the WordPres Shortcode API.
 		add_action( 'init', array( __CLASS__, 'register') );
@@ -840,6 +840,3 @@ class cnShortcode {
 		return $content;
 	}
 }
-
-// Init the class.
-cnShortcode::init();

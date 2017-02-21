@@ -29,7 +29,7 @@ class cnTemplatePart {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function hooks() {
 
 		add_action( 'cn_action_list_before', array( __CLASS__, 'doListActionsBefore' ), 5 );
 		add_action( 'cn_action_list_after', array( __CLASS__, 'doListActionsAfter' ), 5 );
@@ -2864,6 +2864,3 @@ class cnTemplatePart {
 		return $out;
 	}
 }
-
-// Init the Template Parts API
-cnTemplatePart::init();

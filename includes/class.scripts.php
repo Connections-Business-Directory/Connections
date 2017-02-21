@@ -48,7 +48,7 @@ class cnScript {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function hooks() {
 
 		// This filter will add the minified CSS and JS to the search paths
 		// if SCRIPT_DEBUG is not defined or set to FALSE.
@@ -628,6 +628,3 @@ class cnScript {
 	}
 
 }
-
-// Init the class.
-cnScript::init();

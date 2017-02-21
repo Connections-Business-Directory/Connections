@@ -41,7 +41,13 @@ class cnSEO {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function hooks() {
+
+		// Bail if in admin.
+		if ( is_admin() ) {
+
+			return;
+		}
 
 		// Update the post dates to reflect the dates of the entry.
 		add_action( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
@@ -749,6 +755,3 @@ class cnSEO {
 	}
 
 }
-
-// Init the class.
-add_action( 'init', array( 'cnSEO' , 'init' ) );

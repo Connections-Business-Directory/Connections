@@ -2565,6 +2565,3 @@ class cnEntryMetabox {
 	}
 
 }
-
-// Init the class.
-add_action( 'cn_metabox', array( 'cnEntryMetabox', 'init' ), 1 );

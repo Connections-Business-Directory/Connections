@@ -465,12 +465,3 @@ class cnSystem_Info {
 		return $widths;
 	}
 }
-
-// Register email log type.
-add_filter( 'cn_email_log_types', array( 'cnSystem_Info', 'registerEmailLogType' ) );
-
-// Register the log view.
-add_filter( 'cn_log_views', array( 'cnSystem_Info', 'registerLogView' ) );
-
-// Register the callback to display the email log detail view.
-add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );

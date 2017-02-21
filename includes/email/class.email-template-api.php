@@ -341,6 +341,3 @@ class cnEmail_Template {
 	}
 
 }
-
-// Init the email template API.
-cnEmail_Template::init();

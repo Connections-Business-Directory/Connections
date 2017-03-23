@@ -3593,7 +3593,7 @@ class cnEntry {
 		$permittedValues = array(
 			'unlisted' => __( 'Unlisted', 'connections' ),
 			'public'   => __( 'Public', 'connections' ),
-			'private'  => __( 'Private', 'connections' )
+			'private'  => __( 'Private', 'connections' ),
 		);
 
 		$visibility = $this->getVisibility();
@@ -4689,7 +4689,7 @@ class cnEntry {
 				'status'             => $this->status,
 			),
 			array(
-				'id' => $this->id
+				'id' => $this->id,
 			),
 			array(
 				'%s', // ts
@@ -4725,7 +4725,7 @@ class cnEntry {
 				'%s', // status
 			),
 			array(
-				'%d'
+				'%d',
 			)
 		);
 
@@ -4776,7 +4776,7 @@ class cnEntry {
 				),
 				$this->getPhoneNumbers( array(), TRUE, TRUE ),
 				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' )
+					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
 			);
 
@@ -4791,7 +4791,7 @@ class cnEntry {
 				),
 				$this->getEmailAddresses( array(), TRUE, TRUE ),
 				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' )
+					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
 			);
 
@@ -4806,7 +4806,7 @@ class cnEntry {
 				),
 				$this->getIm( array(), TRUE, TRUE ),
 				array(
-					'id' => array( 'key' => 'uid', 'format' => '%d' )
+					'id' => array( 'key' => 'uid', 'format' => '%d' ),
 				)
 			);
 
@@ -4821,7 +4821,7 @@ class cnEntry {
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE ),
 				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' )
+					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
 			);
 
@@ -4841,7 +4841,7 @@ class cnEntry {
 				),
 				$this->getLinks( array(), TRUE, TRUE ),
 				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' )
+					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
 			);
 
@@ -4856,7 +4856,7 @@ class cnEntry {
 				),
 				$this->getDates( array(), TRUE, TRUE ),
 				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' )
+					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
 			);
 
@@ -4985,7 +4985,7 @@ class cnEntry {
 				'edited_by'          => $connections->currentUser->getID(),
 				'owner'              => $connections->currentUser->getID(),
 				'user'               => $this->getUser(),
-				'status'             => $this->status
+				'status'             => $this->status,
 			),
 			array(
 				'%s', // ts

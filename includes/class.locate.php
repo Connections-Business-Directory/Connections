@@ -118,6 +118,8 @@ class cnLocate {
 		$path[50] = trailingslashit( $upload_dir['basedir'] ) . $template_directory;
 		$path[90] = CN_CUSTOM_TEMPLATE_PATH;
 
+		$path[999] = trailingslashit( CN_PATH . 'templates' );
+
 		$path = apply_filters( 'cn_locate_file_paths', $path );
 
 		// Sort the file paths based on priority.

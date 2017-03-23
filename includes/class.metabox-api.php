@@ -1085,7 +1085,7 @@ class cnMetabox_Render {
 							'before'   => '<div' . $class . $id . $style . '>',
 							'after'    => '</div>',
 						),
-						$value
+						$value = cnSanitize::string( 'textarea', $value )
 					);
 
 					break;

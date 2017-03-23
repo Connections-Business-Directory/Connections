@@ -278,7 +278,8 @@ class cnLocate {
 		$name = array_filter( $name );
 		$name = implode( '-', $name ) . '.' . $ext;
 
-		return strtolower( sanitize_file_name( $name ) );
+		//return strtolower( sanitize_file_name( $name ) );
+		return strtolower( $name );
 	}
 
 	/**

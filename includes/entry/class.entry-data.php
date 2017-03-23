@@ -4739,31 +4739,7 @@ class cnEntry {
 			require_once CN_PATH . 'includes/entry/class.entry-db.php';
 			$cnDb = new cnEntry_DB( $this->getId() );
 
-			$cnDb->upsert(
-				CN_ENTRY_ADDRESS_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'line_1'     => array( 'key' => 'line_1', 'format' => '%s' ),
-					'line_2'     => array( 'key' => 'line_2', 'format' => '%s' ),
-					'line_3'     => array( 'key' => 'line_3', 'format' => '%s' ),
-					'line_4'     => array( 'key' => 'line_4', 'format' => '%s' ),
-					'district'   => array( 'key' => 'district', 'format' => '%s' ),
-					'county'     => array( 'key' => 'county', 'format' => '%s' ),
-					'city'       => array( 'key' => 'city', 'format' => '%s' ),
-					'state'      => array( 'key' => 'state', 'format' => '%s' ),
-					'zipcode'    => array( 'key' => 'zipcode', 'format' => '%s' ),
-					'country'    => array( 'key' => 'country', 'format' => '%s' ),
-					'latitude'   => array( 'key' => 'latitude', 'format' => '%s' ),
-					'longitude'  => array( 'key' => 'longitude', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getAddresses( array(), TRUE, TRUE, 'db' ),
-				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' )
-				)
-			);
+			$this->addresses->save();
 
 			$cnDb->upsert(
 				CN_ENTRY_PHONE_TABLE,
@@ -5039,43 +5015,7 @@ class cnEntry {
 			require_once CN_PATH . 'includes/entry/class.entry-db.php';
 			$cnDb = new cnEntry_DB( $this->getId() );
 
-			/*
-			 * NOTE: The format of the lat/lng values must be set as a string.
-			 *
-			 * WordPress sanitizes the float number, making it safe to write to the database,
-			 * the default precision for a float of 14 is used which basically “caps” the decimal place to 6 digits.
-			 * It is actually a bit more complicated than that and I would have to delve deeper myself
-			 * to better understand myself. But the jist is floating point numbers are approximate representations
-			 * of real numbers and they are not exact.
-			 *
-			 * There’s actually no way to change that precision when telling WordPress to sanitize a float.
-			 * So the only solution is to tell WordPress it is a string and let the database deal with the conversion.
-			 * Since the table that stores the the lat/lng are setup as decimal (a real number :) ) with a
-			 * precision of 15 and a scale of 12, the lat/lng will not get rounded until the 12th decimal place.
-			 */
-
-			$cnDb->insert(
-				CN_ENTRY_ADDRESS_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'line_1'     => array( 'key' => 'line_1', 'format' => '%s' ),
-					'line_2'     => array( 'key' => 'line_2', 'format' => '%s' ),
-					'line_3'     => array( 'key' => 'line_3', 'format' => '%s' ),
-					'line_4'     => array( 'key' => 'line_4', 'format' => '%s' ),
-					'district'   => array( 'key' => 'district', 'format' => '%s' ),
-					'county'     => array( 'key' => 'county', 'format' => '%s' ),
-					'city'       => array( 'key' => 'city', 'format' => '%s' ),
-					'state'      => array( 'key' => 'state', 'format' => '%s' ),
-					'zipcode'    => array( 'key' => 'zipcode', 'format' => '%s' ),
-					'country'    => array( 'key' => 'country', 'format' => '%s' ),
-					'latitude'   => array( 'key' => 'latitude', 'format' => '%s' ),
-					'longitude'  => array( 'key' => 'longitude', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getAddresses( array(), TRUE, TRUE, 'db' )
-			);
+			$this->addresses->setEntryID( $this->getId() )->save();
 
 			$cnDb->insert(
 				CN_ENTRY_PHONE_TABLE,

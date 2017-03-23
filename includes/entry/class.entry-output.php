@@ -1153,8 +1153,6 @@ class cnOutput extends cnEntry {
 		                       ->escapeFor( 'display' )
 		                       ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
 
-		//$out = $this->addresses->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
-
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;

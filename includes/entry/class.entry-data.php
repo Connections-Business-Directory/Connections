@@ -4969,7 +4969,7 @@ class cnEntry {
 				'department'         => $this->department,
 				'contact_first_name' => $this->contactFirstName,
 				'contact_last_name'  => $this->contactLastName,
-				'addresses'          => $this->addresses,
+				//'addresses'          => $this->addresses,
 				'phone_numbers'      => $this->phoneNumbers,
 				'email'              => $this->emailAddresses,
 				'im'                 => $this->im,
@@ -5153,6 +5153,8 @@ class cnEntry {
 				),
 				$this->getDates( array(), TRUE, TRUE )
 			);
+
+			$this->updateObjectCaches();
 		}
 
 		do_action( 'cn_saved-entry', $this );

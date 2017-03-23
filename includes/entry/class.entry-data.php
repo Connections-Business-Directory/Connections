@@ -4879,7 +4879,6 @@ class cnEntry {
 		$dates = $this->getDates( array(), FALSE, TRUE );
 		$dates = json_decode( json_encode( $dates ), TRUE );
 
-		$this->addresses      = serialize( $addresses );
 		$this->phoneNumbers   = serialize( $phoneNumbers );
 		$this->emailAddresses = serialize( $emailAddresses );
 		$this->im             = serialize( $im );
@@ -4890,7 +4889,7 @@ class cnEntry {
 		$wpdb->update(
 			CN_ENTRY_TABLE,
 			array(
-				'addresses'     => $this->addresses,
+				'addresses'     => serialize( $addresses ),
 				'phone_numbers' => $this->phoneNumbers,
 				'email'         => $this->emailAddresses,
 				'im'            => $this->im,

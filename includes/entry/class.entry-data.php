@@ -4988,40 +4988,40 @@ class cnEntry {
 				'status'             => $this->status
 			),
 			array(
-				'%s',
-				'%d',
-				'%d',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%d',
-				'%d',
-				'%d',
-				'%d',
-				'%s'
+				'%s', // ts
+				'%d', // date_added
+				'%d', // ordo
+				'%s', // entry_type
+				'%s', // visibility
+				'%s', // slug
+				'%s', // family_name
+				'%s', // honorific_prefix
+				'%s', // first_name
+				'%s', // middle_name
+				'%s', // last_name
+				'%s', // honorific suffix
+				'%s', // title
+				'%s', // organization
+				'%s', // department
+				'%s', // contact_first_name
+				'%s', // contact_last_name
+				//'%s', // addresses
+				'%s', // phone_numbers
+				'%s', // email
+				'%s', // im
+				'%s', // social
+				'%s', // links
+				'%s', // dates
+				'%s', // birthday
+				'%s', // anniversary
+				'%s', // bio
+				'%s', // notes
+				'%s', // options
+				'%d', // added_by
+				'%d', // edited_by
+				'%d', // owner
+				'%d', // user
+				'%s'  // status
 			)
 		);
 

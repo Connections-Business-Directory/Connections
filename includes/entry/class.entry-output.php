@@ -1128,7 +1128,7 @@ class cnOutput extends cnEntry {
 		);
 
 		/**
-		 * All extensions to filter the method default and supplied args.
+		 * Allow extensions to filter the default and supplied args.
 		 *
 		 * @since 8.5.18
 		 */

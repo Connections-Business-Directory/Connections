@@ -726,7 +726,8 @@ class cnEntry {
 	 *
 	 * @uses   cnSanitize::field()
 	 *
-	 * @param string $context The context in which it should be sanitized. This method will eventually be declared as private.
+	 * @param string $context The context in which it should be sanitized. This method will eventually be declared as
+	 *                        private.
 	 *
 	 * @return string
 	 */
@@ -752,7 +753,9 @@ class cnEntry {
 	/**
 	 * Returns the first name.
 	 *
-	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 * Use @see cnEntry::getName() instead of calling this method directly.
+	 *
+	 * NOTE: This method will eventually be declared asprivate.
 	 *
 	 * @access private
 	 * @since  unknown
@@ -787,7 +790,9 @@ class cnEntry {
 	/**
 	 * Returns the middle name.
 	 *
-	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 * Use @see cnEntry::getName() instead of calling this method directly.
+	 *
+	 * NOTE: This method will eventually be declared as private.
 	 *
 	 * @access private
 	 * @since  unknown
@@ -822,7 +827,9 @@ class cnEntry {
 	/**
 	 * Returns the last name.
 	 *
-	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 * Use @see cnEntry::getName() instead of calling this method directly.
+	 *
+	 * NOTE: This method will eventually be declared as private.
 	 *
 	 * @access private
 	 * @since  unknown
@@ -857,7 +864,9 @@ class cnEntry {
 	/**
 	 * Returns the entry's name suffix.
 	 *
-	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 * Use @see cnEntry::getName() instead of calling this method directly.
+	 *
+	 * NOTE: This method will eventually be declared as private.
 	 *
 	 * @access private
 	 * @since  unknown
@@ -1103,7 +1112,9 @@ class cnEntry {
 	/**
 	 * Get the contact first name.
 	 *
-	 * Use @see cnEntry::getContactName() instead of calling this method directly. This method will eventually be declared as private.
+	 * Use @see cnEntry::getContactName() instead of calling this method directly.
+	 *
+	 * NOTE: This method will eventually be declared as private.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -1138,7 +1149,9 @@ class cnEntry {
 	/**
 	 * Get the contact last name.
 	 *
-	 * Use @see cnEntry::getContactName() instead of calling this method directly. This method will eventually be declared as private.
+	 * Use @see cnEntry::getContactName() instead of calling this method directly.
+	 *
+	 * NOTE: This method will eventually be declared as private.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -1173,7 +1186,8 @@ class cnEntry {
 	/**
 	 * Get the family name.
 	 *
-	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as private.
+	 * Use @see cnEntry::getName() instead of calling this method directly. This method will eventually be declared as
+	 * private.
 	 *
 	 * @access private
 	 * @since  unknown
@@ -1706,9 +1720,11 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
+	 *
 	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached phone numbers data rather than querying the db.
 	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
+	 *
 	 * @return array
 	 */
 	public function getPhoneNumbers( $atts = array(), $cached = TRUE, $saving = FALSE ) {
@@ -2009,9 +2025,11 @@ class cnEntry {
 	 * @access public
 	 * @since 0.7.3
 	 * @version 1.0
+	 *
 	 * @param array   $atts 		Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
 	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
+	 *
 	 * @return array
 	 */
 	public function getEmailAddresses( $atts = array(), $cached = TRUE, $saving = FALSE ) {
@@ -2280,8 +2298,9 @@ class cnEntry {
 	 *  cn_messenger_ids => (array) All phone numbers before it is returned.
 	 *
 	 * @access public
-	 * @since 0.7.3
+	 * @since  0.7.3
 	 * @version 1.0
+	 *
 	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
 	 * @param bool    $saving       Whether or no the data is being saved to the db.
@@ -2594,8 +2613,9 @@ class cnEntry {
 	 *  cn_social_networks => (array) All phone numbers before it is returned.
 	 *
 	 * @access public
-	 * @since 0.7.3
+	 * @since  0.7.3
 	 * @version 1.0
+	 *
 	 * @param array   $atts         Accepted values as noted above.
 	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
 	 * @param bool    $saving       Whether or no the data is being saved to the db.
@@ -2871,6 +2891,7 @@ class cnEntry {
 	 *     @type bool  $logo      Return only the link that was assigned to the logo.
 	 *                            Default: FALSE
 	 * }
+	 *
 	 * @param bool  $cached Returns the cached link data rather than querying the db.
 	 * @param bool  $saving Whether or no the data is being saved to the db.
 	 *
@@ -3629,9 +3650,9 @@ class cnEntry {
 
 	/**
 	 * Get the entry's anniversary. If formatted with the year, the year will be the year of the next upcoming
-	 * year of the anniversary. For example, if the month and day of the anniversary date has not yet passed the current date,
-	 * the current year will be returned. If the month and day of the anniversary date has passed the current date, the
-	 * next year will be returned.
+	 * year of the anniversary. For example, if the month and day of the anniversary date has not yet passed the
+	 * current date, the current year will be returned. If the month and day of the anniversary date has passed the
+	 * current date, the next year will be returned.
 	 *
 	 * @access public
 	 * @since  unknown
@@ -4360,7 +4381,9 @@ class cnEntry {
 	 * @uses   cnImage::get()
 	 * @uses   WP_Error
 	 * @uses   is_wp_error()
+	 *
 	 * @param  array  $atts
+	 *
 	 * @return mixed array|WP_Error
 	 */
 	public function getImageMeta( $atts = array() ) {

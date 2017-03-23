@@ -4674,7 +4674,7 @@ class cnEntry {
 				'family_name'        => $this->familyName,
 				'birthday'           => $this->birthday,
 				'anniversary'        => $this->anniversary,
-				'addresses'          => $this->addresses,
+				//'addresses'          => $this->addresses,
 				'phone_numbers'      => $this->phoneNumbers,
 				'email'              => $this->emailAddresses,
 				'im'                 => $this->im,

@@ -592,7 +592,7 @@ class cnEntry {
 	 */
 	public function getPermalink() {
 
-		return cnURL::permalink(
+		$permalink = cnURL::permalink(
 			array(
 				'type'       => 'name',
 				'slug'       => $this->getSlug(),
@@ -602,6 +602,8 @@ class cnEntry {
 				'return'     => TRUE,
 			)
 		);
+
+		return apply_filters( 'cn_entry_permalink', $permalink, $this );
 	}
 
 	/**

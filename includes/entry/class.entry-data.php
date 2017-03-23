@@ -104,11 +104,9 @@ class cnEntry {
 	private $familyName = '';
 
 	/**
-	 * Associative array of addresses
-	 *
-	 * @var string
+	 * @var cnEntry_Addresses
 	 */
-	private $addresses = '';
+	public $addresses = '';
 
 	/**
 	 * Associative array of phone numbers
@@ -354,7 +352,7 @@ class cnEntry {
 			if ( isset( $entry->department ) ) $this->department = $entry->department;
 			if ( isset( $entry->family_name ) ) $this->familyName = $entry->family_name;
 
-			if ( isset( $entry->addresses ) ) $this->addresses = $entry->addresses;
+			$this->addresses = isset( $entry->addresses ) ? new cnEntry_Addresses( $this->getId(), $entry->addresses ) : new cnEntry_Addresses( $this->getId() );
 			if ( isset( $entry->phone_numbers ) ) $this->phoneNumbers = $entry->phone_numbers;
 			if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
 			if ( isset( $entry->im ) ) $this->im = $entry->im;
@@ -414,6 +412,10 @@ class cnEntry {
 			// Move any legacy images and logo, pre 8.1, to the new folder structure.
 			$this->processLegacyImages( $this->getImageNameOriginal() );
 			$this->processLegacyLogo( $this->getLogoName() );
+
+		} else {
+
+			$this->addresses = new cnEntry_Addresses();
 		}
 	}
 
@@ -1306,18 +1308,6 @@ class cnEntry {
 	 */
 	public function getAddresses( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		$addressTypes = $instance->options->getDefaultAddressValues();
-		$results = array();
-
-		$atts = apply_filters( 'cn_address_atts', $atts );
-		$cached = apply_filters( 'cn_address_cached' , $cached );
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred'   => FALSE,
 			'type'        => array(),
@@ -1332,233 +1322,31 @@ class cnEntry {
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		if ( $cached ) {
 
-			if ( ! empty( $this->addresses ) ) {
-
-				$addresses = @unserialize( $this->addresses );
-				if ( empty( $addresses ) || ! is_array( $addresses ) ) return $results;
-
-				/**
-				 * @var bool         $preferred
-				 * @var array|string $type
-				 * @var array|string $district
-				 * @var array|string $county
-				 * @var array|string $city
-				 * @var array|string $state
-				 * @var array|string $zipcode
-				 * @var array|string $country
-				 * @var array        $coordinates
-				 */
-				extract( $atts );
-
-				/*
-				 * Covert these to values to an array if they were supplied as a comma delimited string
-				 */
-				cnFunction::parseStringList( $type );
-				cnFunction::parseStringList( $district );
-				cnFunction::parseStringList( $county );
-				cnFunction::parseStringList( $city );
-				cnFunction::parseStringList( $state );
-				cnFunction::parseStringList( $zipcode );
-				cnFunction::parseStringList( $country );
-
-				foreach ( $addresses as $key => $address ) {
-
-					if ( empty( $address ) ) continue;
-
-					/*
-					 * Previous versions stored empty arrays for addresses, check for them, continue if found.
-					 * NOTE: Checking only the fields available in the previous versions.
-					 */
-					if ( empty( $address['line_1'] ) &&
-						empty( $address['line_2'] ) &&
-						empty( $address['address_line1'] ) &&
-						empty( $address['address_line2'] ) &&
-						empty( $address['city'] ) &&
-						empty( $address['state'] ) &&
-						empty( $address['zipcode'] ) &&
-						empty( $address['country'] ) &&
-						empty( $address['latitude'] ) &&
-						empty( $address['longitude'] ) ) continue;
-
-					/**
-					 * Allow plugins to filter raw data before object is setup.
-					 *
-					 * @since 8.5.19
-					 *
-					 * @param array $address
-					 */
-					$address = apply_filters( 'cn_address-pre_setup', $address );
-
-					$row = new stdClass();
-
-					$row->id         = isset( $address['id'] ) ? (int) $address['id'] : 0;
-					$row->order      = isset( $address['order'] ) ? (int) $address['order'] : 0;
-					$row->preferred  = isset( $address['preferred'] ) ? (bool) $address['preferred'] : FALSE;
-					$row->type       = isset( $address['type'] ) ? cnSanitize::field( 'attribute', $address['type'], $context ) : '';
-					$row->line_1     = isset( $address['line_1'] ) ? cnSanitize::field( 'street', $address['line_1'], $context ) : '';
-					$row->line_2     = isset( $address['line_2'] ) ? cnSanitize::field( 'street', $address['line_2'], $context ) : '';
-					$row->line_3     = isset( $address['line_3'] ) ? cnSanitize::field( 'street', $address['line_3'], $context ) : '';
-					$row->line_4     = isset( $address['line_4'] ) ? cnSanitize::field( 'street', $address['line_4'], $context ) : '';
-					$row->district   = isset( $address['district'] ) ? cnSanitize::field( 'district', $address['district'], $context ) : '';
-					$row->county     = isset( $address['county'] ) ? cnSanitize::field( 'county', $address['county'], $context ) : '';
-					$row->city       = isset( $address['city'] ) ? cnSanitize::field( 'locality', $address['city'], $context ) : '';
-					$row->state      = isset( $address['state'] ) ? cnSanitize::field( 'region', $address['state'], $context ) : '';
-					$row->zipcode    = isset( $address['zipcode'] ) ? cnSanitize::field( 'postal-code', $address['zipcode'], $context ) : '';
-					$row->country    = isset( $address['country'] ) ? cnSanitize::field( 'country', $address['country'] ) : '';
-					$row->latitude   = isset( $address['latitude'] ) ? number_format( (float) $address['latitude'], 12 ) : NULL;
-					$row->longitude  = isset( $address['longitude'] ) ? number_format( (float) $address['longitude'], 12 ) : NULL;
-					$row->visibility = isset( $address['visibility'] ) ? cnSanitize::field( 'attribute', $address['visibility'], $context ) : '';
-
-					/*
-					 * Set the address name based on the address type.
-					 */
-					// Some previous versions did set the address type, so set the type to 'other'.
-					if ( empty( $row->type ) || ! isset( $addressTypes[ $row->type ] ) ) $row->type = 'other';
-
-					// Recent previous versions set the type to the Select string from the drop down, so set the name to 'Other'.
-					$row->name = ! isset( $addressTypes[ $row->type ] ) || $addressTypes[ $row->type ] == 'Select' ? 'Other' : $addressTypes[ $row->type ];
-
-					/*
-					 * // START -- Compatibility for previous versions.
-					 */
-					if ( isset( $address['address_line1'] ) && ! empty( $address['address_line1'] ) ) $row->line_1 = cnSanitize::field( 'street', $address['address_line1'], $context );
-					if ( isset( $address['address_line2'] ) && ! empty( $address['address_line2'] ) ) $row->line_2 = cnSanitize::field( 'street', $address['address_line2'], $context );
-
-					$row->line_one   =& $row->line_1;
-					$row->line_two   =& $row->line_2;
-					$row->line_three =& $row->line_3;
-
-					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
-					if ( ! isset( $address['visibility'] ) || empty( $address['visibility'] ) ) $row->visibility = 'public';
-					/*
-					 * // END -- Compatibility for previous versions.
-					 */
-
-					/*
-					 * // START -- Do not return addresses that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					if ( ! empty( $district ) && ! in_array( $row->district, $district ) ) continue;
-					if ( ! empty( $county ) && ! in_array( $row->county, $county ) ) continue;
-					if ( ! empty( $city ) && ! in_array( $row->city, $city ) ) continue;
-					if ( ! empty( $state ) && ! in_array( $row->state, $state ) ) continue;
-					if ( ! empty( $zipcode ) && ! in_array( $row->zipcode, $zipcode ) ) continue;
-					if ( ! empty( $country ) && ! in_array( $row->country, $country ) ) continue;
-					/*
-					 * // END -- Do not return addresses that do not match the supplied $atts.
-					 */
-
-					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					/**
-					 * An address object.
-					 *
-					 * @since unknown
-					 *
-					 * @param object $row {
-					 *     @type int    $id         The address ID if it was retrieved from the db.
-					 *     @type bool   $preferred  Whether the address is the preferred address or not.
-					 *     @type string $type       The address type.
-					 *     @type string $line_1     Address line 1.
-					 *     @type string $line_2     Address line 2.
-					 *     @type string $line_3     Address line 3.
-					 *     @type string $line_4     Address line 4.
-					 *     @type string $district   The address district.
-					 *     @type string $county     The address county.
-					 *     @type string $city       The address locality.
-					 *     @type string $state      The address region.
-					 *     @type string $country    The address country.
-					 *     @type float  $latitude   The address latitude.
-					 *     @type float  $longitude  The address longitude.
-					 *     @type string $visibility The address visibility.
-					 * }
-					 */
-					$results[] = apply_filters( 'cn_address', $row );
-				}
-
-				/*
-				 * Limit the number of results.
-				 */
-				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
-
-					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
-				}
-
-			}
+			$results = $this->addresses->filterBy( 'type', $atts['type'] )
+			                           ->filterBy( 'district', $atts['district'] )
+			                           ->filterBy( 'county', $atts['county'] )
+			                           ->filterBy( 'city', $atts['city'] )
+			                           ->filterBy( 'state', $atts['state'] )
+			                           ->filterBy( 'zipcode', $atts['zipcode'] )
+			                           ->filterBy( 'country', $atts['country'] )
+			                           ->filterBy( 'preferred', $atts['preferred'] )
+			                           ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+			                           ->escapeFor( $context )
+			                           ->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			// Exit right away and return an empty array if the entry ID has not been set otherwise all addresses will be returned by the query.
-			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
+			if ( $saving ) $atts['visibility'] = array( 'public', 'private', 'unlisted' );
 
-			$addresses = $instance->retrieve->addresses( $atts, $saving );
-
-			if ( empty( $addresses ) ) return $results;
-
-			foreach ( $addresses as $address ) {
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$address = apply_filters( 'cn_address-pre_setup', $address );
-
-				$address->id         = (int) $address->id;
-				$address->order      = (int) $address->order;
-				$address->preferred  = (bool) $address->preferred;
-				$address->type       = cnSanitize::field( 'attribute', $address->type, $context );
-				$address->line_1     = cnSanitize::field( 'street', $address->line_1, $context );
-				$address->line_2     = cnSanitize::field( 'street', $address->line_2, $context );
-				$address->line_3     = cnSanitize::field( 'street', $address->line_3, $context );
-				$address->line_4     = cnSanitize::field( 'street', $address->line_4, $context );
-				$address->district   = cnSanitize::field( 'district', $address->district, $context );
-				$address->county     = cnSanitize::field( 'county', $address->county, $context );
-				$address->city       = cnSanitize::field( 'locality', $address->city, $context );
-				$address->state      = cnSanitize::field( 'region', $address->state, $context );
-				$address->zipcode    = cnSanitize::field( 'postal-code', $address->zipcode, $context );
-				$address->country    = cnSanitize::field( 'country', $address->country, $context );
-				$address->latitude   = empty( $address->latitude ) ? NULL : number_format( (float) $address->latitude, 12 );
-				$address->longitude  = empty( $address->longitude )? NULL : number_format( (float) $address->longitude, 12 );
-				$address->visibility = cnSanitize::field( 'attribute', $address->visibility, $context );
-
-				/*
-				 * Set the address name based on the address type.
-				 */
-				$address->name = ( ! isset( $addressTypes[ $address->type ] ) || $addressTypes[ $address->type ] === 'Select' ) ? 'Other' : $addressTypes[ $address->type ];
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				$address->line_one   =& $address->line_1;
-				$address->line_two   =& $address->line_2;
-				$address->line_three =& $address->line_3;
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/**
-				 * This filter is documented in @see cnEntry::getAddresses().
-				 */
-				$results[] = apply_filters( 'cn_address', $address );
-			}
-
+			$results = $this->addresses->query( $atts )
+			                           ->escapeFor( $context )
+			                           ->getCollectionAsObjects();
 		}
 
-		/**
-		 * An index array of address objects.
-		 *
-		 * @since unknown
-		 *
-		 * @param array $results. See the documentation for the `cn_address` filter for the params of each item in the
-		 *                        addresses array.
-		 */
-		return apply_filters( 'cn_addresses', $results );
+		return $results;
 	}
 
 	/**
@@ -1567,7 +1355,8 @@ class cnEntry {
 	 * @access public
 	 * @since  0.7.3
 	 *
-	 * @param array  $addresses {
+	 * @param array     $data       {
+	 *
 	 *     @type int    $id         The address ID if it was retrieved from the db.
 	 *     @type bool   $preferred  Whether the address is the preferred address or not.
 	 *     @type string $type       The address type.
@@ -1584,118 +1373,14 @@ class cnEntry {
 	 *     @type float  $longitude  The address longitude.
 	 *     @type string $visibility The address visibility.
 	 * }
-	 * @param string $context The context in which it should be sanitized.
+	 *
+	 * @param string    $context    The context in which it should be sanitized.
 	 *
 	 * @return void
 	 */
-	public function setAddresses( $addresses, $context = 'db' ) {
+	public function setAddresses( $data, $context = 'db' ) {
 
-		$userPreferred = NULL;
-
-		$validFields = array(
-			'id'         => NULL,
-			'preferred'  => NULL,
-			'type'       => NULL,
-			'line_1'     => NULL,
-			'line_2'     => NULL,
-			'line_3'     => NULL,
-			'line_4'     => NULL,
-			'district'   => NULL,
-			'city'       => NULL,
-			'county'     => NULL,
-			'state'      => NULL,
-			'zipcode'    => NULL,
-			'country'    => NULL,
-			'latitude'   => NULL,
-			'longitude'  => NULL,
-			'visibility' => NULL
-		);
-
-		if ( ! empty( $addresses ) ) {
-
-			//print_r($addresses);
-			$order = 0;
-			$preferred = '';
-
-			if ( isset( $addresses['preferred'] ) ) {
-				$preferred = $addresses['preferred'];
-				unset( $addresses['preferred'] );
-			}
-
-			foreach ( $addresses as $key => $address ) {
-
-				// Permit only the valid fields.
-				$addresses[ $key ] = cnSanitize::args( $address, $validFields );
-
-				// Sanitize the address text fields.
-				$addresses[ $key ]['line_1']   = cnSanitize::field( 'street', $addresses[ $key ]['line_1'], $context );
-				$addresses[ $key ]['line_2']   = cnSanitize::field( 'street', $addresses[ $key ]['line_2'], $context );
-				$addresses[ $key ]['line_3']   = cnSanitize::field( 'street', $addresses[ $key ]['line_3'], $context );
-				$addresses[ $key ]['line_4']   = cnSanitize::field( 'street', $addresses[ $key ]['line_4'], $context );
-				$addresses[ $key ]['district'] = cnSanitize::field( 'district', $addresses[ $key ]['district'], $context );
-				$addresses[ $key ]['county']   = cnSanitize::field( 'county', $addresses[ $key ]['county'], $context );
-				$addresses[ $key ]['city']     = cnSanitize::field( 'locality', $addresses[ $key ]['city'], $context );
-				$addresses[ $key ]['state']    = cnSanitize::field( 'region', $addresses[ $key ]['state'], $context );
-				$addresses[ $key ]['zipcode']  = cnSanitize::field( 'postal-code', $addresses[ $key ]['zipcode'], $context );
-				$addresses[ $key ]['country']  = cnSanitize::field( 'country', $addresses[ $key ]['country'], $context );
-
-				// Store the order attribute as supplied in the addresses array.
-				$addresses[ $key ]['order'] = $order;
-
-				$addresses[ $key ]['preferred'] = isset( $preferred ) && $preferred == $key ? TRUE : FALSE;
-
-				/*
-				 * If the user set a preferred address, save the $key value.
-				 * This is going to be needed because if an address that the user
-				 * does not have permission to edit is set to preferred, that address
-				 * will have preference.
-				 */
-				if ( $addresses[ $key ]['preferred'] ) $userPreferred = $key;
-
-				$addresses[ $key ] = apply_filters( 'cn_set_address', $addresses[ $key ] );
-
-				$order++;
-			}
-		}
-
-		/*
-		 * Before storing the data, add back into the array from the cache the addresses
-		 * the user may not have had permission to edit so the cache stays current.
-		 */
-		$cached = unserialize( $this->addresses );
-
-		if ( ! empty( $cached ) ) {
-
-			foreach ( $cached as $address ) {
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( ! isset( $address['visibility'] ) || empty( $address['visibility'] ) ) $address['visibility'] = 'public';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$address = apply_filters( 'cn_address-pre_setup', $address );
-
-				if ( ! $this->validate->userPermitted( $address['visibility'] ) ) {
-
-					$addresses[] = $address;
-
-					// If the address is preferred, it takes precedence, the user's choice is overridden.
-					if ( ! empty( $preferred ) && $address['preferred'] ) {
-
-						$addresses[ $userPreferred ]['preferred'] = FALSE;
-
-						// Throw the user a message so they know why their choice was overridden.
-						cnMessage::set( 'error', 'entry_preferred_overridden_address' );
-					}
-				}
-			}
-		}
-
-		$this->addresses = ! empty( $addresses ) ? serialize( apply_filters( 'cn_set_addresses', $addresses ) ) : '';
+		$this->addresses->updateFromArray( $data );
 	}
 
 	/**

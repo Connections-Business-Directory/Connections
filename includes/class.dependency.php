@@ -219,7 +219,7 @@ class cnDependency {
 			'cnThumb'                  => 'includes/shortcode/class.shortcode-thumbnail.php',
 			'cnThumb_Responsive'       => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
 
-			// Register the query vars, rewrite URL/s and conanical redirects.
+			// Register the query vars, rewrite URL/s and canonical redirects.
 			'cnRewrite'                => 'includes/class.rewrite.php',
 
 			// Settings API.

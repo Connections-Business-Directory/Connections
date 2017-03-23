@@ -4692,37 +4692,37 @@ class cnEntry {
 				'id' => $this->id
 			),
 			array(
-				'%s',
-				'%d',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%s',
-				'%d',
-				'%d',
-				'%s',
+				'%s', // ts
+				'%d', // ordo
+				'%s', // entry_type
+				'%s', // visibility
+				'%s', // slug
+				'%s', // honorific_prefix
+				'%s', // first_name
+				'%s', // middle_name
+				'%s', // last_name
+				'%s', // honorific_suffix
+				'%s', // title
+				'%s', // organization
+				'%s', // department
+				'%s', // contact_first_name
+				'%s', // contact_last_name
+				'%s', // family_name
+				'%s', // birthday
+				'%s', // anniversary
+				//'%s', // addresses
+				'%s', // phone_numbers
+				'%s', // email
+				'%s', // im
+				'%s', // social
+				'%s', // links
+				'%s', // dates
+				'%s', // options
+				'%s', // bio
+				'%s', // notes
+				'%d', // edited_by
+				'%d', // user
+				'%s', // status
 			),
 			array(
 				'%d'

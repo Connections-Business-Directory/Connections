@@ -41,7 +41,13 @@ class cnSEO {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function hooks() {
+
+		// Bail if in admin.
+		if ( is_admin() ) {
+
+			return;
+		}
 
 		// Update the post dates to reflect the dates of the entry.
 		add_action( 'the_posts', array( __CLASS__, 'postDates'), 10, 2 );
@@ -69,8 +75,11 @@ class cnSEO {
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 
 		// Filter the meta title to reflect the current Connections filter.
-		// User priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
+		// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
 		add_filter( 'wp_title', array( __CLASS__, 'filterMetaTitle' ), 20, 3 );
+		// Required for WP >= 4.4 and Yoast SEO.
+		// Uses priority 20 because WordPress SEO by Yoast uses priority 15. This filter should run after.
+		add_filter( 'wpseo_title', array( __CLASS__, 'filterMetaTitle' ), 20 );
 
 		// Filter the page title to reflect the current Connection filter.
 		add_filter( 'the_title', array( __CLASS__, 'filterPostTitle' ), 10, 2 );
@@ -749,6 +758,3 @@ class cnSEO {
 	}
 
 }
-
-// Init the class.
-add_action( 'init', array( 'cnSEO' , 'init' ) );

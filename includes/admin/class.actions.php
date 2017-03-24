@@ -94,9 +94,6 @@ class cnAdminActions {
 		// Entry Meta Action
 		add_action( 'cn_process_meta-entry', array( __CLASS__, 'processEntryMeta' ), 9, 2 );
 
-		// Entry Filters
-		add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) ); // Geocode the address using Google Geocoding API.
-
 		// Save the user's manage admin page actions.
 		add_action( 'cn_manage_actions', array( __CLASS__, 'entryManagement' ) );
 		add_action( 'cn_filter', array( __CLASS__, 'userFilter' ) );
@@ -1385,7 +1382,6 @@ class cnAdminActions {
 					break;
 			}
 
-
 		} else {
 
 			cnMessage::set( 'error', 'capability_edit' );
@@ -2009,7 +2005,6 @@ class cnAdminActions {
 
 			check_admin_referer( $form->getNonce( 'update_role_settings' ), '_cn_wpnonce' );
 
-
 			if ( isset( $_POST['roles'] ) ) {
 
 				// Cycle thru each role available because checkboxes do not report a value when not checked.
@@ -2037,7 +2032,6 @@ class cnAdminActions {
 			if ( isset( $_POST['reset_all'] ) ) cnRole::reset();
 
 			cnMessage::set( 'success', 'role_settings_updated' );
-
 
 			wp_redirect( get_admin_url( get_current_blog_id(), 'admin.php?page=connections_roles' ) );
 			exit();

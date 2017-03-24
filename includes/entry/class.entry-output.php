@@ -751,6 +751,12 @@ class cnOutput extends cnEntry {
 
 				if ( $relation->set( $relationData['entry_id'] ) ) {
 
+					// Ensure the use can only see relationships based on relations status and visibility.
+					if ( 'approved' != $relation->getStatus() || ! cnValidate::userPermitted( $relation->getVisibility() ) ) {
+
+						continue;
+					}
+
 					$replace[] = $instance->options->getFamilyRelation( $relationData['relation'] );
 
 					$replace[] = cnURL::permalink(
@@ -1122,7 +1128,7 @@ class cnOutput extends cnEntry {
 		);
 
 		/**
-		 * All extensions to filter the method default and supplied args.
+		 * Allow extensions to filter the default and supplied args.
 		 *
 		 * @since 8.5.18
 		 */
@@ -1134,232 +1140,18 @@ class cnOutput extends cnEntry {
 		$atts['link'] = cnSanitize::args( $atts['link'], $defaults['link'] );
 		$atts['id']   = $this->getId();
 
-		$out       = '';
-		$addresses = $this->getAddresses( $atts, $cached );
-		$search    = array(
-			'%label%',
-			'%line1%',
-			'%line2%',
-			'%line3%',
-			'%line4%',
-			'%district%',
-			'%county%',
-			'%city%',
-			'%state%',
-			'%zipcode%',
-			'%country%',
-			'%geo%',
-			'%separator%'
-		);
-
-		if ( empty( $addresses ) ) return '';
-
-		$out .= '<span class="address-block">' . PHP_EOL;
-
-		foreach ( $addresses as $address ) {
-			$replace = array();
-
-			$out .= '<span class="adr cn-address' . ( $address->preferred ? ' cn-preferred cn-address-preferred' : '' ) . '">' . PHP_EOL;
-
-			// The `notranslate` class is added to prevent Google Translate from translating the text.
-			$replace[] = empty( $address->name ) ? '' : '<span class="address-name">' . $address->name . '</span>' . PHP_EOL;
-			$replace[] = empty( $address->line_1 ) ? '' : '<span class="street-address notranslate">' . $address->line_1 . '</span>' . PHP_EOL;
-			$replace[] = empty( $address->line_2 ) ? '' : '<span class="street-address notranslate">' . $address->line_2 . '</span>' . PHP_EOL;
-			$replace[] = empty( $address->line_3 ) ? '' : '<span class="street-address notranslate">' . $address->line_3 . '</span>' . PHP_EOL;
-			$replace[] = empty( $address->line_4 ) ? '' : '<span class="street-address notranslate">' . $address->line_4 . '</span>' . PHP_EOL;
-
-			if ( 0 == strlen( $address->district ) ) {
-
-				$replace[] = '';
-
-			} else {
-
-				if ( $atts['link']['district'] ) {
-
-					$district = cnURL::permalink(
-						array(
-							'type'       => 'district',
-							'slug'       => $address->district,
-							'title'      => $address->district,
-							'text'       => $address->district,
-							'home_id'    => $this->directoryHome['page_id'],
-							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
-						)
-					);
-
-				} else {
-
-					$district = $address->district;
-				}
-
-				$replace[] = '<span class="district notranslate">' . $district . '</span>' . PHP_EOL;
-
-			}
-
-			if ( 0 == strlen( $address->county ) ) {
-
-				$replace[] = '';
-
-			} else {
-
-				if ( $atts['link']['county'] ) {
-
-					$county = cnURL::permalink(
-						array(
-							'type'       => 'county',
-							'slug'       => $address->county,
-							'title'      => $address->county,
-							'text'       => $address->county,
-							'home_id'    => $this->directoryHome['page_id'],
-							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
-						)
-					);
-
-				} else {
-
-					$county = $address->county;
-				}
-
-				$replace[] = '<span class="county notranslate">' . $county . '</span>' . PHP_EOL;
-
-			}
-
-			if ( empty( $address->city ) ) {
-
-				$replace[] = '';
-
-			} else {
-
-				if ( $atts['link']['locality'] ) {
-
-					$locality = cnURL::permalink( array(
-							'type'       => 'locality',
-							'slug'       => $address->city,
-							'title'      => $address->city,
-							'text'       => $address->city,
-							'home_id'    => $this->directoryHome['page_id'],
-							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
-						)
-					);
-
-				} else {
-
-					$locality = $address->city;
-				}
-
-				$replace[] = '<span class="locality">' . $locality . '</span>' . PHP_EOL;
-
-			}
-
-			if ( empty( $address->state ) ) {
-
-				$replace[] = '';
-
-			} else {
-
-				if ( $atts['link']['region'] ) {
-
-					$region = cnURL::permalink( array(
-							'type'       => 'region',
-							'slug'       => $address->state,
-							'title'      => $address->state,
-							'text'       => $address->state,
-							'home_id'    => $this->directoryHome['page_id'],
-							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
-						)
-					);
-
-				} else {
-
-					$region = $address->state;
-				}
-
-				$replace[] = '<span class="region">' . $region . '</span>' . PHP_EOL;
-
-			}
-
-			if ( empty( $address->zipcode ) ) {
-
-				$replace[] = '';
-
-			} else {
-
-				if ( $atts['link']['postal_code'] ) {
-
-					$postal = cnURL::permalink( array(
-							'type'       => 'postal_code',
-							'slug'       => $address->zipcode,
-							'title'      => $address->zipcode,
-							'text'       => $address->zipcode,
-							'home_id'    => $this->directoryHome['page_id'],
-							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
-						)
-					);
-
-				} else {
-
-					$postal = $address->zipcode;
-				}
-
-				$replace[] = '<span class="postal-code">' . $postal . '</span>' . PHP_EOL;
-
-			}
-
-			if ( empty( $address->country ) ) {
-
-				$replace[] = '';
-
-			} else {
-
-				if ( $atts['link']['country'] ) {
-
-					$country = cnURL::permalink( array(
-							'type'       => 'country',
-							'slug'       => $address->country,
-							'title'      => $address->country,
-							'text'       => $address->country,
-							'home_id'    => $this->directoryHome['page_id'],
-							'force_home' => $this->directoryHome['force_home'],
-							'return'     => TRUE
-						)
-					);
-
-				} else {
-
-					$country = $address->country;
-				}
-
-				$replace[] = '<span class="country-name">' . $country . '</span>' . PHP_EOL;
-
-			}
-
-			if ( ! empty( $address->latitude ) || ! empty( $address->longitude ) ) {
-				$replace[] = '<span class="geo">' .
-					( empty( $address->latitude ) ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . __( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
-					( empty( $address->longitude ) ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . __( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
-					'</span>' . PHP_EOL;
-			}
-
-			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>' . PHP_EOL;
-
-			$out .= str_ireplace(
-				$search,
-				$replace,
-				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label% %line1% %line2% %line3% %line4% %district% %county% %city% %state%  %zipcode% %country%' : $defaults['format'] ) : $atts['format']
-			);
-
-			// Set the hCard Address Type.
-			$out .= $this->gethCardAdrType( $address->type );
-
-			$out .= '</span>' . PHP_EOL;
-		}
-
-		$out .= '</span>' . PHP_EOL;
+		$out = $this->addresses->filterBy( 'type', $atts['type'] )
+		                       ->filterBy( 'district', $atts['district'] )
+		                       ->filterBy( 'county', $atts['county'] )
+		                       ->filterBy( 'city', $atts['city'] )
+		                       ->filterBy( 'state', $atts['state'] )
+		                       ->filterBy( 'zipcode', $atts['zipcode'] )
+		                       ->filterBy( 'country', $atts['country'] )
+		                       ->filterBy( 'preferred', $atts['preferred'] )
+		                       ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+		                       ->take( $atts['limit'] )
+		                       ->escapeFor( 'display' )
+		                       ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
 
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
@@ -2710,6 +2502,7 @@ class cnOutput extends cnEntry {
 			'after'            => '',
 			'link'             => FALSE,
 			'parents'          => FALSE,
+			'child_of'         => 0,
 			'return'           => FALSE,
 		);
 
@@ -2723,7 +2516,7 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_category', $defaults )
 		);
 
-		$categories = $this->getCategory();
+		$categories = $this->getCategory( array( 'child_of' => $atts['child_of'] ) );
 		$count      = count( $categories );
 		$html       = '';
 		$label      = '';

@@ -86,7 +86,7 @@ class cnSanitize {
 
 			case 'textarea':
 
-				$string = esc_textarea( $string );
+				$string = trim( wp_unslash( $string ) );
 				break;
 
 			case 'quicktag':

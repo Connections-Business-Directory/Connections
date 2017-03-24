@@ -3822,6 +3822,29 @@ class cnTerm {
 	}
 
 	/**
+	 * Count how many terms are in Taxonomy.
+	 *
+	 * Default $args is 'hide_empty' which can be 'hide_empty=true' or array('hide_empty' => true).
+	 *
+	 * @since 8.5.34
+	 *
+	 * @param string       $taxonomy Taxonomy name.
+	 * @param array|string $args     Optional. Array of arguments that get passed to cnTerm::getTaxonomyTerms().
+	 *                               Default: array()
+	 *
+	 * @return array|int|WP_Error Number of terms in that taxonomy or WP_Error if the taxonomy does not exist.
+	 */
+	public static function count( $taxonomy, $args = array() ) {
+
+		$defaults = array( 'hide_empty' => FALSE );
+		$args     = wp_parse_args( $args, $defaults );
+
+		$args['fields'] = 'count';
+
+		return self::getTaxonomyTerms( $taxonomy, $args );
+	}
+
+	/**
 	 * Build an array of ancestor IDs for a given object.
 	 *
 	 * Filters:

@@ -2,9 +2,9 @@
 Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
-Requires at least: 4.3
+Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 8.5.32
+Stable tag: 8.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -229,6 +229,52 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 == Changelog ==
+
+= 8.6 03/24/2017 =
+* NEW: Introduce `wp_doing_ajax()` which was introduced in WordPress 4.7 so it is accessible in older version of WordPress.
+* NEW: Introduce cnTerm::count().
+* NEW: Introduce cnArray.
+* NEW: Introduce cnToArray and cnCollection.
+* NEW: Introduce cnAddress, cnCountry and cnCoordinates.
+* NEW: Introduce cnEntry_Addresses.
+* NEW: Introduce cnUser::canView() and cnUser::canNotView().
+* NEW: Introduce the `cn_entry_permalink` filter.
+* TWEAK: Do not register shortcodes during admin ajax requests.
+* TWEAK: Add newForwardGeroCoder=false as parameter when initiating the Google maps geocoder in jQuery.goMap().
+* TWEAK: Reset the list_type query option when filtering the list by entry slug.
+* TWEAK: Add support for `child_of` attribute in `cnEntry::getCategories()` and `cnOutput::getCategoryBlock()`.
+* TWEAK: Add spans to the category breadcrumb with classes and ids so they can be targeted with CSS.
+* TWEAK: Ensure the use can only see relationships based on relations status and visibility.
+* TWEAK: Refactor the plugin to use an autoloader to load classes via a hash table.
+* TWEAK: Remove unnecessary break statements.
+* TWEAK: Register all dependencies of cnEntry_Addresses with the autoloader.
+* TWEAK: Deprecate cnValidate::userPermitted().
+* TWEAK: Refactor cnEntry::getAddresses() and cnEntry::setAddresses() to utilize cnEntry_Addresses.
+* TWEAK: Refactor cnRetrieve::addresses to query by the address visibility status.
+* TWEAK: Refactor cnRetrieve::addresses() to return a multidimensional array instead of an array of objects the the return value can be utilized with cnEntry_Addresses.
+* TWEAK: Fix the filters so the entry addresses are geocoded when added to cnEntry_Addresses.
+* TWEAK: Add the core `templates` folder to the template search path so it will be search when loading template fragments.
+* TWEAK: No need to utilize sanitize_file_name() when searching for template fragment file names.
+* TWEAK: No need to save the address object cache to the core entry table on initial update. This is handled by cnEntry::updateObjectCaches() after the entry is updated so the address ID are properly cached.
+* TWEAK: Annotate cnEntry::update() `$wpdb` format values for easy identification.
+* TWEAK: No need to save the address object cache to the core entry table on initial save. This is handled by cnEntry::updateObjectCaches() after the entry is saved so the address ID are properly cached.
+* TWEAK: Annotate cnEntry::save() `$wpdb` format values for easy identification.
+* TWEAK: Add trailing commas after last array item for consistency in code formatting.
+* TWEAK: Update cnEntry::save() and cnEntry::update() to use cnEntry_Addresses::save().
+* TWEAK: Do not serialize cnEntry_Addresses object for saving into the object cache, save the array values.
+* TWEAK: Refactor manage.php and cnOutput::getAddressBlock() to utilize cnEntry_Addresses::render() with template fragments.
+* TWEAK: Remove stray commented out code.
+* TWEAK: Add the `wpseo_title` filter to cnSEO so the page meta title is properly updated when Yoast SEO is installed.
+* BUG: Ensure logged in user can view public entry and public entry data if the directory does not require login to view and the user does not necessarily have the view public capability which can happen in WP multisite installations.
+* BUG: Sanitize the textarea metabox field type.
+* BUG: Do not use esc_textarea() for escaping the metabox textarea for editing as it causes characters to become entities.
+* REST API: Update terms endpoint phpDoc.
+* REST API: Rename "resources" in the terms endpoint to be referenced as "terms".
+* REST API: Standardize error response messages in the term endpoint.
+* OTHER: Correct misspellings.
+* I18N: Update POT file.
+* DEV: Exclude the /tests/* path from grunt tasks.
+* DEV: phpDoc block corrections.
 
 = 8.5.32 12/12/2016 =
 * TWEAK: Show parent theme name and version in System Info when child theme is active.
@@ -684,58 +730,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Remove unnecessary isset check in cnRetrieve::setQueryVisibility().
 * DEV: Update phpDoc in a couple cnTerm methods to note the WordPress core equivalent function.
 
-= 8.5.9 02/01/2016 =
-* NEW: Add ABSPATH to the System Info.
-* NEW: Refactor cnTemplatePart::searchingMessage() to add filters and hooks to make it more configurable for developers.
-* BUG: Enqueue the JavaScript on the Settings Import/Export admin page.
-* BUG: Use CN_TEMPLATE_PATH instead of CN_PATH to include the core templates. Remove, the double forward slash.
-* BUG: Fix unescaped user search term in the admin. Unfiltered user input for the search field being sent directly via echo back to the user's browser.
-* BUG: Escape role names and capabilities submitted by the Connections : Roles admin page when adding/removing a role capability.
-* TWEAK: Tweak logic in cnUtility::getUUID() so if openssl_random_pseudo_bytes() fails, it'll gracefully fallback to the compatibility method rather than failing.
-* TWEAK: Remove instance of `$plugindir = get_bloginfo( 'wpurl' ) . '/wp-content/plugins';` as requested by wp.org.
-* TWEAK: Remove unused global from cnRole::reset().
-* TWEAK: Add message for user if they do not have access to any admin tools.
-* TWEAK: Correct the user capabilities for the Tools admin page to better align with the core WordPress user capabilities for the same functions.
-* TWEAK: Escape role names before resetting them.
-* TWEAK: Escape URL use to kickoff a DB upgrade.
-* TWEAK: Code cleanup of the DB upgrade message to make it more readable.
-* TWEAK: Escape CSV Export type before processing.
-* TWEAK: Escape Connections : Manage admin page view action.
-* TWEAK: Escape the output for the current character on the Connections : Manage admin page.
-* TWEAK: Escape the current log type being viewed.
-* TWEAK: Run absint() on log post ID.
-* OTHER: Reduce tags as requested by wp.org.
-* OTHER: Correct misspelling in cnRole::reset().
-* OTHER: Add newline at EOF in class.capabilities.php.
-* OTHER: Remove an extra space.
-* DEV: Use minified files instead of vendor supplied packed files for jQuery goMap and MarkerClusterer per wp.org guidelines.
-* DEV: Use Yoda condition.
-
-= 8.5.8 01/08/2016 =
-* NEW: CSV export will now export the visibility of address, phone, email and dates.
-* NEW: CSV export will now export the visibility status of social media, instant messenger and links.
-* NEW: CSV export will now export the image and logo URL/s.
-* COMPATIBILITY: Remove spaces after delimiter in CSV export for Excel compatibility.
-* BUG: Correct bug in setting the radio group name attribute.
-* BUG: Properly sanitize the address fields when saving an entry.
-* TWEAK: Remove unused global var $current_user in several methods in cnRetrieve. Remove unused calls to get_currentuserinfo() which will be deprecated in WordPress 4.5.
-* TWEAK: Move the header breakout fields and field types to be within their switch case so they are only run when needed instead on every field export type.
-* TWEAK: Correct the user capabilities for the Tools admin page to better align with the core WordPress user capabilities for the same functions.
-* TWEAK: Add missing user capability checks for system info and remote system info tools.
-* OTHER: Tweak the default tool tab to be the first registered tab rather than being hard coded.
-* OTHER: Update link to the documentation page.
-* OTHER: Remove TimThumb from the vendors folder and most references to it from the code and text since it has not been needed for well over a year now.
-* DEV: Add ability to register a tab with a user role capability so the user must have that capability in order to access that tool tab.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.8 =
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-= 8.5.9 =
-It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.10 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.
@@ -805,3 +802,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.3.
 
 = 8.5.32 =
 It is recommended to backup before updating. Requires WordPress >= 4.3.
+
+= 8.6 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.

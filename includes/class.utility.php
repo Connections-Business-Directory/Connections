@@ -584,6 +584,8 @@ class cnValidate {
 	 * @since  0.7.2.0
 	 * @static
 	 *
+	 * @deprecated since 8.6
+	 *
 	 * @uses   is_user_logged_in()
 	 * @uses   current_user_can()
 	 * @uses   is_admin()
@@ -597,69 +599,7 @@ class cnValidate {
 	 */
 	public static function userPermitted( $visibility ) {
 
-		// Ensure a valid option for $visibility.
-		if ( ! in_array( $visibility, array( 'public', 'private', 'unlisted' ) ) ) {
-
-			return FALSE;
-		}
-
-		if ( is_user_logged_in() ) {
-
-			switch ( $visibility ) {
-
-				case 'public':
-
-					return current_user_can( 'connections_view_public' );
-
-				case 'private':
-
-					return current_user_can( 'connections_view_private' );
-
-				case 'unlisted':
-
-					return ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) && current_user_can( 'connections_view_unlisted' );
-
-				default:
-
-					return FALSE;
-			}
-
-		} else {
-
-			// Unlisted entries are not shown on the frontend.
-			if ( 'unlisted' == $visibility ) {
-
-				return FALSE;
-			}
-
-			// Grab an instance of the Connections object.
-			$instance = Connections_Directory();
-
-			if ( cnOptions::loginRequired() ) {
-
-				switch ( $visibility ) {
-
-					case 'public':
-
-						return $instance->options->getAllowPublicOverride();
-
-					case 'private':
-
-						return $instance->options->getAllowPrivateOverride();
-
-					default:
-
-						return FALSE;
-				}
-
-			} else {
-
-				if ( 'public' == $visibility ) return TRUE;
-			}
-
-			// If we get here, return FALSE
-			return FALSE;
-		}
+		return Connections_Directory()->currentUser->canViewVisibility( $visibility );
 	}
 }
 

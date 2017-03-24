@@ -27,7 +27,7 @@ class cnShortcode {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function hooks() {
 
 		// Register the core shortcode with the WordPres Shortcode API.
 		add_action( 'init', array( __CLASS__, 'register') );
@@ -57,7 +57,13 @@ class cnShortcode {
 	 */
 	public static function register() {
 
-		//if ( ! is_admin() ) {
+		/*
+		 * Do not register the shortcode when doing ajax requests.
+		 * This is primarily implemented so the shortcodes are not run during Yoast SEO page score admin ajax requests.
+		 * The page score can cause the ajax request to fail and/or prevent the page from saving when page score is
+		 * being calculated on the output from the `[connections]` shortcode.
+		 */
+		if ( ! wp_doing_ajax() ) {
 
 			// Register the core shortcodes.
 			add_shortcode( 'connections', array( __CLASS__, 'view' ) );
@@ -67,7 +73,7 @@ class cnShortcode {
 
 			add_shortcode( 'cn_thumb', array( 'cnThumb', 'shortcode' ) );
 			add_shortcode( 'cn_thumbr', array( 'cnThumb_Responsive', 'shortcode' ) );
-		//}
+		}
 	}
 
 	/**
@@ -834,6 +840,3 @@ class cnShortcode {
 		return $content;
 	}
 }
-
-// Init the class.
-cnShortcode::init();

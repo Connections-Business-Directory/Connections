@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class cnTemplate_Compatibility {
 
-	public static function init() {
+	public static function hooks() {
 
 		add_filter( 'cn_template_required_js-cmap', array( __CLASS__, 'enqueueChosen' ), 99 );
 		add_filter( 'cn_template_required_js-cmap', array( __CLASS__, 'enqueuegoMap' ), 99 );
@@ -76,5 +76,3 @@ class cnTemplate_Compatibility {
 		return $slug;
 	}
 }
-
-cnTemplate_Compatibility::init();

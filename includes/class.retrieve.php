@@ -247,6 +247,7 @@ class cnRetrieve {
 
 		if ( ! empty( $atts['slug'] ) ) {
 
+			$atts['list_type'] = NULL;
 			$atts['near_addr'] = NULL;
 			$atts['latitude']  = NULL;
 			$atts['longitude'] = NULL;
@@ -1106,7 +1107,11 @@ class cnRetrieve {
 
 			if ( empty( $atts['visibility'] ) ) {
 
-				if ( current_user_can( 'connections_view_public' ) ) $visibility[] = 'public';
+				if ( current_user_can( 'connections_view_public' ) || ! cnOptions::loginRequired() ) {
+
+					$visibility[] = 'public';
+				}
+
 				if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
 
 				if ( current_user_can( 'connections_view_unlisted' ) &&
@@ -1127,7 +1132,7 @@ class cnRetrieve {
 			//var_dump( $connections->options->getAllowPublic() ); die;
 
 			// Display the 'public' entries if the user is not required to be logged in.
-			if ( $instance->options->getAllowPublic() ) $visibility[] = 'public';
+			if ( ! cnOptions::loginRequired() ) $visibility[] = 'public';
 
 			// Display the 'public' entries if the public override shortcode option is enabled.
 			if ( $instance->options->getAllowPublicOverride() ) {
@@ -1383,8 +1388,6 @@ class cnRetrieve {
 
 					return $ids;
 
-					break;
-
 				default:
 
 					return self::entries(
@@ -1525,6 +1528,7 @@ class cnRetrieve {
 			'id'          => NULL,
 			'preferred'   => FALSE,
 			'type'        => array(),
+			'visibility'  => NULL,
 			'district'    => array(),
 			'county'      => array(),
 			'city'        => array(),
@@ -1643,7 +1647,10 @@ class cnRetrieve {
 		}
 
 		// Limit the characters that are queried based on if the current user can view public, private or unlisted entries.
-		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'a' ) );
+		if ( ! $saving || ! is_null( $atts['visibility'] ) ) {
+
+			$where = self::setQueryVisibility( $where, array( 'table' => 'a', 'visibility' => $atts['visibility'] ) );
+		}
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -1655,7 +1662,7 @@ class cnRetrieve {
 			$limit
 		);
 
-		$results = $wpdb->get_results( $sql );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
 	}
@@ -3017,12 +3024,10 @@ class cnRetrieve {
 
 				$entries = $sortedEntries;
 				return $entries;
-				break;
 
 			case 'RANDOM':
 				shuffle( $entries );
 				return $entries;
-				break;
 			}
 		}
 

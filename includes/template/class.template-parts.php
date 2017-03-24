@@ -29,7 +29,7 @@ class cnTemplatePart {
 	 *
 	 * @return void
 	 */
-	public static function init() {
+	public static function hooks() {
 
 		add_action( 'cn_action_list_before', array( __CLASS__, 'doListActionsBefore' ), 5 );
 		add_action( 'cn_action_list_after', array( __CLASS__, 'doListActionsAfter' ), 5 );
@@ -2074,7 +2074,7 @@ class cnTemplatePart {
 
 			//$currentLink = '<a href="' . esc_url( cnTerm::permalink( $current, 'category', $atts ) ) . '">' . $current->name . '</a>';
 
-			$html = $home . $atts['separator'] . $breadcrumb . esc_html( $current->name );
+			$html = '<span class="cn-category-breadcrumb-home">' . $home . $atts['separator'] . '</span>' . $breadcrumb . '<span class="cn-category-breadcrumb-item" id="cn-category-breadcrumb-item-' . esc_attr( $current->term_id ) . '">' . esc_html( $current->name ) . '</span>';
 
 			$html = '<div class="cn-category-breadcrumb">' . $html . '</div>';
 		}
@@ -2147,7 +2147,7 @@ class cnTemplatePart {
 
 		if ( $atts['link'] ) {
 
-			$chain .= '<a href="' . esc_url( cnTerm::permalink( $parent->term_id, 'category', $atts ) ) . '">' . $name . '</a>' . $atts['separator'];
+			$chain .= '<span class="cn-category-breadcrumb-item" id="cn-category-breadcrumb-item-' . esc_attr( $parent->term_id ) . '">' . '<a href="' . esc_url( cnTerm::permalink( $parent->term_id, 'category', $atts ) ) . '">' . $name . '</a>' . $atts['separator'] . '</span>';
 
 		} else {
 
@@ -2864,6 +2864,3 @@ class cnTemplatePart {
 		return $out;
 	}
 }
-
-// Init the Template Parts API
-cnTemplatePart::init();

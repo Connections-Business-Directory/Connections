@@ -147,7 +147,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		/**
 		 * This example illustrates how to use export type `6`.
 		 *
-		 * The result will be the term name of term ID 2071 as teh column header and the row contents will be term
+		 * The result will be the term name of term ID 2071 as the column header and the row contents will be term
 		 * descendants if they are attached to the the current entry being exported.
 		 *
 		 * @example
@@ -614,6 +614,21 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 				$breakoutFields = $this->getFieldsToExport( $atts );
 				$breakoutTypes  = $this->getTypesToExport( $atts );
+
+				/*
+				 * @todo self::getTypesToExport() can return no types.
+				 *
+				 * If the field type being exported contains no data, incorrect headers are written.
+				 *
+				 * Example:
+				 *
+				 * If no entries have social media networks added, the return types will be empty.
+				 * This results in file headers of "Social Url" and "Social Visibility".
+				 *
+				 * Solution:
+				 * Come up with a method where no types are returned, either skip the column or use the default
+				 * registered types.
+				 */
 
 				foreach ( $breakoutTypes as $type ) {
 					foreach ( $breakoutFields as $field ) {

@@ -34,8 +34,11 @@ class cnDashboardMetabox {
 	 */
 	public static function init() {
 
-		// Bail if doing an AJAX request.
-		if ( defined('DOING_AJAX') && DOING_AJAX ) return;
+		// Bail if not in admin or doing an AJAX request.
+		if ( ! is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) {
+
+			return;
+		}
 
 		// Build the array that defines the dashboard metaboxes.
 		self::register();
@@ -388,6 +391,3 @@ class cnDashboardMetabox {
 
 	}
 }
-
-// Init the class.
-add_action( 'cn_metabox', array( 'cnDashboardMetabox', 'init' ), 1 );

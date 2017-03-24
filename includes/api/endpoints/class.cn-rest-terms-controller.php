@@ -56,7 +56,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Register the routes for the objects of the controller.
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 */
 	public function register_routes() {
 
@@ -105,7 +106,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 					'args'                => array(
 						'force' => array(
 							'default'     => FALSE,
-							'description' => __( 'Required to be true, as resource does not support trashing.' ),
+							'description' => __( 'Required to be true, as terms do not support trashing.', 'connections' ),
 						),
 					),
 				),
@@ -117,7 +118,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to read the terms.
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -129,7 +131,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 			return new WP_Error(
 				'rest_forbidden_context',
-				__( 'Sorry, you cannot view this resource with edit context.', 'connections' ),
+				__( 'Permission denied. Edit capability required.', 'connections' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -140,7 +142,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Get a collection of items
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -272,7 +275,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to read a term.
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -284,7 +288,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 			return new WP_Error(
 				'rest_forbidden_context',
-				__( 'Sorry, you cannot view this resource with edit context.', 'connections' ),
+				__( 'Permission denied. Edit capability required.', 'connections' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -295,7 +299,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Get one item from the collection
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -307,7 +312,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! $term || $term->taxonomy !== $this->taxonomy ) {
 
-			return new WP_Error( 'rest_term_invalid', __( "Resource doesn't exist.", 'connections' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist.", 'connections' ), array( 'status' => 404 ) );
 		}
 
 		if ( is_wp_error( $term ) ) {
@@ -323,6 +328,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a term
 	 *
+	 * @access public
 	 * @since 8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
@@ -333,7 +339,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! current_user_can( 'connections_edit_categories' ) ) {
 
-			return new WP_Error( 'rest_cannot_create', __( 'Sorry, you cannot create new resource.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_create', __( 'Permission denied. Edit capability required.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -342,7 +348,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Create one item from the collection
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 *
@@ -361,7 +368,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 			if ( ! $parent ) {
 
-				return new WP_Error( 'rest_term_invalid', __( "Parent resource doesn't exist.", 'connections' ), array( 'status' => 400 ) );
+				return new WP_Error( 'rest_term_invalid', __( "Parent term doesn't exist.", 'connections' ), array( 'status' => 400 ) );
 			}
 		}
 
@@ -417,7 +424,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a term
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -429,12 +437,12 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! $term ) {
 
-			return new WP_Error( 'rest_term_invalid', __( "Resource doesn't exist.", 'connections' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist.", 'connections' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! current_user_can( 'connections_edit_categories' ) ) {
 
-			return new WP_Error( 'rest_cannot_update', __( 'Sorry, you cannot update resource.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_update', __( 'Permission denied. Edit capability required.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return TRUE;
@@ -443,6 +451,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Update one item from the collection
 	 *
+	 * @access public
 	 * @since 8.5.26
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
@@ -462,7 +471,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 			if ( ! $parent ) {
 
-				return new WP_Error( 'rest_term_invalid', __( "Parent resource doesn't exist.", 'connections' ), array( 'status' => 400 ) );
+				return new WP_Error( 'rest_term_invalid', __( "Parent term doesn't exist.", 'connections' ), array( 'status' => 400 ) );
 			}
 		}
 
@@ -503,7 +512,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a term
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 *
@@ -515,12 +525,12 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! $term ) {
 
-			return new WP_Error( 'rest_term_invalid', __( "Resource doesn't exist.", 'connections' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist.", 'connections' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! current_user_can( 'connections_edit_categories' ) ) {
 
-			return new WP_Error( 'rest_cannot_delete', __( 'Sorry, you cannot delete resource.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_delete', __( 'Permission denied. Edit capability required.', 'connections' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return TRUE;
@@ -529,7 +539,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Delete a single term from a taxonomy
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Full details about the request
 	 *
@@ -542,7 +553,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		// We don't support trashing for this type, error out
 		if ( ! $force ) {
 
-			return new WP_Error( 'rest_trash_not_supported', __( 'Resource does not support trashing.', 'connections' ), array( 'status' => 501 ) );
+			return new WP_Error( 'rest_trash_not_supported', __( 'Terms do not support trashing. Set force=true to delete.', 'connections' ), array( 'status' => 501 ) );
 		}
 
 		$term = cnTerm::get( (int) $request['id'], $this->taxonomy );
@@ -554,7 +565,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( ! $retval ) {
 
-			return new WP_Error( 'rest_cannot_delete', __( 'The resource cannot be deleted.', 'connections' ), array( 'status' => 500 ) );
+			return new WP_Error( 'rest_cannot_delete', __( 'Term cannot be deleted.', 'connections' ), array( 'status' => 500 ) );
 		}
 
 		/**
@@ -570,7 +581,10 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Prepare a single term for create or update
+	 * Prepare a single term for create or update.
+	 *
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 *
@@ -628,7 +642,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare the item for the REST response
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @param mixed           $item    WordPress representation of the item.
 	 * @param WP_REST_Request $request Request object.
@@ -695,7 +710,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 8.5.26
+	 * @access protected
+	 * @since  8.5.26
 	 *
 	 * @param object $term Term object.
 	 *
@@ -765,7 +781,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Get the Term's schema, conforming to JSON Schema
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @return array
 	 */
@@ -841,7 +858,8 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections
 	 *
-	 * @since 8.5.26
+	 * @access public
+	 * @since  8.5.26
 	 *
 	 * @return array
 	 */

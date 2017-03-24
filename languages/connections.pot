@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Connections package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections 8.5.29\n"
+"Project-Id-Version: Connections 8.5.32\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2016-11-29 17:21:47+00:00\n"
+"POT-Creation-Date: 2016-12-20 13:52:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -434,7 +434,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class.message.php:128 includes/admin/pages/manage.php:249
-#: includes/shortcode/class.shortcode.php:696
+#: includes/shortcode/class.shortcode.php:702
 msgid ""
 "You are not authorized to edit entries. Please contact the admin if you "
 "received this message in error."
@@ -1226,7 +1226,7 @@ msgid "Family"
 msgstr ""
 
 #: includes/admin/pages/templates.php:87
-#: includes/entry/class.entry-data.php:3313
+#: includes/entry/class.entry-data.php:3315
 #: includes/entry/class.entry-output.php:2513
 #: includes/entry/class.entry-output.php:2526
 #: includes/settings/class.options.php:545
@@ -1234,7 +1234,7 @@ msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:92
-#: includes/entry/class.entry-data.php:3328
+#: includes/entry/class.entry-data.php:3330
 #: includes/entry/class.entry-output.php:2434
 #: includes/entry/class.entry-output.php:2445
 #: includes/settings/class.options.php:547
@@ -1459,8 +1459,8 @@ msgstr ""
 
 #: includes/admin/pages/tools.php:760
 msgid ""
-"Export the for this site as a .json file. This allows you to easily import "
-"the configuration into another site."
+"Export the settings for this site as a .json file. This allows you to "
+"easily import the configuration into another site."
 msgstr ""
 
 #: includes/admin/pages/tools.php:775
@@ -1476,141 +1476,149 @@ msgstr ""
 #: includes/api/endpoints/class.cn-rest-entry-controller.php:99
 #: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:88
 #: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:88
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:108
 msgid "Required to be true, as resource does not support trashing."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:123
-msgid "Sorry, you are not allowed to edit these entries."
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:121
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:193
+msgid "Permission denied. Login required."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:358
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:182
+msgid "Permission denied. Edit or Edit Moderated capability required."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:220
+msgid "Invalid entry ID."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:467
 msgid "Unique identifier for the entry."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:364
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:473
 msgid "Type of entry."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:370
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:479
 #: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:288
 #: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:239
 msgid "An alphanumeric identifier for the object unique to its type."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:378
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:487
 msgid "The full formatted name of the entry."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:383
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:492
 msgid "Name of the entry, as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:388
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:497
 msgid "HTML name of the entry, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:395
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:504
 msgid "An honorific prefix preceding a person's name such as Dr/Mrs/Mr."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:400
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:509
 msgid "Honorific prefix as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:405
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:514
 msgid "HTML honorific prefix, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:412
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:521
 msgid "Given name. In the U.S., the first name of a person."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:417
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:542
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:526
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:651
 msgid "First name as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:422
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:547
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:531
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:656
 msgid "HTML first name, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:429
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:538
 msgid "An additional name for a person. The middle name of a person."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:434
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:543
 msgid "Middle name as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:439
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:548
 msgid "HTML middle name, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:446
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:555
 msgid "Family name. In the U.S., the last name of an person."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:451
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:557
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:560
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:666
 msgid "Last name as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:456
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:562
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:565
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:671
 msgid "HTML last name, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:463
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:572
 msgid "An honorific suffix preceding a person's name such as M.D. /PhD/MSCSW."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:468
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:577
 msgid "Honorific suffix as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:473
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:582
 msgid "HTML honorific suffix, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:480
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:589
 msgid "The job title of the person (for example, Financial Manager)."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:485
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:594
 msgid "Job title as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:490
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:599
 msgid "HTML job title, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:497
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:606
 msgid "The organization object for the entry."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:505
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:614
 msgid "Organization name as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:510
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:619
 msgid "HTML organization name, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:520
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:629
 msgid "Department (organization unit) as it exists in the database."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:525
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:634
 msgid "HTML department (organization unit), transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:534
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:643
 msgid "The contact name object for the entry of type organization."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-entry-controller.php:590
+#: includes/api/endpoints/class.cn-rest-entry-controller.php:699
 #: includes/api/endpoints/class.cn-rest-entry-geojson-controller.php:315
 #: includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php:266
 msgid "Limit result set to entries with a specific slug."
@@ -1636,108 +1644,124 @@ msgstr ""
 msgid "HTML name of the object, transformed for display."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:132
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:287
-msgid "Sorry, you cannot view this resource with edit context."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:147
+msgid "Required to be true, as terms do not support trashing."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:310
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:432
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:518
-msgid "Resource doesn't exist."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:172
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:334
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:385
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:500
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:600
+msgid "Permission denied. Edit capability required."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:336
-msgid "Sorry, you cannot create new resource."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:358
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:495
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:595
+msgid "Term doesn't exist."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:364
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:465
-msgid "Parent resource doesn't exist."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:414
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:529
+msgid "Parent term doesn't exist."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:437
-msgid "Sorry, you cannot update resource."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:623
+msgid "Terms do not support trashing. Set force=true to delete."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:523
-msgid "Sorry, you cannot delete resource."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:636
+msgid "Term cannot be deleted."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:545
-msgid "Resource does not support trashing."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:872
+msgid "Unique identifier for the term."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:557
-msgid "The resource cannot be deleted."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:878
+msgid "Number of entries assigned to the term."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:780
-msgid "Unique identifier for the resource."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:786
-msgid "Number of published posts for the resource."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:792
-msgid "HTML description of the resource."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:800
-msgid "URL to the resource."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:807
-msgid "HTML title for the resource."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:816
-msgid "An alphanumeric identifier for the resource unique to its type."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:824
-msgid "Type attribution for the resource."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:831
-msgid "The id for the parent of the resource."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:856
-msgid "Ensure result set excludes specific ids."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:863
-msgid "Limit result set to specific ids."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:870
-msgid "Offset the result set by a specific number of items."
-msgstr ""
-
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:877
-msgid "Order sort attribute ascending or descending."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:884
+msgid "HTML description of the term."
 msgstr ""
 
 #: includes/api/endpoints/class.cn-rest-terms-controller.php:889
-msgid "Sort collection by resource attribute."
+msgid "URL to the term."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:906
-msgid "Whether to hide resources not assigned to any posts."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:896
+msgid "HTML title for the term."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:905
+msgid "An alphanumeric identifier for the term unique to its type."
 msgstr ""
 
 #: includes/api/endpoints/class.cn-rest-terms-controller.php:913
-msgid "Limit result set to resources assigned to a specific parent."
+msgid "Type attribution for the term."
 msgstr ""
 
 #: includes/api/endpoints/class.cn-rest-terms-controller.php:920
-msgid "Limit result set to resources assigned to a specific post."
+msgid "The id for the parent of the term."
 msgstr ""
 
-#: includes/api/endpoints/class.cn-rest-terms-controller.php:927
-msgid "Limit result set to resources with a specific slug."
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:948
+msgid "Ensure result set excludes specific ids."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:957
+msgid "Limit result set to specific ids."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:966
+msgid "Offset the result set by a specific number of items."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:971
+msgid "Order sort attribute ascending or descending."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:981
+msgid "Sort collection by term attribute."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:996
+msgid "Whether to hide resources not assigned to any entries."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:1002
+msgid "Limit result set to terms  assigned to a specific parent."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:1007
+msgid "Limit result set to term assigned to a specific entry."
+msgstr ""
+
+#: includes/api/endpoints/class.cn-rest-terms-controller.php:1013
+msgid "Limit result set to terms with a specific slug."
+msgstr ""
+
+#: includes/api/fields/class.cn-rest-meta-fields.php:166
+#: includes/api/fields/class.cn-rest-meta-fields.php:203
+#: includes/api/fields/class.cn-rest-meta-fields.php:275
+#. translators: %s: custom field key
+msgid "Sorry, you are not allowed to edit the %s custom field."
+msgstr ""
+
+#: includes/api/fields/class.cn-rest-meta-fields.php:175
+msgid "Could not delete meta value from database."
+msgstr ""
+
+#: includes/api/fields/class.cn-rest-meta-fields.php:238
+#: includes/api/fields/class.cn-rest-meta-fields.php:248
+#: includes/api/fields/class.cn-rest-meta-fields.php:295
+msgid "Could not update meta value in database."
+msgstr ""
+
+#: includes/api/fields/class.cn-rest-meta-fields.php:377
+msgid "Meta fields."
 msgstr ""
 
 #: includes/class.metabox-api.php:1152
@@ -1816,19 +1840,19 @@ msgid ""
 msgstr ""
 
 #: includes/class.metabox-entry.php:337
-#: includes/entry/class.entry-data.php:3887
+#: includes/entry/class.entry-data.php:3889
 #: includes/settings/class.options.php:206
 msgid "Public"
 msgstr ""
 
 #: includes/class.metabox-entry.php:338
-#: includes/entry/class.entry-data.php:3888
+#: includes/entry/class.entry-data.php:3890
 #: includes/settings/class.options.php:207
 msgid "Private"
 msgstr ""
 
 #: includes/class.metabox-entry.php:339
-#: includes/entry/class.entry-data.php:3886
+#: includes/entry/class.entry-data.php:3888
 #: includes/settings/class.options.php:208
 msgid "Unlisted"
 msgstr ""
@@ -2154,36 +2178,36 @@ msgstr ""
 msgid "Invalid term ID"
 msgstr ""
 
-#: includes/class.terms.php:1466 includes/class.terms.php:1839
+#: includes/class.terms.php:1466 includes/class.terms.php:1841
 msgid "A name is required for this term"
 msgstr ""
 
-#: includes/class.terms.php:1480 includes/class.terms.php:1844
+#: includes/class.terms.php:1480 includes/class.terms.php:1846
 msgid "Parent term does not exist."
 msgstr ""
 
-#: includes/class.terms.php:1573
+#: includes/class.terms.php:1575
 msgid "A term with the name provided already exists with this parent."
 msgstr ""
 
-#: includes/class.terms.php:1578
+#: includes/class.terms.php:1580
 msgid "A term with the name provided already exists in this taxonomy."
 msgstr ""
 
-#: includes/class.terms.php:1587
+#: includes/class.terms.php:1589
 msgid "Could not insert term into the database"
 msgstr ""
 
-#: includes/class.terms.php:1814 includes/class.terms.php:2672
-#: includes/class.terms.php:3743 includes/class.terms.php:4297
+#: includes/class.terms.php:1816 includes/class.terms.php:2674
+#: includes/class.terms.php:3745 includes/class.terms.php:4322
 msgid "Empty Term"
 msgstr ""
 
-#: includes/class.terms.php:1916
+#: includes/class.terms.php:1918
 msgid "The slug &#8220;%s&#8221; is already in use by another term"
 msgstr ""
 
-#: includes/class.terms.php:4689
+#: includes/class.terms.php:4714
 msgid "Term ID is shared between multiple taxonomies"
 msgstr ""
 
@@ -2232,7 +2256,7 @@ msgstr ""
 msgid "Image copy failed."
 msgstr ""
 
-#: includes/entry/class.entry-data.php:4781
+#: includes/entry/class.entry-data.php:4783
 msgid "Unknown"
 msgstr ""
 
@@ -3981,23 +4005,23 @@ msgstr ""
 msgid "An error has occured while creating the thumbnail."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:591
+#: includes/shortcode/class.shortcode.php:597
 msgid "Future home of front end submissions."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:598
+#: includes/shortcode/class.shortcode.php:604
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:614
+#: includes/shortcode/class.shortcode.php:620
 msgid "Future home of the search page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:631
+#: includes/shortcode/class.shortcode.php:637
 msgid "Future home of the search results landing page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:687
+#: includes/shortcode/class.shortcode.php:693
 msgid ""
 "Your entry submission is currently under review, however, you can continue "
 "to make edits to your entry submission while your submission is under "
@@ -4009,16 +4033,16 @@ msgstr ""
 msgid "No results."
 msgstr ""
 
-#: includes/system-info/class.system-info.php:227
-#: includes/system-info/class.system-info.php:244
+#: includes/system-info/class.system-info.php:234
+#: includes/system-info/class.system-info.php:251
 msgid "System Info Email"
 msgstr ""
 
-#: includes/system-info/inc.system-info.php:157
+#: includes/system-info/inc.system-info.php:161
 msgid "TRUE"
 msgstr ""
 
-#: includes/system-info/inc.system-info.php:157
+#: includes/system-info/inc.system-info.php:161
 msgid "FALSE"
 msgstr ""
 
@@ -4689,7 +4713,7 @@ msgstr ""
 msgid "A business directory and address book manager."
 msgstr ""
 
-#: includes/class.retrieve.php:2772
+#: includes/class.retrieve.php:2781
 #. translators: This is a comma-separated list of very common words that should
 #. be excluded from a search,
 #. * like a, an, and the. These are usually called "stopwords". You should

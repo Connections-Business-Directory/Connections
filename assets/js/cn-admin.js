@@ -376,6 +376,19 @@ jQuery(document).ready( function($) {
 
 			$( '#map-' + uid ).fadeIn( 'slow' , function() {
 
+				/**
+				 * Using gmap3 maybe a better option.
+				 * @link http://gmap3.net/
+				 *
+				 * When geocoding a google.maps.GeocoderRequest can be passed.
+				 * This is useful to set Component Filters.
+				 * @link http://gmap3.net/api-address.html
+				 *
+				 * FAQs regarding the odl/new geocoder:
+				 * @link https://developers.google.com/maps/documentation/geocoding/faq
+				 *
+				 * Old geocoder retires in March 2017
+				 */
 				$( '#map-' + uid ).goMap({
 					maptype: 'ROADMAP'
 				});
@@ -383,7 +396,9 @@ jQuery(document).ready( function($) {
 				$.goMap.clearMarkers();
 
 				$.goMap.createMarker({
-					address: '\'' + address.line_1 + ', ' + address.city + ', ' + address.state + ', ' + address.zipcode + ', ' +  '\'' , id: 'baseMarker' , draggable: true
+					address: '\'' + address.line_1 + ', ' /*+ address.line_2 + ', '*/ + address.city + ', ' + address.state + ', ' + address.zipcode + ', ' +  '\'',
+					id: 'baseMarker',
+					draggable: true
 				});
 
 				$.goMap.setMap({ address: '\'' + address.line_1 + ', ' + address.city + ', ' + address.state + ', ' + address.zipcode + ', ' +  '\'' , zoom: 18 });
@@ -412,7 +427,7 @@ jQuery(document).ready( function($) {
 
 			});
 
-			// There has to be a better way than setting a delay. I know I have to use a callback b/c the geocode is an asyn request.
+			// There has to be a better way than setting a delay. I know I have to use a callback b/c the geocode is an async request.
 			setTimeout( function() {
 
 				CN_Form.setGEO( uid );

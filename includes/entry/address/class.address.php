@@ -274,6 +274,8 @@ final class cnAddress implements ArrayAccess, cnToArray {
 
 			return ( property_exists( $this, $name ) && isset( $this->$name ) );
 		}
+
+		return FALSE;
 	}
 
 	/**

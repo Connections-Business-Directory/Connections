@@ -83,7 +83,7 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	private $postal_code = '';
 
 	/**
-	 * @var string
+	 * @var cnCountry
 	 */
 	private $country = '';
 
@@ -456,7 +456,7 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	 * @param cnAddress $self
 	 * @param string    $context
 	 *
-	 * @return mixed
+	 * @return cnAddress
 	 */
 	private function prepareContext( $self, $context ) {
 

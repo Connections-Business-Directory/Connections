@@ -93,12 +93,12 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	private $coordinates;
 
 	/**
-	 * @var double
+	 * @var string
 	 */
 	private $longitude = 0;
 
 	/**
-	 * @var double
+	 * @var string
 	 */
 	private $latitude = 0;
 
@@ -928,7 +928,7 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	 * @access public
 	 * @since  8.6
 	 *
-	 * @return float|null
+	 * @return string|null
 	 */
 	public function getLatitude() {
 
@@ -943,7 +943,7 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	 * @access public
 	 * @since  8.6
 	 *
-	 * @return float|null
+	 * @return string|null
 	 */
 	public function getLongitude() {
 

@@ -38,7 +38,7 @@ final class cnCoordinates {
 	 * @access public
 	 * @since  8.6
 	 *
-	 * @return float
+	 * @return string
 	 */
 	public function getLatitude() {
 
@@ -62,7 +62,7 @@ final class cnCoordinates {
 	 * @access public
 	 * @since  8.6
 	 *
-	 * @return float
+	 * @return string
 	 */
 	public function getLongitude() {
 

@@ -9,13 +9,13 @@ final class cnCoordinates {
 
 	/**
 	 * @since 8.6
-	 * @var float
+	 * @var string
 	 */
 	private $latitude;
 
 	/**
 	 * @since 8.6
-	 * @var float
+	 * @var string
 	 */
 	private $longitude;
 

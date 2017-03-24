@@ -219,7 +219,7 @@ class cnDependency {
 			'cnThumb'                  => 'includes/shortcode/class.shortcode-thumbnail.php',
 			'cnThumb_Responsive'       => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
 
-			// Register the query vars, rewrite URL/s and conanical redirects.
+			// Register the query vars, rewrite URL/s and canonical redirects.
 			'cnRewrite'                => 'includes/class.rewrite.php',
 
 			// Settings API.
@@ -292,6 +292,20 @@ class cnDependency {
 
 			// REST API.
 			'cnAPI'                    => 'includes/api/class.api.php',
+
+			// Collections
+			'cnToArray'                => 'includes/class.to-array.php',
+			'cnArray'                  => 'includes/class.array.php',
+			'cnCollection'             => 'includes/class.collection.php',
+
+			// Address objects.
+			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',
+		    'cnAddress'                => 'includes/entry/address/class.address.php',
+			'cnCountry'                => 'includes/entry/address/class.country.php',
+			'cnCoordinates'            => 'includes/entry/address/class.coordinates.php',
+
+			// Database Classes
+			'cnEntry_DB'               => 'includes/entry/class.entry-db.php',
 		);
 	}
 }

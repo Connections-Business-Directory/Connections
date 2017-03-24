@@ -322,4 +322,124 @@ class cnUser {
 
 		cnMessage::reset();
 	}
+
+	/**
+	 * @return array
+	 */
+	public function canView() {
+
+		/*
+		 * @todo The visibility status the current user can view needs to be abstracted out
+		 * since it can be used in many places throughout the plugin.
+		 *
+		 * NOTE: Context will need to be taken into account so all entries will be saved regardless of user's
+		 * view capability.
+		 */
+		$visibility = array();
+
+		if ( is_user_logged_in() ) {
+
+			if ( current_user_can( 'connections_view_public' ) || ! cnOptions::loginRequired() ) {
+
+				$visibility[] = 'public';
+			}
+
+			if ( current_user_can( 'connections_view_private' ) ) $visibility[] = 'private';
+
+			if ( current_user_can( 'connections_view_unlisted' ) &&
+			     ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) ) {
+
+				$visibility[] = 'unlisted';
+			}
+
+		} else {
+
+			// Display the 'public' entries if the user is not required to be logged in.
+			if ( ! cnOptions::loginRequired() ) $visibility[] = 'public';
+		}
+
+		return $visibility;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function canNotView() {
+
+		return array_diff( array( 'public', 'private', 'unlisted' ), $this->canView() );
+	}
+
+	/**
+	 * Will return TRUE|FALSE based on supplied visibility status and the current user view capabilities.
+	 *
+	 * @access public
+	 * @since  8.6
+	 *
+	 * @param string $visibility
+	 *
+	 * @return bool
+	 */
+	public function canViewVisibility( $visibility ) {
+
+		// Ensure a valid option for $visibility.
+		if ( ! in_array( $visibility, array( 'public', 'private', 'unlisted' ) ) ) {
+
+			return FALSE;
+		}
+
+		if ( is_user_logged_in() ) {
+
+			switch ( $visibility ) {
+
+				case 'public':
+
+					return ( current_user_can( 'connections_view_public' ) || ! cnOptions::loginRequired() );
+
+				case 'private':
+
+					return current_user_can( 'connections_view_private' );
+
+				case 'unlisted':
+
+					return ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) && current_user_can( 'connections_view_unlisted' );
+
+				default:
+
+					return FALSE;
+			}
+
+		} else {
+
+			// Unlisted entries are not shown on the frontend.
+			if ( 'unlisted' == $visibility ) {
+
+				return FALSE;
+			}
+
+			if ( cnOptions::loginRequired() ) {
+
+				switch ( $visibility ) {
+
+					case 'public':
+
+						return Connections_Directory()->options->getAllowPublicOverride();
+
+					case 'private':
+
+						return Connections_Directory()->options->getAllowPrivateOverride();
+
+					default:
+
+						return FALSE;
+				}
+
+			} else {
+
+				if ( 'public' == $visibility ) return TRUE;
+			}
+
+			// If we get here, return FALSE
+			return FALSE;
+		}
+	}
 }

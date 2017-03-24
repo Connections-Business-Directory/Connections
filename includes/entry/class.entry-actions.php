@@ -1008,12 +1008,15 @@ class cnEntry_Action {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  array $address An associative array containing the address to geocode.
-	 * @return array          The address that has been geocoded.
+	 *
+	 * @param  cnAddress $address An associative array containing the address to geocode.
+	 *
+	 * @return cnAddress The address that has been geocoded.
 	 */
 	public static function geoCode( $address ) {
 
-		if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
+		//if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
+		if ( empty( (float) $address['latitude'] ) || empty( (float) $address['longitude'] ) ) {
 
 			//$geocode = new cnGeo();
 			$result = cnGeo::address( $address );

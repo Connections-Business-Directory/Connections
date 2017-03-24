@@ -1528,6 +1528,7 @@ class cnRetrieve {
 			'id'          => NULL,
 			'preferred'   => FALSE,
 			'type'        => array(),
+			'visibility'  => NULL,
 			'district'    => array(),
 			'county'      => array(),
 			'city'        => array(),
@@ -1646,7 +1647,10 @@ class cnRetrieve {
 		}
 
 		// Limit the characters that are queried based on if the current user can view public, private or unlisted entries.
-		if ( ! $saving ) $where = self::setQueryVisibility( $where, array( 'table' => 'a' ) );
+		if ( ! $saving || ! is_null( $atts['visibility'] ) ) {
+
+			$where = self::setQueryVisibility( $where, array( 'table' => 'a', 'visibility' => $atts['visibility'] ) );
+		}
 
 		$limit = is_null( $atts['limit'] ) ? '' : sprintf( ' LIMIT %d', $atts['limit'] );
 
@@ -1658,7 +1662,7 @@ class cnRetrieve {
 			$limit
 		);
 
-		$results = $wpdb->get_results( $sql );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
 	}

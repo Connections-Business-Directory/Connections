@@ -329,6 +329,9 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Register the callback to support downloading of vCards
 			add_action( 'template_redirect' , array( 'cnvCard', 'download' ) );
+
+			// Geocode the address using Google Geocoding API.
+			add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
 		}
 
 		/**

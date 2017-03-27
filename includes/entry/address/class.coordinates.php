@@ -35,14 +35,16 @@ final class cnCoordinates {
 	/**
 	 * Returns the latitude.
 	 *
+	 * NOTE: Returns as formatted string for backward compatibility.
+	 *
 	 * @access public
 	 * @since  8.6
 	 *
-	 * @return string
+	 * @return null|string
 	 */
 	public function getLatitude() {
 
-		return $this->latitude;
+		return (float) $this->latitude ? $this->latitude : NULL;
 	}
 
 	/**
@@ -59,14 +61,16 @@ final class cnCoordinates {
 	/**
 	 * Returns the longitude.
 	 *
+	 * NOTE: Returns as formatted string for backward compatibility.
+	 *
 	 * @access public
 	 * @since  8.6
 	 *
-	 * @return string
+	 * @return null|string
 	 */
 	public function getLongitude() {
 
-		return $this->longitude;
+		return (float) $this->longitude ? $this->longitude : NULL;
 	}
 
 	/**

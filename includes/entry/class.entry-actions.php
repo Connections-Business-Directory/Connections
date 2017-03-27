@@ -1015,10 +1015,8 @@ class cnEntry_Action {
 	 */
 	public static function geoCode( $address ) {
 
-		//if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
-		if ( empty( (float) $address['latitude'] ) || empty( (float) $address['longitude'] ) ) {
+		if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
 
-			//$geocode = new cnGeo();
 			$result = cnGeo::address( $address );
 
 			if ( ! empty( $result ) && isset( $result->latitude ) && isset( $result->longitude ) ) {

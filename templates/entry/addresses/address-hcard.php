@@ -55,8 +55,8 @@ foreach ( $addresses as $address ) {
 					'slug'       => $address->district,
 					'title'      => $address->district,
 					'text'       => $address->district,
-					'home_id'    => $this->directoryHome['page_id'],
-					'force_home' => $this->directoryHome['force_home'],
+					'home_id'    => $entry->directoryHome['page_id'],
+					'force_home' => $entry->directoryHome['force_home'],
 					'return'     => TRUE,
 				)
 			);
@@ -84,8 +84,8 @@ foreach ( $addresses as $address ) {
 					'slug'       => $address->county,
 					'title'      => $address->county,
 					'text'       => $address->county,
-					'home_id'    => $this->directoryHome['page_id'],
-					'force_home' => $this->directoryHome['force_home'],
+					'home_id'    => $entry->directoryHome['page_id'],
+					'force_home' => $entry->directoryHome['force_home'],
 					'return'     => TRUE,
 				)
 			);
@@ -113,8 +113,8 @@ foreach ( $addresses as $address ) {
 					'slug'       => $address->city,
 					'title'      => $address->city,
 					'text'       => $address->city,
-					'home_id'    => $this->directoryHome['page_id'],
-					'force_home' => $this->directoryHome['force_home'],
+					'home_id'    => $entry->directoryHome['page_id'],
+					'force_home' => $entry->directoryHome['force_home'],
 					'return'     => TRUE,
 				)
 			);

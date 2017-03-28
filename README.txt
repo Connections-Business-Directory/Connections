@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 8.6
+Stable tag: 8.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -229,6 +229,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 
 == Changelog ==
+
+= 8.6.1 03/28/2017 =
+* BUG: If formatted number string is empty when converted to a float, return null so empty check will not fail causing error.
+* BUG: Correct Fatal error: Uncaught Error: Using $this when not in object context in the address-hard.php template fragment.
 
 = 8.6 03/24/2017 =
 * NEW: Introduce `wp_doing_ajax()` which was introduced in WordPress 4.7 so it is accessible in older version of WordPress.
@@ -804,4 +808,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.3.
 It is recommended to backup before updating. Requires WordPress >= 4.3.
 
 = 8.6 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.

@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 8.6.1 03/28/2017 =
+* BUG: If formatted number string is empty when converted to a float, return null so empty check will not fail causing error.
+* BUG: Correct Fatal error: Uncaught Error: Using $this when not in object context in the address-hard.php template fragment.
+
 = 8.6 03/24/2017 =
 * NEW: Introduce `wp_doing_ajax()` which was introduced in WordPress 4.7 so it is accessible in older version of WordPress.
 * NEW: Introduce cnTerm::count().

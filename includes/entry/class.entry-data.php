@@ -1348,6 +1348,9 @@ class cnEntry {
 			                           ->getCollectionAsObjects();
 		}
 
+		// The filters need to be reset so additional calls to get addresses with different params return expect results.
+		$this->addresses->resetFilters();
+
 		return $results;
 	}
 

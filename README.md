@@ -251,6 +251,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 ## Changelog ##
 
+= 8.6.2 03/31/2017 =
+* TWEAK: Use forward slashes for jQuery UI datepicker date format so when the date is parsed with PHP it will be parsed as a US date.
+* BUG: Reset the cnEntry_Adresses object filters in cnEntry::getAddresses() to allow sub sequent call to the method to return the correct results.
+
 = 8.6.1 03/28/2017 =
 * BUG: If formatted number string is empty when converted to a float, return null so empty check will not fail causing error.
 * BUG: Correct Fatal error: Uncaught Error: Using $this when not in object context in the address-hard.php template fragment.
@@ -881,4 +885,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.3.
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 ### 8.6.1 ###
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+### 8.6.2 ###
 It is recommended to backup before updating. Requires WordPress >= 4.4.

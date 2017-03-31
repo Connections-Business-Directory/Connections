@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 8.6.1
+Stable tag: 8.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -169,11 +169,14 @@ Connections Business Directory has been embraced around the world and has been t
 
 [Connections running on live websites can be found here.](http://connections-pro.com/showcase/)
 
-== Installation ==
+== Frequently Asked Questions ==
 
+A comprehensive list of [FAQs can be found here.](http://connections-pro.com/faq/)
+
+= How do I install Connections? ==
 [Installation instructions can be found here.](http://connections-pro.com/documentation/plugin/install/)
 
-= Using the WordPress Plugin Search =
+Using the WordPress Plugin Search
 
 1. Navigate to the `Add New` sub-page under the Plugins admin page.
 2. Search for `connections business directory`.
@@ -181,7 +184,7 @@ Connections Business Directory has been embraced around the world and has been t
 4. Click the `Install Now` link.
 5. Lastly click the `Activate Plugin` link to activate the plugin.
 
-= Uploading in WordPress Admin =
+Uploading in WordPress Admin
 
 1. [Download the plugin zip file](http://wordpress.org/plugins/connections/) and save it to your computer.
 2. Navigate to the `Add New` sub-page under the Plugins admin page.
@@ -190,23 +193,13 @@ Connections Business Directory has been embraced around the world and has been t
 5. Click the `Install Now` button.
 6. Lastly click the `Activate Plugin` link to activate the plugin.
 
-= Using FTP =
+Using FTP
 
 1. [Download the plugin zip file](http://wordpress.org/plugins/connections/) and save it to your computer.
 2. Extract the Connections Business Directory zip file.
 3. Create a new directory named `connections` directory in the `../wp-content/plugins/` directory.
 4. Upload the files from the folder extracted in Step 2.
 4. Activate the plugin on the Plugins admin page.
-
-= Requirements =
-
-* **WordPress version:** >= 4.1
-* **PHP version:** >= 5.2.4
-* **NOTE:** Upgrading from version 0.6.1 and newer only, is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
-
-== Frequently Asked Questions ==
-
-A comprehensive list of [FAQs can be found here.](http://connections-pro.com/faq/)
 
 = How do I display the business directory on my site? =
 We have a [QuickStart](http://connections-pro.com/quickstart/) available that'll walk you thru the most basic setup. Basically all you need to do is, create a page, and add the `[connections]` shortcode and then start adding entries to your directory.
@@ -227,8 +220,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 2. Add `define( 'CN_MULTISITE_ENABLED', FALSE );` to your `wp-config.php` file. **NOTE:** If you have added any entries to any of your subsites, that data will be lost as Connections will read the directory entry data from the primary site's database tables.
 3. Activate Connections Business Directory on the subsites you wish to use Connections.
 
+= What are the requirements to run Connections? =
+* **WordPress version:** >= 4.4
+* **PHP version:** >= 5.2.4 ( >= 7.0 is highly recommended)
+* **NOTE:** Upgrading from version 0.6.1 and newer only, is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
 
 == Changelog ==
+
+= [Complete Changelog can be found here.](http://connections-pro.com/changelog/) =
+
+= 8.6.2 03/31/2017 =
+* TWEAK: Use forward slashes for jQuery UI datepicker date format so when the date is parsed with PHP it will be parsed as a US date.
+* BUG: Reset the cnEntry_Adresses object filters in cnEntry::getAddresses() to allow sub sequent call to the method to return the correct results.
 
 = 8.6.1 03/28/2017 =
 * BUG: If formatted number string is empty when converted to a float, return null so empty check will not fail causing error.
@@ -811,4 +814,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.3.
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.

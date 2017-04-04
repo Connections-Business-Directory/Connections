@@ -227,7 +227,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 == Changelog ==
 
-= [Complete Changelog can be found here.](http://connections-pro.com/changelog/) =
+[Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 8.6.3 04/04/2017 =
+* TWEAK: Remove PHP_EOL in hcard address template to eliminate unwanted whitespace in page when being rendered.
+* BUG: Reset address filters in cnOutput::getAddressBlock().
+* OTHER: Correct misspelling.
 
 = 8.6.2 03/31/2017 =
 * TWEAK: Use forward slashes for jQuery UI datepicker date format so when the date is parsed with PHP it will be parsed as a US date.
@@ -817,4 +822,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.

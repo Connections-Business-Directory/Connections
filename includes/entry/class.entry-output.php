@@ -1153,6 +1153,9 @@ class cnOutput extends cnEntry {
 		                       ->escapeFor( 'display' )
 		                       ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
 
+		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		$this->addresses->resetFilters();
+
 		$out = cnString::replaceWhatWith( $out, ' ' );
 
 		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;

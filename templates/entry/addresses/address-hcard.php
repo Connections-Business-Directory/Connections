@@ -27,19 +27,19 @@ $search = array(
 	'%separator%',
 );
 
-$out .= '<span class="address-block">' . PHP_EOL;
+$out .= '<span class="address-block">';
 
 foreach ( $addresses as $address ) {
 	$replace = array();
 
-	$out .= '<span class="adr cn-address' . ( $address->preferred ? ' cn-preferred cn-address-preferred' : '' ) . '">' . PHP_EOL;
+	$out .= '<span class="adr cn-address' . ( $address->preferred ? ' cn-preferred cn-address-preferred' : '' ) . '">';
 
 	// The `notranslate` class is added to prevent Google Translate from translating the text.
-	$replace[] = empty( $address->name ) ? '' : '<span class="address-name">' . $address->name . '</span>' . PHP_EOL;
-	$replace[] = empty( $address->line_1 ) ? '' : '<span class="street-address notranslate">' . $address->line_1 . '</span>' . PHP_EOL;
-	$replace[] = empty( $address->line_2 ) ? '' : '<span class="street-address notranslate">' . $address->line_2 . '</span>' . PHP_EOL;
-	$replace[] = empty( $address->line_3 ) ? '' : '<span class="street-address notranslate">' . $address->line_3 . '</span>' . PHP_EOL;
-	$replace[] = empty( $address->line_4 ) ? '' : '<span class="street-address notranslate">' . $address->line_4 . '</span>' . PHP_EOL;
+	$replace[] = empty( $address->name ) ? '' : '<span class="address-name">' . $address->name . '</span>';
+	$replace[] = empty( $address->line_1 ) ? '' : '<span class="street-address notranslate">' . $address->line_1 . '</span>';
+	$replace[] = empty( $address->line_2 ) ? '' : '<span class="street-address notranslate">' . $address->line_2 . '</span>';
+	$replace[] = empty( $address->line_3 ) ? '' : '<span class="street-address notranslate">' . $address->line_3 . '</span>';
+	$replace[] = empty( $address->line_4 ) ? '' : '<span class="street-address notranslate">' . $address->line_4 . '</span>';
 
 	if ( 0 == strlen( $address->district ) ) {
 
@@ -66,7 +66,7 @@ foreach ( $addresses as $address ) {
 			$district = $address->district;
 		}
 
-		$replace[] = '<span class="district notranslate">' . $district . '</span>' . PHP_EOL;
+		$replace[] = '<span class="district notranslate">' . $district . '</span>';
 
 	}
 
@@ -95,7 +95,7 @@ foreach ( $addresses as $address ) {
 			$county = $address->county;
 		}
 
-		$replace[] = '<span class="county notranslate">' . $county . '</span>' . PHP_EOL;
+		$replace[] = '<span class="county notranslate">' . $county . '</span>';
 
 	}
 
@@ -124,7 +124,7 @@ foreach ( $addresses as $address ) {
 			$locality = $address->city;
 		}
 
-		$replace[] = '<span class="locality">' . $locality . '</span>' . PHP_EOL;
+		$replace[] = '<span class="locality">' . $locality . '</span>';
 
 	}
 
@@ -153,7 +153,7 @@ foreach ( $addresses as $address ) {
 			$region = $address->state;
 		}
 
-		$replace[] = '<span class="region">' . $region . '</span>' . PHP_EOL;
+		$replace[] = '<span class="region">' . $region . '</span>';
 
 	}
 
@@ -182,7 +182,7 @@ foreach ( $addresses as $address ) {
 			$postal = $address->zipcode;
 		}
 
-		$replace[] = '<span class="postal-code">' . $postal . '</span>' . PHP_EOL;
+		$replace[] = '<span class="postal-code">' . $postal . '</span>';
 
 	}
 
@@ -211,7 +211,7 @@ foreach ( $addresses as $address ) {
 			$country = $address->country;
 		}
 
-		$replace[] = '<span class="country-name">' . $country . '</span>' . PHP_EOL;
+		$replace[] = '<span class="country-name">' . $country . '</span>';
 
 	}
 
@@ -219,10 +219,10 @@ foreach ( $addresses as $address ) {
 		$replace[] = '<span class="geo">' .
 		             ( empty( $address->latitude ) ? '' : '<span class="latitude" title="' . $address->latitude . '"><span class="cn-label">' . __( 'Latitude', 'connections' ) . ': </span>' . $address->latitude . '</span>' ) .
 		             ( empty( $address->longitude ) ? '' : '<span class="longitude" title="' . $address->longitude . '"><span class="cn-label">' . __( 'Longitude', 'connections' ) . ': </span>' . $address->longitude . '</span>' ) .
-		             '</span>' . PHP_EOL;
+		             '</span>';
 	}
 
-	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>' . PHP_EOL;
+	$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
 	$out .= str_ireplace(
 		$search,
@@ -233,9 +233,9 @@ foreach ( $addresses as $address ) {
 	// Set the hCard Address Type.
 	$out .= $entry->gethCardAdrType( $address->type );
 
-	$out .= '</span>' . PHP_EOL;
+	$out .= '</span>';
 }
 
-$out .= '</span>' . PHP_EOL;
+$out .= '</span>';
 
 echo $out;

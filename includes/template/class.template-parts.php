@@ -1113,7 +1113,7 @@ class cnTemplatePart {
 
 		// Store the query vars
 		$queryVars                    = array();
-		$queryVars['cn-s']            = cnQuery::getVar('cn-s') ? esc_html( cnQuery::getVar('cn-s') ) : FALSE;
+		$queryVars['cn-s']            = cnQuery::getVar('cn-s') ? esc_html( wp_unslash( cnQuery::getVar('cn-s') ) ) : FALSE;
 		$queryVars['cn-char']         = cnQuery::getVar('cn-char') ? esc_html( urldecode( cnQuery::getVar('cn-char') ) ) : FALSE;
 		$queryVars['cn-cat']          = cnQuery::getVar('cn-cat') ? cnQuery::getVar('cn-cat') : FALSE;
 		$queryVars['cn-organization'] = cnQuery::getVar('cn-organization') ? esc_html( urldecode( cnQuery::getVar('cn-organization') ) ) : FALSE;
@@ -1625,7 +1625,7 @@ class cnTemplatePart {
 
 			$out .= '<span class="cn-search">';
 				if ( $atts['show_label'] ) $out .= '<label for="cn-s">Search Directory</label>';
-				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( $searchValue ) . '" placeholder="' . __('Search', 'connections') . '"/>';
+				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( wp_unslash( $searchValue ) ) . '" placeholder="' . __('Search', 'connections') . '"/>';
 				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="" tabindex="-1" />';
 			$out .= '</span>';
 

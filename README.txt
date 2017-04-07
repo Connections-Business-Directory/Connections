@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 8.6.3
+Stable tag: 8.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 8.6.4 04/07/2017 =
+* NEW: Introduce cnFormatting::dateFormatPHPTojQueryUI().
+* NEW: Introduce cnFunction::var_dump_error_log().
+* NEW: Introduce cnDate::parseFromFormat() and cnDate::createFromFormat() to provide PHP 5.2 compatible functions for date_parse_from_format() and DateTime::createFromFormat() respectively.
+* TWEAK: Tweak escaping of search terms.
+* DEV: Add @todo in cnMetabox_Render::datepickerJS() to use cnFormatting::dateFormatPHPTojQueryUI() instead to convert the PHP datetime format to a compatible jQueryUI Datepicker compatibly format.
 
 = 8.6.3 04/04/2017 =
 * TWEAK: Remove PHP_EOL in hcard address template to eliminate unwanted whitespace in page when being rendered.
@@ -826,3 +833,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.4 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+

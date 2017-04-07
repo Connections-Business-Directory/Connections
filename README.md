@@ -251,6 +251,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 ## Changelog ##
 
+= 8.6.4 04/07/2017 =
+* NEW: Introduce cnFormatting::dateFormatPHPTojQueryUI().
+* NEW: Introduce cnFunction::var_dump_error_log().
+* NEW: Introduce cnDate::parseFromFormat() and cnDate::createFromFormat() to provide PHP 5.2 compatible functions for date_parse_from_format() and DateTime::createFromFormat() respectively.
+* TWEAK: Tweak escaping of search terms.
+* DEV: Add @todo in cnMetabox_Render::datepickerJS() to use cnFormatting::dateFormatPHPTojQueryUI() instead to convert the PHP datetime format to a compatible jQueryUI Datepicker compatibly format.
+
 = 8.6.3 04/04/2017 =
 * TWEAK: Remove PHP_EOL in hcard address template to eliminate unwanted whitespace in page when being rendered.
 * BUG: Reset address filters in cnOutput::getAddressBlock().

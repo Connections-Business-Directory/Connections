@@ -1331,6 +1331,11 @@ class cnMetabox_Render {
 	/**
 	 * Outputs the JS necessary to support the datepicker.
 	 *
+	 * NOTE: Incredibly I came to the same solution as used in WordPress core @see wp_localize_jquery_ui_datepicker()
+	 *
+	 * @todo Should use @see cnFormatting::dateFormatPHPTojQueryUI() instead to convert the PHP datetime format to a
+	 *       compatible jQueryUI Datepicker compatibly format.
+	 *
 	 * @access private
 	 * @since 0.8
 	 * @return void

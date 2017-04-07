@@ -204,7 +204,7 @@ class cnRetrieve {
 
 			// Search terms
 			$searchTerms = cnQuery::getVar( 'cn-s' );
-			if ( ! empty( $searchTerms ) ) $atts['search_terms'] = $searchTerms;
+			if ( ! empty( $searchTerms ) ) $atts['search_terms'] = wp_unslash( $searchTerms );
 
 			// Geo-location
 			$queryCoord = cnQuery::getVar( 'cn-near-coord' );

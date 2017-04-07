@@ -276,7 +276,10 @@ function connectionsShowViewPage( $action = NULL ) {
 				$retrieveAttr['limit']      = $page->limit;
 				$retrieveAttr['offset']     = $offset;
 
-				if ( isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ) $retrieveAttr['search_terms'] = $_GET['s'];
+				if ( isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ) {
+
+					$retrieveAttr['search_terms'] = wp_unslash( $_REQUEST['s'] );
+				}
 
 				$results = $instance->retrieve->entries( $retrieveAttr );
 				// print_r($instance->lastQuery);
@@ -314,12 +317,12 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				<form method="post">
 
-					<?php $searchTerm = isset( $_GET['s'] ) && ! empty( $_GET['s'] ) ? $_GET['s'] : ''; ?>
+					<?php $searchTerm = isset( $_REQUEST['s'] ) && ! empty( $_REQUEST['s'] ) ? $_REQUEST['s'] : ''; ?>
 
 					<p class="search-box">
 						<label class="screen-reader-text" for="entry-search-input"><?php _e( 'Search Entries', 'connections' ); ?>:</label>
-						<input type="search" id="entry-search-input" name="s" value="<?php esc_attr_e( $searchTerm ); ?>" />
-						<input type="submit" name="" id="search-submit" class="button" value="<?php _e( 'Search Entries', 'connections' ); ?>"  />
+						<input type="search" id="entry-search-input" name="s" value="<?php echo esc_attr( wp_unslash( $searchTerm ) ); ?>" />
+						<?php submit_button( esc_attr__( 'Search Entries', 'connections' ), '', '', false, array( 'id' => 'search-submit' ) ); ?>
 					</p>
 
 					<?php $form->tokenField( 'cn_manage_actions' ); ?>

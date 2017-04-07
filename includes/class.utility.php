@@ -298,6 +298,83 @@ class cnFormatting {
 
 		return $string;
 	}
+
+	/**
+	 * Convert a PHP format string to a jQueryUI Datepicker/DateTimepicker compatible datetime format string.
+	 *
+	 * @access public
+	 * @since  8.6.4
+	 *
+	 * @link http://stackoverflow.com/a/16725290/5351316
+	 *
+	 * @param $string
+	 *
+	 * @return string
+	 */
+	public static function dateFormatPHPTojQueryUI( $string ) {
+
+		$map = array(
+			// PHP Date format character => jQueryUI Datepicker/DateTimepicker format character.
+			// Day.
+			'd' => 'dd', 'D' => 'D', 'j' => 'd', 'l' => 'DD', 'N' => '', 'S' => '', 'w' => '', 'z' => 'o',
+			// Week.
+			'W' => '',
+			// Month.
+			'F' => 'MM', 'm' => 'mm', 'M' => 'M', 'n' => 'm', 't' => '',
+			// Year.
+			'L' => '', 'o' => '', 'Y' => 'yy', 'y' => 'y',
+			// Time.
+			'a' => 'tt', 'A' => 'TT', 'B' => '',
+			'g' => 'h', 'G' => 'H', 'h' => 'hh', 'H' => 'HH', 'i' => 'mm', 's' => 'ss', 'u' => 'c',
+		);
+
+		$format   = '';
+		$escaping = FALSE;
+
+		for ( $i = 0; $i < strlen( $string ); $i++ ) {
+
+			$char = $string[ $i ];
+
+			// PHP date format escaping character.
+			if ( $char === '\\' ) {
+
+				$i++;
+
+				if ( $escaping ) {
+
+					$format .= $string[ $i ];
+
+				} else {
+
+					$format .= '\'' . $string[ $i ];
+				}
+
+				$escaping = TRUE;
+
+			} else {
+
+				if ( $escaping ) {
+
+					$format .= '\'';
+					$escaping = FALSE;
+				}
+
+				if ( isset( $map[ $char ] ) ) {
+
+					$format .= $map[ $char ];
+
+				} else {
+
+					$format .= $char;
+				}
+			}
+		}
+
+		//If the escaping is still open, make sure to close it. So formatting like this will work: `H\h i\m\i\n`.
+		if ( $escaping ) $format .= '\'';
+
+		return $format;
+	}
 }
 
 class cnValidate {

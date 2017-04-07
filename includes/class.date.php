@@ -519,6 +519,10 @@ class cnDate {
 		// Now try to match it.
 		if ( preg_match( self::getFormatRegex( $format ), $date, $matches ) ) {
 
+			/**
+			 * @var int|string $k
+			 * @var string     $v
+			 */
 			foreach ( $matches as $k => $v ) {
 
 				// Remove unwanted indexes from resulting preg_match.

@@ -2014,7 +2014,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$links = $entry->getLinks( array(), FALSE );
+		$links = $entry->getLinks( array(), FALSE, FALSE, 'edit' );
 		//print_r($links);
 
 		if ( ! empty( $links ) ) {

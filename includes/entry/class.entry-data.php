@@ -2587,7 +2587,7 @@ class cnEntry {
 	 *
 	 * @return array
 	 */
-	public function getLinks( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+	public function getLinks( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
@@ -2652,7 +2652,7 @@ class cnEntry {
 					$row->order      = isset( $link['order'] ) ? (int) $link['order'] : 0;
 					$row->preferred  = isset( $link['preferred'] ) ? (bool) $link['preferred'] : FALSE;
 					$row->type       = isset( $link['type'] ) ? $this->format->sanitizeString( $link['type'] ) : 'website';
-					$row->title      = isset( $link['title'] ) ? $this->format->sanitizeString( $link['title'] ) : '';
+					$row->title      = isset( $link['title'] ) ? cnSanitize::field( 'name', $link['title'], $context ) : '';
 					$row->address    = isset( $link['address'] ) ? cnSanitize::field( 'url', $link['address'], 'raw' ) : '';
 					$row->url        = isset( $link['url'] ) ? cnSanitize::field( 'url', $link['url'], 'raw' ) :'';
 					$row->target     = isset( $link['target'] ) ? $this->format->sanitizeString( $link['target'] ) : 'same';
@@ -2724,7 +2724,7 @@ class cnEntry {
 				$link->order      = (int) $link->order;
 				$link->preferred  = (bool) $link->preferred;
 				$link->type       = $this->format->sanitizeString( $link->type );
-				$link->title      = $this->format->sanitizeString( $link->title );
+				$link->title      = cnSanitize::field( 'name', $link->title, $context );
 				$link->url        = cnSanitize::field( 'url', $link->url, 'raw' );
 				$link->target     = $this->format->sanitizeString( $link->target );
 				$link->follow     = (bool) $link->follow;
@@ -2826,7 +2826,7 @@ class cnEntry {
 	 *
 	 * @return void
 	 */
-	public function setLinks( $links ) {
+	public function setLinks( $links, $context = 'db' ) {
 
 		$userPreferred = NULL;
 
@@ -2874,11 +2874,14 @@ class cnEntry {
 					continue;
 				}
 
+				// Sanitize the URL Title text.
+				$links[ $key ]['title'] = cnSanitize::field( 'name', $links[ $key ]['title'], $context );
+
 				// If the http protocol is not part of the url, add it.
 				$links[ $key ]['url'] = cnURL::prefix( $link['url'] );
 
 				// Sanitize the URL.
-				$links[ $key ]['url'] = cnSanitize::field( 'url', $links[ $key ]['url'], 'db' );
+				$links[ $key ]['url'] = cnSanitize::field( 'url', $links[ $key ]['url'], $context );
 
 				// Store the order attribute as supplied in the addresses array.
 				$links[ $key ]['order'] = $order;
@@ -4820,7 +4823,7 @@ class cnEntry {
 					'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
 					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
-				$this->getLinks( array(), TRUE, TRUE ),
+				$this->getLinks( array(), TRUE, TRUE, 'db' ),
 				array(
 					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
@@ -4878,7 +4881,7 @@ class cnEntry {
 		$socialNetworks = $this->getSocialMedia( array(), FALSE, TRUE );
 		$socialNetworks = json_decode( json_encode( $socialNetworks ), TRUE );
 
-		$links = $this->getLinks( array(), FALSE, TRUE );
+		$links = $this->getLinks( array(), FALSE, TRUE, 'db' );
 		$links = json_decode( json_encode( $links ), TRUE );
 
 		$dates = $this->getDates( array(), FALSE, TRUE );
@@ -5083,7 +5086,7 @@ class cnEntry {
 					'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
 					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
-				$this->getLinks( array(), TRUE, TRUE )
+				$this->getLinks( array(), TRUE, TRUE, 'db' )
 			);
 
 			$cnDb->insert(

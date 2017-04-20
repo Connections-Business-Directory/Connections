@@ -643,6 +643,8 @@ class cnEntry {
 		// WP function -- formatting class
 		$slug = empty( $slug ) || ! is_string( $slug ) ? sanitize_title( $this->getName( array( 'format' => '%first%-%last%' ) ) ) : sanitize_title( $slug );
 
+		$slug = sanitize_title( apply_filters( 'cn_entry_slug', $slug ) );
+
 		// If the entry was entered with no name, use the entry ID instead.
 		if ( empty( $slug ) ) return 'cn-id-' . $this->getId();
 

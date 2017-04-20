@@ -411,9 +411,11 @@ class cnEntryMetabox {
 	 * Callback to render the "Name" metabox.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox attributes array set in self::register().
+	 * @since  0.8
+	 *
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  array   $metabox The metabox attributes array set in self::register().
+	 *
 	 * @return void
 	 */
 	public static function name( $entry, $metabox, $atts = array() ) {

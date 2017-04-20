@@ -641,7 +641,7 @@ class cnEntry {
 		global $wpdb;
 
 		// WP function -- formatting class
-		$slug = empty( $slug ) || ! is_string( $slug ) ? sanitize_title( $this->getName( array( 'format' => '%first%-%last%' ) ) ) : sanitize_title( $slug );
+		$slug = empty( $slug ) || ! is_string( $slug ) ? $this->getName( array( 'format' => '%first%-%last%' ), 'db' ) : $slug;
 
 		$slug = sanitize_title( apply_filters( 'cn_entry_slug', $slug ) );
 

@@ -520,12 +520,12 @@ class cnEntry_Action {
 
 					$sourceEntrySlug = rawurldecode( $entry->getSlug() );
 
-					$entry->setSlug( $entry->getName( array( 'format' => '%first%-%last%' ) ) );
+					$entry->setSlug( $entry->getName( array( 'format' => '%first%-%last%' ), 'db' ) );
 
 				// If a new entry is being added, set the unique slug.
 				} else {
 
-					$entry->setSlug( $entry->getName( array( 'format' => '%first%-%last%' ) ) );
+					$entry->setSlug( $entry->getName( array( 'format' => '%first%-%last%' ), 'db' ) );
 				}
 
 				break;

@@ -924,14 +924,14 @@ class cnMetabox_Render {
 			/**
 			 * Chance to manipulate the field value before rendering the field.
 			 *
-			 * NOTE: The dynamic portion of the hook is the field type.
+			 * NOTE: The dynamic portion of the hook is the field id.
 			 *
 			 * @since 0.8
 			 *
 			 * @param mixed $value The field value.
 			 * @param array $field The field attributes array.
 			 */
-			$value = apply_filters( "cn_meta_field_value-{$field['type']}", $value, $field );
+			$value = apply_filters( "cn_meta_field_value-{$field['id']}", $value, $field, $this );
 
 			switch ( $field['type'] ) {
 

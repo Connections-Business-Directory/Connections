@@ -392,10 +392,12 @@ class cnEntry {
 					//}
 				}
 
-				if ( isset( $this->options['entry']['type'] ) ) $this->entryType = $this->options['entry']['type'];
+				//if ( isset( $this->options['entry']['type'] ) ) $this->entryType = $this->options['entry']['type'];
 				if ( isset( $this->options['connection_group'] ) ) $this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4
 				if ( isset( $this->options['group']['family'] ) ) $this->familyMembers = $this->options['group']['family'];
 			}
+
+			if ( isset( $entry->entry_type ) ) $this->entryType = $entry->entry_type;
 
 			//if ( isset( $entry->id ) ) $this->categories = $connections->retrieve->entryCategories( $this->getId() );
 

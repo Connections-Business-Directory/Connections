@@ -308,7 +308,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			array(
 				'field'  => 'links',
 				'type'   => 1,
-				'fields' => 'url;visibility',
+				'fields' => 'url;title;visibility',
 				'table'  => CN_ENTRY_LINK_TABLE,
 				'types'  => NULL,
 			),
@@ -519,10 +519,11 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		$coreLinkTypes = $instance->options->getDefaultLinkValues();
 		$linkFields    = array(
 			'url'        => 'URL',
+			'title'      => 'Title',
 			'visibility' => 'Visibility',
 		);
 
-		// Add the core email types to the field array.
+		// Add the core link types to the field array.
 		foreach ( $coreLinkTypes as $linkType => $linkName ) {
 
 			foreach ( $linkFields as $linkFieldType => $linkFieldName ) {

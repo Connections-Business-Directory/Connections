@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 8.6.4
+Stable tag: 8.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,19 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 8.6.5 05/04/2017 =
+* NEW: Export the link title attribute when exporting a CSV file.
+* NEW: Introduce the `cn_entry_slug` filter.
+* NEW: ADD support for per user setting of the category metabox height.
+* TWEAK: Minor tweak to template search paths.
+* TWEAK: Use the `entry_type` db column instead of the legacy `entry_type` key from the options array.
+* BUG: Correct escaping and the links title attribute.
+* BUG: Correct escaping of name when creating the entry slug.
+* BUG: Correct the value `cn_meta_field_value-{$field['id']}` dynamic filter.
+* DEV: phpDoc corrections.
+* DEV: Remove WP 4.4 from Travis testing matrix.
+* DEV: Add a couple JS triggers to the admin JS that can be hooked into to trigger events.
 
 = 8.6.4 04/07/2017 =
 * NEW: Introduce cnFormatting::dateFormatPHPTojQueryUI().
@@ -711,50 +724,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add a @todo to cnShortcode.
 * DEV: Minor phpDoc fixes in cnEntryMetabox.
 
-= 8.5.10 02/05/2016 =
-* NEW: Add preferred class names for entry data that has been set as the preferred option. This will allow them to be targeted with CSS to allow differentiation.
-* NEW: Introduce cnTerm_Object.
-* NEW: Various changes in cnTerm to bring methods back into alignment with WordPress 4.4.
-* BUG: Correct bug that prevented the db upgrade routine from running.
-* BUG: Fix the pagination links when the directory is used on the page set as the WordPress Front Page.
-* TWEAK: Simplify the logic which determines which entries to retrieve based on entry status.
-* TWEAK: Simplify the logic to retrieve entries by type.
-* TWEAK: Simplify the logic to exclude categories which results in fewer db queries.
-* TWEAK: Simplify the logic to include categories which results in fewer db queries.
-* TWEAK: Simplify the logic in cnRetrieve::setQueryStatus().
-* TWEAK: Permit only the supported statuses to be queried in cnRetrieve::setQueryStatus().
-* TWEAK: Simplify cnRetrieve::recordCount() to use setQueryVisibility() and setQueryStatus().
-* TWEAK: Make cnRetrieve::addresses() a static method.
-* TWEAK: Complete refactor of the cnRetrieve::phoneNumbers() method.
-* TWEAK: Complete refactor of cnRetrieve::emailAddresses().
-* TWEAK: Complete refactor of cnRetrieve::imIDs().
-* TWEAK: Complete refactor of cnRetrieve::socialMedia().
-* TWEAK: Complete refactor of cnRetrieve::links().
-* TWEAK: Complete refactor of cnRetrieve::dates().
-* TWEAK: Remove use of deprecated function and unused global var in cnRetrieve::search().
-* TWEAK: Set the default year from 1970 to 1972 for the legacy anniversary/birthday fields to allows for a Feb 29th date on leap years.
-* TWEAK: Change cnMeta::updateCache() from private to public because it is required in cnTerm.
-* TWEAK: Update cnTerm::getRelationships(). Add support for `taxonomy`, `parent` and `term_taxonomy_id` options for the `order_by` param. Add the `parent` param to limit results to a given term ID. Add support for term meta queries.
-* TWEAK: Update cnTerm::getTaxonomyTerms() to support the `name` and `childless` params. Add support for term meta queries. Converted to return an array of cnTerm_Object objects.
-* TWEAK: Update cnTerm::getBy() to make the `$taxonomy` param optional if the `$field` param is set to `term_taxonomy_id`. Convert to return an array of cnTerm_Object objects.
-* TWEAK: Update cnTerm::get() to make the `$taxonomy` param optional. Converted it to return an array of cnTerm_Object objects.
-* TWEAK: Change cnTerm::childrenIDs() to be public.
-* TWEAK Deprecate cnTerm::get_hierarchy() because it is a duplicate of cnTerm::childrenIDs(). Delete code and return cnTerm::childrenIDs().
-* TWEAK: Remove use of deprecated method cnTerm::get_hierarchy(). Use cnTerm::childrenIDs() instead.
-* TWEAK: Remove filter which added support for meta queries cnTerm::getTaxonomyTerms() since it now supports it internally.
-* TWEAK: Ensure the `name` attribute is reset before executing cnTerm::getTaxonomyTerms() in the template walker classes.
-* TWEAK: Refactor cnRetrieve::entryTerms() for better caching of results and update cached results to return array of cnTerm_Object objects.
-* TWEAK: Refactor cnEntry::getCategory() to use cnRetrieve::entryTerms() and to get the term relationships on demand instead of preloading when cnEntry is created.
-* OTHER: Remove unused legacy methods in cnRetrieve.
-* OTHER: Remove unnecessary isset check in cnRetrieve::setQueryVisibility().
-* DEV: Update phpDoc in a couple cnTerm methods to note the WordPress core equivalent function.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.10 =
-It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.11 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.
@@ -835,5 +807,8 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.4 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 

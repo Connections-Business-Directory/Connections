@@ -146,7 +146,7 @@ class cnScript {
 
 		if ( is_admin() ) {
 
-			wp_register_script( 'cn-ui-admin', $url . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate', 'jquery-ui-sortable' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-ui-admin', $url . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate', 'jquery-ui-sortable', 'jquery-ui-resizable' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-system-info', $url . "assets/js/cn-system-info$min.js", array( 'jquery', 'jquery-validate', 'jquery-form', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, TRUE );
@@ -164,6 +164,10 @@ class cnScript {
 						esc_html( size_format( wp_max_upload_size() ) )
 					),
 					'connections'
+				),
+				'categoryDiv'              => array(
+					'nonce'  => wp_create_nonce( 'set_category_div_height' ),
+					'height' => Connections_Directory()->currentUser->getCategoryDivHeight(),
 				),
 			);
 

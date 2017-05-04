@@ -3,6 +3,8 @@
  */
 jQuery(document).ready( function($) {
 
+	var $document = $( document );
+
 	var CN_Form = {
 
 		init : function() {
@@ -163,6 +165,57 @@ jQuery(document).ready( function($) {
 
 			$('#cn-relations').sortable();
 
+			// Make the category checklist resizable.
+			var categorydiv = $('.categorydiv div.tabs-panel#category-all');
+			var categorydivHeight = cn_string.categoryDiv.height;
+
+			$( categorydiv ).resizable( {
+
+				maxWidth: Math.floor( categorydiv.width() ),
+				minWidth: Math.floor( categorydiv.width() ),
+
+				create:   function( event, ui ) {
+
+					var $this = $( this );
+
+					$this.css( { height: categorydivHeight, width: 'inherit' } );
+					$this.children( '.ui-icon' ).css( 'background', 'url(images/resize.gif)' );
+				},
+				stop:     function( event, ui ) {
+
+					var wp  = window.wp;
+
+					wp.ajax.send(
+						'set_category_div_height',
+						{
+							success: function( response ) {
+
+								// console.log( response );
+								//
+								// console.log( "Success!" );
+								// console.log( "New nonce: " + response.nonce );
+								// console.log( "Message from PHP: " + response.message );
+							},
+							error:   function( response ) {
+
+								// console.log( response );
+								//
+								// console.log( "Failed!" );
+								// console.log( "New nonce: " + response.nonce );
+								// console.log( "Message from PHP: " + response.message );
+							},
+							data:    {
+								height: categorydiv.height(),
+								_ajax_nonce: cn_string.categoryDiv.nonce
+							}
+						}
+					);
+
+				}
+			} ).css( {
+				'max-height': 'none'
+			} );
+
 			// Hook in the jQuery Validate on the form.
 			CN_Form.validate( $( '#cn-form' ) );
 
@@ -229,6 +282,16 @@ jQuery(document).ready( function($) {
 					break;
 			}
 
+			/**
+			 * @summary Fires when an entry type is selected.
+			 *
+			 * Contains a jQuery object with the relevant postbox element.
+			 *
+			 * @since 8.6.5
+			 * @event input[name=entry_type]
+			 * @type {string}
+			 */
+			$document.trigger( 'entry-type-selected', type );
 		},
 		add : function( button ) {
 
@@ -253,6 +316,16 @@ jQuery(document).ready( function($) {
 			$(container).append( '<div class="widget ' + type + '" id="' + type + '-row-' + token + '" style="display: none;">' + template + '</div>' );
 			$('#' + type + '-row-' + token).slideDown();
 
+			/**
+			 * @summary Fires when a repeatable field is added.
+			 *
+			 * Contains a jQuery object with the relevant postbox element.
+			 *
+			 * @since 8.6.5
+			 * @event input[name=entry_type]
+			 * @type {string}
+			 */
+			$document.trigger( 'entry-field-type-added', type );
 		},
 		remove : function( button ) {
 

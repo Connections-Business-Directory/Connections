@@ -643,6 +643,27 @@ and (max-width: 780px) {
 	margin: 10px;
 }
 
+/* The "Category" metabox styles. */
+.categorydiv .ui-resizable {
+	position: relative;
+}
+
+.categorydiv .ui-resizable-e, .categorydiv .ui-resizable-s {
+	display: none;
+	width: 0;
+	height: 0;
+}
+
+.categorydiv .ui-resizable-se {
+	cursor: se-resize;
+	width: 12px;
+	height: 12px;
+	right: 1px;
+	bottom: 1px;
+	display: block;
+	position: absolute;
+}
+
 /* The "Name" metabox styles. */
 #metabox-name input[type="text"] {
 	width: 100%;

@@ -273,8 +273,8 @@ class cnEntryMetabox {
 	 * @access private
 	 * @since 0.8
 	 * @global string $plugin_page
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox attributes array set in self::register().
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  array   $metabox The metabox attributes array set in self::register().
 	 * @return void
 	 */
 	public static function publish( $entry, $metabox, $atts = array() ) {
@@ -411,9 +411,11 @@ class cnEntryMetabox {
 	 * Callback to render the "Name" metabox.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox attributes array set in self::register().
+	 * @since  0.8
+	 *
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  array   $metabox The metabox attributes array set in self::register().
+	 *
 	 * @return void
 	 */
 	public static function name( $entry, $metabox, $atts = array() ) {
@@ -2012,7 +2014,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$links = $entry->getLinks( array(), FALSE );
+		$links = $entry->getLinks( array(), FALSE, FALSE, 'edit' );
 		//print_r($links);
 
 		if ( ! empty( $links ) ) {

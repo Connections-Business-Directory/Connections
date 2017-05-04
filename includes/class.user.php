@@ -298,6 +298,51 @@ class cnUser {
 	}
 
 	/**
+	 * Get the current user's saved height for the category metabox.
+	 *
+	 * @access private
+	 * @since  8.6.5
+	 *
+	 * @return int
+	 */
+	public function getCategoryDivHeight() {
+
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+
+		if ( ! $user_meta == NULL && isset( $user_meta['ui']['category_div_height'] ) ) {
+
+			$height = $user_meta['ui']['category_div_height'];
+
+		} else {
+
+			$height = 200;
+		}
+
+		return absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
+	}
+
+	/**
+	 * Set the current user's height for the category metabox.
+	 *
+	 * @access private
+	 * @since  8.6.5
+	 *
+	 * @param int $height
+	 *
+	 * @return bool|int
+	 */
+	public function setCategoryDivHeight( $height ) {
+
+		if ( ! is_int( $height ) ) return FALSE;
+
+		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+
+		$user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
+
+		return update_user_meta( $this->ID, 'connections', $user_meta );
+	}
+
+	/**
 	 * @param $pageName
 	 */
 	public function resetFilterPage( $pageName ) {

@@ -163,6 +163,57 @@ jQuery(document).ready( function($) {
 
 			$('#cn-relations').sortable();
 
+			// Make the category checklist resizable.
+			var categorydiv = $('.categorydiv div.tabs-panel#category-all');
+			var categorydivHeight = cn_string.categoryDiv.height;
+
+			$( categorydiv ).resizable( {
+
+				maxWidth: Math.floor( categorydiv.width() ),
+				minWidth: Math.floor( categorydiv.width() ),
+
+				create:   function( event, ui ) {
+
+					var $this = $( this );
+
+					$this.css( { height: categorydivHeight, width: 'inherit' } );
+					$this.children( '.ui-icon' ).css( 'background', 'url(images/resize.gif)' );
+				},
+				stop:     function( event, ui ) {
+
+					var wp  = window.wp;
+
+					wp.ajax.send(
+						'set_category_div_height',
+						{
+							success: function( response ) {
+
+								// console.log( response );
+								//
+								// console.log( "Success!" );
+								// console.log( "New nonce: " + response.nonce );
+								// console.log( "Message from PHP: " + response.message );
+							},
+							error:   function( response ) {
+
+								// console.log( response );
+								//
+								// console.log( "Failed!" );
+								// console.log( "New nonce: " + response.nonce );
+								// console.log( "Message from PHP: " + response.message );
+							},
+							data:    {
+								height: categorydiv.height(),
+								_ajax_nonce: cn_string.categoryDiv.nonce
+							}
+						}
+					);
+
+				}
+			} ).css( {
+				'max-height': 'none'
+			} );
+
 			// Hook in the jQuery Validate on the form.
 			CN_Form.validate( $( '#cn-form' ) );
 

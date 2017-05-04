@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 8.6.5 05/04/2017 =
+* NEW: Export the link title attribute when exporting a CSV file.
+* NEW: Introduce the `cn_entry_slug` filter.
+* NEW: ADD support for per user setting of the category metabox height.
+* TWEAK: Minor tweak to template search paths.
+* TWEAK: Use the `entry_type` db column instead of the legacy `entry_type` key from the options array.
+* BUG: Correct escaping and the links title attribute.
+* BUG: Correct escaping of name when creating the entry slug.
+* BUG: Correct the value `cn_meta_field_value-{$field['id']}` dynamic filter.
+* DEV: phpDoc corrections.
+* DEV: Remove WP 4.4 from Travis testing matrix.
+* DEV: Add a couple JS triggers to the admin JS that can be hooked into to trigger events.
+
 = 8.6.4 04/07/2017 =
 * NEW: Introduce cnFormatting::dateFormatPHPTojQueryUI().
 * NEW: Introduce cnFunction::var_dump_error_log().

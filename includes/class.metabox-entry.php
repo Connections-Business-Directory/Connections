@@ -273,8 +273,8 @@ class cnEntryMetabox {
 	 * @access private
 	 * @since 0.8
 	 * @global string $plugin_page
-	 * @param  object $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox attributes array set in self::register().
+	 * @param  cnEntry $entry   An instance of the cnEntry object.
+	 * @param  array   $metabox The metabox attributes array set in self::register().
 	 * @return void
 	 */
 	public static function publish( $entry, $metabox, $atts = array() ) {

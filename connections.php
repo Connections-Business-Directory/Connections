@@ -127,7 +127,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		/**
 		 * Stores the template parts object and any templates activated by the cnTemplateFactory object.
 		 *
-		 * NOTE: Technically not necessary to load the template parts into this opject but it's required
+		 * NOTE: Technically not necessary to load the template parts into this object but it's required
 		 * for backward compatibility for templates expecting to find those methods as part of this object.
 		 *
 		 * @access public

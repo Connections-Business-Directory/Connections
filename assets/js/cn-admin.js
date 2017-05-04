@@ -3,6 +3,8 @@
  */
 jQuery(document).ready( function($) {
 
+	var $document = $( document );
+
 	var CN_Form = {
 
 		init : function() {
@@ -280,6 +282,16 @@ jQuery(document).ready( function($) {
 					break;
 			}
 
+			/**
+			 * @summary Fires when an entry type is selected.
+			 *
+			 * Contains a jQuery object with the relevant postbox element.
+			 *
+			 * @since 8.6.5
+			 * @event input[name=entry_type]
+			 * @type {string}
+			 */
+			$document.trigger( 'entry-type-selected', type );
 		},
 		add : function( button ) {
 
@@ -304,6 +316,16 @@ jQuery(document).ready( function($) {
 			$(container).append( '<div class="widget ' + type + '" id="' + type + '-row-' + token + '" style="display: none;">' + template + '</div>' );
 			$('#' + type + '-row-' + token).slideDown();
 
+			/**
+			 * @summary Fires when a repeatable field is added.
+			 *
+			 * Contains a jQuery object with the relevant postbox element.
+			 *
+			 * @since 8.6.5
+			 * @event input[name=entry_type]
+			 * @type {string}
+			 */
+			$document.trigger( 'entry-field-type-added', type );
 		},
 		remove : function( button ) {
 

@@ -464,12 +464,12 @@ class cnMetabox_Render {
 	/**
 	 * The object being worked with.
 	 *
-	 * @access private
-	 * @since 0.8
+	 * @access public
+	 * @since  0.8
 	 *
 	 * @var object
 	 */
-	private $object;
+	public $object;
 
 	/**
 	 * The meta data for a cnEntry object.

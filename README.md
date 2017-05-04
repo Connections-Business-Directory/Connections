@@ -251,6 +251,21 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 ## Changelog ##
 
+[Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 8.6.5 05/04/2017 =
+* NEW: Export the link title attribute when exporting a CSV file.
+* NEW: Introduce the `cn_entry_slug` filter.
+* NEW: ADD support for per user setting of the category metabox height.
+* TWEAK: Minor tweak to template search paths.
+* TWEAK: Use the `entry_type` db column instead of the legacy `entry_type` key from the options array.
+* BUG: Correct escaping and the links title attribute.
+* BUG: Correct escaping of name when creating the entry slug.
+* BUG: Correct the value `cn_meta_field_value-{$field['id']}` dynamic filter.
+* DEV: phpDoc corrections.
+* DEV: Remove WP 4.4 from Travis testing matrix.
+* DEV: Add a couple JS triggers to the admin JS that can be hooked into to trigger events.
+
 = 8.6.4 04/07/2017 =
 * NEW: Introduce cnFormatting::dateFormatPHPTojQueryUI().
 * NEW: Introduce cnFunction::var_dump_error_log().
@@ -733,174 +748,4 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add a @todo to cnShortcode.
 * DEV: Minor phpDoc fixes in cnEntryMetabox.
 
-### 8.5.10 02/05/2016 ###
-* NEW: Add preferred class names for entry data that has been set as the preferred option. This will allow them to be targeted with CSS to allow differentiation.
-* NEW: Introduce cnTerm_Object.
-* NEW: Various changes in cnTerm to bring methods back into alignment with WordPress 4.4.
-* BUG: Correct bug that prevented the db upgrade routine from running.
-* BUG: Fix the pagination links when the directory is used on the page set as the WordPress Front Page.
-* TWEAK: Simplify the logic which determines which entries to retrieve based on entry status.
-* TWEAK: Simplify the logic to retrieve entries by type.
-* TWEAK: Simplify the logic to exclude categories which results in fewer db queries.
-* TWEAK: Simplify the logic to include categories which results in fewer db queries.
-* TWEAK: Simplify the logic in cnRetrieve::setQueryStatus().
-* TWEAK: Permit only the supported statuses to be queried in cnRetrieve::setQueryStatus().
-* TWEAK: Simplify cnRetrieve::recordCount() to use setQueryVisibility() and setQueryStatus().
-* TWEAK: Make cnRetrieve::addresses() a static method.
-* TWEAK: Complete refactor of the cnRetrieve::phoneNumbers() method.
-* TWEAK: Complete refactor of cnRetrieve::emailAddresses().
-* TWEAK: Complete refactor of cnRetrieve::imIDs().
-* TWEAK: Complete refactor of cnRetrieve::socialMedia().
-* TWEAK: Complete refactor of cnRetrieve::links().
-* TWEAK: Complete refactor of cnRetrieve::dates().
-* TWEAK: Remove use of deprecated function and unused global var in cnRetrieve::search().
-* TWEAK: Set the default year from 1970 to 1972 for the legacy anniversary/birthday fields to allows for a Feb 29th date on leap years.
-* TWEAK: Change cnMeta::updateCache() from private to public because it is required in cnTerm.
-* TWEAK: Update cnTerm::getRelationships(). Add support for `taxonomy`, `parent` and `term_taxonomy_id` options for the `order_by` param. Add the `parent` param to limit results to a given term ID. Add support for term meta queries.
-* TWEAK: Update cnTerm::getTaxonomyTerms() to support the `name` and `childless` params. Add support for term meta queries. Converted to return an array of cnTerm_Object objects.
-* TWEAK: Update cnTerm::getBy() to make the `$taxonomy` param optional if the `$field` param is set to `term_taxonomy_id`. Convert to return an array of cnTerm_Object objects.
-* TWEAK: Update cnTerm::get() to make the `$taxonomy` param optional. Converted it to return an array of cnTerm_Object objects.
-* TWEAK: Change cnTerm::childrenIDs() to be public.
-* TWEAK Deprecate cnTerm::get_hierarchy() because it is a duplicate of cnTerm::childrenIDs(). Delete code and return cnTerm::childrenIDs().
-* TWEAK: Remove use of deprecated method cnTerm::get_hierarchy(). Use cnTerm::childrenIDs() instead.
-* TWEAK: Remove filter which added support for meta queries cnTerm::getTaxonomyTerms() since it now supports it internally.
-* TWEAK: Ensure the `name` attribute is reset before executing cnTerm::getTaxonomyTerms() in the template walker classes.
-* TWEAK: Refactor cnRetrieve::entryTerms() for better caching of results and update cached results to return array of cnTerm_Object objects.
-* TWEAK: Refactor cnEntry::getCategory() to use cnRetrieve::entryTerms() and to get the term relationships on demand instead of preloading when cnEntry is created.
-* OTHER: Remove unused legacy methods in cnRetrieve.
-* OTHER: Remove unnecessary isset check in cnRetrieve::setQueryVisibility().
-* DEV: Update phpDoc in a couple cnTerm methods to note the WordPress core equivalent function.
-
-### 8.5.9 02/01/2016 ###
-* NEW: Add ABSPATH to the System Info.
-* NEW: Refactor cnTemplatePart::searchingMessage() to add filters and hooks to make it more configurable for developers.
-* BUG: Enqueue the JavaScript on the Settings Import/Export admin page.
-* BUG: Use CN_TEMPLATE_PATH instead of CN_PATH to include the core templates. Remove, the double forward slash.
-* BUG: Fix unescaped user search term in the admin. Unfiltered user input for the search field being sent directly via echo back to the user's browser.
-* BUG: Escape role names and capabilities submitted by the Connections : Roles admin page when adding/removing a role capability.
-* TWEAK: Tweak logic in cnUtility::getUUID() so if openssl_random_pseudo_bytes() fails, it'll gracefully fallback to the compatibility method rather than failing.
-* TWEAK: Remove instance of `$plugindir = get_bloginfo( 'wpurl' ) . '/wp-content/plugins';` as requested by wp.org.
-* TWEAK: Remove unused global from cnRole::reset().
-* TWEAK: Add message for user if they do not have access to any admin tools.
-* TWEAK: Correct the user capabilities for the Tools admin page to better align with the core WordPress user capabilities for the same functions.
-* TWEAK: Escape role names before resetting them.
-* TWEAK: Escape URL use to kickoff a DB upgrade.
-* TWEAK: Code cleanup of the DB upgrade message to make it more readable.
-* TWEAK: Escape CSV Export type before processing.
-* TWEAK: Escape Connections : Manage admin page view action.
-* TWEAK: Escape the output for the current character on the Connections : Manage admin page.
-* TWEAK: Escape the current log type being viewed.
-* TWEAK: Run absint() on log post ID.
-* OTHER: Reduce tags as requested by wp.org.
-* OTHER: Correct misspelling in cnRole::reset().
-* OTHER: Add newline at EOF in class.capabilities.php.
-* OTHER: Remove an extra space.
-* DEV: Use minified files instead of vendor supplied packed files for jQuery goMap and MarkerClusterer per wp.org guidelines.
-* DEV: Use Yoda condition.
-
-### 8.5.8 01/08/2016 ###
-* NEW: CSV export will now export the visibility of address, phone, email and dates.
-* NEW: CSV export will now export the visibility status of social media, instant messenger and links.
-* NEW: CSV export will now export the image and logo URL/s.
-* COMPATIBILITY: Remove spaces after delimiter in CSV export for Excel compatibility.
-* BUG: Correct bug in setting the radio group name attribute.
-* BUG: Properly sanitize the address fields when saving an entry.
-* TWEAK: Remove unused global var $current_user in several methods in cnRetrieve. Remove unused calls to get_currentuserinfo() which will be deprecated in WordPress 4.5.
-* TWEAK: Move the header breakout fields and field types to be within their switch case so they are only run when needed instead on every field export type.
-* TWEAK: Correct the user capabilities for the Tools admin page to better align with the core WordPress user capabilities for the same functions.
-* TWEAK: Add missing user capability checks for system info and remote system info tools.
-* OTHER: Tweak the default tool tab to be the first registered tab rather than being hard coded.
-* OTHER: Update link to the documentation page.
-* OTHER: Remove TimThumb from the vendors folder and most references to it from the code and text since it has not been needed for well over a year now.
-* DEV: Add ability to register a tab with a user role capability so the user must have that capability in order to access that tool tab.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
-
-## Upgrade Notice ##
-
-### 8.5.8 ###
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-### 8.5.9 ###
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-### 8.5.10 ###
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-### 8.5.11 ###
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-### 8.5.12 ###
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-### 8.5.13 ###
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-### 8.5.14 ###
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-### 8.5.15 ###
-It is recommended to backup before updating. Requires WordPress >= 4.1.
-
-### 8.5.16 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.17 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.18 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.19 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.20 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.21 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.22 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.23 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.24 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.25 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.26 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.27 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.28 ###
-It is recommended to backup before updating. Requires WordPress >= 4.2.
-
-### 8.5.29 ###
-It is recommended to backup before updating. Requires WordPress >= 4.3.
-
-### 8.5.30 ###
-It is recommended to backup before updating. Requires WordPress >= 4.3.
-
-### 8.5.31 ###
-It is recommended to backup before updating. Requires WordPress >= 4.3.
-
-### 8.5.32 ###
-It is recommended to backup before updating. Requires WordPress >= 4.3.
-
-### 8.6 ###
-It is recommended to backup before updating. Requires WordPress >= 4.4.
-
-### 8.6.1 ###
-It is recommended to backup before updating. Requires WordPress >= 4.4.
-
-### 8.6.2 ###
-It is recommended to backup before updating. Requires WordPress >= 4.4.
-
-### 8.6.3 ###
-It is recommended to backup before updating. Requires WordPress >= 4.4.

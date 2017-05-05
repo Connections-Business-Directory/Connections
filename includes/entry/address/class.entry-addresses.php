@@ -271,7 +271,6 @@ final class cnEntry_Addresses implements cnToArray {
 
 		// Sync the filtered and unfiltered collections.
 		$this->resetFilters();
-
 	}
 
 	/**

@@ -341,7 +341,7 @@ final class cnEntry_Addresses implements cnToArray {
 				'longitude'  => array( 'key' => 'longitude', 'format' => '%s' ),
 				'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 			),
-			$this->getCollectionAsObjects(),
+			$this->resetFilters()->getCollectionAsObjects(),
 			array(
 				'id' => array( 'key' => 'id', 'format' => '%d' ),
 			)

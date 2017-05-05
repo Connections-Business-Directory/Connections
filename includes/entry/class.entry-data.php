@@ -1345,7 +1345,7 @@ class cnEntry {
 
 		} else {
 
-			if ( $saving ) $atts['visibility'] = array( 'public', 'private', 'unlisted' );
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
 			$results = $this->addresses->query( $atts )
 			                           ->escapeFor( $context )

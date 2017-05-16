@@ -1842,6 +1842,8 @@ class cnTemplatePart {
 
 		$out = '';
 
+		$translated = __( 'Page', 'connections' ); // Supply translatable string
+
 		$defaults = array(
 			'limit'              => 20,
 			'show_all'           => FALSE,
@@ -1851,7 +1853,7 @@ class cnTemplatePart {
 			'prev_text'          => __( '&laquo;', 'connections' ),
 			'next_text'          => __( '&raquo;', 'connections' ),
 			'add_fragment'       => '',
-			'before_page_number' => '',
+			'before_page_number' => '<span class="screen-reader-text">'.$translated.' </span>',
 			'after_page_number'  => '',
 			'return'             => FALSE,
 		);

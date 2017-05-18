@@ -651,7 +651,7 @@ class cnEntry {
 		if ( empty( $slug ) ) return 'cn-id-' . $this->getId();
 
 		// Query all matching slugs in one database query.
-		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug LIKE %s', $wpdb->esc_like( $slug  ) . '%' );
+		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug LIKE %s', $wpdb->esc_like( $slug ) . '%' );
 
 		$slugs = $wpdb->get_col( $query );
 

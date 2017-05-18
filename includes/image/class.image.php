@@ -1808,14 +1808,14 @@ class cnImage {
 	 *
 	 * @return array|WP_Error On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
-	public static function sideload( $path, $filename, $folder = '' ) {
+	public static function sideload( $path, $filename, $subDirectory = '' ) {
 
 		// Add filter to lowercase the image filename extension.
 		add_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
 
 		$atts = array(
 			'action'  => 'cn_image_sideload',
-			'sub_dir' => empty( $folder ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $folder,
+			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory,
 			'mimes'   => array(
 				'jpeg' => 'image/jpeg',
 				'jpg'  => 'image/jpeg',

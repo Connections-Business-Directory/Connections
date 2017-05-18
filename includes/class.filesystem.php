@@ -602,6 +602,8 @@ class cnUpload {
 	 */
 	public function uniqueFilename( $dir, $name, $ext ) {
 
+		$name = pathinfo( $name, PATHINFO_FILENAME );
+
 		$filename = $name . $ext;
 		$number   = 0;
 

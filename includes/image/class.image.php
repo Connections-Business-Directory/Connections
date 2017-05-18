@@ -1705,11 +1705,8 @@ class cnImage {
 	 * @since  8.1
 	 * @static
 	 *
-	 * @uses   trailingslashit()
-	 * @uses   cnUpload
-	 *
 	 * @param array  $file         Reference to a single element of $_FILES.
-	 * @param string $subDirectory An associative array containing the upload params.
+	 * @param string $subDirectory The folder within WP_CONTENT_DIR/CN_IMAGE_DIR_NAME to save the image into.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
@@ -1805,10 +1802,11 @@ class cnImage {
 	 * @uses   trailingslashit()
 	 * @uses   cnUpload
 	 *
-	 * @param array  $filename Reference to a single element of $_FILES.
-	 * @param string $folder   An associative array containing the upload params.
+	 * @param string $path         The absolute path to the image in which to sideload.
+	 * @param string $filename     The filename in which to sideload.
+	 * @param string $subDirectory The folder within WP_CONTENT_DIR/CN_IMAGE_DIR_NAME to save the image into.
 	 *
-	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
+	 * @return array|WP_Error On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
 	public static function sideload( $path, $filename, $folder = '' ) {
 
@@ -1840,7 +1838,7 @@ class cnImage {
 		 *
 		 * @since 8.2.9
 		 *
-		 * @param array  $filename A reference to a single element of $_FILES.
+		 * @param string $filename
 		 * @param string $atts['sub_dir'] The subdirectory the image is to be uploaded.
 		 */
 		do_action( 'cn_image_sideload', $filename, $atts['sub_dir'] );

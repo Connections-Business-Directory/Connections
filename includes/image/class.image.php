@@ -1699,6 +1699,45 @@ class cnImage {
 	}
 
 	/**
+	 * Download an image from an absolute image URL to the WP_CONTENT_DIR/CN_IMAGE_DIR_NAME or in the defined subdirectory.
+	 *
+	 * @access public
+	 * @since  8.6.6
+	 * @static
+	 *
+	 * @param string $url          The absolute image URL
+	 * @param int    $timeout      The timeout in seconds to limit the image download to.
+	 * @param string $subDirectory The folder within WP_CONTENT_DIR/CN_IMAGE_DIR_NAME to save the image into.
+	 *
+	 * @return array|WP_Error
+	 */
+	public static function download( $url, $timeout = 5, $subDirectory = '' ) {
+
+		// Download file to temp folder with a temp name.
+		$file = download_url( $url, $timeout );
+
+		if ( is_wp_error( $file ) ) {
+
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
+			@unlink( $file );
+
+			return new WP_Error(
+				'image_download_failed',
+				__( 'Could not download image from remote source.', 'connections' )
+			);
+
+		} else {
+
+			$name = basename( parse_url( $url, PHP_URL_PATH ) );
+			$path = trailingslashit( dirname( $file ) );
+
+			rename( $file, $path . $name );
+
+			return self::sideload( $path, $name, $subDirectory );
+		}
+	}
+
+	/**
 	 * Upload a file to the WP_CONTENT_DIR/CN_IMAGE_DIR_NAME or in the defined subdirectory.
 	 *
 	 * @access public

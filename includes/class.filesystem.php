@@ -265,7 +265,7 @@ class cnUpload {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @uses   self::file()
+	 *
 	 * @param array  $file Reference to a single element of $_FILES.
 	 * @param array  $atts An associative array containing the upload params.
 	 *

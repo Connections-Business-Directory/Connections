@@ -20,7 +20,7 @@ class cnConstants {
 		}
 
 		/** @var string CN_CURRENT_VERSION The current version. */
-		define( 'CN_CURRENT_VERSION', '8.6.5' );
+		define( 'CN_CURRENT_VERSION', '8.6.6' );
 
 		/** @var string CN_DB_VERSION The current DB version. */
 		define( 'CN_DB_VERSION', '0.4' );

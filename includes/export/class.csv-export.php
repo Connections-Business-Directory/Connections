@@ -244,6 +244,13 @@ class cnCSV_Export {
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename=cn-export-' . $this->type . '-' . date( 'm-d-Y' ) . '.csv' );
 		header( "Expires: 0" );
+
+		/**
+		 * Allow plugins to add additional HTTP headers.
+		 *
+		 * @since 8.6.6
+		 */
+		do_action( 'cn_csv_batch_export_download_headers' );
 	}
 
 	/**

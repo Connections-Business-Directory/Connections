@@ -651,13 +651,13 @@ class cnEntry {
 		if ( empty( $slug ) ) return 'cn-id-' . $this->getId();
 
 		// Query all matching slugs in one database query.
-		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug LIKE %s', $wpdb->esc_like( $slug  ) . '%' );
+		$query = $wpdb->prepare( 'SELECT slug FROM ' . CN_ENTRY_TABLE . ' WHERE slug LIKE %s', $wpdb->esc_like( $slug ) . '%' );
 
 		$slugs = $wpdb->get_col( $query );
 
 		if ( ! empty( $slugs ) ) {
 
-			$num = 2;
+			$num = 0;
 
 			// Keep incrementing $num, until a space for a unique slug is found.
 			while( in_array( ( $slug . '-' . ++$num ), $slugs ) );
@@ -666,7 +666,7 @@ class cnEntry {
 			$slug = $slug . "-$num";
 		}
 
-		return $slug;
+		return $this->slug = $slug;
 	}
 
 	/**
@@ -1345,7 +1345,7 @@ class cnEntry {
 
 		} else {
 
-			if ( $saving ) $atts['visibility'] = array( 'public', 'private', 'unlisted' );
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
 			$results = $this->addresses->query( $atts )
 			                           ->escapeFor( $context )

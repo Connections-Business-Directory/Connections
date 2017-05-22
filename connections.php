@@ -3,13 +3,13 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.6.5
+ * Version: 8.6.6
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
  * Domain Path: languages
  *
- * Copyright 2016  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
+ * Copyright 2017  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
  *
  * Connections is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2, as
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.6.5
+ * @version 8.6.6
  */
 
 // Exit if accessed directly

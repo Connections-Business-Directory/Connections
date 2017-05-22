@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 8.6.5
+Stable tag: 8.6.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,21 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 8.6.6 05/23/2017 =
+* NEW: Introduce the `cn_csv_batch_export_download_headers` action hook.
+* NEW: Introduce the `cn_template_register_options-{template-slug}` filter.
+* NEW: Introduce `cnImage::download()`.
+* TWEAK: Tweak cnEntry_Address:query() to call cnRetrieve::addresses() to query as it it were saving so all addresses would be returned per the supplied args and not limited to the current user permissions.
+* TWEAK: Tweak cnEntry::getAddresses() to query addresses the user can view when not saving.
+* TWEAK: Add the screen reader text to the directory pagination to help improve a11y.
+* TWEAK: Start searching for unique slug at 0 instead of two to better make sure slugs are properly incremented.
+* BUG: Reset applied filters when when addresses to ensure all addresses are saved to the database.
+* BUG: Fix bug in cnFilesystem::uniqueFilename() introduce in WP 4.6 when WP change the filename being passed to the callback from the basename to the full name.
+* BUG: When getting a unique entry slug, the value should be saved in the cnEntry property so a unique entry slug is not queried on subsequent calls.
+* DEV: phpDoc correction.
+* DEV: Rename method property name in `cnImage::sideload()` to be consistent with other similar methods.
+* DEV: phpDoc correction.
 
 = 8.6.5 05/04/2017 =
 * NEW: Export the link title attribute when exporting a CSV file.
@@ -811,4 +826,8 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.6 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
 

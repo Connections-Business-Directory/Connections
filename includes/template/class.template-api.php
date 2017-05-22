@@ -163,6 +163,17 @@ class cnTemplateFactory {
 		$atts = wp_parse_args( $atts, $defaults );
 
 		/**
+		 * Allow plugins to alter template's registration options prior to being registered.
+		 *
+		 * The dynamic portion of the action hook name is the template's slug.
+		 *
+		 * @since 8.6.6
+		 *
+		 * @param array $atts
+		 */
+		$atts = apply_filters( "cn_template_register_options-{$atts['slug']}", $atts );
+
+		/**
 		 * @var $name string
 		 * @var $type string
 		 */

@@ -265,7 +265,7 @@ class cnUpload {
 	 *
 	 * @access public
 	 * @since  8.1
-	 * @uses   self::file()
+	 *
 	 * @param array  $file Reference to a single element of $_FILES.
 	 * @param array  $atts An associative array containing the upload params.
 	 *
@@ -601,6 +601,8 @@ class cnUpload {
 	 * @return string       The unique file name.
 	 */
 	public function uniqueFilename( $dir, $name, $ext ) {
+
+		$name = pathinfo( $name, PATHINFO_FILENAME );
 
 		$filename = $name . $ext;
 		$number   = 0;

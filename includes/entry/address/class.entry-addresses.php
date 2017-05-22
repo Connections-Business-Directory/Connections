@@ -271,7 +271,6 @@ final class cnEntry_Addresses implements cnToArray {
 
 		// Sync the filtered and unfiltered collections.
 		$this->resetFilters();
-
 	}
 
 	/**
@@ -341,7 +340,7 @@ final class cnEntry_Addresses implements cnToArray {
 				'longitude'  => array( 'key' => 'longitude', 'format' => '%s' ),
 				'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 			),
-			$this->getCollectionAsObjects(),
+			$this->resetFilters()->getCollectionAsObjects(),
 			array(
 				'id' => array( 'key' => 'id', 'format' => '%d' ),
 			)
@@ -777,7 +776,11 @@ final class cnEntry_Addresses implements cnToArray {
 
 			$options['id'] = $this->id;
 
-			$data = $instance->retrieve->addresses( $options );
+			/*
+			 * Set saving as true to force the query of all entries filtered per supplied attributes.
+			 * This will reflect who it function when the table manager and query classes are implemented.
+			 */
+			$data = $instance->retrieve->addresses( $options, TRUE );
 		}
 
 		if ( empty( $data ) ) return $this;

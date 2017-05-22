@@ -1699,17 +1699,53 @@ class cnImage {
 	}
 
 	/**
+	 * Download an image from an absolute image URL to the WP_CONTENT_DIR/CN_IMAGE_DIR_NAME or in the defined subdirectory.
+	 *
+	 * @access public
+	 * @since  8.6.6
+	 * @static
+	 *
+	 * @param string $url          The absolute image URL
+	 * @param int    $timeout      The timeout in seconds to limit the image download to.
+	 * @param string $subDirectory The folder within WP_CONTENT_DIR/CN_IMAGE_DIR_NAME to save the image into.
+	 *
+	 * @return array|WP_Error
+	 */
+	public static function download( $url, $timeout = 5, $subDirectory = '' ) {
+
+		// Download file to temp folder with a temp name.
+		$file = download_url( $url, $timeout );
+
+		if ( is_wp_error( $file ) ) {
+
+			/** @noinspection PhpUsageOfSilenceOperatorInspection */
+			@unlink( $file );
+
+			return new WP_Error(
+				'image_download_failed',
+				__( 'Could not download image from remote source.', 'connections' )
+			);
+
+		} else {
+
+			$name = basename( parse_url( $url, PHP_URL_PATH ) );
+			$path = trailingslashit( dirname( $file ) );
+
+			rename( $file, $path . $name );
+
+			return self::sideload( $path, $name, $subDirectory );
+		}
+	}
+
+	/**
 	 * Upload a file to the WP_CONTENT_DIR/CN_IMAGE_DIR_NAME or in the defined subdirectory.
 	 *
 	 * @access public
 	 * @since  8.1
 	 * @static
 	 *
-	 * @uses   trailingslashit()
-	 * @uses   cnUpload
-	 *
 	 * @param array  $file         Reference to a single element of $_FILES.
-	 * @param string $subDirectory An associative array containing the upload params.
+	 * @param string $subDirectory The folder within WP_CONTENT_DIR/CN_IMAGE_DIR_NAME to save the image into.
 	 *
 	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
@@ -1805,19 +1841,20 @@ class cnImage {
 	 * @uses   trailingslashit()
 	 * @uses   cnUpload
 	 *
-	 * @param array  $filename Reference to a single element of $_FILES.
-	 * @param string $folder   An associative array containing the upload params.
+	 * @param string $path         The absolute path to the image in which to sideload.
+	 * @param string $filename     The filename in which to sideload.
+	 * @param string $subDirectory The folder within WP_CONTENT_DIR/CN_IMAGE_DIR_NAME to save the image into.
 	 *
-	 * @return mixed array | object On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
+	 * @return array|WP_Error On success an associative array of the uploaded file details. On failure, an instance of WP_Error.
 	 */
-	public static function sideload( $path, $filename, $folder = '' ) {
+	public static function sideload( $path, $filename, $subDirectory = '' ) {
 
 		// Add filter to lowercase the image filename extension.
 		add_filter( 'sanitize_file_name', array( __CLASS__, 'extToLowercase' ) );
 
 		$atts = array(
 			'action'  => 'cn_image_sideload',
-			'sub_dir' => empty( $folder ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $folder,
+			'sub_dir' => empty( $subDirectory ) ? CN_IMAGE_DIR_NAME : trailingslashit( CN_IMAGE_DIR_NAME ) . $subDirectory,
 			'mimes'   => array(
 				'jpeg' => 'image/jpeg',
 				'jpg'  => 'image/jpeg',
@@ -1840,7 +1877,7 @@ class cnImage {
 		 *
 		 * @since 8.2.9
 		 *
-		 * @param array  $filename A reference to a single element of $_FILES.
+		 * @param string $filename
 		 * @param string $atts['sub_dir'] The subdirectory the image is to be uploaded.
 		 */
 		do_action( 'cn_image_sideload', $filename, $atts['sub_dir'] );

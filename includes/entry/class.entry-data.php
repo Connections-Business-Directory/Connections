@@ -369,7 +369,9 @@ class cnEntry {
 			if ( isset( $entry->sort_column ) ) $this->sortColumn = $entry->sort_column;
 
 			if ( isset( $entry->options ) ) {
-				$this->options = unserialize( $entry->options );
+
+				$this->options = maybe_unserialize( $entry->options );
+				$this->options = cnFormatting::maybeJSONdecode( $this->options );
 
 				if ( isset( $this->options['image'] ) ) {
 					$this->imageLinked = $this->options['image']['linked'];
@@ -4566,13 +4568,6 @@ class cnEntry {
 	}
 
 	/**
-	 * Sets $options.
-	 */
-	private function serializeOptions() {
-		$this->options = serialize( $this->options );
-	}
-
-	/**
 	 * Sets up the current instance of cnEntry to pull in the values of the supplied ID.
 	 *
 	 * @access public
@@ -4660,7 +4655,6 @@ class cnEntry {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$this->serializeOptions();
 		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_update-entry', $this );
@@ -4693,7 +4687,7 @@ class cnEntry {
 				'social'             => $this->socialMedia,
 				'links'              => $this->links,
 				'dates'              => $this->dates,
-				'options'            => $this->options,
+				'options'            => wp_json_encode( $this->options ),
 				'bio'                => $this->bio,
 				'notes'              => $this->notes,
 				'edited_by'          => $instance->currentUser->getID(),
@@ -4931,7 +4925,6 @@ class cnEntry {
 		 */
 		global $wpdb, $connections;
 
-		$this->serializeOptions();
 		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_save-entry', $this );
@@ -4967,7 +4960,7 @@ class cnEntry {
 				'anniversary'        => $this->anniversary,
 				'bio'                => $this->bio,
 				'notes'              => $this->notes,
-				'options'            => $this->options,
+				'options'            => wp_json_encode( $this->options ),
 				'added_by'           => $connections->currentUser->getID(),
 				'edited_by'          => $connections->currentUser->getID(),
 				'owner'              => $connections->currentUser->getID(),

@@ -184,6 +184,11 @@ class cnSanitize {
 
 				switch ( $field ) {
 
+					case 'excerpt':
+
+						return self::string( 'textarea', $value );
+						break;
+
 					case 'name':
 					case 'street':
 					case 'district':
@@ -213,6 +218,7 @@ class cnSanitize {
 
 					case 'bio':
 					case 'notes':
+					case 'excerpt':
 
 						/**
 						 * Match the post content sanitation before being inserted in the db.
@@ -257,9 +263,10 @@ class cnSanitize {
 
 					case 'bio':
 					case 'notes':
+					case 'excerpt':
 
 						/**
-						 * Versions prior to 8.2.9 saved teh bio and notes field slashed in the db.
+						 * Versions prior to 8.2.9 saved the bio and notes field slashed in the db.
 						 * Unslash them when displaying before displaying them.
 						 */
 						return wp_unslash( $value );

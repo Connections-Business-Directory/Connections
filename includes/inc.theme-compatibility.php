@@ -72,3 +72,52 @@ function cn_enqueue_enfold_css_override() {
 }
 
 add_action( 'wp', 'cn_enqueue_enfold_css_override', 11 ); // Priority 11 to run after core CSS.
+
+/**
+ * @since 8.6.7
+ */
+function cn_presscore_fancy_header_controller() {
+
+	add_filter( 'presscore_page_title', 'cn_presscore_page_title' );
+}
+
+/**
+ * @since 8.6.7
+ *
+ * @param string $title
+ *
+ * @return string
+ */
+function cn_presscore_page_title( $title ) {
+
+	$config = Presscore_Config::get_instance();
+
+	if ( 'fancy' != $config->get('header_title') ) {
+		return $title;
+	}
+
+	// TODO apply 'the_title' filter here
+	$custom_title = ( 'generic' == $config->get('fancy_header.title.mode') ) ? presscore_get_page_title() : $config->get('fancy_header.title');
+
+	$custom_title = cnSEO::filterPostTitle( $custom_title, get_the_ID() );
+
+	if ( $custom_title ) {
+
+		$title_class = presscore_get_font_size_class( $config->get('fancy_header.title.font.size') );
+		if ( 'accent' == $config->get('fancy_header.title.color.mode') ) {
+			$title_class .= ' color-accent';
+		}
+
+		$title_style = '';
+		if ( 'color' == $config->get('fancy_header.title.color.mode') ) {
+			$title_style = ' style="color: ' . esc_attr( $config->get('fancy_header.title.color') ) . '"';
+		}
+
+		$custom_title = '<h1 class="fancy-title entry-title ' . $title_class . '"' . $title_style . '><span>' . strip_tags( $custom_title ) . '</span></h1>';
+
+	}
+
+	return $custom_title;
+}
+
+add_action( 'presscore_before_main_container', 'cn_presscore_fancy_header_controller', 14 );

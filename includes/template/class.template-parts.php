@@ -2291,13 +2291,13 @@ class cnTemplatePart {
 	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
 	 * 	return (bool) Whether or not to return or echo the result.
 	 *
-	 * @access private
+	 * @access  private
 	 * @version 1.0
-	 * @since 0.7.3
-	 * @uses cnQuery::getVar()
-	 * @uses wp_parse_args()
+	 * @since   0.7.3
+	 *
 	 * @param array $atts
 	 * @param array $value [optional] An indexed array of category ID/s that should be marked as "SELECTED".
+	 *
 	 * @return string
 	 */
 	private static function categorySelect( $atts, $value = array() ) {

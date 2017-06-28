@@ -79,7 +79,7 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
-		$user_meta['filter']['entry_type'] = $entryType;
+		cnArray::set( $user_meta,'filter.entry_type', $entryType );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
@@ -151,7 +151,7 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
-		$user_meta['filter']['visibility'] = $visibility;
+		cnArray::set( $user_meta,'filter.visibility', $visibility );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
@@ -192,7 +192,7 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
-		$user_meta['filter']['status'] = $status;
+		cnArray::set( $user_meta,'filter.status', $status );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 
@@ -226,7 +226,7 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
-		$user_meta['filter']['category'] = $id;
+		cnArray::set( $user_meta,'filter.category', $id );
 
 		update_user_meta( $this->ID, 'connections', $user_meta );
 

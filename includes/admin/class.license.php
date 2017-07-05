@@ -982,7 +982,7 @@ HERERDOC;
 			add_query_arg( $query, trailingslashit( $url ) ),
 			array(
 				'timeout'   => 15,
-				'sslverify' => FALSE
+				'sslverify' => cnHTTP::verifySSL(),
 			)
 		);
 

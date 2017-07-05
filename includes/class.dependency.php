@@ -306,6 +306,9 @@ class cnDependency {
 
 			// Database Classes
 			'cnEntry_DB'               => 'includes/entry/class.entry-db.php',
+
+			// HTTP request utility methods.
+			'cnHTTP'                   => 'includes/class.http.php',
 		);
 	}
 }

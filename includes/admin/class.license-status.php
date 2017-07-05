@@ -274,7 +274,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			$options = array(
 				'timeout'   => $timeout,
-				//'sslverify' => FALSE,
+				'sslverify' => cnHTTP::verifySSL(),
 				'body'      => array(
 					'url'        => home_url(),
 					'action'     => 'status',

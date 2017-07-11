@@ -280,6 +280,10 @@ class cnDependency {
 			// Class for SEO
 			'cnSEO'                    => 'includes/class.seo.php',
 
+			// Custom Customizer Controls
+			'cnCustomizer_Control_Checkbox_Group' => 'includes/customizer/controls/checkbox-group/class.checkbox-group.php',
+			'cnCustomizer_Control_Slider'         => 'includes/customizer/controls/slider/class.slider.php',
+
 			// Template API/s.
 			'cnTemplateFactory'        => 'includes/template/class.template-api.php',
 			'cnTemplatePart'           => 'includes/template/class.template-parts.php',

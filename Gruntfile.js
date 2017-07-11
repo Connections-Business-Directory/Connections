@@ -197,6 +197,24 @@ module.exports = function(grunt) {
 					src:     [ 'jquery-ui-*.css', '!*.min.css' ],
 					dest:    'assets/css/'
 				} ]
+			},
+			checkboxgroup: {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'includes/customizer/controls/checkbox-group/',
+					src:     [ '*.css', '!*.min.css' ],
+					dest:    'includes/customizer/controls/checkbox-group/'
+				} ]
+			},
+			slider: {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'includes/customizer/controls/slider/',
+					src:     [ '*.css', '!*.min.css' ],
+					dest:    'includes/customizer/controls/slider/'
+				} ]
 			}
 		},
 

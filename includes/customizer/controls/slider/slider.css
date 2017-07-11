@@ -1,0 +1,100 @@
+.customize-control-cn-slider input[type=range] {
+	-webkit-appearance: none;
+	-webkit-transition: background 0.3s;
+	transition: background 0.3s;
+	background-color: rgba(0, 0, 0, 0.1);
+	height: 5px;
+	width: -webkit-calc(100% - 70px);
+	width: calc(100% - 70px);
+	padding: 0;
+}
+
+.customize-control-cn-slider input[type=range]:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
+}
+
+.customize-control-cn-slider input[type=range]:hover {
+	background-color: rgba(0, 0, 0, 0.25);
+}
+
+.customize-control-cn-slider input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	background-color: #3498D9;
+}
+
+.customize-control-cn-slider input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	width: 15px;
+	height: 15px;
+	border: none;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	background-color: #3498D9;
+}
+
+.customize-control-cn-slider input[type=range]::-moz-range-thumb {
+	width: 15px;
+	height: 15px;
+	border: none;
+	border-radius: 50%;
+	background-color: #3498D9;
+}
+
+.customize-control-cn-slider input[type=range]::-ms-thumb {
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	border: 0;
+	background-color: #3498D9;
+}
+
+.customize-control-cn-slider input[type=range]::-moz-range-track {
+	border: inherit;
+	background: transparent;
+}
+
+.customize-control-cn-slider input[type=range]::-ms-track {
+	border: inherit;
+	color: transparent;
+	background: transparent;
+}
+
+.customize-control-cn-slider input[type=range]::-ms-fill-lower,
+.customize-control-cn-slider input[type=range]::-ms-fill-upper {
+	background: transparent;
+}
+
+.customize-control-cn-slider input[type=range]::-ms-tooltip {
+	display: none;
+}
+
+.customize-control-cn-slider .cn-slider-range-value {
+	display: inline-block;
+	font-size: 14px;
+	padding: 0 5px;
+	font-weight: 400;
+	position: relative;
+	top: 2px;
+}
+
+.customize-control-cn-slider .cn-slider-reset {
+	color: rgba(0, 0, 0, 0.2);
+	float: right;
+	-webkit-transition: color 0.5s ease-in;
+	transition: color 0.5s ease-in;
+}
+
+.customize-control-cn-slider .cn-slider-reset span {
+	font-size: 16px;
+	line-height: 22px;
+}
+
+.customize-control-cn-slider .cn-slider-reset:hover {
+	color: red;
+}

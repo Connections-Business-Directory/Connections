@@ -79,6 +79,7 @@ class cnTemplate_Customizer {
 		//add_action( 'wp_print_scripts', array( $this, 'remove_all_scripts'), 9999 );
 
 		//add_action( 'template_include', array( $this, 'customizerPage' ) );
+		add_action( 'customize_register', array( $this, 'registerControls') );
 		add_action( 'customize_register', array( $this, 'registerSections') );
 		add_action( 'customize_register', array( $this, 'registerTemplateControls') );
 		add_filter( 'customize_section_active', array( $this, 'removeSections' ), 10, 2 );
@@ -395,6 +396,24 @@ class cnTemplate_Customizer {
 	//
 	//	return $template;
 	//}
+
+	/**
+	 * Register a customize control type.
+	 *
+	 * Registered types are eligible to be rendered via JS and created dynamically.
+	 *
+	 * @see WP_Customize_Manager::register_control_type()
+	 *
+	 * @access private
+	 * @since  8.6.7
+	 *
+	 * @param WP_Customize_Manager $wp_customize
+	 */
+	public function registerControls( $wp_customize ) {
+
+		$wp_customize->register_control_type( 'cnCustomizer_Control_Checkbox_Group' );
+		$wp_customize->register_control_type( 'cnCustomizer_Control_Slider' );
+	}
 
 	/**
 	 * Register the supported core Template Customizer sections.

@@ -407,7 +407,7 @@ function connectionsShowViewPage( $action = NULL ) {
 										//'connections_process' => TRUE,
 										//'process' => 'manage',
 										'cn-action' => 'filter',
-										's'         => urlencode( $_REQUEST['s'] ),
+										's'         => isset( $_REQUEST['s'] ) ? urlencode( $_REQUEST['s'] ) : '',
 									)
 								);
 

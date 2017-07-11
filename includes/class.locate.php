@@ -264,7 +264,7 @@ class cnLocate {
 	 * @access private
 	 * @since  0.8
 	 * @static
-	 * @uses   sanitize_file_name()
+	 *
 	 * @param  string $base The base file name.
 	 * @param  string $name The template part name.
 	 * @param  string $slug The template part slug.

@@ -83,6 +83,49 @@ table.connections .cn-image {
 	/*width: 100% !important;*/
 }
 
+span.cn-image-style {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	line-height: 0;
+	margin: 0 0 5px;
+	max-width: 100%;
+	padding: 5px;
+	width: auto;
+}
+
+span.cn-image-none {
+	color: #AAAAAA;
+	font-weight: 700;
+	line-height: normal;
+	max-width: 100%;
+	text-align: center;
+	text-shadow: 1px 1px 0 #FFFFFF;
+}
+
+#cn-list img {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+img.cn-image {
+	border: none !important;
+	height: auto !important;
+	left: 0 !important;
+	margin: 0 !important;
+	max-height: none !important;
+	max-width: 100%;
+	padding: 0 !important;
+	position: relative !important;
+	top: 0 !important;
+	width: auto; /* For proper IE8 support for max-width, width:auto needs to be defined. */
+}
+
 table.connections .approve {
 	color: #006505;
 	display: inline;
@@ -236,6 +279,7 @@ table.connections .vevent .summary {
 #current-template .template-thumbnail-none,
 #availablethemes .template-thumbnail-none {
 	/*-webkit-border-radius: 4px;*/
+	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	/*-webkit-box-shadow: 0 3px 4px 2px rgba(100, 100, 100, .4);*/
 	/*box-shadow: 0 3px 4px 2px rgba(100, 100, 100, .4);*/
@@ -1020,6 +1064,8 @@ form .add {
 	padding: 14px;
 	min-height: 220px;
 	position: relative;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 .wrap-licenses .form-table th {
@@ -1046,6 +1092,8 @@ form .add {
 	min-height: 67px;
 	width: 100%;
 	bottom: 14px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 

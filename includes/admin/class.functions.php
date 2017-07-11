@@ -471,7 +471,7 @@ class cnAdminFunction {
 					'connections'
 				),
 				'http://connections-pro.com',
-				'https://wordpress.org/support/view/plugin-reviews/connections?filter=5#postform'
+				'https://wordpress.org/support/plugin/connections/reviews/?filter=5#new-post'
 			);
 
 			return str_replace( '</span>', '', $text ) . ' | ' . $rate_text . '</span>';

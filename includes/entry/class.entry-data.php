@@ -173,18 +173,26 @@ class cnEntry {
 	private $dates = '';
 
 	/**
-	 * String: Entry notes.
+	 * String: Entry biography.
 	 *
 	 * @var string
 	 */
 	private $bio = '';
 
 	/**
-	 * String: Entry biography.
+	 * String: Entry notes.
 	 *
 	 * @var string
 	 */
 	private $notes = '';
+
+	/**
+	 * Entry excerpt.
+	 *
+	 * @since 8.6.7
+	 * @var   string
+	 */
+	private $excerpt = '';
 
 	/**
 	 * String: Visibility Type; public, private, unlisted
@@ -365,11 +373,14 @@ class cnEntry {
 
 			if ( isset( $entry->bio ) ) $this->bio = $entry->bio;
 			if ( isset( $entry->notes ) ) $this->notes = $entry->notes;
+			if ( isset( $entry->excerpt ) ) $this->excerpt = $entry->excerpt;
 			if ( isset( $entry->visibility ) ) $this->visibility = $entry->visibility;
 			if ( isset( $entry->sort_column ) ) $this->sortColumn = $entry->sort_column;
 
 			if ( isset( $entry->options ) ) {
-				$this->options = unserialize( $entry->options );
+
+				$this->options = maybe_unserialize( $entry->options );
+				$this->options = cnFormatting::maybeJSONdecode( $this->options );
 
 				if ( isset( $this->options['image'] ) ) {
 					$this->imageLinked = $this->options['image']['linked'];
@@ -3486,7 +3497,8 @@ class cnEntry {
 		// Convert the date to a string to convert to a string again.
 		// Why? Because doing it this way should keep PHP from timezone adjusting the output.
 		// date_default_timezone_set('UTC')
-		return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );
+		//return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );
+		return gmdate( $format, $nextUDay );
 	}
 
 	/**
@@ -3530,7 +3542,7 @@ class cnEntry {
 	 */
 	public function getNotes( $context = 'display' ) {
 
-		return cnSanitize::field( 'bio', apply_filters( 'cn_notes', $this->notes ), $context );
+		return cnSanitize::field( 'notes', apply_filters( 'cn_notes', $this->notes ), $context );
 	}
 
 	/**
@@ -3552,14 +3564,60 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  unknown
-	 * @param  array   $atts [optional]
-	 * @param  string  $text [optional]
+	 *
+	 * @param array  $atts
+	 * @param string $context
 	 *
 	 * @return string
 	 */
-	public function getExcerpt( $atts = array(), $text = '' ) {
+	public function getExcerpt( $atts = array(), $context = 'display' ) {
 
-		return cnString::excerpt( $text = empty( $text ) ? $this->getBio() : $text, $atts );
+		if ( 'display' === $context ) {
+
+			if ( 0 < strlen( $this->excerpt ) ) {
+
+				$excerpt = $this->excerpt;
+
+			} else {
+
+				$excerpt = cnString::excerpt( $this->getBio( $context ), $atts );
+			}
+
+		} else {
+
+			$excerpt = cnSanitize::field( 'excerpt', $this->excerpt, $context );
+		}
+
+		return apply_filters( 'cn_excerpt', $excerpt );
+	}
+
+	/**
+	 * Create excerpt from the supplied text. Default is the bio.
+	 *
+	 * @access private
+	 * @since  8.6.7
+	 *
+	 * @param array $atts
+	 *
+	 * @return string
+	 */
+	public function getExcerptEdit( $atts = array() ) {
+
+		return $this->getExcerpt( $atts, 'edit' );
+	}
+
+	/**
+	 * Set the entry excerpt.
+	 *
+	 * @access public
+	 * @since  8.6.7
+	 *
+	 * @param string $excerpt
+	 * @param string $context
+	 */
+	public function setExcerpt( $excerpt, $context = 'db' ) {
+
+		$this->excerpt = cnSanitize::field( 'excerpt', $excerpt, $context );
 	}
 
 	/**
@@ -4566,13 +4624,6 @@ class cnEntry {
 	}
 
 	/**
-	 * Sets $options.
-	 */
-	private function serializeOptions() {
-		$this->options = serialize( $this->options );
-	}
-
-	/**
 	 * Sets up the current instance of cnEntry to pull in the values of the supplied ID.
 	 *
 	 * @access public
@@ -4660,7 +4711,6 @@ class cnEntry {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$this->serializeOptions();
 		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_update-entry', $this );
@@ -4693,9 +4743,10 @@ class cnEntry {
 				'social'             => $this->socialMedia,
 				'links'              => $this->links,
 				'dates'              => $this->dates,
-				'options'            => $this->options,
+				'options'            => wp_json_encode( $this->options ),
 				'bio'                => $this->bio,
 				'notes'              => $this->notes,
+				'excerpt'            => $this->excerpt,
 				'edited_by'          => $instance->currentUser->getID(),
 				'user'               => $this->getUser(),
 				'status'             => $this->status,
@@ -4732,6 +4783,7 @@ class cnEntry {
 				'%s', // options
 				'%s', // bio
 				'%s', // notes
+				'%s', // excerpt
 				'%d', // edited_by
 				'%d', // user
 				'%s', // status
@@ -4931,7 +4983,6 @@ class cnEntry {
 		 */
 		global $wpdb, $connections;
 
-		$this->serializeOptions();
 		$this->setPropertyDefaultsByEntryType();
 
 		do_action( 'cn_save-entry', $this );
@@ -4967,7 +5018,8 @@ class cnEntry {
 				'anniversary'        => $this->anniversary,
 				'bio'                => $this->bio,
 				'notes'              => $this->notes,
-				'options'            => $this->options,
+				'excerpt'            => $this->excerpt,
+				'options'            => wp_json_encode( $this->options ),
 				'added_by'           => $connections->currentUser->getID(),
 				'edited_by'          => $connections->currentUser->getID(),
 				'owner'              => $connections->currentUser->getID(),
@@ -5003,6 +5055,7 @@ class cnEntry {
 				'%s', // anniversary
 				'%s', // bio
 				'%s', // notes
+				'%s', // excerpt
 				'%s', // options
 				'%d', // added_by
 				'%d', // edited_by

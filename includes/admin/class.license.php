@@ -595,6 +595,8 @@ HERERDOC;
 					$status['type']    = 'error';
 					$status['code']    = 'unknown_error';
 					$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
+
+					delete_option( 'connections_license_data' );
 					break;
 			}
 
@@ -706,6 +708,8 @@ HERERDOC;
 					$status['type']    = 'error';
 					$status['code']    = 'unknown_error';
 					$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
+
+					delete_option( 'connections_license_data' );
 			}
 
 		} else {
@@ -713,6 +717,8 @@ HERERDOC;
 			$status['type']    = 'error';
 			$status['code']    = 'unknown_error';
 			$status['message'] = esc_html__( 'An unknown error has occurred.', 'connections' );
+
+			delete_option( 'connections_license_data' );
 		}
 
 		return $status;
@@ -976,7 +982,7 @@ HERERDOC;
 			add_query_arg( $query, trailingslashit( $url ) ),
 			array(
 				'timeout'   => 15,
-				'sslverify' => FALSE
+				'sslverify' => cnHTTP::verifySSL(),
 			)
 		);
 

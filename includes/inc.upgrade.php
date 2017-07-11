@@ -867,6 +867,27 @@ function cnRunDBUpgrade() {
 			echo '</ul>' . PHP_EOL;
 		}
 
+		if ( version_compare( $dbVersion, '0.5', '<' ) ) {
+
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ) , $connections->options->getDBVersion(), CN_DB_VERSION ) , '</h4>' . PHP_EOL;
+
+			echo '<ul>' . PHP_EOL;
+
+			echo '<li>' , esc_html__( 'Adding columns... "excerpt"', 'connections' ) , '</li>' . PHP_EOL;
+
+			if ( cnAddTableColumn( CN_ENTRY_TABLE, 'excerpt', 'text NOT NULL AFTER notes' ) ) {
+
+				echo '<ul><li>' , esc_html__( 'SUCCESS', 'connections' ) , '</li></ul>' . PHP_EOL;
+
+				$connections->options->setDBVersion( '0.5' );
+
+				// Save the options
+				$connections->options->saveOptions();
+			}
+
+			echo '</ul>' . PHP_EOL;
+		}
+
 		echo '<h4>' , __( 'Upgrade completed.', 'connections' ) , "</h4>\n";
 		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , __( 'Continue', 'connections' ) , '</a></h4>';
 

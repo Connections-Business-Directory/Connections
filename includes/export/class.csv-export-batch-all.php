@@ -172,6 +172,13 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				'types'  => NULL,
 			),
 			array(
+				'field'  => 'ordo',
+				'type'   => 0,
+				'fields' => NULL,
+				'table'  => CN_ENTRY_TABLE,
+				'types'  => NULL,
+			),
+			array(
 				'field'  => 'entry_type',
 				'type'   => 0,
 				'fields' => NULL,
@@ -375,6 +382,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		// Core fields.
 		$fields = array(
 			'id'                 => 'Entry ID',
+			'ordo'               => 'Order',
 			'entry_type'         => 'Entry Type',
 			'visibility'         => 'Visibility',
 			'family_name'        => 'Family Name',

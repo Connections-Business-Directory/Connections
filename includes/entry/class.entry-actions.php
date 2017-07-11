@@ -506,6 +506,7 @@ class cnEntry_Action {
 		if ( isset( $data['anniversary_day'] ) && isset( $data['anniversary_month'] ) ) $entry->setAnniversary( $data['anniversary_day'], $data['anniversary_month'] );
 		if ( isset( $data['bio'] ) ) $entry->setBio( $data['bio'] );
 		if ( isset( $data['notes'] ) ) $entry->setNotes( $data['notes'] );
+		if ( isset( $data['excerpt'] ) ) $entry->setExcerpt( $data['excerpt'] );
 		if ( isset( $data['visibility'] ) ) $entry->setVisibility( $data['visibility'] );
 
 		( isset( $data['user'] ) ) ? $entry->setUser( $data['user'] ) : $entry->getUser();

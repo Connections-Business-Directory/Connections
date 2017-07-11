@@ -176,7 +176,7 @@ module.exports = function(grunt) {
 		autoprefixer: {
 			options: {
 				// Same as WordPress core.
-				browsers: [ 'Android >= 2.1', 'Chrome >= 21', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0' ],
+				browsers: [ 'Android >= 2.1', 'Chrome >= 21', 'Edge >= 12', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0' ],
 				cascade:  false
 			},
 
@@ -196,6 +196,24 @@ module.exports = function(grunt) {
 					cwd:     'assets/css/',
 					src:     [ 'jquery-ui-*.css', '!*.min.css' ],
 					dest:    'assets/css/'
+				} ]
+			},
+			checkboxgroup: {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'includes/customizer/controls/checkbox-group/',
+					src:     [ '*.css', '!*.min.css' ],
+					dest:    'includes/customizer/controls/checkbox-group/'
+				} ]
+			},
+			slider: {
+				files: [ {
+					expand:  true,
+					flatten: true,
+					cwd:     'includes/customizer/controls/slider/',
+					src:     [ '*.css', '!*.min.css' ],
+					dest:    'includes/customizer/controls/slider/'
 				} ]
 			}
 		},

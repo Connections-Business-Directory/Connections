@@ -2410,11 +2410,10 @@ class cnOutput extends cnEntry {
 	 * @since  8.5.19
 	 *
 	 * @param array  $atts
-	 * @param string $text
 	 *
 	 * @return string
 	 */
-	public function excerpt( $atts = array(), $text = '' ) {
+	public function excerpt( $atts = array() ) {
 
 		$defaults = array(
 			'before'    => '',
@@ -2434,15 +2433,15 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_excerpt', $defaults )
 		);
 
-		$text = 0 < strlen( $text ) ? $text : $this->getBio();
+		$excerpt = $this->getExcerpt( $atts, 'display' );
 
 		/**
 		 * Apply the default filters.
 		 *
 		 * @since 8.5.19
 		 */
-		$text = apply_filters( 'cn_output_excerpt', $text );
-		$html = cnString::excerpt( $text, $atts );
+		$excerpt = apply_filters( 'cn_output_excerpt', $excerpt );
+		$html = '<div class="cn-excerpt">' . $atts['before'] . $excerpt . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}

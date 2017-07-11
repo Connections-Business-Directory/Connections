@@ -255,7 +255,7 @@ class cnTemplatePart {
 	 *
 	 * @return string
 	 */
-	protected static function echoOrReturn( $return, $html ) {
+	public static function echoOrReturn( $return, $html ) {
 
 		if ( $return ) {
 
@@ -524,11 +524,15 @@ class cnTemplatePart {
 
 		array_walk( $class, 'sanitize_html_class' );
 
-		$out = '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
-
 		ob_start();
 
 		do_action( 'cn_list_before_body', $atts, $results, $template );
+
+		$before = ob_get_clean();
+
+		$open = '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
+
+		ob_start();
 
 		// If there are no results no need to proceed and output message.
 		if ( empty( $results ) ) {
@@ -560,13 +564,19 @@ class cnTemplatePart {
 			}
 		}
 
+		$content = ob_get_clean();
+
+		$close = '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
+
+		ob_start();
+
 		do_action( 'cn_list_after_body', $atts, $results, $template );
 
-		$out .= ob_get_clean();
+		$after = ob_get_clean();
 
-		$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-body -->' : '' ) . PHP_EOL;
+		$html = $before . $open . $content . $close . $after;
 
-		return self::echoOrReturn( $atts['return'], $out );
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -2281,13 +2291,13 @@ class cnTemplatePart {
 	 * 	parent_id (array) An array of root parent category IDs to limit the list to.
 	 * 	return (bool) Whether or not to return or echo the result.
 	 *
-	 * @access private
+	 * @access  private
 	 * @version 1.0
-	 * @since 0.7.3
-	 * @uses cnQuery::getVar()
-	 * @uses wp_parse_args()
+	 * @since   0.7.3
+	 *
 	 * @param array $atts
 	 * @param array $value [optional] An indexed array of category ID/s that should be marked as "SELECTED".
+	 *
 	 * @return string
 	 */
 	private static function categorySelect( $atts, $value = array() ) {

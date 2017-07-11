@@ -256,6 +256,25 @@ class cnEntryMetabox {
 		add_filter( 'cn_pre_save_meta_skip-notes', '__return_true' );
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-excerpt',
+			'title'    => __( 'Excerpt', 'connections' ),
+			'pages'    => $pages,
+			'context'  => 'normal',
+			'priority' => 'core',
+			'fields' => array(
+				array(
+					'id'         => 'excerpt',
+					'type'       => 'textarea',
+					'size'       => 'large',
+					'value'      => 'getExcerptEdit',
+				),
+			),
+		);
+
+		// Do not save this as meta.
+		add_filter( 'cn_pre_save_meta_skip-excerpt', '__return_true' );
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-meta',
 			'title'    => __( 'Custom Fields', 'connections' ),
 			'pages'    => $pages,

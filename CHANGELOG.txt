@@ -1,5 +1,36 @@
 == Changelog ==
 
+= 8.6.7 07/11/2017 =
+* NEW: Add Excerpt field.
+* NEW: Introduce the cnHTTP class.
+* NEW: Add support for slider and checkbox Customizer controls for the Template Customizer.
+* NEW: Introduce cnTemplate::getOption().
+* TWEAK: Save `options` column as JSON instead of serialized array.
+* TWEAK: Allow slashes in template name to permit paths.
+* TWEAK: Make cnTemplatePart::echoOrReturn() public.
+* TWEAK: Add support for exporting the order database column in the "Export All" CSV Export tool.
+* TWEAK: When unknown error occurs after performing a license check, delete the cached response.
+* TWEAK: Utilize cnArray::set() to set current user manage admin page filters array values.
+* TWEAK: Set sslverify to true by default when doing remote requests.
+* TWEAK: Update the "Rate Us" link.
+* TWEAK: Add missing margin bottom to address CSS block.
+* BUG: Fix pagination when performing a keyword search on the Connections :: Manage admin page.
+* BUG: Catch json_decode error while processing a license check.
+* BUG: No need to append the "more string" if the created excerpt is the same as the input string.
+* BUG: Correct the output buffer filters before and after the entry list so the action hooks are properly buffered.
+* BUG: Fix search in the admin s it functions correctly when filtering.
+* BUG: Fix paginating thru search results in the admin.
+* BUG: Correct img tag CSS when editing an entry.
+* COMPATIBILITY: Add support for Presscore theme fancy title.
+* OTHER: Update minified CSS.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: Remove HHVM from Travis test matrix since WP is doing the same.
+* DEV: phpDoc corrections.
+* DEV: .editorconfig tweaks.
+* DEV: Update the Gruntfile.js autoprefixer task. Update to match current core WP supported browsers.
+* DEV: Run CSS thru autoprefixer.
+
 = 8.6.6 05/23/2017 =
 * NEW: Introduce the `cn_csv_batch_export_download_headers` action hook.
 * NEW: Introduce the `cn_template_register_options-{template-slug}` filter.

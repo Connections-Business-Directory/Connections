@@ -401,25 +401,56 @@ function connectionsShowViewPage( $action = NULL ) {
 								$pageDisabled   = array();
 								$pageFilterURL  = array();
 								$pageValue      = array();
-								$currentPageURL = add_query_arg( array( 'page' => FALSE , /*'connections_process' => TRUE , 'process' => 'manage' ,*/ 'cn-action' => 'filter' )  );
+								$currentPageURL = add_query_arg(
+									array(
+										'page'      => FALSE,
+										//'connections_process' => TRUE,
+										//'process' => 'manage',
+										'cn-action' => 'filter',
+										's'         => isset( $_REQUEST['s'] ) ? urlencode( $_REQUEST['s'] ) : '',
+									)
+								);
 
 								$pageValue['first_page']    = 1;
 								$pageValue['previous_page'] = ( $page->current - 1 >= 1 ) ? $page->current - 1 : 1;
 								$pageValue['next_page']     = ( $page->current + 1 <= $pageCount ) ? $page->current + 1 : $pageCount;
 								$pageValue['last_page']     = $pageCount;
 
-								( $page->current > 1 ) ? $pageDisabled['first_page'] = '' : $pageDisabled['first_page'] = ' disabled';
-								( $page->current - 1 >= 1 ) ? $pageDisabled['previous_page'] = '' : $pageDisabled['previous_page'] = ' disabled';
-								( $page->current + 1 <= $pageCount ) ? $pageDisabled['next_page'] = '' : $pageDisabled['next_page'] = ' disabled';
-								( $page->current < $pageCount ) ? $pageDisabled['last_page'] = '' : $pageDisabled['last_page'] = ' disabled';
+								$pageDisabled['first_page']    = ( $page->current > 1 ) ? '' : ' disabled';
+								$pageDisabled['previous_page'] = ( $page->current - 1 >= 1 ) ? '' : ' disabled';
+								$pageDisabled['next_page']     = ( $page->current + 1 <= $pageCount ) ? '' : ' disabled';
+								$pageDisabled['last_page']     = ( $page->current < $pageCount ) ? '' : ' disabled';
 
 								/*
 								 * Generate the page link token URL.
 								 */
-								$pageFilterURL['first_page']    = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['first_page'] ) , $currentPageURL ) , 'filter' ) );
-								$pageFilterURL['previous_page'] = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['previous_page'] ) , $currentPageURL ) , 'filter' ) );
-								$pageFilterURL['next_page']     = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['next_page'] ) , $currentPageURL ) , 'filter' ) );
-								$pageFilterURL['last_page']     = esc_url( $form->tokenURL( add_query_arg( array( 'pg' => $pageValue['last_page'] ) , $currentPageURL ) , 'filter' ) );
+								$pageFilterURL['first_page'] = esc_url(
+									$form->tokenURL(
+										add_query_arg( array( 'pg' => $pageValue['first_page'] ), $currentPageURL ),
+										'filter'
+									)
+								);
+
+								$pageFilterURL['previous_page'] = esc_url(
+									$form->tokenURL(
+										add_query_arg( array( 'pg' => $pageValue['previous_page'] ), $currentPageURL ),
+										'filter'
+									)
+								);
+
+								$pageFilterURL['next_page'] = esc_url(
+									$form->tokenURL(
+										add_query_arg( array( 'pg' => $pageValue['next_page'] ), $currentPageURL ),
+										'filter'
+									)
+								);
+
+								$pageFilterURL['last_page'] = esc_url(
+									$form->tokenURL(
+										add_query_arg( array( 'pg' => $pageValue['last_page'] ), $currentPageURL ),
+										'filter'
+									)
+								);
 
 								echo '<span class="page-navigation" id="page-input">';
 

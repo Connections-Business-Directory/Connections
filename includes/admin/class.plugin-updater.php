@@ -537,7 +537,7 @@ class cnPlugin_Updater {
 
 		$options = array(
 			'timeout'   => $timeout,
-			//'sslverify' => FALSE,
+			'sslverify' => cnHTTP::verifySSL(),
 			'body'      => array(
 				'url'        => home_url(),
 				'action'     => ! empty( $plugin ) ? 'info' : 'update-check',

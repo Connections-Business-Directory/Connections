@@ -131,7 +131,7 @@ Page For Posts:             <?php echo ( $blog_page_id != 0 ? get_the_title( $bl
 <?php
 // Make sure wp_remote_post() is working
 $params = array(
-	'sslverify'  => FALSE,
+	'sslverify'  => cnHTTP::verifySSL(),
 	'timeout'    => 60,
 	'user-agent' => 'CN/' . CN_CURRENT_VERSION,
 	'body'       => '_notify-validate'

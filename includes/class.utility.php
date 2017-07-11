@@ -1923,10 +1923,17 @@ class cnString {
 				// Append what's left of the token.
 				$excerpt .= $token;
 			}
+
 		}
 
 		/** @noinspection PhpInternalEntityUsedInspection */
 		$excerpt = trim( force_balance_tags( $excerpt ) );
+
+		// No need to append the more string if the excerpted string matches the original string.
+		if ( trim( $string ) == $excerpt ) {
+
+			$appendMore = FALSE;
+		}
 
 		$lastCloseTag = strrpos( $excerpt, '</' );
 		$lastSpace    = strrpos( $excerpt, ' ' );

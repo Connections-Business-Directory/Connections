@@ -201,6 +201,7 @@ class cnSchema {
 			anniversary tinytext NOT NULL,
 			bio longtext NOT NULL,
 			notes longtext NOT NULL,
+			excerpt text NOT NULL,
 			options longtext NOT NULL,
 			added_by bigint(20) NOT NULL,
 			edited_by bigint(20) NOT NULL,

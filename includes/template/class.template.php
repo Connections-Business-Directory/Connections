@@ -495,6 +495,39 @@ class cnTemplate {
 	}
 
 	/**
+	 * Retrieve a template setting value by setting ID slug.
+	 *
+	 * @access public
+	 * @since  8.6.7
+	 *
+	 * @param string $key     The setting ID slug in which to retrieve the setting value.
+	 * @param null   $default The default setting value if the requested $key is not set or does not exist.
+	 *
+	 * @return mixed|null
+	 */
+	public function getOption( $key, $default = NULL ) {
+
+		if ( get_query_var( 'cn-entry-slug' ) ) {
+
+			/**
+			 * @var array $option
+			 */
+			$options = cnSettingsAPI::get( 'connections_template', $this->getSlug(), 'single' );
+
+		} else {
+
+			/**
+			 * @var array $options
+			 */
+			$options = cnSettingsAPI::get( 'connections_template', $this->getSlug(), 'card' );
+		}
+
+		$value = isset( $options[ $key ] ) ? $options[ $key ] : $default;
+
+		return $value;
+	}
+
+	/**
 	 * Register a template part.
 	 *
 	 * This is a deprecated function. Its current purpose is to only register template
@@ -831,7 +864,7 @@ class cnTemplate {
 	 *
 	 * @access private
 	 * @since  0.8
-	 * @uses   sanitize_file_name()
+	 *
 	 * @param  string $base The base file name.
 	 * @param  string $name The template part name.
 	 * @param  string $slug The template part slug.
@@ -845,7 +878,8 @@ class cnTemplate {
 		$name = array_filter( $name );
 		$name = implode( '-', $name ) . '.' . $ext;
 
-		return strtolower( sanitize_file_name( $name ) );
+		//return strtolower( sanitize_file_name( $name ) );
+		return strtolower( $name );
 	}
 
 	/**

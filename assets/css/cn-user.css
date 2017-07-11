@@ -76,6 +76,7 @@
 }
 
 #cn-list img {
+	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -143,6 +144,11 @@ img.cn-image {
 /*
  * Address Styles
  */
+#cn-list span.address-block {
+	display: block;
+	margin-bottom: 10px;
+}
+
 #cn-list span.adr {
 	display: block;
 	margin-bottom: 10px;

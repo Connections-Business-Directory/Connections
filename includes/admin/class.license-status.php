@@ -274,7 +274,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			$options = array(
 				'timeout'   => $timeout,
-				//'sslverify' => FALSE,
+				'sslverify' => cnHTTP::verifySSL(),
 				'body'      => array(
 					'url'        => home_url(),
 					'action'     => 'status',
@@ -315,11 +315,20 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			if ( is_wp_error( $request ) ) {
 
-				/** @var WP_Error $response */
-				return $response;
+				/** @var WP_Error $request */
+				return $request;
 			}
 
 			$response = json_decode( wp_remote_retrieve_body( $request ) );
+
+			if ( is_null( $response ) ) {
+
+				return new WP_Error(
+					'null_response',
+					esc_html__( 'License check response returned NULL.', 'connections' ),
+					$request
+				);
+			}
 
 			/**
 			 * Allow plugin to alter the response return by request.

@@ -229,6 +229,37 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.6.7 07/11/2017 =
+* NEW: Add Excerpt field.
+* NEW: Introduce the cnHTTP class.
+* NEW: Add support for slider and checkbox Customizer controls for the Template Customizer.
+* NEW: Introduce cnTemplate::getOption().
+* TWEAK: Save `options` column as JSON instead of serialized array.
+* TWEAK: Allow slashes in template name to permit paths.
+* TWEAK: Make cnTemplatePart::echoOrReturn() public.
+* TWEAK: Add support for exporting the order database column in the "Export All" CSV Export tool.
+* TWEAK: When unknown error occurs after performing a license check, delete the cached response.
+* TWEAK: Utilize cnArray::set() to set current user manage admin page filters array values.
+* TWEAK: Set sslverify to true by default when doing remote requests.
+* TWEAK: Update the "Rate Us" link.
+* TWEAK: Add missing margin bottom to address CSS block.
+* BUG: Fix pagination when performing a keyword search on the Connections :: Manage admin page.
+* BUG: Catch json_decode error while processing a license check.
+* BUG: No need to append the "more string" if the created excerpt is the same as the input string.
+* BUG: Correct the output buffer filters before and after the entry list so the action hooks are properly buffered.
+* BUG: Fix search in the admin s it functions correctly when filtering.
+* BUG: Fix paginating thru search results in the admin.
+* BUG: Correct img tag CSS when editing an entry.
+* COMPATIBILITY: Add support for Presscore theme fancy title.
+* OTHER: Update minified CSS.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: Remove HHVM from Travis test matrix since WP is doing the same.
+* DEV: phpDoc corrections.
+* DEV: .editorconfig tweaks.
+* DEV: Update the Gruntfile.js autoprefixer task. Update to match current core WP supported browsers.
+* DEV: Run CSS thru autoprefixer.
+
 = 8.6.6 05/23/2017 =
 * NEW: Introduce the `cn_csv_batch_export_download_headers` action hook.
 * NEW: Introduce the `cn_template_register_options-{template-slug}` filter.
@@ -713,38 +744,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Update the minified CSS and JS files.
 * DEV: Couple minor phpDoc fixes.
 
-= 8.5.11 02/12/2016 =
-* COMPATIBILITY: Add an Enfold theme compatibility shim when viewing a single entry.'s detail/profile view.
-* BUG: Correct bug for mouseover hover text for email links so they correctly reflect the email type.
-* BUG: Correct an error in the admin javascript which prevented a repeatable field from collapsing.
-* TWEAK: Move the geocode button to be within the `address-geo` div in the Address field metabox.
-* TWEAK: Fix the alpha index with many character from overlapping the table header.
-* TWEAK: Correct the positioning of a the repeatable field toggle arrow.
-* TWEAK: Add a margin the the `#minor-publishing` div to fix the spacing of the role capability reset metabox.
-* TWEAK: Cleanup the address field metabox inputs for a little cleaner presentation.
-* TWEAK: Add missing container div on the geocode button when editing an entry with an existing address.
-* TWEAK: Tweak styling of the phone number field metabox to add more whitespace.
-* TWEAK: Tweak styling of the email address field metabox to add more whitespace.
-* TWEAK: Tweak styling of the instant messenger field metabox to add more whitespace.
-* TWEAK: Tweak styling of the social media network field metabox to add more whitespace.
-* TWEAK: Tweak styling of the link field metabox to add more whitespace.
-* TWEAK: Tweak positioning of the repeatable fields remove button.
-* TWEAK: Refactor cnEntryMetabox::phone() to remove duplicate code.
-* TWEAK: Refactor cnEntryMetabox::email() to remove duplicate code.
-* TWEAK: Refactor cnEntryMetabox::messenger() to remove duplicate code.
-* TWEAK: Refactor cnEntryMetabox::social() to remove duplicate code.
-* OTHER: Correct a few misspellings in cnGeo in the phpDoc.
-* OTHER: Update EDD_SL_Plugin_Updater to 1.6.3.
-* OTHER: Remove unused variables in cnEntryMetabox.
-* DEV: Add a @todo to cnShortcode.
-* DEV: Minor phpDoc fixes in cnEntryMetabox.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.11 =
-It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.12 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.
@@ -830,4 +832,5 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 = 8.6.6 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
-
+= 8.6.7 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.

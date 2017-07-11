@@ -1025,14 +1025,16 @@ class cnRewrite {
 	 * Reference:
 	 * http://wordpress.stackexchange.com/questions/51530/rewrite-rules-problem-when-rule-includes-homepage-slug
 	 *
-	 * @TODO  Perhaps I should check for the existance of any of the Connections query vars before
-	 * removing canonical redirect of the front page.
+	 * @TODO Perhaps I should check for the existence of any of the Connections query vars before
+	 *       removing canonical redirect of the front page.
 	 *
 	 * @access private
-	 * @since 0.7.6.4
-	 * @param (string) $redirectURL  The URL to redirect to.
-	 * @param (string) $requestedURL The original requested URL.
-	 * @return (string)              URL
+	 * @since  0.7.6.4
+	 *
+	 * @param string $redirectURL  The URL to redirect to.
+	 * @param string $requestedURL The original requested URL.
+	 *
+	 * @return string URL
 	 */
 	public static function frontPageCanonicalRedirect( $redirectURL, $requestedURL ) {
 

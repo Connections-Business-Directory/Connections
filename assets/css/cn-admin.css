@@ -83,6 +83,49 @@ table.connections .cn-image {
 	/*width: 100% !important;*/
 }
 
+span.cn-image-style {
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #FFFFFF;
+	border: 1px solid #E3E3E3;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	line-height: 0;
+	margin: 0 0 5px;
+	max-width: 100%;
+	padding: 5px;
+	width: auto;
+}
+
+span.cn-image-none {
+	color: #AAAAAA;
+	font-weight: 700;
+	line-height: normal;
+	max-width: 100%;
+	text-align: center;
+	text-shadow: 1px 1px 0 #FFFFFF;
+}
+
+#cn-list img {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+img.cn-image {
+	border: none !important;
+	height: auto !important;
+	left: 0 !important;
+	margin: 0 !important;
+	max-height: none !important;
+	max-width: 100%;
+	padding: 0 !important;
+	position: relative !important;
+	top: 0 !important;
+	width: auto; /* For proper IE8 support for max-width, width:auto needs to be defined. */
+}
+
 table.connections .approve {
 	color: #006505;
 	display: inline;

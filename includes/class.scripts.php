@@ -246,18 +246,13 @@ class cnScript {
 
 		} else {
 
-			if ( cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ) {
+			// This will locate the CSS file to be enqueued.
+			$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
+			// var_dump($coreCSS);
 
-				// This will locate the CSS file to be enqueued.
-				$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
-				// var_dump($coreCSS);
-
-				// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
-				wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
-
-				wp_register_style( 'cn-public', $coreCSS, array(), CN_CURRENT_VERSION );
-
-			}
+			// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
+			wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
+			wp_register_style( 'cn-public', $coreCSS, array(), CN_CURRENT_VERSION );
 
 			// This will locate the custom CSS file to be enqueued.
 			$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', NULL, NULL, 'css' ), 'url' );
@@ -521,19 +516,14 @@ class cnScript {
 	 */
 	public static function enqueueStyles() {
 
-		if ( cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ) {
+		wp_enqueue_style( 'cn-public' );
+		wp_enqueue_style( 'cn-chosen' );
 
-			wp_enqueue_style( 'cn-public' );
-			wp_enqueue_style( 'cn-chosen' );
+		// If the custom CSS file was registered, lets enqueue it.
+		if ( wp_style_is( 'cn-public-custom', 'registered' ) ) {
 
-			// If the custom CSS file was registered, lets enqueue it.
-			if ( wp_style_is( 'cn-public-custom', 'registered' ) ) {
-
-				wp_enqueue_style( 'cn-public-custom' );
-			}
-
+			wp_enqueue_style( 'cn-public-custom' );
 		}
-
 	}
 
 	/**

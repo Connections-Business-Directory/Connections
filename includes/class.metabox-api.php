@@ -577,8 +577,6 @@ class cnMetabox_Render {
 	 * @since 0.8
 	 * @param  array  $atts   The attributes array.
 	 * @param  object $object An instance the the cnEntry object.
-	 *
-	 * @return string         The HTML output of the registered metaboxes.
 	 */
 	public static function metaboxes( array $atts = array(), $object ) {
 

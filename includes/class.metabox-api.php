@@ -1225,7 +1225,7 @@ class cnMetabox_Render {
 
 					wp_editor(
 						cnSanitize::html( $value ),
-						sprintf( '%1$s' , $field['id'] ),
+						'cn-' . $field['id'],
 						$atts
 					);
 

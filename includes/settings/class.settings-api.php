@@ -790,7 +790,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					wp_editor(
 						wp_kses_post( $value ),
-						esc_attr( $field['id'] ),
+						'cn-' . $field['id'],
 						$atts
 					);
 

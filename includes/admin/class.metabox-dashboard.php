@@ -112,6 +112,24 @@ class cnDashboardMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-featured-partners',
+			'title'    => __( 'Featured Partners', 'connections' ),
+			'pages'    => array( $pages ),
+			'context'  => 'right',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'partners' ),
+		);
+
+		self::$metaboxes[] = array(
+			'id'       => 'metabox-quick-links',
+			'title'    => __( 'Quick Links', 'connections' ),
+			'pages'    => array( $pages ),
+			'context'  => 'right',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'links' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'        => 'metabox-anniversary-today',
 			'title'     => __( 'Today\'s Anniversaries', 'connections' ),
 			'pages'     => array( $pages ),
@@ -161,24 +179,6 @@ class cnDashboardMetabox {
 			'list_type' => 'birthday',
 			'days'      => 30,
 			'today'     => FALSE,
-		);
-
-		self::$metaboxes[] = array(
-			'id'       => 'metabox-quick-links',
-			'title'    => __( 'Quick Links', 'connections' ),
-			'pages'    => array( $pages ),
-			'context'  => 'right',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'links' ),
-		);
-
-		self::$metaboxes[] = array(
-			'id'       => 'metabox-featured-partners',
-			'title'    => __( 'Featured Partners', 'connections' ),
-			'pages'    => array( $pages ),
-			'context'  => 'right',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'partners' ),
 		);
 	}
 

@@ -685,7 +685,6 @@ class cnAdminActions {
 				self::installDisplayGroup( 'Featured' );
 			}
 
-
 			if ( 0 < count( $core ) ) {
 				$wp_list_table->items = $core;
 				self::installDisplayGroup( 'Free' );

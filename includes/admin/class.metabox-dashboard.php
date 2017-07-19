@@ -171,6 +171,15 @@ class cnDashboardMetabox {
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'links' ),
 		);
+
+		self::$metaboxes[] = array(
+			'id'       => 'metabox-featured-partners',
+			'title'    => __( 'Featured Partners', 'connections' ),
+			'pages'    => array( $pages ),
+			'context'  => 'right',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'partners' ),
+		);
 	}
 
 	/**
@@ -388,6 +397,37 @@ class cnDashboardMetabox {
 		</div>
 		<div class="clearboth"></div>
 		<?php
+	}
 
+	/**
+	 * The "Featured Partners" Dashboard admin widget.
+	 * 
+	 * @access private
+	 * @since  8.6.8
+	 */
+	public static function partners() {
+
+		$logo = CN_URL . 'assets/images/tsl-logo-v3.png';
+		//$url  = self_admin_url( 'plugin-install.php/?s=Connections+Business+Directory+Mobile+App+Manager+Plugin&tab=search&type=term');
+		$url  = self_admin_url( 'plugin-install.php?tab=connections' );
+		?>
+		<div class="two-third">
+			<p>Create your very own native mobile app for iOS and Android powered by WordPress and Connections Business Directory using the <a href="https://tinyscreenlabs.com/?tslref=connections">Tiny Screen Labs Mobile App Manager</a>.</p>
+		</div>
+
+		<div class="one-third last">
+			<p class="center">
+				<img src="<?php echo $logo; ?>" style="max-width: 100%">
+			</p>
+		</div>
+		<div class="clearboth"></div>
+
+		<div>
+			<p class="center">
+				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="<?php echo $url; ?>"><span><?php _e( 'Install Now', 'connections' ); ?></span></a>
+			</p>
+		</div>
+
+		<?php
 	}
 }

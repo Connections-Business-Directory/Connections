@@ -108,9 +108,9 @@ User Agent String:          <?php echo esc_html( $browser->getUserAgent() ) . PH
 <?php do_action( 'cn_sysinfo_after_user_browser' ); ?>
 
 -- WordPress Configuration
-
+<?php $locale = get_locale(); ?>
 Version:                    <?php echo get_bloginfo( 'version' ) . PHP_EOL; ?>
-Language:                   <?php echo ( defined( 'WPLANG' ) && WPLANG ? WPLANG : 'en_US' ) . PHP_EOL; ?>
+Language:                   <?php echo ( ! empty( $locale ) ? $locale : 'en_US' ) . PHP_EOL; ?>
 ABSPATH                     <?php echo ABSPATH . PHP_EOL ?>
 Permalink Structure:        <?php echo ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . PHP_EOL; ?>
 Active Theme:               <?php echo $theme . PHP_EOL; ?>

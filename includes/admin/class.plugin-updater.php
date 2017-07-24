@@ -506,6 +506,8 @@ class cnPlugin_Updater {
 	}
 
 	/**
+	 * @todo Add Support for the beta versions and banners to match EDD-SL Plugin updater.
+	 *
 	 * @access private
 	 * @since  8.5.27
 	 *

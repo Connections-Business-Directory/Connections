@@ -309,7 +309,7 @@ class cnMetaboxAPI {
 
 			foreach ( $sections as $section ) {
 
-				$fields = array_merge( cnArray::get( $section, 'fields', array() ), $fields ) ;
+				$fields = array_merge( cnArray::get( $section, 'fields', array() ), $fields );
 			}
 		}
 

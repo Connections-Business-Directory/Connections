@@ -37,8 +37,8 @@ class cnRetrieve {
 	 *
 	 * array(
 	 *     'meta_key'     => (string),
-	 *     'meta_value    => (string|array),
-	 *     'meta_type     => (string),
+	 *     'meta_value'   => (string|array),
+	 *     'meta_type'    => (string),
 	 *     'meta_compare' => (string)
 	 * )
 	 *

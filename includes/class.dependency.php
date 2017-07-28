@@ -48,13 +48,20 @@ class cnDependency {
 
 		// Include the core templates that use the Template APIs introduced in 0.7.6
 		// Must include BEFORE class.template-api.php.
-		include_once CN_TEMPLATE_PATH . 'names/names.php';
-		include_once CN_TEMPLATE_PATH . 'card/card-default.php';
-		include_once CN_TEMPLATE_PATH . 'profile/profile.php';
-		include_once CN_TEMPLATE_PATH . 'anniversary-dark/anniversary-dark.php';
-		include_once CN_TEMPLATE_PATH . 'anniversary-light/anniversary-light.php';
-		include_once CN_TEMPLATE_PATH . 'birthday-dark/birthday-dark.php';
-		include_once CN_TEMPLATE_PATH . 'birthday-light/birthday-light.php';
+		$coreTemplates = array(
+			'names/names.php',
+			'card/card-default.php',
+			'profile/profile.php',
+			'anniversary-dark/anniversary-dark.php',
+			'anniversary-light/anniversary-light.php',
+			'birthday-dark/birthday-dark.php',
+			'birthday-light/birthday-light.php',
+		);
+
+		foreach ( $coreTemplates as $path ) {
+
+			file_exists( CN_TEMPLATE_PATH . $path ) AND include_once CN_TEMPLATE_PATH . $path;
+		}
 
 		// Theme and plugin compatibility hacks.
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';

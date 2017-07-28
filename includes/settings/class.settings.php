@@ -1076,18 +1076,10 @@ class cnRegisterSettings {
 		/*
 		 * The Search tab fields.
 		 */
-		$fields[] = array(
-			'plugin_id'         => 'connections',
-			'id'                => 'fields',
-			'position'          => 10,
-			'page_hook'         => $settings,
-			'tab'               => 'search',
-			'section'           => 'connections_search',
-			'title'             => __( 'Fields', 'connections' ),
-			'desc'              => __( 'The selected fields will be searched.', 'connections' ),
-			'help'              => '',
-			'type'              => 'multicheckbox',
-			'options'           => array(
+
+		$searchOptions['items']    = apply_filters(
+			'cn_search_field_options',
+			array(
 				'family_name'        => __( 'Family Name', 'connections' ),
 				'first_name'         => __( 'First Name', 'connections' ),
 				'middle_name'        => __( 'Middle Name', 'connections' ),
@@ -1110,31 +1102,51 @@ class cnRegisterSettings {
 				'address_zipcode'    => __( 'Address Zip Code', 'connections' ),
 				'address_country'    => __( 'Address Country', 'connections' ),
 				'phone_number'       => __( 'Phone Number', 'connections' )
-			),
-			'default'           => array(
-				'family_name',
-				'first_name',
-				'middle_name',
-				'last_name',
-				'title',
-				'organization',
-				'department',
-				'contact_first_name',
-				'contact_last_name',
-				'bio',
-				'notes',
-				'address_line_1',
-				'address_line_2',
-				'address_line_3',
-				'address_line_4',
-				'address_district',
-				'address_county',
-				'address_city',
-				'address_state',
-				'address_zipcode',
-				'address_country',
-				'phone_number'
-			),
+			)
+		);
+
+		$searchOptions['default'] =
+			apply_filters(
+				'cn_search_field_options_default',
+				array(
+					'family_name',
+					'first_name',
+					'middle_name',
+					'last_name',
+					'title',
+					'organization',
+					'department',
+					'contact_first_name',
+					'contact_last_name',
+					'bio',
+					'notes',
+					'address_line_1',
+					'address_line_2',
+					'address_line_3',
+					'address_line_4',
+					'address_district',
+					'address_county',
+					'address_city',
+					'address_state',
+					'address_zipcode',
+					'address_country',
+					'phone_number'
+				)
+			);
+
+		$fields[] = array(
+			'plugin_id'         => 'connections',
+			'id'                => 'fields',
+			'position'          => 10,
+			'page_hook'         => $settings,
+			'tab'               => 'search',
+			'section'           => 'connections_search',
+			'title'             => __( 'Fields', 'connections' ),
+			'desc'              => __( 'The selected fields will be searched.', 'connections' ),
+			'help'              => '',
+			'type'              => 'multicheckbox',
+			'options'           => $searchOptions['items'],
+			'default'           => $searchOptions['default'],
 			// Only need to add this once, otherwise it would be run for each field.
 			'sanitize_callback' => array( 'cnRegisterSettings', 'setSearchFields' )
 		);
@@ -1664,22 +1676,22 @@ class cnRegisterSettings {
 			'default'   => 1
 		);
 
-		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'css',
-			'position'  => 30,
-			'page_hook' => $settings,
-			'tab'       => 'advanced',
-			'section'   => 'compatibility',
-			'title'     => 'CSS',
-			'desc'      => __(
-				'Enqueue the core styles. Disable this option if you do not want the core styles to be loaded.',
-				'connections'
-			),
-			'help'      => '',
-			'type'      => 'checkbox',
-			'default'   => 1
-		);
+		//$fields[] = array(
+		//	'plugin_id' => 'connections',
+		//	'id'        => 'css',
+		//	'position'  => 30,
+		//	'page_hook' => $settings,
+		//	'tab'       => 'advanced',
+		//	'section'   => 'compatibility',
+		//	'title'     => 'CSS',
+		//	'desc'      => __(
+		//		'Enqueue the core styles. Disable this option if you do not want the core styles to be loaded.',
+		//		'connections'
+		//	),
+		//	'help'      => '',
+		//	'type'      => 'checkbox',
+		//	'default'   => 1
+		//);
 
 		$fields[] = array(
 			'plugin_id' => 'connections',

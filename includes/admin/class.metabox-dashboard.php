@@ -112,6 +112,24 @@ class cnDashboardMetabox {
 		);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-featured-partners',
+			'title'    => __( 'Featured Partners', 'connections' ),
+			'pages'    => array( $pages ),
+			'context'  => 'right',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'partners' ),
+		);
+
+		self::$metaboxes[] = array(
+			'id'       => 'metabox-quick-links',
+			'title'    => __( 'Quick Links', 'connections' ),
+			'pages'    => array( $pages ),
+			'context'  => 'right',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'links' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'        => 'metabox-anniversary-today',
 			'title'     => __( 'Today\'s Anniversaries', 'connections' ),
 			'pages'     => array( $pages ),
@@ -162,15 +180,6 @@ class cnDashboardMetabox {
 			'days'      => 30,
 			'today'     => FALSE,
 		);
-
-		self::$metaboxes[] = array(
-			'id'       => 'metabox-quick-links',
-			'title'    => __( 'Quick Links', 'connections' ),
-			'pages'    => array( $pages ),
-			'context'  => 'right',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'links' ),
-		);
 	}
 
 	/**
@@ -178,16 +187,16 @@ class cnDashboardMetabox {
 	 *
 	 * @access public
 	 * @since  0.8
+	 *
 	 * @param  object $null    Generally a $post or $entry object. Not used in Connections core.
 	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The RSS feed metabox content.
 	 */
 	public static function feed( $null, $metabox ) {
 
 		?>
 		<div class="rss-widget">
 
-		    <?php
+			<?php
 			$rss = fetch_feed( $metabox['args']['feed'] );
 
 			if ( is_object( $rss ) ) {
@@ -199,39 +208,55 @@ class cnDashboardMetabox {
 
 					return;
 
-				} elseif ( $rss->get_item_quantity() > 0  ) {
+				} elseif ( $rss->get_item_quantity() > 0 ) {
 
 					echo '<ul>';
 
+					/** @var SimplePie_Item $item */
 					foreach ( $rss->get_items( 0, 3 ) as $item ) {
 
 						$link = $item->get_link();
 
-						while ( stristr( $link, 'http' ) != $link )
+						while ( stristr( $link, 'http' ) != $link ) {
 							$link = substr( $link, 1 );
+						}
 
 						$link  = esc_url( strip_tags( $link ) );
 						$title = esc_attr( strip_tags( $item->get_title() ) );
 
-						if ( empty( $title ) )
+						if ( empty( $title ) ) {
 							$title = __( 'Untitled', 'connections' );
+						}
 
-						$desc = str_replace( array( "\n", "\r" ), ' ', esc_attr( strip_tags( @html_entity_decode( $item->get_description(), ENT_QUOTES, get_option( 'blog_charset' ) ) ) ) );
+						$desc = str_replace(
+							array( "\n", "\r" ),
+							' ',
+							esc_attr(
+								strip_tags(
+									@html_entity_decode(
+										$item->get_description(),
+										ENT_QUOTES,
+										get_option( 'blog_charset' )
+									)
+								)
+							)
+						);
+
 						$desc = wp_html_excerpt( $desc, 360 );
-
 						$desc = esc_html( $desc );
 
-						$date = $item->get_date();
-						$diff = '';
-
-						if ( $date )  $diff = human_time_diff( strtotime( $date, time() ) );
-					?>
-				          <li>
-				          	<h4 class="rss-title"><a title="" href='<?php echo $link; ?>'><?php echo $title; ?></a></h4>
-						  	<div class="rss-date"><?php echo $date; ?></div>
-				          	<div class="rss-summary"><strong><?php echo $diff; ?> <?php _e( 'ago', 'connections' ); ?></strong> - <?php echo $desc; ?></div>
-						  </li>
-				        <?php
+						//$date = $item->get_date();
+						//$diff = '';
+						//
+						//if ( $date ) {
+						//	$diff = human_time_diff( strtotime( $date, time() ) );
+						//}
+						?>
+						<li>
+							<h3 class="rss-title"><a title="" href='<?php echo $link; ?>'><?php echo $title; ?></a></h3>
+							<div class="rss-summary"><?php echo $desc; ?></div>
+						</li>
+						<?php
 					}
 
 					echo '</ul>';
@@ -241,7 +266,7 @@ class cnDashboardMetabox {
 					'<p>' . _e( 'No updates at this time', 'connections' ) . '</p>';
 				}
 			}
-		?>
+			?>
 		</div>
 		<?php
 	}
@@ -315,9 +340,6 @@ class cnDashboardMetabox {
 	 *
 	 * @access public
 	 * @since  0.8
-	 * @param  object $null    Generally a $post or $entry object. Not used in Connections core.
-	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The QuickLink widget.
 	 */
 	public static function links() {
 
@@ -388,6 +410,37 @@ class cnDashboardMetabox {
 		</div>
 		<div class="clearboth"></div>
 		<?php
+	}
 
+	/**
+	 * The "Featured Partners" Dashboard admin widget.
+	 *
+	 * @access private
+	 * @since  8.6.8
+	 */
+	public static function partners() {
+
+		$logo = CN_URL . 'assets/images/tsl-logo-v3.png';
+		//$url  = self_admin_url( 'plugin-install.php/?s=Connections+Business+Directory+Mobile+App+Manager+Plugin&tab=search&type=term');
+		$url  = self_admin_url( 'plugin-install.php?tab=connections' );
+		?>
+		<div class="two-third">
+			<p>Create your very own native mobile app for iOS and Android powered by WordPress and Connections Business Directory using the <a href="https://tinyscreenlabs.com/?tslref=connections">Tiny Screen Labs Mobile App Manager</a>.</p>
+		</div>
+
+		<div class="one-third last">
+			<p class="center">
+				<img src="<?php echo $logo; ?>" style="max-width: 100%">
+			</p>
+		</div>
+		<div class="clearboth"></div>
+
+		<div>
+			<p class="center">
+				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="<?php echo $url; ?>"><span><?php _e( 'Install Now', 'connections' ); ?></span></a>
+			</p>
+		</div>
+
+		<?php
 	}
 }

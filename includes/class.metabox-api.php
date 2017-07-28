@@ -286,8 +286,53 @@ class cnMetaboxAPI {
 			// Add action to save the field metadata.
 			add_action( 'cn_process_meta-entry', array( new cnMetabox_Process( $metabox ), 'process' ), 10, 2 );
 
+			cnMetaboxAPI::registerSearchCustomField( $metabox );
+		}
+	}
+
+	/**
+	 * Register fields for search.
+	 *
+	 * @access private
+	 * @since  8.6.8
+	 * @static
+	 *
+	 * @param array $metabox
+	 */
+	private static function registerSearchCustomField( $metabox ) {
+
+		$sections = cnArray::get( $metabox, 'sections', array() );
+		$fields   = cnArray::get( $metabox, 'fields', array() );
+
+		// If metabox sections have been registered, loop thru them.
+		if ( ! empty( $sections ) ) {
+
+			foreach ( $sections as $section ) {
+
+				$fields = array_merge( cnArray::get( $section, 'fields', array() ), $fields );
+			}
 		}
 
+		if ( ! empty( $fields ) ) {
+
+			foreach ( $fields as $field ) {
+
+				if ( in_array( $field['type'], array( 'text', 'textarea' ) )
+				     && ( isset( $field['id'] ) && ! empty( $field['id'] ) )
+				     && ( isset( $field['name'] ) && ! empty( $field['name'] ) ) ) {
+
+					$function = create_function(
+						'$options',
+						"\$options['" . $field['id'] . "'] = '" . $field['name'] . "'; return \$options;"
+					);
+
+					add_filter(
+						'cn_search_field_options',
+						$function
+					);
+				}
+			}
+		}
 	}
 
 	/**
@@ -577,8 +622,6 @@ class cnMetabox_Render {
 	 * @since 0.8
 	 * @param  array  $atts   The attributes array.
 	 * @param  object $object An instance the the cnEntry object.
-	 *
-	 * @return string         The HTML output of the registered metaboxes.
 	 */
 	public static function metaboxes( array $atts = array(), $object ) {
 
@@ -1227,7 +1270,7 @@ class cnMetabox_Render {
 
 					wp_editor(
 						cnSanitize::html( $value ),
-						sprintf( '%1$s' , $field['id'] ),
+						'cn-' . $field['id'],
 						$atts
 					);
 

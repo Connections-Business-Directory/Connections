@@ -3,8 +3,8 @@ Contributors: shazahm1@hotmail.com
 Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
-Tested up to: 4.7
-Stable tag: 8.6.7
+Tested up to: 4.8
+Stable tag: 8.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,22 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 8.6.8 07/28/2017 =
+* NEW: Auto register custom text and textarea fields with the search the search settings and add logic to the search function to support those fields if enabled in the settings.
+* TWEAK: Remove option to disable the enqueueing of the core CSS styles.
+* TWEAK: Prefix textarea id with `cn-` to avoid conflicting with other plugin's admin notices which assign id to "message" so RTE is loaded on the correct HTML node.
+* TWEAK: Use `get_locale()` instead of `WPLANG` in the System Info.
+* TWEAK: Set 'autoload' to false on option value.
+* TWEAK: Check for core template files before including them.
+* BUG: Include a bugfix to the parseCSV library which corrects unparsing an array with empty "cells".
+* OTHER: Update "Tested up to:" in readme.
+* OTHER: Add a "Featured Partners" Dashboard widget and add a "Connections" tab to the Install Plugin admin page featuring all the add-ons.
+* OTHER: Reorder default positions of the Dashboard widgets.
+* OTHER: Update the News Dashboard widget.
+* OTHER: Update minified admin CSS.
+* OTHER: Update EDD_SL_Plugin_Updater to 1.6.14.
+* DEV: phpDoc corrections.
 
 = 8.6.7 07/11/2017 =
 * NEW: Add Excerpt field.
@@ -727,29 +743,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update POT file.
 * I18N: Update MO files.
 
-= 8.5.12 03/04/2016 =
-* BUG: Set format to string for lat/lng instead of float when passing the values thru wpdb->prepare() to prevent them from being rounded at 6 decimal places.
-* BUG: The "Recently Added" Dashboard widget would show entries in the moderation queue.
-* BUG: The "Recently Modified" Dashboard widget would show entries in the moderation queue.
-* BUG: Correct bug in the cnHTML::textarea() method.
-* TWEAK: Reduce image quality default from 90 to 82 to match upcoming change to WordPress to reduce image sizes without adversely affecting perceived image quality.
-* TWEAK Check for ABSPATH at top of image editor classes to help prevent direct access.
-* TWEAK: Escape URL on the Manage admin page for filter by category.
-* TWEAK: Minor tweaks to the Templates admin page.
-* TWEAK: The "Awaiting Moderation" Dashboard widget will now show the newest first instead of the oldest.
-* TWEAK: Refactor cnEntryMetabox::links() to remove duplicate code.
-* TWEAK: Refactor cnEntryMetabox::dates() to remove duplicate code.
-* TWEAK: CSS tweaks to the Templates admin page.
-* OTHER: Correct misspelling.
-* OTHER: Update the minified CSS and JS files.
-* DEV: Couple minor phpDoc fixes.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.12 =
-It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.13 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.
@@ -833,4 +829,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.7 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.8 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.

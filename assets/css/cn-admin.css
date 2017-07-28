@@ -326,25 +326,25 @@ div.rss-widget .rss-date {
 	margin-left: 12px;
 }
 
-/*#metabox-quick-links .one-half {*/
+/*#dashboard-widgets-wrap .one-half {*/
 	/*width: 48%;*/
 /*}*/
 
-#metabox-quick-links .one-third {
+#dashboard-widgets-wrap .one-third {
 	width: 30.66%;
 }
 
-#metabox-quick-links .two-third {
+#dashboard-widgets-wrap .two-third {
 	width: 65.33%;
 }
 
-#metabox-quick-links .one-half, .one-third, .two-third {
+#dashboard-widgets-wrap .one-half, .one-third, .two-third {
 	position: relative;
 	margin-right: 4%;
 	float: left;
 }
 
-#metabox-quick-links .last {
+#dashboard-widgets-wrap .last {
 	margin-right: 0;
 	clear: right;
 }

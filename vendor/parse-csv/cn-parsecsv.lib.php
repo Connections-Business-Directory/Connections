@@ -195,6 +195,69 @@ class CN_parseCSV extends parseCSV {
 	}
 
 	/**
+	 * Create CSV data from array
+	 *
+	 * Override core class to implement fix for incorrect unparsing data when empty cells.
+	 * @link https://github.com/parsecsv/parsecsv-for-php/pull/96
+	 *
+	 * @access public
+	 *
+	 * @param array  $data      2D array with data
+	 * @param array  $fields    field names
+	 * @param bool   $append    if true, field names will not be output
+	 * @param bool   $is_php    if a php die() call should be put on the first
+	 *                          line of the file, this is later ignored when read.
+	 * @param string $delimiter field delimiter to use
+	 *
+	 * @return  string
+	 */
+	public function unparse( $data = array(), $fields = array(), $append = FALSE, $is_php = FALSE, $delimiter = NULL ) {
+
+		if ( ! is_array( $data ) || empty( $data ) ) {
+			$data = &$this->data;
+		}
+		if ( ! is_array( $fields ) || empty( $fields ) ) {
+			$fields = &$this->titles;
+		}
+		if ( $delimiter === NULL ) {
+			$delimiter = $this->delimiter;
+		}
+		$string = ( $is_php ) ? "<?php header('Status: 403'); die(' '); ?>" . $this->linefeed : '';
+		$entry  = array();
+
+		// create heading
+		if ( $this->heading && ! $append && ! empty( $fields ) ) {
+
+			foreach ( $fields as $key => $value ) {
+				$entry[] = $this->_enclose_value( $value, $delimiter );
+			}
+
+			$string .= implode( $delimiter, $entry ) . $this->linefeed;
+			$entry  = array();
+		}
+
+		// create data
+		foreach ( $data as $key => $row ) {
+
+			foreach ( $fields as $field => $fieldname ) {
+
+				$value   = isset( $row[ $fieldname ] ) ? $row[ $fieldname ] : NULL;
+				$entry[] = $this->_enclose_value( $value, $delimiter );
+			}
+
+			$string .= implode( $delimiter, $entry ) . $this->linefeed;
+			$entry  = array();
+		}
+
+		if ( $this->convert_encoding ) {
+
+			$string = iconv( $this->input_encoding, $this->output_encoding, $string );
+		}
+
+		return $string;
+	}
+
+	/**
 	 * Load local file or string
 	 *
 	 * Override the core class to implement BOM stripping.

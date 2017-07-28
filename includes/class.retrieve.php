@@ -37,8 +37,8 @@ class cnRetrieve {
 	 *
 	 * array(
 	 *     'meta_key'     => (string),
-	 *     'meta_value    => (string|array),
-	 *     'meta_type     => (string),
+	 *     'meta_value'   => (string|array),
+	 *     'meta_type'    => (string),
 	 *     'meta_compare' => (string)
 	 * )
 	 *
@@ -2312,6 +2312,13 @@ class cnRetrieve {
 
 		if ( in_array( 'phone_number', $fields ) ) $defaults['fields']['phone'][]       = 'number';
 
+		$defaults['fields']['meta'] = array_diff(
+			$fields,
+			array( 'family_name', 'first_name', 'middle_name', 'last_name', 'title', 'organization', 'department', 'contact_first_name', 'contact_last_name', 'bio', 'notes' ),
+			array( 'address_line_1', 'address_line_2', 'address_line_3', 'address_line_4', 'address_district', 'address_county', 'address_city', 'address_state', 'address_zipcode', 'address_country' ),
+			array( 'phone_number' )
+		);
+
 		$atts = wp_parse_args( $atts, apply_filters( 'cn_search_atts', $defaults ) );
 
 		// @todo Validate each fields array to ensure only permitted fields will be used.
@@ -2601,6 +2608,48 @@ class cnRetrieve {
 				$orderBy = empty( $terms ) ? '' : ' ORDER BY score';
 
 				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . ' WHERE ' . implode( ' AND ', $where ) . $orderBy;
+
+				$ids = $wpdb->get_results( $sql, ARRAY_A );
+
+				/*
+				 * If any results are returned merge them in to the $scored results.
+				 */
+				if ( ! empty( $ids ) ) $scored = array_merge( $scored, $ids );
+			}
+
+			/*
+			 * Only search the meta records if at least one registered fields is selected to be searched.
+			 */
+			if ( ! empty( $atts['fields']['meta'] ) ) {
+
+				$metaTerms = $atts['terms'] + $shortwords;
+
+				$select = array();
+				$from   = array();
+				$where  = array( '1=1' );
+				$meta   = array( 'meta_query' => array( 'relation' => 'OR' ) );
+
+				$select[] = 'SELECT ' . CN_ENTRY_TABLE . '.id';
+				$from[]   = CN_ENTRY_TABLE;
+
+				foreach ( $metaTerms as $term ) {
+
+					foreach ( $atts['fields']['meta'] as $meta_key ) {
+
+						$meta['meta_query'][] = array(
+							'compare' => 'LIKE',
+							'key'     => $meta_key,
+							'value'   => $term,
+						);
+					}
+				}
+
+				$metaQuery = new cnMeta_Query( $meta );
+				$metaSQL   = $metaQuery->get_sql( 'entry', CN_ENTRY_TABLE, 'id' );
+				$join      = $metaSQL['join'];
+				$where[]   = $metaSQL['where'];
+
+				$sql = implode( ', ', $select ) . ' FROM ' . implode( ',', $from ) . $join . ' WHERE ' . implode( ' ', $where );
 
 				$ids = $wpdb->get_results( $sql, ARRAY_A );
 

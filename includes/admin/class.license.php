@@ -880,7 +880,7 @@ HERERDOC;
 			self::license( 'activate', $this->name, $key );
 
 			// Save the license key.
-			update_option( 'connections_licenses', $keys );
+			update_option( 'connections_licenses', $keys, FALSE );
 		}
 	}
 

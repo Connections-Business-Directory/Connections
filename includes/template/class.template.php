@@ -1099,7 +1099,7 @@ class cnTemplate {
 	public function enqueueCSS() {
 
 		// Ensure the core CSS is added as a required CSS file when enqueueing the template's CSS.
-		$required = cnSettingsAPI::get( 'connections', 'compatibility', 'css' ) ? array( 'cn-public' ) : array();
+		$required = array( 'cn-public' );
 		$required = apply_filters( 'cn_template_required_css-' . $this->slug, $required, $this );
 		$handle   = "cnt-{$this->slug}";
 		$url      = cnURL::makeProtocolRelative( $this->parts['css-url'] );

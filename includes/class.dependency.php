@@ -320,6 +320,10 @@ class cnDependency {
 
 			// HTTP request utility methods.
 			'cnHTTP'                   => 'includes/class.http.php',
+
+			// Timezone.
+			'cnGoogleMapsTimeZone'     => 'includes/class.google-maps-timezone-api.php',
+			'cnTimezone'               => 'includes/class.timezone.php',
 		);
 	}
 }

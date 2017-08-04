@@ -191,7 +191,7 @@ class cnDependency {
 			'cnEntry_Shortcode'        => 'includes/entry/class.entry-shortcode.php',
 
 			// Entry vCard.
-			'cnvCard'                  => 'includes/entry/class.entry-vcard.php',
+			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',
 
 			// Entry actions.
 			'cnEntry_Action'           => 'includes/entry/class.entry-actions.php',

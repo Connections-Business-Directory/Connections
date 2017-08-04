@@ -615,7 +615,7 @@ class cnTemplatePart {
 
 		foreach ( $results as $row ) {
 
-			$entry = new cnvCard( $row );
+			$entry = new cnEntry_vCard( $row );
 			/** @noinspection PhpUnusedLocalVariableInspection */
 			$vCard =& $entry;
 

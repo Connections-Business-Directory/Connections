@@ -242,7 +242,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 					foreach ( $results as $row ) {
 
-						$entry = new cnvCard($row);
+						$entry = new cnEntry_vCard( $row);
 						$vCard =& $entry;
 
 						// Configure the page where the entry link to.

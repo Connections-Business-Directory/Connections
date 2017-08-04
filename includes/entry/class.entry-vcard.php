@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class cnvCard
+ * Class cnEntry_vCard
  */
-class cnvCard extends cnEntry_HTML {
+class cnEntry_vCard extends cnEntry_HTML {
 
 	/**
 	 * @var array
@@ -655,7 +655,7 @@ class cnvCard extends cnEntry_HTML {
 					wp_die( __( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnvCard( $entry ); //var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry ); //var_dump($vCard);die;
 
 			} else {
 
@@ -667,7 +667,7 @@ class cnvCard extends cnEntry_HTML {
 					wp_die( __( 'vCard not available for download.', 'connections' ) );
 				}
 
-				$vCard = new cnvCard( $entry[0] ); //var_dump($vCard);die;
+				$vCard = new cnEntry_vCard( $entry[0] ); //var_dump($vCard);die;
 			}
 
 			$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);

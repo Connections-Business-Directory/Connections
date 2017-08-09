@@ -323,7 +323,7 @@ class cnMetaboxAPI {
 
 					$function = create_function(
 						'$options',
-						"\$options['" . $field['id'] . "'] = '" . $field['name'] . "'; return \$options;"
+						"\$options['" . $field['id'] . "'] = maybe_unserialize('" . str_replace( "'", "\'", maybe_serialize( $field['name'] ) ) . "'); return \$options;"
 					);
 
 					add_filter(

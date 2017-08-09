@@ -328,7 +328,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );
 
 			// Register the callback to support downloading of vCards
-			add_action( 'template_redirect' , array( 'cnvCard', 'download' ) );
+			add_action( 'template_redirect' , array( 'cnEntry_vCard', 'download' ) );
 
 			// Geocode the address using Google Geocoding API.
 			add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );

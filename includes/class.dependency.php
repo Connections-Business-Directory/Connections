@@ -66,6 +66,9 @@ class cnDependency {
 		// Theme and plugin compatibility hacks.
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
 		require_once CN_PATH . 'includes/inc.theme-compatibility.php';
+
+		// Include the autoloader for the Pear IMC classes.
+		if ( ! class_exists( 'File_IMC' ) ) include_once CN_PATH . 'vendor/pear/IMC.php';
 	}
 
 	/**

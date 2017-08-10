@@ -311,7 +311,7 @@ class cnDependency {
 
 			// Address objects.
 			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',
-		    'cnAddress'                => 'includes/entry/address/class.address.php',
+			'cnAddress'                => 'includes/entry/address/class.address.php',
 			'cnCountry'                => 'includes/entry/address/class.country.php',
 			'cnCoordinates'            => 'includes/entry/address/class.coordinates.php',
 

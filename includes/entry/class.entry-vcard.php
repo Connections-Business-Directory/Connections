@@ -21,16 +21,408 @@ if ( ! defined( 'ABSPATH' ) ) {
 class cnEntry_vCard extends cnEntry_HTML {
 
 	/**
-	 * @var array
+	 * @var File_IMC_Build_Vcard
 	 */
-	private $data;
+	private $vCard;
 
 	/**
-	 * @var string
+	 * Use the Pear File_IMC to build a vCard.
+	 *
+	 * @link https://pear.php.net/manual/en/package.fileformats.contact-vcard-build.php
+	 * @link https://github.com/pear/File_IMC
+	 *
+	 * Useful references:
+	 * @link https://tools.ietf.org/html/rfc6350
+	 * @link https://en.wikipedia.org/wiki/VCard
+	 * @link https://github.com/jeroendesloovere/vcard
+	 * @link https://github.com/evought/VCard-Tools
 	 */
-	private $card;
-
 	private function setvCardData() {
+
+		$this->vCard = File_IMC::build('vCard' );
+
+		// Set the structured representation of the name. REQUIRED.
+		$this->vCard->set(
+			'N',
+			array(
+				'family-name'      => $this->prepare( $this->getLastName( 'display' ) ),
+				'given-name'       => $this->prepare( $this->getFirstName( 'display' ) ),
+				'additional-name'  => $this->prepare( $this->getMiddleName( 'display' ) ),
+				'honorific-prefix' => $this->prepare( $this->getHonorificPrefix( 'display' ) ),
+				'honorific-suffix' => $this->prepare( $this->getHonorificSuffix( 'display' ) ),
+			)
+		)->addParam( 'CHARSET', 'UTF-8' );
+
+		// Set the formatted name. REQUIRED.
+		$this->vCard->set( 'FN', $this->prepare( $this->getName() ) )
+		            ->addParam( 'CHARSET', 'UTF-8' );
+
+		// Set the job title.
+		$this->vCard->set( 'TITLE', $this->prepare( $this->getTitle() ) )
+		            ->addParam( 'CHARSET', 'UTF-8' );
+
+		// Set the organization and unit.
+		$this->vCard->set(
+			'ORG',
+			array(
+				'organization-name' => $this->prepare( $this->getOrganization( 'display' ) ),
+				'organization-unit' => $this->prepare( $this->getDepartment( 'display' ) ),
+			)
+		)->addParam( 'CHARSET', 'UTF-8' );
+
+		// Set the notes.
+		if ( 0 < strlen( $notes = $this->getNotes() ) ) {
+
+			$this->vCard->set( 'NOTE', $this->format->sanitizeString( $notes ) )
+			            ->addParam( 'CHARSET', 'UTF-8' );
+		}
+
+		$this->setvCardAddresses();
+		$this->setvCardGEO();
+		$this->setvCardPhoneNumbers();
+		$this->setvCardEmailAddresses();
+		$this->setvCardWebAddresses();
+		$this->setvCardIMIDs();
+		$this->setvCardSocialMedia();
+		$this->setvCardDates();
+		$this->setvCardImages();
+		$this->setvCardMeta();
+	}
+
+	/**
+	 * @param $string
+	 *
+	 * @return string
+	 */
+	protected function prepare( $string ) {
+
+		return html_entity_decode( $string, ENT_COMPAT, 'UTF-8' );
+	}
+
+	/**
+	 * Get the timezone GMT Offset calculated from the WP `gmt_offset` value.
+	 *
+	 * @link https://stackoverflow.com/a/41403802/5351316
+	 *
+	 * @return string
+	 */
+	protected function getGMTOffset() {
+
+		$min    = 60 * get_option( 'gmt_offset' );
+		$sign   = $min < 0 ? '-' : '+';
+		$absmin = abs( $min );
+		$tz     = sprintf( '%s%02d%02d', $sign, $absmin / 60, $absmin % 60 );
+
+		return $tz;
+	}
+
+	/**
+	 * Get image type from integer returned by getimagesize.
+	 *
+	 * @param $int
+	 *
+	 * @return string
+	 */
+	protected function getImageType( $int ) {
+
+		$mime  = image_type_to_mime_type( $int );
+		$parts = explode( '/', $mime );
+
+		return strtoupper( array_pop( $parts ) );
+	}
+
+	/**
+	 * Returns a group ID.
+	 *
+	 * Set $new to any non-null value to increase the incrementer.
+	 *
+	 * @param null $new
+	 *
+	 * @return string
+	 */
+	protected function getGroupName( $new = NULL ) {
+
+		static $i = 0;
+
+		if ( ! is_null( $new ) ) $i++;
+
+		return "item$i";
+	}
+
+	/**
+	 * Add the latitude and longitude of the first address to the GEO property
+	 *
+	 * @return void
+	 */
+	private function setvCardGEO() {
+
+		$preferred = $this->addresses->getPreferred();
+		$first     = $this->addresses->getCollection()->first();
+
+		if ( ! is_null( $preferred ) ) {
+
+			$this->vCard->set(
+				'GEO',
+				array(
+					'latitude'  => $preferred->getLatitude(),
+					'longitude' => $preferred->getLongitude()
+				)
+			);
+
+		} elseif ( ! is_null( $first ) ) {
+
+			$this->vCard->set(
+				'GEO',
+				array(
+					'latitude'  => $first->getLatitude(),
+					'longitude' => $first->getLongitude()
+				)
+			);
+		}
+	}
+
+	/**
+	 * @return void
+	 */
+	private function setvCardAddresses() {
+
+		if ( $data = $this->getAddresses() ) {
+
+			foreach ( $data as $address ) {
+
+				// Add a new ADR property to the vCard.
+				$this->vCard->set(
+					'ADR',
+					array(
+						'street-address'   => $this->prepare( $address->line_1 ),
+						'extended-address' => $this->prepare( $address->line_2 ),
+						'locality'         => $this->prepare( $address->city ),
+						'region'           => $this->prepare( $address->state ),
+						'postal-code'      => $this->prepare( $address->zipcode ),
+						'country-name'     => $this->prepare( $address->country ),
+					),
+					'new'
+				)->addParam( 'CHARSET', 'UTF-8' );
+
+				// Add the type to the ADR property.
+				$this->vCard->addParam( 'TYPE', strtoupper( $address->type ) );
+
+				// If the address is preferred add the flag to the property.
+				if ( $address->preferred ) {
+
+					$this->vCard->addParam( 'TYPE', 'PREF' );
+				}
+			}
+		}
+	}
+
+	private function setvCardPhoneNumbers() {
+
+		// Map the core Connection phone type to supported vCard types.
+		$index = array(
+			'home'      => array( 'HOME', 'VOICE' ),
+			'homephone' => array( 'HOME', 'VOICE' ),
+			'homefax'   => array( 'HOME', 'FAX' ),
+			'cell'      => array( 'CELL', 'VOICE', 'TEXT' ),
+			'cellphone' => array( 'CELL', 'VOICE', 'TEXT' ),
+			'work'      => array( 'WORK', 'VOICE' ),
+			'workphone' => array( 'WORK', 'VOICE' ),
+			'workfax'   => array( 'WORK', 'FAX' ),
+			'fax'       => array( 'WORK', 'VOICE' ),
+		);
+
+		if ( $data = $this->getPhoneNumbers() ) {
+
+			foreach ( $data as $phone ) {
+
+				// Add a new TEL property to the vCard.
+				$this->vCard->set( 'TEL', $phone->number, 'new' )
+				            ->addParam( 'CHARSET', 'UTF-8' );
+
+				// Add the TEL types from the index.
+				if ( array_key_exists( $phone->type, $index ) ) {
+
+					foreach ( $index[ $phone->type ] as $type ) {
+
+						$this->vCard->addParam( 'TYPE', $type );
+					}
+
+				// If a TEL type is not in the index, just set the type to VOICE
+				} else {
+
+					$this->vCard->addParam( 'TYPE', 'VOICE' );
+				}
+
+				// If the phone is preferred add the flag to the property.
+				if ( $phone->preferred ) {
+
+					$this->vCard->addParam( 'TYPE', 'PREF' );
+				}
+			}
+		}
+	}
+
+	private function setvCardEmailAddresses() {
+
+		// Map the core Connection email type to supported vCard types.
+		$index = array(
+			'personal'  => array( 'HOME', 'INTERNET' ),
+			'work'      => array( 'WORK', 'INTERNET' ),
+		);
+
+		if ( $data = $this->getEmailAddresses() ) {
+
+			foreach ( $data as $email ) {
+
+				// Add a new EMAIL property to the vCard.
+				$this->vCard->set( 'EMAIL', $email->address, 'new' )
+				            ->addParam( 'CHARSET', 'UTF-8' );
+
+				// Add the EMAIL types from the index.
+				if ( array_key_exists( $email->type, $index ) ) {
+
+					foreach ( $index[ $email->type ] as $type ) {
+
+						$this->vCard->addParam( 'TYPE', $type );
+					}
+
+				// If a EMAIL type is not in the index, just set the type to INTERNET
+				} else {
+
+					$this->vCard->addParam( 'TYPE', 'INTERNET' );
+				}
+
+				// If the email is preferred add the flag to the property.
+				if ( $email->preferred ) {
+
+					$this->vCard->addParam( 'TYPE', 'PREF' );
+				}
+			}
+
+		}
+	}
+
+	private function setvCardWebAddresses() {
+
+		// Map the core Connection link type to supported vCard types.
+		$index = array(
+			'blog'    => array( 'HOME' ),
+			'website' => array( 'WORK' ),
+		);
+
+		if ( $data = $this->getLinks() ) {
+
+			foreach ( $data as $link ) {
+
+				// Add a new URL property to the vCard.
+				$this->vCard->set( 'URL', esc_url( $link->url ), 'new' )
+				            ->addParam( 'CHARSET', 'UTF-8' );
+
+				// Add the URL types from the index.
+				if ( array_key_exists( $link->type, $index ) ) {
+
+					foreach ( $index[ $link->type ] as $type ) {
+
+						$this->vCard->addParam( 'TYPE', $type );
+					}
+
+				// If a URL type is not in the index, just set the type to HOME
+				} else {
+
+					$this->vCard->addParam( 'TYPE', 'HOME' );
+				}
+
+				// If the email is preferred add the flag to the property.
+				if ( $link->preferred ) {
+
+					$this->vCard->addParam( 'TYPE', 'PREF' );
+				}
+			}
+		}
+	}
+
+	private function setvCardIMIDs() {
+
+		// IM protocol index. key == Connection IM type => value == protocol
+		$index = array(
+			'aim'       => 'aim',
+			'icq'       => 'icq',
+			'jabber'    => 'xmpp',
+			'messenger' => 'msnim',
+			'skype'     => 'skype',
+			'yahoo'     => 'ymsgr',
+		);
+
+		// Index of known vCard IMPP extensions. key == Connections IM Type => value == vCard extension.
+		$extension = array(
+			'aim'       => array( 'X-AIM' ),
+			'icq'       => array( 'X-ICQ' ),
+			'jabber'    => array( 'X-GOOGLE-TALK', 'X-GTALK', 'X-JABBER' ),
+			'messenger' => array( 'X-MSN' ),
+			'skype'     => array( 'X-SKYPE', 'X-SKYPE-USERNAME' ),
+			'yahoo'     => array( 'X-YAHOO' ),
+		);
+
+		if ( $data = $this->getIm() ) {
+
+			foreach ( $data as $im ) {
+
+				// Add the IMPP types from the index.
+				if ( array_key_exists( $im->type, $index ) ) {
+
+					// Add a new IMPP property to the vCard.
+					$this->vCard->set( 'IMPP', $index[ $im->type ] . ':' . $im->id, 'new' )
+					            ->addParam( 'CHARSET', 'UTF-8' );
+
+					$this->vCard->addParam( 'TYPE', 'PERSONAL' );
+
+					// If the IM is preferred add the flag to the property.
+					if ( $im->preferred ) {
+
+						$this->vCard->addParam( 'TYPE', 'PREF' );
+					}
+				}
+
+				// Add the known vCard IMPP extensions from the index.
+				if ( array_key_exists( $im->type, $extension ) ) {
+
+					foreach ( $extension[ $im->type ] as $x ) {
+
+						// Add a new IMPP property to the vCard.
+						$this->vCard->set( $x, $im->id, 'new' )
+						            ->addParam( 'CHARSET', 'UTF-8' );
+
+						$this->vCard->addParam( 'TYPE', 'PERSONAL' );
+
+						// If the IM is preferred add the flag to the property.
+						if ( $im->preferred ) {
+
+							$this->vCard->addParam( 'TYPE', 'PREF' );
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * @link https://tools.ietf.org/html/draft-ietf-vcarddav-social-networks-00
+	 * @link https://alessandrorossini.org/the-sad-story-of-the-vcard-format-and-its-lack-of-interoperability/
+	 * @link https://www.quora.com/Does-anyone-here-know-how-the-best-way-to-combine-vcard-contact-information-and-social-site-hyperlinks-in-ONE-QR-code
+	 */
+	private function setvCardSocialMedia() {
+
+		if ( $data = $this->getSocialMedia() ) {
+
+			foreach ( $data as $network ) {
+
+				$this->vCard->set( 'URL', $network->url, 'new' )->setGroup( $this->getGroupName( 'new' ) );
+				$this->vCard->set( 'X-ABLabel', $network->name, 'new' )->setGroup( $this->getGroupName() );
+			}
+		}
+	}
+
+	private function setvCardDates() {
 
 		$anniversary = NULL;
 		$birthday    = NULL;
@@ -49,577 +441,88 @@ class cnEntry_vCard extends cnEntry_HTML {
 			$birthday = date_i18n( 'Y-m-d', strtotime( $day[0]->date ), TRUE );
 		}
 
-		$this->data = array(
-			'class'                  => NULL,
-			'display_name'           => html_entity_decode( $this->getFullFirstLastName(), ENT_COMPAT, 'UTF-8' ),
-			'first_name'             => html_entity_decode( $this->getFirstName(), ENT_COMPAT, 'UTF-8' ),
-			'last_name'              => html_entity_decode( $this->getLastName(), ENT_COMPAT, 'UTF-8' ),
-			'additional_name'        => html_entity_decode( $this->getMiddleName(), ENT_COMPAT, 'UTF-8' ),
-			'name_prefix'            => html_entity_decode( $this->getHonorificPrefix(), ENT_COMPAT, 'UTF-8' ),
-			'name_suffix'            => html_entity_decode( $this->getHonorificSuffix(), ENT_COMPAT, 'UTF-8' ),
-			'nickname'               => NULL,
-			'title'                  => html_entity_decode( $this->getTitle(), ENT_COMPAT, 'UTF-8' ),
-			'role'                   => NULL,
-			'department'             => html_entity_decode( $this->getDepartment(), ENT_COMPAT, 'UTF-8' ),
-			'company'                => html_entity_decode( $this->getOrganization(), ENT_COMPAT, 'UTF-8' ),
-			'work_po_box'            => NULL,
-			'work_extended_address'  => NULL,
-			'work_address'           => NULL,
-			'work_city'              => NULL,
-			'work_state'             => NULL,
-			'work_postal_code'       => NULL,
-			'work_country'           => NULL,
-			'home_po_box'            => NULL,
-			'home_extended_address'  => NULL,
-			'home_address'           => NULL,
-			'home_city'              => NULL,
-			'home_state'             => NULL,
-			'home_postal_code'       => NULL,
-			'home_country'           => NULL,
-			'other_po_box'           => NULL,
-			'other_extended_address' => NULL,
-			'other_address'          => NULL,
-			'other_city'             => NULL,
-			'other_state'            => NULL,
-			'other_postal_code'      => NULL,
-			'other_country'          => NULL,
-			'latitude'               => NULL,
-			'longitude'              => NULL,
-			'work_tel'               => NULL,
-			'home_tel'               => NULL,
-			'home_fax'               => NULL,
-			'cell_tel'               => NULL,
-			'work_fax'               => NULL,
-			'pager_tel'              => NULL,
-			'email1'                 => NULL,
-			'email2'                 => NULL,
-			'url'                    => NULL,
-			'aim'                    => NULL,
-			'messenger'              => NULL,
-			'yim'                    => NULL,
-			'jabber'                 => NULL,
-			'photo'                  => $this->getOriginalImagePath( 'photo' ),
-			'logo'                   => $this->getOriginalImagePath( 'logo' ),
-			'birthday'               => $birthday,
-			'anniversary'            => $anniversary,
-			'spouse'                 => NULL,
-			'timezone'               => NULL,
-			'revision_date'          => date( 'Y-m-d H:i:s', strtotime( $this->getUnixTimeStamp() ) ),
-			'sort_string'            => NULL,
-			'categories'             => $this->getCategory(),
-			'note'                   => $this->format->sanitizeString( $this->getNotes() )
-		);
+		// Set the anniversary.
+		if ( ! is_null( $anniversary ) ) {
 
-		$this->setvCardAddresses();
-		$this->setvCardGEO();
-		$this->setvCardPhoneNumbers();
-		$this->setvCardEmailAddresses();
-		$this->setvCardWebAddresses();
-		$this->setvCardIMIDs();
-		$this->buildvCard();
+			$this->vCard->set( 'X-ANNIVERSARY', $anniversary, 'new' );
+
+			/**
+			 * Exports from Apple's AddressBook have X-ABLabel field bracketed by  _$!< >!$_
+			 * If the label is one of the predefined ones (e.g. Child, Spouse, Manager, Partner, etc),
+			 * but *not* bracketed if the label is a custom label.
+			 *
+			 * Predefined X-ABLabel values such as "_$!<Spouse>!$_" are localized by AddressBook.app.
+			 */
+			$this->vCard->set( 'X-ABDATE', $anniversary, 'new' )->setGroup( $this->getGroupName( 'new' ) );
+			$this->vCard->set( 'X-ABLabel', '_$!<Anniversary>!$_', 'new' )->setGroup( $this->getGroupName() );
+		}
+
+		// Set the birthday.
+		if ( ! is_null( $birthday ) ) {
+
+			$this->vCard->set( 'BDAY', $birthday, 'new' );
+		}
 	}
 
-	private function buildvCard() {
+	private function setvCardImages() {
 
-		$name = array();
+		// An image or graphic of the logo of the organization that is associated with the individual to which the vCard belongs.
+		$logo = $this->getImageMeta( array( 'type' => 'logo' ) );
 
-		$name[] = $this->data['last_name'];
-		$name[] = $this->data['first_name'];
-		$name[] = $this->data['additional_name'];
-		$name[] = $this->data['name_prefix'];
-		$name[] = $this->data['name_suffix'];
-
-		if ( ! $this->data['class'] ) {
-			$this->data['class'] = "PUBLIC";
-		}
-		if ( ! $this->data['display_name'] ) {
-			$this->data['display_name'] = trim( $this->data['first_name'] . " " . $this->data['last_name'] );
+		if ( ! is_wp_error( $logo ) ) {
+			$this->vCard->set( 'LOGO', $logo['path'] )
+			            ->addParam( 'TYPE', $this->getImageType( $logo['type'] ) );
 		}
 
-		if ( ! $this->data['sort_string'] ) {
-			$this->data['sort_string'] = $this->data['last_name'];
+		// An image or photograph of the individual associated with the vCard.
+		$photo = $this->getImageMeta( array( 'type' => 'photo' ) );
+
+		if ( ! is_wp_error( $photo ) ) {
+			$this->vCard->set( 'PHOTO', $photo['path'] )
+			            ->addParam( 'TYPE', $this->getImageType( $photo['type'] ) );
+
+			// Support MS Outlook
+			$this->vCard->set( 'X-MS-CARDPICTURE', base64_encode( file_get_contents( $photo['path'] ) ) )
+			            ->addParam( 'ENCODING', 'B' );
+			$this->vCard->addParam( 'TYPE', $this->getImageType( $photo['type'] ) );
 		}
-		if ( ! $this->data['sort_string'] ) {
-			$this->data['sort_string'] = $this->data['company'];
-		}
-		if ( ! $this->data['timezone'] ) {
-			$this->data['timezone'] = date( "O" );
-		}
-		if ( ! $this->data['revision_date'] ) {
-			$this->data['revision_date'] = date( 'Y-m-d H:i:s' );
-		}
-
-		$this->card = "BEGIN:VCARD\r\n";
-		$this->card .= "VERSION:3.0\r\n";
-		$this->card .= "CLASS:" . $this->data['class'] . "\r\n";
-		$this->card .= "PRODID:-//Connections - WordPress Plug-in//Version 1.0//EN\r\n";
-		$this->card .= "REV:" . $this->data['revision_date'] . "\r\n";
-		$this->card .= "FN;CHARSET=utf-8:" . $this->data['display_name'] . "\r\n";
-		$this->card .= "N;CHARSET=utf-8:" . implode( ';', $name ) . "\r\n";
-
-		if ( $this->data['nickname'] ) {
-			$this->card .= "NICKNAME;CHARSET=utf-8:" . $this->data['nickname'] . "\r\n";
-		}
-		if ( $this->data['title'] ) {
-			$this->card .= "TITLE;CHARSET=utf-8:" . $this->data['title'] . "\r\n";
-		}
-		if ( $this->data['company'] || $this->data['department'] ) {
-			$this->card .= "ORG;CHARSET=utf-8:" . ( ( empty( $this->data['company'] ) ) ? '' : $this->data['company'] ) . ';' . ( ( empty( $this->data['department'] ) ) ? '' : $this->data['department'] );
-			$this->card .= "\r\n";
-		}
-
-		if ( $this->data['work_po_box'] || $this->data['work_extended_address'] || $this->data['work_address'] || $this->data['work_city'] || $this->data['work_state'] || $this->data['work_postal_code'] || $this->data['work_country'] ) {
-			$this->card .= "ADR;CHARSET=utf-8;TYPE=work:" . $this->data['work_po_box'] . ";" . $this->data['work_extended_address'] . ";" . $this->data['work_address'] . ";" . $this->data['work_city'] . ";" . $this->data['work_state'] . ";" . $this->data['work_postal_code'] . ";" . $this->data['work_country'] . "\r\n";
-		}
-
-		if ( $this->data['home_po_box'] || $this->data['home_extended_address'] || $this->data['home_address'] || $this->data['home_city'] || $this->data['home_state'] || $this->data['home_postal_code'] || $this->data['home_country'] ) {
-			$this->card .= "ADR;CHARSET=utf-8;TYPE=home:" . $this->data['home_po_box'] . ";" . $this->data['home_extended_address'] . ";" . $this->data['home_address'] . ";" . $this->data['home_city'] . ";" . $this->data['home_state'] . ";" . $this->data['home_postal_code'] . ";" . $this->data['home_country'] . "\r\n";
-		}
-
-		if ( $this->data['other_po_box'] || $this->data['other_extended_address'] || $this->data['other_address'] || $this->data['other_city'] || $this->data['other_state'] || $this->data['other_postal_code'] || $this->data['other_country'] ) {
-			$this->card .= "ADR;CHARSET=utf-8;TYPE=other:" . $this->data['other_po_box'] . ";" . $this->data['other_extended_address'] . ";" . $this->data['other_address'] . ";" . $this->data['other_city'] . ";" . $this->data['other_state'] . ";" . $this->data['other_postal_code'] . ";" . $this->data['other_country'] . "\r\n";
-		}
-
-		if ( ( isset( $this->data['latitude'] ) && ! empty( $this->data['latitude'] ) ) && ( isset( $this->data['longitude'] ) && ! empty( $this->data['longitude'] ) ) ) {
-			$this->card .= "GEO:" . $this->data['latitude'] . ";" . $this->data['longitude'] . "\r\n";;
-		}
-
-		if ( $this->data['email1'] ) {
-			$this->card .= "EMAIL;CHARSET=utf-8;TYPE=internet:" . $this->data['email1'] . "\r\n";
-		}
-		if ( $this->data['email2'] ) {
-			$this->card .= "EMAIL;CHARSET=utf-8;TYPE=internet:" . $this->data['email2'] . "\r\n";
-		}
-		if ( $this->data['work_tel'] ) {
-			$this->card .= "TEL;CHARSET=utf-8;TYPE=work,voice:" . $this->data['work_tel'] . "\r\n";
-		}
-		if ( $this->data['home_tel'] ) {
-			$this->card .= "TEL;CHARSET=utf-8;TYPE=home,voice:" . $this->data['home_tel'] . "\r\n";
-		}
-		if ( $this->data['cell_tel'] ) {
-			$this->card .= "TEL;CHARSET=utf-8;TYPE=cell,voice:" . $this->data['cell_tel'] . "\r\n";
-		}
-		if ( $this->data['work_fax'] ) {
-			$this->card .= "TEL;CHARSET=utf-8;TYPE=work,fax:" . $this->data['work_fax'] . "\r\n";
-		}
-		if ( $this->data['home_fax'] ) {
-			$this->card .= "TEL;CHARSET=utf-8;TYPE=home,fax:" . $this->data['home_fax'] . "\r\n";
-		}
-		if ( $this->data['pager_tel'] ) {
-			$this->card .= "TEL;CHARSET=utf-8;TYPE=work,pager:" . $this->data['pager_tel'] . "\r\n";
-		}
-		if ( $this->data['url'] ) {
-			$this->card .= "URL;CHARSET=utf-8:" . $this->data['url'] . "\r\n";
-		}
-
-		// http://tools.ietf.org/html/rfc4770
-		if ( $this->data['aim'] ) {
-			$this->card .= "IMPP;CHARSET=utf-8;TYPE=personal:aim:" . $this->data['aim'] . "\r\n";
-		}
-		if ( $this->data['aim'] ) {
-			$this->card .= "X-AIM;CHARSET=utf-8:" . $this->data['aim'] . "\r\n";
-		}
-		if ( $this->data['messenger'] ) {
-			$this->card .= "IMPP;CHARSET=utf-8;TYPE=personal:msn:" . $this->data['messenger'] . "\r\n";
-		}
-		if ( $this->data['messenger'] ) {
-			$this->card .= "X-MSN;CHARSET=utf-8:" . $this->data['messenger'] . "\r\n";
-		}
-		if ( $this->data['yim'] ) {
-			$this->card .= "IMPP;CHARSET=utf-8;TYPE=personal:ymsgr:" . $this->data['yim'] . "\r\n";
-		}
-		if ( $this->data['yim'] ) {
-			$this->card .= "X-YAHOO;CHARSET=utf-8:" . $this->data['yim'] . "\r\n";
-		}
-		if ( $this->data['jabber'] ) {
-			$this->card .= "IMPP;CHARSET=utf-8;TYPE=personal:xmpp:" . $this->data['jabber'] . "\r\n";
-		}
-		if ( $this->data['jabber'] ) {
-			$this->card .= "X-JABBER;CHARSET=utf-8:" . $this->data['jabber'] . "\r\n";
-		}
-
-		// @TODO: Add social media IDs here.
-		// http://tools.ietf.org/html/draft-george-vcarddav-vcard-extension-01
-
-		if ( $this->data['birthday'] ) {
-			$this->card .= "BDAY:" . $this->data['birthday'] . "\r\n";
-		}
-		if ( $this->data['anniversary'] ) {
-			$this->card .= "X-ANNIVERSARY:" . $this->data['anniversary'] . "\r\n";
-		}
-		if ( $this->data['spouse'] ) {
-			$this->card .= "X-SPOUSE;CHARSET=utf-8:" . $this->data['spouse'] . "\r\n";
-		}
-		if ( $this->data['role'] ) {
-			$this->card .= "ROLE;CHARSET=utf-8:" . $this->data['role'] . "\r\n";
-		}
-		if ( $this->data['note'] ) {
-			$this->card .= "NOTE;CHARSET=utf-8:" . $this->data['note'] . "\r\n";
-		}
-
-		// @Author: http://www.hotscripts.com/forums/php/47729-solved-how-create-vcard-photo.html
-		if ( $this->data['photo'] ) {
-
-			$imageTypes = array(
-				IMAGETYPE_JPEG => 'JPEG',
-				IMAGETYPE_GIF  => 'GIF',
-				IMAGETYPE_PNG  => 'PNG',
-				IMAGETYPE_BMP  => 'BMP'
-			);
-
-			if ( $imageInfo = getimagesize( $this->data['photo'] ) AND isset( $imageTypes[ $imageInfo[2] ] ) ) {
-
-				$photo = base64_encode( file_get_contents( $this->data['photo'] ) );
-				$type  = $imageTypes[ $imageInfo[2] ];
-
-				//$this->card .= sprintf("PHOTO;ENCODING=BASE64;TYPE=%s:%s\r\n", $type, $photo);
-				$this->card .= sprintf( "PHOTO;ENCODING=BASE64;TYPE=%s:", $type );
-
-				$i        = 0;
-				$strphoto = sprintf( $photo );
-
-				while ( $i < strlen( $strphoto ) ) {
-
-					if ( $i % 75 == 0 ) {
-
-						$this->card .= "\r\n " . $strphoto[ $i ];
-
-					} else {
-
-						$this->card .= $strphoto[ $i ];
-					}
-
-					$i ++;
-				}
-
-				$this->card .= "\r\n";
-				//$this->card .= "PHOTO;VALUE=uri:".$this->data['photo']."\r\n";
-			}
-		}
-
-		if ( $this->data['logo'] ) {
-
-			$imageTypes = array(
-				IMAGETYPE_JPEG => 'JPEG',
-				IMAGETYPE_GIF  => 'GIF',
-				IMAGETYPE_PNG  => 'PNG',
-				IMAGETYPE_BMP  => 'BMP'
-			);
-
-			if ( $imageInfo = getimagesize( $this->data['logo'] ) AND isset( $imageTypes[ $imageInfo[2] ] ) ) {
-
-				$photo = base64_encode( file_get_contents( $this->data['logo'] ) );
-				$type  = $imageTypes[ $imageInfo[2] ];
-
-				$this->card .= sprintf( "LOGO;ENCODING=BASE64;TYPE=%s:", $type );
-
-				$i        = 0;
-				$strphoto = sprintf( $photo );
-
-				while ( $i < strlen( $strphoto ) ) {
-
-					if ( $i % 75 == 0 ) {
-
-						$this->card .= "\r\n " . $strphoto[ $i ];
-
-					} else {
-
-						$this->card .= $strphoto[ $i ];
-					}
-
-					$i ++;
-				}
-
-				$this->card .= "\r\n";
-			}
-		}
-
-		if ( $this->data['categories'] ) {
-			$count = count( $this->data['categories'] );
-			$i     = 0;
-
-			$this->card .= "CATEGORIES;CHARSET=utf-8:";
-
-			foreach ( $this->data['categories'] as $category ) {
-				$this->card .= $category->name;
-
-				$i ++;
-				if ( $count > $i ) {
-					$this->card .= ',';
-				}
-			}
-
-			$this->card .= "\r\n";
-
-			unset( $i );
-		}
-
-		$this->card .= "TZ:" . $this->data['timezone'] . "\r\n";
-		$this->card .= "END:VCARD";
 	}
 
-	/**
-	 * Add the latitude and longitude of the first address to the GEO property
-	 *
-	 * @TODO Should use the preferred address if set and only then use the first geo on the first address.
-	 * @return void
-	 */
-	private function setvCardGEO() {
+	private function setvCardMeta() {
 
-		if ( $this->getAddresses() ) {
-			$address = $this->getAddresses();
+		// Set the identifier for the product that created the vCard object.
+		$this->vCard->set( 'PRODID', '-//Connections Business Directory for WordPress//Version 2.0//EN' );
 
-			$this->data['latitude']  = $address[0]->latitude;
-			$this->data['longitude'] = $address[0]->longitude;
+		// Set the sensitivity of the information in the vCard.
+		$this->vCard->set( 'CLASS', 'PUBLIC' );
+
+		// Set the timestamp (ISO 8601 formatted UTC date/time) for the last time the vCard was updated.
+		//$this->vCard->set( 'REV', date( 'Ymd\THis\Z', $this->getUnixTimeStamp() ) );
+
+		// Set the time zone of the vCard.
+		$this->vCard->set( 'TZ', $this->getGMTOffset() );
+
+		// Set the sort string to the last name.
+		$this->vCard->set( 'SORT-STRING', $this->prepare( $this->getName( array( 'format' => '%last%' ) ) ) );
+
+		// Set the categories.
+		if ( $categories = $this->getCategory() ) {
+
+			$categories = wp_list_pluck( $categories, 'name' );
+
+			$this->vCard->set( 'CATEGORIES', implode( ',', $categories ) )
+			            ->addParam( 'CHARSET', 'UTF-8' );
 		}
 	}
 
 	/**
-	 * @TODO When multiple addresses of the same type is set for an entry, the last is used because it overwrites
-	 * the previous. This should use the preferred address if set and then use the initial address of the specific type.
-	 * @return void
+	 * @return File_IMC_Build_Vcard
 	 */
-	private function setvCardAddresses() {
-
-		if ( $this->getAddresses() ) {
-			foreach ( $this->getAddresses() as $address ) {
-				switch ( $address->type ) {
-					case 'home':
-						$this->data['home_address']          = $address->line_one;
-						$this->data['home_extended_address'] = $address->line_two;
-						$this->data['home_city']             = $address->city;
-						$this->data['home_state']            = $address->state;
-						$this->data['home_postal_code']      = $address->zipcode;
-						$this->data['home_country']          = $address->country;
-						break;
-
-					case 'work':
-						$this->data['work_address']          = $address->line_one;
-						$this->data['work_extended_address'] = $address->line_two;
-						$this->data['work_city']             = $address->city;
-						$this->data['work_state']            = $address->state;
-						$this->data['work_postal_code']      = $address->zipcode;
-						$this->data['work_country']          = $address->country;
-						break;
-
-					case 'school':
-						$this->data['other_address']          = $address->line_one;
-						$this->data['other_extended_address'] = $address->line_two;
-						$this->data['other_city']             = $address->city;
-						$this->data['other_state']            = $address->state;
-						$this->data['other_postal_code']      = $address->zipcode;
-						$this->data['other_country']          = $address->country;
-						break;
-
-					case 'other':
-						$this->data['other_address']          = $address->line_one;
-						$this->data['other_extended_address'] = $address->line_two;
-						$this->data['other_city']             = $address->city;
-						$this->data['other_state']            = $address->state;
-						$this->data['other_postal_code']      = $address->zipcode;
-						$this->data['other_country']          = $address->country;
-						break;
-
-					default:
-						switch ( $this->getEntryType() ) {
-							case 'individual':
-								if ( $address->line_one != NULL ) {
-									$this->data['home_address'] = $address->line_one;
-								}
-								if ( $address->line_two != NULL ) {
-									$this->data['home_extended_address'] = $address->line_two;
-								}
-								if ( $address->city != NULL ) {
-									$this->data['home_city'] = $address->city;
-								}
-								if ( $address->state != NULL ) {
-									$this->data['home_state'] = $address->state;
-								}
-								if ( $address->zipcode != NULL ) {
-									$this->data['home_postal_code'] = $address->zipcode;
-								}
-								if ( $address->country != NULL ) {
-									$this->data['home_country'] = $address->country;
-								}
-								break;
-
-							case 'organization':
-								if ( $address->line_one != NULL ) {
-									$this->data['work_address'] = $address->line_one;
-								}
-								if ( $address->line_two != NULL ) {
-									$this->data['work_extended_address'] = $address->line_two;
-								}
-								if ( $address->city != NULL ) {
-									$this->data['work_city'] = $address->city;
-								}
-								if ( $address->state != NULL ) {
-									$this->data['work_state'] = $address->state;
-								}
-								if ( $address->zipcode != NULL ) {
-									$this->data['work_postal_code'] = $address->zipcode;
-								}
-								if ( $address->country != NULL ) {
-									$this->data['work_country'] = $address->country;
-								}
-								break;
-
-							default:
-								if ( $address->line_one != NULL ) {
-									$this->data['home_address'] = $address->line_one;
-								}
-								if ( $address->line_two != NULL ) {
-									$this->data['home_extended_address'] = $address->line_two;
-								}
-								if ( $address->city != NULL ) {
-									$this->data['home_city'] = $address->city;
-								}
-								if ( $address->state != NULL ) {
-									$this->data['home_state'] = $address->state;
-								}
-								if ( $address->zipcode != NULL ) {
-									$this->data['home_postal_code'] = $address->zipcode;
-								}
-								if ( $address->country != NULL ) {
-									$this->data['home_country'] = $address->country;
-								}
-								break;
-						}
-						break;
-				}
-			}
-		}
-	}
-
-	private function setvCardPhoneNumbers() {
-
-		if ( $this->getPhoneNumbers() ) {
-			foreach ( $this->getPhoneNumbers() as $phone ) {
-				switch ( $phone->type ) {
-					case 'home':
-						$this->data['home_tel'] = $phone->number;
-						break;
-
-					case 'homephone':
-						$this->data['home_tel'] = $phone->number;
-						break;
-
-					case 'homefax':
-						$this->data['home_fax'] = $phone->number;
-						break;
-
-					case 'cell':
-						$this->data['cell_tel'] = $phone->number;
-						break;
-
-					case 'cellphone':
-						$this->data['cell_tel'] = $phone->number;
-						break;
-
-					case 'work':
-						$this->data['work_tel'] = $phone->number;
-						break;
-
-					case 'workphone':
-						$this->data['work_tel'] = $phone->number;
-						break;
-
-					case 'workfax':
-						$this->data['work_fax'] = $phone->number;
-						break;
-
-					case 'fax':
-						$this->data['work_fax'] = $phone->number;
-						break;
-				}
-			}
-		}
-	}
-
-	private function setvCardEmailAddresses() {
-
-		if ( $this->getEmailAddresses() ) {
-			foreach ( $this->getEmailAddresses() as $emailRow ) {
-				switch ( $emailRow->type ) {
-					case 'personal':
-						$this->data['email1'] = $emailRow->address;
-						break;
-
-					case 'work':
-						$this->data['email2'] = $emailRow->address;
-						break;
-
-					default:
-						$this->data['email1'] = $emailRow->address;
-						break;
-				}
-			}
-
-		}
-	}
-
-	private function setvCardWebAddresses() {
-
-		if ( $this->getWebsites() ) {
-			$website           = $this->getWebsites();
-			$this->data['url'] = $website[0]->url;
-		}
-	}
-
-	private function setvCardIMIDs() {
-
-		if ( $this->getIm() ) {
-			foreach ( $this->getIm() as $imRow ) {
-				switch ( $imRow->type ) {
-					case 'aim':
-						$this->data['aim'] = $imRow->id;
-						break;
-
-					case 'yahoo':
-						$this->data['yim'] = $imRow->id;
-						break;
-
-					case 'messenger':
-						$this->data['messenger'] = $imRow->id;
-						break;
-
-					case 'jabber':
-						$this->data['jabber'] = $imRow->id;
-						break;
-
-					default:
-						switch ( $imRow->name ) {
-							case 'AIM':
-								$this->data['aim'] = $imRow->id;
-								break;
-
-							case 'Yahoo IM':
-								$this->data['yim'] = $imRow->id;
-								break;
-
-							case 'Messenger':
-								$this->data['messenger'] = $imRow->id;
-								break;
-
-							case 'Jabber / Google Talk':
-								$this->data['jabber'] = $imRow->id;
-								break;
-						}
-						break;
-				}
-			}
-
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getvCard() {
+	public function data() {
 
 		$this->setvCardData();
 
-		return $this->card;
+		return $this->vCard;
 	}
 
 	public static function download() {
@@ -671,7 +574,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 			}
 
 			$filename = sanitize_file_name( $vCard->getName() ); //var_dump($filename);
-			$data     = $vCard->getvCard(); //var_dump($data);die;
+			$data     = $vCard->data()->fetch();
 
 			header( 'Content-Description: File Transfer' );
 			header( 'Content-Type: application/octet-stream' );
@@ -679,12 +582,8 @@ class cnEntry_vCard extends cnEntry_HTML {
 			header( 'Content-Length: ' . strlen( $data ) );
 			header( 'Pragma: public' );
 			header( "Pragma: no-cache" );
-			//header( "Expires: 0" );
 			header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 			header( 'Cache-Control: private' );
-			// header( 'Connection: close' );
-			//ob_clean();
-			flush();
 
 			echo $data;
 			exit;

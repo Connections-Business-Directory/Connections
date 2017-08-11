@@ -23,7 +23,7 @@
 
 # Exclude the following from being included in the archive.
 /bin export-ignore
-/build export-ignore
+#/build export-ignore
 /docs export-ignore
 /logs export-ignore
 /node_modules export-ignore

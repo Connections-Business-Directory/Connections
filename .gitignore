@@ -58,7 +58,7 @@ node_modules
 
 # Misc #
 ########
-build
+#build
 logs
 docs
 

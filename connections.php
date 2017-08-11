@@ -3,7 +3,7 @@
  * Plugin Name: Connections
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.6.8
+ * Version: 8.6.9
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.6.8
+ * @version 8.6.9
  */
 
 // Exit if accessed directly
@@ -328,7 +328,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			add_action( 'template_redirect', array( 'cnSystem_Info', 'view' ) );
 
 			// Register the callback to support downloading of vCards
-			add_action( 'template_redirect' , array( 'cnvCard', 'download' ) );
+			add_action( 'template_redirect' , array( 'cnEntry_vCard', 'download' ) );
 
 			// Geocode the address using Google Geocoding API.
 			add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );

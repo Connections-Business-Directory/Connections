@@ -66,6 +66,9 @@ class cnDependency {
 		// Theme and plugin compatibility hacks.
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
 		require_once CN_PATH . 'includes/inc.theme-compatibility.php';
+
+		// Include the autoloader for the Pear IMC classes.
+		if ( ! class_exists( 'File_IMC' ) ) include_once CN_PATH . 'vendor/pear/IMC.php';
 	}
 
 	/**
@@ -191,7 +194,7 @@ class cnDependency {
 			'cnEntry_Shortcode'        => 'includes/entry/class.entry-shortcode.php',
 
 			// Entry vCard.
-			'cnvCard'                  => 'includes/entry/class.entry-vcard.php',
+			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',
 
 			// Entry actions.
 			'cnEntry_Action'           => 'includes/entry/class.entry-actions.php',
@@ -311,7 +314,7 @@ class cnDependency {
 
 			// Address objects.
 			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',
-		    'cnAddress'                => 'includes/entry/address/class.address.php',
+			'cnAddress'                => 'includes/entry/address/class.address.php',
 			'cnCountry'                => 'includes/entry/address/class.country.php',
 			'cnCoordinates'            => 'includes/entry/address/class.coordinates.php',
 
@@ -320,6 +323,10 @@ class cnDependency {
 
 			// HTTP request utility methods.
 			'cnHTTP'                   => 'includes/class.http.php',
+
+			// Timezone.
+			'cnGoogleMapsTimeZone'     => 'includes/class.google-maps-timezone-api.php',
+			'cnTimezone'               => 'includes/class.timezone.php',
 		);
 	}
 }

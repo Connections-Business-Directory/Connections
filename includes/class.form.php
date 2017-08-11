@@ -154,16 +154,17 @@ class cnFormObjects {
 	 *
 	 * @access private
 	 * @deprecated
-	 * @since 0.8
-	 * @param string  $name    The input option id/name value.
-	 * @param array   $options An associative array. Key is the option value and the value is the option name.
-	 * @param string  $value   [optional] The selected option.
-	 * @param string  $class   The class applied to the select.
-	 * @param string  $id      UNUSED
+	 * @since  0.8
+	 *
+	 * @param string $name    The input option id/name value.
+	 * @param array  $options An associative array. Key is the option value and the value is the option name.
+	 * @param string $value   [optional] The selected option.
+	 * @param string $class   The class applied to the select.
+	 * @param string $id      UNUSED
 	 *
 	 * @return string
 	 */
-	public function buildSelect( $name, $options, $value = '', $class='', $id='' ) {
+	public function buildSelect( $name, $options, $value = '', $class = '', $id = '' ) {
 
 		$select = cnHTML::field(
 			array(

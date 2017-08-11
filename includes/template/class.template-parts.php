@@ -615,7 +615,7 @@ class cnTemplatePart {
 
 		foreach ( $results as $row ) {
 
-			$entry = new cnvCard( $row );
+			$entry = new cnEntry_vCard( $row );
 			/** @noinspection PhpUnusedLocalVariableInspection */
 			$vCard =& $entry;
 
@@ -1634,9 +1634,9 @@ class cnTemplatePart {
 		} else {
 
 			$out .= '<span class="cn-search">';
-				if ( $atts['show_label'] ) $out .= '<label for="cn-s">Search Directory</label>';
+				if ( $atts['show_label'] ) $out .= '<label for="cn-search-input">Search Directory</label>';
 				$out .= '<input type="text" id="cn-search-input" name="cn-s" value="' . esc_attr( wp_unslash( $searchValue ) ) . '" placeholder="' . __('Search', 'connections') . '"/>';
-				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="" tabindex="-1" />';
+				$out .= '<input type="submit" name="" id="cn-search-submit" class="cn-search-button" value="Search Directory" style="text-indent: -9999px;" tabindex="-1" />';
 			$out .= '</span>';
 
 		}

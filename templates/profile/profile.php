@@ -271,7 +271,8 @@ if ( ! class_exists( 'CN_Profile_Template' ) ) {
 
 			if ( isset( $_REQUEST['cn-template'] ) && self::SLUG == $_REQUEST['cn-template'] ) {
 
-				require_once CN_PATH . 'templates/profile/class.customizer.php';
+				//require_once CN_PATH . 'templates/profile/class.customizer.php';
+				require_once plugin_dir_path( __FILE__ ) . 'class.customizer.php';
 			}
 		}
 

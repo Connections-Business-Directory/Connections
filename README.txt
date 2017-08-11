@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
 Tested up to: 4.8
-Stable tag: 8.6.8
+Stable tag: 8.6.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 8.6.9 08/11/2017 =
+* NEW: Introduce `cnGoogleMapsTimeZone` wrapper for the Google Timezone API and `cnTimezone` classes.
+* NEW: Add Pear File_IMC as a vendor library.
+* TWEAK: Tweak the require_once logic in the Card and Profile template to allow them to be pulled out and activated as plugins without causing PHP errors when trying to run the Template Customizer.
+* TWEAK: Rename `cnvCard` to `cnEntry_vCard`.
+* TWEAK: Refactor cnEntry_vCard to utilize the File_IMC_Build_Vcard class.
+* TWEAK: Correct the value for the label to properly associate it to the search input.
+* TWEAK: Add a value for the search submit button then use CSS to hide it for a11y.
+* BUG: Ensure the parsed shortcode atts is an array before attempting to add values to the atts array.
+* BUG: Deal with custom field names which contain punctuation and other extended characters.
+* OTHER: Indent with tabs, not spaces.
+* OTHER: Add missing space.
+* OTHER: Update the Chosen library from 1.6.1 to 1.7.
 
 = 8.6.8 07/28/2017 =
 * NEW: Auto register custom text and textarea fields with the search the search settings and add logic to the search function to support those fields if enabled in the settings.
@@ -736,19 +750,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Correct misspellings.
 * DEV: phpDoc fixes.
 
-= 8.5.13 03/11/2016 =
-* TWEAK: General code cleanup of cnMessage to fix phpDoc and correct potential PHP warning/error notices by checking for existing array indexes before working with them.
-* TWEAK: Refactor cnEntryMetabox::address() to remove duplicate code.
-* DEV: Add a missing class phpDoc header.
-* I18N: Update POT file.
-* I18N: Update MO files.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.13 =
-It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.14 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.
@@ -832,4 +836,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.8 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.9 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.

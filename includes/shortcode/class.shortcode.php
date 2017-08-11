@@ -436,7 +436,11 @@ class cnShortcode {
 
 					$atts = shortcode_parse_atts( $match[3] );
 
-					$atts['slug'] = sanitize_title( $slug );
+					if ( ! is_array( $atts ) ) $atts = array( $atts );
+
+					cnArray::set( $atts, 'slug', sanitize_title( $slug ) );
+
+					$atts = array_filter( $atts );
 
 					$shortcode = cnShortcode::write( 'connections', $atts );
 

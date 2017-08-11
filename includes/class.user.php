@@ -151,7 +151,7 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
-		cnArray::set( $user_meta,'filter.visibility', $visibility );
+		cnArray::set( $user_meta, 'filter.visibility', $visibility );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 

@@ -1,5 +1,5 @@
 # Using the tool and checks params together is not possible because the checks param
-# overrides the tools param. Scritiner support recommends only using the checks option.
+# overrides the tools param. scrutinizer support recommends only using the checks option.
 #
 # However I wish to use an external php code sniffer config, so I need to use the tools param... I think.
 

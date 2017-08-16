@@ -55,6 +55,11 @@ if ( ! class_exists( 'CN_Anniversary_Dark_Template' ) ) {
 			$template->part( array( 'tag' => 'css', 'type' => 'action', 'callback' => array( $template, 'printCSS' ) ) );
 		}
 
+		/**
+		 * @param cnEntry_vCard $entry
+		 * @param cnTemplate    $template
+		 * @param array         $atts
+		 */
 		public static function card( $entry, $template, $atts ) {
 
 			?>

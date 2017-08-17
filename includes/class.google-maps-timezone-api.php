@@ -607,7 +607,7 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					return new WP_Error(
 						'invalid_request',
 						__( 'An invalid request has been received.', 'connections' ),
-						$response->errorMessage
+						property_exists( $response, 'errorMessage' ) ? $response->errorMessage : $response->status
 					);
 
 					break;

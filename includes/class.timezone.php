@@ -125,7 +125,7 @@ class cnTimezone {
 	 */
 	public function get_raw_offset() {
 
-		return $this->dstOffset;
+		return $this->rawOffset;
 	}
 
 	/**

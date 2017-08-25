@@ -125,7 +125,7 @@ class cnTimezone {
 	 */
 	public function get_raw_offset() {
 
-		return $this->dstOffset;
+		return $this->rawOffset;
 	}
 
 	/**
@@ -137,6 +137,77 @@ class cnTimezone {
 	public function raw_offset() {
 
 		echo $this->get_raw_offset();
+	}
+
+	/**
+	 * The UTC offset of the timezone.
+	 *
+	 * @access public
+	 * @since  8.6.10
+	 *
+	 * @param string $format The format to return.
+	 *                       's' to return seconds
+	 *                       'i' to return minutes
+	 *                       'g' to return hours
+	 *                       'O' to return in hours, no colon. ex -0400
+	 *                       'P' to return in hours, colon between hours and seconds. ex -04:00
+	 *
+	 * @return int|string
+	 */
+	public function get_utc_offset( $format = 's' ) {
+
+		// Calculate the UTC offset using the raw offset and dst offset.
+		//$minutes    = ( $this->get_raw_offset() + $this->get_dst_offset() ) / MINUTE_IN_SECONDS;
+
+		// Calculate the UTC offset using the DateTimeZone object.
+		$timezone = new DateTimeZone( $this->get_id() );
+		$seconds  = $timezone->getOffset( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) );
+		$minutes  = $seconds / MINUTE_IN_SECONDS;
+
+		$sign   = $minutes < 0 ? '-' : '+';
+		$absmin = abs( $minutes );
+
+		switch ( $format ) {
+
+			case 'O':
+				$offset = sprintf( '%s%02d%02d', $sign, $absmin / 60, $absmin % 60 );
+				break;
+
+			case 'P':
+				$offset = sprintf( '%s%02d:%02d', $sign, $absmin / 60, $absmin % 60 );
+				break;
+
+			case 'g':
+				$offset = $minutes / 60;
+				break;
+
+			case 'i':
+				$offset = $minutes;
+				break;
+
+			default:
+				$offset = $seconds;
+		}
+
+		return $offset;
+	}
+
+	/**
+	 * Render the offset from UTC in the desired format.
+	 *
+	 * @access public
+	 * @since  8.6.10
+	 *
+	 * @param string $format The format to return.
+	 *                       's' to return seconds
+	 *                       'i' to return minutes
+	 *                       'g' to return hours
+	 *                       'O' to return in hours, no colon. ex -0400
+	 *                       'P' to return in hours, colon between hours and seconds. ex -04:00
+	 */
+	public function utc_offset( $format = 's' ) {
+
+		echo $this->get_utc_offset( $format );
 	}
 
 	/**

@@ -100,13 +100,13 @@ class cnEntry_vCard extends cnEntry_HTML {
 	}
 
 	/**
-	 * Get the timezone GMT Offset calculated from the WP `gmt_offset` value.
+	 * Get the timezone UTC Offset calculated from the WP `gmt_offset` value.
 	 *
 	 * @link https://stackoverflow.com/a/41403802/5351316
 	 *
 	 * @return string
 	 */
-	protected function getGMTOffset() {
+	protected function getUTCOffset() {
 
 		$min    = 60 * get_option( 'gmt_offset' );
 		$sign   = $min < 0 ? '-' : '+';
@@ -500,7 +500,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 		//$this->vCard->set( 'REV', date( 'Ymd\THis\Z', $this->getUnixTimeStamp() ) );
 
 		// Set the time zone of the vCard.
-		$this->vCard->set( 'TZ', $this->getGMTOffset() );
+		$this->vCard->set( 'TZ', $this->getUTCOffset() );
 
 		// Set the sort string to the last name.
 		$this->vCard->set( 'SORT-STRING', $this->prepare( $this->getName( array( 'format' => '%last%' ) ) ) );

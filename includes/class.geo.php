@@ -564,6 +564,9 @@ class cnGeo {
 			case 'US' :
 				$regions = self::US_Regions();
 				break;
+			case 'AO' :
+				$regions = self::AO_Regions();
+				break;
 			case 'CA' :
 				$regions = self::CA_Regions();
 				break;
@@ -992,6 +995,42 @@ class cnGeo {
 	}
 
 	/**
+	 * Get Angola regions.
+	 *
+	 * @access public
+	 * @since  8.6.10
+	 * @static
+	 *
+	 * @return array $regions A list of regions
+	 */
+	public static function AO_Regions() {
+
+		$regions = array(
+			''    => '',
+			'BGO' => 'Bengo',
+			'BGU' => 'Benguela',
+			'BIE' => 'Bié',
+			'CAB' => 'Cabinda',
+			'CNN' => 'Cunene',
+			'HUA' => 'Huambo',
+			'HUI' => 'Huíla',
+			'CCU' => 'Kuando Kubango', // Cuando Cubango
+			'CNO' => 'Kwanza-Norte', // Cuanza Norte
+			'CUS' => 'Kwanza-Sul', // Cuanza Sul
+			'LUA' => 'Luanda',
+			'LNO' => 'Lunda-Norte', // Lunda Norte
+			'LSU' => 'Lunda-Sul', // Lunda Sul
+			'MAL' => 'Malanje', // Malanje
+			'MOX' => 'Moxico',
+			'NAM' => 'Namibe',
+			'UIG' => 'Uíge',
+			'ZAI' => 'Zaire'
+		);
+
+		return apply_filters( 'cn_angola_regions', $regions );
+	}
+
+	/**
 	 * Get the Bulgarian regions.
 	 *
 	 * @access public
@@ -1100,7 +1139,7 @@ class cnGeo {
 	 *
 	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
 	 */
-	function BD_Regions() {
+	public static function BD_Regions() {
 
 		$regions = array(
 			'BAG' => 'Bagerhat',

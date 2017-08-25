@@ -1120,6 +1120,9 @@ class cnRetrieve {
 					$visibility[] = 'unlisted';
 				}
 
+				//var_dump( $visibility );
+				if ( empty( $visibility ) ) $visibility[] = 'none';
+
 			} else {
 
 				// Convert the supplied entry statuses $atts['visibility'] to an array.
@@ -1146,6 +1149,7 @@ class cnRetrieve {
 				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
 			}
 
+			if ( empty( $visibility ) ) $visibility[] = 'none';
 		}
 
 		$where[] = cnQuery::where( array( 'table' => $atts['table'], 'field' => 'visibility', 'value' => $visibility ) );
@@ -1258,6 +1262,9 @@ class cnRetrieve {
 
 		$where[] = $wpdb->prepare( 'AND `type` = %s', $atts['type'] );
 
+		// Respect the date visibility set by the user when adding the date.
+		$where = self::setQueryVisibility( $where, array_merge( $atts, array( 'table' => CN_ENTRY_DATE_TABLE ) ) );
+
 		// Get timestamp.
 		$time = current_time( 'timestamp' );
 
@@ -1321,6 +1328,9 @@ class cnRetrieve {
 
 			if ( ! empty( $exclude ) ) $where[] = 'AND `id` NOT IN (\'' . implode( '\', \'', $exclude ) . '\')';
 
+			// Only return entries in which the user has permission to view.
+			$where = self::setQueryVisibility( $where, array_merge( $atts, array( 'table' => CN_ENTRY_TABLE ) ) );
+
 			/*
 			 * The FROM_UNIXTIME function will return the date offset to the local system timezone.
 			 * The dates were not saved in GMT time and since FROM_UNIXTIME is adjusting for the local system timezone
@@ -1347,7 +1357,8 @@ class cnRetrieve {
 			);
 			// print_r($sql);
 
-			$legacy = $wpdb->get_results( $sql );
+			// At this point there is likely little need to provide backwards support, lets remove it for now.
+			//$legacy = $wpdb->get_results( $sql );
 			// var_dump($legacy);
 
 			if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );

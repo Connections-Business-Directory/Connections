@@ -955,6 +955,23 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	}
 
 	/**
+	 * Utilize the Google Maps TimeZone API to get the time zone info of the address.
+	 *
+	 * @access public
+	 * @since  8.6.10
+	 *
+	 * @return cnTimezone|WP_Error An instance of cnTimezone on success and WP_Error instance on failure.
+	 */
+	public function getTimezone() {
+
+		// Create GoogleMapsTimeZone object with default properties.
+		$gmtAPI = new cnGoogleMapsTimeZone( $this->getLatitude(), $this->getLongitude() );
+
+		// Perform query
+		return $gmtAPI->queryTimeZone();
+	}
+
+	/**
 	 * @access public
 	 * @since  8.6
 	 *

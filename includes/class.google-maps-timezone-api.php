@@ -541,7 +541,25 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 		 */
 		public function queryTimeZone( $raw = FALSE ) {
 
-			$request = wp_remote_get( $this->timezoneURL() );
+			$key = $this->getLatitudeLongitude();
+
+			if ( FALSE === $key || 0 === strlen( $key ) ) {
+
+				return new WP_Error(
+					'no_latitude_or_longitude', __( 'No latitude or longitude supplied.', 'connections' ),
+					$key
+				);
+			}
+
+			$request = cnCache::get( $key );
+
+			if ( ! $request ) {
+
+				$request = wp_remote_get( $this->timezoneURL() );
+
+				cnCache::set( $key, $request, DAY_IN_SECONDS );
+			}
+
 			$content = wp_remote_retrieve_body( $request );
 
 			if ( empty( $content ) ) {
@@ -607,7 +625,7 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 					return new WP_Error(
 						'invalid_request',
 						__( 'An invalid request has been received.', 'connections' ),
-						$response->errorMessage
+						property_exists( $response, 'errorMessage' ) ? $response->errorMessage : $response->status
 					);
 
 					break;

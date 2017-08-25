@@ -4,7 +4,7 @@ Donate link: http://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
 Tested up to: 4.8
-Stable tag: 8.6.9
+Stable tag: 8.6.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,21 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
+
+= 8.6.10 08/25/2017 =
+* TWEAK: Rename the getGMTOffset method in cnEntry_vCard to better describe its function.
+* TWEAK: Add Angola and its provinces.
+* TWEAK: Tweak to logic to determine if a canonical redirect should be processed or not.
+* TWEAK: Cache requests to the Google Maps Time Zone API for 24 hours.
+* TWEAK: Add `get_utc_offset()` and `utc_offset()` methods to cnTimezone.
+* TWEAK: Add `getTimezone()` to cnAddress which utilizes cnGoogleMapsTimezone().
+* TWEAK: Update `cnRetrieve::setQueryVisibility()` to return a query selector of none if the current user does not have the required capabilities to view the object.
+* TWEAK: Update `cnRetrieve::upcoming()` to respect the visibility status of the date based on the current user's capabilities.
+* TWEAK: Update the `[upcoming_list]` shortcode to utilize `cnRetrieve::upcoming()` instead of custom query in the shortcode callback to standardize results globally across the core plugin.
+* BUG: Correct the return value of cnTimezone::get_raw_offset().
+* BUG: Ensure property exists before using it in cnGoogleMapsTimeZone::queryTimeZone().
+* BUG: Function should be static.
+* DEV: Add a few missing phpDoc blocks.
 
 = 8.6.9 08/11/2017 =
 * NEW: Introduce `cnGoogleMapsTimeZone` wrapper for the Google Timezone API and `cnTimezone` classes.
@@ -714,48 +729,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc fixes.
 * DEV: Correct code alignment and remove extra blanks lines.
 
-= 8.5.14 04/13/2016 =
-* NEW: Add support for the `name_format` option to the `[upcoming_list]` shortcode.
-* NEW: Introduce the `cn_pre_save_meta` filter.
-* NEW: Introduce the `cn_pre_save_meta_skip` and `cn_pre_save_meta_skip-{fieldID}` filters.
-* NEW: Introduce the `cn_entry_query_clauses` filter.
-* NEW: Introduce the cnQuery class.
-* NEW: Add support for CPT posts drop down in the cnSettingsAPI.
-* NEW: Add field alias checkbox-group in cnSettingsAPI.
-* NEW: Introduce the `cpt-checkbox-group` field type in cnSettingsAPI.
-* NEW: Introduce the `cn_form_open_default_atts` and `cn_form_open_atts` filters.
-* NEW: Introduce the `cn_pagination_default_atts` and `cn_pagination_atts` filters.
-* NEW: Introduce cnSettingsAPI::flushRewriteRules() which can be called to set the option to tell Connections to flush the rewrite rules.
-* NEW: Add a new advanced setting options to enable CPT support and define which CPT/s to add support for.
-* TWEAK: Replace get_query_var() with cnQuery::getVar() throughout to help prevent poorly coded plugins and themes from breaking Connections.
-* TWEAK: Register the shortcodes on on the frontend to prevent other plugins from running them in the admin.
-* TWEAK: User filters to prevent the bio and notes fields from being saved as meta.
-* TWEAK: Remove the hack that was in place to prevent the bio notes fields from being save as meta.
-* TWEAK: Add the ordo (Latin for order since ORDER is a SQL reserved keyword) column to the CN_ENTRY_TABLE. Add the upgrade routine to add the column to existing installations. Bump the DB version to 0.3.
-* TWEAK: Change the home page id select drop down to use the new cpt-pages select drop down field type so CPT posts will be list as options for the directory home page.
-* TWEAK: Remove use of deprecated function in cnRegisterSettings::sanitizeImageSettings().
-* TWEAK: Update cnRegisterSettings::sanitizeURLBase() to use cnRegisterSettings::flushRewriteRules().
-* TWEAK: Add the necessary rewrite rules for the user defined CPT/s to support.
-* TWEAK: cnTerm::get() used in CN_Walker_Term_List::start_el() can return NULL || an instance of WP_Error, so, lets check for that.
-* BUG: Remove unused global var in cnEntry.
-* BUG: Remove errant saveOptions() call in the db upgrade routine. Possible responsible for db upgrades being skipped in rare cases.
-* BUG: Add a missing saveOptions call in one of the upgrade routines.
-* BUG: Correct the name cnGEO to cnGeo class call in cnRegisterSettings.
-* BUG: Fix double POST requests for extension/template update checks.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* OTHER: Fix some minor whitespace issues in the inc.upgrade.php file.
-* OTHER: Few code styling fixes in cnSettingsAPI.
-* OTHER: Remove support for WordPress 3.3 in the cnSettingsAPI.
-* OTHER: Correct misspellings.
-* DEV: phpDoc fixes.
-
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.14 =
-It is recommended to backup before updating. Requires WordPress >= 4.1.
 
 = 8.5.15 =
 It is recommended to backup before updating. Requires WordPress >= 4.1.
@@ -839,4 +815,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.9 =
+It is recommended to backup before updating. Requires WordPress >= 4.4.
+
+= 8.6.10 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.

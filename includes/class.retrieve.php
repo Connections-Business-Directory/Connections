@@ -1120,6 +1120,9 @@ class cnRetrieve {
 					$visibility[] = 'unlisted';
 				}
 
+				//var_dump( $visibility );
+				if ( empty( $visibility ) ) $visibility[] = 'none';
+
 			} else {
 
 				// Convert the supplied entry statuses $atts['visibility'] to an array.
@@ -1146,6 +1149,7 @@ class cnRetrieve {
 				if ( $atts['private_override'] == TRUE ) $visibility[] = 'private';
 			}
 
+			if ( empty( $visibility ) ) $visibility[] = 'none';
 		}
 
 		$where[] = cnQuery::where( array( 'table' => $atts['table'], 'field' => 'visibility', 'value' => $visibility ) );

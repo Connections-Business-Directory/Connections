@@ -167,7 +167,7 @@ class cnTimezone {
 		$sign   = $minutes < 0 ? '-' : '+';
 		$absmin = abs( $minutes );
 
-		switch( $format ) {
+		switch ( $format ) {
 
 			case 'O':
 				$offset = sprintf( '%s%02d%02d', $sign, $absmin / 60, $absmin % 60 );

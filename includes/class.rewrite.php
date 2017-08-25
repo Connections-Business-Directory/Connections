@@ -1022,11 +1022,10 @@ class cnRewrite {
 	 * NOTE: This is required to allow search queries to be properly redirected to the front page.
 	 * If this were not in place the user would be redirected to the blog home page.
 	 *
-	 * Reference:
-	 * http://wordpress.stackexchange.com/questions/51530/rewrite-rules-problem-when-rule-includes-homepage-slug
+	 * @link http://wordpress.stackexchange.com/questions/51530/rewrite-rules-problem-when-rule-includes-homepage-slug
+	 * @link https://core.trac.wordpress.org/ticket/16373
 	 *
-	 * @TODO Perhaps I should check for the existence of any of the Connections query vars before
-	 *       removing canonical redirect of the front page.
+	 * @TODO Perhaps the redirect should only be prevented when the page ID matches the directory home page ID.
 	 *
 	 * @access private
 	 * @since  0.7.6.4
@@ -1037,10 +1036,36 @@ class cnRewrite {
 	 * @return string URL
 	 */
 	public static function frontPageCanonicalRedirect( $redirectURL, $requestedURL ) {
-
+		global $wp_query;
 		// $homeID = cnSettingsAPI::get( 'connections', 'connections_home_page', 'page_id' );
 
-		if ( is_front_page() && get_option( 'show_on_front' ) == 'page' ) {
+		// Grab the array containing all query vars registered by Connections.
+		// Remove the cn-image query vars.
+		$registeredQueryVars = array_diff(
+			cnRewrite::queryVars( array() ),
+			array( 'src', 'w', 'h', 'q', 'a', 'zc', 'f', 's', 'o', 'cc', 'ct' )
+		);
+
+		$registeredQueryVars = array_flip( $registeredQueryVars );
+		$found               = array_intersect(
+			array_keys( $registeredQueryVars ),
+			array_keys( (array) $wp_query->query_vars )
+		);
+
+		// Solution implement by another plugin.
+		//if ( $main_page_id = wpbdp_get_page_id( 'main' ) ) {
+		//	if ( is_page() && !is_feed() && isset( $wp_query->queried_object ) &&
+		//	     get_option( 'show_on_front' ) == 'page' &&
+		//	     get_option( 'page_on_front' ) == $wp_query->queried_object->ID ) {
+		//		return $requestedURL;
+		//	}
+		//}
+
+		// Do not do the redirect if one of the core query vars is in the HTTP request.
+		if ( is_front_page() &&
+		     get_option( 'show_on_front' ) == 'page' &&
+		     ! empty( $found )
+		) {
 
 			return $requestedURL;
 		}

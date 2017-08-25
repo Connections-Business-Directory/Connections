@@ -169,8 +169,20 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		. $visibilityfilter;
 	//$out .= print_r($newSQL , TRUE);
 
-	$results = $wpdb->get_results( $newSQL );
+	//$results = $wpdb->get_results( $newSQL );
 	//$out .= print_r($results , TRUE);
+
+	$results = Connections_Directory()->retrieve->upcoming(
+		array(
+			'type'                  => $atts['list_type'],
+			'days'                  => $atts['days'],
+			'today'                 => $atts['include_today'],
+			'visibility'            => array(),
+			//'allow_public_override' => FALSE,
+			'private_override'      => $atts['private_override'],
+			'return'                => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
+		)
+	);
 
 	// If there are no results no need to proceed and output message.
 	if ( empty( $results ) ) {
@@ -184,16 +196,16 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		Otherwise earlier months of the year show before the later months in the year. Example Jan before Dec. The desired output is to show
 		Dec then Jan dates.  This function checks to see if the month is a month earlier than the current month. If it is the year is changed to the following year rather than the current.
 		After a new list is built, it is resorted based on the date.*/
-		foreach ( $results as $key => $row ) {
-
-			if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) ) < $connections->options->wpCurrentTime ) {
-				$dateSort[] = $row->{$atts['list_type']} = gmmktime( 0, 0, 0, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) + 1 );
-			} else {
-				$dateSort[] = $row->{$atts['list_type']} = gmmktime( 0, 0, 0, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) );
-			}
-		}
-
-		array_multisort( $dateSort, SORT_ASC, $results );
+		//foreach ( $results as $key => $row ) {
+		//
+		//	if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) ) < $connections->options->wpCurrentTime ) {
+		//		$dateSort[] = $row->{$atts['list_type']} = gmmktime( 0, 0, 0, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) + 1 );
+		//	} else {
+		//		$dateSort[] = $row->{$atts['list_type']} = gmmktime( 0, 0, 0, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) );
+		//	}
+		//}
+		//
+		//array_multisort( $dateSort, SORT_ASC, $results );
 
 		if ( empty( $atts['list_title'] ) ) {
 

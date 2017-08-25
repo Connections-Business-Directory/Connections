@@ -1139,7 +1139,7 @@ class cnGeo {
 	 *
 	 * @return array An associative array of regions where the key is the region abbr and the value is the full region name.
 	 */
-	function BD_Regions() {
+	public static function BD_Regions() {
 
 		$regions = array(
 			'BAG' => 'Bagerhat',

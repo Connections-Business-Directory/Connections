@@ -543,6 +543,14 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 
 			$key = $this->getLatitudeLongitude();
 
+			if ( FALSE == $key ) {
+
+				return new WP_Error(
+					'no_latitude_or_longitude', __( 'No latitude or longitude supplied.', 'connections' ),
+					$key
+				);
+			}
+
 			$request = cnCache::get( $key );
 
 			if ( ! $request ) {

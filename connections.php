@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Connections
+ * Plugin Name: Connections Business Directory
  * Plugin URI: http://connections-pro.com/
  * Description: A business directory and address book manager.
- * Version: 8.6.9
+ * Version: 8.6.10
  * Author: Steven A. Zahm
  * Author URI: http://connections-pro.com/
  * Text Domain: connections
@@ -26,7 +26,7 @@
  * @package Connections
  * @category Core
  * @author Steven A. Zahm
- * @version 8.6.9
+ * @version 8.6.10
  */
 
 // Exit if accessed directly

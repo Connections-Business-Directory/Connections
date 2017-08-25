@@ -541,7 +541,17 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 		 */
 		public function queryTimeZone( $raw = FALSE ) {
 
-			$request = wp_remote_get( $this->timezoneURL() );
+			$key = $this->getLatitudeLongitude();
+
+			$request = cnCache::get( $key );
+
+			if ( ! $request ) {
+
+				$request = wp_remote_get( $this->timezoneURL() );
+
+				cnCache::set( $key, $request, DAY_IN_SECONDS );
+			}
+
 			$content = wp_remote_retrieve_body( $request );
 
 			if ( empty( $content ) ) {

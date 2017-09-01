@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 8.6.11 09/01/2017 =
+* BUG: Fix to allow `0` minutes and seconds by improving check for existing key and ensure it is not false after parsing a datetime format before merging value.
+* BUG: If the parsed datetime is in 12 hour format, properly convert the time to 24 hour format.
+
 = 8.6.10 08/25/2017 =
 * TWEAK: Rename the getGMTOffset method in cnEntry_vCard to better describe its function.
 * TWEAK: Add Angola and its provinces.

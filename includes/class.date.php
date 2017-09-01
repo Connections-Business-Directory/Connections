@@ -616,7 +616,9 @@ class cnDate {
 			if ( ! $skipCurrent && isset( $keys[ $char ] ) ) {
 
 				// Existing value exists in supplied parsed date.
-				if ( $parsed[ $keys[ $char ][0] ] ) {
+				if ( array_key_exists( $keys[ $char ][0], $parsed ) &&
+				     FALSE !== $parsed[ $keys[ $char ][0] ]
+				) {
 
 					/*
 					 * Replace default datetime interval with the parsed datetime interval only if
@@ -629,6 +631,22 @@ class cnDate {
 					}
 				}
 			}
+		}
+
+		// If meridiem is set add/subtract 12 to the hour based on AM/PM so strtotime() will create the correct time.
+		if ( array_key_exists( 'meridiem', $parsed ) &&
+		     'PM' == strtoupper( $parsed['meridiem'] ) &&
+		     12 > $datetime['hour']
+		) {
+
+			$datetime['hour'] = 12 + $datetime['hour'];
+
+		} elseif ( array_key_exists( 'meridiem', $parsed ) &&
+		           'AM' == strtoupper( $parsed['meridiem'] ) &&
+		           12 <= $datetime['hour']
+		) {
+
+			$datetime['hour'] = $datetime['hour'] - 12;
 		}
 
 		// Ensure the datetime integers are correctly padded with leading zeros.

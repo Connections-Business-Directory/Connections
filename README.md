@@ -253,6 +253,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.6.11 09/01/2017 =
+* BUG: Fix to allow `0` minutes and seconds by improving check for existing key and ensure it is not false after parsing a datetime format before merging value.
+* BUG: If the parsed datetime is in 12 hour format, properly convert the time to 24 hour format.
+
 = 8.6.10 08/25/2017 =
 * TWEAK: Rename the getGMTOffset method in cnEntry_vCard to better describe its function.
 * TWEAK: Add Angola and its provinces.
@@ -723,34 +727,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Add missing EOL when CN_MULTISITE_ENABLED is TRUE.
 * OTHER: Remove stray extra spaces.
 * DEV: phpDoc fixes.
-
-### 8.5.15 05/13/2016 ###
-* NEW: Introduce the `cn_page_meta_title`, `cn_page_title_separator` and `cn_page_title` filters in cnSEO.
-* NEW: Add support for Google Maps API browser and server keys.
-* NEW: Introduce the `cn_form_open_action` filter.
-* NEW: Introduce `cnQuery::where()` and `cnQuery::in()` methods.
-* NEW: Introduce meta_query support to the `[connections]` shortcode.
-* TWEAK: Send geocoding queries using https and remove the unneeded sensor parameter.
-* TWEAK: Use `wp_kses_post()` rather than `esc_html()` when escaping search results messages to allow HTML in the messages.
-* TWEAK: Wrap the term count in a span so it can be selected with CSS.
-* TWEAK: Remove an PHP_EOL so there is no whitespace between terms in the list in class CN_Walker_Term_List.
-* TWEAK: When displaying the character index, take into account the users selected visibility filter on the Manage admin page.
-* TWEAK: Add the `wp-content` folder as a searchable path for `connections-templates`.
-* TWEAK: Add the Kleo template to the template compatibility list for the single shortcode filter.
-* TWEAK: Utilize `cnRetrieve::setQueryVisiblity()` in `cnRetrieve::entries()` to reduce code duplication.
-* TWEAK: Utilize `cnRetrieve::setQueryStatus()` in `cnRetrieve::entries()` to reduce code duplication.
-* TWEAK: Utilize `cnQuery::where()` where possible in cnRetrieve to reduce code complexity.
-* TWEAK: Refactor the way the entry relationship are saved and read to allow an individual to be added to a family multiple times.
-* TWEAK: When displaying the character index on the Manage admin page it should take into account the users selected visibility filter.
-* BUG: Correct geocoding query encoding by not double encoding it.
-* BUG: Correct misspelling of get_the_ID().
-* BUG: Ensure trailing slash on pagination permalinks.
-* BUG: Must use a strict check for the linked user meta entry ID and the entry ID retrieved from the Connections table because false = 0 in PHP.
-* BUG: Add `end_el()` to the CN_Walker_Term_List class so the children terms are added as child unordered lists within the parent term list item.
-* BUG: Fix bug in `cnRetrieve::setQueryVisibility()`.
-* BUG: Do not pass `$atts` to `cnEntry::getFamilyMemebers()` as it is unneeded.
-* OTHER: Correct spelling error.
-* DEV: phpDoc fixes.
-* DEV: Correct code alignment and remove extra blanks lines.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

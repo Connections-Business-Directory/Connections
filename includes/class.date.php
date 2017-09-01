@@ -616,7 +616,9 @@ class cnDate {
 			if ( ! $skipCurrent && isset( $keys[ $char ] ) ) {
 
 				// Existing value exists in supplied parsed date.
-				if ( $parsed[ $keys[ $char ][0] ] ) {
+				if ( array_key_exists( $keys[ $char ][0], $parsed ) &&
+				     FALSE !== $parsed[ $keys[ $char ][0] ]
+				) {
 
 					/*
 					 * Replace default datetime interval with the parsed datetime interval only if

@@ -633,6 +633,22 @@ class cnDate {
 			}
 		}
 
+		// If meridiem is set add/subtract 12 to the hour based on AM/PM so strtotime() will create the correct time.
+		if ( array_key_exists( 'meridiem', $parsed ) &&
+		     'PM' == strtoupper( $parsed['meridiem'] ) &&
+		     12 > $datetime['hour']
+		) {
+
+			$datetime['hour'] = 12 + $datetime['hour'];
+
+		} elseif ( array_key_exists( 'meridiem', $parsed ) &&
+		           'AM' == strtoupper( $parsed['meridiem'] ) &&
+		           12 <= $datetime['hour']
+		) {
+
+			$datetime['hour'] = $datetime['hour'] - 12;
+		}
+
 		// Ensure the datetime integers are correctly padded with leading zeros.
 		$datetime['month']  = str_pad( $datetime['month'], 2, '0', STR_PAD_LEFT );
 		$datetime['day']    = str_pad( $datetime['day'], 2, '0', STR_PAD_LEFT );

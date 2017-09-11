@@ -1109,6 +1109,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	private function exportBreakoutOptionsCell( $atts, $entry ) {
 
 		$options = maybe_unserialize( $entry->options );
+		$options = cnFormatting::maybeJSONdecode( $options );
 		$fields  = explode( ';', $atts['fields'] );
 		$cell    = array();
 

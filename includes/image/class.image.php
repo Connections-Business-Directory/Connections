@@ -166,7 +166,14 @@ class cnImage {
 			array_unshift( $editors, 'CN_Image_Editor_Gmagick' );
 		}
 
-		return $editors;
+		/**
+		 * Allow plugins to alter the available image editors.
+		 *
+		 * @since 8.6.11
+		 *
+		 * @param array $editors
+		 */
+		return apply_filters( 'cn_image_editors', $editors );
 	}
 
 	/**

@@ -254,6 +254,11 @@ class cnScript {
 			wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
 			wp_register_style( 'cn-public', $coreCSS, array(), CN_CURRENT_VERSION );
 
+			if ( is_rtl() ) {
+
+				wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array('cn-public'), CN_CURRENT_VERSION );
+			}
+
 			// This will locate the custom CSS file to be enqueued.
 			$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', NULL, NULL, 'css' ), 'url' );
 			// var_dump($customCSS);
@@ -486,7 +491,7 @@ class cnScript {
 
 			if ( is_rtl() ) {
 
-				wp_enqueue_style( 'cn-admin-rtl' );
+				wp_enqueue_style( 'cn-public-rtl' );
 			}
 
 			do_action( 'cn_admin_enqueue_styles', $pageHook );
@@ -517,6 +522,12 @@ class cnScript {
 	public static function enqueueStyles() {
 
 		wp_enqueue_style( 'cn-public' );
+
+		if ( is_rtl() ) {
+
+			wp_enqueue_style( 'cn-admin-rtl' );
+		}
+
 		wp_enqueue_style( 'cn-chosen' );
 
 		// If the custom CSS file was registered, lets enqueue it.

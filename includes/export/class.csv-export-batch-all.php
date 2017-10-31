@@ -872,7 +872,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 							$results = $this->getTerms( $entry->id, 'category' );
 
 							foreach ( $results as $term ) {
-								$terms[] = $parent . ':' . $term->term_id;
+								//$terms[] = $parent . ':' . $term->term_id;
 								if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) $terms[] = $term->name;
 							}
 

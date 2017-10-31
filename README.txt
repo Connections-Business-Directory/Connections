@@ -4,6 +4,7 @@ Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.4
 Tested up to: 4.8
+Requires PHP: 5.3
 Stable tag: 8.6.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,15 +13,15 @@ An easy to use directory plugin to create an addressbook, business directory, me
 
 == Description ==
 
-[Homepage](https://connections-pro.com/) | [Showcase](https://connections-pro.com/showcase/) | [Documentation](https://connections-pro.com/documentation/contents/) | [Support](https://connections-pro.com/support/) | [Templates](https://connections-pro.com/templates/) | [Extensions](https://connections-pro.com/extensions/)
+[Showcase](https://connections-pro.com/showcase/) | [Documentation](https://connections-pro.com/documentation/contents/) | [Support](https://connections-pro.com/support/) | [Templates](https://connections-pro.com/templates/) | [Extensions](https://connections-pro.com/extensions/)
 
-Quite simply, Connections Business Directory is one of the [best business directory plugins available](https://wordpress.org/support/view/plugin-reviews/connections?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections Business Directory for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections Business Directory was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections Business Directory has to offer...
+Quite simply, Connections Business Directory is one of the [best business directory plugins available](https://wordpress.org/support/plugin/connections/reviews/?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections Business Directory for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections Business Directory was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections Business Directory has to offer...
 
 = Features =
 
 * **Seamless integration** with WordPress.
-* **[Highly rated support.](https://wordpress.org/support/view/plugin-reviews/connections?filter=5)**
-* [Continuously updated](https://wordpress.org/plugins/connections/changelog/) bringing you new features for free.
+* **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
+* [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
 * You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
@@ -48,8 +49,9 @@ Here are some great **free extensions** (with more on the way) that enhance your
 
 **Custom Fields**
 
-* [Business Hours](https://wordpress.org/plugins/connections-business-directory-hours/) :: Add the business open hours.
+* [Business Open Hours](https://wordpress.org/plugins/connections-business-directory-hours/) :: Add the business open hours.
 * [Local Time](https://wordpress.org/plugins/connections-business-directory-local-time/) :: Add the business local time.
+* [Facilities](https://wordpress.org/plugins/connections-business-directory-facilities/) :: Add the business facilities.
 * [Income Level](https://wordpress.org/plugins/connections-business-directory-income-levels/) :: Add an income level.
 * [Education Level](https://wordpress.org/plugins/connections-business-directory-education-levels/) :: Add an education level.
 * [Languages](https://wordpress.org/plugins/connections-business-directory-languages/) :: Add languages spoken.
@@ -86,7 +88,7 @@ Connections Business Directory comes with a couple templates to get you started 
 
 = Developer Friendly =
 
-* Open development on [Github](https://github.com/shazahm1/Connections).
+* Open development on [Github](https://github.com/Connections-Business-Directory/Connections).
 * Access to **180 action hooks** and over **300 filters** ... and counting.
 * Term API.
 * Custom Metabox and Fields API.

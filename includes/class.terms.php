@@ -1482,7 +1482,11 @@ class cnTerm {
 
 		$args['name']     = $term;
 		$args['taxonomy'] = $taxonomy;
-		$args             = sanitize_term( $args, 'cn_' . $taxonomy, 'db' );
+
+		// Coerce null description to strings, to avoid database errors.
+		$args['description'] = (string) $args['description'];
+
+		$args = sanitize_term( $args, 'cn_' . $taxonomy, 'db' );
 
 		// expected_slashed ($name)
 		$name        = wp_unslash( $args['name'] );
@@ -1526,7 +1530,7 @@ class cnTerm {
 		 * Prevent the creation of terms with duplicate names at the same level of a taxonomy hierarchy,
 		 * unless a unique slug has been explicitly provided.
 		 */
-		$name_matches = self::getTaxonomyTerms( $taxonomy, array( 'name' => $name, 'hide_empty' => false, ) );
+		$name_matches = self::getTaxonomyTerms( $taxonomy, array( 'name' => $name, 'hide_empty' => FALSE, 'parent' => $args['parent'], ) );
 
 		/*
 		 * The `name` match in `self::getTaxonomyTerms()` doesn't differentiate accented characters,
@@ -1584,7 +1588,20 @@ class cnTerm {
 
 		$slug = cnTerm::unique_slug( $slug, (object) $args );
 
-		if ( FALSE === $wpdb->insert( CN_TERMS_TABLE, compact( 'name', 'slug', 'term_group' ) ) ) {
+		$data = compact( 'name', 'slug', 'term_group' );
+
+		/**
+		 * Filters term data before it is inserted into the database.
+		 *
+		 * @since 8.6.12
+		 *
+		 * @param array  $data     Term data to be inserted.
+		 * @param string $taxonomy Taxonomy slug.
+		 * @param array  $args     Arguments passed to wp_insert_term().
+		 */
+		$data = apply_filters( 'cn_insert_term_data', $data, $taxonomy, $args );
+
+		if ( FALSE === $wpdb->insert( CN_TERMS_TABLE, $data ) ) {
 
 			return new WP_Error( 'db_insert_error', __( 'Could not insert term into the database', 'connections' ), $wpdb->last_error );
 		}
@@ -4397,7 +4414,7 @@ class cnTerm {
 		 * @param object $term     Term object.
 		 * @param string $taxonomy Taxonomy slug.
 		 */
-		return apply_filters( 'cn_term_link', $link, $term, $taxonomy );
+		return apply_filters( 'cn_term_link', $link, $term, $taxonomy, $atts );
 	}
 
 	/**

@@ -107,6 +107,12 @@ class cnAdminActions {
 		add_action( 'cn_delete_category', array( __CLASS__, 'deleteCategory' ) );
 		add_action( 'cn_category_bulk_actions', array( __CLASS__, 'categoryManagement' ) );
 
+		// Term Actions
+		add_action( 'cn_add-term', array( __CLASS__, 'addTerm' ) );
+		add_action( 'cn_update-term', array( __CLASS__, 'updateTerm' ) );
+		add_action( 'cn_delete-term', array( __CLASS__, 'deleteTerm' ) );
+		add_action( 'cn_bulk-term-action', array( __CLASS__, 'bulkTerm' ) );
+
 		// Template Actions
 		add_action( 'cn_activate_template', array( __CLASS__, 'activateTemplate' ) );
 		add_action( 'cn_delete_template', array( __CLASS__, 'deleteTemplate' ) );
@@ -1887,6 +1893,222 @@ class cnAdminActions {
 	}
 
 	/**
+	 * Add a term.
+	 *
+	 * @access public
+	 * @since  8.6.12
+	 */
+	public static function addTerm() {
+
+		/*
+		 * Check whether user can edit terms.
+		 */
+		if ( current_user_can( 'connections_edit_categories' ) ) {
+
+			$form = new cnFormObjects();
+
+			check_admin_referer( $form->getNonce( 'add-term' ), '_cn_wpnonce' );
+
+			$result = cnTerm::insert(
+				$_POST['term_name'],
+				$_POST['taxonomy'],
+				array(
+					'slug'        => $_POST['term_slug'],
+					'parent'      => $_POST['term_parent'],
+					'description' => $_POST['term_description'],
+				)
+			);
+
+			if ( is_wp_error( $result ) ) {
+
+				cnMessage::set( 'error', $result->get_error_message() );
+
+			} else {
+
+				cnMessage::set( 'success', 'term_added' );
+			}
+
+			wp_safe_redirect( wp_get_raw_referer() );
+
+			exit();
+
+		} else {
+
+			cnMessage::set( 'error', 'capability_categories' );
+		}
+
+	}
+
+	/**
+	 * Update a category.
+	 *
+	 * @access public
+	 * @since 0.7.7
+	 * @uses current_user_can()
+	 * @uses check_admin_referer()
+	 * @uses wp_redirect()
+	 * @uses get_admin_url()
+	 * @uses get_current_blog_id()
+	 * @return void
+	 */
+	public static function updateTerm() {
+		$form = new cnFormObjects();
+
+		/*
+		 * Check whether user can edit Settings
+		 */
+		if ( current_user_can( 'connections_edit_categories' ) ) {
+
+			check_admin_referer( $form->getNonce( 'update-term' ), '_cn_wpnonce' );
+
+			// Make sure the category isn't being set to itself as a parent.
+			if ( $_POST['term_id'] === $_POST['term_parent'] ) {
+
+				cnMessage::set( 'error', 'category_self_parent' );
+			}
+
+			remove_filter( 'pre_term_description', 'wp_filter_kses' );
+
+			$result = cnTerm::update(
+				$_POST['term_id'],
+				$_POST['taxonomy'],
+				array(
+					'name'        => $_POST['term_name'],
+					'slug'        => $_POST['term_slug'],
+					'parent'      => $_POST['term_parent'],
+					'description' => $_POST['term_description'],
+				)
+			);
+
+			if ( is_wp_error( $result ) ) {
+
+				cnMessage::set( 'error', $result->get_error_message() );
+
+			} else {
+
+				cnMessage::set( 'success', 'term_updated' );
+			}
+
+			wp_safe_redirect( wp_get_raw_referer() );
+
+			exit();
+
+		} else {
+
+			cnMessage::set( 'error', 'capability_categories' );
+		}
+
+	}
+
+	public static function deleteTerm() {
+
+		// Use legacy action callback when deleting categories, for now.
+		if ( 'category' == $_REQUEST['taxonomy'] ) {
+
+			self::deleteCategory();
+		}
+
+		/*
+		 * Check whether user can edit terms.
+		 */
+		if ( current_user_can( 'connections_edit_categories' ) ) {
+
+			$id = esc_attr( $_REQUEST['id'] );
+			check_admin_referer( 'term_delete_' . $id );
+
+			$result = cnTerm::delete( $id, $_REQUEST['taxonomy'] );
+
+			if ( is_wp_error( $result ) ) {
+
+				cnMessage::set( 'error', $result->get_error_message() );
+
+			} else {
+
+				cnMessage::set( 'success', 'term_deleted' );
+			}
+
+			wp_safe_redirect( wp_get_raw_referer() );
+
+			exit();
+
+		} else {
+
+			cnMessage::set( 'error', 'capability_categories' );
+		}
+	}
+
+	/**
+	 * Bulk term actions.
+	 *
+	 * @access public
+	 * @since  8.6.12
+	 */
+	public static function bulkTerm() {
+
+		$action   = '';
+
+		if ( isset( $_REQUEST['action'] ) && '-1' !== $_REQUEST['action'] ) {
+
+			$action = $_REQUEST['action'];
+
+		} elseif ( isset( $_REQUEST['action2'] ) && '-1' !== $_REQUEST['action2'] ) {
+
+			$action = $_REQUEST['action2'];
+		}
+
+		/*
+		 * Check whether user can edit terms.
+		 */
+		if ( current_user_can( 'connections_edit_categories' ) ) {
+
+			check_admin_referer( 'bulk-terms' );
+
+			switch ( $action ) {
+
+				case 'delete':
+
+					foreach ( (array) $_REQUEST[ $_REQUEST['taxonomy'] ] as $id ) {
+
+						$result = cnTerm::delete( $id, $_REQUEST['taxonomy'] );
+
+						if ( is_wp_error( $result ) ) {
+
+							cnMessage::set( 'error', $result->get_error_message() );
+
+						} else {
+
+							cnMessage::set( 'success', 'term_deleted' );
+						}
+					}
+
+					break;
+
+				default:
+
+					do_action( "bulk_term_action-{$_REQUEST['taxonomy']}-{$action}" );
+			}
+
+			$url = wp_get_raw_referer();
+
+			if ( isset( $_REQUEST['paged'] ) && ! empty( $_REQUEST['paged'] ) ) {
+
+				$page = absint( $_REQUEST['paged'] );
+
+				$url = add_query_arg( array( 'paged' => $page ) , $url);
+			}
+
+			wp_redirect( $url );
+
+			exit();
+
+		} else {
+
+			cnMessage::set( 'error', 'capability_categories' );
+		}
+
+	}
+
+	/**
 	 * Add a category.
 	 *
 	 * @access public
@@ -1994,7 +2216,7 @@ class cnAdminActions {
 		if ( current_user_can( 'connections_edit_categories' ) ) {
 
 			$id = esc_attr( $_GET['id'] );
-			check_admin_referer( 'category_delete_' . $id );
+			check_admin_referer( 'term_delete_' . $id );
 
 			$result = $connections->retrieve->category( $id );
 			$category = new cnCategory( $result );
@@ -2086,6 +2308,10 @@ class cnAdminActions {
 					}
 
 					break;
+
+				default:
+
+					do_action( "bulk_term_action-category-{$action}" );
 				}
 
 			$url = get_admin_url( get_current_blog_id(), 'admin.php?page=connections_categories' );

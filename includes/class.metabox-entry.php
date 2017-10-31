@@ -406,11 +406,18 @@ class cnEntryMetabox {
 	 *
 	 * @access public
 	 * @since  0.8
+	 *
 	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array   $metabox The metabox options array from self::register().
-	 * @return string           The category metabox.
 	 */
 	public static function category( $entry, $metabox ) {
+
+		$defaults = array(
+			'taxonomy' => 'category',
+			'exclude'  => 'exclude',
+		);
+
+		$atts = wp_parse_args( $metabox['args'], $defaults );
 
 		echo '<div class="categorydiv" id="taxonomy-category">';
 		echo '<div id="category-all" class="tabs-panel">';
@@ -418,7 +425,14 @@ class cnEntryMetabox {
 		cnTemplatePart::walker(
 			'term-checklist',
 			array(
-				'selected' => cnTerm::getRelationships( $entry->getID(), 'category', array( 'fields' => 'ids' ) ),
+				'selected' => cnTerm::getRelationships(
+					$entry->getID(),
+					$atts['taxonomy'],
+					array(
+						'fields' => 'ids'
+					)
+				),
+				'exclude' => $atts['exclude'],
 			)
 		);
 

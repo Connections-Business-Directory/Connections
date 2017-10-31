@@ -2614,6 +2614,11 @@ class cnOutput extends cnEntry {
 		 */
 		$items = array_filter( $items, 'strlen' );
 
+		/**
+		 * @since 8.6.12
+		 */
+		$items = apply_filters( 'cn_entry_output_category_items', $items );
+
 		if ( 'list' == $atts['type'] ) {
 
 			$html .= sprintf(

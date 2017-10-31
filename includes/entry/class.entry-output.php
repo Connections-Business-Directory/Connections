@@ -260,6 +260,7 @@ class cnOutput extends cnEntry {
 				if ( ! empty( $links ) ) {
 
 					$link   = $links[0];
+					$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
 					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
@@ -345,6 +346,7 @@ class cnOutput extends cnEntry {
 				if ( ! empty( $links ) ) {
 
 					$link   = $links[0];
+					$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
 					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',

@@ -616,9 +616,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * 	https://github.com/tareq1988/wordpress-settings-api-class
 		 *
 		 * @author Steven A. Zahm
-		 * @since 0.7.3.0
+		 * @since  0.7.3.0
 		 * @access private
+		 *
 		 * @param array $field
+		 *
 		 * @return string
 		 */
 		public static function field( $field ) {
@@ -1043,8 +1045,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 *
 		 * @author Steven A. Zahm
 		 * @access private
-		 * @since 0.7.3.0
-		 * @return void
+		 * @since  0.7.3.0
 		 */
 		public static function quickTagJS() {
 			echo '<script type="text/javascript">/* <![CDATA[ */';
@@ -1058,9 +1059,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * Outputs the JS necessary to make a checkbox list sortable using the jQuery UI Sortable library.
 		 *
 		 * @access private
-		 * @since 0.8
-		 *
-		 * @return string
+		 * @since  0.8
 		 */
 		public static function sortableJS() {
 

@@ -253,6 +253,23 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.6.12 11/01/2017 =
+* NEW: Introduce support for custom taxonomies.
+* NEW: Introduce the `cn_image_editors` filter.
+* NEW: Introduce the `cn_entry_directory_homepage` filter.
+* NEW: Introduce the `cn_image_link` and `cn_image_link-{type}` filters.
+* NEW: Introduce the `cn_entry_output_category_items` filter.
+* TWEAK: Some code cleanup of the output for social media networks icons.
+* TWEAK: Add some RTL CSS in its own CSS file to be conditionally loaded.
+* BUG: When exporting all, make sure to attempt to JSON decode the option column before access its value.
+* BUG: Drop the `slug` index on the connections_terms table.
+* BUG: Remove debug code from the CSV export all output.
+* BUG: Correct bug which could prevent the logo/photo URL from being exported.
+* OTHER: Add reference to the Local Time extension in the readme.txt file.
+* OTHER: Replace `http` with `https` for wordpress.org and connections-pro.com domain links.
+* DEV: phpDoc corrections.
+* DEV: Add curly brackets to a variable variable for better code clarity.
+
 = 8.6.11 09/01/2017 =
 * BUG: Fix to allow `0` minutes and seconds by improving check for existing key and ensure it is not false after parsing a datetime format before merging value.
 * BUG: If the parsed datetime is in 12 hour format, properly convert the time to 24 hour format.
@@ -715,17 +732,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update MO files.
 * OTHER: Remove several blank lines.
 * DEV: Fix some minor code alignment issues in cnSettingsAPI.
-
-### 8.5.16 06/03/2016 ###
-* NEW: Introduce the `cn_entry_action_back_atts` filter.
-* TWEAK: Remove the on_click event handler attached to the back to directory link.
-* TWEAK: Pass the `home_id` and `force_home` shortcode options when creating the back to directory link.
-* TWEAK: Refactor cnTemplateParts::entryAction_Back method to introduce the `cn_entry_action_back_atts` filter.
-* TWEAK: Override the parseCSV core class to implement BOM stripping in the load_data() method.
-* TWEAK: Remove PHP4 style constructor in the Browser library.
-* BUG: Correct query bug in cnRetrieve::entries when querying entries by radius.
-* BUG: Add missing EOL when CN_MULTISITE_ENABLED is TRUE.
-* OTHER: Remove stray extra spaces.
-* DEV: phpDoc fixes.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

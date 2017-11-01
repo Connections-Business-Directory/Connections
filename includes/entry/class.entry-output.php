@@ -260,6 +260,7 @@ class cnOutput extends cnEntry {
 				if ( ! empty( $links ) ) {
 
 					$link   = $links[0];
+					$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
 					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
@@ -345,6 +346,7 @@ class cnOutput extends cnEntry {
 				if ( ! empty( $links ) ) {
 
 					$link   = $links[0];
+					$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
 					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
 
 					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
@@ -1822,14 +1824,15 @@ class cnOutput extends cnEntry {
 		 * @since 8.5.18
 		 */
 		$atts = cnSanitize::args(
-			apply_filters( 'cn_output_atts_socialmedia', $atts ),
-			apply_filters( 'cn_output_default_atts_socialmedia', $defaults )
+			apply_filters( 'cn_output_atts_social_media', $atts ),
+			apply_filters( 'cn_output_default_atts_social_media', $defaults )
 		);
 
 		$atts['id'] = $this->getId();
 
-		$networks = $this->getSocialMedia( $atts , $cached );
-		$search = array( '%label%' , '%url%' , '%icon%' , '%separator%' );
+		$rows     = array();
+		$networks = $this->getSocialMedia( $atts, $cached );
+		$search   = array( '%label%', '%url%', '%icon%', '%separator%' );
 
 		$iconStyles = array( 'wpzoom' );
 		$iconSizes = array( 16, 24, 32, 48, 64 );
@@ -1842,10 +1845,10 @@ class cnOutput extends cnEntry {
 
 		if ( empty( $networks ) ) return '';
 
-		$out = '<span class="social-media-block">' . PHP_EOL;
+		//$out = '<span class="social-media-block">' . PHP_EOL;
 
 		foreach ( $networks as $network ) {
-			$replace = array();
+			$replace   = array();
 			$iconClass = array();
 
 			/*
@@ -1855,7 +1858,7 @@ class cnOutput extends cnEntry {
 			$iconClass[] = $iconStyle;
 			$iconClass[] = 'sz-' . $iconSize;
 
-			$out .= "\t" . '<span class="social-media-network cn-social-media-network' . ( $network->preferred ? ' cn-preferred cn-social-media-network-preferred' : '' ) . '">';
+			$row = "\t" . '<span class="social-media-network cn-social-media-network' . ( $network->preferred ? ' cn-preferred cn-social-media-network-preferred' : '' ) . '">';
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->name . '</a>';
 
@@ -1865,22 +1868,30 @@ class cnOutput extends cnEntry {
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 
-			$out .= str_ireplace(
+			$row .= str_ireplace(
 				$search,
 				$replace,
 				empty( $atts['format'] ) ? '%icon%' : $atts['format']
 			);
 
-			$out .= '</span>' . PHP_EOL;
+			$row .= '</span>' . PHP_EOL;
+
+			$rows[] = apply_filters( 'cn_output_social_media_link', cnString::replaceWhatWith( $row, ' ' ), $network, $this, $atts );
 		}
 
-		$out .= '</span>' . PHP_EOL;
+		//$out .= '</span>' . PHP_EOL;
 
-		$out = cnString::replaceWhatWith( $out, ' ' );
+		//$out = cnString::replaceWhatWith( $out, ' ' );
 
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		//$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
 
-		return $this->echoOrReturn( $atts['return'], $out );
+		$block = '<span class="social-media-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
+
+		$block = apply_filters( 'cn_output_social_media_links', $block, $networks, $this, $atts );
+
+		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
+
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -2611,6 +2622,11 @@ class cnOutput extends cnEntry {
 		 * by returning an empty value.
 		 */
 		$items = array_filter( $items, 'strlen' );
+
+		/**
+		 * @since 8.6.12
+		 */
+		$items = apply_filters( 'cn_entry_output_category_items', $items );
 
 		if ( 'list' == $atts['type'] ) {
 

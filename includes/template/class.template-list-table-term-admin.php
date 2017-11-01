@@ -92,8 +92,14 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	 */
 	public function __construct( $args = array() ) {
 
+		$defaults = array(
+			'taxonomy' => 'category',
+		);
+
+		$args = wp_parse_args( $args, $defaults );
+
 		// @todo allow this to be settable via an option in arg. Also should verify the taxonomy exists.
-		$this->taxonomy = 'category';
+		$this->taxonomy = $args['taxonomy'];
 
 		parent::__construct(
 			array(
@@ -512,7 +518,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 			return '<label class="screen-reader-text" for="cb-select-' . $term->term_id . '">' .
 			      sprintf( __( 'Select %s', 'connections' ), $term->name ) .
-			       '</label>' . '<input type="checkbox" name="category[]" value="' . $term->term_id . '" id="cb-select-' . $term->term_id . '" />';
+			       '</label>' . '<input type="checkbox" name="' . $this->taxonomy . '[]" value="' . $term->term_id . '" id="cb-select-' . $term->term_id . '" />';
 		}
 
 		return '&nbsp;';
@@ -556,25 +562,36 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		 * @param object $term         Term object.
 		 */
 		$name = apply_filters( 'cn_term_name', $pad . ' ' . $term->name, $term );
+		$uri  = wp_get_referer();
 
-		$editURL   = $form->tokenURL(
-			'admin.php?page=connections_categories&cn-action=edit_category&id=' . $term->term_id,
-			'category_edit_' . $term->term_id
+		$location = add_query_arg(
+			array(
+				'page'            => $_GET['page'],
+				'cn-action'       => "edit_{$this->taxonomy}",
+				'id'              => $term->term_id,
+				//'wp_http_referer' => urlencode( wp_unslash( $uri ) ),
+			),
+			$uri
 		);
 
-		$out .= '<strong><a class="row-title" href="' . $editURL . '" title="' .
+		$editURL = $form->tokenURL(
+			$location,
+			"{$this->taxonomy}_edit_{$term->term_id}"
+		);
+
+		$out .= '<strong><a class="row-title" href="' . esc_url( $editURL ) . '" title="' .
 		        esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;', 'connections' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
-		$actions['edit']   = '<a href="' . $editURL . '">' . __( 'Edit', 'connections' ) . '</a>';
+		$actions['edit']   = '<a href="' . esc_url( $editURL ) . '">' . __( 'Edit', 'connections' ) . '</a>';
 
 		if ( $term->term_id != $this->default_term ) {
 
 			$deleteURL = $form->tokenURL(
-				'admin.php?cn-action=delete_category&id=' . $term->term_id,
-				'category_delete_' . $term->term_id
+				"admin.php?cn-action=delete-term&id={$term->term_id}&taxonomy={$this->taxonomy}",
+				'term_delete_' . $term->term_id
 			);
 
-			$actions['delete'] = "<a class='delete-tag' href='" . $deleteURL . "'>" . __( 'Delete', 'connections' ) . "</a>";
+			$actions['delete'] = "<a class='delete-tag' href='" . esc_url( $deleteURL ) . "'>" . __( 'Delete', 'connections' ) . "</a>";
 		}
 
 		$actions['view']   = '<a href="' . cnTerm::permalink( $term ) . '">' . __( 'View', 'connections' ) . '</a>';
@@ -659,7 +676,8 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 
 		$categoryFilterURL = $form->tokenURL( 'admin.php?cn-action=filter&category=' . $term->term_id, 'filter' );
 
-		if ( $count ) {
+		// For now, limit the count filter to only the `category` taxonomy.
+		if ( $count && 'category' === $this->taxonomy ) {
 
 			$out = '<a href="' . $categoryFilterURL . '">' . $count . '</a>';
 

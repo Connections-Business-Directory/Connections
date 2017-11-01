@@ -185,6 +185,10 @@ class cnMessage extends WP_Error {
 		$instance->add( 'category_updated', __( 'Category has been updated.', 'connections' ) );
 		$instance->add( 'category_added', __( 'Category has been added.', 'connections' ) );
 
+		$instance->add( 'term_deleted', __( 'Term(s) have been deleted.', 'connections' ) );
+		$instance->add( 'term_updated', __( 'Term has been updated.', 'connections' ) );
+		$instance->add( 'term_added', __( 'Term has been added.', 'connections' ) );
+
 		$instance->add( 'entry_added', __( 'Entry has been added.', 'connections' ) );
 		$instance->add( 'entry_added_moderated', __( 'Pending review entry will be added.', 'connections' ) );
 		$instance->add( 'entry_updated', __( 'Entry has been updated.', 'connections' ) );

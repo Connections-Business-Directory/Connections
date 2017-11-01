@@ -3031,10 +3031,10 @@ class cnRetrieve {
 
 			}
 			// The sorting order to be determined by a lowercase copy of the original array.
-			$$field[0] = array_map( 'strtolower', $$field[0] );
+			${$field[0]} = array_map( 'strtolower', ${$field[0]} );
 
 			// The arrays to be sorted must be passed by reference or it won't work.
-			$sortParams[] = &$$field[0];
+			$sortParams[] = &${$field[0]};
 
 			// Add the flag and sort type to the sort parameters if they were supplied in the shortcode attribute.
 			foreach ( $field as $key => $flag ) {

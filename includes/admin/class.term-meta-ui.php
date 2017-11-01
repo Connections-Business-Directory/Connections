@@ -169,7 +169,7 @@ class cnTerm_Meta_UI {
 		// Bail if no taxonomy passed or not on the `meta_key` column
 		if ( $this->meta_key !== $column_name ) {
 
-			return;
+			return $term;
 		}
 
 		// Get the metadata
@@ -186,6 +186,8 @@ class cnTerm_Meta_UI {
 		}
 
 		echo $html;
+
+		return $term;
 	}
 
 	/**

@@ -872,7 +872,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 							$results = $this->getTerms( $entry->id, 'category' );
 
 							foreach ( $results as $term ) {
-								$terms[] = $parent . ':' . $term->term_id;
+								//$terms[] = $parent . ':' . $term->term_id;
 								if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) $terms[] = $term->name;
 							}
 
@@ -1099,16 +1099,15 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	 * @access private
 	 * @since  8.5.8
 	 *
-	 * @uses   maybe_unserialize()
-	 *
-	 * @param array  $atts  The field options set in @see cnCSV_Batch_Export_All::initConfig().
-	 * @param object $entry The entry data retrieved from @see cnCSV_Batch_Export_All::getData().
+	 * @param array  $atts The field options set in @see cnCSV_Batch_Export_All::initConfig().
+	 * @param object $data The entry data retrieved from @see cnCSV_Batch_Export_All::getData().
 	 *
 	 * @return string
 	 */
-	private function exportBreakoutOptionsCell( $atts, $entry ) {
+	private function exportBreakoutOptionsCell( $atts, $data ) {
 
-		$options = maybe_unserialize( $entry->options );
+		$options = maybe_unserialize( $data->options );
+		$options = cnFormatting::maybeJSONdecode( $options );
 		$fields  = explode( ';', $atts['fields'] );
 		$cell    = array();
 
@@ -1121,7 +1120,14 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				case 'image_url':
 
 					if ( isset( $options['image']['meta']['original']['name'] ) && ! empty( $options['image']['meta']['original']['name'] ) ) {
-						$url = CN_IMAGE_BASE_URL . $entry->slug . '/' . $options['image']['meta']['original']['name'];
+
+						$url = CN_IMAGE_BASE_URL . $data->slug . '/' . $options['image']['meta']['original']['name'];
+
+					} else {
+
+						$entry = new cnEntry( $data );
+						$meta  = $entry->getImageMeta();
+						$url   = ! is_wp_error( $meta ) ? $meta['url'] : '';
 					}
 
 					break;
@@ -1129,7 +1135,14 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 				case 'logo_url':
 
 					if ( isset( $options['logo']['meta']['name'] ) && ! empty( $options['logo']['meta']['name'] ) ) {
-						$url = CN_IMAGE_BASE_URL . $entry->slug . '/' . $options['logo']['meta']['name'];
+
+						$url = CN_IMAGE_BASE_URL . $data->slug . '/' . $options['logo']['meta']['name'];
+
+					} else {
+
+						$entry = new cnEntry( $data );
+						$meta  = $entry->getImageMeta( array( 'type' => 'logo' ) );
+						$url   = ! is_wp_error( $meta ) ? $meta['url'] : '';
 					}
 
 					break;

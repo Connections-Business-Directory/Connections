@@ -888,6 +888,24 @@ function cnRunDBUpgrade() {
 			echo '</ul>' . PHP_EOL;
 		}
 
+		if ( version_compare( $dbVersion, '0.6', '<' ) ) {
+
+			echo '<h4>' , sprintf( esc_html__( 'Upgrade from database version %1$s to database version %2$s.', 'connections' ) , $connections->options->getDBVersion(), CN_DB_VERSION ) , '</h4>' . PHP_EOL;
+
+			echo '<ul>' . PHP_EOL;
+
+			echo '<li>' , esc_html__( 'Update terms slug index.', 'connections' ) , '</li>' . PHP_EOL;
+
+			$wpdb->query( 'ALTER TABLE ' . CN_TERMS_TABLE . ' DROP INDEX slug, ADD INDEX slug(slug(191))' );
+
+			$connections->options->setDBVersion( '0.6' );
+
+			// Save the options
+			$connections->options->saveOptions();
+
+			echo '</ul>' . PHP_EOL;
+		}
+
 		echo '<h4>' , __( 'Upgrade completed.', 'connections' ) , "</h4>\n";
 		echo '<h4><a class="button-primary" href="' . esc_url( $urlPath ) . '">' , __( 'Continue', 'connections' ) , '</a></h4>';
 

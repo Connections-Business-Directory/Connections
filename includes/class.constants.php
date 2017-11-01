@@ -20,10 +20,10 @@ class cnConstants {
 		}
 
 		/** @var string CN_CURRENT_VERSION The current version. */
-		define( 'CN_CURRENT_VERSION', '8.6.11' );
+		define( 'CN_CURRENT_VERSION', '8.6.12' );
 
 		/** @var string CN_DB_VERSION The current DB version. */
-		define( 'CN_DB_VERSION', '0.5' );
+		define( 'CN_DB_VERSION', '0.6' );
 
 		/** @var string CN_UPDATE_URL The plugin update URL used for EDD SL Updater */
 		define( 'CN_UPDATE_URL', 'http://connections-pro.com/edd-sl-api' );

@@ -1,0 +1,6 @@
+#cn-list span input[type=text] {
+	float: left;
+}
+#cn-list span input[type=submit] {
+	text-indent: 9999px !important;
+}

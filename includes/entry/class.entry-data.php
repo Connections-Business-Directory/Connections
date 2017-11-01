@@ -590,7 +590,7 @@ class cnEntry {
 			'force_home' => FALSE,
 		);
 
-		$this->directoryHome = cnSanitize::args( $atts, $defaults );
+		$this->directoryHome = cnSanitize::args( apply_filters( 'cn_entry_directory_homepage', $atts, $this ), $defaults );
 	}
 
 	/**

@@ -523,6 +523,26 @@ class cnGeo {
 	}
 
 	/**
+	 * Given a country and state code, return the state name
+	 *
+	 * @access public
+	 * @since  8.6.13
+	 * @static
+	 *
+	 * @param string $country_code The ISO Code for the country.
+	 * @param string $region_code  The ISO Code for the region.
+	 *
+	 * @return string
+	 */
+	function getRegionName( $country_code = '', $region_code = '' ) {
+
+		$regions = self::getRegions( $country_code );
+		$name    = isset( $regions[ $region_code ] ) ? $regions[ $region_code ] : $region_code;
+
+		return apply_filters( 'cn_get_region_name', $name, $region_code );
+	}
+
+	/**
 	 * Return all country codes.
 	 *
 	 * @access public

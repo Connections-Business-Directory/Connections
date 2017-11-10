@@ -76,7 +76,7 @@ class cnScript {
 		// Enqueue the frontend scripts and CSS.
 		// add_action( 'wp', array( __CLASS__, 'enqueue' ) );
 		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueScripts' ) );
-		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueStyles' ) );
+		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueStyles' ), 999 );
 
 		// Enqueue the admin scripts and CSS.
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminScripts' ) );

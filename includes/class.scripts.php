@@ -318,7 +318,12 @@ class cnScript {
 			do_action( 'cn_admin_enqueue_scripts', $pageHook );
 		}
 
-		$editPages = apply_filters( 'cn_admin_required_edit_scripts', array( $instance->pageHook->manage, $instance->pageHook->add ) );
+		$editPageHooks = array();
+
+		if ( property_exists( $instance->pageHook, 'manage') ) $editPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add') ) $editPageHooks[] = $instance->pageHook->add;
+
+		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
 		if ( in_array( $pageHook, $editPages ) ) {
 			/** @noinspection PhpUnusedLocalVariableInspection */
@@ -331,8 +336,14 @@ class cnScript {
 			do_action( 'cn_admin_enqueue_edit_scripts', $pageHook );
 		}
 
+		$metaboxPageHooks = array();
+
+		if ( property_exists( $instance->pageHook, 'dashboard') ) $metaboxPageHooks[] = $instance->pageHook->dashboard;
+		if ( property_exists( $instance->pageHook, 'manage') ) $metaboxPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add') ) $metaboxPageHooks[] = $instance->pageHook->add;
+
 		// Load the core JavaScripts required for metabox UI.
-		$metaboxPages = apply_filters( 'cn_admin_required_metabox_scripts', array( $instance->pageHook->dashboard, $instance->pageHook->manage, $instance->pageHook->add ) );
+		$metaboxPages = apply_filters( 'cn_admin_required_metabox_scripts', $metaboxPageHooks );
 
 		if ( in_array( $pageHook, $metaboxPages ) ) {
 
@@ -480,7 +491,6 @@ class cnScript {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-
 		// Load on all the Connections admin pages.
 		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
 
@@ -497,7 +507,12 @@ class cnScript {
 			do_action( 'cn_admin_enqueue_styles', $pageHook );
 		}
 
-		$editPages = apply_filters( 'cn_admin_required_edit_scripts', array( $instance->pageHook->manage, $instance->pageHook->add ) );
+		$editPageHooks = array();
+
+		if ( property_exists( $instance->pageHook, 'manage') ) $editPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add') ) $editPageHooks[] = $instance->pageHook->add;
+
+		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
 		if ( in_array( $pageHook, $editPages ) ) {
 

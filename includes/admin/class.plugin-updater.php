@@ -300,7 +300,7 @@ class cnPlugin_Updater {
 
 		$response = self::request();
 
-		if ( FALSE !== $response ) {
+		if ( FALSE !== $response && is_array( $response ) ) {
 
 			$update    = array();
 			$no_update = array();

@@ -84,7 +84,7 @@ class cnTerm_Meta_UI {
 		add_filter( 'cn_category_table_columns', array( $this, 'columnHeader' ) );
 
 		// Register the column value.
-		add_filter( 'cn_manage_category_custom_column', array( $this, 'columnValue' ), 10, 3 );
+		add_action( 'cn_manage_category_custom_column', array( $this, 'columnValue' ), 10, 3 );
 
 		// Render the form fields for adding the category color.
 		add_action( 'cn_category_add_form_fields', array( $this, 'formFieldAdd' ) );

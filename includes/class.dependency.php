@@ -327,6 +327,9 @@ class cnDependency {
 			// Timezone.
 			'cnGoogleMapsTimeZone'     => 'includes/class.google-maps-timezone-api.php',
 			'cnTimezone'               => 'includes/class.timezone.php',
+
+			// Countries
+			'cnCountries'              => 'includes/geo/class.countries.php',
 		);
 	}
 }

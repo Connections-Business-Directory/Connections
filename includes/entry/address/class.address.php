@@ -233,10 +233,16 @@ final class cnAddress implements ArrayAccess, cnToArray {
 			'raw'
 		);
 
-		$this->country     = new cnCountry(
-			cnSanitize::field( 'country', cnArray::get( $data, 'country', '' ), 'raw' ),
-			cnArray::get( $data, 'country_code', '' )
+		$country = array(
+			'name'              => cnSanitize::field(
+				'country',
+				cnArray::get( $data, 'country', '' ),
+				'raw'
+			),
+			'iso_3166_1_alpha2' => cnArray::get( $data, 'country_code', '' ),
 		);
+
+		$this->country = new cnCountry( $country );
 
 		$this->coordinates = new cnCoordinates(
 			cnArray::get( $data, 'latitude' ),
@@ -477,8 +483,10 @@ final class cnAddress implements ArrayAccess, cnToArray {
 		$self->region      = cnSanitize::field( 'region', $self->region, $context );
 		$self->postal_code = cnSanitize::field( 'postal-code', $self->postal_code, $context );
 		$self->country     = new cnCountry(
-			cnSanitize::field( 'country', $self->country->getName(), $context ),
-			cnSanitize::field( 'attribute', $self->country->getCode(), $context )
+			array(
+				'name'              => cnSanitize::field( 'country', $self->country->getName(), $context ),
+				'iso_3166_1_alpha2' => cnSanitize::field( 'attribute', $self->country->getCode(), $context ),
+			)
 		);
 
 		return $self;
@@ -893,8 +901,10 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	public function setCountry( $country, $code = '' ) {
 
 		$this->country = new cnCountry(
-			cnSanitize::field( 'country', $country, 'raw' ),
-			$code
+			array(
+				'name'              => cnSanitize::field( 'country', $country, 'raw' ),
+				'iso_3166_1_alpha2' => $code,
+			)
 		);
 
 		return $this;

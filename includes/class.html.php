@@ -270,6 +270,19 @@ class cnHTML {
 
 				break;
 
+			case 'data':
+
+				if ( is_array( $value ) && ! empty( $value ) ) {
+
+					array_walk( $value, create_function( '&$i, $property', '$i = "data-$property=$i";' ) );
+
+					return $value ? implode( $value, ' ' ): '';
+				}
+
+				return '';
+
+				break;
+
 			case 'value':
 
 				return ' value="' . esc_attr( (string) $value ) . '" ';
@@ -426,6 +439,7 @@ class cnHTML {
 			'id'           => '',
 			'name'         => '',
 			'style'        => array(),
+			'data'         => array(),
 			'autocomplete' => FALSE,
 			'checked'      => '',
 			'readonly'     => FALSE,
@@ -468,15 +482,16 @@ class cnHTML {
 		$atts['class'] = $atts['required'] ? array_merge( (array) $atts['class'], array( 'required' ) ) : $atts['class'];
 
 		// Create the field label, if supplied.
-		$replace[] = ! empty( $atts['label'] ) ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
+		$replace[] = ! empty( $atts['label'] ) && 'hidden' !== $atts['type'] ? self::label( array( 'for' => $atts['id'], 'label' => $atts['label'], 'return' => TRUE ) ) : '';
 
 		$replace[] = sprintf(
-			'<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s/>',
+			'<input %1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s %11$s/>',
 			self::attribute( 'type', $atts['type'] ),
 			self::attribute( 'class', $atts['class'] ),
 			self::attribute( 'id', $atts['id'] ),
 			self::attribute( 'name', $name ),
 			self::attribute( 'style', $atts['style'] ),
+			self::attribute( 'data', $atts['data'] ),
 			self::attribute( 'value', $value ),
 			self::attribute( 'autocomplete', $atts['autocomplete'] ),
 			! empty( $atts['checked'] ) ? $atts['checked'] : '',

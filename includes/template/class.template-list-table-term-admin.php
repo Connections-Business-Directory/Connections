@@ -709,8 +709,6 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 	/**
 	 * @param object $term
 	 * @param string $column_name
-	 *
-	 * @return string
 	 */
 	public function column_default( $term, $column_name ) {
 
@@ -727,6 +725,6 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		 * @param int    $term_id     Term ID.
 		 */
 
-		return apply_filters( "cn_manage_{$this->taxonomy}_custom_column", $term, $column_name, $term->term_id );
+		do_action( "cn_manage_{$this->taxonomy}_custom_column", $term, $column_name, $term->term_id );
 	}
 }

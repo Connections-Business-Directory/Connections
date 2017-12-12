@@ -290,27 +290,43 @@ class cnEntryMetabox {
 	 * Callback to render the "Publish" metabox.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @global string $plugin_page
-	 * @param  cnEntry $entry   An instance of the cnEntry object.
-	 * @param  array   $metabox The metabox attributes array set in self::register().
+	 * @since  0.8
+	 *
+	 * @param cnEntry $entry   An instance of the cnEntry object.
+	 * @param array   $metabox The metabox attributes array set in self::register().
+	 * @param array   $atts
+	 *
 	 * @return void
+	 * @global string  $plugin_page
 	 */
 	public static function publish( $entry, $metabox, $atts = array() ) {
 		global $plugin_page;
 
 		$defaults = array(
 			'action'     => NULL,
-			'entry_type' => array(
-				__( 'Individual', 'connections' )   => 'individual',
-				__( 'Organization', 'connections' ) => 'organization',
-				__( 'Family', 'connections' )       => 'family'
-			),
+			'entry_type' => cnOptions::getEntryTypes(),
 			'default'    => array(
 				'type'       => 'individual',
 				'visibility' => 'public',
 			),
 		);
+
+		$type          = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'entry-type' );
+		$defaultType   = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'default-entry-type' );
+		$defaultStatus = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'default-publish-status' );
+
+		// Reorder the based on the user defined settings.
+		$defaults['entry_type'] = array_replace( array_flip( $type['order'] ), $defaults['entry_type'] );
+
+		// Remove the disabled entry types based on the user defined settings.
+		$defaults['entry_type'] = array_intersect_key( $defaults['entry_type'], array_flip( $type['active'] ) );
+
+		// The options have to be flipped because of an earlier stupid decision
+		// of making the array keys the option labels. This provides backward compatibility.
+		$defaults['entry_type'] = array_flip( $defaults['entry_type'] );
+
+		$defaults['default']['type'] = $defaultType;
+		$defaults['default']['visibility'] = $defaultStatus;
 
 		// Do not use the `cn_admin_metabox_publish_atts` filter. Let in for backward compatibility for version prior to 0.8.
 		$defaults        = wp_parse_args( apply_filters( 'cn_admin_metabox_publish_atts', $atts ), $defaults );
@@ -330,11 +346,10 @@ class cnEntryMetabox {
 		$visibility = $entry->getId() ? $entry->getVisibility() : $atts['default']['visibility'];
 		$type       = $entry->getId() ? $entry->getEntryType()  : $atts['default']['type'];
 
-		// if ( $action == NULL ) {
+		if ( ! empty( $atts['entry_type'] ) ) {
 
 			// The options have to be flipped because of an earlier stupid decision
-			// of making the array keys the option labels. This basically provide
-			// backward compatibility.
+			// of making the array keys the option labels. This provides backward compatibility.
 			cnHTML::radio(
 				array(
 					'display' => 'block',
@@ -342,11 +357,20 @@ class cnEntryMetabox {
 					'options' => array_flip( $atts['entry_type'] ),
 					'before'  => '<div id="entry-type">',
 					'after'   => '</div>',
-					),
+				),
 				$type
-				);
+			);
 
-		// }
+		} else {
+
+			cnHTML::input(
+				array(
+					'type' => 'hidden',
+					'id'   => 'entry_type',
+				),
+				$type
+			);
+		}
 
 		cnHTML::radio(
 			array(
@@ -446,290 +470,223 @@ class cnEntryMetabox {
 	 * @access private
 	 * @since  0.8
 	 *
-	 * @param  cnEntry $entry   An instance of the cnEntry object.
-	 * @param  array   $metabox The metabox attributes array set in self::register().
+	 * @param cnEntry $entry   An instance of the cnEntry object.
+	 * @param array   $metabox The metabox attributes array set in self::register().
+	 * @param array   $atts
 	 *
 	 * @return void
 	 */
 	public static function name( $entry, $metabox, $atts = array() ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$individualNameFields   = (array) cnSettingsAPI::get( 'connections', 'fieldset-name', 'individual-name-fields' );
+		$organizationNameFields = (array) cnSettingsAPI::get( 'connections', 'fieldset-name', 'organization-name-fields' );
 
-		// This array will store field group IDs as the fields are registered.
-		// This array will be checked for an existing ID before rendering
-		// a field to prevent multiple field group IDs from being rendered.
-		$groupIDs = array();
+		$orgClasses  = array( 'cn-organization' );
+		$deptClasses = array();
 
-		// This array will store field IDs as the fields are registered.
-		// This array will be checked for an existing ID before rendering
-		// a field to prevent multiple field IDs from being rendered.
-		$fieldIDs = array();
+		if ( in_array( 'organization', $individualNameFields ) ) $orgClasses[] = 'cn-individual';
+		if ( in_array( 'department', $individualNameFields ) ) $deptClasses[] = 'cn-individual';
+		if ( in_array( 'department', $organizationNameFields ) ) $deptClasses[] = 'cn-organization';
 
-		$defaults = array(
-			// Define the entry type so the correct fields will be rendered. If an entry type is all registered entry types, render all fields assuming this is new entry.
-			'type'  => /*$entry->getEntryType() ? $entry->getEntryType() : */array( 'individual', 'organization', 'family'),
-			// The entry type to which the meta fields are being registered.
-			'individual' => array(
-				// The entry type field meta. Contains the arrays that define the field groups and their respective fields.
-				'meta'   => array(
-					// This key is the field group ID and it must be unique. Duplicates will be discarded.
-					'name' => array(
-						// Whether or not to render the field group.
-						'show'  => TRUE,
-						// The fields within the field group.
-						'field' => array(
-							// This key is the field ID.
-							'prefix' => array(
-								// Each field must have an unique ID. Duplicates will be discarded.
-								'id'        => 'honorific_prefix',
-								// Whether or not to render the field.
-								'show'      => TRUE,
-								// The field label if supplied.
-								'label'     => __( 'Prefix' , 'connections' ),
-								// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
-								// This will be used by jQuery Validate.
-								'required'  => FALSE,
-								// The field type.
-								'type'      => 'text',
-								// The field value.
-								'value'     => strlen( $entry->getHonorificPrefix() ) > 0 ? $entry->getHonorificPrefix( 'edit' ) : '',
-								'before'    => '<span id="cn-name-prefix">',
-								'after'     => '</span>',
-								),
-							'first' => array(
-								'id'        => 'first_name',
-								'show'      => TRUE,
-								'label'     => __( 'First Name' , 'connections' ),
-								'required'  => TRUE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getFirstName() ) > 0 ? $entry->getFirstName( 'edit' ) : '',
-								'before'    => '<span id="cn-name-first">',
-								'after'     => '</span>',
-								),
-							'middle' => array(
-								'id'        => 'middle_name',
-								'show'      => TRUE,
-								'label'     => __( 'Middle Name' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getMiddleName() ) > 0 ? $entry->getMiddleName( 'edit' ) : '',
-								'before'    => '<span id="cn-name-middle">',
-								'after'     => '</span>',
-								),
-							'last' => array(
-								'id'        => 'last_name',
-								'show'      => TRUE,
-								'label'     => __( 'Last Name' , 'connections' ),
-								'required'  => TRUE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getLastName() ) > 0 ? $entry->getLastName( 'edit' ) : '',
-								'before'    => '<span id="cn-name-last">',
-								'after'     => '</span>',
-								),
-							'suffix' => array(
-								'id'        => 'honorific_suffix',
-								'show'      => TRUE,
-								'label'     => __( 'Suffix' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getHonorificSuffix() ) > 0 ? $entry->getHonorificSuffix( 'edit' ) : '',
-								'before'    => '<span id="cn-name-suffix">',
-								'after'     => '</span>',
-								),
-							),
+		$fieldset = array(
+			'sections' => array(
+				array(
+					'id'     => 'name',
+					'class'  => array( 'cn-individual' ),
+					'fields' => array(
+						// This key is the field ID.
+						'prefix' => array(
+							// Each field must have an unique ID. Duplicates will be discarded.
+							'id'       => 'honorific_prefix',
+							// Whether or not to render the field.
+							'show'     => TRUE,
+							// The field label if supplied.
+							'label'    => __( 'Prefix', 'connections' ),
+							// Whether or not the field is required. If it is required 'class="required"' will be added to the field.
+							// This will be used by jQuery Validate.
+							'required' => FALSE,
+							// The field type.
+							'type'     => in_array( 'prefix', $individualNameFields ) ? 'text' : 'hidden',
+							// The field value.
+							'value'    => strlen( $entry->getHonorificPrefix() ) > 0 ? $entry->getHonorificPrefix( 'edit' ) : '',
+							'before'   => in_array( 'prefix', $individualNameFields ) ? '<span id="cn-name-prefix">' : '',
+							'after'    => in_array( 'prefix', $individualNameFields ) ? '</span>' : '',
 						),
-					'title' => array(
-						'show'  => TRUE,
-						'field' => array(
-							'title' => array(
-								'id'        => 'title',
-								'show'      => TRUE,
-								'label'     => __( 'Title' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getTitle() ) > 0 ? $entry->getTitle( 'edit' ) : '',
-								),
-							),
+						'first'  => array(
+							'id'       => 'first_name',
+							'show'     => TRUE,
+							'label'    => __( 'First Name', 'connections' ),
+							'required' => TRUE,
+							'type'     => 'text',
+							'value'    => strlen( $entry->getFirstName() ) > 0 ? $entry->getFirstName( 'edit' ) : '',
+							'before'   => '<span id="cn-name-first">',
+							'after'    => '</span>',
 						),
-					'organization' => array(
-						'show'  => TRUE,
-						'field' => array(
-							'organization' => array(
-								'id'        => 'organization',
-								'show'      => TRUE,
-								'label'     => __( 'Organization' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getOrganization() ) > 0 ? $entry->getOrganization( 'edit' ) : '',
-								),
-							),
+						'middle' => array(
+							'id'       => 'middle_name',
+							'show'     => TRUE,
+							'label'    => __( 'Middle Name', 'connections' ),
+							'required' => FALSE,
+							'type'     => in_array( 'middle', $individualNameFields ) ? 'text' : 'hidden',
+							'value'    => strlen( $entry->getMiddleName() ) > 0 ? $entry->getMiddleName( 'edit' ) : '',
+							'before'   => in_array( 'middle', $individualNameFields ) ? '<span id="cn-name-middle">' : '',
+							'after'    => in_array( 'middle', $individualNameFields ) ? '</span>' : '',
 						),
-					'department' => array(
-						'show'  => TRUE,
-						'field' => array(
-							'department' => array(
-								'id'        => 'department',
-								'show'      => TRUE,
-								'label'     => __( 'Department' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getDepartment() ) > 0 ? $entry->getDepartment( 'edit' ) : '',
-								),
-							),
+						'last'   => array(
+							'id'       => 'last_name',
+							'show'     => TRUE,
+							'label'    => __( 'Last Name', 'connections' ),
+							'required' => TRUE,
+							'type'     => 'text',
+							'value'    => strlen( $entry->getLastName() ) > 0 ? $entry->getLastName( 'edit' ) : '',
+							'before'   => '<span id="cn-name-last">',
+							'after'    => '</span>',
+						),
+						'suffix' => array(
+							'id'       => 'honorific_suffix',
+							'show'     => TRUE,
+							'label'    => __( 'Suffix', 'connections' ),
+							'required' => FALSE,
+							'type'     => in_array( 'suffix', $individualNameFields ) ? 'text' : 'hidden',
+							'value'    => strlen( $entry->getHonorificSuffix() ) > 0 ? $entry->getHonorificSuffix( 'edit' ) : '',
+							'before'   => in_array( 'suffix', $individualNameFields ) ? '<span id="cn-name-suffix">' : '',
+							'after'    => in_array( 'suffix', $individualNameFields ) ? '</span>' : '',
 						),
 					),
 				),
-			'organization' => array(
-				'meta' => array(
-					'organization' => array(
-						'show'  => TRUE,
-						'field' => array(
-							'organization' => array(
-								'id'        => 'organization',
-								'show'      => TRUE,
-								'label'     => __( 'Organization' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getOrganization() ) > 0 ? $entry->getOrganization( 'edit' ) : '',
-								),
-							),
-						),
-					'department' => array(
-						'show'  => TRUE,
-						'field' => array(
-							'department' => array(
-								'id'        => 'department',
-								'show'      => TRUE,
-								'label'     => __( 'Department' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getDepartment() ) > 0 ? $entry->getDepartment( 'edit' ) : '',
-								),
-							),
-						),
-					'contact' => array(
-						'show'  => TRUE,
-						'field' => array(
-							'contact_first_name' => array(
-								'id'        => 'contact_first_name',
-								'show'      => TRUE,
-								'label'     => __( 'Contact First Name' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getContactFirstName() ) > 0 ? $entry->getContactFirstName( 'edit' ) : '',
-								'before'    => '<span class="cn-half-width" id="cn-contact-first-name">',
-								'after'     => '</span>',
-								),
-							'contact_last_name' => array(
-								'id'        => 'contact_last_name',
-								'show'      => TRUE,
-								'label'     => __( 'Contact Last Name' , 'connections' ),
-								'required'  => FALSE,
-								'type'      => 'text',
-								'value'     => strlen( $entry->getContactLastName() ) > 0 ? $entry->getContactLastName( 'edit' ) : '',
-								'before'    => '<span class="cn-half-width" id="cn-contact-last-name">',
-								'after'     => '</span>',
-								),
-							),
+				array(
+					'id'     => 'title',
+					'class'  => array( 'cn-individual' ),
+					'fields' => array(
+						'title' => array(
+							'id'        => 'title',
+							'show'      => TRUE,
+							'label'     => __( 'Title' , 'connections' ),
+							'required'  => FALSE,
+							'type'      => in_array( 'title', $individualNameFields ) ? 'text' : 'hidden',
+							'value'     => strlen( $entry->getTitle() ) > 0 ? $entry->getTitle( 'edit' ) : '',
 						),
 					),
 				),
-			'family' => array(
-				// Instead of supplying the field meta, a callback can be used instead.
-				// This is useful if the entry type output is complex. Like the 'family entry type.'
-				// If a callback is supplied the 'meta' key is passed as $atts and the $entry object is passed.
-				'callback' => array( __CLASS__, 'family' ),
-				'meta'     => array(),
+				array(
+					'id'     => 'organization',
+					'class'  => $orgClasses,
+					'fields' => array(
+						'organization' => array(
+							'id'        => 'organization',
+							'show'      => TRUE,
+							'label'     => __( 'Organization' , 'connections' ),
+							'required'  => FALSE,
+							'type'      => 'text',
+							'value'     => strlen( $entry->getOrganization() ) > 0 ? $entry->getOrganization( 'edit' ) : '',
+						),
+					),
 				),
-			);
+				array(
+					'id'     => 'department',
+					'class'  => $deptClasses,
+					'fields' => array(
+						'department' => array(
+							'id'        => 'department',
+							'show'      => TRUE,
+							'label'     => __( 'Department' , 'connections' ),
+							'required'  => FALSE,
+							'type'      => 'text',
+							'value'     => strlen( $entry->getDepartment() ) > 0 ? $entry->getDepartment( 'edit' ) : '',
+						),
+					),
+				),
+				array(
+					'id'     => 'contact',
+					'class'  => array( 'cn-organization' ),
+					'fields' => array(
+						'contact_first_name' => array(
+							'id'        => 'contact_first_name',
+							'show'      => TRUE,
+							'label'     => __( 'Contact First Name' , 'connections' ),
+							'required'  => FALSE,
+							'type'      => in_array( 'contact_first_name', $organizationNameFields ) ? 'text' : 'hidden',
+							'value'     => strlen( $entry->getContactFirstName() ) > 0 ? $entry->getContactFirstName( 'edit' ) : '',
+							'before'    => in_array( 'contact_first_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-first-name">' : '',
+							'after'     => in_array( 'contact_first_name', $organizationNameFields ) ? '</span>' : '',
+						),
+						'contact_last_name' => array(
+							'id'        => 'contact_last_name',
+							'show'      => TRUE,
+							'label'     => __( 'Contact Last Name' , 'connections' ),
+							'required'  => FALSE,
+							'type'      => in_array( 'contact_last_name', $organizationNameFields ) ? 'text' : 'hidden',
+							'value'     => strlen( $entry->getContactLastName() ) > 0 ? $entry->getContactLastName( 'edit' ) : '',
+							'before'    => in_array( 'contact_last_name', $organizationNameFields ) ? '<span class="cn-half-width" id="cn-contact-last-name">' : '',
+							'after'     => in_array( 'contact_last_name', $organizationNameFields ) ? '</span>' : '',
+						),
+					),
+				),
+				array(
+					'id'     => 'family',
+					'class'  => array( 'cn-family' ),
+					'fields' => array(
+						array(
+							// Instead of supplying the field meta, a callback can be used instead.
+							// This is useful if the entry type output is complex. Like the 'family entry type.'
+							// If a callback is supplied the 'field' array is passed  and the $entry object is passed.
+							'callback' => array( __CLASS__, 'family' ),
+						),
+					),
+				),
+			),
+		);
 
-		$atts = wp_parse_args( apply_filters( 'cn_metabox_name_atts', $atts ), $defaults );
+		$fieldset = wp_parse_args( apply_filters( 'cn_metabox_name_atts', $atts ), $fieldset );
 
-		foreach ( (array) $atts['type'] as $entryType ) {
+		/*
+		 * NOTE: No whitespace between opening and closing PHP tags and HTML tags to prevent whitespace in rendered
+		 *       HTML. This is to prevent unnecessary gaps when being rendered by the browser.
+		 */
+		foreach ( $fieldset['sections'] as $section ) : ?>
+			<div class="cn-metabox-section <?php echo implode( ' ', (array) $section['class'] ) ?>" id="cn-metabox-section-<?php echo $section['id'] ?>">
+				<?php foreach ( $section['fields'] as $field ) :
 
-			if ( array_key_exists( $entryType, $atts ) ) {
+					if ( isset( $field['callback'] ) && is_callable( $field['callback'] ) ) {
 
-				if ( isset( $atts[ $entryType ]['callback'] ) ) {
-
-					call_user_func( $atts[ $entryType ]['callback'], $entry, $atts[ $entryType ]['meta'] );
-					continue;
-				}
-
-				/*
-				 * Dump the output in a var that way it can mre more easily broke up and filters added later.
-				 */
-				$out = '';
-
-				foreach ( $atts[ $entryType ]['meta'] as $type => $meta ) {
-
-					if ( in_array( $type, $groupIDs ) ) {
-
-						continue;
-
-					} else {
-
-						$groupIDs[] = $type;
+						call_user_func( $field['callback'], $entry, $field );
 					}
 
-					$out .= '<div class="cn-metabox" id="cn-metabox-section-' . $type . '">' . PHP_EOL;
+					$defaults = array(
+						'type'     => '',
+						'class'    => array(),
+						'id'       => '',
+						'style'    => array(),
+						'options'  => array(),
+						'value'    => '',
+						'required' => FALSE,
+						'label'    => '',
+						'before'   => '',
+						'after'    => '',
+						'return'   => TRUE,
+					);
 
-					if ( $meta['show'] == TRUE ) {
+					$field = wp_parse_args( $field, $defaults );
 
-						foreach( $meta['field'] as $field ) {
+					cnHTML::field(
+						array(
+							'type'     => $field['type'],
+							'class'    => $field['class'],
+							'id'       => $field['id'],
+							'style'    => $field['style'],
+							'options'  => $field['options'],
+							'required' => $field['required'],
+							'label'    => $field['label'],
+							'before'   => $field['before'],
+							'after'    => $field['after'],
+							'return'   => FALSE,
+						),
+						$field['value']
+					);
 
-							if ( in_array( $field['id'], $fieldIDs ) ) {
-
-								continue;
-
-							} else {
-
-								$fieldIDs[] = $field['id'];
-							}
-
-							if ( $field['show'] ) {
-
-								$defaults = array(
-									'type'     => '',
-									'class'    => array(),
-									'id'       => '',
-									'style'    => array(),
-									'options'  => array(),
-									'value'    => '',
-									'required' => FALSE,
-									'label'    => '',
-									'before'   => '',
-									'after'    => '',
-									'return'   => TRUE,
-									);
-
-								$field = wp_parse_args( $field, $defaults );
-
-								$out .= cnHTML::field(
-									array(
-										'type'     => $field['type'],
-										'class'    => $field['class'],
-										'id'       => $field['id'],
-										'style'    => $field['style'],
-										'options'  => $field['options'],
-										'required' => $field['required'],
-										'label'    => $field['label'],
-										'before'   => $field['before'],
-										'after'    => $field['after'],
-										'return'   => TRUE,
-									),
-									$field['value']
-								);
-							}
-						}
-					}
-
-					$out .= '</div>' . PHP_EOL;
-				}
-
-				echo $out;
-			}
-		}
+				endforeach; // End fields loop ?>
+			</div>
+		<?php endforeach; // End sections loop.
 	}
 
 	/**
@@ -995,11 +952,22 @@ class cnEntryMetabox {
 	 *
 	 * @param  cnEntry $entry An instance of the cnEntry object.
 	 * @param  array   $atts  The metabox options array from self::register().
-	 *
-	 * @return string The address metabox.
 	 */
 	public static function address( $entry, $atts ) {
 
+		$addressTypes    = cnOptions::getAddressTypeOptions();
+		$repeatable      = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'repeatable' );
+		$count           = cnSettingsAPI::get( 'connections', 'fieldset-address', 'count' );
+		$autofillRegion  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-region' );
+		$autofillCountry = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-country' );
+
+		$defaultCountry  = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
+		$defaultRegion   = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
+
+		$region  = $autofillRegion ? $defaultRegion : '';
+		$country = $autofillCountry ? $defaultCountry : '';
+
+		//var_dump( array_fill_keys()$addressTypes );
 		echo '<div class="widgets-sortables ui-sortable" id="addresses">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -1012,6 +980,33 @@ class cnEntryMetabox {
 
 		$addresses = $entry->getAddresses( array(), FALSE, FALSE, 'edit' );
 		//print_r($addresses);
+
+		/*
+		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
+		 * displayed by default. The "dummy" address objects rotate thru the active address types and set the
+		 * default region and country so these fields are properly populated.
+		 */
+		if ( $count > $addressCount = count( $addresses ) ) {
+
+			$createCount = $count - $addressCount;
+
+			while ( 0 < $createCount ) {
+
+				if ( key( $addressTypes ) === NULL ) { reset( $addressTypes ); }
+				$type = key( $addressTypes );
+				next( $addressTypes );
+
+				$address = new cnAddress(
+					array(
+						'type'    => $type,
+						'region'  => $region,
+						'country' => $country,
+					)
+				);
+				$addresses[] = $address;
+				--$createCount;
+			}
+		}
 
 		if ( ! empty( $addresses ) ) {
 
@@ -1029,7 +1024,10 @@ class cnEntryMetabox {
 
 		echo  '</div>' , PHP_EOL;
 
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
+		if ( $repeatable ) {
+
+			echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
+		}
 	}
 
 	/**
@@ -1043,11 +1041,21 @@ class cnEntryMetabox {
 	 */
 	private static function addressField( $address, $token = '::FIELD::' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$addressTypes        = cnOptions::getAddressTypeOptions();
+		$defaultType         = cnOptions::getDefaultAddressType();
+		$repeatable          = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'repeatable' );
+		$permitPreferred     = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'permit-preferred' );
+		$permitVisibility    = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'permit-visibility' );
+		$activeFields        = (array) cnSettingsAPI::get( 'connections', 'fieldset-address', 'active-fields' );
+		$autofillRegion      = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-region' );
+		$autofillCountry     = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autofill-country' );
+		$autocompleteCountry = (bool) cnSettingsAPI::get( 'connections', 'fieldset-address', 'autocomplete-country' );
 
-		// Grab the address types.
-		$addressTypes = $instance->options->getDefaultAddressValues();
+		$defaultCountry      = cnGeo::getCountryByCode( cnOptions::getBaseCountry() );
+		$defaultRegion       = cnGeo::getRegionName( cnOptions::getBaseCountry(), cnOptions::getBaseRegion() );
+
+		$region  = $autofillRegion ? $defaultRegion : '';
+		$country = $autofillCountry ? $defaultCountry : '';
 
 		?>
 
@@ -1056,40 +1064,61 @@ class cnEntryMetabox {
 
 			<div class="widget-title">
 				<h4>
-
+					<span class="address-type">
 					<?php
 
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'address[' . $token . '][type]',
-							'options'  => $addressTypes,
-							'required' => FALSE,
-							'before'   => '<span class="address-type">',
-							'label'    => __( 'Address Type', 'connections' ),
-							'return'   => FALSE,
-						),
-						isset( $address->type ) ? $address->type : ''
-					);
+					if ( 1 < count( $addressTypes ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'address[' . $token . '][type]',
+								'options'  => $addressTypes,
+								'required' => FALSE,
+								//'before'   => '',
+								'label'    => __( 'Address Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $address->type ) && array_key_exists( $address->type, $addressTypes ) ? $address->type : key( $defaultType )
+						);
+
+					} else {
+
+						cnHTML::field(
+							array(
+								'type'     => 'hidden',
+								'class'    => '',
+								'id'       => 'address[' . $token . '][type]',
+								//'options'  => $addressTypes,
+								//'required' => FALSE,
+								//'before'   => '',
+								'label'    => __( 'Address Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $address->type ) && array_key_exists( $address->type, $addressTypes ) ? $address->type : key( $defaultType )
+						);
+					}
 
 					cnHTML::field(
 						array(
-							'type'     => 'radio',
+							'type'     => $permitPreferred ? 'radio' : 'hidden',
 							'format'   => 'inline',
 							'class'    => '',
 							'id'       => 'address[preferred]',
 							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
 							'required' => FALSE,
 							'before'   => '<span class="preferred">',
-							'after'    => '</span></span>',
+							'after'    => '</span>',
 							'return'   => FALSE,
 						),
 						isset( $address->preferred ) && $address->preferred ? $token : ''
 					);
-
+					?>
+					</span>
+					<?php
 					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
+					if ( ! empty( self::$visibility ) && $permitVisibility ) {
 
 						cnHTML::field(
 							array(
@@ -1136,7 +1165,7 @@ class cnEntryMetabox {
 
 				cnHTML::field(
 					array(
-						'type'     => 'text',
+						'type'     => in_array( 'line_2', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][line_2]',
 						'required' => FALSE,
@@ -1150,7 +1179,7 @@ class cnEntryMetabox {
 
 				cnHTML::field(
 					array(
-						'type'     => 'text',
+						'type'     => in_array( 'line_3', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][line_3]',
 						'required' => FALSE,
@@ -1164,7 +1193,7 @@ class cnEntryMetabox {
 
 				cnHTML::field(
 					array(
-						'type'     => 'text',
+						'type'     => in_array( 'line_4', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][line_4]',
 						'required' => FALSE,
@@ -1186,7 +1215,7 @@ class cnEntryMetabox {
 
 				cnHTML::field(
 					array(
-						'type'     => 'text',
+						'type'     => in_array( 'district', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][district]',
 						'required' => FALSE,
@@ -1200,7 +1229,7 @@ class cnEntryMetabox {
 
 				cnHTML::field(
 					array(
-						'type'     => 'text',
+						'type'     => in_array( 'county', $activeFields ) ? 'text' : 'hidden',
 						'class'    => '',
 						'id'       => 'address[' . $token . '][county]',
 						'required' => FALSE,
@@ -1245,7 +1274,7 @@ class cnEntryMetabox {
 						'after'    => '</div>',
 						'return'   => FALSE,
 					),
-					isset( $address->state ) ? $address->state : ''
+					isset( $address->state ) ? $address->state : $region
 				);
 
 				cnHTML::field(
@@ -1268,18 +1297,21 @@ class cnEntryMetabox {
 
 			<?php
 
+			// Select2 Demo display dropdown with add new option support:  https://stackoverflow.com/a/30021059/5351316
 			cnHTML::field(
 				array(
-					'type'     => 'text',
-					'class'    => '',
+					'type'     => in_array( 'country', $activeFields ) ? ( $autocompleteCountry ? 'select' : 'text' ) : 'hidden',
+					'class'    => $autocompleteCountry ? 'enhanced-select' : '' ,
 					'id'       => 'address[' . $token . '][country]',
+					'style'    => $autocompleteCountry ? array( 'width' => '100%' ) : array(),
 					'required' => FALSE,
 					'label'    => __( 'Country', 'connections' ),
 					'before'   => '<div class="address-country">',
 					'after'    => '</div>',
+					'options'  => array_combine( cnGeo::getCountries(), cnGeo::getCountries() ),
 					'return'   => FALSE,
 				),
-				isset( $address->country ) ? $address->country : ''
+				isset( $address->country ) ? $address->country : $country
 			);
 
 			?>
@@ -1336,11 +1368,13 @@ class cnEntryMetabox {
 			<input type="hidden" name="address[<?php echo $token; ?>][id]" value="<?php echo $address->id; ?>">
 			<?php endif; ?>
 
+			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="address"
 				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
+			<?php endif; ?>
 
 		</div>
 		<?php

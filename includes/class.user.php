@@ -79,6 +79,8 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+
 		cnArray::set( $user_meta,'filter.entry_type', $entryType );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
@@ -151,6 +153,8 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+
 		cnArray::set( $user_meta, 'filter.visibility', $visibility );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
@@ -192,6 +196,8 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+
 		cnArray::set( $user_meta,'filter.status', $status );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
@@ -225,6 +231,8 @@ class cnUser {
 		}
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
 
 		cnArray::set( $user_meta,'filter.category', $id );
 
@@ -287,11 +295,15 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+
 		if ( isset( $page->current ) ) {
-			$user_meta['filter'][ $page->name ]['current'] = $page->current;
+			//$user_meta['filter'][ $page->name ]['current'] = $page->current;
+			cnArray::set( $user_meta, "filter.{$page->name}.current", $page->current );
 		}
 		if ( isset( $page->limit ) ) {
-			$user_meta['filter'][ $page->name ]['limit'] = $page->limit;
+			//$user_meta['filter'][ $page->name ]['limit'] = $page->limit;
+			cnArray::set( $user_meta, "filter.{$page->name}.limit", $page->limit );
 		}
 
 		update_user_meta( $this->ID, 'connections', $user_meta );
@@ -337,7 +349,10 @@ class cnUser {
 
 		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
 
-		$user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
+		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
+
+		//$user_meta['ui']['category_div_height'] = absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) );
+		cnArray::set( $user_meta, 'ui.category_div_height', absint( apply_filters( 'cn_admin_ui_category_div_height', $height ) ) );
 
 		return update_user_meta( $this->ID, 'connections', $user_meta );
 	}

@@ -384,7 +384,7 @@ class cnOutput extends cnEntry {
 
 			foreach ( $srcset as $src ) {
 
-				$atts['srcset'][] = implode( ' ', $src );
+				$atts['srcset'][] = implode( ' ', cnURL::makeProtocolRelative( $src ) );
 			}
 
 			$atts['srcset'] = implode( ', ', $atts['srcset'] );

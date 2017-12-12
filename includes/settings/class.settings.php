@@ -46,6 +46,13 @@ class cnRegisterSettings {
 		);
 
 		$tabs[] = array(
+			'id'        => 'field-configuration',
+			'position'  => 18,
+			'title'     => __( 'Field Configuration' , 'connections' ),
+			'page_hook' => $settings
+		);
+
+		$tabs[] = array(
 			'id'        => 'images' ,
 			'position'  => 20 ,
 			'title'     => __( 'Images' , 'connections' ) ,
@@ -213,6 +220,107 @@ class cnRegisterSettings {
 				'',
 				'echo \'' . esc_html__( 'The following settings are applied when viewing a single entry in the detail view. Which details are shown are dependant on the current template being used.', 'connections' ) . '\';'
 				),
+			'page_hook' => $settings
+		);
+
+		/*
+		 * The sections registered to the Form Fields tab.
+		 */
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'fieldset-publish',
+			'position'  => 10,
+			'title'     => __( 'Publish Fieldset' , 'connections' ),
+			'callback'  => '',
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'fieldset-name',
+			'position'  => 20,
+			'title'     => __( 'Name Fieldset' , 'connections' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . esc_html__( 'Changing the active name fields will not effect existing entries, they will continue to display the existing name as they were previously saved. You will not be able to edit the existing name field unless the field is enabled.', 'connections' ) . '\';'
+			),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'fieldset-address',
+			'position'  => 30,
+			'title'     => __( 'Address Fieldset' , 'connections' ),
+			'callback'  => '',
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'phone',
+			'position'  => 40,
+			'title'     => __( 'Phone' , 'connections' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
+			),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'email',
+			'position'  => 50,
+			'title'     => __( 'Email' , 'connections' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
+			),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'messenger',
+			'position'  => 60,
+			'title'     => __( 'Instant Messaging' , 'connections' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
+			),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'social',
+			'position'  => 70,
+			'title'     => __( 'Social Networks' , 'connections' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
+			),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'date',
+			'position'  => 70,
+			'title'     => __( 'Date' , 'connections' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
+			),
 			'page_hook' => $settings
 		);
 
@@ -763,6 +871,332 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'sortable_checklist',
 			'options'   => cnOptions::getContentBlocks( NULL, 'single' ),
+			'default'   => 0,
+		);
+
+		/*
+		 * The Field Configuration tab fields.
+		 */
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'entry-type',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-publish',
+			'title'     => __( 'Entry Type Options', 'connections' ),
+			'desc'      => __(
+				'Choose which entry types are displayed as options. Drag and drop to change the display order. Disabling entry type options will not effect existing entries, they will retain the type they were saved with. When editing an entry of a type which has been disabled, it will default to the selected Default Entry Type.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'sortable_checklist',
+			'options'   => array(
+				'items'    => cnOptions::getEntryTypes(),
+				'required' => array(),
+			),
+			'default'   => array(
+				'order' => array(
+					'individual',
+					'organization',
+					'family',
+				),
+				'active' => array(
+					'individual',
+					'organization',
+					'family',
+				)
+			),
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'default-entry-type',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-publish',
+			'title'     => __( 'Default Entry Type', 'connections' ),
+			'desc'      => __(
+				'Select the default selected entry type.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'select',
+			'options'   => cnOptions::getEntryTypes(),
+			'default'   => 'individual',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'default-publish-status',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-publish',
+			'title'     => __( 'Default Publish Visibility', 'connections' ),
+			'desc'      => __(
+				'Select the default selected publish visibility status.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'select',
+			'options'   => array(
+				'public'   => __( 'Public', 'connections' ),
+				'private'  => __( 'Private', 'connections' ),
+				'unlisted' => __( 'Unlisted', 'connections' ),
+			),
+			'default'   => 'public',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'individual-name-fields',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-name',
+			'title'     => __( 'Individual Name Fields', 'connections' ),
+			'desc'      => __(
+				'Select the which name fields are to be displayed for the Individual entry type. Required fields are not displayed as options.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox-group',
+			'options'   => array(
+				'prefix'       => __( 'Prefix', 'connections' ),
+				//'first'        => __( 'First Name', 'connections' ),
+				'middle'       => __( 'Middle Name', 'connections' ),
+				//'last'         => __( 'Last Name', 'connections' ),
+				'suffix'       => __( 'Suffix', 'connections' ),
+				'title'        => __( 'Title', 'connections' ),
+				'organization' => __( 'Organization', 'connections' ),
+				'department'   => __( 'Department', 'connections' ),
+			),
+			'default'   => array(
+				'prefix',
+				//'first',
+				'middle',
+				//'last',
+				'suffix',
+				'title',
+				'organization',
+				'department',
+			),
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'organization-name-fields',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-name',
+			'title'     => __( 'Organization Name Fields', 'connections' ),
+			'desc'      => __(
+				'Select the which name fields are to be displayed for the Organization entry type. Required fields are not displayed as options.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox-group',
+			'options'   => array(
+				//'organization'       => __( 'Organization', 'connections' ),
+				'department'         => __( 'Department', 'connections' ),
+				'contact_first_name' => __( 'Contact First Name', 'connections' ),
+				'contact_last_name'  => __( 'Contact Last Name', 'connections' ),
+			),
+			'default'   => array(
+				'department',
+				'contact_first_name',
+				'contact_last_name',
+			),
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'repeatable',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Repeatable', 'connections' ),
+			'desc'      => __(
+				'Make the address fieldset repeatable to allow multiple addresses to be added to a single entry.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'count',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'PLACEHOLDER', 'connections' ),
+			'desc'      => __(
+				'The minimum number of address fieldsets to display.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'number',
+			'size'      => 'small',
+			'default'   => 0,
+		);
+
+		// Grab the address types.
+		$addressTypes = cnOptions::getCoreAddressTypes();
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'address-types',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Address Type Options', 'connections' ),
+			'desc'      => __(
+				'Choose which address types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a new address. Deactivating an address type will not effect previously saved entries. Add custom address types by clicking the "Add" button. Custom address types can be removed but only if no addresses are saved with that type. The "core" address types of "Home, School, Work and Other" can not be removed. A "Remove" button will display for address types which can be safely removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'sortable_input-repeatable',
+			'options'   => array(
+				'items'    => $addressTypes,
+				// Any types registered via the `cn_address_options` need to be set as required.
+				'required' => array_keys( apply_filters( 'cn_address_options', array() ) ),
+			),
+			'default'   => array(
+				'order'  => array_keys( $addressTypes ),
+				// Any types registered via the `cn_address_options` filter should be set as active (enabled).
+				// The `cn_address_options` filter is applied in case a user has removed types using the filter.
+				// This ensure they default to inactive (disabled).
+				'active' => array_keys( apply_filters( 'cn_address_options', $addressTypes ) ),
+			),
+			// Only need to add this once per image size, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeAddressFieldsetSettings' )
+		);
+
+		// Filter to remove the "Remove" button if a custom address type is in use.
+		add_filter( 'cn_settings_field-sortable_input-repeatable-item', array( __CLASS__, 'addressTypeRemovable' ), 10, 2 );
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-preferred',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Preferred Address', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set a preferred address when adding addresses to an entry. This is used when exporting the entry as a vCard. Disabling this option will not effect existing addresses which have been set as preferred. When editing an entry with a preferred address with this option disabled, the preferred setting of the address will be removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-visibility',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Per Address Visibility', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set per address visibility. When disabled, all addresses will default to public. Changing this option will not effect the visibility status of previously saved addresses.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'active-fields',
+			'position'  => 40,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Address Fields', 'connections' ),
+			'desc'      => __(
+				'Select the address fields to be displayed. Required fields are not displayed as options.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox-group',
+			'options'   => array(
+				'line_2'   => __( 'Address Line 2', 'connections' ),
+				'line_3'   => __( 'Address Line 3', 'connections' ),
+				'line_4'   => __( 'Address Line 4', 'connections' ),
+				'district' => __( 'District', 'connections' ),
+				'county'   => __( 'County', 'connections' ),
+				'country'  => __( 'Country', 'connections' ),
+			),
+			'default'   => array(
+				'line_2',
+				'line_3',
+				'line_4',
+				'district',
+				'county',
+				'country',
+			),
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'autofill-region',
+			'position'  => 50,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Autofill Region', 'connections' ),
+			'desc'      => __(
+				'Autofill the region (state) field with the default region.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'autofill-country',
+			'position'  => 60,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Autofill Country', 'connections' ),
+			'desc'      => __(
+				'Autofill the country field with the default country. When utilizing the autocomplete country field, the default country will be automatically selected',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'autocomplete-country',
+			'position'  => 70,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Autocomplete Country', 'connections' ),
+			'desc'      => __(
+				'Utilize an autocomplete field for country selection instead of a text input field.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
 			'default'   => 0,
 		);
 
@@ -1772,6 +2206,75 @@ class cnRegisterSettings {
 		}
 
 		return $loginRequired;
+	}
+
+	/**
+	 * Callback function to sanitize the address fieldset settings.
+	 *
+	 * @access private
+	 * @since  8.7
+	 * @static
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
+	public static function sanitizeAddressFieldsetSettings( $settings ) {
+
+		$active = cnArray::get( $settings, 'address-types.active', array() );
+
+		// If no address types have been selected, force select the top type.
+		if ( empty( $active ) ) {
+
+			$types    = cnArray::get( $settings, 'address-types.type' );
+			$keys     = array_flip( $types );
+			$active[] = array_shift( $keys );
+		}
+
+		cnArray::set( $settings, 'address-types.active', $active );
+
+		return $settings;
+	}
+
+	/**
+	 * Callback for the `cn_settings_field-sortable_input-repeatable-item` filter.
+	 *
+	 * Do not display the "Remove" button if the address type is currently in use/associated with an address.
+	 *
+	 * @see cnSettingsAPI::field()
+	 *
+	 * @access private
+	 * @since  8.7
+	 * @static
+	 *
+	 * @param string $html
+	 * @param array  $atts
+	 *
+	 * @return string
+	 */
+	public static function addressTypeRemovable( $html, $atts ) {
+
+		/**
+		 * @var array $field
+		 * @var string $key
+		 * @var string $hidden
+		 * @var string $checkbox
+		 * @var string $input
+		 * @var string $removeButton
+		 */
+		extract( $atts );
+
+		$inuse = cnOptions::getAddressTypesInUse();
+
+		$html = sprintf(
+			'<li><i class="fa fa-sort"></i> %1$s%2$s%3$s %4$s</li>',
+			$hidden,
+			$checkbox,
+			$input,
+			! array_key_exists( $key, $field['options']['items'] ) && ! array_key_exists( $key, $inuse ) ? $removeButton : ''
+		);
+
+		return $html;
 	}
 
 	/**

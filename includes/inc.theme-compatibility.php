@@ -41,6 +41,7 @@ add_filter( 'cn_image_class', 'cn_add_img_as_is_class' );
  * This in theory should override the Enfold CSS selectors.
  *
  * @link https://connections-pro.com/support/topic/enfold-theme-issues/
+ * @since 11/03/2017 seems this is no longer required.
  */
 function cn_enqueue_enfold_css_override() {
 
@@ -71,7 +72,7 @@ function cn_enqueue_enfold_css_override() {
 	}
 }
 
-add_action( 'wp', 'cn_enqueue_enfold_css_override', 11 ); // Priority 11 to run after core CSS.
+//add_action( 'wp', 'cn_enqueue_enfold_css_override', 11 ); // Priority 11 to run after core CSS.
 
 /**
  * @since 8.6.7

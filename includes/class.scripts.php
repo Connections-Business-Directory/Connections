@@ -76,7 +76,7 @@ class cnScript {
 		// Enqueue the frontend scripts and CSS.
 		// add_action( 'wp', array( __CLASS__, 'enqueue' ) );
 		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueScripts' ) );
-		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueStyles' ) );
+		add_action( 'wp_enqueue_scripts', array( 'cnScript', 'enqueueStyles' ), 999 );
 
 		// Enqueue the admin scripts and CSS.
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminScripts' ) );
@@ -148,6 +148,7 @@ class cnScript {
 
 			wp_register_script( 'cn-ui-admin', $url . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate', 'jquery-ui-sortable', 'jquery-ui-resizable' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-system-info', $url . "assets/js/cn-system-info$min.js", array( 'jquery', 'jquery-validate', 'jquery-form', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-setting-sortable-repeatable-input-list', $url . "assets/js/cn-setting-sortable-repeatable-input-list$min.js", array( 'jquery', 'jquery-ui-sortable' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
@@ -318,7 +319,12 @@ class cnScript {
 			do_action( 'cn_admin_enqueue_scripts', $pageHook );
 		}
 
-		$editPages = apply_filters( 'cn_admin_required_edit_scripts', array( $instance->pageHook->manage, $instance->pageHook->add ) );
+		$editPageHooks = array();
+
+		if ( property_exists( $instance->pageHook, 'manage') ) $editPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add') ) $editPageHooks[] = $instance->pageHook->add;
+
+		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
 		if ( in_array( $pageHook, $editPages ) ) {
 			/** @noinspection PhpUnusedLocalVariableInspection */
@@ -331,8 +337,14 @@ class cnScript {
 			do_action( 'cn_admin_enqueue_edit_scripts', $pageHook );
 		}
 
+		$metaboxPageHooks = array();
+
+		if ( property_exists( $instance->pageHook, 'dashboard') ) $metaboxPageHooks[] = $instance->pageHook->dashboard;
+		if ( property_exists( $instance->pageHook, 'manage') ) $metaboxPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add') ) $metaboxPageHooks[] = $instance->pageHook->add;
+
 		// Load the core JavaScripts required for metabox UI.
-		$metaboxPages = apply_filters( 'cn_admin_required_metabox_scripts', array( $instance->pageHook->dashboard, $instance->pageHook->manage, $instance->pageHook->add ) );
+		$metaboxPages = apply_filters( 'cn_admin_required_metabox_scripts', $metaboxPageHooks );
 
 		if ( in_array( $pageHook, $metaboxPages ) ) {
 
@@ -480,7 +492,6 @@ class cnScript {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-
 		// Load on all the Connections admin pages.
 		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
 
@@ -497,7 +508,12 @@ class cnScript {
 			do_action( 'cn_admin_enqueue_styles', $pageHook );
 		}
 
-		$editPages = apply_filters( 'cn_admin_required_edit_scripts', array( $instance->pageHook->manage, $instance->pageHook->add ) );
+		$editPageHooks = array();
+
+		if ( property_exists( $instance->pageHook, 'manage') ) $editPageHooks[] = $instance->pageHook->manage;
+		if ( property_exists( $instance->pageHook, 'add') ) $editPageHooks[] = $instance->pageHook->add;
+
+		$editPages = apply_filters( 'cn_admin_required_edit_scripts', $editPageHooks );
 
 		if ( in_array( $pageHook, $editPages ) ) {
 

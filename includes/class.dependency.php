@@ -327,6 +327,14 @@ class cnDependency {
 			// Timezone.
 			'cnGoogleMapsTimeZone'     => 'includes/class.google-maps-timezone-api.php',
 			'cnTimezone'               => 'includes/class.timezone.php',
+
+			// Countries
+			'cnCountries'              => 'includes/geo/class.countries.php',
+
+			// Third Party Libraries
+			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
+			//'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',
+			//'Rinvex\Country\CountryLoaderException' => 'vendor/rinvex/country/CountryLoaderException.php',
 		);
 	}
 }

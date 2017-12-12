@@ -200,6 +200,15 @@ class cnOptions {
 		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_private_override' ) ? TRUE : FALSE;
 	}
 
+	public static function getEntryTypes() {
+
+		return array(
+			'individual'   => __( 'Individual', 'connections' ),
+			'organization' => __( 'Organization', 'connections' ),
+			'family'       => __( 'Family', 'connections' ),
+		);
+	}
+
 	public function getVisibilityOptions() {
 
 		$options = array(
@@ -393,22 +402,136 @@ class cnOptions {
 	}
 
 	/**
-	 * Returns an array of the default address types.
+	 * Returns an associative array all core address types
+	 * including those registered via the `cn_address_options` filter.
 	 *
-	 * @access private
-	 * @since unknown
+	 * @access public
+	 * @since  8.7
+	 * @static
+	 *
 	 * @return array
 	 */
-	public function getDefaultAddressValues() {
+	public static function getCoreAddressTypes() {
 
-		$options = array(
+		$types = array(
 			'home'   => __( 'Home' , 'connections' ),
 			'work'   => __( 'Work' , 'connections' ),
 			'school' => __( 'School' , 'connections' ),
 			'other'  => __( 'Other' , 'connections' )
 		);
 
-		return apply_filters( 'cn_address_options', $options );
+		// Return all registered types, including the "core" types.
+		return array_merge( apply_filters( 'cn_address_options', $types ), $types );
+	}
+
+	/**
+	 * Return an associative array of "ACTIVE" address types as set on the Settings admin page.
+	 * Including those registered via the `cn_address_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.7
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getAddressTypeOptions() {
+
+		$options = get_option( 'connections_fieldset-address' );
+
+		if ( FALSE === $options ) {
+
+			$options = self::getCoreAddressTypes();
+
+		} else {
+
+			$registered = self::getCoreAddressTypes();
+
+			$type    = cnArray::get( $options, 'address-types.type', $registered );
+			$active  = cnArray::get( $options, 'address-types.active', array_flip( $registered ) );
+			$order   = cnArray::get( $options, 'address-types.order', array() );
+
+			// Add active addresses type registered via the `cn_address_options` filter.
+			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_address_options` filter.
+			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_address_options', $active ) ) ) );
+
+			// Remove address types from the order if they do not exist in the registered address types to account for removed address types.
+			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+
+			// Reorder the saved types to the user defined order.
+			$type    = array_replace( array_flip( $order ), $registered, $type );
+
+			// Remove inactive types.
+			$options = array_intersect_key( $type, array_flip( $active ) );
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns an associative array all registered address types.
+	 * Including those registered via the `cn_address_options` filter and added via the Settings admin page.
+	 *
+	 * @access private
+	 * @since  unknown
+	 * @deprecated 8.7 Use cnOptions::getRegisteredAddressTypes()
+	 * @see cnOptions::getRegisteredAddressTypes()
+	 *
+	 * @return array
+	 */
+	public function getDefaultAddressValues() {
+
+		return self::getRegisteredAddressTypes();
+	}
+
+	/**
+	 * Returns an associative array all registered address types.
+	 * Including those registered via the `cn_address_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.7
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getRegisteredAddressTypes() {
+
+		return array_replace( self::getAddressTypeOptions(), self::getCoreAddressTypes() );
+	}
+
+	/**
+	 * Get the default address type.
+	 *
+	 * @access public
+	 * @since  8.7
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getDefaultAddressType() {
+
+		$types = self::getAddressTypeOptions();
+
+		$value = reset( $types );
+		$key   = key( $types );
+
+		return array( $key => $value );
+	}
+
+	/**
+	 * Return the address types that have been associated to entries.
+	 *
+	 * @access public
+	 * @since  8.7
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getAddressTypesInUse() {
+		global $wpdb;
+
+		$types = $wpdb->get_col( 'SELECT `type` FROM ' . CN_ENTRY_ADDRESS_TABLE . ' WHERE `type` <> "" GROUP BY `type`' );
+
+		return array_intersect_key( self::getRegisteredAddressTypes(), array_flip( $types ) );
 	}
 
 	/**

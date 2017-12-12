@@ -450,6 +450,7 @@ input#cn-search-submit {
 	height: 28px;
 	line-height: 20px;
 	margin: 1px 1px 1px 0 !important;
+	min-height: auto;
 	padding: 3px;
 	text-align: left;
 	vertical-align: bottom;

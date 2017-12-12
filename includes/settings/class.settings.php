@@ -2227,7 +2227,8 @@ class cnRegisterSettings {
 		if ( empty( $active ) ) {
 
 			$types    = cnArray::get( $settings, 'address-types.type' );
-			$active[] = array_shift( array_flip( $types ) );
+			$keys     = array_flip( $types );
+			$active[] = array_shift( $keys );
 		}
 
 		cnArray::set( $settings, 'address-types.active', $active );

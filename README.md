@@ -253,6 +253,28 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.7 12/12/2017 =
+* FEATURE: Introduce field configuration options for the Publish, Name and Address field sets.
+* NEW: Add United Kingdom counties to cnGEO.
+* NEW: Introduce `cnGEO::getRegionName()`.
+* NEW: Introduce cnCountries.
+* NEW: Introduce the WP REST API countries endpoint/routes.
+* NEW: Add support for sortable/repeatable checklist fields in the Settings API.
+* TWEAK: Increase CSS enqueue priority to load last.
+* TWEAK: Remove the Enfold theme comapatibility hack as it no longer seems necessary after changing the CSS load priority.
+* TWEAK: Ensure minheight of the search submit button is set to auto to try to override themes which insist on setting a global minheight on submit form fields.
+* TWEAK: Make img src URL protocol relative.
+* TWEAK: Make `cn_manage_{taxonomy}_custom_column` hook an action instead of filter.
+* TWEAK: Add methods to cnCountry to pull data from the Rinvex\Country library and update existing calls to it to make them compatible to the new country attributs structure.
+* TWEAK: Refactor cnGeo to utilize cnCountries, deprecating many of the region specific methods.
+* TWEAK: Make `cnGEO::getRegionName()` a public static method matching the est of the members in the class.
+* TWEAK: Do not show labels for hidden text inputs.
+* TWEAK: Add support for the data attribute in `cnHTML::input()`.
+* BUG: Check for page hook properties one ata time as they are added to the filter array ro prevent PHP warning notices from being generated on multisite.
+* BUG: Check to ensure varaiable is array before using in a foreach loop to prevent a PHP warning.
+* BUG: Correct `Illegal string offset` and `Cannot create references to/from string offsets` PHP errors when saving user meta.
+* DEV: Include the Rinvex\Country library.
+
 = 8.6.12 11/01/2017 =
 * NEW: Introduce support for custom taxonomies.
 * NEW: Introduce the `cn_image_editors` filter.
@@ -710,27 +732,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update MO file.
 * OTHER: Correct misspelling.
 * DEV: phpDoc fix.
-
-### 8.5.17 06/09/2016 ###
-* NEW: Add support for a number field within the Settings API.
-* NEW: Introduce the `cn_root_rewrite_rule-landing` filter.
-* NEW: Introduce the `cn_root_rewrite_rule-view` filter.
-* NEW: Introduce the `cn_page_rewrite_rule-landing` filter.
-* NEW: Introduce the `cn_page_rewrite_rule-view` filter.
-* NEW: Introduce the `cn_cpt_rewrite_rule-landing` filter.
-* NEW: Introduce the `cn_cpt_rewrite_rule-view` filter.
-* NEW: Introduce the `cn_permalink-{type}` filter.
-* TWEAK: Use `sanitize_html_class()` rather than `esc_attr()` when outputting HTML class attributes.
-* TWEAK: Tweak to search which should give preference to full string results over individual terms within the string.
-* TWEAK: Allow `0` to be set as a default value of a setting.
-* TWEAK: Add support for the `force_home` and `home_id` parameters in cnTemplatePart::categoryLinkDescendant() to be passed when creating the category permalinks.
-* TWEAK: Remove use of the `$connections` global var in cnTemplateParts::categoryLinkDescendant().
-* TWEAK: Add support for the `force_home` and `home_id` parameters in cnTerm::permalink() to be passed when creating the category permalinks.
-* TWEAK: Add support for the `force_home` and `home_id` parameters in CN_Walker_Term_List::render() to be passed when creating the category permalinks.
-* BUG: Use proper capitalization for `get_the_ID()`.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* OTHER: Remove several blank lines.
-* DEV: Fix some minor code alignment issues in cnSettingsAPI.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

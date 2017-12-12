@@ -534,7 +534,7 @@ class cnGeo {
 	 *
 	 * @return string
 	 */
-	function getRegionName( $country_code = '', $region_code = '' ) {
+	public static function getRegionName( $country_code = '', $region_code = '' ) {
 
 		$regions = self::getRegions( $country_code );
 		$name    = isset( $regions[ $region_code ] ) ? $regions[ $region_code ] : $region_code;

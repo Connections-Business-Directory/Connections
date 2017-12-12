@@ -222,65 +222,86 @@ jQuery(document).ready( function($) {
 		},
 		show : function( type ) {
 
-			switch( type ) {
+			$( '#metabox-name .cn-metabox-section' ).slideUp().promise().always( function(){
 
-				case 'individual':
+				switch( type ) {
 
-					/*
-					 * Remove the 'required' class used by jQuery Validatation plugin to identify required input fields.
-					 * Entry type, 'individual' does not require the 'organization' field to be entered.
-					 */
-					$('input[name=first_name], input[name=last_name]').addClass('required');
-					$('input[name=organization]').removeClass('required error').addClass('invalid');
-					$('input[name=family_name]').removeClass('required error').addClass('invalid');
+					case 'individual':
 
-					$('#cn-metabox-section-name').slideDown();
-					$('#cn-metabox-section-title').slideDown();
-					$('#cn-metabox-section-organization').slideDown();
-					$('#cn-metabox-section-department').slideDown();
-					$('#cn-metabox-section-contact').slideUp();
-					$('#cn-metabox-section-family').slideUp();
+						/*
+						 * Remove the 'required' class used by jQuery Validation plugin to identify required input fields.
+						 * Entry type, 'individual' does not require the 'organization' field to be entered.
+						 */
+						$('input[name=first_name], input[name=last_name]').addClass('required');
+						$('input[name=organization]').removeClass('required error').addClass('invalid');
+						$('input[name=family_name]').removeClass('required error').addClass('invalid');
 
-					break;
+						// $('#cn-metabox-section-name').slideDown();
+						// $('#cn-metabox-section-title').slideDown();
+						// if ( $('#cn-metabox-section-organization').hasClass('active') ) {
+						// 	$('#cn-metabox-section-organization').slideDown();
+						// } else if( $('#cn-metabox-section-organization').hasClass('inactive') ) {
+						// 	$('#cn-metabox-section-organization').slideUp();
+						// }
+						// if ( $('#cn-metabox-section-department').hasClass('active') ) {
+						// 	$('#cn-metabox-section-department').slideDown();
+						// } else if( $('#cn-metabox-section-department').hasClass('inactive') ) {
+						// 	$('#cn-metabox-section-department').slideUp();
+						// }
+						// $('#cn-metabox-section-contact').slideUp();
+						// $('#cn-metabox-section-family').slideUp();
 
-				case 'organization':
+						$( '#metabox-name .cn-metabox-section.cn-individual' ).slideDown();
+						// $( '#metabox-name .cn-metabox-section' ).not( '.cn-individual' ).slideUp();
 
-					/*
-					 * Add the 'required' class used by jQuery Validatation plugin to identify required input fields.
-					 * Entry type, 'organization' requires the 'organization' field to be entered.
-					 */
-					$('input[name=organization]').addClass('required');
-					$('input[name=first_name], input[name=last_name]').removeClass('required error').addClass('invalid');
-					$('input[name=family_name]').removeClass('required error').addClass('invalid');
+						break;
 
-					$('#cn-metabox-section-name').slideUp();
-					$('#cn-metabox-section-title').slideUp();
-					$('#cn-metabox-section-organization').slideDown();
-					$('#cn-metabox-section-department').slideDown();
-					$('#cn-metabox-section-contact').slideDown();
-					$('#cn-metabox-section-family').slideUp();
+					case 'organization':
 
-					break;
+						/*
+						 * Add the 'required' class used by jQuery Validation plugin to identify required input fields.
+						 * Entry type, 'organization' requires the 'organization' field to be entered.
+						 */
+						$('input[name=organization]').addClass('required');
+						$('input[name=first_name], input[name=last_name]').removeClass('required error').addClass('invalid');
+						$('input[name=family_name]').removeClass('required error').addClass('invalid');
 
-				case 'family':
+						// $('#cn-metabox-section-name').slideUp();
+						// $('#cn-metabox-section-title').slideUp();
+						// $('#cn-metabox-section-organization').slideDown();
+						// $('#cn-metabox-section-department').slideDown();
+						// $('#cn-metabox-section-contact').slideDown();
+						// $('#cn-metabox-section-family').slideUp();
 
-					/*
-					 * Add the 'required' class used by jQuery Validatation plugin to identify required input fields.
-					 * Entry type, 'organization' requires the 'organization' field to be entered.
-					 */
-					$('input[name=family_name]').addClass('required');
-					$('input[name=first_name], input[name=last_name]').removeClass('required error').addClass('invalid');
-					$('input[name=organization]').removeClass('required error').addClass('invalid');
+						$( '#metabox-name .cn-metabox-section.cn-organization' ).slideDown();
+						// $( '#metabox-name .cn-metabox-section' ).not( '.cn-organization' ).slideUp();
 
-					$('#cn-metabox-section-name').slideUp();
-					$('#cn-metabox-section-title').slideUp();
-					$('#cn-metabox-section-organization').slideUp();
-					$('#cn-metabox-section-department').slideUp();
-					$('#cn-metabox-section-contact').slideUp();
-					$('#cn-metabox-section-family').slideDown();
+						break;
 
-					break;
-			}
+					case 'family':
+
+						/*
+						 * Add the 'required' class used by jQuery Validation plugin to identify required input fields.
+						 * Entry type, 'organization' requires the 'organization' field to be entered.
+						 */
+						$('input[name=family_name]').addClass('required');
+						$('input[name=first_name], input[name=last_name]').removeClass('required error').addClass('invalid');
+						$('input[name=organization]').removeClass('required error').addClass('invalid');
+
+						// $('#cn-metabox-section-name').slideUp();
+						// $('#cn-metabox-section-title').slideUp();
+						// $('#cn-metabox-section-organization').slideUp();
+						// $('#cn-metabox-section-department').slideUp();
+						// $('#cn-metabox-section-contact').slideUp();
+						// $('#cn-metabox-section-family').slideDown();
+
+						$( '#metabox-name .cn-metabox-section.cn-family' ).slideDown();
+						// $( '#metabox-name .cn-metabox-section' ).not( '.cn-family' ).slideUp();
+
+						break;
+				}
+
+			});
 
 			/**
 			 * @summary Fires when an entry type is selected.
@@ -314,7 +335,7 @@ jQuery(document).ready( function($) {
 			// console.log(container);
 
 			$(container).append( '<div class="widget ' + type + '" id="' + type + '-row-' + token + '" style="display: none;">' + template + '</div>' );
-			$('#' + type + '-row-' + token).slideDown();
+			$('#' + type + '-row-' + token).slideDown().find( '.cn-enhanced-select' ).chosen();
 
 			/**
 			 * @summary Fires when a repeatable field is added.
@@ -443,9 +464,19 @@ jQuery(document).ready( function($) {
 			address.state = $('input[name=address\\[' + uid + '\\]\\[state\\]]').val();
 			address.zipcode = $('input[name=address\\[' + uid + '\\]\\[zipcode\\]]').val();
 
-			address.country = $('input[name=address\\[' + uid + '\\]\\[country\\]]').val();
+			var country = $( '#cn-address\\[' + uid + '\\]\\[country\\]' );
 
-			//console.log(address);
+			// @link https://stackoverflow.com/a/9495029/5351316
+			if ( country.is( 'input' ) ) {
+
+				address.country = country.val();
+
+			} else if ( country.is( 'select' ) ) {
+
+				address.country = country.find( ':selected' ).val();
+			}
+
+			console.log(address);
 
 			$( '#map-' + uid ).fadeIn( 'slow' , function() {
 
@@ -463,7 +494,8 @@ jQuery(document).ready( function($) {
 				 * Old geocoder retires in March 2017
 				 */
 				$( '#map-' + uid ).goMap({
-					maptype: 'ROADMAP'
+					maptype: 'ROADMAP',
+					delay:   500
 				});
 
 				$.goMap.clearMarkers();

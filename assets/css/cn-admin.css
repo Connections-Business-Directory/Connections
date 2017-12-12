@@ -709,8 +709,28 @@ and (max-width: 780px) {
 }
 
 /* The "Name" metabox styles. */
+#metabox-name .cn-metabox-section {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
 #metabox-name input[type="text"] {
 	width: 100%;
+}
+
+#cn-metabox-section-name span {
+	box-sizing: border-box;
+	display: inline-block;
+	padding: 0 5px 0 0;
+}
+
+#cn-metabox-section-name span:last-of-type {
+	padding: 0;
+}
+
+#cn-metabox-section-name input {
+	margin: 0;
 }
 
 #cn-name-prefix {
@@ -719,33 +739,18 @@ and (max-width: 780px) {
 }
 
 #cn-name-first {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	display: inline-block;
-	padding: 0 5px;
 	width: 25%;
 }
 
 #cn-name-middle {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	display: inline-block;
 	width: 25%;
 }
 
 #cn-name-last {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	display: inline-block;
-	padding: 0 5px;
 	width: 25%;
 }
 
 #cn-name-suffix {
-	display: inline-block;
 	width: 12.5%;
 }
 
@@ -851,8 +856,9 @@ and (max-width: 780px) {
 	width: 100%;
 }
 
-#metabox-address .address-country input {
-	width: 100%;
+#metabox-address .address-country input,
+#metabox-address .address-country .chosen-container {
+	width: 100% !important;
 }
 
 #metabox-address .address-geo {
@@ -1038,7 +1044,7 @@ form .add {
 }
 
 #cn-relations .fa-sort,
-.cn-sortable-checklist .fa-sort {
+[class^="cn-sortable"] .fa-sort {
 	cursor: move;
 	padding-bottom: 4px;
 	vertical-align: middle;

@@ -330,6 +330,11 @@ class cnDependency {
 
 			// Countries
 			'cnCountries'              => 'includes/geo/class.countries.php',
+
+			// Third Party Libraries
+			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
+			//'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',
+			//'Rinvex\Country\CountryLoaderException' => 'vendor/rinvex/country/CountryLoaderException.php',
 		);
 	}
 }

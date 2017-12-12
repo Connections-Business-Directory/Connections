@@ -1026,6 +1026,202 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					break;
 
+				case 'sortable_input-repeatable':
+				case 'sortable_input':
+
+					// This will be used to store the order of the content blocks.
+					$blocks = array();
+
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						$out .= sprintf(
+							'<p class="description"> %1$s</p>',
+							esc_html( $field['desc'] )
+						);
+					}
+
+					$out .= sprintf(
+						'<ul class="cn-sortable-input%1$s" id="%2$s">',
+						'sortable_input-repeatable' === $field['type'] ? '-repeatable' : '',
+						esc_attr( $name )
+					);
+
+					// Create the array to be used to render the output in the correct order.
+					// This will have to take into account content blocks being added and removed.
+					// ref: http://stackoverflow.com/a/9098675
+					if ( isset( $value['order'] ) && ! empty( $value['order'] ) ) {
+
+						$order = array();
+
+						// Remove any content blocks that no longer exist.
+						//$blocks = array_intersect_key( $value['type'], array_flip( $value['order'] ) );
+						$blocks = array_intersect_key(
+							array_merge(
+								$field['options']['items'],
+								cnArray::get( $value, 'type', array() )
+							),
+							array_flip( $value['order'] )
+						);
+
+						// Add back in any new content blocks.
+						$blocks = array_merge( $blocks, $field['options']['items'] );
+
+						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
+
+						// Order the array as the user has defined in $value['order'].
+						$blocks = array_merge( array_flip( $order ), $blocks );
+
+					} else {
+
+						// No order was set or saved yet, so use the field options order.
+						$blocks = $field['options']['items'];
+					}
+
+					foreach ( $blocks as $key => $label ) {
+
+						$removeButton = '';
+						$checkbox = '';
+						$input    = '';
+						$hidden   = '';
+
+						if ( isset( $field['options']['required'] ) && in_array( $key, $field['options']['required'] ) ) {
+
+							$checkbox = cnHTML::input(
+								array(
+									'type'    => 'checkbox',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => 'checked="checked"',
+									'disabled'=> TRUE,
+									//'label'   => $label,
+									'layout'  => '%field%',
+									'return'  => TRUE,
+								),
+								$key
+							);
+
+							$checkbox .= cnHTML::input(
+								array(
+									'type'    => 'hidden',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'layout'  => '%field%',
+									'return'  => TRUE,
+								),
+								$key
+							);
+
+							$input = cnHTML::input(
+								array(
+									'type'    => 'text',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									//'label'   => $label,
+									'disabled'=> TRUE,
+									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'layout'  => '%field%',
+									'return'  => TRUE,
+								),
+								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
+							);
+
+						} else {
+
+							$checkbox = cnHTML::input(
+								array(
+									'type'    => 'checkbox',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[active][]',
+									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									'label'   => $label,
+									'layout'  => '%field%',
+									'return'  => TRUE,
+								),
+								$key
+							);
+
+							$input = cnHTML::input(
+								array(
+									'type'    => 'text',
+									'prefix'  => '',
+									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
+									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
+									//'label'   => $label,
+									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'layout'  => '%field%',
+									'return'  => TRUE,
+								),
+								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
+							);
+						}
+
+						$hidden = cnHTML::input(
+							array(
+								'type'    => 'hidden',
+								'prefix'  => '',
+								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
+								'name'    => esc_attr( $name ) . '[order][]',
+								'label'   => '',
+								'layout'  => '%field%',
+								'return'  => TRUE,
+							),
+							$key
+						);
+
+						if ( 'sortable_input-repeatable' === $field['type'] ) {
+
+							$removeButton = '<a href="#" class="cn-remove cn-button button">' . esc_html__( 'Remove', 'connections' ) . '</a>';
+						}
+
+						$row = sprintf(
+							'<li><i class="fa fa-sort"></i> %1$s%2$s%3$s %4$s</li>',
+							$hidden,
+							$checkbox,
+							$input,
+							! array_key_exists( $key, $field['options']['items'] ) ? $removeButton : ''
+						);
+
+						$row = apply_filters(
+							"cn_settings_field-{$field['type']}-item",
+							$row,
+							compact(
+								'field',
+								'key',
+								'label',
+								'hidden',
+								'checkbox',
+								'input',
+								'removeButton'
+							)
+						);
+
+						$out .= $row;
+					}
+
+					if ( 'sortable_input-repeatable' === $field['type'] ) {
+
+						$out .= '<li><a href="#" class="cn-add cn-button button">' . esc_html__( 'Add', 'connections' ) . '</a></li>';
+					}
+
+					$out .= '</ul>';
+
+					// Add the list to the sortable IDs.
+					self::$sortableIDs[] = $name;
+
+					// Add the script to the admin footer.
+					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sortableJS' ) );
+
+					wp_enqueue_script( 'cn-setting-sortable-repeatable-input-list' );
+
+					break;
+
 				default:
 
 					ob_start();

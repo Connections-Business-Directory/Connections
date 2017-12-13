@@ -1036,7 +1036,7 @@ class cnRegisterSettings {
 			'page_hook' => $settings,
 			'tab'       => 'field-configuration',
 			'section'   => 'fieldset-address',
-			'title'     => __( 'PLACEHOLDER', 'connections' ),
+			'title'     => '',
 			'desc'      => __(
 				'The minimum number of address fieldsets to display.',
 				'connections'

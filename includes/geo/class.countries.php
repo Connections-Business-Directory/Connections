@@ -57,7 +57,8 @@ class cnCountries {
 	 */
 	public static function getByCode( $code, $return = OBJECT ) {
 
-		$code = mb_strtolower( $code );
+		// @link https://stackoverflow.com/a/39576492/5351316
+		$code = strtolower( $code );
 
 		if ( ! isset( self::$countries[ $code ] ) ) {
 

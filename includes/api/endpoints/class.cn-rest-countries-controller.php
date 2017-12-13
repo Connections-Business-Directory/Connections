@@ -259,7 +259,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$response = $response->getDivision( mb_strtoupper( $region ) );
+		$response = $response->getDivision( strtoupper( $region ) );
 
 		if ( is_null( $response ) ) {
 

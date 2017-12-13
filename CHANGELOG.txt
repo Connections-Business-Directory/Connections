@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 8.7.1 12/13/2017 =
+* TWEAK: Use `strtolower()` instead of `mb_strtolower()`.
+* TWEAK: Use `strtoupper()` instead of `mb_strtoupper()`.
+* TWEAK: Do not use ternary shorthand, requires PHP > 5.3.
+* BUG: Update minified CSS/JS files.
+* BUG: Remove placeholder string in settings.
+* DEV: Add couple phpDoc references.
+
 = 8.7 12/12/2017 =
 * FEATURE: Introduce field configuration options for the Publish, Name and Address field sets.
 * NEW: Add United Kingdom counties to cnGEO.

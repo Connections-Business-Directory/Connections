@@ -213,7 +213,7 @@ final class cnCountry {
 	 */
 	public function getEmoji() {
 
-		return $this->get( 'extra.emoji' ) ? : $this->get( 'emoji' );
+		return $this->get( 'extra.emoji' ) ? $this->get( 'extra.emoji' ) : $this->get( 'emoji' );
 	}
 
 	/**
@@ -231,7 +231,7 @@ final class cnCountry {
 		}
 
 		return file_exists(
-			$file = CN_PATH . 'vendor/rinvex/resources/geodata/' . mb_strtolower( $code ) . '.json'
+			$file = CN_PATH . 'vendor/rinvex/resources/geodata/' . strtolower( $code ) . '.json'
 		) ? json_decode( file_get_contents( $file ) ) : NULL;
 	}
 
@@ -250,7 +250,7 @@ final class cnCountry {
 		}
 
 		return file_exists(
-			$file = CN_PATH . 'vendor/rinvex/resources/flags/' . mb_strtolower( $code ) . '.svg'
+			$file = CN_PATH . 'vendor/rinvex/resources/flags/' . strtolower( $code ) . '.svg'
 		) ? file_get_contents( $file ) : NULL;
 	}
 
@@ -269,7 +269,7 @@ final class cnCountry {
 		}
 
 		return file_exists(
-			$file = CN_PATH . 'vendor/rinvex/resources/divisions/' . mb_strtolower( $code ) . '.json'
+			$file = CN_PATH . 'vendor/rinvex/resources/divisions/' . strtolower( $code ) . '.json'
 		) ? json_decode( file_get_contents( $file ), TRUE ) : NULL;
 	}
 

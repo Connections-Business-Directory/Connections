@@ -2791,6 +2791,8 @@ class cnRetrieve {
 	 * term matching when searching for posts. The list of English stopwords is
 	 * the approximate search engines list, and is translatable.
 	 *
+	 * @see WP_Query::parse_search_terms()
+	 *
 	 * @since 8.1
 	 *
 	 * @param array $terms Terms to check.
@@ -2828,6 +2830,8 @@ class cnRetrieve {
 	 * directly because it is a protected method in the WP_Query class.
 	 *
 	 * Retrieve stopwords used when parsing search terms.
+	 *
+	 * @see WP_Query::get_search_stopwords()
 	 *
 	 * @since 8.1
 	 *

@@ -213,7 +213,7 @@ final class cnCountry {
 	 */
 	public function getEmoji() {
 
-		return $this->get( 'extra.emoji' ) ? : $this->get( 'emoji' );
+		return $this->get( 'extra.emoji' ) ? $this->get( 'extra.emoji' ) : $this->get( 'emoji' );
 	}
 
 	/**

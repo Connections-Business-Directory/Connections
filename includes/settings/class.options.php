@@ -450,7 +450,7 @@ class cnOptions {
 			$active  = cnArray::get( $options, 'address-types.active', array_flip( $registered ) );
 			$order   = cnArray::get( $options, 'address-types.order', array() );
 
-			// Add active addresses type registered via the `cn_address_options` filter.
+			// Add active address types registered via the `cn_address_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_address_options` filter.
 			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_address_options', $active ) ) ) );
 

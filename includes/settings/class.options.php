@@ -500,7 +500,12 @@ class cnOptions {
 	 */
 	public static function getRegisteredAddressTypes() {
 
-		return array_replace( self::getAddressTypeOptions(), self::getCoreAddressTypes() );
+		$options = get_option( 'connections_fieldset-address' );
+
+		$core = self::getCoreAddressTypes();
+		$type = cnArray::get( $options, 'address-types.type', $core );
+
+		return array_replace( $core, $type );
 	}
 
 	/**

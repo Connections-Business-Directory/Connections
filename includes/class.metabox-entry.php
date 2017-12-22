@@ -1388,10 +1388,12 @@ class cnEntryMetabox {
 	 *
 	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array   $metabox The metabox options array from self::register().
-	 *
-	 * @return string The phone metabox.
 	 */
 	public static function phone( $entry, $metabox ) {
+
+		$phoneTypes = cnOptions::getPhoneTypeOptions();
+		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-phone', 'repeatable' );
+		$count      = cnSettingsAPI::get( 'connections', 'fieldset-phone', 'count' );
 
 		echo '<div class="widgets-sortables ui-sortable" id="phone-numbers">' , PHP_EOL;
 
@@ -1404,6 +1406,29 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$phoneNumbers = $entry->getPhoneNumbers( array(), FALSE );
+
+		/*
+		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be
+		 * displayed by default. The "dummy" address objects rotate thru the active address types and set the
+		 * default region and country so these fields are properly populated.
+		 */
+		if ( $count > $phoneCount = count( $phoneNumbers ) ) {
+
+			$createCount = $count - $phoneCount;
+
+			while ( 0 < $createCount ) {
+
+				if ( key( $phoneTypes ) === NULL ) { reset( $phoneTypes ); }
+				$type = key( $phoneTypes );
+				next( $phoneTypes );
+
+				$phone = new stdClass();
+				$phone->type = $type;
+
+				$phoneNumbers[] = $phone;
+				--$createCount;
+			}
+		}
 
 		if ( ! empty( $phoneNumbers ) ) {
 
@@ -1421,7 +1446,10 @@ class cnEntryMetabox {
 
 		echo '</div>' , PHP_EOL;
 
-		echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">' , __( 'Add Phone Number', 'connections' ) , '</a></p>' , PHP_EOL;
+		if ( $repeatable ) {
+
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="phone" data-container="phone-numbers">', __( 'Add Phone Number', 'connections' ), '</a></p>', PHP_EOL;
+		}
 	}
 
 	/**
@@ -1435,11 +1463,11 @@ class cnEntryMetabox {
 	 */
 	private static function phoneField( $phone, $token = '::FIELD::' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the phone types.
-		$phoneTypes = $instance->options->getDefaultPhoneNumberValues();
+		$phoneTypes       = cnOptions::getPhoneTypeOptions();
+		$defaultType      = cnOptions::getDefaultPhoneType();
+		$repeatable       = (bool) cnSettingsAPI::get( 'connections', 'fieldset-phone', 'repeatable' );
+		$permitPreferred  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-phone', 'permit-preferred' );
+		$permitVisibility = (bool) cnSettingsAPI::get( 'connections', 'fieldset-phone', 'permit-visibility' );
 
 		?>
 
@@ -1449,7 +1477,9 @@ class cnEntryMetabox {
 			<div class="widget-title">
 				<h4>
 
-					<?php
+				<?php
+
+				if ( 1 < count( $phoneTypes ) ) {
 
 					cnHTML::field(
 						array(
@@ -1461,44 +1491,60 @@ class cnEntryMetabox {
 							'label'    => __( 'Phone Type', 'connections' ),
 							'return'   => FALSE,
 						),
-						isset( $phone->type ) ? $phone->type : ''
+						isset( $phone->type ) && array_key_exists( $phone->type, $phoneTypes ) ? $phone->type : key( $defaultType )
 					);
+
+				} else {
+
+					cnHTML::field(
+						array(
+							'type'     => 'hidden',
+							'class'    => '',
+							'id'       => 'phone[' . $token . '][type]',
+							//'options'  => $phoneTypes,
+							//'required' => FALSE,
+							'label'    => __( 'Phone Type', 'connections' ),
+							'return'   => FALSE,
+						),
+						isset( $phone->type ) && array_key_exists( $phone->type, $phoneTypes ) ? $phone->type : key( $defaultType )
+					);
+				}
+
+				cnHTML::field(
+					array(
+						'type'     => $permitPreferred ? 'radio' : 'hidden',
+						'format'   => 'inline',
+						'class'    => '',
+						'id'       => 'phone[preferred]',
+						'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+						'required' => FALSE,
+						'before'   => '<span class="preferred">',
+						'after'    => '</span>',
+						'return'   => FALSE,
+					),
+					isset( $phone->preferred ) && $phone->preferred ? $token : ''
+				);
+
+				// Only show this if there are visibility options that the user is permitted to see.
+				if ( ! empty( self::$visibility ) && $permitVisibility ) {
 
 					cnHTML::field(
 						array(
 							'type'     => 'radio',
 							'format'   => 'inline',
 							'class'    => '',
-							'id'       => 'phone[preferred]',
-							'options'  => array( $token => __( 'Preferred', 'connections' ) ),
+							'id'       => 'phone[' . $token . '][visibility]',
+							'options'  => self::$visibility,
 							'required' => FALSE,
-							'before'   => '<span class="preferred">',
+							'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
 							'after'    => '</span>',
 							'return'   => FALSE,
 						),
-						isset( $phone->preferred ) && $phone->preferred ? $token : ''
+						isset( $phone->visibility ) ? $phone->visibility : 'public'
 					);
+				}
 
-					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
-
-						cnHTML::field(
-							array(
-								'type'     => 'radio',
-								'format'   => 'inline',
-								'class'    => '',
-								'id'       => 'phone[' . $token . '][visibility]',
-								'options'  => self::$visibility,
-								'required' => FALSE,
-								'before'   => '<span class="visibility">' . __( 'Visibility', 'connections' ) . ' ',
-								'after'    => '</span>',
-								'return'   => FALSE,
-							),
-							isset( $phone->visibility ) ? $phone->visibility : 'public'
-						);
-					}
-
-					?>
+				?>
 
 				</h4>
 			</div>
@@ -1509,40 +1555,37 @@ class cnEntryMetabox {
 
 			<div class="phone-number-container">
 
-				<?php
-
-				cnHTML::field(
-					array(
-						'type'     => 'text',
-						'class'    => '',
-						'id'       => 'phone[' . $token . '][number]',
-						'required' => FALSE,
-						'label'    => __( 'Phone Number', 'connections' ),
-						'before'   => '',
-						'after'    => '',
-						'return'   => FALSE,
-					),
-					isset( $phone->number ) ? $phone->number : ''
-				);
-
-				?>
-
-			</div>
-
 			<?php
 
-			if ( isset( $phone->id ) ) {
-
-				echo '<input type="hidden" name="phone[', $token, '][id]" value="', $phone->id, '">', PHP_EOL;
-			}
+			cnHTML::field(
+				array(
+					'type'     => 'text',
+					'class'    => '',
+					'id'       => 'phone[' . $token . '][number]',
+					'required' => FALSE,
+					'label'    => __( 'Phone Number', 'connections' ),
+					'before'   => '',
+					'after'    => '',
+					'return'   => FALSE,
+				),
+				isset( $phone->number ) ? $phone->number : ''
+			);
 
 			?>
 
+			</div>
+
+			<?php if ( isset( $phone->id ) ) : ?>
+				<input type="hidden" name="phone[<?php echo $token; ?>][id]" value="<?php echo $phone->id; ?>">
+			<?php endif; ?>
+
+			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="phone"
 				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
+			<?php endif; ?>
 
 		</div>
 

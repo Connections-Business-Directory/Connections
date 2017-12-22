@@ -722,7 +722,8 @@ class cnRetrieve {
 					// Ensure the meta key does exist and is not empty before altering the query.
 					if ( isset( $meta[1] ) && ! empty( $meta[1] ) ) {
 
-						$atts['meta_query']['meta_query'][] = array( 'key' => $meta[1] );
+						isset( $k ) ? $k++ : $k = 0;
+						$atts = cnArray::add( $atts, "meta_query.meta_query.{$k}.key", $meta[1] );
 
 						if ( 1 < count( $atts['meta_query']['meta_query'] ) ) {
 

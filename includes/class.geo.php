@@ -577,8 +577,16 @@ class cnGeo {
 		}
 
 		$regions = cnCountries::getByCode( $code )->getDivisions();
-		$regions = wp_list_pluck( $regions, 'name' );
-		natsort( $regions );
+
+		if ( ! is_null( $regions ) && is_array( $regions ) ) {
+
+			$regions = wp_list_pluck( $regions, 'name' );
+			natsort( $regions );
+
+		} else {
+
+			$regions = array();
+		}
 
 		return apply_filters( 'cn_regions', apply_filters( "cn_{$code}_regions", $regions ), $code );
 	}

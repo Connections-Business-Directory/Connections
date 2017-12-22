@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 8.8 12/22/2017 =
+* FEATURE: Add phone fieldset configuration options.
+* TWEAK: Ensure `jquery-form` is registered, seems some plugin/theme is unregistering this core WP script.
+* TWEAK: Tweak to ensure Say What text changes can be applied to address type labels.
+* TWEAK: cnOptions::getRegisteredAddressTypes()` should return all active and inactive address types.
+* TWEAK: Deprecated `cnOptions::getDefaultAddressValues() `should return `cnOptions::getAddressTypesOptions()`.
+* TWEAK: Minor CSS tweak to admin widget title, setting min height.
+* BUG: Fix PHP Warning: natsort() expects parameter 1 to be array, null given.
+
 = 8.7.1 12/13/2017 =
 * TWEAK: Use `strtolower()` instead of `mb_strtolower()`.
 * TWEAK: Use `strtoupper()` instead of `mb_strtoupper()`.

@@ -450,7 +450,7 @@ class cnOptions {
 			$active  = cnArray::get( $options, 'address-types.active', array_flip( $registered ) );
 			$order   = cnArray::get( $options, 'address-types.order', array() );
 
-			// Add active addresses type registered via the `cn_address_options` filter.
+			// Add active address types registered via the `cn_address_options` filter.
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_address_options` filter.
 			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_address_options', $active ) ) ) );
 
@@ -462,6 +462,11 @@ class cnOptions {
 
 			// Remove inactive types.
 			$options = array_intersect_key( $type, array_flip( $active ) );
+
+			foreach ( $options as &$option ) {
+
+				$option = __( $option, 'connections' );
+			}
 		}
 
 		return $options;
@@ -473,14 +478,14 @@ class cnOptions {
 	 *
 	 * @access private
 	 * @since  unknown
-	 * @deprecated 8.7 Use cnOptions::getRegisteredAddressTypes()
-	 * @see cnOptions::getRegisteredAddressTypes()
+	 * @deprecated 8.7 Use cnOptions::getAddressTypeOptions()
+	 * @see cnOptions::getAddressTypeOptions()
 	 *
 	 * @return array
 	 */
 	public function getDefaultAddressValues() {
 
-		return self::getRegisteredAddressTypes();
+		return self::getAddressTypeOptions();
 	}
 
 	/**
@@ -495,7 +500,12 @@ class cnOptions {
 	 */
 	public static function getRegisteredAddressTypes() {
 
-		return array_replace( self::getAddressTypeOptions(), self::getCoreAddressTypes() );
+		$options = get_option( 'connections_fieldset-address' );
+
+		$core = self::getCoreAddressTypes();
+		$type = cnArray::get( $options, 'address-types.type', $core );
+
+		return array_replace( $core, $type );
 	}
 
 	/**
@@ -535,15 +545,18 @@ class cnOptions {
 	}
 
 	/**
-	 * Returns an array of the default phone types.
+	 * Returns an associative array all core phone types
+	 * including those registered via the `cn_phone_options` filter.
 	 *
-	 * @access private
-	 * @since unknown
+	 * @access public
+	 * @since  8.8
+	 * @static
+	 *
 	 * @return array
 	 */
-	public function getDefaultPhoneNumberValues() {
+	public static function getCorePhoneTypes() {
 
-		$options = array(
+		$types = array(
 			'homephone' => __( 'Home Phone' , 'connections' ),
 			'homefax'   => __( 'Home Fax' , 'connections' ),
 			'cellphone' => __( 'Cell Phone' , 'connections' ),
@@ -551,7 +564,127 @@ class cnOptions {
 			'workfax'   => __( 'Work Fax' , 'connections' )
 		);
 
-		return apply_filters( 'cn_phone_options', $options );
+		// Return all registered types, including the "core" types.
+		return array_merge( apply_filters( 'cn_phone_options', $types ), $types );
+	}
+
+	/**
+	 * Return an associative array of "ACTIVE" phone types as set on the Settings admin page.
+	 * Including those registered via the `cn_phone_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.8
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getPhoneTypeOptions() {
+
+		$options = get_option( 'connections_fieldset-phone' );
+
+		if ( FALSE === $options ) {
+
+			$options = self::getCorePhoneTypes();
+
+		} else {
+
+			$registered = self::getCorePhoneTypes();
+
+			$type    = cnArray::get( $options, 'phone-types.type', $registered );
+			$active  = cnArray::get( $options, 'phone-types.active', array_flip( $registered ) );
+			$order   = cnArray::get( $options, 'phone-types.order', array() );
+
+			// Add active phone type registered via the `cn_phone_options` filter.
+			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_phone_options` filter.
+			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_phone_options', $active ) ) ) );
+
+			// Remove phone types from the order if they do not exist in the registered phone types to account for removed phone types.
+			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+
+			// Reorder the saved types to the user defined order.
+			$type    = array_replace( array_flip( $order ), $registered, $type );
+
+			// Remove inactive types.
+			$options = array_intersect_key( $type, array_flip( $active ) );
+
+			foreach ( $options as &$option ) {
+
+				$option = __( $option, 'connections' );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns an array of the default phone types.
+	 *
+	 * @access private
+	 * @since  unknown
+	 * @deprecated 8.8 Use cnOptions::getPhoneTypeOptions()
+	 * @see cnOptions::getPhoneTypeOptions()
+	 *
+	 * @return array
+	 */
+	public function getDefaultPhoneNumberValues() {
+
+		return self::getPhoneTypeOptions();
+	}
+
+	/**
+	 * Returns an associative array all registered phone types.
+	 * Including those registered via the `cn_phone_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.8
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getRegisteredPhoneTypes() {
+
+		$options = get_option( 'connections_fieldset-phone' );
+
+		$core = self::getCorePhoneTypes();
+		$type = cnArray::get( $options, 'phone-types.type', $core );
+
+		return array_replace( $core, $type );
+	}
+
+	/**
+	 * Get the default phone type.
+	 *
+	 * @access public
+	 * @since  8.8
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getDefaultPhoneType() {
+
+		$types = self::getPhoneTypeOptions();
+
+		$value = reset( $types );
+		$key   = key( $types );
+
+		return array( $key => $value );
+	}
+
+	/**
+	 * Return the phone types that have been associated to entries.
+	 *
+	 * @access public
+	 * @since  8.7
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getPhoneTypesInUse() {
+		global $wpdb;
+
+		$types = $wpdb->get_col( 'SELECT `type` FROM ' . CN_ENTRY_PHONE_TABLE . ' WHERE `type` <> "" GROUP BY `type`' );
+
+		return array_intersect_key( self::getRegisteredPhoneTypes(), array_flip( $types ) );
 	}
 
 	/**

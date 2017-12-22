@@ -262,13 +262,10 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
-			'id'        => 'phone',
+			'id'        => 'fieldset-phone',
 			'position'  => 40,
 			'title'     => __( 'Phone' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
-			),
+			'callback'  => '',
 			'page_hook' => $settings
 		);
 
@@ -1080,9 +1077,6 @@ class cnRegisterSettings {
 			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeAddressFieldsetSettings' )
 		);
 
-		// Filter to remove the "Remove" button if a custom address type is in use.
-		add_filter( 'cn_settings_field-sortable_input-repeatable-item', array( __CLASS__, 'addressTypeRemovable' ), 10, 2 );
-
 		$fields[] = array(
 			'plugin_id' => 'connections',
 			'id'        => 'permit-preferred',
@@ -1199,6 +1193,111 @@ class cnRegisterSettings {
 			'type'      => 'checkbox',
 			'default'   => 0,
 		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'repeatable',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-phone',
+			'title'     => __( 'Repeatable', 'connections' ),
+			'desc'      => __(
+				'Make the phone fieldset repeatable to allow multiple phone numbers to be added to a single entry.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'count',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-phone',
+			'title'     => '',
+			'desc'      => __(
+				'The minimum number of phone number fieldsets to display.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'number',
+			'size'      => 'small',
+			'default'   => 0,
+		);
+
+		// Grab the phone types.
+		$phoneTypes = cnOptions::getCorePhoneTypes();
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'phone-types',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-phone',
+			'title'     => __( 'Phone Type Options', 'connections' ),
+			'desc'      => __(
+				'Choose which phone types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a new phone. Deactivating an phone type will not effect previously saved entries. Add custom phone types by clicking the "Add" button. Custom phone types can be removed but only if no phone are saved with that type. The "core" phone types of "Home Phone, Home Fax, Cell Phone, Work Phone and Work Fax" can not be removed. A "Remove" button will display for phone types which can be safely removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'sortable_input-repeatable',
+			'options'   => array(
+				'items'    => $phoneTypes,
+				// Any types registered via the `cn_phone_options` need to be set as required.
+				'required' => array_keys( apply_filters( 'cn_phone_options', array() ) ),
+			),
+			'default'   => array(
+				'order'  => array_keys( $phoneTypes ),
+				// Any types registered via the `cn_phone_options` filter should be set as active (enabled).
+				// The `cn_phone_options` filter is applied in case a user has removed types using the filter.
+				// This ensure they default to inactive (disabled).
+				'active' => array_keys( apply_filters( 'cn_phone_options', $phoneTypes ) ),
+			),
+			// Only need to add this once per image size, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizePhoneFieldsetSettings' )
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-preferred',
+			'position'  => 40,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-phone',
+			'title'     => __( 'Preferred Phone', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set a preferred phone number when adding a number to an entry. This is used when exporting the entry as a vCard. Disabling this option will not effect existing phone numbers which have been set as preferred. When editing an entry with a preferred phone number with this option disabled, the preferred setting of the phone number will be removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-visibility',
+			'position'  => 50,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-phone',
+			'title'     => __( 'Per Phone Visibility', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set per phone number visibility. When disabled, all phone numbers will default to public. Changing this option will not effect the visibility status of previously saved phone numbers.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		// Filter to remove the "Remove" button if a custom fieldset type is in use.
+		add_filter( 'cn_settings_field-sortable_input-repeatable-item', array( __CLASS__, 'fieldsetTypeRemovable' ), 10, 2 );
 
 		/*
 		 * The Images tab fields.
@@ -2237,6 +2336,34 @@ class cnRegisterSettings {
 	}
 
 	/**
+	 * Callback function to sanitize the phone fieldset settings.
+	 *
+	 * @access private
+	 * @since  8.8
+	 * @static
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
+	public static function sanitizePhoneFieldsetSettings( $settings ) {
+
+		$active = cnArray::get( $settings, 'phone-types.active', array() );
+
+		// If no phone types have been selected, force select the top type.
+		if ( empty( $active ) ) {
+
+			$types    = cnArray::get( $settings, 'phone-types.type' );
+			$keys     = array_flip( $types );
+			$active[] = array_shift( $keys );
+		}
+
+		cnArray::set( $settings, 'phone-types.active', $active );
+
+		return $settings;
+	}
+
+	/**
 	 * Callback for the `cn_settings_field-sortable_input-repeatable-item` filter.
 	 *
 	 * Do not display the "Remove" button if the address type is currently in use/associated with an address.
@@ -2252,7 +2379,7 @@ class cnRegisterSettings {
 	 *
 	 * @return string
 	 */
-	public static function addressTypeRemovable( $html, $atts ) {
+	public static function fieldsetTypeRemovable( $html, $atts ) {
 
 		/**
 		 * @var array $field
@@ -2264,7 +2391,19 @@ class cnRegisterSettings {
 		 */
 		extract( $atts );
 
-		$inuse = cnOptions::getAddressTypesInUse();
+		switch ( $field['id'] ) {
+
+			case 'address-types':
+
+				$callable = array( 'cnOptions', 'getAddressTypesInUse' );
+				break;
+
+			case 'phone-types':
+				$callable = array( 'cnOptions', 'getPhoneTypesInUse' );
+				break;
+		}
+
+		$inuse = call_user_func( $callable );
 
 		$html = sprintf(
 			'<li><i class="fa fa-sort"></i> %1$s%2$s%3$s %4$s</li>',

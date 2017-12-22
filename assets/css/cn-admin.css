@@ -589,6 +589,7 @@ body[class*="connections"] .cn-button-large {
 }
 
 .widget-top .widget-title {
+	min-height: 26.5px;
 	padding: 6px 9px;
 	overflow: hidden;
 	position: relative;

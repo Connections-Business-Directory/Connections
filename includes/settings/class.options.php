@@ -478,14 +478,14 @@ class cnOptions {
 	 *
 	 * @access private
 	 * @since  unknown
-	 * @deprecated 8.7 Use cnOptions::getRegisteredAddressTypes()
-	 * @see cnOptions::getRegisteredAddressTypes()
+	 * @deprecated 8.7 Use cnOptions::getAddressTypeOptions()
+	 * @see cnOptions::getAddressTypeOptions()
 	 *
 	 * @return array
 	 */
 	public function getDefaultAddressValues() {
 
-		return self::getRegisteredAddressTypes();
+		return self::getAddressTypeOptions();
 	}
 
 	/**

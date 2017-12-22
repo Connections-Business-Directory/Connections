@@ -232,6 +232,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.8 12/22/2017 =
+* FEATURE: Add phone fieldset configuration options.
+* TWEAK: Ensure `jquery-form` is registered, seems some plugin/theme is unregistering this core WP script.
+* TWEAK: Tweak to ensure Say What text changes can be applied to address type labels.
+* TWEAK: cnOptions::getRegisteredAddressTypes()` should return all active and inactive address types.
+* TWEAK: Deprecated `cnOptions::getDefaultAddressValues() `should return `cnOptions::getAddressTypesOptions()`.
+* TWEAK: Minor CSS tweak to admin widget title, setting min height.
+* BUG: Fix PHP Warning: natsort() expects parameter 1 to be array, null given.
+
 = 8.7.1 12/13/2017 =
 * TWEAK: Use `strtolower()` instead of `mb_strtolower()`.
 * TWEAK: Use `strtoupper()` instead of `mb_strtoupper()`.
@@ -635,56 +644,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update POT file.
 * I18N: Update MO files.
 
-= 8.5.19 07/07/2016 =
-* NEW: Update database schema to support address line 4, district and county fields.
-* NEW: Introduce cnOutput::excerpt().
-* NEW: Introduce cnFormatting::toCamelCase().
-* NEW: Introduce cnFunction::isDimensionalArray().
-* NEW: Introduce the `cn_address-pre_setup` filter.
-* NEW: Introduce the `cn_phone-pre_setup` filter.
-* NEW: Introduce the `cn_email-pre_setup` filter.
-* NEW: Introduce the `cn_im-pre_setup` filter.
-* NEW: Introduce the `cn_social_network-pre_setup` filter.
-* NEW: Introduce the `cn_link-pre_setup` filter.
-* NEW: Introduce the `cn_date-pre_setup` filter.
-* NEW: Add support to cnHTML::attribute() for the HTML5 `data` attribute.
-* NEW: Add support to cnHTML::select() for the the HTML5 `data` attribute.
-* TWEAK: Use https when reverse geocoding an address utilizing the Google Maps API.
-* TWEAK: Register the `cn-district` and `cn-county` query vars.
-* TWEAK: Add the rewrite rules for district and county.
-* TWEAK: Add support for district and county permalinks in cnURL::permalink().
-* TWEAK: Add settings for the district and county permalink base as well as the options to enable/disable their permalinks when displaying.
-* TWEAK: Add support for display/db sanitation option in cnSanitize::field().
-* TWEAK: Add support for adding/updating addess line 4, district and county in cnEntry.
-* TWEAK: Display the address line 4, district and county field in the Manage admin page.
-* TWEAK: Update cnOutput::getAddressBlock() to display address line 4, county and district.
-* TWEAK: Add support for the address district and country fields in cnRetrieve::entries() and cnRetrieve::addresses().
-* TWEAK: Add the district and county permalink base to the option on update.
-* TWEAK: Update the admin CSS to tweak the display of the address district and county fields when adding/editing an entry.
-* TWEAK: Add the Google Maps API browser API key to the query string if it was added in the settings.
-* TWEAK: When updating an entry, get addresses in the `db` context for proper sanitization.
-* TWEAK: Change how spacing is applied for the `readonly` attribute for the date picker.
-* TWEAK: Add `readonly` support to the quicktag field.
-* TWEAK: Remove pre WP 3.3 backwards compatibility for the rte field.
-* TWEAK: Add support for the `readonly` attribute in cnHTML::group().
-* TWEAK: Add support for registering a field as read only when registering a custom field.
-* BUG: Fix bug that always set the user to none when adding/editing a linked entry.
-* BUG: Add missing `attribute` type in `db` content in cnSanitize::field().
-* OTHER: Correct misspelling.
-* OTHER: Remove stray whitespace.
-* OTHER: Remove unnecessary break.
-* OTHER: Update EDD-SL Updater library.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: phpDoc fix.
-
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.19 =
-It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.20 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.
@@ -767,5 +730,8 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 = 8.7 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
 
-= 8.7 =
+= 8.7.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.8 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.

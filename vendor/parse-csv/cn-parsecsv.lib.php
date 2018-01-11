@@ -124,8 +124,14 @@ class CN_parseCSV extends parseCSV {
 
 				// end of field/row/csv
 			} elseif (($ch == $this->delimiter || $ch == "\n" || $ch == "\r" || $ch === false) && !$enclosed) {
-				$key = (!empty($head[$col])) ? $head[$col] : $col;
-				$row[$key] = ($was_enclosed) ? $current : trim($current);
+
+				/**
+				 * CHANGE
+				 * Need to use the column index to allow for duplicate column header names.
+				 */
+				//$key = (!empty($head[$col])) ? $head[$col] : $col;
+				$row[$col] = ($was_enclosed) ? $current : trim($current);
+
 				$current = '';
 				$was_enclosed = false;
 				$col++;
@@ -241,7 +247,7 @@ class CN_parseCSV extends parseCSV {
 
 			foreach ( $fields as $field => $fieldname ) {
 
-				$value   = isset( $row[ $fieldname ] ) ? $row[ $fieldname ] : NULL;
+				$value   = isset( $row[ $field ] ) ? $row[ $field ] : NULL;
 				$entry[] = $this->_enclose_value( $value, $delimiter );
 			}
 

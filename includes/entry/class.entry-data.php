@@ -3974,7 +3974,7 @@ class cnEntry {
 	/**
 	 * Sets $imageNameOriginal.
 	 *
-	 * @param object  $imageNameOriginal
+	 * @param string $imageNameOriginal
 	 * @see entry::$imageNameOriginal
 	 */
 	public function setImageNameOriginal( $imageNameOriginal ) {

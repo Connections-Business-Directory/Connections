@@ -1600,10 +1600,12 @@ class cnEntryMetabox {
 	 *
 	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array   $metabox The metabox options array from self::register().
-	 *
-	 * @return string The email metabox.
 	 */
 	public static function email( $entry, $metabox ) {
+
+		$emailTypes = cnOptions::getEmailTypeOptions();
+		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-email', 'repeatable' );
+		$count      = cnSettingsAPI::get( 'connections', 'fieldset-email', 'count' );
 
 		echo '<div class="widgets-sortables ui-sortable" id="email-addresses">' , PHP_EOL;
 
@@ -1616,7 +1618,28 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$emailAddresses = $entry->getEmailAddresses( array(), FALSE );
-		//print_r($emailAddresses);
+
+		/*
+		 * Add "dummy" email objects to the results to equal the number of email fieldset which are to be
+		 * displayed by default. The "dummy" email objects rotate thru the active email types.
+		 */
+		if ( $count > $emailCount = count( $emailAddresses ) ) {
+
+			$createCount = $count - $emailCount;
+
+			while ( 0 < $createCount ) {
+
+				if ( key( $emailTypes ) === NULL ) { reset( $emailTypes ); }
+				$type = key( $emailTypes );
+				next( $emailTypes );
+
+				$email = new stdClass();
+				$email->type = $type;
+
+				$emailAddresses[] = $email;
+				--$createCount;
+			}
+		}
 
 		if ( ! empty( $emailAddresses ) ) {
 
@@ -1634,7 +1657,11 @@ class cnEntryMetabox {
 
 		echo  '</div>' , PHP_EOL;
 
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
+		if ( $repeatable ) {
+
+			echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
+		}
+
 	}
 
 	/**
@@ -1648,11 +1675,11 @@ class cnEntryMetabox {
 	 */
 	private static function emailField( $email, $token = '::FIELD::' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$emailTypes = $instance->options->getDefaultEmailValues();
+		$emailTypes       = cnOptions::getEmailTypeOptions();
+		$defaultType      = cnOptions::getDefaultEmailType();
+		$repeatable       = (bool) cnSettingsAPI::get( 'connections', 'fieldset-email', 'repeatable' );
+		$permitPreferred  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-email', 'permit-preferred' );
+		$permitVisibility = (bool) cnSettingsAPI::get( 'connections', 'fieldset-email', 'permit-visibility' );
 
 		?>
 
@@ -1664,22 +1691,40 @@ class cnEntryMetabox {
 
 					<?php
 
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'email[' . $token . '][type]',
-							'options'  => $emailTypes,
-							'required' => FALSE,
-							'label'    => __( 'Email Type', 'connections' ),
-							'return'   => FALSE,
-						),
-						isset( $email->type ) ? $email->type : ''
-					);
+					if ( 1 < count( $emailTypes ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'email[' . $token . '][type]',
+								'options'  => $emailTypes,
+								'required' => FALSE,
+								'label'    => __( 'Email Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $email->type ) && array_key_exists( $email->type, $emailTypes ) ? $email->type : key( $defaultType )
+						);
+
+					} else {
+
+						cnHTML::field(
+							array(
+								'type'     => 'hidden',
+								'class'    => '',
+								'id'       => 'email[' . $token . '][type]',
+								//'options'  => $emailTypes,
+								//'required' => FALSE,
+								'label'    => __( 'Email Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $email->type ) && array_key_exists( $email->type, $emailTypes ) ? $email->type : key( $defaultType )
+						);
+					}
 
 					cnHTML::field(
 						array(
-							'type'     => 'radio',
+							'type'     => $permitPreferred ? 'radio' : 'hidden',
 							'format'   => 'inline',
 							'class'    => '',
 							'id'       => 'email[preferred]',
@@ -1693,7 +1738,7 @@ class cnEntryMetabox {
 					);
 
 					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
+					if ( ! empty( self::$visibility ) && $permitVisibility ) {
 
 						cnHTML::field(
 							array(
@@ -1742,20 +1787,17 @@ class cnEntryMetabox {
 
 			</div>
 
-			<?php
+			<?php if ( isset( $email->id ) ) : ?>
+				<input type="hidden" name="email[<?php echo $token; ?>][id]" value="<?php echo $email->id; ?>">
+			<?php endif; ?>
 
-			if ( isset( $email->id ) ) {
-
-				echo '<input type="hidden" name="email[' , $token , '][id]" value="' , $email->id , '">' , PHP_EOL;
-			}
-
-			?>
-
+			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="email"
 				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
+			<?php endif; ?>
 
 		</div>
 

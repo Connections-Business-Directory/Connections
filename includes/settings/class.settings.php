@@ -272,13 +272,10 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
-			'id'        => 'email',
+			'id'        => 'fieldset-email',
 			'position'  => 50,
 			'title'     => __( 'Email' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
-			),
+			'callback'  => '',
 			'page_hook' => $settings
 		);
 
@@ -1289,6 +1286,108 @@ class cnRegisterSettings {
 			'title'     => __( 'Per Phone Visibility', 'connections' ),
 			'desc'      => __(
 				'Enable this option to set per phone number visibility. When disabled, all phone numbers will default to public. Changing this option will not effect the visibility status of previously saved phone numbers.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'repeatable',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-email',
+			'title'     => __( 'Repeatable', 'connections' ),
+			'desc'      => __(
+				'Make the email fieldset repeatable to allow multiple email addresses to be added to a single entry.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'count',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-email',
+			'title'     => '',
+			'desc'      => __(
+				'The minimum number of email address fieldsets to display.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'number',
+			'size'      => 'small',
+			'default'   => 0,
+		);
+
+		// Grab the email types.
+		$emailTypes = cnOptions::getCoreEmailTypes();
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'email-types',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-email',
+			'title'     => __( 'Email Type Options', 'connections' ),
+			'desc'      => __(
+				'Choose which email types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a new email address. Deactivating an email type will not effect previously saved entries. Add custom email types by clicking the "Add" button. Custom email types can be removed but only if no email addresses are saved with that type. The "core" email types of "Personal Email and Work Email" can not be removed. A "Remove" button will display for email types which can be safely removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'sortable_input-repeatable',
+			'options'   => array(
+				'items'    => $emailTypes,
+				// Any types registered via the `cn_email_options` need to be set as required.
+				'required' => array_keys( apply_filters( 'cn_email_options', array() ) ),
+			),
+			'default'   => array(
+				'order'  => array_keys( $emailTypes ),
+				// Any types registered via the `cn_email_options` filter should be set as active (enabled).
+				// The `cn_email_options` filter is applied in case a user has removed types using the filter.
+				// This ensure they default to inactive (disabled).
+				'active' => array_keys( apply_filters( 'cn_email_options', $emailTypes ) ),
+			),
+			// Only need to add this once per image size, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeEmailFieldsetSettings' )
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-preferred',
+			'position'  => 40,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-email',
+			'title'     => __( 'Preferred Email', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set a preferred email address when adding an email address to an entry. This is used when exporting the entry as a vCard. Disabling this option will not effect existing email addresses which have been set as preferred. When editing an entry with a preferred email address with this option disabled, the preferred setting of the email will be removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-visibility',
+			'position'  => 50,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-email',
+			'title'     => __( 'Per Email Visibility', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set per email address visibility. When disabled, all email addresess will default to public. Changing this option will not effect the visibility status of previously saved email addresses.',
 				'connections'
 			),
 			'help'      => '',
@@ -2364,6 +2463,34 @@ class cnRegisterSettings {
 	}
 
 	/**
+	 * Callback function to sanitize the email fieldset settings.
+	 *
+	 * @access private
+	 * @since  8.9
+	 * @static
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
+	public static function sanitizeEmailFieldsetSettings( $settings ) {
+
+		$active = cnArray::get( $settings, 'email-types.active', array() );
+
+		// If no email types have been selected, force select the top type.
+		if ( empty( $active ) ) {
+
+			$types    = cnArray::get( $settings, 'email-types.type' );
+			$keys     = array_flip( $types );
+			$active[] = array_shift( $keys );
+		}
+
+		cnArray::set( $settings, 'email-types.active', $active );
+
+		return $settings;
+	}
+
+	/**
 	 * Callback for the `cn_settings_field-sortable_input-repeatable-item` filter.
 	 *
 	 * Do not display the "Remove" button if the address type is currently in use/associated with an address.
@@ -2400,6 +2527,10 @@ class cnRegisterSettings {
 
 			case 'phone-types':
 				$callable = array( 'cnOptions', 'getPhoneTypesInUse' );
+				break;
+
+			case 'email-types':
+				$callable = array( 'cnOptions', 'getEmailTypesInUse' );
 				break;
 		}
 

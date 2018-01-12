@@ -688,6 +688,146 @@ class cnOptions {
 	}
 
 	/**
+	 * Returns an associative array all core email types
+	 * including those registered via the `cn_email_options` filter.
+	 *
+	 * @access public
+	 * @since  8.9
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getCoreEmailTypes() {
+
+		$types = array(
+			'personal' => __( 'Personal Email' , 'connections' ),
+			'work'     => __( 'Work Email' , 'connections' )
+		);
+
+		// Return all registered types, including the "core" types.
+		return array_merge( apply_filters( 'cn_email_options', $types ), $types );
+	}
+
+	/**
+	 * Return an associative array of "ACTIVE" email types as set on the Settings admin page.
+	 * Including those registered via the `cn_email_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.9
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getEmailTypeOptions() {
+
+		$options = get_option( 'connections_fieldset-email' );
+
+		if ( FALSE === $options ) {
+
+			$options = self::getCoreEmailTypes();
+
+		} else {
+
+			$registered = self::getCoreEmailTypes();
+
+			$type    = cnArray::get( $options, 'email-types.type', $registered );
+			$active  = cnArray::get( $options, 'email-types.active', array_flip( $registered ) );
+			$order   = cnArray::get( $options, 'email-types.order', array() );
+
+			// Add active email type registered via the `cn_email_options` filter.
+			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_email_options` filter.
+			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_email_options', $active ) ) ) );
+
+			// Remove email types from the order if they do not exist in the registered email types to account for removed email types.
+			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+
+			// Reorder the saved types to the user defined order.
+			$type    = array_replace( array_flip( $order ), $registered, $type );
+
+			// Remove inactive types.
+			$options = array_intersect_key( $type, array_flip( $active ) );
+
+			foreach ( $options as &$option ) {
+
+				$option = __( $option, 'connections' );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns an array of the default email types.
+	 *
+	 * @access private
+	 * @since  unknown
+	 * @deprecated 8.9 Use cnOptions::getEmailTypeOptions()
+	 * @see cnOptions::getEmailTypeOptions()
+	 *
+	 * @return array
+	 */
+	public function getDefaultEmailValues() {
+
+		return self::getEmailTypeOptions();
+	}
+
+	/**
+	 * Returns an associative array all registered email types.
+	 * Including those registered via the `cn_email_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.9
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getRegisteredEmailTypes() {
+
+		$options = get_option( 'connections_fieldset-email' );
+
+		$core = self::getCoreEmailTypes();
+		$type = cnArray::get( $options, 'email-types.type', $core );
+
+		return array_replace( $core, $type );
+	}
+
+	/**
+	 * Get the default email type.
+	 *
+	 * @access public
+	 * @since  8.9
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getDefaultEmailType() {
+
+		$types = self::getEmailTypeOptions();
+
+		$value = reset( $types );
+		$key   = key( $types );
+
+		return array( $key => $value );
+	}
+
+	/**
+	 * Return the email types that have been associated to entries.
+	 *
+	 * @access public
+	 * @since  8.9
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getEmailTypesInUse() {
+		global $wpdb;
+
+		$types = $wpdb->get_col( 'SELECT `type` FROM ' . CN_ENTRY_EMAIL_TABLE . ' WHERE `type` <> "" GROUP BY `type`' );
+
+		return array_intersect_key( self::getRegisteredEmailTypes(), array_flip( $types ) );
+	}
+
+	/**
 	 * Returns an array of the default social media types.
 	 *
 	 * @access private
@@ -752,23 +892,6 @@ class cnOptions {
 		);
 
 		return apply_filters( 'cn_instant_messenger_options', $options );
-	}
-
-	/**
-	 * Returns an array of the default email types.
-	 *
-	 * @access private
-	 * @since unknown
-	 * @return array
-	 */
-	public function getDefaultEmailValues() {
-
-		$options = array(
-			'personal' => __( 'Personal Email' , 'connections' ),
-			'work'     => __( 'Work Email' , 'connections' )
-		);
-
-		return apply_filters( 'cn_email_options', $options );
 	}
 
 	/**

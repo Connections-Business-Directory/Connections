@@ -357,6 +357,7 @@ class cnImage {
 			}
 
 			// Process the image.
+			/** @var WP_Image_Editor|WP_Error $image */
 			$image = self::get( cnQuery::getVar( 'src' ), $atts, 'editor' );
 
 			// If there been an error

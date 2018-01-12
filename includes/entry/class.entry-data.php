@@ -2890,13 +2890,13 @@ class cnEntry {
 				}
 
 				// Sanitize the URL Title text.
-				$links[ $key ]['title'] = cnSanitize::field( 'name', $links[ $key ]['title'], $context );
+				$links[ $key ]['title'] = cnSanitize::field( 'name', $link['title'], $context );
 
 				// If the http protocol is not part of the url, add it.
 				$links[ $key ]['url'] = cnURL::prefix( $link['url'] );
 
 				// Sanitize the URL.
-				$links[ $key ]['url'] = cnSanitize::field( 'url', $links[ $key ]['url'], $context );
+				$links[ $key ]['url'] = cnSanitize::field( 'url', $link['url'], $context );
 
 				// Store the order attribute as supplied in the addresses array.
 				$links[ $key ]['order'] = $order;
@@ -3974,7 +3974,7 @@ class cnEntry {
 	/**
 	 * Sets $imageNameOriginal.
 	 *
-	 * @param object  $imageNameOriginal
+	 * @param string $imageNameOriginal
 	 * @see entry::$imageNameOriginal
 	 */
 	public function setImageNameOriginal( $imageNameOriginal ) {

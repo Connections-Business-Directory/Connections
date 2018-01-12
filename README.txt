@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.8
+Stable tag: 8.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.9 01/12/2018 =
+* FEATURE: Add email fieldset configuration options.
+* TWEAK: Minor tweaks to CN_parseCSV::parse_string() and CN_parseCSV::unparse() to use column indexes rather than column header names as the array index to allow duplicate column names in the source CSV file.
+* BUG: Link title and url fields were not being sanitized.
+* DEV: phpDoc corrections.
 
 = 8.8 12/22/2017 =
 * FEATURE: Add phone fieldset configuration options.
@@ -625,32 +631,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc fixes.
 * DEV: Code formatting fixes.
 
-= 8.5.20 07/15/2016 =
-* NEW: Introduce the `cn_csv_export_fields_config` filter.
-* NEW: Add ability to the CSV Export All tool to export entry meta when registered by plugins.
-* COMPATIBILITY: Add a custom CSS file for the Enfold theme to help ensure the core Chosen styles are not broken by Enfold.
-* TWEAK: Export the address line 4, district and county fields when exporting addresses.
-* TWEAK: Use `strlen()` when checking for empty URLs before adding a social network link.
-* TWEAK: Use `strlen()` when checking for empty URLs before adding a link.
-* TWEAK: Add `placeholder_option` attribute in CN_Walker_Term_Select_List_Enhanced.
-* TWEAK: Add a `readonly` attribute to cnHTML::group().
-* TWEAK: Setup the `$fields` array to be passed to the `cn_csv_export_fields_config` filter.
-* BUG: Bracket variable to prevent export errors.
-* BUG: Correct some action name prefixes in the system info code.
-* OTHER: Update Chosen to 1.6.1.
-* OTHER: Remove dead unused code.
-* DEV: Fix array alignment.
-* I18N: Include Spanish (Mexico) translation.
-* I18N: Update POT file.
-* I18N: Update MO files.
-
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.20 =
-It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.21 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.
@@ -734,4 +718,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4.
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.8 =
+It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.9 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.

@@ -3494,11 +3494,14 @@ class cnEntry {
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) );
 		}
 
-		// Convert the date to a string to convert to a string again.
-		// Why? Because doing it this way should keep PHP from timezone adjusting the output.
-		// date_default_timezone_set('UTC')
-		//return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );
-		return gmdate( $format, $nextUDay );
+		/*
+		 * Convert the timestamp to a string only to convert to a timestamp again.
+		 * Why? Because doing it this way should keep PHP from timezone adjusting the output
+		 * because the time and timezone offset are added (T00:00:00+00:00) to the timestamp when formatted as `c`.
+		 * Use date_i18n() so the date is localized.
+		 */
+		return date_i18n( $format, strtotime( gmdate( 'c', $nextUDay ) ) );
+		//return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
 	}
 
 	/**

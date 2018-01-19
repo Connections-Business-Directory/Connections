@@ -47,7 +47,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 
 				$this->fromArray( maybe_unserialize( $data ) );
 
-			} elseif( is_array( $data ) ) {
+			} elseif ( is_array( $data ) ) {
 
 				$this->fromArray( $data );
 			}
@@ -91,6 +91,8 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 * @since  8.10
 	 *
 	 * @param cnEntry_Collection_Item $object
+	 *
+	 * @return void
 	 */
 	abstract public function add( cnEntry_Collection_Item $object );
 
@@ -160,6 +162,8 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 * @since  8.10
 	 *
 	 * @param array $data The data used to update the collection with.
+	 *
+	 * @return void
 	 */
 	abstract public function updateFromArray( $data );
 
@@ -183,6 +187,8 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 *
 	 * @access public
 	 * @since  8.10
+	 *
+	 * @return void
 	 */
 	abstract public function save();
 
@@ -193,6 +199,8 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 *
 	 * @access public
 	 * @since  8.10
+	 *
+	 * @return void
 	 */
 	abstract public function delete();
 
@@ -208,9 +216,9 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 * @param bool   $buffer       Whether or not to buffer the template output.
 	 * @param bool   $require_once Whether or not to require() or require_once() the template part.
 	 *
-	 * @return string|null The template path if not $load is FALSE.
-	 *                     Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
-	 *                     NULL will be returned when the filtered collection is empty.
+	 * @return string|null|false The template path if not $load is FALSE.
+	 *                           Output buffer if $buffer is TRUE or template path if $load is TRUE and $buffer is FALSE.
+	 *                           NULL will be returned when the filtered collection is empty.
 	 */
 	abstract public function render( $template = 'hcard', $atts = array(), $load = TRUE, $buffer = FALSE, $require_once = FALSE );
 

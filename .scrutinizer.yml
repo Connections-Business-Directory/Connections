@@ -3,6 +3,13 @@
 #
 # However I wish to use an external php code sniffer config, so I need to use the tools param... I think.
 
+build:
+    nodes:
+        analysis:
+            project_setup:
+                override: true
+            tests:
+                override: [php-scrutinizer-run]
 filter:
     excluded_paths: [vendor/*, languages/*, includes/libraries/*, assets/*, cache/*, tests/*, bin/* ]
 before_commands:

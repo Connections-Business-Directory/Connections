@@ -194,14 +194,14 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	 */
 	public function __construct( $data ) {
 
-		$types = self::getTypes();
+		$types   = self::getTypes();
+		$default = cnOptions::getDefaultAddressType();
 
 		$this->id          = (int) cnArray::get( $data, 'id', 0 );
 
 		$preferred         = cnArray::get( $data, 'preferred', FALSE );
 
-		// Some previous versions did set the address type, so default the type to 'other'.
-		$this->type        = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', 'other' ), 'raw' );
+		$this->type        = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 		$this->visibility  = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order       = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred   = cnFormatting::toBoolean( $preferred );

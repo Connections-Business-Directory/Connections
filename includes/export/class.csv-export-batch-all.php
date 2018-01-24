@@ -384,8 +384,6 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	 *
 	 * @access private
 	 * @since  8.5.1
-	 *
-	 * @return array
 	 */
 	private function setHeaderNames() {
 

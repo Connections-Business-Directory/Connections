@@ -282,6 +282,19 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
+			'id'        => 'fieldset-link',
+			'position'  => 60,
+			'title'     => __( 'Link Fieldset' , 'connections' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
+			),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
 			'id'        => 'messenger',
 			'position'  => 70,
 			'title'     => __( 'Instant Messaging Fieldset' , 'connections' ),

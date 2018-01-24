@@ -431,7 +431,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 */
 	public function take( $number ) {
 
-		if ( ! is_null( $number ) && is_int( $number ) ) {
+		if ( is_int( $number ) ) {
 
 			$this->filtered = $this->filtered->take( $number );
 		}

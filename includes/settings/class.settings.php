@@ -48,7 +48,7 @@ class cnRegisterSettings {
 		$tabs[] = array(
 			'id'        => 'field-configuration',
 			'position'  => 18,
-			'title'     => __( 'Field Configuration' , 'connections' ),
+			'title'     => __( 'Fieldset Configuration' , 'connections' ),
 			'page_hook' => $settings
 		);
 

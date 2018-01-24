@@ -1176,7 +1176,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	 *
 	 * @return array
 	 */
-	private function getTerms( $id, $taxonomy ) {
+	public function getTerms( $id, $taxonomy ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

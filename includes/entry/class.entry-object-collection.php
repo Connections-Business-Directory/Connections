@@ -43,15 +43,12 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 
 		if ( ! is_null( $data ) ) {
 
-			if ( is_serialized( $data ) ) {
+			$data = maybe_unserialize( $data );
 
-				$this->fromArray( maybe_unserialize( $data ) );
-
-			} elseif ( is_array( $data ) ) {
+			if ( is_array( $data ) ) {
 
 				$this->fromArray( $data );
 			}
-
 		}
 	}
 

@@ -367,6 +367,19 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	}
 
 	/**
+	 * Returns the fields configuration array.
+	 *
+	 * @access public
+	 * @since  8.10
+	 *
+	 * @return array
+	 */
+	public function getFields() {
+
+		return $this->fields;
+	}
+
+	/**
 	 * Register the user friendly column header names.
 	 *
 	 * @access private

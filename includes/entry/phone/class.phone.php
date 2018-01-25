@@ -76,6 +76,27 @@ final class cnPhone extends cnEntry_Collection_Item {
 		$this->preferred   = cnFormatting::toBoolean( $preferred );
 		$this->number      = cnSanitize::field( 'street', cnArray::get( $data, 'number', '' ), 'raw' );
 
+		/*
+		 * // START -- Compatibility for previous versions.
+		 */
+		switch ( $this->type ) {
+			case 'home':
+				$this->type = 'homephone';
+				break;
+			case 'cell':
+				$this->type = 'cellphone';
+				break;
+			case 'work':
+				$this->type = 'workphone';
+				break;
+			case 'fax':
+				$this->type = 'workfax';
+				break;
+		}
+		/*
+		 * // END -- Compatibility for previous versions.
+		 */
+
 		$this->name = $types[ $this->type ];
 
 		// Previous versions saved NULL for visibility under some circumstances (bug), default to public in this case.

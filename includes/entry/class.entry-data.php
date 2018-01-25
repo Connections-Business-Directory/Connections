@@ -106,7 +106,7 @@ class cnEntry {
 	/**
 	 * @var cnEntry_Addresses
 	 */
-	public $addresses = '';
+	public $addresses;
 
 	/**
 	 * Associative array of phone numbers

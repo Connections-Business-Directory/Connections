@@ -43,7 +43,10 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 
 		if ( ! is_null( $data ) ) {
 
-			$data = maybe_unserialize( $data );
+			if ( is_string( $data ) ) {
+
+				$data = maybe_unserialize( $data );
+			}
 
 			if ( is_array( $data ) ) {
 

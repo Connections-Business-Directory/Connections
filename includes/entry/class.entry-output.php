@@ -1329,9 +1329,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getPhoneNumberBlock( $atts = array(), $cached = TRUE ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
@@ -1355,53 +1352,17 @@ class cnOutput extends cnEntry {
 
 		$atts['id'] = $this->getId();
 
-		$rows         = array();
-		$phoneNumbers = $this->getPhoneNumbers( $atts, $cached );
-		$search       = array( '%label%' , '%number%' , '%separator%' );
+		$out = $this->phoneNumbers->filterBy( 'type', $atts['type'] )
+		                          ->filterBy( 'preferred', $atts['preferred'] )
+		                          ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+		                          ->take( $atts['limit'] )
+		                          ->escapeFor( 'display' )
+		                          ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
 
-		if ( empty( $phoneNumbers ) ) return '';
+		// The filters need to be reset so additional calls to get phone numbers with different params return expected results.
+		$this->phoneNumbers->resetFilters();
 
-		foreach ( $phoneNumbers as $phone ) {
-			$replace = array();
-
-			$row = "\t" . '<span class="tel cn-phone-number' . ( $phone->preferred ? ' cn-preferred cn-phone-number-preferred' : '' ) . '">';
-
-			$replace[] = empty( $phone->name ) ? '' : '<span class="phone-name">' . $phone->name . '</span>';
-
-			if ( empty( $phone->number ) ) {
-				$replace[] = '';
-			} else {
-
-				if ( $instance->settings->get( 'connections', 'link', 'phone' ) ) {
-
-					$replace[] = '<a class="value" href="tel:' . $phone->number . '" value="' . preg_replace( '/[^0-9]/', '', $phone->number ) . '">' . $phone->number . '</a>';
-
-				} else {
-
-					$replace[] = '<span class="value">' . $phone->number . '</span>';
-				}
-
-			}
-
-			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
-
-			$row .= str_ireplace(
-				$search,
-				$replace,
-				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %number%' : $defaults['format'] ) : $atts['format']
-			);
-
-			// Set the hCard Phone Number Type.
-			$row .= $this->gethCardTelType( $phone->type );
-
-			$row .= '</span>' . PHP_EOL;
-
-			$rows[] = apply_filters( 'cn_output_phone_number', cnString::replaceWhatWith( $row, ' ' ), $phone, $this, $atts );
-		}
-
-		$block = '<span class="phone-number-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
-
-		$block = apply_filters( 'cn_output_phone_numbers', $block, $phoneNumbers, $this, $atts );
+		$block = cnString::replaceWhatWith( $out, ' ' );
 
 		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 

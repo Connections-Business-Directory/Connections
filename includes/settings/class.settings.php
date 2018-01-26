@@ -48,7 +48,7 @@ class cnRegisterSettings {
 		$tabs[] = array(
 			'id'        => 'field-configuration',
 			'position'  => 18,
-			'title'     => __( 'Field Configuration' , 'connections' ),
+			'title'     => __( 'Fieldset Configuration' , 'connections' ),
 			'page_hook' => $settings
 		);
 
@@ -264,7 +264,7 @@ class cnRegisterSettings {
 			'tab'       => 'field-configuration',
 			'id'        => 'fieldset-phone',
 			'position'  => 40,
-			'title'     => __( 'Phone' , 'connections' ),
+			'title'     => __( 'Phone Fieldset' , 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings
 		);
@@ -274,7 +274,7 @@ class cnRegisterSettings {
 			'tab'       => 'field-configuration',
 			'id'        => 'fieldset-email',
 			'position'  => 50,
-			'title'     => __( 'Email' , 'connections' ),
+			'title'     => __( 'Email Fieldset' , 'connections' ),
 			'callback'  => '',
 			'page_hook' => $settings
 		);
@@ -282,9 +282,22 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
-			'id'        => 'messenger',
+			'id'        => 'fieldset-link',
 			'position'  => 60,
-			'title'     => __( 'Instant Messaging' , 'connections' ),
+			'title'     => __( 'Link Fieldset' , 'connections' ),
+			'callback'  => create_function(
+				'',
+				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
+			),
+			'page_hook' => $settings
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'field-configuration',
+			'id'        => 'messenger',
+			'position'  => 70,
+			'title'     => __( 'Instant Messaging Fieldset' , 'connections' ),
 			'callback'  => create_function(
 				'',
 				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
@@ -296,8 +309,8 @@ class cnRegisterSettings {
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
 			'id'        => 'social',
-			'position'  => 70,
-			'title'     => __( 'Social Networks' , 'connections' ),
+			'position'  => 80,
+			'title'     => __( 'Social Networks Fieldset' , 'connections' ),
 			'callback'  => create_function(
 				'',
 				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
@@ -309,8 +322,8 @@ class cnRegisterSettings {
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
 			'id'        => 'date',
-			'position'  => 70,
-			'title'     => __( 'Date' , 'connections' ),
+			'position'  => 90,
+			'title'     => __( 'Date Fieldset' , 'connections' ),
 			'callback'  => create_function(
 				'',
 				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'

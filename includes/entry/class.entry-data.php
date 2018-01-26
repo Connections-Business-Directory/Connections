@@ -106,14 +106,12 @@ class cnEntry {
 	/**
 	 * @var cnEntry_Addresses
 	 */
-	public $addresses = '';
+	public $addresses;
 
 	/**
-	 * Associative array of phone numbers
-	 *
-	 * @var string
+	 * @var cnEntry_Phone_Numbers
 	 */
-	private $phoneNumbers = '';
+	public $phoneNumbers;
 
 	/**
 	 * Associative array of email addresses
@@ -360,8 +358,9 @@ class cnEntry {
 			if ( isset( $entry->department ) ) $this->department = $entry->department;
 			if ( isset( $entry->family_name ) ) $this->familyName = $entry->family_name;
 
-			$this->addresses = isset( $entry->addresses ) ? new cnEntry_Addresses( $this->getId(), $entry->addresses ) : new cnEntry_Addresses( $this->getId() );
-			if ( isset( $entry->phone_numbers ) ) $this->phoneNumbers = $entry->phone_numbers;
+			$this->addresses    = isset( $entry->addresses ) ? new cnEntry_Addresses( $this->getId(), $entry->addresses ) : new cnEntry_Addresses( $this->getId() );
+			$this->phoneNumbers = isset( $entry->phone_numbers ) ? new cnEntry_Phone_Numbers( $this->getId(), $entry->phone_numbers ) : new cnEntry_Phone_Numbers( $this->getId() );
+
 			if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
 			if ( isset( $entry->im ) ) $this->im = $entry->im;
 			if ( isset( $entry->social ) ) $this->socialMedia = $entry->social;
@@ -428,7 +427,8 @@ class cnEntry {
 
 		} else {
 
-			$this->addresses = new cnEntry_Addresses();
+			$this->addresses    = new cnEntry_Addresses();
+			$this->phoneNumbers = new cnEntry_Phone_Numbers();
 		}
 	}
 
@@ -1406,309 +1406,76 @@ class cnEntry {
 	/**
 	 * Returns as an array of objects containing the phone numbers per the defined options for the current entry.
 	 *
-	 * Accepted options for the $atts property are:
-	 * preferred (bool) Retrieve the preferred entry phone number.
-	 *  type (array) || (string) Retrieve specific phone number types.
-	 *   Permitted Types:
-	 *    homephone
-	 *    homefax
-	 *    cellphone
-	 *    workphone
-	 *    workfax
-	 *
-	 * Filters:
-	 *  cn_phone_atts => (array) Set the method attributes.
-	 *  cn_phone_cached => (bool) Define if the returned phone numbers should be from the object cache or queried from the db.
-	 *  cn_phone_number => (object) Individual phone number as it is processed thru the loop.
-	 *  cn_phone_numbers => (array) All phone numbers before it is returned.
-	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
+	 * @since  0.7.3
 	 *
-	 * @param array   $atts 		Accepted values as noted above.
-	 * @param bool    $cached       Returns the cached phone numbers data rather than querying the db.
-	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param array  $atts {
+	 *     @type bool         $preferred Whether or not to return only the preferred phone number.
+	 *                                   Default: false
+	 *     @type array|string $type      The phone number types to return.
+	 * }
+	 *
+	 * @param bool   $cached  Returns the cached phone number data rather than querying the db.
+	 * @param bool   $saving  Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
 	 */
-	public function getPhoneNumbers( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+	public function getPhoneNumbers( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
-		/**
-		 * @var connectionsLoad $connections
-		 */
-		global $connections;
-
-		$phoneTypes = $connections->options->getDefaultPhoneNumberValues();
-		$results = array();
-
-		$atts = apply_filters( 'cn_phone_atts', $atts );
-		$cached = apply_filters( 'cn_phone_cached', $cached );
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred'   => FALSE,
+			'type'        => array(),
+			'limit'       => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		if ( $cached ) {
 
-			if ( ! empty( $this->phoneNumbers ) ) {
-
-				$phoneNumbers = unserialize( $this->phoneNumbers );
-				if ( empty( $phoneNumbers ) ) return $results;
-
-				/**
-				 * @var bool   $preferred
-				 * @var string $type
-				 */
-				extract( $atts );
-
-				/*
-				 * Covert to an array if it was supplied as a comma delimited string
-				 */
-				cnFunction::parseStringList( $type );
-
-				foreach ( (array) $phoneNumbers as $key => $number ) {
-
-					/*
-					 * Previous versions stored empty arrays for phone numbers, check for a number, continue if not found.
-					 */
-					if ( ! isset( $number['number'] ) || empty( $number['number'] ) ) continue;
-
-					/**
-					 * Allow plugins to filter raw data before object is setup.
-					 *
-					 * @since 8.5.19
-					 *
-					 * @param array $number
-					 */
-					$number = apply_filters( 'cn_phone-pre_setup', $number );
-
-					$row = new stdClass();
-
-					( isset( $number['id'] ) ) ? $row->id = (int) $number['id'] : $row->id = 0;
-					( isset( $number['order'] ) ) ? $row->order = (int) $number['order'] : $row->order = 0;
-					( isset( $number['preferred'] ) ) ? $row->preferred = (bool) $number['preferred'] : $row->preferred = FALSE;
-					( isset( $number['type'] ) ) ? $row->type = $this->format->sanitizeString( $number['type'] ) : $row->type = 'homephone';
-					( isset( $number['number'] ) ) ? $row->number = $this->format->sanitizeString( $number['number'] ) : $row->number = '';
-					( isset( $number['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $number['visibility'] ) : $row->visibility = '';
-
-					/*
-					 * // START -- Compatibility for previous versions.
-					 */
-					switch ( $row->type ) {
-						case 'home':
-							$row->type = 'homephone';
-							break;
-						case 'cell':
-							$row->type = 'cellphone';
-							break;
-						case 'work':
-							$row->type = 'workphone';
-							break;
-						case 'fax':
-							$row->type = 'workfax';
-							break;
-					}
-
-					if ( ! isset( $number['visibility'] ) || empty( $number['visibility'] ) ) $row->visibility = 'public';
-					/*
-					 * // END -- Compatibility for previous versions.
-					 */
-
-					/*
-					 * Set the phone name based on the type.
-					 */
-					$row->name = ! isset( $phoneTypes[ $row->type ] )  ? 'Other' : $phoneTypes[ $row->type ];
-
-					/*
-					 * // START -- Do not return phone numbers that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					/*
-					 * // END -- Do not return phone numbers that do not match the supplied $atts.
-					 */
-
-					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					$results[] = apply_filters( 'cn_phone_number', $row );
-				}
-
-				/*
-				 * Limit the number of results.
-				 */
-				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
-
-					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
-				}
-
-			}
+			$results = $this->phoneNumbers->filterBy( 'type', $atts['type'] )
+			                              ->filterBy( 'preferred', $atts['preferred'] )
+			                              ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+			                              ->escapeFor( $context )
+			                              ->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			// Exit right away and return an empty array if the entry ID has not been set otherwise all phone numbers will be returned by the query.
-			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
-			$phoneNumbers = $connections->retrieve->phoneNumbers( $atts, $saving );
-
-			if ( empty( $phoneNumbers ) ) return $results;
-
-			foreach ( $phoneNumbers as $phone ) {
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$phone = apply_filters( 'cn_phone-pre_setup', $phone );
-
-				$phone->id = (int) $phone->id;
-				$phone->order = (int) $phone->order;
-				$phone->preferred = (bool) $phone->preferred;
-				$phone->type = $this->format->sanitizeString( $phone->type );
-				$phone->number = $this->format->sanitizeString( $phone->number );
-				$phone->visibility = $this->format->sanitizeString( $phone->visibility );
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				switch ( $phone->type ) {
-					case 'home':
-						$phone->type = "homephone";
-						break;
-					case 'cell':
-						$phone->type = "cellphone";
-						break;
-					case 'work':
-						$phone->type = "workphone";
-						break;
-					case 'fax':
-						$phone->type = "workfax";
-						break;
-				}
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/*
-				 * Set the phone name based on the phone type.
-				 */
-				$phone->name = ! isset( $phoneTypes[ $phone->type ] )  ? 'Other' : $phoneTypes[ $phone->type ];
-
-				$results[] = apply_filters( 'cn_phone_number', $phone );
-			}
-
+			$results = $this->phoneNumbers->query( $atts )
+			                              ->escapeFor( $context )
+			                              ->getCollectionAsObjects();
 		}
 
-		return apply_filters( 'cn_phone_numbers', $results );
+		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		$this->phoneNumbers->resetFilters();
+
+		return $results;
 	}
 
 	/**
 	 * Caches the phone numbers for use and preps for saving and updating.
 	 *
-	 * Valid values as follows.
-	 *
-	 * $phoneNumber['id'] (int) Stores the phone number ID if it was retrieved from the db.
-	 * $phoneNumber['preferred'] (bool) If the phone number is the number or not.
-	 * $phoneNumber['type'] (string) Stores the phone number type.
-	 * $phoneNumber['number'] (string) Stores phone number.
-	 * $phoneNumber['visibility'] (string) Stores the phone number visibility.
-	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $phoneNumbers
+	 * @since  0.7.3
+	 *
+	 * @param array     $data       {
+	 *
+	 *     @type int    $id         The phone number ID if it was retrieved from the db.
+	 *     @type bool   $preferred  Whether or not the phone number is the preferred.
+	 *     @type string $type       The phone number type.
+	 *     @type string $number     The phone number.
+	 *     @type string $visibility The phone number visibility.
+	 * }
+	 *
+	 * @param string    $context    The context in which it should be sanitized.
+	 *
 	 * @return void
 	 */
-	public function setPhoneNumbers( $phoneNumbers ) {
+	public function setPhoneNumbers( $data, $context = 'db' ) {
 
-		$userPreferred = NULL;
-
-		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'number' => NULL, 'visibility' => NULL );
-
-		if ( ! empty( $phoneNumbers ) ) {
-			$order = 0;
-			$preferred = '';
-
-			if ( isset( $phoneNumbers['preferred'] ) ) {
-				$preferred = $phoneNumbers['preferred'];
-				unset( $phoneNumbers['preferred'] );
-			}
-
-			foreach ( $phoneNumbers as $key => $phoneNumber ) {
-
-				// First validate the supplied data.
-				$phoneNumber = cnSanitize::args( $phoneNumber, $validFields );
-
-				// If the number is empty, no need to store it.
-				if ( empty( $phoneNumber['number'] ) ) {
-					unset( $phoneNumbers[ $key ] );
-					continue;
-				}
-
-				// Store the order attribute as supplied in the addresses array.
-				$phoneNumbers[ $key ]['order'] = $order;
-
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $phoneNumbers[ $key ]['preferred'] = TRUE : $phoneNumbers[ $key ]['preferred'] = FALSE;
-
-				/*
-				 * If the user set a preferred number, save the $key value.
-				 * This is going to be needed because if a number that the user
-				 * does not have permission to edit is set to preferred, that number
-				 * will have preference.
-				 */
-				if ( $phoneNumbers[ $key ]['preferred'] ) $userPreferred = $key;
-
-				$order++;
-			}
-		}
-
-		/*
-		 * Before storing the data, add back into the array from the cache the phone numbers
-		 * the user may not have had permission to edit so the cache stays current.
-		 */
-		$cached = unserialize( $this->phoneNumbers );
-
-		if ( ! empty( $cached ) ) {
-
-			foreach ( $cached as $phone ) {
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( ! isset( $phone['visibility'] ) || empty( $phone['visibility'] ) ) $phone['visibility'] = 'public';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$phone = apply_filters( 'cn_phone-pre_setup', $phone );
-
-				if ( ! $this->validate->userPermitted( $phone['visibility'] ) ) {
-
-					$phoneNumbers[] = $phone;
-
-					// If the number is preferred, it takes precedence, so the user's choice is overridden.
-					if ( ! empty( $preferred ) && $phone['preferred'] ) {
-
-						$phoneNumbers[ $userPreferred ]['preferred'] = FALSE;
-
-						// Throw the user a message so they know why their choice was overridden.
-						cnMessage::set( 'error', 'entry_preferred_overridden_phone' );
-					}
-				}
-			}
-		}
-
-		$this->phoneNumbers = ! empty( $phoneNumbers ) ? serialize( $phoneNumbers ) : '';
+		$this->phoneNumbers->updateFromArray( $data );
 	}
 
 	/**
@@ -3494,11 +3261,14 @@ class cnEntry {
 			$nextUDay = gmmktime( 0, 0, 0, gmdate( 'm', $this->$type ), gmdate( 'd', $this->$type ), gmdate( 'Y', $timeStamp ) );
 		}
 
-		// Convert the date to a string to convert to a string again.
-		// Why? Because doing it this way should keep PHP from timezone adjusting the output.
-		// date_default_timezone_set('UTC')
-		//return date_i18n( $format, strtotime( gmdate( 'r', $nextUDay ) ), TRUE );
-		return gmdate( $format, $nextUDay );
+		/*
+		 * Convert the timestamp to a string only to convert to a timestamp again.
+		 * Why? Because doing it this way should keep PHP from timezone adjusting the output
+		 * because the time and timezone offset are added (T00:00:00+00:00) to the timestamp when formatted as `c`.
+		 * Use date_i18n() so the date is localized.
+		 */
+		return date_i18n( $format, strtotime( gmdate( 'c', $nextUDay ) ) );
+		//return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
 	}
 
 	/**
@@ -4737,7 +4507,7 @@ class cnEntry {
 				'birthday'           => $this->birthday,
 				'anniversary'        => $this->anniversary,
 				//'addresses'          => $this->addresses,
-				'phone_numbers'      => $this->phoneNumbers,
+				//'phone_numbers'      => $this->phoneNumbers,
 				'email'              => $this->emailAddresses,
 				'im'                 => $this->im,
 				'social'             => $this->socialMedia,
@@ -4774,7 +4544,7 @@ class cnEntry {
 				'%s', // birthday
 				'%s', // anniversary
 				//'%s', // addresses
-				'%s', // phone_numbers
+				//'%s', // phone_numbers
 				'%s', // email
 				'%s', // im
 				'%s', // social
@@ -4804,21 +4574,7 @@ class cnEntry {
 			$cnDb = new cnEntry_DB( $this->getId() );
 
 			$this->addresses->save();
-
-			$cnDb->upsert(
-				CN_ENTRY_PHONE_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'number'     => array( 'key' => 'number', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getPhoneNumbers( array(), TRUE, TRUE ),
-				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' ),
-				)
-			);
+			$this->phoneNumbers->save();
 
 			$cnDb->upsert(
 				CN_ENTRY_EMAIL_TABLE,
@@ -4925,7 +4681,7 @@ class cnEntry {
 		$addresses = $this->getAddresses( array(), FALSE, TRUE, 'db' );
 		$addresses = json_decode( json_encode( $addresses ), TRUE );
 
-		$phoneNumbers = $this->getPhoneNumbers( array(), FALSE, TRUE );
+		$phoneNumbers = $this->getPhoneNumbers( array(), FALSE, TRUE, 'db' );
 		$phoneNumbers = json_decode( json_encode( $phoneNumbers ), TRUE );
 
 		$emailAddresses = $this->getEmailAddresses( array(), FALSE, TRUE );
@@ -4943,7 +4699,7 @@ class cnEntry {
 		$dates = $this->getDates( array(), FALSE, TRUE );
 		$dates = json_decode( json_encode( $dates ), TRUE );
 
-		$this->phoneNumbers   = serialize( $phoneNumbers );
+		//$this->phoneNumbers   = serialize( $phoneNumbers );
 		$this->emailAddresses = serialize( $emailAddresses );
 		$this->im             = serialize( $im );
 		$this->socialMedia    = serialize( $socialNetworks );
@@ -4954,7 +4710,7 @@ class cnEntry {
 			CN_ENTRY_TABLE,
 			array(
 				'addresses'     => serialize( $addresses ),
-				'phone_numbers' => $this->phoneNumbers,
+				'phone_numbers' => serialize( $phoneNumbers ),
 				'email'         => $this->emailAddresses,
 				'im'            => $this->im,
 				'social'        => $this->socialMedia,
@@ -5008,7 +4764,7 @@ class cnEntry {
 				'contact_first_name' => $this->contactFirstName,
 				'contact_last_name'  => $this->contactLastName,
 				//'addresses'          => $this->addresses,
-				'phone_numbers'      => $this->phoneNumbers,
+				//'phone_numbers'      => $this->phoneNumbers,
 				'email'              => $this->emailAddresses,
 				'im'                 => $this->im,
 				'social'             => $this->socialMedia,
@@ -5045,7 +4801,7 @@ class cnEntry {
 				'%s', // contact_first_name
 				'%s', // contact_last_name
 				//'%s', // addresses
-				'%s', // phone_numbers
+				//'%s', // phone_numbers
 				'%s', // email
 				'%s', // im
 				'%s', // social
@@ -5080,18 +4836,7 @@ class cnEntry {
 			$cnDb = new cnEntry_DB( $this->getId() );
 
 			$this->addresses->setEntryID( $this->getId() )->save();
-
-			$cnDb->insert(
-				CN_ENTRY_PHONE_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'number'     => array( 'key' => 'number', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getPhoneNumbers( array(), TRUE, TRUE )
-			);
+			$this->phoneNumbers->setEntryID( $this->getId() )->save();
 
 			$cnDb->insert(
 				CN_ENTRY_EMAIL_TABLE,

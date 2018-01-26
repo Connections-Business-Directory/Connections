@@ -93,7 +93,7 @@ class cnFormatting {
 	 * @since  unknown
 	 * @static
 	 *
-	 * @param  string $value
+	 * @param  string|int|bool $value
 	 *
 	 * @return bool
 	 */

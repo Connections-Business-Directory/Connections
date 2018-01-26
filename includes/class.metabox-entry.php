@@ -1405,7 +1405,7 @@ class cnEntryMetabox {
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
 
-		$phoneNumbers = $entry->getPhoneNumbers( array(), FALSE );
+		$phoneNumbers = $entry->getPhoneNumbers( array(), FALSE, FALSE, 'edit' );
 
 		/*
 		 * Add "dummy" address objects to the results to equal the number of address fieldset which are to be

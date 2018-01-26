@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.9
+Stable tag: 8.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -231,6 +231,26 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.10 01/26/2018 =
+* NEW: Introduce abstract class cnEntry_Object_Collection.
+* NEW: Introduce abstract class cnEntry_Collection_Item.
+* NEW: Introduce class cnEntry_Phone_Numbers.
+* NEW: Introduce class cnPhone.
+* NEW: Introduce cnCSV_Batch_Export_All::getFields().
+* NEW: Create the phone tempalte files for hCard and the manage admin page.
+* NEW: Complete refactor of phone number model using cnEntry_Phone_Numbers and cnPhone objects.
+* TWEAK: Ensure upcoming dates are translated thru date_i18n().
+* TWEAK: Use the default address type rather than "other" when constructing a new address if type was not supplied.
+* TWEAK: Add phone number to the sanitize field method.
+* TWEAK: Make cnCSV_Batch_Export::getTerms() a public method.
+* TWEAK: Refactor cnCSV_Batch_Export_All and introduce filters for plugins to hook into.
+* TWEAK: PHP7.2 notice fix.
+* TWEAK: Rename "Field Configuration" settings tab to "Fieldset Configuration" for consistency.
+* TWEAK: Add "Fieldset" to the settings sections title for consistency.
+* TWEAK: Add the missing "Link Fieldset" settings section.
+* TWEAK: cnEntry property should not be init'd as a string since it is an cnEntry_Addresses object.
+* DEV: phpDoc corrections.
 
 = 8.9 01/12/2018 =
 * FEATURE: Add email fieldset configuration options.
@@ -602,42 +622,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Use `cnString::stripTags()` instead of `wp_strip_all_tags()` when creating the excerpt.
 * TWEAK: Allow `span` tags within an excerpt.
 
-= 8.5.21 08/11/2016 =
-* NEW: Add support for the district and county filters as shortcode options.
-* NEW: Introduce cnMetaboxAPI::getFieldType().
-* NEW: Introduce `cnShortcode::removeCodePreTags()`.
-* NEW: Introduce `cnShortcode::clean()`.
-* COMPATIBILITY: Add `upload_size_limit` filter to define the core WP constants for KB/MB/GB/TB_IN_BYTES if not set for some reason so the ` wp_max_upload_size()` does not return `0`.
-* TWEAK: Add trailing comma in allowed tags in cnString::excerpt().
-* TWEAK: Use `wp_trip_all_tags()` instead of `strip_tags()` in cnString::excerpt().
-* TWEAK: Change end of sentence characters in cnString::excerpt() from `,;?.!` to `?,!`.
-* TWEAK: Add the default option, if set, to the term select drop regardless if "enhanced" is set and true.
-* TWEAK: Refactor cnMessage::store() to be more robust in order to prevent fatal string to array PHP errors.
-* TWEAK: Refactor `cnShortcode::write()`  to be more "smart" in writing the option values with/without quotes.
-* TWEAK: Add filters to `conten_save_pre` and `the_content` to remove `code` and `pre` tags from around the `[connections]` shortcode.
-* TWEAK: Add filter to `conten_save_pre` to remove fancy/smart quotes from within the `[connections]` shortcode and its options.
-* TWEAK: Refactor to remove theme specific exclusion by remove all but the initial shortcode in the content when viewing a single entry profile page.
-* TWEAK: Remove allow the shortcodes to be registered in the admin again so the clean up filter can be ran against the `[connections]` shortcode.
-* TWEAK: Update CSS to ensure dotted line does not display under the abbr tag.
-* BUG: Remove use of unused variable.
-* BUG: Ensure the read more string is added at end of excerpt. In some cases it would be inserted between a closing HTML tag and end of sentence character.
-* OTHER: Spelling corrections.
-* OTHER: Correct URL to Google Get Browser Key for Google Maps API.
-* OTHER: Update EDD-SL Plugin Updater to 1.6.5.
-* OTHER: Add @todo to cnMessage class.
-* OTHER: Update minified CSS files.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: phpDoc fixes.
-* DEV: Code formatting fixes.
-
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.21 =
-It is recommended to backup before updating. Requires WordPress >= 4.2.
 
 = 8.5.22 =
 It is recommended to backup before updating. Requires WordPress >= 4.2.
@@ -721,4 +708,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.9 =
+It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.10 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.

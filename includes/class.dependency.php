@@ -192,6 +192,8 @@ class cnDependency {
 			'cnOutput'                 => 'includes/entry/class.entry-output.php',
 			'cnEntry_HTML'             => 'includes/entry/class.entry-html.php',
 			'cnEntry_Shortcode'        => 'includes/entry/class.entry-shortcode.php',
+			'cnEntry_Object_Collection' => 'includes/entry/class.entry-object-collection.php',
+			'cnEntry_Collection_Item'   => 'includes/entry/class.entry-collection-item.php',
 
 			// Entry vCard.
 			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',
@@ -317,6 +319,10 @@ class cnDependency {
 			'cnAddress'                => 'includes/entry/address/class.address.php',
 			'cnCountry'                => 'includes/entry/address/class.country.php',
 			'cnCoordinates'            => 'includes/entry/address/class.coordinates.php',
+
+			// Phone objects
+			'cnEntry_Phone_Numbers'    => 'includes/entry/phone/class.entry-phone-numbers.php',
+			'cnPhone'                  => 'includes/entry/phone/class.phone.php',
 
 			// Database Classes
 			'cnEntry_DB'               => 'includes/entry/class.entry-db.php',

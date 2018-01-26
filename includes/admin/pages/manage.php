@@ -730,19 +730,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					echo '<td>';
 
-					$phoneNumbers = $entry->getPhoneNumbers();
-
-					if ( ! empty( $phoneNumbers ) ) {
-						echo '<div class="phone-numbers">';
-
-						foreach ( $phoneNumbers as $phone ) {
-							( $phone->preferred ) ? $preferred = '*' : $preferred = '';
-
-							echo '<span class="phone"><strong>' , $phone->name , '</strong>: ' ,  $phone->number , $preferred , '</span>';
-						}
-
-						echo '</div>';
-					}
+					$entry->phoneNumbers->render( 'admin' );
 
 					$emailAddresses = $entry->getEmailAddresses();
 

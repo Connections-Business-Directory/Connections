@@ -367,12 +367,23 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	}
 
 	/**
+	 * Returns the fields configuration array.
+	 *
+	 * @access public
+	 * @since  8.10
+	 *
+	 * @return array
+	 */
+	public function getFields() {
+
+		return $this->fields;
+	}
+
+	/**
 	 * Register the user friendly column header names.
 	 *
 	 * @access private
 	 * @since  8.5.1
-	 *
-	 * @return array
 	 */
 	private function setHeaderNames() {
 
@@ -579,8 +590,8 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 
 		$this->setHeaderNames();
 
-		$header = '';
-		$count  = count( $this->fields );
+		$headers = array();
+		$count   = count( $this->fields );
 
 		// Clear the fields and types query caches.
 		cnCache::clear( TRUE, 'transient', 'cn-csv' );
@@ -588,14 +599,16 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		for ( $i = 0; $i < $count; $i++ ) {
 
 			// If there is a special type, export it, otherwise, just draw it
-			$header .= $this->explodeBreakoutHeader( $this->fields[ $i ] );
+			$header = $this->explodeBreakoutHeader( $this->fields[ $i ] );
+
+			// Trim the hanging comma and space.
+			$headers[] = rtrim( $header, ',' );
 		}
 
-		// Trim the hanging comma and space.
-		$header = rtrim( $header, ',' );
+		$row = implode( ',', $headers );
 
 		// Now write the header...
-		$this->write( $header . "\r\n" );
+		$this->write( $row . "\r\n" );
 	}
 
 	/**
@@ -610,87 +623,88 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	 */
 	private function explodeBreakoutHeader( $atts ) {
 
-		$header = '';
+		$headers = array();
+		$type   = $atts['type'];
 
-		switch ( $atts['type'] ) {
+		if ( 0 === $type ) {
 
-			case 0:
-				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ',';
-				break;
+			$headers[] = $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) );
+
+		} elseif ( 1 === $type ) {
 
 			// Explode all field columns and types...
-			case 1:
 
-				$breakoutFields = $this->getFieldsToExport( $atts );
-				$breakoutTypes  = $this->getTypesToExport( $atts );
+			$breakoutFields = $this->getFieldsToExport( $atts );
+			$breakoutTypes  = $this->getTypesToExport( $atts );
 
-				/*
-				 * @todo self::getTypesToExport() can return no types.
-				 *
-				 * If the field type being exported contains no data, incorrect headers are written.
-				 *
-				 * Example:
-				 *
-				 * If no entries have social media networks added, the return types will be empty.
-				 * This results in file headers of "Social Url" and "Social Visibility".
-				 *
-				 * Solution:
-				 * Come up with a method where no types are returned, either skip the column or use the default
-				 * registered types.
-				 */
+			/*
+			 * @todo self::getTypesToExport() can return no types.
+			 *
+			 * If the field type being exported contains no data, incorrect headers are written.
+			 *
+			 * Example:
+			 *
+			 * If no entries have social media networks added, the return types will be empty.
+			 * This results in file headers of "Social Url" and "Social Visibility".
+			 *
+			 * Solution:
+			 * Come up with a method where no types are returned, either skip the column or use the default
+			 * registered types.
+			 */
 
-				foreach ( $breakoutTypes as $type ) {
-					foreach ( $breakoutFields as $field ) {
-						$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field, $type ) ) . ',';
-					}
+			foreach ( $breakoutTypes as $type ) {
+				foreach ( $breakoutFields as $field ) {
+					$headers[] = $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field, $type ) );
 				}
-				break;
+			}
+
+		} elseif ( 2 === $type ) {
 
 			// Joined from another table
-			case 2:
-				$header .= $this->escapeAndQuote( $atts['header'] ) . ',';
-				break;
+
+			$headers[] = $this->escapeAndQuote( $atts['header'] );
+
+		} elseif ( 3 === $type ) {
 
 			// Breakout a list in the header...
-			case 3:
 
-				$count = $this->getTermCount( 'category' );
+			$count = $this->getTermCount( 'category' );
 
-				// Finally, write a list of fields for each category...
-				for ( $i = 0; $i < $count + 1; $i++ ) {
+			// Finally, write a list of fields for each category...
+			for ( $i = 0; $i < $count + 1; $i++ ) {
 
-					$header .= $this->escapeAndQuote( 'Category' ) . ',';
-				}
+				$headers[] = $this->escapeAndQuote( 'Category' );
+			}
 
-				break;
+		} elseif ( 4 === $type ) {
 
-			case 4:
+			$fields = explode( ';', $atts['fields'] );
 
-				$fields = explode( ';', $atts['fields'] );
+			foreach ( $fields as $field ) {
 
-				foreach ( $fields as $field ) {
-					$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field ) ) . ',';
-				}
+				$headers[] = $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts, $field ) );
+			}
 
-				break;
+		} elseif ( 5 === $type ) {
 
-			case 5:
-				$header .= $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) ) . ',';
-				break;
+			$headers[] = $this->escapeAndQuote( $this->exportBreakoutHeaderField( $atts ) );
 
-			case 6:
+		} elseif ( 6 === $type ) {
 
-				if ( is_numeric( $atts['child_of'] ) ) {
+			if ( is_numeric( $atts['child_of'] ) ) {
 
-					$term = cnTerm::get( $atts['child_of'] );
+				$term = cnTerm::get( $atts['child_of'] );
 
-					$header .= $this->escapeAndQuote( $term->name ) . ',';
-				}
+				$headers[] = $this->escapeAndQuote( $term->name );
+			}
 
-				break;
+		} else {
+
+			// Allow plugins to hook into this to provide custom export logic.
+			$headers[] = apply_filters( "cn_export_header-{$type}", "Hook into the `cn_export_header-{$type}` filter to provide custom header.", $atts, $this );
 		}
 
-		return $header;
+		return apply_filters( 'cn_export_headers', implode( ',', $headers ), $headers, $atts, $this );
 	}
 
 	/**
@@ -789,107 +803,8 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			// Go through each entry...
 			foreach ( $results as $entry ) {
 
-				$fieldCount = count( $this->fields );
-				$row        = '';
-
-				// ...and go through each cell the user wants to export, and match it with the cell in the entry...
-				for ( $i = 0; $i < $fieldCount; $i++ ) {
-
-					// ...then find out if it's a breakout cell and process it properly...
-					switch ( $this->fields[ $i ]['type'] ) {
-
-						case 1:
-							// Export a standard breakout; just list them all in the order requested...
-							$row .= $this->exportBreakoutCell( $this->fields[ $i ], $entry->id );
-							break;
-
-						case 2:
-							// Process category table and list all categories in a single cell...
-							$terms = array();
-
-							$results = $this->getTerms( $entry->id, 'category' );
-
-							foreach ( $results as $term ) {
-
-								$terms[] = $term->name;
-							}
-
-							$row .= $this->escapeAndQuote( implode( ',', $terms ) ) . ',';
-							break;
-
-						case 3:
-
-							$count = $this->getTermCount( 'category' );
-							$terms = array();
-
-							// Process the category table by breaking them out in separate cells,
-							// Prepare an empty frame of the category cells...
-							for ( $j = 0; $j < $count + 1; $j++ ) {
-
-								// Make an array filled with empty cells
-								$terms[ $j ] = '"",';
-							}
-
-							// Now start filling in the empty cells with data...
-							$row = $this->getTerms( $entry->id, 'category' );
-
-							$j = 0;
-
-							foreach ( $row as $result ) {
-
-								$terms[ $j ] = $this->escapeAndQuote( $result->name ) . ',';
-
-								$j++;
-							}
-
-							$row .= implode( '', $terms );
-							break;
-
-						case 4:
-							// Export breakout data from the serialized option cell.
-							$row .= $this->exportBreakoutOptionsCell( $this->fields[ $i ], $entry );
-							break;
-
-						case 5:
-
-							$data = '';
-							$meta = cnMeta::get( 'entry', $entry->id, $this->fields[ $i ]['field'], TRUE );
-
-							if ( ! empty( $meta ) ) {
-
-								$data = cnFormatting::maybeJSONencode( $meta );
-
-							}
-
-							$row .= $this->escapeAndQuote( $data ) . ',';
-							break;
-
-						case 6:
-
-							$terms  = array();
-							$parent = $this->fields[ $i ]['child_of'];
-
-							$results = $this->getTerms( $entry->id, 'category' );
-
-							foreach ( $results as $term ) {
-								//$terms[] = $parent . ':' . $term->term_id;
-								if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) $terms[] = $term->name;
-							}
-
-							$row .= $this->escapeAndQuote( implode( ',', $terms ) ) . ',';
-
-							break;
-
-						default:
-							// If no breakout type is defined, only display the cell data...
-							$row .= $this->escapeAndQuote( $entry->{ $this->fields[ $i ]['field'] } ) . ',';
-							break;
-					}
-
-				}
-
 				// Trim the trailing comma and space, then add newline.
-				$rows .= rtrim( $row, ',' ) . "\r\n";
+				$rows .= rtrim( $this->buildRow( $entry ), ',' ) . "\r\n";
 			}
 
 			// Now write the data...
@@ -899,6 +814,116 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		}
 
 		return FALSE;
+	}
+
+	/**
+	 * @param stdClass $entry
+	 *
+	 * @return string
+	 */
+	public function buildRow( $entry ) {
+
+		$fieldCount = count( $this->fields );
+		$row        = array();
+
+		// ...and go through each cell the user wants to export, and match it with the cell in the entry...
+		for ( $i = 0; $i < $fieldCount; $i++ ) {
+
+			$type = $this->fields[ $i ]['type'];
+
+			// ...then find out if it's a breakout cell and process it properly...
+			if ( 0 === $type ) {
+
+				// If no breakout type is defined, only display the cell data...
+				$row[ $i ] = $this->escapeAndQuote( $entry->{ $this->fields[ $i ]['field'] } );
+
+			} elseif ( 1 === $type ) {
+
+				// Export a standard breakout; just list them all in the order requested...
+				$row[ $i ] = $this->exportBreakoutCell( $this->fields[ $i ], $entry->id );
+
+			} elseif ( 2 === $type ) {
+
+				// Process category table and list all categories in a single cell...
+				$names = array();
+
+				$terms = $this->getTerms( $entry->id, 'category' );
+
+				foreach ( $terms as $term ) {
+
+					$names[] = $term->name;
+				}
+
+				$row[ $i ] = $this->escapeAndQuote( implode( ',', $names ) );
+
+			} elseif ( 3 === $type ) {
+
+				$count = $this->getTermCount( 'category' );
+				$terms = array();
+
+				// Process the category table by breaking them out in separate cells,
+				// Prepare an empty frame of the category cells...
+				for ( $j = 0; $j < $count + 1; $j++ ) {
+
+					// Make an array filled with empty cells
+					$terms[ $j ] = '"",';
+				}
+
+				// Now start filling in the empty cells with data...
+				$row[ $i ] = $this->getTerms( $entry->id, 'category' );
+
+				$j = 0;
+
+				foreach ( $row as $result ) {
+
+					$terms[ $j ] = $this->escapeAndQuote( $result->name );
+
+					$j++;
+				}
+
+				$row[ $i ] = implode( '', $terms );
+
+			} elseif ( 4 === $type ) {
+
+				// Export breakout data from the serialized option cell.
+				$row[ $i ] = $this->exportBreakoutOptionsCell( $this->fields[ $i ], $entry );
+
+			} elseif ( 5 === $type ) {
+
+				$data = '';
+				$meta = cnMeta::get( 'entry', $entry->id, $this->fields[ $i ]['field'], TRUE );
+
+				if ( ! empty( $meta ) ) {
+
+					$data = cnFormatting::maybeJSONencode( $meta );
+
+				}
+
+				$row[ $i ] = $this->escapeAndQuote( $data );
+
+			} elseif ( 6 === $type ) {
+
+				$names  = array();
+				$parent = $this->fields[ $i ]['child_of'];
+
+				$terms = $this->getTerms( $entry->id, 'category' );
+
+				foreach ( $terms as $term ) {
+					//$terms[] = $parent . ':' . $term->term_id;
+					if ( cnTerm::isAncestorOf( $parent, $term->term_id, 'category' ) ) $names[] = $term->name;
+				}
+
+				$row[ $i ] = $this->escapeAndQuote( implode( ',', $names ) );
+
+			} else {
+
+				// Allow plugins to hook into this to provide custom export logic.
+				$row[ $i ] = apply_filters( "cn_export_field-{$type}", "Hook into the `cn_export_field-{$type}` filter.", $entry, $this->fields[ $i ], $this );
+			}
+
+		}
+
+		return apply_filters( 'cn_export_build_row', implode( ',', $row ), $row, $entry, $this );
 	}
 
 	/**
@@ -928,16 +953,16 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 		for ( $i = 0; $i < $countTypes; $i++ ) {
 
 			// Go through each type...
-			$type = '';
+			$type = array();
 
 			for ( $j = 0; $j < $countFields; $j++ ) {
 
 				// Go through each field in each type...
-				$type .= '"",';
+				$type[] = '""';
 			}
 
 			// Write the type to the type array...
-			$breakoutTypeField[ $i ] = $type;
+			$breakoutTypeField[ $i ] = implode( ',', $type );
 		}
 
 		$sql = $wpdb->prepare(
@@ -956,7 +981,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 			// Go through all the types that are supposed to be exported...
 			for ( $i = 0; $i < $countTypes; $i++ ) {
 
-				$type = '';
+				$type = array();
 
 				// If the type is in our list, we need to export it...
 				if ( $breakoutTypes[ $i ] == $result->type ) {
@@ -964,16 +989,16 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 					// Loop through each field and record it...
 					for ( $j = 0; $j < $countFields; $j++ ) {
 
-						$type .= $this->escapeAndQuote( $result->{$breakoutFields[ $j ]} ) . ',';
+						$type[] = $this->escapeAndQuote( $result->{$breakoutFields[ $j ]} );
 					}
 
-					$breakoutTypeField[ $i ] = $type;
+					$breakoutTypeField[ $i ] = implode( ',', $type );
 				}
 			}
 		}
 
 		// Return the breakout type field array (imploded)...
-		$record = implode( '', $breakoutTypeField );
+		$record = implode( ',', $breakoutTypeField );
 
 		return $record;
 	}
@@ -1148,16 +1173,16 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 					break;
 			}
 
-			$cell[] = $this->escapeAndQuote( $url ) . ',';
+			$cell[] = $this->escapeAndQuote( $url );
 		}
 
-		return implode( '', $cell );
+		return implode( ',', $cell );
 	}
 
 	/**
 	 * Return an indexed array of objects which contain the term name property.
 	 *
-	 * @access private
+	 * @access public
 	 * @since  8.5.1
 	 *
 	 * @param int    $id
@@ -1165,7 +1190,7 @@ class cnCSV_Batch_Export_All extends cnCSV_Batch_Export {
 	 *
 	 * @return array
 	 */
-	private function getTerms( $id, $taxonomy ) {
+	public function getTerms( $id, $taxonomy ) {
 
 		/** @var wpdb $wpdb */
 		global $wpdb;

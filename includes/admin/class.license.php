@@ -15,14 +15,51 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly.
 
+/**
+ * Class cnLicense
+ */
 class cnLicense {
 
+	/**
+	 * Plugin basename.
+	 * @var string
+	 */
 	private $file;
+
+	/**
+	 * Plugin ID (download ID).
+	 * @var int
+	 */
 	private $id = 0;
+
+	/**
+	 * Plugin name.
+	 * @var string
+	 */
 	private $name;
+
+	/**
+	 * Plugin slug.
+	 * @var string
+	 */
 	private $slug;
+
+	/**
+	 * Plugin version.
+	 * @var string
+	 */
 	private $version;
+
+	/**
+	 * Plugin author.
+	 * @var string
+	 */
 	private $author;
+
+	/**
+	 * Plugin license key.
+	 * @var string
+	 */
 	private $key;
 
 	/**

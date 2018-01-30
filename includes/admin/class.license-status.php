@@ -80,6 +80,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				'author'    => '',
 				'version'   => '',
 				'license'   => '',
+				'beta'      => FALSE,
 			);
 
 			$plugin = cnSanitize::args( $data, $defaults );

@@ -256,6 +256,8 @@ HERERDOC;
 	 */
 	private function updater() {
 
+		$enabled = $this->isBetaSupportEnabled();
+
 		cnPlugin_Updater::register(
 			$this->file,
 			array(
@@ -263,6 +265,7 @@ HERERDOC;
 				'author'    => $this->author,
 				'version'   => $this->version,
 				'license'   => $this->key,
+				'beta'      => $enabled,
 			)
 		);
 
@@ -274,8 +277,25 @@ HERERDOC;
 				'author'    => $this->author,
 				'version'   => $this->version,
 				'license'   => $this->key,
+				'beta'      => $enabled,
 			)
 		);
+	}
+
+	/**
+	 * Whether or not beta support has been enabled for the download.
+	 *
+	 * @access public
+	 * @since  8.11
+	 *
+	 * @return bool
+	 */
+	public function isBetaSupportEnabled() {
+
+		$beta    = get_option( 'connections_beta', array() );
+		$enabled = cnArray::get( $beta, $this->slug, FALSE );
+
+		return cnFormatting::toBoolean( $enabled );
 	}
 
 	/**
@@ -317,6 +337,13 @@ HERERDOC;
 			'page_hook' => 'connections_page_connections_settings'
 		);
 
+		$tabs[] = array(
+			'id'        => 'beta',
+			'position'  => 50.1,
+			'title'     => __( 'Beta Versions' , 'connections' ),
+			'page_hook' => 'connections_page_connections_settings'
+		);
+
 		return $tabs;
 	}
 
@@ -339,6 +366,16 @@ HERERDOC;
 			'position'  => 10,
 			'title'     => '',
 			'callback'  => create_function( '', "echo '<p>' , __( 'To receive automatic extension and template updates, enter and activate your site license.' , 'connections' ) , '</p>';" ),
+			'page_hook' => 'connections_page_connections_settings'
+		);
+
+		$sections[] = array(
+			'plugin_id' => 'connections',
+			'tab'       => 'beta',
+			'id'        => 'beta',
+			'position'  => 10,
+			'title'     => '',
+			'callback'  => create_function( '', "echo '<p>' , __( 'By checking any of the checkboxes below you are opting in to receiving pre-release version updates. You can opt out at any time by unchecking the options below. Pre-release version updates, like regular updates do not install automatically so you will retain the opportunity to skip installing a pre-release version update.' , 'connections' ) , '</p>';" ),
 			'page_hook' => 'connections_page_connections_settings'
 		);
 
@@ -369,7 +406,22 @@ HERERDOC;
 			'help'              => '',
 			'type'              => "license_{$this->slug}",
 			'default'           => '',
-			'sanitize_callback' => array( $this, 'sanitize' ),
+			'sanitize_callback' => array( $this, 'sanitizeKey' ),
+		);
+
+		$fields[] = array(
+			'plugin_id'         => 'connections',
+			'id'                => $this->slug,
+			'position'          => 10,
+			'page_hook'         => 'connections_page_connections_settings',
+			'tab'               => 'beta',
+			'section'           => 'beta',
+			'title'             => $this->name,
+			'desc'              => sprintf( __( 'Receive updates for pre-release versions of %s.', 'connections' ), $this->name ),
+			'help'              => '',
+			'type'              => 'checkbox',
+			'default'           => '',
+			//'sanitize_callback' => array( $this, 'sanitizeBeta' ),
 		);
 
 		return $fields;
@@ -833,7 +885,7 @@ HERERDOC;
 	 *
 	 * @return array            The settings options array.
 	 */
-	public function sanitize( $settings ) {
+	public function sanitizeKey( $settings ) {
 
 		// Retrieve license keys and data.
 		$keys = get_option( 'connections_licenses' );

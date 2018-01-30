@@ -55,6 +55,7 @@ class cnPlugin_Updater {
 			'author'    => '',
 			'version'   => '',
 			'license'   => '',
+			'beta'      => FALSE,
 		);
 
 		$plugin = cnSanitize::args( $data, $defaults );
@@ -506,8 +507,6 @@ class cnPlugin_Updater {
 	}
 
 	/**
-	 * @todo Add Support for the beta versions to match EDD-SL Plugin updater.
-	 *
 	 * @access private
 	 * @since  8.5.27
 	 *

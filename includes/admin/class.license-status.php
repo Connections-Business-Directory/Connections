@@ -45,7 +45,8 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 		 */
 		private static function hooks() {
 
-			add_action( 'load-plugins.php', array( __CLASS__, 'check' ) );
+			// Run the license status check before the plugin update check which is hooked into the 'load-plugins.php' action.
+			add_action( 'load-plugins.php', array( __CLASS__, 'check' ), 9 );
 			add_action( 'connections_page_connections_settings-licenses',  array( __CLASS__, 'check' ) );
 		}
 

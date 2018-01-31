@@ -970,6 +970,8 @@ HERERDOC;
 
 			// Save the license key.
 			update_option( 'connections_licenses', $keys, FALSE );
+
+			wp_clean_plugins_cache();
 		}
 	}
 
@@ -1008,6 +1010,8 @@ HERERDOC;
 
 			// Deactivate the license.
 			self::license( 'deactivate', $this->name, $this->key );
+
+			wp_clean_plugins_cache();
 		}
 	}
 

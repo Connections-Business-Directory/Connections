@@ -653,11 +653,13 @@ class cnShortcode {
 			// Show the "View All" result list using the "Names" template.
 			case 'all':
 
+				if ( ! is_array( $atts ) ) $atts = array();
+
 				// Disable the output of the repeat character index.
-				$atts['repeat_alphaindex'] = FALSE;
+				cnArray::set( $atts, 'repeat_alphaindex', FALSE );
 
 				// Force the use of the Names template.
-				$atts['template'] = 'names';
+				cnArray::set( $atts, 'template', 'names' );
 
 				return cnShortcode_Connections::shortcode( $atts, $content );
 

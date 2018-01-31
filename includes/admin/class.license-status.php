@@ -384,7 +384,9 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 				default :
 
-					if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+					if ( defined( 'DOING_CRON' ) && DOING_CRON ||
+					     defined( 'DOING_AJAX' ) && DOING_AJAX
+					) {
 
 						$timeout = 0;
 

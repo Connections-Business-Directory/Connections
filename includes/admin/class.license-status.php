@@ -221,6 +221,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				if ( ! is_wp_error( $response ) ) {
 
 					$data = array();
+					wp_clean_plugins_cache();
 
 					foreach ( $response as $plugin ) {
 

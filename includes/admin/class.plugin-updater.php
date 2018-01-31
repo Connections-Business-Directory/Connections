@@ -334,6 +334,9 @@ class cnPlugin_Updater {
 			if ( ! isset( $transient->last_checked ) ) $transient->last_checked = time();
 		}
 
+		// Update the license statuses.
+		cnLicense_Status::check();
+
 		return $transient;
 	}
 

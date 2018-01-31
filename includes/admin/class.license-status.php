@@ -374,6 +374,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			switch ( $pagenow ) {
 
+				case 'update-core.php' :
 				case 'admin.php' :
 					$timeout = MINUTE_IN_SECONDS;
 					break;

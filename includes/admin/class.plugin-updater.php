@@ -585,15 +585,7 @@ class cnPlugin_Updater {
 
 			$response = json_decode( wp_remote_retrieve_body( $request ) );
 
-			if ( isset( $response->sections ) ) {
-
-				$response->sections = maybe_unserialize( $response->sections );
-			}
-
-			if ( isset( $response->banners ) ) {
-
-				$response->banners = maybe_unserialize( $response->banners );
-			}
+			$response = self::maybe_unserialize_response( $response );
 		}
 
 		/**
@@ -605,6 +597,59 @@ class cnPlugin_Updater {
 		 * @param array       $plugin   The plugin data to get the version info for.
 		 */
 		return apply_filters( 'cn_plugin_updater_request_response', $response, $plugin );
+	}
+
+	/**
+	 * Unserialize plugin data received from REST response.
+	 *
+	 * @access private
+	 * @since  8.11
+	 *
+	 * @param array|stdClass $response
+	 *
+	 * @return array|stdClass
+	 */
+	private static function maybe_unserialize_response( $response ) {
+
+		if ( is_array( $response ) ) {
+
+			foreach ( $response as $plugin ) {
+
+				if ( isset( $plugin->sections ) ) {
+
+					$plugin->sections = maybe_unserialize( $plugin->sections );
+				}
+
+				if ( isset( $plugin->banners ) ) {
+
+					$plugin->banners = maybe_unserialize( $plugin->banners );
+				}
+
+				if ( isset( $plugin->icons ) ) {
+
+					$plugin->icons = maybe_unserialize( $plugin->icons );
+				}
+			}
+
+		} else {
+
+			if ( isset( $response->sections ) ) {
+
+				$response->sections = maybe_unserialize( $response->sections );
+			}
+
+			if ( isset( $response->banners ) ) {
+
+				$response->banners = maybe_unserialize( $response->banners );
+			}
+
+			if ( isset( $response->icons ) ) {
+
+				$response->icons = maybe_unserialize( $response->icons );
+			}
+		}
+
+		return $response;
 	}
 }
 

@@ -200,6 +200,14 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				// Register the default email templates.
 				cnEmail_DefaultTemplates::init();
 
+				/**
+				 * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
+				 *       generally loaded on the `plugins_loaded` action hook, any strings with the `connections` text
+				 *       domain will be merged into it. The purpose is to allow the extensions to use strings known to
+				 *       in the core plugin to reuse those strings and benefit if they are already translated.
+				 */
+				cnText_Domain::create( 'connections' )->addAction( -1 );
+
 				// Register the core action/filter hooks.
 				self::hooks();
 
@@ -231,19 +239,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		}
 
 		private static function hooks() {
-
-			/**
-			 * NOTE: Any calls to load_plugin_textdomain should be in a function attached to the `plugins_loaded` action hook.
-			 * @link http://ottopress.com/2013/language-packs-101-prepwork/
-			 *
-			 * NOTE: Any portion of the plugin w/ translatable strings should be bound to the plugins_loaded action hook or later.
-			 *
-			 * NOTE: Priority set at -1 to allow extensions to use the `connections` text domain. Since extensions are
-			 *       generally loaded on the `plugins_loaded` action hook, any strings with the `connections` text
-			 *       domain will be merged into it. The purpose is to allow the extensions to use strings known to
-			 *       in the core plugin to reuse those strings and benefit if they are already translated.
-			 */
-			add_action( 'plugins_loaded', array( __CLASS__ , 'loadTextdomain' ), -1 );
 
 			// Include the Template Customizer files.
 			add_action( 'plugins_loaded', array( 'cnDependency', 'customizer' ) );
@@ -332,54 +327,6 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 			// Geocode the address using Google Geocoding API.
 			add_filter( 'cn_set_address', array( 'cnEntry_Action', 'geoCode' ) );
-		}
-
-		/**
-		 * Load the plugin translation.
-		 *
-		 * Credit: Adapted from Ninja Forms / Easy Digital Downloads.
-		 *
-		 * @access private
-		 * @since  0.7.9
-		 *
-		 * @uses apply_filters()
-		 * @uses get_locale()
-		 * @uses load_textdomain()
-		 * @uses load_plugin_textdomain()
-		 *
-		 * @return void
-		 */
-		public static function loadTextdomain() {
-
-			// Plugin textdomain. This should match the one set in the plugin header.
-			$domain = 'connections';
-
-			// Set filter for plugin's languages directory
-			$languagesDirectory = apply_filters( "cn_{$domain}_languages_directory", CN_DIR_NAME . '/languages/' );
-
-			// Traditional WordPress plugin locale filter
-			$locale   = apply_filters( 'plugin_locale', get_locale(), $domain );
-			$fileName = sprintf( '%1$s-%2$s.mo', $domain, $locale );
-
-			// Setup paths to current locale file
-			$local  = $languagesDirectory . $fileName;
-			$global = WP_LANG_DIR . "/{$domain}/" . $fileName;
-
-			if ( file_exists( $global ) ) {
-
-				// Look in global `../wp-content/languages/{$domain}/` folder.
-				load_textdomain( $domain, $global );
-
-			} elseif ( file_exists( $local ) ) {
-
-				// Look in local `../wp-content/plugins/{plugin-directory}/languages/` folder.
-				load_textdomain( $domain, $local );
-
-			} else {
-
-				// Load the default language files
-				load_plugin_textdomain( $domain, FALSE, $languagesDirectory );
-			}
 		}
 
 		/**

@@ -1,5 +1,22 @@
 == Changelog ==
 
+= 8.11 02/05/2018 =
+* NEW: Add support for the plugin bannerS in plugin info REST API responses.
+* NEW: Add support for the plugin iconS in plugin info REST API responses.
+* NEW: Add support for opting into beta versions of the installed addons.
+* NEW: Introduce cnPlugn_Updater::maybe_unserialize_response().
+* NEW: Introduce cnText_Domain.
+* TWEAK: Check for DOING_AJAX when adjusting the addon update check and status check.
+* TWEAK: Clean plugin cache on addon activate/deactivate.
+* TWEAK: When doing addon status check use the same timeout as used during update checks when on the WP Updates admin page.
+* TWEAK: Update addon statuses after doing an update check.
+* TWEAK: Clean the plugin cache before running the addon status check.
+* TWEAK: Change the priority of addon status check to 9 on the WP Plugins admin page so it runs before the addon update check.
+* TWEAK: Utilize cnText_Domain to load the plugin translation files.
+* BUG: Ensure the $atts variable is an array before setting values when viewing all.
+* DEV: phpDoc corrections.
+* DEV: Update plugin header.
+
 = 8.10 01/26/2018 =
 * NEW: Introduce abstract class cnEntry_Object_Collection.
 * NEW: Introduce abstract class cnEntry_Collection_Item.

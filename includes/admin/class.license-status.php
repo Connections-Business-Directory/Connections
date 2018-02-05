@@ -45,7 +45,8 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 		 */
 		private static function hooks() {
 
-			add_action( 'load-plugins.php', array( __CLASS__, 'check' ) );
+			// Run the license status check before the plugin update check which is hooked into the 'load-plugins.php' action.
+			add_action( 'load-plugins.php', array( __CLASS__, 'check' ), 9 );
 			add_action( 'connections_page_connections_settings-licenses',  array( __CLASS__, 'check' ) );
 		}
 
@@ -80,6 +81,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				'author'    => '',
 				'version'   => '',
 				'license'   => '',
+				'beta'      => FALSE,
 			);
 
 			$plugin = cnSanitize::args( $data, $defaults );
@@ -220,6 +222,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				if ( ! is_wp_error( $response ) ) {
 
 					$data = array();
+					wp_clean_plugins_cache();
 
 					foreach ( $response as $plugin ) {
 
@@ -373,6 +376,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 			switch ( $pagenow ) {
 
+				case 'update-core.php' :
 				case 'admin.php' :
 					$timeout = MINUTE_IN_SECONDS;
 					break;
@@ -383,7 +387,9 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 				default :
 
-					if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+					if ( defined( 'DOING_CRON' ) && DOING_CRON ||
+					     defined( 'DOING_AJAX' ) && DOING_AJAX
+					) {
 
 						$timeout = 0;
 

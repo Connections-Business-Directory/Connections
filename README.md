@@ -253,6 +253,23 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.11 02/05/2018 =
+* NEW: Add support for the plugin bannerS in plugin info REST API responses.
+* NEW: Add support for the plugin iconS in plugin info REST API responses.
+* NEW: Add support for opting into beta versions of the installed addons.
+* NEW: Introduce cnPlugn_Updater::maybe_unserialize_response().
+* NEW: Introduce cnText_Domain.
+* TWEAK: Check for DOING_AJAX when adjusting the addon update check and status check.
+* TWEAK: Clean plugin cache on addon activate/deactivate.
+* TWEAK: When doing addon status check use the same timeout as used during update checks when on the WP Updates admin page.
+* TWEAK: Update addon statuses after doing an update check.
+* TWEAK: Clean the plugin cache before running the addon status check.
+* TWEAK: Change the priority of addon status check to 9 on the WP Plugins admin page so it runs before the addon update check.
+* TWEAK: Utilize cnText_Domain to load the plugin translation files.
+* BUG: Ensure the $atts variable is an array before setting values when viewing all.
+* DEV: phpDoc corrections.
+* DEV: Update plugin header.
+
 = 8.10 01/26/2018 =
 * NEW: Introduce abstract class cnEntry_Object_Collection.
 * NEW: Introduce abstract class cnEntry_Collection_Item.
@@ -627,20 +644,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Update wsScreenOptions to version 1.3 and move to the Vendors folder.
 * OTHER: Update Browser.php to version 2.0.
 * DEV: phpDoc Fixes.
-
-### 8.5.23 08/26/2016 ###
-* TWEAK: Add the `cn-cat-has-children` class if a category has children in the term list.
-* TWEAK: Remove any empty items that might exist as the result of the `cn_entry_output_category_item` filter being hooked into.
-* TWEAK: Refactor `cnAdminFunction::managePageLimitSave()` to be more robust in order to prevent fatal string to array PHP errors.
-* BUG: Correct the display of the keyword search term result message by removing the duplicate term display.
-* BUG: Skipped escaped shortcodes in `cnShortcode::find()` to prevent the escaped Connections shortcode from being "cleaned" and unescaping it.
-* I18N: Update POT file.
-* I18N: Update MO files.
-
-### 8.5.22 08/15/2016 ###
-* NEW: Introduce `cnString::stripTags()`.
-* BUG: Correct logic in cnOutput::excerpt() would would prevent the display of a excerpt.
-* TWEAK: Use `cnString::stripTags()` instead of `wp_strip_all_tags()` when creating the excerpt.
-* TWEAK: Allow `span` tags within an excerpt.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

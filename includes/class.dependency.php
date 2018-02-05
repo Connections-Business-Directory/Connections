@@ -152,6 +152,9 @@ class cnDependency {
 
 		return array(
 
+			// Localization
+			'cnText_Domain'            => 'includes/class.text-domain.php',
+
 			// Current User
 			'cnUser'                   => 'includes/class.user.php',
 

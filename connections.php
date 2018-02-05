@@ -1,32 +1,23 @@
 <?php
 /**
- * Plugin Name: Connections Business Directory
- * Plugin URI: http://connections-pro.com/
- * Description: A business directory and address book manager.
- * Version: 8.10
- * Author: Steven A. Zahm
- * Author URI: http://connections-pro.com/
- * Text Domain: connections
- * Domain Path: languages
+ * @package   Connections Business Directory
+ * @category  Core
+ * @author    Steven A. Zahm
+ * @license   GPL-2.0+
+ * @link      http://connections-pro.com
+ * @copyright 2018 Steven A. Zahm
  *
- * Copyright 2017  Steven A. Zahm  ( email : helpdesk@connections-pro.com )
- *
- * Connections is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2, as
- * published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Connections; if not, see <http://www.gnu.org/licenses/>.
- *
- * @package Connections
- * @category Core
- * @author Steven A. Zahm
- * @version 8.10
+ * @wordpress-plugin
+ * Plugin Name:       Connections Business Directory
+ * Plugin URI:        https://connections-pro.com/
+ * Description:       A business directory and address book manager.
+ * Version:           8.10
+ * Author:            Steven A. Zahm
+ * Author URI:        http://connections-pro.com/
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       connections
+ * Domain Path:       /languages
  */
 
 // Exit if accessed directly

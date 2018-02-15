@@ -191,17 +191,21 @@ class CN_Email_Log_List_Table extends WP_List_Table {
 		if ( cnLog_Email::LOG_TYPE == $this->type ) {
 
 			$types = wp_list_pluck( cnLog_Email::types(), 'name', 'id' );
-			$this->type = array_keys( $types );
+			$type = array_keys( $types );
 
 		} elseif ( '' == $this->type || '-1' == $this->type ) {
 
-			$this ->type = array_keys( wp_list_pluck( cnLog_Email::types(), 'name', 'id' ) );
+			$type = array_keys( wp_list_pluck( cnLog_Email::types(), 'name', 'id' ) );
+
+		} else {
+
+			$type = $this->type;
 		}
 
 		$data  = array();
 		$query = array(
 			'post_parent'    => null,
-			'type'           => $this->type,
+			'type'           => $type,
 			'paged'          => $this->offset,
 			//'meta_query'     => $this->get_meta_query(),
 			'posts_per_page' => $this->number,

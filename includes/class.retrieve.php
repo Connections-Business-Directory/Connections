@@ -105,6 +105,7 @@ class cnRetrieve {
 		$defaults['zip_code']              = NULL;
 		$defaults['country']               = NULL;
 		$defaults['visibility']            = NULL;
+		$defaults['process_user_caps']     = TRUE;
 		$defaults['status']                = array( 'approved' );
 		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
 		$defaults['limit']                 = NULL;
@@ -124,6 +125,8 @@ class cnRetrieve {
 		$defaults['lock']                  = FALSE;
 
 		$atts = cnSanitize::args( $atts, $defaults );
+
+		cnFormatting::toBoolean( $atts['process_user_caps'] );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -574,7 +577,10 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries based on user permissions.
 		 */
-		$where = self::setQueryVisibility( $where, $atts );
+		if ( $atts['process_user_caps'] ) {
+
+			$where = self::setQueryVisibility( $where, $atts );
+		}
 		/*
 		 * // END --> Set up the query to only return the entries based on user permissions.
 		 */

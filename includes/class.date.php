@@ -55,6 +55,7 @@ class cnDate {
 	 *
 	 * @access public
 	 * @since  8.6.4
+	 * @static
 	 *
 	 * @param string $format The datetime format.
 	 *
@@ -101,6 +102,7 @@ class cnDate {
 	 *
 	 * @access public
 	 * @since  8.6.4
+	 * @static
 	 *
 	 * @param string $format The datetime format.
 	 * @param string $date   The datetime string to parse.
@@ -177,6 +179,7 @@ class cnDate {
 	 *
 	 * @access public
 	 * @since  8.6.4
+	 * @static
 	 *
 	 * @param  string $format  The datetime format.
 	 * @param  string $date    The datetime string to parse.

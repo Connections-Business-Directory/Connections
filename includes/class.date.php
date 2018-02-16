@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for working with a dates and date ranges.
+ * Class for working with a dates and timezones.
  *
  * @package     Connections
  * @subpackage  Dates

@@ -51,6 +51,159 @@ class cnDate {
 	);
 
 	/**
+	 * Return DateTimeZone object based on WordPress settings.
+	 * Defaults to UTC if it can not be determined from the WordPress settings.
+	 *
+	 * @access public
+	 * @since  8.12
+	 * @static
+	 *
+	 * @return DateTimeZone
+	 */
+	public static function getWPTimezone() {
+
+		$timezone = get_option( 'timezone_string' );
+
+		// Try to use the offset instead.
+		if ( empty( $timezone ) ) {
+
+			$offset = get_option( 'gmt_offset', 0 );
+
+			// `gmt_offset` is returned as string, use strict comparison.
+			if ( '0' !== $offset ) {
+
+				$timezone = self::getTimezoneFromOffset( $offset );
+			}
+
+			// If the offset was 0 or $timezone is still empty (FALSE), use 'UTC'.
+			if ( '0' === $offset || empty( $timezone ) ) {
+
+				$timezone = 'UTC';
+			}
+		}
+
+		return new DateTimeZone( $timezone );
+	}
+
+	/**
+	 * Returns the timezone name based on the WordPress settings
+	 *
+	 * @access public
+	 * @since  8.12
+	 * @static
+	 *
+	 * @return string
+	 */
+	public static function getWPTimezoneName() {
+
+		return self::getWPTimezone()->getName();
+	}
+
+	/**
+	 * Returns the timezone offset in the desired format.
+	 *
+	 * @access public
+	 * @since  8.12
+	 * @static
+	 *
+	 * @param string $format The unit of time to return the offset in.
+	 *                       Default: `z` in seconds
+	 *                       Valid: `i` in minutes
+	 *                              `h` in hours
+	 *                              `O` as +/-0000 (eg. +0200)
+	 *                              `P` as +/-00:00 (eg. +02:00)
+	 *
+	 * @return float|int|string
+	 */
+	public static function getWPUTCOffset( $format = 'z' ) {
+
+		$value = self::getWPTimezone()->getOffset( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) );
+
+		switch ( $format ) {
+
+			case 'h':
+
+				$value = $value / HOUR_IN_SECONDS;
+				break;
+
+			case 'i':
+
+				$value = $value / MINUTE_IN_SECONDS;
+				break;
+
+			case 'O':
+			case 'P':
+
+				/**
+				 * @link https://stackoverflow.com/a/41403802/5351316
+				 */
+
+				$minutes   = $value / MINUTE_IN_SECONDS;
+				$sign      = $minutes < 0 ? '-' : '+';
+				$absmin    = abs( $minutes );
+				$separator = $format === 'O' ? '' : ':';
+				$value     = sprintf( '%s%02d%s%02d', $sign, $absmin / 60, $separator, $absmin % 60 );
+				break;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Converts a timezone hourly offset to its timezone's name.
+	 *
+	 * @example $offset = -5, $isDst = 0 <=> return value = 'America/New_York'
+	 * @link http://php.net/manual/en/function.timezone-name-from-abbr.php#89155
+	 *
+	 * @access public
+	 * @since  8.12
+	 * @static
+	 *
+	 * @param float     $offset The timezone's offset in hours.
+	 *                          Lowest value: -12 (Pacific/Kwajalein)
+	 *                          Highest value: 14 (Pacific/Kiritimati)
+	 * @param bool|null $isDst  Is the offset for the timezone when it's in daylight savings time?
+	 *
+	 * @return string|false The name of the timezone ( eg. 'Asia/Tokyo', 'Europe/Paris', ... ) or
+	 *                      FALSE if it can not be determined from the offset.
+	 */
+	public static function getTimezoneFromOffset( $offset, $isDst = NULL ) {
+
+		if ( NULL === $isDst ) {
+
+			$isDst = date( 'I' );
+		}
+
+		$offset   *= HOUR_IN_SECONDS;
+		$timezone = timezone_name_from_abbr( '', $offset, $isDst );
+
+		if ( FALSE === $timezone ) {
+
+			foreach ( timezone_abbreviations_list() as $abbr ) {
+
+				foreach ( $abbr as $city ) {
+
+					if ( (bool) $city['dst'] === (bool) $isDst &&
+					     strlen( $city['timezone_id'] ) > 0 &&
+					     $city['offset'] == $offset
+					) {
+
+						$timezone = $city['timezone_id'];
+						break;
+					}
+				}
+
+				if ( FALSE !== $timezone ) {
+
+					break;
+				}
+			}
+		}
+
+		return $timezone;
+	}
+
+	/**
 	 * Create a regex used to parse the supplied datetime format.
 	 *
 	 * @access public

@@ -102,18 +102,11 @@ class cnEntry_vCard extends cnEntry_HTML {
 	/**
 	 * Get the timezone UTC Offset calculated from the WP `gmt_offset` value.
 	 *
-	 * @link https://stackoverflow.com/a/41403802/5351316
-	 *
 	 * @return string
 	 */
 	protected function getUTCOffset() {
 
-		$min    = 60 * get_option( 'gmt_offset' );
-		$sign   = $min < 0 ? '-' : '+';
-		$absmin = abs( $min );
-		$tz     = sprintf( '%s%02d%02d', $sign, $absmin / 60, $absmin % 60 );
-
-		return $tz;
+		return cnDate::getWPUTCOffset( 'O' );
 	}
 
 	/**

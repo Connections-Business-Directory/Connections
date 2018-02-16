@@ -75,7 +75,7 @@ class cnDate {
 				$timezone = self::getTimezoneFromOffset( $offset );
 			}
 
-			// If the offset was 0 or $timezone is still empty (FALSE), use 'UTC'.
+			// If the offset is 0 or $timezone is still empty (FALSE), use 'UTC'.
 			if ( '0' === $offset || empty( $timezone ) ) {
 
 				$timezone = 'UTC';
@@ -159,10 +159,13 @@ class cnDate {
 	 * @since  8.12
 	 * @static
 	 *
-	 * @param float     $offset The timezone's offset in hours.
-	 *                          Lowest value: -12 (Pacific/Kwajalein)
-	 *                          Highest value: 14 (Pacific/Kiritimati)
-	 * @param bool|null $isDst  Is the offset for the timezone when it's in daylight savings time?
+	 * @param int $offset The timezone's offset in hours.
+	 *                    Lowest value: -12 (Pacific/Kwajalein)
+	 *                    Highest value: 14 (Pacific/Kiritimati)
+	 * @param int $isDst  Is the offset for the timezone when it's in daylight savings time?
+	 *                    Valid: -1 = whether the time zone has daylight saving or not is not taken into consideration
+	 *                            0 = $offset is assumed to be an offset without daylight saving in effect
+	 *                            1 = $offset is assumed to be an offset with daylight saving in effect
 	 *
 	 * @return string|false The name of the timezone ( eg. 'Asia/Tokyo', 'Europe/Paris', ... ) or
 	 *                      FALSE if it can not be determined from the offset.

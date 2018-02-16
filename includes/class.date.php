@@ -174,7 +174,7 @@ class cnDate {
 
 		if ( NULL === $isDst ) {
 
-			$isDst = date( 'I' );
+			$isDst = (int) date( 'I' );
 		}
 
 		$offset   *= HOUR_IN_SECONDS;

@@ -46,6 +46,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 
 * [Toolbar](https://wordpress.org/plugins/connections-toolbar/) :: Provides quick links to the admin pages from the admin bar.
 * [Login](https://wordpress.org/plugins/connections-business-directory-login/) :: Provides a simple to use login shortcode and widget.
+* [Anniversary and Birthday Emails](https://wordpress.org/plugins/connections-business-directory-anniversary-and-birthday-emails) :: Add the ability to automatically send a customizable email to entries on their anniversary or birthday.
 
 **Custom Fields**
 

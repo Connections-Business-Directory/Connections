@@ -1,5 +1,16 @@
 == Changelog ==
 
+= 8.12 02/19/2018 =
+* NEW: Introduce several new timezone helper methods in cnDate.
+* TWEAK: Add options to the `cnRetrieve::upcoming()` method to suport whether or not to check user caps and from timestamp.
+* TWEAK: Add option to `cnRetrieve::entries()` to support whether or not to check user caps.
+* TWEAK: Remove a bunch of unused and unnecessary methods from cnDate.
+* TWEAK: Use `cnDate::getWPUTCOffset()` helper method in `cnEntry_vCard::getUTCOffset()`.
+* TWEAK: Cast result of date('I') to int.
+* BUG: The `wp_script_is()` requires a handle to check.
+* BUG: Correct array to string conversion PHP notice.
+* DEV: phpDoc corrections in cnDate.
+
 = 8.11 02/05/2018 =
 * NEW: Add support for the plugin bannerS in plugin info REST API responses.
 * NEW: Add support for the plugin iconS in plugin info REST API responses.

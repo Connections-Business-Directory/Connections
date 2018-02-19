@@ -105,6 +105,7 @@ class cnRetrieve {
 		$defaults['zip_code']              = NULL;
 		$defaults['country']               = NULL;
 		$defaults['visibility']            = NULL;
+		$defaults['process_user_caps']     = TRUE;
 		$defaults['status']                = array( 'approved' );
 		$defaults['order_by']              = array( 'sort_column', 'last_name', 'first_name' );
 		$defaults['limit']                 = NULL;
@@ -124,6 +125,8 @@ class cnRetrieve {
 		$defaults['lock']                  = FALSE;
 
 		$atts = cnSanitize::args( $atts, $defaults );
+
+		cnFormatting::toBoolean( $atts['process_user_caps'] );
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */
@@ -574,7 +577,10 @@ class cnRetrieve {
 		/*
 		 * // START --> Set up the query to only return the entries based on user permissions.
 		 */
-		$where = self::setQueryVisibility( $where, $atts );
+		if ( $atts['process_user_caps'] ) {
+
+			$where = self::setQueryVisibility( $where, $atts );
+		}
 		/*
 		 * // END --> Set up the query to only return the entries based on user permissions.
 		 */
@@ -1254,9 +1260,12 @@ class cnRetrieve {
 			'allow_public_override' => FALSE,
 			'private_override'      => FALSE,
 			'return'                => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
+			'process_user_caps'     => TRUE,
+			'from_timestamp'        => current_time( 'timestamp' ),
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
+		cnFormatting::toBoolean( $atts['process_user_caps'] );
 
 		// Ensure that the upcoming type is one of the supported types. If not, reset to the default.
 		$atts['type'] = in_array( $atts['type'], $permitted ) ? $atts['type'] : 'birthday';
@@ -1264,13 +1273,16 @@ class cnRetrieve {
 		$where[] = $wpdb->prepare( 'AND `type` = %s', $atts['type'] );
 
 		// Respect the date visibility set by the user when adding the date.
-		$where = self::setQueryVisibility( $where, array_merge( $atts, array( 'table' => CN_ENTRY_DATE_TABLE ) ) );
+		if ( $atts['process_user_caps'] ) {
+
+			$where = self::setQueryVisibility( $where, array_merge( $atts, array( 'table' => CN_ENTRY_DATE_TABLE ) ) );
+		}
 
 		// Get timestamp.
-		$time = current_time( 'timestamp' );
+		$time = $atts['from_timestamp'];
 
 		// Get today's date, formatted for use in the query.
-		$date = gmdate( 'Y-m-d', current_time( 'timestamp' ) );
+		$date = gmdate( 'Y-m-d', $atts['from_timestamp'] );
 
 		// Whether or not to include the event occurring today or not.
 		$includeToday = $atts['today'] ? '<=' : '<';

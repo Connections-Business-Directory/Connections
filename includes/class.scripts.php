@@ -144,7 +144,8 @@ class cnScript {
 			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
 		}
 
-		if ( ! wp_script_is( '', 'registered') ) {
+		// The Quform unregisters this script, so lets ensure its registered so it can be enqueued.
+		if ( ! wp_script_is( 'jquery-form', 'registered') ) {
 			wp_register_script( 'jquery-form', "/wp-includes/js/jquery/jquery.form$min.js", array( 'jquery' ), '4.2.1', TRUE );
 		}
 

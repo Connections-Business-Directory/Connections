@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for working with a dates and date ranges.
+ * Class for working with a dates and timezones.
  *
  * @package     Connections
  * @subpackage  Dates
@@ -19,67 +19,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class cnDate
  */
 class cnDate {
-
-	/**
-	 * Returns an associative array containing days 1 through 31
-	 *
-	 * @var array
-	 */
-	public $days = array(
-		NULL => 'Day',
-		'01' => '1st',
-		'02' => '2nd',
-		'03' => '3rd',
-		'04' => '4th',
-		'05' => '5th',
-		'06' => '6th',
-		'07' => '7th',
-		'08' => '8th',
-		'09' => '9th',
-		'10' => '10th',
-		'11' => '11th',
-		'12' => '12th',
-		'13' => '13th',
-		'14' => '14th',
-		'15' => '15th',
-		'16' => '16th',
-		'17' => '17th',
-		'18' => '18th',
-		'19' => '19th',
-		'20' => '20th',
-		'21' => '21st',
-		'22' => '22nd',
-		'23' => '23rd',
-		'24' => '24th',
-		'25' => '25th',
-		'26' => '26th',
-		'27' => '27th',
-		'28' => '28th',
-		'29' => '29th',
-		'30' => '30th',
-		'31' => '31st',
-	);
-
-	/**
-	 * Returns an associative array of months Jan through Dec
-	 *
-	 * @var array
-	 */
-	public $months = array(
-		NULL => 'Month',
-		'01' => 'January',
-		'02' => 'February',
-		'03' => 'March',
-		'04' => 'April',
-		'05' => 'May',
-		'06' => 'June',
-		'07' => 'July',
-		'08' => 'August',
-		'09' => 'September',
-		'10' => 'October',
-		'11' => 'November',
-		'12' => 'December',
-	);
 
 	/**
 	 * Date format characters and their name and regex structure.
@@ -111,331 +50,160 @@ class cnDate {
 		'A' => array( 'meridiem', '[AP]M' ),        // Uppercase ante meridiem and Post meridiem
 	);
 
-	public function getMonth( $data ) {
-
-		if ( $data != NULL ) {
-			$month = date( "m", strtotime( $data ) );
-		} else {
-			$month = NULL;
-		}
-
-		return $month;
-	}
-
-	public function getDay( $data ) {
-
-		if ( $data != NULL ) {
-			$day = date( "d", strtotime( $data ) );
-		} else {
-			$day = NULL;
-		}
-
-		return $day;
-
-	}
-
 	/**
-	 * Returns the current (or relative week's dates) week's dates as UNIX timestamp or formatted string.
+	 * Return DateTimeZone object based on WordPress settings.
+	 * Defaults to UTC if it can not be determined from the WordPress settings.
 	 *
-	 * $format can accept all formatting stings supported by date()
-	 * $weekStart accepts sunday, monday, tuesday, wednesday, thursday, friday, saturday
-	 * $relativeDate accepts UNIX timestamp
+	 * @access public
+	 * @since  8.12
+	 * @static
 	 *
-	 * @param         unknown : string $format
-	 * @param         unknown : string $weekStart
-	 * @param integer $relativeDate
-	 *
-	 * @return array
+	 * @return DateTimeZone
 	 */
-	public function getWeekDates( $format = NULL, $weekStart = NULL, $relativeDate = NULL ) {
+	public static function getWPTimezone() {
 
-		if ( empty( $relativeDate ) ) {
-			$relativeDate = time();
-		}
-		if ( empty( $weekStart ) ) {
-			$weekStart = 'sunday';
-		}
+		$timezone = get_option( 'timezone_string' );
 
-		// If current day is the same as the start of the week, advance the day by one so the proper week will eval.
-		if ( strtolower( date( 'l', $relativeDate ) ) == $weekStart ) {
-			$relativeDate = strtotime( '+1 day', $relativeDate );
-		}
+		// Try to use the offset instead.
+		if ( empty( $timezone ) ) {
 
-		$date['start'] = strtotime( 'last ' . $weekStart, $relativeDate );
-		$date['end']   = strtotime( '-1 day next ' . $weekStart, $relativeDate );
+			$offset = get_option( 'gmt_offset', 0 );
 
-		$i = $date['start'];
-		while ( $i <= $date['end'] ) {
-			$day                 = strtolower( date( 'l', $i ) );
-			$date['day'][ $day ] = $i;
-			$i                   = strtotime( '+ 1 day', $i );
-		}
+			// `gmt_offset` is returned as string, use strict comparison.
+			if ( '0' !== $offset ) {
 
-		if ( ! empty( $format ) ) {
-			$date['start'] = date( $format, $date['start'] );
-			$date['end']   = date( $format, $date['end'] );
+				$timezone = self::getTimezoneFromOffset( $offset );
+			}
 
-			foreach ( $date['day'] as $key => $timestamp ) {
-				$date['day'][ $key ] = date( $format, $timestamp );
+			// If the offset is 0 or $timezone is still empty (FALSE), use 'UTC'.
+			if ( '0' === $offset || empty( $timezone ) ) {
+
+				$timezone = 'UTC';
 			}
 		}
 
-		return $date;
+		return new DateTimeZone( $timezone );
 	}
 
 	/**
-	 * Returns the previous (or relative week's dates) week's dates as UNIX timestamp or formatted string.
+	 * Returns the timezone name based on the WordPress settings
 	 *
-	 * $format can accept all formatting stings supported by date()
-	 * $weekStart accepts sunday, monday, tuesday, wednesday, thursday, friday, saturday
-	 * $relativeDate accepts UNIX timestamp
+	 * @access public
+	 * @since  8.12
+	 * @static
 	 *
-	 * @param         unknown : string $format
-	 * @param         unknown : string $weekStart
-	 * @param integer $relativeDate
-	 *
-	 * @return array
+	 * @return string
 	 */
-	public function getPreviousWeekDates( $format = NULL, $weekStart = NULL, $relativeDate = NULL ) {
+	public static function getWPTimezoneName() {
 
-		if ( empty( $relativeDate ) ) {
-			$relativeDate = time();
-		}
-
-		$relativeDate = strtotime( '-1 weeks', $relativeDate );
-
-		return $this->getWeekDates( $format, $weekStart, $relativeDate );
+		return self::getWPTimezone()->getName();
 	}
 
 	/**
-	 * Returns the next (or relative week's dates) week's dates as UNIX timestamp or formatted string.
+	 * Returns the timezone offset in the desired format.
 	 *
-	 * $format can accept all formatting stings supported by date()
-	 * $weekStart accepts sunday, monday, tuesday, wednesday, thursday, friday, saturday
-	 * $relativeDate accepts UNIX timestamp
+	 * @access public
+	 * @since  8.12
+	 * @static
 	 *
-	 * @param         unknown : string $format
-	 * @param         unknown : string $weekStart
-	 * @param integer $relativeDate
+	 * @param string $format The unit of time to return the offset in.
+	 *                       Default: `z` in seconds
+	 *                       Valid: `i` in minutes
+	 *                              `h` in hours
+	 *                              `O` as +/-0000 (eg. +0200)
+	 *                              `P` as +/-00:00 (eg. +02:00)
 	 *
-	 * @return array
+	 * @return float|int|string
 	 */
-	public function getNextWeekDates( $format = NULL, $weekStart = NULL, $relativeDate = NULL ) {
+	public static function getWPUTCOffset( $format = 'z' ) {
 
-		if ( empty( $relativeDate ) ) {
-			$relativeDate = time();
+		$value = self::getWPTimezone()->getOffset( new DateTime( 'now', new DateTimeZone( 'UTC' ) ) );
+
+		switch ( $format ) {
+
+			case 'h':
+
+				$value = $value / HOUR_IN_SECONDS;
+				break;
+
+			case 'i':
+
+				$value = $value / MINUTE_IN_SECONDS;
+				break;
+
+			case 'O':
+			case 'P':
+
+				/**
+				 * @link https://stackoverflow.com/a/41403802/5351316
+				 */
+
+				$minutes   = $value / MINUTE_IN_SECONDS;
+				$sign      = $minutes < 0 ? '-' : '+';
+				$absmin    = abs( $minutes );
+				$separator = $format === 'O' ? '' : ':';
+				$value     = sprintf( '%s%02d%s%02d', $sign, $absmin / 60, $separator, $absmin % 60 );
+				break;
 		}
 
-		$relativeDate = strtotime( '+1 weeks', $relativeDate );
-
-		return $this->getWeekDates( $format, $weekStart, $relativeDate );
+		return $value;
 	}
 
 	/**
-	 * Returns X number of previous (or relative week's dates) week's dates as UNIX timestamp or formatted string.
+	 * Converts a timezone hourly offset to its timezone's name.
 	 *
-	 * $format can accept all formatting stings supported by date()
-	 * $weekStart accepts sunday, monday, tuesday, wednesday, thursday, friday, saturday
-	 * $relativeDate accepts UNIX timestamp
+	 * @example $offset = -5, $isDst = 0 <=> return value = 'America/New_York'
+	 * @link http://php.net/manual/en/function.timezone-name-from-abbr.php#89155
 	 *
-	 * @param         unknown : string $format
-	 * @param         unknown : string $weekStart
-	 * @param integer $relativeDate
+	 * @access public
+	 * @since  8.12
+	 * @static
 	 *
-	 * @return array
+	 * @param int $offset The timezone's offset in hours.
+	 *                    Lowest value: -12 (Pacific/Kwajalein)
+	 *                    Highest value: 14 (Pacific/Kiritimati)
+	 * @param int $isDst  Is the offset for the timezone when it's in daylight savings time?
+	 *                    Valid: -1 = whether the time zone has daylight saving or not is not taken into consideration
+	 *                            0 = $offset is assumed to be an offset without daylight saving in effect
+	 *                            1 = $offset is assumed to be an offset with daylight saving in effect
+	 *
+	 * @return string|false The name of the timezone ( eg. 'Asia/Tokyo', 'Europe/Paris', ... ) or
+	 *                      FALSE if it can not be determined from the offset.
 	 */
-	public function getXPreviousWeekDates( $x, $format = NULL, $weekStart = NULL, $relativeDate = NULL ) {
+	public static function getTimezoneFromOffset( $offset, $isDst = NULL ) {
 
-		if ( empty( $relativeDate ) ) {
-			$relativeDate = time();
-		}
-		if ( empty( $weekStart ) ) {
-			$weekStart = 'sunday';
+		if ( NULL === $isDst ) {
+
+			$isDst = (int) date( 'I' );
 		}
 
-		$i = 1;
-		while ( $i <= $x ) {
-			$previousWeekX  = strtotime( '-' . $i . ' weeks', $relativeDate );
-			$week['week'][] = $this->getWeekDates( $format, $weekStart, $previousWeekX );
+		$offset   *= HOUR_IN_SECONDS;
+		$timezone = timezone_name_from_abbr( '', $offset, $isDst );
 
-			$i ++;
-		}
+		if ( FALSE === $timezone ) {
 
-		$week['start'] = $week['week'][ $i - 2 ]['start'];
-		$week['end']   = $week['week'][0]['end'];
+			foreach ( timezone_abbreviations_list() as $abbr ) {
 
-		return $week;
-	}
+				foreach ( $abbr as $city ) {
 
-	/**
-	 * Returns X number of next (or relative week's dates) week's dates as UNIX timestamp or formatted string.
-	 *
-	 * $format can accept all formatting stings supported by date()
-	 * $weekStart accepts sunday, monday, tuesday, wednesday, thursday, friday, saturday
-	 * $relativeDate accepts UNIX timestamp
-	 *
-	 * @param         unknown : string $format
-	 * @param         unknown : string $weekStart
-	 * @param integer $relativeDate
-	 *
-	 * @return array
-	 */
-	public function getXNextWeekDates( $x, $format = NULL, $weekStart = NULL, $relativeDate = NULL ) {
+					if ( (bool) $city['dst'] === (bool) $isDst &&
+					     strlen( $city['timezone_id'] ) > 0 &&
+					     $city['offset'] == $offset
+					) {
 
-		if ( empty( $relativeDate ) ) {
-			$relativeDate = time();
-		}
-		if ( empty( $weekStart ) ) {
-			$weekStart = 'sunday';
-		}
-
-		$i = 1;
-		while ( $i <= $x ) {
-			$previousWeekX  = strtotime( '+' . $i . ' weeks', $relativeDate );
-			$week['week'][] = $this->getWeekDates( $format, $weekStart, $previousWeekX );
-
-			$i ++;
-		}
-
-		$week['start'] = $week['week'][0]['start'];
-		$week['end']   = $week['week'][ $i - 2 ]['end'];
-
-		return $week;
-	}
-
-	/**
-	 * Returns the current (or relative month's dates) month's dates as UNIX timestamp or formatted string.
-	 *
-	 * $format can accept all formatting stings supported by date()
-	 * $weekStart accepts sunday, monday, tuesday, wednesday, thursday, friday, saturday
-	 * $relativeDate accepts UNIX timestamp
-	 *
-	 * @param         unknown : string $format
-	 * @param         unknown : string $weekStart
-	 * @param integer $relativeDate
-	 *
-	 * @return array
-	 */
-	public function getMonthDates( $format = NULL, $weekStart = NULL, $relativeDate = NULL ) {
-
-		if ( empty( $relativeDate ) ) {
-			$relativeDate = time();
-		}
-
-		$date['start'] = mktime( 0, 0, 0, date( 'n', $relativeDate ), 1, date( 'Y', $relativeDate ) );
-
-		// 0 for day will cause mktime to eval to the last day of the previous month.
-		$date['end'] = mktime( 0, 0, 0, date( 'n', $relativeDate ) + 1, 0, date( 'Y', $relativeDate ) );
-
-		// Set the offset if the $weekStart is defined
-		if ( ! empty( $weekStart ) ) {
-			$offset         = date( 'w', strtotime( $weekStart ) );
-			$date['offset'] = $offset;
-		}
-
-		// Set the while loop iteration variables.
-		$i = $date['start'];
-		$j = 0;
-
-		while ( $i <= $date['end'] ) {
-			$day                               = strtolower( date( 'l', $i ) );
-			$date['week'][ $j ]['day'][ $day ] = $i;
-
-			// If the $offset is set, calculate the new day of week and next day values numerically.
-			// date('w') returns 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday
-			// The offset is calculated based on this and shifts the values based on the user supplied start of week.
-			if ( isset( $offset ) ) {
-				if ( $offset <= date( 'w', $i ) ) {
-					$offsetWeekStart = date( 'w', $i ) - $offset;
-				} else {
-					$offsetWeekStart = ( date( 'w', $i ) + 7 ) - $offset;
+						$timezone = $city['timezone_id'];
+						break;
+					}
 				}
 
-				if ( $offset <= date( 'w', strtotime( '+ 1 day', $i ) ) ) {
-					$offsetWeekStartNextDay = date( 'w', strtotime( '+ 1 day', $i ) ) - $offset;
-				} else {
-					$offsetWeekStartNextDay = ( date( 'w', strtotime( '+ 1 day', $i ) ) + 7 ) - $offset;
-				}
-			}
+				if ( FALSE !== $timezone ) {
 
-			// If the current day of the week (numerically) is greater than or equal to the next day of the week [numerically],
-			// advance the week number count by one. The else takes into account if the user supplied a preferred start of week.
-			if ( ! isset( $offset ) ) {
-				if ( date( 'w', $i ) >= date( 'w', strtotime( '+ 1 day', $i ) ) ) {
-					$j ++;
-				}
-			} else {
-				if ( $offsetWeekStart >= $offsetWeekStartNextDay ) {
-					$j ++;
-				}
-			}
-
-			// Move to the next day and repeat.
-			$i = strtotime( '+ 1 day', $i );
-		}
-
-		// Format all date timestamps if format is supplied.
-		if ( ! empty( $format ) ) {
-			$date['start'] = date( $format, $date['start'] );
-			$date['end']   = date( $format, $date['end'] );
-
-			// Walk through the week/day arrays and format.
-			foreach ( $date['week'] as $weekKey => $week ) {
-				foreach ( $week['day'] as $dayKey => $timestamp ) {
-					$date['week'][ $weekKey ]['day'][ $dayKey ] = date( $format, $timestamp );
+					break;
 				}
 			}
 		}
 
-		return $date;
-	}
-
-	/**
-	 * Returns the previous (or relative month's dates) month's dates as UNIX timestamp or formatted string.
-	 *
-	 * $format can accept all formatting stings supported by date()
-	 * $weekStart accepts sunday, monday, tuesday, wednesday, thursday, friday, saturday
-	 * $relativeDate accepts UNIX timestamp
-	 *
-	 * @param         unknown : string $format
-	 * @param         unknown : string $weekStart
-	 * @param integer $relativeDate
-	 *
-	 * @return array
-	 */
-	public function getPreviousMonthDates( $format = NULL, $weekStart = NULL, $relativeDate = NULL ) {
-
-		if ( empty( $relativeDate ) ) {
-			$relativeDate = time();
-		}
-
-		$relativeDate = mktime( 0, 0, 0, date( 'n', $relativeDate ) -1, 1, date( 'Y', $relativeDate ) );
-
-		return $this->getMonthDates( $format, $weekStart, $relativeDate );
-	}
-
-	/**
-	 * Returns the next (or relative month's dates) month's dates as UNIX timestamp or formatted string.
-	 *
-	 * $format can accept all formatting stings supported by date()
-	 * $weekStart accepts sunday, monday, tuesday, wednesday, thursday, friday, saturday
-	 * $relativeDate accepts UNIX timestamp
-	 *
-	 * @param         unknown : string $format
-	 * @param         unknown : string $weekStart
-	 * @param integer $relativeDate
-	 *
-	 * @return array
-	 */
-	public function getNextMonthDates( $format = NULL, $weekStart = NULL, $relativeDate = NULL ) {
-
-		if ( empty( $relativeDate ) ) {
-			$relativeDate = time();
-		}
-
-		$relativeDate = mktime( 0, 0, 0, date( 'n', $relativeDate ) + 1, 1, date( 'Y', $relativeDate ) );
-
-		return $this->getMonthDates( $format, $weekStart, $relativeDate );
+		return $timezone;
 	}
 
 	/**
@@ -443,6 +211,7 @@ class cnDate {
 	 *
 	 * @access public
 	 * @since  8.6.4
+	 * @static
 	 *
 	 * @param string $format The datetime format.
 	 *
@@ -489,6 +258,7 @@ class cnDate {
 	 *
 	 * @access public
 	 * @since  8.6.4
+	 * @static
 	 *
 	 * @param string $format The datetime format.
 	 * @param string $date   The datetime string to parse.
@@ -565,6 +335,7 @@ class cnDate {
 	 *
 	 * @access public
 	 * @since  8.6.4
+	 * @static
 	 *
 	 * @param  string $format  The datetime format.
 	 * @param  string $date    The datetime string to parse.

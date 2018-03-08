@@ -245,68 +245,53 @@ class cnUser {
 	/**
 	 * Returns the current page and page limit of the supplied page name.
 	 *
+	 * @access public
+	 * @since  unknown
+	 * @deprecated 8.13 Use cnUser::getScreenOption()
+	 * @see cnUser::getScreenOption()
+	 *
 	 * @param string $pageName
 	 *
 	 * @return object
 	 */
 	public function getFilterPage( $pageName ) {
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$meta = $this->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 
-		if ( ! $user_meta == NULL && isset( $user_meta['filter'][ $pageName ] ) ) {
-			$page = (object) $user_meta['filter'][ $pageName ];
-
-			if ( ! isset( $page->limit ) || empty( $page->limit ) ) {
-				$page->limit = 50;
-			}
-			if ( ! isset( $page->current ) || empty( $page->current ) ) {
-				$page->current = 1;
-			}
-
-			return $page;
-		} else {
-			$page = new stdClass();
-
-			$page->limit   = 50;
-			$page->current = 1;
-
-			return $page;
-		}
+		return (object) $meta;
 	}
 
 	/**
+	 * @access public
+	 * @since  unknown
+	 * @deprecated 8.13 Use @see cnUser::setScreenOption()
+	 * @see cnUser::setScreenOption()
+	 *
 	 * @param object $page
+	 *
+	 * @return bool|int
 	 */
 	public function setFilterPage( $page ) {
 
 		// If the page name has not been supplied, no need to process further.
 		if ( ! isset( $page->name ) ) {
-			return;
+			return FALSE;
 		}
 
-		$page->name = sanitize_title( $page->name );
+		$screen = sanitize_title( $page->name );
+		$meta   = $this->getScreenOption( $screen, 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 
 		if ( isset( $page->current ) ) {
-			$page->current = absint( $page->current );
+
+			cnArray::set( $meta, 'current', absint( $page->current ) );
 		}
+
 		if ( isset( $page->limit ) ) {
-			$page->limit = absint( $page->limit );
+
+			cnArray::set( $meta, 'limit', absint( $page->limit ) );
 		}
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
-
-		if ( isset( $page->current ) ) {
-			//$user_meta['filter'][ $page->name ]['current'] = $page->current;
-			cnArray::set( $user_meta, "filter.{$page->name}.current", $page->current );
-		}
-		if ( isset( $page->limit ) ) {
-			//$user_meta['filter'][ $page->name ]['limit'] = $page->limit;
-			cnArray::set( $user_meta, "filter.{$page->name}.limit", $page->limit );
-		}
-
-		update_user_meta( $this->ID, 'connections', $user_meta );
+		return $this->setScreenOption( $page->name, 'pagination', $meta );
 	}
 
 	/**

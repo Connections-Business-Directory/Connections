@@ -59,7 +59,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		 *
 		 * @var cnUser
 		 */
-		public $currentUser;
+		public $currentUser, $user;
 
 		/**
 		 * @access public
@@ -206,6 +206,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::$instance->settings    = cnSettingsAPI::getInstance();
 				self::$instance->pageHook    = new stdClass();
 				self::$instance->currentUser = new cnUser();
+				self::$instance->user        = &self::$instance->currentUser;
 				self::$instance->retrieve    = new cnRetrieve();
 				self::$instance->term        = new cnTerms();
 				self::$instance->template    = new cnTemplatePart();

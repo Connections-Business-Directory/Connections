@@ -371,6 +371,45 @@ class cnUser {
 	}
 
 	/**
+	 * Get the current user's meta.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @return array
+	 */
+	public function getMeta() {
+
+		$meta = get_user_meta( $this->getID(), 'connections', TRUE );
+
+		/*
+		 * Since get_user_meta() can return array|string|false but we expect only an array,
+		 * check $meta and set it to an array if it is not.
+		 */
+		if ( ! is_array( $meta ) ) {
+
+			$meta = array();
+		}
+
+		return $meta;
+	}
+
+	/**
+	 * Set the current user's meta.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param array $meta
+	 *
+	 * @return bool|int
+	 */
+	public function setMeta( $meta ) {
+
+		return update_user_meta( $this->getID(), 'connections', $meta );
+	}
+
+	/**
 	 * Reset any messages stored in the user's meta.
 	 * This is a deprecated helper function left in place until all instances of it are removed from the code base.
 	 *

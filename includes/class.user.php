@@ -371,6 +371,45 @@ class cnUser {
 	}
 
 	/**
+	 * Get all screen options for a specific admin page.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param string $screen
+	 * @param array  $defaults
+	 *
+	 * @return array
+	 */
+	public function getScreenOptions( $screen, $defaults = array() ) {
+
+		return cnArray::get( $this->getMeta(), "screen.{$screen}", $defaults );
+	}
+
+	/**
+	 * Set screen options for a specific admin page.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param string $screen
+	 * @param array  $options
+	 *
+	 * @return bool|int
+	 */
+	public function setScreenOptions( $screen, $options ) {
+
+		$meta = $this->getMeta();
+
+		$current = cnArray::get( $meta, "screen.{$screen}", array() );
+		$options = array_replace_recursive( $current, $options );
+
+		cnArray::set( $meta, "screen.{$screen}", $options );
+
+		return $this->setMeta( $meta );
+	}
+
+	/**
 	 * Get the current user's meta.
 	 *
 	 * @access public

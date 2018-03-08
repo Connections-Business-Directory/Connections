@@ -734,7 +734,7 @@ class cnSEO {
 	}
 
 	/**
-	 * Remove the comment feeds from th directory sub-pages.
+	 * Remove the comment feeds from the directory sub-pages.
 	 * This is to prevent search engine crawl errors / 404s.
 	 *
 	 * @access private

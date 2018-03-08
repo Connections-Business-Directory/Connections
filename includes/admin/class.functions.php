@@ -118,9 +118,7 @@ class cnAdminFunction {
 	 * Display the database upgrade notice. This will only be shown on non-Connections pages.
 	 *
 	 * @access private
-	 * @since 0.7.5
-	 * @uses get_current_screen()
-	 * @return (void)
+	 * @since  0.7.5
 	 */
 	public static function displayDBUpgradeNotice() {
 
@@ -136,9 +134,11 @@ class cnAdminFunction {
 	 * Add the Settings link to the plugin admin page.
 	 *
 	 * @access private
-	 * @since unknown
-	 * @param (array) $links
-	 * @return (void)
+	 * @since  unknown
+	 *
+	 * @param array $links
+	 *
+	 * @return array
 	 */
 	public static function addActionLinks( $links ) {
 
@@ -153,10 +153,12 @@ class cnAdminFunction {
 	 * Add the links for premium templates, extensions and support info.
 	 *
 	 * @access private
-	 * @since unknown
-	 * @param (array) $links
-	 * @param (string) $file
-	 * @return (void)
+	 * @since  unknown
+	 *
+	 * @param array  $links
+	 * @param string $file
+	 *
+	 * @return array
 	 */
 	public static function addMetaLinks( $links, $file ) {
 
@@ -182,7 +184,7 @@ class cnAdminFunction {
 	 * @uses   plugins_api()
 	 *
 	 * @param  array  $plugin_data An Array of the plugin metadata
-	 * @param  object $r An array of metadata about the available plugin update.
+	 * @param  object $r           An array of metadata about the available plugin update.
 	 */
 	public static function displayUpgradeNotice( $plugin_data, $r ) {
 
@@ -266,10 +268,12 @@ class cnAdminFunction {
 	 * Register the number of columns permitted for metabox use on the edit entry page.
 	 *
 	 * @access private
-	 * @since 0.7.1.3
-	 * @param $columns (array)
-	 * @param $screen (string)
-	 * @return (array)
+	 * @since  0.7.1.3
+	 *
+	 * @param array  $columns
+	 * @param string $screen
+	 *
+	 * @return array
 	 */
 	public static function screenLayout( $columns, $screen ) {
 
@@ -372,8 +376,9 @@ class cnAdminFunction {
 	 * NOTE: This relies on the the Screen Options class by Janis Elsts
 	 *
 	 * @access private
-	 * @since unknown
-	 * @return (void)
+	 * @since  unknown
+	 *
+	 * @return void
 	 */
 	public static function managePageLimitSaveAJAX() {
 

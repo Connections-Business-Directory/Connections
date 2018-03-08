@@ -127,7 +127,10 @@ class cnAdminFunction {
 
 		$screen = get_current_screen();
 
-		if ( ! in_array( $screen->id, (array) $instance->pageHook ) ) cnMessage::create( 'notice', 'db_update_required' );
+		if ( ! in_array( $screen->id, (array) $instance->pageHook ) ) {
+
+			cnMessage::create( 'notice', 'db_update_required' );
+		}
 	}
 
 	/**

@@ -345,6 +345,13 @@ class cnAdminFunction {
 					array( __CLASS__, 'managePageLimit' ),
 					$instance->pageHook->manage
 				);
+
+				add_screen_options_panel(
+					'cn-manage-image',
+					'Choose Thumbnail to display:',
+					array( __CLASS__, 'manageImageThumbnail' ),
+					$instance->pageHook->manage
+				);
 			}
 
 		}
@@ -352,6 +359,7 @@ class cnAdminFunction {
 
 	/**
 	 * Add the page limit panel to the screen options of the manage page.
+	 *
 	 * NOTE: This relies on the the Screen Options class by Janis Elsts
 	 *
 	 * @access private
@@ -364,13 +372,50 @@ class cnAdminFunction {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
-		$page = $instance->currentUser->getFilterPage( 'manage' );
+		//$page = $instance->currentUser->getFilterPage( 'manage' );
+		$page = $instance->user->getScreenOption(
+			'manage',
+			'pagination',
+			array( 'current' => 1, 'limit' => 50 )
+		);
 
-		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page->limit . '" />' . __( 'Entries', 'connections' ) . '</label>';
+		$out = '<label><input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]" id="entries_per_page" maxlength="3" value="' . $page['limit'] . '" />' . __( 'Entries', 'connections' ) . '</label>';
 		$out .= '<input type="hidden" name="wp_screen_options[option]" id="edit_entry_per_page_name" value="connections" />';
 		$out .= '<input type="submit" name="screen-options-apply" id="entry-per-page-apply" class="button" value="Apply"  />';
 
 		return $out;
+	}
+
+	/**
+	 * Add the option to the Screen Options tab to display either the entry logo or photo.
+	 *
+	 * NOTE: This relies on the the Screen Options class by Janis Elsts
+	 *
+	 * @access private
+	 * @since  8.13
+	 *
+	 * @return string
+	 */
+	public static function manageImageThumbnail() {
+
+		$html = '';
+
+		$html .= cnHTML::radio(
+			array(
+				'id'      => 'wp_screen_options[image_thumbnail]',
+				'prefix'  => '',
+				'options' => array(
+					'logo'  => __( 'Logo', 'connections' ),
+					'photo' => __( 'Photo', 'connections' ),
+				),
+				'return' => TRUE,
+			),
+			Connections_Directory()->user->getScreenOption( 'manage', 'thumbnail', 'photo' )
+		);
+
+		$html .= '<input type="submit" name="screen-options-apply" id="entry-image-thumbnail-apply" class="button" value="Apply" />';
+
+		return $html;
 	}
 
 	/**
@@ -392,10 +437,10 @@ class cnAdminFunction {
 	/**
 	 * Callback for the `set-screen-option` filter.
 	 *
-	 * Save the user entered value for display n-number of entries on the manage admin page.
+	 * Save the user entered value for display n-number of entries and image thumbnail on the Manage admin page.
 	 *
 	 * @access private
-	 * @since  unknown
+	 * @since  8.13
 	 * @static
 	 *
 	 * @param bool   $false
@@ -404,47 +449,23 @@ class cnAdminFunction {
 	 *
 	 * @return array|false
 	 */
-	public static function managePageLimitSave( $false, $option, $value ) {
+	public static function setManageScreenOptions( $false, $option, $value ) {
 
 		if ( 'connections' !== $option ) {
 
 			return $false;
 		}
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$meta  = Connections_Directory()->user->getScreenOptions( 'manage', array() );
+		$image = sanitize_text_field( $_POST['wp_screen_options']['image_thumbnail'] );
 
-		$meta = get_user_meta( $instance->currentUser->getID(), 'connections', TRUE );
+		cnArray::set( $meta, 'pagination', array( 'current' => 1, 'limit' => absint( $value ) ) );
+		cnArray::set( $meta, 'thumbnail', $image );
 
-		/*
-		 * Since get_user_meta() can return array|string|false but we expect only an array,
-		 * check for the other possible return values and if found setup the array.
-		 */
-		if ( is_string( $meta ) || FALSE === $meta ) {
+		Connections_Directory()->user->setScreenOptions( 'manage', $meta );
 
-			$meta = array( 'filter' => array( 'manage' => array() ) );
-		}
-
-		/*
-		 * If the `filter` key does not exist or is not an array, ensure it does.
-		 */
-		if ( ! isset( $meta['filter'] ) || ! is_array( $meta['filter'] ) ) {
-
-			$meta['filter'] = array();
-		}
-
-		/*
-		 * If the `manage` key does not exist or is not an array, ensure it does.
-		 */
-		if ( ! isset( $meta['filter']['manage'] ) || ! is_array( $meta['filter']['manage'] ) ) {
-
-			$meta['filter']['manage'] = array();
-		}
-
-		$meta['filter']['manage']['limit']   = absint( $value );
-		$meta['filter']['manage']['current'] = 1;
-
-		return $meta;
+		// cnUser::setScreenOptions() saves the user meta, return FALSE to short circuit set_screen_options().
+		return FALSE;
 	}
 
 	/**

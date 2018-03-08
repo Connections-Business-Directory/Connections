@@ -595,7 +595,18 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<tr id="row-' , $entry->getId() , '" class="parent-row' . $statusClass .'">';
 					echo "<th class='check-column' scope='row'><input type='checkbox' value='" . $entry->getId() . "' name='id[]'/></th> \n";
 					echo '<td>';
-					$entry->getImage( array( 'image' => 'photo', 'height' => 54, 'width' => 80, 'zc' => 2, 'fallback' => array( 'type' => 'block', 'string' => __( 'No Photo Available', 'connections' ) ) ) );
+					$entry->getImage(
+						array(
+							'image'    => $instance->user->getScreenOption( 'manage', 'thumbnail', 'photo' ),
+							'height'   => 54,
+							'width'    => 80,
+							'zc'       => 2,
+							'fallback' => array(
+								'type'   => 'block',
+								'string' => __( 'No Image Available', 'connections' ),
+							),
+						)
+					);
 					echo '</td>';
 					echo '<td  colspan="2">';
 					if ( $setAnchor ) echo $setAnchor;

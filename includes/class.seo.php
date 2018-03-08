@@ -383,7 +383,7 @@ class cnSEO {
 	 * @param string $separator
 	 * @param string $seplocation
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	private static function metaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
 

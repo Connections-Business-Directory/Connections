@@ -54,7 +54,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		private $api;
 
 		/**
-		 * @access private
+		 * @access public
 		 * @since  unknown
 		 *
 		 * @var cnUser

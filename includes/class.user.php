@@ -371,6 +371,44 @@ class cnUser {
 	}
 
 	/**
+	 * Get a specific option for a specific admin page.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param string $screen
+	 * @param string $option
+	 * @param mixed  $default
+	 *
+	 * @return mixed
+	 */
+	public function getScreenOption( $screen, $option, $default = NULL ) {
+
+		return cnArray::get( $this->getScreenOptions( $screen ), $option, $default );
+	}
+
+	/**
+	 * Set a specific option for a specific admin page.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param string $screen
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return bool|int
+	 */
+	public function setScreenOption( $screen, $key, $value ) {
+
+		$options = $this->getScreenOptions( $screen );
+
+		cnArray::set( $options, $key, $value );
+
+		return $this->setScreenOptions( $screen, $options );
+	}
+
+	/**
 	 * Get all screen options for a specific admin page.
 	 *
 	 * @access public

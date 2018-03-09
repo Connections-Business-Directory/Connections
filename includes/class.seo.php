@@ -383,7 +383,7 @@ class cnSEO {
 	 * @param string $separator
 	 * @param string $seplocation
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	private static function metaTitle( $title, $separator = '&raquo;', $seplocation = '' ) {
 
@@ -402,7 +402,10 @@ class cnSEO {
 			// If the category slug is a descendant, use the last slug from the URL for the query.
 			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) {
+
+				$categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			}
 
 			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
@@ -537,7 +540,10 @@ class cnSEO {
 			// If the category slug is a descendant, use the last slug from the URL for the query.
 			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) {
+
+				$categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			}
 
 			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
@@ -647,7 +653,10 @@ class cnSEO {
 			// If the category slug is a descendant, use the last slug from the URL for the query.
 			$categorySlug = explode( '/' , cnQuery::getVar( 'cn-cat-slug' ) );
 
-			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) $categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			if ( isset( $categorySlug[ count( $categorySlug ) - 1 ] ) ) {
+
+				$categorySlug = $categorySlug[ count( $categorySlug ) - 1 ];
+			}
 
 			$term = cnTerm::getBy( 'slug', $categorySlug, 'category' );
 
@@ -734,7 +743,7 @@ class cnSEO {
 	}
 
 	/**
-	 * Remove the comment feeds from th directory sub-pages.
+	 * Remove the comment feeds from the directory sub-pages.
 	 * This is to prevent search engine crawl errors / 404s.
 	 *
 	 * @access private

@@ -1,5 +1,19 @@
 == Changelog ==
 
+= 8.12 03/09/2018 =
+* FEATURE: Add new option to the Connections : Manage admin page Screen Option to allow the user to choose between the entry logo or photo as the thumbail.
+* NEW: Introduce `cnUser::getMeta()` and `cnUser::setMeta()`.
+* NEW: Introduce `cnUser::getScreenOptions()` and `cnUser::setScreenOptions()`.
+* NEW: Introduce `cnUser::getScreenOption()` and `cnUser::setScreenOption()`.
+* TWEAK: Refactor `cnUser::getFilterPage()` and `cnUser::setFilterPage()` to use `cnUser::getScreenOption()` and  `cnUser::setScreenOption()` respectively and then deprecate those methods.
+* TWEAK: Add `connectionsLoad::$user` as reference to `connectionsLoad::$currentUser`.
+* OTHER: Update the Screen Options library from version 1.3 to 1.4.
+* OTHER: Update Chosen library from 1.7.0 to 1.8.3.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: Update package.json.
+* DEV: phpDoc corrections.
+
 = 8.12 02/19/2018 =
 * NEW: Introduce several new timezone helper methods in cnDate.
 * TWEAK: Add options to the `cnRetrieve::upcoming()` method to suport whether or not to check user caps and from timestamp.

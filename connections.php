@@ -11,7 +11,7 @@
  * Plugin Name:       Connections Business Directory
  * Plugin URI:        https://connections-pro.com/
  * Description:       A business directory and address book manager.
- * Version:           8.12
+ * Version:           8.13
  * Author:            Steven A. Zahm
  * Author URI:        http://connections-pro.com/
  * License:           GPL-2.0+
@@ -54,12 +54,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		private $api;
 
 		/**
-		 * @access private
+		 * @access public
 		 * @since  unknown
 		 *
 		 * @var cnUser
 		 */
-		public $currentUser;
+		public $currentUser, $user;
 
 		/**
 		 * @access public
@@ -206,6 +206,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				self::$instance->settings    = cnSettingsAPI::getInstance();
 				self::$instance->pageHook    = new stdClass();
 				self::$instance->currentUser = new cnUser();
+				self::$instance->user        = &self::$instance->currentUser;
 				self::$instance->retrieve    = new cnRetrieve();
 				self::$instance->term        = new cnTerms();
 				self::$instance->template    = new cnTemplatePart();
@@ -290,7 +291,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			 * NOTE: Set priority 99 so the filter will hopefully run last to help prevent other plugins
 			 *       which do not hook into `set-screen-option` properly from breaking Connections.
 			 */
-			add_filter( 'set-screen-option', array( 'cnAdminFunction', 'managePageLimitSave' ), 99, 3 );
+			add_filter( 'set-screen-option', array( 'cnAdminFunction', 'setManageScreenOptions' ), 99, 3 );
 
 			// Init the class.
 			add_action( 'init', array( 'cnSEO', 'hooks' ) );

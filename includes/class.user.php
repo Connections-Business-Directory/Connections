@@ -245,68 +245,53 @@ class cnUser {
 	/**
 	 * Returns the current page and page limit of the supplied page name.
 	 *
+	 * @access public
+	 * @since  unknown
+	 * @deprecated 8.13 Use cnUser::getScreenOption()
+	 * @see cnUser::getScreenOption()
+	 *
 	 * @param string $pageName
 	 *
 	 * @return object
 	 */
 	public function getFilterPage( $pageName ) {
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
+		$meta = $this->getScreenOption( 'manage', 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 
-		if ( ! $user_meta == NULL && isset( $user_meta['filter'][ $pageName ] ) ) {
-			$page = (object) $user_meta['filter'][ $pageName ];
-
-			if ( ! isset( $page->limit ) || empty( $page->limit ) ) {
-				$page->limit = 50;
-			}
-			if ( ! isset( $page->current ) || empty( $page->current ) ) {
-				$page->current = 1;
-			}
-
-			return $page;
-		} else {
-			$page = new stdClass();
-
-			$page->limit   = 50;
-			$page->current = 1;
-
-			return $page;
-		}
+		return (object) $meta;
 	}
 
 	/**
+	 * @access public
+	 * @since  unknown
+	 * @deprecated 8.13 Use @see cnUser::setScreenOption()
+	 * @see cnUser::setScreenOption()
+	 *
 	 * @param object $page
+	 *
+	 * @return bool|int
 	 */
 	public function setFilterPage( $page ) {
 
 		// If the page name has not been supplied, no need to process further.
 		if ( ! isset( $page->name ) ) {
-			return;
+			return FALSE;
 		}
 
-		$page->name = sanitize_title( $page->name );
+		$screen = sanitize_title( $page->name );
+		$meta   = $this->getScreenOption( $screen, 'pagination', array( 'current' => 1, 'limit' => 50 ) );
 
 		if ( isset( $page->current ) ) {
-			$page->current = absint( $page->current );
+
+			cnArray::set( $meta, 'current', absint( $page->current ) );
 		}
+
 		if ( isset( $page->limit ) ) {
-			$page->limit = absint( $page->limit );
+
+			cnArray::set( $meta, 'limit', absint( $page->limit ) );
 		}
 
-		$user_meta = get_user_meta( $this->ID, 'connections', TRUE );
-
-		if ( empty( $user_meta ) || ! is_array( $user_meta ) ) $user_meta = array();
-
-		if ( isset( $page->current ) ) {
-			//$user_meta['filter'][ $page->name ]['current'] = $page->current;
-			cnArray::set( $user_meta, "filter.{$page->name}.current", $page->current );
-		}
-		if ( isset( $page->limit ) ) {
-			//$user_meta['filter'][ $page->name ]['limit'] = $page->limit;
-			cnArray::set( $user_meta, "filter.{$page->name}.limit", $page->limit );
-		}
-
-		update_user_meta( $this->ID, 'connections', $user_meta );
+		return $this->setScreenOption( $page->name, 'pagination', $meta );
 	}
 
 	/**
@@ -368,6 +353,122 @@ class cnUser {
 		$page->current = 1;
 
 		$this->setFilterPage( $page );
+	}
+
+	/**
+	 * Get a specific option for a specific admin page.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param string $screen
+	 * @param string $option
+	 * @param mixed  $default
+	 *
+	 * @return mixed
+	 */
+	public function getScreenOption( $screen, $option, $default = NULL ) {
+
+		return cnArray::get( $this->getScreenOptions( $screen ), $option, $default );
+	}
+
+	/**
+	 * Set a specific option for a specific admin page.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param string $screen
+	 * @param string $key
+	 * @param mixed  $value
+	 *
+	 * @return bool|int
+	 */
+	public function setScreenOption( $screen, $key, $value ) {
+
+		$options = $this->getScreenOptions( $screen );
+
+		cnArray::set( $options, $key, $value );
+
+		return $this->setScreenOptions( $screen, $options );
+	}
+
+	/**
+	 * Get all screen options for a specific admin page.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param string $screen
+	 * @param array  $defaults
+	 *
+	 * @return array
+	 */
+	public function getScreenOptions( $screen, $defaults = array() ) {
+
+		return cnArray::get( $this->getMeta(), "screen.{$screen}", $defaults );
+	}
+
+	/**
+	 * Set screen options for a specific admin page.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param string $screen
+	 * @param array  $options
+	 *
+	 * @return bool|int
+	 */
+	public function setScreenOptions( $screen, $options ) {
+
+		$meta = $this->getMeta();
+
+		$current = cnArray::get( $meta, "screen.{$screen}", array() );
+		$options = array_replace_recursive( $current, $options );
+
+		cnArray::set( $meta, "screen.{$screen}", $options );
+
+		return $this->setMeta( $meta );
+	}
+
+	/**
+	 * Get the current user's meta.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @return array
+	 */
+	public function getMeta() {
+
+		$meta = get_user_meta( $this->getID(), 'connections', TRUE );
+
+		/*
+		 * Since get_user_meta() can return array|string|false but we expect only an array,
+		 * check $meta and set it to an array if it is not.
+		 */
+		if ( ! is_array( $meta ) ) {
+
+			$meta = array();
+		}
+
+		return $meta;
+	}
+
+	/**
+	 * Set the current user's meta.
+	 *
+	 * @access public
+	 * @since  8.13
+	 *
+	 * @param array $meta
+	 *
+	 * @return bool|int
+	 */
+	public function setMeta( $meta ) {
+
+		return update_user_meta( $this->getID(), 'connections', $meta );
 	}
 
 	/**

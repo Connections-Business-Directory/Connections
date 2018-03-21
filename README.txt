@@ -234,7 +234,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
-= 8.12 03/09/2018 =
+= 8.13 03/09/2018 =
 * FEATURE: Add new option to the Connections : Manage admin page Screen Option to allow the user to choose between the entry logo or photo as the thumbail.
 * NEW: Introduce `cnUser::getMeta()` and `cnUser::setMeta()`.
 * NEW: Introduce `cnUser::getScreenOptions()` and `cnUser::setScreenOptions()`.

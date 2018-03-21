@@ -51,6 +51,7 @@ Here are some great **free extensions** (with more on the way) that enhance your
 **Custom Fields**
 
 * [Business Open Hours](https://wordpress.org/plugins/connections-business-directory-hours/) :: Add the business open hours.
+* [Certifications](https://wordpress.org/plugins/connections-business-directory-certifications/) :: Create and assign certifications to individuals in your directory.
 * [Local Time](https://wordpress.org/plugins/connections-business-directory-local-time/) :: Add the business local time.
 * [Facilities](https://wordpress.org/plugins/connections-business-directory-facilities/) :: Add the business facilities.
 * [Income Level](https://wordpress.org/plugins/connections-business-directory-income-levels/) :: Add an income level.

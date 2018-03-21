@@ -1069,7 +1069,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						foreach ( $value['order'] as $key ) if ( isset( $blocks[ $key ] ) ) $order[] = $key;
 
 						// Order the array as the user has defined in $value['order'].
-						$blocks = array_merge( array_flip( $order ), $blocks );
+						$blocks = array_replace( array_flip( $order ), $blocks );
 
 					} else {
 

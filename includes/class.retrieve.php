@@ -1414,7 +1414,7 @@ class cnRetrieve {
 
 				default:
 
-					return self::entries(
+					return $this->entries(
 						array(
 							'lock'     => TRUE,
 							'id'       => $ids,

@@ -5,7 +5,7 @@
  * @todo Clean so it is better "template" code.
  *
  * @var cnCollection $phoneNumbers
- * @var cnPhone    $phone
+ * @var cnPhone      $phone
  */
 
 echo '<div class="phone-numbers">';

@@ -1282,7 +1282,7 @@ class cnRetrieve {
 		$time = $atts['from_timestamp'];
 
 		// Get today's date, formatted for use in the query.
-		$date = gmdate( 'Y-m-d', $atts['from_timestamp'] );
+		$date = gmdate( 'Y-m-d', (int) $atts['from_timestamp'] );
 
 		// Whether or not to include the event occurring today or not.
 		$includeToday = $atts['today'] ? '<=' : '<';

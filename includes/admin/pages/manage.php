@@ -742,20 +742,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo '<td>';
 
 					$entry->phoneNumbers->render( 'admin' );
-
-					$emailAddresses = $entry->getEmailAddresses();
-
-					if ( ! empty( $emailAddresses ) ) {
-						echo '<div class="email-addresses">';
-
-						foreach ( $emailAddresses as $email ) {
-							( $email->preferred ) ? $preferred = '*' : $preferred = '';
-
-							echo '<span class="email"><strong>' , $email->name , ':</strong> <a href="mailto:' , $email->address , '">' , $email->address , '</a>' , $preferred , '</span>';
-						}
-
-						echo '</div>';
-					}
+					$entry->emailAddresses->render( 'admin' );
 
 					$imIDs = $entry->getIm();
 

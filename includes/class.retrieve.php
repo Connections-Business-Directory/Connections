@@ -1282,7 +1282,7 @@ class cnRetrieve {
 		$time = $atts['from_timestamp'];
 
 		// Get today's date, formatted for use in the query.
-		$date = gmdate( 'Y-m-d', $atts['from_timestamp'] );
+		$date = gmdate( 'Y-m-d', (int) $atts['from_timestamp'] );
 
 		// Whether or not to include the event occurring today or not.
 		$includeToday = $atts['today'] ? '<=' : '<';
@@ -1414,7 +1414,7 @@ class cnRetrieve {
 
 				default:
 
-					return self::entries(
+					return $this->entries(
 						array(
 							'lock'     => TRUE,
 							'id'       => $ids,
@@ -1876,7 +1876,7 @@ class cnRetrieve {
 			$limit
 		);
 
-		$results = $wpdb->get_results( $sql );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
 	}

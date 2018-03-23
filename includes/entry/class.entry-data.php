@@ -114,11 +114,9 @@ class cnEntry {
 	public $phoneNumbers;
 
 	/**
-	 * Associative array of email addresses
-	 *
-	 * @var
+	 * @var cnEntry_Email_Addresses
 	 */
-	private $emailAddresses = '';
+	public $emailAddresses;
 
 	/**
 	 * Associative array of websites
@@ -358,10 +356,11 @@ class cnEntry {
 			if ( isset( $entry->department ) ) $this->department = $entry->department;
 			if ( isset( $entry->family_name ) ) $this->familyName = $entry->family_name;
 
-			$this->addresses    = isset( $entry->addresses ) ? new cnEntry_Addresses( $this->getId(), $entry->addresses ) : new cnEntry_Addresses( $this->getId() );
-			$this->phoneNumbers = isset( $entry->phone_numbers ) ? new cnEntry_Phone_Numbers( $this->getId(), $entry->phone_numbers ) : new cnEntry_Phone_Numbers( $this->getId() );
+			$this->addresses      = isset( $entry->addresses ) ? new cnEntry_Addresses( $this->getId(), $entry->addresses ) : new cnEntry_Addresses( $this->getId() );
+			$this->phoneNumbers   = isset( $entry->phone_numbers ) ? new cnEntry_Phone_Numbers( $this->getId(), $entry->phone_numbers ) : new cnEntry_Phone_Numbers( $this->getId() );
+			$this->emailAddresses = isset( $entry->email ) ? new cnEntry_Email_Addresses( $this->getId(), $entry->email ) : new cnEntry_Email_Addresses( $this->getId() );
 
-			if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
+			//if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
 			if ( isset( $entry->im ) ) $this->im = $entry->im;
 			if ( isset( $entry->social ) ) $this->socialMedia = $entry->social;
 			if ( isset( $entry->links ) ) $this->links = $entry->links;
@@ -1481,273 +1480,60 @@ class cnEntry {
 	/**
 	 * Returns as an array of objects containing the email addresses per the defined options for the current entry.
 	 *
-	 * Accepted options for the $atts property are:
-	 *  preferred (bool) Retrieve the preferred entry email addresses.
-	 *  type (array) || (string) Retrieve specific email addresses types.
-	 *   Permitted Types:
-	 *    personal
-	 *    work
-	 *
-	 * Filters:
-	 *  cn_email_atts => (array) Set the method attributes.
-	 *  cn_email_cached => (bool) Define if the returned email addresses should be from the object cache or queried from the db.
-	 *  cn_email_address => (object) Individual email address as it is processed thru the loop.
-	 *  cn_email_addresses => (array) All phone numbers before it is returned.
-	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
+	 * @since  0.7.3
 	 *
-	 * @param array   $atts 		Accepted values as noted above.
-	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
-	 * @param bool    $saving       Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param array  $atts
+	 * @param bool   $cached  Returns the cached email address data rather than querying the db.
+	 * @param bool   $saving  Set as TRUE if adding a new entry or updating an existing entry.
+	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
 	 */
-	public function getEmailAddresses( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+	public function getEmailAddresses( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
-		/**
-		 * @var connectionsLoad $connections
-		 */
-		global $connections;
-
-		$results = array();
-
-		$atts = apply_filters( 'cn_email_atts', $atts );
-		$cached = apply_filters( 'cn_email_cached' , $cached );
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
-			'limit'     => NULL,
+			'preferred'   => FALSE,
+			'type'        => array(),
+			'limit'       => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		if ( $cached ) {
 
-			if ( ! empty( $this->emailAddresses ) ) {
-
-				$emailAddresses = unserialize( $this->emailAddresses );
-				if ( empty( $emailAddresses ) ) return $results;
-
-				/**
-				 * @var bool   $preferred
-				 * @var string $type
-				 */
-				extract( $atts );
-
-				/*
-				 * Covert to an array if it was supplied as a comma delimited string
-				 */
-				cnFunction::parseStringList( $type );
-
-				foreach ( (array) $emailAddresses as $key => $email ) {
-
-					/*
-					 * Previous versions stored empty arrays for email addresses, check for an address, continue if not found.
-					 */
-					if ( ! isset( $email['address'] ) || empty( $email['address'] ) ) continue;
-
-					/**
-					 * Allow plugins to filter raw data before object is setup.
-					 *
-					 * @since 8.5.19
-					 *
-					 * @param array $email
-					 */
-					$email = apply_filters( 'cn_email-pre_setup', $email );
-
-					$row = new stdClass();
-
-					( isset( $email['id'] ) ) ? $row->id = (int) $email['id'] : $row->id = 0;
-					( isset( $email['order'] ) ) ? $row->order = (int) $email['order'] : $row->order = 0;
-					( isset( $email['preferred'] ) ) ? $row->preferred = (bool) $email['preferred'] : $row->preferred = FALSE;
-					( isset( $email['type'] ) ) ? $row->type = $this->format->sanitizeString( $email['type'] ) : $row->type = '';
-					( isset( $email['address'] ) ) ? $row->address = $this->format->sanitizeString( $email['address'] ) : $row->address = '';
-					( isset( $email['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $email['visibility'] ) : $row->visibility = '';
-
-					/*
-					 * Set the email name based on type.
-					 */
-					$emailTypes = $connections->options->getDefaultEmailValues();
-					$row->name = $emailTypes[ $row->type ];
-
-					/*
-					 * // START -- Compatibility for previous versions.
-					 */
-					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't an option before.
-					if ( ! isset( $email['visibility'] ) || empty( $email['visibility'] ) ) $row->visibility = 'public';
-					/*
-					 * // END -- Compatibility for previous versions.
-					 */
-
-					/*
-					 * // START -- Do not return email addresses that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					/*
-					 * // END -- Do not return email addresses that do not match the supplied $atts.
-					 */
-
-					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					$results[] = apply_filters( 'cn_email_address', $row );
-				}
-
-				/*
-				 * Limit the number of results.
-				 */
-				if ( ! is_null( $atts['limit'] ) && 1 < count( $results ) ) {
-
-					$results = array_slice( $results, 0, absint( $atts['limit'] ) );
-				}
-
-			}
+			$results = $this->emailAddresses->filterBy( 'type', $atts['type'] )
+			                                ->filterBy( 'preferred', $atts['preferred'] )
+			                                ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+			                                ->escapeFor( $context )
+			                                ->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
-			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
-			$emailAddresses = $connections->retrieve->emailAddresses( $atts, $saving );
-			//print_r($results);
-
-			if ( empty( $emailAddresses ) ) return $results;
-
-			foreach ( $emailAddresses as $email ) {
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$email = apply_filters( 'cn_email-pre_setup', $email );
-
-				$email->id = (int) $email->id;
-				$email->order = (int) $email->order;
-				$email->preferred = (bool) $email->preferred;
-				$email->type = $this->format->sanitizeString( $email->type );
-				$email->address = $this->format->sanitizeString( $email->address );
-				$email->visibility = $this->format->sanitizeString( $email->visibility );
-
-				/*
-				 * Set the email name based on the email type.
-				 */
-				$emailTypes = $connections->options->getDefaultEmailValues();
-				$email->name = $emailTypes[ $email->type ];
-
-				$results[] = apply_filters( 'cn_email_address', $email );
-			}
-
+			$results = $this->emailAddresses->query( $atts )
+			                                ->escapeFor( $context )
+			                                ->getCollectionAsObjects();
 		}
 
-		return apply_filters( 'cn_email_addresses', $results );
+		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		$this->emailAddresses->resetFilters();
+
+		return $results;
 	}
 
 	/**
 	 * Caches the email addresses for use and preps for saving and updating.
 	 *
-	 * Valid values as follows.
-	 *
-	 * $email['id'] (int) Stores the email address ID if it was retrieved from the db.
-	 * $email['preferred'] (bool) Is the email address is the preferred address or not.
-	 * $email['type'] (string) Stores the email address type.
-	 * $email['address'] (string) Stores email address.
-	 * $email['visibility'] (string) Stores the email address visibility.
-	 *
-	 * @TODO: Validate as valid email address.
-	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $emailAddresses
-	 * @return void
+	 * @since  0.7.3
+	 *
+	 * @param array $data
 	 */
-	public function setEmailAddresses( $emailAddresses ) {
+	public function setEmailAddresses( $data ) {
 
-		$userPreferred = NULL;
-		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'address' => NULL, 'visibility' => NULL );
-
-		if ( ! empty( $emailAddresses ) ) {
-
-			$order = 0;
-			$preferred = '';
-
-			if ( isset( $emailAddresses['preferred'] ) ) {
-				$preferred = $emailAddresses['preferred'];
-				unset( $emailAddresses['preferred'] );
-			}
-
-			foreach ( $emailAddresses as $key => $email ) {
-
-				// First validate the supplied data.
-				$email = cnSanitize::args( $email, $validFields );
-
-				// If the address is empty, no need to store it.
-				if ( empty( $email['address'] ) ) {
-					unset( $emailAddresses [ $key ] );
-					continue;
-				}
-
-				// Store the order attribute as supplied in the addresses array.
-				$emailAddresses[ $key ]['order'] = $order;
-
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $emailAddresses[ $key ]['preferred'] = TRUE : $emailAddresses[ $key ]['preferred'] = FALSE;
-
-				/*
-				 * If the user set a preferred address, save the $key value.
-				 * This is going to be needed because if an address that the user
-				 * does not have permission to edit is set to preferred, that address
-				 * will have preference.
-				 */
-				if ( $emailAddresses[ $key ]['preferred'] ) $userPreferred = $key;
-
-				$order++;
-			}
-		}
-
-		/*
-		 * Before storing the data, add back into the array from the cache the email addresses
-		 * the user may not have had permission to edit so the cache stays current.
-		 */
-		$cached = unserialize( $this->emailAddresses );
-
-		if ( ! empty( $cached ) ) {
-
-			foreach ( $cached as $email ) {
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( ! isset( $email['visibility'] ) || empty( $email['visibility'] ) ) $email['visibility'] = 'public';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$email = apply_filters( 'cn_email-pre_setup', $email );
-
-				if ( ! $this->validate->userPermitted( $email['visibility'] ) ) {
-					$emailAddresses[] = $email;
-
-					// If the address is preferred, it takes precedence, so the user's choice is overridden.
-					if ( ! empty( $preferred ) && $email['preferred'] ) {
-						$emailAddresses[ $userPreferred ]['preferred'] = FALSE;
-
-						// Throw the user a message so they know why their choice was overridden.
-						cnMessage::set( 'error', 'entry_preferred_overridden_email' );
-					}
-				}
-			}
-		}
-
-		$this->emailAddresses = ! empty( $emailAddresses ) ? serialize( $emailAddresses ) : '';
+		$this->emailAddresses->updateFromArray( $data );
 	}
 
 	/**
@@ -4508,7 +4294,7 @@ class cnEntry {
 				'anniversary'        => $this->anniversary,
 				//'addresses'          => $this->addresses,
 				//'phone_numbers'      => $this->phoneNumbers,
-				'email'              => $this->emailAddresses,
+				//'email'              => $this->emailAddresses,
 				'im'                 => $this->im,
 				'social'             => $this->socialMedia,
 				'links'              => $this->links,
@@ -4545,7 +4331,7 @@ class cnEntry {
 				'%s', // anniversary
 				//'%s', // addresses
 				//'%s', // phone_numbers
-				'%s', // email
+				//'%s', // email
 				'%s', // im
 				'%s', // social
 				'%s', // links
@@ -4575,21 +4361,7 @@ class cnEntry {
 
 			$this->addresses->save();
 			$this->phoneNumbers->save();
-
-			$cnDb->upsert(
-				CN_ENTRY_EMAIL_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'address'    => array( 'key' => 'address', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getEmailAddresses( array(), TRUE, TRUE ),
-				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' ),
-				)
-			);
+			$this->emailAddresses->save();
 
 			$cnDb->upsert(
 				CN_ENTRY_MESSENGER_TABLE,
@@ -4684,7 +4456,7 @@ class cnEntry {
 		$phoneNumbers = $this->getPhoneNumbers( array(), FALSE, TRUE, 'db' );
 		$phoneNumbers = json_decode( json_encode( $phoneNumbers ), TRUE );
 
-		$emailAddresses = $this->getEmailAddresses( array(), FALSE, TRUE );
+		$emailAddresses = $this->getEmailAddresses( array(), FALSE, TRUE, 'db' );
 		$emailAddresses = json_decode( json_encode( $emailAddresses ), TRUE );
 
 		$im = $this->getIm( array(), FALSE, TRUE );
@@ -4700,7 +4472,7 @@ class cnEntry {
 		$dates = json_decode( json_encode( $dates ), TRUE );
 
 		//$this->phoneNumbers   = serialize( $phoneNumbers );
-		$this->emailAddresses = serialize( $emailAddresses );
+		//$this->emailAddresses = serialize( $emailAddresses );
 		$this->im             = serialize( $im );
 		$this->socialMedia    = serialize( $socialNetworks );
 		$this->links          = serialize( $links );
@@ -4711,7 +4483,7 @@ class cnEntry {
 			array(
 				'addresses'     => serialize( $addresses ),
 				'phone_numbers' => serialize( $phoneNumbers ),
-				'email'         => $this->emailAddresses,
+				'email'         => serialize( $emailAddresses ),
 				'im'            => $this->im,
 				'social'        => $this->socialMedia,
 				'links'         => $this->links,
@@ -4765,7 +4537,7 @@ class cnEntry {
 				'contact_last_name'  => $this->contactLastName,
 				//'addresses'          => $this->addresses,
 				//'phone_numbers'      => $this->phoneNumbers,
-				'email'              => $this->emailAddresses,
+				//'email'              => $this->emailAddresses,
 				'im'                 => $this->im,
 				'social'             => $this->socialMedia,
 				'links'              => $this->links,
@@ -4802,7 +4574,7 @@ class cnEntry {
 				'%s', // contact_last_name
 				//'%s', // addresses
 				//'%s', // phone_numbers
-				'%s', // email
+				//'%s', // email
 				'%s', // im
 				'%s', // social
 				'%s', // links
@@ -4837,18 +4609,7 @@ class cnEntry {
 
 			$this->addresses->setEntryID( $this->getId() )->save();
 			$this->phoneNumbers->setEntryID( $this->getId() )->save();
-
-			$cnDb->insert(
-				CN_ENTRY_EMAIL_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'address'    => array( 'key' => 'address', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getEmailAddresses( array(), TRUE, TRUE )
-			);
+			$this->emailAddresses->setEntryID( $this->getId() )->save();
 
 			$cnDb->insert(
 				CN_ENTRY_MESSENGER_TABLE,

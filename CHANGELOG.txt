@@ -1,6 +1,19 @@
 == Changelog ==
 
-= 8.12 03/09/2018 =
+= 8.14 03/23/2018 =
+* NEW: Introduce `cnEntry_Email_Addresses` and `cnEmail_Address`.
+* TWEAK: Use `array_replace()` instead of `array_merge()` when setting the order of a sortable settings input list.
+* TWEAK: Refactor `cnEntry::getEmailAddresses()` and `cnEntry::setEmailAddresses()` to utilize `cnEntry_Email_Addresses` and `cnEmail_Adress`.
+* TWEAK: Refactor `cnEntry_Output::getEmailAddressBlock()` to utilize `cnEntry_Email_Addresses::render()`.
+* TWEAK: Update manage admin page to utilize the new email addresses template.
+* BUG: Ensure integer is passed to `gmdate()`.
+* BUG: The method `cnRetrieve::entries()` is not static, but was called statically.
+* OTHER: Add the new Certifications add on to the readme.txt file.
+* OTHER: Correct the version changelog section.
+* DEV: Correct phpdoc alignment.
+* DEV: phpDoc corrections.
+
+= 8.13 03/09/2018 =
 * FEATURE: Add new option to the Connections : Manage admin page Screen Option to allow the user to choose between the entry logo or photo as the thumbail.
 * NEW: Introduce `cnUser::getMeta()` and `cnUser::setMeta()`.
 * NEW: Introduce `cnUser::getScreenOptions()` and `cnUser::setScreenOptions()`.

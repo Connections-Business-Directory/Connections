@@ -415,7 +415,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 * @param string            $field The field which the collection should be filtered by.
 	 * @param array|bool|string $value The values used to filter the collection by.
 	 *
-	 * @return cnEntry_Collection_Item
+	 * @return static
 	 */
 	abstract public function filterBy( $field, $value );
 

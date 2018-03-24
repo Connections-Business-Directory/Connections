@@ -426,8 +426,9 @@ class cnEntry {
 
 		} else {
 
-			$this->addresses    = new cnEntry_Addresses();
-			$this->phoneNumbers = new cnEntry_Phone_Numbers();
+			$this->addresses      = new cnEntry_Addresses();
+			$this->phoneNumbers   = new cnEntry_Phone_Numbers();
+			$this->emailAddresses = new cnEntry_Email_Addresses();
 		}
 	}
 

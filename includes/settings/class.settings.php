@@ -1400,7 +1400,7 @@ class cnRegisterSettings {
 			'section'   => 'fieldset-email',
 			'title'     => __( 'Per Email Visibility', 'connections' ),
 			'desc'      => __(
-				'Enable this option to set per email address visibility. When disabled, all email addresess will default to public. Changing this option will not effect the visibility status of previously saved email addresses.',
+				'Enable this option to set per email address visibility. When disabled, all email addresses will default to public. Changing this option will not effect the visibility status of previously saved email addresses.',
 				'connections'
 			),
 			'help'      => '',

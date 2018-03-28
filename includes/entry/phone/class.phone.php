@@ -125,10 +125,10 @@ final class cnPhone extends cnEntry_Collection_Item {
 	 * @access public
 	 * @since  8.10
 	 *
-	 * @param cnPhone $self
-	 * @param string  $context
+	 * @param static $self
+	 * @param string $context
 	 *
-	 * @return cnPhone
+	 * @return static
 	 */
 	protected function prepareContext( $self, $context ) {
 
@@ -159,7 +159,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 	 *
 	 * @param string $number
 	 *
-	 * @return cnPhone
+	 * @return static
 	 */
 	public function setNumber( $number ) {
 

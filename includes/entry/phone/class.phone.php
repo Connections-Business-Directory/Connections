@@ -74,7 +74,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 		$this->visibility  = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order       = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred   = cnFormatting::toBoolean( $preferred );
-		$this->number      = cnSanitize::field( 'street', cnArray::get( $data, 'number', '' ), 'raw' );
+		$this->number      = cnSanitize::field( 'phone-number', cnArray::get( $data, 'number', '' ), 'raw' );
 
 		/*
 		 * // START -- Compatibility for previous versions.

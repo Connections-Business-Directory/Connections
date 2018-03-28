@@ -120,21 +120,6 @@ final class cnPhone extends cnEntry_Collection_Item {
 	}
 
 	/**
-	 * Create and return an instance @see cnPhone
-	 *
-	 * @access public
-	 * @since  8.10
-	 *
-	 * @param array  $data
-	 *
-	 * @return cnPhone
-	 */
-	public static function create( $data ) {
-
-		return new self( $data );
-	}
-
-	/**
 	 * Escaped or sanitize cnPhone based on context.
 	 *
 	 * @access public

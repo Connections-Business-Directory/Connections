@@ -99,21 +99,6 @@ final class cnEmail_Address extends cnEntry_Collection_Item {
 	}
 
 	/**
-	 * Create and return an instance @see cnEmail_Address
-	 *
-	 * @access public
-	 * @since  8.14
-	 *
-	 * @param array  $data
-	 *
-	 * @return cnEmail_Address
-	 */
-	public static function create( $data ) {
-
-		return new self( $data );
-	}
-
-	/**
 	 * Escaped or sanitize cnEmail_Address based on context.
 	 *
 	 * @access public

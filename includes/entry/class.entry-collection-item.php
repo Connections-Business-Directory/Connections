@@ -154,6 +154,16 @@ abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 	}
 
 	/**
+	 * Constructor
+	 *
+	 * @access public
+	 * @since  8.16
+	 *
+	 * @param array $data
+	 */
+	abstract public function __construct( $data );
+
+	/**
 	 * Return a new instance of cnAddress sanitized for saving to the database.
 	 *
 	 * @access public

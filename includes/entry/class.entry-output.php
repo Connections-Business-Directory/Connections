@@ -1533,7 +1533,7 @@ class cnOutput extends cnEntry {
 		                            ->escapeFor( 'display' )
 		                            ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
 
-		// The filters need to be reset so additional calls to get phone numbers with different params return expected results.
+		// The filters need to be reset so additional calls to get email addresses with different params return expected results.
 		$this->emailAddresses->resetFilters();
 
 		$block = cnString::replaceWhatWith( $out, ' ' );

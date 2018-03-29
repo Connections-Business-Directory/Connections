@@ -17,6 +17,9 @@ class cnText_Domain {
 	 * @access public
 	 * @since  8.11
 	 *
+	 * @deprecated 8.16 Use cnText_Domain::register()
+	 * @see cnText_Domain::register()
+	 *
 	 * @param string $domain
 	 *
 	 * @return static

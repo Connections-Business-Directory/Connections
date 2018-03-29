@@ -119,6 +119,13 @@ class cnEntry {
 	public $emailAddresses;
 
 	/**
+	 * Associative array of instant messengers IDs
+	 *
+	 * @var cnEntry_Messenger_IDs
+	 */
+	public $im = '';
+
+	/**
 	 * Associative array of websites
 	 *
 	 * @deprecated since 0.7.2.0
@@ -132,13 +139,6 @@ class cnEntry {
 	 * @var string
 	 */
 	private $links = '';
-
-	/**
-	 * Associative array of instant messengers IDs
-	 *
-	 * @var string
-	 */
-	private $im = '';
 
 	/**
 	 * @var string
@@ -334,6 +334,8 @@ class cnEntry {
 		// Load the validation class.
 		$this->validate = new cnValidate();
 
+		$this->im = new cnEntry_Messenger_IDs();
+
 		if ( ! is_null( $entry ) ) {
 
 			if ( isset( $entry->id ) ) $this->id = (integer) $entry->id;
@@ -360,8 +362,15 @@ class cnEntry {
 			$this->phoneNumbers   = isset( $entry->phone_numbers ) ? new cnEntry_Phone_Numbers( $this->getId(), $entry->phone_numbers ) : new cnEntry_Phone_Numbers( $this->getId() );
 			$this->emailAddresses = isset( $entry->email ) ? new cnEntry_Email_Addresses( $this->getId(), $entry->email ) : new cnEntry_Email_Addresses( $this->getId() );
 
+			$this->im->setEntryID( $this->getId() );
+
+			if ( isset( $entry->im ) ) {
+
+				$this->im->fromArray( $this->imBackCompatibility( $entry->im ) );
+			}
+
 			//if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
-			if ( isset( $entry->im ) ) $this->im = $entry->im;
+			//if ( isset( $entry->im ) ) $this->im = $entry->im;
 			if ( isset( $entry->social ) ) $this->socialMedia = $entry->social;
 			if ( isset( $entry->links ) ) $this->links = $entry->links;
 			if ( isset( $entry->dates ) ) $this->dates = $entry->dates;
@@ -1556,290 +1565,115 @@ class cnEntry {
 	 *  cn_messenger_id => (object) Individual email address as it is processed thru the loop.
 	 *  cn_messenger_ids => (array) All phone numbers before it is returned.
 	 *
-	 * @access public
-	 * @since  0.7.3
+	 * @access  public
+	 * @since   0.7.3
 	 * @version 1.0
 	 *
-	 * @param array   $atts         Accepted values as noted above.
-	 * @param bool    $cached       Returns the cached email addresses data rather than querying the db.
-	 * @param bool    $saving       Whether or no the data is being saved to the db.
+	 * @param array  $atts    Accepted values as noted above.
+	 * @param bool   $cached  Returns the cached email addresses data rather than querying the db.
+	 * @param bool   $saving  Whether or no the data is being saved to the db.
+	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
 	 */
-	public function getIm( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+	public function getIm( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
-		/**
-		 * @var connectionsLoad $connections
-		 */
-		global $connections;
-
-		$results = array();
-
-		$atts = apply_filters( 'cn_messenger_atts', $atts );
-		$cached = apply_filters( 'cn_messenger_cached' , $cached );
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred'   => FALSE,
+			'type'        => array(),
+			'limit'       => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		if ( $cached ) {
 
-			if ( ! empty( $this->im ) ) {
-
-				$networks = unserialize( $this->im );
-
-				if ( empty( $networks ) ) return $results;
-
-				/**
-				 * @var bool   $preferred
-				 * @var string $type
-				 */
-				extract( $atts );
-
-				/*
-				 * Covert to an array if it was supplied as a comma delimited string
-				 */
-				cnFunction::parseStringList( $type );
-
-				foreach ( (array) $networks as $key => $network ) {
-
-					/*
-					 * Previous versions stored empty arrays for IM IDs, check for an ID, continue if not found.
-					 */
-					if ( ! isset( $network['id'] ) || empty( $network['id'] ) ) continue;
-
-					/**
-					 * Allow plugins to filter raw data before object is setup.
-					 *
-					 * @since 8.5.19
-					 *
-					 * @param array $network
-					 */
-					$network = apply_filters( 'cn_im-pre_setup', $network );
-
-					$row = new stdClass();
-
-					// This stores the table `id` value.
-					( isset( $network['uid'] ) ) ? $row->uid = (int) $network['uid'] : $row->uid = 0;
-
-					( isset( $network['order'] ) ) ? $row->order = (int) $network['order'] : $row->order = 0;
-					( isset( $network['preferred'] ) ) ? $row->preferred = (bool) $network['preferred'] : $row->preferred = FALSE;
-					( isset( $network['type'] ) ) ? $row->type = $this->format->sanitizeString( $network['type'] ) : $row->type = '';
-
-					// Unlike the other entry contact details, this actually stores the user IM id and not the table `id` value.
-					( isset( $network['id'] ) ) ? $row->id = $this->format->sanitizeString( $network['id'] ) : $row->id = 0;
-
-					( isset( $network['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $network['visibility'] ) : $row->visibility = '';
-
-					/*
-					 * Set the IM name based on type.
-					 */
-					$imTypes = $connections->options->getDefaultIMValues();
-					$row->name = $imTypes[ $row->type ];
-
-					/*
-					 * // START -- Compatibility for previous versions.
-					 */
-					switch ( $row->type ) {
-						case 'AIM':
-							$row->type = 'aim';
-							break;
-						case 'Yahoo IM':
-							$row->type = 'yahoo';
-							break;
-						case 'Jabber / Google Talk':
-							$row->type = 'jabber';
-							break;
-						case 'Messenger':
-							$row->type = 'messenger';
-							break;
-					}
-
-					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
-					if ( ! isset( $network['visibility'] ) || empty( $network['visibility'] ) ) $row->visibility = 'public';
-					/*
-					 * // END -- Compatibility for previous versions.
-					 */
-
-					/*
-					 * // START -- Do not return IM IDs that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					/*
-					 * // END -- Do not return IM IDs that do not match the supplied $atts.
-					 */
-
-					// If the user does not have permission to view the IM ID, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					$results[] = apply_filters( 'cn_messenger_id', $row );
-				}
-
-			}
+			$results = $this->im->filterBy( 'type', $atts['type'] )
+			                    ->filterBy( 'preferred', $atts['preferred'] )
+			                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+			                    ->escapeFor( $context )
+			                    ->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
-			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
-			$imIDs = $connections->retrieve->imIDs( $atts, $saving );
-			//print_r($results);
-
-			if ( empty( $imIDs ) ) return $results;
-
-			foreach ( $imIDs as $network ) {
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$network = apply_filters( 'cn_im-pre_setup', $network );
-
-				/*
-				 * This will probably forever give me headaches,
-				 * Previous versions stored the IM ID as id. Now that the data
-				 * is stored in a separate table, id is now the unique table `id`
-				 * and uid is the IM ID.
-				 *
-				 * So I have to make sure to properly map the values. Unfortunately
-				 * this differs from the rest of the entry data is where `id` equals
-				 * the unique table `id`. So lets map the table `id` to uid and the
-				 * the table `uid` to id.
-				 *
-				 * Basically swapping the values. This should maintain compatibility
-				 * with previous versions.
-				 */
-				$userID = $this->format->sanitizeString( $network->uid );
-				$uniqueID = (int) $network->id;
-
-				$network->uid = $uniqueID;
-				$network->order = (int) $network->order;
-				$network->preferred = (bool) $network->preferred;
-				$network->type = $this->format->sanitizeString( $network->type );
-				$network->id = $userID;
-				$network->visibility = $this->format->sanitizeString( $network->visibility );
-
-				/*
-				 * Set the network name based on the network type.
-				 */
-				$imTypes = $connections->options->getDefaultIMValues();
-				$network->name = $imTypes[ $network->type ];
-
-				$results[] = apply_filters( 'cn_messenger_id', $network );
-			}
-
+			$results = $this->im->query( $atts )
+			                    ->escapeFor( $context )
+			                    ->getCollectionAsObjects();
 		}
 
-		return apply_filters( 'cn_messenger_ids', $results );
+		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		$this->im->resetFilters();
+
+		return $this->imBackCompatibility( $results );
 	}
 
 	/**
 	 * Caches the IM IDs for use and preps for saving and updating.
 	 *
-	 * Valid values as follows.
-	 *
-	 * $network['uid'] (int) Stores the network ID if it was retrieved from the db.
-	 * $network['preferred'] (bool) If the network is the preferred network or not.
-	 * $network['type'] (string) Stores the network type.
-	 * $network['id'] (string) Stores network URL.
-	 * $network['visibility'] (string) Stores the network visibility.
-	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $im
-	 * @return void
+	 * @since  0.7.3
+	 *
+	 * @param array $data
 	 */
-	public function setIm( $im ) {
+	public function setIm( $data ) {
 
-		$userPreferred = NULL;
+		$this->im->updateFromArray( $this->imBackCompatibility( $data ) );
+	}
 
-		$validFields = array( 'uid' => NULL, 'preferred' => NULL, 'type' => NULL, 'id' => NULL, 'visibility' => NULL );
+	/**
+	 * This will probably forever give me headaches,
+	 * Previous versions stored the IM ID as id. Now that the data
+	 * is stored in a separate table, id is now the unique table `id`
+	 * and uid is the IM ID.
+	 *
+	 * So I have to make sure to properly map the values. Unfortunately
+	 * this differs from the rest of the entry data is where `id` equals
+	 * the unique table `id`. So lets map the table `id` to uid and the
+	 * the table `uid` to id.
+	 *
+	 * Basically swapping the values. This should maintain compatibility.
+	 *
+	 * @access private
+	 * @since  8.16
+	 *
+	 * @param array|object|string $data
+	 *
+	 * @return array
+	 */
+	private function imBackCompatibility( $data ) {
 
-		if ( ! empty( $im ) ) {
+		if ( is_string( $data ) ) {
 
-			$order = 0;
-			$preferred = '';
+			$data = maybe_unserialize( $data );
+		}
 
-			if ( isset( $im['preferred'] ) ) {
-				$preferred = $im['preferred'];
-				unset( $im['preferred'] );
-			}
+		if ( is_array( $data ) ) {
 
-			foreach ( $im as $key => $network ) {
+			foreach ( $data as &$messenger ) {
 
-				// First validate the supplied data.
-				$network = cnSanitize::args( $network, $validFields );
+				if ( is_array( $messenger ) ) {
 
-				// If the id is empty, no need to store it.
-				if ( empty( $network['id'] ) ) {
-					unset( $im[ $key ] );
-					continue;
+					$id     = $messenger['id'];
+					$userID = $messenger['uid'];
+
+					$messenger['id']  = $userID;
+					$messenger['uid'] = $id;
+
+				} elseif ( is_object( $messenger ) ) {
+
+					$id     = $messenger->id;
+					$userID = $messenger->uid;
+
+					$messenger->id  = $userID;
+					$messenger->uid = $id;
 				}
 
-				// Store the order attribute as supplied in the addresses array.
-				$im[ $key ]['order'] = $order;
-
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $im[ $key ]['preferred'] = TRUE : $im[ $key ]['preferred'] = FALSE;
-
-				/*
-				 * If the user set a preferred network, save the $key value.
-				 * This is going to be needed because if a network that the user
-				 * does not have permission to edit is set to preferred that network
-				 * will have preference.
-				 */
-				if ( $im[ $key ]['preferred'] ) $userPreferred = $key;
-
-				$order++;
 			}
 		}
 
-		/*
-		 * Before storing the data, add back into the array from the cache the networks
-		 * the user may not have had permission to edit so the cache stays current.
-		 */
-		$cached = unserialize( $this->im );
-
-		if ( ! empty( $cached ) ) {
-
-			foreach ( $cached as $network ) {
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( ! isset( $network['visibility'] ) || empty( $network['visibility'] ) ) $network['visibility'] = 'public';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$network = apply_filters( 'cn_im-pre_setup', $network );
-
-				if ( ! $this->validate->userPermitted( $network['visibility'] ) ) {
-
-					$im[] = $network;
-
-					// If the network is preferred, it takes precedence, so the user's choice is overridden.
-					if ( ! empty( $preferred ) && $network['preferred'] ) {
-
-						$im[ $userPreferred ]['preferred'] = FALSE;
-
-						// Throw the user a message so they know why their choice was overridden.
-						cnMessage::set( 'error', 'entry_preferred_overridden_im' );
-					}
-				}
-			}
-		}
-
-		$this->im = ! empty( $im ) ? serialize( $im ) : '';
+		return $data;
 	}
 
 	/**
@@ -4296,7 +4130,7 @@ class cnEntry {
 				//'addresses'          => $this->addresses,
 				//'phone_numbers'      => $this->phoneNumbers,
 				//'email'              => $this->emailAddresses,
-				'im'                 => $this->im,
+				//'im'                 => $this->im,
 				'social'             => $this->socialMedia,
 				'links'              => $this->links,
 				'dates'              => $this->dates,
@@ -4333,7 +4167,7 @@ class cnEntry {
 				//'%s', // addresses
 				//'%s', // phone_numbers
 				//'%s', // email
-				'%s', // im
+				//'%s', // im
 				'%s', // social
 				'%s', // links
 				'%s', // dates
@@ -4363,21 +4197,7 @@ class cnEntry {
 			$this->addresses->save();
 			$this->phoneNumbers->save();
 			$this->emailAddresses->save();
-
-			$cnDb->upsert(
-				CN_ENTRY_MESSENGER_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'uid'        => array( 'key' => 'id', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getIm( array(), TRUE, TRUE ),
-				array(
-					'id' => array( 'key' => 'uid', 'format' => '%d' ),
-				)
-			);
+			$this->im->save();
 
 			$cnDb->upsert(
 				CN_ENTRY_SOCIAL_TABLE,
@@ -4460,7 +4280,7 @@ class cnEntry {
 		$emailAddresses = $this->getEmailAddresses( array(), FALSE, TRUE, 'db' );
 		$emailAddresses = json_decode( json_encode( $emailAddresses ), TRUE );
 
-		$im = $this->getIm( array(), FALSE, TRUE );
+		$im = $this->getIm( array(), FALSE, TRUE, 'db' );
 		$im = json_decode( json_encode( $im ), TRUE );
 
 		$socialNetworks = $this->getSocialMedia( array(), FALSE, TRUE );
@@ -4474,7 +4294,7 @@ class cnEntry {
 
 		//$this->phoneNumbers   = serialize( $phoneNumbers );
 		//$this->emailAddresses = serialize( $emailAddresses );
-		$this->im             = serialize( $im );
+		//$this->im             = serialize( $im );
 		$this->socialMedia    = serialize( $socialNetworks );
 		$this->links          = serialize( $links );
 		$this->dates          = serialize( $dates );
@@ -4485,7 +4305,7 @@ class cnEntry {
 				'addresses'     => serialize( $addresses ),
 				'phone_numbers' => serialize( $phoneNumbers ),
 				'email'         => serialize( $emailAddresses ),
-				'im'            => $this->im,
+				'im'            => serialize( $im ),
 				'social'        => $this->socialMedia,
 				'links'         => $this->links,
 				'dates'         => $this->dates,
@@ -4539,7 +4359,7 @@ class cnEntry {
 				//'addresses'          => $this->addresses,
 				//'phone_numbers'      => $this->phoneNumbers,
 				//'email'              => $this->emailAddresses,
-				'im'                 => $this->im,
+				//'im'                 => $this->im,
 				'social'             => $this->socialMedia,
 				'links'              => $this->links,
 				'dates'              => $this->dates,
@@ -4576,7 +4396,7 @@ class cnEntry {
 				//'%s', // addresses
 				//'%s', // phone_numbers
 				//'%s', // email
-				'%s', // im
+				//'%s', // im
 				'%s', // social
 				'%s', // links
 				'%s', // dates
@@ -4611,18 +4431,7 @@ class cnEntry {
 			$this->addresses->setEntryID( $this->getId() )->save();
 			$this->phoneNumbers->setEntryID( $this->getId() )->save();
 			$this->emailAddresses->setEntryID( $this->getId() )->save();
-
-			$cnDb->insert(
-				CN_ENTRY_MESSENGER_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'uid'        => array( 'key' => 'id', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getIm( array(), TRUE, TRUE )
-			);
+			$this->im->setEntryID( $this->getId() )->save();
 
 			$cnDb->insert(
 				CN_ENTRY_SOCIAL_TABLE,

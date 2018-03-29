@@ -36,6 +36,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 	final class connectionsLoad {
 
 		/**
+		 * The plugin version.
+		 * @since 8.16
+		 */
+		const VERSION = 8.16;
+
+		/**
 		 * Stores the instance of this class.
 		 *
 		 * @access private

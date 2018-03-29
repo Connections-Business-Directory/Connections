@@ -236,6 +236,12 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			return self::$instance;
 		}
 
+		/**
+		 * Register the plugin's hooks.
+		 * 
+		 * @access private
+		 * @since  unknown
+		 */
 		private static function hooks() {
 
 			// Include the Template Customizer files.

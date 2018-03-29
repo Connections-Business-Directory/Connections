@@ -1601,69 +1601,21 @@ class cnOutput extends cnEntry {
 
 		$atts['id'] = $this->getId();
 
-		$out = '';
-		$networks = $this->getIm( $atts , $cached );
-		$search = array( '%label%' , '%id%' , '%separator%' );
+		$out = $this->im->filterBy( 'type', $atts['type'] )
+		                ->filterBy( 'preferred', $atts['preferred'] )
+		                ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+		                ->take( $atts['limit'] )
+		                ->escapeFor( 'display' )
+		                ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
 
-		if ( empty( $networks ) ) return '';
+		// The filters need to be reset so additional calls to get messenger IDs with different params return expected results.
+		$this->im->resetFilters();
 
-		$out .= '<span class="im-network-block">' . PHP_EOL;
+		$block = cnString::replaceWhatWith( $out, ' ' );
 
-		foreach ( $networks as $network ) {
-			$replace = array();
+		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 
-			$out .= "\t" . '<span class="im-network cn-im-network' . ( $network->preferred ? ' cn-preferred cn-im-network-preferred' : '' ) . '">';
-
-			( empty( $network->name ) ) ? $replace[] = '' : $replace[] = '<span class="im-name">' . $network->name . '</span>';
-
-			switch ( $network->type ) {
-				case 'aim':
-					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="aim:goim?screenname=' . $network->id . '">' . $network->id . '</a>';
-					break;
-
-				case 'yahoo':
-					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="ymsgr:sendIM?' . $network->id . '">' . $network->id . '</a>';
-					break;
-
-				case 'jabber':
-					$replace[] = empty( $network->id ) ? '' : '<span class="im-id">' . $network->id . '</span>';
-					break;
-
-				case 'messenger':
-					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="msnim:chat?contact=' . $network->id . '">' . $network->id . '</a>';
-					break;
-
-				case 'skype':
-					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" href="skype:' . $network->id . '?chat">' . $network->id . '</a>';
-					break;
-
-				case 'icq':
-					$replace[] = empty( $network->id ) ? '' : '<a class="url im-id" type="application/x-icq" href="http://www.icq.com/people/cmd.php?uin=' . $network->id . '&action=message">' . $network->id . '</a>';
-					break;
-
-				default:
-					$replace[] = empty( $network->id ) ? '' : '<span class="im-id">' . $network->id . '</span>';
-					break;
-			}
-
-			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
-
-			$out .= str_ireplace(
-				$search,
-				$replace,
-				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %id%' : $defaults['format'] ) : $atts['format']
-			);
-
-			$out .= '</span>' . PHP_EOL;
-		}
-
-		$out .= '</span>' . PHP_EOL;
-
-		$out = cnString::replaceWhatWith( $out, ' ' );
-
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
-
-		return $this->echoOrReturn( $atts['return'], $out );
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

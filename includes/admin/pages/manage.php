@@ -743,20 +743,7 @@ function connectionsShowViewPage( $action = NULL ) {
 
 					$entry->phoneNumbers->render( 'admin' );
 					$entry->emailAddresses->render( 'admin' );
-
-					$imIDs = $entry->getIm();
-
-					if ( ! empty( $imIDs )  ) {
-						echo '<div class="im-ids">';
-
-						foreach ( $imIDs as $im ) {
-							( $im->preferred ) ? $preferred = '*' : $preferred = '';
-
-							echo '<span class="im"><strong>' , $im->name , ':</strong> ' , $im->id , $preferred , '</span>';
-						}
-
-						echo '</div>';
-					}
+					$entry->im->render( 'admin' );
 
 					$socialNetworks = $entry->getSocialMedia();
 

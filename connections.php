@@ -203,7 +203,7 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 				 *       domain will be merged into it. The purpose is to allow the extensions to use strings known to
 				 *       in the core plugin to reuse those strings and benefit if they are already translated.
 				 */
-				cnText_Domain::create( 'connections' )->addAction( -1 );
+				cnText_Domain::register( 'connections', -1 );
 
 				// Register the core action/filter hooks.
 				self::hooks();

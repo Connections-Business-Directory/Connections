@@ -205,13 +205,13 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				self::$instance = new connectionsLoad;
 
-				require_once plugin_dir_path( __FILE__ ) . 'includes/class.constants.php';
-				cnConstants::define( __FILE__ );
 				self::$file       = __FILE__;
 				self::$pluginURL  = plugin_dir_url( __FILE__ );
 				self::$path       = plugin_dir_path( __FILE__ );
 				self::$basename   = plugin_basename( __FILE__ );
 
+				require_once self::$path . 'includes/class.constants.php';
+				cnConstants::define();
 
 				require_once CN_PATH . 'includes/class.dependency.php';
 				cnDependency::register();

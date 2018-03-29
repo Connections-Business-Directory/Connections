@@ -52,6 +52,38 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 		private static $instance;
 
 		/**
+		 * @var string The absolute path this this file.
+		 *
+		 * @access private
+		 * @since  8.16
+		 */
+		private static $file = '';
+
+		/**
+		 * @var string The URL to the plugin's folder.
+		 *
+		 * @access private
+		 * @since  8.16
+		 */
+		private static $pluginURL = '';
+
+		/**
+		 * @var string The absolute path to this plugin's folder.
+		 *
+		 * @access private
+		 * @since  8.16
+		 */
+		private static $path = '';
+
+		/**
+		 * @var string The basename of the plugin.
+		 *
+		 * @access private
+		 * @since  8.16
+		 */
+		private static $basename = '';
+
+		/**
 		 * @access private
 		 * @since  8.5.26
 		 *
@@ -175,6 +207,11 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 
 				require_once plugin_dir_path( __FILE__ ) . 'includes/class.constants.php';
 				cnConstants::define( __FILE__ );
+				self::$file       = __FILE__;
+				self::$pluginURL  = plugin_dir_url( __FILE__ );
+				self::$path       = plugin_dir_path( __FILE__ );
+				self::$basename   = plugin_basename( __FILE__ );
+
 
 				require_once CN_PATH . 'includes/class.dependency.php';
 				cnDependency::register();
@@ -234,6 +271,45 @@ if ( ! class_exists( 'connectionsLoad' ) ) {
 			}
 
 			return self::$instance;
+		}
+
+		/**
+		 * Gets the basename of a plugin.
+		 *
+		 * @access public
+		 * @since  8.16
+		 *
+		 * @return string
+		 */
+		public function pluginBasename() {
+
+			return self::$basename;
+		}
+
+		/**
+		 * Get the absolute directory path (with trailing slash) for the plugin.
+		 *
+		 * @access public
+		 * @since  8.16
+		 *
+		 * @return string
+		 */
+		public function pluginPath() {
+
+			return self::$path;
+		}
+
+		/**
+		 * Get the URL directory path (with trailing slash) for the plugin.
+		 *
+		 * @access public
+		 * @since  8.16
+		 *
+		 * @return string
+		 */
+		public function pluginURL() {
+
+			return self::$pluginURL;
 		}
 
 		/**

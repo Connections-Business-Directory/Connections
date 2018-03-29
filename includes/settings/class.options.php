@@ -876,11 +876,13 @@ class cnOptions {
 	/**
 	 * Returns an array of the default IM types.
 	 *
-	 * @access private
-	 * @since unknown
+	 * @access public
+	 * @since  8.16
+	 * @static
+	 *
 	 * @return array
 	 */
-	public function getDefaultIMValues() {
+	public static function getCoreMessengerTypes() {
 
 		$options = array(
 			'aim'       => 'AIM',
@@ -891,7 +893,127 @@ class cnOptions {
 			'icq'       => 'ICQ'
 		);
 
+		// Return all registered types, including the "core" types.
 		return apply_filters( 'cn_instant_messenger_options', $options );
+	}
+
+	/**
+	 * Return an associative array of "ACTIVE" IM types as set on the Settings admin page.
+	 * Including those registered via the `cn_instant_messenger_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.16
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getMessengerTypeOptions() {
+
+		$options = get_option( 'connections_fieldset-messenger' );
+
+		if ( FALSE === $options ) {
+
+			$options = self::getCoreMessengerTypes();
+
+		} else {
+
+			$registered = self::getCoreMessengerTypes();
+
+			$type    = cnArray::get( $options, 'messenger-types.type', $registered );
+			$active  = cnArray::get( $options, 'messenger-types.active', array_flip( $registered ) );
+			$order   = cnArray::get( $options, 'messenger-types.order', array() );
+
+			// Add active IM types registered via the `cn_instant_messenger_options` filter.
+			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_instant_messenger_options` filter.
+			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_instant_messenger_options', $active ) ) ) );
+
+			// Remove IM types from the order if they do not exist in the registered IM types to account for removed IM types.
+			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+
+			// Reorder the saved types to the user defined order.
+			$type    = array_replace( array_flip( $order ), $registered, $type );
+
+			// Remove inactive types.
+			$options = array_intersect_key( $type, array_flip( $active ) );
+
+			foreach ( $options as &$option ) {
+
+				$option = __( $option, 'connections' );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns an array of the default IM types.
+	 *
+	 * @access private
+	 * @since  unknown
+	 * @deprecated 8.16 Use cnOptions::getIMTypeOptions()
+	 * @see cnOptions::getIMTypeOptions()
+	 *
+	 * @return array
+	 */
+	public function getDefaultIMValues() {
+
+		return self::getMessengerTypeOptions();
+	}
+
+	/**
+	 * Returns an associative array all registered IM types.
+	 * Including those registered via the `cn_instant_messenger_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.16
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getRegisteredMessengerTypes() {
+
+		$options = get_option( 'connections_fieldset-messenger' );
+
+		$core = self::getCoreMessengerTypes();
+		$type = cnArray::get( $options, 'im-types.type', $core );
+
+		return array_replace( $core, $type );
+	}
+
+	/**
+	 * Get the default IM type.
+	 *
+	 * @access public
+	 * @since  8.16
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getDefaultMessengerType() {
+
+		$types = self::getMessengerTypeOptions();
+
+		$value = reset( $types );
+		$key   = key( $types );
+
+		return array( $key => $value );
+	}
+
+	/**
+	 * Return the IM types that have been associated to entries.
+	 *
+	 * @access public
+	 * @since  8.16
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getMessengerTypesInUse() {
+		global $wpdb;
+
+		$types = $wpdb->get_col( 'SELECT `type` FROM ' . CN_ENTRY_MESSENGER_TABLE . ' WHERE `type` <> "" GROUP BY `type`' );
+
+		return array_intersect_key( self::getRegisteredMessengerTypes(), array_flip( $types ) );
 	}
 
 	/**

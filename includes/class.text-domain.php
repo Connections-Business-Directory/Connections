@@ -27,6 +27,23 @@ class cnText_Domain {
 	}
 
 	/**
+	 * @access public
+	 * @since  8.16
+	 *
+	 * @param string $domain
+	 * @param int    $priority
+	 *
+	 * @return static
+	 */
+	public static function register( $domain, $priority = 10 ) {
+
+		$instance = new static( $domain );
+		$instance->addAction( $priority );
+
+		return $instance;
+	}
+
+	/**
 	 * cnText_Domain constructor.
 	 *
 	 * NOTE: The text domain must match the slug of the plugin.

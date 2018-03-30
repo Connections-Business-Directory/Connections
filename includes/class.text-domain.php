@@ -17,6 +17,9 @@ class cnText_Domain {
 	 * @access public
 	 * @since  8.11
 	 *
+	 * @deprecated 8.16 Use cnText_Domain::register()
+	 * @see cnText_Domain::register()
+	 *
 	 * @param string $domain
 	 *
 	 * @return static
@@ -24,6 +27,23 @@ class cnText_Domain {
 	public static function create( $domain ) {
 
 		return new static( $domain );
+	}
+
+	/**
+	 * @access public
+	 * @since  8.16
+	 *
+	 * @param string $domain
+	 * @param int    $priority
+	 *
+	 * @return static
+	 */
+	public static function register( $domain, $priority = 10 ) {
+
+		$instance = new static( $domain );
+		$instance->addAction( $priority );
+
+		return $instance;
 	}
 
 	/**

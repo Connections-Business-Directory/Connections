@@ -74,7 +74,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 		$this->visibility  = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order       = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred   = cnFormatting::toBoolean( $preferred );
-		$this->number      = cnSanitize::field( 'street', cnArray::get( $data, 'number', '' ), 'raw' );
+		$this->number      = cnSanitize::field( 'phone-number', cnArray::get( $data, 'number', '' ), 'raw' );
 
 		/*
 		 * // START -- Compatibility for previous versions.
@@ -120,30 +120,15 @@ final class cnPhone extends cnEntry_Collection_Item {
 	}
 
 	/**
-	 * Create and return an instance @see cnPhone
-	 *
-	 * @access public
-	 * @since  8.10
-	 *
-	 * @param array  $data
-	 *
-	 * @return cnPhone
-	 */
-	public static function create( $data ) {
-
-		return new self( $data );
-	}
-
-	/**
 	 * Escaped or sanitize cnPhone based on context.
 	 *
 	 * @access public
 	 * @since  8.10
 	 *
-	 * @param cnPhone $self
-	 * @param string  $context
+	 * @param static $self
+	 * @param string $context
 	 *
-	 * @return cnPhone
+	 * @return static
 	 */
 	protected function prepareContext( $self, $context ) {
 
@@ -174,7 +159,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 	 *
 	 * @param string $number
 	 *
-	 * @return cnPhone
+	 * @return static
 	 */
 	public function setNumber( $number ) {
 

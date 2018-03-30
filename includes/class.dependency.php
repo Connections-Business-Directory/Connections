@@ -328,8 +328,12 @@ class cnDependency {
 			'cnPhone'                  => 'includes/entry/phone/class.phone.php',
 
 			// Email Address objects
-			'cnEntry_Email_Addresses'    => 'includes/entry/email/class.entry-email-addresses.php',
-			'cnEmail_Address'            => 'includes/entry/email/class.email.php',
+			'cnEntry_Email_Addresses'  => 'includes/entry/email/class.entry-email-addresses.php',
+			'cnEmail_Address'          => 'includes/entry/email/class.email.php',
+
+			// Messenger ID objects
+			'cnEntry_Messenger_IDs'    => 'includes/entry/messenger/class.entry-messenger-ids.php',
+			'cnMessenger'              => 'includes/entry/messenger/class.messenger.php',
 
 			// Database Classes
 			'cnEntry_DB'               => 'includes/entry/class.entry-db.php',

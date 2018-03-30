@@ -8,9 +8,9 @@
 class cnConstants {
 
 	/**
-	 * @param $file
+	 * Define plugin global constants.
 	 */
-	public static function define( $file ) {
+	public static function define() {
 
 		global $wpdb, $blog_id;
 
@@ -20,7 +20,7 @@ class cnConstants {
 		}
 
 		/** @var string CN_CURRENT_VERSION The current version. */
-		define( 'CN_CURRENT_VERSION', '8.15' );
+		define( 'CN_CURRENT_VERSION', Connections_Directory()::VERSION );
 
 		/** @var string CN_DB_VERSION The current DB version. */
 		define( 'CN_DB_VERSION', '0.6' );
@@ -29,16 +29,16 @@ class cnConstants {
 		define( 'CN_UPDATE_URL', 'http://connections-pro.com/edd-sl-api' );
 
 		/** @var string CN_BASE_NAME */
-		define( 'CN_BASE_NAME', plugin_basename( $file ) );
+		define( 'CN_BASE_NAME', Connections_Directory()->pluginBasename() );
 
 		/** @var string CN_DIR_NAME */
 		define( 'CN_DIR_NAME', dirname( CN_BASE_NAME ) );
 
 		/** @var string CN_PATH */
-		define( 'CN_PATH', plugin_dir_path( $file ) );
+		define( 'CN_PATH', Connections_Directory()->pluginPath() );
 
 		/** @var string CN_URL */
-		define( 'CN_URL', plugin_dir_url( $file ) );
+		define( 'CN_URL', Connections_Directory()->pluginURL() );
 
 		/*
 		 * Core constants that can be overridden by setting in wp-config.php.

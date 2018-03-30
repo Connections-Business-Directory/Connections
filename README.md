@@ -253,7 +253,29 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
-= 8.15 03/34/2018 =
+= 8.16 03/30/2018 =
+* FEATURE: Introduce the Instant Messenger Fieldset configuration options.
+* NEW: Introduce `cnEntry_Messenger_IDs` and `cnMessenger` objects.
+* NEW: Introduce `cnText_Domain::register()`.
+* TWEAK: Add abstract constructor to `cnEntry_Collection_Item`.
+* TWEAK: Add method `create()` to `cnEntry_Collection_Item`.
+* TWEAK: Remove method `create()` from `cnPhone` and `cnEmail` to remove code duplication.
+* TWEAK: Refactor `cnEntry::getIm()` and `cnEntry::setIm()` to utilize the `cnEntry_Messenger_IDs` object.
+* TWEAK:Refactor `cnEntry_Output::getImBlock()` to utilize the `cnEntry_Messenger_IDs` objects `render()` method using templates.
+* TWEAK: Add VERSION constant to the core plugin class to store the plugin version.
+* TWEAK: Use class VERSION constant to set the global version constant for the plugin version.
+* TWEAK: Deprecate `cnText_Domain::create()`.
+* TWEAK: Use `cnText_Domain::register()` instead of `cnText_Domain::create()`.
+* TWEAK: Add a few class variables and helper methods to get the plugin path, url and basename.
+* TWEAK: Use the helper methods to set the global constants for the plugin path, url and basename.
+* BUG: Phone number was being sanitized as a street address, corrected so it is sanitized as a phone number.
+* OTHER: Correct misspelling.
+* DEV: Correct inline documentation.
+* DEV: phpDoc corrections.
+* DEV: Correct code indents.
+* DEV: Add phpDoc block to `ConnectionsLoad::hooks()`.
+
+= 8.15 03/25/2018 =
 * BUG: Ensure `cnEntry_Email_Addresses` is properly initialized when adding new entry.
 
 = 8.14 03/23/2018 =
@@ -610,20 +632,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc Block corrections.
 * I18N: Update POT file.
 * I18N: Update MO files.
-
-### 8.5.28 10/12/2016 ###
-* NEW: Introduce the `connections_page_connections_settings-{tab_name}` action hook.
-* NEW: Introduce the `cn_pre_handle_404_retrieve_atts` filter hook.
-* NEW: Introduce cnLicense_Status.
-* TWEAK: Improve the page load time of the Plugins admin page by batching together license checks into a single HTTP request.
-* TWEAK: Set option group name one instead of repeating the logic several times in cnSettingsAPI::form().
-* TWEAK: Add support for the `invalid_item_id` error status reported by EDD-SL.
-* TWEAK: Register all item licenses with cnLicense_Status.
-* TWEAK: Remove unused `cnLicense::status()` method.
-* TWEAK: Remove use of transients made obsolete by cnLicense_Status.
-* BUG: Reset the `category_exclude` shortcode option if querying entry by slug.
-* BUG: The `connections_license_data` should not be autoloaded.
-* BUG: The basename and slug array values do not need to be set as defaults because they are auto created from file path and item name.
-* DEV: phpDoc block fixes.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

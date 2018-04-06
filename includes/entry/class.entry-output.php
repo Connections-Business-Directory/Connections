@@ -1582,6 +1582,7 @@ class cnOutput extends cnEntry {
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
+			'limit'     => NULL,
 			'format'    => '',
 			'separator' => ':',
 			'before'    => '',

@@ -1022,11 +1022,11 @@ class cnEntryMetabox {
 			}
 		}
 
-		echo  '</div>' , PHP_EOL;
+		echo '</div>' , PHP_EOL;
 
 		if ( $repeatable ) {
 
-			echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="address" data-container="addresses">' , __( 'Add Address', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 	}
 
@@ -1655,11 +1655,11 @@ class cnEntryMetabox {
 			}
 		}
 
-		echo  '</div>' , PHP_EOL;
+		echo '</div>' , PHP_EOL;
 
 		if ( $repeatable ) {
 
-			echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="email" data-container="email-addresses">' , __( 'Add Email Address', 'connections' ) , '</a></p>' , PHP_EOL;
 		}
 
 	}
@@ -1844,9 +1844,9 @@ class cnEntryMetabox {
 			}
 		}
 
-		echo  '</div>' , PHP_EOL;
+		echo '</div>' , PHP_EOL;
 
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
+		echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	/**
@@ -2014,9 +2014,9 @@ class cnEntryMetabox {
 			}
 		}
 
-		echo  '</div>' , PHP_EOL;
+		echo '</div>' , PHP_EOL;
 
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">' , __( 'Add Social Media ID', 'connections' ) , '</a></p>' , PHP_EOL;
+		echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">' , __( 'Add Social Media ID', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	/**
@@ -2427,9 +2427,9 @@ class cnEntryMetabox {
 			}
 		}
 
-		echo  '</div>' , PHP_EOL;
+		echo '</div>' , PHP_EOL;
 
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
+		echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
 	}
 
 	/**

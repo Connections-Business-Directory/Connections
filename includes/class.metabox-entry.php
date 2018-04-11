@@ -1826,7 +1826,6 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$imIDs = $entry->getIm( array(), FALSE );
-		//print_r($imIDs);
 
 		if ( ! empty( $imIDs ) ) {
 
@@ -2161,7 +2160,6 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$links = $entry->getLinks( array(), FALSE, FALSE, 'edit' );
-		//print_r($links);
 
 		if ( ! empty( $links ) ) {
 
@@ -2403,7 +2401,6 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$dates = $entry->getDates( array(), FALSE );
-		//print_r($dates);
 
 		if ( ! empty( $dates ) ) {
 

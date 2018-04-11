@@ -1812,8 +1812,6 @@ class cnEntryMetabox {
 	 *
 	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array   $metabox The metabox options array from self::register().
-	 *
-	 * @return string The instant messenger metabox.
 	 */
 	public static function messenger( $entry, $metabox ) {
 
@@ -1982,8 +1980,6 @@ class cnEntryMetabox {
 	 *
 	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array   $metabox The metabox options array from self::register().
-	 *
-	 * @return string The social media network metabox.
 	 */
 	public static function social( $entry, $metabox ) {
 
@@ -2151,8 +2147,6 @@ class cnEntryMetabox {
 	 *
 	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array   $metabox The metabox options array from self::register().
-	 *
-	 * @return string  The links metabox.
 	 */
 	public static function links( $entry, $metabox ) {
 
@@ -2395,8 +2389,6 @@ class cnEntryMetabox {
 	 *
 	 * @param  cnEntry $entry   An instance of the cnEntry object.
 	 * @param  array   $metabox The metabox options array from self::register().
-	 *
-	 * @return string The dates metabox.
 	 */
 	public static function date( $entry, $metabox ) {
 
@@ -2552,10 +2544,10 @@ class cnEntryMetabox {
 	 * Callback to render the "Custom Fields" metabox.
 	 *
 	 * @access private
-	 * @since 0.8
+	 * @since  0.8
+	 *
 	 * @param  cnEntry $entry   An instance of the cnEntry object.
-	 * @param  array  $metabox The metabox attributes array set in self::register().
-	 * @return void
+	 * @param  array   $metabox The metabox attributes array set in self::register().
 	 */
 	public static function meta( $entry, $metabox ) {
 

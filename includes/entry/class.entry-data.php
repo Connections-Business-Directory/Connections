@@ -2007,7 +2007,7 @@ class cnEntry {
 		 */
 		$defaults = array(
 			'preferred' => FALSE,
-			'type'      => array_keys( $types ),
+			'type'      => NULL,
 			'image'     => FALSE,
 			'logo'      => FALSE,
 		);

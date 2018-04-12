@@ -1815,6 +1815,10 @@ class cnEntryMetabox {
 	 */
 	public static function messenger( $entry, $metabox ) {
 
+		$imTypes    = cnOptions::getMessengerTypeOptions();
+		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'repeatable' );
+		$count      = cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'count' );
+
 		echo '<div class="widgets-sortables ui-sortable" id="im-ids">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -1826,6 +1830,31 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$imIDs = $entry->getIm( array(), FALSE );
+
+		/*
+		 * Add "dummy" IM objects to the results to equal the number of IM fieldset which are to be
+		 * displayed by default. The "dummy" IM objects rotate thru the active IM types.
+		 */
+		if ( $count > $imCount = count( $imIDs ) ) {
+
+			$createCount = $count - $imCount;
+
+			while ( 0 < $createCount ) {
+
+				if ( key( $imTypes ) === NULL ) { reset( $imTypes ); }
+				$type = key( $imTypes );
+				next( $imTypes );
+
+				$messenger = new cnMessenger(
+					array(
+						'type' => $type,
+					)
+				);
+
+				$imIDs[] = $messenger;
+				--$createCount;
+			}
+		}
 
 		if ( ! empty( $imIDs ) ) {
 
@@ -1843,7 +1872,10 @@ class cnEntryMetabox {
 
 		echo '</div>' , PHP_EOL;
 
-		echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
+		if ( $repeatable ) {
+
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="im" data-container="im-ids">' , __( 'Add Messenger ID', 'connections' ) , '</a></p>' , PHP_EOL;
+		}
 	}
 
 	/**
@@ -1857,11 +1889,11 @@ class cnEntryMetabox {
 	 */
 	private static function messengerField( $network, $token = '::FIELD::' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$messengerTypes = $instance->options->getDefaultIMValues();
+		$messengerTypes   = cnOptions::getMessengerTypeOptions();
+		$defaultType      = cnOptions::getDefaultEmailType();
+		$repeatable       = (bool) cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'repeatable' );
+		$permitPreferred  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'permit-preferred' );
+		$permitVisibility = (bool) cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'permit-visibility' );
 
 		?>
 
@@ -1873,22 +1905,40 @@ class cnEntryMetabox {
 
 					<?php
 
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'im[' . $token . '][type]',
-							'options'  => $messengerTypes,
-							'required' => FALSE,
-							'label'    => __( 'IM Type', 'connections' ),
-							'return'   => FALSE,
-						),
-						isset( $network->type ) ? $network->type : ''
-					);
+					if ( 1 < count( $messengerTypes ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'im[' . $token . '][type]',
+								'options'  => $messengerTypes,
+								'required' => FALSE,
+								'label'    => __( 'IM Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $network->type ) && array_key_exists( $network->type, $messengerTypes ) ? $network->type : key( $defaultType )
+						);
+
+					} else {
+
+						cnHTML::field(
+							array(
+								'type'     => 'hidden',
+								'class'    => '',
+								'id'       => 'im[' . $token . '][type]',
+								//'options'  => $messengerTypes,
+								//'required' => FALSE,
+								'label'    => __( 'IM Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $network->type ) && array_key_exists( $network->type, $messengerTypes ) ? $network->type : key( $defaultType )
+						);
+					}
 
 					cnHTML::field(
 						array(
-							'type'     => 'radio',
+							'type'     => $permitPreferred ? 'radio' : 'hidden',
 							'format'   => 'inline',
 							'class'    => '',
 							'id'       => 'im[preferred]',
@@ -1902,7 +1952,7 @@ class cnEntryMetabox {
 					);
 
 					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
+					if ( ! empty( self::$visibility ) && $permitVisibility ) {
 
 						cnHTML::field(
 							array(
@@ -1944,27 +1994,24 @@ class cnEntryMetabox {
 						'after'    => '',
 						'return'   => FALSE,
 						),
-					isset( $network->id ) ? $network->id : ''
+					! empty( $network->id ) ? $network->id : ''
 				);
 
 				?>
 
 			</div>
 
-			<?php
+			<?php if ( isset( $network->uid ) ) : ?>
+				<input type="hidden" name="im[<?php echo $token; ?>][uid]" value="<?php echo $network->uid; ?>">
+			<?php endif; ?>
 
-			if ( isset( $network->uid ) ) {
-
-				echo '<input type="hidden" name="im[', $token, '][uid]" value="', $network->uid, '">' , PHP_EOL;
-			}
-
-			?>
-
+			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="im"
 				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
+			<?php endif; ?>
 
 		</div>
 

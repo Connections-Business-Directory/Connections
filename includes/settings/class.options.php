@@ -1017,20 +1017,143 @@ class cnOptions {
 	}
 
 	/**
-	 * Returns an array of the default link types.
+	 * Returns an associative array all core address types
+	 * including those registered via the `cn_address_options` filter.
 	 *
-	 * @access private
-	 * @since unknown
+	 * @access public
+	 * @since  8.17
+	 * @static
+	 *
 	 * @return array
 	 */
-	public function getDefaultLinkValues() {
+	public static function getCoreLinkTypes() {
 
-		$options = array(
+		$types = array(
 			'website' => __( 'Website' , 'connections' ),
 			'blog'    => __( 'Blog' , 'connections' )
 		);
 
-		return apply_filters( 'cn_link_options', $options );
+		// Return all registered types, including the "core" types.
+		return array_merge( apply_filters( 'cn_link_options', $types ), $types );
+	}
+
+	/**
+	 * Return an associative array of "ACTIVE" link types as set on the Settings admin page.
+	 * Including those registered via the `cn_link_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.17
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getLinkTypeOptions() {
+
+		$options = get_option( 'connections_fieldset-link' );
+
+		if ( FALSE === $options ) {
+
+			$options = self::getCoreLinkTypes();
+
+		} else {
+
+			$registered = self::getCoreLinkTypes();
+
+			$type    = cnArray::get( $options, 'link-types.type', $registered );
+			$active  = cnArray::get( $options, 'link-types.active', array_flip( $registered ) );
+			$order   = cnArray::get( $options, 'link-types.order', array() );
+
+			// Add active link types registered via the `cn_link_options` filter.
+			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_link_options` filter.
+			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_link_options', $active ) ) ) );
+
+			// Remove link types from the order if they do not exist in the registered link types to account for removed link types.
+			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+
+			// Reorder the saved types to the user defined order.
+			$type    = array_replace( array_flip( $order ), $registered, $type );
+
+			// Remove inactive types.
+			$options = array_intersect_key( $type, array_flip( $active ) );
+
+			foreach ( $options as &$option ) {
+
+				$option = __( $option, 'connections' );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns an array of the default link types.
+	 *
+	 * @access private
+	 * @since  unknown
+	 * @deprecated 8.17 Use cnOptions::getLinkTypeOptions()
+	 * @see cnOptions::getLinkTypeOptions()
+	 *
+	 * @return array
+	 */
+	public function getDefaultLinkValues() {
+
+		return self::getLinkTypeOptions();
+	}
+
+	/**
+	 * Returns an associative array all registered link types.
+	 * Including those registered via the `cn_link_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.17
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getRegisteredLinkTypes() {
+
+		$options = get_option( 'connections_fieldset-link' );
+
+		$core = self::getCoreLinkTypes();
+		$type = cnArray::get( $options, 'link-types.type', $core );
+
+		return array_replace( $core, $type );
+	}
+
+	/**
+	 * Get the default link type.
+	 *
+	 * @access public
+	 * @since  8.17
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getDefaultLinkType() {
+
+		$types = self::getCoreLinkTypes();
+
+		$value = reset( $types );
+		$key   = key( $types );
+
+		return array( $key => $value );
+	}
+
+	/**
+	 * Return the link types that have been associated to entries.
+	 *
+	 * @access public
+	 * @since  8.17
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getLinkTypesInUse() {
+		global $wpdb;
+
+		$types = $wpdb->get_col( 'SELECT `type` FROM ' . CN_ENTRY_LINK_TABLE . ' WHERE `type` <> "" GROUP BY `type`' );
+
+		return array_intersect_key( self::getRegisteredLinkTypes(), array_flip( $types ) );
 	}
 
 	/**

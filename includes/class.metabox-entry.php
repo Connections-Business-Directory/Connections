@@ -2202,6 +2202,10 @@ class cnEntryMetabox {
 	 */
 	public static function links( $entry, $metabox ) {
 
+		$linkTypes  = cnOptions::getLinkTypeOptions();
+		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-link', 'repeatable' );
+		$count      = cnSettingsAPI::get( 'connections', 'fieldset-link', 'count' );
+
 		echo '<div class="widgets-sortables ui-sortable" id="links">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -2214,23 +2218,48 @@ class cnEntryMetabox {
 
 		$links = $entry->getLinks( array(), FALSE, FALSE, 'edit' );
 
+		/*
+		 * Add "dummy" link objects to the results to equal the number of link fieldset which are to be
+		 * displayed by default. The "dummy" link objects rotate thru the active link types.
+		 */
+		if ( $count > $linkCount = count( $links ) ) {
+
+			$createCount = $count - $linkCount;
+
+			while ( 0 < $createCount ) {
+
+				if ( key( $linkTypes ) === NULL ) { reset( $linkTypes ); }
+				$type = key( $linkTypes );
+				next( $linkTypes );
+
+				$link = new stdClass();
+				$link->type = $type;
+
+				$links[] = $link;
+				--$createCount;
+			}
+		}
+
 		if ( ! empty( $links ) ) {
 
 			foreach ( $links as $link ) {
 
 				$token = str_replace( '-', '', cnUtility::getUUID() );
 
-				echo '<div class="widget link" id="link-row-'  . $token . '">' , PHP_EOL;
+				echo '<div class="widget link" id="link-row-' . $token . '">' , PHP_EOL;
 
-					self::linkField( $link, $token );
+				self::linkField( $link, $token );
 
 				echo '</div>' , PHP_EOL;
 			}
 		}
 
-		echo  '</div>' , PHP_EOL;
+		echo '</div>' , PHP_EOL;
 
-		echo  '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
+		if ( $repeatable ) {
+
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="link" data-container="links">' , __( 'Add Link', 'connections' ) , '</a></p>' , PHP_EOL;
+		}
 	}
 
 	/**
@@ -2244,11 +2273,16 @@ class cnEntryMetabox {
 	 */
 	private static function linkField( $link, $token = '::FIELD::' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$linkTypes = $instance->options->getDefaultLinkValues();
+		$linkTypes        = cnOptions::getLinkTypeOptions();
+		$defaultType      = cnOptions::getDefaultLinkType();
+		$repeatable       = (bool) cnSettingsAPI::get( 'connections', 'fieldset-link', 'repeatable' );
+		$permitPreferred  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-link', 'permit-preferred' );
+		$permitVisibility = (bool) cnSettingsAPI::get( 'connections', 'fieldset-link', 'permit-visibility' );
+		$target           = cnSettingsAPI::get( 'connections', 'fieldset-link', 'default-target' );
+		$follow           = cnSettingsAPI::get( 'connections', 'fieldset-link', 'follow-link' );
+		$permitTarget     = (bool) cnSettingsAPI::get( 'connections', 'fieldset-link', 'permit-target' );
+		$permitFollow     = (bool) cnSettingsAPI::get( 'connections', 'fieldset-link', 'permit-follow' );
+		$permitAssign     = (bool) cnSettingsAPI::get( 'connections', 'fieldset-link', 'permit-assign' );
 
 		?>
 
@@ -2260,22 +2294,40 @@ class cnEntryMetabox {
 
 					<?php
 
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'link[' . $token . '][type]',
-							'options'  => $linkTypes,
-							'required' => FALSE,
-							'label'    => __( 'Type', 'connections' ),
-							'return'   => FALSE,
-						),
-						isset( $link->type ) ? $link->type : ''
-					);
+					if ( 1 < count( $linkTypes ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'link[' . $token . '][type]',
+								'options'  => $linkTypes,
+								'required' => FALSE,
+								'label'    => __( 'Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $link->type ) && array_key_exists( $link->type, $linkTypes ) ? $link->type : key( $defaultType )
+						);
+
+					} else {
+
+						cnHTML::field(
+							array(
+								'type'     => 'hidden',
+								'class'    => '',
+								'id'       => 'link[' . $token . '][type]',
+								//'options'  => $linkTypes,
+								//'required' => FALSE,
+								'label'    => __( 'Type', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $link->type ) && array_key_exists( $link->type, $linkTypes ) ? $link->type : key( $defaultType )
+						);
+					}
 
 					cnHTML::field(
 						array(
-							'type'     => 'radio',
+							'type'     => $permitPreferred ? 'radio' : 'hidden',
 							'format'   => 'inline',
 							'class'    => '',
 							'id'       => 'link[preferred]',
@@ -2289,7 +2341,7 @@ class cnEntryMetabox {
 					);
 
 					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
+					if ( ! empty( self::$visibility ) && $permitVisibility ) {
 
 						cnHTML::field(
 							array(
@@ -2366,7 +2418,7 @@ class cnEntryMetabox {
 
 				cnHTML::field(
 					array(
-						'type'     => 'select',
+						'type'     => $permitTarget ? 'select' : 'hidden',
 						'class'    => '',
 						'id'       => 'link[' . $token . '][target]',
 						'options'  => array(
@@ -2379,12 +2431,12 @@ class cnEntryMetabox {
 						'after'    => '</span>',
 						'return'   => FALSE,
 					),
-					isset( $link->target ) ? $link->target : ''
+					isset( $link->target ) ? $link->target : $target
 				);
 
 				cnHTML::field(
 					array(
-						'type'     => 'select',
+						'type'     => $permitFollow ? 'select' : 'hidden',
 						'class'    => '',
 						'id'       => 'link[' . $token . '][follow]',
 						'options'  => array(
@@ -2397,13 +2449,14 @@ class cnEntryMetabox {
 						'after'    => '</span>',
 						'return'   => FALSE,
 					),
-					isset( $link->followString ) ? $link->followString : ''
+					isset( $link->followString ) ? $link->followString : $follow
 				);
 
 				?>
 
 			</div>
 
+			<?php if ( $permitAssign ) : ?>
 			<div class="link-assignment">
 
 				<label>
@@ -2416,16 +2469,19 @@ class cnEntryMetabox {
 				</label>
 
 			</div>
+			<?php endif; ?>
 
 			<?php if ( isset( $link->id ) ) : ?>
 			<input type="hidden" name="link[<?php echo $token; ?>][id]" value="<?php echo $link->id; ?>">
 			<?php endif; ?>
 
+			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="link"
 				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
+			<?php endif; ?>
 
 		</div>
 

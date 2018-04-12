@@ -1422,8 +1422,11 @@ class cnEntryMetabox {
 				$type = key( $phoneTypes );
 				next( $phoneTypes );
 
-				$phone = new stdClass();
-				$phone->type = $type;
+				$phone = new cnPhone(
+					array(
+						'type' => $type,
+					)
+				);
 
 				$phoneNumbers[] = $phone;
 				--$createCount;

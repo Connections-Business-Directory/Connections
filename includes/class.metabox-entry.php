@@ -1636,8 +1636,11 @@ class cnEntryMetabox {
 				$type = key( $emailTypes );
 				next( $emailTypes );
 
-				$email = new stdClass();
-				$email->type = $type;
+				$email = new cnEmail_Address(
+					array(
+						'type' => $type,
+					)
+				);
 
 				$emailAddresses[] = $email;
 				--$createCount;

@@ -493,7 +493,13 @@ class cnEntry {
 	public function getFormattedTimeStamp( $format = NULL ) {
 
 		if ( is_null( $format ) ) {
-			$format = get_option( 'date_format', 'm/d/Y' );
+
+			$options = array(
+				get_option( 'date_format', 'm/d/Y' ),
+				get_option( 'time_format', 'g:ia' )
+			);
+
+			$format = implode( ' ', $options ) ;
 		}
 
 		return date_i18n( $format, strtotime( $this->timeStamp ) + cnDate::getWPUTCOffset() );

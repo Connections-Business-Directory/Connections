@@ -499,7 +499,7 @@ class cnEntry {
 				get_option( 'time_format', 'g:ia' )
 			);
 
-			$format = implode( ' ', $options ) ;
+			$format = implode( ' ', $options );
 		}
 
 		return date_i18n( $format, strtotime( $this->timeStamp ) + cnDate::getWPUTCOffset() );
@@ -548,7 +548,7 @@ class cnEntry {
 				get_option( 'time_format', 'g:ia' )
 			);
 
-			$format = implode( ' ', $options ) ;
+			$format = implode( ' ', $options );
 		}
 
 		if ( $this->dateAdded != NULL ) {

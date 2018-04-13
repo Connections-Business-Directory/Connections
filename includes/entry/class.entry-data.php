@@ -4108,7 +4108,7 @@ class cnEntry {
 		$result = $wpdb->update(
 			CN_ENTRY_TABLE,
 			array(
-				'ts'                 => current_time( 'mysql' ),
+				'ts'                 => current_time( 'mysql', TRUE ),
 				'ordo'               => $this->getOrder(),
 				'entry_type'         => $this->entryType,
 				'visibility'         => $this->getVisibility(),
@@ -4301,6 +4301,7 @@ class cnEntry {
 		$wpdb->update(
 			CN_ENTRY_TABLE,
 			array(
+				'ts'            => current_time( 'mysql', TRUE ),
 				'addresses'     => serialize( $addresses ),
 				'phone_numbers' => serialize( $phoneNumbers ),
 				'email'         => serialize( $emailAddresses ),
@@ -4310,7 +4311,7 @@ class cnEntry {
 				'dates'         => $this->dates,
 			),
 			array( 'id' => $this->id ),
-			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', ),
+			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', ),
 			array( '%d' )
 		);
 	}
@@ -4338,8 +4339,8 @@ class cnEntry {
 		$result = $wpdb->insert(
 			CN_ENTRY_TABLE,
 			array(
-				'ts'                 => current_time( 'mysql' ),
-				'date_added'         => current_time( 'timestamp' ),
+				'ts'                 => current_time( 'mysql', TRUE ),
+				'date_added'         => current_time( 'timestamp', TRUE ),
 				'ordo'               => $this->getOrder(),
 				'entry_type'         => $this->entryType,
 				'visibility'         => $this->getVisibility(),

@@ -541,7 +541,7 @@ class cnEntry {
 
 		} else {
 
-			return 'Unknown';
+			return __( 'Unknown', 'connections' );
 		}
 	}
 

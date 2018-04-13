@@ -525,7 +525,6 @@ class cnEntry {
 	 * Get the formatted date that the entry was added.
 	 *
 	 * @todo Add logic to deal with the possibility that date() can return FALSE.
-	 * @todo Date should be run thru date_i18n().
 	 *
 	 * @access public
 	 * @since  unknown

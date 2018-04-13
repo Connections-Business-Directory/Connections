@@ -496,7 +496,7 @@ class cnEntry {
 			$format = get_option( 'date_format', 'm/d/Y' );
 		}
 
-		return date( $format, strtotime( $this->timeStamp ) );
+		return date_i18n( $format, strtotime( $this->timeStamp ) + cnDate::getWPUTCOffset() );
 	}
 
 	/**
@@ -518,7 +518,7 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getHumanTimeDiff() {
-		return human_time_diff( strtotime( $this->timeStamp ), current_time( 'timestamp' ) );
+		return human_time_diff( strtotime( $this->timeStamp ), current_time( 'timestamp', TRUE ) );
 	}
 
 	/**
@@ -537,7 +537,7 @@ class cnEntry {
 
 		if ( $this->dateAdded != NULL ) {
 
-			return date( $format, $this->dateAdded );
+			return date_i18n( $format, $this->dateAdded + cnDate::getWPUTCOffset() );
 
 		} else {
 

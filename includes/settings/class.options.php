@@ -103,7 +103,7 @@ class cnOptions {
 		$this->defaultRolesSet = isset( $this->options['settings']['roles']['defaults_set'] ) && ! empty( $this->options['settings']['roles']['defaults_set'] ) ? $this->options['settings']['roles']['defaults_set'] : FALSE;
 
 		$this->wpCurrentTime = current_time( 'timestamp' );
-		$this->currentTime = date( 'U' );
+		$this->currentTime   = date( 'U' );
 
 		/*
 		 * Because MySQL FROM_UNIXTIME returns timestamps adjusted to the local

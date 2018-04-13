@@ -488,7 +488,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 
 		$collection = new cnCollection( $data );
 		$order      = $collection->max('order');
-		$preferred  =  NULL;
+		$preferred  = NULL;
 
 		/*
 		 * The source of $data in Connections core will be from a form submission, object cache or the db.

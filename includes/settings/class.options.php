@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Get and Set the plugin options
  */
 class cnOptions {
+
 	/**
 	 * Array of options returned from WP get_option method.
 	 *
@@ -29,24 +30,36 @@ class cnOptions {
 	/**
 	 * String: plugin version.
 	 *
-	 * @var float
+	 * @var string
 	 */
 	private $version;
 
 	/**
 	 * String: plugin db version.
 	 *
-	 * @var float
+	 * @var string
 	 */
 	private $dbVersion;
 
+	/**
+	 * @var bool
+	 */
 	private $defaultTemplatesSet;
+
+	/**
+	 * @var array
+	 */
 	private $activeTemplates;
+
+	/**
+	 * @var bool
+	 */
+	private $defaultRolesSet;
 
 	/**
 	 * Current time as reported by PHP in Unix timestamp format.
 	 *
-	 * @var integer
+	 * @var string
 	 */
 	public $currentTime;
 
@@ -180,9 +193,12 @@ class cnOptions {
 	 * Disable the shortcode option - public_override.
 	 *
 	 * @deprecated since 0.7.3
-	 * @return int
+	 *
+	 * @return bool
 	 */
 	public function getAllowPublicOverride() {
+
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_public_override' ) ? TRUE : FALSE;
@@ -192,14 +208,20 @@ class cnOptions {
 	 * Disable the shortcode option - private_override.
 	 *
 	 * @deprecated since 0.7.3
-	 * @return int
+	 *
+	 * @return bool
 	 */
 	public function getAllowPrivateOverride() {
+
+		/** @var connectionsLoad $connections */
 		global $connections;
 
 		return $connections->settings->get( 'connections', 'connections_visibility', 'allow_private_override' ) ? TRUE : FALSE;
 	}
 
+	/**
+	 * @return array
+	 */
 	public static function getEntryTypes() {
 
 		return array(
@@ -209,6 +231,9 @@ class cnOptions {
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getVisibilityOptions() {
 
 		$options = array(
@@ -240,8 +265,7 @@ class cnOptions {
 	/**
 	 * Sets $version.
 	 *
-	 * @param string  $version
-	 * @see options::$version
+	 * @param string $version
 	 */
 	public function setVersion( $version ) {
 		$this->version = $version;
@@ -260,8 +284,7 @@ class cnOptions {
 	/**
 	 * Sets $dbVersion.
 	 *
-	 * @param string  $version
-	 * @see options::$dbVersion
+	 * @param string $version
 	 */
 	public function setDBVersion( $version ) {
 		$this->dbVersion = $version;
@@ -287,10 +310,16 @@ class cnOptions {
 		$this->defaultTemplatesSet = $defaultTemplatesSet;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getCapabilitiesSet() {
 		return $this->defaultRolesSet;
 	}
 
+	/**
+	 * @param $defaultRolesSet
+	 */
 	public function defaultCapabilitiesSet( $defaultRolesSet ) {
 		$this->defaultRolesSet = $defaultRolesSet;
 	}

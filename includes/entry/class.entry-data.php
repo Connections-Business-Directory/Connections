@@ -1655,7 +1655,7 @@ class cnEntry {
 	 *
 	 * @param array|object|string $data
 	 *
-	 * @return array
+	 * @return array|object|string
 	 */
 	private function imBackCompatibility( $data ) {
 
@@ -2915,7 +2915,7 @@ class cnEntry {
 	 *
 	 * @param string $context
 	 *
-	 * @return string
+	 * @return string|WP_Error
 	 */
 	public function getBio( $context = 'display' ) {
 

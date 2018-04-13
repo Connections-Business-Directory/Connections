@@ -2915,11 +2915,13 @@ class cnEntry {
 	 *
 	 * @param string $context
 	 *
-	 * @return string|WP_Error
+	 * @return string
 	 */
 	public function getBio( $context = 'display' ) {
 
-		return cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->bio ), $context );
+		$bio = cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->bio ), $context );
+
+		return is_string( $bio ) ? $bio : '';
 	}
 
 	/**
@@ -2948,7 +2950,9 @@ class cnEntry {
 	 */
 	public function getNotes( $context = 'display' ) {
 
-		return cnSanitize::field( 'notes', apply_filters( 'cn_notes', $this->notes ), $context );
+		$notes = cnSanitize::field( 'notes', apply_filters( 'cn_notes', $this->notes ), $context );
+
+		return is_string( $notes ) ? $notes : '';
 	}
 
 	/**

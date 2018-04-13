@@ -303,7 +303,7 @@ class cnOptions {
 	/**
 	 * Sets $defaultTemplatesSet.
 	 *
-	 * @param object  $defaultTemplatesSet
+	 * @param bool $defaultTemplatesSet
 	 * @see cnOptions::$defaultTemplatesSet
 	 */
 	public function setDefaultTemplatesSet( $defaultTemplatesSet ) {

@@ -493,10 +493,16 @@ class cnEntry {
 	public function getFormattedTimeStamp( $format = NULL ) {
 
 		if ( is_null( $format ) ) {
-			$format = 'm/d/Y';
+
+			$options = array(
+				get_option( 'date_format', 'm/d/Y' ),
+				get_option( 'time_format', 'g:ia' )
+			);
+
+			$format = implode( ' ', $options );
 		}
 
-		return date( $format, strtotime( $this->timeStamp ) );
+		return date_i18n( $format, strtotime( $this->timeStamp ) + cnDate::getWPUTCOffset() );
 	}
 
 	/**
@@ -518,14 +524,13 @@ class cnEntry {
 	 * @return string
 	 */
 	public function getHumanTimeDiff() {
-		return human_time_diff( strtotime( $this->timeStamp ), current_time( 'timestamp' ) );
+		return human_time_diff( strtotime( $this->timeStamp ), current_time( 'timestamp', TRUE ) );
 	}
 
 	/**
 	 * Get the formatted date that the entry was added.
 	 *
 	 * @todo Add logic to deal with the possibility that date() can return FALSE.
-	 * @todo Date should be run thru date_i18n().
 	 *
 	 * @access public
 	 * @since  unknown
@@ -534,15 +539,25 @@ class cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getDateAdded( $format = 'm/d/Y' ) {
+	public function getDateAdded( $format = NULL ) {
+
+		if ( is_null( $format ) ) {
+
+			$options = array(
+				get_option( 'date_format', 'm/d/Y' ),
+				get_option( 'time_format', 'g:ia' )
+			);
+
+			$format = implode( ' ', $options );
+		}
 
 		if ( $this->dateAdded != NULL ) {
 
-			return date( $format, $this->dateAdded );
+			return date_i18n( $format, $this->dateAdded + cnDate::getWPUTCOffset() );
 
 		} else {
 
-			return 'Unknown';
+			return __( 'Unknown', 'connections' );
 		}
 	}
 
@@ -1640,7 +1655,7 @@ class cnEntry {
 	 *
 	 * @param array|object|string $data
 	 *
-	 * @return array
+	 * @return array|object|string
 	 */
 	private function imBackCompatibility( $data ) {
 
@@ -2007,7 +2022,7 @@ class cnEntry {
 		 */
 		$defaults = array(
 			'preferred' => FALSE,
-			'type'      => array_keys( $types ),
+			'type'      => NULL,
 			'image'     => FALSE,
 			'logo'      => FALSE,
 		);
@@ -2904,7 +2919,9 @@ class cnEntry {
 	 */
 	public function getBio( $context = 'display' ) {
 
-		return cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->bio ), $context );
+		$bio = cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->bio ), $context );
+
+		return is_string( $bio ) ? $bio : '';
 	}
 
 	/**
@@ -2933,7 +2950,9 @@ class cnEntry {
 	 */
 	public function getNotes( $context = 'display' ) {
 
-		return cnSanitize::field( 'notes', apply_filters( 'cn_notes', $this->notes ), $context );
+		$notes = cnSanitize::field( 'notes', apply_filters( 'cn_notes', $this->notes ), $context );
+
+		return is_string( $notes ) ? $notes : '';
 	}
 
 	/**
@@ -4109,7 +4128,7 @@ class cnEntry {
 		$result = $wpdb->update(
 			CN_ENTRY_TABLE,
 			array(
-				'ts'                 => current_time( 'mysql' ),
+				'ts'                 => current_time( 'mysql', TRUE ),
 				'ordo'               => $this->getOrder(),
 				'entry_type'         => $this->entryType,
 				'visibility'         => $this->getVisibility(),
@@ -4302,6 +4321,7 @@ class cnEntry {
 		$wpdb->update(
 			CN_ENTRY_TABLE,
 			array(
+				'ts'            => current_time( 'mysql', TRUE ),
 				'addresses'     => serialize( $addresses ),
 				'phone_numbers' => serialize( $phoneNumbers ),
 				'email'         => serialize( $emailAddresses ),
@@ -4311,7 +4331,7 @@ class cnEntry {
 				'dates'         => $this->dates,
 			),
 			array( 'id' => $this->id ),
-			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', ),
+			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', ),
 			array( '%d' )
 		);
 	}
@@ -4339,8 +4359,8 @@ class cnEntry {
 		$result = $wpdb->insert(
 			CN_ENTRY_TABLE,
 			array(
-				'ts'                 => current_time( 'mysql' ),
-				'date_added'         => current_time( 'timestamp' ),
+				'ts'                 => current_time( 'mysql', TRUE ),
+				'date_added'         => current_time( 'timestamp', TRUE ),
 				'ordo'               => $this->getOrder(),
 				'entry_type'         => $this->entryType,
 				'visibility'         => $this->getVisibility(),

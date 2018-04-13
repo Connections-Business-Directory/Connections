@@ -1493,7 +1493,7 @@ class cnTemplatePart {
 			return self::echoOrReturn( $atts['return'], $out );
 		}
 
-		$age = (int) abs( time() - strtotime( $atts['timestamp'] ) );
+		$age = absint( current_time( 'timestamp', TRUE ) - strtotime( $atts['timestamp'] ) );
 
 		if ( $age < 657000 ) // less than one week: red
 			$atts['style']['color'] = 'red';
@@ -1516,7 +1516,7 @@ class cnTemplatePart {
 			$styles = implode( $atts['style'], '; ' );
 		}
 
-		$updated = sprintf( __( 'Updated %1$s ago.', 'connections' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp' ) ) );
+		$updated = sprintf( __( 'Updated %1$s ago.', 'connections' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp', TRUE ) ) );
 
 		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $updated . '</' . $atts['tag'] . '>';
 

@@ -20,7 +20,7 @@ class cnConstants {
 		}
 
 		/** @var string CN_CURRENT_VERSION The current version. */
-		define( 'CN_CURRENT_VERSION', Connections_Directory()::VERSION );
+		define( 'CN_CURRENT_VERSION', ConnectionsLoad::VERSION );
 
 		/** @var string CN_DB_VERSION The current DB version. */
 		define( 'CN_DB_VERSION', '0.6' );

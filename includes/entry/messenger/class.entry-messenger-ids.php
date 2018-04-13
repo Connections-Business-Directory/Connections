@@ -488,6 +488,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 
 		$collection = new cnCollection( $data );
 		$order      = $collection->max('order');
+		$preferred  = NULL;
 
 		/*
 		 * The source of $data in Connections core will be from a form submission, object cache or the db.
@@ -497,7 +498,11 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 		 * If the `preferred` array key is set, the preferred messenger ID  will be set based on the array key value.
 		 * If it is not, the preferred messenger ID value will be retained using the `preferred` key within each messenger ID.
 		 */
-		$preferred  = isset( $data['preferred'] ) ? $data['preferred'] : NULL;
+		if ( isset( $data['preferred'] ) ) {
+
+			$preferred = $data['preferred'];
+			unset( $data['preferred'] );
+		}
 
 		foreach ( $collection as $key => $messenger ) {
 

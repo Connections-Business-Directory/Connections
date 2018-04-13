@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.4
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.16
+Stable tag: 8.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,33 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.17 04/13/2018 =
+* FEATURE: Add link fieldset configuration options.
+* TWEAK: Change class constant access syntax to be compatible with php5.3.
+* TWEAK: Minor tweak to logic to ensure the preferred array value does not create a new messenger ID object when updating from array.
+* TWEAK: Create instance of cnPhone instead of stdClass when creating a new phone number object when creating a "dummy" placeholder object for the phone fieldset.
+* TWEAK: Create instance of cnEmail_Address instead of stdClass when creating a new email address object when creating a "dummy" placeholder object for the email fieldset.
+* TWEAK: Set the `cnEntry::getLinks()` default value for type to query to NULL instead of the registered core types so all links will be queried vs. only the registered types.
+* TWEAK: Change default date format of `cnEntry::getFormattedTimeStamp()` to use the WordPress default date format set by the user in the settings.
+* TWEAK: When saving/updating an entry, the added date time and updated date time should be saved in UTC.
+* TWEAK: Update various spots in the code to account that the last updated and date added timestamps are in UTC so they will properly be cconverted into the current user's timezone.
+* TWEAK: Change `cnEntry::getDateAdded()` to use the user's defined date format from the WP settings.
+* TWEAK: Add time to `cnEntry::getFormattedTimeStamp()` default date format. Default to user's defined date time format from the WP settings.
+* TWEAK: Add time to `cnEntry::getDateAdded()` default date format. Default to user's defined date time format from the WP settings.
+* TWEAK: Remove the hardcoded date time formats used on the Manage admin page so they will display in the users defined date time format in the WP settings.
+* TWEAK: Ensure `cnEntry::getBio()` and `cnEntry::getNotes()` only return strings.
+* BUG: Correct PHP index not found notice.
+* BUG: The messenger fieldset was not updated to honor the fieldset settings!
+* BUG: Version should be string.
+* OTHER: Remove extra spaces.
+* OTHER: Remove todo in cnEntry.
+* OTHER: Remove extra tabs and align `span` tags.
+* OTHER: Remove trailing spaces.
+* OTHER: Remove extra spaces.
+* I18N: Correct string so it can be translated.
+* DEV: phpDoc corrections.
+* DEV: Remove some commented out debug code.
 
 = 8.16 03/30/2018 =
 * FEATURE: Introduce the Instant Messenger Fieldset configuration options.
@@ -585,44 +612,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * REST API: More work done to support the entry endpoint for the REST API.
 * PHPUnit: Add framework to support unit testing to help ensure even more stable build releases.
 
-= 8.5.30 11/29/2016 =
-* TWEAK: Revert form action to not include the form action.
-* BUG: Ensure enhanced select renders the placeholder values correctly when viewing on a mobile device.
-* BUG: Enable search for the Address Line 4, District and Country fields.
-* OTHER: Correct method capitalization.
-* DEV: Correct inline code doc punctuation.
-* I18N: Update POT file.
-* I18N: Update MO files.
-
-= 8.5.29 11/10/2016 =
-* NEW: Add filter to the `document_title_parts` filter to properly set the browser tab/window title if `wp_title()` is not being used by the theme.
-* TWEAK: Remove the $cached terms params in the Term REST endpoint.
-* TWEAK: Suppress potential PHP notice from being thrown by `unserialize()` in `cnEntry::getAddresses()`.
-* TWEAK: Ensure the home page URL always has a trailing slash in the callback function for the `page_link` filter.
-* TWEAK: Add readonly support to cnHML::select() by making the actualy select field disabled and adding a new hidden input with the same name and value.
-* TWEAK: Only add the search form action attribute if the directory permalink is being added.
-* TWEAK: Force date format in datepicker because, since WP 4.4, WP sets a default format based on the date format set on the General Settings admin page. Those formats are not compatible with the expected date format to be saved.
-* TWEAK: Remove unnecessary trailing semi-colon from datepicker init function call.
-* TWEAK: Remove usage of deprecated $connections global var from cnEntry::getDates().
-* TWEAK: Set the form action attribute to default to the `home_id` shortcode default so searches are always from the directory root page.
-* TWEAK: Add a saving bool parameter to the cnRetrieve class for addresses, phone numbers and such to allow addresses and such to be queried regardless of current logged user permissions.
-* TWEAK: Update the entries address, phone, etc.. object caches on updates. This is to ensure the ID of each address, phone, etc.. is updated to reflect the ID in the database vs. leaving it as `0`.
-* TWEAK: Convert the WP default date format WP jQuery UI datepicker compatible format.
-* BUG: Update the `[upcoming_list]` shortcode so it will function correctly with templates which support the Template Customizer.
-* BUG: Fix the display of the changelog of add-ons.
-* DEV: phpDoc Block corrections.
-* I18N: Update POT file.
-* I18N: Update MO files.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.29 =
-It is recommended to backup before updating. Requires WordPress >= 4.3.
-
-= 8.5.30 =
-It is recommended to backup before updating. Requires WordPress >= 4.3.
 
 = 8.5.31 =
 It is recommended to backup before updating. Requires WordPress >= 4.3.
@@ -700,4 +692,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.16 =
+It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.17 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.

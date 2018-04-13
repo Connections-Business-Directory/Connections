@@ -21,10 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * EXAMPLE:   connectionsEntryList( array('id' => 325) );
  *
  * @access public
- * @since unknown
- * @version 1.0
+ * @since  unknown
+ *
  * @param array $atts
- * @return string
  */
 function connectionsEntryList($atts) {
 	echo cnShortcode_Connections::shortcode($atts);
@@ -38,7 +37,6 @@ function connectionsEntryList($atts) {
  * EXAMPLE:   connectionsUpcomingList(array('days' => 30));
  *
  * @param array $atts
- * @return string
  */
 function connectionsUpcomingList( $atts ) {
 	echo _upcoming_list( $atts );
@@ -59,7 +57,12 @@ function connectionsUpcomingList( $atts ) {
  * @return string
  */
 function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
-    global $connections, $wpdb;
+
+	/**
+	 * @var ConnectionsLoad $connections
+	 * @var wpdb $wpdb
+	 */
+	global $connections, $wpdb;
 
 	// $template =& $connections->template;
 	$out = '';

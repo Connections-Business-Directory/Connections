@@ -183,6 +183,7 @@ class cnOutput extends cnEntry {
 
 					if ( $customSize ) {
 
+						/** @var array|WP_Error $image */
 						$image = $this->getImageMeta(
 							array(
 								'type'      => 'photo',
@@ -1582,6 +1583,7 @@ class cnOutput extends cnEntry {
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
+			'limit'     => NULL,
 			'format'    => '',
 			'separator' => ':',
 			'before'    => '',

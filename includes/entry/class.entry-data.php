@@ -533,7 +533,11 @@ class cnEntry {
 	 *
 	 * @return string
 	 */
-	public function getDateAdded( $format = 'm/d/Y' ) {
+	public function getDateAdded( $format = NULL ) {
+
+		if ( is_null( $format ) ) {
+			$format = get_option( 'date_format', 'm/d/Y' );
+		}
 
 		if ( $this->dateAdded != NULL ) {
 

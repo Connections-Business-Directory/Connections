@@ -542,7 +542,13 @@ class cnEntry {
 	public function getDateAdded( $format = NULL ) {
 
 		if ( is_null( $format ) ) {
-			$format = get_option( 'date_format', 'm/d/Y' );
+
+			$options = array(
+				get_option( 'date_format', 'm/d/Y' ),
+				get_option( 'time_format', 'g:ia' )
+			);
+
+			$format = implode( ' ', $options ) ;
 		}
 
 		if ( $this->dateAdded != NULL ) {

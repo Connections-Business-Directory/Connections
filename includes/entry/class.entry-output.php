@@ -219,6 +219,7 @@ class cnOutput extends cnEntry {
 
 						if ( $size = array_search( $atts['preset'], $preset ) ) {
 
+							/** @var array|WP_Error $image */
 							$image = $this->getImageMeta(
 								array(
 									'type' => 'photo',

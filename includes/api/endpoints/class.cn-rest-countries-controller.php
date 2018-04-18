@@ -188,7 +188,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 
 		$response = cnCountries::getByCode( $code );
 
-		if ( is_wp_error( $response ) || ! is_a( $response, 'cnCountry' ) ) {
+		if ( is_wp_error( $response ) || ! $response instanceof cnCountry ) {
 
 			$response = new WP_Error(
 				'country_data_not_found',
@@ -218,7 +218,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 
 		$response = cnCountries::getByCode( $code );
 
-		if ( is_wp_error( $response ) || ! is_a( $response, 'cnCountry' ) ) {
+		if ( is_wp_error( $response ) || ! $response instanceof cnCountry ) {
 
 			$response = new WP_Error(
 				'country_data_not_found',
@@ -250,7 +250,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 
 		$response = cnCountries::getByCode( $code );
 
-		if ( is_wp_error( $response ) || ! is_a( $response, 'cnCountry' ) ) {
+		if ( is_wp_error( $response ) || ! $response instanceof cnCountry ) {
 
 			$response = new WP_Error(
 				'country_data_not_found',

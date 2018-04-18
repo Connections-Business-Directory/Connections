@@ -1321,7 +1321,7 @@ class cnTemplatePart {
 
 		$atts['message'] = apply_filters( 'cn_list_no_result_message' , $atts['message'] );
 
-		if ( is_a( $template, 'cnTemplate' ) ) {
+		if ( $template instanceof cnTemplate ) {
 
 			$atts['message'] = apply_filters( 'cn_list_no_result_message-' . $template->getSlug() , $atts['message'] );
 		}

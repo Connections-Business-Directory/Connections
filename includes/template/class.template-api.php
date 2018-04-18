@@ -552,11 +552,11 @@ class cnTemplateFactory {
 		 * returning it because it is possible the cached path no longer exists because the
 		 * WP install was moved; for example, a  server migration or a site migration.
 		 */
-		if ( is_a( $template, 'cnTemplate' ) && $template->isLegacy() ) {
+		if ( $template instanceof cnTemplate && $template->isLegacy() ) {
 
 			return isset( $template ) && ( is_dir( $template->getPath() ) && is_readable( $template->getPath() ) ) ? $template : FALSE;
 
-		} elseif ( is_a( $template, 'cnTemplate' ) ) {
+		} elseif ( $template instanceof cnTemplate ) {
 
 			return $template;
 

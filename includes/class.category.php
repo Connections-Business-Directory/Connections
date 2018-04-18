@@ -452,7 +452,7 @@ class cnCategory {
 			$current = cnTerm::getBy( $field, $current, 'category' );
 
 			// cnTerm::getBy() can return NULL || an instance of WP_Error, so, lets check for that.
-			if ( ! is_a( $current, 'cnTerm_Object' ) ) {
+			if ( ! $current instanceof cnTerm_Object ) {
 
 				$current = FALSE;
 			}

@@ -41,7 +41,7 @@ class cnQuery {
 
 		// Check to see if the global `$wp_query` var is an instance of WP_Query and that the get() method is callable.
 		// If it is then when can simply use the get_query_var() function.
-		if ( is_a( $wp_query, 'WP_Query' ) && is_callable( array( $wp_query, 'get' ) ) ) {
+		if ( $wp_query instanceof WP_Query && is_callable( array( $wp_query, 'get' ) ) ) {
 
 			return get_query_var( $var, $default );
 
@@ -84,7 +84,7 @@ class cnQuery {
 
 		global $wp_query;
 
-		if ( is_a( $wp_query, 'WP_Query' ) && is_callable( array( $wp_query, 'get' ) ) ) {
+		if ( $wp_query instanceof WP_Query && is_callable( array( $wp_query, 'get' ) ) ) {
 
 			set_query_var( $var, $value );
 

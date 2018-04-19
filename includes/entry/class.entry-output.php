@@ -120,7 +120,7 @@ class cnOutput extends cnEntry {
 	public function getImage( $atts = array() ) {
 
 		$displayImage  = FALSE;
-		$cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
+		//$cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
 		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 		$tag           = array();
 		$srcset        = array();

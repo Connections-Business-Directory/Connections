@@ -124,31 +124,31 @@ class cnOutput extends cnEntry {
 		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 		$tag           = array();
 		$srcset        = array();
-		$anchorStart   = '';
 		$out           = '';
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'image'    => 'photo',
-			'preset'   => 'entry',
-			'fallback' => array(
+			'image'     => 'photo',
+			'preset'    => 'entry',
+			'fallback'  => array(
 				'type'   => 'none',
 				'string' => '',
 				'height' => 0,
-				'width'  => 0
+				'width'  => 0,
 			),
-			'width'    => 0,
-			'height'   => 0,
-			'zc'       => 1,
-			'quality'  => 80,
-			'before'   => '',
-			'after'    => '',
-			'sizes'    => array( '100vw' ),
-			'style'    => array(),
-			'action'   => 'display',
-			'return'   => FALSE
+			'width'     => 0,
+			'height'    => 0,
+			'zc'        => 1,
+			'quality'   => 80,
+			'before'    => '',
+			'after'     => '',
+			'sizes'     => array( '100vw' ),
+			'style'     => array(),
+			'action'    => 'display',
+			'permalink' => FALSE, // Defaulting this to false for now. Default this to true in future update.
+			'return'    => FALSE,
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_image' , $defaults );
@@ -261,15 +261,7 @@ class cnOutput extends cnEntry {
 
 				if ( ! empty( $links ) ) {
 
-					$link   = $links[0];
-					$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
-					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
-
-					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
-						esc_url( $link->url ),
-						empty( $target ) ? '' : ' target="' . $target . '"',
-						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
-					);
+					$link = $links[0];
 				}
 
 				break;
@@ -347,15 +339,7 @@ class cnOutput extends cnEntry {
 
 				if ( ! empty( $links ) ) {
 
-					$link   = $links[0];
-					$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
-					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
-
-					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
-						esc_url( $link->url ),
-						empty( $target ) ? '' : ' target="' . $target . '"',
-						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
-					);
+					$link = $links[0];
 				}
 
 				break;
@@ -406,13 +390,38 @@ class cnOutput extends cnEntry {
 
 			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
+			/*
+			 * If a link has not been attached to the photo/logo AND the permalink option is enabled
+			 * initiate a new link object and set it's properties.
+			 */
+			if ( ! isset( $link ) && TRUE === $atts['permalink'] ) {
+
+				$link = (object) array( 'url' => $this->getPermalink(), 'target' => '', 'followString' => '' );
+			}
+
+			/*
+			 * If the image has a link/permalink attached, create the HTML anchor.
+			 */
+			if ( isset( $link ) ) {
+
+				$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
+				$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '';
+
+				$anchor = sprintf(
+					'<a href="%1$s"%2$s%3$s>',
+					esc_url( $link->url ),
+					empty( $target ) ? '' : ' target="' . $target . '"',
+					empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
+				);
+			}
+
 			// The inner <span> is required for responsive image support. This markup also makes it IE8 compatible.
 			$out = sprintf( '<span class="cn-image-style"><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s%1$s/>%5$s</span></span>',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				absint( $image['width'] ),
-				empty( $anchorStart ) ? '' : $anchorStart,
+				isset( $anchor ) ? $anchor : '',
 				implode( ' ', $tag ),
-				empty( $anchorStart ) ? '' : '</a>'
+				isset( $anchor ) ? '</a>' : ''
 			);
 
 		} else {

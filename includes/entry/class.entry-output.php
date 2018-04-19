@@ -506,8 +506,6 @@ class cnOutput extends cnEntry {
 	 * @since  8.1.6
 	 *
 	 * @uses   cnURL::permalink()
-	 *
-	 * @return string
 	 */
 	public function permalink() {
 

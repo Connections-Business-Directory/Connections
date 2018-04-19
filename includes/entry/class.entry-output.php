@@ -204,7 +204,7 @@ class cnOutput extends cnEntry {
 
 							// Since this is a custom size of an image we can not know which crop mode to use.
 							// Set the crop mode the the value set in $atts['zc'].
-							$cropMode = $atts['zc'];
+							//$cropMode = $atts['zc'];
 
 							// Add the image to the scrset.
 							$srcset['image_custom'] = array( 'src' => $image['url'], 'width' => '1x' );
@@ -235,7 +235,7 @@ class cnOutput extends cnEntry {
 							} else {
 
 								// Set the crop mode to the value saved in the settings.
-								$cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+								//$cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 								// Add the image to the scrset.
 								$srcset[ 'image_' . $size ] = array( 'src' => $image['url'], 'width' => '1x' );
@@ -282,7 +282,7 @@ class cnOutput extends cnEntry {
 					$atts['class'] = 'cn-image logo';
 					$atts['alt']   = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
 					$atts['title'] = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
-					$cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+					//$cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 					$atts['alt']   = apply_filters( 'cn_logo_alt', $atts['alt'], $this );
 					$atts['title'] = apply_filters( 'cn_logo_title', $atts['title'], $this );

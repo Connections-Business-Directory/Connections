@@ -62,15 +62,18 @@ class cnTemplatePart {
 	 * @access public
 	 * @since  0.8.11
 	 * @static
+	 *
 	 * @uses   cnLocate::fileNames()
 	 * @uses   cnTemplatePart::locate()
+	 *
 	 * @param  string  $base         The base template name.
 	 * @param  string  $name         The template name.
 	 * @param  array   $params       An array of arguments that will be extract() if the template part is to be loaded.
 	 * @param  boolean $load         Whether or not to load the template.
 	 * @param  boolean $buffer
 	 * @param  boolean $require_once Whether or not to require() or require_once() the template part.
-	 * @return string                The template part file path, if one is located.
+	 *
+	 * @return string|bool The template part file path, if one is located.
 	 */
 	public static function get( $base, $name = NULL, $params, $load = TRUE, $buffer = TRUE, $require_once = TRUE ) {
 

@@ -683,7 +683,6 @@ class cnOutput extends cnEntry {
 	 * Echos the family members of the family entry type.
 	 *
 	 * @deprecated since 0.7.1.0
-	 * @return string
 	 */
 	public function getConnectionGroupBlock() {
 		$this->getFamilyMemberBlock();

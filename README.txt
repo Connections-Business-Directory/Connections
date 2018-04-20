@@ -234,6 +234,17 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.18 04/20/2018 =
+* TWEAK: Switch all `is_a()` instances of to `instanceof`.
+* TWEAK: Update teh jQuery Validate library to 1.17.0.
+* TWEAK: Add option to `cnOutput::getImage()` to enable the logo/photo to be a entry permalink unless overridden by an assigned link.
+* TWEAK: Update the Default Entry Card template so the logo/photo will be a permalink to the entry.
+* TWEAK: Update the Profile template so the logo/photo will be a permalink to the entry.
+* TWEAK: Rename `cnSEO::trigger404()` to `cnSEO::trigger404_entryNotFound()`.
+* OTHER: Correct misspelling.
+* DEV: phpDoc corrections.
+* DEV: Remove unused variables.
+
 = 8.17 04/13/2018 =
 * FEATURE: Add link fieldset configuration options.
 * TWEAK: Change class constant access syntax to be compatible with php5.3.
@@ -597,30 +608,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Exclude the /tests/* path from grunt tasks.
 * DEV: phpDoc block corrections.
 
-= 8.5.32 12/12/2016 =
-* TWEAK: Show parent theme name and version in System Info when child theme is active.
-* TWEAK: Query all matching entry slugs at once instead one at a time when searching for a unique slug.
-* BUG: Remove use of `is_taxonomy_hierarchical()` within the cmTerm class because it does not apply.
-* BUG: Fix "Illegal string offset" in PHP 7.1.
-* OTHER: Remove stray/extra whitespace after a comma.
-* OTHER: Introduce cnDB::multisert().
-* OTHER: Update readme.md so the badges link to the wp.org site.
-* PHPUnit: Add PHP 7.1 to the test matrix.
-
-= 8.5.31 12/08/2016 =
-* TWEAK: Fix Template Customizer so it loads properly in WordPress 4.7.
-* REST API: More work done to support the entry endpoint for the REST API.
-* PHPUnit: Add framework to support unit testing to help ensure even more stable build releases.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.5.31 =
-It is recommended to backup before updating. Requires WordPress >= 4.3.
-
-= 8.5.32 =
-It is recommended to backup before updating. Requires WordPress >= 4.3.
 
 = 8.6 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
@@ -695,4 +685,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.17 =
+It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.18 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.

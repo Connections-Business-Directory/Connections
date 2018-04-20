@@ -37,6 +37,7 @@ $style  = array(
 						'type'   => $atts['image_fallback'] ? 'block' : 'none',
 						'string' => $atts['image_fallback_string'],
 					),
+					'permalink' => TRUE,
 				)
 			);
 

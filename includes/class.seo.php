@@ -89,7 +89,8 @@ class cnSEO {
 		add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
 
 		// Trigger 404 if entry is not found.
-		add_action( 'pre_handle_404', array( __CLASS__, 'trigger404' ) );
+		//add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_noShortcode' ) );
+		add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_entryNotFound' ) );
 
 		// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
 		// remove_action( 'wp_head', 'parent_post_rel_link'); // Removes the prev link
@@ -98,6 +99,45 @@ class cnSEO {
 		// remove_action( 'wp_head', 'rel_canonical'); // Remove the canonical link
 		// remove_action( 'wp_head', 'feed_links', 2 ); // Remove the feed links.
 		// remove_action( 'wp_head', 'feed_links_extra', 3 ); // Remove page/post specific comments feed.
+	}
+
+	/**
+	 * If shortcode is not found in post content and a registered query var is detected, trigger a 404.
+	 *
+	 * @see WP::handle_404()
+	 *
+	 * @access private
+	 * @since  8.18
+	 * @static
+	 */
+	public static function trigger404_noShortcode() {
+
+		global $wp_query;
+
+		// Get the queried object.
+		$post = get_queried_object();
+
+		// Ensure it is an instance of WP_Post.
+		if ( $post instanceof WP_Post ) {
+
+			// Grab the array containing all query vars registered by Connections.
+			$registeredQueryVars = cnRewrite::queryVars( array() );
+
+			// Remove the cn-image query vars.
+			$wpQueryVars = array_diff_key( (array) $wp_query->query_vars, array_flip( array( 'src', 'w', 'h', 'q', 'a', 'zc', 'f', 's', 'o', 'cc', 'ct' ) ) );
+
+			// If the shortcode is not found and a Connections query var is detected, return 404.
+			if ( FALSE === cnShortcode::find( 'connections', $post->post_content ) &&
+			     TRUE === (bool) array_intersect( $registeredQueryVars, array_keys( (array) $wpQueryVars ) ) ) {
+
+				$wp_query->set_404();
+				status_header( 404 );
+				nocache_headers();
+			}
+
+		}
+
+		return FALSE;
 	}
 
 	/**
@@ -111,7 +151,7 @@ class cnSEO {
 	 * @since  8.5.26
 	 * @static
 	 */
-	public static function trigger404() {
+	public static function trigger404_entryNotFound() {
 
 		global $wp_query;
 

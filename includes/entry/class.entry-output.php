@@ -120,35 +120,35 @@ class cnOutput extends cnEntry {
 	public function getImage( $atts = array() ) {
 
 		$displayImage  = FALSE;
-		$cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
+		//$cropModes     = array( 0 => 'none', 1 => 'crop', 2 => 'fill', 3 => 'fit' );
 		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
 		$tag           = array();
 		$srcset        = array();
-		$anchorStart   = '';
 		$out           = '';
 
 		/*
 		 * // START -- Set the default attributes array. \\
 		 */
 		$defaults = array(
-			'image'    => 'photo',
-			'preset'   => 'entry',
-			'fallback' => array(
+			'image'     => 'photo',
+			'preset'    => 'entry',
+			'fallback'  => array(
 				'type'   => 'none',
 				'string' => '',
 				'height' => 0,
-				'width'  => 0
+				'width'  => 0,
 			),
-			'width'    => 0,
-			'height'   => 0,
-			'zc'       => 1,
-			'quality'  => 80,
-			'before'   => '',
-			'after'    => '',
-			'sizes'    => array( '100vw' ),
-			'style'    => array(),
-			'action'   => 'display',
-			'return'   => FALSE
+			'width'     => 0,
+			'height'    => 0,
+			'zc'        => 1,
+			'quality'   => 80,
+			'before'    => '',
+			'after'     => '',
+			'sizes'     => array( '100vw' ),
+			'style'     => array(),
+			'action'    => 'display',
+			'permalink' => FALSE, // Defaulting this to false for now. Default this to true in future update.
+			'return'    => FALSE,
 		);
 
 		$defaults = apply_filters( 'cn_output_default_atts_image' , $defaults );
@@ -204,7 +204,7 @@ class cnOutput extends cnEntry {
 
 							// Since this is a custom size of an image we can not know which crop mode to use.
 							// Set the crop mode the the value set in $atts['zc'].
-							$cropMode = $atts['zc'];
+							//$cropMode = $atts['zc'];
 
 							// Add the image to the scrset.
 							$srcset['image_custom'] = array( 'src' => $image['url'], 'width' => '1x' );
@@ -219,6 +219,7 @@ class cnOutput extends cnEntry {
 
 						if ( $size = array_search( $atts['preset'], $preset ) ) {
 
+							/** @var array|WP_Error $image */
 							$image = $this->getImageMeta(
 								array(
 									'type' => 'photo',
@@ -234,7 +235,7 @@ class cnOutput extends cnEntry {
 							} else {
 
 								// Set the crop mode to the value saved in the settings.
-								$cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+								//$cropMode = ( $key = array_search( cnSettingsAPI::get( 'connections', "image_{$size}", 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 								// Add the image to the scrset.
 								$srcset[ 'image_' . $size ] = array( 'src' => $image['url'], 'width' => '1x' );
@@ -260,15 +261,7 @@ class cnOutput extends cnEntry {
 
 				if ( ! empty( $links ) ) {
 
-					$link   = $links[0];
-					$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
-					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
-
-					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
-						esc_url( $link->url ),
-						empty( $target ) ? '' : ' target="' . $target . '"',
-						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
-					);
+					$link = $links[0];
 				}
 
 				break;
@@ -281,7 +274,7 @@ class cnOutput extends cnEntry {
 					$atts['class'] = 'cn-image logo';
 					$atts['alt']   = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
 					$atts['title'] = sprintf( __( 'Logo for %s', 'connections' ), $this->getName() );
-					$cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
+					//$cropMode      = ( $key = array_search( cnSettingsAPI::get( 'connections', 'image_logo', 'ratio' ), $cropModes ) ) || $key === 0 ? $key : 2;
 
 					$atts['alt']   = apply_filters( 'cn_logo_alt', $atts['alt'], $this );
 					$atts['title'] = apply_filters( 'cn_logo_title', $atts['title'], $this );
@@ -346,15 +339,7 @@ class cnOutput extends cnEntry {
 
 				if ( ! empty( $links ) ) {
 
-					$link   = $links[0];
-					$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
-					$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
-
-					$anchorStart = sprintf( '<a href="%1$s"%2$s%3$s>',
-						esc_url( $link->url ),
-						empty( $target ) ? '' : ' target="' . $target . '"',
-						empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
-					);
+					$link = $links[0];
 				}
 
 				break;
@@ -405,13 +390,38 @@ class cnOutput extends cnEntry {
 
 			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
 
+			/*
+			 * If a link has not been attached to the photo/logo AND the permalink option is enabled
+			 * initiate a new link object and set it's properties.
+			 */
+			if ( ! isset( $link ) && TRUE === $atts['permalink'] ) {
+
+				$link = (object) array( 'url' => $this->getPermalink(), 'target' => '', 'followString' => '' );
+			}
+
+			/*
+			 * If the image has a link/permalink attached, create the HTML anchor.
+			 */
+			if ( isset( $link ) ) {
+
+				$link   = apply_filters( "cn_image_link-{$atts['image']}", apply_filters( 'cn_image_link', $link, $this ), $this );
+				$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '';
+
+				$anchor = sprintf(
+					'<a href="%1$s"%2$s%3$s>',
+					esc_url( $link->url ),
+					empty( $target ) ? '' : ' target="' . $target . '"',
+					empty( $link->followString ) ? '' : ' rel="' . $link->followString . '"'
+				);
+			}
+
 			// The inner <span> is required for responsive image support. This markup also makes it IE8 compatible.
 			$out = sprintf( '<span class="cn-image-style"><span style="display: block; max-width: 100%%; width: %2$spx">%3$s<img %4$s%1$s/>%5$s</span></span>',
 				empty( $atts['style'] ) ? '' : ' style="' . implode( '; ', $atts['style'] ) . ';"',
 				absint( $image['width'] ),
-				empty( $anchorStart ) ? '' : $anchorStart,
+				isset( $anchor ) ? $anchor : '',
 				implode( ' ', $tag ),
-				empty( $anchorStart ) ? '' : '</a>'
+				isset( $anchor ) ? '</a>' : ''
 			);
 
 		} else {
@@ -505,8 +515,6 @@ class cnOutput extends cnEntry {
 	 * @since  8.1.6
 	 *
 	 * @uses   cnURL::permalink()
-	 *
-	 * @return string
 	 */
 	public function permalink() {
 
@@ -684,7 +692,6 @@ class cnOutput extends cnEntry {
 	 * Echos the family members of the family entry type.
 	 *
 	 * @deprecated since 0.7.1.0
-	 * @return string
 	 */
 	public function getConnectionGroupBlock() {
 		$this->getFamilyMemberBlock();

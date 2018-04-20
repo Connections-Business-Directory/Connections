@@ -1,5 +1,16 @@
 == Changelog ==
 
+= 8.18 04/20/2018 =
+* TWEAK: Switch all `is_a()` instances of to `instanceof`.
+* TWEAK: Update teh jQuery Validate library to 1.17.0.
+* TWEAK: Add option to `cnOutput::getImage()` to enable the logo/photo to be a entry permalink unless overridden by an assigned link.
+* TWEAK: Update the Default Entry Card template so the logo/photo will be a permalink to the entry.
+* TWEAK: Update the Profile template so the logo/photo will be a permalink to the entry.
+* TWEAK: Rename `cnSEO::trigger404()` to `cnSEO::trigger404_entryNotFound()`.
+* OTHER: Correct misspelling.
+* DEV: phpDoc corrections.
+* DEV: Remove unused variables.
+
 = 8.17 04/13/2018 =
 * FEATURE: Add link fieldset configuration options.
 * TWEAK: Change class constant access syntax to be compatible with php5.3.

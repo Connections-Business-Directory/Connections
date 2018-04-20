@@ -89,7 +89,7 @@ class cnSEO {
 		add_action( 'wp_head', array( __CLASS__, 'removeCommentFeed' ), -1 );
 
 		// Trigger 404 if entry is not found.
-		add_action( 'pre_handle_404', array( __CLASS__, 'trigger404' ) );
+		add_action( 'pre_handle_404', array( __CLASS__, 'trigger404_entryNotFound' ) );
 
 		// remove_action( 'wp_head', 'index_rel_link'); // Removes the index link
 		// remove_action( 'wp_head', 'parent_post_rel_link'); // Removes the prev link
@@ -111,7 +111,7 @@ class cnSEO {
 	 * @since  8.5.26
 	 * @static
 	 */
-	public static function trigger404() {
+	public static function trigger404_entryNotFound() {
 
 		global $wp_query;
 

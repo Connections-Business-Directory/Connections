@@ -1159,10 +1159,13 @@ class cnTemplate_Customizer {
 								'section'     => 'cn_template_customizer_section_image',
 								'settings'    => $option,
 								'description' => __( 'Select image type to display.', 'connections' ),
-								'choices'     => array(
-									'none'  => __( 'None', 'connections' ),
-									'photo' => __( 'Photo', 'connections' ),
-									'logo'  => __( 'Logo', 'connections' ),
+								'choices'     => apply_filters(
+									'cn_customizer_image_options',
+									array(
+										'none'  => __( 'None', 'connections' ),
+										'photo' => __( 'Photo', 'connections' ),
+										'logo'  => __( 'Logo', 'connections' ),
+									)
 								),
 							)
 						)

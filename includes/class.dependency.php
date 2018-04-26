@@ -335,6 +335,10 @@ class cnDependency {
 			'cnEntry_Messenger_IDs'    => 'includes/entry/messenger/class.entry-messenger-ids.php',
 			'cnMessenger'              => 'includes/entry/messenger/class.messenger.php',
 
+			// Link objects
+			'cnEntry_Links'            => 'includes/entry/link/class.entry-links.php',
+			'cnLink'                   => 'includes/entry/link/class.link.php',
+
 			// Database Classes
 			'cnEntry_DB'               => 'includes/entry/class.entry-db.php',
 

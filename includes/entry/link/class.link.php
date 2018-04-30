@@ -91,9 +91,9 @@ final class cnLink extends cnEntry_Collection_Item {
 		'url'          => 'getURL',
 		'target'       => 'getTarget',
 		'follow'       => 'getFollow',
-		'followString' => '@TODO',
-		'image'        => '@TODO',
-		'logo'         => '@TODO',
+		'followString' => 'getFollowString',
+		'image'        => 'attachedToPhoto',
+		'logo'         => 'attachedToLogo',
 	);
 
 	/**
@@ -296,23 +296,106 @@ final class cnLink extends cnEntry_Collection_Item {
 	 * @access public
 	 * @since  8.19
 	 *
+	 * @return string
+	 */
+	public function getFollowString() {
+
+		return $this->follow ? 'dofollow' : 'nofollow';
+	}
+
+	/**
+	 * @access public
+	 * @since  8.19
+	 *
+	 * @return bool
+	 */
+	public function attachedToLogo() {
+
+		return $this->logo;
+	}
+
+	/**
+	 * @access public
+	 * @since  8.19
+	 *
+	 * @return bool
+	 */
+	public function attachedToPhoto() {
+
+		return $this->image;
+	}
+
+	/**
+	 * Attach the URL to either the logo or photo.
+	 *
+	 * @access public
+	 * @since  8.19
+	 *
+	 * @param $type
+	 */
+	public function attachTo( $type ) {
+
+		switch ( $type ) {
+
+			case 'logo':
+				$this->logo = TRUE;
+				break;
+
+			case 'photo':
+				$this->image = TRUE;
+				break;
+		}
+	}
+
+	/**
+	 * Return the image type that the link is attached to.
+	 *
+	 * @access public
+	 * @since  8.19
+	 *
+	 * @return false|string Return FALSE if link not attached to either the logo or photo.
+	 *                      Return `logo` or `photo` if attached to one of the image types.
+	 */
+	public function attachedTo() {
+
+		if ( TRUE === $this->logo || TRUE === $this->image ) {
+
+			if ( TRUE === $this->logo ) {
+
+				return 'logo';
+
+			} elseif ( TRUE === $this->image ) {
+
+				return 'photo';
+			}
+
+		}
+
+		return FALSE;
+	}
+
+	/**
+	 * @access public
+	 * @since  8.19
+	 *
 	 * @return array
 	 */
 	public function toArray() {
 
 		return array(
-			'id'         => $this->id,
-			'type'       => $this->type,
-			'name'       => $this->getName(),
-			'visibility' => $this->visibility,
-			'order'      => $this->order,
-			'preferred'  => $this->preferred,
-			'title'      => $this->title,
-			'url'        => $this->url,
-			'target'     => $this->target,
-			'follow'     => $this->follow,
-			'image'      => $this->image,
-			'logo'       => $this->logo,
+			'id'           => $this->id,
+			'type'         => $this->type,
+			'name'         => $this->getName(),
+			'visibility'   => $this->visibility,
+			'order'        => $this->order,
+			'preferred'    => $this->preferred,
+			'title'        => $this->title,
+			'url'          => $this->url,
+			'target'       => $this->target,
+			'follow'       => $this->follow,
+			'followString' => $this->getFollowString(),
+			'image'        => $this->image,
+			'logo'         => $this->logo,
 		);
 	}
 }

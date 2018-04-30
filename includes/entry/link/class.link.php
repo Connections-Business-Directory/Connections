@@ -116,15 +116,20 @@ final class cnLink extends cnEntry_Collection_Item {
 		$logo   = cnArray::get( $data, 'logo', FALSE );
 
 		$this->id          = (int) cnArray::get( $data, 'id', 0 );
-
 		$preferred         = cnArray::get( $data, 'preferred', FALSE );
+		$url               = cnArray::get( $data, 'url', '' );
+
+		if ( is_string( $url ) && 0 < strlen( $url ) ) {
+
+			$url = cnSanitize::field( 'url', cnURL::prefix( $url ), 'raw' );
+		}
 
 		$this->type        = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 		$this->visibility  = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order       = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred   = cnFormatting::toBoolean( $preferred );
 		$this->title       = cnSanitize::field( 'name', cnArray::get( $data, 'title', '' ), 'raw' );
-		$this->url         = cnSanitize::field( 'url', cnURL::prefix( cnArray::get( $data, 'url', '' ) ), 'raw' );
+		$this->url         = is_string( $url ) ? $url : '';
 		$this->target      = cnSanitize::field( 'attribute', cnArray::get( $data, 'target', $target ), 'raw' );
 		$this->follow      = cnFormatting::toBoolean( $follow );
 		$this->image       = cnFormatting::toBoolean( $image );
@@ -227,7 +232,10 @@ final class cnLink extends cnEntry_Collection_Item {
 	 */
 	public function setURL( $url ) {
 
-		$this->url = cnSanitize::field( 'url', cnURL::prefix( $url ), 'raw' );
+		if ( is_string( $url ) && 0 < strlen( $url ) ) {
+
+			$this->url = cnSanitize::field( 'url', cnURL::prefix( $url ), 'raw' );
+		}
 
 		return $this;
 	}

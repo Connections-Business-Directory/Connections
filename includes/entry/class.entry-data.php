@@ -119,23 +119,11 @@ class cnEntry {
 	public $emailAddresses;
 
 	/**
-	 * Associative array of instant messengers IDs
-	 *
 	 * @var cnEntry_Messenger_IDs
 	 */
 	public $im = '';
 
 	/**
-	 * Associative array of websites
-	 *
-	 * @deprecated since 0.7.2.0
-	 * @var array
-	 */
-	//private $websites;
-
-	/**
-	 * Associative array of links
-	 *
 	 * @var string
 	 */
 	private $links = '';

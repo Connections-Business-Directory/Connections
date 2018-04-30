@@ -401,6 +401,20 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 			// Only apply the preferred filter if the filter is TRUE so all links will be returned if FALSE.
 			if ( $value ) $this->filtered = $this->filtered->where( 'preferred', '===', $value );
 
+		} elseif ( 'image' === $field ) {
+
+			cnFormatting::toBoolean( $value );
+
+			// Only apply the preferred filter if the filter is TRUE so all links will be returned if FALSE.
+			if ( $value ) $this->filtered = $this->filtered->where( 'image', '===', $value );
+
+		} elseif ( 'logo' === $field ) {
+
+			cnFormatting::toBoolean( $value );
+
+			// Only apply the preferred filter if the filter is TRUE so all links will be returned if FALSE.
+			if ( $value ) $this->filtered = $this->filtered->where( 'logo', '===', $value );
+
 		} elseif ( 'visibility' === $field ) {
 
 			$this->filtered = $this->filtered->whereIn( 'visibility', $value );
@@ -499,9 +513,9 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 	 */
 	public function fromArray( $data = array() ) {
 
-		$collection = new cnCollection( $data );
-		$order      = $collection->max('order');
-		$preferred  = NULL;
+		$preferred     = NULL;
+		$attachToLogo  = NULL;
+		$attachToPhoto = NULL;
 
 		/*
 		 * The source of $data in Connections core will be from a form submission, object cache or the db.
@@ -516,6 +530,21 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 			$preferred = $data['preferred'];
 			unset( $data['preferred'] );
 		}
+
+		if ( isset( $data['logo'] ) ) {
+
+			$attachToLogo = $data['logo'];
+			unset( $data['logo'] );
+		}
+
+		if ( isset( $data['image'] ) ) {
+
+			$attachToPhoto = $data['image'];
+			unset( $data['image'] );
+		}
+
+		$collection = new cnCollection( $data );
+		$order      = $collection->max('order');
 
 		foreach ( $collection as $key => $link ) {
 
@@ -534,6 +563,32 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 			if ( ! is_null( $preferred ) ) {
 
 				$link['preferred'] = $key == $preferred ? TRUE : FALSE;
+			}
+
+			if ( ! is_null( $attachToLogo ) ) {
+
+				$link['logo'] = $key == $attachToLogo ? TRUE : FALSE;
+			}
+
+			if ( ! is_null( $attachToPhoto ) ) {
+
+				$link['image'] = $key == $attachToPhoto ? TRUE : FALSE;
+			}
+
+			if ( ! is_bool( $link['follow'] ) ) {
+
+				if ( $link['follow'] === 'dofollow' ) {
+
+					$link['follow'] = TRUE;
+
+				} elseif ( $link['follow'] === 'nofollow' ) {
+
+					$link['follow'] = FALSE;
+
+				} else {
+
+					cnFormatting::toBoolean( $link['follow'] );
+				}
 			}
 
 			/**

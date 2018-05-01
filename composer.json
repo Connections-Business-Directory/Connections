@@ -13,7 +13,7 @@
     "composer/installers": "~1.2"
   },
   "require-dev": {
-    "php-coveralls/php-coveralls": "dev-master",
+    "php-coveralls/php-coveralls": "^2.0",
     "phpunit/phpunit": "6.2.3"
   },
   "minimum-stability": "dev"

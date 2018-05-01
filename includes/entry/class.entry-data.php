@@ -422,32 +422,48 @@ class cnEntry {
 	}
 
 	/**
-	 * Returns $id.
+	 * The entry ID.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return int
 	 */
 	public function getId() {
 		return (integer) $this->id;
 	}
 
 	/**
-	 * Sets $id.
+	 * Set entry ID.
 	 *
-	 * @param integer $id
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param int $id
 	 */
 	public function setId( $id ) {
 		$this->id = $id;
 	}
 
 	/**
-	 * Returns $userID.
+	 * Returns user ID.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return int
 	 */
 	public function getUser() {
 		return (integer) empty( $this->user ) ? 0 : $this->user;
 	}
 
 	/**
-	 * Sets $userID.
+	 * Sets user ID.
 	 *
-	 * @param integer $id
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param int $id
 	 */
 	public function setUser( $id ) {
 		$this->user = $id;
@@ -455,6 +471,9 @@ class cnEntry {
 
 	/**
 	 * Returns a runtime unique id.
+	 *
+	 * @access public
+	 * @since  unknown
 	 *
 	 * @return string
 	 */

@@ -3708,14 +3708,6 @@ class cnEntry {
 		$this->status = in_array( $status, $permittedValues ) ? sanitize_key( $status ) : 'pending';
 	}
 
-
-	/**
-	 * Returns $options.
-	 */
-	private function getOptions() {
-		return $this->options;
-	}
-
 	/**
 	 * Sets up the current instance of cnEntry to pull in the values of the supplied ID.
 	 *

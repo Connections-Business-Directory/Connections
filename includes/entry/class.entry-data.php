@@ -1417,11 +1417,9 @@ class cnEntry {
 	 *     @type string $visibility The address visibility.
 	 * }
 	 *
-	 * @param string    $context    The context in which it should be sanitized.
-	 *
 	 * @return void
 	 */
-	public function setAddresses( $data, $context = 'db' ) {
+	public function setAddresses( $data ) {
 
 		$this->addresses->updateFromArray( $data );
 	}
@@ -1492,11 +1490,9 @@ class cnEntry {
 	 *     @type string $visibility The phone number visibility.
 	 * }
 	 *
-	 * @param string    $context    The context in which it should be sanitized.
-	 *
 	 * @return void
 	 */
-	public function setPhoneNumbers( $data, $context = 'db' ) {
+	public function setPhoneNumbers( $data ) {
 
 		$this->phoneNumbers->updateFromArray( $data );
 	}

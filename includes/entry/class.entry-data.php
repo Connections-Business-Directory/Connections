@@ -354,7 +354,7 @@ class cnEntry {
 
 			if ( isset( $entry->im ) ) {
 
-				$this->im->fromArray( $this->imBackCompatibility( $entry->im ) );
+				$this->im->fromMaybeSerialized( $entry->im );
 			}
 
 			//if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
@@ -1609,7 +1609,7 @@ class cnEntry {
 		// The filters need to be reset so additional calls to get addresses with different params return expected results.
 		$this->im->resetFilters();
 
-		return $this->imBackCompatibility( $results );
+		return $this->im->backCompatibility( $results );
 	}
 
 	/**
@@ -1622,61 +1622,7 @@ class cnEntry {
 	 */
 	public function setIm( $data ) {
 
-		$this->im->updateFromArray( $this->imBackCompatibility( $data ) );
-	}
-
-	/**
-	 * This will probably forever give me headaches,
-	 * Previous versions stored the IM ID as id. Now that the data
-	 * is stored in a separate table, id is now the unique table `id`
-	 * and uid is the IM ID.
-	 *
-	 * So I have to make sure to properly map the values. Unfortunately
-	 * this differs from the rest of the entry data is where `id` equals
-	 * the unique table `id`. So lets map the table `id` to uid and the
-	 * the table `uid` to id.
-	 *
-	 * Basically swapping the values. This should maintain compatibility.
-	 *
-	 * @access private
-	 * @since  8.16
-	 *
-	 * @param array|object|string $data
-	 *
-	 * @return array|object|string
-	 */
-	private function imBackCompatibility( $data ) {
-
-		if ( is_string( $data ) ) {
-
-			$data = maybe_unserialize( $data );
-		}
-
-		if ( is_array( $data ) ) {
-
-			foreach ( $data as &$messenger ) {
-
-				if ( is_array( $messenger ) ) {
-
-					$id     = $messenger['id'];
-					$userID = $messenger['uid'];
-
-					$messenger['id']  = $userID;
-					$messenger['uid'] = $id;
-
-				} elseif ( is_object( $messenger ) ) {
-
-					$id     = $messenger->id;
-					$userID = $messenger->uid;
-
-					$messenger->id  = $userID;
-					$messenger->uid = $id;
-				}
-
-			}
-		}
-
-		return $data;
+		$this->im->updateFromArray( $this->im->backCompatibility( $data ) );
 	}
 
 	/**

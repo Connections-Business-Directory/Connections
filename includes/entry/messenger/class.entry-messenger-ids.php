@@ -543,4 +543,69 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 
 		return $this;
 	}
+
+	/**
+	 * Override the parent so back compatibility can be applied.
+	 *
+	 * @access private
+	 * @since  8.19
+	 *
+	 * @param array|string $data
+	 */
+	public function fromMaybeSerialized( $data ) {
+
+		$data = $this->maybeUnserialize( $data );
+		$data = $this->backCompatibility( $data );
+
+		$this->fromArray( $data );
+	}
+
+	/**
+	 * This will probably forever give me headaches,
+	 * Previous versions stored the IM ID as id. Now that the data
+	 * is stored in a separate table, id is now the unique table `id`
+	 * and `uid` is the messenger user ID.
+	 *
+	 * So I have to make sure to properly map the values. Unfortunately
+	 * this differs from the rest of the entry data is where `id` equals
+	 * the unique table `id`. So lets map the table `id` to `uid` and the
+	 * the table `uid` to `id`.
+	 *
+	 * Basically swapping the values. This should maintain compatibility.
+	 *
+	 * @access private
+	 * @since  8.19
+	 *
+	 * @param array $data
+	 *
+	 * @return array
+	 */
+	public function backCompatibility( $data ) {
+
+		if ( is_array( $data ) ) {
+
+			foreach ( $data as &$messenger ) {
+
+				if ( is_array( $messenger ) ) {
+
+					$id     = $messenger['id'];
+					$userID = $messenger['uid'];
+
+					$messenger['id']  = $userID;
+					$messenger['uid'] = $id;
+
+				} elseif ( is_object( $messenger ) ) {
+
+					$id     = $messenger->id;
+					$userID = $messenger->uid;
+
+					$messenger->id  = $userID;
+					$messenger->uid = $id;
+				}
+
+			}
+		}
+
+		return $data;
+	}
 }

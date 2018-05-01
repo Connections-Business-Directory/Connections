@@ -124,9 +124,9 @@ class cnEntry {
 	public $im = '';
 
 	/**
-	 * @var string
+	 * @var cnEntry_Links
 	 */
-	private $links = '';
+	public $links = '';
 
 	/**
 	 * @var string
@@ -322,7 +322,8 @@ class cnEntry {
 		// Load the validation class.
 		$this->validate = new cnValidate();
 
-		$this->im = new cnEntry_Messenger_IDs();
+		$this->im    = new cnEntry_Messenger_IDs();
+		$this->links = new cnEntry_Links();
 
 		if ( ! is_null( $entry ) ) {
 
@@ -351,16 +352,22 @@ class cnEntry {
 			$this->emailAddresses = isset( $entry->email ) ? new cnEntry_Email_Addresses( $this->getId(), $entry->email ) : new cnEntry_Email_Addresses( $this->getId() );
 
 			$this->im->setEntryID( $this->getId() );
+			$this->links->setEntryID( $this->getId() );
 
 			if ( isset( $entry->im ) ) {
 
 				$this->im->fromMaybeSerialized( $entry->im );
 			}
 
+			if ( isset( $entry->links ) ) {
+
+				$this->links->fromMaybeSerialized( $entry->links );
+			}
+
 			//if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
 			//if ( isset( $entry->im ) ) $this->im = $entry->im;
 			if ( isset( $entry->social ) ) $this->socialMedia = $entry->social;
-			if ( isset( $entry->links ) ) $this->links = $entry->links;
+			//if ( isset( $entry->links ) ) $this->links = $entry->links;
 			if ( isset( $entry->dates ) ) $this->dates = $entry->dates;
 
 			if ( isset( $entry->birthday ) ) $this->birthday = (integer) $entry->birthday;
@@ -1941,175 +1948,39 @@ class cnEntry {
 	 */
 	public function getLinks( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		$results = array();
-
-		$atts   = apply_filters( 'cn_link_atts', $atts );
-		$cached = apply_filters( 'cn_link_cached' , $cached );
-
-		$types  = $instance->options->getDefaultLinkValues();
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred' => FALSE,
-			'type'      => NULL,
+			'type'      => array(),
 			'image'     => FALSE,
 			'logo'      => FALSE,
+			'limit'     => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		if ( $cached ) {
 
-			if ( ! empty( $this->links ) ) {
-
-				$links = unserialize( $this->links );
-				if ( empty( $links ) ) return $results;
-
-				/**
-				 * @var bool   $preferred
-				 * @var string $type
-				 * @var bool   $image
-				 * @var bool   $logo
-				 */
-				extract( $atts );
-
-				/*
-				 * Covert to an array if it was supplied as a comma delimited string
-				 */
-				cnFunction::parseStringList( $type );
-
-				foreach ( (array) $links as $key => $link ) {
-
-					$row = new stdClass();
-
-					/**
-					 * Allow plugins to filter raw data before object is setup.
-					 *
-					 * @since 8.5.19
-					 *
-					 * @param array $link
-					 */
-					$link = apply_filters( 'cn_link-pre_setup', $link );
-
-					$row->id         = isset( $link['id'] ) ? (int) $link['id'] : 0;
-					$row->order      = isset( $link['order'] ) ? (int) $link['order'] : 0;
-					$row->preferred  = isset( $link['preferred'] ) ? (bool) $link['preferred'] : FALSE;
-					$row->type       = isset( $link['type'] ) ? $this->format->sanitizeString( $link['type'] ) : 'website';
-					$row->title      = isset( $link['title'] ) ? cnSanitize::field( 'name', $link['title'], $context ) : '';
-					$row->address    = isset( $link['address'] ) ? cnSanitize::field( 'url', $link['address'], 'raw' ) : '';
-					$row->url        = isset( $link['url'] ) ? cnSanitize::field( 'url', $link['url'], 'raw' ) :'';
-					$row->target     = isset( $link['target'] ) ? $this->format->sanitizeString( $link['target'] ) : 'same';
-					$row->follow     = isset( $link['follow'] ) ? (bool) $link['follow'] : FALSE;
-					$row->image      = isset( $link['image'] ) ? (bool) $link['image'] : FALSE;
-					$row->logo       = isset( $link['logo'] ) ? (bool) $link['logo'] : FALSE;
-					$row->visibility = isset( $link['visibility'] ) ? $this->format->sanitizeString( $link['visibility'] ) : 'public';
-
-					/*
-					 * Set the Link name based on type.
-					 */
-					$row->name = empty( $row->type ) ? $types['website'] : $types[ $row->type ];
-					//var_dump($row->type);
-
-					/*
-					 * // START -- Compatibility for previous versions.
-					 */
-					if ( empty( $row->url ) ) $row->url         =& $row->address;
-					if ( empty( $row->address ) ) $row->address =& $row->url;
-					if ( empty( $row->title ) ) $row->title     = $row->address;
-					if ( empty( $row->name ) ) $row->name       = 'Website';
-
-					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
-					if ( empty( $row->visibility ) ) $row->visibility = 'public';
-					/*
-					 * // END -- Compatibility for previous versions.
-					 */
-
-					/*
-					 * Set the dofollow/nofollow string based on the bool value.
-					 */
-					$row->followString = $row->follow ? 'dofollow' : 'nofollow';
-
-					/*
-					 * // START -- Do not return links that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					if ( $image && ! $row->image ) continue;
-					if ( $logo && ! $row->logo ) continue;
-					/*
-					 * // END -- Do not return links that do not match the supplied $atts.
-					 */
-
-					// If the user does not have permission to view the link, do not return it.
-					if ( ! cnValidate::userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					$results[] = apply_filters( 'cn_link', $row );
-				}
-
-			}
+			$results = $this->links->filterBy( 'type', $atts['type'] )
+			                       ->filterBy( 'preferred', $atts['preferred'] )
+			                       ->filterBy( 'image', $atts['image'] )
+			                       ->filterBy( 'logo', $atts['logo'] )
+			                       ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+			                       ->escapeFor( $context )
+			                       ->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
-			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
-			$links = $instance->retrieve->links( $atts, $saving );
-			//print_r($results);
-
-			if ( empty( $links ) ) return $results;
-
-			foreach ( $links as $link ) {
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$link = apply_filters( 'cn_link-pre_setup', $link );
-
-				$link->id         = (int) $link->id;
-				$link->order      = (int) $link->order;
-				$link->preferred  = (bool) $link->preferred;
-				$link->type       = $this->format->sanitizeString( $link->type );
-				$link->title      = cnSanitize::field( 'name', $link->title, $context );
-				$link->url        = cnSanitize::field( 'url', $link->url, 'raw' );
-				$link->target     = $this->format->sanitizeString( $link->target );
-				$link->follow     = (bool) $link->follow;
-				$link->image      = (bool) $link->image;
-				$link->logo       = (bool) $link->logo;
-				$link->visibility = $this->format->sanitizeString( $link->visibility );
-
-				/*
-				 * Set the link name based on the link type.
-				 */
-				$link->name = $types[ $link->type ];
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( empty( $link->title ) ) $link->title = $link->url;
-				$link->address =& $link->url;
-				if ( empty( $link->name ) ) $link->name = 'Website';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/*
-				 * Set the dofollow/nofollow string based on the bool value.
-				 */
-				$link->followString = $link->follow ? 'dofollow' : 'nofollow';
-
-				$results[] = apply_filters( 'cn_link', $link );
-			}
-
+			$results = $this->links->query( $atts )
+			                       ->escapeFor( $context )
+			                       ->getCollectionAsObjects();
 		}
 
-		return apply_filters( 'cn_links', $results );
+		// The filters need to be reset so additional calls to get links with different params return expected results.
+		$this->links->resetFilters();
+
+		return $results;
 	}
 
 	/**
@@ -2149,7 +2020,7 @@ class cnEntry {
 	 * @access  public
 	 * @since   0.7.3
 	 *
-	 * @param   array $links {
+	 * @param   array $data {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int    $id         The unique link ID as queried from the DB.
@@ -2178,138 +2049,9 @@ class cnEntry {
 	 *
 	 * @return void
 	 */
-	public function setLinks( $links, $context = 'db' ) {
+	public function setLinks( $data ) {
 
-		$userPreferred = NULL;
-
-		$validFields = array(
-			'id'         => NULL,
-			'preferred'  => NULL,
-			'type'       => NULL,
-			'title'      => NULL,
-			'url'        => NULL,
-			'target'     => NULL,
-			'follow'     => NULL,
-			'visibility' => NULL,
-		);
-
-		if ( ! empty( $links ) ) {
-
-			$order     = 0;
-			$preferred = '';
-			$image     = '';
-			$logo      = '';
-
-			if ( isset( $links['preferred'] ) ) {
-				$preferred = $links['preferred'];
-				unset( $links['preferred'] );
-			}
-
-			if ( isset( $links['image'] ) ) {
-				$image = $links['image'];
-				unset( $links['image'] );
-			}
-
-			if ( isset( $links['logo'] ) ) {
-				$logo = $links['logo'];
-				unset( $links['logo'] );
-			}
-
-			foreach ( $links as $key => $link ) {
-
-				// First validate the supplied data.
-				$link = cnSanitize::args( $link, $validFields );
-
-				// If the URL is empty, no need to save it.
-				if ( 0 == strlen( $link['url'] ) ) {
-					unset( $links[ $key ] );
-					continue;
-				}
-
-				// Sanitize the URL Title text.
-				$links[ $key ]['title'] = cnSanitize::field( 'name', $link['title'], $context );
-
-				// If the http protocol is not part of the url, add it.
-				$links[ $key ]['url'] = cnURL::prefix( $link['url'] );
-
-				// Sanitize the URL.
-				$links[ $key ]['url'] = cnSanitize::field( 'url', $link['url'], $context );
-
-				// Store the order attribute as supplied in the addresses array.
-				$links[ $key ]['order'] = $order;
-
-				// Convert the do/nofollow string to an (int) so it is saved properly in the db
-				$links[ $key ]['follow']    = 'dofollow' == $link['follow'] ? 1 : 0;
-				$links[ $key ]['preferred'] = ! empty( $preferred ) && $preferred == $key ? TRUE : FALSE;
-				$links[ $key ]['image']     = ! empty( $image ) && $image == $key ? TRUE : FALSE;
-				$links[ $key ]['logo']      = ! empty( $logo ) && $logo == $key ? TRUE : FALSE;
-
-				/*
-				 * If the user set a preferred link, save the $key value.
-				 * This is going to be needed because if a link that the user
-				 * does not have permission to edit is set to preferred, that link
-				 * will have preference.
-				 */
-				if ( $links[ $key ]['preferred'] ) $userPreferred = $key;
-				if ( $links[ $key ]['image'] ) $userImage = $key;
-				if ( $links[ $key ]['logo'] ) $userLogo = $key;
-
-				$order++;
-			}
-		}
-
-		/*
-		 * Before storing the data, add back into the array from the cache the networks
-		 * the user may not have had permission to edit so the cache stays current.
-		 */
-		$cached = unserialize( $this->links );
-
-		if ( ! empty( $cached ) ) {
-
-			foreach ( $cached as $link ) {
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( ! isset( $link['visibility'] ) || empty( $link['visibility'] ) ) $link['visibility'] = 'public';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$link = apply_filters( 'cn_link-pre_setup', $link );
-
-				// Add back to the data array the networks that user does not have permission to view and edit.
-				if ( ! cnValidate::userPermitted( $link['visibility'] ) ) {
-					$links[] = $link;
-
-					// If the network is preferred, it takes precedence, so the user's choice is overridden.
-					if ( isset( $userPreferred ) && ! empty( $preferred ) && $link['preferred'] ) {
-						$links[ $userPreferred ]['preferred'] = FALSE;
-
-						// Throw the user a message so they know why their choice was overridden.
-						cnMessage::set( 'error', 'entry_preferred_overridden_link' );
-					}
-
-					// If the link is already assigned to an image, it takes precedence, so the user's choice is overridden.
-					if ( isset( $userImage ) && ! empty( $image ) && $link['image'] ) {
-						$links[ $userImage ]['image'] = FALSE;
-
-						// @todo Create error message for the user.
-					}
-
-					// If the link is already assigned to an image, it takes precedence, so the user's choice is overridden.
-					if ( isset( $userLogo ) && ! empty( $logo ) && $link['logo'] ) {
-						$links[ $userLogo ]['logo'] = FALSE;
-
-						// @todo Create error message for the user.
-					}
-				}
-			}
-		}
-
-		$this->links = ! empty( $links ) ? serialize( $links ) : '';
-		//print_r($links); die;
+		$this->links->updateFromArray( $data );
 	}
 
 	/**
@@ -4085,7 +3827,7 @@ class cnEntry {
 				//'email'              => $this->emailAddresses,
 				//'im'                 => $this->im,
 				'social'             => $this->socialMedia,
-				'links'              => $this->links,
+				//'links'              => $this->links,
 				'dates'              => $this->dates,
 				'options'            => wp_json_encode( $this->options ),
 				'bio'                => $this->bio,
@@ -4122,7 +3864,7 @@ class cnEntry {
 				//'%s', // email
 				//'%s', // im
 				'%s', // social
-				'%s', // links
+				//'%s', // links
 				'%s', // dates
 				'%s', // options
 				'%s', // bio
@@ -4151,6 +3893,7 @@ class cnEntry {
 			$this->phoneNumbers->save();
 			$this->emailAddresses->save();
 			$this->im->save();
+			$this->links->save();
 
 			$cnDb->upsert(
 				CN_ENTRY_SOCIAL_TABLE,
@@ -4162,26 +3905,6 @@ class cnEntry {
 					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE ),
-				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' ),
-				)
-			);
-
-			$cnDb->upsert(
-				CN_ENTRY_LINK_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'title'      => array( 'key' => 'title', 'format' => '%s' ),
-					'url'        => array( 'key' => 'url', 'format' => '%s' ),
-					'target'     => array( 'key' => 'target', 'format' => '%s' ),
-					'follow'     => array( 'key' => 'follow', 'format' => '%d' ),
-					'image'      => array( 'key' => 'image', 'format' => '%d' ),
-					'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getLinks( array(), TRUE, TRUE, 'db' ),
 				array(
 					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
@@ -4249,7 +3972,7 @@ class cnEntry {
 		//$this->emailAddresses = serialize( $emailAddresses );
 		//$this->im             = serialize( $im );
 		$this->socialMedia    = serialize( $socialNetworks );
-		$this->links          = serialize( $links );
+		//$this->links          = serialize( $links );
 		$this->dates          = serialize( $dates );
 
 		$wpdb->update(
@@ -4261,7 +3984,7 @@ class cnEntry {
 				'email'         => serialize( $emailAddresses ),
 				'im'            => serialize( $im ),
 				'social'        => $this->socialMedia,
-				'links'         => $this->links,
+				'links'         => serialize( $links ),
 				'dates'         => $this->dates,
 			),
 			array( 'id' => $this->id ),
@@ -4315,7 +4038,7 @@ class cnEntry {
 				//'email'              => $this->emailAddresses,
 				//'im'                 => $this->im,
 				'social'             => $this->socialMedia,
-				'links'              => $this->links,
+				//'links'              => $this->links,
 				'dates'              => $this->dates,
 				'birthday'           => $this->birthday,
 				'anniversary'        => $this->anniversary,
@@ -4352,7 +4075,7 @@ class cnEntry {
 				//'%s', // email
 				//'%s', // im
 				'%s', // social
-				'%s', // links
+				//'%s', // links
 				'%s', // dates
 				'%s', // birthday
 				'%s', // anniversary
@@ -4386,6 +4109,7 @@ class cnEntry {
 			$this->phoneNumbers->setEntryID( $this->getId() )->save();
 			$this->emailAddresses->setEntryID( $this->getId() )->save();
 			$this->im->setEntryID( $this->getId() )->save();
+			$this->links->setEntryID( $this->getId() )->save();
 
 			$cnDb->insert(
 				CN_ENTRY_SOCIAL_TABLE,
@@ -4397,23 +4121,6 @@ class cnEntry {
 					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE )
-			);
-
-			$cnDb->insert(
-				CN_ENTRY_LINK_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'title'      => array( 'key' => 'title', 'format' => '%s' ),
-					'url'        => array( 'key' => 'url', 'format' => '%s' ),
-					'target'     => array( 'key' => 'target', 'format' => '%s' ),
-					'follow'     => array( 'key' => 'follow', 'format' => '%d' ),
-					'image'      => array( 'key' => 'image', 'format' => '%d' ),
-					'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getLinks( array(), TRUE, TRUE, 'db' )
 			);
 
 			$cnDb->insert(

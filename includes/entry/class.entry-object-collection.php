@@ -480,6 +480,45 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	abstract public function fromArray( $data = array() );
 
 	/**
+	 * Maybe unserialize or JSON decode the supplied value.
+	 *
+	 * @access public
+	 * @since  8.19
+	 *
+	 * @param mixed $data
+	 *
+	 * @return mixed
+	 */
+	public function maybeUnserialize( $data ) {
+
+		if ( is_string( $data ) ) {
+
+			$data = maybe_unserialize( $data );
+			$data = cnFormatting::maybeJSONdecode( $data );
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Populate @see cnEntry_Object_Collection with data from a serialize array or JSON encoded array of object data.
+	 *
+	 * @access public
+	 * @since  8.19
+	 *
+	 * @param array|string $data
+	 */
+	public function fromMaybeSerialized( $data ) {
+
+		$data = $this->maybeUnserialize( $data );
+
+		if ( is_array( $data ) ) {
+
+			$this->fromArray( $data );
+		}
+	}
+
+	/**
 	 * Return the collection data as an array.
 	 *
 	 * @access public

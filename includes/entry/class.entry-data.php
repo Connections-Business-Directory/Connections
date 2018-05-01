@@ -202,11 +202,6 @@ class cnEntry {
 	 */
 	private $imageDisplay;
 
-	//private $imageNameThumbnail;
-	//private $imageNameCard;
-	//private $imageNameProfile;
-	//private $imageNameOriginal;
-
 	/**
 	 * @since unknown
 	 * @var bool
@@ -218,8 +213,6 @@ class cnEntry {
 	 * @var bool
 	 */
 	private $logoDisplay;
-
-	//private $logoName;
 
 	/**
 	 * @since unknown

@@ -364,10 +364,7 @@ class cnEntry {
 				$this->links->fromMaybeSerialized( $entry->links );
 			}
 
-			//if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
-			//if ( isset( $entry->im ) ) $this->im = $entry->im;
 			if ( isset( $entry->social ) ) $this->socialMedia = $entry->social;
-			//if ( isset( $entry->links ) ) $this->links = $entry->links;
 			if ( isset( $entry->dates ) ) $this->dates = $entry->dates;
 
 			if ( isset( $entry->birthday ) ) $this->birthday = (integer) $entry->birthday;
@@ -385,34 +382,22 @@ class cnEntry {
 				$this->options = cnFormatting::maybeJSONdecode( $this->options );
 
 				if ( isset( $this->options['image'] ) ) {
+
 					$this->imageLinked = $this->options['image']['linked'];
 					$this->imageDisplay = $this->options['image']['display'];
-
-					//if ( isset( $this->options['image']['name'] ) ) {
-					//	$this->imageNameThumbnail = isset( $this->options['image']['name']['thumbnail'] ) ? $this->options['image']['name']['thumbnail'] : '';
-					//	$this->imageNameCard = isset( $this->options['image']['name']['entry'] ) ? $this->options['image']['name']['entry'] : '';
-					//	$this->imageNameProfile = isset( $this->options['image']['name']['profile'] ) ? $this->options['image']['name']['profile'] : '';
-					//	$this->imageNameOriginal = isset( $this->options['image']['name']['original'] ) ? $this->options['image']['name']['original'] : '';
-					//}
 				}
 
 				if ( isset( $this->options['logo'] ) ) {
+
 					$this->logoLinked = $this->options['logo']['linked'];
 					$this->logoDisplay = $this->options['logo']['display'];
-
-					//if ( isset( $this->options['logo']['name'] ) ) {
-					//	$this->logoName =$this->options['logo']['name'];
-					//}
 				}
 
-				//if ( isset( $this->options['entry']['type'] ) ) $this->entryType = $this->options['entry']['type'];
 				if ( isset( $this->options['connection_group'] ) ) $this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4
 				if ( isset( $this->options['group']['family'] ) ) $this->familyMembers = $this->options['group']['family'];
 			}
 
 			if ( isset( $entry->entry_type ) ) $this->entryType = $entry->entry_type;
-
-			//if ( isset( $entry->id ) ) $this->categories = $connections->retrieve->entryCategories( $this->getId() );
 
 			if ( isset( $entry->added_by ) ) $this->addedBy = $entry->added_by;
 			if ( isset( $entry->edited_by ) ) $this->editedBy = $entry->edited_by;

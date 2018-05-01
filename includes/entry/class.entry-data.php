@@ -1992,9 +1992,15 @@ class cnEntry {
 	 *
 	 * $atts['preferred'] (bool) Retrieve the preferred website.
 	 *
-	 * @deprecated since 0.7.2.0
-	 * @param array   $atts 		Accepted values as noted above.
-	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
+	 * @access public
+	 * @since  unknonwn
+	 *
+	 * @deprecated 0.7.2.0 Use cnEntry::getLinks()
+	 * @see cnEntry::getLinks()
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached social medial URLs data rather than querying the db.
+	 *
 	 * @return array
 	 */
 	public function getWebsites( $atts = array(), $cached = TRUE ) {
@@ -2021,10 +2027,10 @@ class cnEntry {
 	 *
 	 * @todo Validate as valid web addresses.
 	 *
-	 * @access  public
-	 * @since   0.7.3
+	 * @access public
+	 * @since  0.7.3
 	 *
-	 * @param   array $data {
+	 * @param array $data {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int    $id         The unique link ID as queried from the DB.
@@ -2160,8 +2166,9 @@ class cnEntry {
 				 */
 				extract( $atts );
 
-				/*
+				/**
 				 * Covert to an array if it was supplied as a comma delimited string
+				 * @var array $type
 				 */
 				cnFunction::parseStringList( $type );
 

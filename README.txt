@@ -234,6 +234,26 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.19 05/02/2018 =
+* NEW: Introduce the `cn_customizer_image_options` filter.
+* NEW: Introduce `cnEntry_Links()` and `cnLink()`.
+* NEW: Introduce helper methods `maybeUnserialize()` and `fromMaybeSerialized()` to ` cnEntry_Object_Collection`.
+* NEW: Introduce `cnEntry_Image`.
+* TWEAK: Ensure link URL is a string before prefixing it and passing it to the objects property.
+* TWEAK: Update cnLink with helper methods for attaching a link to an image and add helper methods to get which image the link might be attached to.
+* TWEAK: Update cnEntry_Links, added support to filter links attached to images.
+* TWEAK: Move the messenger back compatibility logic from `cnEntry` to `cnEntry_Messenger_IDs`.
+* TWEAK: Refactor `cnEntry` to utilize `cnEntry_Links`.
+* TWEAK: Init the `cnEntry_Image` object and refactor code, moving the legacy image processing logic to `cnEntry_Image`.
+* TWEAK: If shortcode is not found in post content and a registered query var is detected, trigger a 404.
+* DEV: phpDoc updates.
+* DEV: Remove dead commented out code from contructor in `cnEntry`.
+* DEV: Remove ununsed method properties in `cnEntry`.
+* DEV: Remove unused private method in `cnEntry`.
+* DEV: Remove unused properties in `cnEntry`.
+* DEV: Change `satooshi/php-coveralls` to `php-coveralls/php-coveralls` in composer.json.
+* DEV: Update `php-coveralls/php-coveralls` required version.
+
 = 8.18 04/20/2018 =
 * TWEAK: Switch all `is_a()` instances of to `instanceof`.
 * TWEAK: Update teh jQuery Validate library to 1.17.0.
@@ -562,58 +582,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: If formatted number string is empty when converted to a float, return null so empty check will not fail causing error.
 * BUG: Correct Fatal error: Uncaught Error: Using $this when not in object context in the address-hard.php template fragment.
 
-= 8.6 03/24/2017 =
-* NEW: Introduce `wp_doing_ajax()` which was introduced in WordPress 4.7 so it is accessible in older version of WordPress.
-* NEW: Introduce cnTerm::count().
-* NEW: Introduce cnArray.
-* NEW: Introduce cnToArray and cnCollection.
-* NEW: Introduce cnAddress, cnCountry and cnCoordinates.
-* NEW: Introduce cnEntry_Addresses.
-* NEW: Introduce cnUser::canView() and cnUser::canNotView().
-* NEW: Introduce the `cn_entry_permalink` filter.
-* TWEAK: Do not register shortcodes during admin ajax requests.
-* TWEAK: Add newForwardGeroCoder=false as parameter when initiating the Google maps geocoder in jQuery.goMap().
-* TWEAK: Reset the list_type query option when filtering the list by entry slug.
-* TWEAK: Add support for `child_of` attribute in `cnEntry::getCategories()` and `cnOutput::getCategoryBlock()`.
-* TWEAK: Add spans to the category breadcrumb with classes and ids so they can be targeted with CSS.
-* TWEAK: Ensure the use can only see relationships based on relations status and visibility.
-* TWEAK: Refactor the plugin to use an autoloader to load classes via a hash table.
-* TWEAK: Remove unnecessary break statements.
-* TWEAK: Register all dependencies of cnEntry_Addresses with the autoloader.
-* TWEAK: Deprecate cnValidate::userPermitted().
-* TWEAK: Refactor cnEntry::getAddresses() and cnEntry::setAddresses() to utilize cnEntry_Addresses.
-* TWEAK: Refactor cnRetrieve::addresses to query by the address visibility status.
-* TWEAK: Refactor cnRetrieve::addresses() to return a multidimensional array instead of an array of objects the the return value can be utilized with cnEntry_Addresses.
-* TWEAK: Fix the filters so the entry addresses are geocoded when added to cnEntry_Addresses.
-* TWEAK: Add the core `templates` folder to the template search path so it will be search when loading template fragments.
-* TWEAK: No need to utilize sanitize_file_name() when searching for template fragment file names.
-* TWEAK: No need to save the address object cache to the core entry table on initial update. This is handled by cnEntry::updateObjectCaches() after the entry is updated so the address ID are properly cached.
-* TWEAK: Annotate cnEntry::update() `$wpdb` format values for easy identification.
-* TWEAK: No need to save the address object cache to the core entry table on initial save. This is handled by cnEntry::updateObjectCaches() after the entry is saved so the address ID are properly cached.
-* TWEAK: Annotate cnEntry::save() `$wpdb` format values for easy identification.
-* TWEAK: Add trailing commas after last array item for consistency in code formatting.
-* TWEAK: Update cnEntry::save() and cnEntry::update() to use cnEntry_Addresses::save().
-* TWEAK: Do not serialize cnEntry_Addresses object for saving into the object cache, save the array values.
-* TWEAK: Refactor manage.php and cnOutput::getAddressBlock() to utilize cnEntry_Addresses::render() with template fragments.
-* TWEAK: Remove stray commented out code.
-* TWEAK: Add the `wpseo_title` filter to cnSEO so the page meta title is properly updated when Yoast SEO is installed.
-* BUG: Ensure logged in user can view public entry and public entry data if the directory does not require login to view and the user does not necessarily have the view public capability which can happen in WP multisite installations.
-* BUG: Sanitize the textarea metabox field type.
-* BUG: Do not use esc_textarea() for escaping the metabox textarea for editing as it causes characters to become entities.
-* REST API: Update terms endpoint phpDoc.
-* REST API: Rename "resources" in the terms endpoint to be referenced as "terms".
-* REST API: Standardize error response messages in the term endpoint.
-* OTHER: Correct misspellings.
-* I18N: Update POT file.
-* DEV: Exclude the /tests/* path from grunt tasks.
-* DEV: phpDoc block corrections.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.6 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
@@ -688,4 +659,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.18 =
+It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.19 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.

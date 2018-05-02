@@ -2175,7 +2175,7 @@ class cnRetrieve {
 			$limit
 		);
 
-		$results = $wpdb->get_results( $sql );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
 	}

@@ -1,5 +1,25 @@
 == Changelog ==
 
+= 8.19 05/02/2018 =
+* NEW: Introduce the `cn_customizer_image_options` filter.
+* NEW: Introduce `cnEntry_Links()` and `cnLink()`.
+* NEW: Introduce helper methods `maybeUnserialize()` and `fromMaybeSerialized()` to ` cnEntry_Object_Collection`.
+* NEW: Introduce `cnEntry_Image`.
+* TWEAK: Ensure link URL is a string before prefixing it and passing it to the objects property.
+* TWEAK: Update cnLink with helper methods for attaching a link to an image and add helper methods to get which image the link might be attached to.
+* TWEAK: Update cnEntry_Links, added support to filter links attached to images.
+* TWEAK: Move the messenger back compatibility logic from `cnEntry` to `cnEntry_Messenger_IDs`.
+* TWEAK: Refactor `cnEntry` to utilize `cnEntry_Links`.
+* TWEAK: Init the `cnEntry_Image` object and refactor code, moving the legacy image processing logic to `cnEntry_Image`.
+* TWEAK: If shortcode is not found in post content and a registered query var is detected, trigger a 404.
+* DEV: phpDoc updates.
+* DEV: Remove dead commented out code from contructor in `cnEntry`.
+* DEV: Remove ununsed method properties in `cnEntry`.
+* DEV: Remove unused private method in `cnEntry`.
+* DEV: Remove unused properties in `cnEntry`.
+* DEV: Change `satooshi/php-coveralls` to `php-coveralls/php-coveralls` in composer.json.
+* DEV: Update `php-coveralls/php-coveralls` required version.
+
 = 8.18 04/20/2018 =
 * TWEAK: Switch all `is_a()` instances of to `instanceof`.
 * TWEAK: Update teh jQuery Validate library to 1.17.0.

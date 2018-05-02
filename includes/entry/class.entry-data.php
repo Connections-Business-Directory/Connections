@@ -119,26 +119,14 @@ class cnEntry {
 	public $emailAddresses;
 
 	/**
-	 * Associative array of instant messengers IDs
-	 *
 	 * @var cnEntry_Messenger_IDs
 	 */
 	public $im = '';
 
 	/**
-	 * Associative array of websites
-	 *
-	 * @deprecated since 0.7.2.0
-	 * @var array
+	 * @var cnEntry_Links
 	 */
-	//private $websites;
-
-	/**
-	 * Associative array of links
-	 *
-	 * @var string
-	 */
-	private $links = '';
+	public $links = '';
 
 	/**
 	 * @var string
@@ -167,6 +155,12 @@ class cnEntry {
 	 * @since 0.7.3.0
 	 */
 	private $dates = '';
+
+	/**
+	 * @since 8.19
+	 * @var cnEntry_Image
+	 */
+	public $image;
 
 	/**
 	 * String: Entry biography.
@@ -214,11 +208,6 @@ class cnEntry {
 	 */
 	private $imageDisplay;
 
-	//private $imageNameThumbnail;
-	//private $imageNameCard;
-	//private $imageNameProfile;
-	//private $imageNameOriginal;
-
 	/**
 	 * @since unknown
 	 * @var bool
@@ -230,8 +219,6 @@ class cnEntry {
 	 * @var bool
 	 */
 	private $logoDisplay;
-
-	//private $logoName;
 
 	/**
 	 * @since unknown
@@ -334,7 +321,8 @@ class cnEntry {
 		// Load the validation class.
 		$this->validate = new cnValidate();
 
-		$this->im = new cnEntry_Messenger_IDs();
+		$this->im    = new cnEntry_Messenger_IDs();
+		$this->links = new cnEntry_Links();
 
 		if ( ! is_null( $entry ) ) {
 
@@ -363,16 +351,19 @@ class cnEntry {
 			$this->emailAddresses = isset( $entry->email ) ? new cnEntry_Email_Addresses( $this->getId(), $entry->email ) : new cnEntry_Email_Addresses( $this->getId() );
 
 			$this->im->setEntryID( $this->getId() );
+			$this->links->setEntryID( $this->getId() );
 
 			if ( isset( $entry->im ) ) {
 
-				$this->im->fromArray( $this->imBackCompatibility( $entry->im ) );
+				$this->im->fromMaybeSerialized( $entry->im );
 			}
 
-			//if ( isset( $entry->email ) ) $this->emailAddresses = $entry->email;
-			//if ( isset( $entry->im ) ) $this->im = $entry->im;
+			if ( isset( $entry->links ) ) {
+
+				$this->links->fromMaybeSerialized( $entry->links );
+			}
+
 			if ( isset( $entry->social ) ) $this->socialMedia = $entry->social;
-			if ( isset( $entry->links ) ) $this->links = $entry->links;
 			if ( isset( $entry->dates ) ) $this->dates = $entry->dates;
 
 			if ( isset( $entry->birthday ) ) $this->birthday = (integer) $entry->birthday;
@@ -390,34 +381,22 @@ class cnEntry {
 				$this->options = cnFormatting::maybeJSONdecode( $this->options );
 
 				if ( isset( $this->options['image'] ) ) {
+
 					$this->imageLinked = $this->options['image']['linked'];
 					$this->imageDisplay = $this->options['image']['display'];
-
-					//if ( isset( $this->options['image']['name'] ) ) {
-					//	$this->imageNameThumbnail = isset( $this->options['image']['name']['thumbnail'] ) ? $this->options['image']['name']['thumbnail'] : '';
-					//	$this->imageNameCard = isset( $this->options['image']['name']['entry'] ) ? $this->options['image']['name']['entry'] : '';
-					//	$this->imageNameProfile = isset( $this->options['image']['name']['profile'] ) ? $this->options['image']['name']['profile'] : '';
-					//	$this->imageNameOriginal = isset( $this->options['image']['name']['original'] ) ? $this->options['image']['name']['original'] : '';
-					//}
 				}
 
 				if ( isset( $this->options['logo'] ) ) {
+
 					$this->logoLinked = $this->options['logo']['linked'];
 					$this->logoDisplay = $this->options['logo']['display'];
-
-					//if ( isset( $this->options['logo']['name'] ) ) {
-					//	$this->logoName =$this->options['logo']['name'];
-					//}
 				}
 
-				//if ( isset( $this->options['entry']['type'] ) ) $this->entryType = $this->options['entry']['type'];
 				if ( isset( $this->options['connection_group'] ) ) $this->familyMembers = $this->options['connection_group']; // For compatibility with versions <= 0.7.0.4
 				if ( isset( $this->options['group']['family'] ) ) $this->familyMembers = $this->options['group']['family'];
 			}
 
 			if ( isset( $entry->entry_type ) ) $this->entryType = $entry->entry_type;
-
-			//if ( isset( $entry->id ) ) $this->categories = $connections->retrieve->entryCategories( $this->getId() );
 
 			if ( isset( $entry->added_by ) ) $this->addedBy = $entry->added_by;
 			if ( isset( $entry->edited_by ) ) $this->editedBy = $entry->edited_by;
@@ -429,45 +408,63 @@ class cnEntry {
 
 			$this->ruid = uniqid( $this->getId() , FALSE );
 
-			// Move any legacy images and logo, pre 8.1, to the new folder structure.
-			$this->processLegacyImages( $this->getImageNameOriginal() );
-			$this->processLegacyLogo( $this->getLogoName() );
-
 		} else {
 
 			$this->addresses      = new cnEntry_Addresses();
 			$this->phoneNumbers   = new cnEntry_Phone_Numbers();
 			$this->emailAddresses = new cnEntry_Email_Addresses();
 		}
+
+		/*
+		 * Init this last so the cnEntry object if fully built since cnEntry_Image requires some of the properties.
+		 * This will perhaps change as cnEntry_Image is still a work in progress and should not be used by third parties.
+		 */
+		$this->image = new cnEntry_Image( $this );
 	}
 
 	/**
-	 * Returns $id.
+	 * The entry ID.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return int
 	 */
 	public function getId() {
 		return (integer) $this->id;
 	}
 
 	/**
-	 * Sets $id.
+	 * Set entry ID.
 	 *
-	 * @param integer $id
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param int $id
 	 */
 	public function setId( $id ) {
 		$this->id = $id;
 	}
 
 	/**
-	 * Returns $userID.
+	 * Returns user ID.
+	 *
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @return int
 	 */
 	public function getUser() {
 		return (integer) empty( $this->user ) ? 0 : $this->user;
 	}
 
 	/**
-	 * Sets $userID.
+	 * Sets user ID.
 	 *
-	 * @param integer $id
+	 * @access public
+	 * @since  unknown
+	 *
+	 * @param int $id
 	 */
 	public function setUser( $id ) {
 		$this->user = $id;
@@ -475,6 +472,9 @@ class cnEntry {
 
 	/**
 	 * Returns a runtime unique id.
+	 *
+	 * @access public
+	 * @since  unknown
 	 *
 	 * @return string
 	 */
@@ -1418,11 +1418,9 @@ class cnEntry {
 	 *     @type string $visibility The address visibility.
 	 * }
 	 *
-	 * @param string    $context    The context in which it should be sanitized.
-	 *
 	 * @return void
 	 */
-	public function setAddresses( $data, $context = 'db' ) {
+	public function setAddresses( $data ) {
 
 		$this->addresses->updateFromArray( $data );
 	}
@@ -1493,11 +1491,9 @@ class cnEntry {
 	 *     @type string $visibility The phone number visibility.
 	 * }
 	 *
-	 * @param string    $context    The context in which it should be sanitized.
-	 *
 	 * @return void
 	 */
-	public function setPhoneNumbers( $data, $context = 'db' ) {
+	public function setPhoneNumbers( $data ) {
 
 		$this->phoneNumbers->updateFromArray( $data );
 	}
@@ -1621,7 +1617,7 @@ class cnEntry {
 		// The filters need to be reset so additional calls to get addresses with different params return expected results.
 		$this->im->resetFilters();
 
-		return $this->imBackCompatibility( $results );
+		return $this->im->backCompatibility( $results );
 	}
 
 	/**
@@ -1634,61 +1630,7 @@ class cnEntry {
 	 */
 	public function setIm( $data ) {
 
-		$this->im->updateFromArray( $this->imBackCompatibility( $data ) );
-	}
-
-	/**
-	 * This will probably forever give me headaches,
-	 * Previous versions stored the IM ID as id. Now that the data
-	 * is stored in a separate table, id is now the unique table `id`
-	 * and uid is the IM ID.
-	 *
-	 * So I have to make sure to properly map the values. Unfortunately
-	 * this differs from the rest of the entry data is where `id` equals
-	 * the unique table `id`. So lets map the table `id` to uid and the
-	 * the table `uid` to id.
-	 *
-	 * Basically swapping the values. This should maintain compatibility.
-	 *
-	 * @access private
-	 * @since  8.16
-	 *
-	 * @param array|object|string $data
-	 *
-	 * @return array|object|string
-	 */
-	private function imBackCompatibility( $data ) {
-
-		if ( is_string( $data ) ) {
-
-			$data = maybe_unserialize( $data );
-		}
-
-		if ( is_array( $data ) ) {
-
-			foreach ( $data as &$messenger ) {
-
-				if ( is_array( $messenger ) ) {
-
-					$id     = $messenger['id'];
-					$userID = $messenger['uid'];
-
-					$messenger['id']  = $userID;
-					$messenger['uid'] = $id;
-
-				} elseif ( is_object( $messenger ) ) {
-
-					$id     = $messenger->id;
-					$userID = $messenger->uid;
-
-					$messenger->id  = $userID;
-					$messenger->uid = $id;
-				}
-
-			}
-		}
-
-		return $data;
+		$this->im->updateFromArray( $this->im->backCompatibility( $data ) );
 	}
 
 	/**
@@ -2007,175 +1949,39 @@ class cnEntry {
 	 */
 	public function getLinks( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		$results = array();
-
-		$atts   = apply_filters( 'cn_link_atts', $atts );
-		$cached = apply_filters( 'cn_link_cached' , $cached );
-
-		$types  = $instance->options->getDefaultLinkValues();
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
 			'preferred' => FALSE,
-			'type'      => NULL,
+			'type'      => array(),
 			'image'     => FALSE,
 			'logo'      => FALSE,
+			'limit'     => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		if ( $cached ) {
 
-			if ( ! empty( $this->links ) ) {
-
-				$links = unserialize( $this->links );
-				if ( empty( $links ) ) return $results;
-
-				/**
-				 * @var bool   $preferred
-				 * @var string $type
-				 * @var bool   $image
-				 * @var bool   $logo
-				 */
-				extract( $atts );
-
-				/*
-				 * Covert to an array if it was supplied as a comma delimited string
-				 */
-				cnFunction::parseStringList( $type );
-
-				foreach ( (array) $links as $key => $link ) {
-
-					$row = new stdClass();
-
-					/**
-					 * Allow plugins to filter raw data before object is setup.
-					 *
-					 * @since 8.5.19
-					 *
-					 * @param array $link
-					 */
-					$link = apply_filters( 'cn_link-pre_setup', $link );
-
-					$row->id         = isset( $link['id'] ) ? (int) $link['id'] : 0;
-					$row->order      = isset( $link['order'] ) ? (int) $link['order'] : 0;
-					$row->preferred  = isset( $link['preferred'] ) ? (bool) $link['preferred'] : FALSE;
-					$row->type       = isset( $link['type'] ) ? $this->format->sanitizeString( $link['type'] ) : 'website';
-					$row->title      = isset( $link['title'] ) ? cnSanitize::field( 'name', $link['title'], $context ) : '';
-					$row->address    = isset( $link['address'] ) ? cnSanitize::field( 'url', $link['address'], 'raw' ) : '';
-					$row->url        = isset( $link['url'] ) ? cnSanitize::field( 'url', $link['url'], 'raw' ) :'';
-					$row->target     = isset( $link['target'] ) ? $this->format->sanitizeString( $link['target'] ) : 'same';
-					$row->follow     = isset( $link['follow'] ) ? (bool) $link['follow'] : FALSE;
-					$row->image      = isset( $link['image'] ) ? (bool) $link['image'] : FALSE;
-					$row->logo       = isset( $link['logo'] ) ? (bool) $link['logo'] : FALSE;
-					$row->visibility = isset( $link['visibility'] ) ? $this->format->sanitizeString( $link['visibility'] ) : 'public';
-
-					/*
-					 * Set the Link name based on type.
-					 */
-					$row->name = empty( $row->type ) ? $types['website'] : $types[ $row->type ];
-					//var_dump($row->type);
-
-					/*
-					 * // START -- Compatibility for previous versions.
-					 */
-					if ( empty( $row->url ) ) $row->url         =& $row->address;
-					if ( empty( $row->address ) ) $row->address =& $row->url;
-					if ( empty( $row->title ) ) $row->title     = $row->address;
-					if ( empty( $row->name ) ) $row->name       = 'Website';
-
-					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
-					if ( empty( $row->visibility ) ) $row->visibility = 'public';
-					/*
-					 * // END -- Compatibility for previous versions.
-					 */
-
-					/*
-					 * Set the dofollow/nofollow string based on the bool value.
-					 */
-					$row->followString = $row->follow ? 'dofollow' : 'nofollow';
-
-					/*
-					 * // START -- Do not return links that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					if ( $image && ! $row->image ) continue;
-					if ( $logo && ! $row->logo ) continue;
-					/*
-					 * // END -- Do not return links that do not match the supplied $atts.
-					 */
-
-					// If the user does not have permission to view the link, do not return it.
-					if ( ! cnValidate::userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					$results[] = apply_filters( 'cn_link', $row );
-				}
-
-			}
+			$results = $this->links->filterBy( 'type', $atts['type'] )
+			                       ->filterBy( 'preferred', $atts['preferred'] )
+			                       ->filterBy( 'image', $atts['image'] )
+			                       ->filterBy( 'logo', $atts['logo'] )
+			                       ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+			                       ->escapeFor( $context )
+			                       ->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
-			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
-			$links = $instance->retrieve->links( $atts, $saving );
-			//print_r($results);
-
-			if ( empty( $links ) ) return $results;
-
-			foreach ( $links as $link ) {
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$link = apply_filters( 'cn_link-pre_setup', $link );
-
-				$link->id         = (int) $link->id;
-				$link->order      = (int) $link->order;
-				$link->preferred  = (bool) $link->preferred;
-				$link->type       = $this->format->sanitizeString( $link->type );
-				$link->title      = cnSanitize::field( 'name', $link->title, $context );
-				$link->url        = cnSanitize::field( 'url', $link->url, 'raw' );
-				$link->target     = $this->format->sanitizeString( $link->target );
-				$link->follow     = (bool) $link->follow;
-				$link->image      = (bool) $link->image;
-				$link->logo       = (bool) $link->logo;
-				$link->visibility = $this->format->sanitizeString( $link->visibility );
-
-				/*
-				 * Set the link name based on the link type.
-				 */
-				$link->name = $types[ $link->type ];
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( empty( $link->title ) ) $link->title = $link->url;
-				$link->address =& $link->url;
-				if ( empty( $link->name ) ) $link->name = 'Website';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/*
-				 * Set the dofollow/nofollow string based on the bool value.
-				 */
-				$link->followString = $link->follow ? 'dofollow' : 'nofollow';
-
-				$results[] = apply_filters( 'cn_link', $link );
-			}
-
+			$results = $this->links->query( $atts )
+			                       ->escapeFor( $context )
+			                       ->getCollectionAsObjects();
 		}
 
-		return apply_filters( 'cn_links', $results );
+		// The filters need to be reset so additional calls to get links with different params return expected results.
+		$this->links->resetFilters();
+
+		return $results;
 	}
 
 	/**
@@ -2183,9 +1989,15 @@ class cnEntry {
 	 *
 	 * $atts['preferred'] (bool) Retrieve the preferred website.
 	 *
-	 * @deprecated since 0.7.2.0
-	 * @param array   $atts 		Accepted values as noted above.
-	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
+	 * @access public
+	 * @since  unknonwn
+	 *
+	 * @deprecated 0.7.2.0 Use cnEntry::getLinks()
+	 * @see cnEntry::getLinks()
+	 *
+	 * @param array $atts   Accepted values as noted above.
+	 * @param bool  $cached Returns the cached social medial URLs data rather than querying the db.
+	 *
 	 * @return array
 	 */
 	public function getWebsites( $atts = array(), $cached = TRUE ) {
@@ -2212,10 +2024,10 @@ class cnEntry {
 	 *
 	 * @todo Validate as valid web addresses.
 	 *
-	 * @access  public
-	 * @since   0.7.3
+	 * @access public
+	 * @since  0.7.3
 	 *
-	 * @param   array $links {
+	 * @param array $data {
 	 *     Optional. An array of arguments.
 	 *
 	 *     @type int    $id         The unique link ID as queried from the DB.
@@ -2244,138 +2056,9 @@ class cnEntry {
 	 *
 	 * @return void
 	 */
-	public function setLinks( $links, $context = 'db' ) {
+	public function setLinks( $data ) {
 
-		$userPreferred = NULL;
-
-		$validFields = array(
-			'id'         => NULL,
-			'preferred'  => NULL,
-			'type'       => NULL,
-			'title'      => NULL,
-			'url'        => NULL,
-			'target'     => NULL,
-			'follow'     => NULL,
-			'visibility' => NULL,
-		);
-
-		if ( ! empty( $links ) ) {
-
-			$order     = 0;
-			$preferred = '';
-			$image     = '';
-			$logo      = '';
-
-			if ( isset( $links['preferred'] ) ) {
-				$preferred = $links['preferred'];
-				unset( $links['preferred'] );
-			}
-
-			if ( isset( $links['image'] ) ) {
-				$image = $links['image'];
-				unset( $links['image'] );
-			}
-
-			if ( isset( $links['logo'] ) ) {
-				$logo = $links['logo'];
-				unset( $links['logo'] );
-			}
-
-			foreach ( $links as $key => $link ) {
-
-				// First validate the supplied data.
-				$link = cnSanitize::args( $link, $validFields );
-
-				// If the URL is empty, no need to save it.
-				if ( 0 == strlen( $link['url'] ) ) {
-					unset( $links[ $key ] );
-					continue;
-				}
-
-				// Sanitize the URL Title text.
-				$links[ $key ]['title'] = cnSanitize::field( 'name', $link['title'], $context );
-
-				// If the http protocol is not part of the url, add it.
-				$links[ $key ]['url'] = cnURL::prefix( $link['url'] );
-
-				// Sanitize the URL.
-				$links[ $key ]['url'] = cnSanitize::field( 'url', $link['url'], $context );
-
-				// Store the order attribute as supplied in the addresses array.
-				$links[ $key ]['order'] = $order;
-
-				// Convert the do/nofollow string to an (int) so it is saved properly in the db
-				$links[ $key ]['follow']    = 'dofollow' == $link['follow'] ? 1 : 0;
-				$links[ $key ]['preferred'] = ! empty( $preferred ) && $preferred == $key ? TRUE : FALSE;
-				$links[ $key ]['image']     = ! empty( $image ) && $image == $key ? TRUE : FALSE;
-				$links[ $key ]['logo']      = ! empty( $logo ) && $logo == $key ? TRUE : FALSE;
-
-				/*
-				 * If the user set a preferred link, save the $key value.
-				 * This is going to be needed because if a link that the user
-				 * does not have permission to edit is set to preferred, that link
-				 * will have preference.
-				 */
-				if ( $links[ $key ]['preferred'] ) $userPreferred = $key;
-				if ( $links[ $key ]['image'] ) $userImage = $key;
-				if ( $links[ $key ]['logo'] ) $userLogo = $key;
-
-				$order++;
-			}
-		}
-
-		/*
-		 * Before storing the data, add back into the array from the cache the networks
-		 * the user may not have had permission to edit so the cache stays current.
-		 */
-		$cached = unserialize( $this->links );
-
-		if ( ! empty( $cached ) ) {
-
-			foreach ( $cached as $link ) {
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( ! isset( $link['visibility'] ) || empty( $link['visibility'] ) ) $link['visibility'] = 'public';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$link = apply_filters( 'cn_link-pre_setup', $link );
-
-				// Add back to the data array the networks that user does not have permission to view and edit.
-				if ( ! cnValidate::userPermitted( $link['visibility'] ) ) {
-					$links[] = $link;
-
-					// If the network is preferred, it takes precedence, so the user's choice is overridden.
-					if ( isset( $userPreferred ) && ! empty( $preferred ) && $link['preferred'] ) {
-						$links[ $userPreferred ]['preferred'] = FALSE;
-
-						// Throw the user a message so they know why their choice was overridden.
-						cnMessage::set( 'error', 'entry_preferred_overridden_link' );
-					}
-
-					// If the link is already assigned to an image, it takes precedence, so the user's choice is overridden.
-					if ( isset( $userImage ) && ! empty( $image ) && $link['image'] ) {
-						$links[ $userImage ]['image'] = FALSE;
-
-						// @todo Create error message for the user.
-					}
-
-					// If the link is already assigned to an image, it takes precedence, so the user's choice is overridden.
-					if ( isset( $userLogo ) && ! empty( $logo ) && $link['logo'] ) {
-						$links[ $userLogo ]['logo'] = FALSE;
-
-						// @todo Create error message for the user.
-					}
-				}
-			}
-		}
-
-		$this->links = ! empty( $links ) ? serialize( $links ) : '';
-		//print_r($links); die;
+		$this->links->updateFromArray( $data );
 	}
 
 	/**
@@ -2480,8 +2163,9 @@ class cnEntry {
 				 */
 				extract( $atts );
 
-				/*
+				/**
 				 * Covert to an array if it was supplied as a comma delimited string
+				 * @var array $type
 				 */
 				cnFunction::parseStringList( $type );
 
@@ -3741,212 +3425,6 @@ class cnEntry {
 	}
 
 	/**
-	 * Copy or move the originally uploaded image to the new folder structure, post 8.1.
-	 *
-	 * NOTE: If the original logo already exists in the new folder structure, this will
-	 * return TRUE without any further processing.
-	 *
-	 * NOTE: Versions previous to 0.6.2.1 did not not make a duplicate copy of images when
-	 * copying an entry so it was possible multiple entries could share the same image.
-	 * Only images created after the date that version .0.7.0.0 was released will be moved,
-	 * plus a couple weeks for good measure. Images before that date will be copied instead
-	 * so it is available to be copied to the new folder structure, post 8.1, for any other
-	 * entries that may require it.
-	 *
-	 * @access private
-	 * @since  8.1
-	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit()
-	 * @param  string $filename The original image file name.
-	 *
-	 * @return mixed            bool|WP_Error TRUE on success, an instance of WP_Error on failure.
-	 */
-	protected function processLegacyImages( $filename ) {
-		global $blog_id;
-
-		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
-
-			$legacyPath = WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/';
-
-		} else {
-
-			$legacyPath = WP_CONTENT_DIR . '/connection_images/';
-		}
-
-		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
-		$slug = rawurldecode( $this->getSlug() );
-
-		// Ensure the entry slug is not empty in case a user added an entry with no name.
-		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), $legacyPath . $filename );
-
-		// Get the core WP uploads info.
-		// $uploadInfo = wp_upload_dir();
-
-		// Build the destination image path.
-		$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR;
-
-		/*
-		 * NOTE: is_file() will always return false if teh folder/file does not
-		 * have the execution bit set (ie 0775) on some hosts apparently. Need to
-		 * come up with an alternative method which may not be possible without using
-		 * WP_Filesystem and that causes a whole bunch of issues when credentials are
-		 * required.
-		 *
-		 * Maybe chmodding the path to 0755 first, sounds safe?
-		 * @link http://codex.wordpress.org/Changing_File_Permissions#Permission_Scheme_for_WordPress
-		 * @link http://stackoverflow.com/a/11005
-		 */
-
-		// If the source image already exists in the new folder structure, post 8.1, bail, nothing to do.
-		if ( is_file( $path . $filename ) ) {
-
-			return TRUE;
-		}
-
-		if ( is_file( $legacyPath . $filename ) ) {
-
-			// The modification file date that image will be deleted to maintain compatibility with 0.6.2.1 and older.
-			$compatibilityDate = mktime( 0, 0, 0, 6, 1, 2010 );
-
-			// Build path to the original file.
-			$original = $legacyPath . $filename;
-
-			// Get original file info.
-			$info = pathinfo( $original );
-
-			// Ensure the destination directory exists.
-			if ( cnFileSystem::mkdir( $path ) ) {
-
-				// Copy or move the original image.
-				/** @noinspection PhpUsageOfSilenceOperatorInspection */
-				if ( $compatibilityDate < @filemtime( $legacyPath . $filename ) ) {
-
-					/** @noinspection PhpUsageOfSilenceOperatorInspection */
-					$result = @rename( $original, $path . $filename );
-
-				} else {
-
-					/** @noinspection PhpUsageOfSilenceOperatorInspection */
-					$result = @copy( $original, $path . $filename );
-				}
-
-				// Delete any of the legacy size variations if the copy/move was successful.
-				if ( TRUE === $result ) {
-
-					// NOTE: This is a little greedy as it will also delete any variations of any duplicate images used by other entries.
-					// This should be alright because we will not need those variations anyway since they will be made from the original using cnImage.
-					$files         = new DirectoryIterator( $legacyPath );
-					$filesFiltered = new RegexIterator(
-						$files,
-						sprintf(
-							'/%s(?:_thumbnail|_entry|_profile)(?:_\d+)?\.%s/i',
-							preg_quote( preg_replace( '/(?:_original(?:_\d+)?)/i', '', $info['filename'] ) ),
-							preg_quote( $info['extension'] )
-						)
-					);
-
-					foreach ( $filesFiltered as $file ) {
-
-						if ( $file->isDot() ) { continue; }
-
-						/** @noinspection PhpUsageOfSilenceOperatorInspection */
-						@unlink( $file->getPathname() );
-					}
-
-					return TRUE;
-				}
-
-			}
-
-		}
-
-		return new WP_Error( 'image_move_legacy_image_error', __( sprintf( 'Failed to move legacy image %s.', $filename ), 'connections' ), $legacyPath . $filename );
-	}
-
-	/**
-	 * Copy or move the originally uploaded logo to the new folder structure, post 8.1.
-	 *
-	 * NOTE: If the original logo already exists in the new folder structure, this will
-	 * return TRUE without any further processing.
-	 *
-	 * NOTE: Versions previous to 0.6.2.1 did not not make a duplicate copy of logos when
-	 * copying an entry so it was possible multiple entries could share the same logo.
-	 * Only logos created after the date that version .0.7.0.0 was released will be moved,
-	 * plus a couple weeks for good measure. Images before that date will be copied instead
-	 * so it is available to be copied to the new folder structure, post 8.1, for any other
-	 * entries that may require it.
-	 *
-	 * @access private
-	 * @since  8.1
-	 * @uses   wp_upload_dir()
-	 * @uses   trailingslashit()
-	 * @param  string $filename The original logo file name.
-	 *
-	 * @return mixed            bool|WP_Error TRUE on success, an instance of WP_Error on failure.
-	 */
-	protected function processLegacyLogo( $filename ) {
-		global $blog_id;
-
-		if ( is_multisite() && CN_MULTISITE_ENABLED ) {
-
-			$legacyPath = WP_CONTENT_DIR . '/blogs.dir/' . $blog_id . '/connection_images/';
-
-		} else {
-
-			$legacyPath = WP_CONTENT_DIR . '/connection_images/';
-		}
-
-		// The entry slug is saved in the db URL encoded, so it needs to be decoded.
-		$slug = rawurldecode( $this->getSlug() );
-
-		// Ensure the entry slug is not empty in case a user added an entry with no name.
-		if ( empty( $slug ) ) return new WP_Error( 'image_empty_slug', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), $legacyPath . $filename );
-
-		// Get the core WP uploads info.
-		// $uploadInfo = wp_upload_dir();
-
-		// Build the destination logo path.
-		$path = CN_IMAGE_PATH . $slug . DIRECTORY_SEPARATOR;
-
-		// If the source logo already exists in the new folder structure, post 8.1, bail, nothing to do.
-		if ( is_file( $path . $filename ) ) {
-
-			return TRUE;
-		}
-
-		if ( is_file( $legacyPath . $filename ) ) {
-
-			// The modification file date that logo will be deleted to maintain compatibility with 0.6.2.1 and older.
-			$compatibilityDate = mktime( 0, 0, 0, 6, 1, 2010 );
-
-			// Build path to the original file.
-			$original = $legacyPath . $filename;
-
-			// Ensure the destination directory exists.
-			if ( cnFileSystem::mkdir( $path ) ) {
-
-				// Copy or move the logo.
-				/** @noinspection PhpUsageOfSilenceOperatorInspection */
-				if ( $compatibilityDate < @filemtime( $legacyPath . $filename ) ) {
-
-					/** @noinspection PhpUsageOfSilenceOperatorInspection */
-					$result = @rename( $original, $path . $filename );
-
-				} else {
-
-					/** @noinspection PhpUsageOfSilenceOperatorInspection */
-					$result = @copy( $original, $path . $filename );
-				}
-
-				if ( TRUE === $result ) return TRUE;
-			}
-
-		}
-
-		return new WP_Error( 'image_move_legacy_logo_error', __( sprintf( 'Failed to move legacy logo %s.', $filename ), 'connections' ), $legacyPath . $filename );
-	}
-
-	/**
 	 * Return the display name of user who add the entry.
 	 *
 	 * @access public
@@ -4023,14 +3501,6 @@ class cnEntry {
 		$permittedValues = array( 'approved', 'pending' );
 
 		$this->status = in_array( $status, $permittedValues ) ? sanitize_key( $status ) : 'pending';
-	}
-
-
-	/**
-	 * Returns $options.
-	 */
-	private function getOptions() {
-		return $this->options;
 	}
 
 	/**
@@ -4151,7 +3621,7 @@ class cnEntry {
 				//'email'              => $this->emailAddresses,
 				//'im'                 => $this->im,
 				'social'             => $this->socialMedia,
-				'links'              => $this->links,
+				//'links'              => $this->links,
 				'dates'              => $this->dates,
 				'options'            => wp_json_encode( $this->options ),
 				'bio'                => $this->bio,
@@ -4188,7 +3658,7 @@ class cnEntry {
 				//'%s', // email
 				//'%s', // im
 				'%s', // social
-				'%s', // links
+				//'%s', // links
 				'%s', // dates
 				'%s', // options
 				'%s', // bio
@@ -4217,6 +3687,7 @@ class cnEntry {
 			$this->phoneNumbers->save();
 			$this->emailAddresses->save();
 			$this->im->save();
+			$this->links->save();
 
 			$cnDb->upsert(
 				CN_ENTRY_SOCIAL_TABLE,
@@ -4228,26 +3699,6 @@ class cnEntry {
 					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE ),
-				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' ),
-				)
-			);
-
-			$cnDb->upsert(
-				CN_ENTRY_LINK_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'title'      => array( 'key' => 'title', 'format' => '%s' ),
-					'url'        => array( 'key' => 'url', 'format' => '%s' ),
-					'target'     => array( 'key' => 'target', 'format' => '%s' ),
-					'follow'     => array( 'key' => 'follow', 'format' => '%d' ),
-					'image'      => array( 'key' => 'image', 'format' => '%d' ),
-					'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getLinks( array(), TRUE, TRUE, 'db' ),
 				array(
 					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
@@ -4315,7 +3766,7 @@ class cnEntry {
 		//$this->emailAddresses = serialize( $emailAddresses );
 		//$this->im             = serialize( $im );
 		$this->socialMedia    = serialize( $socialNetworks );
-		$this->links          = serialize( $links );
+		//$this->links          = serialize( $links );
 		$this->dates          = serialize( $dates );
 
 		$wpdb->update(
@@ -4327,7 +3778,7 @@ class cnEntry {
 				'email'         => serialize( $emailAddresses ),
 				'im'            => serialize( $im ),
 				'social'        => $this->socialMedia,
-				'links'         => $this->links,
+				'links'         => serialize( $links ),
 				'dates'         => $this->dates,
 			),
 			array( 'id' => $this->id ),
@@ -4381,7 +3832,7 @@ class cnEntry {
 				//'email'              => $this->emailAddresses,
 				//'im'                 => $this->im,
 				'social'             => $this->socialMedia,
-				'links'              => $this->links,
+				//'links'              => $this->links,
 				'dates'              => $this->dates,
 				'birthday'           => $this->birthday,
 				'anniversary'        => $this->anniversary,
@@ -4418,7 +3869,7 @@ class cnEntry {
 				//'%s', // email
 				//'%s', // im
 				'%s', // social
-				'%s', // links
+				//'%s', // links
 				'%s', // dates
 				'%s', // birthday
 				'%s', // anniversary
@@ -4452,6 +3903,7 @@ class cnEntry {
 			$this->phoneNumbers->setEntryID( $this->getId() )->save();
 			$this->emailAddresses->setEntryID( $this->getId() )->save();
 			$this->im->setEntryID( $this->getId() )->save();
+			$this->links->setEntryID( $this->getId() )->save();
 
 			$cnDb->insert(
 				CN_ENTRY_SOCIAL_TABLE,
@@ -4463,23 +3915,6 @@ class cnEntry {
 					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE )
-			);
-
-			$cnDb->insert(
-				CN_ENTRY_LINK_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'title'      => array( 'key' => 'title', 'format' => '%s' ),
-					'url'        => array( 'key' => 'url', 'format' => '%s' ),
-					'target'     => array( 'key' => 'target', 'format' => '%s' ),
-					'follow'     => array( 'key' => 'follow', 'format' => '%d' ),
-					'image'      => array( 'key' => 'image', 'format' => '%d' ),
-					'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getLinks( array(), TRUE, TRUE, 'db' )
 			);
 
 			$cnDb->insert(

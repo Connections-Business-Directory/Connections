@@ -68,7 +68,7 @@ class cnAPI {
 		//include_once( CN_PATH  . 'includes/api/abstracts/abstract.cn-rest-controller.php' );
 
 		// REST API controllers.
-		//include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-entry-controller.php' );
+		include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-entry-controller.php' );
 		//include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php' );
 		//include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-entry-geojson-controller.php' );
 		include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-terms-controller.php' );
@@ -84,7 +84,7 @@ class cnAPI {
 	public function registerRoutes() {
 
 		$controllers = array(
-			//'CN_REST_Entry_Controller',
+			'CN_REST_Entry_Controller',
 			//'CN_REST_Entry_JSONLD_Controller',
 			//'CN_REST_Entry_GeoJSON_Controller',
 			'CN_REST_Terms_Controller',

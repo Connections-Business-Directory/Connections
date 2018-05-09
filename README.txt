@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.19
+Stable tag: 8.19.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.19.1 05/09/2018 =
+* BUG: If link title is blank, use the link URL.
+* BUG: Add the address property to cnLink for backwards compatibility.
 
 = 8.19 05/02/2018 =
 * NEW: Introduce the `cn_customizer_image_options` filter.
@@ -578,16 +582,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Use forward slashes for jQuery UI datepicker date format so when the date is parsed with PHP it will be parsed as a US date.
 * BUG: Reset the cnEntry_Adresses object filters in cnEntry::getAddresses() to allow sub sequent call to the method to return the correct results.
 
-= 8.6.1 03/28/2017 =
-* BUG: If formatted number string is empty when converted to a float, return null so empty check will not fail causing error.
-* BUG: Correct Fatal error: Uncaught Error: Using $this when not in object context in the address-hard.php template fragment.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.6.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
@@ -662,4 +659,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.19 =
+It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.19.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.

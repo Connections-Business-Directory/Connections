@@ -392,6 +392,7 @@ final class cnLink extends cnEntry_Collection_Item {
 			'order'        => $this->order,
 			'preferred'    => $this->preferred,
 			'title'        => $this->title,
+			'address'      => $this->url,
 			'url'          => $this->url,
 			'target'       => $this->target,
 			'follow'       => $this->follow,

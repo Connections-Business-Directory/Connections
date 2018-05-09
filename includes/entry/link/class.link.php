@@ -137,6 +137,8 @@ final class cnLink extends cnEntry_Collection_Item {
 
 		$this->name = $types[ $this->type ];
 
+		if ( empty( $this->title ) ) $this->title = $this->url;
+
 		// Previous versions saved NULL for visibility under some circumstances (bug), default to public in this case.
 		if ( empty( $this->visibility ) ) {
 

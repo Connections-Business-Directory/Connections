@@ -253,6 +253,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.19.1 05/09/2018 =
+* BUG: If link title is blank, use the link URL.
+* BUG: Add the address property to cnLink for backwards compatibility.
+
 = 8.19 05/02/2018 =
 * NEW: Introduce the `cn_customizer_image_options` filter.
 * NEW: Introduce `cnEntry_Links()` and `cnLink()`.

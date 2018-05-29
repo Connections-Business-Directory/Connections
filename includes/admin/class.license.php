@@ -499,7 +499,7 @@ HERERDOC;
 		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
 
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $info->new_version ) . '</strong></p>';
-			echo '<ul><li>' . $info->upgrade_notice . '</li></ul>';
+			echo '<ul><li>' . strip_tags( $info->upgrade_notice ) . '</li></ul>';
 		}
 
 		$sections = maybe_unserialize( $info->sections );

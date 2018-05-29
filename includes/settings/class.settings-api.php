@@ -515,12 +515,14 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			?>
 			<div class="wrap <?php echo 'wrap-' . sanitize_html_class( $currentTab ); ?>">
 
+				<h1>Connections : <?php _e( 'Settings', 'connections' ); ?></h1>
+
 				<?php
 
 				// If there were no tabs returned echo out an empty string.
 				if ( ! empty( $tabs ) ) { ?>
 
-					<h1 class="nav-tab-wrapper">
+					<div class="nav-tab-wrapper">
 
 						<?php
 
@@ -546,7 +548,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						}
 
 						?>
-					</h1>
+					</div>
 					<?php
 				}
 

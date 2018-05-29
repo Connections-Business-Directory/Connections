@@ -518,7 +518,7 @@ HERERDOC;
 			if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) {
 
 				// Create the regex that'll parse the changelog for the latest version.
-				$regex = '~<(p)><strong>=\s' . preg_quote( $info->new_version ) . '.+?</strong></\1>(.+?)<p>~is';
+				$regex = '~<(p)>(?:<strong>)?=\s' . preg_quote( $info->new_version ) . '.+?(?:</strong>)?</\1>(.+?)<p>~is';
 
 				preg_match( $regex, $sections['changelog'], $matches );
 				//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';

@@ -1,5 +1,19 @@
 == Changelog ==
 
+= 8.20 06/01/2018 =
+* NEW: Load plugin only if the current environment passes the requirements checks.
+* NEW: Bump minimum WP version to 4.5.3.
+* NEW: Introduce cnRequirements_Check.
+* TWEAK: Disable the no shortcode 404 trigger. Once again foiled by visual page builders!
+* TWEAK: Add the address property to cnLink for backwards compatibility.
+* TWEAK: Strip tags when displaying the upgrade notice.
+* TWEAK: Tweak regex for parsing the extensions changelog text to be compatible with EDD-SL >= 3.6.
+* TWEAK: Add Settings heading to the settings admin page.
+* TWEAK: Slight refactor of cnText_Domain to make it plugin-agnostic, not rely on plugin constants, so it can be utilized by add-ons to reduce code duplication.
+* BUG: If link title is blank, use the link URL.
+* BUG: Remove extra div/unclosed tags on the manage admin page.
+* COMPATIBILITY: Divi, disable the "Grab the first post image" option on pages where the `[connections]` shortcode exists.
+
 = 8.19.1 05/09/2018 =
 * BUG: If link title is blank, use the link URL.
 * BUG: Add the address property to cnLink for backwards compatibility.
@@ -17,8 +31,8 @@
 * TWEAK: Init the `cnEntry_Image` object and refactor code, moving the legacy image processing logic to `cnEntry_Image`.
 * TWEAK: If shortcode is not found in post content and a registered query var is detected, trigger a 404.
 * DEV: phpDoc updates.
-* DEV: Remove dead commented out code from contructor in `cnEntry`.
-* DEV: Remove ununsed method properties in `cnEntry`.
+* DEV: Remove dead commented out code from constructor in `cnEntry`.
+* DEV: Remove unused method properties in `cnEntry`.
 * DEV: Remove unused private method in `cnEntry`.
 * DEV: Remove unused properties in `cnEntry`.
 * DEV: Change `satooshi/php-coveralls` to `php-coveralls/php-coveralls` in composer.json.

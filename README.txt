@@ -2,10 +2,10 @@
 Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
-Requires at least: 4.4
+Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.19.1
+Stable tag: 8.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -234,6 +234,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.20 06/01/2018 =
+* NEW: Load plugin only if the current environment passes the requirements checks.
+* NEW: Bump minimum WP version to 4.5.3.
+* NEW: Introduce cnRequirements_Check.
+* TWEAK: Disable the no shortcode 404 trigger. Once again foiled by visual page builders!
+* TWEAK: Add the address property to cnLink for backwards compatibility.
+* TWEAK: Strip tags when displaying the upgrade notice.
+* TWEAK: Tweak regex for parsing the extensions changelog text to be compatible with EDD-SL >= 3.6.
+* TWEAK: Add Settings heading to the settings admin page.
+* TWEAK: Slight refactor of cnText_Domain to make it plugin-agnostic, not rely on plugin constants, so it can be utilized by add-ons to reduce code duplication.
+* BUG: If link title is blank, use the link URL.
+* BUG: Remove extra div/unclosed tags on the manage admin page.
+* COMPATIBILITY: Divi, disable the "Grab the first post image" option on pages where the `[connections]` shortcode exists.
+
 = 8.19.1 05/09/2018 =
 * BUG: If link title is blank, use the link URL.
 * BUG: Add the address property to cnLink for backwards compatibility.
@@ -251,8 +265,8 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Init the `cnEntry_Image` object and refactor code, moving the legacy image processing logic to `cnEntry_Image`.
 * TWEAK: If shortcode is not found in post content and a registered query var is detected, trigger a 404.
 * DEV: phpDoc updates.
-* DEV: Remove dead commented out code from contructor in `cnEntry`.
-* DEV: Remove ununsed method properties in `cnEntry`.
+* DEV: Remove dead commented out code from constructor in `cnEntry`.
+* DEV: Remove unused method properties in `cnEntry`.
 * DEV: Remove unused private method in `cnEntry`.
 * DEV: Remove unused properties in `cnEntry`.
 * DEV: Change `satooshi/php-coveralls` to `php-coveralls/php-coveralls` in composer.json.
@@ -566,34 +580,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Remove WP 4.4 from Travis testing matrix.
 * DEV: Add a couple JS triggers to the admin JS that can be hooked into to trigger events.
 
-= 8.6.4 04/07/2017 =
-* NEW: Introduce cnFormatting::dateFormatPHPTojQueryUI().
-* NEW: Introduce cnFunction::var_dump_error_log().
-* NEW: Introduce cnDate::parseFromFormat() and cnDate::createFromFormat() to provide PHP 5.2 compatible functions for date_parse_from_format() and DateTime::createFromFormat() respectively.
-* TWEAK: Tweak escaping of search terms.
-* DEV: Add @todo in cnMetabox_Render::datepickerJS() to use cnFormatting::dateFormatPHPTojQueryUI() instead to convert the PHP datetime format to a compatible jQueryUI Datepicker compatibly format.
-
-= 8.6.3 04/04/2017 =
-* TWEAK: Remove PHP_EOL in hcard address template to eliminate unwanted whitespace in page when being rendered.
-* BUG: Reset address filters in cnOutput::getAddressBlock().
-* OTHER: Correct misspelling.
-
-= 8.6.2 03/31/2017 =
-* TWEAK: Use forward slashes for jQuery UI datepicker date format so when the date is parsed with PHP it will be parsed as a US date.
-* BUG: Reset the cnEntry_Adresses object filters in cnEntry::getAddresses() to allow sub sequent call to the method to return the correct results.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.6.2 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
-
-= 8.6.3 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
-
-= 8.6.4 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
@@ -663,3 +652,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >
 
 = 8.19.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.20 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.

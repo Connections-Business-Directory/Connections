@@ -253,6 +253,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.20 06/01/2018 =
+* NEW: Load plugin only if the current environment passes the requirements checks.
+* NEW: Bump minimum WP version to 4.5.3.
+* NEW: Introduce cnRequirements_Check.
+* TWEAK: Disable the no shortcode 404 trigger. Once again foiled by visual page builders!
+* TWEAK: Add the address property to cnLink for backwards compatibility.
+* TWEAK: Strip tags when displaying the upgrade notice.
+* TWEAK: Tweak regex for parsing the extensions changelog text to be compatible with EDD-SL >= 3.6.
+* TWEAK: Add Settings heading to the settings admin page.
+* TWEAK: Slight refactor of cnText_Domain to make it plugin-agnostic, not rely on plugin constants, so it can be utilized by add-ons to reduce code duplication.
+* BUG: If link title is blank, use the link URL.
+* BUG: Remove extra div/unclosed tags on the manage admin page.
+* COMPATIBILITY: Divi, disable the "Grab the first post image" option on pages where the `[connections]` shortcode exists.
+
 = 8.19.1 05/09/2018 =
 * BUG: If link title is blank, use the link URL.
 * BUG: Add the address property to cnLink for backwards compatibility.
@@ -270,8 +284,8 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Init the `cnEntry_Image` object and refactor code, moving the legacy image processing logic to `cnEntry_Image`.
 * TWEAK: If shortcode is not found in post content and a registered query var is detected, trigger a 404.
 * DEV: phpDoc updates.
-* DEV: Remove dead commented out code from contructor in `cnEntry`.
-* DEV: Remove ununsed method properties in `cnEntry`.
+* DEV: Remove dead commented out code from constructor in `cnEntry`.
+* DEV: Remove unused method properties in `cnEntry`.
 * DEV: Remove unused private method in `cnEntry`.
 * DEV: Remove unused properties in `cnEntry`.
 * DEV: Change `satooshi/php-coveralls` to `php-coveralls/php-coveralls` in composer.json.
@@ -584,71 +598,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc corrections.
 * DEV: Remove WP 4.4 from Travis testing matrix.
 * DEV: Add a couple JS triggers to the admin JS that can be hooked into to trigger events.
-
-= 8.6.4 04/07/2017 =
-* NEW: Introduce cnFormatting::dateFormatPHPTojQueryUI().
-* NEW: Introduce cnFunction::var_dump_error_log().
-* NEW: Introduce cnDate::parseFromFormat() and cnDate::createFromFormat() to provide PHP 5.2 compatible functions for date_parse_from_format() and DateTime::createFromFormat() respectively.
-* TWEAK: Tweak escaping of search terms.
-* DEV: Add @todo in cnMetabox_Render::datepickerJS() to use cnFormatting::dateFormatPHPTojQueryUI() instead to convert the PHP datetime format to a compatible jQueryUI Datepicker compatibly format.
-
-= 8.6.3 04/04/2017 =
-* TWEAK: Remove PHP_EOL in hcard address template to eliminate unwanted whitespace in page when being rendered.
-* BUG: Reset address filters in cnOutput::getAddressBlock().
-* OTHER: Correct misspelling.
-
-= 8.6.2 03/31/2017 =
-* TWEAK: Use forward slashes for jQuery UI datepicker date format so when the date is parsed with PHP it will be parsed as a US date.
-* BUG: Reset the cnEntry_Adresses object filters in cnEntry::getAddresses() to allow sub sequent call to the method to return the correct results.
-
-= 8.6.1 03/28/2017 =
-* BUG: If formatted number string is empty when converted to a float, return null so empty check will not fail causing error.
-* BUG: Correct Fatal error: Uncaught Error: Using $this when not in object context in the address-hard.php template fragment.
-
-= 8.6 03/24/2017 =
-* NEW: Introduce `wp_doing_ajax()` which was introduced in WordPress 4.7 so it is accessible in older version of WordPress.
-* NEW: Introduce cnTerm::count().
-* NEW: Introduce cnArray.
-* NEW: Introduce cnToArray and cnCollection.
-* NEW: Introduce cnAddress, cnCountry and cnCoordinates.
-* NEW: Introduce cnEntry_Addresses.
-* NEW: Introduce cnUser::canView() and cnUser::canNotView().
-* NEW: Introduce the `cn_entry_permalink` filter.
-* TWEAK: Do not register shortcodes during admin ajax requests.
-* TWEAK: Add newForwardGeroCoder=false as parameter when initiating the Google maps geocoder in jQuery.goMap().
-* TWEAK: Reset the list_type query option when filtering the list by entry slug.
-* TWEAK: Add support for `child_of` attribute in `cnEntry::getCategories()` and `cnOutput::getCategoryBlock()`.
-* TWEAK: Add spans to the category breadcrumb with classes and ids so they can be targeted with CSS.
-* TWEAK: Ensure the use can only see relationships based on relations status and visibility.
-* TWEAK: Refactor the plugin to use an autoloader to load classes via a hash table.
-* TWEAK: Remove unnecessary break statements.
-* TWEAK: Register all dependencies of cnEntry_Addresses with the autoloader.
-* TWEAK: Deprecate cnValidate::userPermitted().
-* TWEAK: Refactor cnEntry::getAddresses() and cnEntry::setAddresses() to utilize cnEntry_Addresses.
-* TWEAK: Refactor cnRetrieve::addresses to query by the address visibility status.
-* TWEAK: Refactor cnRetrieve::addresses() to return a multidimensional array instead of an array of objects the the return value can be utilized with cnEntry_Addresses.
-* TWEAK: Fix the filters so the entry addresses are geocoded when added to cnEntry_Addresses.
-* TWEAK: Add the core `templates` folder to the template search path so it will be search when loading template fragments.
-* TWEAK: No need to utilize sanitize_file_name() when searching for template fragment file names.
-* TWEAK: No need to save the address object cache to the core entry table on initial update. This is handled by cnEntry::updateObjectCaches() after the entry is updated so the address ID are properly cached.
-* TWEAK: Annotate cnEntry::update() `$wpdb` format values for easy identification.
-* TWEAK: No need to save the address object cache to the core entry table on initial save. This is handled by cnEntry::updateObjectCaches() after the entry is saved so the address ID are properly cached.
-* TWEAK: Annotate cnEntry::save() `$wpdb` format values for easy identification.
-* TWEAK: Add trailing commas after last array item for consistency in code formatting.
-* TWEAK: Update cnEntry::save() and cnEntry::update() to use cnEntry_Addresses::save().
-* TWEAK: Do not serialize cnEntry_Addresses object for saving into the object cache, save the array values.
-* TWEAK: Refactor manage.php and cnOutput::getAddressBlock() to utilize cnEntry_Addresses::render() with template fragments.
-* TWEAK: Remove stray commented out code.
-* TWEAK: Add the `wpseo_title` filter to cnSEO so the page meta title is properly updated when Yoast SEO is installed.
-* BUG: Ensure logged in user can view public entry and public entry data if the directory does not require login to view and the user does not necessarily have the view public capability which can happen in WP multisite installations.
-* BUG: Sanitize the textarea metabox field type.
-* BUG: Do not use esc_textarea() for escaping the metabox textarea for editing as it causes characters to become entities.
-* REST API: Update terms endpoint phpDoc.
-* REST API: Rename "resources" in the terms endpoint to be referenced as "terms".
-* REST API: Standardize error response messages in the term endpoint.
-* OTHER: Correct misspellings.
-* I18N: Update POT file.
-* DEV: Exclude the /tests/* path from grunt tasks.
-* DEV: phpDoc block corrections.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

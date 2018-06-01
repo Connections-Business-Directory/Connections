@@ -122,3 +122,26 @@ function cn_presscore_page_title( $title ) {
 }
 
 add_action( 'presscore_before_main_container', 'cn_presscore_fancy_header_controller', 14 );
+
+/**
+ * Disable the "Grab the first post image" setting in Divi on pages which include the shortcode.
+ *
+ * @since 8.20
+ *
+ * @param bool $value
+ *
+ * @return bool
+ */
+function cn_et_grab_image_setting( $value ) {
+
+	global $post;
+
+	if ( $post instanceof  WP_Post ) {
+
+		return ! has_shortcode( $post->post_content, 'connections' );
+	}
+
+	return $value;
+}
+
+add_filter( 'et_grab_image_setting', 'cn_et_grab_image_setting' );

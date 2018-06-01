@@ -499,7 +499,7 @@ HERERDOC;
 		if ( isset( $info->upgrade_notice ) && ! empty( $info->upgrade_notice ) ) {
 
 			echo '<p class="cn-update-message-p-clear-before"><strong>' . sprintf( esc_html__( 'Upgrade notice for version: %s', 'connections' ), $info->new_version ) . '</strong></p>';
-			echo '<ul><li>' . $info->upgrade_notice . '</li></ul>';
+			echo '<ul><li>' . strip_tags( $info->upgrade_notice ) . '</li></ul>';
 		}
 
 		$sections = maybe_unserialize( $info->sections );
@@ -518,7 +518,7 @@ HERERDOC;
 			if ( ! isset( $matches[2] ) || empty( $matches[2] ) ) {
 
 				// Create the regex that'll parse the changelog for the latest version.
-				$regex = '~<(p)><strong>=\s' . preg_quote( $info->new_version ) . '.+?</strong></\1>(.+?)<p>~is';
+				$regex = '~<(p)>(?:<strong>)?=\s' . preg_quote( $info->new_version ) . '.+?(?:</strong>)?</\1>(.+?)<p>~is';
 
 				preg_match( $regex, $sections['changelog'], $matches );
 				//echo '<p>' . print_r( $matches, TRUE ) .  '</p>';

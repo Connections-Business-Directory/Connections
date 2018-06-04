@@ -27,12 +27,13 @@ class cnText_Domain {
 	 * @see cnText_Domain::register()
 	 *
 	 * @param string $domain
+	 * @param string $basename
 	 *
 	 * @return static
 	 */
-	public static function create( $domain ) {
+	public static function create( $domain, $basename = '' ) {
 
-		return new static( $domain );
+		return new static( $domain, $basename );
 	}
 
 	/**

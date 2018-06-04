@@ -2992,9 +2992,8 @@ class cnOutput extends cnEntry {
 
 		/**
 		 * @var wp_rewrite $wp_rewrite
-		 * @var connectionsLoad $connections
 		 */
-		global $wp_rewrite, $connections;
+		global $wp_rewrite;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
@@ -3002,7 +3001,7 @@ class cnOutput extends cnEntry {
 
 		$base      = get_option( 'connections_permalink' );
 		$name      = $base['name_base'];
-		$homeID    = $connections->settings->get( 'connections', 'home_page', 'page_id' ); // Get the directory home page ID.
+		$homeID    = Connections_Directory()->settings->get( 'connections', 'home_page', 'page_id' ); // Get the directory home page ID.
 		$piece     = array();
 		$id        = FALSE;
 		$token     = FALSE;

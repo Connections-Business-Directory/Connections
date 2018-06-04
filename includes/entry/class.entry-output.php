@@ -2686,7 +2686,7 @@ class cnOutput extends cnEntry {
 			);
 		}
 
-		if ( empty( $out ) ) return '';
+		if ( empty( $out ) ) echo '';
 
 		$out = apply_filters(
 			'cn_entry_output_meta_container',

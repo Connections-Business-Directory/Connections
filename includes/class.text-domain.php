@@ -37,19 +37,33 @@ class cnText_Domain {
 	}
 
 	/**
+	 * Registers a text domain.
+	 *
+	 * If $priority is set to an integer it will be loaded via an action ran on the `plugins_loaded` action hook.
+	 * If $priority is set to `load` it will be loaded.
+	 *
 	 * @access public
 	 * @since  8.16
 	 *
-	 * @param string $domain
-	 * @param string $basename
-	 * @param int    $priority
+	 * @param string     $domain   The text domain to register.
+	 * @param string     $basename The plugin basename of the text domain to be loaded.
+	 * @param int|string $priority The priority to load the text domain on the `plugins_loaded` action hook.
+	 *                             If `load` is passed as a value, then the text domain will be loaded.
 	 *
 	 * @return static
 	 */
 	public static function register( $domain, $basename = '', $priority = 10 ) {
 
 		$instance = new static( $domain, $basename );
-		$instance->addAction( $priority );
+
+		if ( is_int( $priority ) ) {
+
+			$instance->addAction( $priority );
+
+		} elseif ( 'load' === $priority ) {
+
+			$instance->load();
+		}
 
 		return $instance;
 	}

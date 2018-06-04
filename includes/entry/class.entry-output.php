@@ -2643,12 +2643,9 @@ class cnOutput extends cnEntry {
 	 * action which runs in $this->getMetaBlock().
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @param  array  $metadata The metadata array passed from $this->getMetaBlock(). @see self::getMetaBlock().
+	 * @since  0.8
 	 *
-	 * @return string
+	 * @param array $metadata The metadata array passed from $this->getMetaBlock(). @see self::getMetaBlock().
 	 */
 	private function renderMetaBlock( $metadata ) {
 
@@ -2900,9 +2897,10 @@ class cnOutput extends cnEntry {
 	 * Displays the category list for use in the class tag.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param bool    $return [optional] Return instead of echo.
+	 * @since  unknown
+	 *
+	 * @param bool $return Return instead of echo.
+	 *
 	 * @return string
 	 */
 	public function getCategoryClass( $return = FALSE ) {
@@ -2920,11 +2918,8 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 *
-	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
+	 * @since  unknown
 	 * @return string
 	 */
 	public function getRevisionDateBlock() {
@@ -2959,13 +2954,9 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 *
-	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
+	 * @since  unknown
 	 * @deprecated
-	 * @return string|null
 	 */
 	public function returnToTopAnchor() {
 
@@ -2991,10 +2982,10 @@ class cnOutput extends cnEntry {
 	 *  return (bool) Return string if set to TRUE instead of echo string.
 	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @uses wp_parse_args()
-	 * @param array   $atts [optional]
+	 * @since  0.7.3
+	 *
+	 * @param array $atts
+	 *
 	 * @return string
 	 */
 	public function vcard( $atts = array() ) {

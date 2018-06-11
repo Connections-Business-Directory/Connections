@@ -253,6 +253,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.21 06/11/2018 =
+* TWEAK: Remove usage of `$connections` global from `cnOutput::vcard()`.
+* TWEAK: Update `cnText_Domain::create()` to accept the plugin basename parameter.
+* TWEAK: Tweak the `cnText_Domain::register()` `$priority` parameter to accept a value of `load` so the text domain is loaded instead of registered via the `plugins_loaded` action hook.
+* TWEAK: Requirements check for tested up to compatibility only compares major.minor ignoring release version.
+* TWEAK: Remove unused parameters from methods in cnOutput.
+* TWEAK: Refactor `cnEntry_Output::getLinkBlock()` to utilize the `cnEntry_Links` objects `render()` method using templates.
+* I18N: Add translation text context for person "Title" and link "Title" so the can be translated individually.
+* COMPATIBILITY: Compatibility tweak for the MayaShop theme. Remove the filter being applied to the `clean_url` being applied by the theme.
+* BUG: `cnOutput::renderMetaBlock()` should echo, not return.
+* DEV: Some phpDoc cleanup.
+
 = 8.20 06/01/2018 =
 * NEW: Load plugin only if the current environment passes the requirements checks.
 * NEW: Bump minimum WP version to 4.5.3.
@@ -585,18 +597,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc correction.
 * DEV: Rename method property name in `cnImage::sideload()` to be consistent with other similar methods.
 * DEV: phpDoc correction.
-
-= 8.6.5 05/04/2017 =
-* NEW: Export the link title attribute when exporting a CSV file.
-* NEW: Introduce the `cn_entry_slug` filter.
-* NEW: ADD support for per user setting of the category metabox height.
-* TWEAK: Minor tweak to template search paths.
-* TWEAK: Use the `entry_type` db column instead of the legacy `entry_type` key from the options array.
-* BUG: Correct escaping and the links title attribute.
-* BUG: Correct escaping of name when creating the entry slug.
-* BUG: Correct the value `cn_meta_field_value-{$field['id']}` dynamic filter.
-* DEV: phpDoc corrections.
-* DEV: Remove WP 4.4 from Travis testing matrix.
-* DEV: Add a couple JS triggers to the admin JS that can be hooked into to trigger events.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

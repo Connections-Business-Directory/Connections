@@ -1105,11 +1105,10 @@ class cnOutput extends cnEntry {
 	 * @since unknown
 	 *
 	 * @param array $atts Accepted values as noted above.
-	 * @param bool  $cached Returns the cached address rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getAddressBlock( $atts = array(), $cached = TRUE ) {
+	public function getAddressBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred'   => NULL,
@@ -1333,11 +1332,10 @@ class cnOutput extends cnEntry {
 	 * @since unknown
 	 *
 	 * @param array $atts   Accepted values as noted above.
-	 * @param bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getPhoneNumberBlock( $atts = array(), $cached = TRUE ) {
+	public function getPhoneNumberBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred' => NULL,
@@ -1507,11 +1505,10 @@ class cnOutput extends cnEntry {
 	 * @since  unknown
 	 *
 	 * @param array $atts   Accepted values as noted above.
-	 * @param bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getEmailAddressBlock( $atts = array(), $cached = TRUE ) {
+	public function getEmailAddressBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred' => NULL,
@@ -1587,11 +1584,10 @@ class cnOutput extends cnEntry {
 	 * @since unknown
 	 *
 	 * @param array $atts   Accepted values as noted above.
-	 * @param bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getImBlock( $atts = array(), $cached = TRUE ) {
+	public function getImBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred' => NULL,
@@ -1827,11 +1823,10 @@ class cnOutput extends cnEntry {
 	 * @since  unknown
 	 *
 	 * @param  array $atts   Accepted values as noted above.
-	 * @param  bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getLinkBlock( $atts = array(), $cached = TRUE ) {
+	public function getLinkBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred' => NULL,

@@ -561,7 +561,7 @@ class cnEntryMetabox {
 						'title' => array(
 							'id'        => 'title',
 							'show'      => TRUE,
-							'label'     => __( 'Title' , 'connections' ),
+							'label'     => _x( 'Title', 'A name that describes someone\'s position or job.', 'connections' ),
 							'required'  => FALSE,
 							'type'      => in_array( 'title', $individualNameFields ) ? 'text' : 'hidden',
 							'value'     => strlen( $entry->getTitle() ) > 0 ? $entry->getTitle( 'edit' ) : '',
@@ -2378,7 +2378,7 @@ class cnEntryMetabox {
 						'class'    => '',
 						'id'       => 'link[' . $token . '][title]',
 						'required' => FALSE,
-						'label'    => __( 'Title', 'connections' ),
+						'label'    => _x( 'Title', 'A link (or hyperlink, or web link) title attribute.', 'connections' ),
 						'before'   => '',
 						'after'    => '',
 						'return'   => FALSE,

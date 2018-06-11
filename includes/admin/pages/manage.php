@@ -755,19 +755,7 @@ function connectionsShowViewPage( $action = NULL ) {
 						echo '</div>';
 					}
 
-					$links = $entry->getLinks();
-
-					if ( ! empty( $links ) ) {
-						echo '<div class="links">';
-
-						foreach ( $links as $link ) {
-							( $link->preferred ) ? $preferred = '*' : $preferred = '';
-
-							echo '<span class="link"><strong>' , $link->name , ':</strong> <a target="_blank" href="' , $link->url , '">' , $link->url , '</a>' , $preferred , '</span>';
-						}
-
-						echo '</div>';
-					}
+					$entry->links->render( 'admin' );
 
 					echo "</td> \n";
 

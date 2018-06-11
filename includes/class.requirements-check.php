@@ -155,7 +155,7 @@ final class cnRequirements_Check {
 						'current' => $version,
 						'checked' => TRUE,
 						'passed'  => version_compare( $version, $properties['min'], '>=' ),
-						'tested'  => version_compare( $version, $properties['max'], '<=' ),
+						'tested'  => version_compare( substr( $version, 0, strlen( $properties['max'] ) ), $properties['max'], '<=' ),
 					)
 				);
 

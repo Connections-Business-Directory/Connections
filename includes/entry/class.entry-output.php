@@ -1105,11 +1105,10 @@ class cnOutput extends cnEntry {
 	 * @since unknown
 	 *
 	 * @param array $atts Accepted values as noted above.
-	 * @param bool  $cached Returns the cached address rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getAddressBlock( $atts = array(), $cached = TRUE ) {
+	public function getAddressBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred'   => NULL,
@@ -1333,11 +1332,10 @@ class cnOutput extends cnEntry {
 	 * @since unknown
 	 *
 	 * @param array $atts   Accepted values as noted above.
-	 * @param bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getPhoneNumberBlock( $atts = array(), $cached = TRUE ) {
+	public function getPhoneNumberBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred' => NULL,
@@ -1507,11 +1505,10 @@ class cnOutput extends cnEntry {
 	 * @since  unknown
 	 *
 	 * @param array $atts   Accepted values as noted above.
-	 * @param bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getEmailAddressBlock( $atts = array(), $cached = TRUE ) {
+	public function getEmailAddressBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred' => NULL,
@@ -1587,11 +1584,10 @@ class cnOutput extends cnEntry {
 	 * @since unknown
 	 *
 	 * @param array $atts   Accepted values as noted above.
-	 * @param bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getImBlock( $atts = array(), $cached = TRUE ) {
+	public function getImBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred' => NULL,
@@ -1827,15 +1823,15 @@ class cnOutput extends cnEntry {
 	 * @since  unknown
 	 *
 	 * @param  array $atts   Accepted values as noted above.
-	 * @param  bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getLinkBlock( $atts = array(), $cached = TRUE ) {
+	public function getLinkBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred' => NULL,
 			'type'      => NULL,
+			'limit'     => NULL,
 			'format'    => '',
 			'label'     => NULL,
 			'size'      => 'lg',
@@ -1858,98 +1854,21 @@ class cnOutput extends cnEntry {
 
 		$atts['id'] = $this->getId();
 
-		$rows          = array();
-		$links         = $this->getLinks( $atts, $cached );
-		$search        = array( '%label%', '%title%', '%url%', '%image%', '%icon%', '%separator%' );
-		$iconSizes     = array( 16, 24, 32, 48, 64 );
-		$targetOptions = array( 'new' => '_blank', 'same' => '_self' );
+		$html = $this->links->filterBy( 'type', $atts['type'] )
+		                    ->filterBy( 'preferred', $atts['preferred'] )
+		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+		                    ->take( $atts['limit'] )
+		                    ->escapeFor( 'display' )
+		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
 
-		if ( empty( $links ) ) return '';
+		// The filters need to be reset so additional calls to get links with different params return expected results.
+		$this->links->resetFilters();
 
-		/*
-		 * Ensure the supplied size is valid, if not reset to the default value.
-		 */
+		if ( ! is_null( $html ) || 0 < strlen( $html ) ) {
 
-		$icon = array();
-
-		$icon['width']  = in_array( $atts['icon_size'], $iconSizes ) ? $atts['icon_size'] : 32;
-		$icon['height'] = $icon['width'];
-		$icon['src']    = CN_URL . 'assets/images/icons/link/link_' . $icon['width'] . '.png';
-
-		foreach ( $links as $link ) {
-
-			$icon = apply_filters( 'cn_output_link_icon', $icon, $link->type );
-
-			$replace = array();
-
-			if ( empty( $atts['label'] ) ) {
-
-				$name = empty( $link->name ) ? '' : $link->name;
-
-			} else {
-
-				$name = $atts['label'];
-			}
-
-			$url    = cnSanitize::field( 'url', $link->url );
-			$target = array_key_exists( $link->target, $targetOptions ) ? $targetOptions[ $link->target ] : '_self';
-			$follow = $link->follow ? '' : 'rel="nofollow"';
-
-			$replace[] = '<span class="link-name">' . $name . '</span>';
-
-			// The `notranslate` class is added to prevent Google Translate from translating the text.
-			$replace[] = empty( $link->title ) ? '' : '<a class="url" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $link->title . '</a>';
-			$replace[] = '<a class="url notranslate" href="' . $url . '"' . ' target="' . $target . '" ' . $follow . '>' . $url . '</a>';
-
-			if ( FALSE !== filter_var( $link->url, FILTER_VALIDATE_URL ) &&
-			     FALSE !== strpos( $atts['format'], '%image%' ) ) {
-
-				$screenshot = new cnSiteShot(
-					array(
-						'url'    => $link->url,
-						'alt'    => $url,
-						'title'  => $name,
-						'target' => $target,
-						'follow' => $link->follow,
-						'return' => TRUE,
-					)
-				);
-
-				$size = $screenshot->setSize( $atts['size'] );
-
-				/** @noinspection CssInvalidPropertyValue */
-				$screenshot->setBefore( '<span class="cn-image-style" style="display: inline-block;"><span style="display: block; max-width: 100%; width: ' . $size['width'] . 'px">' );
-				$screenshot->setAfter( '</span></span>' );
-
-				$replace[] = $screenshot->render();
-
-			} else {
-
-				$replace[] = '';
-			}
-
-			$replace[] = '<span class="link-icon"><a class="url" title="' . $link->title . '" href="' . $url . '" target="' . $target . '" ' . $follow . '><img src="' . $icon['src'] . '" height="' . $icon['height'] . '" width="' . $icon['width'] . '"/></a></span>';
-
-			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
-
-			$row = "\t" . '<span class="link ' . $link->type . ' cn-link' . ( $link->preferred ? ' cn-preferred cn-link-preferred' : '' ) . '">';
-
-			$row .= str_ireplace(
-				$search,
-				$replace,
-				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %title%' : $defaults['format'] ) : $atts['format']
-			);
-
-			$row .= '</span>';
-
-			$rows[] = apply_filters( 'cn_output_link', cnString::replaceWhatWith( $row, ' ' ), $link, $this, $atts );
+			$html = cnString::replaceWhatWith( $html, ' ' );
+			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
 		}
-
-		$block = '<span class="link-block">' . PHP_EOL . implode( PHP_EOL, $rows ) . PHP_EOL .'</span>';
-
-		$block = apply_filters( 'cn_output_links', $block, $links, $this, $atts );
-
-		$html = $atts['before'] . $block . $atts['after'] . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );
 	}
@@ -2643,12 +2562,9 @@ class cnOutput extends cnEntry {
 	 * action which runs in $this->getMetaBlock().
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @param  array  $metadata The metadata array passed from $this->getMetaBlock(). @see self::getMetaBlock().
+	 * @since  0.8
 	 *
-	 * @return string
+	 * @param array $metadata The metadata array passed from $this->getMetaBlock(). @see self::getMetaBlock().
 	 */
 	private function renderMetaBlock( $metadata ) {
 
@@ -2689,7 +2605,7 @@ class cnOutput extends cnEntry {
 			);
 		}
 
-		if ( empty( $out ) ) return '';
+		if ( empty( $out ) ) echo '';
 
 		$out = apply_filters(
 			'cn_entry_output_meta_container',
@@ -2900,9 +2816,10 @@ class cnOutput extends cnEntry {
 	 * Displays the category list for use in the class tag.
 	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
-	 * @param bool    $return [optional] Return instead of echo.
+	 * @since  unknown
+	 *
+	 * @param bool $return Return instead of echo.
+	 *
 	 * @return string
 	 */
 	public function getCategoryClass( $return = FALSE ) {
@@ -2920,11 +2837,8 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 *
-	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
+	 * @since  unknown
 	 * @return string
 	 */
 	public function getRevisionDateBlock() {
@@ -2959,13 +2873,9 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 *
-	 *
 	 * @access public
-	 * @since unknown
-	 * @version 1.0
+	 * @since  unknown
 	 * @deprecated
-	 * @return string|null
 	 */
 	public function returnToTopAnchor() {
 
@@ -2991,19 +2901,18 @@ class cnOutput extends cnEntry {
 	 *  return (bool) Return string if set to TRUE instead of echo string.
 	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @uses wp_parse_args()
-	 * @param array   $atts [optional]
+	 * @since  0.7.3
+	 *
+	 * @param array $atts
+	 *
 	 * @return string
 	 */
 	public function vcard( $atts = array() ) {
 
 		/**
 		 * @var wp_rewrite $wp_rewrite
-		 * @var connectionsLoad $connections
 		 */
-		global $wp_rewrite, $connections;
+		global $wp_rewrite;
 
 		// The class.seo.file is only loaded in the frontend; do not attempt to remove the filter
 		// otherwise it'll cause an error.
@@ -3011,7 +2920,7 @@ class cnOutput extends cnEntry {
 
 		$base      = get_option( 'connections_permalink' );
 		$name      = $base['name_base'];
-		$homeID    = $connections->settings->get( 'connections', 'home_page', 'page_id' ); // Get the directory home page ID.
+		$homeID    = Connections_Directory()->settings->get( 'connections', 'home_page', 'page_id' ); // Get the directory home page ID.
 		$piece     = array();
 		$id        = FALSE;
 		$token     = FALSE;

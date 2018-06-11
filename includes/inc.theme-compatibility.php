@@ -145,3 +145,18 @@ function cn_et_grab_image_setting( $value ) {
 }
 
 add_filter( 'et_grab_image_setting', 'cn_et_grab_image_setting' );
+
+/**
+ * Remove the `clean_url` filter being applied by the MayaShop theme.
+ *
+ * @since 8.21
+ *
+ * @link https://themeforest.net/item/mayashop-a-flexible-responsive-ecommerce-theme/2189918/comments?page=45&filter=all#comment_2425500
+ * @link https://connections-pro.com/support/topic/disable-force-https-option/#post-464997
+ */
+function cn_remove_maya_clean_url_filter() {
+
+	remove_filter( 'clean_url', 'yiw_ssl_url' );
+}
+
+add_action( 'after_setup_theme', 'cn_remove_maya_clean_url_filter' );

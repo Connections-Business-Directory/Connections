@@ -1059,7 +1059,7 @@ class cnOptions {
 
 		$types = array(
 			'website' => __( 'Website' , 'connections' ),
-			'blog'    => __( 'Blog' , 'connections' )
+			'blog'    => __( 'Blog' , 'connections' ),
 		);
 
 		// Return all registered types, including the "core" types.

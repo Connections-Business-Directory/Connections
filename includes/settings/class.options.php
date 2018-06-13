@@ -1047,7 +1047,7 @@ class cnOptions {
 
 	/**
 	 * Returns an associative array all core address types
-	 * including those registered via the `cn_address_options` filter.
+	 * including those registered via the `cn_link_options` filter.
 	 *
 	 * @access public
 	 * @since  8.17

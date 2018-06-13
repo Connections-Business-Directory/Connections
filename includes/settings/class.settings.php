@@ -1434,7 +1434,7 @@ class cnRegisterSettings {
 			'default'   => 0,
 		);
 
-		// Grab the phone types.
+		// Grab the messenger types.
 		$imTypes = cnOptions::getCoreMessengerTypes();
 
 		$fields[] = array(

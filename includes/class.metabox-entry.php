@@ -1896,7 +1896,7 @@ class cnEntryMetabox {
 	private static function messengerField( $network, $token = '::FIELD::' ) {
 
 		$messengerTypes   = cnOptions::getMessengerTypeOptions();
-		$defaultType      = cnOptions::getDefaultEmailType();
+		$defaultType      = cnOptions::getDefaultMessengerType();
 		$repeatable       = (bool) cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'repeatable' );
 		$permitPreferred  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'permit-preferred' );
 		$permitVisibility = (bool) cnSettingsAPI::get( 'connections', 'fieldset-messenger', 'permit-visibility' );

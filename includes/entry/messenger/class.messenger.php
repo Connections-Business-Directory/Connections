@@ -74,7 +74,7 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		$this->uid        = cnSanitize::field( 'phone-number', cnArray::get( $data, 'uid', '' ), 'raw' );
+		$this->uid        = cnSanitize::field( 'messenger-id', cnArray::get( $data, 'uid', '' ), 'raw' );
 
 		/*
 		 * // START -- Compatibility for previous versions.
@@ -137,7 +137,7 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		$self->visibility = cnSanitize::field( 'attribute', $self->visibility, $context );
 		$self->order      = absint( $self->order );
 		$self->preferred  = cnFormatting::toBoolean( $self->preferred );
-		$self->uid        = cnSanitize::field( 'phone-number', $self->uid, $context );
+		$self->uid        = cnSanitize::field( 'messenger-id', $self->uid, $context );
 
 		return $self;
 	}

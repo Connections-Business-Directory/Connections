@@ -198,6 +198,7 @@ class cnSanitize {
 					case 'postal-code':
 					case 'country':
 					case 'phone-number':
+					case 'messenger-id':
 
 						// This is the same as the post title on the edit-form-advanced.php admin page.
 						return esc_attr( esc_textarea( $value ) );
@@ -241,6 +242,7 @@ class cnSanitize {
 					case 'postal-code':
 					case 'country':
 					case 'phone-number':
+					case 'messenger-id':
 
 						/**
 						 * Matches the post title sanitation before being inserted in the db.
@@ -282,6 +284,7 @@ class cnSanitize {
 					case 'postal-code':
 					case 'country':
 					case 'phone-number':
+					case 'messenger-id':
 
 						// This is the same as the filters applied via the `the_title` filter for the post title.
 						return esc_html( trim( convert_chars( wptexturize( $value ) ) ) );

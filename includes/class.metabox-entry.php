@@ -2502,6 +2502,10 @@ class cnEntryMetabox {
 	 */
 	public static function date( $entry, $metabox ) {
 
+		$dateTypes  = cnOptions::getDateTypeOptions();
+		$repeatable = (bool) cnSettingsAPI::get( 'connections', 'fieldset-date', 'repeatable' );
+		$count      = cnSettingsAPI::get( 'connections', 'fieldset-date', 'count' );
+
 		echo '<div class="widgets-sortables ui-sortable" id="dates">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -2513,6 +2517,28 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$dates = $entry->getDates( array(), FALSE );
+
+		/*
+		 * Add "dummy" date objects to the results to equal the number of date fieldset which are to be
+		 * displayed by default. The "dummy" date objects rotate thru the active link types.
+		 */
+		if ( $count > $dateCount = count( $dates ) ) {
+
+			$createCount = $count - $dateCount;
+
+			while ( 0 < $createCount ) {
+
+				if ( key( $dateTypes ) === NULL ) { reset( $dateTypes ); }
+				$type = key( $dateTypes );
+				next( $dateTypes );
+
+				$date = new stdClass();
+				$date->type = $type;
+
+				$dates[] = $date;
+				--$createCount;
+			}
+		}
 
 		if ( ! empty( $dates ) ) {
 
@@ -2530,7 +2556,10 @@ class cnEntryMetabox {
 
 		echo '</div>' , PHP_EOL;
 
-		echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
+		if ( $repeatable ) {
+
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="date" data-container="dates">' , __( 'Add Date', 'connections' ) , '</a></p>' , PHP_EOL;
+		}
 	}
 
 	/**
@@ -2544,11 +2573,11 @@ class cnEntryMetabox {
 	 */
 	private static function dateField( $date, $token = '::FIELD::' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the date types.
-		$dateTypes = $instance->options->getDateOptions();
+		$dateTypes        = cnOptions::getDateTypeOptions();
+		$defaultType      = cnOptions::getDefaultDateType();
+		$repeatable       = (bool) cnSettingsAPI::get( 'connections', 'fieldset-date', 'repeatable' );
+		$permitPreferred  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-date', 'permit-preferred' );
+		$permitVisibility = (bool) cnSettingsAPI::get( 'connections', 'fieldset-date', 'permit-visibility' );
 
 		?>
 
@@ -2562,7 +2591,7 @@ class cnEntryMetabox {
 
 					cnHTML::field(
 						array(
-							'type'     => 'select',
+							'type'     => 1 < count( $dateTypes ) ? 'select' : 'hidden',
 							'class'    => '',
 							'id'       => 'date[' . $token . '][type]',
 							'options'  => $dateTypes,
@@ -2570,12 +2599,12 @@ class cnEntryMetabox {
 							'label'    => __( 'Type', 'connections' ),
 							'return'   => FALSE,
 						),
-						isset( $date->type ) ? $date->type : ''
+						isset( $date->type ) && array_key_exists( $date->type, $dateTypes ) ? $date->type : key( $defaultType )
 					);
 
 					cnHTML::field(
 						array(
-							'type'     => 'radio',
+							'type'     => $permitPreferred ? 'radio' : 'hidden',
 							'format'   => 'inline',
 							'class'    => '',
 							'id'       => 'date[preferred]',
@@ -2589,7 +2618,7 @@ class cnEntryMetabox {
 					);
 
 					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
+					if ( ! empty( self::$visibility ) && $permitVisibility ) {
 
 						cnHTML::field(
 							array(
@@ -2616,33 +2645,39 @@ class cnEntryMetabox {
 
 		<div class="widget-inside">
 
-			<?php
+			<div class="date-container">
 
-			cnHTML::field(
-				array(
-					'type'     => 'text',
-					'class'    => 'datepicker',
-					'id'       => 'date[' . $token . '][date]',
-					'required' => FALSE,
-					'label'    => __( 'Date', 'connections' ),
-					'before'   => '',
-					'after'    => '',
-					'return'   => FALSE,
-				),
-				isset( $date->date ) ? date( 'm/d/Y', strtotime( $date->date ) ) : ''
-			);
+				<?php
 
-			?>
+				cnHTML::field(
+					array(
+						'type'     => 'text',
+						'class'    => 'datepicker',
+						'id'       => 'date[' . $token . '][date]',
+						'required' => FALSE,
+						'label'    => __( 'Date', 'connections' ),
+						'before'   => '',
+						'after'    => '',
+						'return'   => FALSE,
+					),
+					isset( $date->date ) ? date( 'm/d/Y', strtotime( $date->date ) ) : ''
+				);
+
+				?>
+
+			</div>
 
 			<?php if ( isset( $date->id ) ) : ?>
 				<input type="hidden" name="date[<?php echo $token; ?>][id]" value="<?php echo $date->id; ?>">
 			<?php endif; ?>
 
+			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="date"
 				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
+			<?php endif; ?>
 
 		</div>
 

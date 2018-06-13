@@ -2232,8 +2232,11 @@ class cnEntryMetabox {
 				$type = key( $linkTypes );
 				next( $linkTypes );
 
-				$link = new stdClass();
-				$link->type = $type;
+				$link = new cnMessenger(
+					array(
+						'type' => $type,
+					)
+				);
 
 				$links[] = $link;
 				--$createCount;

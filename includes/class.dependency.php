@@ -339,6 +339,10 @@ class cnDependency {
 			'cnEntry_Links'            => 'includes/entry/link/class.entry-links.php',
 			'cnLink'                   => 'includes/entry/link/class.link.php',
 
+			// Date objects
+			'cnEntry_Dates'            => 'includes/entry/date/class.entry-dates.php',
+			'cnEntry_Date'             => 'includes/entry/date/class.date.php',
+
 			// Entry image object.
 			'cnEntry_Image'            => 'includes/entry/image/class.entry-image.php',
 

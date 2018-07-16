@@ -1036,8 +1036,8 @@ class cnEntryMetabox {
 	 * @access private
 	 * @since  8.5.13
 	 *
-	 * @param stdClass $address
-	 * @param string   $token
+	 * @param cnAddress $address
+	 * @param string    $token
 	 */
 	private static function addressField( $address, $token = '::FIELD::' ) {
 
@@ -1461,8 +1461,8 @@ class cnEntryMetabox {
 	 * @access private
 	 * @since  8.5.11
 	 *
-	 * @param stdClass $phone
-	 * @param string   $token
+	 * @param cnPhone $phone
+	 * @param string  $token
 	 */
 	private static function phoneField( $phone, $token = '::FIELD::' ) {
 
@@ -1676,8 +1676,8 @@ class cnEntryMetabox {
 	 * @access private
 	 * @since  8.5.11
 	 *
-	 * @param stdClass $email
-	 * @param string   $token
+	 * @param cnEmail_Address $email
+	 * @param string          $token
 	 */
 	private static function emailField( $email, $token = '::FIELD::' ) {
 
@@ -1890,8 +1890,8 @@ class cnEntryMetabox {
 	 * @access private
 	 * @since  8.5.11
 	 *
-	 * @param stdClass $network
-	 * @param string   $token
+	 * @param cnMessenger $network
+	 * @param string      $token
 	 */
 	private static function messengerField( $network, $token = '::FIELD::' ) {
 
@@ -2271,8 +2271,8 @@ class cnEntryMetabox {
 	 * @access private
 	 * @since  8.5.12
 	 *
-	 * @param stdClass $link
-	 * @param string   $token
+	 * @param cnLink $link
+	 * @param string $token
 	 */
 	private static function linkField( $link, $token = '::FIELD::' ) {
 

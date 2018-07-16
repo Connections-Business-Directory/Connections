@@ -170,7 +170,7 @@ class cnTerms {
 	 * @param string $taxonomy
 	 * @param array  $attributes
 	 *
-	 * @return int The term id.
+	 * @return array|WP_Error An array containing the term_id and term_taxonomy_id, WP_Error otherwise.
 	 */
 	public function addTerm( $term, $taxonomy, $attributes ) {
 
@@ -215,7 +215,7 @@ class cnTerms {
 	 * @see cnTerm::delete()
 	 *
 	 * @param int    $id       Term ID.
-	 * @param int    $id       Term parent ID.
+	 * @param int    $parent   Term parent ID.
 	 * @param string $taxonomy Taxonomy name.
 	 *
 	 * @return bool|int|WP_Error

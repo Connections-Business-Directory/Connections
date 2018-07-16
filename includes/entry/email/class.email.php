@@ -4,6 +4,8 @@
  * Class cnEmail_Address
  *
  * @since 8.14
+ *
+ * @property string $address
  */
 final class cnEmail_Address extends cnEntry_Collection_Item {
 

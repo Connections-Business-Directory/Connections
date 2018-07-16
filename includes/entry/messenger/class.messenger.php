@@ -4,6 +4,8 @@
  * Class cnMessenger
  *
  * @since 8.16
+ *
+ * @property string $uid
  */
 final class cnMessenger extends cnEntry_Collection_Item {
 

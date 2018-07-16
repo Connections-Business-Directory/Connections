@@ -4,6 +4,14 @@
  * Class cnLink
  *
  * @since 8.19
+ *
+ * @property string $title
+ * @property string $url
+ * @property string $target
+ * @property string $follow
+ * @property string $followString
+ * @property bool   $image
+ * @property bool   $logo
  */
 final class cnLink extends cnEntry_Collection_Item {
 

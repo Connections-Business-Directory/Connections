@@ -4,6 +4,8 @@
  * Class cnPhone
  *
  * @since 8.10
+ *
+ * @property string $number
  */
 final class cnPhone extends cnEntry_Collection_Item {
 

@@ -124,7 +124,6 @@ class cnTerms {
 			$termID = $value;
 		}
 
-
 		$queryChildrenIDs = $wpdb->prepare(
 			"SELECT DISTINCT * from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE parent = %d ",
 			$termID

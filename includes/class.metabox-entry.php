@@ -973,7 +973,7 @@ class cnEntryMetabox {
 		// --> Start template <-- \\
 		echo '<textarea id="address-template" style="display: none;">' , PHP_EOL;
 
-			self::addressField( new stdClass() );
+			self::addressField( new cnAddress() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -1400,7 +1400,7 @@ class cnEntryMetabox {
 		// --> Start template <-- \\
 		echo '<textarea id="phone-template" style="display: none;">' , PHP_EOL;
 
-			self::phoneField( new stdClass() );
+			self::phoneField( new cnPhone() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -1615,7 +1615,7 @@ class cnEntryMetabox {
 		// --> Start template <-- \\
 		echo '<textarea id="email-template" style="display: none;">' , PHP_EOL;
 
-			self::emailField( new stdClass() );
+			self::emailField( new cnEmail_Address() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -1830,7 +1830,7 @@ class cnEntryMetabox {
 		// --> Start template <-- \\
 		echo '<textarea id="im-template" style="display: none;">' , PHP_EOL;
 
-			self::messengerField( new stdClass() );
+			self::messengerField( new cnMessenger() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -2211,7 +2211,7 @@ class cnEntryMetabox {
 		// --> Start template <-- \\
 		echo '<textarea id="link-template" style="display: none;">' , PHP_EOL;
 
-			self::linkField( new stdClass() );
+			self::linkField( new cnLink() );
 
 		echo '</textarea>' , PHP_EOL;
 		// --> End template <-- \\
@@ -2232,7 +2232,7 @@ class cnEntryMetabox {
 				$type = key( $linkTypes );
 				next( $linkTypes );
 
-				$link = new cnMessenger(
+				$link = new cnLink(
 					array(
 						'type' => $type,
 					)

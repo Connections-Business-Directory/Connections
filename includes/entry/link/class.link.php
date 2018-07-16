@@ -104,7 +104,7 @@ final class cnLink extends cnEntry_Collection_Item {
 	 *
 	 * @param array $data
 	 */
-	public function __construct( $data ) {
+	public function __construct( $data = array() ) {
 
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultLinkType();

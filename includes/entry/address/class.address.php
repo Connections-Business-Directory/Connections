@@ -192,7 +192,7 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	 *
 	 * @param array $data
 	 */
-	public function __construct( $data ) {
+	public function __construct( $data = array() ) {
 
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultAddressType();

@@ -163,7 +163,7 @@ final class cnMessenger extends cnEntry_Collection_Item {
 	 */
 	public function setUserID( $userID ) {
 
-		$this->uid = cnSanitize::field( 'phone-number', $userID, 'raw' );
+		$this->uid = cnSanitize::field( 'messenger-id', $userID, 'raw' );
 
 		return $this;
 	}

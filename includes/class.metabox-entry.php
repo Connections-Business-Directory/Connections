@@ -314,12 +314,13 @@ class cnEntryMetabox {
 		$type          = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'entry-type' );
 		$defaultType   = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'default-entry-type' );
 		$defaultStatus = cnSettingsAPI::get( 'connections', 'fieldset-publish', 'default-publish-status' );
+		$activeTypes   = cnArray::get( $type, 'active', array( $defaultType ) );
 
 		// Reorder the based on the user defined settings.
 		$defaults['entry_type'] = array_replace( array_flip( $type['order'] ), $defaults['entry_type'] );
 
 		// Remove the disabled entry types based on the user defined settings.
-		$defaults['entry_type'] = array_intersect_key( $defaults['entry_type'], array_flip( $type['active'] ) );
+		$defaults['entry_type'] = array_intersect_key( $defaults['entry_type'], array_flip( $activeTypes ) );
 
 		// The options have to be flipped because of an earlier stupid decision
 		// of making the array keys the option labels. This provides backward compatibility.

@@ -2532,6 +2532,7 @@ class cnEntryMetabox {
 				$type = key( $dateTypes );
 				next( $dateTypes );
 
+				// @todo Replace with cnEntry_Date object.
 				$date = new stdClass();
 				$date->type = $type;
 

@@ -8,7 +8,7 @@
  * @property string $title
  * @property string $url
  * @property string $target
- * @property string $follow
+ * @property bool   $follow
  * @property string $followString
  * @property bool   $image
  * @property bool   $logo

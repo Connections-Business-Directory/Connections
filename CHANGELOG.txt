@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 8.22 07/18/2018 =
+* FEATURE: Introduce the Date Fieldset configuration options.
+* NEW: Introduce `cnEntry_Dates()` and `cnEntry_Date()`.
+* TWEAK: Init a new cnMessenger object instead of stdClass when creating "dummy" objects for the messenger fieldset.
+* TWEAK: Ensure `$screen` is instance of WP_Screen before accessing methods.
+* TWEAK Make data parameter in cnAddress, cnPhone, cnEmail_Address, cnLink and cnMessenger optional. Default to array.
+* TWEAK: Init each entry template field with the corresponding object instead of a generic stdClass.
+* TWEAK: If there are no active entry types, use the default entry type.
+* BUG: Get default messenger type instead of default email type in the messenger fieldset.
+* BUG: Sanitize messenger user ID correctly.
+* OTHER: Add trailing comma to array.
+* DEV: phpDoc corrections.
+
 = 8.21 06/11/2018 =
 * TWEAK: Remove usage of `$connections` global from `cnOutput::vcard()`.
 * TWEAK: Update `cnText_Domain::create()` to accept the plugin basename parameter.

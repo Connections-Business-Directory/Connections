@@ -4,6 +4,14 @@
  * Class cnLink
  *
  * @since 8.19
+ *
+ * @property string $title
+ * @property string $url
+ * @property string $target
+ * @property bool   $follow
+ * @property string $followString
+ * @property bool   $image
+ * @property bool   $logo
  */
 final class cnLink extends cnEntry_Collection_Item {
 
@@ -104,7 +112,7 @@ final class cnLink extends cnEntry_Collection_Item {
 	 *
 	 * @param array $data
 	 */
-	public function __construct( $data ) {
+	public function __construct( $data = array() ) {
 
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultLinkType();

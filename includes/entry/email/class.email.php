@@ -4,6 +4,8 @@
  * Class cnEmail_Address
  *
  * @since 8.14
+ *
+ * @property string $address
  */
 final class cnEmail_Address extends cnEntry_Collection_Item {
 
@@ -61,7 +63,7 @@ final class cnEmail_Address extends cnEntry_Collection_Item {
 	 *
 	 * @param array $data
 	 */
-	public function __construct( $data ) {
+	public function __construct( $data = array() ) {
 
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultEmailType();

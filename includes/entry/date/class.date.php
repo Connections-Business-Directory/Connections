@@ -1,27 +1,25 @@
 <?php
 
 /**
- * Class cnMessenger
+ * Class cnDate
  *
- * @since 8.16
- *
- * @property string $uid
+ * @since 8.22
  */
-final class cnMessenger extends cnEntry_Collection_Item {
+final class cnEntry_Date extends cnEntry_Collection_Item {
 
 	/**
-	 * @since 8.16
+	 * @since 8.22
 	 * @var string
 	 */
-	protected $uid = '';
+	protected $date = '';
 
 	/**
-	 * Hash map of the old array keys / object properties to cnMessenger properties.
+	 * Hash map of the old array keys / object properties to cnPhone properties.
 	 *
 	 * Used in self::__isset()
 	 *
 	 * @access protected
-	 * @since  8.16
+	 * @since  8.22
 	 * @var    array
 	 */
 	protected $properties = array(
@@ -32,16 +30,16 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		'visibility' => 'visibility',
 		'order'      => 'order',
 		'preferred'  => 'preferred',
-		'uid'        => 'uid',
+		'date'       => 'date',
 	);
 
 	/**
-	 * Hash map of the the old array keys / object properties to cnMessenger method callbacks.
+	 * Hash map of the the old array keys / object properties to cnPhone method callbacks.
 	 *
 	 * Used in self::__get()
 	 *
 	 * @access protected
-	 * @since  8.16
+	 * @since  8.22
 	 * @var    array
 	 */
 	protected $methods = array(
@@ -52,21 +50,21 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		'visibility' => 'getVisibility',
 		'order'      => 'getOrder',
 		'preferred'  => 'getPreferred',
-		'uid'        => 'getUserID',
+		'date'       => 'getDate',
 	);
 
 	/**
-	 * cnMessenger constructor.
+	 * cnEntry_Date constructor.
 	 *
 	 * @access public
-	 * @since  8.16
+	 * @since  8.22
 	 *
 	 * @param array $data
 	 */
-	public function __construct( $data = array() ) {
+	public function __construct( $data ) {
 
 		$types   = self::getTypes();
-		$default = cnOptions::getDefaultMessengerType();
+		$default = cnOptions::getDefaultDateType();
 
 		$this->id         = (int) cnArray::get( $data, 'id', 0 );
 
@@ -76,25 +74,11 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		$this->uid        = cnSanitize::field( 'messenger-id', cnArray::get( $data, 'uid', '' ), 'raw' );
+		$this->date       = cnSanitize::field( 'date', cnArray::get( $data, 'uid', '' ), 'raw' );
 
 		/*
 		 * // START -- Compatibility for previous versions.
 		 */
-		switch ( $this->type ) {
-			case 'AIM':
-				$this->type = 'aim';
-				break;
-			case 'Yahoo IM':
-				$this->type = 'yahoo';
-				break;
-			case 'Jabber / Google Talk':
-				$this->type = 'jabber';
-				break;
-			case 'Messenger':
-				$this->type = 'messenger';
-				break;
-		}
 		/*
 		 * // END -- Compatibility for previous versions.
 		 */
@@ -109,23 +93,23 @@ final class cnMessenger extends cnEntry_Collection_Item {
 	}
 
 	/**
-	 * Return an array of registered messenger types.
+	 * Return an array of registered date types.
 	 *
 	 * @access private
-	 * @since  8.16
+	 * @since  8.22
 	 *
 	 * @return array
 	 */
 	private static function getTypes() {
 
-		return cnOptions::getMessengerTypeOptions();
+		return cnOptions::getDateTypeOptions();
 	}
 
 	/**
-	 * Escaped or sanitize cnMessenger based on context.
+	 * Escaped or sanitize cnEntry_Date based on context.
 	 *
 	 * @access public
-	 * @since  8.16
+	 * @since  8.22
 	 *
 	 * @param static $self
 	 * @param string $context
@@ -139,40 +123,40 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		$self->visibility = cnSanitize::field( 'attribute', $self->visibility, $context );
 		$self->order      = absint( $self->order );
 		$self->preferred  = cnFormatting::toBoolean( $self->preferred );
-		$self->uid        = cnSanitize::field( 'messenger-id', $self->uid, $context );
+		$self->date       = cnSanitize::field( 'date', $self->date, $context );
 
 		return $self;
 	}
 
 	/**
 	 * @access public
-	 * @since  8.16
+	 * @since  8.22
 	 *
 	 * @return string
 	 */
-	public function getUserID() {
+	public function getDate() {
 
-		return $this->uid;
+		return $this->date;
 	}
 
 	/**
 	 * @access public
-	 * @since  8.16
+	 * @since  8.22
 	 *
-	 * @param string $userID
+	 * @param string $date
 	 *
 	 * @return static
 	 */
-	public function setUserID( $userID ) {
+	public function setDate( $date ) {
 
-		$this->uid = cnSanitize::field( 'messenger-id', $userID, 'raw' );
+		$this->date = cnSanitize::field( 'date', $date, 'raw' );
 
 		return $this;
 	}
 
 	/**
 	 * @access public
-	 * @since  8.16
+	 * @since  8.22
 	 *
 	 * @return array
 	 */
@@ -185,7 +169,7 @@ final class cnMessenger extends cnEntry_Collection_Item {
 			'visibility'  => $this->visibility,
 			'order'       => $this->order,
 			'preferred'   => $this->preferred,
-			'uid'         => $this->getUserID(),
+			'date'        => $this->getDate(),
 		);
 	}
 }

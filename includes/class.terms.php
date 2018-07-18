@@ -124,7 +124,6 @@ class cnTerms {
 			$termID = $value;
 		}
 
-
 		$queryChildrenIDs = $wpdb->prepare(
 			"SELECT DISTINCT * from " . CN_TERMS_TABLE . " AS t INNER JOIN " . CN_TERM_TAXONOMY_TABLE . " AS tt ON t.term_id = tt.term_id WHERE parent = %d ",
 			$termID
@@ -171,7 +170,7 @@ class cnTerms {
 	 * @param string $taxonomy
 	 * @param array  $attributes
 	 *
-	 * @return int The term id.
+	 * @return array|WP_Error An array containing the term_id and term_taxonomy_id, WP_Error otherwise.
 	 */
 	public function addTerm( $term, $taxonomy, $attributes ) {
 
@@ -216,7 +215,7 @@ class cnTerms {
 	 * @see cnTerm::delete()
 	 *
 	 * @param int    $id       Term ID.
-	 * @param int    $id       Term parent ID.
+	 * @param int    $parent   Term parent ID.
 	 * @param string $taxonomy Taxonomy name.
 	 *
 	 * @return bool|int|WP_Error

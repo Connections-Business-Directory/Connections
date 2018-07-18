@@ -4,6 +4,13 @@
  * Class cnEntry_Collection_Item
  *
  * @since 8.10
+ *
+ * @property int    $id
+ * @property int    $order
+ * @property bool   $preferred
+ * @property string $type
+ * @property string $visibility
+ * @property string $name
  */
 abstract class cnEntry_Collection_Item implements ArrayAccess, cnToArray {
 

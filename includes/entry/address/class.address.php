@@ -4,6 +4,25 @@
  * Class cnAddress
  *
  * @since 8.6
+ *
+ * @property int    $id
+ * @property int    $order
+ * @property bool   $preferred
+ * @property string $type
+ * @property string $visibility
+ * @property string $name
+ * @property string $line_1
+ * @property string $line_2
+ * @property string $line_3
+ * @property string $line_4
+ * @property string $district
+ * @property string $county
+ * @property string $locality
+ * @property string $region
+ * @property string $postal_code
+ * @property string $country
+ * @property string $latitude
+ * @property string $longitude
  */
 final class cnAddress implements ArrayAccess, cnToArray {
 
@@ -192,7 +211,7 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	 *
 	 * @param array $data
 	 */
-	public function __construct( $data ) {
+	public function __construct( $data = array() ) {
 
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultAddressType();

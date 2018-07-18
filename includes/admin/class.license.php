@@ -450,7 +450,7 @@ HERERDOC;
 		$type    = $status['type'];
 		$message = $status['message'];
 
-		if ( $screen->in_admin( 'network' ) ) {
+		if ( $screen instanceof WP_Screen && $screen->in_admin( 'network' ) ) {
 
 			$is_active = is_plugin_active_for_network( $file );
 

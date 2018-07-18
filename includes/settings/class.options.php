@@ -1047,7 +1047,7 @@ class cnOptions {
 
 	/**
 	 * Returns an associative array all core address types
-	 * including those registered via the `cn_address_options` filter.
+	 * including those registered via the `cn_link_options` filter.
 	 *
 	 * @access public
 	 * @since  8.17
@@ -1059,7 +1059,7 @@ class cnOptions {
 
 		$types = array(
 			'website' => __( 'Website' , 'connections' ),
-			'blog'    => __( 'Blog' , 'connections' )
+			'blog'    => __( 'Blog' , 'connections' ),
 		);
 
 		// Return all registered types, including the "core" types.
@@ -1186,15 +1186,18 @@ class cnOptions {
 	}
 
 	/**
-	 * Returns an array of the default date types.
+	 * Returns an associative array all core address types
+	 * including those registered via the `cn_date_options` filter.
 	 *
-	 * @access private
-	 * @since 0.7.3
+	 * @access public
+	 * @since  8.22
+	 * @static
+	 *
 	 * @return array
 	 */
-	public function getDateOptions() {
+	public static function getCoreDateTypes() {
 
-		$options = array(
+		$types = array(
 			'anniversary'          => __( 'Anniversary' , 'connections' ),
 			'baptism'              => __( 'Baptism' , 'connections' ),
 			'birthday'             => __( 'Birthday' , 'connections' ),
@@ -1207,7 +1210,127 @@ class cnOptions {
 			'ordination'           => __( 'Ordination' , 'connections' )
 		);
 
-		return apply_filters( 'cn_date_options', $options );
+		// Return all registered types, including the "core" types.
+		return array_merge( apply_filters( 'cn_date_options', $types ), $types );
+	}
+
+	/**
+	 * Return an associative array of "ACTIVE" date types as set on the Settings admin page.
+	 * Including those registered via the `cn_date_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.22
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getDateTypeOptions() {
+
+		$options = get_option( 'connections_fieldset-date' );
+
+		if ( FALSE === $options ) {
+
+			$options = self::getCoreDateTypes();
+
+		} else {
+
+			$registered = self::getCoreDateTypes();
+
+			$type    = cnArray::get( $options, 'date-types.type', $registered );
+			$active  = cnArray::get( $options, 'date-types.active', array_flip( $registered ) );
+			$order   = cnArray::get( $options, 'date-types.order', array() );
+
+			// Add active date types registered via the `cn_date_options` filter.
+			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_date_options` filter.
+			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_link_options', $active ) ) ) );
+
+			// Remove date types from the order if they do not exist in the registered link types to account for removed link types.
+			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+
+			// Reorder the saved types to the user defined order.
+			$type    = array_replace( array_flip( $order ), $registered, $type );
+
+			// Remove inactive types.
+			$options = array_intersect_key( $type, array_flip( $active ) );
+
+			foreach ( $options as &$option ) {
+
+				$option = __( $option, 'connections' );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns an array of the default date types.
+	 *
+	 * @access private
+	 * @since  0.7.3
+	 * @deprecated 8.22 Use cnOptions::getDateTypeOptions()
+	 * @see cnOptions::getDateTypeOptions()
+	 *
+	 * @return array
+	 */
+	public function getDateOptions() {
+
+		return self::getDateTypeOptions();
+	}
+
+	/**
+	 * Returns an associative array all registered date types.
+	 * Including those registered via the `cn_date_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.22
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getRegisteredDateTypes() {
+
+		$options = get_option( 'connections_fieldset-date' );
+
+		$core = self::getCoreDateTypes();
+		$type = cnArray::get( $options, 'date-types.type', $core );
+
+		return array_replace( $core, $type );
+	}
+
+	/**
+	 * Get the default date type.
+	 *
+	 * @access public
+	 * @since  8.22
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getDefaultDateType() {
+
+		$types = self::getCoreDateTypes();
+
+		$value = reset( $types );
+		$key   = key( $types );
+
+		return array( $key => $value );
+	}
+
+	/**
+	 * Return the date types that have been associated to entries.
+	 *
+	 * @access public
+	 * @since  8.22
+	 * @static
+	 *
+	 * @return array
+	 */
+	public static function getDateTypesInUse() {
+		global $wpdb;
+
+		$types = $wpdb->get_col( 'SELECT `type` FROM ' . CN_ENTRY_DATE_TABLE . ' WHERE `type` <> "" GROUP BY `type`' );
+
+		return array_intersect_key( self::getRegisteredDateTypes(), array_flip( $types ) );
 	}
 
 	/**

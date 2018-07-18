@@ -4,6 +4,8 @@
  * Class cnPhone
  *
  * @since 8.10
+ *
+ * @property string $number
  */
 final class cnPhone extends cnEntry_Collection_Item {
 
@@ -61,7 +63,7 @@ final class cnPhone extends cnEntry_Collection_Item {
 	 *
 	 * @param array $data
 	 */
-	public function __construct( $data ) {
+	public function __construct( $data = array() ) {
 
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultPhoneType();

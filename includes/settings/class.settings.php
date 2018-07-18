@@ -302,22 +302,19 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
-			'id'        => 'social',
+			'id'        => 'fieldset-date',
 			'position'  => 80,
-			'title'     => __( 'Social Networks Fieldset' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
-			),
+			'title'     => __( 'Date Fieldset' , 'connections' ),
+			'callback'  => '',
 			'page_hook' => $settings
 		);
 
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
-			'id'        => 'date',
+			'id'        => 'social',
 			'position'  => 90,
-			'title'     => __( 'Date Fieldset' , 'connections' ),
+			'title'     => __( 'Social Networks Fieldset' , 'connections' ),
 			'callback'  => create_function(
 				'',
 				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
@@ -1437,7 +1434,7 @@ class cnRegisterSettings {
 			'default'   => 0,
 		);
 
-		// Grab the phone types.
+		// Grab the messenger types.
 		$imTypes = cnOptions::getCoreMessengerTypes();
 
 		$fields[] = array(
@@ -1692,6 +1689,108 @@ class cnRegisterSettings {
 			'title'     => __( 'Per Link Assign Image', 'connections' ),
 			'desc'      => __(
 				'Enable this option to set the per link image assignment when adding a link to an entry.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'repeatable',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-date',
+			'title'     => __( 'Repeatable', 'connections' ),
+			'desc'      => __(
+				'Make the Date fieldset repeatable to allow multiple date events to be added to a single entry.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'count',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-date',
+			'title'     => '',
+			'desc'      => __(
+				'The minimum number of Date fieldsets to display.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'number',
+			'size'      => 'small',
+			'default'   => 0,
+		);
+
+		// Grab the messenger types.
+		$dateTypes = cnOptions::getCoreDateTypes();
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'date-types',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-date',
+			'title'     => __( 'Date Type Options', 'connections' ),
+			'desc'      => __(
+				'Choose which date event types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a date event. Deactivating a date type will not effect previously saved entries. Add custom date types by clicking the "Add" button. Custom date types can be removed but only if no date events are saved with that type. The "core" date types can not be removed. A "Remove" button will display for date types which can be safely removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'sortable_input-repeatable',
+			'options'   => array(
+				'items'    => $dateTypes,
+				// Any types registered via the `cn_date_options` need to be set as required.
+				'required' => array_keys( apply_filters( 'cn_date_options', array() ) ),
+			),
+			'default'   => array(
+				'order'  => array_keys( $dateTypes ),
+				// Any types registered via the `cn_date_options` filter should be set as active (enabled).
+				// The `cn_date_options` filter is applied in case a user has removed types using the filter.
+				// This ensure they default to inactive (disabled).
+				'active' => array_keys( apply_filters( 'cn_date_options', $dateTypes ) ),
+			),
+			// Only need to add this once, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeDateFieldsetSettings' )
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-preferred',
+			'position'  => 40,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-date',
+			'title'     => __( 'Preferred Date Type', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set a preferred date type when adding an date event to an entry. Disabling this option will not effect existing dates which have been set as preferred. When editing an entry with a date with this option disabled, the preferred setting of the date will be removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-visibility',
+			'position'  => 50,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-date',
+			'title'     => __( 'Per Date Visibility', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set per date visibility. When disabled, all dates will default to public. Changing this option will not effect the visibility status of previously saved dates.',
 				'connections'
 			),
 			'help'      => '',
@@ -2851,6 +2950,34 @@ class cnRegisterSettings {
 	}
 
 	/**
+	 * Callback function to sanitize the date fieldset settings.
+	 *
+	 * @access private
+	 * @since  8.22
+	 * @static
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
+	public static function sanitizeDateFieldsetSettings( $settings ) {
+
+		$active = cnArray::get( $settings, 'date-types.active', array() );
+
+		// If no date types have been selected, force select the top type.
+		if ( empty( $active ) ) {
+
+			$types    = cnArray::get( $settings, 'date-types.type' );
+			$keys     = array_flip( $types );
+			$active[] = array_shift( $keys );
+		}
+
+		cnArray::set( $settings, 'date-types.active', $active );
+
+		return $settings;
+	}
+
+	/**
 	 * Callback for the `cn_settings_field-sortable_input-repeatable-item` filter.
 	 *
 	 * Do not display the "Remove" button if the address type is currently in use/associated with an address.
@@ -2899,6 +3026,10 @@ class cnRegisterSettings {
 
 			case 'link-types':
 				$callable = array( 'cnOptions', 'getLinkTypesInUse' );
+				break;
+
+			case 'date-types':
+				$callable = array( 'cnOptions', 'getDateTypesInUse' );
 				break;
 		}
 

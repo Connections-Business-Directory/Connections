@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.21
+Stable tag: 8.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,19 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.22 07/18/2018 =
+* FEATURE: Introduce the Date Fieldset configuration options.
+* NEW: Introduce `cnEntry_Dates()` and `cnEntry_Date()`.
+* TWEAK: Init a new cnMessenger object instead of stdClass when creating "dummy" objects for the messenger fieldset.
+* TWEAK: Ensure `$screen` is instance of WP_Screen before accessing methods.
+* TWEAK Make data parameter in cnAddress, cnPhone, cnEmail_Address, cnLink and cnMessenger optional. Default to array.
+* TWEAK: Init each entry template field with the corresponding object instead of a generic stdClass.
+* TWEAK: If there are no active entry types, use the default entry type.
+* BUG: Get default messenger type instead of default email type in the messenger fieldset.
+* BUG: Sanitize messenger user ID correctly.
+* OTHER: Add trailing comma to array.
+* DEV: phpDoc corrections.
 
 = 8.21 06/11/2018 =
 * TWEAK: Remove usage of `$connections` global from `cnOutput::vcard()`.
@@ -533,61 +546,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Update EDD_SL_Plugin_Updater to 1.6.14.
 * DEV: phpDoc corrections.
 
-= 8.6.7 07/11/2017 =
-* NEW: Add Excerpt field.
-* NEW: Introduce the cnHTTP class.
-* NEW: Add support for slider and checkbox Customizer controls for the Template Customizer.
-* NEW: Introduce cnTemplate::getOption().
-* TWEAK: Save `options` column as JSON instead of serialized array.
-* TWEAK: Allow slashes in template name to permit paths.
-* TWEAK: Make cnTemplatePart::echoOrReturn() public.
-* TWEAK: Add support for exporting the order database column in the "Export All" CSV Export tool.
-* TWEAK: When unknown error occurs after performing a license check, delete the cached response.
-* TWEAK: Utilize cnArray::set() to set current user manage admin page filters array values.
-* TWEAK: Set sslverify to true by default when doing remote requests.
-* TWEAK: Update the "Rate Us" link.
-* TWEAK: Add missing margin bottom to address CSS block.
-* BUG: Fix pagination when performing a keyword search on the Connections :: Manage admin page.
-* BUG: Catch json_decode error while processing a license check.
-* BUG: No need to append the "more string" if the created excerpt is the same as the input string.
-* BUG: Correct the output buffer filters before and after the entry list so the action hooks are properly buffered.
-* BUG: Fix search in the admin s it functions correctly when filtering.
-* BUG: Fix paginating thru search results in the admin.
-* BUG: Correct img tag CSS when editing an entry.
-* COMPATIBILITY: Add support for Presscore theme fancy title.
-* OTHER: Update minified CSS.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: Remove HHVM from Travis test matrix since WP is doing the same.
-* DEV: phpDoc corrections.
-* DEV: .editorconfig tweaks.
-* DEV: Update the Gruntfile.js autoprefixer task. Update to match current core WP supported browsers.
-* DEV: Run CSS thru autoprefixer.
-
-= 8.6.6 05/23/2017 =
-* NEW: Introduce the `cn_csv_batch_export_download_headers` action hook.
-* NEW: Introduce the `cn_template_register_options-{template-slug}` filter.
-* NEW: Introduce `cnImage::download()`.
-* TWEAK: Tweak cnEntry_Address:query() to call cnRetrieve::addresses() to query as it it were saving so all addresses would be returned per the supplied args and not limited to the current user permissions.
-* TWEAK: Tweak cnEntry::getAddresses() to query addresses the user can view when not saving.
-* TWEAK: Add the screen reader text to the directory pagination to help improve a11y.
-* TWEAK: Start searching for unique slug at 0 instead of two to better make sure slugs are properly incremented.
-* BUG: Reset applied filters when when addresses to ensure all addresses are saved to the database.
-* BUG: Fix bug in cnFilesystem::uniqueFilename() introduce in WP 4.6 when WP change the filename being passed to the callback from the basename to the full name.
-* BUG: When getting a unique entry slug, the value should be saved in the cnEntry property so a unique entry slug is not queried on subsequent calls.
-* DEV: phpDoc correction.
-* DEV: Rename method property name in `cnImage::sideload()` to be consistent with other similar methods.
-* DEV: phpDoc correction.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.6.6 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
-
-= 8.6.7 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.8 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
@@ -653,4 +614,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.21 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.22 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.

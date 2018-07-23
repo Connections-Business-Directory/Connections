@@ -1366,17 +1366,19 @@ class cnEntry {
 
 		if ( $cached ) {
 
-			$results = $this->addresses->filterBy( 'type', $atts['type'] )
-			                           ->filterBy( 'district', $atts['district'] )
-			                           ->filterBy( 'county', $atts['county'] )
-			                           ->filterBy( 'city', $atts['city'] )
-			                           ->filterBy( 'state', $atts['state'] )
-			                           ->filterBy( 'zipcode', $atts['zipcode'] )
-			                           ->filterBy( 'country', $atts['country'] )
-			                           ->filterBy( 'preferred', $atts['preferred'] )
-			                           ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-			                           ->escapeFor( $context )
-			                           ->getCollectionAsObjects( $atts['limit'] );
+			$this->addresses->filterBy( 'type', $atts['type'] )
+                            ->filterBy( 'district', $atts['district'] )
+                            ->filterBy( 'county', $atts['county'] )
+                            ->filterBy( 'city', $atts['city'] )
+                            ->filterBy( 'state', $atts['state'] )
+                            ->filterBy( 'zipcode', $atts['zipcode'] )
+                            ->filterBy( 'country', $atts['country'] )
+                            ->filterBy( 'preferred', $atts['preferred'] )
+                            ->escapeFor( $context );
+
+			if ( ! $saving ) $this->addresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+
+			$results = $this->addresses->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
@@ -1455,11 +1457,13 @@ class cnEntry {
 
 		if ( $cached ) {
 
-			$results = $this->phoneNumbers->filterBy( 'type', $atts['type'] )
-			                              ->filterBy( 'preferred', $atts['preferred'] )
-			                              ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-			                              ->escapeFor( $context )
-			                              ->getCollectionAsObjects( $atts['limit'] );
+			$this->phoneNumbers->filterBy( 'type', $atts['type'] )
+			                   ->filterBy( 'preferred', $atts['preferred'] )
+			                   ->escapeFor( $context );
+
+			if ( ! $saving ) $this->phoneNumbers->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+
+			$results = $this->phoneNumbers->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
@@ -1523,11 +1527,13 @@ class cnEntry {
 
 		if ( $cached ) {
 
-			$results = $this->emailAddresses->filterBy( 'type', $atts['type'] )
-			                                ->filterBy( 'preferred', $atts['preferred'] )
-			                                ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-			                                ->escapeFor( $context )
-			                                ->getCollectionAsObjects( $atts['limit'] );
+			$this->emailAddresses->filterBy( 'type', $atts['type'] )
+			                     ->filterBy( 'preferred', $atts['preferred'] )
+			                     ->escapeFor( $context );
+
+			if ( ! $saving ) $this->emailAddresses->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+
+			$results = $this->emailAddresses->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
@@ -1599,11 +1605,13 @@ class cnEntry {
 
 		if ( $cached ) {
 
-			$results = $this->im->filterBy( 'type', $atts['type'] )
-			                    ->filterBy( 'preferred', $atts['preferred'] )
-			                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-			                    ->escapeFor( $context )
-			                    ->getCollectionAsObjects( $atts['limit'] );
+			$this->im->filterBy( 'type', $atts['type'] )
+			         ->filterBy( 'preferred', $atts['preferred'] )
+			         ->escapeFor( $context );
+
+			if ( ! $saving ) $this->im->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+
+			$results = $this->im->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
@@ -1961,13 +1969,15 @@ class cnEntry {
 
 		if ( $cached ) {
 
-			$results = $this->links->filterBy( 'type', $atts['type'] )
-			                       ->filterBy( 'preferred', $atts['preferred'] )
-			                       ->filterBy( 'image', $atts['image'] )
-			                       ->filterBy( 'logo', $atts['logo'] )
-			                       ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
-			                       ->escapeFor( $context )
-			                       ->getCollectionAsObjects( $atts['limit'] );
+			$this->links->filterBy( 'type', $atts['type'] )
+			            ->filterBy( 'preferred', $atts['preferred'] )
+			            ->filterBy( 'image', $atts['image'] )
+			            ->filterBy( 'logo', $atts['logo'] )
+			            ->escapeFor( $context );
+
+			if ( ! $saving ) $this->links->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
+
+			$results = $this->links->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 

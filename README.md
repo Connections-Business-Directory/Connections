@@ -253,6 +253,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.23 07/23/2018 =
+* BUG: Honor the `$saving` parameter when querying entry data from its object cache.
+
 = 8.22 07/18/2018 =
 * FEATURE: Introduce the Date Fieldset configuration options.
 * NEW: Introduce `cnEntry_Dates()` and `cnEntry_Date()`.

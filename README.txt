@@ -234,6 +234,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.23 07/23/2018 =
+* BUG: Honor the `$saving` parameter when querying entry data from its object cache.
+
 = 8.22 07/18/2018 =
 * FEATURE: Introduce the Date Fieldset configuration options.
 * NEW: Introduce `cnEntry_Dates()` and `cnEntry_Date()`.
@@ -617,4 +620,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.22 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.23 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.

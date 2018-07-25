@@ -2158,8 +2158,8 @@ class cnEntry {
 			$anniversary = $anniversaries->first();
 
 			$this->setAnniversary(
-				$anniversary->getDate()->format( 'd' ),
-				$anniversary->getDate()->format( 'm' )
+				(int) $anniversary->getDate()->format( 'j' ),
+				(int) $anniversary->getDate()->format( 'n' )
 			);
 		}
 
@@ -2175,8 +2175,8 @@ class cnEntry {
 			$birthday = $birthdays->first();
 
 			$this->setBirthday(
-				$birthday->getDate()->format( 'd' ),
-				$birthday->getDate()->format( 'm' )
+				(int) $birthday->getDate()->format( 'j' ),
+				(int) $birthday->getDate()->format( 'n' )
 			);
 		}
 

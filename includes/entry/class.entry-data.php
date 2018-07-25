@@ -1474,7 +1474,7 @@ class cnEntry {
 			                              ->getCollectionAsObjects();
 		}
 
-		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		// The filters need to be reset so additional calls with different params return expected results.
 		$this->phoneNumbers->resetFilters();
 
 		return $results;
@@ -1544,7 +1544,7 @@ class cnEntry {
 			                                ->getCollectionAsObjects();
 		}
 
-		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		// The filters need to be reset so additional calls with different params return expected results.
 		$this->emailAddresses->resetFilters();
 
 		return $results;
@@ -1622,7 +1622,7 @@ class cnEntry {
 			                    ->getCollectionAsObjects();
 		}
 
-		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		// The filters need to be reset so additional calls with different params return expected results.
 		$this->im->resetFilters();
 
 		return $this->im->backCompatibility( $results );

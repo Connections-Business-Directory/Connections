@@ -172,8 +172,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 	 */
 	public function toArray() {
 
-		//$date = $this->getDate() instanceof DateTime ? $this->getDate()->format( 'Y-m-d' ) : '';
-		$date = $this->getDate() instanceof DateTime ? $this->getDate()->format( 'r' ) : '';
+		$date = $this->getDate() instanceof DateTime ? $this->getDate()->format( 'Y-m-d' ) : '';
 
 		return array(
 			'id'          => $this->getID(),

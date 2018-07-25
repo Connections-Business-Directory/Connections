@@ -77,7 +77,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		//$this->date       = cnSanitize::field( 'date', cnArray::get( $data, 'uid', '' ), 'raw' );
 
 		$this->date       = date_create(
-			cnSanitize::field( 'date', cnArray::get( $data, 'date', '' ), 'raw' ),
+			cnArray::get( $data, 'date', '' ),
 			new DateTimeZone( 'UTC' )
 		);
 
@@ -156,10 +156,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 
 		//$this->date = cnSanitize::field( 'date', $date, 'raw' );
 
-		$this->date = date_create(
-			cnSanitize::field( 'date', $date, 'raw' ),
-			new DateTimeZone( 'UTC' )
-		);
+		$this->date = date_create( $date, new DateTimeZone( 'UTC' ) );
 
 		return $this;
 	}

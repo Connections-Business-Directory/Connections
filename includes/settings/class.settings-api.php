@@ -912,7 +912,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 						$out .= sprintf(
 							'<p class="description"> %1$s</p>',
-							esc_html( $field['desc'] )
+							wp_kses_post( $field['desc'] )
 						);
 					}
 

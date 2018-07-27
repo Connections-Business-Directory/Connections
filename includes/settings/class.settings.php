@@ -788,9 +788,14 @@ class cnRegisterSettings {
 			'tab'       => 'display',
 			'section'   => 'connections_display_list',
 			'title'     => __( 'Content Blocks', 'connections' ),
-			'desc'      => __(
-				'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.',
-				'connections'
+			'desc'      => sprintf(
+				wp_kses(
+					__( 'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
+					    'connections'
+					),
+					array(  'a' => array( 'href' => array(), 'target' => array() ) )
+				),
+				esc_url( 'https://connections-pro.com/documentation/settings/#Content_Blocks' )
 			),
 			'help'      => '',
 			'type'      => 'sortable_checklist',
@@ -862,9 +867,14 @@ class cnRegisterSettings {
 			'tab'       => 'display',
 			'section'   => 'connections_display_single',
 			'title'     => __( 'Content Blocks', 'connections' ),
-			'desc'      => __(
-				'Whether a content block should be shown. Read more by clicking this link. NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchase a commercial template, it may need to be updated in order to support this feature.',
-				'connections'
+			'desc'      => sprintf(
+				wp_kses(
+					__( 'Whether a content block should be shown. <a href="%s" target="_blank">Read more by clicking this link.</a> NOTE: Content block support must be enabled in the template to have an effect. All the core templates support this feature. If you have purchased a commercial template, it may need to be updated in order to support this feature.',
+					    'connections'
+					),
+					array(  'a' => array( 'href' => array(), 'target' => array() ) )
+				),
+				esc_url( 'https://connections-pro.com/documentation/settings/#Content_Blocks-2' )
 			),
 			'help'      => '',
 			'type'      => 'sortable_checklist',

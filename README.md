@@ -253,6 +253,16 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.24 07/27/2018 =
+* NEW: Introduce `cnString::replaceFirst()` and `cnString::replaceLast()`.
+* TWEAK: Refactor `cnEntry` to utilize `cnEntry_Dates`.
+* TWEAK: Refactor `cnShortcode::single()` to utilize `cnString::replaceFirst()`.
+* TWEAK: Use `wp_kses_post()` instead of `esc_html()` to display setting descriptions so HTML such as links can be used.
+* TWEAK: Add missing link to documentation in the content block setting descriptions.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* OTHER: Correct copy/paste error within some inline code comments.
+
 = 8.23 07/23/2018 =
 * BUG: Honor the `$saving` parameter when querying entry data from its object cache.
 

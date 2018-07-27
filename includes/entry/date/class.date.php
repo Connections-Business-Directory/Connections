@@ -9,7 +9,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 
 	/**
 	 * @since 8.22
-	 * @var string
+	 * @var DateTime|false
 	 */
 	protected $date = '';
 
@@ -74,7 +74,12 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		$this->date       = cnSanitize::field( 'date', cnArray::get( $data, 'uid', '' ), 'raw' );
+		//$this->date       = cnSanitize::field( 'date', cnArray::get( $data, 'uid', '' ), 'raw' );
+
+		$this->date       = date_create(
+			cnArray::get( $data, 'date', '' ),
+			new DateTimeZone( 'UTC' )
+		);
 
 		/*
 		 * // START -- Compatibility for previous versions.
@@ -123,7 +128,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$self->visibility = cnSanitize::field( 'attribute', $self->visibility, $context );
 		$self->order      = absint( $self->order );
 		$self->preferred  = cnFormatting::toBoolean( $self->preferred );
-		$self->date       = cnSanitize::field( 'date', $self->date, $context );
+		//$self->date       = cnSanitize::field( 'date', $self->date, $context );
 
 		return $self;
 	}
@@ -132,7 +137,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 	 * @access public
 	 * @since  8.22
 	 *
-	 * @return string
+	 * @return DateTime|false
 	 */
 	public function getDate() {
 
@@ -149,7 +154,9 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 	 */
 	public function setDate( $date ) {
 
-		$this->date = cnSanitize::field( 'date', $date, 'raw' );
+		//$this->date = cnSanitize::field( 'date', $date, 'raw' );
+
+		$this->date = date_create( $date, new DateTimeZone( 'UTC' ) );
 
 		return $this;
 	}
@@ -162,6 +169,8 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 	 */
 	public function toArray() {
 
+		$date = $this->getDate() instanceof DateTime ? $this->getDate()->format( 'Y-m-d' ) : '';
+
 		return array(
 			'id'          => $this->getID(),
 			'type'        => $this->type,
@@ -169,7 +178,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 			'visibility'  => $this->visibility,
 			'order'       => $this->order,
 			'preferred'   => $this->preferred,
-			'date'        => $this->getDate(),
+			'date'        => $date,
 		);
 	}
 }

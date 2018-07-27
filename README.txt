@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.23
+Stable tag: 8.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,16 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.24 07/27/2018 =
+* NEW: Introduce `cnString::replaceFirst()` and `cnString::replaceLast()`.
+* TWEAK: Refactor `cnEntry` to utilize `cnEntry_Dates`.
+* TWEAK: Refactor `cnShortcode::single()` to utilize `cnString::replaceFirst()`.
+* TWEAK: Use `wp_kses_post()` instead of `esc_html()` to display setting descriptions so HTML such as links can be used.
+* TWEAK: Add missing link to documentation in the content block setting descriptions.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* OTHER: Correct copy/paste error within some inline code comments.
 
 = 8.23 07/23/2018 =
 * BUG: Honor the `$saving` parameter when querying entry data from its object cache.
@@ -533,28 +543,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Add missing space.
 * OTHER: Update the Chosen library from 1.6.1 to 1.7.
 
-= 8.6.8 07/28/2017 =
-* NEW: Auto register custom text and textarea fields with the search the search settings and add logic to the search function to support those fields if enabled in the settings.
-* TWEAK: Remove option to disable the enqueueing of the core CSS styles.
-* TWEAK: Prefix textarea id with `cn-` to avoid conflicting with other plugin's admin notices which assign id to "message" so RTE is loaded on the correct HTML node.
-* TWEAK: Use `get_locale()` instead of `WPLANG` in the System Info.
-* TWEAK: Set 'autoload' to false on option value.
-* TWEAK: Check for core template files before including them.
-* BUG: Include a bugfix to the parseCSV library which corrects unparsing an array with empty "cells".
-* OTHER: Update "Tested up to:" in readme.
-* OTHER: Add a "Featured Partners" Dashboard widget and add a "Connections" tab to the Install Plugin admin page featuring all the add-ons.
-* OTHER: Reorder default positions of the Dashboard widgets.
-* OTHER: Update the News Dashboard widget.
-* OTHER: Update minified admin CSS.
-* OTHER: Update EDD_SL_Plugin_Updater to 1.6.14.
-* DEV: phpDoc corrections.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.6.8 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.9 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
@@ -623,4 +614,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.23 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.24 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.

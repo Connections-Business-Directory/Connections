@@ -149,12 +149,10 @@ class cnEntry {
 
 	/**
 	 * The date data stored serialized array.
-	 *
-	 * @var string
-	 *
 	 * @since 0.7.3.0
+	 * @var cnEntry_Dates
 	 */
-	private $dates = '';
+	public $dates = '';
 
 	/**
 	 * @since 8.19
@@ -323,6 +321,7 @@ class cnEntry {
 
 		$this->im    = new cnEntry_Messenger_IDs();
 		$this->links = new cnEntry_Links();
+		$this->dates = new cnEntry_Dates();
 
 		if ( ! is_null( $entry ) ) {
 
@@ -352,6 +351,7 @@ class cnEntry {
 
 			$this->im->setEntryID( $this->getId() );
 			$this->links->setEntryID( $this->getId() );
+			$this->dates->setEntryID( $this->getId() );
 
 			if ( isset( $entry->im ) ) {
 
@@ -363,8 +363,13 @@ class cnEntry {
 				$this->links->fromMaybeSerialized( $entry->links );
 			}
 
+			if ( isset( $entry->dates ) ) {
+
+				$this->dates->fromMaybeSerialized( $entry->dates );
+			}
+
 			if ( isset( $entry->social ) ) $this->socialMedia = $entry->social;
-			if ( isset( $entry->dates ) ) $this->dates = $entry->dates;
+			//if ( isset( $entry->dates ) ) $this->dates = $entry->dates;
 
 			if ( isset( $entry->birthday ) ) $this->birthday = (integer) $entry->birthday;
 			if ( isset( $entry->anniversary ) ) $this->anniversary = (integer) $entry->anniversary;
@@ -1474,7 +1479,7 @@ class cnEntry {
 			                              ->getCollectionAsObjects();
 		}
 
-		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		// The filters need to be reset so additional calls with different params return expected results.
 		$this->phoneNumbers->resetFilters();
 
 		return $results;
@@ -1544,7 +1549,7 @@ class cnEntry {
 			                                ->getCollectionAsObjects();
 		}
 
-		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		// The filters need to be reset so additional calls with different params return expected results.
 		$this->emailAddresses->resetFilters();
 
 		return $results;
@@ -1622,7 +1627,7 @@ class cnEntry {
 			                    ->getCollectionAsObjects();
 		}
 
-		// The filters need to be reset so additional calls to get addresses with different params return expected results.
+		// The filters need to be reset so additional calls with different params return expected results.
 		$this->im->resetFilters();
 
 		return $this->im->backCompatibility( $results );
@@ -2074,383 +2079,107 @@ class cnEntry {
 	/**
 	 * Returns as an array of objects containing the dates per the defined options for the current entry.
 	 *
-	 * Accepted options for the $atts property are:
-	 * preferred (bool) Retrieve the preferred entry date.
-	 *  type (array) || (string) Retrieve specific date types.
-	 *   Permitted Types:
-	 *    baptism
-	 *    certification
-	 *    employment
-	 *    membership
-	 *    graduate_high_school
-	 *    graduate_college
-	 *    ordination
-	 *
-	 * Filters:
-	 *  cn_date_atts => (array) Set the method attributes.
-	 *  cn_date_cached => (bool) Define if the returned dates should be from the object cache or queried from the db.
-	 *  cn_date => (object) Individual date as it is processed thru the loop.
-	 *  cn_dates => (array) All dates before they are returned.
+	 * NOTE: In version 8.24
 	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $atts         Accepted values as noted above.
-	 * @param bool    $cached       Returns the cached date data rather than querying the db.
-	 * @param bool    $saving       Whether or no the data is being saved to the db.
+	 * @since  0.7.3
+	 * @since  8.24  Loading the legacy anniversary/birthday fields back into the results from the
+	 *               date table data was removed. This data was being added back to the results for
+	 *               backward compatibility with versions 0.7.2.6 and older.
+	 *
+	 * @param array  $atts    Accepted values as noted above.
+	 * @param bool   $cached  Returns the cached date data rather than querying the db.
+	 * @param bool   $saving  Whether or no the data is being saved to the db.
+	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
 	 */
-	public function getDates( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+	public function getDates( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		$results = array();
-
-		$atts = apply_filters( 'cn_date_atts', $atts );
-		$cached = apply_filters( 'cn_date_cached' , $cached );
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred'   => FALSE,
+			'type'        => array(),
+			'limit'       => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
-
-		/*
-		 * Load back into the results the data from the legacy fields, anniversary and birthday,
-		 * for backward compatibility with versions 0.7.2.6 and older.
-		 */
-		if ( ! empty( $this->anniversary ) ) {
-
-			$anniversary = new stdClass();
-
-			$anniversary->id = 0;
-			$anniversary->order = 0;
-			$anniversary->preferred = FALSE;
-			$anniversary->type = 'anniversary';
-			$anniversary->name = __( 'Anniversary', 'connections' );
-			$anniversary->date = $this->getAnniversary( 'Y-m-d' );
-			$anniversary->day = $this->getAnniversary( 'm-d' );
-			$anniversary->visibility = 'public';
-
-			$results['anniversary'] = $anniversary;
-		}
-
-		if ( ! empty( $this->birthday ) ) {
-			$birthday = new stdClass();
-
-			$birthday->id = 0;
-			$birthday->order = 0;
-			$birthday->preferred = FALSE;
-			$birthday->type = 'birthday';
-			$birthday->name = __( 'Birthday', 'connections' );
-			$birthday->date = $this->getBirthday( 'Y-m-d' );
-			$birthday->day = $this->getBirthday( 'm-d' );
-			$birthday->visibility = 'public';
-
-			$results['birthday'] = $birthday;
-		}
 
 		if ( $cached ) {
 
-			if ( ! empty( $this->dates ) ) {
+			$this->dates->filterBy( 'type', $atts['type'] )
+			            ->filterBy( 'preferred', $atts['preferred'] )
+			            ->escapeFor( $context );
 
-				$dates = unserialize( $this->dates );
-				if ( empty( $dates ) ) return $results;
+			if ( ! $saving ) $this->dates->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
 
-				/**
-				 * @var bool   $preferred
-				 * @var string $type
-				 */
-				extract( $atts );
+			$results = $this->dates->getCollectionAsObjects( $atts['limit'] );
 
-				/**
-				 * Covert to an array if it was supplied as a comma delimited string
-				 * @var array $type
-				 */
-				cnFunction::parseStringList( $type );
-
-				foreach ( (array) $dates as $key => $date ) {
-
-					/**
-					 * Allow plugins to filter raw data before object is setup.
-					 *
-					 * @since 8.5.19
-					 *
-					 * @param array $date
-					 */
-					$date = apply_filters( 'cn_date-pre_setup', $date );
-
-					$row = new stdClass();
-
-					( isset( $date['id'] ) ) ? $row->id = (int) $date['id'] : $row->id = 0;
-					( isset( $date['order'] ) ) ? $row->order = (int) $date['order'] : $row->order = 0;
-					( isset( $date['preferred'] ) ) ? $row->preferred = (bool) $date['preferred'] : $row->preferred = FALSE;
-					( isset( $date['type'] ) ) ? $row->type = $this->format->sanitizeString( $date['type'] ) : $row->type = '';
-					( isset( $date['date'] ) ) ? $row->date = $this->format->sanitizeString( $date['date'] ) : $row->date = '';
-					( isset( $date['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $date['visibility'] ) : $row->visibility = '';
-
-					/*
-					 * Set the date name based on the type.
-					 */
-					$dateTypes = $instance->options->getDateOptions();
-					$row->name = $dateTypes[ $row->type ];
-
-					/*
-					 * If the date type is anniversary or birthday and the date is equal to the date
-					 * saved in the legacy fields, unset the data imported from the legacy field.
-					 * This is for compatibility with versions 0.7.2.6 and older.
-					 *
-					 * NOTE: Only the month and day will be compared because the legacy getAnniversary() and getBirthday() methods
-					 * will return the year of the next anniversary or birthday. IE: if that date in the current year has already
-					 * passed the year would be the next year.
-					 */
-					if ( ( 'anniversary' == $row->type ) && ( isset( $results['anniversary'] ) ) && ( substr( $row->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
-					if ( ( 'birthday' == $row->type ) && ( isset( $results['birthday'] ) ) && ( substr( $row->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
-
-					/*
-					 * // START -- Do not return dates that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					/*
-					 * // END -- Do not return dates that do not match the supplied $atts.
-					 */
-
-					/*
-					 * // START -- Compatibility for previous versions.
-					 */
-					// Versions prior to 8.1.5 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
-					if ( ! isset( $date['visibility'] ) || empty( $date['visibility'] ) ) $row->visibility = 'public';
-					/*
-					 * // END -- Compatibility for previous versions.
-					 */
-
-					// If the user does not have permission to view the address, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					$results[] = apply_filters( 'cn_date', $row );
-				}
-
-			}
 		} else {
 
-			// Exit right away and return an emtpy array if the entry ID has not been set otherwise all dates will be returned by the query.
-			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
-			$dates = $instance->retrieve->dates( $atts, $saving );
-
-			if ( empty( $dates ) ) return $results;
-
-			foreach ( $dates as $date ) {
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$date = apply_filters( 'cn_date-pre_setup', $date );
-
-				$date->id = (int) $date->id;
-				$date->order = (int) $date->order;
-				$date->preferred = (bool) $date->preferred;
-				$date->type = $this->format->sanitizeString( $date->type );
-				$date->date = $this->format->sanitizeString( $date->date );
-				$date->visibility = $this->format->sanitizeString( $date->visibility );
-
-				/*
-				 * Set the date name based on the date type.
-				 */
-				$dateTypes = $instance->options->getDateOptions();
-				$date->name = $dateTypes[ $date->type ];
-
-				/*
-				 * If the date type is anniversary or birthday and the date is equal to the date
-				 * saved in the legacy fields are the same, unset the data imported from the legacy field.
-				 * This is for compatibility with versions 0.7.2.6 and older.
-				 */
-				if ( 'anniversary' == $date->type && isset( $results['anniversary'] ) && $date->date == $results['anniversary']->date ) unset( $results['anniversary'] );
-				if ( 'birthday' == $date->type && isset( $results['birthday'] ) && $date->date == $results['birthday']->date ) unset( $results['birthday'] );
-
-				/*
-				 * If the date type is anniversary or birthday and the date is equal to the date
-				 * saved in the legacy fields, unset the data imported from the legacy field.
-				 * This is for compatibility with versions 0.7.2.6 and older.
-				 *
-				 * NOTE: Only the month and day will be compared because the legacy getAnniversary() and getBirthday() methods
-				 * will return the year of the next anniversary or birthday. IE: if that date in the current year has already
-				 * passed the year would be the next year.
-				 */
-				if ( ( 'anniversary' == $date->type ) && ( isset( $results['anniversary'] ) ) && ( substr( $date->date, 5, 5 ) == $results['anniversary']->day ) ) unset( $results['anniversary'] );
-				if ( ( 'birthday' == $date->type ) && ( isset( $results['birthday'] ) ) && ( substr( $date->date, 5, 5 ) == $results['birthday']->day ) ) unset( $results['birthday'] );
-
-				$results[] = apply_filters( 'cn_date', $date );
-			}
-
+			$results = $this->dates->query( $atts )
+			                       ->escapeFor( $context )
+			                       ->getCollectionAsObjects();
 		}
 
-		return apply_filters( 'cn_dates', $results );
+		// The filters need to be reset so additional calls with different params return expected results.
+		$this->dates->resetFilters();
+
+		return $results;
 	}
 
 	/**
 	 * Caches the dates for use and preps for saving and updating.
 	 *
-	 * Valid values as follows.
-	 *
-	 * $date['id'] (int) Stores the date ID if it was retrieved from the db.
-	 * $date['preferred'] (bool) If the date is the preferred date or not.
-	 * $date['type'] (string) Stores the date type.
-	 * $date['date'] (string) Stores date.
-	 * $date['visibility'] (string) Stores the date visibility.
-	 *
-	 * @TODO Consider using strtotime on $date['date'] to help ensure date_create() does not return FALSE.
-	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $dates
-	 * @return void
+	 * @since  0.7.3
+	 *
+	 * @param array $data
 	 */
-	public function setDates( $dates ) {
+	public function setDates( $data ) {
 
-		$userPreferred = NULL;
+		$this->dates->updateFromArray( $data );
 
 		/*
-		 * These will be used to store the first anniversary and birthday entered by the user.
+		 * Check to see if the date is an anniversary or birthday and store them.
+		 * These will then be sent and saved using the legacy methods for backward compatibility
+		 * with version 0.7.2.6 and older.
 		 */
-		$anniversary = array();
-		$birthday = array();
+		$anniversaries = $this->dates->filterBy( 'type', 'anniversary' )
+		                             ->escapeFor( 'db' )
+		                             ->getCollection( 1 );
 
-		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'date' => NULL, 'visibility' => NULL );
+		$this->dates->resetFilters();
 
-		if ( ! empty( $dates ) ) {
+		if ( $anniversaries->count() ) {
 
-			$order = 0;
-			$preferred = '';
+			/** @var cnEntry_Date $anniversary */
+			$anniversary = $anniversaries->first();
 
-			if ( isset( $dates['preferred'] ) ) {
-				$preferred = $dates['preferred'];
-				unset( $dates['preferred'] );
-			}
-
-			foreach ( $dates as $key => $date ) {
-
-				// First validate the supplied data.
-				$date = cnSanitize::args( $date, $validFields );
-
-				// If the date is empty, no need to store it.
-				if ( empty( $date['date'] ) ) {
-					unset( $dates[ $key ] );
-					continue;
-				}
-
-				// Store the order attribute as supplied in the date array.
-				$dates[ $key ]['order'] = $order;
-
-				( ( isset( $preferred ) ) && $preferred == $key ) ? $dates[ $key ]['preferred'] = TRUE : $dates[ $key ]['preferred'] = FALSE;
-
-				/*
-				 * If the user set a preferred date, save the $key value.
-				 * This is going to be needed because if a date that the user
-				 * does not have permission to edit is set to preferred, that date
-				 * will have preference.
-				 */
-				if ( $dates[ $key ]['preferred'] ) $userPreferred = $key;
-
-				/*
-				 * Format the supplied date correctly for the table column:  YYYY-MM-DD
-				 * @TODO Consider using strtotime on $date['date'] to help ensure date_create() does not return FALSE.
-				 */
-				$currentDate = date_create( $date['date'] );
-
-				/*
-				 * Make sure the date object created correctly.
-				 */
-				if ( FALSE === $currentDate ) continue;
-
-				$dates[ $key ]['date'] = date_format( $currentDate, 'Y-m-d' );
-
-				/*
-				 * Check to see if the date is an anniversary or birthday and store them.
-				 * These will then be sent and saved using the legacy methods for backward compatibility
-				 * with version 0.7.2.6 and older.
-				 */
-				switch ( $date['type'] ) {
-					case 'anniversary':
-
-						if ( empty( $anniversary ) ) {
-							$anniversary['month'] = date_format( $currentDate , 'm' );
-							$anniversary['day'] = date_format( $currentDate , 'd' );
-
-							$this->setAnniversary( $anniversary['day'], $anniversary['month'] );
-						}
-
-						break;
-
-					case 'birthday':
-
-						if ( empty( $birthday ) ) {
-							$birthday['month'] = date_format( $currentDate , 'm' );
-							$birthday['day'] = date_format( $currentDate , 'd' );
-
-							$this->setBirthday( $birthday['day'], $birthday['month'] );
-						}
-
-						break;
-				}
-
-				$order++;
-			}
+			$this->setAnniversary(
+				(int) $anniversary->getDate()->format( 'j' ),
+				(int) $anniversary->getDate()->format( 'n' )
+			);
 		}
 
-		/*
-		 * If no anniversary or birthday date types were set, ensure the dates stored are emptied
-		 * for backward compatibility with version 0.7.2.6 and older.
-		 */
-		if ( empty( $anniversary ) ) $this->anniversary = '';
-		if ( empty( $birthday ) ) $this->birthday = '';
+		$birthdays = $this->dates->filterBy( 'type', 'birthday' )
+		                         ->escapeFor( 'db' )
+		                         ->getCollection( 1 );
 
-		/*
-		 * Before storing the data, add back into the array from the cache the dates
-		 * the user may not have had permission to edit so the cache stays current.
-		 */
-		$cached = unserialize( $this->dates );
+		$this->dates->resetFilters();
 
-		if ( ! empty( $cached ) ) {
+		if ( $birthdays->count() ) {
 
-			foreach ( $cached as $date ) {
+			/** @var cnEntry_Date $birthday */
+			$birthday = $birthdays->first();
 
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( ! isset( $date['visibility'] ) || empty( $date['visibility'] ) ) $date['visibility'] = 'public';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$date = apply_filters( 'cn_date-pre_setup', $date );
-
-				if ( ! $this->validate->userPermitted( $date['visibility'] ) ) {
-					//$dates[] = $date;
-
-					// If the date is preferred, it takes precedence, so the user's choice is overridden.
-					if ( ! empty( $preferred ) && $date['preferred'] ) {
-						$dates[ $userPreferred ]['preferred'] = FALSE;
-
-						// Throw the user a message so they know why their choice was overridden.
-						cnMessage::set( 'error', 'entry_preferred_overridden_date' );
-					}
-				}
-			}
+			$this->setBirthday(
+				(int) $birthday->getDate()->format( 'j' ),
+				(int) $birthday->getDate()->format( 'n' )
+			);
 		}
 
-		$this->dates = ! empty( $dates ) ? serialize( $dates ) : '';
 	}
 
 	/**
@@ -3632,7 +3361,7 @@ class cnEntry {
 				//'im'                 => $this->im,
 				'social'             => $this->socialMedia,
 				//'links'              => $this->links,
-				'dates'              => $this->dates,
+				//'dates'              => $this->dates,
 				'options'            => wp_json_encode( $this->options ),
 				'bio'                => $this->bio,
 				'notes'              => $this->notes,
@@ -3669,7 +3398,7 @@ class cnEntry {
 				//'%s', // im
 				'%s', // social
 				//'%s', // links
-				'%s', // dates
+				//'%s', // dates
 				'%s', // options
 				'%s', // bio
 				'%s', // notes
@@ -3698,6 +3427,7 @@ class cnEntry {
 			$this->emailAddresses->save();
 			$this->im->save();
 			$this->links->save();
+			$this->dates->save();
 
 			$cnDb->upsert(
 				CN_ENTRY_SOCIAL_TABLE,
@@ -3709,21 +3439,6 @@ class cnEntry {
 					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE ),
-				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' ),
-				)
-			);
-
-			$cnDb->upsert(
-				CN_ENTRY_DATE_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'date'       => array( 'key' => 'date', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getDates( array(), TRUE, TRUE ),
 				array(
 					'id' => array( 'key' => 'id', 'format' => '%d' ),
 				)
@@ -3769,7 +3484,7 @@ class cnEntry {
 		$links = $this->getLinks( array(), FALSE, TRUE, 'db' );
 		$links = json_decode( json_encode( $links ), TRUE );
 
-		$dates = $this->getDates( array(), FALSE, TRUE );
+		$dates = $this->getDates( array(), FALSE, TRUE, 'db' );
 		$dates = json_decode( json_encode( $dates ), TRUE );
 
 		//$this->phoneNumbers   = serialize( $phoneNumbers );
@@ -3777,7 +3492,7 @@ class cnEntry {
 		//$this->im             = serialize( $im );
 		$this->socialMedia    = serialize( $socialNetworks );
 		//$this->links          = serialize( $links );
-		$this->dates          = serialize( $dates );
+		//$this->dates          = serialize( $dates );
 
 		$wpdb->update(
 			CN_ENTRY_TABLE,
@@ -3789,7 +3504,7 @@ class cnEntry {
 				'im'            => serialize( $im ),
 				'social'        => $this->socialMedia,
 				'links'         => serialize( $links ),
-				'dates'         => $this->dates,
+				'dates'         => serialize( $dates ),
 			),
 			array( 'id' => $this->id ),
 			array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', ),
@@ -3843,7 +3558,7 @@ class cnEntry {
 				//'im'                 => $this->im,
 				'social'             => $this->socialMedia,
 				//'links'              => $this->links,
-				'dates'              => $this->dates,
+				//'dates'              => $this->dates,
 				'birthday'           => $this->birthday,
 				'anniversary'        => $this->anniversary,
 				'bio'                => $this->bio,
@@ -3880,7 +3595,7 @@ class cnEntry {
 				//'%s', // im
 				'%s', // social
 				//'%s', // links
-				'%s', // dates
+				//'%s', // dates
 				'%s', // birthday
 				'%s', // anniversary
 				'%s', // bio
@@ -3914,6 +3629,7 @@ class cnEntry {
 			$this->emailAddresses->setEntryID( $this->getId() )->save();
 			$this->im->setEntryID( $this->getId() )->save();
 			$this->links->setEntryID( $this->getId() )->save();
+			$this->dates->setEntryID( $this->getId() )->save();
 
 			$cnDb->insert(
 				CN_ENTRY_SOCIAL_TABLE,
@@ -3925,18 +3641,6 @@ class cnEntry {
 					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 				),
 				$this->getSocialMedia( array(), TRUE, TRUE )
-			);
-
-			$cnDb->insert(
-				CN_ENTRY_DATE_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'date'       => array( 'key' => 'date', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getDates( array(), TRUE, TRUE )
 			);
 
 			$this->updateObjectCaches();

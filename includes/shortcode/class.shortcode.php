@@ -386,7 +386,7 @@ class cnShortcode {
 	 */
 	public static function single( $content ) {
 
-		//error_log( 'PRE-SINGLE: ' . $content );
+		//error_log( "\n" . 'PRE-SINGLE: ' . $content . "\n" );
 
 		$slug    = cnQuery::getVar( 'cn-entry-slug' );
 		$matches = self::find( 'connections', $content, 'matches' );
@@ -429,7 +429,8 @@ class cnShortcode {
 				// Remove all but the first shortcode from the post content.
 				if ( 0 < $key ) {
 
-					$content = str_replace( $match[0], '', $content );
+					//$content = str_replace( $match[0], '', $content );
+					$content = cnString::replaceFirst( $match[0], '', $content );
 
 				// Rewrite the shortcode, adding the entry slug to the shortcode.
 				} else {
@@ -444,12 +445,13 @@ class cnShortcode {
 
 					$shortcode = cnShortcode::write( 'connections', $atts );
 
-					$content = str_replace( $match[0], $shortcode, $content );
+					//$content = str_replace( $match[0], $shortcode, $content );
+					$content = cnString::replaceFirst( $match[0], $shortcode, $content );
 				}
 			}
 		}
 
-		//error_log( 'POST-SINGLE: ' . $content );
+		//error_log( "\n" . 'POST-SINGLE: ' . $content . "\n" );
 
 		return $content;
 	}

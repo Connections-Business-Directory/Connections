@@ -1747,6 +1747,53 @@ class cnString {
 	}
 
 	/**
+	 * Replace only the FIRST occurrence of the search string with the replacement string.
+	 *
+	 * @link https://stackoverflow.com/a/1252710/5351316
+	 * @link https://stackoverflow.com/a/22274299/5351316
+	 *
+	 * @access public
+	 * @since  8.24
+	 * @static
+	 *
+	 * @param string $search
+	 * @param string $replace
+	 * @param string $subject
+	 *
+	 * @return mixed
+	 */
+	public static function replaceFirst( $search, $replace, $subject ) {
+
+		if ( FALSE !== $pos = strpos( $subject, $search ) ) {
+
+			$subject = substr_replace( $subject, $replace, $pos, strlen( $search ) );
+		}
+
+		return $subject;
+	}
+
+	/**
+	 * Replace only the LAST occurrence of the search string with the replacement string.
+	 *
+	 * @link https://stackoverflow.com/a/22269776/5351316
+	 * @link https://stackoverflow.com/a/22274299/5351316
+	 *
+	 * @access public
+	 * @since  8.24
+	 * @static
+	 *
+	 * @param string $search
+	 * @param string $replace
+	 * @param string $subject
+	 *
+	 * @return mixed
+	 */
+	public static function replaceLast( $search, $replace, $subject ) {
+
+		return substr_replace( $subject, $replace, strrpos( $subject, $search ), strlen( $search ) );
+	}
+
+	/**
 	 * General purpose function to do a little more than just white-space trimming and cleaning, it can do
 	 * characters-to-replace and characters-to-replace-with. You can do the following:
 	 *

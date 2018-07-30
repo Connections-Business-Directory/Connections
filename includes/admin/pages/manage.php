@@ -760,7 +760,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					echo "</td> \n";
 
 					echo "<td>";
-					$entry->getDateBlock();
+					$entry->dates->render( 'admin' );
 					echo "</td> \n";
 					echo "</tr> \n";
 

@@ -1908,11 +1908,10 @@ class cnOutput extends cnEntry {
 	 * @since 0.7.3
 	 *
 	 * @param array $atts   Accepted values as noted above.
-	 * @param bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getDateBlock( $atts = array(), $cached = TRUE ) {
+	public function getDateBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred'   => NULL,

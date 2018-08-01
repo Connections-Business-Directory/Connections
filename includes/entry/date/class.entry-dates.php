@@ -228,9 +228,9 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 		if ( $this->filtered->isEmpty() ) return NULL;
 
 		$html = cnTemplatePart::get(
-			'entry' . DIRECTORY_SEPARATOR . 'date' . DIRECTORY_SEPARATOR . 'date',
+			'entry' . DIRECTORY_SEPARATOR . 'dates' . DIRECTORY_SEPARATOR . 'date',
 			$template,
-			array_merge( array( 'networks' => $this->getCollection() ), $atts ),
+			array_merge( array( 'dates' => $this->getCollection() ), $atts ),
 			$load,
 			$buffer,
 			$require_once

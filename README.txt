@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.24
+Stable tag: 8.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.25 08/01/2018 =
+* TWEAK: Refactor the Manage admin page to utilize `cnEntryDates::render()`.
+* TWEAK: Refactor `cnEntry_Output::getDateBlock()` to utilize the `cnEntry_Dates` objects `render()` method using templates.
+* TWEAK: Remove unused parameters from methods in cnOutput.
+* BUG: Correct a couple typos in `cnEntry_Dates::render()`.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phpDoc correction.
 
 = 8.24 07/27/2018 =
 * NEW: Introduce `cnString::replaceFirst()` and `cnString::replaceLast()`.
@@ -529,26 +538,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Function should be static.
 * DEV: Add a few missing phpDoc blocks.
 
-= 8.6.9 08/11/2017 =
-* NEW: Introduce `cnGoogleMapsTimeZone` wrapper for the Google Timezone API and `cnTimezone` classes.
-* NEW: Add Pear File_IMC as a vendor library.
-* TWEAK: Tweak the require_once logic in the Card and Profile template to allow them to be pulled out and activated as plugins without causing PHP errors when trying to run the Template Customizer.
-* TWEAK: Rename `cnvCard` to `cnEntry_vCard`.
-* TWEAK: Refactor cnEntry_vCard to utilize the File_IMC_Build_Vcard class.
-* TWEAK: Correct the value for the label to properly associate it to the search input.
-* TWEAK: Add a value for the search submit button then use CSS to hide it for a11y.
-* BUG: Ensure the parsed shortcode atts is an array before attempting to add values to the atts array.
-* BUG: Deal with custom field names which contain punctuation and other extended characters.
-* OTHER: Indent with tabs, not spaces.
-* OTHER: Add missing space.
-* OTHER: Update the Chosen library from 1.6.1 to 1.7.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.6.9 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.6.10 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
@@ -617,4 +609,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.24 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.25 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.

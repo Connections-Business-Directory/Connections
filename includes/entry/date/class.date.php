@@ -4,6 +4,8 @@
  * Class cnDate
  *
  * @since 8.22
+ *
+ * @property DateTime|false $date
  */
 final class cnEntry_Date extends cnEntry_Collection_Item {
 

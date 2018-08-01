@@ -253,6 +253,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.25 08/01/2018 =
+* TWEAK: Refactor the Manage admin page to utilize `cnEntryDates::render()`.
+* TWEAK: Refactor `cnEntry_Output::getDateBlock()` to utilize the `cnEntry_Dates` objects `render()` method using templates.
+* TWEAK: Remove unused parameters from methods in cnOutput.
+* BUG: Correct a couple typos in `cnEntry_Dates::render()`.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phpDoc correction.
+
 = 8.24 07/27/2018 =
 * NEW: Introduce `cnString::replaceFirst()` and `cnString::replaceLast()`.
 * TWEAK: Refactor `cnEntry` to utilize `cnEntry_Dates`.
@@ -547,35 +556,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Ensure property exists before using it in cnGoogleMapsTimeZone::queryTimeZone().
 * BUG: Function should be static.
 * DEV: Add a few missing phpDoc blocks.
-
-= 8.6.9 08/11/2017 =
-* NEW: Introduce `cnGoogleMapsTimeZone` wrapper for the Google Timezone API and `cnTimezone` classes.
-* NEW: Add Pear File_IMC as a vendor library.
-* TWEAK: Tweak the require_once logic in the Card and Profile template to allow them to be pulled out and activated as plugins without causing PHP errors when trying to run the Template Customizer.
-* TWEAK: Rename `cnvCard` to `cnEntry_vCard`.
-* TWEAK: Refactor cnEntry_vCard to utilize the File_IMC_Build_Vcard class.
-* TWEAK: Correct the value for the label to properly associate it to the search input.
-* TWEAK: Add a value for the search submit button then use CSS to hide it for a11y.
-* BUG: Ensure the parsed shortcode atts is an array before attempting to add values to the atts array.
-* BUG: Deal with custom field names which contain punctuation and other extended characters.
-* OTHER: Indent with tabs, not spaces.
-* OTHER: Add missing space.
-* OTHER: Update the Chosen library from 1.6.1 to 1.7.
-
-= 8.6.8 07/28/2017 =
-* NEW: Auto register custom text and textarea fields with the search the search settings and add logic to the search function to support those fields if enabled in the settings.
-* TWEAK: Remove option to disable the enqueueing of the core CSS styles.
-* TWEAK: Prefix textarea id with `cn-` to avoid conflicting with other plugin's admin notices which assign id to "message" so RTE is loaded on the correct HTML node.
-* TWEAK: Use `get_locale()` instead of `WPLANG` in the System Info.
-* TWEAK: Set 'autoload' to false on option value.
-* TWEAK: Check for core template files before including them.
-* BUG: Include a bugfix to the parseCSV library which corrects unparsing an array with empty "cells".
-* OTHER: Update "Tested up to:" in readme.
-* OTHER: Add a "Featured Partners" Dashboard widget and add a "Connections" tab to the Install Plugin admin page featuring all the add-ons.
-* OTHER: Reorder default positions of the Dashboard widgets.
-* OTHER: Update the News Dashboard widget.
-* OTHER: Update minified admin CSS.
-* OTHER: Update EDD_SL_Plugin_Updater to 1.6.14.
-* DEV: phpDoc corrections.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

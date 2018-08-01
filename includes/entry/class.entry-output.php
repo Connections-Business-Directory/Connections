@@ -1908,11 +1908,10 @@ class cnOutput extends cnEntry {
 	 * @since 0.7.3
 	 *
 	 * @param array $atts   Accepted values as noted above.
-	 * @param bool  $cached Returns the cached data rather than querying the db.
 	 *
 	 * @return string
 	 */
-	public function getDateBlock( $atts = array(), $cached = TRUE ) {
+	public function getDateBlock( $atts = array() ) {
 
 		$defaults = array(
 			'preferred'   => NULL,
@@ -1938,52 +1937,23 @@ class cnOutput extends cnEntry {
 
 		$atts['id'] = $this->getId();
 
-		$dates = $this->getDates( $atts , $cached );
-		$search = array( '%label%' , '%date%' , '%separator%' );
+		$html = $this->dates->filterBy( 'type', $atts['type'] )
+		                    ->filterBy( 'preferred', $atts['preferred'] )
+		                    ->filterBy( 'visibility', Connections_Directory()->currentUser->canView() )
+		                    ->take( $atts['limit'] )
+		                    ->escapeFor( 'display' )
+		                    ->render( 'hcard', array( 'atts' => $atts, 'entry' => $this ), TRUE, TRUE );
 
-		if ( empty( $dates ) ) return '';
+		// The filters need to be reset so additional calls to get links with different params return expected results.
+		$this->dates->resetFilters();
 
-		$out = '<span class="date-block">' . PHP_EOL;
+		if ( ! is_null( $html ) || 0 < strlen( $html ) ) {
 
-		foreach ( $dates as $date ) {
-
-			try {
-
-				// Go thru the formatting acrobats to make sure DateTime is feed a valid date format
-				// just in case a user manages to input an incorrect date or date format.
-				$dateObject = new DateTime( date( 'm/d/Y', strtotime( $date->date ) ) );
-
-			} catch ( Exception $e ) {
-
-				continue;
-			}
-
-			$replace = array();
-
-			$out .= "\t" . '<span class="vevent cn-date' . ( $date->preferred ? ' cn-preferred cn-date-preferred' : '' ) . '">';
-
-			// Hidden elements are to maintain hCalendar spec compatibility
-			$replace[] = ( empty( $date->name ) ) ? '' : '<span class="date-name">' . $date->name . '</span>';
-			//$replace[] = ( empty($date->date) ) ? '' : '<span class="dtstart"><span class="value" style="display: none;">' . $dateObject->format( 'Y-m-d' ) . '</span><span class="date-displayed">' . $dateObject->format( $atts['date_format'] ) . '</span></span>';
-			$replace[] = ( empty( $date->date ) ) ? '' : '<abbr class="dtstart" title="' . $dateObject->format( 'Ymd' ) .'">' . date_i18n( $atts['date_format'] , strtotime( $date->date ) , FALSE ) /*$dateObject->format( $atts['date_format'] )*/ . '</abbr><span class="summary" style="display:none">' . $date->name . ' - ' . $this->getName( array( 'format' => $atts['name_format'] ) ) . '</span><span class="uid" style="display:none">' . $dateObject->format( 'YmdHis' ) . '</span>';
-			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
-
-			$out .= str_ireplace(
-				$search,
-				$replace,
-				empty( $atts['format'] ) ? ( empty( $defaults['format'] ) ? '%label%%separator% %date%' : $defaults['format'] ) : $atts['format']
-			);
-
-			$out .= '</span>' . PHP_EOL;
+			$html = cnString::replaceWhatWith( $html, ' ' );
+			$html = $atts['before'] . $html . $atts['after'] . PHP_EOL;
 		}
 
-		$out .= '</span>' . PHP_EOL;
-
-		$out = cnString::replaceWhatWith( $out, ' ' );
-
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
-
-		return $this->echoOrReturn( $atts['return'], $out );
+		return $this->echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

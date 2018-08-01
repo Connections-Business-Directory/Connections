@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 8.25 08/01/2018 =
+* TWEAK: Refactor the Manage admin page to utilize `cnEntryDates::render()`.
+* TWEAK: Refactor `cnEntry_Output::getDateBlock()` to utilize the `cnEntry_Dates` objects `render()` method using templates.
+* TWEAK: Remove unused parameters from methods in cnOutput.
+* BUG: Correct a couple typos in `cnEntry_Dates::render()`.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phpDoc correction.
+
 = 8.24 07/27/2018 =
 * NEW: Introduce `cnString::replaceFirst()` and `cnString::replaceLast()`.
 * TWEAK: Refactor `cnEntry` to utilize `cnEntry_Dates`.

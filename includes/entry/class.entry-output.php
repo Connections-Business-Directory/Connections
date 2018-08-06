@@ -1916,6 +1916,7 @@ class cnOutput extends cnEntry {
 		$defaults = array(
 			'preferred'   => NULL,
 			'type'        => NULL,
+			'limit'       => NULL,
 			'format'      => '',
 			'name_format' => '',
 			'date_format' => cnSettingsAPI::get( 'connections', 'display_general', 'date_format' ),

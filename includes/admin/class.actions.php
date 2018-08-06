@@ -61,8 +61,9 @@ class cnAdminActions {
 	 * Return an instance of the class.
 	 *
 	 * @access public
-	 * @since 0.7.5
-	 * @return (object) cnAdminActions
+	 * @since  0.7.5
+	 *
+	 * @return cnAdminActions
 	 */
 	public static function getInstance() {
 

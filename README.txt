@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.25
+Stable tag: 8.25.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.25.1 08/06/2018 =
+* BUG: Add limit parameter to `cnOutput::getDateBlock()` to correct index not defined PHP notice.
+* DEV: phpDoc correction.
 
 = 8.25 08/01/2018 =
 * TWEAK: Refactor the Manage admin page to utilize `cnEntryDates::render()`.
@@ -612,4 +616,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.25 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.25.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.

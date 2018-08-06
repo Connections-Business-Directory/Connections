@@ -253,6 +253,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.25.1 08/06/2018 =
+* BUG: Add limit parameter to `cnOutput::getDateBlock()` to correct index not defined PHP notice.
+* DEV: phpDoc correction.
+
 = 8.25 08/01/2018 =
 * TWEAK: Refactor the Manage admin page to utilize `cnEntryDates::render()`.
 * TWEAK: Refactor `cnEntry_Output::getDateBlock()` to utilize the `cnEntry_Dates` objects `render()` method using templates.

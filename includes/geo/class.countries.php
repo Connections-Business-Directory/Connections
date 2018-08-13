@@ -1,6 +1,13 @@
 <?php
+
+/**
+ * Class cnCountries
+ */
 class cnCountries {
 
+	/**
+	 * @var array
+	 */
 	protected static $countries;
 
 	/**

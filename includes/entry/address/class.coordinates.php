@@ -85,7 +85,7 @@ final class cnCoordinates {
 	}
 
 	/**
-	 * Returns the coordinates as a tuple
+	 * Returns the coordinates as a tuple.
 	 *
 	 * @return array
 	 */

@@ -283,7 +283,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 					'action'     => 'status',
 					'plugins'    => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$licenses ),
 				),
-				'user-agent' => 'Connections/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
+				'user-agent' => 'Connections Business Directory/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 			);
 
 			//$url = 'http://connections-pro.com/wp-json/cn-plugin/v1/status/';

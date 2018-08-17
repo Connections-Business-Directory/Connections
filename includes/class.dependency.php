@@ -320,8 +320,6 @@ class cnDependency {
 			// Address objects.
 			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',
 			'cnAddress'                => 'includes/entry/address/class.address.php',
-			'cnCountry'                => 'includes/entry/address/class.country.php',
-			'cnCoordinates'            => 'includes/entry/address/class.coordinates.php',
 
 			// Phone objects
 			'cnEntry_Phone_Numbers'    => 'includes/entry/phone/class.entry-phone-numbers.php',
@@ -354,10 +352,14 @@ class cnDependency {
 
 			// Timezone.
 			'cnGoogleMapsTimeZone'     => 'includes/class.google-maps-timezone-api.php',
-			'cnTimezone'               => 'includes/class.timezone.php',
 
 			// Countries
 			'cnCountries'              => 'includes/geo/class.countries.php',
+
+			// Models
+			'cnCountry'                           => 'includes/model/class.country.php',
+			'cnCoordinates'                       => 'includes/model/class.coordinates.php',
+			'cnTimezone'                          => 'includes/model/class.timezone.php',
 
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',

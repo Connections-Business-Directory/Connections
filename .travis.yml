@@ -13,11 +13,11 @@ php:
 
 env:
 - WP_VERSION=latest WP_MULTISITE=0
-- WP_VERSION=4.9 WP_MULTISITE=0
-- WP_VERSION=4.8 WP_MULTISITE=0
-- WP_VERSION=4.7 WP_MULTISITE=0
-- WP_VERSION=4.6 WP_MULTISITE=0
-- WP_VERSION=4.5.3 WP_MULTISITE=0
+- WP_VERSION=4.9.6 WP_MULTISITE=0
+- WP_VERSION=4.8.3 WP_MULTISITE=0
+- WP_VERSION=4.7.7 WP_MULTISITE=0
+- WP_VERSION=4.6.8 WP_MULTISITE=0
+- WP_VERSION=4.5.11 WP_MULTISITE=0
 
 matrix:
   include:
@@ -58,12 +58,6 @@ script:
   then phpenv config-rm xdebug.ini; fi
 - if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0' ]];
   then phpunit --coverage-clover=coverage.clover; else phpunit; fi
-
-after_script:
-- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0' ]];
-  then wget https://scrutinizer-ci.com/ocular.phar; fi
-- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0']];
-  then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
 branches:
   only:

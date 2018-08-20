@@ -166,7 +166,7 @@ final class Bing_Maps implements Provider {
 
 			return new WP_Error(
 				'geocode_provider_invalid_response',
-				sprintf( 'The geocoder provider returned an invalid response for query: "%s".', $request )
+				sprintf( 'The geocoder provider returned an invalid response for query: "%s".', $url )
 			);
 		}
 

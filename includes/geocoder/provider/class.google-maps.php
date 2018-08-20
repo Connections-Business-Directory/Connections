@@ -376,8 +376,6 @@ final class Google_Maps implements Provider {
 					property_exists( $response, 'errorMessage' ) ? $response->error_message : $response->status
 				);
 
-				break;
-
 			case 'OVER_DAILY_LIMIT':
 
 				return new WP_Error(
@@ -389,8 +387,6 @@ final class Google_Maps implements Provider {
 					property_exists( $response, 'errorMessage' ) ? $response->error_message : $response->status
 				);
 
-				break;
-
 			case 'OVER_QUERY_LIMIT':
 
 				return new WP_Error(
@@ -398,8 +394,6 @@ final class Google_Maps implements Provider {
 					__( 'Daily query limit has been exceeded.', 'connections' ),
 					property_exists( $response, 'errorMessage' ) ? $response->error_message : $response->status
 				);
-
-				break;
 
 			case 'REQUEST_DENIED':
 
@@ -409,8 +403,6 @@ final class Google_Maps implements Provider {
 					property_exists( $response, 'errorMessage' ) ? $response->error_message : $response->status
 				);
 
-				break;
-
 			case 'INVALID_REQUEST':
 
 				return new WP_Error(
@@ -418,8 +410,6 @@ final class Google_Maps implements Provider {
 					__( 'An invalid request has been received.', 'connections' ),
 					property_exists( $response, 'errorMessage' ) ? $response->error_message : $response->status
 				);
-
-				break;
 
 			case 'UNKNOWN_ERROR':
 
@@ -429,13 +419,9 @@ final class Google_Maps implements Provider {
 					property_exists( $response, 'errorMessage' ) ? $response->error_message : $response->status
 				);
 
-				break;
-
 			case 'OK':
 
 				return $response;
-
-				break;
 
 			default:
 

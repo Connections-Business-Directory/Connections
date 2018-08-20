@@ -159,7 +159,7 @@ final class Google_Maps implements Provider {
 
 		$coordinate = $query->getCoordinates();
 
-		$url= sprintf(
+		$url = sprintf(
 			self::REVERSE_GEOCODE_ENDPOINT,
 			$coordinate->getLatitude(),
 			$coordinate->getLongitude()

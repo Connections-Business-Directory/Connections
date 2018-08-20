@@ -1016,14 +1016,29 @@ class cnEntry_Action {
 	 */
 	public static function geoCode( $address ) {
 
-		if ( empty( $address['latitude'] ) || empty( $address['longitude'] ) ) {
+		$APIkey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'server_key' );
 
-			$result = cnGeo::address( $address );
+		if ( $APIkey ) {
 
-			if ( ! empty( $result ) && isset( $result->latitude ) && isset( $result->longitude ) ) {
+			$query = \Connections_Directory\Model\Format\Address\As_String::format( $address );
 
-				$address['latitude']  = $result->latitude;
-				$address['longitude'] = $result->longitude;
+			if ( ! empty( $query ) ) {
+
+				$query = \Connections_Directory\Geocoder\Query\Address::create( $query );
+
+				$provider = new \Connections_Directory\Geocoder\Provider\Google_Maps\Google_Maps( $APIkey );
+				$geocoder = new \Connections_Directory\Geocoder\Geocoder( $provider );
+
+				$result = $geocoder->geocode( $query );
+
+				if ( ! is_wp_error( $result ) ) {
+
+					/** @var \Connections_Directory\Model\Address $location */
+					$location = $result->first();
+
+					$address['latitude']  = $location->getLatitude();
+					$address['longitude'] = $location->getLongitude();
+				}
 			}
 
 		}

@@ -92,7 +92,7 @@ final class Bing_Maps implements Provider {
 	 *
 	 * @param QueryCoordinates $query
 	 *
-	 * @return Collection
+	 * @return Collection|WP_Error
 	 */
 	public function reverse( QueryCoordinates $query ) {
 

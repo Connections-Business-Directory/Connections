@@ -1029,6 +1029,7 @@ class cnEntry_Action {
 				$provider = new \Connections_Directory\Geocoder\Provider\Google_Maps\Google_Maps( $APIkey );
 				$geocoder = new \Connections_Directory\Geocoder\Geocoder( $provider );
 
+				/** @var cnCollection $result */
 				$result = $geocoder->geocode( $query );
 
 				if ( ! is_wp_error( $result ) ) {

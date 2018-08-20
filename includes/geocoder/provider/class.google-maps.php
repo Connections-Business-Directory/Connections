@@ -153,7 +153,7 @@ final class Google_Maps implements Provider {
 	 *
 	 * @param QueryCoordinates $query
 	 *
-	 * @return Collection
+	 * @return Collection|WP_Error
 	 */
 	public function reverse( QueryCoordinates $query ) {
 
@@ -340,7 +340,7 @@ final class Google_Maps implements Provider {
 	 * @param string $request
 	 * @param string $content
 	 *
-	 * @return mixed result form json_decode()
+	 * @return mixed|WP_Error result form json_decode()
 	 */
 	private function parseResponse( $request, $content ) {
 

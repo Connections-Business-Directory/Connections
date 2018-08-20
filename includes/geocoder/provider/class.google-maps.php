@@ -301,6 +301,11 @@ final class Google_Maps implements Provider {
 
 		$json = $this->parseResponse( $url, $content );
 
+		if ( is_wp_error( $json ) ) {
+
+			return $json;
+		}
+
 		// no result
 		if ( ! isset( $json->results ) || ! count( $json->results ) || 'OK' !== $json->status ) {
 

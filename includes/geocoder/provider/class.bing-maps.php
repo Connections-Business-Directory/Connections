@@ -148,6 +148,16 @@ final class Bing_Maps implements Provider {
 		}
 
 		$request = wp_remote_get( $url );
+
+		if ( is_wp_error( $request ) ) {
+
+			return new WP_Error(
+				'provider_http_request_failed',
+				'Request to provider failed.',
+				$url
+			);
+		}
+
 		$content = wp_remote_retrieve_body( $request );
 
 		$response = json_decode( $content );

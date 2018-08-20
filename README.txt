@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.25.1
+Stable tag: 8.26
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -608,3 +608,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 
 = 8.25.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
+
+= 8.26 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3.9. PHP version >= 7.1 recommended.

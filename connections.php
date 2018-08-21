@@ -11,7 +11,7 @@
  * Plugin Name:       Connections Business Directory
  * Plugin URI:        https://connections-pro.com/
  * Description:       A business directory and address book manager.
- * Version:           8.25.1
+ * Version:           8.26
  * Author:            Steven A. Zahm
  * Author URI:        http://connections-pro.com/
  * License:           GPL-2.0+
@@ -41,7 +41,7 @@ $check = new cnRequirements_Check(
 		'file'     => __FILE__,
 		'requirements' => array(
 			'php' => array(
-				'min' => '5.3', //5.3
+				'min' => '5.3.9', //5.3.9
 				'max' => '7.1', //7.1
 			),
 			'wp'  => array(

@@ -5,56 +5,20 @@
  *
  * @since 8.6
  *
- * @property int    $id
- * @property int    $order
- * @property bool   $preferred
- * @property string $type
- * @property string $visibility
- * @property string $name
- * @property string $line_1
- * @property string $line_2
- * @property string $line_3
- * @property string $line_4
- * @property string $district
- * @property string $county
- * @property string $locality
- * @property string $region
- * @property string $postal_code
- * @property string $country
- * @property string $latitude
- * @property string $longitude
+ * @property string    $line_1
+ * @property string    $line_2
+ * @property string    $line_3
+ * @property string    $line_4
+ * @property string    $district
+ * @property string    $county
+ * @property string    $locality
+ * @property string    $region
+ * @property string    $postal_code
+ * @property cnCountry $country
+ * @property string    $latitude
+ * @property string    $longitude
  */
-final class cnAddress implements ArrayAccess, cnToArray {
-
-	/**
-	 * @var int
-	 */
-	private $id;
-
-	/**
-	 * @var int
-	 */
-	private $order;
-
-	/**
-	 * @var bool
-	 */
-	private $preferred;
-
-	/**
-	 * @var string
-	 */
-	private $type;
-
-	/**
-	 * @var string
-	 */
-	private $visibility;
-
-	/**
-	 * @var string
-	 */
-	private $name;
+final class cnAddress extends cnEntry_Collection_Item {
 
 	/**
 	 * @var string
@@ -282,46 +246,6 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	}
 
 	/**
-	 * Allow private properties to be checked with isset() and empty() for backward compatibility.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param string $key
-	 *
-	 * @return bool
-	 */
-	public function __isset( $key ) {
-
-		if ( isset( $this->properties[ $key ] ) ) {
-
-			$name = $this->properties[ $key ];
-
-			return ( property_exists( $this, $name ) && isset( $this->$name ) );
-		}
-
-		return FALSE;
-	}
-
-	/**
-	 * Make private properties readable by calling their getters for backward compatibility.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param string $key
-	 *
-	 * @return mixed
-	 */
-	public function __get( $key ) {
-
-		if ( isset( $this->methods[ $key ] ) ) {
-
-			return $this->{ $this->methods[ $key ] }();
-		}
-	}
-
-	/**
 	 * Make private properties settable for backward compatibility.
 	 *
 	 * @access public
@@ -391,17 +315,6 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	}
 
 	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return string
-	 */
-	public function __toString() {
-
-		return json_encode( $this->toArray() );
-	}
-
-	/**
 	 * Return an array of registered address types.
 	 *
 	 * @access private
@@ -411,67 +324,7 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	 */
 	private static function getTypes() {
 
-		return Connections_Directory()->options->getDefaultAddressValues();
-	}
-
-	/**
-	 * Create and return an instance @see cnAddress
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param array  $data
-	 *
-	 * @return cnAddress
-	 */
-	public static function create( $data ) {
-
-		return new self( $data );
-	}
-
-	/**
-	 * Return a new instance of cnAddress sanitized for saving to the database.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return cnAddress
-	 */
-	public function sanitizedForSave() {
-
-		$self = clone $this;
-
-		return $this->prepareContext( $self, 'db' );
-	}
-
-	/**
-	 * Return a new instance of cnAddress escaped for display in HTML forms for editing.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return cnAddress
-	 */
-	public function escapedForEdit() {
-
-		$self = clone $this;
-
-		return $this->prepareContext( $self, 'edit' );
-	}
-
-	/**
-	 * Return a new instance of cnAddress escaped for display.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return cnAddress
-	 */
-	public function escapedForDisplay() {
-
-		$self = clone $this;
-
-		return $this->prepareContext( $self, 'display' );
+		return cnOptions::getAddressTypeOptions();
 	}
 
 	/**
@@ -485,7 +338,7 @@ final class cnAddress implements ArrayAccess, cnToArray {
 	 *
 	 * @return cnAddress
 	 */
-	private function prepareContext( $self, $context ) {
+	protected function prepareContext( $self, $context ) {
 
 		$self->id          = absint( $self->id );
 		$self->type        = cnSanitize::field( 'attribute', $self->type, $context );
@@ -509,158 +362,6 @@ final class cnAddress implements ArrayAccess, cnToArray {
 		);
 
 		return $self;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return int
-	 */
-	public function getID() {
-
-		return $this->id;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param int $id
-	 *
-	 * @return cnAddress
-	 */
-	public function setID( $id ) {
-
-		$this->id = (int) $id;
-
-		return $this;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return string
-	 */
-	public function getType() {
-
-		return $this->type;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return string
-	 */
-	public function getName() {
-
-		return $this->name;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param string $type
-	 *
-	 * @return cnAddress
-	 */
-	public function setType( $type ) {
-
-		$this->type = cnSanitize::field( 'attribute', $type, 'raw' );
-
-		return $this;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return string
-	 */
-	public function getVisibility() {
-
-		return $this->visibility;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param string $visibility
-	 *
-	 * @return cnAddress
-	 */
-	public function setVisibility( $visibility ) {
-
-		$this->visibility = cnSanitize::field( 'attribute', $visibility, 'raw' );
-
-		return $this;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return int
-	 */
-	public function getOrder() {
-
-		return $this->order;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param int $order
-	 *
-	 * @return cnAddress
-	 */
-	public function setOrder( $order ) {
-
-		$this->order = (int) $order;
-
-		return $this;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return bool
-	 */
-	public function isPreferred() {
-
-		return $this->getPreferred();
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @return bool
-	 */
-	public function getPreferred() {
-
-		return $this->preferred;
-	}
-
-	/**
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param bool $preferred
-	 *
-	 * @return cnAddress
-	 */
-	public function setPreferred( $preferred ) {
-
-		$this->preferred = (bool) $preferred;
-
-		return $this;
 	}
 
 	/**
@@ -1043,66 +744,5 @@ final class cnAddress implements ArrayAccess, cnToArray {
 		$address['zipcode']  =& $this->postal_code;
 
 		return $address;
-	}
-
-	/**
-	 * Determine if an item exists at an offset.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param  mixed $key
-	 *
-	 * @return bool
-	 */
-	public function offsetExists( $key ) {
-
-		return $this->__isset( $key );
-	}
-
-	/**
-	 * Get an item at a given offset.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param  mixed $key
-	 *
-	 * @return mixed
-	 */
-	public function offsetGet( $key ) {
-
-		return $this->__get( $key );
-	}
-
-	/**
-	 * Set the item at a given offset.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param  mixed $key
-	 * @param  mixed $value
-	 *
-	 * @return void
-	 */
-	public function offsetSet( $key, $value ) {
-
-		$this->__set( $key, $value );
-	}
-
-	/**
-	 * Unset the item at a given offset.
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param  string $key
-	 *
-	 * @return void
-	 */
-	public function offsetUnset( $key ) {
-
-		$this->__unset( $key );
 	}
 }

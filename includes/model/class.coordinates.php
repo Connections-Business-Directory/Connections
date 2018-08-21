@@ -83,4 +83,14 @@ final class cnCoordinates {
 
 		$this->longitude = number_format( (float) $longitude, 12 );
 	}
+
+	/**
+	 * Returns the coordinates as a tuple.
+	 *
+	 * @return array
+	 */
+	public function toArray() {
+
+		return array( $this->getLongitude(), $this->getLatitude() );
+	}
 }

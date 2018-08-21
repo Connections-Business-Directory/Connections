@@ -320,8 +320,6 @@ class cnDependency {
 			// Address objects.
 			'cnEntry_Addresses'        => 'includes/entry/address/class.entry-addresses.php',
 			'cnAddress'                => 'includes/entry/address/class.address.php',
-			'cnCountry'                => 'includes/entry/address/class.country.php',
-			'cnCoordinates'            => 'includes/entry/address/class.coordinates.php',
 
 			// Phone objects
 			'cnEntry_Phone_Numbers'    => 'includes/entry/phone/class.entry-phone-numbers.php',
@@ -354,10 +352,35 @@ class cnDependency {
 
 			// Timezone.
 			'cnGoogleMapsTimeZone'     => 'includes/class.google-maps-timezone-api.php',
-			'cnTimezone'               => 'includes/class.timezone.php',
 
 			// Countries
 			'cnCountries'              => 'includes/geo/class.countries.php',
+
+			// Models
+			'Connections_Directory\Model\Address' => 'includes/model/class.address.php',
+			'cnCountry'                           => 'includes/model/class.country.php',
+			'cnCoordinates'                       => 'includes/model/class.coordinates.php',
+			'Connections_Directory\Model\Bounds'  => 'includes/model/class.bounds.php',
+			'cnTimezone'                          => 'includes/model/class.timezone.php',
+
+			// Format
+			'Connections_Directory\Model\Format\Address\As_String' => 'includes/model/format/address/class.as-string.php',
+
+			// Geocoder
+			'Connections_Directory\Geocoder\Geocoder'                         => 'includes/geocoder/class.geocoder.php',
+			'Connections_Directory\Geocoder\Assert'                           => 'includes/geocoder/class.assert.php',
+			//'Connections_Directory\Geocoder\Exception\Exception'              => 'includes/geocoder/exception/interface.exception.php',
+			//'Connections_Directory\Geocoder\Exception\Invalid_Argument'       => 'includes/geocoder/exception/class.invalid-argument.php',
+			//'Connections_Directory\Geocoder\Exception\Logic_Exception'        => 'includes/geocoder/exception/class.logic-exception.php',
+			//'Connections_Directory\Geocoder\Model\Address'                    => 'includes/geocoder/model/class.address.php',
+			'Connections_Directory\Geocoder\Model\Address_Builder'            => 'includes/geocoder/model/class.address-builder.php',
+			'Connections_Directory\Geocoder\Query\Query'                      => 'includes/geocoder/query/interface.query.php',
+			'Connections_Directory\Geocoder\Query\Address'                    => 'includes/geocoder/query/class.address.php',
+			'Connections_Directory\Geocoder\Query\Coordinates'                => 'includes/geocoder/query/class.reverse.php',
+			'Connections_Directory\Geocoder\Provider\Provider'                => 'includes/geocoder/provider/interface.provider.php',
+			'Connections_Directory\Geocoder\Provider\Google_Maps\Google_Maps' => 'includes/geocoder/provider/class.google-maps.php',
+			'Connections_Directory\Geocoder\Provider\Bing_Maps\Bing_Maps'     => 'includes/geocoder/provider/class.bing-maps.php',
+			'Connections_Directory\Geocoder\Provider\Nominatim\Nominatim'     => 'includes/geocoder/provider/class.nominatim.php',
 
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',

@@ -1,5 +1,18 @@
 == Changelog ==
 
+= 8.26 08/20/2018 =
+* NEW: Introduce multiple service provider geocoding API.
+* NEW: Refactor entry action to geocode addresses to utilize the new multiple service provider geocode API.
+* TWEAK: Tweak to `cnEntry_Collection_Item::__isset()` and `cnEntry_Collection_Item::__get()` so empty() calls return values as expected.
+* TWEAK: Remove duplicate code in `cnAddress` by extending it using `cnEntry_Collection_Item` to match the other entry object types.
+* TWEAK: Add toArray method to cnCoordinates.
+* TWEAK: Move country an coordinates to the Model folder.
+* TWEAK: Move cnTimezone to Model folder.
+* TWEAK: Update user-agent sent when doing plugin update check.
+* TWEAK: Update dependencies registry to account for file path changes.
+* TWEAK: Remove old geocoding functions.
+* DEV: phpDoc additions and corrections.
+
 = 8.25.1 08/06/2018 =
 * BUG: Add limit parameter to `cnOutput::getDateBlock()` to correct index not defined PHP notice.
 * DEV: phpDoc correction.

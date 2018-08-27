@@ -378,6 +378,7 @@ class cnDependency {
 			'Connections_Directory\Geocoder\Query\Address'                    => 'includes/geocoder/query/class.address.php',
 			'Connections_Directory\Geocoder\Query\Coordinates'                => 'includes/geocoder/query/class.reverse.php',
 			'Connections_Directory\Geocoder\Provider\Provider'                => 'includes/geocoder/provider/interface.provider.php',
+			'Connections_Directory\Geocoder\Provider\Algolia\Algolia'         => 'includes/geocoder/provider/class.algolia.php',
 			'Connections_Directory\Geocoder\Provider\Google_Maps\Google_Maps' => 'includes/geocoder/provider/class.google-maps.php',
 			'Connections_Directory\Geocoder\Provider\Bing_Maps\Bing_Maps'     => 'includes/geocoder/provider/class.bing-maps.php',
 			'Connections_Directory\Geocoder\Provider\Nominatim\Nominatim'     => 'includes/geocoder/provider/class.nominatim.php',

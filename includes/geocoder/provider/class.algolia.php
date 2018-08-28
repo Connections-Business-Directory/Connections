@@ -10,7 +10,9 @@ use Connections_Directory\Geocoder\Query\Coordinates as QueryCoordinates;
 use Connections_Directory\Geocoder\Provider\Provider;
 
 /**
- * Class Bing_Maps
+ * Class Algolia
+ *
+ * @link https://community.algolia.com/places/rest.html
  *
  * @package Connections_Directory\Geocoder\Provider\Bing_Maps
  * @author Steven A. Zahm

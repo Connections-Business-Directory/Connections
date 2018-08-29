@@ -1016,32 +1016,64 @@ class cnEntry_Action {
 	 */
 	public static function geoCode( $address ) {
 
+		$query  = \Connections_Directory\Model\Format\Address\As_String::format( $address );
+
+		/*
+		 * If the address is empty, no need to geocode.
+		 */
+		if ( empty( $query ) ) {
+
+			return $address;
+		}
+
+		/*
+		 * Only geocode when the latitude and longitude have not been supplied.
+		 */
+		if ( ! empty( $address['latitude'] ) && ! empty( $address['longitude'] ) ) {
+
+			return $address;
+		}
+
 		$APIkey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'server_key' );
 
-		if ( $APIkey ) {
+		if ( 0 < strlen( $APIkey ) ) {
 
-			$query = \Connections_Directory\Model\Format\Address\As_String::format( $address );
+			$query = \Connections_Directory\Geocoder\Query\Address::create( $query );
 
-			if ( ! empty( $query ) ) {
+			$provider = new \Connections_Directory\Geocoder\Provider\Google_Maps\Google_Maps( $APIkey );
+			$geocoder = new \Connections_Directory\Geocoder\Geocoder( $provider );
 
-				$query = \Connections_Directory\Geocoder\Query\Address::create( $query );
+			/** @var cnCollection $result */
+			$result = $geocoder->geocode( $query );
 
-				$provider = new \Connections_Directory\Geocoder\Provider\Google_Maps\Google_Maps( $APIkey );
-				$geocoder = new \Connections_Directory\Geocoder\Geocoder( $provider );
+			if ( ! is_wp_error( $result ) ) {
 
-				/** @var cnCollection $result */
-				$result = $geocoder->geocode( $query );
+				/** @var \Connections_Directory\Model\Address $location */
+				$location = $result->first();
 
-				if ( ! is_wp_error( $result ) ) {
-
-					/** @var \Connections_Directory\Model\Address $location */
-					$location = $result->first();
-
-					$address['latitude']  = $location->getLatitude();
-					$address['longitude'] = $location->getLongitude();
-				}
+				$address['latitude']  = $location->getLatitude();
+				$address['longitude'] = $location->getLongitude();
 			}
 
+		} else {
+
+			$query = \Connections_Directory\Geocoder\Query\Address::create( $query );
+
+			$locale   = substr( get_user_locale(), 0, 2 );
+			$provider = new \Connections_Directory\Geocoder\Provider\Algolia\Algolia();
+			$geocoder = new \Connections_Directory\Geocoder\Geocoder( $provider, $locale );
+
+			/** @var cnCollection $result */
+			$result = $geocoder->geocode( $query );
+
+			if ( ! is_wp_error( $result ) ) {
+
+				/** @var \Connections_Directory\Model\Address $location */
+				$location = $result->first();
+
+				$address['latitude']  = $location->getLatitude();
+				$address['longitude'] = $location->getLongitude();
+			}
 		}
 
 		return $address;

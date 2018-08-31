@@ -124,6 +124,9 @@ class cnScript {
 			$googleMapsAPIURL = add_query_arg( 'key', $googleMapsAPIBrowserKey, $googleMapsAPIURL );
 		}
 
+		/*
+		 * NOTE: See inc.plugin-compatibility regarding registration of the Google Maps JavaScript API.
+		 */
 		wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), NULL, FALSE );
 		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
 

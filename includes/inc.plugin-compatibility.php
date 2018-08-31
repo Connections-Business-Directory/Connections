@@ -271,6 +271,9 @@ function cn_deregister_google_maps_api() {
 
 function cn_register_google_maps_api() {
 
+	// If script is registered, bail.
+	if ( wp_script_is( 'cn-google-maps-api', $list = 'enqueued' )  ) return;
+
 	$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
 	$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
 

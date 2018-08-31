@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 8.27 08/31/2018 =
+* NEW: Add Algolia as a geocoding provider.
+* TWEAK: Default to Algolia to geocode address if the Google Maps API Server key has not been set in the settings.
+* TWEAK: Switch from the goMap library to the Leaflet library to provide mapping and geocoding when clicking the Geocode button while adding an address.
+* TWEAK: Default to Wikimedia Maps to display maps if the Google Maps API Browser key has not been set in the settings.
+* DEV: phpDoc corrections
+* DEV: A package.json update to remove grunt-phpdocumentor.
+
 = 8.26 08/20/2018 =
 * NEW: Introduce multiple service provider geocoding API.
 * NEW: Refactor entry action to geocode addresses to utilize the new multiple service provider geocode API.

@@ -5,7 +5,132 @@ jQuery(document).ready( function($) {
 
 	var $document = $( document );
 
+	// if ( 0 < cnMap.geocoderAPIKey.length ) {
+	//
+	// 	google.load( 'maps', '3', {
+	// 		other_params: 'key=' + cnMap.geocoderAPIKey,
+	// 		callback: function() {}
+	// 	});
+	// }
+
+	var maps = {
+
+		/**
+		 * Object to store Leaflet map instances.
+		 */
+		maps: {},
+
+		/**
+		 * Attach a Leaflet map object to an element ID.
+		 *
+		 * @param id Element ID.
+		 * @returns {*}
+		 */
+		addMap: function( id ) {
+
+			if ( ! this.hasMap( id ) ) {
+
+				/*
+				 * Attach the map to the supplied element id.
+				 * Define the map tile provider and attach the tiles to the map.
+				 */
+				var map = L.map( 'map-' + id );
+
+				/*
+				 * Clear the attribution, removing the Leaflet back link, so it can be customized.
+				 */
+				map.attributionControl.setPrefix( '' );
+
+				/*
+				 * Get the default provider object from the available map tile providers.
+				 */
+				var provider = cnMap.basemapProviders[cnMap.basemapDefault];
+
+				switch ( provider.group ) {
+
+					case 'google':
+
+						var tiles = L.gridLayer.googleMutant({
+							type: provider.type,
+							attribution: provider.attribution
+						});
+
+						break;
+
+					default:
+
+						var tiles = L.tileLayer(
+							provider.tileLayer,
+							{
+								attribution: provider.attribution,
+								minZoom:     1,
+								maxZoom:     19
+							}
+						);
+
+				}
+
+				/*
+				 * Add the map tiles provider to the map.
+				 */
+				tiles.addTo( map );
+
+				/*
+				 * Create a new layer group to attach the map pins to so they can be easily cleared.
+				 */
+				var pins = new L.LayerGroup();
+				pins.addTo( map );
+
+				/*
+				 * Store the Leaflet map instance and the layer group to the maps object property.
+				 * Add a couple helper functions to the object to make it easier to add and clear pins of the current map object.
+				 */
+				this.maps[ id ] = {
+					id:        id,
+					map:       map,
+					pins:      pins,
+					addPin:    function( LatLng ) {
+						return L.marker( LatLng, { draggable: true, autoPan: true } ).addTo( this.pins );
+					},
+					clearPins: function() {
+						this.pins.clearLayers();
+					}
+				};
+			}
+
+			return this.maps[ id ];
+		},
+
+		/**
+		 * Whether or not a map has been attached to the element ID.
+		 *
+		 * @param id Element ID.
+		 *
+		 * @returns {boolean}
+		 */
+		hasMap: function( id ) {
+
+			return this.maps.hasOwnProperty( id );
+		},
+
+		/**
+		 * Get a Leaflet map object from element by its ID.
+		 *
+		 * @param id Element ID.
+		 * @returns {*}
+		 */
+		getMap: function( id ) {
+
+			if ( this.hasMap( id ) ) {
+
+				return this.maps[ id ];
+			}
+		}
+	};
+
 	var CN_Form = {
+
+		map: null,
 
 		init : function() {
 
@@ -450,15 +575,13 @@ jQuery(document).ready( function($) {
 		},
 		geocode : function( field ) {
 
-			var address = new Object();
-			var lat;
-			var lng;
+			var address = Object();
 			var uid = field.attr('data-uid');
 			//console.log(uid);
 
 			address.line_1 = $('input[name=address\\[' + uid + '\\]\\[line_1\\]]').val();
-			address.line_2 = $('input[name=address\\[' + uid + '\\]\\[line_2\\]]').val();
-			address.line_3 = $('input[name=address\\[' + uid + '\\]\\[line_3\\]]').val();
+			// address.line_2 = $('input[name=address\\[' + uid + '\\]\\[line_2\\]]').val();
+			// address.line_3 = $('input[name=address\\[' + uid + '\\]\\[line_3\\]]').val();
 
 			address.city = $('input[name=address\\[' + uid + '\\]\\[city\\]]').val();
 			address.state = $('input[name=address\\[' + uid + '\\]\\[state\\]]').val();
@@ -476,75 +599,96 @@ jQuery(document).ready( function($) {
 				address.country = country.find( ':selected' ).val();
 			}
 
+			address = Object.keys( address ).map( function(e) {
+				return address[e]
+			}).filter( Boolean ).join( ' ' );
+
 			console.log(address);
 
 			$( '#map-' + uid ).fadeIn( 'slow' , function() {
 
-				/**
-				 * Using gmap3 maybe a better option.
-				 * @link http://gmap3.net/
-				 *
-				 * When geocoding a google.maps.GeocoderRequest can be passed.
-				 * This is useful to set Component Filters.
-				 * @link http://gmap3.net/api-address.html
-				 *
-				 * FAQs regarding the odl/new geocoder:
-				 * @link https://developers.google.com/maps/documentation/geocoding/faq
-				 *
-				 * Old geocoder retires in March 2017
+				var latInput = $('input[name=address\\[' + uid + '\\]\\[latitude\\]]');
+				var lngInput = $('input[name=address\\[' + uid + '\\]\\[longitude\\]]');
+
+				/*
+				 * Create a new Leaflet map instance attaching to the map container element.
 				 */
-				$( '#map-' + uid ).goMap({
-					maptype: 'ROADMAP',
-					delay:   500
-				});
+				var map = maps.addMap( uid );
 
-				$.goMap.clearMarkers();
+				/*
+				 * Create a new Leaflet geocoder instance based on the provider.
+				 */
+				switch ( cnMap.geocoderDefault ) {
 
-				$.goMap.createMarker({
-					address: '\'' + address.line_1 + ', ' /*+ address.line_2 + ', '*/ + address.city + ', ' + address.state + ', ' + address.zipcode + ', ' +  '\'',
-					id: 'baseMarker',
-					draggable: true
-				});
+					case 'google':
 
-				$.goMap.setMap({ address: '\'' + address.line_1 + ', ' + address.city + ', ' + address.state + ', ' + address.zipcode + ', ' +  '\'' , zoom: 18 });
+						var geocoder = new L.Control.Geocoder.GoogleNative();
 
-				$.goMap.createListener( {type:'marker', marker:'baseMarker'} , 'idle', function(event) {
-					var lat = event.latLng.lat();
-					var lng = event.latLng.lng();
+						break;
 
-					// console.log(lat);
-					// console.log(lng);
+					default:
 
-					$('input[name=address\\[' + uid + '\\]\\[latitude\\]]').val(lat);
-					$('input[name=address\\[' + uid + '\\]\\[longitude\\]]').val(lng);
-				});
+						var geocoder = new L.Control.Geocoder.Nominatim();
 
-				$.goMap.createListener( {type:'marker', marker:'baseMarker'} , 'dragend', function(event) {
-					var lat = event.latLng.lat();
-					var lng = event.latLng.lng();
+				}
 
-					// console.log(lat);
-					// console.log(lng);
+				/*
+				 * Geocode the address. Pass the Leaflet map instance so it can be referenced as `this`
+				 * from within the callback function.
+				 */
+				geocoder.geocode(
+					address,
+					function( results ) {
 
-					$('input[name=address\\[' + uid + '\\]\\[latitude\\]]').val(lat);
-					$('input[name=address\\[' + uid + '\\]\\[longitude\\]]').val(lng);
-				});
+						/*
+						 * NOTE: `this` refers to a Leaflet map instance.
+						 */
+
+						// console.log( this );
+						console.log( results );
+
+						this.clearPins();
+
+						if ( results && results.length ) {
+
+							/*
+							 * Pull out the first result from the array.
+							 */
+							var location = results[0];
+
+							/*
+							 * Update the address form inputs.
+							 */
+							latInput.val( location.center.lat );
+							lngInput.val( location.center.lng );
+
+							/*
+							 * Center the map on the result and add the map marker.
+							 */
+							this.map.setView( location.center, 16 );
+
+							/*
+							 * Create a map marker and add it to the map layer group.
+							 */
+							var marker = this.addPin( location.center );
+
+							/*
+							 * Attach a `dragend` event to the marker to update the address form inputs.
+							 */
+							marker.on( 'dragend', function( e ) {
+
+								latInput.val( this.getLatLng().lat );
+								lngInput.val( this.getLatLng().lng );
+							});
+
+						}
+
+					},
+					map
+				);
 
 			});
 
-			// There has to be a better way than setting a delay. I know I have to use a callback b/c the geocode is an async request.
-			setTimeout( function() {
-
-				CN_Form.setGEO( uid );
-			}, 1500);
-
-		},
-		setGEO : function( uid ) {
-
-			var baseMarkerPosition = $( '#map-' + uid ).data('baseMarker').getPosition();
-
-			$('input[name=address\\[' + uid + '\\]\\[latitude\\]]').val( baseMarkerPosition.lat() );
-			$('input[name=address\\[' + uid + '\\]\\[longitude\\]]').val( baseMarkerPosition.lng() );
 		},
 		relation : function() {
 
@@ -626,6 +770,5 @@ jQuery(document).ready( function($) {
 			return result.toFixed(2) + ' ' + abbreviations[i];
 		}
 	}
-
 
 });

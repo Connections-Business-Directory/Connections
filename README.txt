@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.3
-Stable tag: 8.26
+Stable tag: 8.27
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,14 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.27 08/31/2018 =
+* NEW: Add Algolia as a geocoding provider.
+* TWEAK: Default to Algolia to geocode address if the Google Maps API Server key has not been set in the settings.
+* TWEAK: Switch from the goMap library to the Leaflet library to provide mapping and geocoding when clicking the Geocode button while adding an address.
+* TWEAK: Default to Wikimedia Maps to display maps if the Google Maps API Browser key has not been set in the settings.
+* DEV: phpDoc corrections
+* DEV: A package.json update to remove grunt-phpdocumentor.
 
 = 8.26 08/20/2018 =
 * NEW: Introduce multiple service provider geocoding API.
@@ -519,29 +527,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Correct `Illegal string offset` and `Cannot create references to/from string offsets` PHP errors when saving user meta.
 * DEV: Include the Rinvex\Country library.
 
-= 8.6.12 11/01/2017 =
-* NEW: Introduce support for custom taxonomies.
-* NEW: Introduce the `cn_image_editors` filter.
-* NEW: Introduce the `cn_entry_directory_homepage` filter.
-* NEW: Introduce the `cn_image_link` and `cn_image_link-{type}` filters.
-* NEW: Introduce the `cn_entry_output_category_items` filter.
-* TWEAK: Some code cleanup of the output for social media networks icons.
-* TWEAK: Add some RTL CSS in its own CSS file to be conditionally loaded.
-* BUG: When exporting all, make sure to attempt to JSON decode the option column before access its value.
-* BUG: Drop the `slug` index on the connections_terms table.
-* BUG: Remove debug code from the CSV export all output.
-* BUG: Correct bug which could prevent the logo/photo URL from being exported.
-* OTHER: Add reference to the Local Time extension in the readme.txt file.
-* OTHER: Replace `http` with `https` for wordpress.org and connections-pro.com domain links.
-* DEV: phpDoc corrections.
-* DEV: Add curly brackets to a variable variable for better code clarity.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.6.12 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.7 =
 It is recommended to backup before updating. Requires WordPress >= 4.4.
@@ -610,4 +598,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.26 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3.9. PHP version >= 7.1 recommended.
+
+= 8.27 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3.9. PHP version >= 7.1 recommended.

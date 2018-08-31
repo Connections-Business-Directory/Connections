@@ -116,42 +116,111 @@ class cnScript {
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
-		/*
-		 * If the Google Maps API is disabled, do not register it and change the dependencies of
-		 * both goMap and MarkerClusterer. Allowing the Google Maps API to be turned "off" provides
-		 * compatibility with themes and other plugins that enqueue Google Maps but do not provide a
-		 * method to disable it. So I will, unless we're in the admin, because the geocode function
-		 * requires it.
-		 */
-		if ( $connections->options->getGoogleMapsAPI() || is_admin() ) {
+		$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
+		$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
 
-			$endpoint = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
-			$key      = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
+		if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
 
-			if ( 0 < strlen( $key ) ) {
-
-				$endpoint = $endpoint . '&key=' . urlencode( $key );
-			}
-
-			wp_register_script( 'cn-google-maps-api', $endpoint, array( 'jquery' ), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
-
-			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.3', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.1.2', $connections->options->getJavaScriptFooter() );
-
-		} else {
-
-			wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' ), '1.3.3', $connections->options->getJavaScriptFooter() );
-			wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'jquery-gomap' ), '2.0.15', $connections->options->getJavaScriptFooter() );
+			$googleMapsAPIURL = add_query_arg( 'key', $googleMapsAPIBrowserKey, $googleMapsAPIURL );
 		}
+
+		/*
+		 * NOTE: See inc.plugin-compatibility regarding registration of the Google Maps JavaScript API.
+		 */
+		wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), NULL, FALSE );
+		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+
+		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.3', $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.1.2', $connections->options->getJavaScriptFooter() );
 
 		// The Quform unregisters this script, so lets ensure its registered so it can be enqueued.
 		if ( ! wp_script_is( 'jquery-form', 'registered') ) {
 			wp_register_script( 'jquery-form', "/wp-includes/js/jquery/jquery.form$min.js", array( 'jquery' ), '4.2.1', TRUE );
 		}
 
+		wp_register_script(
+			'leaflet',
+			$url . "vendor/leaflet/leaflet$min.js",
+			array(),
+			'1.3.4',
+			$connections->options->getJavaScriptFooter()
+		);
+
+		wp_register_script(
+			'leaflet-control-geocoder',
+			$url . "vendor/leaflet/geocoder/Control.Geocoder$min.js",
+			array( 'leaflet' ),
+			'1.6',
+			$connections->options->getJavaScriptFooter()
+		);
+
+		wp_register_script(
+			'leaflet-layer-deferred',
+			$url . "vendor/leaflet/layer-deferred/Layer.Deferred$min.js",
+			array( 'leaflet' ),
+			'3.0.3',
+			$connections->options->getJavaScriptFooter()
+		);
+
+		/*
+		 * Create an array of script handles of Leaflet related map dependencies.
+		 * NOTE: `leaflet` is not added to the array because it is already required by `leaflet-control-geocoder`.
+		 */
+		$mapDependencies = array(
+			//'leaflet-layer-deferred',
+			'leaflet-control-geocoder',
+		);
+
+		// Only register the Google Maps API related Leaflet scripts if a browser API key has been entered by user.
+		if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
+
+			wp_register_script(
+				'leaflet-basemap-googlemaps',
+				$url . "vendor/leaflet/basemap-providers/Leaflet.GoogleMutant$min.js",
+				array( 'leaflet', 'cn-google-maps-api' ),
+				'0.7.0',
+				$connections->options->getJavaScriptFooter()
+			);
+
+			wp_register_script(
+				'leaflet-control-geocoder-google-native',
+				$url . "assets/js/leaflet/geocoderGoogleNative/Geocoder.Google.Native$min.js",
+				array( 'leaflet-control-geocoder', 'cn-google-maps-api' ),
+				'1.0',
+				$connections->options->getJavaScriptFooter()
+			);
+
+			/*
+			 * Overwrite the map dependencies with the Google Maps API related dependencies.
+			 * NOTE: The "core" Leaflet dependencies do not need to be added to array due to already being required
+			 *       when registering the Google Maps API related dependencies.
+			 */
+			$mapDependencies = array(
+				//'leaflet-layer-deferred',
+				'leaflet-basemap-googlemaps',
+				'leaflet-control-geocoder-google-native',
+			);
+		}
+
 		if ( is_admin() ) {
 
-			wp_register_script( 'cn-ui-admin', $url . "assets/js/cn-admin$min.js", array( 'jquery', 'jquery-validate', 'jquery-ui-sortable', 'jquery-ui-resizable' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script(
+				'cn-ui-admin',
+				$url . "assets/js/cn-admin$min.js",
+				// Merge in the map dependencies.
+				array_merge(
+					array(
+						'jquery',
+						'jquery-validate',
+						'jquery-ui-sortable',
+						'jquery-ui-resizable',
+					),
+					$mapDependencies
+				),
+				CN_CURRENT_VERSION,
+				TRUE
+			);
+
 			wp_register_script( 'cn-system-info', $url . "assets/js/cn-system-info$min.js", array( 'jquery', 'jquery-validate', 'jquery-form', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-setting-sortable-repeatable-input-list', $url . "assets/js/cn-setting-sortable-repeatable-input-list$min.js", array( 'jquery', 'jquery-ui-sortable' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
@@ -177,7 +246,58 @@ class cnScript {
 				),
 			);
 
+			// Strings to be used for setting the Leaflet maps `attribution`.
+			$leaflet  = '<a href="https://www.leafletjs.com" target="_blank" title="Leaflet">Leaflet</a>';
+			$backlink = '<a href="https://connections-pro.com/" target="_blank" title="Connections Business Directory plugin for WordPress">Connections Business Directory</a> | ' . $leaflet;
+
+			$osm       = '&copy; <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+			$wikimedia = '<a target="_blank" href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>';
+
+			// Leaflet related configuration parameters. Defines the tile provider and geocoder provider.
+			$map = array(
+				'basemapProviders' => array(
+					'google-roadmap' => array(
+						'group'        => 'google',
+						'name'         => 'Google Roadmap',
+						'layer'        => 'roadmap', // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+						'key_required' => TRUE,
+						'attribution'  => $backlink,
+					),
+					'osm'            => array(
+						'group'        => 'osm',
+						'name'         => 'OpenStreetMap',
+						'tileLayer'    => '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+						'subdomains'   => array( 'a', 'b', 'c', '' ),
+						'key_required' => FALSE,
+						'attribution'  => $backlink . ' | ' . $osm,
+						'maxZoom'      => '19',
+					),
+					'wikimedia'      => array(
+						'group'        => 'osm',
+						'name'         => 'Wikimedia',
+						'tileLayer'    => '//maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
+						'key_required' => FALSE,
+						'attribution'  => $backlink . ' | ' . $wikimedia,
+						'maxZoom'      => '19',
+					),
+				),
+				'basemapDefault'   => 'osm',
+				'geocoderDefault'  => 'osm',
+				'geocoderAPIKey'   => esc_js( trim( $googleMapsAPIBrowserKey ) ),
+			);
+
+			/*
+			 * If a browser API key has been entered by user,
+			 * change the tile provider and geocoder provider to Google Maps.
+			 */
+			if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
+
+				$map['basemapDefault']  = 'google-roadmap';
+				$map['geocoderDefault'] = 'google';
+			}
+
 			wp_localize_script( 'cn-ui-admin', 'cn_string', $strings );
+			wp_localize_script( 'cn-ui-admin', 'cnMap', $map );
 
 			$stringsSystemInfo = array(
 				'strSend'                   => __( 'Send Email', 'connections' ),
@@ -238,6 +358,9 @@ class cnScript {
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified CSS files, otherwise, load the minified files.
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
+
+		wp_register_style( 'leaflet', $url . "vendor/leaflet/leaflet$min.css", array(), '1.3.4' );
+		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.6' );
 
 		if ( is_admin() ) {
 
@@ -335,7 +458,7 @@ class cnScript {
 			/** @noinspection PhpUnusedLocalVariableInspection */
 			global $concatenate_scripts, $compress_scripts, $compress_css;
 
-			wp_enqueue_script( 'jquery-gomap' );
+			//wp_enqueue_script( 'jquery-gomap' );
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-chosen' );
 
@@ -504,6 +627,7 @@ class cnScript {
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
 			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-font-awesome' );
+			wp_enqueue_style( 'leaflet-control-geocoder' );
 
 			if ( is_rtl() ) {
 

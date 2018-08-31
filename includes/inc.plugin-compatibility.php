@@ -245,3 +245,48 @@ if ( ! function_exists( 'wp_doing_ajax' ) ) :
 		return apply_filters( 'wp_doing_ajax', defined( 'DOING_AJAX' ) && DOING_AJAX );
 	}
 endif;
+
+/**
+ * If Maps Marker or Maps Marker Pro is installed/activated, deregister and register the inclusion of the
+ * Google Maps JavaScript API so its admin notice/warning is not displayed.
+ *
+ * @since 8.27
+ */
+add_action( 'plugins_loaded', 'cn_maps_marker_pro' );
+
+function cn_maps_marker_pro() {
+
+	if ( class_exists( 'Leafletmapsmarker', FALSE ) ||
+	     class_exists( 'MMP_Globals', FALSE ) ) {
+
+		add_action( 'admin_notices', 'cn_deregister_google_maps_api', 9 );
+		add_action( 'admin_notices', 'cn_register_google_maps_api', 11 );
+	}
+}
+
+function cn_deregister_google_maps_api() {
+
+	wp_deregister_script( 'cn-google-maps-api' );
+}
+
+function cn_register_google_maps_api() {
+
+	// If script is registered, bail.
+	if ( wp_script_is( 'cn-google-maps-api', $list = 'enqueued' )  ) return;
+
+	$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
+	$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
+
+	if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
+
+		$googleMapsAPIURL = add_query_arg( 'key', $googleMapsAPIBrowserKey, $googleMapsAPIURL );
+	}
+
+	wp_register_script(
+		'cn-google-maps-api',
+		$googleMapsAPIURL,
+		array(),
+		CN_CURRENT_VERSION,
+		Connections_Directory()->options->getJavaScriptFooter()
+	);
+}

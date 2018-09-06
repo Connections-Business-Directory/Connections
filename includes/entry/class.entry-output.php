@@ -1298,7 +1298,7 @@ class cnOutput extends cnEntry {
 			$out = '<div ' . implode( ' ', $attr ) . '></div>';
 		}
 
-		$out = $atts['before'] . $out . $atts['after'] . PHP_EOL;
+		$out = $atts['before'] . $out . $atts['after'];
 
 		return $this->echoOrReturn( $atts['return'], $out );
 	}

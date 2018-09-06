@@ -1255,7 +1255,7 @@ class cnOutput extends cnEntry {
 		if ( $atts['static'] ) $atts['width'] = ( $atts['width'] <= 640 ) ? $atts['width'] : 640;
 		if ( $atts['static'] ) $atts['height'] = ( $atts['height'] <= 640 ) ? $atts['height'] : 640;
 
-		$addresses = $this->getAddresses( $atts , $cached );
+		$addresses = $this->getAddresses( $atts, $cached );
 
 		if ( empty( $addresses ) ) return '';
 

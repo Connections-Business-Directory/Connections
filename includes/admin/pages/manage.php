@@ -633,7 +633,7 @@ function connectionsShowViewPage( $action = NULL ) {
 					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_edit_entry' ) ) $rowEditActions[] = '<a class="action approve" href="' . $approvedTokenURL . '" title="' . __( 'Approve', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Approve', 'connections' ) . '</a>';
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) $rowEditActions[] = '<a class="editbutton" href="' . $editTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Edit', 'connections' ) . '</a>';
-					if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) $rowEditActions[] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __( 'Copy', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Copy', 'connections' ) . '</a>';
+					//if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) $rowEditActions[] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __( 'Copy', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Copy', 'connections' ) . '</a>';
 					if ( current_user_can( 'connections_delete_entry' ) ) $rowEditActions[] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteTokenURL . '" title="' . __( 'Delete', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Delete', 'connections' ) . '</a>';
 
 					if ( ! empty( $rowEditActions ) ) echo implode( ' | ', $rowEditActions ) , '<br/>';

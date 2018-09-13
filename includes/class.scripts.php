@@ -281,7 +281,7 @@ class cnScript {
 						'maxZoom'      => '19',
 					),
 				),
-				'basemapDefault'   => 'osm',
+				'basemapDefault'   => 'wikimedia',
 				'geocoderDefault'  => 'osm',
 				'geocoderAPIKey'   => esc_js( trim( $googleMapsAPIBrowserKey ) ),
 			);

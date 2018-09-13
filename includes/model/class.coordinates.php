@@ -187,4 +187,12 @@ final class cnCoordinates {
 
 		return array( $this->getLongitude(), $this->getLatitude() );
 	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+
+		return (string) "{$this->getLatitude()},{$this->getLongitude()}";
+	}
 }

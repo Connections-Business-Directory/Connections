@@ -248,7 +248,7 @@ class cnHTML {
 
 				if ( ! empty( $value ) ) {
 
-					return ' id="' . esc_attr( (string) $value ) . '" ';
+					return ' id="' . esc_attr( (string) cnString::replaceWhatWith( $value, ' ', '-' ) ) . '" ';
 
 				} else {
 

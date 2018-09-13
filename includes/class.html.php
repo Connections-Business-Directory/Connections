@@ -289,7 +289,7 @@ class cnHTML {
 
 				break;
 
-			case 'data':
+			case 'data-array':
 
 				$data = array();
 

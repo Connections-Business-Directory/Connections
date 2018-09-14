@@ -229,10 +229,11 @@ class cnDependency {
 			'cnImage'                  => 'includes/image/class.image.php',
 
 			// Shortcodes.
-			'cnShortcode'              => 'includes/shortcode/class.shortcode.php',
-			'cnShortcode_Connections'  => 'includes/shortcode/class.shortcode-connections.php',
-			'cnThumb'                  => 'includes/shortcode/class.shortcode-thumbnail.php',
-			'cnThumb_Responsive'       => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
+			'cnShortcode'                              => 'includes/shortcode/class.shortcode.php',
+			'cnShortcode_Connections'                  => 'includes/shortcode/class.shortcode-connections.php',
+			'Connections_Directory\Shortcode\mapBlock' => 'includes/shortcode/class.shortcode-mapblock.php',
+			'cnThumb'                                  => 'includes/shortcode/class.shortcode-thumbnail.php',
+			'cnThumb_Responsive'                       => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
 
 			// Register the query vars, rewrite URL/s and canonical redirects.
 			'cnRewrite'                => 'includes/class.rewrite.php',
@@ -382,6 +383,24 @@ class cnDependency {
 			'Connections_Directory\Geocoder\Provider\Google_Maps\Google_Maps' => 'includes/geocoder/provider/class.google-maps.php',
 			'Connections_Directory\Geocoder\Provider\Bing_Maps\Bing_Maps'     => 'includes/geocoder/provider/class.bing-maps.php',
 			'Connections_Directory\Geocoder\Provider\Nominatim\Nominatim'     => 'includes/geocoder/provider/class.nominatim.php',
+
+			// Map
+			'Connections_Directory\Map\Map'                                   => 'includes/map/class.map.php',
+			'Connections_Directory\Map\Map_Object'                            => 'includes/map/interface.map-object.php',
+			//'Connections_Directory\Map\Layer'                                 => 'includes/map/class.layer.php',
+			'Connections_Directory\Map\Layer\Layer'                           => 'includes/map/layer/interface.layer.php',
+			'Connections_Directory\Map\Layer\Abstract_Layer'                  => 'includes/map/layer/abstract.layer.php',
+			'Connections_Directory\Map\Layer\Group\Layer_Group'               => 'includes/map/layer/group/class.layer-group.php',
+			'Connections_Directory\Map\Layer\Raster\Tile_Layer'               => 'includes/map/layer/raster/class.tile-layer.php',
+			'Connections_Directory\Map\Layer\Raster\Provider\Nominatim'       => 'includes/map/layer/raster/provider/class.nominatim.php',
+			'Connections_Directory\Map\Layer\Raster\Provider\Wikimedia'       => 'includes/map/layer/raster/provider/class.wikimedia.php',
+			'Connections_Directory\Map\Layer\Raster\Provider\Google_Maps'     => 'includes/map/layer/raster/provider/class.google-maps.php',
+			'Connections_Directory\Map\UI\Marker'                             => 'includes/map/ui/class.marker.php',
+			'Connections_Directory\Map\UI\Popup'                              => 'includes/map/ui/class.popup.php',
+			//'Connections_Directory\Map\Marker'                                => 'includes/map/class.marker.php',
+			//'Connections_Directory\Map\Marker_Collection'                     => 'includes/map/class.marker-collection.php',
+			'Connections_Directory\Map\Common\Options'                        => 'includes/map/common/trait.options.php',
+			'Connections_Directory\Map\Common\Popup_Trait'                    => 'includes/map/common/trait.popup.php',
 
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',

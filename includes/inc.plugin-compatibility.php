@@ -259,8 +259,8 @@ function cn_maps_marker_pro() {
 	if ( class_exists( 'Leafletmapsmarker', FALSE ) ||
 	     class_exists( 'MMP_Globals', FALSE ) ) {
 
-		add_action( 'admin_notices', 'cn_deregister_google_maps_api', 9 );
-		add_action( 'admin_notices', 'cn_register_google_maps_api', 11 );
+		add_action( 'admin_notices', 'cn_deregister_google_maps_api', 9.999 );
+		add_action( 'admin_notices', 'cn_register_google_maps_api', 10.001 );
 	}
 }
 
@@ -272,7 +272,7 @@ function cn_deregister_google_maps_api() {
 function cn_register_google_maps_api() {
 
 	// If script is registered, bail.
-	if ( wp_script_is( 'cn-google-maps-api', $list = 'enqueued' )  ) return;
+	if ( wp_script_is( 'cn-google-maps-api', $list = 'registered' )  ) return;
 
 	$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
 	$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );

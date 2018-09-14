@@ -128,7 +128,7 @@ class cnScript {
 		 * NOTE: See inc.plugin-compatibility regarding registration of the Google Maps JavaScript API.
 		 */
 		wp_register_script( 'google-loader', 'https://www.google.com/jsapi', array(), NULL, FALSE );
-		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, $connections->options->getJavaScriptFooter() );
+		wp_register_script( 'cn-google-maps-api', $googleMapsAPIURL, array(), CN_CURRENT_VERSION, TRUE );
 
 		wp_register_script( 'jquery-gomap', $url . "vendor/jquery-gomap/jquery.gomap$min.js", array( 'jquery' , 'cn-google-maps-api' ), '1.3.3', $connections->options->getJavaScriptFooter() );
 		wp_register_script( 'jquery-markerclusterer', $url . "vendor/markerclusterer/markerclusterer$min.js", array( 'jquery' , 'cn-google-maps-api' , 'jquery-gomap' ), '2.1.2', $connections->options->getJavaScriptFooter() );
@@ -143,7 +143,7 @@ class cnScript {
 			$url . "vendor/leaflet/leaflet$min.js",
 			array(),
 			'1.3.4',
-			$connections->options->getJavaScriptFooter()
+			TRUE
 		);
 
 		wp_register_script(
@@ -151,7 +151,7 @@ class cnScript {
 			$url . "vendor/leaflet/geocoder/Control.Geocoder$min.js",
 			array( 'leaflet' ),
 			'1.6',
-			$connections->options->getJavaScriptFooter()
+			TRUE
 		);
 
 		wp_register_script(
@@ -159,7 +159,7 @@ class cnScript {
 			$url . "vendor/leaflet/layer-deferred/Layer.Deferred$min.js",
 			array( 'leaflet' ),
 			'3.0.3',
-			$connections->options->getJavaScriptFooter()
+			TRUE
 		);
 
 		/*
@@ -179,7 +179,7 @@ class cnScript {
 				$url . "vendor/leaflet/basemap-providers/Leaflet.GoogleMutant$min.js",
 				array( 'leaflet', 'cn-google-maps-api' ),
 				'0.7.0',
-				$connections->options->getJavaScriptFooter()
+				TRUE
 			);
 
 			wp_register_script(
@@ -187,7 +187,7 @@ class cnScript {
 				$url . "assets/js/leaflet/geocoderGoogleNative/Geocoder.Google.Native$min.js",
 				array( 'leaflet-control-geocoder', 'cn-google-maps-api' ),
 				'1.0',
-				$connections->options->getJavaScriptFooter()
+				TRUE
 			);
 
 			/*
@@ -201,6 +201,20 @@ class cnScript {
 				'leaflet-control-geocoder-google-native',
 			);
 		}
+
+		wp_register_script(
+			'jquery-mapblock',
+			$url . "assets/js/jquery/jquery.mapblock$min.js",
+			// Merge in the map dependencies.
+			array_merge(
+				array(
+					'jquery',
+				),
+				$mapDependencies
+			),
+			'1.0',
+			TRUE
+		);
 
 		if ( is_admin() ) {
 
@@ -281,7 +295,7 @@ class cnScript {
 						'maxZoom'      => '19',
 					),
 				),
-				'basemapDefault'   => 'osm',
+				'basemapDefault'   => 'wikimedia',
 				'geocoderDefault'  => 'osm',
 				'geocoderAPIKey'   => esc_js( trim( $googleMapsAPIBrowserKey ) ),
 			);
@@ -667,6 +681,7 @@ class cnScript {
 	public static function enqueueStyles() {
 
 		wp_enqueue_style( 'cn-public' );
+		wp_enqueue_style( 'leaflet-control-geocoder' );
 
 		if ( is_rtl() ) {
 

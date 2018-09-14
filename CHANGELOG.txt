@@ -1,5 +1,24 @@
 == Changelog ==
 
+= 8.28 09/14/2018 =
+* NEW: Bump minimum PHP version to 5.4.
+* NEW: Introduce the Map API with multiple map tile service providers such as Google Maps, Wikimedia Maps and OpenStreetMaps.
+* NEW: Add new shortcode which utilizes the new Map API.
+* NEW: Templates which support displaying maps will default to displaying Wikimedia Maps if Google Maps API has not been setup.
+* NEW: Templates which support display of maps will now display a map marker for each address added to the entry with a popup displaying the address.
+* TWEAK: Tweak Divi's Grab first post image option compatibility.
+* TWEAK: Tweak logic applied for Maps Marker plugin compatibility.
+* TWEAK: Remove the copy entry action until it can be fixed.
+* TWEAK: Default the base map tiles to Wikimedia instead of OpenStreetMap when displaying the geocoding map in admin when adding/editing and entry.
+* TWEAK: Replace spaces with hyphens when escaping the HTML element id attribute.
+* TWEAK Refactor `cnOutput::getMapBlock()` to utilize the new Map API.
+* BUG: The `cnHTML::attribute()` method had a double 'data' in switch statement. Rename duplicate to 'data-array` to reflect intended application.
+* OTHER: Remove stray whitespace.
+* OTHER: Remove EOL from `cnOutput::mapBlock()`.
+* OTHER: Remove usage of deprecated `getJavaScriptFooter()` method.
+* DEV: Add a few helper methods to cnCoordinates to create object from various supplied types.
+* DEV: Add `__String()` to cnCoordinates.
+
 = 8.27 08/31/2018 =
 * NEW: Add Algolia as a geocoding provider.
 * TWEAK: Default to Algolia to geocode address if the Google Maps API Server key has not been set in the settings.

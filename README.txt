@@ -4,8 +4,8 @@ Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.5.3
 Tested up to: 4.9
-Requires PHP: 5.3
-Stable tag: 8.27
+Requires PHP: 5.4
+Stable tag: 8.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.28 09/14/2018 =
+* NEW: Bump minimum PHP version to 5.4.
+* NEW: Introduce the Map API with multiple map tile service providers such as Google Maps, Wikimedia Maps and OpenStreetMaps.
+* NEW: Add new shortcode which utilizes the new Map API.
+* NEW: Templates which support displaying maps will default to displaying Wikimedia Maps if Google Maps API has not been setup.
+* NEW: Templates which support display of maps will now display a map marker for each address added to the entry with a popup displaying the address.
+* TWEAK: Tweak Divi's Grab first post image option compatibility.
+* TWEAK: Tweak logic applied for Maps Marker plugin compatibility.
+* TWEAK: Remove the copy entry action until it can be fixed.
+* TWEAK: Default the base map tiles to Wikimedia instead of OpenStreetMap when displaying the geocoding map in admin when adding/editing and entry.
+* TWEAK: Replace spaces with hyphens when escaping the HTML element id attribute.
+* TWEAK Refactor `cnOutput::getMapBlock()` to utilize the new Map API.
+* BUG: The `cnHTML::attribute()` method had a double 'data' in switch statement. Rename duplicate to 'data-array` to reflect intended application.
+* OTHER: Remove stray whitespace.
+* OTHER: Remove EOL from `cnOutput::mapBlock()`.
+* OTHER: Remove usage of deprecated `getJavaScriptFooter()` method.
+* DEV: Add a few helper methods to cnCoordinates to create object from various supplied types.
+* DEV: Add `__String()` to cnCoordinates.
 
 = 8.27 08/31/2018 =
 * NEW: Add Algolia as a geocoding provider.
@@ -505,34 +524,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Remove placeholder string in settings.
 * DEV: Add couple phpDoc references.
 
-= 8.7 12/12/2017 =
-* FEATURE: Introduce field configuration options for the Publish, Name and Address field sets.
-* NEW: Add United Kingdom counties to cnGEO.
-* NEW: Introduce `cnGEO::getRegionName()`.
-* NEW: Introduce cnCountries.
-* NEW: Introduce the WP REST API countries endpoint/routes.
-* NEW: Add support for sortable/repeatable checklist fields in the Settings API.
-* TWEAK: Increase CSS enqueue priority to load last.
-* TWEAK: Remove the Enfold theme comapatibility hack as it no longer seems necessary after changing the CSS load priority.
-* TWEAK: Ensure minheight of the search submit button is set to auto to try to override themes which insist on setting a global minheight on submit form fields.
-* TWEAK: Make img src URL protocol relative.
-* TWEAK: Make `cn_manage_{taxonomy}_custom_column` hook an action instead of filter.
-* TWEAK: Add methods to cnCountry to pull data from the Rinvex\Country library and update existing calls to it to make them compatible to the new country attributs structure.
-* TWEAK: Refactor cnGeo to utilize cnCountries, deprecating many of the region specific methods.
-* TWEAK: Make `cnGEO::getRegionName()` a public static method matching the est of the members in the class.
-* TWEAK: Do not show labels for hidden text inputs.
-* TWEAK: Add support for the data attribute in `cnHTML::input()`.
-* BUG: Check for page hook properties one ata time as they are added to the filter array ro prevent PHP warning notices from being generated on multisite.
-* BUG: Check to ensure varaiable is array before using in a foreach loop to prevent a PHP warning.
-* BUG: Correct `Illegal string offset` and `Cannot create references to/from string offsets` PHP errors when saving user meta.
-* DEV: Include the Rinvex\Country library.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.7 =
-It is recommended to backup before updating. Requires WordPress >= 4.4.
 
 = 8.7.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -601,4 +595,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3.9. PHP version >= 7.1 recommended.
 
 = 8.27 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3.9. PHP version >= 7.1 recommended.
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.28 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

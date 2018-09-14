@@ -1302,7 +1302,7 @@ class cnOutput extends cnEntry {
 				$leaflet  = '<a href="https://www.leafletjs.com" target="_blank" title="Leaflet">Leaflet</a>';
 				$backlink = '<a href="https://connections-pro.com/" target="_blank" title="Connections Business Directory plugin for WordPress">Connections Business Directory</a> | ' . $leaflet;
 
-				$attribution[] = $backlink;
+				$attribution = array( $backlink );
 
 				if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
 

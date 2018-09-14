@@ -54,7 +54,7 @@ class mapBlock {
 			$atts['id'],
 			array(
 				'center' => new Coordinates( $atts['latitude'], $atts['longitude'] ),
-				'zoom'   =>  $atts['zoom'],
+				'zoom'   => $atts['zoom'],
 			)
 		);
 
@@ -148,7 +148,7 @@ class mapBlock {
 	public function parseAtts( $atts, $tag ) {
 
 		$defaults = $this->getDefaults();
-		$atts     = shortcode_atts( $defaults, $atts, $tag ) ;
+		$atts     = shortcode_atts( $defaults, $atts, $tag );
 
 		cnFormatting::toBoolean( $atts['marker'] );
 
@@ -246,7 +246,6 @@ class mapBlock {
 			},
 			$content
 		);
-
 
 		return trim( $content );
 	}

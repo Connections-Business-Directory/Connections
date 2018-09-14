@@ -117,7 +117,7 @@ final class cnCoordinates {
 
 		foreach ( $keys as $key ) {
 
-			if ( isset( $native[ $key[0] ] ) && isset( $native[ $key[1] ] ) ) {
+			if ( isset( $value[ $key[0] ] ) && isset( $value[ $key[1] ] ) ) {
 
 				return static::create( $value[ $key[0] ], $value[ $key[1] ] );
 			}

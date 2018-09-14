@@ -562,6 +562,26 @@ input#cn-submit {
 }
 
 /*
+ * Hide custom elements for the maps.
+ */
+map-tilelayer,
+map-layergroup,
+map-marker,
+map-marker-popup {
+	display: none;
+}
+
+/*
+ * Stop themes from applying styles to Leaflet map tiles.
+ */
+img.leaflet-tile,
+img.leaflet-marker-icon,
+img.leaflet-marker-shadow{
+	border-radius: unset;
+	box-shadow: none !important;
+}
+
+/*
  * Return to top.
  */
 #cn-list span.cn-return-to-top img {

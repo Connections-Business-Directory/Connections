@@ -202,6 +202,20 @@ class cnScript {
 			);
 		}
 
+		wp_register_script(
+			'jquery-mapblock',
+			$url . "assets/js/jquery/jquery.mapblock$min.js",
+			// Merge in the map dependencies.
+			array_merge(
+				array(
+					'jquery',
+				),
+				$mapDependencies
+			),
+			'1.0',
+			TRUE
+		);
+
 		if ( is_admin() ) {
 
 			wp_register_script(
@@ -667,6 +681,7 @@ class cnScript {
 	public static function enqueueStyles() {
 
 		wp_enqueue_style( 'cn-public' );
+		wp_enqueue_style( 'leaflet-control-geocoder' );
 
 		if ( is_rtl() ) {
 

@@ -245,7 +245,7 @@ class Popup extends Abstract_Layer {
 	 *
 	 * @since 8.28
 	 *
-	 * @return int
+	 * @return array
 	 */
 	public function getOffset() {
 

@@ -229,10 +229,11 @@ class cnDependency {
 			'cnImage'                  => 'includes/image/class.image.php',
 
 			// Shortcodes.
-			'cnShortcode'              => 'includes/shortcode/class.shortcode.php',
-			'cnShortcode_Connections'  => 'includes/shortcode/class.shortcode-connections.php',
-			'cnThumb'                  => 'includes/shortcode/class.shortcode-thumbnail.php',
-			'cnThumb_Responsive'       => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
+			'cnShortcode'                              => 'includes/shortcode/class.shortcode.php',
+			'cnShortcode_Connections'                  => 'includes/shortcode/class.shortcode-connections.php',
+			'Connections_Directory\Shortcode\mapBlock' => 'includes/shortcode/class.shortcode-mapblock.php',
+			'cnThumb'                                  => 'includes/shortcode/class.shortcode-thumbnail.php',
+			'cnThumb_Responsive'                       => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
 
 			// Register the query vars, rewrite URL/s and canonical redirects.
 			'cnRewrite'                => 'includes/class.rewrite.php',

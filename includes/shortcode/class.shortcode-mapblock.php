@@ -93,8 +93,6 @@ class mapBlock {
 
 		if ( $atts['marker'] ) {
 
-			//$this->markers->add( new Coordinates( $atts['latitude'], $atts['longitude'] ), $content );
-
 			$coordinates = Coordinates::create( $atts['latitude'], $atts['longitude'] );
 
 			if ( ! is_wp_error( $coordinates ) ) {

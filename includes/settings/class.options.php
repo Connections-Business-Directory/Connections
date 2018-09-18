@@ -1346,27 +1346,25 @@ class cnOptions {
 	}
 
 	/**
-	 * Return "1" if the Google Maps API is to be loaded, otherwise, returns empty.
+	 * Whether or not to register the Google Maps API.
 	 *
 	 * @deprecated since 0.7.3
-	 * @return mixed
+	 * @return true
 	 */
 	public function getGoogleMapsAPI() {
-		global $connections;
 
-		return $connections->settings->get( 'connections', 'connections_compatibility', 'google_maps_api' );
+		return TRUE;
 	}
 
 	/**
-	 * Return "1" if the javascript are to be loaded in the page footer, otherwise, returns empty.
+	 * Load registered scripts in the page footer.
 	 *
 	 * @deprecated since 0.7.3
-	 * @return mixed
+	 * @return true
 	 */
 	public function getJavaScriptFooter() {
-		global $connections;
 
-		return $connections->settings->get( 'connections', 'connections_compatibility', 'javascript_footer' );
+		return TRUE;
 	}
 
 	/**

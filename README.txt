@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.4
-Stable tag: 8.28
+Stable tag: 8.28.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,19 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.28.1 09/24/2018 =
+* TWEAK: Remove the advanced compatibility option to remove the registration of the Google Maps API as it is no longer relevent.
+* TWEAK: Remove advance compatibility option to define whether the JavaScript libraries are loaded in the page header or footer.
+* TWEAK: Remove usage of `cnOptions::getJavaScriptFooter()` throughout.
+* TWEAK: Refactor deprecated  `cnOptions::getJavaScriptFooter()` and `cnOptions::getGoogleMapsAPI()` to simply return true.
+* TWEAK: Couple CSS tweaks to further help prevent theme's from applying styles to map tiles.
+* TWEAK: Rename jQuery appear to jQuery cnAppear to prevent clashes with older versions of the jQuery plugin.
+* BUG: Do not bind a popup to the map level marker if no content was captured via the shortcode.
+* BUG: Autofill state (region) and country not functioning correctly under some circumstances.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: Remove commented out code.
 
 = 8.28 09/14/2018 =
 * NEW: Bump minimum PHP version to 5.4.
@@ -516,20 +529,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Minor CSS tweak to admin widget title, setting min height.
 * BUG: Fix PHP Warning: natsort() expects parameter 1 to be array, null given.
 
-= 8.7.1 12/13/2017 =
-* TWEAK: Use `strtolower()` instead of `mb_strtolower()`.
-* TWEAK: Use `strtoupper()` instead of `mb_strtoupper()`.
-* TWEAK: Do not use ternary shorthand, requires PHP > 5.3.
-* BUG: Update minified CSS/JS files.
-* BUG: Remove placeholder string in settings.
-* DEV: Add couple phpDoc references.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.7.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.8 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -598,4 +600,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.28 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.28.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

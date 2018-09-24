@@ -556,7 +556,10 @@ input#cn-submit {
 /*
  * This should help to keep themes from breaking Google Maps by setting the img to max-width: 100%;
  */
-.cn-gmap img {
+.gm-style img {
+	border: 0;
+	border-radius: unset;
+	box-shadow: none !important;
 	background-color: transparent;
 	max-width: none !important;
 }
@@ -574,6 +577,7 @@ map-marker-popup {
 /*
  * Stop themes from applying styles to Leaflet map tiles.
  */
+.leaflet-tile img,
 img.leaflet-tile,
 img.leaflet-marker-icon,
 img.leaflet-marker-shadow{

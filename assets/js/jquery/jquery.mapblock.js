@@ -291,7 +291,7 @@
 			});
 		});
 
-		$.appear( '#' + mapContainer );
+		$.cnAppear( '#' + mapContainer );
 
 		/**
 		 * @link https://stackoverflow.com/a/16462443/5351316
@@ -452,13 +452,13 @@
 	$.fn.extend({
 		// watching for element's appearance in browser viewport
 		appear: function(selector, options) {
-			$.appear(this, options);
+			$.cnAppear(this, options);
 			return this;
 		}
 	});
 
 	$.extend({
-		appear: function(selector, options) {
+		cnAppear: function(selector, options) {
 			var opts = $.extend({}, defaults, options || {});
 
 			if (!check_binded) {

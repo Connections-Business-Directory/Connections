@@ -93,15 +93,18 @@ class mapBlock {
 
 		if ( $atts['marker'] ) {
 
-			//$this->markers->add( new Coordinates( $atts['latitude'], $atts['longitude'] ), $content );
-
 			$coordinates = Coordinates::create( $atts['latitude'], $atts['longitude'] );
 
 			if ( ! is_wp_error( $coordinates ) ) {
 
-				Marker::create( 'default', $coordinates )
-				      ->bindPopup( Popup::create( 'default', $content ) )
-				      ->addTo( $this->map );
+				$marker = Marker::create( 'default', $coordinates );
+
+				if ( 0 < strlen( $content ) ) {
+
+					$marker->bindPopup( Popup::create( 'default', $content ) );
+				}
+
+				$marker->addTo( $this->map );
 			}
 		}
 

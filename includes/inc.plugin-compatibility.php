@@ -287,6 +287,6 @@ function cn_register_google_maps_api() {
 		$googleMapsAPIURL,
 		array(),
 		CN_CURRENT_VERSION,
-		Connections_Directory()->options->getJavaScriptFooter()
+		TRUE
 	);
 }

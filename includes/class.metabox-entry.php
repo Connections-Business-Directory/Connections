@@ -1275,7 +1275,7 @@ class cnEntryMetabox {
 						'after'    => '</div>',
 						'return'   => FALSE,
 					),
-					isset( $address->state ) ? $address->state : $region
+					isset( $address->state ) && 0 < strlen( $address->state ) ? $address->state : $region
 				);
 
 				cnHTML::field(
@@ -1312,7 +1312,7 @@ class cnEntryMetabox {
 					'options'  => array_combine( cnGeo::getCountries(), cnGeo::getCountries() ),
 					'return'   => FALSE,
 				),
-				isset( $address->country ) ? $address->country : $country
+				isset( $address->country ) && 0 < strlen( $address->country ) ? $address->country : $country
 			);
 
 			?>

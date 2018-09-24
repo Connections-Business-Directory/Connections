@@ -2,10 +2,10 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Connections Business Directory 8.24\n"
+"Project-Id-Version: Connections Business Directory 8.28\n"
 "Report-Msgid-Bugs-To: "
 "http://connections-pro.com/support/forum/translations/\n"
-"POT-Creation-Date: 2018-08-01 17:38:29+00:00\n"
+"POT-Creation-Date: 2018-09-24 14:06:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,105 +32,105 @@ msgstr ""
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: includes/admin/class.actions.php:195
+#: includes/admin/class.actions.php:196
 msgid "You do not have sufficient permissions to download system information."
 msgstr ""
 
-#: includes/admin/class.actions.php:265 includes/admin/class.actions.php:305
-#: includes/class.scripts.php:186
+#: includes/admin/class.actions.php:266 includes/admin/class.actions.php:306
+#: includes/class.scripts.php:320
 msgid "Invalid AJAX action or nonce validation failed."
 msgstr ""
 
-#: includes/admin/class.actions.php:270 includes/admin/class.actions.php:310
-#: includes/class.scripts.php:190
+#: includes/admin/class.actions.php:271 includes/admin/class.actions.php:311
+#: includes/class.scripts.php:324
 msgid "You do not have sufficient permissions to perform this action."
 msgstr ""
 
-#: includes/admin/class.actions.php:289
+#: includes/admin/class.actions.php:290
 msgid "Secret URL has been created."
 msgstr ""
 
-#: includes/admin/class.actions.php:315
+#: includes/admin/class.actions.php:316
 msgid "Secret URL has been revoked."
 msgstr ""
 
-#: includes/admin/class.actions.php:331
+#: includes/admin/class.actions.php:332
 msgid "You do not have sufficient permissions to export the settings."
 msgstr ""
 
-#: includes/admin/class.actions.php:350
+#: includes/admin/class.actions.php:351
 msgid "You do not have sufficient permissions to import the settings."
 msgstr ""
 
-#: includes/admin/class.actions.php:355
+#: includes/admin/class.actions.php:356
 msgid "Please upload a .json file."
 msgstr ""
 
-#: includes/admin/class.actions.php:362
+#: includes/admin/class.actions.php:363
 msgid "Please select a file to import."
 msgstr ""
 
-#: includes/admin/class.actions.php:370
+#: includes/admin/class.actions.php:371
 msgid "Settings have been imported."
 msgstr ""
 
-#: includes/admin/class.actions.php:397
+#: includes/admin/class.actions.php:398
 msgid "Nonce verification failed."
 msgstr ""
 
-#: includes/admin/class.actions.php:397
+#: includes/admin/class.actions.php:398
 #: includes/export/class.csv-export.php:272
 #: vendor/edd-sl/EDD_SL_Plugin_Updater.php:399
 msgid "Error"
 msgstr ""
 
-#: includes/admin/class.actions.php:521
+#: includes/admin/class.actions.php:522
 msgid "Failed to set user category height."
 msgstr ""
 
-#: includes/admin/class.actions.php:866 includes/admin/class.actions.php:1046
+#: includes/admin/class.actions.php:867 includes/admin/class.actions.php:1047
 msgid "Nonce verification failed"
 msgstr ""
 
-#: includes/admin/class.actions.php:872
+#: includes/admin/class.actions.php:873
 msgid "Missing import file. Please provide an import file."
 msgstr ""
 
-#: includes/admin/class.actions.php:882
+#: includes/admin/class.actions.php:883
 msgid "The uploaded file does not appear to be a CSV file."
 msgstr ""
 
-#: includes/admin/class.actions.php:891
+#: includes/admin/class.actions.php:892
 msgid "Something went wrong during the upload process, please try again."
 msgstr ""
 
-#: includes/admin/class.actions.php:960 includes/admin/class.actions.php:1153
+#: includes/admin/class.actions.php:961 includes/admin/class.actions.php:1154
 #: includes/export/class.csv-export-batch.php:146
 #: includes/export/class.csv-export.php:271
 msgid "You do not have permission to export data."
 msgstr ""
 
-#: includes/admin/class.actions.php:969
+#: includes/admin/class.actions.php:970
 msgid "Export location or file not writable."
 msgstr ""
 
-#: includes/admin/class.actions.php:1009
+#: includes/admin/class.actions.php:1010
 msgid "No data found for export parameters."
 msgstr ""
 
-#: includes/admin/class.actions.php:1056
+#: includes/admin/class.actions.php:1057
 msgid "You do not have permission to import data."
 msgstr ""
 
-#: includes/admin/class.actions.php:1065
+#: includes/admin/class.actions.php:1066
 msgid "No file file selected. Please select a file to import."
 msgstr ""
 
-#: includes/admin/class.actions.php:1105
+#: includes/admin/class.actions.php:1106
 msgid "Do Not Import"
 msgstr ""
 
-#: includes/admin/class.actions.php:1106
+#: includes/admin/class.actions.php:1107
 #: includes/admin/pages/categories.php:107
 #: includes/admin/pages/categories.php:357 includes/admin/pages/manage.php:48
 #: includes/admin/pages/manage.php:124 includes/admin/pages/manage.php:201
@@ -141,7 +141,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: includes/admin/class.actions.php:1107
+#: includes/admin/class.actions.php:1108
 #: includes/admin/pages/categories.php:115
 #: includes/admin/pages/categories.php:365
 #: includes/export/class.csv-export-batch-category.php:58
@@ -149,20 +149,20 @@ msgstr ""
 msgid "Slug"
 msgstr ""
 
-#: includes/admin/class.actions.php:1108
+#: includes/admin/class.actions.php:1109
 #: includes/export/class.csv-export-batch-category.php:57
 #: includes/template/class.template-list-table-term-admin.php:283
 msgid "Description"
 msgstr ""
 
-#: includes/admin/class.actions.php:1109
+#: includes/admin/class.actions.php:1110
 #: includes/admin/pages/categories.php:125
 #: includes/admin/pages/categories.php:375
 #: includes/export/class.csv-export-batch-category.php:59
 msgid "Parent"
 msgstr ""
 
-#: includes/admin/class.actions.php:1207
+#: includes/admin/class.actions.php:1208
 msgid "Import completed."
 msgstr ""
 
@@ -189,8 +189,8 @@ msgid "Add Entry Moderated"
 msgstr ""
 
 #: includes/admin/class.capabilities.php:63 includes/admin/pages/manage.php:177
-#: includes/entry/class.entry-actions.php:1155
-#: includes/entry/class.entry-actions.php:1159
+#: includes/entry/class.entry-actions.php:1203
+#: includes/entry/class.entry-actions.php:1207
 msgid "Edit Entry"
 msgstr ""
 
@@ -363,6 +363,7 @@ msgstr ""
 #: includes/admin/class.license.php:686 includes/admin/class.license.php:799
 #: includes/admin/class.license.php:808
 #: includes/class.google-maps-timezone-api.php:636
+#: includes/geocoder/provider/class.google-maps.php:433
 msgid "An unknown error has occurred."
 msgstr ""
 
@@ -466,7 +467,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/class.message.php:128 includes/admin/pages/manage.php:247
-#: includes/shortcode/class.shortcode.php:710
+#: includes/shortcode/class.shortcode.php:713
 msgid ""
 "You are not authorized to edit entries. Please contact the admin if you "
 "received this message in error."
@@ -1103,11 +1104,11 @@ msgstr ""
 msgid "No Image Available"
 msgstr ""
 
-#: includes/admin/pages/manage.php:622 includes/class.scripts.php:164
+#: includes/admin/pages/manage.php:622 includes/class.scripts.php:247
 msgid "Click to show details."
 msgstr ""
 
-#: includes/admin/pages/manage.php:622 includes/class.scripts.php:162
+#: includes/admin/pages/manage.php:622 includes/class.scripts.php:245
 msgid "Show Details"
 msgstr ""
 
@@ -1128,10 +1129,6 @@ msgstr ""
 #: includes/admin/pages/manage.php:635 includes/admin/pages/manage.php:717
 #: includes/template/class.template-list-table-term-admin.php:585
 msgid "Edit"
-msgstr ""
-
-#: includes/admin/pages/manage.php:636
-msgid "Copy"
 msgstr ""
 
 #: includes/admin/pages/manage.php:668
@@ -1269,15 +1266,15 @@ msgid "Family"
 msgstr ""
 
 #: includes/admin/pages/templates.php:87
-#: includes/entry/class.entry-output.php:2096
-#: includes/entry/class.entry-output.php:2109
+#: includes/entry/class.entry-output.php:2152
+#: includes/entry/class.entry-output.php:2165
 #: includes/settings/class.options.php:1201
 msgid "Anniversary"
 msgstr ""
 
 #: includes/admin/pages/templates.php:92
-#: includes/entry/class.entry-output.php:2017
-#: includes/entry/class.entry-output.php:2028
+#: includes/entry/class.entry-output.php:2073
+#: includes/entry/class.entry-output.php:2084
 #: includes/settings/class.options.php:1203
 msgid "Birthday"
 msgstr ""
@@ -1463,7 +1460,7 @@ msgstr ""
 msgid "Your system information will be attached automatically to this email."
 msgstr ""
 
-#: includes/admin/pages/tools.php:659 includes/class.scripts.php:183
+#: includes/admin/pages/tools.php:659 includes/class.scripts.php:317
 msgid "Send Email"
 msgstr ""
 
@@ -1518,7 +1515,7 @@ msgstr ""
 #: includes/api/endpoints/class.cn-rest-countries-controller.php:195
 #: includes/api/endpoints/class.cn-rest-countries-controller.php:225
 #: includes/api/endpoints/class.cn-rest-countries-controller.php:257
-#: includes/geo/class.countries.php:144
+#: includes/geo/class.countries.php:151
 msgid "Country code may be misspelled, invalid, or data not found."
 msgstr ""
 
@@ -1838,22 +1835,29 @@ msgid "Response could not be decoded."
 msgstr ""
 
 #: includes/class.google-maps-timezone-api.php:599
+#: includes/geocoder/provider/class.algolia.php:209
+#: includes/geocoder/provider/class.google-maps.php:390
+#: includes/geocoder/provider/class.nominatim.php:211
 msgid "Returned zero results."
 msgstr ""
 
 #: includes/class.google-maps-timezone-api.php:609
+#: includes/geocoder/provider/class.google-maps.php:409
 msgid "Daily query limit has been exceeded."
 msgstr ""
 
 #: includes/class.google-maps-timezone-api.php:618
+#: includes/geocoder/provider/class.google-maps.php:417
 msgid "Request has been denied."
 msgstr ""
 
 #: includes/class.google-maps-timezone-api.php:627
+#: includes/geocoder/provider/class.google-maps.php:425
 msgid "An invalid request has been received."
 msgstr ""
 
 #: includes/class.google-maps-timezone-api.php:655
+#: includes/geocoder/provider/class.google-maps.php:445
 msgid "An unknown status response has been received."
 msgstr ""
 
@@ -1921,7 +1925,7 @@ msgid "Excerpt"
 msgstr ""
 
 #: includes/class.metabox-entry.php:279
-#: includes/settings/class.options.php:1400
+#: includes/settings/class.options.php:1398
 msgid "Custom Fields"
 msgstr ""
 
@@ -2308,39 +2312,39 @@ msgstr ""
 msgid "Value not sanitized."
 msgstr ""
 
-#: includes/class.scripts.php:163
+#: includes/class.scripts.php:246
 msgid "Hide Details"
 msgstr ""
 
-#: includes/class.scripts.php:165
+#: includes/class.scripts.php:248
 msgid "Click to hide details."
 msgstr ""
 
-#: includes/class.scripts.php:184
+#: includes/class.scripts.php:318
 msgid "Sending..."
 msgstr ""
 
-#: includes/class.scripts.php:185
+#: includes/class.scripts.php:319
 msgid "Your message has been sent. Thank You!"
 msgstr ""
 
-#: includes/class.scripts.php:187
+#: includes/class.scripts.php:321
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: includes/class.scripts.php:188
+#: includes/class.scripts.php:322
 msgid "Please enter a subject."
 msgstr ""
 
-#: includes/class.scripts.php:189
+#: includes/class.scripts.php:323
 msgid "Please enter a message."
 msgstr ""
 
-#: includes/class.scripts.php:191
+#: includes/class.scripts.php:325
 msgid "Unknown error has occurred!"
 msgstr ""
 
-#: includes/class.scripts.php:192
+#: includes/class.scripts.php:326
 msgid "AJAX Headers not set."
 msgstr ""
 
@@ -2382,7 +2386,7 @@ msgid "Term ID is shared between multiple taxonomies"
 msgstr ""
 
 #: includes/class.utility.php:1903 includes/class.utility.php:2081
-#: includes/entry/class.entry-output.php:2210
+#: includes/entry/class.entry-output.php:2266
 msgid "&hellip;"
 msgstr ""
 
@@ -2445,15 +2449,15 @@ msgstr ""
 msgid "Logo for %s"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2288
+#: includes/entry/class.entry-output.php:2344
 msgid "Categories:"
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2909
+#: includes/entry/class.entry-output.php:2965
 msgid "Add to Address Book."
 msgstr ""
 
-#: includes/entry/class.entry-output.php:2910
+#: includes/entry/class.entry-output.php:2966
 msgid "Download vCard"
 msgstr ""
 
@@ -2550,12 +2554,20 @@ msgstr ""
 msgid "A."
 msgstr ""
 
-#: includes/geo/class.countries.php:40 includes/geo/class.countries.php:121
+#: includes/geo/class.countries.php:47 includes/geo/class.countries.php:128
 msgid "Invalid return type specified. Valid options are ARRAY_A and OBJECT."
 msgstr ""
 
-#: includes/geo/class.countries.php:77
+#: includes/geo/class.countries.php:84
 msgid "JSON could not be decoded."
+msgstr ""
+
+#: includes/geocoder/provider/class.google-maps.php:398
+msgid ""
+"The API key is missing or invalid. OR Billing has not been enabled on your "
+"account. OR A self-imposed usage cap has been exceeded. OR The provided "
+"method of payment is no longer valid (for example, a credit card has "
+"expired)."
 msgstr ""
 
 #: includes/image/class.image.php:512
@@ -3407,7 +3419,7 @@ msgstr ""
 msgid "Ordination"
 msgstr ""
 
-#: includes/settings/class.options.php:1476
+#: includes/settings/class.options.php:1474
 msgid "Uncategorized"
 msgstr ""
 
@@ -4639,28 +4651,6 @@ msgid ""
 "how to <a href=\"%s\">get a key</a>."
 msgstr ""
 
-#: includes/settings/class.settings.php:2697
-msgid "Google Maps API v3"
-msgstr ""
-
-#: includes/settings/class.settings.php:2698
-msgid ""
-"If the current active theme or another plugin loads the Google Maps API v3 "
-"uncheck this to prevent Connections from loading the Google Maps API. This "
-"could prevent potential conflicts. NOTE: This only applies to templates "
-"that utilize Google Maps."
-msgstr ""
-
-#: includes/settings/class.settings.php:2714
-msgid "JavaScript"
-msgstr ""
-
-#: includes/settings/class.settings.php:2715
-msgid ""
-"By default Connections loads it's JavaScripts in the page footer uncheck "
-"this box to load them in the page header."
-msgstr ""
-
 #: includes/settings/class.settings.php:2749
 msgid ""
 "Themes and plugins sometimes load a version of jQuery that is not bundled "
@@ -4698,23 +4688,23 @@ msgstr ""
 msgid "An error has occured while creating the thumbnail."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:603
+#: includes/shortcode/class.shortcode.php:606
 msgid "Future home of front end submissions."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:610
+#: includes/shortcode/class.shortcode.php:613
 msgid "Future home of the landing pages, such a list of categories."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:626
+#: includes/shortcode/class.shortcode.php:629
 msgid "Future home of the search page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:643
+#: includes/shortcode/class.shortcode.php:646
 msgid "Future home of the search results landing page."
 msgstr ""
 
-#: includes/shortcode/class.shortcode.php:701
+#: includes/shortcode/class.shortcode.php:704
 msgid ""
 "Your entry submission is currently under review, however, you can continue "
 "to make edits to your entry submission while your submission is under "

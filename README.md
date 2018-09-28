@@ -253,6 +253,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.28.2 09/28/2018 =
+* TWEAK: Additional tweaks to jQuery Appear to prevent conflicts with older versions of itself.
+* BUG: Fix map zoom default for when a single marker is being displayed to prevent a blank map.
+* OTHER: Update the Picturefill polyfill to version 3.0.2.
+* OTHER: Update jQuery Chosen to 1.8.7.
+* OTHER: Update Font Awesome to version 5.3.1.
+* OTHER: Update jQuery qTip to 3.0.3.
+* OTHER: Remove references/includes to `class.upload.php`. Has not been utilized in over 4 years. No longer required for backward compatibility.
+
 = 8.28.1 09/24/2018 =
 * TWEAK: Remove the advanced compatibility option to remove the registration of the Google Maps API as it is no longer relevent.
 * TWEAK: Remove advance compatibility option to define whether the JavaScript libraries are loaded in the page header or footer.
@@ -538,14 +547,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Minor tweaks to CN_parseCSV::parse_string() and CN_parseCSV::unparse() to use column indexes rather than column header names as the array index to allow duplicate column names in the source CSV file.
 * BUG: Link title and url fields were not being sanitized.
 * DEV: phpDoc corrections.
-
-= 8.8 12/22/2017 =
-* FEATURE: Add phone fieldset configuration options.
-* TWEAK: Ensure `jquery-form` is registered, seems some plugin/theme is unregistering this core WP script.
-* TWEAK: Tweak to ensure Say What text changes can be applied to address type labels.
-* TWEAK: cnOptions::getRegisteredAddressTypes()` should return all active and inactive address types.
-* TWEAK: Deprecated `cnOptions::getDefaultAddressValues() `should return `cnOptions::getAddressTypesOptions()`.
-* TWEAK: Minor CSS tweak to admin widget title, setting min height.
-* BUG: Fix PHP Warning: natsort() expects parameter 1 to be array, null given.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

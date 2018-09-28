@@ -107,11 +107,6 @@ class cnScript {
 	 */
 	public static function registerScripts() {
 
-		/**
-		 * @global connectionsLoad $connections
-		 */
-		global $connections;
-
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
@@ -341,7 +336,7 @@ class cnScript {
 
 		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.17.0' , TRUE );
 
-		wp_register_script( 'picturefill', $url . "vendor/picturefill/picturefill$min.js", array(), '2.3.1', TRUE );
+		wp_register_script( 'picturefill', $url . "vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
 	}
 
 	/**

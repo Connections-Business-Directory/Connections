@@ -328,7 +328,7 @@ class cnScript {
 			wp_register_script( 'cn-ui', $url . "assets/js/cn-user$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 		}
 
-		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '2.2.1', TRUE );
+		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '3.0.3', TRUE );
 
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
 		wp_register_script( 'jquery-chosen', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
@@ -413,7 +413,7 @@ class cnScript {
 
 		}
 
-		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '2.2.1' );
+		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );
 		wp_register_style( 'cn-chosen', $url . "vendor/chosen/chosen$min.css", array(), '1.8.7' );
 		wp_register_style( 'cn-font-awesome', $url . "vendor/font-awesome/css/all$min.css", array(), '5.3.1' );
 

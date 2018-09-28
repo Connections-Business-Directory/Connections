@@ -109,7 +109,7 @@
 					 * NOTE: Patching jQuery.appear() with PR gh-66 seems to negate this issue.
 					 */
 					// map[ id ] = 'addingMap';
-					map[ id ] = L.map( mapContainer ).setView( L.latLng( options.center.split( ',' ) ), options.zoom );
+					map[ id ] = L.map( mapContainer ).setView( L.latLng( options.center.split( ',' ) ), 1 );
 
 					/*
 					 * Clear the attribution, removing the Leaflet back link, so it can be customized.
@@ -248,7 +248,7 @@
 					}
 
 					// if the marker count is 1, use the supplied zoom value.
-					if ( 1 === markerCount ) {
+					if ( 1 >= markerCount ) {
 						map[ id ].setZoom( options.zoom );
 					}
 

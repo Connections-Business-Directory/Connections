@@ -212,7 +212,7 @@ class cnScript {
 				),
 				$mapDependencies
 			),
-			'1.0',
+			'1.0.1',
 			TRUE
 		);
 

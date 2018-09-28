@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 8.28.2 09/28/2018 =
+* TWEAK: Additional tweaks to jQuery Appear to prevent conflicts with older versions of itself.
+* BUG: Fix map zoom default for when a single marker is being displayed to prevent a blank map.
+* OTHER: Update the Picturefill polyfill to version 3.0.2.
+* OTHER: Update jQuery Chosen to 1.8.7.
+* OTHER: Update Font Awesome to version 5.3.1.
+* OTHER: Update jQuery qTip to 3.0.3.
+* OTHER: Remove references/includes to `class.upload.php`. Has not been utilized in over 4 years. No longer required for backward compatibility.
+
 = 8.28.1 09/24/2018 =
 * TWEAK: Remove the advanced compatibility option to remove the registration of the Google Maps API as it is no longer relevent.
 * TWEAK: Remove advance compatibility option to define whether the JavaScript libraries are loaded in the page header or footer.

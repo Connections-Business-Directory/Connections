@@ -364,6 +364,10 @@ class cnPlugin_Updater {
 				$timeout = HOUR_IN_SECONDS;
 				break;
 
+			case 'update.php':
+				$timeout = 0;
+				break;
+
 			default :
 
 				if ( defined( 'DOING_CRON' ) && DOING_CRON ||

@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 8.28.3 10/09/2018 =
+* TWEAK: Add case for `update.php` for plugin check timeouts to prevent a plugin update being shown as available after being installed.
+* BUG: HTML data attributes need to be quoted.
+* BUG: Sanitize before saving the repeatable fields.
+* OTHER: Remove extra whitespace.
+
 = 8.28.2 09/28/2018 =
 * TWEAK: Additional tweaks to jQuery Appear to prevent conflicts with older versions of itself.
 * BUG: Fix map zoom default for when a single marker is being displayed to prevent a blank map.

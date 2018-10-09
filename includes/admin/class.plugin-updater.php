@@ -356,15 +356,19 @@ class cnPlugin_Updater {
 
 		switch ( $pagenow ) {
 
-			case 'update-core.php' :
+			case 'update-core.php':
 				$timeout = MINUTE_IN_SECONDS;
 				break;
 
-			case 'plugins.php' :
+			case 'plugins.php':
 				$timeout = HOUR_IN_SECONDS;
 				break;
 
-			default :
+			case 'update.php':
+				$timeout = 0;
+				break;
+
+			default:
 
 				if ( defined( 'DOING_CRON' ) && DOING_CRON ||
 				     defined( 'DOING_AJAX' ) && DOING_AJAX

@@ -190,7 +190,7 @@ final class cnEntry_Phone_Numbers extends cnEntry_Object_Collection {
 				'number'     => array( 'key' => 'number', 'format' => '%s' ),
 				'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 			),
-			$this->resetFilters()->getCollectionAsObjects(),
+			$this->resetFilters()->escapeForSaving()->getCollectionAsObjects(),
 			array(
 				'id' => array( 'key' => 'id', 'format' => '%d' ),
 			)

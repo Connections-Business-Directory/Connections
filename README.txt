@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.4
-Stable tag: 8.28.2
+Stable tag: 8.28.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -233,6 +233,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.28.3 10/09/2018 =
+* TWEAK: Add case for `update.php` for plugin check timeouts to prevent a plugin update being shown as available after being installed.
+* BUG: HTML data attributes need to be quoted.
+* BUG: Sanitize before saving the repeatable fields.
+* OTHER: Remove extra whitespace.
 
 = 8.28.2 09/28/2018 =
 * TWEAK: Additional tweaks to jQuery Appear to prevent conflicts with older versions of itself.
@@ -523,18 +529,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: cnEntry property should not be init'd as a string since it is an cnEntry_Addresses object.
 * DEV: phpDoc corrections.
 
-= 8.9 01/12/2018 =
-* FEATURE: Add email fieldset configuration options.
-* TWEAK: Minor tweaks to CN_parseCSV::parse_string() and CN_parseCSV::unparse() to use column indexes rather than column header names as the array index to allow duplicate column names in the source CSV file.
-* BUG: Link title and url fields were not being sanitized.
-* DEV: phpDoc corrections.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.9 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.10 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -603,4 +600,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.28.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.28.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

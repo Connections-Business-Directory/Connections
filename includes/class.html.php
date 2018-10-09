@@ -274,7 +274,7 @@ class cnHTML {
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
-					array_walk( $value, create_function( '&$i, $property', '$i = "data-$property=$i";' ) );
+					array_walk( $value, create_function( '&$i, $property', '$i = "data-$property=\"$i\"";' ) );
 
 					return $value ? implode( $value, ' ' ): '';
 				}

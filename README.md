@@ -253,6 +253,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.28.3 10/09/2018 =
+* TWEAK: Add case for `update.php` for plugin check timeouts to prevent a plugin update being shown as available after being installed.
+* BUG: HTML data attributes need to be quoted.
+* BUG: Sanitize before saving the repeatable fields.
+* OTHER: Remove extra whitespace.
+
 = 8.28.2 09/28/2018 =
 * TWEAK: Additional tweaks to jQuery Appear to prevent conflicts with older versions of itself.
 * BUG: Fix map zoom default for when a single marker is being displayed to prevent a blank map.
@@ -540,12 +546,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Add "Fieldset" to the settings sections title for consistency.
 * TWEAK: Add the missing "Link Fieldset" settings section.
 * TWEAK: cnEntry property should not be init'd as a string since it is an cnEntry_Addresses object.
-* DEV: phpDoc corrections.
-
-= 8.9 01/12/2018 =
-* FEATURE: Add email fieldset configuration options.
-* TWEAK: Minor tweaks to CN_parseCSV::parse_string() and CN_parseCSV::unparse() to use column indexes rather than column header names as the array index to allow duplicate column names in the source CSV file.
-* BUG: Link title and url fields were not being sanitized.
 * DEV: phpDoc corrections.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

@@ -190,7 +190,7 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 				'address'    => array( 'key' => 'address', 'format' => '%s' ),
 				'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 			),
-			$this->resetFilters()->getCollectionAsObjects(),
+			$this->resetFilters()->escapeForSaving()->getCollectionAsObjects(),
 			array(
 				'id' => array( 'key' => 'id', 'format' => '%d' ),
 			)

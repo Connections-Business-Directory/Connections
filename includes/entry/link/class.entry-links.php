@@ -195,7 +195,7 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 				'logo'       => array( 'key' => 'logo', 'format' => '%d' ),
 				'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 			),
-			$this->resetFilters()->getCollectionAsObjects(),
+			$this->resetFilters()->escapeForSaving()->getCollectionAsObjects(),
 			array(
 				'id' => array( 'key' => 'id', 'format' => '%d' ),
 			)

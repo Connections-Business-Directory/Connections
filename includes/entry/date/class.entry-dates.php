@@ -189,7 +189,7 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 				'date'       => array( 'key' => 'date', 'format' => '%s' ),
 				'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
 			),
-			$this->resetFilters()->getCollectionAsObjects(),
+			$this->resetFilters()->escapeForSaving()->getCollectionAsObjects(),
 			array(
 				'id' => array( 'key' => 'id', 'format' => '%d' ),
 			)

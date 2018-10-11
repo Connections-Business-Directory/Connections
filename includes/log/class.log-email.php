@@ -276,7 +276,15 @@ final class cnLog_Email {
 
 			case 'headers':
 
-				$value = implode( '<br>', cnFormatting::maybeJSONdecode( $value ) );
+				$value = cnFormatting::maybeJSONdecode( $value );
+
+				if ( is_array( $value ) ) {
+
+					$value = array_map( 'esc_html', $value );
+				}
+
+				$value = implode( '<br>', $value );
+
 				break;
 
 			case 'type':

@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.4
-Stable tag: 8.28.3
+Stable tag: 8.28.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,8 @@ Quite simply, Connections Business Directory is one of the [best business direct
 = Features =
 
 * **Seamless integration** with WordPress.
+* Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
+* Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
@@ -233,6 +235,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.28.4 10/16/2018 =
+* NEW: Include `\ForceUTF8\Encoding` library.
+* TWEAK: Now that date types can be customized and/or disabled, do not default to `birthday` when performing an upcoming query. Instead, return no results.
+* BUG: Escape email header log items so `<` and `>` will be displayed correctly when viewing them.
 
 = 8.28.3 10/09/2018 =
 * TWEAK: Add case for `update.php` for plugin check timeouts to prevent a plugin update being shown as available after being installed.
@@ -509,32 +516,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc corrections.
 * DEV: Update plugin header.
 
-= 8.10 01/26/2018 =
-* NEW: Introduce abstract class cnEntry_Object_Collection.
-* NEW: Introduce abstract class cnEntry_Collection_Item.
-* NEW: Introduce class cnEntry_Phone_Numbers.
-* NEW: Introduce class cnPhone.
-* NEW: Introduce cnCSV_Batch_Export_All::getFields().
-* NEW: Create the phone tempalte files for hCard and the manage admin page.
-* NEW: Complete refactor of phone number model using cnEntry_Phone_Numbers and cnPhone objects.
-* TWEAK: Ensure upcoming dates are translated thru date_i18n().
-* TWEAK: Use the default address type rather than "other" when constructing a new address if type was not supplied.
-* TWEAK: Add phone number to the sanitize field method.
-* TWEAK: Make cnCSV_Batch_Export::getTerms() a public method.
-* TWEAK: Refactor cnCSV_Batch_Export_All and introduce filters for plugins to hook into.
-* TWEAK: PHP7.2 notice fix.
-* TWEAK: Rename "Field Configuration" settings tab to "Fieldset Configuration" for consistency.
-* TWEAK: Add "Fieldset" to the settings sections title for consistency.
-* TWEAK: Add the missing "Link Fieldset" settings section.
-* TWEAK: cnEntry property should not be init'd as a string since it is an cnEntry_Addresses object.
-* DEV: phpDoc corrections.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.10 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.11 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -603,4 +587,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.28.3 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.28.4 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

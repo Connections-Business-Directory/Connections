@@ -1267,8 +1267,14 @@ class cnRetrieve {
 		$atts = cnSanitize::args( $atts, $defaults );
 		cnFormatting::toBoolean( $atts['process_user_caps'] );
 
-		// Ensure that the upcoming type is one of the supported types. If not, reset to the default.
-		$atts['type'] = in_array( $atts['type'], $permitted ) ? $atts['type'] : 'birthday';
+		/*
+		 * Now that date types can be disabled, if the type being requested is off or invalid, return `0` results
+		 * instead of defaulting to the `birthday` date type as was done prior to versions >= 8.28.3.
+		 */
+		if ( ! in_array( $atts['type'], $permitted ) ) {
+
+			return $results;
+		}
 
 		$where[] = $wpdb->prepare( 'AND `type` = %s', $atts['type'] );
 

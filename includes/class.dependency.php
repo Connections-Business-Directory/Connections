@@ -69,6 +69,9 @@ class cnDependency {
 
 		// Include the autoloader for the Pear IMC classes.
 		if ( ! class_exists( 'File_IMC' ) ) include_once CN_PATH . 'vendor/pear/IMC.php';
+
+		// Include the Encoding class.
+		if ( ! class_exists( '\ForceUTF8\Encoding' ) ) include_once CN_PATH . 'vendor/ForceUTF8/Encoding.php';
 	}
 
 	/**

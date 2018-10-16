@@ -20,6 +20,8 @@ Quite simply, Connections Business Directory is one of the [best business direct
 = Features =
 
 * **Seamless integration** with WordPress.
+* Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
+* Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.

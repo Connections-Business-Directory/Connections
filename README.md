@@ -253,6 +253,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.28.4 10/16/2018 =
+* NEW: Include `\ForceUTF8\Encoding` library.
+* TWEAK: Now that date types can be customized and/or disabled, do not default to `birthday` when performing an upcoming query. Instead, return no results.
+* BUG: Escape email header log items so `<` and `>` will be displayed correctly when viewing them.
+
 = 8.28.3 10/09/2018 =
 * TWEAK: Add case for `update.php` for plugin check timeouts to prevent a plugin update being shown as available after being installed.
 * BUG: HTML data attributes need to be quoted.

@@ -439,26 +439,24 @@ class cnEntryMetabox {
 
 		$defaults = array(
 			'taxonomy' => 'category',
-			'exclude'  => 'exclude',
 		);
 
 		$atts = wp_parse_args( $metabox['args'], $defaults );
+
+		$atts['selected'] = cnTerm::getRelationships(
+			$entry->getID(),
+			$atts['taxonomy'],
+			array(
+				'fields' => 'ids',
+			)
+		);
 
 		echo '<div class="categorydiv" id="taxonomy-category">';
 		echo '<div id="category-all" class="tabs-panel">';
 
 		cnTemplatePart::walker(
 			'term-checklist',
-			array(
-				'selected' => cnTerm::getRelationships(
-					$entry->getID(),
-					$atts['taxonomy'],
-					array(
-						'fields' => 'ids'
-					)
-				),
-				'exclude' => $atts['exclude'],
-			)
+			$atts
 		);
 
 		echo '</div>';

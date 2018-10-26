@@ -253,6 +253,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.28.5 10/26/2018 =
+* TWEAK: Minor tweak to the Profile template to allow the bio to flow up on the detail view.
+* BUG: Correct bug with the exclude categories option when registering the Category metabox.
+
 = 8.28.4 10/16/2018 =
 * NEW: Include `\ForceUTF8\Encoding` library.
 * TWEAK: Now that date types can be customized and/or disabled, do not default to `birthday` when performing an upcoming query. Instead, return no results.
@@ -532,25 +536,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Ensure the $atts variable is an array before setting values when viewing all.
 * DEV: phpDoc corrections.
 * DEV: Update plugin header.
-
-= 8.10 01/26/2018 =
-* NEW: Introduce abstract class cnEntry_Object_Collection.
-* NEW: Introduce abstract class cnEntry_Collection_Item.
-* NEW: Introduce class cnEntry_Phone_Numbers.
-* NEW: Introduce class cnPhone.
-* NEW: Introduce cnCSV_Batch_Export_All::getFields().
-* NEW: Create the phone tempalte files for hCard and the manage admin page.
-* NEW: Complete refactor of phone number model using cnEntry_Phone_Numbers and cnPhone objects.
-* TWEAK: Ensure upcoming dates are translated thru date_i18n().
-* TWEAK: Use the default address type rather than "other" when constructing a new address if type was not supplied.
-* TWEAK: Add phone number to the sanitize field method.
-* TWEAK: Make cnCSV_Batch_Export::getTerms() a public method.
-* TWEAK: Refactor cnCSV_Batch_Export_All and introduce filters for plugins to hook into.
-* TWEAK: PHP7.2 notice fix.
-* TWEAK: Rename "Field Configuration" settings tab to "Fieldset Configuration" for consistency.
-* TWEAK: Add "Fieldset" to the settings sections title for consistency.
-* TWEAK: Add the missing "Link Fieldset" settings section.
-* TWEAK: cnEntry property should not be init'd as a string since it is an cnEntry_Addresses object.
-* DEV: phpDoc corrections.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

@@ -90,8 +90,6 @@ $notes = $entry->getNotes();
 
 	</div>
 
-	<div class="cn-clear"></div>
-
 	<?php
 
 	if ( $atts['show_bio'] && 0 < strlen( $bio ) ) {

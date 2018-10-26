@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 4.9
 Requires PHP: 5.4
-Stable tag: 8.28.4
+Stable tag: 8.28.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -235,6 +235,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.28.5 10/26/2018 =
+* TWEAK: Minor tweak to the Profile template to allow the bio to flow up on the detail view.
+* BUG: Correct bug with the exclude categories option when registering the Category metabox.
 
 = 8.28.4 10/16/2018 =
 * NEW: Include `\ForceUTF8\Encoding` library.
@@ -499,29 +503,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Correct array to string conversion PHP notice.
 * DEV: phpDoc corrections in cnDate.
 
-= 8.11 02/05/2018 =
-* NEW: Add support for the plugin bannerS in plugin info REST API responses.
-* NEW: Add support for the plugin iconS in plugin info REST API responses.
-* NEW: Add support for opting into beta versions of the installed addons.
-* NEW: Introduce cnPlugn_Updater::maybe_unserialize_response().
-* NEW: Introduce cnText_Domain.
-* TWEAK: Check for DOING_AJAX when adjusting the addon update check and status check.
-* TWEAK: Clean plugin cache on addon activate/deactivate.
-* TWEAK: When doing addon status check use the same timeout as used during update checks when on the WP Updates admin page.
-* TWEAK: Update addon statuses after doing an update check.
-* TWEAK: Clean the plugin cache before running the addon status check.
-* TWEAK: Change the priority of addon status check to 9 on the WP Plugins admin page so it runs before the addon update check.
-* TWEAK: Utilize cnText_Domain to load the plugin translation files.
-* BUG: Ensure the $atts variable is an array before setting values when viewing all.
-* DEV: phpDoc corrections.
-* DEV: Update plugin header.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.11 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.12 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -590,4 +574,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.28.4 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.28.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

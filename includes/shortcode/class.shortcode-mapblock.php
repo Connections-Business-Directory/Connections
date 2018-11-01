@@ -5,6 +5,7 @@ namespace Connections_Directory\Shortcode;
 use cnFormatting;
 use cnSettingsAPI as Option;
 use cnCoordinates as Coordinates;
+use Connections_Directory\Map\Control\Layer\Layer_Control;
 use Connections_Directory\Map\Map;
 use Connections_Directory\Map\UI\Popup;
 use Connections_Directory\Map\UI\Marker;
@@ -24,6 +25,11 @@ class mapBlock {
 	 * @var Map
 	 */
 	private $map;
+
+	/**
+	 * @var Layer_Control
+	 */
+	private $layerControl;
 
 	/**
 	 * Callback for `add_shortcode()`
@@ -58,6 +64,8 @@ class mapBlock {
 			)
 		);
 
+		$this->layerControl = Layer_Control::create( 'layerControl' )->setCollapsed( FALSE );
+
 		$googleMapsAPIBrowserKey = Option::get(
 			'connections',
 			'google_maps_geocoding_api',
@@ -72,24 +80,42 @@ class mapBlock {
 
 		if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
 
-			$baseMap = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create();
+			$roadMap = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'roadmap' );
+
+			$roadMap->setAttribution( implode( ' | ', $attribution ) )
+			        ->setOption( 'name', 'Roadmap' );
+
+			$this->layerControl->addBaseLayer( $roadMap );
+
+			$hybrid = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'hybrid' );
+
+			$hybrid->setAttribution( implode( ' | ', $attribution ) )
+			       ->setOption( 'name', 'Satellite' );
+
+			$this->layerControl->addBaseLayer( $hybrid );
 
 		} else {
 
 			$baseMap = \Connections_Directory\Map\Layer\Raster\Provider\Wikimedia::create();
 
 			$attribution[] = $baseMap->getAttribution();
-		}
 
-		$baseMap->setAttribution( implode( ' | ', $attribution )  );
+			$baseMap->setAttribution( implode( ' | ', $attribution ) );
+
+			$this->layerControl->addBaseLayer( $baseMap );
+		}
 
 		$this->map->setHeight( $atts['height'] )
 		          ->setWidth( $atts['width'] )
 		          ->setCenter( new Coordinates( $this->getDefaults()['latitude'], $this->getDefaults()['longitude'] ) )
-		          ->addLayer( $baseMap );
+		          ->addLayers( $this->layerControl->getBaseLayers() )
+		          ->addControl( $this->layerControl );
 
 		$content = $this->parseLayers( $content );
 		$content = $this->parseMarkers( $content );
+
+		//$this->map->addLayers( $this->layerControl->getBaseLayers() );
+		$this->map->addLayers( $this->layerControl->getOverlays() );
 
 		if ( $atts['marker'] ) {
 
@@ -177,7 +203,8 @@ class mapBlock {
 				if ( 0 == strlen( $match[5]) ) return '';
 
 				$defaults = array(
-					'name'    => 'default',
+					'id'      => 'layer',
+					'name'    => '',
 					'control' => FALSE,
 				);
 
@@ -186,9 +213,23 @@ class mapBlock {
 
 				cnFormatting::toBoolean( $atts['control'] );
 
-				$layerGroup = Layer_Group::create( $atts['name'] )->addTo( $this->map );
+				$layerGroup = Layer_Group::create( $atts['id'] );
+
+				if ( 0 < strlen( $atts['name'] ) ) {
+
+					$layerGroup->setOption( 'name', $atts['name'] );
+				}
 
 				$this->parseMarkers( $match[5], $layerGroup );
+
+				if ( $atts['control'] ) {
+
+					$this->layerControl->addOverlay( $layerGroup );
+
+				} else {
+
+					$layerGroup->addTo( $this->map );
+				}
 
 				return '';
 			},

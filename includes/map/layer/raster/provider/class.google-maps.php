@@ -20,8 +20,11 @@ class Google_Maps extends Tile_Layer {
 	 * @since 8.28
 	 *
 	 * @param string $id
+	 * @param string $type
 	 */
-	public function __construct( $id ) {
+	public function __construct( $id, $type ) {
+
+		$this->setOption( 'type', $type );
 
 		parent::__construct( $id, '' );
 	}
@@ -29,11 +32,13 @@ class Google_Maps extends Tile_Layer {
 	/**
 	 * @since 8.28
 	 *
+	 * @param string $type
+	 *
 	 * @return Google_Maps
 	 */
-	public static function create() {
+	public static function create( $type ) {
 
-		return new static( 'google' );
+		return new static( "google-$type", $type );
 	}
 
 	/**

@@ -6,6 +6,7 @@ use cnHTML as HTML;
 use cnCoordinates as Coordinates;
 use Connections_Directory\Map\Common\Options;
 use Connections_Directory\Map\Layer\Layer;
+use Connections_Directory\Map\Control\Control;
 
 /**
  * Generate map using custom HTML elements. Heavily based on the PHP Leaflet library.
@@ -28,6 +29,13 @@ class Map {
 	 * @var Layer[]
 	 */
 	private $layers;
+
+	/**
+	 * Map controls.
+	 *
+	 * @var Control[]
+	 */
+	private $controls = array();
 
 	/**
 	 * Block constructor.
@@ -244,6 +252,65 @@ class Map {
 	}
 
 	/**
+	 * Get map controls.
+	 *
+	 * @since 8.29
+	 *
+	 * @return Control[]
+	 */
+	public function getControls() {
+
+		return $this->controls;
+	}
+
+	/**
+	 * Add a control to the map.
+	 *
+	 * @since 8.29
+	 *
+	 * @param Control $control
+	 *
+	 * @return $this
+	 */
+	public function addControl( $control ) {
+
+		$this->controls[] = $control;
+
+		return $this;
+	}
+
+	/**
+	 * Add multiple controls to a map.
+	 *
+	 * @since 8.29
+	 *
+	 * @param Control[] $controls
+	 *
+	 * @return $this
+	 */
+	public function addControls( $controls ) {
+
+		foreach ( $controls as $control ) {
+
+			$this->addControl( $control );
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Whether or not the map has controls.
+	 *
+	 * @since 8.29
+	 *
+	 * @return bool
+	 */
+	public function hasControls() {
+
+		return 0 < count( $this->getControls() );
+	}
+
+	/**
 	 * Returns the map block HTML.
 	 *
 	 * @since 8.28
@@ -266,6 +333,14 @@ class Map {
 		);
 		$html .= $this->dataAttributes();
 		$html .= '>' . PHP_EOL;
+
+		if ( $this->hasControls() ) {
+
+			foreach ( $this->getControls() as $control ) {
+
+				$html .= $control;
+			}
+		}
 
 		if ( $this->hasLayers() ) {
 

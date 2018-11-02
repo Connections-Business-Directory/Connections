@@ -1,5 +1,11 @@
 == Changelog ==
 
+= 8.29 11/02/2018 =
+* NEW: Display the road map/satellite map options when displaying the Google Maps tiles.
+* NEW: Add support for the map layer control to the Connections Maps API.
+* NEW: Update the `[cm-mapblock]` shortcode to support the map layer control to toggle the display of layer groups. Display the road map/satellite map options when displaying the Google Maps tiles.
+* NEW: Add "Get Directions" button to map pin popup which opens a Google Maps Direction page.
+
 = 8.28.5 10/26/2018 =
 * TWEAK: Minor tweak to the Profile template to allow the bio to flow up on the detail view.
 * BUG: Correct bug with the exclude categories option when registering the Category metabox.

@@ -3,9 +3,9 @@ Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.5.3
-Tested up to: 4.9
+Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 8.28.5
+Stable tag: 8.29
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -235,6 +235,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.29 11/02/2018 =
+* NEW: Display the road map/satellite map options when displaying the Google Maps tiles.
+* NEW: Add support for the map layer control to the Connections Maps API.
+* NEW: Update the `[cm-mapblock]` shortcode to support the map layer control to toggle the display of layer groups. Display the road map/satellite map options when displaying the Google Maps tiles.
+* NEW: Add "Get Directions" button to map pin popup which opens a Google Maps Direction page.
 
 = 8.28.5 10/26/2018 =
 * TWEAK: Minor tweak to the Profile template to allow the bio to flow up on the detail view.
@@ -492,23 +498,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update package.json.
 * DEV: phpDoc corrections.
 
-= 8.12 02/19/2018 =
-* NEW: Introduce several new timezone helper methods in cnDate.
-* TWEAK: Add options to the `cnRetrieve::upcoming()` method to suport whether or not to check user caps and from timestamp.
-* TWEAK: Add option to `cnRetrieve::entries()` to support whether or not to check user caps.
-* TWEAK: Remove a bunch of unused and unnecessary methods from cnDate.
-* TWEAK: Use `cnDate::getWPUTCOffset()` helper method in `cnEntry_vCard::getUTCOffset()`.
-* TWEAK: Cast result of date('I') to int.
-* BUG: The `wp_script_is()` requires a handle to check.
-* BUG: Correct array to string conversion PHP notice.
-* DEV: phpDoc corrections in cnDate.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.12 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.13 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -577,4 +569,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.28.5 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.29 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

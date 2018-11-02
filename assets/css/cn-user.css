@@ -567,6 +567,7 @@ input#cn-submit {
 /*
  * Hide custom elements for the maps.
  */
+map-control-layers,
 map-tilelayer,
 map-layergroup,
 map-marker,

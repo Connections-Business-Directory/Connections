@@ -116,17 +116,22 @@
 					 */
 					map[ id ].attributionControl.setPrefix( '' );
 
+					var basemap = {};
+
 					$.each( $( this ).children( 'map-tilelayer' ), function( index, item ) {
 
 						var provider = $( item );
 
-						switch ( provider.data( 'id' ) ) {
+						/*
+						 * This is "hacky" probably should use an elseif statement.
+						 */
+						switch ( true ) {
 
-							case 'google':
+							case /^google/.test( provider.data( 'id' ) ):
 
 								var tiles = L.gridLayer.googleMutant({
-									// type: provider.type,
-									attribution: provider.html(),
+									type: provider.data( 'type' ),
+									attribution: provider.html()
 								});
 
 								break;
@@ -144,8 +149,22 @@
 								);
 						}
 
+						/*
+						 * Only add the first tile layer to the map so it is selected by the
+						 * layer control by default.
+						 */
+						if ( $.isEmptyObject( basemap ) ) {
 
-						tiles.addTo( map[ id ] );
+							tiles.addTo( map[ id ] );
+						}
+
+						// Add the control for the tile layer.
+						var control = $( 'map-control-layers' ).find( '[data-id="' + provider.data( 'id' ) + '"]' );
+
+						if ( control.length ) {
+
+							basemap[ control.html() ] = tiles;
+						}
 					});
 
 					var layers = [];
@@ -162,7 +181,7 @@
 						var layer = $( item );
 						var layerID = layer.data( 'id' );
 						var layerName = layer.data( 'name' );
-						var enableControl = layer.data( 'control' );
+						// var enableControl = layer.data( 'control' );
 						var markers = [];
 
 						/*
@@ -197,10 +216,13 @@
 						bounds.extend( layers[ layerID ].getBounds() );
 
 						// Add the control for the layer.
-						if ( enableControl ) {
+						var control = $( 'map-control-layers' ).find( '[data-id="' + layerID + '"]' );
 
-							overlay[ layerName ] = layers[ layerID ];
+						if ( control.length ) {
+
+							overlay[ control.html() ] = layers[ layerID ];
 						}
+
 					});
 
 					/*
@@ -237,9 +259,23 @@
 					});
 
 					// Only add the control if a layer group has been configured to be toggleable.
-					if ( ! $.isEmptyObject( overlay ) ) {
+					if ( ! $.isEmptyObject( basemap ) || ! $.isEmptyObject( overlay ) ) {
 
-						L.control.layers( {}, overlay ).addTo( map[ id ] );
+						var layerControl = $( this ).find( 'map-control-layers' );
+
+						/*
+						 * Whether a layer is "selected" or not in the layer control
+						 * depends on whether the layer is added to the map or not
+						 * via the `addTo()` method.
+						 */
+						L.control.layers(
+							basemap,
+							overlay,
+							{
+								collapsed: layerControl.data( 'collapsed' ),
+								hideSingleBase: true
+							}
+							).addTo( map[ id ] );
 					}
 
 					if ( bounds.isValid() ) {

@@ -253,6 +253,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.29 11/02/2018 =
+* NEW: Display the road map/satellite map options when displaying the Google Maps tiles.
+* NEW: Add support for the map layer control to the Connections Maps API.
+* NEW: Update the `[cm-mapblock]` shortcode to support the map layer control to toggle the display of layer groups. Display the road map/satellite map options when displaying the Google Maps tiles.
+* NEW: Add "Get Directions" button to map pin popup which opens a Google Maps Direction page.
+
 = 8.28.5 10/26/2018 =
 * TWEAK: Minor tweak to the Profile template to allow the bio to flow up on the detail view.
 * BUG: Correct bug with the exclude categories option when registering the Category metabox.
@@ -519,22 +525,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: The `wp_script_is()` requires a handle to check.
 * BUG: Correct array to string conversion PHP notice.
 * DEV: phpDoc corrections in cnDate.
-
-= 8.11 02/05/2018 =
-* NEW: Add support for the plugin bannerS in plugin info REST API responses.
-* NEW: Add support for the plugin iconS in plugin info REST API responses.
-* NEW: Add support for opting into beta versions of the installed addons.
-* NEW: Introduce cnPlugn_Updater::maybe_unserialize_response().
-* NEW: Introduce cnText_Domain.
-* TWEAK: Check for DOING_AJAX when adjusting the addon update check and status check.
-* TWEAK: Clean plugin cache on addon activate/deactivate.
-* TWEAK: When doing addon status check use the same timeout as used during update checks when on the WP Updates admin page.
-* TWEAK: Update addon statuses after doing an update check.
-* TWEAK: Clean the plugin cache before running the addon status check.
-* TWEAK: Change the priority of addon status check to 9 on the WP Plugins admin page so it runs before the addon update check.
-* TWEAK: Utilize cnText_Domain to load the plugin translation files.
-* BUG: Ensure the $atts variable is an array before setting values when viewing all.
-* DEV: phpDoc corrections.
-* DEV: Update plugin header.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

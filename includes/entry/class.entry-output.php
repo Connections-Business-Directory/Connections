@@ -1291,6 +1291,7 @@ class cnOutput extends cnEntry {
 			if ( 0 < count( $addresses ) ) {
 
 				$layers = array();
+				$layerControl = \Connections_Directory\Map\Control\Layer\Layer_Control::create( 'layerControl' )->setCollapsed( FALSE );
 
 				$googleMapsAPIBrowserKey = cnSettingsAPI::get(
 					'connections',
@@ -1306,16 +1307,30 @@ class cnOutput extends cnEntry {
 
 				if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
 
-					$baseMap = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create();
+					$roadMap = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'roadmap' );
+
+					$roadMap->setAttribution( implode( ' | ', $attribution ) )
+					        ->setOption( 'name', 'Roadmap' );
+
+					$layerControl->addBaseLayer( $roadMap );
+
+					$hybrid = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'hybrid' );
+
+					$hybrid->setAttribution( implode( ' | ', $attribution ) )
+					       ->setOption( 'name', 'Satellite' );
+
+					$layerControl->addBaseLayer( $hybrid );
 
 				} else {
 
 					$baseMap = \Connections_Directory\Map\Layer\Raster\Provider\Wikimedia::create();
 
 					$attribution[] = $baseMap->getAttribution();
-				}
 
-				$baseMap->setAttribution( implode( ' | ', $attribution )  );
+					$baseMap->setAttribution( implode( ' | ', $attribution )  );
+
+					$layerControl->addBaseLayer( $baseMap );
+				}
 
 				foreach ( $addresses as $address ) {
 
@@ -1323,9 +1338,23 @@ class cnOutput extends cnEntry {
 
 					if ( ! is_wp_error( $coordinates ) ) {
 
-						$popup = \Connections_Directory\Model\Format\Address\As_String::format(
+						$formatted = \Connections_Directory\Model\Format\Address\As_String::format(
 							new cnAddress( (array) $address )
 						);
+
+						$directionsURL = add_query_arg(
+							array(
+								'saddr' => '',
+								'daddr' => "{$coordinates->getLatitude()},{$coordinates->getLongitude()}",
+							),
+							'http://www.google.com/maps'
+						);
+
+						$buttonText = esc_html__( 'Get Directions', 'connections' );
+
+						$directionsButton = "<a href=\"{$directionsURL}\" target=\"_blank\"><button>{$buttonText}</button></a>";
+
+						$popup = "<p>{$formatted}</p><div>{$directionsButton}</div>";
 
 						$layers[] = \Connections_Directory\Map\UI\Marker::create( 'default', $coordinates )
 						                                    ->bindPopup( \Connections_Directory\Map\UI\Popup::create( 'default', $popup ) );
@@ -1343,8 +1372,9 @@ class cnOutput extends cnEntry {
 						)
 					)->setHeight( $atts['height'] . 'px' )
 					 ->setWidth( empty( $atts['width'] ) ? '100%' : $atts['width'] )
-					 ->addLayer( $baseMap )
-					 ->addLayers( $layers );
+					 ->addLayers( $layerControl->getBaseLayers() )
+					 ->addLayers( $layers )
+					 ->addControl( $layerControl );
 
 					$out = $map;
 				}

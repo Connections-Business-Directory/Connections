@@ -1338,9 +1338,23 @@ class cnOutput extends cnEntry {
 
 					if ( ! is_wp_error( $coordinates ) ) {
 
-						$popup = \Connections_Directory\Model\Format\Address\As_String::format(
+						$formatted = \Connections_Directory\Model\Format\Address\As_String::format(
 							new cnAddress( (array) $address )
 						);
+
+						$directionsURL = add_query_arg(
+							array(
+								'saddr' => '',
+								'daddr' => "{$coordinates->getLatitude()},{$coordinates->getLongitude()}",
+							),
+							'http://www.google.com/maps'
+						);
+
+						$buttonText = esc_html__( 'Get Directions', 'connections' );
+
+						$directionsButton = "<a href=\"{$directionsURL}\" target=\"_blank\"><button>{$buttonText}</button></a>";
+
+						$popup = "<p>{$formatted}</p><div>{$directionsButton}</div>";
 
 						$layers[] = \Connections_Directory\Map\UI\Marker::create( 'default', $coordinates )
 						                                    ->bindPopup( \Connections_Directory\Map\UI\Popup::create( 'default', $popup ) );

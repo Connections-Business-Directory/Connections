@@ -474,7 +474,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				);
 
 				// Register the settings.
-				register_setting( $field['page_hook'], $field['option_name'], $field['sanitize_callback'] );
+				register_setting(
+					$field['page_hook'],
+					$field['option_name'],
+					$field['sanitize_callback']
+				);
 			}
 		}
 

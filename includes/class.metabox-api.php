@@ -760,10 +760,9 @@ class cnMetabox_Render {
 	 * Render the metabox sections.
 	 *
 	 * @access private
-	 * @since 0.8
-	 * @param  array $section An array containing the sections of the metabox.
+	 * @since  0.8
 	 *
-	 * @return string
+	 * @param  array $section An array containing the sections of the metabox.
 	 */
 	private function section( $section ) {
 

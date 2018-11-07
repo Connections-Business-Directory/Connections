@@ -341,6 +341,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					$section = 'default';
 
+				} elseif ( in_array( $field['section'], self::$coreSections ) ) {
+
+					$section = $field['section'];
+
 				} else {
 
 					$section = $field['plugin_id'] !== substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) ? $field['plugin_id'] . '_' . $field['section'] : $field['section'];

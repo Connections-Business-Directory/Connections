@@ -246,7 +246,7 @@ class cnDependency {
 			'cnOptions'                => 'includes/settings/class.options.php',
 
 			// Register the core settings options via the Settings API.
-			'cnRegisterSettings'       => 'includes/settings/class.settings.php',
+			'cnRegisterSettings'       => 'includes/settings/class.register-settings.php',
 
 			// Load the class that manages the registration and enqueueing of CSS and JS files.
 			'cnLocate'                 => 'includes/class.locate.php',

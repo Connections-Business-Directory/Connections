@@ -253,6 +253,16 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.30 11/08/2018 =
+* NEW: Introduce `cnOptions::getBaseGeoCoordinates()`.
+* TWEAK: Use current version for the Map Block JS script for cache busting.
+* TWEAK: Rename file which registers the settings options.
+* TWEAK: Default the `[cn-mapblock/]` shortcode map center to the user defined country/region.
+* BUG: Properly detect if section is a WP core settings section so it is not prefixed with the plugin ID.
+* OTHER: Begin work on modern settings API.
+* DEV: phpDoc correction.
+* DEV: Fix code alignment/flow.
+
 = 8.29 11/02/2018 =
 * NEW: Display the road map/satellite map options when displaying the Google Maps tiles.
 * NEW: Add support for the map layer control to the Connections Maps API.
@@ -500,30 +510,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Correct the version changelog section.
 * DEV: Correct phpdoc alignment.
 * DEV: phpDoc corrections.
-
-= 8.13 03/09/2018 =
-* FEATURE: Add new option to the Connections : Manage admin page Screen Option to allow the user to choose between the entry logo or photo as the thumbail.
-* NEW: Introduce `cnUser::getMeta()` and `cnUser::setMeta()`.
-* NEW: Introduce `cnUser::getScreenOptions()` and `cnUser::setScreenOptions()`.
-* NEW: Introduce `cnUser::getScreenOption()` and `cnUser::setScreenOption()`.
-* TWEAK: Refactor `cnUser::getFilterPage()` and `cnUser::setFilterPage()` to use `cnUser::getScreenOption()` and  `cnUser::setScreenOption()` respectively and then deprecate those methods.
-* TWEAK: Add `connectionsLoad::$user` as reference to `connectionsLoad::$currentUser`.
-* OTHER: Update the Screen Options library from version 1.3 to 1.4.
-* OTHER: Update Chosen library from 1.7.0 to 1.8.3.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: Update package.json.
-* DEV: phpDoc corrections.
-
-= 8.12 02/19/2018 =
-* NEW: Introduce several new timezone helper methods in cnDate.
-* TWEAK: Add options to the `cnRetrieve::upcoming()` method to suport whether or not to check user caps and from timestamp.
-* TWEAK: Add option to `cnRetrieve::entries()` to support whether or not to check user caps.
-* TWEAK: Remove a bunch of unused and unnecessary methods from cnDate.
-* TWEAK: Use `cnDate::getWPUTCOffset()` helper method in `cnEntry_vCard::getUTCOffset()`.
-* TWEAK: Cast result of date('I') to int.
-* BUG: The `wp_script_is()` requires a handle to check.
-* BUG: Correct array to string conversion PHP notice.
-* DEV: phpDoc corrections in cnDate.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

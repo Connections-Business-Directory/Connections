@@ -1529,4 +1529,50 @@ class cnOptions {
 
 		return apply_filters( 'cn_base_region', $baseGEO['base_region'] );
 	}
+
+	/**
+	 * Return the base geo coordinates.
+	 *
+	 * The latitude/longitude values will default to the US geo center.
+	 *
+	 * @since 8.30
+	 *
+	 * @return array
+	 */
+	public static function getBaseGeoCoordinates() {
+
+		$coordinates = array(
+			'latitude'       => 39.8283,
+			'longitude'      => -98.5795,
+		);
+
+		$countryCode = self::getBaseCountry();
+		$country     = cnCountries::getByCode( $countryCode );
+
+		if ( $country instanceof cnCountry ) {
+
+			$regionCode = self::getBaseRegion();
+			$region     = $country->getDivision( $regionCode );
+
+			if ( ! empty( $region ) ) {
+
+				$coordinates = array(
+					'latitude'  => cnArray::get( $region, 'geo.latitude', 39.8283 ),
+					'longitude' => cnArray::get( $region, 'geo.longitude', -98.5795 ),
+				);
+
+			} else {
+
+				$geo = $country->get( 'geo', $coordinates );
+
+				$coordinates = array(
+					'latitude'  => cnArray::get( $geo, 'latitude_desc', 39.8283 ),
+					'longitude' => cnArray::get( $geo, 'longitude_desc', -98.5795 ),
+				);
+			}
+
+		}
+
+		return apply_filters( 'cn_base_geo_coordinates', $coordinates );
+	}
 }

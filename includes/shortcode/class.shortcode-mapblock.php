@@ -155,10 +155,12 @@ class mapBlock {
 	 */
 	private function getDefaults() {
 
+		$geo = \cnOptions::getBaseGeoCoordinates();
+
 		return array(
 			'id'        => 'cn-map-' . uniqid(),
-			'latitude'  => 39.8283,
-			'longitude' => -98.5795,
+			'latitude'  => $geo['latitude'],
+			'longitude' => $geo['longitude'],
 			'zoom'      => 16,
 			'height'    => '400px',
 			'width'     => '100%',

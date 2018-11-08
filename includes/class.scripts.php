@@ -207,7 +207,7 @@ class cnScript {
 				),
 				$mapDependencies
 			),
-			'1.0.1',
+			CN_CURRENT_VERSION,
 			TRUE
 		);
 

@@ -242,11 +242,14 @@ class cnDependency {
 			'cnRewrite'                => 'includes/class.rewrite.php',
 
 			// Settings API.
-			'cnSettingsAPI'            => 'includes/settings/class.settings-api.php',
-			'cnOptions'                => 'includes/settings/class.options.php',
+			'Connections_Directory\Settings'           => 'includes/settings/class.settings.php',
+			'Connections_Directory\Settings\Tab'       => 'includes/settings/class.tab.php',
+			'Connections_Directory\Settings\Section'   => 'includes/settings/class.section.php',
+			'cnSettingsAPI'                            => 'includes/settings/class.settings-api.php',
+			'cnOptions'                                => 'includes/settings/class.options.php',
 
 			// Register the core settings options via the Settings API.
-			'cnRegisterSettings'       => 'includes/settings/class.settings.php',
+			'cnRegisterSettings'       => 'includes/settings/class.register-settings.php',
 
 			// Load the class that manages the registration and enqueueing of CSS and JS files.
 			'cnLocate'                 => 'includes/class.locate.php',

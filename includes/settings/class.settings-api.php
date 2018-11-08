@@ -341,6 +341,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					$section = 'default';
 
+				} elseif ( in_array( $field['section'], self::$coreSections ) ) {
+
+					$section = $field['section'];
+
 				} else {
 
 					$section = $field['plugin_id'] !== substr( $field['section'], 0, strlen( $field['plugin_id'] ) ) ? $field['plugin_id'] . '_' . $field['section'] : $field['section'];
@@ -474,7 +478,11 @@ if ( ! class_exists('cnSettingsAPI') ) {
 				);
 
 				// Register the settings.
-				register_setting( $field['page_hook'], $field['option_name'], $field['sanitize_callback'] );
+				register_setting(
+					$field['page_hook'],
+					$field['option_name'],
+					$field['sanitize_callback']
+				);
 			}
 		}
 

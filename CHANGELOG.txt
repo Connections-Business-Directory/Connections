@@ -1,5 +1,15 @@
 == Changelog ==
 
+= 8.30 11/08/2018 =
+* NEW: Introduce `cnOptions::getBaseGeoCoordinates()`.
+* TWEAK: Use current version for the Map Block JS script for cache busting.
+* TWEAK: Rename file which registers the settings options.
+* TWEAK: Default the `[cn-mapblock/]` shortcode map center to the user defined country/region.
+* BUG: Properly detect if section is a WP core settings section so it is not prefixed with the plugin ID.
+* OTHER: Begin work on modern settings API.
+* DEV: phpDoc correction.
+* DEV: Fix code alignment/flow.
+
 = 8.29 11/02/2018 =
 * NEW: Display the road map/satellite map options when displaying the Google Maps tiles.
 * NEW: Add support for the map layer control to the Connections Maps API.

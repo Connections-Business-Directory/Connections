@@ -1,5 +1,8 @@
 == Changelog ==
 
+= 8.30.1 11/09/2018 =
+* BUG: Update map blocks minified JavaScript assets.
+
 = 8.30 11/08/2018 =
 * NEW: Introduce `cnOptions::getBaseGeoCoordinates()`.
 * TWEAK: Use current version for the Map Block JS script for cache busting.

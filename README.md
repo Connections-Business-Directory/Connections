@@ -253,6 +253,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.30.1 11/09/2018 =
+* BUG: Update map blocks minified JavaScript assets.
+
 = 8.30 11/08/2018 =
 * NEW: Introduce `cnOptions::getBaseGeoCoordinates()`.
 * TWEAK: Use current version for the Map Block JS script for cache busting.
@@ -497,18 +500,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 = 8.15 03/25/2018 =
 * BUG: Ensure `cnEntry_Email_Addresses` is properly initialized when adding new entry.
-
-= 8.14 03/23/2018 =
-* NEW: Introduce `cnEntry_Email_Addresses` and `cnEmail_Address`.
-* TWEAK: Use `array_replace()` instead of `array_merge()` when setting the order of a sortable settings input list.
-* TWEAK: Refactor `cnEntry::getEmailAddresses()` and `cnEntry::setEmailAddresses()` to utilize `cnEntry_Email_Addresses` and `cnEmail_Adress`.
-* TWEAK: Refactor `cnEntry_Output::getEmailAddressBlock()` to utilize `cnEntry_Email_Addresses::render()`.
-* TWEAK: Update manage admin page to utilize the new email addresses template.
-* BUG: Ensure integer is passed to `gmdate()`.
-* BUG: The method `cnRetrieve::entries()` is not static, but was called statically.
-* OTHER: Add the new Certifications add on to the readme.txt file.
-* OTHER: Correct the version changelog section.
-* DEV: Correct phpdoc alignment.
-* DEV: phpDoc corrections.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

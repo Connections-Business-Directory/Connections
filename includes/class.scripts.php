@@ -371,46 +371,41 @@ class cnScript {
 		wp_register_style( 'leaflet', $url . "vendor/leaflet/leaflet$min.css", array(), '1.3.4' );
 		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.6' );
 
-		if ( is_admin() ) {
 
-			wp_register_style( 'cn-admin', $url . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
-			wp_register_style( 'cn-admin-jquery-ui', $url . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
-			wp_register_style( 'cn-admin-jquery-datepicker', $url . "assets/css/datepicker$min.css", array( 'cn-admin-jquery-ui' ), CN_CURRENT_VERSION );
+		wp_register_style( 'cn-admin', $url . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
+		wp_register_style( 'cn-admin-jquery-ui', $url . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
+		wp_register_style( 'cn-admin-jquery-datepicker', $url . "assets/css/datepicker$min.css", array( 'cn-admin-jquery-ui' ), CN_CURRENT_VERSION );
 
-			if ( is_rtl() ) {
+		if ( is_rtl() ) {
 
-				wp_register_style( 'cn-admin-rtl', $url . "assets/css/cn-admin-rtl$min.css", array('cn-admin'), CN_CURRENT_VERSION );
-			}
+			wp_register_style( 'cn-admin-rtl', $url . "assets/css/cn-admin-rtl$min.css", array('cn-admin'), CN_CURRENT_VERSION );
+		}
 
-		} else {
+		// This will locate the CSS file to be enqueued.
+		$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
+		// var_dump($coreCSS);
 
-			// This will locate the CSS file to be enqueued.
-			$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
-			// var_dump($coreCSS);
+		// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
+		wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
+		wp_register_style( 'cn-public', $coreCSS, array(), CN_CURRENT_VERSION );
 
-			// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
-			wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
-			wp_register_style( 'cn-public', $coreCSS, array(), CN_CURRENT_VERSION );
+		if ( is_rtl() ) {
 
-			if ( is_rtl() ) {
+			wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array('cn-public'), CN_CURRENT_VERSION );
+		}
 
-				wp_register_style( 'cn-public-rtl', $url . "assets/css/cn-user-rtl$min.css", array('cn-public'), CN_CURRENT_VERSION );
-			}
+		// This will locate the custom CSS file to be enqueued.
+		$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', NULL, NULL, 'css' ), 'url' );
+		// var_dump($customCSS);
 
-			// This will locate the custom CSS file to be enqueued.
-			$customCSS = cnLocate::file( cnLocate::fileNames( 'cn-custom', NULL, NULL, 'css' ), 'url' );
-			// var_dump($customCSS);
+		// If a custom CSS file was found, lets register it.
+		if ( $customCSS ) {
 
-			// If a custom CSS file was found, lets register it.
-			if ( $customCSS ) {
+			// Check to see if the core CSS file was registered since it can be disabled.
+			// Add it to the $required array to be used when registering the custom CSS file.
+			$required = wp_style_is( 'cn-public', 'registered' ) ? array( 'cn-public' ) : array();
 
-				// Check to see if the core CSS file was registered since it can be disabled.
-				// Add it to the $required array to be used when registering the custom CSS file.
-				$required = wp_style_is( 'cn-public', 'registered' ) ? array( 'cn-public' ) : array();
-
-				wp_register_style( 'cn-public-custom', $customCSS, $required, CN_CURRENT_VERSION );
-			}
-
+			wp_register_style( 'cn-public-custom', $customCSS, $required, CN_CURRENT_VERSION );
 		}
 
 		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );

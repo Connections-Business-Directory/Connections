@@ -411,6 +411,10 @@ class cnDependency {
 			'Connections_Directory\Map\Common\Options'                        => 'includes/map/common/trait.options.php',
 			'Connections_Directory\Map\Common\Popup_Trait'                    => 'includes/map/common/trait.popup.php',
 
+			// Gutenberg Blocks
+			'Connections_Directory\Blocks'           => 'includes/blocks/class.blocks.php',
+			'Connections_Directory\Blocks\Directory' => 'includes/blocks/directory/class.block.php',
+
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',
 			//'Rinvex\Country\CountryLoader'          => 'vendor/rinvex/country/CountryLoader.php',

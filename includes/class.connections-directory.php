@@ -219,6 +219,9 @@ final class Connections_Directory {
 			self::$instance->url         = new cnURL();
 			self::$instance->api         = new cnAPI();
 
+			// Register editor blocks.
+			\Connections_Directory\Blocks::register();
+
 			// Activation/Deactivation hooks
 			register_activation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'activate' ) );
 			register_deactivation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'deactivate' ) );

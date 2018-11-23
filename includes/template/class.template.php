@@ -230,6 +230,9 @@ class cnTemplate {
 			} else {
 
 				add_action( 'wp_enqueue_scripts', array( $this, 'enqueueCSS' ) );
+
+				// Enqueue the editor assets for the blocks.
+				add_action( 'enqueue_block_editor_assets', array( $this, 'enqueueCSS' ) );
 			}
 		}
 

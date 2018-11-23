@@ -586,6 +586,11 @@ img.leaflet-marker-shadow{
 	box-shadow: none !important;
 }
 
+input.leaflet-control-layers-selector {
+	width: auto;
+	margin: 2px auto auto;
+}
+
 /*
  * Return to top.
  */

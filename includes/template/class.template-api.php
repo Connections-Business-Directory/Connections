@@ -94,7 +94,23 @@ class cnTemplateFactory {
 
 			// Plugins can hook into this action to register templates.
 			do_action( 'cn_register_template', self::$instance );
+
+			// Ensure templates are activated for use in REST requests. Required for the Gutenberg post editor.
+			add_action( 'rest_api_init', array( __CLASS__, 'restInit' ) );
 		}
+	}
+
+	/**
+	 * Activate templates in REST requests so they are available for use in the Gutenberg post editor.
+	 *
+	 * @since 8.31
+	 */
+	public static function restInit() {
+
+		//error_log( json_encode( defined( 'REST_REQUEST' ), 128 ) );
+
+		self::registerLegacy();
+		self::activate();
 	}
 
 	/**

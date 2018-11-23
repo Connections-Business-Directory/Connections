@@ -1300,7 +1300,7 @@ class cnOutput extends cnEntry {
 				);
 
 				// Strings to be used for setting the Leaflet maps `attribution`.
-				$leaflet  = '<a href="https://www.leafletjs.com" target="_blank" title="Leaflet">Leaflet</a>';
+				$leaflet  = '<a href="https://leafletjs.com/" target="_blank" title="Leaflet">Leaflet</a>';
 				$backlink = '<a href="https://connections-pro.com/" target="_blank" title="Connections Business Directory plugin for WordPress">Connections Business Directory</a> | ' . $leaflet;
 
 				$attribution = array( $backlink );

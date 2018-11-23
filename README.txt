@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 8.30.1
+Stable tag: 8.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,8 @@ Quite simply, Connections Business Directory is one of the [best business direct
 = Features =
 
 * **Seamless integration** with WordPress.
+* **WordPress 5.0 compatible.**
+* Supports the WordPress Gutenberg editor with a new directory block.
 * Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
 * Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
@@ -235,6 +237,16 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.31 11/23/2018 =
+* NEW: WordPress 5.0 Support.
+* FEATURE: Gutenberg Block to which can be used to insert the directory into the page.
+* TWEAK: Update the attribution link to Leaflet.
+* TWEAK: Exclude the Leaflet CSS from Autoptimize.
+* TWEAK: The custom HTML elements for the map layers control should be hidden.
+* TWEAK: Remove unnecessary `is_admin()` check when registering CSS.
+* DEV: Update package.json with dev dependencies to support webpack.
+* DEV: Initial babel and webpack config.
 
 = 8.30.1 11/09/2018 =
 * BUG: Update map blocks minified JavaScript assets.
@@ -459,40 +471,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc corrections.
 * DEV: Remove some commented out debug code.
 
-= 8.16 03/30/2018 =
-* FEATURE: Introduce the Instant Messenger Fieldset configuration options.
-* NEW: Introduce `cnEntry_Messenger_IDs` and `cnMessenger` objects.
-* NEW: Introduce `cnText_Domain::register()`.
-* TWEAK: Add abstract constructor to `cnEntry_Collection_Item`.
-* TWEAK: Add method `create()` to `cnEntry_Collection_Item`.
-* TWEAK: Remove method `create()` from `cnPhone` and `cnEmail` to remove code duplication.
-* TWEAK: Refactor `cnEntry::getIm()` and `cnEntry::setIm()` to utilize the `cnEntry_Messenger_IDs` object.
-* TWEAK:Refactor `cnEntry_Output::getImBlock()` to utilize the `cnEntry_Messenger_IDs` objects `render()` method using templates.
-* TWEAK: Add VERSION constant to the core plugin class to store the plugin version.
-* TWEAK: Use class VERSION constant to set the global version constant for the plugin version.
-* TWEAK: Deprecate `cnText_Domain::create()`.
-* TWEAK: Use `cnText_Domain::register()` instead of `cnText_Domain::create()`.
-* TWEAK: Add a few class variables and helper methods to get the plugin path, url and basename.
-* TWEAK: Use the helper methods to set the global constants for the plugin path, url and basename.
-* BUG: Phone number was being sanitized as a street address, corrected so it is sanitized as a phone number.
-* OTHER: Correct misspelling.
-* DEV: Correct inline documentation.
-* DEV: phpDoc corrections.
-* DEV: Correct code indents.
-* DEV: Add phpDoc block to `ConnectionsLoad::hooks()`.
-
-= 8.15 03/24/2018 =
-* BUG: Ensure `cnEntry_Email_Addresses` is properly initialized when adding new entry.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.15 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
-
-= 8.16 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.17 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -558,4 +539,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.30.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.31 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

@@ -290,3 +290,18 @@ function cn_register_google_maps_api() {
 		TRUE
 	);
 }
+
+/**
+ * Exclude the Leaflet CSS from Autoptimize.
+ *
+ * @since 8.30.2
+ */
+add_filter( 'autoptimize_filter_css_exclude', 'cn_ao_override_css_exclude', 10, 1 );
+
+function cn_ao_override_css_exclude( $exclude ) {
+
+	// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
+	$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+
+	return $exclude . ", leaflet{$min}.css";
+}

@@ -1,5 +1,15 @@
 == Changelog ==
 
+= 8.31 11/23/2018 =
+* NEW: WordPress 5.0 Support.
+* FEATURE: Gutenberg Block to which can be used to insert the directory into the page.
+* TWEAK: Update the attribution link to Leaflet.
+* TWEAK: Exclude the Leaflet CSS from Autoptimize.
+* TWEAK: The custom HTML elements for the map layers control should be hidden.
+* TWEAK: Remove unnecessary `is_admin()` check when registering CSS.
+* DEV: Update package.json with dev dependencies to support webpack.
+* DEV: Initial babel and webpack config.
+
 = 8.30.1 11/09/2018 =
 * BUG: Update map blocks minified JavaScript assets.
 

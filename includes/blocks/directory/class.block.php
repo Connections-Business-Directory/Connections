@@ -72,7 +72,7 @@ class Directory {
 
 		$other = shortcode_parse_atts( trim(  $attributes['advancedBlockOptions'] ) );
 
-		if ( is_array( $other ) && ! empty( $other )) {
+		if ( is_array( $other ) && ! empty( $other ) ) {
 
 			$options = array_merge( $other, $options );
 		}

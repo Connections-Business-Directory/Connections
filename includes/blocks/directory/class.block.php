@@ -44,7 +44,6 @@ class Directory {
 						'default' => FALSE,
 					),
 				),
-				'editor_script'   => 'connections-block-directory',
 				'render_callback' => array( __CLASS__, 'render' ),
 			)
 		);

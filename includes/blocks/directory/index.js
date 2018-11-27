@@ -19,7 +19,7 @@ import './styles/public.scss';
  * Register Block
  */
 export default registerBlockType(
-	'connections/directory',
+	'connections-directory/shortcode-connections',
 	{
 		title:       __( 'Directory', 'connections' ),
 		description: __( 'Display the Connections Business Directory.', 'connections' ),
@@ -105,7 +105,7 @@ export default registerBlockType(
 				</InspectorAdvancedControls>,
 				<ServerSideRender
 					attributes={attributes}
-					block='connections/directory'
+					block='connections-directory/shortcode-connections'
 				/>
 			];
 

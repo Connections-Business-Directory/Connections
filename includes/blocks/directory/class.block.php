@@ -20,7 +20,7 @@ class Directory {
 	public static function register() {
 
 		register_block_type(
-			'connections/directory',
+			'connections-directory/shortcode-connections',
 			array(
 				// When displaying the block using ServerSideRender the attributes need to be defined
 				// otherwise the REST API will reject the block request with a server response code 400 Bad Request

@@ -34,6 +34,7 @@ export default registerBlockType(
 			className:       false,
 			// Remove the support for the custom className.
 			customClassName: false,
+			// Remove the support for editing the block using the block HTML editor.
 			html:            false,
 		},
 		attributes:  {

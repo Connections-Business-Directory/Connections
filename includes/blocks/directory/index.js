@@ -1,4 +1,4 @@
-const { __, _x, _n, _nx } = wp.i18n;
+const { __, _n, _nx, _x } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const {
 	      InspectorControls,

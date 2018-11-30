@@ -62,9 +62,24 @@ if ( ! class_exists( 'CN_Birthday_Dark_Template' ) ) {
 		 */
 		public static function card( $entry, $template, $atts ) {
 
+			$formatted      = '';
+			$dates          = $entry->dates;
+			$dateCollection = $dates->filterBy( 'type', $atts['list_type'] )->getCollection( 1 );
+			$entryDate      = $dateCollection->first();
+
+			if ( $entryDate instanceof cnEntry_Date ) {
+
+				$date = $entryDate->getDate();
+
+				if ( $date instanceof DateTime ) {
+
+					$formatted = cnDate::getUpcoming( $date, $atts['date_format'] ); // $date->format( $atts['date_format'] );
+				}
+			}
+
 			?>
 
-			<span class="cn-entry-name" style=""><?php echo $entry->name; ?></span> <span class="cn-upcoming-date"><?php echo $entry->getUpcoming( $atts['list_type'], $atts['date_format'] ); ?></span>
+			<span class="cn-entry-name" style=""><?php echo $entry->name; ?></span> <span class="cn-upcoming-date"><?php echo $formatted; ?></span>
 
 			<?php
 		}

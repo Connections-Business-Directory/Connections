@@ -439,4 +439,44 @@ class cnDate {
 		// Return a new DateTime instance.
 		return new DateTime( $formatted );
 	}
+
+	/**
+	 * Given a supplied DateTime object, compare the date with today and change the year from this to next
+	 * depending whether the mm/dd has already passed or not.
+	 *
+	 * @since   8.32
+	 *
+	 * @param  DateTime $date   The date type to get, anniversary or birthday.
+	 * @param  string   $format The date format to show the date in. Use PHP date formatting.
+	 *
+	 * @return string The formatted date.
+	 */
+	public static function getUpcoming( $date, $format = '' ) {
+
+		$timeStamp = current_time( 'timestamp' );
+
+		if ( empty( $format ) ) {
+
+			$format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );
+		}
+
+		if ( gmmktime( 23, 59, 59, $date->format( 'm' ), $date->format( 'd' ), gmdate( 'Y', $timeStamp ) ) < $timeStamp ) {
+
+			/** @noinspection PhpWrongStringConcatenationInspection */
+			$nextUDay = gmmktime( 0, 0, 0, $date->format( 'm' ), $date->format( 'd' ), gmdate( 'Y', $timeStamp ) + 1 );
+
+		} else {
+
+			$nextUDay = gmmktime( 0, 0, 0, $date->format( 'm' ), $date->format( 'd' ), gmdate( 'Y', $timeStamp ) );
+		}
+
+		/*
+		 * Convert the timestamp to a string only to convert to a timestamp again.
+		 * Why? Because doing it this way should keep PHP from timezone adjusting the output
+		 * because the time and timezone offset are added (T00:00:00+00:00) to the timestamp when formatted as `c`.
+		 * Use date_i18n() so the date is localized.
+		 */
+		return date_i18n( $format, strtotime( gmdate( 'c', $nextUDay ) ) );
+		//return gmdate( $format, $nextUDay ); // Not used, change in 8.10 reference @link https://connections-pro.com/support/topic/month-names-in-upcoming-list/
+	}
 }

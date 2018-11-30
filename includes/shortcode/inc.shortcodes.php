@@ -98,6 +98,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		'show_lastname'    => FALSE,
 		'show_title'       => TRUE,
 		'list_title'       => '',
+		'no_results'       => apply_filters( 'cn_upcoming_no_result_message', __( 'No results.', 'connections' ) ),
 		'template'         => NULL,
 		'content'          => '',
 		'force_home'       => TRUE,
@@ -156,9 +157,14 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	// If there are no results no need to proceed and output message.
 	if ( empty( $results ) ) {
 
-		$noResultMessage = __( 'No results.', 'connections' );
-		$noResultMessage = apply_filters( 'cn_upcoming_no_result_message', $noResultMessage );
-		$out .= '<p class="cn-upcoming-no-results">' . $noResultMessage . '</p>';
+		if ( 0 < strlen( $atts['no_results'] ) ) {
+
+			$out .= '<p class="cn-upcoming-no-results">' . $atts['no_results'] . '</p>';
+
+		} else {
+
+			$out .= '&nbsp;'; // Need to return something for Gutenberg support. Otherwise the loading spinner never stops.
+		}
 
 	} else {
 

@@ -34,6 +34,7 @@ class Blocks {
 
 		// Register the editor blocks.
 		add_action( 'init', 'Connections_Directory\Blocks\Directory::register' );
+		add_action( 'init', 'Connections_Directory\Blocks\Upcoming::register' );
 	}
 
 	/**
@@ -54,6 +55,16 @@ class Blocks {
 			"{$url}assets/dist/js/blocks.js",
 			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor' ),
 			time()
+		);
+
+		wp_localize_script(
+			'connections-block-directory',
+			'cbDir',
+			array(
+				'blockSettings' => array(
+					'dateTypes' => \cnOptions::getDateTypeOptions(),
+				)
+			)
 		);
 
 		wp_set_script_translations( 'connections-block-directory', 'connections' );

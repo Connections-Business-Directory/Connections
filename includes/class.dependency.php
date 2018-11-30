@@ -414,6 +414,7 @@ class cnDependency {
 			// Gutenberg Blocks
 			'Connections_Directory\Blocks'           => 'includes/blocks/class.blocks.php',
 			'Connections_Directory\Blocks\Directory' => 'includes/blocks/directory/class.block.php',
+			'Connections_Directory\Blocks\Upcoming'  => 'includes/blocks/upcoming/class.block.php',
 
 			// Third Party Libraries
 			//'Rinvex\Country\Country'                => 'vendor/rinvex/country/Country.php',

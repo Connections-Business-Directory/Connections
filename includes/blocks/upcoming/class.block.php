@@ -1,0 +1,126 @@
+<?php
+
+namespace Connections_Directory\Blocks;
+
+/**
+ * Class Directory
+ *
+ * @package Connections_Directory\Blocks
+ * @since   8.31
+ */
+class Upcoming {
+
+	/**
+	 * Callback for the `init` action.
+	 *
+	 * Register the test block.
+	 *
+	 * @since 8.32
+	 */
+	public static function register() {
+
+		register_block_type(
+			'connections-directory/shortcode-upcoming',
+			array(
+				// When displaying the block using ServerSideRender the attributes need to be defined
+				// otherwise the REST API will reject the block request with a server response code 400 Bad Request
+				// and display the "Error loading block: Invalid parameter(s): attributes" message.
+				'attributes' => array(
+					'advancedBlockOptions' => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'displayLastName'      => array(
+						'type'    => 'boolean',
+						'default' => FALSE,
+					),
+					'dateFormat'           => array(
+						'type'    => 'string',
+						'default' => 'F jS',
+					),
+					'days'                 => array(
+						'type'    => 'integer',
+						'default' => 30,
+					),
+					'heading'              => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'includeToday'         => array(
+						'type'    => 'boolean',
+						'default' => TRUE,
+					),
+					'isEditorPreview'      => array(
+						'type'    => 'boolean',
+						'default' => FALSE,
+					),
+					'listType'             => array(
+						'type'    => 'string',
+						'default' => 'birthday',
+					),
+					'noResults'            => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'template'             => array(
+						'type'    => 'string',
+						'default' => 'anniversary-light',
+					),
+				),
+				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
+				//'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
+				// Not needed since styles are enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
+				//'editor_style'    => '', // Registered CSS handle. Enqueued only on the editor page.
+				//'script'          => '', // Registered script handle. Global, enqueued on the editor page and frontend.
+				//'style'           => '', // Registered CSS handle. Global, enqueued on the editor page and frontend.
+				// The callback function used to render the block.
+				'render_callback' => array( __CLASS__, 'render' ),
+			)
+		);
+	}
+
+	/**
+	 * Callback for the `render_callback` block parameter.
+	 *
+	 * @since 8.31
+	 *
+	 * @param array $attributes
+	 *
+	 * @return string
+	 */
+	public static function render( $attributes ) {
+
+		//error_log( '$atts ' .  json_encode( $attributes, 128 ) );
+
+		$options = array(
+			'list_type'        => $attributes['listType'],
+			'days'             => $attributes['days'],
+			'include_today'    => $attributes['includeToday'],
+			'date_format'      => $attributes['dateFormat'],
+			'show_lastname'    => $attributes['displayLastName'],
+			'show_title'       => FALSE,
+			'list_title'       => $attributes['heading'],
+			'no_results'       => $attributes['noResults'],
+			'template'         => $attributes['template'],
+		);
+
+		$other = shortcode_parse_atts( trim(  $attributes['advancedBlockOptions'] ) );
+
+		if ( is_array( $other ) && ! empty( $other ) ) {
+
+			$options = array_merge( $other, $options );
+		}
+
+		if ( 0 < strlen( $options['list_title'] ) ) {
+
+			$options['show_title'] = TRUE;
+			$options['list_title'] = str_replace( '%d', absint( $options['days'] ), $options['list_title'] );
+		}
+
+		//error_log( '$options ' .  json_encode( $options, 128 ) );
+
+		$html = _upcoming_list( $options );
+
+		return $html;
+	}
+}

@@ -216,7 +216,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 				case 'birthday':
 					if ( $atts['days'] >= 1 ) {
-						$list_title = 'Upcoming Birthdays the next ' . $atts['days'] . ' days';
+						$list_title = 'Upcoming Birthdays the next ' . $atts['days'] . ' days.';
 					} else {
 						$list_title = 'Today\'s Birthdays';
 					}
@@ -224,7 +224,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 				case 'anniversary':
 					if ( $atts['days'] >= 1 ) {
-						$list_title = 'Upcoming Anniversaries the next ' . $atts['days'] . ' days';
+						$list_title = 'Upcoming Anniversaries the next ' . $atts['days'] . ' days.';
 					} else {
 						$list_title = 'Today\'s Anniversaries';
 					}

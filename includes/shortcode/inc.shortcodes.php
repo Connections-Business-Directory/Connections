@@ -230,6 +230,12 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 					}
 					break;
 
+				default:
+					if ( $atts['days'] >= 1 ) {
+						$list_title = "Upcoming {$atts['list_type']} the next {$atts['days']} days.";
+					} else {
+						$list_title = "Today's {$atts['list_type']}";
+					}
 			}
 
 		} else {

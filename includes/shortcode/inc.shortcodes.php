@@ -97,7 +97,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		'date_format'      => 'F jS',
 		'show_lastname'    => FALSE,
 		'show_title'       => TRUE,
-		'list_title'       => NULL,
+		'list_title'       => '',
 		'template'         => NULL,
 		'content'          => '',
 		'force_home'       => TRUE,

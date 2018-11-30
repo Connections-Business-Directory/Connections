@@ -8,29 +8,45 @@ namespace Connections_Directory\Blocks;
  * @package Connections_Directory\Blocks
  * @since   8.31
  */
-class Directory {
+class Upcoming {
 
 	/**
 	 * Callback for the `init` action.
 	 *
 	 * Register the test block.
 	 *
-	 * @since 8.31
+	 * @since 8.32
 	 */
 	public static function register() {
 
 		register_block_type(
-			'connections-directory/shortcode-connections',
+			'connections-directory/shortcode-upcoming',
 			array(
 				// When displaying the block using ServerSideRender the attributes need to be defined
 				// otherwise the REST API will reject the block request with a server response code 400 Bad Request
 				// and display the "Error loading block: Invalid parameter(s): attributes" message.
-				'attributes'      => array(
+				'attributes' => array(
 					'advancedBlockOptions' => array(
 						'type'    => 'string',
 						'default' => '',
 					),
-					'characterIndex'       => array(
+					'displayLastName'      => array(
+						'type'    => 'boolean',
+						'default' => FALSE,
+					),
+					'dateFormat'           => array(
+						'type'    => 'string',
+						'default' => 'F jS',
+					),
+					'days'                 => array(
+						'type'    => 'integer',
+						'default' => 30,
+					),
+					'heading'              => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'includeToday'         => array(
 						'type'    => 'boolean',
 						'default' => TRUE,
 					),
@@ -38,13 +54,17 @@ class Directory {
 						'type'    => 'boolean',
 						'default' => FALSE,
 					),
-					'repeatCharacterIndex' => array(
-						'type'    => 'boolean',
-						'default' => FALSE,
+					'listType'             => array(
+						'type'    => 'string',
+						'default' => 'birthday',
 					),
-					'sectionHead'          => array(
-						'type'    => 'boolean',
-						'default' => FALSE,
+					'noResults'            => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'template'             => array(
+						'type'    => 'string',
+						'default' => 'anniversary-light',
 					),
 				),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
@@ -73,10 +93,15 @@ class Directory {
 		//error_log( '$atts ' .  json_encode( $attributes, 128 ) );
 
 		$options = array(
-			//'limit'             => 3,
-			'show_alphaindex'   => $attributes['characterIndex'],
-			'repeat_alphaindex' => $attributes['repeatCharacterIndex'],
-			'show_alphahead'    => $attributes['sectionHead'],
+			'list_type'        => $attributes['listType'],
+			'days'             => $attributes['days'],
+			'include_today'    => $attributes['includeToday'],
+			'date_format'      => $attributes['dateFormat'],
+			'show_lastname'    => $attributes['displayLastName'],
+			'show_title'       => FALSE,
+			'list_title'       => $attributes['heading'],
+			'no_results'       => $attributes['noResults'],
+			'template'         => $attributes['template'],
 		);
 
 		$other = shortcode_parse_atts( trim(  $attributes['advancedBlockOptions'] ) );
@@ -86,21 +111,15 @@ class Directory {
 			$options = array_merge( $other, $options );
 		}
 
-		// Limit the number of entries displayed to 10, only in editor preview.
-		if ( $attributes['isEditorPreview'] ) {
+		if ( 0 < strlen( $options['list_title'] ) ) {
 
-			$options['limit'] = 10;
+			$options['show_title'] = TRUE;
+			$options['list_title'] = str_replace( '%d', absint( $options['days'] ), $options['list_title'] );
 		}
 
 		//error_log( '$options ' .  json_encode( $options, 128 ) );
 
-		$html = \cnShortcode_Connections::shortcode( $options );
-
-		// Strip link URL/s, only in editor preview.
-		if ( $attributes['isEditorPreview'] ) {
-
-			$html = preg_replace( '/(href=.)[^\'|"]+/', '$1#', $html );
-		}
+		$html = _upcoming_list( $options );
 
 		return $html;
 	}

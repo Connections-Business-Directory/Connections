@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 8.31
+Stable tag: 8.32
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,26 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.32 11/30/2018 =
+* BREAKING CHANGE: Renamed the block namespace. If you used the Connections block in WP 5.0-rc1, you'll need to update the block.
+* FEATURE: Introduce the Upcoming List block for the WordPress 5.0 editor.
+* NEW: Introduce a `no_results` option to the `[upcoming_list]` shortcode so the no results message can be customized.
+* NEW: Introduce `cnDate::GetUpcoming()`.
+* TWEAK: No need to use the `editor_script` parameter in `register_block_type()` since is is enqueued in the `enqueue_block_editor_assets` hook.
+* TWEAK: Check for the `wp_set_script_translations()` function before registering blocks. It seems this function does not exist when using the Gutenberg plugin. So, lets not support the Gutenberg plugin and support only WP 5.0.
+* TWEAK: Update the anniversary and birthday template with more specific CSS so they do no conflict.
+* TWEAK: Rename the Directory block advanced settings field.
+* TWEAK: Add missing period to upcoming list heading.
+* TWEAK: Add a default heading to the upcoming list.
+* TWEAK: Remove unused code from upcoming list.
+* TWEAK: The `list_title` option for the `[upcoming_list]` shortcode should default to an empty string and not `null`.
+* TWEAK: Update the dark and light templates for Anniversaries and Birthdays so they support all registered date types.
+* BUG: Do not attach Chosen to the country field when the field is disabled.
+* DEV: Add some inline comments to describe the `register_block_type()` parameters since they are not outlined in the Gutenberg documentation.
+* DEV: Add inline comment for the `html` parameter for the `registerBlockType()` function.
+* DEV: Reorder the deconstructed `wp.i18n` methods.
+* DEV: Add classnames and lodash as dev dependencies to package.json.
+
 = 8.31 11/23/2018 =
 * NEW: WordPress 5.0 Support.
 * FEATURE: Gutenberg Block to which can be used to insert the directory into the page.
@@ -444,39 +464,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: phpDoc corrections.
 * DEV: Remove unused variables.
 
-= 8.17 04/13/2018 =
-* FEATURE: Add link fieldset configuration options.
-* TWEAK: Change class constant access syntax to be compatible with php5.3.
-* TWEAK: Minor tweak to logic to ensure the preferred array value does not create a new messenger ID object when updating from array.
-* TWEAK: Create instance of cnPhone instead of stdClass when creating a new phone number object when creating a "dummy" placeholder object for the phone fieldset.
-* TWEAK: Create instance of cnEmail_Address instead of stdClass when creating a new email address object when creating a "dummy" placeholder object for the email fieldset.
-* TWEAK: Set the `cnEntry::getLinks()` default value for type to query to NULL instead of the registered core types so all links will be queried vs. only the registered types.
-* TWEAK: Change default date format of `cnEntry::getFormattedTimeStamp()` to use the WordPress default date format set by the user in the settings.
-* TWEAK: When saving/updating an entry, the added date time and updated date time should be saved in UTC.
-* TWEAK: Update various spots in the code to account that the last updated and date added timestamps are in UTC so they will properly be cconverted into the current user's timezone.
-* TWEAK: Change `cnEntry::getDateAdded()` to use the user's defined date format from the WP settings.
-* TWEAK: Add time to `cnEntry::getFormattedTimeStamp()` default date format. Default to user's defined date time format from the WP settings.
-* TWEAK: Add time to `cnEntry::getDateAdded()` default date format. Default to user's defined date time format from the WP settings.
-* TWEAK: Remove the hardcoded date time formats used on the Manage admin page so they will display in the users defined date time format in the WP settings.
-* TWEAK: Ensure `cnEntry::getBio()` and `cnEntry::getNotes()` only return strings.
-* BUG: Correct PHP index not found notice.
-* BUG: The messenger fieldset was not updated to honor the fieldset settings!
-* BUG: Version should be string.
-* OTHER: Remove extra spaces.
-* OTHER: Remove todo in cnEntry.
-* OTHER: Remove extra tabs and align `span` tags.
-* OTHER: Remove trailing spaces.
-* OTHER: Remove extra spaces.
-* I18N: Correct string so it can be translated.
-* DEV: phpDoc corrections.
-* DEV: Remove some commented out debug code.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.17 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.18 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -542,4 +532,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.31 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.32 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

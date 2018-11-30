@@ -16,7 +16,9 @@ class Blocks {
 	 */
 	public static function register() {
 
-		if ( ! function_exists( 'register_block_type' ) ) {
+		if ( ! function_exists( 'register_block_type' ) ||
+		     ! function_exists( 'wp_set_script_translations' ) // Required as the Gutenberg plugin does not have this function.
+		) {
 
 			return;
 		}
@@ -32,6 +34,7 @@ class Blocks {
 
 		// Register the editor blocks.
 		add_action( 'init', 'Connections_Directory\Blocks\Directory::register' );
+		add_action( 'init', 'Connections_Directory\Blocks\Upcoming::register' );
 	}
 
 	/**
@@ -52,6 +55,16 @@ class Blocks {
 			"{$url}assets/dist/js/blocks.js",
 			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor' ),
 			time()
+		);
+
+		wp_localize_script(
+			'connections-block-directory',
+			'cbDir',
+			array(
+				'blockSettings' => array(
+					'dateTypes' => \cnOptions::getDateTypeOptions(),
+				)
+			)
 		);
 
 		wp_set_script_translations( 'connections-block-directory', 'connections' );

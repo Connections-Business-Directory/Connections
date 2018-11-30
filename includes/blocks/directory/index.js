@@ -1,4 +1,4 @@
-const { __, _x, _n, _nx } = wp.i18n;
+const { __, _n, _nx, _x } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const {
 	      InspectorControls,
@@ -19,7 +19,7 @@ import './styles/public.scss';
  * Register Block
  */
 export default registerBlockType(
-	'connections/directory',
+	'connections-directory/shortcode-connections',
 	{
 		title:       __( 'Directory', 'connections' ),
 		description: __( 'Display the Connections Business Directory.', 'connections' ),
@@ -34,6 +34,7 @@ export default registerBlockType(
 			className:       false,
 			// Remove the support for the custom className.
 			customClassName: false,
+			// Remove the support for editing the block using the block HTML editor.
 			html:            false,
 		},
 		attributes:  {
@@ -93,7 +94,7 @@ export default registerBlockType(
 				</InspectorControls>,
 				<InspectorAdvancedControls>
 					<TextControl
-						label={__( 'Additional Directory Options', 'connections' )}
+						label={__( 'Additional Options', 'connections' )}
 						value={advancedBlockOptions}
 						onChange={( newValue ) => {
 							setAttributes( {
@@ -104,7 +105,7 @@ export default registerBlockType(
 				</InspectorAdvancedControls>,
 				<ServerSideRender
 					attributes={attributes}
-					block='connections/directory'
+					block='connections-directory/shortcode-connections'
 				/>
 			];
 

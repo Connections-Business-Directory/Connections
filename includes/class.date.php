@@ -460,14 +460,14 @@ class cnDate {
 			$format = cnSettingsAPI::get( 'connections', 'display_general', 'date_format' );
 		}
 
-		if ( gmmktime( 23, 59, 59, $date->format( 'm' ), $date->format( 'd' ), gmdate( 'Y', $timeStamp ) ) < $timeStamp ) {
+		if ( gmmktime( 23, 59, 59, (int) $date->format( 'm' ), (int) $date->format( 'd' ), (int) gmdate( 'Y', $timeStamp ) ) < $timeStamp ) {
 
 			/** @noinspection PhpWrongStringConcatenationInspection */
-			$nextUDay = gmmktime( 0, 0, 0, $date->format( 'm' ), $date->format( 'd' ), gmdate( 'Y', $timeStamp ) + 1 );
+			$nextUDay = gmmktime( 0, 0, 0, (int) $date->format( 'm' ), (int) $date->format( 'd' ), ( (int) gmdate( 'Y', $timeStamp ) ) + 1 );
 
 		} else {
 
-			$nextUDay = gmmktime( 0, 0, 0, $date->format( 'm' ), $date->format( 'd' ), gmdate( 'Y', $timeStamp ) );
+			$nextUDay = gmmktime( 0, 0, 0, (int) $date->format( 'm' ), (int) $date->format( 'd' ), (int) gmdate( 'Y', $timeStamp ) );
 		}
 
 		/*

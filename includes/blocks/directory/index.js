@@ -94,7 +94,7 @@ export default registerBlockType(
 				</InspectorControls>,
 				<InspectorAdvancedControls>
 					<TextControl
-						label={__( 'Additional Directory Options', 'connections' )}
+						label={__( 'Additional Options', 'connections' )}
 						value={advancedBlockOptions}
 						onChange={( newValue ) => {
 							setAttributes( {

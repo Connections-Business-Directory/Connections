@@ -60,9 +60,8 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 	/**
 	 * @var ConnectionsLoad $connections
-	 * @var wpdb $wpdb
 	 */
-	global $connections, $wpdb;
+	global $connections;
 
 	// $template =& $connections->template;
 	$out = '';
@@ -143,45 +142,12 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 	do_action( 'cn_template_include_once-' . $template->getSlug() );
 	do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
 
-	/*
-	 * Set the query vars and run query.
-	 */
-
-	// Show only public or private [if permitted] entries.
-	if ( is_user_logged_in() || $atts['private_override'] != FALSE ) {
-		$visibilityfilter = " AND (visibility='private' OR visibility='public') AND (" . $atts['list_type'] . " != '')";
-	} else {
-		$visibilityfilter = " AND (visibility='public') AND (`" . $atts['list_type'] . "` != '')";
-	}
-
-	// Get the current date from WP which should have the current time zone offset.
-	$wpCurrentDate = date( 'Y-m-d', $connections->options->wpCurrentTime );
-
-	// Whether or not to include the event occurring today or not.
-	( $atts['include_today'] ) ? $includeToday = '<=' : $includeToday = '<';
-
-	$newSQL = "SELECT * FROM ".CN_ENTRY_TABLE." WHERE"
-		. "  (YEAR(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY))"
-        . " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['list_type']."`), INTERVAL ".$connections->options->sqlTimeOffset." SECOND)) )"
-        . " - ( MID(DATE_ADD('$wpCurrentDate', INTERVAL ".$atts['days']." DAY),5,6)"
-        . " < MID(DATE_ADD(FROM_UNIXTIME(`".$atts['list_type']."`), INTERVAL ".$connections->options->sqlTimeOffset." SECOND),5,6) )"
-        . " > ( YEAR('$wpCurrentDate')"
-        . " - YEAR(DATE_ADD(FROM_UNIXTIME(`".$atts['list_type']."`), INTERVAL ".$connections->options->sqlTimeOffset." SECOND)) )"
-        . " - ( MID('$wpCurrentDate',5,6)"
-        . " ".$includeToday." MID(DATE_ADD(FROM_UNIXTIME(`".$atts['list_type']."`), INTERVAL ".$connections->options->sqlTimeOffset." SECOND),5,6) )"
-		. $visibilityfilter;
-	//$out .= print_r($newSQL , TRUE);
-
-	//$results = $wpdb->get_results( $newSQL );
-	//$out .= print_r($results , TRUE);
-
 	$results = Connections_Directory()->retrieve->upcoming(
 		array(
 			'type'                  => $atts['list_type'],
 			'days'                  => $atts['days'],
 			'today'                 => $atts['include_today'],
 			'visibility'            => array(),
-			//'allow_public_override' => FALSE,
 			'private_override'      => $atts['private_override'],
 			'return'                => 'data', // Valid options are `data` which are the results returned from self::entries() or `id` which are the entry ID/s.
 		)
@@ -195,20 +161,6 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		$out .= '<p class="cn-upcoming-no-results">' . $noResultMessage . '</p>';
 
 	} else {
-		/*The SQL returns an array sorted by the birthday and/or anniversary date. However the year end wrap needs to be accounted for.
-		Otherwise earlier months of the year show before the later months in the year. Example Jan before Dec. The desired output is to show
-		Dec then Jan dates.  This function checks to see if the month is a month earlier than the current month. If it is the year is changed to the following year rather than the current.
-		After a new list is built, it is resorted based on the date.*/
-		//foreach ( $results as $key => $row ) {
-		//
-		//	if ( gmmktime( 23, 59, 59, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) ) < $connections->options->wpCurrentTime ) {
-		//		$dateSort[] = $row->{$atts['list_type']} = gmmktime( 0, 0, 0, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) + 1 );
-		//	} else {
-		//		$dateSort[] = $row->{$atts['list_type']} = gmmktime( 0, 0, 0, gmdate( 'm', $row->{$atts['list_type']} ), gmdate( 'd', $row->{$atts['list_type']} ), gmdate( 'Y', $connections->options->wpCurrentTime) );
-		//	}
-		//}
-		//
-		//array_multisort( $dateSort, SORT_ASC, $results );
 
 		if ( empty( $atts['list_title'] ) ) {
 

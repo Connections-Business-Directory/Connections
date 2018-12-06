@@ -67,7 +67,7 @@ if ( ! class_exists( 'CN_Anniversary_Light_Template' ) ) {
 			$dateCollection = $dates->filterBy( 'type', $atts['list_type'] )->getCollection( 1 );
 			$entryDate      = $dateCollection->first();
 
-			switch( $atts['year_type'] ) {
+			switch ( $atts['year_type'] ) {
 
 				case 'original':
 

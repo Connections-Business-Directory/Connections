@@ -20,8 +20,10 @@ Quite simply, Connections Business Directory is one of the [best business direct
 = Features =
 
 * **Seamless integration** with WordPress.
-* **WordPress 5.0 compatible.**
-* Supports the WordPress Gutenberg editor with a new directory block.
+* **WordPress 5.0 Ready!**
+  * Supports the WordPress Gutenberg editor with the following blocks.
+      * Directory Block :: Use this block to embed your directory in a page.
+      * Upcoming List Block :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
 * Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**

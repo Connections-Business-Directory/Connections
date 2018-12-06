@@ -95,6 +95,8 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 		'private_override' => FALSE,
 		'name_format'      => '',
 		'date_format'      => 'F jS',
+		'year_type'        => 'upcoming',
+		'year_format'      => '%y ' . __( 'Year(s)', 'connections' ),
 		'show_lastname'    => FALSE,
 		'show_title'       => TRUE,
 		'list_title'       => '',

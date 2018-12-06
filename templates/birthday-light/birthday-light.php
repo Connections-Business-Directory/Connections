@@ -67,14 +67,49 @@ if ( ! class_exists( 'CN_Birthday_Light_Template' ) ) {
 			$dateCollection = $dates->filterBy( 'type', $atts['list_type'] )->getCollection( 1 );
 			$entryDate      = $dateCollection->first();
 
-			if ( $entryDate instanceof cnEntry_Date ) {
+			switch ( $atts['year_type'] ) {
 
-				$date = $entryDate->getDate();
+				case 'original':
 
-				if ( $date instanceof DateTime ) {
+					if ( $entryDate instanceof cnEntry_Date ) {
 
-					$formatted = cnDate::getUpcoming( $date, $atts['date_format'] ); // $date->format( $atts['date_format'] );
-				}
+						$date = $entryDate->getDate();
+
+						if ( $date instanceof DateTime ) {
+
+							$formatted = $date->format( $atts['date_format'] );
+						}
+					}
+
+					break;
+
+				case 'since':
+
+					if ( $entryDate instanceof cnEntry_Date ) {
+
+						$date = $entryDate->getDate();
+
+						if ( $date instanceof DateTime ) {
+
+							$today     = new DateTime( current_time( 'mysql' ) );
+							$interval  = $today->diff( $date );
+							$formatted = $interval->format( $atts['year_format'] );
+						}
+					}
+
+					break;
+
+				default:
+
+					if ( $entryDate instanceof cnEntry_Date ) {
+
+						$date = $entryDate->getDate();
+
+						if ( $date instanceof DateTime ) {
+
+							$formatted = cnDate::getUpcoming( $date, $atts['date_format'] ); // $date->format( $atts['date_format'] );
+						}
+					}
 			}
 
 			?>

@@ -74,18 +74,21 @@ export default registerBlockType(
 
 						<ToggleControl
 							label={__( 'Display Character Index?', 'connections' )}
+							help={__( 'Display the A-Z index above the directory.', 'connections' )}
 							checked={!!characterIndex}
 							onChange={() => setAttributes( { characterIndex: !characterIndex } )}
 						/>
 
 						<ToggleControl
-							label={__( 'Repeat Character Index at Beginning of Character Group?', 'connections' )}
+							label={__( 'Repeat Character Index?', 'connections' )}
+							help={__( 'Repeat the Character Index at the beginning of each character group.', 'connections' )}
 							checked={!!repeatCharacterIndex}
 							onChange={() => setAttributes( { repeatCharacterIndex: !repeatCharacterIndex } )}
 						/>
 
 						<ToggleControl
 							label={__( 'Display Current Character Heading?', 'connections' )}
+							help={__( 'Display the current character heading at the beginning of each character group.', 'connections' )}
 							checked={!!sectionHead}
 							onChange={() => setAttributes( { sectionHead: !sectionHead } )}
 						/>

@@ -66,6 +66,14 @@ class Upcoming {
 						'type'    => 'string',
 						'default' => 'anniversary-light',
 					),
+					'yearFormat'    => array(
+						'type'    => 'string',
+						'default' => '%y ' . __( 'Year(s)', 'connections' ),
+					),
+					'yearType'    => array(
+						'type'    => 'string',
+						'default' => 'upcoming',
+					),
 				),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
 				//'editor_script'   => '', // Registered script handle. Enqueued only on the editor page.
@@ -102,6 +110,8 @@ class Upcoming {
 			'list_title'       => $attributes['heading'],
 			'no_results'       => $attributes['noResults'],
 			'template'         => $attributes['template'],
+			'year_format'      => $attributes['yearFormat'],
+			'year_type'        => $attributes['yearType'],
 		);
 
 		$other = shortcode_parse_atts( trim(  $attributes['advancedBlockOptions'] ) );

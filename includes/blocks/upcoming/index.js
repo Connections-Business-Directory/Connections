@@ -8,6 +8,7 @@ const {
 	      ExternalLink,
 	      PanelBody,
 	      // RangeControl,
+	      RadioControl,
 	      SelectControl,
 	      ServerSideRender,
 	      TextControl,
@@ -87,6 +88,14 @@ export default registerBlockType(
 				type:    'string',
 				default: __( 'No results.', 'connections' ),
 			},
+			yearFormat: {
+				type:    'string',
+				default: '%y ' + __( 'Year(s)', 'connections' ),
+			},
+			yearType: {
+				type:    'string',
+				default: 'upcoming',
+			},
 		},
 		edit:        function( { attributes, setAttributes } ) {
 
@@ -99,7 +108,9 @@ export default registerBlockType(
 				      includeToday,
 				      listType,
 				      template,
-				      noResults
+				      noResults,
+				      yearFormat,
+				      yearType
 			      } = attributes;
 
 			const dateTypeSelectOptions = [];
@@ -170,6 +181,22 @@ export default registerBlockType(
 							onChange={() => setAttributes( { includeToday: !includeToday } )}
 						/>
 
+						<RadioControl
+							label={__( 'Year Display', 'connections' )}
+							// help={__( '', 'connections' )}
+							selected={ yearType }
+							options={ [
+								{ label: __( 'Original Year', 'connections' ), value: 'original' },
+								{ label: __( 'Upcoming Year', 'connections' ), value: 'upcoming' },
+								{ label: __( 'Years Since', 'connections' ), value: 'since' },
+							] }
+							onChange={( newValue ) => {
+								setAttributes( {
+									yearType: newValue,
+								} );
+							}}
+						/>
+
 						<TextControl
 							label={__( 'No Results Notice', 'connections' )}
 							help={__( 'This message is displayed when there are no upcoming event dates within the specified number of days.', 'connections' )}
@@ -200,6 +227,24 @@ export default registerBlockType(
 						onChange={( newValue ) => {
 							setAttributes( {
 								dateFormat: newValue,
+							} );
+						}}
+					/>
+
+					<TextControl
+						label={__( 'Years Since Format', 'connections' )}
+						help={
+							<ExternalLink
+								href='http://php.net/manual/en/dateinterval.format.php'
+								target='_blank'
+							>
+								{__( 'Documentation on date interval formatting.', 'connections' )}
+							</ExternalLink>
+						}
+						value={yearFormat}
+						onChange={( newValue ) => {
+							setAttributes( {
+								yearFormat: newValue,
 							} );
 						}}
 					/>

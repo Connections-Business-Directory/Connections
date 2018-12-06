@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 8.32
+Stable tag: 8.33
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,8 +20,10 @@ Quite simply, Connections Business Directory is one of the [best business direct
 = Features =
 
 * **Seamless integration** with WordPress.
-* **WordPress 5.0 compatible.**
-* Supports the WordPress Gutenberg editor with a new directory block.
+* **WordPress 5.0 Ready!**
+  * Supports the WordPress Gutenberg editor with the following blocks.
+      * Directory Block :: Use this block to embed your directory in a page.
+      * Upcoming List Block :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
 * Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
@@ -238,6 +240,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.33 12/06/2018 =
+* NEW: Add support for displaying the original year and years since in the Upcoming List Gutenberg block
+* NEW: Add support for displaying the original year and years since in the `[upcoming_list]` shortcode.
+* TWEAK: Add help text to the Directory block options.
+
 = 8.32 11/30/2018 =
 * BREAKING CHANGE: Renamed the block namespace. If you used the Connections block in WP 5.0-rc1, you'll need to update the block.
 * FEATURE: Introduce the Upcoming List block for the WordPress 5.0 editor.
@@ -453,23 +460,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Change `satooshi/php-coveralls` to `php-coveralls/php-coveralls` in composer.json.
 * DEV: Update `php-coveralls/php-coveralls` required version.
 
-= 8.18 04/20/2018 =
-* TWEAK: Switch all `is_a()` instances of to `instanceof`.
-* TWEAK: Update teh jQuery Validate library to 1.17.0.
-* TWEAK: Add option to `cnOutput::getImage()` to enable the logo/photo to be a entry permalink unless overridden by an assigned link.
-* TWEAK: Update the Default Entry Card template so the logo/photo will be a permalink to the entry.
-* TWEAK: Update the Profile template so the logo/photo will be a permalink to the entry.
-* TWEAK: Rename `cnSEO::trigger404()` to `cnSEO::trigger404_entryNotFound()`.
-* OTHER: Correct misspelling.
-* DEV: phpDoc corrections.
-* DEV: Remove unused variables.
-
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 == Upgrade Notice ==
-
-= 8.18 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.19 =
 It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -535,4 +528,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.32 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.33 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

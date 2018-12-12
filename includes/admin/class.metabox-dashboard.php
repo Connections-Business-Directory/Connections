@@ -306,11 +306,9 @@ class cnDashboardMetabox {
 	/**
 	 * The dashboard widget used to display the upcoming anniversaries and birthdays.
 	 *
-	 * @access public
 	 * @since  0.8
 	 * @param  object $null    Generally a $post or $entry object. Not used in Connections core.
 	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The recently added/modifed entries.
 	 */
 	public static function celebrate( $null, $metabox ) {
 

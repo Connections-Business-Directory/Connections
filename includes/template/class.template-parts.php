@@ -1683,16 +1683,9 @@ class cnTemplatePart {
 	 * Accepted option for the $atts property are:
 	 *    return (bool) Whether or not to return or echo the result.
 	 *
-	 * @access public
 	 * @since  0.7.4
-	 * @static
 	 *
-	 * @uses   add_query_arg()
-	 * @uses   cnQuery::getVar()
-	 * @uses   wp_parse_args()
-	 * @uses   is_admin()
-	 *
-	 * @param  array  $atts [description]
+	 * @param array $atts [description]
 	 *
 	 * @return string
 	 */

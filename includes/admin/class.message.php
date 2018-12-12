@@ -310,8 +310,6 @@ class cnMessage extends WP_Error {
 	 *
 	 * @param string $type
 	 * @param string $message
-	 *
-	 * @return string The action/error message created to match the admin notices style.
 	 */
 	public static function render( $type, $message ) {
 

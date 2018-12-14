@@ -334,7 +334,6 @@ class cnHTML {
 
 				if ( ! empty( $data ) ) {
 
-
 					array_walk(
 						$data,
 						function( &$i, $name ) {

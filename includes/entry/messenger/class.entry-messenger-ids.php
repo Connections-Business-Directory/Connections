@@ -309,7 +309,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 				 *     @type string $visibility The messenger ID visibility.
 				 * }
 				 */
-				$callback =  function( $item ) {
+				$callback = function( $item ) {
 					return apply_filters( 'cn_messenger_id', $item );
 				};
 				break;
@@ -329,7 +329,7 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 
 			case 'cn_set_messenger_id':
 
-				$callback =  function( $item ) {
+				$callback = function( $item ) {
 					return apply_filters( 'cn_set_messenger_id', $item );
 				};
 				break;

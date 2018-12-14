@@ -388,7 +388,15 @@ class cnOutput extends cnEntry {
 			// All extensions to apply/remove inline styles.
 			$atts['style'] = apply_filters( 'cn_image_styles', $atts['style'] );
 
-			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
+			if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
+
+				array_walk(
+					$atts['style'],
+					function( &$i, $property ) {
+						$i = "$property: $i";
+					}
+				);
+			}
 
 			/*
 			 * If a link has not been attached to the photo/logo AND the permalink option is enabled
@@ -480,7 +488,15 @@ class cnOutput extends cnEntry {
 
 					$atts['style']['display'] = 'inline-block';
 
-					if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
+					if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
+
+						array_walk(
+							$atts['style'],
+							function( &$i, $property ) {
+								$i = "$property: $i";
+							}
+						);
+					}
 
 					$string = empty( $atts['fallback']['string'] ) ? '' : '<span>' . $atts['fallback']['string'] . '</span>';
 

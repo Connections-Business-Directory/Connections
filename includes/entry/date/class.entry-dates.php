@@ -65,13 +65,12 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 		//// Reset the filters just in case filters have been applied to the collection.
 		//$this->resetFilters();
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function(
-			'$item',
-			'return absint(\'' . $id . '\') === $item->getID();'
+		$key = $this->items->search(
+			function( $item ) use ( $id ) {
+				/** @var cnEntry_Collection_Item $item */
+				return absint( $id ) === $item->getID();
+			}
 		);
-
-		$key = $this->items->search( $callback );
 
 		if ( FALSE !== $key ) {
 
@@ -309,7 +308,9 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 				 *     @type string $visibility The date visibility.
 				 * }
 				 */
-				$callback = create_function( '$item', 'return apply_filters( \'cn_date\', $item );' );
+				$callback = function( $item ) {
+					return apply_filters( 'cn_date', $item );
+				};
 				break;
 
 			case 'cn_dates':
@@ -327,7 +328,9 @@ final class cnEntry_Dates extends cnEntry_Object_Collection {
 
 			case 'cn_set_date':
 
-				$callback = create_function( '$item', 'return apply_filters( \'cn_set_date\', $item );' );
+				$callback = function( $item ) {
+					return apply_filters( 'cn_set_date', $item );
+				};
 				break;
 
 			case 'cn_set_dates':

@@ -1059,7 +1059,8 @@ class cnEntry_Action {
 
 			$query = \Connections_Directory\Geocoder\Query\Address::create( $query );
 
-			$locale   = substr( get_user_locale(), 0, 2 );
+			$locale   = function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
+			$locale   = substr( $locale, 0, 2 );
 			$provider = new \Connections_Directory\Geocoder\Provider\Algolia\Algolia();
 			$geocoder = new \Connections_Directory\Geocoder\Geocoder( $provider, $locale );
 

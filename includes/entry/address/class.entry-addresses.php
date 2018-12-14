@@ -146,13 +146,12 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	private function getItemKeyByID( $id ) {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function(
-			'$item',
-			'return absint(\'' . $id . '\') === $item->getID();'
+		return $this->items->search(
+			function( $item ) use ( $id ) {
+				/** @var cnEntry_Collection_Item $item */
+				return absint( $id ) === $item->getID();
+			}
 		);
-
-		return $this->items->search( $callback );
 	}
 
 	/**
@@ -174,13 +173,12 @@ final class cnEntry_Addresses implements cnToArray {
 		//// Reset the filters just in case filters have been applied to the collection.
 		//$this->resetFilters();
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function(
-			'$item',
-			'return absint(\'' . $id . '\') === $item->getID();'
+		$key = $this->items->search(
+			function( $item ) use ( $id ) {
+				/** @var cnEntry_Collection_Item $item */
+				return absint( $id ) === $item->getID();
+			}
 		);
-
-		$key = $this->items->search( $callback );
 
 		if ( FALSE !== $key ) {
 
@@ -446,10 +444,12 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	public function getCollectionAsObjects( $limit = NULL ) {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$item', 'return (object) $item;' );
-
-		return array_map( $callback, $this->getCollectionAsArray( $limit ) );
+		return array_map(
+			function( $item ) {
+				return (object) $item;
+			},
+			$this->getCollectionAsArray( $limit )
+		);
 	}
 
 	/**
@@ -492,7 +492,9 @@ final class cnEntry_Addresses implements cnToArray {
 				 *     @type string $visibility The address visibility.
 				 * }
 				 */
-				$callback = create_function( '$item', 'return apply_filters( \'cn_address\', $item );' );
+				$callback = function( $item ) {
+					return apply_filters( 'cn_address', $item );
+				};
 				break;
 
 			case 'cn_addresses':
@@ -510,7 +512,9 @@ final class cnEntry_Addresses implements cnToArray {
 
 			case 'cn_set_address':
 
-				$callback = create_function( '$item', 'return apply_filters( \'cn_set_address\', $item );' );
+				$callback = function( $item ) {
+					return apply_filters( 'cn_set_address', $item );
+				};
 				break;
 
 			case 'cn_set_addresses':
@@ -556,13 +560,12 @@ final class cnEntry_Addresses implements cnToArray {
 		//// Reset the filters just in case filters have been applied to the collection.
 		//$this->resetFilters();
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function(
-			'$item',
-			'return \'' . $id . '\' == $item->getID() ? $item->wherePreferred( TRUE ) : $item->wherePreferred( FALSE );'
+		$this->items->transform(
+			function( $item ) use ( $id ) {
+				/** @var cnEntry_Collection_Item $item */
+				return $id == $item->getID() ? $item->setPreferred( TRUE ) : $item->setPreferred( FALSE );
+			}
 		);
-
-		$this->items->transform( $callback );
 
 		//// Reset the filters so both the filtered and unfiltered collections are the same after updating an address.
 		//$this->resetFilters();
@@ -613,10 +616,15 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	public function escapeForDisplay() {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$item', 'return $item->escapedForDisplay();' );
+		if ( 0 < $this->filtered->count() ) {
 
-		if ( 0 < $this->filtered->count() ) $this->filtered->transform( $callback );
+			$this->filtered->transform(
+				function( $item ) {
+					/** @var cnEntry_Collection_Item $item */
+					return $item->escapedForDisplay();
+				}
+			);
+		}
 
 		return $this;
 	}
@@ -631,10 +639,15 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	public function escapeForEdit() {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$item', 'return $item->escapedForEdit();' );
+		if ( 0 < $this->filtered->count() ) {
 
-		if ( 0 < $this->filtered->count() ) $this->filtered->transform( $callback );
+			$this->filtered->transform(
+				function( $item ) {
+					/** @var cnEntry_Collection_Item $item */
+					return $item->escapedForEdit();
+				}
+			);
+		}
 
 		return $this;
 	}
@@ -649,10 +662,15 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	public function escapeForSaving() {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$item', 'return $item->sanitizedForSave();' );
+		if ( 0 < $this->filtered->count() ) {
 
-		if ( 0 < $this->filtered->count() ) $this->filtered->transform( $callback );
+			$this->filtered->transform(
+				function( $item ) {
+					/** @var cnEntry_Collection_Item $item */
+					return $item->sanitizedForSave();
+				}
+			);
+		}
 
 		return $this;
 	}
@@ -823,9 +841,6 @@ final class cnEntry_Addresses implements cnToArray {
 	 */
 	public function fromArray( $data = array() ) {
 
-		$collection = new cnCollection( $data );
-		$order      = $collection->max('order');
-
 		/*
 		 * The source of $data in Connections core will be from a form submission, object cache or the db.
 		 * When the source is from the form submission the preferred item `key` is stored in the 'preferred' array key
@@ -834,7 +849,18 @@ final class cnEntry_Addresses implements cnToArray {
 		 * If the `preferred` array key is set, the preferred address will be set based on the array key value.
 		 * If it is not, the preferred address value will be retained using the `preferred` key within each address.
 		 */
-		$preferred  = isset( $data['preferred'] ) ? $data['preferred'] : NULL;
+		if ( isset( $data['preferred'] ) ) {
+
+			$preferred = $data['preferred'];
+			unset( $data['preferred'] );
+
+		} else {
+
+			$preferred = NULL;
+		}
+
+		$collection = new cnCollection( $data );
+		$order      = (int) $collection->max( 'order' );
 
 		foreach ( $collection as $key => $address ) {
 

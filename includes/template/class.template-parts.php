@@ -1431,7 +1431,6 @@ class cnTemplatePart {
 	 * @return string
 	 */
 	public static function returnToTop( $atts = array() ) {
-		$styles = '';
 
 		$defaults = array(
 			'tag'    => 'span',
@@ -1446,15 +1445,11 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
-
-			array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
-			$styles = implode( $atts['style'], '; ' );
-		}
+		$styles = cnHTML::attribute( 'style', $atts['style'] );
 
 		$anchor = '<a href="' . $atts['href'] . '" title="' . $atts['title'] . '">' . $atts['text'] . '</a>';
 
-		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $anchor . '</' . $atts['tag'] . '>';
+		$out = '<' . $atts['tag'] . ' class="cn-return-to-top"' . ( $styles ? $styles : ''  ) . '>' . $anchor . '</' . $atts['tag'] . '>';
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
@@ -1477,7 +1472,6 @@ class cnTemplatePart {
 	 */
 	public static function updated( $atts = array() ) {
 		$out = '';
-		$styles = '';
 
 		$defaults = array(
 			'timestamp'   => '',
@@ -1513,15 +1507,11 @@ class cnTemplatePart {
 		else      // more than one year: don't show the update age
 			$atts['style']['display'] = 'none';
 
-		if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
-
-			array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
-			$styles = implode( $atts['style'], '; ' );
-		}
+		$styles = cnHTML::attribute( 'style', $atts['style'] );
 
 		$updated = sprintf( __( 'Updated %1$s ago.', 'connections' ), human_time_diff( strtotime( $atts['timestamp'] ), current_time( 'timestamp', TRUE ) ) );
 
-		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . $updated . '</' . $atts['tag'] . '>';
+		$out = '<' . $atts['tag'] . ' class="cn-last-updated"' . ( $styles ? $styles : ''  ) . '>' . $updated . '</' . $atts['tag'] . '>';
 
 		$out = ( empty( $atts['before'] ) ? '' : $atts['before'] ) . $out . ( empty( $atts['after'] ) ? '' : $atts['after'] ) . PHP_EOL;
 
@@ -1683,16 +1673,9 @@ class cnTemplatePart {
 	 * Accepted option for the $atts property are:
 	 *    return (bool) Whether or not to return or echo the result.
 	 *
-	 * @access public
 	 * @since  0.7.4
-	 * @static
 	 *
-	 * @uses   add_query_arg()
-	 * @uses   cnQuery::getVar()
-	 * @uses   wp_parse_args()
-	 * @uses   is_admin()
-	 *
-	 * @param  array  $atts [description]
+	 * @param array $atts [description]
 	 *
 	 * @return string
 	 */
@@ -1700,7 +1683,6 @@ class cnTemplatePart {
 
 		$links   = array( PHP_EOL );
 		$current = '';
-		$styles  = '';
 
 		$defaults = array(
 			'status'     => array( 'approved' ),
@@ -1725,11 +1707,7 @@ class cnTemplatePart {
 			if ( cnQuery::getVar('cn-char') ) $current = urldecode( cnQuery::getVar('cn-char') );
 		}
 
-		if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
-
-			array_walk( $atts['style'], create_function( '&$i, $property', '$i = "$property: $i";' ) );
-			$styles = implode( $atts['style'], '; ' );
-		}
+		$styles = cnHTML::attribute( 'style', $atts['style'] );
 
 		foreach ( $characters as $key => $char ) {
 			$char = strtoupper( $char );
@@ -1758,7 +1736,7 @@ class cnTemplatePart {
 
 		}
 
-		$out = '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? ' style="' . $styles . '"' : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . PHP_EOL;
+		$out = '<' . $atts['tag'] . ' class="cn-alphaindex"' . ( $styles ? $styles : ''  ) . '>' . implode( ' ', $links ) . '</' . $atts['tag'] . '>' . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

@@ -33,7 +33,7 @@ class cnText_Domain {
 	 */
 	public static function create( $domain, $basename = '' ) {
 
-		return new static( $domain, $basename );
+		return new self( $domain, $basename );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class cnText_Domain {
 	 */
 	public static function register( $domain, $basename = '', $priority = 10 ) {
 
-		$instance = new static( $domain, $basename );
+		$instance = new self( $domain, $basename );
 
 		if ( is_int( $priority ) ) {
 

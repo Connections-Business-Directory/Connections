@@ -130,13 +130,12 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 */
 	protected function getItemKeyByID( $id ) {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function(
-			'$item',
-			'return absint(\'' . $id . '\') === $item->getID();'
+		return $this->items->search(
+			function( $item ) use ( $id ) {
+				/** @var cnEntry_Collection_Item $item */
+				return absint( $id ) === $item->getID();
+			}
 		);
-
-		return $this->items->search( $callback );
 	}
 
 	/**
@@ -262,10 +261,12 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 */
 	public function getCollectionAsObjects( $limit = NULL ) {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$item', 'return (object) $item;' );
-
-		return array_map( $callback, $this->getCollectionAsArray( $limit ) );
+		return array_map(
+			function( $item ) {
+				return (object) $item;
+			},
+			$this->getCollectionAsArray( $limit )
+		);
 	}
 
 	/**
@@ -305,13 +306,12 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 		//// Reset the filters just in case filters have been applied to the collection.
 		//$this->resetFilters();
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function(
-			'$item',
-			'return \'' . $id . '\' == $item->getID() ? $item->wherePreferred( TRUE ) : $item->wherePreferred( FALSE );'
+		$this->items->transform(
+			function( $item ) use ( $id ) {
+				/** @var cnEntry_Collection_Item $item */
+				return $id == $item->getID() ? $item->setPreferred( TRUE ) : $item->setPreferred( FALSE );
+			}
 		);
-
-		$this->items->transform( $callback );
 
 		//// Reset the filters so both the filtered and unfiltered collections are the same after updating an object.
 		//$this->resetFilters();
@@ -362,10 +362,15 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 */
 	public function escapeForDisplay() {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$item', 'return $item->escapedForDisplay();' );
+		if ( 0 < $this->filtered->count() ) {
 
-		if ( 0 < $this->filtered->count() ) $this->filtered->transform( $callback );
+			$this->filtered->transform(
+				function( $item ) {
+					/** @var cnEntry_Collection_Item $item */
+					return $item->escapedForDisplay();
+				}
+			);
+		}
 
 		return $this;
 	}
@@ -380,10 +385,15 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 */
 	public function escapeForEdit() {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$item', 'return $item->escapedForEdit();' );
+		if ( 0 < $this->filtered->count() ) {
 
-		if ( 0 < $this->filtered->count() ) $this->filtered->transform( $callback );
+			$this->filtered->transform(
+				function( $item ) {
+					/** @var cnEntry_Collection_Item $item */
+					return $item->escapedForEdit();
+				}
+			);
+		}
 
 		return $this;
 	}
@@ -398,10 +408,15 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 */
 	public function escapeForSaving() {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$item', 'return $item->sanitizedForSave();' );
+		if ( 0 < $this->filtered->count() ) {
 
-		if ( 0 < $this->filtered->count() ) $this->filtered->transform( $callback );
+			$this->filtered->transform(
+				function( $item ) {
+					/** @var cnEntry_Collection_Item $item */
+					return $item->sanitizedForSave();
+				}
+			);
+		}
 
 		return $this;
 	}

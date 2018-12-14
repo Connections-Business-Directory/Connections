@@ -306,17 +306,11 @@ class cnDashboardMetabox {
 	/**
 	 * The dashboard widget used to display the upcoming anniversaries and birthdays.
 	 *
-	 * @access public
 	 * @since  0.8
 	 * @param  object $null    Generally a $post or $entry object. Not used in Connections core.
 	 * @param  array  $metabox The metabox options array from self::register().
-	 * @return string          The recently added/modifed entries.
 	 */
 	public static function celebrate( $null, $metabox ) {
-
-		$message = create_function( '', 'return "' . $metabox['args']['message'] . '";' );
-
-		add_filter( 'cn_upcoming_no_result_message', $message );
 
 		$atts = array(
 			'list_type'        => $metabox['args']['list_type'],
@@ -328,11 +322,10 @@ class cnDashboardMetabox {
 			'list_title'       => NULL,
 			'show_title'       => FALSE,
 			'template'         => 'dashboard-upcoming',
+			'no_results'       => $metabox['args']['message'],
 		);
 
 		connectionsUpcomingList( $atts );
-
-		remove_filter( 'cn_upcoming_no_result_message', $message );
 	}
 
 	/**

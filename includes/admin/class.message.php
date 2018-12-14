@@ -269,7 +269,7 @@ class cnMessage extends WP_Error {
 	 * @param  string $type The $type must be either "error" or "success" or "notice".
 	 * @param  string $message The message to be displayed. || A message code registered in self::init().
 	 *
-	 * @return string The name of the lambda function.
+	 * @return Closure
 	 */
 	public static function create( $type, $message ) {
 
@@ -277,29 +277,40 @@ class cnMessage extends WP_Error {
 		$instance = self::getInstance();
 
 		// Check to see if $message is one of the registered message codes and if it is, set $message to the actual message rather than the message code.
-		if ( 0 < strlen( $instance->get_error_message( $message ) ) ) $message = $instance->get_error_message( $message );
+		if ( 0 < strlen( $instance->get_error_message( $message ) ) ) {
+
+			$message = $instance->get_error_message( $message );
+		}
 
 		switch ( $type ) {
+
 			case 'error':
-				$lamda = create_function( '' , 'echo "<div id=\"message\" class=\"error\"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>";' );
+				$lambda = function() use ( $message ) {
+					echo '<div id="message" class="error"><p><strong>' . __( 'ERROR', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				};
 				break;
 
 			case 'success':
-				$lamda = create_function( '' , 'echo "<div id=\"message\" class=\"updated fade\"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>";' );
+				$lambda = function() use ( $message ) {
+					echo '<div id="message" class="updated fade"><p><strong>' . __( 'SUCCESS', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				};
 				break;
 
 			case 'notice':
-				$lamda = create_function( '' , 'echo "<div id=\"message\" class=\"updated fade\"><p><strong>' . __( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>";' );
+				$lambda = function() use ( $message ) {
+					echo '<div id="message" class="updated fade"><p><strong>' . __( 'NOTICE', 'connections' ) . ': </strong>' . $message . '</p></div>';
+				};
 				break;
 
 			default:
-				$lamda = create_function( '' , 'echo "<div id=\"message\" class=\"updated fade\"><p>' . $message . '</p></div>";' );
-				break;
+				$lambda = function() use ( $message ) {
+					echo '<div id="message" class="updated fade"><p>' . $message . '</p></div>';
+				};
 		}
 
-		add_action( 'admin_notices' , $lamda );
+		add_action( 'admin_notices' , $lambda );
 
-		return $lamda;
+		return $lambda;
 	}
 
 	/**
@@ -310,8 +321,6 @@ class cnMessage extends WP_Error {
 	 *
 	 * @param string $type
 	 * @param string $message
-	 *
-	 * @return string The action/error message created to match the admin notices style.
 	 */
 	public static function render( $type, $message ) {
 

@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 8.34 12/14/2018 =
+* TWEAK: Remove use of `create_function()` throughout.
+* TWEAK: Bump max tested PHP to 7.3.
+* BUG: Max WP version should be `5.0`.
+* BUG: Do not use PHP 5.3 syntax in cnText_Domain to prevent fatal errors in PHP < 5.3.
+* BUG: Fallback to `get_locale()` from `get_user_locale()` to prevent fatal errors on WP < 4.7.
+* BUG: Removed unused variable in `cnTerm::gettaxonomyTerms()`.
+* DEV: phpDoc corrections.
+
 = 8.33 12/06/2018 =
 * NEW: Add support for displaying the original year and years since in the Upcoming List Gutenberg block
 * NEW: Add support for displaying the original year and years since in the `[upcoming_list]` shortcode.

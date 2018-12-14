@@ -30,8 +30,12 @@ if ( ! class_exists( 'qTipCard' ) ) {
 			add_filter( 'cn_list_atts_permitted-qtip-card' , array( &$this, 'initShortcodeAtts' ) );
 			add_filter( 'cn_list_atts-qtip-card' , array( &$this, 'initTemplateOptions' ) );
 
-			$printqTip = create_function( '' , 'wp_print_scripts("jquery-qtip");' );
-			add_action( 'wp_footer', $printqTip );
+			add_action(
+				'wp_footer',
+				function() {
+					wp_print_scripts( 'jquery-qtip' );
+				}
+			);
 		}
 
 		/**

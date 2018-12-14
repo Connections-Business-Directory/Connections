@@ -1376,7 +1376,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	/**
 	 * Get a value retrieving callback.
 	 *
-	 * @param  string $value
+	 * @param Closure|string $value
 	 *
 	 * @return callable
 	 */

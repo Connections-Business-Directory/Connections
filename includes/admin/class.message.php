@@ -269,7 +269,7 @@ class cnMessage extends WP_Error {
 	 * @param  string $type The $type must be either "error" or "success" or "notice".
 	 * @param  string $message The message to be displayed. || A message code registered in self::init().
 	 *
-	 * @return string The name of the lambda function.
+	 * @return Closure
 	 */
 	public static function create( $type, $message ) {
 

@@ -253,6 +253,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.34 12/14/2018 =
+* TWEAK: Remove use of `create_function()` throughout.
+* TWEAK: Bump max tested PHP to 7.3.
+* BUG: Max WP version should be `5.0`.
+* BUG: Do not use PHP 5.3 syntax in cnText_Domain to prevent fatal errors in PHP < 5.3.
+* BUG: Fallback to `get_locale()` from `get_user_locale()` to prevent fatal errors on WP < 4.7.
+* BUG: Removed unused variable in `cnTerm::gettaxonomyTerms()`.
+* DEV: phpDoc corrections.
+
 = 8.33 12/06/2018 =
 * NEW: Add support for displaying the original year and years since in the Upcoming List Gutenberg block
 * NEW: Add support for displaying the original year and years since in the `[upcoming_list]` shortcode.
@@ -452,25 +461,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 = 8.19.1 05/09/2018 =
 * BUG: If link title is blank, use the link URL.
 * BUG: Add the address property to cnLink for backwards compatibility.
-
-= 8.19 05/02/2018 =
-* NEW: Introduce the `cn_customizer_image_options` filter.
-* NEW: Introduce `cnEntry_Links()` and `cnLink()`.
-* NEW: Introduce helper methods `maybeUnserialize()` and `fromMaybeSerialized()` to ` cnEntry_Object_Collection`.
-* NEW: Introduce `cnEntry_Image`.
-* TWEAK: Ensure link URL is a string before prefixing it and passing it to the objects property.
-* TWEAK: Update cnLink with helper methods for attaching a link to an image and add helper methods to get which image the link might be attached to.
-* TWEAK: Update cnEntry_Links, added support to filter links attached to images.
-* TWEAK: Move the messenger back compatibility logic from `cnEntry` to `cnEntry_Messenger_IDs`.
-* TWEAK: Refactor `cnEntry` to utilize `cnEntry_Links`.
-* TWEAK: Init the `cnEntry_Image` object and refactor code, moving the legacy image processing logic to `cnEntry_Image`.
-* TWEAK: If shortcode is not found in post content and a registered query var is detected, trigger a 404.
-* DEV: phpDoc updates.
-* DEV: Remove dead commented out code from constructor in `cnEntry`.
-* DEV: Remove unused method properties in `cnEntry`.
-* DEV: Remove unused private method in `cnEntry`.
-* DEV: Remove unused properties in `cnEntry`.
-* DEV: Change `satooshi/php-coveralls` to `php-coveralls/php-coveralls` in composer.json.
-* DEV: Update `php-coveralls/php-coveralls` required version.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

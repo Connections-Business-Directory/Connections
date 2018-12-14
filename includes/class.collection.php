@@ -365,7 +365,7 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 				}
 			);
 
-			if ( count( $strings ) < 2 && count( array_filter( array( $retrieved, $value ), 'is_object' ) ) == 1 ) {
+			if ( count( $strings ) < 2 && 1 == count( array_filter( array( $retrieved, $value ), 'is_object' ) ) ) {
 
 				return in_array( $operator, array( '!=', '<>', '!==' ) );
 			}

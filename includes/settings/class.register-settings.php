@@ -103,13 +103,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_home_page',
 			'position'  => 5,
 			'title'     => __( 'Home', 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__(
+			'callback'  => function() {
+				esc_html_e(
 					'Choose the page where your directory is located. This should be the page where you used the &#91;connections&#93; shortcode.',
 					'connections'
-				) . '\';'
-			),
+				);
+			},
 			'page_hook' => $settings
 		);
 
@@ -147,13 +146,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_visibility',
 			'position'  => 40,
 			'title'     => __( 'Shortcode Visibility Overrides', 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__(
+			'callback'  => function() {
+				esc_html_e(
 					'The &#91;connections&#93; shortcode has two options available to show an entry or an entire directory if the entry(ies) has been set to private or the user is required to be logged to view the directory. These options, when used, will only be applied to the current shortcode instance.',
 					'connections'
-				) . '\';'
-			),
+				);
+			},
 			'page_hook' => $settings
 		);
 
@@ -182,10 +180,12 @@ class cnRegisterSettings {
 			'id'        => 'list_actions',
 			'position'  => 15,
 			'title'     => __( 'Result List Actions' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Enable or disable various actions that are displayed above the result list.', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Enable or disable various actions that are displayed above the result list.',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -193,10 +193,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_display_list',
 			'position'  => 20,
 			'title'     => __( 'Result List' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'The following settings are applied when viewing the entry results list.', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'The following settings are applied when viewing the entry results list.',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -205,10 +207,12 @@ class cnRegisterSettings {
 			'id'        => 'entry_actions',
 			'position'  => 25,
 			'title'     => __( 'Entry Actions' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Enable or disable various actions that are shown above the single entry in the detail view.', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Enable or disable various actions that are shown above the single entry in the detail view.',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -216,10 +220,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_display_single',
 			'position'  => 30,
 			'title'     => __( 'Single Entry' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'The following settings are applied when viewing a single entry in the detail view. Which details are shown are dependant on the current template being used.', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'The following settings are applied when viewing a single entry in the detail view. Which details are shown are dependant on the current template being used.',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 
@@ -242,10 +248,12 @@ class cnRegisterSettings {
 			'id'        => 'fieldset-name',
 			'position'  => 20,
 			'title'     => __( 'Name Fieldset' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Changing the active name fields will not effect existing entries, they will continue to display the existing name as they were previously saved. You will not be able to edit the existing name field unless the field is enabled.', 'connections' ) . '\';'
-			),
+			'callback'  => function() {
+				esc_html_e(
+					'Changing the active name fields will not effect existing entries, they will continue to display the existing name as they were previously saved. You will not be able to edit the existing name field unless the field is enabled.',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 
@@ -315,10 +323,12 @@ class cnRegisterSettings {
 			'id'        => 'social',
 			'position'  => 90,
 			'title'     => __( 'Social Networks Fieldset' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Coming soon!', 'connections' ) . '\';'
-			),
+			'callback'  => function() {
+				esc_html_e(
+					'Coming soon!',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 
@@ -330,10 +340,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_image_thumbnail',
 			'position'  => 10,
 			'title'     => __( 'Thumbnail Image' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Default settings are: Quality: 80%; Width: 80px; Height: 54px; Crop', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Default settings are: Quality: 80%; Width: 80px; Height: 54px; Crop',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -341,10 +353,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_image_medium',
 			'position'  => 20,
 			'title'     => __( 'Medium Image' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -352,10 +366,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_image_large',
 			'position'  => 30,
 			'title'     => __( 'Large Image' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Default settings are: Quality: 80%; Width: 300px; Height: 225px; Crop', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Default settings are: Quality: 80%; Width: 300px; Height: 225px; Crop',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -363,10 +379,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_image_logo',
 			'position'  => 30,
 			'title'     => __( 'Logo' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Fill', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Fill',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 
@@ -378,10 +396,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_search_instructions',
 			'position'  => 10,
 			'title'     => __( 'Search Instructions' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the results of search on both the Manage admin page and the front end of the website.', 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the results of search on both the Manage admin page and the front end of the website.',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 		$sections[] = array(
@@ -421,10 +441,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_permalink',
 			'position'  => 10,
 			'title'     => __( 'Permalink' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.' , 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 
@@ -433,10 +455,12 @@ class cnRegisterSettings {
 			'id'        => 'connections_link',
 			'position'  => 15,
 			'title'     => __( 'Links' , 'connections' ),
-			'callback'  => create_function(
-				'',
-				'echo \'' . esc_html__( 'Enable certain entry data to become links.' , 'connections' ) . '\';'
-				),
+			'callback'  => function() {
+				esc_html_e(
+					'Enable certain entry data to become links.',
+					'connections'
+				);
+			},
 			'page_hook' => $settings
 		);
 

@@ -261,7 +261,13 @@ class cnHTML {
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
-					array_walk( $value, create_function( '&$i, $property', '$i = "$property: $i";' ) );
+					array_walk(
+						$value,
+						function( &$i, $property ) {
+
+							$i = "$property: $i";
+						}
+					);
 
 					return $value ? ' style="' . implode( $value, '; ' ) . '"' : '';
 				}
@@ -274,7 +280,13 @@ class cnHTML {
 
 				if ( is_array( $value ) && ! empty( $value ) ) {
 
-					array_walk( $value, create_function( '&$i, $property', '$i = "data-$property=\"$i\"";' ) );
+					array_walk(
+						$value,
+						function( &$i, $property ) {
+
+							$i = "data-$property=\"$i\"";
+						}
+					);
 
 					return $value ? implode( $value, ' ' ): '';
 				}
@@ -322,7 +334,14 @@ class cnHTML {
 
 				if ( ! empty( $data ) ) {
 
-					array_walk( $data, create_function( '&$i, $name', '$i = $name . \'="\' . esc_attr( $i ) . \'"\';' ) );
+
+					array_walk(
+						$data,
+						function( &$i, $name ) {
+
+							$i = $name . '="' . esc_attr( $i ) . '"';
+						}
+					);
 
 					return ' ' . implode( $data, ' ' );
 				}

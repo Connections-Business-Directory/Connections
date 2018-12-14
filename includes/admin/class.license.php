@@ -365,7 +365,12 @@ HERERDOC;
 			'id'        => 'licenses',
 			'position'  => 10,
 			'title'     => '',
-			'callback'  => create_function( '', "echo '<p>' , __( 'To receive automatic extension and template updates, enter and activate your site license.' , 'connections' ) , '</p>';" ),
+			'callback'  => function() {
+				echo '<p>' , esc_html__(
+					'To receive automatic extension and template updates, enter and activate your site license.',
+					'connections'
+				) , '</p>';
+			},
 			'page_hook' => 'connections_page_connections_settings'
 		);
 
@@ -375,7 +380,12 @@ HERERDOC;
 			'id'        => 'beta',
 			'position'  => 10,
 			'title'     => '',
-			'callback'  => create_function( '', "echo '<p>' , __( 'By checking any of the checkboxes below you are opting in to receiving pre-release version updates. You can opt out at any time by unchecking the options below. Pre-release version updates, like regular updates do not install automatically so you will retain the opportunity to skip installing a pre-release version update.' , 'connections' ) , '</p>';" ),
+			'callback'  => function() {
+				echo '<p>' , esc_html__(
+					'By checking any of the checkboxes below you are opting in to receiving pre-release version updates. You can opt out at any time by unchecking the options below. Pre-release version updates, like regular updates do not install automatically so you will retain the opportunity to skip installing a pre-release version update.',
+					'connections'
+				) , '</p>';
+			},
 			'page_hook' => 'connections_page_connections_settings'
 		);
 

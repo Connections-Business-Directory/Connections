@@ -65,13 +65,12 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 		//// Reset the filters just in case filters have been applied to the collection.
 		//$this->resetFilters();
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function(
-			'$item',
-			'return absint(\'' . $id . '\') === $item->getID();'
+		$key = $this->items->search(
+			function( $item ) use ( $id ) {
+				/** @var cnEntry_Collection_Item $item */
+				return absint($id ) === $item->getID();
+			}
 		);
-
-		$key = $this->items->search( $callback );
 
 		if ( FALSE !== $key ) {
 
@@ -323,7 +322,9 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 				 *     @type bool   $logo       Whether or not the link is attached to the logo.
 				 * }
 				 */
-				$callback = create_function( '$item', 'return apply_filters( \'cn_link\', $item );' );
+				$callback = function( $item ) {
+					return apply_filters( 'cn_link', $item );
+				};
 				break;
 
 			case 'cn_links':
@@ -341,7 +342,9 @@ final class cnEntry_Links extends cnEntry_Object_Collection {
 
 			case 'cn_set_link':
 
-				$callback = create_function( '$item', 'return apply_filters( \'cn_set_link\', $item );' );
+				$callback = function( $item ) {
+					return apply_filters( 'cn_set_link', $item );
+				};
 				break;
 
 			case 'cn_set_links':

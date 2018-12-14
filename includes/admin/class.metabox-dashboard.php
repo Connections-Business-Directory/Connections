@@ -312,10 +312,6 @@ class cnDashboardMetabox {
 	 */
 	public static function celebrate( $null, $metabox ) {
 
-		$message = create_function( '', 'return "' . $metabox['args']['message'] . '";' );
-
-		add_filter( 'cn_upcoming_no_result_message', $message );
-
 		$atts = array(
 			'list_type'        => $metabox['args']['list_type'],
 			'days'             => $metabox['args']['days'],
@@ -326,11 +322,10 @@ class cnDashboardMetabox {
 			'list_title'       => NULL,
 			'show_title'       => FALSE,
 			'template'         => 'dashboard-upcoming',
+			'no_results'       => $metabox['args']['message'],
 		);
 
 		connectionsUpcomingList( $atts );
-
-		remove_filter( 'cn_upcoming_no_result_message', $message );
 	}
 
 	/**

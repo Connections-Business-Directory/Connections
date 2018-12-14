@@ -321,14 +321,13 @@ class cnMetaboxAPI {
 				     && ( isset( $field['id'] ) && ! empty( $field['id'] ) )
 				     && ( isset( $field['name'] ) && ! empty( $field['name'] ) ) ) {
 
-					$function = create_function(
-						'$options',
-						"\$options['" . $field['id'] . "'] = maybe_unserialize('" . str_replace( "'", "\'", maybe_serialize( $field['name'] ) ) . "'); return \$options;"
-					);
-
 					add_filter(
 						'cn_search_field_options',
-						$function
+						function( $options ) use ( $field ) {
+
+							$options[ $field['id'] ] = maybe_unserialize( str_replace( "'", "\'", maybe_serialize( $field['name'] ) ) );
+							return $options;
+						}
 					);
 				}
 			}

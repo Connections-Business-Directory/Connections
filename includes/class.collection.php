@@ -349,37 +349,41 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 * @param  string $operator
 	 * @param  mixed  $value
 	 *
-	 * @return string
+	 * @return \Closure
 	 */
 	protected function operatorForWhere( $key, $operator, $value ) {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		return create_function(
-			'$item',
-			'list( $key, $operator, $value ) = json_decode( \'' . json_encode( array( $key, $operator, $value ) ) . '\', TRUE );
+		return function( $item ) use ( $key, $operator, $value ) {
+
 			$retrieved = cnArray::data_get( $item, $key );
+
+			$strings = array_filter(
+				array( $retrieved, $value ),
+				function( $value ) {
+
+					return is_string( $value ) || ( is_object( $value ) && method_exists( $value, '__toString' ) );
+				}
+			);
+
+			if ( count( $strings ) < 2 && count( array_filter( array( $retrieved, $value ), 'is_object' ) ) == 1 ) {
+
+				return in_array( $operator, array( '!=', '<>', '!==' ) );
+			}
+
 			switch ( $operator ) {
 				default:
-				case \'=\':
-				case \'==\':
-					return $retrieved == $value;
-				case \'!=\':
-				case \'<>\':
-					return $retrieved != $value;
-				case \'<\':
-					return $retrieved < $value;
-				case \'>\':
-					return $retrieved > $value;
-				case \'<=\':
-					return $retrieved <= $value;
-				case \'>=\':
-					return $retrieved >= $value;
-				case \'===\':
-					return $retrieved === $value;
-				case \'!==\':
-					return $retrieved !== $value;
-			}'
-		);
+				case '=':
+				case '==':  return $retrieved == $value;
+				case '!=':
+				case '<>':  return $retrieved != $value;
+				case '<':   return $retrieved < $value;
+				case '>':   return $retrieved > $value;
+				case '<=':  return $retrieved <= $value;
+				case '>=':  return $retrieved >= $value;
+				case '===': return $retrieved === $value;
+				case '!==': return $retrieved !== $value;
+			}
+		};
 	}
 
 	/**
@@ -406,12 +410,10 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 */
 	public function whereIn( $key, $values, $strict = FALSE ) {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function(
-			'$item',
-			'list( $key, $values, $strict ) = json_decode( \'' . json_encode( array( $key, $values, $strict ) ) . '\', TRUE );
-			return in_array( cnArray::data_get( $item, $key ), $values, $strict );'
-		);
+		$callback = function( $item ) use ( $key, $values, $strict ) {
+
+			return in_array( cnArray::data_get( $item, $key ), $values, $strict );
+		};
 
 		return $this->filter( $callback );
 	}
@@ -731,28 +733,21 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 */
 	public function max( $callback = NULL ) {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$filter = create_function( '$value', 'return ! is_null( $value );' );
+		$callback = $this->valueRetriever( $callback );
 
-		if ( is_callable( $callback ) ) {
+		return $this->filter(
+			function( $value ) {
 
-			$reduce = create_function(
-				'$result, $item',
-				'$callback = json_decode( \'' . json_encode( $callback ) . '\' );
+				return ! is_null( $value );
+			}
+		)->reduce(
+			function( $result, $item ) use ( $callback ) {
+
 				$value = $callback( $item );
-				return is_null( $result ) || $value > $result ? $value : $result;'
-			);
 
-		} else {
-
-			$reduce = create_function(
-				'$result, $item',
-				'$value = cnArray::data_get( $item, ' . json_encode( $callback ) . ' );
-				return is_null( $result ) || $value > $result ? $value : $result;'
-			);
-		}
-
-		return $this->filter( $filter )->reduce( $reduce );
+				return is_null( $result ) || $value > $result ? $value : $result;
+			}
+		);
 	}
 
 	///**
@@ -1106,15 +1101,20 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 
 		$items = $this->items;
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$function = create_function( '', 'return rand( - 1, 1 );' );
-
 		if ( is_null( $seed ) ) {
+
 			shuffle( $items );
+
 		} else {
+
 			srand( $seed );
 
-			usort( $items, $function);
+			usort(
+				$items,
+				function() {
+					return rand( - 1, 1 );
+				}
+			);
 		}
 
 		return new self( $items );
@@ -1373,24 +1373,24 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 		return new self( array_values( $this->items ) );
 	}
 
-	///**
-	// * Get a value retrieving callback.
-	// *
-	// * @param  string $value
-	// *
-	// * @return callable
-	// */
-	//protected function valueRetriever( $value ) {
-	//
-	//	if ( $this->useAsCallable( $value ) ) {
-	//		return $value;
-	//	}
-	//
-	//	return function ( $item ) use ( $value ) {
-	//
-	//		return cnArray::data_get( $item, $value );
-	//	};
-	//}
+	/**
+	 * Get a value retrieving callback.
+	 *
+	 * @param  string $value
+	 *
+	 * @return callable
+	 */
+	protected function valueRetriever( $value ) {
+
+		if ( $this->useAsCallable( $value ) ) {
+			return $value;
+		}
+
+		return function ( $item ) use ( $value ) {
+
+			return cnArray::data_get( $item, $value );
+		};
+	}
 
 	///**
 	// * Zip the collection together with one or more arrays.
@@ -1429,10 +1429,13 @@ class cnCollection implements Countable, IteratorAggregate, ArrayAccess, cnToArr
 	 */
 	public function toArray() {
 
-		// Using create_function instead of anonymous function or closure for PHP 5.2 compatibility.
-		$callback = create_function( '$value', 'return $value instanceof cnToArray ? $value->toArray() : $value;' );
+		return array_map(
+			function( $value ) {
 
-		return array_map( $callback, $this->items );
+				return $value instanceof cnToArray ? $value->toArray() : $value;
+			},
+			$this->items
+		);
 	}
 
 	///**

@@ -2660,7 +2660,7 @@ class cnEntryMetabox {
 						'after'    => '',
 						'return'   => FALSE,
 					),
-					isset( $date->date ) ? date( 'm/d/Y', strtotime( $date->date ) ) : ''
+					isset( $date->date ) ? date( 'Y-m-d', strtotime( $date->date ) ) : ''
 				);
 
 				?>

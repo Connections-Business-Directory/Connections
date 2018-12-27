@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 8.35 12/27/2018 =
+* NEW: Add filters to allow addons to hook into the entry manage action links.
+* TWEAK: Change text domain registration to priority 1 to support WP Globus.
+* TWEAK: Normalize date input to YYYY-MM-DD.
+* TWEAK: Remove unused in page section links on the Connections : manage admin page.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: Tweak Travis CI config.
+
 = 8.34 12/14/2018 =
 * TWEAK: Remove use of `create_function()` throughout.
 * TWEAK: Bump max tested PHP to 7.3.

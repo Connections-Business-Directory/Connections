@@ -213,9 +213,11 @@ jQuery(document).ready( function($) {
 			// Add the jQuery UI Datepicker to the date input fields.
 			if ( $.fn.datepicker ) {
 
-				$( 'body' ).on( 'focus', '.cn-datepicker', function() {
+				$( 'body' ).on( 'focus', '.cn-datepicker', function(e) {
 
 					CN_Form.datepicker( $( this ) );
+
+					e.preventDefault();
 				});
 			}
 
@@ -570,8 +572,8 @@ jQuery(document).ready( function($) {
 				showOtherMonths: true,
 				selectOtherMonths: true,
 				yearRange: 'c-100:c+10',
-				dateFormat: 'mm/dd/yy'
-			});
+				dateFormat: 'yy-mm-dd'
+			}).keydown(false);
 		},
 		geocode : function( field ) {
 

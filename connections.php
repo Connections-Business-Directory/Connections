@@ -11,7 +11,7 @@
  * Plugin Name:       Connections Business Directory
  * Plugin URI:        https://connections-pro.com/
  * Description:       A business directory and address book manager.
- * Version:           8.34
+ * Version:           8.35
  * Author:            Steven A. Zahm
  * Author URI:        http://connections-pro.com/
  * License:           GPL-2.0+
@@ -31,8 +31,10 @@ include( dirname( __FILE__ ) . '/includes/class.text-domain.php' );
  *       generally loaded on the `plugins_loaded` action hook, any strings with the `connections` text
  *       domain will be merged into it. The purpose is to allow the extensions to use strings known to
  *       in the core plugin to reuse those strings and benefit if they are already translated.
+ *
+ * @since 8.35 Set load priority at 1 to support WP Globus.
  */
-cnText_Domain::register( 'connections', plugin_basename( __FILE__ ), -1 );
+cnText_Domain::register( 'connections', plugin_basename( __FILE__ ), 1 );
 
 $check = new cnRequirements_Check(
 	array(

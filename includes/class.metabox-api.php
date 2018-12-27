@@ -1383,23 +1383,6 @@ class cnMetabox_Render {
 	 */
 	public static function datepickerJS() {
 
-		// Convert the PHP date format into jQuery UI's format.
-		$format = str_replace(
-			array(
-				'd', 'j', 'l', 'z', // Day.
-				'm', 'n', 'M', 'F', // Month.
-				'y','Y',            // Year.
-			    '-', ', ', ' ', ',' // Separator.
-			),
-			array(
-				'dd', 'dd', 'dd', 'dd',
-				'mm', 'mm', 'mm', 'mm',
-				'yy', 'yy',
-				'/', '/', '/', '/'
-			),
-			get_option( 'date_format' )
-		);
-
 ?>
 
 <script type="text/javascript">/* <![CDATA[ */
@@ -1418,9 +1401,9 @@ class cnMetabox_Render {
 				showOtherMonths: true,
 				selectOtherMonths: true,
 				yearRange: 'c-100:c+10',
-				dateFormat: '<?php echo $format; ?>',
-				beforeShow: function(i) { if ( $( i ).attr('readonly') ) { return false; } }
-			});
+				dateFormat: 'yy-mm-dd',
+				// beforeShow: function(i) { if ( $( i ).attr('readonly') ) { return false; } }
+			}).keydown(false);
 
 			e.preventDefault();
 		});

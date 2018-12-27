@@ -595,22 +595,46 @@ function connectionsShowViewPage( $action = NULL ) {
 					);
 					echo '</td>';
 					echo '<td  colspan="2">';
+
 					echo '<div style="float:right"><a href="#wphead" title="Return to top."><img src="' . CN_URL . 'assets/images/uparrow.gif" /></a></div>';
 
+					$name = $entry->getName( array( 'format' => '%last%, %first%' ) );
+
+					echo '<strong>';
+
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
-						echo '<a class="row-title" title="Edit ' . $entry->getName( array( 'format' => '%last%, %first%' ) ) . '" href="' . $editTokenURL . '"> ' . $entry->getName( array( 'format' => '%last%, %first%' ) ) . '</a><br />';
+
+						echo '<a class="row-title" title="Edit ' . $name . '" href="' . $editTokenURL . '">' . $name . '</a>';
+
+					} else {
+
+						echo $name;
 					}
-					else {
-						echo '<strong>' . $entry->getName( array( 'format' => '%last%, %first%' ) ) . '</strong>';
+
+					/**
+					 * @since 8.35
+					 *
+					 * @param array   $array An array of entry states.
+					 * @param cnEntry $entry
+					 */
+					$entryStates = apply_filters( 'cn_display_entry_states', array(), $entry );
+
+					if ( is_array( $entryStates ) && ! empty( $entryStates ) ) {
+
+						echo ' &mdash; ';
+						echo '<span class="post-state">' . implode( '</span>, <span class="post-state">', $entryStates ) . '</span>';
 					}
+
+					echo '</strong>';
 
 					echo '<div class="row-actions">';
-					$rowActions = array();
+
+					$rowActions     = array();
 					$rowEditActions = array();
 
-					$rowActions[] = '<a class="detailsbutton" id="row-' . $entry->getId() . '" title="' . __( 'Click to show details.', 'connections' ) . '" >' . __( 'Show Details', 'connections' ) . '</a>';
-					$rowActions[] = $entry->vcard( array( 'text' => __( 'vCard', 'connections' ), 'return' => TRUE ) );
-					$rowActions[] = cnURL::permalink( array(
+					$rowActions['toggle_details'] = '<a class="detailsbutton" id="row-' . $entry->getId() . '" title="' . __( 'Click to show details.', 'connections' ) . '" >' . __( 'Show Details', 'connections' ) . '</a>';
+					$rowActions['vcard']          = $entry->vcard( array( 'text' => __( 'vCard', 'connections' ), 'return' => TRUE ) );
+					$rowActions['view']           = cnURL::permalink( array(
 							'slug' => $entry->getSlug(),
 							'title' => sprintf( __( 'View %s', 'connections' ) , $entry->getName( array( 'format' => '%first% %last%' ) ) ),
 							'text' => __( 'View', 'connections' ),
@@ -618,15 +642,56 @@ function connectionsShowViewPage( $action = NULL ) {
 						)
 					);
 
-					if ( $entry->getStatus() == 'approved' && current_user_can( 'connections_edit_entry' ) ) $rowEditActions[] = '<a class="action unapprove" href="' . $unapproveTokenURL . '" title="' . __( 'Unapprove', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Unapprove', 'connections' ) . '</a>';
-					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_edit_entry' ) ) $rowEditActions[] = '<a class="action approve" href="' . $approvedTokenURL . '" title="' . __( 'Approve', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Approve', 'connections' ) . '</a>';
+					if ( $entry->getStatus() == 'approved' && current_user_can( 'connections_edit_entry' ) ) {
 
-					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) $rowEditActions[] = '<a class="editbutton" href="' . $editTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Edit', 'connections' ) . '</a>';
-					//if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) $rowEditActions[] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __( 'Copy', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Copy', 'connections' ) . '</a>';
-					if ( current_user_can( 'connections_delete_entry' ) ) $rowEditActions[] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteTokenURL . '" title="' . __( 'Delete', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Delete', 'connections' ) . '</a>';
+						$rowEditActions['unapprove'] = '<a class="action unapprove" href="' . $unapproveTokenURL . '" title="' . __( 'Unapprove', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Unapprove', 'connections' ) . '</a>';
+					}
 
-					if ( ! empty( $rowEditActions ) ) echo implode( ' | ', $rowEditActions ) , '<br/>';
-					if ( ! empty( $rowActions ) ) echo implode( ' | ', $rowActions );
+					if ( $entry->getStatus() == 'pending' && current_user_can( 'connections_edit_entry' ) ) {
+
+						$rowEditActions['approve'] = '<a class="action approve" href="' . $approvedTokenURL . '" title="' . __( 'Approve', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Approve', 'connections' ) . '</a>';
+					}
+
+					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {
+
+						$rowEditActions['edit'] = '<a class="editbutton" href="' . $editTokenURL . '" title="' . __( 'Edit', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Edit', 'connections' ) . '</a>';
+					}
+
+					//if ( current_user_can( 'connections_add_entry' ) || current_user_can( 'connections_add_entry_moderated' ) ) {
+					//
+					//	$rowEditActions['copy'] = '<a class="copybutton" href="' . $copyTokenURL . '" title="' . __( 'Copy', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Copy', 'connections' ) . '</a>';
+					//}
+
+					if ( current_user_can( 'connections_delete_entry' ) ) {
+
+						$rowEditActions['delete'] = '<a class="submitdelete" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" href="' . $deleteTokenURL . '" title="' . __( 'Delete', 'connections' ) . ' ' . $entry->getFullFirstLastName() . '">' . __( 'Delete', 'connections' ) . '</a>';
+					}
+
+					/**
+					 * @since 8.35
+					 *
+					 * @param array   $rowEditActions An array of entry edit action links.
+					 * @param cnEntry $entry
+					 */
+					$rowEditActions = apply_filters( 'cn_entry_row_edit_actions', $rowEditActions, $entry );
+
+					/**
+					 * @since 8.35
+					 *
+					 * @param array   $rowActions An array of entry action links.
+					 * @param cnEntry $entry
+					 */
+					$rowActions = apply_filters( 'cn_entry_row_actions', $rowActions, $entry );
+
+					if ( is_array( $rowEditActions ) && ! empty( $rowEditActions ) ) {
+
+						echo implode( ' | ', $rowEditActions ) , '<br/>';
+					}
+
+					if ( is_array( $rowActions ) && ! empty( $rowActions ) ) {
+
+						echo implode( ' | ', $rowActions );
+					}
 
 					echo '</div>';
 					echo "</td> \n";

@@ -547,8 +547,6 @@ function connectionsShowViewPage( $action = NULL ) {
 
 				<?php
 
-				$previousLetter = '';
-
 				foreach ( $results as $row ) {
 					/**
 					 *
@@ -556,14 +554,6 @@ function connectionsShowViewPage( $action = NULL ) {
 					 * @TODO: Use the Output class to show entry details.
 					 */
 					$entry = new cnOutput( $row );
-
-					$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
-					if ( $currentLetter != $previousLetter ) {
-						$setAnchor = "<a name='$currentLetter'></a>";
-						$previousLetter = $currentLetter;
-					} else {
-						$setAnchor = null;
-					}
 
 					/*
 					 * Generate the edit, copy and delete URLs with nonce tokens.
@@ -605,7 +595,6 @@ function connectionsShowViewPage( $action = NULL ) {
 					);
 					echo '</td>';
 					echo '<td  colspan="2">';
-					if ( $setAnchor ) echo $setAnchor;
 					echo '<div style="float:right"><a href="#wphead" title="Return to top."><img src="' . CN_URL . 'assets/images/uparrow.gif" /></a></div>';
 
 					if ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) ) {

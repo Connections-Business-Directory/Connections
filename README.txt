@@ -240,6 +240,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.35 12/27/2018 =
+* NEW: Add filters to allow addons to hook into the entry manage action links.
+* TWEAK: Change text domain registration to priority 1 to support WP Globus.
+* TWEAK: Normalize date input to YYYY-MM-DD.
+* TWEAK: Remove unused in page section links on the Connections : manage admin page.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: Tweak Travis CI config.
+
 = 8.34 12/14/2018 =
 * TWEAK: Remove use of `create_function()` throughout.
 * TWEAK: Bump max tested PHP to 7.3.
@@ -431,33 +440,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: `cnOutput::renderMetaBlock()` should echo, not return.
 * DEV: Some phpDoc cleanup.
 
-= 8.20 06/01/2018 =
-* NEW: Load plugin only if the current environment passes the requirements checks.
-* NEW: Bump minimum WP version to 4.5.3.
-* NEW: Introduce cnRequirements_Check.
-* TWEAK: Disable the no shortcode 404 trigger. Once again foiled by visual page builders!
-* TWEAK: Add the address property to cnLink for backwards compatibility.
-* TWEAK: Strip tags when displaying the upgrade notice.
-* TWEAK: Tweak regex for parsing the extensions changelog text to be compatible with EDD-SL >= 3.6.
-* TWEAK: Add Settings heading to the settings admin page.
-* TWEAK: Slight refactor of cnText_Domain to make it plugin-agnostic, not rely on plugin constants, so it can be utilized by add-ons to reduce code duplication.
-* BUG: If link title is blank, use the link URL.
-* BUG: Remove extra div/unclosed tags on the manage admin page.
-* COMPATIBILITY: Divi, disable the "Grab the first post image" option on pages where the `[connections]` shortcode exists.
-
-= 8.19.1 05/09/2018 =
-* BUG: If link title is blank, use the link URL.
-* BUG: Add the address property to cnLink for backwards compatibility.
-
-[Complete Changelog can be found here.](https://connections-pro.com/changelog/)
-
 == Upgrade Notice ==
-
-= 8.19.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.4 and PHP >= 5.3. PHP version >= 7.1 recommended.
-
-= 8.20 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.21 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -520,4 +503,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.34 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.35 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

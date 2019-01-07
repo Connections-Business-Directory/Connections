@@ -1345,7 +1345,8 @@ class cnOutput extends cnEntry {
 
 					$baseMap->setAttribution( implode( ' | ', $attribution )  );
 
-					$layerControl->addBaseLayer( $baseMap );
+					//$layerControl->addBaseLayer( $baseMap );
+					$layers[] = $baseMap;
 				}
 
 				foreach ( $addresses as $address ) {

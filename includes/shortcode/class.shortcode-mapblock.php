@@ -102,7 +102,7 @@ class mapBlock {
 
 			$baseMap->setAttribution( implode( ' | ', $attribution ) );
 
-			$this->layerControl->addBaseLayer( $baseMap );
+			$this->map->addLayer( $baseMap );
 		}
 
 		$this->map->setHeight( $atts['height'] )

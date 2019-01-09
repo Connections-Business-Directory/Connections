@@ -685,7 +685,10 @@ class cnRetrieve {
 		);
 
 		// If a geo-bound query is being performed the `radius` order field can be used.
-		if ( ! empty( $atts['latitude'] ) && ! empty( $atts['longitude'] ) ) array_push( $orderFields, 'distance' );
+		if ( ! empty( $atts['latitude'] ) && ! empty( $atts['longitude'] ) ) {
+
+			array_push( $orderFields, 'distance' );
+		}
 
 		// Get registered date types.
 		$dateTypes = array_keys( $instance->options->getDateOptions() );

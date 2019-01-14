@@ -268,7 +268,7 @@ export default registerBlockType(
 				<InspectorAdvancedControls>
 
 					<p>
-						{__( 'This section controls advanced options which effect the directory features nd functions.', 'connections' )}
+						{__( 'This section controls advanced options which effect the directory features and functions.', 'connections' )}
 					</p>
 
 					<ToggleControl

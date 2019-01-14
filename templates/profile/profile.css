@@ -2,3 +2,8 @@
 	clear:left;
 	padding-top: 20px;
 }
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+	#cn-profile div.cn-entry span:first-of-type {
+		float: none !important;
+	}
+}

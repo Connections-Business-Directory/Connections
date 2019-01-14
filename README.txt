@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.5.3
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 8.35
+Stable tag: 8.36
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,22 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.36 01/14/2019 =
+* NEW: Add additional options to the Directory block to bring it closer to feature parity with the `[connections]` shortcode.
+* NEW: Allow ordering by any date type, not just anniversary and birthday.
+* NEW: Introduce `cnOptions::getEntryTypeOptions()`.
+* NEW: Introduce `cnTemplateFactory::getOptions()`.
+* NEW: Add an Editor PageSelect component.
+* TWEAK: Minor CS tweak for mobile device display for the Profile template.
+* TWEAK: Add additional check before initiating a template class to prevent PHP errors.
+* TWEAK: No need to add slashes to CSV export cell data.
+* TWEAK: Add BOM to CSV export file because Excel is dumb.
+* TWEAK: Add additional option values which the blocks can use as defaults.
+* BUG: When displaying OSM maps tiles, do not display the layers control.
+* OTHER: Update some country meta.
+* DEV: Code formatting.
+* DEV: Move the range-control component to shared folder for all editor blocks.
+
 = 8.35 12/27/2018 =
 * NEW: Add filters to allow addons to hook into the entry manage action links.
 * TWEAK: Change text domain registration to priority 1 to support WP Globus.
@@ -428,22 +444,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Add trailing comma to array.
 * DEV: phpDoc corrections.
 
-= 8.21 06/11/2018 =
-* TWEAK: Remove usage of `$connections` global from `cnOutput::vcard()`.
-* TWEAK: Update `cnText_Domain::create()` to accept the plugin basename parameter.
-* TWEAK: Tweak the `cnText_Domain::register()` `$priority` parameter to accept a value of `load` so the text domain is loaded instead of registered via the `plugins_loaded` action hook.
-* TWEAK: Requirements check for tested up to compatibility only compares major.minor ignoring release version.
-* TWEAK: Remove unused parameters from methods in cnOutput.
-* TWEAK: Refactor `cnEntry_Output::getLinkBlock()` to utilize the `cnEntry_Links` objects `render()` method using templates.
-* I18N: Add translation text context for person "Title" and link "Title" so the can be translated individually.
-* COMPATIBILITY: Compatibility tweak for the MayaShop theme. Remove the filter being applied to the `clean_url` being applied by the theme.
-* BUG: `cnOutput::renderMetaBlock()` should echo, not return.
-* DEV: Some phpDoc cleanup.
-
 == Upgrade Notice ==
-
-= 8.21 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.22 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -506,4 +507,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.35 =
+It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.36 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.

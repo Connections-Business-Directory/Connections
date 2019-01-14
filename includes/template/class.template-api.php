@@ -516,6 +516,30 @@ class cnTemplateFactory {
 	}
 
 	/**
+	 * Return and associative array of all templates where
+	 * the key is the template slug and the value is the template name.
+	 *
+	 * @since 8.36
+	 *
+	 * @return array
+	 */
+	public static function getOptions() {
+
+		/** @var cnTemplate[] $templates */
+		$templates = self::getCatalog( 'all' );
+		$options   = array();
+
+		foreach ( $templates as $template ) {
+
+			$options[ $template->getSlug() ] = $template->getName();
+		}
+
+		natcasesort( $options );
+
+		return $options;
+	}
+
+	/**
 	 * Return the requested template.
 	 *
 	 * @access public

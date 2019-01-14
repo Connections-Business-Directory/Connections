@@ -60,7 +60,7 @@ class cnCSV_Export {
 	 */
 	public function escapeAndQuote( $string ) {
 
-		return $this->addQuotes( $this->escape( addslashes( $string ) ) );
+		return $this->addQuotes( $this->escape( $string ) );
 	}
 
 	/**
@@ -244,6 +244,11 @@ class cnCSV_Export {
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename=cn-export-' . $this->type . '-' . date( 'm-d-Y' ) . '.csv' );
 		header( "Expires: 0" );
+
+		/**
+		 * Prepend BOM to the export so that Microsoft Excel knows that the file is UTF8 encoded.
+		 */
+		echo "\xEF\xBB\xBF";
 
 		/**
 		 * Allow plugins to add additional HTTP headers.

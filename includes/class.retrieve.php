@@ -665,8 +665,8 @@ class cnRetrieve {
 			'state',
 			'zipcode',
 			'country',
-			'birthday',
-			'anniversary',
+			//'birthday',
+			//'anniversary',
 			'sort_column'
 		);
 
@@ -685,19 +685,19 @@ class cnRetrieve {
 		);
 
 		// If a geo-bound query is being performed the `radius` order field can be used.
-		if ( ! empty( $atts['latitude'] ) && ! empty( $atts['longitude'] ) ) array_push( $orderFields, 'distance' );
+		if ( ! empty( $atts['latitude'] ) && ! empty( $atts['longitude'] ) ) {
+
+			array_push( $orderFields, 'distance' );
+		}
 
 		// Get registered date types.
 		$dateTypes = array_keys( $instance->options->getDateOptions() );
 
-		// Convert to an array
-		if ( ! is_array( $atts['order_by'] ) ) {
-			// Trim the space characters if present.
-			$atts['order_by'] = str_replace( ' ', '', $atts['order_by'] );
+		// Add the registered activate date types as valid order_by field options.
+		$orderFields = array_merge( $orderFields, $dateTypes );
 
-			// Build an array of each field to order by and its sort order.
-			$atts['order_by'] = explode( ',' , $atts['order_by'] );
-		}
+		// Convert to an array
+		cnFunction::parseStringList( $atts['order_by'], ',' );
 
 		// For each field the sort order can be defined.
 		foreach ( $atts['order_by'] as $orderByField ) {

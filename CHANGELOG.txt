@@ -1,5 +1,21 @@
 == Changelog ==
 
+= 8.36 01/14/2019 =
+* NEW: Add additional options to the Directory block to bring it closer to feature parity with the `[connections]` shortcode.
+* NEW: Allow ordering by any date type, not just anniversary and birthday.
+* NEW: Introduce `cnOptions::getEntryTypeOptions()`.
+* NEW: Introduce `cnTemplateFactory::getOptions()`.
+* NEW: Add an Editor PageSelect component.
+* TWEAK: Minor CS tweak for mobile device display for the Profile template.
+* TWEAK: Add additional check before initiating a template class to prevent PHP errors.
+* TWEAK: No need to add slashes to CSV export cell data.
+* TWEAK: Add BOM to CSV export file because Excel is dumb.
+* TWEAK: Add additional option values which the blocks can use as defaults.
+* BUG: When displaying OSM maps tiles, do not display the layers control.
+* OTHER: Update some country meta.
+* DEV: Code formatting.
+* DEV: Move the range-control component to shared folder for all editor blocks.
+
 = 8.35 12/27/2018 =
 * NEW: Add filters to allow addons to hook into the entry manage action links.
 * TWEAK: Change text domain registration to priority 1 to support WP Globus.

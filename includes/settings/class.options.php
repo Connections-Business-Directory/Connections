@@ -232,6 +232,48 @@ class cnOptions {
 	}
 
 	/**
+	 * Returns an associative array all registered entry types.
+	 *
+	 * @since 8.36
+	 *
+	 * @return array
+	 */
+	public static function getEntryTypeOptions() {
+
+		$options = get_option( 'connections_fieldset-publish' );
+
+		if ( FALSE === $options ) {
+
+			$options = self::getEntryTypes();
+
+		} else {
+
+			$registered = self::getEntryTypes();
+
+			$type    = cnArray::get( $options, 'entry-type.type', $registered );
+			$default = cnArray::get( $options, 'default-entry-type', 'individual' );
+			$active  = cnArray::get( $options, 'entry-type.active', (array) $default );
+			$order   = cnArray::get( $options, 'entry-type.order', array() );
+
+			// Remove entry types from the order if they do not exist in the registered entry types to account for removed entry types.
+			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+
+			// Reorder the saved types to the user defined order.
+			$type    = array_replace( array_flip( $order ), $registered, $type );
+
+			// Remove inactive types.
+			$options = array_intersect_key( $type, array_flip( $active ) );
+
+			foreach ( $options as &$option ) {
+
+				$option = __( $option, 'connections' );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getVisibilityOptions() {

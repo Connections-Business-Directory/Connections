@@ -60,7 +60,7 @@ class cnCSV_Export {
 	 */
 	public function escapeAndQuote( $string ) {
 
-		return $this->addQuotes( $this->escape( addslashes( $string ) ) );
+		return $this->addQuotes( $this->escape( $string ) );
 	}
 
 	/**

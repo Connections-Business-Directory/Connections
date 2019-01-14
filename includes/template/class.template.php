@@ -429,7 +429,7 @@ class cnTemplate {
 		 *
 		 * Now, in theory, we should have the path to the template files.
 		 */
-		if ( empty( $this->path ) ) {
+		if ( empty( $this->path ) && ! empty( $this->class ) ) {
 
 			$reflector = new ReflectionClass( $this->class );
 			$this->path = trailingslashit( dirname( $reflector->getFileName() ) );

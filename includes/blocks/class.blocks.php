@@ -62,7 +62,12 @@ class Blocks {
 			'cbDir',
 			array(
 				'blockSettings' => array(
-					'dateTypes' => \cnOptions::getDateTypeOptions(),
+					'templates'  => array(
+						'active'     => Connections_Directory()->options->getActiveTemplate( 'all' ),
+						'registered' => \cnTemplateFactory::getOptions(),
+					),
+					'entryTypes' => \cnOptions::getEntryTypeOptions(),
+					'dateTypes'  => \cnOptions::getDateTypeOptions(),
 				)
 			)
 		);

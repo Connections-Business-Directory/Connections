@@ -246,6 +246,11 @@ class cnCSV_Export {
 		header( "Expires: 0" );
 
 		/**
+		 * Prepend BOM to the export so that Microsoft Excel knows that the file is UTF8 encoded.
+		 */
+		echo "\xEF\xBB\xBF";
+
+		/**
 		 * Allow plugins to add additional HTTP headers.
 		 *
 		 * @since 8.6.6

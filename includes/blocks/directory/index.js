@@ -1,19 +1,32 @@
 const { __, _n, _nx, _x } = wp.i18n;
+const { select } = wp.data;
 const { registerBlockType } = wp.blocks;
 const {
 	      InspectorControls,
 	      InspectorAdvancedControls,
+	      PageAttributesParent,
       } = wp.editor;
 const {
 	      ServerSideRender,
 	      PanelBody,
+	      CheckboxControl,
+	      SelectControl,
 	      TextControl,
 	      ToggleControl
       } = wp.components;
 
+// Import utils
+import { PageSelect } from '../components/page-select';
+
 // Import CSS
 import './styles/editor.scss';
 import './styles/public.scss';
+
+const {
+	      entryTypes,
+	      dateTypes,
+	      templates
+      } = cbDir.blockSettings;
 
 /**
  * Register Block
@@ -37,7 +50,7 @@ export default registerBlockType(
 			// Remove the support for editing the block using the block HTML editor.
 			html:            false,
 		},
-		attributes:  {
+		attributes: {
 			advancedBlockOptions: {
 				type:    'string',
 				default: '',
@@ -46,9 +59,37 @@ export default registerBlockType(
 				type:    'boolean',
 				default: true,
 			},
-			isEditorPreview:       {
+			forceHome:            {
+				type:    'boolean',
+				default: false,
+			},
+			homePage:             {
+				type:    'string',
+				default: ''
+			},
+			isEditorPreview:      {
 				type:    'boolean',
 				default: true,
+			},
+			listType:             {
+				type:    'string',
+				default: 'all',
+			},
+			order:                {
+				type:    'string',
+				default: 'asc',
+			},
+			orderBy:              {
+				type:    'string',
+				default: 'default',
+			},
+			orderRandom:          {
+				type:    'boolean',
+				default: false,
+			},
+			parseQuery:           {
+				type:    'boolean',
+				default: true
 			},
 			repeatCharacterIndex: {
 				type:    'boolean',
@@ -57,6 +98,10 @@ export default registerBlockType(
 			sectionHead:          {
 				type:    'boolean',
 				default: false,
+			},
+			template:             {
+				type:    'string',
+				default: templates.active
 			}
 		},
 		edit:        function( { attributes, setAttributes } ) {
@@ -64,13 +109,58 @@ export default registerBlockType(
 			const {
 				      advancedBlockOptions,
 				      characterIndex,
+				      forceHome,
+				      homePage,
+				      listType,
+				      order,
+				      orderBy,
+				      orderRandom,
+				      parseQuery,
 				      repeatCharacterIndex,
-				      sectionHead
+				      sectionHead,
+				      template
 			      } = attributes;
+
+			const { getCurrentPostId } = select( 'core/editor' );
+			const postId               = getCurrentPostId();
+
+			const templateOptions        = [];
+			const entryTypeSelectOptions = [];
+			const dateTypeSelectOptions  = [];
+
+			for ( let property in templates.registered ) {
+
+				// noinspection JSUnfilteredForInLoop
+				templateOptions.push({
+					label: templates.registered[ property ],
+					value: property
+				})
+			}
+
+			for ( let property in entryTypes ) {
+
+				// noinspection JSUnfilteredForInLoop
+				entryTypeSelectOptions.push({
+					label: entryTypes[ property ],
+					value: property
+				})
+			}
+
+			for ( let property in dateTypes ) {
+
+				// noinspection JSUnfilteredForInLoop
+				dateTypeSelectOptions.push({
+					label: __( 'Date:', 'connections' ) + ' ' + dateTypes[ property ],
+					value: property
+				})
+			}
 
 			return [
 				<InspectorControls>
-					<PanelBody title={__( 'Settings', 'connections' )}>
+					<PanelBody
+						title={__( 'Character Index', 'connections' )}
+						initialOpen={false}
+					>
 
 						<ToggleControl
 							label={__( 'Display Character Index?', 'connections' )}
@@ -94,8 +184,118 @@ export default registerBlockType(
 						/>
 
 					</PanelBody>
+
+					<PanelBody
+						title={__( 'Template', 'connections' )}
+						initialOpen={false}
+					>
+						<SelectControl
+							label={__( 'Template', 'connections' )}
+							help={__( 'Select which to use when displaying the directory.', 'connections' )}
+							value={template}
+							options={templateOptions}
+							onChange={( template ) => setAttributes( { template: template } )}
+						/>
+					</PanelBody>
+
+					<PanelBody
+						title={__( 'Select', 'connections' )}
+						initialOpen={true}
+					>
+						<p>
+							{__( 'This section controls which entries from your directory will be displayed.', 'connections' )}
+						</p>
+						<SelectControl
+							label={__( 'Entry Type', 'connections' )}
+							help={__( 'Select which entry type to display. The default is to display all.', 'connections' )}
+							value={listType}
+							options={[
+								{ label: __( 'All', 'connections' ), value: 'all' },
+								...entryTypeSelectOptions
+							]}
+							onChange={( listType ) => setAttributes( { listType: listType } )}
+						/>
+					</PanelBody>
+
+					<PanelBody
+						title={__( 'Order', 'connections' )}
+						initialOpen={false}
+					>
+						<p>
+							{__( 'This section controls the order in which the selected entries will be displayed.', 'connections' )}
+						</p>
+
+						<SelectControl
+							label={__( 'Order By', 'connections' )}
+							value={orderBy}
+							options={[
+								{ label: __( 'Default', 'connections' ), value: 'default' },
+								{ label: __( 'First Name', 'connections' ), value: 'first_name' },
+								{ label: __( 'Last Name', 'connections' ), value: 'last_name' },
+								{ label: __( 'Title', 'connections' ), value: 'title' },
+								{ label: __( 'Organization', 'connections' ), value: 'organization' },
+								{ label: __( 'Department', 'connections' ), value: 'department' },
+								{ label: __( 'City', 'connections' ), value: 'city' },
+								{ label: __( 'State', 'connections' ), value: 'state' },
+								{ label: __( 'Zipcode', 'connections' ), value: 'zipcode' },
+								{ label: __( 'Country', 'connections' ), value: 'country' },
+								{ label: __( 'Date: Entry Added', 'connections' ), value: 'date_added' },
+								{ label: __( 'Date: Entry Last Modified', 'connections' ), value: 'date_modified' },
+								...dateTypeSelectOptions
+							]}
+							onChange={( orderBy ) => setAttributes( { orderBy: orderBy } )}
+							disabled={!!orderRandom}
+						/>
+
+						<SelectControl
+							label={__( 'Order', 'connections' )}
+							value={order}
+							options={[
+								{ label: __( 'Ascending', 'connections' ), value: 'asc' },
+								{ label: __( 'Descending', 'connections' ), value: 'desc' },
+								{ label: __( 'Random', 'connections' ), value: 'random' },
+							]}
+							onChange={( order ) => setAttributes( {
+								order:       order,
+								orderBy:     'random' === order ? 'default' : orderBy,
+								orderRandom: 'random' === order
+							} )}
+						/>
+
+					</PanelBody>
+
 				</InspectorControls>,
 				<InspectorAdvancedControls>
+
+					<p>
+						{__( 'This section controls advanced options which effect the directory features nd functions.', 'connections' )}
+					</p>
+
+					<ToggleControl
+						label={__( 'Parse query?', 'connections' )}
+						help={__( 'Permit the Directory block instance to parse queries in order to affect the displayed results. Example, allowing keyword searches. The default is to allow query parsing.', 'connections' )}
+						checked={!!parseQuery}
+						onChange={() => setAttributes( { parseQuery: !parseQuery } )}
+					/>
+
+					<PageSelect
+						// postType={'post'}
+						label={__( 'Directory Home Page', 'connections' )}
+						noOptionLabel={__( 'Current Page', 'connections' )}
+						value={homePage}
+						onChange={( homePage ) => setAttributes( { homePage: homePage } )}
+						disabled={!!forceHome}
+					/>
+
+					<ToggleControl
+						label={__( 'Force directory permalinks to resolve to the Global Directory Homes page?', 'connections' )}
+						checked={!!forceHome}
+						onChange={() => setAttributes( {
+							forceHome: !forceHome,
+							homePage: '',
+						} )}
+					/>
+
 					<TextControl
 						label={__( 'Additional Options', 'connections' )}
 						value={advancedBlockOptions}
@@ -105,6 +305,7 @@ export default registerBlockType(
 							} );
 						}}
 					/>
+
 				</InspectorAdvancedControls>,
 				<ServerSideRender
 					attributes={attributes}

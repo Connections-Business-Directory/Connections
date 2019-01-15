@@ -55,6 +55,8 @@
     "script-loader": "^0.7.2"
   },
   "devDependencies": {
+    "@wordpress/compose": "^3.0.1",
+    "@wordpress/data": "^4.2.1",
     "autoprefixer": "^7.2.6",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",

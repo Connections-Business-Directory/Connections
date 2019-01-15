@@ -702,6 +702,7 @@ class cnRetrieve {
 		cnFunction::parseStringList( $atts['order_by'], ',' );
 
 		// For each field the sort order can be defined.
+		/** @noinspection PhpWrongForeachArgumentTypeInspection */
 		foreach ( $atts['order_by'] as $orderByField ) {
 			$orderByAtts[] = explode( '|' , $orderByField );
 		}

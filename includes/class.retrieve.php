@@ -684,6 +684,8 @@ class cnRetrieve {
 			'SORT_NUMERIC_DESC' => '+0 DESC',   // Alias for NUMERIC_DESC
 		);
 
+		$orderByAtts = array();
+
 		// If a geo-bound query is being performed the `radius` order field can be used.
 		if ( ! empty( $atts['latitude'] ) && ! empty( $atts['longitude'] ) ) {
 

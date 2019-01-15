@@ -50,10 +50,25 @@ class Blocks {
 
 		\cnScript::enqueueStyles();
 
+		$jsDependencies = array(
+			'wp-plugins',
+			'wp-element',
+			'wp-edit-post',
+			'wp-i18n',
+			'wp-api-request',
+			'wp-data',
+			'wp-hooks',
+			'wp-plugins',
+			'wp-components',
+			'wp-blocks',
+			'wp-editor',
+			'wp-compose',
+		);
+
 		wp_enqueue_script(
 			'connections-block-directory',
 			"{$url}assets/dist/js/blocks.js",
-			array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor' ),
+			$jsDependencies,
 			time()
 		);
 

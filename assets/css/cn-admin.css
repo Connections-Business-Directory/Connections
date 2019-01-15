@@ -721,6 +721,8 @@ and (max-width: 780px) {
 }
 
 #cn-metabox-section-name span {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	display: inline-block;
 	padding: 0 5px 0 0;

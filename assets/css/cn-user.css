@@ -558,7 +558,9 @@ input#cn-submit {
  */
 .gm-style img {
 	border: 0;
+	-webkit-border-radius: unset;
 	border-radius: unset;
+	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 	background-color: transparent;
 	max-width: none !important;
@@ -582,7 +584,9 @@ map-marker-popup {
 img.leaflet-tile,
 img.leaflet-marker-icon,
 img.leaflet-marker-shadow{
+	-webkit-border-radius: unset;
 	border-radius: unset;
+	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 }
 

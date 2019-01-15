@@ -253,6 +253,17 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.36.1 01/15/2019 =
+* TWEAK: Update block editor javascript dependencies to include all WP core editor dependencies.
+* TWEAK: Import `withInstanceId` from `@wordpress/compose` instead of pulling it from the global `wp` object.
+* TWEAK: Ensure `$orderByAtts` is defined to prevent PHP warning.
+* TWEAK: Add a few more styles to help prevent themes from breaking the map.
+* TWEAK: Add a few prefixed CSS attributes for increased browser compatibility.
+* OTHER: Update copyright year.
+* DEV: Update dev dependencies.
+* DEV: Update minified files.
+* DEV: Update build files.
+
 = 8.36 01/14/2019 =
 * NEW: Add additional options to the Directory block to bring it closer to feature parity with the `[connections]` shortcode.
 * NEW: Allow ordering by any date type, not just anniversary and birthday.
@@ -443,18 +454,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 = 8.23 07/23/2018 =
 * BUG: Honor the `$saving` parameter when querying entry data from its object cache.
-
-= 8.22 07/18/2018 =
-* FEATURE: Introduce the Date Fieldset configuration options.
-* NEW: Introduce `cnEntry_Dates()` and `cnEntry_Date()`.
-* TWEAK: Init a new cnMessenger object instead of stdClass when creating "dummy" objects for the messenger fieldset.
-* TWEAK: Ensure `$screen` is instance of WP_Screen before accessing methods.
-* TWEAK Make data parameter in cnAddress, cnPhone, cnEmail_Address, cnLink and cnMessenger optional. Default to array.
-* TWEAK: Init each entry template field with the corresponding object instead of a generic stdClass.
-* TWEAK: If there are no active entry types, use the default entry type.
-* BUG: Get default messenger type instead of default email type in the messenger fieldset.
-* BUG: Sanitize messenger user ID correctly.
-* OTHER: Add trailing comma to array.
-* DEV: phpDoc corrections.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

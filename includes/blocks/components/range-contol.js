@@ -8,14 +8,14 @@ const { isFinite } = lodash;
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-const { withInstanceId } = wp.compose;
+import { withInstanceId } from '@wordpress/compose';
 
 /**
  * Internal dependencies
  */
 const { BaseControl, Button, Dashicon } = wp.components;
 
-function RangeControl( {
+export function RangeControl( {
 	                       className,
 	                       label,
 	                       value,
@@ -74,7 +74,7 @@ function RangeControl( {
 	);
 }
 
-const asInstance = withInstanceId( RangeControl );
+// const asInstance = withInstanceId( RangeControl );
 
-export { asInstance as RangeControl };
-// export default withInstanceId( RangeControl );
+// export { asInstance as RangeControl };
+export default withInstanceId( RangeControl );

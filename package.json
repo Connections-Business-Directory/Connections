@@ -1,7 +1,7 @@
 {
   "name": "connections",
   "title": "Connections Business Directory",
-  "version": "8.36.0",
+  "version": "8.36.1",
   "description": "Business directory plugin for WordPress.",
   "homepage": "https://connections-pro.com/",
   "author": {
@@ -55,6 +55,8 @@
     "script-loader": "^0.7.2"
   },
   "devDependencies": {
+    "@wordpress/compose": "^3.0.1",
+    "@wordpress/data": "^4.2.1",
     "autoprefixer": "^7.2.6",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",

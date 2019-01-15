@@ -558,7 +558,9 @@ input#cn-submit {
  */
 .gm-style img {
 	border: 0;
+	-webkit-border-radius: unset;
 	border-radius: unset;
+	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 	background-color: transparent;
 	max-width: none !important;
@@ -582,13 +584,27 @@ map-marker-popup {
 img.leaflet-tile,
 img.leaflet-marker-icon,
 img.leaflet-marker-shadow{
+	-webkit-border-radius: unset;
 	border-radius: unset;
+	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
+}
+
+/*
+ * More styles to fix things themes break,
+ */
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+	margin: 0;
+}
+
+.leaflet-control-layers label {
+	margin: 0;
 }
 
 input.leaflet-control-layers-selector {
 	width: auto;
 	margin: 2px auto auto;
+	vertical-align: unset;
 }
 
 /*

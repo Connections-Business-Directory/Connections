@@ -19,7 +19,8 @@ const { TreeSelect } = wp.components;
 import { buildTermsTree } from '../utils/terms';
 
 function PageSelect( {
-	                     postType = 'page',
+	                     postType,
+	                     postTypeMeta,
 	                     label,
 	                     value,
 	                     noOptionLabel,
@@ -37,9 +38,9 @@ function PageSelect( {
 		);
 	}
 
-	const { getPostType } = select( 'core' );
+	// const { getPostType } = select( 'core' );
 
-	const postTypeMeta   = getPostType( postType );
+	// const postTypeMeta   = getPostType( postType );
 	const isHierarchical = get( postTypeMeta, [ 'hierarchical' ], false );
 	const pageItems      = options || [];
 	let   pagesTree      = [];
@@ -80,11 +81,12 @@ function PageSelect( {
 
 const applyWithSelect = withSelect( ( select, ownProps ) => {
 
-	const { getEntityRecords } = select( 'core' );
-	const { getCurrentPostId } = select( 'core/editor' );
+	const { getEntityRecords, getPostType } = select( 'core' );
+	const { getCurrentPostId }              = select( 'core/editor' );
 
-	const postType = typeof ownProps.postType === 'undefined' ? 'page' : ownProps.postType;
-	const postId   = getCurrentPostId();
+	const postType     = typeof ownProps.postType === 'undefined' ? 'page' : ownProps.postType;
+	const postTypeMeta = getPostType( postType );
+	const postId       = getCurrentPostId();
 
 	const query = {
 		per_page:       -1,
@@ -96,6 +98,7 @@ const applyWithSelect = withSelect( ( select, ownProps ) => {
 
 	return {
 		options: getEntityRecords( 'postType', postType, query ),
+		postTypeMeta
 	};
 } );
 

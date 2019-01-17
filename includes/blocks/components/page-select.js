@@ -99,7 +99,7 @@ const applyWithSelect = withSelect( ( select, ownProps ) => {
 	};
 } );
 
-const renderedSelect = applyWithSelect( PageSelect );
+// const renderedSelect = applyWithSelect( PageSelect );
 
-export { renderedSelect as PageSelect };
-// export default applyWithSelect( PageSelect );
+// export { renderedSelect as PageSelect };
+export default applyWithSelect( PageSelect );

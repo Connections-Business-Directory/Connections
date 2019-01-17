@@ -16,7 +16,7 @@ const {
       } = wp.components;
 
 // Import utils
-import { PageSelect } from '../components/page-select';
+import PageSelect from '../components/page-select';
 
 // Import CSS
 import './styles/editor.scss';

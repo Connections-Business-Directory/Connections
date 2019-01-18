@@ -39,15 +39,10 @@
       }
     }
   },
-  "scripts": {
-    "start": "npm install && npm run watch",
-    "dev": "cross-env webpack",
-    "production": "cross-env NODE_ENV=production webpack",
-    "build": "npm run production",
-    "watch": "cross-env webpack --watch",
-    "lint": "npm run lint:js & npm run lint:scss",
-    "lint:js": "eslint assets/src/**/*.js blocks/**/*.js",
-    "lint:scss": "stylelint assets/src/**/*.scss"
+  "engines": {
+    "node": "8.9.1",
+    "npm": "5.5.1"
+  },
   },
   "dependencies": {
     "npm": "^6.4.1",
@@ -111,8 +106,14 @@
     "webpack-rtl-plugin": "^1.7.0",
     "wp-pot": "latest"
   },
-  "engines": {
-    "node": "8.9.1",
-    "npm": "5.5.1"
+  "scripts": {
+    "start": "npm install && npm run watch",
+    "dev": "cross-env webpack",
+    "production": "cross-env NODE_ENV=production webpack",
+    "build": "npm run production",
+    "watch": "cross-env webpack --watch",
+    "lint": "npm run lint:js & npm run lint:scss",
+    "lint:js": "eslint assets/src/**/*.js blocks/**/*.js",
+    "lint:scss": "stylelint assets/src/**/*.scss"
   }
 }

@@ -34,7 +34,7 @@ class Directory {
 						'type'    => 'boolean',
 						'default' => TRUE,
 					),
-					'forceHome'           => array(
+					'forceHome'            => array(
 						'type'    => 'boolean',
 						'default' => FALSE,
 					),

@@ -205,6 +205,7 @@ export default registerBlockType(
 						<p>
 							{__( 'This section controls which entries from your directory will be displayed.', 'connections' )}
 						</p>
+
 						<SelectControl
 							label={__( 'Entry Type', 'connections' )}
 							help={__( 'Select which entry type to display. The default is to display all.', 'connections' )}

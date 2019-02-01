@@ -18,7 +18,6 @@ const {
 	      ToggleControl
       } = wp.components;
 
-// Import utils
 /**
  * Internal dependencies
  */

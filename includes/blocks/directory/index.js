@@ -1,3 +1,6 @@
+/**
+ * WordPress dependencies
+ */
 const { __, _n, _nx, _x } = wp.i18n;
 const { select } = wp.data;
 const { registerBlockType } = wp.blocks;
@@ -16,6 +19,9 @@ const {
       } = wp.components;
 
 // Import utils
+/**
+ * Internal dependencies
+ */
 import PageSelect from '../components/page-select';
 
 // Import CSS

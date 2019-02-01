@@ -2,17 +2,16 @@
  * WordPress dependencies
  */
 const { __, _n, _nx, _x } = wp.i18n;
-const { select } = wp.data;
+// const { select } = wp.data;
 const { registerBlockType } = wp.blocks;
 const {
 	      InspectorControls,
 	      InspectorAdvancedControls,
-	      PageAttributesParent,
       } = wp.editor;
 const {
 	      ServerSideRender,
 	      PanelBody,
-	      CheckboxControl,
+	      // CheckboxControl,
 	      SelectControl,
 	      TextControl,
 	      ToggleControl
@@ -126,8 +125,8 @@ export default registerBlockType(
 				      template
 			      } = attributes;
 
-			const { getCurrentPostId } = select( 'core/editor' );
-			const postId               = getCurrentPostId();
+			// const { getCurrentPostId } = select( 'core/editor' );
+			// const postId               = getCurrentPostId();
 
 			const templateOptions        = [];
 			const entryTypeSelectOptions = [];

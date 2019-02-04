@@ -2,10 +2,10 @@
 Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
-Requires at least: 4.5.3
+Requires at least: 4.7.12
 Tested up to: 5.0
 Requires PHP: 5.4
-Stable tag: 8.36.1
+Stable tag: 8.37
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.37 02/04/2019 =
+* FEATURE: Add searchable category checklists to the Directory block to allow excluding/including the selected categories in the directory.
+* NEW: Register the category store.
+* NEW: Introduce the `HierarchicalTermSelector` editor component for rendering a searchable category checkbox group.
+* TWEAK: Bump minimum support WP version to 4.7.12.
+* TWEAK: CSS tweak to the search input to help keep themes from breaking it.
+* TWEAK: Do not use `time()` for version when enqueueing the editor script. Used current plugin version + last modified time.
+* BUG: It seems the post type meta needs to be passed back as a return value from `withSelect()` in the page select control so the pages are properly indented for their hierarchy.
+* BUG: Correct category taxonomy REST base endpoint.
+* OTHER: Correct mistaken default and named imports/imports.
+* OTHER: Add whitespace.
+* OTHER: Remove unused code from directory block.
+* OTHER: Correct code alignment.
+* DEV: Reorder package.json keys.
+* DEV: Add JSDoc comment blocks.
+* DEV: Tweak Travis config.
+* DEV: Update Webpack to latest.
+* DEV: Update build files.
+
 = 8.36.1 01/15/2019 =
 * TWEAK: Update block editor javascript dependencies to include all WP core editor dependencies.
 * TWEAK: Import `withInstanceId` from `@wordpress/compose` instead of pulling it from the global `wp` object.
@@ -439,13 +458,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update MO files.
 * OTHER: Correct copy/paste error within some inline code comments.
 
-= 8.23 07/23/2018 =
-* BUG: Honor the `$saving` parameter when querying entry data from its object cache.
-
 == Upgrade Notice ==
-
-= 8.23 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.24 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -509,3 +522,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 
 = 8.36.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.37 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.

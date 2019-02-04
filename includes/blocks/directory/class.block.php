@@ -30,17 +30,29 @@ class Directory {
 						'type'    => 'string',
 						'default' => '',
 					),
+					'categories'           => array(
+						'type'    => 'string',
+						'default' => '[]',
+					),
 					'characterIndex'       => array(
 						'type'    => 'boolean',
 						'default' => TRUE,
 					),
-					'forceHome'           => array(
+					'excludeCategories'    => array(
+						'type'    => 'string',
+						'default' => '[]',
+					),
+					'forceHome'            => array(
 						'type'    => 'boolean',
 						'default' => FALSE,
 					),
 					'homePage'             => array(
 						'type'    => 'string',
 						'default' => '',
+					),
+					'inCategories'         => array(
+						'type'    => 'boolean',
+						'default' => FALSE,
 					),
 					'isEditorPreview'      => array(
 						'type'    => 'boolean',
@@ -112,6 +124,30 @@ class Directory {
 			$attributes['listType'] = NULL;
 		}
 
+		$categories = \cnFunction::decodeJSON( $attributes['categories'] );
+
+		if ( is_wp_error( $categories ) ) {
+
+			$attributes['categories'] = NULL;
+
+		} else {
+
+			$attributes['categories'] = $categories;
+		}
+
+		$category = $attributes['inCategories'] ? 'category_in' : 'category';
+
+		$excludeCategories = \cnFunction::decodeJSON( $attributes['excludeCategories'] );
+
+		if ( is_wp_error( $excludeCategories ) ) {
+
+			$attributes['excludeCategories'] = NULL;
+
+		} else {
+
+			$attributes['excludeCategories'] = $excludeCategories;
+		}
+
 		$orderByFields = array(
 			'id',
 			'date_added',
@@ -155,6 +191,8 @@ class Directory {
 			'show_alphahead'    => $attributes['sectionHead'],
 			'template'          => $attributes['template'],
 			'list_type'         => $attributes['listType'],
+			$category           => $attributes['categories'],
+			'exclude_category'  => $attributes['excludeCategories'],
 			'order_by'          => $orderBy,
 			'lock'              => ! $attributes['parseQuery'],
 			'force_home'        => $attributes['forceHome'],

@@ -8,14 +8,14 @@ const { isFinite } = lodash;
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-import { withInstanceId } from '@wordpress/compose';
+const { withInstanceId } = wp.compose;
 
 /**
  * Internal dependencies
  */
 const { BaseControl, Button, Dashicon } = wp.components;
 
-export function RangeControl( {
+function RangeControl( {
 	                       className,
 	                       label,
 	                       value,

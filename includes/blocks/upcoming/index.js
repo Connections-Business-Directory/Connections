@@ -16,7 +16,7 @@ const {
       } = wp.components;
 
 // Import components
-import { RangeControl } from '../components/range-contol.js';
+import RangeControl from '../components/range-contol.js';
 
 // Import CSS
 import './styles/editor.scss';

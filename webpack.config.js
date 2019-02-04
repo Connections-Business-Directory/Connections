@@ -1,15 +1,19 @@
+// process.traceDeprecation = true; // Enable to see deprecation trace.
 const webpack = require( 'webpack' );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+// const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const path = require( 'path' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
+// const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const inProduction = ('production' === process.env.NODE_ENV);
-const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
-const ImageminPlugin = require( 'imagemin-webpack-plugin' ).default;
+// const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
+// const ImageminPlugin = require( 'imagemin-webpack-plugin' ).default;
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
-const wpPot = require( 'wp-pot' );
+// const wpPot = require( 'wp-pot' );
 
 const config = {
+	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	// Ensure modules like magnific know jQuery is external (loaded via WP).
 	externals: {
 		react: 'React',
@@ -19,6 +23,9 @@ const config = {
 		jquery: 'jQuery',
 		lodash: 'lodash',
 		'lodash-es': 'lodash',
+		// '@wordpress/data': {
+		// 	window: ['wp', 'data'],
+		// },
 	},
 	devtool: 'source-map',
 	module: {
@@ -34,34 +41,55 @@ const config = {
 			},
 
 			// Create RTL styles.
-			{
-				test: /\.css$/,
-				loader: ExtractTextPlugin.extract( 'style-loader' )
-			},
+			// {
+			// 	test: /\.css$/,
+			// 	loader: ExtractTextPlugin.extract( 'style-loader' )
+			// },
 
 			// SASS to CSS.
 			{
 				test: /\.scss$/,
-				use: ExtractTextPlugin.extract( {
-					use: [ {
-						loader: 'css-loader',
+				// use: ExtractTextPlugin.extract( {
+				// 	use: [ {
+				// 		loader: 'css-loader',
+				// 		options: {
+				// 			sourceMap: true
+				// 		}
+				// 	}, {
+				// 		loader: 'postcss-loader',
+				// 		options: {
+				// 			options: {},
+				// 			sourceMap: true
+				// 		}
+				// 	}, {
+				// 		loader: 'sass-loader',
+				// 		options: {
+				// 			sourceMap: true,
+				// 			outputStyle: (inProduction ? 'compressed' : 'nested')
+				// 		}
+				// 	} ]
+				// } )
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader:  'css-loader',
 						options: {
 							sourceMap: true
 						}
 					}, {
-						loader: 'postcss-loader',
+						loader:  'postcss-loader',
 						options: {
-							options: {},
+							options:   {},
 							sourceMap: true
 						}
 					}, {
-						loader: 'sass-loader',
+						loader:  'sass-loader',
 						options: {
-							sourceMap: true,
+							sourceMap:   true,
 							outputStyle: (inProduction ? 'compressed' : 'nested')
-						}
-					} ]
-				} )
+						},
+					}
+				]
 			},
 
 			// Image files.
@@ -86,11 +114,21 @@ const config = {
 		// Removes the "dist" folder before building.
 		new CleanWebpackPlugin( [ 'assets/dist' ] ),
 
-		new ExtractTextPlugin( 'css/[name].css' ),
+		// new ExtractTextPlugin( 'css/[name].css' ),
+		new MiniCssExtractPlugin( {
+			filename: `css/[name].css`
+		}),
 
-		// Create RTL css.
+		// Create RTL CSS.
 		new WebpackRTLPlugin()
-	]
+	],
+	optimization: {
+		minimizer: [
+			new UglifyJsPlugin({
+				sourceMap: true
+			})
+		]
+	}
 };
 
 module.exports = [
@@ -106,14 +144,16 @@ module.exports = [
 	// }, config),
 	Object.assign( {
 		entry: {
-			'babel-polyfill': 'babel-polyfill',
+			'babel-polyfill': '@babel/polyfill',
 			'blocks':         './includes/blocks/index.js'
 		},
 
 		// Tell webpack where to output.
 		output: {
 			path:     path.resolve( __dirname, './assets/dist/' ),
-			filename: 'js/[name].js'
+			filename: 'js/[name].js',
+			// library: ['wp', '[name]'],
+			// libraryTarget: 'window',
 		},
 	}, config )
 ];
@@ -130,7 +170,7 @@ if ( inProduction ) {
 	// });
 
 	// Uglify JS.
-	config.plugins.push( new webpack.optimize.UglifyJsPlugin( { sourceMap: true } ) );
+	// config.plugins.push( new webpack.optimize.UglifyJsPlugin( { sourceMap: true } ) );
 
 	// Minify CSS.
 	config.plugins.push( new webpack.LoaderOptionsPlugin( { minimize: true } ) );

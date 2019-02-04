@@ -247,7 +247,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		$max_pages = ceil( $total_terms / $per_page );
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
-		$base = add_query_arg( $request->get_query_params(), rest_url( $this->namespace . '/' . $this->rest_base ) );
+		$base = add_query_arg( $request->get_query_params(), rest_url( $this->namespace . '/' . $this->taxonomy ) );
 
 		if ( $page > 1 ) {
 
@@ -416,7 +416,7 @@ class CN_REST_Terms_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $response );
 
 		$response->set_status( 201 );
-		$response->header( 'Location', rest_url( $this->namespace . '/' . $this->rest_base . '/' . $term->term_id ) );
+		$response->header( 'Location', rest_url( $this->namespace . '/' . $this->taxonomy . '/' . $term->term_id ) );
 
 		return $response;
 	}

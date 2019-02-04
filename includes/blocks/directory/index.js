@@ -21,6 +21,7 @@ const {
  * Internal dependencies
  */
 import PageSelect from '../components/page-select';
+import HierarchicalTermSelector from '../components/hierarchical-term-selector';
 
 // Import CSS
 import './styles/editor.scss';
@@ -59,9 +60,17 @@ export default registerBlockType(
 				type:    'string',
 				default: '',
 			},
+			categories:           {
+				type:    'string',
+				default: '[]', // needs to be a valid empty JSON array.
+			},
 			characterIndex:       {
 				type:    'boolean',
 				default: true,
+			},
+			excludeCategories:           {
+				type:    'string',
+				default: '[]', // needs to be a valid empty JSON array.
 			},
 			forceHome:            {
 				type:    'boolean',
@@ -70,6 +79,10 @@ export default registerBlockType(
 			homePage:             {
 				type:    'string',
 				default: ''
+			},
+			inCategories:      {
+				type:    'boolean',
+				default: false,
 			},
 			isEditorPreview:      {
 				type:    'boolean',
@@ -112,9 +125,12 @@ export default registerBlockType(
 
 			const {
 				      advancedBlockOptions,
+				      categories,
 				      characterIndex,
+				      excludeCategories,
 				      forceHome,
 				      homePage,
+				      inCategories,
 				      listType,
 				      order,
 				      orderBy,
@@ -210,16 +226,52 @@ export default registerBlockType(
 							{__( 'This section controls which entries from your directory will be displayed.', 'connections' )}
 						</p>
 
-						<SelectControl
-							label={__( 'Entry Type', 'connections' )}
-							help={__( 'Select which entry type to display. The default is to display all.', 'connections' )}
-							value={listType}
-							options={[
-								{ label: __( 'All', 'connections' ), value: 'all' },
-								...entryTypeSelectOptions
-							]}
-							onChange={( listType ) => setAttributes( { listType: listType } )}
+						<div style={{ marginTop: '20px' }}>
+							<SelectControl
+								label={__( 'Entry Type', 'connections' )}
+								help={__( 'Select which entry type to display. The default is to display all.', 'connections' )}
+								value={listType}
+								options={[
+									{ label: __( 'All', 'connections' ), value: 'all' },
+									...entryTypeSelectOptions
+								]}
+								onChange={( listType ) => setAttributes( { listType: listType } )}
+							/>
+						</div>
+
+						<div style={{ marginTop: '20px' }}>
+							<p>
+								{__( 'Choose the categories to include in the entry list.', 'connections' )}
+							</p>
+						</div>
+
+						<HierarchicalTermSelector
+							taxonomy='category'
+							terms={ JSON.parse( categories ) }
+							onChange={( categories ) => setAttributes( { categories: JSON.stringify( categories ) } )}
 						/>
+
+						<div style={{ marginTop: '20px' }}>
+							<ToggleControl
+								label={__( 'Entries must be assigned to all the above chosen categories?', 'connections' )}
+								// help={__( '', 'connections' )}
+								checked={!!inCategories}
+								onChange={() => setAttributes( { inCategories: !inCategories } )}
+							/>
+						</div>
+
+						<div style={{ marginTop: '20px' }}>
+							<p>
+								{__( 'Choose the categories to exclude from the entry list.', 'connections' )}
+							</p>
+						</div>
+
+						<HierarchicalTermSelector
+							taxonomy='category'
+							terms={ JSON.parse( excludeCategories ) }
+							onChange={( excludeCategories ) => setAttributes( { excludeCategories: JSON.stringify( excludeCategories ) } )}
+						/>
+
 					</PanelBody>
 
 					<PanelBody

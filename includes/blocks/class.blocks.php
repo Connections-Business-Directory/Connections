@@ -46,7 +46,8 @@ class Blocks {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
 		//$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		$url = URL::makeProtocolRelative( CN_URL );
+		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
+		$path = Connections_Directory()->pluginPath();
 
 		\cnScript::enqueueStyles();
 
@@ -69,7 +70,7 @@ class Blocks {
 			'connections-block-directory',
 			"{$url}assets/dist/js/blocks.js",
 			$jsDependencies,
-			time()
+			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks.js" )
 		);
 
 		wp_localize_script(

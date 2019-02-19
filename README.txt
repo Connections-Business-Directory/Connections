@@ -240,6 +240,22 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+* FEATURE: Introduce Filters to the Editor Directory block as autocomplete fields to bring the block into feature parity with the shortcode.
+* NEW: Introduce the AutoComplete REST API endpoint.
+* TWEAK: Refactor the Upcoming List block to return a `Fragment` vs. an array to stop React browser console error messages about missing key.
+* TWEAK: Load block editor scripts in the footer.
+* TWEAK: Use `cnSanitize::args()` instead of `wp_parse_args()` in `cnTemplatePart::listAction_ViewAll()` to strip unnecessary args to prevent PHP error messages when displaying the character index.
+* TWEAK: Allow shortcode callback to receive arrays for the filters to support the Directory Editor block.
+* OTHER: Update Author URL in plugin header.
+* OTHER: Update URL property in package.json.
+* OTHER: Remove console logging of the category store.
+* OTHER: Update frontend minified CSS file.
+* DEV: Make webpack a little less chatty.
+* DEV: Add `$` as an external dependency to webpack.
+* DEV: phpDoc correction.
+* DEV: Add `lodash` as a block editor dependency.
+* DEV: Update build files.
+
 = 8.37 02/04/2019 =
 * FEATURE: Add searchable category checklists to the Directory block to allow excluding/including the selected categories in the directory.
 * NEW: Register the category store.
@@ -448,20 +464,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update MO files.
 * DEV: phpDoc correction.
 
-= 8.24 07/27/2018 =
-* NEW: Introduce `cnString::replaceFirst()` and `cnString::replaceLast()`.
-* TWEAK: Refactor `cnEntry` to utilize `cnEntry_Dates`.
-* TWEAK: Refactor `cnShortcode::single()` to utilize `cnString::replaceFirst()`.
-* TWEAK: Use `wp_kses_post()` instead of `esc_html()` to display setting descriptions so HTML such as links can be used.
-* TWEAK: Add missing link to documentation in the content block setting descriptions.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* OTHER: Correct copy/paste error within some inline code comments.
-
 == Upgrade Notice ==
-
-= 8.24 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
 
 = 8.25 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.3. PHP version >= 7.1 recommended.
@@ -524,4 +527,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.37 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.28 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.

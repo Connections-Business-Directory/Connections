@@ -38,6 +38,41 @@ class Directory {
 						'type'    => 'boolean',
 						'default' => TRUE,
 					),
+					'city'                 => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
+					),
+					'county'               => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
+					),
+					'country'              => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
+					),
+					'department'           => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
+					),
+					'district'             => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
+					),
 					'excludeCategories'    => array(
 						'type'    => 'string',
 						'default' => '[]',
@@ -45,6 +80,13 @@ class Directory {
 					'forceHome'            => array(
 						'type'    => 'boolean',
 						'default' => FALSE,
+					),
+					'fullName'             => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'integer',
+						),
 					),
 					'homePage'             => array(
 						'type'    => 'string',
@@ -57,6 +99,13 @@ class Directory {
 					'isEditorPreview'      => array(
 						'type'    => 'boolean',
 						'default' => FALSE,
+					),
+					'lastName'             => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
 					),
 					'listType'             => array(
 						'type'    => 'string',
@@ -74,6 +123,13 @@ class Directory {
 						'type'    => 'boolean',
 						'default' => FALSE,
 					),
+					'organization'         => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
+					),
 					'parseQuery'           => array(
 						'type'    => 'boolean',
 						'default' => TRUE,
@@ -86,9 +142,30 @@ class Directory {
 						'type'    => 'boolean',
 						'default' => FALSE,
 					),
+					'state'                => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
+					),
 					'template'             => array(
 						'type'    => 'string',
 						'default' => Connections_Directory()->options->getActiveTemplate( 'all' ),
+					),
+					'title'                => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
+					),
+					'zipcode'              => array(
+						'type'    => 'array',
+						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
 					),
 				),
 				// Not needed since script is enqueued in Connections_Directory\Blocks\enqueueEditorAssets()
@@ -193,6 +270,17 @@ class Directory {
 			'list_type'         => $attributes['listType'],
 			$category           => $attributes['categories'],
 			'exclude_category'  => $attributes['excludeCategories'],
+			'id'                => $attributes['fullName'],
+			'last_name'         => $attributes['lastName'],
+			'title'             => $attributes['title'],
+			'department'        => $attributes['department'],
+			'organization'      => $attributes['organization'],
+			'district'          => $attributes['district'],
+			'county'            => $attributes['county'],
+			'state'             => $attributes['state'],
+			'city'              => $attributes['city'],
+			'zip_code'          => $attributes['zipcode'],
+			'country'           => $attributes['country'],
 			'order_by'          => $orderBy,
 			'lock'              => ! $attributes['parseQuery'],
 			'force_home'        => $attributes['forceHome'],

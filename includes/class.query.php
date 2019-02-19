@@ -153,7 +153,7 @@ class cnQuery {
 	 * @param array $format
 	 * @param bool  $in
 	 *
-	 * @return string|void
+	 * @return string
 	 */
 	public static function in( $values, $format, $in = TRUE ) {
 

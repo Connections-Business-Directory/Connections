@@ -52,6 +52,7 @@ class Blocks {
 		\cnScript::enqueueStyles();
 
 		$jsDependencies = array(
+			'lodash',
 			'wp-plugins',
 			'wp-element',
 			'wp-edit-post',

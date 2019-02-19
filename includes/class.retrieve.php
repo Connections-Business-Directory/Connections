@@ -3210,7 +3210,7 @@ class cnRetrieve {
 	 * Returns category by ID.
 	 *
 	 * @param integer $id
-	 * @return object
+	 * @return cnTerm_Object|WP_Error
 	 */
 	public function category( $id ) {
 

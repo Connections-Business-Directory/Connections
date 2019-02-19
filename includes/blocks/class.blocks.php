@@ -71,7 +71,8 @@ class Blocks {
 			'connections-block-directory',
 			"{$url}assets/dist/js/blocks.js",
 			$jsDependencies,
-			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks.js" )
+			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks.js" ),
+			TRUE
 		);
 
 		wp_localize_script(

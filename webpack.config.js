@@ -128,7 +128,10 @@ const config = {
 				sourceMap: true
 			})
 		]
-	}
+	},
+	stats: {
+		children: false
+	},
 };
 
 module.exports = [

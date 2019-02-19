@@ -73,6 +73,7 @@ class cnAPI {
 		//include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-entry-geojson-controller.php' );
 		include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-terms-controller.php' );
 		include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-countries-controller.php' );
+		include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-autocomplete-controller.php' );
 	}
 
 	/**
@@ -89,6 +90,7 @@ class cnAPI {
 			//'CN_REST_Entry_GeoJSON_Controller',
 			'CN_REST_Terms_Controller',
 			'CN_REST_Countries_Controller',
+			'CN_REST_Autocomplete_Controller',
 		);
 
 		foreach ( $controllers as $controller ) {

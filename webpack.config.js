@@ -21,6 +21,7 @@ const config = {
 		tinymce: 'tinymce',
 		moment: 'moment',
 		jquery: 'jQuery',
+		$: 'jQuery',
 		lodash: 'lodash',
 		'lodash-es': 'lodash',
 		// '@wordpress/data': {

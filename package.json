@@ -1,13 +1,13 @@
 {
   "name": "connections",
   "title": "Connections Business Directory",
-  "version": "8.37.0",
+  "version": "8.38.0",
   "description": "Business directory plugin for WordPress.",
   "homepage": "https://connections-pro.com/",
   "author": {
     "name": "Steven A Zahm",
     "email": "",
-    "url": "http://connections-pro.com/"
+    "url": "https://connections-pro.com/"
   },
   "repository": {
     "type": "git",

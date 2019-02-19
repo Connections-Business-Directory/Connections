@@ -15,6 +15,11 @@ const {
 	      ToggleControl,
       } = wp.components;
 
+const {
+	      // Component,
+	      Fragment,
+      } = wp.element;
+
 // Import components
 import RangeControl from '../components/range-contol.js';
 
@@ -52,47 +57,47 @@ export default registerBlockType(
 				type:    'string',
 				default: '',
 			},
-			displayLastName:       {
+			displayLastName:      {
 				type:    'boolean',
 				default: false,
 			},
-			dateFormat: {
+			dateFormat:           {
 				type:    'string',
 				default: 'F jS',
 			},
-			days: {
+			days:                 {
 				type:    'integer',
 				default: 30,
 			},
-			heading: {
+			heading:              {
 				type:    'string',
 				default: '',
 			},
-			includeToday:       {
+			includeToday:         {
 				type:    'boolean',
 				default: true,
 			},
-			isEditorPreview:       {
+			isEditorPreview:      {
 				type:    'boolean',
 				default: true,
 			},
-			listType: {
+			listType:             {
 				type:    'string',
 				default: 'birthday',
 			},
-			template: {
+			template:             {
 				type:    'string',
 				default: 'anniversary-light',
 			},
-			noResults: {
+			noResults:            {
 				type:    'string',
 				default: __( 'No results.', 'connections' ),
 			},
-			yearFormat: {
+			yearFormat:           {
 				type:    'string',
 				default: '%y ' + __( 'Year(s)', 'connections' ),
 			},
-			yearType: {
+			yearType:             {
 				type:    'string',
 				default: 'upcoming',
 			},
@@ -118,153 +123,155 @@ export default registerBlockType(
 			for ( let property in dateTypes ) {
 
 				// noinspection JSUnfilteredForInLoop
-				dateTypeSelectOptions.push({
+				dateTypeSelectOptions.push( {
 					label: dateTypes[ property ],
 					value: property
-				})
+				} )
 			}
 
-			return [
-				<InspectorControls>
-					<PanelBody title={__( 'Settings', 'connections' )}>
+			return (
+				<Fragment>
+					<InspectorControls>
+						<PanelBody title={__( 'Settings', 'connections' )}>
 
-						<SelectControl
-							label={__( 'Type', 'connections' )}
-							value={listType}
-							options={dateTypeSelectOptions}
-							onChange={( listType ) => setAttributes( { listType: listType } )}
-						/>
+							<SelectControl
+								label={__( 'Type', 'connections' )}
+								value={listType}
+								options={dateTypeSelectOptions}
+								onChange={( listType ) => setAttributes( { listType: listType } )}
+							/>
 
-						<SelectControl
-							label={__( 'Style', 'connections' )}
-							value={template}
-							options={[
-								{ label: 'Light', value: 'anniversary-light' },
-								{ label: 'Dark', value: 'anniversary-dark' },
-							]}
-							onChange={( template ) => setAttributes( { template: template } )}
+							<SelectControl
+								label={__( 'Style', 'connections' )}
+								value={template}
+								options={[
+									{ label: 'Light', value: 'anniversary-light' },
+									{ label: 'Dark', value: 'anniversary-dark' },
+								]}
+								onChange={( template ) => setAttributes( { template: template } )}
+							/>
+
+							<TextControl
+								label={__( 'Heading', 'connections' )}
+								help={__( 'Type %d to insert the number of days in the heading.', 'connections' )}
+								placeholder={__( 'Type the heading here.', 'connections' )}
+								value={heading}
+								onChange={( newValue ) => {
+									setAttributes( {
+										heading: newValue,
+									} );
+								}}
+							/>
+
+							<ToggleControl
+								label={__( 'Display last name?', 'connections' )}
+								checked={!!displayLastName}
+								onChange={() => setAttributes( { displayLastName: !displayLastName } )}
+							/>
+
+							<RangeControl
+								label={__( 'The number of days ahead to display.', 'connections' )}
+								help={__( 'To display date events for today only, slide the slider to 0 and enable the Include today option.', 'connections' )}
+								value={days}
+								onChange={( days ) => setAttributes( { days: days } )}
+								min={0}
+								max={90}
+								allowReset={true}
+								initialPosition={30}
+							/>
+
+							<ToggleControl
+								label={__( 'Include today?', 'connections' )}
+								help={__( 'Whether or not to include the date events for today.', 'connections' )}
+								checked={!!includeToday}
+								onChange={() => setAttributes( { includeToday: !includeToday } )}
+							/>
+
+							<RadioControl
+								label={__( 'Year Display', 'connections' )}
+								// help={__( '', 'connections' )}
+								selected={yearType}
+								options={[
+									{ label: __( 'Original Year', 'connections' ), value: 'original' },
+									{ label: __( 'Upcoming Year', 'connections' ), value: 'upcoming' },
+									{ label: __( 'Years Since', 'connections' ), value: 'since' },
+								]}
+								onChange={( newValue ) => {
+									setAttributes( {
+										yearType: newValue,
+									} );
+								}}
+							/>
+
+							<TextControl
+								label={__( 'No Results Notice', 'connections' )}
+								help={__( 'This message is displayed when there are no upcoming event dates within the specified number of days.', 'connections' )}
+								placeholder={__( 'Type the no result message here.', 'connections' )}
+								value={noResults}
+								onChange={( newValue ) => {
+									setAttributes( {
+										noResults: newValue,
+									} );
+								}}
+							/>
+
+						</PanelBody>
+					</InspectorControls>
+					<InspectorAdvancedControls>
+
+						<TextControl
+							label={__( 'Date Format', 'connections' )}
+							help={
+								<ExternalLink
+									href='https://codex.wordpress.org/Formatting_Date_and_Time'
+									target='_blank'
+								>
+									{__( 'Documentation on date and time formatting.', 'connections' )}
+								</ExternalLink>
+							}
+							value={dateFormat}
+							onChange={( newValue ) => {
+								setAttributes( {
+									dateFormat: newValue,
+								} );
+							}}
 						/>
 
 						<TextControl
-							label={__( 'Heading', 'connections' )}
-							help={__( 'Type %d to insert the number of days in the heading.', 'connections' )}
-							placeholder={__( 'Type the heading here.', 'connections' )}
-							value={heading}
+							label={__( 'Years Since Format', 'connections' )}
+							help={
+								<ExternalLink
+									href='http://php.net/manual/en/dateinterval.format.php'
+									target='_blank'
+								>
+									{__( 'Documentation on date interval formatting.', 'connections' )}
+								</ExternalLink>
+							}
+							value={yearFormat}
 							onChange={( newValue ) => {
 								setAttributes( {
-									heading: newValue,
-								} );
-							}}
-						/>
-
-						<ToggleControl
-							label={__( 'Display last name?', 'connections' )}
-							checked={!!displayLastName}
-							onChange={() => setAttributes( { displayLastName: !displayLastName } )}
-						/>
-
-						<RangeControl
-							label={__( 'The number of days ahead to display.', 'connections' )}
-							help={__( 'To display date events for today only, slide the slider to 0 and enable the Include today option.', 'connections' )}
-							value={ days }
-							onChange={( days ) => setAttributes( { days: days } )}
-							min={ 0 }
-							max={ 90 }
-							allowReset={ true }
-							initialPosition={ 30 }
-						/>
-
-						<ToggleControl
-							label={__( 'Include today?', 'connections' )}
-							help={__( 'Whether or not to include the date events for today.', 'connections' )}
-							checked={!!includeToday}
-							onChange={() => setAttributes( { includeToday: !includeToday } )}
-						/>
-
-						<RadioControl
-							label={__( 'Year Display', 'connections' )}
-							// help={__( '', 'connections' )}
-							selected={ yearType }
-							options={ [
-								{ label: __( 'Original Year', 'connections' ), value: 'original' },
-								{ label: __( 'Upcoming Year', 'connections' ), value: 'upcoming' },
-								{ label: __( 'Years Since', 'connections' ), value: 'since' },
-							] }
-							onChange={( newValue ) => {
-								setAttributes( {
-									yearType: newValue,
+									yearFormat: newValue,
 								} );
 							}}
 						/>
 
 						<TextControl
-							label={__( 'No Results Notice', 'connections' )}
-							help={__( 'This message is displayed when there are no upcoming event dates within the specified number of days.', 'connections' )}
-							placeholder={__( 'Type the no result message here.', 'connections' )}
-							value={noResults}
+							label={__( 'Additional Options', 'connections' )}
+							value={advancedBlockOptions}
 							onChange={( newValue ) => {
 								setAttributes( {
-									noResults: newValue,
+									advancedBlockOptions: newValue,
 								} );
 							}}
 						/>
 
-					</PanelBody>
-				</InspectorControls>,
-				<InspectorAdvancedControls>
-
-					<TextControl
-						label={__( 'Date Format', 'connections' )}
-						help={
-							<ExternalLink
-								href='https://codex.wordpress.org/Formatting_Date_and_Time'
-								target='_blank'
-							>
-								{__( 'Documentation on date and time formatting.', 'connections' )}
-							</ExternalLink>
-						}
-						value={dateFormat}
-						onChange={( newValue ) => {
-							setAttributes( {
-								dateFormat: newValue,
-							} );
-						}}
+					</InspectorAdvancedControls>
+					<ServerSideRender
+						attributes={attributes}
+						block='connections-directory/shortcode-upcoming'
 					/>
-
-					<TextControl
-						label={__( 'Years Since Format', 'connections' )}
-						help={
-							<ExternalLink
-								href='http://php.net/manual/en/dateinterval.format.php'
-								target='_blank'
-							>
-								{__( 'Documentation on date interval formatting.', 'connections' )}
-							</ExternalLink>
-						}
-						value={yearFormat}
-						onChange={( newValue ) => {
-							setAttributes( {
-								yearFormat: newValue,
-							} );
-						}}
-					/>
-
-					<TextControl
-						label={__( 'Additional Options', 'connections' )}
-						value={advancedBlockOptions}
-						onChange={( newValue ) => {
-							setAttributes( {
-								advancedBlockOptions: newValue,
-							} );
-						}}
-					/>
-
-				</InspectorAdvancedControls>,
-				<ServerSideRender
-					attributes={attributes}
-					block='connections-directory/shortcode-upcoming'
-				/>
-			];
+				</Fragment>
+			);
 
 		},
 		save:        function() {

@@ -913,7 +913,7 @@ class cnTemplatePart {
 			'return' => FALSE,
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		// No need to display if the user is viewing the "View All" page.
 		if ( 'all' != cnQuery::getVar( 'cn-view' ) ) {
@@ -926,12 +926,11 @@ class cnTemplatePart {
 	/**
 	 * Output the entry list actions.
 	 *
-	 * @access public
 	 * @since 0.7.6.5
-	 * @param (array)  $atts [optional]
-	 * @param (object) $entry Instance of the cnEntry class.
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
+	 *
+	 * @param array   $atts [optional]
+	 * @param cnEntry $entry Instance of the cnEntry class.
+	 *
 	 * @return string
 	 */
 	public static function entryActions( $atts = array(), $entry ) {

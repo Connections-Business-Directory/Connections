@@ -132,14 +132,14 @@ class cnShortcode_Connections extends cnShortcode {
 		 * so a match can be made when the query is run.
 		 */
 		$atts['family_name']   = html_entity_decode( $atts['family_name'] );
-		$atts['last_name']     = html_entity_decode( $atts['last_name'] );
-		$atts['title']         = html_entity_decode( $atts['title'] );
-		$atts['organization']  = html_entity_decode( $atts['organization'] );
-		$atts['department']    = html_entity_decode( $atts['department'] );
-		$atts['city']          = html_entity_decode( $atts['city'] );
-		$atts['state']         = html_entity_decode( $atts['state'] );
-		$atts['zip_code']      = html_entity_decode( $atts['zip_code'] );
-		$atts['country']       = html_entity_decode( $atts['country'] );
+		$atts['last_name']     = is_string( $atts['last_name'] ) ? html_entity_decode( $atts['last_name'] ) : array_map( 'html_entity_decode', $atts['last_name'] );
+		$atts['title']         = is_string( $atts['title'] ) ? html_entity_decode( $atts['title'] ) : array_map( 'html_entity_decode', $atts['title'] );
+		$atts['organization']  = is_string( $atts['organization'] ) ? html_entity_decode( $atts['organization'] ) : array_map( 'html_entity_decode', $atts['organization'] );
+		$atts['department']    = is_string( $atts['department'] ) ? html_entity_decode( $atts['department'] ) : array_map( 'html_entity_decode', $atts['department'] );
+		$atts['city']          = is_string( $atts['city'] ) ? html_entity_decode( $atts['city'] ) : array_map( 'html_entity_decode', $atts['city'] );
+		$atts['state']         = is_string( $atts['state'] ) ? html_entity_decode( $atts['state'] ) : array_map( 'html_entity_decode', $atts['state'] );
+		$atts['zip_code']      = is_string( $atts['zip_code'] ) ? html_entity_decode( $atts['zip_code'] ) : array_map( 'html_entity_decode', $atts['zip_code'] );
+		$atts['country']       = is_string( $atts['country'] ) ? html_entity_decode( $atts['country'] ) : array_map( 'html_entity_decode', $atts['country'] );
 		$atts['category_name'] = html_entity_decode( $atts['category_name'] );
 
 		if ( 0 < strlen( $atts['meta_query'] ) ) {

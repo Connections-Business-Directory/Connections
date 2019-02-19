@@ -35,8 +35,8 @@ registerStore( 'connections-directory/categories', {
 
 	reducer( state = DEFAULT_STATE, action ) {
 
-		console.log( 'state', state );
-		console.log( 'action', action );
+		// console.log( 'state', state );
+		// console.log( 'action', action );
 
 		switch ( action.type ) {
 
@@ -56,8 +56,8 @@ registerStore( 'connections-directory/categories', {
 	selectors: {
 		getCategories( state, query ) {
 
-			console.log( 'state', state );
-			console.log( 'query', query );
+			// console.log( 'state', state );
+			// console.log( 'query', query );
 
 			return state.terms;
 		},

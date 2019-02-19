@@ -913,7 +913,7 @@ class cnTemplatePart {
 			'return' => FALSE,
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts = cnSanitize::args( $atts, $defaults );
 
 		// No need to display if the user is viewing the "View All" page.
 		if ( 'all' != cnQuery::getVar( 'cn-view' ) ) {

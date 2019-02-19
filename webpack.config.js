@@ -24,9 +24,16 @@ const config = {
 		$: 'jQuery',
 		lodash: 'lodash',
 		'lodash-es': 'lodash',
-		// '@wordpress/data': {
-		// 	window: ['wp', 'data'],
+		// 'wp.i18n': '@wordpress/i18n',
+		// 'wp.blocks': {
+		// 	window: [ 'wp', 'blocks' ],
 		// },
+		// 'wp.compose': '@wordpress/compose',
+		// 'wp.data': '@wordpress/data',
+		// 'wp.date': '@wordpress/date',
+		// 'wp.editor': '@wordpress/editor',
+		// 'wp.element': '@wordpress/element',
+		// 'wp.utils': '@wordpress/utils',
 	},
 	devtool: 'source-map',
 	module: {

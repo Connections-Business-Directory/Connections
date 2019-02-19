@@ -240,6 +240,8 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.38 02/19/2019 =
+
 * FEATURE: Introduce Filters to the Editor Directory block as autocomplete fields to bring the block into feature parity with the shortcode.
 * NEW: Introduce the AutoComplete REST API endpoint.
 * TWEAK: Refactor the Upcoming List block to return a `Fragment` vs. an array to stop React browser console error messages about missing key.

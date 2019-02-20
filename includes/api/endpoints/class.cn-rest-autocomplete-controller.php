@@ -119,7 +119,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 		// Need more than one character to return a response.
 		if ( 1 >= strlen( $args['search'] ) ) {
 
-			return $response = rest_ensure_response( $response );
+			return rest_ensure_response( $response );
 
 			//return new WP_Error(
 			//	'invalid_string_length',

@@ -130,6 +130,12 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 
 		$terms = preg_split( '/[\s,]+/', $args['search'] );
 
+		// If the preg_split() fails, return.
+		if ( FALSE === $terms ) {
+
+			return rest_ensure_response( $response );
+		}
+
 		if ( ! empty( $request['offset'] ) ) {
 
 			$args['offset'] = $request['offset'];

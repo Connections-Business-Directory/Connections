@@ -149,9 +149,9 @@ class cnQuery {
 	 *
 	 * @global wpdb $wpdb
 	 *
-	 * @param array $values
-	 * @param array $format
-	 * @param bool  $in
+	 * @param array  $values
+	 * @param string $format
+	 * @param bool   $in
 	 *
 	 * @return string
 	 */

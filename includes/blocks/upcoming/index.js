@@ -22,6 +22,7 @@ const {
 
 // Import components
 import RangeControl from '../components/range-control';
+// import RangeControl from '@Connections-Directory/components';
 
 // Import CSS
 import './styles/editor.scss';

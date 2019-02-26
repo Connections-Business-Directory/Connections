@@ -137,6 +137,14 @@ const config = {
 			})
 		]
 	},
+	resolve: {
+		// Alias @Connections-Directory to the blocks folder so components can be imported like:
+		// import PageSelect from '@Connections-Directory/components';
+		// However I could not get this to work. I think it has something to do with named exports and how they are imported.
+		alias: {
+			'@Connections-Directory': path.resolve( __dirname, './includes/blocks/' )
+		}
+	},
 	stats: {
 		children: false
 	},

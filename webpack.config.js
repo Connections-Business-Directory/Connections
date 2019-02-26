@@ -24,6 +24,7 @@ const config = {
 		$: 'jQuery',
 		lodash: 'lodash',
 		'lodash-es': 'lodash',
+		//https://www.cssigniter.com/importing-gutenberg-core-wordpress-libraries-es-modules-blocks/
 		// 'wp.i18n': '@wordpress/i18n',
 		// 'wp.blocks': {
 		// 	window: [ 'wp', 'blocks' ],

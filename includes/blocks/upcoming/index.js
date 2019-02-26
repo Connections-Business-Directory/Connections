@@ -21,7 +21,7 @@ const {
       } = wp.element;
 
 // Import components
-import RangeControl from '../components/range-contol.js';
+import RangeControl from '../components/range-control';
 
 // Import CSS
 import './styles/editor.scss';

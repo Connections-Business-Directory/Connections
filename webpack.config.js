@@ -156,7 +156,7 @@ module.exports = [
 	Object.assign( {
 		entry: {
 			'babel-polyfill': '@babel/polyfill',
-			'blocks':         './includes/blocks/index.js'
+			'blocks':         './includes/blocks/blocks.js'
 		},
 
 		// Tell webpack where to output.

@@ -108,7 +108,7 @@ if ( ! class_exists( 'CN_Block_Team_Table_Template' ) ) {
 			$imageBorderWidth  = absint( $attributes['imageBorderWidth'] );
 			//$position          = 'left' === $attributes['position'] ? 'right' : 'left';
 			//$padding           = $attributes['displayDropShadow'] || 0 < $borderWidth ? 30 : 0;
-			$padding           = 'square'=== $attributes['imageShape'] ? 0 : 30;
+			$padding           = 'square' === $attributes['imageShape'] ? 0 : 30;
 
 			$style = <<<HERE
 <style>

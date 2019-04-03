@@ -219,12 +219,6 @@ Connections Business Directory has been embraced around the world and has been t
 4. Upload the files from the folder extracted in Step 2.
 4. Activate the plugin on the Plugins admin page.
 
-### Requirements ###
-
-* **WordPress version:** >= 4.4
-* **PHP version:** >= 5.2.4
-* **NOTE:** Upgrading from version 0.6.1 and newer only, is supported. Previous version must upgrade to 0.6.1 before upgrading to the current version.
-
 ## Frequently Asked Questions ##
 
 A comprehensive list of [FAQs can be found here.](http://connections-pro.com/faq/)

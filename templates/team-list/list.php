@@ -90,7 +90,7 @@ if ( ! class_exists( 'CN_Block_Team_List_Template' ) ) {
 			$borderWidth       = absint( $attributes['borderWidth'] );
 			$direction         = 'left' === $attributes['position'] ? 'row' : 'row-reverse';
 			$imageBorderColor  = \cnSanitize::hexColor( $attributes['imageBorderColor'] );
-			$imageBorderRadius = 'square'=== $attributes['imageShape'] ? absint( $attributes['imageBorderRadius'] ) . 'px' : '50%';
+			$imageBorderRadius = 'square' === $attributes['imageShape'] ? absint( $attributes['imageBorderRadius'] ) . 'px' : '50%';
 			$imageBorderWidth  = absint( $attributes['imageBorderWidth'] );
 			$position          = 'left' === $attributes['position'] ? 'right' : 'left';
 			$padding           = $attributes['displayDropShadow'] || 0 < $borderWidth ? 30 : 0;

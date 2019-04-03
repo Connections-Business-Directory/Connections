@@ -89,7 +89,7 @@ if ( ! class_exists( 'CN_Block_Team_Grid_Card_Clean_Template' ) ) {
 			$borderRadius      = absint( $attributes['borderRadius'] );
 			$borderWidth       = absint( $attributes['borderWidth'] );
 			$imageBorderColor  = \cnSanitize::hexColor( $attributes['imageBorderColor'] );
-			$imageBorderRadius = 'square'=== $attributes['imageShape'] ? absint( $attributes['imageBorderRadius'] ) . 'px' : '50%';
+			$imageBorderRadius = 'square' === $attributes['imageShape'] ? absint( $attributes['imageBorderRadius'] ) . 'px' : '50%';
 			$imageBorderWidth  = absint( $attributes['imageBorderWidth'] );
 			//$boxShadow        = $attributes['displayDropShadow'] ? '0px 5px 10px 5px rgba(186,186,186,0.5)' : 'none !important';
 

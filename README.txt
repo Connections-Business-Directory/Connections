@@ -20,9 +20,10 @@ Quite simply, Connections Business Directory is one of the [best business direct
 = Features =
 
 * **Seamless integration** with WordPress.
-* **WordPress 5.0 Ready!**
+* **WordPress 5.2 Ready!**
   * Supports the WordPress Gutenberg editor with the following blocks.
       * Directory Block :: Use this block to embed your directory in a page.
+      * Team Block :: It's easy to use Connections to build your team page! Team Block is a full featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
       * Upcoming List Block :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
 * Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...

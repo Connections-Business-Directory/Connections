@@ -16,7 +16,7 @@ const { Spinner } = wp.components;
 const { TreeSelect } = wp.components;
 
 // Import components
-import { buildTermsTree } from '../utils/terms';
+import { buildTermsTree } from '../../utils/terms';
 
 function PageSelect( {
 	                     postType,

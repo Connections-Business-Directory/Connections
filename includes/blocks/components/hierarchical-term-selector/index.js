@@ -17,7 +17,7 @@ const { addQueryArgs } = wp.url;
 /**
  * Internal dependencies
  */
-import { buildTermsTree } from '../utils/terms';
+import { buildTermsTree } from '../../utils/terms';
 
 /**
  * Module Constants

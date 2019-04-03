@@ -360,9 +360,12 @@ class cnGeo {
 	 */
 	public static function getCountries() {
 
-		$countries = cnCountries::getAll();
-		$countries = wp_list_pluck( $countries, 'name', 'iso_3166_1_alpha2' );
+		$countries = cnCountries::getAll(); //var_dump( $countries );
+		//$sortBy    = wp_list_pluck( $countries, 'iso_3166_1_alpha3' );
+		$countries = wp_list_pluck( $countries, 'native_name', 'iso_3166_1_alpha2' );
 		natsort( $countries );
+		//ksort( $countries, SORT_NATURAL );
+		//array_multisort( $sortBy, $countries );
 
 		// Push a few select countries to the top of the list.
 		$countries = array_replace( array( 'US' => '', 'CA' => '', 'GB' => '' ), $countries );

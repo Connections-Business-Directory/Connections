@@ -72,7 +72,9 @@ final class cnMessenger extends cnEntry_Collection_Item {
 
 		$preferred        = cnArray::get( $data, 'preferred', FALSE );
 
-		$this->type       = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type             = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+
+		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
@@ -99,7 +101,8 @@ final class cnMessenger extends cnEntry_Collection_Item {
 		 * // END -- Compatibility for previous versions.
 		 */
 
-		$this->name = $types[ $this->type ];
+		//$this->name = $types[ $this->type ];
+		$this->name = array_key_exists( $this->type, $types ) ? $types[ $this->type ] : $default[ $this->type ];
 
 		// Previous versions saved NULL for visibility under some circumstances (bug), default to public in this case.
 		if ( empty( $this->visibility ) ) {

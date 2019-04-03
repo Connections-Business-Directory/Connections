@@ -259,7 +259,9 @@ class cnTemplateFactory {
 
 					// If the template has a core class, init it passing its instance of cnTemplate
 					// so it is easily accessible within its class.
-					$instance->template->{ $template->class } = new $template->class( $t );
+					$object  = new $template->class( $t );
+					$t->setMe( $object );
+					$instance->template->{ $template->class } = $object;
 
 					// Add a reference to its instance of cnTemplate to the plugins globally accessible instance.
 					// This is to allow easy access when loading the template within the shortcode.

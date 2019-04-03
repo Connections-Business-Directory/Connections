@@ -145,6 +145,12 @@ class cnTemplate {
 	 */
 	public $parts = array();
 
+	/**
+	 * @since 8.39
+	 * @var object
+	 */
+	private $me;
+
 	private $supports = array();
 
 	/**
@@ -483,6 +489,26 @@ class cnTemplate {
 		}
 
 		return $thumbnail;
+	}
+
+	/**
+	 * @since 8.39
+	 *
+	 * @param object $object
+	 */
+	public function setMe( $object ) {
+
+		$this->me = $object;
+	}
+
+	/**
+	 * @since 8.39
+	 *
+	 * @return object
+	 */
+	public function getSelf() {
+
+		return $this->me;
 	}
 
 	public function setupTemplateFeatures( $features ) {
@@ -1083,8 +1109,6 @@ class cnTemplate {
 	 *
 	 * @access private
 	 * @since  0.7.6
-	 *
-	 * @return string
 	 */
 	public function printCSS() {
 

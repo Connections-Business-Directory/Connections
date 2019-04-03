@@ -24,13 +24,15 @@ const {
 /**
  * Internal dependencies
  */
-import PageSelect from '../components/page-select';
-import HierarchicalTermSelector from '../components/hierarchical-term-selector';
-import FilterTagSelector from '../components/filter-tag-selector';
+import {
+	FilterTagSelector,
+	HierarchicalTermSelector,
+	PageSelect
+} from '@Connections-Directory/components';
 
 // Import CSS
-import './styles/editor.scss';
-import './styles/public.scss';
+// import './styles/editor.scss';
+// import './styles/public.scss';
 
 const {
 	      entryTypes,

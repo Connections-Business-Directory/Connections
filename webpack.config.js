@@ -24,6 +24,7 @@ const config = {
 		$: 'jQuery',
 		lodash: 'lodash',
 		'lodash-es': 'lodash',
+		//https://www.cssigniter.com/importing-gutenberg-core-wordpress-libraries-es-modules-blocks/
 		// 'wp.i18n': '@wordpress/i18n',
 		// 'wp.blocks': {
 		// 	window: [ 'wp', 'blocks' ],
@@ -137,6 +138,13 @@ const config = {
 			})
 		]
 	},
+	resolve: {
+		// Alias @Connections-Directory to the blocks folder so components can be imported like:
+		// import { PageSelect } from '@Connections-Directory/components';
+		alias: {
+			'@Connections-Directory': path.resolve( __dirname, './includes/blocks/' )
+		}
+	},
 	stats: {
 		children: false
 	},
@@ -156,7 +164,7 @@ module.exports = [
 	Object.assign( {
 		entry: {
 			'babel-polyfill': '@babel/polyfill',
-			'blocks':         './includes/blocks/index.js'
+			'blocks':         './includes/blocks/blocks.js'
 		},
 
 		// Tell webpack where to output.

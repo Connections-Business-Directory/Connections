@@ -517,6 +517,9 @@ class cnUser {
 
 			// Display the 'public' entries if the user is not required to be logged in.
 			if ( ! cnOptions::loginRequired() ) $visibility[] = 'public';
+
+			if ( Connections_Directory()->options->getAllowPublicOverride() ) $visibility[] = 'public';
+			if ( Connections_Directory()->options->getAllowPrivateOverride() ) $visibility[] = 'private';
 		}
 
 		return $visibility;

@@ -184,7 +184,9 @@ final class cnAddress extends cnEntry_Collection_Item {
 
 		$preferred         = cnArray::get( $data, 'preferred', FALSE );
 
-		$this->type        = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+		$type              = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
+
+		$this->type        = array_key_exists( $type, $types ) ? $type : key( $default );
 		$this->visibility  = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order       = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred   = cnFormatting::toBoolean( $preferred );

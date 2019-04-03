@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce business directory, 
 Requires at least: 4.7.12
 Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 8.38.1
+Stable tag: 8.39
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

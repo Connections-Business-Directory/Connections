@@ -1083,8 +1083,6 @@ class cnTemplate {
 	 *
 	 * @access private
 	 * @since  0.7.6
-	 *
-	 * @return string
 	 */
 	public function printCSS() {
 

@@ -21,6 +21,7 @@
 }
 
 .tablenav .tablenav-pages .cn-char-current {
+	height: auto;
 	padding: 8px;
 }
 

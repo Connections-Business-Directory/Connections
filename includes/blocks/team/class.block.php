@@ -228,10 +228,6 @@ class Team {
 	 */
 	public static function render( $attributes ) {
 
-		$options = array(
-			'category' => 1778,
-		);
-
 		$template = self::getTemplate( $attributes );
 
 		if ( ! $template instanceof Template ) {

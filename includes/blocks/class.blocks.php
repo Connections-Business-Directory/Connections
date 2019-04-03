@@ -34,6 +34,7 @@ class Blocks {
 
 		// Register the editor blocks.
 		add_action( 'init', 'Connections_Directory\Blocks\Directory::register' );
+		add_action( 'init', 'Connections_Directory\Blocks\Team::register' );
 		add_action( 'init', 'Connections_Directory\Blocks\Upcoming::register' );
 	}
 
@@ -102,14 +103,15 @@ class Blocks {
 
 		// If SCRIPT_DEBUG is set and TRUE load the non-minified JS files, otherwise, load the minified files.
 		//$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-		$url = URL::makeProtocolRelative( CN_URL );
+		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
+		$path = Connections_Directory()->pluginPath();
 
-		//wp_enqueue_style(
-		//	'connections-block-directory',
-		//	$url . "assets/dist/css/blocks.css",
-		//	array(),
-		//	time()
-		//);
+		wp_enqueue_style(
+			'connections-blocks',
+			"{$url}assets/dist/css/blocks.css",
+			array(),
+			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/blocks.css" )
+		);
 	}
 
 	/**

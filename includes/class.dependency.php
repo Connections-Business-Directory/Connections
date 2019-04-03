@@ -56,6 +56,12 @@ class cnDependency {
 			'anniversary-light/anniversary-light.php',
 			'birthday-dark/birthday-dark.php',
 			'birthday-light/birthday-light.php',
+			'team-grid-card-clean/clean.php',
+			'team-grid-card-flip/flip.php',
+			'team-grid-card-slide/slide.php',
+			'team-grid-card-overlay/overlay.php',
+			'team-list/list.php',
+			'team-table/table.php',
 		);
 
 		foreach ( $coreTemplates as $path ) {
@@ -414,6 +420,7 @@ class cnDependency {
 			// Gutenberg Blocks
 			'Connections_Directory\Blocks'           => 'includes/blocks/class.blocks.php',
 			'Connections_Directory\Blocks\Directory' => 'includes/blocks/directory/class.block.php',
+			'Connections_Directory\Blocks\Team'      => 'includes/blocks/team/class.block.php',
 			'Connections_Directory\Blocks\Upcoming'  => 'includes/blocks/upcoming/class.block.php',
 
 			// Third Party Libraries

@@ -167,10 +167,23 @@ class cnAdminFunction {
 
 		if ( $file == CN_BASE_NAME ) {
 
-			$links[] = '<a href="http://connections-pro.com/?page_id=29" target="_blank">' . __( 'Extensions', 'connections' ) . '</a>';
-			$links[] = '<a href="http://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';
-			$links[] = '<a href="http://connections-pro.com/documentation/connections/" target="_blank">' . __( 'Documentation', 'connections' ) . '</a>';
-			$links[] = '<a href="http://connections-pro.com/support" target="_blank">' . __( 'Support Forums', 'connections' ) . '</a>';
+			$permalink = apply_filters(
+				'Connections_Directory/Admin/Menu/Submenu/Support/Permalink',
+				'https://wordpress.org/support/plugin/connections/'
+			);
+
+			$title = apply_filters(
+				'Connections_Directory/Admin/Menu/Submenu/Support/Title',
+				__( 'Support', 'connections' )
+			);
+
+			$title     = esc_html( $title );
+			$permalink = esc_url( $permalink );
+
+			$links[] = '<a href="https://connections-pro.com/?page_id=29" target="_blank">' . __( 'Extensions', 'connections' ) . '</a>';
+			$links[] = '<a href="https://connections-pro.com/?page_id=419" target="_blank">' . __( 'Templates', 'connections' ) . '</a>';
+			$links[] = '<a href="https://connections-pro.com/documentation/contents/" target="_blank">' . __( 'Documentation', 'connections' ) . '</a>';
+			$links[] = '<a href="' . $permalink . '" target="_blank">' . $title . '</a>';
 		}
 
 		return $links;

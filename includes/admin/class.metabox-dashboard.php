@@ -392,16 +392,6 @@ class cnDashboardMetabox {
 		</div>
 		<div class="clearboth"></div>
 
-		<div class="one-third">
-			<p class="center">
-				<a class="cn-button cn-button-large cn-button-blue cn-button-full" href="http://connections-pro.com/support/forum/feature-requests/"><span><?php _e( 'Feature Request', 'connections' ); ?></span></a>
-			</p>
-		</div>
-
-		<div class="two-third last">
-			<p><?php _e( 'Need a feature, request a feature.', 'connections' ) ?></p>
-		</div>
-		<div class="clearboth"></div>
 		<?php
 	}
 

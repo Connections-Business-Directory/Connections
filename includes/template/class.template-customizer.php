@@ -1853,7 +1853,7 @@ class cnTemplate_Customizer {
 	/**
 	 * Dequeue the Themify Customizer scripts because it takes over the Customizer panel when loaded.
 	 *
-	 * @link http://connections-pro.com/support/topic/pro-pack-install-widget-template-issues/
+	 * @link https://connections-pro.com/support/topic/pro-pack-install-widget-template-issues/
 	 *
 	 * @access private
 	 * @since  8.5.2

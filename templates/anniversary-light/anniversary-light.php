@@ -5,16 +5,16 @@
  * @author     Steven A. Zahm
  * @since      0.7.9
  * @license    GPL-2.0+
- * @link       http://connections-pro.com
+ * @link       https://connections-pro.com
  * @copyright  2013 Steven A. Zahm
  *
  * @wordpress-plugin
  * Plugin Name:       Connections Anniversary Light - Template
- * Plugin URI:        http://connections-pro.com
+ * Plugin URI:        https://connections-pro.com
  * Description:       Default anniversary template with a light background in a table like format.
  * Version:           2.0.1
  * Author:            Steven A. Zahm
- * Author URI:        http://connections-pro.com
+ * Author URI:        https://connections-pro.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */

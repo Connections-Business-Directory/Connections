@@ -5,16 +5,16 @@
  * @author     Steven A. Zahm
  * @since      0.7.9
  * @license    GPL-2.0+
- * @link       http://connections-pro.com
+ * @link       https://connections-pro.com
  * @copyright  2015 Steven A. Zahm
  *
  * @wordpress-plugin
  * Plugin Name:       Connections Profile - Template
- * Plugin URI:        http://connections-pro.com
+ * Plugin URI:        https://connections-pro.com
  * Description:       This will show the entries in a profile format.
  * Version:           3.0
  * Author:            Steven A. Zahm
- * Author URI:        http://connections-pro.com
+ * Author URI:        https://connections-pro.com
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */

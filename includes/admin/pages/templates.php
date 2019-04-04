@@ -58,7 +58,7 @@ function connectionsShowTemplatesPage() {
 		<div class="wrap">
 
 			<h1>Connections : <?php _e( 'Templates', 'connections' ); ?>
-				<a class="button add-new-h2" href="http://connections-pro.com/templates/" target="_blank"><?php _e( 'Get More', 'connections' ); ?></a>
+				<a class="button add-new-h2" href="https://connections-pro.com/templates/" target="_blank"><?php _e( 'Get More', 'connections' ); ?></a>
 			</h1>
 
 			<ul class="subsubsub">
@@ -135,7 +135,7 @@ function connectionsShowTemplatesPage() {
 							</p>
 
 							<p>
-								<?php printf( __( 'To learn more, please refer to the <a href="%s">documentation</a>.', 'connections' ), 'http://connections-pro.com/documentation/templates/' ); ?>
+								<?php printf( __( 'To learn more, please refer to the <a href="%s">documentation</a>.', 'connections' ), 'https://connections-pro.com/documentation/templates/' ); ?>
 							</p>
 						</td>
 					</tr>

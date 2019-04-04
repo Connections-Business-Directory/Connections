@@ -556,7 +556,7 @@ class cnPlugin_Updater {
 			'user-agent' => 'Connections/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 		);
 
-		$url = sprintf( 'http://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'info' : 'update-check' ) );
+		$url = sprintf( 'https://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'info' : 'update-check' ) );
 
 		if ( wp_http_supports( array( 'ssl' ) ) ) {
 

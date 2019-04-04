@@ -499,7 +499,7 @@ class cnAdminFunction {
 					'Thank you for using <a href="%1$s" target="_blank">Connections Business Directory</a>! Please <a href="%2$s" target="_blank">rate us</a> on <a href="%2$s" target="_blank">WordPress.org</a>',
 					'connections'
 				),
-				'http://connections-pro.com',
+				'https://connections-pro.com',
 				'https://wordpress.org/support/plugin/connections/reviews/?filter=5#new-post'
 			);
 

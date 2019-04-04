@@ -393,14 +393,14 @@ class cnTemplatePart {
 			//}
 
 			// Changed `$addAction` to `TRUE` in for action attribute ternary so the search is always off the page root.
-			// See this issue: http://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395856
+			// See this issue: https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395856
 			// Doesn't seem to cause any issues, but I can not remember the purpose of defaulting to  the current page
 			// for the form action when home_id always should default to the current page unless set otherwise.
 			// @see https://connections-pro.com/support/topic/cross-referencing-search-terms/
-			// @see http://connections-pro.com/support/topic/cross-referencing-using-different-fields/
+			// @see https://connections-pro.com/support/topic/cross-referencing-using-different-fields/
 			//
 			// Reverted the above change due to
-			// @see http://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395816
+			// @see https://connections-pro.com/support/topic/image-grid-category-dropdown/#post-395816
 			$out .= '<form class="cn-form" id="cn-cat-select"' . ( $addAction || $atts['force_home'] ? ' action="' . $permalink . '"' : '' ) . ' method="get">';
 			if ( is_front_page() ) $out .= '<input type="hidden" name="page_id" value="' . $homeID .'">';
 

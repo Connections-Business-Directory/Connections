@@ -5,15 +5,19 @@ dist: trusty
 
 php:
   - 5.6
-  - 7.0
+  - '7.0'
   - 7.1
   - 7.2
+  - 7.3
+  - nightly
 
+# Test against these versions of WordPress.
 env:
-  - WP_VERSION=latest WP_MULTISITE=0
-  - WP_VERSION=4.9.9 WP_MULTISITE=0
-  - WP_VERSION=4.8.8 WP_MULTISITE=0
-  - WP_VERSION=4.7.12 WP_MULTISITE=0
+  - WP_VERSION=4.7.12 # Plugin minimum version
+  - WP_VERSION=4.8
+  - WP_VERSION=4.9
+  - WP_VERSION=latest
+  - WP_VERSION=nightly
 
 matrix:
   include:
@@ -23,22 +27,64 @@ matrix:
       env: WP_VERSION=4.7.12 WP_MULTISITE=0
     - php: 5.6
       env: WP_VERSION=latest WP_MULTISITE=1
+  exclude: # PHP 7.x doesn't play nice with older versions of WordPress and/or PHPUnit
+    - php: '7.0'
+      env: WP_VERSION=4.7
+    - php: 7.1
+      env: WP_VERSION=4.7
+    - php: 7.2
+      env: WP_VERSION=4.7
+    - php: 7.3
+      env: WP_VERSION=4.7
+    - php: 7.3
+      env: WP_VERSION=4.8
+    - php: 7.3
+      env: WP_VERSION=4.9
+    - php: nightly
+      env: WP_VERSION=4.7
+    - php: nightly
+      env: WP_VERSION=4.8
+    - php: nightly
+      env: WP_VERSION=4.9
 
 before_script:
-- bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-- export PATH="$HOME/.composer/vendor/bin:$PATH"
-- |
-  if [[ ${TRAVIS_PHP_VERSION:0:2} == "7." ]]; then
-    composer global require "phpunit/phpunit=5.7.*"
-  else
-    composer global require "phpunit/phpunit=4.8.*"
-  fi
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - |
+    # Remove Xdebug for a huge performance increase
+    if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
+      phpenv config-rm xdebug.ini
+    else
+      echo "xdebug.ini does not exist"
+    fi
+  - |
+    # Install WordPress and PHPUnit
+        if [[ ! -z "$WP_VERSION" ]] ; then
+          bash tests/bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+          case "$TRAVIS_PHP_VERSION" in
+            7.3|7.2|7.1|7.0|nightly)
+              echo "Using PHPUnit 6.x"
+              composer global require "phpunit/phpunit:^6"
+              ;;
+            5.6|5.5|5.4|5.3)
+              echo "Using PHPUnit 4.x"
+              composer global require "phpunit/phpunit:^4"
+              ;;
+            5.2)
+              # Do nothing, use default PHPUnit 3.6.x
+              echo "Using default PHPUnit, hopefully 3.6"
+              ;;
+            *)
+              echo "No PHPUnit version handling for PHP version $TRAVIS_PHP_VERSION"
+              exit 1
+              ;;
+          esac
+        fi
 
 script:
-- if [[ $TRAVIS_PHP_VERSION != 'hhvm' && ( $TRAVIS_PHP_VERSION != '5.5'|| $WP_VERSION != 'latest' || $WP_MULTISITE != '0' ) ]];
-  then phpenv config-rm xdebug.ini; fi
-- if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0' ]];
-  then phpunit --coverage-clover=coverage.clover; else phpunit; fi
+  - if [[ $TRAVIS_PHP_VERSION != 'hhvm' && ( $TRAVIS_PHP_VERSION != '5.5'|| $WP_VERSION != 'latest' || $WP_MULTISITE != '0' ) ]];
+    then phpenv config-rm xdebug.ini; fi
+  - if [[ $TRAVIS_PHP_VERSION = '5.5' && $WP_VERSION = 'latest' && $WP_MULTISITE = '0' ]];
+    then phpunit --coverage-clover=coverage.clover; else phpunit; fi
 
 branches:
   only:

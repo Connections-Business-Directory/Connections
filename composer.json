@@ -9,12 +9,17 @@
     "issues": "https://connections-pro.com/support/"
   },
   "require": {
-    "php": ">=5.3.0",
+    "php": ">=5.6.0",
     "composer/installers": "~1.2"
   },
   "require-dev": {
-    "php-coveralls/php-coveralls": "^2.0",
-    "phpunit/phpunit": "6.2.3"
+    "php-coveralls/php-coveralls": "*",
+    "phpunit/phpunit": "*",
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "wp-coding-standards/wpcs": "*",
+    "sirbrillig/phpcs-variable-analysis": "*",
+    "poststatus/wptest": "dev-master",
+    "phpcompatibility/php-compatibility": "*"
   },
   "minimum-stability": "dev"
 }

@@ -43,7 +43,7 @@ $check = new cnRequirements_Check(
 		'file'     => __FILE__,
 		'requirements' => array(
 			'php' => array(
-				'min' => '5.4', //5.4
+				'min' => '5.6', //5.6
 				'max' => '7.3', //7.3
 			),
 			'wp'  => array(

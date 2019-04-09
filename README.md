@@ -247,6 +247,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.39.1 04/09/2019 =
+* TWEAK: Update links to plugin site from `http` to `https`.
+* TWEAK: Remove link to features requests forum from dashboard quick links.
+* TWEAK: Update link to support in plugin meta actions links.
+* TWEAK: Add support link to admin nav to make it more discoverable for the user.
+* TWEAK: Rename the Messenger IM option to Live Messenger so it is not confused with the Facebook Messenger.
+* TWEAK: Do not make Live Messenger IM user ID links since the service was cancelled my MS quite awhile ago.
+* TWEAK: Adjust processing of Advanced Block Options for the Team block so the internal limit value can be overridden.
+* BUG: Remove debug code from the Directory block.
+* BUG: Correct the array index for the excluded categories in the Team block.
+* OTHER: Bump minimum required PHP version to 5.6 to match WordPress core.
+
 = 8.39 04/03/2019 =
 * FEATURE: Introduce the new Team block.
 * TWEAK: Sort countries from their native name in the country drop down.
@@ -457,30 +469,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Remove usage of deprecated `getJavaScriptFooter()` method.
 * DEV: Add a few helper methods to cnCoordinates to create object from various supplied types.
 * DEV: Add `__String()` to cnCoordinates.
-
-= 8.27 08/31/2018 =
-* NEW: Add Algolia as a geocoding provider.
-* TWEAK: Default to Algolia to geocode address if the Google Maps API Server key has not been set in the settings.
-* TWEAK: Switch from the goMap library to the Leaflet library to provide mapping and geocoding when clicking the Geocode button while adding an address.
-* TWEAK: Default to Wikimedia Maps to display maps if the Google Maps API Browser key has not been set in the settings.
-* DEV: phpDoc corrections
-* DEV: A package.json update to remove grunt-phpdocumentor.
-
-= 8.26 08/20/2018 =
-* NEW: Introduce multiple service provider geocoding API.
-* NEW: Refactor entry action to geocode addresses to utilize the new multiple service provider geocode API.
-* TWEAK: Tweak to `cnEntry_Collection_Item::__isset()` and `cnEntry_Collection_Item::__get()` so empty() calls return values as expected.
-* TWEAK: Remove duplicate code in `cnAddress` by extending it using `cnEntry_Collection_Item` to match the other entry object types.
-* TWEAK: Add toArray method to cnCoordinates.
-* TWEAK: Move country an coordinates to the Model folder.
-* TWEAK: Move cnTimezone to Model folder.
-* TWEAK: Update user-agent sent when doing plugin update check.
-* TWEAK: Update dependencies registry to account for file path changes.
-* TWEAK: Remove old geocoding functions.
-* DEV: phpDoc additions and corrections.
-
-= 8.25.1 08/06/2018 =
-* BUG: Add limit parameter to `cnOutput::getDateBlock()` to correct index not defined PHP notice.
-* DEV: phpDoc correction.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

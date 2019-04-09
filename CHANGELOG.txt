@@ -1,5 +1,17 @@
 == Changelog ==
 
+= 8.39.1 04/09/2019 =
+* TWEAK: Update links to plugin site from `http` to `https`.
+* TWEAK: Remove link to features requests forum from dashboard quick links.
+* TWEAK: Update link to support in plugin meta actions links.
+* TWEAK: Add support link to admin nav to make it more discoverable for the user.
+* TWEAK: Rename the Messenger IM option to Live Messenger so it is not confused with the Facebook Messenger.
+* TWEAK: Do not make Live Messenger IM user ID links since the service was cancelled my MS quite awhile ago.
+* TWEAK: Adjust processing of Advanced Block Options for the Team block so the internal limit value can be overridden.
+* BUG: Remove debug code from the Directory block.
+* BUG: Correct the array index for the excluded categories in the Team block.
+* OTHER: Bump minimum required PHP version to 5.6 to match WordPress core.
+
 = 8.39 04/03/2019 =
 * FEATURE: Introduce the new Team block.
 * TWEAK: Sort countries from their native name in the country drop down.

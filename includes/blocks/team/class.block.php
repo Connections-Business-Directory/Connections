@@ -269,20 +269,20 @@ class Team {
 		$options = array(
 			'list_type'         => $attributes['listType'],
 			$category           => $attributes['categories'],
-			'exclude_category'  => $attributes['excludeCategories'],
+			'exclude_category'  => $attributes['categoriesExclude'],
 		);
-
-		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
-
-		if ( is_array( $other ) && ! empty( $other ) ) {
-
-			$options = array_merge( $other, $options );
-		}
 
 		// Limit the number of entries displayed to 10, only in editor preview.
 		if ( $attributes['isEditorPreview'] ) {
 
 			$options['limit'] = 50;
+		}
+
+		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
+
+		if ( is_array( $other ) && ! empty( $other ) ) {
+
+			$options = array_replace( $options, $other );
 		}
 
 		$results = Connections_Directory()->retrieve->entries( $options );

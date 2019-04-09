@@ -286,8 +286,8 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				'user-agent' => 'Connections Business Directory/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 			);
 
-			//$url = 'http://connections-pro.com/wp-json/cn-plugin/v1/status/';
-			$url = sprintf( 'http://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'item-status' : 'status' ) );
+			//$url = 'https://connections-pro.com/wp-json/cn-plugin/v1/status/';
+			$url = sprintf( 'https://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'item-status' : 'status' ) );
 
 			if ( wp_http_supports( array( 'ssl' ) ) ) {
 

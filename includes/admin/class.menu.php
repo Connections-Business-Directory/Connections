@@ -50,6 +50,10 @@ class cnAdminMenu {
 
 			self::$instance = new self;
 			self::menu();
+			self::addSupportMenuItem();
+			self::stylizeSupportMenuItems();
+
+			add_action( 'admin_footer', array( __CLASS__, 'supportMenuItemTargetBlank' ) );
 		}
 	}
 
@@ -101,6 +105,65 @@ class cnAdminMenu {
 			$instance->pageHook->{ $hook } = add_submenu_page( 'connections_dashboard', $page_title, $menu_title, $capability, $menu_slug, $function );
 		}
 
+	}
+
+	/**
+	 * Add the support sub menu item at the bottom of the Connections menu items.
+	 *
+	 * @since 8.39.1
+	 */
+	private static function addSupportMenuItem() {
+
+		global $submenu;
+
+		$permalink = apply_filters(
+			'Connections_Directory/Admin/Menu/Submenu/Support/Permalink',
+			'https://wordpress.org/support/plugin/connections/'
+		);
+
+		$title = apply_filters(
+			'Connections_Directory/Admin/Menu/Submenu/Support/Title',
+			__( 'Support', 'connections' )
+		);
+
+		$title     = esc_html( $title );
+		$permalink = esc_url( $permalink );
+
+		$submenu['connections_dashboard'][] = array( $title, 'manage_options', $permalink );
+	}
+
+	/**
+	 * Add span tag with class and id around the menu item URL so it can be targeted with CSS/JS.
+	 *
+	 * @since 8.39.1
+	 */
+	private static function stylizeSupportMenuItems() {
+
+		global $submenu;
+
+		foreach ( $submenu['connections_dashboard'] as &$item ) {
+
+			$template = '<span class="cn-submenu-item" id="cn-submenu-item-%s">%s</span>';
+			$slug     = strtolower( preg_replace("/[^[:alnum:][:space:]]/u", '', $item[0] ) );
+
+			$item[0] = sprintf( $template, $slug, $item[0] );
+		}
+	}
+
+	/**
+	 * Opens the support forum sub menu item in a new browser tab.
+	 *
+	 * @since 8.39.1
+	 */
+	public static function supportMenuItemTargetBlank() {
+
+		?>
+		<script type="text/javascript">
+			( function( $ ) {
+				$( '[id^=cn-submenu-item-support]' ).parent().attr( 'target', '_blank' );
+			} )( jQuery );
+		</script>
+		<?php
 	}
 
 	/**

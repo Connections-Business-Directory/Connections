@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  *
  * Add to set WP core constants in case they do not exist.
  *
- * @link http://connections-pro.com/support/topic/images-wont-upload-maximum-upload-size/
+ * @link https://connections-pro.com/support/topic/images-wont-upload-maximum-upload-size/
  *
  * @access private
  * @since  8.2.21

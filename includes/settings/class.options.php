@@ -959,7 +959,7 @@ class cnOptions {
 			'aim'       => 'AIM',
 			'yahoo'     => 'Yahoo IM',
 			'jabber'    => 'Jabber / Google Talk',
-			'messenger' => 'Messenger',
+			'messenger' => 'Live Messenger',
 			'skype'     => 'Skype',
 			'icq'       => 'ICQ'
 		);

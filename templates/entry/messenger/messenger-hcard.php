@@ -33,9 +33,9 @@ foreach ( $networks as $messenger ) {
 			$replace[] = empty( $messenger->uid ) ? '' : '<span class="im-id">' . $messenger->uid . '</span>';
 			break;
 
-		case 'messenger':
-			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="msnim:chat?contact=' . $messenger->uid . '">' . $messenger->uid . '</a>';
-			break;
+		//case 'messenger':
+		//	$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="msnim:chat?contact=' . $messenger->uid . '">' . $messenger->uid . '</a>';
+		//	break;
 
 		case 'skype':
 			$replace[] = empty( $messenger->uid ) ? '' : '<a class="url im-id" href="skype:' . $messenger->uid . '?chat">' . $messenger->uid . '</a>';

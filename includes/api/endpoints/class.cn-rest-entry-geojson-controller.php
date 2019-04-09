@@ -184,7 +184,7 @@ class CN_REST_Entry_GeoJSON_Controller extends CN_REST_Entry_Controller {
 		 * @todo Loop thu each address within an entry so a geoJSON `feature` is added for each address the entry may have.
 		 * @todo The entry only needs to be added to $entries if it has at least one address and those address has both a latitude and longitude.
 		 *
-		 * @link http://connections-pro.com/support/topic/map-view/#post-319981
+		 * @link https://connections-pro.com/support/topic/map-view/#post-319981
 		 */
 
 		if ( ( ! isset( $addresses[0]->latitude ) || empty( $addresses[0]->latitude ) ) && ( ! isset( $addresses[0]->longitude ) || empty( $addresses[0]->longitude ) ) ) {

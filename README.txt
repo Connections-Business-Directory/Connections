@@ -4,8 +4,8 @@ Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.7.12
 Tested up to: 5.1
-Requires PHP: 5.4
-Stable tag: 8.39
+Requires PHP: 5.6
+Stable tag: 8.39.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -241,6 +241,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.39.1 04/09/2019 =
+* TWEAK: Update links to plugin site from `http` to `https`.
+* TWEAK: Remove link to features requests forum from dashboard quick links.
+* TWEAK: Update link to support in plugin meta actions links.
+* TWEAK: Add support link to admin nav to make it more discoverable for the user.
+* TWEAK: Rename the Messenger IM option to Live Messenger so it is not confused with the Facebook Messenger.
+* TWEAK: Do not make Live Messenger IM user ID links since the service was cancelled my MS quite awhile ago.
+* TWEAK: Adjust processing of Advanced Block Options for the Team block so the internal limit value can be overridden.
+* BUG: Remove debug code from the Directory block.
+* BUG: Correct the array index for the excluded categories in the Team block.
+* OTHER: Bump minimum required PHP version to 5.6 to match WordPress core.
+
 = 8.39 04/03/2019 =
 * FEATURE: Introduce the new Team block.
 * TWEAK: Sort countries from their native name in the country drop down.
@@ -452,18 +464,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add a few helper methods to cnCoordinates to create object from various supplied types.
 * DEV: Add `__String()` to cnCoordinates.
 
-= 8.27 08/31/2018 =
-* NEW: Add Algolia as a geocoding provider.
-* TWEAK: Default to Algolia to geocode address if the Google Maps API Server key has not been set in the settings.
-* TWEAK: Switch from the goMap library to the Leaflet library to provide mapping and geocoding when clicking the Geocode button while adding an address.
-* TWEAK: Default to Wikimedia Maps to display maps if the Google Maps API Browser key has not been set in the settings.
-* DEV: phpDoc corrections
-* DEV: A package.json update to remove grunt-phpdocumentor.
-
 == Upgrade Notice ==
-
-= 8.27 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.28 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
@@ -524,3 +525,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 
 = 8.39 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.
+
+= 8.39.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6 PHP version >= 7.1 recommended.

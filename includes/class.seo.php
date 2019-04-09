@@ -70,7 +70,7 @@ class cnSEO {
 		/**
 		 * @todo Perhaps this filter should only be applied while in the page head so on the meta canonical link if affected.
 		 * That would eliminate issues like this:
-		 * @link http://connections-pro.com/support/topic/the-link-of-the-address-book-doesnt-work-after-the-choice-a-category/
+		 * @link https://connections-pro.com/support/topic/the-link-of-the-address-book-doesnt-work-after-the-choice-a-category/
 		 */
 		add_filter( 'page_link', array( __CLASS__, 'filterPermalink' ), 10, 3 );
 

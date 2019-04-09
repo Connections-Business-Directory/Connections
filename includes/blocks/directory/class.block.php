@@ -304,7 +304,7 @@ class Directory {
 			$options['limit'] = 10;
 		}
 
-		error_log( '$options ' .  json_encode( $options, 128 ) );
+		//error_log( '$options ' .  json_encode( $options, 128 ) );
 
 		$html = \cnShortcode_Connections::shortcode( $options );
 

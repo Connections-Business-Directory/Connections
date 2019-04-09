@@ -48,7 +48,12 @@ matrix:
       env: WP_VERSION=4.9
 
 before_script:
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - |
+    # Export Composer's global bin dir to PATH, but not on PHP 5.2
+    if [[ ${TRAVIS_PHP_VERSION:0:3} != "5.2" ]]; then
+      composer config --list --global
+      export PATH=`composer config --list --global | grep '\[home\]' | { read a; echo "${a#* }/vendor/bin:$PATH"; }`
+    fi
   - |
     # Remove Xdebug for a huge performance increase
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
@@ -79,6 +84,12 @@ before_script:
               ;;
           esac
         fi
+  - |
+    # Install PHP_CodeSniffer if it's requested for this test
+    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+      composer global require wp-coding-standards/wpcs
+      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+    fi
 
 script:
   - if [[ $TRAVIS_PHP_VERSION != 'hhvm' && ( $TRAVIS_PHP_VERSION != '5.5'|| $WP_VERSION != 'latest' || $WP_MULTISITE != '0' ) ]];

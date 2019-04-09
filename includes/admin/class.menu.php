@@ -77,8 +77,6 @@ class cnAdminMenu {
 			$instance->pageHook->topLevel = add_menu_page( 'Connections', 'Connections', 'connections_view_dashboard', 'connections_dashboard', array( __CLASS__, 'showPage' ), CN_URL . 'assets/images/menu.png', CN_ADMIN_MENU_POSITION );
 		}
 
-		$settingsTitle = '<span class="cn-submenu-item">' . __( 'Settings', 'connections' ) . '</span>';
-
 		$submenu[0]   = array( 'hook' => 'dashboard', 'page_title' => 'Connections : ' . __( 'Dashboard', 'connections' ), 'menu_title' => __( 'Dashboard', 'connections' ), 'capability' => 'connections_view_dashboard', 'menu_slug' => 'connections_dashboard', 'function' => array( __CLASS__, 'showPage' ) );
 		$submenu[20]  = array( 'hook' => 'manage', 'page_title' => 'Connections : ' . __( 'Manage', 'connections' ), 'menu_title' => __( 'Manage', 'connections' ), 'capability' => 'connections_manage', 'menu_slug' => 'connections_manage', 'function' => array( __CLASS__, 'showPage' ) );
 		$submenu[40]  = array( 'hook' => 'add', 'page_title' => 'Connections : ' . __( 'Add Entry', 'connections' ), 'menu_title' => __( 'Add Entry', 'connections' ), 'capability' => $addEntryCapability, 'menu_slug' => 'connections_add', 'function' => array( __CLASS__, 'showPage' ) );

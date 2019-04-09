@@ -269,7 +269,7 @@ class Team {
 		$options = array(
 			'list_type'         => $attributes['listType'],
 			$category           => $attributes['categories'],
-			'exclude_category'  => $attributes['excludeCategories'],
+			'exclude_category'  => $attributes['categoriesExclude'],
 		);
 
 		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );

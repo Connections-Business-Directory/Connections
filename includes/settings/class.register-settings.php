@@ -866,22 +866,22 @@ class cnRegisterSettings {
 			),
 		);
 
-		$fields[] = array(
-			'plugin_id' => 'connections',
-			'id'        => 'template',
-			'position'  => 10,
-			'page_hook' => $settings,
-			'tab'       => 'display',
-			'section'   => 'connections_display_single',
-			'title'     => __( 'Template', 'connections' ),
-			'desc'      => __(
-				'Display a single entry using the active template based on entry type. For example, if the entry is an organization it will be displayed using the template that is activated for the "Organization" template type found on the Connections : Templates admin page.',
-				'connections'
-			),
-			'help'      => '',
-			'type'      => 'checkbox',
-			'default'   => 0
-		);
+		//$fields[] = array(
+		//	'plugin_id' => 'connections',
+		//	'id'        => 'template',
+		//	'position'  => 10,
+		//	'page_hook' => $settings,
+		//	'tab'       => 'display',
+		//	'section'   => 'connections_display_single',
+		//	'title'     => __( 'Template', 'connections' ),
+		//	'desc'      => __(
+		//		'Display a single entry using the active template based on entry type. For example, if the entry is an organization it will be displayed using the template that is activated for the "Organization" template type found on the Connections : Templates admin page.',
+		//		'connections'
+		//	),
+		//	'help'      => '',
+		//	'type'      => 'checkbox',
+		//	'default'   => 0
+		//);
 
 		$fields[] = array(
 			'plugin_id' => 'connections',

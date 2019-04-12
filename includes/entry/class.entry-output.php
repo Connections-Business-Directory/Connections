@@ -141,7 +141,7 @@ class cnOutput extends cnEntry {
 			'width'     => 0,
 			'height'    => 0,
 			'zc'        => 1,
-			'quality'   => 80,
+			'quality'   => 82,
 			'before'    => '',
 			'after'     => '',
 			'sizes'     => array( '100vw' ),

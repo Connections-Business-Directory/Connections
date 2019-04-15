@@ -1,28 +1,28 @@
 // process.traceDeprecation = true; // Enable to see deprecation trace.
 const webpack = require( 'webpack' );
-// const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const path = require( 'path' );
 // const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const inProduction = ('production' === process.env.NODE_ENV);
+const MiniCssExtractPlugin = require( "mini-css-extract-plugin" );
+const inProduction = ( 'production' === process.env.NODE_ENV );
 // const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 // const ImageminPlugin = require( 'imagemin-webpack-plugin' ).default;
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const UglifyJsPlugin = require( "uglifyjs-webpack-plugin" );
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 // const wpPot = require( 'wp-pot' );
 
 const config = {
-	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+	mode:      process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	// Ensure modules like magnific know jQuery is external (loaded via WP).
 	externals: {
-		react: 'React',
+		react:       'React',
 		'react-dom': 'ReactDOM',
-		tinymce: 'tinymce',
-		moment: 'moment',
-		jquery: 'jQuery',
-		$: 'jQuery',
-		lodash: 'lodash',
+		tinymce:     'tinymce',
+		moment:      'moment',
+		jquery:      'jQuery',
+		$:           'jQuery',
+		lodash:      'lodash',
 		'lodash-es': 'lodash',
 		//https://www.cssigniter.com/importing-gutenberg-core-wordpress-libraries-es-modules-blocks/
 		// 'wp.i18n': '@wordpress/i18n',
@@ -36,13 +36,13 @@ const config = {
 		// 'wp.element': '@wordpress/element',
 		// 'wp.utils': '@wordpress/utils',
 	},
-	devtool: 'source-map',
-	module: {
+	devtool:   'source-map',
+	module:    {
 		rules: [
 
 			// Use Babel to compile JS.
 			{
-				test: /\.js$/,
+				test:    /\.js$/,
 				exclude: /node_modules/,
 				loaders: [
 					'babel-loader'
@@ -78,7 +78,7 @@ const config = {
 				// 		}
 				// 	} ]
 				// } )
-				use: [
+				use:  [
 					MiniCssExtractPlugin.loader,
 					{
 						loader:  'css-loader',
@@ -95,7 +95,7 @@ const config = {
 						loader:  'sass-loader',
 						options: {
 							sourceMap:   true,
-							outputStyle: (inProduction ? 'compressed' : 'nested')
+							outputStyle: ( inProduction ? 'compressed' : 'nested' )
 						},
 					}
 				]
@@ -104,11 +104,11 @@ const config = {
 			// Image files.
 			{
 				test: /\.(png|jpe?g|gif|svg)$/,
-				use: [
+				use:  [
 					{
-						loader: 'file-loader',
+						loader:  'file-loader',
 						options: {
-							name: 'images/[name].[ext]',
+							name:       'images/[name].[ext]',
 							publicPath: '../'
 						}
 					}
@@ -118,34 +118,62 @@ const config = {
 	},
 
 	// Plugins. Gotta have em'.
-	plugins: [
+	plugins:      [
 
 		// Removes the "dist" folder before building.
-		new CleanWebpackPlugin( [ 'assets/dist' ] ),
+		new CleanWebpackPlugin( {
+			verbose: true
+		} ),
 
 		// new ExtractTextPlugin( 'css/[name].css' ),
 		new MiniCssExtractPlugin( {
 			filename: `css/[name].css`
-		}),
+		} ),
+
+		// Copy vendor files to ensure 3rd party plugins relying on a script handle to exist continue to be enqueued.
+		new CopyWebpackPlugin( [
+				{
+					context: './node_modules/chosen-js/',
+					from:    '**',
+					to:      path.resolve( __dirname, './assets/vendor/chosen/' ),
+					ignore:  [
+						'chosen.proto*.js'
+					]
+				},
+				{
+					context: './node_modules/picturefill/dist/',
+					from:    '**',
+					to:      path.resolve( __dirname, './assets/vendor/picturefill/' ),
+					ignore:  [
+						'plugins/**/*'
+					]
+				},
+			// {
+			// 	context: './node_modules/leaflet/dist/',
+			// 	from:    'leaflet.*',
+			// 	to:      path.resolve( __dirname, './assets/vendor/leaflet/' ),
+			// },
+			]
+		),
 
 		// Create RTL CSS.
 		new WebpackRTLPlugin()
 	],
 	optimization: {
 		minimizer: [
-			new UglifyJsPlugin({
+			new UglifyJsPlugin( {
 				sourceMap: true
-			})
+			} )
 		]
 	},
-	resolve: {
+	resolve:      {
 		// Alias @Connections-Directory to the blocks folder so components can be imported like:
 		// import { PageSelect } from '@Connections-Directory/components';
 		alias: {
 			'@Connections-Directory': path.resolve( __dirname, './includes/blocks/' )
 		}
 	},
-	stats: {
+	stats:        {
 		children: false
 	},
 };

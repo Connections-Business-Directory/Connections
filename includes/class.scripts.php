@@ -331,12 +331,12 @@ class cnScript {
 		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '3.0.3', TRUE );
 
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
-		wp_register_script( 'jquery-chosen', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
-		wp_register_script( 'jquery-chosen-min', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
+		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
+		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
 
 		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.17.0' , TRUE );
 
-		wp_register_script( 'picturefill', $url . "vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
+		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
 	}
 
 	/**
@@ -408,7 +408,7 @@ class cnScript {
 		}
 
 		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );
-		wp_register_style( 'cn-chosen', $url . "vendor/chosen/chosen$min.css", array(), '1.8.7' );
+		wp_register_style( 'cn-chosen', $url . "assets/vendor/chosen/chosen$min.css", array(), '1.8.7' );
 		wp_register_style( 'cn-font-awesome', $url . "vendor/font-awesome/css/all$min.css", array(), '5.3.1' );
 
 		// Remove the filter that adds the core CSS path to cnLocate.

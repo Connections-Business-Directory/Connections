@@ -141,6 +141,21 @@ const config = {
 					]
 				},
 				{
+					context: './node_modules/@fortawesome/fontawesome-free/css/',
+					from:    'all*.css',
+					to:      path.resolve( __dirname, './assets/vendor/fontawesome/css/' ),
+				},
+				{
+					context: './node_modules/@fortawesome/fontawesome-free/webfonts/',
+					from:    '*',
+					to:      path.resolve( __dirname, './assets/vendor/fontawesome/webfonts/' ),
+				},
+				{
+					context: './node_modules/@fonticonpicker/fonticonpicker/dist/',
+					from:    '**',
+					to:      path.resolve( __dirname, './assets/vendor/fonticonpicker/' ),
+				},
+				{
 					context: './node_modules/picturefill/dist/',
 					from:    '**',
 					to:      path.resolve( __dirname, './assets/vendor/picturefill/' ),
@@ -148,11 +163,11 @@ const config = {
 						'plugins/**/*'
 					]
 				},
-			// {
-			// 	context: './node_modules/leaflet/dist/',
-			// 	from:    'leaflet.*',
-			// 	to:      path.resolve( __dirname, './assets/vendor/leaflet/' ),
-			// },
+				// {
+				// 	context: './node_modules/leaflet/dist/',
+				// 	from:    'leaflet.*',
+				// 	to:      path.resolve( __dirname, './assets/vendor/leaflet/' ),
+				// },
 			]
 		),
 

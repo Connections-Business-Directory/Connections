@@ -409,7 +409,9 @@ class cnScript {
 
 		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );
 		wp_register_style( 'cn-chosen', $url . "assets/vendor/chosen/chosen$min.css", array(), '1.8.7' );
-		wp_register_style( 'cn-font-awesome', $url . "vendor/font-awesome/css/all$min.css", array(), '5.3.1' );
+		wp_register_style( 'cn-font-awesome', $url . "assets/vendor/fontawesome/css/all$min.css", array(), '5.8.1' );
+		wp_register_style( 'cn-fonticonpicker', $url . 'assets/vendor/fonticonpicker/css/base/jquery.fonticonpicker.min.css', array(), '3.3.1' );
+		wp_register_style( 'cn-fonticonpicker-theme-grey', $url . 'assets/vendor/fonticonpicker/css/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css', array( 'cn-fonticonpicker' ), '3.3.1' );
 
 		// Remove the filter that adds the core CSS path to cnLocate.
 		remove_filter( 'cn_locate_file_paths', array( __CLASS__, 'coreCSSPath' ) );
@@ -630,6 +632,7 @@ class cnScript {
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
 			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-font-awesome' );
+			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
 			wp_enqueue_style( 'leaflet-control-geocoder' );
 
 			if ( is_rtl() ) {

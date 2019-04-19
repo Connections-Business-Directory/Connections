@@ -1820,13 +1820,13 @@ class cnOutput extends cnEntry {
 		$networks = $this->getSocialMedia( $atts, $cached );
 		$search   = array( '%label%', '%url%', '%icon%', '%separator%' );
 
-		$iconStyles = array( 'wpzoom' );
+		//$iconStyles = array( 'wpzoom' );
 		$iconSizes = array( 16, 24, 32, 48, 64 );
 
 		/*
 		 * Ensure the supplied icon style and size are valid, if not reset to the default values.
 		 */
-		$iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
+		//$iconStyle = ( in_array( $atts['style'], $iconStyles ) ) ? $atts['style'] : 'wpzoom';
 		$iconSize  = ( in_array( $atts['size'], $iconSizes ) ) ? $atts['size'] : 32;
 
 		if ( empty( $networks ) ) return '';
@@ -1835,14 +1835,21 @@ class cnOutput extends cnEntry {
 
 		foreach ( $networks as $network ) {
 			$replace   = array();
-			$iconClass = array();
+			//$iconClass = array();
 
 			/*
 			 * Create the icon image class. This array will implode to a string.
 			 */
-			$iconClass[] = $network->type;
-			$iconClass[] = $iconStyle;
-			$iconClass[] = 'sz-' . $iconSize;
+			//$iconClass[] = $network->type;
+			//$iconClass[] = $iconStyle;
+			//$iconClass[] = 'sz-' . $iconSize;
+
+			$iconClass = array(
+				"cn-brandicon-{$network->type}",
+				"cn-brandicon-size-{$iconSize}"
+			);
+
+			$classes = array_map( 'sanitize_html_class', $iconClass );
 
 			$row = "\t" . '<span class="social-media-network cn-social-media-network' . ( $network->preferred ? ' cn-preferred cn-social-media-network-preferred' : '' ) . '">';
 
@@ -1850,7 +1857,10 @@ class cnOutput extends cnEntry {
 
 			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->url . '</a>';
 
-			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . '" width="' . $iconSize . '" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;" alt="' . $network->name . ' Icon"/></a>';
+			//$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . '" width="' . $iconSize . '" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;" alt="' . $network->name . ' Icon"/></a>';
+			$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><i class="' . implode( ' ', $classes ) . '"></i></a>';
+
+			$replace[] = $icon;
 
 			$replace[] = '<span class="cn-separator">' . $atts['separator'] . '</span>';
 

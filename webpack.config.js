@@ -215,6 +215,7 @@ module.exports = [
 		entry: {
 			'babel-polyfill': '@babel/polyfill',
 			'blocks':         './includes/blocks/blocks.js',
+			'icon-picker':    './assets/src',
 			'frontend':       './assets/css/cn-user.scss',
 		},
 

@@ -235,6 +235,7 @@ class cnScript {
 			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-icon-picker', $url . 'assets/dist/js/icon-picker.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 
 			$strings = array(
 				'showDetails'              => __( 'Show Details', 'connections' ),

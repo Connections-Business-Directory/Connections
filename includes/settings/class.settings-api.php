@@ -1229,6 +1229,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sortableJS' ) );
 
 					wp_enqueue_script( 'cn-setting-sortable-repeatable-input-list' );
+					//wp_enqueue_script( 'cn-icon-picker' );
 
 					break;
 

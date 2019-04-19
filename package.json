@@ -71,7 +71,7 @@
     "@wordpress/babel-preset-default": "3.0.2",
     "@wordpress/browserslist-config": "2.2.3",
     "@wordpress/eslint-plugin": "1.0.1",
-    "autoprefixer": "^7.2.6",
+    "autoprefixer": "^9.5.1",
     "babel-loader": "8.0.5",
     "babel-preset-env": "^1.7.0",
     "classnames": "^2.2.5",

@@ -235,6 +235,7 @@ class cnScript {
 			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+			wp_register_script( 'cn-icon-picker', $url . 'assets/dist/js/icon-picker.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
 
 			$strings = array(
 				'showDetails'              => __( 'Show Details', 'connections' ),
@@ -331,12 +332,12 @@ class cnScript {
 		wp_register_script( 'jquery-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.js", array( 'jquery' ), '3.0.3', TRUE );
 
 		// Registering  with the handle 'jquery-chosen-min' for legacy support. Remove this at some point. 04/30/2014
-		wp_register_script( 'jquery-chosen', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
-		wp_register_script( 'jquery-chosen-min', $url . "vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
+		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
+		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
 
 		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.17.0' , TRUE );
 
-		wp_register_script( 'picturefill', $url . "vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
+		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
 	}
 
 	/**
@@ -368,6 +369,8 @@ class cnScript {
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
+		$path = Connections_Directory()->pluginPath();
+
 		wp_register_style( 'leaflet', $url . "vendor/leaflet/leaflet$min.css", array(), '1.3.4' );
 		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.6' );
 
@@ -381,12 +384,17 @@ class cnScript {
 		}
 
 		// This will locate the CSS file to be enqueued.
-		$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
+		//$coreCSS = cnLocate::file( cnLocate::fileNames( 'cn-user', NULL, NULL, 'css' ), 'url' );
 		// var_dump($coreCSS);
 
 		// Registering the CSS with 'connections-user' for legacy support. Remove this at some point. 04/01/2014
-		wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
-		wp_register_style( 'cn-public', $coreCSS, array(), CN_CURRENT_VERSION );
+		//wp_register_style( 'connections-user', $coreCSS, array(), CN_CURRENT_VERSION );
+		wp_register_style(
+			'cn-public',
+			"{$url}assets/dist/css/frontend.css",
+			array(),
+			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/frontend.css" )
+		);
 
 		if ( is_rtl() ) {
 
@@ -408,8 +416,11 @@ class cnScript {
 		}
 
 		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );
-		wp_register_style( 'cn-chosen', $url . "vendor/chosen/chosen$min.css", array(), '1.8.7' );
-		wp_register_style( 'cn-font-awesome', $url . "vendor/font-awesome/css/all$min.css", array(), '5.3.1' );
+		wp_register_style( 'cn-chosen', $url . "assets/vendor/chosen/chosen$min.css", array(), '1.8.7' );
+		wp_register_style( 'cn-brandicons', $url . 'assets/vendor/icomoon-brands/style.css', array(), '5.8.1' );
+		wp_register_style( 'cn-font-awesome', $url . "assets/vendor/fontawesome/css/all$min.css", array(), '5.8.1' );
+		wp_register_style( 'cn-fonticonpicker', $url . 'assets/vendor/fonticonpicker/css/base/jquery.fonticonpicker.min.css', array(), '3.3.1' );
+		wp_register_style( 'cn-fonticonpicker-theme-grey', $url . 'assets/vendor/fonticonpicker/css/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css', array( 'cn-fonticonpicker' ), '3.3.1' );
 
 		// Remove the filter that adds the core CSS path to cnLocate.
 		remove_filter( 'cn_locate_file_paths', array( __CLASS__, 'coreCSSPath' ) );
@@ -629,7 +640,9 @@ class cnScript {
 			wp_enqueue_style( 'cn-admin' );
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
 			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
+			wp_enqueue_style( 'cn-brandicons' );
 			wp_enqueue_style( 'cn-font-awesome' );
+			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
 			wp_enqueue_style( 'leaflet-control-geocoder' );
 
 			if ( is_rtl() ) {
@@ -670,6 +683,7 @@ class cnScript {
 	public static function enqueueStyles() {
 
 		wp_enqueue_style( 'cn-public' );
+		wp_enqueue_style( 'cn-brandicons' );
 		wp_enqueue_style( 'leaflet-control-geocoder' );
 
 		if ( is_rtl() ) {

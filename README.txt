@@ -4,8 +4,8 @@ Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.7.12
 Tested up to: 5.1
-Requires PHP: 5.6
-Stable tag: 8.39.1
+Requires PHP: 5.6.20
+Stable tag: 8.40
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -241,6 +241,28 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.40 04/19/2019 =
+* NEW: Add brand font icons and use webpack to process the frontend CSS.
+* NEW: Update the social media icons to use the brandicons.
+* TWEAK: Default image quality should be `82` not `80` to match WP core.
+* TWEAK: Remove the legacy/advanced single entry template option.
+* TWEAK: Suppress the display of the "Custom Fields" metabox by default on new installations matching core WordPress which hide its "Custom Fields" metabox by default unless enabled by the current user.
+* OTHER: Remove the WP REST API shims since they are no longer required as Connections require WP >= 4.7.12 (WP REST API was added in WP 4.7).
+* OTHER: Bump minimum required PHP version to 5.6.20 to match WP 5.2.
+* OTHER: Include the Font Awesome index source maps.
+* OTHER: Start laying the foundation for the font icon picker support for the social network settings.
+* BUG: Ensure the permalink setting for the entry image respects the permalinks setting.
+* DEV: Update `clean-webpack-plugin`.
+* DEV: Manage Chosen and Picturefill 3rd party vendor assets using npm/webpack.
+* DEV: Update Chosen and Picturefill 3rd party vendor asset paths when registering with WP.
+* DEV: Manage Fontawesome and fontIconPicker 3rd party vendor assets using npm/webpack.
+* DEV: Remove npm as project level dependency.
+* DEV: Update the npm autoprefixer dependency.
+* DEV: Update the package.json engine for npm.
+* DEV: Commit the updated package-lock.json file.
+* DEV: Use @wordpress/default as the babel-loader-default.
+* DEV: Match core WordPress autoprefixer config.
+
 = 8.39.1 04/09/2019 =
 * TWEAK: Update links to plugin site from `http` to `https`.
 * TWEAK: Remove link to features requests forum from dashboard quick links.
@@ -445,29 +467,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update MO files.
 * DEV: Remove commented out code.
 
-= 8.28 09/14/2018 =
-* NEW: Bump minimum PHP version to 5.4.
-* NEW: Introduce the Map API with multiple map tile service providers such as Google Maps, Wikimedia Maps and OpenStreetMaps.
-* NEW: Add new shortcode which utilizes the new Map API.
-* NEW: Templates which support displaying maps will default to displaying Wikimedia Maps if Google Maps API has not been setup.
-* NEW: Templates which support display of maps will now display a map marker for each address added to the entry with a popup displaying the address.
-* TWEAK: Tweak Divi's Grab first post image option compatibility.
-* TWEAK: Tweak logic applied for Maps Marker plugin compatibility.
-* TWEAK: Remove the copy entry action until it can be fixed.
-* TWEAK: Default the base map tiles to Wikimedia instead of OpenStreetMap when displaying the geocoding map in admin when adding/editing and entry.
-* TWEAK: Replace spaces with hyphens when escaping the HTML element id attribute.
-* TWEAK Refactor `cnOutput::getMapBlock()` to utilize the new Map API.
-* BUG: The `cnHTML::attribute()` method had a double 'data' in switch statement. Rename duplicate to 'data-array` to reflect intended application.
-* OTHER: Remove stray whitespace.
-* OTHER: Remove EOL from `cnOutput::mapBlock()`.
-* OTHER: Remove usage of deprecated `getJavaScriptFooter()` method.
-* DEV: Add a few helper methods to cnCoordinates to create object from various supplied types.
-* DEV: Add `__String()` to cnCoordinates.
-
 == Upgrade Notice ==
-
-= 8.28 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.28.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
@@ -527,4 +527,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.39.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6 PHP version >= 7.1 recommended.
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 8.40 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

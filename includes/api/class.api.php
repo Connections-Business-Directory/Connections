@@ -56,14 +56,6 @@ class cnAPI {
 	 */
 	private function includes() {
 
-		// WP-API classes and functions.
-		include_once( CN_PATH  . 'vendor/wp-rest-api/inc.wp-rest-functions.php' );
-
-		if ( ! class_exists( 'WP_REST_Controller' ) ) {
-
-			include_once( CN_PATH  . 'vendor/wp-rest-api/class-wp-rest-controller.php' );
-		}
-
 		// Abstract controllers.
 		//include_once( CN_PATH  . 'includes/api/abstracts/abstract.cn-rest-controller.php' );
 

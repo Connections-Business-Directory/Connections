@@ -60,6 +60,9 @@ class cnEntryMetabox {
 
 		// Set the "Visibility" options that can be set by the current user.
 		if ( is_user_logged_in() ) self::$visibility = $instance->options->getVisibilityOptions();
+
+		// Hide the "Custom Fields" metabox by default for users.
+		add_filter( 'cn_admin_default_metabox_page_hooks', array( __CLASS__, 'addLoadActionToHideCustomFields' ), 999 );
 	}
 
 	/**
@@ -284,6 +287,72 @@ class cnEntryMetabox {
 			'priority' => 'core',
 			'callback' => array( __CLASS__, 'meta' ),
 		);
+	}
+
+	/**
+	 * Callback for the `default_hidden_meta_boxes` filter.
+	 *
+	 * Hide the "Custom Fields" metabox by default.
+	 *
+	 * @since 8.40
+	 *
+	 * @param array     $hidden
+	 * @param WP_Screen $screen
+	 *
+	 * @return array
+	 */
+	public static function hideCustomFieldsMetabox( $hidden, $screen ) {
+
+		$default = array( 'metabox-meta' );
+
+		/**
+		 * Filters the default list of hidden meta boxes.
+		 *
+		 * @since 8.40
+		 *
+		 * @param array     $hidden An array of meta boxes hidden by default.
+		 * @param WP_Screen $screen WP_Screen object of the current screen.
+		 */
+		$default = apply_filters( 'cn_default_hidden_meta_boxes', $default, $screen );
+
+		return array_merge( $hidden, $default );
+	}
+
+	/**
+	 * Callback for the `load-{$page_hook}` action.
+	 *
+	 * @since 8.40
+	 *
+	 * Add the filter which will hide the "Custom Fields" metabox.
+	 */
+	public static function addHideCustomFieldsFilter() {
+
+		add_filter( 'default_hidden_meta_boxes', array( __CLASS__, 'hideCustomFieldsMetabox' ), 10, 2 );
+	}
+
+	/**
+	 * Callback for the `cn_admin_default_metabox_page_hooks` filter.
+	 *
+	 * Adds the `load-{$page_hook}` action for each of the Connections admin page
+	 * which will hide the "Custom Fields" metabox.
+	 *
+	 * @since 8.40
+	 *
+	 * @param $hooks
+	 *
+	 * @return mixed
+	 */
+	public static function addLoadActionToHideCustomFields( $hooks ) {
+
+		if ( is_array( $hooks ) ) {
+
+			foreach ( $hooks as $hook ) {
+
+				add_action( "load-{$hook}", array( __CLASS__, 'addHideCustomFieldsFilter' ) );
+			}
+		}
+
+		return $hooks;
 	}
 
 	/**

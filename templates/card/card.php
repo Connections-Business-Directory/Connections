@@ -37,7 +37,7 @@ $notes = $entry->getNotes();
 						'type'   => $atts['image_fallback'] ? 'block' : 'none',
 						'string' => $atts['image_fallback_string'],
 					),
-					'permalink' => TRUE,
+					'permalink' => cnSettingsAPI::get( 'connections', 'connections_link', 'name' ),
 				)
 			);
 

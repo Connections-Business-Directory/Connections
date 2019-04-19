@@ -94,10 +94,10 @@ const config = {
 						}
 					}, {
 						loader:  'postcss-loader',
-						options: {
-							options:   {},
-							sourceMap: true
-						}
+						// options: {
+						// 	options:   {},
+						// 	sourceMap: true
+						// }
 					}, {
 						loader:  'sass-loader',
 						options: {

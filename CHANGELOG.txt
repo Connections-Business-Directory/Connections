@@ -1,5 +1,27 @@
 == Changelog ==
 
+= 8.40 04/19/2019 =
+* NEW: Add brand font icons and use webpack to process the frontend CSS.
+* NEW: Update the social media icons to use the brandicons.
+* TWEAK: Default image quality should be `82` not `80` to match WP core.
+* TWEAK: Remove the legacy/advanced single entry template option.
+* TWEAK: Suppress the display of the "Custom Fields" metabox by default on new installations matching core WordPress which hide its "Custom Fields" metabox by default unless enabled by the current user.
+* OTHER: Remove the WP REST API shims since they are no longer required as Connections require WP >= 4.7.12 (WP REST API was added in WP 4.7).
+* OTHER: Bump minimum required PHP version to 5.6.20 to match WP 5.2.
+* OTHER: Include the Font Awesome index source maps.
+* OTHER: Start laying the foundation for the font icon picker support for the social network settings.
+* BUG: Ensure the permalink setting for the entry image respects the permalinks setting.
+* DEV: Update `clean-webpack-plugin`.
+* DEV: Manage Chosen and Picturefill 3rd party vendor assets using npm/webpack.
+* DEV: Update Chosen and Picturefill 3rd party vendor asset paths when registering with WP.
+* DEV: Manage Fontawesome and fontIconPicker 3rd party vendor assets using npm/webpack.
+* DEV: Remove npm as project level dependency.
+* DEV: Update the npm autoprefixer dependency.
+* DEV: Update the package.json engine for npm.
+* DEV: Commit the updated package-lock.json file.
+* DEV: Use @wordpress/default as the babel-loader-default.
+* DEV: Match core WordPress autoprefixer config.
+
 = 8.39.1 04/09/2019 =
 * TWEAK: Update links to plugin site from `http` to `https`.
 * TWEAK: Remove link to features requests forum from dashboard quick links.

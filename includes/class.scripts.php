@@ -640,8 +640,8 @@ class cnScript {
 			wp_enqueue_style( 'cn-admin' );
 			wp_enqueue_style( 'cn-admin-jquery-ui' );
 			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
-			wp_enqueue_style( 'cn-font-awesome' );
 			wp_enqueue_style( 'cn-brandicons' );
+			wp_enqueue_style( 'cn-font-awesome' );
 			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
 			wp_enqueue_style( 'leaflet-control-geocoder' );
 

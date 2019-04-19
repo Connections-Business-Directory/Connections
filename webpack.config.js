@@ -44,9 +44,16 @@ const config = {
 			{
 				test:    /\.js$/,
 				exclude: /node_modules/,
-				loaders: [
-					'babel-loader'
-				]
+				use:     {
+					loader: 'babel-loader',
+					options: {
+						// plugins: ['lodash'],
+						presets: ['@wordpress/default']
+					}
+				},
+				// loaders: [
+				// 	'babel-loader'
+				// ]
 			},
 
 			// Create RTL styles.

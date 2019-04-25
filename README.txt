@@ -241,6 +241,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.40.1 04/25/2019 =
+* TWEAK: Tweak to expiration of cached extension update checks.
+* DEV: Reverse change to composer.json.
+
 = 8.40 04/19/2019 =
 * NEW: Add brand font icons and use webpack to process the frontend CSS.
 * NEW: Update the social media icons to use the brandicons.
@@ -430,59 +434,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * NEW: Update the `[cm-mapblock]` shortcode to support the map layer control to toggle the display of layer groups. Display the road map/satellite map options when displaying the Google Maps tiles.
 * NEW: Add "Get Directions" button to map pin popup which opens a Google Maps Direction page.
 
-= 8.28.5 10/26/2018 =
-* TWEAK: Minor tweak to the Profile template to allow the bio to flow up on the detail view.
-* BUG: Correct bug with the exclude categories option when registering the Category metabox.
-
-= 8.28.4 10/16/2018 =
-* NEW: Include `\ForceUTF8\Encoding` library.
-* TWEAK: Now that date types can be customized and/or disabled, do not default to `birthday` when performing an upcoming query. Instead, return no results.
-* BUG: Escape email header log items so `<` and `>` will be displayed correctly when viewing them.
-
-= 8.28.3 10/09/2018 =
-* TWEAK: Add case for `update.php` for plugin check timeouts to prevent a plugin update being shown as available after being installed.
-* BUG: HTML data attributes need to be quoted.
-* BUG: Sanitize before saving the repeatable fields.
-* OTHER: Remove extra whitespace.
-
-= 8.28.2 09/28/2018 =
-* TWEAK: Additional tweaks to jQuery Appear to prevent conflicts with older versions of itself.
-* BUG: Fix map zoom default for when a single marker is being displayed to prevent a blank map.
-* OTHER: Update the Picturefill polyfill to version 3.0.2.
-* OTHER: Update jQuery Chosen to 1.8.7.
-* OTHER: Update Font Awesome to version 5.3.1.
-* OTHER: Update jQuery qTip to 3.0.3.
-* OTHER: Remove references/includes to `class.upload.php`. Has not been utilized in over 4 years. No longer required for backward compatibility.
-
-= 8.28.1 09/24/2018 =
-* TWEAK: Remove the advanced compatibility option to remove the registration of the Google Maps API as it is no longer relevent.
-* TWEAK: Remove advance compatibility option to define whether the JavaScript libraries are loaded in the page header or footer.
-* TWEAK: Remove usage of `cnOptions::getJavaScriptFooter()` throughout.
-* TWEAK: Refactor deprecated  `cnOptions::getJavaScriptFooter()` and `cnOptions::getGoogleMapsAPI()` to simply return true.
-* TWEAK: Couple CSS tweaks to further help prevent theme's from applying styles to map tiles.
-* TWEAK: Rename jQuery appear to jQuery cnAppear to prevent clashes with older versions of the jQuery plugin.
-* BUG: Do not bind a popup to the map level marker if no content was captured via the shortcode.
-* BUG: Autofill state (region) and country not functioning correctly under some circumstances.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: Remove commented out code.
-
 == Upgrade Notice ==
-
-= 8.28.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.28.2 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.28.3 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.28.4 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.28.5 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.29 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
@@ -530,4 +482,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.40 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 8.40.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

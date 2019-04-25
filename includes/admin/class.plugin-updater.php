@@ -365,7 +365,7 @@ class cnPlugin_Updater {
 				break;
 
 			case 'update.php':
-				$timeout = 0;
+				$timeout = HOUR_IN_SECONDS;
 				break;
 
 			default:
@@ -374,7 +374,7 @@ class cnPlugin_Updater {
 				     defined( 'DOING_AJAX' ) && DOING_AJAX
 				) {
 
-					$timeout = 0;
+					$timeout = 2 * HOUR_IN_SECONDS;
 
 				} else {
 

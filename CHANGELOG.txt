@@ -1,5 +1,9 @@
 == Changelog ==
 
+= 8.40.1 04/25/2019 =
+* TWEAK: Tweak to expiration of cached extension update checks.
+* DEV: Reverse change to composer.json.
+
 = 8.40 04/19/2019 =
 * NEW: Add brand font icons and use webpack to process the frontend CSS.
 * NEW: Update the social media icons to use the brandicons.

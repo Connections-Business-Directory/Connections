@@ -247,6 +247,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.40.2 04/26/2019 =
+* TWEAK: Update the user agent to match the extension plugin info request.
+
 = 8.40.1 04/25/2019 =
 * TWEAK: Tweak to expiration of cached extension update checks.
 * DEV: Reverse change to composer.json.

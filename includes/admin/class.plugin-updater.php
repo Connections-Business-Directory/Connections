@@ -553,7 +553,7 @@ class cnPlugin_Updater {
 				'action'     => ! empty( $plugin ) ? 'info' : 'update-check',
 				'plugins'    => ! empty( $plugin ) ? wp_json_encode( $plugin ) : wp_json_encode( self::$plugins ),
 			),
-			'user-agent' => 'Connections/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
+			'user-agent' => 'Connections Business Directory/' . CN_CURRENT_VERSION . '; ' . get_bloginfo( 'url' ),
 		);
 
 		$url = sprintf( 'https://connections-pro.com/wp-json/cn-plugin/v1/%s/', ( ! empty( $plugin ) ? 'info' : 'update-check' ) );

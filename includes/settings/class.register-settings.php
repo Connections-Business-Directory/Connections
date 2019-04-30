@@ -1231,6 +1231,27 @@ class cnRegisterSettings {
 
 		$fields[] = array(
 			'plugin_id' => 'connections',
+			'id'        => 'translation',
+			'position'  => 80,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-address',
+			'title'     => __( 'Country Translation', 'connections' ),
+			'desc'      => __(
+				'Display the country names in English or their native translation.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'radio',
+			'options'   => array(
+				'english' => __( 'English', 'connections' ),
+				'native'  => __( 'Native', 'connections' ),
+			),
+			'default'   => 'native',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
 			'id'        => 'repeatable',
 			'position'  => 10,
 			'page_hook' => $settings,

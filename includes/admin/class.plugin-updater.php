@@ -147,7 +147,18 @@ class cnPlugin_Updater {
 	 */
 	private static function hooks() {
 
-		add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check' ), 99 );
+		/*
+		 * Set priority to 9 so the Connections update checks run before the EDD-SL Plugin Updater
+		 * because earlier versions set the last_checked property to current_time('timestamp') instead of time().
+		 * This breaks the update check cache because in most cases the difference between time() and current_time('timestamp')
+		 * will be greater than the timeout period causing updates to be checked on every occurrence of
+		 * set_site_transient( 'update_plugins' ) causing very high number of plugin update checks to hit the licensing
+		 * endpoints.
+		 *
+		 * This issue has been current in recent versions of EDD-SL Plugin Updater but many third parties are still
+		 * using older versions.
+		 */
+		add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check' ), 9 );
 		add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
 		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
 		add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
@@ -404,7 +415,7 @@ class cnPlugin_Updater {
 
 		if ( FALSE !== $cached ) {
 
-			$last_checked = isset( $cached['last_checked'] ) && ! empty( $cached['last_checked'] ) ? $cached['last_checked'] : time() - $timeout;
+			$last_checked = isset( $cached['last_checked'] ) && ! empty( $cached['last_checked'] ) ? $cached['last_checked'] : time();
 
 			if ( $timeout > ( time() - $last_checked ) ) {
 

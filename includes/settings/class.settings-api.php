@@ -378,8 +378,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					'help'              => isset( $field['help'] ) ? $field['help'] : '',
 					'show_option_none'  => isset( $field['show_option_none'] ) ? $field['show_option_none'] : '',
 					'option_none_value' => isset( $field['option_none_value'] ) ? $field['option_none_value'] : '',
-					'options'           => isset( $field['options'] ) ? $field['options'] : array()/*,
-					'default'           => isset( $field['default'] ) && ! empty( $field['default'] ) ? $field['default'] : FALSE,*/
+					'options'           => isset( $field['options'] ) ? $field['options'] : array(),
+					'default'           => isset( $field['default'] ) ? $field['default'] : NULL,
 				);
 
 				// Set the field sanitation callback.
@@ -717,6 +717,8 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 				case 'radio':
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) $out .= sprintf( '<span class="description">%s</span><br />', $field['desc'] );
+
+					if ( is_null( $value ) ) $value = $field['default'];
 
 					foreach ( $field['options'] as $key => $label )
 					{

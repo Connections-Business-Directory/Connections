@@ -360,9 +360,26 @@ class cnGeo {
 	 */
 	public static function getCountries() {
 
+		$translation = cnSettingsAPI::get( 'connections', 'fieldset-address', 'translation' );
+
+		switch ( $translation ) {
+
+			case 'english':
+				$translation = 'name';
+				break;
+
+			case 'native':
+			case 'native_name':
+				$translation = 'native_name';
+				break;
+
+			default:
+				$translation = 'native_name';
+		}
+
 		$countries = cnCountries::getAll(); //var_dump( $countries );
 		//$sortBy    = wp_list_pluck( $countries, 'iso_3166_1_alpha3' );
-		$countries = wp_list_pluck( $countries, 'native_name', 'iso_3166_1_alpha2' );
+		$countries = wp_list_pluck( $countries, $translation, 'iso_3166_1_alpha2' );
 		natsort( $countries );
 		//ksort( $countries, SORT_NATURAL );
 		//array_multisort( $sortBy, $countries );

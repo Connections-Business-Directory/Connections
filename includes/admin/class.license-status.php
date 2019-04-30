@@ -391,7 +391,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 					     defined( 'DOING_AJAX' ) && DOING_AJAX
 					) {
 
-						$timeout = 0;
+						$timeout = 2 * HOUR_IN_SECONDS;
 
 					} else {
 

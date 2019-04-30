@@ -247,6 +247,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.41 04/30/2019 =
+* NEW: Add option to display country names in the address country autocomplete in either English or in their native translation. The later being the default which matches core WordPress when displaying country names for the site language preference.
+* TWEAK: Tweak to expiration of cached extension status checks.
+* OTHER: Update EDD-SL Plugin Updater library from 1.6.14 to 1.6.18.
+* TWEAK: Do not subtract the timeout value from time when setting up the last checked property.
+
 = 8.40.2 04/26/2019 =
 * TWEAK: Update the user agent to match the extension plugin info request.
 
@@ -436,11 +442,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Begin work on modern settings API.
 * DEV: phpDoc correction.
 * DEV: Fix code alignment/flow.
-
-= 8.29 11/02/2018 =
-* NEW: Display the road map/satellite map options when displaying the Google Maps tiles.
-* NEW: Add support for the map layer control to the Connections Maps API.
-* NEW: Update the `[cm-mapblock]` shortcode to support the map layer control to toggle the display of layer groups. Display the road map/satellite map options when displaying the Google Maps tiles.
-* NEW: Add "Get Directions" button to map pin popup which opens a Google Maps Direction page.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

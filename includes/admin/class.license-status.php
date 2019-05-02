@@ -391,7 +391,8 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 					     defined( 'DOING_AJAX' ) && DOING_AJAX
 					) {
 
-						$timeout = 2 * HOUR_IN_SECONDS;
+						//$timeout = 2 * HOUR_IN_SECONDS; // This matches the plugin updater timeout, but lets leave at 0 for now.
+						$timeout = 0;
 
 					} else {
 

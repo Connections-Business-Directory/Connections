@@ -247,6 +247,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.41.1 05/02/2019 =
+* TWEAK: Use the cached last_checked value from the `cn_update_plugins` option instead of the value supplied by WordPress since third party plugin libraries alter it in a way that can cause excessive plugin update checks.
+* TWEAK: Restore timeout value for license status checks.
+* TWEAK: Remove the action to clear the `cn_update_plugins` option when `wp_clean_plugins_cache()` is called to reduce frequency of addon update checks.
+
 = 8.41 04/30/2019 =
 * NEW: Add option to display country names in the address country autocomplete in either English or in their native translation. The later being the default which matches core WordPress when displaying country names for the site language preference.
 * TWEAK: Tweak to expiration of cached extension status checks.

@@ -223,7 +223,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 					$data = array();
 					//wp_clean_plugins_cache();
-					cnPlugin_Updater::clear_cached_response();
+					//cnPlugin_Updater::clear_cached_response();
 
 					foreach ( $response as $plugin ) {
 

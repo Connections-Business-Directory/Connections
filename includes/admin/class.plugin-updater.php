@@ -161,7 +161,7 @@ class cnPlugin_Updater {
 		add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check' ), 9 );
 		add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
 		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
-		add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
+		//add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
 	}
 
 	/**

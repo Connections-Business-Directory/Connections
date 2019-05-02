@@ -361,7 +361,7 @@ class cnPlugin_Updater {
 			 */
 			self::set_cached_response( $update, $no_update, $checked );
 
-			if ( ! isset( $transient->last_checked ) ) $transient->last_checked = time();
+			//if ( ! isset( $transient->last_checked ) ) $transient->last_checked = time();
 		}
 
 		// Update the license statuses.

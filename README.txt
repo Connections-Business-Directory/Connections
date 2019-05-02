@@ -241,6 +241,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.41.2 05/02/2019 =
+* TWEAK: Do not clear the addon update check cache when doing addon status check. This causes unnecessary addon update checks to occur.
+* TWEAK: Since supplied last_checked property is being restored before returning the transient data in update checks, no need to set it with time().
+
 = 8.41.1 05/02/2019 =
 * TWEAK: Use the cached last_checked value from the `cn_update_plugins` option instead of the value supplied by WordPress since third party plugin libraries alter it in a way that can cause excessive plugin update checks.
 * TWEAK: Restore timeout value for license status checks.
@@ -499,4 +503,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.41.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 8.41.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

@@ -161,7 +161,7 @@ class cnPlugin_Updater {
 		add_filter( 'pre_set_site_transient_update_plugins', array( __CLASS__, 'check' ), 9 );
 		add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
 		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
-		add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
+		//add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
 	}
 
 	/**
@@ -240,6 +240,25 @@ class cnPlugin_Updater {
 		if ( ! is_object( $transient ) ) {
 
 			$transient = new stdClass;
+		}
+
+		/**
+		 * The incoming last_checked value can not be trusted because other plugins can modify the time in a way that
+		 * causes more frequent update checks because the last_checked value will always be greater than the timeout value.
+		 *
+		 * For example, older versions of the EDD-SL Plugin Updater sets it using current_time( 'timestamp' ).
+		 * Newer version has corrected this to use time().
+		 *
+		 * This is popular library distributed with many commercial plugins. Unfortunately the older version on the
+		 * library is still in activate circulation making last_checked untrustworthy.
+		 *
+		 * To correct for this, store the incoming last_checked value, use the last_checked value in the
+		 * `cn_update_plugins` option instead for plugin update checks. Then restore the incoming last_checked value
+		 * before returning the transient.
+		 */
+		if ( isset( $transient->last_checked ) ) {
+
+			$last_checked = $transient->last_checked;
 		}
 
 		/*
@@ -348,6 +367,14 @@ class cnPlugin_Updater {
 		// Update the license statuses.
 		cnLicense_Status::check();
 
+		/**
+		 * Restore the incoming last_checked value before returning the transient.
+		 */
+		if ( isset( $last_checked ) ) {
+
+			$transient->last_checked = $last_checked;
+		}
+
 		return $transient;
 	}
 
@@ -426,6 +453,8 @@ class cnPlugin_Updater {
 				$transient->response  = isset( $transient->response )  ? array_merge( $transient->response, $response )   : $response;
 				$transient->no_update = isset( $transient->no_update ) ? array_merge( $transient->no_update, $no_update ) : $no_update;
 				$transient->checked   = isset( $transient->checked )   ? array_merge( $transient->checked, $checked )     : $checked;
+
+				$transient->last_checked = $last_checked;
 			}
 		}
 

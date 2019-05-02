@@ -222,7 +222,8 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 				if ( ! is_wp_error( $response ) ) {
 
 					$data = array();
-					wp_clean_plugins_cache();
+					//wp_clean_plugins_cache();
+					cnPlugin_Updater::clear_cached_response();
 
 					foreach ( $response as $plugin ) {
 
@@ -391,7 +392,8 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 					     defined( 'DOING_AJAX' ) && DOING_AJAX
 					) {
 
-						$timeout = 2 * HOUR_IN_SECONDS;
+						//$timeout = 2 * HOUR_IN_SECONDS; // This matches the plugin updater timeout, but lets leave at 0 for now.
+						$timeout = 0;
 
 					} else {
 

@@ -39,16 +39,6 @@ function connectionsShowSettingsPage() {
 		/** @var connectionsLoad $connections */
 		global $connections;
 
-		?>
-<!--<input type="text" id="e14_element" name="e14_element" />-->
-<!--<span id="e14_buttons">-->
-<!--    <button autocomplete="off" type="button" class="btn btn-primary">Load from FontAwesome</button>-->
-<!--</span>-->
-<!--<input type="text" id="e9_element" name="e9_element" />-->
-<!--<span id="e9_buttons">-->
-<!--	<button autocomplete="off" type="button" class="btn btn-primary">Load from IcoMoon selection.json</button>-->
-<!--</span>-->
-<?php
 		cnSettingsAPI::form( $connections->pageHook->settings );
 	}
 }

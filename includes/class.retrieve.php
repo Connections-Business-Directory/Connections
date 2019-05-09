@@ -966,6 +966,55 @@ class cnRetrieve {
 	/**
 	 * Retrieve a single entry by either `id` or `slug`.
 	 *
+	 * @since 8.42
+	 *
+	 * @param string         $field
+	 * @param integer|string $value
+	 *
+	 * @return bool|object
+	 */
+	public static function getEntryBy( $field, $value ) {
+
+		/** @var $wpdb wpdb */
+		global $wpdb;
+
+		$validFields = array( 'id', 'slug' );
+
+		if ( ! in_array( $field, $validFields ) ) {
+
+			return FALSE;
+		}
+
+		switch ( $field ) {
+
+			case 'id':
+
+				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE id=%d', $value );
+
+				break;
+
+			case 'slug':
+
+				$sql = $wpdb->prepare( 'SELECT * FROM ' . CN_ENTRY_TABLE . ' WHERE slug=%s', $value );
+
+				break;
+		}
+
+		$result = $wpdb->get_row( $sql );
+
+		if ( is_null( $result ) ) {
+
+			return FALSE;
+
+		} else {
+
+			return $result;
+		}
+	}
+
+	/**
+	 * Retrieve a single entry by either `id` or `slug`.
+	 *
 	 * @access public
 	 * @since  unknown
 	 *

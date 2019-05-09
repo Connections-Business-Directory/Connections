@@ -19,14 +19,12 @@ Quite simply, Connections Business Directory is one of the [best business direct
 
 = Features =
 
-* **Seamless integration** with WordPress.
-* **WordPress 5.2 Ready!**
-  * Supports the WordPress Gutenberg editor with the following blocks.
-      * Directory Block :: Use this block to embed your directory in a page.
-      * Team Block :: It's easy to use Connections to build your team page! Team Block is a full featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
-      * Upcoming List Block :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
 * Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
+* Supports the WordPress Block (Gutenberg) Editor with the following blocks.
+    * [Directory Block](https://connections-pro.com/documentation/block/directory/) :: Use this block to embed your directory in a page.
+    * [Team Block](https://connections-pro.com/documentation/block/team/) :: It's easy to use Connections to build your team page! Team Block is a full featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
+    * [Upcoming List Block](https://connections-pro.com/documentation/block/upcoming-list/) :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.

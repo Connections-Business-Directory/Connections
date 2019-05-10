@@ -111,6 +111,8 @@ class cnScript {
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
+		$path = Connections_Directory()->pluginPath();
+
 		$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
 		$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
 
@@ -235,7 +237,14 @@ class cnScript {
 			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
-			wp_register_script( 'cn-icon-picker', $url . 'assets/dist/js/icon-picker.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+
+			wp_register_script(
+				'cn-icon-picker',
+				"{$url}assets/dist/js/icon-picker.js",
+				array( 'jquery-ui-dialog' ),
+				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/icon-picker.js" ),
+				TRUE
+			);
 
 			$strings = array(
 				'showDetails'              => __( 'Show Details', 'connections' ),

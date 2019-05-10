@@ -13,6 +13,17 @@
 	text-align: center;
 }
 
+/*
+ * Make sure the correct icon font library is used.
+ */
+i[class^='cn-brandicon'] {
+	font-family: 'Connections-Brandicons' !important;
+}
+
+i.fa {
+	font-family: 'Font Awesome 5 Free' !important;
+}
+
 /*------------------------------------------------------------------------------
   Manage page.
 ------------------------------------------------------------------------------*/

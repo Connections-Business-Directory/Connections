@@ -111,6 +111,8 @@ class cnScript {
 		$min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
+		$path = Connections_Directory()->pluginPath();
+
 		$googleMapsAPIURL        = 'https://maps.googleapis.com/maps/api/js?libraries=geometry';
 		$googleMapsAPIBrowserKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'browser_key' );
 
@@ -235,7 +237,14 @@ class cnScript {
 			wp_register_script( 'cn-csv-export', $url . "assets/js/cn-csv-export$min.js", array( 'jquery', 'wp-util' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-csv-import', $url . "assets/js/cn-csv-import$min.js", array( 'jquery', 'wp-util', 'shortcode' ), CN_CURRENT_VERSION, TRUE );
 			wp_register_script( 'cn-widget', $url . "assets/js/widgets$min.js", array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
-			wp_register_script( 'cn-icon-picker', $url . 'assets/dist/js/icon-picker.js', array( 'jquery' ), CN_CURRENT_VERSION, TRUE );
+
+			wp_register_script(
+				'cn-icon-picker',
+				"{$url}assets/dist/js/icon-picker.js",
+				array( 'jquery-ui-dialog' ),
+				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/icon-picker.js" ),
+				TRUE
+			);
 
 			$strings = array(
 				'showDetails'              => __( 'Show Details', 'connections' ),
@@ -638,11 +647,11 @@ class cnScript {
 		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
 
 			wp_enqueue_style( 'cn-admin' );
-			wp_enqueue_style( 'cn-admin-jquery-ui' );
-			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
-			wp_enqueue_style( 'cn-brandicons' );
-			wp_enqueue_style( 'cn-font-awesome' );
+			//wp_enqueue_style( 'cn-admin-jquery-ui' );
+			//wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
+			wp_enqueue_style( 'cn-font-awesome' ); // Must enqueue after fonticonpicker!
+			//wp_enqueue_style( 'cn-brandicons' );
 			wp_enqueue_style( 'leaflet-control-geocoder' );
 
 			if ( is_rtl() ) {
@@ -662,9 +671,25 @@ class cnScript {
 
 		if ( in_array( $pageHook, $editPages ) ) {
 
+			wp_enqueue_style( 'cn-admin-jquery-ui' );
+			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-chosen' );
 
 			do_action( 'cn_admin_enqueue_edit_styles', $pageHook );
+		}
+
+		$settingsPageHooks = array();
+
+		if ( property_exists( $instance->pageHook, 'settings' ) ) $settingsPageHooks[] = $instance->pageHook->settings;
+
+		if ( in_array( $pageHook, $settingsPageHooks ) ) {
+
+			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
+			wp_enqueue_style( 'cn-font-awesome' ); // Must enqueue after fonticonpicker!
+			wp_enqueue_style( 'cn-brandicons' );
+			wp_enqueue_style( 'wp-jquery-ui-dialog' );
+
+			do_action( 'cn_admin_enqueue_settings_styles', $pageHook );
 		}
 	}
 

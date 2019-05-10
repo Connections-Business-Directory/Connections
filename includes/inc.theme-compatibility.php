@@ -75,6 +75,23 @@ function cn_enqueue_enfold_css_override() {
 //add_action( 'wp', 'cn_enqueue_enfold_css_override', 11 ); // Priority 11 to run after core CSS.
 
 /**
+ * Dequeue the Striking theme CSS on the Connections admin pages.
+ *
+ * @since 8.42
+ */
+function cn_dequeue_striking_css() {
+
+	$theme = wp_get_theme();
+
+	if ( 'striking-r' === $theme->get( 'TextDomain' ) ) {
+
+		wp_dequeue_style( 'theme-admin-style' );
+	}
+}
+
+add_action( 'cn_admin_enqueue_styles', 'cn_dequeue_striking_css' );
+
+/**
  * @since 8.6.7
  */
 function cn_presscore_fancy_header_controller() {

@@ -320,7 +320,7 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
-			'id'        => 'social',
+			'id'        => 'fieldset-social-networks',
 			'position'  => 90,
 			'title'     => __( 'Social Networks Fieldset' , 'connections' ),
 			'callback'  => function() {
@@ -1852,6 +1852,38 @@ class cnRegisterSettings {
 			'type'      => 'checkbox',
 			'default'   => 1,
 		);
+
+		//$socialMediaTypes = Connections_Directory()->options->getDefaultSocialMediaValues();
+		//
+		//$fields[] = array(
+		//	'plugin_id' => 'connections',
+		//	'id'        => 'social-network-types',
+		//	'position'  => 30,
+		//	'page_hook' => $settings,
+		//	'tab'       => 'field-configuration',
+		//	'section'   => 'fieldset-social-networks',
+		//	'title'     => __( 'Social Network Type Options', 'connections' ),
+		//	'desc'      => __(
+		//		'Choose which social network types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a social network. Deactivating a social network will not effect previously saved entries. Add custom social network types by clicking the "Add" button. Custom social network types can be removed but only if no social networks of that type are assigned to an entry. The "core" social network types can not be removed. A "Remove" button will display for social network types which can be safely removed.',
+		//		'connections'
+		//	),
+		//	'help'      => '',
+		//	'type'      => 'sortable_iconpicker-repeatable',
+		//	'options'   => array(
+		//		'items'    => $socialMediaTypes,
+		//		// Any types registered via the `cn_social_network_options` need to be set as required.
+		//		'required' => array_keys( apply_filters( 'cn_social_network_options', array() ) ),
+		//	),
+		//	'default'   => array(
+		//		'order'  => array_keys( $socialMediaTypes ),
+		//		// Any types registered via the `cn_social_network_options` filter should be set as active (enabled).
+		//		// The `cn_social_network_options` filter is applied in case a user has removed types using the filter.
+		//		// This ensure they default to inactive (disabled).
+		//		'active' => array_keys( apply_filters( 'cn_social_network_options', $socialMediaTypes ) ),
+		//	),
+		//	// Only need to add this once, otherwise it would be run for each field.
+		//	//'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeDateFieldsetSettings' )
+		//);
 
 		// Filter to remove the "Remove" button if a custom fieldset type is in use.
 		add_filter( 'cn_settings_field-sortable_input-repeatable-item', array( __CLASS__, 'fieldsetTypeRemovable' ), 10, 2 );

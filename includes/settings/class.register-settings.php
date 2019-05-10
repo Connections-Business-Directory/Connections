@@ -320,7 +320,7 @@ class cnRegisterSettings {
 		$sections[] = array(
 			'plugin_id' => 'connections',
 			'tab'       => 'field-configuration',
-			'id'        => 'social',
+			'id'        => 'fieldset-social-networks',
 			'position'  => 90,
 			'title'     => __( 'Social Networks Fieldset' , 'connections' ),
 			'callback'  => function() {

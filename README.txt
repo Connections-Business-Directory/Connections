@@ -239,6 +239,22 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.42 05/10/2019 =
+* NEW: Introduce `cnRetrieve::getEntryBy()`.
+* COMPATIBILITY: Rename the icomoon font-family to Connections-Brandicons to prevent naming conflicts with theme's and other plugins which have not renamed their icomoon icon font libraries.
+* COMPATIBILITY: Dequeue the Striking theme CSS on the Connections admin pages.
+* TWEAK: Readme.txt tweaks.
+* TWEAK: Check if object property is an array before counting to prevent PHP warnings.
+* TWEAK: Tweak admin CSS enqueuing to enqueue on the required CSS on specific Connections admin pages.
+* TWEAK: Admin CSS tweaks to ensure Brandicons and FontAwesome do not conflict on the Connections admin pages.
+* OTHER: Remove commented out HTML code from the settings admin page.
+* OTHER: Bump Tested up to version 5.2.
+* OTHER: Continue laying the foundation for the font icon picker support for the social network settings.
+* OTHER: Update minified admin CSS files.
+* BUG: Correct social networks fieldset settings ID.
+* DEV: phpDoc correction.
+* DEV: Update dist build files.
+
 = 8.41.2 05/02/2019 =
 * TWEAK: Do not clear the addon update check cache when doing addon status check. This causes unnecessary addon update checks to occur.
 * TWEAK: Since supplied last_checked property is being restored before returning the transient data in update checks, no need to set it with time().
@@ -504,4 +520,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.41.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 8.42 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

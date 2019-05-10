@@ -630,8 +630,6 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		 * @access private
 		 *
 		 * @param array $field
-		 *
-		 * @return string
 		 */
 		public static function field( $field ) {
 

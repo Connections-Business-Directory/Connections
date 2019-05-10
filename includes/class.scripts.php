@@ -647,11 +647,11 @@ class cnScript {
 		if ( in_array( $pageHook, get_object_vars( $instance->pageHook ) ) ) {
 
 			wp_enqueue_style( 'cn-admin' );
-			wp_enqueue_style( 'cn-admin-jquery-ui' );
-			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
-			wp_enqueue_style( 'cn-brandicons' );
-			wp_enqueue_style( 'cn-font-awesome' );
+			//wp_enqueue_style( 'cn-admin-jquery-ui' );
+			//wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
+			wp_enqueue_style( 'cn-font-awesome' ); // Must enqueue after fonticonpicker!
+			//wp_enqueue_style( 'cn-brandicons' );
 			wp_enqueue_style( 'leaflet-control-geocoder' );
 
 			if ( is_rtl() ) {
@@ -671,9 +671,25 @@ class cnScript {
 
 		if ( in_array( $pageHook, $editPages ) ) {
 
+			wp_enqueue_style( 'cn-admin-jquery-ui' );
+			wp_enqueue_style( 'cn-admin-jquery-datepicker' );
 			wp_enqueue_style( 'cn-chosen' );
 
 			do_action( 'cn_admin_enqueue_edit_styles', $pageHook );
+		}
+
+		$settingsPageHooks = array();
+
+		if ( property_exists( $instance->pageHook, 'settings' ) ) $settingsPageHooks[] = $instance->pageHook->settings;
+
+		if ( in_array( $pageHook, $settingsPageHooks ) ) {
+
+			wp_enqueue_style( 'cn-fonticonpicker-theme-grey' );
+			wp_enqueue_style( 'cn-font-awesome' ); // Must enqueue after fonticonpicker!
+			wp_enqueue_style( 'cn-brandicons' );
+			wp_enqueue_style( 'wp-jquery-ui-dialog' );
+
+			do_action( 'cn_admin_enqueue_settings_styles', $pageHook );
 		}
 	}
 

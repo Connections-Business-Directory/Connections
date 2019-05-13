@@ -239,6 +239,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.42.1 05/13/2019 =
+* NEW: Introduce the `cn_export_add_bom` filter.
+* BUG: Correct regression from last update which could cause icon font conflicts.
+* BUG: Correct the brandicon version when enqueuing the CSS.
+
 = 8.42 05/10/2019 =
 * NEW: Introduce `cnRetrieve::getEntryBy()`.
 * COMPATIBILITY: Rename the icomoon font-family to Connections-Brandicons to prevent naming conflicts with theme's and other plugins which have not renamed their icomoon icon font libraries.
@@ -523,4 +528,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.42 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 8.42.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

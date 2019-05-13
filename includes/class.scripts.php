@@ -426,7 +426,7 @@ class cnScript {
 
 		wp_register_style( 'cn-qtip', $url . "vendor/jquery-qtip/jquery.qtip$min.css", array(), '3.0.3' );
 		wp_register_style( 'cn-chosen', $url . "assets/vendor/chosen/chosen$min.css", array(), '1.8.7' );
-		wp_register_style( 'cn-brandicons', $url . 'assets/vendor/icomoon-brands/style.css', array(), '5.8.1' );
+		wp_register_style( 'cn-brandicons', $url . 'assets/vendor/icomoon-brands/style.css', array(), CN_CURRENT_VERSION );
 		wp_register_style( 'cn-font-awesome', $url . "assets/vendor/fontawesome/css/all$min.css", array(), '5.8.1' );
 		wp_register_style( 'cn-fonticonpicker', $url . 'assets/vendor/fonticonpicker/css/base/jquery.fonticonpicker.min.css', array(), '3.3.1' );
 		wp_register_style( 'cn-fonticonpicker-theme-grey', $url . 'assets/vendor/fonticonpicker/css/themes/dark-grey-theme/jquery.fonticonpicker.darkgrey.min.css', array( 'cn-fonticonpicker' ), '3.3.1' );

@@ -245,10 +245,15 @@ class cnCSV_Export {
 		header( 'Content-Disposition: attachment; filename=cn-export-' . $this->type . '-' . date( 'm-d-Y' ) . '.csv' );
 		header( "Expires: 0" );
 
-		/**
-		 * Prepend BOM to the export so that Microsoft Excel knows that the file is UTF8 encoded.
-		 */
-		echo "\xEF\xBB\xBF";
+		$addBOM = apply_filters( 'cn_export_add_bom', TRUE );
+
+		if ( $addBOM ) {
+
+			/**
+			 * Prepend BOM to the export so that Microsoft Excel knows that the file is UTF8 encoded.
+			 */
+			echo "\xEF\xBB\xBF";
+		}
 
 		/**
 		 * Allow plugins to add additional HTTP headers.

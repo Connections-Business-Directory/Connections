@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '8.42';
+	const VERSION = '8.42.1';
 
 	/**
 	 * Stores the instance of this class.

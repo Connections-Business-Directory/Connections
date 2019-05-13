@@ -334,7 +334,16 @@ class cnGeo {
 			$code = cnOptions::getBaseCountry();
 		}
 
-		$regions = cnCountries::getByCode( $code )->getDivisions();
+		$country = cnCountries::getByCode( $code );
+
+		if ( is_wp_error( $country ) ) {
+
+			$regions = NULL;
+
+		} else {
+
+			$regions = $country->getDivisions();
+		}
 
 		if ( ! is_null( $regions ) && is_array( $regions ) ) {
 

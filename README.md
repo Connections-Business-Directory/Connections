@@ -247,6 +247,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.43 05/17/2019 =
+* TWEAK: Do not save previous entry query results in an array. Doing this made doing REST changes have odd results.
+* BUG: Check for `WP_Error` before calling `cnCountry::getDivisions()` to prevent a potential fatal PHP error.
+* BUG: Ensure the permalink option for an entry image is converted to a bool.
+* BUG: When loading Gmagick, properly set the default image quality.
+* BUG: Additional checks to prevent PHP notices when using the default geocoder.
+* OTHER: Readme tags tweaks to stay within proposed plugin guidelines.
+* DEV: Remove unused code.
+
 = 8.42.1 05/13/2019 =
 * NEW: Introduce the `cn_export_add_bom` filter.
 * BUG: Correct regression from last update which could cause icon font conflicts.

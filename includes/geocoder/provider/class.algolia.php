@@ -203,7 +203,7 @@ final class Algolia implements Provider {
 			);
 		}
 
-		if ( is_array( $response->hits ) && 0 === count( $response->hits ) ) {
+		if ( ! is_array( $response->hits ) || ( is_array( $response->hits ) && 0 === count( $response->hits ) ) ) {
 
 			return new WP_Error(
 				'geocode_provider_no_results', __( 'Returned zero results.', 'connections' )
@@ -230,7 +230,7 @@ final class Algolia implements Provider {
 			$builder->setLocality( property_exists( $item, 'city' ) ? $item->city[0] : NULL );
 			$builder->setCounty( property_exists( $item, 'county' ) ? $item->county[0] : NULL );
 			$builder->setRegion( property_exists( $item, 'administrative' ) ? $item->administrative[0] : NULL );
-			$builder->setPostalCode( property_exists( $item, 'postcode' ) ? $item->postcode[0] : NULL );
+			$builder->setPostalCode( property_exists( $item, 'postcode' ) && isset( $item->postcode[0] ) ? $item->postcode[0] : NULL );
 			$builder->setCountry( property_exists( $item, 'country' ) ? $item->country : NULL );
 			$builder->setCountryCode( property_exists( $item, 'country_code' ) ? $item->country_code : NULL );
 

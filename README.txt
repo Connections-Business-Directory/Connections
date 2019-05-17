@@ -1,11 +1,11 @@
 === Connections Business Directory ===
 Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
-Tags: address book, business directory, chamber of commerce business directory, church directory, company business directory, contact directory, custom business directory, directory, directory plugin, listings directory, local business directory, link directory, member directory, staff directory
+Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, directory, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.7.12
 Tested up to: 5.2
 Requires PHP: 5.6.20
-Stable tag: 8.42.1
+Stable tag: 8.43
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.43 05/17/2019 =
+* TWEAK: Do not save previous entry query results in an array. Doing this made doing REST changes have odd results.
+* BUG: Check for `WP_Error` before calling `cnCountry::getDivisions()` to prevent a potential fatal PHP error.
+* BUG: Ensure the permalink option for an entry image is converted to a bool.
+* BUG: When loading Gmagick, properly set the default image quality.
+* BUG: Additional checks to prevent PHP notices when using the default geocoder.
+* OTHER: Readme tags tweaks to stay within proposed plugin guidelines.
+* DEV: Remove unused code.
 
 = 8.42.1 05/13/2019 =
 * NEW: Introduce the `cn_export_add_bom` filter.
@@ -531,4 +540,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.42.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 8.43 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

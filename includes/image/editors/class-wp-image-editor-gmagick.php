@@ -106,7 +106,7 @@ class WP_Image_Editor_Gmagick extends WP_Image_Editor {
 		if ( is_wp_error( $updated_size ) )
 				return $updated_size;
 
-		return $this->set_quality( $this->quality );
+		return $this->set_quality( $this->default_quality );
 	}
 
 	/**

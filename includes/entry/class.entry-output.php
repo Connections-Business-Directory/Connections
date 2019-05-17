@@ -156,6 +156,12 @@ class cnOutput extends cnEntry {
 		$atts = cnSanitize::args( $atts, $defaults );
 
 		if ( isset( $atts['fallback'] ) && is_array( $atts['fallback'] ) ) $atts['fallback'] = cnSanitize::args( $atts['fallback'], $defaults['fallback'] );
+
+		/*
+		 * Convert some of the $atts values in the array to boolean.
+		 */
+		cnFormatting::toBoolean( $atts['permalink'] );
+
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
 		 */

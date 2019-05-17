@@ -1432,7 +1432,7 @@ class cnRetrieve {
 			//$legacy = $wpdb->get_results( $sql );
 			// var_dump($legacy);
 
-			if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );
+			//if ( ! empty( $legacy ) ) $upcoming = array_merge( $upcoming, $legacy );
 		}
 
 		if ( ! empty( $upcoming ) ) {

@@ -898,11 +898,11 @@ class cnRetrieve {
 			// print_r($sql);
 		}
 
-		if ( ! $results = $this->results( $sql ) ) {
+		//if ( ! $results = $this->results( $sql ) ) {
 
 			$results = $wpdb->get_results( $sql );
 
-			$this->cache( $sql, $results );
+			//$this->cache( $sql, $results );
 
 			// The most recent query to have been executed by cnRetrieve::entries
 			$instance->lastQuery      = $wpdb->last_query;
@@ -921,7 +921,7 @@ class cnRetrieve {
 			$instance->resultCountNoLimit    = $foundRows[0]->{'FOUND_ROWS()'};
 			$this->resultCountNoLimit        = $foundRows[0]->{'FOUND_ROWS()'};
 
-		}
+		//}
 
 		// The total number of entries based on user permissions.
 		// $instance->recordCount         = self::recordCount( array( 'public_override' => $atts['allow_public_override'], 'private_override' => $atts['private_override'] ) );

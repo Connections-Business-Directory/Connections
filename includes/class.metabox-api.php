@@ -1074,6 +1074,7 @@ class cnMetabox_Render {
 							'id'      => $field['id'],
 							'name'    => $field['id'],
 							'readonly' => isset( $field['readonly'] ) && TRUE === $field['readonly'] ? TRUE : FALSE,
+							'required' => isset( $field['required'] ) && TRUE === $field['required'] ? TRUE : FALSE,
 							'display' => 'inline',
 							'options' => $field['options'],
 							'before'  => '<div' . $class . $id . $style . '>',

@@ -735,6 +735,7 @@ class cnHTML {
 			'default'  => '',
 			'options'  => array(),
 			'readonly' => FALSE,
+			'required' => FALSE,
 			'data'     => array(),
 			'enhanced' => FALSE,
 			'label'    => '',
@@ -765,6 +766,14 @@ class cnHTML {
 		if ( $atts['enhanced'] ) {
 
 			$atts['class'] = array_merge( (array) $atts['class'], array( 'enhanced-select' ) );
+		}
+
+		// Add "required" to any classes that may have been supplied.
+		// If the field is required, cast $atts['class'] as an array in case a string was supplied
+		// and then tack the "required" value to the end of the array.
+		if ( $atts['required'] ) {
+
+			$atts['class'] = array_merge( (array) $atts['class'], array( 'required' ) );
 		}
 
 		// Prefix the `class` and `id` attribute.

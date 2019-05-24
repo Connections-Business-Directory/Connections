@@ -5,10 +5,6 @@ const { jQuery: $ } = window;
 
 require( '@fonticonpicker/fonticonpicker' )( jQuery );
 
-/**
- * Example 9
- * Load icons from icomoon JSON selections file
- */
 
 	// Init the font icon picker
 const e9_element = $( '#e9_element' ).fontIconPicker( {

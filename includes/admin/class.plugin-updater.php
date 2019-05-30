@@ -162,6 +162,7 @@ class cnPlugin_Updater {
 		add_filter( 'plugins_api', array( __CLASS__, 'plugins_api_filter' ), 10, 3 );
 		add_filter( 'http_request_args', array( __CLASS__, 'http_request_args' ), 5, 2 );
 		//add_action( 'delete_site_transient_update_plugins', array( __CLASS__, 'clear_cached_response' ) );
+		add_action( 'admin_init', array( __CLASS__, 'update_plugins_clear' ) );
 	}
 
 	/**
@@ -392,6 +393,21 @@ class cnPlugin_Updater {
 
 		global $pagenow;
 
+		$timeout    = 0;
+		$clearCache = get_option( 'cn_update_plugins_clear_cache', FALSE );
+
+		/**
+		 * If the check update plugins flag has been set, triggered by updating a addon, return `0` as the timeout
+		 * value which will cause the cached check update plugins response to be cleared.
+		 *
+		 * Flag set in @see cnLicense::setClearCacheOption()
+		 * Flag cleared in @see cnPlugin_Updater::update_plugins_clear()
+		 */
+		if ( $clearCache ) {
+
+			return $timeout;
+		}
+
 		switch ( $pagenow ) {
 
 			case 'update-core.php':
@@ -402,15 +418,20 @@ class cnPlugin_Updater {
 				$timeout = HOUR_IN_SECONDS;
 				break;
 
+			// Run when executing a plugin update from the WordPress Updates (update-core.php) admin page.
 			case 'update.php':
 				$timeout = HOUR_IN_SECONDS;
+				//$timeout = 0;
 				break;
+
+			// Run when executing a plugin update from the WordPress Plugins (plugins.php) admin page.
+			//case 'admin-ajax.php':
+			//	$timeout = 0;
+			//	break;
 
 			default:
 
-				if ( defined( 'DOING_CRON' ) && DOING_CRON ||
-				     defined( 'DOING_AJAX' ) && DOING_AJAX
-				) {
+				if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 
 					$timeout = 2 * HOUR_IN_SECONDS;
 
@@ -496,6 +517,29 @@ class cnPlugin_Updater {
 	public static function clear_cached_response() {
 
 		delete_option( 'cn_update_plugins' );
+	}
+
+	/**
+	 * Callback for the `admin_init` action.
+	 *
+	 * Set an option to flag that the plugin update cached response should be cleared.
+	 *
+	 * Flag set in @see cnLicense::setClearCacheOption()
+	 *
+	 * @since 8.44
+	 */
+	public static function update_plugins_clear() {
+
+		$clearCache = get_option( 'cn_update_plugins_clear_cache', FALSE );
+
+		if ( $clearCache ) {
+
+			update_option(
+				'cn_update_plugins_clear_cache',
+				FALSE,
+				FALSE
+			);
+		}
 	}
 
 	/**

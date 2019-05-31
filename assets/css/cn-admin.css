@@ -577,14 +577,16 @@ body[class*="connections"] .cn-button-large {
 ------------------------------------------------------------------------------*/
 
 /* Highlight error fields. */
-#cn-form input[type="text"].error {
+#cn-form input[type="text"].error,
+#cn-form input[type="checkbox"].error {
 	background-color: #FDE9EA;
 	border: 1px solid #FDCED0;
 	-webkit-box-shadow: 0 0 8px #CE0000;
 	box-shadow: 0 0 8px #CE0000;
 }
 
-#cn-form input[type="text"].error:focus {
+#cn-form input[type="text"].error:focus,
+#cn-form input[type="checkbox"].error:focus {
 	border: 1px solid #CE0000;
 	outline: none;
 }

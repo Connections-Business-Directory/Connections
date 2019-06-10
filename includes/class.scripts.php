@@ -734,6 +734,8 @@ class cnScript {
 
 			wp_enqueue_style( 'cn-public-custom' );
 		}
+
+		do_action( 'cn_frontend_enqueue_styles' );
 	}
 
 	/**

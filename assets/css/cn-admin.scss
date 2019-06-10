@@ -16,9 +16,9 @@
 /*
  * Make sure the correct icon font library is used.
  */
-i[class^='cn-brandicon'] {
-	font-family: 'Connections-Brandicons' !important;
-}
+//i[class^='cn-brandicon'] {
+//	font-family: 'Connections-Brandicons' !important;
+//}
 
 i.fa {
 	font-family: 'Font Awesome 5 Free' !important;
@@ -1067,6 +1067,22 @@ form .add {
 	vertical-align: middle;
 }
 
+// @link https://stackoverflow.com/a/45890842/5351316
+a.cn-social-network-icon-setting-button {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	vertical-align: baseline;
+
+	i.cn-brandicon-token {
+		vertical-align: bottom;
+	}
+}
+
 .wrap-licenses .form-table,
 .wrap-licenses .form-table caption,
 .wrap-licenses .form-table tbody,
@@ -1541,3 +1557,9 @@ table.cn_metabox .cn_media_status .img_status .cn_remove_file_button, table.cn_m
 .admin-color-sunrise .export-progress div {
 	background: #DD823B;
 }
+
+// Import custom styles for fonticonpicker.
+@import "fonticonpicker-custom";
+
+// Import the social network styles.
+@import "brandicons";

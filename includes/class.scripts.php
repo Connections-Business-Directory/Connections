@@ -82,6 +82,9 @@ class cnScript {
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminScripts' ) );
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminStyles' ) );
 
+		add_action( 'cn_admin_enqueue_settings_styles', array( __CLASS__, 'inlineBrandiconStyles' ) );
+		add_action( 'cn_frontend_enqueue_styles', array( __CLASS__, 'inlineBrandiconStyles' ) );
+
 		add_action( 'wp_print_scripts', array( __CLASS__, 'jQueryFixr' ), 999 );
 		add_action( 'wp_default_scripts', array( __CLASS__, 'storeCorejQuery'), 999 );
 	}
@@ -383,13 +386,24 @@ class cnScript {
 		wp_register_style( 'leaflet', $url . "vendor/leaflet/leaflet$min.css", array(), '1.3.4' );
 		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.6' );
 
-		wp_register_style( 'cn-admin', $url . "assets/css/cn-admin$min.css", array(), CN_CURRENT_VERSION );
+		wp_register_style(
+			'cn-admin',
+			"{$url}assets/dist/css/admin.css",
+			array(),
+			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/admin.css" )
+		);
+
 		wp_register_style( 'cn-admin-jquery-ui', $url . 'assets/css/jquery-ui-' . ( 'classic' == get_user_option( 'admin_color' ) ? 'classic' : 'fresh' ) . "$min.css", array(), CN_CURRENT_VERSION );
 		wp_register_style( 'cn-admin-jquery-datepicker', $url . "assets/css/datepicker$min.css", array( 'cn-admin-jquery-ui' ), CN_CURRENT_VERSION );
 
 		if ( is_rtl() ) {
 
-			wp_register_style( 'cn-admin-rtl', $url . "assets/css/cn-admin-rtl$min.css", array('cn-admin'), CN_CURRENT_VERSION );
+			wp_register_style(
+				'cn-admin-rtl',
+				"{$url}assets/dist/css/admin.rtl.css",
+				array( 'cn-admin' ),
+				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/admin.rtl.css" )
+			);
 		}
 
 		// This will locate the CSS file to be enqueued.
@@ -722,6 +736,46 @@ class cnScript {
 		if ( wp_style_is( 'cn-public-custom', 'registered' ) ) {
 
 			wp_enqueue_style( 'cn-public-custom' );
+		}
+
+		do_action( 'cn_frontend_enqueue_styles' );
+	}
+
+	/**
+	 * Callback for the `cn_admin_enqueue_settings_styles` and `cn_frontend_enqueue_styles` action hooks.
+	 *
+	 * Output the CSS for the user defined colors for the social network icons.
+	 *
+	 * @since 8.44
+	 *
+	 * @link https://www.cssigniter.com/late-enqueue-inline-css-wordpress/
+	 */
+	public static function inlineBrandiconStyles() {
+
+		$networks = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'social-network-types' );
+		$css      = '';
+
+		foreach ( $networks['icon'] as $slug => $icon ) {
+
+			if ( 0 < strlen( $icon['color'] ) ) {
+
+				$css .= "i.cn-brandicon-{$icon['slug']} { background-color: {$icon['color']}; }" . PHP_EOL;
+			}
+
+			if ( 0 < strlen( $icon['color-hover'] ) ) {
+
+				$css .= "i.cn-brandicon-{$icon['slug']}:hover { background-color: {$icon['color-hover']}; }" . PHP_EOL;
+			}
+		}
+
+		//$css .= "i[class^=cn-brandicon]:before { color: #000; }" . PHP_EOL;
+
+		//wp_register_style( 'cn-brandicons-custom', FALSE );
+		//wp_enqueue_style( 'cn-brandicons-custom' );
+
+		if ( 0 < strlen( $css ) ) {
+
+			wp_add_inline_style( 'cn-brandicons', trim( strip_tags( $css ) ) );
 		}
 	}
 

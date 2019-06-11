@@ -156,6 +156,8 @@ class cnLicense {
 		add_action( "after_plugin_row_$file", array( $this, 'licenseStatus'), 10, 3 );
 
 		add_action( 'admin_head-plugins.php', array( __CLASS__, 'style' ) );
+
+		add_action( 'upgrader_process_complete', array( $this, 'setClearCacheOption' ), 10, 2 );
 	}
 
 	/**
@@ -1025,6 +1027,51 @@ HERERDOC;
 			//wp_clean_plugins_cache();
 			cnPlugin_Updater::clear_cached_response();
 		}
+	}
+
+	/**
+	 * Callback for the `upgrader_process_complete` action.
+	 *
+	 * Set an option to flag that the plugin update cached response should be cleared.
+	 *
+	 * @link https://wordpress.stackexchange.com/a/298671
+	 *
+	 * @since 8.44
+	 *
+	 * @param WP_Upgrader $upgrader_object
+	 * @param array       $hook_extra
+	 */
+	public function setClearCacheOption( WP_Upgrader $upgrader_object, $hook_extra ) {
+
+		if ( is_array( $hook_extra ) &&
+		     array_key_exists( 'action', $hook_extra ) &&
+		     array_key_exists( 'type', $hook_extra ) &&
+		     array_key_exists( 'plugins', $hook_extra )
+		) {
+
+			// Check first that array contain required keys to prevent undefined index error.
+			if ( 'update' === $hook_extra['action'] &&
+			     'plugin' === $hook_extra['type'] &&
+			     is_array( $hook_extra['plugins'] ) &&
+			     ! empty( $hook_extra['plugins'] )
+			) {
+
+				foreach ( $hook_extra['plugins'] as $slug ) {
+
+					$base_name = plugin_basename( $this->file );
+
+					if ( $slug === $base_name ) {
+
+						update_option(
+							'cn_update_plugins_clear_cache',
+							TRUE,
+							FALSE
+						);
+					}
+				}
+			}
+		}
+
 	}
 
 	/**

@@ -1,0 +1,14 @@
+// Shrink the selected icon just a bit so it fits without overlapping the container border.
+.icons-selector span.selected-icon i {
+	line-height: 38px;
+}
+
+// Set all icons to be black with a white background to avoid having to write color CSS for each icon.
+.icons-selector i[class^='cn-brandicon']:before {
+	color: #000;
+}
+
+.icons-selector i[class^='cn-brandicon'] {
+	background-color: #FFF;
+	vertical-align: baseline;
+}

@@ -1,133 +1,177 @@
-// import { library } from '@fortawesome/fontawesome-svg-core'
-// import { fas } from '@fortawesome/free-solid-svg-icons'
-// import { far } from '@fortawesome/free-regular-svg-icons'
-// import { fab } from '@fortawesome/free-brands-svg-icons'
-//
-// // Add both three icon sets
-// library.add( fas, far, fab );
-//
-// let fasArray = Object.keys( library.definitions.fas );
-// let farArray = Object.keys( library.definitions.far );
-// let fabArray = Object.keys( library.definitions.fab );
-
-// console.log( library.definitions.fab );
-
 /**
  * @link https://stackoverflow.com/a/46500027/5351316
  */
 const { jQuery: $ } = window;
 
 require( '@fonticonpicker/fonticonpicker' )( jQuery );
-// console.log( fip );
-// const fipInput = $( '#e14_element' ).fontIconPicker( {
-// 	      theme:     'fip-darkgrey',
-// 	      emptyIcon: false,
-//       } )
-// ;
 
-// // Add the event on the button
-// $( '#e14_buttons button' ).on( 'click', function( e ) {
-// 	// Append the fontawesome CDN
-// 	if ( !$( '#fontawesome-cdn' ).length ) {
-// 		// $( 'head' ).append( '<link rel="stylesheet" href="http://sandbox.connections-pro.com/wp-content/plugins/connections/assets/vendor/fontawesome/css/all.css">' );
-// 	}
-// 	// Prevent default
-// 	e.preventDefault();
-// 	// Show processing message
-// 	$( this ).prop( 'disabled', true )
-// 		.html( '<i class="icon-cog demo-animate-spin"></i> Please wait…' );
-// 	// Get the JSON file
-// 	$.ajax( {
-// 		url:      '//sandbox.connections-pro.com/wp-content/plugins/connections/assets/font-icon-maps/fontawesome/fontawesome-rs-categorized.json',
-// 		type:     'GET',
-// 		dataType: 'json'
-// 	} )
-// 		.done( function( response ) {
-// 			console.log( response );
-// 			setTimeout( function() {
-// 				// Reset icons
-// 				fipInput.setIcons( response );
-//
-// 				// Show success message and disable
-// 				$( '#e14_buttons button' )
-// 					.removeClass( 'btn-primary' )
-// 					.addClass( 'btn-success' )
-// 					.text( 'Successfully loaded icons' )
-// 					.prop( 'disabled', true );
-// 			}, 1000 );
-// 		} )
-// 		.fail( function() {
-// 			// Show error message and enable
-// 			$( '#e14_buttons button' )
-// 				.removeClass( 'btn-primary' )
-// 				.addClass( 'btn-danger' )
-// 				.text( 'Error: Try Again?' )
-// 				.prop( 'disabled', false );
-// 		} );
-// 	e.stopPropagation();
-// } );
+let sn;
 
+const socialNetwork = class {
 
-/**
- * Example 9
- * Load icons from icomoon JSON selections file
- */
+	constructor( instance ) {
 
-	// Init the font icon picker
+		if ( instance instanceof jQuery ) {
+
+			this.instance   = instance;
+			this.slug       = this.instance.find( 'input.cn-brandicon' );
+			this.icon       = this.instance.find( 'i[class^="cn-brandicon"]' );
+			this.color      = this.instance.find( 'input.cn-brandicon-color' );
+			this.hoverColor = this.instance.find( 'input.cn-brandicon-hover-color' );
+		}
+	}
+
+	getColor() {
+
+		let iconColor = brandicons.color( this.getSlug() );
+
+		if ( this.color instanceof jQuery && this.color.val() ) {
+
+			iconColor = this.color.val();
+		}
+
+		return iconColor;
+	}
+
+	setColor( value ) {
+
+		if ( this.color instanceof jQuery ) {
+
+			this.color.val( value );
+			this.icon.css( 'backgroundColor', value );
+		}
+	}
+
+	getHoverColor() {
+
+		let iconColor = brandicons.color( this.getSlug() );
+
+		if ( this.hoverColor instanceof jQuery && this.hoverColor.val() ) {
+
+			iconColor = this.hoverColor.val() ;
+		}
+
+		return iconColor;
+	}
+
+	setHoverColor( value ) {
+
+		if ( this.hoverColor instanceof jQuery ) {
+
+			this.hoverColor.val( value );
+
+			// Since the hover color can not be set with an inline style, use the mouseenter/mouseleave events.
+			this.icon.mouseenter( function() {
+
+				$( this ).css( 'backgroundColor', sn.getHoverColor() );
+
+			} ).mouseleave( function() {
+
+				$( this ).css( 'backgroundColor', sn.getColor() );
+			});
+		}
+	}
+
+	setIcon( value ) {
+
+		if ( this.icon instanceof jQuery ) {
+
+			this.setSlug( socialNetwork.classNameToSlug( value ) );
+			this.icon.removeClass()
+				.addClass( 'cn-brandicon-size-24' )
+				.addClass( value );
+		}
+	}
+
+	getSlug() {
+
+		if ( this.slug instanceof jQuery ) {
+
+			return this.slug.val();
+		}
+	}
+
+	setSlug( slug ) {
+
+		if ( this.slug instanceof jQuery ) {
+
+			return this.slug.val( slug );
+		}
+	}
+
+	getClassname() {
+
+		if ( this.slug instanceof jQuery ) {
+
+			return 'cn-brandicon-' + this.getSlug();
+		}
+	}
+
+	static classNameToSlug( value ) {
+
+		return value.replace( 'cn-brandicon-', '' );
+	}
+
+	static slugToClassName( value ) {
+
+		return 'cn-brandicon-' + value;
+	}
+};
+
+const brandicons = {
+
+	icons: [],
+
+	add: function( item ) {
+
+		let color = 'rgb(0, 0, 0)';
+
+		if ( item.icon.attrs.length && 'fill' in item.icon.attrs[0] ) {
+			color = item.icon.attrs[0].fill;
+		}
+
+		this.icons[ item.properties.name ] = {
+			color: color,
+		};
+	},
+	get: function( slug ) {
+
+		if ( ( slug in this.icons ) ) {
+
+			return this.icons[ slug ];
+		}
+
+		return false;
+	},
+	color: function( slug, color = 'rgb(0, 0, 0)' ) {
+
+		let icon = this.get( slug );
+
+		if ( false !== icon ) {
+
+			color = icon.color;
+		}
+
+		return color;
+	}
+};
+
+// Init the font icon picker.
 const e9_element = $( '#e9_element' ).fontIconPicker( {
-		emptyIcon: false,
-		theme:     'fip-darkgrey',
-	} );
+	emptyIcon: false,
+	theme:     'fip-darkgrey',
+} )
+	.on( 'change', function() {
 
-// // Add the event on the button
-// $( '#e9_buttons button' ).on( 'click', function( e ) {
-// 	e.preventDefault();
-//
-// 	// Show processing message
-// 	$( this ).prop( 'disabled', true ).html( '<i class="icon-cog demo-animate-spin"></i> Please wait...' );
-//
-// 	// Get the JSON file
-// 	$.ajax( {
-// 		url:      '//sandbox.connections-pro.com/wp-content/plugins/connections/assets/vendor/icomoon-brands/selection.json',
-// 		type:     'GET',
-// 		dataType: 'json'
-// 	} )
-// 		.done( function( response ) {
-//
-// 			// Get the class prefix
-// 			const classPrefix         = response.preferences.fontPref.prefix,
-// 			      icomoon_json_icons  = [],
-// 			      icomoon_json_search = [];
-//
-// 			// For each icon
-// 			$.each( response.icons, function( i, v ) {
-//
-// 				// Set the source
-// 				icomoon_json_icons.push( classPrefix + v.properties.name );
-//
-// 				// Create and set the search source
-// 				if ( v.icon && v.icon.tags && v.icon.tags.length ) {
-// 					icomoon_json_search.push( v.properties.name + ' ' + v.icon.tags.join( ' ' ) );
-// 				} else {
-// 					icomoon_json_search.push( v.properties.name );
-// 				}
-// 			} );
-//
-// 			console.log( icomoon_json_icons );
-//
-// 			// Set new fonts on fontIconPicker
-// 			e9_element.setIcons( icomoon_json_icons, icomoon_json_search );
-//
-// 			// Show success message and disable
-// 			$( '#e9_buttons button' ).removeClass( 'btn-primary' ).addClass( 'btn-success' ).text( 'Successfully loaded icons' ).prop( 'disabled', true );
-//
-// 		} )
-// 		.fail( function() {
-// 			// Show error message and enable
-// 			$( '#e9_buttons button' ).removeClass( 'btn-primary' ).addClass( 'btn-danger' ).text( 'Error: Try Again?' ).prop( 'disabled', false );
-// 		} );
-// 	e.stopPropagation();
-// } );
+		const input = $( this );
+		let   value = input.val();
+
+		if ( sn instanceof socialNetwork ) {
+
+			// sn.setSlug( socialNetwork.classNameToSlug( value ) );
+			sn.setIcon( value );
+		}
+	});
 
 const initModal = () => {
 
@@ -162,17 +206,39 @@ const initModal = () => {
 		},
 	} );
 
-	// bind a button or a link to open the dialog
-	$( 'button.cn-social-network-icon-setting-button' ).on( 'click', function( e ) {
+	// Bind a button to open the dialog.
+	$( '.cn-fieldset-social-networks' ).on( 'click', 'a.cn-social-network-icon-setting-button', function( e ) {
 
 		e.preventDefault();
 
-		const button = $( this );
-		const parent = button.parent();
-		const icon   = parent.find( 'input.cn-brandicon' ).val();
+		sn = new socialNetwork( $( this ).parent() );
 
-		e9_element.setIcon( 'cn-brandicon-' + icon );
+		// Set the icon to be selected in the font icon picker.
+		e9_element.setIcon( sn.getClassname() );
 
+		// Init the icon color picker.
+		const iconColorPicker = $( '#cn-icon-color' ).wpColorPicker({
+			change: function( event, ui ) {
+
+				// let hex = ui.color.toString();
+				sn.setColor( ui.color.toString() );
+			}
+		} );
+
+		// Init the icon hover color.
+		const iconHoverColorPicker = $( '#cn-icon-hover-color' ).wpColorPicker({
+			change: function( event, ui ) {
+
+				// let hex = ui.color.toString();
+				sn.setHoverColor( ui.color.toString() );
+			}
+		} );
+
+		// Set the  color pickers to the saved color values before the modal is opened.
+		iconColorPicker.wpColorPicker( 'color', sn.getColor() );
+		iconHoverColorPicker.wpColorPicker( 'color', sn.getHoverColor() );
+
+		// Open the icon settings modal.
 		modal.dialog( 'open' );
 	} );
 
@@ -196,6 +262,8 @@ $( document ).ready( function() {
 			// For each icon
 			$.each( response.icons, function( i, v ) {
 
+				brandicons.add( v );
+
 				// Set the source
 				icomoon_json_icons.push( classPrefix + v.properties.name );
 
@@ -207,21 +275,16 @@ $( document ).ready( function() {
 				}
 			} );
 
-			console.log( icomoon_json_icons );
+			// console.log( icomoon_json_icons );
 
 			// Set new fonts on fontIconPicker
 			e9_element.setIcons( icomoon_json_icons, icomoon_json_search );
 
 			// Init the modal.
 			initModal();
-
-			// Show success message and disable
-			// $( '#e9_buttons button' ).removeClass( 'btn-primary' ).addClass( 'btn-success' ).text( 'Successfully loaded icons' ).prop( 'disabled', true );
-
 		} )
 		.fail( function() {
-			// Show error message and enable
-			// $( '#e9_buttons button' ).removeClass( 'btn-primary' ).addClass( 'btn-danger' ).text( 'Error: Try Again?' ).prop( 'disabled', false );
+
 			console.log('error fetching selection.json');
 		} );
 

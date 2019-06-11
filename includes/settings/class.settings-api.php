@@ -1241,16 +1241,18 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
 
 						$out .= sprintf(
-							'<p class="description"> %1$s</p>',
+							'<p class="description"> %1$s</p>' . PHP_EOL,
 							esc_html( $field['desc'] )
 						);
 					}
 
 					$out .= sprintf(
-						'<ul class="cn-sortable-input%1$s" id="%2$s">',
+						'<ul class="cn-sortable-input%1$s cn-fieldset-social-networks" id="%2$s">',
 						'sortable_iconpicker-repeatable' === $field['type'] ? '-repeatable' : '',
 						esc_attr( $name )
 					);
+
+					$out = $out . PHP_EOL;
 
 					// Create the array to be used to render the output in the correct order.
 					// This will have to take into account content blocks being added and removed.
@@ -1283,6 +1285,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$blocks = $field['options']['items'];
 					}
 
+					//$blocks['%token%'] = 'template';
+					$blocks = array( '%token%' => '%template%') + $blocks;
+
 					foreach ( $blocks as $key => $label ) {
 
 						$removeButton = '';
@@ -1290,6 +1295,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$input    = '';
 						$hidden   = '';
 
+						/**
+						 * @todo The required sectrion of code is very, very broken.
+						 */
 						if ( isset( $field['options']['required'] ) && in_array( $key, $field['options']['required'] ) ) {
 
 							$checkbox = cnHTML::input(
@@ -1344,6 +1352,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 									'prefix'  => '',
 									'id'      => esc_attr( $name ) . '[active][' . $key . ']',
 									'name'    => esc_attr( $name ) . '[active][]',
+									'data'    => array(
+										'id'   => esc_attr( $name ) . '[active][%token%]',
+										'name' => esc_attr( $name ) . '[active][]',
+									),
 									'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									'label'   => $label,
 									'layout'  => '%field%',
@@ -1356,21 +1368,37 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								array(
 									'type'    => 'text',
 									'prefix'  => '',
-									'id'      => esc_attr( $name ) . '[type][' . $key . ']',
-									'name'    => esc_attr( $name ) . '[type][' . $key . ']',
+									'id'      => esc_attr( $name ) . '[icon][' . $key . '][name]',
+									'name'    => esc_attr( $name ) . '[icon][' . $key . '][name]',
 									//'checked' => isset( $value['active'] ) ? checked( TRUE , ( is_array( $value['active'] ) ) ? ( in_array( $key, $value['active'] ) ) : ( $key == $value['active'] ) , FALSE ) : '',
 									//'label'   => $label,
-									'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									//'data'    => array_key_exists( $key, $field['options']['items'] ) ? array( 'registered' => 1 ) : array( 'custom' => 1 ),
+									'data'    => array(
+										'id'         => esc_attr( $name ) . '[icon][%token%][name]',
+										'name'       => esc_attr( $name ) . '[icon][%token%][name]',
+										'custom'     => ! array_key_exists( $key, $field['options']['items'] ) ? 1 : 0,
+										'registered' => array_key_exists( $key, $field['options']['items'] ) ? 1 : 0,
+									),
 									'layout'  => '%field%',
 									'return'  => TRUE,
 								),
-								sanitize_text_field( isset( $value['type'][ $key ] ) ? $value['type'][ $key ] : $field['options']['items'][ $key ] )
+								sanitize_text_field( isset( $value['icon'][ $key ]['name'] ) ? $value['icon'][ $key ]['name'] : $field['options']['items'][ $key ] )
 							);
 						}
 
+						// Default to the RSS icon when adding a new social network.
+						$iconClass = '%token%' === $key ? 'rss' : $key;
+
+						/**
+						 * Need to add type="button" to <button> otherwise the first button or input with type="submit"
+						 * is what is triggered. If you specifically set type="button", then it's removed from
+						 * consideration by the browser.
+						 *
+						 * @link https://stackoverflow.com/a/12914700/5351316
+						 */
 						$iconButton = sprintf(
-							'<button class="cn-social-network-icon-setting-button"><i class="cn-brandicon-%1$s"></i></button>',
-							$key
+							'<a class="cn-social-network-icon-setting-button"><i class="cn-brandicon-%1$s cn-brandicon-size-24"></i></a>',
+							sanitize_text_field( isset( $value['icon'][ $key ]['slug'] ) ? $value['icon'][ $key ]['slug'] : $iconClass )
 						);
 
 						$hidden = cnHTML::input(
@@ -1379,6 +1407,10 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								'prefix'  => '',
 								'id'      => esc_attr( $name ) . '[order][' . $key . ']',
 								'name'    => esc_attr( $name ) . '[order][]',
+								'data'    => array(
+									'id'   => esc_attr( $name ) . '[order][%token%]',
+									'name' => esc_attr( $name ) . '[order][]',
+								),
 								'label'   => '',
 								'layout'  => '%field%',
 								'return'  => TRUE,
@@ -1391,13 +1423,53 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								'type'    => 'hidden',
 								'prefix'  => '',
 								'class'   => array( 'cn-brandicon' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . ']',
-								'name'    => esc_attr( $name ) . '[icon][]',
+								'id'      => esc_attr( $name ) . '[icon][' . $key . '][slug]',
+								'name'    => esc_attr( $name ) . '[icon][' . $key . '][slug]',
+								'data'    => array(
+									'id  ' => esc_attr( $name ) . '[icon][%token%][slug]',
+									'name' => esc_attr( $name ) . '[icon][%token%][slug]',
+								),
 								'label'   => '',
 								'layout'  => '%field%',
 								'return'  => TRUE,
 							),
-							sanitize_text_field( isset( $value['icon'][ $key ] ) ? $value['icon'][ $key ] : $key )
+							sanitize_text_field( isset( $value['icon'][ $key ]['slug'] ) ? $value['icon'][ $key ]['slug'] : $key )
+						);
+
+						$hidden .= cnHTML::input(
+							array(
+								'type'    => 'hidden',
+								'prefix'  => '',
+								'class'   => array( 'cn-brandicon-color' ),
+								'id'      => esc_attr( $name ) . '[icon][' . $key . '][color]',
+								'name'    => esc_attr( $name ) . '[icon][' . $key . '][color]',
+								'data'    => array(
+									'id  ' => esc_attr( $name ) . '[icon][%token%][color]',
+									'name' => esc_attr( $name ) . '[icon][%token%][color]',
+								),
+								'label'   => '',
+								'layout'  => '%field%',
+								'return'  => TRUE,
+							),
+							sanitize_text_field( isset( $value['icon'][ $key ]['color'] ) ? $value['icon'][ $key ]['color'] : '' )
+						);
+
+						$hidden .= cnHTML::input(
+							array(
+								'type'    => 'hidden',
+								'prefix'  => '',
+								'class'   => array( 'cn-brandicon-hover-color' ),
+								'id'      => esc_attr( $name ) . '[icon][' . $key . '][color-hover]',
+								'name'    => esc_attr( $name ) . '[icon][' . $key . '][color-hover]',
+								'data'    => array(
+									'id'   => esc_attr( $name ) . '[icon][%token%][color-hover]',
+									'name' => esc_attr( $name ) . '[icon][%token%][color-hover]',
+								),
+								'label'   => '',
+								'layout'  => '%field%',
+								'return'  => TRUE,
+							),
+							sanitize_text_field( isset( $value['icon'][ $key ]['color-hover'] ) ? $value['icon'][ $key ]['color-hover'] : '' )
 						);
 
 						if ( 'sortable_input-repeatable' === $field['type'] ) {
@@ -1428,7 +1500,12 @@ if ( ! class_exists('cnSettingsAPI') ) {
 							)
 						);
 
-						$out .= $row;
+						if ( '%template%' === $label ) {
+
+							$row = "<li><template>{$row}</template></li>";
+						}
+
+						$out .= $row . PHP_EOL;
 					}
 
 					if ( 'sortable_iconpicker-repeatable' === $field['type'] ) {
@@ -1436,7 +1513,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$out .= '<li><a href="#" class="cn-add cn-button button">' . esc_html__( 'Add', 'connections' ) . '</a></li>';
 					}
 
-					$out .= '</ul>';
+					$out .= '</ul>' . PHP_EOL;
 
 					// Add the list to the sortable IDs.
 					self::$sortableIDs[] = $name;
@@ -1444,6 +1521,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					// Add the script to the admin footer.
 					add_action( 'admin_footer', array( __CLASS__, 'socialMediaIconOptions' ) );
 					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'sortableJS' ) );
+
+					wp_enqueue_style( 'wp-color-picker' );
+					wp_enqueue_script( 'wp-color-picker' );
 
 					wp_enqueue_script( 'cn-setting-sortable-repeatable-input-list' );
 					wp_enqueue_script( 'cn-icon-picker' );
@@ -1496,19 +1576,35 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			echo '/* ]]> */</script>';
 		}
 
+		/**
+		 * Callback for the `admin_footer` action.
+		 *
+		 * Outputs the HTML to support the font icon picker settings for the social networks.
+		 *
+		 * @since 8.44
+		 */
 		public static function socialMediaIconOptions() {
 
 			?>
 			<div id="cn-social-network-icon-settings-modal" style="box-sizing: border-box; display: none; max-width:800px; min-height: 600px; min-width: 386px;">
-<!--				<input type="text" id="e14_element" name="e14_element" />-->
-<!--				<span id="e14_buttons">-->
-<!--					<button type="button" class="btn btn-primary">Load from FontAwesome</button>-->
-<!--				</span>-->
-<!--				<br>-->
-				<input type="text" id="e9_element" name="e9_element" />
-<!--				<span id="e9_buttons">-->
-<!--					<button type="button" class="btn btn-primary">Load from IcoMoon selection.json</button>-->
-<!--				</span>-->
+				<p>
+					<label for="e9_element">Choose an icon:</label>
+				</p>
+				<p>
+					<input type="text" id="e9_element" name="e9_element" />
+				</p>
+				<p>
+					<label for="cn-icon-color">Choose the icon color:</label>
+				</p>
+				<p>
+					<input type="text" class="cn-icon-colorpicker" id="cn-icon-color" />
+				</p>
+				<p>
+					<label for="cn-icon-hover-color">Choose the icon hover color:</label>
+				</p>
+				<p>
+					<input type="text" class="cn-icon-colorpicker" id="cn-icon-hover-color" />
+				</p>
 			</div>
 			<?php
 

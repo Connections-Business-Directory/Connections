@@ -82,6 +82,9 @@ class cnScript {
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminScripts' ) );
 		add_action( 'admin_enqueue_scripts', array( 'cnScript', 'enqueueAdminStyles' ) );
 
+		add_action( 'cn_admin_enqueue_settings_styles', array( __CLASS__, 'inlineBrandiconStyles' ) );
+		add_action( 'cn_frontend_enqueue_styles', array( __CLASS__, 'inlineBrandiconStyles' ) );
+
 		add_action( 'wp_print_scripts', array( __CLASS__, 'jQueryFixr' ), 999 );
 		add_action( 'wp_default_scripts', array( __CLASS__, 'storeCorejQuery'), 999 );
 	}
@@ -736,6 +739,44 @@ class cnScript {
 		}
 
 		do_action( 'cn_frontend_enqueue_styles' );
+	}
+
+	/**
+	 * Callback for the `cn_admin_enqueue_settings_styles` and `cn_frontend_enqueue_styles` action hooks.
+	 *
+	 * Output the CSS for the user defined colors for the social network icons.
+	 *
+	 * @since 8.44
+	 *
+	 * @link https://www.cssigniter.com/late-enqueue-inline-css-wordpress/
+	 */
+	public static function inlineBrandiconStyles() {
+
+		$networks = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'social-network-types' );
+		$css      = '';
+
+		foreach ( $networks['icon'] as $slug => $icon ) {
+
+			if ( 0 < strlen( $icon['color'] ) ) {
+
+				$css .= "i.cn-brandicon-{$icon['slug']} { background-color: {$icon['color']}; }" . PHP_EOL;
+			}
+
+			if ( 0 < strlen( $icon['color-hover'] ) ) {
+
+				$css .= "i.cn-brandicon-{$icon['slug']}:hover { background-color: {$icon['color-hover']}; }" . PHP_EOL;
+			}
+		}
+
+		//$css .= "i[class^=cn-brandicon]:before { color: #000; }" . PHP_EOL;
+
+		//wp_register_style( 'cn-brandicons-custom', FALSE );
+		//wp_enqueue_style( 'cn-brandicons-custom' );
+
+		if ( 0 < strlen( $css ) ) {
+
+			wp_add_inline_style( 'cn-brandicons', trim( strip_tags( $css ) ) );
+		}
 	}
 
 	/**

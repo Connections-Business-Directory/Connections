@@ -239,6 +239,20 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 8.44 06/11/2019 =
+* NEW: Introduce the `cn_frontend_enqueue_styles` action.
+* TWEAK: Clear cached response after plugin update check to ensure when an addon plugin is updated it will not continue to display as an updated is available.
+* TWEAK: Pass the require attribute to the checkbox field type.
+* TWEAK: Add required attribute to the select field.
+* TWEAK: Move class prefixing to occur before adding the required class.
+* TWEAK: Add error styles to then entry form checkboxes.
+* TWEAK: Bump max WP version in dependency checker.
+* TWEAK: Use webpack to bundle admin CSS.
+* TWEAK: Break out the brandicon and fonticon picker CSS into their own files and import them into the admin CSS file.
+* TWEAK: Remove the brandicon CSS from the frontend CSS file and and import the brandicon CSS file instead.
+* DEV: Continue laying the foundation for the font icon picker support for the social network settings.
+* DEV: Update dist files.
+
 = 8.43 05/17/2019 =
 * TWEAK: Do not save previous entry query results in an array. Doing this made doing REST changes have odd results.
 * BUG: Check for `WP_Error` before calling `cnCountry::getDivisions()` to prevent a potential fatal PHP error.
@@ -461,26 +475,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update package.json with dev dependencies to support webpack.
 * DEV: Initial babel and webpack config.
 
-= 8.30.1 11/09/2018 =
-* BUG: Update map blocks minified JavaScript assets.
-
-= 8.30 11/08/2018 =
-* NEW: Introduce `cnOptions::getBaseGeoCoordinates()`.
-* TWEAK: Use current version for the Map Block JS script for cache busting.
-* TWEAK: Rename file which registers the settings options.
-* TWEAK: Default the `[cn-mapblock/]` shortcode map center to the user defined country/region.
-* BUG: Properly detect if section is a WP core settings section so it is not prefixed with the plugin ID.
-* OTHER: Begin work on modern settings API.
-* DEV: phpDoc correction.
-* DEV: Fix code alignment/flow.
-
 == Upgrade Notice ==
-
-= 8.30 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.30.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.31 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
@@ -543,4 +538,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.43 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 8.44 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

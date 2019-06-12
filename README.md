@@ -247,6 +247,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 8.44.1 06/12/2019 =
+* BUG: Prevent PHP notice from being shown in some cases.
+
 = 8.44 06/11/2019 =
 * NEW: Introduce the `cn_frontend_enqueue_styles` action.
 * TWEAK: Clear cached response after plugin update check to ensure when an addon plugin is updated it will not continue to display as an updated is available.
@@ -482,8 +485,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Remove unnecessary `is_admin()` check when registering CSS.
 * DEV: Update package.json with dev dependencies to support webpack.
 * DEV: Initial babel and webpack config.
-
-= 8.30.1 11/09/2018 =
-* BUG: Update map blocks minified JavaScript assets.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

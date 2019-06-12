@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 4.7.12
 Tested up to: 5.2
 Requires PHP: 5.6.20
-Stable tag: 8.44
+Stable tag: 8.44.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 8.44.1 06/12/2019 =
+* BUG: Prevent PHP notice from being shown in some cases.
 
 = 8.44 06/11/2019 =
 * NEW: Introduce the `cn_frontend_enqueue_styles` action.
@@ -541,4 +544,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.44 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 8.44.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

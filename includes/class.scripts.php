@@ -755,6 +755,8 @@ class cnScript {
 		$networks = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'social-network-types' );
 		$css      = '';
 
+		if ( FALSE === $networks || ! is_array( $networks['icon'] ) ) return;
+
 		foreach ( $networks['icon'] as $slug => $icon ) {
 
 			if ( 0 < strlen( $icon['color'] ) ) {

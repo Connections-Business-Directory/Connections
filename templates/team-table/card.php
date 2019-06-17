@@ -67,7 +67,7 @@
 
 	<?php if ( $atts['displaySocial'] ) : ?>
 		<div class="cn-table-cell cn-team-member-social-media">
-			<?php $entry->getSocialMediaBlock(); ?>
+			<?php $entry->getSocialMediaBlock( array( 'size' => 24 ) ); ?>
 		</div>
 	<?php endif; ?>
 

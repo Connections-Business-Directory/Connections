@@ -1786,7 +1786,7 @@ class cnRegisterSettings {
 			'default'   => 0,
 		);
 
-		// Grab the messenger types.
+		// Grab the date types.
 		$dateTypes = cnOptions::getCoreDateTypes();
 
 		$fields[] = array(

@@ -1228,7 +1228,7 @@ class cnOptions {
 	}
 
 	/**
-	 * Returns an associative array all core address types
+	 * Returns an associative array all core date types
 	 * including those registered via the `cn_date_options` filter.
 	 *
 	 * @access public
@@ -1286,7 +1286,7 @@ class cnOptions {
 			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_date_options` filter.
 			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_link_options', $active ) ) ) );
 
-			// Remove date types from the order if they do not exist in the registered link types to account for removed link types.
+			// Remove types from the order if they do not exist in the registered types to account for removed types.
 			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
 
 			// Reorder the saved types to the user defined order.

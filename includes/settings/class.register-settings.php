@@ -323,12 +323,7 @@ class cnRegisterSettings {
 			'id'        => 'fieldset-social-networks',
 			'position'  => 90,
 			'title'     => __( 'Social Networks Fieldset' , 'connections' ),
-			'callback'  => function() {
-				esc_html_e(
-					'Coming soon!',
-					'connections'
-				);
-			},
+			'callback'  => '',
 			'page_hook' => $settings
 		);
 
@@ -1853,40 +1848,111 @@ class cnRegisterSettings {
 			'default'   => 1,
 		);
 
-		//$socialMediaTypes = Connections_Directory()->options->getDefaultSocialMediaValues();
-		//
-		//$fields[] = array(
-		//	'plugin_id' => 'connections',
-		//	'id'        => 'social-network-types',
-		//	'position'  => 30,
-		//	'page_hook' => $settings,
-		//	'tab'       => 'field-configuration',
-		//	'section'   => 'fieldset-social-networks',
-		//	'title'     => __( 'Social Network Type Options', 'connections' ),
-		//	'desc'      => __(
-		//		'Choose which social network types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a social network. Deactivating a social network will not effect previously saved entries. Add custom social network types by clicking the "Add" button. Custom social network types can be removed but only if no social networks of that type are assigned to an entry. The "core" social network types can not be removed. A "Remove" button will display for social network types which can be safely removed.',
-		//		'connections'
-		//	),
-		//	'help'      => '',
-		//	'type'      => 'sortable_iconpicker-repeatable',
-		//	'options'   => array(
-		//		'items'    => $socialMediaTypes,
-		//		// Any types registered via the `cn_social_network_options` need to be set as required.
-		//		'required' => array_keys( apply_filters( 'cn_social_network_options', array() ) ),
-		//	),
-		//	'default'   => array(
-		//		'order'  => array_keys( $socialMediaTypes ),
-		//		// Any types registered via the `cn_social_network_options` filter should be set as active (enabled).
-		//		// The `cn_social_network_options` filter is applied in case a user has removed types using the filter.
-		//		// This ensure they default to inactive (disabled).
-		//		'active' => array_keys( apply_filters( 'cn_social_network_options', $socialMediaTypes ) ),
-		//	),
-		//	// Only need to add this once, otherwise it would be run for each field.
-		//	//'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeDateFieldsetSettings' )
-		//);
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'repeatable',
+			'position'  => 10,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => __( 'Repeatable', 'connections' ),
+			'desc'      => __(
+				'Make the Social Network fieldset repeatable to allow multiple social networks  to be added to a single entry.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'count',
+			'position'  => 20,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => '',
+			'desc'      => __(
+				'The minimum number of Social Network fieldsets to display.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'number',
+			'size'      => 'small',
+			'default'   => 0,
+		);
+
+		// Grab the social types.
+		$socialMediaTypes = cnOptions::getCoreSocialNetworkTypes();
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'social-network-types',
+			'position'  => 30,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => __( 'Social Network Type Options', 'connections' ),
+			'desc'      => __(
+				'Choose which social network types are displayed as options. Drag and drop to change the display order. The top active item will be the default selected type when adding a social network. Deactivating a social network will not effect previously saved entries. Add custom social network types by clicking the "Add" button. Custom social network types can be removed but only if no social networks of that type are assigned to an entry. The "core" social network types can not be removed. A "Remove" button will display for social network types which can be safely removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'sortable_iconpicker-repeatable',
+			'options'   => array(
+				'items'    => $socialMediaTypes,
+				// Any types registered via the `cn_social_network_options` need to be set as required.
+				'required' => array_keys( apply_filters( 'cn_social_network_options', array() ) ),
+			),
+			'default'   => array(
+				'order'  => array_keys( $socialMediaTypes ),
+				// Any types registered via the `cn_social_network_options` filter should be set as active (enabled).
+				// The `cn_social_network_options` filter is applied in case a user has removed types using the filter.
+				// This ensure they default to inactive (disabled).
+				'active' => array_keys( apply_filters( 'cn_social_network_options', $socialMediaTypes ) ),
+			),
+			// Only need to add this once, otherwise it would be run for each field.
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSocialNetworkFieldsetSettings' )
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-preferred',
+			'position'  => 40,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => __( 'Preferred Social Network Type', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set a preferred social network type when adding a social network to an entry. Disabling this option will not effect existing social networks which have been set as preferred. When editing an entry with a social network with this option disabled, the preferred setting of the social network will be removed.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'permit-visibility',
+			'position'  => 50,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => __( 'Per Social Network Visibility', 'connections' ),
+			'desc'      => __(
+				'Enable this option to set per social network visibility. When disabled, all social networks will default to public. Changing this option will not effect the visibility status of previously saved social networks.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 1,
+		);
 
 		// Filter to remove the "Remove" button if a custom fieldset type is in use.
 		add_filter( 'cn_settings_field-sortable_input-repeatable-item', array( __CLASS__, 'fieldsetTypeRemovable' ), 10, 2 );
+		add_filter( 'cn_settings_field-sortable_iconpicker-repeatable-item', array( __CLASS__, 'socialNetworkTypesInUse' ), 10, 2 );
 
 		/*
 		 * The Images tab fields.
@@ -3065,6 +3131,33 @@ class cnRegisterSettings {
 	}
 
 	/**
+	 * Callback function to sanitize the social network fieldset settings.
+	 *
+	 * @access private
+	 * @since  8.45
+	 *
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
+	public static function sanitizeSocialNetworkFieldsetSettings( $settings ) {
+
+		$active = cnArray::get( $settings, 'social-network-types.active', array() );
+
+		// If no date types have been selected, force select the top type.
+		if ( empty( $active ) ) {
+
+			$types    = cnArray::get( $settings, 'social-network-types.type' );
+			$keys     = array_flip( $types );
+			$active[] = array_shift( $keys );
+		}
+
+		cnArray::set( $settings, 'social-network-types.active', $active );
+
+		return $settings;
+	}
+
+	/**
 	 * Callback for the `cn_settings_field-sortable_input-repeatable-item` filter.
 	 *
 	 * Do not display the "Remove" button if the address type is currently in use/associated with an address.
@@ -3126,6 +3219,48 @@ class cnRegisterSettings {
 			'<li><i class="fa fa-sort"></i> %1$s%2$s%3$s %4$s</li>',
 			$hidden,
 			$checkbox,
+			$input,
+			! array_key_exists( $key, $field['options']['items'] ) && ! array_key_exists( $key, $inuse ) ? $removeButton : ''
+		);
+
+		return $html;
+	}
+
+	/**
+	 * Callback for the `cn_settings_field-sortable_iconpicker-repeatable-item` filter.
+	 *
+	 * Do not display the "Remove" button if the address type is currently in use/associated with a social network.
+	 *
+	 * @see cnSettingsAPI::field()
+	 *
+	 * @access private
+	 * @since  8.45
+	 *
+	 * @param string $html
+	 * @param array  $atts
+	 *
+	 * @return string
+	 */
+	public static function socialNetworkTypesInUse( $html, $atts ) {
+
+		/**
+		 * @var array $field
+		 * @var string $key
+		 * @var string $hidden
+		 * @var string $checkbox
+		 * @var string $iconButton
+		 * @var string $input
+		 * @var string $removeButton
+		 */
+		extract( $atts );
+
+		$inuse = cnOptions::getSocialNetworkTypesInUse();
+
+		$html = sprintf(
+			'<li><i class="fa fa-sort"></i> %1$s%2$s %3$s %4$s %5$s</li>',
+			$hidden,
+			$checkbox,
+			$iconButton,
 			$input,
 			! array_key_exists( $key, $field['options']['items'] ) && ! array_key_exists( $key, $inuse ) ? $removeButton : ''
 		);

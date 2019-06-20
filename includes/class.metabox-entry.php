@@ -2103,6 +2103,10 @@ class cnEntryMetabox {
 	 */
 	public static function social( $entry, $metabox ) {
 
+		$socialTypes = cnOptions::getSocialNetworkTypeOptions();
+		$repeatable  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'repeatable' );
+		$count       = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'count' );
+
 		echo '<div class="widgets-sortables ui-sortable" id="social-media">' , PHP_EOL;
 
 		// --> Start template <-- \\
@@ -2114,7 +2118,29 @@ class cnEntryMetabox {
 		// --> End template <-- \\
 
 		$socialNetworks = $entry->getSocialMedia( array(), FALSE );
-		//print_r($socialNetworks);
+
+		/*
+		 * Add "dummy" social network objects to the results to equal the number of social network fieldset which are to be
+		 * displayed by default. The "dummy" social network objects rotate thru the active social network types.
+		 */
+		if ( $count > $networkCount = count( $socialNetworks ) ) {
+
+			$createCount = $count - $networkCount;
+
+			while ( 0 < $createCount ) {
+
+				if ( key( $socialTypes ) === NULL ) { reset( $socialTypes ); }
+				$type = key( $socialTypes );
+				next( $socialTypes );
+
+				// @todo Replace with cnEntry_Social_Network object.
+				$network = new stdClass();
+				$network->type = $type;
+
+				$socialNetworks[] = $network;
+				--$createCount;
+			}
+		}
 
 		if ( ! empty( $socialNetworks ) ) {
 
@@ -2132,7 +2158,10 @@ class cnEntryMetabox {
 
 		echo '</div>' , PHP_EOL;
 
-		echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">' , __( 'Add Social Media ID', 'connections' ) , '</a></p>' , PHP_EOL;
+		if ( $repeatable ) {
+
+			echo '<p class="add"><a href="#" class="cn-add cn-button button" data-type="social" data-container="social-media">', __( 'Add Social Media ID', 'connections' ), '</a></p>', PHP_EOL;
+		}
 	}
 
 	/**
@@ -2146,11 +2175,11 @@ class cnEntryMetabox {
 	 */
 	private static function socialField( $network, $token = '::FIELD::' ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
-
-		// Grab the email types.
-		$socialTypes = $instance->options->getDefaultSocialMediaValues();
+		$socialTypes      = cnOptions::getSocialNetworkTypeOptions();
+		$defaultType      = cnOptions::getDefaultSocialNetworkType();
+		$repeatable       = (bool) cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'repeatable' );
+		$permitPreferred  = (bool) cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'permit-preferred' );
+		$permitVisibility = (bool) cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'permit-visibility' );
 
 		?>
 
@@ -2162,22 +2191,40 @@ class cnEntryMetabox {
 
 					<?php
 
-					cnHTML::field(
-						array(
-							'type'     => 'select',
-							'class'    => '',
-							'id'       => 'social[' . $token . '][type]',
-							'options'  => $socialTypes,
-							'required' => FALSE,
-							'label'    => __( 'Social Network', 'connections' ),
-							'return'   => FALSE,
-						),
-						isset( $network->type ) ? $network->type : ''
-					);
+					if ( 1 < count( $socialTypes ) ) {
+
+						cnHTML::field(
+							array(
+								'type'     => 'select',
+								'class'    => '',
+								'id'       => 'social[' . $token . '][type]',
+								'options'  => $socialTypes,
+								'required' => FALSE,
+								'label'    => __( 'Social Network', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $network->type ) && array_key_exists( $network->type, $socialTypes ) ? $network->type : key( $defaultType )
+						);
+
+					} else {
+
+						cnHTML::field(
+							array(
+								'type'     => 'hidden',
+								'class'    => '',
+								'id'       => 'social[' . $token . '][type]',
+								//'options'  => $socialTypes,
+								//'required' => FALSE,
+								'label'    => __( 'Social Network', 'connections' ),
+								'return'   => FALSE,
+							),
+							isset( $network->type ) && array_key_exists( $network->type, $socialTypes ) ? $network->type : key( $defaultType )
+						);
+					}
 
 					cnHTML::field(
 						array(
-							'type'     => 'radio',
+							'type'     => $permitPreferred ? 'radio' : 'hidden',
 							'format'   => 'inline',
 							'class'    => '',
 							'id'       => 'social[preferred]',
@@ -2191,7 +2238,7 @@ class cnEntryMetabox {
 					);
 
 					// Only show this if there are visibility options that the user is permitted to see.
-					if ( ! empty( self::$visibility ) ) {
+					if ( ! empty( self::$visibility ) && $permitVisibility ) {
 
 						cnHTML::field(
 							array(
@@ -2240,19 +2287,17 @@ class cnEntryMetabox {
 
 			</div>
 
-			<?php
+			<?php if ( isset( $network->id ) ) : ?>
+				<input type="hidden" name="social[<?php echo $token; ?>][id]" value="<?php echo $network->id; ?>">
+			<?php endif; ?>
 
-			if ( isset( $network->id ) ) {
-
-				echo '<input type="hidden" name="social[' , $token , '][id]" value="' , $network->id , '">' , PHP_EOL;
-			}
-			?>
-
+			<?php if ( $repeatable ) : ?>
 			<p class="cn-remove-button">
 				<a href="#" class="cn-remove cn-button button cn-button-warning"
 				   data-type="social"
 				   data-token="<?php echo $token; ?>"><?php esc_html_e( 'Remove', 'connections' ); ?></a>
 			</p>
+			<?php endif; ?>
 
 		</div>
 

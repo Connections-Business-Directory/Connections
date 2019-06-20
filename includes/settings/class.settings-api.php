@@ -1254,6 +1254,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					$out = $out . PHP_EOL;
 
+					// Add the template/token item to be used for cloning when adding a new item by the user.
+					$field['options']['items'] = array( '%token%' => '%template%') + $field['options']['items'];
+
 					// Create the array to be used to render the output in the correct order.
 					// This will have to take into account content blocks being added and removed.
 					// ref: http://stackoverflow.com/a/9098675
@@ -1266,7 +1269,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$blocks = array_intersect_key(
 							array_merge(
 								$field['options']['items'],
-								cnArray::get( $value, 'type', array() )
+								cnArray::get( $value, 'icon', array() )
 							),
 							array_flip( $value['order'] )
 						);
@@ -1286,7 +1289,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					}
 
 					//$blocks['%token%'] = 'template';
-					$blocks = array( '%token%' => '%template%') + $blocks;
+					//$blocks = array( '%token%' => '%template%') + $blocks;
 
 					foreach ( $blocks as $key => $label ) {
 
@@ -1295,8 +1298,15 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						$input    = '';
 						$hidden   = '';
 
+						/*
+						 * Custom items the label is actually an array of the font icon meta,
+						 * pull the name from the meta and set the label var. If it is not an
+						 * array, label is assumed to be string and returned as teh default value for label.
+						 */
+						$label = cnArray::get( $label, 'name', $label );
+
 						/**
-						 * @todo The required sectrion of code is very, very broken.
+						 * @todo The required section of code is very, very broken.
 						 */
 						if ( isset( $field['options']['required'] ) && in_array( $key, $field['options']['required'] ) ) {
 
@@ -1472,7 +1482,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 							sanitize_text_field( isset( $value['icon'][ $key ]['color-hover'] ) ? $value['icon'][ $key ]['color-hover'] : '' )
 						);
 
-						if ( 'sortable_input-repeatable' === $field['type'] ) {
+						if ( 'sortable_iconpicker-repeatable' === $field['type'] ) {
 
 							$removeButton = '<a href="#" class="cn-remove cn-button button">' . esc_html__( 'Remove', 'connections' ) . '</a>';
 						}
@@ -1495,6 +1505,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 								'label',
 								'hidden',
 								'checkbox',
+								'iconButton',
 								'input',
 								'removeButton'
 							)

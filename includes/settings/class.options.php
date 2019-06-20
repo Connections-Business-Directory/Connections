@@ -899,15 +899,17 @@ class cnOptions {
 	}
 
 	/**
-	 * Returns an array of the default social media types.
+	 * Returns an associative array all core social network types
+	 * including those registered via the `cn_social_network_options` filter.
 	 *
-	 * @access private
-	 * @since unknown
+	 * @access public
+	 * @since  8.45
+	 *
 	 * @return array
 	 */
-	public function getDefaultSocialMediaValues() {
+	public static function getCoreSocialNetworkTypes() {
 
-		$options = array(
+		$types = array(
 			'angieslist'    => 'Angie\'s List',
 			'delicious'     => 'delicious',
 			'cdbaby'        => 'CD Baby',
@@ -941,7 +943,124 @@ class cnOptions {
 			'youtube'       => 'YouTube'
 		);
 
-		return apply_filters( 'cn_social_network_options', $options );
+		// Return all registered types, including the "core" types.
+		return array_merge( apply_filters( 'cn_social_network_options', $types ), $types );
+	}
+
+	/**
+	 * Return an associative array of "ACTIVE" social network types as set on the Settings admin page.
+	 * Including those registered via the `cn_social_network_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.45
+	 *
+	 * @return array
+	 */
+	public static function getSocialNetworkTypeOptions() {
+
+		$options = get_option( 'connections_fieldset-social-networks' );
+
+		if ( FALSE === $options ) {
+
+			$options = self::getCoreSocialNetworkTypes();
+
+		} else {
+
+			$registered = self::getCoreSocialNetworkTypes();
+
+			$type    = cnArray::get( $options, 'social-network-types.icon', $registered );
+			$active  = cnArray::get( $options, 'social-network-types.active', array_flip( $registered ) );
+			$order   = cnArray::get( $options, 'social-network-types.order', array() );
+
+			// Add active types registered via the `cn_social_network_options` filter.
+			// Use array_filter to remove "false" values that could be potentially be passed by the `cn_social_network_options` filter.
+			$active  = array_merge( $active, array_flip( array_filter( apply_filters( 'cn_social_network_options', $active ) ) ) );
+
+			// Remove types from the order if they do not exist in the registered types to account for removed types.
+			$order   = array_flip( array_intersect_key( array_flip( $order ), array_merge( $registered, $type ) ) );
+
+			// Reorder the saved types to the user defined order.
+			$type    = array_replace( array_flip( $order ), $registered, $type );
+
+			// Remove inactive types.
+			$networks = array_intersect_key( $type, array_flip( $active ) );
+			$options  = array();
+
+			foreach ( $networks as $slug => $network ) {
+
+				$options[ $slug ] = __( $network['name'], 'connections' );
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns an array of the default social media types.
+	 *
+	 * @access private
+	 * @since  unknown
+	 * @deprecated 8.45 Use cnOptions::getSocialNetworkTypeOptions()
+	 * @see cnOptions::getSocialNetworkTypeOptions()
+	 *
+	 * @return array
+	 */
+	public function getDefaultSocialMediaValues() {
+
+		return self::getSocialNetworkTypeOptions();
+	}
+
+	/**
+	 * Returns an associative array all registered social network types.
+	 * Including those registered via the `cn_social_network_options` filter and added via the Settings admin page.
+	 *
+	 * @access public
+	 * @since  8.45
+	 *
+	 * @return array
+	 */
+	public static function getRegisteredSocialNetworkTypes() {
+
+		$options = get_option( 'connections_fieldset-social-networks' );
+
+		$core = self::getCoreSocialNetworkTypes();
+		$type = cnArray::get( $options, 'social-network-types.icon', $core );
+
+		return array_replace( $core, $type );
+	}
+
+	/**
+	 * Get the default social network type.
+	 *
+	 * @access public
+	 * @since  8.45
+	 *
+	 * @return array
+	 */
+	public static function getDefaultSocialNetworkType() {
+
+		$types = self::getCoreSocialNetworkTypes();
+
+		$value = reset( $types );
+		$key   = key( $types );
+
+		return array( $key => $value );
+	}
+
+	/**
+	 * Return the social network types that have been associated to entries.
+	 *
+	 * @access public
+	 * @since  8.45
+	 *
+	 * @return array
+	 */
+	public static function getSocialNetworkTypesInUse() {
+		global $wpdb;
+
+		$types = $wpdb->get_col( 'SELECT `type` FROM ' . CN_ENTRY_SOCIAL_TABLE . ' WHERE `type` <> "" GROUP BY `type`' );
+
+		return array_intersect_key( self::getRegisteredSocialNetworkTypes(), array_flip( $types ) );
 	}
 
 	/**

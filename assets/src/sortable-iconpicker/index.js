@@ -70,7 +70,7 @@ const socialNetwork = class {
 
 	getForegroundColor() {
 
-		let iconColor = brandicons.color( this.getSlug() );
+		let iconColor = '#FFFFFF';
 
 		if ( this.foregroundColor instanceof jQuery && this.foregroundColor.val() ) {
 

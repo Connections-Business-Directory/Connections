@@ -1883,6 +1883,134 @@ class cnRegisterSettings {
 			'default'   => 0,
 		);
 
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'shape',
+			'position'  => 22,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => __( 'Shape', 'connections' ),
+			'desc'      => __(
+				'Choose social network icon shape.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'radio',
+			'options' => array(
+				'circle'  => __( 'Circle', 'connections' ),
+				'rounded' => __( 'Rounded Corners', 'connections' ),
+				'square'  => __( 'Square', 'connections' ),
+			),
+			'default'   => 'rounded',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'color-scheme',
+			'position'  => 23,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => __( 'Color Scheme', 'connections' ),
+			'desc'      => __(
+				'Choose social network icon color scheme.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'radio',
+			'options'   => array(
+				'individual' => __( 'Individual Icon Colors', 'connections' ),
+				'global'     => __( 'Global Icon Colors', 'connections' ),
+			),
+			'default'   => 'individual',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'background-transparent',
+			'position'  => 24,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => '',
+			'desc'      => __(
+				'Force icon background colors to be transparent. Enabling this option will override the colors set for the global background and background hover colors.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'checkbox',
+			'default'   => 0,
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'background-color',
+			'position'  => 25,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => '',
+			'desc'      => __(
+				'Choose the global icon background color.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'colorpicker',
+			'default'   => '#BEBDBD',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'background-color-hover',
+			'position'  => 27,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => '',
+			'desc'      => __(
+				'Choose the global icon background hover color.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'colorpicker',
+			'default'   => '#E8E8E8',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'foreground-color',
+			'position'  => 28,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => '',
+			'desc'      => __(
+				'Choose the global icon foreground color.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'colorpicker',
+			'default'   => '#FFFFFF',
+		);
+
+		$fields[] = array(
+			'plugin_id' => 'connections',
+			'id'        => 'foreground-color-hover',
+			'position'  => 28,
+			'page_hook' => $settings,
+			'tab'       => 'field-configuration',
+			'section'   => 'fieldset-social-networks',
+			'title'     => '',
+			'desc'      => __(
+				'Choose the global icon foreground hover color.',
+				'connections'
+			),
+			'help'      => '',
+			'type'      => 'colorpicker',
+			'default'   => '#FFFFFF',
+		);
+
 		// Grab the social types.
 		$socialMediaTypes = cnOptions::getCoreSocialNetworkTypes();
 

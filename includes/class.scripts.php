@@ -752,22 +752,82 @@ class cnScript {
 	 */
 	public static function inlineBrandiconStyles() {
 
-		$networks = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'social-network-types' );
-		$css      = '';
+		$networks        = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'social-network-types' );
+		$shape           = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'shape' );
+		$scheme          = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'color-scheme' );
+		$transparent     = (bool) cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'background-transparent' );
+		$background      = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'background-color' );
+		$backgroundHover = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'background-color-hover' );
+		$foreground      = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'foreground-color' );
+		$foregroundHover = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'foreground-color-hover' );
 
 		if ( FALSE === $networks || ! is_array( $networks['icon'] ) ) return;
 
-		foreach ( $networks['icon'] as $slug => $icon ) {
+		$css = '';
 
-			if ( 0 < strlen( $icon['color'] ) ) {
+		if ( 'global' === $scheme && ! is_admin() ) {
 
-				$css .= "i.cn-brandicon-{$icon['slug']} { background-color: {$icon['color']}; }" . PHP_EOL;
+			$css .= "i[class^=cn-brandicon]::before { color: {$foreground}; }" . PHP_EOL;
+			$css .= "i[class^=cn-brandicon]:hover::before { color: {$foregroundHover}; }" . PHP_EOL;
+
+			if ( $transparent ) {
+
+				$css .= "i[class^='cn-brandicon'] { background-color: transparent; }" . PHP_EOL;
+				$css .= "i[class^='cn-brandicon']:hover { background-color: transparent; }" . PHP_EOL;
+
+			} else {
+
+				$css .= "i[class^='cn-brandicon'] { background-color: {$background}; }" . PHP_EOL;
+				$css .= "i[class^='cn-brandicon']:hover { background-color: {$backgroundHover}; }" . PHP_EOL;
 			}
 
-			if ( 0 < strlen( $icon['color-hover'] ) ) {
+		} else {
 
-				$css .= "i.cn-brandicon-{$icon['slug']}:hover { background-color: {$icon['color-hover']}; }" . PHP_EOL;
+			foreach ( $networks['icon'] as $slug => $icon ) {
+
+				if ( 0 < strlen( $icon['foreground-color'] ) ) {
+
+					$css .= "i.cn-brandicon-{$icon['slug']}::before { color: var( --color, {$icon['foreground-color']} ); }" . PHP_EOL;
+				}
+
+				if ( 0 < strlen( $icon['foreground-color-hover'] ) ) {
+
+					$css .= "i.cn-brandicon-{$icon['slug']}:hover::before { color: var( --color, {$icon['foreground-color-hover']} ); }" . PHP_EOL;
+				}
+
+				if ( '1' === $icon['background-transparent'] ) {
+
+					$css .= "i.cn-brandicon-{$icon['slug']} { background-color: transparent; }" . PHP_EOL;
+					$css .= "i.cn-brandicon-{$icon['slug']}:hover { background-color: transparent; }" . PHP_EOL;
+
+				} else {
+
+					if ( 0 < strlen( $icon['background-color'] ) ) {
+
+						$css .= "i.cn-brandicon-{$icon['slug']} { background-color: {$icon['background-color']}; }" . PHP_EOL;
+					}
+
+					if ( 0 < strlen( $icon['background-color-hover'] ) ) {
+
+						$css .= "i.cn-brandicon-{$icon['slug']}:hover { background-color: {$icon['background-color-hover']}; }" . PHP_EOL;
+					}
+
+				}
+
 			}
+		}
+
+		switch ( $shape ) {
+
+			case 'circle':
+
+				$css .= "i[class^=cn-brandicon] { border-radius: 50%; }" . PHP_EOL;
+				break;
+
+			case 'square':
+
+				$css .= "i[class^=cn-brandicon] { border-radius: 0; }" . PHP_EOL;
+				break;
 		}
 
 		//$css .= "i[class^=cn-brandicon]:before { color: #000; }" . PHP_EOL;

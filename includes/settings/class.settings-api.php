@@ -1450,36 +1450,90 @@ if ( ! class_exists('cnSettingsAPI') ) {
 							array(
 								'type'    => 'hidden',
 								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][color]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][color]',
+								'class'   => array( 'cn-brandicon-background-color' ),
+								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
+								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-color]',
 								'data'    => array(
-									'id  ' => esc_attr( $name ) . '[icon][%token%][color]',
-									'name' => esc_attr( $name ) . '[icon][%token%][color]',
+									'id  ' => esc_attr( $name ) . '[icon][%token%][background-color]',
+									'name' => esc_attr( $name ) . '[icon][%token%][background-color]',
 								),
 								'label'   => '',
 								'layout'  => '%field%',
 								'return'  => TRUE,
 							),
-							sanitize_text_field( isset( $value['icon'][ $key ]['color'] ) ? $value['icon'][ $key ]['color'] : '' )
+							sanitize_text_field( isset( $value['icon'][ $key ]['background-color'] ) ? $value['icon'][ $key ]['background-color'] : '' )
 						);
 
 						$hidden .= cnHTML::input(
 							array(
 								'type'    => 'hidden',
 								'prefix'  => '',
-								'class'   => array( 'cn-brandicon-hover-color' ),
-								'id'      => esc_attr( $name ) . '[icon][' . $key . '][color-hover]',
-								'name'    => esc_attr( $name ) . '[icon][' . $key . '][color-hover]',
+								'class'   => array( 'cn-brandicon-hover-background-color' ),
+								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
+								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-color-hover]',
 								'data'    => array(
-									'id'   => esc_attr( $name ) . '[icon][%token%][color-hover]',
-									'name' => esc_attr( $name ) . '[icon][%token%][color-hover]',
+									'id'   => esc_attr( $name ) . '[icon][%token%][background-color-hover]',
+									'name' => esc_attr( $name ) . '[icon][%token%][background-color-hover]',
 								),
 								'label'   => '',
 								'layout'  => '%field%',
 								'return'  => TRUE,
 							),
-							sanitize_text_field( isset( $value['icon'][ $key ]['color-hover'] ) ? $value['icon'][ $key ]['color-hover'] : '' )
+							sanitize_text_field( isset( $value['icon'][ $key ]['background-color-hover'] ) ? $value['icon'][ $key ]['background-color-hover'] : '' )
+						);
+
+						$hidden .= cnHTML::input(
+							array(
+								'type'    => 'hidden',
+								'prefix'  => '',
+								'class'   => array( 'cn-brandicon-background-transparent' ),
+								'id'      => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
+								'name'    => esc_attr( $name ) . '[icon][' . $key . '][background-transparent]',
+								'data'    => array(
+									'id'   => esc_attr( $name ) . '[icon][%token%][background-transparent]',
+									'name' => esc_attr( $name ) . '[icon][%token%][background-transparent]',
+								),
+								'label'   => '',
+								'layout'  => '%field%',
+								'return'  => TRUE,
+							),
+							sanitize_text_field( isset( $value['icon'][ $key ]['background-transparent'] ) ? $value['icon'][ $key ]['background-transparent'] : '' )
+						);
+
+						$hidden .= cnHTML::input(
+							array(
+								'type'    => 'hidden',
+								'prefix'  => '',
+								'class'   => array( 'cn-brandicon-foreground-color' ),
+								'id'      => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
+								'name'    => esc_attr( $name ) . '[icon][' . $key . '][foreground-color]',
+								'data'    => array(
+									'id  ' => esc_attr( $name ) . '[icon][%token%][foreground-color]',
+									'name' => esc_attr( $name ) . '[icon][%token%][foreground-color]',
+								),
+								'label'   => '',
+								'layout'  => '%field%',
+								'return'  => TRUE,
+							),
+							sanitize_text_field( isset( $value['icon'][ $key ]['foreground-color'] ) ? $value['icon'][ $key ]['foreground-color'] : '' )
+						);
+
+						$hidden .= cnHTML::input(
+							array(
+								'type'    => 'hidden',
+								'prefix'  => '',
+								'class'   => array( 'cn-brandicon-hover-foreground-color' ),
+								'id'      => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
+								'name'    => esc_attr( $name ) . '[icon][' . $key . '][foreground-color-hover]',
+								'data'    => array(
+									'id'   => esc_attr( $name ) . '[icon][%token%][foreground-color-hover]',
+									'name' => esc_attr( $name ) . '[icon][%token%][foreground-color-hover]',
+								),
+								'label'   => '',
+								'layout'  => '%field%',
+								'return'  => TRUE,
+							),
+							sanitize_text_field( isset( $value['icon'][ $key ]['foreground-color-hover'] ) ? $value['icon'][ $key ]['foreground-color-hover'] : '' )
 						);
 
 						if ( 'sortable_iconpicker-repeatable' === $field['type'] ) {
@@ -1541,6 +1595,28 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 					break;
 
+				case 'colorpicker':
+
+					if ( isset( $field['desc'] ) && ! empty( $field['desc'] ) ) {
+
+						$out .= sprintf(
+							'<p class="description"> %1$s</p>' . PHP_EOL,
+							esc_html( $field['desc'] )
+						);
+					}
+
+					printf(
+						'<input type="text" class="cn-colorpicker" id="%1$s" name="%1$s" value="%2$s"%3$s/>',
+						esc_attr( $name ),
+						esc_attr( $value ),
+						isset( $field['readonly'] ) && TRUE === $field['readonly'] ? ' readonly="readonly"' : ''
+					);
+
+					wp_enqueue_script('wp-color-picker');
+					add_action( 'admin_print_footer_scripts' , array( __CLASS__ , 'colorpickerJS' ) );
+
+					break;
+
 				default:
 
 					ob_start();
@@ -1588,6 +1664,30 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		}
 
 		/**
+		 * Outputs the JS necessary to support the color picker.
+		 *
+		 * @access private
+		 * @since  9.0
+		 */
+		public static function colorpickerJS() {
+
+			?>
+
+			<script type="text/javascript">/* <![CDATA[ */
+				jQuery(document).ready( function($){
+
+					/*
+					 * Add the Color Picker to the input fields.
+					 */
+					$('.cn-colorpicker').wpColorPicker();
+				});
+				/* ]]> */</script>
+
+			<?php
+
+		}
+
+		/**
 		 * Callback for the `admin_footer` action.
 		 *
 		 * Outputs the HTML to support the font icon picker settings for the social networks.
@@ -1605,16 +1705,31 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					<input type="text" id="e9_element" name="e9_element" />
 				</p>
 				<p>
-					<label for="cn-icon-color">Choose the icon color:</label>
+					<label for="cn-icon-background-color">Choose the icon background color:</label>
 				</p>
 				<p>
-					<input type="text" class="cn-icon-colorpicker" id="cn-icon-color" />
+					<input type="text" class="cn-icon-colorpicker" id="cn-icon-background-color" />
 				</p>
 				<p>
-					<label for="cn-icon-hover-color">Choose the icon hover color:</label>
+					<label for="cn-icon-hover-background-color">Choose the icon background hover color:</label>
 				</p>
 				<p>
-					<input type="text" class="cn-icon-colorpicker" id="cn-icon-hover-color" />
+					<input type="text" class="cn-icon-colorpicker" id="cn-icon-hover-background-color" />
+				</p>
+				<p>
+					<input type="checkbox" class="checkbox" id="cn-icon-background-transparent" value="" /> <label for="cn-icon-background-transparent">Force icon background colors to be transparent. Enabling this option will override the colors set for the background and background hover colors.</label>
+				</p>
+				<p>
+					<label for="cn-icon-foreground-color">Choose the icon foreground color:</label>
+				</p>
+				<p>
+					<input type="text" class="cn-icon-colorpicker" id="cn-icon-foreground-color" />
+				</p>
+				<p>
+					<label for="cn-icon-hover-foreground-color">Choose the icon foreground hover color:</label>
+				</p>
+				<p>
+					<input type="text" class="cn-icon-colorpicker" id="cn-icon-hover-foreground-color" />
 				</p>
 			</div>
 			<?php

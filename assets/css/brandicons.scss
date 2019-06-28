@@ -8,7 +8,8 @@ i[class^='cn-brandicon'] {
 }
 
 i[class^='cn-brandicon']:before {
-	color: #FFF;
+	color: #FFF; /* Fallback color for IE11 */
+	color: var( --color, #FFF ); /* Use CSS variable to define color so it can be easily changed via JavaScript/jQuery. */
 }
 
 i.cn-brandicon-size-16 {

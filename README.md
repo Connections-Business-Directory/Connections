@@ -247,6 +247,14 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.0 07/02/2019 =
+* FEATURE: Introduce the Social Network filedset config options.
+* TWEAK: Tweak display of social media icons a bit in the Team Block for improved display.
+* TWEAK: Add `rel="noopener"` to social network and website links for increased security.
+* BUG: Incorrectly applying the link type options filter to the date type option.
+* DEV: Fix typos in inline code comments.
+* DEV: Update dist files.
+
 = 8.44.1 06/12/2019 =
 * BUG: Prevent PHP notice from being shown in some cases.
 
@@ -475,15 +483,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add inline comment for the `html` parameter for the `registerBlockType()` function.
 * DEV: Reorder the deconstructed `wp.i18n` methods.
 * DEV: Add classnames and lodash as dev dependencies to package.json.
-
-= 8.31 11/23/2018 =
-* NEW: WordPress 5.0 Support.
-* FEATURE: Gutenberg Block to which can be used to insert the directory into the page.
-* TWEAK: Update the attribution link to Leaflet.
-* TWEAK: Exclude the Leaflet CSS from Autoptimize.
-* TWEAK: The custom HTML elements for the map layers control should be hidden.
-* TWEAK: Remove unnecessary `is_admin()` check when registering CSS.
-* DEV: Update package.json with dev dependencies to support webpack.
-* DEV: Initial babel and webpack config.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

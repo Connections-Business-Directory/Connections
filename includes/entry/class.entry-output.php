@@ -1859,12 +1859,12 @@ class cnOutput extends cnEntry {
 
 			$row = "\t" . '<span class="social-media-network cn-social-media-network' . ( $network->preferred ? ' cn-preferred cn-social-media-network-preferred' : '' ) . '">';
 
-			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->name . '</a>';
+			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" rel="noopener" title="' . $network->name . '">' . $network->name . '</a>';
 
-			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '">' . $network->url . '</a>';
+			$replace[] = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" rel="noopener" title="' . $network->name . '">' . $network->url . '</a>';
 
 			//$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><img class="' . implode( ' ', $iconClass ) . '" src="' . CN_URL . 'assets/images/icons/' . $iconStyle . '/' . $iconSize . '/' . $network->type . '.png" height="' . $iconSize . '" width="' . $iconSize . '" style="width: ' . $iconSize . 'px; height: ' . $iconSize . 'px;" alt="' . $network->name . ' Icon"/></a>';
-			$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" title="' . $network->name . '"><i class="' . implode( ' ', $classes ) . '"></i></a>';
+			$icon = '<a class="url ' . $network->type . '" href="' . $network->url . '" target="_blank" rel="noopener" title="' . $network->name . '"><i class="' . implode( ' ', $classes ) . '"></i></a>';
 
 			$replace[] = $icon;
 

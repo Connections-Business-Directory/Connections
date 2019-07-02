@@ -63,7 +63,7 @@
 
 				if ( $atts['displaySocial'] ) {
 
-					$entry->getSocialMediaBlock();
+					$entry->getSocialMediaBlock( array( 'size' => 24 ) );
 				}
 				?>
 			</div>

@@ -1,5 +1,13 @@
 == Changelog ==
 
+= 9.0 07/02/2019 =
+* FEATURE: Introduce the Social Network filedset config options.
+* TWEAK: Tweak display of social media icons a bit in the Team Block for improved display.
+* TWEAK: Add `rel="noopener"` to social network and website links for increased security.
+* BUG: Incorrectly applying the link type options filter to the date type option.
+* DEV: Fix typos in inline code comments.
+* DEV: Update dist files.
+
 = 8.44.1 06/12/2019 =
 * BUG: Prevent PHP notice from being shown in some cases.
 

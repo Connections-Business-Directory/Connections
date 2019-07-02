@@ -16,59 +16,123 @@ const socialNetwork = class {
 			this.instance   = instance;
 			this.slug       = this.instance.find( 'input.cn-brandicon' );
 			this.icon       = this.instance.find( 'i[class^="cn-brandicon"]' );
-			this.color      = this.instance.find( 'input.cn-brandicon-color' );
-			this.hoverColor = this.instance.find( 'input.cn-brandicon-hover-color' );
+			this.backgroundColor       = this.instance.find( 'input.cn-brandicon-background-color' );
+			this.hoverBackgroundColor  = this.instance.find( 'input.cn-brandicon-hover-background-color' );
+			this.backgroundTransparent = this.instance.find( 'input.cn-brandicon-background-transparent' );
+			this.foregroundColor       = this.instance.find( 'input.cn-brandicon-foreground-color' );
+			this.hoverForegroundColor  = this.instance.find( 'input.cn-brandicon-hover-foreground-color' );
 		}
 	}
 
-	getColor() {
+	getBackgroundColor() {
 
 		let iconColor = brandicons.color( this.getSlug() );
 
-		if ( this.color instanceof jQuery && this.color.val() ) {
+		if ( this.backgroundColor instanceof jQuery && this.backgroundColor.val() ) {
 
-			iconColor = this.color.val();
+			iconColor = this.backgroundColor.val();
 		}
 
 		return iconColor;
 	}
 
-	setColor( value ) {
+	setBackgroundColor( value ) {
 
-		if ( this.color instanceof jQuery ) {
+		if ( this.backgroundColor instanceof jQuery ) {
 
-			this.color.val( value );
-			this.icon.css( 'backgroundColor', value );
+			this.backgroundColor.val( value );
+
+			// 'transparent' === value ? this.backgroundTransparent.val( '1' ) : this.backgroundTransparent.val( '0' );
+
+			this.writeStyle();
 		}
 	}
 
-	getHoverColor() {
+	setBackgroundTransparent( value ) {
 
-		let iconColor = brandicons.color( this.getSlug() );
+		if ( this.backgroundTransparent instanceof jQuery ) {
 
-		if ( this.hoverColor instanceof jQuery && this.hoverColor.val() ) {
+			this.backgroundTransparent.val( value );
 
-			iconColor = this.hoverColor.val() ;
+			this.writeStyle();
+		}
+	}
+
+	isBackgroundTransparent() {
+
+		if ( this.backgroundTransparent instanceof jQuery ) {
+
+			return '1' === this.backgroundTransparent.val();
+		}
+
+		return false;
+	}
+
+	getForegroundColor() {
+
+		let iconColor = '#FFFFFF';
+
+		if ( this.foregroundColor instanceof jQuery && this.foregroundColor.val() ) {
+
+			iconColor = this.foregroundColor.val();
 		}
 
 		return iconColor;
 	}
 
-	setHoverColor( value ) {
+	setForegroundColor( value ) {
 
-		if ( this.hoverColor instanceof jQuery ) {
+		if ( this.foregroundColor instanceof jQuery ) {
 
-			this.hoverColor.val( value );
+			this.foregroundColor.val( value );
 
-			// Since the hover color can not be set with an inline style, use the mouseenter/mouseleave events.
-			this.icon.mouseenter( function() {
+			this.writeStyle();
+		}
+	}
 
-				$( this ).css( 'backgroundColor', sn.getHoverColor() );
+	getHoverBackgroundColor() {
 
-			} ).mouseleave( function() {
+		let iconColor = brandicons.color( this.getSlug() );
 
-				$( this ).css( 'backgroundColor', sn.getColor() );
-			});
+		if ( this.hoverBackgroundColor instanceof jQuery && this.hoverBackgroundColor.val() ) {
+
+			iconColor = this.hoverBackgroundColor.val() ;
+		}
+
+		return iconColor;
+	}
+
+	setHoverBackgroundColor( value ) {
+
+		if ( this.hoverBackgroundColor instanceof jQuery ) {
+
+			this.hoverBackgroundColor.val( value );
+
+			// 'transparent' === value ? this.backgroundTransparent.val( '1' ) : this.backgroundTransparent.val( '0' );
+
+			this.writeStyle();
+		}
+	}
+
+	getHoverForegroundColor() {
+
+		let iconColor = '#FFFFFF';
+
+		if ( this.hoverForegroundColor instanceof jQuery && this.hoverForegroundColor.val() ) {
+
+			iconColor = this.hoverForegroundColor.val() ;
+		}
+
+		return iconColor;
+	}
+
+	setHoverForegroundColor( value ) {
+
+		if ( this.hoverForegroundColor instanceof jQuery ) {
+
+			this.hoverForegroundColor.val( value );
+
+			this.writeStyle();
 		}
 	}
 
@@ -115,6 +179,38 @@ const socialNetwork = class {
 	static slugToClassName( value ) {
 
 		return 'cn-brandicon-' + value;
+	}
+
+	writeStyle() {
+
+		let backgroundColor      = this.getBackgroundColor();
+		let backgroundHoverColor = this.getHoverBackgroundColor();
+		let foregroundColor      = this.getForegroundColor();
+		let foregroundHoverColor = this.getHoverForegroundColor();
+
+		if ( this.isBackgroundTransparent() ) {
+
+			backgroundColor      = 'transparent';
+			backgroundHoverColor = 'transparent';
+		}
+
+		this.icon.attr( 'style', "--color: " + foregroundColor + '; background-color: ' + backgroundColor );
+
+		/**
+		 * Since the hover color can not be set with an inline style, use the mouseenter/mouseleave events.
+		 *
+		 * Use CSS variable to in an inline style to set the hover colors.
+		 * @link https://stackoverflow.com/a/49618941/5351316
+		 */
+		this.icon.mouseenter( function() {
+
+			$( this ).attr( 'style', '--color: ' + foregroundHoverColor + '; background-color: ' + backgroundHoverColor );
+
+		} ).mouseleave( function() {
+
+			$( this ).attr( 'style', "--color: " + foregroundColor + '; background-color: ' + backgroundColor );
+		});
+
 	}
 };
 
@@ -216,27 +312,79 @@ const initModal = () => {
 		// Set the icon to be selected in the font icon picker.
 		e9_element.setIcon( sn.getClassname() );
 
-		// Init the icon color picker.
-		const iconColorPicker = $( '#cn-icon-color' ).wpColorPicker({
+		// Init the icon background color picker.
+		const iconBackgroundColorPicker = $( '#cn-icon-background-color' ).wpColorPicker({
 			change: function( event, ui ) {
 
 				// let hex = ui.color.toString();
-				sn.setColor( ui.color.toString() );
+				sn.setBackgroundColor( ui.color.toString() );
 			}
 		} );
 
-		// Init the icon hover color.
-		const iconHoverColorPicker = $( '#cn-icon-hover-color' ).wpColorPicker({
+		// Init the icon background hover color.
+		const iconHoverBackgroundColorPicker = $( '#cn-icon-hover-background-color' ).wpColorPicker({
 			change: function( event, ui ) {
 
 				// let hex = ui.color.toString();
-				sn.setHoverColor( ui.color.toString() );
+				sn.setHoverBackgroundColor( ui.color.toString() );
 			}
 		} );
 
-		// Set the  color pickers to the saved color values before the modal is opened.
-		iconColorPicker.wpColorPicker( 'color', sn.getColor() );
-		iconHoverColorPicker.wpColorPicker( 'color', sn.getHoverColor() );
+		// Set the transparent background checkbox state.
+		if ( sn.isBackgroundTransparent() ) {
+
+			$( '#cn-icon-background-transparent' ).prop( 'checked', true );
+		}
+
+		/**
+		 * Bind event to set transparent color or background colors based on whether the checkbox is enabled or not.
+		 *
+		 * To prevent the change event from being attached more than once, remove it before adding it again
+		 * using a namespace.
+		 *
+		 * @link https://stackoverflow.com/a/1558382/5351316
+		 */
+		$( '#cn-icon-background-transparent' ).off( 'change.transparent' ).on( 'change.transparent', function() {
+
+			const checkbox = $( this );
+
+			if ( checkbox.is( ':checked' ) ) {
+
+				// sn.setBackgroundColor( 'transparent' );
+				// sn.setHoverBackgroundColor( 'transparent' );
+				sn.setBackgroundTransparent( '1' );
+
+			} else {
+
+				// sn.setBackgroundColor( iconBackgroundColorPicker.wpColorPicker( 'color' ) );
+				// sn.setHoverBackgroundColor( iconHoverBackgroundColorPicker.wpColorPicker( 'color' ) );
+				sn.setBackgroundTransparent( '0' );
+			}
+		} );
+
+		// Init the icon foreground color picker.
+		const iconForegroundColorPicker = $( '#cn-icon-foreground-color' ).wpColorPicker({
+			change: function( event, ui ) {
+
+				// let hex = ui.color.toString();
+				sn.setForegroundColor( ui.color.toString() );
+			}
+		} );
+
+		// Init the icon foreground hover color.
+		const iconHoverForegroundColorPicker = $( '#cn-icon-hover-foreground-color' ).wpColorPicker({
+			change: function( event, ui ) {
+
+				// let hex = ui.color.toString();
+				sn.setHoverForegroundColor( ui.color.toString() );
+			}
+		} );
+
+		// Set the color pickers to the saved color values before the modal is opened.
+		iconBackgroundColorPicker.wpColorPicker( 'color', sn.getBackgroundColor() );
+		iconHoverBackgroundColorPicker.wpColorPicker( 'color', sn.getHoverBackgroundColor() );
+		iconForegroundColorPicker.wpColorPicker( 'color', sn.getForegroundColor() );
+		iconHoverForegroundColorPicker.wpColorPicker( 'color', sn.getHoverForegroundColor() );
 
 		// Open the icon settings modal.
 		modal.dialog( 'open' );

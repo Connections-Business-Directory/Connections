@@ -21,7 +21,8 @@
 	.fn.org,
 	.title,
 	.phone-number-block,
-	.email-address-block {
+	.email-address-block,
+	.social-media-block {
 		display: block;
 	}
 
@@ -87,6 +88,10 @@
 			ul li {
 				text-align: initial;
 			}
+		}
+
+		.social-media-block {
+			margin-top: 10px;
 		}
 	}
 
@@ -440,6 +445,11 @@
 
 	.cn-table-cell.cn-team-member-social-media {
 		text-align: center;
+
+		.social-media-block {
+
+			margin-top: 0;
+		}
 	}
 }
 

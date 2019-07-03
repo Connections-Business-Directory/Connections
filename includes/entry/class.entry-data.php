@@ -1757,7 +1757,8 @@ class cnEntry {
 					 * Set the social network name based on type.
 					 */
 					$socialTypes = $connections->options->getDefaultSocialMediaValues();
-					$row->name = $socialTypes[ $row->type ];
+					//$row->name = $socialTypes[ $row->type ];
+					$row->name = cnArray::get( $socialTypes, $row->type, $row->type );
 
 					/*
 					 * // START -- Compatibility for previous versions.

@@ -761,7 +761,7 @@ class cnScript {
 		$foreground      = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'foreground-color' );
 		$foregroundHover = cnSettingsAPI::get( 'connections', 'fieldset-social-networks', 'foreground-color-hover' );
 
-		if ( FALSE === $networks || ! is_array( $networks['icon'] ) ) return;
+		if ( FALSE === $networks || ( ! isset( $networks['icon'] ) || ! is_array( $networks['icon'] ) ) ) return;
 
 		$css = '';
 

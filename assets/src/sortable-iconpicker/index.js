@@ -396,7 +396,7 @@ $( document ).ready( function() {
 
 	// Get the JSON file
 	$.ajax( {
-		url:      '//sandbox.connections-pro.com/wp-content/plugins/connections/assets/vendor/icomoon-brands/selection.json',
+		url:      cnBase.url + 'assets/vendor/icomoon-brands/selection.json',
 		type:     'GET',
 		dataType: 'json'
 	} )

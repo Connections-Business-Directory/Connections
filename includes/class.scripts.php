@@ -318,8 +318,14 @@ class cnScript {
 				$map['geocoderDefault'] = 'google';
 			}
 
+			$urls = array(
+				'url'                   => Connections_Directory()->pluginURL(),
+				'url_protocol_relative' => $url,
+			);
+
 			wp_localize_script( 'cn-ui-admin', 'cn_string', $strings );
 			wp_localize_script( 'cn-ui-admin', 'cnMap', $map );
+			wp_localize_script( 'cn-ui-admin', 'cnBase', $urls );
 
 			$stringsSystemInfo = array(
 				'strSend'                   => __( 'Send Email', 'connections' ),

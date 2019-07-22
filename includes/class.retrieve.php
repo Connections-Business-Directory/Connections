@@ -2334,7 +2334,6 @@ class cnRetrieve {
 		return $results;
 	}
 
-
 	/**
 	 * Return an array of entry ID/s found with the supplied search terms.
 	 *

@@ -1,27 +1,27 @@
 <?php
 
 /**
- * Class cnEntry_Date
+ * Class cnEntry_Social_Network
  *
- * @since 8.22
+ * @since 9.1
  *
- * @property DateTime|false $date
+ * @property string $url
  */
-final class cnEntry_Date extends cnEntry_Collection_Item {
+final class cnEntry_Social_Network extends cnEntry_Collection_Item {
 
 	/**
-	 * @since 8.22
-	 * @var DateTime|false
+	 * @since 9.1
+	 * @var string
 	 */
-	protected $date = '';
+	protected $url = '';
 
 	/**
-	 * Hash map of the old array keys / object properties to cnEntry_Date properties.
+	 * Hash map of the old array keys / object properties to cnEntry_Social_Network properties.
 	 *
 	 * Used in self::__isset()
 	 *
 	 * @access protected
-	 * @since  8.22
+	 * @since  9.1
 	 * @var    array
 	 */
 	protected $properties = array(
@@ -32,16 +32,16 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		'visibility' => 'visibility',
 		'order'      => 'order',
 		'preferred'  => 'preferred',
-		'date'       => 'date',
+		'url'        => 'url',
 	);
 
 	/**
-	 * Hash map of the the old array keys / object properties to cnEntry_Date method callbacks.
+	 * Hash map of the the old array keys / object properties to cnEntry_Social_Network method callbacks.
 	 *
 	 * Used in self::__get()
 	 *
 	 * @access protected
-	 * @since  8.22
+	 * @since  9.1
 	 * @var    array
 	 */
 	protected $methods = array(
@@ -52,38 +52,36 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		'visibility' => 'getVisibility',
 		'order'      => 'getOrder',
 		'preferred'  => 'getPreferred',
-		'date'       => 'getDate',
+		'url'        => 'getURL',
 	);
 
 	/**
-	 * cnEntry_Date constructor.
+	 * cnEntry_Social_Network constructor.
 	 *
 	 * @access public
-	 * @since  8.22
+	 * @since  9.1
 	 *
 	 * @param array $data
 	 */
 	public function __construct( $data ) {
 
 		$types   = self::getTypes();
-		$default = cnOptions::getDefaultDateType();
+		$default = cnOptions::getDefaultSocialNetworkType();
 
 		$this->id         = (int) cnArray::get( $data, 'id', 0 );
-
 		$preferred        = cnArray::get( $data, 'preferred', FALSE );
-
 		$type             = cnSanitize::field( 'attribute', cnArray::get( $data, 'type', key( $default ) ), 'raw' );
 
 		$this->type       = array_key_exists( $type, $types ) ? $type : key( $default );
 		$this->visibility = cnSanitize::field( 'attribute', cnArray::get( $data, 'visibility', 'public' ), 'raw' );
 		$this->order      = absint( cnArray::get( $data, 'order', 0 ) );
 		$this->preferred  = cnFormatting::toBoolean( $preferred );
-		//$this->date       = cnSanitize::field( 'date', cnArray::get( $data, 'uid', '' ), 'raw' );
+		$url              = cnArray::get( $data, 'url', '' );
 
-		$this->date       = date_create(
-			cnArray::get( $data, 'date', '' ),
-			new DateTimeZone( 'UTC' )
-		);
+		if ( is_string( $url ) && 0 < strlen( $url ) ) {
+
+			$this->url = cnSanitize::field( 'url', cnURL::prefix( $url ), 'raw' );
+		}
 
 		/*
 		 * // START -- Compatibility for previous versions.
@@ -103,23 +101,23 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 	}
 
 	/**
-	 * Return an array of registered date types.
+	 * Return an array of registered social network types.
 	 *
 	 * @access private
-	 * @since  8.22
+	 * @since  9.1
 	 *
 	 * @return array
 	 */
 	private static function getTypes() {
 
-		return cnOptions::getDateTypeOptions();
+		return cnOptions::getSocialNetworkTypeOptions();
 	}
 
 	/**
-	 * Escaped or sanitize cnEntry_Date based on context.
+	 * Escaped or sanitize cnEntry_Social_Network based on context.
 	 *
 	 * @access public
-	 * @since  8.22
+	 * @since  9.1
 	 *
 	 * @param static $self
 	 * @param string $context
@@ -133,48 +131,47 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 		$self->visibility = cnSanitize::field( 'attribute', $self->visibility, $context );
 		$self->order      = absint( $self->order );
 		$self->preferred  = cnFormatting::toBoolean( $self->preferred );
-		//$self->date       = cnSanitize::field( 'date', $self->date, $context );
+		$self->url        = cnSanitize::field( 'url', cnURL::prefix( $self->url ), $context );
 
 		return $self;
 	}
 
 	/**
 	 * @access public
-	 * @since  8.22
+	 * @since  9.1
 	 *
-	 * @return DateTime|false
+	 * @return string
 	 */
-	public function getDate() {
+	public function getURL() {
 
-		return $this->date;
+		return $this->url;
 	}
 
 	/**
 	 * @access public
-	 * @since  8.22
+	 * @since  9.1
 	 *
-	 * @param string $date
+	 * @param string $url
 	 *
 	 * @return static
 	 */
-	public function setDate( $date ) {
+	public function setURL( $url ) {
 
-		//$this->date = cnSanitize::field( 'date', $date, 'raw' );
+		if ( is_string( $url ) && 0 < strlen( $url ) ) {
 
-		$this->date = date_create( $date, new DateTimeZone( 'UTC' ) );
+			$this->url = cnSanitize::field( 'url', cnURL::prefix( $url ), 'raw' );
+		}
 
 		return $this;
 	}
 
 	/**
 	 * @access public
-	 * @since  8.22
+	 * @since  9.1
 	 *
 	 * @return array
 	 */
 	public function toArray() {
-
-		$date = $this->getDate() instanceof DateTime ? $this->getDate()->format( 'Y-m-d' ) : '';
 
 		return array(
 			'id'          => $this->getID(),
@@ -183,7 +180,7 @@ final class cnEntry_Date extends cnEntry_Collection_Item {
 			'visibility'  => $this->visibility,
 			'order'       => $this->order,
 			'preferred'   => $this->preferred,
-			'date'        => $date,
+			'url'         => $this->url,
 		);
 	}
 }

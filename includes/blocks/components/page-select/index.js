@@ -94,6 +94,7 @@ const applyWithSelect = withSelect( ( select, ownProps ) => {
 		parent_exclude: postId,
 		orderby:        'title',
 		order:          'asc',
+		_fields:        'id,parent,title',
 	};
 
 	return {

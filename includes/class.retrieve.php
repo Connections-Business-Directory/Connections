@@ -2124,7 +2124,7 @@ class cnRetrieve {
 			$limit
 		);
 
-		$results = $wpdb->get_results( $sql );
+		$results = $wpdb->get_results( $sql, ARRAY_A );
 
 		return $results;
 	}
@@ -2333,7 +2333,6 @@ class cnRetrieve {
 
 		return $results;
 	}
-
 
 	/**
 	 * Return an array of entry ID/s found with the supplied search terms.

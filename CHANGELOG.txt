@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 9.1 07/22/2019 =
+* NEW: Introduce cnEntry_Social_Network.
+* NEW: Introduce cnEntry_Social_Networks.
+* TWEAK: Add cnEntry_Social_Networks and cnEntry_Social_Network to the dependency registry.
+* TWEAK: Refactor cnEntry to utilize cnEntry_Social_Networks when working with social networks attached to entries.
+* TWEAK: Limit the requested fields in the page select editor control to the `id`, `parent` and `title` fields to limit processing for faster responses from the server.
+* TWEAK: Add code to fix the copy entry action. Needs additional testing, leave the action disabled for now.
+* DEV: phpDoc corrections.
+
 = 9.0.2 07/10/2019 =
 * BUG: Fix hard coded URL fetching the brand icons.
 * DEV: Update build dependencies.

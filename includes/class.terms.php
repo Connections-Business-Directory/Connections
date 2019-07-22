@@ -1280,7 +1280,7 @@ class cnTerm {
 	 * @param string     $taxonomy The taxonomy name.
 	 * @param int|null   $parent   ID of parent term under which to confine the exists search.
 	 *
-	 * @return array|int Returns 0 if the term does not exist. Returns the term ID if no taxonomy is specified
+	 * @return array|int Returns NULL if the term does not exist. Returns the term ID if no taxonomy is specified
 	 *                   and the term ID exists. Returns an array of the term ID and the term taxonomy ID
 	 *                   if the taxonomy is specified and the pairing exists.
 	 */

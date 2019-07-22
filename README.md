@@ -247,6 +247,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.1 07/22/2019 =
+* NEW: Introduce cnEntry_Social_Network.
+* NEW: Introduce cnEntry_Social_Networks.
+* TWEAK: Add cnEntry_Social_Networks and cnEntry_Social_Network to the dependency registry.
+* TWEAK: Refactor cnEntry to utilize cnEntry_Social_Networks when working with social networks attached to entries.
+* TWEAK: Limit the requested fields in the page select editor control to the `id`, `parent` and `title` fields to limit processing for faster responses from the server.
+* TWEAK: Add code to fix the copy entry action. Needs additional testing, leave the action disabled for now.
+* DEV: phpDoc corrections.
+
 = 9.0.2 07/10/2019 =
 * BUG: Fix hard coded URL fetching the brand icons.
 * DEV: Update build dependencies.
@@ -471,25 +480,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * NEW: Add support for displaying the original year and years since in the Upcoming List Gutenberg block
 * NEW: Add support for displaying the original year and years since in the `[upcoming_list]` shortcode.
 * TWEAK: Add help text to the Directory block options.
-
-= 8.32 11/30/2018 =
-* BREAKING CHANGE: Renamed the block namespace. If you used the Connections block in WP 5.0-rc1, you'll need to update the block.
-* FEATURE: Introduce the Upcoming List block for the WordPress 5.0 editor.
-* NEW: Introduce a `no_results` option to the `[upcoming_list]` shortcode so the no results message can be customized.
-* NEW: Introduce `cnDate::GetUpcoming()`.
-* TWEAK: No need to use the `editor_script` parameter in `register_block_type()` since is is enqueued in the `enqueue_block_editor_assets` hook.
-* TWEAK: Check for the `wp_set_script_translations()` function before registering blocks. It seems this function does not exist when using the Gutenberg plugin. So, lets not support the Gutenberg plugin and support only WP 5.0.
-* TWEAK: Update the anniversary and birthday template with more specific CSS so they do no conflict.
-* TWEAK: Rename the Directory block advanced settings field.
-* TWEAK: Add missing period to upcoming list heading.
-* TWEAK: Add a default heading to the upcoming list.
-* TWEAK: Remove unused code from upcoming list.
-* TWEAK: The `list_title` option for the `[upcoming_list]` shortcode should default to an empty string and not `null`.
-* TWEAK: Update the dark and light templates for Anniversaries and Birthdays so they support all registered date types.
-* BUG: Do not attach Chosen to the country field when the field is disabled.
-* DEV: Add some inline comments to describe the `register_block_type()` parameters since they are not outlined in the Gutenberg documentation.
-* DEV: Add inline comment for the `html` parameter for the `registerBlockType()` function.
-* DEV: Reorder the deconstructed `wp.i18n` methods.
-* DEV: Add classnames and lodash as dev dependencies to package.json.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

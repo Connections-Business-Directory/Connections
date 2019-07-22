@@ -111,6 +111,24 @@ function connectionsShowViewPage( $action = NULL ) {
 				$form  = new cnFormObjects();
 				$entry = new cnOutput( $instance->retrieve->entry( $id ) );
 
+				$resetID = function( $item ) {
+					cnArray::set( $item, 'id', 0 );
+					return $item;
+				};
+
+				$resetUID = function( $item ) {
+					cnArray::set( $item, 'uid', 0 );
+					return $item;
+				};
+
+				add_filter( 'cn_address-pre_setup', $resetID );
+				add_filter( 'cn_phone-pre_setup', $resetID );
+				add_filter( 'cn_email-pre_setup', $resetID );
+				add_filter( 'cn_im-pre_setup', $resetUID );
+				add_filter( 'cn_link-pre_setup', $resetID );
+				add_filter( 'cn_date-pre_setup', $resetID );
+				add_filter( 'cn_social_network-pre_setup', $resetID );
+
 				$attr = array(
 					'id'      => 'cn-form',
 					'method'  => 'post',

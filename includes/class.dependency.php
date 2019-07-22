@@ -354,6 +354,10 @@ class cnDependency {
 			'cnEntry_Dates'            => 'includes/entry/date/class.entry-dates.php',
 			'cnEntry_Date'             => 'includes/entry/date/class.date.php',
 
+			// Date objects
+			'cnEntry_Social_Networks'  => 'includes/entry/social/class.entry-social-networks.php',
+			'cnEntry_Social_Network'   => 'includes/entry/social/class.social-network.php',
+
 			// Entry image object.
 			'cnEntry_Image'            => 'includes/entry/image/class.entry-image.php',
 

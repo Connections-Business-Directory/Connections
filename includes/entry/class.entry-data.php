@@ -129,7 +129,7 @@ class cnEntry {
 	public $links = '';
 
 	/**
-	 * @var string
+	 * @var cnEntry_Social_Networks
 	 */
 	private $socialMedia = '';
 
@@ -319,9 +319,10 @@ class cnEntry {
 		// Load the validation class.
 		$this->validate = new cnValidate();
 
-		$this->im    = new cnEntry_Messenger_IDs();
-		$this->links = new cnEntry_Links();
-		$this->dates = new cnEntry_Dates();
+		$this->im          = new cnEntry_Messenger_IDs();
+		$this->links       = new cnEntry_Links();
+		$this->dates       = new cnEntry_Dates();
+		$this->socialMedia = new cnEntry_Social_Networks();
 
 		if ( ! is_null( $entry ) ) {
 
@@ -352,6 +353,7 @@ class cnEntry {
 			$this->im->setEntryID( $this->getId() );
 			$this->links->setEntryID( $this->getId() );
 			$this->dates->setEntryID( $this->getId() );
+			$this->socialMedia->setEntryID( $this->getId() );
 
 			if ( isset( $entry->im ) ) {
 
@@ -368,8 +370,10 @@ class cnEntry {
 				$this->dates->fromMaybeSerialized( $entry->dates );
 			}
 
-			if ( isset( $entry->social ) ) $this->socialMedia = $entry->social;
-			//if ( isset( $entry->dates ) ) $this->dates = $entry->dates;
+			if ( isset( $entry->social ) ) {
+
+				$this->socialMedia->fromMaybeSerialized( $entry->social );
+			}
 
 			if ( isset( $entry->birthday ) ) $this->birthday = (integer) $entry->birthday;
 			if ( isset( $entry->anniversary ) ) $this->anniversary = (integer) $entry->anniversary;
@@ -1677,257 +1681,60 @@ class cnEntry {
 	 *
 	 * @access public
 	 * @since  0.7.3
-	 * @version 1.0
 	 *
-	 * @param array   $atts         Accepted values as noted above.
-	 * @param bool    $cached       Returns the cached social medial URLs data rather than querying the db.
-	 * @param bool    $saving       Whether or no the data is being saved to the db.
+	 * @param array  $atts         Accepted values as noted above.
+	 * @param bool   $cached       Returns the cached social medial URLs data rather than querying the db.
+	 * @param bool   $saving       Whether or no the data is being saved to the db.
+	 * @param string $context The context in which it should be sanitized.
 	 *
 	 * @return array
 	 */
-	public function getSocialMedia( $atts = array(), $cached = TRUE, $saving = FALSE ) {
+	public function getSocialMedia( $atts = array(), $cached = TRUE, $saving = FALSE, $context = 'display' ) {
 
-		/**
-		 * @var connectionsLoad $connections
-		 */
-		global $connections;
-
-		$results = array();
-
-		$atts = apply_filters( 'cn_social_network_atts', $atts );
-		$cached = apply_filters( 'cn_social_network_cached' , $cached );
-
-		/*
-		 * // START -- Set the default attributes array. \\
-		 */
 		$defaults = array(
-			'preferred' => FALSE,
-			'type'      => NULL,
+			'preferred'   => FALSE,
+			'type'        => array(),
+			'limit'       => NULL,
 		);
 
 		$atts = cnSanitize::args( $atts, $defaults );
-		$atts['id'] = $this->getId();
-		/*
-		 * // END -- Set the default attributes array if not supplied. \\
-		 */
 
 		if ( $cached ) {
 
-			if ( ! empty( $this->socialMedia ) ) {
+			$this->socialMedia->filterBy( 'type', $atts['type'] )
+			                  ->filterBy( 'preferred', $atts['preferred'] )
+			                  ->escapeFor( $context );
 
-				$networks = unserialize( $this->socialMedia );
-				if ( empty( $networks ) ) return $results;
+			if ( ! $saving ) $this->socialMedia->filterBy( 'visibility', Connections_Directory()->currentUser->canView() );
 
-				/**
-				 * @var bool   $preferred
-				 * @var string $type
-				 */
-				extract( $atts );
-
-				/*
-				 * Covert to an array if it was supplied as a comma delimited string
-				 */
-				cnFunction::parseStringList( $type );
-
-				foreach ( (array) $networks as $key => $network ) {
-					/*
-					 * Previous versions stored empty arrays for the URL, check for the URL, continue if not found.
-					 */
-					if ( ! isset( $network['url'] ) || empty( $network['url'] ) ) continue;
-
-					/**
-					 * Allow plugins to filter raw data before object is setup.
-					 *
-					 * @since 8.5.19
-					 *
-					 * @param array $network
-					 */
-					$network = apply_filters( 'cn_social_network-pre_setup', $network );
-
-					$row = new stdClass();
-
-					( isset( $network['id'] ) ) ? $row->id = (int) $network['id'] : $row->id = 0;
-					( isset( $network['order'] ) ) ? $row->order = (int) $network['order'] : $row->order = 0;
-					( isset( $network['preferred'] ) ) ? $row->preferred = (bool) $network['preferred'] : $row->preferred = FALSE;
-					( isset( $network['type'] ) ) ? $row->type = $this->format->sanitizeString( $network['type'] ) : $row->type = '';
-					( isset( $network['url'] ) ) ? $row->url = $this->format->sanitizeString( $network['url'] ) : $row->url = '';
-					( isset( $network['visibility'] ) ) ? $row->visibility = $this->format->sanitizeString( $network['visibility'] ) : $row->visibility = '';
-
-					/*
-					 * Set the social network name based on type.
-					 */
-					$socialTypes = $connections->options->getDefaultSocialMediaValues();
-					//$row->name = $socialTypes[ $row->type ];
-					$row->name = cnArray::get( $socialTypes, $row->type, $row->type );
-
-					/*
-					 * // START -- Compatibility for previous versions.
-					 */
-					// Versions prior to 0.7.1.6 may not have visibility set, so we'll assume it was 'public' since it wasn't the option before.
-					if ( ! isset( $network['visibility'] ) || empty( $network['visibility'] ) ) $row->visibility = 'public';
-					/*
-					 * // END -- Compatibility for previous versions.
-					 */
-
-					/*
-					 * // START -- Do not return social networks that do not match the supplied $atts.
-					 */
-					if ( $preferred && ! $row->preferred ) continue;
-					if ( ! empty( $type ) && ! in_array( $row->type, $type ) ) continue;
-					/*
-					 * // END -- Do not return social networks that do not match the supplied $atts.
-					 */
-
-					// If the user does not have permission to view the social network, do not return it.
-					if ( ! $this->validate->userPermitted( $row->visibility ) && ! $saving ) continue;
-
-					$results[] = apply_filters( 'cn_social_network', $row );
-				}
-
-			}
+			$results = $this->socialMedia->getCollectionAsObjects( $atts['limit'] );
 
 		} else {
 
-			// Exit right away and return an empty array if the entry ID has not been set otherwise all email addresses will be returned by the query.
-			if ( ! isset( $this->id ) || empty( $this->id ) ) return array();
+			if ( ! $saving ) $atts['visibility'] = Connections_Directory()->currentUser->canView();
 
-			$socialMedia = $connections->retrieve->socialMedia( $atts, $saving );
-
-			if ( empty( $socialMedia ) ) return $results;
-
-			foreach ( $socialMedia as $network ) {
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$network = apply_filters( 'cn_social_network-pre_setup', $network );
-
-				$network->id = (int) $network->id;
-				$network->order = (int) $network->order;
-				$network->preferred = (bool) $network->preferred;
-				$network->type = $this->format->sanitizeString( $network->type );
-				$network->url = $this->format->sanitizeString( $network->url );
-				$network->visibility = $this->format->sanitizeString( $network->visibility );
-
-				/*
-				 * Set the social network name based on the network type.
-				 */
-				$networkTypes = $connections->options->getDefaultSocialMediaValues();
-				$network->name = $networkTypes [ $network->type ];
-
-				$results[] = apply_filters( 'cn_social_network', $network );
-			}
-
+			$results = $this->socialMedia->query( $atts )
+			                             ->escapeFor( $context )
+			                             ->getCollectionAsObjects();
 		}
 
-		return apply_filters( 'cn_social_networks', $results );
+		// The filters need to be reset so additional calls with different params return expected results.
+		$this->socialMedia->resetFilters();
+
+		return $results;
 	}
 
 	/**
 	 * Caches the social networks for use and preps for saving and updating.
 	 *
-	 * Valid values as follows.
-	 *
-	 * $network['id'] (int) Stores the network ID if it was retrieved from the db.
-	 * $network['preferred'] (bool) If the network is the preferred network or not.
-	 * $network['type'] (string) Stores the network type.
-	 * $network['url'] (string) Stores network URL.
-	 * $network['visibility'] (string) Stores the network visibility.
-	 *
-	 * @TODO: Validate as valid url.
-	 *
 	 * @access public
-	 * @since 0.7.3
-	 * @version 1.0
-	 * @param array   $socialNetworks
-	 * @return void
+	 * @since  0.7.3
+	 *
+	 * @param array $data
 	 */
-	public function setSocialMedia( $socialNetworks ) {
+	public function setSocialMedia( $data ) {
 
-		$userPreferred = NULL;
-
-		$validFields = array( 'id' => NULL, 'preferred' => NULL, 'type' => NULL, 'url' => NULL, 'visibility' => NULL );
-
-		if ( ! empty( $socialNetworks ) ) {
-
-			$order = 0;
-			$preferred = '';
-
-			if ( isset( $socialNetworks['preferred'] ) ) {
-				$preferred = $socialNetworks['preferred'];
-				unset( $socialNetworks['preferred'] );
-			}
-
-			foreach ( $socialNetworks as $key => $network ) {
-
-				// First validate the supplied data.
-				$network = cnSanitize::args( $network, $validFields );
-
-				// If the URL is empty, no need to save it.
-				if ( 0 == strlen( $network['url'] ) ) {
-
-					unset( $socialNetworks[ $key ] );
-					continue;
-				}
-
-				// If the http protocol is not part of the url, add it.
-				$socialNetworks[ $key ]['url'] = cnURL::prefix( $network['url'] );
-
-				// Store the order attribute as supplied in the addresses array.
-				$socialNetworks[ $key ]['order'] = $order;
-
-				( ( ! empty( $preferred ) ) && $preferred == $key ) ? $socialNetworks[ $key ]['preferred'] = TRUE : $socialNetworks[ $key ]['preferred'] = FALSE;
-
-				/*
-				 * If the user set a preferred network, save the $key value.
-				 * This is going to be needed because if a network that the user
-				 * does not have permission to edit is set to preferred, that network
-				 * will have preference.
-				 */
-				if ( $socialNetworks[ $key ]['preferred'] ) $userPreferred = $key;
-
-				$order++;
-
-			}
-		}
-
-		/*
-		 * Before storing the data, add back into the array from the cache the networks
-		 * the user may not have had permission to edit so the cache stays current.
-		 */
-		$cached = unserialize( $this->socialMedia );
-
-		if ( ! empty( $cached ) ) {
-
-			foreach ( $cached as $network ) {
-
-				/*
-				 * // START -- Compatibility for previous versions.
-				 */
-				if ( ! isset( $network['visibility'] ) || empty( $network['visibility'] ) ) $network['visibility'] = 'public';
-				/*
-				 * // END -- Compatibility for previous versions.
-				 */
-
-				/** This filter is documented in ../includes/entry/class.entry-data.php */
-				$network = apply_filters( 'cn_social_network-pre_setup', $network );
-
-				// Add back to the data array the networks that user does not have permission to view and edit.
-				if ( ! $this->validate->userPermitted( $network['visibility'] ) ) {
-
-					$socialNetworks[] = $network;
-
-					// If the network is preferred, it takes precedence, so the user's choice is overridden.
-					if ( ! empty( $preferred ) && $network['preferred'] ) {
-
-						$socialNetworks[ $userPreferred ]['preferred'] = FALSE;
-
-						// Throw the user a message so they know why their choice was overridden.
-						cnMessage::set( 'error', 'entry_preferred_overridden_social' );
-					}
-				}
-			}
-		}
-
-		$this->socialMedia = ! empty( $socialNetworks ) ? serialize( $socialNetworks ) : '';
+		$this->socialMedia->updateFromArray( $data );
 	}
 
 	/**
@@ -3360,7 +3167,7 @@ class cnEntry {
 				//'phone_numbers'      => $this->phoneNumbers,
 				//'email'              => $this->emailAddresses,
 				//'im'                 => $this->im,
-				'social'             => $this->socialMedia,
+				//'social'             => $this->socialMedia,
 				//'links'              => $this->links,
 				//'dates'              => $this->dates,
 				'options'            => wp_json_encode( $this->options ),
@@ -3397,7 +3204,7 @@ class cnEntry {
 				//'%s', // phone_numbers
 				//'%s', // email
 				//'%s', // im
-				'%s', // social
+				//'%s', // social
 				//'%s', // links
 				//'%s', // dates
 				'%s', // options
@@ -3420,30 +3227,13 @@ class cnEntry {
 		 */
 		if ( FALSE !== $result ) {
 
-			require_once CN_PATH . 'includes/entry/class.entry-db.php';
-			$cnDb = new cnEntry_DB( $this->getId() );
-
 			$this->addresses->save();
 			$this->phoneNumbers->save();
 			$this->emailAddresses->save();
 			$this->im->save();
 			$this->links->save();
 			$this->dates->save();
-
-			$cnDb->upsert(
-				CN_ENTRY_SOCIAL_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'url'        => array( 'key' => 'url', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getSocialMedia( array(), TRUE, TRUE ),
-				array(
-					'id' => array( 'key' => 'id', 'format' => '%d' ),
-				)
-			);
+			$this->socialMedia->save();
 
 			$this->updateObjectCaches();
 		}
@@ -3479,21 +3269,14 @@ class cnEntry {
 		$im = $this->getIm( array(), FALSE, TRUE, 'db' );
 		$im = json_decode( json_encode( $im ), TRUE );
 
-		$socialNetworks = $this->getSocialMedia( array(), FALSE, TRUE );
-		$socialNetworks = json_decode( json_encode( $socialNetworks ), TRUE );
+		$social = $this->getSocialMedia( array(), FALSE, TRUE );
+		$social = json_decode( json_encode( $social ), TRUE );
 
 		$links = $this->getLinks( array(), FALSE, TRUE, 'db' );
 		$links = json_decode( json_encode( $links ), TRUE );
 
 		$dates = $this->getDates( array(), FALSE, TRUE, 'db' );
 		$dates = json_decode( json_encode( $dates ), TRUE );
-
-		//$this->phoneNumbers   = serialize( $phoneNumbers );
-		//$this->emailAddresses = serialize( $emailAddresses );
-		//$this->im             = serialize( $im );
-		$this->socialMedia    = serialize( $socialNetworks );
-		//$this->links          = serialize( $links );
-		//$this->dates          = serialize( $dates );
 
 		$wpdb->update(
 			CN_ENTRY_TABLE,
@@ -3503,7 +3286,7 @@ class cnEntry {
 				'phone_numbers' => serialize( $phoneNumbers ),
 				'email'         => serialize( $emailAddresses ),
 				'im'            => serialize( $im ),
-				'social'        => $this->socialMedia,
+				'social'        => serialize( $social ),
 				'links'         => serialize( $links ),
 				'dates'         => serialize( $dates ),
 			),
@@ -3557,7 +3340,7 @@ class cnEntry {
 				//'phone_numbers'      => $this->phoneNumbers,
 				//'email'              => $this->emailAddresses,
 				//'im'                 => $this->im,
-				'social'             => $this->socialMedia,
+				//'social'             => $this->socialMedia,
 				//'links'              => $this->links,
 				//'dates'              => $this->dates,
 				'birthday'           => $this->birthday,
@@ -3594,7 +3377,7 @@ class cnEntry {
 				//'%s', // phone_numbers
 				//'%s', // email
 				//'%s', // im
-				'%s', // social
+				//'%s', // social
 				//'%s', // links
 				//'%s', // dates
 				'%s', // birthday
@@ -3622,27 +3405,13 @@ class cnEntry {
 
 			$this->setId( $wpdb->insert_id );
 
-			require_once CN_PATH . 'includes/entry/class.entry-db.php';
-			$cnDb = new cnEntry_DB( $this->getId() );
-
 			$this->addresses->setEntryID( $this->getId() )->save();
 			$this->phoneNumbers->setEntryID( $this->getId() )->save();
 			$this->emailAddresses->setEntryID( $this->getId() )->save();
 			$this->im->setEntryID( $this->getId() )->save();
 			$this->links->setEntryID( $this->getId() )->save();
 			$this->dates->setEntryID( $this->getId() )->save();
-
-			$cnDb->insert(
-				CN_ENTRY_SOCIAL_TABLE,
-				array(
-					'order'      => array( 'key' => 'order', 'format' => '%d' ),
-					'preferred'  => array( 'key' => 'preferred', 'format' => '%d' ),
-					'type'       => array( 'key' => 'type', 'format' => '%s' ),
-					'url'        => array( 'key' => 'url', 'format' => '%s' ),
-					'visibility' => array( 'key' => 'visibility', 'format' => '%s' ),
-				),
-				$this->getSocialMedia( array(), TRUE, TRUE )
-			);
+			$this->socialMedia->setEntryID( $this->getId() )->save();
 
 			$this->updateObjectCaches();
 		}

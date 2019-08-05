@@ -479,6 +479,10 @@ final class cnArray {
 	 */
 	public static function pull( &$array, $key, $default = NULL ) {
 
+		if ( ! self::accessible( $array ) ) {
+			return $default;
+		}
+
 		$value = self::get( $array, $key, $default );
 
 		self::forget( $array, $key );

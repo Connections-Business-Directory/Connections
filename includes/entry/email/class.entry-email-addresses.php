@@ -492,9 +492,6 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 	 */
 	public function fromArray( $data = array() ) {
 
-		$collection = new cnCollection( $data );
-		$order      = $collection->max('order');
-
 		/*
 		 * The source of $data in Connections core will be from a form submission, object cache or the db.
 		 * When the source is from the form submission the preferred item `key` is stored in the 'preferred' array key
@@ -503,7 +500,9 @@ final class cnEntry_Email_Addresses extends cnEntry_Object_Collection {
 		 * If the `preferred` array key is set, the preferred email address will be set based on the array key value.
 		 * If it is not, the preferred email address value will be retained using the `preferred` key within each email address.
 		 */
-		$preferred  = isset( $data['preferred'] ) ? $data['preferred'] : NULL;
+		$preferred  = cnArray::pull( $data, 'preferred', NULL );
+		$collection = new cnCollection( $data );
+		$order      = $collection->max( 'order' );
 
 		foreach ( $collection as $key => $email ) {
 

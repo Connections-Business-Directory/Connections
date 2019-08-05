@@ -63,7 +63,7 @@ abstract class cnEntry_Object_Collection implements cnToArray {
 	 *
 	 * @param int $id
 	 *
-	 * @return cnEntry_Object_Collection
+	 * @return static
 	 */
 	public function setEntryID( $id ) {
 

@@ -239,6 +239,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.1.1 08/05/2019 =
+* BUG: The Directory block should call the same callback as the shortcode so the login required message can be displayed.
+* BUG: Ensure when setting a preferred contact detail that it does not cause an empty value to be added.
+* BUG: Remove test CSS from Directory block.
+* TWEAK: Check for valid array before attempting to pull a value by key in `cnArray::pull()`.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phhDoc correction.
+
 = 9.1 07/22/2019 =
 * NEW: Introduce cnEntry_Social_Network.
 * NEW: Introduce cnEntry_Social_Networks.
@@ -468,18 +477,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Removed unused variable in `cnTerm::gettaxonomyTerms()`.
 * DEV: phpDoc corrections.
 
-= 8.33 12/06/2018 =
-* NEW: Add support for displaying the original year and years since in the Upcoming List Gutenberg block
-* NEW: Add support for displaying the original year and years since in the `[upcoming_list]` shortcode.
-* TWEAK: Add help text to the Directory block options.
-
 == Upgrade Notice ==
-
-= 8.32 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.33 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.34 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
@@ -551,4 +549,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.1.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

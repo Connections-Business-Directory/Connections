@@ -247,6 +247,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.1.1 08/05/2019 =
+* BUG: The Directory block should call the same callback as the shortcode so the login required message can be displayed.
+* BUG: Ensure when setting a preferred contact detail that it does not cause an empty value to be added.
+* BUG: Remove test CSS from Directory block.
+* TWEAK: Check for valid array before attempting to pull a value by key in `cnArray::pull()`.
+* I18N: Update POT file.
+* I18N: Update MO files.
+* DEV: phhDoc correction.
+
 = 9.1 07/22/2019 =
 * NEW: Introduce cnEntry_Social_Network.
 * NEW: Introduce cnEntry_Social_Networks.
@@ -475,10 +484,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Fallback to `get_locale()` from `get_user_locale()` to prevent fatal errors on WP < 4.7.
 * BUG: Removed unused variable in `cnTerm::gettaxonomyTerms()`.
 * DEV: phpDoc corrections.
-
-= 8.33 12/06/2018 =
-* NEW: Add support for displaying the original year and years since in the Upcoming List Gutenberg block
-* NEW: Add support for displaying the original year and years since in the `[upcoming_list]` shortcode.
-* TWEAK: Add help text to the Directory block options.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

@@ -111,14 +111,14 @@ class cnDashboardMetabox {
 			'status'   => 'approved',
 		);
 
-		self::$metaboxes[] = array(
-			'id'       => 'metabox-featured-partners',
-			'title'    => __( 'Featured Partners', 'connections' ),
-			'pages'    => array( $pages ),
-			'context'  => 'right',
-			'priority' => 'core',
-			'callback' => array( __CLASS__, 'partners' ),
-		);
+		//self::$metaboxes[] = array(
+		//	'id'       => 'metabox-featured-partners',
+		//	'title'    => __( 'Featured Partners', 'connections' ),
+		//	'pages'    => array( $pages ),
+		//	'context'  => 'right',
+		//	'priority' => 'core',
+		//	'callback' => array( __CLASS__, 'partners' ),
+		//);
 
 		self::$metaboxes[] = array(
 			'id'       => 'metabox-quick-links',

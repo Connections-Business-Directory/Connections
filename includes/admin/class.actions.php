@@ -599,11 +599,21 @@ class cnAdminActions {
 
 		foreach ( $wp_list_table->items as $key => &$item ) {
 
-			// Remove the core plugin.
-			if ( 'connections' === $item->slug ) unset( $wp_list_table->items[ $key ] );
+			if ( is_array( $item ) ) {
 
-			// Remove any items which do not have Connections in its name.
-			if ( FALSE === strpos( $item->name, 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+				// Remove the core plugin.
+				if ( 'connections' === $item['slug'] ) unset( $wp_list_table->items[ $key ] );
+
+				// Remove any items which do not have Connections in its name.
+				if ( FALSE === strpos( $item['name'], 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+
+			} elseif ( is_object( $item ) ) {
+
+				if ( 'connections' === $item->slug ) unset( $wp_list_table->items[ $key ] );
+
+				if ( FALSE === strpos( $item->name, 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+			}
+
 		}
 
 		// Save the items from the original query.
@@ -613,19 +623,19 @@ class cnAdminActions {
 		$tslAffiliateURL = 'https://tinyscreenlabs.com/?tslref=connections';
 		$pattern         = "/(?<=href=(\"|'))[^\"']+(?=(\"|'))/";
 
-		$mam = plugins_api(
-			'plugin_information',
-			array(
-				'slug'              => 'mobile-app-manager-for-connections',
-				'fields'            => array(
-					'last_updated'    => TRUE,
-					'icons'           => TRUE,
-					'active_installs' => TRUE,
-				),
-				'locale'            => get_user_locale(),
-				'installed_plugins' => array( 'connections' ),
-			)
-		);
+		//$mam = plugins_api(
+		//	'plugin_information',
+		//	array(
+		//		'slug'              => 'mobile-app-manager-for-connections',
+		//		'fields'            => array(
+		//			'last_updated'    => TRUE,
+		//			'icons'           => TRUE,
+		//			'active_installs' => TRUE,
+		//		),
+		//		'locale'            => get_user_locale(),
+		//		'installed_plugins' => array( 'connections' ),
+		//	)
+		//);
 
 		$offers = plugins_api(
 			'plugin_information',
@@ -682,20 +692,20 @@ class cnAdminActions {
 			//$wp_list_table->display();
 			$wp_list_table->_pagination_args = array();
 
-			if ( ! is_wp_error( $mam ) ) {
-
-				// Update the links to TSL to use the affiliate URL.
-				$mam->homepage = $tslAffiliateURL;
-				$mam->author = preg_replace( $pattern, $tslAffiliateURL, $mam->author );
-
-				$wp_list_table->items = array( $mam );
-				self::installDisplayGroup( 'Featured' );
-			}
-
 			if ( 0 < count( $core ) ) {
 				$wp_list_table->items = $core;
 				self::installDisplayGroup( 'Free' );
 			}
+
+			//if ( ! is_wp_error( $mam ) ) {
+			//
+			//	// Update the links to TSL to use the affiliate URL.
+			//	$mam->homepage = $tslAffiliateURL;
+			//	$mam->author = preg_replace( $pattern, $tslAffiliateURL, $mam->author );
+			//
+			//	$wp_list_table->items = array( $mam );
+			//	self::installDisplayGroup( 'Mobile App' );
+			//}
 
 			if ( ! is_wp_error( $offers ) ) {
 

@@ -99,46 +99,78 @@ class cnRegisterSettings {
 		 * The sections registered to the General tab.
 		 */
 		$sections[] = array(
-			'tab'       => 'general',
-			'id'        => 'connections_home_page',
-			'position'  => 5,
-			'title'     => __( 'Home', 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'general',
+			'id'           => 'connections_home_page',
+			'position'     => 5,
+			'title'        => __( 'Home', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Choose the page where your directory is located. This should be the page where you used the &#91;connections&#93; shortcode.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'The WordPress Page set as the directory home page.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'tab'       => 'general',
-			'id'        => 'connections_login',
-			'position'  => 10,
-			'title'     => __( 'Require Login', 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'tab'          => 'general',
+			'id'           => 'connections_login',
+			'position'     => 10,
+			'title'        => __( 'Require Login', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Whether or not a login is required to view the directory. If login is required, the message to display to the user.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'general',
-			'id'        => 'category',
-			'position'  => 20,
-			'title'     => __( 'Default Category', 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings,
+			'plugin_id'    => 'connections',
+			'tab'          => 'general',
+			'id'           => 'category',
+			'position'     => 20,
+			'title'        => __( 'Default Category', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'The default category to assign to entries if none is selected when adding an entry.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'general',
-			'id'        => 'geo',
-			'position'  => 30,
-			'title'     => __( 'Base country and region.', 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'general',
+			'id'           => 'geo',
+			'position'     => 30,
+			'title'        => __( 'Base country and region.', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'The base country and region.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
@@ -152,235 +184,395 @@ class cnRegisterSettings {
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook' => $settings,
 		);
 
 		/*
 		 * The sections registered to the Display tab.
 		 */
 		$sections[] = array(
-			'tab'       => 'display',
-			'id'        => 'connections_display_general',
-			'position'  => 5,
-			'title'     => __( 'General' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'tab'          => 'display',
+			'id'           => 'connections_display_general',
+			'position'     => 5,
+			'title'        => __( 'General', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'The displayed date format.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'tab'       => 'display',
-			'id'        => 'connections_display_results',
-			'position'  => 10,
-			'title'     => __( 'Results List' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'tab'          => 'display',
+			'id'           => 'connections_display_results',
+			'position'     => 10,
+			'title'        => __( 'Results List', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'The display settings for the directory results list.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'display',
-			'id'        => 'list_actions',
-			'position'  => 15,
-			'title'     => __( 'Result List Actions' , 'connections' ),
-			'callback'  => function() {
+			'plugin_id'    => 'connections',
+			'tab'          => 'display',
+			'id'           => 'list_actions',
+			'position'     => 15,
+			'title'        => __( 'Result List Actions', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Enable or disable various actions that are displayed above the result list.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Enable or disable various actions that are displayed above the result list.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'tab'       => 'display',
-			'id'        => 'connections_display_list',
-			'position'  => 20,
-			'title'     => __( 'Result List' , 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'display',
+			'id'           => 'connections_display_list',
+			'position'     => 20,
+			'title'        => __( 'Result List', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'The following settings are applied when viewing the entry results list.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Enable or disable the content blocks to be displayed in the results list view.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'display',
-			'id'        => 'entry_actions',
-			'position'  => 25,
-			'title'     => __( 'Entry Actions' , 'connections' ),
-			'callback'  => function() {
+			'plugin_id'    => 'connections',
+			'tab'          => 'display',
+			'id'           => 'entry_actions',
+			'position'     => 25,
+			'title'        => __( 'Entry Actions', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Enable or disable various actions that are shown above the single entry in the detail view.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type' => 'object',
+				'description' => esc_html__(
+					'Enable or disable various actions that are shown above the single entry in the detail view.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'tab'       => 'display',
-			'id'        => 'connections_display_single',
-			'position'  => 30,
-			'title'     => __( 'Single Entry' , 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'display',
+			'id'           => 'connections_display_single',
+			'position'     => 30,
+			'title'        => __( 'Single Entry', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'The following settings are applied when viewing a single entry in the detail view. Which details are shown are dependant on the current template being used.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Enable or disable the content blocks to be displayed in the single entry view.',
+					'connections'
+				),
+			),
 		);
 
 		/*
 		 * The sections registered to the Form Fields tab.
 		 */
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-publish',
-			'position'  => 10,
-			'title'     => __( 'Publish Fieldset' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-publish',
+			'position'     => 10,
+			'title'        => __( 'Publish Fieldset', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Choose which entry types are displayed as options.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-name',
-			'position'  => 20,
-			'title'     => __( 'Name Fieldset' , 'connections' ),
-			'callback'  => function() {
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-name',
+			'position'     => 20,
+			'title'        => __( 'Name Fieldset', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Changing the active name fields will not effect existing entries, they will continue to display the existing name as they were previously saved. You will not be able to edit the existing name field unless the field is enabled.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Select the which name fields are to be displayed for each entry type.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-address',
-			'position'  => 30,
-			'title'     => __( 'Address Fieldset' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-address',
+			'position'     => 30,
+			'title'        => __( 'Address Fieldset', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the address fieldset options.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-phone',
-			'position'  => 40,
-			'title'     => __( 'Phone Fieldset' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-phone',
+			'position'     => 40,
+			'title'        => __( 'Phone Fieldset', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the phone fieldset options.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-email',
-			'position'  => 50,
-			'title'     => __( 'Email Fieldset' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-email',
+			'position'     => 50,
+			'title'        => __( 'Email Fieldset', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the email fieldset options.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-messenger',
-			'position'  => 60,
-			'title'     => __( 'Instant Messaging Fieldset' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-messenger',
+			'position'     => 60,
+			'title'        => __( 'Instant Messaging Fieldset', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the instant messenger fieldset options.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-link',
-			'position'  => 70,
-			'title'     => __( 'Link Fieldset' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-link',
+			'position'     => 70,
+			'title'        => __( 'Link Fieldset', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the link fieldset options.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-date',
-			'position'  => 80,
-			'title'     => __( 'Date Fieldset' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-date',
+			'position'     => 80,
+			'title'        => __( 'Date Fieldset', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the date fieldset options.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'field-configuration',
-			'id'        => 'fieldset-social-networks',
-			'position'  => 90,
-			'title'     => __( 'Social Networks Fieldset' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'field-configuration',
+			'id'           => 'fieldset-social-networks',
+			'position'     => 90,
+			'title'        => __( 'Social Networks Fieldset', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the social media network fieldset options.',
+					'connections'
+				),
+			),
 		);
 
 		/*
 		 * The sections registered to the Images tab.
 		 */
 		$sections[] = array(
-			'tab'       => 'images',
-			'id'        => 'connections_image_thumbnail',
-			'position'  => 10,
-			'title'     => __( 'Thumbnail Image' , 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'images',
+			'id'           => 'connections_image_thumbnail',
+			'position'     => 10,
+			'title'        => __( 'Thumbnail Image', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Default settings are: Quality: 80%; Width: 80px; Height: 54px; Crop',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the thumbnail image settings.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'tab'       => 'images',
-			'id'        => 'connections_image_medium',
-			'position'  => 20,
-			'title'     => __( 'Medium Image' , 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'images',
+			'id'           => 'connections_image_medium',
+			'position'     => 20,
+			'title'        => __( 'Medium Image', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Crop',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the medium image settings.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'tab'       => 'images',
-			'id'        => 'connections_image_large',
-			'position'  => 30,
-			'title'     => __( 'Large Image' , 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'images',
+			'id'           => 'connections_image_large',
+			'position'     => 30,
+			'title'        => __( 'Large Image', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Default settings are: Quality: 80%; Width: 300px; Height: 225px; Crop',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the large image settings.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'tab'       => 'images',
-			'id'        => 'connections_image_logo',
-			'position'  => 30,
-			'title'     => __( 'Logo' , 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'images',
+			'id'           => 'connections_image_logo',
+			'position'     => 30,
+			'title'        => __( 'Logo', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Default settings are: Quality: 80%; Width: 225px; Height: 150px; Fill',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the logo image settings.',
+					'connections'
+				),
+			),
 		);
 
 		/*
@@ -390,101 +582,164 @@ class cnRegisterSettings {
 			'tab'       => 'search',
 			'id'        => 'connections_search_instructions',
 			'position'  => 10,
-			'title'     => __( 'Search Instructions' , 'connections' ),
+			'title'     => __( 'Search Instructions', 'connections' ),
 			'callback'  => function() {
 				esc_html_e(
 					'Search on the front end of the website is enabled in select premium templates only and does not integrate with the core WordPress search. None of the supplied templates include the search feature. These settings will affect the results of search on both the Manage admin page and the front end of the website.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook' => $settings,
 		);
+
 		$sections[] = array(
-			'tab'       => 'search',
-			'id'        => 'connections_search',
-			'position'  => 20,
-			'title'     => __( 'Search Fields' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'tab'          => 'search',
+			'id'           => 'connections_search',
+			'position'     => 20,
+			'title'        => __( 'Search Fields', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'The fields to search when performing a query.',
+					'connections'
+				),
+			),
 		);
 
 		/*
 		 * The sections registered to the SEO tab.
 		 */
 		$sections[] = array(
-			'tab'       => 'seo',
-			'id'        => 'connections_seo_meta',
-			'position'  => 10,
-			'title'     => __( 'Page Meta' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'tab'          => 'seo',
+			'id'           => 'connections_seo_meta',
+			'position'     => 10,
+			'title'        => __( 'Page Meta', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the page meta tags.',
+					'connections'
+				),
+			),
 		);
+
 		$sections[] = array(
-			'tab'       => 'seo',
-			'id'        => 'connections_seo',
-			'position'  => 20,
-			'title'     => __( 'Page Display' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'tab'          => 'seo',
+			'id'           => 'connections_seo',
+			'position'     => 20,
+			'title'        => __( 'Page Display', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Whether or not to dynamically update the page title.',
+					'connections'
+				),
+			),
 		);
 
 		/*
 		 * The sections registered to the Advanced tab.
 		 */
 		$sections[] = array(
-			'tab'       => 'advanced',
-			'id'        => 'connections_permalink',
-			'position'  => 10,
-			'title'     => __( 'Permalink' , 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'advanced',
+			'id'           => 'connections_permalink',
+			'position'     => 10,
+			'title'        => __( 'Permalink', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Configure permalink support. Avoid using permalink structure names that will conflict with WordPress, such category and tag.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Configure the permalink base strings.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'tab'       => 'advanced',
-			'id'        => 'connections_link',
-			'position'  => 15,
-			'title'     => __( 'Links' , 'connections' ),
-			'callback'  => function() {
+			'tab'          => 'advanced',
+			'id'           => 'connections_link',
+			'position'     => 15,
+			'title'        => __( 'Links', 'connections' ),
+			'callback'     => function() {
 				esc_html_e(
 					'Enable certain entry data to become links.',
 					'connections'
 				);
 			},
-			'page_hook' => $settings
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Whether or not certain entry data to become links which can be clicked to filter the displayed results.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'advanced',
-			'id'        => 'cpt',
-			'position'  => 18,
-			'title'     => esc_html__( 'Custom Post Type Support' , 'connections' ),
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'advanced',
+			'id'           => 'cpt',
+			'position'     => 18,
+			'title'        => esc_html__( 'Custom Post Type Support', 'connections' ),
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Enable support for Custom Post Type rewrite rules.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'advanced',
-			'id'        => 'google_maps_geocoding_api',
-			'position'  => 19,
-			'title'     => esc_html__( 'Google Maps Geocoding API' , 'connections' ),
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'advanced',
+			'id'           => 'google_maps_geocoding_api',
+			'position'     => 19,
+			'title'        => esc_html__( 'Google Maps Geocoding API', 'connections' ),
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => esc_html__(
+					'Google Maps API keys.',
+					'connections'
+				),
+			),
 		);
 
 		$sections[] = array(
-			'plugin_id' => 'connections',
-			'tab'       => 'advanced',
-			'id'        => 'compatibility',
-			'position'  => 20,
-			'title'     => __( 'Compatibility' , 'connections' ),
-			'callback'  => '',
-			'page_hook' => $settings
+			'plugin_id'    => 'connections',
+			'tab'          => 'advanced',
+			'id'           => 'compatibility',
+			'position'     => 20,
+			'title'        => __( 'Compatibility', 'connections' ),
+			'callback'     => '',
+			'page_hook'    => $settings,
+			'show_in_rest' => TRUE,
+			'schema'       => array(
+				'type'        => 'object',
+				'description' => 'Configure various compatibility options.',
+			),
 		);
 
 		$sections[] = array(
@@ -493,7 +748,9 @@ class cnRegisterSettings {
 			'position'  => 30,
 			'title'     => __( 'Debug' , 'connections' ),
 			'callback'  => '',
-			'page_hook' => $settings
+			'page_hook' => $settings,
+			'show_in_rest' => TRUE,
+			'schema' => array( 'type' => 'object' ),
 		);
 
 		return $sections;
@@ -548,7 +805,8 @@ class cnRegisterSettings {
 				'include_cpt'       => $includeCPT,
 			),
 			'show_option_none'  => __( 'Select Page', 'connections' ),
-			'option_none_value' => '0'
+			'option_none_value' => '0',
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -567,7 +825,8 @@ class cnRegisterSettings {
 			'type'              => 'checkbox',
 			'default'           => 0,
 			// Only need to add this once on this tab, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'setAllowPublic' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'setAllowPublic' ),
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -584,7 +843,8 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'rte',
-			'default'   => 'Please login to view the directory.'
+			'default'   => 'Please login to view the directory.',
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -599,6 +859,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'category',
 			'default'   => get_option( 'cn_default_category' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -615,7 +876,8 @@ class cnRegisterSettings {
 			'options'           => cnGeo::getCountries(),
 			'default'           => 'US',
 			// Only need to add this once per image size, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'setGEOBase' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'setGEOBase' ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		// cnGEO::getRegions() when called without the $country code @param
@@ -638,7 +900,8 @@ class cnRegisterSettings {
 				'help'      => '',
 				'type'      => 'select',
 				'options'   => cnGeo::getRegions(),
-				'default'   => cnOptions::getBaseRegion()
+				'default'   => cnOptions::getBaseRegion(),
+				'schema'    => array( 'type' => 'string' ),
 			);
 		}
 
@@ -694,7 +957,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => esc_attr( get_option( 'date_format' ) )
+			'default'   => esc_attr( get_option( 'date_format' ) ),
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -711,7 +975,8 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 1
+			'default'   => 1,
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -725,7 +990,8 @@ class cnRegisterSettings {
 			'desc'      => __( 'Display the current category description before the results list.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -739,7 +1005,8 @@ class cnRegisterSettings {
 			'desc'      => __( 'Show the character index at the top of the results list.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -753,7 +1020,8 @@ class cnRegisterSettings {
 			'desc'      => __( 'Repeat the character index at the beginning of each character group.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -767,7 +1035,8 @@ class cnRegisterSettings {
 			'desc'      => __( 'Show the current character at the beginning of each character group.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array( 'type' => 'integer' ),
 		);
 
 		$listActionsOptions['items']    = apply_filters(
@@ -797,6 +1066,19 @@ class cnRegisterSettings {
 			'type'      => 'sortable_checklist',
 			'options'   => $listActionsOptions,
 			'default'   => 0,
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -820,6 +1102,19 @@ class cnRegisterSettings {
 			'type'      => 'sortable_checklist',
 			'options'   => cnOptions::getContentBlocks( NULL, 'list' ),
 			'default'   => 0,
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+				),
+			),
 		);
 
 		$entryActionsOptions['items']    = apply_filters(
@@ -857,6 +1152,19 @@ class cnRegisterSettings {
 				'active' => array(
 					'back',
 					'vcard',
+				),
+			),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
 				),
 			),
 		);
@@ -899,6 +1207,19 @@ class cnRegisterSettings {
 			'type'      => 'sortable_checklist',
 			'options'   => cnOptions::getContentBlocks( NULL, 'single' ),
 			'default'   => 0,
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+				),
+			),
 		);
 
 		/*
@@ -934,6 +1255,19 @@ class cnRegisterSettings {
 					'family',
 				)
 			),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -952,6 +1286,7 @@ class cnRegisterSettings {
 			'type'      => 'select',
 			'options'   => cnOptions::getEntryTypes(),
 			'default'   => 'individual',
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -974,6 +1309,7 @@ class cnRegisterSettings {
 				'unlisted' => __( 'Unlisted', 'connections' ),
 			),
 			'default'   => 'public',
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1010,6 +1346,10 @@ class cnRegisterSettings {
 				'organization',
 				'department',
 			),
+			'schema'    => array(
+				'type'  => 'array',
+				'items' => array( 'type' => 'string' ),
+			),
 		);
 
 		$fields[] = array(
@@ -1037,6 +1377,10 @@ class cnRegisterSettings {
 				'contact_first_name',
 				'contact_last_name',
 			),
+			'schema'    => array(
+				'type'  => 'array',
+				'items' => array( 'type' => 'string' ),
+			),
 		);
 
 		$fields[] = array(
@@ -1054,6 +1398,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1072,6 +1417,7 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		// Grab the address types.
@@ -1104,7 +1450,27 @@ class cnRegisterSettings {
 				'active' => array_keys( apply_filters( 'cn_address_options', $addressTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeAddressFieldsetSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeAddressFieldsetSettings' ),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'type'   => array(
+						'type'       => 'object',
+						'properties' => array_fill_keys(
+							array_keys( cnOptions::getRegisteredAddressTypes() ),
+							array( 'type' => 'string' )
+						),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -1122,6 +1488,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1139,6 +1506,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1171,6 +1539,10 @@ class cnRegisterSettings {
 				'county',
 				'country',
 			),
+			'schema' => array(
+				'type'  => 'array',
+				'items' => array( 'type' => 'string' ),
+			),
 		);
 
 		$fields[] = array(
@@ -1188,6 +1560,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1205,6 +1578,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1222,6 +1596,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1243,6 +1618,7 @@ class cnRegisterSettings {
 				'native'  => __( 'Native', 'connections' ),
 			),
 			'default'   => 'native',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1260,6 +1636,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1278,6 +1655,7 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		// Grab the phone types.
@@ -1310,7 +1688,27 @@ class cnRegisterSettings {
 				'active' => array_keys( apply_filters( 'cn_phone_options', $phoneTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizePhoneFieldsetSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizePhoneFieldsetSettings' ),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'type'   => array(
+						'type'       => 'object',
+						'properties' => array_fill_keys(
+							array_keys( cnOptions::getRegisteredPhoneTypes() ),
+							array( 'type' => 'string' )
+						),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -1328,6 +1726,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1345,6 +1744,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1362,6 +1762,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1380,6 +1781,7 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		// Grab the email types.
@@ -1412,7 +1814,27 @@ class cnRegisterSettings {
 				'active' => array_keys( apply_filters( 'cn_email_options', $emailTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeEmailFieldsetSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeEmailFieldsetSettings' ),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'type'   => array(
+						'type'       => 'object',
+						'properties' => array_fill_keys(
+							array_keys( cnOptions::getRegisteredEmailTypes() ),
+							array( 'type' => 'string' )
+						),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -1430,6 +1852,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1447,6 +1870,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1464,6 +1888,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1482,6 +1907,7 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		// Grab the messenger types.
@@ -1514,7 +1940,27 @@ class cnRegisterSettings {
 				'active' => array_keys( apply_filters( 'cn_instant_messenger_options', $imTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeMessengerFieldsetSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeMessengerFieldsetSettings' ),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'type'   => array(
+						'type'       => 'object',
+						'properties' => array_fill_keys(
+							array_keys( cnOptions::getRegisteredMessengerTypes() ),
+							array( 'type' => 'string' )
+						),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -1532,6 +1978,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1549,6 +1996,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1566,6 +2014,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1584,6 +2033,7 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		// Grab the link types.
@@ -1616,7 +2066,27 @@ class cnRegisterSettings {
 				'active' => array_keys( apply_filters( 'cn_link_options', $linkTypes ) ),
 			),
 			// Only need to add this once per image size, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeLinkFieldsetSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeLinkFieldsetSettings' ),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'type'   => array(
+						'type'       => 'object',
+						'properties' => array_fill_keys(
+							array_keys( cnOptions::getRegisteredLinkTypes() ),
+							array( 'type' => 'string' )
+						),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -1634,6 +2104,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1651,6 +2122,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1672,6 +2144,7 @@ class cnRegisterSettings {
 				'same' => __( 'Same Window', 'connections' ),
 			),
 			'default'   => 'new',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1693,6 +2166,7 @@ class cnRegisterSettings {
 				'dofollow' => __( 'Follow', 'connections' ),
 			),
 			'default'   => 'nofollow',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1710,6 +2184,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1727,6 +2202,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1744,6 +2220,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1761,6 +2238,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1779,6 +2257,7 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		// Grab the date types.
@@ -1811,7 +2290,27 @@ class cnRegisterSettings {
 				'active' => array_keys( apply_filters( 'cn_date_options', $dateTypes ) ),
 			),
 			// Only need to add this once, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeDateFieldsetSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeDateFieldsetSettings' ),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'active' => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'type'   => array(
+						'type'       => 'object',
+						'properties' => array_fill_keys(
+							array_keys( cnOptions::getRegisteredDateTypes() ),
+							array( 'type' => 'string' )
+						),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -1829,6 +2328,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1846,6 +2346,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1863,6 +2364,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1881,6 +2383,7 @@ class cnRegisterSettings {
 			'type'      => 'number',
 			'size'      => 'small',
 			'default'   => 0,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -1903,6 +2406,7 @@ class cnRegisterSettings {
 				'square'  => __( 'Square', 'connections' ),
 			),
 			'default'   => 'rounded',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1924,6 +2428,7 @@ class cnRegisterSettings {
 				'global'     => __( 'Global Icon Colors', 'connections' ),
 			),
 			'default'   => 'individual',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1941,6 +2446,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1958,6 +2464,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'colorpicker',
 			'default'   => '#BEBDBD',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1975,6 +2482,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'colorpicker',
 			'default'   => '#E8E8E8',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -1992,6 +2500,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'colorpicker',
 			'default'   => '#FFFFFF',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2009,6 +2518,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'colorpicker',
 			'default'   => '#FFFFFF',
+			'schema' => array( 'type' => 'string' ),
 		);
 
 		// Grab the social types.
@@ -2041,7 +2551,38 @@ class cnRegisterSettings {
 				'active' => array_keys( apply_filters( 'cn_social_network_options', $socialMediaTypes ) ),
 			),
 			// Only need to add this once, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSocialNetworkFieldsetSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSocialNetworkFieldsetSettings' ),
+			'schema' => array(
+				'type'       => 'object',
+				'properties' => array(
+					'order'  => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+					'icon' => array(
+						'type' => 'object',
+						'properties' => array_fill_keys(
+							array_keys( cnOptions::getRegisteredSocialNetworkTypes() ),
+							array(
+								'type'       => 'object',
+								'properties' => array(
+									'slug'                   => array( 'type' => 'string' ),
+									'background-color'       => array( 'type' => 'string' ),
+									'background-color-hover' => array( 'type' => 'string' ),
+									'background-transparent' => array( 'type' => 'string' ),
+									'foreground-color'       => array( 'type' => 'string' ),
+									'foreground-color-hover' => array( 'type' => 'string' ),
+									'name'                   => array( 'type' => 'string' ),
+								),
+							)
+						),
+					),
+					'active'   => array(
+						'type'  => 'array',
+						'items' => array( 'type' => 'string' ),
+					),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -2059,6 +2600,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2076,6 +2618,7 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		// Filter to remove the "Remove" button if a custom fieldset type is in use.
@@ -2098,8 +2641,15 @@ class cnRegisterSettings {
 			'type'              => 'text',
 			'size'              => 'small',
 			'default'           => 80,
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' ),
 			// Only need to add this once per image size, otherwise it would be run for each field.
+			'schema'            => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 100,
+				'exclusiveMinimum' => TRUE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2114,7 +2664,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => 80
+			'default'   => 80,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2129,7 +2680,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => 54
+			'default'   => 54,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2158,7 +2710,11 @@ class cnRegisterSettings {
 				),
 				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
 			),
-			'default'   => 'crop'
+			'default'   => 'crop',
+			'schema' => array(
+				'type' => 'enum',
+				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
+			),
 		);
 
 		$fields[] = array(
@@ -2175,7 +2731,14 @@ class cnRegisterSettings {
 			'size'              => 'small',
 			'default'           => 80,
 			// Only need to add this once per image size, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' ),
+			'schema'            => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 100,
+				'exclusiveMinimum' => TRUE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2190,7 +2753,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => 225
+			'default'   => 225,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2205,7 +2769,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => 150
+			'default'   => 150,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2234,7 +2799,11 @@ class cnRegisterSettings {
 				),
 				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
 			),
-			'default'   => 'crop'
+			'default'   => 'crop',
+			'schema' => array(
+				'type' => 'enum',
+				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
+			),
 		);
 
 		$fields[] = array(
@@ -2250,8 +2819,15 @@ class cnRegisterSettings {
 			'type'              => 'text',
 			'size'              => 'small',
 			'default'           => 80,
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' ),
 			// Only need to add this once per image size, otherwise it would be run for each field.
+			'schema'            => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 100,
+				'exclusiveMinimum' => TRUE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2266,7 +2842,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => 300
+			'default'   => 300,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2281,7 +2858,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => 225
+			'default'   => 225,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2310,7 +2888,11 @@ class cnRegisterSettings {
 				),
 				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
 			),
-			'default'   => 'crop'
+			'default'   => 'crop',
+			'schema' => array(
+				'type' => 'enum',
+				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
+			),
 		);
 
 		$fields[] = array(
@@ -2326,8 +2908,15 @@ class cnRegisterSettings {
 			'type'              => 'text',
 			'size'              => 'small',
 			'default'           => 80,
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeImageSettings' ),
 			// Only need to add this once per image size, otherwise it would be run for each field.
+			'schema'            => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 100,
+				'exclusiveMinimum' => TRUE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2342,7 +2931,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => 225
+			'default'   => 225,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2357,7 +2947,8 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'small',
-			'default'   => 150
+			'default'   => 150,
+			'schema' => array( 'type' => 'integer' ),
 		);
 
 		$fields[] = array(
@@ -2386,7 +2977,11 @@ class cnRegisterSettings {
 				),
 				'none' => __( 'Resize to fit the specified dimensions (no cropping).', 'connections' )
 			),
-			'default'   => 'fill'
+			'default'   => 'fill',
+			'schema' => array(
+				'type' => 'enum',
+				'enum' => array( 'crop', 'fill', 'fit', 'none' ),
+			),
 		);
 
 		/*
@@ -2464,7 +3059,14 @@ class cnRegisterSettings {
 			'options'           => $searchOptions['items'],
 			'default'           => $searchOptions['default'],
 			// Only need to add this once, otherwise it would be run for each field.
-			'sanitize_callback' => array( 'cnRegisterSettings', 'setSearchFields' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'setSearchFields' ),
+			'schema'            => array(
+				'type'  => 'array',
+				'items' => array(
+					'type' => 'enum',
+					'enum' => array_keys( $searchOptions['items'] ),
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -2478,7 +3080,14 @@ class cnRegisterSettings {
 			'desc'      => __( 'Enable FULLTEXT query support.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 1
+			'default'   => 1,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2495,7 +3104,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 1
+			'default'   => 1,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		/*
@@ -2515,7 +3131,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 1
+			'default'   => 1,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2532,7 +3155,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 1
+			'default'   => 1,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2549,7 +3179,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 1
+			'default'   => 1,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		/*
@@ -2571,8 +3208,11 @@ class cnRegisterSettings {
 			'type'              => 'text',
 			'size'              => 'regular',
 			'default'           => 'char',
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeURLBase' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeURLBase' ),
 			// Only need to add this once, otherwise it would be run for each field.
+			'schema'            => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2587,7 +3227,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'cat'
+			'default'   => 'cat',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2602,7 +3245,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'country'
+			'default'   => 'country',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2617,7 +3263,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'region'
+			'default'   => 'region',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2632,7 +3281,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'locality'
+			'default'   => 'locality',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2647,7 +3299,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'postal-code'
+			'default'   => 'postal-code',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2662,7 +3317,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'district'
+			'default'   => 'district',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2677,7 +3335,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'county'
+			'default'   => 'county',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2692,7 +3353,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'organization'
+			'default'   => 'organization',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2707,7 +3371,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'department'
+			'default'   => 'department',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2722,7 +3389,10 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'text',
 			'size'      => 'regular',
-			'default'   => 'name'
+			'default'   => 'name',
+			'schema'    => array(
+				'type' => 'string',
+			),
 		);
 
 		$fields[] = array(
@@ -2739,7 +3409,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 1
+			'default'   => 1,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2756,7 +3433,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2773,7 +3457,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2790,7 +3481,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2807,7 +3505,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2824,7 +3529,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2841,7 +3553,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2858,7 +3577,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2875,7 +3601,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2892,7 +3625,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2909,7 +3649,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2924,8 +3671,14 @@ class cnRegisterSettings {
 			'type'              => 'cpt-checkbox-group',
 			'options'           => array(),
 			'default'           => array(),
-			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSupportedCPTs' )
+			'sanitize_callback' => array( 'cnRegisterSettings', 'sanitizeSupportedCPTs' ),
 			// Only need to add this once, otherwise it would be run for each field.
+			'schema'            => array(
+				'type'  => 'array',
+				'items' => array(
+					'type' => 'string',
+				),
+			),
 		);
 
 		$fields[] = array(
@@ -2941,6 +3694,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'large',
 			'default'   => '',
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		$fields[] = array(
@@ -2956,6 +3710,7 @@ class cnRegisterSettings {
 			'type'      => 'text',
 			'size'      => 'large',
 			'default'   => '',
+			'schema'    => array( 'type' => 'string' ),
 		);
 
 		//$fields[] = array(
@@ -3023,7 +3778,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -3040,7 +3802,14 @@ class cnRegisterSettings {
 			),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -3054,7 +3823,14 @@ class cnRegisterSettings {
 			'desc'      => __( 'Display debug messages.', 'connections' ),
 			'help'      => '',
 			'type'      => 'checkbox',
-			'default'   => 0
+			'default'   => 0,
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		return $fields;

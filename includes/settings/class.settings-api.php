@@ -39,6 +39,13 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		private static $fields = array();
 
 		/**
+		 * Store the REST API field parameters for when the settings are registered with the REST API.
+		 * @since 9.2
+		 * @var array
+		 */
+		private static $rest = array();
+
+		/**
 		 * Array of all WP core settings sections.
 		 * @var array
 		 */
@@ -109,6 +116,7 @@ if ( ! class_exists('cnSettingsAPI') ) {
 
 			// Register the sections fields.
 			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), 0 );
+			add_action( 'rest_api_init', array( __CLASS__, 'registerSettingsField' ), 0 );
 			add_action( 'init', array( __CLASS__, 'registerFields' ), 0 );
 		}
 
@@ -399,8 +407,25 @@ if ( ! class_exists('cnSettingsAPI') ) {
 						'section'           => $section,
 						'options'           => $options,
 						'option_name'       => $optionName,
-						'sanitize_callback' => $callback
+						'sanitize_callback' => $callback,
 					);
+
+					if ( //( isset( $field['show_in_rest'] ) && TRUE === $field['show_in_rest'] ) &&
+					     ( isset( $field['schema'] ) && is_array( $field['schema'] ) )
+					) {
+
+						self::$rest = cnArray::add(
+							self::$rest,
+							"{$optionName}.schema.properties.{$field['id']}",
+							$field['schema']
+						);
+
+						self::$rest = cnArray::add(
+							self::$rest,
+							"{$optionName}.schema.default.{$field['id']}",
+							cnArray::get( $field, 'default', NULL )
+						);
+					}
 				}
 
 				/*
@@ -482,6 +507,67 @@ if ( ! class_exists('cnSettingsAPI') ) {
 					$field['page_hook'],
 					$field['option_name'],
 					$field['sanitize_callback']
+				);
+			}
+		}
+
+		/**
+		 * Callback for the `rest_api_init` action.
+		 *
+		 * Registers the settings with the REST API.
+		 *
+		 * @access private
+		 * @since  9.2
+		 */
+		public static function registerSettingsField() {
+
+			$sections = apply_filters( 'cn_register_settings_sections', array() );
+
+			foreach ( $sections as $section ) {
+
+				$id = isset( $section['plugin_id'] ) && $section['plugin_id'] !== substr( $section['id'], 0, strlen( $section['plugin_id'] ) ) ? $section['plugin_id'] . '_' . $section['id'] : $section['id'];
+
+				self::$rest = cnArray::add(
+					self::$rest,
+					"{$id}.show_in_rest",
+					cnArray::get( $section, 'show_in_rest', FALSE )
+				);
+
+				self::$rest = cnArray::add(
+					self::$rest,
+					"{$id}.schema.type",
+					cnArray::get( $section, 'schema.type', 'string' )
+				);
+
+				self::$rest = cnArray::add(
+					self::$rest,
+					"{$id}.schema.description",
+					cnArray::get( $section, 'schema.description', '' )
+				);
+			}
+
+			foreach ( self::$fields as $field ) {
+
+				$type   = cnArray::get( self::$rest, "{$field['option_name']}.schema.type", 'string' );
+				$schema = FALSE;
+
+				if ( cnArray::get( self::$rest, "{$field['option_name']}.show_in_rest", FALSE ) ) {
+
+					$schema = cnArray::get( self::$rest, "{$field['option_name']}", FALSE );
+				}
+
+				// Register the settings.
+				register_setting(
+					$field['page_hook'],
+					$field['option_name'],
+					array(
+						'show_in_rest'      => $schema,
+						'type'              => $type,
+						'group'             => $field['page_hook'],
+						'name'              => $field['option_name'],
+						'description'       => cnArray::get( $schema, 'description', '' ),
+						'sanitize_callback' => $field['sanitize_callback'],
+					)
 				);
 			}
 		}

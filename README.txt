@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 4.7.12
 Tested up to: 5.2
 Requires PHP: 5.6.20
-Stable tag: 9.1.1
+Stable tag: 9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.2 08/16/2019 =
+* NEW: Register settings with the WordPress REST API.
+* TWEAK: Remove the featured partners metabox from the Dashboard.
+* TWEAK: Remove the Featured partners section from the Connections group on the Add New Plugins admin page.
+* BUG: Fix the results displayed on the Connections group on the Add New Plugin admin page.
+* REST API: Add schema properties to all core settings options so they will be registered with the core WordPress REST API.
+* I18N: Update POT file.
+* I18N:Update MO files.
+
 = 9.1.1 08/05/2019 =
 * BUG: The Directory block should call the same callback as the shortcode so the login required message can be displayed.
 * BUG: Ensure when setting a preferred contact detail that it does not cause an empty value to be added.
@@ -468,19 +477,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update MO files.
 * DEV: Tweak Travis CI config.
 
-= 8.34 12/14/2018 =
-* TWEAK: Remove use of `create_function()` throughout.
-* TWEAK: Bump max tested PHP to 7.3.
-* BUG: Max WP version should be `5.0`.
-* BUG: Do not use PHP 5.3 syntax in cnText_Domain to prevent fatal errors in PHP < 5.3.
-* BUG: Fallback to `get_locale()` from `get_user_locale()` to prevent fatal errors on WP < 4.7.
-* BUG: Removed unused variable in `cnTerm::gettaxonomyTerms()`.
-* DEV: phpDoc corrections.
-
 == Upgrade Notice ==
-
-= 8.34 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.35 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
@@ -552,4 +549,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.1.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

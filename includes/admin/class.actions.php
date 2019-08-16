@@ -599,11 +599,21 @@ class cnAdminActions {
 
 		foreach ( $wp_list_table->items as $key => &$item ) {
 
-			// Remove the core plugin.
-			if ( 'connections' === $item->slug ) unset( $wp_list_table->items[ $key ] );
+			if ( is_array( $item ) ) {
 
-			// Remove any items which do not have Connections in its name.
-			if ( FALSE === strpos( $item->name, 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+				// Remove the core plugin.
+				if ( 'connections' === $item['slug'] ) unset( $wp_list_table->items[ $key ] );
+
+				// Remove any items which do not have Connections in its name.
+				if ( FALSE === strpos( $item['name'], 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+
+			} elseif ( is_object( $item ) ) {
+
+				if ( 'connections' === $item->slug ) unset( $wp_list_table->items[ $key ] );
+
+				if ( FALSE === strpos( $item->name, 'Connections' ) ) unset( $wp_list_table->items[ $key ] );
+			}
+
 		}
 
 		// Save the items from the original query.

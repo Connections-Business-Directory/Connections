@@ -976,7 +976,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema'    => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -991,7 +997,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
-			'schema'    => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1006,7 +1018,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
-			'schema'    => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1021,7 +1039,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
-			'schema'    => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1036,7 +1060,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
-			'schema'    => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$listActionsOptions['items']    = apply_filters(
@@ -1398,7 +1428,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1488,7 +1524,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1506,7 +1548,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1560,7 +1608,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1578,7 +1632,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1596,7 +1656,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1636,7 +1702,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1726,7 +1798,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1744,7 +1822,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1762,7 +1846,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1852,7 +1942,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1870,7 +1966,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1888,7 +1990,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1978,7 +2086,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -1996,7 +2110,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2014,7 +2134,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2104,7 +2230,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2122,7 +2254,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2184,7 +2322,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2202,7 +2346,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2220,7 +2370,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2238,7 +2394,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2328,7 +2490,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2346,7 +2514,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2364,7 +2538,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2446,7 +2626,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 0,
-			'schema' => array( 'type' => 'string' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2600,7 +2786,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		$fields[] = array(
@@ -2618,7 +2810,13 @@ class cnRegisterSettings {
 			'help'      => '',
 			'type'      => 'checkbox',
 			'default'   => 1,
-			'schema' => array( 'type' => 'integer' ),
+			'schema'    => array(
+				'type'             => 'integer',
+				'minimum'          => 0,
+				'maximum'          => 1,
+				'exclusiveMinimum' => FALSE,
+				'exclusiveMaximum' => FALSE,
+			),
 		);
 
 		// Filter to remove the "Remove" button if a custom fieldset type is in use.

@@ -219,7 +219,8 @@ class Settings extends WP_REST_Settings_Controller {
 	 * @since 9.3
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
-	 * @return array|WP_Error Array on success, or error object on failure.
+	 *
+	 * @return array|mixed|true|void|WP_Error|WP_REST_Response
 	 */
 	public function update_item( $request ) {
 

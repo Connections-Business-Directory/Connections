@@ -1,5 +1,14 @@
 == Changelog ==
 
+= 9.3 08/23/2019 =
+* TWEAK: Add an info box on the Connections Dashboard admin page to improve discoverability of the free addons.
+* REST API: Introduce the `../wp-json/cn-api/v1/settings/` REST API endpoint.
+* REST API: Introduce `cnSettingsAPI::getRegisteredRESTOptionProperties()`.
+* REST API: Update the schema for all registered settings checkbox fields for better validation and sanitization for the Settings REST API endpoint.
+* REST API: Couple minor tweaks to the Entry REST endpoint.
+* OTHER: Remove the TSL logo from the assets.
+* DEV: phpDoc correction.
+
 = 9.2 08/16/2019 =
 * NEW: Register settings with the WordPress REST API.
 * TWEAK: Remove the featured partners metabox from the Dashboard.

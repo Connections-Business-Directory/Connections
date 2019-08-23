@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 4.7.12
 Tested up to: 5.2
 Requires PHP: 5.6.20
-Stable tag: 9.2
+Stable tag: 9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.3 08/23/2019 =
+* TWEAK: Add an info box on the Connections Dashboard admin page to improve discoverability of the free addons.
+* REST API: Introduce the `../wp-json/cn-api/v1/settings/` REST API endpoint.
+* REST API: Introduce `cnSettingsAPI::getRegisteredRESTOptionProperties()`.
+* REST API: Update the schema for all registered settings checkbox fields for better validation and sanitization for the Settings REST API endpoint.
+* REST API: Couple minor tweaks to the Entry REST endpoint.
+* OTHER: Remove the TSL logo from the assets.
+* DEV: phpDoc correction.
+
 = 9.2 08/16/2019 =
 * NEW: Register settings with the WordPress REST API.
 * TWEAK: Remove the featured partners metabox from the Dashboard.
@@ -468,19 +477,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Code formatting.
 * DEV: Move the range-control component to shared folder for all editor blocks.
 
-= 8.35 12/27/2018 =
-* NEW: Add filters to allow addons to hook into the entry manage action links.
-* TWEAK: Change text domain registration to priority 1 to support WP Globus.
-* TWEAK: Normalize date input to YYYY-MM-DD.
-* TWEAK: Remove unused in page section links on the Connections : manage admin page.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: Tweak Travis CI config.
-
 == Upgrade Notice ==
-
-= 8.35 =
-It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.36 =
 It is recommended to backup before updating. Requires WordPress >= 4.5.3 and PHP >= 5.4 PHP version >= 7.1 recommended.
@@ -552,4 +549,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

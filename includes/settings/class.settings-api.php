@@ -573,6 +573,18 @@ if ( ! class_exists('cnSettingsAPI') ) {
 		}
 
 		/**
+		 * Use only be used after the `init` hook.
+		 *
+		 * @since 9.3
+		 *
+		 * @return array
+		 */
+		public static function getRegisteredRESTOptionProperties() {
+
+			return self::$rest;
+		}
+
+		/**
 		 * Output the settings page, if one has been hooked to the current admin page, and output
 		 * the settings sections hooked to the current admin page/tab.
 		 *

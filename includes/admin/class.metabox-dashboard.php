@@ -121,6 +121,15 @@ class cnDashboardMetabox {
 		//);
 
 		self::$metaboxes[] = array(
+			'id'       => 'metabox-free-addons',
+			'title'    => __( 'Free Addons', 'connections' ),
+			'pages'    => array( $pages ),
+			'context'  => 'right',
+			'priority' => 'core',
+			'callback' => array( __CLASS__, 'extension' ),
+		);
+
+		self::$metaboxes[] = array(
 			'id'       => 'metabox-quick-links',
 			'title'    => __( 'Quick Links', 'connections' ),
 			'pages'    => array( $pages ),
@@ -409,6 +418,37 @@ class cnDashboardMetabox {
 		?>
 		<div class="two-third">
 			<p>Create your very own native mobile app for iOS and Android powered by WordPress and Connections Business Directory using the <a href="https://tinyscreenlabs.com/?tslref=connections">Tiny Screen Labs Mobile App Manager</a>.</p>
+		</div>
+
+		<div class="one-third last">
+			<p class="center">
+				<img src="<?php echo $logo; ?>" style="max-width: 100%">
+			</p>
+		</div>
+		<div class="clearboth"></div>
+
+		<div>
+			<p class="center">
+				<a class="cn-button cn-button-large cn-button-green cn-button-full" href="<?php echo $url; ?>"><span><?php _e( 'Install Now', 'connections' ); ?></span></a>
+			</p>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * The "Free Addons" Dashboard admin widget.
+	 *
+	 * @access private
+	 * @since  9.3
+	 */
+	public static function extension() {
+
+		$logo = CN_URL . 'assets/images/icon-256x256.png';
+		$url  = self_admin_url( 'plugin-install.php?tab=connections' );
+		?>
+		<div class="two-third">
+			<p>There are many free addons available for Connections which add additional features. Click the Install Now button to learn more.</p>
 		</div>
 
 		<div class="one-third last">

@@ -247,6 +247,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.3 08/23/2019 =
+* TWEAK: Add an info box on the Connections Dashboard admin page to improve discoverability of the free addons.
+* REST API: Introduce the `../wp-json/cn-api/v1/settings/` REST API endpoint.
+* REST API: Introduce `cnSettingsAPI::getRegisteredRESTOptionProperties()`.
+* REST API: Update the schema for all registered settings checkbox fields for better validation and sanitization for the Settings REST API endpoint.
+* REST API: Couple minor tweaks to the Entry REST endpoint.
+* OTHER: Remove the TSL logo from the assets.
+* DEV: phpDoc correction.
+
 = 9.2 08/16/2019 =
 * NEW: Register settings with the WordPress REST API.
 * TWEAK: Remove the featured partners metabox from the Dashboard.
@@ -475,14 +484,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Update some country meta.
 * DEV: Code formatting.
 * DEV: Move the range-control component to shared folder for all editor blocks.
-
-= 8.35 12/27/2018 =
-* NEW: Add filters to allow addons to hook into the entry manage action links.
-* TWEAK: Change text domain registration to priority 1 to support WP Globus.
-* TWEAK: Normalize date input to YYYY-MM-DD.
-* TWEAK: Remove unused in page section links on the Connections : manage admin page.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: Tweak Travis CI config.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

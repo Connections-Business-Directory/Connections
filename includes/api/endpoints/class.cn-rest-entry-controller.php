@@ -2,10 +2,11 @@
 /**
  * REST API Entry Controller
  *
- * @author   Steven A. Zahm
- * @category API
- * @package  Connections/API
- * @since    8.5.26
+ * @author     Steven A. Zahm
+ * @category   API
+ * @package    Connections
+ * @subpackage REST_API
+ * @since      8.5.26
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -14,8 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * REST API Entry Controller.
  *
- * @package Connections/API
- * @extends WP_REST_Controller
+ * @since 8.5.26
  */
 class CN_REST_Entry_Controller extends WP_REST_Controller {
 
@@ -32,16 +32,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 	/**
 	 * @since 8.5.26
-	 * @var string
-	 */
-	protected $base = 'entry';
-
-	/**
-	 * @since 8.5.26
 	 */
 	public function __construct() {
 
 		$this->namespace = 'cn-api/v' . self::VERSION;
+		$this->rest_base = 'entry';
 	}
 
 	/**
@@ -53,7 +48,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->base,
+			'/' . $this->rest_base,
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -73,7 +68,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
-			'/' . $this->base . '/(?P<id>[\d]+)',
+			'/' . $this->rest_base . '/(?P<id>[\d]+)',
 			array(
 				array(
 					'methods'             => WP_REST_Server::READABLE,
@@ -458,7 +453,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$schema = array(
 			'$schema'     => 'http://json-schema.org/draft-04/schema#',
 			'description' => 'A representation of a person, company, organization, or place',
-			'title'       => $this->base,
+			'title'       => $this->rest_base,
 			'type'        => 'object',
 			'properties'  => array(
 				'id'   => array(

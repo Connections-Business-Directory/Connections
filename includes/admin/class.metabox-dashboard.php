@@ -445,7 +445,7 @@ class cnDashboardMetabox {
 	public static function extension() {
 
 		$logo = CN_URL . 'assets/images/icon-256x256.png';
-		$url  = self_admin_url( 'plugin-install.php?tab=connections' );
+		$url  = is_multisite() ? network_admin_url( 'plugin-install.php?tab=connections' ) : self_admin_url( 'plugin-install.php?tab=connections' );
 		?>
 		<div class="two-third">
 			<p>There are many free addons available for Connections which add additional features. Click the Install Now button to learn more.</p>

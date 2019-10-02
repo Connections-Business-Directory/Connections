@@ -247,6 +247,15 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.3.1 10/02/2019 =
+* TWEAK: Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
+* TWEAK: Add timestamp to admin JS version so Chrome will load changes.
+* TWEAK: Set max height of category div to 100% to allow variable height.
+* BUG: Fix addon plugin install link for multisite.
+* BUG: Add a check if var is an array and the key exists exists before using it.
+* BUG: Change target selector for jQuery UI Resizable for the Category metabox so the drag handle does not scroll when scrolling thru the list of categories.
+* DEV: Update dist files.
+
 = 9.3 08/23/2019 =
 * TWEAK: Add an info box on the Connections Dashboard admin page to improve discoverability of the free addons.
 * REST API: Introduce the `../wp-json/cn-api/v1/settings/` REST API endpoint.
@@ -468,21 +477,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Update dev dependencies.
 * DEV: Update minified files.
 * DEV: Update build files.
-
-= 8.36 01/14/2019 =
-* NEW: Add additional options to the Directory block to bring it closer to feature parity with the `[connections]` shortcode.
-* NEW: Allow ordering by any date type, not just anniversary and birthday.
-* NEW: Introduce `cnOptions::getEntryTypeOptions()`.
-* NEW: Introduce `cnTemplateFactory::getOptions()`.
-* NEW: Add an Editor PageSelect component.
-* TWEAK: Minor CS tweak for mobile device display for the Profile template.
-* TWEAK: Add additional check before initiating a template class to prevent PHP errors.
-* TWEAK: No need to add slashes to CSV export cell data.
-* TWEAK: Add BOM to CSV export file because Excel is dumb.
-* TWEAK: Add additional option values which the blocks can use as defaults.
-* BUG: When displaying OSM maps tiles, do not display the layers control.
-* OTHER: Update some country meta.
-* DEV: Code formatting.
-* DEV: Move the range-control component to shared folder for all editor blocks.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

@@ -293,7 +293,7 @@ jQuery(document).ready( function($) {
 			$('#cn-relations').sortable();
 
 			// Make the category checklist resizable.
-			var categorydiv = $('.categorydiv div.tabs-panel#category-all');
+			var categorydiv = $('#taxonomy-category');
 			var categorydivHeight = cn_string.categoryDiv.height;
 
 			$( categorydiv ).resizable( {

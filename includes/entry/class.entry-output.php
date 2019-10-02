@@ -391,6 +391,9 @@ class cnOutput extends cnEntry {
 				if ( ! empty( $value ) && ! in_array( $attr , $nonAtts ) ) $tag[] = "$attr=\"$value\"";
 			}
 
+			// Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
+			$tag[] = 'loading="lazy"';
+
 			// All extensions to apply/remove inline styles.
 			$atts['style'] = apply_filters( 'cn_image_styles', $atts['style'] );
 

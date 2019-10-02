@@ -206,6 +206,11 @@ class cnPlugin_Updater {
 
 		$plugins = json_decode( $r['body']['plugins'], TRUE );
 
+		if ( ! is_array( $plugins ) || ! array_key_exists( 'active', $plugins ) ) {
+
+			return $r;
+		}
+
 		foreach ( self::$plugins as $basename => $plugin ) {
 
 			unset( $plugins['plugins'][ $basename ] );

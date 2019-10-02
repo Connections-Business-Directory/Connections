@@ -231,7 +231,7 @@ class cnScript {
 					),
 					$mapDependencies
 				),
-				CN_CURRENT_VERSION,
+				Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/js/cn-admin{$min}.js" ),
 				TRUE
 			);
 

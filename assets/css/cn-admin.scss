@@ -707,6 +707,10 @@ and (max-width: 780px) {
 	position: relative;
 }
 
+.categorydiv div.tabs-panel {
+	max-height: 100%;
+}
+
 .categorydiv .ui-resizable-e, .categorydiv .ui-resizable-s {
 	display: none;
 	width: 0;

@@ -1308,7 +1308,7 @@ class cnOutput extends cnEntry {
 			$attr['sensor'] = 'false';
 
 			$out .= '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image" style="height: ' . $atts['height'] . '; width: ' . $atts['width'] . '">';
-			$out .= '<img class="map" title="' . $attr['center'] . '" alt="' . $attr['center'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" src="http://maps.googleapis.com/maps/api/staticmap?' . http_build_query( $attr , '' , '&amp;' ) . '"/>';
+			$out .= '<img class="map" title="' . $attr['center'] . '" alt="' . $attr['center'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" src="https://maps.googleapis.com/maps/api/staticmap?' . http_build_query( $attr , '' , '&amp;' ) . '"/>';
 			$out .= '</span></span>';
 
 		} else {
@@ -1373,7 +1373,7 @@ class cnOutput extends cnEntry {
 								'saddr' => '',
 								'daddr' => "{$coordinates->getLatitude()},{$coordinates->getLongitude()}",
 							),
-							'http://www.google.com/maps'
+							'https://www.google.com/maps'
 						);
 
 						$buttonText = esc_html__( 'Get Directions', 'connections' );

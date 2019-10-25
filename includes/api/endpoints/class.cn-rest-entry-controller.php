@@ -240,9 +240,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$instance = Connections_Directory();
 
 		$defaults = array(
-			'id'     => NULL,
-			'limit'  => $request['per_page'],
-			'offset' => $request['offset'],
+			'list_type' => $request['type'],
+			'category'  => $request['category'],
+			'id'        => NULL,
+			'limit'     => $request['per_page'],
+			'offset'    => $request['offset'],
 		);
 
 		$atts = cnSanitize::args( $untrusted, $defaults );

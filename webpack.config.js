@@ -40,6 +40,38 @@ const config = {
 	module:    {
 		rules: [
 
+			{
+				test: /\.(css)$/,
+				use:  [ 'style-loader', 'css-loader' ]
+			},
+
+			// {
+			// 	test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+			// 	use: [
+			// 		{
+			// 			loader: 'file-loader',
+			// 			options: {
+			// 				name: '[name].[ext]',
+			// 				outputPath: 'fonts/'
+			// 			}
+			// 		}
+			// 	]
+			// },
+
+			{
+				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+				use:  [
+					{
+						loader:  'url-loader',
+						options: {
+							name:       '[name].[ext]',
+							limit:      100000,
+							outputPath: 'fonts/'
+						}
+					}
+				]
+			},
+
 			// Use Babel to compile JS.
 			{
 				test:    /\.js$/,

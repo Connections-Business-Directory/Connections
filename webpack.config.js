@@ -45,10 +45,10 @@ const config = {
 				test:    /\.js$/,
 				exclude: /node_modules/,
 				use:     {
-					loader: 'babel-loader',
+					loader:  'babel-loader',
 					options: {
 						// plugins: ['lodash'],
-						presets: ['@wordpress/default']
+						presets: [ '@wordpress/default' ]
 					}
 				},
 				// loaders: [
@@ -93,7 +93,7 @@ const config = {
 							sourceMap: true
 						}
 					}, {
-						loader:  'postcss-loader',
+						loader: 'postcss-loader',
 						// options: {
 						// 	options:   {},
 						// 	sourceMap: true

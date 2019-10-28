@@ -247,6 +247,21 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.3.2 10/28/2019 =
+* NEW: Add support for limit and category REST API parameters.
+* TWEAK: More user friendly error message when license status check fails.
+* TWEAK: Change Google Maps URLs from `http` to `https`.
+* TWEAK: Ensure the Log post type is excluded from WP search results.
+* OTHER: Lay foundation for the Entry store for the new block editor.
+* OTHER: Initial work on the new carousel/slider block to display directory entries.
+* DEV: Update NPM.
+* DEV: Update Babel Core.
+* DEV: Update WordPress Style Lint Config.
+* DEV: Add spacing to webpack.config.js.
+* DEV: Add rules for processing CSS and fonts to webpack.config.js.
+* DEV: Update package-lock file.
+* DEV: Update dist files.
+
 = 9.3.1 10/02/2019 =
 * TWEAK: Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
 * TWEAK: Add timestamp to admin JS version so Chrome will load changes.
@@ -465,17 +480,6 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add JSDoc comment blocks.
 * DEV: Tweak Travis config.
 * DEV: Update Webpack to latest.
-* DEV: Update build files.
-
-= 8.36.1 01/15/2019 =
-* TWEAK: Update block editor javascript dependencies to include all WP core editor dependencies.
-* TWEAK: Import `withInstanceId` from `@wordpress/compose` instead of pulling it from the global `wp` object.
-* TWEAK: Ensure `$orderByAtts` is defined to prevent PHP warning.
-* TWEAK: Add a few more styles to help prevent themes from breaking the map.
-* TWEAK: Add a few prefixed CSS attributes for increased browser compatibility.
-* OTHER: Update copyright year.
-* DEV: Update dev dependencies.
-* DEV: Update minified files.
 * DEV: Update build files.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

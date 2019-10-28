@@ -329,7 +329,7 @@ if ( ! class_exists( 'cnLicense_Status' ) ) :
 
 				return new WP_Error(
 					'null_response',
-					esc_html__( 'License check response returned NULL.', 'connections' ),
+					esc_html__( 'License check failed. Try again later. If this issue persists, please contact support.', 'connections' ),
 					$request
 				);
 			}

@@ -33,6 +33,7 @@ class Blocks {
 		add_filter( 'block_categories', array( __CLASS__, 'registerCategories' ), 10, 2 );
 
 		// Register the editor blocks.
+		//add_action( 'init', 'Connections_Directory\Blocks\Carousel::register' );
 		add_action( 'init', 'Connections_Directory\Blocks\Directory::register' );
 		add_action( 'init', 'Connections_Directory\Blocks\Team::register' );
 		add_action( 'init', 'Connections_Directory\Blocks\Upcoming::register' );

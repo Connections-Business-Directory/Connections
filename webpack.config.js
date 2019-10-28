@@ -40,15 +40,47 @@ const config = {
 	module:    {
 		rules: [
 
+			{
+				test: /\.(css)$/,
+				use:  [ 'style-loader', 'css-loader' ]
+			},
+
+			// {
+			// 	test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+			// 	use: [
+			// 		{
+			// 			loader: 'file-loader',
+			// 			options: {
+			// 				name: '[name].[ext]',
+			// 				outputPath: 'fonts/'
+			// 			}
+			// 		}
+			// 	]
+			// },
+
+			{
+				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+				use:  [
+					{
+						loader:  'url-loader',
+						options: {
+							name:       '[name].[ext]',
+							limit:      100000,
+							outputPath: 'fonts/'
+						}
+					}
+				]
+			},
+
 			// Use Babel to compile JS.
 			{
 				test:    /\.js$/,
 				exclude: /node_modules/,
 				use:     {
-					loader: 'babel-loader',
+					loader:  'babel-loader',
 					options: {
 						// plugins: ['lodash'],
-						presets: ['@wordpress/default']
+						presets: [ '@wordpress/default' ]
 					}
 				},
 				// loaders: [
@@ -93,7 +125,7 @@ const config = {
 							sourceMap: true
 						}
 					}, {
-						loader:  'postcss-loader',
+						loader: 'postcss-loader',
 						// options: {
 						// 	options:   {},
 						// 	sourceMap: true

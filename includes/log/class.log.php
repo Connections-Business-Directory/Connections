@@ -322,8 +322,9 @@ final class cnLog {
 	public static function registerPostType() {
 
 		$atts = array(
-			'public'          => defined( 'WP_DEBUG' ) && WP_DEBUG,
-			'labels'          => array(
+			'public'              => defined( 'WP_DEBUG' ) && WP_DEBUG,
+			'exclude_from_search' => TRUE,
+			'labels'              => array(
 				'name'               => _x( 'Logs', 'post type general name', 'connections' ),
 				'singular_name'      => _x( 'Log', 'post type singular name', 'connections' ),
 				'menu_name'          => 'Connections :: ' . __( 'Logs', 'connections' ),
@@ -335,14 +336,14 @@ final class cnLog {
 				'search_items'       => __( 'Search Logs', 'connections' ),
 				'not_found'          => __( 'No logs found.', 'connections' ),
 				'not_found_in_trash' => __( 'No logs found in Trash.', 'connections' ),
-				'all_items'          => __( 'All Logs', 'connections' )
+				'all_items'          => __( 'All Logs', 'connections' ),
 			),
-			'query_var'       => FALSE,
-			'rewrite'         => FALSE,
-			'capability_type' => 'post',
-			'supports'        => array( 'title', 'editor' ),
-			'can_export'      => FALSE,
-			'capabilities'    => array(
+			'query_var'           => FALSE,
+			'rewrite'             => FALSE,
+			'capability_type'     => 'post',
+			'supports'            => array( 'title', 'editor' ),
+			'can_export'          => FALSE,
+			'capabilities'        => array(
 				'create_posts'       => 'do_not_allow',
 				'edit_post'          => 'activate_plugins',
 				'edit_posts'         => 'activate_plugins',
@@ -353,7 +354,7 @@ final class cnLog {
 				'read_private_posts' => 'do_not_allow',
 				'publish_posts'      => 'do_not_allow',
 			),
-			'map_meta_cap'    => FALSE,
+			'map_meta_cap'        => FALSE,
 		);
 
 		register_post_type( self::POST_TYPE, apply_filters( 'cn_log_post_type_atts', $atts ) );

@@ -423,6 +423,7 @@ class cnDependency {
 
 			// Gutenberg Blocks
 			'Connections_Directory\Blocks'           => 'includes/blocks/class.blocks.php',
+			'Connections_Directory\Blocks\Carousel'  => 'includes/blocks/carousel/class.block.php',
 			'Connections_Directory\Blocks\Directory' => 'includes/blocks/directory/class.block.php',
 			'Connections_Directory\Blocks\Team'      => 'includes/blocks/team/class.block.php',
 			'Connections_Directory\Blocks\Upcoming'  => 'includes/blocks/upcoming/class.block.php',

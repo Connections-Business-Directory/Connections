@@ -53,7 +53,7 @@ import 'slick-carousel/slick/slick-theme.css';
 /**
  * External dependencies
  */
-import { find, findIndex, isUndefined } from 'lodash';
+import { find, findIndex, has, isUndefined } from 'lodash';
 
 /**
  * Internal dependencies
@@ -143,13 +143,14 @@ class Carousel extends Component {
 
 		let index = this.getIndex();
 
-		// if ( - 1 === index ) {
-		//
-		// 	this.setState( { blockIndex: 0 }, () => {
-		// 		setAttributes( { blocks: [ { blockId: this.state.blockId, listType: 'all' } ] } );
-		// 	} );
-		//
-		// }
+		if ( - 1 === index ) {
+
+			// this.setState( { blockIndex: 0 }, () => {
+				// setAttributes( { blocks: [ { blockId: this.state.blockId, listType: 'all' } ] } );
+				this.setAttributes( { listType: 'all' } );
+			// } );
+
+		}
 
 		this.fetchEntries();
 	}
@@ -160,6 +161,25 @@ class Carousel extends Component {
 
 	componentWillUnmount() {
 		console.log( this.props.name, ': componentWillUnmount()' );
+
+		const {
+			      attributes: { blockId, blocks },
+			      setAttributes,
+		      } = this.props;
+
+		let index = this.getIndex();
+
+		console.log( 'componentWillUnmount()::blocks : before ', blocks );
+		console.log( 'componentWillUnmount()::index ', index );
+
+		blocks.splice( index, 1 );
+
+		console.log( 'componentWillUnmount()::blocks : after ', blocks );
+
+		setAttributes( {
+			blocks:   blocks,
+			listType: null,
+		} );
 	}
 
 	getQueryArgs() {
@@ -265,7 +285,8 @@ class Carousel extends Component {
 
 		let index = this.getIndex();
 
-		if ( -1 === index || isUndefined( blocks[ index ][ key ] ) ) {
+		// if ( -1 === index || isUndefined( blocks[ index ][ key ] ) ) {
+		if ( - 1 === index || !has( blocks, [ index, key ] ) ) {
 
 			return defaultValue;
 
@@ -286,16 +307,17 @@ class Carousel extends Component {
 	setAttributes( attributes ) {
 
 		const {
-			      attributes: { blocks, blockId },
+			      attributes: { blockId, blocks },
 			      setAttributes,
 			      // setMetaFieldValue,
 		      } = this.props;
 
-		let state = this.state;
+		// let state = this.state;
 		let index = this.getIndex();
 
+		// console.log( 'setAttributes::props ', this.props );
 		console.log( 'setAttributes::blocks ', blocks );
-		// console.log( 'setAttributes::blockId ', this.state.blockId );
+		// console.log( 'setAttributes::blockId ', blockId );
 
 		if ( -1 < index ) {
 
@@ -307,18 +329,22 @@ class Carousel extends Component {
 
 		} else {
 
-			let blockCount = blocks.push( { blockId, ...attributes } );
+			let blockCount = blocks.push( { blockId: this.state.blockId, ...attributes } );
 
-			state.blockIndex = blockCount - 1;
+			// state.blockIndex = blockCount - 1;
 
-			console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
+			this.setState( { blockIndex: ( blockCount - 1 ) } );
+
+				console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
 		}
 
-		this.setState( state, () => {
-			setAttributes( { blocks: blocks, ...attributes } );
-			// setMetaFieldValue( state.blocks );
-			// this.fetchEntries();
-		} );
+		// this.setState( state, () => {
+		// 	setAttributes( { blocks: blocks, ...attributes } );
+		// 	// setMetaFieldValue( state.blocks );
+		// 	// this.fetchEntries();
+		// } );
+
+		setAttributes( { blocks: blocks, ...attributes } );
 	}
 
 	render() {

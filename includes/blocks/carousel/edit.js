@@ -29,8 +29,10 @@ const {
       } = wp.components;
 const { compose, withInstanceId } = wp.compose;
 const {
-	      withDispatch,
-	      withSelect
+	      // select,
+	      // subscribe,
+	      // withDispatch,
+	      withSelect,
       } = wp.data;
 const {
 	      // ColorPalette,
@@ -53,7 +55,7 @@ import 'slick-carousel/slick/slick-theme.css';
 /**
  * External dependencies
  */
-import { find, findIndex, has, isUndefined } from 'lodash';
+import { findIndex, has, isUndefined } from 'lodash';
 
 /**
  * Internal dependencies
@@ -152,11 +154,40 @@ class Carousel extends Component {
 
 		}
 
+		// const unsubscribe = subscribe( () => {
+		//
+		// 	// this.state.editorBlocks = select( 'core/block-editor' ).getBlocks();
+		//
+		// 	this.setState({
+		// 		editorBlocks: select( 'core/block-editor' ).getBlocks()
+		// 	});
+		// } );
+
 		this.fetchEntries();
 	}
 
-	componentDidUpdate( prevProps ) {
+	componentDidUpdate( prevProps, prevState ) {
 		console.log( this.props.name, ': componentDidUpdate()' );
+		// console.log( 'componentDidUpdate()::prevProps ', prevProps );
+		// console.log( 'componentDidUpdate()::prevState ', prevState );
+		// console.log( 'componentDidUpdate()::this.props ', this.props );
+		// console.log( 'componentDidUpdate()::this.state ', this.state );
+
+		const {
+			      attributes: { blocks },
+		      } = this.props;
+
+		let index = this.findIndex( this.state.blockId, blocks );
+
+		if ( index !== this.state.blockIndex ) {
+
+			console.log( 'componentDidUpdate()::new index ', index );
+
+			this.setState( {
+				blockIndex: index,
+			} );
+		}
+
 	}
 
 	componentWillUnmount() {
@@ -174,11 +205,14 @@ class Carousel extends Component {
 
 		blocks.splice( index, 1 );
 
+		// index = this.findIndex( blockId, blocks );
+		let rnd = (0|Math.random()*6.04e7).toString(36);
+
 		console.log( 'componentWillUnmount()::blocks : after ', blocks );
 
 		setAttributes( {
 			blocks:   blocks,
-			listType: null,
+			listType: rnd,
 		} );
 	}
 
@@ -207,7 +241,8 @@ class Carousel extends Component {
 		if ( -1 < index ) {
 
 			query = {
-				type: blocks[ index ].listType,
+				type:     blocks[ index ].listType,
+				category: blocks[ index ].categories,
 			}
 		}
 
@@ -478,13 +513,10 @@ console.log( 'render::blockIndex ', blockIndex );
 
 						<HierarchicalTermSelector
 							taxonomy='category'
-							terms={ JSON.parse( categories ) }
+							terms={ this.getAttribute( 'categories', [] ) }
 							onChange={ ( value ) => {
-								setAttributes( { categories: JSON.stringify( value ) } );
-								this.setQueryArgs( {
-									category: value.toString(),
-								} );
-								// this.fetchEntries();
+								this.setAttributes( { categories: value } );
+								this.fetchEntries();
 							} }
 						/>
 
@@ -733,33 +765,37 @@ export default compose( [
 	//
 	// } ),
 	// withSelect( ( select, props ) => {
-	//
-	// 	const {
-	// 		      blockAttributes,
-	// 		      blockId,
-	// 		      categories,
-	// 		      listType
-	// 	      } = props.attributes;
-	//
-	// 	// console.log('Select.');
-	//
-	// 	let entryType = 'all';
-	// 	let index     = findIndex( blockAttributes, ( o ) => { return o.blockId === blockId } );
-	//
-	// 	if ( -1 < index ) {
-	//
-	// 		entryType = blockAttributes[ index ].listType;
-	// 	}
-	//
-	// 	setEntryQueryArg( {
-	// 		category: JSON.parse( categories ).toString(),
-	// 		type:     entryType,
-	// 	} );
-	//
-	// 	return {
-	// 		entries: select( 'connections-directory/entries' ).getEntityRecords( entryQueryArgs ),
-	// 	}
-	//
+
+		// const {
+		// 	      blockAttributes,
+		// 	      blockId,
+		// 	      categories,
+		// 	      listType
+		//       } = props.attributes;
+		//
+		// // console.log('Select.');
+		//
+		// let entryType = 'all';
+		// let index     = findIndex( blockAttributes, ( o ) => { return o.blockId === blockId } );
+		//
+		// if ( -1 < index ) {
+		//
+		// 	entryType = blockAttributes[ index ].listType;
+		// }
+		//
+		// setEntryQueryArg( {
+		// 	category: JSON.parse( categories ).toString(),
+		// 	type:     entryType,
+		// } );
+		//
+		// return {
+		// 	entries: select( 'connections-directory/entries' ).getEntityRecords( entryQueryArgs ),
+		// }
+
+		// return {
+		// 	editorBlocks: select( 'core/editor' ).getBlocks()
+		// };
+
 	// } ),
 	withInstanceId
 	]

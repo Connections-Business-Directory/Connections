@@ -193,9 +193,7 @@ var _wp$components = wp.components,
 var _wp$compose = wp.compose,
     compose = _wp$compose.compose,
     withInstanceId = _wp$compose.withInstanceId;
-var _wp$data = wp.data,
-    withDispatch = _wp$data.withDispatch,
-    withSelect = _wp$data.withSelect;
+var withSelect = wp.data.withSelect;
 
 _babel_runtime_helpers_objectDestructuringEmpty__WEBPACK_IMPORTED_MODULE_7___default()(wp.editor);
 
@@ -308,14 +306,35 @@ function (_Component) {
         this.setAttributes({
           listType: 'all'
         }); // } );
-      }
+      } // const unsubscribe = subscribe( () => {
+      //
+      // 	// this.state.editorBlocks = select( 'core/block-editor' ).getBlocks();
+      //
+      // 	this.setState({
+      // 		editorBlocks: select( 'core/block-editor' ).getBlocks()
+      // 	});
+      // } );
+
 
       this.fetchEntries();
     }
   }, {
     key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      console.log(this.props.name, ': componentDidUpdate()');
+    value: function componentDidUpdate(prevProps, prevState) {
+      console.log(this.props.name, ': componentDidUpdate()'); // console.log( 'componentDidUpdate()::prevProps ', prevProps );
+      // console.log( 'componentDidUpdate()::prevState ', prevState );
+      // console.log( 'componentDidUpdate()::this.props ', this.props );
+      // console.log( 'componentDidUpdate()::this.state ', this.state );
+
+      var blocks = this.props.attributes.blocks;
+      var index = this.findIndex(this.state.blockId, blocks);
+
+      if (index !== this.state.blockIndex) {
+        console.log('componentDidUpdate()::new index ', index);
+        this.setState({
+          blockIndex: index
+        });
+      }
     }
   }, {
     key: "componentWillUnmount",
@@ -326,14 +345,18 @@ function (_Component) {
           blockId = _this$props3$attribut.blockId,
           blocks = _this$props3$attribut.blocks,
           setAttributes = _this$props3.setAttributes;
-      var index = this.getIndex();
+      var index = this.getIndex(); // console.log( 'componentWillUnmount()::this.state.editorBlocks ', this.state.editorBlocks );
+      // console.log( 'componentWillUnmount()::this.props.editorBlocks ', this.props.editorBlocks );
+
       console.log('componentWillUnmount()::blocks : before ', blocks);
       console.log('componentWillUnmount()::index ', index);
-      blocks.splice(index, 1);
+      blocks.splice(index, 1); // index = this.findIndex( blockId, blocks );
+
+      var rnd = (0 | Math.random() * 6.04e7).toString(36);
       console.log('componentWillUnmount()::blocks : after ', blocks);
       setAttributes({
         blocks: blocks,
-        listType: null
+        listType: rnd
       });
     }
   }, {
@@ -358,7 +381,8 @@ function (_Component) {
 
       if (-1 < index) {
         query = {
-          type: blocks[index].listType
+          type: blocks[index].listType,
+          category: blocks[index].categories
         };
       }
 
@@ -582,16 +606,13 @@ function (_Component) {
         }
       }, wp.element.createElement("p", null, __('Choose the categories to include in the entry list.', 'connections'))), wp.element.createElement(_Connections_Directory_components__WEBPACK_IMPORTED_MODULE_12__["HierarchicalTermSelector"], {
         taxonomy: "category",
-        terms: JSON.parse(categories),
+        terms: this.getAttribute('categories', []),
         onChange: function onChange(value) {
-          setAttributes({
-            categories: JSON.stringify(value)
+          _this3.setAttributes({
+            categories: value
           });
 
-          _this3.setQueryArgs({
-            category: value.toString()
-          }); // this.fetchEntries();
-
+          _this3.fetchEntries();
         }
       }), wp.element.createElement("div", {
         style: {
@@ -852,33 +873,34 @@ function (_Component) {
 //
 // } ),
 // withSelect( ( select, props ) => {
+// const {
+// 	      blockAttributes,
+// 	      blockId,
+// 	      categories,
+// 	      listType
+//       } = props.attributes;
 //
-// 	const {
-// 		      blockAttributes,
-// 		      blockId,
-// 		      categories,
-// 		      listType
-// 	      } = props.attributes;
+// // console.log('Select.');
 //
-// 	// console.log('Select.');
+// let entryType = 'all';
+// let index     = findIndex( blockAttributes, ( o ) => { return o.blockId === blockId } );
 //
-// 	let entryType = 'all';
-// 	let index     = findIndex( blockAttributes, ( o ) => { return o.blockId === blockId } );
+// if ( -1 < index ) {
 //
-// 	if ( -1 < index ) {
+// 	entryType = blockAttributes[ index ].listType;
+// }
 //
-// 		entryType = blockAttributes[ index ].listType;
-// 	}
+// setEntryQueryArg( {
+// 	category: JSON.parse( categories ).toString(),
+// 	type:     entryType,
+// } );
 //
-// 	setEntryQueryArg( {
-// 		category: JSON.parse( categories ).toString(),
-// 		type:     entryType,
-// 	} );
-//
-// 	return {
-// 		entries: select( 'connections-directory/entries' ).getEntityRecords( entryQueryArgs ),
-// 	}
-//
+// return {
+// 	entries: select( 'connections-directory/entries' ).getEntityRecords( entryQueryArgs ),
+// }
+// return {
+// 	editorBlocks: select( 'core/editor' ).getBlocks()
+// };
 // } ),
 withInstanceId])(Carousel));
 

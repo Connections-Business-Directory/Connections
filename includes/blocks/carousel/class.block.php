@@ -41,26 +41,48 @@ class Carousel {
 		 * @link https://wordpress.stackexchange.com/a/341735
 		 * @link https://github.com/WordPress/gutenberg/issues/5191#issuecomment-367915960
 		 */
-		register_meta(
-			'post',
-			'_listType',
-			array(
-				'single'        => TRUE,
-				'type'          => 'string',
-				'auth_callback' => function() {
+		//register_meta(
+		//	'post',
+		//	'_cbd_carousel_blocks',
+		//	array(
+		//		'single'            => TRUE,
+		//		'type'              => 'string',
+		//		'auth_callback'     => function() {
+		//
+		//			return current_user_can( 'edit_posts' );
+		//		},
+		//		'sanitize_callback' => function( $meta_value, $meta_key, $meta_type ) {
+		//
+		//			return wp_json_encode( json_decode( stripslashes( $meta_value ) ) );
+		//		},
+		//		'show_in_rest'      => array(
+		//			'prepare_callback' => function( $value ) {
+		//
+		//				return wp_json_encode( $value );
+		//			},
+		//		),
+		//	)
+		//);
 
-					return current_user_can( 'edit_posts' );
-				},
-				'show_in_rest'  => array(
-					'prepare_callback' => function( $value ) {
-
-						return $value;
-						//return wp_json_encode( $value );
-					},
-				),
-				//'show_in_rest' => TRUE,
-			)
-		);
+		//register_meta(
+		//	'post',
+		//	'_listType',
+		//	array(
+		//		'single'        => TRUE,
+		//		'type'          => 'string',
+		//		'auth_callback' => function() {
+		//
+		//			return current_user_can( 'edit_posts' );
+		//		},
+		//		'show_in_rest'  => array(
+		//			'prepare_callback' => function( $value ) {
+		//
+		//				return $value;
+		//				//return wp_json_encode( $value );
+		//			},
+		//		),
+		//	)
+		//);
 
 		register_meta(
 			'post',

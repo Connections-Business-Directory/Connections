@@ -55,7 +55,7 @@ import 'slick-carousel/slick/slick-theme.css';
 /**
  * External dependencies
  */
-import { findIndex, has, isUndefined } from 'lodash';
+import { cloneDeep, findIndex, has, isUndefined } from 'lodash';
 
 /**
  * Internal dependencies
@@ -106,7 +106,7 @@ class Carousel extends Component {
 		console.log( 'constructor()::this.props ', this.props );
 
 		const {
-			      attributes: { blockId, blocks },
+			      attributes: { blockId, blocks/*, carousels*/ },
 			      clientId,
 			      setAttributes,
 		      } = this.props;
@@ -115,7 +115,7 @@ class Carousel extends Component {
 		this.findIndex = this.findIndex.bind( this );
 		this.getAttribute = this.getAttribute.bind( this );
 		this.setAttributes = this.setAttributes.bind( this );
-		this.getQueryArgs = this.getQueryArgs.bind( this );
+		this.prepareQueryArgs = this.prepareQueryArgs.bind( this );
 		this.fetchAPI = this.fetchAPI.bind( this );
 		this.fetchEntries = this.fetchEntries.bind( this );
 
@@ -126,6 +126,7 @@ class Carousel extends Component {
 			// blocks:       blocks,
 			blockId:      id,
 			blockIndex:   index,
+			// carousels:    carousels,
 			queryArgs:    {},
 			queryResults: [],
 			isLoading:    true,
@@ -194,55 +195,50 @@ class Carousel extends Component {
 		console.log( this.props.name, ': componentWillUnmount()' );
 
 		const {
-			      attributes: { blockId, blocks },
+			      attributes: { blocks },
 			      setAttributes,
 		      } = this.props;
 
+		const blocksClone = cloneDeep( blocks );
 		let index = this.getIndex();
 
-		console.log( 'componentWillUnmount()::blocks : before ', blocks );
+		console.log( 'componentWillUnmount()::blocks : before ', blocksClone );
 		console.log( 'componentWillUnmount()::index ', index );
 
-		blocks.splice( index, 1 );
+		blocksClone.splice( index, 1 );
 
 		// index = this.findIndex( blockId, blocks );
 		let rnd = (0|Math.random()*6.04e7).toString(36);
 
-		console.log( 'componentWillUnmount()::blocks : after ', blocks );
+		console.log( 'componentWillUnmount()::blocks : after ', blocksClone );
+
+		let blocksJSON = JSON.stringify( blocksClone );
 
 		setAttributes( {
-			blocks:   blocks,
-			listType: rnd,
+			blocks:    blocksClone,
+			// carousels: blocksJSON,
+			// listType:  rnd,
 		} );
 	}
 
-	getQueryArgs() {
+	/**
+	 * @param {object} args
+	 */
+	prepareQueryArgs( args ) {
 
 		const { attributes: { blocks } } = this.props;
 
 		let query = {};
 		let index = this.getIndex();
 
-		// if ( -1 === index ) {
-		//
-		// 	this.setQueryArgs( {
-		// 		// category: JSON.parse( categories ).toString(),
-		// 		type:     this.state.listType,
-		// 	} );
-		//
-		// } else {
-		//
-		// 	this.setQueryArgs( {
-		// 		// category: JSON.parse( categories ).toString(),
-		// 		type:     blocks[ index ].listType,
-		// 	} );
-		// }
+		console.log( 'getQueryArgs::blocks ', blocks );
 
 		if ( -1 < index ) {
 
 			query = {
 				type:     blocks[ index ].listType,
 				category: blocks[ index ].categories,
+				...args
 			}
 		}
 
@@ -264,9 +260,12 @@ class Carousel extends Component {
 		return apiFetch( { path: path } );
 	}
 
-	fetchEntries() {
+	/**
+	 * @param {object} args
+	 */
+	fetchEntries( args ) {
 
-		this.fetchAPI( this.getQueryArgs() ).then( ( results ) => {
+		this.fetchAPI( this.prepareQueryArgs( args ) ).then( ( results ) => {
 
 			this.setState( { isLoading: false, queryResults: results } );
 		} );
@@ -342,44 +341,41 @@ class Carousel extends Component {
 	setAttributes( attributes ) {
 
 		const {
-			      attributes: { blockId, blocks },
+			      attributes: { blocks },
 			      setAttributes,
-			      // setMetaFieldValue,
 		      } = this.props;
 
-		// let state = this.state;
+		const blocksClone = cloneDeep( blocks );
 		let index = this.getIndex();
 
 		// console.log( 'setAttributes::props ', this.props );
-		console.log( 'setAttributes::blocks ', blocks );
+		console.log( 'setAttributes::blocks ', blocksClone );
 		// console.log( 'setAttributes::blockId ', blockId );
 
 		if ( -1 < index ) {
 
-			let block = blocks[ index ];
+			let block = blocksClone[ index ];
 			block = { ...block, ...attributes };
-			blocks[ index ] = block;
+			blocksClone[ index ] = block;
 
 			console.log( 'setAttributes::block (hasIndex) ', block );
 
 		} else {
 
-			let blockCount = blocks.push( { blockId: this.state.blockId, ...attributes } );
-
-			// state.blockIndex = blockCount - 1;
+			let blockCount = blocksClone.push( { blockId: this.state.blockId, ...attributes } );
 
 			this.setState( { blockIndex: ( blockCount - 1 ) } );
 
 				console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
 		}
 
-		// this.setState( state, () => {
-		// 	setAttributes( { blocks: blocks, ...attributes } );
-		// 	// setMetaFieldValue( state.blocks );
-		// 	// this.fetchEntries();
-		// } );
+		let blocksJSON = JSON.stringify( blocksClone );
 
-		setAttributes( { blocks: blocks, ...attributes } );
+		setAttributes( {
+			blocks: blocksClone,
+			// carousels: blocksJSON,
+			// ...attributes
+		} );
 	}
 
 	render() {
@@ -418,7 +414,7 @@ class Carousel extends Component {
 			      imageShape,
 			      imageType,
 			      // layout,
-			      listType,
+			      // listType,
 			      // position,
 			      // rows,
 			      // style,
@@ -497,10 +493,8 @@ console.log( 'render::blockIndex ', blockIndex );
 									...entryTypeSelectOptions
 								] }
 								onChange={ ( value ) => {
-									// setAttributes( { listType: value } );
-									// this.setQueryArgs( { type: value } );
 									this.setAttributes( { listType: value } );
-									this.fetchEntries();
+									this.fetchEntries( { type: value } );
 								} }
 							/>
 						</div>
@@ -516,7 +510,7 @@ console.log( 'render::blockIndex ', blockIndex );
 							terms={ this.getAttribute( 'categories', [] ) }
 							onChange={ ( value ) => {
 								this.setAttributes( { categories: value } );
-								this.fetchEntries();
+								this.fetchEntries( { category: value } );
 							} }
 						/>
 

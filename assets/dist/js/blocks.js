@@ -268,7 +268,7 @@ function (_Component) {
     _this.findIndex = _this.findIndex.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
     _this.getAttribute = _this.getAttribute.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
     _this.setAttributes = _this.setAttributes.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
-    _this.getQueryArgs = _this.getQueryArgs.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
+    _this.prepareQueryArgs = _this.prepareQueryArgs.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
     _this.fetchAPI = _this.fetchAPI.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
     _this.fetchEntries = _this.fetchEntries.bind(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this));
     var id = Object(lodash__WEBPACK_IMPORTED_MODULE_11__["isUndefined"])(blockId) ? clientId : blockId;
@@ -279,6 +279,7 @@ function (_Component) {
       // blocks:       blocks,
       blockId: id,
       blockIndex: index,
+      // carousels:    carousels,
       queryArgs: {},
       queryResults: [],
       isLoading: true
@@ -341,49 +342,40 @@ function (_Component) {
     value: function componentWillUnmount() {
       console.log(this.props.name, ': componentWillUnmount()');
       var _this$props3 = this.props,
-          _this$props3$attribut = _this$props3.attributes,
-          blockId = _this$props3$attribut.blockId,
-          blocks = _this$props3$attribut.blocks,
+          blocks = _this$props3.attributes.blocks,
           setAttributes = _this$props3.setAttributes;
-      var index = this.getIndex(); // console.log( 'componentWillUnmount()::this.state.editorBlocks ', this.state.editorBlocks );
-      // console.log( 'componentWillUnmount()::this.props.editorBlocks ', this.props.editorBlocks );
-
-      console.log('componentWillUnmount()::blocks : before ', blocks);
+      var blocksClone = Object(lodash__WEBPACK_IMPORTED_MODULE_11__["cloneDeep"])(blocks);
+      var index = this.getIndex();
+      console.log('componentWillUnmount()::blocks : before ', blocksClone);
       console.log('componentWillUnmount()::index ', index);
-      blocks.splice(index, 1); // index = this.findIndex( blockId, blocks );
+      blocksClone.splice(index, 1); // index = this.findIndex( blockId, blocks );
 
       var rnd = (0 | Math.random() * 6.04e7).toString(36);
-      console.log('componentWillUnmount()::blocks : after ', blocks);
+      console.log('componentWillUnmount()::blocks : after ', blocksClone);
+      var blocksJSON = JSON.stringify(blocksClone);
       setAttributes({
-        blocks: blocks,
-        listType: rnd
+        blocks: blocksClone // carousels: blocksJSON,
+        // listType:  rnd,
+
       });
     }
+    /**
+     * @param {object} args
+     */
+
   }, {
-    key: "getQueryArgs",
-    value: function getQueryArgs() {
+    key: "prepareQueryArgs",
+    value: function prepareQueryArgs(args) {
       var blocks = this.props.attributes.blocks;
       var query = {};
-      var index = this.getIndex(); // if ( -1 === index ) {
-      //
-      // 	this.setQueryArgs( {
-      // 		// category: JSON.parse( categories ).toString(),
-      // 		type:     this.state.listType,
-      // 	} );
-      //
-      // } else {
-      //
-      // 	this.setQueryArgs( {
-      // 		// category: JSON.parse( categories ).toString(),
-      // 		type:     blocks[ index ].listType,
-      // 	} );
-      // }
+      var index = this.getIndex();
+      console.log('getQueryArgs::blocks ', blocks);
 
       if (-1 < index) {
-        query = {
+        query = _objectSpread({
           type: blocks[index].listType,
           category: blocks[index].categories
-        };
+        }, args);
       }
 
       return query;
@@ -399,12 +391,16 @@ function (_Component) {
         path: path
       });
     }
+    /**
+     * @param {object} args
+     */
+
   }, {
     key: "fetchEntries",
-    value: function fetchEntries() {
+    value: function fetchEntries(args) {
       var _this2 = this;
 
-      this.fetchAPI(this.getQueryArgs()).then(function (results) {
+      this.fetchAPI(this.prepareQueryArgs(args)).then(function (results) {
         _this2.setState({
           isLoading: false,
           queryResults: results
@@ -478,39 +474,34 @@ function (_Component) {
     key: "setAttributes",
     value: function setAttributes(attributes) {
       var _this$props4 = this.props,
-          _this$props4$attribut = _this$props4.attributes,
-          blockId = _this$props4$attribut.blockId,
-          blocks = _this$props4$attribut.blocks,
-          setAttributes = _this$props4.setAttributes; // let state = this.state;
-
+          blocks = _this$props4.attributes.blocks,
+          setAttributes = _this$props4.setAttributes;
+      var blocksClone = Object(lodash__WEBPACK_IMPORTED_MODULE_11__["cloneDeep"])(blocks);
       var index = this.getIndex(); // console.log( 'setAttributes::props ', this.props );
 
-      console.log('setAttributes::blocks ', blocks); // console.log( 'setAttributes::blockId ', blockId );
+      console.log('setAttributes::blocks ', blocksClone); // console.log( 'setAttributes::blockId ', blockId );
 
       if (-1 < index) {
-        var block = blocks[index];
+        var block = blocksClone[index];
         block = _objectSpread({}, block, {}, attributes);
-        blocks[index] = block;
+        blocksClone[index] = block;
         console.log('setAttributes::block (hasIndex) ', block);
       } else {
-        var blockCount = blocks.push(_objectSpread({
+        var blockCount = blocksClone.push(_objectSpread({
           blockId: this.state.blockId
-        }, attributes)); // state.blockIndex = blockCount - 1;
-
+        }, attributes));
         this.setState({
           blockIndex: blockCount - 1
         });
         console.log('setAttributes::block (pushNew) ', blockCount - 1);
-      } // this.setState( state, () => {
-      // 	setAttributes( { blocks: blocks, ...attributes } );
-      // 	// setMetaFieldValue( state.blocks );
-      // 	// this.fetchEntries();
-      // } );
+      }
 
+      var blocksJSON = JSON.stringify(blocksClone);
+      setAttributes({
+        blocks: blocksClone // carousels: blocksJSON,
+        // ...attributes
 
-      setAttributes(_objectSpread({
-        blocks: blocks
-      }, attributes));
+      });
     }
   }, {
     key: "render",
@@ -541,8 +532,7 @@ function (_Component) {
           imageBorderWidth = attributes.imageBorderWidth,
           imageCropMode = attributes.imageCropMode,
           imageShape = attributes.imageShape,
-          imageType = attributes.imageType,
-          listType = attributes.listType;
+          imageType = attributes.imageType;
       console.log('render::blocks ', blocks);
       var blockIndex = this.getIndex();
       var entryTypeSelectOptions = [];
@@ -592,13 +582,13 @@ function (_Component) {
           value: 'all'
         }].concat(entryTypeSelectOptions),
         onChange: function onChange(value) {
-          // setAttributes( { listType: value } );
-          // this.setQueryArgs( { type: value } );
           _this3.setAttributes({
             listType: value
           });
 
-          _this3.fetchEntries();
+          _this3.fetchEntries({
+            type: value
+          });
         }
       })), wp.element.createElement("div", {
         style: {
@@ -612,7 +602,9 @@ function (_Component) {
             categories: value
           });
 
-          _this3.fetchEntries();
+          _this3.fetchEntries({
+            category: value
+          });
         }
       }), wp.element.createElement("div", {
         style: {
@@ -971,6 +963,12 @@ var registerBlockType = wp.blocks.registerBlockType; // const { withSelect } = w
       type: 'integer',
       default: 1
     },
+    // carousels:         {
+    // 	type:    'string',
+    // 	default:  '[]',
+    // 	source:  'meta',
+    // 	meta:    '_cbd_carousel_blocks'
+    // },
     categories: {
       type: 'string',
       default: '[]'
@@ -1033,13 +1031,13 @@ var registerBlockType = wp.blocks.registerBlockType; // const { withSelect } = w
     imageType: {
       type: 'string',
       default: 'photo'
-    },
-    listType: {
-      type: 'string',
-      default: 'all',
-      source: 'meta',
-      meta: '_listType'
-    }
+    } // listType:          {
+    // 	type:    'string',
+    // 	default: 'all',
+    // 	source:  'meta',
+    // 	meta:    '_listType'
+    // },
+
   },
   edit: _edit__WEBPACK_IMPORTED_MODULE_0__["default"],
   save: function save() {

@@ -1945,6 +1945,8 @@ class cnTemplatePart {
 					'after_page_number'  => $atts['after_page_number'],
 					);
 
+				$args = apply_filters( 'cn_pagination_links_args', $args );
+
 				$links = paginate_links( $args );
 
 			} else {
@@ -1984,6 +1986,8 @@ class cnTemplatePart {
 					'before_page_number' => $atts['before_page_number'],
 					'after_page_number'  => $atts['after_page_number'],
 					);
+
+				$args = apply_filters( 'cn_pagination_links_args', $args );
 
 				$links = paginate_links( $args );
 			}

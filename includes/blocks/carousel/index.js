@@ -34,12 +34,6 @@ export default registerBlockType(
 			html:            false,
 		},
 		attributes:  {
-			blocks:            {
-				type:    'array',
-				default:  [],
-				source:  'meta',
-				meta:    '_blocks'
-			},
 			blockId:           {
 				type:    'string',
 				// default: '',
@@ -55,15 +49,11 @@ export default registerBlockType(
 				type:    'integer',
 				default: 1,
 			},
-			// carousels:         {
-			// 	type:    'string',
-			// 	default:  '[]',
-			// 	source:  'meta',
-			// 	meta:    '_cbd_carousel_blocks'
-			// },
-			categories:        {
+			carousels:         {
 				type:    'string',
-				default: '[]',
+				default:  '[]',
+				source:  'meta',
+				meta:    '_cbd_carousel_blocks'
 			},
 			categoriesExclude: {
 				type:    'string',
@@ -124,12 +114,6 @@ export default registerBlockType(
 				type:    'string',
 				default: 'photo',
 			},
-			// listType:          {
-			// 	type:    'string',
-			// 	default: 'all',
-			// 	source:  'meta',
-			// 	meta:    '_listType'
-			// },
 		},
 		edit,
 		save:        () => {

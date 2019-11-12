@@ -31,7 +31,7 @@ const { compose, withInstanceId } = wp.compose;
 const {
 	      // select,
 	      // subscribe,
-	      // withDispatch,
+	      withDispatch,
 	      withSelect,
       } = wp.data;
 const {
@@ -106,7 +106,8 @@ class Carousel extends Component {
 		console.log( 'constructor()::this.props ', this.props );
 
 		const {
-			      attributes: { blockId, blocks/*, carousels*/ },
+			      attributes: { blockId },
+			      metaCarousels,
 			      clientId,
 			      setAttributes,
 		      } = this.props;
@@ -119,18 +120,19 @@ class Carousel extends Component {
 		this.fetchAPI = this.fetchAPI.bind( this );
 		this.fetchEntries = this.fetchEntries.bind( this );
 
-		let id = isUndefined( blockId ) ? clientId : blockId;
-		let index = this.findIndex( id, blocks );
+		const id = isUndefined( blockId ) ? clientId : blockId;
+		const blocks = JSON.parse( metaCarousels );
+		const index = this.findIndex( id, blocks );
 
 		this.state = {
-			// blocks:       blocks,
 			blockId:      id,
 			blockIndex:   index,
-			// carousels:    carousels,
-			queryArgs:    {},
 			queryResults: [],
 			isLoading:    true,
 		};
+
+		console.log( 'constructor()::this.state ', this.state );
+		console.log( 'constructor()::metaCarousels ', metaCarousels );
 
 		setAttributes( { blockId: id } );
 	}
@@ -138,47 +140,29 @@ class Carousel extends Component {
 	componentDidMount() {
 		console.log( this.props.name, ': componentDidMount()' );
 
-		const {
-			      attributes: { blocks, blockId },
-			      setAttributes,
-			      // setMetaFieldValue,
-		      } = this.props;
-
-		let index = this.getIndex();
+		const index = this.getIndex();
 
 		if ( - 1 === index ) {
 
-			// this.setState( { blockIndex: 0 }, () => {
-				// setAttributes( { blocks: [ { blockId: this.state.blockId, listType: 'all' } ] } );
-				this.setAttributes( { listType: 'all' } );
-			// } );
-
+			this.setAttributes( { listType: 'all' } );
 		}
-
-		// const unsubscribe = subscribe( () => {
-		//
-		// 	// this.state.editorBlocks = select( 'core/block-editor' ).getBlocks();
-		//
-		// 	this.setState({
-		// 		editorBlocks: select( 'core/block-editor' ).getBlocks()
-		// 	});
-		// } );
 
 		this.fetchEntries();
 	}
 
+	/**
+	 * @param {object} prevProps
+	 * @param {object} prevState
+	 */
 	componentDidUpdate( prevProps, prevState ) {
 		console.log( this.props.name, ': componentDidUpdate()' );
-		// console.log( 'componentDidUpdate()::prevProps ', prevProps );
-		// console.log( 'componentDidUpdate()::prevState ', prevState );
-		// console.log( 'componentDidUpdate()::this.props ', this.props );
-		// console.log( 'componentDidUpdate()::this.state ', this.state );
 
 		const {
-			      attributes: { blocks },
+			      metaCarousels,
 		      } = this.props;
 
-		let index = this.findIndex( this.state.blockId, blocks );
+		const blocks = JSON.parse( metaCarousels );
+		const index = this.findIndex( this.state.blockId, blocks );
 
 		if ( index !== this.state.blockIndex ) {
 
@@ -195,30 +179,23 @@ class Carousel extends Component {
 		console.log( this.props.name, ': componentWillUnmount()' );
 
 		const {
-			      attributes: { blocks },
-			      setAttributes,
+			      metaCarousels,
+			      setMetaFieldValue,
 		      } = this.props;
 
-		const blocksClone = cloneDeep( blocks );
-		let index = this.getIndex();
+		const blocks = JSON.parse( metaCarousels );
+		const index = this.findIndex( this.state.blockId, blocks );
 
-		console.log( 'componentWillUnmount()::blocks : before ', blocksClone );
+		console.log( 'componentWillUnmount()::blocks : before ', blocks );
 		console.log( 'componentWillUnmount()::index ', index );
 
-		blocksClone.splice( index, 1 );
+		blocks.splice( index, 1 );
 
-		// index = this.findIndex( blockId, blocks );
-		let rnd = (0|Math.random()*6.04e7).toString(36);
+		console.log( 'componentWillUnmount()::blocks : after ', blocks );
 
-		console.log( 'componentWillUnmount()::blocks : after ', blocksClone );
+		const blocksJSON = JSON.stringify( blocks );
 
-		let blocksJSON = JSON.stringify( blocksClone );
-
-		setAttributes( {
-			blocks:    blocksClone,
-			// carousels: blocksJSON,
-			// listType:  rnd,
-		} );
+		setMetaFieldValue( blocksJSON );
 	}
 
 	/**
@@ -226,12 +203,15 @@ class Carousel extends Component {
 	 */
 	prepareQueryArgs( args ) {
 
-		const { attributes: { blocks } } = this.props;
+		const {
+			      attributes: { carousels },
+		      } = this.props;
 
 		let query = {};
-		let index = this.getIndex();
+		const index = this.getIndex();
+		const blocks = JSON.parse( carousels );
 
-		console.log( 'getQueryArgs::blocks ', blocks );
+		console.log( 'prepareQueryArgs::blocks ', blocks );
 
 		if ( -1 < index ) {
 
@@ -263,7 +243,7 @@ class Carousel extends Component {
 	/**
 	 * @param {object} args
 	 */
-	fetchEntries( args ) {
+	fetchEntries( args = {} ) {
 
 		this.fetchAPI( this.prepareQueryArgs( args ) ).then( ( results ) => {
 
@@ -279,13 +259,10 @@ class Carousel extends Component {
 	 */
 	findIndex( id, blocks ) {
 
-		// const { attributes: { blocks } } = this.props;
-		// let blocks = this.state.blocks;
-
 		console.log( 'findIndex::blocks ', blocks );
 		console.log( 'findIndex::blockId ', id );
 
-		let index = findIndex( blocks, ( o ) => {
+		const index = findIndex( blocks, ( o ) => {
 			console.log( 'findIndex::o ', o );
 			return ! isUndefined( o ) && o.blockId === id;
 		});
@@ -312,14 +289,16 @@ class Carousel extends Component {
 	getAttribute( key, defaultValue = null ) {
 
 		const {
-			      attributes: { blocks, blockId },
-			      // setAttributes,
-			      // setMetaFieldValue,
+			      attributes: { /*blocks,*/ carousels },
+			      metaCarousels,
 		      } = this.props;
 
-		let index = this.getIndex();
+		const index = this.getIndex();
+		const blocks = JSON.parse( metaCarousels );
 
-		// if ( -1 === index || isUndefined( blocks[ index ][ key ] ) ) {
+		console.log( 'getAttributes::typeof blocks ', typeof blocks );
+		console.log( 'getAttributes::blocks ', blocks );
+
 		if ( - 1 === index || !has( blocks, [ index, key ] ) ) {
 
 			return defaultValue;
@@ -341,57 +320,52 @@ class Carousel extends Component {
 	setAttributes( attributes ) {
 
 		const {
-			      attributes: { blocks },
-			      setAttributes,
+			      metaCarousels,
+			      setMetaFieldValue,
 		      } = this.props;
 
-		const blocksClone = cloneDeep( blocks );
+		const blocks = JSON.parse( metaCarousels );
 		let index = this.getIndex();
 
-		// console.log( 'setAttributes::props ', this.props );
-		console.log( 'setAttributes::blocks ', blocksClone );
-		// console.log( 'setAttributes::blockId ', blockId );
+		console.log( 'setAttributes::blocks ', blocks );
 
 		if ( -1 < index ) {
 
-			let block = blocksClone[ index ];
+			let block = blocks[ index ];
 			block = { ...block, ...attributes };
-			blocksClone[ index ] = block;
+			blocks[ index ] = block;
 
 			console.log( 'setAttributes::block (hasIndex) ', block );
 
 		} else {
 
-			let blockCount = blocksClone.push( { blockId: this.state.blockId, ...attributes } );
+			let blockCount = blocks.push( { blockId: this.state.blockId, ...attributes } );
 
 			this.setState( { blockIndex: ( blockCount - 1 ) } );
 
-				console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
+			console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
 		}
 
-		let blocksJSON = JSON.stringify( blocksClone );
+		console.log( 'setAttributes::blocks (updated) ', blocks );
 
-		setAttributes( {
-			blocks: blocksClone,
-			// carousels: blocksJSON,
-			// ...attributes
-		} );
+		const blocksJSON = JSON.stringify( blocks );
+
+		setMetaFieldValue( blocksJSON );
 	}
 
 	render() {
 
 		const {
 			      attributes,
-			      // entries,
-			      instanceId,
-			      // queryEntries,
+			      // instanceId,
 			      setAttributes,
 		      } = this.props;
 
 		const {
 			      // advancedBlockOptions,
-			      blocks,
-			      blockId,
+			      // blocks,
+			      // blockId,
+			      // carousels,
 			      categories,
 			      categoriesExclude,
 			      categoriesIn,
@@ -420,10 +394,12 @@ class Carousel extends Component {
 			      // style,
 			      // variation,
 		      } = attributes;
-console.log( 'render::blocks ', blocks );
+
 		const blockIndex = this.getIndex();
 		const entryTypeSelectOptions = [];
-console.log( 'render::blockIndex ', blockIndex );
+
+		console.log( 'render::blockIndex ', blockIndex );
+
 		for ( let property in entryTypes ) {
 
 			// noinspection JSUnfilteredForInLoop
@@ -465,7 +441,7 @@ console.log( 'render::blockIndex ', blockIndex );
 				return (
 					<div key={ i }>
 						<h3>{entry.name.rendered}</h3>
-						<div>Block ID: { blockId }</div>
+						<div>Block ID: { this.state.blockId }</div>
 					</div>
 				)
 			}
@@ -739,58 +715,22 @@ console.log( 'render::blockIndex ', blockIndex );
 }
 
 export default compose( [
-	// withDispatch( ( dispatch, { value } ) => {
-	//
-	// 	return {
-	// 		queryEntries() {
-	//
-	// 			fetchEntries().then( ( entries ) => {
-	//
-	// 				// console.log( 'Dispatch.');
-	//
-	// 				dispatch( 'connections-directory/entries' ).addEntities( entries )
-	// 			} );
-	//
-	// 		},
-	// 		setMetaFieldValue: ( value ) => {
-	// 			dispatch( 'core/editor' ).editPost( { meta: { _blocks: value } } );
-	// 		},
-	// 	};
-	//
-	// } ),
-	// withSelect( ( select, props ) => {
+	withDispatch( ( dispatch, { value } ) => {
 
-		// const {
-		// 	      blockAttributes,
-		// 	      blockId,
-		// 	      categories,
-		// 	      listType
-		//       } = props.attributes;
-		//
-		// // console.log('Select.');
-		//
-		// let entryType = 'all';
-		// let index     = findIndex( blockAttributes, ( o ) => { return o.blockId === blockId } );
-		//
-		// if ( -1 < index ) {
-		//
-		// 	entryType = blockAttributes[ index ].listType;
-		// }
-		//
-		// setEntryQueryArg( {
-		// 	category: JSON.parse( categories ).toString(),
-		// 	type:     entryType,
-		// } );
-		//
-		// return {
-		// 	entries: select( 'connections-directory/entries' ).getEntityRecords( entryQueryArgs ),
-		// }
+		return {
+			setMetaFieldValue: ( value ) => {
+				dispatch( 'core/editor' ).editPost( { meta: { _cbd_carousel_blocks: value } } );
+			},
+		};
 
-		// return {
-		// 	editorBlocks: select( 'core/editor' ).getBlocks()
-		// };
+	} ),
+	withSelect( ( select, props ) => {
 
-	// } ),
+		return {
+			metaCarousels: select( 'core/editor' ).getEditedPostAttribute( 'meta' )._cbd_carousel_blocks,
+		};
+
+	} ),
 	withInstanceId
 	]
 )( Carousel )

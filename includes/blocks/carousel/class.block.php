@@ -41,81 +41,127 @@ class Carousel {
 		 * @link https://wordpress.stackexchange.com/a/341735
 		 * @link https://github.com/WordPress/gutenberg/issues/5191#issuecomment-367915960
 		 */
-		//register_meta(
-		//	'post',
-		//	'_cbd_carousel_blocks',
-		//	array(
-		//		'single'            => TRUE,
-		//		'type'              => 'string',
-		//		'auth_callback'     => function() {
-		//
-		//			return current_user_can( 'edit_posts' );
-		//		},
-		//		'sanitize_callback' => function( $meta_value, $meta_key, $meta_type ) {
-		//
-		//			return wp_json_encode( json_decode( stripslashes( $meta_value ) ) );
-		//		},
-		//		'show_in_rest'      => array(
-		//			'prepare_callback' => function( $value ) {
-		//
-		//				return wp_json_encode( $value );
-		//			},
-		//		),
-		//	)
-		//);
+		register_meta(
+			'post',
+			'_cbd_carousel_blocks',
+			array(
+				'single'            => TRUE,
+				'type'              => 'string',
+				'auth_callback'     => function() {
+
+					return current_user_can( 'edit_posts' );
+				},
+				'sanitize_callback' => array( __CLASS__, 'sanitize' ),
+				'show_in_rest'      => array(
+					'prepare_callback' => function( $value ) {
+
+						// If value is empty, then return an empty JSON encoded array.
+						if ( ! $value ) $value = wp_json_encode( array() );
+
+						return $value;
+						//return wp_json_encode( $value );
+					},
+				),
+			)
+		);
 
 		//register_meta(
 		//	'post',
-		//	'_listType',
+		//	'_blocks',
 		//	array(
-		//		'single'        => TRUE,
-		//		'type'          => 'string',
+		//		'single'        => FALSE,
+		//		'type'          => 'object',
 		//		'auth_callback' => function() {
 		//
 		//			return current_user_can( 'edit_posts' );
 		//		},
 		//		'show_in_rest'  => array(
-		//			'prepare_callback' => function( $value ) {
-		//
-		//				return $value;
-		//				//return wp_json_encode( $value );
-		//			},
+		//			'schema' => array(
+		//				'type'       => 'object',
+		//				'properties' => array(
+		//					'blockId'    => array(
+		//						'type' => 'string',
+		//					),
+		//					'categories' => array(
+		//						'type'  => 'array',
+		//						'items' => array(
+		//							'type' => 'integer',
+		//						),
+		//					),
+		//					'listType'   => array(
+		//						'type' => 'string',
+		//					),
+		//				),
+		//			),
 		//		),
 		//	)
 		//);
 
-		register_meta(
-			'post',
-			'_blocks',
-			array(
-				'single'        => FALSE,
-				'type'          => 'object',
-				'auth_callback' => function() {
+	}
 
-					return current_user_can( 'edit_posts' );
-				},
-				'show_in_rest'  => array(
-					'schema' => array(
-						'type'       => 'object',
-						'properties' => array(
-							'blockId'    => array(
-								'type' => 'string',
-							),
-							'categories' => array(
-								'type'  => 'array',
-								'items' => array(
-									'type' => 'integer',
-								),
-							),
-							'listType'   => array(
-								'type' => 'string',
-							),
-						),
-					),
-				),
-			)
-		);
+	/**
+	 * Callback for the `sanitize_callback` property when registering the `_cbd_carousel_blocks` custom post meta.
+	 *
+	 * @since 9.4
+	 *
+	 * @param string $meta_value
+	 * @param string $meta_key
+	 * @param $meta_type
+	 *
+	 * @return false|string
+	 */
+	public static function sanitize( $meta_value, $meta_key, $meta_type ) {
 
+		$untrusted = json_decode( stripslashes( $meta_value ), TRUE );
+		$sanitized = array();
+
+		if ( ! is_array( $untrusted ) ) {
+
+			return wp_json_encode( $sanitized );
+		}
+
+		/**
+		 * @var array $block
+		 */
+		foreach ( $untrusted as $block ) {
+
+			$carousel = array();
+
+			/*
+			 * If blockID does not exist, skip.
+			 */
+			if ( ! array_key_exists( 'blockId', $block ) || ! is_string( $block['blockId'] ) ) {
+
+				continue;
+			}
+
+			/*
+			 * Sanitize blockId.
+			 */
+			$carousel['blockId'] = sanitize_key( $block['blockId'] );
+
+			/*
+			 * Sanitize listType.
+			 */
+			if ( array_key_exists( 'listType', $block ) &&
+			     in_array( $block['listType'], array( 'family', 'individual', 'organization' ) )
+			) {
+
+				$carousel['listType'] = sanitize_key( $block['listType'] );
+			}
+
+			/*
+			 * Sanitize categories.
+			 */
+			if ( array_key_exists( 'categories', $block ) && is_array( $block['categories'] ) ) {
+
+				$carousel['categories'] = array_map( 'absint', $block['categories'] );
+			}
+
+			array_push( $sanitized, $carousel );
+		}
+
+		return wp_json_encode( $sanitized );
 	}
 
 	/**

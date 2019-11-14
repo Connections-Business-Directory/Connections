@@ -239,12 +239,18 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
+		$categoryIn = cnArray::get( $request, 'category_in', FALSE );
+		cnFormatting::toBoolean( $categoryIn );
+
+		$category = $categoryIn ? 'category_in' : 'category';
+
 		$defaults = array(
-			'list_type' => $request['type'],
-			'category'  => $request['category'],
-			'id'        => NULL,
-			'limit'     => $request['per_page'],
-			'offset'    => $request['offset'],
+			'list_type'        => cnArray::get( $request, 'type', NULL ),
+			$category          => cnArray::get( $request, 'categories', NULL ),
+			'exclude_category' => cnArray::get( $request, 'categories_exclude', NULL ),
+			'id'               => cnArray::get( $request, 'id', NULL ),
+			'limit'            => cnArray::get( $request, 'per_page', 10 ),
+			'offset'           => cnArray::get( $request, 'offset', 0 ),
 		);
 
 		$atts = cnSanitize::args( $untrusted, $defaults );

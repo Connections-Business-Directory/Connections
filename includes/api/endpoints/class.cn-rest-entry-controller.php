@@ -136,7 +136,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		foreach ( $results as $result ) {
 
-			$entry = new cnEntry( $result );
+			$entry = new cnOutput( $result );
 
 			$data = $this->prepare_item_for_response( $entry, $request );
 			$entries[] = $this->prepare_response_for_collection( $data );
@@ -215,7 +215,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_entry_invalid_id', __( 'Invalid entry ID.', 'connections' ), array( 'status' => 404 ) );
 		}
 
-		$entry = new cnEntry( $result[0] );
+		$entry = new cnOutput( $result[0] );
 
 		$data     = $this->prepare_item_for_response( $entry, $request );
 		$response = rest_ensure_response( $data );
@@ -263,7 +263,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare a single entry output for response.
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnOutput        $entry   Post object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return WP_REST_Response $data
@@ -357,6 +357,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			'rendered' => $entry->getNotes(),
 		);
 
+		$data['images'] = $this->get_images( $entry );
+
 		$data['visibility'] = $entry->getVisibility();
 		$data['status']     = $entry->getStatus();
 
@@ -364,6 +366,50 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $data );
 
 		return $response;
+	}
+
+	/**
+	 * Build image type and size for response.
+	 * 
+	 * @since 9.3.3
+	 *
+	 * @param cnOutput $entry
+	 *
+	 * @return array
+	 */
+	public function get_images( $entry ) {
+
+		$images = array();
+		$types  = array(
+			'logo'  => array( 'original', 'scaled' ),
+			'photo' => array( 'thumbnail', 'medium', 'large', 'original' ),
+		);
+
+		foreach ( $types as $type => $sizes ) {
+
+			foreach ( $sizes as $size ) {
+
+				$image = $entry->getImageMeta( array( 'size' => $size, 'type' => $type ) );
+
+				if ( ! is_wp_error( $image ) ) {
+
+					cnArray::forget( $image, 'log' );
+					cnArray::forget( $image, 'path' );
+					cnArray::forget( $image, 'source' );
+					cnArray::forget( $image, 'type' );
+
+					$image = cnArray::add(
+						$image,
+						'rendered',
+						$entry->getImage( array( 'preset' => 'entry', 'type' => $type, 'return' => TRUE ) )
+					);
+
+					$images = cnArray::add( $images, "{$type}.{$size}", $image );
+				}
+			}
+		}
+
+		return $images;
 	}
 
 	/**

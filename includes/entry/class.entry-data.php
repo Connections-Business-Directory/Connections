@@ -2794,7 +2794,7 @@ class cnEntry {
 			'width'     => 0,
 			'height'    => 0,
 			'crop_mode' => 1,
-			'quality'   => 80,
+			'quality'   => 82,
 		);
 
 		$defaults = apply_filters( 'cn_default_atts_image_meta', $defaults );

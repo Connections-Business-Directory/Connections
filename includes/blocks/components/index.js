@@ -9,3 +9,9 @@ export { default as FilterTagSelector } from './filter-tag-selector/';
 export { default as HierarchicalTermSelector } from './hierarchical-term-selector/';
 export { default as PageSelect } from './page-select/';
 export { default as RangeControl } from './range-control/';
+
+/**
+ * Entry components.
+ */
+export { default as EntryName } from './entry/name';
+export { default as EntryImage } from './entry/image';

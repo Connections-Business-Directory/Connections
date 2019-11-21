@@ -1128,7 +1128,7 @@ class cnEntryMetabox {
 		?>
 
 		<div class="widget-top">
-			<div class="widget-title-action"><a class="widget-action"></a></div>
+			<div class="widget-title-action"><a class="widget-action toggle-indicator"></a></div>
 
 			<div class="widget-title">
 				<h4>
@@ -1543,7 +1543,7 @@ class cnEntryMetabox {
 		?>
 
 		<div class="widget-top">
-			<div class="widget-title-action"><a class="widget-action"></a></div>
+			<div class="widget-title-action"><a class="widget-action toggle-indicator"></a></div>
 
 			<div class="widget-title">
 				<h4>
@@ -1758,7 +1758,7 @@ class cnEntryMetabox {
 		?>
 
 		<div class="widget-top">
-			<div class="widget-title-action"><a class="widget-action"></a></div>
+			<div class="widget-title-action"><a class="widget-action toggle-indicator"></a></div>
 
 			<div class="widget-title">
 				<h4>
@@ -1972,7 +1972,7 @@ class cnEntryMetabox {
 		?>
 
 		<div class="widget-top">
-			<div class="widget-title-action"><a class="widget-action"></a></div>
+			<div class="widget-title-action"><a class="widget-action toggle-indicator"></a></div>
 
 			<div class="widget-title">
 				<h4>
@@ -2184,7 +2184,7 @@ class cnEntryMetabox {
 		?>
 
 		<div class="widget-top">
-			<div class="widget-title-action"><a class="widget-action"></a></div>
+			<div class="widget-title-action"><a class="widget-action toggle-indicator"></a></div>
 
 			<div class="widget-title">
 				<h4>
@@ -2403,7 +2403,7 @@ class cnEntryMetabox {
 		?>
 
 		<div class="widget-top">
-			<div class="widget-title-action"><a class="widget-action"></a></div>
+			<div class="widget-title-action"><a class="widget-action toggle-indicator"></a></div>
 
 			<div class="widget-title">
 				<h4>
@@ -2696,7 +2696,7 @@ class cnEntryMetabox {
 		?>
 
 		<div class="widget-top">
-			<div class="widget-title-action"><a class="widget-action"></a></div>
+			<div class="widget-title-action"><a class="widget-action toggle-indicator"></a></div>
 
 			<div class="widget-title">
 				<h4>

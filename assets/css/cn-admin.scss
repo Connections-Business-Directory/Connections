@@ -617,13 +617,14 @@ body[class*="connections"] .cn-button-large {
 
 .widget-title h4 select {
 	height: 1.75em;
-	padding: 1px;
+	padding: 3px 24px 3px 8px;
 	/*margin-top: -10px;*/
 	vertical-align: baseline;
 }
 
 .widget-title h4 label {
 	line-height: normal;
+	margin-right: 6px;
 	vertical-align: text-top;
 }
 
@@ -679,6 +680,10 @@ and (max-width: 780px) {
 
 .widgets-sortables {
 	background: transparent none;
+}
+
+.widget-inside label {
+	padding-right: 10px;
 }
 
 /* The "Publish" metabox styles. */

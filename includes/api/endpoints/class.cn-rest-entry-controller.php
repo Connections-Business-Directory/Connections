@@ -370,7 +370,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 	/**
 	 * Build image type and size for response.
-	 * 
+	 *
 	 * @since 9.3.3
 	 *
 	 * @param cnOutput $entry

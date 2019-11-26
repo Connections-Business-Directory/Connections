@@ -318,7 +318,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
 		}
 
-		$data['images'] = $this->get_images( $entry );
+		$data['images'] = $this->prepare_images_for_response( $entry );
 
 		cnArray::set( $data, 'visibility', $entry->getVisibility() );
 		cnArray::set( $data, 'status', $entry->getStatus() );
@@ -338,7 +338,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @return array
 	 */
-	public function get_images( $entry ) {
+	public function prepare_images_for_response( $entry ) {
 
 		$images = array();
 		$types  = array(

@@ -470,7 +470,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Prepare a single address output for response.
+	 * Prepare addresses for response.
 	 *
 	 * @param cnEntry         $entry   Post object.
 	 * @param WP_REST_Request $request Request object.

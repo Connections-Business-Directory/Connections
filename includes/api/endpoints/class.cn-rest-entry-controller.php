@@ -292,6 +292,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		cnArray::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
 
 		$data = $this->prepare_address_for_response( $entry, $request, $data );
+		$data = $this->prepare_phone_for_response( $entry, $request, $data );
 
 		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
 		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
@@ -327,6 +328,53 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$response = rest_ensure_response( $data );
 
 		return $response;
+	}
+
+	/**
+	 * Prepare phone numbers for response.
+	 *
+	 * @param cnEntry         $entry   Post object.
+	 * @param WP_REST_Request $request Request object.
+	 * @param array           $data
+	 *
+	 * @return array $data
+	 */
+	private function prepare_phone_for_response( $entry, $request, $data ) {
+
+		$numbers = $entry->getPhoneNumbers( array(), TRUE, FALSE, 'raw' );
+
+		if ( empty( $numbers ) ) return $data;
+
+		$objects = array();
+
+		foreach ( $numbers as $phone ) {
+
+			$object = array(
+				'id'               => $phone->id,
+				'order'            => $phone->order,
+				'preferred'        => $phone->preferred,
+				'type'             => $phone->type,
+			);
+
+			cnArray::set(
+				$object,
+				'number.rendered',
+				cnSanitize::field( 'phone-number', $phone->number, 'display' )
+			);
+
+			if ( 'edit' === $request['context'] &&
+			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				cnArray::set( $object, 'number.raw', $phone->number );
+			}
+
+			array_push( $objects, $object );
+		}
+
+		cnArray::set( $data, 'tel', $objects );
+
+		return $data;
 	}
 
 	/**

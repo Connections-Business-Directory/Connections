@@ -294,6 +294,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$data = $this->prepare_address_for_response( $entry, $request, $data );
 		$data = $this->prepare_phone_for_response( $entry, $request, $data );
 		$data = $this->prepare_email_for_response( $entry, $request, $data );
+		$data = $this->prepare_social_for_response( $entry, $request, $data );
 
 		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
 		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
@@ -421,6 +422,53 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		}
 
 		cnArray::set( $data, 'email', $objects );
+
+		return $data;
+	}
+
+	/**
+	 * Prepare social networks for response.
+	 *
+	 * @param cnEntry         $entry   Post object.
+	 * @param WP_REST_Request $request Request object.
+	 * @param array           $data
+	 *
+	 * @return array $data
+	 */
+	private function prepare_social_for_response( $entry, $request, $data ) {
+
+		$networks = $entry->getSocialMedia( array(), TRUE, FALSE, 'raw' );
+
+		if ( empty( $networks ) ) return $data;
+
+		$objects = array();
+
+		foreach ( $networks as $network ) {
+
+			$object = array(
+				'id'               => $network->id,
+				'order'            => $network->order,
+				'preferred'        => $network->preferred,
+				'type'             => $network->type,
+			);
+
+			cnArray::set(
+				$object,
+				'url.rendered',
+				cnSanitize::field( 'url', $network->url, 'display' )
+			);
+
+			if ( 'edit' === $request['context'] &&
+			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				cnArray::set( $object, 'url.raw', $network->address );
+			}
+
+			array_push( $objects, $object );
+		}
+
+		cnArray::set( $data, 'social', $objects );
 
 		return $data;
 	}

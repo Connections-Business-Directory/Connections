@@ -293,6 +293,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$data = $this->prepare_address_for_response( $entry, $request, $data );
 		$data = $this->prepare_phone_for_response( $entry, $request, $data );
+		$data = $this->prepare_email_for_response( $entry, $request, $data );
 
 		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
 		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
@@ -373,6 +374,53 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		}
 
 		cnArray::set( $data, 'tel', $objects );
+
+		return $data;
+	}
+
+	/**
+	 * Prepare email addresses for response.
+	 *
+	 * @param cnEntry         $entry   Post object.
+	 * @param WP_REST_Request $request Request object.
+	 * @param array           $data
+	 *
+	 * @return array $data
+	 */
+	private function prepare_email_for_response( $entry, $request, $data ) {
+
+		$emailAddresses = $entry->getEmailAddresses( array(), TRUE, FALSE, 'raw' );
+
+		if ( empty( $emailAddresses ) ) return $data;
+
+		$objects = array();
+
+		foreach ( $emailAddresses as $email ) {
+
+			$object = array(
+				'id'               => $email->id,
+				'order'            => $email->order,
+				'preferred'        => $email->preferred,
+				'type'             => $email->type,
+			);
+
+			cnArray::set(
+				$object,
+				'address.rendered',
+				sanitize_email(  $email->address )
+			);
+
+			if ( 'edit' === $request['context'] &&
+			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				cnArray::set( $object, 'address.raw', $email->address );
+			}
+
+			array_push( $objects, $object );
+		}
+
+		cnArray::set( $data, 'email', $objects );
 
 		return $data;
 	}

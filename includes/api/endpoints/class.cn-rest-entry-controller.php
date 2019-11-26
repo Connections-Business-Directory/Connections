@@ -284,83 +284,56 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		 * @link https://github.com/WP-API/WP-API/issues/2948#issuecomment-265433906
 		 */
 
-		$data['id']   = $entry->getId();
-		$data['type'] = $entry->getEntryType();
-		$data['slug'] = $entry->getSlug();
+		cnArray::set( $data, 'id', $entry->getId() );
+		cnArray::set( $data, 'type', $entry->getEntryType() );
+		cnArray::set( $data, 'slug', $entry->getSlug() );
 
-		$data['name'] = array(
-			'raw'      => $entry->getName( array(), 'raw' ),
-			'rendered' => $entry->getName(),
-		);
+		cnArray::set( $data, 'name.rendered', $entry->getName() );
 
-		$data['honorific_prefix'] = array(
-			'raw'      => $entry->getHonorificPrefix( 'raw' ),
-			'rendered' => $entry->getHonorificPrefix(),
-		);
+		cnArray::set( $data, 'honorific_prefix.rendered', $entry->getHonorificPrefix() );
+		cnArray::set( $data, 'given_name.rendered', $entry->getFirstName() );
+		cnArray::set( $data, 'additional_name.rendered', $entry->getMiddleName() );
+		cnArray::set( $data, 'family_name.rendered', $entry->getLastName() );
+		cnArray::set( $data, 'honorific_suffix.rendered', $entry->getHonorificSuffix() );
 
-		$data['given_name'] = array(
-			'raw'      => $entry->getFirstName( 'raw' ),
-			'rendered' => $entry->getFirstName(),
-		);
+		cnArray::set( $data, 'job_title.rendered', $entry->getTitle() );
+		cnArray::set( $data, 'org.organization_name.rendered', $entry->getOrganization() );
+		cnArray::set( $data, 'org.organization_unit.rendered', $entry->getDepartment() );
 
-		$data['additional_name'] = array(
-			'raw'      => $entry->getMiddleName( 'raw' ),
-			'rendered' => $entry->getMiddleName(),
-		);
-
-		$data['family_name'] = array(
-			'raw'      => $entry->getLastName( 'raw' ),
-			'rendered' => $entry->getLastName(),
-		);
-
-		$data['honorific_suffix'] = array(
-			'raw'      => $entry->getHonorificSuffix( 'raw' ),
-			'rendered' => $entry->getHonorificSuffix(),
-		);
-
-		$data['job_title'] = array(
-			'raw'      => $entry->getTitle( 'raw' ),
-			'rendered' => $entry->getTitle(),
-		);
-
-		$data['org'] = array(
-			'organization_name' => array(
-				'raw'      => $entry->getDepartment( 'raw' ),
-				'rendered' => $entry->getDepartment(),
-			),
-			'organization_unit' => array(
-				'raw'      => $entry->getOrganization( 'raw' ),
-				'rendered' => $entry->getOrganization(),
-			),
-		);
-
-		$data['contact'] = array(
-			'given_name' => array(
-				'raw'      => $entry->getContactFirstName( 'raw' ),
-				'rendered' => $entry->getContactFirstName(),
-			),
-			'family_name' => array(
-				'raw'      => $entry->getContactLastName( 'raw' ),
-				'rendered' => $entry->getContactLastName(),
-			),
-		);
+		cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
+		cnArray::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
 
 		$data = $this->prepare_address_for_response( $entry, $request, $data );
 
-		$data['bio'] = array(
-			'raw'      => $entry->getBio( 'raw' ),
-			'rendered' => $entry->getBio(),
-		);
+		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
+		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
 
-		$data['notes'] = array(
-			'raw'      => $entry->getNotes( 'raw' ),
-			'rendered' => $entry->getNotes(),
-		);
+		if ( 'edit' === $request['context'] &&
+		     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+		) {
+
+			cnArray::set( $data, 'name.raw', $entry->getName( array(), 'raw' ) );
+			cnArray::set( $data, 'honorific_prefix.raw', $entry->getHonorificPrefix( 'raw' ) );
+			cnArray::set( $data, 'given_name.raw', $entry->getFirstName( 'raw' ) );
+			cnArray::set( $data, 'additional_name.raw', $entry->getMiddleName( 'raw' ) );
+			cnArray::set( $data, 'family_name.raw', $entry->getLastName( 'raw' ) );
+			cnArray::set( $data, 'honorific_suffix.raw', $entry->getHonorificSuffix( 'raw' ) );
+
+			cnArray::set( $data, 'job_title.raw', $entry->getTitle( 'raw' ) );
+			cnArray::set( $data, 'org.organization_name.raw', $entry->getOrganization( 'raw' ) );
+			cnArray::set( $data, 'org.organization_unit.raw', $entry->getDepartment( 'raw' ) );
+
+			cnArray::set( $data, 'contact.given_name.raw', $entry->getContactFirstName( 'raw' ) );
+			cnArray::set( $data, 'contact.family_name.raw', $entry->getContactLastName( 'raw' ) );
+
+			cnArray::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
+			cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
+		}
 
 		$data['images'] = $this->get_images( $entry );
 
-		$data['visibility'] = $entry->getVisibility();
-		$data['status']     = $entry->getStatus();
+		cnArray::set( $data, 'visibility', $entry->getVisibility() );
+		cnArray::set( $data, 'status', $entry->getStatus() );
 
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
@@ -423,65 +396,105 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 */
 	private function prepare_address_for_response( $entry, $request, $data ) {
 
-		$data['adr'] = array();
 		$addresses   = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
 
 		if ( empty( $addresses ) ) return $data;
 
+		$objects = array();
+
 		foreach ( $addresses as $address ) {
 
-			$item = array(
+			$object = array(
 				'id'               => $address->id,
 				'order'            => $address->order,
 				'preferred'        => $address->preferred,
 				'type'             => $address->type,
-				'street_address'   => array(
-					'raw'      => $address->line_1,
-					'rendered' => cnSanitize::field( 'street', $address->line_1, 'display' ),
-				),
-				'extended_address' => array(
-					'raw'      => $address->line_2,
-					'rendered' => cnSanitize::field( 'street', $address->line_2, 'display' ),
-				),
-				'extended_address_2' => array(
-					'raw'      => $address->line_3,
-					'rendered' => cnSanitize::field( 'street', $address->line_3, 'display' ),
-				),
-				'extended_address_3' => array(
-					'raw'      => $address->line_4,
-					'rendered' => cnSanitize::field( 'street', $address->line_4, 'display' ),
-				),
-				'district'         => array(
-					'raw'      => $address->district,
-					'rendered' => cnSanitize::field( 'district', $address->district, 'display' ),
-				),
-				'county'           => array(
-					'raw'      => $address->county,
-					'rendered' => cnSanitize::field( 'county', $address->county, 'display' ),
-				),
-				'locality'         => array(
-					'raw'      => $address->city,
-					'rendered' => cnSanitize::field( 'locality', $address->city, 'display' ),
-				),
-				'region'           => array(
-					'raw'      => $address->state,
-					'rendered' => cnSanitize::field( 'region', $address->state, 'display' ),
-				),
-				'postal_code'      => array(
-					'raw'      => $address->zipcode,
-					'rendered' => cnSanitize::field( 'postal-code', $address->zipcode, 'display' ),
-				),
-				'country_name'     => array(
-					'raw'      => $address->country,
-					'rendered' => cnSanitize::field( 'country', $address->country, 'display' ),
-				),
-				'latitude'         => $address->latitude,
-				'longitude'        => $address->longitude,
-				'visibility'       => $address->visibility,
 			);
 
-			$data['adr'][] = $item;
+			cnArray::set(
+				$object,
+				'street_address.rendered',
+				cnSanitize::field( 'street', $address->line_1, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address.rendered',
+				cnSanitize::field( 'street', $address->line_2, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address_2.rendered',
+				cnSanitize::field( 'street', $address->line_3, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address_3.rendered',
+				cnSanitize::field( 'street', $address->line_4, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'district.rendered',
+				cnSanitize::field( 'district', $address->district, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'county.rendered',
+				cnSanitize::field( 'county', $address->county, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'locality.rendered',
+				cnSanitize::field( 'locality', $address->city, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'region.rendered',
+				cnSanitize::field( 'region', $address->state, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'postal_code.rendered',
+				cnSanitize::field( 'postal-code', $address->zipcode, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'country_name.rendered',
+				cnSanitize::field( 'country', $address->country, 'display' )
+			);
+
+			if ( 'edit' === $request['context'] &&
+			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				cnArray::set( $object, 'street_address.raw', $address->line_1 );
+				cnArray::set( $object, 'extended_address.raw', $address->line_2 );
+				cnArray::set( $object, 'extended_address_2.raw', $address->line_3 );
+				cnArray::set( $object, 'extended_address_3.raw', $address->line_4 );
+				cnArray::set( $object, 'district.raw', $address->district );
+				cnArray::set( $object, 'county.raw', $address->county );
+				cnArray::set( $object, 'locality.raw', $address->city );
+				cnArray::set( $object, 'region.raw', $address->state );
+				cnArray::set( $object, 'postal_code.raw', $address->zipcode );
+				cnArray::set( $object, 'country_name.raw', $address->country );
+			}
+
+			cnArray::set( $object, 'latitude', $address->latitude );
+			cnArray::set( $object, 'longitude', $address->longitude );
+			cnArray::set( $object, 'visibility', $address->visibility );
+
+			array_push( $objects, $object );
 		}
+
+		cnArray::set( $data, 'adr', $objects );
 
 		return $data;
 	}

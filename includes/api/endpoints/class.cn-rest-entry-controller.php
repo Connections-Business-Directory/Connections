@@ -480,7 +480,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 */
 	private function prepare_address_for_response( $entry, $request, $data ) {
 
-		$addresses   = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
+		$addresses = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
 
 		if ( empty( $addresses ) ) return $data;
 

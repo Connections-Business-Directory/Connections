@@ -272,18 +272,6 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$data = array();
 
-		//$entry->directoryHome(
-		//	array(
-		//		'page_id'    => $homeID,
-		//		'force_home' => $forceHome,
-		//	)
-		//);
-
-		/**
-		 * @todo `raw` should only be sent in the `edit` context to match WP core API endpoints.
-		 * @link https://github.com/WP-API/WP-API/issues/2948#issuecomment-265433906
-		 */
-
 		cnArray::set( $data, 'id', $entry->getId() );
 		cnArray::set( $data, 'type', $entry->getEntryType() );
 		cnArray::set( $data, 'slug', $entry->getSlug() );

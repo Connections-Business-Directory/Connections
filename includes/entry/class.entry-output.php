@@ -147,6 +147,7 @@ class cnOutput extends cnEntry {
 			'sizes'     => array( '100vw' ),
 			'style'     => array(),
 			'action'    => 'display',
+			'lazyload'  => TRUE,
 			'permalink' => FALSE, // Defaulting this to false for now. Default this to true in future update.
 			'return'    => FALSE,
 		);
@@ -161,6 +162,7 @@ class cnOutput extends cnEntry {
 		 * Convert some of the $atts values in the array to boolean.
 		 */
 		cnFormatting::toBoolean( $atts['permalink'] );
+		cnFormatting::toBoolean( $atts['lazyload'] );
 
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -392,7 +394,7 @@ class cnOutput extends cnEntry {
 			}
 
 			// Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
-			$tag[] = 'loading="lazy"';
+			if ( $atts['lazyload'] ) $tag[] = 'loading="lazy"';
 
 			// All extensions to apply/remove inline styles.
 			$atts['style'] = apply_filters( 'cn_image_styles', $atts['style'] );

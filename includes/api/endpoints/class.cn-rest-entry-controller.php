@@ -299,6 +299,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
 		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
 
+		cnArray::set( $data, 'excerpt.rendered', $entry->getExcerpt() );
+
 		if ( 'edit' === $request['context'] &&
 		     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 		) {
@@ -319,6 +321,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 			cnArray::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
 			cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
+
+			cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( array(), 'raw' ) );
 		}
 
 		$data['images'] = $this->prepare_images_for_response( $entry );

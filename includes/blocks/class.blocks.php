@@ -42,6 +42,8 @@ class Blocks {
 	/**
 	 * Callback for the `enqueue_block_editor_assets` action.
 	 *
+	 * Enqueues block assets for editor only.
+	 *
 	 * @since 8.31
 	 */
 	public static function enqueueEditorAssets() {
@@ -71,9 +73,9 @@ class Blocks {
 
 		wp_enqueue_script(
 			'connections-block-directory',
-			"{$url}assets/dist/js/blocks.js",
+			"{$url}assets/dist/js/blocks-editor.js",
 			$jsDependencies,
-			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks.js" ),
+			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks-editor.js" ),
 			TRUE
 		);
 
@@ -98,6 +100,8 @@ class Blocks {
 	/**
 	 * Callback for the `enqueue_block_assets` action.
 	 *
+	 * Enqueues block assets for both editor and frontend.
+	 *
 	 * @since 8.31
 	 */
 	public static function enqueueAssets() {
@@ -107,11 +111,33 @@ class Blocks {
 		$url  = URL::makeProtocolRelative( Connections_Directory()->pluginURL() );
 		$path = Connections_Directory()->pluginPath();
 
+		/*
+		 * Enqueue admin assets only.
+		 */
+		if ( is_admin() ) {}
+
+		/*
+		 * Enqueue frontend assets only.
+		 */
+		if ( ! is_admin() ) {
+
+			wp_enqueue_script(
+				'connections-blocks',
+				"{$url}assets/dist/js/blocks-public.js",
+				array( 'wp-element', 'wp-html-entities' ),
+				\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/blocks-public.js" ),
+				TRUE
+			);
+		}
+
+		/*
+		 * Enqueue admin and frontend assets.
+		 */
 		wp_enqueue_style(
 			'connections-blocks',
-			"{$url}assets/dist/css/blocks.css",
+			"{$url}assets/dist/css/blocks-editor.css",
 			array(),
-			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/blocks.css" )
+			\Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/css/blocks-editor.css" )
 		);
 	}
 

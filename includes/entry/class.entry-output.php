@@ -1844,6 +1844,8 @@ class cnOutput extends cnEntry {
 
 		//$out = '<span class="social-media-block">' . PHP_EOL;
 
+		$socialNetworks = cnOptions::getRegisteredSocialNetworkTypes();
+
 		foreach ( $networks as $network ) {
 			$replace   = array();
 			//$iconClass = array();
@@ -1856,7 +1858,7 @@ class cnOutput extends cnEntry {
 			//$iconClass[] = 'sz-' . $iconSize;
 
 			$iconClass = array(
-				"cn-brandicon-{$network->type}",
+				"cn-brandicon-{$socialNetworks[ $network->type ]['slug']}",
 				"cn-brandicon-size-{$iconSize}"
 			);
 

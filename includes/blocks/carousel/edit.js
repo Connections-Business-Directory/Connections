@@ -29,7 +29,7 @@ const {
       } = wp.components;
 const { compose, withInstanceId } = wp.compose;
 const {
-	      // select,
+	      select,
 	      // subscribe,
 	      withDispatch,
 	      withSelect,
@@ -40,6 +40,7 @@ const {
 	      // InspectorAdvancedControls,
       } = wp.editor;
 const { Component, Fragment } = wp.element;
+// const { decodeEntities } = wp.htmlEntities;
 const { addQueryArgs } = wp.url;
 
 /**
@@ -56,11 +57,21 @@ import 'slick-carousel/slick/slick-theme.css';
  * External dependencies
  */
 import { cloneDeep, findIndex, has, isUndefined } from 'lodash';
+// import classnames from 'classnames';
 
 /**
  * Internal dependencies
  */
 import { HierarchicalTermSelector, RangeControl } from "@Connections-Directory/components";
+import {
+	EntryName,
+	EntryTitle,
+	EntryImage,
+	EntryPhoneNumbers,
+	EntryEmail,
+	EntrySocialNetworks,
+} from "@Connections-Directory/components";
+import EntryExcerpt from "@Connections-Directory/components/entry/excerpt";
 // import EntryTypeSelectControl from './components/entry-type-select-control';
 
 /**
@@ -78,12 +89,15 @@ const ENDPOINT = '/cn-api/v1/entry/';
 
 const colorIndicator = ( label, value ) => (
 	<Fragment>
-		{ label }
-		{ value && (
-			<ColorIndicator
-				colorValue={ value }
-			/>
-		) }
+		<p>
+			{ label }
+			{ value && (
+				<ColorIndicator
+					colorValue={ value }
+					style={ { background: value, verticalAlign: 'bottom' } }
+				/>
+			) }
+		</p>
 	</Fragment>
 );
 
@@ -100,10 +114,10 @@ class Carousel extends Component {
 
 		// super( ...arguments );
 		super( props );
-		console.log( this.props.name, ": constructor()" );
+		// console.log( this.props.name, ": constructor()" );
 		// console.log( 'constructor()::arguments ', arguments );
 		// console.log( 'constructor()::props ', props );
-		console.log( 'constructor()::this.props ', this.props );
+		// console.log( 'constructor()::this.props ', this.props );
 
 		const {
 			      attributes: { blockId },
@@ -124,21 +138,30 @@ class Carousel extends Component {
 		const blocks = JSON.parse( metaCarousels );
 		const index = this.findIndex( id, blocks );
 
+		/**
+		 * Slider key state will change when toggling autoPlay.
+		 *
+		 * If autoplay is changed state will be updated in componentDidUpdate().
+		 *
+		 * @link https://github.com/akiran/react-slick/issues/1634
+		 */
+
 		this.state = {
 			blockId:      id,
 			blockIndex:   index,
 			queryResults: [],
 			isLoading:    true,
+			sliderKey:    new Date().getTime() / 1000
 		};
 
-		console.log( 'constructor()::this.state ', this.state );
-		console.log( 'constructor()::metaCarousels ', metaCarousels );
+		// console.log( 'constructor()::this.state ', this.state );
+		// console.log( 'constructor()::metaCarousels ', metaCarousels );
 
 		setAttributes( { blockId: id } );
 	}
 
 	componentDidMount() {
-		console.log( this.props.name, ': componentDidMount()' );
+		// console.log( this.props.name, ': componentDidMount()' );
 
 		const index = this.getIndex();
 
@@ -146,6 +169,13 @@ class Carousel extends Component {
 
 			this.setAttributes( { listType: 'all' } );
 		}
+
+		// Add `style` tag to page header for block styles.
+		const styleTag = document.createElement( 'style' );
+
+		styleTag.setAttribute( 'id', 'slick-slider-block-' + this.state.blockId );
+
+		document.head.appendChild( styleTag );
 
 		this.fetchEntries();
 	}
@@ -155,47 +185,141 @@ class Carousel extends Component {
 	 * @param {object} prevState
 	 */
 	componentDidUpdate( prevProps, prevState ) {
-		console.log( this.props.name, ': componentDidUpdate()' );
+		// console.log( this.props.name, ': componentDidUpdate()' );
+		// console.log( 'componentDidUpdate()::prevProps ', prevProps );
+		// console.log( 'componentDidUpdate()::props ', this.props );
+
+		const {
+			      metaCarousels: prevMetaCarousels,
+		      } = prevProps;
+
+		// console.log( 'componentDidUpdate()::prevMetaCarousels ', prevMetaCarousels );
 
 		const {
 			      metaCarousels,
 		      } = this.props;
 
+		const prevBlocks = JSON.parse( prevMetaCarousels );
 		const blocks = JSON.parse( metaCarousels );
 		const index = this.findIndex( this.state.blockId, blocks );
+		const prevCarousel = prevBlocks[ index ];
+		const carousel = blocks[ index ];
 
 		if ( index !== this.state.blockIndex ) {
 
-			console.log( 'componentDidUpdate()::new index ', index );
+			// console.log( 'componentDidUpdate()::new index ', index );
 
 			this.setState( {
 				blockIndex: index,
 			} );
 		}
 
+		/*
+		 * See note in constructor() about the sliderKey.
+		 */
+		if ( prevCarousel.autoplay !== carousel.autoplay ) {
+
+			this.setState( {
+				sliderKey: new Date().getTime() / 1000
+			} );
+		}
+
+		const element = document.getElementById( 'slick-slider-block-' + this.state.blockId );
+
+		if ( null != element && 'undefined' != typeof element ) {
+
+			let arrowDotsColor = this.getAttribute( 'arrowDotsColor', '#000000' );
+			let backgroundColor = this.getAttribute( 'backgroundColor', '#FFFFFF' );
+			let color = this.getAttribute( 'color', '#000000' );
+
+			// Using the "Clear" button set the value to empty string. Use default color.
+			if ( ! arrowDotsColor ) { color = '#000000'; }
+			if ( ! backgroundColor ) { backgroundColor = '#FFFFFF'; }
+			if ( ! color ) { color = '#000000'; }
+
+			const id = '#slick-slider-block-' + this.state.blockId;
+
+			const arrowDotStyle = [
+				`color: ${ arrowDotsColor };`,
+			];
+
+			const blockStyle = [
+				`background-color: ${ backgroundColor };`,
+				`color: ${ color };`,
+			];
+
+			const nameStyle = [
+				`color: ${ color };`,
+			];
+
+			let css = '';
+
+			css += `\n${id} .slick-arrow.slick-next:before { ${arrowDotStyle.join('\n')} }`;
+			css += `\n${id} .slick-arrow.slick-prev:before { ${arrowDotStyle.join('\n')} }`;
+			css += `\n${id} .slick-dots li button:before { ${arrowDotStyle.join('\n')} }`;
+
+			css += `\n${id} .slick-slider { ${blockStyle.join('\n')} }`;
+			css += `\n${id} .slick-slider h3 { ${nameStyle.join('\n')} }`;
+
+			element.innerHTML = css;
+		}
 	}
 
 	componentWillUnmount() {
-		console.log( this.props.name, ': componentWillUnmount()' );
+		// console.log( this.props.name, ': componentWillUnmount()' );
 
 		const {
+			      attributes: { blockId },
+			      isSelected,
 			      metaCarousels,
 			      setMetaFieldValue,
 		      } = this.props;
 
-		const blocks = JSON.parse( metaCarousels );
-		const index = this.findIndex( this.state.blockId, blocks );
+		const editorBlocks = select( 'core/block-editor' ).getBlocks();
 
-		console.log( 'componentWillUnmount()::blocks : before ', blocks );
-		console.log( 'componentWillUnmount()::index ', index );
+		/*
+		 * Because `select( 'core/block-editor' ).getBlocks()` return a nested array where the `innerBlocks` property
+		 * can contain nested blocks, it needs flattend first so it can be filtered by block name and then searched
+		 * for the current `blockId`.
+		 *
+		 * @link https://stackoverflow.com/a/35272973/5351316
+		 */
+		const flatten = ( into, node ) => {
+			if ( node == null ) return into;
+			if ( Array.isArray( node ) ) return node.reduce( flatten, into );
+			into.push( node );
+			return flatten( into, node.innerBlocks );
+		};
 
-		blocks.splice( index, 1 );
+		const blocksFlattend = flatten( [], editorBlocks );
 
-		console.log( 'componentWillUnmount()::blocks : after ', blocks );
+		// Filter blocks by block name.
+		const selectEditorBlocks = blocksFlattend.filter( ( block ) => {
+			return this.props.name === block.name;
+		} );
 
-		const blocksJSON = JSON.stringify( blocks );
+		// Find this block within the editor blocks.
+		const blockExists = selectEditorBlocks.find( ( block ) => {
+			return blockId === block.attributes.blockId;
+		} );
 
-		setMetaFieldValue( blocksJSON );
+		// If this block was not found the `blockExists` var will be undefined, remove it from the post meta.
+		if ( isUndefined( blockExists ) ) {
+
+			const blocks = JSON.parse( metaCarousels );
+			const index = this.findIndex( this.state.blockId, blocks );
+
+			// console.log( 'componentWillUnmount()::blocks : before ', blocks );
+			// console.log( 'componentWillUnmount()::index ', index );
+
+			blocks.splice( index, 1 );
+
+			// console.log( 'componentWillUnmount()::blocks : after ', blocks );
+
+			const blocksJSON = JSON.stringify( blocks );
+
+			setMetaFieldValue( blocksJSON );
+		}
 	}
 
 	/**
@@ -211,15 +335,44 @@ class Carousel extends Component {
 		const index = this.getIndex();
 		const blocks = JSON.parse( carousels );
 
-		console.log( 'prepareQueryArgs::blocks ', blocks );
+		// console.log( 'prepareQueryArgs::blocks ', blocks );
 
 		if ( -1 < index ) {
 
-			query = {
-				type:     blocks[ index ].listType,
-				category: blocks[ index ].categories,
-				...args
+			const block = blocks[ index ];
+
+			// query = {
+			// 	type:     block.listType,
+			// 	category: block.categories,
+			// 	...args
+			// };
+
+			if ( has( block, 'listType' ) ) {
+
+				query['type'] = block.listType;
 			}
+
+			if ( has( block, 'categories' ) ) {
+
+				query['categories'] = block.categories;
+			}
+
+			if ( has( block, 'categoriesIn' ) && true === block.categoriesIn ) {
+
+				query['category_in'] = true;
+			}
+
+			if ( has( block, 'categoriesExclude' ) ) {
+
+				query['categories_exclude'] = block.categoriesExclude;
+			}
+
+			if ( has( block, 'limit' ) ) {
+
+				query['per_page'] = block.limit;
+			}
+
+			query = { ...query, ...args };
 		}
 
 		return query;
@@ -231,11 +384,11 @@ class Carousel extends Component {
 			ENDPOINT,
 			{
 				...query,
-				context: 'edit',
+				context: 'view',
 			}
 		);
 
-		console.log( 'Fetching... ', query );
+		// console.log( 'Fetching... ', query );
 
 		return apiFetch( { path: path } );
 	}
@@ -259,15 +412,15 @@ class Carousel extends Component {
 	 */
 	findIndex( id, blocks ) {
 
-		console.log( 'findIndex::blocks ', blocks );
-		console.log( 'findIndex::blockId ', id );
+		// console.log( 'findIndex::blocks ', blocks );
+		// console.log( 'findIndex::blockId ', id );
 
 		const index = findIndex( blocks, ( o ) => {
-			console.log( 'findIndex::o ', o );
+			// console.log( 'findIndex::o ', o );
 			return ! isUndefined( o ) && o.blockId === id;
 		});
 
-		console.log( 'findIndex:: ', index );
+		// console.log( 'findIndex:: ', index );
 
 		return index
 	}
@@ -289,21 +442,25 @@ class Carousel extends Component {
 	getAttribute( key, defaultValue = null ) {
 
 		const {
-			      attributes: { /*blocks,*/ carousels },
 			      metaCarousels,
 		      } = this.props;
 
 		const index = this.getIndex();
 		const blocks = JSON.parse( metaCarousels );
 
-		console.log( 'getAttributes::typeof blocks ', typeof blocks );
-		console.log( 'getAttributes::blocks ', blocks );
+		// console.log( 'getAttributes::typeof blocks ', typeof blocks );
+		// console.log( 'getAttributes::blocks ', blocks );
+		// console.log( 'getAttributes::key ', key );
 
 		if ( - 1 === index || !has( blocks, [ index, key ] ) ) {
+
+			// console.log( 'getAttributes::defaultValue ', defaultValue );
 
 			return defaultValue;
 
 		} else {
+
+			// console.log( 'getAttributes::value ', blocks[ index ][ key ] );
 
 			return blocks[ index ][ key ];
 		}
@@ -327,7 +484,7 @@ class Carousel extends Component {
 		const blocks = JSON.parse( metaCarousels );
 		let index = this.getIndex();
 
-		console.log( 'setAttributes::blocks ', blocks );
+		// console.log( 'setAttributes::blocks ', blocks );
 
 		if ( -1 < index ) {
 
@@ -335,7 +492,7 @@ class Carousel extends Component {
 			block = { ...block, ...attributes };
 			blocks[ index ] = block;
 
-			console.log( 'setAttributes::block (hasIndex) ', block );
+			// console.log( 'setAttributes::block (hasIndex) ', block );
 
 		} else {
 
@@ -343,17 +500,20 @@ class Carousel extends Component {
 
 			this.setState( { blockIndex: ( blockCount - 1 ) } );
 
-			console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
+			// console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
 		}
 
-		console.log( 'setAttributes::blocks (updated) ', blocks );
+		// console.log( 'setAttributes::blocks (updated) ', blocks );
 
 		const blocksJSON = JSON.stringify( blocks );
+
+		// console.log( 'setAttributes::blocksJSON ', blocksJSON );
 
 		setMetaFieldValue( blocksJSON );
 	}
 
 	render() {
+		// console.log( this.props.name, ': render()' );
 
 		const {
 			      attributes,
@@ -364,21 +524,16 @@ class Carousel extends Component {
 		const {
 			      // advancedBlockOptions,
 			      // blocks,
-			      // blockId,
+			      blockId,
 			      // carousels,
-			      categories,
-			      categoriesExclude,
-			      categoriesIn,
+			      // categories,
+			      // categoriesExclude,
+			      // categoriesIn,
 			      // columns,
 			      borderColor,
 			      borderRadius,
 			      borderWidth,
 			      displayDropShadow,
-			      displayEmail,
-			      displayExcerpt,
-			      displayPhone,
-			      displaySocial,
-			      displayTitle,
 			      excerptWordLimit,
 			      // gutterWidth,
 			      imageBorderColor,
@@ -398,7 +553,7 @@ class Carousel extends Component {
 		const blockIndex = this.getIndex();
 		const entryTypeSelectOptions = [];
 
-		console.log( 'render::blockIndex ', blockIndex );
+		// console.log( 'render::blockIndex ', blockIndex );
 
 		for ( let property in entryTypes ) {
 
@@ -409,47 +564,141 @@ class Carousel extends Component {
 			} )
 		}
 
-		let entries = this.state.queryResults;
+		const categoriesIn = this.getAttribute( 'categoriesIn', false );
+		const arrows = this.getAttribute( 'arrows', true );
+		const autoplay = this.getAttribute( 'autoplay', false );
+		const dots = this.getAttribute( 'dots', true );
+		const infinite = this.getAttribute( 'infinite', false );
+		const pause = this.getAttribute( 'pause', true );
 
-		const hasEntries = Array.isArray( entries ) && entries.length;
+		const displayTitle = this.getAttribute( 'displayTitle', true );
+		const displayExcerpt = this.getAttribute( 'displayExcerpt', true );
+		const displayPhone = this.getAttribute( 'displayPhone', true );
+		const displayEmail = this.getAttribute( 'displayEmail', true );
+		const displaySocial = this.getAttribute( 'displaySocial', true );
 
-		if ( !hasEntries ) {
-
-			return (
-				<Fragment>
-					<div>
-						{ this.state.isLoading ?
-							<p>{ __( 'Loading...', 'connections' ) } <Spinner /></p> :
-							<p>{ __( 'No directory entries found.', 'connections' ) }</p>
-						}
-					</div>
-				</Fragment>
-			)
-		}
-
-		let settings = {
-			autoplay:       true,
-			dots:           true,
-			infinite:       true,
-			speed:          500,
-			slidesToShow:   1,
-			slidesToScroll: 1
-		};
-
-		const slides = entries.map( ( entry, i ) => {
-
-				return (
-					<div key={ i }>
-						<h3>{entry.name.rendered}</h3>
-						<div>Block ID: { this.state.blockId }</div>
-					</div>
-				)
-			}
-		);
-
-		return (
+		const inspectorControls = (
 			<Fragment>
 				<InspectorControls>
+
+					<PanelBody
+						title={ __( 'Carousel', 'connections' ) }
+						initialOpen={ true }
+					>
+						<div style={ { marginTop: '20px' } }>
+
+							<RangeControl
+								label={ __( 'Maximum Number of Slides', 'connections' ) }
+								value={ this.getAttribute( 'limit', 10 ) }
+								min={ 1 }
+								max={ 100 }
+								initialPosition={ 10 }
+								allowReset={ true }
+								onChange={ ( value ) => {
+									this.setAttributes( { limit: value } );
+									this.fetchEntries( { per_page: value } );
+								} }
+							/>
+
+							<RangeControl
+								label={ __( 'Number of Slides to Display per Frame', 'connections' ) }
+								value={ this.getAttribute( 'slidesToShow', 1 ) }
+								min={ 1 }
+								max={ 4 }
+								initialPosition={ 1 }
+								allowReset={ true }
+								onChange={ ( value ) => {
+
+									let parameters = { slidesToShow: value };
+									const slidesToScroll = this.getAttribute( 'slidesToScroll', 1 );
+
+									if ( value <= slidesToScroll ) {
+
+										parameters['slidesToScroll'] = value;
+									}
+
+									this.setAttributes( parameters );
+								} }
+							/>
+
+							<RangeControl
+								label={ __( 'Number of Slides to Scroll per Frame', 'connections' ) }
+								value={ this.getAttribute( 'slidesToScroll', 1 ) }
+								min={ 1 }
+								max={ this.getAttribute( 'slidesToShow', 1 ) }
+								initialPosition={ 1 }
+								allowReset={ true }
+								onChange={ ( value ) => this.setAttributes( { slidesToScroll: value } ) }
+							/>
+
+							<div style={ { marginTop: '20px' } }>
+
+								<ToggleControl
+									label={ __( 'Autoplay?', 'connections' ) }
+									// help={__( '', 'connections' )}
+									checked={ ! ! autoplay }
+									onChange={ () => this.setAttributes( { autoplay: ! autoplay } ) }
+								/>
+
+								{ autoplay &&
+								<Fragment>
+
+									<ToggleControl
+										label={ __( 'Pause on hover?', 'connections' ) }
+										// help={__( '', 'connections' )}
+										checked={ ! ! pause }
+										onChange={ () => this.setAttributes( { pause: ! pause } ) }
+									/>
+
+									<RangeControl
+										label={ __( 'Frame Advance Speed in Milliseconds', 'connections' ) }
+										value={ this.getAttribute( 'autoplaySpeed', 3000 ) }
+										min={ 100 }
+										max={ 10000 }
+										initialPosition={ 3000 }
+										allowReset={ true }
+										onChange={ ( value ) => this.setAttributes( { autoplaySpeed: value } ) }
+									/>
+
+								</Fragment>
+								}
+
+								<ToggleControl
+									label={ __( 'Infinite loop?', 'connections' ) }
+									// help={__( '', 'connections' )}
+									checked={ ! ! infinite }
+									onChange={ () => this.setAttributes( { infinite: ! infinite } ) }
+								/>
+
+								<ToggleControl
+									label={ __( 'Display arrows?', 'connections' ) }
+									// help={__( '', 'connections' )}
+									checked={ ! ! arrows }
+									onChange={ () => this.setAttributes( { arrows: ! arrows } ) }
+								/>
+
+								<ToggleControl
+									label={ __( 'Display dots?', 'connections' ) }
+									// help={__( '', 'connections' )}
+									checked={ ! ! dots }
+									onChange={ () => this.setAttributes( { dots: ! dots } ) }
+								/>
+
+								<RangeControl
+									label={ __( 'Frame Animation Speed in Milliseconds', 'connections' ) }
+									value={ this.getAttribute( 'speed', 500 ) }
+									min={ 100 }
+									max={ 5000 }
+									initialPosition={ 500 }
+									allowReset={ true }
+									onChange={ ( value ) => this.setAttributes( { speed: value } ) }
+								/>
+
+							</div>
+
+						</div>
+
+					</PanelBody>
 
 					<PanelBody
 						title={ __( 'Select', 'connections' ) }
@@ -486,7 +735,7 @@ class Carousel extends Component {
 							terms={ this.getAttribute( 'categories', [] ) }
 							onChange={ ( value ) => {
 								this.setAttributes( { categories: value } );
-								this.fetchEntries( { category: value } );
+								this.fetchEntries( { categories: value } );
 							} }
 						/>
 
@@ -495,7 +744,10 @@ class Carousel extends Component {
 								label={ __( 'Entries must be assigned to all the above chosen categories?', 'connections' ) }
 								// help={__( '', 'connections' )}
 								checked={ ! ! categoriesIn }
-								onChange={ () => setAttributes( { categoriesIn: ! categoriesIn } ) }
+								onChange={ () => {
+									this.setAttributes( { categoriesIn: ! categoriesIn } );
+									this.fetchEntries( { category_in: ! categoriesIn } );
+								} }
 							/>
 						</div>
 
@@ -507,8 +759,11 @@ class Carousel extends Component {
 
 						<HierarchicalTermSelector
 							taxonomy='category'
-							terms={ JSON.parse( categoriesExclude ) }
-							onChange={ ( value ) => setAttributes( { Categories: JSON.stringify( value ) } ) }
+							terms={ this.getAttribute( 'categoriesExclude', [] ) }
+							onChange={ ( value ) => {
+								this.setAttributes( { categoriesExclude: value } );
+								this.fetchEntries( { categories_exclude: value } );
+							} }
 						/>
 
 					</PanelBody>
@@ -551,31 +806,31 @@ class Carousel extends Component {
 							<ToggleControl
 								label={ __( 'Display Title?', 'connections' ) }
 								checked={ ! ! displayTitle }
-								onChange={ () => setAttributes( { displayTitle: ! displayTitle } ) }
-							/>
-
-							<ToggleControl
-								label={ __( 'Display Excerpt?', 'connections' ) }
-								checked={ ! ! displayExcerpt }
-								onChange={ () => setAttributes( { displayExcerpt: ! displayExcerpt } ) }
+								onChange={ () => this.setAttributes( { displayTitle: ! displayTitle } ) }
 							/>
 
 							<ToggleControl
 								label={ __( 'Display Primary Phone?', 'connections' ) }
 								checked={ ! ! displayPhone }
-								onChange={ () => setAttributes( { displayPhone: ! displayPhone } ) }
+								onChange={ () => this.setAttributes( { displayPhone: ! displayPhone } ) }
 							/>
 
 							<ToggleControl
 								label={ __( 'Display Primary Email?', 'connections' ) }
 								checked={ ! ! displayEmail }
-								onChange={ () => setAttributes( { displayEmail: ! displayEmail } ) }
+								onChange={ () => this.setAttributes( { displayEmail: ! displayEmail } ) }
+							/>
+
+							<ToggleControl
+								label={ __( 'Display Excerpt?', 'connections' ) }
+								checked={ ! ! displayExcerpt }
+								onChange={ () => this.setAttributes( { displayExcerpt: ! displayExcerpt } ) }
 							/>
 
 							<ToggleControl
 								label={ __( 'Display Social Networks?', 'connections' ) }
 								checked={ ! ! displaySocial }
-								onChange={ () => setAttributes( { displaySocial: ! displaySocial } ) }
+								onChange={ () => this.setAttributes( { displaySocial: ! displaySocial } ) }
 							/>
 						</div>
 
@@ -590,12 +845,34 @@ class Carousel extends Component {
 
 							<BaseControl
 								className='editor-color-palette-control'
-								label={ colorIndicator( __( 'Border Color', 'connections' ), borderColor ) }
+								label={ colorIndicator( __( 'Background Color', 'connections' ), borderColor ) }
 							>
 								<ColorPalette
 									className='editor-color-palette-control__color-palette'
-									value={ borderColor }
-									onChange={ ( value ) => setAttributes( { borderColor: value } ) }
+									value={ this.getAttribute( 'backgroundColor', '#FFFFFF' ) }
+									onChange={ ( value ) => this.setAttributes( { backgroundColor: value } ) }
+								/>
+							</BaseControl>
+
+							<BaseControl
+								className='editor-color-palette-control'
+								label={ colorIndicator( __( 'Text Color', 'connections' ), borderColor ) }
+							>
+								<ColorPalette
+									className='editor-color-palette-control__color-palette'
+									value={ this.getAttribute( 'color', '#000000' ) }
+									onChange={ ( value ) => this.setAttributes( { color: value } ) }
+								/>
+							</BaseControl>
+
+							<BaseControl
+								className='editor-color-palette-control'
+								label={ colorIndicator( __( 'Arrow & Dots Color', 'connections' ), borderColor ) }
+							>
+								<ColorPalette
+									className='editor-color-palette-control__color-palette'
+									value={ this.getAttribute( 'arrowDotsColor', '#000000' ) }
+									onChange={ ( value ) => this.setAttributes( { arrowDotsColor: value } ) }
 								/>
 							</BaseControl>
 
@@ -660,7 +937,6 @@ class Carousel extends Component {
 
 						</div>
 
-
 					</PanelBody>
 
 				</InspectorControls>
@@ -702,15 +978,88 @@ class Carousel extends Component {
 					</div>
 
 				</InspectorAdvancedControls>
-
-				<div className='slick-slider-section'>
-					<Slider { ...settings }>
-						{ slides }
-					</Slider>
-				</div>
-
 			</Fragment>
-		)
+		);
+
+		let entries = this.state.queryResults;
+
+		const hasEntries = Array.isArray( entries ) && entries.length;
+
+		if ( !hasEntries ) {
+
+			return (
+				<Fragment>
+					{ inspectorControls }
+					<div>
+						{ this.state.isLoading ?
+							<p>{ __( 'Loading...', 'connections' ) } <Spinner /></p> :
+							<p>{ __( 'No directory entries found.', 'connections' ) }</p>
+						}
+					</div>
+				</Fragment>
+			)
+
+		} else {
+
+			let settings = {
+				arrows:           arrows,
+				autoplay:         autoplay,
+				autoplaySpeed:    this.getAttribute( 'autoplaySpeed', 3000 ),
+				dots:             dots,
+				infinite:         infinite,
+				lazyLoad:         'progressive',
+				pauseOnFocus:     pause,
+				pauseOnHover:     pause,
+				pauseOnDotsHover: pause,
+				speed:            this.getAttribute( 'speed', 500 ),
+				slidesToShow:     this.getAttribute( 'slidesToShow', 1 ),
+				slidesToScroll:   this.getAttribute( 'slidesToScroll', 1 ),
+			};
+
+			const slides = entries.map( ( entry, i ) => {
+
+					return (
+						<div key={ i }>
+							<div className='slick-slide-grid'>
+								<div className='slick-slide-column'>
+									<EntryImage entry={ entry } type='photo' size='large' />
+									<EntryName tag='h3' entry={ entry } />
+									{ displayTitle && <EntryTitle entry={ entry } />}
+									{ displayPhone && <EntryPhoneNumbers entry={ entry } preferred={ true } />}
+									{ displayEmail && <EntryEmail entry={ entry } preferred={ true } /> }
+									{ displaySocial && <EntrySocialNetworks entry={ entry } />}
+								</div>
+								<div className='slick-slide-column'>
+									{ displayExcerpt && <EntryExcerpt entry={ entry } />}
+								</div>
+							</div>
+						</div>
+					)
+				}
+			);
+
+			const classNames = [ 'slick-slider-block' ];
+
+			if ( arrows ) classNames.push( 'slick-slider-has-arrows' );
+			if ( dots ) classNames.push( 'slick-slider-has-dots' );
+
+			classNames.push( `slick-slider-slides-${ settings.slidesToShow }` );
+
+			return (
+				<Fragment>
+					{ inspectorControls }
+					<div className={ classNames.join( ' ' ) }
+					     id={ 'slick-slider-block-' + blockId }
+					>
+						<Slider key={ this.state.sliderKey } { ...settings }>
+							{ slides }
+						</Slider>
+					</div>
+				</Fragment>
+			)
+
+		}
+
 	}
 }
 
@@ -727,6 +1076,7 @@ export default compose( [
 	withSelect( ( select, props ) => {
 
 		return {
+			// editorBlocks: select( 'core/editor' ).getBlocks(),
 			metaCarousels: select( 'core/editor' ).getEditedPostAttribute( 'meta' )._cbd_carousel_blocks,
 		};
 

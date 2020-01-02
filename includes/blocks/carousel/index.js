@@ -38,9 +38,6 @@ export default registerBlockType(
 				type:    'string',
 				// default: '',
 			},
-			borderColor:       {
-				default: '#BABABA',
-			},
 			borderRadius:      {
 				type:    'integer',
 				default: 12,
@@ -55,35 +52,7 @@ export default registerBlockType(
 				source:  'meta',
 				meta:    '_cbd_carousel_blocks'
 			},
-			categoriesExclude: {
-				type:    'string',
-				default: '[]',
-			},
-			categoriesIn:      {
-				type:    'boolean',
-				default: false,
-			},
 			displayDropShadow: {
-				type:    'boolean',
-				default: true,
-			},
-			displayEmail:      {
-				type:    'boolean',
-				default: true,
-			},
-			displayExcerpt:    {
-				type:    'boolean',
-				default: false,
-			},
-			displayPhone:      {
-				type:    'boolean',
-				default: true,
-			},
-			displaySocial:     {
-				type:    'boolean',
-				default: true,
-			},
-			displayTitle:      {
 				type:    'boolean',
 				default: true,
 			},

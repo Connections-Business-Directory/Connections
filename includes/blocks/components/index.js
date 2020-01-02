@@ -14,4 +14,10 @@ export { default as RangeControl } from './range-control/';
  * Entry components.
  */
 export { default as EntryName } from './entry/name';
+export { default as EntryTitle } from './entry/title';
 export { default as EntryImage } from './entry/image';
+export { default as EntryPhoneNumbers } from './entry/phone-numbers';
+export { default as EntryEmail } from './entry/email';
+export { default as EntrySocialNetworks } from './entry/social-networks';
+
+export { default as SocialNetworkIcon } from './entry/social-network-icon';

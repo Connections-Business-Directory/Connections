@@ -299,7 +299,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
 		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
 
-		cnArray::set( $data, 'excerpt.rendered', $entry->getExcerpt() );
+		cnArray::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt() ) );
 
 		if ( 'edit' === $request['context'] &&
 		     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )

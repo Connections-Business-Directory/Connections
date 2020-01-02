@@ -449,25 +449,28 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		foreach ( $networks as $network ) {
 
+			$socialNetworks = cnOptions::getRegisteredSocialNetworkTypes();
+
 			$object = array(
-				'id'               => $network->id,
-				'order'            => $network->order,
-				'preferred'        => $network->preferred,
-				'type'             => $network->type,
+				'id'        => $network->id,
+				'order'     => $network->order,
+				'preferred' => $network->preferred,
+				'slug'      => $socialNetworks[ $network->type ]['slug'],
+				'type'      => $network->type,
 			);
 
 			cnArray::set(
 				$object,
-				'url.rendered',
+				'url',
 				cnSanitize::field( 'url', $network->url, 'display' )
 			);
 
-			if ( 'edit' === $request['context'] &&
-			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
-			) {
-
-				cnArray::set( $object, 'url.raw', $network->address );
-			}
+			//if ( 'edit' === $request['context'] &&
+			//     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			//) {
+			//
+			//	cnArray::set( $object, 'url.raw', $network->address );
+			//}
 
 			array_push( $objects, $object );
 		}

@@ -26,6 +26,11 @@
 		}
 	}
 
+	&.slick-slider-has-shadow .slick-slide {
+		box-shadow: 0 5px 10px 5px hsla(0,0%,72.9%,.5);
+		margin: 10px 15px 20px 15px !important;
+	}
+
 	div:focus {
 		outline: none;
 	}
@@ -64,6 +69,7 @@
 						flex-direction: column;
 						flex: 1;
 					}
+
 				}
 
 				span.phone-number-block,
@@ -101,11 +107,17 @@
 			color: #000000;
 		}
 	}
+
 }
 
 @media (max-width: 480px) {
 
 	.slick-slider-block {
+
+		&.slick-slider-has-shadow .slick-slide {
+			box-shadow: 0 2px 5px 2px hsla(0,0%,72.9%,.5);
+			margin: 5px 6px 12px 6px !important;
+		}
 
 		.slick-list {
 

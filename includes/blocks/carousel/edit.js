@@ -533,7 +533,7 @@ class Carousel extends Component {
 			      borderColor,
 			      borderRadius,
 			      borderWidth,
-			      displayDropShadow,
+			      // displayDropShadow,
 			      excerptWordLimit,
 			      // gutterWidth,
 			      imageBorderColor,
@@ -576,6 +576,8 @@ class Carousel extends Component {
 		const displayPhone = this.getAttribute( 'displayPhone', true );
 		const displayEmail = this.getAttribute( 'displayEmail', true );
 		const displaySocial = this.getAttribute( 'displaySocial', true );
+
+		const displayDropShadow = this.getAttribute( 'displayDropShadow', false );
 
 		const inspectorControls = (
 			<Fragment>
@@ -899,7 +901,7 @@ class Carousel extends Component {
 							<ToggleControl
 								label={ __( 'Display Drop Shadow?', 'connections' ) }
 								checked={ ! ! displayDropShadow }
-								onChange={ () => setAttributes( { displayDropShadow: ! displayDropShadow } ) }
+								onChange={ () => this.setAttributes( { displayDropShadow: ! displayDropShadow } ) }
 							/>
 
 							<BaseControl
@@ -1042,6 +1044,7 @@ class Carousel extends Component {
 
 			if ( arrows ) classNames.push( 'slick-slider-has-arrows' );
 			if ( dots ) classNames.push( 'slick-slider-has-dots' );
+			if ( displayDropShadow ) classNames.push( 'slick-slider-has-shadow' );
 
 			classNames.push( `slick-slider-slides-${ settings.slidesToShow }` );
 

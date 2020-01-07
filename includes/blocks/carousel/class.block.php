@@ -328,6 +328,14 @@ class Carousel {
 				$carousel['displaySocial'] = rest_sanitize_boolean( $block['displaySocial'] );
 			}
 
+			/*
+			 * Sanitize display drop shadow.
+			 */
+			if ( array_key_exists( 'displayDropShadow', $block ) ) {
+
+				$carousel['displayDropShadow'] = rest_sanitize_boolean( $block['displayDropShadow'] );
+			}
+
 			array_push( $sanitized, $carousel );
 		}
 
@@ -494,6 +502,8 @@ class Carousel {
 
 		if ( cnArray::get( $carousel, 'arrows', TRUE ) ) array_push( $classNames, 'slick-slider-has-arrows' );
 		if ( cnArray::get( $carousel, 'dots', TRUE ) ) array_push( $classNames, 'slick-slider-has-dots' );
+
+		if ( cnArray::get( $carousel, 'displayDropShadow', TRUE ) ) array_push( $classNames, 'slick-slider-has-shadow' );
 
 		array_push( $classNames, "slick-slider-slides-{$settings['slidesToShow']}" );
 

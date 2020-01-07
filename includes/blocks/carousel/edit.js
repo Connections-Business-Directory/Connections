@@ -577,6 +577,9 @@ class Carousel extends Component {
 		const displayEmail = this.getAttribute( 'displayEmail', true );
 		const displaySocial = this.getAttribute( 'displaySocial', true );
 
+		const backgroundColor = this.getAttribute( 'backgroundColor', '#FFFFFF' );
+		const textColor = this.getAttribute( 'color', '#000000' );
+		const arrowDotsColor = this.getAttribute( 'arrowDotsColor', '#000000' );
 		const displayDropShadow = this.getAttribute( 'displayDropShadow', false );
 
 		const inspectorControls = (
@@ -847,33 +850,33 @@ class Carousel extends Component {
 
 							<BaseControl
 								className='editor-color-palette-control'
-								label={ colorIndicator( __( 'Background Color', 'connections' ), borderColor ) }
+								label={ colorIndicator( __( 'Background Color', 'connections' ), backgroundColor ) }
 							>
 								<ColorPalette
 									className='editor-color-palette-control__color-palette'
-									value={ this.getAttribute( 'backgroundColor', '#FFFFFF' ) }
+									value={ backgroundColor }
 									onChange={ ( value ) => this.setAttributes( { backgroundColor: value } ) }
 								/>
 							</BaseControl>
 
 							<BaseControl
 								className='editor-color-palette-control'
-								label={ colorIndicator( __( 'Text Color', 'connections' ), borderColor ) }
+								label={ colorIndicator( __( 'Text Color', 'connections' ), textColor ) }
 							>
 								<ColorPalette
 									className='editor-color-palette-control__color-palette'
-									value={ this.getAttribute( 'color', '#000000' ) }
+									value={ textColor }
 									onChange={ ( value ) => this.setAttributes( { color: value } ) }
 								/>
 							</BaseControl>
 
 							<BaseControl
 								className='editor-color-palette-control'
-								label={ colorIndicator( __( 'Arrow & Dots Color', 'connections' ), borderColor ) }
+								label={ colorIndicator( __( 'Arrow & Dots Color', 'connections' ), arrowDotsColor ) }
 							>
 								<ColorPalette
 									className='editor-color-palette-control__color-palette'
-									value={ this.getAttribute( 'arrowDotsColor', '#000000' ) }
+									value={ arrowDotsColor }
 									onChange={ ( value ) => this.setAttributes( { arrowDotsColor: value } ) }
 								/>
 							</BaseControl>

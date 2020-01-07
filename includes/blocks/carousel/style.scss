@@ -58,6 +58,10 @@
 					flex-wrap: wrap;
 					width: 100%;
 
+					h3 {
+						margin: 0 0 8px;
+					}
+
 					.slick-slide-column:first-of-type {
 						flex: 0;
 						margin-right: 20px;
@@ -114,6 +118,10 @@
 
 	.slick-slider-block {
 
+		&.slick-slider-has-arrows {
+			padding: 20px 40px;
+		}
+
 		&.slick-slider-has-shadow .slick-slide {
 			box-shadow: 0 2px 5px 2px hsla(0,0%,72.9%,.5);
 			margin: 5px 6px 12px 6px !important;
@@ -128,6 +136,7 @@
 
 					.slick-slide-grid {
 						display: block;
+						text-align: center;
 
 						.slick-slide-column,
 						.slick-slide-column:first-of-type {
@@ -136,6 +145,10 @@
 							margin: 0;
 							min-width: auto;
 							width: 100%;
+						}
+
+						.cn-image-style span:first-child {
+							margin: 0 auto;
 						}
 					}
 				}

@@ -230,11 +230,15 @@ class Carousel extends Component {
 
 			let arrowDotsColor = this.getAttribute( 'arrowDotsColor', '#000000' );
 			let backgroundColor = this.getAttribute( 'backgroundColor', '#FFFFFF' );
+			let borderColor = this.getAttribute( 'borderColor', '#000000' );
+			let borderRadius = this.getAttribute( 'borderRadius', '3' );
+			let borderWidth = this.getAttribute( 'borderWidth', '2' );
 			let color = this.getAttribute( 'color', '#000000' );
 
 			// Using the "Clear" button set the value to empty string. Use default color.
 			if ( ! arrowDotsColor ) { color = '#000000'; }
 			if ( ! backgroundColor ) { backgroundColor = '#FFFFFF'; }
+			if ( ! borderColor ) { borderColor = '#000000'; }
 			if ( ! color ) { color = '#000000'; }
 
 			const id = '#slick-slider-block-' + this.state.blockId;
@@ -244,8 +248,15 @@ class Carousel extends Component {
 			];
 
 			const blockStyle = [
-				`background-color: ${ backgroundColor };`,
-				`color: ${ color };`,
+				`background-color: ${ backgroundColor }`,
+				`color: ${ color }`,
+			];
+
+			const slideStyle = [
+				`border-color: ${ borderColor }`,
+				`border-radius: ${ borderRadius }px`,
+				`border-style: solid`,
+				`border-width: ${ borderWidth }px`,
 			];
 
 			const nameStyle = [
@@ -258,8 +269,9 @@ class Carousel extends Component {
 			css += `\n${id} .slick-arrow.slick-prev:before { ${arrowDotStyle.join('\n')} }`;
 			css += `\n${id} .slick-dots li button:before { ${arrowDotStyle.join('\n')} }`;
 
-			css += `\n${id} .slick-slider { ${blockStyle.join('\n')} }`;
-			css += `\n${id} .slick-slider h3 { ${nameStyle.join('\n')} }`;
+			css += `\n${id} .slick-slider { ${blockStyle.join(';\n')} }`;
+			css += `\n${id} .slick-slide { ${slideStyle.join(';\n')} }`;
+			css += `\n${id} .slick-slide h3 { ${nameStyle.join('\n')} }`;
 
 			element.innerHTML = css;
 		}
@@ -530,9 +542,9 @@ class Carousel extends Component {
 			      // categoriesExclude,
 			      // categoriesIn,
 			      // columns,
-			      borderColor,
-			      borderRadius,
-			      borderWidth,
+			      // borderColor,
+			      // borderRadius,
+			      // borderWidth,
 			      // displayDropShadow,
 			      excerptWordLimit,
 			      // gutterWidth,
@@ -580,6 +592,9 @@ class Carousel extends Component {
 		const backgroundColor = this.getAttribute( 'backgroundColor', '#FFFFFF' );
 		const textColor = this.getAttribute( 'color', '#000000' );
 		const arrowDotsColor = this.getAttribute( 'arrowDotsColor', '#000000' );
+		const borderColor = this.getAttribute( 'borderColor', '#000000' );
+		const borderRadius = this.getAttribute( 'borderRadius', '3' );
+		const borderWidth = this.getAttribute( 'borderWidth', '2' );
 		const displayDropShadow = this.getAttribute( 'displayDropShadow', false );
 
 		const inspectorControls = (
@@ -881,14 +896,25 @@ class Carousel extends Component {
 								/>
 							</BaseControl>
 
+							<BaseControl
+								className='editor-color-palette-control'
+								label={ colorIndicator( __( 'Border Color', 'connections' ), borderColor ) }
+							>
+								<ColorPalette
+									className='editor-color-palette-control__color-palette'
+									value={ borderColor }
+									onChange={ ( value ) => this.setAttributes( { borderColor: value } ) }
+								/>
+							</BaseControl>
+
 							<RangeControl
 								label={ __( 'Border Radius', 'connections' ) }
 								value={ borderRadius }
 								min={ 0 }
 								max={ 20 }
-								initialPosition={ 12 }
+								initialPosition={ 3 }
 								allowReset={ true }
-								onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
+								onChange={ ( value ) => this.setAttributes( { borderRadius: value } ) }
 							/>
 
 							<RangeControl
@@ -896,9 +922,9 @@ class Carousel extends Component {
 								value={ borderWidth }
 								min={ 0 }
 								max={ 5 }
-								initialPosition={ 1 }
+								initialPosition={ 2 }
 								allowReset={ true }
-								onChange={ ( value ) => setAttributes( { borderWidth: value } ) }
+								onChange={ ( value ) => this.setAttributes( { borderWidth: value } ) }
 							/>
 
 							<ToggleControl

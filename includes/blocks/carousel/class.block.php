@@ -336,6 +336,30 @@ class Carousel {
 				$carousel['displayDropShadow'] = rest_sanitize_boolean( $block['displayDropShadow'] );
 			}
 
+			/*
+			 * Sanitize border color.
+			 */
+			if ( array_key_exists( 'borderColor', $block ) ) {
+
+				$carousel['borderColor'] = \cnSanitize::hexColor( $block['borderColor'] );
+			}
+
+			/*
+			 * Sanitize the border radius.
+			 */
+			if ( array_key_exists( 'borderRadius', $block ) ) {
+
+				$carousel['borderRadius'] = absint( $block['borderRadius'] );
+			}
+
+			/*
+			 * Sanitize the border width.
+			 */
+			if ( array_key_exists( 'borderWidth', $block ) ) {
+
+				$carousel['borderWidth'] = absint( $block['borderWidth'] );
+			}
+
 			array_push( $sanitized, $carousel );
 		}
 
@@ -376,6 +400,10 @@ class Carousel {
 			$backgroundColor = cnArray::get( $carousel, 'backgroundColor', '#FFFFFF' );
 			$color           = cnArray::get( $carousel, 'color', '#000000' );
 
+			$borderColor  = cnArray::get( $carousel, 'borderColor', '#000000' );
+			$borderRadius = cnArray::get( $carousel, 'borderRadius', '3' );
+			$borderWidth  = cnArray::get( $carousel, 'borderWidth', '2' );
+
 			if ( 0 === strlen( $arrowDotsColor ) ) {
 
 				$arrowDotsColor = '#FFFFFF';
@@ -391,6 +419,21 @@ class Carousel {
 				$color = '#000000';
 			}
 
+			if ( 0 === strlen( $borderColor ) ) {
+
+				$borderColor = '#000000';
+			}
+
+			if ( 0 === strlen( $borderRadius ) ) {
+
+				$borderRadius = '3';
+			}
+
+			if ( 0 === strlen( $borderWidth ) ) {
+
+				$borderWidth = '2';
+			}
+
 			$arrowDotsStyle = array(
 				"color: {$arrowDotsColor}",
 			);
@@ -398,6 +441,13 @@ class Carousel {
 			$blockStyle = array(
 				"background-color: {$backgroundColor}",
 				"color: {$color}",
+			);
+
+			$slideStyle = array(
+				"border-color: {$borderColor}",
+				"border-radius: {$borderRadius}px",
+				'border-style: solid',
+				"border-width: {$borderWidth}px",
 			);
 
 			$nameStyle = array(
@@ -408,6 +458,7 @@ class Carousel {
 			$styles[] = $id . ' .slick-arrow.slick-prev:before { ' . implode( '; ', $arrowDotsStyle ) . ' }';
 			$styles[] = $id . ' .slick-dots li button:before { ' . implode( '; ', $arrowDotsStyle ) . ' }';
 			$styles[] = $id . ' { ' . implode( '; ', $blockStyle ) . ' }';
+			$styles[] = $id . ' .slick-slide { ' . implode( '; ', $slideStyle ) . ' }';
 			$styles[] = $id . ' h3 { ' . implode( '; ', $nameStyle ) . ' }';
 			$styles[] = $id . ' a { ' . implode( '; ', $nameStyle ) . '; text-decoration: none; }';
 

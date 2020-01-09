@@ -270,6 +270,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $entry, $request ) {
 
+		$requestParams = $request->get_params();
 		$data = array();
 
 		cnArray::set( $data, 'id', $entry->getId() );
@@ -299,7 +300,12 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
 		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
 
-		cnArray::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt() ) );
+		$excerptParameters = array(
+			'length' => cnArray::get( $requestParams, '_excerpt.length', apply_filters( 'cn_excerpt_length', 55 ) ),
+			'more'   => cnArray::get( $requestParams, '_excerpt.more', '' ),
+		);
+
+		cnArray::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt( $excerptParameters ) ) );
 
 		if ( 'edit' === $request['context'] &&
 		     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
@@ -322,7 +328,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			cnArray::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
 			cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
 
-			cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( array(), 'raw' ) );
+			cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
 		}
 
 		$data['images'] = $this->prepare_images_for_response( $entry );

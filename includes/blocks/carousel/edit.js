@@ -134,6 +134,8 @@ class Carousel extends Component {
 		this.fetchAPI = this.fetchAPI.bind( this );
 		this.fetchEntries = this.fetchEntries.bind( this );
 
+		this.isNumber = this.isNumber.bind( this );
+
 		const id = isUndefined( blockId ) ? clientId : blockId;
 		const blocks = JSON.parse( metaCarousels );
 		const index = this.findIndex( id, blocks );
@@ -158,6 +160,19 @@ class Carousel extends Component {
 		// console.log( 'constructor()::metaCarousels ', metaCarousels );
 
 		setAttributes( { blockId: id } );
+	}
+
+	/**
+	 * Tests whether or not supplied variable is numeric or not.
+	 * 
+	 * @todo This should be moved to a helper library.
+	 * @link https://stackoverflow.com/a/15043984/5351316
+	 *
+	 * @param n
+	 * @return {boolean}
+	 */
+	isNumber( n ) {
+		return ( Object.prototype.toString.call( n ) === '[object Number]' || Object.prototype.toString.call( n ) === '[object String]' ) && !isNaN( parseFloat( n ) ) && isFinite( n.toString().replace( /^-/, '' ) );
 	}
 
 	componentDidMount() {
@@ -384,8 +399,23 @@ class Carousel extends Component {
 				query['per_page'] = block.limit;
 			}
 
+			if ( has( block, 'excerptWordLimit' ) ) {
+
+				if ( this.isNumber( block.excerptWordLimit ) ) {
+
+					query['_excerpt'] = { length: block.excerptWordLimit };
+
+				} else {
+
+					query['_excerpt'] = {};
+				}
+
+			}
+
 			query = { ...query, ...args };
 		}
+
+		// console.log( query );
 
 		return query;
 	}
@@ -546,7 +576,7 @@ class Carousel extends Component {
 			      // borderRadius,
 			      // borderWidth,
 			      // displayDropShadow,
-			      excerptWordLimit,
+			      // excerptWordLimit,
 			      // gutterWidth,
 			      imageBorderColor,
 			      imageBorderRadius,
@@ -596,6 +626,8 @@ class Carousel extends Component {
 		const borderRadius = this.getAttribute( 'borderRadius', '3' );
 		const borderWidth = this.getAttribute( 'borderWidth', '2' );
 		const displayDropShadow = this.getAttribute( 'displayDropShadow', false );
+
+		const excerptWordLimit = this.getAttribute( 'excerptWordLimit', '' );
 
 		const inspectorControls = (
 			<Fragment>
@@ -1003,7 +1035,18 @@ class Carousel extends Component {
 							help={ __( 'Enter 0 for the first sentence only. If the excerpt exceeds the word limit, the excerpt will be truncated at the of the next sentence if it can be determined automatically, so the excerpt word limit may be exceeded in order to display a complete sentence.', 'connections' ) }
 							type={ 'number' }
 							value={ excerptWordLimit }
-							onChange={ ( value ) => setAttributes( { excerptWordLimit: value } ) }
+							onChange={ ( value ) => {
+								this.setAttributes( { excerptWordLimit: value } );
+
+								if ( value ) {
+
+									this.fetchEntries( { _excerpt: { length: value } } );
+
+								} else {
+
+									this.fetchEntries( { _excerpt: {} } );
+								}
+							} }
 						/>
 
 					</div>

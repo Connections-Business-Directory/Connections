@@ -360,6 +360,21 @@ class Carousel {
 				$carousel['borderWidth'] = absint( $block['borderWidth'] );
 			}
 
+			/*
+			 * Sanitize the excerpt length.
+			 */
+			if ( array_key_exists( 'excerptWordLimit', $block ) ) {
+
+				if ( is_numeric( $block['excerptWordLimit'] ) ) {
+
+					$carousel['excerptWordLimit'] = absint( $block['excerptWordLimit'] );
+
+				} else {
+
+					$carousel['excerptWordLimit'] = '';
+				}
+			}
+
 			array_push( $sanitized, $carousel );
 		}
 

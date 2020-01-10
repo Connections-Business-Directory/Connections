@@ -286,7 +286,7 @@ class Carousel extends Component {
 			css += `\n${id} .slick-arrow.slick-prev:before { ${arrowDotStyle.join('\n')} }`;
 			css += `\n${id} .slick-dots li button:before { ${arrowDotStyle.join('\n')} }`;
 
-			css += `\n${id} .slick-slider { ${blockStyle.join(';\n')} }`;
+			css += `\n${id} { ${blockStyle.join(';\n')} }`;
 			css += `\n${id} .slick-slide { ${slideStyle.join(';\n')} }`;
 			css += `\n${id} .slick-slide h3 { ${nameStyle.join('\n')} }`;
 

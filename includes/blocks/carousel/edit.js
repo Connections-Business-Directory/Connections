@@ -74,7 +74,7 @@ import {
 import EntryExcerpt from "@Connections-Directory/components/entry/excerpt";
 // import EntryTypeSelectControl from './components/entry-type-select-control';
 
-import { isNumber } from "@Connections-Directory/components/utility/is-number";
+import { isNumber } from "@Connections-Directory/components/utility";
 
 /**
  * Import styles.

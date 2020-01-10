@@ -180,6 +180,7 @@ final class cnAddress extends cnEntry_Collection_Item {
 		$types   = self::getTypes();
 		$default = cnOptions::getDefaultAddressType();
 
+		/** @noinspection DuplicatedCode */
 		$this->id          = (int) cnArray::get( $data, 'id', 0 );
 
 		$preferred         = cnArray::get( $data, 'preferred', FALSE );

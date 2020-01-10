@@ -74,6 +74,8 @@ import {
 import EntryExcerpt from "@Connections-Directory/components/entry/excerpt";
 // import EntryTypeSelectControl from './components/entry-type-select-control';
 
+import { isNumber } from "@Connections-Directory/components/utility/is-number";
+
 /**
  * Import styles.
  */
@@ -134,7 +136,7 @@ class Carousel extends Component {
 		this.fetchAPI = this.fetchAPI.bind( this );
 		this.fetchEntries = this.fetchEntries.bind( this );
 
-		this.isNumber = this.isNumber.bind( this );
+		// this.isNumber = this.isNumber.bind( this );
 
 		const id = isUndefined( blockId ) ? clientId : blockId;
 		const blocks = JSON.parse( metaCarousels );
@@ -162,18 +164,18 @@ class Carousel extends Component {
 		setAttributes( { blockId: id } );
 	}
 
-	/**
-	 * Tests whether or not supplied variable is numeric or not.
-	 * 
-	 * @todo This should be moved to a helper library.
-	 * @link https://stackoverflow.com/a/15043984/5351316
-	 *
-	 * @param n
-	 * @return {boolean}
-	 */
-	isNumber( n ) {
-		return ( Object.prototype.toString.call( n ) === '[object Number]' || Object.prototype.toString.call( n ) === '[object String]' ) && !isNaN( parseFloat( n ) ) && isFinite( n.toString().replace( /^-/, '' ) );
-	}
+	// /**
+	//  * Tests whether or not supplied variable is numeric or not.
+	//  *
+	//  * @todo This should be moved to a helper library.
+	//  * @link https://stackoverflow.com/a/15043984/5351316
+	//  *
+	//  * @param n
+	//  * @return {boolean}
+	//  */
+	// isNumber( n ) {
+	// 	return ( Object.prototype.toString.call( n ) === '[object Number]' || Object.prototype.toString.call( n ) === '[object String]' ) && !isNaN( parseFloat( n ) ) && isFinite( n.toString().replace( /^-/, '' ) );
+	// }
 
 	componentDidMount() {
 		// console.log( this.props.name, ': componentDidMount()' );
@@ -401,7 +403,7 @@ class Carousel extends Component {
 
 			if ( has( block, 'excerptWordLimit' ) ) {
 
-				if ( this.isNumber( block.excerptWordLimit ) ) {
+				if ( isNumber( block.excerptWordLimit ) ) {
 
 					query['_excerpt'] = { length: block.excerptWordLimit };
 

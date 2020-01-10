@@ -592,6 +592,22 @@ class Carousel {
 	 */
 	private static function renderTemplate( $template, $items, $attributes ) {
 
+		$defaults = array(
+			'displayTitle'     => TRUE,
+			'displayPhone'     => TRUE,
+			'displayEmail'     => TRUE,
+			'displaySocial'    => TRUE,
+			'displayExcerpt'   => TRUE,
+			'excerptWordLimit' => 55,
+		);
+
+		$attributes = wp_parse_args( $attributes, $defaults );
+
+		$attributes = apply_filters(
+			"Connections_Directory/Block/Carousel/Render/Template/{$template->getSlug()}/Attributes",
+			$attributes
+		);
+
 		ob_start();
 
 		do_action(

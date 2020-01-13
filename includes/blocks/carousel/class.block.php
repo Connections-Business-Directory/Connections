@@ -361,6 +361,30 @@ class Carousel {
 			}
 
 			/*
+			 * Sanitize image border color.
+			 */
+			if ( array_key_exists( 'imageBorderColor', $block ) ) {
+
+				$carousel['imageBorderColor'] = \cnSanitize::hexColor( $block['imageBorderColor'] );
+			}
+
+			/*
+			 * Sanitize the image border radius.
+			 */
+			if ( array_key_exists( 'imageBorderRadius', $block ) ) {
+
+				$carousel['imageBorderRadius'] = absint( $block['imageBorderRadius'] );
+			}
+
+			/*
+			 * Sanitize the image border width.
+			 */
+			if ( array_key_exists( 'imageBorderWidth', $block ) ) {
+
+				$carousel['imageBorderWidth'] = absint( $block['imageBorderWidth'] );
+			}
+
+			/*
 			 * Sanitize the excerpt length.
 			 */
 			if ( array_key_exists( 'excerptWordLimit', $block ) ) {
@@ -419,6 +443,10 @@ class Carousel {
 			$borderRadius = cnArray::get( $carousel, 'borderRadius', '3' );
 			$borderWidth  = cnArray::get( $carousel, 'borderWidth', '2' );
 
+			$imageBorderColor  = cnArray::get( $carousel, 'imageBorderColor', '#000000' );
+			$imageBorderRadius = cnArray::get( $carousel, 'imageBorderRadius', 0 );
+			$imageBorderWidth  = cnArray::get( $carousel, 'imageBorderWidth', 0 );
+
 			if ( 0 === strlen( $arrowDotsColor ) ) {
 
 				$arrowDotsColor = '#FFFFFF';
@@ -449,6 +477,11 @@ class Carousel {
 				$borderWidth = '2';
 			}
 
+			if ( 0 === strlen( $imageBorderColor ) ) {
+
+				$imageBorderColor = '#000000';
+			}
+
 			$arrowDotsStyle = array(
 				"color: {$arrowDotsColor}",
 			);
@@ -465,6 +498,14 @@ class Carousel {
 				"border-width: {$borderWidth}px",
 			);
 
+			$imageStyle = array(
+				"border-color: {$imageBorderColor}",
+				"border-radius: {$imageBorderRadius}px",
+				'border-style: solid',
+				"border-width: {$imageBorderWidth}px",
+				'overflow: hidden',
+			);
+
 			$nameStyle = array(
 				"color: {$color}",
 			);
@@ -475,6 +516,7 @@ class Carousel {
 			$styles[] = $id . ' { ' . implode( '; ', $blockStyle ) . ' }';
 			$styles[] = $id . ' .slick-slide { ' . implode( '; ', $slideStyle ) . ' }';
 			$styles[] = $id . ' h3 { ' . implode( '; ', $nameStyle ) . ' }';
+			$styles[] = $id . ' .slick-slide .cn-image-style { ' . implode( '; ', $imageStyle ) . ' }';
 			$styles[] = $id . ' a { ' . implode( '; ', $nameStyle ) . '; text-decoration: none; }';
 
 			$styles = PHP_EOL . implode( PHP_EOL, $styles ) . PHP_EOL;

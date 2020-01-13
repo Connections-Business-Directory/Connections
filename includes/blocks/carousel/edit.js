@@ -252,11 +252,16 @@ class Carousel extends Component {
 			let borderWidth = this.getAttribute( 'borderWidth', '2' );
 			let color = this.getAttribute( 'color', '#000000' );
 
+			let imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
+			let imageBorderRadius = this.getAttribute( 'imageBorderRadius', 0 );
+			let imageBorderWidth = this.getAttribute( 'imageBorderWidth', 0 );
+
 			// Using the "Clear" button set the value to empty string. Use default color.
 			if ( ! arrowDotsColor ) { color = '#000000'; }
 			if ( ! backgroundColor ) { backgroundColor = '#FFFFFF'; }
 			if ( ! borderColor ) { borderColor = '#000000'; }
 			if ( ! color ) { color = '#000000'; }
+			if ( ! imageBorderColor ) { imageBorderColor = '#000000'; }
 
 			const id = '#slick-slider-block-' + this.state.blockId;
 
@@ -276,6 +281,14 @@ class Carousel extends Component {
 				`border-width: ${ borderWidth }px`,
 			];
 
+			const imageStyle = [
+				`border-color: ${ imageBorderColor }`,
+				`border-radius: ${ imageBorderRadius }px`,
+				`border-style: solid`,
+				`border-width: ${ imageBorderWidth }px`,
+				'overflow: hidden'
+			];
+
 			const nameStyle = [
 				`color: ${ color };`,
 			];
@@ -289,6 +302,7 @@ class Carousel extends Component {
 			css += `\n${id} { ${blockStyle.join(';\n')} }`;
 			css += `\n${id} .slick-slide { ${slideStyle.join(';\n')} }`;
 			css += `\n${id} .slick-slide h3 { ${nameStyle.join('\n')} }`;
+			css += `\n${id} .slick-slide .cn-image-style { ${imageStyle.join(';\n')} }`;
 
 			element.innerHTML = css;
 		}
@@ -580,9 +594,9 @@ class Carousel extends Component {
 			      // displayDropShadow,
 			      // excerptWordLimit,
 			      // gutterWidth,
-			      imageBorderColor,
-			      imageBorderRadius,
-			      imageBorderWidth,
+			      // imageBorderColor,
+			      // imageBorderRadius,
+			      // imageBorderWidth,
 			      imageCropMode,
 			      imageShape,
 			      imageType,
@@ -628,6 +642,10 @@ class Carousel extends Component {
 		const borderRadius = this.getAttribute( 'borderRadius', '3' );
 		const borderWidth = this.getAttribute( 'borderWidth', '2' );
 		const displayDropShadow = this.getAttribute( 'displayDropShadow', false );
+
+		const imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
+		const imageBorderRadius = this.getAttribute( 'imageBorderRadius', 0 );
+		const imageBorderWidth = this.getAttribute( 'imageBorderWidth', 0 );
 
 		const excerptWordLimit = this.getAttribute( 'excerptWordLimit', '' );
 
@@ -974,7 +992,7 @@ class Carousel extends Component {
 								<ColorPalette
 									className='editor-color-palette-control__color-palette'
 									value={ imageBorderColor }
-									onChange={ ( value ) => setAttributes( { imageBorderColor: value } ) }
+									onChange={ ( value ) => this.setAttributes( { imageBorderColor: value } ) }
 								/>
 							</BaseControl>
 
@@ -985,7 +1003,7 @@ class Carousel extends Component {
 								max={ 5 }
 								initialPosition={ 0 }
 								allowReset={ true }
-								onChange={ ( value ) => setAttributes( { imageBorderWidth: value } ) }
+								onChange={ ( value ) => this.setAttributes( { imageBorderWidth: value } ) }
 							/>
 
 							{ imageShape === 'square' &&
@@ -996,7 +1014,7 @@ class Carousel extends Component {
 								max={ 20 }
 								initialPosition={ 0 }
 								allowReset={ true }
-								onChange={ ( value ) => setAttributes( { imageBorderRadius: value } ) }
+								onChange={ ( value ) => this.setAttributes( { imageBorderRadius: value } ) }
 							/>
 							}
 

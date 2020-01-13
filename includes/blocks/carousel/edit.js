@@ -1110,13 +1110,15 @@ class Carousel extends Component {
 				slidesToScroll:   this.getAttribute( 'slidesToScroll', 1 ),
 			};
 
+			const imageSize = 'photo' === imageType ? 'large' : 'scaled';
+
 			const slides = entries.map( ( entry, i ) => {
 
 					return (
 						<div key={ i }>
 							<div className='slick-slide-grid'>
 								<div className='slick-slide-column'>
-									<EntryImage entry={ entry } type='photo' size='large' />
+									<EntryImage entry={ entry } type={ imageType } size={ imageSize } />
 									<EntryName tag='h3' entry={ entry } />
 									{ displayTitle && <EntryTitle entry={ entry } />}
 									{ displayPhone && <EntryPhoneNumbers entry={ entry } preferred={ true } />}

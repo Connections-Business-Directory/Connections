@@ -11,6 +11,7 @@
 
 			<?php $entry->getImage(
 				array(
+					'image'    => $atts['imageType'],
 					'preset'   => 'profile',
 					'lazyload' => FALSE,
 				)

@@ -599,7 +599,7 @@ class Carousel extends Component {
 			      // imageBorderWidth,
 			      imageCropMode,
 			      imageShape,
-			      imageType,
+			      // imageType,
 			      // layout,
 			      // listType,
 			      // position,
@@ -646,6 +646,7 @@ class Carousel extends Component {
 		const imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
 		const imageBorderRadius = this.getAttribute( 'imageBorderRadius', 0 );
 		const imageBorderWidth = this.getAttribute( 'imageBorderWidth', 0 );
+		const imageType = this.getAttribute( 'imageType', 'photo' );
 
 		const excerptWordLimit = this.getAttribute( 'excerptWordLimit', '' );
 
@@ -853,7 +854,7 @@ class Carousel extends Component {
 									{ value: 'logo', label: __( 'Logo', 'connections' ) },
 									{ value: 'photo', label: __( 'Photo', 'connections' ) },
 								] }
-								onChange={ ( value ) => setAttributes( { imageType: value } ) }
+								onChange={ ( value ) => this.setAttributes( { imageType: value } ) }
 							/>
 
 							<RadioControl

@@ -385,6 +385,16 @@ class Carousel {
 			}
 
 			/*
+			 * Sanitize image type.
+			 */
+			if ( array_key_exists( 'imageType', $block ) &&
+			     in_array( $block['imageType'], array( 'logo', 'photo' ) )
+			) {
+
+				$carousel['imageType'] = sanitize_key( $block['imageType'] );
+			}
+
+			/*
 			 * Sanitize the excerpt length.
 			 */
 			if ( array_key_exists( 'excerptWordLimit', $block ) ) {
@@ -640,6 +650,7 @@ class Carousel {
 			'displayEmail'     => TRUE,
 			'displaySocial'    => TRUE,
 			'displayExcerpt'   => TRUE,
+			'imageType'        => 'photo',
 			'excerptWordLimit' => 55,
 		);
 

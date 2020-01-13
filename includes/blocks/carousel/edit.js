@@ -248,8 +248,8 @@ class Carousel extends Component {
 			let arrowDotsColor = this.getAttribute( 'arrowDotsColor', '#000000' );
 			let backgroundColor = this.getAttribute( 'backgroundColor', '#FFFFFF' );
 			let borderColor = this.getAttribute( 'borderColor', '#000000' );
-			let borderRadius = this.getAttribute( 'borderRadius', '3' );
-			let borderWidth = this.getAttribute( 'borderWidth', '2' );
+			let borderRadius = this.getAttribute( 'borderRadius', 0 );
+			let borderWidth = this.getAttribute( 'borderWidth', 0 );
 			let color = this.getAttribute( 'color', '#000000' );
 
 			let imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
@@ -639,8 +639,8 @@ class Carousel extends Component {
 		const textColor = this.getAttribute( 'color', '#000000' );
 		const arrowDotsColor = this.getAttribute( 'arrowDotsColor', '#000000' );
 		const borderColor = this.getAttribute( 'borderColor', '#000000' );
-		const borderRadius = this.getAttribute( 'borderRadius', '3' );
-		const borderWidth = this.getAttribute( 'borderWidth', '2' );
+		const borderRadius = this.getAttribute( 'borderRadius', 0 );
+		const borderWidth = this.getAttribute( 'borderWidth', 0 );
 		const displayDropShadow = this.getAttribute( 'displayDropShadow', false );
 
 		const imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );

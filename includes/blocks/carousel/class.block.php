@@ -440,8 +440,8 @@ class Carousel {
 			$color           = cnArray::get( $carousel, 'color', '#000000' );
 
 			$borderColor  = cnArray::get( $carousel, 'borderColor', '#000000' );
-			$borderRadius = cnArray::get( $carousel, 'borderRadius', '3' );
-			$borderWidth  = cnArray::get( $carousel, 'borderWidth', '2' );
+			$borderRadius = cnArray::get( $carousel, 'borderRadius', 0 );
+			$borderWidth  = cnArray::get( $carousel, 'borderWidth', 0 );
 
 			$imageBorderColor  = cnArray::get( $carousel, 'imageBorderColor', '#000000' );
 			$imageBorderRadius = cnArray::get( $carousel, 'imageBorderRadius', 0 );

@@ -615,6 +615,11 @@ input.leaflet-control-layers-selector {
 	vertical-align: unset;
 }
 
+.leaflet-control-container .leaflet-control a,
+.leaflet-control-container .leaflet-control a:hover {
+	text-decoration: none;
+}
+
 /*
  * Return to top.
  */

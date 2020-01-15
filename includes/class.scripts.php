@@ -299,7 +299,7 @@ class cnScript {
 						'name'         => 'Wikimedia',
 						'tileLayer'    => '//maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
 						'key_required' => FALSE,
-						'attribution'  => $backlink . ' | ' . $wikimedia,
+						'attribution'  => $backlink . ' | ' . $wikimedia . ' | ' . $osm,
 						'maxZoom'      => '19',
 					),
 				),

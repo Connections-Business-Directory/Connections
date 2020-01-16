@@ -223,7 +223,7 @@ class cnOutput extends cnEntry {
 
 					} else {
 
-						$preset = array( 'thumbnail' => 'thumbnail', 'medium' => 'entry', 'large' => 'profile' );
+						$preset = array( 'thumbnail' => 'thumbnail', 'medium' => 'entry', 'large' => 'profile', 'original' => 'original' );
 
 						if ( $size = array_search( $atts['preset'], $preset ) ) {
 

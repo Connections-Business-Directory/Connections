@@ -316,10 +316,12 @@ class cnOutput extends cnEntry {
 
 					} else {
 
+						$preset = array( 'scaled' => 'scaled', 'original' => 'original' );
+
 						$image = $this->getImageMeta(
 							array(
 								'type' => 'logo',
-								'size' => 'scaled',
+								'size' => array_search( $atts['preset'], $preset ),
 							)
 						);
 

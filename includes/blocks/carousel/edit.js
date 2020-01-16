@@ -234,7 +234,7 @@ class Carousel extends Component {
 		/*
 		 * See note in constructor() about the sliderKey.
 		 */
-		if ( has( prevCarousel, 'autoplay' ) && prevCarousel.autoplay !== carousel.autoplay ) {
+		if ( ! isUndefined( prevCarousel ) && prevCarousel.autoplay !== carousel.autoplay ) {
 
 			this.setState( {
 				sliderKey: new Date().getTime() / 1000

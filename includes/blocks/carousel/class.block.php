@@ -621,7 +621,7 @@ class Carousel {
 		if ( cnArray::get( $carousel, 'arrows', TRUE ) ) array_push( $classNames, 'slick-slider-has-arrows' );
 		if ( cnArray::get( $carousel, 'dots', TRUE ) ) array_push( $classNames, 'slick-slider-has-dots' );
 
-		if ( cnArray::get( $carousel, 'displayDropShadow', TRUE ) ) array_push( $classNames, 'slick-slider-has-shadow' );
+		if ( cnArray::get( $carousel, 'displayDropShadow', FALSE ) ) array_push( $classNames, 'slick-slider-has-shadow' );
 
 		array_push( $classNames, "slick-slider-slides-{$settings['slidesToShow']}" );
 

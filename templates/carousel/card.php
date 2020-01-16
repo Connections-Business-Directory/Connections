@@ -12,7 +12,9 @@
 			<?php $entry->getImage(
 				array(
 					'image'    => $atts['imageType'],
-					'preset'   => 'profile',
+					'size'     => 'custom',
+					'width'    => 600,
+					'height'   => 600,
 					'lazyload' => FALSE,
 				)
 			);

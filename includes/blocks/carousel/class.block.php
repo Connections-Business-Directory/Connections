@@ -395,6 +395,16 @@ class Carousel {
 			}
 
 			/*
+			 * Sanitize image shape.
+			 */
+			if ( array_key_exists( 'imageShape', $block ) &&
+			     in_array( $block['imageShape'], array( 'circle', 'square' ) )
+			) {
+
+				$carousel['imageShape'] = sanitize_key( $block['imageShape'] );
+			}
+
+			/*
 			 * Sanitize the excerpt length.
 			 */
 			if ( array_key_exists( 'excerptWordLimit', $block ) ) {
@@ -456,6 +466,7 @@ class Carousel {
 			$imageBorderColor  = cnArray::get( $carousel, 'imageBorderColor', '#000000' );
 			$imageBorderRadius = cnArray::get( $carousel, 'imageBorderRadius', 0 );
 			$imageBorderWidth  = cnArray::get( $carousel, 'imageBorderWidth', 0 );
+			$imageShape        = cnArray::get( $carousel, 'imageShape', 'square' );
 
 			if ( 0 === strlen( $arrowDotsColor ) ) {
 
@@ -508,9 +519,11 @@ class Carousel {
 				"border-width: {$borderWidth}px",
 			);
 
+			$imageBorderRadius = 'circle' === $imageShape ? '50%' : "{$imageBorderRadius}px";
+
 			$imageStyle = array(
 				"border-color: {$imageBorderColor}",
-				"border-radius: {$imageBorderRadius}px",
+				"border-radius: {$imageBorderRadius}",
 				'border-style: solid',
 				"border-width: {$imageBorderWidth}px",
 				'overflow: hidden',

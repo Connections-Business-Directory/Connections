@@ -255,6 +255,7 @@ class Carousel extends Component {
 			let imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
 			let imageBorderRadius = this.getAttribute( 'imageBorderRadius', 0 );
 			let imageBorderWidth = this.getAttribute( 'imageBorderWidth', 0 );
+			let imageShape = this.getAttribute( 'imageShape', 'square' );
 
 			// Using the "Clear" button set the value to empty string. Use default color.
 			if ( ! arrowDotsColor ) { color = '#000000'; }
@@ -281,9 +282,11 @@ class Carousel extends Component {
 				`border-width: ${ borderWidth }px`,
 			];
 
+			imageBorderRadius = 'circle' === imageShape ? '50%' : imageBorderRadius + 'px';
+
 			const imageStyle = [
 				`border-color: ${ imageBorderColor }`,
-				`border-radius: ${ imageBorderRadius }px`,
+				`border-radius: ${ imageBorderRadius }`,
 				`border-style: solid`,
 				`border-width: ${ imageBorderWidth }px`,
 				'overflow: hidden'
@@ -442,6 +445,10 @@ class Carousel extends Component {
 			ENDPOINT,
 			{
 				...query,
+				_images: [
+					{ type: 'logo', size: 'custom', width: 600, height: 600 },
+					{ type: 'photo', size: 'custom', width: 600, height: 600 }
+				],
 				context: 'view',
 			}
 		);
@@ -598,7 +605,7 @@ class Carousel extends Component {
 			      // imageBorderRadius,
 			      // imageBorderWidth,
 			      imageCropMode,
-			      imageShape,
+			      // imageShape,
 			      // imageType,
 			      // layout,
 			      // listType,
@@ -646,6 +653,7 @@ class Carousel extends Component {
 		const imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
 		const imageBorderRadius = this.getAttribute( 'imageBorderRadius', 0 );
 		const imageBorderWidth = this.getAttribute( 'imageBorderWidth', 0 );
+		const imageShape = this.getAttribute( 'imageShape', 'square' );
 		const imageType = this.getAttribute( 'imageType', 'photo' );
 
 		const excerptWordLimit = this.getAttribute( 'excerptWordLimit', '' );
@@ -864,7 +872,16 @@ class Carousel extends Component {
 									{ value: 'circle', label: __( 'Circle', 'connections' ) },
 									{ value: 'square', label: __( 'Square', 'connections' ) },
 								] }
-								onChange={ ( value ) => setAttributes( { imageShape: value } ) }
+								onChange={ ( value ) => {
+
+									let atts = { imageShape: value };
+
+									if ( 'square' === value ) {
+										atts.imageBorderRadius = 0;
+									}
+
+									this.setAttributes( atts );
+								} }
 							/>
 						</div>
 
@@ -1111,7 +1128,7 @@ class Carousel extends Component {
 				slidesToScroll:   this.getAttribute( 'slidesToScroll', 1 ),
 			};
 
-			const imageSize = 'photo' === imageType ? 'large' : 'scaled';
+			// const imageSize = 'photo' === imageType ? 'large' : 'scaled';
 
 			const slides = entries.map( ( entry, i ) => {
 
@@ -1119,7 +1136,7 @@ class Carousel extends Component {
 						<div key={ i }>
 							<div className='slick-slide-grid'>
 								<div className='slick-slide-column'>
-									<EntryImage entry={ entry } type={ imageType } size={ imageSize } />
+									<EntryImage entry={ entry } type={ imageType } size='custom' />
 									<EntryName tag='h3' entry={ entry } />
 									{ displayTitle && <EntryTitle entry={ entry } />}
 									{ displayPhone && <EntryPhoneNumbers entry={ entry } preferred={ true } />}

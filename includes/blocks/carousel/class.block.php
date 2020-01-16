@@ -385,6 +385,14 @@ class Carousel {
 			}
 
 			/*
+			 * Sanitize the image crop mode.
+			 */
+			if ( array_key_exists( 'imageCropMode', $block ) ) {
+
+				$carousel['imageCropMode'] = absint( $block['imageCropMode'] );
+			}
+
+			/*
 			 * Sanitize image type.
 			 */
 			if ( array_key_exists( 'imageType', $block ) &&
@@ -664,6 +672,7 @@ class Carousel {
 			'displaySocial'    => TRUE,
 			'displayExcerpt'   => TRUE,
 			'imageType'        => 'photo',
+			'imageCropMode'    => 1,
 			'excerptWordLimit' => 55,
 		);
 

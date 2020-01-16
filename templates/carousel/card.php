@@ -15,6 +15,7 @@
 					'size'     => 'custom',
 					'width'    => 600,
 					'height'   => 600,
+					'zc'       => $atts['imageCropMode'],
 					'lazyload' => FALSE,
 				)
 			);

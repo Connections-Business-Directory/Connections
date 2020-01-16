@@ -431,6 +431,20 @@ class Carousel extends Component {
 
 			}
 
+			let zc = has( block, 'imageCropMode' ) ? block.imageCropMode : 1;
+			// zc = has( args, 'imageCropMode' ) ? args.imageCropMode : zc;
+
+			if ( has( args, 'imageCropMode' ) ) {
+
+				zc = args.imageCropMode;
+				delete args.imageCropMode;
+			}
+
+			query['_images'] = [
+				{ type: 'logo', size: 'custom', width: 600, height: 600, zc: zc },
+				{ type: 'photo', size: 'custom', width: 600, height: 600, zc: zc }
+			];
+
 			query = { ...query, ...args };
 		}
 
@@ -445,10 +459,10 @@ class Carousel extends Component {
 			ENDPOINT,
 			{
 				...query,
-				_images: [
-					{ type: 'logo', size: 'custom', width: 600, height: 600 },
-					{ type: 'photo', size: 'custom', width: 600, height: 600 }
-				],
+				// _images: [
+				// 	{ type: 'logo', size: 'custom', width: 600, height: 600 },
+				// 	{ type: 'photo', size: 'custom', width: 600, height: 600 }
+				// ],
 				context: 'view',
 			}
 		);
@@ -604,7 +618,7 @@ class Carousel extends Component {
 			      // imageBorderColor,
 			      // imageBorderRadius,
 			      // imageBorderWidth,
-			      imageCropMode,
+			      // imageCropMode,
 			      // imageShape,
 			      // imageType,
 			      // layout,
@@ -653,6 +667,7 @@ class Carousel extends Component {
 		const imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
 		const imageBorderRadius = this.getAttribute( 'imageBorderRadius', 0 );
 		const imageBorderWidth = this.getAttribute( 'imageBorderWidth', 0 );
+		const imageCropMode = this.getAttribute( 'imageCropMode', '1' );
 		const imageShape = this.getAttribute( 'imageShape', 'square' );
 		const imageType = this.getAttribute( 'imageType', 'photo' );
 
@@ -1046,7 +1061,7 @@ class Carousel extends Component {
 					<div style={ { marginTop: '20px' } }>
 						<RadioControl
 							label={ __( 'Image Crop Mode', 'connections' ) }
-							selected={ imageCropMode }
+							selected={ String( imageCropMode ) }
 							options={ [
 								{
 									value: '1',
@@ -1065,7 +1080,10 @@ class Carousel extends Component {
 									label: __( 'Resize to fit, no cropping. Image aspect ratio will not be maintained and will likely result in a stretch or squashed image.', 'connections' )
 								},
 							] }
-							onChange={ ( value ) => setAttributes( { imageCropMode: value } ) }
+							onChange={ ( value ) => {
+								this.setAttributes( { imageCropMode: value } );
+								this.fetchEntries( { imageCropMode: value } );
+							} }
 						/>
 
 						<TextControl

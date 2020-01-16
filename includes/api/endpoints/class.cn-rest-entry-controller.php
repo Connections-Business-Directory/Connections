@@ -331,7 +331,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
 		}
 
-		$data['images'] = $this->prepare_images_for_response( $entry );
+		$data['images'] = $this->prepare_images_for_response( $entry, $request );
 
 		cnArray::set( $data, 'visibility', $entry->getVisibility() );
 		cnArray::set( $data, 'status', $entry->getStatus() );
@@ -491,43 +491,151 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * @since 9.3.3
 	 *
-	 * @param cnOutput $entry
+	 * @param cnOutput        $entry    Entry object.
+	 * @param WP_REST_Request $request  Request object.
 	 *
 	 * @return array
 	 */
-	public function prepare_images_for_response( $entry ) {
+	public function prepare_images_for_response( $entry, $request ) {
 
-		$images = array();
-		$types  = array(
+		$requestParams = $request->get_params();
+		$valid         = array(
 			'logo'  => array( 'original', 'scaled' ),
 			'photo' => array( 'thumbnail', 'medium', 'large', 'original' ),
 		);
+		$requested     = array();
+		$meta          = array();
 
-		foreach ( $types as $type => $sizes ) {
+		// Parse REST request.
+		if ( cnArray::exists( $requestParams, '_images' ) ) {
 
-			foreach ( $sizes as $size ) {
+			$images = cnArray::get( $requestParams, '_images', array() );
 
-				$image = $entry->getImageMeta( array( 'size' => $size, 'type' => $type ) );
+			// Not an array request likely invalid or not formatted correctly, return empty array.
+			if ( ! is_array( $images ) ) return $meta;
 
-				if ( ! is_wp_error( $image ) ) {
+			foreach ( $images as $image ) {
 
-					cnArray::forget( $image, 'log' );
-					cnArray::forget( $image, 'path' );
-					cnArray::forget( $image, 'source' );
-					cnArray::forget( $image, 'type' );
+				// Not an array request likely invalid or not formatted correctly, continue to next item in image request.
+				if ( ! is_array( $image ) ) continue;
 
-					$image = cnArray::add(
-						$image,
-						'rendered',
-						$entry->getImage( array( 'preset' => 'entry', 'type' => $type, 'return' => TRUE ) )
-					);
+				// If type does not exist, continue to next item in image request.
+				if ( ! cnArray::exists( $image, 'type' ) ) continue;
 
-					$images = cnArray::add( $images, "{$type}.{$size}", $image );
+				$type = cnArray::get( $image, 'type' );
+
+				// Not a valid image type, continue to next item in image request.
+				if ( ! in_array( $type, array( 'logo', 'photo' ) ) ) continue;
+
+				// If a size is requested, parse it, if not, return all valid sizes.
+				if ( cnArray::exists( $image, 'size' ) ) {
+
+					$size = cnArray::get( $image, 'size' );
+
+					// if the requested size is valid, add it to the requested images.
+					if ( in_array( $size, $valid[ $type ] ) ) {
+
+						array_push(
+							$requested,
+							array(
+								'type' => $type,
+								'size' => $size,
+								//'zc'   => cnArray::get( $image, 'zc', 1 ),
+							)
+						);
+
+					} elseif ( 'custom' === $size ) {
+
+						// Get image by custom size.
+						array_push(
+							$requested,
+							array(
+								'type'   => $type,
+								'size'   => 'custom',
+								'width'  => absint( cnArray::get( $image, 'width' ) ),
+								'height' => absint( cnArray::get( $image, 'height' ) ),
+								'zc'     => absint( cnArray::get( $image, 'zc', 1 ) ),
+							)
+						);
+					}
+
+				} else {
+
+					// So image size specified, return all standard image size for the requested image type.
+					foreach ( $valid[ $type ] as $size ) {
+
+						array_push( $requested, array( 'type' => $type, 'size' => $size ) );
+					}
+				}
+
+			}
+
+		} else {
+
+			// No images specified, return all standard images sizes.
+			foreach ( $valid as $type => $sizes ) {
+
+				foreach ( $sizes as $size ) {
+
+					array_push( $requested, array( 'type' => $type, 'size' => $size ) );
 				}
 			}
 		}
 
-		return $images;
+		// Process REST request.
+		foreach ( $requested as $data ) {
+
+			$type   = cnArray::get( $data, 'type' );
+			$size   = cnArray::get( $data, 'size', 'original' );
+			$width  = cnArray::get( $data, 'width', 0 );
+			$height = cnArray::get( $data, 'height', 0 );
+			$crop   = cnArray::get( $data, 'zc', 1 );
+
+			$image = $entry->getImageMeta(
+				array(
+					'type'      => $type,
+					'size'      => $size,
+					'width'     => $width,
+					'height'    => $height,
+					'crop_mode' => $crop,
+				)
+			);
+
+			if ( ! is_wp_error( $image ) ) {
+
+				$preset = array(
+					'thumbnail' => 'thumbnail',
+					'medium'    => 'entry',
+					'large'     => 'profile',
+					'original'  => 'original',
+				);
+
+				cnArray::forget( $image, 'log' );
+				cnArray::forget( $image, 'path' );
+				cnArray::forget( $image, 'source' );
+				cnArray::forget( $image, 'type' );
+
+				$image = cnArray::add(
+					$image,
+					'rendered',
+					$entry->getImage(
+						array(
+							'image'  => $type,
+							'preset' => $preset[ $size ],
+							'width'  => $width,
+							'height' => $height,
+							'zc'     => $crop,
+							'return' => TRUE,
+						)
+					)
+				);
+
+				$meta = cnArray::add( $meta, "{$type}.{$size}", $image );
+			}
+
+		}
+
+		return $meta;
 	}
 
 	/**

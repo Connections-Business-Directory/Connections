@@ -19,5 +19,6 @@ export { default as EntryImage } from './entry/image';
 export { default as EntryPhoneNumbers } from './entry/phone-numbers';
 export { default as EntryEmail } from './entry/email';
 export { default as EntrySocialNetworks } from './entry/social-networks';
+export { default as EntryExcerpt } from './entry/excerpt'
 
 export { default as SocialNetworkIcon } from './entry/social-network-icon';

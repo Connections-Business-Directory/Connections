@@ -56,8 +56,7 @@ import 'slick-carousel/slick/slick-theme.css';
 /**
  * External dependencies
  */
-import { cloneDeep, findIndex, has, isUndefined } from 'lodash';
-// import classnames from 'classnames';
+import { findIndex, has, isUndefined } from 'lodash';
 
 /**
  * Internal dependencies
@@ -70,9 +69,8 @@ import {
 	EntryPhoneNumbers,
 	EntryEmail,
 	EntrySocialNetworks,
+	EntryExcerpt,
 } from "@Connections-Directory/components";
-import EntryExcerpt from "@Connections-Directory/components/entry/excerpt";
-// import EntryTypeSelectControl from './components/entry-type-select-control';
 
 import { isNumber } from "@Connections-Directory/components/utility";
 
@@ -163,19 +161,6 @@ class Carousel extends Component {
 
 		setAttributes( { blockId: id } );
 	}
-
-	// /**
-	//  * Tests whether or not supplied variable is numeric or not.
-	//  *
-	//  * @todo This should be moved to a helper library.
-	//  * @link https://stackoverflow.com/a/15043984/5351316
-	//  *
-	//  * @param n
-	//  * @return {boolean}
-	//  */
-	// isNumber( n ) {
-	// 	return ( Object.prototype.toString.call( n ) === '[object Number]' || Object.prototype.toString.call( n ) === '[object String]' ) && !isNaN( parseFloat( n ) ) && isFinite( n.toString().replace( /^-/, '' ) );
-	// }
 
 	componentDidMount() {
 		// console.log( this.props.name, ': componentDidMount()' );
@@ -316,7 +301,7 @@ class Carousel extends Component {
 
 		const {
 			      attributes: { blockId },
-			      isSelected,
+			      // isSelected,
 			      metaCarousels,
 			      setMetaFieldValue,
 		      } = this.props;
@@ -387,12 +372,6 @@ class Carousel extends Component {
 
 			const block = blocks[ index ];
 
-			// query = {
-			// 	type:     block.listType,
-			// 	category: block.categories,
-			// 	...args
-			// };
-
 			if ( has( block, 'listType' ) ) {
 
 				query['type'] = block.listType;
@@ -432,7 +411,6 @@ class Carousel extends Component {
 			}
 
 			let zc = has( block, 'imageCropMode' ) ? block.imageCropMode : 1;
-			// zc = has( args, 'imageCropMode' ) ? args.imageCropMode : zc;
 
 			if ( has( args, 'imageCropMode' ) ) {
 
@@ -459,10 +437,6 @@ class Carousel extends Component {
 			ENDPOINT,
 			{
 				...query,
-				// _images: [
-				// 	{ type: 'logo', size: 'custom', width: 600, height: 600 },
-				// 	{ type: 'photo', size: 'custom', width: 600, height: 600 }
-				// ],
 				context: 'view',
 			}
 		);
@@ -596,40 +570,13 @@ class Carousel extends Component {
 
 		const {
 			      attributes,
-			      // instanceId,
-			      setAttributes,
 		      } = this.props;
 
 		const {
-			      // advancedBlockOptions,
-			      // blocks,
 			      blockId,
-			      // carousels,
-			      // categories,
-			      // categoriesExclude,
-			      // categoriesIn,
-			      // columns,
-			      // borderColor,
-			      // borderRadius,
-			      // borderWidth,
-			      // displayDropShadow,
-			      // excerptWordLimit,
-			      // gutterWidth,
-			      // imageBorderColor,
-			      // imageBorderRadius,
-			      // imageBorderWidth,
-			      // imageCropMode,
-			      // imageShape,
-			      // imageType,
-			      // layout,
-			      // listType,
-			      // position,
-			      // rows,
-			      // style,
-			      // variation,
 		      } = attributes;
 
-		const blockIndex = this.getIndex();
+		// const blockIndex = this.getIndex();
 		const entryTypeSelectOptions = [];
 
 		// console.log( 'render::blockIndex ', blockIndex );

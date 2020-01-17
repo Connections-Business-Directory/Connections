@@ -8,7 +8,7 @@ import { unescape as unescapeString, without, find, invoke, startCase } from 'lo
  */
 const { __, _x, _n, sprintf } = wp.i18n;
 const { Component } = wp.element;
-const { withSpokenMessages, Spinner } = wp.components;
+const { CheckboxControl, withSpokenMessages, Spinner } = wp.components;
 // const { withSelect, withDispatch } = wp.data;
 const { withInstanceId, compose } = wp.compose;
 const { apiFetch } = wp;
@@ -18,6 +18,7 @@ const { addQueryArgs } = wp.url;
  * Internal dependencies
  */
 import { buildTermsTree } from '../../utils/terms';
+import './style.scss';
 
 /**
  * Module Constants
@@ -47,11 +48,11 @@ class HierarchicalTermSelector extends Component {
 		};
 	}
 
-	onChange( event ) {
+	onChange( termId ) {
 
 		const { onChange, terms } = this.props;
 
-		const termId   = parseInt( event.target.value, 10 );
+		// const termId   = parseInt( event.target.value, 10 );
 		const hasTerm  = terms.indexOf( termId ) !== -1;
 		const newTerms = hasTerm ? without( terms, termId ) : [ ...terms, termId ];
 
@@ -234,21 +235,22 @@ class HierarchicalTermSelector extends Component {
 			const id = `editor-post-taxonomies-hierarchical-term-${ term.id }`;
 
 			return (
-				<div key={ term.id } className="editor-post-taxonomies__hierarchical-terms-choice">
-					<input
-						id={ id }
-						className="editor-post-taxonomies__hierarchical-terms-input"
-						type="checkbox"
+				<div key={ term.id } className="editor-post-taxonomies__hierarchical-terms-choice cbd__hierarchical-terms-choice">
+
+					<CheckboxControl
 						checked={ terms.indexOf( term.id ) !== -1 }
-						value={ term.id }
-						onChange={ this.onChange }
+						onChange={ () => {
+							const termId = parseInt( term.id, 10 );
+							this.onChange( termId );
+						} }
+						label={ unescapeString( term.name ) }
 					/>
-					<label htmlFor={ id }>{ unescapeString( term.name ) }</label>
 					{ !! term.children.length && (
 						<div className="editor-post-taxonomies__hierarchical-terms-subchoices">
 							{ this.renderTerms( term.children ) }
 						</div>
 					) }
+
 				</div>
 			);
 		} );

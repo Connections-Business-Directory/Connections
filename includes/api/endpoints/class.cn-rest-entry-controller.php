@@ -136,7 +136,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		foreach ( $results as $result ) {
 
-			$entry = new cnEntry( $result );
+			$entry = new cnOutput( $result );
 
 			$data = $this->prepare_item_for_response( $entry, $request );
 			$entries[] = $this->prepare_response_for_collection( $data );
@@ -215,7 +215,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_entry_invalid_id', __( 'Invalid entry ID.', 'connections' ), array( 'status' => 404 ) );
 		}
 
-		$entry = new cnEntry( $result[0] );
+		$entry = new cnOutput( $result[0] );
 
 		$data     = $this->prepare_item_for_response( $entry, $request );
 		$response = rest_ensure_response( $data );
@@ -239,12 +239,18 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
+		$categoryIn = cnArray::get( $request, 'category_in', FALSE );
+		cnFormatting::toBoolean( $categoryIn );
+
+		$category = $categoryIn ? 'category_in' : 'category';
+
 		$defaults = array(
-			'list_type' => $request['type'],
-			'category'  => $request['category'],
-			'id'        => NULL,
-			'limit'     => $request['per_page'],
-			'offset'    => $request['offset'],
+			'list_type'        => cnArray::get( $request, 'type', NULL ),
+			$category          => cnArray::get( $request, 'categories', NULL ),
+			'exclude_category' => cnArray::get( $request, 'categories_exclude', NULL ),
+			'id'               => cnArray::get( $request, 'id', NULL ),
+			'limit'            => cnArray::get( $request, 'per_page', 10 ),
+			'offset'           => cnArray::get( $request, 'offset', 0 ),
 		);
 
 		$atts = cnSanitize::args( $untrusted, $defaults );
@@ -257,102 +263,78 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	/**
 	 * Prepare a single entry output for response.
 	 *
-	 * @param cnEntry         $entry   Post object.
+	 * @param cnOutput        $entry   Post object.
 	 * @param WP_REST_Request $request Request object.
 	 *
 	 * @return WP_REST_Response $data
 	 */
 	public function prepare_item_for_response( $entry, $request ) {
 
+		$requestParams = $request->get_params();
 		$data = array();
 
-		//$entry->directoryHome(
-		//	array(
-		//		'page_id'    => $homeID,
-		//		'force_home' => $forceHome,
-		//	)
-		//);
+		cnArray::set( $data, 'id', $entry->getId() );
+		cnArray::set( $data, 'type', $entry->getEntryType() );
+		cnArray::set( $data, 'slug', $entry->getSlug() );
 
-		/**
-		 * @todo `raw` should only be sent in the `edit` context to match WP core API endpoints.
-		 * @link https://github.com/WP-API/WP-API/issues/2948#issuecomment-265433906
-		 */
+		cnArray::set( $data, 'name.rendered', $entry->getName() );
 
-		$data['id']   = $entry->getId();
-		$data['type'] = $entry->getEntryType();
-		$data['slug'] = $entry->getSlug();
+		cnArray::set( $data, 'honorific_prefix.rendered', $entry->getHonorificPrefix() );
+		cnArray::set( $data, 'given_name.rendered', $entry->getFirstName() );
+		cnArray::set( $data, 'additional_name.rendered', $entry->getMiddleName() );
+		cnArray::set( $data, 'family_name.rendered', $entry->getLastName() );
+		cnArray::set( $data, 'honorific_suffix.rendered', $entry->getHonorificSuffix() );
 
-		$data['name'] = array(
-			'raw'      => $entry->getName( array(), 'raw' ),
-			'rendered' => $entry->getName(),
-		);
+		cnArray::set( $data, 'job_title.rendered', $entry->getTitle() );
+		cnArray::set( $data, 'org.organization_name.rendered', $entry->getOrganization() );
+		cnArray::set( $data, 'org.organization_unit.rendered', $entry->getDepartment() );
 
-		$data['honorific_prefix'] = array(
-			'raw'      => $entry->getHonorificPrefix( 'raw' ),
-			'rendered' => $entry->getHonorificPrefix(),
-		);
-
-		$data['given_name'] = array(
-			'raw'      => $entry->getFirstName( 'raw' ),
-			'rendered' => $entry->getFirstName(),
-		);
-
-		$data['additional_name'] = array(
-			'raw'      => $entry->getMiddleName( 'raw' ),
-			'rendered' => $entry->getMiddleName(),
-		);
-
-		$data['family_name'] = array(
-			'raw'      => $entry->getLastName( 'raw' ),
-			'rendered' => $entry->getLastName(),
-		);
-
-		$data['honorific_suffix'] = array(
-			'raw'      => $entry->getHonorificSuffix( 'raw' ),
-			'rendered' => $entry->getHonorificSuffix(),
-		);
-
-		$data['job_title'] = array(
-			'raw'      => $entry->getTitle( 'raw' ),
-			'rendered' => $entry->getTitle(),
-		);
-
-		$data['org'] = array(
-			'organization_name' => array(
-				'raw'      => $entry->getDepartment( 'raw' ),
-				'rendered' => $entry->getDepartment(),
-			),
-			'organization_unit' => array(
-				'raw'      => $entry->getOrganization( 'raw' ),
-				'rendered' => $entry->getOrganization(),
-			),
-		);
-
-		$data['contact'] = array(
-			'given_name' => array(
-				'raw'      => $entry->getContactFirstName( 'raw' ),
-				'rendered' => $entry->getContactFirstName(),
-			),
-			'family_name' => array(
-				'raw'      => $entry->getContactLastName( 'raw' ),
-				'rendered' => $entry->getContactLastName(),
-			),
-		);
+		cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
+		cnArray::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
 
 		$data = $this->prepare_address_for_response( $entry, $request, $data );
+		$data = $this->prepare_phone_for_response( $entry, $request, $data );
+		$data = $this->prepare_email_for_response( $entry, $request, $data );
+		$data = $this->prepare_social_for_response( $entry, $request, $data );
 
-		$data['bio'] = array(
-			'raw'      => $entry->getBio( 'raw' ),
-			'rendered' => $entry->getBio(),
+		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
+		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
+
+		$excerptParameters = array(
+			'length' => cnArray::get( $requestParams, '_excerpt.length', apply_filters( 'cn_excerpt_length', 55 ) ),
+			'more'   => cnArray::get( $requestParams, '_excerpt.more', '' ),
 		);
 
-		$data['notes'] = array(
-			'raw'      => $entry->getNotes( 'raw' ),
-			'rendered' => $entry->getNotes(),
-		);
+		cnArray::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt( $excerptParameters ) ) );
 
-		$data['visibility'] = $entry->getVisibility();
-		$data['status']     = $entry->getStatus();
+		if ( 'edit' === $request['context'] &&
+		     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+		) {
+
+			cnArray::set( $data, 'name.raw', $entry->getName( array(), 'raw' ) );
+			cnArray::set( $data, 'honorific_prefix.raw', $entry->getHonorificPrefix( 'raw' ) );
+			cnArray::set( $data, 'given_name.raw', $entry->getFirstName( 'raw' ) );
+			cnArray::set( $data, 'additional_name.raw', $entry->getMiddleName( 'raw' ) );
+			cnArray::set( $data, 'family_name.raw', $entry->getLastName( 'raw' ) );
+			cnArray::set( $data, 'honorific_suffix.raw', $entry->getHonorificSuffix( 'raw' ) );
+
+			cnArray::set( $data, 'job_title.raw', $entry->getTitle( 'raw' ) );
+			cnArray::set( $data, 'org.organization_name.raw', $entry->getOrganization( 'raw' ) );
+			cnArray::set( $data, 'org.organization_unit.raw', $entry->getDepartment( 'raw' ) );
+
+			cnArray::set( $data, 'contact.given_name.raw', $entry->getContactFirstName( 'raw' ) );
+			cnArray::set( $data, 'contact.family_name.raw', $entry->getContactLastName( 'raw' ) );
+
+			cnArray::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
+			cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
+
+			cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
+		}
+
+		$data['images'] = $this->prepare_images_for_response( $entry, $request );
+
+		cnArray::set( $data, 'visibility', $entry->getVisibility() );
+		cnArray::set( $data, 'status', $entry->getStatus() );
 
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
@@ -361,7 +343,303 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Prepare a single address output for response.
+	 * Prepare phone numbers for response.
+	 *
+	 * @param cnEntry         $entry   Post object.
+	 * @param WP_REST_Request $request Request object.
+	 * @param array           $data
+	 *
+	 * @return array $data
+	 */
+	private function prepare_phone_for_response( $entry, $request, $data ) {
+
+		$numbers = $entry->getPhoneNumbers( array(), TRUE, FALSE, 'raw' );
+
+		if ( empty( $numbers ) ) return $data;
+
+		$objects = array();
+
+		foreach ( $numbers as $phone ) {
+
+			$object = array(
+				'id'               => $phone->id,
+				'order'            => $phone->order,
+				'preferred'        => $phone->preferred,
+				'type'             => $phone->type,
+			);
+
+			cnArray::set(
+				$object,
+				'number.rendered',
+				cnSanitize::field( 'phone-number', $phone->number, 'display' )
+			);
+
+			if ( 'edit' === $request['context'] &&
+			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				cnArray::set( $object, 'number.raw', $phone->number );
+			}
+
+			array_push( $objects, $object );
+		}
+
+		cnArray::set( $data, 'tel', $objects );
+
+		return $data;
+	}
+
+	/**
+	 * Prepare email addresses for response.
+	 *
+	 * @param cnEntry         $entry   Post object.
+	 * @param WP_REST_Request $request Request object.
+	 * @param array           $data
+	 *
+	 * @return array $data
+	 */
+	private function prepare_email_for_response( $entry, $request, $data ) {
+
+		$emailAddresses = $entry->getEmailAddresses( array(), TRUE, FALSE, 'raw' );
+
+		if ( empty( $emailAddresses ) ) return $data;
+
+		$objects = array();
+
+		foreach ( $emailAddresses as $email ) {
+
+			$object = array(
+				'id'               => $email->id,
+				'order'            => $email->order,
+				'preferred'        => $email->preferred,
+				'type'             => $email->type,
+			);
+
+			cnArray::set(
+				$object,
+				'address.rendered',
+				sanitize_email(  $email->address )
+			);
+
+			if ( 'edit' === $request['context'] &&
+			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				cnArray::set( $object, 'address.raw', $email->address );
+			}
+
+			array_push( $objects, $object );
+		}
+
+		cnArray::set( $data, 'email', $objects );
+
+		return $data;
+	}
+
+	/**
+	 * Prepare social networks for response.
+	 *
+	 * @param cnEntry         $entry   Post object.
+	 * @param WP_REST_Request $request Request object.
+	 * @param array           $data
+	 *
+	 * @return array $data
+	 */
+	private function prepare_social_for_response( $entry, $request, $data ) {
+
+		$networks = $entry->getSocialMedia( array(), TRUE, FALSE, 'raw' );
+
+		if ( empty( $networks ) ) return $data;
+
+		$objects = array();
+
+		foreach ( $networks as $network ) {
+
+			$socialNetworks = cnOptions::getRegisteredSocialNetworkTypes();
+
+			$object = array(
+				'id'        => $network->id,
+				'order'     => $network->order,
+				'preferred' => $network->preferred,
+				'slug'      => $socialNetworks[ $network->type ]['slug'],
+				'type'      => $network->type,
+			);
+
+			cnArray::set(
+				$object,
+				'url',
+				cnSanitize::field( 'url', $network->url, 'display' )
+			);
+
+			//if ( 'edit' === $request['context'] &&
+			//     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			//) {
+			//
+			//	cnArray::set( $object, 'url.raw', $network->address );
+			//}
+
+			array_push( $objects, $object );
+		}
+
+		cnArray::set( $data, 'social', $objects );
+
+		return $data;
+	}
+
+	/**
+	 * Build image type and size for response.
+	 *
+	 * @since 9.3.3
+	 *
+	 * @param cnOutput        $entry    Entry object.
+	 * @param WP_REST_Request $request  Request object.
+	 *
+	 * @return array
+	 */
+	public function prepare_images_for_response( $entry, $request ) {
+
+		$requestParams = $request->get_params();
+		$valid         = array(
+			'logo'  => array( 'original', 'scaled' ),
+			'photo' => array( 'thumbnail', 'medium', 'large', 'original' ),
+		);
+		$requested     = array();
+		$meta          = array();
+
+		// Parse REST request.
+		if ( cnArray::exists( $requestParams, '_images' ) ) {
+
+			$images = cnArray::get( $requestParams, '_images', array() );
+
+			// Not an array request likely invalid or not formatted correctly, return empty array.
+			if ( ! is_array( $images ) ) return $meta;
+
+			foreach ( $images as $image ) {
+
+				// Not an array request likely invalid or not formatted correctly, continue to next item in image request.
+				if ( ! is_array( $image ) ) continue;
+
+				// If type does not exist, continue to next item in image request.
+				if ( ! cnArray::exists( $image, 'type' ) ) continue;
+
+				$type = cnArray::get( $image, 'type' );
+
+				// Not a valid image type, continue to next item in image request.
+				if ( ! in_array( $type, array( 'logo', 'photo' ) ) ) continue;
+
+				// If a size is requested, parse it, if not, return all valid sizes.
+				if ( cnArray::exists( $image, 'size' ) ) {
+
+					$size = cnArray::get( $image, 'size' );
+
+					// if the requested size is valid, add it to the requested images.
+					if ( in_array( $size, $valid[ $type ] ) ) {
+
+						array_push(
+							$requested,
+							array(
+								'type' => $type,
+								'size' => $size,
+								//'zc'   => cnArray::get( $image, 'zc', 1 ),
+							)
+						);
+
+					} elseif ( 'custom' === $size ) {
+
+						// Get image by custom size.
+						array_push(
+							$requested,
+							array(
+								'type'   => $type,
+								'size'   => 'custom',
+								'width'  => absint( cnArray::get( $image, 'width' ) ),
+								'height' => absint( cnArray::get( $image, 'height' ) ),
+								'zc'     => absint( cnArray::get( $image, 'zc', 1 ) ),
+							)
+						);
+					}
+
+				} else {
+
+					// So image size specified, return all standard image size for the requested image type.
+					foreach ( $valid[ $type ] as $size ) {
+
+						array_push( $requested, array( 'type' => $type, 'size' => $size ) );
+					}
+				}
+
+			}
+
+		} else {
+
+			// No images specified, return all standard images sizes.
+			foreach ( $valid as $type => $sizes ) {
+
+				foreach ( $sizes as $size ) {
+
+					array_push( $requested, array( 'type' => $type, 'size' => $size ) );
+				}
+			}
+		}
+
+		// Process REST request.
+		foreach ( $requested as $data ) {
+
+			$type   = cnArray::get( $data, 'type' );
+			$size   = cnArray::get( $data, 'size', 'original' );
+			$width  = cnArray::get( $data, 'width', 0 );
+			$height = cnArray::get( $data, 'height', 0 );
+			$crop   = cnArray::get( $data, 'zc', 1 );
+
+			$image = $entry->getImageMeta(
+				array(
+					'type'      => $type,
+					'size'      => $size,
+					'width'     => $width,
+					'height'    => $height,
+					'crop_mode' => $crop,
+				)
+			);
+
+			if ( ! is_wp_error( $image ) ) {
+
+				$preset = array(
+					'thumbnail' => 'thumbnail',
+					'medium'    => 'entry',
+					'large'     => 'profile',
+					'original'  => 'original',
+				);
+
+				cnArray::forget( $image, 'log' );
+				cnArray::forget( $image, 'path' );
+				cnArray::forget( $image, 'source' );
+				cnArray::forget( $image, 'type' );
+
+				$image = cnArray::add(
+					$image,
+					'rendered',
+					$entry->getImage(
+						array(
+							'image'  => $type,
+							'preset' => $preset[ $size ],
+							'width'  => $width,
+							'height' => $height,
+							'zc'     => $crop,
+							'return' => TRUE,
+						)
+					)
+				);
+
+				$meta = cnArray::add( $meta, "{$type}.{$size}", $image );
+			}
+
+		}
+
+		return $meta;
+	}
+
+	/**
+	 * Prepare addresses for response.
 	 *
 	 * @param cnEntry         $entry   Post object.
 	 * @param WP_REST_Request $request Request object.
@@ -371,65 +649,105 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 */
 	private function prepare_address_for_response( $entry, $request, $data ) {
 
-		$data['adr'] = array();
-		$addresses   = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
+		$addresses = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
 
 		if ( empty( $addresses ) ) return $data;
 
+		$objects = array();
+
 		foreach ( $addresses as $address ) {
 
-			$item = array(
+			$object = array(
 				'id'               => $address->id,
 				'order'            => $address->order,
 				'preferred'        => $address->preferred,
 				'type'             => $address->type,
-				'street_address'   => array(
-					'raw'      => $address->line_1,
-					'rendered' => cnSanitize::field( 'street', $address->line_1, 'display' ),
-				),
-				'extended_address' => array(
-					'raw'      => $address->line_2,
-					'rendered' => cnSanitize::field( 'street', $address->line_2, 'display' ),
-				),
-				'extended_address_2' => array(
-					'raw'      => $address->line_3,
-					'rendered' => cnSanitize::field( 'street', $address->line_3, 'display' ),
-				),
-				'extended_address_3' => array(
-					'raw'      => $address->line_4,
-					'rendered' => cnSanitize::field( 'street', $address->line_4, 'display' ),
-				),
-				'district'         => array(
-					'raw'      => $address->district,
-					'rendered' => cnSanitize::field( 'district', $address->district, 'display' ),
-				),
-				'county'           => array(
-					'raw'      => $address->county,
-					'rendered' => cnSanitize::field( 'county', $address->county, 'display' ),
-				),
-				'locality'         => array(
-					'raw'      => $address->city,
-					'rendered' => cnSanitize::field( 'locality', $address->city, 'display' ),
-				),
-				'region'           => array(
-					'raw'      => $address->state,
-					'rendered' => cnSanitize::field( 'region', $address->state, 'display' ),
-				),
-				'postal_code'      => array(
-					'raw'      => $address->zipcode,
-					'rendered' => cnSanitize::field( 'postal-code', $address->zipcode, 'display' ),
-				),
-				'country_name'     => array(
-					'raw'      => $address->country,
-					'rendered' => cnSanitize::field( 'country', $address->country, 'display' ),
-				),
-				'latitude'         => $address->latitude,
-				'longitude'        => $address->longitude,
-				'visibility'       => $address->visibility,
 			);
 
-			$data['adr'][] = $item;
+			cnArray::set(
+				$object,
+				'street_address.rendered',
+				cnSanitize::field( 'street', $address->line_1, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address.rendered',
+				cnSanitize::field( 'street', $address->line_2, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address_2.rendered',
+				cnSanitize::field( 'street', $address->line_3, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address_3.rendered',
+				cnSanitize::field( 'street', $address->line_4, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'district.rendered',
+				cnSanitize::field( 'district', $address->district, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'county.rendered',
+				cnSanitize::field( 'county', $address->county, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'locality.rendered',
+				cnSanitize::field( 'locality', $address->city, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'region.rendered',
+				cnSanitize::field( 'region', $address->state, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'postal_code.rendered',
+				cnSanitize::field( 'postal-code', $address->zipcode, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'country_name.rendered',
+				cnSanitize::field( 'country', $address->country, 'display' )
+			);
+
+			if ( 'edit' === $request['context'] &&
+			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				cnArray::set( $object, 'street_address.raw', $address->line_1 );
+				cnArray::set( $object, 'extended_address.raw', $address->line_2 );
+				cnArray::set( $object, 'extended_address_2.raw', $address->line_3 );
+				cnArray::set( $object, 'extended_address_3.raw', $address->line_4 );
+				cnArray::set( $object, 'district.raw', $address->district );
+				cnArray::set( $object, 'county.raw', $address->county );
+				cnArray::set( $object, 'locality.raw', $address->city );
+				cnArray::set( $object, 'region.raw', $address->state );
+				cnArray::set( $object, 'postal_code.raw', $address->zipcode );
+				cnArray::set( $object, 'country_name.raw', $address->country );
+			}
+
+			cnArray::set( $object, 'latitude', $address->latitude );
+			cnArray::set( $object, 'longitude', $address->longitude );
+			cnArray::set( $object, 'visibility', $address->visibility );
+
+			array_push( $objects, $object );
 		}
+
+		cnArray::set( $data, 'adr', $objects );
 
 		return $data;
 	}

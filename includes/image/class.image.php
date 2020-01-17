@@ -507,7 +507,7 @@ class cnImage {
 		remove_all_filters( 'image_resize_dimensions' );
 
 		/*
-		 * Start an instance of the logger if WP_DEBUG is defind and TRUE.
+		 * Start an instance of the logger if WP_DEBUG is defined and TRUE.
 		 */
 		$log->add( 'image_process_start', __( 'Image processing started.', 'connections' ) );
 

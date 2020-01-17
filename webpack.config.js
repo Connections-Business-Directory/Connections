@@ -8,7 +8,8 @@ const inProduction = ( 'production' === process.env.NODE_ENV );
 // const BrowserSyncPlugin = require( 'browser-sync-webpack-plugin' );
 // const ImageminPlugin = require( 'imagemin-webpack-plugin' ).default;
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' );
-const UglifyJsPlugin = require( "uglifyjs-webpack-plugin" );
+// const UglifyJsPlugin = require( "uglifyjs-webpack-plugin" );
+const TerserPlugin = require('terser-webpack-plugin');
 const WebpackRTLPlugin = require( 'webpack-rtl-plugin' );
 // const wpPot = require( 'wp-pot' );
 
@@ -215,8 +216,12 @@ const config = {
 	],
 	optimization: {
 		minimizer: [
-			new UglifyJsPlugin( {
-				sourceMap: true
+			// new UglifyJsPlugin( {
+			// 	sourceMap: true
+			// } )
+			new TerserPlugin( {
+				sourceMap: true,
+				test: /\.js(\?.*)?$/i,
 			} )
 		]
 	},
@@ -246,7 +251,8 @@ module.exports = [
 	Object.assign( {
 		entry: {
 			'babel-polyfill': '@babel/polyfill',
-			'blocks':         './includes/blocks/blocks.js',
+			'blocks-editor':  './includes/blocks/blocks.js',
+			'blocks-public':  './includes/blocks/public.js',
 			'icon-picker':    './assets/src',
 			'admin':          './assets/css/cn-admin.scss',
 			'frontend':       './assets/css/cn-user.scss',

@@ -147,6 +147,7 @@ class cnOutput extends cnEntry {
 			'sizes'     => array( '100vw' ),
 			'style'     => array(),
 			'action'    => 'display',
+			'lazyload'  => TRUE,
 			'permalink' => FALSE, // Defaulting this to false for now. Default this to true in future update.
 			'return'    => FALSE,
 		);
@@ -161,6 +162,7 @@ class cnOutput extends cnEntry {
 		 * Convert some of the $atts values in the array to boolean.
 		 */
 		cnFormatting::toBoolean( $atts['permalink'] );
+		cnFormatting::toBoolean( $atts['lazyload'] );
 
 		/*
 		 * // END -- Set the default attributes array if not supplied. \\
@@ -221,7 +223,7 @@ class cnOutput extends cnEntry {
 
 					} else {
 
-						$preset = array( 'thumbnail' => 'thumbnail', 'medium' => 'entry', 'large' => 'profile' );
+						$preset = array( 'thumbnail' => 'thumbnail', 'medium' => 'entry', 'large' => 'profile', 'original' => 'original' );
 
 						if ( $size = array_search( $atts['preset'], $preset ) ) {
 
@@ -314,10 +316,12 @@ class cnOutput extends cnEntry {
 
 					} else {
 
+						$preset = array( 'scaled' => 'scaled', 'original' => 'original' );
+
 						$image = $this->getImageMeta(
 							array(
 								'type' => 'logo',
-								'size' => 'scaled',
+								'size' => array_search( $atts['preset'], $preset ),
 							)
 						);
 
@@ -392,7 +396,7 @@ class cnOutput extends cnEntry {
 			}
 
 			// Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
-			$tag[] = 'loading="lazy"';
+			if ( $atts['lazyload'] ) $tag[] = 'loading="lazy"';
 
 			// All extensions to apply/remove inline styles.
 			$atts['style'] = apply_filters( 'cn_image_styles', $atts['style'] );
@@ -1842,6 +1846,8 @@ class cnOutput extends cnEntry {
 
 		//$out = '<span class="social-media-block">' . PHP_EOL;
 
+		$socialNetworks = cnOptions::getRegisteredSocialNetworkTypes();
+
 		foreach ( $networks as $network ) {
 			$replace   = array();
 			//$iconClass = array();
@@ -1854,7 +1860,7 @@ class cnOutput extends cnEntry {
 			//$iconClass[] = 'sz-' . $iconSize;
 
 			$iconClass = array(
-				"cn-brandicon-{$network->type}",
+				"cn-brandicon-{$socialNetworks[ $network->type ]['slug']}",
 				"cn-brandicon-size-{$iconSize}"
 			);
 

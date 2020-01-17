@@ -9,5 +9,5 @@ import './store/categories.js';
  */
 import './carousel';
 import './directory/index.js';
-import './team/'
+import './team/';
 import './upcoming/index.js';

@@ -3,9 +3,9 @@ Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, directory, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.7.12
-Tested up to: 5.2
+Tested up to: 5.3
 Requires PHP: 5.6.20
-Stable tag: 9.3.2
+Stable tag: 9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,72 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.4 01/17/2020 =
+* FEATURE: Introducing the Carousel block.
+* NEW: Introduce the `cn_pagination_links_args` filter.
+* NEW: Introduce support for the `categories_in` and `categories_exclude` parameters for the REST API.
+* NEW: Add entry image types and sizes to REST API response.
+* NEW: Add entry phone numbers to the REST response.
+* NEW: Add entry email addresses to the REST response.
+* NEW: Add entry social networks to REST response.
+* NEW: Add entry excerpt to the REST response.
+* NEW: Add parameters to the entry REST API controller to limit excerpt length to support the carousel block.
+* TWEAK: CSS tweaks to the Team block for improved display.
+* TWEAK: Update the hierarchical term checklist control to use the CheckboxControl.
+* TWEAK: Tweak image meta default for quality to match WP core.
+* TWEAK: Minor CSS tweak to the admin add/edit entry form for better display in WordPress 5.3.
+* TWEAK: The entry REST response data should only include the `raw` data in the `edit` context.
+* TWEAK: Add `lazyload` parameter to the `getImage` method.
+* TWEAK: Remove `!important` flag from a few CSS styles for pagination.
+* TWEAK: Add another couple styles tp keep themes from breaking links in maps.
+* TWEAK: Add OSM copyright to the Wikimedia map tile service provider.
+* TWEAK: Add `original` as preset image size option when getting entry photo for display.
+* TWEAK: Add the `scaled` and `preset` preset option for resting and entry logo.
+* TWEAK: Ensure the `$atts` variable passed by WordPress for the shortcode callback is always an array.
+* TWEAK: Make CSS selectors for social network icons less specific to allow usage in other locations in Connections.
+* BUG: Add `toggle-indicator` class so WP styles the toggle correctly.
+* COMPATIBILITY: The EasyTimetable plugin seems to be globally setting image visibility to hidden instead of using a selector to affect only itself. Add CSS to help ensure Connections images visibility is set to visible.
+* OTHER: Update the jQuery Validate library to version 1.19.1.
+* OTHER: Update FontAwesome dependencies.
+* DEV: Second pass at the carousel block.
+* DEV: Update dist files.
+* DEV: Another pass at the carousel block.
+* DEV: Bump test to version 5.3.
+* DEV: Add trailing semicolon.
+* DEV: Introduce the EntryName and EntryImage Block Editor components.
+* DEV: Remove trailing space.
+* DEV: Update the `css-loader` and `cssnano` webpack dev dependencies.
+* DEV: Remove unused code from entry REST endpoint.
+* DEV: Rename method that prepares images for REST response.
+* DEV: phpDoc corrections.
+* DEV: Remove extra spaces.
+* DEV: Update package dependencies and dev dependencies.
+* DEV: Add drop shadow support to the carousel block.
+* DEV: CSS tweaks for mobile display of the carousel block.
+* DEV: Correct color indicator labels in the style section.
+* DEV: Add slider border color, radius and width options to carousel block options.
+* DEV: Add support to carousel block to control excerpt length.
+* DEV: Move the `isNumber` function from the edit method in the carousel block to its own utility function.
+* DEV: CSS selector change to match CSS selector used on frontend so arrows will have the assigned background color.
+* DEV: Add noinspection flag.
+* DEV: Add template parameters default values and filter to allow other plugins to hook into.
+* DEV: Rename utility JavaScript file.
+* DEV: Add support for image border color, width and radius options to the carousel block.
+* DEV: Default border width and radius to 0 for the carousel slide.
+* DEV: Fix fatal error when adding a new carousel block.
+* DEV: Minor CSS tweaks to the carousel block.
+* DEV: Add support to allow user to choose either the entry photo or logo.
+* DEV: Correct misspelling in a phpDoc comment.
+* DEV: Refactor the REST response for entry images to allow response to be altered with passed query parameters.
+* DEV: When rendering on site frontend the drop shadow should default to false.
+* DEV: Correct overflow display issue in the block editor.
+* DEV: Add support to the carousel block to change the image shape from square to circle.
+* DEV: Correct bug preventing a new carousel from being placed in a post.
+* DEV: Add support for setting the image crop mode in the carousel block.
+* DEV: Code cleanup of the carousel block.
+* DEV: Fix display of image when set as circle in carousel block on mobile device.
+* DEV: Break blocks JavaScript into two files, one for public and for editor.
+
 = 9.3.2 10/28/2019 =
 * NEW: Add support for limit and category REST API parameters.
 * TWEAK: More user friendly error message when license status check fails.
@@ -430,60 +496,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Add JSDoc to the blocks.
 * DEV: phpDoc correction.
 
-= 8.38.1 02/20/2019 =
-* TWEAK: Logic tweak to prevent array_map() PHP notices from being generated by the shortcode.
-* TWEAK: No need to assign `$response` on return.
-* TWEAK: Check for `preg_split()` fail.
-* OTHER: Add missing changelog header.
-* DEV: phpDoc Correction.
-
-= 8.38 02/19/2019 =
-
-* FEATURE: Introduce Filters to the Editor Directory block as autocomplete fields to bring the block into feature parity with the shortcode.
-* NEW: Introduce the AutoComplete REST API endpoint.
-* TWEAK: Refactor the Upcoming List block to return a `Fragment` vs. an array to stop React browser console error messages about missing key.
-* TWEAK: Load block editor scripts in the footer.
-* TWEAK: Use `cnSanitize::args()` instead of `wp_parse_args()` in `cnTemplatePart::listAction_ViewAll()` to strip unnecessary args to prevent PHP error messages when displaying the character index.
-* TWEAK: Allow shortcode callback to receive arrays for the filters to support the Directory Editor block.
-* OTHER: Update Author URL in plugin header.
-* OTHER: Update URL property in package.json.
-* OTHER: Remove console logging of the category store.
-* OTHER: Update frontend minified CSS file.
-* DEV: Make webpack a little less chatty.
-* DEV: Add `$` as an external dependency to webpack.
-* DEV: phpDoc correction.
-* DEV: Add `lodash` as a block editor dependency.
-* DEV: Update build files.
-
-= 8.37 02/04/2019 =
-* FEATURE: Add searchable category checklists to the Directory block to allow excluding/including the selected categories in the directory.
-* NEW: Register the category store.
-* NEW: Introduce the `HierarchicalTermSelector` editor component for rendering a searchable category checkbox group.
-* TWEAK: Bump minimum support WP version to 4.7.12.
-* TWEAK: CSS tweak to the search input to help keep themes from breaking it.
-* TWEAK: Do not use `time()` for version when enqueueing the editor script. Used current plugin version + last modified time.
-* BUG: It seems the post type meta needs to be passed back as a return value from `withSelect()` in the page select control so the pages are properly indented for their hierarchy.
-* BUG: Correct category taxonomy REST base endpoint.
-* OTHER: Correct mistaken default and named imports/imports.
-* OTHER: Add whitespace.
-* OTHER: Remove unused code from directory block.
-* OTHER: Correct code alignment.
-* DEV: Reorder package.json keys.
-* DEV: Add JSDoc comment blocks.
-* DEV: Tweak Travis config.
-* DEV: Update Webpack to latest.
-* DEV: Update build files.
-
 == Upgrade Notice ==
-
-= 8.37 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.38 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.38.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.
 
 = 8.39 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.
@@ -549,4 +562,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.3.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.4 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

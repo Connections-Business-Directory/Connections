@@ -22,12 +22,15 @@ class Wikimedia extends Tile_Layer {
 	 */
 	public function __construct( $id ) {
 
+		$osm       = '&copy; <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+		$wikimedia = '<a target="_blank" href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>';
+
 		parent::__construct(
 			$id,
 			'//maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
 			array(
 				'subdomains'  => '',
-				'attribution' => '<a target="_blank" href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>',
+				'attribution' => $wikimedia . ' | ' . $osm,
 				'minZoom'     => 1,
 				'maxZoom'     => 19,
 			)

@@ -56,6 +56,7 @@ class cnDependency {
 			'anniversary-light/anniversary-light.php',
 			'birthday-dark/birthday-dark.php',
 			'birthday-light/birthday-light.php',
+			'carousel/carousel.php',
 			'team-grid-card-clean/clean.php',
 			'team-grid-card-flip/flip.php',
 			'team-grid-card-slide/slide.php',

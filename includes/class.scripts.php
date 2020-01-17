@@ -299,7 +299,7 @@ class cnScript {
 						'name'         => 'Wikimedia',
 						'tileLayer'    => '//maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
 						'key_required' => FALSE,
-						'attribution'  => $backlink . ' | ' . $wikimedia,
+						'attribution'  => $backlink . ' | ' . $wikimedia . ' | ' . $osm,
 						'maxZoom'      => '19',
 					),
 				),
@@ -353,7 +353,7 @@ class cnScript {
 		wp_register_script( 'jquery-chosen', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
 		wp_register_script( 'jquery-chosen-min', $url . "assets/vendor/chosen/chosen.jquery$min.js", array( 'jquery' ), '1.8.7', TRUE );
 
-		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.17.0' , TRUE );
+		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.19.1' , TRUE );
 
 		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
 	}

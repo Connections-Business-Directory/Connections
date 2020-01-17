@@ -90,6 +90,7 @@ img.cn-image {
 	padding: 0 !important;
 	position: relative !important;
 	top: 0 !important;
+	visibility: visible;
 	width: auto; /* For proper IE8 support for max-width, width:auto needs to be defined. */
 }
 
@@ -230,20 +231,21 @@ img.cn-image {
 /*
  * Social Media Network Styles
  */
-#cn-list span.social-media-block {
+.social-media-block {
 	display: block;
 	font-size: 0;
 	line-height: 0;
 	margin-bottom: 10px;
 }
 
-#cn-list span.social-media-block a {
+.social-media-block a.url {
 	color: transparent;
 	margin: 0;
 	padding: 0;
+	text-decoration: none;
 }
 
-#cn-list span.social-media-block img {
+.social-media-block img {
 	border: none;
 	margin: 0;
 	padding: 0;
@@ -252,7 +254,7 @@ img.cn-image {
 	width: auto;
 }
 
-#cn-list span.social-media-network {
+.social-media-network {
 	display: inline-block;
 	margin: 0 1px 2px;
 }
@@ -477,7 +479,8 @@ input#cn-search-submit {
 /* Setting clear breaks Market */
 #cn-page-nav a,
 #cn-page-nav .page-numbers {
-	color: #AAAAAA !important;
+	color: #AAAAAA;
+	display: initial;
 	text-decoration: none;
 	background-color: #EEEEEE;
 	padding: 3px 6px;
@@ -490,13 +493,13 @@ input#cn-search-submit {
 }
 
 #cn-page-nav a:active, #cn-page-nav a:visited {
-	color: #AAAAAA !important;
+	color: #AAAAAA;
 }
 
 #cn-page-nav a.disabled,
 #cn-page-nav .page-numbers.current,
 #cn-page-nav .page-numbers.dots {
-	color: #CCCCCC !important;
+	color: #CCCCCC;
 }
 
 #cn-page-nav input {
@@ -611,6 +614,11 @@ input.leaflet-control-layers-selector {
 	width: auto;
 	margin: 2px auto auto;
 	vertical-align: unset;
+}
+
+.leaflet-control-container .leaflet-control a,
+.leaflet-control-container .leaflet-control a:hover {
+	text-decoration: none;
 }
 
 /*

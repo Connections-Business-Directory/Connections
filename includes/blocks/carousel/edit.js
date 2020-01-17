@@ -29,8 +29,10 @@ const {
       } = wp.components;
 const { compose, withInstanceId } = wp.compose;
 const {
+	      select,
+	      // subscribe,
 	      withDispatch,
-	      withSelect
+	      withSelect,
       } = wp.data;
 const {
 	      // ColorPalette,
@@ -38,6 +40,7 @@ const {
 	      // InspectorAdvancedControls,
       } = wp.editor;
 const { Component, Fragment } = wp.element;
+// const { decodeEntities } = wp.htmlEntities;
 const { addQueryArgs } = wp.url;
 
 /**
@@ -53,13 +56,23 @@ import 'slick-carousel/slick/slick-theme.css';
 /**
  * External dependencies
  */
-import { find, findIndex, isUndefined } from 'lodash';
+import { findIndex, has, isUndefined } from 'lodash';
 
 /**
  * Internal dependencies
  */
 import { HierarchicalTermSelector, RangeControl } from "@Connections-Directory/components";
-// import EntryTypeSelectControl from './components/entry-type-select-control';
+import {
+	EntryName,
+	EntryTitle,
+	EntryImage,
+	EntryPhoneNumbers,
+	EntryEmail,
+	EntrySocialNetworks,
+	EntryExcerpt,
+} from "@Connections-Directory/components";
+
+import { isNumber } from "@Connections-Directory/components/utility";
 
 /**
  * Import styles.
@@ -76,12 +89,15 @@ const ENDPOINT = '/cn-api/v1/entry/';
 
 const colorIndicator = ( label, value ) => (
 	<Fragment>
-		{ label }
-		{ value && (
-			<ColorIndicator
-				colorValue={ value }
-			/>
-		) }
+		<p>
+			{ label }
+			{ value && (
+				<ColorIndicator
+					colorValue={ value }
+					style={ { background: value, verticalAlign: 'bottom' } }
+				/>
+			) }
+		</p>
 	</Fragment>
 );
 
@@ -98,13 +114,14 @@ class Carousel extends Component {
 
 		// super( ...arguments );
 		super( props );
-		console.log( this.props.name, ": constructor()" );
+		// console.log( this.props.name, ": constructor()" );
 		// console.log( 'constructor()::arguments ', arguments );
 		// console.log( 'constructor()::props ', props );
-		console.log( 'constructor()::this.props ', this.props );
+		// console.log( 'constructor()::this.props ', this.props );
 
 		const {
-			      attributes: { blockId, blocks },
+			      attributes: { blockId },
+			      metaCarousels,
 			      clientId,
 			      setAttributes,
 		      } = this.props;
@@ -113,83 +130,303 @@ class Carousel extends Component {
 		this.findIndex = this.findIndex.bind( this );
 		this.getAttribute = this.getAttribute.bind( this );
 		this.setAttributes = this.setAttributes.bind( this );
-		this.getQueryArgs = this.getQueryArgs.bind( this );
+		this.prepareQueryArgs = this.prepareQueryArgs.bind( this );
 		this.fetchAPI = this.fetchAPI.bind( this );
 		this.fetchEntries = this.fetchEntries.bind( this );
 
-		let id = isUndefined( blockId ) ? clientId : blockId;
-		let index = this.findIndex( id, blocks );
+		// this.isNumber = this.isNumber.bind( this );
+
+		const id = isUndefined( blockId ) ? clientId : blockId;
+		const blocks = JSON.parse( metaCarousels );
+		const index = this.findIndex( id, blocks );
+
+		/**
+		 * Slider key state will change when toggling autoPlay.
+		 *
+		 * If autoplay is changed state will be updated in componentDidUpdate().
+		 *
+		 * @link https://github.com/akiran/react-slick/issues/1634
+		 */
 
 		this.state = {
-			// blocks:       blocks,
 			blockId:      id,
 			blockIndex:   index,
-			queryArgs:    {},
 			queryResults: [],
 			isLoading:    true,
+			sliderKey:    new Date().getTime() / 1000
 		};
+
+		// console.log( 'constructor()::this.state ', this.state );
+		// console.log( 'constructor()::metaCarousels ', metaCarousels );
 
 		setAttributes( { blockId: id } );
 	}
 
 	componentDidMount() {
-		console.log( this.props.name, ': componentDidMount()' );
+		// console.log( this.props.name, ': componentDidMount()' );
 
-		const {
-			      attributes: { blocks, blockId },
-			      setAttributes,
-			      // setMetaFieldValue,
-		      } = this.props;
+		const index = this.getIndex();
 
-		let index = this.getIndex();
+		if ( - 1 === index ) {
 
-		// if ( - 1 === index ) {
-		//
-		// 	this.setState( { blockIndex: 0 }, () => {
-		// 		setAttributes( { blocks: [ { blockId: this.state.blockId, listType: 'all' } ] } );
-		// 	} );
-		//
-		// }
+			this.setAttributes( { listType: 'all' } );
+		}
+
+		// Add `style` tag to page header for block styles.
+		const styleTag = document.createElement( 'style' );
+
+		styleTag.setAttribute( 'id', 'slick-slider-block-' + this.state.blockId );
+
+		document.head.appendChild( styleTag );
 
 		this.fetchEntries();
 	}
 
-	componentDidUpdate( prevProps ) {
-		console.log( this.props.name, ': componentDidUpdate()' );
+	/**
+	 * @param {object} prevProps
+	 * @param {object} prevState
+	 */
+	componentDidUpdate( prevProps, prevState ) {
+		// console.log( this.props.name, ': componentDidUpdate()' );
+		// console.log( 'componentDidUpdate()::prevProps ', prevProps );
+		// console.log( 'componentDidUpdate()::props ', this.props );
+
+		const {
+			      metaCarousels: prevMetaCarousels,
+		      } = prevProps;
+
+		// console.log( 'componentDidUpdate()::prevMetaCarousels ', prevMetaCarousels );
+
+		const {
+			      metaCarousels,
+		      } = this.props;
+
+		const prevBlocks = JSON.parse( prevMetaCarousels );
+		const blocks = JSON.parse( metaCarousels );
+		const index = this.findIndex( this.state.blockId, blocks );
+		const prevCarousel = prevBlocks[ index ];
+		const carousel = blocks[ index ];
+
+		if ( index !== this.state.blockIndex ) {
+
+			// console.log( 'componentDidUpdate()::new index ', index );
+
+			this.setState( {
+				blockIndex: index,
+			} );
+		}
+
+		/*
+		 * See note in constructor() about the sliderKey.
+		 */
+		if ( ! isUndefined( prevCarousel ) && prevCarousel.autoplay !== carousel.autoplay ) {
+
+			this.setState( {
+				sliderKey: new Date().getTime() / 1000
+			} );
+		}
+
+		const element = document.getElementById( 'slick-slider-block-' + this.state.blockId );
+
+		if ( null != element && 'undefined' != typeof element ) {
+
+			let arrowDotsColor = this.getAttribute( 'arrowDotsColor', '#000000' );
+			let backgroundColor = this.getAttribute( 'backgroundColor', '#FFFFFF' );
+			let borderColor = this.getAttribute( 'borderColor', '#000000' );
+			let borderRadius = this.getAttribute( 'borderRadius', 0 );
+			let borderWidth = this.getAttribute( 'borderWidth', 0 );
+			let color = this.getAttribute( 'color', '#000000' );
+
+			let imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
+			let imageBorderRadius = this.getAttribute( 'imageBorderRadius', 0 );
+			let imageBorderWidth = this.getAttribute( 'imageBorderWidth', 0 );
+			let imageShape = this.getAttribute( 'imageShape', 'square' );
+
+			// Using the "Clear" button set the value to empty string. Use default color.
+			if ( ! arrowDotsColor ) { color = '#000000'; }
+			if ( ! backgroundColor ) { backgroundColor = '#FFFFFF'; }
+			if ( ! borderColor ) { borderColor = '#000000'; }
+			if ( ! color ) { color = '#000000'; }
+			if ( ! imageBorderColor ) { imageBorderColor = '#000000'; }
+
+			const id = '#slick-slider-block-' + this.state.blockId;
+
+			const arrowDotStyle = [
+				`color: ${ arrowDotsColor };`,
+			];
+
+			const blockStyle = [
+				`background-color: ${ backgroundColor }`,
+				`color: ${ color }`,
+			];
+
+			const slideStyle = [
+				`border-color: ${ borderColor }`,
+				`border-radius: ${ borderRadius }px`,
+				`border-style: solid`,
+				`border-width: ${ borderWidth }px`,
+			];
+
+			imageBorderRadius = 'circle' === imageShape ? '50%' : imageBorderRadius + 'px';
+
+			const imageStyle = [
+				`border-color: ${ imageBorderColor }`,
+				`border-radius: ${ imageBorderRadius }`,
+				`border-style: solid`,
+				`border-width: ${ imageBorderWidth }px`,
+				'overflow: hidden'
+			];
+
+			const nameStyle = [
+				`color: ${ color };`,
+			];
+
+			let css = '';
+
+			css += `\n${id} .slick-arrow.slick-next:before { ${arrowDotStyle.join('\n')} }`;
+			css += `\n${id} .slick-arrow.slick-prev:before { ${arrowDotStyle.join('\n')} }`;
+			css += `\n${id} .slick-dots li button:before { ${arrowDotStyle.join('\n')} }`;
+
+			css += `\n${id} { ${blockStyle.join(';\n')} }`;
+			css += `\n${id} .slick-slide { ${slideStyle.join(';\n')} }`;
+			css += `\n${id} .slick-slide h3 { ${nameStyle.join('\n')} }`;
+			css += `\n${id} .slick-slide .cn-image-style { ${imageStyle.join(';\n')} }`;
+
+			element.innerHTML = css;
+		}
 	}
 
 	componentWillUnmount() {
-		console.log( this.props.name, ': componentWillUnmount()' );
+		// console.log( this.props.name, ': componentWillUnmount()' );
+
+		const {
+			      attributes: { blockId },
+			      // isSelected,
+			      metaCarousels,
+			      setMetaFieldValue,
+		      } = this.props;
+
+		const editorBlocks = select( 'core/block-editor' ).getBlocks();
+
+		/*
+		 * Because `select( 'core/block-editor' ).getBlocks()` return a nested array where the `innerBlocks` property
+		 * can contain nested blocks, it needs flattend first so it can be filtered by block name and then searched
+		 * for the current `blockId`.
+		 *
+		 * @link https://stackoverflow.com/a/35272973/5351316
+		 */
+		const flatten = ( into, node ) => {
+			if ( node == null ) return into;
+			if ( Array.isArray( node ) ) return node.reduce( flatten, into );
+			into.push( node );
+			return flatten( into, node.innerBlocks );
+		};
+
+		const blocksFlattend = flatten( [], editorBlocks );
+
+		// Filter blocks by block name.
+		const selectEditorBlocks = blocksFlattend.filter( ( block ) => {
+			return this.props.name === block.name;
+		} );
+
+		// Find this block within the editor blocks.
+		const blockExists = selectEditorBlocks.find( ( block ) => {
+			return blockId === block.attributes.blockId;
+		} );
+
+		// If this block was not found the `blockExists` var will be undefined, remove it from the post meta.
+		if ( isUndefined( blockExists ) ) {
+
+			const blocks = JSON.parse( metaCarousels );
+			const index = this.findIndex( this.state.blockId, blocks );
+
+			// console.log( 'componentWillUnmount()::blocks : before ', blocks );
+			// console.log( 'componentWillUnmount()::index ', index );
+
+			blocks.splice( index, 1 );
+
+			// console.log( 'componentWillUnmount()::blocks : after ', blocks );
+
+			const blocksJSON = JSON.stringify( blocks );
+
+			setMetaFieldValue( blocksJSON );
+		}
 	}
 
-	getQueryArgs() {
+	/**
+	 * @param {object} args
+	 */
+	prepareQueryArgs( args ) {
 
-		const { attributes: { blocks } } = this.props;
+		const {
+			      attributes: { carousels },
+		      } = this.props;
 
 		let query = {};
-		let index = this.getIndex();
+		const index = this.getIndex();
+		const blocks = JSON.parse( carousels );
 
-		// if ( -1 === index ) {
-		//
-		// 	this.setQueryArgs( {
-		// 		// category: JSON.parse( categories ).toString(),
-		// 		type:     this.state.listType,
-		// 	} );
-		//
-		// } else {
-		//
-		// 	this.setQueryArgs( {
-		// 		// category: JSON.parse( categories ).toString(),
-		// 		type:     blocks[ index ].listType,
-		// 	} );
-		// }
+		// console.log( 'prepareQueryArgs::blocks ', blocks );
 
 		if ( -1 < index ) {
 
-			query = {
-				type: blocks[ index ].listType,
+			const block = blocks[ index ];
+
+			if ( has( block, 'listType' ) ) {
+
+				query['type'] = block.listType;
 			}
+
+			if ( has( block, 'categories' ) ) {
+
+				query['categories'] = block.categories;
+			}
+
+			if ( has( block, 'categoriesIn' ) && true === block.categoriesIn ) {
+
+				query['category_in'] = true;
+			}
+
+			if ( has( block, 'categoriesExclude' ) ) {
+
+				query['categories_exclude'] = block.categoriesExclude;
+			}
+
+			if ( has( block, 'limit' ) ) {
+
+				query['per_page'] = block.limit;
+			}
+
+			if ( has( block, 'excerptWordLimit' ) ) {
+
+				if ( isNumber( block.excerptWordLimit ) ) {
+
+					query['_excerpt'] = { length: block.excerptWordLimit };
+
+				} else {
+
+					query['_excerpt'] = {};
+				}
+
+			}
+
+			let zc = has( block, 'imageCropMode' ) ? block.imageCropMode : 1;
+
+			if ( has( args, 'imageCropMode' ) ) {
+
+				zc = args.imageCropMode;
+				delete args.imageCropMode;
+			}
+
+			query['_images'] = [
+				{ type: 'logo', size: 'custom', width: 600, height: 600, zc: zc },
+				{ type: 'photo', size: 'custom', width: 600, height: 600, zc: zc }
+			];
+
+			query = { ...query, ...args };
 		}
+
+		// console.log( query );
 
 		return query;
 	}
@@ -200,18 +437,21 @@ class Carousel extends Component {
 			ENDPOINT,
 			{
 				...query,
-				context: 'edit',
+				context: 'view',
 			}
 		);
 
-		console.log( 'Fetching... ', query );
+		// console.log( 'Fetching... ', query );
 
 		return apiFetch( { path: path } );
 	}
 
-	fetchEntries() {
+	/**
+	 * @param {object} args
+	 */
+	fetchEntries( args = {} ) {
 
-		this.fetchAPI( this.getQueryArgs() ).then( ( results ) => {
+		this.fetchAPI( this.prepareQueryArgs( args ) ).then( ( results ) => {
 
 			this.setState( { isLoading: false, queryResults: results } );
 		} );
@@ -225,18 +465,15 @@ class Carousel extends Component {
 	 */
 	findIndex( id, blocks ) {
 
-		// const { attributes: { blocks } } = this.props;
-		// let blocks = this.state.blocks;
+		// console.log( 'findIndex::blocks ', blocks );
+		// console.log( 'findIndex::blockId ', id );
 
-		console.log( 'findIndex::blocks ', blocks );
-		console.log( 'findIndex::blockId ', id );
-
-		let index = findIndex( blocks, ( o ) => {
-			console.log( 'findIndex::o ', o );
+		const index = findIndex( blocks, ( o ) => {
+			// console.log( 'findIndex::o ', o );
 			return ! isUndefined( o ) && o.blockId === id;
 		});
 
-		console.log( 'findIndex:: ', index );
+		// console.log( 'findIndex:: ', index );
 
 		return index
 	}
@@ -258,18 +495,25 @@ class Carousel extends Component {
 	getAttribute( key, defaultValue = null ) {
 
 		const {
-			      attributes: { blocks, blockId },
-			      // setAttributes,
-			      // setMetaFieldValue,
+			      metaCarousels,
 		      } = this.props;
 
-		let index = this.getIndex();
+		const index = this.getIndex();
+		const blocks = JSON.parse( metaCarousels );
 
-		if ( -1 === index || isUndefined( blocks[ index ][ key ] ) ) {
+		// console.log( 'getAttributes::typeof blocks ', typeof blocks );
+		// console.log( 'getAttributes::blocks ', blocks );
+		// console.log( 'getAttributes::key ', key );
+
+		if ( - 1 === index || !has( blocks, [ index, key ] ) ) {
+
+			// console.log( 'getAttributes::defaultValue ', defaultValue );
 
 			return defaultValue;
 
 		} else {
+
+			// console.log( 'getAttributes::value ', blocks[ index ][ key ] );
 
 			return blocks[ index ][ key ];
 		}
@@ -286,16 +530,14 @@ class Carousel extends Component {
 	setAttributes( attributes ) {
 
 		const {
-			      attributes: { blocks, blockId },
-			      setAttributes,
-			      // setMetaFieldValue,
+			      metaCarousels,
+			      setMetaFieldValue,
 		      } = this.props;
 
-		let state = this.state;
+		const blocks = JSON.parse( metaCarousels );
 		let index = this.getIndex();
 
-		console.log( 'setAttributes::blocks ', blocks );
-		// console.log( 'setAttributes::blockId ', this.state.blockId );
+		// console.log( 'setAttributes::blocks ', blocks );
 
 		if ( -1 < index ) {
 
@@ -303,70 +545,42 @@ class Carousel extends Component {
 			block = { ...block, ...attributes };
 			blocks[ index ] = block;
 
-			console.log( 'setAttributes::block (hasIndex) ', block );
+			// console.log( 'setAttributes::block (hasIndex) ', block );
 
 		} else {
 
-			let blockCount = blocks.push( { blockId, ...attributes } );
+			let blockCount = blocks.push( { blockId: this.state.blockId, ...attributes } );
 
-			state.blockIndex = blockCount - 1;
+			this.setState( { blockIndex: ( blockCount - 1 ) } );
 
-			console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
+			// console.log( 'setAttributes::block (pushNew) ', blockCount - 1 );
 		}
 
-		this.setState( state, () => {
-			setAttributes( { blocks: blocks, ...attributes } );
-			// setMetaFieldValue( state.blocks );
-			// this.fetchEntries();
-		} );
+		// console.log( 'setAttributes::blocks (updated) ', blocks );
+
+		const blocksJSON = JSON.stringify( blocks );
+
+		// console.log( 'setAttributes::blocksJSON ', blocksJSON );
+
+		setMetaFieldValue( blocksJSON );
 	}
 
 	render() {
+		// console.log( this.props.name, ': render()' );
 
 		const {
 			      attributes,
-			      // entries,
-			      instanceId,
-			      // queryEntries,
-			      setAttributes,
 		      } = this.props;
 
 		const {
-			      // advancedBlockOptions,
-			      blocks,
 			      blockId,
-			      categories,
-			      categoriesExclude,
-			      categoriesIn,
-			      // columns,
-			      borderColor,
-			      borderRadius,
-			      borderWidth,
-			      displayDropShadow,
-			      displayEmail,
-			      displayExcerpt,
-			      displayPhone,
-			      displaySocial,
-			      displayTitle,
-			      excerptWordLimit,
-			      // gutterWidth,
-			      imageBorderColor,
-			      imageBorderRadius,
-			      imageBorderWidth,
-			      imageCropMode,
-			      imageShape,
-			      imageType,
-			      // layout,
-			      listType,
-			      // position,
-			      // rows,
-			      // style,
-			      // variation,
 		      } = attributes;
-console.log( 'render::blocks ', blocks );
-		const blockIndex = this.getIndex();
+
+		// const blockIndex = this.getIndex();
 		const entryTypeSelectOptions = [];
-console.log( 'render::blockIndex ', blockIndex );
+
+		// console.log( 'render::blockIndex ', blockIndex );
+
 		for ( let property in entryTypes ) {
 
 			// noinspection JSUnfilteredForInLoop
@@ -376,47 +590,158 @@ console.log( 'render::blockIndex ', blockIndex );
 			} )
 		}
 
-		let entries = this.state.queryResults;
+		const categoriesIn = this.getAttribute( 'categoriesIn', false );
+		const arrows = this.getAttribute( 'arrows', true );
+		const autoplay = this.getAttribute( 'autoplay', false );
+		const dots = this.getAttribute( 'dots', true );
+		const infinite = this.getAttribute( 'infinite', false );
+		const pause = this.getAttribute( 'pause', true );
 
-		const hasEntries = Array.isArray( entries ) && entries.length;
+		const displayTitle = this.getAttribute( 'displayTitle', true );
+		const displayExcerpt = this.getAttribute( 'displayExcerpt', true );
+		const displayPhone = this.getAttribute( 'displayPhone', true );
+		const displayEmail = this.getAttribute( 'displayEmail', true );
+		const displaySocial = this.getAttribute( 'displaySocial', true );
 
-		if ( !hasEntries ) {
+		const backgroundColor = this.getAttribute( 'backgroundColor', '#FFFFFF' );
+		const textColor = this.getAttribute( 'color', '#000000' );
+		const arrowDotsColor = this.getAttribute( 'arrowDotsColor', '#000000' );
+		const borderColor = this.getAttribute( 'borderColor', '#000000' );
+		const borderRadius = this.getAttribute( 'borderRadius', 0 );
+		const borderWidth = this.getAttribute( 'borderWidth', 0 );
+		const displayDropShadow = this.getAttribute( 'displayDropShadow', false );
 
-			return (
-				<Fragment>
-					<div>
-						{ this.state.isLoading ?
-							<p>{ __( 'Loading...', 'connections' ) } <Spinner /></p> :
-							<p>{ __( 'No directory entries found.', 'connections' ) }</p>
-						}
-					</div>
-				</Fragment>
-			)
-		}
+		const imageBorderColor = this.getAttribute( 'imageBorderColor', '#000000' );
+		const imageBorderRadius = this.getAttribute( 'imageBorderRadius', 0 );
+		const imageBorderWidth = this.getAttribute( 'imageBorderWidth', 0 );
+		const imageCropMode = this.getAttribute( 'imageCropMode', '1' );
+		const imageShape = this.getAttribute( 'imageShape', 'square' );
+		const imageType = this.getAttribute( 'imageType', 'photo' );
 
-		let settings = {
-			autoplay:       true,
-			dots:           true,
-			infinite:       true,
-			speed:          500,
-			slidesToShow:   1,
-			slidesToScroll: 1
-		};
+		const excerptWordLimit = this.getAttribute( 'excerptWordLimit', '' );
 
-		const slides = entries.map( ( entry, i ) => {
-
-				return (
-					<div key={ i }>
-						<h3>{entry.name.rendered}</h3>
-						<div>Block ID: { blockId }</div>
-					</div>
-				)
-			}
-		);
-
-		return (
+		const inspectorControls = (
 			<Fragment>
 				<InspectorControls>
+
+					<PanelBody
+						title={ __( 'Carousel', 'connections' ) }
+						initialOpen={ true }
+					>
+						<div style={ { marginTop: '20px' } }>
+
+							<RangeControl
+								label={ __( 'Maximum Number of Slides', 'connections' ) }
+								value={ this.getAttribute( 'limit', 10 ) }
+								min={ 1 }
+								max={ 100 }
+								initialPosition={ 10 }
+								allowReset={ true }
+								onChange={ ( value ) => {
+									this.setAttributes( { limit: value } );
+									this.fetchEntries( { per_page: value } );
+								} }
+							/>
+
+							<RangeControl
+								label={ __( 'Number of Slides to Display per Frame', 'connections' ) }
+								value={ this.getAttribute( 'slidesToShow', 1 ) }
+								min={ 1 }
+								max={ 4 }
+								initialPosition={ 1 }
+								allowReset={ true }
+								onChange={ ( value ) => {
+
+									let parameters = { slidesToShow: value };
+									const slidesToScroll = this.getAttribute( 'slidesToScroll', 1 );
+
+									if ( value <= slidesToScroll ) {
+
+										parameters['slidesToScroll'] = value;
+									}
+
+									this.setAttributes( parameters );
+								} }
+							/>
+
+							<RangeControl
+								label={ __( 'Number of Slides to Scroll per Frame', 'connections' ) }
+								value={ this.getAttribute( 'slidesToScroll', 1 ) }
+								min={ 1 }
+								max={ this.getAttribute( 'slidesToShow', 1 ) }
+								initialPosition={ 1 }
+								allowReset={ true }
+								onChange={ ( value ) => this.setAttributes( { slidesToScroll: value } ) }
+							/>
+
+							<div style={ { marginTop: '20px' } }>
+
+								<ToggleControl
+									label={ __( 'Autoplay?', 'connections' ) }
+									// help={__( '', 'connections' )}
+									checked={ ! ! autoplay }
+									onChange={ () => this.setAttributes( { autoplay: ! autoplay } ) }
+								/>
+
+								{ autoplay &&
+								<Fragment>
+
+									<ToggleControl
+										label={ __( 'Pause on hover?', 'connections' ) }
+										// help={__( '', 'connections' )}
+										checked={ ! ! pause }
+										onChange={ () => this.setAttributes( { pause: ! pause } ) }
+									/>
+
+									<RangeControl
+										label={ __( 'Frame Advance Speed in Milliseconds', 'connections' ) }
+										value={ this.getAttribute( 'autoplaySpeed', 3000 ) }
+										min={ 100 }
+										max={ 10000 }
+										initialPosition={ 3000 }
+										allowReset={ true }
+										onChange={ ( value ) => this.setAttributes( { autoplaySpeed: value } ) }
+									/>
+
+								</Fragment>
+								}
+
+								<ToggleControl
+									label={ __( 'Infinite loop?', 'connections' ) }
+									// help={__( '', 'connections' )}
+									checked={ ! ! infinite }
+									onChange={ () => this.setAttributes( { infinite: ! infinite } ) }
+								/>
+
+								<ToggleControl
+									label={ __( 'Display arrows?', 'connections' ) }
+									// help={__( '', 'connections' )}
+									checked={ ! ! arrows }
+									onChange={ () => this.setAttributes( { arrows: ! arrows } ) }
+								/>
+
+								<ToggleControl
+									label={ __( 'Display dots?', 'connections' ) }
+									// help={__( '', 'connections' )}
+									checked={ ! ! dots }
+									onChange={ () => this.setAttributes( { dots: ! dots } ) }
+								/>
+
+								<RangeControl
+									label={ __( 'Frame Animation Speed in Milliseconds', 'connections' ) }
+									value={ this.getAttribute( 'speed', 500 ) }
+									min={ 100 }
+									max={ 5000 }
+									initialPosition={ 500 }
+									allowReset={ true }
+									onChange={ ( value ) => this.setAttributes( { speed: value } ) }
+								/>
+
+							</div>
+
+						</div>
+
+					</PanelBody>
 
 					<PanelBody
 						title={ __( 'Select', 'connections' ) }
@@ -436,10 +761,8 @@ console.log( 'render::blockIndex ', blockIndex );
 									...entryTypeSelectOptions
 								] }
 								onChange={ ( value ) => {
-									// setAttributes( { listType: value } );
-									// this.setQueryArgs( { type: value } );
 									this.setAttributes( { listType: value } );
-									this.fetchEntries();
+									this.fetchEntries( { type: value } );
 								} }
 							/>
 						</div>
@@ -452,13 +775,10 @@ console.log( 'render::blockIndex ', blockIndex );
 
 						<HierarchicalTermSelector
 							taxonomy='category'
-							terms={ JSON.parse( categories ) }
+							terms={ this.getAttribute( 'categories', [] ) }
 							onChange={ ( value ) => {
-								setAttributes( { categories: JSON.stringify( value ) } );
-								this.setQueryArgs( {
-									category: value.toString(),
-								} );
-								// this.fetchEntries();
+								this.setAttributes( { categories: value } );
+								this.fetchEntries( { categories: value } );
 							} }
 						/>
 
@@ -467,7 +787,10 @@ console.log( 'render::blockIndex ', blockIndex );
 								label={ __( 'Entries must be assigned to all the above chosen categories?', 'connections' ) }
 								// help={__( '', 'connections' )}
 								checked={ ! ! categoriesIn }
-								onChange={ () => setAttributes( { categoriesIn: ! categoriesIn } ) }
+								onChange={ () => {
+									this.setAttributes( { categoriesIn: ! categoriesIn } );
+									this.fetchEntries( { category_in: ! categoriesIn } );
+								} }
 							/>
 						</div>
 
@@ -479,8 +802,11 @@ console.log( 'render::blockIndex ', blockIndex );
 
 						<HierarchicalTermSelector
 							taxonomy='category'
-							terms={ JSON.parse( categoriesExclude ) }
-							onChange={ ( value ) => setAttributes( { Categories: JSON.stringify( value ) } ) }
+							terms={ this.getAttribute( 'categoriesExclude', [] ) }
+							onChange={ ( value ) => {
+								this.setAttributes( { categoriesExclude: value } );
+								this.fetchEntries( { categories_exclude: value } );
+							} }
 						/>
 
 					</PanelBody>
@@ -498,7 +824,7 @@ console.log( 'render::blockIndex ', blockIndex );
 									{ value: 'logo', label: __( 'Logo', 'connections' ) },
 									{ value: 'photo', label: __( 'Photo', 'connections' ) },
 								] }
-								onChange={ ( value ) => setAttributes( { imageType: value } ) }
+								onChange={ ( value ) => this.setAttributes( { imageType: value } ) }
 							/>
 
 							<RadioControl
@@ -508,7 +834,16 @@ console.log( 'render::blockIndex ', blockIndex );
 									{ value: 'circle', label: __( 'Circle', 'connections' ) },
 									{ value: 'square', label: __( 'Square', 'connections' ) },
 								] }
-								onChange={ ( value ) => setAttributes( { imageShape: value } ) }
+								onChange={ ( value ) => {
+
+									let atts = { imageShape: value };
+
+									if ( 'square' === value ) {
+										atts.imageBorderRadius = 0;
+									}
+
+									this.setAttributes( atts );
+								} }
 							/>
 						</div>
 
@@ -523,31 +858,31 @@ console.log( 'render::blockIndex ', blockIndex );
 							<ToggleControl
 								label={ __( 'Display Title?', 'connections' ) }
 								checked={ ! ! displayTitle }
-								onChange={ () => setAttributes( { displayTitle: ! displayTitle } ) }
-							/>
-
-							<ToggleControl
-								label={ __( 'Display Excerpt?', 'connections' ) }
-								checked={ ! ! displayExcerpt }
-								onChange={ () => setAttributes( { displayExcerpt: ! displayExcerpt } ) }
+								onChange={ () => this.setAttributes( { displayTitle: ! displayTitle } ) }
 							/>
 
 							<ToggleControl
 								label={ __( 'Display Primary Phone?', 'connections' ) }
 								checked={ ! ! displayPhone }
-								onChange={ () => setAttributes( { displayPhone: ! displayPhone } ) }
+								onChange={ () => this.setAttributes( { displayPhone: ! displayPhone } ) }
 							/>
 
 							<ToggleControl
 								label={ __( 'Display Primary Email?', 'connections' ) }
 								checked={ ! ! displayEmail }
-								onChange={ () => setAttributes( { displayEmail: ! displayEmail } ) }
+								onChange={ () => this.setAttributes( { displayEmail: ! displayEmail } ) }
+							/>
+
+							<ToggleControl
+								label={ __( 'Display Excerpt?', 'connections' ) }
+								checked={ ! ! displayExcerpt }
+								onChange={ () => this.setAttributes( { displayExcerpt: ! displayExcerpt } ) }
 							/>
 
 							<ToggleControl
 								label={ __( 'Display Social Networks?', 'connections' ) }
 								checked={ ! ! displaySocial }
-								onChange={ () => setAttributes( { displaySocial: ! displaySocial } ) }
+								onChange={ () => this.setAttributes( { displaySocial: ! displaySocial } ) }
 							/>
 						</div>
 
@@ -562,12 +897,45 @@ console.log( 'render::blockIndex ', blockIndex );
 
 							<BaseControl
 								className='editor-color-palette-control'
+								label={ colorIndicator( __( 'Background Color', 'connections' ), backgroundColor ) }
+							>
+								<ColorPalette
+									className='editor-color-palette-control__color-palette'
+									value={ backgroundColor }
+									onChange={ ( value ) => this.setAttributes( { backgroundColor: value } ) }
+								/>
+							</BaseControl>
+
+							<BaseControl
+								className='editor-color-palette-control'
+								label={ colorIndicator( __( 'Text Color', 'connections' ), textColor ) }
+							>
+								<ColorPalette
+									className='editor-color-palette-control__color-palette'
+									value={ textColor }
+									onChange={ ( value ) => this.setAttributes( { color: value } ) }
+								/>
+							</BaseControl>
+
+							<BaseControl
+								className='editor-color-palette-control'
+								label={ colorIndicator( __( 'Arrow & Dots Color', 'connections' ), arrowDotsColor ) }
+							>
+								<ColorPalette
+									className='editor-color-palette-control__color-palette'
+									value={ arrowDotsColor }
+									onChange={ ( value ) => this.setAttributes( { arrowDotsColor: value } ) }
+								/>
+							</BaseControl>
+
+							<BaseControl
+								className='editor-color-palette-control'
 								label={ colorIndicator( __( 'Border Color', 'connections' ), borderColor ) }
 							>
 								<ColorPalette
 									className='editor-color-palette-control__color-palette'
 									value={ borderColor }
-									onChange={ ( value ) => setAttributes( { borderColor: value } ) }
+									onChange={ ( value ) => this.setAttributes( { borderColor: value } ) }
 								/>
 							</BaseControl>
 
@@ -576,9 +944,9 @@ console.log( 'render::blockIndex ', blockIndex );
 								value={ borderRadius }
 								min={ 0 }
 								max={ 20 }
-								initialPosition={ 12 }
+								initialPosition={ 3 }
 								allowReset={ true }
-								onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
+								onChange={ ( value ) => this.setAttributes( { borderRadius: value } ) }
 							/>
 
 							<RangeControl
@@ -586,15 +954,15 @@ console.log( 'render::blockIndex ', blockIndex );
 								value={ borderWidth }
 								min={ 0 }
 								max={ 5 }
-								initialPosition={ 1 }
+								initialPosition={ 2 }
 								allowReset={ true }
-								onChange={ ( value ) => setAttributes( { borderWidth: value } ) }
+								onChange={ ( value ) => this.setAttributes( { borderWidth: value } ) }
 							/>
 
 							<ToggleControl
 								label={ __( 'Display Drop Shadow?', 'connections' ) }
 								checked={ ! ! displayDropShadow }
-								onChange={ () => setAttributes( { displayDropShadow: ! displayDropShadow } ) }
+								onChange={ () => this.setAttributes( { displayDropShadow: ! displayDropShadow } ) }
 							/>
 
 							<BaseControl
@@ -604,7 +972,7 @@ console.log( 'render::blockIndex ', blockIndex );
 								<ColorPalette
 									className='editor-color-palette-control__color-palette'
 									value={ imageBorderColor }
-									onChange={ ( value ) => setAttributes( { imageBorderColor: value } ) }
+									onChange={ ( value ) => this.setAttributes( { imageBorderColor: value } ) }
 								/>
 							</BaseControl>
 
@@ -615,7 +983,7 @@ console.log( 'render::blockIndex ', blockIndex );
 								max={ 5 }
 								initialPosition={ 0 }
 								allowReset={ true }
-								onChange={ ( value ) => setAttributes( { imageBorderWidth: value } ) }
+								onChange={ ( value ) => this.setAttributes( { imageBorderWidth: value } ) }
 							/>
 
 							{ imageShape === 'square' &&
@@ -626,12 +994,11 @@ console.log( 'render::blockIndex ', blockIndex );
 								max={ 20 }
 								initialPosition={ 0 }
 								allowReset={ true }
-								onChange={ ( value ) => setAttributes( { imageBorderRadius: value } ) }
+								onChange={ ( value ) => this.setAttributes( { imageBorderRadius: value } ) }
 							/>
 							}
 
 						</div>
-
 
 					</PanelBody>
 
@@ -641,7 +1008,7 @@ console.log( 'render::blockIndex ', blockIndex );
 					<div style={ { marginTop: '20px' } }>
 						<RadioControl
 							label={ __( 'Image Crop Mode', 'connections' ) }
-							selected={ imageCropMode }
+							selected={ String( imageCropMode ) }
 							options={ [
 								{
 									value: '1',
@@ -660,7 +1027,10 @@ console.log( 'render::blockIndex ', blockIndex );
 									label: __( 'Resize to fit, no cropping. Image aspect ratio will not be maintained and will likely result in a stretch or squashed image.', 'connections' )
 								},
 							] }
-							onChange={ ( value ) => setAttributes( { imageCropMode: value } ) }
+							onChange={ ( value ) => {
+								this.setAttributes( { imageCropMode: value } );
+								this.fetchEntries( { imageCropMode: value } );
+							} }
 						/>
 
 						<TextControl
@@ -668,73 +1038,129 @@ console.log( 'render::blockIndex ', blockIndex );
 							help={ __( 'Enter 0 for the first sentence only. If the excerpt exceeds the word limit, the excerpt will be truncated at the of the next sentence if it can be determined automatically, so the excerpt word limit may be exceeded in order to display a complete sentence.', 'connections' ) }
 							type={ 'number' }
 							value={ excerptWordLimit }
-							onChange={ ( value ) => setAttributes( { excerptWordLimit: value } ) }
+							onChange={ ( value ) => {
+								this.setAttributes( { excerptWordLimit: value } );
+
+								if ( value ) {
+
+									this.fetchEntries( { _excerpt: { length: value } } );
+
+								} else {
+
+									this.fetchEntries( { _excerpt: {} } );
+								}
+							} }
 						/>
 
 					</div>
 
 				</InspectorAdvancedControls>
-
-				<div className='slick-slider-section'>
-					<Slider { ...settings }>
-						{ slides }
-					</Slider>
-				</div>
-
 			</Fragment>
-		)
+		);
+
+		let entries = this.state.queryResults;
+
+		const hasEntries = Array.isArray( entries ) && entries.length;
+
+		if ( !hasEntries ) {
+
+			return (
+				<Fragment>
+					{ inspectorControls }
+					<div>
+						{ this.state.isLoading ?
+							<p>{ __( 'Loading...', 'connections' ) } <Spinner /></p> :
+							<p>{ __( 'No directory entries found.', 'connections' ) }</p>
+						}
+					</div>
+				</Fragment>
+			)
+
+		} else {
+
+			let settings = {
+				arrows:           arrows,
+				autoplay:         autoplay,
+				autoplaySpeed:    this.getAttribute( 'autoplaySpeed', 3000 ),
+				dots:             dots,
+				infinite:         infinite,
+				lazyLoad:         'progressive',
+				pauseOnFocus:     pause,
+				pauseOnHover:     pause,
+				pauseOnDotsHover: pause,
+				speed:            this.getAttribute( 'speed', 500 ),
+				slidesToShow:     this.getAttribute( 'slidesToShow', 1 ),
+				slidesToScroll:   this.getAttribute( 'slidesToScroll', 1 ),
+			};
+
+			// const imageSize = 'photo' === imageType ? 'large' : 'scaled';
+
+			const slides = entries.map( ( entry, i ) => {
+
+					return (
+						<div key={ i }>
+							<div className='slick-slide-grid'>
+								<div className='slick-slide-column'>
+									<EntryImage entry={ entry } type={ imageType } size='custom' />
+									<EntryName tag='h3' entry={ entry } />
+									{ displayTitle && <EntryTitle entry={ entry } />}
+									{ displayPhone && <EntryPhoneNumbers entry={ entry } preferred={ true } />}
+									{ displayEmail && <EntryEmail entry={ entry } preferred={ true } /> }
+									{ displaySocial && <EntrySocialNetworks entry={ entry } />}
+								</div>
+								<div className='slick-slide-column'>
+									{ displayExcerpt && <EntryExcerpt entry={ entry } />}
+								</div>
+							</div>
+						</div>
+					)
+				}
+			);
+
+			const classNames = [ 'slick-slider-block' ];
+
+			if ( arrows ) classNames.push( 'slick-slider-has-arrows' );
+			if ( dots ) classNames.push( 'slick-slider-has-dots' );
+			if ( displayDropShadow ) classNames.push( 'slick-slider-has-shadow' );
+
+			classNames.push( `slick-slider-slides-${ settings.slidesToShow }` );
+
+			return (
+				<Fragment>
+					{ inspectorControls }
+					<div className={ classNames.join( ' ' ) }
+					     id={ 'slick-slider-block-' + blockId }
+					>
+						<Slider key={ this.state.sliderKey } { ...settings }>
+							{ slides }
+						</Slider>
+					</div>
+				</Fragment>
+			)
+
+		}
+
 	}
 }
 
 export default compose( [
-	// withDispatch( ( dispatch, { value } ) => {
-	//
-	// 	return {
-	// 		queryEntries() {
-	//
-	// 			fetchEntries().then( ( entries ) => {
-	//
-	// 				// console.log( 'Dispatch.');
-	//
-	// 				dispatch( 'connections-directory/entries' ).addEntities( entries )
-	// 			} );
-	//
-	// 		},
-	// 		setMetaFieldValue: ( value ) => {
-	// 			dispatch( 'core/editor' ).editPost( { meta: { _blocks: value } } );
-	// 		},
-	// 	};
-	//
-	// } ),
-	// withSelect( ( select, props ) => {
-	//
-	// 	const {
-	// 		      blockAttributes,
-	// 		      blockId,
-	// 		      categories,
-	// 		      listType
-	// 	      } = props.attributes;
-	//
-	// 	// console.log('Select.');
-	//
-	// 	let entryType = 'all';
-	// 	let index     = findIndex( blockAttributes, ( o ) => { return o.blockId === blockId } );
-	//
-	// 	if ( -1 < index ) {
-	//
-	// 		entryType = blockAttributes[ index ].listType;
-	// 	}
-	//
-	// 	setEntryQueryArg( {
-	// 		category: JSON.parse( categories ).toString(),
-	// 		type:     entryType,
-	// 	} );
-	//
-	// 	return {
-	// 		entries: select( 'connections-directory/entries' ).getEntityRecords( entryQueryArgs ),
-	// 	}
-	//
-	// } ),
+	withDispatch( ( dispatch, { value } ) => {
+
+		return {
+			setMetaFieldValue: ( value ) => {
+				dispatch( 'core/editor' ).editPost( { meta: { _cbd_carousel_blocks: value } } );
+			},
+		};
+
+	} ),
+	withSelect( ( select, props ) => {
+
+		return {
+			// editorBlocks: select( 'core/editor' ).getBlocks(),
+			metaCarousels: select( 'core/editor' ).getEditedPostAttribute( 'meta' )._cbd_carousel_blocks,
+		};
+
+	} ),
 	withInstanceId
 	]
 )( Carousel )

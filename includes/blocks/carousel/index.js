@@ -34,18 +34,9 @@ export default registerBlockType(
 			html:            false,
 		},
 		attributes:  {
-			blocks:            {
-				type:    'array',
-				default:  [],
-				source:  'meta',
-				meta:    '_blocks'
-			},
 			blockId:           {
 				type:    'string',
 				// default: '',
-			},
-			borderColor:       {
-				default: '#BABABA',
 			},
 			borderRadius:      {
 				type:    'integer',
@@ -55,39 +46,13 @@ export default registerBlockType(
 				type:    'integer',
 				default: 1,
 			},
-			categories:        {
+			carousels:         {
 				type:    'string',
-				default: '[]',
-			},
-			categoriesExclude: {
-				type:    'string',
-				default: '[]',
-			},
-			categoriesIn:      {
-				type:    'boolean',
-				default: false,
+				default:  '[]',
+				source:  'meta',
+				meta:    '_cbd_carousel_blocks'
 			},
 			displayDropShadow: {
-				type:    'boolean',
-				default: true,
-			},
-			displayEmail:      {
-				type:    'boolean',
-				default: true,
-			},
-			displayExcerpt:    {
-				type:    'boolean',
-				default: false,
-			},
-			displayPhone:      {
-				type:    'boolean',
-				default: true,
-			},
-			displaySocial:     {
-				type:    'boolean',
-				default: true,
-			},
-			displayTitle:      {
 				type:    'boolean',
 				default: true,
 			},
@@ -117,12 +82,6 @@ export default registerBlockType(
 			imageType:         {
 				type:    'string',
 				default: 'photo',
-			},
-			listType:          {
-				type:    'string',
-				default: 'all',
-				source:  'meta',
-				meta:    '_listType'
 			},
 		},
 		edit,

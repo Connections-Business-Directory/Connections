@@ -251,7 +251,8 @@ module.exports = [
 	Object.assign( {
 		entry: {
 			'babel-polyfill': '@babel/polyfill',
-			'blocks':         './includes/blocks/blocks.js',
+			'blocks-editor':  './includes/blocks/blocks.js',
+			'blocks-public':  './includes/blocks/public.js',
 			'icon-picker':    './assets/src',
 			'admin':          './assets/css/cn-admin.scss',
 			'frontend':       './assets/css/cn-user.scss',

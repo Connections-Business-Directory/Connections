@@ -231,20 +231,21 @@ img.cn-image {
 /*
  * Social Media Network Styles
  */
-#cn-list span.social-media-block {
+.social-media-block {
 	display: block;
 	font-size: 0;
 	line-height: 0;
 	margin-bottom: 10px;
 }
 
-#cn-list span.social-media-block a {
+.social-media-block a.url {
 	color: transparent;
 	margin: 0;
 	padding: 0;
+	text-decoration: none;
 }
 
-#cn-list span.social-media-block img {
+.social-media-block img {
 	border: none;
 	margin: 0;
 	padding: 0;
@@ -253,7 +254,7 @@ img.cn-image {
 	width: auto;
 }
 
-#cn-list span.social-media-network {
+.social-media-network {
 	display: inline-block;
 	margin: 0 1px 2px;
 }

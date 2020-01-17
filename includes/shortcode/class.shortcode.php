@@ -555,6 +555,9 @@ class cnShortcode {
 	 */
 	public static function view( $atts, $content = '', $tag = 'connections' ) {
 
+		// Ensure that the $atts var passed from Wordpress is an array.
+		if ( ! is_array( $atts ) ) $atts = (array) $atts;
+
 		// Grab an instance of the Connections object.
 		$instance = Connections_Directory();
 
@@ -720,7 +723,7 @@ class cnShortcode {
 					default:
 
 						// Ensure an array is passed the the cnRetrieve::entries method.
-						if ( ! is_array( $atts ) ) $atts = (array) $atts;
+						//if ( ! is_array( $atts ) ) $atts = (array) $atts;
 
 						$results = $instance->retrieve->entries( $atts );
 						//var_dump($results);

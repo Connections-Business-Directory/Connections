@@ -247,6 +247,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.4.1 01/20/2020 =
+* TWEAK: Style tweaks to the Carousel Block to improve its display presentation.
+* BUG: Check that array is returned for carousels in post meta.
+
 = 9.4 01/17/2020 =
 * FEATURE: Introducing the Carousel block.
 * NEW: Introduce the `cn_pagination_links_args` filter.

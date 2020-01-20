@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 4.7.12
 Tested up to: 5.3
 Requires PHP: 5.6.20
-Stable tag: 9.4
+Stable tag: 9.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.4.1 01/20/2020 =
+* TWEAK: Style tweaks to the Carousel Block to improve its display presentation.
+* BUG: Check that array is returned for carousels in post meta.
 
 = 9.4 01/17/2020 =
 * FEATURE: Introducing the Carousel block.

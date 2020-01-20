@@ -451,7 +451,7 @@ class Carousel {
 
 		$meta = \cnFunction::decodeJSON( $post->_cbd_carousel_blocks, TRUE );
 
-		if ( is_wp_error( $meta ) ) {
+		if ( is_wp_error( $meta ) || ! is_array( $meta ) ) {
 
 			return;
 		}

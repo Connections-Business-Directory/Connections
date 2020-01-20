@@ -1,5 +1,7 @@
 .slick-slider-block {
 	box-sizing: border-box;
+	font-size: 1.1em;
+	line-height: 1.6em;
 	padding: 0;
 	margin: 0;
 
@@ -60,7 +62,8 @@
 					width: 100%;
 
 					h3 {
-						margin: 0 0 8px;
+						font-size: 1.4em;
+						margin: 0;
 					}
 
 					p, ul {
@@ -83,15 +86,35 @@
 
 				.cn-image-style {
 					display: block;
+					margin: 0 0 8px;
+				}
+
+				span.title {
+					display: block;
+					margin: 0 0 8px;
 				}
 
 				span.phone-number-block,
 				span.email-address-block {
 					display: block;
+					font-size: .9em;
+				}
+
+				span.email-address {
+					-ms-word-break: break-all;
+					word-break: break-all;
+					word-break: break-word; /* Non standard for webkit */
+					-webkit-hyphens: auto;
+					-moz-hyphens: auto;
+					hyphens: auto;
 				}
 
 				span.social-media-block {
 					margin: 10px 0 0;
+				}
+
+				.cn-excerpt {
+					font-size: 1em;
 				}
 			}
 		}
@@ -126,9 +149,11 @@
 @media (max-width: 480px) {
 
 	.slick-slider-block {
+		font-size: 1em;
+		line-height: 1.4em;
 
 		&.slick-slider-has-arrows {
-			padding: 20px 40px;
+			padding: 20px 30px;
 		}
 
 		&.slick-slider-has-shadow .slick-slide {
@@ -147,6 +172,11 @@
 						display: block;
 						text-align: center;
 
+						h3 {
+							font-size: 1.2em;
+							line-height: 1.6em;
+						}
+
 						.slick-slide-column,
 						.slick-slide-column:first-of-type {
 							display: block;
@@ -159,6 +189,11 @@
 						.cn-image-style span:first-child {
 							margin: 0 auto;
 						}
+					}
+
+					.cn-excerpt {
+						font-size: .9em;
+						margin-top: 12px;
 					}
 				}
 

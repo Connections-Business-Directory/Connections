@@ -625,7 +625,7 @@ class Carousel {
 			'dots'             => cnArray::get( $carousel, 'dots', TRUE ),
 			//'cssEase'          => 'ease',
 			'infinite'         => cnArray::get( $carousel, 'infinite', FALSE ),
-			'lazyLoad'         => 'progressive',
+			'lazyLoad'         => FALSE,
 			'pauseOnFocus'     => cnArray::get( $carousel, 'pause', TRUE ),
 			'pauseOnHover'     => cnArray::get( $carousel, 'pause', TRUE ),
 			'pauseOnDotsHover' => cnArray::get( $carousel, 'pause', TRUE ),

@@ -1084,7 +1084,7 @@ class Carousel extends Component {
 				autoplaySpeed:    this.getAttribute( 'autoplaySpeed', 3000 ),
 				dots:             dots,
 				infinite:         infinite,
-				lazyLoad:         'progressive',
+				lazyLoad:         false,
 				pauseOnFocus:     pause,
 				pauseOnHover:     pause,
 				pauseOnDotsHover: pause,

@@ -240,6 +240,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.4.2 01/22/2020 =
+* BUG: Check to ensure `slug` not found warning is not generated when displaying entry social network icons.
+
 = 9.4.1 01/20/2020 =
 * TWEAK: Style tweaks to the Carousel Block to improve its display presentation.
 * BUG: Check that array is returned for carousels in post meta.

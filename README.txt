@@ -22,6 +22,7 @@ Quite simply, Connections Business Directory is one of the [best business direct
 * Compatible with all themes including popular themes such as Avada, Divi, Enfold and OceanWP.
 * Compatible with most popular page builders such as Elementor, Beaver Builder, Brizy, Visual Composer, Fusion, SiteOrigin, etc...
 * Supports the WordPress Block (Gutenberg) Editor with the following blocks.
+    * [Carousel Block](https://connections-pro.com/documentation/block/carousel/) :: Display your directory as a carousel.
     * [Directory Block](https://connections-pro.com/documentation/block/directory/) :: Use this block to embed your directory in a page.
     * [Team Block](https://connections-pro.com/documentation/block/team/) :: It's easy to use Connections to build your team page! Team Block is a full featured block with multiple layout styles. While premium team plugins can set you back $20 or more, Team Block is free for all Connections users.
     * [Upcoming List Block](https://connections-pro.com/documentation/block/upcoming-list/) :: Use this block to display an upcoming list of anniversaries, birthdays or other events.

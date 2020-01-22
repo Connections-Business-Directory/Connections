@@ -1859,8 +1859,10 @@ class cnOutput extends cnEntry {
 			//$iconClass[] = $iconStyle;
 			//$iconClass[] = 'sz-' . $iconSize;
 
+			$iconSlug = isset( $socialNetworks[ $network->type ]['slug'] ) ? $socialNetworks[ $network->type ]['slug'] : $network->type;
+
 			$iconClass = array(
-				"cn-brandicon-{$socialNetworks[ $network->type ]['slug']}",
+				"cn-brandicon-{$iconSlug}",
 				"cn-brandicon-size-{$iconSize}"
 			);
 

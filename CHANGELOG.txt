@@ -1,5 +1,12 @@
 == Changelog ==
 
+= 9.4.3 01/31/2020 =
+* TWEAK: Improve loading speed of the Carousel block.
+* TWEAK: When querying by `cn-char`, pass thru `wp_unslash()` and use only first character if more than one are passed thru query var.
+* DEV: Update node and npm.
+* DEV: Run npm update.
+* DEV: Update dist files.
+
 = 9.4.2 01/22/2020 =
 * BUG: Check to ensure `slug` not found warning is not generated when displaying entry social network icons.
 

@@ -198,7 +198,7 @@ class cnRetrieve {
 
 			// Initial character.
 			$queryInitialChar = cnQuery::getVar( 'cn-char' );
-			if ( ! empty( $queryInitialChar ) ) $atts['char'] = urldecode( $queryInitialChar );
+			if ( ! empty( $queryInitialChar ) ) $atts['char'] = wp_unslash( urldecode( $queryInitialChar ) );
 
 			// Pagination
 			$queryPage = cnQuery::getVar( 'cn-pg' );
@@ -568,7 +568,8 @@ class cnRetrieve {
 
 		if ( 0 < strlen( $atts['char'] ) ) {
 
-			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s', $wpdb->esc_like( $atts['char'] ) . '%' );
+			$initialChar = function_exists( 'mb_substr' ) ? mb_substr( $atts['char'], 0, 1 ) : substr( $atts['char'], 0, 1 );
+			$having[] = $wpdb->prepare( 'HAVING sort_column LIKE %s', $wpdb->esc_like( $initialChar ) . '%' );
 		}
 		/*
 		 * // END --> Set up the query to only return the entries that match the supplied filters.

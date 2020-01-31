@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 4.7.12
 Tested up to: 5.3
 Requires PHP: 5.6.20
-Stable tag: 9.4.2
+Stable tag: 9.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.4.3 01/31/2020 =
+* TWEAK: Improve loading speed of the Carousel block.
+* TWEAK: When querying by `cn-char`, pass thru `wp_unslash()` and use only first character if more than one are passed thru query var.
+* DEV: Update node and npm.
+* DEV: Run npm update.
+* DEV: Update dist files.
 
 = 9.4.2 01/22/2020 =
 * BUG: Check to ensure `slug` not found warning is not generated when displaying entry social network icons.
@@ -480,37 +487,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Use @wordpress/default as the babel-loader-default.
 * DEV: Match core WordPress autoprefixer config.
 
-= 8.39.1 04/09/2019 =
-* TWEAK: Update links to plugin site from `http` to `https`.
-* TWEAK: Remove link to features requests forum from dashboard quick links.
-* TWEAK: Update link to support in plugin meta actions links.
-* TWEAK: Add support link to admin nav to make it more discoverable for the user.
-* TWEAK: Rename the Messenger IM option to Live Messenger so it is not confused with the Facebook Messenger.
-* TWEAK: Do not make Live Messenger IM user ID links since the service was cancelled my MS quite awhile ago.
-* TWEAK: Adjust processing of Advanced Block Options for the Team block so the internal limit value can be overridden.
-* BUG: Remove debug code from the Directory block.
-* BUG: Correct the array index for the excluded categories in the Team block.
-* OTHER: Bump minimum required PHP version to 5.6 to match WordPress core.
-
-= 8.39 04/03/2019 =
-* FEATURE: Introduce the new Team block.
-* TWEAK: Sort countries from their native name in the country drop down.
-* TWEAK: Core WP changes some default admin styles. Tweak the class names assigned to the Manage admin page character index so the render correct in < WP 5.1.
-* BUG: Honor the public/private override settings when determining if the current user can view.
-* BUG: Do not import the SCSS files in the Directory block since they are unused.
-* BUG: Fix undefined index PHP notice when data type was disabled but entry had that type assigned. Now it defaults to the default data type.
-* DEV: Organize the block components into sub folders.
-* DEV: Alias `@Connections-Directory` in webpack so components could be imported using that alias.
-* DEV: Add JSDoc to the blocks.
-* DEV: phpDoc correction.
-
 == Upgrade Notice ==
-
-= 8.39 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.4 PHP version >= 7.1 recommended.
-
-= 8.39.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.40 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
@@ -573,4 +550,13 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.4 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.4.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.4.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.4.3 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

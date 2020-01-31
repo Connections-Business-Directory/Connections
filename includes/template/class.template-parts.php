@@ -1126,7 +1126,7 @@ class cnTemplatePart {
 		// Store the query vars
 		$queryVars                    = array();
 		$queryVars['cn-s']            = cnQuery::getVar('cn-s') ? esc_html( wp_unslash( cnQuery::getVar('cn-s') ) ) : FALSE;
-		$queryVars['cn-char']         = cnQuery::getVar('cn-char') ? esc_html( urldecode( cnQuery::getVar('cn-char') ) ) : FALSE;
+		$queryVars['cn-char']         = cnQuery::getVar('cn-char') ? esc_html( wp_unslash( urldecode( cnQuery::getVar('cn-char') ) ) ) : FALSE;
 		$queryVars['cn-cat']          = cnQuery::getVar('cn-cat') ? cnQuery::getVar('cn-cat') : FALSE;
 		$queryVars['cn-organization'] = cnQuery::getVar('cn-organization') ? esc_html( urldecode( cnQuery::getVar('cn-organization') ) ) : FALSE;
 		$queryVars['cn-department']   = cnQuery::getVar('cn-department') ? esc_html( urldecode( cnQuery::getVar('cn-department') ) ) : FALSE;
@@ -1188,7 +1188,7 @@ class cnTemplatePart {
 
 			$messages['cn-char'] = sprintf(
 				__( 'The results are being filtered by the character: %s', 'connections' ),
-				$queryVars['cn-char']
+				function_exists( 'mb_substr' ) ? mb_substr( $queryVars['cn-char'], 0, 1 ) : substr( $queryVars['cn-char'], 0, 1 )
 			);
 		}
 

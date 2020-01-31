@@ -247,6 +247,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.4.3 01/31/2020 =
+* TWEAK: Improve loading speed of the Carousel block.
+* TWEAK: When querying by `cn-char`, pass thru `wp_unslash()` and use only first character if more than one are passed thru query var.
+* DEV: Update node and npm.
+* DEV: Run npm update.
+* DEV: Update dist files.
+
 = 9.4.1 01/20/2020 =
 * TWEAK: Style tweaks to the Carousel Block to improve its display presentation.
 * BUG: Check that array is returned for carousels in post meta.

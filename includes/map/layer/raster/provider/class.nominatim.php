@@ -24,7 +24,7 @@ class Nominatim extends Tile_Layer {
 
 		parent::__construct(
 			$id,
-			'//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+			'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			array(
 				'subdomains'  => 'abc',
 				'attribution' => '&copy; <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',

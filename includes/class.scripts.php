@@ -142,7 +142,7 @@ class cnScript {
 			'leaflet',
 			$url . "vendor/leaflet/leaflet$min.js",
 			array(),
-			'1.3.4',
+			'1.6.0',
 			TRUE
 		);
 

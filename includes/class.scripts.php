@@ -150,7 +150,7 @@ class cnScript {
 			'leaflet-control-geocoder',
 			$url . "vendor/leaflet/geocoder/Control.Geocoder$min.js",
 			array( 'leaflet' ),
-			'1.6',
+			'1.11',
 			TRUE
 		);
 
@@ -390,7 +390,7 @@ class cnScript {
 		$path = Connections_Directory()->pluginPath();
 
 		wp_register_style( 'leaflet', $url . "vendor/leaflet/leaflet$min.css", array(), '1.3.4' );
-		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.6' );
+		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.11' );
 
 		wp_register_style(
 			'cn-admin',

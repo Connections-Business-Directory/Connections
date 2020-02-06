@@ -178,7 +178,7 @@ class cnScript {
 				'leaflet-basemap-googlemaps',
 				$url . "vendor/leaflet/basemap-providers/Leaflet.GoogleMutant$min.js",
 				array( 'leaflet', 'cn-google-maps-api' ),
-				'0.7.0',
+				'0.8.0',
 				TRUE
 			);
 

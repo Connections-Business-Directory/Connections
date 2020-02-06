@@ -28,8 +28,8 @@ class Nominatim extends Tile_Layer {
 			array(
 				'subdomains'  => 'abc',
 				'attribution' => '&copy; <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-				'minZoom'     => 0,
-				'maxZoom'     => 19,
+				'minZoom'     => 1,
+				'maxZoom'     => 17,
 			)
 		);
 	}

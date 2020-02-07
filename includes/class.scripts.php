@@ -162,12 +162,21 @@ class cnScript {
 			TRUE
 		);
 
+		//wp_register_script(
+		//	'leaflet-layer-with-headers',
+		//	$url . "vendor/leaflet/layer-headers/index.js",
+		//	array( 'leaflet' ),
+		//	time(),
+		//	TRUE
+		//);
+
 		/*
 		 * Create an array of script handles of Leaflet related map dependencies.
 		 * NOTE: `leaflet` is not added to the array because it is already required by `leaflet-control-geocoder`.
 		 */
 		$mapDependencies = array(
 			//'leaflet-layer-deferred',
+			//'leaflet-layer-with-headers',
 			'leaflet-control-geocoder',
 		);
 

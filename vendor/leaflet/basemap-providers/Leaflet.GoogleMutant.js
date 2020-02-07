@@ -62,7 +62,11 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 			this._initMutant();
 
 			map.on('viewreset', this._reset, this);
-			map.on('move', this._update, this);
+			if (this.options.updateWhenIdle) {
+				map.on('moveend', this._update, this);
+			} else {
+				map.on('move', this._update, this);
+			}
 			map.on('zoomend', this._handleZoomAnim, this);
 			map.on('resize', this._resize, this);
 
@@ -90,13 +94,14 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 
 	onRemove: function (map) {
 		L.GridLayer.prototype.onRemove.call(this, map);
+		this._observer.disconnect();
 		map._container.removeChild(this._mutantContainer);
-		this._mutantContainer = undefined;
 
 		google.maps.event.clearListeners(map, 'idle');
 		google.maps.event.clearListeners(this._mutant, 'idle');
 		map.off('viewreset', this._reset, this);
 		map.off('move', this._update, this);
+		map.off('moveend', this._update, this);
 		map.off('zoomend', this._handleZoomAnim, this);
 		map.off('resize', this._resize, this);
 
@@ -108,13 +113,6 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 
 	getAttribution: function () {
 		return this.options.attribution;
-	},
-
-	setOpacity: function (opacity) {
-		this.options.opacity = opacity;
-		if (opacity < 1) {
-			L.DomUtil.setOpacity(this._mutantContainer, opacity);
-		}
 	},
 
 	setElementSize: function (e, size) {
@@ -149,9 +147,11 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 			this._mutantContainer.id = '_MutantContainer_' + L.Util.stamp(this._mutantContainer);
 			this._mutantContainer.style.zIndex = '800'; //leaflet map pane at 400, controls at 1000
 			this._mutantContainer.style.pointerEvents = 'none';
+			
+			L.DomEvent.off(this._mutantContainer);
 
-			this._map.getContainer().appendChild(this._mutantContainer);
 		}
+		this._map.getContainer().appendChild(this._mutantContainer);
 
 		this.setOpacity(this.options.opacity);
 		this.setElementSize(this._mutantContainer, this._map.getSize());
@@ -161,6 +161,13 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 
 	_initMutant: function () {
 		if (!this._ready || !this._mutantContainer) return;
+
+		if (this._mutant) {
+			// reuse old _mutant, just make sure it has the correct size
+			this._resize();
+			return;
+		}
+
 		this._mutantCenter = new google.maps.LatLng(0, 0);
 
 		var map = new google.maps.Map(this._mutantContainer, {
@@ -195,10 +202,18 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 	_attachObserver: function _attachObserver (node) {
 // 		console.log('Gonna observe', node);
 
-		var observer = new MutationObserver(this._onMutations.bind(this));
+		if (!this._observer)
+			this._observer = new MutationObserver(this._onMutations.bind(this));
 
 		// pass in the target node, as well as the observer options
-		observer.observe(node, { childList: true, subtree: true });
+		this._observer.observe(node, { childList: true, subtree: true });
+
+		// if we are reusing an old _mutantContainer, we must manually detect
+		// all existing tiles in it
+		Array.prototype.forEach.call(
+			node.querySelectorAll('img'),
+			this._boundOnMutatedImage
+		);
 	},
 
 	_onMutations: function _onMutations (mutations) {
@@ -215,6 +230,17 @@ L.GridLayer.GoogleMutant = L.GridLayer.extend({
 						this._boundOnMutatedImage
 					);
 
+					// Check for, and remove, the "Google Maps can't load correctly" div.
+					// You *are* loading correctly, you dumbwit.
+					if (node.style.backgroundColor === 'white') {
+						L.DomUtil.remove(node);
+					}
+                    
+					// Check for, and remove, the "For development purposes only" divs on the aerial/hybrid tiles.
+					if (node.textContent.indexOf('For development purposes only') === 0) {
+						L.DomUtil.remove(node);
+					}
+                    
 					// Check for, and remove, the "Sorry, we have no imagery here"
 					// empty <div>s. The [style*="text-align: center"] selector
 					// avoids matching the attribution notice.

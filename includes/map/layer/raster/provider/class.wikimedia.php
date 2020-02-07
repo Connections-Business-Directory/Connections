@@ -27,7 +27,7 @@ class Wikimedia extends Tile_Layer {
 
 		parent::__construct(
 			$id,
-			'//maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
+			'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png',
 			array(
 				'subdomains'  => '',
 				'attribution' => $wikimedia . ' | ' . $osm,

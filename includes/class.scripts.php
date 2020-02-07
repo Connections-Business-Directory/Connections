@@ -142,7 +142,7 @@ class cnScript {
 			'leaflet',
 			$url . "vendor/leaflet/leaflet$min.js",
 			array(),
-			'1.3.4',
+			'1.6.0',
 			TRUE
 		);
 
@@ -150,7 +150,7 @@ class cnScript {
 			'leaflet-control-geocoder',
 			$url . "vendor/leaflet/geocoder/Control.Geocoder$min.js",
 			array( 'leaflet' ),
-			'1.6',
+			'1.11',
 			TRUE
 		);
 
@@ -162,12 +162,21 @@ class cnScript {
 			TRUE
 		);
 
+		//wp_register_script(
+		//	'leaflet-layer-with-headers',
+		//	$url . "vendor/leaflet/layer-headers/index.js",
+		//	array( 'leaflet' ),
+		//	time(),
+		//	TRUE
+		//);
+
 		/*
 		 * Create an array of script handles of Leaflet related map dependencies.
 		 * NOTE: `leaflet` is not added to the array because it is already required by `leaflet-control-geocoder`.
 		 */
 		$mapDependencies = array(
 			//'leaflet-layer-deferred',
+			//'leaflet-layer-with-headers',
 			'leaflet-control-geocoder',
 		);
 
@@ -178,7 +187,7 @@ class cnScript {
 				'leaflet-basemap-googlemaps',
 				$url . "vendor/leaflet/basemap-providers/Leaflet.GoogleMutant$min.js",
 				array( 'leaflet', 'cn-google-maps-api' ),
-				'0.7.0',
+				'0.8.0',
 				TRUE
 			);
 
@@ -390,7 +399,7 @@ class cnScript {
 		$path = Connections_Directory()->pluginPath();
 
 		wp_register_style( 'leaflet', $url . "vendor/leaflet/leaflet$min.css", array(), '1.3.4' );
-		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.6' );
+		wp_register_style( 'leaflet-control-geocoder', $url . "vendor/leaflet/geocoder/Control.Geocoder$min.css", array( 'leaflet' ), '1.11' );
 
 		wp_register_style(
 			'cn-admin',

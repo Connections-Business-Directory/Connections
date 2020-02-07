@@ -470,7 +470,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 		// An image or photograph of the individual associated with the vCard.
 		$photo = $this->getImageMeta( array( 'type' => 'photo' ) );
 
-		if ( ! is_wp_error( $photo ) ) {
+		if ( ! is_wp_error( $photo ) && isset( $photo['path'] ) && 0 < strlen( $photo['path'] ) ) {
 			$this->vCard->set( 'PHOTO', $photo['path'] )
 			            ->addParam( 'TYPE', $this->getImageType( $photo['type'] ) );
 

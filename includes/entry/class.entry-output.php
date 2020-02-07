@@ -1352,7 +1352,7 @@ class cnOutput extends cnEntry {
 
 				} else {
 
-					$baseMap = \Connections_Directory\Map\Layer\Raster\Provider\Wikimedia::create();
+					$baseMap = \Connections_Directory\Map\Layer\Raster\Provider\Nominatim::create();
 
 					$attribution[] = $baseMap->getAttribution();
 

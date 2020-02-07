@@ -240,6 +240,18 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.4.4 02/07/2020 =
+* TWEAK: Set OpenStreetMap Tile Server URL to https.
+* TWEAK: Set Wikimedia OpenStreetMap Tile Server URL to https.
+* TWEAK: Limit OpenStreetMap min/max zoom to levels with acceptable loading times.
+* TWEAK: Switch default map tile server from Wikimedia to Nominatim as the Wikimedia map tiles seem to be failing to load.
+* DEV: Update LeafletJS to 1.6.0.
+* DEV: Update LeafletJS Control.Geocoder to 1.11.
+* DEV: Update LeafletJS GoogleMutant to version 0.8.0.
+* DEV: Include LeafletJS Layer Headers plugin as a vendor library.
+* DEV: Add additional check for photo path when creating a vCard.
+* DEV: Update dist files.
+
 = 9.4.3 01/31/2020 =
 * TWEAK: Improve loading speed of the Carousel block.
 * TWEAK: When querying by `cn-char`, pass thru `wp_unslash()` and use only first character if more than one are passed thru query var.
@@ -559,4 +571,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.4.3 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.4.4 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

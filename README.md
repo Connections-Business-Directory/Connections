@@ -247,6 +247,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.4.5 02/17/2020 =
+* TWEAK: Change the default map tile provider from Wikimedia to OSM for the address geocoding in the admin.
+
 = 9.4.4 02/07/2020 =
 * TWEAK: Set OpenStreetMap Tile Server URL to https.
 * TWEAK: Set Wikimedia OpenStreetMap Tile Server URL to https.
@@ -505,29 +508,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * DEV: Commit the updated package-lock.json file.
 * DEV: Use @wordpress/default as the babel-loader-default.
 * DEV: Match core WordPress autoprefixer config.
-
-= 8.39.1 04/09/2019 =
-* TWEAK: Update links to plugin site from `http` to `https`.
-* TWEAK: Remove link to features requests forum from dashboard quick links.
-* TWEAK: Update link to support in plugin meta actions links.
-* TWEAK: Add support link to admin nav to make it more discoverable for the user.
-* TWEAK: Rename the Messenger IM option to Live Messenger so it is not confused with the Facebook Messenger.
-* TWEAK: Do not make Live Messenger IM user ID links since the service was cancelled my MS quite awhile ago.
-* TWEAK: Adjust processing of Advanced Block Options for the Team block so the internal limit value can be overridden.
-* BUG: Remove debug code from the Directory block.
-* BUG: Correct the array index for the excluded categories in the Team block.
-* OTHER: Bump minimum required PHP version to 5.6 to match WordPress core.
-
-= 8.39 04/03/2019 =
-* FEATURE: Introduce the new Team block.
-* TWEAK: Sort countries from their native name in the country drop down.
-* TWEAK: Core WP changes some default admin styles. Tweak the class names assigned to the Manage admin page character index so the render correct in < WP 5.1.
-* BUG: Honor the public/private override settings when determining if the current user can view.
-* BUG: Do not import the SCSS files in the Directory block since they are unused.
-* BUG: Fix undefined index PHP notice when data type was disabled but entry had that type assigned. Now it defaults to the default data type.
-* DEV: Organize the block components into sub folders.
-* DEV: Alias `@Connections-Directory` in webpack so components could be imported using that alias.
-* DEV: Add JSDoc to the blocks.
-* DEV: phpDoc correction.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

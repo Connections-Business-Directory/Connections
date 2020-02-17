@@ -1,5 +1,8 @@
 == Changelog ==
 
+= 9.4.5 02/17/2020 =
+* TWEAK: Change the default map tile provider from Wikimedia to OSM for the address geocoding in the admin.
+
 = 9.4.4 02/07/2020 =
 * TWEAK: Set OpenStreetMap Tile Server URL to https.
 * TWEAK: Set Wikimedia OpenStreetMap Tile Server URL to https.

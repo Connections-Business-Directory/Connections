@@ -247,6 +247,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.4.6 03/09/2020 =
+* BUG: Fix scenario where a default map would display if no geocoded addresses existed. Now no map will display as intended.
+* DEV: Update dist files.
+
 = 9.4.5 02/17/2020 =
 * TWEAK: Change the default map tile provider from Wikimedia to OSM for the address geocoding in the admin.
 

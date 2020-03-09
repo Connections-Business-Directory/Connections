@@ -1319,6 +1319,7 @@ class cnOutput extends cnEntry {
 
 			if ( 0 < count( $addresses ) ) {
 
+				$createMap = FALSE;
 				$layers = array();
 				$layerControl = \Connections_Directory\Map\Control\Layer\Layer_Control::create( 'layerControl' )->setCollapsed( FALSE );
 
@@ -1358,6 +1359,10 @@ class cnOutput extends cnEntry {
 
 					$baseMap->setAttribution( implode( ' | ', $attribution )  );
 
+					/*
+					 * Adding a base layer, creates a layer switch control, add base map tiles as a normal layer to
+					 * prevent a the empty layer control from being displayed.
+					 */
 					//$layerControl->addBaseLayer( $baseMap );
 					$layers[] = $baseMap;
 				}
@@ -1388,11 +1393,13 @@ class cnOutput extends cnEntry {
 
 						$layers[] = \Connections_Directory\Map\UI\Marker::create( 'default', $coordinates )
 						                                    ->bindPopup( \Connections_Directory\Map\UI\Popup::create( 'default', $popup ) );
+
+						$createMap = TRUE;
 					}
 
 				}
 
-				if ( 0 < count( $layers ) ) {
+				if ( $createMap ) {
 
 					$map = \Connections_Directory\Map\Map::create(
 						'cn-map-' . $this->getRuid(),

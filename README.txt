@@ -240,6 +240,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.4.6 03/09/2020 =
+* BUG: Fix scenario where a default map would display if no geocoded addresses existed. Now no map will display as intended.
+* DEV: Update dist files.
+
 = 9.4.5 02/17/2020 =
 * TWEAK: Change the default map tile provider from Wikimedia to OSM for the address geocoding in the admin.
 
@@ -580,4 +584,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.4.5 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.4.6 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

@@ -247,6 +247,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.4.7 03/30/2020 =
+* NEW: Introduce the `cn_output_default_content_block_atts` filter.
+* NEW: Introduce the `cn_metabox_rte_show_media_button` filter.
+* OTHER: Bump tested up to 5.4.
+
 = 9.4.6 03/09/2020 =
 * BUG: Fix scenario where a default map would display if no geocoded addresses existed. Now no map will display as intended.
 * DEV: Update dist files.

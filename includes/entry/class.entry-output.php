@@ -2791,7 +2791,10 @@ class cnOutput extends cnEntry {
 			'return'        => FALSE
 			);
 
-		$atts = wp_parse_args( apply_filters( 'cn_output_content_block_atts', $atts ), $defaults );
+		$atts = wp_parse_args(
+			apply_filters( 'cn_output_content_block_atts', $atts ),
+			apply_filters( 'cn_output_default_content_block_atts', $defaults )
+		);
 
 		if ( ! empty( $atts['id'] ) ) {
 

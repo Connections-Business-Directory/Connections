@@ -3,9 +3,9 @@ Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, directory, listings directory, local business directory, link directory, member directory, staff directory
 Requires at least: 4.7.12
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.6.20
-Stable tag: 9.4.6
+Stable tag: 9.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,11 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.4.7 03/30/2020 =
+* NEW: Introduce the `cn_output_default_content_block_atts` filter.
+* NEW: Introduce the `cn_metabox_rte_show_media_button` filter.
+* OTHER: Bump tested up to 5.4.
 
 = 9.4.6 03/09/2020 =
 * BUG: Fix scenario where a default map would display if no geocoded addresses existed. Now no map will display as intended.
@@ -587,4 +592,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.4.6 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.4.7 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

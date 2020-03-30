@@ -107,8 +107,10 @@ class cnEntryMetabox {
 
 		} else {
 
+			$showMediaButton = current_user_can( 'unfiltered_html' ) ? TRUE : FALSE;
+
 			$rteOptions = array(
-				'media_buttons' => current_user_can( 'unfiltered_html' ) ? TRUE : FALSE,
+				'media_buttons' => apply_filters( 'cn_metabox_rte_show_media_button', $showMediaButton ),
 				'tinymce'       => array(
 					'editor_selector'   => 'tinymce',
 					'toolbar1'          => 'bold, italic, underline, |, bullist, numlist, |, justifyleft, justifycenter, justifyright, alignleft, aligncenter, alignright, |, link, unlink, |, pastetext, pasteword, removeformat, |, undo, redo',

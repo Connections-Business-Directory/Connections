@@ -240,6 +240,9 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.4.8 04/08/2020 =
+* BUG: Add missing image type parameter to the team block template files.
+
 = 9.4.7 03/30/2020 =
 * NEW: Introduce the `cn_output_default_content_block_atts` filter.
 * NEW: Introduce the `cn_metabox_rte_show_media_button` filter.
@@ -595,4 +598,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.4.7 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.4.8 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

@@ -12,7 +12,13 @@
 	<div class="cn-team-member-overlay-image">
 		<?php
 		$entry->getImage(
-			array( 'width' => 600, 'height' => 600, 'zc' => absint( $atts['imageCropMode'] ), 'quality' => 90 )
+			array(
+				'image'   => $atts['imageType'],
+				'width'   => 600,
+				'height'  => 600,
+				'zc'      => absint( $atts['imageCropMode'] ),
+				'quality' => 90,
+			)
 		);
 		?>
 		<div class="cn-team-member-overlay-background">

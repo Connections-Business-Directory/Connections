@@ -1,0 +1,242 @@
+<?php
+namespace Connections_Directory\Shortcode;
+
+use cnSettingsAPI;
+use cnShortcode;
+use cnTemplate as Template;
+use cnTemplateFactory;
+use cnTemplatePart;
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+/**
+ * Class Entry
+ *
+ * @package Connections_Directory\Shortcode
+ */
+class Entry extends cnShortcode {
+
+	/**
+	 * @var string
+	 */
+	private $html = '';
+
+	/**
+	 *
+	 * @param array  $atts
+	 * @param string $content
+	 * @param string $tag
+	 */
+	public function __construct( $atts, $content, $tag ) {
+
+		/** @var Template $template */
+		$template = cnTemplateFactory::loadTemplate( $atts );
+
+		if ( $template === FALSE ) {
+			$this->html = cnTemplatePart::loadTemplateError( $atts );
+			return;
+		}
+
+		/*
+		 * This filter adds the current template paths to cnLocate so when template
+		 * part file overrides are being searched for, it'll also search in template
+		 * specific paths. This filter is then removed at the end of the shortcode.
+		 */
+		add_filter( 'cn_locate_file_paths', array( $template, 'templatePaths' ) );
+		self::addFilterRegistry( 'cn_locate_file_paths' );
+
+		do_action( 'cn_template_include_once-' . $template->getSlug() );
+		do_action( 'cn_template_enqueue_js-' . $template->getSlug() );
+
+		$atts = $this->parseAtts( $atts, $template, $tag );
+
+		$atts = apply_filters( 'cn_list_retrieve_atts', $atts );
+		$atts = apply_filters( 'cn_list_retrieve_atts-' . $template->getSlug(), $atts );
+
+		$results = Connections_Directory()->retrieve->entries( $atts );
+
+		// Apply any registered filters to the results.
+		if ( ! empty( $results ) ) {
+
+			$results = apply_filters( 'cn_list_results', $results );
+			$results = apply_filters( 'cn_list_results-' . $template->getSlug(), $results );
+			self::addFilterRegistry( 'cn_list_results-' . $template->getSlug() );
+
+		} else {
+
+			$this->html = '<p>' . __( 'Entry not found.', 'connections' ) . '</p>';
+			return;
+		}
+
+		ob_start();
+
+		// Prints the template's CSS file.
+		// NOTE: This is primarily to support legacy templates which included a CSS
+		// file which was not enqueued in the page header.
+		do_action( 'cn_template_inline_css-' . $template->getSlug(), $atts );
+
+		// The return to top anchor
+		do_action( 'cn_list_return_to_target', $atts );
+
+		$this->html .= ob_get_clean();
+
+		$this->html .= sprintf(
+			'<div class="cn-list" id="cn-list" data-connections-version="%1$s-%2$s">',
+			Connections_Directory()->options->getVersion(),
+			Connections_Directory()->options->getDBVersion()
+		);
+
+		$this->html .= sprintf(
+			'<div class="cn-template cn-%1$s" id="cn-%1$s" data-template-version="%2$s">',
+			$template->getSlug(),
+			$template->getVersion()
+		);
+
+		$this->html .= $this->renderTemplate( $template, $results, $atts );
+
+		$this->html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-' . $template->getSlug() . ' -->' : '' ) . PHP_EOL;
+
+		$this->html .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list -->' : '' ) . PHP_EOL;
+
+		// Clear any filters that have been added.
+		// This allows support using the shortcode multiple times on the same page.
+		cnShortcode::clearFilterRegistry();
+
+		// @todo This should be run via a filter.
+		$this->html = self::removeEOL( $this->html );
+	}
+
+	/**
+	 * The shortcode defaults.
+	 *
+	 * @param Template $template
+	 *
+	 * @return array
+	 */
+	private function getDefaults( $template ) {
+
+		$defaults = array(
+			'id'         => NULL,
+			'template'   => NULL,
+			'force_home' => FALSE,
+			'home_id'    => in_the_loop() && is_page() ? get_the_ID() : cnSettingsAPI::get( 'connections', 'home_page', 'page_id' ),
+		);
+
+		$defaults = apply_filters( 'cn_list_atts_permitted', $defaults );
+		$defaults = apply_filters( "cn_list_atts_permitted-{$template->getSlug()}", $defaults );
+
+		return $defaults;
+	}
+
+	/**
+	 * Parse the user supplied atts.
+	 *
+	 * @param array    $atts
+	 * @param Template $template
+	 * @param string   $tag
+	 *
+	 * @return array
+	 */
+	public function parseAtts( $atts, $template, $tag ) {
+
+		$defaults = $this->getDefaults( $template );
+		$atts     = shortcode_atts( $defaults, $atts, $tag );
+
+		$atts = apply_filters( 'cn_list_atts', $atts );
+		$atts = apply_filters( "cn_list_atts-{$template->getSlug()}", $atts );
+
+		// Force some specific defaults.
+		$atts['content']         = '';
+		$atts['lock']            = TRUE;
+		$atts['show_alphaindex'] = FALSE;
+		$atts['show_alphahead']  = FALSE;
+		$atts['limit']           = 1;
+
+		// Sanitize supplied atts.
+		$atts['id'] = intval( $atts['id'] );
+
+		if ( 0 === $atts['id'] ) {
+
+			$atts['id'] = -1;
+		}
+
+		return $atts;
+	}
+
+	/**
+	 * Callback for `add_shortcode()`
+	 *
+	 * @param array  $atts
+	 * @param string $content
+	 * @param string $tag
+	 *
+	 * @return self
+	 */
+	public static function shortcode( $atts, $content = '', $tag = 'cn-entry' ) {
+
+		return new static( $atts, $content, $tag );
+	}
+
+	/**
+	 * @since
+	 *
+	 * @param Template $template
+	 * @param array    $items
+	 * @param array    $attributes
+	 *
+	 * @return string
+	 */
+	private function renderTemplate( $template, $items, $attributes ) {
+
+		ob_start();
+
+		do_action(
+			"Connections_Directory/Render/Template/{$template->getSlug()}/Before",
+			$attributes,
+			$items,
+			$template
+		);
+
+		//foreach ( $items as $data ) {
+		//
+		//	$entry = new \cnOutput( $data );
+		//
+		//	do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $attributes );
+		//}
+
+		// Render the core result list header.
+		//cnTemplatePart::header( $attributes, $items, $template );
+
+		// Render the core result list body.
+		//cnTemplatePart::body( $attributes, $items, $template );
+		cnTemplatePart::cards( $attributes, $items, $template );
+
+		// Render the core result list footer.
+		//cnTemplatePart::footer( $attributes, $items, $template );
+
+		do_action(
+			"Connections_Directory/Render/Template/{$template->getSlug()}/After",
+			$attributes,
+			$items,
+			$template
+		);
+
+		$html = ob_get_clean();
+
+		if ( FALSE === $html ) {
+
+			$html = '<p>' . __( 'Error rendering template.', 'connections' ) . '</p>';
+		}
+
+		return $html;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+
+		return $this->html;
+	}
+}

@@ -242,6 +242,7 @@ class cnDependency {
 			'cnShortcode'                              => 'includes/shortcode/class.shortcode.php',
 			'cnShortcode_Connections'                  => 'includes/shortcode/class.shortcode-connections.php',
 			'Connections_Directory\Shortcode\mapBlock' => 'includes/shortcode/class.shortcode-mapblock.php',
+			'Connections_Directory\Shortcode\Entry'    => 'includes/shortcode/class.shortcode-entry.php',
 			'cnThumb'                                  => 'includes/shortcode/class.shortcode-thumbnail.php',
 			'cnThumb_Responsive'                       => 'includes/shortcode/class.shortcode-thumbnail-responsive.php',
 

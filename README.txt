@@ -240,6 +240,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.5 04/20/2020 =
+* NEW: Introduce the `[cn-entry]` shortcode.
+* TWEAK: Do not render the character section heads if the character index has been disabled.
+
 = 9.4.8 04/08/2020 =
 * BUG: Add missing image type parameter to the team block template files.
 
@@ -601,4 +605,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.4.8 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.5 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

@@ -247,6 +247,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.5 04/20/2020 =
+* NEW: Introduce the `[cn-entry]` shortcode.
+* TWEAK: Do not render the character section heads if the character index has been disabled.
+
 = 9.4.8 04/08/2020 =
 * BUG: Add missing image type parameter to the team block template files.
 

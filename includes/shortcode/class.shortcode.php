@@ -69,6 +69,8 @@ class cnShortcode {
 			add_shortcode( 'connections', array( __CLASS__, 'view' ) );
 			add_shortcode( 'upcoming_list', '_upcoming_list' );
 
+			add_shortcode( 'cn-entry', array( 'Connections_Directory\Shortcode\Entry', 'shortcode' ) );
+
 			add_shortcode( 'cn-mapblock', array( 'Connections_Directory\Shortcode\mapBlock', 'shortcode' ) );
 
 			add_shortcode( 'connections_vcard', '_connections_vcard' ); /* Experimental. Do NOT use. */

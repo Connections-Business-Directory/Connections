@@ -629,10 +629,7 @@ class cnEntry {
 	/**
 	 * Returns the permalink for the entry.
 	 *
-	 * @access public
 	 * @since  8.1.6
-	 *
-	 * @uses   cnURL::permalink()
 	 *
 	 * @return string
 	 */

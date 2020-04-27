@@ -538,12 +538,9 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 * Returns the permalink for the entry.
+	 * Displays the permalink for the entry.
 	 *
-	 * @access public
-	 * @since  8.1.6
-	 *
-	 * @uses   cnURL::permalink()
+	 * @since 8.1.6
 	 */
 	public function permalink() {
 

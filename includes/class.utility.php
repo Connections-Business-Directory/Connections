@@ -964,6 +964,8 @@ class cnURL {
 
 		}
 
+		$atts['permalink_root'] = $permalink;
+
 		if ( ! empty( $atts['class'] ) ) $piece['class']       = 'class="' . $atts['class'] .'"';
 		// if ( ! empty( $atts['slug'] ) ) $piece['id']        = 'id="' . $atts['slug'] .'"';
 		if ( ! empty( $atts['title'] ) ) $piece['title']       = 'title="' . $atts['title'] .'"';
@@ -999,13 +1001,22 @@ class cnURL {
 
 			case 'edit':
 
-				if ( $wp_rewrite->using_permalinks() ) {
+				//if ( $wp_rewrite->using_permalinks() ) {
+				//
+				//	// The entry slug is saved in the db urlencoded so we'll expect when the permalink for entry name is
+				//	// requested that the entry slug is being used so urlencode() will not be use as not to double encode it.
+				//	$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/edit' );
+				//} else {
+				//	$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail', 'cn-process' => 'edit' ) , $permalink );
+				//}
 
-					// The entry slug is saved in the db urlencoded so we'll expect when the permalink for entry name is
-					// requested that the entry slug is being used so urlencode() will not be use as not to double encode it.
-					$permalink = trailingslashit( $permalink . $base['name_base'] . '/' . $atts['slug'] . '/edit' );
-				} else {
-					$permalink = add_query_arg( array( 'cn-entry-slug' => $atts['slug'] , 'cn-view' => 'detail', 'cn-process' => 'edit' ) , $permalink );
+				$result = Connections_Directory()->retrieve->entry( $atts['slug'] );
+
+				if ( FALSE !== $result ) {
+
+					$actionURL  = 'admin.php?page=connections_manage&cn-action=edit_entry&id=' . $result->id;
+					$actionName = 'entry_edit_' . $result->id;
+					$permalink  = admin_url( wp_nonce_url( $actionURL, $actionName ) );
 				}
 
 				break;

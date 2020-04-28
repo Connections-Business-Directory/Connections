@@ -538,12 +538,9 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 * Returns the permalink for the entry.
+	 * Displays the permalink for the entry.
 	 *
-	 * @access public
-	 * @since  8.1.6
-	 *
-	 * @uses   cnURL::permalink()
+	 * @since 8.1.6
 	 */
 	public function permalink() {
 
@@ -557,6 +554,33 @@ class cnOutput extends cnEntry {
 				'return'     => FALSE,
 			)
 		);
+	}
+
+	/**
+	 * Displays the edit permalink for the entry.
+	 *
+	 * @since 9.5.1
+	 *
+	 * @param array $atts
+	 */
+	public function editPermalink( $atts = array() ) {
+
+		$defaults = array(
+			'class' => 'cn-edit-entry',
+			'text'  => __( 'Edit Entry', 'connections' ),
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
+		$url  = $this->getEditPermalink();
+
+		if ( 0 === strlen( $url ) ) {
+
+			return;
+		}
+
+		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '">' . $atts['text'] . '</a>';
+
+		echo apply_filters( 'cn_entry_edit_permalink', $link, $url, $atts, $this );
 	}
 
 	/**

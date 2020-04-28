@@ -562,7 +562,7 @@ class CN_Term_Admin_List_Table extends WP_List_Table {
 		 * @param object $term         Term object.
 		 */
 		$name = apply_filters( 'cn_term_name', $pad . ' ' . $term->name, $term );
-		$uri  = wp_get_referer();
+		$uri  = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
 
 		$location = add_query_arg(
 			array(

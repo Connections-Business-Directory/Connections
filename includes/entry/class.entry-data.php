@@ -650,6 +650,36 @@ class cnEntry {
 	}
 
 	/**
+	 * Returns the edit permalink for the entry.
+	 *
+	 * @since 9.5.1
+	 *
+	 * @return string
+	 */
+	public function getEditPermalink() {
+
+		$permalink = '';
+
+		if ( ( current_user_can( 'connections_manage' ) && current_user_can( 'connections_view_menu' ) ) &&
+		     ( current_user_can( 'connections_edit_entry_moderated' ) || current_user_can( 'connections_edit_entry' ) )
+		) {
+
+			$permalink = cnURL::permalink(
+				array(
+					'type'       => 'edit',
+					'slug'       => $this->getSlug(),
+					'home_id'    => $this->directoryHome['page_id'],
+					'force_home' => $this->directoryHome['force_home'],
+					'data'       => 'url',
+					'return'     => TRUE,
+				)
+			);
+		}
+
+		return apply_filters( 'cn_entry_get_edit_permalink', $permalink, $this );
+	}
+
+	/**
 	 * Returns $slug.
 	 *
 	 * @see cnEntry::$slug

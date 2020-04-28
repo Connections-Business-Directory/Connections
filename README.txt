@@ -240,6 +240,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.5.1 04/28/2020 =
+* NEW: Introduce the `getEditPermalink()` and the `editPermalink()` functions.
+* TWEAK: Add permalink root to attributes in the `cn_permalink` filter.
+* BUG: Fix instances where "Sorry, you are not allowed to access this page." error message would display when attempting to edit a category on the Connections Categories admin page.
+* DEV: phpDoc updates.
+
 = 9.5 04/20/2020 =
 * NEW: Introduce the `[cn-entry]` shortcode.
 * TWEAK: Do not render the character section heads if the character index has been disabled.
@@ -608,4 +614,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.5 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.5.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.

@@ -310,7 +310,7 @@ class Carousel extends Component {
 
 		/*
 		 * Because `select( 'core/block-editor' ).getBlocks()` return a nested array where the `innerBlocks` property
-		 * can contain nested blocks, it needs flattend first so it can be filtered by block name and then searched
+		 * can contain nested blocks, it needs flattened first so it can be filtered by block name and then searched
 		 * for the current `blockId`.
 		 *
 		 * @link https://stackoverflow.com/a/35272973/5351316

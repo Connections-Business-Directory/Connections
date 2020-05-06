@@ -1169,14 +1169,9 @@ class cnEntry_Action {
 	/**
 	 * Add the entry actions to the admin bar
 	 *
-	 * @access private
-	 * @static
-	 * @since  8.2
-	 * @uses   cnURL::permalink()
-	 * @uses   current_user_can()
-	 * @param  $admin_bar object
+	 * @since 8.2
 	 *
-	 * @return void
+	 * @param WP_Admin_Bar $admin_bar
 	 */
 	public static function adminBarMenuItems( $admin_bar ) {
 

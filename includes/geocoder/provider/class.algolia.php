@@ -229,7 +229,7 @@ final class Algolia implements Provider {
 			$builder->setStreetName( property_exists( $item, 'locale_names' ) ? $item->locale_names[0] : NULL );
 			$builder->setLocality( property_exists( $item, 'city' ) ? $item->city[0] : NULL );
 			$builder->setCounty( property_exists( $item, 'county' ) ? $item->county[0] : NULL );
-			$builder->setRegion( property_exists( $item, 'administrative' ) ? $item->administrative[0] : NULL );
+			$builder->setRegion( property_exists( $item, 'administrative' ) && array_key_exists( 0, $item->administrative ) ? $item->administrative[0] : NULL );
 			$builder->setPostalCode( property_exists( $item, 'postcode' ) && isset( $item->postcode[0] ) ? $item->postcode[0] : NULL );
 			$builder->setCountry( property_exists( $item, 'country' ) ? $item->country : NULL );
 			$builder->setCountryCode( property_exists( $item, 'country_code' ) ? $item->country_code : NULL );

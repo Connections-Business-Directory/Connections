@@ -977,7 +977,7 @@ class cnEntry_Action {
 	}
 
 	/**
-	 * Update the term taxonomy counts of the supplied entry IDs for the supplied taxonmies.
+	 * Update the term taxonomy counts of the supplied entry IDs for the supplied taxonomies.
 	 *
 	 * @access private
 	 * @since  8.2.5

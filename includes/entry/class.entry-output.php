@@ -2769,17 +2769,13 @@ class cnOutput extends cnEntry {
 	 * 		NOTE: Custom content block IDs in `exclude` outweigh custom content block IDs in include. Meaning if the
 	 * 		same custom content block ID exists in both, the custom content block will be excluded.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @uses do_action()
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @uses has_action()
-	 * @param  mixed  $atts array | string [optional] The custom content block(s) to render.
-	 * @param  array  $shortcode_atts [optional] If this is used within the shortcode template loop, the shortcode atts
-	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
-	 * @param  cnTemplate|null $template [optional] If this is used within the shortcode template loop, the template object
-	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
+	 *
+	 * @param array|string    $atts           [optional] The custom content block(s) to render.
+	 * @param array           $shortcode_atts [optional] If this is used within the shortcode template loop, the shortcode atts
+	 *                                        should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
+	 * @param cnTemplate|null $template       [optional] If this is used within the shortcode template loop, the template object
+	 *                                        should be passed so the template object can be passed by do_action() to allow access to the action callback.
 	 *
 	 * @return string The HTML output of the custom content blocks.
 	 */

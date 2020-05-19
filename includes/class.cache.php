@@ -316,8 +316,25 @@ class cnCache {
 
 			if ( $result ) {
 
-				do_action( 'set_transient_' . $key );
-				do_action( 'setted_transient', $key );
+				/**
+				 * Fires after the value for a specific transient has been set.
+				 *
+				 * The dynamic portion of the hook name, `$key`, refers to the transient name.
+				 *
+				 * @param mixed  $value   Transient value.
+				 * @param int    $expires Time until expiration in seconds.
+				 * @param string $key     The name of the transient.
+				 */
+				do_action( "set_transient_{$key}", $value, $expires, $key );
+
+				/**
+				 * Fires after the value for a transient has been set.
+				 *
+				 * @param string $key     The name of the transient.
+				 * @param mixed  $value   Transient value.
+				 * @param int    $expires Time until expiration in seconds.
+				 */
+				do_action( 'setted_transient', $key, $value, $expires );
 			}
 
 		}

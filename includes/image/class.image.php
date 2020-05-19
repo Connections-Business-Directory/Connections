@@ -1668,7 +1668,7 @@ class cnImage {
 		}
 
 		// Fail if we can't find the image in our WP local directory
-		if ( empty( $img_path ) || ! @file_exists( $img_path ) ) {
+		if ( empty( $img_path ) || ! @is_file( $img_path ) ) {
 
 			if ( empty( $img_path ) ) {
 

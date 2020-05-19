@@ -211,6 +211,11 @@ class cnDependency {
 			// Content Blocks API.
 			'Connections_Directory\Entry\Content_Blocks'                 => 'includes/entry/class.content-blocks.php',
 
+			// Core Content Blocks.
+			'Connections_Directory\Entry\Content_Block\Custom_Fields'    => 'includes/entry/content-block/class.custom-fields.php',
+			'Connections_Directory\Entry\Content_Block\Entry_Meta'       => 'includes/entry/content-block/class.entry-meta.php',
+			'Connections_Directory\Entry\Content_Block\Entry_Management' => 'includes/entry/content-block/class.entry-management.php',
+
 			// Entry vCard.
 			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',
 

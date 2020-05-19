@@ -423,6 +423,8 @@ class Carousel extends Component {
 				{ type: 'photo', size: 'custom', width: 600, height: 600, zc: zc }
 			];
 
+			query['_fields'] = 'fn.rendered,job_title.rendered,phone,email,social,excerpt.rendered,images';
+
 			query = { ...query, ...args };
 		}
 

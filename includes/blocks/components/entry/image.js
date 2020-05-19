@@ -44,7 +44,7 @@ class EntryImage extends Component {
 								sprintf(
 									__( '%s of %s', 'connections' ),
 									type.charAt(0).toUpperCase() + type.slice(1),
-									decodeEntities( entry.name.rendered )
+									decodeEntities( entry.fn.rendered )
 								)
 							}
 							// loading='lazy'

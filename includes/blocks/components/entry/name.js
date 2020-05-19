@@ -12,7 +12,7 @@ class EntryName extends Component {
 		const Tag = tag;
 
 		return (
-			<Tag>{ decodeEntities( entry.name.rendered ) }</Tag>
+			<Tag>{ decodeEntities( entry.fn.rendered ) }</Tag>
 		)
 	}
 }

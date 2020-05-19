@@ -287,6 +287,9 @@ final class Connections_Directory {
 		// Include the Template Customizer files.
 		add_action( 'plugins_loaded', array( 'cnDependency', 'customizer' ) );
 
+		// Register the core Content Blocks actions/filters.
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Blocks', 'register' ), 20 );
+
 		/*
 		 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.
 		 */

@@ -208,6 +208,9 @@ class cnDependency {
 			'cnEntry_Object_Collection' => 'includes/entry/class.entry-object-collection.php',
 			'cnEntry_Collection_Item'   => 'includes/entry/class.entry-collection-item.php',
 
+			// Content Blocks API.
+			'Connections_Directory\Entry\Content_Blocks'                 => 'includes/entry/class.content-blocks.php',
+
 			// Entry vCard.
 			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',
 

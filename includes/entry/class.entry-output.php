@@ -584,6 +584,36 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
+	 * Displays the delete permalink for the entry.
+	 *
+	 * @since 9.6
+	 *
+	 * @param array $atts
+	 */
+	public function deletePermalink( $atts = array() ) {
+
+		$defaults = array(
+			'context' => 'admin',
+			'class'   => 'cn-delete-entry',
+			'text'    => __( 'Delete Entry', 'connections' ),
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
+		$url  = $this->getDeletePermalink( $atts['context'] );
+
+		if ( 0 === strlen( $url ) ) {
+
+			return;
+		}
+
+		$atts['class'] = 'rest' === $atts['context'] ? 'cn-rest-action ' . $atts['class'] : $atts['class'];
+
+		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . __( 'Delete', 'connections' ) . ' ' . $this->getFullFirstLastName() . '">' . $atts['text'] . '</a>';
+
+		echo apply_filters( 'cn_entry_delete_permalink', $link, $url, $atts, $this );
+	}
+
+	/**
 	 * Echo or return the entry name in a HTML hCard compliant string.
 	 *
 	 * @example

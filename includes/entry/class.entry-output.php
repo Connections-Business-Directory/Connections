@@ -11,6 +11,8 @@
  */
 
 // Exit if accessed directly
+use Connections_Directory\Entry\Content_Blocks;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -2893,61 +2895,57 @@ class cnOutput extends cnEntry {
 				}
 			}
 
-			// Render the "Custom Fields" meta block content.
-			if ( 'meta' == $key ) {
-
-				$this->getMetaBlock( array(), $shortcode_atts, $template );
-			}
-
-			$hook = "cn_entry_output_content-$key";
-
-			if ( has_action( $hook ) ) do_action( $hook, $this, $shortcode_atts, $template );
+			do_action( $hook = "cn_entry_output_content-$key", $this, $shortcode_atts, $template );
 
 			$blockContent = ob_get_clean();
 
-			if ( empty( $blockContent ) ) continue;
+			if ( 0 < strlen( $blockContent ) ) {
 
-			$blockID = $this->getSlug() . '-' . $blockNumber;
+				$blockID = $this->getSlug() . '-' . $blockNumber;
 
-			// Store the title in an array that can be accessed/passed from outside the content block loop.
-			// And if there is no title for some reason, create one from the key.
-			if ( $name = cnOptions::getContentBlocks( $key ) ) {
+				// Store the title in an array that can be accessed/passed from outside the content block loop.
+				// And if there is no title for some reason, create one from the key.
+				if ( $name = cnOptions::getContentBlocks( $key ) ) {
 
-				$titles[ $blockID ] = $name;
+					$titles[ $blockID ] = $name;
 
-			} elseif ( $name = cnOptions::getContentBlocks( $key, 'single' ) ) {
+				} elseif ( $name = cnOptions::getContentBlocks( $key, 'single' ) ) {
 
-				$titles[ $blockID ] = $name;
+					$titles[ $blockID ] = $name;
+
+				} else {
+
+					$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+				}
+
+				$blockContainerContent .= apply_filters(
+					'cn_entry_output_content_block',
+					sprintf(
+						'<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
+						sprintf(
+							'<%1$s>%2$s</%1$s>',
+							$atts['header_tag'],
+							$titles[ $blockID ]
+						),
+						$atts['block_tag'],
+						$key,
+						$blockID,
+						$blockContent
+					),
+					$this,
+					$key,
+					$blockID,
+					$titles[ $blockID ],
+					$blockContent,
+					$atts,
+					$shortcode_atts
+				);
 
 			} else {
 
-				$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+				$blockContainerContent .= Content_Blocks::instance()->renderBlock( $key, $this );
 			}
 
-			//$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
-
-			$blockContainerContent .= apply_filters(
-				'cn_entry_output_content_block',
-				sprintf(
-					'<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
-					sprintf(
-						'<%1$s>%2$s</%1$s>',
-						$atts['header_tag'],
-						$titles[ $blockID ]
-					),
-					$atts['block_tag'],
-					$key,
-					$blockID,
-					$blockContent
-				),
-				$this,
-				$key,
-				$blockID,
-				$titles[ $blockID ],
-				$blockContent,
-				$atts,
-				$shortcode_atts
-			);
 		}
 
 		if ( empty( $blockContainerContent ) ) return '';

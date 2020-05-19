@@ -1021,6 +1021,19 @@ class cnURL {
 
 				break;
 
+			case 'delete':
+
+				$result = Connections_Directory()->retrieve->entry( $atts['slug'] );
+
+				if ( FALSE !== $result ) {
+
+					$actionURL  = 'admin.php?cn-action=delete_entry&id=' . $result->id;
+					$actionName = 'entry_delete_' . $result->id;
+					$permalink  = admin_url( wp_nonce_url( $actionURL, $actionName ) );
+				}
+
+				break;
+
 			case 'name':
 
 				if ( $wp_rewrite->using_permalinks() ) {

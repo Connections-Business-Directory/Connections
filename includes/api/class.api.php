@@ -59,6 +59,9 @@ class cnAPI {
 		// Abstract controllers.
 		//include_once( CN_PATH  . 'includes/api/abstracts/abstract.cn-rest-controller.php' );
 
+		// REST API functions.
+		include_once( CN_PATH  . 'includes/api/inc.functions.php' );
+
 		// REST API controllers.
 		include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-entry-controller.php' );
 		//include_once( CN_PATH  . 'includes/api/endpoints/class.cn-rest-entry-json-ld-controller.php' );

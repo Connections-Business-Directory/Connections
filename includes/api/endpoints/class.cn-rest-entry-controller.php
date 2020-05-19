@@ -8,6 +8,9 @@
  * @subpackage REST_API
  * @since      8.5.26
  */
+
+use function Connections_Directory\API\REST\Functions\is_field_included;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -90,6 +93,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 					'args'                => array(
 						'force' => array(
+							'type'        => 'boolean',
 							'default'     => FALSE,
 							'description' => __( 'Required to be true, as resource does not support trashing.', 'connections' ),
 						),
@@ -148,6 +152,67 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Get entry by id.
+	 *
+	 * @since 9.6
+	 *
+	 * @param int $id Supplied ID.
+	 *
+	 * @return cnOutput|WP_Error Entry object if ID is valid, WP_Error otherwise.
+	 */
+	public function get_entry( $id ) {
+
+		$error = new WP_Error( 'rest_entry_invalid_id', __( 'Invalid entry ID.', 'connections' ), array( 'status' => 404 ) );
+
+		if ( (int) $id <= 0 ) {
+
+			return $error;
+		}
+
+		$data = Connections_Directory()->retrieve->entry( $id );
+
+		if ( FALSE === $data ) {
+
+			return $error;
+		}
+
+		return new cnOutput( $data );
+	}
+
+	/**
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @param array           $untrusted
+	 *
+	 * @return array
+	 */
+	protected function get_entries( $request, $untrusted = array() ) {
+
+		// Grab an instance of the Connections object.
+		$instance = Connections_Directory();
+
+		$categoryIn = cnArray::get( $request, 'category_in', FALSE );
+		cnFormatting::toBoolean( $categoryIn );
+
+		$category = $categoryIn ? 'category_in' : 'category';
+
+		$defaults = array(
+			'list_type'        => cnArray::get( $request, 'type', NULL ),
+			$category          => cnArray::get( $request, 'categories', NULL ),
+			'exclude_category' => cnArray::get( $request, 'categories_exclude', NULL ),
+			'id'               => cnArray::get( $request, 'id', NULL ),
+			'limit'            => cnArray::get( $request, 'per_page', 10 ),
+			'offset'           => cnArray::get( $request, 'offset', 0 ),
+		);
+
+		$atts = cnSanitize::args( $untrusted, $defaults );
+
+		$results = $instance->retrieve->entries( $atts );
+
+		return $results;
+	}
+
+	/**
 	 * Checks if a given request has access to read an entry.
 	 *
 	 * @access public
@@ -197,7 +262,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	/**
 	 * Retrieves a single entry.
 	 *
-	 * @access public
+	 * @since 9.6
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
@@ -205,59 +270,116 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 
-		$atts = array(
-			'id' => (int) $request['id'],
-		);
+		$entry = $this->get_entry( $request['id'] );
 
-		$result = $this->get_entries( $request, $atts );
+		if ( is_wp_error( $entry ) ) {
 
-		if ( empty( $atts['id'] ) || empty( $result ) ) {
-			return new WP_Error( 'rest_entry_invalid_id', __( 'Invalid entry ID.', 'connections' ), array( 'status' => 404 ) );
+			return $entry;
 		}
-
-		$entry = new cnOutput( $result[0] );
 
 		$data     = $this->prepare_item_for_response( $entry, $request );
 		$response = rest_ensure_response( $data );
 
-		//if ( is_post_type_viewable( get_post_type_object( $post->post_type ) ) ) {
-		//	$response->link_header( 'alternate',  get_permalink( $id ), array( 'type' => 'text/html' ) );
-		//}
+		$response->link_header( 'alternate',  $entry->getPermalink(), array( 'type' => 'text/html' ) );
 
 		return $response;
 	}
 
 	/**
+	 * Checks if a given request has access to delete an entry.
+	 *
+	 * @since 9.6
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 *
-	 * @param array           $untrusted
-	 *
-	 * @return array
+	 * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
 	 */
-	protected function get_entries( $request, $untrusted = array() ) {
+	public function delete_item_permissions_check( $request ) {
 
-		// Grab an instance of the Connections object.
-		$instance = Connections_Directory();
+		$entry = $this->get_entry( $request['id'] );
 
-		$categoryIn = cnArray::get( $request, 'category_in', FALSE );
-		cnFormatting::toBoolean( $categoryIn );
+		if ( is_wp_error( $entry ) ) {
 
-		$category = $categoryIn ? 'category_in' : 'category';
+			return $entry;
+		}
 
-		$defaults = array(
-			'list_type'        => cnArray::get( $request, 'type', NULL ),
-			$category          => cnArray::get( $request, 'categories', NULL ),
-			'exclude_category' => cnArray::get( $request, 'categories_exclude', NULL ),
-			'id'               => cnArray::get( $request, 'id', NULL ),
-			'limit'            => cnArray::get( $request, 'per_page', 10 ),
-			'offset'           => cnArray::get( $request, 'offset', 0 ),
+		/*
+		 * Check whether the current user delete an entry.
+		 */
+		if ( ! current_user_can( 'connections_delete_entry' ) ) {
+
+			return new WP_Error(
+				'rest_cannot_delete',
+				__( 'Sorry, you are not allowed to delete this entry.', 'connections' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
+		}
+
+		return TRUE;
+	}
+
+	/**
+	 * Deletes a single entry.
+	 *
+	 * @since 9.6
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 *
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	public function delete_item( $request ) {
+
+		$entry = $this->get_entry( $request['id'] );
+
+		if ( is_wp_error( $entry ) ) {
+
+			return $entry;
+		}
+
+		/*
+		 * Ensure `edit` context when returning the deleted item.
+		 */
+		$request->set_param( 'context', 'edit' );
+
+		/*
+		 * Return only the original logo/photo image meta.
+		 */
+		$request->set_param(
+			'_images',
+			array(
+				array( 'type' => 'logo', 'size' => 'original' ),
+				array( 'type' => 'photo', 'size' => 'original' ),
+			)
 		);
 
-		$atts = cnSanitize::args( $untrusted, $defaults );
+		$id       = $entry->getId();
+		$previous = $this->prepare_item_for_response( $entry, $request );
 
-		$results = $instance->retrieve->entries( $atts );
+		//$entry->delete( $id );
 
-		return $results;
+		// Delete any meta data associated with the entry.
+		//cnEntry_Action::meta( 'delete', $id );
+
+		$response = new WP_REST_Response();
+		$response->set_data(
+			array(
+				'deleted'  => true,
+				'previous' => $previous->get_data(),
+			)
+		);
+
+		/**
+		 * Fires immediately after a single entry is deleted via the REST API.
+		 *
+		 * @since 9.6
+		 *
+		 * @param cnOutput         $entry     The deleted or trashed post.
+		 * @param WP_REST_Response $response The response data.
+		 * @param WP_REST_Request  $request  The request sent to the API.
+		 */
+		do_action( 'rest_delete_cn_entry', $entry, $response, $request );
+
+		return $response;
 	}
 
 	/**
@@ -270,94 +392,366 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_item_for_response( $entry, $request ) {
 
-		$requestParams = $request->get_params();
-		$data = array();
-
-		cnArray::set( $data, 'id', $entry->getId() );
-		cnArray::set( $data, 'type', $entry->getEntryType() );
-		cnArray::set( $data, 'slug', $entry->getSlug() );
-
-		cnArray::set( $data, 'name.rendered', $entry->getName() );
-
-		cnArray::set( $data, 'honorific_prefix.rendered', $entry->getHonorificPrefix() );
-		cnArray::set( $data, 'given_name.rendered', $entry->getFirstName() );
-		cnArray::set( $data, 'additional_name.rendered', $entry->getMiddleName() );
-		cnArray::set( $data, 'family_name.rendered', $entry->getLastName() );
-		cnArray::set( $data, 'honorific_suffix.rendered', $entry->getHonorificSuffix() );
-
-		cnArray::set( $data, 'job_title.rendered', $entry->getTitle() );
-		cnArray::set( $data, 'org.organization_name.rendered', $entry->getOrganization() );
-		cnArray::set( $data, 'org.organization_unit.rendered', $entry->getDepartment() );
-
-		cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
-		cnArray::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
-
-		$data = $this->prepare_address_for_response( $entry, $request, $data );
-		$data = $this->prepare_phone_for_response( $entry, $request, $data );
-		$data = $this->prepare_email_for_response( $entry, $request, $data );
-		$data = $this->prepare_social_for_response( $entry, $request, $data );
-
-		cnArray::set( $data, 'bio.rendered', $entry->getBio() );
-		cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
-
+		$requestParams     = $request->get_params();
 		$excerptParameters = array(
 			'length' => cnArray::get( $requestParams, '_excerpt.length', apply_filters( 'cn_excerpt_length', 55 ) ),
 			'more'   => cnArray::get( $requestParams, '_excerpt.more', '' ),
 		);
+		$fields            = $this->get_fields_for_response( $request );
+		$data              = array();
 
-		cnArray::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt( $excerptParameters ) ) );
+		if ( is_field_included( 'id', $fields ) ) {
 
-		if ( 'edit' === $request['context'] &&
+			cnArray::set( $data, 'id', $entry->getId() );
+		}
+
+		if ( is_field_included( 'type', $fields ) ) {
+
+			cnArray::set( $data, 'type', $entry->getEntryType() );
+		}
+
+		if ( is_field_included( 'slug', $fields ) ) {
+
+			cnArray::set( $data, 'slug', $entry->getSlug() );
+		}
+
+		if ( is_field_included( 'fn.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'fn.rendered', $entry->getName() );
+			//cnArray::set( $data, 'name.rendered', $entry->getName() );
+		}
+
+		if ( is_field_included( 'honorific_prefix.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'honorific_prefix.rendered', $entry->getHonorificPrefix() );
+		}
+
+		if ( is_field_included( 'given_name.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'given_name.rendered', $entry->getFirstName() );
+		}
+
+		if ( is_field_included( 'additional_name.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'additional_name.rendered', $entry->getMiddleName() );
+		}
+
+		if ( is_field_included( 'family_name.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'family_name.rendered', $entry->getLastName() );
+		}
+
+		if ( is_field_included( 'honorific_suffix.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'honorific_suffix.rendered', $entry->getHonorificSuffix() );
+		}
+
+		if ( is_field_included( 'job_title.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'job_title.rendered', $entry->getTitle() );
+		}
+
+		if ( is_field_included( 'org.organization_name.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'org.organization_name.rendered', $entry->getOrganization() );
+		}
+
+		if ( is_field_included( 'org.organization_unit.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'org.organization_unit.rendered', $entry->getDepartment() );
+		}
+
+		if ( is_field_included( 'contact.given_name.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
+		}
+
+		if ( is_field_included( 'contact.given_name.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'contact.given_name.rendered', $entry->getContactFirstName() );
+		}
+
+		if ( is_field_included( 'contact.family_name.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'contact.family_name.rendered', $entry->getContactLastName() );
+		}
+
+		if ( is_field_included( 'adr', $fields ) ) {
+
+			cnArray::set( $data, 'adr', $this->prepare_address_for_response( $entry, $request ) );
+		}
+
+		if ( is_field_included( 'tel', $fields ) ) {
+
+			cnArray::set( $data, 'tel', $this->prepare_phone_for_response( $entry, $request ) );
+		}
+
+		if ( is_field_included( 'email', $fields ) ) {
+
+			cnArray::set( $data, 'email', $this->prepare_email_for_response( $entry, $request ) );
+		}
+
+		if ( is_field_included( 'social', $fields ) ) {
+
+			cnArray::set( $data, 'social', $this->prepare_social_for_response( $entry, $request ) );
+		}
+
+		if ( is_field_included( 'bio.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'bio.rendered', $entry->getBio() );
+		}
+
+		if ( is_field_included( 'notes.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'notes.rendered', $entry->getNotes() );
+		}
+
+		if ( is_field_included( 'excerpt.rendered', $fields ) ) {
+
+			cnArray::set( $data, 'excerpt.rendered', wpautop( $entry->getExcerpt( $excerptParameters ) ) );
+		}
+
+		$context = cnArray::get( $request, 'context', 'view' );
+
+		if ( $context &&
 		     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
 		) {
 
-			cnArray::set( $data, 'name.raw', $entry->getName( array(), 'raw' ) );
-			cnArray::set( $data, 'honorific_prefix.raw', $entry->getHonorificPrefix( 'raw' ) );
-			cnArray::set( $data, 'given_name.raw', $entry->getFirstName( 'raw' ) );
-			cnArray::set( $data, 'additional_name.raw', $entry->getMiddleName( 'raw' ) );
-			cnArray::set( $data, 'family_name.raw', $entry->getLastName( 'raw' ) );
-			cnArray::set( $data, 'honorific_suffix.raw', $entry->getHonorificSuffix( 'raw' ) );
+			if ( is_field_included( 'fn.raw', $fields ) ) {
 
-			cnArray::set( $data, 'job_title.raw', $entry->getTitle( 'raw' ) );
-			cnArray::set( $data, 'org.organization_name.raw', $entry->getOrganization( 'raw' ) );
-			cnArray::set( $data, 'org.organization_unit.raw', $entry->getDepartment( 'raw' ) );
+				cnArray::set( $data, 'fn.raw', $entry->getName( array(), 'raw' ) );
+			}
 
-			cnArray::set( $data, 'contact.given_name.raw', $entry->getContactFirstName( 'raw' ) );
-			cnArray::set( $data, 'contact.family_name.raw', $entry->getContactLastName( 'raw' ) );
+			if ( is_field_included( 'honorific_prefix.raw', $fields ) ) {
 
-			cnArray::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
-			cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
+				cnArray::set( $data, 'honorific_prefix.raw', $entry->getHonorificPrefix( 'raw' ) );
+			}
 
-			cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
+			if ( is_field_included( 'given_name.raw', $fields ) ) {
+
+				cnArray::set( $data, 'given_name.raw', $entry->getFirstName( 'raw' ) );
+			}
+
+			if ( is_field_included( 'additional_name.raw', $fields ) ) {
+
+				cnArray::set( $data, 'additional_name.raw', $entry->getMiddleName( 'raw' ) );
+			}
+
+			if ( is_field_included( 'family_name.raw', $fields ) ) {
+
+				cnArray::set( $data, 'family_name.raw', $entry->getLastName( 'raw' ) );
+			}
+
+			if ( is_field_included( 'honorific_suffix.raw', $fields ) ) {
+
+				cnArray::set( $data, 'honorific_suffix.raw', $entry->getHonorificSuffix( 'raw' ) );
+			}
+
+			if ( is_field_included( 'job_title.raw', $fields ) ) {
+
+				cnArray::set( $data, 'job_title.raw', $entry->getTitle( 'raw' ) );
+			}
+
+			if ( is_field_included( 'org.organization_name.raw', $fields ) ) {
+
+				cnArray::set( $data, 'org.organization_name.raw', $entry->getOrganization( 'raw' ) );
+			}
+
+			if ( is_field_included( 'org.organization_unit.raw', $fields ) ) {
+
+				cnArray::set( $data, 'org.organization_unit.raw', $entry->getDepartment( 'raw' ) );
+			}
+
+			if ( is_field_included( 'contact.given_name.raw', $fields ) ) {
+
+				cnArray::set( $data, 'contact.given_name.raw', $entry->getContactFirstName( 'raw' ) );
+			}
+
+			if ( is_field_included( 'contact.family_name.raw', $fields ) ) {
+
+				cnArray::set( $data, 'contact.family_name.raw', $entry->getContactLastName( 'raw' ) );
+			}
+
+			if ( is_field_included( 'bio.raw', $fields ) ) {
+
+				cnArray::set( $data, 'bio.raw', $entry->getBio( 'raw' ) );
+			}
+
+			if ( is_field_included( 'notes.raw', $fields ) ) {
+
+				cnArray::set( $data, 'notes.raw', $entry->getNotes( 'raw' ) );
+			}
+
+			if ( is_field_included( 'excerpt.raw', $fields ) ) {
+
+				cnArray::set( $data, 'excerpt.raw', $entry->getExcerpt( $excerptParameters, 'raw' ) );
+			}
 		}
 
-		$data['images'] = $this->prepare_images_for_response( $entry, $request );
+		if ( is_field_included( 'images', $fields ) ) {
 
-		cnArray::set( $data, 'visibility', $entry->getVisibility() );
-		cnArray::set( $data, 'status', $entry->getStatus() );
+			$data['images'] = $this->prepare_images_for_response( $entry, $request );
+		}
+
+		if ( is_field_included( 'visibility', $fields ) ) {
+
+			cnArray::set( $data, 'visibility', $entry->getVisibility() );
+		}
+
+		if ( is_field_included( 'status', $fields ) ) {
+
+			cnArray::set( $data, 'status', $entry->getStatus() );
+		}
 
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		return $response;
+		/**
+		 * Filters the entry data for a response.
+		 *
+		 * @since 9.6
+		 *
+		 * @param WP_REST_Response $response The response object.
+		 * @param cnEntry          $entry    Entry object.
+		 * @param WP_REST_Request  $request  Request object.
+		 */
+		return apply_filters( 'rest_prepare_cn_entry', $response, $entry, $request );
+	}
+
+	/**
+	 * Prepare addresses for response.
+	 *
+	 * @since 9.3.3
+	 *
+	 * @param cnEntry         $entry   Post object.
+	 * @param WP_REST_Request $request Request object.
+	 *
+	 * @return array $data
+	 */
+	private function prepare_address_for_response( $entry, $request ) {
+
+		$objects   = array();
+		$addresses = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
+
+		if ( empty( $addresses ) ) {
+
+			return $objects;
+		}
+
+		foreach ( $addresses as $address ) {
+
+			$object = array(
+				'id'               => $address->id,
+				'order'            => $address->order,
+				'preferred'        => $address->preferred,
+				'type'             => $address->type,
+			);
+
+			cnArray::set(
+				$object,
+				'street_address.rendered',
+				cnSanitize::field( 'street', $address->line_1, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address.rendered',
+				cnSanitize::field( 'street', $address->line_2, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address_2.rendered',
+				cnSanitize::field( 'street', $address->line_3, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'extended_address_3.rendered',
+				cnSanitize::field( 'street', $address->line_4, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'district.rendered',
+				cnSanitize::field( 'district', $address->district, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'county.rendered',
+				cnSanitize::field( 'county', $address->county, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'locality.rendered',
+				cnSanitize::field( 'locality', $address->city, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'region.rendered',
+				cnSanitize::field( 'region', $address->state, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'postal_code.rendered',
+				cnSanitize::field( 'postal-code', $address->zipcode, 'display' )
+			);
+
+			cnArray::set(
+				$object,
+				'country_name.rendered',
+				cnSanitize::field( 'country', $address->country, 'display' )
+			);
+
+			if ( 'edit' === $request['context'] &&
+			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
+			) {
+
+				cnArray::set( $object, 'street_address.raw', $address->line_1 );
+				cnArray::set( $object, 'extended_address.raw', $address->line_2 );
+				cnArray::set( $object, 'extended_address_2.raw', $address->line_3 );
+				cnArray::set( $object, 'extended_address_3.raw', $address->line_4 );
+				cnArray::set( $object, 'district.raw', $address->district );
+				cnArray::set( $object, 'county.raw', $address->county );
+				cnArray::set( $object, 'locality.raw', $address->city );
+				cnArray::set( $object, 'region.raw', $address->state );
+				cnArray::set( $object, 'postal_code.raw', $address->zipcode );
+				cnArray::set( $object, 'country_name.raw', $address->country );
+			}
+
+			cnArray::set( $object, 'latitude', $address->latitude );
+			cnArray::set( $object, 'longitude', $address->longitude );
+			cnArray::set( $object, 'visibility', $address->visibility );
+
+			array_push( $objects, $object );
+		}
+
+		return $objects;
 	}
 
 	/**
 	 * Prepare phone numbers for response.
 	 *
+	 * @since 9.3.3
+	 *
 	 * @param cnEntry         $entry   Post object.
 	 * @param WP_REST_Request $request Request object.
-	 * @param array           $data
 	 *
 	 * @return array $data
 	 */
-	private function prepare_phone_for_response( $entry, $request, $data ) {
-
-		$numbers = $entry->getPhoneNumbers( array(), TRUE, FALSE, 'raw' );
-
-		if ( empty( $numbers ) ) return $data;
+	private function prepare_phone_for_response( $entry, $request ) {
 
 		$objects = array();
+		$numbers = $entry->getPhoneNumbers( array(), TRUE, FALSE, 'raw' );
+
+		if ( empty( $numbers ) ) {
+
+			return $objects;
+		}
 
 		foreach ( $numbers as $phone ) {
 
@@ -384,27 +778,28 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			array_push( $objects, $object );
 		}
 
-		cnArray::set( $data, 'tel', $objects );
-
-		return $data;
+		return $objects;
 	}
 
 	/**
 	 * Prepare email addresses for response.
 	 *
+	 * @since 9.3.3
+	 *
 	 * @param cnEntry         $entry   Post object.
 	 * @param WP_REST_Request $request Request object.
-	 * @param array           $data
 	 *
 	 * @return array $data
 	 */
-	private function prepare_email_for_response( $entry, $request, $data ) {
+	private function prepare_email_for_response( $entry, $request ) {
 
+		$objects        = array();
 		$emailAddresses = $entry->getEmailAddresses( array(), TRUE, FALSE, 'raw' );
 
-		if ( empty( $emailAddresses ) ) return $data;
+		if ( empty( $emailAddresses ) ) {
 
-		$objects = array();
+			return $objects;
+		}
 
 		foreach ( $emailAddresses as $email ) {
 
@@ -431,27 +826,28 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			array_push( $objects, $object );
 		}
 
-		cnArray::set( $data, 'email', $objects );
-
-		return $data;
+		return $objects;
 	}
 
 	/**
 	 * Prepare social networks for response.
 	 *
+	 * @since 9.3.3
+	 *
 	 * @param cnEntry         $entry   Post object.
 	 * @param WP_REST_Request $request Request object.
-	 * @param array           $data
 	 *
 	 * @return array $data
 	 */
-	private function prepare_social_for_response( $entry, $request, $data ) {
+	private function prepare_social_for_response( $entry, $request ) {
 
+		$objects  = array();
 		$networks = $entry->getSocialMedia( array(), TRUE, FALSE, 'raw' );
 
-		if ( empty( $networks ) ) return $data;
+		if ( empty( $networks ) ) {
 
-		$objects = array();
+			return $objects;
+		}
 
 		foreach ( $networks as $network ) {
 
@@ -481,9 +877,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			array_push( $objects, $object );
 		}
 
-		cnArray::set( $data, 'social', $objects );
-
-		return $data;
+		return $objects;
 	}
 
 	/**
@@ -604,6 +998,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			if ( ! is_wp_error( $image ) ) {
 
 				$preset = array(
+					'custom'    => NULL,
 					'thumbnail' => 'thumbnail',
 					'medium'    => 'entry',
 					'large'     => 'profile',
@@ -639,120 +1034,6 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Prepare addresses for response.
-	 *
-	 * @param cnEntry         $entry   Post object.
-	 * @param WP_REST_Request $request Request object.
-	 * @param array           $data
-	 *
-	 * @return array $data
-	 */
-	private function prepare_address_for_response( $entry, $request, $data ) {
-
-		$addresses = $entry->getAddresses( array(), TRUE, FALSE, 'raw' );
-
-		if ( empty( $addresses ) ) return $data;
-
-		$objects = array();
-
-		foreach ( $addresses as $address ) {
-
-			$object = array(
-				'id'               => $address->id,
-				'order'            => $address->order,
-				'preferred'        => $address->preferred,
-				'type'             => $address->type,
-			);
-
-			cnArray::set(
-				$object,
-				'street_address.rendered',
-				cnSanitize::field( 'street', $address->line_1, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'extended_address.rendered',
-				cnSanitize::field( 'street', $address->line_2, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'extended_address_2.rendered',
-				cnSanitize::field( 'street', $address->line_3, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'extended_address_3.rendered',
-				cnSanitize::field( 'street', $address->line_4, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'district.rendered',
-				cnSanitize::field( 'district', $address->district, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'county.rendered',
-				cnSanitize::field( 'county', $address->county, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'locality.rendered',
-				cnSanitize::field( 'locality', $address->city, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'region.rendered',
-				cnSanitize::field( 'region', $address->state, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'postal_code.rendered',
-				cnSanitize::field( 'postal-code', $address->zipcode, 'display' )
-			);
-
-			cnArray::set(
-				$object,
-				'country_name.rendered',
-				cnSanitize::field( 'country', $address->country, 'display' )
-			);
-
-			if ( 'edit' === $request['context'] &&
-			     ( current_user_can( 'connections_edit_entry' ) || current_user_can( 'connections_edit_entry_moderated' ) )
-			) {
-
-				cnArray::set( $object, 'street_address.raw', $address->line_1 );
-				cnArray::set( $object, 'extended_address.raw', $address->line_2 );
-				cnArray::set( $object, 'extended_address_2.raw', $address->line_3 );
-				cnArray::set( $object, 'extended_address_3.raw', $address->line_4 );
-				cnArray::set( $object, 'district.raw', $address->district );
-				cnArray::set( $object, 'county.raw', $address->county );
-				cnArray::set( $object, 'locality.raw', $address->city );
-				cnArray::set( $object, 'region.raw', $address->state );
-				cnArray::set( $object, 'postal_code.raw', $address->zipcode );
-				cnArray::set( $object, 'country_name.raw', $address->country );
-			}
-
-			cnArray::set( $object, 'latitude', $address->latitude );
-			cnArray::set( $object, 'longitude', $address->longitude );
-			cnArray::set( $object, 'visibility', $address->visibility );
-
-			array_push( $objects, $object );
-		}
-
-		cnArray::set( $data, 'adr', $objects );
-
-		return $data;
-	}
-
-	/**
 	 * Get the entry's schema, conforming to JSON Schema.
 	 *
 	 * Schema based on JSON Schema examples and hCard microformat spec which itself is based off the vCard 4 spec.
@@ -762,6 +1043,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 	 *
 	 * Resource links:
 	 *
+	 * @link https://timothybjacobs.com/2017/05/17/json-schema-and-the-wp-rest-api/
 	 * JSON Schema Validator @link http://www.jsonschemavalidator.net/
 	 *
 	 * @since 8.5.26
@@ -785,8 +1067,8 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 				'type' => array(
 					'description' => __( 'Type of entry.', 'connections' ),
 					'type'        => 'string',
+					'enum'        => array( 'family', 'individual', 'organization' ),
 					'context'     => array( 'view', 'edit', 'embed' ),
-					'readonly'    => TRUE,
 				),
 				'slug' => array(
 					'description' => __( 'An alphanumeric identifier for the object unique to its type.', 'connections' ),
@@ -810,6 +1092,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							'description' => __( 'HTML name of the entry, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
 						),
 					),
 				),
@@ -827,6 +1110,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							'description' => __( 'HTML honorific prefix, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
 						),
 					),
 				),
@@ -844,6 +1128,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							'description' => __( 'HTML first name, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
 						),
 					),
 				),
@@ -861,6 +1146,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							'description' => __( 'HTML middle name, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
 						),
 					),
 				),
@@ -878,6 +1164,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							'description' => __( 'HTML last name, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
 						),
 					),
 				),
@@ -895,6 +1182,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							'description' => __( 'HTML honorific suffix, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
 						),
 					),
 				),
@@ -912,6 +1200,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 							'description' => __( 'HTML job title, transformed for display.', 'connections' ),
 							'type'        => 'string',
 							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
 						),
 					),
 				),
@@ -932,6 +1221,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 									'description' => __( 'HTML organization name, transformed for display.', 'connections' ),
 									'type'        => 'string',
 									'context'     => array( 'view', 'edit', 'embed' ),
+									'readonly'    => true,
 								),
 							),
 						),
@@ -947,6 +1237,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 									'description' => __( 'HTML department (organization unit), transformed for display.', 'connections' ),
 									'type'        => 'string',
 									'context'     => array( 'view', 'edit', 'embed' ),
+									'readonly'    => true,
 								),
 							),
 						),
@@ -969,6 +1260,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 									'description' => __( 'HTML first name, transformed for display.', 'connections' ),
 									'type'        => 'string',
 									'context'     => array( 'view', 'edit', 'embed' ),
+									'readonly'    => true,
 								),
 							),
 						),
@@ -984,15 +1276,444 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 									'description' => __( 'HTML last name, transformed for display.', 'connections' ),
 									'type'        => 'string',
 									'context'     => array( 'view', 'edit', 'embed' ),
+									'readonly'    => true,
 								),
 							),
 						),
 					),
 				),
+				'adr' => array(
+					'description' => __( 'The addresses attached to an entry.', 'connections' ),
+					'type'        => 'array',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'id'                 => array(
+								'description' => __( 'Unique identifier for the address.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'order'              => array(
+								'description' => __( 'The display order of the address.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'preferred'          => array(
+								'description' => __( 'Whether or not the address is the preferred address.', 'connections' ),
+								'type'        => 'bool',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'type'               => array(
+								'description' => __( 'Address type.', 'connections' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'enum'        => array_keys( cnOptions::getAddressTypeOptions() ),
+							),
+							'street_address'     => array(
+								'description' => __( 'Address line one.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address line one, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'extended_address'   => array(
+								'description' => __( 'Address line two.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address line two, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'extended_address_2' => array(
+								'description' => __( 'Address line three.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address line three, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'extended_address_3' => array(
+								'description' => __( 'Address line four.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address line four, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'district'           => array(
+								'description' => __( 'Address district.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address district, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'county'             => array(
+								'description' => __( 'Address county.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address county, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'locality'           => array(
+								'description' => __( 'Address locality.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address locality, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'region'             => array(
+								'description' => __( 'Address region.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address region, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'postal_code'        => array(
+								'description' => __( 'Address post code.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address post code, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'country_name'       => array(
+								'description' => __( 'Address country.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'HTML address country, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+							'latitude'           => array(
+								'description' => __( 'Address latitude.', 'connections' ),
+								'type'        => 'number',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'longitude'          => array(
+								'description' => __( 'Address longitude.', 'connections' ),
+								'type'        => 'number',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'visibility'         => array(
+								'description' => __( 'Visibility of the address.', 'connections' ),
+								'type'        => 'string',
+								'enum'        => array( 'public', 'private', 'unlisted' ),
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+						),
+					),
+				),
+				'tel' => array(
+					'description' => __( 'The telephone numbers attached to an entry.', 'connections' ),
+					'type'        => 'array',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'id'        => array(
+								'description' => __( 'Unique identifier for the phone number.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'order'     => array(
+								'description' => __( 'The display order of the phone number.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'preferred' => array(
+								'description' => __( 'Whether or not the phone number is the preferred phone number.', 'connections' ),
+								'type'        => 'bool',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'type'      => array(
+								'description' => __( 'Phone number type.', 'connections' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'enum'        => array_keys( cnOptions::getPhoneTypeOptions() ),
+							),
+							'number'    => array(
+								'description' => __( 'The phone number.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'Phone number, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+						),
+					),
+				),
+				'email' => array(
+					'description' => __( 'The email addresses attached to an entry.', 'connections' ),
+					'type'        => 'array',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'id'        => array(
+								'description' => __( 'Unique identifier for the email address.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'order'     => array(
+								'description' => __( 'The display order of the email address.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'preferred' => array(
+								'description' => __( 'Whether or not the email address is the preferred email address.', 'connections' ),
+								'type'        => 'bool',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'type'      => array(
+								'description' => __( 'Email address type.', 'connections' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'enum'        => array_keys( cnOptions::getEmailTypeOptions() ),
+							),
+							'address'   => array(
+								'description' => __( 'The email address.', 'connections' ),
+								'type'        => 'object',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'properties'  => array(
+									'rendered' => array(
+										'description' => __( 'Email address, transformed for display.', 'connections' ),
+										'type'        => 'string',
+										'context'     => array( 'view', 'edit', 'embed' ),
+										//'readonly'    => true,
+									),
+								),
+							),
+						),
+					),
+				),
+				'social' => array(
+					'description' => __( 'The social networks attached to an entry.', 'connections' ),
+					'type'        => 'array',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'items'       => array(
+						'type'       => 'object',
+						'properties' => array(
+							'id'        => array(
+								'description' => __( 'Unique identifier for the social network.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'order'     => array(
+								'description' => __( 'The display order of the social network.', 'connections' ),
+								'type'        => 'integer',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'preferred' => array(
+								'description' => __( 'Whether or not the social network is the preferred social network.', 'connections' ),
+								'type'        => 'bool',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'type'      => array(
+								'description' => __( 'Social network address type.', 'connections' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+								'enum'        => array_keys( cnOptions::getSocialNetworkTypeOptions() ),
+							),
+							'slug'      => array(
+								'description' => __( 'Social network address slug.', 'connections' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+							'url'       => array(
+								'description' => __( 'Social network URL.', 'connections' ),
+								'type'        => 'string',
+								'context'     => array( 'view', 'edit', 'embed' ),
+							),
+						),
+					),
+				),
+				'excerpt' => array(
+					'description' => __( 'The excerpt for the entry.', 'connections' ),
+					'type'        => 'object',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'properties'  => array(
+						'raw'       => array(
+							'description' => __( 'Excerpt for the entry, as it exists in the database.' ),
+							'type'        => 'string',
+							'context'     => array( 'edit' ),
+						),
+						'rendered'  => array(
+							'description' => __( 'HTML excerpt for the entry, transformed for display.' ),
+							'type'        => 'string',
+							'context'     => array( 'view', 'edit', 'embed' ),
+							'readonly'    => true,
+						),
+					),
+				),
+				'images' => array(
+					'description' => __( 'The images attached to an entry.', 'connections' ),
+					'type'        => 'object',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'properties'  => array(
+						'logo'  => array(
+							'description' => __( 'The logo image attached to an entry.', 'connections' ),
+							'type'        => 'object',
+							'context'     => array( 'view', 'edit', 'embed' ),
+							'properties'  => $this->get_image_schema_properties( 'logo' ),
+						),
+						'photo' => array(
+							'description' => __( 'The photo image attached to an entry.', 'connections' ),
+							'type'        => 'object',
+							'context'     => array( 'view', 'edit', 'embed' ),
+							'properties'  => $this->get_image_schema_properties( 'photo' ),
+						),
+					),
+				),
+				'visibility' => array(
+					'description' => __( 'Visibility of the entry.', 'connections' ),
+					'type'        => 'string',
+					'enum'        => array( 'public', 'private', 'unlisted' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
+				'status' => array(
+					'description' => __( 'Moderation status of the entry.', 'connections' ),
+					'type'        => 'string',
+					'enum'        => array( 'approved', 'pending' ),
+					'context'     => array( 'view', 'edit', 'embed' ),
+				),
 			),
 		);
 
 		return $this->add_additional_fields_schema( $schema );
+	}
+
+	/**
+	 * Get the image schema.
+	 *
+	 * @since 9.6
+	 *
+	 * @param string $type
+	 *
+	 * @return array
+	 */
+	private function get_image_schema_properties( $type ) {
+
+		$images = array(
+			'logo'  => array( 'original', 'scaled', 'custom' ),
+			'photo' => array( 'thumbnail', 'medium', 'large', 'original', 'custom' ),
+		);
+		$schema = array();
+
+		foreach ( $images[ $type ] as $size ) {
+
+			$parameters = array(
+				'type'       => 'object',
+				'properties' => array(
+					'name'     => array(
+						'description' => __( 'Image filename.', 'connections' ),
+						'type'        => 'string',
+						'context'     => array( 'view', 'edit', 'embed' ),
+						'readonly'    => true,
+					),
+					'url'      => array(
+						'description' => __( 'Image URL.', 'connections' ),
+						'type'        => 'string',
+						'context'     => array( 'view', 'edit', 'embed' ),
+						'readonly'    => true,
+					),
+					'width'    => array(
+						'description' => __( 'Image width in pixels.', 'connections' ),
+						'type'        => 'integer',
+						'context'     => array( 'view', 'edit', 'embed' ),
+						'readonly'    => true,
+					),
+					'height'   => array(
+						'description' => __( 'Image height in pixels.', 'connections' ),
+						'type'        => 'integer',
+						'context'     => array( 'view', 'edit', 'embed' ),
+						'readonly'    => true,
+					),
+					'size'     => array(
+						'description' => __( 'Image size attribute.', 'connections' ),
+						'type'        => 'string',
+						'context'     => array( 'view', 'edit', 'embed' ),
+						'readonly'    => true,
+					),
+					'mime'     => array(
+						'description' => __( 'Image MINE type.', 'connections' ),
+						'type'        => 'string',
+						'context'     => array( 'view', 'edit', 'embed' ),
+						'readonly'    => true,
+					),
+					'rendered' => array(
+						'description' => __( 'HTML image tag.', 'connections' ),
+						'type'        => 'string',
+						'context'     => array( 'view', 'edit', 'embed' ),
+						'readonly'    => true,
+					),
+				),
+			);
+
+			cnArray::set( $schema, $size, $parameters );
+		}
+
+		return $schema;
 	}
 
 	/**

@@ -247,6 +247,26 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.6 05/20/2020 =
+* NEW: Introduce `cnEntry::getDeletePermalink()` and `cnOutput::deletePermalink()`.
+* NEW: Add `delete` to supported permalink types in `cnURL::permalink()`.
+* NEW: Introduce the Content Blocks API.
+* NEW: Introduce the Custom Fields, Entry Meta and Entry Management Content Blocks.
+* TWEAK: Correct `implode()` parameter usage for PHP 7.4 so it does not generate a warning.
+* TWEAK: Check for array key to prevent PHP warning.
+* TWEAK: Use `is_file()` instead of `file_exists()` to test if image exists.
+* TWEAK: Set `font-style` of brand icons to `normal` to help prevent theme's from making them bold and/or italic.
+* TWEAK: Further improve the REST API by better defining the schema, support the `_fields` parameter to reduce response size while improving response time and adding support for the `DELETE` request to delete an Entry.
+* TWEAK: Improve the Carousel block by querying the REST for only the required fields.
+* TWEAK: Refactor `cnOutput::getContentBlock()` to utilize the Content Block API.
+* TWEAK: Remove the hardcoded "Custom Fields" so it can be refactored using the Content Block API.
+* BUG: Pass expected parameters for the `setted_transient` and `set_transient_{$key}` actions.
+* BUG: Define variable before use.
+* OTHER: Correct typo.
+* OTHER: Correct misspelling.
+* DEV: Update npm and dev dependencies.
+* DEV: phpDoc corrections.
+
 = 9.5.1 04/28/2020 =
 * NEW: Introduce the `getEditPermalink()` and the `editPermalink()` functions.
 * TWEAK: Add permalink root to attributes in the `cn_permalink` filter.
@@ -501,34 +521,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Tweak to expiration of cached extension status checks.
 * OTHER: Update EDD-SL Plugin Updater library from 1.6.14 to 1.6.18.
 * TWEAK: Do not subtract the timeout value from time when setting up the last checked property.
-
-= 8.40.2 04/26/2019 =
-* TWEAK: Update the user agent to match the extension plugin info request.
-
-= 8.40.1 04/25/2019 =
-* TWEAK: Tweak to expiration of cached extension update checks.
-* DEV: Reverse change to composer.json.
-
-= 8.40 04/19/2019 =
-* NEW: Add brand font icons and use webpack to process the frontend CSS.
-* NEW: Update the social media icons to use the brandicons.
-* TWEAK: Default image quality should be `82` not `80` to match WP core.
-* TWEAK: Remove the legacy/advanced single entry template option.
-* TWEAK: Suppress the display of the "Custom Fields" metabox by default on new installations matching core WordPress which hide its "Custom Fields" metabox by default unless enabled by the current user.
-* OTHER: Remove the WP REST API shims since they are no longer required as Connections require WP >= 4.7.12 (WP REST API was added in WP 4.7).
-* OTHER: Bump minimum required PHP version to 5.6.20 to match WP 5.2.
-* OTHER: Include the Font Awesome index source maps.
-* OTHER: Start laying the foundation for the font icon picker support for the social network settings.
-* BUG: Ensure the permalink setting for the entry image respects the permalinks setting.
-* DEV: Update `clean-webpack-plugin`.
-* DEV: Manage Chosen and Picturefill 3rd party vendor assets using npm/webpack.
-* DEV: Update Chosen and Picturefill 3rd party vendor asset paths when registering with WP.
-* DEV: Manage Fontawesome and fontIconPicker 3rd party vendor assets using npm/webpack.
-* DEV: Remove npm as project level dependency.
-* DEV: Update the npm autoprefixer dependency.
-* DEV: Update the package.json engine for npm.
-* DEV: Commit the updated package-lock.json file.
-* DEV: Use @wordpress/default as the babel-loader-default.
-* DEV: Match core WordPress autoprefixer config.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

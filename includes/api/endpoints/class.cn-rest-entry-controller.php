@@ -355,10 +355,10 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		$id       = $entry->getId();
 		$previous = $this->prepare_item_for_response( $entry, $request );
 
-		//$entry->delete( $id );
+		$entry->delete( $id );
 
 		// Delete any meta data associated with the entry.
-		//cnEntry_Action::meta( 'delete', $id );
+		cnEntry_Action::meta( 'delete', $id );
 
 		$response = new WP_REST_Response();
 		$response->set_data(

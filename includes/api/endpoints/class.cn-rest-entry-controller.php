@@ -272,7 +272,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$entry = $this->get_entry( $request['id'] );
 
-		if ( is_wp_error( $entry ) ) {
+		if ( $entry instanceof WP_Error ) {
 
 			return $entry;
 		}
@@ -298,7 +298,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$entry = $this->get_entry( $request['id'] );
 
-		if ( is_wp_error( $entry ) ) {
+		if ( $entry instanceof WP_Error ) {
 
 			return $entry;
 		}
@@ -331,7 +331,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 
 		$entry = $this->get_entry( $request['id'] );
 
-		if ( is_wp_error( $entry ) ) {
+		if ( $entry instanceof WP_Error ) {
 
 			return $entry;
 		}

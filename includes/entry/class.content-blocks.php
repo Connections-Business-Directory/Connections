@@ -44,7 +44,7 @@ class Content_Blocks {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Content_Blocks ) ) {
 
-			self::$instance = $self = new Content_Blocks;
+			self::$instance = new Content_Blocks;
 		}
 
 		return self::$instance;

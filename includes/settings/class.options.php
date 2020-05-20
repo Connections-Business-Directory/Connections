@@ -1557,6 +1557,8 @@ class cnOptions {
 	 */
 	public static function getContentBlocks( $item = NULL, $type = NULL ) {
 
+		$blocks = array();
+
 		$blocks['items']    = apply_filters( 'cn_content_blocks', array() );
 		$blocks['required'] = apply_filters( 'cn_content_blocks_required', array() );
 

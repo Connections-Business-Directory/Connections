@@ -610,7 +610,7 @@ class cnOutput extends cnEntry {
 
 		$atts['class'] = 'rest' === $atts['context'] ? 'cn-rest-action ' . $atts['class'] : $atts['class'];
 
-		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . __( 'Delete', 'connections' ) . ' ' . $this->getFullFirstLastName() . '">' . $atts['text'] . '</a>';
+		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . __( 'Delete', 'connections' ) . ' ' . $this->getName() . '">' . $atts['text'] . '</a>';
 
 		echo apply_filters( 'cn_entry_delete_permalink', $link, $url, $atts, $this );
 	}

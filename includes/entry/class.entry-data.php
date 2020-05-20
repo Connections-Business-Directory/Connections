@@ -680,6 +680,46 @@ class cnEntry {
 	}
 
 	/**
+	 * Returns the delete permalink for the entry.
+	 *
+	 * @since 9.6
+	 *
+	 * @param string $context
+	 *
+	 * @return string
+	 */
+	public function getDeletePermalink( $context = 'admin' ) {
+
+		$permalink = '';
+
+		if ( current_user_can( 'connections_delete_entry' ) ) {
+
+			switch ( $context ) {
+
+				case 'rest':
+
+					$permalink = get_rest_url( null, "cn-api/v1/entry/{$this->getId()}" );
+					break;
+
+				default:
+
+					$permalink = cnURL::permalink(
+						array(
+							'type'       => 'delete',
+							'slug'       => $this->getSlug(),
+							'home_id'    => $this->directoryHome['page_id'],
+							'force_home' => $this->directoryHome['force_home'],
+							'data'       => 'url',
+							'return'     => TRUE,
+						)
+					);
+			}
+		}
+
+		return apply_filters( 'cn_entry_get_delete_permalink', $permalink, $this );
+	}
+
+	/**
 	 * Returns $slug.
 	 *
 	 * @see cnEntry::$slug

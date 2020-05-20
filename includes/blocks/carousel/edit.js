@@ -310,7 +310,7 @@ class Carousel extends Component {
 
 		/*
 		 * Because `select( 'core/block-editor' ).getBlocks()` return a nested array where the `innerBlocks` property
-		 * can contain nested blocks, it needs flattend first so it can be filtered by block name and then searched
+		 * can contain nested blocks, it needs flattened first so it can be filtered by block name and then searched
 		 * for the current `blockId`.
 		 *
 		 * @link https://stackoverflow.com/a/35272973/5351316
@@ -422,6 +422,8 @@ class Carousel extends Component {
 				{ type: 'logo', size: 'custom', width: 600, height: 600, zc: zc },
 				{ type: 'photo', size: 'custom', width: 600, height: 600, zc: zc }
 			];
+
+			query['_fields'] = 'fn.rendered,job_title.rendered,phone,email,social,excerpt.rendered,images';
 
 			query = { ...query, ...args };
 		}

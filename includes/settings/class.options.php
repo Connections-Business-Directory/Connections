@@ -1557,7 +1557,9 @@ class cnOptions {
 	 */
 	public static function getContentBlocks( $item = NULL, $type = NULL ) {
 
-		$blocks['items']    = apply_filters( 'cn_content_blocks', array( 'meta' => __( 'Custom Fields', 'connections' ) ) );
+		$blocks = array();
+
+		$blocks['items']    = apply_filters( 'cn_content_blocks', array() );
 		$blocks['required'] = apply_filters( 'cn_content_blocks_required', array() );
 
 		if ( ! is_null( $type ) && is_string( $type ) ) {

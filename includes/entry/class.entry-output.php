@@ -11,6 +11,8 @@
  */
 
 // Exit if accessed directly
+use Connections_Directory\Entry\Content_Blocks;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
@@ -581,6 +583,36 @@ class cnOutput extends cnEntry {
 		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '">' . $atts['text'] . '</a>';
 
 		echo apply_filters( 'cn_entry_edit_permalink', $link, $url, $atts, $this );
+	}
+
+	/**
+	 * Displays the delete permalink for the entry.
+	 *
+	 * @since 9.6
+	 *
+	 * @param array $atts
+	 */
+	public function deletePermalink( $atts = array() ) {
+
+		$defaults = array(
+			'context' => 'admin',
+			'class'   => 'cn-delete-entry',
+			'text'    => __( 'Delete Entry', 'connections' ),
+		);
+
+		$atts = cnSanitize::args( $atts, $defaults );
+		$url  = $this->getDeletePermalink( $atts['context'] );
+
+		if ( 0 === strlen( $url ) ) {
+
+			return;
+		}
+
+		$atts['class'] = 'rest' === $atts['context'] ? 'cn-rest-action ' . $atts['class'] : $atts['class'];
+
+		$link = '<a class="' . esc_attr( $atts['class'] ) . '" href="' . esc_url( $url ) . '" onclick="return confirm(\'You are about to delete this entry. \\\'Cancel\\\' to stop, \\\'OK\\\' to delete\');" title="' . __( 'Delete', 'connections' ) . ' ' . $this->getName() . '">' . $atts['text'] . '</a>';
+
+		echo apply_filters( 'cn_entry_delete_permalink', $link, $url, $atts, $this );
 	}
 
 	/**
@@ -2593,166 +2625,6 @@ class cnOutput extends cnEntry {
 	}
 
 	/**
-	 * Renders the custom meta data fields assigned to the entry.
-	 *
-	 * This will also run any actions registered for a custom metaboxes
-	 * and its fields. The actions should hook into `cn_output_meta_field-{key}`
-	 * to be rendered.
-	 *
-	 * Accepted option for the $atts property are:
-	 * 	key (string) The meta key to retrieve.
-	 * 	single (bool) Whether or not to return a single value
-	 * 		if multiple values exists for the supplied `key`.
-	 * 			NOTE: The `key` attribute must be supplied.
-	 * 			NOTE: If multiple values exist for a given `key` only first found will be returned.
-	 *  display_custom (bool) Whether or not to display any custom content meta blocks via their registered callbacks.
-	 *      If any are registered the callback output will be rendered before the custom fields meta block @see cnOutput::renderMetaBlock().
-	 *      For better control @see cnOutput::getContentBlock() can be used.
-	 *
-	 * @access public
-	 * @since 0.8
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @uses has_action()
-	 * @uses do_action()
-	 * @param  array  $atts The attributes array.
-	 * @param  array  $shortcode_atts If this is used within the shortcode template loop, the shortcode atts
-	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
-	 * @param  cnTemplate|null $template If this is used within the shortcode template loop, the template object
-	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
-	 */
-	public function getMetaBlock( $atts, $shortcode_atts, $template ) {
-
-		// @todo Implement 'merge_keys'.
-		//
-		// Whether or not to merge duplicate keys and their respective value.
-		// Expected result of a merge would be would be an indexed array:
-		//
-		// array(
-		// 		array(
-		// 			'meta_key' => 'the-duplicate-key',
-		// 			'meta_value' => array(
-		// 				'meta_id' => 'value 1',
-		// 				'meta_id' => 'value 2',
-		// 				'meta_id' => 'and so on ...',
-		// 			)
-		// 		)
-		// )
-		//
-		// $this->renderMetablock() would have to be updated to account for the
-		// 'meta_value' array, I think.
-		//
-		// NOTE: This should actually be done in cnEntry::getMeta and not here.
-		$defaults = array(
-			'key'             => '',
-			'single'          => FALSE,
-			'merge_keys'      => FALSE,
-			'display_custom'  => FALSE,
-			);
-
-		$atts = wp_parse_args( apply_filters( 'cn_output_meta_block_atts', $atts ), $defaults );
-
-		$results = $this->getMeta( $atts );
-
-		if ( ! empty( $results ) ) {
-
-			if ( empty( $atts['key'] ) ) {
-
-				$metadata = $results;
-
-			} else {
-
-				// Rebuild the results array for consistency in for the output methods/actions.
-
-				$metadata = array();
-
-				foreach ( $results as $key => $value ) {
-
-					$metadata[] = array( 'meta_key' => $key, 'meta_value' => $value );
-				}
-			}
-
-			foreach ( $metadata as $key => $value ) {
-
-				if ( $atts['display_custom'] && has_action( 'cn_output_meta_field-' . $key ) ) {
-
-					do_action( 'cn_output_meta_field-' . $key, $key, $value, $this, $shortcode_atts, $template );
-
-					unset( $metadata[ $key ] );
-				}
-			}
-
-			$this->renderMetaBlock( $metadata );
-		}
-	}
-
-	/**
-	 * Outputs the data saved in the "Custom Fields" entry metabox.
-	 * This should not be confused with the fields registered with
-	 * cnMetaboxAPI. Those fields should be output using a registered
-	 * action which runs in $this->getMetaBlock().
-	 *
-	 * @access private
-	 * @since  0.8
-	 *
-	 * @param array $metadata The metadata array passed from $this->getMetaBlock(). @see self::getMetaBlock().
-	 */
-	private function renderMetaBlock( $metadata ) {
-
-		$out = '';
-
-		$defaults = array(
-			'container_tag' => 'ul',
-			'item_tag'      => 'li',
-			'key_tag'       => 'span',
-			'value_tag'     => 'span',
-			'separator'     => ': ',
-			'before'        => '',
-			'after'         => '',
-		);
-
-		$atts = wp_parse_args( apply_filters( 'cn_output_meta_atts', $defaults ), $defaults );
-
-		foreach ( (array) $metadata as $key => $value ) {
-
-			// Do not render any private keys; ie. ones that begin with an underscore
-			// or any fields registered as part of a custom metabox.
-			if ( cnMeta::isPrivate( $key, 'entry' ) ) continue;
-
-			$out .= apply_filters(
-				'cn_entry_output_meta_key',
-				sprintf(
-					'<%1$s><%2$s class="cn-entry-meta-key">%3$s%4$s</%2$s><%5$s class="cn-entry-meta-value">%6$s</%5$s></%1$s>' . PHP_EOL,
-					$atts['item_tag'],
-					$atts['key_tag'],
-					trim( $key ),
-					$atts['separator'],
-					$atts['value_tag'],
-					implode( ', ', (array) $value )
-				),
-				$atts,
-				$key,
-				$value
-			);
-		}
-
-		if ( empty( $out ) ) echo '';
-
-		$out = apply_filters(
-			'cn_entry_output_meta_container',
-			sprintf(
-				'<%1$s class="cn-entry-meta">%2$s</%1$s>' . PHP_EOL,
-				$atts['container_tag'],
-				$out
-			),
-			$atts,
-			$metadata
-		);
-
-		echo $atts['before'] . $out . $atts['after'] . PHP_EOL;
-	}
-
-	/**
 	 * Run the actions registered to custom content blocks.
 	 *
 	 * Render any custom content blocks registered to the `cn_entry_output_content-{id}` action hook.
@@ -2769,17 +2641,13 @@ class cnOutput extends cnEntry {
 	 * 		NOTE: Custom content block IDs in `exclude` outweigh custom content block IDs in include. Meaning if the
 	 * 		same custom content block ID exists in both, the custom content block will be excluded.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @uses do_action()
-	 * @uses wp_parse_args()
-	 * @uses apply_filters()
-	 * @uses has_action()
-	 * @param  mixed  $atts array | string [optional] The custom content block(s) to render.
-	 * @param  array  $shortcode_atts [optional] If this is used within the shortcode template loop, the shortcode atts
-	 * 		should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
-	 * @param  cnTemplate|null $template [optional] If this is used within the shortcode template loop, the template object
-	 * 		should be passed so the template object can be passed by do_action() to allow access to the action callback.
+	 *
+	 * @param array|string    $atts           [optional] The custom content block(s) to render.
+	 * @param array           $shortcode_atts [optional] If this is used within the shortcode template loop, the shortcode atts
+	 *                                        should be passed so the shortcode atts can be passed by do_action() to allow access to the action callback.
+	 * @param cnTemplate|null $template       [optional] If this is used within the shortcode template loop, the template object
+	 *                                        should be passed so the template object can be passed by do_action() to allow access to the action callback.
 	 *
 	 * @return string The HTML output of the custom content blocks.
 	 */
@@ -2867,61 +2735,57 @@ class cnOutput extends cnEntry {
 				}
 			}
 
-			// Render the "Custom Fields" meta block content.
-			if ( 'meta' == $key ) {
-
-				$this->getMetaBlock( array(), $shortcode_atts, $template );
-			}
-
-			$hook = "cn_entry_output_content-$key";
-
-			if ( has_action( $hook ) ) do_action( $hook, $this, $shortcode_atts, $template );
+			do_action( $hook = "cn_entry_output_content-$key", $this, $shortcode_atts, $template );
 
 			$blockContent = ob_get_clean();
 
-			if ( empty( $blockContent ) ) continue;
+			if ( 0 < strlen( $blockContent ) ) {
 
-			$blockID = $this->getSlug() . '-' . $blockNumber;
+				$blockID = $this->getSlug() . '-' . $blockNumber;
 
-			// Store the title in an array that can be accessed/passed from outside the content block loop.
-			// And if there is no title for some reason, create one from the key.
-			if ( $name = cnOptions::getContentBlocks( $key ) ) {
+				// Store the title in an array that can be accessed/passed from outside the content block loop.
+				// And if there is no title for some reason, create one from the key.
+				if ( $name = cnOptions::getContentBlocks( $key ) ) {
 
-				$titles[ $blockID ] = $name;
+					$titles[ $blockID ] = $name;
 
-			} elseif ( $name = cnOptions::getContentBlocks( $key, 'single' ) ) {
+				} elseif ( $name = cnOptions::getContentBlocks( $key, 'single' ) ) {
 
-				$titles[ $blockID ] = $name;
+					$titles[ $blockID ] = $name;
+
+				} else {
+
+					$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+				}
+
+				$blockContainerContent .= apply_filters(
+					'cn_entry_output_content_block',
+					sprintf(
+						'<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
+						sprintf(
+							'<%1$s>%2$s</%1$s>',
+							$atts['header_tag'],
+							$titles[ $blockID ]
+						),
+						$atts['block_tag'],
+						$key,
+						$blockID,
+						$blockContent
+					),
+					$this,
+					$key,
+					$blockID,
+					$titles[ $blockID ],
+					$blockContent,
+					$atts,
+					$shortcode_atts
+				);
 
 			} else {
 
-				$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
+				$blockContainerContent .= Content_Blocks::instance()->renderBlock( $key, $this );
 			}
 
-			//$titles[ $blockID ] = cnOptions::getContentBlocks( $key ) ? cnOptions::getContentBlocks( $key ) : ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
-
-			$blockContainerContent .= apply_filters(
-				'cn_entry_output_content_block',
-				sprintf(
-					'<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
-					sprintf(
-						'<%1$s>%2$s</%1$s>',
-						$atts['header_tag'],
-						$titles[ $blockID ]
-					),
-					$atts['block_tag'],
-					$key,
-					$blockID,
-					$blockContent
-				),
-				$this,
-				$key,
-				$blockID,
-				$titles[ $blockID ],
-				$blockContent,
-				$atts,
-				$shortcode_atts
-			);
 		}
 
 		if ( empty( $blockContainerContent ) ) return '';

@@ -231,7 +231,7 @@ class cnHTML {
 
 					array_walk( $value, 'sanitize_html_class' );
 
-					return $value ? ' class="' . implode( $value, ' ' ) . '" ' : '';
+					return $value ? ' class="' . implode( ' ', $value ) . '" ' : '';
 
 				} elseif ( ! empty( $value ) ) {
 
@@ -269,7 +269,7 @@ class cnHTML {
 						}
 					);
 
-					return $value ? ' style="' . implode( $value, '; ' ) . '"' : '';
+					return $value ? ' style="' . implode( '; ', $value ) . '"' : '';
 				}
 
 				return '';

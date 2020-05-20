@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '9.5.1';
+	const VERSION = '9.6';
 
 	/**
 	 * Stores the instance of this class.
@@ -286,6 +286,14 @@ final class Connections_Directory {
 
 		// Include the Template Customizer files.
 		add_action( 'plugins_loaded', array( 'cnDependency', 'customizer' ) );
+
+		// Add the core Content Blocks.
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Block\Custom_Fields', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Block\Entry_Meta', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Block\Entry_Management', 'add' ) );
+
+		// Register the core Content Blocks actions/filters.
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Blocks', 'register' ), 20 );
 
 		/*
 		 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.

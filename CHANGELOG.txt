@@ -1,5 +1,25 @@
 == Changelog ==
 
+= 9.6 05/20/2020 =
+* NEW: Introduce `cnEntry::getDeletePermalink()` and `cnOutput::deletePermalink()`.
+* NEW: Add `delete` to supported permalink types in `cnURL::permalink()`.
+* NEW: Introduce the Content Blocks API.
+* NEW: Introduce the Custom Fields, Entry Meta and Entry Management Content Blocks.
+* TWEAK: Correct `implode()` parameter usage for PHP 7.4 so it does not generate a warning.
+* TWEAK: Check for array key to prevent PHP warning.
+* TWEAK: Use `is_file()` instead of `file_exists()` to test if image exists.
+* TWEAK: Set `font-style` of brand icons to `normal` to help prevent theme's from making them bold and/or italic.
+* TWEAK: Further improve the REST API by better defining the schema, support the `_fields` parameter to reduce response size while improving response time and adding support for the `DELETE` request to delete an Entry.
+* TWEAK: Improve the Carousel block by querying the REST for only the required fields.
+* TWEAK: Refactor `cnOutput::getContentBlock()` to utilize the Content Block API.
+* TWEAK: Remove the hardcoded "Custom Fields" so it can be refactored using the Content Block API.
+* BUG: Pass expected parameters for the `setted_transient` and `set_transient_{$key}` actions.
+* BUG: Define variable before use.
+* OTHER: Correct typo.
+* OTHER: Correct misspelling.
+* DEV: Update npm and dev dependencies.
+* DEV: phpDoc corrections.
+
 = 9.5.1 04/28/2020 =
 * NEW: Introduce the `getEditPermalink()` and the `editPermalink()` functions.
 * TWEAK: Add permalink root to attributes in the `cn_permalink` filter.

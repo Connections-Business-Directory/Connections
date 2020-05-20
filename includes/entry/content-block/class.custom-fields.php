@@ -51,7 +51,12 @@ class Custom_Fields {
 
 		$metadata = $entry->getMeta();
 
-		if ( ! empty( $metadata ) ) {
+		if ( false === $metadata ) {
+
+			return;
+		}
+
+		if ( is_array( $metadata ) && ! empty( $metadata ) ) {
 
 			do_action(
 				'Connections_Directory/Entry/Content_Block/Custom_Fields/Before',

@@ -68,6 +68,8 @@ class cnCSV_Export {
 	 *
 	 * @since 8.5.1
 	 * @since 9.7   Add protection against CSV Injection, also known as Formula Injection.
+	 *              Add filter `add_filter( 'cn_csv_export_suspicious_value_prefix', '__return_empty_string' );`
+	 *              to remove suspicious string prefix.
 	 *
 	 * @param string $string
 	 *
@@ -84,6 +86,7 @@ class cnCSV_Export {
 		if ( 1 === preg_match( $pattern, $string ) ) {
 
 			$prefix = __( '(Security Alert: Suspicious content detected.)', 'connections' );
+			$prefix = apply_filters( 'cn_csv_export_suspicious_value_prefix', $prefix, $string );
 
 			/**
 			 * Protect against a translation attack.

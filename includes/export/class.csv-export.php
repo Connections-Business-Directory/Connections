@@ -66,14 +66,35 @@ class cnCSV_Export {
 	/**
 	 * Escape the double-quotes.
 	 *
-	 * @access public
-	 * @since  8.5.1
+	 * @since 8.5.1
+	 * @since 9.7   Add protection against CSV Injection, also known as Formula Injection.
 	 *
 	 * @param string $string
 	 *
 	 * @return string
 	 */
 	public function escape( $string ) {
+
+		$string  = trim( $string );
+		$pattern = '/^([=@\+\-])/';
+
+		/**
+		 * If {$string} begins with suspect character, prefix the {$string} with a warning.
+		 */
+		if ( 1 === preg_match( $pattern, $string ) ) {
+
+			$prefix = __( '(Security Alert: Suspicious content detected.)', 'connections' );
+
+			/**
+			 * Protect against a translation attack.
+			 */
+			if ( 1 === preg_match( $pattern, $prefix ) ) {
+
+				$prefix = '\'' . $prefix;
+			}
+
+			$string = preg_replace( $pattern, "{$prefix} $1", $string );
+		}
 
 		return str_replace( '"', '""', $string );
 	}

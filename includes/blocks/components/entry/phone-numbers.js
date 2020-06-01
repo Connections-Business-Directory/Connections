@@ -15,7 +15,7 @@ class EntryPhoneNumbers extends Component {
 
 		const { entry, preferred = false } = this.props;
 
-		if ( isUndefined( entry.tel ) ) return null;
+		if ( isUndefined( entry.tel )  || 0 === entry.tel.length ) return null;
 
 		let numbers = entry.tel
 			.filter( ( phone ) => {

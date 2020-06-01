@@ -22,7 +22,7 @@ class EntrySocialNetworks extends Component {
 
 		const { entry } = this.props;
 
-		if ( isUndefined( entry.social ) ) return null;
+		if ( isUndefined( entry.social ) || 0 === entry.social.length ) return null;
 
 		let networks = entry.social.map( ( network ) => {
 

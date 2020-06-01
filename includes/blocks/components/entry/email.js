@@ -15,7 +15,7 @@ class EntryEmail extends Component {
 
 		const { entry, preferred = false } = this.props;
 
-		if ( isUndefined( entry.email ) ) return null;
+		if ( isUndefined( entry.email ) || 0 === entry.email.length ) return null;
 
 		let addresses = entry.email
 			.filter( ( email ) => {

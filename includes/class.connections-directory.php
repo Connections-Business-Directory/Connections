@@ -291,6 +291,7 @@ final class Connections_Directory {
 		add_action( 'plugins_loaded', array( 'cnDependency', 'customizer' ) );
 
 		// Add the core Content Blocks.
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Entry_Categories', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Custom_Fields', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Entry_Meta', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Entry_Management', 'add' ) );

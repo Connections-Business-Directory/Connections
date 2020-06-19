@@ -213,6 +213,7 @@ class cnDependency {
 			'Connections_Directory\Content_Block'  => 'includes/entry/class.content-block.php',
 
 			// Core Content Blocks.
+			'Connections_Directory\Content_Block\Entry_Categories'  => 'includes/entry/content-block/class.entry-categories.php',
 			'Connections_Directory\Content_Block\Custom_Fields'     => 'includes/entry/content-block/class.custom-fields.php',
 			'Connections_Directory\Content_Block\Entry_Meta'        => 'includes/entry/content-block/class.entry-meta.php',
 			'Connections_Directory\Content_Block\Entry_Management'  => 'includes/entry/content-block/class.entry-management.php',

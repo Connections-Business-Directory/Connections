@@ -2473,8 +2473,6 @@ class cnOutput extends cnEntry {
 	 */
 	public function getCategoryBlock( $atts = array() ) {
 
-		global $wp_rewrite;
-
 		$defaults = array(
 			'container_tag'    => 'div',
 			'label_tag'        => 'span',
@@ -2502,129 +2500,13 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_category', $defaults )
 		);
 
-		$categories = $this->getCategory( array( 'child_of' => $atts['child_of'] ) );
-		$count      = count( $categories );
-		$html       = '';
-		$label      = '';
-		$items      = array();
+		$block = Content_Blocks::instance()->get( 'entry-categories' );
 
-		if ( empty( $categories ) ) {
+		$block->useObject( $this );
+		$block->setProperties( $atts );
+		$block->set( 'render_container', false );
 
-			return $html;
-		}
-
-		if ( 'list' == $atts['type'] ) {
-
-			$atts['item_tag'] = 'li';
-		}
-
-		if ( 0 < strlen( $atts['label'] ) ) {
-
-			$label = sprintf(
-				'<%1$s class="cn_category_label">%2$s</%1$s> ',
-				$atts['label_tag'],
-				esc_html( $atts['label'] )
-			);
-		}
-
-		$i = 1;
-
-		foreach ( $categories as $category ) {
-
-			$text = '';
-
-			if ( $atts['parents'] ) {
-
-				// If the term is a root parent, skip.
-				if ( 0 !== $category->parent ) {
-
-					$text .= cnTemplatePart::getCategoryParents(
-						$category->parent,
-						array(
-							'link'       => $atts['link'],
-							'separator'  => $atts['parent_separator'],
-							'force_home' => $this->directoryHome['force_home'],
-							'home_id'    => $this->directoryHome['page_id'],
-						)
-					);
-				}
-			}
-
-			if ( $atts['link'] ) {
-
-				$rel = is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() ? 'rel="category tag"' : 'rel="category"';
-
-				$url = cnTerm::permalink(
-					$category,
-					'category',
-					array(
-						'force_home' => $this->directoryHome['force_home'],
-						'home_id'    => $this->directoryHome['page_id'],
-					)
-				);
-
-				$text .= '<a href="' . $url . '" ' . $rel . '>' . esc_html( $category->name ) . '</a>';
-
-			} else {
-
-				$text .= esc_html( $category->name );
-			}
-
-			$items[] = apply_filters(
-				'cn_entry_output_category_item',
-				sprintf(
-					'<%1$s class="cn-category-name cn_category cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
-					$atts['item_tag'],
-					$category->term_id,
-					$text,
-					$count > $i && 'list' !== $atts['type'] ? esc_html( $atts['separator'] ) : ''
-				),
-				$category,
-				$count,
-				$i,
-				$atts,
-				$this
-			);
-
-			$i++; // Increment here so the correct value is passed to the filter.
-		}
-
-		/*
-		 * Remove NULL, FALSE and empty strings (""), but leave values of 0 (zero).
-		 * Filter our these in case someone hooks into the `cn_entry_output_category_item` filter and removes a category
-		 * by returning an empty value.
-		 */
-		$items = array_filter( $items, 'strlen' );
-
-		/**
-		 * @since 8.6.12
-		 */
-		$items = apply_filters( 'cn_entry_output_category_items', $items );
-
-		if ( 'list' == $atts['type'] ) {
-
-			$html .= sprintf(
-				'<%1$s class="cn-category-list">%2$s</%1$s>',
-				'unordered' === $atts['list'] ? 'ul' : 'ol',
-				implode( '', $items )
-			);
-
-		} else {
-
-			$html .= implode( '', $items );
-		}
-
-		$html = apply_filters(
-			'cn_entry_output_category_container',
-			sprintf(
-				'<%1$s class="cn-categories">%2$s</%1$s>' . PHP_EOL,
-				$atts['container_tag'],
-				$atts['before'] . $label . $html . $atts['after']
-			),
-			$atts
-		);
-
-		return $this->echoOrReturn( $atts['return'], $html );
+		return $this->echoOrReturn( $atts['return'], $block->asHTML() );
 	}
 
 	/**

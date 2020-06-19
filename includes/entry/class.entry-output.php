@@ -2462,6 +2462,9 @@ class cnOutput extends cnEntry {
 	 *                                    Default: false
 	 *     @type bool   $parents          Whether or not to display the category hierarchy.
 	 *                                    Default: false
+	 *     @type int    $child_of         Term ID to retrieve child terms of.
+	 *                                    If multiple taxonomies are passed, $child_of is ignored.
+	 *                                    Default: 0
 	 *     @type bool   $return           Whether or not to echo or return the HTML.
 	 *                                    Default: false
 	 * }

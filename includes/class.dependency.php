@@ -209,12 +209,16 @@ class cnDependency {
 			'cnEntry_Collection_Item'   => 'includes/entry/class.entry-collection-item.php',
 
 			// Content Blocks API.
-			'Connections_Directory\Entry\Content_Blocks'                 => 'includes/entry/class.content-blocks.php',
+			'Connections_Directory\Content_Blocks' => 'includes/entry/class.content-blocks.php',
+			'Connections_Directory\Content_Block'  => 'includes/entry/class.content-block.php',
 
 			// Core Content Blocks.
-			'Connections_Directory\Entry\Content_Block\Custom_Fields'    => 'includes/entry/content-block/class.custom-fields.php',
-			'Connections_Directory\Entry\Content_Block\Entry_Meta'       => 'includes/entry/content-block/class.entry-meta.php',
-			'Connections_Directory\Entry\Content_Block\Entry_Management' => 'includes/entry/content-block/class.entry-management.php',
+			'Connections_Directory\Content_Block\Entry_Categories'  => 'includes/entry/content-block/class.entry-categories.php',
+			'Connections_Directory\Content_Block\Custom_Fields'     => 'includes/entry/content-block/class.custom-fields.php',
+			'Connections_Directory\Content_Block\Entry_Meta'        => 'includes/entry/content-block/class.entry-meta.php',
+			'Connections_Directory\Content_Block\Entry_Management'  => 'includes/entry/content-block/class.entry-management.php',
+			'Connections_Directory\Content_Block\Google_Static_Map' => 'includes/entry/content-block/class.google-static-map.php',
+			'Connections_Directory\Content_Block\Map_Block'         => 'includes/entry/content-block/class.map-block.php',
 
 			// Entry vCard.
 			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',

@@ -4249,8 +4249,8 @@ class cnRegisterSettings {
 		// If no date types have been selected, force select the top type.
 		if ( empty( $active ) ) {
 
-			$types    = cnArray::get( $settings, 'social-network-types.type' );
-			$keys     = array_flip( $types );
+			$types    = cnArray::get( $settings, 'social-network-types.icon' );
+			$keys     = array_keys( $types );
 			$active[] = array_shift( $keys );
 		}
 

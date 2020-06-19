@@ -1,10 +1,6 @@
 <?php
 
-namespace Connections_Directory\Entry;
-
-use cnEntry;
-use cnSanitize;
-use function Sodium\add;
+namespace Connections_Directory;
 
 /**
  * Class Content_Blocks
@@ -24,7 +20,7 @@ class Content_Blocks {
 
 	/**
 	 * @since 9.6
-	 * @var array
+	 * @var Content_Block[]
 	 */
 	protected $blocks = array();
 
@@ -45,70 +41,48 @@ class Content_Blocks {
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Content_Blocks ) ) {
 
 			self::$instance = new Content_Blocks;
+
+			/*
+			 * Register the core Content Blocks actions/filters.
+			 *
+			 * Priority `19` on `init` to allow other plugins to register Content Blocks.
+			 * Must run before priority `20` so Content Block are registered before the settings options are initialized.
+			 *
+			 * Enqueue scripts is set to priority to allow other Content Blocks to register scripts at default priority.
+			 */
+			add_action( 'init', array( __CLASS__, 'register' ), 19 );
+			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ), 20 );
 		}
 
 		return self::$instance;
 	}
 
 	/**
+	 * Register the Content Block render callback and save block in instance array.
+	 *
 	 * @since 9.6
 	 *
-	 * @param string $id
-	 * @param array  $atts {
-	 *
-	 *     @type string       $context             The context in which to add the Content Block.
-	 *                                             Valid: list|single
-	 *     @type string       $name                The Content Block name. This will be shown as the setting option name and  the heading name.
-	 *     @type string       $slug                The Content Block container ID.
-	 *     @type string       $heading             The Content Block heading. This will override the $name attribute when displaying the
-	 *                                             heading on the frontend.
-	 *     @type array|string $permission_callback The permission required in order to view the Content Block.
-	 *     @type string       $script              The registered JavaScript handle to enqueue.
-	 *     @type string       $style               The registered CSS handle to enqueue.
-	 *     @type array|string $render_callback     The function/method called to display the Content Block.
-	 *     @type int          $priority            The priority used when registering the $render_callback.
-	 *     @type string       $block_tag           The Content Block container tag.
-	 *                                             Default: div
-	 *     @type string       $heading_tag         The Content Block heading tag.
-	 *                                             Default: h3
-	 * }
+	 * @param Content_Block $block
 	 */
-	public function add( $id, $atts ) {
+	public function add( $block ) {
 
-		$defaults = array(
-			'context'             => null,
-			'name'                => ucwords( str_replace( array( '-', '_' ), ' ', $id ) ),
-			'slug'                => '',
-			'heading'             => '',
-			'permission_callback' => '__return_true',
-			'script'              => '',
-			'style'               => '',
-			'render_callback'     => function( $entry, $atts, $template ) {
-				echo __( 'No Content Block callback.', 'connections' );
-			},
-			'priority'            => 10,
-			'block_tag'           => 'div',
-			'heading_tag'         => 'h3',
+		add_action(
+			"Connections_Directory/Content_Block/Render/{$block->getID()}",
+			$block->get( 'render_callback' ),
+			$block->get( 'priority' )
 		);
 
-		$atts = cnSanitize::args( $atts, $defaults );
-
-		if ( ! in_array( $atts['context'], array( null, 'list', 'single' ), true ) ) {
-
-			$atts['context'] = null;
-		}
-
-		$atts['slug'] = 0 < strlen( $atts['slug'] ) ? $atts['slug'] : $id;
-
-		$this->blocks[ $id ] = apply_filters( 'Connections_Directory/Entry/Content_Block/Add', $atts );
+		$this->blocks[ $block->getID() ] = apply_filters( 'Connections_Directory/Content_Block/Add', $block );
 	}
 
 	/**
+	 * Get a Content Block by its registered ID.
+	 *
 	 * @since 9.6
 	 *
 	 * @param string $id The ID of the registered block.
 	 *
-	 * @return array|bool Block parameters array or false.
+	 * @return Content_Block|bool Block parameters array or false.
 	 */
 	public function get( $id ) {
 
@@ -116,6 +90,8 @@ class Content_Blocks {
 	}
 
 	/**
+	 * Remove a Content Block from the instance array by its registered ID.
+	 *
 	 * @since 9.6
 	 *
 	 * @param string $id
@@ -136,6 +112,8 @@ class Content_Blocks {
 	}
 
 	/**
+	 * Register the Content Block with the Settings API.
+	 *
 	 * @since 9.6
 	 */
 	public static function register() {
@@ -144,63 +122,45 @@ class Content_Blocks {
 
 		$blocks = $instance->blocks;
 
-		foreach ( $blocks as $id => &$block ) {
+		foreach ( $blocks as $block ) {
 
-			// Check permission specified on the content block.
-			if ( ! $instance->checkPermission( $block ) ) {
+			/**
+			 * @var Content_Block $block
+			 */
+			$block = apply_filters( 'Connections_Directory/Content_Block/Register_Option', $block );
+
+			$register = apply_filters(
+				"Connections_Directory/Content_Block/Register_Option/{$block->getID()}",
+				$block->get( 'register_option', true )
+			);
+
+			if ( true !== $register ) {
 
 				continue;
 			}
 
-			$block['option_filter'] = function( $blocks ) use ( $id, $block ) {
-				$blocks[ $id ] = $block['name'];
+			$filter = function( $blocks ) use ( $block ) {
+				$blocks[ $block->getID() ] = $block->get( 'name' );
 				return $blocks;
 			};
 
-			if ( 'list' === $block['context'] ) {
+			$block->set( 'option_filter', $filter );
 
-				add_filter( 'cn_content_blocks-list', $block['option_filter'] );
+			switch ( $block->get( 'context') ) {
 
-			} elseif ( 'single' === $block['context'] ) {
+				case 'list':
+					add_filter( 'cn_content_blocks-list', $filter );
+					break;
 
-				add_filter( 'cn_content_blocks-single', $block['option_filter'] );
+				case 'single':
+					add_filter( 'cn_content_blocks-single', $filter );
+					break;
 
-			} elseif ( NULL === $block['context'] ) {
-
-				add_filter( 'cn_content_blocks', $block['option_filter'] );
+				default:
+					add_filter( 'cn_content_blocks', $filter );
 			}
 
-			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueueScripts' ) );
-			add_action( "Connections_Directory/Entry/Content_Block/Render/{$id}", $block['render_callback'], $block['priority'] );
 		}
-	}
-
-	/**
-	 * @since 9.6
-	 *
-	 * @param array $block Content Block attributes.
-	 *
-	 * @return bool
-	 */
-	private function checkPermission( $block ) {
-
-		$permitted = TRUE;
-
-		if ( array_key_exists( 'permission_callback', $block ) && ! empty( $block['permission_callback'] ) ) {
-
-			$permitted = call_user_func( $block['permission_callback'], $block );
-
-			if ( is_wp_error( $permitted ) ) {
-
-				return FALSE;
-
-			} elseif ( FALSE === $permitted || NULL === $permitted ) {
-
-				return FALSE;
-			}
-		}
-
-		return (bool) $permitted;
 	}
 
 	/**
@@ -216,110 +176,48 @@ class Content_Blocks {
 
 		$blocks = $instance->blocks;
 
-		foreach ( $blocks as $id => $block ) {
+		foreach ( $blocks as $block ) {
 
 			// Frontend styles.
-			if ( ! empty( $block['style'] ) ) {
-				wp_enqueue_style( $block['style'] );
+			if ( ! empty( $handle = $block->get( 'style_handle' ) ) ) {
+				wp_enqueue_style( $handle );
 			}
 
 			// Frontend script.
-			if ( ! empty( $block['script'] ) ) {
-				wp_enqueue_script( $block['script'] );
+			if ( ! empty( $handle = $block->get( 'script_handle' ) ) ) {
+				wp_enqueue_script( $handle );
 			}
 		}
 	}
 
 	/**
+	 * Render a Content Block by its registered ID.
+	 *
 	 * @since 9.6
 	 *
-	 * @param string  $id
-	 * @param cnEntry $entry
-	 * @param bool    $echo
+	 * @param string $id
+	 * @param mixed  $object
+	 * @param array  $atts
+	 * @param bool   $echo
 	 *
 	 * @return string
 	 */
-	public function renderBlock( $id, $entry, $echo = false ) {
+	public function renderBlock( $id, $object, $atts = array(), $echo = true ) {
 
 		$html  = '';
 		$block = $this->get( $id );
 
-		if ( is_array( $block ) ) {
+		if ( $block instanceof Content_Block && $block->isPermitted() ) {
 
-			$content = $this->renderBlockContent( $id, $entry );
+			$block->useObject( $object );
+			$block->setProperties( $atts );
 
-			if ( 0 < strlen( $content ) ) {
-
-				$html = sprintf(
-					'<%1$s class="cn-entry-content-block cn-entry-content-block-%2$s" id="cn-entry-content-block-%3$s">%4$s%5$s</%1$s>' . PHP_EOL,
-					$block['block_tag'],
-					$block['slug'],
-					$block['slug'] . '-' . $entry->getSlug(),
-					$this->renderBlockHeading( $id ),
-					$content
-				);
-			}
+			$html = $block->asHTML();
 		}
 
 		if ( true === $echo ) {
 
 			echo $html;
-		}
-
-		return $html;
-	}
-
-	/**
-	 * @since 9.6
-	 *
-	 * @param string $id
-	 *
-	 * @return string
-	 */
-	private function renderBlockHeading( $id ) {
-
-		$html  = '';
-		$block = $this->get( $id );
-
-		if ( is_array( $block ) ) {
-
-			if ( array_key_exists( 'heading', $block ) && 0 < strlen( $block['heading'] ) ) {
-
-				$heading = $block['heading'];
-
-			} elseif ( array_key_exists( 'name', $block ) && 0 < strlen( $block['name'] ) ) {
-
-				$heading = $block['name'];
-
-			} else {
-
-				$heading = ucwords( str_replace( array( '-', '_' ), ' ', $id ) );
-			}
-
-			$html = sprintf( '<%1$s>%2$s</%1$s>', $block['heading_tag'], $heading );
-		}
-
-		return $html;
-	}
-
-	/**
-	 * @param string  $id
-	 * @param cnEntry $entry
-	 *
-	 * @return string
-	 */
-	private function renderBlockContent( $id, $entry ) {
-
-		$html = '';
-		$hook = "Connections_Directory/Entry/Content_Block/Render/{$id}";
-
-		if ( has_action( $hook ) ) {
-
-			ob_start();
-
-			do_action( $hook, $entry );
-
-			$html = ob_get_clean();
 		}
 
 		return $html;

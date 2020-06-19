@@ -874,7 +874,7 @@ class cnEntry {
 	 *
 	 * Use @see cnEntry::getName() instead of calling this method directly.
 	 *
-	 * NOTE: This method will eventually be declared asprivate.
+	 * NOTE: This method will eventually be declared as private.
 	 *
 	 * @access private
 	 * @since  unknown

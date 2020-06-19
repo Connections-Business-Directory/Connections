@@ -11,7 +11,7 @@
  */
 
 // Exit if accessed directly
-use Connections_Directory\Entry\Content_Blocks;
+use Connections_Directory\Content_Blocks;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -1321,164 +1321,35 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_map', $defaults )
 		);
 
-		$atts['id'] = $this->getId();
-
-		$out = '';
-		$attr = array();
-		$addr = array();
-		$geo = array();
-
-		// Limit the map type to one of the valid types to prevent user error.
-		$permittedMapTypes = array( 'HYBRID', 'ROADMAP', 'SATELLITE', 'TERRAIN' );
-		$atts['maptype'] = strtoupper( $atts['maptype'] );
-		if ( ! in_array( $atts['maptype'] , $permittedMapTypes ) ) $atts['maptype'] = 'ROADMAP';
-
-		// Limit the user specified zoom level to between 0 and 21
-		if ( ! in_array( $atts['zoom'] , range( 0, 21 ) ) ) $atts['zoom'] = 13;
-
-		// Ensure the requested map size does not exceed the permitted sizes permitted by the Google Static Maps API
-		if ( $atts['static'] ) $atts['width'] = ( $atts['width'] <= 640 ) ? $atts['width'] : 640;
-		if ( $atts['static'] ) $atts['height'] = ( $atts['height'] <= 640 ) ? $atts['height'] : 640;
-
-		$addresses = $this->getAddresses( $atts, $cached );
-
-		if ( empty( $addresses ) ) return '';
-
-		if ( ! empty( $addresses[0]->line_one ) ) $addr[] = $addresses[0]->line_one;
-		if ( ! empty( $addresses[0]->line_two ) ) $addr[] = $addresses[0]->line_two;
-		if ( ! empty( $addresses[0]->city ) ) $addr[] = $addresses[0]->city;
-		if ( ! empty( $addresses[0]->state ) ) $addr[] = $addresses[0]->state;
-		if ( ! empty( $addresses[0]->zipcode ) ) $addr[] = $addresses[0]->zipcode;
-
-		if ( ! empty( $addresses[0]->latitude ) && ! empty( $addresses[0]->longitude ) ) {
-			$geo['latitude'] = $addresses[0]->latitude;
-			$geo['longitude'] = $addresses[0]->longitude;
-		}
-
-		if ( empty( $addr ) && empty( $geo ) ) return '';
-
 		if ( $atts['static'] ) {
-			$attr['center'] = ( empty( $geo ) ) ? implode( ', ' , $addr ) : implode( ',' , $geo );
-			$attr['markers'] = $attr['center'];
-			$attr['size'] = $atts['width'] . 'x' . $atts['height'];
-			$attr['maptype'] = $atts['maptype'];
-			$attr['zoom'] = $atts['zoom'];
-			//$attr['scale'] = 2;
-			$attr['format'] = 'png';
-			$attr['sensor'] = 'false';
 
-			$out .= '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image" style="height: ' . $atts['height'] . '; width: ' . $atts['width'] . '">';
-			$out .= '<img class="map" title="' . $attr['center'] . '" alt="' . $attr['center'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" src="https://maps.googleapis.com/maps/api/staticmap?' . http_build_query( $attr , '' , '&amp;' ) . '"/>';
-			$out .= '</span></span>';
+			$block = Content_Blocks::instance()->get( 'google-static-map' );
+
+			$block->useObject( $this );
+
+			$block->set( 'maptype', $atts['maptype'] );
+			$block->set( 'height', $atts['height'] );
+			$block->set( 'width', $atts['width'] );
+			$block->set( 'zoom', $atts['zoom'] );
 
 		} else {
 
-			if ( 0 < count( $addresses ) ) {
+			$block = Content_Blocks::instance()->get( 'map-block' );
 
-				$createMap = FALSE;
-				$layers = array();
-				$layerControl = \Connections_Directory\Map\Control\Layer\Layer_Control::create( 'layerControl' )->setCollapsed( FALSE );
+			$block->useObject( $this );
 
-				$googleMapsAPIBrowserKey = cnSettingsAPI::get(
-					'connections',
-					'google_maps_geocoding_api',
-					'browser_key'
-				);
-
-				// Strings to be used for setting the Leaflet maps `attribution`.
-				$leaflet  = '<a href="https://leafletjs.com/" target="_blank" title="Leaflet">Leaflet</a>';
-				$backlink = '<a href="https://connections-pro.com/" target="_blank" title="Connections Business Directory plugin for WordPress">Connections Business Directory</a> | ' . $leaflet;
-
-				$attribution = array( $backlink );
-
-				if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
-
-					$roadMap = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'roadmap' );
-
-					$roadMap->setAttribution( implode( ' | ', $attribution ) )
-					        ->setOption( 'name', 'Roadmap' );
-
-					$layerControl->addBaseLayer( $roadMap );
-
-					$hybrid = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'hybrid' );
-
-					$hybrid->setAttribution( implode( ' | ', $attribution ) )
-					       ->setOption( 'name', 'Satellite' );
-
-					$layerControl->addBaseLayer( $hybrid );
-
-				} else {
-
-					$baseMap = \Connections_Directory\Map\Layer\Raster\Provider\Nominatim::create();
-
-					$attribution[] = $baseMap->getAttribution();
-
-					$baseMap->setAttribution( implode( ' | ', $attribution )  );
-
-					/*
-					 * Adding a base layer, creates a layer switch control, add base map tiles as a normal layer to
-					 * prevent a the empty layer control from being displayed.
-					 */
-					//$layerControl->addBaseLayer( $baseMap );
-					$layers[] = $baseMap;
-				}
-
-				foreach ( $addresses as $address ) {
-
-					$coordinates = cnCoordinates::create( $address->latitude, $address->longitude );
-
-					if ( ! is_wp_error( $coordinates ) ) {
-
-						$formatted = \Connections_Directory\Model\Format\Address\As_String::format(
-							new cnAddress( (array) $address )
-						);
-
-						$directionsURL = add_query_arg(
-							array(
-								'saddr' => '',
-								'daddr' => "{$coordinates->getLatitude()},{$coordinates->getLongitude()}",
-							),
-							'https://www.google.com/maps'
-						);
-
-						$buttonText = esc_html__( 'Get Directions', 'connections' );
-
-						$directionsButton = "<a href=\"{$directionsURL}\" target=\"_blank\"><button>{$buttonText}</button></a>";
-
-						$popup = "<p>{$formatted}</p><div>{$directionsButton}</div>";
-
-						$layers[] = \Connections_Directory\Map\UI\Marker::create( 'default', $coordinates )
-						                                    ->bindPopup( \Connections_Directory\Map\UI\Popup::create( 'default', $popup ) );
-
-						$createMap = TRUE;
-					}
-
-				}
-
-				if ( $createMap ) {
-
-					$map = \Connections_Directory\Map\Map::create(
-						'cn-map-' . $this->getRuid(),
-						array(
-							'center' => new cnCoordinates( 39.8283, -98.5795 ),
-							'zoom'   => $atts['zoom'],
-						)
-					)->setHeight( $atts['height'] . 'px' )
-					 ->setWidth( empty( $atts['width'] ) ? '100%' : $atts['width'] )
-					 ->addLayers( $layerControl->getBaseLayers() )
-					 ->addLayers( $layers )
-					 ->addControl( $layerControl );
-
-					$out = $map;
-				}
-
-			}
-
+			$block->set( 'height', $atts['height'] . 'px' );
+			$block->set( 'width', empty( $atts['width'] ) ? '100%' : $atts['width'] . 'px' );
+			$block->set( 'zoom', $atts['zoom'] );
 		}
 
-		$out = $atts['before'] . $out . $atts['after'];
+		$block->set( 'render_container', false );
+		$block->set( 'preferred', $atts['preferred'] );
+		$block->set( 'type', $atts['type'] );
+		$block->set( 'before', $atts['before'] );
+		$block->set( 'after', $atts['after'] );
 
-		return $this->echoOrReturn( $atts['return'], $out );
+		return $this->echoOrReturn( $atts['return'], $block->asHTML() );
 	}
 
 	/**
@@ -2462,6 +2333,9 @@ class cnOutput extends cnEntry {
 	 *                                    Default: false
 	 *     @type bool   $parents          Whether or not to display the category hierarchy.
 	 *                                    Default: false
+	 *     @type int    $child_of         Term ID to retrieve child terms of.
+	 *                                    If multiple taxonomies are passed, $child_of is ignored.
+	 *                                    Default: 0
 	 *     @type bool   $return           Whether or not to echo or return the HTML.
 	 *                                    Default: false
 	 * }
@@ -2469,8 +2343,6 @@ class cnOutput extends cnEntry {
 	 * @return string
 	 */
 	public function getCategoryBlock( $atts = array() ) {
-
-		global $wp_rewrite;
 
 		$defaults = array(
 			'container_tag'    => 'div',
@@ -2499,129 +2371,13 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_category', $defaults )
 		);
 
-		$categories = $this->getCategory( array( 'child_of' => $atts['child_of'] ) );
-		$count      = count( $categories );
-		$html       = '';
-		$label      = '';
-		$items      = array();
+		$block = Content_Blocks::instance()->get( 'entry-categories' );
 
-		if ( empty( $categories ) ) {
+		$block->useObject( $this );
+		$block->setProperties( $atts );
+		$block->set( 'render_container', false );
 
-			return $html;
-		}
-
-		if ( 'list' == $atts['type'] ) {
-
-			$atts['item_tag'] = 'li';
-		}
-
-		if ( 0 < strlen( $atts['label'] ) ) {
-
-			$label = sprintf(
-				'<%1$s class="cn_category_label">%2$s</%1$s> ',
-				$atts['label_tag'],
-				esc_html( $atts['label'] )
-			);
-		}
-
-		$i = 1;
-
-		foreach ( $categories as $category ) {
-
-			$text = '';
-
-			if ( $atts['parents'] ) {
-
-				// If the term is a root parent, skip.
-				if ( 0 !== $category->parent ) {
-
-					$text .= cnTemplatePart::getCategoryParents(
-						$category->parent,
-						array(
-							'link'       => $atts['link'],
-							'separator'  => $atts['parent_separator'],
-							'force_home' => $this->directoryHome['force_home'],
-							'home_id'    => $this->directoryHome['page_id'],
-						)
-					);
-				}
-			}
-
-			if ( $atts['link'] ) {
-
-				$rel = is_object( $wp_rewrite ) && $wp_rewrite->using_permalinks() ? 'rel="category tag"' : 'rel="category"';
-
-				$url = cnTerm::permalink(
-					$category,
-					'category',
-					array(
-						'force_home' => $this->directoryHome['force_home'],
-						'home_id'    => $this->directoryHome['page_id'],
-					)
-				);
-
-				$text .= '<a href="' . $url . '" ' . $rel . '>' . esc_html( $category->name ) . '</a>';
-
-			} else {
-
-				$text .= esc_html( $category->name );
-			}
-
-			$items[] = apply_filters(
-				'cn_entry_output_category_item',
-				sprintf(
-					'<%1$s class="cn-category-name cn_category cn-category-%2$d">%3$s%4$s</%1$s>', // The `cn_category` class is named with an underscore for backward compatibility.
-					$atts['item_tag'],
-					$category->term_id,
-					$text,
-					$count > $i && 'list' !== $atts['type'] ? esc_html( $atts['separator'] ) : ''
-				),
-				$category,
-				$count,
-				$i,
-				$atts,
-				$this
-			);
-
-			$i++; // Increment here so the correct value is passed to the filter.
-		}
-
-		/*
-		 * Remove NULL, FALSE and empty strings (""), but leave values of 0 (zero).
-		 * Filter our these in case someone hooks into the `cn_entry_output_category_item` filter and removes a category
-		 * by returning an empty value.
-		 */
-		$items = array_filter( $items, 'strlen' );
-
-		/**
-		 * @since 8.6.12
-		 */
-		$items = apply_filters( 'cn_entry_output_category_items', $items );
-
-		if ( 'list' == $atts['type'] ) {
-
-			$html .= sprintf(
-				'<%1$s class="cn-category-list">%2$s</%1$s>',
-				'unordered' === $atts['list'] ? 'ul' : 'ol',
-				implode( '', $items )
-			);
-
-		} else {
-
-			$html .= implode( '', $items );
-		}
-
-		$html = apply_filters(
-			'cn_entry_output_category_container',
-			sprintf(
-				'<%1$s class="cn-categories">%2$s</%1$s>' . PHP_EOL,
-				$atts['container_tag'],
-				$atts['before'] . $label . $html . $atts['after']
-			),
-			$atts
-		);
-
-		return $this->echoOrReturn( $atts['return'], $html );
+		return $this->echoOrReturn( $atts['return'], $block->asHTML() );
 	}
 
 	/**
@@ -2709,16 +2465,23 @@ class cnOutput extends cnEntry {
 			isset( $blockNumber ) ? $blockNumber++ : $blockNumber = 1;
 
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
+			if ( ! empty( $atts['include'] ) ) {
+
+				if ( ( is_array( $atts['include'] ) && ! in_array( $key, $atts['include'] ) ) ||
+				     ( is_string( $atts['include'] ) && $key === $atts['include'] )
+				) {
+					continue;
+				}
+			}
+
 			if ( ! empty( $atts['exclude'] ) ) {
 
-				if ( in_array( $key, $atts['exclude'] ) ) continue;
-
-			} else {
-
-				if ( ! empty( $atts['include'] ) ) {
-
-					if ( ! in_array( $key, $atts['include'] ) ) continue;
+				if ( ( is_array( $atts['exclude'] ) && in_array( $key, $atts['exclude'] ) ) ||
+				     ( is_string( $atts['exclude'] ) && $key === $atts['exclude'] )
+				) {
+					continue;
 				}
+
 			}
 
 			ob_start();
@@ -2783,7 +2546,12 @@ class cnOutput extends cnEntry {
 
 			} else {
 
-				$blockContainerContent .= Content_Blocks::instance()->renderBlock( $key, $this );
+				$blockProperties = array(
+					'block_class' => "cn-entry-content-block cn-entry-content-block-{$key}",
+					'block_id'    => "cn-entry-content-block-{$this->getSlug()}",
+				);
+
+				$blockContainerContent .= Content_Blocks::instance()->renderBlock( $key, $this, $blockProperties, false );
 			}
 
 		}

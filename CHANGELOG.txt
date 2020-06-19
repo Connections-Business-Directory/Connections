@@ -1,5 +1,22 @@
 == Changelog ==
 
+= 9.7 09/19/2020 =
+* NEW: Introduce the `cn_csv_export_suspicious_value_prefix` filter.
+* TWEAK: Fix for Team Block which in some scenarios would fail to display in the Block Editor.
+* TWEAK: Adjust the Settings API filters to `20`.
+* TWEAK: Refactor  the new Content Blocks API to tidy up the code making it more maintainable and extensible.
+* TWEAK: Refactor the Entry categories utilizing the Content Block API.
+* TWEAK: Refactor the static map and interactive map to utilize the Content Block API.
+* SECURITY: Add protection against CSV Injection, also known as Formula Injection. thx @rudSarkar for reporting!
+* BUG: Correct bug which could result in PHP error when all social network types are deselected.
+* BUG: For button for database upgrade start.
+* BUG: Correct include/exclude logic when displaying the Content Blocks.
+* OTHER: Correct typo.
+* DEV: Update ForceUTF8 to 2.0.4.
+* DEV: Add @todo.
+* DEV: Update `dist` files.
+* DEV: phpDoc update.
+
 = 9.6 05/20/2020 =
 * NEW: Introduce `cnEntry::getDeletePermalink()` and `cnOutput::deletePermalink()`.
 * NEW: Add `delete` to supported permalink types in `cnURL::permalink()`.

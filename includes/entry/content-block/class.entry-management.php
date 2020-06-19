@@ -1,45 +1,57 @@
 <?php
 
-namespace Connections_Directory\Entry\Content_Block;
+namespace Connections_Directory\Content_Block;
 
 use cnEntry;
-use cnOutput;
 use cnURL;
-use Connections_Directory\Entry\Content_Blocks;
+use Connections_Directory\Content_Block;
 
 /**
  * Class Entry_Management
  *
- * @package Connections_Directory\Entry\Content_Block
+ * @package Connections_Directory\Content_Block
  */
-class Entry_Management {
+class Entry_Management extends Content_Block {
 
 	/**
-	 * @since 9.6
+	 * @since 9.7
+	 * @var string
 	 */
-	public static function add() {
+	const ID = 'entry-management';
+
+	/**
+	 * Entry_Management constructor.
+	 *
+	 * @since 9.7
+	 *
+	 * @param string $id
+	 */
+	public function __construct( $id ) {
 
 		$atts = array(
 			'name'                => __( 'Entry Management', 'connections' ),
-			'render_callback'     => array( __CLASS__, 'render' ),
-			'permission_callback' => array( __CLASS__, 'permission' ),
-			'script'              => 'Connections_Directory/Entry/Content_Block/Entry_Management/Javascript',
-			'style'               => 'wp-jquery-ui-dialog',
+			//'script_handle'       => 'Connections_Directory/Content_Block/Entry_Management/Javascript',
+			//'style_handle'        => 'wp-jquery-ui-dialog',
+			'permission_callback' => array( $this, 'permission' ),
 		);
 
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'registerScripts' ) );
+		parent::__construct( $id, $atts );
 
-		Content_Blocks::instance()->add( 'entry-management', $atts );
+		if ( $this->isPermitted() ) {
+
+			$this->set( 'script_handle', 'Connections_Directory/Content_Block/Entry_Management/Javascript' );
+			$this->set( 'style_handle', 'wp-jquery-ui-dialog' );
+		}
+
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'registerScripts' ) );
 	}
 
 	/**
 	 * @since 9.6
 	 *
-	 * @param array $block Content Block attributes.
-	 *
 	 * @return bool
 	 */
-	public static function permission( $block ) {
+	public function permission() {
 
 		return current_user_can( 'connections_manage' );
 	}
@@ -58,7 +70,7 @@ class Entry_Management {
 		$url = cnURL::makeProtocolRelative( CN_URL );
 
 		wp_register_script(
-			'Connections_Directory/Entry/Content_Block/Entry_Management/Javascript',
+			'Connections_Directory/Content_Block/Entry_Management/Javascript',
 			$url . "assets/js/cn-entry-management{$min}.js",
 			array( 'jquery-ui-dialog', 'wp-api-request' ),
 			CN_CURRENT_VERSION,
@@ -70,10 +82,15 @@ class Entry_Management {
 	 * Renders the Custom Fields attached to the entry.
 	 *
 	 * @since 9.6
-	 *
-	 * @param cnOutput $entry
 	 */
-	public static function render( $entry ) {
+	public function content() {
+
+		$entry = $this->getObject();
+
+		if ( ! $entry instanceof cnEntry ) {
+
+			return;
+		}
 
 		$actions = array();
 
@@ -81,12 +98,13 @@ class Entry_Management {
 		self::addDeleteAction( $actions, $entry );
 
 		$actions = apply_filters(
-			'Connections_Directory/Entry/Content_Block/Entry_Management/Actions',
-			$actions
+			'Connections_Directory/Content_Block/Entry_Management/Actions',
+			$actions,
+			$entry
 		);
 
 		do_action(
-			'Connections_Directory/Entry/Content_Block/Entry_Management/Before',
+			'Connections_Directory/Content_Block/Entry_Management/Before',
 			$entry
 		);
 
@@ -95,7 +113,7 @@ class Entry_Management {
 		echo '</ul>';
 
 		do_action(
-			'Connections_Directory/Entry/Content_Block/Entry_Management/After',
+			'Connections_Directory/Content_Block/Entry_Management/After',
 			$entry
 		);
 	}

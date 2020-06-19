@@ -93,7 +93,7 @@ class cnShortcode_Connections extends cnShortcode {
 			'zip_code'              => NULL,
 			'country'               => NULL,
 			'meta_query'            => '',
-			'content'               => '',
+			'content'               => '', // @todo Unused needs remove after all templates are updated to remove it.
 			'near_addr'             => NULL,
 			'latitude'              => NULL,
 			'longitude'             => NULL,

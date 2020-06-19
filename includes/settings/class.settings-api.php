@@ -115,9 +115,9 @@ if ( ! class_exists('cnSettingsAPI') ) {
 			add_action( 'admin_init', array( __CLASS__, 'registerSections' ), 0 );
 
 			// Register the sections fields.
-			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), 0 );
-			add_action( 'rest_api_init', array( __CLASS__, 'registerSettingsField' ), 0 );
-			add_action( 'init', array( __CLASS__, 'registerFields' ), 0 );
+			add_action( 'admin_init', array( __CLASS__, 'addSettingsField' ), 20 );
+			add_action( 'rest_api_init', array( __CLASS__, 'registerSettingsField' ), 20 );
+			add_action( 'init', array( __CLASS__, 'registerFields' ), 20 );
 		}
 
 		/**

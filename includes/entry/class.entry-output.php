@@ -1321,164 +1321,35 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_map', $defaults )
 		);
 
-		$atts['id'] = $this->getId();
-
-		$out = '';
-		$attr = array();
-		$addr = array();
-		$geo = array();
-
-		// Limit the map type to one of the valid types to prevent user error.
-		$permittedMapTypes = array( 'HYBRID', 'ROADMAP', 'SATELLITE', 'TERRAIN' );
-		$atts['maptype'] = strtoupper( $atts['maptype'] );
-		if ( ! in_array( $atts['maptype'] , $permittedMapTypes ) ) $atts['maptype'] = 'ROADMAP';
-
-		// Limit the user specified zoom level to between 0 and 21
-		if ( ! in_array( $atts['zoom'] , range( 0, 21 ) ) ) $atts['zoom'] = 13;
-
-		// Ensure the requested map size does not exceed the permitted sizes permitted by the Google Static Maps API
-		if ( $atts['static'] ) $atts['width'] = ( $atts['width'] <= 640 ) ? $atts['width'] : 640;
-		if ( $atts['static'] ) $atts['height'] = ( $atts['height'] <= 640 ) ? $atts['height'] : 640;
-
-		$addresses = $this->getAddresses( $atts, $cached );
-
-		if ( empty( $addresses ) ) return '';
-
-		if ( ! empty( $addresses[0]->line_one ) ) $addr[] = $addresses[0]->line_one;
-		if ( ! empty( $addresses[0]->line_two ) ) $addr[] = $addresses[0]->line_two;
-		if ( ! empty( $addresses[0]->city ) ) $addr[] = $addresses[0]->city;
-		if ( ! empty( $addresses[0]->state ) ) $addr[] = $addresses[0]->state;
-		if ( ! empty( $addresses[0]->zipcode ) ) $addr[] = $addresses[0]->zipcode;
-
-		if ( ! empty( $addresses[0]->latitude ) && ! empty( $addresses[0]->longitude ) ) {
-			$geo['latitude'] = $addresses[0]->latitude;
-			$geo['longitude'] = $addresses[0]->longitude;
-		}
-
-		if ( empty( $addr ) && empty( $geo ) ) return '';
-
 		if ( $atts['static'] ) {
-			$attr['center'] = ( empty( $geo ) ) ? implode( ', ' , $addr ) : implode( ',' , $geo );
-			$attr['markers'] = $attr['center'];
-			$attr['size'] = $atts['width'] . 'x' . $atts['height'];
-			$attr['maptype'] = $atts['maptype'];
-			$attr['zoom'] = $atts['zoom'];
-			//$attr['scale'] = 2;
-			$attr['format'] = 'png';
-			$attr['sensor'] = 'false';
 
-			$out .= '<span class="cn-image-style" style="display: inline-block;"><span class="cn-image" style="height: ' . $atts['height'] . '; width: ' . $atts['width'] . '">';
-			$out .= '<img class="map" title="' . $attr['center'] . '" alt="' . $attr['center'] . '" width="' . $atts['width'] . '" height="' . $atts['height'] . '" src="https://maps.googleapis.com/maps/api/staticmap?' . http_build_query( $attr , '' , '&amp;' ) . '"/>';
-			$out .= '</span></span>';
+			$block = Content_Blocks::instance()->get( 'google-static-map' );
+
+			$block->useObject( $this );
+
+			$block->set( 'maptype', $atts['maptype'] );
+			$block->set( 'height', $atts['height'] );
+			$block->set( 'width', $atts['width'] );
+			$block->set( 'zoom', $atts['zoom'] );
 
 		} else {
 
-			if ( 0 < count( $addresses ) ) {
+			$block = Content_Blocks::instance()->get( 'map-block' );
 
-				$createMap = FALSE;
-				$layers = array();
-				$layerControl = \Connections_Directory\Map\Control\Layer\Layer_Control::create( 'layerControl' )->setCollapsed( FALSE );
+			$block->useObject( $this );
 
-				$googleMapsAPIBrowserKey = cnSettingsAPI::get(
-					'connections',
-					'google_maps_geocoding_api',
-					'browser_key'
-				);
-
-				// Strings to be used for setting the Leaflet maps `attribution`.
-				$leaflet  = '<a href="https://leafletjs.com/" target="_blank" title="Leaflet">Leaflet</a>';
-				$backlink = '<a href="https://connections-pro.com/" target="_blank" title="Connections Business Directory plugin for WordPress">Connections Business Directory</a> | ' . $leaflet;
-
-				$attribution = array( $backlink );
-
-				if ( 0 < strlen( $googleMapsAPIBrowserKey ) ) {
-
-					$roadMap = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'roadmap' );
-
-					$roadMap->setAttribution( implode( ' | ', $attribution ) )
-					        ->setOption( 'name', 'Roadmap' );
-
-					$layerControl->addBaseLayer( $roadMap );
-
-					$hybrid = \Connections_Directory\Map\Layer\Raster\Provider\Google_Maps::create( 'hybrid' );
-
-					$hybrid->setAttribution( implode( ' | ', $attribution ) )
-					       ->setOption( 'name', 'Satellite' );
-
-					$layerControl->addBaseLayer( $hybrid );
-
-				} else {
-
-					$baseMap = \Connections_Directory\Map\Layer\Raster\Provider\Nominatim::create();
-
-					$attribution[] = $baseMap->getAttribution();
-
-					$baseMap->setAttribution( implode( ' | ', $attribution )  );
-
-					/*
-					 * Adding a base layer, creates a layer switch control, add base map tiles as a normal layer to
-					 * prevent a the empty layer control from being displayed.
-					 */
-					//$layerControl->addBaseLayer( $baseMap );
-					$layers[] = $baseMap;
-				}
-
-				foreach ( $addresses as $address ) {
-
-					$coordinates = cnCoordinates::create( $address->latitude, $address->longitude );
-
-					if ( ! is_wp_error( $coordinates ) ) {
-
-						$formatted = \Connections_Directory\Model\Format\Address\As_String::format(
-							new cnAddress( (array) $address )
-						);
-
-						$directionsURL = add_query_arg(
-							array(
-								'saddr' => '',
-								'daddr' => "{$coordinates->getLatitude()},{$coordinates->getLongitude()}",
-							),
-							'https://www.google.com/maps'
-						);
-
-						$buttonText = esc_html__( 'Get Directions', 'connections' );
-
-						$directionsButton = "<a href=\"{$directionsURL}\" target=\"_blank\"><button>{$buttonText}</button></a>";
-
-						$popup = "<p>{$formatted}</p><div>{$directionsButton}</div>";
-
-						$layers[] = \Connections_Directory\Map\UI\Marker::create( 'default', $coordinates )
-						                                    ->bindPopup( \Connections_Directory\Map\UI\Popup::create( 'default', $popup ) );
-
-						$createMap = TRUE;
-					}
-
-				}
-
-				if ( $createMap ) {
-
-					$map = \Connections_Directory\Map\Map::create(
-						'cn-map-' . $this->getRuid(),
-						array(
-							'center' => new cnCoordinates( 39.8283, -98.5795 ),
-							'zoom'   => $atts['zoom'],
-						)
-					)->setHeight( $atts['height'] . 'px' )
-					 ->setWidth( empty( $atts['width'] ) ? '100%' : $atts['width'] )
-					 ->addLayers( $layerControl->getBaseLayers() )
-					 ->addLayers( $layers )
-					 ->addControl( $layerControl );
-
-					$out = $map;
-				}
-
-			}
-
+			$block->set( 'height', $atts['height'] . 'px' );
+			$block->set( 'width', empty( $atts['width'] ) ? '100%' : $atts['width'] . 'px' );
+			$block->set( 'zoom', $atts['zoom'] );
 		}
 
-		$out = $atts['before'] . $out . $atts['after'];
+		$block->set( 'render_container', false );
+		$block->set( 'preferred', $atts['preferred'] );
+		$block->set( 'type', $atts['type'] );
+		$block->set( 'before', $atts['before'] );
+		$block->set( 'after', $atts['after'] );
 
-		return $this->echoOrReturn( $atts['return'], $out );
+		return $this->echoOrReturn( $atts['return'], $block->asHTML() );
 	}
 
 	/**

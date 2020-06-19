@@ -217,6 +217,8 @@ class cnDependency {
 			'Connections_Directory\Content_Block\Custom_Fields'     => 'includes/entry/content-block/class.custom-fields.php',
 			'Connections_Directory\Content_Block\Entry_Meta'        => 'includes/entry/content-block/class.entry-meta.php',
 			'Connections_Directory\Content_Block\Entry_Management'  => 'includes/entry/content-block/class.entry-management.php',
+			'Connections_Directory\Content_Block\Google_Static_Map' => 'includes/entry/content-block/class.google-static-map.php',
+			'Connections_Directory\Content_Block\Map_Block'         => 'includes/entry/content-block/class.map-block.php',
 
 			// Entry vCard.
 			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',

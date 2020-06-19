@@ -295,6 +295,8 @@ final class Connections_Directory {
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Custom_Fields', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Entry_Meta', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Entry_Management', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Google_Static_Map', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Map_Block', 'add' ) );
 
 		/*
 		 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.

@@ -11,7 +11,7 @@
  */
 
 // Exit if accessed directly
-use Connections_Directory\Entry\Content_Blocks;
+use Connections_Directory\Content_Blocks;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -2783,7 +2783,12 @@ class cnOutput extends cnEntry {
 
 			} else {
 
-				$blockContainerContent .= Content_Blocks::instance()->renderBlock( $key, $this );
+				$blockProperties = array(
+					'block_class' => "cn-entry-content-block cn-entry-content-block-{$key}",
+					'block_id'    => "cn-entry-content-block-{$this->getSlug()}",
+				);
+
+				$blockContainerContent .= Content_Blocks::instance()->renderBlock( $key, $this, $blockProperties, false );
 			}
 
 		}

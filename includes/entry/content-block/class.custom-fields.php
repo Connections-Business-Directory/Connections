@@ -1,41 +1,48 @@
 <?php
 
-namespace Connections_Directory\Entry\Content_Block;
+namespace Connections_Directory\Content_Block;
 
+use cnEntry;
 use cnMeta;
-use cnOutput;
-use Connections_Directory\Entry\Content_Blocks;
+use Connections_Directory\Content_Block;
 
 /**
  * Class Custom_Fields
  *
- * @package Connections_Directory\Entry\Content_Block
+ * @package Connections_Directory\Content_Block
  */
-class Custom_Fields {
+class Custom_Fields extends Content_Block {
 
 	/**
-	 * @since 9.6
+	 * @since 9.7
+	 * @var string
 	 */
-	public static function add() {
+	const ID = 'meta';
+
+	/**
+	 * Custom_Fields constructor.
+	 *
+	 * @since 9.7
+	 *
+	 * @param string $id
+	 */
+	public function __construct( $id ) {
 
 		$atts = array(
 			'name'                => __( 'Custom Fields', 'connections' ),
 			'slug'                => 'custom-fields',
-			'render_callback'     => array( __CLASS__, 'render' ),
-			'permission_callback' => array( __CLASS__, 'permission' ),
+			'permission_callback' => array( $this, 'permission' ),
 		);
 
-		Content_Blocks::instance()->add( 'meta', $atts );
+		parent::__construct( $id, $atts );
 	}
 
 	/**
 	 * @since 9.6
 	 *
-	 * @param array $block Content Block attributes.
-	 *
 	 * @return bool
 	 */
-	public static function permission( $block ) {
+	public function permission() {
 
 		return true;
 	}
@@ -44,10 +51,15 @@ class Custom_Fields {
 	 * Renders the Custom Fields attached to the entry.
 	 *
 	 * @since 9.6
-	 *
-	 * @param cnOutput $entry
 	 */
-	public static function render( $entry ) {
+	protected function content() {
+
+		$entry = $this->getObject();
+
+		if ( ! $entry instanceof cnEntry ) {
+
+			return;
+		}
 
 		$metadata = $entry->getMeta();
 
@@ -59,14 +71,14 @@ class Custom_Fields {
 		if ( is_array( $metadata ) && ! empty( $metadata ) ) {
 
 			do_action(
-				'Connections_Directory/Entry/Content_Block/Custom_Fields/Before',
+				'Connections_Directory/Content_Block/Custom_Fields/Before',
 				$entry
 			);
 
-			self::content( $metadata );
+			$this->metaFields( $metadata );
 
 			do_action(
-				'Connections_Directory/Entry/Content_Block/Custom_Fields/After',
+				'Connections_Directory/Content_Block/Custom_Fields/After',
 				$entry
 			);
 		}
@@ -82,7 +94,7 @@ class Custom_Fields {
 	 *
 	 * @param array $metadata The metadata array
 	 */
-	private static function content( $metadata ) {
+	private function metaFields( $metadata ) {
 
 		$html = '';
 

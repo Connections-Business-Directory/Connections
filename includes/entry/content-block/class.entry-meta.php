@@ -1,52 +1,63 @@
 <?php
 
-namespace Connections_Directory\Entry\Content_Block;
+namespace Connections_Directory\Content_Block;
 
-use cnOutput;
-use cnTemplate;
-use Connections_Directory\Entry\Content_Blocks;
+use cnEntry;
+use Connections_Directory\Content_Block;
 
 /**
  * Class Entry_Meta
  *
- * @package Connections_Directory\Entry\Content_Block
+ * @package Connections_Directory\Content_Block
  */
-class Entry_Meta {
+class Entry_Meta extends Content_Block {
 
 	/**
-	 * @since 9.6
+	 * @since 9.7
+	 * @var string
 	 */
-	public static function add() {
+	const ID = 'entry-meta';
+
+	/**
+	 * Entry_Meta constructor.
+	 *
+	 * @since 9.7
+	 *
+	 * @param string $id
+	 */
+	public function __construct( $id ) {
 
 		$atts = array(
 			'name'                => __( 'Entry Meta', 'connections' ),
-			'render_callback'     => array( __CLASS__, 'render' ),
-			'permission_callback' => array( __CLASS__, 'permission' ),
+			'permission_callback' => array( $this, 'permission' ),
 		);
 
-		Content_Blocks::instance()->add( 'entry-meta', $atts );
+		parent::__construct( $id, $atts );
 	}
 
 	/**
 	 * @since 9.6
 	 *
-	 * @param array $block Content Block attributes.
-	 *
 	 * @return bool
 	 */
-	public static function permission( $block ) {
+	public function permission() {
 
-		return true;
+		return current_user_can( 'connections_manage' );
 	}
 
 	/**
 	 * Renders the Entry meta Content Block.
 	 *
 	 * @since 9.6
-	 *
-	 * @param cnOutput $entry
 	 */
-	public static function render( $entry ) {
+	public function content() {
+
+		$entry = $this->getObject();
+
+		if ( ! $entry instanceof cnEntry ) {
+
+			return;
+		}
 
 		$items = array(
 			'date_added'    => '<strong>' . __( 'Date Added', 'connections' ) . ':</strong> ' . $entry->getDateAdded(),
@@ -59,14 +70,15 @@ class Entry_Meta {
 		);
 
 		$items = apply_filters(
-			'Connections_Directory/Entry/Content_Block/Entry_Meta/Items',
-			$items
+			'Connections_Directory/Content_Block/Entry_Meta/Items',
+			$items,
+			$entry
 		);
 
 		if ( is_array( $items ) && 0 < count( $items ) ) {
 
 			do_action(
-				'Connections_Directory/Entry/Content_Block/Entry_Meta/Before',
+				'Connections_Directory/Content_Block/Entry_Meta/Before',
 				$entry
 			);
 
@@ -75,7 +87,7 @@ class Entry_Meta {
 			echo '</ul>';
 
 			do_action(
-				'Connections_Directory/Entry/Content_Block/Entry_Meta/After',
+				'Connections_Directory/Content_Block/Entry_Meta/After',
 				$entry
 			);
 		}

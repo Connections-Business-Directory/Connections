@@ -222,6 +222,9 @@ final class Connections_Directory {
 			// Register editor blocks.
 			\Connections_Directory\Blocks::register();
 
+			// Init the Content Blocks API
+			\Connections_Directory\Content_Blocks::instance();
+
 			// Activation/Deactivation hooks
 			register_activation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'activate' ) );
 			register_deactivation_hook( dirname( $file ) . '/connections.php', array( __CLASS__, 'deactivate' ) );
@@ -288,12 +291,9 @@ final class Connections_Directory {
 		add_action( 'plugins_loaded', array( 'cnDependency', 'customizer' ) );
 
 		// Add the core Content Blocks.
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Block\Custom_Fields', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Block\Entry_Meta', 'add' ) );
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Block\Entry_Management', 'add' ) );
-
-		// Register the core Content Blocks actions/filters.
-		add_action( 'plugins_loaded', array( 'Connections_Directory\Entry\Content_Blocks', 'register' ), 20 );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Custom_Fields', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Entry_Meta', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Block\Entry_Management', 'add' ) );
 
 		/*
 		 * Register the settings tabs shown on the Settings admin page tabs, sections and fields.

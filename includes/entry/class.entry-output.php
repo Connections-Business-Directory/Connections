@@ -2465,16 +2465,23 @@ class cnOutput extends cnEntry {
 			isset( $blockNumber ) ? $blockNumber++ : $blockNumber = 1;
 
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
+			if ( ! empty( $atts['include'] ) ) {
+
+				if ( ( is_array( $atts['include'] ) && ! in_array( $key, $atts['include'] ) ) ||
+				     ( is_string( $atts['include'] ) && $key === $atts['include'] )
+				) {
+					continue;
+				}
+			}
+
 			if ( ! empty( $atts['exclude'] ) ) {
 
-				if ( in_array( $key, $atts['exclude'] ) ) continue;
-
-			} else {
-
-				if ( ! empty( $atts['include'] ) ) {
-
-					if ( ! in_array( $key, $atts['include'] ) ) continue;
+				if ( ( is_array( $atts['exclude'] ) && in_array( $key, $atts['exclude'] ) ) ||
+				     ( is_string( $atts['exclude'] ) && $key === $atts['exclude'] )
+				) {
+					continue;
 				}
+
 			}
 
 			ob_start();

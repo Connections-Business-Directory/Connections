@@ -240,6 +240,23 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.7 09/19/2020 =
+* NEW: Introduce the `cn_csv_export_suspicious_value_prefix` filter.
+* TWEAK: Fix for Team Block which in some scenarios would fail to display in the Block Editor.
+* TWEAK: Adjust the Settings API filters to `20`.
+* TWEAK: Refactor  the new Content Blocks API to tidy up the code making it more maintainable and extensible.
+* TWEAK: Refactor the Entry categories utilizing the Content Block API.
+* TWEAK: Refactor the static map and interactive map to utilize the Content Block API.
+* SECURITY: Add protection against CSV Injection, also known as Formula Injection. thx @rudSarkar for reporting!
+* BUG: Correct bug which could result in PHP error when all social network types are deselected.
+* BUG: For button for database upgrade start.
+* BUG: Correct include/exclude logic when displaying the Content Blocks.
+* OTHER: Correct typo.
+* DEV: Update ForceUTF8 to 2.0.4.
+* DEV: Add @todo.
+* DEV: Update `dist` files.
+* DEV: phpDoc update.
+
 = 9.6 05/20/2020 =
 * NEW: Introduce `cnEntry::getDeletePermalink()` and `cnOutput::deletePermalink()`.
 * NEW: Add `delete` to supported permalink types in `cnURL::permalink()`.
@@ -479,58 +496,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * OTHER: Readme tags tweaks to stay within proposed plugin guidelines.
 * DEV: Remove unused code.
 
-= 8.42.1 05/13/2019 =
-* NEW: Introduce the `cn_export_add_bom` filter.
-* BUG: Correct regression from last update which could cause icon font conflicts.
-* BUG: Correct the brandicon version when enqueuing the CSS.
-
-= 8.42 05/10/2019 =
-* NEW: Introduce `cnRetrieve::getEntryBy()`.
-* COMPATIBILITY: Rename the icomoon font-family to Connections-Brandicons to prevent naming conflicts with theme's and other plugins which have not renamed their icomoon icon font libraries.
-* COMPATIBILITY: Dequeue the Striking theme CSS on the Connections admin pages.
-* TWEAK: Readme.txt tweaks.
-* TWEAK: Check if object property is an array before counting to prevent PHP warnings.
-* TWEAK: Tweak admin CSS enqueuing to enqueue on the required CSS on specific Connections admin pages.
-* TWEAK: Admin CSS tweaks to ensure Brandicons and FontAwesome do not conflict on the Connections admin pages.
-* OTHER: Remove commented out HTML code from the settings admin page.
-* OTHER: Bump Tested up to version 5.2.
-* OTHER: Continue laying the foundation for the font icon picker support for the social network settings.
-* OTHER: Update minified admin CSS files.
-* BUG: Correct social networks fieldset settings ID.
-* DEV: phpDoc correction.
-* DEV: Update dist build files.
-
-= 8.41.2 05/02/2019 =
-* TWEAK: Do not clear the addon update check cache when doing addon status check. This causes unnecessary addon update checks to occur.
-* TWEAK: Since supplied last_checked property is being restored before returning the transient data in update checks, no need to set it with time().
-
-= 8.41.1 05/02/2019 =
-* TWEAK: Use the cached last_checked value from the `cn_update_plugins` option instead of the value supplied by WordPress since third party plugin libraries alter it in a way that can cause excessive plugin update checks.
-* TWEAK: Restore timeout value for license status checks.
-* TWEAK: Remove the action to clear the `cn_update_plugins` option when `wp_clean_plugins_cache()` is called to reduce frequency of addon update checks.
-
-= 8.41 04/30/2019 =
-* NEW: Add option to display country names in the address country autocomplete in either English or in their native translation. The later being the default which matches core WordPress when displaying country names for the site language preference.
-* TWEAK: Tweak to expiration of cached extension status checks.
-* OTHER: Update EDD-SL Plugin Updater library from 1.6.14 to 1.6.18.
-* TWEAK: Do not subtract the timeout value from time when setting up the last checked property.
-
 == Upgrade Notice ==
-
-= 8.41 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 8.41.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 8.41.2 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 8.42 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 8.42.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 8.43 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
@@ -603,3 +569,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 
 = 9.6 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
+
+= 9.6 =
+It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

@@ -70,7 +70,6 @@ class cnEmail_DefaultTemplates {
 	 * @access public
 	 * @since 0.7.8
 	 * @param (array) $atts
-	 * @return (void)
 	 */
 	public static function register() {
 
@@ -103,10 +102,11 @@ class cnEmail_DefaultTemplates {
 	 * The callabck for cn_email_message that applies
 	 * the formatted styling for the default template.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param  (string) $content The email content.
-	 * @return (string) The styled email content.
+	 *
+	 * @param string $content The email content.
+	 *
+	 * @return string The styled email content.
 	 */
 	public static function defaultBody( $content ) {
 

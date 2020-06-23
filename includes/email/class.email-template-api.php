@@ -145,10 +145,10 @@ class cnEmail_Template {
 	}
 
 	/**
-	 * The temlpate to use when sending an email.
+	 * The template to use when sending an email.
 	 *
-	 * @access public
 	 * @since 0.7.8
+	 *
 	 * @param string $slug The template slug.
 	 */
 	public static function template( $slug ) {
@@ -170,9 +170,9 @@ class cnEmail_Template {
 	/**
 	 * Add the actions/filters of the template.
 	 *
-	 * @access private
 	 * @since 0.7.8
-	 * @param  object $template The template attributes object.
+	 *
+	 * @param object $template The template attributes object.
 	 */
 	private static function parts( $template ) {
 

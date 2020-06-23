@@ -1997,7 +1997,7 @@ class cnImage {
 		);
 
 		$id = media_handle_sideload( $file_array, 0 );
-		$attachment_url = wp_get_attachment_url( $id );
+		//$attachment_url = wp_get_attachment_url( $id );
 
 		// Check for handle sideload errors:
 		if ( is_wp_error( $id ) ) {

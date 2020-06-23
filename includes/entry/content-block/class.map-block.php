@@ -98,7 +98,7 @@ class Map_Block extends Content_Block {
 	 */
 	public function permission() {
 
-		return current_user_can( 'connections_manage' );
+		return true;
 	}
 
 	/**

@@ -118,7 +118,7 @@ class Google_Static_Map extends Content_Block {
 	 */
 	public function permission() {
 
-		return current_user_can( 'connections_manage' );
+		return true;
 	}
 
 	/**

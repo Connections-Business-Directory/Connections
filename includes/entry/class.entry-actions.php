@@ -727,7 +727,7 @@ class cnEntry_Action {
 				}
 
 				// Save the entry to the database. On fail store error message.
-				if ( $entry->save() == FALSE ) {
+				if ( $entry->save() === FALSE ) {
 
 					cnMessage::set( 'error', 'entry_added_failed' );
 					return FALSE;
@@ -785,7 +785,7 @@ class cnEntry_Action {
 				}
 
 				// Update the entry to the database. On fail store error message.
-				if ( $entry->update() == FALSE ) {
+				if ( $entry->update() === FALSE ) {
 
 					cnMessage::set( 'error', 'entry_updated_failed' );
 					return FALSE;

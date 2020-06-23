@@ -515,7 +515,7 @@ final class Connections_Directory {
 		// Class used for managing role capabilities.
 		if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
-		if ( TRUE != $this->options->getCapabilitiesSet() ) {
+		if ( TRUE !== $this->options->getCapabilitiesSet() ) {
 
 			cnRole::reset();
 			$this->options->defaultCapabilitiesSet( TRUE );

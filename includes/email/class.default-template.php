@@ -99,7 +99,7 @@ class cnEmail_DefaultTemplates {
 	}
 
 	/**
-	 * The callabck for cn_email_message that applies
+	 * The callback for cn_email_message that applies
 	 * the formatted styling for the default template.
 	 *
 	 * @since 0.7.8

@@ -2533,7 +2533,7 @@ class cnFunction {
 	 * @access public
 	 * @since  8.6
 	 *
-	 * @param null $object
+	 * @param mixed $object
 	 */
 	public static function var_dump_error_log( $object = NULL ) {
 

@@ -213,7 +213,7 @@ class cnEmail {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @param string | array
+	 * @param string|array
 	 * @return void
 	 */
 	public function attachments( $attachments ) {

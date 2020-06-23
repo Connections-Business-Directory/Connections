@@ -129,7 +129,7 @@ class cnEntry_vCard extends cnEntry_HTML {
 	 *
 	 * Set $new to any non-null value to increase the incrementer.
 	 *
-	 * @param null $new
+	 * @param mixed $new
 	 *
 	 * @return string
 	 */

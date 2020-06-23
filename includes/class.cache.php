@@ -581,7 +581,7 @@ class cnFragment {
 	 * @since  8.1
 	 * @uses   cnCache::set()
 	 *
-	 * @param  null $ttl The number of seconds the fragment should live. Defaults to WEEK_IN_SECONDS.
+	 * @param  int|null $ttl The number of seconds the fragment should live. Defaults to WEEK_IN_SECONDS.
 	 *
 	 * @return void
 	 */

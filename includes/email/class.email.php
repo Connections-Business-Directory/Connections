@@ -501,11 +501,12 @@ class cnEmail {
 	 */
 	private function parseTo() {
 
-		$to = array();
+		$count = count( $this->to );
+		$to    = array();
 
-		if ( count( $this->to ) >= 1 ) {
+		if ( $count >= 1 ) {
 
-			for ( $i = 0; $i < count( $this->to ); $i++ ) {
+			for ( $i = 0; $i < $count; $i++ ) {
 
 				if ( empty( $this->to[ $i ]['name'] ) ) {
 
@@ -530,9 +531,11 @@ class cnEmail {
 	 */
 	private function parseCC() {
 
-		if ( count( $this->cc ) >= 1 ) {
+		$count = count( $this->cc );
 
-			for ( $i = 0; $i < count( $this->cc ); $i++ ) {
+		if ( $count >= 1 ) {
+
+			for ( $i = 0; $i < $count; $i++ ) {
 
 				if ( empty( $this->cc[ $i ]['name'] ) ) {
 
@@ -555,9 +558,11 @@ class cnEmail {
 	 */
 	private function parseBCC() {
 
-		if ( count( $this->bcc ) >= 1 ) {
+		$count = count( $this->bcc );
 
-			for ( $i = 0; $i < count( $this->bcc ); $i++ ) {
+		if ( $count >= 1 ) {
+
+			for ( $i = 0; $i < $count; $i++ ) {
 
 				if ( empty( $this->bcc[ $i ]['name'] ) ) {
 

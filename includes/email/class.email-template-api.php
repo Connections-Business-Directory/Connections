@@ -157,7 +157,10 @@ class cnEmail_Template {
 		$template = self::get( $slug );
 
 		// Register the template parts actions.
-		self::parts( $template );
+		if ( is_object( $template ) ) {
+
+			self::parts( $template );
+		}
 
 		 /*
 		  * Hook into the cn_email_message filter.

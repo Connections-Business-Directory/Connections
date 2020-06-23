@@ -92,7 +92,9 @@ class cnOptions {
 		/** @var $wpdb wpdb */
 		global $wpdb;
 
-		$this->options = get_option( 'connections_options' );
+		$options = get_option( 'connections_options' );
+
+		$this->options = is_array( $options ) ? $options : array();
 
 		$this->version = ( isset( $this->options['version'] ) && ! empty( $this->options['version'] ) ) ? $this->options['version'] : CN_CURRENT_VERSION;
 		$this->dbVersion = ( isset( $this->options['db_version'] ) && ! empty( $this->options['db_version'] ) ) ? $this->options['db_version'] : CN_DB_VERSION;

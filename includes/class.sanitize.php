@@ -227,7 +227,7 @@ class cnSanitize {
 						 * Match the post content sanitation before being inserted in the db.
 						 * See the `content_save_pre` filters.
 						 */
-						if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+						if ( FALSE === current_user_can( 'unfiltered_html' ) ) {
 
 							$value = wp_filter_post_kses( $value );
 						}
@@ -408,7 +408,7 @@ class cnSanitize {
 	 */
 	public static function html( $string ) {
 
-		if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+		if ( FALSE === current_user_can( 'unfiltered_html' ) ) {
 
 			$string = wp_kses_post( $string );
 		}
@@ -429,7 +429,7 @@ class cnSanitize {
 	 */
 	public static function quicktag( $string ) {
 
-		if ( FALSE == current_user_can( 'unfiltered_html' ) ) {
+		if ( FALSE === current_user_can( 'unfiltered_html' ) ) {
 
 			$string = wp_kses_data( $string );
 		}

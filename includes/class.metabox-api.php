@@ -207,7 +207,7 @@ class cnMetaboxAPI {
 	 * @access public
 	 * @since  0.8
 	 *
-	 * @param null $id
+	 * @param null|string $id
 	 *
 	 * @return array
 	 */

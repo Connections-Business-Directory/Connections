@@ -1574,7 +1574,7 @@ class cnRetrieve {
 	/**
 	 * Returns an indexed array of objects the addresses per the defined options.
 	 *
-	 * @param $atts {
+	 * @param array $atts {
 	 *     @type string       $fields    The fields to return.
 	 *                                   Default: all
 	 *                                   Accepts: all, ids, locality, regions, postal-code, country

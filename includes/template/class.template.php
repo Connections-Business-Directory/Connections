@@ -548,7 +548,7 @@ class cnTemplate {
 	 * @since  8.6.7
 	 *
 	 * @param string $key     The setting ID slug in which to retrieve the setting value.
-	 * @param null   $default The default setting value if the requested $key is not set or does not exist.
+	 * @param mixed  $default The default setting value if the requested $key is not set or does not exist.
 	 *
 	 * @return mixed|null
 	 */
@@ -569,9 +569,7 @@ class cnTemplate {
 			$options = cnSettingsAPI::get( 'connections_template', $this->getSlug(), 'card' );
 		}
 
-		$value = isset( $options[ $key ] ) ? $options[ $key ] : $default;
-
-		return $value;
+		return isset( $options[ $key ] ) ? $options[ $key ] : $default;
 	}
 
 	/**

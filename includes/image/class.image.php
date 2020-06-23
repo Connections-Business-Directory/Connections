@@ -1522,7 +1522,7 @@ class cnImage {
 	 * @access private
 	 * @since  8.1
 	 *
-	 * @param NULL       $payload NULL value being passed by the image_resize_dimensions filter
+	 * @param null       $payload NULL value being passed by the image_resize_dimensions filter
 	 * @param int        $orig_w  Original width in pixels.
 	 * @param int        $orig_h  Original height in pixels.
 	 * @param int        $dest_w  New width in pixels.
@@ -1997,7 +1997,7 @@ class cnImage {
 		);
 
 		$id = media_handle_sideload( $file_array, 0 );
-		$attachment_url = wp_get_attachment_url( $id );
+		//$attachment_url = wp_get_attachment_url( $id );
 
 		// Check for handle sideload errors:
 		if ( is_wp_error( $id ) ) {

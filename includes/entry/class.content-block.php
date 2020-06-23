@@ -225,7 +225,7 @@ class Content_Block {
 	 * @since 9.7
 	 *
 	 * @param string $property
-	 * @param null   $default
+	 * @param mixed  $default
 	 *
 	 * @return array|ArrayAccess|mixed|null
 	 */

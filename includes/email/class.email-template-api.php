@@ -13,6 +13,9 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/**
+ * Class cnEmail_Template
+ */
 class cnEmail_Template {
 
 	/**
@@ -20,7 +23,7 @@ class cnEmail_Template {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @var (array)
+	 * @var object
 	 */
 	public static $templates;
 
@@ -29,7 +32,7 @@ class cnEmail_Template {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @var (object)
+	 * @var object
 	*/
 	private static $instance;
 
@@ -46,18 +49,15 @@ class cnEmail_Template {
 	/**
 	 * Setup the class.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @return (void)
 	 */
 	public static function init() {
 
 		if ( ! isset( self::$instance ) ) {
 
-			self::$instance = new self;
+			self::$instance  = new self;
 			self::$templates = new stdClass();
 		}
-
 	}
 
 	/**
@@ -65,7 +65,7 @@ class cnEmail_Template {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @return (object) cnEmailTemplate
+	 * @return object cnEmailTemplate
 	 */
 	public static function getInstance() {
 
@@ -96,8 +96,7 @@ class cnEmail_Template {
 	 *
 	 * @access public
 	 * @since 0.7.8
-	 * @param (array) $atts
-	 * @return (void)
+	 * @param array $atts
 	 */
 	public static function register( $atts ) {
 
@@ -117,6 +116,9 @@ class cnEmail_Template {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
+		/**
+		 * @var string $name
+		 */
 		extract( $atts );
 
 		// Since the template slug is optional, but required, we'll create the slug from the template's name.
@@ -134,7 +136,7 @@ class cnEmail_Template {
 	 * @access public
 	 * @since 0.7.8
 	 * @param (string) $slug The template slug.
-	 * @return (object) | (bool)
+	 * @return object|false
 	 */
 	public static function get( $slug ) {
 
@@ -143,12 +145,11 @@ class cnEmail_Template {
 	}
 
 	/**
-	 * The temlpate to use when sending an email.
+	 * The template to use when sending an email.
 	 *
-	 * @access public
 	 * @since 0.7.8
-	 * @param (string) $slug The template slug.
-	 * @return (void)
+	 *
+	 * @param string $slug The template slug.
 	 */
 	public static function template( $slug ) {
 
@@ -156,7 +157,10 @@ class cnEmail_Template {
 		$template = self::get( $slug );
 
 		// Register the template parts actions.
-		self::parts( $template );
+		if ( is_object( $template ) ) {
+
+			self::parts( $template );
+		}
 
 		 /*
 		  * Hook into the cn_email_message filter.
@@ -169,10 +173,9 @@ class cnEmail_Template {
 	/**
 	 * Add the actions/filters of the template.
 	 *
-	 * @access private
 	 * @since 0.7.8
-	 * @param  (object) $slug The template attributes object.
-	 * @return (void)
+	 *
+	 * @param object $template The template attributes object.
 	 */
 	private static function parts( $template ) {
 
@@ -209,8 +212,8 @@ class cnEmail_Template {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @param  (string) $content The email message.
-	 * @return (string) The email message, before it is styled by a template.
+	 * @param  string $content The email message.
+	 * @return string The email message, before it is styled by a template.
 	 */
 	public static function content( $content ) {
 
@@ -236,8 +239,8 @@ class cnEmail_Template {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @param  (string) $content The email message.
-	 * @return (string)
+	 * @param  string $content The email message.
+	 * @return string
 	 */
 	public static function stripTags( $content ) {
 
@@ -255,14 +258,16 @@ class cnEmail_Template {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @return (string)
+	 * @return string
 	 */
 	private static function head() {
 
 		ob_start();
 		?>
 
+		<!--suppress HtmlRequiredLangAttribute -->
 		<html>
+		<!--suppress HtmlRequiredTitleElement -->
 		<head>
 			<style type="text/css">#outlook a { padding: 0; }</style>
 		</head>
@@ -280,7 +285,7 @@ class cnEmail_Template {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @return (string)
+	 * @return string
 	 */
 	private static function beforeBody() {
 
@@ -295,8 +300,11 @@ class cnEmail_Template {
 	 * The email body.
 	 *
 	 * @access private
-	 * @since 0.7.8
-	 * @return (string)
+	 * @since  0.7.8
+	 *
+	 * @param string $content
+	 *
+	 * @return string
 	 */
 	private static function body( $content ) {
 
@@ -308,7 +316,7 @@ class cnEmail_Template {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @return (string)
+	 * @return string
 	 */
 	private static function afterBody() {
 
@@ -324,7 +332,7 @@ class cnEmail_Template {
 	 *
 	 * @access private
 	 * @since 0.7.8
-	 * @return (string)
+	 * @return string
 	 */
 	private static function foot() {
 

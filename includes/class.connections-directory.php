@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '9.7';
+	const VERSION = '9.7.1';
 
 	/**
 	 * Stores the instance of this class.
@@ -515,7 +515,7 @@ final class Connections_Directory {
 		// Class used for managing role capabilities.
 		if ( ! class_exists( 'cnRole' ) ) require_once CN_PATH . 'includes/admin/class.capabilities.php';
 
-		if ( TRUE != $this->options->getCapabilitiesSet() ) {
+		if ( TRUE !== $this->options->getCapabilitiesSet() ) {
 
 			cnRole::reset();
 			$this->options->defaultCapabilitiesSet( TRUE );

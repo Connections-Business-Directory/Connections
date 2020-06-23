@@ -352,7 +352,12 @@ if ( ! class_exists( 'cnGoogleMapsTimeZone' ) ) {
 
 			if ( empty( $this->apiKey ) ) {
 
-				$this->apiKey = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'server_key' );
+				$key = cnSettingsAPI::get( 'connections', 'google_maps_geocoding_api', 'server_key' );
+
+				if ( is_string( $key ) ) {
+
+					$this->setApiKey( $key );
+				}
 			}
 
 			return $this->apiKey;

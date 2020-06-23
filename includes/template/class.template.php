@@ -569,9 +569,7 @@ class cnTemplate {
 			$options = cnSettingsAPI::get( 'connections_template', $this->getSlug(), 'card' );
 		}
 
-		$value = isset( $options[ $key ] ) ? $options[ $key ] : $default;
-
-		return $value;
+		return isset( $options[ $key ] ) ? $options[ $key ] : $default;
 	}
 
 	/**

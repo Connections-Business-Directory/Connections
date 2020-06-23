@@ -247,7 +247,21 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
-= 9.7 09/19/2020 =
+= 9.7.1 06/23/2020 =
+* TWEAK: Strict comparison checks.
+* TWEAK: Compute the size beforehand, and not on each iteration.
+* TWEAK: Ensure Google Maps API Key is a string before setting the key as class property.
+* TWEAK: Check to ensure `connections_options` is an array before setting class property.
+* TWEAK: Check to ensure email template is object.
+* OTHER: Remove use of unnecessary variable for return.
+* OTHER: Remove unused variable.
+* OTHER: Correct misspelling.
+* OTHER: Update URL to license.
+* DEV: phpDoc corrections.
+* DEV: Fix code format.
+* DEV: Suppress IDE HTML tag warnings.
+
+= 9.7 06/19/2020 =
 * NEW: Introduce the `cn_csv_export_suspicious_value_prefix` filter.
 * TWEAK: Fix for Team Block which in some scenarios would fail to display in the Block Editor.
 * TWEAK: Adjust the Settings API filters to `20`.

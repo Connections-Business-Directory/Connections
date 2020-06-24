@@ -1,6 +1,6 @@
 <?php
 
-namespace Connections_Directory\Content_Block;
+namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnEntry;
 use cnURL;
@@ -11,7 +11,7 @@ use Connections_Directory\Content_Block;
  *
  * @package Connections_Directory\Content_Block
  */
-class Entry_Management extends Content_Block {
+class Management extends Content_Block {
 
 	/**
 	 * @since 9.7
@@ -98,13 +98,13 @@ class Entry_Management extends Content_Block {
 		self::addDeleteAction( $actions, $entry );
 
 		$actions = apply_filters(
-			'Connections_Directory/Content_Block/Entry_Management/Actions',
+			'Connections_Directory/Content_Block/Entry/Management/Actions',
 			$actions,
 			$entry
 		);
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry_Management/Before',
+			'Connections_Directory/Content_Block/Entry/Management/Before',
 			$entry
 		);
 
@@ -113,7 +113,7 @@ class Entry_Management extends Content_Block {
 		echo '</ul>';
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry_Management/After',
+			'Connections_Directory/Content_Block/Entry/Management/After',
 			$entry
 		);
 	}

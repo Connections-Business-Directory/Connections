@@ -1,6 +1,6 @@
 <?php
 
-namespace Connections_Directory\Content_Block;
+namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnAddress;
 use cnCoordinates;
@@ -98,7 +98,7 @@ class Map_Block extends Content_Block {
 	 */
 	public function permission() {
 
-		return current_user_can( 'connections_manage' );
+		return true;
 	}
 
 	/**
@@ -217,14 +217,14 @@ class Map_Block extends Content_Block {
 				 ->addControl( $layerControl );
 
 				do_action(
-					'Connections_Directory/Content_Block/Map_block/Before',
+					'Connections_Directory/Content_Block/Entry/Map_Block/Before',
 					$entry
 				);
 
 				echo $html;
 
 				do_action(
-					'Connections_Directory/Content_Block/Map_block/After',
+					'Connections_Directory/Content_Block/Entry/Map_Block/After',
 					$entry
 				);
 			}

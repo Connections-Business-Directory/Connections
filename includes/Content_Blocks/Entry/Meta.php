@@ -1,6 +1,6 @@
 <?php
 
-namespace Connections_Directory\Content_Block;
+namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnEntry;
 use Connections_Directory\Content_Block;
@@ -10,7 +10,7 @@ use Connections_Directory\Content_Block;
  *
  * @package Connections_Directory\Content_Block
  */
-class Entry_Meta extends Content_Block {
+class Meta extends Content_Block {
 
 	/**
 	 * @since 9.7
@@ -70,7 +70,7 @@ class Entry_Meta extends Content_Block {
 		);
 
 		$items = apply_filters(
-			'Connections_Directory/Content_Block/Entry_Meta/Items',
+			'Connections_Directory/Content_Block/Entry/Meta/Items',
 			$items,
 			$entry
 		);
@@ -78,7 +78,7 @@ class Entry_Meta extends Content_Block {
 		if ( is_array( $items ) && 0 < count( $items ) ) {
 
 			do_action(
-				'Connections_Directory/Content_Block/Entry_Meta/Before',
+				'Connections_Directory/Content_Block/Entry/Meta/Before',
 				$entry
 			);
 
@@ -87,7 +87,7 @@ class Entry_Meta extends Content_Block {
 			echo '</ul>';
 
 			do_action(
-				'Connections_Directory/Content_Block/Entry_Meta/After',
+				'Connections_Directory/Content_Block/Entry/Meta/After',
 				$entry
 			);
 		}

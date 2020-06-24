@@ -1,6 +1,6 @@
 <?php
 
-namespace Connections_Directory\Content_Block;
+namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnEntry;
 use cnFormatting;
@@ -14,7 +14,7 @@ use Connections_Directory\Content_Block;
  *
  * @package Connections_Directory\Content_Block
  */
-class Entry_Categories extends Content_Block {
+class Categories extends Content_Block {
 
 	/**
 	 * @since 9.7
@@ -258,7 +258,7 @@ class Entry_Categories extends Content_Block {
 		}
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry_Categories/Before',
+			'Connections_Directory/Content_Block/Entry/Categories/Before',
 			$entry,
 			$items
 		);
@@ -274,7 +274,7 @@ class Entry_Categories extends Content_Block {
 		);
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry_Categories/After',
+			'Connections_Directory/Content_Block/Entry/Categories/After',
 			$entry,
 			$items
 		);

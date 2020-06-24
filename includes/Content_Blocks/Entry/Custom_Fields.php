@@ -1,6 +1,6 @@
 <?php
 
-namespace Connections_Directory\Content_Block;
+namespace Connections_Directory\Content_Blocks\Entry;
 
 use cnEntry;
 use cnMeta;
@@ -71,14 +71,14 @@ class Custom_Fields extends Content_Block {
 		if ( is_array( $metadata ) && ! empty( $metadata ) ) {
 
 			do_action(
-				'Connections_Directory/Content_Block/Custom_Fields/Before',
+				'Connections_Directory/Content_Block/Entry/Custom_Fields/Before',
 				$entry
 			);
 
 			$this->metaFields( $metadata );
 
 			do_action(
-				'Connections_Directory/Content_Block/Custom_Fields/After',
+				'Connections_Directory/Content_Block/Entry/Custom_Fields/After',
 				$entry
 			);
 		}

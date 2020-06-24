@@ -209,16 +209,16 @@ class cnDependency {
 			'cnEntry_Collection_Item'   => 'includes/entry/class.entry-collection-item.php',
 
 			// Content Blocks API.
-			'Connections_Directory\Content_Blocks' => 'includes/content-blocks/class.content-blocks.php',
-			'Connections_Directory\Content_Block'  => 'includes/content-blocks/class.content-block.php',
+			'Connections_Directory\Content_Blocks' => 'includes/Content_Blocks.php',
+			'Connections_Directory\Content_Block'  => 'includes/Content_Block.php',
 
 			// Core Content Blocks.
-			'Connections_Directory\Content_Block\Entry_Categories'  => 'includes/content-blocks/content-block/class.entry-categories.php',
-			'Connections_Directory\Content_Block\Custom_Fields'     => 'includes/content-blocks/content-block/class.custom-fields.php',
-			'Connections_Directory\Content_Block\Entry_Meta'        => 'includes/content-blocks/content-block/class.entry-meta.php',
-			'Connections_Directory\Content_Block\Entry_Management'  => 'includes/content-blocks/content-block/class.entry-management.php',
-			'Connections_Directory\Content_Block\Google_Static_Map' => 'includes/content-blocks/content-block/class.google-static-map.php',
-			'Connections_Directory\Content_Block\Map_Block'         => 'includes/content-blocks/content-block/class.map-block.php',
+			'Connections_Directory\Content_Blocks\Entry\Categories'        => 'includes/Content_Blocks/Entry/Categories.php',
+			'Connections_Directory\Content_Blocks\Entry\Custom_Fields'     => 'includes/Content_Blocks/Entry/Custom_Fields.php',
+			'Connections_Directory\Content_Blocks\Entry\Google_Static_Map' => 'includes/Content_Blocks/Entry/Google_Static_Map.php',
+			'Connections_Directory\Content_Blocks\Entry\Management'        => 'includes/Content_Blocks/Entry/Management.php',
+			'Connections_Directory\Content_Blocks\Entry\Map_Block'         => 'includes/Content_Blocks/Entry/Map_Block.php',
+			'Connections_Directory\Content_Blocks\Entry\Meta'              => 'includes/Content_Blocks/Entry/Meta.php',
 
 			// Entry vCard.
 			'cnEntry_vCard'            => 'includes/entry/class.entry-vcard.php',

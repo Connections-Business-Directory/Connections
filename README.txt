@@ -240,6 +240,10 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.7.2 06/24/2020 =
+* BUG: Correct Map Block permissions.
+* DEV: Standardize namespace and move files to correct folders.
+
 = 9.7.1 06/23/2020 =
 * TWEAK: Strict comparison checks.
 * TWEAK: Compute the size beforehand, and not on each iteration.
@@ -589,3 +593,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 
 = 9.7.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.7.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

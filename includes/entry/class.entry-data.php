@@ -2217,7 +2217,7 @@ class cnEntry {
 	 */
 	public function getBio( $context = 'display' ) {
 
-		$bio = cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->bio ), $context );
+		$bio = cnSanitize::field( 'bio', apply_filters( 'cn_bio', $this->bio, $this ), $context );
 
 		return is_string( $bio ) ? $bio : '';
 	}
@@ -2248,7 +2248,7 @@ class cnEntry {
 	 */
 	public function getNotes( $context = 'display' ) {
 
-		$notes = cnSanitize::field( 'notes', apply_filters( 'cn_notes', $this->notes ), $context );
+		$notes = cnSanitize::field( 'notes', apply_filters( 'cn_notes', $this->notes, $this ), $context );
 
 		return is_string( $notes ) ? $notes : '';
 	}
@@ -2296,7 +2296,7 @@ class cnEntry {
 			$excerpt = cnSanitize::field( 'excerpt', $this->excerpt, $context );
 		}
 
-		return apply_filters( 'cn_excerpt', $excerpt );
+		return apply_filters( 'cn_excerpt', $excerpt, $this );
 	}
 
 	/**

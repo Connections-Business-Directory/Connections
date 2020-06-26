@@ -2210,7 +2210,7 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_notes', $defaults )
 		);
 
-		$out = apply_filters( 'cn_output_notes', $this->getNotes() );
+		$out = apply_filters( 'cn_output_notes', $this->getNotes(), $this );
 
 		$out = '<div class="cn-notes">' . $atts['before'] . $out .  $atts['after'] . '</div>' . PHP_EOL;
 
@@ -2248,7 +2248,7 @@ class cnOutput extends cnEntry {
 			apply_filters( 'cn_output_default_atts_bio', $defaults )
 		);
 
-		$out = apply_filters( 'cn_output_bio', $this->getBio() );
+		$out = apply_filters( 'cn_output_bio', $this->getBio(), $this );
 
 		$out = '<div class="cn-biography">' . $atts['before'] . $out . $atts['after'] . '</div>' . PHP_EOL;
 
@@ -2292,7 +2292,7 @@ class cnOutput extends cnEntry {
 		 *
 		 * @since 8.5.19
 		 */
-		$excerpt = apply_filters( 'cn_output_excerpt', $excerpt );
+		$excerpt = apply_filters( 'cn_output_excerpt', $excerpt, $this );
 		$html = '<div class="cn-excerpt">' . $atts['before'] . $excerpt . $atts['after'] . '</div>' . PHP_EOL;
 
 		return $this->echoOrReturn( $atts['return'], $html );

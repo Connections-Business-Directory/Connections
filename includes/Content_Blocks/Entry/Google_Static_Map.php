@@ -179,7 +179,7 @@ class Google_Static_Map extends Content_Block {
 	 */
 	private function getAddress( $entry ) {
 
-		// Try to get teh preferred address.
+		// Try to get the preferred address.
 		$address = $entry->addresses->getPreferred();
 
 		// If no preferred is set, grab the first address.

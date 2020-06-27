@@ -309,12 +309,10 @@ class Content_Block {
 	 * This must be overridden in the registered Content Block subclass.
 	 *
 	 * @since 9.7
-	 *
-	 * @return string
 	 */
 	protected function content() {
 
-		return sprintf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
+		printf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
 	}
 
 	/**

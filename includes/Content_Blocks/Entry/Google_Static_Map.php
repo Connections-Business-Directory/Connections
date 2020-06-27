@@ -171,6 +171,8 @@ class Google_Static_Map extends Content_Block {
 	}
 
 	/**
+	 * Get preferred Entry address if set, if not, then get first address attached to Entry.
+	 *
 	 * @since 9.7
 	 *
 	 * @param cnEntry $entry

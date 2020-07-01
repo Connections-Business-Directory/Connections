@@ -1,18 +1,5 @@
 <?php
 
-/*
- * NOTICE OF LICENSE
- *
- * Part of the Rinvex Country Package.
- *
- * This source file is subject to The MIT License (MIT)
- * that is bundled with this package in the LICENSE file.
- *
- * Package: Rinvex Country Package
- * License: The MIT License (MIT)
- * Link:    https://rinvex.com
- */
-
 declare(strict_types=1);
 
 namespace Rinvex\Country;
@@ -34,6 +21,8 @@ class CountryLoader
      * @param string $code
      * @param bool   $hydrate
      *
+     * @throws \Rinvex\Country\CountryLoaderException
+     *
      * @return \Rinvex\Country\Country|array
      */
     public static function country($code, $hydrate = true)
@@ -52,6 +41,8 @@ class CountryLoader
      *
      * @param bool $longlist
      * @param bool $hydrate
+     *
+     * @throws \Rinvex\Country\CountryLoaderException
      *
      * @return array
      */
@@ -74,6 +65,8 @@ class CountryLoader
      * @param string $key
      * @param mixed  $operator
      * @param mixed  $value
+     *
+     * @throws \Rinvex\Country\CountryLoaderException
      *
      * @return array
      */

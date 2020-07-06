@@ -1248,6 +1248,32 @@ class cnURL {
 class cnUtility {
 
 	/**
+	 * Return a number only hash.
+	 *
+	 * @link https://stackoverflow.com/a/23679870/175071
+	 *
+	 * @since 9.8
+	 *
+	 * @param string   $str
+	 * @param int|null $len
+	 *
+	 * @return string
+	 */
+	public static function numHash( $str, $len = null ) {
+
+		$binhash = md5( $str, true );
+		$numhash = unpack( 'N2', $binhash );
+		$hash    = $numhash[1] . $numhash[2];
+
+		if ( $len && is_int( $len ) ) {
+
+			$hash = substr( $hash, 0, $len );
+		}
+
+		return $hash;
+	}
+
+	/**
 	 * Get user IP.
 	 *
 	 * @access public

@@ -98,13 +98,13 @@ class Management extends Content_Block {
 		self::addDeleteAction( $actions, $entry );
 
 		$actions = apply_filters(
-			'Connections_Directory/Content_Block/Entry/Management/Actions',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Actions",
 			$actions,
 			$entry
 		);
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry/Management/Before',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Before",
 			$entry
 		);
 
@@ -113,7 +113,7 @@ class Management extends Content_Block {
 		echo '</ul>';
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry/Management/After',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",
 			$entry
 		);
 	}

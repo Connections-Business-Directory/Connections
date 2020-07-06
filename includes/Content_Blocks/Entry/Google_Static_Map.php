@@ -154,7 +154,7 @@ class Google_Static_Map extends Content_Block {
 		$url    = "https://maps.googleapis.com/maps/api/staticmap?{$query}";
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry/Google_Static_Map/Before',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Before",
 			$entry
 		);
 
@@ -165,7 +165,7 @@ class Google_Static_Map extends Content_Block {
 		echo '</span>';
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry/Google_Static_Map/After',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",
 			$entry
 		);
 	}

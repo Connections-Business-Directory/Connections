@@ -22,6 +22,12 @@ class Content_Block {
 	private $id;
 
 	/**
+	 * @since 9.8
+	 * @var string
+	 */
+	protected $shortName = '';
+
+	/**
 	 * @since 9.7
 	 * @var array
 	 */
@@ -80,6 +86,7 @@ class Content_Block {
 	public function __construct( $id, $atts = array() ) {
 
 		$this->id = $id;
+		$this->shortName = $this->getShortName();
 
 		$atts = cnSanitize::args( $atts, $this->defaults() );
 
@@ -417,5 +424,26 @@ class Content_Block {
 	public function __toString() {
 
 		return $this->asHTML();
+	}
+
+	/**
+	 * Get called class short name.
+	 *
+	 * @since 9.8
+	 *
+	 * @link https://stackoverflow.com/a/41264231/5351316
+	 *
+	 * @return string
+	 */
+	protected function getShortName() {
+
+		$shortName = substr( static::class, ( $p = strrpos( static::class, '\\' ) ) !== false ? $p + 1 : 0 );
+
+		if ( ! is_string( $shortName ) ) {
+
+			$shortName = '';
+		}
+
+		return $shortName;
 	}
 }

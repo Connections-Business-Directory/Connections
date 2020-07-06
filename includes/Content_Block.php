@@ -307,7 +307,7 @@ class Content_Block {
 			$heading = ucwords( str_replace( array( '-', '_' ), ' ', $this->getID() ) );
 		}
 
-		return sprintf( '<%1$s>%2$s</%1$s>', $this->get( 'heading_tag' ), $heading );
+		return $heading;
 	}
 
 	/**
@@ -364,7 +364,7 @@ class Content_Block {
 					$this->get( 'block_class' ),
 					$idAttribute,
 					$this->get( 'before' ),
-					$this->heading(),
+					sprintf( '<%1$s>%2$s</%1$s>', $this->get( 'heading_tag' ), $this->heading() ),
 					$html,
 					$this->get( 'after' )
 				);

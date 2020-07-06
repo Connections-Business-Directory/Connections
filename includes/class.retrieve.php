@@ -92,6 +92,7 @@ class cnRetrieve {
 		$defaults['wp_current_category']   = FALSE;
 		$defaults['char']                  = '';
 		$defaults['id']                    = NULL;
+		$defaults['id__not_in']            = NULL;
 		$defaults['slug']                  = NULL;
 		$defaults['family_name']           = NULL;
 		$defaults['last_name']             = NULL;
@@ -480,6 +481,13 @@ class cnRetrieve {
 		 * // END --> Set up the query to only return the entries that match the supplied IDs.
 		 */
 
+		if ( ! empty( $atts['id__not_in'] ) ) {
+
+			$atts['id__not_in'] = wp_parse_id_list( $atts['id__not_in'] );
+
+			// Set query string to exclude specific entries.
+			$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (\'' . implode( "', '", $atts['id__not_in'] ) . '\')';
+		}
 
 		/*
 		 * // START --> Set up the query to only return the entries that match the supplied search terms.

@@ -2463,6 +2463,7 @@ class cnOutput extends cnEntry {
 		foreach ( $blocks as $key ) {
 
 			isset( $blockNumber ) ? $blockNumber++ : $blockNumber = 1;
+			$blockID = $this->getSlug() . '-' . $blockNumber;
 
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
 			if ( ! empty( $atts['include'] ) ) {
@@ -2503,8 +2504,6 @@ class cnOutput extends cnEntry {
 			$blockContent = ob_get_clean();
 
 			if ( 0 < strlen( $blockContent ) ) {
-
-				$blockID = $this->getSlug() . '-' . $blockNumber;
 
 				// Store the title in an array that can be accessed/passed from outside the content block loop.
 				// And if there is no title for some reason, create one from the key.
@@ -2548,7 +2547,7 @@ class cnOutput extends cnEntry {
 
 				$blockProperties = array(
 					'block_class' => "cn-entry-content-block cn-entry-content-block-{$key}",
-					'block_id'    => "cn-entry-content-block-{$this->getSlug()}",
+					'block_id'    => "cn-entry-content-block-{$blockID}",
 				);
 
 				$blockContainerContent .= Content_Blocks::instance()->renderBlock( $key, $this, $blockProperties, false );

@@ -547,6 +547,11 @@ input#cn-submit {
 }
 
 /*
+ * Import Content Block Styles
+ */
+@import "content-block-related-carousel";
+
+/*
  * Tables
  * @todo these styles interfere with the templates that use tables.
  */

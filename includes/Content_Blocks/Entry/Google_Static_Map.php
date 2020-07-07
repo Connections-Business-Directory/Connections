@@ -6,6 +6,7 @@ use cnAddress;
 use cnEntry;
 use cnSettingsAPI;
 use Connections_Directory\Content_Block;
+use Connections_Directory\Entry\Functions as Entry_Helper;
 
 /**
  * Class Google_Static_Map
@@ -135,7 +136,8 @@ class Google_Static_Map extends Content_Block {
 			return;
 		}
 
-		$address = $this->getAddress( $entry );
+		//$address = $this->getAddress( $entry );
+		$address = Entry_Helper::getAddress( $entry );
 
 		if ( ! $address instanceof cnAddress ) {
 
@@ -154,7 +156,7 @@ class Google_Static_Map extends Content_Block {
 		$url    = "https://maps.googleapis.com/maps/api/staticmap?{$query}";
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry/Google_Static_Map/Before',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Before",
 			$entry
 		);
 
@@ -165,39 +167,41 @@ class Google_Static_Map extends Content_Block {
 		echo '</span>';
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry/Google_Static_Map/After',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",
 			$entry
 		);
 	}
 
-	/**
-	 * @since 9.7
-	 *
-	 * @param cnEntry $entry
-	 *
-	 * @return bool|cnAddress
-	 */
-	private function getAddress( $entry ) {
-
-		// Try to get teh preferred address.
-		$address = $entry->addresses->getPreferred();
-
-		// If no preferred is set, grab the first address.
-		if ( ! $address instanceof cnAddress ) {
-
-			$address = $entry->addresses->getCollection()->first();
-		}
-
-		// The filters need to be reset so additional calls to get addresses with different params return expected results.
-		$entry->addresses->resetFilters();
-
-		if ( $address instanceof cnAddress ) {
-
-			return $address;
-		}
-
-		return false;
-	}
+	///**
+	// * Get preferred Entry address if set, if not, then get first address attached to Entry.
+	// *
+	// * @since 9.7
+	// *
+	// * @param cnEntry $entry
+	// *
+	// * @return bool|cnAddress
+	// */
+	//private function getAddress( $entry ) {
+	//
+	//	// Try to get the preferred address.
+	//	$address = $entry->addresses->getPreferred();
+	//
+	//	// If no preferred is set, grab the first address.
+	//	if ( ! $address instanceof cnAddress ) {
+	//
+	//		$address = $entry->addresses->getCollection()->first();
+	//	}
+	//
+	//	// The filters need to be reset so additional calls to get addresses with different params return expected results.
+	//	$entry->addresses->resetFilters();
+	//
+	//	if ( $address instanceof cnAddress ) {
+	//
+	//		return $address;
+	//	}
+	//
+	//	return false;
+	//}
 
 	/**
 	 * @since 9.7

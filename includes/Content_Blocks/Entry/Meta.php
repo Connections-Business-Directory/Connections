@@ -70,7 +70,7 @@ class Meta extends Content_Block {
 		);
 
 		$items = apply_filters(
-			'Connections_Directory/Content_Block/Entry/Meta/Items',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Items",
 			$items,
 			$entry
 		);
@@ -78,7 +78,7 @@ class Meta extends Content_Block {
 		if ( is_array( $items ) && 0 < count( $items ) ) {
 
 			do_action(
-				'Connections_Directory/Content_Block/Entry/Meta/Before',
+				"Connections_Directory/Content_Block/Entry/{$this->shortName}/Before",
 				$entry
 			);
 
@@ -87,7 +87,7 @@ class Meta extends Content_Block {
 			echo '</ul>';
 
 			do_action(
-				'Connections_Directory/Content_Block/Entry/Meta/After',
+				"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",
 				$entry
 			);
 		}

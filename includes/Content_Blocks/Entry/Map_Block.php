@@ -217,14 +217,14 @@ class Map_Block extends Content_Block {
 				 ->addControl( $layerControl );
 
 				do_action(
-					'Connections_Directory/Content_Block/Entry/Map_Block/Before',
+					"Connections_Directory/Content_Block/Entry/{$this->shortName}/Before",
 					$entry
 				);
 
 				echo $html;
 
 				do_action(
-					'Connections_Directory/Content_Block/Entry/Map_Block/After',
+					"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",
 					$entry
 				);
 			}

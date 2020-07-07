@@ -92,6 +92,7 @@ class cnRetrieve {
 		$defaults['wp_current_category']   = FALSE;
 		$defaults['char']                  = '';
 		$defaults['id']                    = NULL;
+		$defaults['id__not_in']            = NULL;
 		$defaults['slug']                  = NULL;
 		$defaults['family_name']           = NULL;
 		$defaults['last_name']             = NULL;
@@ -480,6 +481,13 @@ class cnRetrieve {
 		 * // END --> Set up the query to only return the entries that match the supplied IDs.
 		 */
 
+		if ( ! empty( $atts['id__not_in'] ) ) {
+
+			$atts['id__not_in'] = wp_parse_id_list( $atts['id__not_in'] );
+
+			// Set query string to exclude specific entries.
+			$where[] = 'AND ' . CN_ENTRY_TABLE . '.id NOT IN (\'' . implode( "', '", $atts['id__not_in'] ) . '\')';
+		}
 
 		/*
 		 * // START --> Set up the query to only return the entries that match the supplied search terms.
@@ -889,6 +897,8 @@ class cnRetrieve {
 		if ( $random ) {
 
 			$seed = cnFormatting::stripNonNumeric( cnUtility::getIP() ) . date( 'Hdm', current_time( 'timestamp', 1 ) );
+
+			$seed = apply_filters( 'cn_entry_query_random_seed', $seed, $atts );
 
 			$sql = 'SELECT SQL_CALC_FOUND_ROWS *, RAND(' . $seed . ') AS random FROM ( SELECT DISTINCT ' . implode( ', ', $select ) . ' FROM ' . implode( ', ', $from ) . ' ' . implode( ' ', $join ) . ' ' . implode( ' ', $where ) . ' GROUP BY ' . CN_ENTRY_TABLE . '.id ' . implode( ' ', $having ) . ') AS T ORDER BY random' . $limit . $offset;
 			// print_r($sql);

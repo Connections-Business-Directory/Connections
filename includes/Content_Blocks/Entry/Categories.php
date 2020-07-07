@@ -258,7 +258,7 @@ class Categories extends Content_Block {
 		}
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry/Categories/Before',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Before",
 			$entry,
 			$items
 		);
@@ -274,7 +274,7 @@ class Categories extends Content_Block {
 		);
 
 		do_action(
-			'Connections_Directory/Content_Block/Entry/Categories/After',
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",
 			$entry,
 			$items
 		);

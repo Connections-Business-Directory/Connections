@@ -22,6 +22,12 @@ class Content_Block {
 	private $id;
 
 	/**
+	 * @since 9.8
+	 * @var string
+	 */
+	protected $shortName = '';
+
+	/**
 	 * @since 9.7
 	 * @var array
 	 */
@@ -80,6 +86,7 @@ class Content_Block {
 	public function __construct( $id, $atts = array() ) {
 
 		$this->id = $id;
+		$this->shortName = $this->getShortName();
 
 		$atts = cnSanitize::args( $atts, $this->defaults() );
 
@@ -300,7 +307,7 @@ class Content_Block {
 			$heading = ucwords( str_replace( array( '-', '_' ), ' ', $this->getID() ) );
 		}
 
-		return sprintf( '<%1$s>%2$s</%1$s>', $this->get( 'heading_tag' ), $heading );
+		return $heading;
 	}
 
 	/**
@@ -309,12 +316,10 @@ class Content_Block {
 	 * This must be overridden in the registered Content Block subclass.
 	 *
 	 * @since 9.7
-	 *
-	 * @return string
 	 */
 	protected function content() {
 
-		return sprintf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
+		printf( __( 'Method "%s" not implemented. Must be overridden in subclass.', 'connections' ), __METHOD__ );
 	}
 
 	/**
@@ -359,7 +364,7 @@ class Content_Block {
 					$this->get( 'block_class' ),
 					$idAttribute,
 					$this->get( 'before' ),
-					$this->heading(),
+					sprintf( '<%1$s>%2$s</%1$s>', $this->get( 'heading_tag' ), $this->heading() ),
 					$html,
 					$this->get( 'after' )
 				);
@@ -419,5 +424,26 @@ class Content_Block {
 	public function __toString() {
 
 		return $this->asHTML();
+	}
+
+	/**
+	 * Get called class short name.
+	 *
+	 * @since 9.8
+	 *
+	 * @link https://stackoverflow.com/a/41264231/5351316
+	 *
+	 * @return string
+	 */
+	protected function getShortName() {
+
+		$shortName = substr( static::class, ( $p = strrpos( static::class, '\\' ) ) !== false ? $p + 1 : 0 );
+
+		if ( ! is_string( $shortName ) ) {
+
+			$shortName = '';
+		}
+
+		return $shortName;
 	}
 }

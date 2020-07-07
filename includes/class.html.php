@@ -342,7 +342,7 @@ class cnHTML {
 						}
 					);
 
-					return ' ' . implode( $data, ' ' );
+					return ' ' . implode( ' ', $data );
 				}
 
 				return '';

@@ -16,7 +16,7 @@ class Functions {
 
 	/**
 	 * Get related Entries.
-	 * 
+	 *
 	 * @since 9.8
 	 *
 	 * @param cnEntry $entry

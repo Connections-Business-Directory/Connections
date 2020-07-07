@@ -208,6 +208,9 @@ class cnDependency {
 			'cnEntry_Object_Collection' => 'includes/entry/class.entry-object-collection.php',
 			'cnEntry_Collection_Item'   => 'includes/entry/class.entry-collection-item.php',
 
+			// Entry helper functions.
+			'Connections_Directory\Entry\Functions' => 'includes/entry/Functions.php',
+
 			// Content Blocks API.
 			'Connections_Directory\Content_Blocks' => 'includes/Content_Blocks.php',
 			'Connections_Directory\Content_Block'  => 'includes/Content_Block.php',

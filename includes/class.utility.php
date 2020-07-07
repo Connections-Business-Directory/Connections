@@ -1265,7 +1265,7 @@ class cnUtility {
 		$numhash = unpack( 'N2', $binhash );
 		$hash    = $numhash[1] . $numhash[2];
 
-		if ( $len && is_int( $len ) ) {
+		if ( $len !== null && is_int( $len ) ) {
 
 			$hash = substr( $hash, 0, $len );
 		}

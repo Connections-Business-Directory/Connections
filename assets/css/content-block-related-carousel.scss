@@ -1,0 +1,39 @@
+#slick-slider-content-block-entry-related-category,
+#slick-slider-content-block-entry-related-region,
+#slick-slider-content-block-entry-related-postal_code,
+#slick-slider-content-block-entry-related-locality,
+#slick-slider-content-block-entry-related-county,
+#slick-slider-content-block-entry-related-district,
+#slick-slider-content-block-entry-related-department,
+#slick-slider-content-block-entry-related-organization,
+#slick-slider-content-block-entry-related-title,
+#slick-slider-content-block-entry-related-last_name {
+
+	.slick-slide {
+		background-color: #ffffff;
+		border: 1px solid #e3e3e3;
+		border-radius: 5px;
+		padding: 0;
+
+		.slick-slider-slide-image {
+			line-height: 0;
+
+			span.cn-image-style {
+				background: transparent;
+				border: none;
+				border-radius: 0;
+				padding: 0;
+			}
+		}
+
+		.slick-slider-slide-details {
+			border-top: 1px solid #e3e3e3;
+			font-size: 16px;
+			padding: 20px;
+
+			h3 {
+				font-size: 18px;
+			}
+		}
+	}
+}

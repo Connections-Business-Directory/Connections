@@ -189,6 +189,5 @@ class Functions {
 		return false;
 	}
 
-	function popular() {}
-
+	//function popular() {}
 }

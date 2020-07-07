@@ -101,7 +101,7 @@ class Related extends Content_Block {
 		);
 
 		echo PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="' . 'slick-slider-content-block-' . self::ID . '-' . strtolower( $this->shortName ) . '" data-slick-slider-settings="' . $settingsJSON . '">' . PHP_EOL;
-		echo self::renderTemplate( $template, $related, $carousel );
+		echo $this->renderTemplate( $template, $related, $carousel );
 		echo '</div><!--.slick-slider-section-->' . PHP_EOL;
 
 		do_action(

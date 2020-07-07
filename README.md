@@ -247,6 +247,25 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.8 07/07/2020 =
+* FEATURE: Add 10 "Related To Entry" Content Blocks.
+* NEW: Add `id__not_in` parameter to `cnRetrieve::entries()`
+* NEW: Introduce `cnUtility::numHash()`.
+* NEW: Introduce the `cn_entry_query_random_seed` filter.
+* NEW: Add Entry helper functions class. Includes the `relatedTo()` helper method.
+* TWEAK: Pass the entry object in the bio, excerpt and note filter.
+* TWEAK: `Content_Block::content()` should echo not return string.
+* TWEAK: Correct `implode()` parameters.
+* TWEAK: Make carousels show one slide and scroll one slide in mobile.
+* TWEAK: Ensure uniform Content Block ID attribute when rendered via action or thru the Content Block API.
+* TWEAK: Set called class short-name property when constructing a Content Block to utilize in dynamic hooks.
+* TWEAK: Update hooks to make them dynamic utilizing the called class short-name.
+* TWEAK: Move the HTML markup from the `heading()` method in the Content Block to the `render()` method for uniformity with other class methods. This also allows for easier setting of the heading parameter to allow for dynamic Content Block headings.
+* TWEAK: Update the Static Google Maps Content Block to utilize the Entry helper functions class.
+* OTHER: Correct misspelling.
+* DEV: Add phpDoc.
+* DEV: Update rinvex/countries to version 7.0.1.
+
 = 9.7.2 06/24/2020 =
 * BUG: Correct Map Block permissions.
 * DEV: Standardize namespace and move files to correct folders.
@@ -494,31 +513,5 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * BUG: Incorrectly applying the link type options filter to the date type option.
 * DEV: Fix typos in inline code comments.
 * DEV: Update dist files.
-
-= 8.44.1 06/12/2019 =
-* BUG: Prevent PHP notice from being shown in some cases.
-
-= 8.44 06/11/2019 =
-* NEW: Introduce the `cn_frontend_enqueue_styles` action.
-* TWEAK: Clear cached response after plugin update check to ensure when an addon plugin is updated it will not continue to display as an updated is available.
-* TWEAK: Pass the require attribute to the checkbox field type.
-* TWEAK: Add required attribute to the select field.
-* TWEAK: Move class prefixing to occur before adding the required class.
-* TWEAK: Add error styles to then entry form checkboxes.
-* TWEAK: Bump max WP version in dependency checker.
-* TWEAK: Use webpack to bundle admin CSS.
-* TWEAK: Break out the brandicon and fonticon picker CSS into their own files and import them into the admin CSS file.
-* TWEAK: Remove the brandicon CSS from the frontend CSS file and and import the brandicon CSS file instead.
-* DEV: Continue laying the foundation for the font icon picker support for the social network settings.
-* DEV: Update dist files.
-
-= 8.43 05/17/2019 =
-* TWEAK: Do not save previous entry query results in an array. Doing this made doing REST changes have odd results.
-* BUG: Check for `WP_Error` before calling `cnCountry::getDivisions()` to prevent a potential fatal PHP error.
-* BUG: Ensure the permalink option for an entry image is converted to a bool.
-* BUG: When loading Gmagick, properly set the default image quality.
-* BUG: Additional checks to prevent PHP notices when using the default geocoder.
-* OTHER: Readme tags tweaks to stay within proposed plugin guidelines.
-* DEV: Remove unused code.
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)

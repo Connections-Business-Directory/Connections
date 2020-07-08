@@ -241,7 +241,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
 = 9.8 07/07/2020 =
-* FEATURE: Add 10 "Related To Entry" Content Blocks.
+* FEATURE: [Add 10 "Related To Entry" Content Blocks.](https://connections-pro.com/connections-9-8-related-content-blocks/)
 * NEW: Add `id__not_in` parameter to `cnRetrieve::entries()`
 * NEW: Introduce `cnUtility::numHash()`.
 * NEW: Introduce the `cn_entry_query_random_seed` filter.

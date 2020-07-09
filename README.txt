@@ -240,6 +240,13 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.8.1 07/09/2020 =
+* BUG: Correct logic for the include parameter for Content Blocks.
+* BUG: Content Blocks need to default to the order of the `active` blocks and not the `order` of the `active` blocks.
+* OTHER: Add link to blog post in changelog.
+* I18N: Update POT file.
+* I18N: Update MO files.
+
 = 9.8 07/07/2020 =
 * FEATURE: [Add 10 "Related To Entry" Content Blocks.](https://connections-pro.com/connections-9-8-related-content-blocks/)
 * NEW: Add `id__not_in` parameter to `cnRetrieve::entries()`
@@ -582,4 +589,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PH
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.8 =
+It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.8.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

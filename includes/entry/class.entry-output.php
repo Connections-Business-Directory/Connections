@@ -2469,7 +2469,7 @@ class cnOutput extends cnEntry {
 			if ( ! empty( $atts['include'] ) ) {
 
 				if ( ( is_array( $atts['include'] ) && ! in_array( $key, $atts['include'] ) ) ||
-				     ( is_string( $atts['include'] ) && $key === $atts['include'] )
+				     ( is_string( $atts['include'] ) && $key !== $atts['include'] )
 				) {
 					continue;
 				}

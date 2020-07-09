@@ -2427,7 +2427,7 @@ class cnOutput extends cnEntry {
 
 		$defaults = array(
 			'id'            => '',
-			'order'         => is_string( $atts ) && ! empty( $atts ) ? $atts : $order,
+			'order'         => is_string( $atts ) && ! empty( $atts ) ? $atts : array_intersect( $include, $order ), // This needs to default to the order of the `active` blocks and not the `order` of the `active` blocks.
 			'exclude'       => is_string( $atts ) && ! empty( $atts ) ? '' : $exclude,
 			'include'       => is_string( $atts ) && ! empty( $atts ) ? '' : $include,
 			'layout'        => 'list',
@@ -2469,7 +2469,7 @@ class cnOutput extends cnEntry {
 			if ( ! empty( $atts['include'] ) ) {
 
 				if ( ( is_array( $atts['include'] ) && ! in_array( $key, $atts['include'] ) ) ||
-				     ( is_string( $atts['include'] ) && $key === $atts['include'] )
+				     ( is_string( $atts['include'] ) && $key !== $atts['include'] )
 				) {
 					continue;
 				}

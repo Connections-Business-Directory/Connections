@@ -2446,7 +2446,7 @@ class cnOutput extends cnEntry {
 
 		if ( ! empty( $atts['id'] ) ) {
 
-			$blocks = array( $atts['id'] );
+			$blocks = array( trim( $atts['id'] ) );
 
 		} elseif ( ! empty( $atts['order'] ) ) {
 
@@ -2456,8 +2456,8 @@ class cnOutput extends cnEntry {
 		// Nothing to render, exit.
 		if ( empty( $blocks ) ) return '';
 
-		// Cleanup user input. Trim whitespace and convert to lowercase.
-		$blocks = array_map( 'strtolower', array_map( 'trim', $blocks ) );
+		// Cleanup user input, convert to lowercase.
+		$blocks = array_map( 'strtolower', $blocks );
 
 		// Output the registered action in the order supplied by the user.
 		foreach ( $blocks as $key ) {

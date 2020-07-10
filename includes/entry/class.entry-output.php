@@ -2456,6 +2456,13 @@ class cnOutput extends cnEntry {
 		// Nothing to render, exit.
 		if ( empty( $blocks ) ) return '';
 
+		$atts['include'] = cnFunction::parseStringList( $atts['include'], ',' );
+		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' );
+
+		// Remove any blocks from the `exclude` parameter which are explicitly stated to be included by the `include` parameter.
+		// Do this only if the `exclude` parameter is not empty.
+		$atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
+
 		// Cleanup user input, convert to lowercase.
 		$blocks = array_map( 'strtolower', $blocks );
 
@@ -2466,23 +2473,9 @@ class cnOutput extends cnEntry {
 			$blockID = $this->getSlug() . '-' . $blockNumber;
 
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
-			if ( ! empty( $atts['include'] ) ) {
+			if ( ! in_array( $key, $atts['include'] ) || in_array( $key, $atts['exclude'] ) ) {
 
-				if ( ( is_array( $atts['include'] ) && ! in_array( $key, $atts['include'] ) ) ||
-				     ( is_string( $atts['include'] ) && $key !== $atts['include'] )
-				) {
-					continue;
-				}
-			}
-
-			if ( ! empty( $atts['exclude'] ) ) {
-
-				if ( ( is_array( $atts['exclude'] ) && in_array( $key, $atts['exclude'] ) ) ||
-				     ( is_string( $atts['exclude'] ) && $key === $atts['exclude'] )
-				) {
-					continue;
-				}
-
+				continue;
 			}
 
 			ob_start();

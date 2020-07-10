@@ -2420,16 +2420,16 @@ class cnOutput extends cnEntry {
 			$settings = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
 		}
 
-		$order   = isset( $settings['order'] ) ? $settings['order'] : array();
-		$include = isset( $settings['active'] ) ? $settings['active'] : array();
-		$exclude = empty( $include ) ? $order : array();
-		$titles  = array();
+		$order  = isset( $settings['order'] ) ? $settings['order'] : array();
+		$active = isset( $settings['active'] ) ? $settings['active'] : array();
+		//$exclude = empty( $include ) ? $order : array();
+		$titles = array();
 
 		$defaults = array(
 			'id'            => '',
-			'order'         => is_string( $atts ) && ! empty( $atts ) ? $atts : array_intersect( $include, $order ), // This needs to default to the order of the `active` blocks and not the `order` of the `active` blocks.
-			'exclude'       => is_string( $atts ) && ! empty( $atts ) ? '' : $exclude,
-			'include'       => is_string( $atts ) && ! empty( $atts ) ? '' : $include,
+			'order'         => $order,
+			'exclude'       => array(),
+			'include'       => $active, //array_intersect( $active, $order ),
 			'layout'        => 'list',
 			'container_tag' => 'div',
 			'block_tag'     => 'div',

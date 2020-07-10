@@ -2469,14 +2469,14 @@ class cnOutput extends cnEntry {
 		// Output the registered action in the order supplied by the user.
 		foreach ( $blocks as $key ) {
 
-			isset( $blockNumber ) ? $blockNumber++ : $blockNumber = 1;
-			$blockID = $this->getSlug() . '-' . $blockNumber;
-
 			// Exclude/Include the metaboxes that have been requested to exclude/include.
 			if ( ! in_array( $key, $atts['include'] ) || in_array( $key, $atts['exclude'] ) ) {
 
 				continue;
 			}
+
+			isset( $blockNumber ) ? $blockNumber++ : $blockNumber = 1;
+			$blockID = $this->getSlug() . '-' . $blockNumber;
 
 			ob_start();
 

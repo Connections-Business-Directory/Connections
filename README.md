@@ -247,6 +247,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
+= 9.8.2 07/11/2020 =
+* TWEAK: Remove unnecessary `trim` of Content Block IDs.
+* TWEAK: Simplify logic for excluding/including Content Blocks.
+* TWEAK: Include/exclude Content Blocks before setting up the block ID to avoid unnecessary processing.
+* TWEAK: Simplify the default parameters for Content Blocks.
+
 = 9.8.1 07/09/2020 =
 * BUG: Correct logic for the include parameter for Content Blocks.
 * BUG: Content Blocks need to default to the order of the `active` blocks and not the `order` of the `active` blocks.

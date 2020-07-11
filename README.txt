@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 4.8
 Tested up to: 5.4
 Requires PHP: 5.6.20
-Stable tag: 9.8.1
+Stable tag: 9.8.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,6 +239,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.8.2 07/11/2020 =
+* TWEAK: Remove unnecessary `trim` of Content Block IDs.
+* TWEAK: Simplify logic for excluding/including Content Blocks.
+* TWEAK: Include/exclude Content Blocks before setting up the block ID to avoid unnecessary processing.
+* TWEAK: Simplify the default parameters for Content Blocks.
 
 = 9.8.1 07/09/2020 =
 * BUG: Correct logic for the include parameter for Content Blocks.
@@ -592,4 +598,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.8.1 =
+It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.8.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

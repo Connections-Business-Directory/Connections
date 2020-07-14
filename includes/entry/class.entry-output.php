@@ -2513,15 +2513,13 @@ class cnOutput extends cnEntry {
 					$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
 				}
 
+				$heading = empty( $titles[ $blockID ] ) ? '' : sprintf( '<%1$s>%2$s</%1$s>', $atts['header_tag'], $titles[ $blockID ] );
+
 				$blockContainerContent .= apply_filters(
 					'cn_entry_output_content_block',
 					sprintf(
 						'<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
-						sprintf(
-							'<%1$s>%2$s</%1$s>',
-							$atts['header_tag'],
-							$titles[ $blockID ]
-						),
+						$heading,
 						$atts['block_tag'],
 						$key,
 						$blockID,

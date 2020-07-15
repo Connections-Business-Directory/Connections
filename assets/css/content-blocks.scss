@@ -1,0 +1,24 @@
+.cn-list {
+
+	.cn-entry-content-block-list {
+		margin: 2em 0;
+
+		.cn-entry-content-block:first-child {
+			margin-top: 0;
+		}
+
+		.cn-entry-content-block:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.cn-entry-content-block {
+		margin: 18px 0;
+		padding: 0;
+
+		ul {
+			margin: 20px 0;
+			padding-left: 2em;
+		}
+	}
+}

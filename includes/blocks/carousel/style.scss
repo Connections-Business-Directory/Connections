@@ -121,26 +121,30 @@
 
 	}
 
-	.slick-arrow {
-		//filter: invert(100%);
-
-		&.slick-prev:before,
-		&.slick-next:before {
-			opacity: .75;
-			color: #000000;
-		}
-	}
-
-	.slick-dots {
-		bottom: auto;
-		line-height: normal;
+	.slick-slider {
 		margin: 0;
-		padding: 0;
-		position: relative;
 
-		li button:before {
-			opacity: .25;
-			color: #000000;
+		.slick-arrow {
+			//filter: invert(100%);
+
+			&.slick-prev:before,
+			&.slick-next:before {
+				opacity: .75;
+				color: #000000;
+			}
+		}
+
+		ul.slick-dots {
+			bottom: auto;
+			line-height: normal;
+			margin: 0;
+			padding: 0;
+			position: relative;
+
+			li button:before {
+				opacity: .25;
+				color: #000000;
+			}
 		}
 	}
 

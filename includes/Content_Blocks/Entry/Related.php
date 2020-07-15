@@ -131,7 +131,12 @@ class Related extends Content_Block {
 			'displayExcerpt'   => false,
 			'imageType'        => 'photo',
 			'imageCropMode'    => 2,
+			'imageWidth'       => 600,
+			'imageHeight'      => 520,
+			'imagePermalink'   => true,
+			'imagePlaceholder' => true,
 			'excerptWordLimit' => 25,
+			'namePermalink'    => true,
 		);
 
 		$attributes = wp_parse_args( $attributes, $defaults );

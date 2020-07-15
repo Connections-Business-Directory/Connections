@@ -23,6 +23,19 @@
 				border: none;
 				border-radius: 0;
 				padding: 0;
+
+				.cn-image-none {
+					display: inline-block;
+					position: relative;
+
+					span {
+						position: absolute;
+						top: 2em;
+						right: 0;
+						left: 0;
+						text-align: center;
+					}
+				}
 			}
 		}
 

@@ -503,6 +503,11 @@ class cnOutput extends cnEntry {
 
 					$atts['style']['display'] = 'inline-block';
 
+					$width  = absint( $atts['style']['width'] );
+					$height = absint( $atts['style']['height'] );
+					$atts['style']['padding-bottom'] = "calc({$height} / {$width} * 100%)";
+					unset( $atts['style']['height'] );
+
 					if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
 
 						array_walk(

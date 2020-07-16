@@ -2418,14 +2418,16 @@ class cnOutput extends cnEntry {
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$settings = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
+			$registered = cnOptions::getContentBlocks( NULL, 'single' );
+			$settings   = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
 
 		} else {
 
-			$settings = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
+			$registered = cnOptions::getContentBlocks( NULL, 'list' );
+			$settings   = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
 		}
 
-		$order  = isset( $settings['order'] ) ? $settings['order'] : array();
+		$order  = isset( $settings['order'] ) ? $settings['order'] : array_keys( cnArray::get( $registered, 'items', array() ) );
 		$active = isset( $settings['active'] ) ? $settings['active'] : array();
 		//$exclude = empty( $include ) ? $order : array();
 		$titles = array();

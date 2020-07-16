@@ -2466,9 +2466,10 @@ class cnOutput extends cnEntry {
 		$atts['include'] = cnFunction::parseStringList( $atts['include'], ',' );
 		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' );
 
-		// Remove any blocks from the `exclude` parameter which are explicitly stated to be included by the `include` parameter.
-		// Do this only if the `exclude` parameter is not empty.
-		$atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
+		// Remove any blocks from the `include` parameter which are explicitly stated to be excluded by the `excluded` parameter.
+		// Do this only if the `include` parameter is not empty.
+		//$atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
+		$atts['include'] = empty( $atts['include'] ) ? $atts['include'] : array_diff( $atts['include'], $atts['exclude'] );
 
 		// Cleanup user input, convert to lowercase.
 		$blocks = array_map( 'strtolower', $blocks );

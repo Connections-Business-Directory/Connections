@@ -38,7 +38,7 @@ class Functions {
 
 		$queryParameters = array(
 			'id__not_in' => $entry->getId(),
-			'limit'      => 8,
+			'limit'      => $atts['limit'],
 			'order_by'   => $atts['order_by'],
 		);
 

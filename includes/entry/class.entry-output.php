@@ -2455,7 +2455,7 @@ class cnOutput extends cnEntry {
 
 			$blocks = array( trim( $atts['id'] ) );
 
-		} elseif ( ! empty( $atts['order'] ) ) {
+		} else {
 
 			$blocks = cnFunction::parseStringList( $atts['order'], ',' );
 		}

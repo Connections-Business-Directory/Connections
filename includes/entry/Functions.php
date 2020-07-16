@@ -159,6 +159,92 @@ class Functions {
 	}
 
 	/**
+	 * Get related Entries.
+	 *
+	 * @since 9.9
+	 *
+	 * @param cnEntry $entry
+	 * @param array   $atts
+	 *
+	 * @return cnOutput[]
+	 */
+	public static function nearBy( $entry, $atts = array() ) {
+
+		$nearBy  = array();
+		$default = array(
+			'radius' => 10,
+			'unit'   => 'mi',
+			'limit'  => 8,
+		);
+
+		$atts = cnSanitize::args( $atts, $default );
+
+		$address = self::getAddress( $entry );
+
+		$queryParameters = array(
+			'id__not_in' => $entry->getId(),
+			'latitude'   => $address->getLatitude(),
+			'longitude'  => $address->getLongitude(),
+			'radius'     => $atts['radius'],
+			'unit'       => $atts['unit'],
+			'limit'      => $atts['limit'],
+			'order_by'   => 'distance',
+		);
+
+
+		$queryParameters = apply_filters(
+			'Connections_Directory/Entry/Near/Query_Parameters',
+			$queryParameters
+		);
+		//var_dump( $queryParameters );
+		if ( empty( $queryParameters['latitude'] ) && empty( $queryParameters['longitude'] ) ) {
+
+			return $nearBy;
+		}
+
+		$queryParameters['lock'] = true;
+
+		/*
+		 * Callback for the `cn_entry_query_random_seed` filter.
+		 *
+		 * This is to ensure a different `RAND()` seed value is used when querying related Entries.
+		 */
+		$seed = function( $seed, $atts ) {
+
+			/*
+			 * Make a has from the `cnRetrieve::entries()` $atts.
+			 * Limiting has length to `1` because the seed for the `RAND()` function can not
+			 * exceed the value for BIGINT.
+			 *
+			 * This will make a collision in the seed highly likely, per IP address but that should be acceptable
+			 * in this use case.
+			 */
+			$hash = cnUtility::numHash( json_encode( $atts ), 1 );
+
+			return $seed . $hash;
+		};
+
+		add_filter( 'cn_entry_query_random_seed', $seed, 10, 2 );
+
+		$results = Connections_Directory()->retrieve->entries( $queryParameters );
+
+		remove_filter( 'cn_entry_query_random_seed', $seed );
+
+		if ( 0 < count( $results ) ) {
+
+			foreach ( $results as $data ) {
+
+				$relation = new cnOutput( $data );
+				$relation->directoryHome( $entry->directoryHome ); // Setup the related Entry to the source Entry homepage.
+
+				array_push( $nearBy, $relation );
+			}
+		}
+
+		return $nearBy;
+	}
+
+	/**
 	 * Get preferred Entry address if set, if not, then get first address attached to Entry.
 	 *
 	 * @since 9.8

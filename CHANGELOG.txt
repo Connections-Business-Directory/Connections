@@ -1,5 +1,23 @@
 == Changelog ==
 
+= 9.9 07/17/2020 =
+
+* FEATURE: Introduce the Entries Nearby Content Block.
+* NEW: Introduce `cnArray::push()` helper method.
+* TWEAK: Make the image not available placeholder responsive friendly while retaining the aspect ratio.
+* TWEAK: Add a few basic styles to the Entry Actions vs relying on theme styling for lists.
+* TWEAK: Add a few basic styles for the Content Block layout for better more consistent presentation.
+* TWEAK: Introduce additional related carousel parameters that can be adjusted via a filter.
+* TWEAK: Add CSS to make the "image not available" placeholder responsive friendly while maintaining aspect ratio.
+* TWEAK: Make a few carousel CSS selectors a bit more specific to help ensure they are not easily overridden.
+* TWEAK: If the Content Block order has not yet been saved, fetch them via `cnOptions::getContentBlocks()`.
+* TWEAK: Flipped the logic when Content Blocks should be included/excluded.
+* TWEAK: Remove the hardcoded limit with querying related Entries. Instead, use the supplied attribute.
+* BUG: Prevent output of empty heading tags in Content Blocks.
+* BUG: The `$blocks` variable should always be defined.
+* OTHER: Readme.txt tweaks.
+* DEV: Update the dist files.
+
 = 9.8.2 07/11/2020 =
 * TWEAK: Remove unnecessary `trim` of Content Block IDs.
 * TWEAK: Simplify logic for excluding/including Content Blocks.

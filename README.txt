@@ -15,7 +15,7 @@ An easy to use directory plugin to create an addressbook, business directory, me
 
 [Showcase](https://connections-pro.com/showcase/) | [Documentation](https://connections-pro.com/documentation/contents/) | [Support](https://connections-pro.com/support/) | [Templates](https://connections-pro.com/templates/) | [Extensions](https://connections-pro.com/extensions/)
 
-Quite simply, Connections Business Directory is one of the [best business directory plugins available](https://wordpress.org/support/plugin/connections/reviews/?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections Business Directory for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections Business Directory was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections Business Directory has to offer...
+Connections Business Directory is one of the [best business directory plugins available](https://wordpress.org/support/plugin/connections/reviews/?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections Business Directory for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections Business Directory was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections Business Directory has to offer...
 
 = Features =
 
@@ -28,6 +28,11 @@ Quite simply, Connections Business Directory is one of the [best business direct
     * [Upcoming List Block](https://connections-pro.com/documentation/block/upcoming-list/) :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
+* A growing selection of Content Blocks:
+    * Related Entries:: [Display related Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-8-related-content-blocks/)
+    * Nearby Entries:: [Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-9-nearby-entries-content-block)
+    * Frontend Entry Management:: Management options include a quick link to edit the Entry and a Delete option.
+    * Entry Meta:: Display details such as when the Entry was added nad last modified and by whom.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
 * You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.

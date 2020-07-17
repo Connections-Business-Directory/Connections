@@ -11,18 +11,22 @@
 			array(
 				'image'     => $atts['imageType'],
 				'size'      => 'custom',
-				'width'     => 600,
-				'height'    => 520,
+				'width'     => $atts['imageWidth'],
+				'height'    => $atts['imageHeight'],
 				'zc'        => $atts['imageCropMode'],
 				'lazyload'  => false,
-				'permalink' => true,
+				'permalink' => $atts['imagePermalink'],
+				'fallback'  => array(
+					'type'   => $atts['imagePlaceholder'] ? 'block' : 'none',
+					'string' => __( 'No Image Available', 'connections' ),
+				),
 			)
 		);
 		?>
 	</div><!--.slick-slider-slide-image-->
 	<div class="slick-slider-slide-details">
 
-		<h3><?php $entry->getNameBlock(); ?></h3>
+		<h3><?php $entry->getNameBlock( array( 'link' => $atts['namePermalink'] ) ); ?></h3>
 
 		<?php
 

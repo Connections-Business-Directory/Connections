@@ -5,7 +5,7 @@ Tags: address book, business directory, chamber of commerce, church directory, c
 Requires at least: 4.8
 Tested up to: 5.4
 Requires PHP: 5.6.20
-Stable tag: 9.8.2
+Stable tag: 9.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ An easy to use directory plugin to create an addressbook, business directory, me
 
 [Showcase](https://connections-pro.com/showcase/) | [Documentation](https://connections-pro.com/documentation/contents/) | [Support](https://connections-pro.com/support/) | [Templates](https://connections-pro.com/templates/) | [Extensions](https://connections-pro.com/extensions/)
 
-Quite simply, Connections Business Directory is one of the [best business directory plugins available](https://wordpress.org/support/plugin/connections/reviews/?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections Business Directory for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections Business Directory was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections Business Directory has to offer...
+Connections Business Directory is one of the [best business directory plugins available](https://wordpress.org/support/plugin/connections/reviews/?filter=5) for WordPress. Its simplicity in design and function, vast array of unique features and versatility are the reasons more and more people are turning to Connections Business Directory for their directory needs. You can use Connections to create a simple address book, maintain a staff or member directory and run a business directory or link directory. Connections Business Directory was built bottom up to be as configurable as possible while providing the features you need. Read on to learn about some of the best features Connections Business Directory has to offer...
 
 = Features =
 
@@ -28,6 +28,11 @@ Quite simply, Connections Business Directory is one of the [best business direct
     * [Upcoming List Block](https://connections-pro.com/documentation/block/upcoming-list/) :: Use this block to display an upcoming list of anniversaries, birthdays or other events.
 * **[Highly rated support.](https://wordpress.org/support/plugin/connections/reviews/?filter=5)**
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
+* A growing selection of Content Blocks:
+    * Related Entries:: [Display related Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-8-related-content-blocks/)
+    * Nearby Entries:: [Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-9-nearby-entries-content-block/)
+    * Frontend Entry Management:: Management options include a quick link to edit the Entry and a Delete option.
+    * Entry Meta:: Display details such as when the Entry was added nad last modified and by whom.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
 * Multiple entry types from which to choose; such as individual, organization and family. The family entry type is unique to Connections. This entry type allows you to group individuals together as a family which makes Connections ideally suited for creating a church directory.
 * You control which entries are viewable to the public and which entries are private, viewable for logged in users only. You can even have entries set as unlisted so only admins can view them.
@@ -239,6 +244,24 @@ Yes this is possible but there is a special setup required to do so. It is recom
 == Changelog ==
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
+
+= 9.9 07/17/2020 =
+
+* FEATURE: [Introduce the Entries Nearby Content Block.](https://connections-pro.com/connections-9-9-nearby-entries-content-block/)
+* NEW: Introduce `cnArray::push()` helper method.
+* TWEAK: Make the image not available placeholder responsive friendly while retaining the aspect ratio.
+* TWEAK: Add a few basic styles to the Entry Actions vs relying on theme styling for lists.
+* TWEAK: Add a few basic styles for the Content Block layout for better more consistent presentation.
+* TWEAK: Introduce additional related carousel parameters that can be adjusted via a filter.
+* TWEAK: Add CSS to make the "image not available" placeholder responsive friendly while maintaining aspect ratio.
+* TWEAK: Make a few carousel CSS selectors a bit more specific to help ensure they are not easily overridden.
+* TWEAK: If the Content Block order has not yet been saved, fetch them via `cnOptions::getContentBlocks()`.
+* TWEAK: Flipped the logic when Content Blocks should be included/excluded.
+* TWEAK: Remove the hardcoded limit with querying related Entries. Instead, use the supplied attribute.
+* BUG: Prevent output of empty heading tags in Content Blocks.
+* BUG: The `$blocks` variable should always be defined.
+* OTHER: Readme.txt tweaks.
+* DEV: Update the dist files.
 
 = 9.8.2 07/11/2020 =
 * TWEAK: Remove unnecessary `trim` of Content Block IDs.
@@ -504,32 +527,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * TWEAK: Add code to fix the copy entry action. Needs additional testing, leave the action disabled for now.
 * DEV: phpDoc corrections.
 
-= 9.0.2 07/10/2019 =
-* BUG: Fix hard coded URL fetching the brand icons.
-* DEV: Update build dependencies.
-* DEV: Update dist files.
-
-= 9.0.1 07/02/2019 =
-* TWEAK: Extra checks to help ensure no PHP notices are generated by the new social media network fieldset options.
-
-= 9.0 07/02/2019 =
-* FEATURE: Introduce the Social Network filedset config options.
-* TWEAK: Tweak display of social media icons a bit in the Team Block for improved display.
-* TWEAK: Add `rel="noopener"` to social network and website links for increased security.
-* BUG: Incorrectly applying the link type options filter to the date type option.
-* DEV: Fix typos in inline code comments.
-* DEV: Update dist files.
-
 == Upgrade Notice ==
-
-= 9.0 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 9.0.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 9.0.2 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
@@ -601,4 +599,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.8.2 =
+It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.9 =
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

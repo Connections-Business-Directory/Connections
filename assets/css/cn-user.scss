@@ -1,6 +1,11 @@
 /*
  * Common
  */
+#cn-entry-actions {
+	margin: 20px 0;
+	padding: 0 0 0 2em;
+}
+
 #cn-list .vcard span {
 	display: initial;
 }
@@ -68,11 +73,21 @@
 
 #cn-list span.cn-image-none {
 	color: #AAAAAA;
+	display: inline-block;
 	font-weight: 700;
 	line-height: normal;
 	max-width: 100%;
 	text-align: center;
 	text-shadow: 1px 1px 0 #FFFFFF;
+	position: relative;
+
+	span {
+		position: absolute;
+		top: 1em;
+		right: 0;
+		left: 0;
+		text-align: center;
+	}
 }
 
 #cn-list img {
@@ -549,6 +564,7 @@ input#cn-submit {
 /*
  * Import Content Block Styles
  */
+@import "content-blocks";
 @import "content-block-related-carousel";
 
 /*

@@ -223,6 +223,7 @@ class cnDependency {
 			'Connections_Directory\Content_Blocks\Entry\Management'        => 'includes/Content_Blocks/Entry/Management.php',
 			'Connections_Directory\Content_Blocks\Entry\Map_Block'         => 'includes/Content_Blocks/Entry/Map_Block.php',
 			'Connections_Directory\Content_Blocks\Entry\Meta'              => 'includes/Content_Blocks/Entry/Meta.php',
+			'Connections_Directory\Content_Blocks\Entry\Nearby'               => 'includes/Content_Blocks/Entry/Nearby.php',
 			'Connections_Directory\Content_Blocks\Entry\Related'              => 'includes/Content_Blocks/Entry/Related.php',
 			'Connections_Directory\Content_Blocks\Entry\Related\Category'     => 'includes/Content_Blocks/Entry/Related/Category.php',
 			'Connections_Directory\Content_Blocks\Entry\Related\Postal_Code'  => 'includes/Content_Blocks/Entry/Related/Postal_Code.php',

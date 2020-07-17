@@ -8,7 +8,7 @@ final class Connections_Directory {
 	 * The plugin version.
 	 * @since 8.16
 	 */
-	const VERSION = '9.8.2';
+	const VERSION = '9.9';
 
 	/**
 	 * Stores the instance of this class.
@@ -297,6 +297,7 @@ final class Connections_Directory {
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Management', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Map_Block', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Meta', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Nearby', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Category', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Postal_Code', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Region', 'add' ) );

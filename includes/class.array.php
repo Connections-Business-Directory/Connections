@@ -491,6 +491,37 @@ final class cnArray {
 	}
 
 	/**
+	 * Push a given value to the end of the array using "dot" notation in a given key
+	 *
+	 * Inspired by:
+	 * @link https://github.com/adbario/php-dot-notation
+	 *
+	 * @since 9.9
+	 *
+	 * @param array $array
+	 * @param mixed $key
+	 * @param mixed $value
+	 * @param mixed  $default
+	 *
+	 * @return array
+	 */
+	public static function push( &$array, $key, $value = null, $default = null ) {
+
+		if ( is_null( $value ) ) {
+			return $array;
+		}
+
+		$items = self::get( $array, $key, $default );
+
+		if ( is_array( $items ) || is_null( $items ) ) {
+			$items[] = $value;
+			$array   = self::set( $array, $key, $items );
+		}
+
+		return $array;
+	}
+
+	/**
 	 * Set an array item to a given value using "dot" notation.
 	 *
 	 * If no key is given to the method, the entire array will be replaced.

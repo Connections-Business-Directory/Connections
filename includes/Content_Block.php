@@ -358,13 +358,16 @@ class Content_Block {
 					$idAttribute = ' id="' .  esc_attr( $containerID ) . '"';
 				}
 
+				$heading = $this->heading();
+				$heading = empty( $heading ) ? '' : sprintf( '<%1$s>%2$s</%1$s>', $this->get( 'heading_tag' ), $heading );
+
 				$html = sprintf(
 					'<%1$s class="%2$s"%3$s>%4$s%5$s%6$s%7$s</%1$s>' . PHP_EOL,
 					$this->get( 'block_tag' ),
 					$this->get( 'block_class' ),
 					$idAttribute,
 					$this->get( 'before' ),
-					sprintf( '<%1$s>%2$s</%1$s>', $this->get( 'heading_tag' ), $this->heading() ),
+					$heading,
 					$html,
 					$this->get( 'after' )
 				);

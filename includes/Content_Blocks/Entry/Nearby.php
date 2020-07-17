@@ -15,13 +15,34 @@ use Connections_Directory\Entry\Functions as Entry_Helper;
  *
  * @package Connections_Directory\Content_Blocks\Entry
  */
-class Related extends Content_Block {
+class Nearby extends Content_Block {
 
 	/**
 	 * @since 9.8
 	 * @var string
 	 */
-	const ID = 'entry-related';
+	const ID = 'entry-nearby';
+
+	/**
+	 * Near constructor.
+	 *
+	 * @since 9.9
+	 *
+	 * @param $id
+	 */
+	public function __construct( $id ) {
+
+		$atts = array(
+			'context'             => 'single',
+			'name'                => __( 'Entries Nearby', 'connections' ),
+			'permission_callback' => '__return_true',
+			'heading'             => __( 'Entries Nearby', 'connections' ),
+		);
+
+		parent::__construct( $id, $atts );
+
+		//$this->setProperties( $this->properties );
+	}
 
 	/**
 	 * Renders the Related Entries Content Block.
@@ -45,11 +66,9 @@ class Related extends Content_Block {
 			return;
 		}
 
-		$related = Entry_Helper::relatedTo(
+		$related = Entry_Helper::nearBy(
 			$entry,
-			array(
-				'relation' => $this->get( 'relation' ),
-			)
+			array()
 		);
 
 		if ( 0 >= count( $related ) ) {
@@ -78,7 +97,7 @@ class Related extends Content_Block {
 		);
 
 		$settings = apply_filters(
-			"Connections_Directory/Content_Block/Entry/Related/{$this->shortName}/Attributes",
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Attributes",
 			$settings
 		);
 
@@ -94,18 +113,18 @@ class Related extends Content_Block {
 		array_push( $classNames, "slick-slider-slides-{$settings['slidesToShow']}" );
 
 		do_action(
-			"Connections_Directory/Content_Block/Entry/Related/{$this->shortName}/Before",
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Before",
 			$settings,
 			$related,
 			$template
 		);
 
-		echo PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="' . 'slick-slider-content-block-' . self::ID . '-' . strtolower( $this->shortName ) . '" data-slick-slider-settings="' . $settingsJSON . '">' . PHP_EOL;
+		echo PHP_EOL . '<div class="' . implode( ' ', $classNames ) . '" id="' . 'slick-slider-content-block-entry-' . strtolower( $this->shortName ) . '" data-slick-slider-settings="' . $settingsJSON . '">' . PHP_EOL;
 		echo $this->renderTemplate( $template, $related, $carousel );
 		echo '</div><!--.slick-slider-section-->' . PHP_EOL;
 
 		do_action(
-			"Connections_Directory/Content_Block/Entry/Related/{$this->shortName}/After",
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/After",
 			$settings,
 			$related,
 			$template
@@ -142,7 +161,7 @@ class Related extends Content_Block {
 		$attributes = wp_parse_args( $attributes, $defaults );
 
 		$attributes = apply_filters(
-			"Connections_Directory/Content_Block/Entry/Related/{$this->shortName}/Template/{$template->getSlug()}/Attributes",
+			"Connections_Directory/Content_Block/Entry/{$this->shortName}/Template/{$template->getSlug()}/Attributes",
 			$attributes
 		);
 

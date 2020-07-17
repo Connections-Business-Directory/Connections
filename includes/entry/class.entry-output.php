@@ -503,6 +503,11 @@ class cnOutput extends cnEntry {
 
 					$atts['style']['display'] = 'inline-block';
 
+					$width  = absint( $atts['style']['width'] );
+					$height = absint( $atts['style']['height'] );
+					$atts['style']['padding-bottom'] = "calc({$height} / {$width} * 100%)";
+					unset( $atts['style']['height'] );
+
 					if ( is_array( $atts['style'] ) && ! empty( $atts['style'] ) ) {
 
 						array_walk(
@@ -2413,14 +2418,16 @@ class cnOutput extends cnEntry {
 
 		if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
 
-			$settings = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
+			$registered = cnOptions::getContentBlocks( NULL, 'single' );
+			$settings   = cnSettingsAPI::get( 'connections', 'connections_display_single', 'content_block' );
 
 		} else {
 
-			$settings = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
+			$registered = cnOptions::getContentBlocks( NULL, 'list' );
+			$settings   = cnSettingsAPI::get( 'connections', 'connections_display_list', 'content_block' );
 		}
 
-		$order  = isset( $settings['order'] ) ? $settings['order'] : array();
+		$order  = isset( $settings['order'] ) ? $settings['order'] : array_keys( cnArray::get( $registered, 'items', array() ) );
 		$active = isset( $settings['active'] ) ? $settings['active'] : array();
 		//$exclude = empty( $include ) ? $order : array();
 		$titles = array();
@@ -2448,7 +2455,7 @@ class cnOutput extends cnEntry {
 
 			$blocks = array( trim( $atts['id'] ) );
 
-		} elseif ( ! empty( $atts['order'] ) ) {
+		} else {
 
 			$blocks = cnFunction::parseStringList( $atts['order'], ',' );
 		}
@@ -2459,9 +2466,10 @@ class cnOutput extends cnEntry {
 		$atts['include'] = cnFunction::parseStringList( $atts['include'], ',' );
 		$atts['exclude'] = cnFunction::parseStringList( $atts['exclude'], ',' );
 
-		// Remove any blocks from the `exclude` parameter which are explicitly stated to be included by the `include` parameter.
-		// Do this only if the `exclude` parameter is not empty.
-		$atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
+		// Remove any blocks from the `include` parameter which are explicitly stated to be excluded by the `excluded` parameter.
+		// Do this only if the `include` parameter is not empty.
+		//$atts['exclude'] = empty( $atts['exclude'] ) ? $atts['exclude'] : array_diff( $atts['exclude'], $atts['include'] );
+		$atts['include'] = empty( $atts['include'] ) ? $atts['include'] : array_diff( $atts['include'], $atts['exclude'] );
 
 		// Cleanup user input, convert to lowercase.
 		$blocks = array_map( 'strtolower', $blocks );
@@ -2513,15 +2521,13 @@ class cnOutput extends cnEntry {
 					$titles[ $blockID ] = ucwords( str_replace( array( '-', '_' ), ' ', $key ) );
 				}
 
+				$heading = empty( $titles[ $blockID ] ) ? '' : sprintf( '<%1$s>%2$s</%1$s>', $atts['header_tag'], $titles[ $blockID ] );
+
 				$blockContainerContent .= apply_filters(
 					'cn_entry_output_content_block',
 					sprintf(
 						'<%2$s class="cn-entry-content-block cn-entry-content-block-%3$s" id="cn-entry-content-block-%4$s">%1$s%5$s</%2$s>' . PHP_EOL,
-						sprintf(
-							'<%1$s>%2$s</%1$s>',
-							$atts['header_tag'],
-							$titles[ $blockID ]
-						),
+						$heading,
 						$atts['block_tag'],
 						$key,
 						$blockID,

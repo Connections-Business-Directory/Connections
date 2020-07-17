@@ -30,7 +30,7 @@ Connections Business Directory is one of the [best business directory plugins av
 * [Continuously updated](https://wordpress.org/plugins/connections/#developers) bringing you new features for free.
 * A growing selection of Content Blocks:
     * Related Entries:: [Display related Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-8-related-content-blocks/)
-    * Nearby Entries:: [Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-9-nearby-entries-content-block)
+    * Nearby Entries:: [Increase discoverability of Entries by displaying nearby Entries in a mobile responsive carousel.](https://connections-pro.com/connections-9-9-nearby-entries-content-block/)
     * Frontend Entry Management:: Management options include a quick link to edit the Entry and a Delete option.
     * Entry Meta:: Display details such as when the Entry was added nad last modified and by whom.
 * Dashboard admin page where you can see at a glance today's anniversaries and birthdays as well as upcoming anniversaries and birthdays of members in your directory.
@@ -247,7 +247,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 = 9.9 07/17/2020 =
 
-* FEATURE: Introduce the Entries Nearby Content Block.
+* FEATURE: [Introduce the Entries Nearby Content Block.](https://connections-pro.com/connections-9-9-nearby-entries-content-block/)
 * NEW: Introduce `cnArray::push()` helper method.
 * TWEAK: Make the image not available placeholder responsive friendly while retaining the aspect ratio.
 * TWEAK: Add a few basic styles to the Entry Actions vs relying on theme styling for lists.

@@ -638,8 +638,8 @@ class cnTemplateFactory {
 		 *     @type string $template  The template slug.
 		 * }
 		 */
-		$defaults = apply_filters( 'cn_load_template', $defaults );
-		$atts     = shortcode_atts( $defaults, $atts );
+		$atts = shortcode_atts( $defaults, $atts );
+		$atts = apply_filters( 'cn_load_template', $atts );
 
 		if ( ! empty( $atts['list_type'] ) ) {
 

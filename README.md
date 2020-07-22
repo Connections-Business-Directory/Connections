@@ -247,8 +247,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](http://connections-pro.com/changelog/)
 
-= 9.9 07/17/2020 =
+= 9.9.1 07/22/2020 =
+* TWEAK: Set the related Content Block margin to 0 to ensure margins are not inherited from theme, plugins, and such.
+* BUG: Correct usage of the `cn_load_template` filter.
+* DEV: Update the dist files.
 
+= 9.9 07/17/2020 =
 * FEATURE: Introduce the Entries Nearby Content Block.
 * NEW: Introduce `cnArray::push()` helper method.
 * TWEAK: Make the image not available placeholder responsive friendly while retaining the aspect ratio.

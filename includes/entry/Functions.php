@@ -191,7 +191,6 @@ class Functions {
 			'order_by'   => 'distance',
 		);
 
-
 		$queryParameters = apply_filters(
 			'Connections_Directory/Entry/Near/Query_Parameters',
 			$queryParameters

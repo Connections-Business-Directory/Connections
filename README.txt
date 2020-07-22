@@ -245,8 +245,12 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
-= 9.9 07/17/2020 =
+= 9.9.1 07/22/2020 =
+* TWEAK: Set the related Content Block margin to 0 to ensure margins are not inherited from theme, plugins, and such.
+* BUG: Correct usage of the `cn_load_template` filter.
+* DEV: Update the dist files.
 
+= 9.9 07/17/2020 =
 * FEATURE: [Introduce the Entries Nearby Content Block.](https://connections-pro.com/connections-9-9-nearby-entries-content-block/)
 * NEW: Introduce `cnArray::push()` helper method.
 * TWEAK: Make the image not available placeholder responsive friendly while retaining the aspect ratio.
@@ -602,4 +606,7 @@ It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
 
 = 9.9 =
+It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.9.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

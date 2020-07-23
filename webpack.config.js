@@ -262,6 +262,7 @@ module.exports = [
 			'blocks-editor':  './includes/blocks/blocks.js',
 			'blocks-public':  './includes/blocks/public.js',
 			'icon-picker':    './assets/src',
+			'bundle':        './assets/js/index.js',
 			'admin':          './assets/css/cn-admin.scss',
 			'frontend':       './assets/css/cn-user.scss',
 		},

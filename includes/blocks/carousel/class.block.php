@@ -603,15 +603,22 @@ class Carousel {
 
 		$category = cnArray::get( $carousel, 'categoriesIn', FALSE ) ? 'category_in' : 'category';
 
-		$queryArgs = array(
+		$queryParameters = array(
 			'list_type'        => cnArray::get( $carousel, 'listType', NULL ),
 			$category          => cnArray::get( $carousel, 'categories', NULL ),
 			'exclude_category' => cnArray::get( $carousel, 'categoriesExclude', NULL ),
 			'limit'            => cnArray::get( $carousel, 'limit', 10 ),
-			'lock'             => TRUE,
 		);
 
-		$queryResults = Connections_Directory()->retrieve->entries( $queryArgs );
+		$queryParameters = apply_filters(
+			'Connections_Directory/Block/Carouse/Query_Parameters',
+			$queryParameters,
+			$carousel
+		);
+
+		$queryParameters['lock'] = true;
+
+		$queryResults = Connections_Directory()->retrieve->entries( $queryParameters );
 
 		if ( 0 >= count( $queryResults ) ) {
 

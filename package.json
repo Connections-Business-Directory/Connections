@@ -69,6 +69,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "chosen-js": "^1.8.7",
+    "js-cookie": "^2.2.1",
     "leaflet": "^1.6.0",
     "picturefill": "^3.0.3",
     "pure-react-carousel": "^1.27.1",

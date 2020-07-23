@@ -366,6 +366,13 @@ class cnScript {
 
 		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
 		wp_register_script( 'js-cookie', $url . "assets/vendor/js-cookie/js.cookie.js", array(), '2.2.1', TRUE );
+		wp_register_script(
+			'frontend',
+			"{$url}assets/dist/js/bundle.js",
+			array(),
+			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/bundle.js" ),
+			true
+		);
 	}
 
 	/**
@@ -599,6 +606,7 @@ class cnScript {
 
 		// wp_enqueue_script( 'cn-ui' );
 		wp_enqueue_script( 'picturefill' );
+		wp_enqueue_script( 'frontend' );
 	}
 
 	/**

@@ -124,6 +124,11 @@
 	.slick-slider {
 		margin: 0;
 
+		/* Required to keep core WP Editor from displaying the slider navigation text. */
+		button.slick-arrow {
+			color: transparent;
+		}
+
 		.slick-arrow {
 			//filter: invert(100%);
 

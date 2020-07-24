@@ -504,12 +504,11 @@ class cnTemplatePart {
 	/**
 	 * The result list body.
 	 *
-	 * @access public
 	 * @since  0.8
-	 * @static
-	 * @param  array  $atts     The shortcode $atts array.
-	 * @param  array  $results  The cnRetrieve query results.
-	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @param array      $atts     The shortcode $atts array.
+	 * @param array      $results  The cnRetrieve query results.
+	 * @param cnTemplate $template An instance of the cnTemplate object.
 	 *
 	 * @return string
 	 */

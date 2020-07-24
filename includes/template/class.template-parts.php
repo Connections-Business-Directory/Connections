@@ -625,10 +625,6 @@ class cnTemplatePart {
 			// Configure the page where the entry link to.
 			$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
 
-			// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
-			// if ( in_array( $entry->getId(), $skipEntry ) ) continue;
-			// $skipEntry[] = $entry->getId();
-
 			$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 
 			if ( $currentLetter != $previousLetter ) {

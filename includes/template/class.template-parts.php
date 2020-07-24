@@ -622,6 +622,51 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Create the array of classes for the Entry Card.
+	 *
+	 * @since 9.10
+	 *
+	 * @param cnEntry    $entry
+	 * @param cnTemplate $template
+	 * @param bool       $isSingle
+	 * @param int        $rowCount
+	 *
+	 * @return array
+	 */
+	private static function cardClass( $entry, $template, $isSingle, $rowCount ) {
+
+		$class = array();
+
+		if ( ! $isSingle ) {
+
+			array_push( $class, ( ++ $rowCount % 2 ) ? 'cn-list-row-alternate' : 'cn-list-row' );
+		}
+
+		/*
+		 * @todo
+		 * All templates need updated to remove use of the .cn-entry and .cn-entry-single classes
+		 * and use .cn-list-item and .cn-list-item.cn-is-single instead.
+		 */
+		array_push( $class, 'cn-list-item' );
+
+		if ( $isSingle ) {
+
+			array_push( $class, 'cn-is-single' );
+		}
+
+		array_push( $class, 'vcard', $entry->getEntryType(), $entry->getCategoryClass( TRUE ) );
+
+		$class = apply_filters( 'cn_list_row_class', $class );
+
+		$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
+		cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
+
+		array_walk( $class, 'sanitize_html_class' );
+
+		return array_unique( array_filter( $class ) );
+	}
+
+	/**
 	 * The result list cards.
 	 *
 	 * @since  0.8
@@ -685,37 +730,9 @@ class cnTemplatePart {
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
-			$class = array();
-
-			if ( ! $isSingle ) {
-
-				array_push( $class, ( ++ $rowCount % 2 ) ? 'cn-list-row-alternate' : 'cn-list-row' );
-			}
-
-			/*
-			 * @todo
-			 * All templates need updated to remove use of the .cn-entry and .cn-entry-single classes
-			 * and use .cn-list-item and .cn-list-item.cn-is-single instead.
-			 */
-			array_push( $class, 'cn-list-item' );
-
-			if ( $isSingle ) {
-
-				array_push( $class, 'cn-is-single' );
-			}
-
-			array_push( $class, 'vcard', $entry->getEntryType(), $entry->getCategoryClass( TRUE ) );
-
-			$class = apply_filters( 'cn_list_row_class', $class );
-
-			$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
-			cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
-
-			array_walk( $class, 'sanitize_html_class' );
-
 			printf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
-				implode( ' ', array_unique( array_filter( $class ) ) ),
+				implode( ' ', self::cardClass( $entry, $template, $isSingle, ++$rowCount ) ),
 				$entry->getEntryType(),
 				$entry->getSlug(),
 				$entry->getId()

@@ -743,7 +743,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
+		$out = '<div class="cn-list-foot">' . PHP_EOL;
 
 			ob_start();
 
@@ -758,7 +758,7 @@ class cnTemplatePart {
 
 			$out .= ob_get_clean();
 
-		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
+		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END .cn-list-foot -->' : '' ) . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

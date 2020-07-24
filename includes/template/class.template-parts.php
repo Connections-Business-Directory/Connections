@@ -472,7 +472,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
+		$out = '<div class="cn-list-head">' . PHP_EOL;
 
 		ob_start();
 		do_action( 'cn_action_list_before', $atts, $results );
@@ -495,7 +495,7 @@ class cnTemplatePart {
 			$out .= ob_get_clean();
 		}
 
-		$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
+		$out .= '</div>' . ( WP_DEBUG ? '<!-- END .cn-list-head -->' : '' ) . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

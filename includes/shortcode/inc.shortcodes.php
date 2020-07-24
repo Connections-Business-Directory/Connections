@@ -253,7 +253,7 @@ function _upcoming_list( $atts, $content = NULL, $tag = 'upcoming_list' ) {
 
 				$out .= "\n" . '</div>' . "\n";
 
-				$out .= "\n" . '<div class="cn-clear" id="cn-list-foot">' . "\n";
+				$out .= "\n" . '<div class="cn-list-foot">' . "\n";
 				$out .= "\n" . '</div>' . "\n";
 
 			$out .= "\n" . '</div>' . "\n";

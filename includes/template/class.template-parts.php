@@ -584,6 +584,44 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Render the body section headings.
+	 *
+	 * @since 9.10
+	 *
+	 * @param array  $atts           The shortcode $atts array.
+	 * @param string $currentLetter  The current character.
+	 * @param string $previousLetter The previous character.
+	 */
+	private static function bodySectionHead( $atts, $currentLetter, $previousLetter ) {
+
+		if ( $currentLetter !== $previousLetter ) {
+
+			if ( $atts['show_alphaindex'] ) {
+
+				printf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
+			}
+
+			//  This action only is required when the index is to be displayed.
+			if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
+
+				// The character index template part.
+				do_action( 'cn_list_character_index', $atts );
+			}
+
+			if ( $atts['show_alphahead'] ) {
+
+				printf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
+			}
+
+			if ( $atts['show_alphaindex'] ) {
+
+				echo '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
+			}
+
+		}
+	}
+
+	/**
 	 * The result list cards.
 	 *
 	 * @access public
@@ -627,34 +665,16 @@ class cnTemplatePart {
 			// Configure the page where the entry link to.
 			$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
 
-			$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
-
 			ob_start();
 
-			// Disable the output of the following because they do no make sense to display for a single entry.
-			if ( ! $isSingle && ( $currentLetter !== $previousLetter ) ) {
+			/*
+			 * Section heading does not need to render on the single Entry view.
+			 */
+			if ( ! $isSingle ) {
 
-				if ( $atts['show_alphaindex'] ) {
+				$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 
-					printf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
-				}
-
-				//  This action only is required when the index is to be displayed.
-				if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
-
-					// The character index template part.
-					do_action( 'cn_list_character_index', $atts );
-				}
-
-				if ( $atts['show_alphahead'] ) {
-
-					printf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
-				}
-
-				if ( $atts['show_alphaindex'] ) {
-
-					echo '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
-				}
+				self::bodySectionHead( $atts, $currentLetter, $previousLetter );
 
 				$previousLetter = $currentLetter;
 			}

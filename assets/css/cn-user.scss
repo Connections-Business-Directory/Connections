@@ -19,7 +19,7 @@
 	clear: both;
 }
 
-#cn-list div.cn-list-head {
+#cn-list .cn-list-head {
 	position: relative;
 }
 
@@ -28,18 +28,17 @@
 }
 
 /*#cn-list div.cn-list-section-head { position: relative; }*/
-#cn-list div.cn-list-section-head h4 {
+#cn-list .cn-list-section-head h4 {
 	font-size: 16px;
 	padding: 0;
 	margin: .8em 0;
 }
 
-#cn-list div.cn-alphaindex {
-	font-weight: bold;
+#cn-list .cn-alphaindex {
 	font-size: 14px;
+	font-weight: bold;
+	margin: 12px 0;
 	position: relative;
-	bottom: 0;
-	right: 0;
 }
 
 #cn-list label {

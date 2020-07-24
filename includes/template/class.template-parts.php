@@ -605,7 +605,7 @@ class cnTemplatePart {
 		$html = '';
 
 		$previousLetter = '';
-		$rowClass       = 'cn-list-row';
+		$rowCount       = 0;
 		$isSingle       = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
 
 		/*
@@ -674,15 +674,28 @@ class cnTemplatePart {
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
-			$class = apply_filters(
-				'cn_list_row_class',
-				array(
-					$rowClass = 'cn-list-row' == $rowClass ? 'cn-list-row-alternate' : 'cn-list-row',
-					'vcard',
-					$entry->getEntryType(),
-					$entry->getCategoryClass( TRUE ),
-				)
-			);
+			$class = array();
+
+			if ( ! $isSingle ) {
+
+				array_push( $class, ( ++ $rowCount % 2 ) ? 'cn-list-row-alternate' : 'cn-list-row' );
+			}
+
+			/*
+			 * @todo
+			 * All templates need updated to remove use of the .cn-entry and .cn-entry-single classes
+			 * and use .cn-list-item and .cn-list-item.cn-is-single instead.
+			 */
+			array_push( $class, 'cn-list-item' );
+
+			if ( $isSingle ) {
+
+				array_push( $class, 'cn-is-single' );
+			}
+
+			array_push( $class, 'vcard', $entry->getEntryType(), $entry->getCategoryClass( TRUE ) );
+
+			$class = apply_filters( 'cn_list_row_class', $class );
 
 			$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
 			cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );

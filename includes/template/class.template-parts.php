@@ -602,7 +602,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '';
+		$html = '';
 
 		$previousLetter = '';
 		$rowClass       = 'cn-list-row';
@@ -716,10 +716,10 @@ class cnTemplatePart {
 				do_action( 'cn_entry_actions-after', $atts, $entry );
 			}
 
-			$out .= ob_get_clean();
+			$html .= ob_get_clean();
 		}
 
-		return self::echoOrReturn( $atts['return'], $out );
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**

@@ -520,7 +520,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$class = apply_filters( 'cn_list_body_class', array( 'connections-list', 'cn-list-body', 'cn-clear' ) );
+		$class = apply_filters( 'cn_list_body_class', array( 'cn-list-body' ) );
 
 		$class = apply_filters( 'cn_list_body_class-' . $template->getSlug(), $class );
 		cnShortcode::addFilterRegistry( 'cn_list_body_class-' . $template->getSlug() );

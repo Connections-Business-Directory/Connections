@@ -23,6 +23,21 @@
 	position: relative;
 }
 
+.cn-list .cn-list-head::before,
+.cn-list .cn-list-head::after,
+.cn-list .cn-list-body::before,
+.cn-list .cn-list-body::after,
+.cn-list .cn-list-foot::before,
+.cn-list .cn-list-foot::after,
+.cn-list .cn-alphaindex::before,
+.cn-list .cn-alphaindex::after,
+.cn-entry-content-block-list::before,
+.cn-entry-content-block-list::after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
 #cn-list .cn-category-breadcrumb {
 	margin: 20px auto;
 }

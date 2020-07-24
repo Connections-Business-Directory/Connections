@@ -625,6 +625,7 @@ class cnTemplatePart {
 			// Configure the page where the entry link to.
 			$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
 
+			$is_single     = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
 			$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 
 			if ( $currentLetter != $previousLetter ) {
@@ -661,7 +662,7 @@ class cnTemplatePart {
 			ob_start();
 
 			// Display the Entry Actions.
-			if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+			if ( $is_single ) {
 
 				do_action( 'cn_entry_actions-before', $atts, $entry );
 				do_action( 'cn_entry_actions', $atts, $entry );
@@ -722,7 +723,7 @@ class cnTemplatePart {
 			do_action( 'cn_action_entry_after', $atts, $entry );
 
 			// Display the Entry Actions.
-			if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+			if ( $is_single ) {
 
 				do_action( 'cn_entry_actions-after', $atts, $entry );
 			}

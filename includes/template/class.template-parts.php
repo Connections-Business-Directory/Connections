@@ -646,15 +646,6 @@ class cnTemplatePart {
 		$rowCount       = 0;
 		$isSingle       = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
 
-		/*
-		 * When an entry is assigned multiple categories and the RANDOM order_by shortcode attribute
-		 * is used, this will cause the entry to show once for every category it is assigned.
-		 *
-		 * The same issue occurs when an entry has been assigned multiple address and each address
-		 * falls within the geo bounds when performing a geo-limiting query.
-		 */
-		// $skipEntry = array();
-
 		foreach ( $results as $row ) {
 
 			$entry = new cnEntry_vCard( $row );

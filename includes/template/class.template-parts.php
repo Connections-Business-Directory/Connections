@@ -470,7 +470,8 @@ class cnTemplatePart {
 			'return' => FALSE
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts     = wp_parse_args( $atts, $defaults );
+		$isSingle = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
 
 		$out = '<div class="cn-list-head">' . PHP_EOL;
 
@@ -487,7 +488,7 @@ class cnTemplatePart {
 		$out .= ob_get_clean();
 
 		//  This action only is required when the index is to be displayed.
-		if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
+		if ( ! $isSingle && ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) ) {
 
 			// The character index template part.
 			ob_start();

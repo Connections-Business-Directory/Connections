@@ -630,7 +630,8 @@ class cnTemplatePart {
 
 			ob_start();
 
-			if ( $currentLetter != $previousLetter ) {
+			// Disable the output of the following because they do no make sense to display for a single entry.
+			if ( ! $is_single && ( $currentLetter !== $previousLetter ) ) {
 
 				if ( $atts['show_alphaindex'] ) {
 

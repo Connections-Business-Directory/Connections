@@ -732,11 +732,6 @@ class cnShortcode {
 
 						$atts['list_type'] = $instance->settings->get( 'connections', 'connections_display_single', 'template' ) ? $results[0]->entry_type : NULL;
 
-						// Disable the output of the following because they do no make sense to display for a single entry.
-						$atts['show_alphaindex']   = FALSE;
-						$atts['repeat_alphaindex'] = FALSE;
-						$atts['show_alphahead']    = FALSE;
-
 						return cnShortcode_Connections::shortcode( $atts, $content );
 
 						break;

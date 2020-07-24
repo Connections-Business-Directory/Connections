@@ -628,38 +628,34 @@ class cnTemplatePart {
 			$is_single     = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
 			$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 
+			ob_start();
+
 			if ( $currentLetter != $previousLetter ) {
 
 				if ( $atts['show_alphaindex'] ) {
 
-					$out .= sprintf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
+					printf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
 				}
 
 				//  This action only is required when the index is to be displayed.
 				if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
 
 					// The character index template part.
-					ob_start();
-
-						do_action( 'cn_list_character_index', $atts );
-					$out .= ob_get_clean();
+					do_action( 'cn_list_character_index', $atts );
 				}
 
 				if ( $atts['show_alphahead'] ) {
 
-					$out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
+					printf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
 				}
 
 				if ( $atts['show_alphaindex'] ) {
 
-					$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
+					echo '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
 				}
 
 				$previousLetter = $currentLetter;
 			}
-
-			// Before entry actions.
-			ob_start();
 
 			// Display the Entry Actions.
 			if ( $is_single ) {
@@ -677,8 +673,6 @@ class cnTemplatePart {
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
-			$out .= ob_get_clean();
-
 			$class = apply_filters(
 				'cn_list_row_class',
 				array(
@@ -694,7 +688,7 @@ class cnTemplatePart {
 
 			array_walk( $class, 'sanitize_html_class' );
 
-			$out .= sprintf(
+			printf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
 				implode( ' ', $class ),
 				$entry->getEntryType(),
@@ -702,17 +696,11 @@ class cnTemplatePart {
 				$entry->getId()
 			);
 
-			ob_start();
+			do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
 
-				do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
-
-			$out .= ob_get_clean();
-
-			$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
+			echo PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
 
 			// After entry actions.
-			ob_start();
-
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 

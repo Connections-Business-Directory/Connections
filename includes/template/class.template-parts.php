@@ -533,7 +533,7 @@ class cnTemplatePart {
 
 		$before = ob_get_clean();
 
-		$open = '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
+		$open = '<div class="' . implode( ' ', array_unique( array_filter( $class ) ) ) . '" id="cn-list-body">' . PHP_EOL;
 
 		ob_start();
 
@@ -691,7 +691,7 @@ class cnTemplatePart {
 
 			printf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
-				implode( ' ', $class ),
+				implode( ' ', array_unique( array_filter( $class ) ) ),
 				$entry->getEntryType(),
 				$entry->getSlug(),
 				$entry->getId()

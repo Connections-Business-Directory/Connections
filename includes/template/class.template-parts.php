@@ -606,7 +606,7 @@ class cnTemplatePart {
 
 		$previousLetter = '';
 		$rowClass       = 'cn-list-row';
-		$is_single      = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
+		$isSingle       = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
 
 		/*
 		 * When an entry is assigned multiple categories and the RANDOM order_by shortcode attribute
@@ -631,7 +631,7 @@ class cnTemplatePart {
 			ob_start();
 
 			// Disable the output of the following because they do no make sense to display for a single entry.
-			if ( ! $is_single && ( $currentLetter !== $previousLetter ) ) {
+			if ( ! $isSingle && ( $currentLetter !== $previousLetter ) ) {
 
 				if ( $atts['show_alphaindex'] ) {
 
@@ -659,7 +659,7 @@ class cnTemplatePart {
 			}
 
 			// Display the Entry Actions.
-			if ( $is_single ) {
+			if ( $isSingle ) {
 
 				do_action( 'cn_entry_actions-before', $atts, $entry );
 				do_action( 'cn_entry_actions', $atts, $entry );
@@ -712,7 +712,7 @@ class cnTemplatePart {
 			do_action( 'cn_action_entry_after', $atts, $entry );
 
 			// Display the Entry Actions.
-			if ( $is_single ) {
+			if ( $isSingle ) {
 
 				do_action( 'cn_entry_actions-after', $atts, $entry );
 			}

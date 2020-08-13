@@ -585,8 +585,11 @@ final class cnEntry_Messenger_IDs extends cnEntry_Object_Collection {
 
 				if ( is_array( $messenger ) ) {
 
-					$id     = $messenger['id'];
-					$userID = $messenger['uid'];
+					//$id     = $messenger['id'];
+					//$userID = $messenger['uid'];
+
+					$id     = cnArray::get( $messenger, 'id', '' );
+					$userID = cnArray::get( $messenger, 'uid', '' );
 
 					$messenger['id']  = $userID;
 					$messenger['uid'] = $id;

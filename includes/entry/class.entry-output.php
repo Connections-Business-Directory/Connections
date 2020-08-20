@@ -398,7 +398,8 @@ class cnOutput extends cnEntry {
 			}
 
 			// Add the loading="lazy" tag to support Chrome 76+ of Chrome which supports native lazy loading of images.
-			if ( $atts['lazyload'] ) $tag[] = 'loading="lazy"';
+			// Add `'data-skip-lazy="1"` if lazy loading is `false`. @see https://github.com/kadencewp/kadence-blocks/issues/84#issuecomment-594323424
+			$tag[] = ( $atts['lazyload'] ) ? 'loading="lazy"' : 'data-skip-lazy="1"';
 
 			// All extensions to apply/remove inline styles.
 			$atts['style'] = apply_filters( 'cn_image_styles', $atts['style'] );

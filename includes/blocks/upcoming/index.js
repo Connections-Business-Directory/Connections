@@ -6,14 +6,14 @@ const { registerBlockType } = wp.blocks;
 const {
 	      InspectorControls,
 	      InspectorAdvancedControls,
-      } = wp.editor;
+      } = wp.blockEditor;
 const {
 	      ExternalLink,
 	      PanelBody,
 	      // RangeControl,
 	      RadioControl,
 	      SelectControl,
-	      ServerSideRender,
+	      // ServerSideRender,
 	      TextControl,
 	      ToggleControl,
       } = wp.components;
@@ -22,6 +22,8 @@ const {
 	      // Component,
 	      Fragment,
       } = wp.element;
+
+const { serverSideRender: ServerSideRender, } = wp;
 
 /**
  * Internal dependencies

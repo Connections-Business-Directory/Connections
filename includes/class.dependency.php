@@ -19,6 +19,8 @@ class cnDependency {
 		self::manual();
 
 		spl_autoload_register( array( __CLASS__, 'autoload' ) );
+
+		require_once CN_PATH . 'includes/inc.deprecated.php';
 	}
 
 	/**
@@ -162,6 +164,13 @@ class cnDependency {
 	private static function classRegistry() {
 
 		return array(
+
+			// Utility
+			'Connections_Directory\Utility\_array'  => 'includes/Utility/_array.php',
+			//'Connections_Directory\Utility\_color'  => 'includes/Utility/_color.php',
+			//'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
+			//'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
+			//'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
 
 			// Localization
 			'cnText_Domain'            => 'includes/class.text-domain.php',

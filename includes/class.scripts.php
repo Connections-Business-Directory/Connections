@@ -369,7 +369,7 @@ class cnScript {
 		wp_register_script(
 			'frontend',
 			"{$url}assets/dist/js/bundle.js",
-			array(),
+			array( 'lodash' ),
 			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/bundle.js" ),
 			true
 		);

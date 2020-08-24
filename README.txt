@@ -2,7 +2,7 @@
 Contributors: shazahm1@hotmail.com
 Donate link: https://connections-pro.com/
 Tags: address book, business directory, chamber of commerce, church directory, company directory, contact directory, directory, listings directory, local business directory, link directory, member directory, staff directory
-Requires at least: 4.8
+Requires at least: 5.0
 Tested up to: 5.5
 Requires PHP: 5.6.20
 Stable tag: 9.9.1

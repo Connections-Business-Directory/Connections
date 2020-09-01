@@ -5,47 +5,37 @@ dist: trusty
 
 php:
   - 5.6
-  - '7.0'
+  - 7.0
   - 7.1
   - 7.2
   - 7.3
-#  - nightly
+  - 7.4
 
 # Test against these versions of WordPress.
 env:
-  - WP_VERSION=4.7.12 # Plugin minimum version
-  - WP_VERSION=4.8
-  - WP_VERSION=4.9
-  - WP_VERSION=latest
-  - WP_VERSION=nightly
+    - WP_VERSION=latest WP_MULTISITE=0
+    - WP_VERSION=5.4.2 WP_MULTISITE=0
+    - WP_VERSION=5.3.4 WP_MULTISITE=0
+    - WP_VERSION=5.2.7 WP_MULTISITE=0
+    - WP_VERSION=5.1.6 WP_MULTISITE=0
+    - WP_VERSION=5.0.10 WP_MULTISITE=0
 
 matrix:
   include:
-    - php: 7.1
-      env: WP_VERSION=latest WP_MULTISITE=0
-    - php: 7.1
-      env: WP_VERSION=4.7.12 WP_MULTISITE=0
-    - php: 5.6
-      env: WP_VERSION=latest WP_MULTISITE=1
-  exclude: # PHP 7.x doesn't play nice with older versions of WordPress and/or PHPUnit
-    - php: '7.0'
-      env: WP_VERSION=4.7
-    - php: 7.1
-      env: WP_VERSION=4.7
-    - php: 7.2
-      env: WP_VERSION=4.7
-    - php: 7.3
-      env: WP_VERSION=4.7
-    - php: 7.3
-      env: WP_VERSION=4.8
-    - php: 7.3
-      env: WP_VERSION=4.9
-    - php: nightly
-      env: WP_VERSION=4.7
-    - php: nightly
-      env: WP_VERSION=4.8
-    - php: nightly
-      env: WP_VERSION=4.9
+      - php: 7.1
+        env: WP_VERSION=latest WP_MULTISITE=0
+      - php: 7.1
+        env: WP_VERSION=4.7.18 WP_MULTISITE=0
+      - php: 5.6
+        env: WP_VERSION=latest WP_MULTISITE=1
+
+  exclude:
+      - php: 7.4
+        env: WP_VERSION=5.2.7 WP_MULTISITE=0
+      - php: 7.4
+        env: WP_VERSION=5.1.6 WP_MULTISITE=0
+      - php: 7.4
+        env: WP_VERSION=5.0.10 WP_MULTISITE=0
 
 before_script:
   - |
@@ -106,6 +96,5 @@ script:
 
 branches:
   only:
-    - master
     - develop
     - /^release\/.*$/

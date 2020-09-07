@@ -201,6 +201,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			$category          => cnArray::get( $request, 'categories', NULL ),
 			'exclude_category' => cnArray::get( $request, 'categories_exclude', NULL ),
 			'id'               => cnArray::get( $request, 'id', NULL ),
+			'id__not_in'       => cnArray::get( $request, 'exclude', NULL ),
 			'limit'            => cnArray::get( $request, 'per_page', 10 ),
 			'offset'           => cnArray::get( $request, 'offset', 0 ),
 		);

@@ -73,6 +73,9 @@ class cnDependency {
 			file_exists( CN_TEMPLATE_PATH . $path ) AND include_once CN_TEMPLATE_PATH . $path;
 		}
 
+		// Deprecated Actions/Filters
+		require_once CN_PATH . 'includes/inc.deprecated-actions.php';
+
 		// Theme and plugin compatibility hacks.
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
 		require_once CN_PATH . 'includes/inc.theme-compatibility.php';

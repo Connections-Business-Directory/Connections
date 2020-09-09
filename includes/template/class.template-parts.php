@@ -35,7 +35,7 @@ class cnTemplatePart {
 		add_action( 'cn_action_list_after', array( __CLASS__, 'doListActionsAfter' ), 5 );
 
 		add_action( 'cn_list_actions', array( __CLASS__, 'listActions' ) );
-		add_action( 'cn_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
+		add_action( 'Connections_Directory/Render/Template/Single_Entry/Before', array( __CLASS__, 'entryActions' ), 10, 2 );
 
 		add_action( 'cn_list_action-view_all', array( __CLASS__, 'listAction_ViewAll') );
 
@@ -716,12 +716,44 @@ class cnTemplatePart {
 			// Display the Entry Actions.
 			if ( $isSingle ) {
 
-				do_action( 'cn_entry_actions-before', $atts, $entry );
-				do_action( 'cn_entry_actions', $atts, $entry );
+				/**
+				 * @param array        $atts     The shortcode attributes.
+				 * @param cnEntry_HTML $entry    The current Entry.
+				 * @param cnTemplate   $template The current template.
+				 */
+				do_action(
+					'Connections_Directory/Render/Template/Single_Entry/Before',
+					$atts,
+					$entry,
+					$template
+				);
+
+			} else {
+
+				/**
+				 * @param array        $atts     The shortcode attributes.
+				 * @param cnEntry_HTML $entry    The current Entry.
+				 * @param cnTemplate   $template The current template.
+				 */
+				do_action(
+					'Connections_Directory/Render/Template/Entry_List/Before',
+					$atts,
+					$entry,
+					$template
+				);
 			}
 
-			do_action( 'cn_action_entry_before', $atts, $entry );
-			do_action( 'cn_action_entry_both', $atts, $entry  );
+			/**
+			 * @param array        $atts     The shortcode attributes.
+			 * @param cnEntry_HTML $entry    The current Entry.
+			 * @param cnTemplate   $template The current template.
+			 */
+			do_action(
+				'Connections_Directory/Render/Template/Entry/Before',
+				$atts,
+				$entry,
+				$template
+			);
 
 			do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
@@ -748,13 +780,46 @@ class cnTemplatePart {
 			do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
 
-			do_action( 'cn_action_entry_both', $atts, $entry  );
-			do_action( 'cn_action_entry_after', $atts, $entry );
+			/**
+			 * @param array        $atts     The shortcode attributes.
+			 * @param cnEntry_HTML $entry    The current Entry.
+			 * @param cnTemplate   $template The current template.
+			 */
+			do_action(
+				'Connections_Directory/Render/Template/Entry/After',
+				$atts,
+				$entry,
+				$template
+			);
 
 			// Display the Entry Actions.
 			if ( $isSingle ) {
 
-				do_action( 'cn_entry_actions-after', $atts, $entry );
+				/**
+				 * @param array        $atts     The shortcode attributes.
+				 * @param cnEntry_HTML $entry    The current Entry.
+				 * @param cnTemplate   $template The current template.
+				 */
+				do_action(
+					'Connections_Directory/Render/Template/Single_Entry/After',
+					$atts,
+					$entry,
+					$template
+				);
+
+			} else {
+
+				/**
+				 * @param array        $atts     The shortcode attributes.
+				 * @param cnEntry_HTML $entry    The current Entry.
+				 * @param cnTemplate   $template The current template.
+				 */
+				do_action(
+					'Connections_Directory/Render/Template/Entry_List/After',
+					$atts,
+					$entry,
+					$template
+				);
 			}
 
 			$html .= ob_get_clean();

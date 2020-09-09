@@ -495,6 +495,10 @@ class cnEntry_HTML extends cnEntry {
 						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_logo', 'width' ) . 'px';
 						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_logo', 'height' ) . 'px';
 						break;
+
+					default:
+						$atts['style']['width']  = cnSettingsAPI::get( 'connections', 'image_medium', 'width' ) . 'px';
+						$atts['style']['height'] = cnSettingsAPI::get( 'connections', 'image_medium', 'height' ) . 'px';
 				}
 			}
 

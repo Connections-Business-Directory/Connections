@@ -1,1 +1,2 @@
-import './recently-viewed';
+import './RecentlyViewedCookie';
+import './RecentlyViewed';

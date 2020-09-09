@@ -294,10 +294,12 @@ final class Connections_Directory {
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Categories', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Custom_Fields', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Google_Static_Map', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Last_Viewed', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Management', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Map_Block', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Meta', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Nearby', 'add' ) );
+		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Recently_Viewed', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Category', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Postal_Code', 'add' ) );
 		add_action( 'plugins_loaded', array( 'Connections_Directory\Content_Blocks\Entry\Related\Region', 'add' ) );

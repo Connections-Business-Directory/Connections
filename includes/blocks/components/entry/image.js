@@ -20,7 +20,7 @@ class EntryImage extends Component {
 			      type,
 			      usePlaceholder = false,
 			      placeholderWidth = 600,  // This should be set the width fetched via the REST API.
-			      placeholderHeight = 600, // This should be set the height fetched via the REST API.
+			      placeholderHeight = 520, // This should be set the height fetched via the REST API.
 		      } = this.props;
 
 		if ( has( entry.images, [ type, size ] ) ) {
@@ -60,7 +60,7 @@ class EntryImage extends Component {
 
 			let style = {
 				display: 'inline-block',
-				paddingBottom: 'calc(' + placeholderHeight + ' / ' + placeholderWidth + ' * 100%)',
+				paddingBottom: `calc(${placeholderHeight} / ${placeholderWidth} * 100%)`,
 				width: placeholderWidth + 'px',
 			}
 

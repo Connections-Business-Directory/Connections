@@ -61,7 +61,7 @@ class RecentlyViewed extends Component {
 		let query = {};
 
 		// console.log( query );
-		console.log( this.props );
+		// console.log( this.props );
 
 		query['exclude'] = this.props.exclude;
 

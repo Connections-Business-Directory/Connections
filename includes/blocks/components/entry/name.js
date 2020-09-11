@@ -8,11 +8,18 @@ class EntryName extends Component {
 
 	render() {
 
-		const { attributes, entry, tag } = this.props;
+		const { asPermalink = false, attributes, entry, tag } = this.props;
 		const Tag = tag;
 
+		let name = decodeEntities( entry.fn.rendered );
+
+		if ( asPermalink ) {
+
+			name = <a href={entry.link}>{name}</a>
+		}
+
 		return (
-			<Tag>{ decodeEntities( entry.fn.rendered ) }</Tag>
+			<Tag>{name}</Tag>
 		)
 	}
 }

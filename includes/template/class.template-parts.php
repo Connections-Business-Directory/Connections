@@ -35,7 +35,7 @@ class cnTemplatePart {
 		add_action( 'cn_action_list_after', array( __CLASS__, 'doListActionsAfter' ), 5 );
 
 		add_action( 'cn_list_actions', array( __CLASS__, 'listActions' ) );
-		add_action( 'cn_entry_actions', array( __CLASS__, 'entryActions' ), 10, 2 );
+		add_action( 'Connections_Directory/Render/Template/Single_Entry/Before', array( __CLASS__, 'entryActions' ), 10, 2 );
 
 		add_action( 'cn_list_action-view_all', array( __CLASS__, 'listAction_ViewAll') );
 
@@ -470,9 +470,10 @@ class cnTemplatePart {
 			'return' => FALSE
 		);
 
-		$atts = wp_parse_args( $atts, $defaults );
+		$atts     = wp_parse_args( $atts, $defaults );
+		$isSingle = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
 
-		$out = '<div class="cn-list-head cn-clear" id="cn-list-head">' . PHP_EOL;
+		$out = '<div class="cn-list-head">' . PHP_EOL;
 
 		ob_start();
 		do_action( 'cn_action_list_before', $atts, $results );
@@ -487,7 +488,7 @@ class cnTemplatePart {
 		$out .= ob_get_clean();
 
 		//  This action only is required when the index is to be displayed.
-		if ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) {
+		if ( ! $isSingle && ( $atts['show_alphaindex'] && ! $atts['repeat_alphaindex'] ) ) {
 
 			// The character index template part.
 			ob_start();
@@ -495,7 +496,7 @@ class cnTemplatePart {
 			$out .= ob_get_clean();
 		}
 
-		$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-head -->' : '' ) . PHP_EOL;
+		$out .= '</div>' . ( WP_DEBUG ? '<!-- END .cn-list-head -->' : '' ) . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}
@@ -503,12 +504,11 @@ class cnTemplatePart {
 	/**
 	 * The result list body.
 	 *
-	 * @access public
 	 * @since  0.8
-	 * @static
-	 * @param  array  $atts     The shortcode $atts array.
-	 * @param  array  $results  The cnRetrieve query results.
-	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @param array      $atts     The shortcode $atts array.
+	 * @param array      $results  The cnRetrieve query results.
+	 * @param cnTemplate $template An instance of the cnTemplate object.
 	 *
 	 * @return string
 	 */
@@ -520,7 +520,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$class = apply_filters( 'cn_list_body_class', array( 'connections-list', 'cn-list-body', 'cn-clear' ) );
+		$class = apply_filters( 'cn_list_body_class', array( 'cn-list-body' ) );
 
 		$class = apply_filters( 'cn_list_body_class-' . $template->getSlug(), $class );
 		cnShortcode::addFilterRegistry( 'cn_list_body_class-' . $template->getSlug() );
@@ -533,7 +533,7 @@ class cnTemplatePart {
 
 		$before = ob_get_clean();
 
-		$open = '<div class="' . implode( ' ', $class ) . '" id="cn-list-body">' . PHP_EOL;
+		$open = '<div class="' . implode( ' ', array_unique( array_filter( $class ) ) ) . '" id="cn-list-body">' . PHP_EOL;
 
 		ob_start();
 
@@ -583,14 +583,96 @@ class cnTemplatePart {
 	}
 
 	/**
+	 * Render the body section headings.
+	 *
+	 * @since 9.10
+	 *
+	 * @param array  $atts           The shortcode $atts array.
+	 * @param string $currentLetter  The current character.
+	 * @param string $previousLetter The previous character.
+	 */
+	private static function bodySectionHead( $atts, $currentLetter, $previousLetter ) {
+
+		if ( $currentLetter !== $previousLetter ) {
+
+			if ( $atts['show_alphaindex'] ) {
+
+				printf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
+			}
+
+			//  This action only is required when the index is to be displayed.
+			if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
+
+				// The character index template part.
+				do_action( 'cn_list_character_index', $atts );
+			}
+
+			if ( $atts['show_alphahead'] ) {
+
+				printf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
+			}
+
+			if ( $atts['show_alphaindex'] ) {
+
+				echo '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
+			}
+
+		}
+	}
+
+	/**
+	 * Create the array of classes for the Entry Card.
+	 *
+	 * @since 9.10
+	 *
+	 * @param cnEntry    $entry
+	 * @param cnTemplate $template
+	 * @param bool       $isSingle
+	 * @param int        $rowCount
+	 *
+	 * @return array
+	 */
+	private static function cardClass( $entry, $template, $isSingle, $rowCount ) {
+
+		$class = array();
+
+		if ( ! $isSingle ) {
+
+			array_push( $class, ( ++ $rowCount % 2 ) ? 'cn-list-row-alternate' : 'cn-list-row' );
+		}
+
+		/*
+		 * @todo
+		 * All templates need updated to remove use of the .cn-entry and .cn-entry-single classes
+		 * and use .cn-list-item and .cn-list-item.cn-is-single instead.
+		 */
+		array_push( $class, 'cn-list-item' );
+
+		if ( $isSingle ) {
+
+			array_push( $class, 'cn-is-single' );
+		}
+
+		array_push( $class, 'vcard', $entry->getEntryType(), $entry->getCategoryClass( TRUE ) );
+
+		$class = apply_filters( 'cn_list_row_class', $class );
+
+		$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
+		cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
+
+		array_walk( $class, 'sanitize_html_class' );
+
+		return array_unique( array_filter( $class ) );
+	}
+
+	/**
 	 * The result list cards.
 	 *
-	 * @access public
 	 * @since  0.8
-	 * @static
-	 * @param  array  $atts     The shortcode $atts array.
-	 * @param  array  $results  The cnRetrieve query results.
-	 * @param  object $template An instance of the cnTemplate object.
+	 *
+	 * @param array      $atts     The shortcode $atts array.
+	 * @param array      $results  The cnRetrieve query results.
+	 * @param cnTemplate $template An instance of the cnTemplate object.
 	 *
 	 * @return string
 	 */
@@ -602,19 +684,11 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '';
+		$html = '';
 
 		$previousLetter = '';
-		$rowClass       = 'cn-list-row';
-
-		/*
-		 * When an entry is assigned multiple categories and the RANDOM order_by shortcode attribute
-		 * is used, this will cause the entry to show once for every category it is assigned.
-		 *
-		 * The same issue occurs when an entry has been assigned multiple address and each address
-		 * falls within the geo bounds when performing a geo-limiting query.
-		 */
-		// $skipEntry = array();
+		$rowCount       = 0;
+		$isSingle       = cnQuery::getVar( 'cn-entry-slug' ) ? true : false;
 
 		foreach ( $results as $row ) {
 
@@ -625,54 +699,61 @@ class cnTemplatePart {
 			// Configure the page where the entry link to.
 			$entry->directoryHome( array( 'page_id' => $atts['home_id'], 'force_home' => $atts['force_home'] ) );
 
-			// @TODO --> Fix this somehow in the query, see comment above for $skipEntry.
-			// if ( in_array( $entry->getId(), $skipEntry ) ) continue;
-			// $skipEntry[] = $entry->getId();
+			ob_start();
 
-			$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
+			/*
+			 * Section heading does not need to render on the single Entry view.
+			 */
+			if ( ! $isSingle ) {
 
-			if ( $currentLetter != $previousLetter ) {
+				$currentLetter = strtoupper( mb_substr( $entry->getSortColumn(), 0, 1 ) );
 
-				if ( $atts['show_alphaindex'] ) {
-
-					$out .= sprintf( '<div class="cn-list-section-head" id="cn-char-%1$s">', $currentLetter );
-				}
-
-				//  This action only is required when the index is to be displayed.
-				if ( $atts['show_alphaindex'] && $atts['repeat_alphaindex'] ) {
-
-					// The character index template part.
-					ob_start();
-
-						do_action( 'cn_list_character_index', $atts );
-					$out .= ob_get_clean();
-				}
-
-				if ( $atts['show_alphahead'] ) {
-
-					$out .= sprintf( '<h4 class="cn-alphahead">%1$s</h4>', $currentLetter );
-				}
-
-				if ( $atts['show_alphaindex'] ) {
-
-					$out .= '</div>' . ( WP_DEBUG ? '<!-- END #cn-char-' . $currentLetter . ' -->' : '' );
-				}
+				self::bodySectionHead( $atts, $currentLetter, $previousLetter );
 
 				$previousLetter = $currentLetter;
 			}
 
-			// Before entry actions.
-			ob_start();
-
 			// Display the Entry Actions.
-			if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+			if ( $isSingle ) {
 
-				do_action( 'cn_entry_actions-before', $atts, $entry );
-				do_action( 'cn_entry_actions', $atts, $entry );
+				/**
+				 * @param array        $atts     The shortcode attributes.
+				 * @param cnEntry_HTML $entry    The current Entry.
+				 * @param cnTemplate   $template The current template.
+				 */
+				do_action(
+					'Connections_Directory/Render/Template/Single_Entry/Before',
+					$atts,
+					$entry,
+					$template
+				);
+
+			} else {
+
+				/**
+				 * @param array        $atts     The shortcode attributes.
+				 * @param cnEntry_HTML $entry    The current Entry.
+				 * @param cnTemplate   $template The current template.
+				 */
+				do_action(
+					'Connections_Directory/Render/Template/Entry_List/Before',
+					$atts,
+					$entry,
+					$template
+				);
 			}
 
-			do_action( 'cn_action_entry_before', $atts, $entry );
-			do_action( 'cn_action_entry_both', $atts, $entry  );
+			/**
+			 * @param array        $atts     The shortcode attributes.
+			 * @param cnEntry_HTML $entry    The current Entry.
+			 * @param cnTemplate   $template The current template.
+			 */
+			do_action(
+				'Connections_Directory/Render/Template/Entry/Before',
+				$atts,
+				$entry,
+				$template
+			);
 
 			do_action( 'cn_action_entry_before-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_before-' . $template->getSlug() );
@@ -680,61 +761,71 @@ class cnTemplatePart {
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
-			$out .= ob_get_clean();
-
-			$class = apply_filters(
-				'cn_list_row_class',
-				array(
-					$rowClass = 'cn-list-row' == $rowClass ? 'cn-list-row-alternate' : 'cn-list-row',
-					'vcard',
-					$entry->getEntryType(),
-					$entry->getCategoryClass( TRUE ),
-				)
-			);
-
-			$class = apply_filters( 'cn_list_row_class-' . $template->getSlug(), $class );
-			cnShortcode::addFilterRegistry( 'cn_list_row_class-' . $template->getSlug() );
-
-			array_walk( $class, 'sanitize_html_class' );
-
-			$out .= sprintf(
+			printf(
 				'<div class="%1$s" id="%3$s" data-entry-type="%2$s" data-entry-id="%4$d" data-entry-slug="%3$s">',
-				implode( ' ', $class ),
+				implode( ' ', self::cardClass( $entry, $template, $isSingle, ++$rowCount ) ),
 				$entry->getEntryType(),
 				$entry->getSlug(),
 				$entry->getId()
 			);
 
-			ob_start();
+			do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
 
-				do_action( 'cn_template-' . $template->getSlug(), $entry, $template, $atts );
-
-			$out .= ob_get_clean();
-
-			$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
+			echo PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #' . $entry->getSlug() . ' -->' : '' ) . PHP_EOL;
 
 			// After entry actions.
-			ob_start();
-
 			do_action( 'cn_action_entry_both-' . $template->getSlug(), $atts ,$entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_both-' . $template->getSlug() );
 
 			do_action( 'cn_action_entry_after-' . $template->getSlug(), $atts, $entry );
 			cnShortcode::addFilterRegistry( 'cn_action_entry_after-' . $template->getSlug() );
 
-			do_action( 'cn_action_entry_both', $atts, $entry  );
-			do_action( 'cn_action_entry_after', $atts, $entry );
+			/**
+			 * @param array        $atts     The shortcode attributes.
+			 * @param cnEntry_HTML $entry    The current Entry.
+			 * @param cnTemplate   $template The current template.
+			 */
+			do_action(
+				'Connections_Directory/Render/Template/Entry/After',
+				$atts,
+				$entry,
+				$template
+			);
 
 			// Display the Entry Actions.
-			if ( cnQuery::getVar( 'cn-entry-slug' ) ) {
+			if ( $isSingle ) {
 
-				do_action( 'cn_entry_actions-after', $atts, $entry );
+				/**
+				 * @param array        $atts     The shortcode attributes.
+				 * @param cnEntry_HTML $entry    The current Entry.
+				 * @param cnTemplate   $template The current template.
+				 */
+				do_action(
+					'Connections_Directory/Render/Template/Single_Entry/After',
+					$atts,
+					$entry,
+					$template
+				);
+
+			} else {
+
+				/**
+				 * @param array        $atts     The shortcode attributes.
+				 * @param cnEntry_HTML $entry    The current Entry.
+				 * @param cnTemplate   $template The current template.
+				 */
+				do_action(
+					'Connections_Directory/Render/Template/Entry_List/After',
+					$atts,
+					$entry,
+					$template
+				);
 			}
 
-			$out .= ob_get_clean();
+			$html .= ob_get_clean();
 		}
 
-		return self::echoOrReturn( $atts['return'], $out );
+		return self::echoOrReturn( $atts['return'], $html );
 	}
 
 	/**
@@ -757,7 +848,7 @@ class cnTemplatePart {
 
 		$atts = wp_parse_args( $atts, $defaults );
 
-		$out = '<div class="cn-clear" id="cn-list-foot">' . PHP_EOL;
+		$out = '<div class="cn-list-foot">' . PHP_EOL;
 
 			ob_start();
 
@@ -772,7 +863,7 @@ class cnTemplatePart {
 
 			$out .= ob_get_clean();
 
-		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END #cn-list-foot -->' : '' ) . PHP_EOL;
+		$out .= PHP_EOL . '</div>' . ( WP_DEBUG ? '<!-- END .cn-list-foot -->' : '' ) . PHP_EOL;
 
 		return self::echoOrReturn( $atts['return'], $out );
 	}

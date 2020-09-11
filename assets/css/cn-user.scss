@@ -15,32 +15,44 @@
 	display: none;
 }
 
-/* Prevent themes from setting spans as blocks! */
 #cn-list .cn-clear {
 	clear: both;
 }
 
-#cn-list div.cn-list-head {
+#cn-list .cn-list-head {
 	position: relative;
+}
+
+.cn-list .cn-list-head::before,
+.cn-list .cn-list-head::after,
+.cn-list .cn-list-body::before,
+.cn-list .cn-list-body::after,
+.cn-list .cn-list-foot::before,
+.cn-list .cn-list-foot::after,
+.cn-list .cn-alphaindex::before,
+.cn-list .cn-alphaindex::after,
+.cn-entry-content-block-list::before,
+.cn-entry-content-block-list::after {
+	content: "";
+	display: table;
+	clear: both;
 }
 
 #cn-list .cn-category-breadcrumb {
 	margin: 20px auto;
 }
 
-/*#cn-list div.cn-list-section-head { position: relative; }*/
-#cn-list div.cn-list-section-head h4 {
+#cn-list .cn-list-section-head h4 {
 	font-size: 16px;
 	padding: 0;
 	margin: .8em 0;
 }
 
-#cn-list div.cn-alphaindex {
-	font-weight: bold;
+#cn-list .cn-alphaindex {
 	font-size: 14px;
+	font-weight: bold;
+	margin: 12px 0;
 	position: relative;
-	bottom: 0;
-	right: 0;
 }
 
 #cn-list label {
@@ -566,6 +578,7 @@ input#cn-submit {
  */
 @import "content-blocks";
 @import "content-block-related-carousel";
+@import "content-block-recently-viewed";
 
 /*
  * Tables

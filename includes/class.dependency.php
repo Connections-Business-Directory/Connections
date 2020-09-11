@@ -19,6 +19,8 @@ class cnDependency {
 		self::manual();
 
 		spl_autoload_register( array( __CLASS__, 'autoload' ) );
+
+		require_once CN_PATH . 'includes/inc.deprecated.php';
 	}
 
 	/**
@@ -70,6 +72,9 @@ class cnDependency {
 
 			file_exists( CN_TEMPLATE_PATH . $path ) AND include_once CN_TEMPLATE_PATH . $path;
 		}
+
+		// Deprecated Actions/Filters
+		require_once CN_PATH . 'includes/inc.deprecated-actions.php';
 
 		// Theme and plugin compatibility hacks.
 		require_once CN_PATH . 'includes/inc.plugin-compatibility.php';
@@ -163,6 +168,13 @@ class cnDependency {
 
 		return array(
 
+			// Utility
+			'Connections_Directory\Utility\_array'  => 'includes/Utility/_array.php',
+			//'Connections_Directory\Utility\_color'  => 'includes/Utility/_color.php',
+			//'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
+			//'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
+			//'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
+
 			// Localization
 			'cnText_Domain'            => 'includes/class.text-domain.php',
 
@@ -220,10 +232,12 @@ class cnDependency {
 			'Connections_Directory\Content_Blocks\Entry\Categories'        => 'includes/Content_Blocks/Entry/Categories.php',
 			'Connections_Directory\Content_Blocks\Entry\Custom_Fields'     => 'includes/Content_Blocks/Entry/Custom_Fields.php',
 			'Connections_Directory\Content_Blocks\Entry\Google_Static_Map' => 'includes/Content_Blocks/Entry/Google_Static_Map.php',
+			'Connections_Directory\Content_Blocks\Entry\Last_Viewed'       => 'includes/Content_Blocks/Entry/Last_Viewed.php',
 			'Connections_Directory\Content_Blocks\Entry\Management'        => 'includes/Content_Blocks/Entry/Management.php',
 			'Connections_Directory\Content_Blocks\Entry\Map_Block'         => 'includes/Content_Blocks/Entry/Map_Block.php',
 			'Connections_Directory\Content_Blocks\Entry\Meta'              => 'includes/Content_Blocks/Entry/Meta.php',
 			'Connections_Directory\Content_Blocks\Entry\Nearby'               => 'includes/Content_Blocks/Entry/Nearby.php',
+			'Connections_Directory\Content_Blocks\Entry\Recently_Viewed'      => 'includes/Content_Blocks/Entry/Recently_Viewed.php',
 			'Connections_Directory\Content_Blocks\Entry\Related'              => 'includes/Content_Blocks/Entry/Related.php',
 			'Connections_Directory\Content_Blocks\Entry\Related\Category'     => 'includes/Content_Blocks/Entry/Related/Category.php',
 			'Connections_Directory\Content_Blocks\Entry\Related\Postal_Code'  => 'includes/Content_Blocks/Entry/Related/Postal_Code.php',

@@ -181,6 +181,11 @@ class Functions {
 
 		$address = self::getAddress( $entry );
 
+		if ( ! $address instanceof cnAddress ) {
+
+			return $nearBy;
+		}
+
 		$queryParameters = array(
 			'id__not_in' => $entry->getId(),
 			'latitude'   => $address->getLatitude(),
@@ -190,7 +195,6 @@ class Functions {
 			'limit'      => $atts['limit'],
 			'order_by'   => 'distance',
 		);
-
 
 		$queryParameters = apply_filters(
 			'Connections_Directory/Entry/Near/Query_Parameters',

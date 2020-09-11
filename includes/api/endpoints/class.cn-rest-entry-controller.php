@@ -201,6 +201,7 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 			$category          => cnArray::get( $request, 'categories', NULL ),
 			'exclude_category' => cnArray::get( $request, 'categories_exclude', NULL ),
 			'id'               => cnArray::get( $request, 'id', NULL ),
+			'id__not_in'       => cnArray::get( $request, 'exclude', NULL ),
 			'limit'            => cnArray::get( $request, 'per_page', 10 ),
 			'offset'           => cnArray::get( $request, 'offset', 0 ),
 		);
@@ -408,6 +409,11 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 		if ( is_field_included( 'type', $fields ) ) {
 
 			cnArray::set( $data, 'type', $entry->getEntryType() );
+		}
+
+		if ( is_field_included( 'link', $fields ) ) {
+
+			$data['link'] = $entry->getPermalink();
 		}
 
 		if ( is_field_included( 'slug', $fields ) ) {
@@ -1077,6 +1083,13 @@ class CN_REST_Entry_Controller extends WP_REST_Controller {
 					'arg_options' => array(
 						'sanitize_callback' => 'sanitize_title',
 					),
+				),
+				'link'         => array(
+					'description' => __( 'URL to the object.', 'connections' ),
+					'type'        => 'string',
+					'format'      => 'uri',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
 				),
 				'fn' => array(
 					'description' => __( 'The full formatted name of the entry.', 'connections' ),

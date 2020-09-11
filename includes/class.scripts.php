@@ -365,6 +365,14 @@ class cnScript {
 		wp_register_script( 'jquery-validate' , $url . "vendor/validation/jquery.validate$min.js", array( 'jquery', 'jquery-form' ) , '1.19.1' , TRUE );
 
 		wp_register_script( 'picturefill', $url . "assets/vendor/picturefill/picturefill$min.js", array(), '3.0.2', TRUE );
+		wp_register_script( 'js-cookie', $url . "assets/vendor/js-cookie/js.cookie.js", array(), '2.2.1', TRUE );
+		wp_register_script(
+			'frontend',
+			"{$url}assets/dist/js/bundle.js",
+			array( 'lodash', 'wp-api-fetch', 'wp-components', 'wp-url' ),
+			Connections_Directory::VERSION . '-' . filemtime( "{$path}assets/dist/js/bundle.js" ),
+			true
+		);
 	}
 
 	/**
@@ -598,6 +606,7 @@ class cnScript {
 
 		// wp_enqueue_script( 'cn-ui' );
 		wp_enqueue_script( 'picturefill' );
+		wp_enqueue_script( 'frontend' );
 	}
 
 	/**

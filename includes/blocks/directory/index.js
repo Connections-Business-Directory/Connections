@@ -7,9 +7,9 @@ const { registerBlockType } = wp.blocks;
 const {
 	      InspectorControls,
 	      InspectorAdvancedControls,
-      } = wp.editor;
+      } = wp.blockEditor;
 const {
-	      ServerSideRender,
+	      // ServerSideRender,
 	      PanelBody,
 	      // CheckboxControl,
 	      SelectControl,
@@ -20,6 +20,8 @@ const {
 	      // Component,
 	      Fragment,
       } = wp.element;
+
+const { serverSideRender: ServerSideRender, } = wp;
 
 /**
  * Internal dependencies

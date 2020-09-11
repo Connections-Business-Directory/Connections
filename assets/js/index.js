@@ -1,0 +1,2 @@
+import './RecentlyViewedCookie';
+import './RecentlyViewed';

@@ -17,7 +17,10 @@ class EntryImage extends Component {
 		const {
 			      entry,
 			      size,
-			      type
+			      type,
+			      usePlaceholder = false,
+			      placeholderWidth = 600,  // This should be set the width fetched via the REST API.
+			      placeholderHeight = 520, // This should be set the height fetched via the REST API.
 		      } = this.props;
 
 		if ( has( entry.images, [ type, size ] ) ) {
@@ -50,6 +53,21 @@ class EntryImage extends Component {
 							// loading='lazy'
 						/>
 					</span>
+				</span>
+			)
+
+		} else if ( true === usePlaceholder ) {
+
+			let style = {
+				display: 'inline-block',
+				paddingBottom: `calc(${placeholderHeight} / ${placeholderWidth} * 100%)`,
+				width: placeholderWidth + 'px',
+			}
+
+			return (
+				<span className={ 'cn-image-' + type + ' cn-image-none' }
+				      style={style}>
+					<span>{ __( 'No Image Available', 'connections' ) }</span>
 				</span>
 			)
 

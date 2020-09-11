@@ -8,23 +8,26 @@ const {
 	      BaseControl,
 	      // CheckboxControl,
 	      ColorIndicator,
+	      ColorPalette,
 	      PanelBody,
 	      RadioControl,
 	      // RangeControl,
 	      SelectControl,
-	      ServerSideRender,
+	      // ServerSideRender,
 	      TextControl,
 	      ToggleControl
       } = wp.components;
 const {
-	      ColorPalette,
+	      // ColorPalette,
 	      InspectorControls,
 	      InspectorAdvancedControls,
-      } = wp.editor;
+      } = wp.blockEditor;
 const {
 	      // Component,
 	      Fragment,
       } = wp.element;
+
+const { serverSideRender: ServerSideRender, } = wp;
 
 /**
  * Internal dependencies

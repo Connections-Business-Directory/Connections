@@ -270,13 +270,9 @@ class Team {
 			'list_type'         => $attributes['listType'],
 			$category           => $attributes['categories'],
 			'exclude_category'  => $attributes['categoriesExclude'],
+			// Limit the number of entries displayed to 50ish (based on number of set columns), only in editor preview. max is 100ish.
+			'limit' => $attributes['isEditorPreview'] ? 50 - ( 50 % $attributes['columns'] ) : 100 - ( 100 % $attributes['columns'] ),
 		);
-
-		// Limit the number of entries displayed to 10, only in editor preview.
-		if ( $attributes['isEditorPreview'] ) {
-
-			$options['limit'] = 50;
-		}
 
 		$other = shortcode_parse_atts( trim( $attributes['advancedBlockOptions'] ) );
 
@@ -284,6 +280,18 @@ class Team {
 
 			$options = array_replace( $options, $other );
 		}
+
+		$options['limit'] = filter_var(
+			$options['limit'],
+			FILTER_VALIDATE_INT,
+			array(
+				'options' => array(
+					'default'   => 100,
+					'min_range' => 1,
+					'max_range' => 100,
+				),
+			)
+		);
 
 		$results = Connections_Directory()->retrieve->entries( $options );
 

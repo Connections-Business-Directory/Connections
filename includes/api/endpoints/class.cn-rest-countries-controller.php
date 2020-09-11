@@ -59,6 +59,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_items' ),
 					'args'                => $this->get_collection_params(),
+					'permission_callback' => '__return_true',
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
@@ -74,6 +75,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 					),
+					'permission_callback' => '__return_true',
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
@@ -89,6 +91,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 					),
+					'permission_callback' => '__return_true',
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
@@ -104,6 +107,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 					),
+					'permission_callback' => '__return_true',
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)
@@ -119,6 +123,7 @@ class CN_REST_Countries_Controller extends WP_REST_Controller {
 					'args'                => array(
 						'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 					),
+					'permission_callback' => '__return_true',
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)

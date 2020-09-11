@@ -59,6 +59,7 @@ class CN_REST_Autocomplete_Controller extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'autocomplete' ),
 					'args'                => $this->get_collection_params(),
+					'permission_callback' => '__return_true',
 				),
 				'schema' => array( $this, 'get_public_item_schema' ),
 			)

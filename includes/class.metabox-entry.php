@@ -2849,7 +2849,7 @@ class cnEntryMetabox {
 		}
 
 		array_unshift( $options, '<option value="-1">&mdash; ' . __( 'Select', 'connections' ) . ' &mdash;</option>');
-		$options = implode( $options, PHP_EOL );
+		$options = implode( PHP_EOL, $options );
 
 		// echo '<input type="hidden" name="wp_meta_box_nonce" value="', wp_create_nonce( basename(__FILE__) ), '" />';
 

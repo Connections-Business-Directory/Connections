@@ -247,6 +247,62 @@ Yes this is possible but there is a special setup required to do so. It is recom
 
 [Complete Changelog can be found here.](https://connections-pro.com/changelog/)
 
+= 9.10 09/10/2020 =
+* FEATURE: Introduce the Recently Viewed and Last Viewed Content Blocks.
+* NEW: Introduce the `Connections_Directory/Block/Carouse/Query_Parameters` filter.
+* NEW: Add the `link` field to the Entry REST endpoint.
+* NEW: Add support for the `exclude` parameter in the REST API.
+* NEW: Introduce the Recently Viewed REST API Endpoint.
+* TWEAK: Check for instance of `cnAddress` before access its properties.
+* TWEAK: Keep core WP Editor from displaying the slider navigation text in the Carousel Block.
+* TWEAK: Rename `cn-user.js` to `frontend.js`.
+* TWEAK: Delete the `frontend.min.js` file as it is not needed since webpack will minify file.
+* TWEAK: Remove unused code in the `frontend.js` file.
+* TWEAK: Make a single call to `cnQuery::getVar()` when rendering an Entry on the frontend for improved performance.
+* TWEAK: Remove several unnecessary object buffers when rendering an Entry.
+* TWEAK: Rename Entry render variable to be more descriptive.
+* TWEAK: Move logic on whether to display the character index and section head to within where the Entry is rendered.
+* TWEAK: Remove the `cn-list-head` div.id attribute.
+* TWEAK: Remove the `cn-list-foot` div.id attribute.
+* TWEAK: Apply `array_unique()` and `array_filter()` to the list head and body container classes.
+* TWEAK: Remove the `cn-list-foot` div.id attribute.
+* TWEAK: Remove the legacy `connections-list` class from the body container.
+* TWEAK: Move setting `$is_single` to outside of the loop. No need to set it on each iteration.
+* TWEAK: Cleanup the applied body classes. The `cn-list-row` and `cn-list-row-alternate` is applied only in the list view. Introduce the `cn-list-item` and `cn-is-single` classes.
+* TWEAK: Minor CSS tweaks to remove unnecessary specificity.
+* TWEAK: CSS clear after several core list containers. Necessary after removing the class that did the clear from the containers.
+* TWEAK: Do not show the character index when viewing the single Entry.
+* TWEAK: Abstract out template body section heading.
+* TWEAK: Abstract out the generation of the Entry card classes.
+* TWEAK: Ensure the `permission_callback` parameter is set when registering REST API Endpoints.
+* TWEAK: Add check to prevent index not found notice.
+* TWEAK: Implement limit on the Team Block to ensure page can be saved by WP.
+* TWEAK: Add `'data-skip-lazy="1"` if lazy loading is `false`.
+* TWEAK: Move cnArray to a namespaced class and stub out files and autoloading for other utility classes and functions to consolidate and better organize the codebase.
+* TWEAK: Remove use of a few deprecated React components in the Team and Upcoming blocks.
+* TWEAK: Add `lodash` as a script dependency for the frontend script bundle.
+* TWEAK: Finally deprecate the cnOutput class because it was ambiguous.
+* TWEAK: Bumped "Tested up to:" to version 5.5 in readme.txt.
+* TWEAK: Bump "Requires at least:" to version 5.0 in readme.txt.
+* TWEAK: Update EntryName component with a `asPermalink` attribute.
+* TWEAK: Update the frontend script dependencies to support the Recently View Content Block.
+* TWEAK: Add placeholder support to the Entry Image React component.
+* TWEAK: Add default image width/height for unknown image types to prevent undefined index notifications.
+* TWEAK: Deprecate several template actions, replacing them with namespaced hook handles.
+* BUG: Correct another instance of implode "Passing glue string after array is deprecated." notice.
+* BUG: Correct the style applied to the `.cn-image-none` class in the related carousels.
+* DEV: Remove extra newline.
+* DEV: Include JavaScript Cookie v2.2.1 as a vendor library.
+* DEV: Configure webpack entry point to create the frontend javascript bundle.
+* DEV: Register and enqueue the frontend javascript bundle with WordPress.
+* DEV: Remove commented code.
+* DEV: Rename variable to camelCase.
+* DEV: Remove comment block from CSS.
+* DEV: phpDoc updates.
+* DEV: Update Travis testing matrix.
+* DEV: Update min/max WP version in requirements check.
+* DEV: Update the dist files.
+
 = 9.9.1 07/22/2020 =
 * TWEAK: Set the related Content Block margin to 0 to ensure margins are not inherited from theme, plugins, and such.
 * BUG: Correct usage of the `cn_load_template` filter.
@@ -515,31 +571,7 @@ Yes this is possible but there is a special setup required to do so. It is recom
 * I18N: Update POT file.
 * I18N:Update MO files.
 
-= 9.1.1 08/05/2019 =
-* BUG: The Directory block should call the same callback as the shortcode so the login required message can be displayed.
-* BUG: Ensure when setting a preferred contact detail that it does not cause an empty value to be added.
-* BUG: Remove test CSS from Directory block.
-* TWEAK: Check for valid array before attempting to pull a value by key in `cnArray::pull()`.
-* I18N: Update POT file.
-* I18N: Update MO files.
-* DEV: phhDoc correction.
-
-= 9.1 07/22/2019 =
-* NEW: Introduce cnEntry_Social_Network.
-* NEW: Introduce cnEntry_Social_Networks.
-* TWEAK: Add cnEntry_Social_Networks and cnEntry_Social_Network to the dependency registry.
-* TWEAK: Refactor cnEntry to utilize cnEntry_Social_Networks when working with social networks attached to entries.
-* TWEAK: Limit the requested fields in the page select editor control to the `id`, `parent` and `title` fields to limit processing for faster responses from the server.
-* TWEAK: Add code to fix the copy entry action. Needs additional testing, leave the action disabled for now.
-* DEV: phpDoc corrections.
-
 == Upgrade Notice ==
-
-= 9.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
-
-= 9.1.1 =
-It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
 
 = 9.2 =
 It is recommended to backup before updating. Requires WordPress >= 4.7.12 and PHP >= 5.6.20 PHP version >= 7.1 recommended.
@@ -612,3 +644,6 @@ It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >
 
 = 9.9.1 =
 It is recommended to backup before updating. Requires WordPress >= 4.8 and PHP >= 5.6.20 PHP version >= 7.2 recommended.
+
+= 9.10 =
+It is recommended to backup before updating. Requires WordPress >= 5.0 and PHP >= 5.6.20 PHP version >= 7.2 recommended.

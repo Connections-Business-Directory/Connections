@@ -492,7 +492,7 @@ class cnSanitize {
 	 *
 	 * @return string Returns the $valid string after sanitization.
 	 */
-	public function currency( $input ) {
+	public static function currency( $input ) {
 
 		if ( is_numeric( $input ) ) {
 

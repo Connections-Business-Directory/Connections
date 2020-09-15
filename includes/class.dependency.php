@@ -267,12 +267,14 @@ class cnDependency {
 			//'cnColor'                  => 'includes/class.utility.php',
 			//'cnFormatting'             => 'includes/class.utility.php',
 			'cnFunction'               => 'includes/class.utility.php',
-			'cnSiteShot'               => 'includes/class.utility.php',
+			//'cnSiteShot'               => 'includes/class.utility.php',
 			//'cnString'                 => 'includes/class.utility.php',
 			'cnURL'                    => 'includes/class.utility.php',
 			'cnUtility'                => 'includes/class.utility.php',
 			'cnValidate'               => 'includes/class.utility.php',
 			'cnSanitize'               => 'includes/class.sanitize.php',
+
+			'Connections_Directory\SiteShot' => 'includes/SiteShot.php',
 
 			// Geocoding.
 			'cnGeo'                    => 'includes/class.geo.php',

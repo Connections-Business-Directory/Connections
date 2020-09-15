@@ -312,6 +312,8 @@ class cnValidate {
 	 */
 	public static function userPermitted( $visibility ) {
 
+		_deprecated_function( __METHOD__, '8.6', 'cnUser::canViewVisibility()' );
+
 		return Connections_Directory()->currentUser->canViewVisibility( $visibility );
 	}
 }

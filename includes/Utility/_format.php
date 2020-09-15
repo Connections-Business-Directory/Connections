@@ -245,6 +245,8 @@ final class _format {
 	 */
 	public static function excerpt( $string, $atts = array() ) {
 
+		_deprecated_function( __METHOD__, '8.2.9', '_string::excerpt()' );
+
 		return _string::excerpt( $string, $atts );
 	}
 

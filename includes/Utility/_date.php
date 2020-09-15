@@ -11,7 +11,7 @@ use DateTimeZone;
  *
  * @package Connections_Directory\Utility
  */
-class _date {
+final class _date {
 
 	/**
 	 * Date format characters and their name and regex structure.

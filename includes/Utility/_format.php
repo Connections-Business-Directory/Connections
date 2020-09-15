@@ -222,9 +222,7 @@ final class _format {
 	/**
 	 * Create excerpt from the supplied string.
 	 *
-	 * @access public
 	 * @since  8.1.5
-	 * @static
 	 *
 	 * @deprecated 8.2.9 Use {@see _string::excerpt()} instead.
 	 * @see _string::excerpt()

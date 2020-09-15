@@ -293,18 +293,9 @@ class cnValidate {
 	 * Will return TRUE?FALSE based on current user capability or privacy setting if the user is not logged in to
 	 * WordPress.
 	 *
-	 * @access public
 	 * @since  0.7.2.0
-	 * @static
 	 *
 	 * @deprecated since 8.6
-	 *
-	 * @uses   is_user_logged_in()
-	 * @uses   current_user_can()
-	 * @uses   is_admin()
-	 * @uses   cnOptions::loginRequired()
-	 * @uses   cnOptions::getAllowPublicOverride()
-	 * @uses   cnOptions::getAllowPrivateOverride()
 	 *
 	 * @param string $visibility
 	 *

@@ -187,7 +187,6 @@ class cnSanitize {
 					case 'excerpt':
 
 						return self::string( 'textarea', $value );
-						break;
 
 					case 'name':
 					case 'street':

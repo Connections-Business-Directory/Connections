@@ -1235,22 +1235,4 @@ class cnFunction {
 		return $attr;
 	}
 
-	/**
-	 * Dump a variable to the error_log file.
-	 *
-	 * @link https://www.justinsilver.com/technology/writing-to-the-php-error_log-with-var_dump-and-print_r/
-	 *
-	 * @access public
-	 * @since  8.6
-	 *
-	 * @param mixed $object
-	 */
-	public static function var_dump_error_log( $object = NULL ) {
-
-		ob_start();                    // start buffer capture
-		var_dump( $object );           // dump the values
-		$contents = ob_get_contents(); // put the buffer into a variable
-		ob_end_clean();                // end capture
-		error_log( $contents );        // log contents of the result of var_dump( $object )
-	}
 }

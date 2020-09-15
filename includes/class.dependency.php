@@ -172,7 +172,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_array'  => 'includes/Utility/_array.php',
 			'Connections_Directory\Utility\_color'  => 'includes/Utility/_color.php',
 			'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
-			//'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
+			'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
 			'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
 
 			// Localization
@@ -265,7 +265,7 @@ class cnDependency {
 
 			// Utility methods.
 			//'cnColor'                  => 'includes/class.utility.php',
-			'cnFormatting'             => 'includes/class.utility.php',
+			//'cnFormatting'             => 'includes/class.utility.php',
 			'cnFunction'               => 'includes/class.utility.php',
 			'cnSiteShot'               => 'includes/class.utility.php',
 			//'cnString'                 => 'includes/class.utility.php',

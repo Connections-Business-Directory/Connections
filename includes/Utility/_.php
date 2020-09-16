@@ -14,7 +14,7 @@ final class _ {
 	/**
 	 * Determine if supplied array is a multidimensional array or not.
 	 *
-	 * @since  8.5.19
+	 * @since 8.5.19
 	 *
 	 * @param array $value
 	 *
@@ -28,7 +28,7 @@ final class _ {
 	/**
 	 * Recursively implode a multi-dimensional array.
 	 *
-	 * @since  8.2
+	 * @since 8.2
 	 *
 	 * @param string $glue
 	 * @param array  $pieces
@@ -62,10 +62,9 @@ final class _ {
 	/**
 	 * Clean up an array, comma- or space-separated list of IDs.
 	 *
-	 * @since  8.2.9
+	 * @since 8.2.9
 	 *
 	 * @param string|array $list
-	 *
 	 * @param string       $delimiters The characters in which to split the supplied string. Should be preg_split() safe.
 	 *                                 Default: '\s,' This will split strings delimited with comma and spaces to an array.
 	 *
@@ -95,7 +94,7 @@ final class _ {
 	 * On success this will return the decoded JSON. On error, it'll return an instance of @see WP_Error()
 	 * with the result of @see json_last_error().
 	 *
-	 * @since  8.3
+	 * @since 8.3
 	 *
 	 * @param string $json  The data to decode.
 	 * @param bool   $assoc When TRUE, returned objects will be converted into associative arrays.
@@ -144,7 +143,7 @@ final class _ {
 	/**
 	 * Escapes HTML attribute value or array of attribute values.
 	 *
-	 * @since  8.5.18
+	 * @since 8.5.18
 	 *
 	 * @param array|string $attr
 	 * @param string       $glue

@@ -169,6 +169,7 @@ class cnDependency {
 		return array(
 
 			// Utility
+			'Connections_Directory\Utility\_'       => 'includes/Utility/_.php',
 			'Connections_Directory\Utility\_array'  => 'includes/Utility/_array.php',
 			'Connections_Directory\Utility\_color'  => 'includes/Utility/_color.php',
 			'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
@@ -266,7 +267,7 @@ class cnDependency {
 			// Utility methods.
 			//'cnColor'                  => 'includes/class.utility.php',
 			//'cnFormatting'             => 'includes/class.utility.php',
-			'cnFunction'               => 'includes/class.utility.php',
+			//'cnFunction'               => 'includes/class.utility.php',
 			//'cnSiteShot'               => 'includes/class.utility.php',
 			//'cnString'                 => 'includes/class.utility.php',
 			'cnURL'                    => 'includes/class.utility.php',

@@ -175,6 +175,7 @@ class cnDependency {
 			'Connections_Directory\Utility\_date'   => 'includes/Utility/_date.php',
 			'Connections_Directory\Utility\_format' => 'includes/Utility/_format.php',
 			'Connections_Directory\Utility\_string' => 'includes/Utility/_string.php',
+			'Connections_Directory\Utility\_url'    => 'includes/Utility/_url.php',
 
 			// Localization
 			'cnText_Domain'            => 'includes/class.text-domain.php',
@@ -270,7 +271,7 @@ class cnDependency {
 			//'cnFunction'               => 'includes/class.utility.php',
 			//'cnSiteShot'               => 'includes/class.utility.php',
 			//'cnString'                 => 'includes/class.utility.php',
-			'cnURL'                    => 'includes/class.utility.php',
+			//'cnURL'                    => 'includes/class.utility.php',
 			'cnUtility'                => 'includes/class.utility.php',
 			'cnValidate'               => 'includes/class.utility.php',
 			'cnSanitize'               => 'includes/class.sanitize.php',

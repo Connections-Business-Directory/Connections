@@ -30,6 +30,8 @@ class cnValidate {
 	 */
 	public function attributesArray( $defaults, $untrusted ) {
 
+		_deprecated_function( __METHOD__, '8.1.6', 'cnSanitize::args()' );
+
 		return cnSanitize::args( $untrusted, $defaults );
 	}
 

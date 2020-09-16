@@ -273,7 +273,7 @@ class cnDependency {
 			//'cnString'                 => 'includes/class.utility.php',
 			//'cnURL'                    => 'includes/class.utility.php',
 			'cnUtility'                => 'includes/class.utility.php',
-			'cnValidate'               => 'includes/class.utility.php',
+			'cnValidate'               => 'includes/class.validate.php',
 			'cnSanitize'               => 'includes/class.sanitize.php',
 
 			'Connections_Directory\SiteShot' => 'includes/SiteShot.php',

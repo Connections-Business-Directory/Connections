@@ -12,6 +12,51 @@ use WP_Error;
 final class _string {
 
 	/**
+	 * Transform supplied string to camelCase.
+	 *
+	 * NOTE: Limits the output to alphanumeric characters.
+	 *
+	 * @since 9.11
+	 *
+	 * @param string $string
+	 * @param bool   $capitaliseInitial
+	 *
+	 * @return string
+	 */
+	public static function toCamelCase( $string, $capitaliseInitial = false ) {
+
+		$string = str_replace( '-', '', ucwords( self::toSnakeCase( $string ), '-' ) );
+
+		if ( ! $capitaliseInitial ) {
+
+			$string = lcfirst( $string );
+		}
+
+		return $string;
+	}
+
+	/**
+	 * Transform supplied string to snake-case.
+	 *
+	 * NOTE: Limits the output to alphanumeric characters.
+	 *
+	 * @since 9.11
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	public static function toSnakeCase( $string ) {
+
+		// Added this because sanitize_title() will still allow %.
+		$string = str_replace( '%', '-', $string );
+		$string = sanitize_title( $string );
+		$string = str_replace( '_', '-', $string );
+
+		return $string;
+	}
+
+	/**
 	 * Whether or not a string begins with string segment.
 	 *
 	 * @author  http://stackoverflow.com/users/63557/mrhus

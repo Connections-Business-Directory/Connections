@@ -15,6 +15,7 @@ final class _ {
 	 * Determine if supplied array is a multidimensional array or not.
 	 *
 	 * @since 8.5.19
+	 * @deprecated 9.11
 	 *
 	 * @param array $value
 	 *
@@ -22,13 +23,16 @@ final class _ {
 	 */
 	public static function isDimensionalArray( array $value ) {
 
-		return ! ( count( $value ) === count( $value, COUNT_RECURSIVE ) );
+		_deprecated_function( __METHOD__, '9.11', '_array::isDimensional()' );
+
+		return _array::isDimensional( $value );
 	}
 
 	/**
 	 * Recursively implode a multi-dimensional array.
 	 *
 	 * @since 8.2
+	 * @deprecated 9.11
 	 *
 	 * @param string $glue
 	 * @param array  $pieces
@@ -37,26 +41,9 @@ final class _ {
 	 */
 	public static function implodeDeep( $glue, $pieces ) {
 
-		$implode = array();
+		_deprecated_function( __METHOD__, '9.11', '_array::implodeDeep()' );
 
-		if ( ! is_array( $pieces ) ) {
-
-			$pieces = array( $pieces );
-		}
-
-		foreach ( $pieces as $piece ) {
-
-			if ( is_array( $piece ) ) {
-
-				$implode[] = self::implodeDeep( $glue, $piece );
-
-			} else {
-
-				$implode[] = $piece;
-			}
-		}
-
-		return implode( $glue, $implode );
+		return _array::implodeDeep( $glue, $pieces );
 	}
 
 	/**
@@ -138,6 +125,66 @@ final class _ {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * JSON encode objects and arrays.
+	 *
+	 * @since 0.8
+	 *
+	 * @param mixed $value The value to maybe json_encode.
+	 *
+	 * @return mixed
+	 */
+	public static function maybeJSONencode( $value ) {
+
+		if ( is_null( $value ) ) {
+
+			return '';
+		}
+
+		if ( ! is_scalar( $value ) ) {
+
+			return json_encode( $value );
+
+		} else {
+
+			return $value;
+		}
+	}
+
+	/**
+	 * Maybe json_decode the supplied value.
+	 *
+	 * @since 0.8
+	 *
+	 * @param mixed   $value The value to decode.
+	 * @param boolean $array [optional] Whether or not the JSON decoded value should an object or an associative array.
+	 *
+	 * @return mixed
+	 */
+	public static function maybeJSONdecode( $value, $array = true ) {
+
+		if ( ! is_string( $value ) || 0 == strlen( $value ) ) {
+
+			return $value;
+		}
+
+		// A JSON encoded string will start and end with either a square bracket of curly bracket.
+		if ( ( $value[0] == '[' && $value[ strlen( $value ) - 1 ] == ']' ) || ( $value[0] == '{' && $value[ strlen( $value ) - 1 ] == '}' ) ) {
+
+			// @todo, this should be refactored to utilize self::decodeJSON()
+			$value = json_decode( $value, $array );
+		}
+
+		if ( is_null( $value ) ) {
+
+			return '';
+
+		} else {
+
+			return $value;
+		}
 	}
 
 	/**

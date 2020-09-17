@@ -134,64 +134,36 @@ final class _format {
 	/**
 	 * JSON encode objects and arrays.
 	 *
-	 * @access public
-	 * @since  0.8
-	 * @static
+	 * @since 0.8
+	 * @deprecated 9.11
 	 *
-	 * @param  mixed $value The value to maybe json_encode.
+	 * @param mixed $value The value to maybe json_encode.
 	 *
 	 * @return mixed
 	 */
 	public static function maybeJSONencode( $value ) {
 
-		if ( is_null( $value ) ) {
+		_deprecated_function( __METHOD__, '9.11', '_::maybeJSONencode()' );
 
-			return '';
-		}
-
-		if ( ! is_scalar( $value ) ) {
-
-			return json_encode( $value );
-
-		} else {
-
-			return $value;
-		}
+		return _::maybeJSONencode( $value );
 	}
 
 	/**
 	 * Maybe json_decode the supplied value.
 	 *
-	 * @access public
 	 * @since 0.8
-	 * @static
+	 * @deprecated 9.11
 	 *
-	 * @param  mixed   $value The value to decode.
-	 * @param  boolean $array [optional] Whether or not the JSON decoded value should an object or an associative array.
+	 * @param mixed   $value The value to decode.
+	 * @param boolean $array [optional] Whether or not the JSON decoded value should an object or an associative array.
 	 *
 	 * @return mixed
 	 */
 	public static function maybeJSONdecode( $value, $array = TRUE ) {
 
-		if ( ! is_string( $value ) || 0 == strlen( $value ) ) {
+		_deprecated_function( __METHOD__, '9.11', '_::maybeJSONdecode()' );
 
-			return $value;
-		}
-
-		// A JSON encoded string will start and end with either a square bracket of curly bracket.
-		if ( ( $value[0] == '[' && $value[ strlen( $value ) - 1 ] == ']' ) || ( $value[0] == '{' && $value[ strlen( $value ) - 1 ] == '}' ) ) {
-
-			$value = json_decode( $value, $array );
-		}
-
-		if ( is_null( $value ) ) {
-
-			return '';
-
-		} else {
-
-			return $value;
-		}
+		return _::maybeJSONdecode( $value, $array );
 	}
 
 	/**
@@ -272,9 +244,8 @@ final class _format {
 	/**
 	 * Convert supplied string to camelCase.
 	 *
-	 * @access public
-	 * @since  8.5.19
-	 * @static
+	 * @since 8.5.19
+	 * @deprecated 9.11
 	 *
 	 * @link http://stackoverflow.com/a/2792045/5351316
 	 *
@@ -285,15 +256,9 @@ final class _format {
 	 */
 	public static function toCamelCase( $string, $capitaliseInitial = FALSE ) {
 
-		$string = self::sanitizeStringStrong( $string );
-		$string = str_replace( ' ', '', ucwords( str_replace( array( '_', '-' ), ' ', $string ) ) );
+		_deprecated_function( __METHOD__, '9.11', '_string::toCamelCase()' );
 
-		if ( ! $capitaliseInitial ) {
-
-			$string[0] = strtolower( $string[0] );
-		}
-
-		return $string;
+		return _string::toCamelCase( $string, $capitaliseInitial );
 	}
 
 	/**

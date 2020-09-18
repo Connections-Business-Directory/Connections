@@ -82,7 +82,7 @@ class Categories extends Content_Block {
 	 */
 	private function defaults() {
 
-		return array(
+		$defaults = array(
 			'container_tag'    => 'div',
 			'label_tag'        => 'span',
 			'item_tag'         => 'span',
@@ -97,6 +97,11 @@ class Categories extends Content_Block {
 			'parents'          => FALSE,
 			'child_of'         => 0,
 			//'return'           => FALSE,
+		);
+
+		return apply_filters(
+			'Connections_Directory/Content_Block/Entry/Categories/Attributes',
+			$defaults
 		);
 	}
 

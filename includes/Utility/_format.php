@@ -62,7 +62,10 @@ final class _format {
 	 * Limits the output to alphanumeric characters, underscore (_) and dash (-).
 	 * Whitespace becomes a dash.
 	 *
+	 * @since unknown
+	 *
 	 * @param string $string
+	 *
 	 * @return string
 	 */
 	public static function sanitizeStringStrong( $string ) {

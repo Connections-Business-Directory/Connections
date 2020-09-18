@@ -25,7 +25,7 @@ final class _string {
 	 */
 	public static function toCamelCase( $string, $capitaliseInitial = false ) {
 
-		$string = str_replace( '-', '', ucwords( self::toSnakeCase( $string ), '-' ) );
+		$string = str_replace( '-', '', ucwords( self::toKebabCase( $string ), '-' ) );
 
 		if ( ! $capitaliseInitial ) {
 
@@ -33,6 +33,26 @@ final class _string {
 		}
 
 		return $string;
+	}
+
+	/**
+	 * Transform supplied string to kebab-case.
+	 *
+	 * NOTE: Limits the output to alphanumeric characters.
+	 *
+	 * @since 9.11
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	public static function toKebabCase( $string ) {
+
+		// Added this because sanitize_title() will still allow %.
+		$string = str_replace( '%', '-', $string );
+		$string = str_replace( '_', '-', sanitize_title( $string ) );
+
+		return self::replaceWhatWith( $string, '-', '-' );
 	}
 
 	/**
@@ -48,10 +68,7 @@ final class _string {
 	 */
 	public static function toSnakeCase( $string ) {
 
-		// Added this because sanitize_title() will still allow %.
-		$string = str_replace( '%', '-', $string );
-		$string = sanitize_title( $string );
-		$string = str_replace( '_', '-', $string );
+		$string = str_replace( '-', '_', self::toKebabCase( $string ) );
 
 		return $string;
 	}

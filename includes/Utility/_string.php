@@ -648,10 +648,9 @@ final class _string {
 	 * Function borrowed from Laravel 4.2
 	 * @link https://github.com/laravel/framework/blob/4.2/src/Illuminate/Support/Str.php
 	 *
-	 * @access public
-	 * @since  8.3
+	 * @since 8.3
 	 *
-	 * @param  int $length
+	 * @param int $length
 	 *
 	 * @return string|WP_Error Random string on success, WP_Error on failure.
 	 */
@@ -680,10 +679,9 @@ final class _string {
 	 * Function borrowed from Laravel 5.1
 	 * @link https://github.com/laravel/framework/blob/5.1/src/Illuminate/Support/Str.php#L270
 	 *
-	 * @access public
-	 * @since  8.3
+	 * @since 8.3
 	 *
-	 * @param  int $length
+	 * @param int $length
 	 *
 	 * @return string
 	 */

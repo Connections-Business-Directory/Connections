@@ -439,14 +439,11 @@ class cnSanitize {
 	/**
 	 * Sanitizes an array of IDs numbers or an ID number.
 	 *
-	 * @access protected
 	 * @since  8.2.6
 	 *
-	 * @uses   absint()
+	 * @param int|int[] $id
 	 *
-	 * @param $id
-	 *
-	 * @return array|int
+	 * @return int|int[]
 	 */
 	public static function id( $id ) {
 
